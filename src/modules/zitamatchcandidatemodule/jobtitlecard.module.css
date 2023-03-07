@@ -1,0 +1,15 @@
+.labelContainer {
+  margin-right: 16px;
+}
+.valueText {
+  margin-left: 2px;
+  min-width: 61%;
+}
+.overAll {
+  padding: 8px 16px;
+}
+.cardStyle {
+  margin-bottom: 16px;
+  margin-left: 1px;
+  margin-top: 1px;
+}

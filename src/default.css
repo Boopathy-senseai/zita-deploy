@@ -1,0 +1,30 @@
+/* 
+  author: arulraj
+  about: css themes directly added to the root elements
+  notes: please maintain the css variables in all the files
+*/
+:root {
+  --color-white: #ffffff;
+
+  /*--- Start Neutral Color ---*/
+  --color-black: #000000;
+  --color-gary-1: #1a1a1a;
+  --color-gary-2: #333333;
+  --color-gary-3: #666666;
+  --color-gary-4: #979797;
+  --color-gary-5: #cccccc;
+  --color-gary-6: #b3b3b3;
+  --color-gary-7: #dfdfdf; /* border color */
+  --color-gary-8: #fafafa;
+
+  /*--- End Neutral Color ---*/
+
+  --color-error: #f94949;
+  --color-error-1: #d74242;
+  --color-primary: #581845;
+  --color-secondary: #ffc203;
+  --color-link: #1890ff;
+  --color-link-1: #18adf0;
+  --color-success: #34cc65;
+  --color-warning: #ffb142;
+}

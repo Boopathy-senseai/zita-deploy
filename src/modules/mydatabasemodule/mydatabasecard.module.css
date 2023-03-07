@@ -1,0 +1,41 @@
+.cardOverAll {
+  padding: 8px 8px 8px 8px;
+  margin-bottom: 12px;
+  margin-left: 1px;
+  margin-top: 1px;
+  margin-right: 1px;
+}
+
+.profileFlex {
+  width: 35%;
+}
+.nameFlex {
+  padding-right: 8px;
+  width: 100%;
+}
+
+.cardHeight {
+  height: 68px;
+}
+
+.svgView {
+  margin-left: 8px;
+}
+
+.labelSvg {
+  position: absolute;
+  top: 43px;
+}
+.inviteStyle {
+  cursor: pointer;
+}
+.inviteDisable {
+  opacity: 0.3;
+  pointer-events: none;
+}
+.popTitle{
+  margin-left: 8px;
+}
+.pointerEvet{
+  pointer-events: none;
+}

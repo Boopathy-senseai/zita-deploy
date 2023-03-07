@@ -1,0 +1,16 @@
+.marginTop16 {
+  margin-top: 16px;
+}
+.overAll {
+  padding: 16px;
+  margin: 16px 0;
+}
+
+.sizeStyle {
+  margin-top: 8px;
+  margin-bottom: 4px;
+}
+
+.textArea {
+  height: 90px;
+}

@@ -1,0 +1,15 @@
+.cardOverAll {
+  max-width: 590px;
+  padding: 20px;
+}
+.titleStyle {
+  margin-bottom: 16px;
+}
+.exStyle {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+.desText {
+  letter-spacing: -0.2px;
+}
+

@@ -1,0 +1,28 @@
+.overAll {
+  padding: 16px 24px;
+  margin-top: 24px;
+}
+.jobTitle {
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-gary-7, #dfdfdf);
+}
+.containerOne {
+  margin-top: 16px;
+}
+.margin16 {
+  margin-right: 16px;
+  position: relative;
+}
+.postion {
+  position: relative;
+}
+
+.btnContainer {
+  margin-top: 8px;
+}
+.draftBtn {
+  margin: 0 16px;
+}
+.showStyle {
+  margin-top: 26px;
+}

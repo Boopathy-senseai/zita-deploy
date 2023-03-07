@@ -1,0 +1,16 @@
+.flexStyle {
+  flex: 1;
+  background-color: #ffffff;
+  display: flex;
+  /* border-bottom: 1px solid #dfdfdf; */
+  box-sizing: border-box;
+  position: relative;
+  top: -1px;
+  flex-wrap: wrap;
+}
+
+.childBorderStyle {
+  border: 1px solid #dfdfdf;
+  border-radius: 4px;
+  /* margin-top: 4px; */
+}

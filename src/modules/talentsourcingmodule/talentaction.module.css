@@ -1,0 +1,35 @@
+.findBtn {
+  margin-top: 16px;
+}
+.lastActiveStyle {
+  margin-right: 16px;
+  /* width: 190px; */
+  width: 25%;
+}
+.distanceStyle {
+  /* width: 190px; */
+  margin-right: 16px;
+  width: 25%;
+}
+.salesStyle {
+  /* width: 190px; */
+  margin-right: 16px;
+  width: 25%;
+}
+.cityStyle {
+  /* width: 190px; */
+  margin-right: 16px;
+  width: 25%;
+}
+
+.marginBottom22 {
+  margin-bottom: 22px;
+}
+.rowContainer {
+  padding-bottom: 24px;
+  align-items: flex-end;
+}
+.btnContainer {
+  /* width: 18%; */
+  margin-right: 20px;
+}

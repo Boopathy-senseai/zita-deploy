@@ -1,0 +1,17 @@
+.overAlll {
+  margin: 16px 40px;
+  padding-bottom: 20px;
+}
+.overAllContainer {
+  overflow: scroll;
+  scrollbar-width: thin;
+}
+.tabFlex {
+  position: relative;
+}
+.candidatesText {
+  position: absolute;
+  position: absolute;
+  right: 0;
+  top: 8px;
+}

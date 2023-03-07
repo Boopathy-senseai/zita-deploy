@@ -1,0 +1,92 @@
+.textArea {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.overAll {
+  padding: 16px;
+  overflow: scroll;
+}
+.noteListStyle {
+  border: 1px solid var(--color-gary-6, #b3b3b3);
+  border-radius: 4px;
+  margin-top: 8px;
+  box-sizing: border-box;
+}
+.dateStyle {
+  border-bottom: 1px solid var(--color-gary-6, #b3b3b3);
+  padding: 4px 8px;
+  box-sizing: border-box;
+}
+.notesTextStyle {
+  padding: 8px;
+  font-size: 14px;
+}
+.notesTextStyle p{
+  margin-bottom: 0px;
+}
+.profile {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  margin-right: 8px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  position: relative;
+}
+.notesOverAll {
+  margin-top: 16px;
+  position: relative;
+}
+.dotSvg {
+  cursor: pointer;
+}
+
+.dropDownList {
+  margin-left: 8px;
+}
+.dropDownOverAll {
+  cursor: pointer;
+  padding: 4px 8px;
+}
+.dropDownOverAll:hover {
+  background-color: rgb(88 24 69 / 30%);
+}
+.dropBorder {
+  border: 1px solid var(--color-gary-6, #b3b3b3);
+  border-radius: 4px;
+  background-color: var(--color-white, #ffffff);
+  position: absolute;
+  right: 0;
+  bottom: -18px;
+  box-sizing: border-box;
+}
+.notesOverAllContainer {
+  border: 1px solid var(--color-gary-6, #b3b3b3);
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 20px;
+  min-height: 350px;
+  overflow: scroll;
+}
+.saveBtn {
+  margin-left: 16px;
+}
+.meetingFlex {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+.syncBtn {
+  border-radius: 20px;
+  padding: 2px 4px;
+}
+.syncedWidth {
+  margin: 0px 8px;
+}
+.svgInfo {
+  margin-right: 4px;
+}
+.settingBtn {
+  margin-left: 8px;
+}

@@ -1,0 +1,37 @@
+.marginTop {
+  margin-top: 2px;
+}
+
+.inputOverAll {
+  display: inline-grid;
+  position: relative;
+  width: 75%;
+}
+.svgContainer {
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
+  position: absolute;
+  top: 16px;
+  right: 0;
+}
+.svgTick {
+  margin-right: 4px;
+  cursor: pointer;
+}
+.svgTickMargin {
+  margin-right: 4px;
+  cursor: pointer;
+  z-index: 11;
+}
+.svgTickDisable {
+  pointer-events: none;
+  cursor: not-allowed !important;
+  opacity: 0.5;
+}
+.tickStyle:hover path {
+  fill: var(--color-gary-4, #979797) !important;
+}
+.svgClose {
+  cursor: pointer;
+}

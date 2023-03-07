@@ -1,0 +1,71 @@
+.cardConatiner {
+  padding: 8px;
+}
+.profile {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  margin-right: 12px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  position: relative;
+  top: 4px;
+}
+.profileContainer {
+  margin-bottom: 8px;
+  /* padding-right: 16px; */
+}
+.jobList {
+  margin-bottom: 8px;
+}
+.unlockBtn {
+  position: relative;
+  top: 14px;
+}
+.btnUnlocked {
+  max-width: 170px;
+}
+.btnUnlock {
+  max-width: 152px;
+}
+.profileOverAll {
+  margin-left: 4px;
+}
+.overAll {
+  margin-top: 16px;
+  width: 100%;
+  margin-right: 8px;
+  margin-left: 8px;
+}
+.jobTitle {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 112px;
+}
+.pointer {
+  cursor: pointer;
+}
+.relocateContainer {
+  margin-top: 29px;
+  padding-top: 6px;
+}
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (min-width: 1316px) and (max-width: 1400px) {
+  .ellipsis {
+    max-width: 40%;
+  }
+}
+
+@media (min-width: 1400px) and (max-width: 1500px) {
+  .ellipsis {
+    max-width: 45%;
+  }
+}

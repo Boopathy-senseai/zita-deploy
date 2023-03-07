@@ -1,0 +1,80 @@
+.messagesContainer {
+  height: 100%;
+  width: 100%;
+}
+.newMessage {
+  display: flex;
+  padding: 12px;
+  max-width: 60%;
+  flex-direction: column;
+}
+.newMessageContainer {
+  display: flex;
+  flex: 0;
+  justify-content: flex-end;
+  width: 100%;
+}
+.receivedMessageContainer {
+  display: flex;
+  flex: 0;
+  justify-content: flex-start;
+  width: 100%;
+}
+.nameContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  justify-content: flex-end;
+}
+.otherContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.userNameText {
+  margin: 0 8px;
+}
+.senderStyleProfile {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  position: relative;
+  background-color: var(--color-success, #34cc65);
+}
+.otherStyleProfile {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  position: relative;
+  background-color: var(--color-secondary, #ffc203);
+}
+.senderTextBox {
+  padding: 8px 16px;
+  border-radius: 20px;
+  background-color: var(--color-gary-7, #dfdfdf);
+  border-top-right-radius: 4px;
+}
+.otherTextBox {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border-top-left-radius: 4px;
+  background-color: var(--color-link, #1890ff);
+}
+.overall {
+  overflow: scroll;
+}
+.inputDateStyle {
+  background-color: #fff;
+  color: #979797;
+  font-size: 12px;
+  border: none;
+  font-family: "Roboto", sans-serif;
+  width: 121px;
+  caret-color: transparent;
+}

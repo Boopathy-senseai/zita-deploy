@@ -1,0 +1,62 @@
+.svgRefresh {
+  margin-left: 16px;
+  cursor: pointer;
+}
+.filterStyle {
+  padding-left: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-gary-7, #dfdfdf);
+}
+.matchRadioStyle {
+  width: 116px;
+  margin-bottom: 8px;
+}
+.matchTextStyle {
+  margin-bottom: 8px;
+  margin-top: 16px;
+}
+.profileTextStyle {
+  margin-bottom: 8px;
+  margin-top: 8px;
+}
+.qualificationTextStyle {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+.qualificationConatiner {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.checkBoxContainerOne {
+  min-width: 116px;
+}
+.checkBoxContainer {
+  padding-bottom: 16px;
+  padding-top: 8px;
+}
+.checkBoxOne {
+  padding-bottom: 16px;
+}
+.showCheckBox {
+  margin-top: 24px;
+}
+.cardConatiner {
+  width: 270px;
+  padding-top: 8px;
+}
+.scrollFlex {
+  overflow-y: scroll;
+  padding-left: 14px;
+  padding-right: 16px;
+  padding-bottom: 8px;
+  padding-top: 12px;
+  scrollbar-width: thin;
+}
+
+.scrollFlex::-webkit-scrollbar {
+  width: 4px;
+  margin-left: 16px;
+  height: 4px;
+  overflow: scroll;
+  scrollbar-color: rgba(26, 26, 26, 0.3) white;
+}

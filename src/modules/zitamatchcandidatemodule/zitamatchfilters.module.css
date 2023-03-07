@@ -1,0 +1,63 @@
+.cardConatiner {
+  width: 344px;
+}
+.svgRefresh {
+  margin-left: 8px;
+  cursor: pointer;
+}
+.filterStyle {
+  padding: 8px 0px 8px 16px;
+  border-bottom: 1px solid var(--color-gary-7, #dfdfdf);
+}
+.matchTextStyle {
+  padding: 16px 0px 0px 0px;
+}
+.matchRadioStyle {
+  margin-bottom: 8px;
+}
+
+.scrollStyle {
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  padding: 16px;
+}
+
+.scrollStyle::-webkit-scrollbar {
+  width: 4px;
+  margin-left: 16px;
+  height: 4px;
+  overflow-y: scroll;
+  scrollbar-color: rgba(26, 26, 26, 0.3) white;
+}
+
+.experienceTextStyle {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+.skillsTextStyle {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+.jobTextStyle {
+  margin-top: 16px;
+  margin-bottom: 2px;
+}
+.profileTextStyle {
+  margin-top: 16px;
+  margin-bottom: 0px;
+}
+.qualificationTextStyle {
+  margin-top: 16px;
+  margin-bottom: 3px;
+}
+.qualificationRadioStyle {
+  margin-bottom: 8px;
+}
+.candidateTextStyle {
+  margin-top: 8px;
+  margin-bottom: 2px;
+}
+.relocateText {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}

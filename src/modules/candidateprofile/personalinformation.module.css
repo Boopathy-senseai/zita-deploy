@@ -1,0 +1,46 @@
+.overAll {
+  background-color: var(--color-white, #ffffff);
+  padding: 20px;
+  border-radius: 4px;
+}
+.phoneInput {
+  border: 1px solid var(--color-gary-5, #cccccc) !important;
+  /* width: 320px !important; */
+  height: 30px !important;
+  box-sizing: border-box;
+  width: 284px !important;
+}
+.phoneInput:hover {
+  border: 1px solid var(--color-gary-6, #b3b3b3) !important;
+}
+.phoneInput:focus {
+  border: 1px solid var(--color-primary, #581845) !important;
+  box-shadow: none !important;
+}
+.dropDownStyle {
+  margin: 2px ​0 10px -1p !important;
+  width: 318px !important;
+}
+.marginRight {
+  margin-top: 16px;
+}
+.loginText {
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+.totalExpFlex {
+  position: relative;
+}
+.totalExpText {
+  position: absolute;
+  top: -20px;
+}
+.workText {
+  margin: 20px 0;
+}
+.infoText {
+  margin-bottom: 20px;
+}
+.saveBtn {
+  margin-top: 20px;
+}

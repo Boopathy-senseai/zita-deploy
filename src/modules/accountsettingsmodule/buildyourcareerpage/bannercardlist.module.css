@@ -1,0 +1,41 @@
+.totalTextStyle {
+  margin-bottom: 20px;
+  /* position: absolute;
+  bottom: 155px; */
+  /* padding-left: 10%; */
+}
+.cardPadding {
+  padding: 16px;
+  width: 100%;
+}
+.overAll {
+  /* margin-top: 50px; */
+}
+.labelStyle {
+  margin-left: 8px;
+}
+.lineHeight {
+  margin: 8px 0;
+}
+
+/* @media screen and (min-width: 1350px) and (max-width: 1550px) {
+  .totalTextStyle {
+    padding: 0px 10% !important;
+  }
+}
+@media screen and (min-width: 1280px) and (max-width: 1350px) {
+  .totalTextStyle {
+    padding: 0px 10% !important;
+  }
+}
+@media screen and (min-width: 960px) and (max-width: 1280px) {
+  .totalTextStyle {
+    padding: 0px 8% !important;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .totalTextStyle {
+    padding: 0 5%;
+  }
+} */

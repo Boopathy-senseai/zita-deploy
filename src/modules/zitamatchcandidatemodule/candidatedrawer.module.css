@@ -1,0 +1,20 @@
+.overAll {
+  background-color: #fff;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 90%;
+}
+.openStyle {
+  margin-right: 8px;
+  margin-top: 3px;
+}
+.border {
+  padding: 8px 24px;
+  border-bottom: 1px solid var(--color-gary-4, #979797);
+}
+.button {
+  padding: 16;
+  display: grid;
+  margin: 16;
+}

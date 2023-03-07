@@ -1,0 +1,28 @@
+.overAll {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.cancelBtn {
+  margin: 0 16px;
+}
+.btnContainer {
+  margin-top: 16px;
+}
+.profile {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  margin-left: 8px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  position: relative;
+  background-color: var(--color-success, #34cc65);
+}
+.messageContainer {
+  border: 1px solid var(--color-gary-6, #b3b3b3);
+  border-radius: 4px;
+  margin-top: 8px;
+}

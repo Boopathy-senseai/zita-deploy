@@ -1,0 +1,19 @@
+.overAll {
+  background-color: var(--color-white, #ffffff);
+  padding: 20px 30px;
+  border-radius: 4px;
+  position: relative;
+  min-width: 800px;
+}
+.svgClose {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+.title {
+  margin-bottom: 40px;
+}
+.softSkillFlex {
+  padding-top: 20px;
+  padding-bottom: 50px;
+}

@@ -1,0 +1,46 @@
+.overAll {
+  background-color: var(--color-white, #ffffff);
+  padding: 24px;
+  width: 500px;
+  border-radius: 4px;
+}
+.dataBase {
+  border-bottom: 1px solid var(--color-gary-5, #cccccc);
+}
+.inputStyle {
+  border: none;
+}
+.inputStyle:hover {
+  border: none !important;
+}
+.inputStyle:focus {
+  border: none !important;
+}
+.btnContainer {
+  margin-top: 20px;
+}
+.headerStyle {
+  border-bottom: 1px solid var(--color-gary-5, #cccccc);
+  line-height: 3;
+}
+.borderStyle {
+  border: 1px solid var(--color-gary-5, #cccccc);
+  border-bottom: none;
+  /* overflow-y: scroll; */
+}
+.scroll {
+  overflow-y: overlay;
+}
+.inputBorder {
+  border-left: 1px solid var(--color-gary-5, #cccccc);
+}
+.addText {
+  margin-top: 4px;
+  margin-bottom: 16px;
+}
+.closeBtn {
+  margin-right: 8px;
+}
+.saveBtn {
+  margin-left: 8px;
+}

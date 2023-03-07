@@ -1,0 +1,81 @@
+.inputConatiner {
+  background-color: aqua;
+  display: flex;
+  align-items: center;
+}
+
+.svgContainer {
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
+  position: absolute;
+  top: 16px;
+  right: 0;
+}
+.svgTick {
+  margin-right: 4px;
+  cursor: pointer;
+}
+.svgClose {
+  cursor: pointer;
+}
+.nameStyle {
+  cursor: pointer;
+  word-wrap: break-word;
+}
+.textContainer {
+  position: relative;
+  width: fit-content;
+}
+.svgEdit {
+  display: none;
+  position: absolute;
+  top: -6px;
+  right: -16px;
+}
+.svgEditName {
+  display: none;
+  position: absolute;
+  top: -6px;
+  right: 16px;
+}
+.nameStyle:hover + .svgEditName {
+  display: block;
+  z-index: 99;
+}
+.nameStyle:hover + .svgEdit {
+  display: block;
+  z-index: 99;
+}
+
+.svgTickMargin {
+  margin-right: 4px;
+  cursor: pointer;
+}
+.svgTickDisable {
+  pointer-events: none;
+  cursor: not-allowed !important;
+  opacity: 0.5;
+}
+.overAll {
+  position: relative;
+  width: 100%;
+}
+.inputOverAll {
+  display: inline-grid;
+  position: relative;
+}
+.svgExternal {
+  cursor: pointer;
+  position: relative;
+  top: -2px;
+}
+.textContainerName {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+
+.tickStyle:hover path {
+  fill: var(--color-gary-4, #979797) !important;
+}

@@ -1,0 +1,22 @@
+.softText {
+  margin-top: 24px;
+  margin-bottom: 8px;
+}
+.overAll {
+  padding: 20px 40px;
+  padding-bottom: 12px;
+  position: relative;
+}
+.svgEdit {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  cursor: pointer;
+}
+.techDiv {
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+.techText {
+  margin-bottom: 8px;
+}

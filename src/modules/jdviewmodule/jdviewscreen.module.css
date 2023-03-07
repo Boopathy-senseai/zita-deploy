@@ -1,0 +1,67 @@
+.dataAnaLysFlex {
+  padding: 16px 0px;
+}
+.chartStyle {
+  min-height: 400px;
+  margin-right: 8px;
+}
+
+.cardOverAll {
+  padding: 16px;
+  margin: 24px 70px;
+  overflow: scroll;
+}
+.postion{
+  position: relative;
+    top: 9px;
+}
+.jdStatus {
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+.modalOverAll {
+  background-color: var(--color-white, #ffffff);
+  border-radius: 4px;
+  padding: 20px;
+}
+.cardOne {
+  padding: 16px;
+  padding-top: 0px;
+  margin-bottom: 16px;
+}
+.jobMetricsStyle {
+  padding: 16px 0;
+}
+.cardTwo {
+  padding: 16px;
+  padding-top: 0px;
+  margin-bottom: 16px;
+}
+.skillFlex {
+  margin-top: 20px;
+}
+.sillListStyle {
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+.requiredSkillText {
+  margin-bottom: 8px;
+}.margin10 {
+  margin-right: 10px;
+}
+.font20{
+  font-size: 20px;
+   cursor: pointer;
+}.curser{
+ cursor: pointer;
+}.padding2{
+ padding: 2px;
+}.center{
+  margin: auto;
+}
+.font20px{
+  font-size: 20px;
+}
+.popTitle{
+  margin-left: 8px;
+}

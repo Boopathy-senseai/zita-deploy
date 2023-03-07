@@ -1,0 +1,37 @@
+.flexStylesActive {
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 1450px) {
+  .flexStylesActive {
+    padding: 6px 12px !important;
+  }
+}
+@media screen and (min-width: 1400px) and (max-width: 1450px) {
+  .flexStylesActive {
+    padding: 6px 9px !important;
+  }
+}
+@media screen and (min-width: 1350px) and (max-width: 1400px) {
+  .flexStylesActive {
+    padding: 6px 8px !important;
+  }
+}
+
+@media screen and (min-width: 1280px) and (max-width: 1350px) {
+  .flexStylesActive {
+    padding: 6px 6px !important;
+  }
+}
+@media screen and (min-width: 960px) and (max-width: 1280px) {
+  .flexStylesActive {
+    padding: 6px 5px !important;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .flexStylesActive {
+    padding: 6px 5px !important;
+  }
+}

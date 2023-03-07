@@ -1,0 +1,44 @@
+.overAll {
+  padding: 16px;
+  margin-top: 16px;
+}
+.urlText {
+  margin-right: 8px;
+}
+.appText {
+  /* margin-left: 8px; */
+  margin-right: 2px;
+}
+.careerText {
+  margin-left: 2px;
+}
+.learnText {
+  margin-left: 8px;
+  margin-right: 2px;
+}
+.bottomFlex {
+  margin-top: 20px;
+}
+.inputStyle {
+  position: relative;
+}
+.errorMsg {
+  position: absolute;
+}
+.svgBox {
+  position: relative;
+  bottom: 3px;
+  margin-right: 8px;
+}
+.svgTab{
+  position: relative;
+  margin-left: 8px;
+  bottom: 2px;
+}
+.inputWidthStyle{
+  /* width: 138px; */
+}
+.paddingTopFlex{
+  /* padding-top: 3px; */
+  margin-top: 12px;
+}

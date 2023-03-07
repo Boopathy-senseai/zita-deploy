@@ -1,0 +1,22 @@
+.overAll {
+  height: 100px;
+  background-color: var(--color-primary, #581845);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-right: 50px;
+}
+.profile {
+  height: 120px;
+  width: 120px;
+  border-radius: 100%;
+  background-color: red;
+  box-sizing: border-box;
+  -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
+  -moz-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
+  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
+  margin-left: 20px;
+  margin-right: 16px;
+}
+.phoneFlex{
+  padding-top: 10px;
+}

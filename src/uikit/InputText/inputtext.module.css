@@ -1,0 +1,134 @@
+.inputCommonStyle {
+  border-radius: 4px;
+  border: 1px solid var(--color-gary-5, #cccccc);
+  outline: none;
+  font-size: 14px;
+  background-color: var(--color-white, #ffffff);
+  width: 100%;
+  box-sizing: border-box !important;
+  font-family: 'Roboto', sans-serif;
+  padding: 4px 12px 3px 12px;
+}
+.inputCommonStyle:hover {
+  border: 1px solid var(--color-gary-6, #b3b3b3);
+}
+.inputCommonStyle:focus {
+  border: 1px solid var(--color-primary, #581845);
+}
+
+.inputCommonStyle::placeholder {
+  font-size: 12px;
+  color: var(--color-gary-6, #b3b3b3);
+}
+.noBorder {
+  border: none;
+}
+.noBorder:hover {
+  border: none;
+}
+.noBorder:focus {
+  border: none;
+}
+.lineInput {
+  border-radius: 0px;
+  padding: 0;
+  border: none;
+  border-bottom: 1px solid var(--color-gary-6, #b3b3b3);
+  background-color: var(--color-white, #ffffff);
+  width: 100%;
+  box-sizing: border-box !important;
+  font-family: 'Roboto', sans-serif;
+}
+
+.lineInput:hover {
+  border: none;
+  border-bottom: 1px solid var(--color-gary-6, #b3b3b3);
+  box-sizing: border-box !important;
+}
+
+.lineInput:focus {
+  border: none;
+  border-bottom: 1px solid var(--color-primary, #581845);
+  box-sizing: border-box !important;
+}
+
+.color-white {
+  color: var(--color-white, #ffffff);
+}
+.color-black {
+  color: var(--color-black, #000000);
+}
+.color-error {
+  color: var(--color-error, #f94949);
+}
+.color-success {
+  color: var(--color-success, #34cc65);
+}
+.color-theme {
+  color: var(--color-primary, #581845);
+}
+.color-link {
+  color: var(--color-link, #1890ff);
+}
+.color-gray {
+  color: var(--color-gary-4, #979797);
+}
+.color-primary {
+  color: var(--color-gary-1, #1a1a1a);
+}
+.color-info {
+  color: var(--color-link, #1890ff);
+}
+.color-black_1 {
+  color: var(--color-gray-2, #333333);
+}
+
+.align-left {
+  text-align: left;
+}
+.align-center {
+  text-align: center;
+}
+.align-right {
+  text-align: right;
+}
+
+.error {
+  border: 1px solid var(--color-error, #f94949);
+}
+.error:hover {
+  border: 1px solid var(--color-error, #f94949);
+}
+.error:focus {
+  border: 1px solid #d74242;
+}
+
+.errorFocus {
+  color: var(--color-error-1, #d74242);
+}
+.bold {
+  font-weight: bold;
+}
+.bold::placeholder {
+  font-weight: normal;
+}
+
+.inputFlexConatiner {
+  position: relative;
+}
+
+.size-12 {
+  font-size: 12px;
+}
+.size-14 {
+  font-size: 14px;
+}
+.size-16 {
+  font-size: 16px;
+}
+.actionRightStyle {
+  margin: 0;
+  right: 8px;
+  top: 3px;
+  position: absolute;
+}

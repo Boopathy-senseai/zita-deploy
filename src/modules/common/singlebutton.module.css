@@ -1,0 +1,15 @@
+.overAll {
+  padding: 8px 8px 16px 24px;
+  background-color: var(--color-white, #ffffff);
+  border-radius: 4px;
+}
+.btnContainer {
+  margin-top: 8px;
+}
+.title {
+  padding-right: 16px;
+  margin-top: 8px;
+}
+.titleText {
+  padding-left: 8px;
+}

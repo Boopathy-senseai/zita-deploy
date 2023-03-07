@@ -1,0 +1,25 @@
+.overAll {
+    background-color: var(--color-white, #ffffff);
+    border-radius: 4px;
+    padding: 8px 8px 24px 24px;
+    max-width: 600px;
+  }
+  .leftBtn {
+    margin-right: 8px;
+    width: 84px;
+  }
+  .rightBtn {
+    margin-left: 8px;
+    width: 84px;
+  }
+  .btnContainer {
+    margin-top: 20px;
+  }
+  .title {
+    padding-right: 16px;
+    margin-top: 16px;
+  }
+  .titelText {
+    padding-left: 8px;
+  }
+  

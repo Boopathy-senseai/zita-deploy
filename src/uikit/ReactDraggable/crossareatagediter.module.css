@@ -1,0 +1,8 @@
+.overAll {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.statusFlex {
+  margin-left: 8px;
+}

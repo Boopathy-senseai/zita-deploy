@@ -1,0 +1,31 @@
+.overAll {
+  background-color: #fff;
+  /* width: 80%; */
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+}
+.openStyle {
+  margin-right: 8px;
+  margin-top: 3px;
+}
+.border {
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--color-gary-4, #979797);
+}
+.button {
+  padding: 16;
+  display: grid;
+  margin: 16;
+}
+.pre {
+  white-space: pre-wrap; /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word; /* Internet Explorer 5.5+ */
+  padding: 16px 30px;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+}

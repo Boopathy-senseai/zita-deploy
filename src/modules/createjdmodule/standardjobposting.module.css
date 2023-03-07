@@ -1,0 +1,21 @@
+.cardOverAll {
+  padding: 16px;
+}
+.defaultText {
+  margin-top: 4px;
+  margin-bottom: 16px;
+}
+.checkBox {
+  border: 1px solid var(--color-gary-7, #dfdfdf);
+  width: fit-content;
+  border-radius: 4px;
+  height: 60px;
+  padding: 0 16px;
+  align-items: center;
+  display: flex;
+  margin-bottom: 20px;
+  pointer-events: none;
+}
+.editBtn {
+  margin: 0 16px;
+}

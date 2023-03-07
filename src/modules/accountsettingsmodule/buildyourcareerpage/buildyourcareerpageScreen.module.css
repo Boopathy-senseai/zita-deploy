@@ -1,0 +1,35 @@
+.previewBtn {
+  margin: 0px 16px;
+}
+.marginTop16 {
+  margin-top: 16px;
+  margin-bottom: 30px;
+}
+.rightFlex {
+  margin-left: 8px;
+  margin-right: 1px;
+}
+.leftFlex {
+  margin-right: 8px;
+  margin-left: 1px;
+}
+.careerPageCard {
+  margin-top: 16px;
+  padding: 8px;
+}
+.pageCard {
+  margin-top: 163px;
+  padding: 8px;
+}
+.headerCard {
+  padding: 8px;
+  margin-top: 303px;
+}
+.bannerCard {
+  padding: 8px;
+  margin-top: 778px;
+}
+.footerCard {
+  padding: 8px;
+  margin-top: 1185px;
+}

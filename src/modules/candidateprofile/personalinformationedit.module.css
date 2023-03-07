@@ -1,0 +1,39 @@
+.overAll {
+  background-color: var(--color-white, #ffffff);
+  padding: 20px 30px;
+  border-radius: 4px;
+  position: relative;
+}
+.title {
+  margin-bottom: 8px;
+}
+.phoneInput {
+  border: 1px solid var(--color-gary-5, #cccccc) !important;
+  width: 320px !important;
+  height: 31px !important;
+}
+.phoneInput:hover {
+  border: 1px solid var(--color-gary-6, #b3b3b3) !important;
+}
+.phoneInput:focus {
+  border: 1px solid var(--color-primary, #581845) !important;
+  box-shadow: none !important;
+}
+.dropDownStyle {
+  margin: 2px ​0 10px -1p !important;
+  width: 318px !important;
+}
+.genderFlex {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.objectiveInput {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.svgClose {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+

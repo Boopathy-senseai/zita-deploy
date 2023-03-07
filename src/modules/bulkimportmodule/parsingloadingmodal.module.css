@@ -1,0 +1,18 @@
+.overAll {
+  background-color: var(--color-white, #ffffff);
+  border-radius: 4px;
+  padding: 16px 24px;
+}
+.des {
+  max-width: 575px;
+  margin-top: 8px;
+}
+.flexConatiner {
+  margin-left: 12px;
+}
+.btn {
+  margin-top: 8px;
+}
+.des {
+  margin-left: 40px;
+}

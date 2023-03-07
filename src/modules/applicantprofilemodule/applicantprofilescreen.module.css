@@ -1,0 +1,14 @@
+.tabContainer {
+  margin-top: 16px;
+  margin: 0 16px;
+  display: flex;
+}
+.tabLeftFlex {
+  margin-left: 4px;
+}
+.tabRightFlex {
+  margin-left: 4px;
+}
+.popTitle{
+  margin-left: 8px;
+}

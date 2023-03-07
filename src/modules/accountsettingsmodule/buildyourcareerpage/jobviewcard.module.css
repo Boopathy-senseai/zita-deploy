@@ -1,0 +1,33 @@
+.overAll {
+  padding: 40px;
+}
+.jobDetails {
+  padding-right: 60px;
+}
+.btnContainer {
+  align-items: end;
+}
+.lineHeight {
+  line-height: 3;
+}
+.jobDes {
+  margin-top: 30px;
+  margin-bottom: 16px;
+}
+.statusList {
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+.statusContainer {
+  margin-top: 8px;
+}
+.des ul {
+  padding-left: 24px;
+}
+
+.listFlex {
+  margin-bottom: 16px;
+}
+.valueStyle{
+  margin-left: 4px;
+}

@@ -1,0 +1,17 @@
+.jobTitleFlex {
+  margin-top: 24px;
+  /* width: 100%; */
+}
+.jobTitleText {
+  margin-right: 8px;
+  width: 68px;
+}
+.inputStyle {
+  margin-left: 16px;
+}
+.btnStyle {
+  margin-left: 16px;
+}
+.overAll {
+  /* background-color: red; */
+}

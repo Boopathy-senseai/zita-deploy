@@ -1,0 +1,16 @@
+.overAll {
+  cursor: pointer !important;
+}
+.svgRadio:hover path {
+  fill: var(--color-gary-6, #b3b3b3);
+}
+.labelStyle {
+  margin-left: 6px;
+}
+.pointer {
+  cursor: pointer !important;
+}
+.disabled{
+  pointer-events: none !important;
+  opacity: 0.7;
+}

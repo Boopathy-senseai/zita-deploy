@@ -1,0 +1,55 @@
+.boxBorder {
+  border: 1px solid #979797;
+  border-style: dashed;
+  border-radius: 4px;
+  padding: 16px;
+  height: 150px;
+  overflow: overlay;
+}
+@-moz-document url-prefix('') {
+  .boxBorder {
+    overflow: scroll;
+    scrollbar-color: rgba(26, 26, 26, 0.3) white;
+    scrollbar-width: thin !important;
+  }
+}
+.btnContainer {
+  width: 35%;
+}
+.btnStyle {
+  max-width: 130px;
+  margin-left: 50px;
+  margin-right: 16px;
+}
+.loaderStyle {
+  margin-left: 50px;
+}
+.uploadStyle {
+  width: 100%;
+}
+.overAlll {
+  margin-top: 16px;
+}
+
+.listStyle {
+  margin-right: 8px;
+}
+.svgClose {
+  margin-left: 6px;
+  cursor: pointer;
+}
+.labelStyle {
+  cursor: pointer;
+  margin: 0;
+  margin-left: 3px;
+}
+.displayNone {
+  display: none;
+}
+.clearStyle {
+  width: 76px;
+  cursor: pointer;
+}
+.dragOver {
+  width: 100%;
+}

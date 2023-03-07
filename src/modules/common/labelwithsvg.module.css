@@ -1,0 +1,9 @@
+.textStyle{
+    margin-left: 4px;
+}
+.flexStyle{
+margin-right: 8px;
+}
+.disable{
+    pointer-events: none;
+}

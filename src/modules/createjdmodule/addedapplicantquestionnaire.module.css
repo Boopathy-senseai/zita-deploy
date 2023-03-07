@@ -1,0 +1,17 @@
+.cardOverAll {
+  padding: 16px;
+}
+.applicantTitle {
+  border-bottom: 2px solid var(--color-gary-7, #dfdfdf);
+  padding-bottom: 16px;
+  margin-bottom: 8px;
+}
+.tableDiv {
+  margin-top: 16px;
+}
+.btnContainer {
+  margin-top: 20px;
+}
+.saveBtn {
+  margin: 0 16px;
+}

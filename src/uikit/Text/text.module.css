@@ -1,0 +1,169 @@
+/* text size */
+.text-10 {
+  font-size: 10px;
+}
+.text-12 {
+  font-size: 12px;
+}
+.text-13 {
+  font-size: 13px;
+}
+.text-14 {
+  font-size: 14px;
+}
+.text-16 {
+  font-size: 16px;
+}
+.text-18 {
+  font-size: 18px;
+}
+.text-20 {
+  font-size: 20px;
+}
+.text-22 {
+  font-size: 22px;
+}
+.text-24 {
+  font-size: 24px;
+}
+.text-26 {
+  font-size: 26px;
+}
+.text-28 {
+  font-size: 28px;
+}
+.text-30 {
+  font-size: 30px;
+}
+.text-32 {
+  font-size: 34px;
+}
+.text-36 {
+  font-size: 36px;
+}
+.text-38 {
+  font-size: 38px;
+}
+.text-40 {
+  font-size: 40px;
+}
+.text-42 {
+  font-size: 40px;
+}
+.text-44 {
+  font-size: 40px;
+}
+.text-46 {
+  font-size: 40px;
+}
+.text-48 {
+  font-size: 40px;
+}
+.text-50 {
+  font-size: 40px;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+/* textAlign */
+.textAlign-center {
+  text-align: center;
+}
+.textAlign-left {
+  text-align: left;
+}
+.textAlign-right {
+  text-align: right;
+}
+.textAlign-justify {
+  text-align: justify;
+}
+.textStyles-underline {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.underLine {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.textStyles-italic {
+  font-style: italic;
+}
+
+/* colors */
+.textColor-black {
+  color: var(--color-black, #000000);
+}
+.textColor-white {
+  color: var(--color-white, #ffffff);
+}
+.textColor-error {
+  color: var(--color-error, #f94949);
+}
+.textColor-success {
+  color: var(--color-success, #34cc65);
+}
+.textColor-theme {
+  color: var(--color-primary, #581845);
+}
+.textColor-warning {
+  color: var(--color-warning, #ffb142);
+}
+.textColor-link {
+  color: var(--color-link, #1890ff);
+  cursor: pointer;
+}
+.textColor-blue {
+  color: #0000ff;
+  cursor: pointer;
+}
+.textColor-link:hover {
+  color: var(--color-link-1, #18adf0);
+}
+.textColor-gray {
+  color: var(--color-gary-4, #979797);
+}
+.textColor-primary {
+  color: var(--color-gary-1, #1a1a1a);
+}
+.textColor-info {
+  color: var(--color-link, #1890ff);
+}
+.textColor-black_1 {
+  color: var(--color-gray-2, #333333);
+}
+
+.type-titleLarge {
+  font-size: 20px;
+  font-weight: bold;
+}
+.type-titleMedium {
+  font-size: 16px;
+  font-weight: bold;
+}
+.type-titleSmall {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* transform */
+.transform-capitalize {
+  text-transform: capitalize;
+}
+.transform-lowercase {
+  text-transform: lowercase;
+}
+.transform-uppercase {
+  text-transform: uppercase;
+}
+.transform-initial {
+  text-transform: initial;
+}
+
+.textStyles-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

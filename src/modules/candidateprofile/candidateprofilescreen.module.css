@@ -1,0 +1,11 @@
+.navBarContainer {
+  padding: 0 20%;
+}
+.flexContainer{
+  padding: 0 50px;
+}
+.titleStyle{
+  margin-bottom: 12px;
+  display: flex;
+  margin-top: 40px;
+}

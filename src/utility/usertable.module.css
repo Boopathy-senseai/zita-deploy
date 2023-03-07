@@ -1,0 +1,9 @@
+.dropDownListStyle {
+  cursor: pointer;
+}
+.popUpFlex {
+  margin-left: 8px;
+}
+.loaderIndex {
+  z-index: 100;
+}

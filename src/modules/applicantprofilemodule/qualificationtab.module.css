@@ -1,0 +1,14 @@
+.overAll {
+  padding: 16px;
+  overflow: scroll;
+}
+.educationFlex {
+  margin-top: 16px;
+  /* margin-bottom: 16px; */
+}
+.titleStyle {
+  margin-top: 8px;
+}
+.courseTitle {
+  margin-top: 20px;
+}

@@ -1,0 +1,13 @@
+.listScroll {
+  overflow-y: scroll;
+}
+.pagination {
+  margin: 24px 0px;
+}
+
+.tabPaddingRight {
+  padding-right: 13%;
+}
+.tabPaddingRightOne {
+  padding-right: 6%;
+}

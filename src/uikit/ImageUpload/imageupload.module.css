@@ -1,0 +1,53 @@
+.changeStyle {
+  position: absolute;
+  border-radius: 4px;
+  background-color: rgba(196, 196, 196, 0.8);
+  cursor: pointer;
+  height: 92px;
+  width: 160px;
+}
+.changeStyleNoreadius {
+  position: absolute;
+  background-color: rgba(196, 196, 196, 0.8);
+  cursor: pointer;
+  height: 92px;
+  width: 160px;
+}
+.text{
+  text-align: center;
+}
+.imgContainer {
+  position: relative;
+}
+.fileStyle {
+  display: none;
+}
+.btnStyle {
+  margin: 0;
+  cursor: pointer;
+}
+.imgStyle {
+  border-radius: 4px;
+  box-sizing: border-box;
+  -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
+  -moz-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
+  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
+  height: 92px;
+  width: 160px;
+}
+.imgStyleNoRadius {
+  box-sizing: border-box;
+  -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
+  -moz-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
+  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
+  height: 92px;
+  width: 160px;
+}
+.svgCloseStyle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  z-index: 99;
+}
+
