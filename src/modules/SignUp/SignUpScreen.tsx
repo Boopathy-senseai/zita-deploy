@@ -29,7 +29,7 @@ import {
   checkUpperCase,
   domainValidation,
   MAX_TEXT_LENGTH_20,
-  nameRegex,
+  //nameRegex,
   specialCharacter,
   THIS_FIELD_REQUIRED,
 } from '../constValue';
@@ -114,7 +114,7 @@ const SignUpScreen = () => {
     if (values.password1 !== values.password2) {
       errors.password2 = `The two password fields didn't match.`;
     }
-    if (!isEmpty(values.username) && !nameRegex.test(values.username)) {
+    if (isEmpty(values.username)) {
       errors.username = 'Enter a valid username';
     }
     if (!isEmpty(values.username) && isUserNameValid) {
@@ -177,7 +177,7 @@ const SignUpScreen = () => {
         setEmailValid(true);
       }
       if (res.payload.success === false) {
-        setEmailValid(true);
+        setEmailValid(false);
       }
     });
   }, [formik.values.email]);
