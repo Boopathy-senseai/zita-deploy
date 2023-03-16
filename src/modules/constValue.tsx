@@ -70,7 +70,7 @@ export const FILE_2MB = 'Please choose a file size less than 2MB';
 export const checkUpperCase = /^(?=.*[A-Z])/;
 export const specialCharacter = /^(?=.*[@$!%*?&])/;
 export const domainValidation =
-  /^([\w-.]+@(?!gmail\.com)(?!yahoo\.com)(?!hotmail\.com)(?!outlook\.com)(?!yopmail\.com)(?!protonmail\.com)(?!live\.com)(?!mail\.com)(?!email\.com)(?!inbox\.com)([\w-]+.)+[\w-]{1,4})?$/;
+  /^([\w-.]+@(?!gmail\.com)(?!yahoo\.com)(?!hotmail\.com)(?!outlook\.com)(?!protonmail\.com)(?!live\.com)(?!mail\.com)(?!email\.com)(?!inbox\.com)([\w-]+.)+[\w-]{1,4})?$/;
 export const nameRegex = /^[a-z0-9\-]+$/;
 export const fileAccept = ['.doc', '.docx', '.pdf', '.txt'];
 export const imageFileAccept = ['.jpg', '.jpeg', '.png'];

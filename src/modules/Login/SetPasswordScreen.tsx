@@ -3,17 +3,17 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../../uikit/Loader/Loader';
-import Text from '../../uikit/Text/Text';
+//import Text from '../../uikit/Text/Text';
 import { AppDispatch, RootState } from '../../store';
-import SvgZitaLogo from '../../icons/SvgZitaLogo';
-import Button from '../../uikit/Button/Button';
+// import SvgZitaLogo from '../../icons/SvgZitaLogo';
+// import Button from '../../uikit/Button/Button';
 import Flex from '../../uikit/Flex/Flex';
-import { home } from '../../appRoutesPath';
+// import { home } from '../../appRoutesPath';
 import { isEmpty } from '../../uikit/helper';
 import { checkUpperCase, specialCharacter } from '../constValue';
-import styles from './setpasswordscreen.module.css';
+//import styles from './setpasswordscreen.module.css';
 import SetNewPassword, { newPassFormProps } from './SetNewPassword';
-import PasswordSuccessfully from './PasswordSuccessfully';
+//import PasswordSuccessfully from './PasswordSuccessfully';
 import {
   emailActiveMiddleWare,
   passwordSetRequestMiddleWare,
@@ -76,11 +76,15 @@ const SetPasswordScreen = () => {
         password2: values.changePass,
         password1: values.newPass,
       }),
-    ).then((res) => {
-      if (res.payload.success) {
-        setSuccess(true);
-      }
-    });
+    )
+      .then((res) => {
+        if (res.payload.success) {
+          setSuccess(true);
+        }
+      })
+      .catch((err) => {
+        console.log('error ', err);
+      });
   };
   const formik = useFormik({
     initialValues: initial,
@@ -92,38 +96,18 @@ const SetPasswordScreen = () => {
     return <Loader />;
   }
   return (
-    <Flex
-      columnFlex
-      className={styles.overAll}
-      height={window.innerHeight}
-      center
-    >
-      <div style={{ width: 1200, height: '100%' }}>
-        {setPassLoader && <Loader />}
-        <Flex className={styles.svgZitaFlex} row center between>
-          <SvgZitaLogo />
-          <Button onClick={() => window.location.replace(home)}>Home</Button>
-        </Flex>
-        {isSuccess && <PasswordSuccessfully />}
-        {setPassSuccess !== true && success === true && (
-          <SetNewPassword formik={formik} />
-        )}
-        {user_not_found === true && (
-          <Flex middle center flex={1} height={'50%'}>
-            <Text align="center" color="gray">
-              User not found
-            </Text>
-          </Flex>
-        )}
-        {user_not_found !== true && success === false && (
-          <Flex middle center flex={1} height={'50%'}>
-            <Text align="center" color="gray">
-              Your password reset link has already been used or expired.
-            </Text>
-          </Flex>
-        )}
-      </div>
-    </Flex>
+    <>
+      {console.log(setPassLoader)}
+      <Flex>
+        <SetNewPassword
+          formik={formik}
+          isSuccess={isSuccess}
+          setPassSuccess={setPassSuccess}
+          success={success}
+          user_not_found={user_not_found}
+        />
+      </Flex>
+    </>
   );
 };
 

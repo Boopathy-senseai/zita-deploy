@@ -2,10 +2,10 @@ import { useFormik } from 'formik';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { home } from '../../appRoutesPath';
-import SvgZitaLogo from '../../icons/SvgZitaLogo';
+//import { home } from '../../appRoutesPath';
+//import SvgZitaLogo from '../../icons/SvgZitaLogo';
 import { AppDispatch, RootState } from '../../store';
-import Button from '../../uikit/Button/Button';
+//import Button from '../../uikit/Button/Button';
 import Flex from '../../uikit/Flex/Flex';
 import { isEmpty, mailformat } from '../../uikit/helper';
 import Loader from '../../uikit/Loader/Loader';
@@ -13,7 +13,7 @@ import { PLEASE_ENTER_VALID_MAIL, THIS_FIELD_REQUIRED } from '../constValue';
 import ForgotPassword, { forgotFormProps } from './ForgotPassword';
 import LoginInto, { loginFormProps } from './LoginInto';
 import styles from './loginscreen.module.css';
-import ResetPasswordSuccess from './ResetPasswordSuccess';
+// import ResetPasswordSuccess from './ResetPasswordSuccess';
 import {
   loginMiddleWare,
   passwordResetRequestMiddleWare,
@@ -115,6 +115,7 @@ const LoginScreen = () => {
   };
   const handleForgotClose = () => {
     setForgot(false);
+    setResetSuccess(false);
     forgotFormik.resetForm();
   };
 
@@ -125,7 +126,7 @@ const LoginScreen = () => {
     ).then((res) => {
       if (res.payload.success) {
         setResetSuccess(res.payload.success);
-        handleForgotClose();
+        // handleForgotClose();
       }
       setForgotLoader(false);
     });
@@ -135,22 +136,20 @@ const LoginScreen = () => {
   //   return <Loader />;
   // }
   return (
-    <Flex
-      columnFlex
-      className={styles.overAll}
-      height={window.innerHeight}
-      center
-    >
-      <div style={{ width: 1200 }}>
-        <Flex row center between className={styles.svgZitaFlex}>
-          <SvgZitaLogo />
-          {isResetSuccess && (
-            <Button onClick={() => window.location.replace(home)}>Home</Button>
-          )}
-        </Flex>
+    <>
+      {console.log(
+        setEmailValid,
+        PLEASE_ENTER_VALID_MAIL,
+        isEmailValid,
+        setResetSuccess,
+        isForgotLoader,
+        setForgotLoader,
+      )}
 
+      <Flex columnFlex className={styles.overAll} height={window.innerHeight}>
         {(isLoading || isForgotLoader) && <Loader />}
-        {!isForgot && !isResetSuccess && (
+
+        {!isForgot && (
           <LoginInto
             isError={isError}
             formik={formik}
@@ -158,16 +157,19 @@ const LoginScreen = () => {
             isInactive={isInactive}
           />
         )}
+
         {isForgot && (
           <ForgotPassword
             forgotFormik={forgotFormik}
             handleForgotClose={handleForgotClose}
             setEmailValid={setEmailValid}
+            ResetSuccess={isResetSuccess}
           />
         )}
-        {isResetSuccess && <ResetPasswordSuccess />}
-      </div>
-    </Flex>
+
+        {/* {isResetSuccess && <ResetPasswordSuccess />} */}
+      </Flex>
+    </>
   );
 };
 

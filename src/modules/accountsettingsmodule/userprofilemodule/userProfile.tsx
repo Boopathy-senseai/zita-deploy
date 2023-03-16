@@ -21,10 +21,14 @@ import ErrorMessage from '../../../uikit/ErrorMessage/ErrorMessage';
 import SvgCloseSmall from '../..//../icons/SvgCloseSmall';
 import SvgUpload from '../..//../icons/SvgUpload';
 import SvgView from '../../../icons/SvgView';
-import { FILE_2MB, imageFileAccept,THIS_FIELD_REQUIRED,
+import {
+  FILE_2MB,
+  imageFileAccept,
+  THIS_FIELD_REQUIRED,
   mediaPath,
   checkUpperCase,
-  specialCharacter, } from '../..//../modules/constValue';
+  specialCharacter,
+} from '../..//../modules/constValue';
 import useUnsavedChangesWarning from '../../common/useUnsavedChangesWarning';
 import styles from './userprofile.module.css';
 import {
@@ -109,16 +113,13 @@ const UserProfile = () => {
       reader.readAsDataURL(e.target.files[0]);
       setMb(false);
       setButton(false);
-      onDirty()
+      onDirty();
     }
   };
 
-
-
   const logoUrl = profile && profile !== 'default.jpg' ? profile : '';
   useEffect(() => {
-   setlogo(logoUrl);
-   
+    setlogo(logoUrl);
   }, [logoUrl]);
   const imgUrl =
     fileurl.imagePreviewUrl === undefined
@@ -160,7 +161,7 @@ const UserProfile = () => {
     const formData = new FormData();
     if (fileurl.file !== undefined) {
       formData.append('image', fileurl.file);
-    }else if (islogo.length === 0 ){
+    } else if (islogo.length === 0) {
       formData.append('image_null', islogo);
     }
     formData.append('first_name', values.firstname);
@@ -179,8 +180,7 @@ const UserProfile = () => {
       }
       setload(false);
       setButton(true);
-      onPristine()
-
+      onPristine();
     });
   };
 
@@ -195,11 +195,10 @@ const UserProfile = () => {
         formData,
       }),
     ).then((res: any) => {
-       onPristine();
+      onPristine();
       if (res.payload.data.success) {
         Toast('Password changed successfully', 'LONG', 'success');
         setError(false);
-
       } else {
         setError(true);
       }
@@ -252,7 +251,7 @@ const UserProfile = () => {
     )
       setPassButton(false);
   }, [formikPassword.values]);
- const { routerPrompt, onDirty, onPristine } = useUnsavedChangesWarning();
+  const { routerPrompt, onDirty, onPristine } = useUnsavedChangesWarning();
   return (
     <Flex>
       {(isLoading || isload) && <Loader />}
@@ -330,7 +329,6 @@ const UserProfile = () => {
                           middle
                           className={styles.changeStyle}
                         >
-                          
                           <SvgUpload />
                           <Text color="black" className={styles.text}>
                             Change Your Profile Picture
@@ -340,25 +338,25 @@ const UserProfile = () => {
                     </Flex>
                   </label>
                   {isShow && (
-                  <div
-                            className={styles.svgCloseStyle}
-                            tabIndex={-1}
-                             onMouseEnter={() => setShow(true)}
-                                onMouseLeave={() => setShow(false)}
-                            role="button"
-                            title={'Remove'}
-                            onKeyDown={() => {}}
-                            onClick={() => {
-                              console.log('sddsdssd');
-                              setlogo('');
-                              setButton(false);
-                              setFileurl({});
-                              setShow(false);
-                            }}
-                          >
-                            <SvgCloseSmall />
-                          </div>
-                           )}
+                    <div
+                      className={styles.svgCloseStyle}
+                      tabIndex={-1}
+                      onMouseEnter={() => setShow(true)}
+                      onMouseLeave={() => setShow(false)}
+                      role="button"
+                      title={'Remove'}
+                      onKeyDown={() => {}}
+                      onClick={() => {
+                        console.log('sddsdssd');
+                        setlogo('');
+                        setButton(false);
+                        setFileurl({});
+                        setShow(false);
+                      }}
+                    >
+                      <SvgCloseSmall />
+                    </div>
+                  )}
                 </Flex>
               )}
               {isMb && (
@@ -394,11 +392,11 @@ const UserProfile = () => {
                   label="First Name"
                   required
                   value={formik.values.firstname}
-                onChange={(e) => {
-                formik.setFieldValue('firstname', e.target.value);
-               setButton(false);
-               onDirty()
-                         }}
+                  onChange={(e) => {
+                    formik.setFieldValue('firstname', e.target.value);
+                    setButton(false);
+                    onDirty();
+                  }}
                 />
               </Flex>
               <Flex flex={6}>
@@ -407,11 +405,11 @@ const UserProfile = () => {
                   label="Last Name"
                   required
                   value={formik.values.lastname}
-                 onChange={(e) => {
-                formik.setFieldValue('lastname', e.target.value);
-               setButton(false);
-                  onDirty()
-                         }}
+                  onChange={(e) => {
+                    formik.setFieldValue('lastname', e.target.value);
+                    setButton(false);
+                    onDirty();
+                  }}
                 />
               </Flex>
             </Flex>
@@ -468,9 +466,9 @@ const UserProfile = () => {
                   inputConatinerClass={styles.with80}
                   value={formikPassword.values.oldpassword}
                   onChange={(e) => {
-                formikPassword.setFieldValue('oldpassword', e.target.value);
-                  onDirty()
-                         }}
+                    formikPassword.setFieldValue('oldpassword', e.target.value);
+                    onDirty();
+                  }}
                   keyboardType={!isShowOldPass ? 'password' : 'text'}
                   actionRight={() => (
                     <Button
@@ -494,9 +492,12 @@ const UserProfile = () => {
                   inputConatinerClass={styles.with80}
                   value={formikPassword.values.newpassword1}
                   onChange={(e) => {
-                formikPassword.setFieldValue('newpassword1', e.target.value);
-                  onDirty()
-                         }}
+                    formikPassword.setFieldValue(
+                      'newpassword1',
+                      e.target.value,
+                    );
+                    onDirty();
+                  }}
                   keyboardType={!isShowNewPass ? 'password' : 'text'}
                   actionRight={() => (
                     <Button
@@ -545,9 +546,12 @@ const UserProfile = () => {
                   inputConatinerClass={styles.with80}
                   value={formikPassword.values.newpassword2}
                   onChange={(e) => {
-                formikPassword.setFieldValue('newpassword2', e.target.value);
-                  onDirty()
-                         }}
+                    formikPassword.setFieldValue(
+                      'newpassword2',
+                      e.target.value,
+                    );
+                    onDirty();
+                  }}
                   keyboardType={!isShowNewPass1 ? 'password' : 'text'}
                   actionRight={() => (
                     <Button
