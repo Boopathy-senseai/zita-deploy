@@ -72,16 +72,24 @@ const ForgotPassword = ({
                       Reset your password
                     </Text>
                   </Flex>
-                  <Flex middle center className={styles.text_margin}>
-                    <Text align="center" className={styles.text}>
-                      A link to reset your password has been sent to your
-                      registered email.
+                  <Flex className={styles.text_margin}>
+                    <Text size={18} className={styles.error_content}>
+                      <ul style={{ marginLeft: '50px' }}>
+                        <li>
+                          A link to reset your password has been sent to your
+                          registered email.
+                        </li>
+                      </ul>
                     </Text>
                   </Flex>
-                  <Flex middle center>
-                    <Text align="center" className={styles.text}>
-                      Please check your spam folder if you haven’t received it
-                      in 3-5 minutes.
+                  <Flex>
+                    <Text size={18} className={styles.error_content}>
+                      <ul style={{ marginLeft: '50px' }}>
+                        <li>
+                          Please check your spam folder if you haven’t received
+                          it in 3-5 minutes.
+                        </li>
+                      </ul>
                     </Text>
                   </Flex>
                 </>

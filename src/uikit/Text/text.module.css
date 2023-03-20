@@ -114,7 +114,7 @@
 .textColor-link {
   color: var(--color-link, #581845);
   cursor: pointer;
-  font-size: 10px;
+  font-size: 13px;
   text-decoration-line: underline;  
 }
 .textColor-blue {

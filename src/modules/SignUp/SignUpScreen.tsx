@@ -297,7 +297,7 @@ const SignUpScreen = () => {
           </Flex>
           <Flex className={styles.row2}>
             <Flex>
-              <Flex className={styles.center_aligh_form}>
+              <Flex>
                 <Flex className={styles.logo}>
                   <center>
                     <SvgZitaLogo width={240} height={125} />
@@ -452,22 +452,22 @@ const SignUpScreen = () => {
                           touched={formik.touched}
                         />
                         {!isEmpty(formik.values.password1) && isValid && (
-                          <Flex columnFlex>
+                          <Flex>
                             <ErrorMessages
-                              message="Your password must contain at least one uppercase."
+                              message="password must contain at least one uppercase."
                               error={
                                 !checkUpperCase.test(formik.values.password1)
                               }
                             />
                             <ErrorMessages
-                              message="Your password must be between 8-12 characters."
+                              message="password must be between 8-12 characters."
                               error={
                                 formik.values.password1.length < 8 ||
                                 formik.values.password1.length > 12
                               }
                             />
                             <ErrorMessages
-                              message="Your password must contain at least one special character."
+                              message="password must contain at least one special character."
                               error={
                                 !specialCharacter.test(formik.values.password1)
                               }
@@ -531,7 +531,8 @@ const SignUpScreen = () => {
                           <Text bold size={20} color="link">
                             Terms of Use
                           </Text>
-                        </a>{' '}
+                        </a>
+                        {''}
                         and{' '}
                         <a
                           target={'_blank'}

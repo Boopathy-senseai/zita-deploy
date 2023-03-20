@@ -34,13 +34,18 @@ export const ErrorMessages = ({
 }) => {
   return (
     <Flex row center className={styles.errorMessageFlex}>
-      {error ? (
+      {/* {error ? (
         <span className={styles.iconColor}>&#x2715;</span>
       ) : (
         <span className={styles.iconTickColor}>&#x2713;</span>
-      )}
+      )} */}
 
       <Text size={12} color={error ? 'error' : 'success'}>
+        {error ? (
+          <span className={styles.iconColor}>&#x2715;</span>
+        ) : (
+          <span className={styles.iconTickColor}>&#x2713;</span>
+        )}{' '}
         {message}
       </Text>
     </Flex>
@@ -211,7 +216,7 @@ const SetNewPassword = ({
 
             {user_not_found !== true && success === false && (
               <Flex middle center flex={1} height={'50%'}>
-                <Text align="center" color="theme">
+                <Text align="center" color="theme" size={20}>
                   Your password reset link has already been used or expired.
                 </Text>
                 <center>
@@ -219,7 +224,7 @@ const SetNewPassword = ({
                     className={styles.button}
                     onClick={() => window.location.replace('/')}
                   >
-                    Go to Login
+                    Login
                   </Button>
                 </center>
               </Flex>
