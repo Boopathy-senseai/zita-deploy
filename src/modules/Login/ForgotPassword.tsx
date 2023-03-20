@@ -12,7 +12,7 @@ import InputText from '../../uikit/InputText/InputText';
 import Text from '../../uikit/Text/Text';
 import SvgZitaLogo from '../../icons/SvgZitaLogo';
 import Forgot from '../../assets/images/Forgotpassword.png';
-import SvgMail from '../../icons/SvgMail';
+import SvgEmail from '../../icons/SvgEmail';
 import SvgLeft from '../../icons/SvgLeft';
 import styles from './forgotpassword.module.css';
 const today = new Date();
@@ -68,7 +68,7 @@ const ForgotPassword = ({
                   </Flex>
 
                   <Flex middle center className={styles.text_margin}>
-                    <Text size={20} className={styles.text} bold>
+                    <Text size={22} className={styles.text} bold>
                       Reset your password
                     </Text>
                   </Flex>
@@ -98,29 +98,31 @@ const ForgotPassword = ({
                       password reset link.
                     </Text>
                   </center>
-
-                  <div>
-                    <InputText
-                      className={styles.input}
-                      placeholder="Your email "
-                      required
-                      value={forgotFormik.values.forgotEmail}
-                      onChange={forgotFormik.handleChange('forgotEmail')}
-                      keyboardType="email"
-                      actionLeft={() => (
-                        <Button types="link" className={styles.usericon}>
-                          <SvgMail height={15} width={15} />
-                        </Button>
-                      )}
-                    />
-                    <Flex className={styles.error_msg}>
-                      <ErrorMessage
-                        name="forgotEmail"
-                        errors={forgotFormik.errors}
-                        touched={forgotFormik.touched}
+                  <center>
+                    <div>
+                      <InputText
+                        className={styles.input}
+                        placeholder="Your email "
+                        required
+                        value={forgotFormik.values.forgotEmail}
+                        onChange={forgotFormik.handleChange('forgotEmail')}
+                        keyboardType="email"
+                        actionLeft={() => (
+                          <Button types="link" className={styles.usericon}>
+                            <SvgEmail height={15} width={15} fill={'none'} />
+                          </Button>
+                        )}
                       />
-                    </Flex>
-                  </div>
+                    </div>
+                  </center>
+
+                  <Flex className={styles.error_msg}>
+                    <ErrorMessage
+                      name="forgotEmail"
+                      errors={forgotFormik.errors}
+                      touched={forgotFormik.touched}
+                    />
+                  </Flex>
 
                   <Button
                     className={styles.login_button}
@@ -141,7 +143,7 @@ const ForgotPassword = ({
         <Flex className={styles.splitrow_2}>
           <Flex className={styles.logo}>
             <center>
-              <SvgZitaLogo />
+              <SvgZitaLogo width={240} height={125} />
             </center>
           </Flex>
 

@@ -2,7 +2,8 @@ import { FormikProps } from 'formik';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SvgView from '../../icons/SvgView';
-import SvgMail from '../../icons/SvgMail';
+//import SvgMail from '../../icons/SvgMail';
+import SvgEmail from '../../icons/SvgEmail';
 import SvgLock from '../../icons/SvgLock';
 import Button from '../../uikit/Button/Button';
 import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
@@ -39,11 +40,11 @@ const LoginInto = ({
 
   return (
     <>
-      {console.log(handleForgotOpen, isError, isInactive, isEmpty)}
+      {console.log(handleForgotOpen, isError, isInactive, isEmpty, SvgEmail)}
       <Flex className={styles.row}>
         <Flex className={styles.splitrow_1}>
           <Flex className={styles.center_aligh}>
-            <Text size={18} className={styles.text} bold>
+            <Text size={22} className={styles.text} bold>
               Welcome Back!
             </Text>
             <Text className={styles.text}>
@@ -61,7 +62,7 @@ const LoginInto = ({
                   keyboardType="email"
                   actionLeft={() => (
                     <Button types="link" className={styles.usericon}>
-                      <SvgMail height={15} width={15} />
+                      <SvgEmail height={15} width={17} fill={'none'} />
                     </Button>
                   )}
                 />
@@ -76,12 +77,12 @@ const LoginInto = ({
               <div>
                 <InputText
                   actionLeft={() => (
-                    <Button types="link" className={styles.usericon}>
-                      <SvgLock height={15} width={15} />
+                    <Button types="link" className={styles.Passicon}>
+                      <SvgLock height={20} width={19} />
                     </Button>
                   )}
                   className={styles.input}
-                  placeholder="Password "
+                  placeholder="Password at least 8 characters"
                   required
                   value={formik.values.email}
                   onChange={formik.handleChange('email')}
@@ -122,7 +123,7 @@ const LoginInto = ({
                 className={styles.forget}
                 onClick={handleForgotOpen}
               >
-                Forgot your password?
+                Forgot password?
               </Button>
             </div>
 
@@ -136,10 +137,12 @@ const LoginInto = ({
             <hr />
 
             <center>
-              Don`t have an Account ?{' '}
-              <u>
-                <Link to="/recruiter/1">Sign Up</Link>
-              </u>
+              <Text className={styles.text}>
+                Don`t have an Account ?{' '}
+                <u>
+                  <Link to="/recruiter/1">Sign Up</Link>
+                </u>
+              </Text>
             </center>
           </Flex>
         </Flex>
@@ -147,7 +150,7 @@ const LoginInto = ({
         <Flex className={styles.splitrow_2}>
           <Flex className={styles.logo}>
             <center>
-              <SvgZitaLogo />
+              <SvgZitaLogo width={240} height={125} />
             </center>
           </Flex>
           <Flex className={styles.center_aligh_slider}>

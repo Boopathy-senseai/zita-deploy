@@ -297,269 +297,273 @@ const SignUpScreen = () => {
           </Flex>
           <Flex className={styles.row2}>
             <Flex>
-              <Flex className={styles.logo}>
-                <center>
-                  <SvgZitaLogo />
-                </center>
-              </Flex>
               <Flex className={styles.center_aligh_form}>
-                <div className="row">
-                  <div className="col">
-                    <Flex className={styles.signup_col}>
-                      <InputText
-                        label="First Name"
-                        labelSize={16}
-                        labelColor={'theme'}
-                        className={styles.signup_input}
-                        required
-                        value={formik.values.first_name}
-                        onChange={formik.handleChange('first_name')}
-                      />
-                      <ErrorMessage
-                        name={'first_name'}
-                        errors={formik.errors}
-                        touched={formik.touched}
-                      />
-                    </Flex>
-                  </div>
-                  <div className="col">
-                    <Flex className={styles.signup_col}>
-                      <InputText
-                        label="Last Name"
-                        labelSize={16}
-                        labelColor={'theme'}
-                        required
-                        className={styles.signup_input}
-                        value={formik.values.last_name}
-                        onChange={formik.handleChange('last_name')}
-                      />
-                      <ErrorMessage
-                        name={'last_name'}
-                        errors={formik.errors}
-                        touched={formik.touched}
-                      />
-                    </Flex>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col">
-                    <Flex className={styles.signup_col}>
-                      <InputText
-                        label="Company Name"
-                        labelSize={16}
-                        labelColor={'theme'}
-                        className={styles.signup_input}
-                        required
-                        value={formik.values.company_name}
-                        onChange={formik.handleChange('company_name')}
-                      />
-                      <ErrorMessage
-                        name={'company_name'}
-                        errors={formik.errors}
-                        touched={formik.touched}
-                      />
-                    </Flex>
-                  </div>
-                  <div className="col">
-                    <Flex className={styles.signup_col}>
-                      <LabelWrapper label="Contact Number" required>
-                        <PhoneInput
-                          inputClass={styles.phoneInput}
-                          dropdownClass={styles.dropDownStyle}
-                          country={'us'}
-                          value={formik.values.contact_no}
-                          onChange={(phone) =>
-                            formik.setFieldValue('contact_no', phone)
-                          }
-                        />
-                      </LabelWrapper>
-                      <ErrorMessage
-                        name={'contact_no'}
-                        errors={formik.errors}
-                        touched={formik.touched}
-                      />
-                    </Flex>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col">
-                    <Flex className={styles.signup_col}>
-                      <InputText
-                        labelSize={16}
-                        labelColor={'theme'}
-                        className={styles.signup_input}
-                        label="Username"
-                        required
-                        onKeyPress={allowAlphaNumericSpace}
-                        value={formik.values.username}
-                        onChange={formik.handleChange('username')}
-                      />
-                      <ErrorMessage
-                        name={'username'}
-                        errors={formik.errors}
-                        touched={formik.touched}
-                      />
-                    </Flex>
-                  </div>
-                  <div className="col">
-                    <Flex className={styles.signup_col}>
-                      <InputText
-                        labelSize={16}
-                        labelColor={'theme'}
-                        className={styles.signup_input}
-                        label="Work Email"
-                        required
-                        value={formik.values.email}
-                        onChange={formik.handleChange('email')}
-                      />
-                      <ErrorMessage
-                        name={'email'}
-                        errors={formik.errors}
-                        touched={formik.touched}
-                      />
-                    </Flex>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col">
-                    <Flex className={styles.signup_col}>
-                      <InputText
-                        className={styles.signup_input}
-                        label="Password"
-                        labelSize={16}
-                        labelColor={'theme'}
-                        required
-                        value={formik.values.password1}
-                        onChange={formik.handleChange('password1')}
-                        keyboardType={!isShowNewPass ? 'password' : 'text'}
-                        actionRight={() => (
-                          <Button
-                            types="link"
-                            onClick={() => setShowNewPass(!isShowNewPass)}
-                          >
-                            <SvgView
-                              nonView={isShowNewPass}
-                              height={20}
-                              width={20}
-                            />
-                          </Button>
-                        )}
-                      />
-                      <ErrorMessage
-                        name={'password1'}
-                        errors={formik.errors}
-                        touched={formik.touched}
-                      />
-                      {!isEmpty(formik.values.password1) && isValid && (
-                        <Flex columnFlex>
-                          <ErrorMessages
-                            message="Your password must contain at least one uppercase."
-                            error={
-                              !checkUpperCase.test(formik.values.password1)
-                            }
-                          />
-                          <ErrorMessages
-                            message="Your password must be between 8-12 characters."
-                            error={
-                              formik.values.password1.length < 8 ||
-                              formik.values.password1.length > 12
-                            }
-                          />
-                          <ErrorMessages
-                            message="Your password must contain at least one special character."
-                            error={
-                              !specialCharacter.test(formik.values.password1)
-                            }
-                          />
-                        </Flex>
-                      )}
-                    </Flex>
-                  </div>
-                  <div className="col">
-                    <Flex className={styles.signup_col}>
-                      <InputText
-                        className={styles.signup_input}
-                        label="Confirm Password"
-                        labelSize={16}
-                        labelColor={'theme'}
-                        required
-                        value={formik.values.password2}
-                        onChange={formik.handleChange('password2')}
-                        keyboardType={!isShowChangePass ? 'password' : 'text'}
-                        actionRight={() => (
-                          <Button
-                            types="link"
-                            onClick={() => setShowChnagePass(!isShowChangePass)}
-                          >
-                            <SvgView
-                              nonView={isShowChangePass}
-                              height={20}
-                              width={20}
-                            />
-                          </Button>
-                        )}
-                      />
-                      <ErrorMessage
-                        name={'password2'}
-                        errors={formik.errors}
-                        touched={formik.touched}
-                      />
-                    </Flex>
-                  </div>
-                </div>
-                <center>
-                  <div className={styles.checkBoxStyle}>
-                    <InputCheckBox
-                      disabled={!checkBoxDisable}
-                      checked={formik.values.terms_and_conditions === '1'}
-                      onChange={() =>
-                        formik.values.terms_and_conditions === '0'
-                          ? formik.setFieldValue('terms_and_conditions', '1')
-                          : formik.setFieldValue('terms_and_conditions', '0')
-                      }
-                    />
-                    <Text className={styles.terms_con}>
-                      I agree to Zita{' '}
-                      <a
-                        target={'_blank'}
-                        rel="noreferrer"
-                        href="https://zita.ai/terms-and-conditions"
-                      >
-                        <Text bold size={20} color="link">
-                          Terms of Use
-                        </Text>
-                      </a>{' '}
-                      and{' '}
-                      <a
-                        target={'_blank'}
-                        rel="noreferrer"
-                        href="https://www.zita.ai/privacy-policy"
-                      >
-                        <Text bold size={20} color="link">
-                          Privacy Policy
-                        </Text>
-                      </a>
-                    </Text>
-                  </div>
-                </center>
-
-                <center>
-                  <Button
-                    className={styles.login_button}
-                    // disabled={formik.values.terms_and_conditions === '0'}
-                    onClick={formik.handleSubmit}
-                  >
-                    Sign Up
-                  </Button>
-                </center>
-
-                <Flex className={styles.account_link}>
+                <Flex className={styles.logo}>
                   <center>
-                    Already have an Account ?{' '}
-                    <u>
-                      <Link to="/login">Login </Link>
-                    </u>
+                    <SvgZitaLogo width={240} height={125} />
                   </center>
+                </Flex>
+                <Flex className={styles.form_body}>
+                  <div className="row">
+                    <div className="col">
+                      <Flex className={styles.signup_col}>
+                        <InputText
+                          label="First Name"
+                          labelSize={16}
+                          labelColor={'theme'}
+                          className={styles.signup_input}
+                          required
+                          value={formik.values.first_name}
+                          onChange={formik.handleChange('first_name')}
+                        />
+                        <ErrorMessage
+                          name={'first_name'}
+                          errors={formik.errors}
+                          touched={formik.touched}
+                        />
+                      </Flex>
+                    </div>
+                    <div className="col">
+                      <Flex className={styles.signup_col}>
+                        <InputText
+                          label="Last Name"
+                          labelSize={16}
+                          labelColor={'theme'}
+                          required
+                          className={styles.signup_input}
+                          value={formik.values.last_name}
+                          onChange={formik.handleChange('last_name')}
+                        />
+                        <ErrorMessage
+                          name={'last_name'}
+                          errors={formik.errors}
+                          touched={formik.touched}
+                        />
+                      </Flex>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col">
+                      <Flex className={styles.signup_col}>
+                        <InputText
+                          label="Company Name"
+                          labelSize={16}
+                          labelColor={'theme'}
+                          className={styles.signup_input}
+                          required
+                          value={formik.values.company_name}
+                          onChange={formik.handleChange('company_name')}
+                        />
+                        <ErrorMessage
+                          name={'company_name'}
+                          errors={formik.errors}
+                          touched={formik.touched}
+                        />
+                      </Flex>
+                    </div>
+                    <div className="col">
+                      <Flex className={styles.signup_col}>
+                        <LabelWrapper label="Contact Number" required>
+                          <PhoneInput
+                            inputClass={styles.phoneInput}
+                            dropdownClass={styles.dropDownStyle}
+                            country={'us'}
+                            value={formik.values.contact_no}
+                            onChange={(phone) =>
+                              formik.setFieldValue('contact_no', phone)
+                            }
+                          />
+                        </LabelWrapper>
+                        <ErrorMessage
+                          name={'contact_no'}
+                          errors={formik.errors}
+                          touched={formik.touched}
+                        />
+                      </Flex>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col">
+                      <Flex className={styles.signup_col}>
+                        <InputText
+                          labelSize={16}
+                          labelColor={'theme'}
+                          className={styles.signup_input}
+                          label="Username"
+                          required
+                          onKeyPress={allowAlphaNumericSpace}
+                          value={formik.values.username}
+                          onChange={formik.handleChange('username')}
+                        />
+                        <ErrorMessage
+                          name={'username'}
+                          errors={formik.errors}
+                          touched={formik.touched}
+                        />
+                      </Flex>
+                    </div>
+                    <div className="col">
+                      <Flex className={styles.signup_col}>
+                        <InputText
+                          labelSize={16}
+                          labelColor={'theme'}
+                          className={styles.signup_input}
+                          label="Work Email"
+                          required
+                          value={formik.values.email}
+                          onChange={formik.handleChange('email')}
+                        />
+                        <ErrorMessage
+                          name={'email'}
+                          errors={formik.errors}
+                          touched={formik.touched}
+                        />
+                      </Flex>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col">
+                      <Flex className={styles.signup_col}>
+                        <InputText
+                          className={styles.signup_input}
+                          label="Password"
+                          labelSize={16}
+                          labelColor={'theme'}
+                          required
+                          value={formik.values.password1}
+                          onChange={formik.handleChange('password1')}
+                          keyboardType={!isShowNewPass ? 'password' : 'text'}
+                          actionRight={() => (
+                            <Button
+                              types="link"
+                              onClick={() => setShowNewPass(!isShowNewPass)}
+                            >
+                              <SvgView
+                                nonView={isShowNewPass}
+                                height={20}
+                                width={20}
+                              />
+                            </Button>
+                          )}
+                        />
+                        <ErrorMessage
+                          name={'password1'}
+                          errors={formik.errors}
+                          touched={formik.touched}
+                        />
+                        {!isEmpty(formik.values.password1) && isValid && (
+                          <Flex columnFlex>
+                            <ErrorMessages
+                              message="Your password must contain at least one uppercase."
+                              error={
+                                !checkUpperCase.test(formik.values.password1)
+                              }
+                            />
+                            <ErrorMessages
+                              message="Your password must be between 8-12 characters."
+                              error={
+                                formik.values.password1.length < 8 ||
+                                formik.values.password1.length > 12
+                              }
+                            />
+                            <ErrorMessages
+                              message="Your password must contain at least one special character."
+                              error={
+                                !specialCharacter.test(formik.values.password1)
+                              }
+                            />
+                          </Flex>
+                        )}
+                      </Flex>
+                    </div>
+                    <div className="col">
+                      <Flex className={styles.signup_col}>
+                        <InputText
+                          className={styles.signup_input}
+                          label="Confirm Password"
+                          labelSize={16}
+                          labelColor={'theme'}
+                          required
+                          value={formik.values.password2}
+                          onChange={formik.handleChange('password2')}
+                          keyboardType={!isShowChangePass ? 'password' : 'text'}
+                          actionRight={() => (
+                            <Button
+                              types="link"
+                              onClick={() =>
+                                setShowChnagePass(!isShowChangePass)
+                              }
+                            >
+                              <SvgView
+                                nonView={isShowChangePass}
+                                height={20}
+                                width={20}
+                              />
+                            </Button>
+                          )}
+                        />
+                        <ErrorMessage
+                          name={'password2'}
+                          errors={formik.errors}
+                          touched={formik.touched}
+                        />
+                      </Flex>
+                    </div>
+                  </div>
+                  <center>
+                    <div className={styles.checkBoxStyle}>
+                      <InputCheckBox
+                        disabled={!checkBoxDisable}
+                        checked={formik.values.terms_and_conditions === '1'}
+                        onChange={() =>
+                          formik.values.terms_and_conditions === '0'
+                            ? formik.setFieldValue('terms_and_conditions', '1')
+                            : formik.setFieldValue('terms_and_conditions', '0')
+                        }
+                      />
+                      <Text className={styles.terms_con}>
+                        I agree to Zita{' '}
+                        <a
+                          target={'_blank'}
+                          rel="noreferrer"
+                          href="https://zita.ai/terms-and-conditions"
+                        >
+                          <Text bold size={20} color="link">
+                            Terms of Use
+                          </Text>
+                        </a>{' '}
+                        and{' '}
+                        <a
+                          target={'_blank'}
+                          rel="noreferrer"
+                          href="https://www.zita.ai/privacy-policy"
+                        >
+                          <Text bold size={20} color="link">
+                            Privacy Policy
+                          </Text>
+                        </a>
+                      </Text>
+                    </div>
+                  </center>
+
+                  <center>
+                    <Button
+                      className={styles.login_button}
+                      // disabled={formik.values.terms_and_conditions === '0'}
+                      onClick={formik.handleSubmit}
+                    >
+                      Sign Up
+                    </Button>
+                  </center>
+
+                  <Flex className={styles.account_link}>
+                    <center>
+                      Already have an Account ?{' '}
+                      <u>
+                        <Link to="/login">Login </Link>
+                      </u>
+                    </center>
+                  </Flex>
                 </Flex>
               </Flex>
             </Flex>

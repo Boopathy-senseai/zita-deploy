@@ -233,7 +233,7 @@ const SetNewPassword = ({
         <Flex className={styles.splitrow_2}>
           <Flex className={styles.logo}>
             <center>
-              <SvgZitaLogo />
+              <SvgZitaLogo width={220} height={110} />
             </center>
           </Flex>
           <Flex className={styles.center_aligh_slider}>
