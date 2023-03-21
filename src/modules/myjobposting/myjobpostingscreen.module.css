@@ -24,6 +24,7 @@
 }
 .width99 {
   width: 99%;
+  margin-bottom: 50px;
 }
 .overAll {
   margin-left:auto;
@@ -116,9 +117,13 @@
   margin: 5px;
 }
 .titleContainer {
-  padding-bottom: 16px;
-  color: #666666;
+  padding: 10px;
+  background-color: #EEE8EC;
   font-size: 12px;
+  margin: auto;
+  margin-bottom: 30px;
+  display: flex;
+  
 }
 .padding10 {
  padding: 3px;
@@ -151,4 +156,15 @@
 .justify{
 text-align: center;
 justify-content: space-around;
+}
+
+.hellothere{
+  font-family: 'Roboto';
+font-style: normal ;
+font-weight: 600 ;
+font-size: 14px ;
+line-height: 16px ;
+white-space: nowrap;
+text-transform: capitalize;
+color: #581845;
 }

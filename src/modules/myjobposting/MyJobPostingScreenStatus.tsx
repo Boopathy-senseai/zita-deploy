@@ -104,12 +104,6 @@ const MyJobPostingScreenStatus = ({ list }: Props) => {
           </Flex>
 
         }
-
-
-
-
-
-
         </Flex>
       </Card>
     </Flex>

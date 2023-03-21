@@ -1,8 +1,10 @@
-import { useFormik } from 'formik';
+import { useFormik } from 'formik'; 
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { useDispatch, useSelector } from 'react-redux';
+import SvgJobpost from '../../icons/JobPost';
+
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import Card from '../../uikit/Card/Card';
@@ -26,7 +28,7 @@ import MyJobsPostingData from './MyJobsPostingData';
 import MyJobPostingScreenStatus from './MyJobPostingScreenStatus';
 import MyJobsPostingCount from './MyJobsPostingCount';
 import MyJobsPostingFilter, { MyJobFormProps } from './MyJobsPostingFilter';
-
+import Table from './Table';
 const cx = classNames.bind(styles);
 
 const initial: MyJobFormProps = {
@@ -132,11 +134,12 @@ const MyJobPostingScreen = () => {
           </div>
 
           <div className={cx('tabsContainer')}>
-            <Flex row center className={styles.titleContainer}>
-              <Text bold size={16} color="black" style={{ marginRight: 8 }}>
-                My Job Postings
+            <Flex row center className={styles.titleContainer} >
+           <SvgJobpost/>
+              <Text  bold size={16} color="black" style={{ marginRight: 8 }} >
+                 Job Postings
               </Text>
-              <LinkWrapper target={'_blank'} to={`${career_page_url}/careers`}>
+              <LinkWrapper target={'_parent'} to={`${career_page_url}`}>
                 <Button className={styles.btnStyle} types="secondary">
                   <Flex row>
                     <Text className={styles.career} color={'theme'} bold>
@@ -148,7 +151,7 @@ const MyJobPostingScreen = () => {
                 </Button>
               </LinkWrapper>
             </Flex>
-            <Flex row between className={styles.width99}>
+            <Flex row between className={styles.width99} >
               <Text color="black">Total Jobs Found: {len_list}</Text>
               {Permission.includes('create_post') && (
                 <LinkWrapper target={'_parent'} to={jobSelect}>
@@ -157,7 +160,24 @@ const MyJobPostingScreen = () => {
                   </Button>
                 </LinkWrapper>
               )}
+
+              <LinkWrapper target={'_parent'} to={`${career_page_url}`}>
+                
+                  
+                  <Button className={styles.btnStyle} types="primary">
+                  
+                     View Careers Page
+                   </Button>
+
+              </LinkWrapper>
             </Flex>
+            
+          <Flex>
+            <Table/>
+                
+                         
+          </Flex>
+        
             <Flex
               center
               columnFlex
@@ -348,3 +368,4 @@ const MyJobPostingScreen = () => {
   );
 };
 export default MyJobPostingScreen;
+
