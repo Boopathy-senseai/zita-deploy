@@ -1,0 +1,135 @@
+.overAll {
+  background-color: #fff;
+  /* width: 80%; */
+  position: absolute;
+  top: 0;
+  right: 0;
+  width:90%;
+}
+.openStyle {
+  margin-right: 8px;
+  margin-top: 3px;
+}
+.border {
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--color-gary-4, #979797);
+}
+.button {
+  padding: 16;
+  display: grid;
+  margin: 16;
+}
+.wordTrunk{
+  overflow: hidden;
+    text-overflow: ellipsis;
+      display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.inputNone {
+  height: 0;
+  width: 0;
+  background-color: transparent;
+  border: none;
+}
+.pre {
+  white-space: pre-wrap; /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word; /* Internet Explorer 5.5+ */
+  padding: 16px 30px;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+}
+.cardOverAll{
+  padding: 14px;
+}
+.svgEdit {
+position: relative;
+   
+    top: -11px;
+    left: 96%;
+
+    cursor: pointer;
+}
+.titleStyleAdd{
+  margin-top: 10px;
+margin-bottom: 10px;
+    justify-content: left;
+}
+.titleStyle{
+margin-top: 10px;
+margin-bottom: 10px;
+}
+.yearText {
+  margin-top: 8px;
+}
+.roleText {
+  margin-top: 10px;
+  margin-bottom: 16px;
+}
+.toolsText {
+  margin-top: 16px;
+}
+.phoneInput {
+  border: none !important;
+  padding: 0 !important;
+  height: fit-content !important;
+  color: #1a1a1a;
+  background-color: transparent !important;
+  width: fit-content;
+}
+.phoneHide {
+  pointer-events: none;
+}
+.phoneHide div div {
+  display: none;
+}
+
+.svgTrash {
+  margin-left: 8px;
+  cursor: pointer;
+}
+.borderBottom {
+  border-bottom: 1px solid var(--color-gary-7, #dfdfdf);
+}
+.borderFlex {
+  padding-bottom: 8px;
+  padding-top: 8px;
+  padding-left: 52px;
+}
+.listStyle {
+  padding-left: 16px;
+  margin-bottom: 0;
+}
+.noValues {
+  height: 150px;
+}
+.statusFlex {
+  margin-left: 16px;
+}
+
+.trashFlex {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.insideFlex{
+  line-height: 25px;
+}
+.preStyle {
+  white-space: pre-wrap; /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word; /* Internet Explorer 5.5+ */
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  margin: 0;
+  margin-top: 8px;
+  text-align: justify;
+}
+.vrLine {
+  border-left: 1px solid var(--color-gary-7, #dfdfdf);
+}

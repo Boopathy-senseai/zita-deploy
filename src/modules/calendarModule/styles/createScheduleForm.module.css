@@ -1,0 +1,178 @@
+@import '../../../default.css';
+
+.overAll {
+  background-color: var(--color-white, #ffffff);
+  border-radius: 4px;
+  padding: 16px;
+  position: relative;
+  padding-right: 32px;
+  width: 200%;
+  margin-left: -50%;
+  height: 110%;
+  margin-top: -5%;
+}
+.titelTextStyle {
+  margin-left: 12px;
+}
+.btnContainer {
+  margin-top: 16px;
+}
+.btnCancelStyle {
+  margin-right: 8px;
+}
+.btnDeleteStyle {
+  margin-left: 8px;
+}
+.svgClose {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+}
+.info {
+  margin-top: 8px;
+}
+.flexMargin {
+  margin-bottom: 2%;
+}
+
+.notes {
+  color: rgba(26, 26, 26, 0.5);
+  grid-column: 1 / span 2;
+  white-space: nowrap;
+}
+
+.notes div:first-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notes div:first-child p {
+  margin-bottom: 2px;
+}
+
+.privateNote {
+  height: 50px;
+}
+
+.card1 {
+  padding: 10px;
+}
+
+.card2 {
+  padding: 4px 0px 0px 4px;
+}
+.card3 {
+  height: 50px;
+}
+.warn {
+  color: red;
+  margin-bottom: 0px;
+}
+
+.date {
+  width: 100%;
+}
+.time {
+  border: 1px solid var(--color-gary-5, #cccccc);
+}
+.to {
+  font-size: 16px;
+}
+
+.meetingForm {
+  background-color: white;
+  max-height: 100vh;
+  height: 100%;
+  border-radius: 4px;
+  width: 700px;
+  max-width: 80vw;
+  display: grid;
+  grid-template-columns: [one] 1fr [two] 1fr [three];
+  grid-template-rows: auto;
+  grid-gap: 10px;
+  padding: 15px 20px;
+}
+
+.timeInputWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.timeInputWrapper .to {
+  display: flex;
+  align-items: center;
+  margin: 0px 6px;
+}
+
+.location {
+  grid-column: 1 / span 2;
+}
+
+.addInterviewer .icons {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.addInterviewer .icons p {
+  margin-bottom: 0;
+}
+
+.dateview {
+  display: flex;
+  flex-direction: column;
+}
+
+.duration p {
+  margin: 0;
+}
+
+.duration p:nth-of-type(even) {
+  padding: 5px 20px;
+  margin-top: 2px;
+  background-color: rgba(0, 0, 0, 0.07);
+  border-radius: 100px;
+  width: fit-content;
+}
+
+.reminder > div {
+  display: flex;
+}
+
+.formTitle {
+  grid-column: 1 / span 2;
+  color: var(--color-primary);
+  font-weight: 500;
+  font-size: 18px;
+  margin-bottom: 0px;
+}
+
+.actionButtonWrapper {
+  grid-column: 1 / span 2;
+  display: flex;
+  justify-content: end;
+}
+
+.actionButtonWrapper button {
+  margin-left: 20px;
+  border-radius: 5px;
+  font-weight: 500;
+  letter-spacing: 0.6px;
+  outline: none;
+  border: none;
+  padding: 5px 12px;
+}
+
+.actionButtonWrapper button.continueButton {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.actionButtonWrapper button.continueButton:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.label {
+  margin-bottom: 0;
+}

@@ -1,0 +1,48 @@
+.displayNone {
+  display: none;
+}
+.border {
+  border: 1px solid var(--color-gary-4, #979797);
+  border-style: dashed;
+  border-radius: 4px;
+  padding: 16px 40px;
+  align-items: center;
+  min-width: 370px;
+  display: flex;
+  justify-content: center;
+  min-height: 80px;
+}
+.labelStyle {
+  margin: 0;
+  margin-left: 4px;
+}
+.cardOverAll {
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 70px;
+  padding: 20px 0;
+}
+.uploadText {
+  margin-top: 8px;
+}
+.btnStyle {
+  margin-left: 16px;
+}
+.svgClose {
+  cursor: pointer;
+  margin-left: 8px;
+  position: relative;
+  bottom: 2px;
+}
+.title {
+  margin-bottom: 4px;
+}
+.desText {
+  margin-bottom: 24px;
+}
+.innerFlex {
+  position: relative;
+}

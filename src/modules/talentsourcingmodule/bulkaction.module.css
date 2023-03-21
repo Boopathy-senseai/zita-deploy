@@ -1,0 +1,24 @@
+.svgDownload {
+  margin: 0 16px;
+}
+.svgUnlock {
+  margin-right: 16px;
+}
+.pointer {
+  cursor: pointer;
+}
+.pointerNot {
+  cursor: not-allowed;
+}
+.candidatesText {
+  padding-right: 16px;
+  /* width: 190px; */
+}
+.overAll {
+  padding-left: 8px;
+  padding-right: 24px;
+  width: 100%;
+}
+.searchTextStyle {
+  margin-right: 8px;
+}

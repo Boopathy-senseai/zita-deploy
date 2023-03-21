@@ -1,0 +1,85 @@
+.overAll {
+  background-color: var(--color-white, #ffffff);
+  padding: 20px 30px;
+  border-radius: 4px;
+  position: relative;
+  padding-bottom: 40px !important;
+}
+.title {
+  margin-bottom: 40px;
+}
+.phoneInput {
+  border: 1px solid var(--color-gary-5, #cccccc) !important;
+  width: 320px !important;
+  height: 31px !important;
+}
+.phoneInput:hover {
+  border: 1px solid var(--color-gary-6, #b3b3b3) !important;
+}
+.phoneInput:focus {
+  border: 1px solid var(--color-primary, #581845) !important;
+  box-shadow: none !important;
+}
+.dropDownStyle {
+  margin: 2px ​0 10px -1p !important;
+  width: 318px !important;
+}
+.genderFlex {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.objectiveInput {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.svgClose {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
+.careerInput {
+  height: 150px;
+}
+.scrollStyle {
+  overflow-y: scroll;
+}
+
+@media (min-height: 800px) {
+  .scrollStyle {
+    /* max-height: 37vmax; */
+  }
+}
+
+/* Maximum height */
+@media (max-height: 800px) {
+  .scrollStyle {
+    max-height: 30vmax;
+  }
+}
+@media (max-height: 600px) {
+  .scrollStyle {
+    max-height: 25vmax;
+  }
+}
+@media (max-height: 500px) {
+  .scrollStyle {
+    max-height: 20vmax;
+  }
+}
+
+.datePicker {
+  border: 1px solid var(--color-gary-5, #cccccc) !important;
+  border-radius: 4px;
+  height: 30px !important;
+  box-sizing: border-box;
+  padding-left: 12px;
+  width: 100%;
+}
+.datePicker:hover {
+  border: 1px solid var(--color-gary-6, #b3b3b3) !important;
+}
+.datePicker:focus {
+  border: 1px solid var(--color-primary, #581845) !important;
+  box-shadow: none !important;
+}

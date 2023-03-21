@@ -1,0 +1,15 @@
+.logStyle {
+  min-height: 400px;
+  margin-left: 8px;
+
+  padding: 9px 50px;
+}
+.titleStyle {
+  width: 150px;
+}
+.listFlex {
+  margin-bottom: 16px;
+}
+.jdStatus {
+  margin-bottom: 20px;
+}

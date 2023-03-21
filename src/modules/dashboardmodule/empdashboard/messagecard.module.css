@@ -1,0 +1,57 @@
+.msgText {
+  border-bottom: 1px solid #ccc;
+  padding: 4px 16px;
+}
+.profileStyle {
+  height: 55px;
+  width: 55px;
+  border-radius: 100%;
+  box-sizing: border-box;
+  -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
+  -moz-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
+  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
+  align-items: center;
+  position: relative;
+  background-color: #fff;
+  margin-right: 16px;
+}
+/*.overAll{
+  box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
+  -webkit-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
+  -moz-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
+}*/
+.mesgListCard {
+  padding: 8px 16px;
+  margin-top: 8px;
+  box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
+  -webkit-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
+  -moz-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
+}
+.mesgListCard:hover {
+  box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.55);
+  -webkit-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.55);
+  -moz-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.55);
+  transition: all 0.2s ease-out;
+}
+
+.scrollStyle {
+  overflow-y: scroll;
+  height: 450px;
+  padding: 16px;
+}
+.noContent {
+  align-self: center;
+}
+.countStyle {
+  position: absolute;
+  right: -6px;
+  top: -6px;
+  background-color: var(--color-error, #f94949);
+  border-radius: 100%;
+  z-index: 11;
+  display: flex;
+  height: 14px;
+  width: 14px;
+  justify-content: center;
+  align-items: center;
+}

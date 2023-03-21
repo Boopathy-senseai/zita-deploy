@@ -1,0 +1,29 @@
+.loaderContainer {
+  width: 100vw;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.5);
+  position: fixed;
+  overflow: hidden;
+  display: none;
+  top: 0;
+}
+
+.loader {
+  width: 25vw;
+  height: 100%;
+  background: rgba(255, 130, 0, 0.1);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, #581845 100%);
+  position: absolute;
+  top: 0;
+  animation: load 1s infinite forwards linear;
+  border-radius: 100px;
+}
+
+@keyframes load {
+  0% {
+    left: -10%;
+  }
+  100% {
+    left: 100%;
+  }
+}

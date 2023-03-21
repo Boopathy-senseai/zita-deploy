@@ -1,0 +1,33 @@
+.weekdays {
+    margin: 0;
+    padding: 10px 0;
+    background-color:#ddd;
+    width:250px;
+  }
+  
+.weekdays li {
+    display: inline-block;
+    width: 13.6%;
+    color: #666;
+    text-align: center;
+  }
+
+.active {
+    color : blue;
+}
+
+.days {
+    margin: 0;
+    padding: 10px 0;
+    background-color:#ddd;
+    width:250px;
+}
+.days li {
+    display: inline-block;
+    width: 13.6%;
+    color: #666;
+    text-align: center;
+    margin-bottom: 5px;
+    font-size:12px;
+    color: #777;
+}

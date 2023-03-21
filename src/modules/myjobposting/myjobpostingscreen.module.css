@@ -1,0 +1,154 @@
+.filterOverAll {
+  padding-top: 20px;
+  padding-right: 16px;
+}
+.tabsContainer {
+  padding-top: 20px;
+  width: 100%;
+  color: #666666;
+  font-size: 12px;
+  overflow-y: scroll;
+}
+
+.tabsStyle {
+  margin-top: 30px;
+  position: relative;
+}
+.infiStyle {
+  position: absolute;
+  right: 0;
+  top: 9px;
+}
+.svgInfy {
+  margin-left: 4px;
+}
+.width99 {
+  width: 99%;
+}
+.overAll {
+  margin-left:auto;
+  margin-right:auto;
+  max-width: 1300px;
+  min-width: 1300px;
+}
+.overAll1 {
+  margin-left:auto;
+  margin-right:auto;
+  max-width: 1300px;
+  /*min-width: 1300px;*/
+}
+.pagination {
+  margin: 24px 0px;
+}
+.overAllCard {
+  overflow: scroll;
+  color: #666666;
+  font-size: 12px;
+  padding-bottom: 12px;
+}
+.screenStatusStyle {
+  position: relative;
+  bottom: 12px;
+}
+.career{
+  margin-right: 5px;
+  cursor:pointer
+}
+@media screen and (min-width: 1280px) and (max-width: 1350px) {
+  .overAll {
+    padding: 0px 5% !important;
+  }
+}
+@media screen and (min-width: 960px) and (max-width: 1280px) {
+  .overAll {
+    padding: 0px 3% !important;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .overAll {
+    padding: 0 16px;
+  }
+}
+.invited {
+  text-align: center;
+}
+.screenStatus {
+  text-align: center;
+  font-size: 12px;
+  margin-top: 8px;
+  color: #666666;
+  line-height: 22px;
+}
+.screen {
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.noJob {
+  width: 327px;
+  height: 35px;
+  margin: 33px 2px 19px 2px;
+
+  font-size: 20px;
+
+  color: #f94949;
+}
+.font {
+  font-size: 12px;
+  color: #666666;
+  line-height: 22px;
+}
+.fontScreen{
+  font-size: 12px;
+  color: #666666;
+  /* margin-top: 5px; */
+  line-height: 22px;
+}
+.cardOverAll {
+  padding: 8px 8px 8px 8px;
+  margin-top: 12px;
+  margin-left: 1px;
+  width: 99%;
+}
+.margin {
+  margin: 5px;
+}
+.titleContainer {
+  padding-bottom: 16px;
+  color: #666666;
+  font-size: 12px;
+}
+.padding10 {
+ padding: 3px;
+ margin-top: 8px;
+}
+.padding5 {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.inputNone {
+  height: 0;
+  width: 0;
+  background-color: transparent;
+  border: none;
+}
+.icon{
+  position: relative;
+    bottom: 2px;
+    margin-right: 8px;
+}
+.link{
+  word-break: break-all;
+}
+
+    .icontop{
+  position: relative;
+    bottom: -4px;
+    margin-right: 8px;
+}
+.justify{
+text-align: center;
+justify-content: space-around;
+}

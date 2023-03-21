@@ -1,0 +1,23 @@
+.overAll {
+  margin-top: 45px;
+  padding: 0px 20px;
+}
+.profileContainer {
+  position: relative;
+  bottom: 30px;
+  margin-right: 20px;
+}
+.pictureStyle {
+  padding-top: 8px;
+}
+.squareStyle {
+  padding: 4px 0;
+}
+.emailStyle {
+  padding-bottom: 3px;
+}
+.fileErrorText {
+  position: absolute;
+  white-space: nowrap;
+  bottom: -23px;
+}

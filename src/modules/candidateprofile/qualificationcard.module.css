@@ -1,0 +1,47 @@
+.overAll {
+  padding: 0px 8px 0px 8px;
+}
+.leftConatiner {
+  width: 200px;
+}
+
+.rightConatiner {
+  /* border-left: 1px solid var(--color-gary-7, #dfdfdf); */
+  padding-left: 40px;
+  position: relative;
+}
+.yearText {
+  margin-top: 8px;
+}
+.techText {
+  margin-top: 12px;
+}
+.percentageStyle {
+  margin-top: 16px;
+}
+.svgTrash {
+  margin-left: 8px;
+  cursor: pointer;
+}
+.borderBottom {
+  border-bottom: 1px solid var(--color-gary-7, #dfdfdf);
+}
+.borderFlex {
+  padding-bottom: 8px;
+  padding-top: 8px;
+  padding-left: 52px;
+}
+.noValues {
+  height: 150px;
+}
+.statusFlex {
+  margin-left:16px;
+}
+.trashFlex {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.vrLine {
+  border-left: 1px solid var(--color-gary-7, #dfdfdf);
+}

@@ -1,0 +1,48 @@
+.listOverAll {
+  margin-right: 8px;
+}
+.listHeadingStyle {
+  margin-top: 8px;
+  margin-bottom: 4px;
+}
+.overAll {
+  background-color: var(--color-white, #ffffff);
+  width: 700px;
+  padding: 16px;
+  border-radius: 4px;
+}
+
+.trimStyle {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-bottom: 1px solid var(--color-gary-6, #b3b3b3);
+  height: 34px;
+  padding-top: 8px;
+}
+.trimStyle p {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  margin: 0;
+  text-align: justify;
+}
+.trimStyle h6 {
+  display: none;
+}
+.normalStyle {
+  padding-top: 8px;
+}
+.normalStyle p {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  margin: 0;
+  margin-top: 8px;
+  text-align: justify;
+  margin: 0;
+}
+.normalStyle ul {
+    padding-left: 16px;
+  }

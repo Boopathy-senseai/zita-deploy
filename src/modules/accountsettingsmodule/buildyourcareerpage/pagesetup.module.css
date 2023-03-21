@@ -1,0 +1,14 @@
+.flexContainer {
+  margin-top: 16px;
+  width: 100%;
+}
+.overAll {
+  padding: 16px;
+  margin: 16px 0px;
+}
+.tagOne {
+  margin-right: 8px;
+}
+.tagTwo {
+  margin-left: 8px;
+}

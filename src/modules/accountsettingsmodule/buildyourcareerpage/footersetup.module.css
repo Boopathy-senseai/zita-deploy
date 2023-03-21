@@ -1,0 +1,27 @@
+.marginTop16 {
+  margin-top: 16px;
+}
+.overAll {
+  padding: 16px;
+}
+.tagOne {
+  margin-right: 8px;
+  flex: 6;
+  position: relative;
+}
+.tagTwo {
+  margin-left: 8px;
+  flex: 6;
+  position: relative;
+}
+.colorPicker {
+  position: absolute;
+  z-index: 11;
+  right: 0;
+  top: 55px;
+}
+
+.textArea {
+  height: 90px;
+}
+

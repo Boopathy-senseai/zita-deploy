@@ -1,0 +1,80 @@
+.bannerStyle {
+  width: 100%;
+  height: 50vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  object-fit: cover;
+}
+.imgFlex {
+  position: relative;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+.overLay{
+  position: absolute;
+  top:0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.innerText {
+  position: absolute;
+  width: 56%;
+  padding-bottom: 70px;
+}
+.bannerTextStyle {
+  margin-top: 40px;
+}
+.footerStyle {
+  height: 70px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+.shareButton {
+  position: fixed;
+  left: 0;
+  z-index: 11;
+  top: 120px;
+}
+.nonePage {
+  background-color: var(--color-gary-8, #fafafa);
+  width: 400px;
+  border-radius: 4px;
+  padding: 20px;
+}
+.successFlex {
+  background-color: var(--color-gary-8, #fafafa);
+  border-radius: 4px;
+  padding: 20px 50px;
+}
+.jobViewRes {
+  position: relative;
+  top: -70px;
+}
+
+@media screen and (min-width: 1060px) {
+  .jobViewRes {
+    width: 1300px;
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+}
+@media screen and (max-width: 1060px) {
+  .jobViewRes {
+    max-width: 1300px;
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .innerText {
+    width: 70% !important;
+  }
+  .centerStyle{
+    justify-items: center;
+  }
+}

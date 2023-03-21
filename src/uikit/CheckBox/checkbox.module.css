@@ -1,0 +1,20 @@
+.labelRightStyle {
+  margin-left: 8px;
+}
+.labelLeftStyle {
+  margin-right: 8px;
+}
+.container {
+  cursor: pointer;
+}
+.disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+}
+.checkBox:hover path {
+  /* opacity: 0.75; */
+}
+
+.svgCheckBox:hover path {
+  fill: var(--color-gary-6, #b3b3b3);
+}

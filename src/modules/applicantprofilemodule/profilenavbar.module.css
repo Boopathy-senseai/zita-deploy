@@ -1,0 +1,106 @@
+.overAll {
+  background-color: var(--color-primary, #581845);
+  padding: 8px;
+  margin-bottom: 44px;
+  position: relative;
+}
+.curser{
+  cursor: pointer;
+}
+.useNameStyle {
+  margin-left: 8px;
+}
+.marginStyleFlex {
+  margin-right: 16px;
+}
+.fontLable {
+  margin-bottom: 8px;
+}
+.nameStyle {
+  margin-bottom: 16px;
+}
+.marginBottom {
+  margin-bottom: 8px;
+}
+.fontLabelStyle{
+  margin-bottom: 8px;
+  width: 150px;
+  white-space: nowrap;
+}
+.btnStyleOne {
+  max-width: 124px;
+}
+.btnContainer {
+  margin-top: 8px;
+}
+.flexNameConatiner {
+  margin-left: 156px;
+}
+.barStyle {
+  margin-left: 16px;
+  position: relative;
+}
+.matchStyle {
+  position: relative;
+  top: 3px;
+}
+.svgDownloadStyle {
+  margin-left: 16px;
+  cursor: pointer;
+}
+.nonMatch {
+  padding: 1px 8px;
+  background-color: var(--color-gary-5, #cccccc);
+  width: fit-content;
+  box-sizing: border-box;
+  border: 5px solid var(--color-error-1, #d74242);
+  border-radius: 4px;
+  margin-top: 16px;
+}
+.imageStyle {
+  border-radius: 100%;
+  height: 130px;
+  width: 130px;
+  border-radius: 100%;
+  margin-right: 16px;
+  position: absolute;
+  top: 12px;
+  left: 16px;
+}
+.inviteStyle {
+  margin-left: 8px;
+  cursor: pointer;
+}
+.inviteIconClassName {
+  pointer-events: none !important;
+  opacity: 0.3;
+}
+.nonMatchFlex {
+  position: relative;
+  top: 5px;
+}
+.inviteIconNone{
+  display: none !important;
+}
+
+.profile {
+  width: 130px;
+  height: 130px;
+  border-radius: 100%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  position: relative;
+  margin-right: 16px;
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  background-image: linear-gradient(
+    to right top,
+    #581845,
+    #982a4e,
+    #d04e46,
+    #f3832f,
+    #fcc203
+  );
+}

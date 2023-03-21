@@ -1,0 +1,54 @@
+.profile {
+  width: 55px;
+  height: 55px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+.overAll {
+  height: 70px;
+  align-items: center;
+  justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  padding: 0 80px;
+}
+.menu3Style {
+  margin-right: 24px;
+  cursor: pointer;
+}
+.menu2Style {
+  margin-right: 24px;
+  cursor: pointer;
+}
+.menu1Style {
+  margin-right: 24px;
+  cursor: pointer;
+}
+.candiProfile {
+  height: 30px;
+  width: 30px;
+  border-radius: 100%;
+}
+
+@media screen and (max-width: 850px) {
+  .overAll {
+    padding: 0 24px !important;
+  }
+}
+.menuStyle {
+  background-color: #fff;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  padding: 24px;
+}
+.menuStyleText {
+  padding-bottom: 8px;
+}
+.svgClose {
+  position: absolute;
+  right: 16px;
+  top: 6px;
+}

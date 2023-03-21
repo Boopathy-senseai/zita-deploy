@@ -1,0 +1,25 @@
+.cardOverAll {
+  background-color: var(--color-gary-8, #fafafa);
+  padding: 20px 200px 40px;
+  border-radius: 4px;
+  position: relative;
+}
+.userInput {
+  width: 350px;
+  margin-top: 30px;
+  margin-bottom: 16px;
+}
+.userPassword {
+  width: 350px;
+  position: relative;
+}
+.btnConatiner {
+  margin-top: 24px;
+}
+
+.overAll {
+  /* overflow: scroll; */
+}
+.svgZitaFlex {
+  padding: 40px 100px 50px 48px;
+}

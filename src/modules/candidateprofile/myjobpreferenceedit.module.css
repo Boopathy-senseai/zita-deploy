@@ -1,0 +1,22 @@
+.overAll {
+  background-color: var(--color-white, #ffffff);
+  padding: 20px 30px;
+  border-radius: 4px;
+  position: relative;
+  padding-bottom: 40px !important;
+}
+.salaryFlex {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.stateFlex {
+  padding-bottom: 20px;
+}
+.svgClose {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+.title {
+  margin-bottom: 40px;
+}

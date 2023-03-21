@@ -1,0 +1,40 @@
+.svgRefresh {
+  margin-left: 8px;
+  cursor: pointer;
+}
+.overAll {
+  width: 344px;
+}
+.filterStyle {
+  padding: 8px 0px 8px 16px;
+  border-bottom: 1px solid var(--color-gary-7, #dfdfdf);
+}
+.jobTextStyle {
+  margin-bottom: 2px;
+}
+.qualificationRadioStyle {
+  margin-bottom: 8px;
+}
+.qualificationTextStyle {
+  margin-top: 16px;
+  margin-bottom: 2px;
+}
+.filterContainer {
+  padding: 16px;
+  overflow-y: scroll;
+}
+.filterContainer::-webkit-scrollbar {
+  width: 4px;
+  margin-left: 16px;
+  height: 4px;
+  overflow-y: scroll;
+}
+.expContainer {
+  padding-top: 16px;
+}
+.locantionStyle {
+  margin-top: 16px;
+}
+.skillContainer {
+  margin-top: 8px;
+}

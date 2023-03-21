@@ -1,0 +1,49 @@
+.overAllCard {
+  background-color: var(--color-gary-8, #fafafa);
+  padding: 40px;
+}
+.applicationText {
+  margin-bottom: 4px;
+}
+.personalText {
+  margin-top: 20px;
+}
+.generalInfoStyle {
+  margin-top: 30px;
+  margin-bottom: 16px;
+}
+.coverLetterInput {
+  height: 170px;
+  margin-bottom: 20px;
+}
+.shiftInput {
+  margin-top: 16px;
+}
+.applicantStyle {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+.hrLine {
+  border-bottom: 1px solid var(--color-gary-7, #dfdfdf);
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+.ulTag {
+  padding-left: 30px;
+  margin-bottom: 4px;
+}
+
+.phoneInput {
+  border: none !important;
+  padding: 0 !important;
+  height: fit-content !important;
+  color: #1a1a1a;
+  background-color: transparent !important;
+  width: fit-content;
+}
+.phoneHide {
+  pointer-events: none;
+}
+.phoneHide div div {
+  display: none;
+}

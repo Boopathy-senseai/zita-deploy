@@ -1,0 +1,35 @@
+.cardOverAll {
+  padding: 20px;
+  padding-top: 16px;
+  margin-bottom: 40px;
+}
+.mainStyle {
+  display: flex;
+  overflow-y: scroll;
+}
+.overAll {
+  margin: auto;
+  width: 560px;
+  display: flex;
+  /* overflow-y: scroll; */
+}
+.borderBottom {
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 12px;
+}
+.planFlex {
+  padding-top: 16px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #ccc;
+}
+
+.detailsFlex {
+  background-color: var(--color-gary-8, #fafafa);
+  border-radius: 4px;
+  padding: 16px;
+  margin-top: 16px;
+}
+.totalBorder {
+  padding-bottom: 8px;
+  border-bottom: 1px solid #ccc;
+}

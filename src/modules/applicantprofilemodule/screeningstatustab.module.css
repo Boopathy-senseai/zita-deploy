@@ -1,0 +1,23 @@
+.overAll {
+  overflow: scroll;
+  padding: 16px;
+}
+.statusStyle {
+  margin-left: 16px;
+}
+.statusListStyle {
+  margin-bottom: 30px;
+}
+.vrLine {
+  height: 31px;
+  border-right: 4px solid var(--color-primary, #581845);
+  position: absolute;
+  bottom: -31px;
+  left: 13px;
+}
+.svgFlex {
+  position: relative;
+}
+.screenText {
+  margin-bottom: 20px;
+}

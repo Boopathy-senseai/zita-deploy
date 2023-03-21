@@ -1,0 +1,78 @@
+.overAll {
+  background-color: var(--color-white, #ffffff);
+  padding: 10px 0px;
+  border-radius: 4px;
+  position: relative;
+  padding-bottom: 10px !important;
+}
+.title {
+  margin-bottom: 40px;
+}
+.phoneInput {
+  border: 1px solid var(--color-gary-5, #cccccc) !important;
+  width: 100% !important;
+  height: 31px !important;
+}
+.phoneInput:hover {
+  border: 1px solid var(--color-gary-6, #b3b3b3) !important;
+}
+.phoneInput:focus {
+  border: 1px solid var(--color-primary, #581845) !important;
+  box-shadow: none !important;
+}
+.dropDownStyle {
+  margin: 2px ​0 10px -1p !important;
+  width: 318px !important;
+}
+.genderFlex {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}.locationFlex {
+  
+  padding-bottom: 20px;
+}
+.objectiveInput {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.svgClose {
+  position: absolute;
+  top: 10px;
+  right: 16px;
+}
+.relocateStyle{
+  position: relative;
+    top: 27px;
+    left: 16px;
+}
+.careerInput {
+  height: 150px;
+}
+/*.scrollStyle {
+  overflow-y: scroll;
+}*/
+
+@media (min-height: 800px) {
+  .scrollStyle {
+    /* max-height: 37vmax; */
+  }
+}
+
+.datePicker {
+  border: 1px solid var(--color-gary-5, #cccccc) !important;
+  border-radius: 4px;
+  height: 30px !important;
+  box-sizing: border-box;
+  padding-left: 12px;
+  width: 100%;
+}
+.datePicker:hover {
+  border: 1px solid var(--color-gary-6, #b3b3b3) !important;
+}
+.datePicker:focus {
+  border: 1px solid var(--color-primary, #581845) !important;
+  box-shadow: none !important;
+}
+.updateButton{
+  margin-top: 10px;
+}

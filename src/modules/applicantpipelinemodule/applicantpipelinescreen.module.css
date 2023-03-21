@@ -1,0 +1,30 @@
+.overAll {
+  padding-top: 20px;
+}
+.dndBoardContainer {
+  /* width: 100%; */
+}
+.btnStyle {
+  margin-left: 16px;
+}
+
+.titleContainer {
+  padding-bottom: 16px;
+}
+
+.scrollStyle {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(26, 26, 26, 0.3) white;
+  overflow-y: scroll;
+}
+.col {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  width: 100%;
+  z-index: 99;
+}
+.filterFlex {
+  margin-right: 16px;
+  margin-left: 16px;
+}

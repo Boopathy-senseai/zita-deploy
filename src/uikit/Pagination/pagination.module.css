@@ -1,0 +1,53 @@
+.roundEffect {
+  color: var(--color-black, #000000);
+  cursor: pointer;
+  font-size: 14px;
+  text-align: center;
+  /* padding-left: 10px;
+  padding-right: 10px; */
+  padding-top: 5px;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  margin: 5px;
+  font-weight: bold;
+}
+
+.roundEffect:hover {
+  text-decoration: none;
+  background-color: rgb(88 24 69 / 15%);
+  color: var(--color-gary-1, #1a1a1a);
+}
+
+.roundEffect:hover a {
+  text-decoration: none;
+  color: var(--color-white, #ffffff);
+}
+
+.active {
+  background-color: var(--color-primary, #581845);
+  color: var(--color-white, #ffffff);
+}
+.svgLeft {
+  margin-right: 6px;
+}
+.svgRight {
+  margin-left: 6px;
+}
+.renderContainer {
+  align-items: center;
+  display: flex;
+}
+.first {
+  margin-right: 16px;
+}
+.last {
+  margin-left: 16px;
+}
+.notAllowd {
+  cursor: not-allowed !important;
+  pointer-events: none;
+}
+.pointer {
+  cursor: pointer;
+}

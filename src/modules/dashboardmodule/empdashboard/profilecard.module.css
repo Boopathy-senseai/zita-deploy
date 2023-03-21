@@ -1,0 +1,39 @@
+.profileCard {
+  height: 125px;
+  /*box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);*/
+  /*-webkit-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);*/
+  /*-moz-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);*/
+}
+.profileCard:hover {
+  box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55);
+  -webkit-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55);
+  -moz-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55);
+  transition: all 0.2s ease-out;  
+}
+.profileImg {
+  border-radius: 4px;
+  box-sizing: border-box;
+  -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
+  -moz-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
+  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
+  height: 120px;
+  width: 120px;
+  align-items: center;
+  position: relative;
+  background-color: #fff;
+  position: relative;
+  bottom: 50px;
+  object-fit: contain;
+}
+.overAll {
+  margin-top: 60px;
+}
+
+.borderBottom {
+  border-bottom: 1px solid #ccc;
+  padding: 4px 16px;
+}
+.pointer {
+  cursor: pointer;
+}
+

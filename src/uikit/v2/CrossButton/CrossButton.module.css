@@ -1,0 +1,55 @@
+.buttonContainer {
+  width: 25px;
+  height: 25px;
+  background-color: #a80006;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-radius: 2px;
+}
+
+.buttonContainer:hover {
+  background-color: #850307;
+}
+
+.buttonContainer:hover span {
+  background-color: white;
+}
+
+.spanContainer {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.spanOne {
+  width: 70%;
+  height: 2px;
+  background-color: #ddd;
+  display: inline-block;
+  position: absolute;
+  left: 15%;
+  top: calc(50% - 1px);
+  transform-origin: center center;
+  transform: rotate(45deg);
+}
+
+.spanTwo {
+  width: 70%;
+  height: 2px;
+  background-color: #ddd;
+  display: inline-block;
+  position: absolute;
+  left: 15%;
+  top: calc(50% - 1px);
+  transform-origin: center center;
+  transform: rotate(-45deg);
+}
+
+.svgWrapper {
+  outline: none;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+}

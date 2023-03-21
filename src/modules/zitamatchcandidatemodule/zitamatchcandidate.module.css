@@ -1,0 +1,57 @@
+.overAll {
+  /* margin: 0 10%; */
+  /* margin-bottom: 20px; */
+}
+.btnStyle {
+  margin-left: 16px;
+}
+.titleContainer {
+  padding-bottom: 16px;
+}
+.filterOverAll {
+  margin-right: 16px;
+  padding-top: 20px;
+  /* margin-left: 10%; */
+}
+.scollDiv {
+  /* overflow-y: scroll; */
+  padding-top: 20px;
+  width: 100%;
+  /* padding-right: 10%; */
+  /* padding-bottom: 30px; */
+}
+.scollDivTab {
+  padding-right: 20px;
+}
+.alignCenter {
+  height: 100%;
+}
+.pagination {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.scrollBottom {
+  margin-right: 2px;
+}
+
+.overAll {
+  margin: auto;
+  max-width: 1300px;
+}
+
+@media screen and (min-width: 1280px) and (max-width: 1350px) {
+  .overAll {
+    padding: 0px 5% !important;
+  }
+}
+@media screen and (min-width: 960px) and (max-width: 1280px) {
+  .overAll {
+    padding: 0px 3% !important;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .overAll {
+    padding: 0 16px;
+  }
+}

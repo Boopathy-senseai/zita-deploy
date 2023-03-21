@@ -1,0 +1,153 @@
+
+.cardOverAll {
+  height: 250px;
+  display: flex;
+  margin-right: 1rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.cardOverAllReport {
+  height: 250px;
+  display: flex;
+  margin-right: 1rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.tableWidth{
+  width: 55rem;
+}
+.cardOverAllApplicant {
+  /*height:28rem;*/
+  display: flex;
+  margin-right: 1rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  flex-direction: column;
+  /*align-items: center;*/
+  /*justify-content: center;*/
+}.cardOverAllChart {
+  height:30rem;
+  display: flex;
+  margin-right: 1rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  flex-direction: column;
+  /*align-items: center;*/
+  /*justify-content: center;*/
+}
+.skillContainer{
+  min-width: 18rem;
+  max-width: 18rem;
+  margin-right: 1rem;
+  margin-left: 1rem;
+}
+.marginTop{
+  margin-bottom: 0rem;
+}
+.chartStyle{
+  margin-left: 2rem;
+  line-height: 26px;
+}
+.inputNone {
+  height: 0;
+  width: 0;
+  background-color: transparent;
+  border: none;
+}
+.countStyle{
+  line-height: 30px;
+}
+.table{
+  cursor: pointer;
+}
+.reportData{
+  margin-bottom: 10px;
+}
+.reportsJobMetrics{
+      height: 13rem;
+    text-align: center;
+    /* margin: auto; */
+    justify-content: center;
+    margin-top: 15%;
+    font-weight: bold;
+}
+.matchRadioStyle{
+margin-bottom: 8px;
+    margin-right: 1.5rem;
+    margin-top: 1rem;   
+}
+.radioAlign{
+   min-width: 15rem;
+  /*max-width: 15rem;*/
+  margin-right: 1rem;
+
+  /*margin-left: 70px;*/
+}
+.border{
+border-right: 1px solid;
+}
+.noData{
+  min-height: 25rem;
+    text-align: center;
+    margin: auto;
+    justify-content: center;
+    /* margin-top: 15%; */
+    align-items: center;
+}
+.pagination{
+  margin-top: 1rem;
+}
+.selected{
+  margin-top: 5px;
+}
+.marginTop{
+  margin-top: 1rem;
+}
+.marginTop1{
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.overAll {
+  
+  overflow: scroll;
+  padding: 10px 36px;
+
+  margin-bottom: 10px;
+}
+.img{
+  margin: 1rem;
+}
+.textStyle{
+  text-align: center;
+}
+.titleStyle{
+  margin-bottom: 1rem;
+}
+.pageTitle{
+  margin-top: 1rem;
+}
+
+@media screen and (min-width: 1280px) and (max-width: 1350px) {
+  .overAll {
+    padding: 0px 5% !important;
+  }
+}
+@media screen and (min-width: 960px) and (max-width: 1280px) {
+  .overAll {
+    padding: 0px 3% !important;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .overAll {
+    padding: 0 16px;
+  }
+}
+

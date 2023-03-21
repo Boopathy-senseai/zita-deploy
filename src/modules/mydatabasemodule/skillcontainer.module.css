@@ -1,0 +1,18 @@
+.skillFlex {
+  position: relative;
+}
+.skillTextStyle {
+  line-clamp: 2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.labelSvg {
+  position: absolute;
+  top: 43px;
+}
+.notes {
+  margin-left: 16px;
+  cursor: pointer;
+}

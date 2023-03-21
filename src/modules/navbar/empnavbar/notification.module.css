@@ -1,0 +1,64 @@
+.overAll {
+  position: absolute;
+  width: 450px;
+  background-color: var(--color-white, #ffffff);
+  right: 0px;
+  border-radius: 4px;
+  z-index: 99;
+}
+.overAllOne{
+  position: absolute;
+  width: 230px;
+  background-color: var(--color-white, #ffffff);
+  right: 0px;
+  border-radius: 4px;
+  z-index: 99; 
+}
+.scrollStyle {
+  max-height: 300px;
+  overflow-y: scroll;
+  padding-bottom: 8px;
+}
+.headerStyle {
+  padding: 6px 16px;
+  border-bottom: 1px solid #ccc;
+}
+
+.listStyle {
+  cursor: pointer;
+}
+.borderBottom {
+  border-bottom: 1px solid #ccc;
+}
+.readStyle {
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-link, #1890ff);
+  border-radius: 100%;
+}
+.hoverStyle {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 6px;
+  border-radius: 4px;
+  margin-left: 10px;
+  margin-right: 4px;
+  padding-right: 6px;
+}
+.hoverStyle:hover {
+  background-color: rgb(88 24 69 / 15%);
+}
+
+.countStyle {
+  position: absolute;
+  right: -6px;
+  top: -6px;
+  background-color: var(--color-error, #f94949);
+  border-radius: 100%;
+  z-index: 11;
+  display: flex;
+  height: 14px;
+  width: 14px;
+  justify-content: center;
+  align-items: center;
+}

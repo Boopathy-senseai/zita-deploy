@@ -1,0 +1,56 @@
+.overAll {
+  overflow: scroll;
+  padding: 16px;
+}
+.addText {
+  margin-top: 4px;
+  margin-bottom: 16px;
+}
+.rateText {
+  margin-top: 4px;
+  font-family: "Roboto", sans-serif;
+  margin-bottom: 0;
+}
+.inputStyle {
+  height: 120px;
+}
+.inputContainer {
+  margin-top: 12px;
+}
+.addBtn {
+  margin-top: 8px;
+  margin-left: 16px;
+}
+.btnConatiner {
+  align-items: flex-end;
+}
+.commentStyles {
+  max-height: 120px;
+  padding: 8px;
+  border: 1px solid var(--color-gary-6, #b3b3b3);
+  border-radius: 4px;
+}
+.dateStyle {
+  border-bottom: 1px solid var(--color-gary-6, #b3b3b3);
+  padding: 4px 8px;
+  box-sizing: border-box;
+}
+.borderStyle {
+  border: 1px solid var(--color-gary-6, #b3b3b3);
+  box-sizing: border-box;
+  border-radius: 4px;
+  margin-top: 12px;
+  margin-bottom: 16px;
+}
+.commentTextStyle {
+  padding: 8px;
+}
+.commentTextStyle p{
+  margin: 0;
+}
+.svgEdit {
+  cursor: pointer;
+}
+.rateFlex{
+  margin-left: 16px;
+}

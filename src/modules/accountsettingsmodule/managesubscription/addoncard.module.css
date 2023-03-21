@@ -1,0 +1,44 @@
+.overAll {
+  padding: 20px;
+  padding-bottom: 60px;
+  margin-bottom: 60px;
+}
+.headerStyle {
+  height: 52px;
+  background-color: var(--color-primary, #581845);
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  margin-bottom: 16px;
+}
+.contactCard {
+  width: 324px;
+  position: relative;
+}
+.inputStyle {
+  width: 36px;
+  padding-left: 0;
+  padding-right: 0;
+}
+.disabled {
+  top: 0;
+  left: 0;
+  /* background-color: rgba(0, 0, 0, 0.18); */
+  z-index: 11;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  border-radius: 4px;
+  opacity: 0.75;
+  /* -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px); */
+  background-color: #B3B3B3;
+}
+.inputBorder{
+  border-bottom: 1px solid #666666;
+  border-top: 1px solid #666666;
+  padding: 8px 16px;
+  margin: 8px 0px;
+  border-style: dashed;
+  border-left: none;
+  border-right: none;
+}

@@ -1,0 +1,51 @@
+.overAll {
+  padding: 40px;
+  overflow: scroll;
+  padding-bottom: 110px;
+}
+.cardOverAll {
+  margin-top: 20px;
+  padding: 16px 24px;
+}
+
+.skillDiv {
+  margin-top: 16px;
+}
+
+.round {
+  height: 50px;
+  width: 50px;
+  border-radius: 100%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  background-color: var(--color-gary-5, #cccccc);
+  position: absolute;
+  right: 0;
+}
+.step {
+  position: relative;
+  margin: 0 200px;
+  margin-bottom: 36px;
+  margin-top: 24px;
+}
+.stepOne {
+  position: relative;
+  left: -23px;
+  top: 22px;
+}
+.stepTwo {
+  position: relative;
+  right: 51px;
+  top: 22px;
+}
+.stepThree {
+  position: relative;
+  top: 53px;
+  left: 30px;
+}
+.step3Flex {
+  position: absolute;
+  right: 0;
+  top: -20px;
+}

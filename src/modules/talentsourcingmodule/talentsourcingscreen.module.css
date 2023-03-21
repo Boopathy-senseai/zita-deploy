@@ -1,0 +1,36 @@
+.titleContainer {
+  /* padding: 24px 24px; */
+  padding-top: 24px;
+  padding-bottom: 24px;
+  padding-left: 8px;
+  padding-right: 8px;
+  margin-left: 16;
+  width: 100%;
+  overflow-y: scroll;
+  /* display: block; */
+  scrollbar-color: #7f7f7f white; /* thumb and track color */
+  scrollbar-width: thin;
+}
+.padding {
+  padding-left: 8px;
+}
+.overAll {
+  padding-left: 24px;
+}
+.talentActionContainer {
+  padding-left: 8px;
+  /* padding-right: 24px; */
+}
+
+.paginationStyle {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  padding-top: 30px;
+}
+.emptyStyle{
+  align-items: center;
+  justify-content: center;
+  height: 75%;
+  display: flex;
+}

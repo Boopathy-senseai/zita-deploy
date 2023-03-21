@@ -1,0 +1,64 @@
+.rightMenuConatiner {
+  align-items: center;
+}
+.size13 {
+  font-size: 13px;
+}
+.supportText {
+  margin-right: 16px;
+  cursor: pointer;
+  padding: 10px 15px;
+}
+.profile {
+  margin-left: 8px;
+  cursor: pointer;
+}
+.dropDown {
+  top: 60px;
+  margin-right: 8px !important;
+  padding: 8px;
+}
+.black3 {
+  color: #333333;
+  font-size: 13px;
+  padding: 10px 24px;
+}
+.hrLine {
+  border-top: 1px solid #dfdfdf;
+  width: 100%;
+  margin-bottom: 8px;
+  margin-top: 8px;
+}
+.navLinkHover:hover {
+  background-color: hsla(0, 0%, 100%, 0.1);
+  border-radius: 4px;
+}
+.dropdown_item:hover {
+  background-color: #581845 !important;
+  color: #ffffff !important;
+  border-radius: 4px !important;
+}
+.dropdownItemActive{
+  background-color: #581845 !important;
+  color: #ffffff !important;
+  border-radius: 4px !important;
+}
+.modalStyle {
+  background-color: #ffffff;
+  overflow: overlay;
+  padding: 24px;
+  border-radius: 4px;
+  position: relative;
+}
+.svgClose {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  cursor: pointer;
+}
+.imageStyle{
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  object-fit: contain;
+}

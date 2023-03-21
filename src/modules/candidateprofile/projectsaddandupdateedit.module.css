@@ -1,0 +1,33 @@
+.overAll {
+  background-color: var(--color-white, #ffffff);
+  padding: 20px 30px;
+  border-radius: 4px;
+  position: relative;
+}
+.title {
+  margin-bottom: 40px;
+}
+.svgClose {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+.briefStyle {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.roleInput {
+  margin-bottom: 20px;
+}
+.textAreaInputStyle {
+  height: 80px;
+}
+.academicCheckBox {
+  padding-top: 28px;
+}
+.textAreaInputStyleOne {
+  height: 120px;
+}
+.textAreaInputStyle {
+  height: 30px;
+}

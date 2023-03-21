@@ -1,0 +1,20 @@
+.cardOverAll {
+  padding: 16px;
+}
+.mainTitle {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+.title {
+  margin-bottom: 8px;
+}
+.statusList {
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+.statusContainer{
+  margin-top: 8px;
+}
+.des ul{
+  padding-left: 24px;
+}

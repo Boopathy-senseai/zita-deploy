@@ -1,0 +1,15 @@
+.overAll {
+  background-color: var(--color-white, #ffffff);
+  border-radius: 4px;
+  padding: 24px;
+}
+.des1 {
+  margin-top: 12px;
+  margin-bottom: 16px;
+}
+.changeBtn {
+  margin: 0 16px;
+}
+.nextBtn{
+  margin-left: 16px;
+}

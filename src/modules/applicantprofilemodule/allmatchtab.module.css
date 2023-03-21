@@ -1,0 +1,32 @@
+.jobTitle {
+  margin-bottom: 4px;
+}
+.overAll {
+  padding: 16px 0 16px 20px;
+  overflow: scroll;
+}
+.allMatchText {
+  margin-top: 30px;
+}
+.listOverAllCommon {
+  margin-bottom: 16px;
+}
+.favDiv {
+  margin-left: 16px;
+  cursor: pointer;
+}
+.whiteSpace {
+  white-space: nowrap;
+}
+.svgInvite {
+  padding-left: 8px;
+  cursor: pointer;
+}
+.svgInviteOne {
+  pointer-events: none;
+  opacity: 0.4;
+  padding-left: 8px;
+}
+.popTitle {
+  margin-left: 8px;
+}

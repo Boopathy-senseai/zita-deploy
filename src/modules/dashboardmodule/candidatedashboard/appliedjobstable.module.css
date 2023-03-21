@@ -1,0 +1,35 @@
+.cardStyle {
+  /* height: 300px; */
+  margin-right: 20px;
+  margin-top: 8px;
+}
+.actionsStyle {
+  /* justify-content: space-around; */
+  justify-content: center;
+}
+.messgaeSvgConatiner {
+  position: relative;
+  cursor: pointer;
+}
+.countStyle {
+  position: absolute;
+  right: -6px;
+  top: -6px;
+  background-color: var(--color-error, #f94949);
+  border-radius: 100%;
+  z-index: 11;
+  display: flex;
+  height: 14px;
+  width: 14px;
+  justify-content: center;
+  align-items: center;
+}
+
+.svgSelectStyle{
+  background-color: hsla(0, 0%, 100%, 0.1);
+  box-sizing: border-box;
+  -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
+  -moz-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
+  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
+  border-radius: 4px;
+}

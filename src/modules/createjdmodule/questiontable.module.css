@@ -1,0 +1,20 @@
+.fieldDiv {
+  margin-top: 8px;
+}
+.radioDiv {
+  margin-right: 20px;
+}
+.marginTop {
+  margin-top: 8px;
+  line-height: 0;
+}
+.inputStyle{
+  width: 300px;
+}
+.textAreainputStyle{
+  width: 300px;
+  height: 100px;
+}
+.lineHeight{
+  line-height: 0;
+}

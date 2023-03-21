@@ -1,0 +1,34 @@
+.overAll {
+  padding: 20px 40px;
+  padding-bottom: 4px;
+  position: relative;
+  height: 90%;
+}
+.insideFlex {
+  margin-bottom: 16px;
+}
+.svgEdit {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  cursor: pointer;
+}
+
+.titleStyle {
+  margin-bottom: 12px;
+  display: flex;
+}
+.phoneInput {
+  border: none !important;
+  padding: 0 !important;
+  height: fit-content !important;
+  color: #1a1a1a;
+  background-color: transparent !important;
+  width: fit-content;
+}
+.phoneHide {
+  pointer-events: none;
+}
+.phoneHide div div {
+  display: none;
+}

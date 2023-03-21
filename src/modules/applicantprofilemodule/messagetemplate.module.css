@@ -1,0 +1,40 @@
+.overAll {
+  background-color: var(--color-white, #ffffff);
+  width: 700px;
+  padding: 16px;
+  border-radius: 4px;
+}
+.scrollStyle {
+  max-height: 300px;
+  overflow: scroll;
+  min-height: 300px;
+}
+.listHeadingStyle {
+  margin-top: 8px;
+  margin-bottom: 4px;
+}
+.trimStyle {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 95%;
+  border-bottom: 1px solid var(--color-gary-6, #b3b3b3);
+}
+.listOverAll{
+  margin-right: 8px;
+}
+.insertStyles{
+  margin-bottom: 8px;
+}
+.preStyle {
+  white-space: pre-wrap; /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word; /* Internet Explorer 5.5+ */
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  margin: 0;
+  margin-top: 8px;
+  text-align: justify;
+}

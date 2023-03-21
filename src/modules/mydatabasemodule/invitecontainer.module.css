@@ -1,0 +1,29 @@
+.inviteStyle {
+  cursor: pointer;
+}
+.inviteDisable {
+  opacity: 0.3;
+  pointer-events: none;
+}
+.inviteContainer {
+  align-self: center;
+  width: 25%;
+  min-height: 75px;
+}
+.profileFlex {
+  width: 40%;
+}
+.appliedText {
+  margin: 0 4px;
+}
+.svgInviteNone {
+  pointer-events: none;
+  opacity: 0.3;
+}
+.svgInviteNoneOne {
+  pointer-events: none;
+  opacity: 0.3;
+}
+.svgInvitePointer {
+  cursor: pointer;
+}

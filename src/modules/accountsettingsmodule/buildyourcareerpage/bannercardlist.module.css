@@ -1,0 +1,19 @@
+.totalTextStyle {
+  margin-bottom: 20px;
+}
+.cardPadding {
+  padding: 16px;
+  width: 100%;
+}
+.labelStyle {
+  margin-left: 8px;
+}
+.lineHeight {
+  margin: 8px 0;
+}
+
+@media screen and (max-width: 700px) {
+  .totalTextStyle {
+    /* margin-left: 20px; */
+  }
+}

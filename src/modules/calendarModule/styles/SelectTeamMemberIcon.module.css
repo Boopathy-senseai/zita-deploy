@@ -1,0 +1,31 @@
+.checkboxContainer {
+  background-color: white;
+  height: 22px;
+  width: 100%;
+  position: relative;
+  margin-bottom: 4px;
+  border-radius: 100px;
+  box-shadow: 0px 0px 4px #00000059;
+}
+
+.checkboxContainer .checkbox {
+  height: 18px;
+  width: 18px;
+  z-index: 100;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  bottom: 0;
+  left: 3px;
+}
+
+.checkboxContainer .label {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  border-radius: 100px;
+  padding-left: 26px;
+  font-size: 0.8rem;
+  position: absolute;
+  width: 100%;
+}

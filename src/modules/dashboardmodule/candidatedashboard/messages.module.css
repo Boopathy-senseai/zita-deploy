@@ -1,0 +1,11 @@
+.overAll {
+  padding: 16px;
+  padding-top: 0px !important;
+  margin-top: 8px;
+}
+
+.messageContainer {
+  border: 1px solid var(--color-gary-6, #b3b3b3);
+  border-radius: 4px;
+  margin-top: 8px;
+}

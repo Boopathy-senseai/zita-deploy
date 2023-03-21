@@ -1,0 +1,35 @@
+.calendar {
+  height: calc(100vh - 60px);
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 50px 50px auto;
+}
+
+.calendarMenu {
+  width: 100vw;
+  height: 30px;
+  align-self: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.calendarMenu div:first-child {
+  width: fit-content;
+}
+
+.calendarMenu div:last-child {
+  width: fit-content;
+}
+
+.calendarToolbar {
+  width: 100vw;
+  height: 30px;
+  align-self: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.calendarScreen {
+  width: 100vw;
+  height: 100%;
+}

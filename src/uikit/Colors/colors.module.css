@@ -1,0 +1,12 @@
+.box{
+    height: 140px;
+    width: 240px;
+    border: 1px solid;
+    border-radius: 4px;
+}
+.textStyle{
+    margin-top: 16px;
+}
+.container{
+    margin: 8px;
+}

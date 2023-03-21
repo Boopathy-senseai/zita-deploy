@@ -1,0 +1,44 @@
+.leftTitleFlex {
+  width: 50%;
+}
+.rightTitleFlex {
+  width: 50%;
+  margin-left: 32px;
+}
+.overAll {
+  margin-top: 24px;
+}
+.titleContainer {
+  margin-bottom: 8px;
+}
+.tagTop {
+  margin-top: 16px;
+}
+.btnFlex {
+  margin-top: 16px;
+}
+.btnFlexOne {
+  margin-top: 24px;
+  padding-bottom: 8px;
+}
+.errorMessage {
+  position: absolute;
+  color: var(--color-error, #f94949);
+  bottom: -22px;
+  font-size: 12px;
+  right: 16px;
+}
+
+.displayNone {
+  width: 0;
+  height: 0;
+  background-color: transparent;
+  border: none;
+}
+.saveBtn {
+  margin-right: 16px;
+}
+.scroll {
+  overflow: scroll;
+  padding-right: 4px;
+}

@@ -1,0 +1,16 @@
+.titleFlex {
+  background-color: #ffb142;
+  height: 54px;
+  border-radius: 4px;
+}
+.borderBottom {
+  border-bottom: 1px solid var(--color-gary-5, #cccccc);
+  height: 42px;
+}
+.singleTile {
+  height: 40px;
+  background-color: #ffb142;
+}
+.borderNone {
+  height: 42px;
+}

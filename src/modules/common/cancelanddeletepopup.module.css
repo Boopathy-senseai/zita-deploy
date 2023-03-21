@@ -1,0 +1,27 @@
+.overAll {
+  background-color: var(--color-white, #ffffff);
+  border-radius: 4px;
+  padding: 16px;
+  position: relative;
+  padding-right: 32px;
+}
+.titelTextStyle {
+  margin-left: 12px;
+}
+.btnContainer {
+  margin-top: 16px;
+}
+.btnCancelStyle {
+  margin-right: 8px;
+}
+.btnDeleteStyle {
+  margin-left: 8px;
+}
+.svgClose{
+  position: absolute;
+  right: 4px;
+  top: 4px;
+}
+.info{
+  margin-top: 8px;
+}

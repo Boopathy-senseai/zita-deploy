@@ -1,0 +1,46 @@
+.overAll {
+  overflow: scroll;
+  padding-bottom: 40px;
+}
+.svgZitaFlex {
+  padding: 40px 106px 50px 48px;
+}
+.inpuFlex {
+  background-color: var(--color-gary-8, #fafafa);
+  border-radius: 4px;
+  padding: 24px 50px;
+}
+.inputWidth {
+  width: 320px;
+}
+.inputWidthOne {
+  width: 320px;
+  margin-right: 20px;
+}
+.checkBoxStyle {
+  margin-top: 16px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.phoneInput {
+  border: 1px solid var(--color-gary-5, #cccccc) !important;
+  width: 320px !important;
+  height: 31px !important;
+}
+.phoneInput:hover {
+  border: 1px solid var(--color-gary-6, #b3b3b3) !important;
+}
+.phoneInput:focus {
+  border: 1px solid var(--color-primary, #581845) !important;
+  box-shadow: none !important;
+}
+.dropDownStyle {
+  margin: 2px ​0 10px -1p !important;
+  width: 318px !important;
+}
+.marginRight {
+  margin-top: 16px;
+}

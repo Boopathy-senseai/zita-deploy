@@ -1,0 +1,196 @@
+.todayButton {
+  background-color: var(--color-primary);
+  height: 30px;
+  width: fit-content;
+  padding: 5px 30px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 10px;
+  border-radius: 5px;
+  color: white;
+  font-size: 0.8rem;
+  letter-spacing: 1.2px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.todayButton:active {
+  transform: scale(0.96);
+  transform-origin: center;
+}
+
+.todayButton:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.navButtonContainer {
+  display: flex;
+  align-items: center;
+}
+
+.navButton {
+  background-color: var(--color-primary);
+  border: none;
+  outline: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  height: 30px;
+  width: 40px;
+  transition: 100ms ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navButton.left_button div {
+  margin-right: -5px;
+}
+
+.navButton.right_button div {
+  margin-left: -5px;
+}
+
+.navButton.right_button:active {
+  transform: scale(0.96);
+  transform-origin: left center;
+}
+
+.navButton.left_button:active {
+  transform: scale(0.96);
+  transform-origin: right center;
+}
+
+.navButton:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.navButton div {
+  height: 75%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.left_button {
+  margin-right: 1px;
+  border-radius: 5px 0px 0px 5px;
+}
+
+.right_button {
+  border-radius: 0px 5px 5px 0px;
+}
+
+.timesButtonWrapper {
+  background-color: var(--color-primary-light);
+  border-radius: 100px;
+  height: fit-content;
+  margin-left: 10px;
+  border-radius: 5px;
+  position: relative;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1), 0px 0px 8px rgba(0, 0, 0, 0.1);
+}
+
+.timesButtonWrapper .activeButton {
+  position: absolute;
+  background-color: var(--color-primary);
+  border-radius: 5px;
+  transition: left 300ms;
+  padding: 5px 20px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  user-select: none;
+}
+
+.timesButtonWrapper button {
+  background-color: transparent;
+  border: none;
+  height: 30px;
+  padding: 5px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 100ms;
+  letter-spacing: 1px;
+  font-size: 0.8rem;
+  transition: color 300ms;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.timesButtonWrapper button:hover {
+  background-color: var(--color-primary-light-hover);
+}
+
+.timesButtonWrapper button.active {
+  color: white;
+}
+
+.buttonContainer {
+  display: flex;
+  align-items: center;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.label p {
+  margin: 0;
+}
+
+.simpleTimesButtonWrapper {
+  background-color: var(--color-primary-light);
+  border-radius: 100px;
+  height: fit-content;
+  margin-left: 10px;
+  border-radius: 5px;
+  position: relative;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1), 0px 0px 8px rgba(0, 0, 0, 0.1);
+}
+
+.simpleTimesButtonWrapper .activeButton {
+  position: absolute;
+  background-color: var(--color-primary);
+  border-radius: 5px;
+  transition: left 300ms;
+  padding: 5px 20px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  user-select: none;
+}
+
+.simpleTimesButtonWrapper button {
+  background-color: transparent;
+  border: none;
+  height: 30px;
+  padding: 5px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 100ms;
+  letter-spacing: 1px;
+  font-size: 0.8rem;
+  transition: color 300ms;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.simpleTimesButtonWrapper button:hover {
+  background-color: var(--color-primary-light-hover);
+}
+
+.simpleTimesButtonWrapper button.active {
+  color: rgb(255, 255, 255);
+  background-color: var(--color-primary);
+}

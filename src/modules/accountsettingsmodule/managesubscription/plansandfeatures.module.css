@@ -1,0 +1,13 @@
+.overAll {
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.switchFlex {
+  margin-top: 8px;
+  margin-bottom: 30px;
+}
+.inputHide{
+  height: 0;
+  width: 0;
+  border: none;
+}

@@ -1,0 +1,20 @@
+.overAll {
+  padding: 20px 40px;
+  padding-bottom: 4px;
+  position: relative;
+  height: 90%;
+}
+.insideFlex {
+  margin-bottom: 16px;
+}
+.svgEdit {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  cursor: pointer;
+}
+
+.titleStyle {
+  margin-bottom: 12px;
+  display: flex;
+}

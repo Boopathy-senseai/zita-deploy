@@ -1,0 +1,41 @@
+.careerDes {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+.overAll {
+  padding: 16px;
+  overflow: scroll;
+}
+.careerStyle {
+  margin-bottom: 8px;
+}
+.workStyle {
+  margin-top: 16px;
+}
+.status {
+  margin-bottom: 8px;
+  margin-right: 8px;
+}
+.projectText {
+  margin-top: 20px;
+}
+.internShipText {
+  margin-top: 24px;
+}
+.workContainer {
+  margin-top: 16px;
+}
+.statusContainer {
+  margin-top: 8px;
+}
+.domainLable {
+  margin-bottom: 8px;
+}
+.location {
+  padding: 8px 0px;
+}
+.textWrap{
+  word-break: break-word;
+
+}

@@ -1,0 +1,27 @@
+.flexLineHeight {
+  line-height: 2;
+}
+
+.aboutCandidateStyle {
+  margin-bottom: 8px;
+}
+.lableWidth {
+  min-width: 195px;
+}
+.jobPreferenceStyle {
+  margin-top: 24px;
+  margin-bottom: 8px;
+}
+.skillStyle {
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+.softSkillStyle {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+.overAll {
+  padding: 16px;
+  overflow: scroll;
+  /* background-color: red; */
+}

@@ -1,0 +1,61 @@
+.navBarContainer {
+  padding: 0 20%;
+}
+.flexContainer {
+  padding: 0 50px;
+  overflow: scroll;
+}
+.titleStyle {
+  margin-bottom: 12px;
+  display: flex;
+  margin-top: 40px;
+}
+.btnConatiner {
+  margin-bottom: 40px;
+}
+.inputNone {
+  height: 0;
+  width: 0;
+  border: none;
+  position: absolute;
+}
+.position {
+  position: relative;
+}
+.positionOne{
+  padding-top: 50px;
+  position: relative;
+}
+.marginAuto {
+  margin: auto;
+}
+
+@media screen and (min-width: 2000px) {
+  .marginAuto {
+    min-width: 1500px;
+  }
+}
+@media screen and (min-width: 1600px) and (max-width: 2000px) {
+  .marginAuto {
+    min-width: 1400px;
+  }
+}
+@media screen and (min-width: 1400px) and (max-width: 1600px) {
+  .marginAuto {
+    min-width: 1300px;
+  }
+}
+
+@media screen and (min-width: 1280px) and (max-width: 1400px) {
+  .marginAuto {
+    min-width: 1000px;
+  }
+}
+
+.footerStyle {
+  height: 70px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  margin-bottom: 24px;
+}

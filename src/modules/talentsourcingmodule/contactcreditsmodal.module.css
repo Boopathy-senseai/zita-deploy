@@ -1,0 +1,42 @@
+.overAll {
+  background-color: var(--color-white, #ffffff);
+  border-radius: 4px;
+  padding: 8px 8px 24px 24px;
+  min-width: 440px;
+}
+.listNameStyle {
+  padding-left: 8px;
+}
+.listContainer {
+  margin-top: 8px;
+}
+.candiDateContainer {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-top: 2px solid var(--color-gary-7, #dfdfdf);
+  border-bottom: 2px solid var(--color-gary-7, #dfdfdf);
+  margin-top: 16px;
+}
+.overAllPadding {
+  padding-left: 16px;
+  padding-right: 32px;
+}
+.inputStyle {
+  max-width: 50px;
+  padding-top: 3px;
+  padding-bottom: 2px;
+  margin-left: 4px;
+}
+.contact {
+  margin-bottom: 8px;
+}
+.buyBtn {
+  min-width: 74px;
+  margin-left: 8px;
+}
+.cancelBtn {
+  margin-right: 8px;
+}
+.btnConatiner {
+  margin-top: 16px;
+}

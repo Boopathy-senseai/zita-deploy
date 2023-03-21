@@ -1,0 +1,42 @@
+.overAll {
+  background-color: var(--color-white, #fff);
+  border-radius: 4px;
+  padding: 16px;
+  position: relative;
+  width: 120%;
+}
+.dropdown {
+  width: fit-content;
+}
+
+/* .eventPopUp {
+  background-color: white;
+}
+
+.eventPopUp .info {
+  display: flex;
+  margin: 10px 0px 10px 0px;
+  align-items: flex-start;
+}
+
+.eventPopUp .infoText {
+  margin: -2px 0px 0px 15px;
+}
+
+.eventPopUp .icon {
+  background-color: transparent;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  margin-left: 5px;
+}
+
+.eventPopUp .icon:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.eventPopUp .icon:active {
+  transform: scale(0.8);
+  transform-origin: center;
+  transition: 500ms ease-in-out;
+} */

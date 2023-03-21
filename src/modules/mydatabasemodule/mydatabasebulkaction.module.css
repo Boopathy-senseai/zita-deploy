@@ -1,0 +1,20 @@
+.svgDownload {
+  margin: 0 8px;
+  cursor: pointer;
+}
+.sortText {
+  margin: 0 8px;
+}
+.overAll {
+  margin-top: 12px;
+  /* margin-bottom: 16px; */
+  border-bottom: 1px solid var(--color-gary-7, #dfdfdf);
+  padding-bottom: 12px;
+  padding-left: 8px;
+}
+.selectTagStyle {
+  width: 220px;
+}
+.svgDownloadNone {
+  cursor: not-allowed;
+}

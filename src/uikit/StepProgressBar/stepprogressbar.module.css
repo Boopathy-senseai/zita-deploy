@@ -1,0 +1,26 @@
+.overAll {
+  position: relative;
+  width: 50%;
+}
+.round {
+  height: 50px;
+  width: 50px;
+  border-radius: 100%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  position: absolute;
+}
+.bar {
+  height: 10px;
+  width: 100%;
+}
+.roundeSelect {
+  background-color: var(--color-secondary, #ffc203);
+}
+.roundeNonSelect {
+  background-color: var(--color-gary-5, #cccccc);
+}
+.barNonSeletc {
+  background-color: var(--color-gary-5, #cccccc);
+}

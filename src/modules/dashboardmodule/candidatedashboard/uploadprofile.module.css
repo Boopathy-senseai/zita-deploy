@@ -1,0 +1,46 @@
+.overAll {
+  position: relative;
+}
+
+.imgContainer {
+  border-radius: 4px;
+  box-sizing: border-box;
+  -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
+  -moz-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
+  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
+  height: 120px;
+  width: 120px;
+  align-items: center;
+  position: relative;
+  background-color: #fff;
+}
+
+.changeStyle {
+  position: absolute;
+  border-radius: 4px;
+  background-color: rgba(196, 196, 196, 0.8);
+  cursor: pointer;
+  height: 120px;
+  width: 120px;
+}
+
+.svgCloseStyle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  z-index: 99;
+}
+.fileStyle {
+  display: none;
+}
+.imgStyle {
+  height: 120px;
+  width: 120px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+.svgClose {
+  position: absolute;
+  right: 0;
+}
