@@ -26,8 +26,6 @@ const MessageTemplateList = ({
   searchTerm,
 }: Props) => {
   const [isCollapse, setCollapse] = useState(false);
-
-  // copy template function
   const handleCopy = (templates: string) => {
     formik.setFieldValue('userMessage', templates);
     hanldeClose();

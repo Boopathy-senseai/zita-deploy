@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import { useHistory } from 'react-router-dom';
+import {  useHistory } from 'react-router-dom';
 import PhoneInput from 'react-phone-input-2';
 import { AppDispatch, RootState } from '../../store';
 import 'react-phone-input-2/lib/style.css';
@@ -12,19 +12,25 @@ import { isEmpty } from '../../uikit/helper';
 import InputText from '../../uikit/InputText/InputText';
 import Loader from '../../uikit/Loader/Loader';
 import SelectTag from '../../uikit/SelectTag/SelectTag';
-import {
-  FILE_2MB,
-  imageFileAccept,
-  isValidURL,
+// import {
+//   isValidURL,
+//   THIS_FIELD_REQUIRED,
+//   mediaPath,
+//   ENTER_VALID_URL,
+// } from '../constValue';
+import { FILE_2MB, imageFileAccept, 
+ isValidURL,
   THIS_FIELD_REQUIRED,
   mediaPath,
-  ENTER_VALID_URL,
-} from '../../modules/constValue';
+  ENTER_VALID_URL, } from '../../modules/constValue';
 import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
+// import ImageUpload from '../../uikit/ImageUpload/ImageUpload';
 import Button from '../../uikit/Button/Button';
 import Toast from '../../uikit/Toast/Toast';
 import LabelWrapper from '../../uikit/Label/LabelWrapper';
+// import SvgCloseSmall from '../../icons/SvgCloseSmall';
 import SvgUpload from '../../icons/SvgUpload';
+import useUnsavedChangesWarning from '../common/useUnsavedChangesWarning';
 import { industryType } from './mock';
 import styles from './companypage.module.css';
 import {
@@ -38,22 +44,28 @@ import {
 } from './store/middleware/accountsettingmiddleware';
 import { CountryEntity, StateEntity, CityEntity } from './CompanyPageTypes';
 
+
 type Props = {
-  setKey: (a: string) => void;
-  setReload: (arg: boolean) => void;
+  setKey: (a:string) => void
 };
 
-const CompanyPage = ({ setKey, setReload }: Props) => {
+
+const CompanyPage = ({ setKey }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const [isGetCountry, setCountry] = useState<CountryEntity[]>([]);
 
   const [getState, setState] = useState<StateEntity[]>([]);
   const [getCity, setCity] = useState<CityEntity[]>([]);
   const [fileurl, setFileurl] = useState<any>([]);
-  const [isShow, setShow] = useState(false);
+  // const [isContact, setContact] = useState<any>([]);
+const [isShow, setShow] = useState(false);
   const [isMb, setMb] = useState(false);
-  const [isload, setload] = useState(false);
-  const history = useHistory();
+  // const [isbutton, setbuttom] = useState(true);
+    const [isload, setload] = useState(false);
+    const history = useHistory();
+
+
+
 
   type CompanyPage = {
     company_name: string;
@@ -85,20 +97,20 @@ const CompanyPage = ({ setKey, setReload }: Props) => {
     logo: '',
   };
 
-  useEffect(() => {
+
+   useEffect(() => {
     dispatch(companyPageInitalMiddleWare());
     dispatch(locationMiddleWare({}));
   }, []);
 
-  const { countryid, isLoading, company_detail, build_career_page } =
+  const { countryid, isLoading, company_detail,build_career_page  } =
     useSelector(({ companyPageReducers, locationReducers }: RootState) => ({
       countryid: locationReducers.country,
       isLoading: companyPageReducers.isLoading,
       company_detail: companyPageReducers.company_detail,
       build_career_page: companyPageReducers.build_career_page,
     }));
-
-  const handleChangeImag = (e: any) => {
+ const handleChangeImag = (e: any) => {
     e.preventDefault();
     var fileExt = e.target.value;
     fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
@@ -121,14 +133,15 @@ const CompanyPage = ({ setKey, setReload }: Props) => {
       formik.setFieldValue('logo', e.target.files[0]);
       reader.readAsDataURL(e.target.files[0]);
       setMb(false);
-      setReload(true);
+      // setbuttom(false);
+      onDirty()
     }
   };
   const hanldeSubmitform = (values: CompanyPage) => {
     const formData = new FormData();
     setload(true);
     if (fileurl.file !== undefined) {
-      formData.append('logo', fileurl.file);
+     formData.append('logo', fileurl.file);
     }
     formData.append('company_name', values.company_name);
     formData.append('company_website', values.company_website);
@@ -146,12 +159,14 @@ const CompanyPage = ({ setKey, setReload }: Props) => {
         formData,
       }),
     );
-    setReload(false);
-    setload(false);
+    onPristine();
+     setload(false);
     Toast('Details saved successfully', 'LONG', 'success');
-    if (build_career_page === false) {
-      setKey('1');
+    if(build_career_page === false){
+
+     setKey('1');
     }
+
   };
 
   const handleCompanyPageValid = (values: CompanyPage) => {
@@ -173,7 +188,6 @@ const CompanyPage = ({ setKey, setReload }: Props) => {
     if (isEmpty(values.address)) {
       errors.address = THIS_FIELD_REQUIRED;
     }
-
     if (!isEmpty(values.address) && values.address.length > 150) {
       errors.address =
         'Address Number must consist of less than 150 characters';
@@ -220,7 +234,7 @@ const CompanyPage = ({ setKey, setReload }: Props) => {
     return errors;
   };
 
-  const redirectHome = () => {
+ const redirectHome = () => {
     history.push('/');
   };
 
@@ -229,6 +243,7 @@ const CompanyPage = ({ setKey, setReload }: Props) => {
     onSubmit: (values) => hanldeSubmitform(values),
     validate: handleCompanyPageValid,
   });
+console.log('formik.isValid',formik.isValid,formik.errors);
   useEffect(() => {
     if (countryid && countryid.length !== 0) {
       setCountry(countryid);
@@ -262,19 +277,21 @@ const CompanyPage = ({ setKey, setReload }: Props) => {
   }, [formik.values.state_id]);
 
   useEffect(() => {
+
     if (company_detail) {
       formik.setFieldValue('company_name', company_detail.company_name);
       formik.setFieldValue('email', company_detail.email);
       formik.setFieldValue('contact', company_detail.contact);
-      if (company_detail.company_website === null) {
+      if(company_detail.company_website === null){
         formik.setFieldValue('company_website', 'https://');
-      } else {
-        formik.setFieldValue('company_website', company_detail.company_website);
+      }else{
+
+      formik.setFieldValue('company_website', company_detail.company_website);
       }
-      if (Number(company_detail.no_of_emp) === 0) {
+      if( Number(company_detail.no_of_emp) === 0){
         formik.setFieldValue('no_of_emp', '');
-      } else {
-        formik.setFieldValue('no_of_emp', company_detail.no_of_emp);
+      }else{
+      formik.setFieldValue('no_of_emp', company_detail.no_of_emp);
       }
       formik.setFieldValue('address', company_detail.address);
       if (!isEmpty(company_detail.country_id)) {
@@ -283,10 +300,7 @@ const CompanyPage = ({ setKey, setReload }: Props) => {
         formik.setFieldValue('country_id', '231');
       }
       if (!isEmpty(company_detail.industry_type_id)) {
-        formik.setFieldValue(
-          'industry_type_id',
-          company_detail.industry_type_id,
-        );
+        formik.setFieldValue('industry_type_id', company_detail.industry_type_id);
       } else {
         formik.setFieldValue('industry_type_id', '1');
       }
@@ -306,13 +320,11 @@ const CompanyPage = ({ setKey, setReload }: Props) => {
       ? `${mediaPath + logoUrl}`
       : fileurl.imagePreviewUrl;
   const handleOnChange = (value: any) => {
-    setReload(true);
-
-    formik.setFieldValue('contact', value);
+    onDirty();
+      formik.setFieldValue('contact', value);
     // setContact(value);
   };
-
-  // const { routerPrompt, onDirty, onPristine } = useUnsavedChangesWarning();
+    const { routerPrompt, onDirty, onPristine } = useUnsavedChangesWarning();
   return (
     <Card className={styles.overAll}>
       {(isLoading || isload) && <Loader />}
@@ -374,8 +386,8 @@ const CompanyPage = ({ setKey, setReload }: Props) => {
             value={formik.values.company_website}
             onChange={(e) => {
               formik.setFieldValue('company_website', e.target.value);
-              setReload(true);
-            }}
+               onDirty();
+                         }}
           />
           {!isEmpty(formik.values.company_website) &&
             isValidURL(formik.values.company_website) === false &&
@@ -393,7 +405,6 @@ const CompanyPage = ({ setKey, setReload }: Props) => {
         <Flex flex={4}>
           <div className={styles.with80}>
             <SelectTag
-              id={'company_profile__industry_type'}
               label="Industry Type"
               required
               options={industryType}
@@ -409,7 +420,7 @@ const CompanyPage = ({ setKey, setReload }: Props) => {
               placeholder="Select"
               onChange={(option) => {
                 formik.setFieldValue('industry_type_id', option.value);
-                setReload(true);
+                 onDirty();
               }}
             />
             <ErrorMessage
@@ -428,18 +439,18 @@ const CompanyPage = ({ setKey, setReload }: Props) => {
               formik.handleChange('no_of_emp')(
                 event.target.value.replace(/\D/g, ''),
               );
-              setReload(true);
+              onDirty();
             }}
             value={formik.values.no_of_emp}
           />
-          {!isEmpty(formik.values.no_of_emp) &&
-            Number(formik.values.no_of_emp) > 1000 && (
+           {!isEmpty(formik.values.no_of_emp) &&
+               Number(formik.values.no_of_emp) > 1000 && (
               <Text size={12} color="error">
                 No of Employees must consist of less than 1000 characters
               </Text>
             )}
-          {!isEmpty(formik.values.no_of_emp) &&
-            Number(formik.values.no_of_emp) === 0 && (
+               {!isEmpty(formik.values.no_of_emp) &&
+               Number(formik.values.no_of_emp) === 0 && (
               <Text size={12} color="error">
                 No of Employees must consist of more than 0 characters
               </Text>
@@ -451,12 +462,14 @@ const CompanyPage = ({ setKey, setReload }: Props) => {
         <Flex flex={8}>
           <InputText
             inputConatinerClass={styles.width90}
-            label="Address"
+            label="Adderss"
             required
             value={formik.values.address}
             onChange={(e) => {
               formik.setFieldValue('address', e.target.value);
-              setReload(true);
+               onDirty();
+               console.log(e);
+
             }}
           />
           <ErrorMessage
@@ -469,7 +482,6 @@ const CompanyPage = ({ setKey, setReload }: Props) => {
         <Flex flex={4}>
           <div className={styles.with80}>
             <SelectTag
-              id={'company_profile__country'}
               label="Country"
               required
               isSearchable
@@ -487,10 +499,9 @@ const CompanyPage = ({ setKey, setReload }: Props) => {
               }
               onChange={(option) => {
                 formik.setFieldValue('country_id', option.id);
-                formik.setFieldValue('state_id', '');
-                formik.setFieldValue('city_id', '');
-                setReload(true);
-              }}
+
+               onDirty();
+                        }}
             />
             <ErrorMessage
               touched={formik.touched}
@@ -504,8 +515,7 @@ const CompanyPage = ({ setKey, setReload }: Props) => {
         <Flex flex={4}>
           <div className={styles.with80}>
             <SelectTag
-              id={'company_profile__state'}
-              // inputId="jobdetails___state"
+              inputId="jobdetails___state"
               isSearchable
               options={getState}
               label="State"
@@ -513,19 +523,15 @@ const CompanyPage = ({ setKey, setReload }: Props) => {
               getOptionValue={(option: { id: number }) => `${option.id}`}
               getOptionLabel={(option: { name: string }) => option.name}
               value={
-                !isEmpty(formik.values.state_id)
-                  ? getState
-                    ? getState.find(
-                        (option) =>
-                          option.id === Number(formik.values.state_id),
-                      )
-                    : ''
+                getState
+                  ? getState.find(
+                      (option) => option.id === Number(formik.values.state_id),
+                    )
                   : ''
               }
               onChange={(option) => {
                 formik.setFieldValue('state_id', option.id);
-                formik.setFieldValue('city_id', '');
-                setReload(true);
+                onDirty();
               }}
             />
             <ErrorMessage
@@ -538,7 +544,7 @@ const CompanyPage = ({ setKey, setReload }: Props) => {
         <Flex flex={4}>
           <div className={styles.with80}>
             <SelectTag
-              id={'company_profile__city'}
+              inputId="jobdetails___city"
               isSearchable
               options={getCity}
               label="City"
@@ -546,17 +552,15 @@ const CompanyPage = ({ setKey, setReload }: Props) => {
               getOptionValue={(option: { id: number }) => `${option.id}`}
               getOptionLabel={(option: { name: string }) => option.name}
               value={
-                !isEmpty(formik.values.city_id)
-                  ? getCity
-                    ? getCity.find(
-                        (option) => option.id === Number(formik.values.city_id),
-                      )
-                    : ''
+                getCity
+                  ? getCity.find(
+                    (option) => option.id === Number(formik.values.city_id),
+                    )
                   : ''
               }
               onChange={(option) => {
                 formik.setFieldValue('city_id', option.id);
-                setReload(true);
+                onDirty();
               }}
             />
             <ErrorMessage
@@ -573,20 +577,24 @@ const CompanyPage = ({ setKey, setReload }: Props) => {
             required
             value={formik.values.zipcode}
             onChange={(e) => {
-              formik.setFieldValue('zipcode', e.target.value);
-              setReload(true);
+               formik.setFieldValue('zipcode', e.target.value);
+               onDirty();
+               console.log(e);
+
             }}
           />
-          {!isEmpty(formik.values.zipcode) && formik.values.zipcode.length > 6 && (
-            <Text size={12} color="error">
-              Zipcode must consist of less than 6 characters
-            </Text>
-          )}
-          {!isEmpty(formik.values.zipcode) && formik.values.zipcode.length < 4 && (
-            <Text size={12} color="error">
-              Zipcode must consist of more than 4 characters
-            </Text>
-          )}
+          {!isEmpty(formik.values.zipcode) &&
+               formik.values.zipcode.length > 6 && (
+              <Text size={12} color="error">
+                Zipcode must consist of less than 6 characters
+              </Text>
+            )}
+               {!isEmpty(formik.values.zipcode) &&
+               formik.values.zipcode.length < 4 && (
+              <Text size={12} color="error">
+                Zipcode must consist of more than 4 characters
+              </Text>
+            )}
           <ErrorMessage
             touched={formik.touched}
             errors={formik.errors}
@@ -595,60 +603,26 @@ const CompanyPage = ({ setKey, setReload }: Props) => {
         </Flex>
       </Flex>
 
-      <Flex row className={styles.companyrow} >
-        <Flex flex={1} className={styles.companyrow1}>
-          <Flex columnFlex>
-            {imgUrl.length === 0 || imgUrl === `${mediaPath}` ? (
-              <label
-                htmlFor="company_profile___img"
-                className={styles.btnStyle}
-              >
-                <Flex className={styles.imgContainer}>
-                  <Flex height={121} width={131} className={styles.imgStyle}>
-                    <Flex
-                      columnFlex
-                      center
-                      middle
-                      className={styles.changeStyle1}
-                    >
-                      <SvgUpload />
-                      <Text color="black" className={styles.text}>
-                        Upload Your Logo
-                      </Text>
-                    </Flex>
-                  </Flex>
-                  {isShow && (
-                    <Flex
-                      columnFlex
-                      center
-                      middle
-                      className={styles.changeStyle}
-                    >
-                      <SvgUpload />
-                      <Text color="black" className={styles.text}>
-                        Upload Your Logo
-                      </Text>
-                    </Flex>
-                  )}
-                </Flex>
-              </label>
-            ) : (
-              <Flex>
-                <label
-                  htmlFor="company_profile___img"
-                  className={styles.btnStyle}
-                  onMouseEnter={() => setShow(true)}
-                  onMouseLeave={() => setShow(false)}
-                >
+      <Flex row className={styles.companyrow}>
+        <Flex flex={1}>
+        
+           <Flex columnFlex>
+              {imgUrl.length === 0 || imgUrl === `${mediaPath}` ? (
+                <label htmlFor="bannersetip__img" className={styles.btnStyle}>
                   <Flex className={styles.imgContainer}>
-                    <img
-                      id="company_page___logo"
-                      height={125}
-                      width={145}
-                      src={imgUrl}
-                      alt="log"
-                      className={styles.imgStyle}
-                    />
+                    <Flex height={121} width={131} className={styles.imgStyle}>
+                      <Flex
+                        columnFlex
+                        center
+                        middle
+                        className={styles.changeStyle1}
+                      >
+                        <SvgUpload />
+                        <Text color="black" className={styles.text}>
+                          Upload Your Logo
+                        </Text>
+                      </Flex>
+                    </Flex>
                     {isShow && (
                       <Flex
                         columnFlex
@@ -656,48 +630,75 @@ const CompanyPage = ({ setKey, setReload }: Props) => {
                         middle
                         className={styles.changeStyle}
                       >
+                       
                         <SvgUpload />
                         <Text color="black" className={styles.text}>
-                          Change Logo
+                         Upload Your Logo
                         </Text>
                       </Flex>
                     )}
                   </Flex>
                 </label>
-              </Flex>
-            )}
-            {isMb && (
-              <Text size={12} color="error">
-                {FILE_2MB}
-              </Text>
-            )}
-            <input
-              id="company_profile___img"
-              type="file"
-              onChange={handleChangeImag}
-              accept="image/*"
-              className={styles.fileStyle}
-            />
-          </Flex>
+              ) : (
+                <Flex>
+                  <label
+                    htmlFor="bannersetip__img"
+                    className={styles.btnStyle}
+                    onMouseEnter={() => setShow(true)}
+                    onMouseLeave={() => setShow(false)}
+                  >
+                    <Flex className={styles.imgContainer}>
+                      <img
+                        height={125}
+                        width={145}
+                        src={imgUrl}
+                        alt="Banner Img"
+                        className={styles.imgStyle}
+                      />
+                      {isShow && (
+                        <Flex
+                          columnFlex
+                          center
+                          middle
+                          className={styles.changeStyle}
+                        >
+                         
+                          <SvgUpload />
+                          <Text color="black" className={styles.text}>
+                            Change Logo
+                          </Text>
+                        </Flex>
+                      )}
+                    </Flex>
+                  </label>
+                </Flex>
+              )}
+              {isMb && (
+                <Text size={12} color="error">
+                  {FILE_2MB}
+                </Text>
+              )}
+              <input
+                id="bannersetip__img"
+                type="file"
+                onChange={handleChangeImag}
+                accept="image/*"
+                className={styles.fileStyle}
+              />
+            </Flex>
+          
         </Flex>
         <Flex flex={6}>
-          <div style={{ marginLeft: 30, marginTop: 32 }}>
-            <Flex>
-              <Text className={styles.gray_color}>
-                Recommended logo dimension:
-              </Text>
-              <Text className={styles.gray_color}>
-                Square: 120px * 120px, Rectangle: 500px * 230px
-              </Text>
-              <Text className={styles.gray_color}>
-                File size must be less than 2MB
-              </Text>
-              <Text style={{ marginTop: 5 }}>
-                Note: This logo will be used in your careers page created by
-                Zita.
-              </Text>
-            </Flex>
-          </div>
+        <div style={{marginLeft:30,marginTop:32}} >
+        <Flex >
+          <Text className={styles.gray_color}>Recommended logo dimension:</Text>
+          <Text className={styles.gray_color}>Square: 120px * 120px, Rectangle: 500px * 230px</Text>
+          <Text className={styles.gray_color}>File size must be less than 2MB</Text>
+          <Text  style={{ marginTop: 5 }}>
+            Note: This logo will be used in your careers page created by Zita.
+          </Text>
+        </Flex>
+        </div>
         </Flex>
         <Flex flex={2}>
           <Flex end className={styles.savebutton}>
@@ -706,25 +707,19 @@ const CompanyPage = ({ setKey, setReload }: Props) => {
                 Save & Continue
               </Button>
             ) : (
-              <Flex row>
-                <Button
-                  className={styles.cancel}
-                  onClick={redirectHome}
-                  types={'secondary'}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  onClick={formik.handleSubmit}
-                  disabled={!formik.isValid}
-                >
-                  Save
-                </Button>
+            <Flex row>
+              <Button  className={styles.cancel}  onClick={redirectHome} types={'secondary'}>
+                Cancel
+              </Button>
+              <Button onClick={formik.handleSubmit} disabled={!formik.isValid  }>
+                Save
+              </Button>
               </Flex>
             )}
           </Flex>
         </Flex>
       </Flex>
+    {routerPrompt}
     </Card>
   );
 };

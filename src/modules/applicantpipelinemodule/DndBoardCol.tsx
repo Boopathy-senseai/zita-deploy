@@ -8,7 +8,7 @@ import {
   CANDY_PINK,
 } from '../../uikit/Colors/colors';
 import { dndBoardId } from '../constValue';
-import { GoogleEntity,JobDetailsEntity } from './applicantPipeLineTypes';
+import { GoogleEntity } from './applicantPipeLineTypes';
 import MultiTask from './MultiTask';
 import styles from './dndboardcol.module.css';
 
@@ -19,8 +19,6 @@ type Props = {
   isDropDisabled: boolean;
   outlook?: GoogleEntity[];
   google?: GoogleEntity[];
-  job_details: JobDetailsEntity;
-
 };
 const DndBoardCol = ({
   tasks,
@@ -29,10 +27,8 @@ const DndBoardCol = ({
   isDropDisabled,
   google,
   outlook,
-  job_details,
 }: Props) => {
   const [isBorder, setBorder] = useState(SUNRAY);
-  // for card color set condition
   useEffect(() => {
     if (index === 0) {
       setBorder(SUNRAY);
@@ -73,7 +69,6 @@ const DndBoardCol = ({
                 columnId={columnId}
                 outlook={outlook}
                 google={google}
-                job_details={job_details}
               />
             ))}
             {provided.placeholder}

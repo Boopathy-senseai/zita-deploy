@@ -7,11 +7,8 @@ import {
 } from '../../../../../actions/actions';
 import {
   buildCareerPageApi,
-  candiInviteStatusApi,
   careerJobViewApi,
   careerViewPageApi,
-  jobViewCountApi,
-  urlValidApi,
 } from '../../../../../routes/apiRoutes';
 
 export const buildCareerMiddleWare = createAsyncThunk(
@@ -48,13 +45,11 @@ export const careerViewPageMiddleWare = createAsyncThunk(
       page,
       job_location,
       job_title,
-      user_id,
     }: {
       pageUrl: string;
       page?: number;
       job_title?: string;
       job_location?: string;
-      user_id: string;
     },
     { rejectWithValue },
   ) => {
@@ -64,11 +59,10 @@ export const careerViewPageMiddleWare = createAsyncThunk(
           page,
           job_location,
           job_title,
-          user_id,
         },
         transformRequest: (_a, headers) => {
           delete headers.common.Authorization;
-        },
+        }
       });
       return data;
     } catch (error) {
@@ -77,110 +71,21 @@ export const careerViewPageMiddleWare = createAsyncThunk(
     }
   },
 );
+
 
 export const careerJobViewMiddleWare = createAsyncThunk(
   'career_job_view',
   async (
     {
       id,
-      userID,
     }: {
       id: string;
-      userID: any;
     },
     { rejectWithValue },
   ) => {
     try {
-      const { data } = await axios.get(careerJobViewApi(id), {
-        params: { user_id: userID },
-        transformRequest: (_a, headers) => {
-          delete headers.common.Authorization;
-        },
-      });
-      return data;
-    } catch (error) {
-      const typedError = error as Error;
-      return rejectWithValue(typedError);
-    }
-  },
-);
-
-export const applocationFormPostMiddleWare = createAsyncThunk(
-  'application_form_post',
-  async (
-    { id, formData, user_id }: { id: string; formData: any; user_id: any },
-    { rejectWithValue },
-  ) => {
-    try {
-      const { data } = await axios.post(careerJobViewApi(id), formData, {
-        params: { user_id },
-      });
-      return data;
-    } catch (error) {
-      const typedError = error as Error;
-      return rejectWithValue(typedError);
-    }
-  },
-);
-
-export const candiInviteStatusMiddleware = createAsyncThunk(
-  'candi_invite_status',
-  async (
-    {
-      candi_id,
-      interested,
-      jdId,
-    }: { candi_id: string; interested: string; jdId: string },
-    { rejectWithValue },
-  ) => {
-    try {
-      const { data } = await axios.get(candiInviteStatusApi(jdId), {
-        params: { can_id: candi_id, interested },
-        transformRequest: (_a, headers) => {
-          delete headers.common.Authorization;
-        },
-      });
-      return data;
-    } catch (error) {
-      const typedError = error as Error;
-      return rejectWithValue(typedError);
-    }
-  },
-);
-
-export const urlVerificationMiddleWare = createAsyncThunk(
-  'url_verification',
-  async ({ url }: { url: string }, { rejectWithValue }) => {
-    try {
-      const { data } = await axios.get(urlValidApi, { params: { url } });
-      return data;
-    } catch (error) {
-      const typedError = error as Error;
-      return rejectWithValue(typedError);
-    }
-  },
-);
-
-export const jobViewCountMiddleWare = createAsyncThunk(
-  'jobViewCount',
-  async (
-    {
-      source,
-      jdId,
-    }: {
-      source: string;
-      jdId: any;
-    },
-    { rejectWithValue },
-  ) => {
-    try {
-      const { data } = await axios.get(jobViewCountApi(jdId), {
-        params: { source },
-        transformRequest: (_a, headers) => {
-          delete headers.common.Authorization;
-        },
-      });
-      return data;
+      const data = await fetch(careerJobViewApi(id));
+      return await data.json();
     } catch (error) {
       const typedError = error as Error;
       return rejectWithValue(typedError);

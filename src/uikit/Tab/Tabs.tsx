@@ -5,11 +5,10 @@ type Props = {
   activeKey: string;
   onSelect?: any;
   children: ReactNode;
-  id?:string
 };
-const Tabs = ({ activeKey, onSelect, children,id }: Props) => {
+const Tabs = ({ activeKey, onSelect, children }: Props) => {
   return (
-    <TabConatiner id={id}activeKey={activeKey} onSelect={onSelect}>
+    <TabConatiner activeKey={activeKey} onSelect={onSelect}>
       {children}
     </TabConatiner>
   );

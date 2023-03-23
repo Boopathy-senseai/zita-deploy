@@ -15,19 +15,8 @@
 }
 .techDiv {
   margin-right: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 .techText {
   margin-bottom: 8px;
-}
-.noValues {
-  height: 150px;
-  position: relative;
-}
-
-.svgAdd {
-  position: absolute;
-  right: -20px;
-  top: -8px;
-  cursor: pointer;
 }

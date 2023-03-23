@@ -100,12 +100,9 @@ const MyDataBaseFilter = ({
       }
     };
   });
-// filterv refresh function
+
   const filterRefresh = () => {
     hanldeRefresh();
-    setSearch('');
-    setRelocate(false);
-    formik.resetForm()
   };
 
   return (
@@ -189,7 +186,6 @@ const MyDataBaseFilter = ({
             }}
             isSearchable
             isCreate
-            value={formik.values.skillValue}
           />
         </div>
         <InputText

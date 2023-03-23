@@ -76,51 +76,29 @@ const ExperienceTab = () => {
             <Text color="gray">Not Specified</Text>
           </Flex>
         )}
-      <Flex className={styles.textWrap}>
+      <Flex>
         {experience.length !== 0 && (
           <>
             <Text bold color="theme" className={styles.workStyle}>
               Work Experience:
             </Text>
             {experience.map((list, listIindex) => {
-              const toDate = list.is_present
+              const toDate = isEmpty(list.to_exp)
                 ? 'Till Date'
                 : getDateString(list.to_exp, 'll');
               return (
                 <Flex
                   key={list.organisations + listIindex}
                   columnFlex
+                  className={styles.workContainer}
                 >
-                  <Flex
-                    row
-                    between
-                    marginTop={
-                      isEmpty(list.designation) && isEmpty(list.organisations)
-                        ? 0
-                        : 16
-                    }
-                  >
-                    {isEmpty(list.designation) ? (
-                      <>
-                        {!isEmpty(list.organisations) && (
-                          <Text
-                            bold
-                            transform="uppercase"
-                            style={{ width: '70%' }}
-                          >
-                            {list.organisations}
-                          </Text>
-                        )}
-                      </>
-                    ) : (
-                      <Text bold transform="uppercase" style={{ width: '70%' }}>
-                        {list.designation}
-                        {isEmpty(list.organisations)
-                          ? ''
-                          : ` - ${list.organisations}`}
-                      </Text>
-                    )}
-
+                  <Flex row between>
+                    <Text bold transform="uppercase" style={{ width: '70%' }}>
+                      {notSpecified(list.designation)}
+                      {isEmpty(list.organisations)
+                        ? ''
+                        : ` - ${list.organisations}`}
+                    </Text>
                     {!isEmpty(list.from_exp) && (
                       <Text bold>
                         {getDateString(list.from_exp, 'll')} - {toDate}
@@ -171,63 +149,30 @@ const ExperienceTab = () => {
                   <Flex
                     key={acList.work_proj_name + actIndex}
                     columnFlex
-                    // className={styles.workContainer}
+                    className={styles.workContainer}
                   >
-                    <Flex
-                      row
-                      between
-                      marginTop={
-                        isEmpty(acList.work_proj_name) &&
-                        isEmpty(acList.work_proj_desig)
-                          ? 0
-                          : 16
-                      }
-                    >
-                      {isEmpty(acList.work_proj_name) ? (
-                        <>
-                          {!isEmpty(acList.work_proj_desig) && (
-                            <Text
-                              bold
-                              transform="uppercase"
-                              style={{ width: '70%' }}
-                            >
-                              {acList.work_proj_desig}
-                            </Text>
-                          )}
-                        </>
-                      ) : (
-                        <Text
-                          bold
-                          transform="uppercase"
-                          style={{ width: '70%' }}
-                        >
-                          {acList.work_proj_name}
-                          {isEmpty(acList.work_proj_desig)
-                            ? ''
-                            : ` - ${acList.work_proj_desig}`}
-                        </Text>
-                      )}
-
+                    <Flex row between>
+                      <Text bold transform="uppercase" style={{ width: '70%' }}>
+                        {notSpecified(acList.work_proj_name)}
+                        {isEmpty(acList.work_proj_desig)
+                          ? ''
+                          : ` - ${acList.work_proj_desig}`}
+                      </Text>
                       <Text bold>{acList.work_proj_duration}</Text>
                     </Flex>
                     <Text className={styles.location}>
                       {acList.work_proj_location}
                     </Text>
-                    {!isEmpty(acList.work_proj_domain) && (
-                      <LableBold
-                        text={acList.work_proj_domain}
-                        boldText={'Domain:'}
-                        className={styles.domainLable}
-                      />
-                    )}
-
-                    {!isEmpty(acList.work_proj_describe) && (
-                      <LableBold
-                        text={acList.work_proj_describe}
-                        boldText={'Description:'}
-                        className={styles.domainLable}
-                      />
-                    )}
+                    <LableBold
+                      text={acList.work_proj_domain}
+                      boldText={'Domain:'}
+                      className={styles.domainLable}
+                    />
+                    <LableBold
+                      text={acList.work_proj_describe}
+                      boldText={'Description:'}
+                      className={styles.domainLable}
+                    />
                     <Text align="justify">{acList.work_proj_role}</Text>
                     {!isEmpty(acList.work_proj_skills) && (
                       <>
@@ -275,63 +220,30 @@ const ExperienceTab = () => {
                   <Flex
                     key={acList.work_proj_name + acOneIndex}
                     columnFlex
-                    // className={styles.workContainer}
+                    className={styles.workContainer}
                   >
-                    <Flex
-                      row
-                      between
-                      marginTop={
-                        isEmpty(acList.work_proj_name) &&
-                        isEmpty(acList.work_proj_desig)
-                          ? 0
-                          : 16
-                      }
-                    >
-                      {isEmpty(acList.work_proj_name) ? (
-                        <>
-                          {!isEmpty(acList.work_proj_desig) && (
-                            <Text
-                              bold
-                              transform="uppercase"
-                              style={{ width: '70%' }}
-                            >
-                              {acList.work_proj_desig}
-                            </Text>
-                          )}
-                        </>
-                      ) : (
-                        <Text
-                          bold
-                          transform="uppercase"
-                          style={{ width: '70%' }}
-                        >
-                          {acList.work_proj_name}
-                          {isEmpty(acList.work_proj_desig)
-                            ? ''
-                            : ` - ${acList.work_proj_desig}`}
-                        </Text>
-                      )}
-
+                    <Flex row between>
+                      <Text bold transform="uppercase" style={{ width: '70%' }}>
+                        {notSpecified(acList.work_proj_name)}
+                        {isEmpty(acList.work_proj_desig)
+                          ? ''
+                          : ` - ${acList.work_proj_desig}`}
+                      </Text>
                       <Text bold>{acList.work_proj_duration}</Text>
                     </Flex>
                     <Text className={styles.location}>
                       {acList.work_proj_location}
                     </Text>
-                    {!isEmpty(acList.work_proj_domain) && (
-                      <LableBold
-                        text={acList.work_proj_domain}
-                        boldText={'Domain:'}
-                        className={styles.domainLable}
-                      />
-                    )}
-                    {!isEmpty(acList.work_proj_describe) && (
-                      <LableBold
-                        text={acList.work_proj_describe}
-                        boldText={'Description:'}
-                        className={styles.domainLable}
-                      />
-                    )}
-
+                    <LableBold
+                      text={acList.work_proj_domain}
+                      boldText={'Domain:'}
+                      className={styles.domainLable}
+                    />
+                    <LableBold
+                      text={acList.work_proj_describe}
+                      boldText={'Description:'}
+                      className={styles.domainLable}
+                    />
                     <Text align="justify">{acList.work_proj_role}</Text>
                     {!isEmpty(acList.work_proj_skills) && (
                       <>
@@ -380,54 +292,23 @@ const ExperienceTab = () => {
                       key={list.intern_domain + fresherIndex}
                       className={styles.workContainer}
                     >
-                      <Flex
-                        row
-                        between
-                        marginTop={
-                          isEmpty(list.intern_project) &&
-                          isEmpty(list.intern_role)
-                            ? 0
-                            : 16
-                        }
-                      >
-                        {isEmpty(list.intern_project) ? (
-                          <>
-                            {!isEmpty(list.intern_role) && (
-                              <Text
-                                bold
-                                transform="uppercase"
-                                style={{ width: '70%' }}
-                              >
-                                {list.intern_role}
-                              </Text>
-                            )}
-                          </>
-                        ) : (
-                          <Text
-                            bold
-                            transform="uppercase"
-                            style={{ width: '70%' }}
-                          >
-                            {notSpecified(list.intern_project)}
-                            {isEmpty(list.intern_role)
-                              ? ''
-                              : ` - ${list.intern_role}`}
-                          </Text>
-                        )}
-
+                      <Flex row between>
+                        <Text bold transform="uppercase" style={{ width: '70%' }}>
+                          {notSpecified(list.intern_project)}
+                          {isEmpty(list.intern_role)
+                            ? ''
+                            : ` - ${list.intern_role}`}
+                        </Text>
                         <Text bold>{list.intern_duration}</Text>
                       </Flex>
                       <Text className={styles.location}>
                         {list.intern_location}
                       </Text>
-                      {!isEmpty(list.intern_domain) && (
-                        <LableBold
-                          className={styles.domainLable}
-                          text={list.intern_domain}
-                          boldText={'Domain:'}
-                        />
-                      )}
-
+                      <LableBold
+                        className={styles.domainLable}
+                        text={list.intern_domain}
+                        boldText={'Domain:'}
+                      />
                       <Text align="justify">{list.intern_proj_describe}</Text>
                       {!isEmpty(list.intern_tools_prg_lng) && (
                         <>

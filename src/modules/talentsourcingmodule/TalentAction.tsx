@@ -24,7 +24,6 @@ type Props = {
   setPageNumber: Dispatch<SetStateAction<number>>;
   setFind: (arg: boolean) => void;
   setInitalCheckBox: (arg: boolean) => void;
-  setSubmitLoader:any
 };
 
 type FormProps = {
@@ -50,13 +49,10 @@ const TalentAction = ({
   setPageNumber,
   setFind,
   setInitalCheckBox,
-  setSubmitLoader
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
 
-  // form filter submit
   const handleSubmit = (values: FormProps) => {
-    setSubmitLoader(true)
     dispatch(
       talentSourcingSearchMiddleWare({
         location:
@@ -72,12 +68,10 @@ const TalentAction = ({
         setPageNumber(0);
         setSourceLimit(response.payload.source_limit);
         setCandidatesLimit(response.payload.candi_limit);
-        setSubmitLoader(false)
       })
       .catch(() => {
         setFind(false);
         Toast(ERROR_MESSAGE, 'LONG', 'error');
-        setSubmitLoader(false)
       });
   };
 
@@ -105,7 +99,7 @@ const TalentAction = ({
       <Flex row bottom flex={1}>
         <InputText
           id={'talentaction__keywords'}
-          label={'Job Title'}
+          label={'Keywords'}
           required
           inputConatinerClass={cx('salesStyle')}
           placeholder="e.g. Sales Executive"
@@ -124,8 +118,6 @@ const TalentAction = ({
             required
             errorMessage={formik.errors.location}
             error={formik.touched.location}
-            initialValue={lowerCase(formik.values.location)}
-            style={styles.searchStyle}
           />
         </div>
         <SelectTag

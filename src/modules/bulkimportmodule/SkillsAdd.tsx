@@ -33,7 +33,6 @@ type Props = {
   completed: number;
   incompleted: number;
   tabKey: string;
-  jdId?: string;
   pageNumber: number;
 };
 
@@ -44,7 +43,6 @@ const SkillsAdd = ({
   completed,
   incompleted,
   tabKey,
-  jdId,
   pageNumber,
 }: Props) => {
   const [isInput, setInput] = useState(false);
@@ -68,7 +66,6 @@ const SkillsAdd = ({
     enableReinitialize: true,
   });
 
-  // form submit function
   const handleCellSubmit = (event: any, id: number) => {
     event.preventDefault();
     setLoader(true);
@@ -82,7 +79,6 @@ const SkillsAdd = ({
       .post(uploadedCandidatesApi, data, config)
       .then(() => {
         if (tabKey === 'total') {
-             if(jdId === undefined){
           dispatch(
             bulkuploadedCandidatesMiddleWare({
               search: searchValue,
@@ -94,23 +90,8 @@ const SkillsAdd = ({
             setInput(false);
             setLoader(false);
           });
-        }else{
-          dispatch(
-            bulkuploadedCandidatesMiddleWare({
-              search: searchValue,
-              jd_id: jdId,
-              page: pageNumber + 1,
-              total: total_count,
-            }),
-          ).then(() => {
-            Toast('Skills updated successfully', 'LONG', 'success');
-            setInput(false);
-            setLoader(false);
-          });
-        }
         }
         if (tabKey === 'completed') {
-             if(jdId === undefined){
           dispatch(
             bulkuploadedCandidatesMiddleWare({
               search: searchValue,
@@ -122,23 +103,8 @@ const SkillsAdd = ({
             setInput(false);
             setLoader(false);
           });
-        }else{
-          dispatch(
-            bulkuploadedCandidatesMiddleWare({
-              search: searchValue,
-              jd_id:jdId,
-              page: pageNumber + 1,
-              completed,
-            }),
-          ).then(() => {
-            Toast('Skills updated successfully', 'LONG', 'success');
-            setInput(false);
-            setLoader(false);
-          });
-        }
         }
         if (tabKey === 'inCompleted') {
-           if(jdId === undefined){
           dispatch(
             bulkuploadedCandidatesMiddleWare({
               search: searchValue,
@@ -150,20 +116,6 @@ const SkillsAdd = ({
             setInput(false);
             setLoader(false);
           });
-        }else{
-           dispatch(
-            bulkuploadedCandidatesMiddleWare({
-              search: searchValue,
-              jd_id: jdId,
-              page: pageNumber + 1,
-              incompleted,
-            }),
-          ).then(() => {
-            Toast('Skills updated successfully', 'LONG', 'success');
-            setInput(false);
-            setLoader(false);
-          });
-        }
         }
       })
       .catch(() => {
@@ -176,21 +128,19 @@ const SkillsAdd = ({
       });
   };
 
-  // open input function
   const handleOpenInput = () => {
     setInput(true);
   };
-  // close input function
   const handleCloseInput = () => {
     setInput(false);
   };
-// outside close input function
+
   const handleClickOutside = (event: { target: any }) => {
     if (myRef.current && !myRef.current.contains(event.target)) {
       setInput(false);
     }
   };
-// outside close input function
+
   useEffect(() => {
     if (typeof Window !== 'undefined') {
       document.addEventListener('click', handleClickOutside, true);
@@ -203,7 +153,7 @@ const SkillsAdd = ({
       }
     };
   });
-// enter key contact submit function
+
   const handleKeyPress = (event: { key: string }, id: number) => {
     if (event.key === 'Enter' && formik.values.name !== '') {
       handleCellSubmit(event, id);

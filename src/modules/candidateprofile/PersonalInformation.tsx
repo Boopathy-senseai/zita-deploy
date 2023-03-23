@@ -18,7 +18,6 @@ import Text from '../../uikit/Text/Text';
 import {
   ENTER_VALID_URL,
   isValidLinkedinUrl,
-  PLEASE_ENTER_VALID_MAIL,
   THIS_FIELD_REQUIRED,
 } from '../constValue';
 import type {
@@ -27,7 +26,6 @@ import type {
   StatesEntity,
 } from '../createjdmodule/createJdTypes';
 import { locationMiddleWare } from '../createjdmodule/store/middleware/createjdmiddleware';
-import { UserInfo } from './candidateProfileTypes';
 import { expYearOptions, monthOptions } from './mock';
 import styles from './personalinformation.module.css';
 import {
@@ -53,9 +51,9 @@ const initial: formProps = {
   lastName: '',
   email: '',
   phone: '',
-  linkedIn: 'https://',
+  linkedIn: '',
   years: '',
-  month: '',
+  month: '0',
   county: '',
   state: '',
   city: '',
@@ -63,52 +61,35 @@ const initial: formProps = {
 type Props = {
   open: boolean;
   cancel: () => void;
-  handleOpenLogin: () => void;
-  empId: string;
-  userInfo?: UserInfo;
 };
 
-const PersonalInformation = ({
-  open,
-  cancel,
-  handleOpenLogin,
-  empId,
-  userInfo,
-}: Props) => {
+const PersonalInformation = ({ open, cancel }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const [isGetCountry, setCountry] = useState<CountryEntity[]>([]);
   const [getState, setState] = useState<StatesEntity[]>([]);
   const [getCity, setCity] = useState<CityEntity[]>([]);
   const [isError, setError] = useState(false);
   const [isLoader, setLoader] = useState(false);
-  const [isShowText, setShowText] = useState(false);
-
   useEffect(() => {
     dispatch(locationMiddleWare({})).then((res) => {
       setCountry(res.payload.country);
     });
   }, []);
 
-  // form validation 
   const personalSchema = Yup.object().shape({
     firstName: Yup.string().required(THIS_FIELD_REQUIRED),
     lastName: Yup.string().required(THIS_FIELD_REQUIRED),
-    phone: Yup
-    .string()
-    .required('This field is required')
-    .max(15, 'Enter a valid contact number')
-    .min(10, 'Enter a valid contact number'),
+    phone: Yup.string()
+      .min(11, 'Invalid contact number')
+      .required(THIS_FIELD_REQUIRED),
     linkedIn: Yup.string().required(THIS_FIELD_REQUIRED),
     years: Yup.string().required(THIS_FIELD_REQUIRED),
     county: Yup.string().required(THIS_FIELD_REQUIRED),
     state: Yup.string().required(THIS_FIELD_REQUIRED),
     city: Yup.string().required(THIS_FIELD_REQUIRED),
-    email: Yup.string()
-      .email(PLEASE_ENTER_VALID_MAIL)
-      .required(THIS_FIELD_REQUIRED),
+    email: Yup.string().required(THIS_FIELD_REQUIRED),
   });
 
-  // form submit function
   const handleSubmit = (values: formProps) => {
     setLoader(true);
     const formData = new FormData();
@@ -120,18 +101,11 @@ const PersonalInformation = ({
     formData.append('current_state', values.state);
     formData.append('current_city', values.city);
     formData.append('total_exp_year', values.years);
-    formData.append(
-      'total_exp_month',
-      isEmpty(values.month) ? '0' : values.month,
-    );
+    formData.append('total_exp_month', values.month);
     formData.append('current_country', values.county);
     dispatch(basicDetailMiddleWare({ formData })).then((res) => {
       if (res.payload.success) {
-        if (userInfo?.active === true) {
-          window.location.replace(window.location.origin + '/');
-        } else {
-          cancel();
-        }
+        cancel();
         setLoader(false);
       } else {
         setLoader(false);
@@ -144,12 +118,11 @@ const PersonalInformation = ({
     if (!isEmpty(values.linkedIn) && !isValidLinkedinUrl(values.linkedIn)) {
       errors.linkedIn = ENTER_VALID_URL;
     }
-    if (!isEmpty(values.email) && isError && userInfo && !userInfo?.active) {
+    if (!isEmpty(values.email) && isError) {
       errors.email = '';
     }
     return errors;
   };
-
   const formik = useFormik({
     initialValues: initial,
     onSubmit: handleSubmit,
@@ -183,7 +156,7 @@ const PersonalInformation = ({
 
   useEffect(() => {
     dispatch(
-      emailValidationMiddleWare({ email: formik.values.email, empId }),
+      emailValidationMiddleWare({ email: formik.values.email, empId: '608' }),
     ).then((res) => {
       if (res.payload.success) {
         setError(true);
@@ -193,12 +166,6 @@ const PersonalInformation = ({
     });
     localStorage.setItem('companyMailId', formik.values.email);
   }, [formik.values.email]);
-
-  useEffect(() => {
-    if (userInfo && userInfo.email && !isEmpty(userInfo?.email)) {
-      formik.setFieldValue('email', userInfo.email);
-    }
-  }, [userInfo]);
 
   return (
     <Modal open={open}>
@@ -235,46 +202,31 @@ const PersonalInformation = ({
             />
           </Flex>
           <Flex flex={4} width={284}>
-            <div
-              onFocus={() => setShowText(false)}
-              onBlur={() => setShowText(true)}
-            >
-              <InputText
-                label="Email"
-                required
-                value={formik.values.email}
-                onChange={formik.handleChange('email')}
-              />
-            </div>
-
+            <InputText
+              label="Email"
+              required
+              value={formik.values.email}
+              onChange={formik.handleChange('email')}
+            />
             <ErrorMessage
               name="email"
               touched={formik.touched}
               errors={formik.errors}
             />
+            {isError && (
+              <Text color="error" size={12}>
+                {
+                  'This email id already exist. Please login or use another valid email id to proceed'
+                }
+              </Text>
+            )}
           </Flex>
         </Flex>
-        {userInfo && !userInfo?.active && isError && (
-          <Text
-            align="center"
-            color="error"
-            size={12}
-            className={styles.loginText}
-          >
-            This email id already exist. Please{' '}
-            <Text color="link" onClick={handleOpenLogin}>
-              login
-            </Text>{' '}
-            or use another valid email id to proceed
-          </Text>
-        )}
-        {isShowText && isError === false && !isEmpty(formik.values.email) && (
-          <Text align="center" color="info" className={styles.loginText}>
-            {`Your login details will be sent to the provided email id & system generated password for further login. If not please check your spam folder.`}
-          </Text>
-        )}
-
-        <Flex row top className={styles.contactFlex}>
+        <Text align="center" color="link" className={styles.loginText}>
+          Your login details are sent to the provided email id and system
+          generated password for further login
+        </Text>
+        <Flex row top>
           <Flex flex={4} width={284}>
             <LabelWrapper label="Contact Number" required>
               <PhoneInput
@@ -282,11 +234,7 @@ const PersonalInformation = ({
                 dropdownClass={styles.dropDownStyle}
                 country={'us'}
                 value={formik.values.phone}
-                onChange={(phone, _data: any, _event, _formattedValue) => {
-                  // console.log('phone', phone.slice(data.dialCode.length));
-                  // setPhoneValidate(phone.slice(data.dialCode.length));
-                  formik.setFieldValue('phone', phone);
-                }}
+                onChange={(phone) => formik.setFieldValue('phone', phone)}
               />
             </LabelWrapper>
             <ErrorMessage
@@ -315,14 +263,6 @@ const PersonalInformation = ({
                 options={expYearOptions}
                 label="Years"
                 required
-                value={
-                  expYearOptions
-                    ? expYearOptions.find(
-                        (option) => option.value === formik.values.years,
-                      )
-                    : ''
-                }
-                isSearchable
                 onChange={(options) =>
                   formik.setFieldValue('years', options.value)
                 }
@@ -335,7 +275,6 @@ const PersonalInformation = ({
             </Flex>
             <Flex flex={6}>
               <SelectTag
-                isSearchable
                 options={monthOptions}
                 label="Months"
                 onChange={(option) =>
@@ -344,7 +283,8 @@ const PersonalInformation = ({
                 value={
                   monthOptions
                     ? monthOptions.find(
-                        (option) => option.value === formik.values.month,
+                        (option) =>
+                          Number(option.value) === Number(formik.values.month),
                       )
                     : ''
                 }
@@ -358,95 +298,52 @@ const PersonalInformation = ({
         <Flex row top>
           <Flex flex={4} width={284}>
             <SelectTag
-              isSearchable
               options={isGetCountry}
               label="Country"
               required
-              value={
-                isGetCountry
-                  ? isGetCountry.find(
-                      (option) => option.id === Number(formik.values.county),
-                    )
-                  : ''
-              }
               getOptionValue={(option: { id: number }) => `${option.id}`}
               getOptionLabel={(option: { name: string }) => option.name}
-              onChange={(option) => {
-                formik.setFieldValue('county', option.id);
-                formik.setFieldValue('state', '');
-                formik.setFieldValue('city', '');
-              }}
+              onChange={(option) => formik.setFieldValue('county', option.id)}
             />
-            {isEmpty(formik.values.county) && (
-              <ErrorMessage
-                name="county"
-                touched={formik.touched}
-                errors={formik.errors}
-              />
-            )}
+            <ErrorMessage
+              name="county"
+              touched={formik.touched}
+              errors={formik.errors}
+            />
           </Flex>
           <Flex flex={4} width={284} marginLeft={16} marginRight={16}>
             <SelectTag
-              isSearchable
               options={getState}
-              value={
-                !isEmpty(formik.values.state)
-                  ? getState
-                    ? getState.find(
-                        (option) => option.id === Number(formik.values.state),
-                      )
-                    : ''
-                  : ''
-              }
               label="State"
               required
               getOptionValue={(option: { id: number }) => `${option.id}`}
               getOptionLabel={(option: { name: string }) => option.name}
-              onChange={(option) => {
-                formik.setFieldValue('state', option.id);
-                formik.setFieldValue('city', '');
-              }}
+              onChange={(option) => formik.setFieldValue('state', option.id)}
             />
-            {isEmpty(formik.values.state) && (
-              <ErrorMessage
-                name="state"
-                touched={formik.touched}
-                errors={formik.errors}
-              />
-            )}
+            <ErrorMessage
+              name="state"
+              touched={formik.touched}
+              errors={formik.errors}
+            />
           </Flex>
           <Flex flex={4} width={284}>
             <SelectTag
-              isSearchable
               options={getCity}
-              value={
-                !isEmpty(formik.values.city)
-                  ? getCity
-                    ? getCity.find(
-                        (option) => option.id === Number(formik.values.city),
-                      )
-                    : ''
-                  : ''
-              }
               label="City"
               required
               getOptionValue={(option: { id: number }) => `${option.id}`}
               getOptionLabel={(option: { name: string }) => option.name}
               onChange={(option) => formik.setFieldValue('city', option.id)}
             />
-            {isEmpty(formik.values.city) && (
-              <ErrorMessage
-                name="city"
-                touched={formik.touched}
-                errors={formik.errors}
-              />
-            )}
+            <ErrorMessage
+              name="city"
+              touched={formik.touched}
+              errors={formik.errors}
+            />
           </Flex>
         </Flex>
         <Flex middle className={styles.saveBtn}>
-          <Button onClick={formik.handleSubmit}>
-            {userInfo && userInfo.active ? 'Go to Messages' : 'Save'}
-          </Button>
+          <Button onClick={formik.handleSubmit}>Save</Button>
         </Flex>
       </Flex>
     </Modal>

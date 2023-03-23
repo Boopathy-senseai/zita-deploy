@@ -12,10 +12,9 @@ type Props = {
   checked?: boolean;
   label?: import('react').ReactNode;
   disabled?: boolean;
-  offFill?:string
 };
 
-const InputSwitch = ({ onClick, onBlur, checked, label, disabled,offFill }: Props) => {
+const InputSwitch = ({ onClick, onBlur, checked, label, disabled }: Props) => {
   //   const handleOnClick = useCallback(
   //     (e) => {
   //       if (typeof onClick === 'function' && e) {
@@ -38,9 +37,9 @@ const InputSwitch = ({ onClick, onBlur, checked, label, disabled,offFill }: Prop
     >
       <Flex row center className={styles.pointer}>
         {!checked ? (
-          <SvgSwitchOff fill={offFill}/>
+          <SvgSwitchOff />
         ) : (
-          <SvgSwitchOn  className={styles.svgRadio} />
+          <SvgSwitchOn className={styles.svgRadio} />
         )}
         <Text className={styles.labelStyle}>{label}</Text>
       </Flex>

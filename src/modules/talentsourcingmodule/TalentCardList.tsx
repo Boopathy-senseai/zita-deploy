@@ -66,14 +66,12 @@ const TalentCardList = ({
 Props) => {
   const [isCheckAll, setIsCheckAll] = useState(false);
   const [isCheck, setIsCheck] = useState<any>([]);
-// select box function
+
   const handleSelectAll = () => {
     setIsCheckAll(!isCheckAll);
     setIsCheck(
       searchData &&
-        searchData
-          .slice(pagesVisited, pagesVisited + usersPerPage)
-          .map((li)=>
+        searchData.map((li) =>
           candi_list?.includes(li.id.toString()) ? false : li.candidate_hash,
         ),
     );

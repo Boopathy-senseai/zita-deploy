@@ -12,7 +12,6 @@ import {
   InterviewedEntityOrSelectedEntity,
   ApplicantEntity,
   GoogleEntity,
-  JobDetailsEntity,
 } from './applicantPipeLineTypes';
 import DndBoardCol from './DndBoardCol';
 import styles from './dndboardscreen.module.css';
@@ -29,7 +28,6 @@ type Props = {
   jd_id: string;
   outlook?: GoogleEntity[];
   google?: GoogleEntity[];
-  job_details: JobDetailsEntity;
 };
 
 const DndBoardScreen = ({
@@ -41,7 +39,6 @@ const DndBoardScreen = ({
   jd_id,
   google,
   outlook,
-  job_details,
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const [isShortList, setShortList] = useState(false);
@@ -50,7 +47,7 @@ const DndBoardScreen = ({
   const [isRejected, setRejected] = useState(false);
 
   const [isUpdateId, setUpdateId] = useState<number>(0);
-// initial value
+
   const columnsFromBackend = {
     'column-1': {
       title: 'New Applicants',
@@ -95,7 +92,6 @@ const DndBoardScreen = ({
     }
   };
 
-  // card drag function
   const onDragEnd = (result: DropResult) => {
     setIndex(null);
     if (!result.destination) return;
@@ -134,7 +130,7 @@ const DndBoardScreen = ({
       }
     }
   };
-// short list api call function
+
   const hanldeSortList = () => {
     dispatch(
       applicantUpdateStatusMiddleWare({
@@ -153,7 +149,7 @@ const DndBoardScreen = ({
         Toast(ERROR_MESSAGE, 'LONG', 'error');
       });
   };
-// Interview api call function
+
   const hanldeInterview = () => {
     dispatch(
       applicantUpdateStatusMiddleWare({
@@ -172,7 +168,7 @@ const DndBoardScreen = ({
         Toast(ERROR_MESSAGE, 'LONG', 'error');
       });
   };
-// offered api call function
+
   const hanldeOffered = () => {
     dispatch(
       applicantUpdateStatusMiddleWare({
@@ -191,7 +187,7 @@ const DndBoardScreen = ({
         Toast(ERROR_MESSAGE, 'LONG', 'error');
       });
   };
-// reject api call function
+
   const hanldeReject = () => {
     dispatch(
       applicantUpdateStatusMiddleWare({
@@ -211,7 +207,6 @@ const DndBoardScreen = ({
       });
   };
 
-  // popup cancel function
   const hanldeCancel = () => {
     setNoLoader(true);
     setOffered(false);
@@ -295,7 +290,6 @@ const DndBoardScreen = ({
               isDropDisabled={index < isIndex}
               outlook={outlook}
               google={google}
-              job_details={job_details}
             />
           );
         })}

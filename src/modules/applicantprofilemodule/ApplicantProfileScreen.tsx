@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../../uikit/Loader/Loader';
 import Flex from '../../uikit/Flex/Flex';
 import Toast from '../../uikit/Toast/Toast';
-import { getDateString, isEmpty } from '../../uikit/helper';
+import { getDateString } from '../../uikit/helper';
 import { AppDispatch, RootState } from '../../store';
 import { inviteToApplyApi } from '../../routes/apiRoutes';
 import Text from '../../uikit/Text/Text';
-import { permissionMiddleWare } from '../Login/store/middleware/loginMiddleWare';
 import { config, ERROR_MESSAGE, YES } from '../constValue';
 import CancelAndDeletePopup from '../common/CancelAndDeletePopup';
 import ProfileNavBar from './ProfileNavBar';
@@ -37,74 +36,51 @@ type ParamsType = {
 };
 const ApplicantProfileScreen = () => {
   const { jdId, candiId } = useParams<ParamsType>();
-  const history = useHistory();
   const [isInvitePopUp, setInvitePopUp] = useState(false);
   const [isTab, setTab] = useState(false);
   const [isInviteLoader, setInviteLoader] = useState(false);
-  const [isLoader, setLoader] = useState(true);
+
   const dispatch: AppDispatch = useDispatch();
-  const [isTabValue, setTabValue] = useState(0);
-  const useQuery = () => {
-    return new URLSearchParams(useLocation().search);
-  };
-  const query = useQuery();
-  const isMessage: any = query.get('isMessage');
 
   useEffect(() => {
-    if (!isEmpty(isMessage)) {
-      setTabValue(5);
-    }
-  }, []);
-
-  // initial api call
-  useEffect(() => {
-    dispatch(permissionMiddleWare())
     if (jdId !== '0' && candiId !== '0') {
       setTab(true);
       dispatch(
         applicantProfileInitialMiddleWare({ jd_id: jdId, can_id: candiId }),
-      )
-        .then((res) => {
-          dispatch(
-            applicantMatchMiddleWare({
-              jd_id: res.payload.jd_id,
-              can_id: res.payload.can_id,
-            }),
-          );
-          dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id }));
-          dispatch(applicantAllMatchMiddleWare({ can_id: res.payload.can_id }));
-          dispatch(
-            applicantScoreMiddleWare({
-              jd_id: res.payload.jd_id,
-              can_id: res.payload.can_id,
-            }),
-          );
-          dispatch(messagesTemplatesMiddleWare());
-          dispatch(calenderMiddleWare({ can_id: res.payload.can_id }));
-          dispatch(
-            applicantStatusMiddleWare({
-              jd_id: res.payload.jd_id,
-              can_id: res.payload.can_id,
-            }),
-          );
-        })
-        .then(() => {
-          setLoader(false);
-        });
+      ).then((res) => {
+        dispatch(
+          applicantMatchMiddleWare({
+            jd_id: res.payload.jd_id,
+            can_id: res.payload.can_id,
+          }),
+        );
+        dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id }));
+        dispatch(applicantAllMatchMiddleWare({ can_id: res.payload.can_id }));
+        dispatch(
+          applicantScoreMiddleWare({
+            jd_id: res.payload.jd_id,
+            can_id: res.payload.can_id,
+          }),
+        );
+        dispatch(messagesTemplatesMiddleWare());
+        dispatch(calenderMiddleWare({ can_id: res.payload.can_id }));
+        dispatch(
+          applicantStatusMiddleWare({
+            jd_id: res.payload.jd_id,
+            can_id: res.payload.can_id,
+          }),
+        );
+      });
     }
     if (jdId === '0' && candiId !== '0') {
       setTab(false);
       dispatch(
         applicantProfileInitialMiddleWare({ jd_id: jdId, can_id: candiId }),
-      )
-        .then((res) => {
-          dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id }));
-          dispatch(applicantAllMatchMiddleWare({ can_id: res.payload.can_id }));
-          dispatch(calenderMiddleWare({ can_id: res.payload.can_id }));
-        })
-        .then(() => {
-          setLoader(false);
-        });
+      ).then((res) => {
+        dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id }));
+        dispatch(applicantAllMatchMiddleWare({ can_id: res.payload.can_id }));
+        dispatch(calenderMiddleWare({ can_id: res.payload.can_id }));
+      });
     }
   }, []);
 
@@ -120,14 +96,12 @@ const ApplicantProfileScreen = () => {
     status_id,
     invite,
     source,
-    is_plan
   } = useSelector(
     ({
       applicantProfileInitalReducers,
       applicantMatchReducers,
       applicantNotesReducers,
       applicantStausReducers,
-      permissionReducers
     }: RootState) => {
       return {
         candidate_details: applicantProfileInitalReducers.candidate_details,
@@ -141,29 +115,21 @@ const ApplicantProfileScreen = () => {
         status_id: applicantProfileInitalReducers.status_id,
         invite: applicantStausReducers.invite,
         source: applicantProfileInitalReducers.source,
-        is_plan: permissionReducers.is_plan,
       };
     },
   );
-  useEffect(() => {
-    if (!is_plan) {
-      sessionStorage.setItem('superUserTab', '2');
-      history.push('/account_setting/settings');
-    }
-  });
-  
+
   const checkMatch = match && match.length === 0 ? true : false;
   const profileMatch = checkMatch ? 0 : match[0].profile_match;
 
-// invite popup open function
   const hanldeInvitePopUp = () => {
     setInvitePopUp(true);
   };
-// invite popup close function
+
   const hanldeInviteClosePopUp = () => {
     setInvitePopUp(false);
   };
-// invite submit function
+
   const hanldeInvite = () => {
     hanldeInviteClosePopUp();
     setInviteLoader(true);
@@ -175,6 +141,7 @@ const ApplicantProfileScreen = () => {
       .post(inviteToApplyApi, data, config)
       .then(() => {
         setInviteLoader(false);
+
         Toast('Applicant invited successfully');
         dispatch(
           applicantStatusMiddleWare({
@@ -182,7 +149,6 @@ const ApplicantProfileScreen = () => {
             can_id,
           }),
         );
-        dispatch(applicantAllMatchMiddleWare({ can_id }));
       })
       .catch(() => {
         setInviteLoader(false);
@@ -190,15 +156,12 @@ const ApplicantProfileScreen = () => {
       });
   };
 
-  if (isLoader) {
-    return <Loader />;
-  }
   return (
     <div>
-      {(initialLoader || matchLoader || notesLoader || isInviteLoader) && (
-        <Loader />
-      )}
-
+      {initialLoader && <Loader />}
+      {matchLoader && <Loader />}
+      {notesLoader && <Loader />}
+      {isInviteLoader && <Loader />}
       {invite && invite.length === 0 && (
         <CancelAndDeletePopup
           title={`Invite will be sent as an email to ${
@@ -229,6 +192,7 @@ const ApplicantProfileScreen = () => {
           open={isInvitePopUp}
         />
       )}
+
       {candidate_details &&
         candidate_details?.map((candiList, index) => {
           return (
@@ -254,9 +218,9 @@ const ApplicantProfileScreen = () => {
         ) : (
           <Flex flex={7} className={styles.tabLeftFlex}>
             {status_id.length === 0 ? (
-              <ApplicantTabLeftTwo activeState={isTabValue} />
+              <ApplicantTabLeftTwo />
             ) : (
-              <ApplicantTabLeft activeState={isTabValue} />
+              <ApplicantTabLeft />
             )}
           </Flex>
         )}

@@ -26,21 +26,18 @@ import { fontSizeOptions } from './mock';
 type Props = {
   formik: FormikProps<formikFormTypes>;
   company_detail: CompanyDetail;
-  setReload: () => void;
 };
 
-const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
+const HeaderSetup = ({ formik, company_detail }: Props) => {
   const [isColorOpen, setColorOpen] = useState(false);
   const myRef = createRef<any>();
 
-  // mouse outside click to close color picker
   const handleClickOutside = (event: { target: any }) => {
     if (myRef.current && !myRef.current.contains(event.target)) {
       setColorOpen(false);
     }
   };
-  
-  // mouse outside click to close color picker
+
   useEffect(() => {
     if (typeof Window !== 'undefined') {
       document.addEventListener('click', handleClickOutside, true);
@@ -54,10 +51,6 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
     };
   });
 
-  const logo =
-    company_detail && !isEmpty(company_detail.logo)
-      ? company_detail.logo
-      : 'logo.png';
   return (
     <Card className={styles.overAll}>
       <Text color="theme" bold size={16}>
@@ -66,7 +59,6 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
       <Flex row top className={styles.marginTop16}>
         <Flex flex={6} className={styles.tagOne}>
           <SelectTag
-            id={'header_setup____headerheading_size'}
             options={fontSizeOptions}
             label="Header Font Size"
             value={
@@ -78,7 +70,6 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
             }
             onChange={(option) => {
               formik.setFieldValue('headerFontSize', option.value);
-              setReload();
             }}
           />
         </Flex>
@@ -98,10 +89,9 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
             <div className={styles.colorPicker}>
               <ColorPicker
                 colors={formik.values.headerColor}
-                onChange={(e: { hex: string }) => {
-                  formik.setFieldValue('headerColor.hex', e.hex);
-                  setReload();
-                }}
+                onChange={(e: { hex: string }) =>
+                  formik.setFieldValue('headerColor.hex', e.hex)
+                }
               />
             </div>
           )}
@@ -123,10 +113,7 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
           <InputText
             label="Header Menu 1"
             value={formik.values.menu1}
-            onChange={(e) => {
-              setReload();
-              formik.setFieldValue('menu1', e.target.value);
-            }}
+            onChange={formik.handleChange('menu1')}
           />
           {!isEmpty(formik.values.menu1) && formik.values.menu1.length > 50 && (
             <Text size={12} color="error">
@@ -146,10 +133,7 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
           <InputText
             label="Header Menu 1 URL"
             value={formik.values.menu1Url}
-            onChange={(e) => {
-              setReload();
-              formik.setFieldValue('menu1Url', e.target.value);
-            }}
+            onChange={formik.handleChange('menu1Url')}
           />
           {!isEmpty(formik.values.menu1) &&
             isValidURL(formik.values.menu1Url) === false &&
@@ -171,10 +155,7 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
           <InputText
             label="Header Menu 2"
             value={formik.values.menu2}
-            onChange={(e) => {
-              setReload();
-              formik.setFieldValue('menu2', e.target.value);
-            }}
+            onChange={formik.handleChange('menu2')}
           />
           {isEmpty(formik.values.menu2) &&
             !isEmpty(formik.values.menu2Url) &&
@@ -194,10 +175,7 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
           <InputText
             label="Header Menu 2 URL"
             value={formik.values.menu2Url}
-            onChange={(e) => {
-              setReload();
-              formik.setFieldValue('menu2Url', e.target.value);
-            }}
+            onChange={formik.handleChange('menu2Url')}
           />
           {!isEmpty(formik.values.menu2) &&
             isValidURL(formik.values.menu2Url) === false &&
@@ -220,10 +198,7 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
           <InputText
             label="Header Menu 3"
             value={formik.values.menu3}
-            onChange={(e) => {
-              setReload();
-              formik.setFieldValue('menu3', e.target.value);
-            }}
+            onChange={formik.handleChange('menu3')}
           />
           {isEmpty(formik.values.menu3) &&
             formik.values.menu3Url !== 'https://' &&
@@ -242,10 +217,7 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
           <InputText
             label="Header Menu 3 URL"
             value={formik.values.menu3Url}
-            onChange={(e) => {
-              setReload();
-              formik.setFieldValue('menu3Url', e.target.value);
-            }}
+            onChange={formik.handleChange('menu3Url')}
           />
           {!isEmpty(formik.values.menu3) &&
             isValidURL(formik.values.menu3Url) === false &&
@@ -263,8 +235,12 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
         </Flex>
       </Flex>
       <Flex row center className={styles.marginTop16}>
-        <img style={{objectFit: 'contain'}} className={styles.imgStyle} src={mediaPath + logo} alt="logo" />
-        <Text>{company_detail && !isEmpty(company_detail.logo)? 'Company Logo':'Add logo in your company profile' }</Text>
+        <img
+          className={styles.imgStyle}
+          src={mediaPath + company_detail.logo}
+          alt="logo"
+        />
+        <Text>Company Logo</Text>
       </Flex>
     </Card>
   );

@@ -48,7 +48,6 @@ const QualificationFieldArray = ({
   const debouncedValueThree = useDebounce(isValueThree, 1000);
   const debouncedValueFour = useDebounce(isValueFour, 1000);
 
-  // free fill initial value
   useEffect(() => {
     if (updateQualification.length === 1) {
       setValue(updateQualification[0].specialization);

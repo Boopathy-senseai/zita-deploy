@@ -39,6 +39,7 @@ const MessageTemplate = ({
         tempList.templates.toLowerCase().includes(searchTerm.toLowerCase()),
     );
     setSearchResults(results);
+    // eslint-disable-next-line
   }, [searchTerm]);
 
   return (

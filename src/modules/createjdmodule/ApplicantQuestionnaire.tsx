@@ -1,7 +1,7 @@
 import { Formik, FormikState } from 'formik';
 import { SetStateAction, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 import { AppDispatch, RootState } from '../../store';
 import Card from '../../uikit/Card/Card';
@@ -39,13 +39,10 @@ type ParamsType = {
 };
 const ApplicantQuestionnaire = () => {
   const { jd_id } = useParams<ParamsType>();
-  const history = useHistory();
   const [tabKey, setTabKey] = useState('0');
   const { routerPrompt, onDirty, onPristine } = useUnsavedChangesWarning();
 
   const dispatch: AppDispatch = useDispatch();
-
-  // initial api call
   useEffect(() => {
     dispatch(questionnaireForJdMiddleWare({ jd_id }));
     dispatch(questionnaireTemplateMiddleWare());
@@ -61,13 +58,11 @@ const ApplicantQuestionnaire = () => {
     ds_role,
     country,
     is_eeo_comp,
-    is_plan
   } = useSelector(
     ({
       questionnaireForJdReducers,
       cretejdTemplateReducers,
       dsOrNonDsGetReducers,
-      permissionReducers
     }: RootState) => {
       return {
         tabledata: questionnaireForJdReducers.questionnaire_for_jd,
@@ -78,25 +73,15 @@ const ApplicantQuestionnaire = () => {
         ds_role: dsOrNonDsGetReducers.ds_role,
         country: questionnaireForJdReducers.country,
         is_eeo_comp: questionnaireForJdReducers.is_eeo_comp,
-        is_plan: permissionReducers.is_plan,
       };
     },
   );
-  useEffect(() => {
-    if (!is_plan) {
-      sessionStorage.setItem('superUserTab', '2');
-      history.push('/account_setting/settings');
-    }
-  });
-
-  
   const [isCheck, setCheck] = useState(is_eeo_comp);
 
   useEffect(() => {
     setCheck(is_eeo_comp);
   }, [is_eeo_comp, tabledataisLoading]);
   
-  // eeo api call
   useEffect(() => {
     if (country.toLowerCase() === 'usa') {
       dispatch(
@@ -108,7 +93,6 @@ const ApplicantQuestionnaire = () => {
     }
   }, [country]);
 
-  // form validation
   const handleValidateForm = (values: questionnaireProps) => {
     const error: Partial<questionnaireProps> = {};
     if (values.question === '') {
@@ -120,7 +104,6 @@ const ApplicantQuestionnaire = () => {
     return error;
   };
 
-  // form submit function
   const handleFormSubmit = (
     formValues: questionnaireProps,
     resetForm: (
@@ -153,7 +136,6 @@ const ApplicantQuestionnaire = () => {
     });
   };
 
-  // eeo check function
   const handleCompliance = () => {
     setCheck(!isCheck);
     dispatch(

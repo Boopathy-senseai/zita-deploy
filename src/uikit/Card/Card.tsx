@@ -12,7 +12,6 @@ type Props = {
   height?: string | number;
   marginLeft?: string | number;
   marginRight?: string | number;
-  id?:string
 };
 const Card = ({
   children,
@@ -21,12 +20,10 @@ const Card = ({
   height,
   marginLeft,
   marginRight,
-  id
 }: Props) => {
   const cardClassName = cx('commonStyle', className, disabled);
   return (
     <Flex
-    id={id}
       columnFlex
       height={height}
       className={cardClassName}

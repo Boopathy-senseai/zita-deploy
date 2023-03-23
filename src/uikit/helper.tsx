@@ -35,11 +35,8 @@ export type DateType =
   | 'hh:mm A'
   | 'll'
   | 'DD MMM YYYY LT'
-  | 'YYYY-DD-MM HH:MM:SS' // 14 Dec 2021 6:54 AM
-  | 'YYYY'
-  | 'YYYY-MM-DD'
-  | 'll, hh:mm A'
-  | 'll hh:mm A';
+  | 'YYYY-DD-MM HH:MM:SS'
+  | 'YYYY'; // 14 Dec 2021 6:54 AM
 
 /**
  * Return the requested date format
@@ -50,7 +47,7 @@ export type DateType =
  */
 
 export const getDateString = (
-  value: string | number | Object | undefined | null,
+  value: string | number | Object | undefined,
   format: DateType,
   isUnix?: boolean,
   convertToLocal?: boolean,
@@ -81,7 +78,7 @@ export const useHover = () => {
   const nodeRef = useRef<any>();
 
   const callbackRef = useCallback(
-    (node) => {
+    (node:any) => {
       if (nodeRef.current) {
         nodeRef.current.removeEventListener('mouseover', handleMouseOver);
         nodeRef.current.removeEventListener('mouseout', handleMouseOut);
@@ -112,7 +109,7 @@ export const unlimitedHelper = (value: string | number | null | undefined) => {
   const result = value === null ? 'Unlimited' : value;
   return result;
 };
-export const notSpecified = (value: string | number | null | undefined | string[]) => {
+export const notSpecified = (value: string | number | null | undefined) => {
   const result =
     value === undefined || value === null || value === ''
       ? 'Not Specified'
@@ -183,7 +180,7 @@ export const allowAlphaNumericSpace = (e: {
   keyCode: any;
   preventDefault: () => void;
 }) => {
-  var code = 'charCode' in e ? e.charCode : e.keyCode;
+  var code = 'charCode' in e ? e.charCode:e.keyCode;
   if (
     !(code === 32) && // space
     !(code > 47 && code < 58) && // numeric (0-9)
@@ -193,9 +190,4 @@ export const allowAlphaNumericSpace = (e: {
     // lower alpha (a-z)
     e.preventDefault();
   }
-};
-
-export const dateFromDay = (year: any) => {
-  var date = new Date(year, 0);
-  return new Date(date.setDate(1));
 };

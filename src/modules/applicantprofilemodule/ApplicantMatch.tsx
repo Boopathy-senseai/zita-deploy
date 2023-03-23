@@ -12,6 +12,7 @@ import ProgressBar from '../../uikit/ProgressBar/ProgressBar';
 import { MatchEntity, ApplicantEntity } from './applicantProfileTypes';
 import {
   applicantFavoriteMiddleWare,
+  applicantAllMatchMiddleWare,
 } from './store/middleware/applicantProfileMiddleware';
 import styles from './allmatchtab.module.css';
 
@@ -30,7 +31,7 @@ const ApplicantMatch = ({ list, match, applicant }: Props) => {
   const checkApplicant = useMemo(
     () =>
       match && match.length === 0 && applicant && applicant.length === 1
-        ? '50%'
+        ? '94%'
         : '50%',
     [],
   );
@@ -38,14 +39,22 @@ const ApplicantMatch = ({ list, match, applicant }: Props) => {
   const checkApplicantLable = useMemo(
     () =>
       match && match.length === 0 && applicant && applicant.length === 1
-        ? '96%'
+        ? '100%'
         : '96%',
     [],
   );
-  // fav icon filter function
+
   const hanldeFavAction = (can_id: number, jd_id: number) => {
     setFavLoader(true);
     dispatch(applicantFavoriteMiddleWare({ can_id, jd_id }))
+      .then(() => {
+        dispatch(applicantAllMatchMiddleWare({ can_id })).then(() => {
+          setFavLoader(false);
+        });
+      })
+      .catch(() => {
+        // setFavLoader(false);
+      });
   };
 
   return (

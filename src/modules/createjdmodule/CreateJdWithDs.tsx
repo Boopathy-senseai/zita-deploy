@@ -1,7 +1,8 @@
 import { Form, Formik } from 'formik';
 import { memo, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+// import { ConnectedFocusError } from 'focus-formik-error';
 import * as Yup from 'yup';
 import { AppDispatch, RootState } from '../../store';
 import Card from '../../uikit/Card/Card';
@@ -57,7 +58,7 @@ const initial: dsFormProps = {
   remoteWork: '0',
   minimumSalary: '',
   maximumSalary: '',
-  currency: '',
+  currency: '243',
   showSalaryCandidates: '0',
   industryType: '1',
   skillData: {
@@ -72,16 +73,9 @@ const initial: dsFormProps = {
 
 const CreateJdWithDs = () => {
   const { jdId, editJdId } = useParams<ParamsType>();
-  const history = useHistory();
   const [isJdOutputId, setJdOutpuId] = useState('0');
   const [isVacancies, setVacancies] = useState(false);
-  const useQuery = () => {
-    return new URLSearchParams(useLocation().search);
-  };
-  const query = useQuery();
-  const duplicate: any = query.get('duplicate');
 
-  // initial api call
   useEffect(() => {
     if (!isEmpty(jdId)) {
       dispatch(duplicateMiddleWare({ jd_id: jdId })).then((res) => {
@@ -135,6 +129,7 @@ const CreateJdWithDs = () => {
     skillsData,
     createJdLoader,
     getCountry,
+    temTitle,
     jdTemplates,
     profile_value,
     selected_role,
@@ -149,7 +144,6 @@ const CreateJdWithDs = () => {
     jdProfileLoader,
     createJdPostLoader,
     jd_profile,
-    is_plan,
   } = useSelector(
     ({
       jdParserReducers,
@@ -161,7 +155,6 @@ const CreateJdWithDs = () => {
       jdProfilePostReducers,
       duplicateReducers,
       validateJobIDReducers,
-      permissionReducers,
     }: RootState) => {
       return {
         job_title: jdParserReducers.job_title,
@@ -176,6 +169,7 @@ const CreateJdWithDs = () => {
         skillsData: createJdReducers.data,
         createJdLoader: createJdReducers.isLoading,
         getCountry: locationReducers.country,
+        temTitle: jdTemplatesReducers.job_title,
         temLoader: jdTemplatesReducers.isLoading,
         jdTemplates: jdTemplatesReducers.jd_templates,
         profile_value: jdProfileReducers.profile_value,
@@ -192,17 +186,10 @@ const CreateJdWithDs = () => {
         updateSkills: duplicateReducers.skills,
         is_taken: validateJobIDReducers.is_taken,
         jd_profile: duplicateReducers.jd_profile,
-        is_plan: permissionReducers.is_plan,
       };
     },
   );
-  useEffect(() => {
-    if (!is_plan) {
-      sessionStorage.setItem('superUserTab', '2');
-      history.push('/account_setting/settings');
-    }
-  });
-  // filter skill list
+
   const skillOne: any = useMemo(
     () =>
       updateSkills
@@ -216,7 +203,6 @@ const CreateJdWithDs = () => {
         }),
     [updateSkills],
   );
-  // filter skill list
   const skillTwo: any = useMemo(
     () =>
       updateSkills
@@ -230,7 +216,7 @@ const CreateJdWithDs = () => {
         }),
     [updateSkills],
   );
-// filter skill list
+
   const skillThree: any = useMemo(
     () =>
       updateSkills
@@ -244,7 +230,6 @@ const CreateJdWithDs = () => {
         }),
     [updateSkills],
   );
-  // filter skill list
   const skillFour: any = useMemo(
     () =>
       updateSkills
@@ -258,7 +243,6 @@ const CreateJdWithDs = () => {
         }),
     [updateSkills],
   );
-  // filter skill list
   const skillFive: any = useMemo(
     () =>
       updateSkills
@@ -279,7 +263,6 @@ const CreateJdWithDs = () => {
     }
   }, [getCountry]);
 
-  // free fill value skills
   useEffect(() => {
     const databaseParse =
       database_skills &&
@@ -353,17 +336,14 @@ const CreateJdWithDs = () => {
     jdParserLoader,
   ]);
 
-  // template open function
   const handleTempOpen = () => {
     setTemp(true);
   };
 
-  // template close function
   const hanldeOpenRole = () => {
     setRole(true);
   };
 
-  // form next submit function
   const handleFormSubmit = (values: dsFormProps) => {
     if (!isCancel) {
       if (!isEmpty(editJdId)) {
@@ -390,7 +370,6 @@ const CreateJdWithDs = () => {
           setJdOutpuId,
           setJdProfileLoader,
           jd_profile,
-          duplicate,
         });
       }
     }
@@ -408,7 +387,6 @@ const CreateJdWithDs = () => {
     }
   };
 
-  // from draft function
   const handleDrftSubmit = (values: dsFormProps) => {
     if (!isEmpty(editJdId)) {
       jdDraftSubmit({
@@ -509,7 +487,7 @@ const CreateJdWithDs = () => {
               <Form>
                 <Card className={styles.cardOverAll}>
                   <JobDescriptionTemplate
-                    // temTitle={temTitle}
+                    temTitle={temTitle}
                     jdTemplates={jdTemplates}
                     open={isTemp}
                     close={() => setTemp(false)}

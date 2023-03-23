@@ -51,11 +51,7 @@ const PreviewTitle = ({
 
         {skills && (
           <Flex>
-            <Text
-              bold
-              color="theme"
-              style={{ paddingTop: 16 }}
-            >
+            <Text bold color="theme">
               Required Skills
             </Text>
             <Flex row center wrap className={styles.statusContainer}>

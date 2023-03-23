@@ -16,8 +16,8 @@ import {
   messageTemplateReducers,
 } from '../modules/applicantprofilemodule/store/reducer/applicantProfileReducer';
 import {
-  bulkImportReducers,uploadedProfileViewReducers,bulkImportQusGetReducers,
-  bulkUploadedCandidatesReducers,bulkUploadTechSkillReducers,
+  bulkImportReducers,
+  bulkUploadedCandidatesReducers,
 } from '../modules/bulkimportmodule/store/reducer/bulkImportReducer';
 import { candidateMessageReducers } from '../modules/candidatemodule/store/reducer/candidateReducer';
 import {
@@ -45,19 +45,6 @@ import {
   myDataBaseDataReducers,
   myDataBaseInitalReducers,
 } from '../modules/mydatabasemodule/store/reducer/mydatabasereducer';
-
-import {
-
-  applicantsSourceReducers,
-  applicantsSourceDataReducers,
-  passiveCandidateDataReducers,
-  jobMetricsDataReducers,
-  jobMetricsChartReducers,
-  sourcingPerformanceReducers,
-sourcingPerformanceDataReducers
-
-
-} from '../modules/reportsmodule/store/reducer/reportsreducer';
 import {
   myJobPosingReducers,
   myJobPostingDataReducers,
@@ -86,37 +73,30 @@ import {
   careerViewPageReducers,
   jobViewReducers,
 } from '../modules/accountsettingsmodule/buildyourcareerpage/store/reducer/buildcareerpagereducer';
-import { userProfileReducers } from '../modules/accountsettingsmodule/userprofilemodule/store/reducer/userprofilereducer';
-import { emailNotificationReducers } from '../modules/accountsettingsmodule/emailmodule/store/reducer/emailnotificationreducer';
+import {
+  userProfileReducers,
+
+} from '../modules/accountsettingsmodule/userprofilemodule/store/reducer/userprofilereducer';
+import {
+  integrationReducers,
+} from '../modules/accountsettingsmodule/integrationmodule/store/reducer/integrationreducer';
+import {
+  emailNotificationReducers,
+} from '../modules/accountsettingsmodule/emailmodule/store/reducer/emailnotificationreducer';
 import { companyPageReducers } from '../modules/accountsettingsmodule/store/reducer/accountsettingreducer';
-import {
-  candidateProfileEditReducers,
-  techSkillReducers,
-} from '../modules/candidateprofile/store/reducer/candidatereducer';
-import { navBarReducers } from '../modules/navbar/store/reducer/navbarreducer';
-import { orderSummaryReducers } from '../modules/ordersummarymodule/store/ordersummaryreducer';
-import {
-  dashboardCalenderStateReducers,
-  dashboardEmpMessageReducers,
-  dashboardEmpReducers,
-  dashboardJobMetricsReducers,
-} from '../modules/dashboardmodule/empdashboard/store/dashboardreducer';
-import { manageSubscriptionReducers } from '../modules/accountsettingsmodule/managesubscription/store/managesubscriptionreducer';
-import { integrationReducers } from '../modules/accountsettingsmodule/integrationmodule/store/reducer/integrationreducer';
-import { dashboardReducers } from '../modules/dashboardmodule/candidatedashboard/store/reducer/candidatedashboardreducer';
-import { notificationReducers } from '../modules/navbar/empnavbar/store/notificationreducer';
+import { candidateProfileEditReducers, techSkillReducers } from '../modules/candidateprofile/store/reducer/candidatereducer';
+import { exampleReducers } from './exampleReducer';
 
 export const reducers = {
+  exampleReducers,
   talentSourcingReducers,
+  integrationReducers,
   talentSourcingSearchReducers,
   talentUnlockCandidateReducers,
   bulkActionReducers,
   bulkDownloadActionReducers,
   candidateViewReducers,
-  bulkUploadTechSkillReducers,
   stripeReducers,
-  jobMetricsDataReducers,
-  jobMetricsChartReducers,
   emailNotificationReducers,
   bulkImportReducers,
   bulkUploadedCandidatesReducers,
@@ -125,7 +105,6 @@ export const reducers = {
   applicantNotesReducers,
   applicantAllMatchReducers,
   applicantMessageReducers,
-  applicantsSourceDataReducers,
   applicantScoreReducers,
   messageTemplateReducers,
   calenderReducers,
@@ -136,14 +115,12 @@ export const reducers = {
   applicantFavReducers,
   zitaMatchDataCandidateReducers,
   zitaMatchCandidateReducers,
-  bulkImportQusGetReducers,
   applicantPipeLineUpdateReducers,
   myDataBaseInitalReducers,
   myDataBaseDataReducers,
   jdViewReducers,
   jdDownloadReducers,
   jdParserReducers,
-  applicantsSourceReducers,
   userProfileReducers,
   jdTemplatesReducers,
   createJdReducers,
@@ -152,7 +129,6 @@ export const reducers = {
   createJdPostReducers,
   jdProfilePostReducers,
   questionnaireForJdReducers,
-  uploadedProfileViewReducers,
   myJobPosingReducers,
   myJobPostingDataReducers,
   cretejdTemplateReducers,
@@ -171,18 +147,5 @@ export const reducers = {
   careerViewPageReducers,
   jobViewReducers,
   candidateProfileEditReducers,
-  techSkillReducers,
-  dashboardReducers,
-  navBarReducers,
-  integrationReducers,
-  manageSubscriptionReducers,
-  passiveCandidateDataReducers,
-  orderSummaryReducers,
-  dashboardEmpReducers,
-  dashboardEmpMessageReducers,
-  dashboardJobMetricsReducers,
-  dashboardCalenderStateReducers,
-  notificationReducers,
-  sourcingPerformanceReducers,
-  sourcingPerformanceDataReducers,
+  techSkillReducers
 };

@@ -86,7 +86,7 @@ export class Login extends Component {
             <div className="row align-items-center justify-content-center full-height">
               <div className="col-lg-4 col-md-5 col-12">
                 <div className="text-center">
-                  <img style={{objectFit: 'contain'}} className="loginLogo" src={Logo} alt="Logo" />
+                  <img className="loginLogo" src={Logo} alt="Logo" />
                   <div className="small mb-3 text-muted">
                     Enter your credentials to login
                   </div>

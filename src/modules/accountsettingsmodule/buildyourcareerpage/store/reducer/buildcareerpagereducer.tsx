@@ -80,7 +80,7 @@ const careerPageState: CareerPageReducerState = {
   isLoading: false,
   error: '',
   total: 0,
-  jd_active: false,
+  jd_active:false,
   company_detail: {
     id: 0,
     recruiter_id_id: 0,
@@ -164,8 +164,6 @@ const careerPageState: CareerPageReducerState = {
       job_location: '',
     },
   ],
-  login_user: false,
-  image:''
 };
 
 const careerViewPageReducer = createSlice({
@@ -184,9 +182,6 @@ const careerViewPageReducer = createSlice({
       state.jd_form = action.payload.jd_form;
       state.total = action.payload.total;
       state.jd_active = action.payload.jd_active;
-      state.login_user = action.payload.login_user;
-      state.user_detail = action.payload.user_detail;
-      state.image = action.payload.image;
     });
     builder.addCase(careerViewPageMiddleWare.rejected, (state, action) => {
       state.isLoading = false;
@@ -200,7 +195,7 @@ const careerViewPageReducer = createSlice({
 const jobViewState: JobViewReducerState = {
   isLoading: false,
   error: '',
-  login_user: false,
+  login_user: 0,
   emp_id: 0,
   current_site: '',
   success: false,
@@ -268,11 +263,6 @@ const jobViewReducer = createSlice({
       state.jd_form = action.payload.jd_form;
       state.education = action.payload.education;
       state.success = action.payload.success;
-      state.questionnaire = action.payload.questionnaire;
-      state.login_user = action.payload.login_user;
-      state.applicant_detail = action.payload.applicant_detail;
-      state.applied_status = action.payload.applied_status;
-      state.additional_detail = action.payload.additional_detail;
     });
     builder.addCase(careerJobViewMiddleWare.rejected, (state, action) => {
       state.isLoading = false;

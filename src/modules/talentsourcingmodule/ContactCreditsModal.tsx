@@ -43,7 +43,7 @@ const ContactCreditsModal = ({
     }
     return errors;
   };
-// conatct credits form submit
+
   const handleSubmit = async (values: FormProps) => {
     cancelBtnOnClick();
     setCheckOutLoader(true);

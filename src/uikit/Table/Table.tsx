@@ -1,6 +1,5 @@
 import classNames from 'classnames/bind';
 import Loader from '../Loader/Loader';
-import { isEmpty } from '../helper';
 import Text from '../Text/Text';
 import Flex from '../Flex/Flex';
 import Rows, { ColumnItem } from './Rows';
@@ -24,9 +23,6 @@ type Props = {
   isLoader?: boolean;
   empty?: string;
   scrollHeight?: number;
-  emptyHeight?: number;
-  fixedScrollHeight?: boolean;
-  rowFocusIndex?: number;
 } & typeof defaultProps;
 
 const Table = ({
@@ -36,9 +32,6 @@ const Table = ({
   empty,
   border,
   scrollHeight,
-  emptyHeight,
-  fixedScrollHeight,
-  rowFocusIndex,
 }: Props) => {
   if (columns.length === 0) {
     return null;
@@ -47,20 +40,11 @@ const Table = ({
   return (
     <Flex className={cx({ [`overAll-${border}`]: border })}>
       <TableTitle columns={columns} dataSource={dataSource} />
-      <Flex center middle className={cx('overFlowLoader')}>
-        {dataSource.length === 0 && !isEmpty(empty) && (
-          <Flex center middle height={emptyHeight}>
-            <Text
-              align="center"
-              color="gray"
-              className={cx({
-                emptyTextOne: fixedScrollHeight,
-                emptyText: !fixedScrollHeight,
-              })}
-            >
-              {empty}
-            </Text>
-          </Flex>
+      <Flex className={cx('overFlowLoader')}>
+        {dataSource.length === 0 && (
+          <Text align="center" color="gray" className={styles.emptyText}>
+            {empty}
+          </Text>
         )}
         {isLoader && (
           <div className={styles.loader}>
@@ -68,47 +52,24 @@ const Table = ({
           </div>
         )}
       </Flex>
-      {fixedScrollHeight ? (
-        <div
-          style={{
-            height: scrollHeight,
-          }}
-          className={cx({ rowScroll: scrollHeight })}
-        >
-          {dataSource.map((item, index) => (
-            <Rows
-              key={index}
-              item={item}
-              columns={columns}
-              rowIndex={index}
-              border={border}
-              scrollHeight={scrollHeight}
-              rowFocusIndex={rowFocusIndex}
-            />
-          ))}
-        </div>
-      ) : (
-        <div
-          style={{
-            maxHeight: scrollHeight
-              ? window.innerHeight - scrollHeight
-              : '100%',
-          }}
-          className={cx({ rowScroll: scrollHeight })}
-        >
-          {dataSource.map((item, index) => (
-            <Rows
-              key={index}
-              item={item}
-              columns={columns}
-              rowIndex={index}
-              border={border}
-              scrollHeight={scrollHeight}
-              rowFocusIndex={rowFocusIndex}
-            />
-          ))}
-        </div>
-      )}
+
+      <div
+        style={{
+          maxHeight: scrollHeight ? window.innerHeight - scrollHeight : '100%',
+        }}
+        className={cx({rowScroll:scrollHeight})}
+      >
+        {dataSource.map((item, index) => (
+          <Rows
+            key={index}
+            item={item}
+            columns={columns}
+            rowIndex={index}
+            border={border}
+            scrollHeight={scrollHeight}
+          />
+        ))}
+      </div>
     </Flex>
   );
 };

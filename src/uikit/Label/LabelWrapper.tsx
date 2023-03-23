@@ -2,8 +2,9 @@ import { memo } from 'react';
 import classNames from 'classnames/bind';
 import Flex from '../Flex/Flex';
 import { isEmpty } from '../helper';
-import Text, { textSize } from '../Text/Text';
+import Text from '../Text/Text';
 import styles from './labelwarpper.module.css';
+//import { defaultDecoder } from 'qs';
 
 const cx = classNames.bind(styles);
 type Props = {
@@ -11,19 +12,22 @@ type Props = {
   children?: import('react').ReactNode;
   label?: string;
   bold?: boolean;
-  size?: textSize;
+  color?: any;
+  size?: any;
 };
 
-const LabelWrapper = ({ required, children, label, bold, size }: Props) => {
+const LabelWrapper = ({
+  required,
+  children,
+  label,
+  bold,
+  color = 'primary',
+  size,
+}: Props) => {
   return !isEmpty(label) ? (
     <Flex className={cx('overAll')}>
       <Flex row className={cx('labelConatiner')}>
-        <Text
-          size={size}
-          color={'primary'}
-          className={cx('labelText')}
-          bold={bold}
-        >
+        <Text color={color} className={cx('labelText')} bold={bold} size={size}>
           {label}
         </Text>
         {required && <Text color="theme">*</Text>}

@@ -88,8 +88,7 @@ export const workYear = (value?: string) =>
       : `0-1 Year`
     : '';
 
-export const pieYValue = (value?: string | any) => {
+export const pieYValue = (value?: string) => {
   const output = value === '0.0' ? null : Number(value);
   return output;
 };
-

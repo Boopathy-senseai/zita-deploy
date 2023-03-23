@@ -104,12 +104,3 @@ export const fontStyle = [
     label: 'Avanta Garde',
   },
 ];
-
-export const aboutUsOptions = [
-  { label: 'Careers Page', value: 'LinkedIn' },
-  { label: 'Facebook', value: 'Facebook' },
-  { label: 'Linkedin ', value: 'Linkedin' },
-  { label: 'Invited to Apply', value: 'Invited to Apply' },
-  { label: 'Referral', value: 'Referral' },
-  { label: 'Others', value: 'Others' },
-];

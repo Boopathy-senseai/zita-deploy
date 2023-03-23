@@ -8,26 +8,15 @@ import { GARY_4 } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import { fileAccept, FILE_2MB } from '../constValue';
-import JdParserLoader from '../createjdmodule/JdParserLoader';
+import { jdParserMiddleWare } from '../createjdmodule/store/middleware/createjdmiddleware';
 import styles from './candidateupload.module.css';
-import {
-  profileEditMiddleWare,
-  resumeUploadMiddleWare,
-} from './store/middleware/candidateprofilemiddleware';
 
-type Props = {
-  empId: string;
-  user_info: any;
-};
-function CandidateUpload({ empId, user_info }: Props) {
+function CandidateUpload() {
   const [file, setFile] = useState<any>([]);
   const [isMb, setMb] = useState(false);
-  const [isLoader, setLoader] = useState(false);
-
   const dispatch: AppDispatch = useDispatch();
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
-    setLoader(true);
     e.preventDefault();
     uploadFile(file);
   };
@@ -35,14 +24,9 @@ function CandidateUpload({ empId, user_info }: Props) {
 
   const uploadFile = (files: any) => {
     const formData = new FormData();
-    formData.append('resume_file', files);
-    formData.append('emp-id', empId);
-    formData.append('user_id', user_info.user_id_id);
-
-    return dispatch(resumeUploadMiddleWare({ formData })).then(() => {
+    formData.append('jd_file', files);
+    return dispatch(jdParserMiddleWare({ upload: formData })).then(() => {
       handleClear();
-      dispatch(profileEditMiddleWare({jd_id:localStorage.getItem('careerJobViewJobId')}));
-      setLoader(false);
     });
   };
 
@@ -103,84 +87,78 @@ function CandidateUpload({ empId, user_info }: Props) {
   const checkSelectLength = file.length === 0 ? false : true;
 
   return (
-    <>
-      <JdParserLoader
-        open={isLoader}
-        title="Please wait... Your resume is getting parsed for prepopulation"
-      />
-      <Card className={styles.cardOverAll}>
-        <Flex row center>
-          <Flex columnFlex className={styles.innerFlex}>
-            <div
-              onDragOver={dragOver}
-              onDragEnter={dragEnter}
-              onDragLeave={dragLeave}
-              onDrop={fileDrop}
-              className={styles.border}
-            >
-              <input
-                type="file"
-                accept=".doc,.docx,.pdf,.txt"
-                onChange={handleOnChange}
-                className={styles.displayNone}
-                id="upload__file_upload"
-              />
-              {!checkSelectLength ? (
-                <Flex>
-                  <Flex row center middle>
-                    <Text color="gray">{'Drag & Drop resume here or'}</Text>
-                    <label
-                      className={styles.labelStyle}
-                      htmlFor={'upload__file_upload'}
-                    >
-                      <Text color="link">Browse Files</Text>
-                    </label>
-                  </Flex>
-                  <Text
-                    size={12}
-                    align="center"
-                    color="gray"
-                    className={styles.uploadText}
-                  >
-                    (Upload only .txt, .doc, .docx, .pdf formats)
-                  </Text>
-                </Flex>
-              ) : (
-                <Flex row center>
-                  <Text color="gray">{file.name}</Text>
-                  <div
-                    tabIndex={-1}
-                    role={'button'}
-                    onKeyPress={() => {}}
-                    onClick={handleClear}
-                    className={styles.svgClose}
-                  >
-                    <SvgRoundClose fill={GARY_4} width={16} height={16} />
-                  </div>
-                </Flex>
-              )}
-            </div>
-            {isMb && (
-              <Text
-                align="center"
-                size={12}
-                color="error"
-                style={{ position: 'absolute', bottom: -22 }}
-              >
-                {FILE_2MB}
-              </Text>
-            )}
-          </Flex>
-          <Button
-            disabled={!checkSelectLength}
-            onClick={handleSubmit}
-            className={styles.btnStyle}
+    <Card className={styles.cardOverAll}>
+      <Flex row center>
+        <Flex columnFlex className={styles.innerFlex}>
+          <div
+            onDragOver={dragOver}
+            onDragEnter={dragEnter}
+            onDragLeave={dragLeave}
+            onDrop={fileDrop}
+            className={styles.border}
           >
-            Reupload Resume/CV
-          </Button>
+            <input
+              type="file"
+              accept=".doc,.docx,.pdf,.txt"
+              onChange={handleOnChange}
+              className={styles.displayNone}
+              id="upload__file_upload"
+            />
+            {!checkSelectLength ? (
+              <Flex>
+                <Flex row center middle>
+                  <Text color="gray">{'Drag & Drop resumes Here or'}</Text>
+                  <label
+                    className={styles.labelStyle}
+                    htmlFor={'upload__file_upload'}
+                  >
+                    <Text color="link">Browse Files</Text>
+                  </label>
+                </Flex>
+                <Text
+                  size={12}
+                  align="center"
+                  color="gray"
+                  className={styles.uploadText}
+                >
+                  (Upload only .txt, .doc, .docx, .pdf formats)
+                </Text>
+              </Flex>
+            ) : (
+              <Flex row center>
+                <Text color="gray">{file.name}</Text>
+                <div
+                  tabIndex={-1}
+                  role={'button'}
+                  onKeyPress={() => {}}
+                  onClick={handleClear}
+                  className={styles.svgClose}
+                >
+                  <SvgRoundClose fill={GARY_4} width={16} height={16} />
+                </div>
+              </Flex>
+            )}
+          </div>
+          {isMb && (
+            <Text
+              align="center"
+              size={12}
+              color="error"
+              style={{ position: 'absolute', bottom: -22 }}
+            >
+              {FILE_2MB}
+            </Text>
+          )}
         </Flex>
-      </Card>
-    </>
+        <Button
+          disabled={!checkSelectLength}
+          onClick={handleSubmit}
+          className={styles.btnStyle}
+        >
+          Reupload Resume/CV
+        </Button>
+      </Flex>
+    </Card>
   );
 }
 

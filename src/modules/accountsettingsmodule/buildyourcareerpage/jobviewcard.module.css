@@ -1,9 +1,9 @@
 .overAll {
   padding: 40px;
 }
-/* .jobDetails {
+.jobDetails {
   padding-right: 60px;
-} */
+}
 .btnContainer {
   align-items: end;
 }
@@ -11,7 +11,7 @@
   line-height: 3;
 }
 .jobDes {
-  /* margin-top: 10px; */
+  margin-top: 30px;
   margin-bottom: 16px;
 }
 .statusList {
@@ -30,10 +30,4 @@
 }
 .valueStyle{
   margin-left: 4px;
-}
-@media screen and (max-width: 700px) {
-  .btnContainer {
-    align-items: center !important;
-    margin-bottom: 16px !important;
-  }
 }

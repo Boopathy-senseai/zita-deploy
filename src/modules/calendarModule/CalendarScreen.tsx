@@ -392,7 +392,7 @@ const Calendar = () => {
     ) {
       setIsTopLineLoading(true);
       setSelectedTeamMembers((prevState) => [...prevState, userId]);
-      dispatch(friendsEventsMiddleware({ userId: userId }))
+      dispatch(friendsEventsMiddleware({ userId }))
         .then((res) => {
           if (res.payload.data === 'user not authenticated') {
             setIsTopLineLoading(false);
@@ -540,7 +540,7 @@ const Calendar = () => {
     if ('eventId' in event) {
       dispatch(
         verifyEventMiddleware({
-          calendarProvider: calendarProvider,
+          calendarProvider,
           eventId: event.eventId,
         }),
       )

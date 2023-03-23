@@ -3,12 +3,19 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store';
 import Button from '../../uikit/Button/Button';
+import SvgResetPasswordIcon from '../../icons/SvgResetPasswordIcon';
+import { PRIMARY } from '../../uikit/Colors/colors';
 import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
 import Flex from '../../uikit/Flex/Flex';
-import { isEmpty, mailformat } from '../../uikit/helper';
+//import { isEmpty } from '../../uikit/helper';
 import InputText from '../../uikit/InputText/InputText';
 import Text from '../../uikit/Text/Text';
+import SvgZitaLogo from '../../icons/SvgZitaLogo';
+import Forgot from '../../assets/images/Forgotpassword.png';
+import SvgEmail from '../../icons/SvgEmail';
+import SvgLeft from '../../icons/SvgLeft';
 import styles from './forgotpassword.module.css';
+const today = new Date();
 import { emailMiddleWare } from './store/middleware/loginMiddleWare';
 
 export type forgotFormProps = {
@@ -19,80 +26,141 @@ type Props = {
   forgotFormik: FormikProps<forgotFormProps>;
   handleForgotClose: () => void;
   setEmailValid: (arg: boolean) => void;
-  isEmailValid: boolean;
+  ResetSuccess: boolean;
 };
 
 const ForgotPassword = ({
   forgotFormik,
   handleForgotClose,
   setEmailValid,
-  isEmailValid,
+  ResetSuccess,
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
-  const [isTrueEmail, setTrueEmail] = useState(false);
-
-  // email validation api call
+  const [show, setshow] = useState(true);
   useEffect(() => {
-    if (!isEmpty(forgotFormik.values.forgotEmail)) {
-      dispatch(
-        emailMiddleWare({ email: forgotFormik.values.forgotEmail }),
-      ).then((res) => {
+    dispatch(emailMiddleWare({ email: forgotFormik.values.forgotEmail })).then(
+      (res) => {
         if (res.payload.success === false) {
           setEmailValid(true);
-          setTrueEmail(true);
         }
         if (res.payload.success === true) {
           setEmailValid(false);
         }
-      });
-    }
+      },
+    );
   }, [forgotFormik.values.forgotEmail]);
-
   return (
-    <Flex middle>
-      <Flex columnFlex className={styles.cardOverAll}>
-        <Text size={20} bold>
-          Forgot your password?
-        </Text>
-        <Text>
-          Please enter your registered email id to receive the password reset
-          link.
-        </Text>
-        <div className={styles.userInput}>
-          <InputText
-            label="Email"
-            required
-            value={forgotFormik.values.forgotEmail}
-            onChange={forgotFormik.handleChange('forgotEmail')}
-            keyboardType="email"
-          />
-          <ErrorMessage
-            name="forgotEmail"
-            errors={forgotFormik.errors}
-            touched={forgotFormik.touched}
-          />
-          {!isEmpty(forgotFormik.values.forgotEmail) &&
-            isEmailValid &&
-            isTrueEmail &&
-            mailformat.test(forgotFormik.values.forgotEmail) && (
-              <Text size={12} color="error">
-                This email is not registered with Zita
-              </Text>
-            )}
-        </div>
-        <Flex row center between className={styles.btnConatiner}>
-          <Button
-            disabled={isEmpty(forgotFormik.values.forgotEmail)}
-            onClick={forgotFormik.handleSubmit}
-          >
-            Send Link
-          </Button>
-          <Button types="link" onClick={handleForgotClose}>
-            Go Back
-          </Button>
+    <>
+      {console.log(show, setshow)}
+
+      <Flex className={styles.row}>
+        <Flex className={styles.splitrow_1}>
+          <Flex className={styles.center_aligh}>
+            <Button types="link" onClick={handleForgotClose}>
+              <SvgLeft height={15} width={15} />
+            </Button>
+
+            <div className={styles.container}>
+              {ResetSuccess === true ? (
+                <>
+                  <Flex middle center>
+                    <SvgResetPasswordIcon fill={PRIMARY} />
+                  </Flex>
+
+                  <Flex middle center className={styles.text_margin}>
+                    <Text size={22} className={styles.text} bold>
+                      Reset your password
+                    </Text>
+                  </Flex>
+                  <Flex className={styles.text_margin}>
+                    <Text size={18} className={styles.error_content}>
+                      <ul style={{ marginLeft: '50px' }}>
+                        <li>
+                          A link to reset your password has been sent to your
+                          registered email.
+                        </li>
+                      </ul>
+                    </Text>
+                  </Flex>
+                  <Flex>
+                    <Text size={18} className={styles.error_content}>
+                      <ul style={{ marginLeft: '50px' }}>
+                        <li>
+                          Please check your spam folder if you haven’t received
+                          it in 3-5 minutes.
+                        </li>
+                      </ul>
+                    </Text>
+                  </Flex>
+                </>
+              ) : (
+                <>
+                  <center>
+                    <Text size={20} className={styles.text} bold>
+                      Forgot your Password?
+                    </Text>
+                  </center>
+                  <center>
+                    <Text className={styles.verify_name}>
+                      Please enter your registered email id to receive the
+                      password reset link.
+                    </Text>
+                  </center>
+                  <center>
+                    <div>
+                      <InputText
+                        className={styles.input}
+                        placeholder="Your email "
+                        required
+                        value={forgotFormik.values.forgotEmail}
+                        onChange={forgotFormik.handleChange('forgotEmail')}
+                        keyboardType="email"
+                        actionLeft={() => (
+                          <Button types="link" className={styles.usericon}>
+                            <SvgEmail height={15} width={15} fill={'none'} />
+                          </Button>
+                        )}
+                      />
+                    </div>
+                  </center>
+
+                  <Flex className={styles.error_msg}>
+                    <ErrorMessage
+                      name="forgotEmail"
+                      errors={forgotFormik.errors}
+                      touched={forgotFormik.touched}
+                    />
+                  </Flex>
+
+                  <Button
+                    className={styles.login_button}
+                    onClick={forgotFormik.handleSubmit}
+                    // disabled={isEmpty(forgotFormik.values.forgotEmail)}
+                  >
+                    Send Link
+                  </Button>
+                </>
+              )}
+            </div>
+          </Flex>
+          <Flex className={styles.footer}>
+            &#169; Sense7ai {today.getFullYear()} ALL RIGHTS RESERVED
+          </Flex>
+        </Flex>
+
+        <Flex className={styles.splitrow_2}>
+          <Flex className={styles.logo}>
+            <center>
+              <SvgZitaLogo width={240} height={125} />
+            </center>
+          </Flex>
+
+          <Flex className={styles.center_aligh_slider}>
+            <img src={Forgot} alt="log" />
+          </Flex>
         </Flex>
       </Flex>
-    </Flex>
+    </>
   );
 };
 

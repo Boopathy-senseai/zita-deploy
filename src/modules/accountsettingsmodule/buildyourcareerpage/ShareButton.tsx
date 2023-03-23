@@ -5,47 +5,41 @@ import {
   TwitterShareButton,
   LinkedinIcon,
   LinkedinShareButton,
+  EmailShareButton,
+  EmailIcon,
   WhatsappIcon,
   WhatsappShareButton,
 } from 'react-share';
-
-import SvgGmail from '../../../icons/SvgGmail';
-import { JdForm } from './buildCareerPageTypes';
 import styles from './sharebutton.module.css';
 
 type Props = {
   url: string;
-  jd_form?: JdForm;
+  quote: string;
 };
-const SocialShareButton = ({ url, jd_form }: Props) => {
-
-
-
- 
+const ShareButton = ({ url, quote }: Props) => {
   return (
     <div className={styles.overAll}>
-      <FacebookShareButton url={`${url}#.facebook`} quote={jd_form?.job_title}>
+      <FacebookShareButton
+        url={url}
+        quote={quote}
+        // hashtag={'#hashtag'}
+      >
         <FacebookIcon size={32} />
       </FacebookShareButton>
-      <TwitterShareButton url={`${url}#.twitter`}>
+      <TwitterShareButton url={url}>
         <TwitterIcon size={32} />
       </TwitterShareButton>
-      <LinkedinShareButton url={`${url}#.linkedin`}>
+      <LinkedinShareButton url={url}>
         <LinkedinIcon size={32} />
       </LinkedinShareButton>
-      <a
-        rel="noreferrer"
-        target={'_blank'}
-        href={`https://mail.google.com/mail/u/0/?fs=1&to&su=${jd_form?.job_title}&body=${url}.gmailView&ui=2&tf=cm`}
-      >
-        <SvgGmail height={32} width={31} />
-      </a>
-      
-      <WhatsappShareButton url={`${url}#.whatsapp`}>
+      <EmailShareButton url={url}>
+        <EmailIcon size={32} />
+      </EmailShareButton>
+      <WhatsappShareButton url={url}>
         <WhatsappIcon size={32} />
       </WhatsappShareButton>
     </div>
   );
 };
 
-export default SocialShareButton;
+export default ShareButton;

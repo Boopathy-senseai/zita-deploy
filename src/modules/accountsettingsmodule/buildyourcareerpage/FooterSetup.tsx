@@ -15,16 +15,14 @@ import { formikFormTypes } from './formikTypes';
 
 type Props = {
   formik: FormikProps<formikFormTypes>;
-  setReload: () => void;
 };
 
-const FooterSetup = ({ formik, setReload }: Props) => {
+const FooterSetup = ({ formik }: Props) => {
   const [isBtnColorOpen, setBtnColorOpen] = useState(false);
   const [isHeaderColorOpen, setHeaderColorOpen] = useState(false);
   const myRefBtn = createRef<any>();
   const myRefHeader = createRef<any>();
 
-  // mouse outside click to close color picker
   const handleClickOutside = (event: { target: any }) => {
     if (myRefBtn.current && !myRefBtn.current.contains(event.target)) {
       setBtnColorOpen(false);
@@ -34,7 +32,6 @@ const FooterSetup = ({ formik, setReload }: Props) => {
     }
   };
 
-  // mouse outside click to close color picker
   useEffect(() => {
     if (typeof Window !== 'undefined') {
       document.addEventListener('click', handleClickOutside, true);
@@ -72,19 +69,15 @@ const FooterSetup = ({ formik, setReload }: Props) => {
                 <SvgSquare fill={formik.values.btnColor.hex} />
               </Button>
             )}
-            onChange={(e) => {
-              setReload();
-              formik.setFieldValue('btnColor.hex', e.target.value);
-            }}
+            onChange={formik.handleChange('btnColor.hex')}
           />
           {isBtnColorOpen && (
             <div className={styles.colorPicker}>
               <ColorPicker
                 colors={formik.values.btnColor}
-                onChange={(e: { hex: string }) => {
-                  setReload();
-                  formik.setFieldValue('btnColor.hex', e.hex);
-                }}
+                onChange={(e: { hex: string }) =>
+                  formik.setFieldValue('btnColor.hex', e.hex)
+                }
               />
             </div>
           )}
@@ -103,10 +96,7 @@ const FooterSetup = ({ formik, setReload }: Props) => {
         <div className={styles.tagTwo} ref={myRefHeader}>
           <InputText
             required
-            onChange={(e) => {
-              setReload();
-              formik.setFieldValue('footerColor.hex', e.target.value);
-            }}
+            onChange={formik.handleChange('footerColor.hex')}
             value={formik.values.footerColor.hex}
             label="Footer Color"
             actionRight={() => (
@@ -123,10 +113,9 @@ const FooterSetup = ({ formik, setReload }: Props) => {
             <div className={styles.colorPicker}>
               <ColorPicker
                 colors={formik.values.footerColor}
-                onChange={(e: { hex: string }) => {
-                  setReload();
-                  formik.setFieldValue('footerColor.hex', e.hex);
-                }}
+                onChange={(e: { hex: string }) =>
+                  formik.setFieldValue('footerColor.hex', e.hex)
+                }
               />
             </div>
           )}
@@ -146,13 +135,10 @@ const FooterSetup = ({ formik, setReload }: Props) => {
       <Flex className={styles.marginTop16}>
         <InputText
           value={formik.values.aboutText}
+          onChange={formik.handleChange('aboutText')}
           label="About Us"
           textarea
           className={styles.textArea}
-          onChange={(e) => {
-            setReload();
-            formik.setFieldValue('aboutText', e.target.value);
-          }}
         />
         {!isEmpty(formik.values.aboutText) &&
           formik.values.aboutText.length <= 150 && (

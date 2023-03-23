@@ -11,21 +11,6 @@ import {
 const locationState: CandidateProfileEditReducerState = {
   isLoading: false,
   error: '',
-  projects: [
-    {
-      project_id: 0,
-      application_id_id: 0,
-      work_proj_name: '',
-      work_proj_client: '',
-      work_proj_desig: '',
-      work_proj_role: '',
-      work_proj_duration: '',
-      work_proj_location: '',
-      work_proj_skills: '',
-      work_proj_type: false,
-      updated_at: '',
-    },
-  ],
 };
 
 const candidateProfileEditReducer = createSlice({
@@ -46,10 +31,6 @@ const candidateProfileEditReducer = createSlice({
       state.user_info = action.payload.user_info;
       state.personal_obj = action.payload.email;
       state.personal_obj = action.payload.personal_obj;
-      state.projects = action.payload.projects;
-      state.experiences = action.payload.experiences;
-      state.career_page_setting = action.payload.career_page_setting;
-      state.applied_status=action.payload.applied_status
     });
     builder.addCase(profileEditMiddleWare.rejected, (state, action) => {
       state.isLoading = false;

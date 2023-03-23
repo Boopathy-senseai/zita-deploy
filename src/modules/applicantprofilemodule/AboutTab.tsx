@@ -3,11 +3,11 @@ import getSymbolFromCurrency from 'currency-symbol-map';
 import { RootState } from '../../store';
 import Flex from '../../uikit/Flex/Flex';
 import { isEmpty, lowerCase, notSpecified } from '../../uikit/helper';
-import { workYear } from '../common/commonHelper';
 import Status from '../../uikit/Status/Status';
 import Text from '../../uikit/Text/Text';
 import styles from './abouttab.module.css';
 
+const { getName } = require('country-list');
 const AboutTab = () => {
   const { candidate_details, total_exp, skills, personalInfo } = useSelector(
     ({ applicantProfileInitalReducers }: RootState) => {
@@ -103,6 +103,11 @@ const AboutTab = () => {
     : personalInfo[0].relocate === true
     ? 'Yes'
     : 'No';
+  const remoteWork = isEmpty(personalInfo[0].remote_work)
+    ? 'Not Specified'
+    : personalInfo[0].remote_work === true
+    ? 'Yes'
+    : 'No';
 
   const perAnnumGross = isEmpty(personalInfo[0].curr_gross) ? '' : 'Per Annum';
 
@@ -126,6 +131,15 @@ const AboutTab = () => {
         } ${perAnnumExpGross}`
       : notSpecified(personalInfo[0].exp_gross);
 
+  let getLoaction;
+  if (
+    isEmpty(personalInfo[0].current1_country) &&
+    isEmpty(personalInfo[0].current2_country) &&
+    isEmpty(personalInfo[0].current3_country)
+  ) {
+    getLoaction = `Not Specified`;
+  }
+
   const getFresher =
     total_exp &&
     total_exp[0].total_exp_year === 0 &&
@@ -133,6 +147,17 @@ const AboutTab = () => {
     total_exp[0].total_exp_year === 0
       ? true
       : false;
+
+  const current1_country = isEmpty(personalInfo[0].current1_country)
+    ? ''
+    : `${getName(personalInfo[0].current1_country)}, `;
+  const current2_country = isEmpty(personalInfo[0].current2_country)
+    ? ''
+    : `${getName(personalInfo[0].current2_country)}, `;
+
+  const current3_country = isEmpty(personalInfo[0].current3_country)
+    ? ''
+    : `${getName(personalInfo[0].current3_country)}`;
 
   let currentLocation;
   if (
@@ -217,6 +242,10 @@ const AboutTab = () => {
       value: relocate,
     },
     {
+      lable: 'Remote Availability:',
+      value: remoteWork,
+    },
+    {
       lable: 'Industry Type:',
       value: notSpecified(personalInfo[0].industry_type__label_name),
     },
@@ -228,14 +257,22 @@ const AboutTab = () => {
       lable: 'Expected Gross Salary:',
       value: expGross,
     },
+    {
+      lable: 'Countries Authorized to Work:',
+      value:
+        getLoaction === 'Not Specified'
+          ? getLoaction
+          : `${current1_country}${current2_country}${current3_country}`,
+    },
   ];
-  const techSkillSplit =skills && skills.length === 0 || skills[0].tech_skill === null
+
+  const techSkillSplit = isEmpty(skills[0].tech_skill)
     ? []
-    :skills[0].tech_skill.replace(',,', ',').split(',');
-  const softSkillSplit =skills && skills.length === 0 || skills[0].soft_skill === null
+    : skills[0].tech_skill.replace(',,', ',').split(',');
+  const softSkillSplit = isEmpty(skills[0].soft_skill)
     ? []
-    :skills[0].soft_skill.replace(',,', ',').split(',');
- console.log('softSkillSplit',softSkillSplit)
+    : skills[0].soft_skill.replace(',,', ',').split(',');
+
   return (
     <Flex
       columnFlex
@@ -251,11 +288,7 @@ const AboutTab = () => {
             <Text bold className={styles.lableWidth}>
               {list.lable}
             </Text>
-             {(list.lable === 'Experience:' && list.value === 'Fresher') ? (
-              <Text>{notSpecified(workYear(candidate_details[0].work_exp))}</Text>
-            ) : (
-              <Text>{list.value}</Text>
-            )}
+            <Text>{list.value}</Text>
           </Flex>
         );
       })}
@@ -292,9 +325,7 @@ const AboutTab = () => {
         </>
       )}
 
-      {softSkillSplit.length !== 0  && (
-        <>
-        {softSkillSplit[0] !== '' &&
+      {softSkillSplit.length !== 0 && (
         <>
           <Text color="theme" bold className={styles.softSkillStyle}>
             Soft Skills:
@@ -311,8 +342,6 @@ const AboutTab = () => {
                 );
               })}
           </Flex>
-        </>
-      }
         </>
       )}
     </Flex>

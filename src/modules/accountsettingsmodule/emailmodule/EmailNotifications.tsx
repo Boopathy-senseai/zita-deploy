@@ -15,7 +15,7 @@ import {
 
 const EmailNotifications = () => {
 	const dispatch: AppDispatch = useDispatch();
-	const [isload, setload] = useState(true);
+	const [isload, setload] = useState(false);
 	const [isstage0, setstage0] = useState(true);
 	const [isstage1, setstage1] = useState(true);
 	const [isstage2, setstage2] = useState(true);
@@ -27,21 +27,18 @@ const EmailNotifications = () => {
 	const [isstage8, setstage8] = useState(true);
 
 	useEffect(() => {
-		dispatch(emailPreferenceMiddleWare()).then(()=> {
-			setload(false)
-		});
-
+		dispatch(emailPreferenceMiddleWare());
 	}, []);
 
-	const {  email_preferences } = useSelector(
+	const { isLoading, email_preferences } = useSelector(
 		({ emailNotificationReducers }: RootState) => ({
-			// isLoading: emailNotificationReducers.isLoading,
+			isLoading: emailNotificationReducers.isLoading,
 			email_preferences: emailNotificationReducers.email_preferences,
 		}),
 	);
 
 	const hanldeSubmitform = (stageid: string, isActive: string) => {
-		// setload(true);
+		setload(true);
 		const formData = new FormData();
 		if (stageid === '1') {
 			if (isstage0) {
@@ -110,7 +107,7 @@ const EmailNotifications = () => {
 				dispatch(emailPreferenceMiddleWare());
 			}
 		});
-		// setload(false);
+		setload(false);
 	};
 
 	useEffect(() => {
@@ -172,12 +169,11 @@ const EmailNotifications = () => {
 			}
 		}
 	}, [email_preferences]);
-if(isload){
-	return <Loader />
-}
+
+	console.log('email_preferences',email_preferences)
 	return (
 		<Card className={styles.cardOverAll}>
-			
+			{isload || (isLoading && <Loader />)}
 			<Flex>
 				<Text bold size={16}>
 					Set your preferences for email notifications
@@ -265,22 +261,12 @@ if(isload){
 					<Text className={styles.content}>
 						We’ll send an email when you cancel the subscription.
 					</Text>
-					<Flex row>
-						<div style={{ marginTop: -1 }}>
-							<SvgInfo height={18} width={18} />
-						</div>
-						<Text style={{ marginLeft: 10 }}>
-							{' '}
-							These emails are mandatory, cannot be disabled.
-						</Text>
-					</Flex>
 				</Flex>
 				<Flex flex={4}>
 					<div className={styles.content} style={{ marginLeft: 22 }}>
 						<InputSwitch
 							label={isstage1 ? 'On' : 'Off'}
 							checked={isstage1}
-							disabled
 							onClick={() =>
 								isstage1
 									? email_preferences &&
@@ -300,7 +286,6 @@ if(isload){
 						<InputSwitch
 							label={isstage2 ? 'On' : 'Off'}
 							checked={isstage2}
-							disabled
 							onClick={() =>
 								isstage2
 									? email_preferences &&
@@ -320,7 +305,6 @@ if(isload){
 						<InputSwitch
 							label={isstage3 ? 'On' : 'Off'}
 							checked={isstage3}
-							disabled
 							onClick={() =>
 								isstage3
 									? email_preferences &&
@@ -464,7 +448,7 @@ if(isload){
 						</div>
 						<Text style={{ marginLeft: 10 }}>
 							{' '}
-							This email is mandatory, cannot be disabled.
+							These emails are mandatory, cannot be disabled.
 						</Text>
 					</Flex>
 				</Flex>

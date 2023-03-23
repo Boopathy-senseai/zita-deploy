@@ -33,7 +33,6 @@ const NonDsSkill = ({
   job_description,
   onDirty,
 }: Props) => {
-  // free fill initial skill
   useEffect(() => {
     if (jdParseSkill.length !== 0 && job_description !== '') {
       const jdDuplicate =
@@ -56,16 +55,12 @@ const NonDsSkill = ({
     skills.map((skillList) => {
       return { value: skillList.skill, label: skillList.skill };
     });
-
   const jdParseSkillEmpty =
     skillUpdate && skillUpdate.filter((x) => x.value !== '');
-
   useEffect(() => {
     setFieldValue('nonDsSkill', jdParseSkillEmpty);
   }, [skills]);
-  
-  // skill change function
-  const handleChange = useCallback((newValue, data) => {
+  const handleChange = useCallback((newValue:any, data:any) => {
     if (data.action === 'select-option') {
       onDirty();
       setFieldValue('nonDsSkill', newValue);

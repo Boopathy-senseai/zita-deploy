@@ -58,7 +58,7 @@ const BulkAction = ({
   setIsCheck,
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
-// bulk unlock function
+
   const handleUnlockSubmit = () => {
     if (planID !== 1) {
       if (isCheckArray.length !== 0) {
@@ -106,7 +106,6 @@ const BulkAction = ({
     }
   };
 
-  // bulk download submit
   const handleDownloadSubmit = () => {
     if (isCheckArray.length !== 0) {
       dispatch(

@@ -1,19 +1,15 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { INTEGRATION,GOOGLE_SYNC,OUTLOOK_SYNC,CALBACK_URL,CALBACK_GOOGLE_URL } from '../../../../../actions/actions';
+import { intergrationApi,googleSyncApi,outlookSyncApi,calbackurlApi,calbackurlGoogleApi } from '../../../../../routes/apiRoutes';
 
-var qs = require('qs');
-export const msEventMiddleWare = createAsyncThunk(
-  'ms_event',
-  async ({ accessToken }: { accessToken: string }, { rejectWithValue }) => {
+// import { CompanyPageload } from './../../CompanyPageTypes';
+
+export const intergrationMiddleWare = createAsyncThunk(
+  INTEGRATION,
+  async (_a, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(
-        'https://graph.microsoft.com/v1.0/me/calendar/events',
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        },
-      );
+      const { data } = await axios.get(intergrationApi);
       return data;
     } catch (error) {
       const typedError = error as Error;
@@ -21,21 +17,11 @@ export const msEventMiddleWare = createAsyncThunk(
     }
   },
 );
-export const msEventMiddleWareMe = createAsyncThunk(
-  'ms_event_me',
-  async ({ accessToken }: { accessToken: string }, { rejectWithValue }) => {
+export const googleSyncMiddleWare = createAsyncThunk(
+  GOOGLE_SYNC,
+  async (_a, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(
-        'https://graph.microsoft.com/v1.0/me',
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-          params:{
-            '$select': 'displayName,mail,mailboxSettings,userPrincipalName'
-          }
-        },
-      );
+      const { data } = await axios.get(googleSyncApi);
       return data;
     } catch (error) {
       const typedError = error as Error;
@@ -44,46 +30,17 @@ export const msEventMiddleWareMe = createAsyncThunk(
   },
 );
 
-export const googleEventMiddleWare = createAsyncThunk(
-  'google_event',
-  async (
-    { accessToken, key }: { accessToken: string; key: string },
-    { rejectWithValue },
-  ) => {
+export const googleCallMiddleWare = createAsyncThunk(
+  CALBACK_GOOGLE_URL,
+  async ({ state,code,scope,}:any, { rejectWithValue }) => {
     try {
-      const data = await fetch(
-        `https://content.googleapis.com/calendar/v3/calendars/primary/events?key=${key}`,
-        {
-          headers: {
-            authorization: `Bearer ${accessToken}`,
-          },
+      const { data } = await axios.get(calbackurlGoogleApi,{
+        params: {
+         state,
+          code,
+          scope,
         },
-      );
-      return await data.json();
-    } catch (error) {
-      const typedError = error as Error;
-      return rejectWithValue(typedError);
-    }
-  },
-);
-
-export const calenderTokenMiddleWare = createAsyncThunk(
-  'calendar_token_store',
-  async (
-    { calendar, info }: { calendar: string; info: any },
-    { rejectWithValue },
-  ) => {
-    try {
-      const { data } = await axios.post(
-        'calendar_token_store/',
-        qs.stringify(
-          {
-            calendar,
-            info: JSON.stringify([info]),
-          },
-          { arrayFormat: 'comma' },
-        ),
-      );
+      });
       return data;
     } catch (error) {
       const typedError = error as Error;
@@ -91,12 +48,14 @@ export const calenderTokenMiddleWare = createAsyncThunk(
     }
   },
 );
-export const calenderTokenDeleteMiddleWare = createAsyncThunk(
-  'calendar_token_store_update',
-  async ({ calendar }: { calendar: string }, { rejectWithValue }) => {
+export const calbackurlMiddleWare = createAsyncThunk(
+  CALBACK_URL,
+  async ({ code }:any, { rejectWithValue }) => {
     try {
-      const { data } = await axios.delete('calendar_token_store/', {
-        params: { calendar },
+      const { data } = await axios.get(calbackurlApi,{
+        params: {
+         code
+        },
       });
       return data;
     } catch (error) {
@@ -106,23 +65,11 @@ export const calenderTokenDeleteMiddleWare = createAsyncThunk(
   },
 );
 
-export const calenderTokenGetMiddleWare = createAsyncThunk(
-  'calendar_token_store_get',
+export const outlookSyncMiddleWare = createAsyncThunk(
+  OUTLOOK_SYNC,
   async (_a, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get('calendar_token_store/', {});
-      return data;
-    } catch (error) {
-      const typedError = error as Error;
-      return rejectWithValue(typedError);
-    }
-  },
-);
-export const deleteGoogleMiddleware = createAsyncThunk(
-  'delete_google_account',
-  async (_a, { rejectWithValue }) => {
-    try {
-      const { data } = await axios.delete('delete_google_account/', {});
+      const { data } = await axios.get(outlookSyncApi);
       return data;
     } catch (error) {
       const typedError = error as Error;
@@ -131,11 +78,15 @@ export const deleteGoogleMiddleware = createAsyncThunk(
   },
 );
 
-export const deleteOutlookMiddleware = createAsyncThunk(
-  'delete_outlook_account',
-  async (_a, { rejectWithValue }) => {
+export const intergrationPostMiddleWare = createAsyncThunk(
+  INTEGRATION,
+  async ({ formData }: any, { rejectWithValue }) => {
     try {
-      const { data } = await axios.delete('delete_outlook_account/', {});
+      const data = await axios.post(
+        intergrationApi,
+
+        formData,
+      );
       return data;
     } catch (error) {
       const typedError = error as Error;

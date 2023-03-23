@@ -57,7 +57,7 @@ const CheckBox = ({
   className,
 }: Props) => {
   const handleOnClick = useCallback(
-    (e) => {
+    (e:any) => {
       const isValuePresent = Array.isArray(value);
       if (typeof onClick === 'function') {
         if (!value) {

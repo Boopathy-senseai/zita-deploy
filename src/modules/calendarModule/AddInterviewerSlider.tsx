@@ -67,10 +67,10 @@ const AddInterviewersUI = ({
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [myTeam, setMyTeam] = useState<TeamMemberType[]>(null);
+  const [myTeam, setMyTeam] = useState<TeamMemberType[]>([]);
   const [teamMemberEvents, setTeamMemberEvents] =
     useState<CalendarEventType[]>(currentUserEvents);
-  const [searchTerm, setSearchTerm] = useState<string>(null);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   useEffect(() => {
     dispatch(getUsersByCompanyIdMiddleware())
@@ -119,15 +119,20 @@ const AddInterviewersUI = ({
                   link: 'hangoutLink' in items ? items.hangoutLink : '',
                   eventId: items.id,
                   organizer: items.organizer.email,
-                };
-
-                if ('attendees' in items) {
-                  eventData['attendees'] = items.attendees.map(
+                  attendees: items.attendees?.map(
                     (attendee: { email: any }) => {
                       return attendee.email;
                     },
-                  );
-                }
+                  ) || [],
+                };
+
+                // if ('attendees' in items) {
+                //   eventData['attendees'] = items.attendees.map(
+                //     (attendee: { email: any }) => {
+                //       return attendee.email;
+                //     },
+                //   );
+                // }
                 return eventData;
               }),
             ]);

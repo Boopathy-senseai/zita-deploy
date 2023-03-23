@@ -54,12 +54,6 @@
   position: absolute;
   top: 42px;
 }
-.notesDisableFlex {
-  
-  width: fit-content;
-  position: absolute;
-  top: 42px;
-}
 .inviteContainer {
   align-self: center;
   width: 25%;

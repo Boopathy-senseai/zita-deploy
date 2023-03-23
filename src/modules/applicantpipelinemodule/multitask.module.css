@@ -55,15 +55,3 @@
   display: flex;
   flex: 1;
 }
-
-.overAll {
-  background-color: var(--color-white, #ffffff);
-  border-radius: 4px;
-  padding: 16px;
-  position: relative;
-  padding-right: 32px;
-  /* width: 200%;
-  margin-left: -57%;
-  height:110%;
-  margin-top: -10%; */
-}

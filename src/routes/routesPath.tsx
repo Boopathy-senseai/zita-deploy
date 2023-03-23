@@ -4,6 +4,4 @@ export const routesPath = {
   MYDATABASE: '/mydatabase',
   JOBS: '/jobs',
   MY_JOB_POSTING: '/job_list',
-  REPORTS: '/reports',
-  CALENDAR: '/calendar',
 };

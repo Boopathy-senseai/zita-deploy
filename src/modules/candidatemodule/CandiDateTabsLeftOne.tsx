@@ -30,10 +30,7 @@ const CandiDateTabsLeftOne = ({ activeState }: typeof defaultProps) => {
         <NotesTab />
       </Tab>
       <Tab title={'All Matching Jobs'}>
-        <AllMatchTab
-          title={ALL_CANDI_MATCH_TITLE}
-          inviteMessage={'Candidate Invited successfully'}
-        />
+        <AllMatchTab title={ALL_CANDI_MATCH_TITLE} />
       </Tab>
     </Tabs>
   );

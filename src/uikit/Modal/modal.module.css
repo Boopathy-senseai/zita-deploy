@@ -1,7 +1,7 @@
 .container {
   top: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.18);
+  background-color: rgba(0,0,0,0.18);
   z-index: 99;
   flex: 1;
   justify-content: center;

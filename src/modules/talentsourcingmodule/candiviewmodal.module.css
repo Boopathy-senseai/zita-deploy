@@ -4,8 +4,7 @@
   position: absolute;
   top: 0;
   right: 0;
-  /* min-width: 400px; */
-  width: 80%;
+  min-width: 400px;
 }
 .modal {
   background-color: red !important;

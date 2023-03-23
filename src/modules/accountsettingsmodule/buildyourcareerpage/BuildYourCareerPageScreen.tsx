@@ -6,16 +6,11 @@ import { AppDispatch, RootState } from '../../../store';
 import Loader from '../../../uikit/Loader/Loader';
 import Button from '../../../uikit/Button/Button';
 import Flex from '../../../uikit/Flex/Flex';
-import { getFocus, isEmpty } from '../../../uikit/helper';
+import { isEmpty } from '../../../uikit/helper';
 import LinkWrapper from '../../../uikit/Link/LinkWrapper';
 import Card from '../../../uikit/Card/Card';
 import Toast from '../../../uikit/Toast/Toast';
-import {
-  isValidURL,
-  mediaPath,
-  nameRegex,
-  THIS_FIELD_REQUIRED,
-} from '../../constValue';
+import { mediaPath, THIS_FIELD_REQUIRED } from '../../constValue';
 import BannerSetup from './BannerSetup';
 import CareersPageURL from './CareersPageURL';
 import FooterSetup from './FooterSetup';
@@ -26,21 +21,15 @@ import { formikFormTypes } from './formikTypes';
 import {
   buildCareerMiddleWare,
   buildCareerPostMiddleWare,
-  urlVerificationMiddleWare,
 } from './store/middleware/buildyourcareerpagemiddleware';
-
-type Props = {
-  isInput: boolean;
-  setInput: (a: boolean) => void;
-  setReload: (a: boolean) => void;
-};
+import { handleLoginValid } from './careerHelper';
 
 const initial: formikFormTypes = {
   pagaeUrl: '',
   pageFontStyle: 'Helvetica',
   pageFontSize: '14',
   headerFontSize: '14',
-  headerColor: { hex: '#fffff' },
+  headerColor: { hex: '#581845' },
   menu1: '',
   menu1Url: 'https://',
   menu2: '',
@@ -52,17 +41,17 @@ const initial: formikFormTypes = {
   bannerTextFontSize: '14',
   bannerText: '',
   btnColor: { hex: '#f26522' },
-  footerColor: { hex: '#fffff' },
+  footerColor: { hex: '#581845' },
   aboutText: '',
 };
 
-  // formik validation
-  const validationSchema = Yup.object().shape({
-    pagaeUrl: Yup.string().required(THIS_FIELD_REQUIRED),
-  });
-
-const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
+type Props = {
+  isInput: boolean;
+  setInput: (a: boolean) => void;
+};
+const BuildYourCareerPageScreen = ({ isInput, setInput }: Props) => {
   const dispatch: AppDispatch = useDispatch();
+  const [isApi, setApi] = useState(true);
   const [isFile, setFile] = useState<any>({});
   const [isCareerImgClick, setCareerImgClick] = useState(true);
   const [isPageSetUpImgClick, setPageSetUpImgClick] = useState(false);
@@ -70,23 +59,14 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
   const [isBannerSetUpImgClick, setBannerSetUpImgClick] = useState(false);
   const [isFooterSetUpImgClick, setFooterSetUpImgClick] = useState(false);
   const [isSubmitLoader, setSubmitLoader] = useState(false);
-  const [isBtnDisable, setBtnDisable] = useState(true);
-  const [isUrlError, setUrlError] = useState(false);
 
-  // initial api call
   useEffect(() => {
-    dispatch(buildCareerMiddleWare()).then((res) => {
-      if (
-        res.payload.career_page &&
-        !isEmpty(res.payload.career_page.career_page_url)
-      ) {
-        setInput(false);
-      } else {
-        setInput(true);
-      }
-    });
+    if (isApi) {
+      dispatch(buildCareerMiddleWare()).then(() => {
+        setApi(false);
+      });
+    }
   }, []);
-
 
   const { isLoading, career_page, company_detail } = useSelector(
     ({ buildCareerPageReducers }: RootState) => {
@@ -98,10 +78,11 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
     },
   );
 
+  const validationSchema = Yup.object().shape({
+    pagaeUrl: Yup.string().required(THIS_FIELD_REQUIRED),
+  });
 
-    // formik submit
   const handleSubmit = (values: formikFormTypes) => {
-    setReload(false);
     setSubmitLoader(true);
     const formData = new FormData();
     formData.append('career_page_url', values.pagaeUrl);
@@ -144,7 +125,6 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
       setSubmitLoader(false);
       if (res.payload.success) {
         setInput(false);
-        setBtnDisable(true);
         dispatch(buildCareerMiddleWare());
         Toast('Details saved successfully', 'LONG');
       } else {
@@ -153,245 +133,62 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
     });
   };
 
-
-// formik validation
-  const handleValid = (values: formikFormTypes) => {
-    const errors: Partial<formikFormTypes> = {};
-    if (!isEmpty(values.pagaeUrl) && !nameRegex.test(values.pagaeUrl)) {
-      errors.pagaeUrl = '';
-    }
-    if (!isEmpty(values.pagaeUrl) && isUrlError) {
-      errors.pagaeUrl = '';
-    }
-    // header setup
-    if (
-      !isEmpty(values.headerColor.hex) &&
-      values.headerColor.hex.length > 20
-    ) {
-      errors.headerColor = { hex: '' };
-    }
-    if (isEmpty(values.headerColor.hex)) {
-      errors.headerColor = { hex: THIS_FIELD_REQUIRED };
-    }
-    if (!isEmpty(values.menu1) && values.menu1.length > 50) {
-      errors.menu1 = '';
-    }
-    if (
-      isEmpty(values.menu1) &&
-      !isEmpty(values.menu1Url) &&
-      values.menu1Url !== 'https://'
-    ) {
-      errors.menu1 = '';
-    }
-    if (!isEmpty(values.menu2) && values.menu2.length > 50) {
-      errors.menu2 = '';
-    }
-    if (
-      isEmpty(values.menu2) &&
-      !isEmpty(values.menu2Url) &&
-      values.menu2Url !== 'https://'
-    ) {
-      errors.menu2 = '';
-    }
-    if (!isEmpty(values.menu3) && values.menu3.length > 50) {
-      errors.menu3 = '';
-    }
-    if (
-      isEmpty(values.menu3) &&
-      !isEmpty(values.menu3Url) &&
-      values.menu3Url !== 'https://'
-    ) {
-      errors.menu3 = '';
-    }
-    if (
-      !isEmpty(values.menu1) &&
-      isValidURL(values.menu1Url) === false &&
-      values.menu1Url !== 'https://'
-    ) {
-      errors.menu1Url = '';
-    }
-    if (!isEmpty(values.menu1) && values.menu1Url === 'https://') {
-      errors.menu1Url = '';
-    }
-
-    if (
-      !isEmpty(values.menu2) &&
-      isValidURL(values.menu2Url) === false &&
-      values.menu2Url !== 'https://'
-    ) {
-      errors.menu2Url = '';
-    }
-    if (!isEmpty(values.menu2) && values.menu2Url === 'https://') {
-      errors.menu2Url = '';
-    }
-
-    if (
-      !isEmpty(values.menu3) &&
-      isValidURL(values.menu3Url) === false &&
-      values.menu3Url !== 'https://'
-    ) {
-      errors.menu3Url = '';
-    }
-    if (!isEmpty(values.menu3) && values.menu3Url === 'https://') {
-      errors.menu3Url = '';
-    }
-    // BannerSetup
-    if (
-      !isEmpty(values.bannerHeadingText) &&
-      values.bannerHeadingText.length > 50
-    ) {
-      errors.bannerHeadingText = '';
-    }
-    if (!isEmpty(values.bannerText) && values.bannerText.length <= 150) {
-      errors.bannerText = '';
-    }
-    if (!isEmpty(values.bannerText) && values.bannerText.length > 500) {
-      errors.bannerText = '';
-    }
-
-    // FooterSetup
-
-    if (!isEmpty(values.btnColor.hex) && values.btnColor.hex.length > 20) {
-      errors.btnColor = { hex: '' };
-    }
-    if (isEmpty(values.btnColor.hex)) {
-      errors.btnColor = { hex: THIS_FIELD_REQUIRED };
-    }
-    if (
-      !isEmpty(values.footerColor.hex) &&
-      values.footerColor.hex.length > 20
-    ) {
-      errors.footerColor = { hex: '' };
-    }
-    if (isEmpty(values.footerColor.hex)) {
-      errors.footerColor = { hex: THIS_FIELD_REQUIRED };
-    }
-    if (!isEmpty(values.aboutText) && values.aboutText.length <= 150) {
-      errors.aboutText = '';
-    }
-    if (!isEmpty(values.aboutText) && values.aboutText.length > 500) {
-      errors.aboutText = '';
-    }
-    return errors;
-  };
-
   const formik = useFormik({
     initialValues: initial,
     onSubmit: (value) => handleSubmit(value),
-    validate: handleValid,
+    validate: handleLoginValid,
     validationSchema,
   });
 
   const logoUrl =
-    career_page && career_page.banner_img
-      ? career_page.banner_img
-      : 'slider1.jpg';
+    career_page && career_page.banner_img ? career_page.banner_img : 'logo.png';
 
   const imgUrl =
     isFile && isFile.imagePreviewUrl === undefined
       ? `${mediaPath + logoUrl}`
       : isFile.imagePreviewUrl;
 
-  // formik free fill initial value set
   useEffect(() => {
-    if (career_page) {
+    if (career_page !== null) {
       formik.setFieldValue('pagaeUrl', career_page.career_page_url);
-    }
-
-    if (career_page && !isEmpty(career_page.page_font_size)) {
-      formik.setFieldValue(
-        'pageFontSize',
-        career_page.page_font_size.toString(),
-      );
-    } else {
-      formik.setFieldValue('pageFontSize', '14');
-    }
-
-    if (career_page && !isEmpty(career_page.page_font)) {
+      formik.setFieldValue('pageFontSize', career_page.page_font_size);
       formik.setFieldValue('pageFontStyle', career_page.page_font);
-    } else {
-      formik.setFieldValue('pageFontStyle', 'Helvetica');
-    }
-
-    if (career_page && !isEmpty(career_page.header_font_size)) {
-      formik.setFieldValue(
-        'headerFontSize',
-        career_page.header_font_size.toString(),
-      );
-    } else {
-      formik.setFieldValue('headerFontSize', '16');
-    }
-
-    if (career_page && !isEmpty(career_page.header_color)) {
+      formik.setFieldValue('headerFontSize', career_page.header_font_size);
       formik.setFieldValue('headerColor.hex', career_page.header_color);
-    } else {
-      formik.setFieldValue('headerColor.hex', '#ffffff');
-    }
-
-    if (career_page) {
       formik.setFieldValue('menu1', career_page.menu_1);
+      if (!isEmpty(career_page.menu_1_url)) {
+        formik.setFieldValue('menu1Url', career_page.menu_1_url);
+      } else {
+        formik.setFieldValue('menu1Url', 'https://');
+      }
       formik.setFieldValue('menu2', career_page.menu_2);
+      if (!isEmpty(career_page.menu_2_url)) {
+        formik.setFieldValue('menu2Url', career_page.menu_2_url);
+      } else {
+        formik.setFieldValue('menu2Url', 'https://');
+      }
       formik.setFieldValue('menu3', career_page.menu_3);
-      formik.setFieldValue('aboutText', career_page.about_us);
-      formik.setFieldValue('bannerText', career_page.banner_text);
-    }
-
-    if (career_page && !isEmpty(career_page.menu_1_url)) {
-      formik.setFieldValue('menu1Url', career_page.menu_1_url);
-    } else {
-      formik.setFieldValue('menu1Url', 'https://');
-    }
-
-    if (career_page && !isEmpty(career_page.menu_2_url)) {
-      formik.setFieldValue('menu2Url', career_page.menu_2_url);
-    } else {
-      formik.setFieldValue('menu2Url', 'https://');
-    }
-
-    if (career_page && !isEmpty(career_page.menu_3_url)) {
-      formik.setFieldValue('menu3Url', career_page.menu_3_url);
-    } else {
-      formik.setFieldValue('menu3Url', 'https://');
-    }
-
-    if (career_page && !isEmpty(career_page.banner_header_text)) {
+      if (!isEmpty(career_page.menu_3_url)) {
+        formik.setFieldValue('menu3Url', career_page.menu_3_url);
+      } else {
+        formik.setFieldValue('menu3Url', 'https://');
+      }
       formik.setFieldValue('bannerHeadingText', career_page.banner_header_text);
-    } else {
-      formik.setFieldValue('bannerHeadingText', '');
-    }
+      if (!isEmpty(career_page.banner_heading_size)) {
+        formik.setFieldValue(
+          'bannerHeadingFontSize',
+          career_page.banner_heading_size,
+        );
+      }
 
-    if (career_page && !isEmpty(career_page.banner_heading_size)) {
-      formik.setFieldValue(
-        'bannerHeadingFontSize',
-        career_page.banner_heading_size.toString(),
-      );
-    } else {
-      formik.setFieldValue('bannerHeadingFontSize', '14');
-    }
-
-    if (career_page && !isEmpty(career_page.banner_font_size)) {
-      formik.setFieldValue(
-        'bannerTextFontSize',
-        career_page.banner_font_size.toString(),
-      );
-    } else {
-      formik.setFieldValue('bannerTextFontSize', '14');
-    }
-
-    if (career_page && !isEmpty(career_page.button_color)) {
+      formik.setFieldValue('bannerTextFontSize', career_page.banner_font_size);
+      formik.setFieldValue('bannerText', career_page.banner_text);
       formik.setFieldValue('btnColor.hex', career_page.button_color);
-    } else {
-      formik.setFieldValue('btnColor.hex', '#f26522');
-    }
-
-    if (career_page && !isEmpty(career_page.footer_color)) {
       formik.setFieldValue('footerColor.hex', career_page.footer_color);
-    } else {
-      formik.setFieldValue('footerColor.hex', '#ffffff');
+      formik.setFieldValue('aboutText', career_page.about_us);
     }
   }, [career_page, isLoading]);
 
-  // set url imgage
   const handleUrlClick = () => {
     setCareerImgClick(true);
     setPageSetUpImgClick(false);
@@ -399,7 +196,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
     setBannerSetUpImgClick(false);
     setFooterSetUpImgClick(false);
   };
-  // set page setup imgage
+
   const handlePageSetUpClick = () => {
     setPageSetUpImgClick(true);
     setCareerImgClick(false);
@@ -407,7 +204,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
     setBannerSetUpImgClick(false);
     setFooterSetUpImgClick(false);
   };
- // set header setup imgage
+
   const handleHeaderSetUp = () => {
     setHeaderSetUpImgClick(true);
     setCareerImgClick(false);
@@ -415,7 +212,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
     setBannerSetUpImgClick(false);
     setFooterSetUpImgClick(false);
   };
- // set banner setup imgage
+
   const handleBannerSetUp = () => {
     setBannerSetUpImgClick(true);
     setHeaderSetUpImgClick(false);
@@ -423,7 +220,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
     setPageSetUpImgClick(false);
     setFooterSetUpImgClick(false);
   };
- // set footer setup imgage
+
   const handleFooterSetUp = () => {
     setFooterSetUpImgClick(true);
     setBannerSetUpImgClick(false);
@@ -434,30 +231,17 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
 
   const previewUrl = career_page && career_page.career_page_url;
 
-  // url api call for validation 
   useEffect(() => {
-    if (!isEmpty(formik.values.pagaeUrl) && isInput) {
-      dispatch(urlVerificationMiddleWare({ url: formik.values.pagaeUrl })).then(
-        (res) => {
-          if (res.payload.success === 1 && career_page && career_page.career_page_url !== formik.values.pagaeUrl) {
-            setUrlError(true);
-          } else {
-            setUrlError(false);
-          }
-        },
-      );
+    if (!isEmpty(formik.values.pagaeUrl)) {
+      setInput(false);
     }
-  }, [formik.values.pagaeUrl]);
-
-  // console.log('isUrlError',isUrlError);
-  
-  if (isLoading) {
-    return <Loader />;
-  }
-
+    if (isEmpty(formik.values.pagaeUrl)) {
+      setInput(true);
+    }
+  }, [career_page]);
   return (
     <Flex row>
-      {isSubmitLoader && <Loader />}
+      {(isSubmitLoader || isLoading) && <Loader />}
       <Flex columnFlex flex={6} className={styles.leftFlex}>
         <div
           onClick={handleUrlClick}
@@ -470,11 +254,6 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
             career_page={career_page}
             isInput={isInput}
             setInput={setInput}
-            setReload={() => {
-              setReload(true);
-              setBtnDisable(false);
-            }}
-            isUrlError={isUrlError}
           />
         </div>
         <div
@@ -483,13 +262,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
           role="button"
           onKeyDown={() => {}}
         >
-          <PageSetup
-            formik={formik}
-            setReload={() => {
-              setReload(true);
-              setBtnDisable(false);
-            }}
-          />
+          <PageSetup formik={formik} />
         </div>
         <div
           onClick={handleHeaderSetUp}
@@ -497,14 +270,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
           role="button"
           onKeyDown={() => {}}
         >
-          <HeaderSetup
-            formik={formik}
-            company_detail={company_detail}
-            setReload={() => {
-              setReload(true);
-              setBtnDisable(false);
-            }}
-          />
+          <HeaderSetup formik={formik} company_detail={company_detail} />
         </div>
         <div
           onClick={handleBannerSetUp}
@@ -512,16 +278,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
           role="button"
           onKeyDown={() => {}}
         >
-          <BannerSetup
-          setBtnDisable={setBtnDisable}
-            formik={formik}
-            setFile={setFile}
-            imgUrl={imgUrl}
-            setReload={() => {
-              setReload(true);
-              setBtnDisable(false);
-            }}
-          />
+          <BannerSetup formik={formik} setFile={setFile} imgUrl={imgUrl} />
         </div>
         <div
           onClick={handleFooterSetUp}
@@ -529,22 +286,10 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
           role="button"
           onKeyDown={() => {}}
         >
-          <FooterSetup
-            formik={formik}
-            setReload={() => {
-              setReload(true);
-              setBtnDisable(false);
-            }}
-          />
+          <FooterSetup formik={formik} />
         </div>
         <Flex row center className={styles.marginTop16}>
-          <Button onClick={()=>{
-                if (!isEmpty(formik.errors.pagaeUrl) || isEmpty(formik.errors.pagaeUrl)) {
-                  getFocus('CareersPageURL___urlInput');                  
-                }
-            formik.handleSubmit();
-        
-            }} disabled={isBtnDisable}>
+          <Button onClick={formik.handleSubmit} disabled={!formik.isValid}>
             Save
           </Button>
           {isEmpty(previewUrl) ? (
@@ -560,7 +305,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
               <Button className={styles.previewBtn}>Preview</Button>
             </LinkWrapper>
           )}
-          <LinkWrapper to="/">
+          <LinkWrapper to="/" target={'_parent'}>
             <Button types="secondary">My Dashboard</Button>
           </LinkWrapper>
         </Flex>

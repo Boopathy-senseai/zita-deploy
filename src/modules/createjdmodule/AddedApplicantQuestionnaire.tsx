@@ -41,13 +41,13 @@ const AddedApplicantQuestionnaire = ({
       </Flex>
       <Flex row center between className={styles.btnContainer}>
         {ds_role === true && (
-          <LinkWrapper  to={`/jobs/create_ds_edit/${jdId}`}>
+          <LinkWrapper target={'_parent'} to={`/jobs/create_ds_edit/${jdId}`}>
             <Button types="secondary">{'Back'}</Button>
           </LinkWrapper>
         )}
         {ds_role !== true && (
           <LinkWrapper
-            
+            target={'_parent'}
             to={`/jobs/create_non_ds_edit/${jdId}`}
           >
             <Button types="secondary">{'Back'}</Button>
@@ -55,13 +55,13 @@ const AddedApplicantQuestionnaire = ({
         )}
 
         <Flex row center>
-          <LinkWrapper  to={routesPath.MY_JOB_POSTING}>
+          <LinkWrapper target={'_parent'} to={routesPath.MY_JOB_POSTING}>
             <Button types="secondary">{CANCEL}</Button>
           </LinkWrapper>
 
           <LinkWrapper
             onClick={() => onPristine()}
-            
+            target={'_parent'}
             to={routesPath.MY_JOB_POSTING}
           >
             <Button types="secondary" className={styles.saveBtn}>
@@ -71,7 +71,7 @@ const AddedApplicantQuestionnaire = ({
 
           <LinkWrapper
             onClick={() => onPristine()}
-            
+            target={'_parent'}
             to={`/jobs/preview/${jdId}`}
           >
             <Button>Preview</Button>

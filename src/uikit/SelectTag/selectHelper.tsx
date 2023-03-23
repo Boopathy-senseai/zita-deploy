@@ -179,7 +179,7 @@ export const customStylesMulti = {
     fontSize: 14,
     color: GARY_1,
     height: 74,
-    overflowY: 'scroll',
+    overflowY: 'overlay',
     scrollbarWidth: 'thin',
     alignItems: 'flex-start',
     paddingTop: 4,

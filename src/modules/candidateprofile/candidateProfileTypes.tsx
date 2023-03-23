@@ -1,3 +1,5 @@
+import { AnySchema } from 'yup';
+
 export interface CandidateProfileEdit {
   obj?: Obj;
   additional_detail?: AdditionalDetailEntity;
@@ -8,44 +10,7 @@ export interface CandidateProfileEdit {
   email?: number;
   till_date?: number;
   personal_obj?: Personal;
-  projects: ProjectsEntityOne[];
-  experiences?: ExperiencesEntity[];
-  company_detail?: any;
-  career_page_setting?:any;
-  applied_status?:any
 }
-
-export interface ExperiencesEntity {
-  exp_id: number;
-  application_id_id: number;
-  organisations: string;
-  org_domain?: null;
-  designation: string;
-  work_location: string;
-  work_tools: string;
-  work_role: string;
-  from_exp: string;
-  to_exp?: string | null;
-  is_present: boolean;
-}
-
-export interface ProjectsEntityOne {
-  project_id: number;
-  application_id_id: number;
-  work_proj_name: string;
-  work_proj_client: string;
-  work_proj_describe?: null;
-  work_proj_desig: string;
-  work_proj_role: string;
-  work_proj_duration: string;
-  work_proj_domain?: null;
-  work_proj_location: string;
-  work_proj_skills: string;
-  work_proj_type: boolean;
-  work_proj_org_id_id?: null;
-  updated_at: string;
-}
-
 export interface AdditionalDetailEntity {
   application_id_id: number;
   id: number;
@@ -61,24 +26,17 @@ export interface Obj {
   linkedin_url: string;
   repo: string;
   summary: string;
-  projects?: any[];
+  projects?: AnySchema[];
   exp?: ExpEntity[];
   edu?: EduEntity[];
   skills?: string[];
   skill_id: SkillId;
   soft_skills: any[];
-  certi?: certiEntity[];
-  ac_projects?: any[];
+  certi?: AnySchema[];
+  ac_projects?: AnySchema[];
   proj_list?: ProjListEntity[];
-  contribs?: any[];
+  contribs?: AnySchema[];
   internships?: InternshipsEntity[];
-}
-
-export interface certiEntity {
-  cert_id: number;
-  certificate_by: string;
-  certificate_year: string;
-  certification_name: string;
 }
 export interface ExpEntity {
   exp_id: number;
@@ -164,7 +122,7 @@ export interface Personal {
   type_of_job_id: number;
   available_to_start_id: number;
   industry_type_id: number;
-  desired_shift_id?: any;
+  desired_shift_id?: AnySchema;
   curr_gross: string;
   current_currency: string;
   exp_gross: number;
@@ -194,17 +152,17 @@ export interface UserInfo {
   first_name: string;
   last_name: string;
   email: string;
-  applicant_status_id?: any;
+  applicant_status_id?: AnySchema;
   application_status: number;
   password: string;
   active: boolean;
   employer_id: number;
   is_backend_match: boolean;
   application_id_id: number;
-  selected_role_id?: any;
-  ds_profile_id?: any;
+  selected_role_id?: AnySchema;
+  ds_profile_id?: AnySchema;
   val_status_2recruiter: boolean;
-  rdset_template_id?: any;
+  rdset_template_id?: AnySchema;
   updated_at: string;
 }
 
@@ -254,40 +212,5 @@ export interface EducationUpdatePayload {
   institute_location: string;
   year_completed: string;
   percentage: string;
-  eduId?: string;
-}
-
-export interface WorkExpPayload {
-  organisations: string;
-  org_domain?: string;
-  designation: string;
-  work_location: string;
-  work_tools: string;
-  work_role: string;
-  from_exp: any;
-  to_exp: any;
-  till_date: string;
-  id?: string;
-}
-
-export interface ProjectPayload {
-  work_proj_name: string;
-  work_proj_client: string;
-  work_proj_describe: string;
-  work_proj_desig: string;
-  work_proj_role: string;
-  work_proj_duration: string;
-  work_proj_domain: string;
-  work_proj_location: string;
-  work_proj_skills: string;
-  work_proj_org_id: string;
-  id?: string;
-  work_proj_type: string;
-}
-
-export interface CertificatePayload {
-  certificate_name: string;
-  certificate_year: string;
-  certificate_by: string;
-  id?: string;
+  eduId:string
 }

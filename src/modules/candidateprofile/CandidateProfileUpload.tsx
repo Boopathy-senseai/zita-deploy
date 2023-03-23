@@ -1,25 +1,19 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useLocation, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import SvgUpload from '../../icons/SvgUpload';
 import { AppDispatch } from '../../store';
 import Button from '../../uikit/Button/Button';
 import { WHITE } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
-import { isEmpty } from '../../uikit/helper';
-import LinkWrapper from '../../uikit/Link/LinkWrapper';
-import Loader from '../../uikit/Loader/Loader';
 import Text from '../../uikit/Text/Text';
-import { fileAccept, FILE_2MB, mediaPath } from '../constValue';
+import Toast from '../../uikit/Toast/Toast';
+import { fileAccept, FILE_2MB } from '../constValue';
 import JdParserLoader from '../createjdmodule/JdParserLoader';
 import { loginMiddleWare } from '../Login/store/middleware/loginMiddleWare';
-import { logOutMiddleWare } from '../navbar/store/middleware/navbarmiddleware';
 import styles from './candidateprofileupload.module.css';
-import {
-  imgGetMiddleWare,
-  resumeUploadMiddleWare,
-} from './store/middleware/candidateprofilemiddleware';
+import { resumeUploadMiddleWare } from './store/middleware/candidateprofilemiddleware';
 
 type ParamsType = {
   empId: string;
@@ -28,26 +22,10 @@ type ParamsType = {
 const CandidateProfileUpload = () => {
   const { empId } = useParams<ParamsType>();
   const dispatch: AppDispatch = useDispatch();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars-experimental
+  const history = useHistory();
   const [isLoader, setLoader] = useState(false);
-  const [isMb, setMb] = useState(false);
-  const [isImageLoader, setImagLoader] = useState(true);
-  const [isImage, setImage] = useState('');
 
-  useEffect(() => {
-    dispatch(imgGetMiddleWare({ empId })).then((res) => {
-      localStorage.setItem('jobViewLogo', mediaPath + res.payload.company.logo);
-      setImagLoader(false);
-      setImage(res.payload.company.logo);
-    });
-  }, []);
-  const useQuery = () => {
-    return new URLSearchParams(useLocation().search);
-  };
-
-  const query = useQuery();
-  const email: any = query.get('email');
-
-  // image upload function
   const handleOnChange = (e: any) => {
     setLoader(true);
     var fileExt = e.target.value;
@@ -61,15 +39,11 @@ const CandidateProfileUpload = () => {
       );
     } else if (e.target.files && e.target.files[0].size / 1024 / 1024 > 2) {
       setLoader(false);
-      setMb(true);
+      Toast(FILE_2MB, 'LONG', 'error');
     } else {
-      setMb(false);
       const formData = new FormData();
       formData.append('resume_file', e.target.files[0]);
       formData.append('emp-id', empId);
-      if (!isEmpty(email)) {
-        formData.append('email', email);
-      }
       dispatch(resumeUploadMiddleWare({ formData })).then((res) => {
         if (res.payload.success) {
           dispatch(
@@ -80,19 +54,11 @@ const CandidateProfileUpload = () => {
           ).then((loginRes) => {
             if (loginRes.payload.token !== undefined) {
               localStorage.setItem('token', loginRes.payload.token);
-              localStorage.setItem('loginUserCheck', loginRes.payload.is_staff);
-              localStorage.setItem(
-                'loginUserId',
-                loginRes.payload.is_staff ? '0' : loginRes.payload.username,
-              );
-
               setTimeout(() => {
                 setLoader(false);
                 axios.defaults.headers.common['Authorization'] =
                   'Token ' + localStorage.getItem('token');
-                window.location.replace(
-                  window.location.origin + `/candidate_profile_edit/${empId}`,
-                );
+                history.push(`/candidate_profile_edit/${empId}`);
               }, 100);
             }
           });
@@ -101,15 +67,6 @@ const CandidateProfileUpload = () => {
     }
   };
 
-  const logo: any =
-    localStorage.getItem('jobViewLogo') !== null
-      ? localStorage.getItem('jobViewLogo')
-      : '';
-
-  if (isImageLoader) {
-    return <Loader />;
-  }
-  
   return (
     <Flex
       columnFlex
@@ -119,33 +76,18 @@ const CandidateProfileUpload = () => {
     >
       <JdParserLoader
         open={isLoader}
-        title="Please wait... Your resume is getting parsed for prepopulation"
+        title="Please wait… Your JD is getting parsed for pre-population"
       />
       <div style={{ width: 1200 }}>
         <Flex row center between className={styles.navBarContainer}>
-          <div style={{ display: 'flex' }}>
-            {!isEmpty(isImage) && (
-              <img
-                style={{ objectFit: 'cover' }}
-                src={logo}
-                alt="logo"
-                // height={75}
-                // width={75}
-                className={styles.imageStyle}
-              />
-            )}
-          </div>
-
-          <LinkWrapper
-            to="/login"
-            onClick={() => {
-              dispatch(logOutMiddleWare()).then(() => {
-                localStorage.removeItem('token');
-              });
-            }}
-          >
-            <Button>Login</Button>
-          </LinkWrapper>
+          <img
+            src=""
+            alt="logo"
+            height={75}
+            width={75}
+            className={styles.imageStyle}
+          />
+          <Button>Login</Button>
         </Flex>
         <Flex center middle>
           <Flex center columnFlex className={styles.cardOverAll}>
@@ -181,11 +123,6 @@ const CandidateProfileUpload = () => {
                 </Text>
               </Flex>
             </label>
-            {isMb && (
-              <Text color="error" size={12} style={{ marginTop: 4 }}>
-                {FILE_2MB}
-              </Text>
-            )}
           </Flex>
         </Flex>
       </div>

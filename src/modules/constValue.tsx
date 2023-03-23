@@ -16,9 +16,8 @@ export const MAX_DISPLAYED_OPTIONS = 500;
 export const dndBoardId = 'abcedef';
 
 export const manageUser = () => {
-  sessionStorage.setItem('superUserTab', '2');
   return window.location.replace(
-    window.location.origin + '/account_setting/settings',
+    process.env.REACT_APP_HOME_URL + 'account/subscription/#headingOne',
   );
 };
 
@@ -61,48 +60,38 @@ export const GREATER_THAN_MIN = 'Value should be greater than min salary';
 export const LESS_THAN_MAX = 'Value should be less than max salary';
 export const PLEASE_ENTER_VALID_MAIL = 'Please enter a valid email address.';
 export const MAX_TEXT_LENGTH_20 =
-  'Text length should not exceed 20 characters.';
-
+  'Text length should not exceed 20 characters.';
 export const PASSWORD_MATCH = `The two password fields didn't match.`;
-export const ENTER_VALID_URL = 'Please enter a valid URL';
+export const ENTER_VALID_URL = 'Enter valid URL';
 export const JOB_TITLE_LIMIT_20 =
-  'Text length should not exceed 20 characters.';
+  'Text length should not exceed 20 characters.';
 export const FILE_2MB = 'Please choose a file size less than 2MB';
 
 export const checkUpperCase = /^(?=.*[A-Z])/;
 export const specialCharacter = /^(?=.*[@$!%*?&])/;
 export const domainValidation =
   /^([\w-.]+@(?!gmail\.com)(?!yahoo\.com)(?!hotmail\.com)(?!outlook\.com)(?!protonmail\.com)(?!live\.com)(?!mail\.com)(?!email\.com)(?!inbox\.com)([\w-]+.)+[\w-]{1,4})?$/;
-export const nameRegex = /^[a-z0-9\-\_]+$/;
+export const nameRegex = /^[a-z0-9\-]+$/;
 export const fileAccept = ['.doc', '.docx', '.pdf', '.txt'];
-export const imageFileAccept = ['.jpg', '.jpeg', '.png','.JPG','.JPGE','.PNG'];
+export const imageFileAccept = ['.jpg', '.jpeg', '.png'];
 export const isValidURL = (string: string) => {
   var res = string.match(
-    /(http[s]?:\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g,
+    /(https:\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g,
   );
   return res !== null;
 };
-// /^(http[s]?:\/\/(www\.)?|ftp:\/\/(www\.)?|www\.){1}([0-9A-Za-z-\.@:%_\+~#=]+)+((\.[a-zA-Z]{2,3})+)(\/(.)*)?(\?(.)*)?/g
 
 export const letters = /^[A-Za-z]+$/;
 export const onlyNumber = /^[0-9\b]+$/;
-export const zipCodeRegx = /^[A-Za-z0-9\-]+$/;
-
-export const phoneRegExp =
-  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 export const isValidLinkedinUrl = (url: string) => {
-  return /((https:\/\/)((www|\w\w)\.)?linkedin\.com\/)((([\w]{2,3})?)|([^\/]+\/(([\w|\d-&#?=])+\/?){1,}))$/gm.test(
+  return /((https?:\/\/)?((www|\w\w)\.)?linkedin\.com\/)((([\w]{2,3})?)|([^\/]+\/(([\w|\d-&#?=])+\/?){1,}))$/gm.test(
     url,
   );
 };
-
-export const numberAndSpaceCheck = /^[0-9\-\ ]+$/;
-
 export const manageLocation = () => {
-  sessionStorage.setItem('superUserTab', '2');
   return window.location.replace(
-    window.location.origin + '/account_setting/settings',
+    process.env.REACT_APP_HOME_URL + 'account/subscription/#headingOne',
   );
 };
 
@@ -111,5 +100,3 @@ export const mediaPath = `${process.env.REACT_APP_HOME_URL}media/`;
 export const zitaPath = () => {
   return window.location.replace('https://www.zita.ai/');
 };
-
-export const LEAVE_THIS_SITE = `Do you want to leave this site? Changes you made may not be saved.'`;

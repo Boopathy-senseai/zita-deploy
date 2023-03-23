@@ -18,6 +18,7 @@ import InputCheckBox from '../../uikit/InputCheckbox/InputCheckBox';
 import SvgSearch from '../../icons/SvgSearch';
 import { MAX_DISPLAYED_OPTIONS } from '../constValue';
 import { enterKeyPress } from '../../uikit/helper';
+import { experienceOptions } from '../talentsourcingmodule/mock';
 import styles from './zitamatchfilters.module.css';
 import {
   candidateInviteStatus,
@@ -58,7 +59,6 @@ type Props = {
   isLocation: boolean;
   handleLocation: () => void;
   hanldeRefresh: () => void;
-  isExperience:any
 };
 
 const ZitaMatchFilters = ({
@@ -84,9 +84,10 @@ const ZitaMatchFilters = ({
   handleLocation,
   isLocation,
   hanldeRefresh,
-  isExperience
 }: Props) => {
   const selectInputRef = useRef<any>();
+  const [isExp, setExp] = useState(experienceOptions[0]);
+
   const [isOut, setOut] = useState(false);
   const myRef = useRef<any>();
 
@@ -149,6 +150,7 @@ const ZitaMatchFilters = ({
             <SvgRefresh
               onClick={() => {
                 selectInputRef.current.clearValue();
+                setExp(experienceOptions[0]);
                 hanldeRefresh();
               }}
               width={22}
@@ -206,14 +208,11 @@ const ZitaMatchFilters = ({
             <SelectTag
               label="Experience"
               labelBold
-              value={
-                experienceOption
-                  ? experienceOption.find((option:any) => option.value === isExperience)
-                  : ''
-              } 
+              value={isExp}
               options={experienceOption}
               onChange={(option) => {
                 setExperience(option.value);
+                setExp(option);
                 handleExperience(option.value);
               }}
             />

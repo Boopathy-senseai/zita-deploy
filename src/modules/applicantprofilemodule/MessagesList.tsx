@@ -1,25 +1,17 @@
 import Text from '../../uikit/Text/Text';
-import { firstNameChar, getDateString,isEmpty } from '../../uikit/helper';
-import {  mediaPath } from '../constValue';
+import { firstNameChar, getDateString } from '../../uikit/helper';
 import styles from './messageslist.module.css';
-// import { Message } from './applicantProfileTypes';
+import { Message } from './applicantProfileTypes';
 
 type Props = {
-  messages: any[];
+  messages: Message[];
   client_id_id: number;
-  height: number;
-  fixedHeight?: boolean;
 };
 
-const MessageList = ({
-  messages,
-  client_id_id,
-  height,
-  fixedHeight,
-}: Props) => {
+const MessageList = ({ messages, client_id_id }: Props) => {
   return (
     <div
-      style={{ height: fixedHeight ? height : window.innerHeight - height }}
+      style={{ height: window.innerHeight - 428 }}
       className={styles.overall}
     >
       {messages
@@ -45,14 +37,13 @@ const MessageList = ({
                         onChange={() => {}}
                       />
                       <Text bold className={styles.userNameText}>
-                        {/* {messageList.username} */} HR
+                        {messageList.username}
                       </Text>
                       <div className={styles.senderStyleProfile}>
                         <Text bold color="white" transform="uppercase">
-                          {/* {firstNameChar(
+                          {firstNameChar(
                             `${messageList.username} ${messageList.last_name}`,
-                          )} */}
-                          HR
+                          )}
                         </Text>
                       </div>
                     </div>
@@ -69,29 +60,11 @@ const MessageList = ({
                   <div className={styles.newMessage}>
                     <div className={styles.otherContainer}>
                       <div className={styles.otherStyleProfile}>
-                      {(isEmpty(messageList.sender_image) ||
-                    messageList.sender_image === 'default.jpg') ? (
-                      <Text bold color="white" transform="uppercase">
+                        <Text bold color="white" transform="uppercase">
                           {firstNameChar(
                             `${messageList.username} ${messageList.last_name}`,
                           )}
                         </Text>
-                    ) : (
-                      <img
-                        alt='profile'
-                        height={40}
-                        width={40}
-
-                        style={{ borderRadius: '100%' ,objectFit:'cover',height: 40,width:40}}
-
-                        src={mediaPath + messageList.sender_image}
-                      />
-                    )}
-                        {/* <Text bold color="white" transform="uppercase">
-                          {firstNameChar(
-                            `${messageList.username} ${messageList.last_name}`,
-                          )}
-                        </Text> */}
                       </div>
                       <Text bold className={styles.userNameText}>
                         {messageList.username}

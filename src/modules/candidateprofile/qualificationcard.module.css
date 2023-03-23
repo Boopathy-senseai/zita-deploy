@@ -6,9 +6,8 @@
 }
 
 .rightConatiner {
-  /* border-left: 1px solid var(--color-gary-7, #dfdfdf); */
+  border-left: 1px solid var(--color-gary-7, #dfdfdf);
   padding-left: 40px;
-  position: relative;
 }
 .yearText {
   margin-top: 8px;
@@ -34,14 +33,6 @@
 .noValues {
   height: 150px;
 }
-.statusFlex {
-  margin-left:16px;
-}
-.trashFlex {
-  position: absolute;
-  right: 0;
-  top: 0;
-}
-.vrLine {
-  border-left: 1px solid var(--color-gary-7, #dfdfdf);
+.statusFlex{
+  margin-left: 8px;
 }

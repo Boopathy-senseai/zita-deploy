@@ -64,6 +64,7 @@ const RolesandResponsibilities = ({ jdDetails, profile }: Props) => {
       },
     ],
   };
+  console.log('pieYValue(profile.data_analysis)', pieYValue(profile.others));
 
   return (
     <Flex row>

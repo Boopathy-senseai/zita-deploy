@@ -131,7 +131,7 @@ const LocationContainer = ({
     initialValues: initial,
     onSubmit: () => {},
   });
-// Location from submit function
+
   const handleLocationSubmit = () => {
     if (formik.values.location !== '') {
       setLocationLoader(true);
@@ -176,7 +176,7 @@ const LocationContainer = ({
         });
     }
   };
-// Experience from submit function
+
   const handleExperienceSubmit = (id: number, selectValue: string) => {
     setExperienceLoader(true);
     const data = querystring.stringify({
@@ -207,7 +207,7 @@ const LocationContainer = ({
           }),
         ).then(() => {
           handleCloseExperienceInput();
-          Toast('Experience updated successfully', 'LONG', 'success');
+          Toast('Experience Updated Successfully', 'LONG', 'success');
         });
       })
       .catch(() => {

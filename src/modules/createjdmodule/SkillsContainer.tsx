@@ -197,7 +197,6 @@ const SkillsContainer = ({
     [skillsData, getJobRoleNo],
   );
 
-  // initial value set skill
   useEffect(() => {
     setDataBaseLeftTags(getDefaultDataBaseSkills);
     setToolsLeftTags(getDefaultToolsSkills);
@@ -220,7 +219,6 @@ const SkillsContainer = ({
     onSubmit: () => {},
   });
 
-  // skill save and continiue submit function
   const handleSubmit = () => {
     if (!isMissSkill) {
       setModal(false);
@@ -515,7 +513,6 @@ const SkillsContainer = ({
         className={styles.scroll}
         height={missPop ? window.innerHeight - 400 : '100%'}
       >
-        {/* {console.log('formik.values.data', formik.values.data)} */}
         <CrossAreaTagEditer
           inputId={1}
           label={'Database:'}
@@ -611,7 +608,7 @@ const SkillsContainer = ({
           </Button>
           <LinkWrapper
             onClick={() => onPristine()}
-            // target={'_parent'}
+            target={'_parent'}
             to={`/jobs/questionnaire/${jd_id}`}
           >
             <Button disabled={!skillValid} onClick={handleSubmit}>

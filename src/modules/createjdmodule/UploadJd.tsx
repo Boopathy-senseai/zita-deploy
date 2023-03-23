@@ -20,10 +20,8 @@ function UploadJd() {
     e.preventDefault();
     uploadFile(file);
   };
-  // resume clear function
   const handleClear = () => setFile([]);
 
-    // resume upload function
   const uploadFile = (files: any) => {
     const formData = new FormData();
     formData.append('jd_file', files);
@@ -107,7 +105,6 @@ function UploadJd() {
               className={styles.border}
             >
               <input
-                key={Date.now()}
                 type="file"
                 accept=".doc,.docx,.pdf,.txt"
                 onChange={handleOnChange}

@@ -33,7 +33,6 @@ type Props = {
   completed: number;
   incompleted: number;
   tabKey: string;
-  jdId?: string;
   pageNumber: number;
 };
 
@@ -43,7 +42,6 @@ const ExperienceAdd = ({
   total_count,
   completed,
   incompleted,
-  jdId,
   tabKey,
   pageNumber,
 }: Props) => {
@@ -67,7 +65,7 @@ const ExperienceAdd = ({
     onSubmit: () => {},
     enableReinitialize: true,
   });
-// form submit function
+
   const handleCellSubmit = (id: number, selectValue: string) => {
     setLoader(true);
     const data = querystring.stringify({
@@ -80,8 +78,6 @@ const ExperienceAdd = ({
       .post(uploadedCandidatesApi, data, config)
       .then(() => {
         if (tabKey === 'total') {
-           if(jdId === undefined){
-
           dispatch(
             bulkuploadedCandidatesMiddleWare({
               search: searchValue,
@@ -89,27 +85,12 @@ const ExperienceAdd = ({
               total: total_count,
             }),
           ).then(() => {
-            Toast('Experience updated successfully', 'LONG', 'success');
+            Toast('Experience Updated Successfully', 'LONG', 'success');
             setInput(false);
             setLoader(false);
           });
-        }else{
-           dispatch(
-            bulkuploadedCandidatesMiddleWare({
-              search: searchValue,
-              jd_id:jdId,
-              page: pageNumber + 1,
-              total: total_count,
-            }),
-          ).then(() => {
-            Toast('Experience updated successfully', 'LONG', 'success');
-            setInput(false);
-            setLoader(false);
-          });
-        }
         }
         if (tabKey === 'completed') {
-            if(jdId === undefined){
           dispatch(
             bulkuploadedCandidatesMiddleWare({
               search: searchValue,
@@ -117,27 +98,12 @@ const ExperienceAdd = ({
               completed,
             }),
           ).then(() => {
-            Toast('Experience updated successfully', 'LONG', 'success');
+            Toast('Experience Updated Successfully', 'LONG', 'success');
             setInput(false);
             setLoader(false);
           });
-        }else{
-          dispatch(
-            bulkuploadedCandidatesMiddleWare({
-              search: searchValue,
-              jd_id:jdId,
-              page: pageNumber + 1,
-              completed,
-            }),
-          ).then(() => {
-            Toast('Experience updated successfully', 'LONG', 'success');
-            setInput(false);
-            setLoader(false);
-          });
-        }
         }
         if (tabKey === 'inCompleted') {
-          if(jdId === undefined){
           dispatch(
             bulkuploadedCandidatesMiddleWare({
               search: searchValue,
@@ -145,29 +111,15 @@ const ExperienceAdd = ({
               incompleted,
             }),
           ).then(() => {
-            Toast('Experience spdated successfully', 'LONG', 'success');
+            Toast('Experience Updated Successfully', 'LONG', 'success');
             setInput(false);
             setLoader(false);
           });
-        }else{
-          dispatch(
-            bulkuploadedCandidatesMiddleWare({
-              search: searchValue,
-              jd_id: jdId,
-              page: pageNumber + 1,
-              incompleted,
-            }),
-          ).then(() => {
-            Toast('Experience spdated successfully', 'LONG', 'success');
-            setInput(false);
-            setLoader(false);
-          });
-        }
         }
       })
       .catch(() => {
         Toast(
-          'Experience updated request failed. Please try again',
+          'Experience Updated Request failed. Please try again',
           'SHORT',
           'error',
         );
@@ -175,21 +127,19 @@ const ExperienceAdd = ({
       });
   };
 
-  // open input function
   const handleOpenInput = () => {
     setInput(true);
   };
-  // close input function
   const handleCloseInput = () => {
     setInput(false);
   };
-// outside close input function
+
   const handleClickOutside = (event: { target: any }) => {
     if (myRef.current && !myRef.current.contains(event.target)) {
       setInput(false);
     }
   };
-// outside close input function
+
   useEffect(() => {
     if (typeof Window !== 'undefined') {
       document.addEventListener('click', handleClickOutside, true);

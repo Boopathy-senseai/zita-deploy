@@ -1,6 +1,5 @@
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { useDispatch, useSelector } from 'react-redux';
 import Flex from '../../uikit/Flex/Flex';
@@ -12,6 +11,7 @@ import { getBlur, getFocus,copyToClipboard } from '../../uikit/helper';
 import Pangination from '../../uikit/Pagination/Pangination';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import { jobSelect } from '../../appRoutesPath';
+// import { copyToClipboard } from '../../uikit/helper';
 import SvgCopy from '../../icons/SvgCopy';
 import SvgExternal from '../../icons/SvgExternal';
 import { AppDispatch, RootState } from '../../store';
@@ -40,10 +40,8 @@ const initial: MyJobFormProps = {
 const MyJobPostingScreen = () => {
   const dispatch: AppDispatch = useDispatch();
   const [isPage, setPage] = useState(0);
-  const history = useHistory();
 
   useEffect(() => {
-    localStorage.setItem('freeCheck','true');
     dispatch(myJobPostingInitalMiddleWare());
   }, []);
 
@@ -59,7 +57,6 @@ const MyJobPostingScreen = () => {
     career_page_url,
     domain,
     Permission,
-    is_plan
   } = useSelector(
     ({
       myJobPosingReducers,
@@ -77,16 +74,8 @@ const MyJobPostingScreen = () => {
       career_page_url: myJobPostingDataReducers.career_page_url,
       domain: myJobPostingDataReducers.domain,
       Permission: permissionReducers.Permission,
-      is_plan: permissionReducers.is_plan,
     }),
   );
-
-  useEffect(() => {
-    if (!is_plan) {
-      sessionStorage.setItem('superUserTab', '2');
-      history.push('/account_setting/settings');
-    }
-  });
 
   const formik = useFormik({
     initialValues: initial,
@@ -136,7 +125,7 @@ const MyJobPostingScreen = () => {
               <Text bold size={16} color="black" style={{ marginRight: 8 }}>
                 My Job Postings
               </Text>
-              <LinkWrapper target={'_blank'} to={`${career_page_url}/careers`}>
+              <LinkWrapper target={'_parent'} to={`${career_page_url}`}>
                 <Button className={styles.btnStyle} types="secondary">
                   <Flex row>
                     <Text className={styles.career} color={'theme'} bold>
@@ -190,7 +179,7 @@ const MyJobPostingScreen = () => {
               role={'button'}
               style={{ marginLeft: 8 }}
               title="Copy Job Posting URL"
-              onClick={() => copyToClipboard(`${domain}/${career_page_url}/career_job_view/${list.id}/${list.job_title}` ,'Link Copied')}
+              onClick={() => copyToClipboard(`${domain}/career_job_view/${career_page_url}/${list.id}/${list.job_title}` ,'Link Copied')}
               onKeyDown={() => {}}
             >
               <SvgCopy width={15} height={15}  fill={'#581845'}/>
@@ -200,13 +189,13 @@ const MyJobPostingScreen = () => {
       {list.jd_status__label_name === 'Draft' && (
            <Flex  row top>
            {list.is_ds_role  !== true ?  
-        <LinkWrapper to={`/jobs/create_non_ds_edit/${list.id}`} className={styles.link}>
+        <LinkWrapper to={'/jobs/create_non_ds_edit/${list.id}'} className={styles.link}>
           <Text color="link" bold>
             {list.job_title} 
           </Text>  
         </LinkWrapper>
         :
-         <LinkWrapper to={`/jobs/create_ds_edit/${list.id}`} className={styles.link}>
+         <LinkWrapper to={'/jobs/create_ds_edit/${list.id}'} className={styles.link}>
           <Text color="link" bold>
             {list.job_title} 
           </Text>  

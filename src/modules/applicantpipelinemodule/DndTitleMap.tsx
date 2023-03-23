@@ -37,7 +37,6 @@ const DndTitleMap = ({
     }
   };
 
-  // outside click function
   useEffect(() => {
     if (typeof Window !== 'undefined') {
       document.addEventListener('click', handleClickOutside, true);
@@ -51,7 +50,6 @@ const DndTitleMap = ({
     };
   });
 
-  // date sort function
   const hanldeDateSort = (indexValue: number) => {
     if (indexValue === 0) {
       setSortApplicant('date');
@@ -70,7 +68,7 @@ const DndTitleMap = ({
     }
     setDropDown(false);
   };
-  // name sort function
+
   const hanldeNameSort = (indexValue: number) => {
     if (indexValue === 0) {
       setSortApplicant('name');
@@ -89,7 +87,7 @@ const DndTitleMap = ({
     }
     setDropDown(false);
   };
-// match sort function
+
   const hanldeMatchSort = (indexValue: number) => {
     if (indexValue === 0) {
       setSortApplicant('match');

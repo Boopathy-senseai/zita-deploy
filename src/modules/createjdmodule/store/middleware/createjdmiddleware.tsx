@@ -118,13 +118,68 @@ export const jdProfilePostMiddleWare = createAsyncThunk(
 
 export const createJdPostMiddleWare = createAsyncThunk(
   JD_CREATE + '_post',
-  async ({ ...props }: CreateJdPostPayload, { rejectWithValue }) => {
+  async (
+    {
+      work_remote,
+      job_title,
+      job_role,
+      job_id,
+      industry_type,
+      min_exp,
+      max_exp,
+      no_of_vacancies,
+      richtext_job_description,
+      salary_curr_type,
+      salary_min,
+      salary_max,
+      job_type,
+      database_skill,
+      platform_skill,
+      programming_skill,
+      misc_skill,
+      tool_skill,
+      work_city,
+      work_country,
+      work_state,
+      qualification,
+      skills,
+      skills_exp,
+      specialization,
+      show_sal_to_candidate,
+    }: CreateJdPostPayload,
+    { rejectWithValue },
+  ) => {
     try {
       const { data } = await axios.post(
         createJdApi,
         querystring.stringify(
           {
-            ...props,
+            work_remote,
+            job_role,
+            job_title,
+            job_id,
+            industry_type,
+            min_exp,
+            max_exp,
+            no_of_vacancies,
+            richtext_job_description,
+            salary_curr_type,
+            salary_min,
+            salary_max,
+            job_type,
+            database_skill,
+            platform_skill,
+            programming_skill,
+            misc_skill,
+            tool_skill,
+            work_city,
+            work_country,
+            work_state,
+            qualification,
+            skills,
+            skills_exp,
+            specialization,
+            show_sal_to_candidate,
           },
           { arrayFormat: 'comma' },
         ),
@@ -192,14 +247,14 @@ export const missSkillGetMiddleWare = createAsyncThunk(
 export const locationMiddleWare = createAsyncThunk(
   JD_LOCATION,
   async (
-    { country, state,location }: { country?: number; state?: number;location?: number; },
+    { country, state }: { country?: number; state?: number },
     { rejectWithValue },
   ) => {
     try {
       const { data } = await axios.get(locationApi, {
         params: {
           country,
-          state,location
+          state,
         },
       });
       return data;

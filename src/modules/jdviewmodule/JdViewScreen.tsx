@@ -55,9 +55,7 @@ const JdViewScreen = () => {
     loader,
     job_view_line,
     applicants_line,
-    career_page_url,
-    is_plan
-  } = useSelector(({ jdViewReducers,permissionReducers }: RootState) => {
+  } = useSelector(({ jdViewReducers }: RootState) => {
     return {
       statusList: jdViewReducers.int_list,
       jdDetails: jdViewReducers.jd,
@@ -67,23 +65,15 @@ const JdViewScreen = () => {
       profile: jdViewReducers.profile,
       dates_len: jdViewReducers.dates,
       loader: jdViewReducers.isLoading,
-      career_page_url: jdViewReducers.career_page_url,
       job_view_line: jdViewReducers.job_view_line,
       applicants_line: jdViewReducers.applicants_line,
-      is_plan: permissionReducers.is_plan,
     };
-  });
-  useEffect(() => {
-    if (!is_plan) {
-      sessionStorage.setItem('superUserTab', '2');
-      history.push('/account_setting/settings');
-    }
   });
   const handleDownload = () => {
     setloading(true);
     dispatch(jdDownloadMiddleWare({ jd_id: jdId })).then((data) => {
 
-      saveAs(`${data.payload.file_path}`,`${jdDetails.job_id}`,);
+      saveAs(`http://${data.payload.file_path}`,`${jdDetails.job_id}`,);
       
       Toast('JD downloaded successfully', 'LONG', 'success');
 
@@ -185,7 +175,6 @@ const JdViewScreen = () => {
       <JdTitle
         handleDownload={handleDownload}
         jdDetails={jdDetails}
-        career_page_url={career_page_url}
         hanldeInactive={hanldeInactive}
       />
       <Card className={styles.cardOne}>
@@ -265,7 +254,7 @@ const JdViewScreen = () => {
           title={
             <Flex className={styles.popTitle}>
               <Text>
-                This will remove the job posting from the careers page.
+                This will remove the job posting from the career page.
               </Text>
               <Text>Are you sure you want to Inactivate this job?</Text>
             </Flex>

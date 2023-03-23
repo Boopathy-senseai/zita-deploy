@@ -69,11 +69,11 @@ const MyDataBaseCard = ({
   const [isProfileView, setProfileView] = useState(false);
   const [isNotes, setNotes] = useState(false);
   const [isShowMatch, setShowMatch] = useState(false);
-// inivite popup open
+
   const handleInviteView = () => {
     setInvite(true);
   };
-// inivite popup submit function
+
   const inviteSubmit = () => {
     setInvite(false);
     hanldeInvite(dataList.id);
@@ -93,7 +93,6 @@ const MyDataBaseCard = ({
 
   const checkWithJd: any = useMemo(() => (jobId === false ? '0' : jobId), []);
 
-  // close applicant and candidate view function
   const handleClose = () => {
     dispatch(
       myDataBaseDataMiddleWare({
@@ -116,7 +115,6 @@ const MyDataBaseCard = ({
     setShowMatch(false);
     setProfileView(false);
   };
-
   return (
     <>
       {isEmpty(dataList.candidate_id_id) && (

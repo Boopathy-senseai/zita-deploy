@@ -14,9 +14,8 @@
   align-items: center;
   display: flex;
   margin-bottom: 20px;
-  /*pointer-events: none;*/
+  pointer-events: none;
 }
-
 .editBtn {
   margin: 0 16px;
 }

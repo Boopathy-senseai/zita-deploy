@@ -4,7 +4,6 @@ import { isEmpty, notSpecified } from '../../uikit/helper';
 import Text from '../../uikit/Text/Text';
 import { Jd, LocationEntity, QualificationEntity } from './createJdTypes';
 import styles from './jddetails.module.css';
-/* eslint max-len: ["error", { "code": 2000 }] */
 
 type Props = {
   jdDetails: Jd;
@@ -40,12 +39,11 @@ const JdDetails = ({ jdDetails, location, qualification }: Props) => {
     });
 
   if (jdDetails.job_type__label_name === 'Contract') {
-    salary = `${!isEmpty(jdDetails?.salary_curr_type__value) && jdDetails?.salary_curr_type__value.split('(')[0]} ${jdDetails.salary_min} - ${jdDetails.salary_max} Per Hour`;
+    salary = `$ ${jdDetails.salary_min} - ${jdDetails.salary_max} Per Hour`;
   } else {
-    salary = `${!isEmpty(jdDetails?.salary_curr_type__value) && jdDetails?.salary_curr_type__value.split('(')[0]} ${jdDetails.salary_min} - ${jdDetails.salary_max} Per Annum`;
+    salary = `$ ${jdDetails.salary_min} - ${jdDetails.salary_max} Per Annum`;
   }
 
-  
   const jdData = [
     {
       title: 'Job Role:',

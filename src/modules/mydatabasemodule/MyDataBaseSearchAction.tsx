@@ -1,5 +1,5 @@
 import { FormikProps } from 'formik';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import SvgSearch from '../../icons/SvgSearch';
 import Button from '../../uikit/Button/Button';
 import Flex from '../../uikit/Flex/Flex';
@@ -14,11 +14,10 @@ import { JobTitleEntity } from './myDataBaseTypes';
 type Props = {
   jobTitle: JobTitleEntity[];
   formik: FormikProps<MyDataFormProps>;
-  isSearchValue:any;
-  setSearchValue:any
 };
 
-const MyDataBaseSearchAction = ({ jobTitle, formik,isSearchValue,setSearchValue }: Props) => {
+const MyDataBaseSearchAction = ({ jobTitle, formik }: Props) => {
+  const [isSearchValue, setSearchValue] = useState<any>('');
   const selectInputRef = useRef<any>();
 
   const hanldeSearch = () => {
@@ -36,12 +35,6 @@ const MyDataBaseSearchAction = ({ jobTitle, formik,isSearchValue,setSearchValue 
     ` ${option.job_title}`;
   const getOptionValue = (option: { id: any }) => option.id;
 
-  const getValue=jobTitle
-  ? jobTitle.find(
-      (option) =>
-        Number(option.id) === Number(formik.values.jobTitle),
-    )
-  : ''
   return (
     <Flex className={styles.overAll}>
       <Text bold size={20}>
@@ -52,9 +45,6 @@ const MyDataBaseSearchAction = ({ jobTitle, formik,isSearchValue,setSearchValue 
           <Text className={styles.jobTitleText}>Job Title</Text>
           <div style={{ width: '100%' }}>
             <SelectTag
-              value={
-                typeof getValue ==='undefined' ? '': getValue
-              }
               isSearchable={true}
               ref={selectInputRef}
               options={jobTitle}

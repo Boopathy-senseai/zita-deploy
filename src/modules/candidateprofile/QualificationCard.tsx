@@ -7,69 +7,46 @@ import { AppDispatch } from '../../store';
 import Card from '../../uikit/Card/Card';
 import { PRIMARY } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
-import { isEmpty, notSpecified } from '../../uikit/helper';
+import { lowerCase, notSpecified } from '../../uikit/helper';
 import Text from '../../uikit/Text/Text';
 import CancelAndDeletePopup from '../common/CancelAndDeletePopup';
-import { CANCEL, DELETE } from '../constValue';
+import { CANCEL } from '../constValue';
 import { Obj } from './candidateProfileTypes';
 import styles from './qualificationcard.module.css';
-import {
-  educationDeleteMiddleWare,
-  profileEditMiddleWare,
-} from './store/middleware/candidateprofilemiddleware';
-
+import { educationDeleteMiddleWare } from './store/middleware/candidateprofilemiddleware';
 const cx = classNames.bind(styles);
 
 type Props = {
   handleQualificationEdit: (updateId: string) => void;
   obj?: Obj;
-  isProfileView?: boolean;
 };
-const QualificationCard = ({
-  handleQualificationEdit,
-  obj,
-  isProfileView,
-}: Props) => {
+const QualificationCard = ({ handleQualificationEdit, obj }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const [isDelete, setDelete] = useState(false);
   const [isGetId, setGetId] = useState('0');
-  const [isDeleteLoader, setDeleteLoader] = useState(false);
-  // delete function
+
   const handleDelete = () => {
-    setDeleteLoader(true);
-    dispatch(educationDeleteMiddleWare({ eduId: isGetId })).then((res) => {
-      if (res.payload.success) {
-        setDelete(false);
-        setDeleteLoader(false);
-        dispatch(profileEditMiddleWare({jd_id:localStorage.getItem('careerJobViewJobId')}));
-      } else {
-        setDelete(false);
-        setDeleteLoader(false);
-      }
+    dispatch(educationDeleteMiddleWare({ eduId: isGetId })).then(() => {
+      setDelete(false);
     });
   };
 
   return (
     <>
-      {!isProfileView && (
-        <CancelAndDeletePopup
-          btnLeft={CANCEL}
-          btnCancel={() => setDelete(false)}
-          btnDelete={handleDelete}
-          open={isDelete}
-          btnRight={DELETE}
-          title={
-            <Flex columnFlex className={styles.statusFlex}>
-              <Text>
-                {`This qualification details will be deleted permanently.`}
-              </Text>
-              <Text>Are you sure to proceed?</Text>
-            </Flex>
-          }
-          loader={isDeleteLoader}
-        />
-      )}
-
+      <CancelAndDeletePopup
+        btnCancel={() => setDelete(false)}
+        btnDelete={handleDelete}
+        open={isDelete}
+        btnRight={CANCEL}
+        title={
+          <Flex columnFlex className={styles.statusFlex}>
+            <Text>
+              {`This qualification details will be deleted permanently.`}
+            </Text>
+            <Text>Are your sure to proceed?</Text>
+          </Flex>
+        }
+      />
       <Card className={styles.overAll}>
         {Array.isArray(obj?.edu) && obj?.edu.length !== 0 ? (
           obj?.edu.map((list, index) => (
@@ -83,17 +60,17 @@ const QualificationCard = ({
               <div style={{ alignSelf: 'center' }}>
                 <Flex columnFlex className={styles.leftConatiner}>
                   <Text color="theme" bold>
-                    {notSpecified(list.qual_title)}
+                    {notSpecified(lowerCase(list.qual_title))}
                   </Text>
                   <Text color="theme" className={styles.yearText}>
                     {notSpecified(list.year)}
                   </Text>
                 </Flex>
               </div>
-              <div className={styles.vrLine} />
               <Flex columnFlex className={styles.rightConatiner} flex={1}>
-                {!isProfileView && (
-                  <Flex row center className={styles.trashFlex}>
+                <Flex row center between>
+                  <Text bold>{list.title_spec}</Text>
+                  <Flex row center>
                     <div
                       className={styles.svgTrash}
                       onClick={() =>
@@ -119,28 +96,23 @@ const QualificationCard = ({
                       <SvgTrash width={16} height={16} />
                     </div>
                   </Flex>
-                )}
-
-                {!isEmpty(list.title_spec) && (
-                  <Text bold>{list.title_spec}</Text>
-                )}
-                <Text className={styles.techText}>{list.inst_name}</Text>
-                {!isEmpty(list.inst_loc) && (
-                  <Text className={styles.techText}>{list.inst_loc}</Text>
-                )}
-
-                {!isEmpty(list.percentage) && (
-                  <Flex row center className={styles.percentageStyle}>
-                    <Text>Percentage/CGPA:</Text>
-                    <Text style={{ marginLeft: 2 }}>{list.percentage}</Text>
-                  </Flex>
-                )}
+                </Flex>
+                <Text className={styles.techText}>
+                  {lowerCase(list.inst_name)}
+                </Text>
+                <Text className={styles.techText}>
+                  {lowerCase(list.inst_loc)}
+                </Text>
+                <Flex row center className={styles.percentageStyle}>
+                  <Text bold>Percentage/CGPA:</Text>
+                  <Text>{notSpecified(list.percentage)}</Text>
+                </Flex>
               </Flex>
             </Flex>
           ))
         ) : (
           <Flex center middle className={styles.noValues}>
-            <Text size={16} bold>
+            <Text size={18} bold>
               Add Qualification
             </Text>
           </Flex>

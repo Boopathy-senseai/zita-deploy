@@ -6,7 +6,7 @@ import { PRIMARY } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import Text from '../../uikit/Text/Text';
-import { BACK } from '../constValue';
+import { BACK, manageLocation } from '../constValue';
 import styles from './standardjobposting.module.css';
 
 type Props = {
@@ -22,9 +22,6 @@ const StandardJobPosting = ({
   ds_role,
   feature,
 }: Props) => {
-  const manageLocation = () => {
-    sessionStorage.setItem('superUserTab', '2');
-  };
   return (
     <Card className={styles.cardOverAll}>
       <Flex columnFlex>
@@ -74,12 +71,7 @@ const StandardJobPosting = ({
               </LinkWrapper>
             )}
             {feature === 0 ? (
-              <LinkWrapper
-                onClick={manageLocation}
-                to="/account_setting/settings?planFocus=focus"
-              >
-                <Button>Upgrade</Button>
-              </LinkWrapper>
+              <Button onClick={manageLocation}>Upgrade</Button>
             ) : (
               <Button onClick={hanldePulish}>Publish</Button>
             )}

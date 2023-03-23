@@ -42,7 +42,6 @@ const ZitaMatchCandidateProfileView = ({
   const [isInvitePopUp, setInvitePopUp] = useState(false);
   const [isInviteLoader, setInviteLoader] = useState(false);
   const [isTab, setTab] = useState(false);
-  const [isNotesLoader, setNotesLoader]=useState(true)
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -68,9 +67,7 @@ const ZitaMatchCandidateProfileView = ({
           }),
         );
         dispatch(messagesTemplatesMiddleWare());
-        dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id })).then(()=>{
-          setNotesLoader(false)
-        })
+        dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id }));
         dispatch(applicantAllMatchMiddleWare({ can_id: res.payload.can_id }));
         dispatch(
           applicantScoreMiddleWare({
@@ -93,9 +90,7 @@ const ZitaMatchCandidateProfileView = ({
           can_id: candidateId,
         }),
       ).then((res) => {
-        dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id })).then(()=>{
-          setNotesLoader(false)
-        })
+        dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id }));
         dispatch(applicantAllMatchMiddleWare({ can_id: res.payload.can_id }));
       });
     }
@@ -158,7 +153,7 @@ const ZitaMatchCandidateProfileView = ({
 
   const checkMatch = match && match.length === 0 ? true : false;
   const profileMatch = checkMatch ? 0 : match[0].profile_match;
-  if (initialLoader || isNotesLoader) {
+  if (initialLoader) {
     return (
       <Flex height={window.innerHeight - 60} center middle>
         <Loader withOutOverlay />

@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import LinkWrapper from '../../uikit/Link/LinkWrapper';
+// import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import Chart from '../../uikit/Chart/Chart';
 import { PRIMARY } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
@@ -39,7 +39,6 @@ const RoleRecommendation = ({
   setCancel,
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
-console.log('setCancel',setCancel);
 
   const options = {
     chart: {
@@ -147,7 +146,6 @@ console.log('setCancel',setCancel);
       ? true
       : false;
 
-  // change skill open function
   const hanldeOpenChangeSkill = () => {
     if (jd_id !== '0') {
       dispatch(duplicateMiddleWare({ jd_id: jd_id.toString() }));
@@ -171,8 +169,6 @@ console.log('setCancel',setCancel);
       }
     });
   };
-    // change skill not open function
-
   const hanldeOpenNotChangeSkill = () => {
     if (jd_id !== '0') {
       dispatch(duplicateMiddleWare({ jd_id: jd_id.toString() }));
@@ -238,18 +234,17 @@ console.log('setCancel',setCancel);
           </>
         )}
         <Flex row center middle>
-          <LinkWrapper target={'_parent'} to={`/jobs/create_ds_edit/${jd_id}`}>
+          {/* <LinkWrapper target={'_parent'} to={`/jobs/create_ds_edit/${jd_id}`}> */}
           <Button
-            id="role_recommendation____cancel"
             types="secondary"
-            // onClick={() => {
-            //   setCancel(true);
-            //   cancel();
-            // }}
+            onClick={() => {
+              setCancel(true);
+              cancel();
+            }}
           >
             {CANCEL}
           </Button>
-          </LinkWrapper>
+          {/* </LinkWrapper> */}
 
           {!equalProfile ? (
             <>
@@ -257,7 +252,6 @@ console.log('setCancel',setCancel);
                 <Button
                   onClick={hanldeOpenChangeSkill}
                   className={styles.nextBtn}
-                  id="role_recommendation____next"
                 >
                   Next
                 </Button>
@@ -267,14 +261,10 @@ console.log('setCancel',setCancel);
                   <Button
                     className={styles.changeBtn}
                     onClick={hanldeOpenChangeSkill}
-                    id="role_recommendation____change"
                   >
                     Change
                   </Button>
-                  <Button
-                    id="role_recommendation____do_not_change"
-                    onClick={hanldeOpenNotChangeSkill}
-                  >
+                  <Button onClick={hanldeOpenNotChangeSkill}>
                     Do not Change
                   </Button>
                 </>
@@ -282,7 +272,6 @@ console.log('setCancel',setCancel);
             </>
           ) : (
             <Button
-              id="role_recommendation____next"
               onClick={hanldeOpenNotChangeSkill}
               className={styles.nextBtn}
             >

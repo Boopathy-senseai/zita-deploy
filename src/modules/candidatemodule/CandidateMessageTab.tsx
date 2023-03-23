@@ -50,19 +50,10 @@ const CandidateMessageTab = () => {
     dispatch(candidateMessageMiddleWare({ can_id, jd_id }));
   }, [can_id, jd_id]);
 
-    // loop 5 sec once candidateMessageMiddleWare api and message api
-    useEffect(() => {
-      const interval = setInterval(() => {
-        dispatch(candidateMessageMiddleWare({ can_id, jd_id }));
-      }, 5000);
-      return () => clearInterval(interval);
-    }, []);
-
   useEffect(() => {
     setMessage(message);
   }, [message]);
 
-  // message submit function
   const hanldeSubmit = () => {
     setPostLoader(true);
     const data = querystring.stringify({
@@ -165,11 +156,7 @@ const CandidateMessageTab = () => {
           flex={1}
           className={cx({ messageContainer: messages.length !== 0 })}
         >
-          <MessageList
-            client_id_id={client_id_id}
-            messages={messages}
-            height={428}
-          />
+          <MessageList client_id_id={client_id_id} messages={messages} />
         </Flex>
       )}
     </div>

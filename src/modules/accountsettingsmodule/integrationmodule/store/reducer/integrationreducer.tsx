@@ -1,27 +1,47 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { CalenderTokenReducerState } from '../../integrationTypes';
-import { calenderTokenGetMiddleWare } from '../middleware/integrationmiddleware';
+import { intergrationMiddleWare } from '../middleware/integrationmiddleware';
+import { integrationReducerState } from '../../integrationTypes';
 
-const integrationState: CalenderTokenReducerState = {
+const integrationState: integrationReducerState = {
   isLoading: false,
   error: '',
+  success: false,
+  outlook:{
+    id: 0,
+  client_id: 0,
+  code: '',
+  state: '',
+  session_state: '',
+  email: '',
+  created_at: '',
+ 
+  },google:{
+  id: 0,
+  client_id: 0,
+  email: '',
+  json_path: '',
+  created_at: '',
+ 
+}
+  
 };
 
 const integrationReducer = createSlice({
-  name: 'integration',
+  name: 'companypage',
   initialState: integrationState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(calenderTokenGetMiddleWare.pending, (state) => {
+    builder.addCase(intergrationMiddleWare.pending, (state) => {
       state.isLoading = true;
       state.error = '';
     });
-    builder.addCase(calenderTokenGetMiddleWare.fulfilled, (state, action) => {
+    builder.addCase(intergrationMiddleWare.fulfilled, (state, action) => {
       state.isLoading = false;
       state.outlook = action.payload.outlook;
       state.google = action.payload.google;
+
     });
-    builder.addCase(calenderTokenGetMiddleWare.rejected, (state, action) => {
+    builder.addCase(intergrationMiddleWare.rejected, (state, action) => {
       state.isLoading = false;
       if (typeof action.payload === 'string') {
         state.error = action.payload;

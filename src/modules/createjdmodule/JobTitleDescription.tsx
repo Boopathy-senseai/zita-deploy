@@ -50,7 +50,6 @@ const JobTitleDescription = ({
   const editorRef = useRef<any>(null);
   const [isRich, setRich] = useState(false);
 
-  // free fill initial value
   useEffect(() => {
     setFieldValue(
       'jobDescription',
@@ -129,12 +128,12 @@ const JobTitleDescription = ({
             {'Text length should contain at least 200 characters.'}
           </Text>
         )}
-        {/* {!isEmpty(values.jobDescription) &&
+        {!isEmpty(values.jobDescription) &&
           values.jobDescription.length > 20000 && (
             <Text size={12} color="error">
               Text length should not exceed 20000 characters
             </Text>
-          )} */}
+          )}
         <ErrorMessage name="jobDescription" touched={touched} errors={errors} />
       </div>
     </Flex>

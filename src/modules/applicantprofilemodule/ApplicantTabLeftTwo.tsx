@@ -5,10 +5,10 @@ import CandiDateResumeTab from '../candidatemodule/CandiDateResumeTab';
 import { ALL_APPLICANT_MATCH_TITLE } from '../constValue';
 import AboutTab from './AboutTab';
 import AllMatchTab from './AllMatchTab';
-// import ExperienceTab from './ExperienceTab';
+import ExperienceTab from './ExperienceTab';
 import MessageTab from './MessageTab';
 import NotesTab from './NotesTab';
-// import QualificationTab from './QualificationTab';
+import QualificationTab from './QualificationTab';
 
 /* eslint max-len: ["error", { "code": 2000 }] */
 const defaultProps = {
@@ -26,12 +26,12 @@ const ApplicantTabLeftTwo = ({ activeState }: typeof defaultProps) => {
       <Tab title={'About'}>
         <AboutTab />
       </Tab>
-    {/*  <Tab title={'Experience'}>
+      <Tab title={'Experience'}>
         <ExperienceTab />
       </Tab>
       <Tab title={'Qualification'}>
         <QualificationTab />
-      </Tab>*/}
+      </Tab>
       <Tab title={'Resume'}>
         <CandiDateResumeTab />
       </Tab>
@@ -42,10 +42,7 @@ const ApplicantTabLeftTwo = ({ activeState }: typeof defaultProps) => {
         <MessageTab />
       </Tab>
       <Tab title={'All Matching Job'}>
-        <AllMatchTab
-          title={ALL_APPLICANT_MATCH_TITLE}
-          inviteMessage={'Applicant Invited successfully'}
-        />
+        <AllMatchTab title={ALL_APPLICANT_MATCH_TITLE} />
       </Tab>
     </Tabs>
   );

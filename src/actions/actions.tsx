@@ -30,14 +30,6 @@ export const BULK_UPLOADED_PAGINATION = 'bulk/bulk_uploaded_pagination';
 export const BULK_UPLOADED_DELETE = 'bulk/bulk_uploaded_delete';
 export const BULK_UPLOADED_PARSING = 'bulk/bulk_uploaded_parsing';
 export const BULK_UPLOADED_PROFILE_VIEW = 'bulk/bulk_uploaded_profile_view';
-export const BULK_UPLOADED_SKILLS = 'bulk/skills_bulk';
-export const BULK_UPLOADED_UPDATE_SKILLS = 'bulk/skills_update_bulk';
-export const BULK_UPLOADED_EDU = 'bulk/education_bulk';
-export const BULK_UPLOADED_EXP = 'bulk/experiences_bulk';
-export const BULK_UPLOADED_EXP_UPDATE = 'bulk/experience_update_bulk/';
-export const BULK_UPLOADED_UPDATE_PERSONAL = 'bulk/update_personal_info_bulk';
-export const BULK_UPLOADED_MATCH = 'bulk/matching_api';
-export const BULK_UPLOADED_QUS = 'bulk/questionnaire_bulk';
 
 // applicant profile view action
 export const APPLICANT_PROFILE_INITIAL = 'applicant/applicant_profile_initial';
@@ -93,18 +85,6 @@ export const JD_DUPLICATE = 'createjd/jd_duplicate';
 
 export const MYJOBPOSTING = 'myjobposting/my_job_posting';
 export const MYJOBPOSTINGDATA = 'myjobposting/my_job_posting_data';
-
-export const APPLICANTSSOURCE = 'reports/applicant_source_api';
-export const APPLICANTSSOURCEDATA = 'reports/applicant_source_data';
-export const APPLICANTSSOURCEDOWNLOAD = 'reports/applicant_source_download';
-export const PASSIVECANDIDATEDATA = 'reports/passive_candidate_data';
-export const JOBMETRICSDATA = 'reports/job_metrics_api';
-export const JOBMETRICSDOWNLOAD = 'reports/job_metrics_download';
-export const SOURCINGPERFORMANCE = 'reports/sourcing_performance';
-export const JOBMETRICSCHARTDATA = 'reports/job_metrics_chart';
-export const SOURCINGPERFORMANCEDATA = 'reports/sourcing_performance_data';
-export const SOURCINGPERFORMANCEDOWNLOAD = 'reports/sourcing_performance_download';
-
 
 // account settings page
 export const COMPANYPAGE = 'companypage/companypage';

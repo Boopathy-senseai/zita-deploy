@@ -151,7 +151,6 @@ export interface StripeState extends Stripe {
 export interface CheckoutPayload {
   can_count: string;
   amount: string;
-  manage_sub?:string
 }
 
 export interface SessionIdPayload {

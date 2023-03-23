@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../store';
 import Flex from '../../uikit/Flex/Flex';
 import Modal from '../../uikit/Modal/Modal';
@@ -8,11 +8,11 @@ import Text from '../../uikit/Text/Text';
 import StepProgressBar from '../../uikit/StepProgressBar/StepProgressBar';
 import SvgTick from '../../icons/SvgTick';
 import Loader from '../../uikit/Loader/Loader';
-import { copyToClipboard, isEmpty } from '../../uikit/helper';
+import { copyToClipboard } from '../../uikit/helper';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import { routesPath } from '../../routes/routesPath';
 import SvgCopy from '../../icons/SvgCopy';
-import { PRIMARY, SUCCESS } from '../../uikit/Colors/colors';
+import { SUCCESS } from '../../uikit/Colors/colors';
 import PreviewTitle from './PreviewTitle';
 import {
   dsOrNonDsGetdMiddleWare,
@@ -33,9 +33,6 @@ const JdPreviewScreen = () => {
   const { jdId } = useParams<ParamsType>();
   const [isOpen, setOpen] = useState(false);
   const dispatch: AppDispatch = useDispatch();
-  const history = useHistory();
-
-  // initial api call
   useEffect(() => {
     dispatch(jdPreviewMiddleWare({ jd_id: jdId }));
     dispatch(questionnaireForJdMiddleWare({ jd_id: jdId }));
@@ -55,8 +52,6 @@ const JdPreviewScreen = () => {
     url,
     postLoader,
     feature,
-    career_page_url,
-    is_plan,
   } = useSelector(
     ({
       jdPreviewReducers,
@@ -64,7 +59,6 @@ const JdPreviewScreen = () => {
       dsOrNonDsGetReducers,
       postReducers,
       selectDsorNonDsReducers,
-      permissionReducers,
     }: RootState) => {
       return {
         jdDetails: jdPreviewReducers.jd,
@@ -78,43 +72,20 @@ const JdPreviewScreen = () => {
         url: postReducers.url,
         postLoader: postReducers.isLoading,
         feature: selectDsorNonDsReducers.feature,
-        career_page_url: jdPreviewReducers.career_page_url,
-        is_plan: permissionReducers.is_plan,
       };
     },
   );
-
-  useEffect(() => {
-    if (!is_plan) {
-      sessionStorage.setItem('superUserTab', '2');
-      history.push('/account_setting/settings');
-    }
-  });
-
-  // publish form submit
   const hanldePulish = () => {
-    if (isEmpty(career_page_url)) {
-      if (isEmpty(company_detail.no_of_emp)) {
-        sessionStorage.setItem('superUserTab', '0');
-      } else {
-        sessionStorage.setItem('superUserTab', '1');
+    
+    dispatch(postJdMiddleWare({ jd_id: jdId })).then((res) => {
+      if (res.payload.success) {
+        setOpen(true);
       }
-      history.push('/account_setting/settings');
-    } else {
-      dispatch(postJdMiddleWare({ jd_id: jdId })).then((res) => {
-        if (res.payload.success) {
-          setOpen(true);
-        }
-      });
-    }
+    });
   };
 
   return (
-    <Flex
-      columnFlex
-      className={styles.overAll}
-      height={window.innerHeight - 71}
-    >
+    <Flex columnFlex className={styles.overAll} height={window.innerHeight -71}>
       {postLoader && <Loader />}
       <Flex row center className={styles.step}>
         <StepProgressBar titleclassName={styles.stepOne} roundFill barFilled />
@@ -151,7 +122,7 @@ const JdPreviewScreen = () => {
               onKeyDown={() => {}}
               title="Copy the job posting URL from your careers page"
             >
-              <SvgCopy fill={PRIMARY} width={16} height={16} />
+              <SvgCopy width={16} height={16} />
             </div>
           </Flex>
           <Text align="center" style={{ marginTop: 8 }}>

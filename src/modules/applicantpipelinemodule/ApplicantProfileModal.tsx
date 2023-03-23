@@ -45,12 +45,9 @@ const ApplicantProfileModal = ({
   const [isInvitePopUp, setInvitePopUp] = useState(false);
   const [isTab, setTab] = useState(false);
   const [isInviteLoader, setInviteLoader] = useState(false);
-  const [isNotesLoader, setNotesLoader]=useState(true);
-  const [isNotesMeeting, setNotesMeeting]=useState(true)
 
   const dispatch: AppDispatch = useDispatch();
 
-  // initial api call
   useEffect(() => {
     if (jobId !== '0') {
       setTab(true);
@@ -66,11 +63,7 @@ const ApplicantProfileModal = ({
             can_id: res.payload.can_id,
           }),
         );
-        dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id })).then(()=>
-        {
-          setNotesLoader(false);
-        }
-        )
+        dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id }));
         dispatch(applicantAllMatchMiddleWare({ can_id: res.payload.can_id }));
         dispatch(
           applicantScoreMiddleWare({
@@ -79,9 +72,7 @@ const ApplicantProfileModal = ({
           }),
         );
         dispatch(messagesTemplatesMiddleWare());
-        dispatch(calenderMiddleWare({ can_id: res.payload.can_id })).then(()=>[
-          setNotesMeeting(false)
-        ])
+        dispatch(calenderMiddleWare({ can_id: res.payload.can_id }));
         dispatch(
           applicantStatusMiddleWare({
             jd_id: res.payload.jd_id,
@@ -94,15 +85,9 @@ const ApplicantProfileModal = ({
       dispatch(
         applicantProfileInitialMiddleWare({ jd_id: 0, can_id: candidateId }),
       ).then((res) => {
-        dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id })).then(()=>
-        {
-          setNotesLoader(false);
-        }
-        )
+        dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id }));
         dispatch(applicantAllMatchMiddleWare({ can_id: res.payload.can_id }));
-        dispatch(calenderMiddleWare({ can_id: res.payload.can_id })).then(()=>[
-          setNotesMeeting(false)
-        ])
+        dispatch(calenderMiddleWare({ can_id: res.payload.can_id }));
       });
     }
   }, []);
@@ -114,6 +99,7 @@ const ApplicantProfileModal = ({
     match,
     jd_id,
     can_id,
+    notesLoader,
     status_id,
     invite,
     source,
@@ -121,6 +107,7 @@ const ApplicantProfileModal = ({
     ({
       applicantProfileInitalReducers,
       applicantMatchReducers,
+      applicantNotesReducers,
       applicantStausReducers,
     }: RootState) => {
       return {
@@ -131,13 +118,14 @@ const ApplicantProfileModal = ({
         jd_id: applicantProfileInitalReducers.jd_id,
         can_id: applicantProfileInitalReducers.can_id,
         matchLoader: applicantMatchReducers.isLoading,
+        notesLoader: applicantNotesReducers.isLoading,
         status_id: applicantProfileInitalReducers.status_id,
         invite: applicantStausReducers.invite,
         source: applicantProfileInitalReducers.source,
       };
     },
   );
-  if (initialLoader || isNotesLoader || isNotesMeeting ) {
+  if (initialLoader) {
     return (
       <Flex height={window.innerHeight - 60} center middle>
         <Loader withOutOverlay />
@@ -155,7 +143,6 @@ const ApplicantProfileModal = ({
     setInvitePopUp(false);
   };
 
-  // invite api call function
   const hanldeInvite = () => {
     hanldeInviteClosePopUp();
     setInviteLoader(true);
@@ -182,6 +169,7 @@ const ApplicantProfileModal = ({
   };
   return (
     <div>
+      {notesLoader && <Loader />}
       {isInviteLoader && <Loader />}
       {invite && invite.length === 0 && (
         <CancelAndDeletePopup

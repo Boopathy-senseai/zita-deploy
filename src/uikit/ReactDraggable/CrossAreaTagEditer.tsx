@@ -146,48 +146,13 @@ const CrossAreaTagEditer = ({
       if (found.length === 0) {
         onDirty();
         const tagsValue = columns['column-2'].items.slice();
-
         var tagArr = values.tagValue.split(',');
-
-        tagArr.map((list: string, index: number) => {
-          var copyDataBase = duplicate?.dataBaseTags.filter(
-            (val) =>
-              val.skill.replace(/\s+/g, '').toLocaleLowerCase() ===
-              list.replace(/\s+/g, '').toLocaleLowerCase(),
-          );
-
-          var copyToolFound = duplicate?.toolsTags.filter(
-            (val) =>
-              val.skill.replace(/\s+/g, '').toLocaleLowerCase() ===
-              list.replace(/\s+/g, '').toLocaleLowerCase(),
-          );
-          var copyProgarmFound = duplicate?.programTags.filter(
-            (val) =>
-              val.skill.replace(/\s+/g, '').toLocaleLowerCase() ===
-              list.replace(/\s+/g, '').toLocaleLowerCase(),
-          );
-          var copyPlatFound = duplicate?.platformsTags.filter(
-            (val) =>
-              val.skill.replace(/\s+/g, '').toLocaleLowerCase() ===
-              list.replace(/\s+/g, '').toLocaleLowerCase(),
-          );
-          var copyOtherFound = duplicate?.othersTags.filter(
-            (val) =>
-              val.skill.replace(/\s+/g, '').toLocaleLowerCase() ===
-              list.replace(/\s+/g, '').toLocaleLowerCase(),
-          );
-          return (
-            copyDataBase?.length === 0 &&
-            copyToolFound?.length === 0 &&
-            copyOtherFound?.length === 0 &&
-            copyPlatFound?.length === 0 &&
-            copyProgarmFound?.length === 0 &&
-            tagsValue.push({
-              id: columns['column-2'].items.length + 1 + index + 1525,
-              skill: list,
-              exp: 0,
-            })
-          );
+        tagArr.map((list: string) => {
+          return tagsValue.push({
+            id: columns['column-2'].items.length + 1 + 1525,
+            skill: list,
+            exp: 0,
+          });
         });
         const tagsValueFind =
           tagsValue &&
@@ -196,11 +161,10 @@ const CrossAreaTagEditer = ({
               index ===
               self.findIndex(
                 (t) =>
-                  t.skill.replace(/\s+/g, '').toLowerCase() ===
-                  value.skill.replace(/\s+/g, '').toLowerCase(),
+                  t.skill.toLocaleLowerCase() ===
+                  value.skill.toLocaleLowerCase(),
               ),
           );
-
         setColumns({
           ['column-1']: {
             items: columns['column-1'].items,
@@ -245,6 +209,7 @@ const CrossAreaTagEditer = ({
           val.skill.toLocaleLowerCase() ===
           destItems[destination.index].skill.toLocaleLowerCase(),
       );
+      console.log('duplicateDataBseFoundDrg', duplicateDataBseFoundDrg);
 
       var duplicateToolFoundDrag = duplicate?.toolsTags.filter(
         (val) =>

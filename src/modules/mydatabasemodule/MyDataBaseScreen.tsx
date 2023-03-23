@@ -2,7 +2,6 @@ import axios from 'axios';
 import classNames from 'classnames/bind';
 import { saveAs } from 'file-saver';
 import { useFormik } from 'formik';
-import { useHistory, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
@@ -54,37 +53,23 @@ const initial: MyDataFormProps = {
 
 const MyDataBaseScreen = () => {
   const dispatch: AppDispatch = useDispatch();
-  const history = useHistory();
-  const getMydataBaseTabKey: any =
-    sessionStorage.getItem('getMydataBaseTabKey') === null
-      ? ''
-      : sessionStorage.getItem('getMydataBaseTabKey');
   const [isBachelors, setBachelors] = useState(false);
   const [isDoctorate, setDoctorate] = useState(false);
   const [isMasters, setMasters] = useState(false);
   const [isAny, setAny] = useState(true);
   const [isOther, setOther] = useState(false);
   const [isPage, setPage] = useState(0);
-  const [tabKey, setTabKey] = useState(getMydataBaseTabKey);
+  const [tabKey, setTabKey] = useState('');
   const [isInviteLoader, setInviteLoader] = useState(false);
   const [isFav, setFav] = useState(false);
   const [isCheckAll, setIsCheckAll] = useState(false);
   const [isCheck, setIsCheck] = useState<any>([]);
   const [isDownloadLoader, setDownLoadLoader] = useState(false);
   const [isSortOptions, setSortOptions] = useState(sortOptions[0]);
-  const [isSearchValue, setSearchValue] = useState<any>('');
 
   const addFavFilter = isFav ? 'add' : '';
 
-  const useQuery = () => {
-    return new URLSearchParams(useLocation().search);
-  };
-  const query = useQuery();
-  const getTab: any = query.get('tab');
-
-  
   useEffect(() => {
-    localStorage.setItem('freeCheck','true');
     dispatch(myDataBaseInitalMiddleWare());
   }, []);
 
@@ -96,9 +81,8 @@ const MyDataBaseScreen = () => {
     dataLoader,
     totalCount,
     jobId,
-    is_plan
   } = useSelector(
-    ({ myDataBaseDataReducers, myDataBaseInitalReducers,permissionReducers }: RootState) => {
+    ({ myDataBaseDataReducers, myDataBaseInitalReducers }: RootState) => {
       return {
         initalLoader: myDataBaseInitalReducers.isLoading,
         candidate_available: myDataBaseInitalReducers.candidate_available,
@@ -107,28 +91,9 @@ const MyDataBaseScreen = () => {
         dataLoader: myDataBaseDataReducers.isLoading,
         totalCount: myDataBaseDataReducers.total_count,
         jobId: myDataBaseDataReducers.jd,
-        is_plan: permissionReducers.is_plan,
       };
     },
   );
-
-  useEffect(()=>{
-    if(!isEmpty(getTab)){
-      setTabKey(getTab)
-      if (query.has('tab')) {
-        query.delete('tab');
-        history.replace({
-          search: query.toString(),
-        });
-      }
-    }
-  },[])
-  useEffect(() => {
-    if (!is_plan) {
-      sessionStorage.setItem('superUserTab', '2');
-      history.push('/account_setting/settings');
-    }
-  });
 
   const formik = useFormik({
     initialValues: initial,
@@ -293,17 +258,10 @@ const MyDataBaseScreen = () => {
     isPage,
   ]);
 
-  // filter refresh function
   const hanldeRefresh = () => {
-    setAny(true);
-    setBachelors(false);
-    setDoctorate(false);
-    setMasters(false);
-    setOther(false)
-    formik.resetForm()
-    setSearchValue('')
+    window.location.reload();
   };
-// invite function
+
   const hanldeInvite = (can_id: number) => {
     setInviteLoader(true);
     const data = querystring.stringify({
@@ -339,11 +297,11 @@ const MyDataBaseScreen = () => {
         Toast(ERROR_MESSAGE, 'LONG', 'error');
       });
   };
-// fav filter function
+
   const handleFav = () => {
     setFav(!isFav);
   };
-// resume download function
+
   const hanldeDownload = () => {
     if (isCheck.length !== 0) {
       setDownLoadLoader(true);
@@ -387,9 +345,7 @@ const MyDataBaseScreen = () => {
         />
       </div>
       <div className={cx('tabsContainer')}>
-        <MyDataBaseSearchAction jobTitle={job_title} formik={formik} 
-        setSearchValue={setSearchValue} 
-        isSearchValue={isSearchValue}/>
+        <MyDataBaseSearchAction jobTitle={job_title} formik={formik} />
         <div className={styles.tabsStyle}>
           <Flex row center className={styles.infiStyle}>
             <Text bold>Candidates Limit:{candidate_available}</Text>
