@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import Flex from '../../uikit/Flex/Flex';
-import { isEmpty, notSpecified } from '../../uikit/helper';
+import { isEmpty } from '../../uikit/helper';
 import Text from '../../uikit/Text/Text';
 import styles from './qualificationtab.module.css';
 
@@ -41,15 +41,26 @@ const QualificationTab = () => {
               className={styles.educationFlex}
             >
               <Flex row center between>
-                <Text bold>
-                  {notSpecified(list.qual_title)}
-                  {isEmpty(list.qual_spec) ? '' : ` - ${list.qual_spec}`}
-                </Text>
+                {isEmpty(list.qual_title) ? (
+                  <Text bold>{list.qual_spec} {list.qual_spec}</Text>
+                ) : (
+                  <Text bold>
+                    {list.qual_title} {!isEmpty(list.qual_spec) ? `- ${list.qual_spec}`: ''}
+                  </Text>
+                )}
+
                 <Text bold>{list.year_completed}</Text>
               </Flex>
-              <Text className={styles.titleStyle}>
-                {list.institute_name} - {notSpecified(list.institute_location)}
-              </Text>
+              {isEmpty(list.institute_location) ? (
+                <Text className={styles.titleStyle}>
+                   {list.institute_name} {list.institute_location} 
+                </Text>
+              ) : (
+                <Text className={styles.titleStyle}>
+                  {list.institute_name} -{' '}
+                  {list.institute_location}
+                </Text>
+              )}
             </Flex>
           );
         })}

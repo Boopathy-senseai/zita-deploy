@@ -28,7 +28,7 @@ type Props = {
 
 const notSpecified = (value: string, reLocate?: string) => {
   let initialValue;
-  if (value === 'not_set' || reLocate === '0') {
+  if (value === 'not_set' || reLocate === '0' || value === null) {
     initialValue = 'Not Specified';
   } else {
     initialValue = value;
@@ -208,7 +208,7 @@ const TalentCardMap = ({
 
                 <Flex>
                   <Flex row center className={cx('jobList')}>
-                    <Text bold style={{ width: 62 }}>
+                    <Text bold style={{whiteSpace: 'nowrap',marginRight: 2 }}>
                       Job Title:
                     </Text>
                     <Text

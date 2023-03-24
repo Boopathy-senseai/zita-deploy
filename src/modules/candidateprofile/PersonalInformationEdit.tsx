@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import PhoneInput from 'react-phone-input-2';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
+import 'react-datepicker/dist/react-datepicker.css';
+import useUnsavedChangesWarning from '../common/useUnsavedChangesWarning';
 import Toast from '../../uikit/Toast/Toast';
 import Loader from '../../uikit/Loader/Loader';
 import { AppDispatch } from '../../store';
@@ -18,8 +20,10 @@ import { isEmpty } from '../../uikit/helper';
 import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
 import {
   isValidLinkedinUrl,
+  isValidURL,
   letters,
   THIS_FIELD_REQUIRED,
+  zipCodeRegx,
 } from '../constValue';
 import { locationMiddleWare } from '../createjdmodule/store/middleware/createjdmiddleware';
 import {
@@ -29,7 +33,12 @@ import {
 } from '../createjdmodule/createJdTypes';
 import { AdditionalDetailEntity, Personal } from './candidateProfileTypes';
 import styles from './personalinformationedit.module.css';
-import { expYearOptions, genderOptions, monthOptions } from './mock';
+import {
+  birthYearOptions,
+  expYearOptions,
+  genderOptions,
+  monthOptions,
+} from './mock';
 import {
   profileEditMiddleWare,
   updatePersonalInfoMiddleWare,
@@ -77,7 +86,7 @@ const PersonalInformationEdit = ({
   const [getState, setState] = useState<StatesEntity[]>([]);
   const [getCity, setCity] = useState<CityEntity[]>([]);
   const [isLoader, setLoader] = useState(false);
-
+  const [isReload, setReload] = useState(false);
   const initial: personalUpdateForms = {
     firstName: '',
     lastName: '',
@@ -96,6 +105,7 @@ const PersonalInformationEdit = ({
     gitUrl: '',
   };
 
+  // form validation
   const personalSchema = Yup.object().shape({
     firstName: Yup.string().min(2, 'Too Short!').required(THIS_FIELD_REQUIRED),
     lastName: Yup.string().min(1, 'Too Short!').required(THIS_FIELD_REQUIRED),
@@ -104,16 +114,17 @@ const PersonalInformationEdit = ({
       .min(11, 'Invalid contact number')
       .required(THIS_FIELD_REQUIRED),
     birthYear: Yup.string().required(THIS_FIELD_REQUIRED),
-    country: Yup.string().required(THIS_FIELD_REQUIRED),
-    state: Yup.string().required(THIS_FIELD_REQUIRED),
-    city: Yup.string().required(THIS_FIELD_REQUIRED),
     years: Yup.string().required(THIS_FIELD_REQUIRED),
+    zipCode: Yup.string().required(THIS_FIELD_REQUIRED),
   });
-
+  // form validation
   const handleValid = (values: personalUpdateForms) => {
     const errors: Partial<personalUpdateForms> = {};
     if (!isEmpty(values.objective) && values.objective.length <= 150) {
       errors.objective = `Text length should be minimum 150 characters`;
+    }
+    if (!isEmpty(values.objective) && values.objective.length > 500) {
+      errors.objective = `Text length should not exceed 500 characters`;
     }
     if (
       !isEmpty(values.linkedInUrl) &&
@@ -121,9 +132,22 @@ const PersonalInformationEdit = ({
     ) {
       errors.linkedInUrl = 'Please enter a valid URL';
     }
+    if (!isEmpty(values.gitUrl) && !isValidURL(values.gitUrl)) {
+      errors.gitUrl = 'Please enter a valid URL';
+    }
+    if (isEmpty(values.country)) {
+      errors.country = THIS_FIELD_REQUIRED;
+    }
+    if (isEmpty(values.state)) {
+      errors.state = THIS_FIELD_REQUIRED;
+    }
+    if (isEmpty(values.city)) {
+      errors.city = THIS_FIELD_REQUIRED;
+    }
     return errors;
   };
 
+  // form submit
   const handleSubmit = (values: personalUpdateForms) => {
     setLoader(true);
     const formData = new FormData();
@@ -145,7 +169,8 @@ const PersonalInformationEdit = ({
     dispatch(updatePersonalInfoMiddleWare({ formData })).then((res) => {
       if (res.payload.success) {
         Toast('Personal Info updated successfully');
-        dispatch(profileEditMiddleWare());
+        dispatch(profileEditMiddleWare({jd_id:localStorage.getItem('careerJobViewJobId')}));
+        setReload(false);
         setLoader(false);
         cancel();
       } else {
@@ -154,6 +179,7 @@ const PersonalInformationEdit = ({
       }
     });
   };
+  const { onDirty, onPristine, routerPrompt } = useUnsavedChangesWarning();
 
   const formik = useFormik({
     initialValues: initial,
@@ -186,6 +212,7 @@ const PersonalInformationEdit = ({
     }
   }, [formik.values.state]);
 
+  // free fill initial value
   useEffect(() => {
     if (personal) {
       if (!isEmpty(personal.firstname)) {
@@ -201,13 +228,13 @@ const PersonalInformationEdit = ({
         formik.setFieldValue('phone', personal.contact_no.toString());
       }
       if (!isEmpty(personal_obj?.country_id)) {
-        formik.setFieldValue('country', personal_obj?.country_id);
+        formik.setFieldValue('country', personal_obj?.country_id.toString());
       }
       if (!isEmpty(personal_obj?.state_id)) {
-        formik.setFieldValue('state', personal_obj?.state_id);
+        formik.setFieldValue('state', personal_obj?.state_id.toString());
       }
       if (!isEmpty(personal_obj?.city_id)) {
-        formik.setFieldValue('city', personal_obj?.city_id);
+        formik.setFieldValue('city', personal_obj?.city_id.toString());
       }
       if (!isEmpty(personal.zipcode)) {
         formik.setFieldValue('zipCode', personal.zipcode);
@@ -234,320 +261,420 @@ const PersonalInformationEdit = ({
         formik.setFieldValue('gitUrl', personal?.code_repo);
       }
     }
-  }, [personal]);
+  }, [personal, open]);
+
+  const onCloseModal = () => {
+    if (
+      isReload &&
+      window.confirm(
+        'Do you want to leave this site? Changes you made may not be saved.',
+      )
+    ) {
+      cancel();
+      formik.resetForm();
+      setReload(false);
+    }
+    if (!isReload) {
+      cancel();
+      formik.resetForm();
+      setReload(false);
+    }
+  };
+  useEffect(() => {
+    if (isReload) {
+      onDirty();
+    } else if (!isReload) {
+      onPristine();
+    }
+  }, [isReload]);
 
   return (
     <Modal open={open}>
+      {routerPrompt}
+
       {isLoader && <Loader />}
       <Flex columnFlex className={styles.overAll}>
         <div
           className={styles.svgClose}
-          onClick={cancel}
+          onClick={onCloseModal}
           tabIndex={-1}
           role="button"
           onKeyDown={() => {}}
         >
           <SvgCloseSmall />
         </div>
-        <Text align="center" size={20} bold className={styles.title}>
+        <Text align="center" size={16} bold className={styles.title}>
           Update Personal Information
         </Text>
-        <Flex row center top>
-          <Flex flex={4} width={inputWidth}>
-            <InputText
-              label="First Name"
-              required
-              value={formik.values.firstName}
-              onChange={(e) => {
-                if (e.target.value === '' || letters.test(e.target.value)) {
-                  console.log();
-                  formik.setFieldValue(`firstName`, e.target.value);
-                }
-              }}
-            />
-            <ErrorMessage
-              name="firstName"
-              touched={formik.touched}
-              errors={formik.errors}
-            />
-          </Flex>
-          <Flex
-            flex={4}
-            width={inputWidth}
-            marginLeft={marginLeft}
-            marginRight={marginRight}
-          >
-            <InputText
-              required
-              label="Last Name"
-              value={formik.values.lastName}
-              onChange={(e) => {
-                if (e.target.value === '' || letters.test(e.target.value)) {
-                  console.log();
-                  formik.setFieldValue(`lastName`, e.target.value);
-                }
-              }}
-            />
-            <ErrorMessage
-              name="lastName"
-              touched={formik.touched}
-              errors={formik.errors}
-            />
-          </Flex>
-          <Flex flex={4} width={inputWidth}>
-            <InputText
-              disabled
-              required
-              label="Email"
-              value={formik.values.email}
-              onChange={formik.handleChange('email')}
-            />
-          </Flex>
-        </Flex>
-        <Flex row center className={styles.genderFlex}>
-          <Flex flex={4} width={inputWidth}>
-            <SelectTag
-              options={genderOptions}
-              label="Gender"
-              required
-              onChange={(option) =>
-                formik.setFieldValue('gender', option.value)
-              }
-              value={
-                genderOptions
-                  ? genderOptions.find(
-                      (option) =>
-                        Number(option.value) === Number(formik.values.gender),
-                    )
-                  : ''
-              }
-            />
-          </Flex>
-          <Flex flex={4} marginLeft={marginLeft} marginRight={marginRight}>
-            <LabelWrapper label="Contact Number" required>
-              <PhoneInput
-                inputClass={styles.phoneInput}
-                dropdownClass={styles.dropDownStyle}
-                country={'us'}
-                value={formik.values.phone}
-                onChange={(phone) => formik.setFieldValue('phone', phone)}
+        <Flex columnFlex className={styles.scrollStyle}>
+          <Flex row center top>
+            <Flex flex={4} width={inputWidth}>
+              <InputText
+                label="First Name"
+                required
+                value={formik.values.firstName}
+                onChange={(e) => {
+                  if (e.target.value === '' || letters.test(e.target.value)) {
+                    formik.setFieldValue(`firstName`, e.target.value);
+                    setReload(true);
+                  }
+                }}
               />
-            </LabelWrapper>
-            <ErrorMessage
-              name="phone"
-              touched={formik.touched}
-              errors={formik.errors}
-            />
-          </Flex>
-          <Flex flex={4} width={inputWidth}>
-            <InputText
-              required
-              label="Birth Year"
-              value={formik.values.birthYear}
-              onChange={formik.handleChange('birthYear')}
-            />
-
-            <ErrorMessage
-              name="birthYear"
-              touched={formik.touched}
-              errors={formik.errors}
-            />
-          </Flex>
-        </Flex>
-        <Flex row center top>
-          <Flex flex={4} width={inputWidth}>
-            <SelectTag
-              options={isGetCountry}
-              label="Country"
-              required
-              getOptionValue={(option: { id: number }) => `${option.id}`}
-              getOptionLabel={(option: { name: string }) => option.name}
-              value={
-                isGetCountry
-                  ? isGetCountry.find(
-                      (option) =>
-                        Number(option.id) === Number(formik.values.country),
-                    )
-                  : ''
-              }
-              onChange={(option) =>
-                formik.setFieldValue('country', option.id.toString())
-              }
-            />
-            <ErrorMessage
-              name="county"
-              touched={formik.touched}
-              errors={formik.errors}
-            />
-          </Flex>
-          <Flex
-            flex={4}
-            width={inputWidth}
-            marginLeft={marginLeft}
-            marginRight={marginRight}
-          >
-            <SelectTag
-              options={getState}
-              label="State"
-              required
-              getOptionValue={(option: { id: number }) => `${option.id}`}
-              getOptionLabel={(option: { name: string }) => option.name}
-              onChange={(option) => formik.setFieldValue('state', option.id)}
-              value={
-                getState
-                  ? getState.find(
-                      (option) =>
-                        Number(option.id) === Number(formik.values.state),
-                    )
-                  : ''
-              }
-            />
-            <ErrorMessage
-              name="state"
-              touched={formik.touched}
-              errors={formik.errors}
-            />
-          </Flex>
-          <Flex flex={4} width={inputWidth}>
-            <SelectTag
-              options={getCity}
-              label="City"
-              required
-              getOptionValue={(option: { id: number }) => `${option.id}`}
-              getOptionLabel={(option: { name: string }) => option.name}
-              onChange={(option) => formik.setFieldValue('city', option.id)}
-              value={
-                getCity
-                  ? getCity.find(
-                      (option) =>
-                        Number(option.id) === Number(formik.values.city),
-                    )
-                  : ''
-              }
-            />
-            <ErrorMessage
-              name="city"
-              touched={formik.touched}
-              errors={formik.errors}
-            />
-          </Flex>
-        </Flex>
-        <Flex row center top className={styles.genderFlex}>
-          <Flex flex={4} width={inputWidth}>
-            <InputText
-              label="Zip Code"
-              required
-              value={formik.values.zipCode}
-              onChange={formik.handleChange('zipCode')}
-            />
-            <ErrorMessage
-              name="zipCode"
-              touched={formik.touched}
-              errors={formik.errors}
-            />
-          </Flex>
-          <Flex
-            flex={4}
-            width={inputWidth}
-            marginLeft={marginLeft}
-            marginRight={marginRight}
-          >
-            <InputText
-              label="Linkedin URL"
-              value={formik.values.linkedInUrl}
-              onChange={formik.handleChange('linkedInUrl')}
-            />
-            <ErrorMessage
-              name="linkedInUrl"
-              touched={formik.touched}
-              errors={formik.errors}
-            />
-          </Flex>
-          <Flex flex={4} width={inputWidth}>
-            <InputText
-              label="Your Personal Code Repository"
-              value={formik.values.gitUrl}
-              onChange={formik.handleChange('gitUrl')}
-            />
-            <ErrorMessage
-              name="gitUrl"
-              touched={formik.touched}
-              errors={formik.errors}
-            />
-          </Flex>
-        </Flex>
-        <Text>Total Experience</Text>
-        <Flex columnFlex>
-          <Flex flex={4} width={inputWidth}>
-            <Flex row top>
-              <Flex flex={6} marginRight={marginRight}>
-                <SelectTag
-                  label="Years"
-                  required
-                  options={expYearOptions}
-                  onChange={(option) =>
-                    formik.setFieldValue('years', option.value)
+              <ErrorMessage
+                name="firstName"
+                touched={formik.touched}
+                errors={formik.errors}
+              />
+            </Flex>
+            <Flex
+              flex={4}
+              width={inputWidth}
+              marginLeft={marginLeft}
+              marginRight={marginRight}
+            >
+              <InputText
+                required
+                label="Last Name"
+                value={formik.values.lastName}
+                onChange={(e) => {
+                  if (e.target.value === '' || letters.test(e.target.value)) {
+                    formik.setFieldValue(`lastName`, e.target.value);
+                    setReload(true);
                   }
-                  value={
-                    expYearOptions
-                      ? expYearOptions.find(
-                          (option) =>
-                            Number(option.value) ===
-                            Number(formik.values.years),
-                        )
-                      : ''
-                  }
+                }}
+              />
+              <ErrorMessage
+                name="lastName"
+                touched={formik.touched}
+                errors={formik.errors}
+              />
+            </Flex>
+            <Flex flex={4} width={inputWidth}>
+              <InputText
+                disabled
+                required
+                label="Email"
+                value={formik.values.email}
+                onChange={(e) => {
+                  setReload(true);
+                  formik.setFieldValue('email', e.target.value);
+                }}
+              />
+            </Flex>
+          </Flex>
+          <Flex row center className={styles.genderFlex}>
+            <Flex flex={4} width={inputWidth}>
+              <SelectTag
+                isSearchable
+                options={genderOptions}
+                label="Gender"
+                required
+                onChange={(option) => {
+                  setReload(true);
+                  formik.setFieldValue('gender', option.value);
+                }}
+                value={
+                  genderOptions
+                    ? genderOptions.find(
+                        (option) =>
+                          Number(option.value) === Number(formik.values.gender),
+                      )
+                    : ''
+                }
+              />
+              <ErrorMessage
+                name="gender"
+                touched={formik.touched}
+                errors={formik.errors}
+              />
+            </Flex>
+            <Flex flex={4} marginLeft={marginLeft} marginRight={marginRight}>
+              <LabelWrapper label="Contact Number" required>
+                <PhoneInput
+                  inputClass={styles.phoneInput}
+                  dropdownClass={styles.dropDownStyle}
+                  country={'us'}
+                  value={formik.values.phone}
+                  onChange={(phone) => {
+                    setReload(true);
+                    formik.setFieldValue('phone', phone);
+                  }}
                 />
+              </LabelWrapper>
+              <ErrorMessage
+                name="phone"
+                touched={formik.touched}
+                errors={formik.errors}
+              />
+            </Flex>
+            <Flex flex={4} width={inputWidth}>
+              <SelectTag
+                isSearchable
+                options={birthYearOptions}
+                label="Birth Year"
+                required
+                onChange={(option) => {
+                  formik.setFieldValue('birthYear', option.value);
+                  setReload(true);
+                }}
+                value={
+                  birthYearOptions
+                    ? birthYearOptions.find(
+                        (option) =>
+                          Number(option.value) ===
+                          Number(formik.values.birthYear),
+                      )
+                    : ''
+                }
+              />
+              <ErrorMessage
+                name="birthYear"
+                touched={formik.touched}
+                errors={formik.errors}
+              />
+            </Flex>
+          </Flex>
+          <Flex row center top>
+            <Flex flex={4} width={inputWidth}>
+              <SelectTag
+                isSearchable
+                options={isGetCountry}
+                label="Country"
+                required
+                getOptionValue={(option: { id: number }) => `${option.id}`}
+                getOptionLabel={(option: { name: string }) => option.name}
+                value={
+                  isGetCountry
+                    ? isGetCountry.find(
+                        (option) =>
+                          Number(option.id) === Number(formik.values.country),
+                      )
+                    : ''
+                }
+                onChange={(option) => {
+                  formik.setFieldValue('country', option.id.toString());
+                  formik.setFieldValue('state', '');
+                  formik.setFieldValue('city', '');
+                  setReload(true);
+                }}
+              />
+              {isEmpty(formik.values.country) && (
                 <ErrorMessage
-                  name="years"
+                  name="country"
                   touched={formik.touched}
                   errors={formik.errors}
                 />
-              </Flex>
-              <Flex flex={6}>
-                <SelectTag
-                  options={monthOptions}
-                  label="Months"
-                  onChange={(option) =>
-                    formik.setFieldValue('month', option.value)
-                  }
-                  value={
-                    monthOptions
-                      ? monthOptions.find(
+              )}
+            </Flex>
+            <Flex
+              flex={4}
+              width={inputWidth}
+              marginLeft={marginLeft}
+              marginRight={marginRight}
+            >
+              <SelectTag
+                isSearchable
+                options={getState}
+                label="State"
+                required
+                getOptionValue={(option: { id: number }) => `${option.id}`}
+                getOptionLabel={(option: { name: string }) => option.name}
+                onChange={(option) => {
+                  formik.setFieldValue('state', option.id.toString());
+                  formik.setFieldValue('city', '');
+                  setReload(true);
+                }}
+                value={
+                  !isEmpty(formik.values.state)
+                    ? getState
+                      ? getState.find(
                           (option) =>
-                            Number(option.value) ===
-                            Number(formik.values.month),
+                            Number(option.id) === Number(formik.values.state),
                         )
                       : ''
-                  }
+                    : ''
+                }
+              />
+              {isEmpty(formik.values.state) && (
+                <ErrorMessage
+                  name="state"
+                  touched={formik.touched}
+                  errors={formik.errors}
                 />
-              </Flex>
+              )}
+            </Flex>
+            <Flex flex={4} width={inputWidth}>
+              <SelectTag
+                isSearchable
+                options={getCity}
+                label="City"
+                required
+                getOptionValue={(option: { id: number }) => `${option.id}`}
+                getOptionLabel={(option: { name: string }) => option.name}
+                onChange={(option) => {
+                  formik.setFieldValue('city', option.id.toString());
+                  setReload(true);
+                }}
+                value={
+                  !isEmpty(formik.values.city)
+                    ? getCity
+                      ? getCity.find(
+                          (option) =>
+                            Number(option.id) === Number(formik.values.city),
+                        )
+                      : ''
+                    : ''
+                }
+              />
+              {isEmpty(formik.values.city) && (
+                <ErrorMessage
+                  name="city"
+                  touched={formik.touched}
+                  errors={formik.errors}
+                />
+              )}
             </Flex>
           </Flex>
-          <Flex flex={4}>
-            <></>
+          <Flex row center top className={styles.genderFlex}>
+            <Flex flex={4} width={inputWidth}>
+              <InputText
+                label="Zip Code"
+                required
+                value={formik.values.zipCode}
+                onChange={(e) => {
+                  if (
+                    e.target.value === '' ||
+                    zipCodeRegx.test(e.target.value)
+                  ) {
+                    formik.setFieldValue(`zipCode`, e.target.value);
+                    setReload(true);
+                  }
+                }}
+                maxLength={6}
+              />
+              <ErrorMessage
+                name="zipCode"
+                touched={formik.touched}
+                errors={formik.errors}
+              />
+            </Flex>
+            <Flex
+              flex={4}
+              width={inputWidth}
+              marginLeft={marginLeft}
+              marginRight={marginRight}
+            >
+              <InputText
+                label="Linkedin URL"
+                value={formik.values.linkedInUrl}
+                onChange={(e) => {
+                  formik.setFieldValue('linkedInUrl', e.target.value);
+                  setReload(true);
+                }}
+              />
+              <ErrorMessage
+                name="linkedInUrl"
+                touched={formik.touched}
+                errors={formik.errors}
+              />
+            </Flex>
+            <Flex flex={4} width={inputWidth}>
+              <InputText
+                label="Your Personal Code Repository"
+                value={formik.values.gitUrl}
+                onChange={(e) => {
+                  formik.setFieldValue('gitUrl', e.target.value);
+                  setReload(true);
+                }}
+              />
+              <ErrorMessage
+                name="gitUrl"
+                touched={formik.touched}
+                errors={formik.errors}
+              />
+            </Flex>
           </Flex>
-          <Flex flex={4}>
-            <></>
+          <Text>Total Experience</Text>
+          <Flex columnFlex>
+            <Flex flex={4} width={inputWidth}>
+              <Flex row top>
+                <Flex flex={6} marginRight={marginRight}>
+                  <SelectTag
+                    isSearchable
+                    label="Years"
+                    required
+                    options={expYearOptions}
+                    onChange={(option) => {
+                      formik.setFieldValue('years', option.value);
+                      setReload(true);
+                    }}
+                    value={
+                      expYearOptions
+                        ? expYearOptions.find(
+                            (option) =>
+                              Number(option.value) ===
+                              Number(formik.values.years),
+                          )
+                        : ''
+                    }
+                  />
+                  <ErrorMessage
+                    name="years"
+                    touched={formik.touched}
+                    errors={formik.errors}
+                  />
+                </Flex>
+                <Flex flex={6}>
+                  <SelectTag
+                    isSearchable
+                    options={monthOptions}
+                    label="Months"
+                    onChange={(option) => {
+                      formik.setFieldValue('month', option.value);
+
+                      setReload(true);
+                    }}
+                    value={
+                      monthOptions
+                        ? monthOptions.find(
+                            (option) =>
+                              Number(option.value) ===
+                              Number(formik.values.month),
+                          )
+                        : ''
+                    }
+                  />
+                </Flex>
+              </Flex>
+            </Flex>
+            <Flex flex={4}>
+              <></>
+            </Flex>
+            <Flex flex={4}>
+              <></>
+            </Flex>
+          </Flex>
+          <Flex className={styles.objectiveInput}>
+            <InputText
+              label="Career Objective"
+              textarea
+              value={formik.values.objective}
+              onChange={(e) => {
+                formik.setFieldValue('objective', e.target.value);
+                setReload(true);
+              }}
+              className={styles.careerInput}
+            />
+            <ErrorMessage
+              name="objective"
+              touched={formik.touched}
+              errors={formik.errors}
+            />
           </Flex>
         </Flex>
-        <Flex className={styles.objectiveInput}>
-          <InputText
-            label="Career Objective"
-            textarea
-            value={formik.values.objective}
-            onChange={formik.handleChange('objective')}
-          />
-          <ErrorMessage
-            name="objective"
-            touched={formik.touched}
-            errors={formik.errors}
-          />
-        </Flex>
+
         <Flex end>
-          <Button disabled={!formik.isValid} onClick={formik.handleSubmit}>
-            Update
-          </Button>
+          <Button onClick={formik.handleSubmit}>Update</Button>
         </Flex>
       </Flex>
     </Modal>

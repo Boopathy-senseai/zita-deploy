@@ -64,11 +64,15 @@ const InviteContainer = ({
             </div>
           )}
 
-          {isEmpty(dataList.invite) && (
+          {isEmpty(dataList.invite) ? (
             <Text color="gray" size={12}>
               {!isEmpty(dataList.applicant)
                 ? 'You can’t send Invite'
                 : 'Invite to Apply'}
+            </Text>
+          ): !isEmpty(dataList.invite) && !isEmpty(dataList.applicant) && (
+            <Text color="gray" size={12}>
+              You can’t send Invite
             </Text>
           )}
 
@@ -87,11 +91,11 @@ const InviteContainer = ({
             </>
           )}
 
-          {!isEmpty(dataList.invite) && !isEmpty(dataList.applicant) && (
+{/* {!isEmpty(dataList.invite) && !isEmpty(dataList.applicant) && (
             <Text color="gray" size={12}>
               You can’t send Invite
             </Text>
-          )}
+          )} */}
 
           {!isEmpty(dataList.interested) && isEmpty(dataList.applicant) && (
             <Flex row center>

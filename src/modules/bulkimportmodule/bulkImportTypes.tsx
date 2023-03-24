@@ -4,7 +4,15 @@ export interface BulkImport {
   parsed: boolean;
   permission?: string[] | null;
   is_parsed: boolean;
+  jd_id?: JdIdEntity[];
 }
+
+
+export interface JdIdEntity {
+  id: number;
+  job_title: string;
+}
+
 
 export interface BulkImportReducerState extends BulkImport {
   isLoading: boolean;
@@ -29,6 +37,8 @@ export interface EmpPoolEntity {
   job_type_id?: null;
   first_name?: string | null;
   last_name?: null;
+  screen_status?: null;
+  match?: null;
   email?: string | null;
   contact: string;
   linkedin_url?: string | null;
@@ -58,5 +68,6 @@ export interface UploadedTotalPayload {
   search?: string;
   completed?: number;
   incompleted?: number;
+  jd_id?: string;
   page?: number;
 }

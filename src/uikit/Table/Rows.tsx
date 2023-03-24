@@ -26,12 +26,32 @@ type RowsProps = {
   rowIndex: number;
   border: string;
   scrollHeight?: number;
+  rowFocusIndex?: number;
 };
 
-const Rows = ({ item, columns, rowIndex, border, scrollHeight }: RowsProps) => {
+const Rows = ({
+  item,
+  columns,
+  rowIndex,
+  border,
+  scrollHeight,
+  rowFocusIndex,
+}: RowsProps) => {
   return (
-    <Flex row center className={cx({ [`rowBorder-${border}`]: border })}>
-      <RowColumns columns={columns} item={item} rowIndex={rowIndex} scrollHeight={scrollHeight}/>
+    <Flex
+      row
+      center
+      className={cx('row',{
+        [`rowBorder-${border}`]: border,
+        rowFocus: rowIndex === rowFocusIndex,
+      })}
+    >
+      <RowColumns
+        columns={columns}
+        item={item}
+        rowIndex={rowIndex}
+        scrollHeight={scrollHeight}
+      />
     </Flex>
   );
 };

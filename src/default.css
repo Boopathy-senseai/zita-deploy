@@ -22,6 +22,9 @@
   --color-error: #f94949;
   --color-error-1: #d74242;
   --color-primary: #581845;
+  --color-primary-light: #58184534;
+  --color-primary-light-hover: #5818451f;
+  --color-primary-hover: #450832;
   --color-secondary: #ffc203;
   --color-link: #1890ff;
   --color-link-1: #18adf0;

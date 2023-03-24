@@ -2,6 +2,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import useUnsavedChangesWarning from '../common/useUnsavedChangesWarning';
 import { AppDispatch, RootState } from '../../store';
 import Modal from '../../uikit/Modal/Modal';
 import Toast from '../../uikit/Toast/Toast';
@@ -26,6 +27,7 @@ type Props = {
   open: boolean;
   cancel: () => void;
   obj?: Obj;
+  isAddText: string;
 };
 
 type skillList = { label: string; value: string };
@@ -39,9 +41,15 @@ const initial: skillFormikProps = {
   softSkill: [],
 };
 
-const UpdateProfessionalSkillsEdit = ({ open, cancel, obj }: Props) => {
+const UpdateProfessionalSkillsEdit = ({
+  open,
+  cancel,
+  obj,
+  isAddText,
+}: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const [isLoader, setLoader] = useState(false);
+  const [isReload, setReload] = useState(false);
 
   useEffect(() => {
     dispatch(techSkillMiddleWare());
@@ -55,6 +63,7 @@ const UpdateProfessionalSkillsEdit = ({ open, cancel, obj }: Props) => {
       };
     },
   );
+
   const softSkillArray = [skills?.soft_skill];
 
   const techSkillUpdate =
@@ -69,19 +78,17 @@ const UpdateProfessionalSkillsEdit = ({ open, cancel, obj }: Props) => {
 
   const softSkillUpdate =
     Array.isArray(softSkillArray) &&
-    softSkillArray.map((softList) => {
-      return softList === undefined
-        ? { value: '', label: '' }
-        : { value: softList, label: softList };
-    });
+    softSkillArray
+      .toString()
+      .split(',')
+      .map((softList) => {
+        return softList === undefined || softList === ''
+          ? { value: '', label: '' }
+          : { value: softList, label: softList };
+      });
 
   const softSkillEmpty =
     softSkillUpdate && softSkillUpdate.filter((x) => x.value !== '');
-
-  useEffect(() => {
-    formik.setFieldValue('techSkill', techSkillEmpty);
-    formik.setFieldValue('softSkill', softSkillEmpty);
-  }, [obj, open]);
 
   const skillsSchema = Yup.object().shape({
     techSkill: Yup.array().min(1, THIS_FIELD_REQUIRED),
@@ -113,10 +120,12 @@ const UpdateProfessionalSkillsEdit = ({ open, cancel, obj }: Props) => {
       }),
     ).then((res) => {
       if (res.payload.success) {
+        setReload(false);
         cancel();
         setLoader(false);
         Toast('Skills updated successfully');
-        dispatch(profileEditMiddleWare());
+        dispatch(profileEditMiddleWare({jd_id:localStorage.getItem('careerJobViewJobId')}));
+        dispatch(techSkillMiddleWare());
       } else {
         setLoader(false);
         Toast('Skills not updated, Please try again', 'LONG', 'error');
@@ -130,11 +139,13 @@ const UpdateProfessionalSkillsEdit = ({ open, cancel, obj }: Props) => {
     validationSchema: skillsSchema,
   });
 
-  const handleTechChange = useCallback((newValue:any, data:any) => {
+  const handleTechChange = useCallback((newValue, data) => {
     if (data.action === 'select-option') {
+      setReload(true);
       formik.setFieldValue('techSkill', newValue);
     }
     if (data.action === 'create-option') {
+      setReload(true);
       const tagsValue = newValue.slice();
       var tagArr = data.option.value.split(',');
       tagArr.map((list: string) => {
@@ -163,15 +174,19 @@ const UpdateProfessionalSkillsEdit = ({ open, cancel, obj }: Props) => {
     }
 
     if (data.action === 'remove-value') {
+      setReload(true);
       formik.setFieldValue('techSkill', newValue);
     }
   }, []);
 
-  const handleSoftChange = useCallback((newValue:any, data:any) => {
+  const handleSoftChange = useCallback((newValue, data) => {
     if (data.action === 'select-option') {
+      setReload(true);
+
       formik.setFieldValue('softSkill', newValue);
     }
     if (data.action === 'create-option') {
+      setReload(true);
       const tagsValue = newValue.slice();
       var tagArr = data.option.value.split(',');
       tagArr.map((list: string) => {
@@ -200,32 +215,66 @@ const UpdateProfessionalSkillsEdit = ({ open, cancel, obj }: Props) => {
     }
 
     if (data.action === 'remove-value') {
+      setReload(true);
       formik.setFieldValue('softSkill', newValue);
     }
   }, []);
 
+  useEffect(() => {
+    formik.setFieldValue('techSkill', techSkillEmpty);
+    formik.setFieldValue('softSkill', softSkillEmpty);
+  }, [obj, open]);
+
+
+
+  const onCloseModal = () => {
+    if (
+      isReload &&
+      window.confirm(
+        'Do you want to leave this site? Changes you made may not be saved.',
+      )
+    ) {
+      cancel();
+      formik.resetForm();
+      setReload(false);
+    }
+    if (!isReload) {
+      cancel();
+      formik.resetForm();
+      setReload(false);
+    }
+  };
+
+  const { onDirty, onPristine, routerPrompt } = useUnsavedChangesWarning();
+
+  useEffect(() => {
+    if (isReload) {
+      onDirty();
+    } else if (!isReload) {
+      onPristine();
+    }
+  }, [isReload]);
+  
   return (
     <Modal open={open}>
+      {routerPrompt}
       {isLoader && <Loader />}
       <Flex className={styles.overAll}>
         <div
           className={styles.svgClose}
-          onClick={() => {
-            cancel();
-            formik.resetForm();
-          }}
+          onClick={onCloseModal}
           tabIndex={-1}
           role="button"
-          onKeyDown={() => {}}
+          onKeyDown={() => { }}
         >
           <SvgCloseSmall />
         </div>
-        <Text className={styles.title} size={20} bold align="center">
-          Update Professional Skills
+        <Text className={styles.title} size={16} bold align="center">
+          {isAddText} Professional Skills
         </Text>
 
         <SelectTag
-          label="Required Skills"
+          label="Technical Skills"
           required
           isClearable
           options={skills_list}
@@ -248,22 +297,20 @@ const UpdateProfessionalSkillsEdit = ({ open, cancel, obj }: Props) => {
           <SelectTag
             label="Soft Skills"
             isClearable
-            options={skills_list}
+            options={[]}
             isMulti
             isSearchable
             isCreate
             value={formik.values.softSkill}
             onChange={handleSoftChange}
-            components={{
-              MenuList: (props) => <MenuLists {...props} />,
-            }}
             placeholder="Add skills from suggestion list"
-            // menuIsOpen={false}
-            // noOptionsMessage={({ }) => 'You have no posted jobs to display.'}
+            components={{
+              MenuList: (props) => <MenuLists {...props} maxHeight={0} />,
+            }}
           />
         </div>
         <Flex end>
-          <Button onClick={formik.handleSubmit}>Update</Button>
+          <Button onClick={formik.handleSubmit}>{isAddText}</Button>
         </Flex>
       </Flex>
     </Modal>

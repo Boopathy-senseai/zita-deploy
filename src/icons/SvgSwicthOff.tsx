@@ -15,7 +15,7 @@ const SvgSwitchOff = ({ fill, width, height }: typeof defaultProps) => (
       <circle id="switch-off_svg__b" cx={9} cy={9} r={7} />
     </defs>
     <g fill="none" fillRule="evenodd">
-      <rect width={width} height={height} fill={fill} opacity={0.5} rx={9} />
+      <rect width={width} height={height} fill={fill}  rx={9} />
       <use fill="#FFF" xlinkHref="#switch-off_svg__b" />
       <use fill="#FFF" xlinkHref="#switch-off_svg__b" />
     </g>

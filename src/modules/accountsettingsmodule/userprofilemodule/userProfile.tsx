@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { AppDispatch, RootState } from '../../../store';
@@ -29,7 +29,7 @@ import {
   checkUpperCase,
   specialCharacter,
 } from '../..//../modules/constValue';
-import useUnsavedChangesWarning from '../../common/useUnsavedChangesWarning';
+// import useUnsavedChangesWarning from '../../common/useUnsavedChangesWarning';
 import styles from './userprofile.module.css';
 import {
   userProfileMiddleWare,
@@ -37,8 +37,13 @@ import {
   passwordChangeMiddleWare,
 } from './store/middleware/userprofilemiddleware';
 
-const UserProfile = () => {
+type Props={
+  setReloadProfile:(a:boolean)=>void
+}
+const UserProfile = ({setReloadProfile}:Props) => {
+
   const dispatch: AppDispatch = useDispatch();
+  const ref = useRef<any>([]);
   const [fileurl, setFileurl] = useState<any>([]);
   const [islogo, setlogo] = useState<any>([]);
   const [isShowNewPass, setShowNewPass] = useState(false);
@@ -92,6 +97,7 @@ const UserProfile = () => {
 
   const handleChangeImag = (e: any) => {
     e.preventDefault();
+
     var fileExt = e.target.value;
     fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
     if (imageFileAccept.indexOf(fileExt) < 0) {
@@ -107,13 +113,15 @@ const UserProfile = () => {
       reader.onloadend = () => {
         setFileurl({
           file: e.target.files[0],
+          value: e.target.value,
           imagePreviewUrl: reader.result,
         });
       };
       reader.readAsDataURL(e.target.files[0]);
       setMb(false);
       setButton(false);
-      onDirty();
+      setReloadProfile(true)
+      // onDirty();
     }
   };
 
@@ -144,7 +152,7 @@ const UserProfile = () => {
       errors.oldpassword = THIS_FIELD_REQUIRED;
     }
     if (isEmpty(values.newpassword1)) {
-      errors.newpassword1 = THIS_FIELD_REQUIRED;
+      errors.newpassword1 = '';
     }
     if (isEmpty(values.newpassword2)) {
       errors.newpassword2 = THIS_FIELD_REQUIRED;
@@ -180,11 +188,13 @@ const UserProfile = () => {
       }
       setload(false);
       setButton(true);
-      onPristine();
+      // onPristine();
+      setReloadProfile(false)
     });
   };
 
   const hanldePasswordSubmitform = (values: Password) => {
+    setload(true);
     const formData = new FormData();
     formData.append('old_password', values.oldpassword);
     formData.append('new_password1', values.newpassword1);
@@ -195,16 +205,23 @@ const UserProfile = () => {
         formData,
       }),
     ).then((res: any) => {
-      onPristine();
+      // onPristine();
+      setReloadProfile(false)
       if (res.payload.data.success) {
         Toast('Password changed successfully', 'LONG', 'success');
         setError(false);
+        formikPassword.setFieldValue('newpassword1', '');
+        formikPassword.setFieldValue('newpassword2', '');
+        formikPassword.setFieldValue('oldpassword', '');
       } else {
         setError(true);
       }
     });
     // onPristine();
+    setload(false);
+    setReloadProfile(false)
   };
+
   const formik = useFormik({
     initialValues: initial,
     onSubmit: (values) => hanldeSubmitform(values),
@@ -251,7 +268,16 @@ const UserProfile = () => {
     )
       setPassButton(false);
   }, [formikPassword.values]);
-  const { routerPrompt, onDirty, onPristine } = useUnsavedChangesWarning();
+
+  const reset = () => {
+    ref.current.value = '';
+    setlogo('');
+    setButton(false);
+    setFileurl({});
+    setShow(false);
+  };
+
+  // const { routerPrompt, onDirty, onPristine } = useUnsavedChangesWarning();
   return (
     <Flex>
       {(isLoading || isload) && <Loader />}
@@ -260,10 +286,13 @@ const UserProfile = () => {
       </Text>
       <Card className={styles.cardOverAll}>
         <Flex row>
-          <Flex flex={4} className={styles.maxWidth}>
+          <Flex columnFlex flex={4} className={styles.maxWidth}>
             <Flex columnFlex>
               {imgUrl.length === 0 || imgUrl === `${mediaPath}` ? (
-                <label htmlFor="bannersetip__img" className={styles.btnStyle}>
+                <label
+                  htmlFor="bannersetip_user__img"
+                  className={styles.btnStyle}
+                >
                   <Flex className={styles.imgContainer}>
                     <Flex height={125} width={145} className={styles.imgStyle}>
                       <Flex
@@ -292,8 +321,10 @@ const UserProfile = () => {
                           onKeyDown={() => {}}
                           title={'Remove'}
                           onClick={() => {
-                            setFileurl({});
+                            setFileurl({ value: null });
+
                             setShow(false);
+                            console.log('fileurl11111111', fileurl);
                           }}
                         >
                           <SvgCloseSmall />
@@ -309,18 +340,20 @@ const UserProfile = () => {
               ) : (
                 <Flex>
                   <label
-                    htmlFor="bannersetip__img"
+                    htmlFor="bannersetip_user__img"
                     className={styles.btnStyle}
                     onMouseEnter={() => setShow(true)}
                     onMouseLeave={() => setShow(false)}
                   >
                     <Flex className={styles.imgContainer}>
                       <img
+                      style={{objectFit: 'cover'}}
                         height={125}
                         width={145}
                         src={imgUrl}
                         alt="Banner Img"
                         className={styles.imgStyle}
+                        key={Math.random().toString()}
                       />
                       {isShow && (
                         <Flex
@@ -346,13 +379,7 @@ const UserProfile = () => {
                       role="button"
                       title={'Remove'}
                       onKeyDown={() => {}}
-                      onClick={() => {
-                        console.log('sddsdssd');
-                        setlogo('');
-                        setButton(false);
-                        setFileurl({});
-                        setShow(false);
-                      }}
+                      onClick={reset}
                     >
                       <SvgCloseSmall />
                     </div>
@@ -365,14 +392,15 @@ const UserProfile = () => {
                 </Text>
               )}
               <input
-                id="bannersetip__img"
+                id="bannersetip_user__img"
                 type="file"
+                ref={ref}
                 onChange={handleChangeImag}
                 accept="image/*"
                 className={styles.fileStyle}
               />
             </Flex>
-            <Flex className={styles.textsection}>
+            <Flex columnFlex className={!isShow ? styles.textsection :''}>
               <Text className={styles.gray_color}>
                 Recommended profile picture dimension:
               </Text>
@@ -395,7 +423,8 @@ const UserProfile = () => {
                   onChange={(e) => {
                     formik.setFieldValue('firstname', e.target.value);
                     setButton(false);
-                    onDirty();
+                    // onDirty();
+                    setReloadProfile(true)
                   }}
                 />
               </Flex>
@@ -408,7 +437,8 @@ const UserProfile = () => {
                   onChange={(e) => {
                     formik.setFieldValue('lastname', e.target.value);
                     setButton(false);
-                    onDirty();
+                    // onDirty();
+                    setReloadProfile(true)
                   }}
                 />
               </Flex>
@@ -467,7 +497,8 @@ const UserProfile = () => {
                   value={formikPassword.values.oldpassword}
                   onChange={(e) => {
                     formikPassword.setFieldValue('oldpassword', e.target.value);
-                    onDirty();
+                    // onDirty();
+                    setReloadProfile(true)
                   }}
                   keyboardType={!isShowOldPass ? 'password' : 'text'}
                   actionRight={() => (
@@ -496,7 +527,8 @@ const UserProfile = () => {
                       'newpassword1',
                       e.target.value,
                     );
-                    onDirty();
+                    // onDirty();
+                    setReloadProfile(true)
                   }}
                   keyboardType={!isShowNewPass ? 'password' : 'text'}
                   actionRight={() => (
@@ -550,7 +582,8 @@ const UserProfile = () => {
                       'newpassword2',
                       e.target.value,
                     );
-                    onDirty();
+                    // onDirty();
+                    setReloadProfile(true)
                   }}
                   keyboardType={!isShowNewPass1 ? 'password' : 'text'}
                   actionRight={() => (
@@ -592,7 +625,7 @@ const UserProfile = () => {
           </Flex>
         </Flex>
       </Card>
-      {routerPrompt}
+      {/* {routerPrompt} */}
     </Flex>
   );
 };

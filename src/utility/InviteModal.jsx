@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Modal } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
@@ -28,6 +28,9 @@ const InviteModal = (props) => {
   const [selectedDepartvalue, setSelectedDepartvalue] = useState('');
   const [isEmailValid, setEmailValid] = useState(false);
   const [isGetMail, setMail] = useState('');
+  const [isAutoDropDown, setAutoDropDown] = useState();
+  const myRef = useRef();
+
   ////////// Form Validation ////////////
   const schema = yup.object().shape({
     first_name: yup
@@ -50,9 +53,9 @@ const InviteModal = (props) => {
     contact: yup
       .string()
       .required('This field is required')
-      // .max(10, 'Enter a valid contact number')
+      .max(15, 'Enter a valid contact number')
       .min(10, 'Enter a valid contact number'),
-      
+
     department: yup
       .string()
       .required('This field is required')
@@ -259,6 +262,25 @@ const InviteModal = (props) => {
     });
   }, [isGetMail]);
 
+  const handleClickOutside = (event) => {
+    if (myRef.current && !myRef.current.contains(event.target)) {
+      setAutoDropDown(false);
+    }
+  };
+
+  useEffect(() => {
+    if (typeof Window !== 'undefined') {
+      document.addEventListener('click', handleClickOutside, true);
+    }
+    return () => {
+      if (myRef) {
+        if (typeof Window !== 'undefined') {
+          document.removeEventListener('click', handleClickOutside, true);
+        }
+      }
+    };
+  });
+
   return (
     props.show && (
       <>
@@ -343,14 +365,6 @@ const InviteModal = (props) => {
                 <div className="col-md-6">
                   <div className={styles.marginTop}>
                     <LabelWrapper label="Contact Number" required>
-                      {/* <PhoneInput
-                        inputClass={styles.phoneInput}
-                        dropdownClass={styles.dropDownStyle}
-                        country={'us'}
-                        // value={formik.values.contact_no}
-                        {...register('contact')}
-                        onChange={(phone) => setValue('contact', phone)}
-                      /> */}
                       <input
                         className={styles.inputStyle}
                         placeholder="Enter user's active contact number"
@@ -363,8 +377,14 @@ const InviteModal = (props) => {
                     </Text>
                   </div>
                 </div>
-                <div className="col-md-6">
-                  <div className={styles.marginTop}>
+                <div
+                  className="col-md-6"
+                  ref={myRef}
+                  onFocus={() => setAutoDropDown(true)}
+                >
+                  <div
+                    className={styles.marginTop}
+                  >
                     <LabelWrapper label="Department" required>
                       <input
                         className={styles.inputStyle}
@@ -377,13 +397,16 @@ const InviteModal = (props) => {
                         autoComplete={'off'}
                       />
                     </LabelWrapper>
-                    <div className="renderSuggestions">
-                      <Autocomplete
-                        getValue={selectedDepartvalue}
-                        parentCallback={handleCallback}
-                        options={displayDepartments}
-                      />
-                    </div>
+                    {isAutoDropDown && (
+                      <div className="renderSuggestions">
+                        <Autocomplete
+                          getValue={selectedDepartvalue}
+                          parentCallback={handleCallback}
+                          options={displayDepartments}
+                        />
+                      </div>
+                    )}
+
                     <Text size={12} color="error">
                       {errors.department?.message}
                     </Text>

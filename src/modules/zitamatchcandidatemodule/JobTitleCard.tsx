@@ -8,12 +8,15 @@ import { JobDetails } from './zitaMatchCandidateTypes';
 type TitleProps = {
   title: string;
   value: string;
+  width?: number;
 };
 
-const TitleLabel = ({ title, value }: TitleProps) => {
+const TitleLabel = ({ title, value, width }: TitleProps) => {
   return (
     <Flex row center className={styles.labelContainer}>
-      <Text color="theme">{title}</Text>
+      <Text style={{ width }} color="theme">
+        {title}
+      </Text>
       <Text title={value} textStyle="ellipsis" className={styles.valueText}>
         {value}
       </Text>
@@ -32,11 +35,15 @@ const JobTitleCard = ({ job_details }: Props) => {
           value={`${job_details.job_title} - ${job_details.job_id}`}
         />
         {!isEmpty(job_details.profile) && (
-          <TitleLabel title="Job Role:" value={job_details.profile} />
+          <TitleLabel
+            width={60}
+            title="Job Role:"
+            value={job_details.profile}
+          />
         )}
         <TitleLabel
           title="Location:"
-          value={`${job_details.country}, ${job_details.state}, ${job_details.city}`}
+          value={`${job_details.city}, ${job_details.state}, ${job_details.country}`}
         />
       </Flex>
     </Card>

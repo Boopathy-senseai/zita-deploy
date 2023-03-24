@@ -65,9 +65,9 @@ export const passwordResetRequestMiddleWare = createAsyncThunk(
 );
 export const emailMiddleWare = createAsyncThunk(
   PASSWORD_RESET_VALID,
-  async ({ email }: { email: string }, { rejectWithValue }) => {
+  async ({ email,domain }: { email: string,domain?: string }, { rejectWithValue }) => {
     try {
-      const data = await fetch(emailValidRequest(email));
+      const data = await fetch(emailValidRequest(email,domain));
       return await data.json();
     } catch (error) {
       const typedError = error as Error;

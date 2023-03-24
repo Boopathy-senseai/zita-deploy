@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { useHistory, useLocation } from 'react-router-dom';
 import Toast from '../../uikit/Toast/Toast';
 import InviteModal from '../../utility/InviteModal';
 import Toaster from '../../utility/Toaster';
@@ -8,7 +10,7 @@ import Text from '../../uikit/Text/Text';
 import Button from '../../uikit/Button/Button';
 import styles from './manageuser.module.css';
 
-const ManageUsers = () => {
+const ManageUsers = ({ setKey }) => {
   const [inviteUserModal, setinviteUserModal] = useState(false);
   const [messageClass, setMessageClass] = useState('');
   const [message, setMessage] = useState(undefined);
@@ -18,6 +20,21 @@ const ManageUsers = () => {
   const [usersData, setUsersData] = useState({});
   const [availableInvites, setAvailableInvites] = useState(0);
   const [clearData, setClearData] = useState(true);
+
+  const useQuery = () => {
+    return new URLSearchParams(useLocation().search);
+  };
+  const query = useQuery();
+  const history = useHistory();
+
+  const {  plan_id } = useSelector(
+    ({ permissionReducers }) => {
+      return {
+        plan_id: permissionReducers.plan_id,
+      };
+    },
+  );
+
   // const [addmodalCloseCheck, setaddmodalCloseCheck] = useState(0);
 
   ////////// User Table Data ////////////
@@ -122,9 +139,11 @@ const ManageUsers = () => {
   };
 
   const manage = () => {
-    return window.location.replace(
-      process.env.REACT_APP_HOME_URL + 'account/subscription/#headingOne',
-    );
+    history.replace({
+      search: query.toString() + '?planFocus=focus',
+    });
+    sessionStorage.setItem('superUserTab', '2');
+    setKey('2');
   };
   return (
     <>
@@ -144,10 +163,13 @@ const ManageUsers = () => {
             <div className="col-auto">
               <Text>Available Invites: {availableInvites}</Text>
             </div>
-            <div className="col-auto">
-              <Button onClick={manage} id="buy_user">
+            <div className="col-auto" style={{position:'relative'}}>
+              <Button onClick={manage} id="buy_user" disabled={Number(plan_id) === 1}>
                 Buy New Users
               </Button>
+              <div style={{position:'absolute',whiteSpace:'nowrap',bottom: -28}}>
+              {Number(plan_id) === 1 &&<Text><Text color='link' onClick={manage}>Upgrade Plan</Text> to buy more users. </Text>}
+              </div>
             </div>
             <div className="col-auto">
               <Button

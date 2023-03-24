@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import SvgAppliedIcon from '../../icons/SvgAppliedIcon';
 import SvgHeart from '../../icons/SvgHeart';
 import SvgHelp from '../../icons/SvgHelp';
@@ -73,16 +73,33 @@ const ZitaMatchDataCard = ({
   skillsOptionsList,
   isPage,
 }: Props) => {
+  const useQuery = () => {
+    return new URLSearchParams(useLocation().search);
+  };
+  const query = useQuery();
   const dispatch: AppDispatch = useDispatch();
   const [isProfileView, setProfileView] = useState(false);
   const [isNotes, setNotes] = useState(false);
   const [isInvite, setInvite] = useState(false);
+  const getCandiId=query.get('candi');
+
+  useEffect(()=>{
+    if(!isEmpty(getCandiId)){
+      setProfileView(true);
+    }
+  },[])
 
   const handleProfileView = () => {
     if (isEmpty(dataList.applicant)) {
       setProfileView(true);
     }
   };
+  const handleNotesView = () => {
+    if (isEmpty(dataList.applicant)) {
+      setNotes(true);
+    }
+  };
+  
 
   const handleApplicantView = () => {
     localStorage.setItem('applied_view', 'true');
@@ -119,6 +136,8 @@ const ZitaMatchDataCard = ({
     setProfileView(false);
     setNotes(false);
   };
+  console.log('jobId',jobId);
+  
   return (
     <>
       {isEmpty(dataList.candidate_id_id) && (
@@ -146,7 +165,6 @@ const ZitaMatchDataCard = ({
             cancel={handleClose}
             jobId={jobId}
             candidateId={dataList.id.toString()}
-            // inviteIconNone={jobId === false ? true : false}
           />
           <ProfileView
             activeState={4}
@@ -297,11 +315,11 @@ const ZitaMatchDataCard = ({
               <Flex
                 row
                 center
-                className={styles.notesFlex}
-                onClick={() => setNotes(true)}
+                className={isEmpty(dataList.applicant) ? styles.notesFlex : styles.notesDisableFlex}
+                onClick={handleNotesView}
               >
                 <SvgNotesOne height={14} width={14} />
-                <Text size={12} bold color="link" style={{ marginLeft: 4 }}>
+                <Text size={12} bold color={isEmpty(dataList.applicant) ? 'link' : 'gray'} style={{ marginLeft: 4 }}>
                   Notes
                 </Text>
               </Flex>

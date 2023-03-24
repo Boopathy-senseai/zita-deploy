@@ -1,9 +1,10 @@
+import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
 import SvgClose from '../../icons/SvgClose';
 import SvgNewTab from '../../icons/SvgNewTab';
 import { GARY_3, LINK } from '../../uikit/Colors/colors';
 import Drawer from '../../uikit/Drawer/Drawer';
 import Flex from '../../uikit/Flex/Flex';
-import PdfView from '../../uikit/PdfView';
+// import PdfView from '../../uikit/PdfView';
 import Text from '../../uikit/Text/Text';
 import styles from './candiviewmodal.module.css';
 
@@ -14,11 +15,12 @@ type Props = {
 };
 
 const CandiViewModal = ({ open, filePath, cancel }: Props) => {
-  const file = 'https://' + filePath;
+
 
   const handleOpen = () => {
-    window.open(file);
+    window.open(filePath);
   };
+
   return (
     <Drawer open={open}>
       <div className={styles.overAll}>
@@ -28,7 +30,7 @@ const CandiViewModal = ({ open, filePath, cancel }: Props) => {
             onClick={cancel}
             tabIndex={-1}
             role={'button'}
-            onKeyPress={() => {}}
+            onKeyPress={() => { }}
           >
             <SvgClose fill={GARY_3} />
           </div>
@@ -44,7 +46,7 @@ const CandiViewModal = ({ open, filePath, cancel }: Props) => {
               onClick={handleOpen}
               tabIndex={-1}
               role={'button'}
-              onKeyPress={() => {}}
+              onKeyPress={() => { }}
             >
               <SvgNewTab fill={LINK} width={20} height={20} />
             </div>
@@ -57,7 +59,19 @@ const CandiViewModal = ({ open, filePath, cancel }: Props) => {
             overflow: 'scroll',
           }}
         >
-          <PdfView file={file} />
+          {/* <PdfView file={file} /> */}
+          <DocViewer
+            style={{ height: '100%', width: '100%' }}
+            pluginRenderers={DocViewerRenderers}
+            documents={[{uri:filePath}]}
+          config={{
+            header: {
+              disableHeader: false,
+              disableFileName: false,
+              retainURLParams: false,
+            },
+          }}
+        />
         </div>
       </div>
     </Drawer>

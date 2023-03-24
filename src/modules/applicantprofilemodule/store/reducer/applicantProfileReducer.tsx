@@ -322,6 +322,7 @@ const applicantNotesState: NotesReducerState = {
       notes: '',
       updated_by: null,
       created_at: '',
+      emp_image:''
     },
   ],
 };
@@ -410,6 +411,8 @@ const applicantMessageState: MessageReducerState = {
       date_created: '',
       username: '',
       message: '',
+      receiver_image: '',
+      sender_image: '',
       last_name:''
     },
   ],

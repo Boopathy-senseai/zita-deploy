@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { inviteToApplyApi } from '../../routes/apiRoutes';
 import { AppDispatch, RootState } from '../../store';
 import Flex from '../../uikit/Flex/Flex';
-import { getDateString } from '../../uikit/helper';
+import { getDateString, isEmpty } from '../../uikit/helper';
 import Loader from '../../uikit/Loader/Loader';
 import Text from '../../uikit/Text/Text';
 import Toast from '../../uikit/Toast/Toast';
@@ -21,6 +21,7 @@ import {
 } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import CancelAndDeletePopup from '../common/CancelAndDeletePopup';
 import { config, ERROR_MESSAGE, YES } from '../constValue';
+import { permissionMiddleWare } from '../Login/store/middleware/loginMiddleWare';
 import styles from './candidatescreen.module.css';
 import CandiDateTabsLeft from './CandiDateTabsLeft';
 import CandiDateTabsLeftOne from './CandiDateTabsLeftOne';
@@ -34,13 +35,26 @@ type ParamsType = {
 };
 const CandidateScreen = () => {
   const { jdId, candiId } = useParams<ParamsType>();
+  const history = useHistory();
   const [isInvitePopUp, setInvitePopUp] = useState(false);
   const [isInviteLoader, setInviteLoader] = useState(false);
   const [isTab, setTab] = useState(false);
-
   const dispatch: AppDispatch = useDispatch();
+  const [isTabValue, setTabValue] = useState(0);
+  const useQuery = () => {
+    return new URLSearchParams(useLocation().search);
+  };
+  const query = useQuery();
+  const isMessage: any = query.get('isMessage');
 
   useEffect(() => {
+    if (!isEmpty(isMessage)) {
+      setTabValue(3);
+    }
+  }, []);
+// initial api call
+  useEffect(() => {
+    dispatch(permissionMiddleWare());
     if (jdId !== '0' && candiId !== '0') {
       setTab(true);
       dispatch(
@@ -85,37 +99,53 @@ const CandidateScreen = () => {
         dispatch(applicantAllMatchMiddleWare({ can_id: res.payload.can_id }));
       });
     }
-    // eslint-disable-next-line
   }, []);
 
-  const { candidate_details, initialLoader, jd, match, jd_id, can_id, invite } =
-    useSelector(
-      ({
-        applicantProfileInitalReducers,
-        applicantMatchReducers,
-        applicantStausReducers,
-      }: RootState) => {
-        return {
-          candidate_details: applicantProfileInitalReducers.candidate_details,
-          initialLoader: applicantProfileInitalReducers.isLoading,
-          jd: applicantProfileInitalReducers.jd,
-          match: applicantMatchReducers.match
-            ? applicantMatchReducers.match
-            : [],
-          jd_id: applicantProfileInitalReducers.jd_id,
-          can_id: applicantProfileInitalReducers.can_id,
-          invite: applicantStausReducers.invite,
-        };
-      },
-    );
+  const {
+    candidate_details,
+    initialLoader,
+    jd,
+    match,
+    jd_id,
+    can_id,
+    invite,
+    is_plan,
+  } = useSelector(
+    ({
+      applicantProfileInitalReducers,
+      applicantMatchReducers,
+      applicantStausReducers,
+      permissionReducers,
+    }: RootState) => {
+      return {
+        candidate_details: applicantProfileInitalReducers.candidate_details,
+        initialLoader: applicantProfileInitalReducers.isLoading,
+        jd: applicantProfileInitalReducers.jd,
+        match: applicantMatchReducers.match ? applicantMatchReducers.match : [],
+        jd_id: applicantProfileInitalReducers.jd_id,
+        can_id: applicantProfileInitalReducers.can_id,
+        invite: applicantStausReducers.invite,
+        is_plan: permissionReducers.is_plan,
+      };
+    },
+  );
 
+  useEffect(() => {
+    if (!is_plan) {
+      sessionStorage.setItem('superUserTab', '2');
+      history.push('/account_setting/settings');
+    }
+  });
+
+  // open invite popup function
   const hanldeInvitePopUp = () => {
     setInvitePopUp(true);
   };
-
+  // close invite popup function
   const hanldeInviteClosePopUp = () => {
     setInvitePopUp(false);
   };
+    // invite submit function
   const hanldeInvite = () => {
     hanldeInviteClosePopUp();
     setInviteLoader(true);
@@ -204,7 +234,7 @@ const CandidateScreen = () => {
           </Flex>
         ) : (
           <Flex flex={6} className={styles.tabLeftFlex}>
-            <CandiDateTabsLeft />
+            <CandiDateTabsLeft activeState={isTabValue} />
           </Flex>
         )}
 

@@ -49,13 +49,13 @@ const MessageTab = () => {
 
   useEffect(() => {
     dispatch(applicantMessagesMiddleWare({ chatname, jd_id }));
-    // eslint-disable-next-line
   }, [chatname, jd_id]);
 
   useEffect(() => {
     setMessage(message);
   }, [message]);
 
+  // submit message function
   const hanldeSubmit = () => {
     setPostLoader(true);
     const data = querystring.stringify({
@@ -92,13 +92,16 @@ const MessageTab = () => {
   const client_id_id = candidate_details[0].client_id_id
     ? candidate_details[0].client_id_id
     : 0;
+    // template close function
   const hanldeClose = () => {
     setUseTemplate(false);
   };
+  // template open function
   const hanldeOpen = () => {
     setUseTemplate(true);
   };
 
+  // message api call 5 sec once 
   useEffect(() => {
     const interval = setInterval(() => {
       dispatch(applicantMessagesMiddleWare({ chatname, jd_id }));
@@ -165,7 +168,11 @@ const MessageTab = () => {
           flex={1}
           className={cx({ messageContainer: messages.length !== 0 })}
         >
-          <MessageList client_id_id={client_id_id} messages={messages} />
+          <MessageList
+            client_id_id={client_id_id}
+            messages={messages}
+            height={428}
+          />
         </Flex>
       )}
     </div>

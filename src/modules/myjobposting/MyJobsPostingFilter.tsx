@@ -2,7 +2,6 @@ import { FormikProps } from 'formik';
 import SvgRefresh from '../../icons/SvgRefresh';
 import Card from '../../uikit/Card/Card';
 import Flex from '../../uikit/Flex/Flex';
-import { pageReload } from '../../uikit/helper';
 import InputRadio from '../../uikit/InputRadio/InputRadio';
 import InputSearch from '../../uikit/InputSearch/InputSearch';
 import SelectTag from '../../uikit/SelectTag/SelectTag';
@@ -35,6 +34,16 @@ const MyJobsPostingFilter = ({
   job_ids,
   job_title,
 }: Props) => {
+  const pageReload=()=>{
+    formik.resetForm()
+    // formik.setFieldValue('jobTitle','')
+    // formik.setFieldValue('jobId','')
+    // formik.setFieldValue('postedOn','')
+    // formik.setFieldValue('jobType', '')
+    // formik.setFieldValue('location', '');
+  }
+  console.log('f',formik.values.jobTitle);
+  
   return (
     <Card className={styles.overAllfilter}>
       <Flex row center className={styles.filterStyle}>
@@ -54,6 +63,7 @@ const MyJobsPostingFilter = ({
       </Flex>
       <div className={styles.skillContainer}>
         <InputSearch
+          initialValue={formik.values.jobTitle}
           options={job_title}
           setFieldValue={formik.setFieldValue}
           name="jobTitle"
@@ -69,6 +79,7 @@ const MyJobsPostingFilter = ({
       </div>
       <div className={styles.skillContainer}>
         <InputSearch
+        initialValue={formik.values.jobId}
           options={job_ids}
           placeholder=""
           labelBold
@@ -92,6 +103,14 @@ const MyJobsPostingFilter = ({
           onChange={(option) => {
             formik.setFieldValue('postedOn', option);
           }}
+          value={
+            postedOn
+              ? postedOn.find(
+                  (option) =>
+                    option.value === formik.values.postedOn.value,
+                )
+              : ''
+          }
         />
       </div>
 
@@ -120,6 +139,7 @@ const MyJobsPostingFilter = ({
       </div>
       <div className={styles.skillContainer} style={ { marginTop: 10 }}>
         <InputSearch
+        initialValue={formik.values.location}
           placeholder="Enter job location"
           options={location_list}
           setFieldValue={formik.setFieldValue}

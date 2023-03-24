@@ -67,10 +67,10 @@ const AddInterviewersUI = ({
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [myTeam, setMyTeam] = useState<TeamMemberType[]>([]);
+  const [myTeam, setMyTeam] = useState<TeamMemberType[]>();
   const [teamMemberEvents, setTeamMemberEvents] =
     useState<CalendarEventType[]>(currentUserEvents);
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>();
 
   useEffect(() => {
     dispatch(getUsersByCompanyIdMiddleware())
@@ -111,7 +111,7 @@ const AddInterviewersUI = ({
             setTeamMemberEvents((prevState) => [
               ...prevState,
               ...res.payload.events.map((items: GoogleEventType) => {
-                const eventData = {
+                const eventData: any = {
                   userId: member.userId,
                   title: items.summary,
                   start: new Date(items.start.dateTime),
@@ -119,20 +119,15 @@ const AddInterviewersUI = ({
                   link: 'hangoutLink' in items ? items.hangoutLink : '',
                   eventId: items.id,
                   organizer: items.organizer.email,
-                  attendees: items.attendees?.map(
+                };
+
+                if ('attendees' in items) {
+                  eventData['attendees'] = items.attendees.map(
                     (attendee: { email: any }) => {
                       return attendee.email;
                     },
-                  ) || [],
-                };
-
-                // if ('attendees' in items) {
-                //   eventData['attendees'] = items.attendees.map(
-                //     (attendee: { email: any }) => {
-                //       return attendee.email;
-                //     },
-                //   );
-                // }
+                  );
+                }
                 return eventData;
               }),
             ]);
@@ -234,7 +229,7 @@ const AddInterviewersUI = ({
         <div className={styles.addInterviewer}>
           <div className={styles.menus}>{InterviewerDropDown}</div>
           <div className={styles.calendar}>
-            {currentUserEvents && (
+            {/* {currentUserEvents && (
               <BigCalendar
                 localizer={localizer}
                 events={teamMemberEvents}
@@ -259,7 +254,7 @@ const AddInterviewersUI = ({
                   },
                 }}
               />
-            )}
+            )} */}
           </div>
         </div>
       </div>

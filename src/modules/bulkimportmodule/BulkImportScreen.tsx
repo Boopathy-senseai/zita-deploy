@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { useFormik } from 'formik';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
@@ -23,7 +24,10 @@ const initial: FormProps = {
   searchValue: '',
 };
 
+
+
 const BulkImportScreen = () => {
+  const history = useHistory();
   const [isFeaturesBalance, setFeaturesBalance] = useState<any>(null);
   const [isSearch, setSearch] = useState(1);
   const [pageNumber, setPageNumber] = useState<number>(0);
@@ -31,6 +35,7 @@ const BulkImportScreen = () => {
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
+    localStorage.setItem('freeCheck','true');
     dispatch(bulkImportMiddleWare());
     dispatch(bulkuploadedCandidatesMiddleWare({}));
   }, []);
@@ -42,9 +47,15 @@ const BulkImportScreen = () => {
     incompleted,
     bulkInitalLoader,
     features_balance,
-    upDateloader
+    upDateloader,
+    is_plan,
+    jdId,
   } = useSelector(
-    ({ bulkUploadedCandidatesReducers, bulkImportReducers }: RootState) => {
+    ({
+      bulkUploadedCandidatesReducers,
+      bulkImportReducers,
+      permissionReducers,
+    }: RootState) => {
       return {
         emp_pool: bulkUploadedCandidatesReducers.emp_pool,
         total_count: bulkUploadedCandidatesReducers.total_count,
@@ -52,11 +63,19 @@ const BulkImportScreen = () => {
         incompleted: bulkUploadedCandidatesReducers.incompleted,
         bulkInitalLoader: bulkImportReducers.isLoading,
         features_balance: bulkImportReducers.features_balance,
+        jdId: bulkImportReducers.jd_id,
         upDateloader: bulkUploadedCandidatesReducers.isLoading,
-
+        is_plan: permissionReducers.is_plan,
       };
     },
   );
+
+  useEffect(() => {
+    if (!is_plan) {
+      sessionStorage.setItem('superUserTab', '2');
+      history.push('/account_setting/settings');
+    }
+  });
 
   useEffect(() => {
     setFeaturesBalance(features_balance);
@@ -64,6 +83,7 @@ const BulkImportScreen = () => {
 
   // Search Submit Function
   const handleSubmit = (values: FormProps) => {
+    console.log('handleSubmit')
     dispatch(bulkuploadedCandidatesMiddleWare({ search: values.searchValue }))
       .then((response) => {
         setSearch(response.payload.search);
@@ -73,11 +93,13 @@ const BulkImportScreen = () => {
       });
   };
 
+
   const formik = useFormik({
     initialValues: initial,
     onSubmit: handleSubmit,
     enableReinitialize: true,
-  });
+  }); 
+  
 
   // Filter Total Candidates
   const handleTotal = () => {
@@ -97,6 +119,9 @@ const BulkImportScreen = () => {
         Toast(ERROR_MESSAGE, 'LONG', 'error');
       });
   };
+
+
+
 
   // Filter Completed Candidates
   const handleCompleted = () => {
@@ -135,6 +160,7 @@ const BulkImportScreen = () => {
         Toast(ERROR_MESSAGE, 'LONG', 'error');
       });
   };
+
   return (
     <div
       className={styles.overAllContainer}
@@ -143,7 +169,7 @@ const BulkImportScreen = () => {
       <Flex className={styles.overAlll}>
         {bulkInitalLoader && <Loader />}
         <Title
-          title={'Bulk Import Candidates'}
+          title={'Import Candidates'}
           des={
             'Import the resumes and create your own database to match candidates with the posted jobs. You can Import up to 500 resumes at a time.'
           }
@@ -154,11 +180,13 @@ const BulkImportScreen = () => {
           </Text>
           <BulkImportTabs
             emp_pool={emp_pool}
+            jd_id={jdId}
             total_count={total_count}
             completed={completed}
             incompleted={incompleted}
             handleTotal={handleTotal}
             handleSubmit={formik.handleSubmit}
+ 
             handleCompleted={handleCompleted}
             handleInCompeleted={handleInCompeleted}
             searchValue={formik.values.searchValue}
@@ -167,6 +195,7 @@ const BulkImportScreen = () => {
             setFeaturesBalance={setFeaturesBalance}
             isSearch={isSearch}
             formik={formik}
+
             setPageNumber={setPageNumber}
             pageNumber={pageNumber}
             upDateloader={upDateloader}

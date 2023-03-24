@@ -1,12 +1,19 @@
 /* eslint max-len: ["error", { "code": 2000 }] */
 const defaultProps = {
   fill: '#424242',
-  width: 20,
-  height: 20,
+  width: '20',
+  height: '20',
   className: '',
 };
 
-const SvgClose = ({ fill, width, height, className }: typeof defaultProps) => (
+interface Props {
+  fill?: string;
+  width?: string | number;
+  height?: string | number;
+  className?: string;
+}
+
+const SvgClose = ({ fill, width, height, className }: Props) => (
   <svg
     className={className}
     fill={fill}

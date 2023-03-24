@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 import SvgCloseSmall from '../../icons/SvgCloseSmall';
@@ -13,11 +13,16 @@ import Modal from '../../uikit/Modal/Modal';
 import SelectTag from '../../uikit/SelectTag/SelectTag';
 import Text from '../../uikit/Text/Text';
 import Toast from '../../uikit/Toast/Toast';
+import useUnsavedChangesWarning from '../common/useUnsavedChangesWarning';
 import { THIS_FIELD_REQUIRED } from '../constValue';
 import { qualificationData } from '../createjdmodule/mock';
 import styles from './addandupdatequalificationedit.module.css';
 import { Obj } from './candidateProfileTypes';
-import { educationUpdateApiMiddleWare } from './store/middleware/candidateprofilemiddleware';
+import {
+  educationAddMiddleWare,
+  educationUpdateApiMiddleWare,
+  profileEditMiddleWare,
+} from './store/middleware/candidateprofilemiddleware';
 
 type Props = {
   open: boolean;
@@ -49,6 +54,7 @@ const initial: qualificationFormikForm = {
   percentage: '',
 };
 
+const numberCheck = /^[0-9\-\ ]+$/;
 const AddandUpdateQualificationEdit = ({
   cancel,
   open,
@@ -57,26 +63,64 @@ const AddandUpdateQualificationEdit = ({
   obj,
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
+  const [isReload, setReload] = useState(false);
+  const { onDirty, onPristine, routerPrompt } = useUnsavedChangesWarning();
+
   const qualificationSchema = Yup.object().shape({
     qualification: Yup.string().required(THIS_FIELD_REQUIRED),
     university: Yup.string().required(THIS_FIELD_REQUIRED),
     year: Yup.string().required(THIS_FIELD_REQUIRED),
   });
 
+  // form submit function
   const handleSubmit = (values: qualificationFormikForm) => {
-    dispatch(
-      educationUpdateApiMiddleWare({
-        eduId: isUpdateId,
-        qual_title: values.qualification,
-        qual_spec: values.specilization,
-        year_completed: values.year,
-        percentage: values.percentage,
-        institute_name: values.university,
-        institute_location: values.location,
-      }),
-    ).then(() => {
-      Toast('Qualifications updated successfully');
-    });
+    if (isUpdate) {
+      dispatch(
+        educationUpdateApiMiddleWare({
+          eduId: isUpdateId,
+          qual_title: values.qualification,
+          qual_spec: values.specilization,
+          year_completed: values.year,
+          percentage: values.percentage,
+          institute_name: values.university,
+          institute_location: values.location,
+        }),
+      ).then((res) => {
+        if (res.payload.success) {
+          dispatch(profileEditMiddleWare({jd_id:localStorage.getItem('careerJobViewJobId')}));
+          Toast('Qualifications updated successfully');
+          cancel();
+          formik.resetForm()
+        } else {
+          Toast(
+            'Qualifications not updated, Please try again.',
+            'LONG',
+            'error',
+          );
+        }
+      });
+    } else {
+      dispatch(
+        educationAddMiddleWare({
+          qual_title: values.qualification,
+          qual_spec: values.specilization,
+          year_completed: values.year,
+          percentage: values.percentage,
+          institute_name: values.university,
+          institute_location: values.location,
+        }),
+      ).then((res) => {
+        if (res.payload.success) {
+          setReload(false);
+          dispatch(profileEditMiddleWare({jd_id:localStorage.getItem('careerJobViewJobId')}));
+          Toast('Qualifications added successfully');
+          formik.resetForm()
+          cancel();
+        } else {
+          Toast('Qualifications not added, Please try again.', 'LONG', 'error');
+        }
+      });
+    }
   };
 
   const formik = useFormik({
@@ -85,6 +129,7 @@ const AddandUpdateQualificationEdit = ({
     validationSchema: qualificationSchema,
   });
 
+  // free fill initial value condition
   useEffect(() => {
     if (
       isUpdate &&
@@ -116,22 +161,47 @@ const AddandUpdateQualificationEdit = ({
     }
   }, [obj, open]);
 
+// close popup condition
+  const onCloseModal = () => {
+    if (
+      isReload &&
+      window.confirm(
+        'Do you want to leave this site? Changes you made may not be saved.',
+      )
+    ) {
+      cancel();
+      formik.resetForm();
+      setReload(false);
+    }
+    if (!isReload) {
+      cancel();
+      formik.resetForm();
+      setReload(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isReload) {
+      onDirty();
+    } else if (!isReload) {
+      onPristine();
+    }
+  }, [isReload]);
+
   return (
     <Modal open={open}>
+      {routerPrompt}
       <Flex columnFlex className={styles.overAll}>
         <div
           className={styles.svgClose}
-          onClick={() => {
-            cancel();
-            formik.resetForm();
-          }}
+          onClick={onCloseModal}
           tabIndex={-1}
           role="button"
-          onKeyDown={() => {}}
+          onKeyDown={() => { }}
         >
           <SvgCloseSmall />
         </div>
-        <Text size={20} bold align="center" className={styles.title}>
+        <Text size={16} bold align="center" className={styles.title}>
           {isUpdate ? 'Update Qualification' : 'Add Qualification'}
         </Text>
         <Flex row top>
@@ -143,12 +213,14 @@ const AddandUpdateQualificationEdit = ({
               value={
                 qualificationData
                   ? qualificationData.find(
-                      (option) => option.value === formik.values.qualification,
-                    )
+                    (option) => option.value === formik.values.qualification,
+                  )
                   : ''
               }
-              onChange={(option) =>
+              onChange={(option) => {
+                setReload(true);
                 formik.setFieldValue('qualification', option.value)
+              }
               }
             />
             <ErrorMessage
@@ -164,9 +236,12 @@ const AddandUpdateQualificationEdit = ({
             marginRight={marginRight}
           >
             <InputText
-              label="Specilization"
+              label="Specialization"
               value={formik.values.specilization}
-              onChange={formik.handleChange('specilization')}
+              onChange={(e) => {
+                setReload(true);
+                formik.setFieldValue('specilization', e.target.value)
+              }}
             />
           </Flex>
           <Flex flex={4} width={inputWidth}>
@@ -174,7 +249,11 @@ const AddandUpdateQualificationEdit = ({
               label="College Name/University"
               required
               value={formik.values.university}
-              onChange={formik.handleChange('university')}
+              // onChange={formik.handleChange('university')}
+              onChange={(e) => {
+                setReload(true);
+                formik.setFieldValue('university', e.target.value)
+              }}
             />
             <ErrorMessage
               name="university"
@@ -188,7 +267,11 @@ const AddandUpdateQualificationEdit = ({
             <InputText
               label="Location"
               value={formik.values.location}
-              onChange={formik.handleChange('location')}
+              // onChange={formik.handleChange('location')}
+              onChange={(e) => {
+                setReload(true);
+                formik.setFieldValue('location', e.target.value)
+              }}
             />
           </Flex>
           <Flex
@@ -201,7 +284,13 @@ const AddandUpdateQualificationEdit = ({
               label="Year of Completion"
               required
               value={formik.values.year}
-              onChange={formik.handleChange('year')}
+              placeholder="YYYY"
+              onChange={(e) => {
+                if (e.target.value === '' || numberCheck.test(e.target.value)) {
+                  setReload(true);
+                  formik.setFieldValue(`year`, e.target.value);
+                }
+              }}
             />
             <ErrorMessage
               name="year"
@@ -213,12 +302,19 @@ const AddandUpdateQualificationEdit = ({
             <InputText
               label="Percentage/CGPA"
               value={formik.values.percentage}
-              onChange={formik.handleChange('percentage')}
+              // onChange={formik.handleChange('percentage')}
+              placeholder="CGPA 9.5 or 95%"
+              onChange={(e) => {
+                setReload(true);
+                formik.setFieldValue('percentage', e.target.value)
+              }}
             />
           </Flex>
         </Flex>
-        <Flex end onClick={formik.handleSubmit}>
-          <Button>{isUpdate ? 'Update' : 'Add'}</Button>
+        <Flex end>
+          <Button onClick={formik.handleSubmit}>
+            {isUpdate ? 'Update' : 'Add'}
+          </Button>
         </Flex>
       </Flex>
     </Modal>

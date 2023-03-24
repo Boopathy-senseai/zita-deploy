@@ -21,6 +21,7 @@ const questionnairePath = (jd_id: string) => {
   );
 };
 
+// ds submit form
 export const jdSubmit = ({
   values,
   setRole,
@@ -32,6 +33,7 @@ export const jdSubmit = ({
   setJdProfileLoader,
   jd_profile,
   isCancel,
+  duplicate,
 }: {
   values: dsFormProps;
   setRole: () => void;
@@ -43,6 +45,7 @@ export const jdSubmit = ({
   setJdProfileLoader: (a: boolean) => void;
   jd_profile: boolean;
   isCancel?: boolean;
+  duplicate?: string;
 }) => {
   if (
     jd_output.richtext_job_description !== values.jobDescription ||
@@ -197,29 +200,31 @@ export const jdSubmit = ({
           dataProgramSkillOne.length === 0 ? '' : dataProgramSkillOne,
         qualification,
         specialization,
+        duplicate: isEmpty(duplicate) ? '' : 'duplicate',
       }),
     ).then((res) => {
       dispatch(
         dsOrNotMiddleWare({ jdId: res.payload.jd_id, is_ds_role: dsCheck }),
-      );
-      if (
-        jd_output.richtext_job_description !== values.jobDescription ||
-        jd_output.job_role_id !== Number(values.jobRole) ||
-        jd_profile === false
-      ) {
-        if (res.payload.success) {
-          setJdOutpuId(res.payload.jd_id);
-          dispatch(jdProfileMiddleWare({ jd_id: res.payload.jd_id })).then(
-            (profileRes) => {
-              if (profileRes.payload.success) setRole();
-              setJdProfileLoader(false);
-            },
-          );
+      ).then(() => {
+        if (
+          jd_output.richtext_job_description !== values.jobDescription ||
+          jd_output.job_role_id !== Number(values.jobRole) ||
+          jd_profile === false
+        ) {
+          if (res.payload.success) {
+            setJdOutpuId(res.payload.jd_id);
+            dispatch(jdProfileMiddleWare({ jd_id: res.payload.jd_id })).then(
+              (profileRes) => {
+                if (profileRes.payload.success) setRole();
+                setJdProfileLoader(false);
+              },
+            );
+          }
+        } else {
+          questionnairePath(res.payload.jd_id);
+          setJdProfileLoader(false);
         }
-      } else {
-        questionnairePath(res.payload.jd_id);
-        setJdProfileLoader(false);
-      }
+      });
     });
   }
 
@@ -258,25 +263,26 @@ export const jdSubmit = ({
     ).then((editRes) => {
       dispatch(
         dsOrNotMiddleWare({ jdId: editRes.payload.jd_id, is_ds_role: dsCheck }),
-      );
-      if (
-        jd_output.richtext_job_description !== values.jobDescription ||
-        jd_output.job_role_id !== Number(values.jobRole) ||
-        jd_profile === false
-      ) {
-        if (editRes.payload.success) {
-          setJdOutpuId(editRes.payload.jd_id);
-          dispatch(jdProfileMiddleWare({ jd_id: editRes.payload.jd_id })).then(
-            (profileRes) => {
+      ).then(() => {
+        if (
+          jd_output.richtext_job_description !== values.jobDescription ||
+          jd_output.job_role_id !== Number(values.jobRole) ||
+          jd_profile === false
+        ) {
+          if (editRes.payload.success) {
+            setJdOutpuId(editRes.payload.jd_id);
+            dispatch(
+              jdProfileMiddleWare({ jd_id: editRes.payload.jd_id }),
+            ).then((profileRes) => {
               if (profileRes.payload.success) setRole();
               setJdProfileLoader(false);
-            },
-          );
+            });
+          }
+        } else {
+          questionnairePath(editRes.payload.jd_id);
+          setJdProfileLoader(false);
         }
-      } else {
-        questionnairePath(editRes.payload.jd_id);
-        setJdProfileLoader(false);
-      }
+      });
     });
   }
 };
@@ -290,8 +296,7 @@ export const jdCancelSubmit = ({
   setJdOutpuId,
   setJdProfileLoader,
   cancelJdId,
-}:
-{
+}: {
   values: dsFormProps;
   setRole: () => void;
   dispatch: AppDispatch;
@@ -462,19 +467,20 @@ export const jdCancelSubmit = ({
         jdId: cancelEditRes.payload.jd_id,
         is_ds_role: dsCheck,
       }),
-    );
+    ).then(() => {
+      if (cancelEditRes.payload.success) {
+        setJdOutpuId(cancelEditRes.payload.jd_id);
+        dispatch(
+          jdProfileMiddleWare({ jd_id: cancelEditRes.payload.jd_id }),
+        ).then((profileRes) => {
+          if (profileRes.payload.success) {
+            setRole();
+          }
+          setJdProfileLoader(false);
+        });
+      }
+    });
 
-    if (cancelEditRes.payload.success) {
-      setJdOutpuId(cancelEditRes.payload.jd_id);
-      dispatch(
-        jdProfileMiddleWare({ jd_id: cancelEditRes.payload.jd_id }),
-      ).then((profileRes) => {
-        if (profileRes.payload.success) {
-          setRole();
-        }
-        setJdProfileLoader(false);
-      });
-    }
     // } else {
     //   // questionnairePath(cancelEditRes.payload.jd_id);
     //   setJdProfileLoader(false);
@@ -492,6 +498,7 @@ export const jdCancelSubmit = ({
   });
 };
 
+// ds submit draft form
 export const jdDraftSubmit = ({
   values,
   dispatch,
@@ -712,6 +719,7 @@ export const jdDraftSubmit = ({
   }
 };
 
+// ds form validation
 export const handleValidateForm = (
   values: dsFormProps,
   jobIdCheck: boolean,
@@ -759,15 +767,18 @@ export const handleValidateForm = (
   if (isEmpty(values.jobId)) {
     error.jobId = THIS_FIELD_REQUIRED;
   }
+  if(isEmpty(values.currency)){
+    error.currency= THIS_FIELD_REQUIRED;
+  }
   if (!isEmpty(values.jobId) && values.jobId.length > 50) {
     error.jobId = '';
   }
   if (!isEmpty(values.jobDescription) && values.jobDescription.length < 201) {
     error.jobDescription = '';
   }
-  if (!isEmpty(values.jobDescription) && values.jobDescription.length > 20000) {
-    error.jobDescription = '';
-  }
+  // if (!isEmpty(values.jobDescription) && values.jobDescription.length > 20000) {
+  //   error.jobDescription = '';
+  // }
   if (isEmpty(values.jobDescription)) {
     error.jobDescription = THIS_FIELD_REQUIRED;
   }
@@ -852,6 +863,7 @@ export const handleValidateForm = (
   return error;
 };
 
+// non ds form validation
 export const handleNonDsValidateForm = (
   values: dsFormProps,
   jobIdCheck: boolean,
@@ -866,6 +878,9 @@ export const handleNonDsValidateForm = (
   if (!isEmpty(values.jobId) && jobIdCheck === true) {
     error.jobId = '';
   }
+  if(isEmpty(values.currency)){
+    error.currency= THIS_FIELD_REQUIRED;
+  }
   if (isEmpty(values.jobId)) {
     error.jobId = THIS_FIELD_REQUIRED;
   }
@@ -875,9 +890,9 @@ export const handleNonDsValidateForm = (
   if (!isEmpty(values.jobDescription) && values.jobDescription.length < 201) {
     error.jobDescription = '';
   }
-  if (!isEmpty(values.jobDescription) && values.jobDescription.length > 20000) {
-    error.jobDescription = '';
-  }
+  // if (!isEmpty(values.jobDescription) && values.jobDescription.length > 20000) {
+  //   error.jobDescription = '';
+  // }
   if (isEmpty(values.jobDescription)) {
     error.jobDescription = THIS_FIELD_REQUIRED;
   }
@@ -990,6 +1005,7 @@ export const fieldTypeHelper = (fieldValue: number) => {
   }
 };
 
+// non ds form submit
 export const jdNonDsSubmit = ({
   values,
   dispatch,
@@ -1086,6 +1102,7 @@ export const jdNonDsSubmit = ({
   }
 };
 
+// non ds draft submit
 export const jdNonDsDraftSubmit = ({
   values,
   dispatch,

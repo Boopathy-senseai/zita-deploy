@@ -1,54 +1,254 @@
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { saveAs } from 'file-saver';
+import PhoneInput from 'react-phone-input-2';
+import Toast from '../../uikit/Toast/Toast';
+import SvgBoxEdit from '../../icons/SvgBoxEdit';
+import SvgDashboard from '../../icons/SvgDashboard';
+import SvgDownload from '../../icons/SvgDownload';
 import SvgMail from '../../icons/SvgMail';
 import SvgPhone from '../../icons/SvgPhone';
+import { AppDispatch } from '../../store';
+import { SECONDARY } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
+import { isEmpty, notSpecified } from '../../uikit/helper';
+import LinkWrapper from '../../uikit/Link/LinkWrapper';
+import Loader from '../../uikit/Loader/Loader';
 import Text from '../../uikit/Text/Text';
+import { mediaPath } from '../constValue';
 import styles from './candidatenavbar.module.css';
+import { Obj, ProjectsEntityOne, UserInfo } from './candidateProfileTypes';
+import { downloadProfileMiddleWare } from './store/middleware/candidateprofilemiddleware';
 
-const CandidateNavBar = () => {
+type Props = {
+  obj?: Obj;
+  isProfileView?: boolean;
+  user_info?: UserInfo;
+  projects: ProjectsEntityOne[];
+};
+
+const CandidateNavBar = ({
+  obj,
+  isProfileView,
+  user_info,
+  projects,
+}: Props) => {
+  const [isLoader, setLoader] = useState(false);
+  const dispatch: AppDispatch = useDispatch();
+  const hadleDownload = () => {
+    setLoader(true);
+    dispatch(
+      downloadProfileMiddleWare({
+        can_id: user_info?.application_id_id.toString(),
+      }),
+    ).then((res) => {
+      if (res.payload.file_path) {
+        saveAs(
+          `${window.location.protocol}//${res.payload.file_path}`,
+          obj?.full_name,
+        );
+        Toast('Profile downloaded successfully', 'LONG', 'success');
+      }
+      setLoader(false);
+    });
+  };
+
+  const checkBox =
+    (obj && Array.isArray(obj?.skills) && obj?.skills?.length !== 0) ||
+    (obj && Array.isArray(obj?.soft_skills) && obj?.soft_skills.length !== 0);
+
+    const handleFocus=(id:string)=>{
+      var elmnt:any = document.getElementById(id);
+      elmnt.scrollIntoView();
+    }
   return (
     <Flex className={styles.overAll}>
+      {isLoader && <Loader />}
       <Flex row>
-        <div className={styles.profile} />
+        <img
+          style={{objectFit: 'cover'}}
+          className={styles.profile}
+          src={mediaPath + obj?.profile_url}
+          alt="Profile"
+        />
         <Flex columnFlex flex={1} between>
-          <Text bold size={20} color="white">
-            Meer Hussain Sharma
-          </Text>
+          <Flex row center>
+            <Text
+              style={{ marginRight: 16 }}
+              transform="capitalize"
+              bold
+              size={20}
+              color="white"
+            >
+              {obj?.full_name}
+            </Text>
+            {isProfileView && (
+              <LinkWrapper
+                to={`/candidate_profile_edit/${localStorage.getItem(
+                  'loginUserId',
+                )}`}
+              >
+                <div title="Edit Profile">
+                  <SvgBoxEdit fill={SECONDARY} height={20} width={20} />
+                </div>
+              </LinkWrapper>
+            )}
+            {isProfileView && (
+              <div
+                onClick={hadleDownload}
+                role="button"
+                tabIndex={-1}
+                onKeyDown={() => {}}
+                title="Download Profile"
+                style={{ margin: '0 8px' }}
+              >
+                <SvgDownload fill={SECONDARY} height={20} width={20} />
+              </div>
+            )}
+
+            <LinkWrapper to="/">
+              <div title="Back to Dashboard">
+                <SvgDashboard height={20} width={20} />
+              </div>
+            </LinkWrapper>
+          </Flex>
+
           <Flex row between center className={styles.phoneFlex}>
             <Flex row center>
               <Flex row center>
-                <SvgPhone height={16} width={16} />
-                <Text
-                  size={16}
-                  color="white"
-                  bold
-                  style={{ marginLeft: 8, marginRight: 16 }}
-                >
-                  Meer Hussain Sharma
-                </Text>
+                <div style={{ marginRight: 4 }}>
+                  <SvgPhone height={16} width={16} />
+                </div>
+                
+                  {!isEmpty(obj?.phone_no) &&  obj?.phone_no.toString() !== 'Not Specified' ? (
+                    <div className={styles.phoneHide}>
+                      <PhoneInput
+                        inputClass={styles.phoneInput}
+                        dropdownClass={styles.dropDownStyle}
+                        value={obj?.phone_no?.toString()}
+                        // placeholder='Not Specified'
+                      />
+                    </div>
+                  ) : (
+                    <Text style={{marginRight:16}} color="white" bold>
+                      {notSpecified(obj?.phone_no)}
+                    </Text>
+                  )}
               </Flex>
               <Flex row center>
                 <SvgMail height={16} width={16} />
-                <Text size={16} color="white" bold style={{ marginLeft: 8 }}>
-                  Meer Hussain Sharma
+                <Text color="white" bold style={{ marginLeft: 8 }}>
+                  {obj?.email}
                 </Text>
               </Flex>
             </Flex>
             <Flex row center>
-              <Text size={16} color="white" bold style={{ marginRight: 30 }}>
+              <Text
+                onClick={()=>handleFocus('candidate_profile_screen___about')}
+                color="white"
+                bold
+                style={{ marginRight: 30, cursor: 'pointer' }}
+              >
                 About
               </Text>
-              <Text size={16} color="white" bold style={{ marginRight: 30 }}>
-                Skills
-              </Text>
-              <Text size={16} color="white" bold style={{ marginRight: 30 }}>
-                Qualification
-              </Text>
-              <Text size={16} color="white" bold style={{ marginRight: 30 }}>
-                Work Experience
-              </Text>
-              <Text size={16} color="white" bold>
-                Projects
-              </Text>
+              {checkBox && isProfileView && (
+                <Text
+                  onClick={() => handleFocus('candidate_profile_screen___skill')}
+                  color="white"
+                  bold
+                  style={{ marginRight: 30, cursor: 'pointer' }}
+                >
+                  Skills
+                </Text>
+              )}
+              {!isProfileView && (
+                <Text
+                  onClick={() => handleFocus('candidate_profile_screen___skill')}
+                  color="white"
+                  bold
+                  style={{ marginRight: 30, cursor: 'pointer' }}
+                >
+                  Skills
+                </Text>
+              )}
+              {isProfileView &&
+                Array.isArray(obj?.edu) &&
+                obj?.edu.length !== 0 && (
+                  <Text
+                    onClick={() =>
+                      handleFocus('candidate_profile_screen___qualification')
+                    }
+                    color="white"
+                    bold
+                    style={{ marginRight: 30, cursor: 'pointer' }}
+                  >
+                    Qualification
+                  </Text>
+                )}
+
+              {!isProfileView && (
+                <Text
+                  onClick={() =>
+                    handleFocus('candidate_profile_screen___qualification')
+                  }
+                  color="white"
+                  bold
+                  style={{ marginRight: 30, cursor: 'pointer' }}
+                >
+                  Qualification
+                </Text>
+              )}
+
+              {isProfileView &&
+                Array.isArray(obj?.exp) &&
+                obj?.exp.length !== 0 && (
+                  <Text
+                    onClick={() =>
+                      handleFocus('candidate_profile_screen___work_exp')
+                    }
+                    color="white"
+                    bold
+                    style={{ marginRight: 30, cursor: 'pointer' }}
+                  >
+                    Work Experience
+                  </Text>
+                )}
+              {!isProfileView && (
+                <Text
+                  onClick={() =>
+                    handleFocus('candidate_profile_screen___work_exp')
+                  }
+                  color="white"
+                  bold
+                  style={{ marginRight: 30, cursor: 'pointer' }}
+                >
+                  Work Experience
+                </Text>
+              )}
+              {Array.isArray(projects) && projects.length !== 0 && isProfileView && (
+                <Text
+                  onClick={() =>
+                    handleFocus('candidate_profile_screen___projects')
+                  }
+                  color="white"
+                  bold
+                  style={{ cursor: 'pointer' }}
+                >
+                  Projects
+                </Text>
+              )}
+              {!isProfileView && (
+                <Text
+                  onClick={() =>
+                    handleFocus('candidate_profile_screen___projects')
+                  }
+                  color="white"
+                  bold
+                  style={{ cursor: 'pointer' }}
+                >
+                  Projects
+                </Text>
+              )}
             </Flex>
           </Flex>
         </Flex>

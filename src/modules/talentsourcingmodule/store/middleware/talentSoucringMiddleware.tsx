@@ -204,10 +204,13 @@ export const stripeMiddleWare = createAsyncThunk(
 
 export const createCheckoutMiddleWare = createAsyncThunk(
   CHECKOUT_ACTION,
-  async ({ can_count, amount }: CheckoutPayload, { rejectWithValue }) => {
+  async (
+    { can_count, amount, manage_sub }: CheckoutPayload,
+    { rejectWithValue },
+  ) => {
     try {
       const { data } = (await axios.get(createCheckoutApi, {
-        params: { candicates: can_count, amount },
+        params: { candicates: can_count, amount, manage_sub },
         paramsSerializer,
       })) as any;
       return data;

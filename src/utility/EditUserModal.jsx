@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Modal } from 'react-bootstrap';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
@@ -31,6 +31,8 @@ const EditUserModal = (props) => {
   const [isDefaultDepart, setDefaultDepart] = useState('');
   const [isDefaultContactValue, setDefaultContactValue] = useState('');
   const [isDefaultDepartValue, setDefaultDepartValue] = useState('');
+  const [isAutoDropDown, setAutoDropDown] = useState();
+  const myRef = useRef();
 
   ////////// Form Validation ////////////
   const schema = yup.object().shape({
@@ -42,7 +44,7 @@ const EditUserModal = (props) => {
     contact: yup
       .string()
       .required('This field is required')
-      .max(10, 'Enter a valid contact number')
+      .max(15, 'Enter a valid contact number')
       .min(10, 'Enter a valid contact number'),
 
     role: yup.string().required('This field is required'),
@@ -315,6 +317,26 @@ const EditUserModal = (props) => {
     }
   }, [getRolename, isDefaultContactValue, isDefaultDepartValue]);
 
+
+  const handleClickOutside = (event) => {
+    if (myRef.current && !myRef.current.contains(event.target)) {
+      setAutoDropDown(false);
+    }
+  };
+
+  useEffect(() => {
+    if (typeof Window !== 'undefined') {
+      document.addEventListener('click', handleClickOutside, true);
+    }
+    return () => {
+      if (myRef) {
+        if (typeof Window !== 'undefined') {
+          document.removeEventListener('click', handleClickOutside, true);
+        }
+      }
+    };
+  });
+
   return (
     props.show && (
       <>
@@ -401,7 +423,11 @@ const EditUserModal = (props) => {
                     </Text>
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div
+                  className="col-md-6"
+                  ref={myRef}
+                  onFocus={() => setAutoDropDown(true)}
+                >
                   <div className={styles.marginTop}>
                     <LabelWrapper label="Department" required>
                       <input
@@ -412,15 +438,19 @@ const EditUserModal = (props) => {
                         onChange={onDepartmentSearch}
                         type="text"
                         value={suggestions}
+                        autoComplete={'off'}
                       />
                     </LabelWrapper>
-                    <div className="renderSuggestions">
-                      <Autocomplete
-                        getValue={selectedDepartvalue}
-                        parentCallback={handleCallback}
-                        options={displayDepartments}
-                      />
-                    </div>
+                    {isAutoDropDown && (
+                      <div className="renderSuggestions">
+                        <Autocomplete
+                          getValue={selectedDepartvalue}
+                          parentCallback={handleCallback}
+                          options={displayDepartments}
+                        />
+                      </div>
+                    )}
+
                     <Text color="error" size={12}>
                       {errors.department?.message}
                     </Text>

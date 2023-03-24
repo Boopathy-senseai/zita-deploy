@@ -3,7 +3,8 @@ import Tab from '../../uikit/Tab/Tab';
 import Tabs from '../../uikit/Tab/Tabs';
 import { EmpPoolEntity } from './bulkImportTypes';
 import CandidateDatabaseTab from './CandidateDatabaseTab';
-import LogFileTab from './LogFileTab';
+import Applicants from './applicants';
+import LogFileTab from './LogFileTab';  
 
 type Props = {
   emp_pool?: EmpPoolEntity[];
@@ -12,9 +13,13 @@ type Props = {
   incompleted: number;
   handleTotal: () => void;
   handleSubmit: () => void;
+
   handleCompleted: () => void;
+
   handleInCompeleted: () => void;
+  // handleApplicantView: () => void;
   searchValue: any;
+  jd_id: any;
   searchHandleChange: any;
   features_balance: number;
   setFeaturesBalance: (a: number | null) => void;
@@ -24,6 +29,8 @@ type Props = {
   pageNumber: number;
   upDateloader:boolean
 };
+
+
 const BulkImportTabs = ({
   emp_pool,
   total_count,
@@ -31,6 +38,7 @@ const BulkImportTabs = ({
   incompleted,
   handleTotal,
   handleSubmit,
+  jd_id,
   handleCompleted,
   handleInCompeleted,
   searchValue,
@@ -51,11 +59,12 @@ const BulkImportTabs = ({
       onSelect={(keys: SetStateAction<string>) => setKey(keys)}
     >
       <Tab title={'Candidate Database'} eventKey={'0'}>
+      {tabKey === '0' &&
         <CandidateDatabaseTab
-          emp_pool={emp_pool}
-          total_count={total_count}
-          completed={completed}
-          incompleted={incompleted}
+          // emp_pool={emp_pool}
+          // total_count={total_count}
+          // completed={completed}
+          // incompleted={incompleted}
           handleTotal={handleTotal}
           handleSubmit={handleSubmit}
           handleCompleted={handleCompleted}
@@ -63,16 +72,41 @@ const BulkImportTabs = ({
           searchValue={searchValue}
           searchHandleChange={searchHandleChange}
           setKey={setKey}
-          features_balance={features_balance}
+          // features_balance={features_balance}
           setFeaturesBalance={setFeaturesBalance}
           isSearch={isSearch}
           formik={formik}
           setPageNumber={setPageNumber}
           pageNumber={pageNumber}
+          // upDateloader={upDateloader}
+        />
+        }
+      </Tab>
+        <Tab title={'Applicants'} eventKey={'1'} >
+        {tabKey === '1' &&
+         <Applicants
+          emp_pool={emp_pool}
+          total_count={total_count}
+          jd_id={jd_id}
+          completed={completed}
+          incompleted={incompleted}
+          // handleTotal={handleTotal}
+          // handleSubmit={handleSubmitWithJd}
+          
+          // handleInCompeleted={handleInCompeleted}
+          searchValue={searchValue}
+          searchHandleChange={searchHandleChange}
+          setKey={setKey}
+          features_balance={features_balance}
+          setFeaturesBalance={setFeaturesBalance}
+          // isSearch={isSearch}
+          setPageNumber={setPageNumber}
+          pageNumber={pageNumber}
           upDateloader={upDateloader}
         />
+      }
       </Tab>
-      <Tab title={'Log File'} eventKey={'1'}>
+      <Tab title={'Log File'} eventKey={'2'}>
         <LogFileTab getKey={tabKey} />
       </Tab>
     </Tabs>

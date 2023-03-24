@@ -21,7 +21,7 @@ const cx = classNames.bind(styles);
 const Navigation = () => {
   const dispatch: AppDispatch = useDispatch();
   const [isOpen, setOpen] = useState(false);
-  
+
   const [isProfile, setProfile] = useState('default.jpg');
   // const history = useHistory();
 
@@ -48,6 +48,7 @@ const Navigation = () => {
       .post('auth/logout')
       .then(() => {
         localStorage.clear();
+        sessionStorage.clear();
         window.location.replace(window.location.origin + '/login');
         // window.location.reload()
         // return window.location.reload();
@@ -81,7 +82,7 @@ const Navigation = () => {
       <Navbar expand="lg" className="zitaNav navbar-dark">
         <Container>
           <Link className="navbar-brand" to="/" style={{ cursor: 'auto' }}>
-            <img src={Logo} alt="Logo" />
+            <img style={{objectFit: 'contain'}} src={Logo} alt="Logo" />
           </Link>
           <NavLink
             className={`nav-link test ${cx('navLinkHover')}`}
@@ -144,11 +145,14 @@ const Navigation = () => {
           </NavLink>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Nav className={`ml-auto ${cx('rightMenuConatiner')}`}>
-            <Flex row center >
-            <div title={'Account Settings'}> 
-              <LinkWrapper target={'_parent'} to={'/account_setting/settings'}>
-                <SvgSetting />
-              </LinkWrapper>
+            <Flex row center>
+              <div title={'Account Settings'}>
+                <LinkWrapper
+                  target={'_parent'}
+                  to={'/account_setting/settings'}
+                >
+                  <SvgSetting />
+                </LinkWrapper>
               </div>
               <div className={cx('supportText', 'navLinkHover')}>
                 <a

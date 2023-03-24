@@ -5,7 +5,7 @@ import styles from './flex.module.css';
 const cx = classNames.bind(styles);
 
 type Props = {
-  children: ReactNode;
+  children?: ReactNode | ReactNode[];
   row?: boolean;
   column?: boolean;
   className?: string;
@@ -36,6 +36,9 @@ type Props = {
   minWidth?: string | number;
   marginLeft?: string | number;
   marginRight?: string | number;
+  marginTop?: string | number;
+  marginBottom?: string | number;
+  style?: any;
 };
 
 const Flex = ({
@@ -70,6 +73,9 @@ const Flex = ({
   minWidth,
   marginLeft,
   marginRight,
+  marginTop,
+  marginBottom,
+  style,
 }: Props) => {
   const flexClassName = cx(
     'commonStyle',
@@ -112,6 +118,9 @@ const Flex = ({
         minWidth,
         marginLeft,
         marginRight,
+        marginTop,
+        marginBottom,
+        ...style,
       }}
       className={flexClassName}
     >

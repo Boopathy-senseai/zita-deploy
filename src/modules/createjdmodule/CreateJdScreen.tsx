@@ -1,35 +1,50 @@
 /* eslint max-len: ["error", { "code": 50000 }] */
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { jobCreateDs, jobCreateNonDs } from '../../appRoutesPath';
 import SvgInfo from '../../icons/SvgInfo';
 import { AppDispatch, RootState } from '../../store';
 import { WARNING } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
+import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import Loader from '../../uikit/Loader/Loader';
 import Text from '../../uikit/Text/Text';
-import { manageLocation } from '../constValue';
 import styles from './createjdscreen.module.css';
 import JdSelectCard from './JdSelectCard';
 import { selectDsorNonDsMiddleWare } from './store/middleware/createjdmiddleware';
 
 const CreateJdScreen = () => {
   const dispatch: AppDispatch = useDispatch();
+  const history = useHistory();
+
+  // initial api call
   useEffect(() => {
+    localStorage.setItem('freeCheck','true');
     dispatch(selectDsorNonDsMiddleWare());
   }, []);
 
-  const { loader, feature } = useSelector(
-    ({ selectDsorNonDsReducers }: RootState) => {
+  const { loader, feature, is_plan } = useSelector(
+    ({ selectDsorNonDsReducers, permissionReducers }: RootState) => {
       return {
         loader: selectDsorNonDsReducers.isLoading,
         feature: selectDsorNonDsReducers.feature,
+        is_plan: permissionReducers.is_plan,
       };
     },
   );
+  
+  useEffect(() => {
+    if (!is_plan) {
+      sessionStorage.setItem('superUserTab', '2');
+      history.push('/account_setting/settings');
+    }
+  });
+
   if (loader) {
     return <Loader />;
   }
+
   return (
     <Flex columnFlex>
       {feature === 0 && (
@@ -39,9 +54,17 @@ const CreateJdScreen = () => {
             <Text size={12} bold color="warning" className={styles.warningText}>
               {`You’ve reached the number of job postings for your current plan 
           but you can keep new job descriptions in Draft. Please `}
-              <Text size={12} onClick={manageLocation} bold color="link">
-                upgrade{' '}
-              </Text>
+              <LinkWrapper
+                target={'_parent'}
+                onClick={() => {
+                  sessionStorage.setItem('superUserTab', '2');
+                }}
+                to="/account_setting/settings?planFocus=focus"
+              >
+                <Text size={12} bold color="link">
+                  upgrade{' '}
+                </Text>
+              </LinkWrapper>
               plan or inactivate at least one existing active job to publish a
               new job
             </Text>

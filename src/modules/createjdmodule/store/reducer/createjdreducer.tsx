@@ -481,6 +481,7 @@ const jdPreviewState: JdPreviewState = {
     min_exp: 0,
     max_exp: 0,
     is_eeo_comp: false,
+    salary_curr_type__value:''
   },
   has_external_posting: false,
   career_page_url: '',
@@ -535,6 +536,7 @@ const jdPreviewReducer = createSlice({
       state.location = action.payload.location;
       state.skills = action.payload.skills;
       state.company_detail = action.payload.company_detail;
+      state.career_page_url = action.payload.career_page_url;
     });
     builder.addCase(jdPreviewMiddleWare.rejected, (state, action) => {
       state.isLoading = false;

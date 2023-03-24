@@ -36,7 +36,6 @@ const HistoryTabData = (props) => {
       .get('user-activity-list/' + props.userId + '/')
       .then((res) => {
         setactivities(res.data.data.activities.reverse());
-        console.log('res.data.data', res.data.data.activities);
       })
       .catch((err) => {
         console.log(err);

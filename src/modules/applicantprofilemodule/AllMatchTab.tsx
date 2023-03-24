@@ -8,9 +8,10 @@ import InviteMatch from './InviteMatch';
 
 type Props = {
   title: string;
+  inviteMessage: string;
 };
-const AllMatchTab = ({ title }: Props) => {
-  const { match, applicant, invite ,candidate_details} = useSelector(
+const AllMatchTab = ({ title, inviteMessage }: Props) => {
+  const { match, applicant, candidate_details,can_id } = useSelector(
     ({
       applicantAllMatchReducers,
       applicantStausReducers,
@@ -21,6 +22,7 @@ const AllMatchTab = ({ title }: Props) => {
         applicant: applicantAllMatchReducers.applicant,
         invite: applicantStausReducers.invite,
         candidate_details: applicantProfileInitalReducers.candidate_details,
+        can_id: applicantProfileInitalReducers.can_id,
       };
     },
   );
@@ -45,9 +47,10 @@ const AllMatchTab = ({ title }: Props) => {
           match.map((list, index) => {
             return (
               <InviteMatch
+                inviteMessage={inviteMessage}
                 list={list}
                 match={match}
-                invite={invite}
+                candidateId={can_id}
                 applicant={applicant}
                 key={list.candidate_id_id + index}
                 candidate_details={candidate_details}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames/bind';
 import { saveAs } from 'file-saver';
@@ -7,7 +7,7 @@ import axios from 'axios';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import Button from '../../uikit/Button/Button';
-import { getBlur, getDateString, getFocus } from '../../uikit/helper';
+import { getBlur, getDateString, getFocus, isEmpty } from '../../uikit/helper';
 import Pangination from '../../uikit/Pagination/Pangination';
 import { AppDispatch, RootState } from '../../store';
 import { inviteToApplyApi, zitaMatchDownloadApi } from '../../routes/apiRoutes';
@@ -19,6 +19,7 @@ import {
 } from '../applicantpipelinemodule/store/middleware/applicantpipelinemiddleware';
 import { qualificationFilterHelper } from '../common/commonHelper';
 import { config, ERROR_MESSAGE } from '../constValue';
+import ProfileView from '../applicantpipelinemodule/ProfileView';
 import { applicantFavoriteMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import ZitaMatchFilters from './ZitaMatchFilters';
 import styles from './zitamatchcandidate.module.css';
@@ -30,6 +31,7 @@ import ZitaAction from './ZitaAction';
 import JobTitleCard from './JobTitleCard';
 import { SkillListEntity } from './zitaMatchCandidateTypes';
 import ZitaMatchDataCard from './ZitaMatchDataCard';
+import ZitaMatchCandidateDrawer from './ZitaMatchCandidateDrawer';
 
 const cx = classNames.bind(styles);
 
@@ -41,6 +43,7 @@ type ParamsType = {
 
 const ZitaMatchCandidate = () => {
   const { jdId } = useParams<ParamsType>();
+  const history = useHistory();
   const dispatch: AppDispatch = useDispatch();
   const [isMatchRadio, setMatchRadio] = useState('');
   const [isProfile, setProfile] = useState('');
@@ -62,16 +65,27 @@ const ZitaMatchCandidate = () => {
   const [isTotalFav, setTotalFav] = useState(false);
   const [isInviteLoader, setInviteLoader] = useState(false);
   const [isDownloadLoader, setDownLoadLoader] = useState(false);
+  const [isProfileView, setProfileView] = useState(false);
   const [isPage, setPage] = useState(0);
+
+  const useQuery = () => {
+    return new URLSearchParams(useLocation().search);
+  };
+  const query = useQuery();
+  const getCandiId=query.get('candi_id');
 
   const favAdd = isTotalFav ? 'add' : '';
 
   useEffect(() => {
-    dispatch(zitaMatchCandidateMiddleWare({ jd_id: jdId }));
+    dispatch(zitaMatchCandidateMiddleWare({ jd_id: jdId })).then(()=>{
+      if(!isEmpty(getCandiId)){
+        setProfileView(true)
+      }
+    })
     dispatch(
       zitaMatchDataCandidateMiddleWare({
         jd_id: jdId,
-      }),
+      })
     );
   }, []);
 
@@ -84,11 +98,13 @@ const ZitaMatchCandidate = () => {
     zitaLoader,
     initalLoader,
     applicants_count,
+    is_plan
   } = useSelector(
     ({
       zitaMatchCandidateReducers,
       zitaMatchDataCandidateReducers,
       applicantFavReducers,
+      permissionReducers
     }: RootState) => {
       return {
         jd_id: zitaMatchCandidateReducers.jd_id,
@@ -99,9 +115,16 @@ const ZitaMatchCandidate = () => {
         zitaLoader: zitaMatchDataCandidateReducers.isLoading,
         initalLoader: zitaMatchCandidateReducers.isLoading,
         applicants_count: zitaMatchCandidateReducers.applicants_count,
+        is_plan: permissionReducers.is_plan,
       };
     },
   );
+  useEffect(() => {
+    if (!is_plan) {
+      sessionStorage.setItem('superUserTab', '2');
+      history.push('/account_setting/settings');
+    }
+  });
 
   const usersPerPage = 20;
   const pageCount = Math.ceil(total_applicants / usersPerPage);
@@ -325,11 +348,41 @@ const ZitaMatchCandidate = () => {
     isInviteLoader,
     isPage,
   ]);
-
+// filter refesh function
   const hanldeRefresh = () => {
-    window.location.reload();
+    setDoctorate(false);
+    setMasters(false);
+    setAny(true);
+    setBachelors(false);
+    setOther(false);
+    setSearch('')
+    setMatchRadio('')
+    setExperience('');
+    setProfile('');
+    setSkillOption('')
+    setJobType('')
+    setCandiStatus('')
+    setRelocate(false)
+    setLocation(false)
+    dispatch(
+      zitaMatchDataCandidateMiddleWare({
+        jd_id: jdId,
+        profile_match: isMatchRadio,
+        fav: favAdd,
+        candidate: '',
+        work_experience: '',
+        relocate: '0',
+        invite: isCandiStatus,
+        profile_view: '',
+        education_level: '',
+        type_of_job: '',
+        preferred_location: '0',
+        skill_match: '',
+        page: isPage + 1,
+      }),
+    );
   };
-
+// resume download function
   const hanldeDownload = () => {
     if (isCheck.length !== 0) {
       setDownLoadLoader(true);
@@ -357,11 +410,11 @@ const ZitaMatchCandidate = () => {
         });
     }
   };
-
+// filter fav function
   const hanldeFav = (can_id: number) => {
     dispatch(applicantFavoriteMiddleWare({ jd_id, can_id }));
   };
-
+// invite function
   const hanldeInvite = (can_id: number) => {
     setInviteLoader(true);
     const data = querystring.stringify({
@@ -389,16 +442,60 @@ const ZitaMatchCandidate = () => {
       );
     });
   };
-
+// pagination function
   const handleSetPagination = (a: number) => {
     getFocus('zitaaction__checkbox');
     setPage(a);
     getBlur('zitaaction__checkbox');
   };
-console.log('applicants_count',applicants_count);
+
+  // close applicant and candidate view function
+  const handleClose = () => {
+    dispatch(
+      zitaMatchDataCandidateMiddleWare({
+        jd_id: jdId,
+        profile_match: isProfile,
+        fav: favAdd,
+        candidate: isSearch,
+        work_experience: isExperience,
+        relocate: isRelocate ? '1' : '0',
+        invite: isCandiStatus,
+        profile_view: isProfile,
+        education_level: qaValue,
+        type_of_job: isJobType,
+        preferred_location: isLocation ? '1' : '0',
+        skill_match: skillsOptionsList,
+        page: isPage + 1,
+      }),
+    );
+    if (query.has('candi_id')) {
+      query.delete('candi_id');
+      history.replace({
+        search: query.toString(),
+      });
+    }
+    setProfileView(false);
+  };
 
   return (
     <Flex row className={styles.overAll}>
+      {!isEmpty(getCandiId) && (
+        <ZitaMatchCandidateDrawer
+          activeState={0}
+          open={isProfileView}
+          cancel={handleClose}
+          jobId={jdId}
+          candidateId={getCandiId}
+        />
+      )}
+      {!isEmpty(getCandiId) && (
+        <ProfileView
+          open={isProfileView}
+          cancel={handleClose}
+          jobId={jdId}
+          candidateId={getCandiId}
+        />
+      )}
       {zitaLoader && <Loader />}
       {initalLoader && <Loader />}
       {isDownloadLoader && <Loader />}
@@ -427,6 +524,7 @@ console.log('applicants_count',applicants_count);
           isLocation={isLocation}
           handleLocation={handleLocation}
           hanldeRefresh={hanldeRefresh}
+          isExperience={isExperience}
         />
       </div>
 

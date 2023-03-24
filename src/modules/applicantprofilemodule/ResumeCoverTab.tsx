@@ -1,13 +1,13 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import classNames from 'classnames/bind';
 import { useSelector } from 'react-redux';
+import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import Collapse from '../../uikit/Collapse/Collapse';
 import SvgAngle from '../../icons/SvgAngle';
 import { isEmpty, notSpecified } from '../../uikit/helper';
 import { RootState } from '../../store';
-import DocView from '../common/DocView';
 import styles from './resumecover.module.css';
 
 const cx = classNames.bind(styles);
@@ -36,8 +36,10 @@ const ResumeCoverTab = () => {
     },
   );
 
-  const file =
-    process.env.REACT_APP_HOME_URL + 'media/' + candidate_details[0].file;
+  const file = useMemo(
+    () => process.env.REACT_APP_HOME_URL + 'media/' + candidate_details[0].file,
+    [],
+  );
 
   const coverLetter =
     notSpecified(cover_letter && cover_letter[0].cover_letter) ===
@@ -45,11 +47,12 @@ const ResumeCoverTab = () => {
       ? true
       : false;
 
+  const docs = [{ uri: file }];
   return (
     <Flex
       columnFlex
       className={styles.overAll}
-      height={window.innerHeight - 230}
+      height={window.innerHeight - 201}
     >
       <Flex className={cx('border')}>
         <Flex row center between>
@@ -93,7 +96,18 @@ const ResumeCoverTab = () => {
           overflow: 'scroll',
         }}
       >
-        <DocView file={file} />
+        <DocViewer
+          style={{ height: '100%',width:'100%' }}
+          pluginRenderers={DocViewerRenderers}
+          documents={docs}
+          config={{
+            header: {
+              disableHeader: false,
+              disableFileName: false,
+              retainURLParams: false,
+            },
+          }}
+        />
       </div>
     </Flex>
   );

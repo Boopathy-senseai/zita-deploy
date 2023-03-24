@@ -8,17 +8,30 @@ import {
 } from '../../../../actions/actions';
 import {
   basicDetailApi,
+  courseAddApi,
+  courseUpdateApi,
+  downloadProfileApi,
+  educationAdd,
   educationUpdateApi,
   emailValidationApi,
+  experiencesAddApi,
+  experienceUpdateApi,
   otpVerificationApi,
   profileEditApi,
+  projectAddApi,
+  projectUpdateApi,
   skillsUpdateApi,
   techSkillApi,
   updateJobPreferenceApi,
   updatePersonalInfoApi,
   uploadResumeApi,
 } from '../../../../routes/apiRoutes';
-import { EducationUpdatePayload } from '../../candidateProfileTypes';
+import {
+  CertificatePayload,
+  EducationUpdatePayload,
+  ProjectPayload,
+  WorkExpPayload,
+} from '../../candidateProfileTypes';
 
 const querystring = require('qs');
 
@@ -30,6 +43,19 @@ export const resumeUploadMiddleWare = createAsyncThunk(
         method: 'POST',
         body: formData,
       });
+      return await data.json();
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const imgGetMiddleWare = createAsyncThunk(
+  RESUME_UPLOAD,
+  async ({ empId }: { empId: any }, { rejectWithValue }) => {
+    try {
+      const data = await fetch(`${uploadResumeApi}?emp-id=${empId}`);
       return await data.json();
     } catch (error) {
       const typedError = error as Error;
@@ -91,9 +117,9 @@ export const otpVerificationMiddleWare = createAsyncThunk(
 
 export const profileEditMiddleWare = createAsyncThunk(
   'profile_edit',
-  async (_a, { rejectWithValue }) => {
+  async ({jd_id}:{jd_id:any}, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(profileEditApi);
+      const { data } = await axios.get(profileEditApi,{params:{jd_id}});
       return data;
     } catch (error) {
       const typedError = error as Error;
@@ -193,6 +219,207 @@ export const educationDeleteMiddleWare = createAsyncThunk(
   async ({ eduId }: { eduId: string }, { rejectWithValue }) => {
     try {
       const { data } = await axios.delete(educationUpdateApi(eduId));
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const educationAddMiddleWare = createAsyncThunk(
+  'education_add',
+  async ({ ...params }: EducationUpdatePayload, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(
+        educationAdd,
+        querystring.stringify(
+          {
+            ...params,
+          },
+          { arrayFormat: 'comma' },
+        ),
+      );
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const experienceUpdateMiddleWare = createAsyncThunk(
+  'experience_update',
+  async ({ id, ...params }: WorkExpPayload, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(
+        experienceUpdateApi(id),
+        querystring.stringify(
+          {
+            ...params,
+          },
+          { arrayFormat: 'comma' },
+        ),
+      );
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const experienceDeleteMiddleWare = createAsyncThunk(
+  'experience_delete',
+  async ({ id }: { id: string }, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.delete(experienceUpdateApi(id));
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const experiencesAddMiddleWare = createAsyncThunk(
+  'experience_add',
+  async ({ ...params }: WorkExpPayload, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(
+        experiencesAddApi,
+        querystring.stringify(
+          {
+            ...params,
+          },
+          { arrayFormat: 'comma' },
+        ),
+      );
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const projectUpdateMiddleWare = createAsyncThunk(
+  'project_update',
+  async ({ id, ...params }: ProjectPayload, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(
+        projectUpdateApi(id),
+        querystring.stringify(
+          {
+            ...params,
+          },
+          { arrayFormat: 'comma' },
+        ),
+      );
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const projectAddMiddleWare = createAsyncThunk(
+  'project_add',
+  async ({ ...params }: ProjectPayload, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(
+        projectAddApi,
+        querystring.stringify(
+          {
+            ...params,
+          },
+          { arrayFormat: 'comma' },
+        ),
+      );
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const projectDeleteMiddleWare = createAsyncThunk(
+  'project_delete',
+  async ({ id }: { id: string }, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.delete(projectUpdateApi(id));
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const courseDeleteMiddleWare = createAsyncThunk(
+  'course_delete',
+  async ({ id }: { id: string }, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.delete(courseUpdateApi(id));
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const courseUpdateMiddleWare = createAsyncThunk(
+  'course_update',
+  async ({ id, ...params }: CertificatePayload, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(
+        courseUpdateApi(id),
+        querystring.stringify(
+          {
+            ...params,
+          },
+          { arrayFormat: 'comma' },
+        ),
+      );
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const courseAddMiddleWare = createAsyncThunk(
+  'course_add',
+  async ({ ...params }: CertificatePayload, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(
+        courseAddApi,
+        querystring.stringify(
+          {
+            ...params,
+          },
+          { arrayFormat: 'comma' },
+        ),
+      );
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const downloadProfileMiddleWare = createAsyncThunk(
+  'download_profile',
+  async ({ can_id }: { can_id?: string }, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(downloadProfileApi, {
+        params: { can_id },
+      });
       return data;
     } catch (error) {
       const typedError = error as Error;

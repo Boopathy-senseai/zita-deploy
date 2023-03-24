@@ -40,3 +40,16 @@
 .errorFocus {
   color: var(--color-error-1, #d74242);
 }
+
+.noOptionsDivStyle{
+  background-color: #fff;
+  height: 36px;
+  border: 1px solid #ccc;
+  position: absolute;
+  width: 100%;
+  border-radius: 4px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  z-index: 11;
+}

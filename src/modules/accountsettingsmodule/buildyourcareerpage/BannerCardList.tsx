@@ -1,14 +1,16 @@
+import { useMediaQuery } from 'react-responsive';
 import SvgBag from '../../../icons/SvgBag';
 import SvgCalendar from '../../../icons/SvgCalendar';
 import SvgLocation from '../../../icons/SvgLocation';
 import Button from '../../../uikit/Button/Button';
 import Card from '../../../uikit/Card/Card';
-import { PRIMARY } from '../../../uikit/Colors/colors';
+import { GARY_4 } from '../../../uikit/Colors/colors';
 import Flex from '../../../uikit/Flex/Flex';
 import { getDateString } from '../../../uikit/helper';
 import LinkWrapper from '../../../uikit/Link/LinkWrapper';
 import Text from '../../../uikit/Text/Text';
 import styles from './bannercardlist.module.css';
+import BannerCardView from './BannerCardView';
 import { JdFormEntity, CareerPageSetting } from './buildCareerPageTypes';
 
 type Props = {
@@ -18,43 +20,39 @@ type Props = {
 };
 
 const BannerCardList = ({ jd_form, career_page_setting, total }: Props) => {
+  const isTablet = useMediaQuery({ query: '(max-width: 1050px)' });
+  const isMobile = useMediaQuery({ query: '(max-width: 500px)' });
   const fontFamily = career_page_setting.page_font;
   const titleFontSize = career_page_setting.page_font_size + 2;
   const fontSize = career_page_setting.page_font_size;
   return (
     <Flex columnFlex className={styles.overAll}>
-      {
-        <Text
-          size={20}
-          bold
-          className={styles.totalTextStyle}
-          style={{ fontFamily, fontSize: titleFontSize }}
-        >
-          Total Jobs Found: {total}
-        </Text>
-      }
-      <Flex
-        row
-        wrap
-        // marginLeft={'10%'} marginRight={'10%'}
+      <Text
+        size={20}
+        bold
+        className={styles.totalTextStyle}
+        style={{ fontFamily, fontSize: titleFontSize }}
       >
-        {jd_form &&
-          jd_form.map((list, index) => (
-            <div
-              key={list.jd_status_id}
-              style={{
-                marginRight: index % 2 === 0 ? 10 : 0,
-                marginLeft: index % 2 === 0 ? 0 : 10,
-                marginBottom: 20,
-                position: 'relative',
-                width: '49%',
-              }}
-            >
-              <Card className={styles.cardPadding}>
-                <Flex row>
-                  <Flex columnFlex flex={8}>
+        Total Jobs Found: {total}
+      </Text>
+      {isMobile && (
+        <Flex>
+          {jd_form &&
+            jd_form.map((list) => (
+              <div
+                style={{
+                  marginBottom: 20,
+                  position: 'relative',
+                  width: '100%',
+                }}
+                key={Date.now()}
+              >
+                <Card className={styles.cardPadding}>
+                  <Flex center columnFlex middle>
                     <LinkWrapper
-                      target={'_parent'}
+                      onClick={() =>
+                        localStorage.setItem('careerJobTitle', list.job_title)
+                      }
                       to={`/${career_page_setting.career_page_url}/career_job_view/${list.id}/${list.job_title}`}
                     >
                       <Text
@@ -68,7 +66,7 @@ const BannerCardList = ({ jd_form, career_page_setting, total }: Props) => {
                       </Text>
                     </LinkWrapper>
                     <Flex row center className={styles.lineHeight}>
-                      <SvgBag height={16} width={16} fill={PRIMARY} />
+                      <SvgBag height={16} width={16} fill={GARY_4} />
                       <Text
                         className={styles.labelStyle}
                         style={{
@@ -79,36 +77,8 @@ const BannerCardList = ({ jd_form, career_page_setting, total }: Props) => {
                         {list.job_type__label_name}
                       </Text>
                     </Flex>
-                  </Flex>
-                  <Flex
-                    columnFlex
-                    between
-                    className={styles.btnContainer}
-                    flex={4}
-                  >
-                    <LinkWrapper
-                      target={'_parent'}
-                      to={`/${career_page_setting.career_page_url}/career_job_view/${list.id}/${list.job_title}`}
-                    >
-                      <Button
-                        types="secondary"
-                        style={{
-                          borderColor: career_page_setting.button_color,
-                        }}
-                      >
-                        <Text
-                          style={{ color: career_page_setting.button_color }}
-                        >
-                          Apply
-                        </Text>
-                      </Button>
-                    </LinkWrapper>
-                  </Flex>
-                </Flex>
-                <Flex row>
-                  <Flex flex={8}>
                     <Flex row center>
-                      <SvgLocation height={16} width={16} fill={PRIMARY} />
+                      <SvgLocation height={16} width={16} fill={GARY_4} />
                       <Text
                         className={styles.labelStyle}
                         style={{
@@ -119,10 +89,31 @@ const BannerCardList = ({ jd_form, career_page_setting, total }: Props) => {
                         {list.job_location}
                       </Text>
                     </Flex>
-                  </Flex>
-                  <Flex flex={4}>
+                    <Flex center middle>
+                    <LinkWrapper
+                      // target={'_parent'}
+                      onClick={() =>
+                        localStorage.setItem('careerJobTitle', list.job_title)
+                      }
+                      to={`/${career_page_setting.career_page_url}/career_job_view/${list.id}/${list.job_title}`}
+                    >
+                      <Button
+                        types="secondary"
+                        style={{
+                          borderColor: career_page_setting.button_color,
+                          margin: '16px 0'
+                        }}
+                      >
+                        <Text
+                          style={{ color: career_page_setting.button_color }}
+                        >
+                          Apply
+                        </Text>
+                      </Button>
+                    </LinkWrapper>
+                    </Flex>
                     <Flex row center>
-                      <SvgCalendar height={16} width={16} fill={PRIMARY} />
+                      <SvgCalendar height={16} width={16} fill={GARY_4} />
                       <Text
                         className={styles.labelStyle}
                         style={{
@@ -134,11 +125,40 @@ const BannerCardList = ({ jd_form, career_page_setting, total }: Props) => {
                       </Text>
                     </Flex>
                   </Flex>
-                </Flex>
-              </Card>
+                </Card>
+              </div>
+            ))}
+        </Flex>
+      )}
+      {!isMobile && (
+        <Flex row wrap>
+          {jd_form &&
+            jd_form.map((list, index) => (
+            <BannerCardView 
+            key={Date.now()+index.toString()}
+            list={list}
+            index={index}
+            isTablet={isTablet}
+            career_page_setting={career_page_setting}
+            fontFamily={fontFamily}
+            titleFontSize={titleFontSize}
+            fontSize={fontSize}
+            />
+            ))}
+          {jd_form.length === 1 && (
+            <div
+              style={{
+                marginLeft: 10,
+                marginBottom: 20,
+                position: 'relative',
+                width: '49%',
+              }}
+            >
+              <></>
             </div>
-          ))}
-      </Flex>
+          )}
+        </Flex>
+      )}
     </Flex>
   );
 };

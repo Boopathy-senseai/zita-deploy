@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PhoneInput from 'react-phone-input-2';
 import SvgBoxEdit from '../../icons/SvgBoxEdit';
 import Card from '../../uikit/Card/Card';
 import { PRIMARY } from '../../uikit/Colors/colors';
@@ -7,6 +8,7 @@ import { isEmpty, notSpecified } from '../../uikit/helper';
 import Text from '../../uikit/Text/Text';
 import { CountryEntity } from '../createjdmodule/createJdTypes';
 import { AdditionalDetailEntity, Personal } from './candidateProfileTypes';
+import MyJobPreferenceCard from './MyJobPreferenceCard';
 import styles from './personalinformationcard.module.css';
 import PersonalInformationEdit from './PersonalInformationEdit';
 
@@ -15,12 +17,14 @@ type Props = {
   additional_detail?: AdditionalDetailEntity;
   personal_obj?: Personal;
   isGetCountry: CountryEntity[];
+  isProfileView?: boolean;
 };
 const PersonalInformationCard = ({
   personal,
   additional_detail,
   personal_obj,
   isGetCountry,
+  isProfileView,
 }: Props) => {
   const [isPersonalEdit, setPersonalEdit] = useState(false);
 
@@ -28,22 +32,62 @@ const PersonalInformationCard = ({
     !isEmpty(personal?.city__name) &&
     !isEmpty(personal?.state__name) &&
     !isEmpty(personal?.country__name)
-      ? `${personal?.city__name}, ${personal?.state__name}, ${personal?.country__name}`
+      ? `${personal?.city__name}, ${personal?.state__name}, ${personal?.country__name} - ${personal?.zipcode}`
       : '';
+
+  const expYears = isEmpty(additional_detail?.total_exp_year)
+    ? ''
+    : additional_detail?.total_exp_year === 0
+    ? additional_detail.total_exp_month <= 0
+      ? 'Fresher'
+      : ''
+    : additional_detail?.total_exp_year === 1
+    ? `${additional_detail?.total_exp_year} Year`
+    : `${additional_detail?.total_exp_year} Years`;
+
+  const expMonth = isEmpty(additional_detail?.total_exp_month)
+    ? ''
+    : additional_detail?.total_exp_month === 0
+    ? ''
+    : additional_detail?.total_exp_month === 1
+    ? '1 Month'
+    : `${additional_detail?.total_exp_month} Months`;
+
   const data = [
-    { title: 'Contact Number:', value: notSpecified(personal?.contact_no) },
-    { title: 'Email:', value: notSpecified(personal?.email) },
-    { title: 'Gender:', value: notSpecified(personal?.gender__label_name) },
-    { title: 'Birth Year:', value: notSpecified(personal?.Date_of_birth) },
-    { title: 'Address:', value: notSpecified(address) },
-    { title: 'LinkedIn:', value: notSpecified(personal?.linkedin_url) },
+    {
+      title: 'Contact Number:',
+      value: personal?.contact_no,
+      right: 116,
+    },
+    { title: 'Email:', value: notSpecified(personal?.email), right: 188 },
+    {
+      title: 'Gender:',
+      value: notSpecified(personal?.gender__label_name),
+      right: 178,
+    },
+    {
+      title: 'Birth Year:',
+      value: notSpecified(personal?.Date_of_birth),
+      right: 162,
+    },
+    { title: 'Address:', value: notSpecified(address), right: 172 },
+    {
+      title: 'LinkedIn:',
+      value: notSpecified(personal?.linkedin_url),
+      right: 170,
+    },
     {
       title: 'Your Personal Code Repository:',
       value: notSpecified(personal?.code_repo),
+      right: 18,
     },
     {
       title: 'Total Experience:',
-      value: notSpecified(additional_detail?.total_exp_year),
+      value:
+        isEmpty(expYears) && isEmpty(expMonth)
+          ? 'Not Specified'
+          : `${expYears} ${expMonth}`,
+      right: 118,
     },
   ];
   const handleOpenPersonalEdit = () => {
@@ -51,33 +95,74 @@ const PersonalInformationCard = ({
   };
   return (
     <>
-      <PersonalInformationEdit
-        open={isPersonalEdit}
-        cancel={() => setPersonalEdit(false)}
-        personal={personal}
-        additional_detail={additional_detail}
-        personal_obj={personal_obj}
-        isGetCountry={isGetCountry}
-      />
-      <Card className={styles.overAll}>
-        <div
-          className={styles.svgEdit}
-          onClick={handleOpenPersonalEdit}
-          tabIndex={-1}
-          role="button"
-          onKeyDown={() => {}}
-        >
-          <SvgBoxEdit fill={PRIMARY} />
+      {!isProfileView && (
+        <PersonalInformationEdit
+          open={isPersonalEdit}
+          cancel={() => setPersonalEdit(false)}
+          personal={personal}
+          additional_detail={additional_detail}
+          personal_obj={personal_obj}
+          isGetCountry={isGetCountry}
+        />
+      )}
+      <Flex columnFlex row>
+        <div style={{ width: '50%', marginRight: 10 }}>
+          <Text size={16} bold className={styles.titleStyle}>
+            Personal Information
+          </Text>
+          <Card className={styles.overAll}>
+            {!isProfileView && (
+              <div
+                className={styles.svgEdit}
+                onClick={handleOpenPersonalEdit}
+                tabIndex={-1}
+                role="button"
+                onKeyDown={() => {}}
+              >
+                <SvgBoxEdit fill={PRIMARY} />
+              </div>
+            )}
+
+            {data.map((list) => (
+              <Flex key={list.title} row top className={styles.insideFlex}>
+                <Text
+                  bold
+                  style={{ paddingRight: list.right, whiteSpace: 'nowrap' }}
+                >
+                  {list.title}
+                </Text>
+                {list.title === 'Contact Number:' ? (
+                  <>
+                    {!isEmpty(list.value) ? (
+                      <div className={styles.phoneHide}>
+                      <PhoneInput
+                        inputClass={styles.phoneInput}
+                        dropdownClass={styles.dropDownStyle}
+                        value={list.value?.toString()}
+                      /></div>
+                    ) : (
+                      <Text>{notSpecified(list.value)}</Text>
+                    )}
+                  </>
+                ) : (
+                  <Text>{list.value}</Text>
+                )}
+              </Flex>
+            ))}
+          </Card>
         </div>
-        {data.map((list) => (
-          <Flex key={list.title} row center className={styles.insideFlex}>
-            <Text bold style={{ width: 230 }}>
-              {list.title}
-            </Text>
-            <Text>{list.value}</Text>
-          </Flex>
-        ))}
-      </Card>
+        <div style={{ width: '50%', marginLeft: 10 }}>
+          <Text size={16} bold className={styles.titleStyle}>
+            My Job Preference
+          </Text>
+          <MyJobPreferenceCard
+            personal={personal}
+            personal_obj={personal_obj}
+            isGetCountry={isGetCountry}
+            isProfileView={isProfileView}
+          />
+        </div>
+      </Flex>
     </>
   );
 };

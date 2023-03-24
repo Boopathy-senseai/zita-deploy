@@ -1,7 +1,7 @@
 import { Form, Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 import { AppDispatch, RootState } from '../../store';
 import Card from '../../uikit/Card/Card';
@@ -40,6 +40,7 @@ type ParamsType = {
 
 const CreateJdWithNonDs = () => {
   const { jdId, editJdId } = useParams<ParamsType>();
+  const history = useHistory();
   const dispatch: AppDispatch = useDispatch();
   const [isGetCountry, setCountry] = useState<CountryEntity[]>([]);
   const [isTemp, setTemp] = useState(false);
@@ -49,6 +50,7 @@ const CreateJdWithNonDs = () => {
   const [isDraftSave, setDraftSave] = useState(false);
   const { routerPrompt, onDirty, onPristine } = useUnsavedChangesWarning();
 
+  // initial api call
   useEffect(() => {
     if (!isEmpty(jdId)) {
       dispatch(duplicateMiddleWare({ jd_id: jdId }));
@@ -66,7 +68,6 @@ const CreateJdWithNonDs = () => {
     jdParserLoader,
     createJdLoader,
     getCountry,
-    temTitle,
     jdTemplates,
     jd_output,
     jdDuplicateLoader,
@@ -80,6 +81,7 @@ const CreateJdWithNonDs = () => {
     tool_skills,
     misc_skills,
     platform_skills,
+    is_plan
   } = useSelector(
     ({
       jdParserReducers,
@@ -88,7 +90,7 @@ const CreateJdWithNonDs = () => {
       jdTemplatesReducers,
       duplicateReducers,
       validateJobIDReducers,
-      
+      permissionReducers
     }: RootState) => {
       return {
         job_title: jdParserReducers.job_title,
@@ -110,9 +112,17 @@ const CreateJdWithNonDs = () => {
         database_skills: jdParserReducers.database_skills,
         misc_skills: jdParserReducers.misc_skills,
         platform_skills: jdParserReducers.platform_skills,
+        is_plan: permissionReducers.is_plan,
       };
     },
   );
+
+  useEffect(() => {
+    if (!is_plan) {
+      sessionStorage.setItem('superUserTab', '2');
+      history.push('/account_setting/settings');
+    }
+  });
 
   const combinedArray = [
     ...database_skills,
@@ -150,7 +160,7 @@ const CreateJdWithNonDs = () => {
     remoteWork: '0',
     minimumSalary: '',
     maximumSalary: '',
-    currency: '243',
+    currency: '',
     showSalaryCandidates: '0',
     industryType: '1',
     nonDsSkill: [],
@@ -163,6 +173,7 @@ const CreateJdWithNonDs = () => {
     },
   };
 
+  // open template function
   const handleTempOpen = () => {
     setTemp(true);
   };
@@ -228,12 +239,9 @@ const CreateJdWithNonDs = () => {
             errors,
             touched,
           }) => (
-            
             <Form>
-              
               <Card className={styles.cardOverAll}>
                 <JobDescriptionTemplate
-                  temTitle={temTitle}
                   jdTemplates={jdTemplates}
                   open={isTemp}
                   close={() => setTemp(false)}
@@ -283,7 +291,6 @@ const CreateJdWithNonDs = () => {
                 onDirty={onDirty}
               />
             </Form>
-            
           )}
         </Formik>
       </Flex>

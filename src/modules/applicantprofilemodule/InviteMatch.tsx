@@ -18,7 +18,6 @@ import styles from './allmatchtab.module.css';
 import {
   ApplicantEntity,
   CandidateDetailsEntity,
-  InviteEntity,
   MatchEntityOne,
 } from './applicantProfileTypes';
 import {
@@ -33,23 +32,25 @@ const cx = classNames.bind(styles);
 type Props = {
   list: MatchEntityOne;
   match: MatchEntityOne[];
-  invite?: InviteEntity[];
+  candidateId?: any;
   applicant?: ApplicantEntity[];
   candidate_details: CandidateDetailsEntity[];
+  inviteMessage: string;
 };
 
 const InviteMatch = ({
   list,
   match,
-  invite,
+  candidateId,
   applicant,
   candidate_details,
+  inviteMessage,
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const [isInvitePopUp, setInvitePopUp] = useState(false);
   const [isFavLoader, setFavLoader] = useState(false);
   const [isInviteLoader, setInviteLoader] = useState(false);
-
+  const [isDate,setDate]=useState('')
   const hanldeFavAction = (can_id: number, jd_id: number) => {
     setFavLoader(true);
     dispatch(applicantFavoriteMiddleWare({ can_id, jd_id }))
@@ -61,14 +62,17 @@ const InviteMatch = ({
       .catch(() => {});
   };
 
+  // invite popup open function
   const hanldeInvitePopUp = () => {
     setInvitePopUp(true);
+    setDate(list.invited)
   };
 
+// invite popup close function
   const hanldeInviteClosePopUp = () => {
     setInvitePopUp(false);
   };
-
+// invite api call function
   const hanldeInvite = (jdId: number, candId: number) => {
     hanldeInviteClosePopUp();
     setInviteLoader(true);
@@ -80,24 +84,26 @@ const InviteMatch = ({
       .post(inviteToApplyApi, data, config)
       .then(() => {
         setInviteLoader(false);
-        Toast('Applicant invited successfully');
-        dispatch(
+        Toast(inviteMessage);
+        dispatch(applicantAllMatchMiddleWare({ can_id:candidateId }));
+         dispatch(
           applicantStatusMiddleWare({
             jd_id: jdId.toString(),
-            can_id: candId.toString(),
+          can_id: candId.toString(),
           }),
         );
+
       })
       .catch(() => {
         setInviteLoader(false);
         Toast(ERROR_MESSAGE, 'LONG', 'error');
-      });
+      })
   };
 
   const checkMatch = useMemo(
     () =>
       match && match.length === 1 && applicant && applicant.length === 0
-        ? '94%'
+        ? '50%'
         : '50%',
     [],
   );
@@ -105,7 +111,7 @@ const InviteMatch = ({
   const checkMatchLabel = useMemo(
     () =>
       match && match.length === 1 && applicant && applicant.length === 0
-        ? '100%'
+        ? '96%'
         : '96%',
     [],
   );
@@ -115,7 +121,7 @@ const InviteMatch = ({
   return (
     <>
       {isInviteLoader && <Loader />}
-      {invite && invite.length === 0 && (
+      {isEmpty(isDate) && (
         <CancelAndDeletePopup
           title={`Invite will be sent as an email to ${
             candidate_details && candidate_details[0].first_name
@@ -126,14 +132,14 @@ const InviteMatch = ({
           open={isInvitePopUp}
         />
       )}
-      {invite && invite.length !== 0 && (
+      {!isEmpty(isDate) && (
         <CancelAndDeletePopup
           title={
             <Flex className={styles.popTitle}>
               <Text>{`The candidate ${
                 candidate_details && candidate_details[0].first_name
               } has already been invited for this job on ${getDateString(
-                invite[invite.length - 1].created_at,
+                isDate,
                 'll',
               )}.`}</Text>
               <Text>Do you wish to invite again?</Text>

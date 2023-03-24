@@ -34,6 +34,8 @@ const CreateNewOption = ({
   const [isAddCheck, setAddCheck] = useState(false);
 
   const optionsLength = values.options.length;
+
+  // push new object
   useEffect(() => {
     if (
       values.fieldType === '5' ||

@@ -43,6 +43,7 @@ const ChooseFromTemplates = ({
     return updateList.question;
   });
 
+  // template filter array
   const setTemplateValue = template.filter(
     (item) => !updateId.includes(item.question),
   );
@@ -76,6 +77,7 @@ const ChooseFromTemplates = ({
       return list.id + '***' + list.is_required;
     });
 
+  // template form submit
   const handleSubmit = () => {
     dispatch(
       questionnaireSaveMiddleWare({ jd_id: jdId, temp: postValue }),

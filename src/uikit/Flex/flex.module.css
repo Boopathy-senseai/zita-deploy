@@ -8,7 +8,6 @@
   flex-direction: row-reverse;
 }
 .column {
-  margin-top: 1px; /* revamp css add*/
   flex-direction: column;
   display: grid;
   height: fit-content;

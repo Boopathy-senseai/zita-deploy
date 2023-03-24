@@ -7,7 +7,7 @@ const Star = ({ starId, marked }: Props) => {
     <span
       data-star-id={starId}
       role="button"
-      style={{ color: '#ff9933', cursor: 'pointer', fontSize: 32 }}
+      style={{ color: '#ff9933', cursor: 'pointer', fontSize: 24 }}
     >
       {marked ? '\u2605' : '\u2606'}
     </span>

@@ -1,17 +1,25 @@
 import Text from '../../uikit/Text/Text';
-import { firstNameChar, getDateString } from '../../uikit/helper';
+import { firstNameChar, getDateString,isEmpty } from '../../uikit/helper';
+import {  mediaPath } from '../constValue';
 import styles from './messageslist.module.css';
-import { Message } from './applicantProfileTypes';
+// import { Message } from './applicantProfileTypes';
 
 type Props = {
-  messages: Message[];
+  messages: any[];
   client_id_id: number;
+  height: number;
+  fixedHeight?: boolean;
 };
 
-const MessageList = ({ messages, client_id_id }: Props) => {
+const MessageList = ({
+  messages,
+  client_id_id,
+  height,
+  fixedHeight,
+}: Props) => {
   return (
     <div
-      style={{ height: window.innerHeight - 428 }}
+      style={{ height: fixedHeight ? height : window.innerHeight - height }}
       className={styles.overall}
     >
       {messages
@@ -37,13 +45,14 @@ const MessageList = ({ messages, client_id_id }: Props) => {
                         onChange={() => {}}
                       />
                       <Text bold className={styles.userNameText}>
-                        {messageList.username}
+                        {/* {messageList.username} */} HR
                       </Text>
                       <div className={styles.senderStyleProfile}>
                         <Text bold color="white" transform="uppercase">
-                          {firstNameChar(
+                          {/* {firstNameChar(
                             `${messageList.username} ${messageList.last_name}`,
-                          )}
+                          )} */}
+                          HR
                         </Text>
                       </div>
                     </div>
@@ -60,11 +69,29 @@ const MessageList = ({ messages, client_id_id }: Props) => {
                   <div className={styles.newMessage}>
                     <div className={styles.otherContainer}>
                       <div className={styles.otherStyleProfile}>
-                        <Text bold color="white" transform="uppercase">
+                      {(isEmpty(messageList.sender_image) ||
+                    messageList.sender_image === 'default.jpg') ? (
+                      <Text bold color="white" transform="uppercase">
                           {firstNameChar(
                             `${messageList.username} ${messageList.last_name}`,
                           )}
                         </Text>
+                    ) : (
+                      <img
+                        alt='profile'
+                        height={40}
+                        width={40}
+
+                        style={{ borderRadius: '100%' ,objectFit:'cover',height: 40,width:40}}
+
+                        src={mediaPath + messageList.sender_image}
+                      />
+                    )}
+                        {/* <Text bold color="white" transform="uppercase">
+                          {firstNameChar(
+                            `${messageList.username} ${messageList.last_name}`,
+                          )}
+                        </Text> */}
                       </div>
                       <Text bold className={styles.userNameText}>
                         {messageList.username}

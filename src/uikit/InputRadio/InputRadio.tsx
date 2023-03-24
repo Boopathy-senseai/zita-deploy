@@ -36,7 +36,7 @@ const InputRadio = ({
   disabled,
 }: Props) => {
   const handleOnClick = useCallback(
-    (e:any) => {
+    (e) => {
       if (typeof onClick === 'function' && e) {
         const requiredVal = typeof value !== 'undefined' ? value : name;
         e.target.value = requiredVal; // eslint-disable-line

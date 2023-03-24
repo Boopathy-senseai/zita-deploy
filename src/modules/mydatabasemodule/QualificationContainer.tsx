@@ -91,7 +91,7 @@ const QualificationContainer = ({
     onSubmit: () => {},
     enableReinitialize: true,
   });
-
+// qulification form submit function
   const handleCellSubmit = (id: number, selectValue: string) => {
     setLoader(true);
     const data = querystring.stringify({

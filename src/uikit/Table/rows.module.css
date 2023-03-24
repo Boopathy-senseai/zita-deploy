@@ -13,3 +13,7 @@
   padding: 8px 0px;
   margin: 0 8px;
 }
+.rowFocus {
+  background-color: var(--color-gary-8, #dbdbdb);
+}
+.row:hover {background-color: var(--color-gary-8, #dbdbdb)}

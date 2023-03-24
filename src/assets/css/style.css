@@ -1,6 +1,7 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 html,
@@ -13,6 +14,10 @@ body {
   color: #212529;
   font-size: 14px;
   font-weight: 400;
+}
+
+#root {
+  height: 100vh;
 }
 
 .admin-bc {
@@ -716,6 +721,42 @@ input:-webkit-autofill:active {
   font-size: 14px;
   margin-bottom: 0px;
   /* border: 0px solid transparent; */
-  font-weight: bold;
+  /* font-weight: bold; */
   color: #000;
+}
+
+/* REACT BIG CALENDAR OVERRIDE */
+.rbc-event,
+.rbc-selected,
+.rbc-event-allday,
+.rbc-background-event,
+.rbc-event-continues-later {
+  background-color: transparent !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+.rbc-event {
+  border-radius: 2px !important;
+}
+
+.rbc-event-label {
+  display: none !important;
+}
+.rbc-events-container {
+  margin: 0 !important;
+}
+
+.rbc-time-header-cell {
+  height: 100%;
+}
+
+.rbc-header .rbc-button-link {
+  width: 100%;
+}
+
+/* MUI OVERRIDE */
+/* Input fields */
+.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
+  padding: 5px 10px !important;
 }

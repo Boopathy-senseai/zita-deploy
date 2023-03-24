@@ -1,6 +1,8 @@
 .pointer {
   cursor: pointer;
+  padding: 0px 7px;
 }
 .pointerEvent {
   opacity: 0.3;
+  padding: 0px 7px;
 }

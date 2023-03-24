@@ -27,7 +27,11 @@ const CandidateSuccessModal = ({ open, btnOnclick, credits }: Props) => {
             <Text className={styles.titleText}>
               Candidate unlocked successfully! Please click
             </Text>
-            <LinkWrapper target={'_parent'} to={routesPath.MYDATABASE}>
+            <LinkWrapper
+              target={'_parent'}
+              to={routesPath.MYDATABASE+'?tab=2'}
+              onClick={() => sessionStorage.setItem('getMydataBaseTabKey', '2')}
+            >
               <Button className={styles.dataBaseBtn} types="link">
                 My Database
               </Button>

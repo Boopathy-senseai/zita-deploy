@@ -19,6 +19,10 @@
 .overFlowLoader {
   position: relative;
 }
-.rowScroll{
+.rowScroll {
   overflow: auto;
+}
+.emptyTextOne {
+  position: relative;
+  top: 80px;
 }

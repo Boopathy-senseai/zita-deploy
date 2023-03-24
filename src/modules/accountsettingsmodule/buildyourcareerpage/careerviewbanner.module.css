@@ -19,21 +19,19 @@
 }
 .bannerTextStyle {
   margin-top: 40px;
+  line-break: anywhere;
 }
 .jobTitleInput {
-  width: 320px;
   padding-left: 26px;
 }
 .locationInput {
-  width: 320px;
-  margin: 0 16px;
   padding-left: 26px;
 }
 .searchCard {
   padding: 16px 30px;
-  width: fit-content;
   bottom: 32px;
   position: relative;
+  width: 100%;
 }
 .svgBagStyle {
   position: absolute;
@@ -45,36 +43,98 @@
   position: absolute;
   z-index: 11;
   top: 4px;
-  left: 22px;
+  left: 8px;
 }
 
-
-.paddingStyle {
-  min-width: 1350px;
-  max-width: 1350px;
-}
-
-@media screen and (min-width: 1350px) and (max-width: 1550px) {
-  .paddingStyle {
-    padding: 0px 10% !important;
-  }
-}
-@media screen and (min-width: 1280px) and (max-width: 1350px) {
-  .paddingStyle {
-    padding: 0px 10% !important;
-  }
-}
-@media screen and (min-width: 960px) and (max-width: 1280px) {
-  .paddingStyle {
-    padding: 0px 8% !important;
-  }
-}
-
-@media screen and (max-width: 960px) {
-  .paddingStyle {
-    padding: 0 5%;
-  }
-}
-.marginAuto{
+.marginAuto {
   margin: auto;
+}
+.disPlayStyle {
+  display: contents;
+}
+
+@media screen and (min-width: 2000px) {
+  .paddingStyle {
+    width: 1500px;
+  }
+  .searchCard{
+    width: 1500px;
+  }
+}
+@media screen and (min-width: 1600px) and (max-width: 2000px) {
+  .paddingStyle {
+    width: 1400px;
+  }
+  .searchCard{
+    width: 1350px;
+  }
+}
+@media screen and (min-width: 1400px) and (max-width: 1600px) {
+  .paddingStyle {
+    width: 1300px;
+  }
+  .searchCard{
+    width: 1250px;
+  }
+}
+
+@media screen and (min-width: 1280px) and (max-width: 1400px) {
+  .paddingStyle {
+    width: 1000px;
+  }
+  .searchCard{
+    width: 950px;
+  }
+}
+@media screen and (min-width: 1000px) and (max-width: 1280px) {
+  .paddingStyle {
+    width: 1000px;
+  }
+  .searchCard{
+    width: 950px;
+  }
+}
+
+@media screen and (min-width: 700px) and (max-width: 1000px) {
+  .paddingStyle {
+    width: 700px;
+  }
+  .searchCard{
+    width: 660px;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .locationDiv {
+    margin-top: 16px;
+    position: relative;
+    /* left: -16px; */
+    margin-bottom: 16px;
+  }
+  .locationInput {
+    width: 100% !important;
+  }
+  .bannerTextStyle{
+    margin-top: 16px !important;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .searchCard {
+    padding: 16px 20px !important;
+  }
+  .bannerTextStyle{
+    margin-top: 8px !important;
+  }
+  .innerText{
+    padding-bottom: 120px !important;
+  }
+}
+
+.overLay{
+  position: absolute;
+  top:0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
 }

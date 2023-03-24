@@ -2,9 +2,9 @@ import SvgBoxEdit from '../../icons/SvgBoxEdit';
 import Flex from '../../uikit/Flex/Flex';
 import { getDateString } from '../../uikit/helper';
 import Text from '../../uikit/Text/Text';
-import { EventEntity } from './applicantProfileTypes';
+// import { EventEntity } from './applicantProfileTypes';
 
-export const meetingTitle = [
+export const meetingTitle = () => [
   {
     title: 'Event Name',
     dataIndex: 'title',
@@ -12,42 +12,36 @@ export const meetingTitle = [
   },
   {
     title: 'Created By',
-    dataIndex: 'created_by',
-    key: 'created_by',
+    dataIndex: 'organizer',
+    key: 'organizer',
   },
   {
     title: 'Meeting Date',
-    dataIndex: 'created_at',
-    key: 'created_at',
+    dataIndex: 'date',
+    key: 'date',
     render: (value: string) => (
       <Text size={12}>{getDateString(value, 'll')}</Text>
     ),
   },
   {
     title: 'Time Slot',
-    dataIndex: 'start_time',
-    key: 'start_time',
-    render: (_a: string, value: EventEntity) => (
-      <Text size={12}>
-        {getDateString(value.start_time, 'hh:mm A')} -{' '}
-        {getDateString(value.end_time, 'hh:mm A')}
-      </Text>
-    ),
-    flex:1.3
+    dataIndex: 'time',
+    key: 'time',
   },
   {
     title: 'Edit',
     dataIndex: 'web_url',
     key: 'web_url',
     align: 'center',
-    render: (value: string) => {
+    render: () => {
       const handleClick = () => {
-        window.open(value);
+        // window.open(value);
       };
-
       return (
-        <Flex className="pointer" flex={1} center middle onClick={handleClick}>
-          <SvgBoxEdit />
+        <Flex flex={1} center middle onClick={handleClick}>
+          <div style={{ cursor: 'pointer' }}>
+            <SvgBoxEdit />
+          </div>
         </Flex>
       );
     },

@@ -35,3 +35,7 @@
 .location {
   padding: 8px 0px;
 }
+.textWrap{
+  word-break: break-word;
+
+}

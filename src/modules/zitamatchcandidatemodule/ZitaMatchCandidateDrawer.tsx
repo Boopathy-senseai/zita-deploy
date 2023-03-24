@@ -12,7 +12,7 @@ type Props = {
   open: boolean;
   cancel: () => void;
   jobId: string | boolean;
-  candidateId: string;
+  candidateId: any;
   activeState: number;
 };
 

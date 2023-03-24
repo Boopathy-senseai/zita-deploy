@@ -112,17 +112,15 @@
   color: var(--color-warning, #ffb142);
 }
 .textColor-link {
-  color: var(--color-link, #581845);
+  color: var(--color-link, #1890ff);
   cursor: pointer;
-  font-size: 13px;
-  text-decoration-line: underline;  
 }
 .textColor-blue {
   color: #0000ff;
   cursor: pointer;
 }
 .textColor-link:hover {
-  color: var(--color-link-1, #581845);
+  color: var(--color-link-1, #18adf0);
 }
 .textColor-gray {
   color: var(--color-gary-4, #979797);

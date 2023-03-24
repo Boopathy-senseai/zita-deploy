@@ -1,31 +1,13 @@
-export interface Integration {
-  success: boolean;
-  outlook: OutlookEntity;
-  google: GoogleEntity;
-
-  
+export interface CalenderToken {
+  google?: Google[];
+  outlook?: Google[];
 }
-export interface OutlookEntity {
-  id: number;
-  client_id: number;
-  code: string;
-  state: string;
-  session_state: string;
+export interface Google {
+  accessToken: string;
   email: string;
-  created_at: string;
 }
 
-export interface GoogleEntity {
-  id: number;
-  client_id: number;
-  email: string;
-  json_path: string;
-  created_at: string;
- 
-}
-
-
-export interface integrationReducerState extends Integration {
+export interface CalenderTokenReducerState extends CalenderToken {
   isLoading: boolean;
   error: string;
 }

@@ -6,9 +6,10 @@ import { EmpPoolEntity } from './bulkImportTypes';
 
 type Props = {
   value: EmpPoolEntity;
+  jdId?: any;
 };
 
-const Status = ({ value }: Props) => {
+const Status = ({ value,jdId }: Props) => {
   const checkStatus =
     value &&
     value.first_name !== null &&
@@ -24,12 +25,12 @@ const Status = ({ value }: Props) => {
   return (
     <Flex middle>
       {checkStatus ? (
-        <div title="Candidate profile sent for matching">
+        <div title={jdId=== undefined ? "Candidate profile sent for matching" : "Applicant profile sent for matching"}>
           <SvgTick fill={SUCCESS} />
         </div>
       ) : (
         <div
-          title={'Candidate profile is incomplete and not sent for matching'}
+          title={jdId=== undefined ?'Candidate profile is incomplete and not sent for matching': 'Applicant profile is incomplete and not sent for matching'}
         >
           <SvgRoundClose fill={ERROR} height={22} width={22} />
         </div>

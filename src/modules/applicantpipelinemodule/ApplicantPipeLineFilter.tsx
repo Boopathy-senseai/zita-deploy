@@ -48,6 +48,8 @@ type Props = {
   }[];
   hanldeRefresh: () => void;
   handleSearch: () => void;
+  isExperience:any;
+  isSkillOption:any
 };
 
 const ApplicantPipeLineFilter = ({
@@ -66,11 +68,13 @@ const ApplicantPipeLineFilter = ({
   hanldeProfile,
   hanldeRefresh,
   handleSearch,
+  isExperience,
+  isSkillOption
 }: Props) => {
   const selectInputRef = useRef<any>();
   const myRef = useRef<any>();
   const [isOut, setOut] = useState(false);
-  const [isExp, setExp] = useState(experienceOption[0]);
+  // const [isExp, setExp] = useState<any>(experienceOption[0]);
 
   const filteredOptions = useMemo(() => {
     if (!isSkills) {
@@ -131,7 +135,7 @@ const ApplicantPipeLineFilter = ({
             <SvgRefresh
               onClick={() => {
                 selectInputRef.current.clearValue();
-                setExp(experienceOption[0]);
+                // setExp(experienceOption[0]);
                 hanldeRefresh();
               }}
               className={styles.svgRefresh}
@@ -186,11 +190,14 @@ const ApplicantPipeLineFilter = ({
             Experience
           </Text>
           <SelectTag
-            value={isExp}
+            value={
+              experienceOption
+                ? experienceOption.find((option:any) => option.value === isExperience)
+                : ''
+            }
             options={experienceOption}
             onChange={(option) => {
               setExperience(option.value);
-              setExp(option);
               handleExperience(option.value);
             }}
           />
@@ -207,6 +214,7 @@ const ApplicantPipeLineFilter = ({
             }}
             isSearchable
             isCreate
+            value={isSkillOption}
           />
           <Text color="black" bold className={styles.profileTextStyle}>
             Profile

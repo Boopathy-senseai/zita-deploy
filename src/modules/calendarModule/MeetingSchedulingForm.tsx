@@ -633,6 +633,7 @@ const MeetingSchedulingForm = ({
         <>
           <div
             role={'button'}
+            tabIndex={0}
             onClick={closeAddInterviewerSlider}
             style={{ cursor: 'pointer', marginTop: '3px' }}
           >

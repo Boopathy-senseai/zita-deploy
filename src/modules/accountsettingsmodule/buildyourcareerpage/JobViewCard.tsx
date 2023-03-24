@@ -1,15 +1,22 @@
+import { useDispatch } from 'react-redux';
+import { useMediaQuery } from 'react-responsive';
+import SvgBack from '../../../icons/SvgBack';
+import { AppDispatch } from '../../../store';
 import Button from '../../../uikit/Button/Button';
 import Card from '../../../uikit/Card/Card';
+import { LINK } from '../../../uikit/Colors/colors';
 import Flex from '../../../uikit/Flex/Flex';
 import { isEmpty, lowerCase, notSpecified } from '../../../uikit/helper';
 import LinkWrapper from '../../../uikit/Link/LinkWrapper';
 import Status from '../../../uikit/Status/Status';
 import Text from '../../../uikit/Text/Text';
+import { logOutMiddleWare } from '../../navbar/store/middleware/navbarmiddleware';
 import {
   JdForm,
   SkillsEntity,
   EducationEntity,
   CompanyDetailEntity,
+  CareerPageSetting,
 } from './buildCareerPageTypes';
 import styles from './jobviewcard.module.css';
 
@@ -18,11 +25,27 @@ type Props = {
   skills: SkillsEntity[];
   education?: EducationEntity[];
   company_detail: CompanyDetailEntity;
+  login_user: boolean;
+  jobId: string;
+  applied_status: number;
+  career_page_setting:CareerPageSetting
 };
-const JobViewCard = ({ jd_form, skills, education, company_detail }: Props) => {
+const JobViewCard = ({
+  jd_form,
+  skills,
+  education,
+  company_detail,
+  login_user,
+  jobId,
+  applied_status,
+  career_page_setting
+}: Props) => {
+  const isTablet = useMediaQuery({ query: '(max-width: 770px)' });
+  const isMobile = useMediaQuery({ query: '(max-width: 700px)' });
+  const dispatch: AppDispatch = useDispatch();
+
   let experience;
   let salary;
-
   if (
     (jd_form?.min_exp === 0 && jd_form?.max_exp === 1) ||
     (jd_form?.min_exp === 0 && isEmpty(jd_form?.max_exp))
@@ -47,9 +70,15 @@ const JobViewCard = ({ jd_form, skills, education, company_detail }: Props) => {
     });
 
   if (jd_form?.job_type__label_name === 'Contract') {
-    salary = `$ ${jd_form?.salary_min} - ${jd_form?.salary_max} Per Hour`;
+    salary = `${
+      !isEmpty(jd_form?.salary_curr_type__value) &&
+      jd_form?.salary_curr_type__value.split('(')[0]
+    } ${jd_form?.salary_min} - ${jd_form?.salary_max} Per Hour`;
   } else {
-    salary = `$ ${jd_form?.salary_min} - ${jd_form?.salary_max} Per Annum`;
+    salary = `${
+      !isEmpty(jd_form?.salary_curr_type__value) &&
+      jd_form?.salary_curr_type__value.split('(')[0]
+    } ${jd_form?.salary_min} - ${jd_form?.salary_max} Per Annum`;
   }
 
   const jdData = [
@@ -60,7 +89,7 @@ const JobViewCard = ({ jd_form, skills, education, company_detail }: Props) => {
     },
     {
       title: 'Industry Type:',
-      value: notSpecified(jd_form?.job_type__label_name),
+      value: notSpecified(jd_form?.industry_type__label_name),
       check: true,
     },
     {
@@ -84,27 +113,35 @@ const JobViewCard = ({ jd_form, skills, education, company_detail }: Props) => {
     {
       title: 'Qualification:',
       value: qualification
-        ? qualification.toString().replace(/,/g, ', ')
+        ? `${qualification.toString().replace(/,/g, ', ')}`
         : notSpecified(qualification),
-      check: true,
+      check: jd_form?.show_sal_to_candidate,
     },
   ];
 
   return (
     <Card className={styles.overAll}>
-      <Flex row between>
-        <Flex flex={8} className={styles.jobDetails}>
+      <Flex row={!isMobile} between={!isMobile}>
+        <Flex flex={isMobile ?1:8} className={styles.jobDetails}>
+          <LinkWrapper to={`/${career_page_setting?.career_page_url}/careers`}>
+          <Flex row center marginBottom={16}>
+            <div style={{cursor:'pointer',position:'relative',top:-2}}>
+            <SvgBack width={14} height={14} fill={LINK}/>
+            </div>
+            <Text style={{marginLeft: 8}} bold color='link'>Back to careers</Text>
+          </Flex>
+          </LinkWrapper>
           <Text bold size={16} style={{ marginBottom: 16 }}>
             Job Details
           </Text>
-          <Flex row top wrap>
+          <Flex row={!isTablet} top wrap>
             {jdData.map((list, index) => {
               return (
                 list.check && (
                   <Flex
-                    width={index % 2 === 0 ? '55%' : '45%'}
+                    width={ isTablet ? '100%':index % 2 === 0 ? '55%' : '45%'}
                     row
-                    key={list.title}
+                    key={list.title + index}
                     className={styles.listFlex}
                   >
                     <Text bold color="theme">
@@ -125,19 +162,61 @@ const JobViewCard = ({ jd_form, skills, education, company_detail }: Props) => {
               );
             })}
           </Flex>
+          {jd_form?.show_sal_to_candidate === false && (
+            <Flex row top marginBottom={16}>
+              <Text bold color="theme">
+                Qualification:
+              </Text>
+              <Text className={styles.valueStyle}>
+                {qualification
+                  ? `${qualification.toString().replace(/,/g, ', ')}`
+                  : notSpecified(qualification)}
+              </Text>
+            </Flex>
+          )}
         </Flex>
-        <Flex flex={4} columnFlex className={styles.btnContainer} end>
-          <LinkWrapper
-            target={'_parent'}
-            to={`/candidate_profile_upload/${company_detail?.recruiter_id_id}`}
-          >
-            <Button style={{ width: 202, marginBottom: 20 }}>
-              Create Company Profile
-            </Button>
-          </LinkWrapper>
 
-          <Button style={{ width: 202 }}>Apply with Company Profile</Button>
-        </Flex>
+        {login_user ? (
+          <Flex flex={isMobile ? 1: 4} columnFlex className={styles.btnContainer} >
+            {applied_status !== 0 && (
+              <div style={{ marginBottom: 20, marginRight: 34 }}>
+                <Status label={'Applied'} color="success" />
+              </div>
+            )}
+            <LinkWrapper to={`/`}>
+              <Button           
+              style={{
+                backgroundColor: career_page_setting?.button_color,
+                borderColor: career_page_setting?.button_color,
+              }}>Go to Dashboard</Button>
+            </LinkWrapper>
+          </Flex>
+        ) : (
+          <Flex flex={isMobile ? 1: 4} columnFlex className={styles.btnContainer} >
+            <LinkWrapper
+              to={`/candidate_profile_upload/${company_detail?.recruiter_id_id}`}
+              onClick={() => localStorage.setItem('careerJobViewJobId', jobId)}
+            >
+              <Button style={{ width: 218, marginBottom: 20,backgroundColor: career_page_setting?.button_color,
+                borderColor: career_page_setting?.button_color, }}>
+                Create Company Profile
+              </Button>
+            </LinkWrapper>
+            <LinkWrapper
+              to="/login"
+              onClick={() => {
+                dispatch(logOutMiddleWare()).then(() => {
+                  localStorage.removeItem('token');
+                });
+                sessionStorage.setItem('applyWithCompanyProfile', 'true');
+                localStorage.setItem('careerJobViewJobId', jobId);
+              }}
+            >
+              <Button style={{ width: 218 ,backgroundColor: career_page_setting?.button_color,
+                borderColor: career_page_setting?.button_color,}}>Apply with Company Profile</Button>
+            </LinkWrapper>
+          </Flex>
+        )}
       </Flex>
       <Text bold size={16} className={styles.jobDes}>
         Job Description

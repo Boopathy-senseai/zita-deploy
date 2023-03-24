@@ -26,6 +26,13 @@ import {
   showAllMatch,
   syncGoogleApi,
   syncOutlookApi,
+  getGoogleEventsAPI,
+  googleAddEvent,
+  checkAuth,
+  addOauth,
+  outlookSyncApi,
+  outlookAdd,
+  calbackurlApi,
 } from '../../../../routes/apiRoutes';
 import { ApplicantProfilePayload } from '../../applicantProfileTypes';
 
@@ -189,15 +196,11 @@ export const applicantFavoriteMiddleWare = createAsyncThunk(
   },
 );
 
-export const suycGoogleMiddleWare = createAsyncThunk(
+export const syncGoogleMiddleWare = createAsyncThunk(
   SYNC_GOOGLE,
-  async ({ profile }: { profile: string }, { rejectWithValue }) => {
+  async (_a, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(syncGoogleApi, {
-        params: {
-          profile,
-        },
-      });
+      const { data } = await axios.get(syncGoogleApi);
       return data;
     } catch (error) {
       const typedError = error as Error;
@@ -206,14 +209,257 @@ export const suycGoogleMiddleWare = createAsyncThunk(
   },
 );
 
-export const suycOutlookMiddleWare = createAsyncThunk(
+export const syncOutlookMiddleWare = createAsyncThunk(
   SYNC_OUTLOOK,
-  async ({ profile }: { profile: string }, { rejectWithValue }) => {
+  async (_a, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(syncOutlookApi, {
-        params: {
-          profile,
-        },
+      const { data } = await axios.get(syncOutlookApi);
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const getGoogleEventsMiddleware = createAsyncThunk(
+  'google_auth',
+  async ({ tz }: { tz: string }, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(getGoogleEventsAPI, { params: { tz } });
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const googleAddEventMiddleware = createAsyncThunk(
+  'google_add_event',
+  async (_a, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(googleAddEvent);
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const checkAuthMiddleware = createAsyncThunk(
+  'check_auth',
+  async (_a, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(checkAuth);
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const addOauthMiddleware = createAsyncThunk(
+  'add_oauth',
+  async (_a, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(addOauth);
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const outlookAddEventMiddleware = createAsyncThunk(
+  'outlook_auth',
+  async (_a, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(outlookAdd);
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+export const outlookCallApiMiddleware = createAsyncThunk(
+  'outlook_auth',
+  async (_a, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(outlookSyncApi);
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+export const googleCallApiMiddleware = createAsyncThunk(
+  'google_auth',
+  async (_a, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get('google_auth_url');
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+export const outlookCallbackMiddleware = createAsyncThunk(
+  'outlook_auth',
+  async (
+    {
+      code,
+      state,
+      session_state,
+    }: {
+      code: string | null;
+      state: string | null;
+      session_state: string | null;
+    },
+    { rejectWithValue },
+  ) => {
+    try {
+      const { data } = await axios.get(calbackurlApi, {
+        params: { code, state, session_state },
+      });
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+export const googleCallbackMiddleware = createAsyncThunk(
+  'google_auth',
+  async ({ codeUrl }: { codeUrl: string | null }, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get('google_callback_url', {
+        params: { accessToken: codeUrl },
+      });
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+export const eventsApplicantsMiddleware = createAsyncThunk(
+  'user_events',
+  async ({ can_id }: { can_id: string }, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get('user_events', {
+        params: { candidateId: can_id },
+      });
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+export const getAccessTokenMiddleware = createAsyncThunk(
+  'access_token',
+  async (_a, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get('get_access_token');
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+export const getUsersByCompanyMiddleware = createAsyncThunk(
+  'get_users',
+  async (_a, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get('get_users_by_company');
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const friendsEventsMiddleware = createAsyncThunk(
+  'get_users',
+  async ({ userId }: { userId: number }, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get('get_friends_events', {
+        params: { userId },
+      });
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+export const getApplicantsMiddleware = createAsyncThunk(
+  'get_applicants',
+  async (_a, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get('get_applicants');
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+export const getJdMiddleware = createAsyncThunk(
+  'get_jd',
+  async ({ userId }: { userId: number }, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get('get_jd', {
+        params: { userId },
+      });
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+export const editGoogleEventMiddleware = createAsyncThunk(
+  'edit_google_event',
+  async (_a, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post('edit_google_event/');
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const editOutlookEventMiddleware = createAsyncThunk(
+  'edit_outlook_event',
+  async (_a, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post('edit_outlook_event/');
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const getEventsMiddleware = createAsyncThunk(
+  'get_events',
+  async ({ candId, jdId }: { candId: any; jdId: any }, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get('get_event', {
+        params: { cand_id: candId, jd_id: jdId },
       });
       return data;
     } catch (error) {

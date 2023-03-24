@@ -42,13 +42,17 @@ const RichText = (
         init={{
           height,
           placeholder,
-          content_style: `body { font-family:'Roboto', sans-serif; font-size:14px;color:#1a1a1a } p {margin: 0px;font-size:14px;color:#1a1a1a} h6 {font-size:14px;margin-top: 16px;margin-bottom: 8px;}`,
+
+          content_style: `body { font-family:'Roboto', sans-serif; font-size:14px;color:#1a1a1a } p {margin: 0px;font-size:14px;color:#1a1a1a} h6 {font-size:14px;margin-top: 16px;margin-bottom: 8px;}.mce-content-body[data-mce-placeholder]:not(.mce-visualblocks)::before {
+       color: rgb(174 174 175 / 70%)!important;
+    }`,
           toolbar:
             'undo redo| styleselect | bold italic |alignleft aligncenter alignright | underline| bullist numlist outdent indent',
           removed_menuitems: 'undo, redo, paste',
           menubar: 'file edit format',
           plugins: 'lists',
           auto_focus,
+          // content_style: ``
         }}
         initialValue={initialValue}
         value={value}

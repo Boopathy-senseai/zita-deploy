@@ -1,6 +1,7 @@
 /* eslint max-len: ["error", { "code": 2000 }] */
 const defaultProps = {
-  fill: '#979797',
+  // fill: '#979797',
+  fill: '#581845',
   width: 22,
   height: 22,
 };

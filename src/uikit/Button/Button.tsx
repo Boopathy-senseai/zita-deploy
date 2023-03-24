@@ -10,7 +10,7 @@ export type buttonTypes =
   | 'secondary'
   | 'link'
   | 'tertiary'
-  | 'success'
+  | 'success';
 
 type Props = {
   children: import('react').ReactChild;
@@ -23,6 +23,10 @@ type Props = {
   textSize?: textSizeType;
   id?: string;
   type?: 'button' | 'submit' | 'reset';
+  onMouseOver?: () => void;
+  onFocus?: () => void;
+  onMouseLeave?: () => void;
+  width?: string;
 };
 
 const Button = ({
@@ -36,6 +40,10 @@ const Button = ({
   textSize,
   id,
   type,
+  onMouseOver,
+  onFocus,
+  onMouseLeave,
+  width,
 }: Props) => {
   const buttonClassName = cx(
     {
@@ -49,10 +57,13 @@ const Button = ({
   const { textColor } = buttonHelper(types, disabled);
   return (
     <button
+      onMouseOver={onMouseOver}
+      onFocus={onFocus}
+      onMouseLeave={onMouseLeave}
       id={id}
       type={type}
       onClick={onClick}
-      style={style}
+      style={{ ...style, width }}
       disabled={disabled}
       className={buttonClassName}
       onKeyDown={onKeyDown}

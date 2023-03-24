@@ -5,6 +5,8 @@ import SvgDownload from '../../icons/SvgDownload';
 import SvgInvite from '../../icons/SvgInvite';
 import SvgLocation from '../../icons/SvgLocation';
 import SvgMail from '../../icons/SvgMail';
+import SvgLinkedIn from '../../icons/SvgLinkedIn';
+// import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import SvgPhone from '../../icons/SvgPhone';
 import SvgTopic from '../../icons/SvgTopic';
 import { SECONDARY } from '../../uikit/Colors/colors';
@@ -20,7 +22,7 @@ const cx = classNames.bind(styles);
 
 type FontLableProps = {
   icon: ReactNode;
-  label: string | number | null | undefined;
+  label: string | number | null | undefined | string[];
   className?: string;
   bold?: boolean;
   title?: string;
@@ -69,6 +71,7 @@ const ProfileNavBar = ({
   inviteIconDisable,
   inviteIconNone,
 }: Props) => {
+  // profile download function
   const handleDownload = () => {
     if (candiList.file) {
       saveAs(
@@ -78,23 +81,42 @@ const ProfileNavBar = ({
       Toast('Resume downloaded successfully', 'LONG', 'success');
     }
   };
+  const linkedin_url =
+    candiList.linkedin_url !== null && candiList.linkedin_url !== ''
+      ? candiList.linkedin_url
+      : '';
+
+  const url =
+    linkedin_url.startsWith('http') === true
+      ? linkedin_url
+      : 'https://' + linkedin_url;
   return (
     <Flex className={styles.overAll}>
-      {isProfileName ? (
+      {isProfileName || candiList.image === 'default.jpg' ? (
         <div className={styles.profile}>
-          {isEmpty(candiList.last_name) ? (
+          {isEmpty(candiList.first_name) && (
             <Text size={50} bold color="white" transform="uppercase">
-              {candiList.first_name.charAt(0)}
+              NS
             </Text>
-          ) : (
-            <Text size={50} bold color="white" transform="uppercase">
-              {candiList.first_name.charAt(0)}
-              {candiList.last_name.charAt(0)}
-            </Text>
+          )}
+          {!isEmpty(candiList.first_name) && (
+            <>
+              {isEmpty(candiList.last_name) ? (
+                <Text size={50} bold color="white" transform="uppercase">
+                  {candiList.first_name.charAt(0)}
+                </Text>
+              ) : (
+                <Text size={50} bold color="white" transform="uppercase">
+                  {candiList.first_name.charAt(0)}
+                  {candiList.last_name.charAt(0)}
+                </Text>
+              )}
+            </>
           )}
         </div>
       ) : (
         <img
+          style={{ objectFit: 'cover' }}
           alt="Profile"
           className={styles.imageStyle}
           src={`${process.env.REACT_APP_HOME_URL}media/${candiList.image}`}
@@ -105,7 +127,7 @@ const ProfileNavBar = ({
         <div className={styles.flexNameConatiner}>
           <Flex row center className={styles.marginBottom}>
             <Text bold color="white" size={16}>
-              {candiList.first_name} {candiList.last_name}
+              {notSpecified(candiList.first_name)} {candiList.last_name}
             </Text>
             <div className={styles.svgDownloadStyle}>
               <div
@@ -118,6 +140,13 @@ const ProfileNavBar = ({
                 <SvgDownload fill={SECONDARY} width={19} height={19} />
               </div>
             </div>
+            {candiList.linkedin_url !== null && candiList.linkedin_url !== '' && (
+              <div className={styles.svgDownloadStyle}>
+                <a target={'_blank'} rel="noreferrer" href={url}>
+                  <SvgLinkedIn fill={'#0288d1'} width={24} height={24} />
+                </a>
+              </div>
+            )}
             {isInvite && (
               <div
                 title="Invite to Apply"

@@ -3,8 +3,6 @@ import axios from 'axios';
 import { COMPANYPAGE } from '../../../../actions/actions';
 import { companyPageApi } from '../../../../routes/apiRoutes';
 
-// import { CompanyPageload } from './../../CompanyPageTypes';
-
 export const companyPageInitalMiddleWare = createAsyncThunk(
   COMPANYPAGE,
   async (_a, { rejectWithValue }) => {
@@ -19,7 +17,7 @@ export const companyPageInitalMiddleWare = createAsyncThunk(
 );
 
 export const companyPagePostMiddleWare = createAsyncThunk(
-  COMPANYPAGE,
+  'company_page_1',
   async ({ formData }: any, { rejectWithValue }) => {
     try {
       const data = await axios.post(

@@ -506,7 +506,7 @@ function UserTable(porps) {
       <CancelAndDeletePopup
         btnCancel={() => setResend(false)}
         title={
-          'Invitation will be sent again as an email. Are your sure to proceed?'
+          'Invitation will be sent again as an email. Are you sure to proceed?'
         }
         btnDelete={onResend}
         btnLeft="Cancel"

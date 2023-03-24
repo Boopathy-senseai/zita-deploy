@@ -15,8 +15,8 @@ const StarRating = ({ setRating, rating, pointer }: Props) => {
 
   const hoverOver = (event: any) => {
     let starId = 0;
-    if (event && event.target && event.target.getAttribute('star-id')) {
-      starId = event.target.getAttribute('star-id');
+    if (event && event.target && event.target.getAttribute('data-star-id')) {
+      starId = event.target.getAttribute('data-star-id');
     }
     setSelection(starId);
   };

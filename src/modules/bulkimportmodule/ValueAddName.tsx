@@ -5,10 +5,11 @@ import { createRef, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import SvgCloseBox from '../../icons/SvgCloseBox';
 import SvgEdit from '../../icons/SvgEdit';
-import SvgExternal from '../../icons/SvgExternal';
 import SvgTickBox from '../../icons/SvgTickBox';
+// import SvgView from '../../icons/SvgView';
 import { uploadedCandidatesApi } from '../../routes/apiRoutes';
 import { AppDispatch } from '../../store';
+// import { LINK } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
 import { isEmpty } from '../../uikit/helper';
 import InputText from '../../uikit/InputText/InputText';
@@ -30,9 +31,9 @@ type FormProps = {
 
 type Props = {
   value: EmpPoolEntity;
-  hanldeProfileView: (arg: number) => void;
   searchValue: string;
   total_count: number;
+  jdId?: string;
   completed: number;
   incompleted: number;
   tabKey: string;
@@ -41,10 +42,10 @@ type Props = {
 
 const ValueAddName = ({
   value,
-  hanldeProfileView,
   searchValue,
   total_count,
   completed,
+  jdId,
   incompleted,
   tabKey,
   pageNumber,
@@ -68,7 +69,7 @@ const ValueAddName = ({
     onSubmit: () => {},
     enableReinitialize: true,
   });
-
+  // form submit function
   const handleCellSubmit = (event: any, id: number) => {
     event.preventDefault();
     setLoader(true);
@@ -81,7 +82,11 @@ const ValueAddName = ({
 
     axios.post(uploadedCandidatesApi, data, config).then(() => {
       if (tabKey === 'total') {
+
+        if(jdId === undefined ){
+
         dispatch(
+
           bulkuploadedCandidatesMiddleWare({
             search: searchValue,
             total: total_count,
@@ -101,8 +106,33 @@ const ValueAddName = ({
             );
             setLoader(false);
           });
+        }else{
+             dispatch(
+
+          bulkuploadedCandidatesMiddleWare({
+            search: searchValue,
+            total: total_count,
+            jd_id: jdId,
+            page: pageNumber + 1,
+          }),
+        )
+          .then(() => {
+            Toast('Name updated successfully', 'LONG', 'success');
+            setLoader(false);
+            setInput(false);
+          })
+          .catch(() => {
+            Toast(
+              'Name updated request failed. Please try again',
+              'SHORT',
+              'error',
+            );
+            setLoader(false);
+          });
+        }
       }
       if (tabKey === 'completed') {
+        if(jdId === undefined ){
         dispatch(
           bulkuploadedCandidatesMiddleWare({
             search: searchValue,
@@ -123,8 +153,33 @@ const ValueAddName = ({
             );
             setLoader(false);
           });
+          }else{
+              dispatch(
+          bulkuploadedCandidatesMiddleWare({
+            search: searchValue,
+            completed,
+            jd_id:jdId,
+            page: pageNumber + 1,
+          }),
+        )
+          .then(() => {
+            Toast('Name updated successfully', 'LONG', 'success');
+            setInput(false);
+            setInput(false);
+          })
+          .catch(() => {
+            Toast(
+              'Name updated request failed. Please try again',
+              'SHORT',
+              'error',
+            );
+            setLoader(false);
+          });
+
+          }
       }
       if (tabKey === 'inCompleted') {
+  if(jdId === undefined ){
         dispatch(
           bulkuploadedCandidatesMiddleWare({
             search: searchValue,
@@ -145,26 +200,50 @@ const ValueAddName = ({
             );
             setLoader(false);
           });
+        }else{
+          dispatch(
+          bulkuploadedCandidatesMiddleWare({
+            search: searchValue,
+            incompleted,
+            jd_id:jdId,
+            page: pageNumber + 1,
+          }),
+        )
+          .then(() => {
+            Toast('Name updated successfully', 'LONG', 'success');
+            setLoader(false);
+            setInput(false);
+          })
+          .catch(() => {
+            Toast(
+              'Name updated request failed. Please try again',
+              'SHORT',
+              'error',
+            );
+            setLoader(false);
+          });
+        }
+
       }
     });
   };
-
+// open input function
   const handleOpenInput = () => {
     setInput(true);
   };
-
+// close input function
   const handleCloseInput = () => {
     setInput(false);
     formik.setFieldValue('name', value.first_name);
   };
-
+// outside close input function
   const handleClickOutside = (event: { target: any }) => {
     if (myRef.current && !myRef.current.contains(event.target)) {
       formik.setFieldValue('name', value.first_name);
       setInput(false);
     }
   };
-
+// outside close input function
   useEffect(() => {
     if (typeof Window !== 'undefined') {
       document.addEventListener('click', handleClickOutside, true);
@@ -177,19 +256,18 @@ const ValueAddName = ({
       }
     };
   });
-
+// enter key submit function
   const handleKeyPress = (event: { key: string }, id: number) => {
     if (event.key === 'Enter' && formik.values.name !== '') {
       handleCellSubmit(event, id);
     }
   };
-
   return (
     <div className={styles.overAll} style={{ paddingRight: 8 }}>
       {isEmpty(formik.values.name) ? (
         <>
           {!isInput && (
-            <Flex row between>
+            <Flex  >
               <Text
                 size={12}
                 color="link"
@@ -198,18 +276,7 @@ const ValueAddName = ({
               >
                 Add Name
               </Text>
-              <div
-                title="Open profile in a new window"
-                className={styles.svgExternal}
-                onClick={() => {
-                  hanldeProfileView(value.id);
-                }}
-                tabIndex={-1}
-                role={'button'}
-                onKeyPress={() => {}}
-              >
-                <SvgExternal width={14} height={14} />
-              </div>
+            
             </Flex>
           )}
         </>
@@ -228,20 +295,7 @@ const ValueAddName = ({
               <div className={styles.svgEditName}>
                 <SvgEdit height={14} width={14} />
               </div>
-              <div
-                title="Open profile in a new window"
-                onClick={(e) => {
-                  e.preventDefault();
-                  hanldeProfileView(value.id);
-                }}
-                className={styles.svgExternal}
-                tabIndex={-1}
-                role={'button'}
-                onKeyPress={() => {}}
-              >
-                <SvgExternal width={14} height={14} />
-              </div>
-            </div>
+                   </div>
           )}
         </>
       )}

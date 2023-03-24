@@ -68,7 +68,7 @@ const MatchingAnalysisTab = () => {
                   >
                     <Flex flex={3}>
                       <Text bold className={styles.titleStyle}>
-                        {removeUnderScores(lowerCase(list.name))}
+                        {removeUnderScores(lowerCase(list.name) === 'Education' ? 'Qualification': lowerCase(list.name))}
                       </Text>
                     </Flex>
                     <Flex flex={2}>

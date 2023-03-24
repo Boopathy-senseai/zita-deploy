@@ -29,7 +29,7 @@ const MyJobPostingScreenStatus = ({ list }: Props) => {
                 {shortlisted}
               </Text>
         
-            <Text className={styles.font}bold>Shortlisted</Text>
+            <Text className={styles.fontScreen}bold>Shortlisted</Text>
           </Flex> 
 
           : 
@@ -43,7 +43,7 @@ const MyJobPostingScreenStatus = ({ list }: Props) => {
                 {shortlisted}
               </Text>
             </LinkWrapper>
-            <Text className={styles.font}bold>Shortlisted</Text>
+            <Text className={styles.fontScreen}bold>Shortlisted</Text>
           </Flex>
 
         }
@@ -57,7 +57,7 @@ const MyJobPostingScreenStatus = ({ list }: Props) => {
                 {selected}
               </Text>
         
-            <Text className={styles.font}bold>Offered</Text>
+            <Text className={styles.fontScreen}bold>Offered</Text>
           </Flex> 
 
           : 
@@ -71,7 +71,7 @@ const MyJobPostingScreenStatus = ({ list }: Props) => {
                 {selected}
               </Text>
             </LinkWrapper>
-            <Text className={styles.font}bold
+            <Text className={styles.fontScreen}bold
             >Offered</Text>
           </Flex>
 
@@ -86,7 +86,7 @@ const MyJobPostingScreenStatus = ({ list }: Props) => {
                 {rejected}
               </Text>
         
-            <Text className={styles.font}bold>Rejected</Text>
+            <Text className={styles.fontScreen}bold>Rejected</Text>
           </Flex> 
 
           : 
@@ -100,7 +100,7 @@ const MyJobPostingScreenStatus = ({ list }: Props) => {
                 {rejected}
               </Text>
             </LinkWrapper>
-            <Text className={styles.font}bold>Rejected</Text>
+            <Text className={styles.fontScreen}bold>Rejected</Text>
           </Flex>
 
         }

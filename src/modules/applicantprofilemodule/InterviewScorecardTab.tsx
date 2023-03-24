@@ -52,7 +52,7 @@ const InterviewScorecardTab = () => {
   const ratingValue =
     interview && interview[0].rating ? interview[0].rating : 0;
   const [rating, setRating] = useState(ratingValue);
-
+// rating start condition
   useEffect(() => {
     if (rating.toString() === '1') {
       setStar('Very Poor');
@@ -71,6 +71,7 @@ const InterviewScorecardTab = () => {
     }
   }, [rating]);
 
+  // feedback form submit
   const hanldeSubmit = () => {
     setPostLoader(true);
     const data = querystring.stringify({

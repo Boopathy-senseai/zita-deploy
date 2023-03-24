@@ -60,7 +60,10 @@ export interface CareerPage {
   total: number;
   career_page_setting: CareerPageSetting;
   company_detail: CompanyDetailEntity;
-  jd_active:boolean
+  jd_active: boolean;
+  login_user:boolean;
+  user_detail?:any;
+  image:string
 }
 
 export interface JdFormEntity {
@@ -104,8 +107,6 @@ export interface JdFormEntity {
   job_type__label_name?: string;
 }
 
-
-
 export interface CareerPageReducerState extends CareerPage {
   isLoading: boolean;
   error: string;
@@ -115,7 +116,7 @@ export interface JobView {
   jd_form?: JdForm;
   education?: EducationEntity[];
   skills: SkillsEntity[];
-  login_user: number;
+  login_user: boolean;
   applicant_details?: any;
   questionnaire?: any[];
   additional_details?: any;
@@ -125,7 +126,9 @@ export interface JobView {
   current_site: string;
   applied_status: number;
   apply_user: number;
-  success:boolean
+  success: boolean;
+  applicant_detail?:any;
+  additional_detail?:any
 }
 export interface JdForm {
   id: number;
@@ -165,7 +168,10 @@ export interface JdForm {
   state: string;
   city: string;
   job_location: string;
-  job_type__label_name:string
+  job_type__label_name: string;
+  job_role__label_name:string;
+  industry_type__label_name:string;
+  salary_curr_type__value:string
 }
 export interface EducationEntity {
   id: number;
@@ -197,9 +203,9 @@ export interface CompanyDetailEntity {
   updated_by: string;
   logo: string;
   created_at: string;
-  city__name?:string;
-  country__name?:string;
-  state__name?:string
+  city__name?: string;
+  country__name?: string;
+  state__name?: string;
 }
 export interface CareerPageSetting {
   id: number;
@@ -229,4 +235,16 @@ export interface CareerPageSetting {
 export interface JobViewReducerState extends JobView {
   isLoading: boolean;
   error: string;
+}
+
+export interface JobPostPayload {
+  Qualification: any;
+  source: string;
+  cover_letter: string;
+  gender: string;
+  hispanic_latino: string;
+  veteran_status: string;
+  disability_status: string;
+  questionnaire: any;
+  id:string;
 }

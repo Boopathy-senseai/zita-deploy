@@ -3,7 +3,6 @@ import classNames from 'classnames/bind';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import Card from '../../uikit/Card/Card';
-import { pageReload } from '../../uikit/helper';
 import InputCheckBox from '../../uikit/InputCheckbox/InputCheckBox';
 import SelectTag from '../../uikit/SelectTag/SelectTag';
 import SvgRefresh from '../../icons/SvgRefresh';
@@ -34,6 +33,7 @@ type Props = {
   isOther: boolean;
   setOther: (arg: boolean) => void;
   isInitalCheckBox: boolean;
+  handleRefresh:()=>void
 };
 const TalentFilter = ({
   isBachelors,
@@ -52,6 +52,7 @@ const TalentFilter = ({
   isOther,
   setOther,
   isInitalCheckBox,
+  handleRefresh
 }: Props) => {
   const handleBachelor = () => {
     setBachelors(!isBachelors);
@@ -94,7 +95,7 @@ const TalentFilter = ({
         </Text>
         <div
           title={'Reset Filters'}
-          onClick={pageReload}
+          onClick={handleRefresh}
           className={styles.pointer}
           tabIndex={-1}
           role={'button'}
@@ -155,6 +156,14 @@ const TalentFilter = ({
             value: isExperience.value,
             label: isExperience.label,
           }}
+          value={
+            experienceOptions
+              ? experienceOptions.find(
+                  (option) =>
+                    option.value === isExperience.value,
+                )
+              : ''
+          }
           labelBold
           options={experienceOptions}
           label={'Experience'}

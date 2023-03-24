@@ -3,12 +3,24 @@
   margin-right: 16px;
 }
 .inputConatiner {
-  margin-top: 75px;
+ margin-top: 28px;
+  margin-bottom: 16px;
+}
+.inputConatinerApplicants {
+  margin-top: 28px;
   margin-bottom: 16px;
 }
 .svgRefresh {
   cursor: pointer;
   margin-left: 8px;
+}
+.viewText{
+
+    margin-top: 5px;margin-left: 20px;
+}
+.careerPage{
+margin-top: 7px;
+    margin-left: 4px;
 }
 
 .linkSpaceDefault {
@@ -39,4 +51,15 @@
 }
 .inputWidth {
   min-width: 245px;
+}
+.importText {
+  margin-right: 16px;
+  margin-top: 6px;
+}
+.SelectTagRow {
+  margin-top: 10px;
+}
+.skillContainer {
+  min-width: 225px;
+  max-width: 250px;
 }

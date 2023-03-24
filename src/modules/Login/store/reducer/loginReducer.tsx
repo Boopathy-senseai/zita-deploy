@@ -109,6 +109,8 @@ const permissionState: PermissionState = {
     'zita_match_candidate',
   ],
   super_user: false,
+  is_plan: true,
+  plan_id:0
 };
 
 const permissionReducer = createSlice({
@@ -124,6 +126,9 @@ const permissionReducer = createSlice({
       state.isLoading = false;
       state.Permission = action.payload.Permission;
       state.super_user = action.payload.super_user;
+      state.is_plan = action.payload.is_plan;
+      state.plan_id=action.payload.plan_id
+
     });
     builder.addCase(permissionMiddleWare.rejected, (state, action) => {
       state.isLoading = false;

@@ -5,6 +5,7 @@ const useUnsavedChangesWarning = (
   message = 'Do you want to leave this site? Changes you made may not be saved.',
 ) => {
   const [isDirty, setDirty] = useState<boolean>(false);
+  // console.log('isDirty',isDirty);
 
   useEffect(() => {
     // Detecting browser closing

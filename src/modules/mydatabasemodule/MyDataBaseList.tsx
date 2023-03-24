@@ -67,7 +67,7 @@ const MyDataBaseList = ({
 }: Props) => {
   const usersPerPage = 20;
   const pageCount = Math.ceil(totalCount / usersPerPage);
-
+// pagination function
   const handleSetPagination = (a: number) => {
     setPage(a);
     if (data.length !== 0) {

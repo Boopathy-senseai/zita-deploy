@@ -20,8 +20,21 @@ type Props = {
   career_page: CareerPageEntityEntity;
   isInput: boolean;
   setInput: (a: boolean) => void;
+  setReload: () => void;
+  isUrlError: boolean;
 };
-const CareersPageURL = ({ formik, career_page, setInput, isInput }: Props) => {
+const CareersPageURL = ({
+  formik,
+  career_page,
+  setInput,
+  isInput,
+  setReload,
+  isUrlError,
+}: Props) => {
+  const careerUrl =
+    career_page && career_page.career_page_url
+      ? career_page.career_page_url
+      : '';
   return (
     <Card className={styles.overAll}>
       <Flex columnFlex>
@@ -39,7 +52,7 @@ const CareersPageURL = ({ formik, career_page, setInput, isInput }: Props) => {
             </Flex>
 
             <Flex row center className={styles.paddingTopFlex}>
-            {!isInput && (
+              {!isInput && (
                 <div
                   tabIndex={-1}
                   onClick={() => setInput(true)}
@@ -54,12 +67,16 @@ const CareersPageURL = ({ formik, career_page, setInput, isInput }: Props) => {
               {isInput ? (
                 <>
                   <Text className={styles.appText}>
-                    {process.env.REACT_APP_HOME_URL}
+                    {window.location.origin}/
                   </Text>
                   <div className={styles.inputStyle}>
                     <InputText
+                    id='CareersPageURL___urlInput'
                       value={formik.values.pagaeUrl}
-                      onChange={formik.handleChange('pagaeUrl')}
+                      onChange={(e) => {
+                        formik.setFieldValue('pagaeUrl', e.target.value);
+                        setReload();
+                      }}
                       className={styles.inputWidthStyle}
                     />
                     {!isEmpty(formik.values.pagaeUrl) &&
@@ -79,6 +96,11 @@ const CareersPageURL = ({ formik, career_page, setInput, isInput }: Props) => {
                         errors={formik.errors}
                       />
                     </div>
+                    {isUrlError && (
+                      <Text className={styles.errorMsg} size={12} color="error">
+                        This URL already exist
+                      </Text>
+                    )}
                   </div>
                   <Text className={styles.careerText}>/careers</Text>
                 </>
@@ -86,28 +108,13 @@ const CareersPageURL = ({ formik, career_page, setInput, isInput }: Props) => {
                 <LinkWrapper
                   target={'_blank'}
                   replace
-                  to={`/${career_page.career_page_url}/careers`}
+                  to={`/${careerUrl}/careers`}
                 >
                   <Text color="link">
-                    {process.env.REACT_APP_HOME_URL}
-                    {formik.values.pagaeUrl}/careers
+                    {window.location.origin}/{formik.values.pagaeUrl}/careers
                   </Text>
                 </LinkWrapper>
               )}
-              {/* {career_page && !isEmpty(career_page.career_page_url) && (
-                <LinkWrapper
-                  target={'_blank'}
-                  replace
-                  to={`/${career_page.career_page_url}/careers`}
-                >
-                  <div
-                    title="View careers page in new tab"
-                    className={styles.svgTab}
-                  >
-                    <SvgNewTab height={18} width={18} />
-                  </div>
-                </LinkWrapper>
-              )} */}
             </Flex>
           </Flex>
         </Flex>

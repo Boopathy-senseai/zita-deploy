@@ -38,7 +38,9 @@ export interface PasswordSetPayload {
 export interface Permission {
   success: boolean;
   Permission: string[];
-  super_user:boolean
+  super_user:boolean;
+  is_plan:boolean;
+  plan_id:number
 }
 
 export interface PermissionState extends Permission {

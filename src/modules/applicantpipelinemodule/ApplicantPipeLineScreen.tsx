@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
@@ -38,6 +38,7 @@ type ParamsType = {
 const ApplicantPipeLineScreen = () => {
   const { jdId } = useParams<ParamsType>();
   const dispatch: AppDispatch = useDispatch();
+  const history = useHistory();
   const [isMatchRadio, setMatchRadio] = useState('');
   const [isProfile, setProfile] = useState('');
   const [isBachelors, setBachelors] = useState(false);
@@ -88,12 +89,14 @@ const ApplicantPipeLineScreen = () => {
     job_details,
     updateLoader,
     zita_match_count,
+    is_plan,
   } = useSelector(
     ({
       applicantPipeLineReducers,
       applicantPipeLineDataReducers,
       applicantFavReducers,
       applicantPipeLineUpdateReducers,
+      permissionReducers,
     }: RootState) => {
       return {
         jd_id: applicantPipeLineReducers.jd_id,
@@ -112,37 +115,47 @@ const ApplicantPipeLineScreen = () => {
         job_details: applicantPipeLineReducers.job_details,
         updateLoader: applicantPipeLineUpdateReducers.isLoading,
         zita_match_count: applicantPipeLineReducers.zita_match_count,
+        is_plan: permissionReducers.is_plan,
       };
     },
   );
 
+  useEffect(() => {
+    if (!is_plan) {
+      sessionStorage.setItem('superUserTab', '2');
+      history.push('/account_setting/settings');
+    }
+  });
+  // filter match function
   const hanldeMatch = (listValue: listValue) => {
     setMatchRadio(listValue.label);
   };
+  // filter profile function
   const hanldeProfile = (listValue: listValue) => {
     setProfile(listValue.label);
   };
-
+// filter bachelor function
   const handleBachelor = () => {
     setBachelors(!isBachelors);
     setAny(false);
   };
-
+// filter doctorate function
   const handleDoctorate = () => {
     setDoctorate(!isDoctorate);
     setAny(false);
   };
-
+// filter master function
   const handleMaster = () => {
     setMasters(!isMasters);
     setAny(false);
   };
-
+// filter other function
   const handleOther = () => {
     setOther(!isOther);
     setAny(false);
   };
 
+  // filter any function
   const handleAny = () => {
     setAny(!isAny);
     setBachelors(false);
@@ -202,6 +215,7 @@ const ApplicantPipeLineScreen = () => {
       return optionList.value;
     });
 
+// filter api call
   useEffect(() => {
     dispatch(
       applicantPipeLineDataMiddleWare({
@@ -239,6 +253,7 @@ const ApplicantPipeLineScreen = () => {
     updateLoader,
   ]);
 
+  // enter key submit api call
   const handleKeyPress = (event: { key: string }) => {
     if (event.key === 'Enter') {
       dispatch(
@@ -261,6 +276,7 @@ const ApplicantPipeLineScreen = () => {
     }
   };
 
+  // search api call function
   const handleSearch = () => {
     dispatch(
       applicantPipeLineDataMiddleWare({
@@ -280,6 +296,8 @@ const ApplicantPipeLineScreen = () => {
       }),
     );
   };
+
+    // filter experience function
   const handleExperience = (selectedValue: string) => {
     dispatch(
       applicantPipeLineDataMiddleWare({
@@ -299,12 +317,40 @@ const ApplicantPipeLineScreen = () => {
       }),
     );
   };
+  // filter fav function
   const filterTotalFav = () => {
     setTotalFav(!isTotalFav);
   };
 
+  // filter refresh function
   const hanldeRefresh = () => {
-    window.location.reload();
+    setDoctorate(false);
+    setMasters(false);
+    setAny(true);
+    setBachelors(false);
+    setOther(false);
+    setSearch('')
+    setMatchRadio('')
+    setExperience('');
+    setProfile('');
+    setSkillOption('')
+    dispatch(
+      applicantPipeLineDataMiddleWare({
+        jd_id: jdId,
+        profile_match: '',
+        candidate: '',
+        work_experience: '',
+        profile_view: '',
+        education_level: '',
+        skill_match: '',
+        fav: favAdd,
+        sortApplicant: isSortApplicant,
+        sortSortList: isSortSortList,
+        sortInterview: isSortInterview,
+        sortSelected: isSortSelected,
+        sortRejected: isSortRejected,
+      }),
+    );
   };
 
   const data = [
@@ -364,8 +410,9 @@ const ApplicantPipeLineScreen = () => {
           inviteIconNone
         />
       )}
-      <Flex width={300} className={styles.filterFlex}>
+      <Flex className={styles.filterFlex}>
         <ApplicantPipeLineFilter
+          isSkillOption={isSkillOption}
           isSkills={isSkills}
           isSearch={isSearch}
           setSearch={setSearch}
@@ -381,9 +428,14 @@ const ApplicantPipeLineScreen = () => {
           qualificationOption={qualificationOption}
           hanldeRefresh={hanldeRefresh}
           handleSearch={handleSearch}
+          isExperience={isExperience}
         />
       </Flex>
-      <Flex className={styles.dndBoardContainer}>
+      <Flex
+        columnFlex
+        className={styles.dndBoardContainer}
+        width={window.innerWidth - 308}
+      >
         <Flex row center className={styles.titleContainer}>
           <Text bold size={16} color="black">
             Applicants Pipeline
@@ -406,7 +458,7 @@ const ApplicantPipeLineScreen = () => {
         selected.length === 0 &&
         rejected.length === 0 &&
         interviewed.length === 0 ? (
-          <Flex flex={1} middle center height={window.innerHeight - 236}>
+          <Flex middle center height={window.innerHeight - 236}>
             <Text color={'gray'}>No Applicants Found</Text>
           </Flex>
         ) : (
@@ -438,6 +490,7 @@ const ApplicantPipeLineScreen = () => {
                   jd_id={jd_id}
                   outlook={outlook}
                   google={google}
+                  job_details={job_details}
                 />
               </div>
             </div>

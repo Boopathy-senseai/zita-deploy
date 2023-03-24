@@ -9,8 +9,9 @@ import styles from './pagesetup.module.css';
 
 type Props = {
   formik: FormikProps<formikFormTypes>;
+  setReload: () => void;
 };
-const PageSetup = ({ formik }: Props) => {
+const PageSetup = ({ formik, setReload }: Props) => {
   return (
     <Card className={styles.overAll}>
       <Text color="theme" bold size={16}>
@@ -19,6 +20,7 @@ const PageSetup = ({ formik }: Props) => {
       <Flex row top className={styles.flexContainer}>
         <Flex flex={6} className={styles.tagOne}>
           <SelectTag
+            id={'page_setup____font_family'}
             label="Page Font"
             options={fontStyle}
             value={
@@ -29,12 +31,14 @@ const PageSetup = ({ formik }: Props) => {
                 : ''
             }
             onChange={(option) => {
+              setReload();
               formik.setFieldValue('pageFontStyle', option.value);
             }}
           />
         </Flex>
         <Flex flex={6} className={styles.tagTwo}>
           <SelectTag
+            id={'page_setup____font_size'}
             label="Page Font Size"
             options={fontSizeOptions}
             value={
@@ -47,6 +51,7 @@ const PageSetup = ({ formik }: Props) => {
                 : ''
             }
             onChange={(option) => {
+              setReload();
               formik.setFieldValue('pageFontSize', Number(option.value));
             }}
           />

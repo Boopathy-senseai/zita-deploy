@@ -1,5 +1,6 @@
 import { useMemo, useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store';
 import SvgSearch from '../../icons/SvgSearch';
 import { getBlur, getFocus, unlimitedHelper } from '../../uikit/helper';
 import Loader from '../../uikit/Loader/Loader';
@@ -11,18 +12,18 @@ import Text from '../../uikit/Text/Text';
 import Toast from '../../uikit/Toast/Toast';
 import SvgRefresh from '../../icons/SvgRefresh';
 import Pangination from '../../uikit/Pagination/Pangination';
-import { AppDispatch } from '../../store';
+// import ProfileView from '../applicantpipelinemodule/ProfileView';
+import ZitaMatchCandidateDrawer from '../zitamatchcandidatemodule/ZitaMatchCandidateDrawer';
 import { CANCEL, ERROR_MESSAGE } from '../constValue';
 import YesOrNoModal from '../common/YesOrNoModal';
 import styles from './candidatedatabasetab.module.css';
 import CandidateDatabase from './CandidateDatabase';
 import { title } from './uploadedCandidateTable';
-import { EmpPoolEntity } from './bulkImportTypes';
+// import { EmpPoolEntity } from './bulkImportTypes';
 import {
   bulkImportMiddleWare,
   bulkuploadedCandidatesMiddleWare,
-  bulkuploadedParsingMiddleWare,
-  uploadedProfileViewMiddleWare,
+  bulkuploadedParsingMiddleWare,uploadedProfileViewMiddleWare
 } from './store/middleware/bulkImportMiddleware';
 import ParsingLoadingModal from './ParsingLoadingModal';
 import ProfileViewModal from './ProfileViewModal';
@@ -30,10 +31,7 @@ import ProfileViewModal from './ProfileViewModal';
 type Tabs = 'total' | 'completed' | 'inCompleted';
 
 type Props = {
-  emp_pool?: EmpPoolEntity[];
-  total_count: number;
-  completed: number;
-  incompleted: number;
+
   handleTotal: () => void;
   handleSubmit: () => void;
   handleCompleted: () => void;
@@ -41,20 +39,16 @@ type Props = {
   searchValue: string;
   searchHandleChange: (a: any) => void;
   setKey: (arg: string) => void;
-  features_balance: number;
+  // features_balance: number;
   setFeaturesBalance: (a: number | null) => void;
   isSearch: number;
   formik: any;
   setPageNumber: (a: number) => void;
   pageNumber: number;
-  upDateloader: boolean;
 };
 
 const CandidateDatabaseTab = ({
-  emp_pool,
-  total_count,
-  completed,
-  incompleted,
+  
   handleTotal,
   handleSubmit,
   handleCompleted,
@@ -62,37 +56,81 @@ const CandidateDatabaseTab = ({
   searchValue,
   searchHandleChange,
   setKey,
-  features_balance,
+
   setFeaturesBalance,
   isSearch,
   formik,
   setPageNumber,
   pageNumber,
-  upDateloader,
+
 }: Props) => {
   const [isParse, setParse] = useState(false);
   const [isTableLoader, setTableLoader] = useState(false);
   const [isImport, setImport] = useState<any>('');
   const [isFile, setFile] = useState<string>('');
+  // const [isPersonal, setPersonal] = useState<any>([]);
+   // const [isAddDetail, setAddDetail] = useState<any>([]);
+  const [isProfileView, setProfileView] = useState(false);
   const [isOpenProfile, setOpenProfile] = useState(false);
   const [isUpgrade, setUpgrade] = useState(false);
   const [isTab, setTab] = useState<Tabs>('total');
   const [isCandiTableLoader, setCandiTableLoader] = useState(false);
-  const [isPageTab, setPageTab] = useState(total_count);
+  const [isCanId, setCanId] = useState<any>([]);
+ 
   const dispatch: AppDispatch = useDispatch();
-
+// const history=useHistory()
   // Profile View Function
-  const hanldeProfileView = (id: number) => {
+
+  //  const hanldeEditProfileView = (id: number) => {
+  //   setCanId(id);
+  //   setOpenProfile(false);
+  //   setProfileView(true);
+  //    dispatch(uploadedProfileViewMiddleWare({ id })).then((res) => {
+  //     setFile(res.payload.resume_file_path);
+  //   });
+  // };
+
+  const hanldeEditProfileView = (id: number) => {
+    setCanId(id);
+    setProfileView(false);
+    setOpenProfile(true);
     dispatch(uploadedProfileViewMiddleWare({ id })).then((res) => {
       setFile(res.payload.resume_file_path);
-      setOpenProfile(true);
     });
   };
+  useEffect(() => {
+    dispatch(bulkuploadedCandidatesMiddleWare({}));
+  }, []);
+
+
+  const {
+    emp_pool,
+    total_count,
+    completed,
+    incompleted,
+    features_balance,
+    upDateloader,
+  } = useSelector(
+    ({
+      bulkUploadedCandidatesReducers,
+      bulkImportReducers,
+    }: RootState) => {
+      return {
+        emp_pool: bulkUploadedCandidatesReducers.emp_pool,
+        total_count: bulkUploadedCandidatesReducers.total_count,
+        completed: bulkUploadedCandidatesReducers.completed,
+        incompleted: bulkUploadedCandidatesReducers.incompleted,
+        features_balance: bulkImportReducers.features_balance,
+        upDateloader: bulkUploadedCandidatesReducers.isLoading,
+      };
+    },
+  );
+ const [isPageTab, setPageTab] = useState(total_count);
 
   const columns = useMemo(
     () =>
       title(
-        hanldeProfileView,
+          hanldeEditProfileView,
         setFeaturesBalance,
         searchValue,
         isTab,
@@ -114,7 +152,7 @@ const CandidateDatabaseTab = ({
     if (isTab === 'inCompleted') {
       setPageTab(incompleted);
     }
-  }, [isTab,upDateloader]);
+  }, [isTab, upDateloader]);
   // Pagination
   const usersPerPage = 10;
   const pageCount = Math.ceil(isPageTab / usersPerPage);
@@ -217,7 +255,19 @@ const CandidateDatabaseTab = ({
       setCandiTableLoader(false);
     });
   };
-
+  const hanldeSvgRefreshOnUpdate = (e: any) => {
+    setOpenProfile(false);
+    setCandiTableLoader(true);
+    formik.setFieldValue('searchValue', '');
+    setTab('total');
+    e.preventDefault();
+    dispatch(bulkuploadedCandidatesMiddleWare({ page: 1 })).then(() => {
+      getFocus('candidates__input');
+      setPageNumber(0);
+      getBlur('candidates__input');
+      setCandiTableLoader(false);
+    });
+  };
   // Bulk Upload Parsing Function
   const hanldeParsing = () => {
     dispatch(bulkuploadedParsingMiddleWare()).then(() => {
@@ -234,9 +284,12 @@ const CandidateDatabaseTab = ({
   };
 
   const manageUser = () => {
-    return window.location.replace(
-      process.env.REACT_APP_HOME_URL + 'account/subscription/#headingOne',
+    sessionStorage.setItem('superUserTab', '2');
+    // window.location.replace()
+    window.location.replace(
+      window.location.origin + '/account_setting/settings?planFocus=focus',
     );
+    // history.push('/account_setting/settings?planFocus=focus');
   };
 
   const handleCloseImportModal = () => {
@@ -269,12 +322,23 @@ const CandidateDatabaseTab = ({
         btnRightTitle={'Upgrade'}
         open={isUpgrade}
       />
-
+      <ZitaMatchCandidateDrawer
+            activeState={0}
+            open={isProfileView}
+            cancel={() => setProfileView(false)}
+            jobId={'0'}
+            candidateId={isCanId.toString()}
+          />
+ 
+      {isOpenProfile &&
       <ProfileViewModal
-        filePath={isFile}
-        open={isOpenProfile}
-        cancel={() => setOpenProfile(false)}
-      />
+          filePath={isFile}
+          open={isOpenProfile}
+          canId={isCanId}
+          // cancel={() => setOpenProfile(false)}
+          refreshOnUpdate={(e:any) => hanldeSvgRefreshOnUpdate(e)}
+        />
+      }
       <ParsingLoadingModal
         loader
         title={'Parsing and loading resumes in background.....'}
@@ -300,7 +364,7 @@ const CandidateDatabaseTab = ({
             {unlimitedHelper(features_balance)}. Please check on the{' '}
             <Text
               onClick={() => {
-                setKey('1');
+                setKey('2');
                 handleCloseImportModal();
               }}
               color="link"
@@ -429,7 +493,7 @@ const CandidateDatabaseTab = ({
           <SvgRefresh />
         </div>
       </Flex>
-      {isCandiTableLoader ? (
+      { isCandiTableLoader? (
         <Flex center middle height={100}>
           <Loader withOutOverlay size={'medium'} />
         </Flex>
@@ -444,7 +508,7 @@ const CandidateDatabaseTab = ({
         />
       )}
 
-      {!isCandiTableLoader && isPageTab > 10 && (
+      { !isCandiTableLoader&& isPageTab > 10 && (
         <Flex middle className={styles.pagination}>
           <Pangination
             maxPages={pageCount - 1}

@@ -1,34 +1,52 @@
 import classNames from 'classnames/bind';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import SvgBoxEdit from '../../icons/SvgBoxEdit';
 import SvgTrash from '../../icons/SvgTrash';
+import { AppDispatch } from '../../store';
 import Card from '../../uikit/Card/Card';
 import { PRIMARY } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
-import { isEmpty, notSpecified } from '../../uikit/helper';
+import { isEmpty } from '../../uikit/helper';
 import Text from '../../uikit/Text/Text';
 import CancelAndDeletePopup from '../common/CancelAndDeletePopup';
-import { CANCEL } from '../constValue';
+import { DELETE } from '../constValue';
 import AddandUpdateWorkExperienceEdit from './AddandUpdateWorkExperienceEdit';
-import { Obj } from './candidateProfileTypes';
+import { ExperiencesEntity, Obj } from './candidateProfileTypes';
+import {
+  experienceDeleteMiddleWare,
+  profileEditMiddleWare,
+} from './store/middleware/candidateprofilemiddleware';
 import styles from './workexperienceaddandcard.module.css';
 const cx = classNames.bind(styles);
 
 type Props = {
   obj?: Obj;
+  experiences?: ExperiencesEntity[];
+  isProfileView?: boolean;
 };
-const WorkExperienceAddandCard = ({ obj }: Props) => {
-  const [isDelete, setDelete] = useState(false);
-  // const [isGetId, setGetId] = useState('0');
-  const [isworkExpEdit, setworkExpEdit] = useState(false);
-  // const [isworkExpAdd, setworkExpAdd] = useState(false);
-  const [isUpdateId, setUpdateId] = useState('0');
 
+const WorkExperienceAddandCard = ({
+  obj,
+  experiences,
+  isProfileView,
+}: Props) => {
+  const dispatch: AppDispatch = useDispatch();
+  const [isDelete, setDelete] = useState(false);
+  const [isGetId, setGetId] = useState('0');
+  const [isworkExpEdit, setworkExpEdit] = useState(false);
+  const [isUpdateId, setUpdateId] = useState('0');
+  const [isLoader, setLoader] = useState(false);
+  // delete function
   const handleDelete = () => {
-    setDelete(false);
-    // dispatch(educationDeleteMiddleWare({ eduId: isGetId })).then(() => {
-    //   setDelete(false);
-    // });
+    setLoader(true);
+    dispatch(experienceDeleteMiddleWare({ id: isGetId })).then((res) => {
+      if (res.payload.success) {
+        dispatch(profileEditMiddleWare({jd_id:localStorage.getItem('careerJobViewJobId')}));
+      }
+      setLoader(false);
+      setDelete(false);
+    });
   };
 
   const handleWorkUdateOpen = (expId: string) => {
@@ -38,27 +56,34 @@ const WorkExperienceAddandCard = ({ obj }: Props) => {
 
   return (
     <>
-      <AddandUpdateWorkExperienceEdit
-        open={isworkExpEdit}
-        cancel={() => setworkExpEdit(false)}
-        obj={obj}
-        isUpdateId={isUpdateId}
-        isUpdate
-      />
-      <CancelAndDeletePopup
-        btnCancel={() => setDelete(false)}
-        btnDelete={handleDelete}
-        open={isDelete}
-        btnRight={CANCEL}
-        title={
-          <Flex columnFlex className={styles.statusFlex}>
-            <Text>
-              {`This experience details will be deleted permanently.`}
-            </Text>
-            <Text>Are your sure to proceed?</Text>
-          </Flex>
-        }
-      />
+      {!isProfileView && (
+        <>
+          <AddandUpdateWorkExperienceEdit
+            open={isworkExpEdit}
+            cancel={() => setworkExpEdit(false)}
+            obj={obj}
+            isUpdateId={isUpdateId}
+            isUpdate
+            experiences={experiences}
+          />
+          <CancelAndDeletePopup
+            loader={isLoader}
+            btnCancel={() => setDelete(false)}
+            btnDelete={handleDelete}
+            open={isDelete}
+            btnRight={DELETE}
+            title={
+              <Flex columnFlex className={styles.statusFlex}>
+                <Text>
+                  {`This experience details will be deleted permanently.`}
+                </Text>
+                <Text>Are you sure to proceed?</Text>
+              </Flex>
+            }
+          />
+        </>
+      )}
+
       <Card className={styles.overAll}>
         {Array.isArray(obj?.exp) && obj?.exp.length !== 0 ? (
           obj?.exp.map((list, index) => (
@@ -71,28 +96,29 @@ const WorkExperienceAddandCard = ({ obj }: Props) => {
             >
               <div style={{ alignSelf: 'center' }}>
                 <Flex columnFlex className={styles.leftConatiner}>
-                  <Text color="theme" bold>
-                    {notSpecified(list.org)}
-                  </Text>
-                  {!isEmpty(list.from_exp) ? (
-                    <Text color="theme" className={styles.yearText}>
-                      {list.from_exp} - {list.to_exp}
-                    </Text>
-                  ) : (
-                    <Text color="theme" className={styles.yearText}>
-                      {notSpecified(list.from_exp)}
+                  {!isEmpty(list.org) && (
+                    <Text color="theme" bold>
+                      {list.org}
                     </Text>
                   )}
 
-                  <Text color="theme" className={styles.yearText}>
-                    {notSpecified(list.loc)}
-                  </Text>
+                  {!isEmpty(list.from_exp) && (
+                    <Text color="theme" className={styles.yearText}>
+                      {list.from_exp} - { !list.is_present ? list.to_exp: 'Till Date'}
+                    </Text>
+                  )}
+                  {!isEmpty(list.loc) && (
+                    <Text color="theme" className={styles.yearText}>
+                      {list.loc}
+                    </Text>
+                  )}
                 </Flex>
               </div>
+              <div className={styles.vrLine} />
+
               <Flex columnFlex className={styles.rightConatiner} flex={1}>
-                <Flex row center between>
-                  <Text bold>{notSpecified(list.domain)}</Text>
-                  <Flex row center>
+                {!isProfileView && (
+                  <Flex row center className={styles.trashFlex}>
                     <div
                       className={styles.svgTrash}
                       onClick={() =>
@@ -110,20 +136,25 @@ const WorkExperienceAddandCard = ({ obj }: Props) => {
                       tabIndex={-1}
                       role="button"
                       onKeyDown={() => {}}
-                      onClick={() => setDelete(true)}
+                      onClick={() => {
+                        setDelete(true);
+                        setGetId(list.exp_id.toString());
+                      }}
                     >
                       <SvgTrash width={16} height={16} />
                     </div>
                   </Flex>
-                </Flex>
+                )}
+                {!isEmpty(list.domain) && <Text bold>{list.domain}</Text>}
+
                 <Text className={styles.roleText} bold>
-                  {notSpecified(list.des)}
+                  {list.des}
                 </Text>
                 <ul className={styles.listStyle}>
                   {list.roles?.map(
                     (roleList) =>
                       !isEmpty(roleList) && (
-                        <li key={roleList}>
+                        <li key={roleList} style={{ overflowWrap: 'anywhere', width: '92%' }}>
                           <Text align="justify" className={styles.techText}>
                             {roleList}
                           </Text>
@@ -131,21 +162,20 @@ const WorkExperienceAddandCard = ({ obj }: Props) => {
                       ),
                   )}
                 </ul>
-
-                <Flex row className={styles.toolsText}>
-                  <Text bold style={{ whiteSpace: 'nowrap' }}>
-                    Tools and Programming Languages:
-                  </Text>
-                  <Text style={{ marginLeft: 8 }}>
-                    {notSpecified(list.exp_tools)}
-                  </Text>
-                </Flex>
+                {!isEmpty(list.exp_tools) && (
+                  <Flex row className={styles.toolsText}>
+                    <Text bold style={{ whiteSpace: 'nowrap' }}>
+                      Tools and Programming Languages:
+                    </Text>
+                    <Text style={{ marginLeft: 8 }}>{list.exp_tools}</Text>
+                  </Flex>
+                )}
               </Flex>
             </Flex>
           ))
         ) : (
           <Flex center middle className={styles.noValues}>
-            <Text size={18} bold>
+            <Text size={16} bold>
               Add Work Experience
             </Text>
           </Flex>

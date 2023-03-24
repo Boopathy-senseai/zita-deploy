@@ -1,4 +1,4 @@
-import { ReactChild, ReactFragment, ReactPortal, useState } from 'react';
+import { ReactChild, ReactFragment, ReactPortal, useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import AutoSuggest from 'react-autosuggest';
 import { isEmpty, lowerCase } from '../../uikit/helper';
@@ -30,6 +30,8 @@ type Props = {
   error?: boolean;
   labelBold?: boolean;
   onkeyPress?: (a: any) => void;
+  style?: string;
+  autoFocus?: boolean;
 };
 
 const renderInputComponent = ({
@@ -45,23 +47,27 @@ const renderInputComponent = ({
   onFocus,
   error,
   onKeyPress,
+  style,
+  autoFocus,
 }: any) => {
+  const getValue=value.includes(', usa')
   return (
     <input
+      // eslint-disable-next-line jsx-a11y/no-autofocus
+      autoFocus={autoFocus}
       ref={ref}
       onSubmit={onSubmit}
       onBlur={onBlur}
       onChange={onChange}
-      value={lowerCase(value.replace(', usa', ', USA'))}
+      value={getValue ? lowerCase(value.replace(', usa', ', USA')): value}
       placeholder={placeholder}
       disabled={disabled}
       type={type}
       onKeyDown={onKeyDown}
       onFocus={onFocus}
-      className={cx('search', { errorBorder: error })}
+      className={cx('search', style, { errorBorder: error })}
       autoComplete={'off'}
       onKeyPress={onKeyPress}
-      // style={{ textTransform: 'capitalize' }}
     />
   );
 };
@@ -80,17 +86,26 @@ const InputSearch = ({
   error,
   labelBold,
   onkeyPress,
+  style,
+  autoFocus,
 }: Props) => {
   const [currentsuggestion, setSuggestion] = useState<any[]>([]);
   const [currentvalue, setValue] = useState(initialValue);
   const [isErrorFocus, setErrorFocus] = useState(false);
-
+  const [isNoOptions, setNoOptions] = useState(false);
   const lowerCasedCompanies =
     options &&
     options.map((company) => {
       return company.toLowerCase();
     });
-
+    useEffect(()=>{
+      setValue(initialValue)
+    },[initialValue])
+    useEffect(()=>{
+      if(isEmpty(currentvalue)){
+        setNoOptions(false);
+      }
+    },[currentvalue])
   const getSuggestions = (value: string) => {
     return (
       lowerCasedCompanies &&
@@ -124,10 +139,6 @@ const InputSearch = ({
       requiredValue = `${suggestion}`;
     }
     setFieldValue(name, requiredValue);
-
-    // if (typeof callback === 'function') {
-    //   callback(suggestion[`${labelKey}`]);
-    // }
   };
 
   const onChange = (_event: object, { newValue }: { newValue: string }) => {
@@ -153,40 +164,54 @@ const InputSearch = ({
     onBlur: handleBlur,
     onFocus: handleFocus,
     onKeyPress: onkeyPress,
+    style,
+    autoFocus,
   };
 
   const onSuggestionsFetchRequested = ({ value }: { value: string }) => {
     setValue(value);
     const requiredSuggestions: any = getSuggestions(value);
-    setSuggestion(requiredSuggestions);
+    setSuggestion(requiredSuggestions);    
+    if (requiredSuggestions && requiredSuggestions.length === 0 && !isEmpty(value)) {
+      setNoOptions(true);
+    } else {
+      setNoOptions(false);
+    }
   };
 
   const onSuggestionsClearRequested = () => {
     setSuggestion([]);
   };
   return (
-    <LabelWrapper label={label} required={required} bold={labelBold}>
-      <AutoSuggest
-        suggestions={currentsuggestion}
-        onSuggestionsClearRequested={onSuggestionsClearRequested}
-        onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-        onSuggestionSelected={onSuggestionSelected}
-        getSuggestionValue={getSuggestionValue}
-        renderSuggestion={renderSuggestion}
-        inputProps={inputProps}
-        highlightFirstSuggestion={true}
-        renderInputComponent={renderInputComponent}
-      />
-      {!isEmpty(errorMessage) && error && (
-        <Text
-          size={12}
-          color={'error'}
-          className={cx('errorMessageStyle', { errorFocus: isErrorFocus })}
-        >
-          {errorMessage}
-        </Text>
+    <div style={{ position: 'relative' }}>
+      <LabelWrapper label={label} required={required} bold={labelBold}>
+        <AutoSuggest
+          suggestions={currentsuggestion}
+          onSuggestionsClearRequested={onSuggestionsClearRequested}
+          onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+          onSuggestionSelected={onSuggestionSelected}
+          getSuggestionValue={getSuggestionValue}
+          renderSuggestion={renderSuggestion}
+          inputProps={inputProps}
+          highlightFirstSuggestion={true}
+          renderInputComponent={renderInputComponent}
+        />
+        {!isEmpty(errorMessage) && error && (
+          <Text
+            size={12}
+            color={'error'}
+            className={cx('errorMessageStyle', { errorFocus: isErrorFocus })}
+          >
+            {errorMessage}
+          </Text>
+        )}
+      </LabelWrapper>
+      {isNoOptions && (
+        <div className={styles.noOptionsDivStyle}>
+          <Text color="gray">No search found</Text>
+        </div>
       )}
-    </LabelWrapper>
+    </div>
   );
 };
 

@@ -4,10 +4,10 @@ import Tabs from '../../uikit/Tabs/Tabs';
 import { ALL_APPLICANT_MATCH_TITLE } from '../constValue';
 import AboutTab from './AboutTab';
 import AllMatchTab from './AllMatchTab';
-import ExperienceTab from './ExperienceTab';
+// import ExperienceTab from './ExperienceTab';
 import MessageTab from './MessageTab';
 import NotesTab from './NotesTab';
-import QualificationTab from './QualificationTab';
+// import QualificationTab from './QualificationTab';
 import ResumeCoverTab from './ResumeCoverTab';
 
 /* eslint max-len: ["error", { "code": 2000 }] */
@@ -26,12 +26,12 @@ const ApplicantTabLeft = ({ activeState }: typeof defaultProps) => {
       <Tab title={'About'}>
         <AboutTab />
       </Tab>
-      <Tab title={'Experience'}>
+     {/* <Tab title={'Experience'}>
         <ExperienceTab />
       </Tab>
       <Tab title={'Qualification'}>
         <QualificationTab />
-      </Tab>
+      </Tab>*/}
       <Tab title={'Resume/Cover'}>
         <ResumeCoverTab />
       </Tab>
@@ -42,7 +42,10 @@ const ApplicantTabLeft = ({ activeState }: typeof defaultProps) => {
         <MessageTab />
       </Tab>
       <Tab title={'All Matching Jobs'}>
-        <AllMatchTab title={ALL_APPLICANT_MATCH_TITLE} />
+        <AllMatchTab
+          title={ALL_APPLICANT_MATCH_TITLE}
+          inviteMessage={'Applicant Invited successfully'}
+        />
       </Tab>
     </Tabs>
   );

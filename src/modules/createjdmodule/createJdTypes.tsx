@@ -281,6 +281,7 @@ export interface CreateJdPostPayload {
   qualification: string[];
   specialization: string[];
   jdId?: string;
+  duplicate?:string
 }
 
 export interface missJdPostPayload {
@@ -335,6 +336,7 @@ export interface Jd {
   min_exp: number;
   max_exp: number;
   is_eeo_comp: boolean;
+  salary_curr_type__value: string;
 }
 export interface LocationEntity {
   country__name: string;

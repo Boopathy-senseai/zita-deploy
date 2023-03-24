@@ -12,6 +12,7 @@ type Props = {
   isClose?: boolean;
   borderRadius?: boolean;
   text?: string;
+  setBtnDisable:(arg:boolean)=>void
 };
 const ImageUpload = ({
   imgUrl,
@@ -19,6 +20,7 @@ const ImageUpload = ({
   isClose,
   borderRadius,
   text,
+  setBtnDisable
 }: Props) => {
   const [isShow, setShow] = useState(false);
   const [isMb, setMb] = useState(false);
@@ -36,6 +38,7 @@ const ImageUpload = ({
     } else if (e.target.files && e.target.files[0].size / 1024 / 1024 > 2) {
       setMb(true);
     } else {
+      setBtnDisable(false);
       let reader = new FileReader();
       reader.onloadend = () => {
         setFile({
@@ -58,9 +61,11 @@ const ImageUpload = ({
       >
         <Flex className={styles.imgContainer}>
           <img
+            style={{objectFit: imgUrl?.includes('/slider1.jpg') ? 'fill':'contain'}}
             src={imgUrl}
             alt="Banner Img"
             className={borderRadius ? styles.imgStyle : styles.imgStyleNoRadius}
+            id={'image_upload'}
           />
           {isShow && (
             <Flex

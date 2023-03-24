@@ -8,7 +8,7 @@ import Pangination from '../../uikit/Pagination/Pangination';
 import SingleButton from '../common/SingleButton';
 import Toast from '../../uikit/Toast/Toast';
 import { AppDispatch, RootState } from '../../store';
-import { ERROR_MESSAGE, manageUser } from '../constValue';
+import { ERROR_MESSAGE } from '../constValue';
 import Title from '../common/Title';
 import Empty from '../common/Empty';
 import CancelAndDeletePopup from '../common/CancelAndDeletePopup';
@@ -64,6 +64,9 @@ const TalentSourcingScreen = () => {
   const [isOther, setOther] = useState(false);
   const [isInitalCheckBox, setInitalCheckBox] = useState(false);
   const [isFree, setFree] = useState(false);
+  const [isPdfLoader,setPdfLoader]=useState(false)
+  const [isSubmitLoader,setSubmitLoader]=useState(false);
+  const [isInitialLoader,setInitialLoader]=useState(true);
 
   const uselocation = useLocation();
   const history = useHistory();
@@ -75,8 +78,10 @@ const TalentSourcingScreen = () => {
 
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
+    localStorage.setItem('freeCheck','true');
     dispatch(talentSourcingMiddleWare()).then(() => {
       setInitalCheckBox(true);
+      setInitialLoader(false)
     });
   }, []);
 
@@ -84,7 +89,7 @@ const TalentSourcingScreen = () => {
     const getUrl = window.location.href;
     var url = new URL(getUrl);
     var cancel = url.searchParams.get('cancelled');
-    var session_id = url.searchParams.get('session_id');
+    var session_id = url.searchParams.get('session');
     const queryParams = new URLSearchParams(uselocation.search);
 
     if (cancel === 'source_credit') {
@@ -130,12 +135,13 @@ const TalentSourcingScreen = () => {
     unLockLoader,
     bulkUnlockLoader,
     bulkDownloadLoader,
-    candiViewLoader,
+    // candiViewLoader,
     stripeLoader,
     publicKey,
     candi_list,
     candiViewFile,
     plan,
+    is_plan,
   } = useSelector(
     ({
       talentSourcingReducers,
@@ -145,6 +151,7 @@ const TalentSourcingScreen = () => {
       bulkDownloadActionReducers,
       candidateViewReducers,
       stripeReducers,
+      permissionReducers,
     }: RootState) => {
       return {
         location: talentSourcingReducers.location,
@@ -160,9 +167,17 @@ const TalentSourcingScreen = () => {
         candi_list: talentSourcingSearchReducers.candi_list,
         candiViewFile: candidateViewReducers.file,
         plan: talentSourcingSearchReducers.plan,
+        is_plan: permissionReducers.is_plan,
       };
     },
   );
+
+  useEffect(() => {
+    if (!is_plan) {
+      sessionStorage.setItem('superUserTab', '2');
+      history.push('/account_setting/settings');
+    }
+  });
 
   useEffect(() => {
     if (isContact) {
@@ -174,6 +189,7 @@ const TalentSourcingScreen = () => {
     setCandiList(candi_list);
   }, [candi_list]);
 
+  // store search data in local
   sessionStorage.setItem('storeSearchData', JSON.stringify(searchData));
 
   const getStoreSearchData = JSON.parse(
@@ -337,6 +353,7 @@ const TalentSourcingScreen = () => {
   ]);
   const planId = plan && plan[0] && plan[0].plan_id_id;
 
+  // single unloack submit function
   const handleUnlockSubmit = (values: string) => {
     if (planId === 1) {
       setFree(true);
@@ -385,8 +402,9 @@ const TalentSourcingScreen = () => {
     setNoLimit(false);
     setContact(true);
   };
-
+// open resume function
   const handleCandidateView = (hashKey: string) => {
+    setPdfLoader(true)
     dispatch(
       candidateViewMiddleWare({
         key: hashKey,
@@ -396,16 +414,19 @@ const TalentSourcingScreen = () => {
         if (response.payload.file) {
           setShowPdf(true);
         }
+          setPdfLoader(false)
       })
       .catch(() => {
         Toast(ERROR_MESSAGE, 'LONG', 'error');
+        setPdfLoader(false)
       });
   };
+
   const handleNoCount = () => {
     setNoCount(false);
-    return window.location.replace(
-      process.env.REACT_APP_HOME_URL + 'account/subscription/#headingOne',
-    );
+    sessionStorage.removeItem('storeSearchData')
+    sessionStorage.setItem('superUserTab', '2');
+    history.push('/account_setting/settings?planFocus=focus')
   };
 
   const getFocus = () => {
@@ -417,14 +438,37 @@ const TalentSourcingScreen = () => {
     getFocus();
   };
 
+  const manageUser = () => {
+    sessionStorage.removeItem('storeSearchData')
+    sessionStorage.setItem('superUserTab', '2');
+    history.push('/account_setting/settings?planFocus=focus')
+  };
+
+  useEffect(() => {
+    setSearchData([]);
+  }, []);
+
+  // filter refresh function
+  const handleRefresh=()=>{
+    setBachelors(false)
+    setAny(true)
+    setDoctorate(false);
+    setExperience({
+      label: 'All',
+      value: 'all',
+    })
+    setOther(false)
+    setMasters(false);
+    setRelocate(false)
+  }
+  
+  if(isInitialLoader){
+    return <Loader />
+  }
   return (
     <Flex column className={styles.overAll}>
       <Flex top row>
-        {sourceLoader && <Loader />}
-        {searchLoader && <Loader />}
-        {candiViewLoader && <Loader />}
-        {stripeLoader && <Loader />}
-        {isCheckOutLoader && <Loader />}
+        {(sourceLoader||isPdfLoader||searchLoader||stripeLoader||isCheckOutLoader) && <Loader />}
         <CancelAndDeletePopup
           title={
             'Please subscribe to any of the premium plans to buy credits and unlock candidates'
@@ -493,7 +537,7 @@ const TalentSourcingScreen = () => {
         <SingleButton
           btnTitle="OK"
           title={
-            'Please contact your company admin to buy credits to unlock contacts.'
+            'Please contact your company admin to unlock contacts.'
           }
           open={isNoPermission}
           btnOnclick={() => setNoPermission(false)}
@@ -521,6 +565,7 @@ const TalentSourcingScreen = () => {
           isExperience={isExperience}
           setExperience={setExperience}
           setInitialPage={setPageNumber}
+          handleRefresh={handleRefresh}
         />
         <Flex
           className={styles.titleContainer}
@@ -540,20 +585,20 @@ const TalentSourcingScreen = () => {
                 setCandidatesLimit={setCandidatesLimit}
                 setSourceLimit={setSourceLimit}
                 location={location}
+                setSubmitLoader={setSubmitLoader}
               />
             </Flex>
-            {isSearchData?.length === 0 && isFind && (
+            {(isSearchData?.length === 0 && isFind && !isSubmitLoader) && (
               <div className={styles.emptyStyle}>
                 <Empty title="Please enter your search keywords in the search field to find the candidates" />
               </div>
             )}
-            {isSearchData === null ||
-              (isSearchData?.length === 0 && !isFind && (
+            {(isSearchData === null || isSearchData?.length === 0 && !isFind) && !isSubmitLoader && (
                 <div className={styles.emptyStyle}>
                   <Empty title="No Candidate Found" />
                 </div>
-              ))}
-            {isSearchData?.length !== 0 && isSearchData !== null && (
+              )}
+            {isSearchData?.length !== 0 && isSearchData !== null && isSubmitLoader !== true && (
               <TalentCardList
                 setCandiList={setCandiList}
                 setNoCount={setNoCount}
@@ -584,7 +629,7 @@ const TalentSourcingScreen = () => {
           </div>
           {isSearchData?.length !== 0 &&
             pageCount - 1 !== 0 &&
-            isSearchData !== null && (
+            isSearchData !== null && isSubmitLoader !== true && (
               <div className={cx('paginationStyle')}>
                 <Pangination
                   maxPages={pageCount - 1}

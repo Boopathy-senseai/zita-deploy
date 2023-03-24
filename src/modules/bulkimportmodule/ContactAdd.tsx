@@ -33,6 +33,7 @@ type Props = {
   completed: number;
   incompleted: number;
   tabKey: string;
+  jdId?: string;
   pageNumber: number;
 };
 
@@ -42,6 +43,7 @@ const ContactAdd = ({
   total_count,
   completed,
   incompleted,
+  jdId,
   tabKey,
   pageNumber,
 }: Props) => {
@@ -67,6 +69,7 @@ const ContactAdd = ({
     enableReinitialize: true,
   });
 
+  // contact submit function
   const handleCellSubmit = (event: any, id: number) => {
     event.preventDefault();
 
@@ -85,6 +88,7 @@ const ContactAdd = ({
         .post(uploadedCandidatesApi, data, config)
         .then(() => {
           if (tabKey === 'total') {
+             if(jdId === undefined){
             dispatch(
               bulkuploadedCandidatesMiddleWare({
                 search: searchValue,
@@ -96,8 +100,23 @@ const ContactAdd = ({
               setInput(false);
               setLoader(false);
             });
+          }else{
+                dispatch(
+              bulkuploadedCandidatesMiddleWare({
+                search: searchValue,
+                total: total_count,
+                jd_id: jdId,
+                page: pageNumber + 1,
+              }),
+            ).then(() => {
+              Toast('Contact updated successfully', 'LONG', 'success');
+              setInput(false);
+              setLoader(false);
+            });
+          }
           }
           if (tabKey === 'completed') {
+            if(jdId === undefined){
             dispatch(
               bulkuploadedCandidatesMiddleWare({
                 search: searchValue,
@@ -109,8 +128,23 @@ const ContactAdd = ({
               setInput(false);
               setLoader(false);
             });
+          }else{
+             dispatch(
+              bulkuploadedCandidatesMiddleWare({
+                search: searchValue,
+                completed,
+                jd_id: jdId,
+                page: pageNumber + 1,
+              }),
+            ).then(() => {
+              Toast('Contact updated successfully', 'LONG', 'success');
+              setInput(false);
+              setLoader(false);
+            });
+          }
           }
           if (tabKey === 'inCompleted') {
+               if(jdId === undefined){
             dispatch(
               bulkuploadedCandidatesMiddleWare({
                 search: searchValue,
@@ -122,7 +156,21 @@ const ContactAdd = ({
               setInput(false);
               setLoader(false);
             });
+          }else{
+              dispatch(
+              bulkuploadedCandidatesMiddleWare({
+                search: searchValue,
+                page: pageNumber + 1,
+                jd_id:jdId,
+                incompleted,
+              }),
+            ).then(() => {
+              Toast('Contact updated successfully', 'LONG', 'success');
+              setInput(false);
+              setLoader(false);
+            });
           }
+        }
         })
         .catch(() => {
           Toast(
@@ -137,20 +185,23 @@ const ContactAdd = ({
     }
   };
 
+  // open input function
   const handleOpenInput = () => {
     setInput(true);
   };
+  // close input function
   const handleCloseInput = () => {
     setInput(false);
+    formik.resetForm();
   };
-
+  // outside close input function
   const handleClickOutside = (event: { target: any }) => {
     if (myRef.current && !myRef.current.contains(event.target)) {
       formik.setFieldValue('name', value.contact);
       setInput(false);
     }
   };
-
+// outside close input function
   useEffect(() => {
     if (typeof Window !== 'undefined') {
       document.addEventListener('click', handleClickOutside, true);
@@ -163,7 +214,7 @@ const ContactAdd = ({
       }
     };
   });
-
+// enter key contact submit function
   const handleKeyPress = (event: { key: string }, id: number) => {
     if (event.key === 'Enter' && formik.values.name !== '') {
       handleCellSubmit(event, id);
@@ -226,39 +277,53 @@ const ContactAdd = ({
             onKeyPress={(e) => handleKeyPress(e, value.id)}
             id="contactAdd__contactId"
           />
-          {isError && (
-            <Text size={10} color="error">
-              Enter valid contact
-            </Text>
-          )}
-          <div className={styles.svgContainer}>
-            {isLoader ? (
-              <div className={styles.svgTick}>
-                <Loader withOutOverlay size={'small'} />
-              </div>
-            ) : (
+
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-end',
+              zIndex: 11
+            }}
+            className={styles.svgContainer}
+          >
+            {isError && (
+              <Text style={{
+                display: "flex",
+                alignSelf: 'flex-start'
+              }} size={10} color="error">
+                Enter valid contact
+              </Text>
+            )}
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+              {isLoader ? (
+                <div className={styles.svgTick}>
+                  <Loader withOutOverlay size={'small'} />
+                </div>
+              ) : (
+                <div
+                  className={cx('svgTickMargin', {
+                    svgTickDisable: isEmpty(formik.values.name),
+                    tickStyle: !isEmpty(formik.values.name),
+                  })}
+                  onClick={(e) => handleCellSubmit(e, value.id)}
+                  tabIndex={-1}
+                  role={'button'}
+                  onKeyPress={() => {}}
+                >
+                  <SvgTickBox className={styles.tickStyle} />
+                </div>
+              )}
+
               <div
-                className={cx('svgTickMargin', {
-                  svgTickDisable: isEmpty(formik.values.name),
-                  tickStyle: !isEmpty(formik.values.name),
-                })}
-                onClick={(e) => handleCellSubmit(e, value.id)}
+                className={styles.svgClose}
+                onClick={handleCloseInput}
                 tabIndex={-1}
                 role={'button'}
                 onKeyPress={() => {}}
               >
-                <SvgTickBox className={styles.tickStyle} />
+                <SvgCloseBox className={styles.tickStyle} />
               </div>
-            )}
-
-            <div
-              className={styles.svgClose}
-              onClick={handleCloseInput}
-              tabIndex={-1}
-              role={'button'}
-              onKeyPress={() => {}}
-            >
-              <SvgCloseBox className={styles.tickStyle} />
             </div>
           </div>
         </div>

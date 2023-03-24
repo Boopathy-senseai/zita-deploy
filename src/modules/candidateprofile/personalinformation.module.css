@@ -26,7 +26,7 @@
 }
 .loginText {
   margin-top: 20px;
-  margin-bottom: 40px;
+  /* margin-bottom: 40px; */
 }
 .totalExpFlex {
   position: relative;
@@ -43,4 +43,7 @@
 }
 .saveBtn {
   margin-top: 20px;
+}
+.contactFlex{
+  margin-top: 40px;
 }

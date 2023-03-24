@@ -113,6 +113,7 @@ const JobDetails = ({
 
   const perAnnum = values.jobType === '3' ? 'Per Hour' : 'Per Annum';
 
+  // free fill initial form
   useEffect(() => {
     if (jd_output.job_type_id !== 0) {
       setFieldValue('jobType', jd_output.job_type_id.toString());
@@ -138,6 +139,13 @@ const JobDetails = ({
     if (!isEmpty(jd_output.salary_max) && jd_output.salary_max !== 0) {
       setFieldValue('maximumSalary', jd_output.salary_max);
     }
+    if (
+      !isEmpty(jd_output.salary_curr_type_id) && jd_output.salary_curr_type_id !== 0
+    ) {
+      setFieldValue('currency', jd_output.salary_curr_type_id.toString());
+    } else{
+      setFieldValue('currency', '240'); 
+    }
     setFieldValue(
       'showSalaryCandidates',
       jd_output.show_sal_to_candidate === true ? '1' : '0',
@@ -156,6 +164,7 @@ const JobDetails = ({
     }
   }, [jd_output]);
 
+  // error focus input function
   const hanldeErrorFocus = () => {
     if (!isEmpty(errors.jobTitle)) {
       getFocus('jobtitle__jobtitle');
@@ -163,7 +172,7 @@ const JobDetails = ({
       getFocus('jobtitle__jobrole');
     } else if (!isEmpty(errors.jobId)) {
       getFocus('jobtitle__jobId');
-    } else if (!isEmpty(errors.jobDescription)) {
+    } else if (!isEmpty(errors.jobDescription) || !isEmpty(values.jobDescription) && values.jobDescription.length < 201) {
       getFocus('jobtitledescription___richtext');
     } else if (!isEmpty(errors.nonDsSkill)) {
       getFocus('nondsSkill__nonSkill');
@@ -297,6 +306,8 @@ const JobDetails = ({
             }
             onChange={(option) => {
               setFieldValue('country', option.id);
+              setFieldValue('city', '');
+              setFieldValue('state', '');
               onDirty();
             }}
             getOptionValue={(option: { id: number }) => `${option.id}`}
@@ -315,12 +326,17 @@ const JobDetails = ({
             getOptionValue={(option: { id: number }) => `${option.id}`}
             getOptionLabel={(option: { name: string }) => option.name}
             value={
-              getState
-                ? getState.find((option) => option.id === Number(values.state))
+              !isEmpty(values.state)
+                ? getState
+                  ? getState.find(
+                      (option) => option.id === Number(values.state),
+                    )
+                  : ''
                 : ''
             }
             onChange={(option) => {
               setFieldValue('state', option.id);
+              setFieldValue('city', '');
               onDirty();
             }}
           />
@@ -336,8 +352,10 @@ const JobDetails = ({
             getOptionValue={(option: { id: number }) => `${option.id}`}
             getOptionLabel={(option: { name: string }) => option.name}
             value={
-              getCity
-                ? getCity.find((option) => option.id === Number(values.city))
+              !isEmpty(values.city)
+                ? getCity
+                  ? getCity.find((option) => option.id === Number(values.city))
+                  : ''
                 : ''
             }
             onChange={(option) => {
@@ -446,10 +464,12 @@ const JobDetails = ({
             options={currencyData}
             label="Currency"
             required
+            isSearchable
             value={
               currencyData
                 ? currencyData.find(
-                    (option) => option.value === values.currency,
+                    (option) =>
+                      Number(option.value) === Number(values.currency),
                   )
                 : ''
             }
@@ -458,6 +478,7 @@ const JobDetails = ({
               onDirty();
             }}
           />
+      <ErrorMessage name={'currency'} errors={errors} touched={touched} />
         </Flex>
         <Flex flex={3} className={styles.showStyle}>
           <InputSwitch
@@ -478,7 +499,7 @@ const JobDetails = ({
         updateQualification={updateQualification}
       />
       <Flex row center end className={styles.btnContainer}>
-        <LinkWrapper target={'_parent'} to={routesPath.MY_JOB_POSTING}>
+        <LinkWrapper to={routesPath.MY_JOB_POSTING}>
           <Button types="secondary">{CANCEL}</Button>
         </LinkWrapper>
 
