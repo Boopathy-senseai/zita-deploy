@@ -103,7 +103,6 @@ const NavigationSearch = () => {
     }
   };
 
-
   useEffect(() => {
     if (formik.values.value !== '') searchNavigate(formik.values.value);
   }, [formik.values.value]);
@@ -137,26 +136,29 @@ const NavigationSearch = () => {
     if (permission.includes('create_post')) {
       optionsArray.push('Create Job', 'Post Jobs');
     }
-    if(permission.includes('manage_account_settings') &&
-    super_user === false){
+    if (
+      permission.includes('manage_account_settings') &&
+      super_user === false
+    ) {
       optionsArray.push('Build Your Careers Page', 'Company Profile');
     }
   }, [searchOptions, plan_id, super_user, permission]);
-  const toFindDuplicates = (arry:string[]) => arry.filter((item, index) => arry.indexOf(item) === index)
+  const toFindDuplicates = (arry: string[]) =>
+    arry.filter((item, index) => arry.indexOf(item) === index);
   const duplicateElementa = toFindDuplicates(optionsArray);
   // console.log('duplicateElementa',duplicateElementa);
-  
+
   return (
     <div style={{ position: 'relative' }}>
-      <div style={{ position: 'absolute', zIndex: 11, top: 3, left: 8 }}>
-        <SvgSearch fill={WHITE} />
+      <div style={{ position: 'absolute', zIndex: 11, top: 5, left: 10 }}>
+        <SvgSearch fill={'#581845'} />
       </div>
 
       <InputSearch
         // eslint-disable-next-line jsx-a11y/no-autofocus
         autoFocus
         style={styles.searchStyle}
-        placeholder="Search"
+        placeholder="Type to Search"
         options={duplicateElementa}
         setFieldValue={formik.setFieldValue}
         name="value"

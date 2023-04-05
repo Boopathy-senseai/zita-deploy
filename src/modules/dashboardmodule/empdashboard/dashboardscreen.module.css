@@ -1,5 +1,6 @@
 .overAll {
-  overflow-y: scroll;
+  /* revamp off scroll css */
+  /* overflow-y: scroll; */
   padding: 20px 40px;
 }
 .freeImg {

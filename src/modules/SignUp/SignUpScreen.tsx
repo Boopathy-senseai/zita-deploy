@@ -87,6 +87,7 @@ const SignUpScreen = () => {
       console.log('res', res.payload);
 
       if (res.payload.success) {
+        formik.resetForm();
         setVerification(true);
         setLoader(false);
       }
@@ -186,23 +187,25 @@ const SignUpScreen = () => {
 
   // email validation api call
   useEffect(() => {
-    dispatch(emailMiddleWare({ email: formik.values.email,domain:'' })).then((res) => {
-      if (res.payload.success === true) {
-        if (res.payload.value === 'email') {
-          console.log('sdsddssdds');
-          setEmailValid(true);
-          setDomainValid(false);
-        } else if (res.payload.value === 'domain') {
-          console.log('setDomainValid');
-          setDomainValid(true);
-          setEmailValid(false);
+    dispatch(emailMiddleWare({ email: formik.values.email, domain: '' })).then(
+      (res) => {
+        if (res.payload.success === true) {
+          if (res.payload.value === 'email') {
+            console.log('sdsddssdds');
+            setEmailValid(true);
+            setDomainValid(false);
+          } else if (res.payload.value === 'domain') {
+            console.log('setDomainValid');
+            setDomainValid(true);
+            setEmailValid(false);
+          }
         }
-      }
-      if (res.payload.success === false) {
-        setEmailValid(false);
-        setDomainValid(false);
-      }
-    });
+        if (res.payload.success === false) {
+          setEmailValid(false);
+          setDomainValid(false);
+        }
+      },
+    );
   }, [formik.values.email]);
 
   // user name validation api call
@@ -337,10 +340,7 @@ const SignUpScreen = () => {
                   </div>
                 </Flex>
                 <Flex row top className={styles.marginRight}>
-                  <div
-                    className={styles.inputWidthOne}
-                   
-                  >
+                  <div className={styles.inputWidthOne}>
                     <InputText
                       onKeyPress={allowAlphaNumericSpace}
                       label="Username"
