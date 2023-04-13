@@ -3,32 +3,40 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { useDispatch, useSelector } from 'react-redux';
-import SvgJobpost from '../../icons/JobPost';
 
+import SvgJobPost from '../../icons/SvgJobPost';
+import { ErrorMessage, InputCheckBox, InputSearch, Table } from '../../uikit';
+// import SvgAccountCircle from '../../icons/SvgAccountCircle';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
-import Card from '../../uikit/Card/Card';
+// import Card from '../../uikit/Card/Card';
 import Loader from '../../uikit/Loader/Loader';
 import Button from '../../uikit/Button/Button';
 import { getBlur, getFocus,copyToClipboard } from '../../uikit/helper';
 import Pangination from '../../uikit/Pagination/Pangination';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import { jobSelect } from '../../appRoutesPath';
-import SvgCopy from '../../icons/SvgCopy';
-import SvgExternal from '../../icons/SvgExternal';
+// import SvgCopy from '../../icons/SvgCopy';
+
+// import { WHITE } from '../../uikit/Colors/colors';
+
+import SvgLocation from '../../icons/SvgLocation';
+// import SvgExternal from '../../icons/SvgExternal';
 import { AppDispatch, RootState } from '../../store';
-import { postedOn } from './mock';
+import SvgSearch from '../../icons/SvgSearch';
+import { jobTypeData, postedOn } from './mock';
 import {
   myJobPostingInitalMiddleWare,
   myJobPostingDataMiddleWare,
 } from './store/middleware/myjobpostingmiddleware';
 import styles from './myjobpostingscreen.module.css';
-import MyJobsPostingMetrics from './MyJobsPostingMetrics';
-import MyJobsPostingData from './MyJobsPostingData';
-import MyJobPostingScreenStatus from './MyJobPostingScreenStatus';
-import MyJobsPostingCount from './MyJobsPostingCount';
+// import MyJobsPostingMetrics from './MyJobsPostingMetrics';
+// import MyJobsPostingData from './MyJobsPostingData';
+// import MyJobPostingScreenStatus from './MyJobPostingScreenStatus';
+// import MyJobsPostingCount from './MyJobsPostingCount';
 import MyJobsPostingFilter, { MyJobFormProps } from './MyJobsPostingFilter';
-import Table from './Table';
+import SvgExternal from '../../icons/SvgExternal';
+
 const cx = classNames.bind(styles);
 
 const initial: MyJobFormProps = {
@@ -59,7 +67,6 @@ const MyJobPostingScreen = () => {
     len_list,
     is_loading,
     career_page_url,
-    domain,
     Permission,
     is_plan
   } = useSelector(
@@ -119,27 +126,22 @@ const MyJobPostingScreen = () => {
     );
   }, [isPage, formik.values]);
 
+  
+
   return (
     <Flex>
-      {(is_loading || is_loadingone) && <Loader />}
+      {/* {(is_loading || is_loadingone) && <Loader />} */}
       {Jobs_List === 2 && (
         <Flex row className={styles.overAll}>
-          <div className={cx('filterOverAll')}>
-            <MyJobsPostingFilter
-              formik={formik}
-              job_ids={job_ids}
-              job_title={job_title}
-              location_list={location_list}
-            />
-          </div>
+          
 
           <div className={cx('tabsContainer')}>
             <Flex row center className={styles.titleContainer} >
-           <SvgJobpost/>
-              <Text  bold size={16} color="black" style={{ marginRight: 8 }} >
+          <SvgJobPost width={22} height={22}  />
+              <Text  bold size={16} color="black" style={{ marginLeft: 8 }} className={styles.postingcl} >
                  Job Postings
               </Text>
-              <LinkWrapper target={'_parent'} to={`${career_page_url}`}>
+              <LinkWrapper target={'_blank'} to={`${career_page_url}/careers`}>
                 <Button className={styles.btnStyle} types="secondary">
                   <Flex row>
                     <Text className={styles.career} color={'theme'} bold>
@@ -149,179 +151,120 @@ const MyJobPostingScreen = () => {
                     <SvgExternal width={17} height={17} fill={'#581845'} />
                   </Flex>
                 </Button>
-              </LinkWrapper>
+              </LinkWrapper> 
             </Flex>
-            <Flex row between className={styles.width99} >
-              <Text color="black">Total Jobs Found: {len_list}</Text>
+            
+              
+
+          <Flex row className={styles.searchstyle}>
+              <Text className={styles.jobstext} >
+                Jobs 
+              </Text>
+              
+              <Flex row className={''}>
+             <InputSearch
+          initialValue={formik.values.jobTitle}
+          options={job_title}
+          setFieldValue={formik.setFieldValue}
+          name="jobTitle"
+          style={styles.boxstyle}
+          labelBold
+          placeholder="enter a job tittle or name"
+          // label={'Job Title'}
+          onkeyPress={(event) => {
+            if (event.key === 'Enter') {
+              formik.setFieldValue('jobTitle', event.target.value);
+            }
+          }}
+        />
+      
+     
+ 
+      <Flex style={{ position: 'relative' }} >
+      
+      <div className={styles.filterbg} >
+        <SvgSearch fill='white' />
+       
+        </div>
+      
+      <InputSearch
+        initialValue={formik.values.location}
+          placeholder="select Location" 
+          options={location_list}
+          setFieldValue={formik.setFieldValue}
+          name="location"
+          style={styles.boxstyle}
+          labelBold
+          // label={'Location'}
+          onkeyPress={(event) => {
+            if (event.key === 'Enter') {
+              formik.setFieldValue('location', event.target.value);
+            }
+          }}
+         />
+        
+          </Flex > 
+   
+              <Text className={styles.totaljobs}>Total Jobs Found: {len_list}</Text>
+              </Flex>
+             
               {Permission.includes('create_post') && (
                 <LinkWrapper target={'_parent'} to={jobSelect}>
-                  <Button className={styles.btnStyle} types="primary">
+                  <Button className={styles.style1} types="primary">
                     Post Job
                   </Button>
                 </LinkWrapper>
               )}
 
-              <LinkWrapper target={'_parent'} to={`${career_page_url}`}>
+
+              <LinkWrapper target={'_blank'} to={`${career_page_url}/careers`}>
                 
                   
-                  <Button className={styles.btnStyle} types="primary">
+                  <Button className={styles.style2} types="primary">
                   
-                     View Careers Page
+                     View Careers 
                    </Button>
 
               </LinkWrapper>
+              
             </Flex>
+
+
+            <Flex>
+              
+            <div className={cx('filterOverAll')}>
             
+            {/* <Text className={styles.quickfil2}>
+              
+              Quick Filters: */}
+              
+              
+                  {/* <Flex row>
+                
+                    
+                  <Text className={styles.quickfil}> </Text>
+                  
+                    
+                    <SvgIntomark  className={styles.stylesvg}/>
+              
+             </Flex> */}
+             {/* </Text> */}
+             
+            <MyJobsPostingFilter
+              formik={formik}
+              job_ids={job_ids}
+              job_title={job_title}
+              location_list={location_list}
+            />
+          </div>
+          
+          
+
+
           <Flex>
             <Table/>
-                
-                         
-          </Flex>
-        
-            <Flex
-              center
-              columnFlex
-              className={styles.overAllCard}
-              height={window.innerHeight - 180}
-            >
-              {final_list &&
-                final_list.map((list, listIndex) => {
-                  return (
-                    <>
-                      {listIndex === 0 && (
-                        <input
-                          className={styles.inputNone}
-                          id="myjobpostscreen___input"
-                        />
-                      )}
-                      <Card key={list.id} className={styles.cardOverAll}>
-                        <Flex row center>
-                        <Flex flex={6}>
-                         {list.jd_status__label_name === 'Active' && (
-        <Flex row top>
-        <LinkWrapper to={`/job_view/${list.id}`}className={styles.link}>
-          <Text color="link" bold >
-            {list.job_title} 
-          </Text>
-        </LinkWrapper>
-        
-        <div
-              tabIndex={0}
-              role={'button'}
-              style={{ marginLeft: 8 }}
-              title="Copy Job Posting URL"
-              onClick={() => copyToClipboard(`${domain}/${career_page_url}/career_job_view/${list.id}/${list.job_title}` ,'Link Copied')}
-              onKeyDown={() => {}}
-            >
-              <SvgCopy width={15} height={15}  fill={'#581845'}/>
-            </div>
-          </Flex>
-      )}
-      {list.jd_status__label_name === 'Draft' && (
-           <Flex  row top>
-           {list.is_ds_role  !== true ?  
-        <LinkWrapper to={`/jobs/create_non_ds_edit/${list.id}`} className={styles.link}>
-          <Text color="link" bold>
-            {list.job_title} 
-          </Text>  
-        </LinkWrapper>
-        :
-         <LinkWrapper to={`/jobs/create_ds_edit/${list.id}`} className={styles.link}>
-          <Text color="link" bold>
-            {list.job_title} 
-          </Text>  
-        </LinkWrapper>
-      }
-         <div
-              tabIndex={0}
-              role={'button'}
-              style={{ marginLeft: 8 }}
-             
-            >
-              <SvgCopy width={15} height={15}/>
-            </div>
-         </Flex>
-      )}
-
-      {list.jd_status__label_name === 'Inactive' && (
-        <Flex  row top>
-        <LinkWrapper to={`/job_view/${list.id}`}className={styles.link}>
-          <Text color="link" bold>
-            {list.job_title} 
-          </Text>
-        </LinkWrapper>  {' '}
-       <div
-              tabIndex={0}
-              role={'button'}
-              style={{ marginLeft: 8 }}
-             
-            >
-              <SvgCopy width={15} height={15}/>
-            </div>
-         </Flex>
-      )}
-      {list.jd_status__label_name === 'Questionnaire' && (
-            <Flex row top>
-        <LinkWrapper to={`/jobs/questionnaire/${list.id}`}className={styles.link}>
-          <Text color="link" bold>
-            {list.job_title} 
-          </Text>
-        </LinkWrapper>  {' '}
-         <div
-              tabIndex={0}
-              role={'button'}
-              style={{ marginLeft: 8 }}
-             
-            >
-              <SvgCopy width={15} height={15}/>
-            </div>
-          </Flex>
-      )}
-      {list.jd_status__label_name === 'Preview' && (
-            <Flex row top>
-        <LinkWrapper to={`/jobs/preview/${list.id}`} className={styles.link}>
-          <Text color="link" bold>
-            {list.job_title} 
-          </Text>
-        </LinkWrapper>  {' '}
-         <div
-              tabIndex={0}
-              role={'button'}
-              style={{ marginLeft: 8 }}
-             
-            >
-              <SvgCopy width={15} height={15}/>
-            </div>
-          </Flex>
-      )}
-
-                        <Flex  row>
-                        <Flex flex={3}>
-                            <MyJobsPostingData
-                              list={list}
-                              domain={domain}
-                              career_page_url={career_page_url}
-                            />
-                          </Flex>
-                          <Flex flex={4}>
-                            <MyJobsPostingCount list={list} />
-                          </Flex>
-
-                        </Flex>
-                          
-                          </Flex>
-                          <Flex flex={3} className={styles.screenStatusStyle}>
-                            <MyJobPostingScreenStatus list={list} />
-                          </Flex>
-                          <Flex flex={2}>
-                            <MyJobsPostingMetrics list={list} />
-                          </Flex>
-                        </Flex>
-                      </Card>
-                    </>
-                  );
-                })}
-              {len_list === 0 && (
+           
+        {len_list === 0 && (
                 <Flex
                   height={'100%'}
                   flex={1}
@@ -331,8 +274,10 @@ const MyJobPostingScreen = () => {
                 >
                   <Text color="gray">No Jobs Found</Text>
                 </Flex>
+                
               )}
-
+ </Flex>
+ </Flex>
               {len_list > 10 && (
                 <Flex middle className={styles.pagination}>
                   <Pangination
@@ -342,30 +287,12 @@ const MyJobPostingScreen = () => {
                   />
                 </Flex>
               )}
-            </Flex>
+            
           </div>
         </Flex>
       )}
-      {Jobs_List === 1 && (
-        <Flex row className={styles.overAll1}>
-          <Flex center>
-            <Flex center>
-              <Text className={styles.noJob}>
-                You have no posted jobs to display.
-              </Text>
-            </Flex>
-            <Flex center middle>
-              <LinkWrapper target={'_parent'} to={jobSelect}>
-                <Button className={styles.btnStyle} types="primary">
-                  Post Job
-                </Button>
-              </LinkWrapper>
-            </Flex>
-          </Flex>
-        </Flex>
-      )}
     </Flex>
+    
   );
 };
 export default MyJobPostingScreen;
-

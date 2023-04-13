@@ -7,7 +7,7 @@
   width: 100%;
   color: #666666;
   font-size: 12px;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
 }
 
 .tabsStyle {
@@ -25,6 +25,7 @@
 .width99 {
   width: 99%;
   margin-bottom: 50px;
+ 
 }
 .overAll {
   margin-left:auto;
@@ -88,14 +89,33 @@
   padding-bottom: 6px;
 }
 .noJob {
-  width: 327px;
-  height: 35px;
-  margin: 33px 2px 19px 2px;
-
-  font-size: 20px;
-
-  color: #f94949;
+  font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 33px;
+    text-align: center;
+    color: #581845;
 }
+
+.downtext{
+  font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #666666;
+
+}
+
+.btneStyle{
+  margin-top: 15px;
+}
+
+
 .font {
   font-size: 12px;
   color: #666666;
@@ -103,7 +123,13 @@
 }
 .fontScreen{
   font-size: 12px;
-  color: #666666;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  /* line-height: 16px; */
+  
+  color: #581845;
   /* margin-top: 5px; */
   line-height: 22px;
 }
@@ -156,15 +182,4 @@
 .justify{
 text-align: center;
 justify-content: space-around;
-}
-
-.hellothere{
-  font-family: 'Roboto';
-font-style: normal ;
-font-weight: 600 ;
-font-size: 14px ;
-line-height: 16px ;
-white-space: nowrap;
-text-transform: capitalize;
-color: #581845;
 }

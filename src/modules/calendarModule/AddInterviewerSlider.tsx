@@ -4,9 +4,8 @@ import moment from 'moment';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import toast from 'react-hot-toast';
 import { InputText } from '../../uikit';
-moment.tz.setDefault('Asia/Calcutta');
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-import 'moment-timezone';
+
+
 import { AppDispatch } from '../../store';
 import { friendsEventsMiddleware } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { Modal } from '../../uikit/v2';

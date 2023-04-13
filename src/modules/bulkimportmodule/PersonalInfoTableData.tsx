@@ -180,7 +180,7 @@ const answer_array = emp_data && emp_data.skills.split(',');
         formik.setFieldValue('skills', techSkillEmpty);
       }
     }
-  }, [emp_data, open]);
+  }, [emp_data]);
 
   const onCloseModal = () => {
     if (

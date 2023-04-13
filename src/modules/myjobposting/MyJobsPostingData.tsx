@@ -43,7 +43,7 @@ const MyJobsPostingData = ({ list,domain,career_page_url}: Props) => {
       {list.jd_status__label_name === 'Active' && (
         <Flex row center>
         <Flex className={styles.icon}>
-        <SvgCalendar width={13} height={13} />
+        {/* <SvgCalendar width={13} height={13} /> */}
         </Flex>
         <Text className={styles.font}>
    {getDateString(list.job_posted_on_date, 'll')}
@@ -61,16 +61,7 @@ const MyJobsPostingData = ({ list,domain,career_page_url}: Props) => {
       </Text>
         </Flex>
           )}
-      {list.jd_status__label_name === 'Preview' && (
-         <Flex row center>
-        <Flex className={styles.icon}>
-        <SvgCalendar width={13} height={13} />
-        </Flex>
-        <Text className={styles.font}>
-       NA
-      </Text>
-        </Flex>
-        )}
+     
       {list.jd_status__label_name === 'Questionnaire' && (
         <Flex row center>
         <Flex className={styles.icon}>
@@ -82,7 +73,7 @@ const MyJobsPostingData = ({ list,domain,career_page_url}: Props) => {
         </Flex>
       )}
 
-      {list.jd_status__label_name === 'Inactive' && (
+      {list.jd_status__label_name === 'Inactive' || list.jd_status__label_name === 'Preview' ||(
          <Flex row center>
         <Flex className={styles.icon}>
         <SvgCalendar width={13} height={13} />

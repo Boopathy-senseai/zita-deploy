@@ -14,7 +14,7 @@ const WeekHeader = ({ date, localizer }: HeaderProps) => {
         <p style={{ marginBottom: '3px' }}>
           {localizer?.format(date, 'DD MMMM')}
         </p>
-        <p style={{ fontWeight: '600' }}>{localizer?.format(date, 'dddd')}</p>
+        <p style={{  }}>{localizer?.format(date, 'dddd')}</p>
       </div>
     </>
   );
