@@ -91,7 +91,7 @@ const Sidebar = (props) => {
                   color="primary"
                   style={{ color: '#581845', marginRight: '10px' }}
                 >
-                  My Dashboard
+                  Dashboard
                 </Text>
               </LinkWrapper>
             </li>
@@ -104,7 +104,7 @@ const Sidebar = (props) => {
                 color="primary"
                 style={{ color: '#581845', marginRight: '10px' }}
               >
-                My Dashboard
+                Dashboard
               </Text>
             </li>
           )}

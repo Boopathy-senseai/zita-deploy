@@ -79,7 +79,6 @@ import SourcingPerformance from './modules/reportsmodule/SourcingPerformance';
 import CheckSignUpActivate from './modules/SignUp/CheckSignUpActivate';
 import DashBoardScreen from './modules/dashboardmodule/empdashboard/DashBoardScreen';
 
-import Sidebar from './modules/navbar/empnavbar/sidebar';
 
 
 
@@ -372,9 +371,7 @@ const App = () => {
         {/* <Route path={''} component={NotFound} /> */}
         {/* <Route path="/calendar" component={Calendar} /> */}
 
-         <Route path="/sidebar" component={Sidebar} />
-
-        {localStorage.getItem('loginUserCheck') === 'true' ||
+ {localStorage.getItem('loginUserCheck') === 'true' ||
           localStorage.getItem('loginUserCheck') === null
           ? permissionRoutes.map(
             (route) =>

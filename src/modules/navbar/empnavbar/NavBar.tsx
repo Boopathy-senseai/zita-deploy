@@ -26,7 +26,7 @@ import { userProfileMiddleWare } from '../../accountsettingsmodule/userprofilemo
 import { mediaPath } from '../../constValue';
 import { permissionMiddleWare } from '../../Login/store/middleware/loginMiddleWare';
 import { logOutMiddleWare } from '../store/middleware/navbarmiddleware';
-import Sidebar from './sidebar';
+
 import styles from './navbar.module.css';
 import NavigationSearch from './NavigationSearch';
 import Notification from './Notification';
@@ -214,7 +214,7 @@ const NavBar = () => {
                                     marginLeft: '15px',
                                   }}
                                 >
-                                  Setting
+                                  Settings
                                 </span>
                               </div>
                             </LinkWrapper>
@@ -234,7 +234,7 @@ const NavBar = () => {
                               <span
                                 style={{ color: '#581845', marginLeft: '15px' }}
                               >
-                                Setting
+                                Settings
                               </span>
                             </div>
                           )}
@@ -318,20 +318,201 @@ const NavBar = () => {
                   </>
                 ) : (
                   <>
-                    <div
-                      className={styles.profiledroup}
-                      onClick={() => setOpen(!isOpen)}
-                      onKeyDown={() => {}}
-                      role={'button'}
-                      tabIndex={-1}
-                    >
-                      <img
-                        style={{ objectFit: 'cover' }}
-                        src={mediaPath + isProfile}
-                        alt="profile"
-                        className={styles.candiProfile}
-                      />
-                    </div>
+                    <Dropdown>
+                      <Dropdown.Toggle
+                        style={{
+                          backgroundColor: '#ffffff',
+                          border: '#ffffff',
+                          boxShadow: 'none',
+                        }}
+                      >
+                        <LinkWrapper onClick={() => setOpen(!isOpen)}>
+                          <img
+                            style={{ objectFit: 'cover' }}
+                            src={mediaPath + isProfile}
+                            alt="profile"
+                            className={styles.candiProfile}
+                          />
+                        </LinkWrapper>
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu className={styles.dropdown_item}>
+                        <Dropdown.Item href="#">
+                          {is_plan ? (
+                            <LinkWrapper
+                              onClick={clearTab}
+                              to={'/account_setting/settings'}
+                            >
+                              <div
+                                style={{ marginLeft: '-10px' }}
+                                title="Account Settings"
+                                className={cx('svgMargin', {
+                                  navFocusColor:
+                                    pathname.includes('/account_setting'),
+                                })}
+                              >
+                                <SvgUser
+                                  fill={'#581845'}
+                                  height={20}
+                                  width={20}
+                                />
+
+                                <span
+                                  style={{
+                                    color: '#581845',
+                                    marginLeft: '15px',
+                                  }}
+                                >
+                                  Profile
+                                </span>
+                              </div>
+                            </LinkWrapper>
+                          ) : (
+                            <div
+                              title="Account Settings"
+                              className={cx('svgMargin', {
+                                navFocusColor:
+                                  pathname.includes('/account_setting'),
+                              })}
+                            >
+                              <SvgUser
+                                fill={'#581845'}
+                                height={20}
+                                width={20}
+                              />
+                              <span
+                                style={{ color: '#581845', marginLeft: '15px' }}
+                              >
+                                Profile
+                              </span>
+                            </div>
+                          )}
+                        </Dropdown.Item>
+                        <Dropdown.Item href="#">
+                          {is_plan ? (
+                            <LinkWrapper
+                              onClick={clearTab}
+                              to={'/account_setting/settings'}
+                            >
+                              <div
+                                style={{ marginLeft: '-10px' }}
+                                title="Account Settings"
+                                className={cx('svgMargin', {
+                                  navFocusColor:
+                                    pathname.includes('/account_setting'),
+                                })}
+                              >
+                                <SvgSetting
+                                  fill={'#581845'}
+                                  height={20}
+                                  width={20}
+                                />
+                                <span
+                                  style={{
+                                    color: '#581845',
+                                    marginLeft: '15px',
+                                  }}
+                                >
+                                  Settings
+                                </span>
+                              </div>
+                            </LinkWrapper>
+                          ) : (
+                            <div
+                              title="Account Settings"
+                              className={cx('svgMargin', {
+                                navFocusColor:
+                                  pathname.includes('/account_setting'),
+                              })}
+                            >
+                              <SvgSetting
+                                fill={'#581845'}
+                                height={20}
+                                width={20}
+                              />
+                              <span
+                                style={{ color: '#581845', marginLeft: '15px' }}
+                              >
+                                Settings
+                              </span>
+                            </div>
+                          )}
+                        </Dropdown.Item>
+                        <Dropdown.Item href="#">
+                          {is_plan ? (
+                            <LinkWrapper
+                              onClick={clearTab}
+                              to={'/account_setting/settings'}
+                            >
+                              <div
+                                style={{ marginLeft: '-10px' }}
+                                title="Account Settings"
+                                className={cx('svgMargin', {
+                                  navFocusColor:
+                                    pathname.includes('/account_setting'),
+                                })}
+                              >
+                                <SvgLock
+                                  fill={'#581845'}
+                                  height={20}
+                                  width={20}
+                                />
+
+                                <span
+                                  style={{
+                                    color: '#581845',
+                                    marginLeft: '15px',
+                                  }}
+                                >
+                                  Update Password
+                                </span>
+                              </div>
+                            </LinkWrapper>
+                          ) : (
+                            <div
+                              title="Account Settings"
+                              className={cx('svgMargin', {
+                                navFocusColor:
+                                  pathname.includes('/account_setting'),
+                              })}
+                            >
+                              <SvgLock
+                                fill={'#581845'}
+                                height={20}
+                                width={20}
+                              />
+
+                              <span
+                                style={{ color: '#581845', marginLeft: '15px' }}
+                              >
+                                Update Password
+                              </span>
+                            </div>
+                          )}
+                        </Dropdown.Item>
+                        <Dropdown.Divider />
+
+                        <Flex style={{ color: '#FCC203', textAlign: 'center' }}>
+                          You have logged in as
+                        </Flex>
+                        <Flex style={{ color: '#581845', textAlign: 'center' }}>
+                          {email}
+                        </Flex>
+                        <div
+                          style={{
+                            textAlign: 'center',
+                            marginBottom: '10px',
+                            marginTop: '10px',
+                          }}
+                        >
+                          <Button
+                            className={styles.Signot}
+                            onClick={handleLogout}
+                          >
+                            Log out
+                          </Button>
+                        </div>
+                      </Dropdown.Menu>
+                    </Dropdown>
                   </>
                 )}
               </div>
