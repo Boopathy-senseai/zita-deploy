@@ -5,7 +5,7 @@ import classNames from 'classnames/bind';
 import { useDispatch, useSelector } from 'react-redux';
 
 import SvgJobPost from '../../icons/SvgJobPost';
-import { ErrorMessage, InputCheckBox, InputSearch, Table } from '../../uikit';
+import { ErrorMessage, InputCheckBox, InputSearch, } from '../../uikit';
 // import SvgAccountCircle from '../../icons/SvgAccountCircle';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
@@ -33,7 +33,7 @@ import styles from './myjobpostingscreen.module.css';
 // import MyJobsPostingMetrics from './MyJobsPostingMetrics';
 // import MyJobsPostingData from './MyJobsPostingData';
 // import MyJobPostingScreenStatus from './MyJobPostingScreenStatus';
-// import MyJobsPostingCount from './MyJobsPostingCount';
+import Table from './Table';
 import MyJobsPostingFilter, { MyJobFormProps } from './MyJobsPostingFilter';
 import SvgExternal from '../../icons/SvgExternal';
 
