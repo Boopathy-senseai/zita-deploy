@@ -15,6 +15,10 @@ import {
   SUNRAY,
 } from '../../uikit/Colors/colors';
 import { qualificationFilterHelper } from '../common/commonHelper';
+import SvgSearch from '../../icons/SvgSearch';
+import SvgLocation from '../../icons/SvgLocation';
+import { InputSearch } from '../../uikit';
+import PipelinePopup from './pipelinepopup';
 import {
   applicantPipeLineDataMiddleWare,
   applicantPipeLineMiddleWare,
@@ -57,6 +61,8 @@ const ApplicantPipeLineScreen = () => {
   const [isSortSelected, setSortSelected] = useState('match');
   const [isSortRejected, setSortRejected] = useState('match');
   const [isApplicantView, setApplicantView] = useState(false);
+  //showpop
+  const [showPipelinePopup, setShowPipelinePopup] = useState(false);
 
   const favAdd = isTotalFav ? 'add' : '';
 
@@ -134,22 +140,22 @@ const ApplicantPipeLineScreen = () => {
   const hanldeProfile = (listValue: listValue) => {
     setProfile(listValue.label);
   };
-// filter bachelor function
+  // filter bachelor function
   const handleBachelor = () => {
     setBachelors(!isBachelors);
     setAny(false);
   };
-// filter doctorate function
+  // filter doctorate function
   const handleDoctorate = () => {
     setDoctorate(!isDoctorate);
     setAny(false);
   };
-// filter master function
+  // filter master function
   const handleMaster = () => {
     setMasters(!isMasters);
     setAny(false);
   };
-// filter other function
+  // filter other function
   const handleOther = () => {
     setOther(!isOther);
     setAny(false);
@@ -215,7 +221,7 @@ const ApplicantPipeLineScreen = () => {
       return optionList.value;
     });
 
-// filter api call
+  // filter api call
   useEffect(() => {
     dispatch(
       applicantPipeLineDataMiddleWare({
@@ -297,7 +303,7 @@ const ApplicantPipeLineScreen = () => {
     );
   };
 
-    // filter experience function
+  // filter experience function
   const handleExperience = (selectedValue: string) => {
     dispatch(
       applicantPipeLineDataMiddleWare({
@@ -329,11 +335,11 @@ const ApplicantPipeLineScreen = () => {
     setAny(true);
     setBachelors(false);
     setOther(false);
-    setSearch('')
-    setMatchRadio('')
+    setSearch('');
+    setMatchRadio('');
     setExperience('');
     setProfile('');
-    setSkillOption('')
+    setSkillOption('');
     dispatch(
       applicantPipeLineDataMiddleWare({
         jd_id: jdId,
@@ -351,6 +357,15 @@ const ApplicantPipeLineScreen = () => {
         sortRejected: isSortRejected,
       }),
     );
+  };
+
+  // close popup
+  const handleClosePipelinePopup = () => {
+    setShowPipelinePopup(false);
+  };
+  // open popup
+  const handleOpenPipelinePopup = () => {
+    setShowPipelinePopup(true);
   };
 
   const data = [
@@ -395,109 +410,171 @@ const ApplicantPipeLineScreen = () => {
   }, [isApplicantView, getAppliedView]);
 
   return (
-    <Flex row className={styles.overAll}>
-      {applicantDataLoader && favSuccess === false && !favLoader && <Loader />}
-      {pipeLineLoader && <Loader />}
-      {getAppliedView === 'true' && (
-        <ProfileView
-          open={isApplicantView}
-          cancel={() => {
-            localStorage.setItem('applied_view', 'false');
-            setApplicantView(false);
-          }}
-          jobId={getAppliedJd}
-          candidateId={getAppliedCanId}
-          inviteIconNone
+    <>
+      {showPipelinePopup && (
+        <PipelinePopup
+          openPipelinePopup={showPipelinePopup}
+          handleClosePipelinePopup={handleClosePipelinePopup}
         />
       )}
-      <Flex className={styles.filterFlex}>
-        <ApplicantPipeLineFilter
-          isSkillOption={isSkillOption}
-          isSkills={isSkills}
-          isSearch={isSearch}
-          setSearch={setSearch}
-          handleKeyPress={handleKeyPress}
-          isMatchRadio={isMatchRadio}
-          hanldeMatch={hanldeMatch}
-          isProfile={isProfile}
-          hanldeProfile={hanldeProfile}
-          handleExperience={handleExperience}
-          setExperience={setExperience}
-          setSkills={setSkills}
-          setSkillOption={setSkillOption}
-          qualificationOption={qualificationOption}
-          hanldeRefresh={hanldeRefresh}
-          handleSearch={handleSearch}
-          isExperience={isExperience}
-        />
-      </Flex>
-      <Flex
-        columnFlex
-        className={styles.dndBoardContainer}
-        width={window.innerWidth - 308}
-      >
-        <Flex row center className={styles.titleContainer}>
-          <Text bold size={16} color="black">
-            Applicants Pipeline
-          </Text>
+      <Flex row className={styles.overAll}>
+        {applicantDataLoader && favSuccess === false && !favLoader && (
+          <Loader />
+        )}
+        {pipeLineLoader && <Loader />}
+        {getAppliedView === 'true' && (
+          <ProfileView
+            open={isApplicantView}
+            cancel={() => {
+              localStorage.setItem('applied_view', 'false');
+              setApplicantView(false);
+            }}
+            jobId={getAppliedJd}
+            candidateId={getAppliedCanId}
+            inviteIconNone
+          />
+        )}
+        <Flex className={styles.filterFlex}>
+          <ApplicantPipeLineFilter
+            isSkillOption={isSkillOption}
+            isSkills={isSkills}
+            isSearch={isSearch}
+            setSearch={setSearch}
+            handleKeyPress={handleKeyPress}
+            isMatchRadio={isMatchRadio}
+            hanldeMatch={hanldeMatch}
+            isProfile={isProfile}
+            hanldeProfile={hanldeProfile}
+            handleExperience={handleExperience}
+            setExperience={setExperience}
+            setSkills={setSkills}
+            setSkillOption={setSkillOption}
+            qualificationOption={qualificationOption}
+            hanldeRefresh={hanldeRefresh}
+            handleSearch={handleSearch}
+            isExperience={isExperience}
+          />
+        </Flex>
+        <Flex
+          columnFlex
+          className={styles.dndBoardContainer}
+          width={window.innerWidth - 10}
+        >
+          
+          <Flex row className={styles.titleContainer}>
+            <Text bold size={16} color="theme">
+              Applicants Pipeline
+            </Text>
+            <JobTitleCard job_details={job_details} />
+            <div className={styles.triangle}> </div>
+          </Flex>
+          <Flex row between marginBottom={15}>
+          <Flex row style={{ position: 'relative' }} className={styles.searchbox} >
+            <Flex row className={styles.searchstyle}>
+              <Text className={styles.jobstext}>Candidates</Text>
+              <Flex row className={styles.searchboxoverall}>
+                <InputSearch
+                  initialValue={''}
+                  options={[]}
+                  setFieldValue={() => {}}
+                  name="jobTitle"
+                  style={styles.boxstyle}
+                  placeholder="Search candidate by name or email"
+                  onkeyPress={(event) => {
+                    {
+                    }
+                  }}
+                />
+                <Flex className={styles.middleline}></Flex>
+                <Flex className={styles.locationicon}>
+                  <SvgLocation width={18} height={18} fill={'#581845'}></SvgLocation>
+                </Flex>
+                <InputSearch
+                  initialValue={''}
+                  placeholder="Enter job location"
+                  options={[]}
+                  setFieldValue={() => {}}
+                  name="location"
+                  style={styles.boxstyle}
+                  labelBold
+                  onkeyPress={(event) => {
+                    alert(event);
+                    {
+                    }
+                  }}
+                />
+
+                
+                <Flex className={styles.searchicons}>
+                  <SvgSearch width={12} height={12} fill='#ffffff'></SvgSearch>
+                </Flex>
+              </Flex>
+            </Flex>
+          </Flex>
+          <Flex>
           {zita_match_count === 0 ? (
-            <Button disabled className={styles.btnStyle} types="secondary">
-              Zita Match Candidates
+            <Button disabled className={styles.btnStyle} types="primary">
+              View Zita Match
             </Button>
           ) : (
             <LinkWrapper replace to={`/zita_match_candidate/${jdId}`}>
-              <Button className={styles.btnStyle} types="secondary">
-                Zita Match Candidates
+              <Button className={styles.btnStyle} types="primary">
+              View Zita Match
               </Button>
             </LinkWrapper>
           )}
-        </Flex>
-        <JobTitleCard job_details={job_details} />
-        {applicant.length === 0 &&
-        shortlisted.length === 0 &&
-        selected.length === 0 &&
-        rejected.length === 0 &&
-        interviewed.length === 0 ? (
-          <Flex middle center height={window.innerHeight - 236}>
-            <Text color={'gray'}>No Applicants Found</Text>
+
           </Flex>
-        ) : (
-          <div>
-            <TotalApplicant
-              total={total_applicants}
-              filterTotalFav={filterTotalFav}
-              isTotalFav={isTotalFav}
-            />
-            <div style={{ position: 'relative' }}>
-              <DndTitle
-                data={data}
-                setSortApplicant={setSortApplicant}
-                setSortSortList={setSortSortList}
-                setSortInterview={setSortInterview}
-                setSortSelected={setSortSelected}
-                setSortRejected={setSortRejected}
+          
+          </Flex>
+          
+
+          {applicant.length === 0 &&
+          shortlisted.length === 0 &&
+          selected.length === 0 &&
+          rejected.length === 0 &&
+          interviewed.length === 0 ? (
+            <Flex middle center height={window.innerHeight - 236}>
+              <Text color={'gray'}>No Applicants Found</Text>
+            </Flex>
+          ) : (
+            <div>
+              <TotalApplicant
+                total={total_applicants}
+                filterTotalFav={filterTotalFav}
+                isTotalFav={isTotalFav}
               />
-              <div
-                style={{ height: window.innerHeight - 236 }}
-                className={styles.scrollStyle}
-              >
-                <DndBoardScreen
-                  applicant={applicant}
-                  shortlisted={shortlisted}
-                  selected={selected}
-                  rejected={rejected}
-                  interviewed={interviewed}
-                  jd_id={jd_id}
-                  outlook={outlook}
-                  google={google}
-                  job_details={job_details}
+              <div style={{ position: 'relative' }}>
+                <DndTitle
+                  data={data}
+                  setSortApplicant={setSortApplicant}
+                  setSortSortList={setSortSortList}
+                  setSortInterview={setSortInterview}
+                  setSortSelected={setSortSelected}
+                  setSortRejected={setSortRejected}
                 />
+                <div
+                  style={{ height: window.innerHeight - 236 }}
+                  className={styles.scrollStyle}
+                >
+                  <DndBoardScreen
+                    applicant={applicant}
+                    shortlisted={shortlisted}
+                    selected={selected}
+                    rejected={rejected}
+                    interviewed={interviewed}
+                    jd_id={jd_id}
+                    outlook={outlook}
+                    google={google}
+                    job_details={job_details}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </Flex>
       </Flex>
-    </Flex>
+    </>
   );
 };
 

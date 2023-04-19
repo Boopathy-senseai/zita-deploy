@@ -25,6 +25,7 @@ import BuildYourCareerPageScreen from './buildyourcareerpage/BuildYourCareerPage
 import EmailNotification from './emailmodule/EmailNotifications';
 import IntegrationScreen from './integrationmodule/IntegrationScreen';
 import ManageSubscriptionScreen from './managesubscription/ManageSubscriptionScreen';
+import TemplatesPage from './templatesmodule/templatesPage';
 // import { dispatch } from 'react-hot-toast/dist/core/store';
 
 const height = window.innerHeight - 212;
@@ -336,6 +337,9 @@ const AccountSettingsScreen = () => {
             </Tab>
             <Tab title={'Integrations'} eventKey={'4'}>
               {tabKey === '4' && <IntegrationScreen />}
+            </Tab>
+            <Tab title={'Templates'} eventKey={'7'}>
+              {tabKey === '7' && <TemplatesPage/>}
             </Tab>
             <Tab title={'Email Notifications'} eventKey={'5'}>
               <div

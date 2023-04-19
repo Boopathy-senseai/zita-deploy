@@ -146,7 +146,7 @@ const ApplicantPipeLineFilter = ({
         </Flex>
         <Flex
           columnFlex
-          height={window.innerHeight - 138}
+          height={window.innerHeight - 10}
           className={styles.scrollFlex}
         >
           <InputText

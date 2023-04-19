@@ -1,0 +1,91 @@
+.overAll {
+  background-color: var(--color-white, #ffffff);
+  width: 500px;
+  padding: 25px;
+  border-radius: 4px;
+}
+.scrollStyle {
+  max-height: 300px;
+  overflow: scroll;
+  min-height: 300px;
+}
+.insertStyles {
+  margin-bottom: 15px;
+}
+.orText{
+    color: #333333;
+    text-align: center;
+    position: relative;
+    margin: 20px 0 20px;
+    max-width: 500px;
+}
+.orText::before{
+    content: "";
+    height: 1px;
+    width: 200px;
+    background-color: #C3C3C3;
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 0;
+}
+.orText::after{
+    content: "";
+    height: 1px;
+    width: 200px;
+    background-color: #C3C3C3;
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 0;
+}
+.checkBox {
+    align-items: center;
+    margin-top: 15px;
+    margin-right: 10px;
+  }
+  .checkBoxText{
+    margin-left: 10px;
+    color: #333333;
+
+  }
+
+.newBtn {
+    background-color: #fff;
+    border-color: #a5889c;
+    border-width: 1px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    width: auto;
+  }
+  .newBtn:hover,
+  .newBtn:active,
+  .newBtn:focus {
+    background: unset;
+    border-width: 1px;
+    border-color: #a5889c;
+  }
+  .borderLine{
+    border-top: 1px solid #c3c3c3;
+    padding-bottom: 20px;
+
+  }
+  .cancel {
+    margin-right: 8px;
+    background-color: #888888;
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
+  }
+  .cancel:active, .cancel:focus{
+    background-color: #888888;
+    border: none;
+  }
+  .update {
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
+  }
+  .update:active, .update:focus{
+    border: none;
+  }

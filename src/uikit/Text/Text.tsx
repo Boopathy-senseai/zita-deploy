@@ -39,7 +39,8 @@ export type textColors =
   | 'black_1'
   | 'blue'
   | 'warning'
-  | 'yellow';
+  | 'yellow'
+  | 'black2';
 
 export type textTransform =
   | 'capitalize'

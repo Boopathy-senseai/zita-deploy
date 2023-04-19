@@ -1,0 +1,32 @@
+[
+  {
+    "id": "2STG",
+    "color": "#80C0D0",
+    "title": "Shortlisted",
+    "disabled": true
+  },
+  {
+    "id": "3STG",
+    "color": "#F29111",
+    "title": "Interview",
+    "disabled": false
+   
+
+  },
+  {
+    "id": "4STG",
+    "color": "#00BE4B",
+    "title": "Hired",
+    "disabled": true
+   
+
+  },
+  {
+    "id": "5STG",
+    "color": "#ED4857",
+    "title": "Rejected",
+    "disabled": true
+   
+
+  }
+]

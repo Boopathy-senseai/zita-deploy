@@ -106,6 +106,8 @@ import { integrationReducers } from '../modules/accountsettingsmodule/integratio
 import { dashboardReducers } from '../modules/dashboardmodule/candidatedashboard/store/reducer/candidatedashboardreducer';
 import { notificationReducers } from '../modules/navbar/empnavbar/store/notificationreducer';
 
+import { templatePageReducers } from '../modules/accountsettingsmodule/templatesmodule/store/reducer/templatesreducer';
+
 export const reducers = {
   talentSourcingReducers,
   talentSourcingSearchReducers,
@@ -185,4 +187,5 @@ export const reducers = {
   notificationReducers,
   sourcingPerformanceReducers,
   sourcingPerformanceDataReducers,
+  templatePageReducers,
 };

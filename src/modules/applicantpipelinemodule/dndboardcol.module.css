@@ -12,7 +12,7 @@
   width: 20%;
   border-radius: 4px;
   box-sizing: border-box;
-  border: 1px solid var(--color-gary-7, #dfdfdf);
+  /* border: 1px solid var(--color-gary-7, #dfdfdf); */
   min-width: 0;
 }
 .titleStyle {

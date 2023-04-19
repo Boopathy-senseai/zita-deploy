@@ -127,3 +127,13 @@ export const CANDIDATE_PROFILE_EMAIL_VALIDATE =
   'candidate/candidate_profile_email_validate';
 export const CANDIDATE_PROFILE_OTP_VALIDATE =
   'candidate/candidate_profile_otp_validate';
+
+
+// [Account Settings] --> Templates
+export const PIPELINE_STAGES = 'account/pipeline_stages';
+export const ADD_PIPELINE_STAGE = 'account/pipeline_stage_add';
+export const DELETE_PIPELINE_STAGE = 'account/pipeline_stage_delete';
+export const UPDATE_PIPELINE_STAGE = 'account/pipeline_stage_update'
+export const UPDATE_COLOUR_PALLATE = 'account/colour_pallate_update'
+export const PIPELINE_SUGGESTIONS = 'account/pipeline_suggestions';
+export const PIPELINE_STAGES_REORDER = 'account/pipeline_stages_reorder';

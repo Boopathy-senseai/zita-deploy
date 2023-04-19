@@ -3,5 +3,12 @@
   cursor: pointer;
 }
 .overAll {
-  margin-bottom: 16px;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #A5889C;
+}
+.btnStyle{
+  background-color: #EEE8EC;
+  border: #EEE8EC;
+  margin-right: 10px;
 }
