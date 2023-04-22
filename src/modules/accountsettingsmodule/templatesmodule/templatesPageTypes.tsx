@@ -8,6 +8,7 @@ export interface StageData {
     color: string;
     title: string;
     disabled: boolean;
+    palatteDisabled?: boolean;
 }
 
 export interface JobPipelineStages {

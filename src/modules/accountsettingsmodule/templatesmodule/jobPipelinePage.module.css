@@ -166,10 +166,19 @@
   background-color: unset;
 }
 .newBtn {
-  background-color: #fff;
+  /* background-color: #fff;
   border-color: #a5889c;
   border-width: 1px;
-  cursor: pointer;
+  cursor: pointer; */
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 10px 2px 10px;
+  width: fit-content;
+  border: 1px solid #581845;
+  margin-right: 15px;
+  margin-bottom: 15px;
 }
 .newBtn:hover,
 .newBtn:active,
@@ -182,11 +191,11 @@
   cursor: pointer;
 }
 
-.borderLine {
+/* .borderLine {
   border-bottom: 1px solid #c3c3c3;
   padding-bottom: 20px;
   margin-bottom: 20px;
-}
+} */
 .svgContainer {
   display: flex;
   align-items: center;

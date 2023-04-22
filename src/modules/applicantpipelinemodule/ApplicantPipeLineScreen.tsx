@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useFormik } from "formik";
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
@@ -18,6 +19,10 @@ import { qualificationFilterHelper } from '../common/commonHelper';
 import SvgSearch from '../../icons/SvgSearch';
 import SvgLocation from '../../icons/SvgLocation';
 import { InputSearch } from '../../uikit';
+import InputText from '../../uikit/InputText/InputText';
+import {
+  myJobPostingDataMiddleWare
+} from '../myjobposting/store/middleware/myjobpostingmiddleware';
 import PipelinePopup from './pipelinepopup';
 import {
   applicantPipeLineDataMiddleWare,
@@ -28,7 +33,7 @@ import ProfileView from './ProfileView';
 import TotalApplicant from './TotalApplicant';
 import JobTitleCard from './JobTitleCard';
 import DndBoardScreen from './DndBoardScreen';
-// eslint-disable-next-line
+// eslint-disable-next-line import/no-cycle
 import ApplicantPipeLineFilter from './ApplicantPipeLineFilter';
 import styles from './applicantpipelinescreen.module.css';
 
@@ -39,7 +44,13 @@ export type listValue = {
 type ParamsType = {
   jdId: string;
 };
-const ApplicantPipeLineScreen = () => {
+const initial = {
+  location: '',
+};
+type FormProps = {
+  location: string[],
+};
+const ApplicantPipeLineScreen = ({location}: FormProps) => {
   const { jdId } = useParams<ParamsType>();
   const dispatch: AppDispatch = useDispatch();
   const history = useHistory();
@@ -61,6 +72,7 @@ const ApplicantPipeLineScreen = () => {
   const [isSortSelected, setSortSelected] = useState('match');
   const [isSortRejected, setSortRejected] = useState('match');
   const [isApplicantView, setApplicantView] = useState(false);
+  const myRef = useRef<any>();
   //showpop
   const [showPipelinePopup, setShowPipelinePopup] = useState(false);
 
@@ -79,6 +91,7 @@ const ApplicantPipeLineScreen = () => {
   }, []);
 
   const {
+    location_list,
     jd_id,
     interviewed,
     applicant,
@@ -98,6 +111,7 @@ const ApplicantPipeLineScreen = () => {
     is_plan,
   } = useSelector(
     ({
+      myJobPosingReducers,
       applicantPipeLineReducers,
       applicantPipeLineDataReducers,
       applicantFavReducers,
@@ -105,6 +119,7 @@ const ApplicantPipeLineScreen = () => {
       permissionReducers,
     }: RootState) => {
       return {
+        location_list: myJobPosingReducers.location_list,
         jd_id: applicantPipeLineReducers.jd_id,
         interviewed: applicantPipeLineDataReducers.interviewed,
         rejected: applicantPipeLineDataReducers.rejected,
@@ -132,10 +147,29 @@ const ApplicantPipeLineScreen = () => {
       history.push('/account_setting/settings');
     }
   });
+
+  const formik = useFormik({
+    initialValues: initial,
+    onSubmit: () => {},
+  });
+  useEffect(() => {
+    dispatch(
+      myJobPostingDataMiddleWare({
+        location: formik.values.location,
+      }),
+    );
+  }, [formik.values]); 
   // filter match function
   const hanldeMatch = (listValue: listValue) => {
     setMatchRadio(listValue.label);
   };
+
+  // const selectedFilters =  {
+  // "matchRadio":  isMatchRadio,
+  // "profileRadio": isProfile,
+  // "experienceValue": isExperience,
+  // "qualificatioCheckbox": is
+  // }
   // filter profile function
   const hanldeProfile = (listValue: listValue) => {
     setProfile(listValue.label);
@@ -189,13 +223,16 @@ const ApplicantPipeLineScreen = () => {
       checked: isDoctorate,
       onChange: handleDoctorate,
     },
-    { value: 'Any', label: 'any', checked: isAny, onChange: handleAny },
     {
       value: 'Others',
       label: 'Other',
       checked: isOther,
       onChange: handleOther,
     },
+    { value: 'Any Qualification', 
+    label: 'any', 
+    checked: isAny, 
+    onChange: handleAny },
   ];
   useEffect(() => {
     if (
@@ -434,7 +471,96 @@ const ApplicantPipeLineScreen = () => {
             inviteIconNone
           />
         )}
+        {/* applicant filter */}
         <Flex className={styles.filterFlex}>
+          
+        </Flex>
+        <Flex
+          columnFlex
+          className={styles.dndBoardContainer}
+          width={window.innerWidth - 10}
+        >
+          <Flex row className={styles.titleContainer}>
+            <Text bold size={16} color="theme">
+              Applicants Pipeline
+            </Text>
+            <JobTitleCard job_details={job_details} />
+            <div className={styles.triangle}> </div>
+          </Flex>
+          {/* search bar and zita button */}
+          <Flex row between marginBottom={15}>
+            <Flex
+              row
+              style={{ position: 'relative' }}
+              className={styles.searchbox}
+            >
+              <Flex row className={styles.searchstyle}>
+                <Text className={styles.jobstext}>Candidates</Text>
+                <Flex row className={styles.searchboxoverall}>
+                  <InputText
+                    ref={myRef}
+                    actionRight={() => (
+                      // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
+                      <label onClick={handleSearch} htmlFor={'applicantpipelinefilters__search'} style={{ margin: 0 }}>
+                      
+                      </label>
+                    )}
+                    id="applicantpipelinefilters__search"
+                    value={isSearch}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="Search candidate by name or email"
+                    onKeyPress={handleKeyPress}
+                    className={styles.boxstyle}
+                  />
+                  <Flex className={styles.middleline}></Flex>
+                  <Flex className={styles.locationicon}>
+                    <SvgLocation
+                      width={18}
+                      height={18}
+                      fill={'#581845'}
+                    ></SvgLocation>
+                  </Flex>
+                  <InputSearch
+                    initialValue={formik.values.location}
+                    placeholder="Enter job location"
+                    options={location_list}
+                    setFieldValue={formik.setFieldValue}
+                    name="location"
+                    style={styles.boxstyle}
+                    labelBold
+                    onkeyPress={(event) => {
+                      {
+                        if (event.key === SvgSearch) {
+                          formik.setFieldValue("location", event.target.value);
+                        }
+                      }
+                    }}
+                  />
+
+                  <Flex className={styles.searchicons} onClick={handleSearch}>
+                    <SvgSearch
+                      width={12}
+                      height={12}
+                      fill="#ffffff"
+                    ></SvgSearch>
+                  </Flex>
+                </Flex>
+              </Flex>
+            </Flex>
+            <Flex>
+              {zita_match_count === 0 ? (
+                <Button disabled className={styles.btnStyle} types="primary">
+                  View Zita Match
+                </Button>
+              ) : (
+                <LinkWrapper replace to={`/zita_match_candidate/${jdId}`}>
+                  <Button className={styles.btnStyle} types="primary">
+                    View Zita Match
+                  </Button>
+                </LinkWrapper>
+              )}
+            </Flex>
+          </Flex>
           <ApplicantPipeLineFilter
             isSkillOption={isSkillOption}
             isSkills={isSkills}
@@ -454,80 +580,6 @@ const ApplicantPipeLineScreen = () => {
             handleSearch={handleSearch}
             isExperience={isExperience}
           />
-        </Flex>
-        <Flex
-          columnFlex
-          className={styles.dndBoardContainer}
-          width={window.innerWidth - 10}
-        >
-          
-          <Flex row className={styles.titleContainer}>
-            <Text bold size={16} color="theme">
-              Applicants Pipeline
-            </Text>
-            <JobTitleCard job_details={job_details} />
-            <div className={styles.triangle}> </div>
-          </Flex>
-          <Flex row between marginBottom={15}>
-          <Flex row style={{ position: 'relative' }} className={styles.searchbox} >
-            <Flex row className={styles.searchstyle}>
-              <Text className={styles.jobstext}>Candidates</Text>
-              <Flex row className={styles.searchboxoverall}>
-                <InputSearch
-                  initialValue={''}
-                  options={[]}
-                  setFieldValue={() => {}}
-                  name="jobTitle"
-                  style={styles.boxstyle}
-                  placeholder="Search candidate by name or email"
-                  onkeyPress={(event) => {
-                    {
-                    }
-                  }}
-                />
-                <Flex className={styles.middleline}></Flex>
-                <Flex className={styles.locationicon}>
-                  <SvgLocation width={18} height={18} fill={'#581845'}></SvgLocation>
-                </Flex>
-                <InputSearch
-                  initialValue={''}
-                  placeholder="Enter job location"
-                  options={[]}
-                  setFieldValue={() => {}}
-                  name="location"
-                  style={styles.boxstyle}
-                  labelBold
-                  onkeyPress={(event) => {
-                    alert(event);
-                    {
-                    }
-                  }}
-                />
-
-                
-                <Flex className={styles.searchicons}>
-                  <SvgSearch width={12} height={12} fill='#ffffff'></SvgSearch>
-                </Flex>
-              </Flex>
-            </Flex>
-          </Flex>
-          <Flex>
-          {zita_match_count === 0 ? (
-            <Button disabled className={styles.btnStyle} types="primary">
-              View Zita Match
-            </Button>
-          ) : (
-            <LinkWrapper replace to={`/zita_match_candidate/${jdId}`}>
-              <Button className={styles.btnStyle} types="primary">
-              View Zita Match
-              </Button>
-            </LinkWrapper>
-          )}
-
-          </Flex>
-          
-          </Flex>
-          
 
           {applicant.length === 0 &&
           shortlisted.length === 0 &&

@@ -16,7 +16,7 @@ const TotalApplicant = ({ total, filterTotalFav, isTotalFav }: Props) => {
     <Flex row center between className={styles.overAll}>
       <Text color="theme">Total Applicants: <Text bold color="theme">{total}</Text></Text>
       <Flex row center marginRight={10}>
-      <Button className={styles.btnStyle} types="primary">
+      <Button className={styles.btnStyle} types="primary" onClick={filterTotalFav}>
         <Flex row center >
           <SvgHeart filled={isTotalFav} />
           <Text style={{marginLeft: "5px"}} color="theme">Favourites</Text>

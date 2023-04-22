@@ -10,7 +10,7 @@ export const matchOptions = [
 export const profileOptions = [
   { value: 'Viewed', label: '1' },
   { value: 'Yet to View', label: '0' },
-  { value: 'All', label: '' },
+  { value: 'Both', label: '' },
 ];
 
 export const experienceOption = [

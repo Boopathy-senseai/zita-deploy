@@ -52,7 +52,7 @@
   flex-direction: row;
   position: absolute;
   width: 100%;
-  z-index: 11;
+  z-index: -1;
 }
 .colTitle {
   box-sizing: border-box;

@@ -11,4 +11,9 @@
   background-color: #EEE8EC;
   border: #EEE8EC;
   margin-right: 10px;
+  cursor: pointer;
+}
+.btnStyle:active{
+  background-color: #EEE8EC !important;
+
 }
