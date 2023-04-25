@@ -1,0 +1,93 @@
+/* .icon {
+  margin-left: 20px !important;
+  margin-top: 20px;
+} */
+
+.model {
+  background-color: #ffffff !important;
+  border-radius: 10px !important;
+  height: 200px !important;
+  width: 400px !important;
+}
+.cardStruture {
+  max-height: 200px;
+  margin-right: 20px;
+  padding: 15px 10px 0 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.selectCard {
+  position: relative;
+  max-height: 200px;
+  margin-right: 20px;
+  padding: 15px 10px 0 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 1px solid #00be4b;
+  box-shadow: 0px 0px 2px 2px #edf4f0;
+  border-radius: 5px;
+}
+.cardHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.modelheadder {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 20px;
+}
+
+.btn {
+  background-color: transparent;
+  color: #581845;
+  border: none;
+  width: 100%;
+  margin-top: 20px;
+  border-top: 1px solid #c3c3c3; /*change css */
+  border-radius: unset;
+  padding: 10px 0;
+}
+
+.btn:active,
+.btn:focus {
+  background-color: unset;
+  transform: unset;
+  border: unset;
+  border-radius: unset;
+}
+
+.editmodal {
+  background-color: var(--color-white, #ffffff);
+  width: 500px;
+  padding: 25px;
+  border-radius: 4px;
+}
+
+.outlookEmailcard {
+  margin-left: 20px;
+}
+
+.disconnectbtn {
+  margin-left: 10px;
+  border: 1px solid #ed4857;
+}
+
+/* .disconnectbtn .button_buttonTypes-secondary__3QSSJ:hover {
+  background-color: white !important;
+} */
+.disconnectbtn,
+.buttonTypes-secondary:hover {
+  background-color: white !important;
+}
+
+.disconnectbtn > span {
+  color: #ed4857;
+}

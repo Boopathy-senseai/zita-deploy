@@ -76,7 +76,7 @@ import JobMetrics from './modules/reportsmodule/JobMetrics';
 import SourcingPerformance from './modules/reportsmodule/SourcingPerformance';
 import CheckSignUpActivate from './modules/SignUp/CheckSignUpActivate';
 import DashBoardScreen from './modules/dashboardmodule/empdashboard/DashBoardScreen';
-
+import Sidebar from './modules/emailintegrationmodule/sidebar';
 axios.defaults.baseURL = process.env.REACT_APP_API_ENDPOINT;
 
 const App = () => {
@@ -363,6 +363,8 @@ const App = () => {
         <Route path="/set-password/:id" component={SetPassword} />
         <Route path="/profile" component={Profile} />
         <Route path={'/check_activate'} component={CheckSignUpActivate} />
+
+        <Route path="/Emailsidebar" component={Sidebar}/>
         {/* <Route path={''} component={NotFound} /> */}
         {/* <Route path="/calendar" component={Calendar} /> */}
         {localStorage.getItem('loginUserCheck') === 'true' ||

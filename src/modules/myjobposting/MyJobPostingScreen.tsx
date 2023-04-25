@@ -8,7 +8,7 @@ import Text from '../../uikit/Text/Text';
 import Card from '../../uikit/Card/Card';
 import Loader from '../../uikit/Loader/Loader';
 import Button from '../../uikit/Button/Button';
-import { getBlur, getFocus,copyToClipboard } from '../../uikit/helper';
+import { getBlur, getFocus, copyToClipboard } from '../../uikit/helper';
 import Pangination from '../../uikit/Pagination/Pangination';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import { jobSelect } from '../../appRoutesPath';
@@ -43,7 +43,7 @@ const MyJobPostingScreen = () => {
   const history = useHistory();
 
   useEffect(() => {
-    localStorage.setItem('freeCheck','true');
+    localStorage.setItem('freeCheck', 'true');
     dispatch(myJobPostingInitalMiddleWare());
   }, []);
 
@@ -59,7 +59,7 @@ const MyJobPostingScreen = () => {
     career_page_url,
     domain,
     Permission,
-    is_plan
+    is_plan,
   } = useSelector(
     ({
       myJobPosingReducers,
@@ -176,119 +176,140 @@ const MyJobPostingScreen = () => {
                       )}
                       <Card key={list.id} className={styles.cardOverAll}>
                         <Flex row center>
-                        <Flex flex={6}>
-                         {list.jd_status__label_name === 'Active' && (
-        <Flex row top>
-        <LinkWrapper to={`/job_view/${list.id}`}className={styles.link}>
-          <Text color="link" bold >
-            {list.job_title} 
-          </Text>
-        </LinkWrapper>
-        
-        <div
-              tabIndex={0}
-              role={'button'}
-              style={{ marginLeft: 8 }}
-              title="Copy Job Posting URL"
-              onClick={() => copyToClipboard(`${domain}/${career_page_url}/career_job_view/${list.id}/${list.job_title}` ,'Link Copied')}
-              onKeyDown={() => {}}
-            >
-              <SvgCopy width={15} height={15}  fill={'#581845'}/>
-            </div>
-          </Flex>
-      )}
-      {list.jd_status__label_name === 'Draft' && (
-           <Flex  row top>
-           {list.is_ds_role  !== true ?  
-        <LinkWrapper to={`/jobs/create_non_ds_edit/${list.id}`} className={styles.link}>
-          <Text color="link" bold>
-            {list.job_title} 
-          </Text>  
-        </LinkWrapper>
-        :
-         <LinkWrapper to={`/jobs/create_ds_edit/${list.id}`} className={styles.link}>
-          <Text color="link" bold>
-            {list.job_title} 
-          </Text>  
-        </LinkWrapper>
-      }
-         <div
-              tabIndex={0}
-              role={'button'}
-              style={{ marginLeft: 8 }}
-             
-            >
-              <SvgCopy width={15} height={15}/>
-            </div>
-         </Flex>
-      )}
+                          <Flex flex={6}>
+                            {list.jd_status__label_name === 'Active' && (
+                              <Flex row top>
+                                <LinkWrapper
+                                  to={`/job_view/${list.id}`}
+                                  className={styles.link}
+                                >
+                                  <Text color="link" bold>
+                                    {list.job_title}
+                                  </Text>
+                                </LinkWrapper>
 
-      {list.jd_status__label_name === 'Inactive' && (
-        <Flex  row top>
-        <LinkWrapper to={`/job_view/${list.id}`}className={styles.link}>
-          <Text color="link" bold>
-            {list.job_title} 
-          </Text>
-        </LinkWrapper>  {' '}
-       <div
-              tabIndex={0}
-              role={'button'}
-              style={{ marginLeft: 8 }}
-             
-            >
-              <SvgCopy width={15} height={15}/>
-            </div>
-         </Flex>
-      )}
-      {list.jd_status__label_name === 'Questionnaire' && (
-            <Flex row top>
-        <LinkWrapper to={`/jobs/questionnaire/${list.id}`}className={styles.link}>
-          <Text color="link" bold>
-            {list.job_title} 
-          </Text>
-        </LinkWrapper>  {' '}
-         <div
-              tabIndex={0}
-              role={'button'}
-              style={{ marginLeft: 8 }}
-             
-            >
-              <SvgCopy width={15} height={15}/>
-            </div>
-          </Flex>
-      )}
-      {list.jd_status__label_name === 'Preview' && (
-            <Flex row top>
-        <LinkWrapper to={`/jobs/preview/${list.id}`} className={styles.link}>
-          <Text color="link" bold>
-            {list.job_title} 
-          </Text>
-        </LinkWrapper>  {' '}
-         <div
-              tabIndex={0}
-              role={'button'}
-              style={{ marginLeft: 8 }}
-             
-            >
-              <SvgCopy width={15} height={15}/>
-            </div>
-          </Flex>
-      )}
+                                <div
+                                  tabIndex={0}
+                                  role={'button'}
+                                  style={{ marginLeft: 8 }}
+                                  title="Copy Job Posting URL"
+                                  onClick={() =>
+                                    copyToClipboard(
+                                      `${domain}/${career_page_url}/career_job_view/${list.id}/${list.job_title}`,
+                                      'Link Copied',
+                                    )
+                                  }
+                                  onKeyDown={() => {}}
+                                >
+                                  <SvgCopy
+                                    width={15}
+                                    height={15}
+                                    fill={'#581845'}
+                                  />
+                                </div>
+                              </Flex>
+                            )}
+                            {list.jd_status__label_name === 'Draft' && (
+                              <Flex row top>
+                                {list.is_ds_role !== true ? (
+                                  <LinkWrapper
+                                    to={`/jobs/create_non_ds_edit/${list.id}`}
+                                    className={styles.link}
+                                  >
+                                    <Text color="link" bold>
+                                      {list.job_title}
+                                    </Text>
+                                  </LinkWrapper>
+                                ) : (
+                                  <LinkWrapper
+                                    to={`/jobs/create_ds_edit/${list.id}`}
+                                    className={styles.link}
+                                  >
+                                    <Text color="link" bold>
+                                      {list.job_title}
+                                    </Text>
+                                  </LinkWrapper>
+                                )}
+                                <div
+                                  tabIndex={0}
+                                  role={'button'}
+                                  style={{ marginLeft: 8 }}
+                                >
+                                  <SvgCopy width={15} height={15} />
+                                </div>
+                              </Flex>
+                            )}
 
-                        <Flex  row>
-                        <Flex flex={3}>
-                            <MyJobsPostingData
-                              list={list}
-                              domain={domain}
-                              career_page_url={career_page_url}
-                            />
-                          </Flex>
-                          <Flex flex={4}>
-                            <MyJobsPostingCount list={list} />
-                          </Flex>
+                            {list.jd_status__label_name === 'Inactive' && (
+                              <Flex row top>
+                                <LinkWrapper
+                                  to={`/job_view/${list.id}`}
+                                  className={styles.link}
+                                >
+                                  <Text color="link" bold>
+                                    {list.job_title}
+                                  </Text>
+                                </LinkWrapper>{' '}
+                                <div
+                                  tabIndex={0}
+                                  role={'button'}
+                                  style={{ marginLeft: 8 }}
+                                >
+                                  <SvgCopy width={15} height={15} />
+                                </div>
+                              </Flex>
+                            )}
+                            {list.jd_status__label_name === 'Questionnaire' && (
+                              <Flex row top>
+                                <LinkWrapper
+                                  to={`/jobs/questionnaire/${list.id}`}
+                                  className={styles.link}
+                                >
+                                  <Text color="link" bold>
+                                    {list.job_title}
+                                  </Text>
+                                </LinkWrapper>{' '}
+                                <div
+                                  tabIndex={0}
+                                  role={'button'}
+                                  style={{ marginLeft: 8 }}
+                                >
+                                  <SvgCopy width={15} height={15} />
+                                </div>
+                              </Flex>
+                            )}
+                            {list.jd_status__label_name === 'Preview' && (
+                              <Flex row top>
+                                <LinkWrapper
+                                  to={`/jobs/preview/${list.id}`}
+                                  className={styles.link}
+                                >
+                                  <Text color="link" bold>
+                                    {list.job_title}
+                                  </Text>
+                                </LinkWrapper>{' '}
+                                <div
+                                  tabIndex={0}
+                                  role={'button'}
+                                  style={{ marginLeft: 8 }}
+                                >
+                                  <SvgCopy width={15} height={15} />
+                                </div>
+                              </Flex>
+                            )}
 
-                        </Flex>
-                          
+                            <Flex row>
+                              <Flex flex={3}>
+                                <MyJobsPostingData
+                                  list={list}
+                                  domain={domain}
+                                  career_page_url={career_page_url}
+                                />
+                              </Flex>
+                              <Flex flex={4}>
+                                <MyJobsPostingCount list={list} />
+                              </Flex>
+                            </Flex>
                           </Flex>
                           <Flex flex={3} className={styles.screenStatusStyle}>
                             <MyJobPostingScreenStatus list={list} />
