@@ -1,6 +1,8 @@
 .overAll {
   width: 100%;
   display: flex;
+  /* position: relative;
+  z-index: 0; */
 }
 .statusFlex {
   margin-left: 8px;

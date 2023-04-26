@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { StageCard } from '../../../uikit/StageCard/stagesCard';
 import { StageData } from './templatesPageTypes';
-import { StageCard } from './stagescard';
 
 // a little function to help us with reordering the result
 const reorder = (list: StageData[], startIndex, endIndex): StageData[] => {
@@ -49,6 +49,8 @@ const ReorderStage: React.FC<Props> = (props) => {
   }, [list]);
   const onDragEnd = (result) => {
     // dropped outside the list
+
+    console.log("sdsd",result)
     if (!result.destination) {
       return;
     }

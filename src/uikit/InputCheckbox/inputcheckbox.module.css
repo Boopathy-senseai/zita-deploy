@@ -55,7 +55,7 @@
 
 }
 .checkboxStyle > input:checked + .withOutLabel::before {
-  top: 0px;
+  top: 7px;
 }
 .withLabel {
   top: 0px;

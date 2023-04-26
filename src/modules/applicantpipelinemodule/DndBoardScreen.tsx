@@ -26,10 +26,23 @@ type Props = {
   selected: InterviewedEntityOrSelectedEntity[];
   rejected: ShortlistedEntityOrRejectedEntity[];
   interviewed: InterviewedEntityOrSelectedEntity[];
+  Test:ShortlistedEntityOrRejectedEntity[];
   jd_id: string;
   outlook?: GoogleEntity[];
   google?: GoogleEntity[];
   job_details: JobDetailsEntity;
+  onClick?: (data: {
+    task: any;
+    index: number;
+    columnId: string;
+    job_details: JobDetailsEntity;
+  }) => void;
+  selectedCardList: {
+    task: any;
+    index: number;
+    columnId: string;
+    job_details: JobDetailsEntity;
+  }[];
 };
 
 const DndBoardScreen = ({
@@ -38,10 +51,13 @@ const DndBoardScreen = ({
   rejected,
   applicant,
   shortlisted,
+  Test,
   jd_id,
   google,
   outlook,
   job_details,
+  onClick,
+  selectedCardList
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const [isShortList, setShortList] = useState(false);
@@ -76,7 +92,13 @@ const DndBoardScreen = ({
       title: 'Rejected',
       items: rejected,
       total: rejected.length,
-    },
+    }
+    // 'column-6': {
+    //   title: 'Test',
+    //   items: interviewed,
+    //   total: interviewed.length,
+    // },
+   
   };
 
   const [columns, setColumns] = useState<columnTypes>(columnsFromBackend);
@@ -85,7 +107,12 @@ const DndBoardScreen = ({
 
   useEffect(() => {
     setColumns(columnsFromBackend);
-  }, [interviewed, selected, rejected, applicant, shortlisted, isNoLoader]);
+  }, [interviewed, selected, rejected,Test, applicant, shortlisted, isNoLoader]);
+
+  const selectedCardsByColumnId = (id:string) =>{
+    return selectedCardList.filter(doc => doc.columnId === id);
+
+  }
 
   const onDragStart = (start: { source: { droppableId: string } }) => {
     const homeIndex = columnOrder.indexOf(start.source.droppableId);
@@ -94,12 +121,18 @@ const DndBoardScreen = ({
       setIndex(8);
     }
   };
+  
 
   // card drag function
   const onDragEnd = (result: DropResult) => {
     setIndex(null);
     if (!result.destination) return;
+    
+
+    if((result.destination.droppableId === "column-1") && (result.source.droppableId !== "column-1")) return;
+
     const { source, destination } = result;
+
     if (source.droppableId !== destination.droppableId) {
       const sourceColumn = columns[source.droppableId];
       const destColumn = columns[destination.droppableId];
@@ -296,6 +329,8 @@ const DndBoardScreen = ({
               outlook={outlook}
               google={google}
               job_details={job_details}
+              onClick={onClick}
+              selectedCardList={selectedCardsByColumnId(columnId)}
             />
           );
         })}

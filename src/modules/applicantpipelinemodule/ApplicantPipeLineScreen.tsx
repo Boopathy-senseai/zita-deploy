@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useFormik } from "formik";
+import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
@@ -14,15 +14,14 @@ import {
   MEDIUM_PURPLE,
   PISTACHIO,
   SUNRAY,
+  GRAY_BLACK,
 } from '../../uikit/Colors/colors';
 import { qualificationFilterHelper } from '../common/commonHelper';
 import SvgSearch from '../../icons/SvgSearch';
 import SvgLocation from '../../icons/SvgLocation';
 import { InputSearch } from '../../uikit';
 import InputText from '../../uikit/InputText/InputText';
-import {
-  myJobPostingDataMiddleWare
-} from '../myjobposting/store/middleware/myjobpostingmiddleware';
+import { myJobPostingDataMiddleWare } from '../myjobposting/store/middleware/myjobpostingmiddleware';
 import PipelinePopup from './pipelinepopup';
 import {
   applicantPipeLineDataMiddleWare,
@@ -36,6 +35,8 @@ import DndBoardScreen from './DndBoardScreen';
 // eslint-disable-next-line import/no-cycle
 import ApplicantPipeLineFilter from './ApplicantPipeLineFilter';
 import styles from './applicantpipelinescreen.module.css';
+import { JobDetailsEntity } from './applicantPipeLineTypes';
+import { handleDownload } from './dndBoardHelper';
 
 export type listValue = {
   value: string;
@@ -48,9 +49,9 @@ const initial = {
   location: '',
 };
 type FormProps = {
-  location: string[],
+  location: string[];
 };
-const ApplicantPipeLineScreen = ({location}: FormProps) => {
+const ApplicantPipeLineScreen = ({ location }: FormProps) => {
   const { jdId } = useParams<ParamsType>();
   const dispatch: AppDispatch = useDispatch();
   const history = useHistory();
@@ -75,6 +76,17 @@ const ApplicantPipeLineScreen = ({location}: FormProps) => {
   const myRef = useRef<any>();
   //showpop
   const [showPipelinePopup, setShowPipelinePopup] = useState(false);
+  const [cardSelection, setCardSelection] = useState<
+    Map<
+      string,
+      {
+        task: any;
+        index: number;
+        columnId: string;
+        job_details: JobDetailsEntity;
+      }
+    >
+  >(new Map());
 
   const favAdd = isTotalFav ? 'add' : '';
 
@@ -96,6 +108,7 @@ const ApplicantPipeLineScreen = ({location}: FormProps) => {
     interviewed,
     applicant,
     shortlisted,
+    Test,
     selected,
     rejected,
     applicantDataLoader,
@@ -125,6 +138,7 @@ const ApplicantPipeLineScreen = ({location}: FormProps) => {
         rejected: applicantPipeLineDataReducers.rejected,
         selected: applicantPipeLineDataReducers.selected,
         shortlisted: applicantPipeLineDataReducers.shortlisted,
+        Test: applicantPipeLineDataReducers.shortlisted,
         applicant: applicantPipeLineDataReducers.applicant,
         applicantDataLoader: applicantPipeLineDataReducers.isLoading,
         favLoader: applicantFavReducers.isLoading,
@@ -158,21 +172,40 @@ const ApplicantPipeLineScreen = ({location}: FormProps) => {
         location: formik.values.location,
       }),
     );
-  }, [formik.values]); 
-  // filter match function
-  const hanldeMatch = (listValue: listValue) => {
-    setMatchRadio(listValue.label);
+  }, [formik.values]);
+
+  //card selection
+
+  const handleCardSelection = (data: {
+    task: any;
+    index: number;
+    columnId: string;
+    job_details: JobDetailsEntity;
+  }) => {
+    console.log(data);
+    const newCardSelection = new Map(cardSelection);
+    if (cardSelection.has(data.task.id)) {
+      newCardSelection.delete(data.task.id);
+    } else {
+      newCardSelection.set(data.task.id, data);
+    }
+    setCardSelection(newCardSelection);
+  };
+  const selectedCardsList = Array.from(cardSelection.values());
+
+  const handleBulkExport = () => {
+    cardSelection.forEach((doc) => {
+      handleDownload(doc.task.file);
+    });
   };
 
-  // const selectedFilters =  {
-  // "matchRadio":  isMatchRadio,
-  // "profileRadio": isProfile,
-  // "experienceValue": isExperience,
-  // "qualificatioCheckbox": is
-  // }
-  // filter profile function
+  // filter match function
+  const hanldeMatch = (listValue: listValue) => {
+    setMatchRadio(listValue.value);
+  };
+
   const hanldeProfile = (listValue: listValue) => {
-    setProfile(listValue.label);
+    setProfile(listValue.value);
   };
   // filter bachelor function
   const handleBachelor = () => {
@@ -229,10 +262,12 @@ const ApplicantPipeLineScreen = ({location}: FormProps) => {
       checked: isOther,
       onChange: handleOther,
     },
-    { value: 'Any Qualification', 
-    label: 'any', 
-    checked: isAny, 
-    onChange: handleAny },
+    {
+      value: 'any',
+      label: 'Any Qualification',
+      checked: isAny,
+      onChange: handleAny,
+    },
   ];
   useEffect(() => {
     if (
@@ -414,19 +449,19 @@ const ApplicantPipeLineScreen = ({location}: FormProps) => {
     },
     {
       title: 'Shortlisted',
-      left: '-1px',
+      left: '0px',
       borderColor: AERO,
       total: shortlisted.length,
     },
     {
       title: 'Interviewed',
-      left: '-3px',
+      left: '0px',
       borderColor: MEDIUM_PURPLE,
       total: interviewed.length,
     },
     {
       title: 'Offered',
-      left: '-4.8px',
+      left: '0px',
       borderColor: PISTACHIO,
       total: selected.length,
     },
@@ -436,6 +471,12 @@ const ApplicantPipeLineScreen = ({location}: FormProps) => {
       borderColor: CANDY_PINK,
       total: rejected.length,
     },
+    // {
+    //   title: 'Test',
+    //   left: '-6px',
+    //   borderColor: GRAY_BLACK,
+    //   total: interviewed.length,
+    // },
   ];
   const getAppliedCanId: any = localStorage.getItem('applied_can_id');
   const getAppliedJd: any = localStorage.getItem('applied_jd_id');
@@ -472,9 +513,7 @@ const ApplicantPipeLineScreen = ({location}: FormProps) => {
           />
         )}
         {/* applicant filter */}
-        <Flex className={styles.filterFlex}>
-          
-        </Flex>
+        <Flex className={styles.filterFlex}></Flex>
         <Flex
           columnFlex
           className={styles.dndBoardContainer}
@@ -501,9 +540,11 @@ const ApplicantPipeLineScreen = ({location}: FormProps) => {
                     ref={myRef}
                     actionRight={() => (
                       // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
-                      <label onClick={handleSearch} htmlFor={'applicantpipelinefilters__search'} style={{ margin: 0 }}>
-                      
-                      </label>
+                      <label
+                        onClick={handleSearch}
+                        htmlFor={'applicantpipelinefilters__search'}
+                        style={{ margin: 0 }}
+                      ></label>
                     )}
                     id="applicantpipelinefilters__search"
                     value={isSearch}
@@ -531,7 +572,7 @@ const ApplicantPipeLineScreen = ({location}: FormProps) => {
                     onkeyPress={(event) => {
                       {
                         if (event.key === SvgSearch) {
-                          formik.setFieldValue("location", event.target.value);
+                          formik.setFieldValue('location', event.target.value);
                         }
                       }
                     }}
@@ -595,6 +636,8 @@ const ApplicantPipeLineScreen = ({location}: FormProps) => {
                 total={total_applicants}
                 filterTotalFav={filterTotalFav}
                 isTotalFav={isTotalFav}
+                seletedCardsLength={cardSelection.size}
+                onExport={handleBulkExport}
               />
               <div style={{ position: 'relative' }}>
                 <DndTitle
@@ -612,6 +655,7 @@ const ApplicantPipeLineScreen = ({location}: FormProps) => {
                   <DndBoardScreen
                     applicant={applicant}
                     shortlisted={shortlisted}
+                    Test={shortlisted}
                     selected={selected}
                     rejected={rejected}
                     interviewed={interviewed}
@@ -619,6 +663,8 @@ const ApplicantPipeLineScreen = ({location}: FormProps) => {
                     outlook={outlook}
                     google={google}
                     job_details={job_details}
+                    onClick={handleCardSelection}
+                    selectedCardList={selectedCardsList}
                   />
                 </div>
               </div>

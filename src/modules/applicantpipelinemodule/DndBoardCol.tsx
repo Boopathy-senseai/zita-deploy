@@ -6,9 +6,10 @@ import {
   MEDIUM_PURPLE,
   PISTACHIO,
   CANDY_PINK,
+  GRAY_BLACK,
 } from '../../uikit/Colors/colors';
 import { dndBoardId } from '../constValue';
-import { GoogleEntity,JobDetailsEntity } from './applicantPipeLineTypes';
+import { GoogleEntity, JobDetailsEntity } from './applicantPipeLineTypes';
 import MultiTask from './MultiTask';
 import styles from './dndboardcol.module.css';
 
@@ -20,7 +21,18 @@ type Props = {
   outlook?: GoogleEntity[];
   google?: GoogleEntity[];
   job_details: JobDetailsEntity;
-
+  onClick?: (data: {
+    task: any;
+    index: number;
+    columnId: string;
+    job_details: JobDetailsEntity;
+  }) => void;
+  selectedCardList: {
+    task: any;
+    index: number;
+    columnId: string;
+    job_details: JobDetailsEntity;
+  }[];
 };
 const DndBoardCol = ({
   tasks,
@@ -30,6 +42,8 @@ const DndBoardCol = ({
   google,
   outlook,
   job_details,
+  onClick,
+  selectedCardList,
 }: Props) => {
   const [isBorder, setBorder] = useState(SUNRAY);
   // for card color set condition
@@ -44,13 +58,23 @@ const DndBoardCol = ({
       setBorder(PISTACHIO);
     } else if (index === 4) {
       setBorder(CANDY_PINK);
+    } else if (index === 5) {
+      setBorder(GRAY_BLACK);
     }
   }, [index]);
+
+  const checkSelection = (id: string) => {
+   const taskIndex = selectedCardList.findIndex((doc) => doc.task.id === id);
+   if(taskIndex !== -1){
+    return true
+   }
+   return false
+  };
 
   return (
     <div className={styles.overAll}>
       <Droppable
-        isDropDisabled={isDropDisabled}
+        // isDropDisabled={isDropDisabled}
         droppableId={columnId}
         type="task"
       >
@@ -74,6 +98,8 @@ const DndBoardCol = ({
                 outlook={outlook}
                 google={google}
                 job_details={job_details}
+                onClick={onClick}
+                isSelected={checkSelection(task.id)}
               />
             ))}
             {provided.placeholder}

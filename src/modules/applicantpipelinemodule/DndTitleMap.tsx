@@ -1,8 +1,11 @@
 import { createRef, useEffect, useState } from 'react';
+import { Dropdown } from 'react-bootstrap';
 import SvgSort from '../../icons/SvgSort';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import SvgDotMenu from '../../icons/SvgDotMenu';
+import SvgSelectAll from '../../icons/SvgSelectAll';
+import SvgSortName from '../../icons/SvgSortName';
 import styles from './dndtitle.module.css';
 
 type Props = {
@@ -52,25 +55,25 @@ const DndTitleMap = ({
     };
   });
 
-  // date sort function
-  const hanldeDateSort = (indexValue: number) => {
-    if (indexValue === 0) {
-      setSortApplicant('date');
-    }
-    if (indexValue === 1) {
-      setSortSortList('date');
-    }
-    if (indexValue === 2) {
-      setSortInterview('date');
-    }
-    if (indexValue === 3) {
-      setSortSelected('date');
-    }
-    if (indexValue === 4) {
-      setSortRejected('date');
-    }
-    setDropDown(false);
-  };
+  // // date sort function
+  // const hanldeDateSort = (indexValue: number) => {
+  //   if (indexValue === 0) {
+  //     setSortApplicant('date');
+  //   }
+  //   if (indexValue === 1) {
+  //     setSortSortList('date');
+  //   }
+  //   if (indexValue === 2) {
+  //     setSortInterview('date');
+  //   }
+  //   if (indexValue === 3) {
+  //     setSortSelected('date');
+  //   }
+  //   if (indexValue === 4) {
+  //     setSortRejected('date');
+  //   }
+  //   setDropDown(false);
+  // };
   // name sort function
   const hanldeNameSort = (indexValue: number) => {
     if (indexValue === 0) {
@@ -90,40 +93,43 @@ const DndTitleMap = ({
     }
     setDropDown(false);
   };
-  // match sort function
-  const hanldeMatchSort = (indexValue: number) => {
-    if (indexValue === 0) {
-      setSortApplicant('match');
-    }
-    if (indexValue === 1) {
-      setSortSortList('match');
-    }
-    if (indexValue === 2) {
-      setSortInterview('match');
-    }
-    if (indexValue === 3) {
-      setSortSelected('match');
-    }
-    if (indexValue === 4) {
-      setSortRejected('match');
-    }
-    setDropDown(false);
-  };
+  // // match sort function
+  // const hanldeMatchSort = (indexValue: number) => {
+  //   if (indexValue === 0) {
+  //     setSortApplicant('match');
+  //   }
+  //   if (indexValue === 1) {
+  //     setSortSortList('match');
+  //   }
+  //   if (indexValue === 2) {
+  //     setSortInterview('match');
+  //   }
+  //   if (indexValue === 3) {
+  //     setSortSelected('match');
+  //   }
+  //   if (indexValue === 4) {
+  //     setSortRejected('match');
+  //   }
+  //   setDropDown(false);
+  // };
   return (
-    <div style={{left: list.left, borderBottomColor: list.borderColor,
-      }}
+    <div
+      style={{ left: list.left, borderBottomColor: list.borderColor }}
       className={styles.colTitle}
     >
       <Flex row center>
-        <Text style={{ color: list.borderColor, borderBottom: 3 , fontWeight: 500}} >
+        <Text
+          style={{ color: list.borderColor, borderBottom: 3, fontWeight: 500 }}
+        >
           {list.title}
         </Text>
-        <Text style={{ marginLeft: 4, color: list.borderColor, fontWeight: 500}} >
+        <Text
+          style={{ marginLeft: 4, color: list.borderColor, fontWeight: 500 }}
+        >
           ({list.total})
         </Text>
-        
       </Flex>
-      
+
       <div ref={myRef}>
         <div
           onKeyPress={() => {}}
@@ -132,28 +138,23 @@ const DndTitleMap = ({
           onClick={handleOpenDrop}
           className={styles.svgSort}
         >
-          <SvgDotMenu width={14} height={14} fill="#581845" />
+          <SvgDotMenu width={14} height={14} fill={list.borderColor} />
         </div>
         {isDropDown && (
           <Flex className={styles.dropDownFlex}>
-            <Text
-              onClick={() => hanldeDateSort(index)}
-              className={styles.dropDate}
-            >
-              {'Applied Date'}
-            </Text>
-            <Text
-              onClick={() => hanldeMatchSort(index)}
-              className={styles.dropMatch}
-            >
-              {'Match Score'}
-            </Text>
-            <Text
-              onClick={() => hanldeNameSort(index)}
-              className={styles.dropName}
-            >
-              {'Name'}
-            </Text>
+            <Dropdown.Item onClick={() => hanldeNameSort(index)}>
+              <Flex row center style={{cursor: "pointer"}}>
+                <SvgSelectAll />
+                <Text style={{ marginLeft: 10 }}>Select All</Text>
+              </Flex>
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => hanldeNameSort(index)}>
+              <Flex row center style={{cursor: "pointer"}}>
+                <SvgSortName />
+                <Text style={{ marginLeft: 10 }}>Sort Column</Text>
+              </Flex>
+            </Dropdown.Item>
+
           </Flex>
         )}
       </div>

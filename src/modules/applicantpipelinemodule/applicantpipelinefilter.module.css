@@ -82,7 +82,7 @@
   background-color: #ffffff !important;
   cursor: pointer;
   width: 260px;
-  height: 35px;
+  height: 30px;
   border: 1px solid #581845;
   border-radius: 11px;
   justify-content: space-between;
@@ -94,7 +94,7 @@
   background-color: var(--color-white, #fff);
   border-radius: 0 0 10px 10px;
   width: 100%;
-  z-index: 1;
+  z-index: 12;
   display: none;
   box-sizing: border-box;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.47000000000000003);

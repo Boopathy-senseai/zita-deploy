@@ -15,5 +15,110 @@
 }
 .btnStyle:active{
   background-color: #EEE8EC !important;
+}
+.btn1Style{
+  background-color: white;
+  margin-right: 10px;
+  border: white;
+  cursor: pointer;
+}
+.btn1Style:active{
+  background-color: white;
+}
+.btn1Style:focus{
+  background-color: white;
+  border: none;
+}
+.Popup {
+  background-color: var(--color-white, #ffffff);
+  width: 680px;
+  padding: 25px;
+  border-radius: 4px;
+}
+.insertStyles {
+  margin-bottom: 15px;
+  border-bottom: 0.5px solid #581845;
+}
+.borderLine{
+  border-top: 1px solid #c3c3c3;
+  padding-bottom: 20px;
 
+}
+.cancel {
+  margin-right: 8px;
+  background-color: #888888;
+  border: none;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+.cancel:active, .cancel:focus{
+  background-color: #888888;
+  border: none;
+}
+.update {
+  border: none;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+.update:active, .update:focus{
+  border: none;
+}
+
+.newBtn {
+  display: flex;
+  align-items: center;
+  padding: 2px 10px 2px 10px;
+  width: 100%;
+  border: 1px solid #A5889C; 
+  margin-right: 15px;
+  margin-bottom: 15px;
+
+}
+.newBtn:hover,
+.newBtn:active,
+.newBtn:focus {
+  background: unset;
+  border-width: 1px;
+}
+.columnGroup {
+  display: flex;
+  flex-direction: column;
+  
+}
+.svgContainer {
+  display: flex;
+  align-items: center;
+  margin-left: 5px;
+  top: 16px;
+  right: 0;
+}
+
+
+.svgTick {
+  margin-right: 4px;
+  cursor: pointer;
+}
+.svgTickMargin {
+  margin-right: 4px;
+  cursor: pointer;
+  z-index: 11;
+}
+.svgTickDisable {
+  pointer-events: none;
+  cursor: not-allowed !important;
+  opacity: 0.5;
+}
+.tickStyle:hover path {
+  fill: var(--color-gary-4, #979797) !important;
+}
+.bulkSelection{
+  justify-content: space-between;
+  background-color: #C6B8C2;
+  padding: 5px 20px 5px 20px;
+  border-radius: 11px;
+  height: 30px;
+  width: 400px;
+}
+.bulkButton{
+  margin-left: 20px;
 }

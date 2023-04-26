@@ -3,7 +3,6 @@ import { Draggable } from 'react-beautiful-dnd';
 import { useDispatch } from 'react-redux';
 import SvgCalendar from '../../icons/SvgCalendar';
 import SvgDownload from '../../icons/SvgDownload';
-import SvgHeart from '../../icons/SvgHeart';
 import SvgView from '../../icons/SvgView';
 import { AppDispatch } from '../../store';
 import Button from '../../uikit/Button/Button';
@@ -37,6 +36,7 @@ import {
   ZitaEventType,
 } from '../calendarModule/types';
 import { getEditEventsDetails } from '../calendarModule/util';
+import SvgHeart from '../../icons/SvgHearts';
 import { GoogleEntity, JobDetailsEntity } from './applicantPipeLineTypes';
 import { handleDownload, hanldeFavAction } from './dndBoardHelper';
 import ProfileView from './ProfileView';
@@ -51,6 +51,13 @@ type Props = {
   outlook?: GoogleEntity[];
   google?: GoogleEntity[];
   job_details: JobDetailsEntity;
+  onClick?: (data: {
+    task: any;
+    index: number;
+    columnId: string;
+    job_details: JobDetailsEntity;
+  }) => void;
+  isSelected:boolean;
 };
 const MultiTask = ({
   task,
@@ -60,6 +67,8 @@ const MultiTask = ({
   google,
   outlook,
   job_details,
+  onClick,
+  isSelected
 }: Props) => {
   const [isCalender, setCalender] = useState('popup');
   console.log(isCalender);
@@ -207,6 +216,9 @@ const MultiTask = ({
   const [isLoad, setIsLoad] = useState(true);
   const [myevents, setMyevents] = useState<any[]>([]);
   const [userName, setUserName] = useState('');
+
+  // const [download,setdownload]=useState(["candidate_resume/AnshulKhare_1_iLsbaL2.doc","candidate_resume/AmarJain_1_w74asKQ.doc"])
+
   const openForm = () => {
     setOpen((prevState) => !prevState);
   };
@@ -418,10 +430,11 @@ const MultiTask = ({
             {...provided.draggableProps}
             // isDragging={snapshot.isDragging}
           >
-            <Card>
-              <div
+            <Card className={styles.cardStyle}>
+              <Flex
                 className={styles.cardFlexStyle}
-                style={{ borderLeftColor: isBorder }}
+                style={{ borderColor: isBorder, borderLeftColor: isBorder , backgroundColor: isSelected ? `${isBorder}40` : undefined}}
+                onClick={onClick ? () => onClick({task,job_details,columnId,index}) : undefined}
               >
                 <Flex row>
                   <div style={{ position: 'relative' }}>
@@ -444,7 +457,9 @@ const MultiTask = ({
                         className={styles.linkBtnStyle}
                         onClick={hanldeProfileView}
                       >
-                        {task.name}
+                        <Text bold color="theme">
+                          {task.name}
+                        </Text>
                       </Button>
 
                       <div
@@ -465,7 +480,7 @@ const MultiTask = ({
                     <Flex row center>
                       <Text
                         size={12}
-                        color="gray"
+                        color="black2"
                         textStyle="ellipsis"
                         title={task.location}
                         style={{ maxWidth: '40%' }}
@@ -474,16 +489,22 @@ const MultiTask = ({
                       </Text>
                       <Text
                         size={12}
-                        color="gray"
+                        color="black2"
                         textStyle="ellipsis"
                         style={{ marginLeft: 2 }}
                       >
                         | {workExp}
                       </Text>
                     </Flex>
+                    <Flex>
+                      <Text size={12} color="black2" textStyle="ellipsis">
+                        {task.qualification}
+                      </Text>
+                    </Flex>
                   </Flex>
                 </Flex>
-                <Flex row center className={styles.svgContainer}>
+                <Flex row end className={styles.svgContainer}>
+                  {console.log('--file download--', task.file)}
                   <div
                     title="Download Resume"
                     onClick={() => handleDownload(task.file)}
@@ -515,6 +536,7 @@ const MultiTask = ({
                       width={19}
                       height={19}
                       filled={!isEmpty(task.fav)}
+                      fill="#ED4857"
                     />
                   </div>
                   {columnId === 'column-2' && (
@@ -547,7 +569,7 @@ const MultiTask = ({
                     </Flex>
                   )}
                 </Flex>
-              </div>
+              </Flex>
             </Card>
           </div>
         )}

@@ -1,16 +1,16 @@
 export const matchOptions = [
-  { value: '> 90%', label: '91-100' },
-  { value: '> 80%', label: '81-100' },
-  { value: '> 70%', label: '71-100' },
-  { value: '> 60%', label: '61-100' },
-  { value: '<= 60%', label: '0-60' },
-  { value: 'Any', label: '' },
+  { label: '> 90%', value: '91-100' },
+  { label: '> 80%', value: '81-100' },
+  { label: '> 70%', value: '71-100' },
+  { label: '> 60%', value: '61-100' },
+  { label: '<= 60%', value: '0-60' },
+  { label: 'Any', value: '' },
 ];
 
 export const profileOptions = [
-  { value: 'Viewed', label: '1' },
-  { value: 'Yet to View', label: '0' },
-  { value: 'Both', label: '' },
+  { label: 'Viewed', value: '1' },
+  { label: 'Yet to View', value: '0' },
+  { label: 'Both', value: '' },
 ];
 
 export const experienceOption = [

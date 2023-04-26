@@ -3,7 +3,6 @@ import { Card } from 'react-bootstrap';
 import classNames, { Value } from 'classnames/bind';
 import { FormikProps, useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-// import Reorder, { reorder } from 'react-reorder';
 import ErrorMessage from '../../../uikit/ErrorMessage/ErrorMessage';
 import SvgBack from '../../../icons/SvgBack';
 import Flex from '../../../uikit/Flex/Flex';
@@ -26,6 +25,8 @@ import ColorPicker from '../buildyourcareerpage/ColorPicker';
 import SvgTickOne from '../../../icons/SvgTickOne';
 import SvgPlusCircle from '../../../icons/SvgAddCircle';
 import SvgPicker from '../../../icons/SvgPicker';
+import { Chip } from '../../../uikit/StagesChip/stagesChip';
+import { StageCard } from '../../../uikit/StageCard/stagesCard';
 import { StageData, jobPipelineForm } from './templatesPageTypes';
 import {
   addJobPipelineStageMiddleWare,
@@ -34,13 +35,10 @@ import {
   jobPipelineStagesMiddleWare,
   jobPipelineSuggestionsMiddleWare,
   reorderJobPipelineStageMiddleWare,
-  updateColourMiddleWare,
 } from './store/middleware/templatesmiddleware';
 
 import styles from './jobPipelinePage.module.css';
-// eslint-disable-next-line import/no-cycle
 import ReorderStage from './reorder';
-import { Chip, StageCard } from './stagescard';
 
 const cx = classNames.bind(styles);
 type FormProps = {
@@ -65,7 +63,7 @@ const JobPipelinePage = ({ handleBack }: FormProps) => {
       stages: templatePageReducers.stages,
       suggestions: templatePageReducers.suggestions,
     }),
-  );
+  );  
 
   const onStageEdit = (value: StageData) => {
     dispatch(updateJobPipelineStageMiddleWare(value));
@@ -129,6 +127,7 @@ const JobPipelinePage = ({ handleBack }: FormProps) => {
   };
 
   return (
+    
     <Flex>
       <Flex row start className={styles.title} onClick={handleBack}>
         <SvgBack height={16} width={16} />
@@ -169,40 +168,13 @@ const JobPipelinePage = ({ handleBack }: FormProps) => {
                 // onEdit={onStageEdit}
                 //onDelete={onStageDelete}
               />
+              {console.log("stages123", stages)}
               <ReorderStage
                 list={stages}
                 onEdit={onStageEdit}
                 onDelete={onStageDelete}
                 onChange={onReorderChange}
               />
-              {/* <Reorder
-                reorderId="stages"
-                getRef={reorderRef}
-                component="ul"
-                placeholderClassName="placeholder"
-                draggedClassName="dragged"
-                lock="horizontal"
-                holdTime={500}
-                touchHoldTime={500}
-                mouseHoldTime={200}
-                onReorder={onReorder}
-                autoScroll={true}
-                disabled={false}
-                disableContextMenus={true}
-                placeholder={<div className="custom-placeholder" />}
-              >
-                {stages.map((doc, index) => (
-                  <li key={`${doc.id}-${index}`}>
-                    <StageCard
-                      key={index}
-                      doc={doc}
-                      index={index}
-                      onEdit={onStageEdit}
-                      onDelete={onStageDelete}
-                    />
-                  </li>
-                ))}
-              </Reorder> */}
             </Flex>
           </Flex>
           <Flex
@@ -234,12 +206,12 @@ const JobPipelinePage = ({ handleBack }: FormProps) => {
                   className={styles.newBtn}
                 >
                   <Flex row center>
-                    <SvgAdd height={16} width={10} fill="#581845" />
+                    <SvgPlusCircle  fill="#581845" />
                     <Text
                       bold
                       color="theme"
                       size={14}
-                      style={{ marginLeft: '10px' }}
+                      style={{ marginLeft: '5px' }}
                     >
                       Create a new stage
                     </Text>
