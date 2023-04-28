@@ -10,6 +10,70 @@
   -moz-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55);
   transition: all 0.2s ease-out; 
 }
-.overAll {
-  margin-top: 20px;
+.overall {
+  border-bottom: 0.5px solid #581845;
+  margin-left: 5px;
+  margin-right: 5px;
+  
 }
+.borderBottom {
+ 
+  padding: 4px 35px;
+}
+.jobActivityCard{
+  width: 250px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 5px;
+  height: 295px;
+}
+.cardStyle {
+  padding: 16px 20px;
+  padding-bottom: 0px;
+  margin-bottom: 24px;
+}
+.listFlex {
+  margin-bottom: 16px;
+
+}
+.valueStyle{
+  margin-left: 2px;
+}
+.buttondisable{
+  cursor: none;
+  pointer-events: none;
+  border-style: none;
+ width:auto;
+ height: 30px;
+
+}
+.buttonflex{
+  background-color: #EEE8EC;
+  border-radius: 20px;
+  width:auto;
+  height:30px;
+
+}
+/* .paddindelement{
+  padding: 5px;
+} */
+.line{
+  border:0.5px solid #581845;
+}
+.circleflexover{
+  height: 26px;
+  line-height: 26px;  
+  width: auto;  
+  font-size: 1em;
+  
+  border-radius: 20%;
+  background-color: #EEE8EC;
+  text-align: center;
+  max-width: 200px; 
+  white-space: nowrap;
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+
+}
+
+

@@ -120,7 +120,7 @@ const SourcingPerformance = ({ role_base, dates_length, planId ,jd_metrics}: Pro
   };
   return (
     <Card className={styles.overAll}>
-      <Text bold size={16}>
+      <Text bold size={16} style={{color:'#581845'}}>
         Sourcing Performance
       </Text>
       {(Array.isArray(role_base) &&

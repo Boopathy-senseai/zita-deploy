@@ -1,22 +1,23 @@
 .jobTitle {
-  padding: 4px 16px;
-  border-bottom: 1px solid #ccc;
+  padding: 7px;
+  
 }
 .titleCard {
-  padding: 8px 16px;
+  padding: 4px 2px;
   box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
   -webkit-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
   -moz-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
 }
 .titleCard:hover{
-  box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55);
-  -webkit-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55);
+  box-shadow: 0px 0px 8px 1px rgba(225,225,225,1) !important;
+  -webkit-box-shadow: 0px 0px 8px 1px rgba(225 225 225 /10%) !important;
   -moz-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55);
   transition: all 0.2s ease-out; 
 }
 .overAll {
-  margin-bottom: 60px;
+  margin-bottom: 40px;
   position: relative;
+  
   /*box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);*/
   /*-webkit-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);*/
   /*-moz-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);*/
@@ -37,7 +38,16 @@
 }
 .noText {
   padding: 8px 16px;
-  border: 3px solid #fff;
+  border: 3px solid #581845;
   border-radius: 4px;
   background-color: rgba(0,0,0,0.18);
+  
 }
+.line{
+  border-bottom:0.5px solid #581845;
+  padding: 4px 2px;
+  margin-left: 8px;
+  margin-right: 8px;
+
+}
+

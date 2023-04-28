@@ -2,6 +2,9 @@ import moment from 'moment';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import SvgChat from '../../../icons/SvgChat';
+import SvgMessagechat from '../../../icons/SvgMessagechat';
+import SvgMessageIcon from '../../../icons/SvgMessageIcon';
+import SvgNomessage from '../../../icons/SvgNomessage';
 import SvgMessage from '../../../icons/SvgMessage';
 import { RootState } from '../../../store';
 import Card from '../../../uikit/Card/Card';
@@ -58,10 +61,13 @@ const MessageCard = () => {
         jobId={isJd}
         candidateId={isCandi}
       /> */}
-      <Flex row center className={styles.msgText}>
-        <Text bold color="theme" style={{ marginRight: 16 }}>
+      <Flex row center className={styles.msgText} between>
+        
+        <Text bold size={16} color="theme" style={{ marginRight: 16 }}>
           Messages
         </Text>
+        
+        <Flex>
         <div style={{ position: 'relative' }}>
           {message_count !== 0 && (
             <div className={styles.countStyle}>
@@ -70,22 +76,28 @@ const MessageCard = () => {
               </Text>
             </div>
           )}
-          <SvgMessage fill={PRIMARY} />
         </div>
+      <SvgMessageIcon width={16} height={16} /></Flex>
+      </Flex>
+      <Flex marginLeft={5} marginRight={5} className={styles.line} >
+
       </Flex>
 
       <Flex columnFlex className={styles.scrollStyle}>
         {message.length === 0 ? (
           <Flex columnFlex flex={1} center middle className={styles.noContent}>
-            <SvgChat />
+            {/* <SvgMessagechat fill={"#581845"}> </SvgMessagechat> */}
+            <SvgNomessage/>
+            
+            
             <Text color="gray">No Messages Received</Text>
           </Flex>
         ) : (
           unique && unique
             .map((list, index) => (
-              <Card
+              <Flex className={styles.borderbottom}
                 key={list.first_name + index}
-                className={styles.mesgListCard}
+                
               >
                 <Flex row between>
                   <Flex row>
@@ -97,7 +109,7 @@ const MessageCard = () => {
                     />
                     <Flex>
                       {list.can_source === 'applicant' ? (
-                        <Text
+                        <Text style={{color:'#581845',marginLeft:7}}
                           onClick={() => {
                             setJd(list.jd_id_id);
                             setCandi(list.can_id);
@@ -117,17 +129,18 @@ const MessageCard = () => {
                           }}
                           color="link"
                           bold
+                          style={{color:'#581845',marginLeft:7}}
                         >
                           {list.first_name} {list.last_name}
                         </Text>
                       )}
 
-                      <Text style={{ marginTop: 4 }}>{list.message}</Text>
+                      <Text style={{ marginLeft:7,}}>{list.message}</Text>
                     </Flex>
                   </Flex>
                   <Text>{moment(list.date_created).fromNow()}</Text>
                 </Flex>
-              </Card>
+              </Flex>
             ))
             .reverse()
         )}
