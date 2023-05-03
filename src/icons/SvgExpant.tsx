@@ -1,17 +1,12 @@
-//import * as React from 'react';
 
-const defaultProps = {
-  fill: '#979797',
-  width: 22,
-  height: 22,
-};
-const SvgExpand = ({ width, height, fill }: typeof defaultProps) => {
-  return (
+const SvgExpand = (props) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={width}
-      height={height}
-      fill={fill}
+      width={16}
+      height={16}
+      fill="none"
+      viewBox="0 0 22 22"
+      {...props}
     >
       <path
         fill="#581845"
@@ -28,6 +23,4 @@ const SvgExpand = ({ width, height, fill }: typeof defaultProps) => {
       />
     </svg>
   );
-};
-SvgExpand.defaultProps = defaultProps;
 export default SvgExpand;

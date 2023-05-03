@@ -15,6 +15,7 @@
   border: 2px solid var(--color-primary, #581845);
   background-color: var(--color-primary, #581845);
   transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
+  border-radius: 25px;
 }
 
 .buttonTypes-primary:hover {

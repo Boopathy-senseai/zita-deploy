@@ -152,12 +152,13 @@ const NavBar = () => {
                                     pathname.includes('/account_setting'),
                                 })}
                               >
+                              <text style={{verticalAlign:'3px'}}>
                                 <SvgUser
                                   fill={'#581845'}
                                   height={20}
                                   width={20}
                                 />
-
+                                </text>
                                 <span
                                   style={{
                                     color: '#581845',
@@ -176,11 +177,13 @@ const NavBar = () => {
                                   pathname.includes('/account_setting'),
                               })}
                             >
+                            <text style={{verticalAlign:'3px'}}>
                               <SvgUser
                                 fill={'#581845'}
                                 height={20}
                                 width={20}
                               />
+                            </text>
                               <span
                                 style={{ color: '#581845', marginLeft: '15px' }}
                               >
@@ -203,11 +206,13 @@ const NavBar = () => {
                                     pathname.includes('/account_setting'),
                                 })}
                               >
+                              <text style={{verticalAlign:'3px'}}>
                                 <SvgSetting
                                   fill={'#581845'}
                                   height={20}
                                   width={20}
                                 />
+                              </text>
                                 <span
                                   style={{
                                     color: '#581845',
@@ -226,11 +231,13 @@ const NavBar = () => {
                                   pathname.includes('/account_setting'),
                               })}
                             >
+                            <text style={{verticalAlign:'3px'}}>
                               <SvgSetting
                                 fill={'#581845'}
                                 height={20}
                                 width={20}
                               />
+                            </text>
                               <span
                                 style={{ color: '#581845', marginLeft: '15px' }}
                               >
@@ -253,11 +260,13 @@ const NavBar = () => {
                                     pathname.includes('/account_setting'),
                                 })}
                               >
+                              <text style={{verticalAlign:'3px'}}>
                                 <SvgLock
                                   fill={'#581845'}
                                   height={20}
                                   width={20}
                                 />
+                                </text>
 
                                 <span
                                   style={{
@@ -277,11 +286,13 @@ const NavBar = () => {
                                   pathname.includes('/account_setting'),
                               })}
                             >
+                            <text style={{verticalAlign:'3px'}}>
                               <SvgLock
                                 fill={'#581845'}
                                 height={20}
                                 width={20}
                               />
+                              </text>
 
                               <span
                                 style={{ color: '#581845', marginLeft: '15px' }}
@@ -293,10 +304,10 @@ const NavBar = () => {
                         </Dropdown.Item>
                         <Dropdown.Divider />
 
-                        <Flex style={{ color: '#FCC203', textAlign: 'center' }}>
+                        <Flex style={{ color: '#FCC203', textAlign: 'center',fontSize:'14px' }}>
                           You have logged in as
                         </Flex>
-                        <Flex style={{ color: '#581845', textAlign: 'center' }}>
+                        <Flex style={{ color: '#581845', textAlign: 'center',paddingLeft:'15px',paddingRight:'15px' }}>
                           {email}
                         </Flex>
                         <div
@@ -309,6 +320,7 @@ const NavBar = () => {
                           <Button
                             className={styles.Signot}
                             onClick={handleLogout}
+                            style={{verticalAlign:'1px'}}
                           >
                             Log out
                           </Button>
@@ -350,12 +362,13 @@ const NavBar = () => {
                                     pathname.includes('/account_setting'),
                                 })}
                               >
+                              <text style={{verticalAlign:'3px'}}>
                                 <SvgUser
                                   fill={'#581845'}
                                   height={20}
                                   width={20}
                                 />
-
+                               </text> 
                                 <span
                                   style={{
                                     color: '#581845',
@@ -374,13 +387,15 @@ const NavBar = () => {
                                   pathname.includes('/account_setting'),
                               })}
                             >
+                            <text style={{verticalAlign:'3px'}}>
                               <SvgUser
                                 fill={'#581845'}
                                 height={20}
                                 width={20}
                               />
+                            </text>
                               <span
-                                style={{ color: '#581845', marginLeft: '15px' }}
+                                style={{ color: '#581845', marginLeft: '15px'}}
                               >
                                 Profile
                               </span>
@@ -401,11 +416,13 @@ const NavBar = () => {
                                     pathname.includes('/account_setting'),
                                 })}
                               >
+                              <text style={{verticalAlign:'3px'}}>
                                 <SvgSetting
                                   fill={'#581845'}
                                   height={20}
                                   width={20}
                                 />
+                                </text>
                                 <span
                                   style={{
                                     color: '#581845',
@@ -424,11 +441,13 @@ const NavBar = () => {
                                   pathname.includes('/account_setting'),
                               })}
                             >
+                            <text style={{verticalAlign:'3px'}}>
                               <SvgSetting
                                 fill={'#581845'}
                                 height={20}
                                 width={20}
                               />
+                              </text>
                               <span
                                 style={{ color: '#581845', marginLeft: '15px' }}
                               >
@@ -451,11 +470,13 @@ const NavBar = () => {
                                     pathname.includes('/account_setting'),
                                 })}
                               >
+                              <text style={{verticalAlign:'3px'}}>
                                 <SvgLock
                                   fill={'#581845'}
                                   height={20}
                                   width={20}
                                 />
+                                </text>
 
                                 <span
                                   style={{
@@ -475,11 +496,13 @@ const NavBar = () => {
                                   pathname.includes('/account_setting'),
                               })}
                             >
+                            <text style={{verticalAlign:'3px'}}>
                               <SvgLock
                                 fill={'#581845'}
                                 height={20}
                                 width={20}
                               />
+                            </text>
 
                               <span
                                 style={{ color: '#581845', marginLeft: '15px' }}
@@ -491,10 +514,10 @@ const NavBar = () => {
                         </Dropdown.Item>
                         <Dropdown.Divider />
 
-                        <Flex style={{ color: '#FCC203', textAlign: 'center' }}>
+                        <Flex style={{ color: '#FCC203', textAlign: 'center',fontSize:'14px'  }}>
                           You have logged in as
                         </Flex>
-                        <Flex style={{ color: '#581845', textAlign: 'center' }}>
+                        <Flex style={{ color: '#581845', textAlign: 'center',paddingLeft:'15px',paddingRight:'15px' }}>
                           {email}
                         </Flex>
                         <div
@@ -507,6 +530,7 @@ const NavBar = () => {
                           <Button
                             className={styles.Signot}
                             onClick={handleLogout}
+                            style={{verticalAlign:'1px'}}
                           >
                             Log out
                           </Button>

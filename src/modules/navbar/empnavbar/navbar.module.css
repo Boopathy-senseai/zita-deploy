@@ -98,21 +98,24 @@
         right: 15px !important;
 }
 .svgMargin {
-  margin-right: 4px;
+  margin-right: -11px;
   padding: 3px 10px;
   border-radius: 8px;
 }
 .dropdown_toggle{
+    /* margin-top:25px; */
     background-color: '#ffffff' !important;
     border: '#ffffff' !important;
     box-shadow: 'none' !important;
+    
  }
  .Signot:hover {
    box-shadow: none !important;
  }
 
- .searchStyle {
-  border-radius: 10px !important;
+.searchStyle {
+  
+   border-radius: 10px !important;
     padding: 6px 15px 5px 38px !important;
    border: 1px solid #EEE8EC !important;
    outline: none;
@@ -125,6 +128,8 @@
  }
 
  .searchStyle::placeholder {
+   text-align: center;
+   opacity:0.6;
    text-transform: inherit !important;
    color: #581845!important;
    font-size: 12px !important;

@@ -121,7 +121,7 @@ const Notification = () => {
               </Text>
             </div>
           )}
-          <SvgBell fill={'#581845'} height={24} width={24} />
+          <SvgBell fill={'#581845'} height={22} width={22} />
         </div>
         {isOpen && (
           <Card
@@ -512,7 +512,7 @@ const Notification = () => {
                   <Flex
                     style={{
                       position: 'absolute',
-                      top: '50%',
+                      top: '47%',
                       left: '50%',
                       transform: 'translate(-50%, -50%)',
                     }}
@@ -523,7 +523,7 @@ const Notification = () => {
                   <Text
                     style={{
                       position: 'absolute',
-                      top: '50%',
+                      top: '47%',
                       left: '50%',
                       transform: 'translate(-50%, -50%)',
                       marginTop: '15px',
@@ -549,15 +549,19 @@ const Notification = () => {
           <span className={styles.confirm_txt}>Are you sure?</span>
           <Flex style={{ marginBottom: '20px' }}>
             <span style={{ textAlign: 'center' }}>
-              <Button className={styles.Btn_clear} onClick={handleDelete}>
-                Clear
-              </Button>
-              <Button
-                style={{ marginLeft: '10px' }}
-                onClick={() => setmodelopen(false)}
-              >
-                Cancel
-              </Button>
+            <Button
+            style={{backgroundColor : "#888888",borderColor:"#888888" }}
+            onClick={() => setmodelopen(false)}
+          >
+            Cancel
+          </Button>
+
+            <Button className={styles.Btn_clear}  onClick={handleDelete} style={{marginLeft: '10px'}}>
+            Clear
+          </Button>
+            
+             
+             
             </span>
           </Flex>
         </Flex>
