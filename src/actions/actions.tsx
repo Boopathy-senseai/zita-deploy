@@ -130,6 +130,10 @@ export const CANDIDATE_PROFILE_OTP_VALIDATE =
 
 
 // [Account Settings] --> Templates
+export const PIPELINE_DATA = 'account/pipeline_data';
+export const UPDATE_PIPELINE_DATA = 'account/pipeline_data_update';
+export const DELETE_PIPELINE_DATA = 'account/pipeline_data_delete';
+export const DEFAULT_PIPELINE_DATA = 'account/pipeline_data_default';
 export const PIPELINE_STAGES = 'account/pipeline_stages';
 export const ADD_PIPELINE_STAGE = 'account/pipeline_stage_add';
 export const DELETE_PIPELINE_STAGE = 'account/pipeline_stage_delete';

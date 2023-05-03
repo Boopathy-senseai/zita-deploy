@@ -12,7 +12,9 @@
   border-radius: 4px;
   display: flex;
   flex-direction: column;
+  height: 135px;
   box-shadow: 0 1px 4px 0 rgba(0,0,0,.47000000000000003);
+  justify-content: space-between;
 }
 .profile {
   height: 56px;
@@ -24,10 +26,10 @@
   max-width: 62%;
 }
 .svgContainer {
-  margin-top: 20px;
+  margin-right: 8px;
 }
 .svgDownloadStyle {
-  margin-right: 8px;
+  margin-right: 5px;
   cursor: pointer;
 }
 .svgCalnStyle {
@@ -44,7 +46,7 @@
   padding-bottom: 1px;
   width: 45px;
   position: absolute;
-  bottom: -10px;
+  top: 45px;
   left: 5px;
 }
 .svgView {
@@ -55,7 +57,7 @@
   top: -2px; */
 }
 .svgNewTag {
-  align-items: flex-end;
+  /* align-items: flex-end; */
   display: flex;
   flex: 1;
 }

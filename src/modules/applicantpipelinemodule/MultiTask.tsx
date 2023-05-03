@@ -45,6 +45,7 @@ import styles from './multitask.module.css';
 
 type Props = {
   task: any;
+  section:string;
   index: number;
   isBorder: string;
   columnId: string;
@@ -53,14 +54,16 @@ type Props = {
   job_details: JobDetailsEntity;
   onClick?: (data: {
     task: any;
+    section:string;
     index: number;
     columnId: string;
     job_details: JobDetailsEntity;
   }) => void;
-  isSelected:boolean;
+  isSelected: boolean;
 };
 const MultiTask = ({
   task,
+  section,
   index,
   isBorder,
   columnId,
@@ -68,7 +71,7 @@ const MultiTask = ({
   outlook,
   job_details,
   onClick,
-  isSelected
+  isSelected,
 }: Props) => {
   const [isCalender, setCalender] = useState('popup');
   console.log(isCalender);
@@ -433,8 +436,16 @@ const MultiTask = ({
             <Card className={styles.cardStyle}>
               <Flex
                 className={styles.cardFlexStyle}
-                style={{ borderColor: isBorder, borderLeftColor: isBorder , backgroundColor: isSelected ? `${isBorder}40` : undefined}}
-                onClick={onClick ? () => onClick({task,job_details,columnId,index}) : undefined}
+                style={{
+                  borderColor: isBorder,
+                  borderLeftColor: isBorder,
+                  backgroundColor: isSelected ? `${isBorder}40` : undefined,
+                }}
+                onClick={
+                  onClick
+                    ? () => onClick({ task,section, job_details, columnId, index })
+                    : undefined
+                }
               >
                 <Flex row>
                   <div style={{ position: 'relative' }}>
@@ -445,9 +456,9 @@ const MultiTask = ({
                         className={styles.profile}
                         src={`${process.env.REACT_APP_HOME_URL}media/${task.image}`}
                       />
-                    </div>
-                    <div className={styles.percentageStyle}>
-                      <Text bold>{match}%</Text>
+                      <div className={styles.percentageStyle}>
+                        <Text bold>{match}%</Text>
+                      </div>
                     </div>
                   </div>
                   <Flex columnFlex className={styles.nameContainer}>
@@ -478,22 +489,27 @@ const MultiTask = ({
                       </div>
                     </Flex>
                     <Flex row center>
-                      <Text
-                        size={12}
-                        color="black2"
-                        textStyle="ellipsis"
-                        title={task.location}
-                        style={{ maxWidth: '40%' }}
-                      >
-                        {task.location}
-                      </Text>
+                      {task.location && (
+                        <Text
+                          size={12}
+                          color="black2"
+                          textStyle="ellipsis"
+                          title={task.location}
+                          style={{ maxWidth: '40%', marginRight: 2 }}
+                        >
+                          {task.location}
+                        </Text>
+                      )}
+                      {task.location && workExp && (
+                        <Text color="black2"> | </Text>
+                      )}
                       <Text
                         size={12}
                         color="black2"
                         textStyle="ellipsis"
                         style={{ marginLeft: 2 }}
                       >
-                        | {workExp}
+                        {workExp}
                       </Text>
                     </Flex>
                     <Flex>
@@ -501,62 +517,16 @@ const MultiTask = ({
                         {task.qualification}
                       </Text>
                     </Flex>
+                    <Flex>
+                      <Text size={12} color="black2" textStyle="ellipsis">
+                        {getDateString(task.created_on, 'll hh:mm A')}
+                        {/* {task.created_on} */}
+                        {/* {getDateString(user_info?.last_login, 'll hh:mm A')} */}
+                      </Text>
+                    </Flex>
                   </Flex>
                 </Flex>
-                <Flex row end className={styles.svgContainer}>
-                  {console.log('--file download--', task.file)}
-                  <div
-                    title="Download Resume"
-                    onClick={() => handleDownload(task.file)}
-                    tabIndex={-1}
-                    role={'button'}
-                    onKeyPress={() => {}}
-                  >
-                    <SvgDownload
-                      className={styles.svgDownloadStyle}
-                      width={19}
-                      height={19}
-                    />
-                  </div>
-                  <div
-                    title={isEmpty(task.fav) ? ADD_FAV : REMOVE_FAV}
-                    onClick={() =>
-                      hanldeFavAction(
-                        task.candidate_id_id,
-                        task.jd_id_id,
-                        dispatch,
-                      )
-                    }
-                    tabIndex={-1}
-                    role={'button'}
-                    onKeyPress={() => {}}
-                  >
-                    <SvgHeart
-                      className={styles.svgDownloadStyle}
-                      width={19}
-                      height={19}
-                      filled={!isEmpty(task.fav)}
-                      fill="#ED4857"
-                    />
-                  </div>
-                  {columnId === 'column-2' && (
-                    // <a
-                    //   rel="noopener noreferrer"
-                    //   title={calenderTitle}
-                    //   className={
-                    //     isCalender === 'popup'
-                    //       ? styles.svgCalnStyle
-                    //       : styles.svgDownloadStyle
-                    //   }
-                    //   href={link}
-                    //   target={'_blank'}
-                    // >
-                    <Flex onClick={scheduleEventHandler}>
-                      <SvgCalendar fill={PRIMARY} width={19} height={19} />
-                    </Flex>
-                    // </a>
-                  )}
-
+                <Flex row end center marginTop={20}>
                   {columnId === 'column-1' && getDate && (
                     <Flex className={styles.svgNewTag}>
                       <img
@@ -568,6 +538,64 @@ const MultiTask = ({
                       />
                     </Flex>
                   )}
+                  <Flex row end center className={styles.svgContainer}>
+                    {console.log('--file download--', task.file)}
+                    <div
+                      title="Download Resume"
+                      onClick={(e) => {
+                        handleDownload(task.file);
+                        e.stopPropagation();
+                      }}
+                      tabIndex={-1}
+                      role={'button'}
+                      onKeyPress={() => {}}
+                    >
+                      <SvgDownload
+                        className={styles.svgDownloadStyle}
+                        width={16}
+                        height={16}
+                      />
+                    </div>
+                    <div
+                      title={isEmpty(task.fav) ? ADD_FAV : REMOVE_FAV}
+                      onClick={(e) => {
+                        hanldeFavAction(
+                          task.candidate_id_id,
+                          task.jd_id_id,
+                          dispatch,
+                        );
+                        e.stopPropagation();
+                      }}
+                      tabIndex={-1}
+                      role={'button'}
+                      onKeyPress={() => {}}
+                    >
+                      <SvgHeart
+                        className={styles.svgDownloadStyle}
+                        width={16}
+                        height={16}
+                        filled={!isEmpty(task.fav)}
+                        fill="#ED4857"
+                      />
+                    </div>
+                    {columnId !== 'column-1' && columnId !== 'column-5' && (
+                      // <a
+                      //   rel="noopener noreferrer"
+                      //   title={calenderTitle}
+                      //   className={
+                      //     isCalender === 'popup'
+                      //       ? styles.svgCalnStyle
+                      //       : styles.svgDownloadStyle
+                      //   }
+                      //   href={link}
+                      //   target={'_blank'}
+                      // >
+                      <Flex onClick={scheduleEventHandler}>
+                        <SvgCalendar fill={PRIMARY} width={16} height={16} />
+                      </Flex>
+                      // </a>
+                    )}
+                  </Flex>
                 </Flex>
               </Flex>
             </Card>

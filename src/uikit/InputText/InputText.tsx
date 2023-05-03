@@ -55,11 +55,12 @@ type Props = {
   actionRight?: Function;
   style?: CSSProperties;
   textarea?: boolean;
+  labelSize?: any;
   labelBold?: boolean;
   noBorder?: boolean;
   autoComplete?: string;
   name?: string;
-  onPasteCapture?:any
+  onPasteCapture?: any;
 };
 const InputText = (
   {
@@ -89,12 +90,13 @@ const InputText = (
     actionRight,
     style,
     textarea,
+    labelSize,
     labelBold,
     noBorder,
     autoComplete,
     name,
     onPaste,
-    onPasteCapture
+    onPasteCapture,
   }: Props,
   ref: any,
 ) => {
@@ -128,7 +130,12 @@ const InputText = (
 
   return (
     <Flex className={inputConatinerClass}>
-      <LabelWrapper required={required} label={label} bold={labelBold}>
+      <LabelWrapper
+        required={required}
+        label={label}
+        bold={labelBold}
+        size={labelSize}
+      >
         <Flex className={styles.inputFlexConatiner}>
           {textarea ? (
             <textarea

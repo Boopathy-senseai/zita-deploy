@@ -208,11 +208,12 @@ const AccountSettingsScreen = () => {
 
   return (
     !isLoading && (
-      <Flex columnFlex className={styles.overAll}>
-        <Flex row center>
-          <Text size={20} bold className={styles.title}>
+      <Flex columnFlex className={styles.overAll} width={window.innerWidth - 10}>
+        <Flex row className={styles.titleContainer}>
+          <Text size={16} color="theme" bold >
             Account Settings
           </Text>
+          <div className={styles.triangle}> </div>
 
           {tabKey === '0' &&
             company_detail &&

@@ -15,6 +15,7 @@ import styles from './dndboardcol.module.css';
 
 type Props = {
   tasks: any;
+  section:string;
   columnId: string;
   index: number;
   isDropDisabled: boolean;
@@ -23,19 +24,22 @@ type Props = {
   job_details: JobDetailsEntity;
   onClick?: (data: {
     task: any;
+    section: string;
     index: number;
     columnId: string;
     job_details: JobDetailsEntity;
   }) => void;
-  selectedCardList: {
-    task: any;
-    index: number;
-    columnId: string;
-    job_details: JobDetailsEntity;
-  }[];
+  // selectedCardList: {
+  //   task: any;
+  //   index: number;
+  //   columnId: string;
+  //   job_details: JobDetailsEntity;
+  // }[];
+  cardSelectionMap: Map<string, { task: any; section: string }>;
 };
 const DndBoardCol = ({
   tasks,
+  section,
   columnId,
   index,
   isDropDisabled,
@@ -43,7 +47,7 @@ const DndBoardCol = ({
   outlook,
   job_details,
   onClick,
-  selectedCardList,
+  cardSelectionMap,
 }: Props) => {
   const [isBorder, setBorder] = useState(SUNRAY);
   // for card color set condition
@@ -64,11 +68,8 @@ const DndBoardCol = ({
   }, [index]);
 
   const checkSelection = (id: string) => {
-   const taskIndex = selectedCardList.findIndex((doc) => doc.task.id === id);
-   if(taskIndex !== -1){
-    return true
-   }
-   return false
+    const taskIndex = cardSelectionMap.has(id);
+    return taskIndex;
   };
 
   return (
@@ -92,6 +93,7 @@ const DndBoardCol = ({
               <MultiTask
                 key={task.id.toString() + dndBoardId}
                 task={task}
+                section={section}
                 index={taskIndex}
                 isBorder={isBorder}
                 columnId={columnId}

@@ -17,6 +17,8 @@ import ColorPicker from '../../modules/accountsettingsmodule/buildyourcareerpage
 import { SvgEdit } from '../../icons';
 import SvgDelete from '../../icons/SvgDelete';
 import styles from './stagesCard.module.css';
+import DeletePopup from './deletePopup';
+import AlertDeletePopup from './alertDeletePopup';
 
 const cx = classNames.bind(styles);
 
@@ -40,6 +42,7 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
     onDelete,
   } = props;
   const [edit, setEdit] = useState(false);
+  const [deletePopup, setDeletePopup] = useState(false);
   const [showColorPallet, setShowColorPallet] = useState(false);
   const [isBtnColorOpen, setBtnColorOpen] = useState(false);
   const [isLocationLoader, setLocationLoader] = useState(false);
@@ -58,6 +61,13 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
   const toggleStage = () => {
     setEdit(!edit);
     formik.resetForm();
+  };
+  const handleDeletePipelinePopup = () => {
+    setDeletePopup(false);
+    onDelete(doc);
+  };
+  const handleCloseDeletePopup = () => {
+    setDeletePopup(false);
   };
   const onColorChange = (value: StageData) => {
     dispatch(updateJobPipelineStageMiddleWare(value));
@@ -137,84 +147,95 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
         </Flex>
       );
     }
-    return (
-      <Text color="theme" size={16}>
-        {doc.title}
-      </Text>
-    );
+    return <Text color="theme">{doc.title}</Text>;
   };
   const handleDelete = () => {
     if (edit) {
       toggleStage();
     }
     if (onDelete) {
-      onDelete(doc);
+      setDeletePopup(true);
     }
   };
 
   return (
-    <div ref={myRef} className={styles.pipelineCard}>
-      <div className={styles.rowGroup}>
-        <Button types="link" className={styles.drgIcon}>
-          <SvgDrag
-            width={16}
-            height={16}
-            fill={isDrag ? '#581845' : '#AC8BA2'}
-          />
-        </Button>
-        <button
-          disabled={doc.palatteDisabled}
-          className={styles.colorCircle}
-          style={{ backgroundColor: doc.color }}
-          onClick={() =>
-            isColorPicker ? setShowColorPallet(!showColorPallet) : undefined
-          }
-        ></button>
-        {renderTitle()}
-      </div>
-      {showColorPallet && (
-        <ColorPallete
-          data={doc}
-          onChange={onColorChange}
-          onMoreColour={() => {
-            setBtnColorOpen(!isBtnColorOpen);
-          }}
-        />
-      )}
-      {showColorPallet && isBtnColorOpen && (
-        <div className={styles.colorPicker}>
-          <ColorPicker
-            colors={{ hex: formik.values.color }}
-            onChange={(e: { hex: string }) => {
-              formik.setFieldValue('color', e.hex);
-              onColorChange({ ...doc, color: e.hex });
-            }}
-            // onChange={(e) => selectColour(e.hex)}
-          />
+    <>
+      {/* delete popup without the data */}
+      {/* <DeletePopup
+        openDeletePopup={deletePopup}
+        handleDeletePipelinePopup={handleDeletePipelinePopup}
+        handleCloseDeletePopup={handleCloseDeletePopup}
+      /> */}
+      <AlertDeletePopup
+        openDeletePopup={deletePopup}
+        handleDeletePipelinePopup={handleDeletePipelinePopup}
+        handleCloseDeletePopup={handleCloseDeletePopup}
+      />
+      <div ref={myRef} className={styles.pipelineCard}>
+        <div className={styles.rowGroup}>
+          <Button types="link" className={styles.drgIcon}>
+            <SvgDrag
+              width={16}
+              height={16}
+              fill={isDrag ? '#581845' : '#AC8BA2'}
+            />
+          </Button>
+          <button
+            disabled={doc.palatteDisabled}
+            className={styles.colorCircle}
+            style={{ backgroundColor: doc.color }}
+            onClick={() =>
+              isColorPicker ? setShowColorPallet(!showColorPallet) : undefined
+            }
+          ></button>
+          {renderTitle()}
         </div>
-      )}
-      <Flex className={styles.rowGroup}>
-        <Button
-          disabled={doc.disabled}
-          types="link"
-          className={styles.editIcon}
-          onClick={() =>
-            onEdit && doc.disabled === false ? setEdit(!edit) : undefined
-          }
-        >
-          <SvgEdit width={12} height={12} fill={'#581845'} />
-        </Button>
-        <Button
-          disabled={doc.disabled}
-          types="link"
-          className={styles.deleteIcon}
-          onClick={() =>
-            handleDelete && doc.disabled === false ? handleDelete() : undefined
-          }
-        >
-          <SvgDelete width={16} height={16} fill={'#581845'} />
-        </Button>
-      </Flex>
-    </div>
+        {showColorPallet && (
+          <ColorPallete
+            data={doc}
+            onChange={onColorChange}
+            onMoreColour={() => {
+              setBtnColorOpen(!isBtnColorOpen);
+            }}
+          />
+        )}
+        {showColorPallet && isBtnColorOpen && (
+          <div className={styles.colorPicker}>
+            <ColorPicker
+              colors={{ hex: formik.values.color }}
+              onChange={(e: { hex: string }) => {
+                formik.setFieldValue('color', e.hex);
+                onColorChange({ ...doc, color: e.hex });
+              }}
+              // onChange={(e) => selectColour(e.hex)}
+            />
+          </div>
+        )}
+        <Flex className={styles.rowGroup}>
+          <Button
+            disabled={doc.disabled}
+            types="link"
+            className={styles.editIcon}
+            onClick={() =>
+              onEdit && doc.disabled === false ? setEdit(!edit) : undefined
+            }
+          >
+            <SvgEdit width={12} height={12} fill={'#581845'} />
+          </Button>
+          <Button
+            disabled={doc.disabled}
+            types="link"
+            className={styles.deleteIcon}
+            onClick={() =>
+              handleDelete && doc.disabled === false
+                ? handleDelete()
+                : undefined
+            }
+          >
+            <SvgDelete width={16} height={16} fill={'#581845'} />
+          </Button>
+        </Flex>
+      </div>
+    </>
   );
 };

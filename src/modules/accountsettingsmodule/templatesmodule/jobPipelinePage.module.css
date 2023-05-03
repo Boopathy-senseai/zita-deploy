@@ -49,7 +49,6 @@
   z-index: 1000;
   top: 35px;
   left: 3%;
-
 }
 
 .header {
@@ -108,7 +107,7 @@
   box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.5);
   margin-bottom: 10px;
   border-radius: 5px;
-  width: fill-available;
+  width: stretch;
   background-color: white;
 }
 
@@ -186,19 +185,10 @@
   background: unset;
   border-width: 1px;
 }
-.svgTick {
-  margin-right: 4px;
-  cursor: pointer;
-}
 
-/* .borderLine {
-  border-bottom: 1px solid #c3c3c3;
-  padding-bottom: 20px;
-  margin-bottom: 20px;
-} */
 .svgContainer {
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   margin-left: 5px;
   top: 16px;
   right: 0;
@@ -236,11 +226,10 @@ ul {
   border: none;
   border-radius: 5px;
 }
-.cancel:active, .cancel:focus{
+.cancel:active,
+.cancel:focus {
   background-color: #888888;
   border: none;
-
-
 }
 .savebutton {
   margin-right: 15%;
@@ -252,8 +241,8 @@ ul {
   border-bottom: 1px solid #c3c3c3;
   padding-bottom: 50px;
 }
-.colorMenu{
-  position: absolute; 
+.colorMenu {
+  position: absolute;
   z-index: 1;
   top: 35px;
   left: 35px;
@@ -266,7 +255,7 @@ ul {
   display: flex;
   flex-direction: row;
 }
-.colorButton{
+.colorButton {
   width: 30px;
   height: 30px;
   border-radius: 50px;
@@ -277,4 +266,7 @@ ul {
   align-items: center;
   margin-bottom: 10px;
 }
-
+.labelwarpper_labelText__26Olk {
+  color: #581845 !important;
+  font-size: 16px !important;
+}

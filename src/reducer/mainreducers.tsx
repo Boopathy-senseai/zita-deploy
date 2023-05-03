@@ -16,8 +16,11 @@ import {
   messageTemplateReducers,
 } from '../modules/applicantprofilemodule/store/reducer/applicantProfileReducer';
 import {
-  bulkImportReducers,uploadedProfileViewReducers,bulkImportQusGetReducers,
-  bulkUploadedCandidatesReducers,bulkUploadTechSkillReducers,
+  bulkImportReducers,
+  uploadedProfileViewReducers,
+  bulkImportQusGetReducers,
+  bulkUploadedCandidatesReducers,
+  bulkUploadTechSkillReducers,
 } from '../modules/bulkimportmodule/store/reducer/bulkImportReducer';
 import { candidateMessageReducers } from '../modules/candidatemodule/store/reducer/candidateReducer';
 import {
@@ -47,16 +50,13 @@ import {
 } from '../modules/mydatabasemodule/store/reducer/mydatabasereducer';
 
 import {
-
   applicantsSourceReducers,
   applicantsSourceDataReducers,
   passiveCandidateDataReducers,
   jobMetricsDataReducers,
   jobMetricsChartReducers,
   sourcingPerformanceReducers,
-sourcingPerformanceDataReducers
-
-
+  sourcingPerformanceDataReducers,
 } from '../modules/reportsmodule/store/reducer/reportsreducer';
 import {
   myJobPosingReducers,
@@ -107,6 +107,7 @@ import { dashboardReducers } from '../modules/dashboardmodule/candidatedashboard
 import { notificationReducers } from '../modules/navbar/empnavbar/store/notificationreducer';
 
 import { templatePageReducers } from '../modules/accountsettingsmodule/templatesmodule/store/reducer/templatesreducer';
+import { pipelinePageReducers } from '../modules/accountsettingsmodule/templatesmodule/store/reducer/pipelinereducer';
 
 export const reducers = {
   talentSourcingReducers,
@@ -188,4 +189,5 @@ export const reducers = {
   sourcingPerformanceReducers,
   sourcingPerformanceDataReducers,
   templatePageReducers,
+  pipelinePageReducers,
 };

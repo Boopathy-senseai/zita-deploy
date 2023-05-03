@@ -31,16 +31,16 @@ interface Props {
   onEdit?: (value: StageData) => void;
   onDelete?: (value: StageData) => void;
   onChange: (value: StageData[]) => void;
- }
+}
 const ReorderStage: React.FC<Props> = (props) => {
-  const { list, onEdit, onDelete,onChange } = props;
+  const { list, onEdit, onDelete, onChange } = props;
   const [state, setState] = useState({
     items: list || [],
   });
 
   useEffect(() => {
-    onChange(state.items)
-  },[state.items])
+    onChange(state.items);
+  }, [state.items]);
 
   useEffect(() => {
     setState({
@@ -49,8 +49,6 @@ const ReorderStage: React.FC<Props> = (props) => {
   }, [list]);
   const onDragEnd = (result) => {
     // dropped outside the list
-
-    console.log("sdsd",result)
     if (!result.destination) {
       return;
     }
@@ -75,7 +73,11 @@ const ReorderStage: React.FC<Props> = (props) => {
             style={getListStyle(snapshot.isDraggingOver)}
           >
             {state.items.map((item, index) => (
-              <Draggable key={`${item.id}-${index}`} draggableId={item.id} index={index}>
+              <Draggable
+                key={`${item.id}-${index}`}
+                draggableId={item.id}
+                index={index}
+              >
                 {(providedD, snapshotD) => (
                   <div
                     ref={providedD.innerRef}

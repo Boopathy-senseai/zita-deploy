@@ -43,10 +43,11 @@ import ReorderStage from './reorder';
 const cx = classNames.bind(styles);
 type FormProps = {
   handleBack: () => void;
+  buttondata: number;
   //location: string;
 };
 
-const JobPipelinePage = ({ handleBack }: FormProps) => {
+const JobPipelinePage = ({ handleBack, buttondata }: FormProps) => {
   // const reorderRef = useRef<Reorder>(null);
   const [stage, setStage] = useState(false);
 
@@ -63,7 +64,7 @@ const JobPipelinePage = ({ handleBack }: FormProps) => {
       stages: templatePageReducers.stages,
       suggestions: templatePageReducers.suggestions,
     }),
-  );  
+  );
 
   const onStageEdit = (value: StageData) => {
     dispatch(updateJobPipelineStageMiddleWare(value));
@@ -107,7 +108,7 @@ const JobPipelinePage = ({ handleBack }: FormProps) => {
     validate: handleJobPipeline,
     onSubmit: (form) => {
       addStage({ id: `${new Date().getTime()}`, title: form.title });
-      formik.resetForm();
+      toggleStage();
     },
   });
 
@@ -127,7 +128,6 @@ const JobPipelinePage = ({ handleBack }: FormProps) => {
   };
 
   return (
-    
     <Flex>
       <Flex row start className={styles.title} onClick={handleBack}>
         <SvgBack height={16} width={16} />
@@ -140,10 +140,12 @@ const JobPipelinePage = ({ handleBack }: FormProps) => {
           <InputText
             inputConatinerClass={styles.with80}
             label="Pipeline Title"
+            labelSize={16}
             required
             value={formik.values.pipelineTitle}
             style={{ width: 'fit-content' }}
             onChange={formik.handleChange('pipelineTitle')}
+            className={styles.input}
           />
         </Flex>
         <Flex row noWrap>
@@ -168,7 +170,6 @@ const JobPipelinePage = ({ handleBack }: FormProps) => {
                 // onEdit={onStageEdit}
                 //onDelete={onStageDelete}
               />
-              {console.log("stages123", stages)}
               <ReorderStage
                 list={stages}
                 onEdit={onStageEdit}
@@ -206,20 +207,15 @@ const JobPipelinePage = ({ handleBack }: FormProps) => {
                   className={styles.newBtn}
                 >
                   <Flex row center>
-                    <SvgPlusCircle  fill="#581845" />
-                    <Text
-                      bold
-                      color="theme"
-                      size={14}
-                      style={{ marginLeft: '5px' }}
-                    >
+                    <SvgPlusCircle fill="#581845" />
+                    <Text color="theme" size={14} style={{ marginLeft: '5px' }}>
                       Create a new stage
                     </Text>
                   </Flex>
                 </Button>
               ) : (
                 <>
-                  <Flex>
+                  <Flex column noWrap>
                     <InputText
                       value={formik.values.title}
                       onChange={formik.handleChange('title')}
@@ -233,7 +229,6 @@ const JobPipelinePage = ({ handleBack }: FormProps) => {
                       name="title"
                     />
                   </Flex>
-
                   <div className={styles.svgContainer}>
                     {isLocationLoader ? (
                       <div className={styles.svgTick}>
@@ -272,19 +267,33 @@ const JobPipelinePage = ({ handleBack }: FormProps) => {
           </Flex>
         </Flex>
       </Flex>
-
-      <Flex row end marginTop={50} marginBottom={20}>
-        <Button
-          className={styles.cancel}
-          // onClick={redirectHome}
-          types={'primary'}
-        >
-          Cancel
-        </Button>
-        <Button onClick={() => undefined} disabled={!formik.isValid}>
-          Update
-        </Button>
-      </Flex>
+      {buttondata === 1 ? (
+        <Flex row end marginTop={50} marginBottom={20}>
+          <Button
+            className={styles.cancel}
+            onClick={handleBack}
+            types={'primary'}
+          >
+            Cancel
+          </Button>
+          <Button onClick={() => undefined} disabled={!formik.isValid}>
+            Save
+          </Button>
+        </Flex>
+      ) : (
+        <Flex row end marginTop={50} marginBottom={20}>
+          <Button
+            className={styles.cancel}
+            onClick={handleBack}
+            types={'primary'}
+          >
+            Cancel
+          </Button>
+          <Button onClick={() => undefined} disabled={!formik.isValid}>
+            Update
+          </Button>
+        </Flex>
+      )}
     </Flex>
   );
 };

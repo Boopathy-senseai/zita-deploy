@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "name": "Zita",
+    "default": true,
+    "disabled": true
+  },
+  {
+    "id": "2",
+    "name": "Front end dev",
+    "default": false,
+    "disabled": false
+  },
+  {
+    "id": "3",
+    "name": "Back end dev",
+    "default": false,
+    "disabled": false
+  }
+]

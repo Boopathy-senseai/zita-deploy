@@ -108,7 +108,7 @@
   box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.5);
   margin-bottom: 10px;
   border-radius: 5px;
-  width: fill-available;
+  width: stretch;
   background-color: white;
 }
 

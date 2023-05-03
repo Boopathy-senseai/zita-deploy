@@ -10,6 +10,7 @@ import {
   ErrorMessage,
   InputCheckBox,
   InputText,
+  LinkWrapper,
   Loader,
   Modal,
   SelectTag,
@@ -43,6 +44,7 @@ import SvgFavourites from '../../icons/SvgFavourties';
 import SvgMove from '../../icons/SvgMove';
 import SvgDownload from '../../icons/SvgDownload';
 import styles from './totalapplicant.module.css';
+import MovePipelinePopup from './movepopup';
 const cx = classNames.bind(styles);
 
 type Props = {
@@ -50,7 +52,8 @@ type Props = {
   filterTotalFav: () => void;
   isTotalFav: boolean;
   seletedCardsLength: number;
-  onExport?: () => void; 
+  onExport?: () => void;
+  onMove?: (stageId: string) => void;
 };
 
 const TotalApplicant = ({
@@ -58,9 +61,11 @@ const TotalApplicant = ({
   filterTotalFav,
   isTotalFav,
   seletedCardsLength,
-  onExport
+  onExport,
+  onMove,
 }: Props) => {
   const [showPopup, setShowPopup] = useState(false);
+  const [movePopup, setMovePopup] = useState(false);
   const [stage, setStage] = useState(false);
   const [isLocationLoader, setLocationLoader] = useState(false);
 
@@ -68,6 +73,13 @@ const TotalApplicant = ({
   const handleOpenPopup = () => {
     setShowPopup(true);
   };
+  const handleMoveOpenPipeline = () => {
+    setMovePopup(true);
+  };
+  const handleMoveClosePipeline = () => {
+    setMovePopup(false);
+  };
+
   const handleClosePopup = () => {
     setShowPopup(false);
     setStage(false);
@@ -99,13 +111,30 @@ const TotalApplicant = ({
       }),
     );
   };
+  const isDuplicate = (title: string, data: string[]) => {
+    return data
+      .map((str) => str.trim().toLowerCase() === title.trim().toLowerCase())
+      .includes(true);
+  };
   const handleJobPipeline = (values: jobPipelineForm) => {
     const errors: Partial<jobPipelineForm> = {};
 
     if (!isEmpty(values.title) && values.title.length > 25) {
       errors.title = 'Stage name should not exceed 25 characters.';
     }
+    if (
+      isDuplicate(
+        values.title,
+        stages.map((doc) => doc.title),
+      )
+    ) {
+      errors.title = 'Duplicate name';
+    }
     return errors;
+  };
+  const toggleStage = () => {
+    setStage(!stage);
+    formik.resetForm();
   };
 
   const formik = useFormik({
@@ -113,12 +142,13 @@ const TotalApplicant = ({
     validate: handleJobPipeline,
     onSubmit: (form) => {
       addStage({ id: `${new Date().getTime()}`, title: form.title });
-      formik.resetForm();
+      toggleStage();
     },
   });
-  const toggleStage = () => {
-    setStage(!stage);
-    formik.resetForm();
+  const clearTab = () => {
+    sessionStorage.setItem('superUserTab', '7');
+    sessionStorage.setItem('template', '0');
+    sessionStorage.setItem('pipeline', '0');
   };
 
   const onStageDelete = (doc: StageData) => {
@@ -146,7 +176,7 @@ const TotalApplicant = ({
             {total}
           </Text>
         </Text>
-        {seletedCardsLength > 0 && (
+        {seletedCardsLength > 1 && (
           <Flex row center>
             <Flex row center className={styles.bulkSelection}>
               <Flex marginRight={30}>
@@ -162,6 +192,7 @@ const TotalApplicant = ({
                     paddingLeft: '5px',
                     borderLeft: '1px solid #581845',
                   }}
+                  onClick={handleMoveOpenPipeline}
                 >
                   <SvgMove width={12} height={12} />
                   <Text style={{ marginLeft: '10px' }} color="theme">
@@ -186,7 +217,16 @@ const TotalApplicant = ({
             </Flex>
           </Flex>
         )}
-        <Flex row center marginRight={10}>
+        <MovePipelinePopup
+          openMovePopup={movePopup}
+          handleClosePipelinePopup={handleMoveClosePipeline}
+          onMove={(id) => {
+            onMove(id);
+            handleMoveClosePipeline();
+          }}
+        />
+
+        <Flex row center marginRight={10} style={{ alignItems: 'center' }}>
           <Button
             className={styles.btnStyle}
             types="primary"
@@ -208,6 +248,7 @@ const TotalApplicant = ({
                 padding: '0px',
                 marginRight: '5px',
               }}
+              title="Settings"
               id="dropdown-basic"
             >
               <SvgSetting width={16} height={16} fill="#581845" />
@@ -220,11 +261,14 @@ const TotalApplicant = ({
                   <Text style={{ marginLeft: 10 }}>Edit Stages</Text>
                 </Flex>
               </Dropdown.Item>
-              <Dropdown.Item onClick={() => {}}>
-                <Flex row center className={styles.dropDownListStyle}>
-                  <SvgEditPipeline height={16} width={16} />
-                  <Text style={{ marginLeft: 10 }}>Edit Pipeline</Text>
-                </Flex>
+
+              <Dropdown.Item>
+                <LinkWrapper onClick={clearTab} to="/account_setting/settings">
+                  <Flex row center className={styles.dropDownListStyle}>
+                    <SvgEditPipeline height={16} width={16} />
+                    <Text style={{ marginLeft: 10 }}>Edit Pipeline</Text>
+                  </Flex>
+                </LinkWrapper>
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>

@@ -35,6 +35,28 @@
 .with80 {
   width: 80%;
 }
+.titleContainer {
+  padding: 10px;
+  background-color: #EEE8EC;
+  font-size: 12px;
+  margin-bottom: 10px;
+  display: flex;
+  color: #581845;
+  justify-content: space-between;
+  position: relative;
+  padding-right: 40px;
+
+}
+.triangle {
+	width: 0;
+	height: 0;
+	border-top: 22px solid transparent;
+	border-right: 30px solid white;
+	border-bottom: 22px solid transparent;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
 
 .companyrow {
   margin-top: 10px;

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
+import { DropResult } from 'react-beautiful-dnd';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
@@ -19,13 +20,15 @@ import {
 import { qualificationFilterHelper } from '../common/commonHelper';
 import SvgSearch from '../../icons/SvgSearch';
 import SvgLocation from '../../icons/SvgLocation';
-import { InputSearch } from '../../uikit';
+import { InputSearch, Toast } from '../../uikit';
 import InputText from '../../uikit/InputText/InputText';
 import { myJobPostingDataMiddleWare } from '../myjobposting/store/middleware/myjobpostingmiddleware';
+import { ERROR_MESSAGE } from '../constValue';
 import PipelinePopup from './pipelinepopup';
 import {
   applicantPipeLineDataMiddleWare,
   applicantPipeLineMiddleWare,
+  applicantUpdateStatusMiddleWare,
 } from './store/middleware/applicantpipelinemiddleware';
 import DndTitle from './DndTitle';
 import ProfileView from './ProfileView';
@@ -37,6 +40,8 @@ import ApplicantPipeLineFilter from './ApplicantPipeLineFilter';
 import styles from './applicantpipelinescreen.module.css';
 import { JobDetailsEntity } from './applicantPipeLineTypes';
 import { handleDownload } from './dndBoardHelper';
+import { columnTypes, IStageColumn } from './dndBoardTypes';
+// import { columnOrder } from './initialData';
 
 export type listValue = {
   value: string;
@@ -75,15 +80,16 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
   const [isApplicantView, setApplicantView] = useState(false);
   const myRef = useRef<any>();
   //showpop
-  const [showPipelinePopup, setShowPipelinePopup] = useState(false);
+  const [showPipelinePopup, setShowPipelinePopup] = useState(true);
   const [cardSelection, setCardSelection] = useState<
     Map<
       string,
       {
         task: any;
-        index: number;
+        section: string;
+        // index: number;
         columnId: string;
-        job_details: JobDetailsEntity;
+        // job_details: JobDetailsEntity;
       }
     >
   >(new Map());
@@ -91,6 +97,8 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
   const favAdd = isTotalFav ? 'add' : '';
 
   const getAppliedView = localStorage.getItem('applied_view');
+
+  //why this dispatch is being done??
 
   useEffect(() => {
     dispatch(applicantPipeLineMiddleWare({ jd_id: jdId })).then(() => {
@@ -105,12 +113,8 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
   const {
     location_list,
     jd_id,
-    interviewed,
-    applicant,
-    shortlisted,
-    Test,
-    selected,
-    rejected,
+    stages,
+    applicants,
     applicantDataLoader,
     favLoader,
     favSuccess,
@@ -130,16 +134,21 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
       applicantFavReducers,
       applicantPipeLineUpdateReducers,
       permissionReducers,
+      templatePageReducers,
     }: RootState) => {
       return {
         location_list: myJobPosingReducers.location_list,
         jd_id: applicantPipeLineReducers.jd_id,
-        interviewed: applicantPipeLineDataReducers.interviewed,
-        rejected: applicantPipeLineDataReducers.rejected,
-        selected: applicantPipeLineDataReducers.selected,
-        shortlisted: applicantPipeLineDataReducers.shortlisted,
-        Test: applicantPipeLineDataReducers.shortlisted,
-        applicant: applicantPipeLineDataReducers.applicant,
+        applicants: {
+          interviewed: applicantPipeLineDataReducers.interviewed,
+          rejected: applicantPipeLineDataReducers.rejected,
+          selected: applicantPipeLineDataReducers.selected,
+          shortlisted: applicantPipeLineDataReducers.shortlisted,
+          applicant: applicantPipeLineDataReducers.applicant,
+        },
+        stages: templatePageReducers.stages,
+        // Test: applicantPipeLineDataReducers.shortlisted,
+
         applicantDataLoader: applicantPipeLineDataReducers.isLoading,
         favLoader: applicantFavReducers.isLoading,
         favSuccess: applicantFavReducers.success,
@@ -178,25 +187,49 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
 
   const handleCardSelection = (data: {
     task: any;
+    section: string;
     index: number;
     columnId: string;
     job_details: JobDetailsEntity;
   }) => {
-    console.log(data);
     const newCardSelection = new Map(cardSelection);
     if (cardSelection.has(data.task.id)) {
       newCardSelection.delete(data.task.id);
     } else {
-      newCardSelection.set(data.task.id, data);
+      newCardSelection.set(data.task.id, {
+        task: data.task,
+        section: data.section,
+        columnId: data.columnId,
+      });
     }
+    // console.log(newCardSelection)
     setCardSelection(newCardSelection);
   };
-  const selectedCardsList = Array.from(cardSelection.values());
+  // const selectedCardsList = Array.from(cardSelection.values());
 
   const handleBulkExport = () => {
     cardSelection.forEach((doc) => {
       handleDownload(doc.task.file);
     });
+  };
+  // select All columns
+  const handleColumnSelect = (data: IStageColumn) => {
+    const { section, columnId } = data;
+    const list = applicants[section] as any[];
+    const newCardSelection = new Map(cardSelection);
+    const newList = list.filter((doc) => !cardSelection.has(doc.id));
+    newList.forEach((task) =>
+      newCardSelection.set(task.id, { task, section, columnId }),
+    );
+    setCardSelection(newCardSelection);
+  };
+  const handleColumnUnselect = (data: IStageColumn) => {
+    const { section, columnId } = data;
+    const list = applicants[section] as any[];
+    const newCardSelection = new Map(cardSelection);
+    const newList = list.filter((doc) => cardSelection.has(doc.id));
+    newList.forEach((task) => newCardSelection.delete(task.id));
+    setCardSelection(newCardSelection);
   };
 
   // filter match function
@@ -440,44 +473,49 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
     setShowPipelinePopup(true);
   };
 
-  const data = [
-    {
-      title: 'New Applicants',
-      left: '0px',
-      borderColor: SUNRAY,
-      total: applicant.length,
-    },
-    {
-      title: 'Shortlisted',
-      left: '0px',
-      borderColor: AERO,
-      total: shortlisted.length,
-    },
-    {
-      title: 'Interviewed',
-      left: '0px',
-      borderColor: MEDIUM_PURPLE,
-      total: interviewed.length,
-    },
-    {
-      title: 'Offered',
-      left: '0px',
-      borderColor: PISTACHIO,
-      total: selected.length,
-    },
-    {
-      title: 'Rejected',
-      left: '-6px',
-      borderColor: CANDY_PINK,
-      total: rejected.length,
-    },
-    // {
-    //   title: 'Test',
-    //   left: '-6px',
-    //   borderColor: GRAY_BLACK,
-    //   total: interviewed.length,
-    // },
-  ];
+  // const data = [
+  //   {
+  //     title: 'New Applicants',
+  //     left: '0px',
+  //     borderColor: SUNRAY,
+  //     total: applicants.applicant.length,
+  //     section: 'applicant',
+  //   },
+  //   {
+  //     title: 'Shortlisted',
+  //     left: '0px',
+  //     borderColor: AERO,
+  //     total: applicants.shortlisted.length,
+  //     section: 'shortlisted',
+  //   },
+  //   {
+  //     title: 'Interviewed',
+  //     left: '0px',
+  //     borderColor: MEDIUM_PURPLE,
+  //     total: applicants.interviewed.length,
+  //     section: 'interviewed',
+  //   },
+  //   {
+  //     title: 'Offered',
+  //     left: '0px',
+  //     borderColor: PISTACHIO,
+  //     total: applicants.selected.length,
+  //     section: 'selected',
+  //   },
+  //   {
+  //     title: 'Rejected',
+  //     left: '-6px',
+  //     borderColor: CANDY_PINK,
+  //     total: applicants.rejected.length,
+  //     section: 'rejected',
+  //   },
+  //   // {
+  //   //   title: 'Test',
+  //   //   left: '-6px',
+  //   //   borderColor: GRAY_BLACK,
+  //   //   total: interviewed.length,
+  //   // },
+  // ];
   const getAppliedCanId: any = localStorage.getItem('applied_can_id');
   const getAppliedJd: any = localStorage.getItem('applied_jd_id');
 
@@ -486,6 +524,271 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
       setApplicantView(true);
     }
   }, [isApplicantView, getAppliedView]);
+
+  /// Column Drag & Drop
+
+  // initial value
+  const stageColumns = stages?.reduce((o, v) => {
+    return {
+      ...o,
+      [v.id]: {
+        columnId: v?.id,
+        title: v?.title,
+        items: applicants[v.id] || [],
+        total: applicants[v.id]?.length,
+        section: v?.id,
+        left: '0px',
+        borderColor: v?.color,
+      },
+    };
+  }, {});
+  const columnsFromBackend = {
+    'column-1': {
+      columnId: 'column-1',
+      title: 'New Applicants',
+      items: applicants?.applicant,
+      total: applicants?.applicant.length,
+      section: 'applicant',
+      left: '0px',
+      borderColor: SUNRAY,
+    },
+    ...stageColumns,
+    // 'column-2': {
+    //   title: 'Shortlisted',
+    //   items: applicants.shortlisted,
+    //   total: applicants.shortlisted.length,
+    //   section: 'shortlisted',
+    // },
+    // 'column-3': {
+    //   title: 'Interviewed',
+    //   items: applicants.interviewed,
+    //   total: applicants.interviewed.length,
+    //   section: 'interviewed',
+    // },
+    // 'column-4': {
+    //   title: 'Offered',
+    //   items: applicants.selected,
+    //   total: applicants.selected.length,
+    //   section: 'selected',
+    // },
+    // 'column-5': {
+    //   title: 'Rejected',
+    //   items: applicants.rejected,
+    //   total: applicants.rejected.length,
+    //   section: 'rejected',
+    // },
+    // 'column-6': {
+    //   title: 'Test',
+    //   items: interviewed,
+    //   total: interviewed.length,
+    // },
+  };
+
+  console.log(columnsFromBackend);
+
+  const columnOrder = Object.keys(columnsFromBackend) || [];
+
+  const [isShortList, setShortList] = useState(false);
+  const [isInterviewed, setInterviewed] = useState(false);
+  const [isOffered, setOffered] = useState(false);
+  const [isRejected, setRejected] = useState(false);
+
+  const [isUpdateId, setUpdateId] = useState<number>(0);
+  const [isNoLoader, setNoLoader] = useState(false);
+  const [columns, setColumns] = useState<columnTypes>(columnsFromBackend || {});
+  const [isIndex, setIndex] = useState<any>();
+
+  useEffect(() => {
+    if (applicants) setColumns(columnsFromBackend);
+  }, [
+    stages,
+    applicants.applicant,
+    applicants.interviewed,
+    applicants.rejected,
+    applicants.selected,
+    applicants.shortlisted,
+    isNoLoader,
+  ]);
+
+  const onDragStart = (start: { source: { droppableId: string } }) => {
+    const homeIndex = columnOrder.indexOf(start.source.droppableId);
+    setIndex(homeIndex);
+    if (homeIndex === 3) {
+      setIndex(columnOrder?.length + 5);
+    }
+  };
+
+  // card drag function
+  const onDragEnd = (result: DropResult) => {
+    setIndex(null);
+    if (!result.destination) return;
+
+    if (
+      result.destination.droppableId === 'column-1' &&
+      result.source.droppableId !== 'column-1'
+    )
+      return;
+
+    const { source, destination } = result;
+
+    if (source.droppableId !== destination.droppableId) {
+      const sourceColumn = columns[source.droppableId];
+      const destColumn = columns[destination.droppableId];
+      const sourceItems = [...sourceColumn.items];
+      const destItems = [...destColumn.items];
+      const [removed] = sourceItems.splice(source.index, 1);
+      destItems.splice(destination.index, 0, removed);
+      setColumns({
+        ...columns,
+        [source.droppableId]: {
+          ...sourceColumn,
+          items: sourceItems,
+        },
+        [destination.droppableId]: {
+          ...destColumn,
+          items: destItems,
+        },
+      });
+      setUpdateId(removed.id);
+
+      if (destination.droppableId === 'column-2') {
+        setShortList(true);
+      }
+      if (destination.droppableId === 'column-3') {
+        setInterviewed(true);
+      }
+      if (destination.droppableId === 'column-4') {
+        setOffered(true);
+      }
+      if (destination.droppableId === 'column-5') {
+        setRejected(true);
+      }
+    }
+  };
+
+  // short list api call function
+  const hanldeSortList = () => {
+    dispatch(
+      applicantUpdateStatusMiddleWare({
+        jd_id,
+        applicant_id: isUpdateId,
+        status: 'shortlisted',
+      }),
+    )
+      .then(() => {
+        setShortList(false);
+        Toast('Applicant shortlisted successfully');
+      })
+      .catch(() => {
+        setNoLoader(true);
+        setTimeout(() => setNoLoader(false), 100);
+        Toast(ERROR_MESSAGE, 'LONG', 'error');
+      });
+  };
+  // Interview api call function
+  const hanldeInterview = () => {
+    dispatch(
+      applicantUpdateStatusMiddleWare({
+        jd_id,
+        applicant_id: isUpdateId,
+        status: 'interviewed',
+      }),
+    )
+      .then(() => {
+        setInterviewed(false);
+        Toast('Applicant moved successfully');
+      })
+      .catch(() => {
+        setNoLoader(true);
+        setTimeout(() => setNoLoader(false), 100);
+        Toast(ERROR_MESSAGE, 'LONG', 'error');
+      });
+  };
+  // offered api call function
+  const hanldeOffered = () => {
+    dispatch(
+      applicantUpdateStatusMiddleWare({
+        jd_id,
+        applicant_id: isUpdateId,
+        status: 'offered',
+      }),
+    )
+      .then(() => {
+        setOffered(false);
+        Toast('Applicant offered successfully');
+      })
+      .catch(() => {
+        setNoLoader(true);
+        setTimeout(() => setNoLoader(false), 100);
+        Toast(ERROR_MESSAGE, 'LONG', 'error');
+      });
+  };
+  // reject api call function
+  const hanldeReject = () => {
+    dispatch(
+      applicantUpdateStatusMiddleWare({
+        jd_id,
+        applicant_id: isUpdateId,
+        status: 'rejected',
+      }),
+    )
+      .then(() => {
+        setRejected(false);
+        Toast('Applicant rejected successfully');
+      })
+      .catch(() => {
+        setNoLoader(true);
+        setTimeout(() => setNoLoader(false), 100);
+        Toast(ERROR_MESSAGE, 'LONG', 'error');
+      });
+  };
+
+  // popup cancel function
+  const hanldeCancel = () => {
+    setNoLoader(true);
+    setOffered(false);
+    setShortList(false);
+    setInterviewed(false);
+    setRejected(false);
+    setTimeout(() => setNoLoader(false), 100);
+  };
+
+  const handleMove = (droppableId: string) => {
+    const selectedList = Array.from(cardSelection.values());
+    const removedList = selectedList?.reduce((o, v) => {
+      const newItems = [...columns[v.columnId]?.items];
+      const index = newItems.findIndex((doc) => doc.id === v.task.id);
+      if (index !== -1) {
+        newItems.splice(index, 1);
+      }
+      return {
+        ...o,
+        [v.columnId]: {
+          ...columns[v.columnId],
+          ...o[v.columnId],
+          items: newItems,
+          total: newItems.length,
+        },
+      };
+    }, {}) as columnTypes;
+
+    const movedList = [
+      ...columns[droppableId].items,
+      ...selectedList.map((doc) => doc.task),
+    ];
+
+    setColumns((previous) => ({
+      ...previous,
+      [droppableId]: {
+        ...previous[droppableId],
+        items: movedList,
+        total: movedList.length,
+      },
+      ...removedList,
+    }));
+
+    setCardSelection(new Map());
+  };
 
   return (
     <>
@@ -622,11 +925,11 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
             isExperience={isExperience}
           />
 
-          {applicant.length === 0 &&
-          shortlisted.length === 0 &&
-          selected.length === 0 &&
-          rejected.length === 0 &&
-          interviewed.length === 0 ? (
+          {applicants.applicant.length === 0 &&
+          applicants.shortlisted.length === 0 &&
+          applicants.selected.length === 0 &&
+          applicants.rejected.length === 0 &&
+          applicants.interviewed.length === 0 ? (
             <Flex middle center height={window.innerHeight - 236}>
               <Text color={'gray'}>No Applicants Found</Text>
             </Flex>
@@ -638,34 +941,55 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
                 isTotalFav={isTotalFav}
                 seletedCardsLength={cardSelection.size}
                 onExport={handleBulkExport}
+                onMove={handleMove}
               />
               <div style={{ position: 'relative' }}>
-                <DndTitle
-                  data={data}
-                  setSortApplicant={setSortApplicant}
-                  setSortSortList={setSortSortList}
-                  setSortInterview={setSortInterview}
-                  setSortSelected={setSortSelected}
-                  setSortRejected={setSortRejected}
-                />
+                {columns && (
+                  <DndTitle
+                    data={columnOrder.map((key) => columns[key])}
+                    setSortApplicant={setSortApplicant}
+                    setSortSortList={setSortSortList}
+                    setSortInterview={setSortInterview}
+                    setSortSelected={setSortSelected}
+                    setSortRejected={setSortRejected}
+                    onSelectAll={handleColumnSelect}
+                    onUnselectAll={handleColumnUnselect}
+                    cardSelectionMap={cardSelection}
+                  />
+                )}
                 <div
                   style={{ height: window.innerHeight - 236 }}
                   className={styles.scrollStyle}
                 >
-                  <DndBoardScreen
-                    applicant={applicant}
-                    shortlisted={shortlisted}
-                    Test={shortlisted}
-                    selected={selected}
-                    rejected={rejected}
-                    interviewed={interviewed}
-                    jd_id={jd_id}
-                    outlook={outlook}
-                    google={google}
-                    job_details={job_details}
-                    onClick={handleCardSelection}
-                    selectedCardList={selectedCardsList}
-                  />
+                  {columns && (
+                    <DndBoardScreen
+                      columns={columns}
+                      // applicant={applicants.applicant}
+                      // shortlisted={applicants.shortlisted}
+                      // selected={applicants.selected}
+                      // rejected={applicants.rejected}
+                      // interviewed={applicants.interviewed}
+                      jd_id={jd_id}
+                      outlook={outlook}
+                      google={google}
+                      job_details={job_details}
+                      onClick={handleCardSelection}
+                      cardSelectionMap={cardSelection}
+                      isShortList={isShortList}
+                      isInterviewed={isInterviewed}
+                      isOffered={isOffered}
+                      isRejected={isRejected}
+                      isUpdateId={isUpdateId}
+                      isIndex={isIndex}
+                      onDragStart={onDragStart}
+                      onDragEnd={onDragEnd}
+                      hanldeSortList={hanldeSortList}
+                      hanldeInterview={hanldeInterview}
+                      hanldeOffered={hanldeOffered}
+                      hanldeReject={hanldeReject}
+                      hanldeCancel={hanldeCancel}
+                    />
+                  )}
                 </div>
               </div>
             </div>

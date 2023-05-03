@@ -262,12 +262,8 @@ const ApplicantPipeLineFilter = ({
     <>
       <Flex row style={{ justifyContent: 'space-between' }}>
         <Flex row className={styles.quickFilters}>
-          <Text>Quick Filters:</Text>
+          <Text>Quick Filters :</Text>
           {isDefaultFilter() ? (
-            // <RenderQuickFilter
-            //   doc={{ label: 'All', value: '' }}
-            //   onClose={() => {}}
-            // />
             <Text className={styles.quickfil}>{'All'}</Text>
           ) : (
             <Flex row wrap>
@@ -294,7 +290,7 @@ const ApplicantPipeLineFilter = ({
                     onClose={() => closeSkillOption(doc)}
                   />
                 ))}
-              {hiddenSkills && hiddenSkills.length > 0 &&(
+              {hiddenSkills && hiddenSkills.length > 0 && (
                 <Text
                   className={styles.quickfil}
                 >{`Skills : + ${hiddenSkills.length}`}</Text>
@@ -305,13 +301,14 @@ const ApplicantPipeLineFilter = ({
         <Flex>
           <div ref={dropDownRef} className={styles.drop_down}>
             <Flex
-              row center
+              row
+              center
               className={styles.drop_down_header}
               onClick={() => {
                 setShowDropDown((value) => !value);
               }}
             >
-              <Text bold color="theme" size={16}>
+              <Text bold color="theme" size={14}>
                 View Filter
               </Text>
               <SvgRefresh
