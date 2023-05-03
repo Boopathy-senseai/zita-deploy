@@ -142,7 +142,7 @@ const DashBoardScreen = () => {
         </div>
       </Flex>
 
-    <Flex>
+    <Flex >
       
         <Flex row className={styles.ribbon}>
           <Flex row between>
@@ -153,7 +153,7 @@ const DashBoardScreen = () => {
                 </Text>
             
              </Flex>
-          <Flex marginLeft={1333}>
+          <Flex marginLeft={1397}>
 
              <div className={styles.triangle}></div>
           </Flex>

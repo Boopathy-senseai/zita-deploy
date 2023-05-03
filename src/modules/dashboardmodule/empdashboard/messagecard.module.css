@@ -62,7 +62,7 @@
   align-items: center;
 }
 .overAll{
-  width: 753px;
+  width: auto;
   height: 295px;
   margin-top: 5px;
   margin-right: 10px;
@@ -76,4 +76,11 @@
   border-bottom: 1px solid #C3C3C3;
   margin-top: 5px;
   margin-bottom: 5px;
+}
+
+.messagesizereducer{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; 
+  width: 655px; 
 }

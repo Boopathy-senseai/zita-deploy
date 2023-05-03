@@ -59,7 +59,7 @@ const ProfileCard = () => {
     };
   });
 
-  const logoPath = isEmpty(null) ? 'logo.png' : logo;
+  const logoPath = isEmpty(logo) ? 'logo.png' : logo;
 
   
   // const clearTab = () => {
@@ -386,8 +386,8 @@ const ProfileCard = () => {
               </Flex>}
           </Flex>
           <Flex marginTop={10}>
-            {address !== null ? <Flex row><Flex marginRight={5}><SvgLocationicon height={30} width={30} fill={BLACK} /></Flex>
-              <Flex ><Text>{address}</Text></Flex></Flex> :
+            {address !== null ? <Flex row><Flex marginRight={1}><SvgLocationicon height={30} width={30} fill={BLACK} /></Flex>
+              <Flex ><Text >{address}</Text></Flex></Flex> :
               <Flex row >
                 <Flex marginRight={5}>
                   <SvgLocationicon height={30} width={30} fill={BLACK} />

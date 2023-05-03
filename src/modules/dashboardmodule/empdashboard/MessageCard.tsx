@@ -135,7 +135,7 @@ const MessageCard = () => {
                         </Text>
                       )}
 
-                      <Text style={{ marginLeft:7,}}>{list.message}</Text>
+                      <Text style={{ marginLeft:7}} className={styles.messagesizereducer}>{list.message}</Text>
                     </Flex>
                   </Flex>
                   <Text>{moment(list.date_created).fromNow()}</Text>
