@@ -66,12 +66,14 @@ export const ENTER_VALID_URL = 'Enter valid URL';
 export const JOB_TITLE_LIMIT_20 =
   'Text length should not exceed 20 characters.';
 export const FILE_2MB = 'Please choose a file size less than 2MB';
-
+export const NumberCase = /^(?=.*[0-9])/;
 export const checkUpperCase = /^(?=.*[A-Z])/;
 export const specialCharacter = /^(?=.*[@$!%*?&])/;
+export const usernameNumberCase = /^\d/;
 export const domainValidation =
   /^([\w-.]+@(?!gmail\.com)(?!yahoo\.com)(?!hotmail\.com)(?!outlook\.com)(?!protonmail\.com)(?!live\.com)(?!mail\.com)(?!email\.com)(?!inbox\.com)([\w-]+.)+[\w-]{1,4})?$/;
-export const nameRegex = /^[a-z0-9\-]+$/;
+export const nameRegex = /^[A-Za-z][A-Za-z0-9_\s]{3,17}$/;
+export const space = /^\S*$/;
 export const fileAccept = ['.doc', '.docx', '.pdf', '.txt'];
 export const imageFileAccept = ['.jpg', '.jpeg', '.png'];
 export const isValidURL = (string: string) => {

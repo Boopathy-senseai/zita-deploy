@@ -46,7 +46,7 @@
     width: 30%;
     position: absolute;
     top: 50%;
-    left: 23%;
+    left: 25%;
     transform: translate(-50%, -50%);
   }
   .input{
@@ -99,6 +99,14 @@ border:1px solid #BEADB9
 
   .text{
     color:#581845
+  }
+.text_account{
+color: #581845;
+font-size :14px !important;
+}
+  .Log_title{
+    color: #581845;
+    margin-bottom: 4px;
   }
 
   .center_aligh,center{

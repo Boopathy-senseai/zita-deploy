@@ -46,6 +46,12 @@
   margin-top: 5px;
 }
 
+.check{
+    position: absolute;
+    top: -14px;
+    right: 0px;
+ }      
+
 .phoneInput {
   /* border: 1px solid var(--color-gary-5, #cccccc) !important; */
         width: 100%!important;
@@ -180,8 +186,8 @@
  }
 
  .account_link{
-  margin-top: 25px !important;
-  margin-bottom: 10px !important;
+  margin-top: 13px !important;
+  margin-bottom: 13px !important;
  }
 
     .text {

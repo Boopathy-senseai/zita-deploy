@@ -69,6 +69,7 @@ const LoginScreen = () => {
     if (values.email === '') {
       errors.email = THIS_FIELD_REQUIRED;
     }
+
     if (values.userName === '') {
       errors.userName = THIS_FIELD_REQUIRED;
     }

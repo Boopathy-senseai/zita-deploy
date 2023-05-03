@@ -41,10 +41,12 @@ const LoginInto = ({
   return (
     <>
       {console.log(handleForgotOpen, isError, isInactive, isEmpty, SvgEmail)}
+
+      {console.log('error', formik.errors)}
       <Flex className={styles.row}>
         <Flex className={styles.splitrow_1}>
           <Flex className={styles.center_aligh}>
-            <Text size={22} className={styles.text} bold>
+            <Text size={22} className={styles.Log_title} bold>
               Welcome Back!
             </Text>
             <Text className={styles.text}>
@@ -137,7 +139,7 @@ const LoginInto = ({
             <hr />
 
             <center>
-              <Text className={styles.text}>
+              <Text className={styles.text_account}>
                 Don`t have an Account ?{' '}
                 <u>
                   <Link to="/recruiter/1">Sign Up</Link>

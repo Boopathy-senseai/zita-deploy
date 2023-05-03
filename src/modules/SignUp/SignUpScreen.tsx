@@ -29,12 +29,14 @@ import {
   checkUpperCase,
   domainValidation,
   MAX_TEXT_LENGTH_20,
-  //nameRegex,
+  nameRegex,
+  space,
   specialCharacter,
+  usernameNumberCase,
   THIS_FIELD_REQUIRED,
 } from '../constValue';
 import { emailMiddleWare } from '../Login/store/middleware/loginMiddleWare';
-import { ErrorMessages } from '../Login/SetNewPassword';
+import { ErrorMessages, OnChangeErrors } from '../Login/SetNewPassword';
 import styles from './signupscreen.module.css';
 import { SignUpPayLoad } from './signupTypes';
 import {
@@ -65,8 +67,9 @@ const SignUpScreen = () => {
   const [isLoader, setLoader] = useState(false);
   const [isEmailValid, setEmailValid] = useState(false);
   const [isUserNameValid, setUserNameValid] = useState(false);
-  //const [isVerification, setVerification] = useState(false);
+  const [isVerification, setVerification] = useState(false);
   const [isShowNewPass, setShowNewPass] = useState(false);
+  //const [passerror, setpasserror] = useState('');
   const [isShowChangePass, setShowChnagePass] = useState(false);
 
   const hanldeSubmit = (values: SignUpPayLoad) => {
@@ -86,9 +89,12 @@ const SignUpScreen = () => {
       }),
     ).then((res) => {
       if (res.payload.success) {
-        // setVerification(true);
+        formik.resetForm();
+        setVerification(true);
         setLoader(false);
         Toast('Verification email sent successfully');
+      } else {
+        console.log(res);
       }
     });
   };
@@ -112,13 +118,26 @@ const SignUpScreen = () => {
       errors.email = THIS_FIELD_REQUIRED;
     }
     if (values.password1 !== values.password2) {
-      errors.password2 = `The two password fields didn't match.`;
+      // setpasserror("The two password fields didn't match.");
+      errors.password2 = ``;
     }
-    if (isEmpty(values.username)) {
-      errors.username = 'Enter a valid username';
+
+    if (!isEmpty(values.username) && usernameNumberCase.test(values.username)) {
+      errors.username = 'username must not start with number ';
+    } else if (!isEmpty(values.username) && !nameRegex.test(values.username)) {
+      errors.username = 'Username must be 4-16 including number ';
     }
     if (!isEmpty(values.username) && isUserNameValid) {
       errors.username = `Username already exist.`;
+    }
+    if (isEmpty(values.first_name.trim())) {
+      errors.first_name = 'Enter a valid name';
+    }
+    if (isEmpty(values.last_name.trim())) {
+      errors.last_name = 'Enter a valid name';
+    }
+    if (isEmpty(values.company_name.trim())) {
+      errors.company_name = 'Enter a valid name';
     }
     if (
       !isEmpty(values.password1) &&
@@ -142,15 +161,15 @@ const SignUpScreen = () => {
   };
   const SignupSchema = Yup.object().shape({
     first_name: Yup.string()
-      .min(2, 'Too Short!')
+      .min(2, 'Too Short')
       .max(50, MAX_TEXT_LENGTH_20)
       .required(THIS_FIELD_REQUIRED),
     last_name: Yup.string()
-      .min(1, 'Too Short!')
+      .min(1, 'Enter valid name ')
       .max(50, MAX_TEXT_LENGTH_20)
       .required(THIS_FIELD_REQUIRED),
     company_name: Yup.string()
-      .min(2, 'Too Short!')
+      .min(2, 'Enter valid name')
       .max(50, MAX_TEXT_LENGTH_20)
       .required(THIS_FIELD_REQUIRED),
     contact_no: Yup.string()
@@ -158,6 +177,7 @@ const SignUpScreen = () => {
       .required(THIS_FIELD_REQUIRED),
     password1: Yup.string().required(THIS_FIELD_REQUIRED),
     password2: Yup.string().required(THIS_FIELD_REQUIRED),
+
     username: Yup.string()
       .min(2, 'Too Short!')
       .max(50, MAX_TEXT_LENGTH_20)
@@ -195,6 +215,14 @@ const SignUpScreen = () => {
     );
   }, [formik.values.username]);
 
+  //  useEffect(() => {
+  //   const errors: Partial<SignUpPayLoad> = {};
+  //    if (formik.values.password1 !== formik.values.password2) {
+  //      // setpasserror("The two password fields didn't match.");
+  //      errors.password2 = `The two password fields didn't match.`;
+  //    }
+  //    return errors;
+  //  }, [formik.values.password2]);
   const checkBoxDisable =
     !isEmpty(formik.values.company_name) &&
     !isEmpty(formik.values.contact_no) &&
@@ -217,14 +245,21 @@ const SignUpScreen = () => {
     !isEmpty(formik.values.password1) &&
     !specialCharacter.test(formik.values.password1);
 
+  const checkFour =
+    !isEmpty(formik.values.password1) && !space.test(formik.values.password1);
+
   const isValid =
-    checkOne === false && checkTwo === false && isCheckThre === false
+    checkOne === false &&
+    checkTwo === false &&
+    isCheckThre === false &&
+    checkFour === true
       ? false
       : true;
 
   return (
     <>
-      {console.log(isEmailValid)}
+      {console.log(isEmailValid, isVerification)}
+
       {isLoader && <Loader />}
       <Flex className={styles.row} height={window.innerHeight}>
         {/* {isVerification ? (
@@ -400,6 +435,16 @@ const SignUpScreen = () => {
                           errors={formik.errors}
                           touched={formik.touched}
                         />
+                        {/* {!isEmpty(formik.values.username) &&
+                          !isEmpty(formik.values.username) && (
+                            <OnChangeErrors
+                              message="username be between 4-12 characters"
+                              error={
+                                formik.values.username.length < 8 ||
+                                formik.values.username.length > 12
+                              }
+                            />
+                          )} */}
                       </Flex>
                     </div>
                     <div className="col">
@@ -481,8 +526,6 @@ const SignUpScreen = () => {
                         <InputText
                           className={styles.signup_input}
                           label="Confirm Password"
-                          labelSize={16}
-                          labelColor={'theme'}
                           required
                           value={formik.values.password2}
                           onChange={formik.handleChange('password2')}
@@ -507,12 +550,23 @@ const SignUpScreen = () => {
                           errors={formik.errors}
                           touched={formik.touched}
                         />
+                        {!isEmpty(formik.values.password1) &&
+                          !isEmpty(formik.values.password2) && (
+                            <OnChangeErrors
+                              message="The two password fields didn't match"
+                              error={
+                                formik.values.password1 !==
+                                formik.values.password2
+                              }
+                            />
+                          )}
                       </Flex>
                     </div>
                   </div>
                   <center>
                     <div className={styles.checkBoxStyle}>
                       <InputCheckBox
+                        className={styles.check}
                         disabled={!checkBoxDisable}
                         checked={formik.values.terms_and_conditions === '1'}
                         onChange={() =>
@@ -524,6 +578,7 @@ const SignUpScreen = () => {
                       <Text className={styles.terms_con}>
                         I agree to Zita{' '}
                         <a
+                          style={{ marginRight: '5px' }}
                           target={'_blank'}
                           rel="noreferrer"
                           href="https://zita.ai/terms-and-conditions"

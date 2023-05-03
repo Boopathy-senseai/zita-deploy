@@ -51,6 +51,22 @@ export const ErrorMessages = ({
     </Flex>
   );
 };
+
+export const OnChangeErrors = ({
+  error,
+  message,
+}: {
+  error: boolean;
+  message: string;
+}) => {
+  return (
+    <Flex row center className={styles.errorMessageFlex}>
+      <Text size={12} color={error ? 'error' : 'success'}>
+        {error ? <>{message}</> : ''}
+      </Text>
+    </Flex>
+  );
+};
 const SetNewPassword = ({
   formik,
   isSuccess,
@@ -77,6 +93,8 @@ const SetNewPassword = ({
   return (
     <>
       {console.log(isSuccess, setPassSuccess, success, user_not_found)}
+
+      {console.log('wewe')}
       <Flex className={styles.row}>
         <Flex className={styles.splitrow_1}>
           <Flex className={styles.center_aligh}>
@@ -97,7 +115,7 @@ const SetNewPassword = ({
                     Click here to
                   </Text>
                   <LinkWrapper to={loginAuth}>
-                    <Button types="link">login</Button>
+                    <Button types="link">Login</Button>
                   </LinkWrapper>
                 </Flex>
               </>
@@ -106,8 +124,8 @@ const SetNewPassword = ({
             {setPassSuccess !== true && success === true && (
               <>
                 <center>
-                  <Text size={20} className={styles.text} bold>
-                    Rest your new password?
+                  <Text size={22} className={styles.text} bold>
+                    Reset your new password?
                   </Text>
                 </center>
                 <Flex className={styles.pass_content}>
@@ -196,6 +214,7 @@ const SetNewPassword = ({
                     errors={formik.errors}
                     touched={formik.touched}
                   />
+
                   <Button
                     className={styles.login_button}
                     onClick={formik.handleSubmit}
