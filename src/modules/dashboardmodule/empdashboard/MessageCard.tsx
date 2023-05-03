@@ -13,7 +13,7 @@ import Flex from '../../../uikit/Flex/Flex';
 import Text from '../../../uikit/Text/Text';
 import ProfileView from '../../applicantpipelinemodule/ProfileView';
 import { mediaPath } from '../../constValue';
-// import ZitaMatchCandidateDrawer from '../../zitamatchcandidatemodule/ZitaMatchCandidateDrawer';
+import ZitaMatchCandidateDrawer from '../../zitamatchcandidatemodule/ZitaMatchCandidateDrawer';
 import { MessageEntity } from './DashBoardTypes';
 import styles from './messagecard.module.css';
 
@@ -21,7 +21,7 @@ const MessageCard = () => {
   const [isJd, setJd] = useState<any>('0');
   const [isCandi, setCandi] = useState<any>();
   const [isApplicantProfile, setApplicantProfile] = useState(false);
-  // const [isCandidateProfile, setCandidateProfile] = useState(false);
+  const [isCandidateProfile, setCandidateProfile] = useState(false);
 
   const { message, message_count } = useSelector(
     ({ dashboardEmpMessageReducers }: RootState) => {
@@ -52,7 +52,7 @@ const MessageCard = () => {
         inviteIconNone
         activeState={5}
       />
-      {/* <ZitaMatchCandidateDrawer
+      <ZitaMatchCandidateDrawer
         activeState={5}
         open={isCandidateProfile}
         cancel={() => {
@@ -60,13 +60,13 @@ const MessageCard = () => {
         }}
         jobId={isJd}
         candidateId={isCandi}
-      /> */}
+      />
       <Flex row center className={styles.msgText} between>
         
         <Text bold size={16} color="theme" style={{ marginRight: 16 }}>
           Messages
         </Text>
-        
+        {console.log("list::",unique)}
         <Flex>
         <div style={{ position: 'relative' }}>
           {message_count !== 0 && (
@@ -86,13 +86,14 @@ const MessageCard = () => {
       <Flex columnFlex className={styles.scrollStyle}>
         {message.length === 0 ? (
           <Flex columnFlex flex={1} center middle className={styles.noContent}>
-            {/* <SvgMessagechat fill={"#581845"}> </SvgMessagechat> */}
+           
             <SvgNomessage/>
             
             
             <Text color="gray">No Messages Received</Text>
           </Flex>
         ) : (
+          
           unique && unique
             .map((list, index) => (
               <Flex className={styles.borderbottom}
@@ -138,7 +139,12 @@ const MessageCard = () => {
                       <Text style={{ marginLeft:7}} className={styles.messagesizereducer}>{list.message}</Text>
                     </Flex>
                   </Flex>
-                  <Text>{moment(list.date_created).fromNow()}</Text>
+                  {/* <Text>{moment(list.date_created).fromNow()}</Text> */}
+                  {list.is_read ===false?(<Flex>
+                    <Flex><Text>{moment(list.date_created).fromNow()}</Text></Flex>
+                    <Flex marginTop={5} marginLeft={30}><div className={styles.readStyle}></div></Flex>
+                  </Flex>):(<Text>{moment(list.date_created).fromNow()}</Text>)}
+                  
                 </Flex>
               </Flex>
             ))

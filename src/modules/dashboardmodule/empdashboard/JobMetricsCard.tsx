@@ -7,6 +7,7 @@ import SvgJobtitle from '../../../icons/SvgJobtitle';
 import SvgLocation from '../../../icons/SvgLocation';
 import SvgPosting from '../../../icons/SvgPosting';
  import SvgJobPost from '../../../icons/SvgJobPost';
+ import SvgJobselection from '../../../icons/SvgJobselection';
  import SvgLocationjobpost from '../../../icons/SvgLocationjobpost';
  import SvgSubscription from '../../../icons/SvgSubscription';
 import SvgGmailtest from '../../../icons/SvgGmailtest';
@@ -85,9 +86,14 @@ const JobMetricsCard = () => {
       <Flex marginRight={5} marginLeft={5}>
         <Flex row center marginBottom={8} marginTop={8} className={styles.line}>
           <Text bold color="theme" className={styles.jobTitle} size={16}>Job Metrics</Text>
+          {/* <Flex flex={20} end  >
+          <SvgJobselection></SvgJobselection>
+          </Flex> */}
           <Flex marginLeft={8} width={150} flex={3} end>
-          
-                    
+            <Flex row>
+              <Flex marginTop={6} marginRight={5}> <SvgJobselection></SvgJobselection></Flex>
+              <Flex>
+                   
             <SelectTag
               
               isSearchable
@@ -109,7 +115,8 @@ const JobMetricsCard = () => {
                   : ''
               }
             />
-
+            </Flex>
+            </Flex>
           
           </Flex>
         </Flex>

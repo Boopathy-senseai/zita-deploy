@@ -379,7 +379,7 @@ const ProfileCard = () => {
                   to={ '/account_setting/settings'}
                 >
                   <Text style={{color:"#581845",textDecoration:"underline"}}>
-                    Add Company Web Url
+                    Add WebSite Web Url
                   </Text>
                 </LinkWrapper>
                </Flex>
@@ -400,7 +400,7 @@ const ProfileCard = () => {
                   to={ '/account_setting/settings'}
                 >
                   <Text style={{color:"#581845",textDecoration:"underline"}}>
-                    Add Address
+                    Add company Address
                   </Text>
                 </LinkWrapper>
                </Flex>
