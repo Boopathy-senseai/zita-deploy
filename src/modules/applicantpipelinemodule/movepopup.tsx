@@ -63,8 +63,9 @@ const MovePipelinePopup = ({
             Cancel
           </Button>
           <Button
+            disabled = {!isCheckedRadio}
             className={styles.update}
-            onClick={() => onMove(isCheckedRadio)}
+            onClick={() => isCheckedRadio ? onMove(isCheckedRadio): undefined}
           >
             Move
           </Button>
