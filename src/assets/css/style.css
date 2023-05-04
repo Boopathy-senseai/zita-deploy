@@ -394,10 +394,10 @@ small {
   font-weight: 600;
   border-top: 0px;
   padding-top: 0px;
-  border-bottom: 3px solid #a6a6a6;
-  padding-bottom: 16px;
+  border-bottom: 0.5px solid #A5889C;
+  padding-bottom: 15px;
 }
-
+ 
 .table tbody td {
   font-family: 'Roboto', sans-serif;
   font-size: 13px;

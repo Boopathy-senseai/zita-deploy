@@ -1,10 +1,12 @@
 import { ReactChild, ReactFragment, ReactPortal, useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import AutoSuggest from 'react-autosuggest';
-import { isEmpty, lowerCase } from '../../uikit/helper';
+import { enterKeyPress, isEmpty, lowerCase } from '../../uikit/helper';
 import LabelWrapper from '../../uikit/Label/LabelWrapper';
 import Text from '../../uikit/Text/Text';
 import styles from './inputsearch.module.css';
+import { KeyObject } from 'crypto';
+import { Key } from 'react-bootstrap-icons';
 
 const cx = classNames.bind(styles);
 
@@ -18,6 +20,7 @@ const defaultProps = {
 
 type Props = {
   options?: any[];
+  nooptin?:number;
   setFieldValue: Function;
   disabled?: boolean;
   name?: string;
@@ -32,6 +35,7 @@ type Props = {
   onkeyPress?: (a: any) => void;
   style?: string;
   autoFocus?: boolean;
+  
 };
 
 const renderInputComponent = ({
@@ -49,8 +53,12 @@ const renderInputComponent = ({
   onKeyPress,
   style,
   autoFocus,
+  
+  
 }: any) => {
   const getValue=value.includes(', usa')
+
+
   return (
     <input
       // eslint-disable-next-line jsx-a11y/no-autofocus
@@ -63,11 +71,13 @@ const renderInputComponent = ({
       placeholder={placeholder}
       disabled={disabled}
       type={type}
+       
       onKeyDown={onKeyDown}
       onFocus={onFocus}
       className={cx('search', style, { errorBorder: error })}
       autoComplete={'off'}
       onKeyPress={onKeyPress}
+     
     />
   );
 };
@@ -85,14 +95,15 @@ const InputSearch = ({
   errorMessage,
   error,
   labelBold,
-  onkeyPress,
   style,
   autoFocus,
+  
 }: Props) => {
   const [currentsuggestion, setSuggestion] = useState<any[]>([]);
   const [currentvalue, setValue] = useState(initialValue);
   const [isErrorFocus, setErrorFocus] = useState(false);
   const [isNoOptions, setNoOptions] = useState(false);
+  const [isNovalue ,setNovalue]=useState(false);
   const lowerCasedCompanies =
     options &&
     options.map((company) => {
@@ -153,6 +164,15 @@ const InputSearch = ({
     setErrorFocus(false);
   };
 
+  const onkeyPress =(event)=>{
+    if(event.key === "Enter"){
+      setNovalue(true)
+    }
+    else{
+      setNovalue(false)
+    }
+  }
+
   const inputProps: any = {
     placeholder,
     value: currentvalue,
@@ -166,22 +186,33 @@ const InputSearch = ({
     onKeyPress: onkeyPress,
     style,
     autoFocus,
+   
   };
+
+
+
 
   const onSuggestionsFetchRequested = ({ value }: { value: string }) => {
     setValue(value);
     const requiredSuggestions: any = getSuggestions(value);
+   
     setSuggestion(requiredSuggestions);    
-    if (requiredSuggestions && requiredSuggestions.length === 0 && !isEmpty(value)) {
+    if (requiredSuggestions && requiredSuggestions.length === 0 && !isEmpty(value) && !isNovalue ) {
+ 
+      
       setNoOptions(true);
-    } else {
+    } 
+     else {
       setNoOptions(false);
     }
   };
-
+// const onSuggestionSelected=()=>{
+  
+// }
   const onSuggestionsClearRequested = () => {
     setSuggestion([]);
   };
+   
   return (
     <div style={{ position: 'relative' }}>
       <LabelWrapper label={label} required={required} bold={labelBold}>
@@ -193,6 +224,7 @@ const InputSearch = ({
           getSuggestionValue={getSuggestionValue}
           renderSuggestion={renderSuggestion}
           inputProps={inputProps}
+          
           highlightFirstSuggestion={true}
           renderInputComponent={renderInputComponent}
         />
@@ -207,10 +239,16 @@ const InputSearch = ({
         )}
       </LabelWrapper>
       {isNoOptions && (
-        <div className={styles.noOptionsDivStyle}>
+<>
+        {console.log("df",isNoOptions)}
+        <div className={styles.noOptionsDivStyle}  
+         >
           <Text color="gray">No search found</Text>
         </div>
-      )}
+        </>
+      ) }
+      
+    
     </div>
   );
 };
@@ -218,3 +256,5 @@ const InputSearch = ({
 InputSearch.defaultProps = defaultProps;
 
 export default InputSearch;
+
+ 

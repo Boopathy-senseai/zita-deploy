@@ -1,14 +1,15 @@
 export interface MyJobPosing {
   location_list?: string[];
-  job_ids?: string[];
   job_title?: string[];
+  job_ids?: string[];
+ 
 }
 
 export interface MyJobPosingData {
   final_list: FinalListEntity[];
   career_page_url: string;
   len_list: number;
-  Jobs_List: number;
+  Jobs_List: number|string;
   params: string;
   domain: string;
   location?: LocationEntity[];
@@ -91,10 +92,11 @@ export interface MyJobPosingDataReducerState extends MyJobPosingData {
 }
 
 export interface MyJobPostingPayload {
-  jobTitle?: string;
+ 
   jobId?: string;
   postedOn?: string;
   jobType?: string;
   location?: string;
   page?: number;
+  jobTitle?: string;
 }
