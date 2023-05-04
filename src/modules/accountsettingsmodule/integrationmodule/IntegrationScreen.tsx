@@ -5,7 +5,12 @@ import {
   // useSelector
 } from 'react-redux';
 import SvgGmail from '../../../icons/SvgGmail';
+import SvgEdit from '../../../icons/SvgEdit';
+import SvgTick from '../../../icons/SvgTick';
 import SvgOutlook from '../../../icons/SvgOutlook';
+import SvgClose from '../../../icons/SvgClose';
+import SvgOutlookcalendar from '../../../icons/SvgOutlookcalendar';
+import SvgGooglecalendar from '../../../icons/SvgGooglecalendar';
 import {
   AppDispatch,
   //  RootState
@@ -17,7 +22,9 @@ import {
   InputRadio,
   LinkWrapper,
   Loader,
+  Modal,
   Text,
+  Toast,
 } from '../../../uikit';
 // import { isEmpty } from '../../../uikit/helper';
 // import Toast from '../../../uikit/Toast/Toast';
@@ -40,6 +47,9 @@ import {
   deleteOutlookMiddleware,
   deleteGoogleMiddleware,
 } from './store/middleware/integrationmiddleware';
+
+
+
 // import { GoogleLogin } from './googleLogin/index';
 // var querystring = require('qs');
 
@@ -69,6 +79,7 @@ const IntegrationScreen = () => {
   const [isMail, setMail] = useState('');
   // const [isChange, setChange] = useState(false);
   const [isLoginLoader, setLoginLoader] = useState(false);
+  const [modelopen, setmodelopen] = useState(false);
   console.log(setMail);
   // initial api call
   // useEffect(() => {
@@ -197,9 +208,10 @@ const IntegrationScreen = () => {
   // };
 
   const googleAuthHandler = () => {
+    
     setLoginLoader(true);
-
-    handleDisconnectGoogle();
+    Toast('Google calendar Integrated Successfully', 'MEDIUM');
+    
     dispatch(googleCallApiMiddleware())
       .then((res) => {
         setLoginLoader(false);
@@ -207,6 +219,8 @@ const IntegrationScreen = () => {
         setIsGoogle(1);
         setActive(1);
         window.open(res.payload.url);
+        
+        
       })
       .catch((err) => {
         console.log(err);
@@ -215,15 +229,17 @@ const IntegrationScreen = () => {
 
   const msAuthHandler = () => {
     setLoginLoader(true);
+    Toast('Outlook calendar Integrated Successfully', 'MEDIUM');
     dispatch(outlookCallApiMiddleware())
       .then((res) => {
-        console.log(res);
+        console.log("outlookintegration",res);
         if (res.payload.success === true) {
-          window.open(res.payload.authorization_url);
           setLoginLoader(false);
           setConnected(1);
           setIsGoogle(0);
           setActive(1);
+          
+          window.open(res.payload.authorization_url);
         }
       })
       .catch((err) => {
@@ -232,22 +248,30 @@ const IntegrationScreen = () => {
   };
   // google radio button function
   const handleGoogleRadio = () => {
+    googleAuthHandler();
     setActive(1);
     setIsGoogle(1);
     if (connected && isGoogle === 0) {
       setConnected(0);
       setIsGoogle(1);
     }
+    
+  };
+  const disconnectfun=()=>{
+    setmodelopen(!modelopen)
+    // Toast('Details not saved', 'LONG', 'error');
   };
 
   // outlook radio button function
   const handleOutlookRadio = () => {
+    msAuthHandler() ;
     setActive(1);
     setIsGoogle(0);
     if (connected && isGoogle === 1) {
       setConnected(0);
       setIsGoogle(0);
     }
+    // Toast('Details saved successfully', 'LONG');
   };
 
   // google disconnect button function
@@ -259,6 +283,8 @@ const IntegrationScreen = () => {
         setIsGoogle(2);
         setConnected(0);
       }
+      setmodelopen(!modelopen)
+      Toast('Google calendar Disconnected Successfully', 'SHORT','error');
     });
   };
 
@@ -271,6 +297,8 @@ const IntegrationScreen = () => {
         setIsGoogle(2);
         setConnected(0);
       }
+      setmodelopen(!modelopen)
+      Toast('Outlook calendar Disconnected Successfully', 'SHORT','error');
     });
   };
 
@@ -305,15 +333,21 @@ const IntegrationScreen = () => {
     checkAuth();
   }, []);
 
+  function outlookconfig(): void {
+    throw new Error('Function not implemented.');
+  }
+
   return (
-    <Card className={styles.overAll}>
+    <Flex className={styles.overAll}>
       {isLoginLoader && <Loader />}
       <Flex columnFlex>
-        <Text size={16} bold>
+        <Text size={16} bold style={{ color: '#581845' }}>
           Calendar Integration
         </Text>
         <Text>Integrate your calendar with zita to schedule your meetings</Text>
-        <Flex row center className={styles.radioContainer}>
+
+
+        {/* <Flex row center className={styles.radioContainer}>
           <Flex
             onClick={handleOutlookRadio}
             disabled={connected === 1}
@@ -347,47 +381,144 @@ const IntegrationScreen = () => {
             </div>
             <Text>Google Calendar</Text>
           </Flex>
+        </Flex> */}
+        <Flex row marginTop={20}>
+          <Flex flex={3}>
+            {connected === 1 && active === 1 && isGoogle === 0 ?(
+ 
+               <Card className={styles.selectCard}>
+              <Flex end style={{ position: 'absolute', right: '10px' }}>
+                <SvgTick />
+              </Flex>
+              <Flex row start className={styles.cardHeader}>
+                {/* <SvgOutlookMail /> */}
+                <SvgOutlookcalendar></SvgOutlookcalendar>
+
+                <Text
+                  color="theme"
+                  bold
+                  size={16}
+                  style={{ marginLeft: '10px' }}
+                >
+                  Outlook Mail
+                </Text>
+              </Flex>
+
+              <Text style={{ marginTop: '10px' }}>Connected as</Text>
+              <Text color="theme" style={{ marginTop: '1px' }}>
+                {/* {email} */}vishalrupakvr@gmail.com
+              </Text>
+              <Button
+                className={styles.btn}
+                onClick={() =>disconnectfun() }
+              >
+                <Text color="theme">
+                  <SvgEdit width={14} height={14} /> Edit Configuration
+                </Text>
+              </Button>
+            </Card>
+
+            ):(
+          <Card className={styles.cardStruture}>
+              <Flex row start className={styles.cardHeader}>
+                <SvgOutlookcalendar></SvgOutlookcalendar>
+
+                <Text
+                  color="theme"
+                  bold
+                  size={16}
+                  style={{ marginLeft: '10px' }}
+                >
+                  Outlook Mail
+                </Text>
+              </Flex>
+
+              <Text style={{ marginTop: '10px' }}>
+                Connect your inbox with Outlook Calendar Service.
+              </Text>
+              {connected === 1 && active === 1 && isGoogle === 1?(
+                <Button className={styles.btn} onClick={() => handleOutlookRadio() } disabled>
+                <Text style={{color:"#581845"}} bold>Connect With Outlook</Text>
+              </Button>
+              ):(
+              <Button className={styles.btn} onClick={() => handleOutlookRadio() }>
+                <Text style={{color:"#581845"}} bold>Connect With Outlook</Text>
+              </Button>)}
+            </Card>)}
+          </Flex>
+          <Flex flex={3}>
+            {connected === 1 && active === 1 && isGoogle === 1?(
+             <Card className={styles.selectCard}>
+             <Flex end style={{ position: 'absolute', right: '10px' }}>
+               <SvgTick />
+             </Flex>
+             <Flex row start className={styles.cardHeader}>
+               {/* <SvgOutlookMail /> */}
+               <SvgGooglecalendar></SvgGooglecalendar>
+
+               <Text
+                 color="theme"
+                 bold
+                 size={16}
+                 style={{ marginLeft: '10px' }}
+               >
+                 Google Calendar
+               </Text>
+             </Flex>
+
+             <Text style={{ marginTop: '10px' }}>Connected as</Text>
+             <Text color="theme" style={{ marginTop: '1px' }}>
+               {/* {email} */}vishalrupakvr@gmail.com
+             </Text>
+             <Button
+               className={styles.btn}
+               onClick={() =>disconnectfun() }
+             >
+               <Text color="theme">
+                 <SvgEdit width={14} height={14} /> Edit Configuration
+               </Text>
+             </Button>
+           </Card>
+            ):(
+          <Card className={styles.cardStruture}>
+              <Flex row start className={styles.cardHeader}>
+                <SvgGooglecalendar></SvgGooglecalendar>
+
+                <Text
+                  color="theme"
+                  bold
+                  size={16}
+                  style={{ marginLeft: '10px' }}
+                >
+                  Google Calendar
+                </Text>
+              </Flex>
+
+              <Text style={{ marginTop: '10px' }}>
+                Connect your inbox with Google calendar Service.
+              </Text>
+              {connected === 1 && active === 1 && isGoogle === 0 ?(
+                 <Button className={styles.btn} onClick={() => handleGoogleRadio()} disabled>
+                 <Text style={{color:"#581845"}} bold>Connect With Google</Text>
+               </Button>
+              ):(
+              <Button className={styles.btn} onClick={() => handleGoogleRadio()}>
+                <Text style={{color:"#581845"}} bold>Connect With Google</Text>
+              </Button>)}
+            </Card>)}
+          </Flex>
+          <Flex flex={9}>
+
+          </Flex>
+
         </Flex>
 
-        {connected === 0 && active === 1 && isGoogle !== 2 && (
-          <Flex row center>
-            <Text className={styles.clickText}>
-              Click on the button to integrate with your{' '}
-              {isGoogle === 1 ? 'Google' : 'Outlook'} Calendar
-            </Text>
-            {isGoogle === 1 && (
-              <div className={styles.googleBtn}>
-                {/* <GoogleLogin
-                  clientId={googleClientId}
-                  buttonText="Integrate"
-                  onSuccess={googleAuthHandler}
-                  onFailure={(res) => console.log('onFailure', res)}
-                  icon={false}
-                  scope={'https://www.googleapis.com/auth/calendar.events'}
-                  disabled={false}
-                  accessType="online"
-                /> */}
-                <Button onClick={googleAuthHandler}>Integrate</Button>
-              </div>
-            )}
-            {isGoogle === 0 && (
-              // <MicrosoftLogin
-              //   prompt="select_account"
-              //   clientId={msClientId}
-              //   authCallback={msAuthHandler}
-              //   redirectUri={redirectUri}
-              //   graphScopes={graphScopes}
-              // >
-              //   <Button>Integrate</Button>
-              // </MicrosoftLogin>
-              <Button onClick={msAuthHandler}>Integrate</Button>
-            )}
-          </Flex>
-        )}
-        {connected === 1 && active === 1 && isGoogle === 0 && (
+
+        
+        {/* {connected === 1 && active === 1 && isGoogle === 0 && (
           <Flex columnFlex>
             <Flex row center>
-              <Text>Connected account {isMail}</Text>
+              <Text>Connected account {isMail}</Text> */}
               {/* <MicrosoftLogin
                 prompt="select_account"
                 clientId={msClientId}
@@ -399,7 +530,7 @@ const IntegrationScreen = () => {
                   Change
                 </Button>
               </MicrosoftLogin> */}
-              <Button types="link" onClick={msAuthHandler}>
+              {/* <Button types="link" onClick={msAuthHandler}>
                 Change
               </Button>
               <Button types="link" onClick={handleDisconnectOutlook}>
@@ -414,14 +545,14 @@ const IntegrationScreen = () => {
                 </Text>
               </LinkWrapper>
             </Flex>
-          </Flex>
-        )}
+          </Flex> 
+        )}*/}
 
-        {connected === 1 && active === 1 && isGoogle === 1 && (
+        {/* {connected === 1 && active === 1 && isGoogle === 1 && (
           <Flex columnFlex>
             <Flex row center>
               <Text>Connected account {isMail}</Text>
-              <div className={styles.changeGoogleBtn}>
+              <div className={styles.changeGoogleBtn}> */}
                 {/* <GoogleLogin
                   disabled={false}
                   accessType="online"
@@ -432,7 +563,7 @@ const IntegrationScreen = () => {
                   icon={false}
                   scope={'https://www.googleapis.com/auth/calendar.events'}
                 /> */}
-                <Button types="link" onClick={googleAuthHandler}>
+                {/* <Button types="link" onClick={googleAuthHandler}>
                   Change
                 </Button>
               </div>
@@ -449,9 +580,131 @@ const IntegrationScreen = () => {
               </LinkWrapper>
             </Flex>
           </Flex>
-        )}
+        )} */}
       </Flex>
-    </Card>
+      
+      <Modal open={modelopen}>
+        <Flex className={styles.editmodal}>
+          <Flex
+            end
+            style={{ marginRight: '15px' }}
+            onClick={() => setmodelopen(!modelopen)}
+          >
+            
+            <SvgClose width={12} height={12} fill={'581845'} />
+          </Flex>
+
+          {connected === 1 && active === 1 && isGoogle === 0  ? (
+            <Flex>
+              <Text color="theme" size={16} bold>
+                {' '}
+                <SvgEdit width={14} height={14} /> Edit Configuration
+              </Text>
+              <Text>
+                You have connected your Email with Outlook Mail Service.
+              </Text>
+              <Flex row start className={styles.modelheadder}>
+                <SvgOutlookcalendar></SvgOutlookcalendar>
+                <Card className={styles.outlookEmailcard}>
+                  <Flex style={{ padding: '10px' }}>
+                    <Flex>Connected as</Flex>
+                    <Flex>
+                      <Text color="theme">
+                        {/* {email} */}vishalrupakvr@sense7ai.com
+                      </Text>
+                    </Flex>
+                  </Flex>
+                </Card>
+              </Flex>
+              <Flex style={{ marginTop: '20px', color: '#581845' }}>
+                Would you Like to do any of the following Actions?
+              </Flex>
+              <hr />
+              <Flex style={{ marginRight: '15px' }} end>
+                <span>
+                  <Button
+                    onClick={() => msAuthHandler()}
+                    style={{
+                      paddingRight: '24px',
+                      paddingLeft: '24px',
+                    }}
+                  >
+                    Change
+                  </Button>
+                  <Button
+                    className={styles.disconnectbtn}
+                    types="secondary"
+                    onClick={() => handleDisconnectOutlook()}
+                  >
+                    Disconnect
+                  </Button>
+                </span>
+              </Flex>
+            </Flex>
+          ) : (
+            ''
+          )}
+
+          {connected === 1 && active === 1 && isGoogle === 1 ? (
+            <Flex>
+              <Text color="theme" size={16} bold>
+                {' '}
+                <SvgEdit width={14} height={14} /> Edit Configuration
+              </Text>
+              <Text>
+                You have connected your Email with Google Mail Service.
+              </Text>
+              <Flex row start className={styles.modelheadder}>
+                <SvgGooglecalendar></SvgGooglecalendar>
+                <Card className={styles.outlookEmailcard}>
+                  <Flex style={{ padding: '10px' }}>
+                    <Flex>Connected as</Flex>
+                    <Flex>
+                      <Text color="theme">
+                        {/* {email} */}vishalrupakvr@gmail
+                      </Text>
+                    </Flex>
+                  </Flex>
+                </Card>
+              </Flex>
+              <Flex style={{ marginTop: '20px', color: '#581845' }}>
+                Would you Like to do any of the following Actions?
+              </Flex>
+              <hr />
+              <Flex style={{ marginRight: '15px' }} end>
+                <span>
+                  <Button
+                    onClick={() => googleAuthHandler()}
+                    style={{
+                      paddingRight: '24px',
+                      paddingLeft: '24px',
+                    }}
+                  >
+                    Change
+                  </Button>
+
+                  <Button
+                    className={styles.disconnectbtn}
+                    types="secondary"
+                    onClick={() => handleDisconnectGoogle()}
+                  >
+                    Disconnect
+                  </Button>
+                </span>
+              </Flex>
+            </Flex>
+          ) : (
+            ''
+          )}
+        </Flex>
+      </Modal>
+   
+
+    {/* <Flex className={styles.borderbottom} marginTop={30}>
+
+    </Flex> */}
+
+    </Flex>
   );
 };
 
