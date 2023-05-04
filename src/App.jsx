@@ -18,6 +18,8 @@ import MyDataBaseScreen from './modules/mydatabasemodule/MyDataBaseScreen';
 import CreateJdScreen from './modules/createjdmodule/CreateJdScreen';
 import CreateJdWithDs from './modules/createjdmodule/CreateJdWithDs';
 import CalendarScreen from './modules/calendarModule/CalendarScreen';
+
+
 import {
   accountSettingRoutes,
   applicantPipeLineScreen,
@@ -76,6 +78,9 @@ import JobMetrics from './modules/reportsmodule/JobMetrics';
 import SourcingPerformance from './modules/reportsmodule/SourcingPerformance';
 import CheckSignUpActivate from './modules/SignUp/CheckSignUpActivate';
 import DashBoardScreen from './modules/dashboardmodule/empdashboard/DashBoardScreen';
+
+
+
 
 axios.defaults.baseURL = process.env.REACT_APP_API_ENDPOINT;
 
@@ -365,7 +370,8 @@ const App = () => {
         <Route path={'/check_activate'} component={CheckSignUpActivate} />
         {/* <Route path={''} component={NotFound} /> */}
         {/* <Route path="/calendar" component={Calendar} /> */}
-        {localStorage.getItem('loginUserCheck') === 'true' ||
+
+ {localStorage.getItem('loginUserCheck') === 'true' ||
           localStorage.getItem('loginUserCheck') === null
           ? permissionRoutes.map(
             (route) =>

@@ -5,6 +5,8 @@
   /* padding: 16px; */
   min-width: 276px;
   margin-top: 24px;
+  position: relative;
+    z-index: -1;
 }
 .qualificationConatiner {
   padding: 16px 16px;

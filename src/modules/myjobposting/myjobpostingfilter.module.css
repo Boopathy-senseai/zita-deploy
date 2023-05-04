@@ -3,6 +3,8 @@
   cursor: pointer;
 }
 .overAllfilter {
+  position: relative;
+  z-index: -1;
   width: 300px;
   padding: 3px 10px;
   padding-bottom: 15px;
@@ -41,6 +43,8 @@ margin-bottom: 8px;
   margin-top: 16px;
 }
 .skillContainer {
+  /* position: relative;
+  z-index: -1; */
   margin-top: 13px;
     /*margin-bottom: 13px;*/
 }
