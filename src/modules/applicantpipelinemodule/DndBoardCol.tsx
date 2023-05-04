@@ -12,9 +12,10 @@ import { dndBoardId } from '../constValue';
 import { GoogleEntity, JobDetailsEntity } from './applicantPipeLineTypes';
 import MultiTask from './MultiTask';
 import styles from './dndboardcol.module.css';
+import { IStageColumn } from './dndBoardTypes';
 
 type Props = {
-  tasks: any;
+  tasks: IStageColumn;
   section:string;
   columnId: string;
   index: number;
@@ -95,7 +96,7 @@ const DndBoardCol = ({
                 task={task}
                 section={section}
                 index={taskIndex}
-                isBorder={isBorder}
+                isBorder={tasks?.borderColor || isBorder}
                 columnId={columnId}
                 outlook={outlook}
                 google={google}

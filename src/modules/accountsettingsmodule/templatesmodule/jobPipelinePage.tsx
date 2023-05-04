@@ -7,24 +7,13 @@ import ErrorMessage from '../../../uikit/ErrorMessage/ErrorMessage';
 import SvgBack from '../../../icons/SvgBack';
 import Flex from '../../../uikit/Flex/Flex';
 import InputText from '../../../uikit/InputText/InputText';
-
 import Text from '../../../uikit/Text';
-
 import { enterKeyPress, isEmpty } from '../../../uikit/helper';
 import SvgTickBox from '../../../icons/SvgTickBox';
 import SvgCloseBox from '../../../icons/SvgCloseBox';
-import { SvgEdit } from '../../../icons';
-import SvgDrag from '../../../icons/SvgDrag';
-import SvgDelete from '../../../icons/SvgDelete';
-
 import { Button, LinkWrapper, Loader } from '../../../uikit';
-import SvgAdd from '../../../icons/SvgAdd';
 import { AppDispatch, RootState } from '../../../store';
-import SvgTick from '../../../icons/SvgTick';
-import ColorPicker from '../buildyourcareerpage/ColorPicker';
-import SvgTickOne from '../../../icons/SvgTickOne';
 import SvgPlusCircle from '../../../icons/SvgAddCircle';
-import SvgPicker from '../../../icons/SvgPicker';
 import { Chip } from '../../../uikit/StagesChip/stagesChip';
 import { StageCard } from '../../../uikit/StageCard/stagesCard';
 import { StageData, jobPipelineForm } from './templatesPageTypes';
@@ -50,10 +39,11 @@ type FormProps = {
 const JobPipelinePage = ({ handleBack, buttondata }: FormProps) => {
   // const reorderRef = useRef<Reorder>(null);
   const [stage, setStage] = useState(false);
-
+ //const userId = {id: "403"}
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
+    //dispatch(jobPipelineStagesMiddleWare(userId));
     dispatch(jobPipelineStagesMiddleWare());
     dispatch(jobPipelineSuggestionsMiddleWare());
   }, []);
@@ -89,15 +79,28 @@ const JobPipelinePage = ({ handleBack, buttondata }: FormProps) => {
     setStage(!stage);
     formik.resetForm();
   };
+  const isDuplicate = (title: string, data: string[]) => {
+    return data
+      .map((str) => str.trim().toLowerCase() === title.trim().toLowerCase())
+      .includes(true);
+  };
   const handleJobPipeline = (values: jobPipelineForm) => {
     const errors: Partial<jobPipelineForm> = {};
 
     if (!isEmpty(values.title) && values.title.length > 25) {
       errors.title = 'Stage name should not exceed 25 characters.';
     }
+    if (
+      isDuplicate(
+        values.title,
+        stages.map((doc) => doc.title),
+      )
+    ) {
+      errors.title = 'Already stage name exists';
+    }
     return errors;
   };
-  const [isLocationLoader, setLocationLoader] = useState(false);
+  const [isPipelineLoader, setPipelineLoader] = useState(false);
 
   const initial = {
     title: '',
@@ -230,7 +233,7 @@ const JobPipelinePage = ({ handleBack, buttondata }: FormProps) => {
                     />
                   </Flex>
                   <div className={styles.svgContainer}>
-                    {isLocationLoader ? (
+                    {isPipelineLoader ? (
                       <div className={styles.svgTick}>
                         <Loader withOutOverlay size={'small'} />
                       </div>

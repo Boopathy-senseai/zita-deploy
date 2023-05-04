@@ -215,7 +215,7 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
   // select All columns
   const handleColumnSelect = (data: IStageColumn) => {
     const { section, columnId } = data;
-    const list = applicants[section] as any[];
+    const list = columns[columnId].items as any[];
     const newCardSelection = new Map(cardSelection);
     const newList = list.filter((doc) => !cardSelection.has(doc.id));
     newList.forEach((task) =>
@@ -225,7 +225,7 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
   };
   const handleColumnUnselect = (data: IStageColumn) => {
     const { section, columnId } = data;
-    const list = applicants[section] as any[];
+    const list = columns[columnId].items as any[];
     const newCardSelection = new Map(cardSelection);
     const newList = list.filter((doc) => cardSelection.has(doc.id));
     newList.forEach((task) => newCardSelection.delete(task.id));
@@ -325,9 +325,7 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
     isSkillOption.map((optionList: { value: string }) => {
       return optionList.value;
     });
-
-  // filter api call
-  useEffect(() => {
+  function getApplicanPipelineData() {
     dispatch(
       applicantPipeLineDataMiddleWare({
         jd_id: jdId,
@@ -345,6 +343,11 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
         sortRejected: isSortRejected,
       }),
     );
+  }
+
+  // filter api call
+  useEffect(() => {
+    getApplicanPipelineData();
   }, [
     isSkillOption,
     isBachelors,
@@ -584,9 +587,12 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
     // },
   };
 
-  console.log(columnsFromBackend);
+  //console.log(columnsFromBackend);
 
   const columnOrder = Object.keys(columnsFromBackend) || [];
+  const allColumnsItemsLength = columnOrder
+    ?.map((key) => columnsFromBackend[key].total as number)
+    .reduce((t, v) => (t = t + v), 0);
 
   const [isShortList, setShortList] = useState(false);
   const [isInterviewed, setInterviewed] = useState(false);
@@ -651,16 +657,16 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
       });
       setUpdateId(removed.id);
 
-      if (destination.droppableId === 'column-2') {
+      if (columns[destination.droppableId].section === 'shortlisted') {
         setShortList(true);
       }
-      if (destination.droppableId === 'column-3') {
+      if (columns[destination.droppableId].section === 'interviewed') {
         setInterviewed(true);
       }
-      if (destination.droppableId === 'column-4') {
+      if (columns[destination.droppableId].section === 'selected') {
         setOffered(true);
       }
-      if (destination.droppableId === 'column-5') {
+      if (columns[destination.droppableId].section === 'rejected') {
         setRejected(true);
       }
     }
@@ -677,6 +683,7 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
     )
       .then(() => {
         setShortList(false);
+        getApplicanPipelineData();
         Toast('Applicant shortlisted successfully');
       })
       .catch(() => {
@@ -696,6 +703,7 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
     )
       .then(() => {
         setInterviewed(false);
+        getApplicanPipelineData();
         Toast('Applicant moved successfully');
       })
       .catch(() => {
@@ -715,6 +723,7 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
     )
       .then(() => {
         setOffered(false);
+        getApplicanPipelineData();
         Toast('Applicant offered successfully');
       })
       .catch(() => {
@@ -734,6 +743,7 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
     )
       .then(() => {
         setRejected(false);
+        getApplicanPipelineData();
         Toast('Applicant rejected successfully');
       })
       .catch(() => {
@@ -754,38 +764,69 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
   };
 
   const handleMove = (droppableId: string) => {
-    const selectedList = Array.from(cardSelection.values());
-    const removedList = selectedList?.reduce((o, v) => {
-      const newItems = [...columns[v.columnId]?.items];
-      const index = newItems.findIndex((doc) => doc.id === v.task.id);
-      if (index !== -1) {
-        newItems.splice(index, 1);
+    setColumns((previous) => {
+      const selectedList = Array.from(cardSelection.values());
+      const removedList = selectedList?.reduce((o, v) => {
+        if (droppableId === v.columnId) {
+          return {
+            ...o,
+            [v.columnId]: {
+              ...previous[v.columnId],
+              ...o[v.columnId],
+            },
+          };
+        }
+        /// Previous return data
+        const previousItems =
+          o[v.columnId]?.items || previous[v.columnId]?.items;
+        const previousRemovedItems = previous[v.columnId]?.items.filter(
+          (doc) => !previousItems.includes(doc),
+        );
+        /// Filter out previous existing ones
+        let filteredList = previousItems.filter((doc) => {
+          return doc.id !== v.task.id;
+        });
+        const newItems = [...filteredList];
+
+        console.log(
+          v.task.id,
+          v.columnId,
+          previousItems,
+          previousRemovedItems,
+          filteredList,
+        );
+
+        return {
+          ...o,
+          [v.columnId]: {
+            ...previous[v.columnId],
+            ...o[v.columnId],
+            items: newItems,
+            total: newItems.length,
+          },
+        };
+      }, {}) as columnTypes;
+
+      const movedList = getMovedList();
+
+      function getMovedList() {
+        const selectedItems = selectedList.map((doc) => doc.task);
+        let filterItems = previous[droppableId].items.filter(
+          (doc) => !selectedItems.includes(doc),
+        );
+        return [...filterItems, ...selectedItems];
       }
+
       return {
-        ...o,
-        [v.columnId]: {
-          ...columns[v.columnId],
-          ...o[v.columnId],
-          items: newItems,
-          total: newItems.length,
+        ...previous,
+        ...removedList,
+        [droppableId]: {
+          ...previous[droppableId],
+          items: movedList,
+          total: movedList.length,
         },
       };
-    }, {}) as columnTypes;
-
-    const movedList = [
-      ...columns[droppableId].items,
-      ...selectedList.map((doc) => doc.task),
-    ];
-
-    setColumns((previous) => ({
-      ...previous,
-      [droppableId]: {
-        ...previous[droppableId],
-        items: movedList,
-        total: movedList.length,
-      },
-      ...removedList,
-    }));
+    });
 
     setCardSelection(new Map());
   };
@@ -937,6 +978,7 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
             <div>
               <TotalApplicant
                 total={total_applicants}
+                allColumnsItemsLength={allColumnsItemsLength}
                 filterTotalFav={filterTotalFav}
                 isTotalFav={isTotalFav}
                 seletedCardsLength={cardSelection.size}

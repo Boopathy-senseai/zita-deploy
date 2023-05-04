@@ -8,7 +8,13 @@ import Text from '../../../uikit/Text';
 import SvgJobPipeline from '../../../icons/SvgJobPipeline';
 import SvgMessages from '../../../icons/SvgMessages';
 import SvgMessage from '../../../icons/SvgMessage';
-import { Button, InputText, LinkWrapper, Loader } from '../../../uikit';
+import {
+  Button,
+  ErrorMessage,
+  InputText,
+  LinkWrapper,
+  Loader,
+} from '../../../uikit';
 import SvgAdd from '../../../icons/SvgAdd';
 import SvgDotMenu from '../../../icons/SvgDotMenu';
 import SvgBack from '../../../icons/SvgBack';
@@ -88,7 +94,6 @@ const TemplatesPage = () => {
   const handleDefault = (id: string) => {
     dispatch(defaultJobPipelineMiddleWare(id));
   };
-
 
   if (template === 0) {
     return (
@@ -175,10 +180,11 @@ const TemplatesPage = () => {
             </Button>
           </Flex>
           <Flex row marginTop={'10px'}>
-            {pipelineData.map((list) => (
+            {pipelineData.map((list, index) => (
               <PipelineCard
-                key={list.id}
+                key={`${list.id}-${index}`}
                 list={list}
+                index={index}
                 onConfig={configPipeline}
                 onUpdate={handleUpdate}
                 onDelete={handleDelete}
@@ -195,39 +201,40 @@ const TemplatesPage = () => {
 };
 interface PipelineCardPros {
   list: PipelineData;
+  index: number;
   onConfig: () => void;
   onUpdate: (value: PipelineData) => void;
-  onDelete: (id:string) => void;
-  onDefault: (id:string) => void;
+  onDelete: (id: string) => void;
+  onDefault: (id: string) => void;
 }
 const PipelineCard: React.FC<PipelineCardPros> = ({
   list,
+  index,
   onConfig,
   onUpdate,
   onDelete,
   onDefault,
 }) => {
   const [renamePipeline, setRenamePipeline] = useState(false);
-  const [isLocationLoader, setLocationLoader] = useState(false);
-  const initial = {
-    title: list.name,
-  };
-  const handleJobPipeline = (values: jobPipelineForm) => {
-    const errors: Partial<jobPipelineForm> = {};
+  const [isPipelineLoader, setPipelineLoader] = useState(false);
+  const [form, setForm] = useState(list);
+  const handleJobPipeline = (values: PipelineData) => {
+    const errors: Partial<PipelineData> = {};
 
-    if (!isEmpty(values.title) && values.title.length > 25) {
-      errors.title = 'Stage name should not exceed 25 characters.';
+    if (!isEmpty(values.name) && values.name.length > 25) {
+      errors.name = 'Stage name should not exceed 25 characters.';
     }
     return errors;
   };
+  useEffect(() => {
+    setForm(list);
+  }, [list, index]);
   const formik = useFormik({
-    initialValues: initial,
+    initialValues: form,
+    enableReinitialize: true,
     validate: handleJobPipeline,
-    onSubmit: (form) => {
-      onUpdate({
-        ...list,
-        name: form.title,
-      });
+    onSubmit: (value) => {
+      onUpdate(value);
       handleRename();
     },
   });
@@ -240,22 +247,22 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
       return (
         <Flex row noWrap>
           <InputText
-            value={formik.values.title}
-            onChange={formik.handleChange('title')}
+            value={formik.values.name}
+            onChange={formik.handleChange('name')}
             lineInput
             size={12}
             className={styles.input}
           />
           <div className={styles.svgContainer}>
-            {isLocationLoader ? (
+            {isPipelineLoader ? (
               <div className={styles.svgTick}>
                 <Loader withOutOverlay size={'small'} />
               </div>
             ) : (
               <div
                 className={cx('svgTickMargin', {
-                  svgTickDisable: isEmpty(formik.values.title),
-                  tickStyle: !isEmpty(formik.values.title),
+                  svgTickDisable: isEmpty(formik.values.name),
+                  tickStyle: !isEmpty(formik.values.name),
                 })}
                 tabIndex={-1}
                 role={'button'}
@@ -281,7 +288,14 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
       );
     }
     return (
-      <Text color="theme" bold size={16} style={{ marginLeft: '10px' }}>
+      <Text
+        color="theme"
+        bold
+        size={16}
+        title={list.name}
+        className={styles.titleText}
+        style={{ marginLeft: '10px' }}
+      >
         {list.name}
       </Text>
     );
@@ -290,10 +304,6 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
     <Card key={list.id} className={styles.pipelineStructure}>
       <Flex row start between className={styles.rowGroup}>
         <Flex row className={styles.cardHeader}>
-          {/* <Text color="theme" bold size={16} style={{ marginLeft: '10px' }}>
-            {list.name}
-            
-          </Text> */}
           {renderTitle()}
           {list.default === true ? (
             <Text color="yellow" className={styles.default}>
@@ -307,9 +317,8 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
         <Text>
           <ActionsButton
             disabled={list.disabled}
-            onDefault={() =>
-              onDefault(list.id)
-            }
+            defaults={list.default}
+            onDefault={() => (list.default ? undefined : onDefault(list.id))}
             onDelete={() => (list.disabled ? undefined : onDelete(list.id))}
             onRename={() => (list.disabled ? undefined : handleRename())}
           />
@@ -323,11 +332,17 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
   );
 };
 
-const ActionsButton = ({ onRename, onDefault, onDelete, disabled }) => {
+const ActionsButton = ({
+  defaults,
+  onRename,
+  onDefault,
+  onDelete,
+  disabled,
+}) => {
   return (
     <>
       <Dropdown className="dropdownButton dropleft">
-        <Dropdown.Toggle
+        {(!defaults || !disabled) && <Dropdown.Toggle
           style={{
             borderColor: 'unset',
             backgroundColor: 'unset',
@@ -336,9 +351,9 @@ const ActionsButton = ({ onRename, onDefault, onDelete, disabled }) => {
           id="dropdown-basic"
         >
           <SvgDotMenu height={10} width={10} fill="#581845" />
-        </Dropdown.Toggle>
+        </Dropdown.Toggle>}
 
-        <Dropdown.Menu style={{ minWidth: '5rem' }}>
+        {(!defaults || !disabled) && <Dropdown.Menu style={{ minWidth: '5rem' }}>
           {!disabled && (
             <Dropdown.Item onClick={onRename}>
               <Flex row center className={styles.dropDownListStyle}>
@@ -346,11 +361,13 @@ const ActionsButton = ({ onRename, onDefault, onDelete, disabled }) => {
               </Flex>
             </Dropdown.Item>
           )}
-          <Dropdown.Item onClick={onDefault}>
-            <Flex row center className={styles.dropDownListStyle}>
-              <Text>Set as Default</Text>
-            </Flex>
-          </Dropdown.Item>
+          {!defaults && (
+            <Dropdown.Item onClick={onDefault}>
+              <Flex row center className={styles.dropDownListStyle}>
+                <Text>Set as Default</Text>
+              </Flex>
+            </Dropdown.Item>
+          )}
           {!disabled && (
             <Dropdown.Item onClick={onDelete}>
               <Flex row center className={styles.dropDownListStyle}>
@@ -358,7 +375,7 @@ const ActionsButton = ({ onRename, onDefault, onDelete, disabled }) => {
               </Flex>
             </Dropdown.Item>
           )}
-        </Dropdown.Menu>
+        </Dropdown.Menu>}
       </Dropdown>
     </>
   );

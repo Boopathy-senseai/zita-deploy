@@ -4,10 +4,14 @@ import classNames, { Value } from 'classnames/bind';
 import { useFormik } from 'formik';
 import Text from '../../uikit/Text';
 
-import { StageData } from '../../modules/accountsettingsmodule/templatesmodule/templatesPageTypes';
+import {
+  PipelineData,
+  StageData,
+  jobPipelineForm,
+} from '../../modules/accountsettingsmodule/templatesmodule/templatesPageTypes';
 import { AppDispatch } from '../../store';
 import { updateJobPipelineStageMiddleWare } from '../../modules/accountsettingsmodule/templatesmodule/store/middleware/templatesmiddleware';
-import { Button, Flex, InputText, Loader } from '../../uikit';
+import { Button, ErrorMessage, Flex, InputText, Loader } from '../../uikit';
 import { isEmpty } from '../helper';
 import SvgTickBox from '../../icons/SvgTickBox';
 import SvgCloseBox from '../../icons/SvgCloseBox';
@@ -45,14 +49,21 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
   const [deletePopup, setDeletePopup] = useState(false);
   const [showColorPallet, setShowColorPallet] = useState(false);
   const [isBtnColorOpen, setBtnColorOpen] = useState(false);
-  const [isLocationLoader, setLocationLoader] = useState(false);
+  const [isStageLoader, setStageLoader] = useState(false);
   const [initial, setInitial] = useState(doc);
   const dispatch: AppDispatch = useDispatch();
-
   const myRef = createRef<any>();
+  const handleJobPipeline = (values: StageData) => {
+    const errors: Partial<StageData> = {};
+
+    if (!isEmpty(values.title) && values.title.length > 25) {
+      errors.title = 'Stage name should not exceed 25 characters.';
+    }
+    return errors;
+  };
   const formik = useFormik({
     initialValues: initial,
-
+    validate: handleJobPipeline,
     onSubmit: (form) => {
       onEdit(form);
       setEdit(!edit);
@@ -104,16 +115,23 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
     if (edit) {
       return (
         <Flex row noWrap>
-          <InputText
-            value={formik.values.title}
-            onChange={formik.handleChange('title')}
-            lineInput
-            size={12}
-            className={styles.input}
-            // onKeyPress={(e) => enterKeyPress(e, handleLocationSubmit)}
-          />
+          <Flex column noWrap>
+            <InputText
+              value={formik.values.title}
+              onChange={formik.handleChange('title')}
+              lineInput
+              size={12}
+              className={styles.input}
+              // onKeyPress={(e) => enterKeyPress(e, handleLocationSubmit)}
+            />
+            <ErrorMessage
+              touched={formik.touched}
+              errors={formik.errors}
+              name="title"
+            />
+          </Flex>
           <div className={styles.svgContainer}>
-            {isLocationLoader ? (
+            {isStageLoader ? (
               <div className={styles.svgTick}>
                 <Loader withOutOverlay size={'small'} />
               </div>
@@ -136,10 +154,10 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
 
             <div
               className={styles.svgClose}
-              // onClick={handleCloseLocationInput}
+              onClick={toggleStage}
               tabIndex={-1}
               role={'button'}
-              onClick={toggleStage}
+              // onClick={() => formik.resetForm()}
             >
               <SvgCloseBox className={styles.tickStyle} />
             </div>
@@ -147,7 +165,7 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
         </Flex>
       );
     }
-    return <Text color="theme">{doc.title}</Text>;
+    return <Text color="theme" title={doc.title}>{doc.title}</Text>;
   };
   const handleDelete = () => {
     if (edit) {

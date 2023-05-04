@@ -2,13 +2,13 @@ import classNames from 'classnames/bind';
 import Modal from '../../uikit/Modal/Modal';
 import Text from '../../uikit/Text/Text';
 import Flex from '../../uikit/Flex/Flex';
-import { InputCheckBox, InputText, SelectTag } from '../../uikit';
+import { InputCheckBox, SelectTag } from '../../uikit';
 import Button from '../../uikit/Button/Button';
 import styles from './pipelinepopup.module.css';
 
 const cx = classNames.bind(styles);
 const pipelineOption = [
-  { value: '', label: 'Zita' },
+  { value: '', label: 'Zita Pipeline' },
   { value: '1', label: 'Front End Dev' },
   { value: '2', label: 'Backend Dev' },
 ];

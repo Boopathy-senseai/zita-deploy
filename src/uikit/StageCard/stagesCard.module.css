@@ -198,7 +198,7 @@
   } */
   .svgContainer {
     display: flex;
-    align-items: center;
+    /* align-items: center; */
     margin-left: 5px;
     top: 16px;
     right: 0;

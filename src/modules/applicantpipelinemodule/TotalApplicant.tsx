@@ -52,6 +52,7 @@ type Props = {
   filterTotalFav: () => void;
   isTotalFav: boolean;
   seletedCardsLength: number;
+  allColumnsItemsLength: number;
   onExport?: () => void;
   onMove?: (stageId: string) => void;
 };
@@ -61,13 +62,14 @@ const TotalApplicant = ({
   filterTotalFav,
   isTotalFav,
   seletedCardsLength,
+  allColumnsItemsLength,
   onExport,
   onMove,
 }: Props) => {
   const [showPopup, setShowPopup] = useState(false);
   const [movePopup, setMovePopup] = useState(false);
   const [stage, setStage] = useState(false);
-  const [isLocationLoader, setLocationLoader] = useState(false);
+  const [isStageLoader, setStageLoader] = useState(false);
 
   const dispatch: AppDispatch = useDispatch();
   const handleOpenPopup = () => {
@@ -128,7 +130,7 @@ const TotalApplicant = ({
         stages.map((doc) => doc.title),
       )
     ) {
-      errors.title = 'Duplicate name';
+      errors.title = 'Already stage name exists';
     }
     return errors;
   };
@@ -167,6 +169,8 @@ const TotalApplicant = ({
   const onReorderChange = (list: StageData[]) => {
     dispatch(reorderJobPipelineStageMiddleWare(list));
   };
+  const disableMove = allColumnsItemsLength === seletedCardsLength;
+
   return (
     <>
       <Flex row center between className={styles.overAll}>
@@ -192,10 +196,14 @@ const TotalApplicant = ({
                     paddingLeft: '5px',
                     borderLeft: '1px solid #581845',
                   }}
-                  onClick={handleMoveOpenPipeline}
+                  onClick={
+                    !disableMove
+                      ? handleMoveOpenPipeline
+                      : undefined
+                  }
                 >
-                  <SvgMove width={12} height={12} />
-                  <Text style={{ marginLeft: '10px' }} color="theme">
+                  <SvgMove width={12} height={12} fill={disableMove ? "gray" : undefined} />
+                  <Text style={{ marginLeft: '10px' }} color={disableMove ? "gray" : "theme"}>
                     Move
                   </Text>
                 </Flex>
@@ -290,7 +298,7 @@ const TotalApplicant = ({
               bold
               color="theme"
             >
-              Edit Stage
+              Edit Stages
             </Text>
           </Flex>
           <Flex row noWrap>
@@ -325,7 +333,7 @@ const TotalApplicant = ({
                     />
                   </Flex>
                   <div className={styles.svgContainer}>
-                    {isLocationLoader ? (
+                    {isStageLoader ? (
                       <div className={styles.svgTick}>
                         <Loader withOutOverlay size={'small'} />
                       </div>
@@ -392,7 +400,7 @@ const TotalApplicant = ({
             >
               Cancel
             </Button>
-            <Button className={styles.update} onClick={() => undefined}>
+            <Button className={styles.update} onClick={handleClosePopup}>
               Apply
             </Button>
           </Flex>
