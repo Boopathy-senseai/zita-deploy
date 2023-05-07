@@ -33,16 +33,24 @@ type Props = {
   job_details: JobDetailsEntity;
   onDragStart?: (start: { source: { droppableId: string } }) => void;
   onDragEnd?: (result: DropResult) => void;
-  hanldeSortList?: () => void;
-  hanldeInterview?: () => void;
-  hanldeOffered?: () => void;
-  hanldeReject?: () => void;
+  // hanldeSortList?: () => void;
+  // hanldeInterview?: () => void;
+  // hanldeOffered?: () => void;
+  // hanldeReject?: () => void;
+  isAlert: {
+    source: string;
+    destination: string;
+    open: boolean;
+    droppableId: string;
+    taskId: any;
+  } | null;
+  hanldeAlertConfirm?: () => void;
   hanldeCancel?: () => void;
-  isShortList: boolean;
-  isInterviewed: boolean;
-  isOffered: boolean;
-  isRejected: boolean;
-  isUpdateId: number;
+  // isShortList: boolean;
+  // isInterviewed: boolean;
+  // isOffered: boolean;
+  // isRejected: boolean;
+  // isUpdateId: number;
   isIndex: number;
   onClick?: (data: {
     task: any;
@@ -73,16 +81,18 @@ const DndBoardScreen = ({
   job_details,
   onDragStart,
   onDragEnd,
-  hanldeSortList,
-  hanldeInterview,
-  hanldeOffered,
-  hanldeReject,
+  // hanldeSortList,
+  // hanldeInterview,
+  // hanldeOffered,
+  // hanldeReject,
+  isAlert,
+  hanldeAlertConfirm,
   hanldeCancel,
-  isShortList,
-  isInterviewed,
-  isOffered,
-  isRejected,
-  isUpdateId,
+  // isShortList,
+  // isInterviewed,
+  // isOffered,
+  // isRejected,
+  // isUpdateId,
   isIndex,
   onClick,
   cardSelectionMap,
@@ -290,7 +300,22 @@ const DndBoardScreen = ({
 
   return (
     <div className={styles.overAll}>
-      <CancelAndDeletePopup
+      {isAlert && <CancelAndDeletePopup
+        btnCancel={hanldeCancel}
+        btnDelete={hanldeAlertConfirm}
+        open={isAlert.open}
+        btnRight={isAlert.destination}
+        title={
+          <Flex columnFlex className={styles.statusFlex}>
+            <Text>
+              {`Application status will be updated to ${isAlert.destination}`}
+              .
+            </Text>
+            <Text>Are you sure to proceed?</Text>
+          </Flex>
+        }
+      />}
+      {/* <CancelAndDeletePopup
         btnCancel={hanldeCancel}
         btnDelete={hanldeSortList}
         open={isShortList}
@@ -344,7 +369,7 @@ const DndBoardScreen = ({
             <Text>Are you sure to proceed?</Text>
           </Flex>
         }
-      />
+      /> */}
 
       <DragDropContext
         onDragStart={onDragStart}

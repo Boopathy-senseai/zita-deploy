@@ -1,4 +1,3 @@
-/* eslint-disable */
 import {
   useMemo,
   SetStateAction,
@@ -12,13 +11,10 @@ import { MAX_DISPLAYED_OPTIONS } from '../constValue';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import SvgRefresh from '../../icons/SvgRefresh';
-import InputText from '../../uikit/InputText/InputText';
 import SelectTag from '../../uikit/SelectTag/SelectTag';
 import InputRadio from '../../uikit/InputRadio/InputRadio';
 import InputCheckBox from '../../uikit/InputCheckbox/InputCheckBox';
-import Card from '../../uikit/Card/Card';
-import SvgSearch from '../../icons/SvgSearch';
-import { listValue } from './ApplicantPipeLineScreen';
+import SvgIntomark from '../../icons/SvgCancel';
 import {
   experienceOption,
   matchOptions,
@@ -26,8 +22,11 @@ import {
   skillList,
 } from './mock';
 import styles from './applicantpipelinefilter.module.css';
-import SvgClose from '../../icons/SvgClose';
-import SvgIntomark from '../../icons/SvgCancel';
+
+export type ListValue = {
+  value: string;
+  label: string;
+};
 
 type Props = {
   isSkills: any;
@@ -35,9 +34,9 @@ type Props = {
   setSearch: (arg: string) => void;
   handleKeyPress: (event: { key: string }) => void;
   isMatchRadio: string;
-  hanldeMatch: (listValue: listValue) => void;
+  hanldeMatch: (listValue: ListValue) => void;
   isProfile: string;
-  hanldeProfile: (listValue: listValue) => void;
+  hanldeProfile: (listValue: ListValue) => void;
   handleExperience: (selectedValue: string) => void;
   setExperience: Dispatch<SetStateAction<string>>;
   setSkills: Dispatch<any>;
@@ -149,7 +148,8 @@ const ApplicantPipeLineFilter = ({
     setProfileValue(undefined);
   };
   const closeExperience = () => {
-    setExperience(''), setExperienceValue(undefined);
+    setExperience('');
+    setExperienceValue(undefined);
   };
   const closeQualification = (doc: {
     value: string;
@@ -277,15 +277,17 @@ const ApplicantPipeLineFilter = ({
                 onClose={closeExperience}
               />
               {qualificationValue &&
-                qualificationValue.map((doc) => (
+                qualificationValue.map((doc, index) => (
                   <RenderQuickFilter
+                    key={index}
                     doc={{ label: doc.label, value: doc.value }}
                     onClose={() => closeQualification(doc)}
                   />
                 ))}
               {isSkillOption &&
-                showSkills.map((doc) => (
+                showSkills.map((doc, index) => (
                   <RenderQuickFilter
+                    key={index}
                     doc={{ label: doc.label, value: doc.value }}
                     onClose={() => closeSkillOption(doc)}
                   />

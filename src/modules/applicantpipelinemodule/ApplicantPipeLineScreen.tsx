@@ -35,18 +35,13 @@ import ProfileView from './ProfileView';
 import TotalApplicant from './TotalApplicant';
 import JobTitleCard from './JobTitleCard';
 import DndBoardScreen from './DndBoardScreen';
-// eslint-disable-next-line import/no-cycle
-import ApplicantPipeLineFilter from './ApplicantPipeLineFilter';
+import ApplicantPipeLineFilter, { ListValue } from './ApplicantPipeLineFilter';
 import styles from './applicantpipelinescreen.module.css';
 import { JobDetailsEntity } from './applicantPipeLineTypes';
 import { handleDownload } from './dndBoardHelper';
 import { columnTypes, IStageColumn } from './dndBoardTypes';
 // import { columnOrder } from './initialData';
 
-export type listValue = {
-  value: string;
-  label: string;
-};
 type ParamsType = {
   jdId: string;
 };
@@ -233,11 +228,11 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
   };
 
   // filter match function
-  const hanldeMatch = (listValue: listValue) => {
+  const hanldeMatch = (listValue: ListValue) => {
     setMatchRadio(listValue.value);
   };
 
-  const hanldeProfile = (listValue: listValue) => {
+  const hanldeProfile = (listValue: ListValue) => {
     setProfile(listValue.value);
   };
   // filter bachelor function
@@ -594,12 +589,23 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
     ?.map((key) => columnsFromBackend[key].total as number)
     .reduce((t, v) => (t = t + v), 0);
 
-  const [isShortList, setShortList] = useState(false);
-  const [isInterviewed, setInterviewed] = useState(false);
-  const [isOffered, setOffered] = useState(false);
-  const [isRejected, setRejected] = useState(false);
+  const [isAlert, setAlert] = useState<{
+    source: string;
+    destination: string;
+    open: boolean;
+    droppableId: string;
+    taskId: any;
+  } | null>(null);
+  // const [isApplicant, setApplicant] = useState(false);
+  // const [isShortList, setShortList] = useState(false);
+  // const [isInterviewed, setInterviewed] = useState(false);
+  // const [isOffered, setOffered] = useState(false);
+  // const [isRejected, setRejected] = useState(false);
 
-  const [isUpdateId, setUpdateId] = useState<number>(0);
+  // const [isUpdateId, setUpdateId] = useState<{
+  //   droppableId: string;
+  //   taskId: any;
+  // } | null>(null);
   const [isNoLoader, setNoLoader] = useState(false);
   const [columns, setColumns] = useState<columnTypes>(columnsFromBackend || {});
   const [isIndex, setIndex] = useState<any>();
@@ -626,140 +632,210 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
 
   // card drag function
   const onDragEnd = (result: DropResult) => {
+    const { source, destination } = result;
     setIndex(null);
-    if (!result.destination) return;
+    if (!destination) return;
 
     if (
-      result.destination.droppableId === 'column-1' &&
-      result.source.droppableId !== 'column-1'
+      destination.droppableId === 'column-1' &&
+      source.droppableId !== 'column-1'
+    )
+      return;
+    if (
+      destination.droppableId !== 'rejected' &&
+      source.droppableId === 'rejected'
     )
       return;
 
-    const { source, destination } = result;
-
     if (source.droppableId !== destination.droppableId) {
-      const sourceColumn = columns[source.droppableId];
-      const destColumn = columns[destination.droppableId];
-      const sourceItems = [...sourceColumn.items];
-      const destItems = [...destColumn.items];
-      const [removed] = sourceItems.splice(source.index, 1);
-      destItems.splice(destination.index, 0, removed);
-      setColumns({
-        ...columns,
-        [source.droppableId]: {
-          ...sourceColumn,
-          items: sourceItems,
-        },
-        [destination.droppableId]: {
-          ...destColumn,
-          items: destItems,
-        },
-      });
-      setUpdateId(removed.id);
+      setColumns(prevColumns => {
+        const sourceColumn = prevColumns[source.droppableId];
+        const destColumn = prevColumns[destination.droppableId];
+        const sourceItems = [...sourceColumn.items];
+        const destItems = [...destColumn.items];
+        const [removed] = sourceItems.splice(source.index, 1);
+        destItems.splice(destination.index, 0, removed);
 
-      if (columns[destination.droppableId].section === 'shortlisted') {
-        setShortList(true);
-      }
-      if (columns[destination.droppableId].section === 'interviewed') {
-        setInterviewed(true);
-      }
-      if (columns[destination.droppableId].section === 'selected') {
-        setOffered(true);
-      }
-      if (columns[destination.droppableId].section === 'rejected') {
-        setRejected(true);
-      }
+        if (
+          columns[source.droppableId].section === 'applicant' ||
+          columns[destination.droppableId].section === 'rejected'
+        ) {
+          setAlert({
+            source: source.droppableId,
+            destination: destination.droppableId,
+            open: true,
+            droppableId: destination.droppableId,
+            taskId: removed.id,
+          });
+        } else {
+          handleCardUpdate({ ...destination, taskId: removed.id });
+        }
+
+        return {
+          ...prevColumns,
+          [source.droppableId]: {
+            ...sourceColumn,
+            items: sourceItems,
+          },
+          [destination.droppableId]: {
+            ...destColumn,
+            items: destItems,
+          },
+        }
+      });
+      // setUpdateId({ droppableId: destination.droppableId, taskId: removed.id });
+
+      // if (columns[destination.droppableId].section === 'shortlisted') {
+      //   // setShortList(true);
+      //   hanldeSortList();
+      // }
+      // if (columns[destination.droppableId].section === 'interviewed') {
+      //   // setInterviewed(true);
+      //   hanldeInterview();
+      // }
+      // if (columns[destination.droppableId].section === 'selected') {
+      //   //setOffered(true);
+      //   hanldeOffered();
+      // }
+      
     }
   };
 
+  const handleCardUpdate = (destination: {
+    droppableId: string;
+    index: number;
+    taskId: number;
+  }) => {
+    dispatch(
+      applicantUpdateStatusMiddleWare({
+        jd_id,
+        applicant_id: destination.taskId,
+        status:
+          destination.droppableId !== 'selected'
+            ? destination.droppableId
+            : 'offered',
+      }),
+    )
+      .then(() => {
+        getApplicanPipelineData();
+        Toast(`Applicant ${destination.droppableId} successfully`);
+      })
+      .catch(() => {
+        setNoLoader(true);
+        setTimeout(() => setNoLoader(false), 100);
+        Toast(ERROR_MESSAGE, 'LONG', 'error');
+      });
+  };
+  const hanldeAlertComplete = () => {
+    const { taskId, droppableId } = isAlert;
+    dispatch(
+      applicantUpdateStatusMiddleWare({
+        jd_id,
+        applicant_id: taskId,
+        status: droppableId !== 'selected' ? droppableId : 'offered',
+      }),
+    )
+      .then(() => {
+        setAlert(null);
+        getApplicanPipelineData();
+        Toast(`Applicant ${droppableId} successfully`);
+      })
+      .catch(() => {
+        setNoLoader(true);
+        setTimeout(() => setNoLoader(false), 100);
+        Toast(ERROR_MESSAGE, 'LONG', 'error');
+      });
+  };
+
   // short list api call function
-  const hanldeSortList = () => {
-    dispatch(
-      applicantUpdateStatusMiddleWare({
-        jd_id,
-        applicant_id: isUpdateId,
-        status: 'shortlisted',
-      }),
-    )
-      .then(() => {
-        setShortList(false);
-        getApplicanPipelineData();
-        Toast('Applicant shortlisted successfully');
-      })
-      .catch(() => {
-        setNoLoader(true);
-        setTimeout(() => setNoLoader(false), 100);
-        Toast(ERROR_MESSAGE, 'LONG', 'error');
-      });
-  };
-  // Interview api call function
-  const hanldeInterview = () => {
-    dispatch(
-      applicantUpdateStatusMiddleWare({
-        jd_id,
-        applicant_id: isUpdateId,
-        status: 'interviewed',
-      }),
-    )
-      .then(() => {
-        setInterviewed(false);
-        getApplicanPipelineData();
-        Toast('Applicant moved successfully');
-      })
-      .catch(() => {
-        setNoLoader(true);
-        setTimeout(() => setNoLoader(false), 100);
-        Toast(ERROR_MESSAGE, 'LONG', 'error');
-      });
-  };
-  // offered api call function
-  const hanldeOffered = () => {
-    dispatch(
-      applicantUpdateStatusMiddleWare({
-        jd_id,
-        applicant_id: isUpdateId,
-        status: 'offered',
-      }),
-    )
-      .then(() => {
-        setOffered(false);
-        getApplicanPipelineData();
-        Toast('Applicant offered successfully');
-      })
-      .catch(() => {
-        setNoLoader(true);
-        setTimeout(() => setNoLoader(false), 100);
-        Toast(ERROR_MESSAGE, 'LONG', 'error');
-      });
-  };
-  // reject api call function
-  const hanldeReject = () => {
-    dispatch(
-      applicantUpdateStatusMiddleWare({
-        jd_id,
-        applicant_id: isUpdateId,
-        status: 'rejected',
-      }),
-    )
-      .then(() => {
-        setRejected(false);
-        getApplicanPipelineData();
-        Toast('Applicant rejected successfully');
-      })
-      .catch(() => {
-        setNoLoader(true);
-        setTimeout(() => setNoLoader(false), 100);
-        Toast(ERROR_MESSAGE, 'LONG', 'error');
-      });
-  };
+  // const hanldeSortList = () => {
+  //   dispatch(
+  //     applicantUpdateStatusMiddleWare({
+  //       jd_id,
+  //       applicant_id: isUpdateId.taskId,
+  //       status: isUpdateId.droppableId,
+  //     }),
+  //   )
+  //     .then(() => {
+  //       setShortList(false);
+  //       getApplicanPipelineData();
+  //       Toast('Applicant shortlisted successfully');
+  //     })
+  //     .catch(() => {
+  //       setNoLoader(true);
+  //       setTimeout(() => setNoLoader(false), 100);
+  //       Toast(ERROR_MESSAGE, 'LONG', 'error');
+  //     });
+  // };
+  // // Interview api call function
+  // const hanldeInterview = () => {
+  //   dispatch(
+  //     applicantUpdateStatusMiddleWare({
+  //       jd_id,
+  //       applicant_id: isUpdateId.taskId,
+  //       status: isUpdateId.droppableId,
+  //     }),
+  //   )
+  //     .then(() => {
+  //       setInterviewed(false);
+  //       getApplicanPipelineData();
+  //       Toast('Applicant moved successfully');
+  //     })
+  //     .catch(() => {
+  //       setNoLoader(true);
+  //       setTimeout(() => setNoLoader(false), 100);
+  //       Toast(ERROR_MESSAGE, 'LONG', 'error');
+  //     });
+  // };
+  // // offered api call function
+  // const hanldeOffered = () => {
+  //   dispatch(
+  //     applicantUpdateStatusMiddleWare({
+  //       jd_id,
+  //       applicant_id: isUpdateId.taskId,
+  //       status: isUpdateId.droppableId,
+  //     }),
+  //   )
+  //     .then(() => {
+  //       setOffered(false);
+  //       getApplicanPipelineData();
+  //       Toast('Applicant offered successfully');
+  //     })
+  //     .catch(() => {
+  //       setNoLoader(true);
+  //       setTimeout(() => setNoLoader(false), 100);
+  //       Toast(ERROR_MESSAGE, 'LONG', 'error');
+  //     });
+  // };
+  // // reject api call function
+  // const hanldeReject = () => {
+  //   dispatch(
+  //     applicantUpdateStatusMiddleWare({
+  //       jd_id,
+  //       applicant_id: isUpdateId.taskId,
+  //       status: isUpdateId.droppableId,
+  //     }),
+  //   )
+  //     .then(() => {
+  //       setRejected(false);
+  //       getApplicanPipelineData();
+  //       Toast('Applicant rejected successfully');
+  //     })
+  //     .catch(() => {
+  //       setNoLoader(true);
+  //       setTimeout(() => setNoLoader(false), 100);
+  //       Toast(ERROR_MESSAGE, 'LONG', 'error');
+  //     });
+  // };
 
   // popup cancel function
   const hanldeCancel = () => {
     setNoLoader(true);
-    setOffered(false);
-    setShortList(false);
-    setInterviewed(false);
-    setRejected(false);
+    // setOffered(false);
+    // setShortList(false);
+    // setInterviewed(false);
+    // setRejected(false);
+    setAlert(null);
     setTimeout(() => setNoLoader(false), 100);
   };
 
@@ -1017,18 +1093,20 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
                       job_details={job_details}
                       onClick={handleCardSelection}
                       cardSelectionMap={cardSelection}
-                      isShortList={isShortList}
-                      isInterviewed={isInterviewed}
-                      isOffered={isOffered}
-                      isRejected={isRejected}
-                      isUpdateId={isUpdateId}
+                      // isShortList={isShortList}
+                      // isInterviewed={isInterviewed}
+                      // isOffered={isOffered}
+                      // isRejected={isRejected}
+                      isAlert={isAlert}
+                      // isUpdateId={isUpdateId.taskId}
                       isIndex={isIndex}
                       onDragStart={onDragStart}
                       onDragEnd={onDragEnd}
-                      hanldeSortList={hanldeSortList}
-                      hanldeInterview={hanldeInterview}
-                      hanldeOffered={hanldeOffered}
-                      hanldeReject={hanldeReject}
+                      // hanldeSortList={hanldeSortList}
+                      // hanldeInterview={hanldeInterview}
+                      // hanldeOffered={hanldeOffered}
+                      // hanldeReject={hanldeReject}
+                      hanldeAlertConfirm={hanldeAlertComplete}
                       hanldeCancel={hanldeCancel}
                     />
                   )}

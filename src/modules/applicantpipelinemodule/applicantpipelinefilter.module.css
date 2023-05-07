@@ -12,16 +12,16 @@
   margin-bottom: 8px;
 }
 .matchTextStyle {
-  margin-bottom: 8px;
-  margin-top: 16px;
+  margin-bottom: 5px;
+  /* margin-top: 8px; */
 }
 .profileTextStyle {
-  margin-bottom: 8px;
-  margin-top: 8px;
+  margin-bottom: 5px;
+  /* margin-top: 8px; */
 }
 .qualificationTextStyle {
-  margin-top: 16px;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
+  /* margin-top: 8px; */
 }
 .qualificationConatiner {
   padding-top: 8px;

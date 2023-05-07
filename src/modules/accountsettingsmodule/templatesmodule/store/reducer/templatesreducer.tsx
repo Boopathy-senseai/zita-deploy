@@ -25,6 +25,7 @@ const templatePageReducer = createSlice({
       return { ...state, error: '', isLoading: true };
     });
     builder.addCase(jobPipelineStagesMiddleWare.fulfilled, (state, action) => {
+     
       if (state.stages.length > 0) {
         return { ...state, isLoading: false };
       }

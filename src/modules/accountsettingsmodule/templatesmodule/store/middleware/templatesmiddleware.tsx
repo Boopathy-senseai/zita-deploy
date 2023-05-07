@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 import {
   ADD_PIPELINE_STAGE,
   DELETE_PIPELINE_STAGE,
@@ -8,9 +9,10 @@ import {
   PIPELINE_SUGGESTIONS,
   UPDATE_COLOUR_PALLATE,
 } from '../../../../../actions/actions';
-import {StageData } from '../../templatesPageTypes';
+import { StageData } from '../../templatesPageTypes';
 import StagesJson from '../../../../../assets/others/pipelineStages.json';
 import SuggestionsJson from '../../../../../assets/others/pipelineSuggestions.json';
+//import { templatesStages } from '../../../../../routes/apiRoutes';
 export const jobPipelineStagesMiddleWare = createAsyncThunk<StageData[], void>(
   PIPELINE_STAGES,
   async (_a, { rejectWithValue }) => {
@@ -23,6 +25,22 @@ export const jobPipelineStagesMiddleWare = createAsyncThunk<StageData[], void>(
     }
   },
 );
+// export const jobPipelineStagesMiddleWare = createAsyncThunk<StageData[], void>(
+//   PIPELINE_STAGES,
+//   async (_a, { rejectWithValue, getState }) => {
+//     try {
+//       const {
+//         userProfileReducers: { user },
+//       } = getState() as RootState;
+//       const response = await axios.get(templatesStages(`${user.id}`));
+//       console.log('res', response.data.data);
+//       return response.data as StageData[];
+//     } catch (error) {
+//       const typedError = error as Error;
+//       return rejectWithValue(typedError);
+//     }
+//   },
+// );
 
 export const jobPipelineSuggestionsMiddleWare = createAsyncThunk<
   Array<{ id: string; title: string }>,

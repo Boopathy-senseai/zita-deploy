@@ -145,6 +145,11 @@ export const myjobpostapi = `my_job_posting`;
 export const myjobpostdataapi = `my_job_posting_data`;
 export const questionnaireTemplateApi = `questionnaire_templates`;
 export const selectDsorNonDsApi = `select_ds_or_non_ds`;
+//export const templatesStages = `jobspipeline/${id}`;
+// export const templatesStages = (id: string) => {
+//   const url = `${process.env.REACT_APP_API_ENDPOINT}jobspipeline/${id}`;
+//   return url;
+// };
 
 // Login Api
 export const authApi = `${process.env.REACT_APP_API_ENDPOINT}login_api/`;

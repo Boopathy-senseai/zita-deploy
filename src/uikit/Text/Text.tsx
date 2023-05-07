@@ -40,7 +40,8 @@ export type textColors =
   | 'blue'
   | 'warning'
   | 'yellow'
-  | 'black2';
+  | 'black2'
+  | 'disabled';
 
 export type textTransform =
   | 'capitalize'

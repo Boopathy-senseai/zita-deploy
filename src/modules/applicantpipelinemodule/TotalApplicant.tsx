@@ -202,8 +202,8 @@ const TotalApplicant = ({
                       : undefined
                   }
                 >
-                  <SvgMove width={12} height={12} fill={disableMove ? "gray" : undefined} />
-                  <Text style={{ marginLeft: '10px' }} color={disableMove ? "gray" : "theme"}>
+                  <SvgMove width={12} height={12} fill={disableMove ? "#AB8BA2" : undefined} />
+                  <Text style={{ marginLeft: '10px' }} color={disableMove ? "disabled" : "theme"}>
                     Move
                   </Text>
                 </Flex>
@@ -280,9 +280,9 @@ const TotalApplicant = ({
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-          <Button className={styles.btn1Style} types="primary">
+          {/* <Button className={styles.btn1Style} types="primary">
             <SvgList width={16} height={16} fill="#581845" />
-          </Button>
+          </Button> */}
         </Flex>
       </Flex>
       <Modal open={showPopup}>
