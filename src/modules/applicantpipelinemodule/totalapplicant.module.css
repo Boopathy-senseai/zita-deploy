@@ -22,6 +22,9 @@
   border: white;
   cursor: pointer;
 }
+.dropDownListStyle{
+  cursor: pointer;
+}
 .btn1Style:active {
   background-color: white;
 }
@@ -42,6 +45,15 @@
 .borderLine {
   border-top: 1px solid #c3c3c3;
   padding-bottom: 20px;
+}
+.stagesCard{
+  overflow-y: auto;
+  /* padding-top: 15px; */
+  /* border-top: 1px solid #c3c3c3; */
+  max-height: 350px;
+  padding: 0px 5px 0px 5px ;
+  margin-top: 15px;
+
 }
 .cancel {
   margin-right: 8px;
@@ -90,6 +102,9 @@
   margin-left: 5px;
   top: 16px;
   right: 0;
+}
+.btnStyle{
+  cursor: pointer;
 }
 
 .svgTick {

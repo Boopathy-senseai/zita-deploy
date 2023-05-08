@@ -36,22 +36,22 @@ const CancelAndDeletePopup = ({
           <SvgCloseSmall />
         </Flex>
         <Flex row center className={styles.info}>
-          <SvgInfo />
+          {/* <SvgInfo /> */}
           {typeof title === 'string' ? (
             <Text className={styles.titelTextStyle}>{title}</Text>
           ) : (
             title
           )}
         </Flex>
-        <Flex row center middle className={styles.btnContainer}>
+        <Flex row end  className={styles.btnContainer}>
           <Button
             className={styles.btnCancelStyle}
-            types="secondary"
+            types="primary"
             onClick={btnCancel}
           >
             {btnLeft}
           </Button>
-          <Button className="btnDeleteStyle" onClick={btnDelete}>
+          <Button className={styles.btnDeleteStyle} types="primary" onClick={btnDelete}>
             {btnRight}
           </Button>
         </Flex>

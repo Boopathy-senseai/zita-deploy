@@ -179,16 +179,16 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
   return (
     <>
       {/* delete popup without the data */}
-      {/* <DeletePopup
-        openDeletePopup={deletePopup}
-        handleDeletePipelinePopup={handleDeletePipelinePopup}
-        handleCloseDeletePopup={handleCloseDeletePopup}
-      /> */}
-      <AlertDeletePopup
+      <DeletePopup
         openDeletePopup={deletePopup}
         handleDeletePipelinePopup={handleDeletePipelinePopup}
         handleCloseDeletePopup={handleCloseDeletePopup}
       />
+      {/* <AlertDeletePopup
+        openDeletePopup={deletePopup}
+        handleDeletePipelinePopup={handleDeletePipelinePopup}
+        handleCloseDeletePopup={handleCloseDeletePopup}
+      /> */}
       <div ref={myRef} className={styles.pipelineCard}>
         <div className={styles.rowGroup}>
           <Button types="link" className={styles.drgIcon}>

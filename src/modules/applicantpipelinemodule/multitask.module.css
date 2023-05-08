@@ -3,6 +3,7 @@
 }
 .cardStyle{
   box-shadow: unset;
+  cursor: pointer;
 }
 .cardFlexStyle {
   padding: 8px 4px 8px 4px;
@@ -15,6 +16,7 @@
   height: 135px;
   box-shadow: 0 1px 4px 0 rgba(0,0,0,.47000000000000003);
   justify-content: space-between;
+  cursor: pointer;
 }
 .profile {
   height: 56px;
@@ -24,6 +26,7 @@
 .nameContainer {
   margin-left: 15px;
   max-width: 62%;
+  cursor: pointer;
 }
 .svgContainer {
   margin-right: 8px;

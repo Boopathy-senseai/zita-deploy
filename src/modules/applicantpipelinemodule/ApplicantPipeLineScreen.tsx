@@ -950,11 +950,11 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
           <Flex row between marginBottom={15}>
             <Flex
               row
-              style={{ position: 'relative' }}
+              style={{ position: 'relative' , overFlowX : 'auto' }}
               className={styles.searchbox}
             >
               <Flex row className={styles.searchstyle}>
-                <Text className={styles.jobstext}>Candidates</Text>
+                <Text className={styles.jobstext}>Applicants</Text>
                 <Flex row className={styles.searchboxoverall}>
                   <InputText
                     ref={myRef}
@@ -969,7 +969,9 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
                     id="applicantpipelinefilters__search"
                     value={isSearch}
                     onChange={(e) => setSearch(e.target.value)}
-                    placeholder="Search candidate by name or email"
+                    // placeholder="Search candidate by name or email"
+                    placeholder="Search by name or email"
+                    
                     onKeyPress={handleKeyPress}
                     className={styles.boxstyle}
                   />

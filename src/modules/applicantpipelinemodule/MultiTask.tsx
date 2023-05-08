@@ -526,7 +526,7 @@ const MultiTask = ({
                     </Flex>
                   </Flex>
                 </Flex>
-                <Flex row end center marginTop={20}>
+                <Flex row end center >
                   {columnId === 'column-1' && getDate && (
                     <Flex className={styles.svgNewTag}>
                       <img

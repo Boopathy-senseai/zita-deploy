@@ -36,12 +36,14 @@ const cx = classNames.bind(styles);
 
 const TemplatesPage = () => {
   const [template, setTemplate] = useState(
-    sessionStorage.getItem('template') || 0,
+    parseInt(sessionStorage.getItem('template')) || 0,
   );
   const [pipeline, setPipeline] = useState(
-    sessionStorage.getItem('pipeline') || 0,
+    parseInt(sessionStorage.getItem('pipeline')) || 0,
   );
-  const [showbutton, setshowbutton] = useState(0);
+  const [showbutton, setshowbutton] = useState(
+    parseInt(sessionStorage.getItem('button')) || 0,
+  );
 
   // const [pipelineData, setPipelineData] = useState([
   //   {
@@ -164,7 +166,7 @@ const TemplatesPage = () => {
               className={styles.title}
               onClick={() => setTemplate(0)}
             >
-              <SvgBack height={16} width={16} />
+              <SvgBack height={14} width={14} />
               <Text color="theme" bold size={16} style={{ marginLeft: '10px' }}>
                 Job Pipeline
               </Text>
@@ -342,40 +344,44 @@ const ActionsButton = ({
   return (
     <>
       <Dropdown className="dropdownButton dropleft">
-        {(!defaults || !disabled) && <Dropdown.Toggle
-          style={{
-            borderColor: 'unset',
-            backgroundColor: 'unset',
-            boxShadow: 'none',
-          }}
-          id="dropdown-basic"
-        >
-          <SvgDotMenu height={10} width={10} fill="#581845" />
-        </Dropdown.Toggle>}
+        {(!defaults || !disabled) && (
+          <Dropdown.Toggle
+            style={{
+              borderColor: 'unset',
+              backgroundColor: 'unset',
+              boxShadow: 'none',
+            }}
+            id="dropdown-basic"
+          >
+            <SvgDotMenu height={10} width={10} fill="#581845" />
+          </Dropdown.Toggle>
+        )}
 
-        {(!defaults || !disabled) && <Dropdown.Menu style={{ minWidth: '5rem' }}>
-          {!disabled && (
-            <Dropdown.Item onClick={onRename}>
-              <Flex row center className={styles.dropDownListStyle}>
-                <Text>Rename</Text>
-              </Flex>
-            </Dropdown.Item>
-          )}
-          {!defaults && (
-            <Dropdown.Item onClick={onDefault}>
-              <Flex row center className={styles.dropDownListStyle}>
-                <Text>Set as Default</Text>
-              </Flex>
-            </Dropdown.Item>
-          )}
-          {!disabled && (
-            <Dropdown.Item onClick={onDelete}>
-              <Flex row center className={styles.dropDownListStyle}>
-                <Text>Delete</Text>
-              </Flex>
-            </Dropdown.Item>
-          )}
-        </Dropdown.Menu>}
+        {(!defaults || !disabled) && (
+          <Dropdown.Menu style={{ minWidth: '5rem' }}>
+            {!disabled && (
+              <Dropdown.Item onClick={onRename}>
+                <Flex row center className={styles.dropDownListStyle}>
+                  <Text>Rename</Text>
+                </Flex>
+              </Dropdown.Item>
+            )}
+            {!defaults && (
+              <Dropdown.Item onClick={onDefault}>
+                <Flex row center className={styles.dropDownListStyle}>
+                  <Text>Set as Default</Text>
+                </Flex>
+              </Dropdown.Item>
+            )}
+            {!disabled && (
+              <Dropdown.Item onClick={onDelete}>
+                <Flex row center className={styles.dropDownListStyle}>
+                  <Text>Delete</Text>
+                </Flex>
+              </Dropdown.Item>
+            )}
+          </Dropdown.Menu>
+        )}
       </Dropdown>
     </>
   );

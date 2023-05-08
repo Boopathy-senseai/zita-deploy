@@ -24,6 +24,16 @@ const MovePipelinePopup = ({
   const { stages } = useSelector(({ templatePageReducers }: RootState) => ({
     stages: templatePageReducers.stages,
   }));
+  const handleCancel = () => {
+    setCheckedRadio(null);
+    handleClosePipelinePopup();
+  };
+  const handleMove = () => {
+    if (isCheckedRadio) {
+      onMove(isCheckedRadio);
+    }
+    setCheckedRadio(null);
+  };
   return (
     <Modal open={openMovePopup}>
       <Flex flex={6} columnFlex className={styles.overAll}>
@@ -58,14 +68,14 @@ const MovePipelinePopup = ({
           <Button
             className={styles.cancel}
             types={'primary'}
-            onClick={handleClosePipelinePopup}
+            onClick={handleCancel}
           >
             Cancel
           </Button>
           <Button
-            disabled = {!isCheckedRadio}
+            disabled={!isCheckedRadio}
             className={styles.update}
-            onClick={() => isCheckedRadio ? onMove(isCheckedRadio): undefined}
+            onClick={handleMove}
           >
             Move
           </Button>

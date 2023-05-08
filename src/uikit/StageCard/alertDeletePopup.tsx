@@ -22,19 +22,20 @@ const AlertDeletePopup = ({
     <Modal open={openDeletePopup}>
       <Flex flex={6} column center className={styles.overAll}>
         <Text bold color="theme" className={styles.insertStyles}>
-        The Selected stage has Candidate Data, Move them to other Stage in-order to delete the stage.
+          The Selected stage has Applicant Data, Move them to other Stage
+          in-order to delete the stage.
         </Text>
         {/* <Text  color="theme" className={styles.insertStyles}>
           Are You sure?
         </Text> */}
 
-        <Flex row end marginTop={20} className={styles.borderLine}>
+        <Flex row end className={styles.borderLine}>
           <Button
             className={styles.cancel}
             types={'primary'}
             onClick={handleCloseDeletePopup}
           >
-            Ok
+            OK
           </Button>
           {/* <Button className={styles.update} onClick={handleDeletePipelinePopup}>
             Delete

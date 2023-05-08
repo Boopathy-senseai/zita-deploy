@@ -149,8 +149,9 @@ const TotalApplicant = ({
   });
   const clearTab = () => {
     sessionStorage.setItem('superUserTab', '7');
-    sessionStorage.setItem('template', '0');
-    sessionStorage.setItem('pipeline', '0');
+    sessionStorage.setItem('template', '1');
+    sessionStorage.setItem('pipeline', '1');
+    sessionStorage.setItem('button', '0')
   };
 
   const onStageDelete = (doc: StageData) => {
@@ -196,14 +197,17 @@ const TotalApplicant = ({
                     paddingLeft: '5px',
                     borderLeft: '1px solid #581845',
                   }}
-                  onClick={
-                    !disableMove
-                      ? handleMoveOpenPipeline
-                      : undefined
-                  }
+                  onClick={!disableMove ? handleMoveOpenPipeline : undefined}
                 >
-                  <SvgMove width={12} height={12} fill={disableMove ? "#AB8BA2" : undefined} />
-                  <Text style={{ marginLeft: '10px' }} color={disableMove ? "disabled" : "theme"}>
+                  <SvgMove
+                    width={12}
+                    height={12}
+                    fill={disableMove ? '#AB8BA2' : undefined}
+                  />
+                  <Text
+                    style={{ marginLeft: '10px' }}
+                    color={disableMove ? 'disabled' : 'theme'}
+                  >
                     Move
                   </Text>
                 </Flex>
@@ -240,7 +244,7 @@ const TotalApplicant = ({
             types="primary"
             onClick={filterTotalFav}
           >
-            <Flex row center>
+            <Flex row center style={{ cursor: 'pointer' }}>
               <SvgFavourites filled={isTotalFav} />
               <Text style={{ marginLeft: '5px' }} color="theme">
                 Favourites
@@ -303,76 +307,83 @@ const TotalApplicant = ({
           </Flex>
           <Flex row noWrap>
             <Flex flex={1} className={styles.columnGroup}>
-              {stage === false ? (
-                <Button
-                  types="secondary"
-                  onClick={() => toggleStage()}
-                  className={styles.newBtn}
-                >
-                  <Flex row center>
-                    <SvgPlusCircle fill="#581845" />
-                    <Text color="theme" size={16} style={{ marginLeft: '5px' }}>
-                      Create a new stage
-                    </Text>
-                  </Flex>
-                </Button>
-              ) : (
-                <Flex row noWrap marginBottom={15} width={'100%'}>
-                  <Flex column flex={1}>
-                    <InputText
-                      value={formik.values.title}
-                      onChange={formik.handleChange('title')}
-                      lineInput
-                      size={12}
-                      className={styles.input}
-                    />
-                    <ErrorMessage
-                      touched={formik.touched}
-                      errors={formik.errors}
-                      name="title"
-                    />
-                  </Flex>
-                  <div className={styles.svgContainer}>
-                    {isStageLoader ? (
-                      <div className={styles.svgTick}>
-                        <Loader withOutOverlay size={'small'} />
-                      </div>
-                    ) : (
+              <Flex style={{ borderBottom: '1px solid #c3c3c3' }}>
+                {stage === false ? (
+                  <Button
+                    types="secondary"
+                    onClick={() => toggleStage()}
+                    className={styles.newBtn}
+                  >
+                    <Flex row center>
+                      <SvgPlusCircle fill="#581845" />
+                      <Text
+                        color="theme"
+                        size={16}
+                        style={{ marginLeft: '5px' }}
+                      >
+                        Create a new stage
+                      </Text>
+                    </Flex>
+                  </Button>
+                ) : (
+                  <Flex row noWrap marginBottom={15} width={'100%'}>
+                    <Flex column flex={1}>
+                      <InputText
+                        value={formik.values.title}
+                        onChange={formik.handleChange('title')}
+                        lineInput
+                        size={12}
+                        className={styles.input}
+                      />
+                      <ErrorMessage
+                        touched={formik.touched}
+                        errors={formik.errors}
+                        name="title"
+                      />
+                    </Flex>
+                    <div className={styles.svgContainer}>
+                      {isStageLoader ? (
+                        <div className={styles.svgTick}>
+                          <Loader withOutOverlay size={'small'} />
+                        </div>
+                      ) : (
+                        <div
+                          className={cx('svgTickMargin', {
+                            svgTickDisable: isEmpty(formik.values.title),
+                            tickStyle: !isEmpty(formik.values.title),
+                          })}
+                          //  onClick={handleLocationSubmit}
+                          tabIndex={-1}
+                          role={'button'}
+                          onClick={() => {
+                            formik.submitForm();
+                          }}
+                        >
+                          <SvgTickBox className={styles.tickStyle} />
+                        </div>
+                      )}
+
                       <div
-                        className={cx('svgTickMargin', {
-                          svgTickDisable: isEmpty(formik.values.title),
-                          tickStyle: !isEmpty(formik.values.title),
-                        })}
-                        //  onClick={handleLocationSubmit}
+                        className={styles.svgClose}
+                        onClick={toggleStage}
                         tabIndex={-1}
                         role={'button'}
-                        onClick={() => {
-                          formik.submitForm();
-                        }}
+                        // onClick={() => formik.resetForm()}
                       >
-                        <SvgTickBox className={styles.tickStyle} />
+                        <SvgCloseBox className={styles.tickStyle} />
                       </div>
-                    )}
-
-                    <div
-                      className={styles.svgClose}
-                      onClick={toggleStage}
-                      tabIndex={-1}
-                      role={'button'}
-                      // onClick={() => formik.resetForm()}
-                    >
-                      <SvgCloseBox className={styles.tickStyle} />
                     </div>
-                  </div>
-                </Flex>
-              )}
+                  </Flex>
+                )}
+              </Flex>
               <Flex
                 column
-                style={{
-                  overFlow: 'none',
-                  paddingTop: '15px',
-                  borderTop: '1px solid #c3c3c3',
-                }}
+                className={styles.stagesCard}
+                // style={{
+                //   overFlow: 'none',
+                //   paddingTop: '15px',
+                //   borderTop: '1px solid #c3c3c3',
+                // }}
               >
                 <StageCard
                   doc={defaultStage}

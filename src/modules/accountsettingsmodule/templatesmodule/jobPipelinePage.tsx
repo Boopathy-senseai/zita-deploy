@@ -39,7 +39,7 @@ type FormProps = {
 const JobPipelinePage = ({ handleBack, buttondata }: FormProps) => {
   // const reorderRef = useRef<Reorder>(null);
   const [stage, setStage] = useState(false);
- //const userId = {id: "403"}
+  //const userId = {id: "403"}
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
@@ -73,6 +73,9 @@ const JobPipelinePage = ({ handleBack, buttondata }: FormProps) => {
         disabled: false,
       }),
     );
+  };
+  const removeStage = (doc: { id: string; title: string }) => {
+    dispatch(deleteJobPipelineStageMiddleWare(doc.id));
   };
 
   const toggleStage = () => {
@@ -133,7 +136,7 @@ const JobPipelinePage = ({ handleBack, buttondata }: FormProps) => {
   return (
     <Flex>
       <Flex row start className={styles.title} onClick={handleBack}>
-        <SvgBack height={16} width={16} />
+        <SvgBack height={14} width={14} />
         <Text color="theme" bold size={16} style={{ marginLeft: '10px' }}>
           Back to Pipeline
         </Text>
@@ -157,7 +160,7 @@ const JobPipelinePage = ({ handleBack, buttondata }: FormProps) => {
             className={`${styles.columnGroup} ${styles.borderRightLine}`}
           >
             <Flex column start marginBottom={20}>
-              <Text color="theme" size={16}>
+              <Text color="black2" size={16}>
                 Pipeline Stages
               </Text>
               <Text color="black2">
@@ -200,6 +203,7 @@ const JobPipelinePage = ({ handleBack, buttondata }: FormProps) => {
                     doc={doc}
                     index={index}
                     onAdd={addStage}
+                    onRemove={removeStage}
                   />
                 );
               })}
@@ -292,7 +296,7 @@ const JobPipelinePage = ({ handleBack, buttondata }: FormProps) => {
           >
             Cancel
           </Button>
-          <Button onClick={() => undefined} disabled={!formik.isValid}>
+          <Button onClick={handleBack} disabled={!formik.isValid}>
             Update
           </Button>
         </Flex>

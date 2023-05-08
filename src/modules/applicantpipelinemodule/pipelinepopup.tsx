@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import Modal from '../../uikit/Modal/Modal';
 import Text from '../../uikit/Text/Text';
 import Flex from '../../uikit/Flex/Flex';
-import { InputCheckBox, SelectTag } from '../../uikit';
+import { InputCheckBox, LinkWrapper, SelectTag } from '../../uikit';
 import Button from '../../uikit/Button/Button';
 import styles from './pipelinepopup.module.css';
 
@@ -22,6 +22,12 @@ const PipelinePopup = ({
   openPipelinePopup,
   handleClosePipelinePopup,
 }: Props) => {
+  const clearTab = () => {
+    sessionStorage.setItem('superUserTab', '7');
+    sessionStorage.setItem('template', '0');
+    sessionStorage.setItem('pipeline', '0');
+    sessionStorage.setItem('button', '1');
+  };
   return (
     <Modal open={openPipelinePopup}>
       <Flex flex={6} columnFlex className={styles.overAll}>
@@ -46,16 +52,27 @@ const PipelinePopup = ({
         </Flex>
 
         <Text className={styles.orText}>Or</Text>
-        <Button types="secondary" onClick={() => {}} className={styles.newBtn}>
-          <Text color="theme" size={14}>
-            Create New Pipeline
-          </Text>
-        </Button>
+        <LinkWrapper onClick={clearTab} to="/account_setting/settings">
+          <Button
+            types="secondary"
+            onClick={() => {}}
+            className={styles.newBtn}
+          >
+            <Text color="theme" size={14}>
+              Create New Pipeline
+            </Text>
+          </Button>
+        </LinkWrapper>
+
         <Flex row end marginTop={20} className={styles.borderLine}>
-          <Button className={styles.cancel} types={'primary'} onClick={handleClosePipelinePopup}>
+          <Button
+            className={styles.cancel}
+            types={'primary'}
+            onClick={handleClosePipelinePopup}
+          >
             Cancel
           </Button>
-          <Button className={styles.update} onClick={() => undefined}>
+          <Button className={styles.update} onClick={handleClosePipelinePopup}>
             Apply
           </Button>
         </Flex>

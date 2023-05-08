@@ -53,6 +53,7 @@
   position: absolute;
   width: 100%;
   z-index: 11;
+  /* overflow-x: auto; */
 }
 .colTitle {
   box-sizing: border-box;
@@ -70,6 +71,7 @@
   border-top-right-radius: 4px;
   background-color: var(--color-white, #ffffff);
   top: -3px;
+  min-width: 200px;
 }
 .filterFlex {
   margin-right: 16px;
