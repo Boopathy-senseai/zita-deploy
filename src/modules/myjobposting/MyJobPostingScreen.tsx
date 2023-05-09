@@ -1,54 +1,54 @@
-import { useFormik } from "formik";
-import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import classNames from "classnames/bind";
-import { useDispatch, useSelector } from "react-redux";
+import { useFormik } from 'formik';
+import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import classNames from 'classnames/bind';
+import { useDispatch, useSelector } from 'react-redux';
 
-import SvgJobPost from "../../icons/SvgJobPost";
+import SvgJobPost from '../../icons/SvgJobPost';
 import {
   ErrorMessage,
   InputCheckBox,
   InputSearch,
   SelectTag,
-} from "../../uikit";
+} from '../../uikit';
 // import SvgAccountCircle from '../../icons/SvgAccountCircle';
-import Flex from "../../uikit/Flex/Flex";
-import Text from "../../uikit/Text/Text";
+import Flex from '../../uikit/Flex/Flex';
+import Text from '../../uikit/Text/Text';
 // import Card from '../../uikit/Card/Card';
-import Loader from "../../uikit/Loader/Loader";
-import Button from "../../uikit/Button/Button";
-import { getBlur, getFocus, copyToClipboard } from "../../uikit/helper";
-import Pangination from "../../uikit/Pagination/Pangination";
-import LinkWrapper from "../../uikit/Link/LinkWrapper";
-import { jobSelect } from "../../appRoutesPath";
+import Loader from '../../uikit/Loader/Loader';
+import Button from '../../uikit/Button/Button';
+import { getBlur, getFocus, copyToClipboard } from '../../uikit/helper';
+import Pangination from '../../uikit/Pagination/Pangination';
+import LinkWrapper from '../../uikit/Link/LinkWrapper';
+import { jobSelect } from '../../appRoutesPath';
 // import SvgCopy from '../../icons/SvgCopy';
 // import { WHITE } from '../../uikit/Colors/colors';
 
-import SvgLocation from "../../icons/SvgLocation";
+import SvgLocation from '../../icons/SvgLocation';
 // import SvgExternal from '../../icons/SvgExternal';
-import { AppDispatch, RootState } from "../../store";
-import SvgSearch from "../../icons/SvgSearch";
-import { jobTypeData, postedOn } from "./mock";
+import { AppDispatch, RootState } from '../../store';
+import SvgSearch from '../../icons/SvgSearch';
+import { jobTypeData, postedOn } from './mock';
 import {
   myJobPostingInitalMiddleWare,
   myJobPostingDataMiddleWare,
-} from "./store/middleware/myjobpostingmiddleware";
-import styles from "./myjobpostingscreen.module.css";
+} from './store/middleware/myjobpostingmiddleware';
+import styles from './myjobpostingscreen.module.css';
 // import MyJobsPostingMetrics from './MyJobsPostingMetrics';
 // import MyJobsPostingData from './MyJobsPostingData';
 // import MyJobPostingScreenStatus from './MyJobPostingScreenStatus';
-import Table from "./Table";
-import MyJobsPostingFilter, { MyJobFormProps } from "./MyJobsPostingFilter";
-import SvgExternal from "../../icons/SvgExternal";
+import Table from './Table';
+import MyJobsPostingFilter, { MyJobFormProps } from './MyJobsPostingFilter';
+// import SvgExternal from "../../icons/SvgExternal";
 
 const cx = classNames.bind(styles);
 
 const initial: MyJobFormProps = {
-  jobTitle: "",
-  jobId: "",
+  jobTitle: '',
+  jobId: '',
   postedOn: postedOn[0],
-  jobType: "",
-  location: "",
+  jobType: '',
+  location: '',
 };
 
 const MyJobPostingScreen = () => {
@@ -57,7 +57,7 @@ const MyJobPostingScreen = () => {
   const history = useHistory();
 
   useEffect(() => {
-    localStorage.setItem("freeCheck", "true");
+    localStorage.setItem('freeCheck', 'true');
     dispatch(myJobPostingInitalMiddleWare());
   }, []);
 
@@ -80,6 +80,7 @@ const MyJobPostingScreen = () => {
       myJobPostingDataReducers,
       permissionReducers,
     }: RootState) => ({
+      // Jobs_List:0,
       Jobs_List: myJobPostingDataReducers.Jobs_List,
       location_list: myJobPosingReducers.location_list,
       job_ids: myJobPosingReducers.job_ids,
@@ -93,13 +94,13 @@ const MyJobPostingScreen = () => {
       domain: myJobPostingDataReducers.domain,
       Permission: permissionReducers.Permission,
       is_plan: permissionReducers.is_plan,
-    })
+    }),
   );
 
   useEffect(() => {
     if (!is_plan) {
-      sessionStorage.setItem("superUserTab", "2");
-      history.push("/account_setting/settings");
+      sessionStorage.setItem('superUserTab', '2');
+      history.push('/account_setting/settings');
     }
   });
 
@@ -114,8 +115,8 @@ const MyJobPostingScreen = () => {
   const handleSetPagination = (a: number) => {
     setPage(a);
     if (final_list.length !== 0) {
-      getFocus("myjobpostscreen___input");
-      getBlur("myjobpostscreen___input");
+      getFocus('myjobpostscreen___input');
+      getBlur('myjobpostscreen___input');
     }
   };
 
@@ -128,19 +129,19 @@ const MyJobPostingScreen = () => {
         jobType: formik.values.jobType,
         location: formik.values.location,
         page: isPage + 1,
-      })
+      }),
     );
   }, [isPage, formik.values]);
 
   return (
     <Flex>
-      <div className={styles.overAll}>
+      <div>
         <Flex row className={styles.titleContainer}>
           {/* <SvgJobPost width={15.71} height={16} /> */}
           <Text
             bold
             size={16}
-            style={{ marginLeft: 8, color: "#581845"}}
+            style={{ marginLeft: 8, color: '#581845' }}
             className={styles.postingcl}
           >
             Job Posting
@@ -150,23 +151,23 @@ const MyJobPostingScreen = () => {
       </div>
       {/* {(is_loading || is_loadingone) && <Loader />} */}
       {Jobs_List === 2 && (
-        <Flex row className={styles.overAll}>
-          <div className={cx("tabsContainer")}>
+        <Flex  >
+          <div className={cx('tabsContainer')}>
             <Flex row className={styles.searchbox}>
               <Flex row>
                 <Flex row className={styles.totaljobs}>
                   <Text
                     style={{
-                      color: "#581845",
+                      color: '#581845',
                       fontSize: 16,
                       fontWeight: 500,
                     }}
                   >
-                    Total Jobs Found :{" "}
+                    Total Jobs Found :{' '}
                   </Text>
                   <Text
                     style={{
-                      color: "#581845",
+                      color: '#581845',
                       fontSize: 16,
                       fontWeight: 600,
                       paddingLeft: 4.5,
@@ -178,16 +179,16 @@ const MyJobPostingScreen = () => {
                 </Flex>
               </Flex>
               <Flex row className={styles.twobutton}>
-                {" "}
-                {Permission.includes("create_post") && (
-                  <LinkWrapper target={"_parent"} to={jobSelect}>
+                {' '}
+                {Permission.includes('create_post') && (
+                  <LinkWrapper target={'_parent'} to={jobSelect}>
                     <Button className={styles.style1} types="primary">
                       Post Job
                     </Button>
                   </LinkWrapper>
                 )}
                 <LinkWrapper
-                  target={"_blank"}
+                  target={'_blank'}
                   to={`${career_page_url}/careers`}
                 >
                   <Button className={styles.style2} types="primary">
@@ -197,7 +198,7 @@ const MyJobPostingScreen = () => {
               </Flex>
             </Flex>
             <Flex>
-              <div className={cx("filterOverAll")}>
+              <div className={cx('filterOverAll')}>
                 {/* <Text className={styles.quickfil2}>
               
               Quick Filters: */}
@@ -236,7 +237,7 @@ const MyJobPostingScreen = () => {
                     <Text
                       style={{
                         paddingTop: 200,
-                        color: "gray",
+                        color: 'gray',
                         fontSize: 16,
                       }}
                     >
@@ -259,9 +260,8 @@ const MyJobPostingScreen = () => {
         </Flex>
       )}
       {Jobs_List === 1 && (
-        
-        <Flex row middle className={styles.overAll2} >
-          <Flex center >
+        <Flex middle className={styles.overAll2}>
+          <Flex center>
             <Flex center>
               <Text className={styles.postyet1}>No Job Posts - Yet !</Text>
             </Flex>
@@ -276,13 +276,13 @@ const MyJobPostingScreen = () => {
               </Text>
             </Flex>
             <Flex center className={styles.postyet4}>
-              <LinkWrapper target={"_parent"} to={jobSelect}>
+              <LinkWrapper target={'_parent'} to={jobSelect}>
                 <Button className={styles.btnStyle} types="primary">
                   Post Job
-                </Button>{" "}
-              </LinkWrapper>{" "}
-            </Flex>{" "}
-          </Flex>{" "}
+                </Button>{' '}
+              </LinkWrapper>{' '}
+            </Flex>{' '}
+          </Flex>{' '}
         </Flex>
       )}
     </Flex>

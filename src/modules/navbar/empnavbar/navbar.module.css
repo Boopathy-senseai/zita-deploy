@@ -1,8 +1,5 @@
-.overAll {
-  background-color: var(--color-primary, #581845);
-  padding: 2px 40px;
-}
-.profile {
+
+/* .profile {
   height: 40px;
   width: 40px;
   border-radius: 100%;
@@ -29,8 +26,9 @@
 
 .svgMargin {
   margin-right: 4px;
-  padding: 8px 10px;
-  border-radius: 4px;
+  padding: 3px 10px;
+  border-radius: 8px;
+ 
 }
 .svgInputDiv {
   margin-right: 4px;
@@ -63,34 +61,105 @@
   box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
 }
 
-.searchStyle {
-  border-radius: 4px;
-  padding: 3px 12px 3px 34px !important;
-  border: 1px solid #fff !important;
-  outline: none;
-  font-size: 14px;
-  background-color: transparent !important;
-  width: 100%;
-  box-sizing: border-box !important;
-  font-family: 'Roboto', sans-serif;
-  color: #fff !important;
-}
-.searchStyle::placeholder {
-  text-transform: inherit !important;
-  color: #fff !important;
-  font-size: 12px;
-}
-.searchStyle:hover {
-  border: 1px solid #fff;
-}
-.searchStyle:focus {
-  border: 1px solid #fff;
-}
+
 .logoStyle {
-  /* height: 90px; */
+  height: 90px; 
   width: 60px;
   margin-right: 8px;
 }
 .noPointer {
   pointer-events: none;
+} */
+
+
+
+/* new rewamp css */
+
+ .overAll {
+    background-color: #ffffff;
+    padding: 2px 0px;
+    -webkit-box-shadow: 1px 2px 1px 1px #d7c7d2;
+    -moz-box-shadow: 1px 2px 1px 1px #d7c7d2;
+    box-shadow: 1px 2px 1px 1px #d7c7d2;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
 }
+
+ .dropdown_item{
+  -webkit-box-shadow: 0px 0px 8px 1px #d7c7d2;
+    -moz-box-shadow: 0px 0px 8px 1px #d7c7d2;
+    box-shadow: 0px 0px 8px 1px #d7c7d2;
+    border-radius: 10px !important;
+    height: 'auto' !important;
+        width: 'auto' !important;
+        margin-top: '6px' !important;
+        right: 15px !important;
+}
+.svgMargin {
+  margin-right: -11px;
+  padding: 3px 10px;
+  border-radius: 8px;
+}
+.dropdown_toggle{
+    /* margin-top:25px; */
+    background-color: '#ffffff' !important;
+    border: '#ffffff' !important;
+    box-shadow: 'none' !important;
+    
+ }
+ .Signot:hover {
+   box-shadow: none !important;
+ }
+
+.searchStyle {
+  
+   border-radius: 10px !important;
+    padding: 6px 15px 5px 38px !important;
+   border: 1px solid #EEE8EC !important;
+   outline: none;
+   font-size: 14px;
+   background-color: #EEE8EC !important;
+   width: 100% !important;
+   box-sizing: border-box !important;
+   font-family: 'Roboto', sans-serif;
+   color: #581845 !important;
+ }
+
+ .searchStyle::placeholder {
+   text-align: center;
+   opacity:0.6;
+   text-transform: inherit !important;
+   color: #581845!important;
+   font-size: 12px !important;
+   margin-right: 10px !important;
+ }
+
+ .profiledroup {
+   margin-left: 8px;
+   cursor: pointer;
+ }
+
+.dropdown_span {
+   color: '#581845' !important;
+   margin-left: '15px' !important;
+}
+
+.candiProfile {
+  height: 40px;
+  width: 40px;
+  border-radius: 100%;
+  -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
+  -moz-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
+  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
+}
+
+
+ /* .searchStyle:hover {
+   border: 1px solid #d7c7d2;
+ } */
+
+ /* .searchStyle:focus {
+   border: 1px solid #d7c7d2;
+ } */

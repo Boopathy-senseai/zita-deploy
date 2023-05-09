@@ -1,4 +1,4 @@
-import { jobSelect, reports } from '../../../appRoutesPath';
+import { jobSelect, reports,homeRoute } from '../../../appRoutesPath';
 import { routesPath } from '../../../routes/routesPath';
 
 export const searchData = [
@@ -22,12 +22,14 @@ export const searchData = [
   { value: routesPath.MYDATABASE, label: 'Help' },
   { value: jobSelect, label: 'Post Jobs' },
   { value: reports, label: 'Reports' },
+  { value: homeRoute, label: 'Dashboard' },
   { value: routesPath.BULK_IMPORT, label: 'Bulk Import' },
   { value: routesPath.MYDATABASE, label: 'Import Candidate' },
 ];
 
 export const searchOptions = [
-  'My Job Postings',
+  'Dashboard',
+  'Job Postings',
   'User Profile',
   'Profile Update',
   'Password Change',

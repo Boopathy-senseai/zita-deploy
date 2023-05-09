@@ -16,7 +16,7 @@ type Props = {
 
 const MyJobsPostingData = ({ list, domain, career_page_url }: Props) => {
   // const draft = list.is_ds_role  !== true ?  `/jobs/create_non_ds_edit/${list.id}` : `/jobs/create_ds_edit/${list.id}`;
-  console.log(career_page_url, domain);
+  
 
   return (
     <Flex>

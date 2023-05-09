@@ -100,7 +100,7 @@ const MultiTask = ({
   const hanldeProfileView = () => {
     setProfileView(true);
   };
-  const [editDetails, setEditDetails] = useState<EditEventDetails>(null);
+  const [editDetails, setEditDetails] = useState<EditEventDetails>();
   const [editEvent, setEditEvent] = useState(false);
   const [eventId, setEventId] = useState('');
   const editEventHandler = () => {
@@ -230,7 +230,7 @@ const MultiTask = ({
           setUserName(name);
           setMyevents(
             data.map((items: GoogleEventType) => {
-              const eventData = {
+              const eventData: any = {
                 user: res.payload.userId,
                 title: items.summary,
                 start: new Date(items.start.dateTime),

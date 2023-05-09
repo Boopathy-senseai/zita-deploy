@@ -112,7 +112,7 @@ const UpdateProfessionalSkillsEdit = ({
     const softList = softListSkillEmpty.map((soft) => {
       return soft.value;
     });
-    console.log(softListSkillEmpty)
+    console.log(softListSkillEmpty);
     dispatch(
       bulkUploadSkillsUpdateMiddleWare({
         empId: canId.toString(),
@@ -138,7 +138,7 @@ const UpdateProfessionalSkillsEdit = ({
     validationSchema: skillsSchema,
   });
 
-  const handleTechChange = useCallback((newValue, data) => {
+  const handleTechChange = useCallback((newValue: any, data: any) => {
     if (data.action === 'select-option') {
       setReload(true);
       formik.setFieldValue('techSkill', newValue);
@@ -178,7 +178,7 @@ const UpdateProfessionalSkillsEdit = ({
     }
   }, []);
 
-  const handleSoftChange = useCallback((newValue, data) => {
+  const handleSoftChange = useCallback((newValue: any, data: any) => {
     if (data.action === 'select-option') {
       setReload(true);
 

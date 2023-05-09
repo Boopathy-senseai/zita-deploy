@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import { useCallback,useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import PhoneInput from 'react-phone-input-2';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
@@ -108,34 +108,36 @@ Props) => {
     formData.append('first_name', values.firstname);
     formData.append('email', values.email);
     formData.append('contact', values.contact_no);
-    
+
     formData.append('location', values.location);
     formData.append('work_exp', values.exp);
     formData.append('qualification', values.qual);
     formData.append('candi_id', canId);
-   const techListSkillEmpty =
-      values.skills && values.skills.filter((x:any) => x.value !== '');
+    const techListSkillEmpty =
+      values.skills && values.skills.filter((x: any) => x.value !== '');
 
-    const techList = techListSkillEmpty.map((tech:any) => {
+    const techList = techListSkillEmpty.map((tech: any) => {
       return tech.value;
     });
     formData.append('skills', techList.toString());
-    console.log(formData.get('skills'))
-    dispatch(bulkImportUpdatePersonalMiddleWare({ formData })).then((res:any) => {
-      if (res.payload.success) {
-        dispatch(uploadedProfileViewMiddleWare({ id: canId }));
-        Toast('Personal Info updated successfully');
-        setReload(false);
-        setEmailValid(false);
-        setLoader(false);
-        cancel();
-      } else {
-        // Toast('Personal Info not updated, Please try again', 'LONG', 'error');
-        setLoader(false);
-        setEmailValid(true);
-      }
-      displayHandler();
-    });
+    console.log(formData.get('skills'));
+    dispatch(bulkImportUpdatePersonalMiddleWare({ formData })).then(
+      (res: any) => {
+        if (res.payload.success) {
+          dispatch(uploadedProfileViewMiddleWare({ id: canId }));
+          Toast('Personal Info updated successfully');
+          setReload(false);
+          setEmailValid(false);
+          setLoader(false);
+          cancel();
+        } else {
+          // Toast('Personal Info not updated, Please try again', 'LONG', 'error');
+          setLoader(false);
+          setEmailValid(true);
+        }
+        displayHandler();
+      },
+    );
   };
   const { onDirty, onPristine, routerPrompt } = useUnsavedChangesWarning();
   const formik = useFormik({
@@ -144,14 +146,13 @@ Props) => {
     validate: (value) => handleValid(value),
     validationSchema: personalSchema,
   });
-const answer_array = emp_data && emp_data.skills.split(',');
-   const techSkillUpdate =
-    answer_array.map((techList:any) => {
-      return { value: techList, label: techList };
-    });
+  const answer_array = emp_data && emp_data.skills.split(',');
+  const techSkillUpdate = answer_array.map((techList: any) => {
+    return { value: techList, label: techList };
+  });
 
   const techSkillEmpty =
-    techSkillUpdate && techSkillUpdate.filter((x:any) => x.value !== '');
+    techSkillUpdate && techSkillUpdate.filter((x: any) => x.value !== '');
 
   // free fill initial value
   useEffect(() => {
@@ -209,8 +210,8 @@ const answer_array = emp_data && emp_data.skills.split(',');
   }, [isReload]);
   useEffect(() => {
     displayHandler();
-  },[])
-  const handleTechChange = useCallback((newValue, data) => {
+  }, []);
+  const handleTechChange = useCallback((newValue: any, data: any) => {
     if (data.action === 'select-option') {
       setReload(true);
       formik.setFieldValue('skills', newValue);
@@ -265,12 +266,23 @@ const answer_array = emp_data && emp_data.skills.split(',');
         >
           <SvgCloseSmall />
         </div>
-        <Text align="center" size={16} bold className={styles.title} style={{marginBottom:23}}>
+        <Text
+          align="center"
+          size={16}
+          bold
+          className={styles.title}
+          style={{ marginBottom: 23 }}
+        >
           Update Personal Information
         </Text>
         <Flex columnFlex className={styles.scrollStyle}>
           <Flex row center top>
-            <Flex flex={4} width={inputWidth}marginLeft={marginLeft} marginRight={marginRight}>
+            <Flex
+              flex={4}
+              width={inputWidth}
+              marginLeft={marginLeft}
+              marginRight={marginRight}
+            >
               <InputText
                 label="Name"
                 required
@@ -288,7 +300,12 @@ const answer_array = emp_data && emp_data.skills.split(',');
                 errors={formik.errors}
               />
             </Flex>
-            <Flex flex={4} width={inputWidth}marginLeft={marginLeft} marginRight={marginRight}>
+            <Flex
+              flex={4}
+              width={inputWidth}
+              marginLeft={marginLeft}
+              marginRight={marginRight}
+            >
               <InputText
                 required
                 label="Email"
@@ -298,7 +315,7 @@ const answer_array = emp_data && emp_data.skills.split(',');
                   formik.setFieldValue('email', e.target.value);
                 }}
               />
-              {(isEmailValid) && (
+              {isEmailValid && (
                 <Text size={12} color="error">
                   {`This email is already in use.`}
                 </Text>
@@ -376,15 +393,19 @@ const answer_array = emp_data && emp_data.skills.split(',');
                   setReload(true);
                 }}
               />
-              
-                <ErrorMessage
-                  name="qual"
-                  touched={formik.touched}
-                  errors={formik.errors}
-                />
-            
+
+              <ErrorMessage
+                name="qual"
+                touched={formik.touched}
+                errors={formik.errors}
+              />
             </Flex>
-            <Flex flex={4} width={inputWidth}marginLeft={marginLeft} marginRight={marginRight}>
+            <Flex
+              flex={4}
+              width={inputWidth}
+              marginLeft={marginLeft}
+              marginRight={marginRight}
+            >
               <InputText
                 label="Location"
                 value={formik.values.location}
@@ -414,21 +435,21 @@ const answer_array = emp_data && emp_data.skills.split(',');
                 errors={formik.errors}
               />*/}
 
-               <SelectTag
-          label="Technical Skills"
-          // required
-          isClearable
-          options={skills_list}
-          isMulti
-          isSearchable
-          isCreate
-          value={formik.values.skills}
-          onChange={handleTechChange}
-          components={{
-            MenuList: (props) => <MenuLists {...props} />,
-          }}
-          placeholder="Add skills from suggestion list"
-        />
+              <SelectTag
+                label="Technical Skills"
+                // required
+                isClearable
+                options={skills_list}
+                isMulti
+                isSearchable
+                isCreate
+                value={formik.values.skills}
+                onChange={handleTechChange}
+                components={{
+                  MenuList: (props) => <MenuLists {...props} />,
+                }}
+                placeholder="Add skills from suggestion list"
+              />
             </Flex>
           </Flex>
         </Flex>

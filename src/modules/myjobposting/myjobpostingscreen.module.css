@@ -4,7 +4,7 @@
 }
 .tabsContainer {
   padding-top: 20px;
-  width: 100%;
+  
   color: #666666;
   font-size: 12px;
   /* overflow-y: scroll; */
@@ -20,6 +20,7 @@
   top: 0;
   right: 0;
 }
+
 .jobstext {
   width: 99.27px;
   height: 30px;
@@ -118,24 +119,26 @@
   margin-bottom: 50px;
 }
 .overAll {
-  margin-left: auto;
+  /* margin-left: auto; */
   margin-right: auto;
-  max-width: 1300px;
-  min-width: 1300px;
+  /* max-width:  auto;
+  min-width: auto; */
+  
   
 }
 .overAll2{
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 1300px;
-  min-width: 1300px;
+  /* margin-left: auto;
+  margin-right: auto; */
+   /* max-width: auto; */
+ /* min-width: 1300px; */
   background-color: rgb(0 0 0 / 4%);
-  height: 85vh;
+  height: 81vh;
+  margin-top: 3px;
 }
 .overAll1 {
   /* margin-left: auto;
   margin-right: auto; */
-  max-width: 1300px;
+  max-width:auto;
   margin-left: 120px;
   height: auto;
   background-color: #F0EBED;
@@ -267,10 +270,7 @@
   background-color: #eee8ec;
   font-size: 12px;
   margin:none;
-  margin-top:13px ;
-  
   margin-bottom: 3px;
-  
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -421,7 +421,7 @@
 .hovercol{
   padding: 0 !important;
   padding-bottom: 15px !important;
-  padding-right: 15px !important;
+  padding-right: 5px !important;
   padding-top: 7.5px !important;
   vertical-align: baseline !important;
 }
@@ -479,4 +479,10 @@
 }
 .svcopy{
   color: rgb(215, 164, 3);
+}
+
+.tablescroll{
+max-height:500px;
+overflow-y:scroll;
+    
 }

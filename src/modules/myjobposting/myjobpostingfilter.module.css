@@ -3,6 +3,8 @@
   cursor: pointer;
 }
 .overAllfilter {
+  position: relative;
+  z-index: -1;
   width: 300px;
   padding: 3px 10px;
   padding-bottom: 15px;
@@ -46,13 +48,12 @@ font-weight: 400;
 .locantionStyle {
   margin-top: 16px;
 }
-
-.filter_color {
-  background-color: white !important;
-  border-radius: 11px;
-  width: 300px;
-  align-items: center;
-}
+/* .skillContainer { */
+  /* position: relative;
+  z-index: -1; */
+ 
+    /*margin-bottom: 13px;*/
+/* } */
 
 .filter_ali {
   float: right;
@@ -69,9 +70,9 @@ font-weight: 400;
   padding: 10px;
   background-color: #ffff !important;
   width: 230px;
-  height: 35px;
+  height: 30px;
   border: 1px solid #581845;
-  border-radius: 8px;
+  border-radius: 11px;
   justify-content: space-between;
   position: relative;
   align-items: center;
@@ -101,9 +102,9 @@ font-weight: 400;
   position: absolute;
   background-color: var(--color-white, #fff);
   border-radius: 12px;
-  height: 540px;
-  
-  width: 100%;
+  max-height: ;
+  overflow-y: scroll;
+  width: 230px;
   display: none;
   box-sizing: border-box;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.47000000000000003);
@@ -173,18 +174,9 @@ font-weight: 400;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.selectoptions{
-  /* height: 35px !important; */
-    /* align-items: center; */
+.selectoptions{ 
  margin-top: 5px;
 }
-/* .nojob{
-  margin-Left: 73;
-  margin-Top: 100;
-  font-Weight: 700;
-  font-Size: 16; 
-  margin-Bottom: 10;
-  color: #581845;
-} */
+ 
 
  

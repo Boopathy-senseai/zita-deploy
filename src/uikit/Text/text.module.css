@@ -94,7 +94,7 @@
 
 /* colors */
 .textColor-black {
-  color: var(--color-black, #000000);
+  color: var(--color-black, #333333);
 }
 .textColor-white {
   color: var(--color-white, #ffffff);
@@ -126,7 +126,7 @@
   color: var(--color-gary-4, #979797);
 }
 .textColor-primary {
-  color: var(--color-gary-1, #1a1a1a);
+  color: var(--color-gary-1, #333333);
 }
 .textColor-info {
   color: var(--color-link, #1890ff);

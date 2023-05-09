@@ -92,18 +92,22 @@ const MyJobPostingScreen = () => {
   };
 
   return (
-    
-    <div className="table-responsisssve ">
-      <div className={styles.fixTableHead}>
+ 
+
+
+    <div>
+     {/* <div  style={{height:320}}>
+     <table className="table"> */}
+      <div className="table-responsisssve ">
+      <div >
         <table className="table" style={{paddingLeft:"none"}} >
-          <thead className="container"  >
+          <thead>
             <tr>
               <th className={styles.padchange}>
                 <Text color="theme" bold className={styles.tabeboarder}>
                   Job Title
                 </Text>
               </th>
-              {/* <Flex className={style.middleline}></Flex> */}
               <th className={styles.padchange}>
                 <Text color="theme" bold className={styles.tabeboarder}>
                   Job ID
@@ -152,8 +156,9 @@ const MyJobPostingScreen = () => {
               </th>
             </tr>
           </thead>
-
-          <tbody style={{paddingTop:20}} className={styles.tablebody} >
+          
+          <tbody style={{paddingTop:20 }} className={styles.tablebody} >
+            
             {final_list &&
               Jobs_List &&
               location_list &&
@@ -162,27 +167,22 @@ const MyJobPostingScreen = () => {
               final_list.map((list) => {
                 return (
                   <>
-                    <tr>
+                    <tr style={{height:50}}>
                       <td  className={styles.padchang}>
                         <Flex row top className={styles.hellothere}>
                           <LinkWrapper to={`/job_view/${list.id}`} className={styles.hovercol} >
                             {list.job_title}
                           </LinkWrapper>
-                          {/* <div
-              role={'button'}
-             className={styles.svgstyle}
-              title="Copy Job Posting URL"
-              onClick={() => copyToClipboard(`${domain}/career_job_view/${career_page_url}/${list.id}/${list.job_title}` ,'Link Copied')} 
-              
-            > */}
+                           
                           <Flex marginLeft={8}>
                             {list.jd_status__label_name === "Inactive" ? (
                               <div style={{cursor:"default",marginTop:7.5  }} className={styles.svcopy} >
                                 <SvgCopy 
                                   width={11.33}
                                   height={13.33}
-                                  fill={'rgb(255 194 3/50%)'} 
+                                  // fill={'rgb(255 194 3/50%)'} 
                                   // fill={"#333333"}
+                                  fill={'rgb(51 51 51/50%)'}
                                   // fill={"#F0EBED"}
                                 />
                               </div>
@@ -202,7 +202,7 @@ const MyJobPostingScreen = () => {
                                 <SvgCopy
                                   width={11.33}
                                   height={13.33}
-                                  fill={"#FFC203"}
+                                  fill={"#333333"}
                                 />
                               </div>
                             )}
@@ -241,7 +241,7 @@ const MyJobPostingScreen = () => {
                          }
                         </td>
                       )}
-{list.jd_status__label_name === "Inactive" ? (
+                        {list.jd_status__label_name === "Inactive" ? (
                         <td
                           style={{
                             fontSize: 15 
@@ -399,7 +399,9 @@ const MyJobPostingScreen = () => {
           </tbody>
         </table>
       </div>
-    </div>
+   </div>
+   </div>
+    
   
   );
 };

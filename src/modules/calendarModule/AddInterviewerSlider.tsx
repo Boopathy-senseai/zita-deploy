@@ -27,7 +27,7 @@ import { getColor } from './colors';
 import { formatEventTitle } from './util';
 import SimpleToolBar from './calendar-components/SimpleToolBar';
 import ColorEvent from './calendar-components/ColorEvent';
-import WeekHeader from './calendar-components/WeekHeader';
+// import WeekHeader from './calendar-components/WeekHeader';
 
 let localizer = momentLocalizer(moment);
 
@@ -66,10 +66,10 @@ const AddInterviewersUI = ({
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [myTeam, setMyTeam] = useState<TeamMemberType[]>(null);
+  const [myTeam, setMyTeam] = useState<TeamMemberType[]>();
   const [teamMemberEvents, setTeamMemberEvents] =
     useState<CalendarEventType[]>(currentUserEvents);
-  const [searchTerm, setSearchTerm] = useState<string>(null);
+  const [searchTerm, setSearchTerm] = useState<string>();
 
   useEffect(() => {
     dispatch(getUsersByCompanyIdMiddleware())
@@ -110,7 +110,7 @@ const AddInterviewersUI = ({
             setTeamMemberEvents((prevState) => [
               ...prevState,
               ...res.payload.events.map((items: GoogleEventType) => {
-                const eventData = {
+                const eventData: any = {
                   userId: member.userId,
                   title: items.summary,
                   start: new Date(items.start.dateTime),
@@ -228,7 +228,7 @@ const AddInterviewersUI = ({
         <div className={styles.addInterviewer}>
           <div className={styles.menus}>{InterviewerDropDown}</div>
           <div className={styles.calendar}>
-            {currentUserEvents && (
+            {/* {currentUserEvents && (
               <BigCalendar
                 localizer={localizer}
                 events={teamMemberEvents}
@@ -253,7 +253,7 @@ const AddInterviewersUI = ({
                   },
                 }}
               />
-            )}
+            )} */}
           </div>
         </div>
       </div>

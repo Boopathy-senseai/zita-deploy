@@ -71,8 +71,8 @@ const Calendar = () => {
     CalendarEventType[]
   >([]);
   const [eventPopUpDetails, setEventPopUpDetails] =
-    useState<EventPopUpDetails>(null);
-  const [currentEventId, setCurrentEventId] = useState<string>(null);
+    useState<EventPopUpDetails>();
+  const [currentEventId, setCurrentEventId] = useState<string>();
   const [teamMembers, setTeamMembers] = useState<TeamMemberType[]>([]);
   const [selectedTeamMembers, setSelectedTeamMembers] = useState<number[]>([0]);
   const [teamMemberEvents, setTeamMemberEvents] = useState<CalendarEventType[]>(
@@ -141,7 +141,7 @@ const Calendar = () => {
       ) {
         setVisibleEvents(() => {
           return currentUserEvents.filter((event) => {
-            if (!event.title.includes('Zita event')) return event;
+            if (!event.title?.includes('Zita event')) return event;
           });
         });
       } else if (
@@ -150,7 +150,7 @@ const Calendar = () => {
       ) {
         setVisibleEvents(() => {
           return currentUserEvents.filter((event) => {
-            if (event.title.includes('Zita event')) return event;
+            if (event.title?.includes('Zita event')) return event;
           });
         });
       } else {
@@ -168,7 +168,7 @@ const Calendar = () => {
       ) {
         setVisibleEvents(() => {
           return teamMemberEvents.filter((event) => {
-            if (!event.title.includes('Zita event')) return event;
+            if (!event.title?.includes('Zita event')) return event;
           });
         });
       } else if (
@@ -177,7 +177,7 @@ const Calendar = () => {
       ) {
         setVisibleEvents(() => {
           return teamMemberEvents.filter((event) => {
-            if (event.title.includes('Zita event')) return event;
+            if (event.title?.includes('Zita event')) return event;
           });
         });
       } else {
@@ -250,7 +250,7 @@ const Calendar = () => {
   }, []);
 
   const handleEventScheduleForm = () => {
-    handleGetEvents(calendarProvider);
+    if (calendarProvider) handleGetEvents(calendarProvider);
     setIsEditEvent(false);
     setSlotRange(SlotRangeInitialState);
     setOpenScheduleForm((prevState) => !prevState);
@@ -276,7 +276,7 @@ const Calendar = () => {
     userName: string,
   ): CalendarEventType[] => {
     return events.map((event) => {
-      const eventData = {
+      const eventData: any = {
         userId,
         title: event.summary,
         start: new Date(event.start.dateTime),
@@ -392,7 +392,7 @@ const Calendar = () => {
     ) {
       setIsTopLineLoading(true);
       setSelectedTeamMembers((prevState) => [...prevState, userId]);
-      dispatch(friendsEventsMiddleware({ userId: userId }))
+      dispatch(friendsEventsMiddleware({ userId }))
         .then((res) => {
           if (res.payload.data === 'user not authenticated') {
             setIsTopLineLoading(false);
@@ -402,7 +402,7 @@ const Calendar = () => {
             setTeamMemberEvents((prevState) => [
               ...prevState,
               ...res.payload.events.map((event: GoogleEventType) => {
-                const eventData = {
+                const eventData: any = {
                   userId,
                   title: event.summary,
                   start: new Date(event.start.dateTime),
@@ -465,25 +465,25 @@ const Calendar = () => {
 
   const handleCloseEventPop = () => {
     setShowEventPopUpModal(false);
-    setEventPopUpDetails(null);
+    // setEventPopUpDetails({});
   };
 
   const handleRemoveEvent = (setOpenEventDeleteModal = null) => {
     if (calendarProvider === CALENDAR.Google) {
       dispatch(
-        deleteGoogleEventMiddleware({ eventId: eventPopUpDetails.eventId }),
+        deleteGoogleEventMiddleware({ eventId: eventPopUpDetails?.eventId! }),
       )
         .then((res: any) => {
           if (res.payload.status === true) {
             handleCloseEventPop();
             setTeamMemberEvents((events) =>
               events.filter(
-                (event) => event.eventId !== eventPopUpDetails.eventId,
+                (event) => event.eventId !== eventPopUpDetails?.eventId,
               ),
             );
             setCurrentUserEvents((events) =>
               events.filter(
-                (event) => event.eventId !== eventPopUpDetails.eventId,
+                (event) => event.eventId !== eventPopUpDetails?.eventId,
               ),
             );
             toast.success('Event cancelled successfully', {
@@ -504,7 +504,7 @@ const Calendar = () => {
         });
     } else {
       dispatch(
-        deleteOutlookEventMiddleware({ eventId: eventPopUpDetails.eventId }),
+        deleteOutlookEventMiddleware({ eventId: eventPopUpDetails?.eventId! }),
       )
         .then((res: any) => {
           if (res.payload.status === true) {
@@ -540,7 +540,7 @@ const Calendar = () => {
     if ('eventId' in event) {
       dispatch(
         verifyEventMiddleware({
-          calendarProvider: calendarProvider,
+          calendarProvider,
           eventId: event.eventId,
         }),
       )

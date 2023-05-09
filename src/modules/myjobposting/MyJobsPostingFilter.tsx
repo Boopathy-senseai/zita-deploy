@@ -14,9 +14,9 @@ import SelectTag from "../../uikit/SelectTag/SelectTag";
 import Text from "../../uikit/Text/Text";
 import { postedOn, jobTypeData } from "./mock";
 import styles from "./myjobpostingfilter.module.css";
-import classNames from "classnames";
-import { Pointer } from "highcharts";
-import Placeholder from "react-select/dist/declarations/src/components/Placeholder";
+// import classNames from "classnames";
+// import { Pointer } from "highcharts";
+// import Placeholder from "react-select/dist/declarations/src/components/Placeholder";
 
 // import { any } from 'prop-types';
 export interface DateEntity {
@@ -45,25 +45,29 @@ const MyJobsPostingFilter = ({
   job_ids,
   job_title,
 }: Props) => {
+  // console.log(MyJobsPostingFilter)
   const [data, setdata] = useState("");
   const [done, setdone] = useState("");
   const [date, setdate] = useState("");
   const [Title, setTitle] = useState("");
   const [locationdata, setlocationdata] = useState("");
-
+  const inputRef = useRef<any>()
+  
   const pageReload = () => {
+    // location.reload( );
     setdata("");
     setdate("");
     setTitle("");
     setlocationdata("");
     formik.resetForm();
     formik.setFieldValue("jobTitle", "");
-    formik.setFieldValue("jobId", "");
+    formik.setFieldValue("jobId","");
     formik.setFieldValue("postedOn", {
       value: "",
     });
     formik.setFieldValue("jobType", "");
     formik.setFieldValue("location", "");
+    inputRef.current.autowhatever.input.value = null
   };
   useEffect(()=>{
     if(formik.values.jobType === "All"){
@@ -185,9 +189,8 @@ const MyJobsPostingFilter = ({
 
   // const MyDataBaseSearchAction = ({ jobTitle, formik,isSearchValue,setSearchValue }: Props) => {
   //   const selectInputRef = useRef<any>();
-  
   //   const hanldeSearch = () => {
-  //     formik.setFieldValue('searchValue', isSearchValue);
+  //   formik.setFieldValue('searchValue', isSearchValue);
   //   };
 
   // useEffect(() => {
@@ -198,14 +201,7 @@ const MyJobsPostingFilter = ({
   //     return () => window.removeEventListener('scroll', onScroll);
   // }, []);
 
-  // useEffect(()=>{
-  //   if (formik.values.jobTitle === "") {
-  //         console.log("feeh");
-  //       }
-  //   else if(formik.values.jobTitle !== "") {
-  //         console.log("fdddd");
-  //       }
-  // },[])
+  
 
   return (
     <>
@@ -263,7 +259,7 @@ const MyJobsPostingFilter = ({
         </Text>
       )} */}
 
-      {data !== ""  ? (
+      {data !== "" ? (
         <Text className={styles.quickfil}>
           {data}{" "}
           <SvgIntomark className={styles.stylesvg} onClick={() => close()} />
@@ -319,9 +315,8 @@ const MyJobsPostingFilter = ({
           <Flex>
             <Text
               bold
-              size={16}
               className={styles.filtername}
-              style={{ cursor: "Pointer",paddingTop:7 }}
+              style={{ cursor: "Pointer",paddingTop:7,fontSize:14 }}
             >
               View Filter
             </Text>
@@ -359,13 +354,17 @@ const MyJobsPostingFilter = ({
               placeholder="Enter a job id"
               // labelBold
               setFieldValue={formik.setFieldValue}
+              inputRef={inputRef}
               name="jobId"
+              // // eslint-disable-next-line jsx-a11y/no-autofocus
+              // autoFocus
               onkeyPress={(event) => {
                 if (event.key === "Enter") {
                   formik.setFieldValue("jobId", event.target.value);
                 }
               }} 
             /> 
+            {console.log(formik.values.jobId)}
           </Flex>
 
           <Flex className={styles.mtstyle}>
@@ -394,7 +393,7 @@ const MyJobsPostingFilter = ({
               </Flex>
             </div>
           </Flex>
-          {console.log("heloo",formik.values.postedOn)}
+          
           <Flex className={styles.mtstyle}>
             <div className={styles.inputmargin}>
               <Text className={styles.jobTextStyle}>Job posted on</Text>
