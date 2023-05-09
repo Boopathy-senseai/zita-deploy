@@ -25,10 +25,10 @@ import {
 import { getUsersByCompanyIdMiddleware } from './store/middleware/calendarmiddleware';
 import SelectTeamMemberCheckBox from './SelectTeamMemberIcon';
 import { getColor } from './colors';
-import { formatEventTitle } from './util';
-import SimpleToolBar from './calendar-components/SimpleToolBar';
-import ColorEvent from './calendar-components/ColorEvent';
-import WeekHeader from './calendar-components/WeekHeader';
+// import { formatEventTitle } from './util';
+// import SimpleToolBar from './calendar-components/SimpleToolBar';
+// import ColorEvent from './calendar-components/ColorEvent';
+// import WeekHeader from './calendar-components/WeekHeader';
 
 let localizer = momentLocalizer(moment);
 

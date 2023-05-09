@@ -1,7 +1,11 @@
 .overAll {
-  /* revamp off scroll css */
-  /* overflow-y: scroll; */
-  padding: 20px 40px;
+  position: relative;
+  width: "100%";
+  /* z-index: -1; */
+  /* margin-left:-20px; */
+ 
+  
+
 }
 .freeImg {
   width: 100%;

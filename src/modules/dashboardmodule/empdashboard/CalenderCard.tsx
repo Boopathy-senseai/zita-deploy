@@ -122,7 +122,7 @@ const CalenderCard = ({
   const checkAuth = () => {
     dispatch(checkAuthMiddleware())
       .then((res) => {
-        console.log(res.payload);
+        console.log("checkauth:::",res.payload);
         if (res.payload.status === true) {
           console.log(res.payload);
           if (res.payload.account === 'google') {
@@ -223,49 +223,108 @@ const CalenderCard = ({
   return (
     <Card className={styles.overAll}>
       {console.log("event", event)}
-      <Flex row center className={styles.msgText}>
-        <Text bold size={16} color="theme" style={{ marginRight: 5 }}>
-          Calendar
-        </Text>
+      <Flex row between className={styles.msgText}>
+        <Flex row>
+          <Flex>
+            <Text bold size={16} color="theme" style={{ marginRight: 5, marginTop: 5 }}>
+              Calendar
+            </Text></Flex>
+          {active === 1 &&
+            <Flex marginTop={9}>
+              <Text color="gray" size={12}>
+                (Timezone){outlookTimeZone[getOut]}
+                {checkCalendarOutlook
+                  ? outlookTimeZone[getOut]
+                  : localStorage.getItem('timeZone')
+                }
 
 
+
+              </Text>
+            </Flex>}
+
+        </Flex>
+
+        {/* <Flex row >
+          <Flex>
+            <Button
+              types="tertiary"
+              className={styles.syncBtn}
+              onClick={checkAuth}
+
+            >
+              <Flex row center marginTop={5} >
+                <Flex>
+                  <Text
+                
+                    bold
+                    size={12}
+                    style={{ cursor: 'pointer', color: "white"}}
+                  >
+                    Sync        <SvgRefresh height={14} width={14} fill={WHITE} />
+                  </Text>
+                </Flex> */}
+                {/* <Flex marginTop={3} >
+                  <SvgRefresh height={14} width={14} fill={WHITE} />
+                </Flex> */}
+              {/* </Flex>
+            </Button>
+          </Flex>
+          <Flex marginLeft={10}>
+            <div style={{ position: 'relative', display: 'flex' }}>
+
+              <DatePicker
+                id="calendar___open"
+                value={formik.values.date}
+                onChange={(date) => {
+                  formik.setFieldValue('date', getDateString(date, 'MM/DD/YYYY'));
+                  // calender api call
+                  // setDate(getDateString(date, 'MM/DD/YYYY'))
+                  dispatch(
+                    dashboardCalenderMiddleWare({
+                      date: getDateString(date, 'YYYY-MM-DD'),
+                    }),
+                  );
+                }}
+                className={styles.datePicker}
+              />
+              <div style={{ position: 'absolute', left: 7, top: 3 }}>
+                <label htmlFor="calendar___open">
+                  <SvgCalendar width={16} height={16} />
+                </label>
+              </div>
+            </div>
+          </Flex>
+
+        </Flex> */}
         {active === 1 && (
           <Flex
             row
-            center
+            
           >
             <Flex row center >
+
               <Flex >
-                <Text color="gray" size={12}>
-                  (Timezone){outlookTimeZone[getOut]}
-                  {checkCalendarOutlook
-                    ? outlookTimeZone[getOut]
-                    : localStorage.getItem('timeZone')}
-
-
-
-                </Text>
-              </Flex>
-              <Flex marginLeft={645} >
-                <Flex>
+                <Flex marginLeft={150}>
                   <Button
-                    types="tertiary"
+                    types="primary"
                     className={styles.syncBtn}
                     onClick={checkAuth}
-                    
+
                   >
-                    <Flex row between center>
-                        <Flex>
-                      <Text
-                        bold
-                        size={12}
-                        style={{  cursor: 'pointer', color: "white" ,marginRight:20}}
-                      >
-                        Sync
-                      </Text></Flex>
-                      <Flex >
+                    <Flex row >
+                      <Flex>
+                        <Text
+                          bold
+                          size={12}
+                          style={{ cursor: 'pointer', color: "white", marginRight: 20,marginBottom:1}}
+                        >
+                          Sync
+                        </Text>
+                      </Flex>
+                      <Flex marginTop={2}>
                         <SvgRefresh height={14} width={14} fill={WHITE} />
-                        </Flex>
+                      </Flex>
                     </Flex>
                   </Button>
                   {isCalLoad && (
@@ -278,7 +337,7 @@ const CalenderCard = ({
               <Flex marginLeft={10}>
                 <Flex>
                   <div style={{ position: 'relative', display: 'flex' }}>
-                    
+
                     <DatePicker
                       id="calendar___open"
                       value={formik.values.date}
@@ -289,12 +348,35 @@ const CalenderCard = ({
                         dispatch(
                           dashboardCalenderMiddleWare({
                             date: getDateString(date, 'YYYY-MM-DD'),
+                           
                           }),
-                        );
+                        ).then((res) => {
+                          const dataout = res.payload.events;
+                          console.log("outlook", dataout);
+                          setEvent(
+                            res.payload.events.map(
+                              (items: {
+                                title: any;
+                                start_time: string | number | Date;
+                                end_time: string | number | Date;
+                                web_url: any;
+                              }) => {
+                                return {
+                                  title: items.title,
+                                  start: new Date(items.start_time),
+                                  end: new Date(items.end_time),
+                                  web_url: items.web_url,
+                                };
+                              },
+                            ),
+                          );
+                        });
+                        ;
+                        {console.log("date",date)}
                       }}
                       className={styles.datePicker}
                     />
-                    <div style={{ position: 'absolute',left:7, top: 3 }}>
+                    <div style={{ position: 'absolute', left: 7, top: 3 }}>
                       <label htmlFor="calendar___open">
                         <SvgCalendar width={16} height={16} />
                       </label>
@@ -331,20 +413,23 @@ const CalenderCard = ({
               <Button>Integrate</Button>
             </LinkWrapper>
           </Flex>
-        ) : event.length > 1 ? (
+        ) : event.length >1 ? (
+          
+          
           event.map((list, index) => {
+            
             if (
               getDateString(list.start, 'MM/DD/YYYY') === formik.values.date
             ) {
               const startTime = moment(list.start);
               const endTime = moment(list.end);
               const duration = moment.duration(endTime.diff(startTime));
-              
+
               const durationInMinutes = Math.floor(duration.asMinutes());
               const hours = Math.floor(durationInMinutes / 60);
               const minutes = durationInMinutes % 60;
-              
-             
+
+
               return (
                 // {list.title !=='' ?
                 <Card key={list.title + index} className={styles.cardListStyle}>
@@ -353,18 +438,18 @@ const CalenderCard = ({
                       <Flex className={styles.borderRight} marginLeft={10}>
                         <Text bold style={{ color: '#581845' }}>{moment(list.start).format('dddd')}</Text>
                         <Text size={12}>{getDateString(list.start, 'hh:mm A')}-{getDateString(list.end, 'hh:mm A')}</Text>
-                        <Text size={12}>( {hours}hour { minutes===0?<Text> )</Text>:<Text size={12}>{minutes}minutes )</Text>}
+                        <Text size={12}>( {hours}hour {minutes === 0 ? <Text> )</Text> : <Text size={12}>{minutes}minutes )</Text>}
                         </Text>
-                        
-                        </Flex>
-                      <Text bold style={{color:"#581845"}}>{list.title}</Text>
-                     
+
+                      </Flex>
+                      <Text bold style={{ color: "#581845" }}>{list.title}</Text>
+
 
                     </Flex>
                     <Flex marginRight={8}>
-                    <Button onClick={() => window.open(list.web_url)} >
-                      Join
-                    </Button></Flex>
+                      <Button onClick={() => window.open(list.web_url)} >
+                        Join
+                      </Button></Flex>
                   </Flex>
                 </Card>
                 // : null}
@@ -373,8 +458,10 @@ const CalenderCard = ({
               return <div key={list.title + index}></div>;
             }
           })
-        ) : (
+             ) : (
+          
           <Flex flex={1} center middle columnFlex className={styles.noContent}>
+            {console.log("cal",event.length)}
             <Text color="gray"> No event scheduled</Text>
           </Flex>
         )}

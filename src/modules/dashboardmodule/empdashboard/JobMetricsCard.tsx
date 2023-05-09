@@ -5,7 +5,7 @@ import Card from '../../../uikit/Card/Card';
 import Flex from '../../../uikit/Flex/Flex';
 import SvgJobtitle from '../../../icons/SvgJobtitle';
 import SvgLocation from '../../../icons/SvgLocation';
-import SvgPosting from '../../../icons/SvgPosting';
+// import SvgPosting from '../../../icons/SvgPosting';
  import SvgJobPost from '../../../icons/SvgJobPost';
  import SvgJobselection from '../../../icons/SvgJobselection';
  import SvgLocationjobpost from '../../../icons/SvgLocationjobpost';

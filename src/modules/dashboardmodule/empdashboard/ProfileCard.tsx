@@ -13,6 +13,7 @@ import SvgLocationicon from '../../../icons/SvgLocationicon';
 import SvgMobile from '../../../icons/SvgMobile';
 import SvgGlobe from '../../../icons/SvgGlobe';
 
+
 import { RootState } from '../../../store';
 import Button from '../../../uikit/Button/Button';
 import Card from '../../../uikit/Card/Card';
@@ -39,11 +40,22 @@ const ProfileCard = () => {
     permission,
     address,
     mobile_no,
-    status
+    status,
+    zipcode,
+    countryid,
+    stateid,
+    cityid,
+    data,
+    
   } = useSelector(({ dashboardEmpReducers, permissionReducers, companyPageReducers }: RootState) => {
     return {
-
+      data:companyPageReducers,
       address: companyPageReducers.company_detail.address,
+      zipcode:companyPageReducers.company_detail.zipcode,
+      stateid:companyPageReducers.company_detail.state_id,
+     
+      cityid:companyPageReducers.company_detail.city_id,
+      countryid:companyPageReducers.company_detail.country_id,
       mobile_no: companyPageReducers.company_detail.contact,
       company_name: dashboardEmpReducers.company_name,
       logo: dashboardEmpReducers.logo,
@@ -61,11 +73,25 @@ const ProfileCard = () => {
 
   const logoPath = isEmpty(logo) ? 'logo.png' : logo;
 
+
   
-  // const clearTab = () => {
-  //   sessionStorage.removeItem('superUserTab');
-  //   sessionStorage.removeItem('superUserFalseTab');
-  // };
+  const clearTab = () => {
+    sessionStorage.removeItem('superUserTab');
+    sessionStorage.removeItem('superUserFalseTab');
+  };
+
+  const handlefunction=()=>{
+    if(data.state.length !== 0&&data.city.length!==0&&data.country.length!==0){
+      const state=data.state.filter(datas=>datas.id===stateid)[0].name;
+      const city=data.city.filter(datas=>datas.id===cityid)[0].name;
+      const country=data.country.filter(datas=>datas.id===countryid)[0].name;
+     return( 
+     
+     <Text >{address},{city},{state},{country},{zipcode}.</Text>
+     );
+    }
+   
+  }
 
   return (
 
@@ -73,7 +99,7 @@ const ProfileCard = () => {
 
 
     <Flex marginLeft={5} marginTop={10}>
-
+{console.log("fd",data)}
       <Card className={styles.profileCardMain}>
         <Flex marginLeft={140} marginTop={15} center>
 
@@ -151,8 +177,8 @@ const ProfileCard = () => {
                   status === false ? (<Text style={{ color: "#FF0000" }}>Expired</Text>) : (<Text style={{ color: "#00BE4B" }}>Active</Text>)
                 }
                 </Text>
-                <Text style={{ marginTop: 5 }}>
-                  Renewal: {getDateString(plan.subscription_valid_till, 'll')}
+                <Text style={{ marginTop: 5 ,whiteSpace:"nowrap"}}>
+                  Renewal: {getDateString(plan.subscription_valid_till, 'll')}    
                 </Text>
 
               </Flex>
@@ -364,11 +390,11 @@ const ProfileCard = () => {
                 {address !=="" ? <Text>{address}</Text>:""} */}
           <Flex marginTop={10}>
             {mobile_no !== "" ? <Flex row ><Flex marginRight={5}><SvgMobile height={20} width={20} fill={BLACK} /></Flex>
-              <Flex marginLeft={5}><Text>{mobile_no}</Text></Flex></Flex> : ""}
+              <Flex marginLeft={9}><Text>+{mobile_no}</Text></Flex></Flex> : ""}
           </Flex>
           <Flex marginTop={10}>
             {user_info.email !== null ? <Flex row> <Flex marginRight={5}><SvgGlobe height={20} width={20} fill={BLACK} /></Flex>
-              <Flex marginLeft={5}><Text style={{ marginBottom: "4px",textDecoration:"underline" }}>{user_info.email}</Text></Flex></Flex> :  
+              <Flex marginLeft={9}><Text style={{ marginBottom: "4px",textDecoration:"underline" }}>{user_info.email}</Text></Flex></Flex> :  
               <Flex row marginTop={7}>
                 <Flex marginRight={5} >
                   <SvgGlobe height={30} width={30} fill={BLACK} />
@@ -386,8 +412,8 @@ const ProfileCard = () => {
               </Flex>}
           </Flex>
           <Flex marginTop={10}>
-            {address !== null ? <Flex row><Flex marginRight={1}><SvgLocationicon height={30} width={30} fill={BLACK} /></Flex>
-              <Flex ><Text >{address}</Text></Flex></Flex> :
+            {address !== null ? <Flex row><Flex marginRight={1} ><SvgLocationicon height={30} width={30} fill={BLACK} /></Flex>
+              <Flex  marginLeft={4}>{handlefunction()}</Flex></Flex> :
               <Flex row >
                 <Flex marginRight={5}>
                   <SvgLocationicon height={30} width={30} fill={BLACK} />
