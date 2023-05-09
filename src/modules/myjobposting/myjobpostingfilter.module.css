@@ -102,7 +102,7 @@ font-weight: 400;
   position: absolute;
   background-color: var(--color-white, #fff);
   border-radius: 12px;
-  max-height: ;
+  max-height:450px ;
   overflow-y: scroll;
   width: 230px;
   display: none;
