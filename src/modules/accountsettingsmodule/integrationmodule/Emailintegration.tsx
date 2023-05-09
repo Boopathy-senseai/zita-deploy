@@ -36,7 +36,7 @@ const IntegrationScreen = () => {
   const { instance } = useMsal();
 
   const [email, setEmail] = useState<string>('');
-  const [isAuthorize, setIsAuthorize] = useState(false);
+  const [isAuthorizegoogle, setIsAuthorizegoogle] = useState(false);
   const [Authorizemail, setAuthorizemail] = useState('');
   const [modelopen, setmodelopen] = useState(false);
   const [Edit, setEdit] = useState('');
@@ -52,7 +52,23 @@ const IntegrationScreen = () => {
     gapi.load('client:auth2', start);
   }, []);
 
-  useEffect(() => {
+  useEffect(() => {}, []);
+
+  const handleAuthResult = (authResult) => {
+    if (authResult && !authResult.error) {
+      console.log('Sign-in successful1', authResult);
+      console.log('Sign-in successful2', !authResult.error);
+      console.log('Sign-in successful3', authResult.access_token);
+
+      loadClient();
+      profile();
+    } else {
+      console.error('handleAuthResult...');
+      console.error(authResult);
+    }
+  };
+
+  const select = () => {
     const initialGoogleConnection = async () => {
       gapi.load('client:auth2', {
         callback: () => {
@@ -78,28 +94,11 @@ const IntegrationScreen = () => {
         },
       });
     };
-
     try {
       initialGoogleConnection();
     } catch (error) {
       console.log('error: ', error);
     }
-  }, []);
-
-  const handleAuthResult = (authResult) => {
-    if (authResult && !authResult.error) {
-      console.log('Sign-in successful', authResult.access_token);
-      setIsAuthorize(true);
-
-      loadClient();
-      profile();
-    } else {
-      console.error('handleAuthResult...');
-      console.error(authResult);
-    }
-  };
-
-  const select = () => {
     return gapi.auth.authorize(
       {
         client_id: process.env.REACT_APP_CLIENT_ID,
@@ -112,7 +111,8 @@ const IntegrationScreen = () => {
 
   const profile = () => {
     const userprofile = gapi.auth2.getAuthInstance().currentUser.get();
-
+    console.log('dfdfdf', userprofile);
+    setIsAuthorizegoogle(true);
     setEmail(userprofile.wt.cu);
   };
 
@@ -136,14 +136,15 @@ const IntegrationScreen = () => {
 
   const disconnect = () => {
     setmodelopen(!modelopen);
-    setIsAuthorize(false);
+    console.log('im work 1');
+    setIsAuthorizegoogle(false);
     console.log('disconnect', gapi.auth2.getAuthInstance().disconnect());
   };
 
   //////outlook /////
 
   const outlookconfig = async () => {
-    alert('outlook login');
+    // alert('outlook login');
     await instance
       .loginPopup({
         scopes: ['openid', 'profile', 'User.Read', 'Mail.Read'],
@@ -165,7 +166,7 @@ const IntegrationScreen = () => {
   };
 
   const outlookdisconnect = async () => {
-    alert('logout');
+    // alert('logout');
     instance
       .logoutPopup({
         mainWindowRedirectUri: 'http://localhost:3000/account_setting/settings', // redirects the top level app after logout
@@ -175,7 +176,7 @@ const IntegrationScreen = () => {
   };
 
   const ChangeoutlookMail = async () => {
-    alert('change mail ');
+    // alert('change mail ');
     const value = instance
       .logoutPopup({
         mainWindowRedirectUri: 'http://localhost:3000/account_setting/settings', // redirects the top level app after logout
@@ -188,6 +189,7 @@ const IntegrationScreen = () => {
 
   return (
     <>
+      {console.log('isAuthorizegoogle', isAuthorizegoogle)}
       <Text color="theme" size={16} bold>
         Email Integrations
       </Text>
@@ -256,7 +258,7 @@ const IntegrationScreen = () => {
           </UnauthenticatedTemplate>
         </Flex>
         <Flex flex={3}>
-          {isAuthorize === false ? (
+          {isAuthorizegoogle === false ? (
             <>
               <Card className={styles.cardStruture}>
                 <Flex row start className={styles.cardHeader}>
@@ -287,6 +289,9 @@ const IntegrationScreen = () => {
             </>
           ) : (
             <Card className={styles.cardStruture}>
+              <Flex end style={{ position: 'absolute', right: '10px' }}>
+                <SvgTick />
+              </Flex>
               <Flex row start className={styles.cardHeader}>
                 <SvgGmail />
 
@@ -296,12 +301,13 @@ const IntegrationScreen = () => {
                   size={16}
                   style={{ marginLeft: '10px' }}
                 >
-                  Google Mail
+                  Outlook Mail
                 </Text>
               </Flex>
 
-              <Text style={{ marginTop: '10px' }}>
-                Connect your inbox with Google Mail Service.
+              <Text style={{ marginTop: '10px' }}>Connected as</Text>
+              <Text color="theme" style={{ marginTop: '1px' }}>
+                {email}
               </Text>
 
               <Button className={styles.btn} onClick={() => EditMail('gmail')}>

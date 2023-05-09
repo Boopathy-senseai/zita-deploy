@@ -62,6 +62,7 @@
     "gapi-script": "^1.2.0",
     "highcharts": "^9.3.2",
     "highcharts-react-official": "^3.1.0",
+    "html-react-parser": "^3.0.16",
     "jquery": "^3.6.0",
     "lodash.escaperegexp": "4.1.2",
     "moment": "^2.29.1",

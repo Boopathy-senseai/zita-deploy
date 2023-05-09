@@ -19,6 +19,7 @@ import {
   customStylesLine,
   customStylesMulti,
   selectTagTheme,
+  CustomStyle,
 } from './selectHelper';
 import styles from './selecttag.module.css';
 
@@ -28,6 +29,13 @@ export type list = {
   [key: string]: any;
 };
 
+// const CustomStyle = {
+//   option: (base, state) => ({
+//     ...base,
+//     backgroundColor: state.isSelected ? 'red' : 'green',
+//   }),
+// };
+
 type Props = {
   options: list[];
   isClearable?: boolean;
@@ -35,7 +43,9 @@ type Props = {
   isSearchable?: boolean;
   isLoading?: boolean;
   placeholder?: string;
+  isMail?: boolean;
   isMulti?: boolean;
+  className?: string;
   onChange?: (a: any, b?: any) => void;
   value?: string | number | any;
   name?: string;
@@ -72,8 +82,10 @@ const SelectTag = (
     isDisabled,
     isSearchable = false,
     placeholder,
+    isMail,
     isMulti,
     onChange,
+    className,
     value,
     name,
     required,
@@ -101,6 +113,8 @@ const SelectTag = (
 ) => {
   const [isSelectStyle, setSelectStyle] = useState(customStyles);
   useEffect(() => {
+    console.log('weee', isMail);
+
     if (isMulti) {
       setSelectStyle(customStylesMulti);
     } else if (lineStyle) {
@@ -150,6 +164,7 @@ const SelectTag = (
             defaultValue={defaultValue}
             value={value}
             name={name}
+            className={className}
             isLoading={isLoading}
             isDisabled={isDisabled}
             isSearchable={isSearchable}
@@ -158,7 +173,7 @@ const SelectTag = (
             placeholder={placeholder}
             isMulti={isMulti}
             onChange={onChange}
-            styles={isSelectStyle}
+            styles={CustomStyle}
             theme={(theme) => selectTagTheme(theme, error, errorMessage)}
             components={components}
             isOptionSelected={isOptionSelected}

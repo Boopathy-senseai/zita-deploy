@@ -51,6 +51,7 @@ import {
   jobMetrics,
   zitaMatchScreen,
   calendarRoute,
+  inbox
 } from './appRoutesPath';
 import CreateJdWithNonDs from './modules/createjdmodule/CreateJdWithNonDs';
 import MyJobPostingScreen from './modules/myjobposting/MyJobPostingScreen';
@@ -76,7 +77,8 @@ import JobMetrics from './modules/reportsmodule/JobMetrics';
 import SourcingPerformance from './modules/reportsmodule/SourcingPerformance';
 import CheckSignUpActivate from './modules/SignUp/CheckSignUpActivate';
 import DashBoardScreen from './modules/dashboardmodule/empdashboard/DashBoardScreen';
-import Sidebar from './modules/emailintegrationmodule/sidebar';
+import Inbox from './modules/emailintegrationmodule/integrationScreen';
+
 axios.defaults.baseURL = process.env.REACT_APP_API_ENDPOINT;
 
 const App = () => {
@@ -311,6 +313,13 @@ const App = () => {
       noPermission: true,
       isNav: true,
     },
+     {
+      path: inbox,
+      component: Inbox,
+      exact: true,
+      noPermission: true,
+      isNav: true,
+    },
 
     { path: '/logout', component: Logout, exact: true, noPermission: true },
   ];
@@ -364,7 +373,7 @@ const App = () => {
         <Route path="/profile" component={Profile} />
         <Route path={'/check_activate'} component={CheckSignUpActivate} />
 
-        <Route path="/Emailsidebar" component={Sidebar}/>
+        <Route path="/inbox/*" component={Inbox}/>
         {/* <Route path={''} component={NotFound} /> */}
         {/* <Route path="/calendar" component={Calendar} /> */}
         {localStorage.getItem('loginUserCheck') === 'true' ||

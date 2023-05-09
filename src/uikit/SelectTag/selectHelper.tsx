@@ -225,3 +225,10 @@ export const customStylesMulti = {
     padding: 0,
   }),
 };
+
+export const CustomStyle = {
+  option: (base, state) => ({
+    ...base,
+    backgroundColor: 'green',
+  }),
+};

@@ -1,0 +1,54 @@
+/* .profiledev {
+  position: relative;
+  margin-left: 4px;
+  margin-right: 8px;
+}
+.profile {
+  height: 56px;
+
+  width: 56px;
+
+  border-radius: 100%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+  background-color: green;
+} */
+.cardStyles {
+  border-radius: unset !important;
+}
+.cardStyles:hover {
+  background-color: #eee8ec;
+}
+.mailCard {
+  padding: 5px;
+  height: 60px;
+}
+.maillist {
+  padding: 5px;
+}
+.inputSearch {
+  margin-bottom: 20px;
+}
+.checkBox {
+  margin-top: 3px !important;
+}
+.textHeadingStyle {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 150px;
+}
+.textStyle {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 250px;
+}
+.scroll {
+  height: 715px;
+  overflow-y: scroll;
+}

@@ -1,0 +1,22 @@
+.sidebar {
+  margin-top: 1px;
+  height: 90vh;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #eee8ec;
+  overflow-x: hidden;
+  padding-top: 16px;
+  box-shadow: 2px 2px 2px #d7c7d2;
+}
+
+.sidebar a {
+  padding: 8px 8px 8px 20px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #581845;
+  display: block;
+  margin-bottom: 10px;
+  /* border-left: 6px solid #ffffff !important; */
+  /* transition: width 0.3s ease; */
+}

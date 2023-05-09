@@ -9,7 +9,8 @@ export const home = `https://www.zita.ai/`;
 // Dashboadrd
 export const homeRoute = `/`;
 export const candidateChangePassWord = '/change_password';
-
+//Email
+export const inbox = '/inbox';
 // Calendar
 export const calendarRoute = '/calendar';
 // My Job Posting
@@ -40,11 +41,9 @@ export const candidateApplyProfileView = `/apply_candidate_profile_view/:empId`;
 
 export const checkActivate = '/check_activate';
 
-
-export const orderSummaryRoute=`/order_summary`
-export const reports=`/reports`
+export const orderSummaryRoute = `/order_summary`;
+export const reports = `/reports`;
 export const applicantSource = `${routesPath.REPORTS}/applicant-source`;
 export const passivecandidate = `${routesPath.REPORTS}/passive-candidate`;
 export const jobMetrics = `${routesPath.REPORTS}/job-metrics`;
 export const sourcingPerformance = `${routesPath.REPORTS}/sourcing-performance`;
-

@@ -1,0 +1,19 @@
+ {
+    "message": {
+      "subject": "emailContent.subject",
+      "body": {
+        "contentType": "Text",
+        "content": "sample check email message"
+      },
+      "toRecipients": [
+        {
+          "emailAddress": {
+            "address": "jananirangesh@sense7ai.com"
+          }
+        }
+      ]
+     
+    },
+    "saveToSentItems": false
+  }
+

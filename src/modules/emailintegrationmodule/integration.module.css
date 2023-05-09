@@ -1,0 +1,37 @@
+.model {
+  width: 250px;
+}
+.titleContainer {
+  padding: 10px;
+  background-color: #eee8ec;
+  font-size: 12px;
+  /* margin-bottom: 10px; */
+  display: flex;
+  color: #581845;
+  justify-content: space-between;
+  position: relative;
+  padding-right: 40px;
+}
+.container {
+  display: table;
+  width: 100%;
+}
+.containerColumn {
+  display: table-cell;
+}
+
+.triangle {
+  width: 0;
+  height: 0;
+  border-top: 22px solid transparent;
+  border-right: 30px solid white;
+  border-bottom: 22px solid transparent;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+}

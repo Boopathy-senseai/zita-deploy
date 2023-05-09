@@ -1,0 +1,51 @@
+.popup {
+  width: 600px;
+  height: 600px;
+  background-color: white;
+  border-radius: 5px 5px 0px 0px;
+  position: absolute;
+  right: 0;
+  bottom: 5px;
+  z-index: 1;
+}
+.modelmiddle {
+  width: 1000px;
+  height: 600px;
+  background-color: white;
+  border-radius: 5px 5px 0px 0px;
+  padding: 20px;
+}
+.minimised {
+  width: 600px;
+  height: 30px;
+  background-color: white;
+  border-radius: 5px 5px 0px 0px;
+  position: absolute;
+  right: 0;
+  bottom: 5px;
+  z-index: 1;
+}
+
+.topSection {
+  background-color: #581845;
+  height: 35px;
+  border-radius: 5px 5px 0px 0px;
+  padding: 5px 10px 5px 10px;
+}
+.inputField {
+  border-bottom: 0.5px solid #c3c3c3;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 5px 10px 5px 10px;
+}
+.inputStyle {
+  border: none !important;
+}
+/* .searchinput {
+  border: unset !important;
+} */
+
+.searchinput {
+  background-color: red;
+  border: none !important;
+}
