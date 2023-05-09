@@ -1,8 +1,9 @@
+
 import { useFormik } from 'formik';
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { jobSelect, reports } from '../../../appRoutesPath';
+import { jobSelect, reports,homeRoute} from '../../../appRoutesPath';
 import SvgSearch from '../../../icons/SvgSearch';
 import { routesPath } from '../../../routes/routesPath';
 import { RootState } from '../../../store';
@@ -11,11 +12,13 @@ import InputSearch from '../../../uikit/InputSearch/InputSearch';
 import { searchOptions } from './mock';
 import styles from './navbar.module.css';
 
+
 const NavigationSearch = () => {
+
   const history = useHistory();
   const formik = useFormik({
     initialValues: { value: '' },
-    onSubmit: () => {},
+    onSubmit: () => { },
   });
   const { permission, super_user, plan_id } = useSelector(
     ({ permissionReducers }: RootState) => {
@@ -30,8 +33,10 @@ const NavigationSearch = () => {
   // search redirection condition
   const searchNavigate = (value: string) => {
     switch (value.toLocaleLowerCase()) {
-      case 'my job postings':
+      case 'job postings':
         return history.push(routesPath.MY_JOB_POSTING);
+      case 'dashboard':
+        return history.push(homeRoute);
       case 'manage users':
         return (
           sessionStorage.setItem('superUserTab', '3'),
@@ -41,35 +46,35 @@ const NavigationSearch = () => {
       case 'password change':
         return (
           super_user === true &&
-            history.push('/account_setting/settings?tab=6'),
+          history.push('/account_setting/settings?tab=6'),
           permission.includes('manage_account_settings') &&
-            super_user === false &&
-            history.push('/account_setting/settings?tab=4'),
+          super_user === false &&
+          history.push('/account_setting/settings?tab=4'),
           !permission.includes('manage_account_settings') &&
-            super_user === false &&
-            history.push('/account_setting/settings?tab=1')
+          super_user === false &&
+          history.push('/account_setting/settings?tab=1')
         );
       case 'profile update':
         return (
           super_user === true &&
-            history.push('/account_setting/settings?tab=6'),
+          history.push('/account_setting/settings?tab=6'),
           permission.includes('manage_account_settings') &&
-            super_user === false &&
-            history.push('/account_setting/settings?tab=4'),
+          super_user === false &&
+          history.push('/account_setting/settings?tab=4'),
           !permission.includes('manage_account_settings') &&
-            super_user === false &&
-            history.push('/account_setting/settings?tab=1')
+          super_user === false &&
+          history.push('/account_setting/settings?tab=1')
         );
       case 'calendar integrations':
         return (
           super_user === true &&
-            history.push('/account_setting/settings?tab=4'),
+          history.push('/account_setting/settings?tab=4'),
           permission.includes('manage_account_settings') &&
-            super_user === false &&
-            history.push('/account_setting/settings?tab=3'),
+          super_user === false &&
+          history.push('/account_setting/settings?tab=3'),
           !permission.includes('manage_account_settings') &&
-            super_user === false &&
-            history.push('/account_setting/settings?tab=0')
+          super_user === false &&
+          history.push('/account_setting/settings?tab=0')
         );
       case 'build your careers page':
         return history.push('/account_setting/settings?tab=1');
@@ -81,7 +86,7 @@ const NavigationSearch = () => {
       case 'pricing':
       case 'plans':
         return history.push('/account_setting/settings?tab=2');
-      case 'my database':
+      case 'database':
       case 'candidates':
       case 'invite candidates':
         return history.push(routesPath.MYDATABASE);
@@ -102,7 +107,6 @@ const NavigationSearch = () => {
         return history.push(routesPath.TALENT_SOURCING);
     }
   };
-
 
   useEffect(() => {
     if (formik.values.value !== '') searchNavigate(formik.values.value);
@@ -126,7 +130,7 @@ const NavigationSearch = () => {
       );
     }
     if (permission.includes('my_database')) {
-      optionsArray.push('My Database', 'Candidates', 'Invite Candidates');
+      optionsArray.push('Database', 'Candidates', 'Invite Candidates');
     }
     if (permission.includes('talent_sourcing')) {
       optionsArray.push('Talent Sourcing');
@@ -137,26 +141,31 @@ const NavigationSearch = () => {
     if (permission.includes('create_post')) {
       optionsArray.push('Create Job', 'Post Jobs');
     }
-    if(permission.includes('manage_account_settings') &&
-    super_user === false){
+    if (
+      permission.includes('manage_account_settings') &&
+      super_user === false
+    ) {
       optionsArray.push('Build Your Careers Page', 'Company Profile');
     }
   }, [searchOptions, plan_id, super_user, permission]);
-  const toFindDuplicates = (arry:string[]) => arry.filter((item, index) => arry.indexOf(item) === index)
+  const toFindDuplicates = (arry: string[]) =>
+    arry.filter((item, index) => arry.indexOf(item) === index);
   const duplicateElementa = toFindDuplicates(optionsArray);
   // console.log('duplicateElementa',duplicateElementa);
-  
+
+
+ 
   return (
     <div style={{ position: 'relative' }}>
-      <div style={{ position: 'absolute', zIndex: 11, top: 3, left: 8 }}>
-        <SvgSearch fill={WHITE} />
+      <div style={{ position: 'absolute', zIndex: 11, top: 5, left: 10 }}>
+        <SvgSearch fill={'#581845'} />
       </div>
 
-      <InputSearch
+     <InputSearch
         // eslint-disable-next-line jsx-a11y/no-autofocus
         autoFocus
         style={styles.searchStyle}
-        placeholder="Search"
+        placeholder="Type to Search"
         options={duplicateElementa}
         setFieldValue={formik.setFieldValue}
         name="value"
@@ -169,6 +178,7 @@ const NavigationSearch = () => {
       />
     </div>
   );
+
 };
 
 export default NavigationSearch;

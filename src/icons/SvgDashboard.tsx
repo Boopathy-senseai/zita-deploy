@@ -1,24 +1,27 @@
 /* eslint max-len: ["error", { "code": 2000 }] */
-const defaultProps = {
-  fill: '#ffc203',
-  width: 24,
-  height: 24,
-};
 
-const SvgDashboard = ({ width, height, fill }: typeof defaultProps) => {
-  return (
-    <svg
-      fill={fill}
-      xmlns="http://www.w3.org/2000/svg"
-      width={width}
-      height={height}
-      viewBox="0 0 24 24"
-      style={{ cursor: 'pointer' }}
-    >
-      <path d="M12 2C5.373 2 0 7.373 0 14c0 2.583.816 5.042 2.205 7h19.59C23.184 19.042 24 16.583 24 14c0-6.627-5.373-12-12-12zm-.758 2.14a9.75 9.75 0 0 1 1.516 0v3.115a6.877 6.877 0 0 0-1.516 0V4.14zm-5.763 7.978-2.88-1.193c.157-.479.351-.948.581-1.399l2.879 1.192a6.607 6.607 0 0 0-.58 1.4zm1.216-2.351L4.492 7.564a9.936 9.936 0 0 1 1.071-1.071l2.203 2.203a6.866 6.866 0 0 0-1.071 1.071zm.793-4.569a9.792 9.792 0 0 1 1.396-.586l1.205 2.875a6.72 6.72 0 0 0-1.396.585L7.488 5.198zM8.896 19a3.105 3.105 0 0 1 1.603-2.672L12 9.287l1.502 7.041A3.109 3.109 0 0 1 15.105 19H8.896zm4.988-11.521L15.077 4.6c.479.156.948.352 1.399.581l-1.193 2.878a6.705 6.705 0 0 0-1.399-.58zm2.349 1.217 2.203-2.203c.383.329.742.688 1.071 1.071l-2.203 2.203a6.78 6.78 0 0 0-1.071-1.071zm2.259 3.32a6.713 6.713 0 0 0-.603-1.39l2.86-1.238c.235.445.438.912.602 1.39l-2.859 1.238z" />
-    </svg>
-  );
-};
-SvgDashboard.defaultProps = defaultProps;
+const SvgDashboard = (props) => (
+  <svg
+  xmlns="http://www.w3.org/2000/svg"
+  width={64}
+  height={64}
+  viewBox="-2.4 -2.4 28.8 28.8"
+  {...props}
+>
+  <g fill="none" fillRule="evenodd" strokeWidth={1.32}>
+    <path d="M0 0h24v24H0z" />
+    <rect
+      width={16}
+      height={16}
+      x={4}
+      y={4}
+      stroke="#581845"
+      strokeLinecap="round"
+      rx={2}
+    />
+    <path stroke="#581845" strokeLinecap="round" d="M4 9h16M9 10v10" />
+  </g>
+</svg>
+);
 
 export default SvgDashboard;
