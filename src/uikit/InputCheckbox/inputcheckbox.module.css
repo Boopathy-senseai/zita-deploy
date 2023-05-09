@@ -36,13 +36,14 @@
   text-align: center;
   color: var(--color-primary, #581845);
   position: absolute;
-  left: 4px;
+  /*left: 4px;*/
+  right: 5px;
   font-size: 13px;
   font-weight: bold;
   top: 1px;
 }
 .checkboxStyle > input:checked + .withOutLabel::before {
-  top: 0px;
+  top: -13px;
 }
 .withLabel {
   top: 0px;

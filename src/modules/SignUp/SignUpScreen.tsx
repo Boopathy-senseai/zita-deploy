@@ -13,6 +13,7 @@ import LabelWrapper from '../../uikit/Label/LabelWrapper';
 import Flex from '../../uikit/Flex/Flex';
 import SvgZitaLogo from '../../icons/SvgZitaLogo';
 import Toast from '../../uikit/Toast/Toast';
+import SvgVerificationEmailIcon from '../../icons/SvgVerificationEmailIcon';
 import {
   allowAlphaNumericSpace,
   isEmpty,
@@ -61,7 +62,7 @@ type ParamsType = {
   planId: string;
 };
 
-const SignUpScreen = () => {
+const SignUpScreen = (props: any) => {
   const { planId } = useParams<ParamsType>();
   const dispatch: AppDispatch = useDispatch();
   const [isLoader, setLoader] = useState(false);
@@ -71,6 +72,7 @@ const SignUpScreen = () => {
   const [isShowNewPass, setShowNewPass] = useState(false);
   //const [passerror, setpasserror] = useState('');
   const [isShowChangePass, setShowChnagePass] = useState(false);
+  const [show, setshow] = useState(false);
 
   const hanldeSubmit = (values: SignUpPayLoad) => {
     setLoader(true);
@@ -92,9 +94,10 @@ const SignUpScreen = () => {
         formik.resetForm();
         setVerification(true);
         setLoader(false);
+        setshow(true);
         Toast('Verification email sent successfully');
       } else {
-        console.log(res);
+        console.log('faild', res);
       }
     });
   };
@@ -256,6 +259,9 @@ const SignUpScreen = () => {
       ? false
       : true;
 
+  const Redirect = () => {
+    props.history.push('/login');
+  };
   return (
     <>
       {console.log(isEmailValid, isVerification)}
@@ -332,12 +338,12 @@ const SignUpScreen = () => {
           </Flex>
           <Flex className={styles.row2}>
             <Flex>
-              <Flex>
-                <Flex className={styles.logo}>
-                  <center>
-                    <SvgZitaLogo width={240} height={125} />
-                  </center>
-                </Flex>
+              <Flex className={styles.logo}>
+                <center>
+                  <SvgZitaLogo width={240} height={125} />
+                </center>
+              </Flex>
+              {show === false ? (
                 <Flex className={styles.form_body}>
                   <div className="row">
                     <div className="col">
@@ -621,7 +627,36 @@ const SignUpScreen = () => {
                     </center>
                   </Flex>
                 </Flex>
-              </Flex>
+              ) : (
+                <>
+                  <Flex className={styles.successform_body}>
+                    <Flex className={styles.text_margin}>
+                      <center>
+                        <SvgVerificationEmailIcon fill={'#581845'} />
+                      </center>
+
+                      <Text size={22} bold className={styles.verificationtext}>
+                        Verification email sent successfully
+                      </Text>
+                      <Text size={20} className={styles.messages}>
+                        Please click on the verification link sent to your email
+                        id to complete the registration. In case you are not
+                        able to find our mail, please check the spam folder.
+                      </Text>
+                      <Flex>
+                        <center>
+                          <Button
+                            style={{ marginTop: '10px' }}
+                            onClick={() => Redirect()}
+                          >
+                            Ok
+                          </Button>
+                        </center>
+                      </Flex>
+                    </Flex>
+                  </Flex>
+                </>
+              )}
             </Flex>
           </Flex>
         </>
