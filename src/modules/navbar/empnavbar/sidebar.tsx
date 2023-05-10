@@ -75,7 +75,7 @@ const Sidebar = (props) => {
   return (
     <>
       {console.log('check', Expent)}
-      <div className={Expent === '0' ? styles.sidebar : styles.sidebarmini}>
+      <div className={Expent === '0' ? styles.sidebar : styles.sidebarmini} style={{marginTop:'50px'}}>
         <ul>
           {is_plan ? (
             <li className={pathname === '/' ? styles.select_row : ''}>
@@ -448,6 +448,7 @@ const Sidebar = (props) => {
           </li>
         </ul>
       </div>
+     
     </>
   );
 };

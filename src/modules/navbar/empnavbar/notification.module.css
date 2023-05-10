@@ -133,7 +133,7 @@
   overflow-x: hidden;
   padding-top: 16px;
   box-shadow: 2px 2px 2px #D7C7D2;
-  border-top-right-radius: 20px;
+  border-top-right-radius: 0px;
   /* transition: width 0.3s ease; */
 }
 
