@@ -75,7 +75,14 @@ export const domainValidation =
   /^([\w-.]+@(?!gmail\.com)(?!yahoo\.com)(?!hotmail\.com)(?!outlook\.com)(?!protonmail\.com)(?!live\.com)(?!mail\.com)(?!email\.com)(?!inbox\.com)([\w-]+.)+[\w-]{1,4})?$/;
 export const nameRegex = /^[a-z0-9\-\_]+$/;
 export const fileAccept = ['.doc', '.docx', '.pdf', '.txt'];
-export const imageFileAccept = ['.jpg', '.jpeg', '.png','.JPG','.JPGE','.PNG'];
+export const imageFileAccept = [
+  '.jpg',
+  '.jpeg',
+  '.png',
+  '.JPG',
+  '.JPGE',
+  '.PNG',
+];
 export const isValidURL = (string: string) => {
   var res = string.match(
     /(http[s]?:\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g,
@@ -83,11 +90,11 @@ export const isValidURL = (string: string) => {
   return res !== null;
 };
 // /^(http[s]?:\/\/(www\.)?|ftp:\/\/(www\.)?|www\.){1}([0-9A-Za-z-\.@:%_\+~#=]+)+((\.[a-zA-Z]{2,3})+)(\/(.)*)?(\?(.)*)?/g
-
+export const usernameNumberCase = /^\d/;
 export const letters = /^[A-Za-z]+$/;
 export const onlyNumber = /^[0-9\b]+$/;
 export const zipCodeRegx = /^[A-Za-z0-9\-]+$/;
-
+export const space = /^\S*$/;
 export const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 

@@ -112,7 +112,7 @@
   color: var(--color-warning, #ffb142);
 }
 .textColor-link {
-  color: var(--color-link, #1890ff);
+  color: var(--color-primary, #581845);
   cursor: pointer;
 }
 .textColor-blue {
@@ -120,7 +120,7 @@
   cursor: pointer;
 }
 .textColor-link:hover {
-  color: var(--color-link-1, #18adf0);
+  color: var(--color-primary, #581845);
 }
 .textColor-gray {
   color: var(--color-gary-4, #979797);
