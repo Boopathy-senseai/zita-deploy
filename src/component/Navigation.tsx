@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, NavLink } from 'react-router-dom';
 import classNames from 'classnames/bind';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';	
 import { Navbar, Nav, Container, Dropdown } from 'react-bootstrap';
 import LinkWrapper from '../uikit/Link/LinkWrapper';
 import { routesPath } from '../routes/routesPath';
 import SvgSetting from '../icons/SvgSetting';
-import Logo from '../assets/images/new_zita_white.png';
+import Logo from '../assets/images/logo.png';
 import SvgLogout from '../icons/SvgLogOut';
 import Flex from '../uikit/Flex/Flex';
 import Text from '../uikit/Text/Text';
@@ -15,6 +15,7 @@ import { permissionMiddleWare } from '../modules/Login/store/middleware/loginMid
 import { AppDispatch, RootState } from '../store';
 import OutsideAlerter from './OutsideAlerter';
 import styles from './navigation.module.css';
+
 
 const cx = classNames.bind(styles);
 
@@ -79,7 +80,7 @@ const Navigation = () => {
   };
   return (
     <OutsideAlerter setOpen={setOpen}>
-      <Navbar expand="lg" className="zitaNav navbar-dark">
+      <Navbar expand="lg" className="zitaNav navbar-dark ">
         <Container>
           <Link className="navbar-brand" to="/" style={{ cursor: 'auto' }}>
             <img style={{objectFit: 'contain'}} src={Logo} alt="Logo" />
@@ -92,7 +93,7 @@ const Navigation = () => {
             onClick={dashboard}
           >
             My Dashboard
-          </NavLink>
+          </NavLink>  
           <NavLink
             className={`nav-link test ${cx('navLinkHover')}`}
             activeClassName="active"
@@ -143,16 +144,14 @@ const Navigation = () => {
           >
             Reports
           </NavLink>
+          
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Nav className={`ml-auto ${cx('rightMenuConatiner')}`}>
-            <Flex row center>
-              <div title={'Account Settings'}>
-                <LinkWrapper
-                  target={'_parent'}
-                  to={'/account_setting/settings'}
-                >
-                  <SvgSetting />
-                </LinkWrapper>
+            <Flex row center >
+            <div title={'Account Settings'}> 
+              <LinkWrapper target={'_parent'} to={'/account_setting/settings'}>
+                <SvgSetting />
+              </LinkWrapper>
               </div>
               <div className={cx('supportText', 'navLinkHover')}>
                 <a
@@ -176,6 +175,7 @@ const Navigation = () => {
               >
                 <SvgLogout />
               </NavLink>
+              
               <div>
                 <div
                   className={styles.profile}
@@ -218,3 +218,4 @@ const Navigation = () => {
 };
 
 export default Navigation;
+

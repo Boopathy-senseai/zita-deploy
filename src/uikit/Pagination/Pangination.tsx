@@ -39,6 +39,7 @@ const Pangination = ({ currentPage, setCurrentPage, maxPages }: Props) => {
         className={cx('roundEffect', { active: number === currentPage })}
         onClick={() => {
           setCurrentPage(number);
+          window.scrollTo({top: 0})
         }}
         tabIndex={-1}
         role={'button'}
@@ -51,19 +52,23 @@ const Pangination = ({ currentPage, setCurrentPage, maxPages }: Props) => {
   const nextPage = () => {
     if (currentPage < maxPages) {
       setCurrentPage(currentPage + 1);
+      window.scrollTo({top: 0})
     }
   };
 
   const prevPage = () => {
     if (currentPage >= 1) {
       setCurrentPage(currentPage - 1);
+      window.scrollTo({top: 0})
     }
   };
   const handleFirst = () => {
     setCurrentPage(0);
+    window.scrollTo({top: 0})
   };
   const handleLast = () => {
     setCurrentPage(maxPages);
+    window.scrollTo({top: 0})
   };
   const disabledFirst = currentPage === 0;
   const disabledLast = currentPage === maxPages;
@@ -89,8 +94,9 @@ const Pangination = ({ currentPage, setCurrentPage, maxPages }: Props) => {
         })}
         onClick={prevPage}
         tabIndex={-1}
+       
         role={'button'}
-        onKeyPress={() => {}}
+        onKeyPress={() => { }}
       >
         <SvgLeft fill={disabledFirst ? '#979797' : '#424242'} />
       </div>

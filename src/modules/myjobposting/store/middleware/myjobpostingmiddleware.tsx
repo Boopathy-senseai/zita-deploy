@@ -1,8 +1,8 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { MYJOBPOSTING, MYJOBPOSTINGDATA } from '../../../../actions/actions';
-import { myjobpostapi, myjobpostdataapi } from '../../../../routes/apiRoutes';
-import { MyJobPostingPayload } from '../../myJobPostingTypes';
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+import { MYJOBPOSTING, MYJOBPOSTINGDATA } from "../../../../actions/actions";
+import { myjobpostapi, myjobpostdataapi } from "../../../../routes/apiRoutes";
+import { MyJobPostingPayload } from "../../myJobPostingTypes";
 
 export const myJobPostingInitalMiddleWare = createAsyncThunk(
   MYJOBPOSTING,
@@ -14,14 +14,14 @@ export const myJobPostingInitalMiddleWare = createAsyncThunk(
       const typedError = error as Error;
       return rejectWithValue(typedError);
     }
-  },
+  }
 );
 
 export const myJobPostingDataMiddleWare = createAsyncThunk(
   MYJOBPOSTINGDATA,
   async (
     { jobTitle, jobId, postedOn, jobType, location, page }: MyJobPostingPayload,
-    { rejectWithValue },
+    { rejectWithValue }
   ) => {
     try {
       const { data } = await axios.get(myjobpostdataapi, {
@@ -39,5 +39,5 @@ export const myJobPostingDataMiddleWare = createAsyncThunk(
       const typedError = error as Error;
       return rejectWithValue(typedError);
     }
-  },
+  }
 );
