@@ -625,23 +625,22 @@ const SignUpScreen = (props: any) => {
                   <Flex className={styles.successform_body}>
                     <Flex middle className={styles.text_margin}>
                       <SvgVerificationEmailIcon fill={'#581845'} />
-
-                      <Text size={22} bold className={styles.verificationtext}>
-                        Verification email sent successfully
-                      </Text>
-                      <Text size={20} className={styles.messages}>
-                        Please click on the verification link sent to your email
-                        id to complete the registration. In case you are not
-                        able to find our mail, please check the spam folder.
-                      </Text>
-                      <Flex middle>
-                        <Button
-                          style={{ marginTop: '10px' }}
-                          onClick={() => Redirect()}
-                        >
-                          Ok
-                        </Button>
-                      </Flex>
+                    </Flex>
+                    <Text size={22} bold className={styles.verificationtext}>
+                      Verification email sent successfully
+                    </Text>
+                    <Text size={20} className={styles.messages}>
+                      Please click on the verification link sent to your email
+                      id to complete the registration. In case you are not able
+                      to find our mail, please check the spam folder.
+                    </Text>
+                    <Flex middle>
+                      <Button
+                        style={{ marginTop: '10px' }}
+                        onClick={() => Redirect()}
+                      >
+                        Ok
+                      </Button>
                     </Flex>
                   </Flex>
                 </>
