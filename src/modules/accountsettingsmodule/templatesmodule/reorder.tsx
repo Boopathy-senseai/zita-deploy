@@ -75,7 +75,7 @@ const ReorderStage: React.FC<Props> = (props) => {
             {state.items.map((item, index) => (
               <Draggable
                 key={`${item.id}-${index}`}
-                draggableId={item.id}
+                draggableId={item.id.toString()}
                 index={index}
               >
                 {(providedD, snapshotD) => (

@@ -531,12 +531,12 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
       ...o,
       [v.id]: {
         columnId: v?.id,
-        title: v?.title,
+        title: v?.stage_name,
         items: applicants[v.id] || [],
         total: applicants[v.id]?.length,
         section: v?.id,
         left: '0px',
-        borderColor: v?.color,
+        borderColor: v?.stage_color,
       },
     };
   }, {});
@@ -1061,7 +1061,7 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
                 isTotalFav={isTotalFav}
                 seletedCardsLength={cardSelection.size}
                 onExport={handleBulkExport}
-                onMove={handleMove}
+                // onMove={handleMove}
               />
               <div style={{ position: 'relative' }}>
                 {columns && (

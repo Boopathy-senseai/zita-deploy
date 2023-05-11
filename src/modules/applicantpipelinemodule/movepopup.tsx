@@ -12,7 +12,7 @@ import styles from './movepopup.module.css';
 type Props = {
   openMovePopup: boolean;
   handleClosePipelinePopup: () => void;
-  onMove: (stageId: string) => void;
+  onMove: (stageId: number) => void;
 };
 
 const MovePipelinePopup = ({
@@ -20,7 +20,7 @@ const MovePipelinePopup = ({
   handleClosePipelinePopup,
   onMove,
 }: Props) => {
-  const [isCheckedRadio, setCheckedRadio] = useState<string | null>(null);
+  const [isCheckedRadio, setCheckedRadio] = useState<number | null>(null);
   const { stages } = useSelector(({ templatePageReducers }: RootState) => ({
     stages: templatePageReducers.stages,
   }));
@@ -53,9 +53,9 @@ const MovePipelinePopup = ({
         <Flex column start>
           {stages.map((list) => {
             return (
-              <Flex row key={list.title} className={styles.matchRadioStyle}>
+              <Flex row key={list.stage_name} className={styles.matchRadioStyle}>
                 <InputRadio
-                  label={list.title}
+                  label={list.stage_name}
                   checked={list.id === isCheckedRadio}
                   onClick={() => setCheckedRadio(list.id)}
                 />

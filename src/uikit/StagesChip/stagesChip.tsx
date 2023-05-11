@@ -6,10 +6,10 @@ const cx = classNames.bind(styles);
 // Custom chip
 interface ChipProps {
   index: number;
-  doc: { id: string; title: string };
+  doc: { suggestion_id: number; stage_name: string };
   isActive: boolean;
-  onAdd: (value: { id: string; title: string }) => void;
-  onRemove: (value: { id: string; title: string }) => void;
+  onAdd: (value: { suggestion_id: number; stage_name: string }) => void;
+  onRemove: (value: { suggestion_id: number; stage_name: string }) => void;
 }
 export const Chip: React.FC<ChipProps> = (props) => {
   const { index, doc, isActive, onAdd, onRemove } = props;
@@ -25,7 +25,7 @@ export const Chip: React.FC<ChipProps> = (props) => {
         className={styles.pillbutton}
         style={{ color: isActive ? '#FFFFFF' : undefined }}
       >
-        {doc.title}
+        {doc.stage_name}
       </button>
     </div>
   );

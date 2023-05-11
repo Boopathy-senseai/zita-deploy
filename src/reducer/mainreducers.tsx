@@ -106,6 +106,7 @@ import { integrationReducers } from '../modules/accountsettingsmodule/integratio
 import { dashboardReducers } from '../modules/dashboardmodule/candidatedashboard/store/reducer/candidatedashboardreducer';
 import { notificationReducers } from '../modules/navbar/empnavbar/store/notificationreducer';
 
+// eslint-disable-next-line import/no-cycle
 import { templatePageReducers } from '../modules/accountsettingsmodule/templatesmodule/store/reducer/templatesreducer';
 import { pipelinePageReducers } from '../modules/accountsettingsmodule/templatesmodule/store/reducer/pipelinereducer';
 

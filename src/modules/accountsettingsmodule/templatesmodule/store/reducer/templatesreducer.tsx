@@ -1,19 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit';
+// eslint-disable-next-line import/no-cycle
 import {
-  jobPipelineStagesMiddleWare,
+  getTemplateDataMiddleWare,
   addJobPipelineStageMiddleWare,
   updateJobPipelineStageMiddleWare,
   deleteJobPipelineStageMiddleWare,
-  jobPipelineSuggestionsMiddleWare,
   reorderJobPipelineStageMiddleWare,
+  updateTemplateDataMiddleWare,
 } from '../middleware/templatesmiddleware';
 import { TemplatesPageReducerState } from '../../templatesPageTypes';
 
 const templatesPageState: TemplatesPageReducerState = {
   isLoading: false,
   error: '',
+  messaage: '',
+  data: [],
   stages: [],
-  suggestions: [],
+  suggestion: [],
 };
 
 const templatePageReducer = createSlice({
@@ -21,46 +24,41 @@ const templatePageReducer = createSlice({
   initialState: templatesPageState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(jobPipelineStagesMiddleWare.pending, (state) => {
-      return { ...state, error: '', isLoading: true };
+    builder.addCase(getTemplateDataMiddleWare.pending, (state) => {
+      state.isLoading = true;
+      state.error = '';
     });
-    builder.addCase(jobPipelineStagesMiddleWare.fulfilled, (state, action) => {
-     
-      if (state.stages.length > 0) {
-        return { ...state, isLoading: false };
+    builder.addCase(getTemplateDataMiddleWare.fulfilled, (state, action) => {
+      // state.isLoading = false;
+      // state = { ...state, ...action.payload, temp:action.payload };
+      return { ...state, ...action.payload, isLoading: false };
+      // state.isLoading = false;
+      // state.messaage = action.payload.messaage;
+      // state.data = action.payload.data;
+      // state.stages = action.payload.stages;
+      // state.suggestion = action.payload.suggestion;
+      // console.log('check_reduce', state);
+    });
+    builder.addCase(getTemplateDataMiddleWare.rejected, (state, action) => {
+      state.isLoading = false;
+      if (typeof action.payload === 'string') {
+        state.error = action.payload;
       }
-      return { ...state, isLoading: false, stages: action.payload };
-    });
-    builder.addCase(jobPipelineStagesMiddleWare.rejected, (state, action) => {
-      return {
-        ...state,
-        isLoading: false,
-        error: typeof action.payload === 'string' ? action.payload : '',
-      };
     });
 
-    builder.addCase(jobPipelineSuggestionsMiddleWare.pending, (state) => {
-      return { ...state, error: '', isLoading: true };
+    builder.addCase(updateTemplateDataMiddleWare.pending, (state) => {
+      state.isLoading = true;
+      state.error = '';
     });
-    builder.addCase(
-      jobPipelineSuggestionsMiddleWare.fulfilled,
-      (state, action) => {
-        if (state.suggestions.length > 0) {
-          return { ...state, isLoading: false };
-        }
-        return { ...state, isLoading: false, suggestions: action.payload };
-      },
-    );
-    builder.addCase(
-      jobPipelineSuggestionsMiddleWare.rejected,
-      (state, action) => {
-        return {
-          ...state,
-          isLoading: false,
-          error: typeof action.payload === 'string' ? action.payload : '',
-        };
-      },
-    );
+    builder.addCase(updateTemplateDataMiddleWare.fulfilled, (state, action) => {
+      return { ...state, ...action.payload, isLoading: false };
+    });
+    builder.addCase(updateTemplateDataMiddleWare.rejected, (state, action) => {
+      state.isLoading = false;
+      if (typeof action.payload === 'string') {
+        state.error = action.payload;
+      }
+    });
 
     builder.addCase(
       addJobPipelineStageMiddleWare.fulfilled,
@@ -80,25 +78,25 @@ const templatePageReducer = createSlice({
     );
 
     builder.addCase(
-        updateJobPipelineStageMiddleWare.fulfilled,
-        (state, action) => {
-          const index = state.stages?.findIndex(
-            (data) => data.id === action.payload.id,
-          );
-          if (index === -1) {
-            return { ...state };
-          }
-          return {
-            ...state,
-            stages: state.stages.map((doc,) => {
-                if (doc.id === action.payload.id) {
-                    return action.payload;
-                }
-                return doc
-            })
+      updateJobPipelineStageMiddleWare.fulfilled,
+      (state, action) => {
+        const index = state.stages?.findIndex(
+          (data) => data.id === action.payload.id,
+        );
+        if (index === -1) {
+          return { ...state };
+        }
+        return {
+          ...state,
+          stages: state.stages.map((doc) => {
+            if (doc.id === action.payload.id) {
+              return action.payload;
+            }
+            return doc;
+          }),
         };
-        },
-      );
+      },
+    );
 
     builder.addCase(
       deleteJobPipelineStageMiddleWare.fulfilled,
@@ -121,14 +119,14 @@ const templatePageReducer = createSlice({
     );
 
     builder.addCase(
-        reorderJobPipelineStageMiddleWare.fulfilled,
-        (state, action) => {
-          return {
-            ...state,
-            stages: action.payload,
-          };
-        },
-      );
+      reorderJobPipelineStageMiddleWare.fulfilled,
+      (state, action) => {
+        return {
+          ...state,
+          stages: action.payload,
+        };
+      },
+    );
   },
 });
 

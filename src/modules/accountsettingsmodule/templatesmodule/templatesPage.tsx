@@ -29,7 +29,7 @@ import { PipelineData, jobPipelineForm } from './templatesPageTypes';
 import {
   defaultJobPipelineMiddleWare,
   deleteJobPipelineMiddleWare,
-  jobPipelineMiddleWare,
+  getPipelineDataMiddleWare,
   updatejobPipelineMiddleWare,
 } from './store/middleware/pipelinesmiddleware';
 const cx = classNames.bind(styles);
@@ -70,7 +70,7 @@ const TemplatesPage = () => {
   );
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
-    dispatch(jobPipelineMiddleWare());
+    dispatch(getPipelineDataMiddleWare());
   }, []);
   const selectTemplate = () => {
     setTemplate(1);
@@ -80,8 +80,8 @@ const TemplatesPage = () => {
     setshowbutton(1);
   };
 
-  const configPipeline = () => {
-    setPipeline(1);
+  const configPipeline = (id:number) => {
+    setPipeline(id);
     setshowbutton(2);
   };
   const backFunction = () => {
@@ -90,10 +90,10 @@ const TemplatesPage = () => {
   const handleUpdate = (value: PipelineData) => {
     dispatch(updatejobPipelineMiddleWare(value));
   };
-  const handleDelete = (id: string) => {
+  const handleDelete = (id: number) => {
     dispatch(deleteJobPipelineMiddleWare(id));
   };
-  const handleDefault = (id: string) => {
+  const handleDefault = (id: number) => {
     dispatch(defaultJobPipelineMiddleWare(id));
   };
 
@@ -184,7 +184,7 @@ const TemplatesPage = () => {
           <Flex row marginTop={'10px'}>
             {pipelineData.map((list, index) => (
               <PipelineCard
-                key={`${list.id}-${index}`}
+                key={`${list.wk_id}-${index}`}
                 list={list}
                 index={index}
                 onConfig={configPipeline}
@@ -196,7 +196,7 @@ const TemplatesPage = () => {
           </Flex>
         </Flex>
       ) : (
-        <JobPipelinePage handleBack={backFunction} buttondata={showbutton} />
+        <JobPipelinePage handleBack={backFunction} buttondata={showbutton} wk_id={pipeline} />
       )}
     </>
   );
@@ -204,10 +204,10 @@ const TemplatesPage = () => {
 interface PipelineCardPros {
   list: PipelineData;
   index: number;
-  onConfig: () => void;
+  onConfig: (id: number) => void;
   onUpdate: (value: PipelineData) => void;
-  onDelete: (id: string) => void;
-  onDefault: (id: string) => void;
+  onDelete: (id: number) => void;
+  onDefault: (id: number) => void;
 }
 const PipelineCard: React.FC<PipelineCardPros> = ({
   list,
@@ -223,8 +223,8 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
   const handleJobPipeline = (values: PipelineData) => {
     const errors: Partial<PipelineData> = {};
 
-    if (!isEmpty(values.name) && values.name.length > 25) {
-      errors.name = 'Stage name should not exceed 25 characters.';
+    if (!isEmpty(values.pipeline_name) && values.pipeline_name.length > 25) {
+      errors.pipeline_name = 'Stage name should not exceed 25 characters.';
     }
     return errors;
   };
@@ -249,7 +249,7 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
       return (
         <Flex row noWrap>
           <InputText
-            value={formik.values.name}
+            value={formik.values.pipeline_name}
             onChange={formik.handleChange('name')}
             lineInput
             size={12}
@@ -263,8 +263,8 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
             ) : (
               <div
                 className={cx('svgTickMargin', {
-                  svgTickDisable: isEmpty(formik.values.name),
-                  tickStyle: !isEmpty(formik.values.name),
+                  svgTickDisable: isEmpty(formik.values.pipeline_name),
+                  tickStyle: !isEmpty(formik.values.pipeline_name),
                 })}
                 tabIndex={-1}
                 role={'button'}
@@ -294,20 +294,20 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
         color="theme"
         bold
         size={16}
-        title={list.name}
+        title={list.pipeline_name}
         className={styles.titleText}
         style={{ marginLeft: '10px' }}
       >
-        {list.name}
+        {list.pipeline_name}
       </Text>
     );
   };
   return (
-    <Card key={list.id} className={styles.pipelineStructure}>
+    <Card key={list.wk_id} className={styles.pipelineStructure}>
       <Flex row start between className={styles.rowGroup}>
         <Flex row className={styles.cardHeader}>
           {renderTitle()}
-          {list.default === true ? (
+          {list.set_as_default === true ? (
             <Text color="yellow" className={styles.default}>
               Default
             </Text>
@@ -318,16 +318,16 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
 
         <Text>
           <ActionsButton
-            disabled={list.disabled}
-            defaults={list.default}
-            onDefault={() => (list.default ? undefined : onDefault(list.id))}
-            onDelete={() => (list.disabled ? undefined : onDelete(list.id))}
-            onRename={() => (list.disabled ? undefined : handleRename())}
+            disabled={list.is_active}
+            defaults={list.set_as_default}
+            onDefault={() => (list.set_as_default ? undefined : onDefault(list.wk_id))}
+            onDelete={() => (list.is_active ? undefined : onDelete(list.wk_id))}
+            onRename={() => (list.is_active ? undefined : handleRename())}
           />
         </Text>
       </Flex>
 
-      <Button className={styles.btn2} onClick={onConfig}>
+      <Button className={styles.btn2} onClick={() => onConfig(list.wk_id)}>
         <Text color="theme">Configure Pipeline</Text>
       </Button>
     </Card>

@@ -21,8 +21,7 @@ import {
   addJobPipelineStageMiddleWare,
   deleteJobPipelineStageMiddleWare,
   updateJobPipelineStageMiddleWare,
-  jobPipelineStagesMiddleWare,
-  jobPipelineSuggestionsMiddleWare,
+  getTemplateDataMiddleWare,
   reorderJobPipelineStageMiddleWare,
 } from './store/middleware/templatesmiddleware';
 
@@ -33,10 +32,11 @@ const cx = classNames.bind(styles);
 type FormProps = {
   handleBack: () => void;
   buttondata: number;
+  wk_id: number;
   //location: string;
 };
 
-const JobPipelinePage = ({ handleBack, buttondata }: FormProps) => {
+const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
   // const reorderRef = useRef<Reorder>(null);
   const [stage, setStage] = useState(false);
   //const userId = {id: "403"}
@@ -44,16 +44,18 @@ const JobPipelinePage = ({ handleBack, buttondata }: FormProps) => {
 
   useEffect(() => {
     //dispatch(jobPipelineStagesMiddleWare(userId));
-    dispatch(jobPipelineStagesMiddleWare());
-    dispatch(jobPipelineSuggestionsMiddleWare());
+    dispatch(getTemplateDataMiddleWare(wk_id));
   }, []);
 
   const { stages, suggestions, isLoading } = useSelector(
-    ({ templatePageReducers }: RootState) => ({
-      isLoading: templatePageReducers.isLoading,
-      stages: templatePageReducers.stages,
-      suggestions: templatePageReducers.suggestions,
-    }),
+    ({ templatePageReducers }: RootState) => {
+      console.log('check', templatePageReducers);
+      return {
+        isLoading: templatePageReducers.isLoading,
+        stages: templatePageReducers.stages,
+        suggestions: templatePageReducers.suggestion,
+      };
+    },
   );
 
   const onStageEdit = (value: StageData) => {
@@ -64,18 +66,18 @@ const JobPipelinePage = ({ handleBack, buttondata }: FormProps) => {
     dispatch(deleteJobPipelineStageMiddleWare(doc.id));
   };
 
-  const addStage = (doc: { id: string; title: string }) => {
+  const addStage = (doc: { stage_name: string }) => {
     dispatch(
       addJobPipelineStageMiddleWare({
-        id: doc.id,
-        color: 'gray',
-        title: doc.title,
-        disabled: false,
+        // id: doc.suggestion_id,
+        stage_color: 'gray',
+        stage_name: doc.stage_name,
+        is_disabled: false,
       }),
     );
   };
-  const removeStage = (doc: { id: string; title: string }) => {
-    dispatch(deleteJobPipelineStageMiddleWare(doc.id));
+  const removeStage = (doc: { suggestion_id: number; stage_name: string }) => {
+    dispatch(deleteJobPipelineStageMiddleWare(doc.suggestion_id));
   };
 
   const toggleStage = () => {
@@ -96,7 +98,7 @@ const JobPipelinePage = ({ handleBack, buttondata }: FormProps) => {
     if (
       isDuplicate(
         values.title,
-        stages.map((doc) => doc.title),
+        stages.map((doc) => doc.stage_name),
       )
     ) {
       errors.title = 'Already stage name exists';
@@ -113,20 +115,27 @@ const JobPipelinePage = ({ handleBack, buttondata }: FormProps) => {
     initialValues: initial,
     validate: handleJobPipeline,
     onSubmit: (form) => {
-      addStage({ id: `${new Date().getTime()}`, title: form.title });
+      addStage({ stage_name: form.pipelineTitle });
       toggleStage();
     },
   });
 
-  const isStageExist = (id: string) => {
-    return stages.find((doc) => doc.id === id) !== undefined;
+  const isStageExist = (name: string) => {
+    return (
+      stages.find((doc) => {
+        console.log(doc.stage_name,name,doc.stage_name.toLowerCase().trim() === name.toLowerCase().trim())
+        return (
+          doc.stage_name.toLowerCase().trim() === name.toLowerCase().trim()
+        );
+      }) !== undefined
+    );
   };
   const defaultStage: StageData = {
-    id: '1STG',
-    color: '#581845',
-    title: 'New Applicants',
-    disabled: true,
-    palatteDisabled: true,
+    id: 1,
+    stage_color: '#581845',
+    stage_name: 'New Applicants',
+    is_disabled: true,
+    // palatteDisabled: true,
   };
 
   const onReorderChange = (list: StageData[]) => {
@@ -194,8 +203,9 @@ const JobPipelinePage = ({ handleBack, buttondata }: FormProps) => {
               </Text>
             </Flex>
             <Flex row wrap className={styles.borderLine}>
+              {console.log('job', suggestions)}
               {suggestions.map((doc, index) => {
-                const isActive = isStageExist(doc.id);
+                const isActive = isStageExist(doc.stage_name);
                 return (
                   <Chip
                     key={index}

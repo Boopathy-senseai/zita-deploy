@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   defaultJobPipelineMiddleWare,
   deleteJobPipelineMiddleWare,
-  jobPipelineMiddleWare,
+  getPipelineDataMiddleWare,
   updatejobPipelineMiddleWare,
 } from '../middleware/pipelinesmiddleware';
 import { PipelinePageReducerState } from '../../templatesPageTypes';
@@ -18,25 +18,23 @@ const pipelinePageReducer = createSlice({
   initialState: pipelinePageState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(jobPipelineMiddleWare.pending, (state) => {
-      return { ...state, error: '', isLoading: true };
+    builder.addCase(getPipelineDataMiddleWare.pending, (state) => {
+      state.isLoading = true;
+      state.error = '';
     });
-    builder.addCase(jobPipelineMiddleWare.fulfilled, (state, action) => {
-      if (state.pipeline.length > 0) {
-        return { ...state, isLoading: false };
+    builder.addCase(getPipelineDataMiddleWare.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.pipeline = action.payload;
+    });
+    builder.addCase(getPipelineDataMiddleWare.rejected, (state, action) => {
+      state.isLoading = false;
+      if (typeof action.payload === 'string') {
+        state.error = action.payload;
       }
-      return { ...state, isLoading: false, pipeline: action.payload };
-    });
-    builder.addCase(jobPipelineMiddleWare.rejected, (state, action) => {
-      return {
-        ...state,
-        isLoading: false,
-        error: typeof action.payload === 'string' ? action.payload : '',
-      };
     });
     builder.addCase(updatejobPipelineMiddleWare.fulfilled, (state, action) => {
       const index = state.pipeline?.findIndex(
-        (data) => data.id === action.payload.id,
+        (data) => data.wk_id === action.payload.wk_id,
       );
       if (index === -1) {
         return { ...state };
@@ -44,7 +42,7 @@ const pipelinePageReducer = createSlice({
       return {
         ...state,
         pipeline: state.pipeline.map((doc) => {
-          if (doc.id === action.payload.id) {
+          if (doc.wk_id === action.payload.wk_id) {
             return action.payload;
           }
           return doc;
@@ -54,7 +52,7 @@ const pipelinePageReducer = createSlice({
     builder.addCase(deleteJobPipelineMiddleWare.fulfilled, (state, action) => {
       const newPipeline = [...state.pipeline];
       const index = state.pipeline?.findIndex(
-        (data) => data.id === action.payload,
+        (data) => data.wk_id === action.payload,
       );
       if (index !== -1) {
         newPipeline.splice(index, 1);
@@ -67,7 +65,7 @@ const pipelinePageReducer = createSlice({
     builder.addCase(defaultJobPipelineMiddleWare.fulfilled, (state, action) => {
       const newPipeline = [...state.pipeline];
       const index = state.pipeline?.findIndex(
-        (data) => data.id === action.payload,
+        (data) => data.wk_id === action.payload,
       );
       if (index !== -1) {
         return {

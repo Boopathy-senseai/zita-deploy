@@ -29,11 +29,11 @@ interface ColorPalletProps {
           <Button
             types="link"
             key={index}
-            onClick={() => onChange({ ...data, color: doc })}
+            onClick={() => onChange({ ...data, stage_color: doc })}
             className={styles.colorButton}
             style={{ backgroundColor: doc }}
           >
-            {data.color === doc && (
+            {data.stage_color === doc && (
               <div>
                 <SvgTickOne fill="white" />
               </div>

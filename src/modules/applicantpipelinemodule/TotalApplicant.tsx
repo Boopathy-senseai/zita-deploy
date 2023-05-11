@@ -32,8 +32,7 @@ import {
   addJobPipelineStageMiddleWare,
   deleteJobPipelineStageMiddleWare,
   updateJobPipelineStageMiddleWare,
-  jobPipelineStagesMiddleWare,
-  jobPipelineSuggestionsMiddleWare,
+  getTemplateDataMiddleWare,
   reorderJobPipelineStageMiddleWare,
 } from '../../modules/accountsettingsmodule/templatesmodule/store/middleware/templatesmiddleware';
 
@@ -54,7 +53,7 @@ type Props = {
   seletedCardsLength: number;
   allColumnsItemsLength: number;
   onExport?: () => void;
-  onMove?: (stageId: string) => void;
+  onMove?: (stageId: number) => void;
 };
 
 const TotalApplicant = ({
@@ -87,14 +86,14 @@ const TotalApplicant = ({
     setStage(false);
   };
   useEffect(() => {
-    dispatch(jobPipelineStagesMiddleWare());
-    dispatch(jobPipelineSuggestionsMiddleWare());
+    dispatch(getTemplateDataMiddleWare());
+   
   }, []);
   const { stages, suggestions, isLoading } = useSelector(
     ({ templatePageReducers }: RootState) => ({
       isLoading: templatePageReducers.isLoading,
       stages: templatePageReducers.stages,
-      suggestions: templatePageReducers.suggestions,
+      suggestions: templatePageReducers.suggestion,
     }),
   );
   const onStageEdit = (value: StageData) => {
@@ -103,13 +102,13 @@ const TotalApplicant = ({
   const initial = {
     title: '',
   };
-  const addStage = (doc: { id: string; title: string }) => {
+  const addStage = (doc: { id: number; title: string }) => {
     dispatch(
       addJobPipelineStageMiddleWare({
         id: doc.id,
-        color: 'gray',
-        title: doc.title,
-        disabled: false,
+        stage_color: 'gray',
+        stage_name: doc.title,
+        is_disabled: false,
       }),
     );
   };
@@ -127,7 +126,7 @@ const TotalApplicant = ({
     if (
       isDuplicate(
         values.title,
-        stages.map((doc) => doc.title),
+        stages.map((doc) => doc.stage_name),
       )
     ) {
       errors.title = 'Already stage name exists';
@@ -143,7 +142,7 @@ const TotalApplicant = ({
     initialValues: initial,
     validate: handleJobPipeline,
     onSubmit: (form) => {
-      addStage({ id: `${new Date().getTime()}`, title: form.title });
+      // addStage({ id: `${new Date().getTime()}`, title: form.title });
       toggleStage();
     },
   });
@@ -157,15 +156,15 @@ const TotalApplicant = ({
   const onStageDelete = (doc: StageData) => {
     dispatch(deleteJobPipelineStageMiddleWare(doc.id));
   };
-  const isStageExist = (id: string) => {
-    return stages.find((doc) => doc.id === id) !== undefined;
-  };
+  // const isStageExist = (id: string) => {
+  //   return stages.find((doc) => doc.id === id) !== undefined;
+  // };
   const defaultStage: StageData = {
-    id: '1STG',
-    color: '#581845',
-    title: 'New Applicants',
-    disabled: true,
-    palatteDisabled: true,
+    // id: 1ST,
+    stage_color: '#581845',
+    stage_name: 'New Applicants',
+    is_disabled: true,
+    // palatteDisabled: true,
   };
   const onReorderChange = (list: StageData[]) => {
     dispatch(reorderJobPipelineStageMiddleWare(list));

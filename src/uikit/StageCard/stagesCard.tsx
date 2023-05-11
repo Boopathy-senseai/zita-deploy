@@ -56,8 +56,8 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
   const handleJobPipeline = (values: StageData) => {
     const errors: Partial<StageData> = {};
 
-    if (!isEmpty(values.title) && values.title.length > 25) {
-      errors.title = 'Stage name should not exceed 25 characters.';
+    if (!isEmpty(values.stage_name) && values.stage_name.length > 25) {
+      errors.stage_name = 'Stage name should not exceed 25 characters.';
     }
     return errors;
   };
@@ -88,7 +88,7 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
     if (myRef.current && !myRef.current.contains(event.target)) {
       if (isBtnColorOpen) {
         setBtnColorOpen(false);
-        if (doc.color !== formik.values.color) onColorChange(formik.values);
+        if (doc.stage_color !== formik.values.stage_color) onColorChange(formik.values);
       } else {
         setShowColorPallet(false);
         setBtnColorOpen(false);
@@ -117,7 +117,7 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
         <Flex row noWrap>
           <Flex column noWrap>
             <InputText
-              value={formik.values.title}
+              value={formik.values.stage_name}
               onChange={formik.handleChange('title')}
               lineInput
               size={12}
@@ -138,8 +138,8 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
             ) : (
               <div
                 className={cx('svgTickMargin', {
-                  svgTickDisable: isEmpty(formik.values.title),
-                  tickStyle: !isEmpty(formik.values.title),
+                  svgTickDisable: isEmpty(formik.values.stage_name),
+                  tickStyle: !isEmpty(formik.values.stage_name),
                 })}
                 //  onClick={handleLocationSubmit}
                 tabIndex={-1}
@@ -165,7 +165,7 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
         </Flex>
       );
     }
-    return <Text color="theme" title={doc.title}>{doc.title}</Text>;
+    return <Text color="theme" title={doc.stage_name}>{doc.stage_name}</Text>;
   };
   const handleDelete = () => {
     if (edit) {
@@ -199,9 +199,9 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
             />
           </Button>
           <button
-            disabled={doc.palatteDisabled}
+            // disabled={doc.palatteDisabled}
             className={styles.colorCircle}
-            style={{ backgroundColor: doc.color }}
+            style={{ backgroundColor: doc.stage_color }}
             onClick={() =>
               isColorPicker ? setShowColorPallet(!showColorPallet) : undefined
             }
@@ -220,10 +220,10 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
         {showColorPallet && isBtnColorOpen && (
           <div className={styles.colorPicker}>
             <ColorPicker
-              colors={{ hex: formik.values.color }}
+              colors={{ hex: formik.values.stage_color }}
               onChange={(e: { hex: string }) => {
                 formik.setFieldValue('color', e.hex);
-                onColorChange({ ...doc, color: e.hex });
+                onColorChange({ ...doc, stage_color: e.hex });
               }}
               // onChange={(e) => selectColour(e.hex)}
             />
@@ -231,21 +231,21 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
         )}
         <Flex className={styles.rowGroup}>
           <Button
-            disabled={doc.disabled}
+            disabled={doc.is_disabled}
             types="link"
             className={styles.editIcon}
             onClick={() =>
-              onEdit && doc.disabled === false ? setEdit(!edit) : undefined
+              onEdit && doc.is_disabled === false ? setEdit(!edit) : undefined
             }
           >
             <SvgEdit width={12} height={12} fill={'#581845'} />
           </Button>
           <Button
-            disabled={doc.disabled}
+            disabled={doc.is_disabled}
             types="link"
             className={styles.deleteIcon}
             onClick={() =>
-              handleDelete && doc.disabled === false
+              handleDelete && doc.is_disabled === false
                 ? handleDelete()
                 : undefined
             }
