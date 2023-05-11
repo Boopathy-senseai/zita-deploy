@@ -39,10 +39,8 @@ const LoginScreen = () => {
   const [isInactive, setInactive] = useState(false);
 
   // useEffect(() => {
-  //   if (localStorage.getItem('token')) {
-  //     history.push('/');
-  //   }
-  // }, []);
+   
+  // }, [isError,isInactive]);
 
   const { isLoading } = useSelector(({ loginReducers }: RootState) => {
     return {
@@ -64,7 +62,13 @@ const LoginScreen = () => {
     return errors;
   };
 
+  const handlechange=(val)=>{
+
+  }
+
   const handleLoginValid = (values: loginFormProps) => {
+    setError(false);
+    setInactive(false);
     const errors: Partial<loginFormProps> = {};
     if (values.email === '') {
       errors.email = THIS_FIELD_REQUIRED;
@@ -72,6 +76,8 @@ const LoginScreen = () => {
 
     if (values.userName === '') {
       errors.userName = THIS_FIELD_REQUIRED;
+
+      
     }
     return errors;
   };
@@ -80,6 +86,7 @@ const LoginScreen = () => {
     initialValues: initial,
     onSubmit: (values) => hanldeLogin(values),
     validate: handleLoginValid,
+ 
   });
 
   const forgotFormik = useFormik({

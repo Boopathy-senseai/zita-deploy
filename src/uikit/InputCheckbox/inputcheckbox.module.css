@@ -42,7 +42,8 @@
   top: 1px;
 }
 .checkboxStyle > input:checked + .withOutLabel::before {
-  top: 0px;
+  top: -14px;
+    left: -14px;
 }
 .withLabel {
   top: 0px;

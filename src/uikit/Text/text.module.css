@@ -104,6 +104,7 @@
 }
 .textColor-success {
   color: var(--color-success, #34cc65);
+  font-size: 0px;
 }
 .textColor-theme {
   color: var(--color-primary, #581845);

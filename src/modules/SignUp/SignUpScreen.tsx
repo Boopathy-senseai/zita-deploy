@@ -587,7 +587,7 @@ const SignUpScreen = (props: any) => {
                           rel="noreferrer"
                           href="https://zita.ai/terms-and-conditions"
                         >
-                          <Text bold size={20} color="link">
+                          <Text bold size={14} color="link">
                             Terms of Use
                           </Text>
                         </a>
@@ -598,7 +598,7 @@ const SignUpScreen = (props: any) => {
                           rel="noreferrer"
                           href="https://www.zita.ai/privacy-policy"
                         >
-                          <Text bold size={20} color="link">
+                          <Text bold size={14} color="link">
                             Privacy Policy
                           </Text>
                         </a>
@@ -613,10 +613,11 @@ const SignUpScreen = (props: any) => {
                     </Button>
                   </Flex>
 
-                  <Flex middle className={styles.account_link}>
+                  <Flex middle className={styles.account_link} row>
                     Already have an Account ?{' '}
+                    &nbsp;
                     <u>
-                      <Link to="/login">Login </Link>
+                      <Link to="/login"> Login </Link>
                     </u>
                   </Flex>
                 </Flex>
@@ -626,17 +627,19 @@ const SignUpScreen = (props: any) => {
                     <Flex middle className={styles.text_margin}>
                       <SvgVerificationEmailIcon fill={'#581845'} />
                     </Flex>
+                    <Flex column-middle>
                     <Text size={22} bold className={styles.verificationtext}>
                       Verification email sent successfully
                     </Text>
-                    <Text size={20} className={styles.messages}>
+                    <Text size={16} className={styles.messages} style={{justifyContent:'center'}}>
                       Please click on the verification link sent to your email
                       id to complete the registration. In case you are not able
                       to find our mail, please check the spam folder.
                     </Text>
+                    </Flex>
                     <Flex middle>
                       <Button
-                        style={{ marginTop: '10px' }}
+                        style={{ marginTop: '10px',position:'relative',bottom:'68px',borderRadius:'5px' }}
                         onClick={() => Redirect()}
                       >
                         Ok

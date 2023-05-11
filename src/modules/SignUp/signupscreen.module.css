@@ -210,14 +210,20 @@
 .text_margin {
   /* Center vertically and horizontally */
   margin-top: 130px;
+  position: relative;
+  top: 26px;
 }
 .verificationtext {
   text-align: center;
-  margin-top: 10px;
+  margin-top: -25px;
+  color: #581845;
 }
 
 .messages {
   padding: 20px 40px 0 40px;
+  color: #581845;
+  margin-top: -15px;
+  text-align: center;
 }
 
 .successform_body {
