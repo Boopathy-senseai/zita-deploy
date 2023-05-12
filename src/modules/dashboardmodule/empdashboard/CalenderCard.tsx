@@ -371,7 +371,7 @@ const CalenderCard = ({
                             ),
                           );
                         });
-                        ;
+                        
                         {console.log("date",date)}
                       }}
                       className={styles.datePicker}

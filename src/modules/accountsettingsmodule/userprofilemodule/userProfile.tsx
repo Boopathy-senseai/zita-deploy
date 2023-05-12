@@ -58,6 +58,7 @@ const UserProfile = ({setReloadProfile}:Props) => {
   const [isMb, setMb] = useState(false);
   useEffect(() => {
     dispatch(userProfileMiddleWare());
+    
   }, []);
 
   const { user, profile, isLoading } = useSelector(

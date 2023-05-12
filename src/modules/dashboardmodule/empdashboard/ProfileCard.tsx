@@ -7,6 +7,7 @@ import SvgLocation from '../../../icons/SvgLocation';
 import SvgSubscription from '../../../icons/SvgSubscription';
 
 import SvgDot from '../../../icons/SvgDot';
+
 import SvgCreditsavailable from '../../../icons/SvgCreditsavailable';
 import SvgCredits from '../../../icons/SvgCredits';
 import SvgLocationicon from '../../../icons/SvgLocationicon';
@@ -42,20 +43,19 @@ const ProfileCard = () => {
     mobile_no,
     status,
     zipcode,
-    countryid,
-    stateid,
-    cityid,
-    data,
+    weburl,
+   data3, 
+ data2,
+    
     
   } = useSelector(({ dashboardEmpReducers, permissionReducers, companyPageReducers }: RootState) => {
     return {
-      data:companyPageReducers,
+      weburl:companyPageReducers.company_detail.company_website,
+      
       address: companyPageReducers.company_detail.address,
       zipcode:companyPageReducers.company_detail.zipcode,
-      stateid:companyPageReducers.company_detail.state_id,
-     
-      cityid:companyPageReducers.company_detail.city_id,
-      countryid:companyPageReducers.company_detail.country_id,
+     data3:permissionReducers,
+     data2:dashboardEmpReducers,
       mobile_no: companyPageReducers.company_detail.contact,
       company_name: dashboardEmpReducers.company_name,
       logo: dashboardEmpReducers.logo,
@@ -80,18 +80,7 @@ const ProfileCard = () => {
     sessionStorage.removeItem('superUserFalseTab');
   };
 
-  const handlefunction=()=>{
-    if(data.state.length !== 0&&data.city.length!==0&&data.country.length!==0){
-      const state=data.state.filter(datas=>datas.id===stateid)[0].name;
-      const city=data.city.filter(datas=>datas.id===cityid)[0].name;
-      const country=data.country.filter(datas=>datas.id===countryid)[0].name;
-     return( 
-     
-     <Text >{address},{city},{state},{country},{zipcode}.</Text>
-     );
-    }
-   
-  }
+ 
 
   return (
 
@@ -99,7 +88,7 @@ const ProfileCard = () => {
 
 
     <Flex marginLeft={5} marginTop={10}>
-{console.log("fd",data)}
+
       <Card className={styles.profileCardMain}>
         <Flex marginLeft={140} marginTop={15} center>
 
@@ -123,7 +112,7 @@ const ProfileCard = () => {
           <Text style={{ marginBottom: 7 }} align="center">
             {user_info.email}
           </Text>
-          <Text align="center" >
+          <Text align="center" bold>
             Last Login on :{' '}
             {getDateString(user_info?.last_login, 'll hh:mm A')}
             {console.log("userinfo",user_info.last_login)}
@@ -136,6 +125,9 @@ const ProfileCard = () => {
         </Flex>
         
 
+{console.log("dashboardempreducer", data2)}
+{console.log("permissionreducer", data3)
+}
         <Flex row>
           <Flex>
             <Flex >
@@ -393,8 +385,11 @@ const ProfileCard = () => {
               <Flex marginLeft={9}><Text>+{mobile_no}</Text></Flex></Flex> : ""}
           </Flex>
           <Flex marginTop={10}>
-            {user_info.email !== null ? <Flex row> <Flex marginRight={5}><SvgGlobe height={20} width={20} fill={BLACK} /></Flex>
-              <Flex marginLeft={9}><Text style={{ marginBottom: "4px",textDecoration:"underline" }}>{user_info.email}</Text></Flex></Flex> :  
+         
+{console.log("userinfodata",user_info)}
+
+            {weburl !== 'https://' ? <Flex row> <Flex marginRight={5}><SvgGlobe height={20} width={20} fill={BLACK} /></Flex>
+              <Flex marginLeft={9}><Text style={{ marginBottom: "4px",textDecoration:"underline" }} >{weburl}</Text></Flex></Flex> :  
               <Flex row marginTop={7}>
                 <Flex marginRight={5} >
                   <SvgGlobe height={30} width={30} fill={BLACK} />
@@ -404,16 +399,19 @@ const ProfileCard = () => {
                   // onClick={clearTab}
                   to={ '/account_setting/settings'}
                 >
-                  <Text style={{color:"#581845",textDecoration:"underline"}}>
-                    Add WebSite Web Url
+                  <Text style={{color:"#581845",textDecoration:"underline"}} bold>
+                    Add Website URL
                   </Text>
                 </LinkWrapper>
                </Flex>
               </Flex>}
           </Flex>
           <Flex marginTop={10}>
-            {address !== null ? <Flex row><Flex marginRight={1} ><SvgLocationicon height={30} width={30} fill={BLACK} /></Flex>
-              <Flex  marginLeft={4}>{handlefunction()}</Flex></Flex> :
+
+            {console.log("sdsdsd",address)}
+
+            {address !== "" ? <Flex row><Flex marginRight={1} ><SvgLocationicon height={30} width={30} fill={BLACK} /></Flex>
+              <Flex  marginLeft={4}>{address}</Flex></Flex> :
               <Flex row >
                 <Flex marginRight={5}>
                   <SvgLocationicon height={30} width={30} fill={BLACK} />
@@ -425,8 +423,8 @@ const ProfileCard = () => {
                   // onClick={clearTab}
                   to={ '/account_setting/settings'}
                 >
-                  <Text style={{color:"#581845",textDecoration:"underline"}}>
-                    Add company Address
+                  <Text style={{color:"#581845",textDecoration:"underline"}} bold>
+                    Add Company Address
                   </Text>
                 </LinkWrapper>
                </Flex>
