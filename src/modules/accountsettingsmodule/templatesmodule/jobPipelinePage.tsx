@@ -11,125 +11,137 @@ import Text from '../../../uikit/Text';
 import { enterKeyPress, isEmpty } from '../../../uikit/helper';
 import SvgTickBox from '../../../icons/SvgTickBox';
 import SvgCloseBox from '../../../icons/SvgCloseBox';
-import { Button, LinkWrapper, Loader } from '../../../uikit';
+import { Button, LinkWrapper, Loader, Toast } from '../../../uikit';
 import { AppDispatch, RootState } from '../../../store';
 import SvgPlusCircle from '../../../icons/SvgAddCircle';
 import { Chip } from '../../../uikit/StagesChip/stagesChip';
 import { StageCard } from '../../../uikit/StageCard/stagesCard';
-import { StageData, jobPipelineForm } from './templatesPageTypes';
+import { useStages } from '../../../hooks/useStages';
 import {
-  addJobPipelineStageMiddleWare,
-  deleteJobPipelineStageMiddleWare,
-  updateJobPipelineStageMiddleWare,
+  ICreateTemplate,
+  IUpdateTemplate,
+  StageData,
+  SuggestionData,
+  jobPipelineForm,
+} from './templatesPageTypes';
+import {
+  // addJobPipelineStageMiddleWare,
+  // deleteJobPipelineStageMiddleWare,
+  // updateJobPipelineStageMiddleWare,
   getTemplateDataMiddleWare,
-  reorderJobPipelineStageMiddleWare,
+  // reorderJobPipelineStageMiddleWare,
+  updateTemplateDataMiddleWare,
+  createTemplateDataMiddleWare,
 } from './store/middleware/templatesmiddleware';
 
 import styles from './jobPipelinePage.module.css';
 import ReorderStage from './reorder';
+import { templatePageReducerActions } from './store/reducer/templatesreducer';
 
 const cx = classNames.bind(styles);
 type FormProps = {
   handleBack: () => void;
   buttondata: number;
-  wk_id: number;
+  wk_id?: number;
   //location: string;
 };
 
 const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
   // const reorderRef = useRef<Reorder>(null);
   const [stage, setStage] = useState(false);
-  //const userId = {id: "403"}
+  const [form, setForm] = useState({ title: '', pipelineTitle: '' });
+  const [isSubmitLoader, setSubmitLoader] = useState(false);
+
   const dispatch: AppDispatch = useDispatch();
-
-  useEffect(() => {
-    //dispatch(jobPipelineStagesMiddleWare(userId));
-    dispatch(getTemplateDataMiddleWare(wk_id));
-  }, []);
-
-  const { stages, suggestions, isLoading } = useSelector(
+  const { pipeline, stages, suggestions, isLoading } = useSelector(
     ({ templatePageReducers }: RootState) => {
-      console.log('check', templatePageReducers);
       return {
         isLoading: templatePageReducers.isLoading,
+        pipeline: templatePageReducers.data[0],
         stages: templatePageReducers.stages,
         suggestions: templatePageReducers.suggestion,
       };
     },
   );
 
-  const onStageEdit = (value: StageData) => {
-    dispatch(updateJobPipelineStageMiddleWare(value));
-  };
+  const {
+    localStages,
+    onEditStage,
+    onAddStageFromSuggestion,
+    onAddStage,
+    onRemoveStage,
+    onReorder,
+    isStageDuplicate,
+    isStageExist,
+  } = useStages(stages);
+  console.log('titls', suggestions, pipeline);
 
-  const onStageDelete = (doc: StageData) => {
-    dispatch(deleteJobPipelineStageMiddleWare(doc.id));
-  };
 
-  const addStage = (doc: { stage_name: string }) => {
-    dispatch(
-      addJobPipelineStageMiddleWare({
-        // id: doc.suggestion_id,
-        stage_color: 'gray',
-        stage_name: doc.stage_name,
-        is_disabled: false,
-      }),
-    );
-  };
-  const removeStage = (doc: { suggestion_id: number; stage_name: string }) => {
-    dispatch(deleteJobPipelineStageMiddleWare(doc.suggestion_id));
-  };
+  useEffect(() => {
+    //dispatch(jobPipelineStagesMiddleWare(userId));
+    
+    if (wk_id) {
+      dispatch(getTemplateDataMiddleWare(wk_id));
+    } else {
+      dispatch(templatePageReducerActions.clearState());
+    }
+    return () => {
+      dispatch(templatePageReducerActions.clearState());
+    };
+  }, [wk_id]);
+  useEffect(() => {
+    if (pipeline) {
+      setForm({ ...form, pipelineTitle: pipeline.pipeline_name });
+    }
+  }, [pipeline]);
 
   const toggleStage = () => {
     setStage(!stage);
-    formik.resetForm();
+    formik.setFieldValue("title", "");
   };
-  const isDuplicate = (title: string, data: string[]) => {
-    return data
-      .map((str) => str.trim().toLowerCase() === title.trim().toLowerCase())
-      .includes(true);
-  };
+
   const handleJobPipeline = (values: jobPipelineForm) => {
     const errors: Partial<jobPipelineForm> = {};
 
     if (!isEmpty(values.title) && values.title.length > 25) {
       errors.title = 'Stage name should not exceed 25 characters.';
     }
-    if (
-      isDuplicate(
-        values.title,
-        stages.map((doc) => doc.stage_name),
-      )
-    ) {
+    if (isStageDuplicate(values.title)) {
       errors.title = 'Already stage name exists';
     }
     return errors;
   };
   const [isPipelineLoader, setPipelineLoader] = useState(false);
 
-  const initial = {
-    title: '',
-    pipelineTitle: '',
-  };
   const formik = useFormik({
-    initialValues: initial,
+    initialValues: form,
     validate: handleJobPipeline,
-    onSubmit: (form) => {
-      addStage({ stage_name: form.pipelineTitle });
+    enableReinitialize: true,
+    onSubmit: (data) => {
+      onAddStageFromSuggestion({
+        stage_name: data.title,
+        stage_order: suggestions.length + 1,
+        stage_color: 'gray',
+        suggestion_id: new Date().getTime(),
+        wk_id_id: wk_id,
+        is_disabled: false,
+      });
       toggleStage();
     },
   });
 
-  const isStageExist = (name: string) => {
-    return (
-      stages.find((doc) => {
-        console.log(doc.stage_name,name,doc.stage_name.toLowerCase().trim() === name.toLowerCase().trim())
-        return (
-          doc.stage_name.toLowerCase().trim() === name.toLowerCase().trim()
-        );
-      }) !== undefined
-    );
+  const isFormDirty = () => {
+    if (stages && stages.length !== localStages.length) return true;
+    if (pipeline && formik.values.pipelineTitle !== pipeline.pipeline_name)
+      return true; /// TODO: FIX this Megumi
+    return false;
   };
+  const isFormValid = () => {
+    if (formik.values.pipelineTitle === '') return false;
+    if (localStages?.length === 0) return false;
+    return true;
+  };
+
   const defaultStage: StageData = {
     id: 1,
     stage_color: '#581845',
@@ -138,12 +150,39 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     // palatteDisabled: true,
   };
 
-  const onReorderChange = (list: StageData[]) => {
-    dispatch(reorderJobPipelineStageMiddleWare(list));
+  /// Save Form
+
+  const handleCreate = () => {
+    const payload: ICreateTemplate = {
+      pipeline_name: formik.values.pipelineTitle,
+      stages: localStages,
+    };
+    setSubmitLoader(true);
+    dispatch(createTemplateDataMiddleWare(payload)).then(() => {
+      setSubmitLoader(false);
+      Toast('Pipeline created successfully', 'LONG');
+    });
+    handleBack();
   };
 
+  /// update form
+
+  const handleUpdate = () => {
+    const payload: IUpdateTemplate = {
+      pipeline_name: formik.values.pipelineTitle,
+      workflow_id: wk_id,
+      stages: localStages,
+    };
+    setSubmitLoader(true);
+    dispatch(updateTemplateDataMiddleWare(payload)).then(() => {
+      setSubmitLoader(false);
+      Toast('Changes saved successfully.', 'LONG');
+    });
+    // handleBack()
+  };
   return (
     <Flex>
+      {isSubmitLoader && <Loader />}
       <Flex row start className={styles.title} onClick={handleBack}>
         <SvgBack height={14} width={14} />
         <Text color="theme" bold size={16} style={{ marginLeft: '10px' }}>
@@ -186,10 +225,10 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
                 //onDelete={onStageDelete}
               />
               <ReorderStage
-                list={stages}
-                onEdit={onStageEdit}
-                onDelete={onStageDelete}
-                onChange={onReorderChange}
+                list={localStages}
+                onEdit={onEditStage}
+                onDelete={onRemoveStage}
+                onChange={onReorder}
               />
             </Flex>
           </Flex>
@@ -203,8 +242,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
               </Text>
             </Flex>
             <Flex row wrap className={styles.borderLine}>
-              {console.log('job', suggestions)}
-              {suggestions.map((doc, index) => {
+              {suggestions.filter(doc => stages.findIndex(subDoc => subDoc.stage_name === doc.stage_name) === -1).map((doc, index) => {
                 const isActive = isStageExist(doc.stage_name);
                 return (
                   <Chip
@@ -212,8 +250,8 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
                     isActive={isActive}
                     doc={doc}
                     index={index}
-                    onAdd={addStage}
-                    onRemove={removeStage}
+                    onAdd={onAddStageFromSuggestion}
+                    onRemove={onRemoveStage}
                   />
                 );
               })}
@@ -293,7 +331,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
           >
             Cancel
           </Button>
-          <Button onClick={() => undefined} disabled={!formik.isValid}>
+          <Button onClick={handleCreate} disabled={!isFormValid()}>
             Save
           </Button>
         </Flex>
@@ -306,7 +344,10 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
           >
             Cancel
           </Button>
-          <Button onClick={handleBack} disabled={!formik.isValid}>
+          <Button
+            onClick={handleUpdate}
+            disabled={!isFormValid() && !isFormDirty()}
+          >
             Update
           </Button>
         </Flex>

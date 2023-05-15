@@ -29,11 +29,11 @@ import { AppDispatch, RootState } from '../../store';
 import SvgPlusCircle from '../../icons/SvgAddCircle';
 
 import {
-  addJobPipelineStageMiddleWare,
-  deleteJobPipelineStageMiddleWare,
-  updateJobPipelineStageMiddleWare,
+  // addJobPipelineStageMiddleWare,
+  // deleteJobPipelineStageMiddleWare,
+  // updateJobPipelineStageMiddleWare,
   getTemplateDataMiddleWare,
-  reorderJobPipelineStageMiddleWare,
+  // reorderJobPipelineStageMiddleWare,
 } from '../../modules/accountsettingsmodule/templatesmodule/store/middleware/templatesmiddleware';
 
 import SvgTickBox from '../../icons/SvgTickBox';
@@ -42,6 +42,7 @@ import { isEmpty } from '../../uikit/helper';
 import SvgFavourites from '../../icons/SvgFavourties';
 import SvgMove from '../../icons/SvgMove';
 import SvgDownload from '../../icons/SvgDownload';
+import { useStages } from '../../hooks/useStages';
 import styles from './totalapplicant.module.css';
 import MovePipelinePopup from './movepopup';
 const cx = classNames.bind(styles);
@@ -71,6 +72,16 @@ const TotalApplicant = ({
   const [isStageLoader, setStageLoader] = useState(false);
 
   const dispatch: AppDispatch = useDispatch();
+
+  const { stages, suggestions, isLoading } = useSelector(
+    ({ templatePageReducers }: RootState) => ({
+      isLoading: templatePageReducers.isLoading,
+      stages: templatePageReducers.stages,
+      suggestions: templatePageReducers.suggestion,
+    }),
+  );
+
+
   const handleOpenPopup = () => {
     setShowPopup(true);
   };
@@ -87,48 +98,30 @@ const TotalApplicant = ({
   };
   useEffect(() => {
     dispatch(getTemplateDataMiddleWare());
-   
   }, []);
-  const { stages, suggestions, isLoading } = useSelector(
-    ({ templatePageReducers }: RootState) => ({
-      isLoading: templatePageReducers.isLoading,
-      stages: templatePageReducers.stages,
-      suggestions: templatePageReducers.suggestion,
-    }),
-  );
-  const onStageEdit = (value: StageData) => {
-    dispatch(updateJobPipelineStageMiddleWare(value));
-  };
+  
+  const {
+    localStages,
+    onEditStage,
+    onAddStageFromSuggestion,
+    onAddStage,
+    onRemoveStage,
+    onReorder,
+    isStageDuplicate,
+  } = useStages(stages);
+
   const initial = {
     title: '',
   };
-  const addStage = (doc: { id: number; title: string }) => {
-    dispatch(
-      addJobPipelineStageMiddleWare({
-        id: doc.id,
-        stage_color: 'gray',
-        stage_name: doc.title,
-        is_disabled: false,
-      }),
-    );
-  };
-  const isDuplicate = (title: string, data: string[]) => {
-    return data
-      .map((str) => str.trim().toLowerCase() === title.trim().toLowerCase())
-      .includes(true);
-  };
+
+
   const handleJobPipeline = (values: jobPipelineForm) => {
     const errors: Partial<jobPipelineForm> = {};
 
     if (!isEmpty(values.title) && values.title.length > 25) {
       errors.title = 'Stage name should not exceed 25 characters.';
     }
-    if (
-      isDuplicate(
-        values.title,
-        stages.map((doc) => doc.stage_name),
-      )
-    ) {
+    if (isStageDuplicate(values.title)) {
       errors.title = 'Already stage name exists';
     }
     return errors;
@@ -140,9 +133,17 @@ const TotalApplicant = ({
 
   const formik = useFormik({
     initialValues: initial,
+    enableReinitialize: true,
     validate: handleJobPipeline,
-    onSubmit: (form) => {
-      // addStage({ id: `${new Date().getTime()}`, title: form.title });
+    onSubmit: (data) => {
+      onAddStageFromSuggestion({
+        stage_name: data.title,
+        stage_order: suggestions.length + 1,
+        stage_color: 'gray',
+        suggestion_id: new Date().getTime(),
+        wk_id_id: new Date().getTime(), /// TODO: Fix this Megumi 
+        is_disabled: false,
+      });
       toggleStage();
     },
   });
@@ -150,15 +151,10 @@ const TotalApplicant = ({
     sessionStorage.setItem('superUserTab', '7');
     sessionStorage.setItem('template', '1');
     sessionStorage.setItem('pipeline', '1');
-    sessionStorage.setItem('button', '0')
+    sessionStorage.setItem('button', '0');
   };
 
-  const onStageDelete = (doc: StageData) => {
-    dispatch(deleteJobPipelineStageMiddleWare(doc.id));
-  };
-  // const isStageExist = (id: string) => {
-  //   return stages.find((doc) => doc.id === id) !== undefined;
-  // };
+
   const defaultStage: StageData = {
     // id: 1ST,
     stage_color: '#581845',
@@ -166,9 +162,7 @@ const TotalApplicant = ({
     is_disabled: true,
     // palatteDisabled: true,
   };
-  const onReorderChange = (list: StageData[]) => {
-    dispatch(reorderJobPipelineStageMiddleWare(list));
-  };
+
   const disableMove = allColumnsItemsLength === seletedCardsLength;
 
   return (
@@ -393,10 +387,10 @@ const TotalApplicant = ({
                   //onDelete={onStageDelete}
                 />
                 <ReorderStage
-                  list={stages}
-                  onEdit={onStageEdit}
-                  onDelete={onStageDelete}
-                  onChange={onReorderChange}
+                  list={localStages}
+                  onEdit={onEditStage}
+                  onDelete={onRemoveStage}
+                  onChange={onReorder}
                 />
               </Flex>
             </Flex>

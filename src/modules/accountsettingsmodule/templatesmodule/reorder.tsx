@@ -29,7 +29,7 @@ const getListStyle = (isDraggingOver) => ({
 interface Props {
   list: StageData[];
   onEdit?: (value: StageData) => void;
-  onDelete?: (value: StageData) => void;
+  onDelete?: (value: number) => void;
   onChange: (value: StageData[]) => void;
 }
 const ReorderStage: React.FC<Props> = (props) => {
@@ -75,7 +75,7 @@ const ReorderStage: React.FC<Props> = (props) => {
             {state.items.map((item, index) => (
               <Draggable
                 key={`${item.id}-${index}`}
-                draggableId={item.id.toString()}
+                draggableId={`${item.id}-${index}`}
                 index={index}
               >
                 {(providedD, snapshotD) => (

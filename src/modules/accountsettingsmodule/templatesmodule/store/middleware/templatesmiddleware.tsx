@@ -9,8 +9,11 @@ import {
   PIPELINE_SUGGESTIONS,
   UPDATE_COLOUR_PALLATE,
   GET_TEMPLATE_DATA,
+  UPDATE_TEMPLATE_DATA,
+  CREATE_TEMPLATE_DATA,
 } from '../../../../../actions/actions';
 import {
+  ICreateTemplate,
   IJobPipeline,
   IUpdateTemplate,
   StageData,
@@ -18,7 +21,13 @@ import {
 import StagesJson from '../../../../../assets/others/pipelineStages.json';
 import SuggestionsJson from '../../../../../assets/others/pipelineSuggestions.json';
 import JobPipelinesJson from '../../../../../assets/others/pipelineData.json';
-import { templatesStages } from '../../../../../routes/apiRoutes';
+import {
+  kanbanPipelineView,
+  templatesStages,
+} from '../../../../../routes/apiRoutes';
+import { convertJsonToForm } from '../../../../../uikit/helper';
+import { getPipelineDataMiddleWare } from './pipelinesmiddleware';
+
 export const getTemplateDataMiddleWare = createAsyncThunk<
   IJobPipeline,
   number | void
@@ -27,7 +36,7 @@ export const getTemplateDataMiddleWare = createAsyncThunk<
     const url = id ? `${templatesStages}?wk_id=${id}` : templatesStages;
     const response = await axios.get(url);
     return response.data as IJobPipeline;
-    // return JobPipelinesJson as IJobPipeline;
+    //  sreturn JobPipelinesJson as IJobPipeline;
   } catch (error) {
     const typedError = error as Error;
     return rejectWithValue(typedError);
@@ -38,9 +47,15 @@ export const getTemplateDataMiddleWare = createAsyncThunk<
 export const updateTemplateDataMiddleWare = createAsyncThunk<
   { message: string },
   IUpdateTemplate
->(ADD_PIPELINE_STAGE, async (payload, { rejectWithValue }) => {
+>(UPDATE_TEMPLATE_DATA, async (payload, { rejectWithValue, dispatch }) => {
   try {
-    const response = await axios.post(templatesStages, payload);
+    // const response = await axios.post(templatesStages)
+    const response = await axios.post(
+      templatesStages,
+      convertJsonToForm(payload),
+    );
+    dispatch(getTemplateDataMiddleWare(payload.workflow_id));
+    dispatch(getPipelineDataMiddleWare());
     return response.data;
   } catch (error) {
     const typedError = error as Error;
@@ -48,61 +63,79 @@ export const updateTemplateDataMiddleWare = createAsyncThunk<
   }
 });
 
-// to be removed
-export const addJobPipelineStageMiddleWare = createAsyncThunk<
-  StageData,
-  StageData
->(ADD_PIPELINE_STAGE, async (payload, { rejectWithValue }) => {
+export const createTemplateDataMiddleWare = createAsyncThunk<
+  { message: string },
+  ICreateTemplate
+>(CREATE_TEMPLATE_DATA, async (payload, { rejectWithValue, dispatch }) => {
   try {
-    return payload;
-  } catch (error) {
-    const typedError = error as Error;
-    return rejectWithValue(typedError);
-  }
-});
-export const updateJobPipelineStageMiddleWare = createAsyncThunk<
-  StageData,
-  StageData
->(UPDATE_PIPELINE_STAGE, async (payload, { rejectWithValue }) => {
-  try {
-    return payload;
-  } catch (error) {
-    const typedError = error as Error;
-    return rejectWithValue(typedError);
-  }
-});
-export const updateColourMiddleWare = createAsyncThunk<String, String>(
-  UPDATE_COLOUR_PALLATE,
-  async (payload, { rejectWithValue }) => {
-    try {
-      return payload;
-    } catch (error) {
-      const typedError = error as Error;
-      return rejectWithValue(typedError);
-    }
-  },
-);
-
-export const deleteJobPipelineStageMiddleWare = createAsyncThunk<
-  number,
-  number
->(DELETE_PIPELINE_STAGE, async (payload, { rejectWithValue }) => {
-  try {
-    return payload as number;
+    const response = await axios.post(
+      templatesStages,
+      convertJsonToForm(payload),
+    );
+    //const response = await axios.post(templatesStages);
+    dispatch(getPipelineDataMiddleWare());
+    return response.data;
   } catch (error) {
     const typedError = error as Error;
     return rejectWithValue(typedError);
   }
 });
 
-export const reorderJobPipelineStageMiddleWare = createAsyncThunk<
-  StageData[],
-  StageData[]
->(PIPELINE_STAGES_REORDER, async (payload, { rejectWithValue }) => {
-  try {
-    return payload as StageData[];
-  } catch (error) {
-    const typedError = error as Error;
-    return rejectWithValue(typedError);
-  }
-});
+// // to be removed
+// export const addJobPipelineStageMiddleWare = createAsyncThunk<
+//   StageData,
+//   StageData
+// >(ADD_PIPELINE_STAGE, async (payload, { rejectWithValue }) => {
+//   try {
+//     return payload;
+//   } catch (error) {
+//     const typedError = error as Error;
+//     return rejectWithValue(typedError);
+//   }
+// });
+// export const updateJobPipelineStageMiddleWare = createAsyncThunk<
+//   StageData,
+//   StageData
+// >(UPDATE_PIPELINE_STAGE, async (payload, { rejectWithValue }) => {
+//   try {
+//     return payload;
+//   } catch (error) {
+//     const typedError = error as Error;
+//     return rejectWithValue(typedError);
+//   }
+// });
+// export const updateColourMiddleWare = createAsyncThunk<String, String>(
+//   UPDATE_COLOUR_PALLATE,
+//   async (payload, { rejectWithValue }) => {
+//     try {
+//       return payload;
+//     } catch (error) {
+//       const typedError = error as Error;
+//       return rejectWithValue(typedError);
+//     }
+//   },
+// );
+
+// export const deleteJobPipelineStageMiddleWare = createAsyncThunk<
+//   number,
+//   number
+// >(DELETE_PIPELINE_STAGE, async (payload, { rejectWithValue }) => {
+//   try {
+//     return payload as number;
+//   } catch (error) {
+//     const typedError = error as Error;
+//     return rejectWithValue(typedError);
+//   }
+// });
+
+// export const reorderJobPipelineStageMiddleWare = createAsyncThunk<
+//   StageData[],
+//   StageData[]
+// >(PIPELINE_STAGES_REORDER, async (payload, { rejectWithValue }) => {
+//   try {
+//     return payload as StageData[];
+//   } catch (error) {
+//     const typedError = error as Error;
+//     return rejectWithValue(typedError);
+//   }
+// });

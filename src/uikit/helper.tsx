@@ -199,3 +199,17 @@ export const dateFromDay = (year: any) => {
   var date = new Date(year, 0);
   return new Date(date.setDate(1));
 };
+
+
+export const convertJsonToForm = (json: { [key: string]: any }) => {
+  const form = new FormData();
+  Object.keys(json).forEach(key => {
+    if(typeof json[key] !== "string") {
+      form.append(key, JSON.stringify(json[key]));
+    }else {
+      form.append(key, json[key]);
+    }
+  })
+  
+  return form;
+}

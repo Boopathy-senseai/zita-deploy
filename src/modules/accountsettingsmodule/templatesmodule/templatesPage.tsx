@@ -14,6 +14,7 @@ import {
   InputText,
   LinkWrapper,
   Loader,
+  Toast,
 } from '../../../uikit';
 import SvgAdd from '../../../icons/SvgAdd';
 import SvgDotMenu from '../../../icons/SvgDotMenu';
@@ -25,13 +26,23 @@ import SvgCloseBox from '../../../icons/SvgCloseBox';
 import { AppDispatch, RootState } from '../../../store';
 import styles from './templates.module.css';
 import JobPipelinePage from './jobPipelinePage';
-import { PipelineData, jobPipelineForm } from './templatesPageTypes';
+import {
+  IUpdateTemplate,
+  PipelineData,
+  StageData,
+  jobPipelineForm,
+} from './templatesPageTypes';
 import {
   defaultJobPipelineMiddleWare,
   deleteJobPipelineMiddleWare,
   getPipelineDataMiddleWare,
   updatejobPipelineMiddleWare,
 } from './store/middleware/pipelinesmiddleware';
+import {
+  getTemplateDataMiddleWare,
+  updateTemplateDataMiddleWare,
+} from './store/middleware/templatesmiddleware';
+import DeletePopup from './deletePopup';
 const cx = classNames.bind(styles);
 
 const TemplatesPage = () => {
@@ -41,30 +52,21 @@ const TemplatesPage = () => {
   const [pipeline, setPipeline] = useState(
     parseInt(sessionStorage.getItem('pipeline')) || 0,
   );
+  const [isSubmitLoader, setSubmitLoader] = useState(false);
+  const [deletePopup, setDeletePopup] = useState<{
+    visible: boolean;
+    data: PipelineData;
+  } | null>(null);
+
+  const [workId, setWorkId] = useState<number | undefined>();
   const [showbutton, setshowbutton] = useState(
     parseInt(sessionStorage.getItem('button')) || 0,
   );
 
-  // const [pipelineData, setPipelineData] = useState([
-  //   {
-  //     id: 1,
-  //     name: 'Zita',
-  //     default: true,
-  //   },
-  //   {
-  //     id: 2,
-  //     name: 'Front end dev',
-  //     default: false,
-  //   },
-  //   {
-  //     id: '3',
-  //     name: 'Back end dev',
-  //     default: false,
-  //   },
-  // ]);
-  const { pipelineData } = useSelector(
-    ({ pipelinePageReducers }: RootState) => ({
+  const { pipelineData, isLoading, isTemplateLoading } = useSelector(
+    ({ pipelinePageReducers, templatePageReducers }: RootState) => ({
       isLoading: pipelinePageReducers.isLoading,
+      isTemplateLoading: templatePageReducers.isLoading,
       pipelineData: pipelinePageReducers.pipeline,
     }),
   );
@@ -76,29 +78,54 @@ const TemplatesPage = () => {
     setTemplate(1);
   };
   const selectPipeline = () => {
+    setWorkId(undefined);
     setPipeline(1);
     setshowbutton(1);
+    // dispatch(getTemplateDataMiddleWare());
   };
 
-  const configPipeline = (id:number) => {
-    setPipeline(id);
+  const configPipeline = (id: number) => {
+    setWorkId(id);
+    setPipeline(1);
     setshowbutton(2);
   };
   const backFunction = () => {
     setPipeline(0);
   };
   const handleUpdate = (value: PipelineData) => {
-    dispatch(updatejobPipelineMiddleWare(value));
+    setSubmitLoader(true);
+    dispatch(updatejobPipelineMiddleWare(value)).then(() => {
+      setSubmitLoader(false);
+      Toast('Changes saved successfully.', 'LONG');
+    });
   };
-  const handleDelete = (id: number) => {
-    dispatch(deleteJobPipelineMiddleWare(id));
+  const showDeletePopup = (data: PipelineData) => {
+    setDeletePopup({
+      visible: true,
+      data,
+    });
   };
-  const handleDefault = (id: number) => {
-    dispatch(defaultJobPipelineMiddleWare(id));
+  const handleClose = () => {
+    setDeletePopup(null);
   };
 
+  const handleDelete = (data: PipelineData) => {
+    setSubmitLoader(true);
+    dispatch(deleteJobPipelineMiddleWare(data.wk_id)).then(() => {
+      setSubmitLoader(false);
+      Toast('Pipeline deleted successfully', 'LONG');
+    });
+    handleClose();
+  };
+  const handleDefault = (data: PipelineData) => {
+    dispatch(updatejobPipelineMiddleWare(data));
+  };
+  
   if (template === 0) {
     return (
+      <>
+      {isLoading && <Loader />}
+      
       <Flex row marginTop={'20px'}>
         <Flex flex={2}>
           <Card className={styles.cardStructure}>
@@ -129,7 +156,7 @@ const TemplatesPage = () => {
             <Text style={{ marginTop: '10px' }}>
               Design and send the custom message{' '}
             </Text>
-            <Button className={styles.btn} onClick={() => selectTemplate()}>
+            <Button className={styles.btn} onClick={() => {}}>
               <Text color="theme">Manage Templates</Text>
             </Button>
           </Card>
@@ -145,20 +172,31 @@ const TemplatesPage = () => {
             <Text style={{ marginTop: '10px' }}>
               Easily Create, Analyse and send your Emails{' '}
             </Text>
-            <Button className={styles.btn} onClick={() => selectTemplate()}>
+            <Button className={styles.btn} onClick={() => {}}>
               <Text color="theme">Manage Templates</Text>
             </Button>
           </Card>
         </Flex>
         <Flex flex={4}></Flex>
       </Flex>
+      </>
     );
   }
-
   return (
     <>
       {pipeline === 0 ? (
         <Flex column>
+          {deletePopup && (
+            <DeletePopup
+              onClose={handleClose}
+              onDelete={handleDelete}
+              data={deletePopup.data}
+              visible={deletePopup.visible}
+            />
+          )}
+
+          {isSubmitLoader && <Loader />}
+
           <Flex row between className={styles.titleBar}>
             <Flex
               row
@@ -181,7 +219,7 @@ const TemplatesPage = () => {
               </Flex>
             </Button>
           </Flex>
-          <Flex row marginTop={'10px'}>
+          <Flex row wrap marginTop={'10px'}>
             {pipelineData.map((list, index) => (
               <PipelineCard
                 key={`${list.wk_id}-${index}`}
@@ -189,14 +227,18 @@ const TemplatesPage = () => {
                 index={index}
                 onConfig={configPipeline}
                 onUpdate={handleUpdate}
-                onDelete={handleDelete}
+                onDelete={showDeletePopup}
                 onDefault={handleDefault}
               />
             ))}
           </Flex>
         </Flex>
       ) : (
-        <JobPipelinePage handleBack={backFunction} buttondata={showbutton} wk_id={pipeline} />
+        <JobPipelinePage
+          handleBack={backFunction}
+          buttondata={showbutton}
+          wk_id={workId}
+        />
       )}
     </>
   );
@@ -206,8 +248,8 @@ interface PipelineCardPros {
   index: number;
   onConfig: (id: number) => void;
   onUpdate: (value: PipelineData) => void;
-  onDelete: (id: number) => void;
-  onDefault: (id: number) => void;
+  onDelete: (value: PipelineData) => void;
+  onDefault: (value: PipelineData) => void;
 }
 const PipelineCard: React.FC<PipelineCardPros> = ({
   list,
@@ -250,7 +292,7 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
         <Flex row noWrap>
           <InputText
             value={formik.values.pipeline_name}
-            onChange={formik.handleChange('name')}
+            onChange={formik.handleChange('pipeline_name')}
             lineInput
             size={12}
             className={styles.input}
@@ -320,8 +362,12 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
           <ActionsButton
             disabled={list.is_active}
             defaults={list.set_as_default}
-            onDefault={() => (list.set_as_default ? undefined : onDefault(list.wk_id))}
-            onDelete={() => (list.is_active ? undefined : onDelete(list.wk_id))}
+            onDefault={() =>
+              list.set_as_default
+                ? undefined
+                : onDefault({ ...list, set_as_default: true })
+            }
+            onDelete={() => (list.is_active ? undefined : onDelete(list))}
             onRename={() => (list.is_active ? undefined : handleRename())}
           />
         </Text>

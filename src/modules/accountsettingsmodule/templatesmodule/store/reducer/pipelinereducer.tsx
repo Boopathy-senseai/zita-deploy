@@ -81,7 +81,7 @@ const pipelinePageReducer = createSlice({
       return {
         ...state,
       };
-    });
+    });  
   },
 });
 

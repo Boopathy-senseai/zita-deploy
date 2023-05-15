@@ -1,4 +1,5 @@
 import classNames from 'classnames/bind';
+import { SuggestionData } from '../../modules/accountsettingsmodule/templatesmodule/templatesPageTypes';
 import styles from './stagesChip.module.css';
 
 const cx = classNames.bind(styles);
@@ -6,10 +7,10 @@ const cx = classNames.bind(styles);
 // Custom chip
 interface ChipProps {
   index: number;
-  doc: { suggestion_id: number; stage_name: string };
+  doc: SuggestionData ;
   isActive: boolean;
-  onAdd: (value: { suggestion_id: number; stage_name: string }) => void;
-  onRemove: (value: { suggestion_id: number; stage_name: string }) => void;
+  onAdd: (value: SuggestionData) => void;
+  onRemove: (value: number) => void;
 }
 export const Chip: React.FC<ChipProps> = (props) => {
   const { index, doc, isActive, onAdd, onRemove } = props;
@@ -21,7 +22,7 @@ export const Chip: React.FC<ChipProps> = (props) => {
       }}
     >
       <button
-        onClick={() => (isActive ? onRemove(doc) : onAdd(doc))}
+        onClick={() => (isActive ? onRemove(doc.suggestion_id) : onAdd(doc))}
         className={styles.pillbutton}
         style={{ color: isActive ? '#FFFFFF' : undefined }}
       >
@@ -30,3 +31,4 @@ export const Chip: React.FC<ChipProps> = (props) => {
     </div>
   );
 };
+

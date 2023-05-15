@@ -10,7 +10,7 @@ import {
   jobPipelineForm,
 } from '../../modules/accountsettingsmodule/templatesmodule/templatesPageTypes';
 import { AppDispatch } from '../../store';
-import { updateJobPipelineStageMiddleWare } from '../../modules/accountsettingsmodule/templatesmodule/store/middleware/templatesmiddleware';
+// import { updateJobPipelineStageMiddleWare } from '../../modules/accountsettingsmodule/templatesmodule/store/middleware/templatesmiddleware';
 import { Button, ErrorMessage, Flex, InputText, Loader } from '../../uikit';
 import { isEmpty } from '../helper';
 import SvgTickBox from '../../icons/SvgTickBox';
@@ -33,7 +33,7 @@ interface StageCardProps {
   isColorPicker?: boolean;
   doc: StageData;
   onEdit?: (value: StageData) => void;
-  onDelete?: (value: StageData) => void;
+  onDelete?: (value: number) => void;
 }
 
 export const StageCard: React.FC<StageCardProps> = (props) => {
@@ -50,8 +50,7 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
   const [showColorPallet, setShowColorPallet] = useState(false);
   const [isBtnColorOpen, setBtnColorOpen] = useState(false);
   const [isStageLoader, setStageLoader] = useState(false);
-  const [initial, setInitial] = useState(doc);
-  const dispatch: AppDispatch = useDispatch();
+  const [initial, setInitial] = useState<StageData>(doc);
   const myRef = createRef<any>();
   const handleJobPipeline = (values: StageData) => {
     const errors: Partial<StageData> = {};
@@ -63,6 +62,7 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
   };
   const formik = useFormik({
     initialValues: initial,
+    enableReinitialize: true,
     validate: handleJobPipeline,
     onSubmit: (form) => {
       onEdit(form);
@@ -75,13 +75,13 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
   };
   const handleDeletePipelinePopup = () => {
     setDeletePopup(false);
-    onDelete(doc);
+    onDelete(doc.id);
   };
   const handleCloseDeletePopup = () => {
     setDeletePopup(false);
   };
   const onColorChange = (value: StageData) => {
-    dispatch(updateJobPipelineStageMiddleWare(value));
+    onEdit(value);
   };
 
   const handleClickOutside = (event: { target: any }) => {
@@ -118,7 +118,7 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
           <Flex column noWrap>
             <InputText
               value={formik.values.stage_name}
-              onChange={formik.handleChange('title')}
+              onChange={formik.handleChange('stage_name')}
               lineInput
               size={12}
               className={styles.input}

@@ -21,7 +21,7 @@ export interface StageData {
   stage_order?: number;
   stage_color?: string;
   created_at?: string;
-  is_disabled: boolean;
+  is_disabled?: boolean;
 }
 export interface PipelineData {
   // id: string;
@@ -41,16 +41,22 @@ export interface SuggestionData {
   suggestion_id: number;
   wk_id_id?: number;
   stage_name: string;
-  stage_order?: string;
-  stage_color?: string;
+  stage_order: number;
+  stage_color: string;
   is_disabled?: boolean;
 }
 
 export interface IUpdateTemplate {
   pipeline_name: string;
+  set_as_default?: boolean;
+  jd_id?: number;
   workflow_id: number;
-  stages: StageData[];
+  stages?: StageData[];
+}
 
+export interface ICreateTemplate {
+  pipeline_name: string;
+  stages: StageData[];
 }
 
 // export interface JobPipelineStages {
@@ -59,9 +65,8 @@ export interface IUpdateTemplate {
 //   // suggestion: SuggestionData[];
 // }
 // export interface JobPipeline {
-  
 // }
-export interface PipelinePageReducerState  {
+export interface PipelinePageReducerState {
   isLoading: boolean;
   error: string;
   pipeline: PipelineData[];

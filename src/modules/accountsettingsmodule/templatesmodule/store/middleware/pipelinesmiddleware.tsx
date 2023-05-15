@@ -10,6 +10,7 @@ import {
 import { PipelineData } from '../../templatesPageTypes';
 import JobPipelinesJson from '../../../../../assets/others/pipelineData.json';
 import { templatesStages } from '../../../../../routes/apiRoutes';
+import { convertJsonToForm } from '../../../../../uikit/helper';
 
 export const getPipelineDataMiddleWare = createAsyncThunk<PipelineData[], void>(
   PIPELINE_DATA,
@@ -17,7 +18,7 @@ export const getPipelineDataMiddleWare = createAsyncThunk<PipelineData[], void>(
     try {
       const response = await axios.get(templatesStages);
       return response.data.data as PipelineData[];
-      // return JobPipelinesJson.data as PipelineData[];
+       //return JobPipelinesJson.data as PipelineData[];
     } catch (error) {
       const typedError = error as Error;
       return rejectWithValue(typedError);
@@ -27,9 +28,13 @@ export const getPipelineDataMiddleWare = createAsyncThunk<PipelineData[], void>(
 export const updatejobPipelineMiddleWare = createAsyncThunk<
   PipelineData,
   PipelineData
->(UPDATE_PIPELINE_DATA, async (payload, { rejectWithValue }) => {
+>(UPDATE_PIPELINE_DATA, async (payload, { rejectWithValue, dispatch }) => {
   try {
-    return payload;
+    const {pipeline_name, wk_id, set_as_default} = payload;
+    const response = await axios.post(templatesStages, convertJsonToForm({pipeline_name, workflow_id: wk_id, set_as_default}));
+    dispatch(getPipelineDataMiddleWare());
+    return response.data;
+
   } catch (error) {
     const typedError = error as Error;
     return rejectWithValue(typedError);
@@ -38,9 +43,14 @@ export const updatejobPipelineMiddleWare = createAsyncThunk<
 
 export const deleteJobPipelineMiddleWare = createAsyncThunk<number, number>(
   DELETE_PIPELINE_DATA,
-  async (payload, { rejectWithValue }) => {
+  async (payload, { rejectWithValue, dispatch }) => {
+    
     try {
-      return payload as number;
+      const url =  payload ? `${templatesStages}?workflow_id=${payload}` : templatesStages;
+      const {data} =  await axios.delete(url);
+      dispatch(getPipelineDataMiddleWare());
+
+      return data as number;
     } catch (error) {
       const typedError = error as Error;
       return rejectWithValue(typedError);
