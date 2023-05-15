@@ -120,6 +120,22 @@ const SignUpScreen = (props: any) => {
     if (isEmpty(values.email)) {
       errors.email = THIS_FIELD_REQUIRED;
     }
+    if (initial.terms_and_conditions ==="0") {
+      errors.terms_and_conditions = THIS_FIELD_REQUIRED;
+    }
+    // else{
+    //   errors.terms_and_conditions =" "
+    // }
+   
+    if (values.terms_and_conditions ==="1") {
+      errors.terms_and_conditions ="";
+    }
+    
+    if(checkpwd)
+    {
+      errors.password1="";
+    }
+
     if (values.password1 !== values.password2) {
       // setpasserror("The two password fields didn't match.");
       errors.password2 = ``;
@@ -185,6 +201,9 @@ const SignUpScreen = (props: any) => {
       .min(2, 'Too Short!')
       .max(50, MAX_TEXT_LENGTH_20)
       .required(THIS_FIELD_REQUIRED),
+
+      terms_and_conditions: Yup.boolean().oneOf([true],''),
+
   });
 
   const formik = useFormik({
@@ -216,16 +235,9 @@ const SignUpScreen = (props: any) => {
         }
       },
     );
-  }, [formik.values.username]);
+    
+  }, [formik.values.username ]);
 
-  //  useEffect(() => {
-  //   const errors: Partial<SignUpPayLoad> = {};
-  //    if (formik.values.password1 !== formik.values.password2) {
-  //      // setpasserror("The two password fields didn't match.");
-  //      errors.password2 = `The two password fields didn't match.`;
-  //    }
-  //    return errors;
-  //  }, [formik.values.password2]);
   const checkBoxDisable =
     !isEmpty(formik.values.company_name) &&
     !isEmpty(formik.values.contact_no) &&
@@ -235,6 +247,8 @@ const SignUpScreen = (props: any) => {
     !isEmpty(formik.values.password1) &&
     !isEmpty(formik.values.password2) &&
     !isEmpty(formik.values.username);
+
+  
 
   const checkOne =
     !isEmpty(formik.values.password1) &&
@@ -251,6 +265,8 @@ const SignUpScreen = (props: any) => {
   const checkFour =
     !isEmpty(formik.values.password1) && !space.test(formik.values.password1);
 
+  const checkpwd = !checkOne && !checkTwo && !isCheckThre && !checkFour;  
+
   const isValid =
     checkOne === false &&
     checkTwo === false &&
@@ -262,9 +278,21 @@ const SignUpScreen = (props: any) => {
   const Redirect = () => {
     props.history.push('/login');
   };
+  const handleChange1=()=>{
+    if(  formik.values.terms_and_conditions === '0')
+    {
+      formik.setFieldValue('terms_and_conditions', '1')
+      formik.errors.terms_and_conditions=" "
+    }
+    else
+    {
+      formik.setFieldValue('terms_and_conditions', '0')
+      
+    }
+  }
   return (
     <>
-      {console.log(isEmailValid, isVerification)}
+      {console.log("fgfgfffff",checkpwd, formik.errors.terms_and_conditions)}
 
       {isLoader && <Loader />}
       <Flex className={styles.row} height={window.innerHeight}>
@@ -500,7 +528,7 @@ const SignUpScreen = (props: any) => {
                           errors={formik.errors}
                           touched={formik.touched}
                         />
-                        {!isEmpty(formik.values.password1) && isValid && (
+                        {!checkpwd&&!isEmpty(formik.values.password1) && isValid && (
                           <Flex>
                             <ErrorMessages
                               message="password must contain at least one uppercase."
@@ -571,14 +599,13 @@ const SignUpScreen = (props: any) => {
                     <div className={styles.checkBoxStyle}>
                       <InputCheckBox
                         className={styles.check}
-                        disabled={!checkBoxDisable}
+                       
+                        // disabled={!checkBoxDisable}
                         checked={formik.values.terms_and_conditions === '1'}
-                        onChange={() =>
-                          formik.values.terms_and_conditions === '0'
-                            ? formik.setFieldValue('terms_and_conditions', '1')
-                            : formik.setFieldValue('terms_and_conditions', '0')
-                        }
+                        
+                        onChange={handleChange1}
                       />
+                      
                       <Text className={styles.terms_con}>
                         I agree to Zita{' '}
                         <a
@@ -604,9 +631,14 @@ const SignUpScreen = (props: any) => {
                         </a>
                       </Text>
                     </div>
+                    <ErrorMessage
+                      name={'terms_and_conditions'}
+                      errors={formik.errors}
+                      touched={formik.touched}
+                    />
                     <Button
                       className={styles.login_button}
-                      // disabled={formik.values.terms_and_conditions === '0'}
+                  
                       onClick={formik.handleSubmit}
                     >
                       SignUp
