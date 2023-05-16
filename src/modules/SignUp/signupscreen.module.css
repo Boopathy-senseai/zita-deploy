@@ -39,6 +39,10 @@
   margin-top: 16px;
 } */
 
+.dropDownStyle {
+  margin: 2px  !important;
+  width: 275px !important;
+}
 .checkBoxStyle {
   align-items: center;
   margin-top: 5px;
@@ -59,6 +63,7 @@
   border: none !important;
   border-bottom: thin solid #6a5e67 !important;
   outline: none !important;
+  color: black;
 }
 
 .phoneInput:hover {
@@ -72,6 +77,7 @@
   border-bottom: thin solid #6a5e67 !important;
   outline: none !important;
   box-shadow: none;
+  color: black;
 }
 
 .row {
@@ -178,6 +184,7 @@
 .account_link {
   margin-top: 13px !important;
   margin-bottom: 13px !important;
+  color: #581845;
 }
 
 .text {

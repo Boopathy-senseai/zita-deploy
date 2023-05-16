@@ -99,7 +99,7 @@ Props) => {
                 <>
                   <Flex middle>
                     <Text size={20} className={styles.text} bold>
-                      Forgot your Password?
+                      Forgot your password?
                     </Text>
                   </Flex>
                   <Flex middle>
@@ -119,7 +119,7 @@ Props) => {
                       keyboardType="email"
                       actionLeft={() => (
                         <Button types="link" className={styles.usericon}>
-                          <SvgEmail height={15} width={15} fill={'none'} />
+                          <SvgEmail height={15} width={17} fill={'none'} />
                         </Button>
                       )}
                     />

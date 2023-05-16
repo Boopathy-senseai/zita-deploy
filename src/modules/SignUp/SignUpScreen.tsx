@@ -120,22 +120,18 @@ const SignUpScreen = (props: any) => {
     if (isEmpty(values.email)) {
       errors.email = THIS_FIELD_REQUIRED;
     }
-    if (initial.terms_and_conditions ==="0") {
+
+    if(values.terms_and_conditions === '0'){
       errors.terms_and_conditions = THIS_FIELD_REQUIRED;
     }
-    // else{
-    //   errors.terms_and_conditions =" "
-    // }
-   
-    if (values.terms_and_conditions ==="1") {
-      errors.terms_and_conditions ="";
-    }
-    
-    if(checkpwd)
-    {
-      errors.password1="";
-    }
 
+  //   if (formik.values.terms_and_conditions==='0') {
+  //     errors.terms_and_conditions = THIS_FIELD_REQUIRED;
+  //   // console.log("hello")
+  //  }
+  //    else {
+  //     errors.terms_and_conditions ="";
+  //   }
     if (values.password1 !== values.password2) {
       // setpasserror("The two password fields didn't match.");
       errors.password2 = ``;
@@ -201,9 +197,6 @@ const SignUpScreen = (props: any) => {
       .min(2, 'Too Short!')
       .max(50, MAX_TEXT_LENGTH_20)
       .required(THIS_FIELD_REQUIRED),
-
-      terms_and_conditions: Yup.boolean().oneOf([true],''),
-
   });
 
   const formik = useFormik({
@@ -235,9 +228,16 @@ const SignUpScreen = (props: any) => {
         }
       },
     );
-    
-  }, [formik.values.username ]);
+  }, [formik.values.username]);
 
+  //  useEffect(() => {
+  //   const errors: Partial<SignUpPayLoad> = {};
+  //    if (formik.values.password1 !== formik.values.password2) {
+  //      // setpasserror("The two password fields didn't match.");
+  //      errors.password2 = `The two password fields didn't match.`;
+  //    }
+  //    return errors;
+  //  }, [formik.values.password2]);
   const checkBoxDisable =
     !isEmpty(formik.values.company_name) &&
     !isEmpty(formik.values.contact_no) &&
@@ -247,8 +247,6 @@ const SignUpScreen = (props: any) => {
     !isEmpty(formik.values.password1) &&
     !isEmpty(formik.values.password2) &&
     !isEmpty(formik.values.username);
-
-  
 
   const checkOne =
     !isEmpty(formik.values.password1) &&
@@ -265,9 +263,9 @@ const SignUpScreen = (props: any) => {
   const checkFour =
     !isEmpty(formik.values.password1) && !space.test(formik.values.password1);
 
-  const checkpwd = !checkOne && !checkTwo && !isCheckThre && !checkFour;  
-
-  const isValid =
+  const checkpwd = !checkOne && !checkTwo && !isCheckThre && !checkFour;
+  
+    const isValid =
     checkOne === false &&
     checkTwo === false &&
     isCheckThre === false &&
@@ -282,7 +280,8 @@ const SignUpScreen = (props: any) => {
     if(  formik.values.terms_and_conditions === '0')
     {
       formik.setFieldValue('terms_and_conditions', '1')
-      formik.errors.terms_and_conditions=" "
+      // formik.errors.terms_and_conditions=" "
+      
     }
     else
     {
@@ -292,7 +291,7 @@ const SignUpScreen = (props: any) => {
   }
   return (
     <>
-      {console.log("fgfgfffff",checkpwd, formik.errors.terms_and_conditions)}
+      {console.log(formik.values.terms_and_conditions)}
 
       {isLoader && <Loader />}
       <Flex className={styles.row} height={window.innerHeight}>
@@ -376,7 +375,6 @@ const SignUpScreen = (props: any) => {
                       <Flex className={styles.signup_col}>
                         <InputText
                           label="First Name"
-                          labelSize={16}
                           labelColor={'theme'}
                           className={styles.signup_input}
                           required
@@ -394,7 +392,6 @@ const SignUpScreen = (props: any) => {
                       <Flex className={styles.signup_col}>
                         <InputText
                           label="Last Name"
-                          labelSize={16}
                           labelColor={'theme'}
                           required
                           className={styles.signup_input}
@@ -414,7 +411,6 @@ const SignUpScreen = (props: any) => {
                       <Flex className={styles.signup_col}>
                         <InputText
                           label="Company Name"
-                          labelSize={16}
                           labelColor={'theme'}
                           className={styles.signup_input}
                           required
@@ -429,8 +425,8 @@ const SignUpScreen = (props: any) => {
                       </Flex>
                     </div>
                     <div className="col">
-                      <Flex className={styles.signup_col}>
-                        <LabelWrapper label="Contact Number" required>
+                      <Flex className={styles.signup_col} >
+                        <LabelWrapper label="Contact Number"  required >
                           <PhoneInput
                             inputClass={styles.phoneInput}
                             dropdownClass={styles.dropDownStyle}
@@ -453,7 +449,6 @@ const SignUpScreen = (props: any) => {
                     <div className="col">
                       <Flex className={styles.signup_col}>
                         <InputText
-                          labelSize={16}
                           labelColor={'theme'}
                           className={styles.signup_input}
                           label="Username"
@@ -482,7 +477,6 @@ const SignUpScreen = (props: any) => {
                     <div className="col">
                       <Flex className={styles.signup_col}>
                         <InputText
-                          labelSize={16}
                           labelColor={'theme'}
                           className={styles.signup_input}
                           label="Work Email"
@@ -504,7 +498,6 @@ const SignUpScreen = (props: any) => {
                         <InputText
                           className={styles.signup_input}
                           label="Password"
-                          labelSize={16}
                           labelColor={'theme'}
                           required
                           value={formik.values.password1}
@@ -599,13 +592,11 @@ const SignUpScreen = (props: any) => {
                     <div className={styles.checkBoxStyle}>
                       <InputCheckBox
                         className={styles.check}
-                       
                         // disabled={!checkBoxDisable}
                         checked={formik.values.terms_and_conditions === '1'}
-                        
                         onChange={handleChange1}
+
                       />
-                      
                       <Text className={styles.terms_con}>
                         I agree to Zita{' '}
                         <a
@@ -635,10 +626,11 @@ const SignUpScreen = (props: any) => {
                       name={'terms_and_conditions'}
                       errors={formik.errors}
                       touched={formik.touched}
-                    />
+                    />                
+                   
                     <Button
                       className={styles.login_button}
-                  
+                      // disabled={formik.values.terms_and_conditions === '0'}
                       onClick={formik.handleSubmit}
                     >
                       SignUp
@@ -648,22 +640,22 @@ const SignUpScreen = (props: any) => {
                   <Flex middle className={styles.account_link} row>
                     Already have an Account ?{' '}
                     &nbsp;
-                    <u>
-                      <Link to="/login"> Login </Link>
+                    <u >
+                      <Link to="/login" style={{fontWeight:"bold"}}> Login </Link>
                     </u>
                   </Flex>
                 </Flex>
               ) : (
                 <>
                   <Flex className={styles.successform_body}>
-                    <Flex middle className={styles.text_margin}>
+                    <Flex middle className={styles.text_margin} style={{marginTop:'45px'}}>
                       <SvgVerificationEmailIcon fill={'#581845'} />
                     </Flex>
                     <Flex column-middle>
                     <Text size={22} bold className={styles.verificationtext}>
                       Verification email sent successfully
                     </Text>
-                    <Text size={16} className={styles.messages} style={{justifyContent:'center'}}>
+                    <Text size={16} className={styles.messages} style={{justifyContent:'center',marginBottom:'82px'}}>
                       Please click on the verification link sent to your email
                       id to complete the registration. In case you are not able
                       to find our mail, please check the spam folder.
@@ -671,7 +663,7 @@ const SignUpScreen = (props: any) => {
                     </Flex>
                     <Flex middle>
                       <Button
-                        style={{ marginTop: '10px',position:'relative',bottom:'68px',borderRadius:'5px' }}
+                        style={{ marginTop: '-56px',position:'relative',bottom:'68px',borderRadius:'5px',marginBottom:'81px' }}
                         onClick={() => Redirect()}
                       >
                         Ok

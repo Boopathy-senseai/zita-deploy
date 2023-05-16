@@ -13,7 +13,7 @@
   border: 1px solid var(--color-gary-6, #b3b3b3);
 }
 .inputCommonStyle:focus {
-  border: 1px solid var(--color-primary, #581845);
+  /* border: 1px solid var(--color-primary, #581845); */
 }
 
 .inputCommonStyle::placeholder {

@@ -7,10 +7,16 @@ import Flex from '../../uikit/Flex/Flex';
 import styles from './loginscreen.module.css';
 const Loginslider = () => {
   const [currentCount, setCount] = useState(1);
+  const [seconds, setSeconds] = useState(1000);
+  
   const timer = () => setCount(currentCount + 1);
 
   useEffect(() => {
-    if (currentCount >= 3) {
+    if (currentCount >3) {
+      const interval = setInterval(() => {
+        setSeconds(seconds + 1);
+      }, 2500);
+      setCount(1)
       return;
     }
     const id = setInterval(timer, 2500);

@@ -137,7 +137,7 @@ const SetNewPassword = ({
                 <div>
                   <InputText
                     actionLeft={() => (
-                      <Button types="link" className={styles.usericon}>
+                      <Button types="link" className={styles.usericon} style={{position:'absolute',top:'25px'}}>
                         <SvgLock height={15} width={15} />
                       </Button>
                     )}
@@ -184,7 +184,7 @@ const SetNewPassword = ({
                   )}
                   <InputText
                     actionLeft={() => (
-                      <Button types="link" className={styles.usericon}>
+                      <Button types="link" className={styles.usericon} style={{position:'absolute',top:'25px'}}>
                         <SvgLock height={15} width={15} />
                       </Button>
                     )}
