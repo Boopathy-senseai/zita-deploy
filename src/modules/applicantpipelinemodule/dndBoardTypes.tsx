@@ -1,11 +1,12 @@
 import { SetStateAction } from 'react';
+import { IKanbanStages } from '../../hooks/useStages/types';
 import {
   ApplicantEntity,
   ShortlistedEntityOrRejectedEntity,
   InterviewedEntityOrSelectedEntity,
 } from './applicantPipeLineTypes';
 
-export interface IStageColumn {
+export interface IStageColumn extends IKanbanStages{
   columnId: string;
   title: string;
   items: ApplicantEntity[];

@@ -21,8 +21,8 @@ const MovePipelinePopup = ({
   onMove,
 }: Props) => {
   const [isCheckedRadio, setCheckedRadio] = useState<number | null>(null);
-  const { stages } = useSelector(({ templatePageReducers }: RootState) => ({
-    stages: templatePageReducers.stages,
+  const { stages } = useSelector(({ kanbanStagesReducers }: RootState) => ({
+    stages: kanbanStagesReducers.stages,
   }));
   const handleCancel = () => {
     setCheckedRadio(null);

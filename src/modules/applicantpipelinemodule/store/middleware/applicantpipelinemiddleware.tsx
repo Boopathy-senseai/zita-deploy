@@ -6,6 +6,7 @@ import {
   APPLICANT_UPDATE_STATUS,
   DELETE_KANBAN_DATA,
   GET_KANBAN_DATA,
+  KANBAN_UPDATE_STATUS,
   UPDATE_KANBAN_DATA,
 } from '../../../../actions/actions';
 import {
@@ -13,6 +14,7 @@ import {
   applicantPipeLineApi,
   applicantStatusUpdateApi,
   kanbanPipelineView,
+  kanbanUpdation,
 } from '../../../../routes/apiRoutes';
 import { paramsSerializer } from '../../../../utility/helpers';
 import {
@@ -104,14 +106,46 @@ export const applicantUpdateStatusMiddleWare = createAsyncThunk(
   },
 );
 
+export const kanbanUpdateMiddleWare = createAsyncThunk<
+  any,
+  {
+    jd_id: number;
+    stages: Array<{
+      stage_order: number;
+      stage_name: string;
+      is_disabled: boolean;
+      stage_color: string;
+    }>;
+    workflow_id: number;
+    candidate_id: number;
+  }
+>(KANBAN_UPDATE_STATUS, async (payload, { rejectWithValue, dispatch }) => {
+  try {
+    const url = `${kanbanUpdation}?${stringifyParams(payload)}`;
+    const { data } = await axios.get(url);
+    dispatch(applicantPipeLineMiddleWare({ jd_id: JSON.stringify(payload.jd_id)}));
+    dispatch(getKanbanStagesMiddleWare());
+    return data;
+  } catch (error) {
+    const typedError = error as Error;
+    return rejectWithValue(typedError);
+  }
+});
+
 export const getKanbanStagesMiddleWare = createAsyncThunk<
-{showpopup?: boolean, data?:IKanbanStages[], stages?:IKanbanStages[]},
-  { workflow_id: number; jd_id: number, default_all?: boolean, } | void
+  { showpopup?: boolean; data?: IKanbanStages[]; stages?: IKanbanStages[] },
+  { workflow_id: number; jd_id: number; default_all?: boolean } | void
 >(GET_KANBAN_DATA, async (payload, { rejectWithValue }) => {
   try {
-    const url = payload ? `${kanbanPipelineView}?${stringifyParams(payload)}` : kanbanPipelineView;
+    const url = payload
+      ? `${kanbanPipelineView}?${stringifyParams(payload)}`
+      : kanbanPipelineView;
     const response = await axios.get(url);
-    return response.data as {showpopup?: boolean, data?:IKanbanStages[], stages?:IKanbanStages[]};
+    return response.data as {
+      showpopup?: boolean;
+      data?: IKanbanStages[];
+      stages?: IKanbanStages[];
+    };
   } catch (error) {
     const typedError = error as Error;
     return rejectWithValue(typedError);

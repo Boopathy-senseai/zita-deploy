@@ -150,6 +150,7 @@ export const templatesStages = `jobspipeline`;
 //   `kanban_pipeline_view?jd_id=${jd_id}&workflow_id=${workflow_id}`;
 
 export const kanbanPipelineView = `kanban_pipeline_view`;
+export const kanbanUpdation = `kanban_updation`;
 
 // Login Api
 export const authApi = `${process.env.REACT_APP_API_ENDPOINT}login_api/`;

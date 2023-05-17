@@ -30,6 +30,7 @@ import {
   applicantPipeLineMiddleWare,
   applicantUpdateStatusMiddleWare,
   getKanbanStagesMiddleWare,
+  kanbanUpdateMiddleWare,
 } from './store/middleware/applicantpipelinemiddleware';
 import DndTitle from './DndTitle';
 import ProfileView from './ProfileView';
@@ -169,14 +170,16 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
   }, []);
 
   useEffect(() => {
-    if(!workflow_id){
+    if (!workflow_id) {
       setShowPipelinePopup(true);
-    }else {
-      dispatch(getKanbanStagesMiddleWare({jd_id: parseInt(jd_id), workflow_id}))
+    } else {
+      dispatch(
+        getKanbanStagesMiddleWare({ jd_id: parseInt(jd_id), workflow_id }),
+      );
     }
   }, [workflow_id]);
 
-  useEffect(()=>{},[])
+  useEffect(() => {}, []);
 
   useEffect(() => {
     if (!is_plan) {
@@ -549,14 +552,15 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
     return {
       ...o,
       [v.id]: {
-        columnId: v?.id,
+        ...v,
+        columnId: JSON.stringify(v?.id),
         title: v?.stage_name,
         items: applicants[v.id] || [],
         total: applicants[v.id]?.length,
-        section: v?.id,
+        section: JSON.stringify(v?.id),
         left: '0px',
         borderColor: v?.stage_color,
-      },
+      } as IStageColumn,
     };
   }, {});
   const columnsFromBackend = {
@@ -568,7 +572,10 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
       section: 'applicant',
       left: '0px',
       borderColor: SUNRAY,
-    },
+      stage_color: SUNRAY,
+      stage_name: 'New Applicants',
+      stage_order: 0,
+    } as IStageColumn,
     ...stageColumns,
     // 'column-2': {
     //   title: 'Shortlisted',
@@ -746,6 +753,15 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
   };
   const hanldeAlertComplete = () => {
     const { taskId, droppableId } = isAlert;
+    /// TODO: UNCOMMENT IT WHEN CONNECTED TOO BE
+    // dispatch( 
+    //   kanbanUpdateMiddleWare({
+    //     jd_id: parseInt(jd_id),
+    //     workflow_id: workflow_id,
+    //     candidate_id: taskId,
+    //     stages: getSTData(columns[droppableId]),
+    //   }),
+    // )
     dispatch(
       applicantUpdateStatusMiddleWare({
         jd_id,
@@ -857,11 +873,12 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
     setTimeout(() => setNoLoader(false), 100);
   };
 
-  const handleMove = (droppableId: string) => {
+  const handleMove = (droppableId: number) => {
+    updateBulkKanbanStage(droppableId, new Map(cardSelection))
     setColumns((previous) => {
       const selectedList = Array.from(cardSelection.values());
       const removedList = selectedList?.reduce((o, v) => {
-        if (droppableId === v.columnId) {
+        if (JSON.stringify(droppableId) === v.columnId) {
           return {
             ...o,
             [v.columnId]: {
@@ -925,6 +942,31 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
     setCardSelection(new Map());
   };
 
+  const updateBulkKanbanStage = (droppableId: number, map: Map<string, {
+    task: any;
+    section: string;
+    // index: number;
+    columnId: string;
+  }>) => {
+    const selectedList = Array.from(map.values());
+    selectedList.forEach((doc) => {
+      dispatch(
+        kanbanUpdateMiddleWare({
+          jd_id: parseInt(jd_id),
+          workflow_id: workflow_id,
+          candidate_id: doc.task.id,
+          stages: getSTData(columns[droppableId]),
+        }),
+      );
+    });
+
+   
+  };
+
+  function getSTData(data: IStageColumn) {
+    const { stage_name, stage_color, stage_order, is_disabled } = data;
+    return [{ stage_name, stage_color, stage_order, is_disabled }];
+  }
   return (
     <>
       {showPipelinePopup && showStagesPopup === false && (
@@ -1078,7 +1120,7 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
               isTotalFav={isTotalFav}
               seletedCardsLength={cardSelection.size}
               onExport={handleBulkExport}
-              // onMove={handleMove}
+              onMove={handleMove}
             />
             {applicants.applicant.length === 0 &&
             applicants.shortlisted.length === 0 &&

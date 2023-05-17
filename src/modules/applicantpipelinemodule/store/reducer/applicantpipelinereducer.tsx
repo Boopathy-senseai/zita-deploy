@@ -11,6 +11,7 @@ import {
   applicantUpdateStatusMiddleWare,
   deleteKanbanStagesMiddleware,
   getKanbanStagesMiddleWare,
+  kanbanUpdateMiddleWare,
   updateKanbanStagesMiddleware,
 } from '../middleware/applicantpipelinemiddleware';
 
@@ -132,6 +133,23 @@ const applicantPipeLineUpdateReducer = createSlice({
     });
     builder.addCase(
       applicantUpdateStatusMiddleWare.rejected,
+      (state, action) => {
+        state.isLoading = false;
+        if (typeof action.payload === 'string') {
+          state.error = action.payload;
+        }
+      },
+    );
+
+    builder.addCase(kanbanUpdateMiddleWare.pending, (state) => {
+      state.isLoading = true;
+      state.error = '';
+    });
+    builder.addCase(kanbanUpdateMiddleWare.fulfilled, (state) => {
+      state.isLoading = false;
+    });
+    builder.addCase(
+      kanbanUpdateMiddleWare.rejected,
       (state, action) => {
         state.isLoading = false;
         if (typeof action.payload === 'string') {

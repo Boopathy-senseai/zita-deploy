@@ -65,6 +65,7 @@ export const APPLICANT_PIPE_LINE_DATA =
 export const APPLICANT_PIPE_LINE_FILTER =
   'applicantpipe/applicant_pipe_line_filter';
 export const APPLICANT_UPDATE_STATUS = 'applicantpipe/applicant_update_status';
+export const KANBAN_UPDATE_STATUS = 'applicantpipe/kanban_update_status';
 
 // kanban pipeline
 

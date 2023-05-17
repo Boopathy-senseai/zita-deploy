@@ -215,10 +215,20 @@ export const convertJsonToForm = (json: { [key: string]: any }) => {
 }
 
 export function stringifyParams(
-  data: { [key: string]: any } | { [key: number]: any }
+  json: { [key: string]: any } | { [key: number]: any }
 ) {
-  return Object.keys(data).reduce((res, key) => {
-    if (res === "") return `${key}=${data[key]}`;
-    return res + `&${key}=${data[key]}`;
+  return Object.keys(json).reduce((res, key) => {
+    if (res === "") {
+      return `${key}=${jsonStringfy(json[key])}`;
+    };
+
+    function jsonStringfy(data: any){
+      let value = data;
+      if(typeof data !== "string"){
+         value = JSON.stringify(data);
+      }
+      return `${key}=${value}`;
+    }
+    return res + `&${key}=${jsonStringfy(json[key])}`;
   }, "");
 }
