@@ -29,6 +29,7 @@ import {
   applicantPipeLineDataMiddleWare,
   applicantPipeLineMiddleWare,
   applicantUpdateStatusMiddleWare,
+  getKanbanStagesMiddleWare,
 } from './store/middleware/applicantpipelinemiddleware';
 import DndTitle from './DndTitle';
 import ProfileView from './ProfileView';
@@ -40,6 +41,7 @@ import styles from './applicantpipelinescreen.module.css';
 import { JobDetailsEntity } from './applicantPipeLineTypes';
 import { handleDownload } from './dndBoardHelper';
 import { columnTypes, IStageColumn } from './dndBoardTypes';
+import PipelinePopupTwo from './pipelinepopupTwo';
 // import { columnOrder } from './initialData';
 
 type ParamsType = {
@@ -75,7 +77,7 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
   const [isApplicantView, setApplicantView] = useState(false);
   const myRef = useRef<any>();
   //showpop
-  const [showPipelinePopup, setShowPipelinePopup] = useState(true);
+  const [showPipelinePopup, setShowPipelinePopup] = useState(false);
   const [cardSelection, setCardSelection] = useState<
     Map<
       string,
@@ -93,22 +95,12 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
 
   const getAppliedView = localStorage.getItem('applied_view');
 
-  //why this dispatch is being done??
-
-  useEffect(() => {
-    dispatch(applicantPipeLineMiddleWare({ jd_id: jdId })).then(() => {
-      dispatch(
-        applicantPipeLineDataMiddleWare({
-          jd_id: jdId,
-        }),
-      );
-    });
-  }, []);
-
   const {
     location_list,
     jd_id,
+    workflow_id,
     stages,
+    showStagesPopup,
     applicants,
     applicantDataLoader,
     favLoader,
@@ -130,10 +122,12 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
       applicantPipeLineUpdateReducers,
       permissionReducers,
       templatePageReducers,
+      kanbanStagesReducers,
     }: RootState) => {
       return {
         location_list: myJobPosingReducers.location_list,
         jd_id: applicantPipeLineReducers.jd_id,
+        workflow_id: applicantPipeLineDataReducers.workflow_id,
         applicants: {
           interviewed: applicantPipeLineDataReducers.interviewed,
           rejected: applicantPipeLineDataReducers.rejected,
@@ -141,7 +135,9 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
           shortlisted: applicantPipeLineDataReducers.shortlisted,
           applicant: applicantPipeLineDataReducers.applicant,
         },
-        stages: templatePageReducers.stages,
+        stages: kanbanStagesReducers.stages,
+        showStagesPopup: kanbanStagesReducers.showpopup,
+
         // Test: applicantPipeLineDataReducers.shortlisted,
 
         applicantDataLoader: applicantPipeLineDataReducers.isLoading,
@@ -158,6 +154,29 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
       };
     },
   );
+
+  //why this dispatch is being done??
+
+  useEffect(() => {
+    dispatch(getKanbanStagesMiddleWare());
+    dispatch(applicantPipeLineMiddleWare({ jd_id: jdId })).then(() => {
+      dispatch(
+        applicantPipeLineDataMiddleWare({
+          jd_id: jdId,
+        }),
+      );
+    });
+  }, []);
+
+  useEffect(() => {
+    if(!workflow_id){
+      setShowPipelinePopup(true);
+    }else {
+      dispatch(getKanbanStagesMiddleWare({jd_id: parseInt(jd_id), workflow_id}))
+    }
+  }, [workflow_id]);
+
+  useEffect(()=>{},[])
 
   useEffect(() => {
     if (!is_plan) {
@@ -648,7 +667,7 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
       return;
 
     if (source.droppableId !== destination.droppableId) {
-      setColumns(prevColumns => {
+      setColumns((prevColumns) => {
         const sourceColumn = prevColumns[source.droppableId];
         const destColumn = prevColumns[destination.droppableId];
         const sourceItems = [...sourceColumn.items];
@@ -681,7 +700,7 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
             ...destColumn,
             items: destItems,
           },
-        }
+        };
       });
       // setUpdateId({ droppableId: destination.droppableId, taskId: removed.id });
 
@@ -697,7 +716,6 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
       //   //setOffered(true);
       //   hanldeOffered();
       // }
-      
     }
   };
 
@@ -909,8 +927,16 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
 
   return (
     <>
-      {showPipelinePopup && (
+      {showPipelinePopup && showStagesPopup === false && (
         <PipelinePopup
+          jd_id={parseInt(jdId)}
+          openPipelinePopup={showPipelinePopup}
+          handleClosePipelinePopup={handleClosePipelinePopup}
+        />
+      )}
+      {showPipelinePopup && showStagesPopup && (
+        <PipelinePopupTwo
+          jd_id={parseInt(jdId)}
           openPipelinePopup={showPipelinePopup}
           handleClosePipelinePopup={handleClosePipelinePopup}
         />
@@ -950,7 +976,7 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
           <Flex row between marginBottom={15}>
             <Flex
               row
-              style={{ position: 'relative' , overFlowX : 'auto' }}
+              style={{ position: 'relative', overFlowX: 'auto' }}
               className={styles.searchbox}
             >
               <Flex row className={styles.searchstyle}>
@@ -971,7 +997,6 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
                     onChange={(e) => setSearch(e.target.value)}
                     // placeholder="Search candidate by name or email"
                     placeholder="Search by name or email"
-                    
                     onKeyPress={handleKeyPress}
                     className={styles.boxstyle}
                   />
@@ -1043,26 +1068,27 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
             handleSearch={handleSearch}
             isExperience={isExperience}
           />
-
-          {applicants.applicant.length === 0 &&
-          applicants.shortlisted.length === 0 &&
-          applicants.selected.length === 0 &&
-          applicants.rejected.length === 0 &&
-          applicants.interviewed.length === 0 ? (
-            <Flex middle center height={window.innerHeight - 236}>
-              <Text color={'gray'}>No Applicants Found</Text>
-            </Flex>
-          ) : (
-            <div>
-              <TotalApplicant
-                total={total_applicants}
-                allColumnsItemsLength={allColumnsItemsLength}
-                filterTotalFav={filterTotalFav}
-                isTotalFav={isTotalFav}
-                seletedCardsLength={cardSelection.size}
-                onExport={handleBulkExport}
-                // onMove={handleMove}
-              />
+          <div>
+            <TotalApplicant
+              jd_id={parseInt(jdId)}
+              workflowId={0}
+              total={total_applicants}
+              allColumnsItemsLength={allColumnsItemsLength}
+              filterTotalFav={filterTotalFav}
+              isTotalFav={isTotalFav}
+              seletedCardsLength={cardSelection.size}
+              onExport={handleBulkExport}
+              // onMove={handleMove}
+            />
+            {applicants.applicant.length === 0 &&
+            applicants.shortlisted.length === 0 &&
+            applicants.selected.length === 0 &&
+            applicants.rejected.length === 0 &&
+            applicants.interviewed.length === 0 ? (
+              <Flex middle center height={window.innerHeight - 236}>
+                <Text color={'gray'}>No Applicants Found</Text>
+              </Flex>
+            ) : (
               <div style={{ position: 'relative' }}>
                 {columns && (
                   <DndTitle
@@ -1114,8 +1140,8 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
                   )}
                 </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </Flex>
       </Flex>
     </>

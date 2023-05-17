@@ -4,18 +4,25 @@ import {
   APPLICANT_PIPE_LINE,
   APPLICANT_PIPE_LINE_DATA,
   APPLICANT_UPDATE_STATUS,
+  DELETE_KANBAN_DATA,
+  GET_KANBAN_DATA,
+  UPDATE_KANBAN_DATA,
 } from '../../../../actions/actions';
 import {
   applicantFilterApi,
   applicantPipeLineApi,
   applicantStatusUpdateApi,
+  kanbanPipelineView,
 } from '../../../../routes/apiRoutes';
 import { paramsSerializer } from '../../../../utility/helpers';
 import {
   ApplicantFilter,
   ApplicantPipeLinePayload,
   ApplicantUpdateStatusPayload,
+  IUpdateKanbanStage,
 } from '../../applicantPipeLineTypes';
+import { IKanbanStages, StageData } from '../../../../hooks/useStages/types';
+import { convertJsonToForm, stringifyParams } from '../../../../uikit/helper';
 
 export const applicantPipeLineMiddleWare = createAsyncThunk(
   APPLICANT_PIPE_LINE,
@@ -96,3 +103,60 @@ export const applicantUpdateStatusMiddleWare = createAsyncThunk(
     }
   },
 );
+
+export const getKanbanStagesMiddleWare = createAsyncThunk<
+{showpopup?: boolean, data?:IKanbanStages[], stages?:IKanbanStages[]},
+  { workflow_id: number; jd_id: number, default_all?: boolean, } | void
+>(GET_KANBAN_DATA, async (payload, { rejectWithValue }) => {
+  try {
+    const url = payload ? `${kanbanPipelineView}?${stringifyParams(payload)}` : kanbanPipelineView;
+    const response = await axios.get(url);
+    return response.data as {showpopup?: boolean, data?:IKanbanStages[], stages?:IKanbanStages[]};
+  } catch (error) {
+    const typedError = error as Error;
+    return rejectWithValue(typedError);
+  }
+});
+
+export const updateKanbanStagesMiddleware = createAsyncThunk<
+  { message: string },
+  IUpdateKanbanStage
+>(UPDATE_KANBAN_DATA, async (payload, { rejectWithValue, dispatch }) => {
+  try {
+    const response = await axios.post(
+      kanbanPipelineView,
+      convertJsonToForm(payload),
+    );
+    dispatch(
+      getKanbanStagesMiddleWare({
+        workflow_id: payload.workflow_id,
+        jd_id: payload.jd_id,
+      }),
+    );
+    return response.data;
+  } catch (error) {
+    const typedError = error as Error;
+    return rejectWithValue(typedError);
+  }
+});
+export const deleteKanbanStagesMiddleware = createAsyncThunk<
+  { message: string },
+  { workflow_id: number; jd_id: number; stages: StageData[] }
+>(DELETE_KANBAN_DATA, async (payload, { rejectWithValue, dispatch }) => {
+  try {
+    const url = `${kanbanPipelineView}?workflow_id=${
+      payload.workflow_id
+    }&stages=${JSON.stringify(payload.stages)}`;
+    const response = await axios.delete(url);
+    dispatch(
+      getKanbanStagesMiddleWare({
+        workflow_id: payload.workflow_id,
+        jd_id: payload.jd_id,
+      }),
+    );
+    return response.data;
+  } catch (error) {
+    const typedError = error as Error;
+    return rejectWithValue(typedError);
+  }
+});

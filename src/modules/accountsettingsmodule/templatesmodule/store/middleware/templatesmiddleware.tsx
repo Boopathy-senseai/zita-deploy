@@ -22,7 +22,6 @@ import StagesJson from '../../../../../assets/others/pipelineStages.json';
 import SuggestionsJson from '../../../../../assets/others/pipelineSuggestions.json';
 import JobPipelinesJson from '../../../../../assets/others/pipelineData.json';
 import {
-  kanbanPipelineView,
   templatesStages,
 } from '../../../../../routes/apiRoutes';
 import { convertJsonToForm } from '../../../../../uikit/helper';
@@ -43,7 +42,6 @@ export const getTemplateDataMiddleWare = createAsyncThunk<
   }
 });
 
-//add the cases(3) in the reducers
 export const updateTemplateDataMiddleWare = createAsyncThunk<
   { message: string },
   IUpdateTemplate

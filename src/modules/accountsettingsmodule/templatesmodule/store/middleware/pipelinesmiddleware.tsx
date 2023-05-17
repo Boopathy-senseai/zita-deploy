@@ -7,17 +7,19 @@ import {
   PIPELINE_DATA,
   UPDATE_PIPELINE_DATA,
 } from '../../../../../actions/actions';
-import { PipelineData } from '../../templatesPageTypes';
+import { IJobPipeline, PipelineData } from '../../templatesPageTypes';
 import JobPipelinesJson from '../../../../../assets/others/pipelineData.json';
 import { templatesStages } from '../../../../../routes/apiRoutes';
 import { convertJsonToForm } from '../../../../../uikit/helper';
 
-export const getPipelineDataMiddleWare = createAsyncThunk<PipelineData[], void>(
+export const getPipelineDataMiddleWare = createAsyncThunk<IJobPipeline, void>(
   PIPELINE_DATA,
   async (_a, { rejectWithValue }) => {
     try {
       const response = await axios.get(templatesStages);
-      return response.data.data as PipelineData[];
+      console.log(response.data)
+      return response.data as IJobPipeline;
+      
        //return JobPipelinesJson.data as PipelineData[];
     } catch (error) {
       const typedError = error as Error;

@@ -146,12 +146,10 @@ export const myjobpostdataapi = `my_job_posting_data`;
 export const questionnaireTemplateApi = `questionnaire_templates`;
 export const selectDsorNonDsApi = `select_ds_or_non_ds`;
 export const templatesStages = `jobspipeline`;
-export const kanbanPipelineView = (jd_id: number, workflow_id: number) =>
-  `kanban_pipeline_view?jd_id=${jd_id}&workflow_id=${workflow_id}`;
-// export const templatesStages = (id?: string) => {
-//   const url = `${process.env.REACT_APP_API_ENDPOINT}jobspipeline/${id}`;
-//   return url;
-// };
+// export const kanbanPipelineView = (jd_id: number, workflow_id: number) =>
+//   `kanban_pipeline_view?jd_id=${jd_id}&workflow_id=${workflow_id}`;
+
+export const kanbanPipelineView = `kanban_pipeline_view`;
 
 // Login Api
 export const authApi = `${process.env.REACT_APP_API_ENDPOINT}login_api/`;

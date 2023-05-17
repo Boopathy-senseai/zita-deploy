@@ -54,12 +54,13 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
 
   const dispatch: AppDispatch = useDispatch();
   const { pipeline, stages, suggestions, isLoading } = useSelector(
-    ({ templatePageReducers }: RootState) => {
+    ({ templatePageReducers,pipelinePageReducers  }: RootState) => {
       return {
         isLoading: templatePageReducers.isLoading,
         pipeline: templatePageReducers.data[0],
         stages: templatePageReducers.stages,
-        suggestions: templatePageReducers.suggestion,
+        suggestions: pipelinePageReducers.suggestion,
+        
       };
     },
   );
@@ -74,12 +75,10 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     isStageDuplicate,
     isStageExist,
   } = useStages(stages);
-  console.log('titls', suggestions, pipeline);
-
 
   useEffect(() => {
     //dispatch(jobPipelineStagesMiddleWare(userId));
-    
+
     if (wk_id) {
       dispatch(getTemplateDataMiddleWare(wk_id));
     } else {
@@ -97,7 +96,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
 
   const toggleStage = () => {
     setStage(!stage);
-    formik.setFieldValue("title", "");
+    formik.setFieldValue('title', '');
   };
 
   const handleJobPipeline = (values: jobPipelineForm) => {
@@ -242,7 +241,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
               </Text>
             </Flex>
             <Flex row wrap className={styles.borderLine}>
-              {suggestions.filter(doc => stages.findIndex(subDoc => subDoc.stage_name === doc.stage_name) === -1).map((doc, index) => {
+              {suggestions.map((doc, index) => {
                 const isActive = isStageExist(doc.stage_name);
                 return (
                   <Chip

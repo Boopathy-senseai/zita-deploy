@@ -70,6 +70,7 @@ export interface PipelinePageReducerState {
   isLoading: boolean;
   error: string;
   pipeline: PipelineData[];
+  suggestion: SuggestionData[];
 }
 
 export interface TemplatesPageReducerState extends IJobPipeline {

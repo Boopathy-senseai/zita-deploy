@@ -25,7 +25,7 @@ type Props = {
   handleClosePipelinePopup: () => void;
 };
 
-const PipelinePopup = ({
+const PipelinePopupTwo = ({
   jd_id,
   openPipelinePopup,
   handleClosePipelinePopup,
@@ -34,7 +34,6 @@ const PipelinePopup = ({
     label: string;
     value: number;
   } | null>(null);
-  const [defaultAll, setDefaultAll] = useState<boolean>(false);
   const clearTab = () => {
     sessionStorage.setItem('superUserTab', '7');
     sessionStorage.setItem('template', '0');
@@ -85,17 +84,6 @@ const PipelinePopup = ({
           }}
           placeholder="Select"
         />
-        <Flex row className={styles.checkBox}>
-          <InputCheckBox
-            // disabled={}
-            checked={defaultAll}
-            onChange={() => setDefaultAll(!defaultAll)}
-          />
-          <Text className={styles.checkBoxText}>
-            Would you like to set the selected pipeline to all the Job Postings
-          </Text>
-        </Flex>
-
         <Text className={styles.orText}>Or</Text>
         <LinkWrapper onClick={clearTab} to="/account_setting/settings">
           <Button
@@ -131,7 +119,6 @@ const PipelinePopup = ({
         getKanbanStagesMiddleWare({
           jd_id,
           workflow_id: selectValue.value,
-          default_all: defaultAll,
         }),
       ).then(() => {
         handleClosePipelinePopup();
@@ -140,4 +127,4 @@ const PipelinePopup = ({
     ///
   }
 };
-export default PipelinePopup;
+export default PipelinePopupTwo;

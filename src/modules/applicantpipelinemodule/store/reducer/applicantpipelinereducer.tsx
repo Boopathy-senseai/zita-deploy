@@ -3,11 +3,15 @@ import {
   ApplicantDataReducerState,
   ApplicantPipeLineReducerState,
   ApplicantUpdateReducerState,
+  KanbanStageReducerState,
 } from '../../applicantPipeLineTypes';
 import {
   applicantPipeLineDataMiddleWare,
   applicantPipeLineMiddleWare,
   applicantUpdateStatusMiddleWare,
+  deleteKanbanStagesMiddleware,
+  getKanbanStagesMiddleWare,
+  updateKanbanStagesMiddleware,
 } from '../middleware/applicantpipelinemiddleware';
 
 const applicantPipeLineState: ApplicantPipeLineReducerState = {
@@ -58,6 +62,7 @@ const applicantPipeLineDataState: ApplicantDataReducerState = {
   isLoading: false,
   error: '',
   jd_id: 0,
+  workflow_id: null,
   applicant: [],
   shortlisted: [],
   interviewed: [],
@@ -84,6 +89,7 @@ const applicantPipeLineDataReducer = createSlice({
       (state, action) => {
         state.isLoading = false;
         state.jd_id = action.payload.jd_id;
+        state.workflow_id = action.payload?.workflow_id || null;
         state.applicant = action.payload.applicant;
         state.shortlisted = action.payload.shortlisted;
         state.interviewed = action.payload.interviewed;
@@ -136,8 +142,79 @@ const applicantPipeLineUpdateReducer = createSlice({
   },
 });
 
+const kanbanStagesState: KanbanStageReducerState = {
+  isLoading: false,
+  error: '',
+  showpopup: false,
+  stages: [],
+  update: {
+    isLoading: false,
+    error: '',
+    message: '',
+  },
+  delete: {
+    isLoading: false,
+    error: '',
+    message: '',
+  },
+};
+const kanbanStagesReducer = createSlice({
+  name: 'kanbanStages',
+  initialState: kanbanStagesState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(getKanbanStagesMiddleWare.pending, (state) => {
+      state.isLoading = true;
+      state.error = '';
+    });
+    builder.addCase(getKanbanStagesMiddleWare.fulfilled, (state, action) => {
+      if(action.payload){
+        state.isLoading = false;
+      state.stages = action.payload.stages || action.payload.data || [];
+      }
+    });
+    builder.addCase(getKanbanStagesMiddleWare.rejected, (state, action) => {
+      state.isLoading = false;
+      if (typeof action.payload === 'string') {
+        state.error = action.payload;
+      }
+    });
+    // update add case
+    builder.addCase(updateKanbanStagesMiddleware.pending, (state) => {
+      state.update.isLoading = true;
+      state.update.error = '';
+    });
+    builder.addCase(updateKanbanStagesMiddleware.fulfilled, (state, action) => {
+      state.update.isLoading = false;
+      state.update.message = action.payload.message;
+    });
+    builder.addCase(updateKanbanStagesMiddleware.rejected, (state, action) => {
+      state.update.isLoading = false;
+      if (typeof action.payload === 'string') {
+        state.update.error = action.payload;
+      }
+    });
+    // delete add case
+    builder.addCase(deleteKanbanStagesMiddleware.pending, (state) => {
+      state.delete.isLoading = true;
+      state.delete.error = '';
+    });
+    builder.addCase(deleteKanbanStagesMiddleware.fulfilled, (state, action) => {
+      state.delete.isLoading = false;
+      state.delete.message = action.payload.message;
+    });
+    builder.addCase(deleteKanbanStagesMiddleware.rejected, (state, action) => {
+      state.delete.isLoading = false;
+      if (typeof action.payload === 'string') {
+        state.delete.error = action.payload;
+      }
+    });
+  },
+});
+
 export const applicantPipeLineReducers = applicantPipeLineReducer.reducer;
 export const applicantPipeLineDataReducers =
   applicantPipeLineDataReducer.reducer;
 export const applicantPipeLineUpdateReducers =
   applicantPipeLineUpdateReducer.reducer;
+export const kanbanStagesReducers = kanbanStagesReducer.reducer;

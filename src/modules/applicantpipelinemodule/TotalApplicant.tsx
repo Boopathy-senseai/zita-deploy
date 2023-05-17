@@ -45,9 +45,12 @@ import SvgDownload from '../../icons/SvgDownload';
 import { useStages } from '../../hooks/useStages';
 import styles from './totalapplicant.module.css';
 import MovePipelinePopup from './movepopup';
+import { updateKanbanStagesMiddleware } from './store/middleware/applicantpipelinemiddleware';
 const cx = classNames.bind(styles);
 
 type Props = {
+  jd_id: number;
+  workflowId: number;
   total: number;
   filterTotalFav: () => void;
   isTotalFav: boolean;
@@ -58,6 +61,8 @@ type Props = {
 };
 
 const TotalApplicant = ({
+  jd_id,
+  workflowId,
   total,
   filterTotalFav,
   isTotalFav,
@@ -73,11 +78,11 @@ const TotalApplicant = ({
 
   const dispatch: AppDispatch = useDispatch();
 
-  const { stages, suggestions, isLoading } = useSelector(
-    ({ templatePageReducers }: RootState) => ({
-      isLoading: templatePageReducers.isLoading,
-      stages: templatePageReducers.stages,
-      suggestions: templatePageReducers.suggestion,
+  const { stages, isLoading } = useSelector(
+    ({ kanbanStagesReducers }: RootState) => ({
+      isLoading: kanbanStagesReducers.isLoading,
+      stages: kanbanStagesReducers.stages,
+      // suggestions: kanbanStagesReducers.suggestion,
     }),
   );
 
@@ -138,10 +143,11 @@ const TotalApplicant = ({
     onSubmit: (data) => {
       onAddStageFromSuggestion({
         stage_name: data.title,
-        stage_order: suggestions.length + 1,
+        // stage_order: suggestions.length + 1,
+        stage_order: 0, // to do m
         stage_color: 'gray',
         suggestion_id: new Date().getTime(),
-        wk_id_id: new Date().getTime(), /// TODO: Fix this Megumi 
+        wk_id_id: new Date().getTime(),  
         is_disabled: false,
       });
       toggleStage();
@@ -404,7 +410,7 @@ const TotalApplicant = ({
             >
               Cancel
             </Button>
-            <Button className={styles.update} onClick={handleClosePopup}>
+            <Button className={styles.update} onClick={handleUpdateStages}>
               Apply
             </Button>
           </Flex>
@@ -412,6 +418,12 @@ const TotalApplicant = ({
       </Modal>
     </>
   );
+
+  function handleUpdateStages(){
+    if(jd_id && workflowId) {
+      dispatch(updateKanbanStagesMiddleware({jd_id, workflow_id: workflowId, stages: localStages}))
+    }
+  }
 };
 // const ActionsButton = ({ onEditStages, onEditPipeline }) => {
 //   return (

@@ -11,6 +11,7 @@ const pipelinePageState: PipelinePageReducerState = {
   isLoading: false,
   error: '',
   pipeline: [],
+  suggestion: [],
 };
 
 const pipelinePageReducer = createSlice({
@@ -24,7 +25,8 @@ const pipelinePageReducer = createSlice({
     });
     builder.addCase(getPipelineDataMiddleWare.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.pipeline = action.payload;
+      state.pipeline = action.payload.data;
+      state.suggestion = action.payload.suggestion;
     });
     builder.addCase(getPipelineDataMiddleWare.rejected, (state, action) => {
       state.isLoading = false;

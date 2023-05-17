@@ -2,6 +2,7 @@ import {
   applicantPipeLineDataReducers,
   applicantPipeLineReducers,
   applicantPipeLineUpdateReducers,
+  kanbanStagesReducers,
 } from '../modules/applicantpipelinemodule/store/reducer/applicantpipelinereducer';
 import {
   applicantAllMatchReducers,
@@ -191,4 +192,5 @@ export const reducers = {
   sourcingPerformanceDataReducers,
   templatePageReducers,
   pipelinePageReducers,
+  kanbanStagesReducers,
 };

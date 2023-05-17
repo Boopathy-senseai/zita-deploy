@@ -9,7 +9,9 @@ const reorder = (list: StageData[], startIndex, endIndex): StageData[] => {
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);
 
-  return result;
+  return result.map((doc, index) => {
+    return { ...doc, stage_order: index };
+  });
 };
 
 const grid = 8;

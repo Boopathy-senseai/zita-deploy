@@ -1,12 +1,13 @@
+import { IKanbanStages, StageData } from '../../hooks/useStages/types';
+
 export interface ApplicantPipeLine {
   success: boolean;
   skill_list: SkillListEntity[];
   jd_id: string;
   job_details: JobDetailsEntity;
   permission?: string[];
-  zita_match_count:number
+  zita_match_count: number;
 }
-
 export interface SkillListEntity {
   label: string;
   value: string;
@@ -24,6 +25,22 @@ export interface ApplicantPipeLineReducerState extends ApplicantPipeLine {
   isLoading: boolean;
   error: string;
 }
+export interface KanbanStageReducerState {
+  isLoading: boolean;
+  error: string;
+  showpopup: boolean;
+  stages: IKanbanStages[];
+  update: {
+    isLoading: boolean;
+    error: string;
+    message: string;
+  };
+  delete: {
+    isLoading: boolean;
+    error: string;
+    message: string;
+  };
+}
 
 export interface ApplicantPipeLinePayload {
   jd_id: string;
@@ -36,6 +53,7 @@ export interface ApplicantUpdateStatusPayload {
 
 export interface ApplicantData {
   jd_id: number;
+  workflow_id?: number | null;
   applicant: ApplicantEntity[];
   shortlisted: ShortlistedEntityOrRejectedEntity[];
   interviewed: InterviewedEntityOrSelectedEntity[];
@@ -140,6 +158,13 @@ export interface ApplicantFilter {
   sortInterview?: string;
   sortSelected?: string;
   sortRejected?: string;
+}
+
+
+export interface IUpdateKanbanStage {
+  workflow_id: number;
+  jd_id: number;
+  stages: StageData[];
 }
 
 export interface ApplicantUpdateReducerState {

@@ -213,3 +213,12 @@ export const convertJsonToForm = (json: { [key: string]: any }) => {
   
   return form;
 }
+
+export function stringifyParams(
+  data: { [key: string]: any } | { [key: number]: any }
+) {
+  return Object.keys(data).reduce((res, key) => {
+    if (res === "") return `${key}=${data[key]}`;
+    return res + `&${key}=${data[key]}`;
+  }, "");
+}
