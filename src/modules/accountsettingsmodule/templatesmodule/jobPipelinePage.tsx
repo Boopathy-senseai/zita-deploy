@@ -46,6 +46,8 @@ type FormProps = {
   //location: string;
 };
 
+
+
 const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
   // const reorderRef = useRef<Reorder>(null);
   const [stage, setStage] = useState(false);
@@ -54,13 +56,12 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
 
   const dispatch: AppDispatch = useDispatch();
   const { pipeline, stages, suggestions, isLoading } = useSelector(
-    ({ templatePageReducers,pipelinePageReducers  }: RootState) => {
+    ({ templatePageReducers, pipelinePageReducers }: RootState) => {
       return {
         isLoading: templatePageReducers.isLoading,
         pipeline: templatePageReducers.data[0],
         stages: templatePageReducers.stages,
         suggestions: pipelinePageReducers.suggestion,
-        
       };
     },
   );
@@ -74,7 +75,10 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     onReorder,
     isStageDuplicate,
     isStageExist,
+    addDefaultStages,
   } = useStages(stages);
+
+ 
 
   useEffect(() => {
     //dispatch(jobPipelineStagesMiddleWare(userId));
@@ -83,11 +87,12 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
       dispatch(getTemplateDataMiddleWare(wk_id));
     } else {
       dispatch(templatePageReducerActions.clearState());
+      addDefaultStages(undefined);
     }
     return () => {
       dispatch(templatePageReducerActions.clearState());
     };
-  }, [wk_id]);
+  }, [wk_id, suggestions]);
   useEffect(() => {
     if (pipeline) {
       setForm({ ...form, pipelineTitle: pipeline.pipeline_name });
@@ -131,8 +136,13 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
 
   const isFormDirty = () => {
     if (stages && stages.length !== localStages.length) return true;
-    if (pipeline && formik.values.pipelineTitle !== pipeline.pipeline_name)
-      return true; /// TODO: FIX this Megumi
+    if (stages && JSON.stringify(stages) !== JSON.stringify(localStages)){
+      return true;
+    }
+      
+    if (pipeline && formik.values.pipelineTitle !== pipeline.pipeline_name) {
+      return true;
+    }
     return false;
   };
   const isFormValid = () => {
@@ -345,7 +355,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
           </Button>
           <Button
             onClick={handleUpdate}
-            disabled={!isFormValid() && !isFormDirty()}
+            disabled={!(isFormValid() && isFormDirty())}
           >
             Update
           </Button>

@@ -64,17 +64,26 @@ const applicantPipeLineDataState: ApplicantDataReducerState = {
   error: '',
   jd_id: 0,
   workflow_id: null,
-  applicant: [],
-  shortlisted: [],
-  interviewed: [],
-  selected: [],
-  rejected: [],
+  applicants : {
+    applicant: [],
+    shortlisted: [],
+    interviewed: [],
+    selected: [],
+    rejected: [],
+  },
   params: '',
   fav_id: false,
   google: [],
   outlook: [],
   total_applicants: 0,
 };
+
+const getApplicants = (payload: any) => {
+  const obj = Object.keys(payload)
+  .filter(key => Array.isArray(payload[key]))
+  .reduce((o, key) => ({...o, [key]: payload[key]}), {});
+  return obj;
+}
 
 const applicantPipeLineDataReducer = createSlice({
   name: 'applicantpipe',
@@ -91,11 +100,14 @@ const applicantPipeLineDataReducer = createSlice({
         state.isLoading = false;
         state.jd_id = action.payload.jd_id;
         state.workflow_id = action.payload?.workflow_id || null;
-        state.applicant = action.payload.applicant;
-        state.shortlisted = action.payload.shortlisted;
-        state.interviewed = action.payload.interviewed;
-        state.selected = action.payload.selected;
-        state.rejected = action.payload.rejected;
+        state.applicants = {
+          ...getApplicants(action.payload),
+        };
+        // state.applicant = action.payload.applicant;
+        // state.shortlisted = action.payload.shortlisted;
+        // state.interviewed = action.payload.interviewed;
+        // state.selected = action.payload.selected;
+        // state.rejected = action.payload.rejected;
         state.fav_id = action.payload.fav_id;
         state.google = action.payload.google;
         state.outlook = action.payload.outlook;
@@ -163,7 +175,7 @@ const applicantPipeLineUpdateReducer = createSlice({
 const kanbanStagesState: KanbanStageReducerState = {
   isLoading: false,
   error: '',
-  showpopup: false,
+  selectPipeline: false,
   stages: [],
   update: {
     isLoading: false,
@@ -189,6 +201,7 @@ const kanbanStagesReducer = createSlice({
       if(action.payload){
         state.isLoading = false;
       state.stages = action.payload.stages || action.payload.data || [];
+      state.selectPipeline = action.payload.select_pipeline || false;
       }
     });
     builder.addCase(getKanbanStagesMiddleWare.rejected, (state, action) => {

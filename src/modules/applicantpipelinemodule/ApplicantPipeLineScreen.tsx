@@ -129,15 +129,9 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
         location_list: myJobPosingReducers.location_list,
         jd_id: applicantPipeLineReducers.jd_id,
         workflow_id: applicantPipeLineDataReducers.workflow_id,
-        applicants: {
-          interviewed: applicantPipeLineDataReducers.interviewed,
-          rejected: applicantPipeLineDataReducers.rejected,
-          selected: applicantPipeLineDataReducers.selected,
-          shortlisted: applicantPipeLineDataReducers.shortlisted,
-          applicant: applicantPipeLineDataReducers.applicant,
-        },
+        applicants: applicantPipeLineDataReducers.applicants,
         stages: kanbanStagesReducers.stages,
-        showStagesPopup: kanbanStagesReducers.showpopup,
+        showStagesPopup: kanbanStagesReducers.selectPipeline,
 
         // Test: applicantPipeLineDataReducers.shortlisted,
 
@@ -159,7 +153,8 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
   //why this dispatch is being done??
 
   useEffect(() => {
-    dispatch(getKanbanStagesMiddleWare());
+    // dispatch(getKanbanStagesMiddleWare());
+    dispatch(getKanbanStagesMiddleWare({ jd_id: parseInt(jdId) }));
     dispatch(applicantPipeLineMiddleWare({ jd_id: jdId })).then(() => {
       dispatch(
         applicantPipeLineDataMiddleWare({
@@ -488,10 +483,10 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
   const handleClosePipelinePopup = () => {
     setShowPipelinePopup(false);
   };
-  // open popup
-  const handleOpenPipelinePopup = () => {
-    setShowPipelinePopup(true);
-  };
+  // // open popup
+  // const handleOpenPipelinePopup = () => {
+  //   setShowPipelinePopup(true);
+  // };
 
   // const data = [
   //   {
@@ -555,8 +550,8 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
         ...v,
         columnId: JSON.stringify(v?.id),
         title: v?.stage_name,
-        items: applicants[v.id] || [],
-        total: applicants[v.id]?.length,
+        items: applicants[v.stage_name] || [],
+        total: applicants[v.stage_name]?.length,
         section: JSON.stringify(v?.id),
         left: '0px',
         borderColor: v?.stage_color,
@@ -565,6 +560,7 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
   }, {});
   const columnsFromBackend = {
     'column-1': {
+      id: 0,
       columnId: 'column-1',
       title: 'New Applicants',
       items: applicants?.applicant,
@@ -576,7 +572,6 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
       stage_name: 'New Applicants',
       stage_order: 0,
     } as IStageColumn,
-    ...stageColumns,
     // 'column-2': {
     //   title: 'Shortlisted',
     //   items: applicants.shortlisted,
@@ -606,6 +601,7 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
     //   items: interviewed,
     //   total: interviewed.length,
     // },
+    ...stageColumns,
   };
 
   //console.log(columnsFromBackend);
@@ -621,6 +617,7 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
     open: boolean;
     droppableId: string;
     taskId: any;
+    candidateId: number;
   } | null>(null);
   // const [isApplicant, setApplicant] = useState(false);
   // const [isShortList, setShortList] = useState(false);
@@ -692,6 +689,7 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
             open: true,
             droppableId: destination.droppableId,
             taskId: removed.id,
+            candidateId: removed.candidate_id_id,
           });
         } else {
           handleCardUpdate({ ...destination, taskId: removed.id });
@@ -752,23 +750,23 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
       });
   };
   const hanldeAlertComplete = () => {
-    const { taskId, droppableId } = isAlert;
-    /// TODO: UNCOMMENT IT WHEN CONNECTED TOO BE
-    // dispatch( 
-    //   kanbanUpdateMiddleWare({
-    //     jd_id: parseInt(jd_id),
-    //     workflow_id: workflow_id,
-    //     candidate_id: taskId,
-    //     stages: getSTData(columns[droppableId]),
-    //   }),
-    // )
+    const { taskId, candidateId, droppableId } = isAlert;
+    // TODO: UNCOMMENT IT WHEN CONNECTED TOO BE
     dispatch(
-      applicantUpdateStatusMiddleWare({
-        jd_id,
-        applicant_id: taskId,
-        status: droppableId !== 'selected' ? droppableId : 'offered',
+      kanbanUpdateMiddleWare({
+        jd_id: parseInt(jd_id),
+        // workflow_id: workflow_id,
+        candidate_id: [candidateId],
+        stages: getSTData(columns[droppableId]),
       }),
     )
+      // dispatch(
+      //   applicantUpdateStatusMiddleWare({
+      //     jd_id,
+      //     applicant_id: taskId,
+      //     status: droppableId !== 'selected' ? droppableId : 'offered',
+      //   }),
+      // )
       .then(() => {
         setAlert(null);
         getApplicanPipelineData();
@@ -874,7 +872,7 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
   };
 
   const handleMove = (droppableId: number) => {
-    updateBulkKanbanStage(droppableId, new Map(cardSelection))
+    updateBulkKanbanStage(droppableId, new Map(cardSelection));
     setColumns((previous) => {
       const selectedList = Array.from(cardSelection.values());
       const removedList = selectedList?.reduce((o, v) => {
@@ -899,13 +897,13 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
         });
         const newItems = [...filteredList];
 
-        console.log(
-          v.task.id,
-          v.columnId,
-          previousItems,
-          previousRemovedItems,
-          filteredList,
-        );
+        // console.log(
+        //   v.task.id,
+        //   v.columnId,
+        //   previousItems,
+        //   previousRemovedItems,
+        //   filteredList,
+        // );
 
         return {
           ...o,
@@ -942,30 +940,34 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
     setCardSelection(new Map());
   };
 
-  const updateBulkKanbanStage = (droppableId: number, map: Map<string, {
-    task: any;
-    section: string;
-    // index: number;
-    columnId: string;
-  }>) => {
+  const updateBulkKanbanStage = (
+    droppableId: number,
+    map: Map<
+      string,
+      {
+        task: any;
+        section: string;
+        // index: number;
+        columnId: string;
+      }
+    >,
+  ) => {
     const selectedList = Array.from(map.values());
-    selectedList.forEach((doc) => {
-      dispatch(
-        kanbanUpdateMiddleWare({
-          jd_id: parseInt(jd_id),
-          workflow_id: workflow_id,
-          candidate_id: doc.task.id,
-          stages: getSTData(columns[droppableId]),
-        }),
-      );
-    });
-
-   
+    const candidateIdList = selectedList.map((doc) => doc.task.candidate_id_id);
+    // console.log('-----id', candidateIdList);
+    dispatch(
+      kanbanUpdateMiddleWare({
+        jd_id: parseInt(jd_id),
+        // workflow_id: workflow_id,
+        candidate_id: candidateIdList,
+        stages: getSTData(columns[droppableId]),
+      }),
+    );
   };
-
   function getSTData(data: IStageColumn) {
-    const { stage_name, stage_color, stage_order, is_disabled } = data;
-    return [{ stage_name, stage_color, stage_order, is_disabled }];
+    const { stage_name } = data;
+    // return [{ stage_name, stage_color, stage_order, is_disabled }];
+    return stage_name;
   }
   return (
     <>
@@ -973,14 +975,22 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
         <PipelinePopup
           jd_id={parseInt(jdId)}
           openPipelinePopup={showPipelinePopup}
-          handleClosePipelinePopup={handleClosePipelinePopup}
+          onClose={() => {
+            handleClosePipelinePopup();
+            history.goBack();
+          }}
+          onSuccessClose={handleClosePipelinePopup}
         />
       )}
       {showPipelinePopup && showStagesPopup && (
         <PipelinePopupTwo
           jd_id={parseInt(jdId)}
           openPipelinePopup={showPipelinePopup}
-          handleClosePipelinePopup={handleClosePipelinePopup}
+          onClose={() => {
+            handleClosePipelinePopup();
+            history.goBack();
+          }}
+          onSuccessClose={handleClosePipelinePopup}
         />
       )}
       <Flex row className={styles.overAll}>
@@ -1113,7 +1123,7 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
           <div>
             <TotalApplicant
               jd_id={parseInt(jdId)}
-              workflowId={0}
+              // workflowId={0}
               total={total_applicants}
               allColumnsItemsLength={allColumnsItemsLength}
               filterTotalFav={filterTotalFav}

@@ -50,7 +50,7 @@ const cx = classNames.bind(styles);
 
 type Props = {
   jd_id: number;
-  workflowId: number;
+  // workflowId: number;
   total: number;
   filterTotalFav: () => void;
   isTotalFav: boolean;
@@ -62,7 +62,7 @@ type Props = {
 
 const TotalApplicant = ({
   jd_id,
-  workflowId,
+  // workflowId,
   total,
   filterTotalFav,
   isTotalFav,
@@ -86,7 +86,6 @@ const TotalApplicant = ({
     }),
   );
 
-
   const handleOpenPopup = () => {
     setShowPopup(true);
   };
@@ -104,7 +103,7 @@ const TotalApplicant = ({
   useEffect(() => {
     dispatch(getTemplateDataMiddleWare());
   }, []);
-  
+
   const {
     localStages,
     onEditStage,
@@ -118,7 +117,6 @@ const TotalApplicant = ({
   const initial = {
     title: '',
   };
-
 
   const handleJobPipeline = (values: jobPipelineForm) => {
     const errors: Partial<jobPipelineForm> = {};
@@ -147,7 +145,7 @@ const TotalApplicant = ({
         stage_order: 0, // to do m
         stage_color: 'gray',
         suggestion_id: new Date().getTime(),
-        wk_id_id: new Date().getTime(),  
+        wk_id_id: new Date().getTime(),
         is_disabled: false,
       });
       toggleStage();
@@ -159,7 +157,6 @@ const TotalApplicant = ({
     sessionStorage.setItem('pipeline', '1');
     sessionStorage.setItem('button', '0');
   };
-
 
   const defaultStage: StageData = {
     // id: 1ST,
@@ -419,9 +416,23 @@ const TotalApplicant = ({
     </>
   );
 
-  function handleUpdateStages(){
-    if(jd_id && workflowId) {
-      dispatch(updateKanbanStagesMiddleware({jd_id, workflow_id: workflowId, stages: localStages}))
+  function handleUpdateStages() {
+    // console.log('------------', jd_id, localStages.map(doc => {
+    //   return doc.workflow_id_id
+    // }));
+
+    if (jd_id) {
+      dispatch(
+        updateKanbanStagesMiddleware({
+          jd_id,
+          // workflow_id: workflowId,
+          stages: localStages,
+        }),
+      ).then(() => {
+        handleClosePopup();
+      });
+    } else {
+      console.log('workflow id not there');
     }
   }
 };

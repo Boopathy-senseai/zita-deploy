@@ -28,7 +28,7 @@ export interface ApplicantPipeLineReducerState extends ApplicantPipeLine {
 export interface KanbanStageReducerState {
   isLoading: boolean;
   error: string;
-  showpopup: boolean;
+  selectPipeline: boolean;
   stages: IKanbanStages[];
   update: {
     isLoading: boolean;
@@ -54,16 +54,20 @@ export interface ApplicantUpdateStatusPayload {
 export interface ApplicantData {
   jd_id: number;
   workflow_id?: number | null;
-  applicant: ApplicantEntity[];
-  shortlisted: ShortlistedEntityOrRejectedEntity[];
-  interviewed: InterviewedEntityOrSelectedEntity[];
-  selected: InterviewedEntityOrSelectedEntity[];
-  rejected: ShortlistedEntityOrRejectedEntity[];
+
   params: string;
   fav_id: boolean;
   google?: GoogleEntity[];
   outlook?: GoogleEntity[];
   total_applicants: number;
+  applicants: {
+    // applicant: ApplicantEntity[];
+    // shortlisted?: ShortlistedEntityOrRejectedEntity[];
+    // interviewed: InterviewedEntityOrSelectedEntity[];
+    // selected: InterviewedEntityOrSelectedEntity[];
+    // rejected: ShortlistedEntityOrRejectedEntity[];
+    [key: string]: Array<ApplicantEntity>;
+  };
 }
 export interface GoogleEntity {
   id: number;
@@ -160,9 +164,8 @@ export interface ApplicantFilter {
   sortRejected?: string;
 }
 
-
 export interface IUpdateKanbanStage {
-  workflow_id: number;
+  workflow_id?: number;
   jd_id: number;
   stages: StageData[];
 }

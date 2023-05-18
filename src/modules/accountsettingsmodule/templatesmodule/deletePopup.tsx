@@ -15,7 +15,7 @@ type Props = {
 
 const DeletePopup = ({ visible, onDelete, onClose, data }: Props) => {
   const renderTitle = () => {
-    if (data.associate !== 0) {
+    if (data.associate) {
       return (
         <Flex flex={6} column center className={styles.overAll}>
           <Text bold color="theme" className={styles.insertStyles}>

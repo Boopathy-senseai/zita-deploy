@@ -39,6 +39,8 @@ const DndTitle = ({
     }
     return false;
   };
+
+  console.log(data);
   return (
     <div className={styles.col}>
       {data.map((list, index) => {

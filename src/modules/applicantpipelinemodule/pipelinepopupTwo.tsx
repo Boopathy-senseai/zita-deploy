@@ -22,13 +22,15 @@ const pipelineOption = [
 type Props = {
   jd_id: number;
   openPipelinePopup: boolean;
-  handleClosePipelinePopup: () => void;
+  onClose: () => void;
+  onSuccessClose: () => void;
 };
 
 const PipelinePopupTwo = ({
   jd_id,
   openPipelinePopup,
-  handleClosePipelinePopup,
+  onClose,
+  onSuccessClose,
 }: Props) => {
   const [selectValue, setSelectValue] = useState<{
     label: string;
@@ -101,7 +103,7 @@ const PipelinePopupTwo = ({
           <Button
             className={styles.cancel}
             types={'primary'}
-            onClick={handleClosePipelinePopup}
+            onClick={onClose}
           >
             Cancel
           </Button>
@@ -121,7 +123,7 @@ const PipelinePopupTwo = ({
           workflow_id: selectValue.value,
         }),
       ).then(() => {
-        handleClosePipelinePopup();
+        onSuccessClose();
       });
     }
     ///

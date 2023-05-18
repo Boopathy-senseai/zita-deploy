@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { SuggestionData } from './types';
 
 export type UseStages<T> = {
   localStages: Array<T>;
@@ -10,6 +11,8 @@ export type UseStages<T> = {
   onReorder: (list: Array<T>) => void;
   isStageDuplicate: (title: string) => boolean;
   isStageExist: (name: string) => boolean;
+  getDefaultStages: (value: SuggestionData[]) => SuggestionData[];
+  addDefaultStages: (value: SuggestionData[]) => void;
 };
 
 export function useStages<
@@ -25,7 +28,12 @@ export function useStages<
   },
 >(stages: Array<T>): UseStages<T> {
   const [localStages, setLocalStages] = useState<Array<T>>([]);
-
+  const defaultStageNames = [
+    'Shortlisted',
+    'Offered',
+    'Rejected',
+    'interview',
+  ];
   useEffect(() => {
     if (stages && stages.length !== 0) {
       setLocalStages(stages);
@@ -112,6 +120,33 @@ export function useStages<
     );
   };
 
+  const getDefaultStages = (suggestions?: SuggestionData[]) => {
+    
+    return suggestions.filter((doc) =>
+      defaultStageNames.includes(doc.stage_name),
+    );
+  };
+
+  const addDefaultStages = (suggestions?: SuggestionData[] | undefined) => {
+    if (suggestions) {
+      getDefaultStages(suggestions).forEach((doc) => {
+        onAddStageFromSuggestion(doc);
+      });
+    } else {
+      const newStage: T[] = defaultStageNames.map((name, index) => ({
+        id: new Date().getTime()+index,
+        stage_name: name,
+        stage_order: index + 1,
+        stage_color: "gray",
+        stage_id_id: new Date().getTime()+index,
+        is_disabled: false,
+      }) as T);
+      newStage.forEach((doc) => {
+        onAddStage(doc);
+      });
+    }
+  };
+
   return {
     localStages,
     setLocalStages,
@@ -122,5 +157,7 @@ export function useStages<
     onReorder,
     isStageDuplicate,
     isStageExist,
+    getDefaultStages,
+    addDefaultStages,
   };
 }

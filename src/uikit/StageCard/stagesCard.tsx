@@ -167,9 +167,22 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
     }
     return <Text color="theme" title={doc.stage_name}>{doc.stage_name}</Text>;
   };
+
+  const handleEdit = ()=>{
+    if(doc.is_disabled){
+      return;
+    }
+    if(onEdit){
+      setEdit(!edit);
+    }
+            
+  }
   const handleDelete = () => {
     if (edit) {
       toggleStage();
+    }
+    if(doc.is_disabled){
+      return;
     }
     if (onDelete) {
       setDeletePopup(true);
@@ -234,9 +247,7 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
             disabled={doc.is_disabled}
             types="link"
             className={styles.editIcon}
-            onClick={() =>
-              onEdit && doc.is_disabled === false ? setEdit(!edit) : undefined
-            }
+            onClick={handleEdit}
           >
             <SvgEdit width={12} height={12} fill={'#581845'} />
           </Button>
@@ -244,11 +255,7 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
             disabled={doc.is_disabled}
             types="link"
             className={styles.deleteIcon}
-            onClick={() =>
-              handleDelete && doc.is_disabled === false
-                ? handleDelete()
-                : undefined
-            }
+            onClick={handleDelete}
           >
             <SvgDelete width={16} height={16} fill={'#581845'} />
           </Button>

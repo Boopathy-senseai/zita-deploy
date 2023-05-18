@@ -112,7 +112,9 @@ export const unlimitedHelper = (value: string | number | null | undefined) => {
   const result = value === null ? 'Unlimited' : value;
   return result;
 };
-export const notSpecified = (value: string | number | null | undefined | string[]) => {
+export const notSpecified = (
+  value: string | number | null | undefined | string[],
+) => {
   const result =
     value === undefined || value === null || value === ''
       ? 'Not Specified'
@@ -200,35 +202,37 @@ export const dateFromDay = (year: any) => {
   return new Date(date.setDate(1));
 };
 
-
 export const convertJsonToForm = (json: { [key: string]: any }) => {
   const form = new FormData();
-  Object.keys(json).forEach(key => {
-    if(typeof json[key] !== "string") {
+  Object.keys(json).forEach((key) => {
+    if (typeof json[key] !== 'string') {
       form.append(key, JSON.stringify(json[key]));
-    }else {
+    } else {
       form.append(key, json[key]);
     }
-  })
-  
+  });
+
   return form;
-}
+};
 
 export function stringifyParams(
-  json: { [key: string]: any } | { [key: number]: any }
+  json: { [key: string]: any } | { [key: number]: any },
 ) {
   return Object.keys(json).reduce((res, key) => {
-    if (res === "") {
+    if (res === '') {
+      // console.log(res);
+      // console.log(`${key}=${jsonStringfy(json[key])}`)
       return `${key}=${jsonStringfy(json[key])}`;
-    };
+    }
 
-    function jsonStringfy(data: any){
+    function jsonStringfy(data: any) {
       let value = data;
-      if(typeof data !== "string"){
-         value = JSON.stringify(data);
+      if (typeof data !== 'string') {
+        value = JSON.stringify(data);
       }
-      return `${key}=${value}`;
+      // console.log(`${value}`);
+      return `${value}`;
     }
     return res + `&${key}=${jsonStringfy(json[key])}`;
-  }, "");
+  }, '');
 }

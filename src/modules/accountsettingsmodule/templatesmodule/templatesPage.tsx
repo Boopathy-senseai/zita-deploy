@@ -120,65 +120,80 @@ const TemplatesPage = () => {
   const handleDefault = (data: PipelineData) => {
     dispatch(updatejobPipelineMiddleWare(data));
   };
-  
+
   if (template === 0) {
     return (
       <>
-      {isLoading && <Loader />}
-      
-      <Flex row marginTop={'20px'}>
-        <Flex flex={2}>
-          <Card className={styles.cardStructure}>
-            <Flex row start className={styles.cardHeader}>
-              <SvgJobPipeline height={16} width={16} />
-              <Text color="theme" bold size={16} style={{ marginLeft: '10px' }}>
-                Job Pipeline
-              </Text>
-            </Flex>
+        {isLoading && <Loader />}
 
-            <Text style={{ marginTop: '10px' }}>
-              Create, modify, reorder, and delete job pipeline stages
-            </Text>
+        <Flex row marginTop={'20px'}>
+          <Flex flex={2}>
+            <Card className={styles.cardStructure}>
+              <Flex row start className={styles.cardHeader}>
+                <SvgJobPipeline height={16} width={16} />
+                <Text
+                  color="theme"
+                  bold
+                  size={16}
+                  style={{ marginLeft: '10px' }}
+                >
+                  Job Pipeline
+                </Text>
+              </Flex>
 
-            <Button className={styles.btn} onClick={() => selectTemplate()}>
-              <Text color="theme">Manage Pipeline</Text>
-            </Button>
-          </Card>
-        </Flex>
-        <Flex flex={2}>
-          <Card className={styles.cardStructure}>
-            <Flex row start className={styles.cardHeader}>
-              <SvgMessages height={16} width={16} />
-              <Text color="theme" bold size={16} style={{ marginLeft: '10px' }}>
-                Message Templates
+              <Text style={{ marginTop: '10px' }}>
+                Create, modify, reorder, and delete job pipeline stages
               </Text>
-            </Flex>
-            <Text style={{ marginTop: '10px' }}>
-              Design and send the custom message{' '}
-            </Text>
-            <Button className={styles.btn} onClick={() => {}}>
-              <Text color="theme">Manage Templates</Text>
-            </Button>
-          </Card>
-        </Flex>
-        <Flex flex={2}>
-          <Card className={styles.cardStructure}>
-            <Flex row start className={styles.cardHeader}>
-              <SvgMessage height={16} width={16} fill="#581845" />
-              <Text color="theme" bold size={16} style={{ marginLeft: '10px' }}>
-                Email Templates
+
+              <Button className={styles.btn} onClick={() => selectTemplate()}>
+                <Text color="theme">Manage Pipeline</Text>
+              </Button>
+            </Card>
+          </Flex>
+          <Flex flex={2}>
+            <Card className={styles.cardStructure}>
+              <Flex row start className={styles.cardHeader}>
+                <SvgMessages height={16} width={16} />
+                <Text
+                  color="theme"
+                  bold
+                  size={16}
+                  style={{ marginLeft: '10px' }}
+                >
+                  Message Templates
+                </Text>
+              </Flex>
+              <Text style={{ marginTop: '10px' }}>
+                Design and send the custom message{' '}
               </Text>
-            </Flex>
-            <Text style={{ marginTop: '10px' }}>
-              Easily Create, Analyse and send your Emails{' '}
-            </Text>
-            <Button className={styles.btn} onClick={() => {}}>
-              <Text color="theme">Manage Templates</Text>
-            </Button>
-          </Card>
+              <Button className={styles.btn} onClick={() => {}}>
+                <Text color="theme">Manage Templates</Text>
+              </Button>
+            </Card>
+          </Flex>
+          <Flex flex={2}>
+            <Card className={styles.cardStructure}>
+              <Flex row start className={styles.cardHeader}>
+                <SvgMessage height={16} width={16} fill="#581845" />
+                <Text
+                  color="theme"
+                  bold
+                  size={16}
+                  style={{ marginLeft: '10px' }}
+                >
+                  Email Templates
+                </Text>
+              </Flex>
+              <Text style={{ marginTop: '10px' }}>
+                Easily Create, Analyse and send your Emails{' '}
+              </Text>
+              <Button className={styles.btn} onClick={() => {}}>
+                <Text color="theme">Manage Templates</Text>
+              </Button>
+            </Card>
+          </Flex>
+          <Flex flex={4}></Flex>
         </Flex>
-        <Flex flex={4}></Flex>
-      </Flex>
       </>
     );
   }
@@ -419,7 +434,7 @@ const ActionsButton = ({
                 </Flex>
               </Dropdown.Item>
             )}
-            {!disabled && (
+            {!disabled && !defaults && (
               <Dropdown.Item onClick={onDelete}>
                 <Flex row center className={styles.dropDownListStyle}>
                   <Text>Delete</Text>
