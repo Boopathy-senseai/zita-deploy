@@ -58,7 +58,7 @@ const TemplatesPage = () => {
     data: PipelineData;
   } | null>(null);
 
-  const [workId, setWorkId] = useState<number | undefined>();
+  const [workId, setWorkId] = useState<number | undefined>(parseInt(sessionStorage.getItem('wk_id')) || undefined);
   const [showbutton, setshowbutton] = useState(
     parseInt(sessionStorage.getItem('button')) || 0,
   );

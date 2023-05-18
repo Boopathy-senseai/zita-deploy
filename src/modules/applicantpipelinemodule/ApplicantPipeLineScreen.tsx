@@ -969,6 +969,14 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
     // return [{ stage_name, stage_color, stage_order, is_disabled }];
     return stage_name;
   }
+
+  const handleNewPipeline = () => {
+    sessionStorage.setItem('superUserTab', '7');
+    sessionStorage.setItem('template', '2');
+    sessionStorage.setItem('pipeline', '2');
+    sessionStorage.setItem('wk_id', 'undefined');
+    history.push('/account_setting/settings');
+  }
   return (
     <>
       {showPipelinePopup && showStagesPopup === false && (
@@ -980,6 +988,7 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
             history.goBack();
           }}
           onSuccessClose={handleClosePipelinePopup}
+          onNewPipeline={handleNewPipeline}
         />
       )}
       {showPipelinePopup && showStagesPopup && (
@@ -991,6 +1000,7 @@ const ApplicantPipeLineScreen = ({ location }: FormProps) => {
             history.goBack();
           }}
           onSuccessClose={handleClosePipelinePopup}
+          onNewPipeline={handleNewPipeline}
         />
       )}
       <Flex row className={styles.overAll}>

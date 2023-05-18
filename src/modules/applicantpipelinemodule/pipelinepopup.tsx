@@ -24,6 +24,7 @@ type Props = {
   openPipelinePopup: boolean;
   onClose: () => void;
   onSuccessClose: () => void;
+  onNewPipeline: () => void;
 };
 
 const PipelinePopup = ({
@@ -31,18 +32,14 @@ const PipelinePopup = ({
   openPipelinePopup,
   onClose,
   onSuccessClose,
+  onNewPipeline,
 }: Props) => {
   const [selectValue, setSelectValue] = useState<{
     label: string;
     value: number;
   } | null>(null);
   const [defaultAll, setDefaultAll] = useState<boolean>(false);
-  const clearTab = () => {
-    sessionStorage.setItem('superUserTab', '7');
-    sessionStorage.setItem('template', '0');
-    sessionStorage.setItem('pipeline', '0');
-    sessionStorage.setItem('button', '1');
-  };
+
   const { pipelineData, isLoading } = useSelector(
     ({ pipelinePageReducers, templatePageReducers }: RootState) => ({
       isLoading: pipelinePageReducers.isLoading,
@@ -78,7 +75,9 @@ const PipelinePopup = ({
         <SelectTag
           value={selectValue}
           options={pipelineData.map((doc) => ({
-            label: doc.set_as_default ? `${doc.pipeline_name} (default)` : doc.pipeline_name,
+            label: doc.set_as_default
+              ? `${doc.pipeline_name} (default)`
+              : doc.pipeline_name,
             value: doc.wk_id,
           }))}
           onChange={(option) => {
@@ -99,24 +98,19 @@ const PipelinePopup = ({
         </Flex>
 
         <Text className={styles.orText}>Or</Text>
-        <LinkWrapper onClick={clearTab} to="/account_setting/settings">
-          <Button
-            types="secondary"
-            onClick={() => {}}
-            className={styles.newBtn}
-          >
-            <Text color="theme" size={14}>
-              Create New Pipeline
-            </Text>
-          </Button>
-        </LinkWrapper>
+
+        <Button
+          types="secondary"
+          onClick={onNewPipeline}
+          className={styles.newBtn}
+        >
+          <Text color="theme" size={14}>
+            Create New Pipeline
+          </Text>
+        </Button>
 
         <Flex row end marginTop={20} className={styles.borderLine}>
-          <Button
-            className={styles.cancel}
-            types={'primary'}
-            onClick={onClose}
-          >
+          <Button className={styles.cancel} types={'primary'} onClick={onClose}>
             Cancel
           </Button>
           <Button className={styles.update} onClick={handleUpdate}>

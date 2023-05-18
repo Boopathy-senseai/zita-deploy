@@ -141,9 +141,11 @@ export function useStages<
         stage_id_id: new Date().getTime()+index,
         is_disabled: false,
       }) as T);
-      newStage.forEach((doc) => {
-        onAddStage(doc);
-      });
+
+      setLocalStages(newStage);
+      // newStage.forEach((doc) => {
+      //   onAddStage(doc);
+      // });
     }
   };
 
