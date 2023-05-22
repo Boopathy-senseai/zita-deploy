@@ -29,10 +29,9 @@ export function useStages<
 >(stages: Array<T>): UseStages<T> {
   const [localStages, setLocalStages] = useState<Array<T>>([]);
   const defaultStageNames = [
-    'Shortlisted',
-    'Offered',
-    'Rejected',
-    'interview',
+    { name: 'Shortlisted', color: '#80C0D0' },
+    { name: 'Offered', color: '#00BE4B' },
+    { name: 'Rejected', color: '#ED4857' },
   ];
   useEffect(() => {
     if (stages && stages.length !== 0) {
@@ -121,9 +120,9 @@ export function useStages<
   };
 
   const getDefaultStages = (suggestions?: SuggestionData[]) => {
-    
     return suggestions.filter((doc) =>
-      defaultStageNames.includes(doc.stage_name),
+      // defaultStageNames.includes(doc.stage_name),
+      defaultStageNames.map((value) => value.name).includes(doc.stage_name),
     );
   };
 
@@ -133,14 +132,17 @@ export function useStages<
         onAddStageFromSuggestion(doc);
       });
     } else {
-      const newStage: T[] = defaultStageNames.map((name, index) => ({
-        id: new Date().getTime()+index,
-        stage_name: name,
-        stage_order: index + 1,
-        stage_color: "gray",
-        stage_id_id: new Date().getTime()+index,
-        is_disabled: false,
-      }) as T);
+      const newStage: T[] = defaultStageNames.map(
+        (doc, index) =>
+          ({
+            id: new Date().getTime() + index,
+            stage_name: doc.name,
+            stage_order: index + 1,
+            stage_color: doc.color,
+            stage_id_id: new Date().getTime() + index,
+            is_disabled: true,
+          } as T),
+      );
 
       setLocalStages(newStage);
       // newStage.forEach((doc) => {

@@ -1,36 +1,25 @@
-import { columnTypes, IStageColumn } from './dndBoardTypes';
+import {
+  ICardSelectionMap,
+} from './applicantPipeLineTypes';
+import { IStageColumn } from './dndBoardTypes';
 import styles from './dndtitle.module.css';
 import DndTitleMap from './DndTitleMap';
 
 type Props = {
-  data: IStageColumn[];
+  columns: IStageColumn[];
   setSortApplicant: (arg: string) => void;
-  setSortSortList: (arg: string) => void;
-  setSortInterview: (arg: string) => void;
-  setSortSelected: (arg: string) => void;
-  setSortRejected: (arg: string) => void;
   onSelectAll?: (data: IStageColumn) => void;
   onUnselectAll?: (data: IStageColumn) => void;
-  cardSelectionMap: Map<string, { task: any; section: string }>;
+  cardSelectionMap: ICardSelectionMap;
 };
 const DndTitle = ({
-  data,
+  columns,
   setSortApplicant,
-  setSortSortList,
-  setSortInterview,
-  setSortSelected,
-  setSortRejected,
   onSelectAll,
   onUnselectAll,
   cardSelectionMap,
 }: Props) => {
-  const isColumnSelected = (cardData: {
-    title: string;
-    left: string;
-    borderColor: string;
-    total: number;
-    section: string;
-  }) => {
+  const isColumnSelected = (cardData: IStageColumn) => {
     const arrValue = Array.from(cardSelectionMap.values()).filter(
       (doc) => doc.section === cardData?.section,
     )?.length;
@@ -40,23 +29,18 @@ const DndTitle = ({
     return false;
   };
 
-  console.log(data);
   return (
     <div className={styles.col}>
-      {data.map((list, index) => {
+      {columns.map((column, index) => {
         return (
           <DndTitleMap
-            list={list}
+            column={column}
             setSortApplicant={setSortApplicant}
-            setSortSortList={setSortSortList}
-            setSortInterview={setSortInterview}
-            setSortSelected={setSortSelected}
-            setSortRejected={setSortRejected}
             index={index}
-            key={index + `${list?.title}`}
+            key={index + `${column?.title}`}
             onSelectAll={onSelectAll}
             onUnselectAll={onUnselectAll}
-            columnSelected={isColumnSelected(list)}
+            columnSelected={isColumnSelected(column)}
           />
         );
       })}

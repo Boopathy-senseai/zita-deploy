@@ -28,7 +28,7 @@ export interface ApplicantPipeLineReducerState extends ApplicantPipeLine {
 export interface KanbanStageReducerState {
   isLoading: boolean;
   error: string;
-  selectPipeline: boolean;
+  selectPipeline: boolean | null;
   stages: IKanbanStages[];
   update: {
     isLoading: boolean;
@@ -54,20 +54,12 @@ export interface ApplicantUpdateStatusPayload {
 export interface ApplicantData {
   jd_id: number;
   workflow_id?: number | null;
-
   params: string;
   fav_id: boolean;
   google?: GoogleEntity[];
   outlook?: GoogleEntity[];
-  total_applicants: number;
-  applicants: {
-    // applicant: ApplicantEntity[];
-    // shortlisted?: ShortlistedEntityOrRejectedEntity[];
-    // interviewed: InterviewedEntityOrSelectedEntity[];
-    // selected: InterviewedEntityOrSelectedEntity[];
-    // rejected: ShortlistedEntityOrRejectedEntity[];
-    [key: string]: Array<ApplicantEntity>;
-  };
+  total_applicant: number;
+  applicants_list: ApplicantEntity[];
 }
 export interface GoogleEntity {
   id: number;
@@ -97,6 +89,7 @@ export interface ApplicantEntity {
   match?: number | null;
   image: string;
   file: string;
+  stage_id_id: number;
 }
 export interface ShortlistedEntityOrRejectedEntity {
   id: number;
@@ -146,6 +139,7 @@ export interface InterviewedEntityOrSelectedEntity {
 export interface ApplicantDataReducerState extends ApplicantData {
   isLoading: boolean;
   error: string;
+  applicants: { [key: number]: ApplicantEntity[] };
 }
 
 export interface ApplicantFilter {
@@ -174,3 +168,13 @@ export interface ApplicantUpdateReducerState {
   isLoading: boolean;
   error: string;
 }
+
+/// Card seclection Map Type
+
+export interface ICardSelectionData {
+  task: ApplicantEntity;
+  section: number;
+  columnId: number;
+}
+
+export type ICardSelectionMap = Map<number, ICardSelectionData>;

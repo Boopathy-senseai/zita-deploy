@@ -22,7 +22,6 @@ import SvgEditStages from '../../icons/SvgEditStages';
 import { StageCard } from '../../uikit/StageCard/stagesCard';
 import ReorderStage from '../accountsettingsmodule/templatesmodule/reorder';
 import {
-  StageData,
   jobPipelineForm,
 } from '../accountsettingsmodule/templatesmodule/templatesPageTypes';
 import { AppDispatch, RootState } from '../../store';
@@ -43,9 +42,11 @@ import SvgFavourites from '../../icons/SvgFavourties';
 import SvgMove from '../../icons/SvgMove';
 import SvgDownload from '../../icons/SvgDownload';
 import { useStages } from '../../hooks/useStages';
+import { StageData } from '../../hooks/useStages/types';
 import styles from './totalapplicant.module.css';
 import MovePipelinePopup from './movepopup';
 import { updateKanbanStagesMiddleware } from './store/middleware/applicantpipelinemiddleware';
+
 const cx = classNames.bind(styles);
 
 type Props = {
@@ -142,7 +143,7 @@ const TotalApplicant = ({
       onAddStageFromSuggestion({
         stage_name: data.title,
         // stage_order: suggestions.length + 1,
-        stage_order: 0, // to do m
+        stage_order: (localStages || [])?.length + 1,
         stage_color: 'gray',
         suggestion_id: new Date().getTime(),
         wk_id_id: new Date().getTime(),
@@ -156,6 +157,12 @@ const TotalApplicant = ({
     sessionStorage.setItem('template', '1');
     sessionStorage.setItem('pipeline', '1');
     sessionStorage.setItem('button', '0');
+  };
+
+  const handleKeyPress = (event: { key: string }) => {
+    if (event.key === 'Enter') {
+      formik.handleSubmit();
+    }
   };
 
   const defaultStage: StageData = {
@@ -330,6 +337,7 @@ const TotalApplicant = ({
                         lineInput
                         size={12}
                         className={styles.input}
+                        onKeyPress={handleKeyPress}
                       />
                       <ErrorMessage
                         touched={formik.touched}
@@ -417,10 +425,6 @@ const TotalApplicant = ({
   );
 
   function handleUpdateStages() {
-    // console.log('------------', jd_id, localStages.map(doc => {
-    //   return doc.workflow_id_id
-    // }));
-
     if (jd_id) {
       dispatch(
         updateKanbanStagesMiddleware({

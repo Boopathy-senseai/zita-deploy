@@ -1,5 +1,5 @@
 const defaultProps = {
-    fill: '#424242',
+    fill: '#333333',
     width: 13,
     height: 13,
 };
@@ -13,7 +13,7 @@ const SvgJobPipeline = ({ width, height, fill }: typeof defaultProps) => {
             fill={fill}
         >
             <path
-                fill="#581845"
+                fill="#333333"
                 d="M.533 3.733V3.2A.533.533 0 0 0 0 3.733h.533Zm6.4 0h.534a.533.533 
         0 0 0-.534-.533v.533Zm0 
         11.734V16a.533.533 0 

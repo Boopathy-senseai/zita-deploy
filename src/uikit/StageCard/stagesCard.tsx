@@ -4,11 +4,7 @@ import classNames, { Value } from 'classnames/bind';
 import { useFormik } from 'formik';
 import Text from '../../uikit/Text';
 
-import {
-  PipelineData,
-  StageData,
-  jobPipelineForm,
-} from '../../modules/accountsettingsmodule/templatesmodule/templatesPageTypes';
+import { jobPipelineForm } from '../../modules/accountsettingsmodule/templatesmodule/templatesPageTypes';
 import { AppDispatch } from '../../store';
 // import { updateJobPipelineStageMiddleWare } from '../../modules/accountsettingsmodule/templatesmodule/store/middleware/templatesmiddleware';
 import { Button, ErrorMessage, Flex, InputText, Loader } from '../../uikit';
@@ -20,6 +16,7 @@ import { ColorPallete } from '../ColorPalatte/colorPalatte';
 import ColorPicker from '../../modules/accountsettingsmodule/buildyourcareerpage/ColorPicker';
 import { SvgEdit } from '../../icons';
 import SvgDelete from '../../icons/SvgDelete';
+import { StageData } from '../../hooks/useStages/types';
 import styles from './stagesCard.module.css';
 import DeletePopup from './deletePopup';
 import AlertDeletePopup from './alertDeletePopup';
@@ -88,7 +85,8 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
     if (myRef.current && !myRef.current.contains(event.target)) {
       if (isBtnColorOpen) {
         setBtnColorOpen(false);
-        if (doc.stage_color !== formik.values.stage_color) onColorChange(formik.values);
+        if (doc.stage_color !== formik.values.stage_color)
+          onColorChange(formik.values);
       } else {
         setShowColorPallet(false);
         setBtnColorOpen(false);
@@ -111,6 +109,13 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
   useEffect(() => {
     setInitial(doc);
   }, [index, doc]);
+
+  const handleKeyPress = (event: { key: string }) => {
+    if (event.key === 'Enter') {
+      formik.handleSubmit();
+    }
+  };
+  
   const renderTitle = () => {
     if (edit) {
       return (
@@ -122,6 +127,7 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
               lineInput
               size={12}
               className={styles.input}
+              onKeyPress={handleKeyPress}
               // onKeyPress={(e) => enterKeyPress(e, handleLocationSubmit)}
             />
             <ErrorMessage
@@ -165,23 +171,26 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
         </Flex>
       );
     }
-    return <Text color="theme" title={doc.stage_name}>{doc.stage_name}</Text>;
+    return (
+      <Text color="theme" title={doc.stage_name}>
+        {doc.stage_name}
+      </Text>
+    );
   };
 
-  const handleEdit = ()=>{
-    if(doc.is_disabled){
+  const handleEdit = () => {
+    if (doc.is_disabled) {
       return;
     }
-    if(onEdit){
+    if (onEdit) {
       setEdit(!edit);
     }
-            
-  }
+  };
   const handleDelete = () => {
     if (edit) {
       toggleStage();
     }
-    if(doc.is_disabled){
+    if (doc.is_disabled) {
       return;
     }
     if (onDelete) {
@@ -192,16 +201,19 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
   return (
     <>
       {/* delete popup without the data */}
-      <DeletePopup
-        openDeletePopup={deletePopup}
-        handleDeletePipelinePopup={handleDeletePipelinePopup}
-        handleCloseDeletePopup={handleCloseDeletePopup}
-      />
-      {/* <AlertDeletePopup
-        openDeletePopup={deletePopup}
-        handleDeletePipelinePopup={handleDeletePipelinePopup}
-        handleCloseDeletePopup={handleCloseDeletePopup}
-      /> */}
+      {doc.is_active ? (
+        <AlertDeletePopup
+          openDeletePopup={deletePopup}
+          handleDeletePipelinePopup={handleDeletePipelinePopup}
+          handleCloseDeletePopup={handleCloseDeletePopup}
+        />
+      ) : (
+        <DeletePopup
+          openDeletePopup={deletePopup}
+          handleDeletePipelinePopup={handleDeletePipelinePopup}
+          handleCloseDeletePopup={handleCloseDeletePopup}
+        />
+      )}
       <div ref={myRef} className={styles.pipelineCard}>
         <div className={styles.rowGroup}>
           <Button types="link" className={styles.drgIcon}>

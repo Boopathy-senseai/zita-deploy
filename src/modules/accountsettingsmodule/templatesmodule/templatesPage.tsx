@@ -24,24 +24,14 @@ import { isEmpty } from '../../../uikit/helper';
 import SvgTickBox from '../../../icons/SvgTickBox';
 import SvgCloseBox from '../../../icons/SvgCloseBox';
 import { AppDispatch, RootState } from '../../../store';
+import { PipelineData } from '../../../hooks/useStages/types';
 import styles from './templates.module.css';
 import JobPipelinePage from './jobPipelinePage';
 import {
-  IUpdateTemplate,
-  PipelineData,
-  StageData,
-  jobPipelineForm,
-} from './templatesPageTypes';
-import {
-  defaultJobPipelineMiddleWare,
   deleteJobPipelineMiddleWare,
   getPipelineDataMiddleWare,
   updatejobPipelineMiddleWare,
 } from './store/middleware/pipelinesmiddleware';
-import {
-  getTemplateDataMiddleWare,
-  updateTemplateDataMiddleWare,
-} from './store/middleware/templatesmiddleware';
 import DeletePopup from './deletePopup';
 const cx = classNames.bind(styles);
 
@@ -58,18 +48,26 @@ const TemplatesPage = () => {
     data: PipelineData;
   } | null>(null);
 
-  const [workId, setWorkId] = useState<number | undefined>(parseInt(sessionStorage.getItem('wk_id')) || undefined);
+  const [workId, setWorkId] = useState<number | undefined>(
+    parseInt(sessionStorage.getItem('wk_id')) || undefined,
+  );
   const [showbutton, setshowbutton] = useState(
     parseInt(sessionStorage.getItem('button')) || 0,
   );
 
-  const { pipelineData, isLoading, isTemplateLoading } = useSelector(
+  const { pipelineData, isLoading, isTemplateLoading, message } = useSelector(
     ({ pipelinePageReducers, templatePageReducers }: RootState) => ({
+      message: templatePageReducers.message,
       isLoading: pipelinePageReducers.isLoading,
       isTemplateLoading: templatePageReducers.isLoading,
       pipelineData: pipelinePageReducers.pipeline,
     }),
   );
+
+  useEffect(()=>{
+    if(message) Toast(message, 'LONG');
+  },[message])
+
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
     dispatch(getPipelineDataMiddleWare());
@@ -130,9 +128,9 @@ const TemplatesPage = () => {
           <Flex flex={2}>
             <Card className={styles.cardStructure}>
               <Flex row start className={styles.cardHeader}>
-                <SvgJobPipeline height={16} width={16} />
+                <SvgJobPipeline height={16} width={16} fill="#333333" />
                 <Text
-                  color="theme"
+                  color="black2"
                   bold
                   size={16}
                   style={{ marginLeft: '10px' }}
@@ -146,7 +144,9 @@ const TemplatesPage = () => {
               </Text>
 
               <Button className={styles.btn} onClick={() => selectTemplate()}>
-                <Text color="theme">Manage Pipeline</Text>
+                <Text bold color="theme">
+                  Manage Pipeline
+                </Text>
               </Button>
             </Card>
           </Flex>
@@ -155,7 +155,7 @@ const TemplatesPage = () => {
               <Flex row start className={styles.cardHeader}>
                 <SvgMessages height={16} width={16} />
                 <Text
-                  color="theme"
+                  color="black2"
                   bold
                   size={16}
                   style={{ marginLeft: '10px' }}
@@ -167,16 +167,18 @@ const TemplatesPage = () => {
                 Design and send the custom message{' '}
               </Text>
               <Button className={styles.btn} onClick={() => {}}>
-                <Text color="theme">Manage Templates</Text>
+                <Text bold color="theme">
+                  Manage Templates
+                </Text>
               </Button>
             </Card>
           </Flex>
           <Flex flex={2}>
             <Card className={styles.cardStructure}>
               <Flex row start className={styles.cardHeader}>
-                <SvgMessage height={16} width={16} fill="#581845" />
+                <SvgMessage height={16} width={16} fill="'#33333'" />
                 <Text
-                  color="theme"
+                  color="black2"
                   bold
                   size={16}
                   style={{ marginLeft: '10px' }}
@@ -188,7 +190,9 @@ const TemplatesPage = () => {
                 Easily Create, Analyse and send your Emails{' '}
               </Text>
               <Button className={styles.btn} onClick={() => {}}>
-                <Text color="theme">Manage Templates</Text>
+                <Text bold color="theme">
+                  Manage Templates
+                </Text>
               </Button>
             </Card>
           </Flex>
@@ -301,6 +305,11 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
     setRenamePipeline(!renamePipeline);
     formik.resetForm();
   };
+  const handleKeyPress = (event: { key: string }) => {
+    if (event.key === 'Enter') {
+      formik.handleSubmit();
+    }
+  };
   const renderTitle = () => {
     if (renamePipeline) {
       return (
@@ -311,6 +320,7 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
             lineInput
             size={12}
             className={styles.input}
+            onKeyPress={handleKeyPress}
           />
           <div className={styles.svgContainer}>
             {isPipelineLoader ? (
@@ -348,7 +358,7 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
     }
     return (
       <Text
-        color="theme"
+        color="black2"
         bold
         size={16}
         title={list.pipeline_name}
@@ -389,7 +399,9 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
       </Flex>
 
       <Button className={styles.btn2} onClick={() => onConfig(list.wk_id)}>
-        <Text color="theme">Configure Pipeline</Text>
+        <Text bold color="theme">
+          Configure Pipeline
+        </Text>
       </Button>
     </Card>
   );

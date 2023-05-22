@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, createRef } from 'react';
-import { Card } from 'react-bootstrap';
-import classNames, { Value } from 'classnames/bind';
-import { FormikProps, useFormik } from 'formik';
+import classNames from 'classnames/bind';
+import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import ErrorMessage from '../../../uikit/ErrorMessage/ErrorMessage';
 import SvgBack from '../../../icons/SvgBack';
@@ -11,25 +10,20 @@ import Text from '../../../uikit/Text';
 import { enterKeyPress, isEmpty } from '../../../uikit/helper';
 import SvgTickBox from '../../../icons/SvgTickBox';
 import SvgCloseBox from '../../../icons/SvgCloseBox';
-import { Button, LinkWrapper, Loader, Toast } from '../../../uikit';
+import { Button, Loader, Toast } from '../../../uikit';
 import { AppDispatch, RootState } from '../../../store';
 import SvgPlusCircle from '../../../icons/SvgAddCircle';
 import { Chip } from '../../../uikit/StagesChip/stagesChip';
 import { StageCard } from '../../../uikit/StageCard/stagesCard';
 import { useStages } from '../../../hooks/useStages';
+import { StageData, SuggestionData } from '../../../hooks/useStages/types';
 import {
   ICreateTemplate,
   IUpdateTemplate,
-  StageData,
-  SuggestionData,
   jobPipelineForm,
 } from './templatesPageTypes';
 import {
-  // addJobPipelineStageMiddleWare,
-  // deleteJobPipelineStageMiddleWare,
-  // updateJobPipelineStageMiddleWare,
   getTemplateDataMiddleWare,
-  // reorderJobPipelineStageMiddleWare,
   updateTemplateDataMiddleWare,
   createTemplateDataMiddleWare,
 } from './store/middleware/templatesmiddleware';
@@ -43,28 +37,24 @@ type FormProps = {
   handleBack: () => void;
   buttondata: number;
   wk_id?: number;
-  //location: string;
 };
 
-
-
 const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
-  // const reorderRef = useRef<Reorder>(null);
   const [stage, setStage] = useState(false);
   const [form, setForm] = useState({ title: '', pipelineTitle: '' });
   const [isSubmitLoader, setSubmitLoader] = useState(false);
 
   const dispatch: AppDispatch = useDispatch();
-  const { pipeline, stages, suggestions, isLoading } = useSelector(
-    ({ templatePageReducers, pipelinePageReducers }: RootState) => {
+  const { pipeline, stages, suggestions, pipelineSuggestions, isLoading } =
+    useSelector(({ templatePageReducers, pipelinePageReducers }: RootState) => {
       return {
         isLoading: templatePageReducers.isLoading,
         pipeline: templatePageReducers.data[0],
         stages: templatePageReducers.stages,
-        suggestions: pipelinePageReducers.suggestion,
+        pipelineSuggestions: pipelinePageReducers.suggestion,
+        suggestions: templatePageReducers.suggestion,
       };
-    },
-  );
+    });
 
   const {
     localStages,
@@ -78,13 +68,13 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     addDefaultStages,
   } = useStages(stages);
 
- 
-
   useEffect(() => {
-    //dispatch(jobPipelineStagesMiddleWare(userId));
-
     if (wk_id) {
-      dispatch(getTemplateDataMiddleWare(wk_id));
+      setSubmitLoader(true);
+      dispatch(getTemplateDataMiddleWare(wk_id))
+      .then(() => {
+        setSubmitLoader(false);
+      });
     } else {
       dispatch(templatePageReducerActions.clearState());
       addDefaultStages(undefined);
@@ -92,7 +82,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     return () => {
       dispatch(templatePageReducerActions.clearState());
     };
-  }, [wk_id, suggestions]);
+  }, [wk_id]);
   useEffect(() => {
     if (pipeline) {
       setForm({ ...form, pipelineTitle: pipeline.pipeline_name });
@@ -124,7 +114,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     onSubmit: (data) => {
       onAddStageFromSuggestion({
         stage_name: data.title,
-        stage_order: suggestions.length + 1,
+        stage_order: localStages.length + 1,
         stage_color: 'gray',
         suggestion_id: new Date().getTime(),
         wk_id_id: wk_id,
@@ -136,10 +126,10 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
 
   const isFormDirty = () => {
     if (stages && stages.length !== localStages.length) return true;
-    if (stages && JSON.stringify(stages) !== JSON.stringify(localStages)){
+    if (stages && JSON.stringify(stages) !== JSON.stringify(localStages)) {
       return true;
     }
-      
+
     if (pipeline && formik.values.pipelineTitle !== pipeline.pipeline_name) {
       return true;
     }
@@ -150,7 +140,6 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     if (localStages?.length === 0) return false;
     return true;
   };
-
   const defaultStage: StageData = {
     id: 1,
     stage_color: '#581845',
@@ -169,7 +158,6 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     setSubmitLoader(true);
     dispatch(createTemplateDataMiddleWare(payload)).then(() => {
       setSubmitLoader(false);
-      Toast('Pipeline created successfully', 'LONG');
     });
     handleBack();
   };
@@ -189,6 +177,19 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     });
     // handleBack()
   };
+  /// skip stages
+
+  const skipStages = (doc: SuggestionData) => {
+    return !localStages
+      .map((item) => item.stage_name.trim().toLowerCase())
+      .includes(doc.stage_name.trim().toLowerCase());
+  };
+
+  const handleKeyPress = (event: { key: string }) => {
+    if (event.key === 'Enter') {
+      formik.handleSubmit();
+    }
+  };
   return (
     <Flex>
       {isSubmitLoader && <Loader />}
@@ -203,6 +204,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
           <InputText
             inputConatinerClass={styles.with80}
             label="Pipeline Title"
+            disabled={pipeline?.is_active}
             labelSize={16}
             required
             value={formik.values.pipelineTitle}
@@ -251,19 +253,21 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
               </Text>
             </Flex>
             <Flex row wrap className={styles.borderLine}>
-              {suggestions.map((doc, index) => {
-                const isActive = isStageExist(doc.stage_name);
-                return (
-                  <Chip
-                    key={index}
-                    isActive={isActive}
-                    doc={doc}
-                    index={index}
-                    onAdd={onAddStageFromSuggestion}
-                    onRemove={onRemoveStage}
-                  />
-                );
-              })}
+              {(wk_id ? suggestions : pipelineSuggestions)
+                .filter(skipStages)
+                .map((doc, index) => {
+                  const isActive = isStageExist(doc.stage_name);
+                  return (
+                    <Chip
+                      key={index}
+                      isActive={isActive}
+                      doc={doc}
+                      index={index}
+                      onAdd={onAddStageFromSuggestion}
+                      onRemove={onRemoveStage}
+                    />
+                  );
+                })}
               {stage === false ? (
                 <Button
                   types="secondary"
@@ -286,6 +290,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
                       lineInput
                       size={12}
                       className={styles.input}
+                      onKeyPress={handleKeyPress}
                     />
                     <ErrorMessage
                       touched={formik.touched}

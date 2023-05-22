@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { SuggestionData } from '../../modules/accountsettingsmodule/templatesmodule/templatesPageTypes';
+import { SuggestionData } from '../../hooks/useStages/types';
 import styles from './stagesChip.module.css';
 
 const cx = classNames.bind(styles);

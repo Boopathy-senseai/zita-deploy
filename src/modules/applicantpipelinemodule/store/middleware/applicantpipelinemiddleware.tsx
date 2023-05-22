@@ -18,6 +18,7 @@ import {
 } from '../../../../routes/apiRoutes';
 import { paramsSerializer } from '../../../../utility/helpers';
 import {
+  ApplicantData,
   ApplicantFilter,
   ApplicantPipeLinePayload,
   ApplicantUpdateStatusPayload,
@@ -39,7 +40,7 @@ export const applicantPipeLineMiddleWare = createAsyncThunk(
   },
 );
 
-export const applicantPipeLineDataMiddleWare = createAsyncThunk(
+export const applicantPipeLineDataMiddleWare = createAsyncThunk<ApplicantData, ApplicantFilter>(
   APPLICANT_PIPE_LINE_DATA,
   async (
     {
@@ -77,7 +78,7 @@ export const applicantPipeLineDataMiddleWare = createAsyncThunk(
         },
         paramsSerializer,
       });
-      return data;
+      return data as ApplicantData;
     } catch (error) {
       const typedError = error as Error;
       return rejectWithValue(typedError);
@@ -98,7 +99,7 @@ export const applicantUpdateStatusMiddleWare = createAsyncThunk(
           status,
         },
       });
-      return data;
+      return data as ApplicantData;
     } catch (error) {
       const typedError = error as Error;
       return rejectWithValue(typedError);
@@ -124,7 +125,7 @@ export const kanbanUpdateMiddleWare = createAsyncThunk<
   try {
     const url = `${kanbanUpdation}?${stringifyParams(payload)}`;
     const { data } = await axios.get(url);
-    dispatch(applicantPipeLineMiddleWare({ jd_id: JSON.stringify(payload.jd_id)}));
+    // dispatch(applicantPipeLineMiddleWare({ jd_id: JSON.stringify(payload.jd_id)}));
     // dispatch(getKanbanStagesMiddleWare({jd_id: payload.jd_id}));
     dispatch(applicantPipeLineDataMiddleWare({jd_id: JSON.stringify(payload.jd_id)}));
     return data;

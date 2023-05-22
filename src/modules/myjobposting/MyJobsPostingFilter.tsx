@@ -34,16 +34,16 @@ const MyJobsPostingFilter = ({
   job_ids,
   job_title,
 }: Props) => {
-  const pageReload=()=>{
-    formik.resetForm()
+  const pageReload = () => {
+    formik.resetForm();
     // formik.setFieldValue('jobTitle','')
     // formik.setFieldValue('jobId','')
     // formik.setFieldValue('postedOn','')
     // formik.setFieldValue('jobType', '')
     // formik.setFieldValue('location', '');
-  }
-  console.log('f',formik.values.jobTitle);
-  
+  };
+  console.log('f', formik.values.jobTitle);
+
   return (
     <Card className={styles.overAllfilter}>
       <Flex row center className={styles.filterStyle}>
@@ -79,7 +79,7 @@ const MyJobsPostingFilter = ({
       </div>
       <div className={styles.skillContainer}>
         <InputSearch
-        initialValue={formik.values.jobId}
+          initialValue={formik.values.jobId}
           options={job_ids}
           placeholder=""
           labelBold
@@ -106,8 +106,7 @@ const MyJobsPostingFilter = ({
           value={
             postedOn
               ? postedOn.find(
-                  (option) =>
-                    option.value === formik.values.postedOn.value,
+                  (option) => option.value === formik.values.postedOn.value,
                 )
               : ''
           }
@@ -137,9 +136,9 @@ const MyJobsPostingFilter = ({
           })}
         </Flex>
       </div>
-      <div className={styles.skillContainer} style={ { marginTop: 10 }}>
+      <div className={styles.skillContainer} style={{ marginTop: 10 }}>
         <InputSearch
-        initialValue={formik.values.location}
+          initialValue={formik.values.location}
           placeholder="Enter job location"
           options={location_list}
           setFieldValue={formik.setFieldValue}

@@ -37,44 +37,37 @@ import {
 } from '../calendarModule/types';
 import { getEditEventsDetails } from '../calendarModule/util';
 import SvgHeart from '../../icons/SvgHearts';
-import { GoogleEntity, JobDetailsEntity } from './applicantPipeLineTypes';
+import { GoogleEntity, ICardSelectionData, JobDetailsEntity } from './applicantPipeLineTypes';
 import { handleDownload, hanldeFavAction } from './dndBoardHelper';
 import ProfileView from './ProfileView';
 
 import styles from './multitask.module.css';
+import { IStageColumn } from './dndBoardTypes';
 
 type Props = {
   task: any;
-  section:string;
   index: number;
   isBorder: string;
-  columnId: string;
+  column: IStageColumn;
   outlook?: GoogleEntity[];
   google?: GoogleEntity[];
   job_details: JobDetailsEntity;
-  onClick?: (data: {
-    task: any;
-    section:string;
-    index: number;
-    columnId: string;
-    job_details: JobDetailsEntity;
-  }) => void;
+  onClick?: (data: ICardSelectionData) => void;
   isSelected: boolean;
 };
 const MultiTask = ({
   task,
-  section,
   index,
   isBorder,
-  columnId,
+  column,
   google,
   outlook,
   job_details,
   onClick,
   isSelected,
 }: Props) => {
+  const {section, columnId, stage_name} = column;
   const [isCalender, setCalender] = useState('popup');
-  console.log(isCalender);
   const [isProfileView, setProfileView] = useState(false);
   const dispatch: AppDispatch = useDispatch();
   const workExp =
@@ -441,11 +434,11 @@ const MultiTask = ({
                   borderLeftColor: isBorder,
                   backgroundColor: isSelected ? `${isBorder}40` : undefined,
                 }}
-                onClick={
-                  onClick
-                    ? () => onClick({ task,section, job_details, columnId, index })
-                    : undefined
-                }
+                onClick={() => {
+                  if(onClick){
+                    onClick({ task, section, columnId })
+                  }
+                }}
               >
                 <Flex row>
                   <div style={{ position: 'relative' }}>
@@ -526,8 +519,8 @@ const MultiTask = ({
                     </Flex>
                   </Flex>
                 </Flex>
-                <Flex row end center >
-                  {columnId === 'column-1' && getDate && (
+                <Flex row end center>
+                  {columnId === 0 && getDate && (
                     <Flex className={styles.svgNewTag}>
                       <img
                         style={{ objectFit: 'contain' }}
@@ -539,7 +532,7 @@ const MultiTask = ({
                     </Flex>
                   )}
                   <Flex row end center className={styles.svgContainer}>
-                    {console.log('--file download--', task.file)}
+                    {/* {console.log('--file download--', task.file)} */}
                     <div
                       title="Download Resume"
                       onClick={(e) => {
@@ -578,7 +571,7 @@ const MultiTask = ({
                         fill="#ED4857"
                       />
                     </div>
-                    {columnId !== 'column-1' && columnId !== 'column-5' && (
+                    {columnId !== 0 && stage_name !== 'Rejected' && (
                       // <a
                       //   rel="noopener noreferrer"
                       //   title={calenderTitle}

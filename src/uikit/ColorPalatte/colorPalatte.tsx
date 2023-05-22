@@ -1,6 +1,6 @@
+import { StageData } from "../../hooks/useStages/types";
 import SvgPicker from "../../icons/SvgPicker";
 import SvgTickOne from "../../icons/SvgTickOne";
-import { StageData } from "../../modules/accountsettingsmodule/templatesmodule/templatesPageTypes";
 import { Button, Flex, InputText, Loader } from '../../uikit';
 import styles from './colorPalatte.module.css';
 

@@ -8,6 +8,7 @@ export interface StageData {
   stage_color?: string;
   created_at?: string;
   is_disabled?: boolean;
+  is_active?: boolean;
 }
 export interface PipelineData {
   wk_id: number;

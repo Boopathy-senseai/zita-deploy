@@ -14,7 +14,7 @@ import { TemplatesPageReducerState } from '../../templatesPageTypes';
 const templatesPageState: TemplatesPageReducerState = {
   isLoading: false,
   error: '',
-  messaage: '',
+  message: '',
   data: [],
   stages: [],
   suggestion: [],
@@ -25,7 +25,7 @@ const templatePageReducer = createSlice({
   initialState: templatesPageState,
   reducers: {
     clearState(state) {
-      state.messaage = '';
+      state.message = '';
       state.isLoading = false;
       state.error = '';
       state.data = [];
@@ -41,7 +41,7 @@ const templatePageReducer = createSlice({
     builder.addCase(getTemplateDataMiddleWare.fulfilled, (state, action) => {
       if (action.payload) {
         state.isLoading = false;
-        state.messaage = action.payload.messaage;
+        state.message = action.payload.message;
         state.data = action.payload.data || [];
         state.stages = action.payload.stages || [];
         state.suggestion = action.payload.suggestion || [];

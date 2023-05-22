@@ -1,8 +1,8 @@
 import classNames from 'classnames/bind';
 import Text from '../../../uikit/Text';
 import { Button, Flex, Modal } from '../../../uikit';
+import { PipelineData } from '../../../hooks/useStages/types';
 import styles from './deletePopup.module.css';
-import { PipelineData } from './templatesPageTypes';
 
 const cx = classNames.bind(styles);
 

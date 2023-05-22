@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 const defaultProps = {
-  fill: '#1890ff',
+  fill: '#333333',
   width: 24,
   height: 24,
 };

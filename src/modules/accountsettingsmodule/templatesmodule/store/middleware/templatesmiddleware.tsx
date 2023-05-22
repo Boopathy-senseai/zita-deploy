@@ -1,13 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import {
-  ADD_PIPELINE_STAGE,
-  DELETE_PIPELINE_STAGE,
-  UPDATE_PIPELINE_STAGE,
-  PIPELINE_STAGES,
-  PIPELINE_STAGES_REORDER,
-  PIPELINE_SUGGESTIONS,
-  UPDATE_COLOUR_PALLATE,
   GET_TEMPLATE_DATA,
   UPDATE_TEMPLATE_DATA,
   CREATE_TEMPLATE_DATA,
@@ -16,15 +9,10 @@ import {
   ICreateTemplate,
   IJobPipeline,
   IUpdateTemplate,
-  StageData,
 } from '../../templatesPageTypes';
-import StagesJson from '../../../../../assets/others/pipelineStages.json';
-import SuggestionsJson from '../../../../../assets/others/pipelineSuggestions.json';
-import JobPipelinesJson from '../../../../../assets/others/pipelineData.json';
-import {
-  templatesStages,
-} from '../../../../../routes/apiRoutes';
+import { templatesStages } from '../../../../../routes/apiRoutes';
 import { convertJsonToForm } from '../../../../../uikit/helper';
+import { Toast } from '../../../../../uikit';
 import { getPipelineDataMiddleWare } from './pipelinesmiddleware';
 
 export const getTemplateDataMiddleWare = createAsyncThunk<

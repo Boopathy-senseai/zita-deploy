@@ -8,7 +8,7 @@ import { InputCheckBox, LinkWrapper, SelectTag } from '../../uikit';
 import Button from '../../uikit/Button/Button';
 import { AppDispatch, RootState } from '../../store';
 import { getPipelineDataMiddleWare } from '../accountsettingsmodule/templatesmodule/store/middleware/pipelinesmiddleware';
-import { PipelineData } from '../accountsettingsmodule/templatesmodule/templatesPageTypes';
+import { PipelineData } from '../../hooks/useStages/types';
 import styles from './pipelinepopup.module.css';
 import { getKanbanStagesMiddleWare } from './store/middleware/applicantpipelinemiddleware';
 

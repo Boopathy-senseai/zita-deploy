@@ -9,39 +9,29 @@ import {
   GRAY_BLACK,
 } from '../../uikit/Colors/colors';
 import { dndBoardId } from '../constValue';
-import { GoogleEntity, JobDetailsEntity } from './applicantPipeLineTypes';
+import { GoogleEntity, ICardSelectionData, ICardSelectionMap, JobDetailsEntity } from './applicantPipeLineTypes';
 import MultiTask from './MultiTask';
 import styles from './dndboardcol.module.css';
 import { IStageColumn } from './dndBoardTypes';
 
 type Props = {
-  tasks: IStageColumn;
-  section:string;
-  columnId: string;
+  column: IStageColumn;
   index: number;
   isDropDisabled: boolean;
   outlook?: GoogleEntity[];
   google?: GoogleEntity[];
   job_details: JobDetailsEntity;
-  onClick?: (data: {
-    task: any;
-    section: string;
-    index: number;
-    columnId: string;
-    job_details: JobDetailsEntity;
-  }) => void;
+  onClick?: (data: ICardSelectionData) => void;
   // selectedCardList: {
   //   task: any;
   //   index: number;
   //   columnId: string;
   //   job_details: JobDetailsEntity;
   // }[];
-  cardSelectionMap: Map<string, { task: any; section: string }>;
+  cardSelectionMap: ICardSelectionMap;
 };
 const DndBoardCol = ({
-  tasks,
-  section,
-  columnId,
+  column,
   index,
   isDropDisabled,
   google,
@@ -68,7 +58,7 @@ const DndBoardCol = ({
     }
   }, [index]);
 
-  const checkSelection = (id: string) => {
+  const checkSelection = (id: number) => {
     const taskIndex = cardSelectionMap.has(id);
     return taskIndex;
   };
@@ -77,7 +67,7 @@ const DndBoardCol = ({
     <div className={styles.overAll}>
       <Droppable
         // isDropDisabled={isDropDisabled}
-        droppableId={columnId}
+        droppableId={`${column.columnId}`}
         type="task"
       >
         {(provided) => (
@@ -90,14 +80,13 @@ const DndBoardCol = ({
             // eslint-disable-next-line
             {...provided.droppableProps}
           >
-            {tasks.items.map((task: any, taskIndex: number) => (
+            {column.items.map((task, taskIndex) => (
               <MultiTask
                 key={task.id.toString() + dndBoardId}
                 task={task}
-                section={section}
+                column={column}
                 index={taskIndex}
-                isBorder={tasks?.borderColor || isBorder}
-                columnId={columnId}
+                isBorder={column?.stage_color || isBorder}
                 outlook={outlook}
                 google={google}
                 job_details={job_details}

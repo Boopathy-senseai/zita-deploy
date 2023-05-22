@@ -7,10 +7,11 @@ import {
   PIPELINE_DATA,
   UPDATE_PIPELINE_DATA,
 } from '../../../../../actions/actions';
-import { IJobPipeline, PipelineData } from '../../templatesPageTypes';
+import { IJobPipeline } from '../../templatesPageTypes';
 import JobPipelinesJson from '../../../../../assets/others/pipelineData.json';
 import { templatesStages } from '../../../../../routes/apiRoutes';
 import { convertJsonToForm } from '../../../../../uikit/helper';
+import { PipelineData } from '../../../../../hooks/useStages/types';
 
 export const getPipelineDataMiddleWare = createAsyncThunk<IJobPipeline, void>(
   PIPELINE_DATA,
@@ -36,7 +37,6 @@ export const updatejobPipelineMiddleWare = createAsyncThunk<
     const response = await axios.post(templatesStages, convertJsonToForm({pipeline_name, workflow_id: wk_id, set_as_default}));
     dispatch(getPipelineDataMiddleWare());
     return response.data;
-
   } catch (error) {
     const typedError = error as Error;
     return rejectWithValue(typedError);
