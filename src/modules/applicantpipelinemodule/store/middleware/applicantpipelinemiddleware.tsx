@@ -57,6 +57,7 @@ export const applicantPipeLineDataMiddleWare = createAsyncThunk<ApplicantData, A
       sortInterview,
       sortSelected,
       sortRejected,
+      location,
     }: ApplicantFilter,
     { rejectWithValue },
   ) => {
@@ -75,6 +76,7 @@ export const applicantPipeLineDataMiddleWare = createAsyncThunk<ApplicantData, A
           sort_interviewed: sortInterview,
           sort_selected: sortSelected,
           sort_rejected: sortRejected,
+          location: location,
         },
         paramsSerializer,
       });

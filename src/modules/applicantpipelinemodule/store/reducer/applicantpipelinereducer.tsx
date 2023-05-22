@@ -68,6 +68,7 @@ const applicantPipeLineDataState: ApplicantDataReducerState = {
   // workflow_id: null,
   applicants_list: [],
   applicants: {},
+  locations: [],
   params: '',
   fav_id: false,
   google: [],
@@ -110,7 +111,7 @@ const applicantPipeLineDataReducer = createSlice({
         );
         state.isLoading = false;
         state.jd_id = action.payload.jd_id;
-        // state.workflow_id = action.payload?.workflow_id || null;
+        state.locations = (action.payload.applicants_list || []).filter(doc => doc.location !== null).map(doc => doc.location);
         state.applicants_list = action.payload.applicants_list || [];
         state.applicants = applicantsObj;
         state.fav_id = action.payload.fav_id;

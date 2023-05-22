@@ -140,6 +140,7 @@ export interface ApplicantDataReducerState extends ApplicantData {
   isLoading: boolean;
   error: string;
   applicants: { [key: number]: ApplicantEntity[] };
+  locations: string[];
 }
 
 export interface ApplicantFilter {
@@ -156,6 +157,7 @@ export interface ApplicantFilter {
   sortInterview?: string;
   sortSelected?: string;
   sortRejected?: string;
+  location?: string;
 }
 
 export interface IUpdateKanbanStage {

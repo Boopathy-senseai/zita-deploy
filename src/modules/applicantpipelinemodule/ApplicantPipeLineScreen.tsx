@@ -56,11 +56,10 @@ const initial = {
   location: '',
 };
 type FormProps = {
-  location_option: string[];
 };
 const REJECTED_COLUMN = 'Rejected';
 const NEW_APPLICANT_COLUMN = 'New Applicants';
-const ApplicantPipeLineScreen = ({ location_option = [] }: FormProps) => {
+const ApplicantPipeLineScreen = ({ }: FormProps) => {
   const { jdId } = useParams<ParamsType>();
   const dispatch: AppDispatch = useDispatch();
   const history = useHistory();
@@ -94,6 +93,7 @@ const ApplicantPipeLineScreen = ({ location_option = [] }: FormProps) => {
     jd_id,
     workflow_id,
     stages,
+    locations,
     showStagesPopup,
     applicants,
     applicantDataLoader,
@@ -124,6 +124,7 @@ const ApplicantPipeLineScreen = ({ location_option = [] }: FormProps) => {
         workflow_id: applicantPipeLineDataReducers.workflow_id,
         applicants: applicantPipeLineDataReducers.applicants,
         stages: kanbanStagesReducers.stages,
+        locations: applicantPipeLineDataReducers.locations,
         showStagesPopup: kanbanStagesReducers.selectPipeline,
 
         // Test: applicantPipeLineDataReducers.shortlisted,
@@ -165,7 +166,7 @@ const ApplicantPipeLineScreen = ({ location_option = [] }: FormProps) => {
     }
   }, [workflow_id]);
 
-  useEffect(() => {}, []);
+
 
   useEffect(() => {
     if (!is_plan) {
@@ -174,9 +175,13 @@ const ApplicantPipeLineScreen = ({ location_option = [] }: FormProps) => {
     }
   });
 
+  console.log(locations);
+
   const formik = useFormik({
     initialValues: initial,
-    onSubmit: () => {},
+    onSubmit: () => {
+      getApplicanPipelineData();
+    },
   });
   useEffect(() => {
     dispatch(
@@ -337,11 +342,12 @@ const ApplicantPipeLineScreen = ({ location_option = [] }: FormProps) => {
         education_level: qaValue,
         skill_match: optionsList,
         fav: favAdd,
-        sortApplicant: isSortApplicant, /// TODO: handle this my love
+        sortApplicant: isSortApplicant,
         sortSortList: isSortApplicant,
         sortInterview: isSortApplicant,
         sortSelected: isSortApplicant,
         sortRejected: isSortApplicant,
+        location: formik.values.location || "",
       }),
     );
   }
@@ -382,6 +388,7 @@ const ApplicantPipeLineScreen = ({ location_option = [] }: FormProps) => {
           sortInterview: isSortApplicant,
           sortSelected: isSortApplicant,
           sortRejected: isSortApplicant,
+          location: formik.values.location || "",
         }),
       );
     }
@@ -404,6 +411,7 @@ const ApplicantPipeLineScreen = ({ location_option = [] }: FormProps) => {
         sortInterview: isSortApplicant,
         sortSelected: isSortApplicant,
         sortRejected: isSortApplicant,
+        location: formik.values.location || "",
       }),
     );
   };
@@ -425,6 +433,7 @@ const ApplicantPipeLineScreen = ({ location_option = [] }: FormProps) => {
         sortInterview: isSortApplicant,
         sortSelected: isSortApplicant,
         sortRejected: isSortApplicant,
+        location: formik.values.location,
       }),
     );
   };
@@ -460,6 +469,7 @@ const ApplicantPipeLineScreen = ({ location_option = [] }: FormProps) => {
         sortInterview: isSortApplicant,
         sortSelected: isSortApplicant,
         sortRejected: isSortApplicant,
+        location: formik.values.location || "",
       }),
     );
   };
@@ -468,54 +478,7 @@ const ApplicantPipeLineScreen = ({ location_option = [] }: FormProps) => {
   const handleClosePipelinePopup = () => {
     setShowPipelinePopup(false);
   };
-  // // open popup
-  // const handleOpenPipelinePopup = () => {
-  //   setShowPipelinePopup(true);
-  // };
-
-  // const data = [
-  //   {
-  //     title: 'New Applicants',
-  //     left: '0px',
-  //     borderColor: SUNRAY,
-  //     total: applicants.applicant.length,
-  //     section: 'applicant',
-  //   },
-  //   {
-  //     title: 'Shortlisted',
-  //     left: '0px',
-  //     borderColor: AERO,
-  //     total: applicants.shortlisted.length,
-  //     section: 'shortlisted',
-  //   },
-  //   {
-  //     title: 'Interviewed',
-  //     left: '0px',
-  //     borderColor: MEDIUM_PURPLE,
-  //     total: applicants.interviewed.length,
-  //     section: 'interviewed',
-  //   },
-  //   {
-  //     title: 'Offered',
-  //     left: '0px',
-  //     borderColor: PISTACHIO,
-  //     total: applicants.selected.length,
-  //     section: 'selected',
-  //   },
-  //   {
-  //     title: 'Rejected',
-  //     left: '-6px',
-  //     borderColor: CANDY_PINK,
-  //     total: applicants.rejected.length,
-  //     section: 'rejected',
-  //   },
-  //   // {
-  //   //   title: 'Test',
-  //   //   left: '-6px',
-  //   //   borderColor: GRAY_BLACK,
-  //   //   total: interviewed.length,
-  //   // },
-  // ];
+ 
   const getAppliedCanId: any = localStorage.getItem('applied_can_id');
   const getAppliedJd: any = localStorage.getItem('applied_jd_id');
 
@@ -524,6 +487,10 @@ const ApplicantPipeLineScreen = ({ location_option = [] }: FormProps) => {
       setApplicantView(true);
     }
   }, [isApplicantView, getAppliedView]);
+
+  useEffect(() => {
+    handleSearch();
+  },[formik.values.location])
 
   /// Column Drag & Drop
 
@@ -920,17 +887,15 @@ const ApplicantPipeLineScreen = ({ location_option = [] }: FormProps) => {
                   <InputSearch
                     initialValue={formik.values.location}
                     placeholder="Enter applicant location"
-                    options={location_option}
+                    options={locations}
                     setFieldValue={formik.setFieldValue}
                     name="location"
                     style={styles.boxstyle}
                     labelBold
                     onkeyPress={(event) => {
-                      {
-                        if (event.key === SvgSearch) {
+                        if (event.key === 'Enter') {
                           formik.setFieldValue('location', event.target.value);
                         }
-                      }
                     }}
                   />
 
