@@ -37,10 +37,10 @@ const DeletePopup = ({ visible, onDelete, onClose, data }: Props) => {
     return (
       <Flex flex={6} column center className={styles.overAll}>
         <Text bold color="theme" className={styles.insertStyles}>
-          This will Delete the Pipeline.
+          The job pipeline and its stages will be deleted.
         </Text>
         <Text color="theme" className={styles.insertStyles}>
-          Are You sure?
+          Are you sure?
         </Text>
         <Flex row end marginTop={20} className={styles.borderLine}>
           <Button className={styles.cancel} types={'primary'} onClick={onClose}>

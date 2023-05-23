@@ -229,7 +229,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
             className={`${styles.columnGroup} ${styles.borderRightLine}`}
           >
             <Flex column start marginBottom={20}>
-              <Text color="black2" size={16}>
+              <Text color="theme" size={16}>
                 Pipeline Stages
               </Text>
               <Text color="black2">

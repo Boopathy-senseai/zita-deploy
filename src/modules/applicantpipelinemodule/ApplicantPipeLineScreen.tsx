@@ -786,6 +786,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     sessionStorage.setItem('template', '2');
     sessionStorage.setItem('pipeline', '2');
     sessionStorage.setItem('wk_id', 'undefined');
+    sessionStorage.setItem('button', '1')
     history.push('/account_setting/settings');
   };
 

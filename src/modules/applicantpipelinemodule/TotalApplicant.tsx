@@ -14,6 +14,7 @@ import {
   Loader,
   Modal,
   SelectTag,
+  Toast,
 } from '../../uikit';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
@@ -433,6 +434,7 @@ const TotalApplicant = ({
           stages: localStages,
         }),
       ).then(() => {
+        Toast('Changes saved successfully', "LONG");
         handleClosePopup();
       });
     } else {

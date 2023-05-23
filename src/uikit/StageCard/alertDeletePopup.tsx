@@ -22,12 +22,9 @@ const AlertDeletePopup = ({
     <Modal open={openDeletePopup}>
       <Flex flex={6} column center className={styles.overAll}>
         <Text bold color="theme" className={styles.insertStyles}>
-          The Selected stage has Applicant Data, Move them to other Stage
-          in-order to delete the stage.
+          In order to delete this stage, please transfer the assigned applicants
+          to other stages.
         </Text>
-        {/* <Text  color="theme" className={styles.insertStyles}>
-          Are You sure?
-        </Text> */}
 
         <Flex row end className={styles.borderLine}>
           <Button

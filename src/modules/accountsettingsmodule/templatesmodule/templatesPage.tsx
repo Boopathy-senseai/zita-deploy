@@ -65,7 +65,7 @@ const TemplatesPage = () => {
   );
 
   useEffect(()=>{
-    if(message) Toast(message, 'LONG');
+    if(message) Toast("Pipeline " + message, 'LONG');
   },[message])
 
   const dispatch: AppDispatch = useDispatch();
