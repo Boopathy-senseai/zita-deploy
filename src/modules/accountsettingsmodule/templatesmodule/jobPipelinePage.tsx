@@ -71,8 +71,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
   useEffect(() => {
     if (wk_id) {
       setSubmitLoader(true);
-      dispatch(getTemplateDataMiddleWare(wk_id))
-      .then(() => {
+      dispatch(getTemplateDataMiddleWare(wk_id)).then(() => {
         setSubmitLoader(false);
       });
     } else {
@@ -96,6 +95,11 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
 
   const handleJobPipeline = (values: jobPipelineForm) => {
     const errors: Partial<jobPipelineForm> = {};
+    console.log(values.pipelineTitle.length);
+    if (!isEmpty(values.pipelineTitle) && values.pipelineTitle.length > 25) {
+      console.log(true);
+      errors.pipelineTitle = 'Title name should not exceed 25 characters.';
+    }
 
     if (!isEmpty(values.title) && values.title.length > 25) {
       errors.title = 'Stage name should not exceed 25 characters.';
@@ -103,6 +107,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     if (isStageDuplicate(values.title)) {
       errors.title = 'Already stage name exists';
     }
+
     return errors;
   };
   const [isPipelineLoader, setPipelineLoader] = useState(false);
@@ -208,9 +213,14 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
             labelSize={16}
             required
             value={formik.values.pipelineTitle}
-            style={{ width: 'fit-content' }}
+            style={{ width: 'fit-content' , marginBottom: '5px' }}
             onChange={formik.handleChange('pipelineTitle')}
             className={styles.input}
+          />
+          <ErrorMessage
+            touched={formik.touched}
+            errors={formik.errors}
+            name="pipeline"
           />
         </Flex>
         <Flex row noWrap>
@@ -223,7 +233,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
                 Pipeline Stages
               </Text>
               <Text color="black2">
-                Create, Rename, reorder and delete job pipeline stages.
+                Create, Rename, reorder, and delete job pipeline stages.
               </Text>
             </Flex>
             <Flex column style={{ overFlow: 'none' }}>

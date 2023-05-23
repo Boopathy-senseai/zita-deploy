@@ -55,11 +55,10 @@ type ParamsType = {
 const initial = {
   location: '',
 };
-type FormProps = {
-};
+type FormProps = {};
 const REJECTED_COLUMN = 'Rejected';
 const NEW_APPLICANT_COLUMN = 'New Applicants';
-const ApplicantPipeLineScreen = ({ }: FormProps) => {
+const ApplicantPipeLineScreen = ({}: FormProps) => {
   const { jdId } = useParams<ParamsType>();
   const dispatch: AppDispatch = useDispatch();
   const history = useHistory();
@@ -165,8 +164,6 @@ const ApplicantPipeLineScreen = ({ }: FormProps) => {
       );
     }
   }, [workflow_id]);
-
-
 
   useEffect(() => {
     if (!is_plan) {
@@ -347,7 +344,7 @@ const ApplicantPipeLineScreen = ({ }: FormProps) => {
         sortInterview: isSortApplicant,
         sortSelected: isSortApplicant,
         sortRejected: isSortApplicant,
-        location: formik.values.location || "",
+        location: formik.values.location || '',
       }),
     );
   }
@@ -388,7 +385,7 @@ const ApplicantPipeLineScreen = ({ }: FormProps) => {
           sortInterview: isSortApplicant,
           sortSelected: isSortApplicant,
           sortRejected: isSortApplicant,
-          location: formik.values.location || "",
+          location: formik.values.location || '',
         }),
       );
     }
@@ -411,7 +408,7 @@ const ApplicantPipeLineScreen = ({ }: FormProps) => {
         sortInterview: isSortApplicant,
         sortSelected: isSortApplicant,
         sortRejected: isSortApplicant,
-        location: formik.values.location || "",
+        location: formik.values.location || '',
       }),
     );
   };
@@ -469,7 +466,7 @@ const ApplicantPipeLineScreen = ({ }: FormProps) => {
         sortInterview: isSortApplicant,
         sortSelected: isSortApplicant,
         sortRejected: isSortApplicant,
-        location: formik.values.location || "",
+        location: formik.values.location || '',
       }),
     );
   };
@@ -478,7 +475,7 @@ const ApplicantPipeLineScreen = ({ }: FormProps) => {
   const handleClosePipelinePopup = () => {
     setShowPipelinePopup(false);
   };
- 
+
   const getAppliedCanId: any = localStorage.getItem('applied_can_id');
   const getAppliedJd: any = localStorage.getItem('applied_jd_id');
 
@@ -490,7 +487,7 @@ const ApplicantPipeLineScreen = ({ }: FormProps) => {
 
   useEffect(() => {
     handleSearch();
-  },[formik.values.location])
+  }, [formik.values.location]);
 
   /// Column Drag & Drop
 
@@ -791,6 +788,39 @@ const ApplicantPipeLineScreen = ({ }: FormProps) => {
     sessionStorage.setItem('wk_id', 'undefined');
     history.push('/account_setting/settings');
   };
+
+  const handleSortColumn = (columnId: number, arg: string) => {
+    setColumns((prevColumns) => {
+      if (arg !== 'match') {
+        const newItem = [...prevColumns[columnId].items];
+        newItem.sort((a, b) => {
+          if (arg === 'date') {
+            return (
+              new Date(b.created_on).getTime() -
+              new Date(a.created_on).getTime()
+            );
+          }
+          return a.name.localeCompare(b.name);
+        });
+        return {
+          ...prevColumns,
+          [columnId]: {
+            ...prevColumns[columnId],
+            items: newItem,
+          },
+        };
+      }
+
+      return {
+        ...prevColumns,
+        [columnId]: {
+          ...prevColumns[columnId],
+          items: applicants[columnId],
+        },
+      };
+    });
+  };
+
   return (
     <>
       {showPipelinePopup && showStagesPopup === null && (
@@ -893,9 +923,9 @@ const ApplicantPipeLineScreen = ({ }: FormProps) => {
                     style={styles.boxstyle}
                     labelBold
                     onkeyPress={(event) => {
-                        if (event.key === 'Enter') {
-                          formik.setFieldValue('location', event.target.value);
-                        }
+                      if (event.key === 'Enter') {
+                        formik.setFieldValue('location', event.target.value);
+                      }
                     }}
                   />
 
@@ -945,7 +975,7 @@ const ApplicantPipeLineScreen = ({ }: FormProps) => {
           <div>
             <TotalApplicant
               jd_id={parseInt(jdId)}
-              // workflowId={0}
+              columns={columns}
               total={total_applicants}
               allColumnsItemsLength={allColumnsItemsLength}
               filterTotalFav={filterTotalFav}
@@ -961,7 +991,7 @@ const ApplicantPipeLineScreen = ({ }: FormProps) => {
                     columns={columnOrder
                       .map((key) => columns[key])
                       .sort((a, b) => a.stage_order - b.stage_order)}
-                    setSortApplicant={setSortApplicant}
+                    setSortApplicant={handleSortColumn}
                     onSelectAll={handleColumnSelect}
                     onUnselectAll={handleColumnUnselect}
                     cardSelectionMap={cardSelection}

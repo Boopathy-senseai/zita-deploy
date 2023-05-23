@@ -9,6 +9,7 @@ export interface StageData {
   created_at?: string;
   is_disabled?: boolean;
   is_active?: boolean;
+  is_associated?: boolean;
 }
 export interface PipelineData {
   wk_id: number;
@@ -42,6 +43,7 @@ export interface IKanbanStages {
   stage_color: string;
   stage_length?: number;
   is_disabled?: boolean;
+  is_associated?: boolean;
 }
 
 

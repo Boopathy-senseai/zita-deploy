@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { columnTypes } from '../../modules/applicantpipelinemodule/dndBoardTypes';
 import { SuggestionData } from './types';
 
 export type UseStages<T> = {
@@ -26,7 +27,7 @@ export function useStages<
     created_at?: string;
     is_disabled?: boolean;
   },
->(stages: Array<T>): UseStages<T> {
+>(stages: Array<T>, columns?: columnTypes): UseStages<T> {
   const [localStages, setLocalStages] = useState<Array<T>>([]);
   const defaultStageNames = [
     { name: 'Shortlisted', color: '#80C0D0' },
@@ -35,9 +36,24 @@ export function useStages<
   ];
   useEffect(() => {
     if (stages && stages.length !== 0) {
-      setLocalStages(stages);
+      setLocalStages(() => {
+        if (!columns) {
+          return stages;
+        }
+
+        return [...stages].map((doc) => {
+          if (columns[doc.id]) {
+            return {
+              ...doc,
+              is_associated:
+                columns[doc.id]?.items && columns[doc.id]?.items.length !== 0,
+            };
+          }
+          return { ...doc, is_associated: false };
+        });
+      });
     }
-  }, [stages]);
+  }, [stages, columns]);
 
   const onEditStage = (value: T) => {
     setLocalStages((prevStages) => {

@@ -7,7 +7,7 @@ import { IStageColumn } from './dndBoardTypes';
 
 type Props = {
   column: IStageColumn;
-  setSortApplicant: (arg: string) => void;
+  setSortApplicant: (columnId: number, arg: string) => void;
   index: number;
   onSelectAll?: (data: IStageColumn) => void;
   onUnselectAll?: (data: IStageColumn) => void;
@@ -47,18 +47,18 @@ const DndTitleMap = ({
 
   // date sort function
   const hanldeDateSort = (indexValue: number) => {
-    setSortApplicant('date');
+    setSortApplicant(column.columnId, 'date');
     setDropDown(false);
   };
   //name sort function
   const hanldeNameSort = (indexValue: number) => {
-    setSortApplicant('name');
+    setSortApplicant(column.columnId,'name');
 
     setDropDown(false);
   };
   // match sort function
   const hanldeMatchSort = (indexValue: number) => {
-    setSortApplicant('match');
+    setSortApplicant(column.columnId, 'match');
     setDropDown(false);
   };
   return (

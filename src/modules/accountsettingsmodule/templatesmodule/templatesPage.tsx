@@ -140,7 +140,7 @@ const TemplatesPage = () => {
               </Flex>
 
               <Text style={{ marginTop: '10px' }}>
-                Create, modify, reorder, and delete job pipeline stages
+                Create, modify, reorder, and delete job pipeline stages.
               </Text>
 
               <Button className={styles.btn} onClick={() => selectTemplate()}>

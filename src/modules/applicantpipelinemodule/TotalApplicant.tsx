@@ -21,9 +21,7 @@ import SvgEditPipeline from '../../icons/SvgEditPipeline';
 import SvgEditStages from '../../icons/SvgEditStages';
 import { StageCard } from '../../uikit/StageCard/stagesCard';
 import ReorderStage from '../accountsettingsmodule/templatesmodule/reorder';
-import {
-  jobPipelineForm,
-} from '../accountsettingsmodule/templatesmodule/templatesPageTypes';
+import { jobPipelineForm } from '../accountsettingsmodule/templatesmodule/templatesPageTypes';
 import { AppDispatch, RootState } from '../../store';
 import SvgPlusCircle from '../../icons/SvgAddCircle';
 
@@ -46,12 +44,13 @@ import { StageData } from '../../hooks/useStages/types';
 import styles from './totalapplicant.module.css';
 import MovePipelinePopup from './movepopup';
 import { updateKanbanStagesMiddleware } from './store/middleware/applicantpipelinemiddleware';
+import { columnTypes } from './dndBoardTypes';
 
 const cx = classNames.bind(styles);
 
 type Props = {
   jd_id: number;
-  // workflowId: number;
+  columns: columnTypes;
   total: number;
   filterTotalFav: () => void;
   isTotalFav: boolean;
@@ -63,7 +62,7 @@ type Props = {
 
 const TotalApplicant = ({
   jd_id,
-  // workflowId,
+  columns,
   total,
   filterTotalFav,
   isTotalFav,
@@ -113,7 +112,7 @@ const TotalApplicant = ({
     onRemoveStage,
     onReorder,
     isStageDuplicate,
-  } = useStages(stages);
+  } = useStages(stages, columns);
 
   const initial = {
     title: '',
@@ -255,7 +254,7 @@ const TotalApplicant = ({
             </Flex>
           </Button>
           <Dropdown className="dropdownButton dropleft">
-            <Dropdown.Toggle
+            <Dropdown.Toggle onClick={handleOpenPopup}
               style={{
                 borderColor: 'unset',
                 backgroundColor: 'unset',
@@ -263,13 +262,14 @@ const TotalApplicant = ({
                 padding: '0px',
                 marginRight: '5px',
               }}
-              title="Settings"
+              title="Edit Stages"
               id="dropdown-basic"
             >
-              <SvgSetting width={16} height={16} fill="#581845" />
+               <SvgEditStages height={16} width={16} />
+              {/* <SvgSetting width={16} height={16} fill="#581845" /> */}
             </Dropdown.Toggle>
 
-            <Dropdown.Menu style={{ minWidth: '5rem' }}>
+            {/* <Dropdown.Menu style={{ minWidth: '5rem' }}>
               <Dropdown.Item onClick={handleOpenPopup}>
                 <Flex row center className={styles.dropDownListStyle}>
                   <SvgEditStages height={16} width={16} />
@@ -285,7 +285,7 @@ const TotalApplicant = ({
                   </Flex>
                 </LinkWrapper>
               </Dropdown.Item>
-            </Dropdown.Menu>
+            </Dropdown.Menu> */}
           </Dropdown>
           {/* <Button className={styles.btn1Style} types="primary">
             <SvgList width={16} height={16} fill="#581845" />

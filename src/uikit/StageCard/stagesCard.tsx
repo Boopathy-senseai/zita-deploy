@@ -201,7 +201,7 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
   return (
     <>
       {/* delete popup without the data */}
-      {doc.is_active ? (
+      {doc?.is_associated ? (
         <AlertDeletePopup
           openDeletePopup={deletePopup}
           handleDeletePipelinePopup={handleDeletePipelinePopup}

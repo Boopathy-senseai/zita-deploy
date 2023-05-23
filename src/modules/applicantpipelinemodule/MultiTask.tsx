@@ -460,8 +460,9 @@ const MultiTask = ({
                         types="link"
                         className={styles.linkBtnStyle}
                         onClick={hanldeProfileView}
+                      
                       >
-                        <Text bold color="theme">
+                        <Text bold color="theme" className={styles.name}>
                           {task.name}
                         </Text>
                       </Button>

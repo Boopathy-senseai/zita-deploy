@@ -7,7 +7,7 @@ import DndTitleMap from './DndTitleMap';
 
 type Props = {
   columns: IStageColumn[];
-  setSortApplicant: (arg: string) => void;
+  setSortApplicant: (columnId: number, arg: string) => void;
   onSelectAll?: (data: IStageColumn) => void;
   onUnselectAll?: (data: IStageColumn) => void;
   cardSelectionMap: ICardSelectionMap;
