@@ -311,7 +311,7 @@ const ApplicantPipeLineFilter = ({
               }}
             >
               <Text bold color="theme" size={14}>
-                View Filter
+                View Filters
               </Text>
               <SvgRefresh
                 width={18}
@@ -330,7 +330,7 @@ const ApplicantPipeLineFilter = ({
               {/* match */}
               <Flex className={styles.mtstyle}>
                 <Text color="theme" bold className={styles.matchTextStyle}>
-                  Match
+                  Match Score
                 </Text>
                 <Flex row center wrap>
                   {matchOptions.map((matchList) => {

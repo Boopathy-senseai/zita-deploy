@@ -31,6 +31,7 @@ import {
 import styles from './jobPipelinePage.module.css';
 import ReorderStage from './reorder';
 import { templatePageReducerActions } from './store/reducer/templatesreducer';
+import PipelineSuggestions from './suggestions';
 
 const cx = classNames.bind(styles);
 type FormProps = {
@@ -95,36 +96,25 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
 
   const handleJobPipeline = (values: jobPipelineForm) => {
     const errors: Partial<jobPipelineForm> = {};
-    console.log(values.pipelineTitle.length);
+    if (isEmpty(values.pipelineTitle)) {
+      errors.pipelineTitle = 'This field is required';
+    }
     if (!isEmpty(values.pipelineTitle) && values.pipelineTitle.length > 25) {
-      console.log(true);
-      errors.pipelineTitle = 'Title name should not exceed 25 characters.';
+      errors.pipelineTitle = 'Pipeline name should not exceed 25 characters.';
     }
-
-    if (!isEmpty(values.title) && values.title.length > 25) {
-      errors.title = 'Stage name should not exceed 25 characters.';
-    }
-    if (isStageDuplicate(values.title)) {
-      errors.title = 'Already stage name exists';
-    }
-
     return errors;
   };
-  const [isPipelineLoader, setPipelineLoader] = useState(false);
 
   const formik = useFormik({
     initialValues: form,
     validate: handleJobPipeline,
     enableReinitialize: true,
     onSubmit: (data) => {
-      onAddStageFromSuggestion({
-        stage_name: data.title,
-        stage_order: localStages.length + 1,
-        stage_color: 'gray',
-        suggestion_id: new Date().getTime(),
-        wk_id_id: wk_id,
-        is_disabled: false,
-      });
+      if (wk_id) {
+        handleUpdate();
+      } else {
+        handleCreate();
+      }
       toggleStage();
     },
   });
@@ -184,17 +174,6 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
   };
   /// skip stages
 
-  const skipStages = (doc: SuggestionData) => {
-    return !localStages
-      .map((item) => item.stage_name.trim().toLowerCase())
-      .includes(doc.stage_name.trim().toLowerCase());
-  };
-
-  const handleKeyPress = (event: { key: string }) => {
-    if (event.key === 'Enter') {
-      formik.handleSubmit();
-    }
-  };
   return (
     <Flex>
       {isSubmitLoader && <Loader />}
@@ -205,13 +184,14 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
         </Text>
       </Flex>
       <Flex column className={styles.bottomBorder}>
-        <Flex flex={1} marginBottom={30}>
+        <Flex column flex={1} marginBottom={30} start>
           <InputText
             inputConatinerClass={styles.with80}
             label="Pipeline Title"
             disabled={pipeline?.is_active}
             labelSize={16}
             required
+            name="pipelineTitle"
             value={formik.values.pipelineTitle}
             style={{ width: 'fit-content' , marginBottom: '5px' }}
             onChange={formik.handleChange('pipelineTitle')}
@@ -220,7 +200,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
           <ErrorMessage
             touched={formik.touched}
             errors={formik.errors}
-            name="pipeline"
+            name="pipelineTitle"
           />
         </Flex>
         <Flex row noWrap>
@@ -262,87 +242,15 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
                 Proposed Stages
               </Text>
             </Flex>
-            <Flex row wrap className={styles.borderLine}>
-              {(wk_id ? suggestions : pipelineSuggestions)
-                .filter(skipStages)
-                .map((doc, index) => {
-                  const isActive = isStageExist(doc.stage_name);
-                  return (
-                    <Chip
-                      key={index}
-                      isActive={isActive}
-                      doc={doc}
-                      index={index}
-                      onAdd={onAddStageFromSuggestion}
-                      onRemove={onRemoveStage}
-                    />
-                  );
-                })}
-              {stage === false ? (
-                <Button
-                  types="secondary"
-                  onClick={() => toggleStage()}
-                  className={styles.newBtn}
-                >
-                  <Flex row center>
-                    <SvgPlusCircle fill="#581845" />
-                    <Text color="theme" size={14} style={{ marginLeft: '5px' }}>
-                      Create a new stage
-                    </Text>
-                  </Flex>
-                </Button>
-              ) : (
-                <>
-                  <Flex column noWrap>
-                    <InputText
-                      value={formik.values.title}
-                      onChange={formik.handleChange('title')}
-                      lineInput
-                      size={12}
-                      className={styles.input}
-                      onKeyPress={handleKeyPress}
-                    />
-                    <ErrorMessage
-                      touched={formik.touched}
-                      errors={formik.errors}
-                      name="title"
-                    />
-                  </Flex>
-                  <div className={styles.svgContainer}>
-                    {isPipelineLoader ? (
-                      <div className={styles.svgTick}>
-                        <Loader withOutOverlay size={'small'} />
-                      </div>
-                    ) : (
-                      <div
-                        className={cx('svgTickMargin', {
-                          svgTickDisable: isEmpty(formik.values.title),
-                          tickStyle: !isEmpty(formik.values.title),
-                        })}
-                        //  onClick={handleLocationSubmit}
-                        tabIndex={-1}
-                        role={'button'}
-                        onClick={() => {
-                          formik.submitForm();
-                        }}
-                      >
-                        <SvgTickBox className={styles.tickStyle} />
-                      </div>
-                    )}
-
-                    <div
-                      className={styles.svgClose}
-                      onClick={toggleStage}
-                      tabIndex={-1}
-                      role={'button'}
-                      // onClick={() => formik.resetForm()}
-                    >
-                      <SvgCloseBox className={styles.tickStyle} />
-                    </div>
-                  </div>
-                </>
-              )}
-            </Flex>
+            <PipelineSuggestions
+              wk_id={wk_id}
+              localStages={localStages}
+              suggestions={wk_id ? suggestions : pipelineSuggestions}
+              isStageExist={isStageExist}
+              onAddStageFromSuggestion={onAddStageFromSuggestion}
+              onRemoveStage={onRemoveStage}
+              isStageDuplicate={isStageDuplicate}
+            />
           </Flex>
         </Flex>
       </Flex>
@@ -355,9 +263,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
           >
             Cancel
           </Button>
-          <Button onClick={handleCreate} disabled={!isFormValid()}>
-            Save
-          </Button>
+          <Button onClick={formik.submitForm}>Save</Button>
         </Flex>
       ) : (
         <Flex row end marginTop={50} marginBottom={20}>
@@ -369,7 +275,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
             Cancel
           </Button>
           <Button
-            onClick={handleUpdate}
+            onClick={formik.submitForm}
             disabled={!(isFormValid() && isFormDirty())}
           >
             Update

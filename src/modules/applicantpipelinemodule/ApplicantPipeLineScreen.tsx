@@ -786,7 +786,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     sessionStorage.setItem('template', '2');
     sessionStorage.setItem('pipeline', '2');
     sessionStorage.setItem('wk_id', 'undefined');
-    sessionStorage.setItem('button', '1')
+    sessionStorage.setItem('button', '1');
     history.push('/account_setting/settings');
   };
 
@@ -986,7 +986,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
               onMove={handleMove}
             />
             {isAllListEmpty() ? (
-              <div style={{ position: 'relative' }}>
+              <div style={{ position: 'relative', zIndex: 0 }}>
                 {columns && (
                   <DndTitle
                     columns={columnOrder

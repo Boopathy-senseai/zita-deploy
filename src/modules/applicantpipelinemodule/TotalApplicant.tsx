@@ -119,8 +119,8 @@ const TotalApplicant = ({
     title: '',
   };
 
-  const handleJobPipeline = (values: jobPipelineForm) => {
-    const errors: Partial<jobPipelineForm> = {};
+  const handleJobPipeline = (values: { title: string }) => {
+    const errors: Partial<{ title: string }> = {};
 
     if (!isEmpty(values.title) && values.title.length > 25) {
       errors.title = 'Stage name should not exceed 25 characters.';
@@ -434,7 +434,7 @@ const TotalApplicant = ({
           stages: localStages,
         }),
       ).then(() => {
-        Toast('Changes saved successfully', "LONG");
+        Toast('Changes saved successfully', 'LONG');
         handleClosePopup();
       });
     } else {

@@ -1,7 +1,6 @@
 import { PipelineData, StageData, SuggestionData } from "../../../hooks/useStages/types";
 
 export interface jobPipelineForm {
-  title: string;
   pipelineTitle: string;
 }
 export interface IJobPipeline {

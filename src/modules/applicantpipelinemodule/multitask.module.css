@@ -1,7 +1,7 @@
 .container {
   margin-bottom: 8px;
 }
-.cardStyle {
+.cardStyle{
   box-shadow: unset;
   cursor: pointer;
 }
@@ -14,7 +14,7 @@
   display: flex;
   flex-direction: column;
   height: 135px;
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.47000000000000003);
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,.47000000000000003);
   justify-content: space-between;
   cursor: pointer;
 }
@@ -27,12 +27,6 @@
   margin-left: 15px;
   max-width: 62%;
   cursor: pointer;
-}
-.name {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 30px;
 }
 .svgContainer {
   margin-right: 8px;
@@ -81,4 +75,8 @@
   margin-left: -57%;
   height:110%;
   margin-top: -10%; */
+}
+
+.linkBtnStyle{
+  display: contents;
 }

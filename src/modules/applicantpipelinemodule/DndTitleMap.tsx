@@ -83,7 +83,7 @@ const DndTitleMap = ({
         </Text>
       </Flex>
 
-      <div ref={myRef}>
+      {column?.total !== 0 && <div ref={myRef}>
         <div
           onKeyPress={() => {}}
           role={'button'}
@@ -130,7 +130,7 @@ const DndTitleMap = ({
             </Text>
           </Flex>
         )}
-      </div>
+      </div>}
     </div>
   );
 };

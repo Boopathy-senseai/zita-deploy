@@ -64,16 +64,24 @@ const TemplatesPage = () => {
     }),
   );
 
-  useEffect(()=>{
-    if(message) Toast("Pipeline " + message, 'LONG');
-  },[message])
+  useEffect(() => {
+    if (message) Toast(message, 'LONG');
+  }, [message]);
 
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
     dispatch(getPipelineDataMiddleWare());
+
+    return () => {
+      sessionStorage.removeItem('template');
+      sessionStorage.removeItem('pipeline');
+      sessionStorage.removeItem('button');
+      sessionStorage.removeItem('wk_id');
+    }
   }, []);
   const selectTemplate = () => {
     setTemplate(1);
+    sessionStorage.setItem('template', '1');
   };
   const selectPipeline = () => {
     setWorkId(undefined);
@@ -86,9 +94,14 @@ const TemplatesPage = () => {
     setWorkId(id);
     setPipeline(1);
     setshowbutton(2);
+    sessionStorage.setItem('template', '1');
+    sessionStorage.setItem('pipeline', '1');
+    sessionStorage.setItem('wk_id', JSON.stringify(id))
   };
   const backFunction = () => {
     setPipeline(0);
+    sessionStorage.setItem('pipeline', '0');
+    sessionStorage.setItem('button', '0');
   };
   const handleUpdate = (value: PipelineData) => {
     setSubmitLoader(true);
@@ -140,7 +153,7 @@ const TemplatesPage = () => {
               </Flex>
 
               <Text style={{ marginTop: '10px' }}>
-                Create, modify, reorder, and delete job pipeline stages.
+                Create, modify, reorder, and delete job pipeline stages
               </Text>
 
               <Button className={styles.btn} onClick={() => selectTemplate()}>
@@ -221,7 +234,10 @@ const TemplatesPage = () => {
               row
               start
               className={styles.title}
-              onClick={() => setTemplate(0)}
+              onClick={() => {
+                setTemplate(0);
+                sessionStorage.setItem('template', '0');
+              }}
             >
               <SvgBack height={14} width={14} />
               <Text color="theme" bold size={16} style={{ marginLeft: '10px' }}>
@@ -285,7 +301,7 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
     const errors: Partial<PipelineData> = {};
 
     if (!isEmpty(values.pipeline_name) && values.pipeline_name.length > 25) {
-      errors.pipeline_name = 'Stage name should not exceed 25 characters.';
+      errors.pipeline_name = 'Pipeline name should not exceed 25 characters.';
     }
     return errors;
   };
@@ -314,14 +330,22 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
     if (renamePipeline) {
       return (
         <Flex row noWrap>
-          <InputText
-            value={formik.values.pipeline_name}
-            onChange={formik.handleChange('pipeline_name')}
-            lineInput
-            size={12}
-            className={styles.input}
-            onKeyPress={handleKeyPress}
-          />
+          <Flex column start>
+            <InputText
+              value={formik.values.pipeline_name}
+              onChange={formik.handleChange('pipeline_name')}
+              lineInput
+              size={12}
+              className={styles.input}
+              onKeyPress={handleKeyPress}
+            />
+            <ErrorMessage
+              touched={formik.touched}
+              errors={formik.errors}
+              name="pipeline_name"
+            />
+          </Flex>
+
           <div className={styles.svgContainer}>
             {isPipelineLoader ? (
               <div className={styles.svgTick}>
