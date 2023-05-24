@@ -1,8 +1,12 @@
 .profileCard {
-  height: 125px;
-  /*box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);*/
-  /*-webkit-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);*/
-  /*-moz-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);*/
+  
+  height: 590px;
+  padding: 30px;
+  width: auto;
+  box-shadow: 5px 5px #888888;
+  box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 3px 0px 5px -1px rgba(0, 0, 0, 0.2);
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2), 0 0 0 transparent;
+
 }
 .profileCard:hover {
   box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55);
@@ -11,23 +15,25 @@
   transition: all 0.2s ease-out;  
 }
 .profileImg {
-  border-radius: 4px;
-  box-sizing: border-box;
+  border-radius: 70px;
+  border-color:#581845;
+  border-style: solid;
+  display: block;
+  align-items: center;
+
   -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
   -moz-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
   box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
   height: 120px;
   width: 120px;
-  align-items: center;
-  position: relative;
-  background-color: #fff;
-  position: relative;
-  bottom: 50px;
-  object-fit: contain;
+  
+  
+  
+  
 }
-.overAll {
+/* .overAll {
   margin-top: 60px;
-}
+} */
 
 .borderBottom {
   border-bottom: 1px solid #ccc;
@@ -36,4 +42,127 @@
 .pointer {
   cursor: pointer;
 }
+
+.profileCardMain{
+
+  height: 590px;
+}
+.companyColor{
+  color:#581845;
+  margin-bottom: 5px;
+}
+.iconCircle{
+  border-radius: 50%;
+  border: 1px solid #581845;
+  background-color: white;
+  color: black;
+  
+
+  
+  
+}
+.buttonsize{
+  width:130px;
+  padding: 7px;
+  
+}
+.iconCircle1{
+  
+  
+  /* border-radius: 30%;
+  width: 50;
+  border: 1px solid purple;
+  background-color: white;
+  color: black; */
+
+  border-radius: 45px;
+border: 1px solid #581845;
+background-color: white;
+color: black;
+width: auto;
+height: auto;
+justify-content: center;
+display: flex;
+align-items: center;
+cursor: none;
+pointer-events: none;
+}
+/* border-radius: 50px;
+border: 1px solid purple;
+background-color: white;
+color: black;
+width: auto;
+height: auto;
+justify-content: center;
+display: flex;
+align-items: center; */
+.circleflex{
+  height: auto;
+  line-height: auto;  
+  width: auto;  
+  font-size: 2em;
+  
+  border-radius: 50%;
+  background-color: white;
+  border: 1px solid  #581845 ;
+  align-content: center;
+  text-align: center;
+  align-items: center;
+  padding: 3px;
+  /* margin-left: 5px;
+  margin-right: 5px; */
+
+
+  
+  
+
+}
+.line{
+  border: 1px solid #C3C3C3;
+}
+
+.circleflexicon{
+  height: 40px;
+  line-height: 40px;  
+  width: 40px;  
+  font-size: 2em;
+  /* font-weight: bold; */
+  border-radius: 50%;
+ 
+  border: 1px solid  black ;
+  align-items: center;
+  text-align: center;
+    align-content: center;
+
+  
+
+}
+.tdstyle{
+  text-align: center;
+  border:1px solid white;
+  border-spacing: 40px;
+}
+.tablestyle{
+  border:1px solid white;
+  border-spacing: 10px;
+}
+.buttonsizeauto{
+  width:360px
+  
+}
+.textoverflow{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; 
+  width: 40px; 
+}
+.textoverflow1{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; 
+  width: 70px; 
+}
+
+
+
 
