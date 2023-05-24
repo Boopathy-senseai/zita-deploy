@@ -872,7 +872,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
         <Flex
           columnFlex
           className={styles.dndBoardContainer}
-          width={window.innerWidth - 10}
+          width={window.innerWidth - 20}
         >
           <Flex row className={styles.titleContainer}>
             <Text bold size={16} color="theme">
@@ -988,7 +988,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
               onMove={handleMove}
             />
             {isNotEmpty() ? (
-              <div style={{ position: 'relative', zIndex: 0 }}>
+              <div style={{ position: 'relative', zIndex: 0, overflowX: "scroll"}}>
                 {columns && (
                   <DndTitle
                     columns={columnOrder
@@ -1001,7 +1001,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
                   />
                 )}
                 <div
-                  style={{ height: window.innerHeight - 236 }}
+                  style={{ height: window.innerHeight - 200 }}
                   className={styles.scrollStyle}
                 >
                   {columns && (

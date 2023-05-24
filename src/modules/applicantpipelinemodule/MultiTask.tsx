@@ -511,7 +511,7 @@ const MultiTask = ({
                       </Text>
                     </Flex>
                     <Flex>
-                      <Text size={12} color="black2" textStyle="ellipsis">
+                      <Text size={12} color="black2" textStyle="ellipsis" title={getDateString(task.created_on, 'll hh:mm A')}>
                         {getDateString(task.created_on, 'll hh:mm A')}
                         {/* {task.created_on} */}
                         {/* {getDateString(user_info?.last_login, 'll hh:mm A')} */}

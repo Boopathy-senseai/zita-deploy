@@ -50,7 +50,8 @@
 .col {
   display: flex;
   flex-direction: row;
-  position: absolute;
+  position: sticky;
+  top: 0;
   width: 100%;
   z-index: 11;
   /* overflow-x: auto; */
