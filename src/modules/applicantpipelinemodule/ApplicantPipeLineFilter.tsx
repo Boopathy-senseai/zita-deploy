@@ -310,8 +310,8 @@ const ApplicantPipeLineFilter = ({
                 setShowDropDown((value) => !value);
               }}
             >
-              <Text bold color="theme" size={14}>
-                View Filters
+              <Text bold color="theme" size={14} title={"Refresh filters"}>
+                View Filter
               </Text>
               <SvgRefresh
                 width={18}
@@ -330,7 +330,7 @@ const ApplicantPipeLineFilter = ({
               {/* match */}
               <Flex className={styles.mtstyle}>
                 <Text color="theme" bold className={styles.matchTextStyle}>
-                  Match Score
+                  Match
                 </Text>
                 <Flex row center wrap>
                   {matchOptions.map((matchList) => {
@@ -382,7 +382,7 @@ const ApplicantPipeLineFilter = ({
                   value={
                     experienceOption
                       ? experienceOption.find(
-                          (option: any) => option.value === isExperience,
+                          (option) => option.value === isExperience,
                         )
                       : ''
                   }
@@ -390,7 +390,7 @@ const ApplicantPipeLineFilter = ({
                   onChange={(option) => {
                     setExperience(option.value);
                     // selectExperienceValue(option.value);
-                    //handleExperience(option.value);
+                    handleExperience(option.value);
                   }}
                 />
               </Flex>

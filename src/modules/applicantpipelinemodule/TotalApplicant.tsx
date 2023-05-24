@@ -144,7 +144,7 @@ const TotalApplicant = ({
         stage_name: data.title,
         // stage_order: suggestions.length + 1,
         stage_order: (localStages || [])?.length + 1,
-        stage_color: 'gray',
+        stage_color: '#888888',
         suggestion_id: new Date().getTime(),
         wk_id_id: new Date().getTime(),
         is_disabled: false,
@@ -249,7 +249,7 @@ const TotalApplicant = ({
           >
             <Flex row center style={{ cursor: 'pointer' }}>
               <SvgFavourites filled={isTotalFav} />
-              <Text style={{ marginLeft: '5px' }} color="theme">
+              <Text style={{ marginLeft: '5px' }} color="theme" title={"Favourite Applicants"}>
                 Favourites
               </Text>
             </Flex>

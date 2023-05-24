@@ -455,7 +455,7 @@ const MultiTask = ({
                     </div>
                   </div>
                   <Flex columnFlex className={styles.nameContainer}>
-                    <Flex row center>
+                    <Flex row center marginRight={16}>
                       <Button
                         types="link"
                         className={styles.linkBtnStyle}

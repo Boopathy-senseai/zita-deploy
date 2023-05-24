@@ -630,7 +630,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     )
       .then(() => {
         getApplicanPipelineData();
-        Toast(`Applicant ${destination.stage_name} successfully`);
+        Toast(`Applicant moved to ${destination.stage_name} successfully`);
       })
       .catch(() => {
         setNoLoader(true);
@@ -651,7 +651,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
       )
         .then(() => {
           // getApplicanPipelineData();
-          Toast(`Applicant ${getSTData(columns[droppableId])} successfully`);
+          Toast(`Applicant moved to ${getSTData(columns[droppableId])} successfully`);
           setAlert(null);
         })
         .catch(() => {
@@ -774,7 +774,9 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
         candidate_id: candidateIdList,
         stages: getSTData(columns[droppableId]),
       }),
-    );
+    ).then(() => {
+      Toast('Applicants moved successfully', 'LONG');
+    });
   };
   function getSTData(data: IStageColumn) {
     const { stage_name } = data;
@@ -985,7 +987,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
               onExport={handleBulkExport}
               onMove={handleMove}
             />
-            {isAllListEmpty() ? (
+            {isNotEmpty() ? (
               <div style={{ position: 'relative', zIndex: 0 }}>
                 {columns && (
                   <DndTitle
@@ -1034,12 +1036,12 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     </>
   );
 
-  function isAllListEmpty() {
+  function isNotEmpty() {
     const keys = Object.keys(applicants);
     if (keys.length !== 0) {
       return keys.map((key) => applicants[key].length === 0).includes(false);
     }
-    return true;
+    return false;
   }
 };
 

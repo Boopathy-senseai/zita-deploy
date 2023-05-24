@@ -104,11 +104,11 @@ const DndBoardScreen = ({
           btnRight={isAlert.destination}
           title={
             <Flex columnFlex className={styles.statusFlex}>
-              <Text>
+              <Text color={"theme"} size={16} bold>
                 {`Application status will be updated to ${isAlert.destination}`}
                 .
               </Text>
-              <Text>Are you sure to proceed?</Text>
+              <Text>Are you sure?</Text>
             </Flex>
           }
         />

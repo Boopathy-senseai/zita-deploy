@@ -87,7 +87,7 @@ const PipelineSuggestions: React.FC<Props> = (props) => {
       onAddStageFromSuggestion({
         stage_name: data.title,
         stage_order: localStages.length + 1,
-        stage_color: 'gray',
+        stage_color: '#888888',
         suggestion_id: new Date().getTime(),
         wk_id_id: wk_id,
         is_disabled: false,
