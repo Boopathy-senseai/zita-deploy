@@ -3,7 +3,10 @@ const defaultProps = {
   fill: '#cccccc',
   width: 18,
   height: 18,
+  className: '',
+
 };
+
 
 const SvgSearch = ({ width, height, fill }: typeof defaultProps) => {
   return (

@@ -28,14 +28,12 @@ const ProtectedRoute = ({ notIsNav, component: Component, ...rest }) => {
       sessionStorage.getItem('EmpToggle') === null
         ? false
         : sessionStorage.getItem('EmpToggle');
-        if (toggle ==="1" ){
-          setSidebar(true);
-        }else{
-          setSidebar(false);
-        }
-      
+    if (toggle === "1") {
+      setSidebar(true);
+    } else {
+      setSidebar(false);
+    }
   }, []);
-
 
   useEffect(() => {
     const query = parse(location.search);
@@ -49,32 +47,24 @@ const ProtectedRoute = ({ notIsNav, component: Component, ...rest }) => {
       {...rest}
       render={(props) => {
         if (localStorage.getItem('token') !== null) {
-          return (
-            // <Flex column>
-            //   <Flex>{notIsNav && <NavBar />}</Flex>
-            //   <Flex row>
-            //     <Flex className={sidebar === false ? (styles.model) : (styles.model1)} flex={1}><Sidebar data={handlefunction} /></Flex>
-            //     <Flex flex={12}><Component {...rest} {...props} /></Flex>
-            //   </Flex>
-            // </Flex>
+          return ( 
             <div>
               <div className='container-fluid'>
                 <div class="row">
                   {notIsNav && <NavBar />}
                 </div>
                 <div style={{ marginTop: "85px" }}>
-                  <div style={{ display: "flex",flexDirection:"row"}}>
+                  <div style={{ display: "flex" }}>
 
-                    <div className={sidebar === false ? (styles.model) : (styles.model1)}>
+                    <div className={sidebar === false ? (styles.model) : (styles.model1)}  >
                       <Sidebar data={handlefunction} />
                     </div>
-                    <div style={{ width: "auto" ,flex:'1'}}>
+                    <div style={{width:"auto",flex:1 }} >
                       <Component {...rest} {...props} />
                     </div>
                   </div>
-                </div>
-              </div>
-
+                </div> 
+              </div> 
             </div>
           );
         } else {

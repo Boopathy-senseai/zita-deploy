@@ -225,3 +225,70 @@ export const customStylesMulti = {
     padding: 0,
   }),
 };
+
+
+
+export const customStyletrue = {
+  option: (provided: any) => ({
+    ...provided,
+    fontSize: 14,
+  }),
+  control: (provided: any, state: { isFocused: any }) => ({
+    ...provided,
+    minHeight: '35px',
+    height: '30px',
+   
+    boxShadow: state.isFocused ? null : null,
+    boxSizing: 'border-box',
+  }),
+  valueContainer: (provided: any) => ({
+    ...provided,
+    height: '35px',
+    padding: '0 8px',
+    fontSize: 14,
+    color: GARY_1,
+  }),
+  input: (provided: any) => ({
+    ...provided,
+    margin: '0px',
+    fontSize: 14,
+    fontFamily: `'Roboto', sans-serif`,
+    boxSizing: 'border-box',
+  }),
+  indicatorsContainer: (provided: any) => ({
+    ...provided,
+    height: '35px',
+    cursor: 'pointer',
+    boxSizing: 'border-box',
+  }),
+  clearIndicator: (provided: any) => ({
+    ...provided,
+    cursor: 'pointer',
+  }),
+  placeholder: (defaultStyles: any) => {
+    return {
+      ...defaultStyles,
+      color: GARY_4,
+      fontSize: 12,
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+    };
+  },
+  menu: (provided: any) => ({
+    ...provided,
+    margin: 0,
+    borderBottomLeftRadius: 4,
+    borderBottomRightRadius: 4,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    boxSizing: 'border-box',
+  }),
+  menuList: (provided: any) => ({
+    ...provided,
+    overflow: 'overlay',
+    maxHeight: 200,
+    scrollbarWidth: 'thin',
+    padding: 0,
+  }),
+};

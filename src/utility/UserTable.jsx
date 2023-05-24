@@ -304,7 +304,7 @@ function UserTable(porps) {
 
   return (
     <>
-      {usersData.length !== undefined ? (
+     {usersData.length !== undefined ? (
         <div className="table-responsisssve table_min_height">
           <table className="table table-hover mb-0">
             <thead>
@@ -391,6 +391,8 @@ function UserTable(porps) {
                       </td>
                       <td>
                         <Text>Super Admin</Text>
+                        
+                      
                       </td>
                       <td>{InviteOn}</td>
                       <td className="text-center"></td>

@@ -5,6 +5,8 @@ import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import { FinalListEntity } from './myJobPostingTypes';
 import styles from './myjobpostingscreen.module.css';
 
+
+
 type Props = {
   list: FinalListEntity;
 };
