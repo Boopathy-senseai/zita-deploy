@@ -1,4 +1,7 @@
 import { useSelector } from 'react-redux';
+import { useFormik } from 'formik';
+import PhoneInput from 'react-phone-input-2';
+import { useState, useEffect } from "react";
 import { jobSelect } from '../../../appRoutesPath';
 import SvgCompany from '../../../icons/SvgCompany';
 import SvgNewTab from '../../../icons/SvgNewTab';
@@ -14,7 +17,6 @@ import SvgLocationicon from '../../../icons/SvgLocationicon';
 import SvgMobile from '../../../icons/SvgMobile';
 import SvgGlobe from '../../../icons/SvgGlobe';
 
-
 import { RootState } from '../../../store';
 import Button from '../../../uikit/Button/Button';
 import Card from '../../../uikit/Card/Card';
@@ -24,7 +26,9 @@ import { getDateString, isEmpty, unlimitedHelper } from '../../../uikit/helper';
 import LinkWrapper from '../../../uikit/Link/LinkWrapper';
 import Text from '../../../uikit/Text/Text';
 import { mediaPath } from '../../constValue';
+import { locationStateMiddleWare } from '../../createjdmodule/store/middleware/createjdmiddleware';
 import styles from './profilecard.module.css';
+
 
 
 const ProfileCard = () => {
@@ -46,16 +50,22 @@ const ProfileCard = () => {
     weburl,
    data3, 
  data2,
+ datafin,
+ company,
+ cityid,
+ stateid,
+ countryid,
     
     
   } = useSelector(({ dashboardEmpReducers, permissionReducers, companyPageReducers }: RootState) => {
     return {
+      company:companyPageReducers,
       weburl:companyPageReducers.company_detail.company_website,
-      
+      datafin:companyPageReducers,
       address: companyPageReducers.company_detail.address,
       zipcode:companyPageReducers.company_detail.zipcode,
-     data3:permissionReducers,
-     data2:dashboardEmpReducers,
+      data3:permissionReducers,
+      data2:dashboardEmpReducers,
       mobile_no: companyPageReducers.company_detail.contact,
       company_name: dashboardEmpReducers.company_name,
       logo: dashboardEmpReducers.logo,
@@ -68,30 +78,51 @@ const ProfileCard = () => {
       status: dashboardEmpReducers.plan.is_active,
       permission: permissionReducers.Permission,
       super_user: permissionReducers.super_user,
+      stateid:companyPageReducers.company_detail.state_id,
+      cityid:companyPageReducers.company_detail.city_id,
+      countryid:companyPageReducers.company_detail.city_id,
     };
   });
+ 
 
   const logoPath = isEmpty(logo) ? 'logo.png' : logo;
-
-
+  
   
   const clearTab = () => {
     sessionStorage.removeItem('superUserTab');
     sessionStorage.removeItem('superUserFalseTab');
   };
+  
+  const [state,setstate]=useState("");
+  const [city,setcity]=useState("");
+  const [country,setcountry]=useState("");
+ 
+  useEffect(() => {
+    addresshand()
+  }, [company]);
+
+    function  addresshand (){
+       if(stateid!==0&&cityid!==0&&countryid!==0&&company!==null) {
+       
+    setstate(company.state.filter((obj) => obj.id === stateid)[0].name);
+    setcity(company.city.filter((obj)=>obj.id===cityid)[0].name);
+    setcountry(company.country[0].name);
+  }
+
+    
+  }
 
  
-
   return (
 
 
 
 
     <Flex marginLeft={5} marginTop={10}>
-
+    {console.log("companypagereducer,",company)}
       <Card className={styles.profileCardMain}>
         <Flex marginLeft={140} marginTop={15} center>
-
+    
           {logoPath === 'logo' ? <Button>a</Button> : <img
             style={{ objectFit: 'contain' }}
 
@@ -102,7 +133,6 @@ const ProfileCard = () => {
           />}
         </Flex>
         <Flex marginTop={12}>
-
 
           <Text bold align="center" size={16} className={styles.companyColor} >
             {company_name}
@@ -380,15 +410,30 @@ const ProfileCard = () => {
                  {user_info.email !==null ?  <Text>{user_info.email}</Text>:""}
                  {mobile_no !== "" ? <Text>{mobile_no}</Text>:""}
                 {address !=="" ? <Text>{address}</Text>:""} */}
-          <Flex marginTop={10}>
-            {mobile_no !== "" ? <Flex row ><Flex marginRight={5}><SvgMobile height={20} width={20} fill={BLACK} /></Flex>
-              <Flex marginLeft={9}><Text>+{mobile_no}</Text></Flex></Flex> : ""}
+          <Flex marginTop={5}>
+            {mobile_no !== "" ? <Flex row ><Flex marginRight={5} marginTop={8}><SvgMobile height={20} width={20} fill={BLACK} /></Flex>
+              <Flex marginLeft={9}><Text>
+                <PhoneInput value={mobile_no}
+                inputStyle={{border:"none",padding:"inherit"}}
+                showDropdown={false}   
+                defaultErrorMessage='false' 
+                disableDropdown={true}
+                disableSearchIcon={true}
+                country={null}
+                disabled={true}
+                buttonStyle={{display:"none"}}
+                dropdownStyle={{display:"none"}}
+              
+              
+            
+              />
+              </Text></Flex></Flex> : ""}
           </Flex>
           <Flex marginTop={10}>
          
-{console.log("userinfodata",user_info)}
+{console.log("weburl",weburl)}
 
-            {weburl !== 'https://' ? <Flex row> <Flex marginRight={5}><SvgGlobe height={20} width={20} fill={BLACK} /></Flex>
+            {weburl!=="https://" ? <Flex row> <Flex marginRight={5}><SvgGlobe height={20} width={20} fill={BLACK} /></Flex>
               <Flex marginLeft={9}><Text style={{ marginBottom: "4px",textDecoration:"underline" }} >{weburl}</Text></Flex></Flex> :  
               <Flex row marginTop={7}>
                 <Flex marginRight={5} >
@@ -406,12 +451,14 @@ const ProfileCard = () => {
                </Flex>
               </Flex>}
           </Flex>
-          <Flex marginTop={10}>
+          <Flex marginTop={16}>
 
             {console.log("sdsdsd",address)}
 
             {address !== "" ? <Flex row><Flex marginRight={1} ><SvgLocationicon height={30} width={30} fill={BLACK} /></Flex>
-              <Flex  marginLeft={4}>{address}</Flex></Flex> :
+              <Flex  marginLeft={4}>{address},{city},{state},{country},{zipcode}
+
+              </Flex></Flex> :
               <Flex row >
                 <Flex marginRight={5}>
                   <SvgLocationicon height={30} width={30} fill={BLACK} />
@@ -440,7 +487,7 @@ const ProfileCard = () => {
         <Flex marginLeft={20} marginRight={20} className={styles.line} marginTop={10} marginBottom={10}>
 
         </Flex>
-        <Flex row between marginTop={8}>
+        <Flex row between >
           {/* <Flex marginLeft={23} className={styles.pointer} marginTop={5}> {permission.includes('create_post') && (
             <LinkWrapper to={jobSelect}>
               <Button style={{ marginBottom: 8 }} className={styles.buttonsize}>Post Job</Button>

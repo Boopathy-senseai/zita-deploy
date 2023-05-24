@@ -217,6 +217,7 @@ const IntegrationScreen = () => {
     dispatch(googleCallApiMiddleware())
       .then((res) => {
         setLoginLoader(false);
+        console.log("googlecallApi,",res)
         setConnected(1);
         setIsGoogle(1);
         setActive(1);
@@ -242,6 +243,7 @@ const IntegrationScreen = () => {
           setActive(1);
           Toast('Outlook calendar Integrated Successfully', 'MEDIUM');
           window.open(res.payload.authorization_url);
+          console.log("outlookcallApi",outlookCallApiMiddleware())
         }
       })
       .catch((err) => {
@@ -346,6 +348,7 @@ const IntegrationScreen = () => {
 
   return (
     <Flex className={styles.overAll}>
+      {console.log("outlookcallapimiddle::",outlookCallApiMiddleware)}
       {isLoginLoader && <Loader />}
       <Flex columnFlex>
         <Text size={16} bold style={{ color: '#581845' }}>
