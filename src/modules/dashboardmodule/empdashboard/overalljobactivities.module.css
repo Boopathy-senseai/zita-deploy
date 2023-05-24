@@ -21,7 +21,7 @@
   padding: 4px 35px;
 }
 .jobActivityCard{
-  width: 250px;
+  width: max-content;
   margin-left: 10px;
   margin-right: 10px;
   margin-top: 5px;

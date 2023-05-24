@@ -80,6 +80,8 @@ const IntegrationScreen = () => {
   // const [isChange, setChange] = useState(false);
   const [isLoginLoader, setLoginLoader] = useState(false);
   const [modelopen, setmodelopen] = useState(false);
+  
+  
   console.log(setMail);
   // initial api call
   // useEffect(() => {
@@ -210,16 +212,17 @@ const IntegrationScreen = () => {
   const googleAuthHandler = () => {
     
     setLoginLoader(true);
-    Toast('Google calendar Integrated Successfully', 'MEDIUM');
+
     
     dispatch(googleCallApiMiddleware())
       .then((res) => {
         setLoginLoader(false);
+        console.log("googlecallApi,",res)
         setConnected(1);
         setIsGoogle(1);
         setActive(1);
         window.open(res.payload.url);
-        
+        Toast('Outlook google Integrated Successfully', 'MEDIUM')
         
       })
       .catch((err) => {
@@ -229,7 +232,7 @@ const IntegrationScreen = () => {
 
   const msAuthHandler = () => {
     setLoginLoader(true);
-    Toast('Outlook calendar Integrated Successfully', 'MEDIUM');
+   
     dispatch(outlookCallApiMiddleware())
       .then((res) => {
         console.log("outlookintegration",res);
@@ -238,8 +241,9 @@ const IntegrationScreen = () => {
           setConnected(1);
           setIsGoogle(0);
           setActive(1);
-          
+          Toast('Outlook calendar Integrated Successfully', 'MEDIUM');
           window.open(res.payload.authorization_url);
+          console.log("outlookcallApi",outlookCallApiMiddleware())
         }
       })
       .catch((err) => {
@@ -258,7 +262,10 @@ const IntegrationScreen = () => {
     
   };
   const disconnectfun=()=>{
-    setmodelopen(!modelopen)
+    
+    
+    setmodelopen(!modelopen);
+    
     // Toast('Details not saved', 'LONG', 'error');
   };
 
@@ -283,7 +290,8 @@ const IntegrationScreen = () => {
         setIsGoogle(2);
         setConnected(0);
       }
-      setmodelopen(!modelopen)
+      setmodelopen(!modelopen);
+      
       Toast('Google calendar Disconnected Successfully', 'SHORT','error');
     });
   };
@@ -297,7 +305,8 @@ const IntegrationScreen = () => {
         setIsGoogle(2);
         setConnected(0);
       }
-      setmodelopen(!modelopen)
+      setmodelopen(!modelopen);
+      
       Toast('Outlook calendar Disconnected Successfully', 'SHORT','error');
     });
   };
@@ -339,6 +348,7 @@ const IntegrationScreen = () => {
 
   return (
     <Flex className={styles.overAll}>
+      {console.log("outlookcallapimiddle::",outlookCallApiMiddleware)}
       {isLoginLoader && <Loader />}
       <Flex columnFlex>
         <Text size={16} bold style={{ color: '#581845' }}>
@@ -408,11 +418,14 @@ const IntegrationScreen = () => {
               <Text color="theme" style={{ marginTop: '1px' }}>
                 {/* {email} */}vishalrupakvr@gmail.com
               </Text>
+              {/* {modelopen===false&&
+                 Toast('Outlook calendar Integrated Successfully', 'MEDIUM')
+                } */}
               <Button
                 className={styles.btn}
                 onClick={() =>disconnectfun() }
               >
-                <Text color="theme">
+                <Text color="theme" bold>
                   <SvgEdit width={14} height={14} /> Edit Configuration
                 </Text>
               </Button>
@@ -470,11 +483,16 @@ const IntegrationScreen = () => {
              <Text color="theme" style={{ marginTop: '1px' }}>
                {/* {email} */}vishalrupakvr@gmail.com
              </Text>
+             
+             {/* {modelopen===false&&
+                 Toast('Google calendar Integrated Successfully', 'MEDIUM')
+                } */}
              <Button
                className={styles.btn}
                onClick={() =>disconnectfun() }
              >
-               <Text color="theme">
+              
+               <Text color="theme" bold>
                  <SvgEdit width={14} height={14} /> Edit Configuration
                </Text>
              </Button>
@@ -640,6 +658,7 @@ const IntegrationScreen = () => {
                   </Button>
                 </span>
               </Flex>
+            
             </Flex>
           ) : (
             ''
@@ -692,6 +711,7 @@ const IntegrationScreen = () => {
                   </Button>
                 </span>
               </Flex>
+             
             </Flex>
           ) : (
             ''

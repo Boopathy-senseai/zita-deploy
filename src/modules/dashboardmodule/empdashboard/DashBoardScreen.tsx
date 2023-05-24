@@ -110,10 +110,99 @@ const DashBoardScreen = () => {
     return <Loader />;
   }
   return (
-    <Flex className={styles.overAll} height={window.innerHeight - flexHeight}>
+    //     <Flex className={styles.overAll} height={window.innerHeight - flexHeight} >
+    //       <Flex row center>
+
+    //         <div style={{ display: 'flex' }}>
+    //           {isEmpty(getFreeValue) &&
+    //             plan &&
+    //             plan.plan_id_id === 1 &&
+    //             plan.subscription_remains_days <= 7 && (
+    //               <Flex columnFlex>
+    //                 <Flex middle row center className={styles.warningFlex}>
+    //                   <SvgInfo fill={WARNING} />
+    //                   <Text
+    //                     size={12}
+    //                     bold
+    //                     color="warning"
+    //                     className={styles.warningText}
+    //                   >
+    //                     {`Your free trial ends in ${plan.subscription_remains_days
+    //                       } ${plan.subscription_remains_days === 1 ? 'day' : 'days'
+    //                       }. Please `}
+    //                     <Text size={12} bold color="link" onClick={manageUser}>
+    //                       upgrade{' '}
+    //                     </Text>
+    //                     to a paid plan to get uninterrupted access and enjoy more
+    //                     zita platform features along with your branded careers page.
+    //                   </Text>
+    //                 </Flex>
+    //               </Flex>
+    //             )}
+    //         </div>
+    //       </Flex>
+
+    //     <Flex >
+
+    //         <Flex row className={styles.ribbon}>
+    //           <Flex row between>
+
+    //             <Flex  marginTop={9} marginLeft={8} >
+    //                 <Text size={16}  bold color="theme" >
+    //                    Dashboard
+    //                 </Text>
+
+    //              </Flex>
+    //           <Flex marginLeft={1395}>
+
+    //              <div className={styles.triangle}></div>
+    //           </Flex>
+    //           </Flex>
+    //         </Flex>
+
+
+    //           <Flex row>
+    //             <Flex >
+    //               <ProfileCard></ProfileCard>
+    //             </Flex>
+    //             <Flex  flex={6}>
+    //               <Flex row>
+    //               <Flex marginLeft={5} marginTop={5} flex={1}>
+    //                 <OverallJobActivities></OverallJobActivities>
+    //               </Flex>
+
+    //               <Flex marginLeft={5} marginRight={5} marginTop={5} flex={5}>
+    //                 <MessageCard></MessageCard>
+    //               </Flex>
+    //               </Flex>
+
+    //               <Flex flex={6} marginLeft={5} marginTop={5}>
+    //                 <CalenderCard
+    //                   events={events}
+    //                   checkCalendar={checkCalendar}
+    //                   checkCalendarOutlook={checkCalendarOutlook}
+    //                   google={google}
+    //                   outlook={outlook}
+    //                 />
+    //               </Flex>
+    //             </Flex>
+    //           </Flex>
+    //           <Flex marginLeft={5} marginTop={5} marginRight={5} marginBottom={5}>
+    //             <JobMetricsCard />
+    //           </Flex>
+
+    //       </Flex>
+
+
+
+
+    //     </Flex>
+    //   );
+    // };
+    <Flex className={styles.overAll} height={window.innerHeight - flexHeight} >
       <Flex row center>
 
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex' ,marginBottom:"5px"}}>
           {isEmpty(getFreeValue) &&
             plan &&
             plan.plan_id_id === 1 &&
@@ -127,6 +216,7 @@ const DashBoardScreen = () => {
                     color="warning"
                     className={styles.warningText}
                   >
+                   
                     {`Your free trial ends in ${plan.subscription_remains_days
                       } ${plan.subscription_remains_days === 1 ? 'day' : 'days'
                       }. Please `}
@@ -142,76 +232,57 @@ const DashBoardScreen = () => {
         </div>
       </Flex>
 
-    <Flex >
-      
-        <Flex row className={styles.ribbon}>
-          <Flex row between>
-          
-            <Flex  marginTop={9} marginLeft={8} >
-                <Text size={16}  bold color="theme" >
-                   Dashboard
-                </Text>
-            
-             </Flex>
-          <Flex marginLeft={1397}>
+      <Flex >
 
-             <div className={styles.triangle}></div>
-          </Flex>
-          </Flex>
+        <Flex row className={styles.ribbon} between>
+          
+
+            <Flex marginTop={9} marginLeft={8} >
+              <Text size={16} bold color="theme" >
+                Dashboard
+              </Text>
+
+            </Flex>
+            <Flex >
+
+              <div className={styles.triangle}></div>
+            </Flex>
+          
         </Flex>
 
-         
-          <Flex row>
-            <Flex >
-              <ProfileCard></ProfileCard>
-            </Flex>
-            <Flex  flex={6}>
-              <Flex row>
-              <Flex marginLeft={5} marginTop={5} flex={1}>
+
+        <Flex row>
+          <Flex flex={5}>
+            <ProfileCard></ProfileCard>
+          </Flex>
+          <Flex flex={12}>
+            <Flex row>
+              <Flex marginLeft={5} marginTop={5} flex={5}>
                 <OverallJobActivities></OverallJobActivities>
               </Flex>
 
-              <Flex marginLeft={5} marginRight={5} marginTop={5} flex={5}>
+              <Flex  marginLeft={5} marginRight={5} marginTop={5} flex={15}>
                 <MessageCard></MessageCard>
               </Flex>
-              </Flex>
+            </Flex>
 
-              <Flex flex={6} marginLeft={5} marginTop={5}>
-                <CalenderCard
-                  events={events}
-                  checkCalendar={checkCalendar}
-                  checkCalendarOutlook={checkCalendarOutlook}
-                  google={google}
-                  outlook={outlook}
-                />
-              </Flex>
+            <Flex flex={15} marginLeft={5} marginTop={5}>
+              <CalenderCard
+                events={events}
+                checkCalendar={checkCalendar}
+                checkCalendarOutlook={checkCalendarOutlook}
+                google={google}
+                outlook={outlook}
+              />
             </Flex>
           </Flex>
-          <Flex marginLeft={5} marginTop={5} marginRight={5} marginBottom={5}>
-            <JobMetricsCard />
-          </Flex>
-        
+        </Flex>
+        <Flex marginLeft={5} marginTop={5} marginRight={5} marginBottom={5}>
+          <JobMetricsCard />
+        </Flex>
+
       </Flex>
-
-      {/* <ProfileCard />
-      <OverallJobActivities />
-      <Flex row marginTop={30} marginBottom={24}>
-        <Flex marginRight={10} flex={6}>
-          <MessageCard />
-        </Flex>
-        <Flex marginLeft={10} flex={6}>
-          <CalenderCard
-            events={events}
-            checkCalendar={checkCalendar}
-            checkCalendarOutlook={checkCalendarOutlook}
-            google={google}
-            outlook={outlook}
-          />
-        </Flex>
-      </Flex> */}
-
-
-    </Flex>
+</Flex>
   );
 };
 

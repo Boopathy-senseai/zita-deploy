@@ -4,8 +4,9 @@ import { AppDispatch, RootState } from '../../../store';
 import Card from '../../../uikit/Card/Card';
 import Flex from '../../../uikit/Flex/Flex';
 import SvgJobtitle from '../../../icons/SvgJobtitle';
+import SvgCalendaricon from '../../../icons/SvgCalendaricon';
 import SvgLocation from '../../../icons/SvgLocation';
-import SvgPosting from '../../../icons/SvgPosting';
+// import SvgPosting from '../../../icons/SvgPosting';
  import SvgJobPost from '../../../icons/SvgJobPost';
  import SvgJobselection from '../../../icons/SvgJobselection';
  import SvgLocationjobpost from '../../../icons/SvgLocationjobpost';
@@ -151,7 +152,7 @@ const JobMetricsCard = () => {
               </Flex>
               <Flex row center marginRight={16}>
                   <Flex >
-                  <SvgJobPost fill={PRIMARY}></SvgJobPost>
+                  <SvgCalendaricon fill={PRIMARY}></SvgCalendaricon>
                   </Flex>
                
                 <Text align='center' style={{marginLeft:"5px"}} >
