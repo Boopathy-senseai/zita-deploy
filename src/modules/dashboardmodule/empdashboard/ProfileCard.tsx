@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import { useFormik } from 'formik';
 import PhoneInput from 'react-phone-input-2';
 import { useState, useEffect } from "react";
@@ -7,17 +8,22 @@ import SvgCompany from '../../../icons/SvgCompany';
 import SvgNewTab from '../../../icons/SvgNewTab';
 import SvgMail from '../../../icons/SvgMail';
 import SvgLocation from '../../../icons/SvgLocation';
+import { AppDispatch, RootState } from '../../../store';
 import SvgSubscription from '../../../icons/SvgSubscription';
 
 import SvgDot from '../../../icons/SvgDot';
-
+import {
+  locationCityMiddleWare,
+  locationStateMiddleWare,
+  locationMiddleWare,
+} from '../../createjdmodule/store/middleware/createjdmiddleware';
 import SvgCreditsavailable from '../../../icons/SvgCreditsavailable';
 import SvgCredits from '../../../icons/SvgCredits';
 import SvgLocationicon from '../../../icons/SvgLocationicon';
 import SvgMobile from '../../../icons/SvgMobile';
 import SvgGlobe from '../../../icons/SvgGlobe';
 
-import { RootState } from '../../../store';
+// import { RootState } from '../../../store';
 import Button from '../../../uikit/Button/Button';
 import Card from '../../../uikit/Card/Card';
 import { BLACK, PRIMARY } from '../../../uikit/Colors/colors';
@@ -26,13 +32,14 @@ import { getDateString, isEmpty, unlimitedHelper } from '../../../uikit/helper';
 import LinkWrapper from '../../../uikit/Link/LinkWrapper';
 import Text from '../../../uikit/Text/Text';
 import { mediaPath } from '../../constValue';
-import { locationStateMiddleWare } from '../../createjdmodule/store/middleware/createjdmiddleware';
+
 import styles from './profilecard.module.css';
+import { CountryEntity, StateEntity, CityEntity } from './Companytype';
 
 
 
 const ProfileCard = () => {
-
+  const dispatch: AppDispatch = useDispatch();
   const {
     company_name,
     logo,
@@ -55,11 +62,13 @@ const ProfileCard = () => {
  cityid,
  stateid,
  countryid,
+ countryidfin,
     
     
-  } = useSelector(({ dashboardEmpReducers, permissionReducers, companyPageReducers }: RootState) => {
+  } = useSelector(({ dashboardEmpReducers, permissionReducers, companyPageReducers,locationReducers  }: RootState) => {
     return {
       company:companyPageReducers,
+      countryidfin: locationReducers.country, 
       weburl:companyPageReducers.company_detail.company_website,
       datafin:companyPageReducers,
       address: companyPageReducers.company_detail.address,
@@ -80,7 +89,7 @@ const ProfileCard = () => {
       super_user: permissionReducers.super_user,
       stateid:companyPageReducers.company_detail.state_id,
       cityid:companyPageReducers.company_detail.city_id,
-      countryid:companyPageReducers.company_detail.city_id,
+      countryid:companyPageReducers.company_detail.country_id,
     };
   });
  
@@ -93,33 +102,118 @@ const ProfileCard = () => {
     sessionStorage.removeItem('superUserFalseTab');
   };
   
-  const [state,setstate]=useState("");
-  const [city,setcity]=useState("");
-  const [country,setcountry]=useState("");
- 
+  const [isGetCountry, setCountry] = useState<CountryEntity[]>([]);
+  const [getState, setState] = useState<StateEntity[]>([]);
+  const [getCity, setCity] = useState<CityEntity[]>([]);
+
+
+//   useEffect(() => {
+//     if (company!==null) {
+//       setState(company.state);
+//       setCity(company.city);
+//       setCountry(company.country);
+// }
+//   }, [company]);
+useEffect(() => {
+ // dispatch(companyPageInitalMiddleWare());
+  dispatch(locationMiddleWare({}));
+}, []);
+
+useEffect(() => {
+  if (countryidfin && countryidfin.length !== 0) {
+    setCountry(countryidfin);
+  }
+}, [countryidfin]);
   useEffect(() => {
+    if (!isEmpty(countryid)) {
+      dispatch(
+        locationStateMiddleWare({
+          country: countryid.toString(),
+        }),
+      ).then((res) => {
+        if (res.payload.states && res.payload.states.length !== 0) {
+          setState(res.payload.states);
+        }
+      });
+    }
+  }, [countryid]);
+  useEffect(() => {
+    if (!isEmpty(stateid)) {
+      dispatch(
+        locationCityMiddleWare({ state: stateid.toString() }),
+      ).then((res) => {
+        if (res.payload.city && res.payload.city.length !== 0) {
+          setCity(res.payload.city);
+        }
+      });
+    }
+  }, [stateid]);
+
+  const [state,setstate]=useState("");
+  const[city,setcity]=useState("");
+  const [country,setcountry]=useState("");
+  useEffect(() => {
+    
     addresshand()
-  }, [company]);
+    statehand()
+  }, [getCity,getState,isGetCountry]);
 
     function  addresshand (){
-       if(stateid!==0&&cityid!==0&&countryid!==0&&company!==null) {
-       
-    setstate(company.state.filter((obj) => obj.id === stateid)[0].name);
-    setcity(company.city.filter((obj)=>obj.id===cityid)[0].name);
-    setcountry(company.country[0].name);
-  }
+      if(getCity.length!==0||isGetCountry.length!==0){
+       if(getCity.find(((option) => (option.id) === (cityid)))!==undefined||""||null&&getState.find((option) => (option.id) === (stateid)).name!==undefined||null||""&&isGetCountry.find((option)=>(option.id)===countryid)!==undefined) {
+       {
+        {setcity(getCity.find((option) => (option.id) === (cityid)).name)}
+      
+        {setcountry(isGetCountry.find((option)=>(option.id)===countryid).name)}
+        
+  }}}
+    }
 
+    function statehand(){
+      if(getState.length!==0)
+      {
+        console.log("notempty",getState.length)
+        {setstate(getState.find((option) => (option.id) === (stateid)).name)}
+      }
+    }
     
-  }
+  // }
+  // useEffect(() => {
+  //   addressHandler();
+  // }, [company]);
 
- 
+  // function addressHandler() {
+  //   console.log("valuecheak",company);
+  //   if (stateid !== null && cityid !== 0 && countryid !== 0 && company !== null) {
+  //     const selectedState = company.state.filter((obj) => obj.id === stateid);
+  //     console.log("valuecheak",selectedState);
+  //     const selectedCity = company?.city?.find((obj) => obj.id === cityid);
+  //     console.log("valuecheak",selectedCity);
+  //     const selectedCountry = company?.country?.[0];
+      
+    
+  //     setcity(selectedCity?.name || "");
+  //     setcountry(selectedCountry?.name || "");
+  //   }
+  // }
+
+{
+  console.log("filterstate::",getState)
+  console.log("countryid",countryid)
+//   const filtered = getCity.filter(obj => {
+//   return obj.id === cityid;
+// });
+// console.log("filter",filtered)
+  //console.log("cityname",getCity.find((option) => (option.id) === (cityid)).name)}{
+  //console.log("statename",getState.find((option) => (option.id) === (stateid)).name)}
+}
   return (
 
 
 
 
     <Flex marginLeft={5} marginTop={10}>
-    {console.log("companypagereducer,",company)}
+    {console.log("countryfin",isGetCountry)}
       <Card className={styles.profileCardMain}>
         <Flex marginLeft={140} marginTop={15} center>
     
@@ -237,14 +331,14 @@ const ProfileCard = () => {
               </Flex>
 
             </Flex>
-
+{console.log("error",getState)}
             <Flex row>
               <Flex marginTop={5}>
                 <Text >
                   Job:
                 </Text >
               </Flex>
-
+{/* {console.log("filtercity::",getCity.find((option) => (option.id) === (cityid)).name)} */}
               <Flex marginLeft={5} marginTop={5}>
                 <Text style={{ color: 'black'}}className={styles.textoverflow1}>{unlimitedHelper(job_count)}
                 </Text>
@@ -453,11 +547,12 @@ const ProfileCard = () => {
           </Flex>
           <Flex marginTop={16}>
 
-            {console.log("sdsdsd",address)}
 
             {address !== "" ? <Flex row><Flex marginRight={1} ><SvgLocationicon height={30} width={30} fill={BLACK} /></Flex>
-              <Flex  marginLeft={4}>{address},{city},{state},{country},{zipcode}
-
+              <Flex  marginLeft={4}>{address}
+              ,{city},{state},{country}
+              ,{zipcode}
+             
               </Flex></Flex> :
               <Flex row >
                 <Flex marginRight={5}>
