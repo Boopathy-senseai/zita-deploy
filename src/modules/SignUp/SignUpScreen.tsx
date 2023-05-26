@@ -1,4 +1,4 @@
-import { useFormik } from 'formik';
+import { Field, useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -42,7 +42,9 @@ import styles from './signupscreen.module.css';
 import { SignUpPayLoad } from './signupTypes';
 import {
   signUpMiddleWare,
-  userNameMiddleWare,
+ // userNameMiddleWare,
+  signupGetMiddleWare,
+  
 } from './store/middleware/signupMiddleWare';
 //import VerificationSuccessfully from './VerificationSuccessfully';
 
@@ -70,12 +72,17 @@ const SignUpScreen = (props: any) => {
   const [isUserNameValid, setUserNameValid] = useState(false);
   const [isVerification, setVerification] = useState(false);
   const [isShowNewPass, setShowNewPass] = useState(false);
+  const [ispassword, setpassword] = useState(false);
   //const [passerror, setpasserror] = useState('');
   const [isShowChangePass, setShowChnagePass] = useState(false);
   const [show, setshow] = useState(false);
+  const [name, setname] = useState(false);
+  const [nameemail, setnameemail] = useState(false);
+  const [namevalid, setnamevalid] = useState(false);
 
   const hanldeSubmit = (values: SignUpPayLoad) => {
     setLoader(true);
+    
     dispatch(
       signUpMiddleWare({
         email: values.email,
@@ -97,16 +104,22 @@ const SignUpScreen = (props: any) => {
         setshow(true);
         Toast('Verification email sent successfully');
       } else {
-        console.log('faild', res);
+       
+        formik.errors.password2 ="The password is too similar to the username.";
+        setLoader(false);
+         setpassword(true)
+         
+         console.log('faild', res);
       }
     });
   };
 
   const handleValid = (values: SignUpPayLoad) => {
     const errors: Partial<SignUpPayLoad> = {};
-    // if (!isEmpty(values.email) && isEmailValid) {
-    //   errors.email = `This domain is already in use.`;
-    // }
+   
+    if (!isEmpty(values.email) && isEmailValid  ) {
+      errors.email = " ";
+    }
     if (!isEmpty(values.email) && !mailformat.test(values.email)) {
       errors.email = 'Please enter a valid email address.';
     }
@@ -119,32 +132,36 @@ const SignUpScreen = (props: any) => {
     }
     if (isEmpty(values.email)) {
       errors.email = THIS_FIELD_REQUIRED;
+     
     }
+    if (isEmpty(values.username)) {
+       errors.username = THIS_FIELD_REQUIRED;
+     }
 
     if(values.terms_and_conditions === '0'){
       errors.terms_and_conditions = THIS_FIELD_REQUIRED;
     }
 
-  //   if (formik.values.terms_and_conditions==='0') {
-  //     errors.terms_and_conditions = THIS_FIELD_REQUIRED;
-  //   // console.log("hello")
-  //  }
-  //    else {
-  //     errors.terms_and_conditions ="";
-  //   }
     if (values.password1 !== values.password2) {
       // setpasserror("The two password fields didn't match.");
       errors.password2 = ``;
     }
-
+  //   if(ispassword){
+  //   formik.errors.password2 = "The password is too similar to the username.";
+  //  }
     if (!isEmpty(values.username) && usernameNumberCase.test(values.username)) {
-      errors.username = 'username must not start with number ';
-    } else if (!isEmpty(values.username) && !nameRegex.test(values.username)) {
-      errors.username = 'Username must be 4-16 including number ';
+      errors.username = ' ';
     }
-    if (!isEmpty(values.username) && isUserNameValid) {
-      errors.username = `Username already exist.`;
+    if (!isEmpty(values.username) && !nameRegex.test(values.username)) {
+      console.log("1");
+      errors.username = ' ';
     }
+  //  console.log(!nameRegex.test(values.username))
+
+    if (!isEmpty(formik.values.username)&& isUserNameValid ) {
+      errors.username = ``;
+    }
+
     if (isEmpty(values.first_name.trim())) {
       errors.first_name = 'Enter a valid name';
     }
@@ -172,6 +189,7 @@ const SignUpScreen = (props: any) => {
     ) {
       errors.password1 = '';
     }
+    
     return errors;
   };
   const SignupSchema = Yup.object().shape({
@@ -204,31 +222,56 @@ const SignUpScreen = (props: any) => {
     onSubmit: hanldeSubmit,
     validate: (value) => handleValid(value),
     validationSchema: SignupSchema,
+    
   });
 
   useEffect(() => {
-    dispatch(emailMiddleWare({ email: formik.values.email })).then((res) => {
+
+
+   
+    dispatch(signupGetMiddleWare({ email: formik.values.email })).then((res) => {
       if (res.payload.success === true) {
-        setEmailValid(true);
+        setEmailValid(false);
+       
       }
       if (res.payload.success === false) {
-        setEmailValid(false);
+        setEmailValid(true);
+        // formik.errors.email = "This domain is already in use.";
+       
       }
+  
     });
+  
   }, [formik.values.email]);
 
   useEffect(() => {
-    dispatch(userNameMiddleWare({ username: formik.values.username })).then(
+    dispatch(signupGetMiddleWare({ username: formik.values.username })).then(
       (res) => {
         if (res.payload.success === true) {
-          setUserNameValid(true);
+          setUserNameValid(false);
         }
         if (res.payload.success === false) {
-          setUserNameValid(false);
+         
+          setUserNameValid(true);
+          // formik.errors.username="Username already exist."
         }
       },
     );
   }, [formik.values.username]);
+  // useEffect(() => {
+  //   dispatch(signupGetMiddleWare({password1:formik.values.password1 })).then(
+  //     (res) => {
+  //       if (res.payload.success === true) {
+  //         setpassword(false)
+  //       }
+  //       if (res.payload.success === false) {
+  //         console.log("is i am there");
+  //         setpassword(true)
+  //       }
+  //     },
+  //   );
+  // }, [formik.values.password1]);
+
 
   //  useEffect(() => {
   //   const errors: Partial<SignUpPayLoad> = {};
@@ -264,6 +307,8 @@ const SignUpScreen = (props: any) => {
     !isEmpty(formik.values.password1) && !space.test(formik.values.password1);
 
   const checkpwd = !checkOne && !checkTwo && !isCheckThre && !checkFour;
+
+  const hello=!isEmpty(formik.values.username)
   
     const isValid =
     checkOne === false &&
@@ -289,10 +334,63 @@ const SignUpScreen = (props: any) => {
       
     }
   }
+  const emtysp=space.test(formik.values.password1)
+
+const handlefunction=()=>{
+  if(!isEmpty(formik.values.username) && usernameNumberCase.test(formik.values.username)){
+    return <>
+     <div style={{color:"#f94949",fontSize:'12px'}}>username must not start with number.</div>
+     </>
+  }
+
+  if(isUserNameValid === true &&!isEmpty(formik.values.username) && nameRegex.test(formik.values.username)){
+    return <>
+     <div style={{color:"#f94949",fontSize:'12px'}}>Username already exist.</div>
+     </>
+  }
+  if(!isEmpty(formik.values.username) && !nameRegex.test(formik.values.username)){
+    return <>
+     <div style={{color:"#f94949",fontSize:'12px'}}>Username must be 4-16 including number.</div>
+     </>
+  }
+  // if(isEmpty(formik.values.username)&& name) {
+  //   return <>
+  //    <div style={{color:"#f94949",fontSize:'12px'}}>This field is required.</div>
+  //    </>
+    
+  //   // formik.errors.username=THIS_FIELD_REQUIRED;
+  // }
+ 
+ 
+}
+const handlefunction1=()=>{
+
+  if(isEmailValid=== true &&!isEmpty(formik.values.email)  ){
+    return <>
+     <div style={{color:"#f94949",fontSize:'12px'}}>This domain is already in use.</div>
+     </>
+  }
+  
+  // if(isEmpty(formik.values.email)&& namevalid){
+  //   return <>
+  //    <div style={{color:"#f94949",fontSize:'12px'}}>This field is required.</div>
+  //    </>
+  // }
+}
+const handlefunction2=()=>{
+  if(!emtysp &&!isEmpty(formik.values.password1)  ){
+    // return <>
+    //  <div style={{color:"#f94949",fontSize:'12px'}}>Space is not a charecter.</div>
+    //  </>
+    formik.errors.password1 = "Space is not a character.";
+    
+  }
+}
+
+
   return (
     <>
-      {console.log(formik.values.terms_and_conditions)}
-
+          {console.log(name,namevalid)}
       {isLoader && <Loader />}
       <Flex className={styles.row} height={window.innerHeight}>
         {/* {isVerification ? (
@@ -304,59 +402,59 @@ const SignUpScreen = (props: any) => {
               <Text size={20} className={styles.title}>
                 Hello, Welcome to Zita
               </Text>
-              <Text className={styles.text}>
-                Try our full hiring platform with no credit card required
+              <Text className={styles.text} style={{marginRight:'10px'}}>
+              Experience our AI-Powered recruitment ATS with enhanced features to streamline your hiring process.
               </Text>
 
               <Text size={14} className={styles.free_trail}>
-                Your free trail includes access to:
+                {"Zita's standout features for hiring top talent."}
               </Text>
               <Flex className={styles.margin}>
                 <div className="row">
                   <div className="col">
                     <ul>
-                      <li>Hiring & Applicant Tracking </li>
+                      <li>Job Creation & Posting </li>
                     </ul>
                   </div>
                   <div className="col">
                     <ul>
-                      <li>Onboarding & Off-boarding </li>
-                    </ul>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col">
-                    <ul>
-                      <li>Paid Time Off </li>
-                    </ul>
-                  </div>
-                  <div className="col">
-                    <ul>
-                      <li>Time Tracking </li>
+                      <li>Candidate Database Management </li>
                     </ul>
                   </div>
                 </div>
                 <div className="row">
                   <div className="col">
                     <ul>
-                      <li>Performance Management </li>
+                      <li>7Million+ External Resume Access </li>
                     </ul>
                   </div>
                   <div className="col">
                     <ul>
-                      <li>Benefits Tracking </li>
+                      <li>Customizable Career Page</li>
                     </ul>
                   </div>
                 </div>
                 <div className="row">
                   <div className="col">
                     <ul>
-                      <li>Employee Database </li>
+                      <li>Human like AI Matching </li>
                     </ul>
                   </div>
                   <div className="col">
                     <ul>
-                      <li>Reporting & Analytics</li>
+                      <li>Customizable Kanban Hiring Board </li>
+                    </ul>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col">
+                    <ul>
+                      <li>Collaborate & Hire </li>
+                    </ul>
+                  </div>
+                  <div className="col">
+                    <ul>
+                      <li>Reports & Analysis</li>
                     </ul>
                   </div>
                 </div>
@@ -456,22 +554,15 @@ const SignUpScreen = (props: any) => {
                           onKeyPress={allowAlphaNumericSpace}
                           value={formik.values.username}
                           onChange={formik.handleChange('username')}
+      
                         />
+                        {handlefunction()}
                         <ErrorMessage
                           name={'username'}
                           errors={formik.errors}
                           touched={formik.touched}
                         />
-                        {/* {!isEmpty(formik.values.username) &&
-                          !isEmpty(formik.values.username) && (
-                            <OnChangeErrors
-                              message="username be between 4-12 characters"
-                              error={
-                                formik.values.username.length < 8 ||
-                                formik.values.username.length > 12
-                              }
-                            />
-                          )} */}
+                       
                       </Flex>
                     </div>
                     <div className="col">
@@ -484,11 +575,13 @@ const SignUpScreen = (props: any) => {
                           value={formik.values.email}
                           onChange={formik.handleChange('email')}
                         />
+                        {handlefunction1()}
                         <ErrorMessage
-                          name={'email'}
-                          errors={formik.errors}
-                          touched={formik.touched}
-                        />
+                        name={'email'}
+                        errors={formik.errors}
+                        touched={formik.touched}
+                      />
+                       
                       </Flex>
                     </div>
                   </div>
@@ -521,7 +614,8 @@ const SignUpScreen = (props: any) => {
                           errors={formik.errors}
                           touched={formik.touched}
                         />
-                        {!checkpwd&&!isEmpty(formik.values.password1) && isValid && (
+                        {handlefunction2()}
+                        {!checkpwd&&!isEmpty(formik.values.password1)&& emtysp && isValid && (
                           <Flex>
                             <ErrorMessages
                               message="password must contain at least one uppercase."
@@ -622,25 +716,28 @@ const SignUpScreen = (props: any) => {
                         </a>
                       </Text>
                     </div>
+                    <div style={{marginLeft:'10px'}}>
                     <ErrorMessage
                       name={'terms_and_conditions'}
                       errors={formik.errors}
                       touched={formik.touched}
-                    />                
+                    />    
+                    </div>            
                    
                     <Button
                       className={styles.login_button}
                       // disabled={formik.values.terms_and_conditions === '0'}
                       onClick={formik.handleSubmit}
                     >
-                      SignUp
+                      Signup
                     </Button>
                   </Flex>
+                
 
                   <Flex middle className={styles.account_link} row>
-                    Already have an Account ?{' '}
+                    Already have an account ?{' '}
                     &nbsp;
-                    <u >
+                    <u style={{textDecoration:'none'}}>
                       <Link to="/login" style={{fontWeight:"bold"}}> Login </Link>
                     </u>
                   </Flex>
@@ -648,14 +745,15 @@ const SignUpScreen = (props: any) => {
               ) : (
                 <>
                   <Flex className={styles.successform_body}>
-                    <Flex middle className={styles.text_margin} style={{marginTop:'45px'}}>
+                  <Flex >
+                    <Flex middle className={styles.text_margin} style={{marginTop:'115px'}}>
                       <SvgVerificationEmailIcon fill={'#581845'} />
                     </Flex>
                     <Flex column-middle>
                     <Text size={22} bold className={styles.verificationtext}>
                       Verification email sent successfully
                     </Text>
-                    <Text size={16} className={styles.messages} style={{justifyContent:'center',marginBottom:'82px'}}>
+                    <Text size={16} className={styles.messages} style={{justifyContent:'center',marginBottom:'135px'}}>
                       Please click on the verification link sent to your email
                       id to complete the registration. In case you are not able
                       to find our mail, please check the spam folder.
@@ -668,6 +766,7 @@ const SignUpScreen = (props: any) => {
                       >
                         Ok
                       </Button>
+                    </Flex>
                     </Flex>
                   </Flex>
                 </>

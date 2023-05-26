@@ -1,5 +1,6 @@
 import { FormikProps } from 'formik';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import SvgView from '../../icons/SvgView';
 import Button from '../../uikit/Button/Button';
 import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
@@ -10,6 +11,7 @@ import Text from '../../uikit/Text/Text';
 import { checkUpperCase, specialCharacter } from '../constValue';
 //import Logo from '../../assets/images/logo.png';
 import SvgZitaLogo from '../../icons/SvgZitaLogo';
+import SvgLocktick from '../../icons/SvgLocktick';
 import Forgot from '../../assets/images/Passwordupdate.png';
 import SvgLock from '../../icons/SvgLock';
 //import { home } from '../../appRoutesPath';
@@ -100,23 +102,30 @@ const SetNewPassword = ({
           <Flex className={styles.center_aligh}>
             {isSuccess && (
               <>
+              <Flex middle className={styles.logo}>
+              <SvgLocktick width={24} height={24} />
+              </Flex>
                 <Text
-                  size={20}
                   bold
+                  size={22}
                   align="center"
                   color="theme"
-                  style={{ margin: '8px 0' }}
+                  style={{ marginTop:'20px' }}
                 >
-                  Your password has changed successfully.
+                  Password Changed!
                 </Text>
 
                 <Flex center row middle>
-                  <Text color="theme" style={{ marginRight: 2 }}>
-                    Click here to
+                  <Text color="theme" style={{ marginRight: '-111px',marginTop:'20px' }}>
+                  Your password has been changed successfully. Please login with your new password
                   </Text>
-                  <LinkWrapper to={loginAuth}>
-                    <Button types="link">Login</Button>
-                  </LinkWrapper>
+                  <Button
+                  style={{right:'43%',bottom:'-46px'}}
+                  className={styles.button}
+                  onClick={() => window.location.replace('/')}
+                >
+                  Login
+                </Button>
                 </Flex>
               </>
             )}
@@ -161,6 +170,7 @@ const SetNewPassword = ({
                       </Button>
                     )}
                   />
+                  <div style={{height:'4px'}}></div>
                   {!isEmpty(formik.values.newPass) && isValid && (
                     <Flex columnFlex>
                       <ErrorMessages
@@ -208,17 +218,18 @@ const SetNewPassword = ({
                       </Button>
                     )}
                   />
-                  <ErrorMessage
+                  <div style={{height:'4px'}}></div>
+                  {!isEmpty(formik.values.changePass)&&(<ErrorMessage
                     name="changePass"
                     errors={formik.errors}
                     touched={formik.touched}
-                  />
+                  />)}
 
                   <Button
                     className={styles.login_button}
                     onClick={formik.handleSubmit}
                   >
-                    Save
+                    Change
                   </Button>
                 </div>
               </>
@@ -234,16 +245,17 @@ const SetNewPassword = ({
 
             {user_not_found !== true && success === false && (
               <Flex middle center flex={1} height={'50%'}>
-                <Text align="center" color="theme" size={20}>
+                <Text align="center" color="theme" size={14}>
                   Your password reset link has already been used or expired.
                 </Text>
-
-                <Button
-                  className={styles.button}
-                  onClick={() => window.location.replace('/')}
-                >
-                  Login
-                </Button>
+              <div style={{marginLeft:'40%'}}>
+              <Button
+              className={styles.button}
+              onClick={() => window.location.replace('/')}
+            >
+              Login
+            </Button>
+              </div>
               </Flex>
             )}
           </Flex>

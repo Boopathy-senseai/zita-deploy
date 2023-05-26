@@ -23,6 +23,7 @@ export type forgotFormProps = {
 };
 
 type Props = {
+  handlefunction1?:()=>void;
   forgotFormik: FormikProps<forgotFormProps>;
   handleForgotClose: () => void;
   setEmailValid: (arg: boolean) => void;
@@ -31,6 +32,7 @@ type Props = {
 };
 
 const ForgotPassword = ({
+  handlefunction1,
   forgotFormik,
   handleForgotClose,
   setEmailValid,
@@ -51,6 +53,9 @@ Props) => {
       },
     );
   }, [forgotFormik.values.forgotEmail]);
+
+  
+
   return (
     <>
       {console.log(show, setshow)}
@@ -62,7 +67,7 @@ Props) => {
               <SvgLeft height={15} width={15} />
             </Button>
 
-            <div className={styles.container}>
+            <div className={styles.container} >
               {ResetSuccess === true ? (
                 <>
                   <Flex middle center>
@@ -77,33 +82,25 @@ Props) => {
                   <Flex className={styles.text_margin}>
                     <Text size={18} className={styles.error_content}>
                       <ul style={{ marginLeft: '50px' }}>
-                        <li>
+                        <li style={{ listStyleType: "none",textAlign:"center",marginLeft:'-48px' }}>
                           A link to reset your password has been sent to your
-                          registered email.
-                        </li>
-                      </ul>
-                    </Text>
-                  </Flex>
-                  <Flex>
-                    <Text size={18} className={styles.error_content}>
-                      <ul style={{ marginLeft: '50px' }}>
-                        <li>
-                          Please check your spam folder if you haven’t received
+                          registered email.Please check your spam folder if you haven’t received
                           it in 3-5 minutes.
                         </li>
                       </ul>
                     </Text>
                   </Flex>
+                 
                 </>
               ) : (
                 <>
                   <Flex middle>
-                    <Text size={20} className={styles.text} bold>
+                    <Text size={20} className={styles.text} bold style={{marginRight:'150px'}}>
                       Forgot your password?
                     </Text>
                   </Flex>
                   <Flex middle>
-                    <Text className={styles.verify_name}>
+                    <Text className={styles.verify_name} style={{marginLeft:'66px',marginRight:'-5px'}}>
                       Please enter your registered email id to receive the
                       password reset link.
                     </Text>
@@ -124,7 +121,7 @@ Props) => {
                       )}
                     />
                   </div>
-
+                  {handlefunction1()}
                   <Flex className={styles.error_msg}>
                     <ErrorMessage
                       name="forgotEmail"

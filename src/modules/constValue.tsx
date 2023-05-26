@@ -73,7 +73,8 @@ export const checkUpperCase = /^(?=.*[A-Z])/;
 export const specialCharacter = /^(?=.*[@$!%*?&])/;
 export const domainValidation =
   /^([\w-.]+@(?!gmail\.com)(?!yahoo\.com)(?!hotmail\.com)(?!outlook\.com)(?!protonmail\.com)(?!live\.com)(?!mail\.com)(?!email\.com)(?!inbox\.com)([\w-]+.)+[\w-]{1,4})?$/;
-export const nameRegex = /^[a-z0-9\-\_]+$/;
+export const nameRegex = /^[a-zA-Z0-9]{4,16}$/;
+export const namespace=/^\s+/;
 export const fileAccept = ['.doc', '.docx', '.pdf', '.txt'];
 export const imageFileAccept = [
   '.jpg',

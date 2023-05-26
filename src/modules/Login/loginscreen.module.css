@@ -148,7 +148,7 @@ a:hover {
 }
 
 .passwordicon {
-  top: 24px;
+  top: 25px;
   left: 0px;
 }
 
@@ -182,4 +182,7 @@ a:hover {
 
 .logo {
   margin-top: 20px;
+}
+.error_msg {
+  margin-top: 4px;
 }

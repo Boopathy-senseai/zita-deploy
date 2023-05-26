@@ -54,10 +54,10 @@ const LoginScreen = () => {
       errors.forgotEmail = THIS_FIELD_REQUIRED;
     }
     if (!isEmpty(values.forgotEmail) && isEmailValid) {
-      errors.forgotEmail = `This email is not registered with Zita`;
+      errors.forgotEmail = '';
     }
     if (!isEmpty(values.forgotEmail) && !mailformat.test(values.forgotEmail)) {
-      errors.forgotEmail = PLEASE_ENTER_VALID_MAIL;
+      errors.forgotEmail = '';
     }
     return errors;
   };
@@ -140,6 +140,26 @@ const LoginScreen = () => {
     });
   };
 
+  const handlefunction1=()=>{
+
+    if(!isEmpty(forgotFormik.values.forgotEmail) && !mailformat.test(forgotFormik.values.forgotEmail)){
+      return <>
+      {console.log("valid")}
+       <div style={{color:"#f94949",fontSize:'12px',marginLeft:'66px',marginTop:'4px'}}>Please enter a valid email address.</div>
+       </>
+       
+    }
+
+    if(!isEmpty(forgotFormik.values.forgotEmail) && isEmailValid){
+      return <>
+      {console.log("register")}
+       <div style={{color:"#f94949",fontSize:'12px',marginLeft:'66px',marginTop:'4px'}}>This email is not registered with Zita.</div>
+       </>
+    }
+    
+    
+  }
+
   // if (isLoading) {
   //   return <Loader />;
   // }
@@ -168,6 +188,7 @@ const LoginScreen = () => {
 
         {isForgot && (
           <ForgotPassword
+            handlefunction1={handlefunction1}
             forgotFormik={forgotFormik}
             handleForgotClose={handleForgotClose}
             setEmailValid={setEmailValid}

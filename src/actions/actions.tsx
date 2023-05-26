@@ -3,6 +3,7 @@ export const API_AUTH_login = 'auth/auth_login';
 export const PASSWORD_RESET = 'auth/password_reset_request';
 export const PASSWORD_RESET_VALID = 'auth/password_reset_request_valid';
 export const SIGNUP_RECRUITER = 'auth/signup_recruiter';
+export const SIGN_GETRECRUITER='auth/signup_getrecruiter';
 export const PASSWORD_SET = 'auth/password_set_request';
 export const API_USER = 'user/user';
 export const PERMISSION = 'user/permission';

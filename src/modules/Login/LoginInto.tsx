@@ -48,7 +48,7 @@ Props) => {
       <Flex className={styles.row}>
         <Flex className={styles.splitrow_1}>
           <Flex className={styles.center_aligh}>
-            <Text size={22} className={styles.Log_title} bold>
+            <Text size={22} className={styles.Log_title} bold >
               Welcome Back!
             </Text>
             <Text className={styles.text}>
@@ -70,7 +70,7 @@ Props) => {
                     </Button>
                   )}
                 />
-
+                <div style={{marginTop:'4px'}}></div>
                 <ErrorMessage
                   name="userName"
                   touched={formik.touched}
@@ -102,7 +102,7 @@ Props) => {
                   )}
                   onKeyPress={(e) => enterKeyPress(e, formik.handleSubmit)}
                 />
-
+                    <div style={{marginTop:'4px'}}></div>
                 <ErrorMessage
                   name="email"
                   touched={formik.touched}
@@ -114,7 +114,7 @@ Props) => {
                     Your username or password is incorrect. Try again.
                   </Text>
                 )}
-                {isInactive && (
+                {!isEmpty(formik.values.email)&& isInactive && (
                   <Text size={12} color="error">
                     This account is inactive
                   </Text>
@@ -140,9 +140,9 @@ Props) => {
             <hr />
             <Flex middle>
               <Text className={styles.text_account}>
-                Don`t have an Account ?{' '}
-                <u>
-                  <Link to="/recruiter/1" style={{fontWeight:"bold"}}>Sign Up</Link>
+                Don`t have an account ?{' '}
+                <u style={{textDecoration:'none'}}>
+                  <Link to="/recruiter/1" style={{fontWeight:"bold"}}>Signup</Link>
                 </u>
               </Text>
             </Flex>
