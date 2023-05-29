@@ -400,7 +400,7 @@ const NotesTab = ({ isMeeting }: Props) => {
             })
             .reverse()}
       </Flex>
-      {isLoad && <Loader />}
+      {/* {isLoad && <Loader />}
       {isMeeting && (
         <Flex columnFlex>
           <Flex row center>
@@ -466,7 +466,7 @@ const NotesTab = ({ isMeeting }: Props) => {
             isLoader={calenderLoader}
           />
         </Flex>
-      )}
+      )} */}
     </Flex>
   );
 };
