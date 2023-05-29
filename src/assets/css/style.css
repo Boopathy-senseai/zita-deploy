@@ -539,7 +539,8 @@ small {
 }
 
 input:disabled {
-  background-color: rgba(88, 24, 69, 0.05);
+ color:hsl(0, 0%, 20%);
+ opacity: 0.5;
 }
 
 .label {
@@ -703,7 +704,7 @@ input:-webkit-autofill:active {
 
 /* Tab Style */
 .nav-tabs {
-  border-bottom: 1px solid #dfdfdf;
+  /* border-bottom: 1px solid #dfdfdf; */
   box-sizing: border-box;
 }
 
@@ -713,7 +714,7 @@ input:-webkit-autofill:active {
   background-color: #ffffff;
   font-size: 14px;
   font-weight: bold;
-  box-sizing: border-box !important;
+  /* box-sizing: border-box !important; */
   border-bottom: 3px solid #581845;
 }
 
@@ -721,9 +722,10 @@ input:-webkit-autofill:active {
   font-family: 'Roboto', sans-serif;
   font-size: 14px;
   margin-bottom: 0px;
-  /* border: 0px solid transparent; */
+  border: 0px solid transparent;
   /* font-weight: bold; */
   color: #000;
+  padding: none !important;
 }
 
 /* REACT BIG CALENDAR OVERRIDE */

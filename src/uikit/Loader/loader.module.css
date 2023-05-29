@@ -12,6 +12,9 @@
   position: absolute;
   display: grid;
 }
+.loadertext{
+  margin-left: 5px;
+}
 .spinnerLarge {
   width: 36px;
   height: 36px;

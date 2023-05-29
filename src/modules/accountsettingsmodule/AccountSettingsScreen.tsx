@@ -11,6 +11,7 @@ import Tab from '../../uikit/Tab/Tab';
 import Tabs from '../../uikit/Tab/Tabs';
 import Text from '../../uikit/Text/Text';
 import SvgInfo from '../../icons/SvgInfo';
+import SvgSettings from '../../icons/SvgSettings';
 import { WARNING } from '../../uikit/Colors/colors';
 import { LEAVE_THIS_SITE } from '../constValue';
 import useUnsavedChangesWarning from '../common/useUnsavedChangesWarning';
@@ -19,7 +20,7 @@ import {
   googleCallbackMiddleware,
 } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import CompanyPage from './companypage';
-import UserProfile from './userprofilemodule/userProfile';
+ //import UserProfile from './userprofilemodule/userProfile';
 import styles from './accountsettingsscreen.module.css';
 import BuildYourCareerPageScreen from './buildyourcareerpage/BuildYourCareerPageScreen';
 import EmailNotification from './emailmodule/EmailNotifications';
@@ -31,9 +32,14 @@ const height = window.innerHeight - 212;
 
 type ParamsType = {
   itemId: string;
+  value:string;
+   
 };
+type props ={
+  value: () => void;
+}
 
-const AccountSettingsScreen = () => {
+const AccountSettingsScreen = ({value }:props) => {
   const dispatch: AppDispatch = useDispatch();
   const { itemId } = useParams<ParamsType>();
   const history = useHistory();
@@ -64,6 +70,7 @@ const AccountSettingsScreen = () => {
   const [isTest, setTest] = useState(false);
   const [isReloadCompany, setReloadCompany] = useState(false);
   const [isReloadProfile, setReloadProfile] = useState(false);
+  const [changeurl,setchangeurl] = useState(false);
 
   useEffect(() => {
     if (!isEmpty(tab)) {
@@ -79,6 +86,13 @@ const AccountSettingsScreen = () => {
       }
     }
   }, [tab]);
+
+  useEffect(()=>{
+    if(isReloadCompany){
+      value( );
+    }
+    
+  },[isReloadCompany])
 
   useEffect(() => {
     /**
@@ -143,10 +157,14 @@ const AccountSettingsScreen = () => {
     },
   );
 
-  const { onDirty, onPristine } = useUnsavedChangesWarning();
-
+  const { routerPrompt,onDirty, onPristine } = useUnsavedChangesWarning();
+  // var oldURL = window.location.href;
+  // if(window.location.href !== oldURL){
+  //   alert("url changed!");
+ 
+ 
   useEffect(() => {
-    if (isReloadCareer && window.confirm(LEAVE_THIS_SITE)) {
+    if ( isReloadCareer && window.confirm(LEAVE_THIS_SITE)) {
       setReloadCareer(false);
       setKey(sessionStorage.getItem('superUserTab'));
       setKeyOne(sessionStorage.getItem('superUserFalseTab'));
@@ -156,7 +174,6 @@ const AccountSettingsScreen = () => {
     }
   }, [tabKey, isTest, tabKeyOne]);
   // console.log('sessionStorage.getItem',sessionStorage.getItem('superUserTab'));
-
   useEffect(() => {
     if (isReloadCompany && window.confirm(LEAVE_THIS_SITE)) {
       setReloadCompany(false);
@@ -177,7 +194,7 @@ const AccountSettingsScreen = () => {
       // sessionStorage.setItem('superUserTab', tabKey);
       // sessionStorage.setItem('superUserFalseTab', tabKeyOne);
     }
-  }, [tabKey, isTest, tabKeyOne]);
+  }, [tabKey, isTest, tabKeyOne,history.push]);
 
   useEffect(() => {
     if (isReloadCareer) {
@@ -191,6 +208,7 @@ const AccountSettingsScreen = () => {
       onDirty();
     } else if (!isReloadProfile) {
       onPristine();
+      
     }
   }, [isReloadProfile]);
   useEffect(() => {
@@ -207,12 +225,28 @@ const AccountSettingsScreen = () => {
 
   return (
     !isLoading && (
+      <>
+      <Flex row center className={styles.overallhead}>
+            <Flex row center>
+              <Flex center marginLeft={20}><SvgSettings/></Flex>
+              <Flex>
+              <Text
+                bold
+                size={16}
+                style={{ marginLeft: 8, color: '#581845' }}
+                className={styles.postingcl}
+              >
+                Account Settings
+              </Text>
+              </Flex>
+            </Flex>
+            <Flex>
+              <div className={styles.triangle}></div>
+            </Flex>
+          </Flex>
       <Flex columnFlex className={styles.overAll}>
-        <Flex row center>
-          <Text size={20} bold className={styles.title}>
-            Account Settings
-          </Text>
-
+        <Flex center>
+          
           {tabKey === '0' &&
             company_detail &&
             company_detail.no_of_emp === null && (
@@ -239,8 +273,7 @@ const AccountSettingsScreen = () => {
                 color="warning"
                 className={styles.warningText}
               >
-                Please complete your company profile and careers page to post
-                jobs.
+              Please complete your careers page to post jobs.
               </Text>
             </Flex>
           )}
@@ -279,15 +312,19 @@ const AccountSettingsScreen = () => {
               }
             }}
           >
-            <Tab title={'Company Profile'} eventKey={'0'}>
+            <Tab title={'Profiles'} eventKey={'0'}>
               <div
                 style={{
-                  height,
+                  height: window.innerHeight - 215,
                   overflowY: 'scroll',
                 }}
               >
                 {tabKey === '0' && (
-                  <CompanyPage setKey={setKey} setReload={setReloadCompany} />
+                  <CompanyPage
+                    setKey={setKey}
+                    setReload={setReloadCompany}
+                    setReloadProfile={setReloadProfile}
+                  />
                 )}
               </div>
             </Tab>
@@ -340,14 +377,14 @@ const AccountSettingsScreen = () => {
             <Tab title={'Email Notifications'} eventKey={'5'}>
               <div
                 style={{
-                  height: window.innerHeight - 192,
+                  height: window.innerHeight,
                   overflowY: 'scroll',
                 }}
               >
                 <EmailNotification />
               </div>
             </Tab>
-            <Tab title={'User Profile'} eventKey={'6'}>
+            {/* <Tab title={'User Profile'} eventKey={'6'}>
               <div
                 style={{
                   height: window.innerHeight - 192,
@@ -355,10 +392,10 @@ const AccountSettingsScreen = () => {
                 }}
               >
                 {tabKey === '6' && (
-                  <UserProfile setReloadProfile={setReloadProfile} />
+                  <UserProfile    />
                 )}
               </div>
-            </Tab>
+            </Tab> */}
           </Tabs>
         )}
 
@@ -377,9 +414,13 @@ const AccountSettingsScreen = () => {
                 }
               }}
             >
-              <Tab title={'Company Profile'} eventKey={'0'}>
+              <Tab title={'Profiles'} eventKey={'0'}>
                 <div style={{ height }}>
-                  <CompanyPage setKey={setKey} setReload={setReloadCompany} />
+                  <CompanyPage
+                    setKey={setKey}
+                    setReload={setReloadCompany}
+                    setReloadProfile={setReloadProfile}
+                  />
                 </div>
               </Tab>
 
@@ -400,7 +441,7 @@ const AccountSettingsScreen = () => {
               <Tab title={'Integrations'} eventKey={'3'}>
                 {tabKeyOne === '3' && <IntegrationScreen />}
               </Tab>
-              <Tab title={'User Profile'} eventKey={'4'}>
+              {/* <Tab title={'User Profile'} eventKey={'4'}>
                 <div
                   style={{
                     height: window.innerHeight - 192,
@@ -411,7 +452,7 @@ const AccountSettingsScreen = () => {
                     <UserProfile setReloadProfile={setReloadProfile} />
                   )}
                 </div>
-              </Tab>
+              </Tab> */}
             </Tabs>
           )}
 
@@ -428,7 +469,7 @@ const AccountSettingsScreen = () => {
                 {tabKeyTwo === '0' && <IntegrationScreen />}
               </Tab>
 
-              <Tab title={'User Profile'} eventKey={'1'}>
+              {/* <Tab title={'User Profile'} eventKey={'1'}>
                 <div
                   style={{
                     height: window.innerHeight - 192,
@@ -439,12 +480,13 @@ const AccountSettingsScreen = () => {
                     <UserProfile setReloadProfile={setReloadProfile} />
                   )}
                 </div>
-              </Tab>
+              </Tab> */}
             </Tabs>
           )}
 
         {/* {routerPrompt} */}
       </Flex>
+      </>
     )
   );
 };
