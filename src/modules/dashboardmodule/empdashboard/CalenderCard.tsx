@@ -1,9 +1,11 @@
 // import axios from 'axios';
 import { useEffect, useState } from 'react';
+
 import classNames from 'classnames/bind';
 import { useFormik } from 'formik';
 import DatePicker from 'react-datepicker';
 import { useDispatch } from 'react-redux';
+import moment from 'moment';
 import SvgCalendar from '../../../icons/SvgCalendar';
 // import SvgNewTab from '../../../icons/SvgNewTab';
 import SvgRefresh from '../../../icons/SvgRefresh';
@@ -11,7 +13,7 @@ import { AppDispatch } from '../../../store';
 import Button from '../../../uikit/Button/Button';
 import Card from '../../../uikit/Card/Card';
 import Loader from '../../../uikit/Loader/Loader';
-import { BLACK } from '../../../uikit/Colors/colors';
+import { BLACK, PRIMARY, WHITE } from '../../../uikit/Colors/colors';
 import Flex from '../../../uikit/Flex/Flex';
 import {
   getDateString,
@@ -34,6 +36,13 @@ import styles from './calendercard.module.css';
 import { EventsEntity } from './DashBoardTypes';
 import { dashboardCalenderMiddleWare } from './store/dashboardmiddleware';
 import { outlookTimeZone } from './mock';
+
+
+const email = getGoogleEventsMiddleware;
+
+
+
+
 const cx = classNames.bind(styles);
 
 type Props = {
@@ -53,10 +62,11 @@ const CalenderCard = ({
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const [isCalLoad, setCalLoad] = useState(false);
+  const [show, setshow] = useState(false);
 
   const formik = useFormik({
     initialValues: { date: getDateString(new Date(), 'MM/DD/YYYY') },
-    onSubmit: () => {},
+    onSubmit: () => { },
   });
   const getOutLookTime: any = 'Asia/Kolkata';
   // outlook && outlook[0].timeZone;
@@ -69,45 +79,66 @@ const CalenderCard = ({
       );
     }
   }, [outlook, google, checkCalendarOutlook, checkCalendar]);
+
+  
   const [isGoogle, setIsGoogle] = useState(0);
   const [active, setActive] = useState(0);
-  const [event, setEvent] = useState([{ title: '', start: '', end: '' }]);
+  const [event, setEvent] = useState([{ title: '', start: '', end: '', web_url: '' }]);
   const [tz, setTz] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone,
   );
-  console.log(setTz);
+
   const getEventHandler = (account: string) => {
     if (account === 'google') {
       console.log('google');
+      
       dispatch(getGoogleEventsMiddleware({ tz })).then((res) => {
+
         const data = res.payload.events;
-        console.log(data);
+       
+        
+        console.log("gmail  ", data);
+        
         setEvent(
-          data.map((items: { summary: any; start: { dateTime: any } }) => {
+          data.map((items: { summary: any; start: { dateTime: any }; end: { dateTime: any }; hangoutLink: any }) => {
+            //   if(items.start.dateTime!==null){
+            //  if(getDateString(items.start.dateTime, 'MM/DD/YYYY') === formik.values.date){
+              
             return {
+               
               title: items.summary,
               start: new Date(items.start.dateTime),
-              end: new Date(items.start.dateTime),
+              end: new Date(items.end.dateTime),
+              web_url: items.hangoutLink,
             };
+          // }}
+         
           }),
         );
+        
       });
     } else {
-      console.log('outlook');
+      
+
       dispatch(syncOutlookMiddleWare()).then((res) => {
-        console.log(res);
+        const dataout = res.payload.events;
+        console.log("outlook", dataout);
         setEvent(
           res.payload.events.map(
             (items: {
               title: any;
               start_time: string | number | Date;
               end_time: string | number | Date;
+              web_url: any;
             }) => {
+              // if(getDateString(items.start_time, 'MM/DD/YYYY') === formik.values.date){
               return {
                 title: items.title,
                 start: new Date(items.start_time),
                 end: new Date(items.end_time),
+                web_url: items.web_url,
               };
+            //}
             },
           ),
         );
@@ -117,7 +148,7 @@ const CalenderCard = ({
   const checkAuth = () => {
     dispatch(checkAuthMiddleware())
       .then((res) => {
-        console.log(res.payload);
+        console.log("checkauth:::", res.payload);
         if (res.payload.status === true) {
           console.log(res.payload);
           if (res.payload.account === 'google') {
@@ -138,6 +169,7 @@ const CalenderCard = ({
       .catch(() => {
         console.log('Error');
       });
+
   };
   useEffect(() => {
     checkAuth();
@@ -217,77 +249,172 @@ const CalenderCard = ({
   console.log(event, isGoogle);
   return (
     <Card className={styles.overAll}>
-      <Flex row center className={styles.msgText}>
-        <Text bold color="theme" style={{ marginRight: 16 }}>
-          Calendar
-        </Text>
-      </Flex>
-      {active === 1 && (
-        <Flex
-          row
-          center
-          between
-          marginBottom={16}
-          marginLeft={16}
-          marginRight={16}
-        >
-          <Flex row center>
-            <Text bold color="theme">
-              Appointments
-            </Text>
-            <Text style={{ marginLeft: 8 }} color="gray" size={12}>
-              Timezone:{' '}
-              {checkCalendarOutlook
-                ? outlookTimeZone[getOut]
-                : localStorage.getItem('timeZone')}
-            </Text>
+      {console.log("event", event)}
+      <Flex row between className={styles.msgText}>
+        <Flex row>
+          <Flex>
+            <Text bold size={16} color="theme" style={{ marginRight: 5, marginTop: 5 }}>
+              Calendar
+            </Text></Flex>
+          {active === 1 &&
+            <Flex marginTop={9}>
+              <Text color="gray" size={12}>
+                (Timezone){outlookTimeZone[getOut]}
+                {checkCalendarOutlook
+                  ? outlookTimeZone[getOut]
+                  : localStorage.getItem('timeZone')
+                }
+
+
+
+              </Text>
+            </Flex>}
+
+        </Flex>
+
+        {/* <Flex row >
+          <Flex>
             <Button
               types="tertiary"
               className={styles.syncBtn}
               onClick={checkAuth}
+
             >
-              <Flex row center>
-                <SvgRefresh height={14} width={14} fill={BLACK} />
-                <Text
-                  bold
-                  size={12}
-                  style={{ marginLeft: 4, cursor: 'pointer' }}
-                >
-                  Sync
-                </Text>
-              </Flex>
+              <Flex row center marginTop={5} >
+                <Flex>
+                  <Text
+                
+                    bold
+                    size={12}
+                    style={{ cursor: 'pointer', color: "white"}}
+                  >
+                    Sync        <SvgRefresh height={14} width={14} fill={WHITE} />
+                  </Text>
+                </Flex> */}
+        {/* <Flex marginTop={3} >
+                  <SvgRefresh height={14} width={14} fill={WHITE} />
+                </Flex> */}
+        {/* </Flex>
             </Button>
-            {isCalLoad && (
-              <div style={{ marginLeft: 16 }}>
-                <Loader withOutOverlay size={'medium'} />
+          </Flex>
+          <Flex marginLeft={10}>
+            <div style={{ position: 'relative', display: 'flex' }}>
+
+              <DatePicker
+                id="calendar___open"
+                value={formik.values.date}
+                onChange={(date) => {
+                  formik.setFieldValue('date', getDateString(date, 'MM/DD/YYYY'));
+                  // calender api call
+                  // setDate(getDateString(date, 'MM/DD/YYYY'))
+                  dispatch(
+                    dashboardCalenderMiddleWare({
+                      date: getDateString(date, 'YYYY-MM-DD'),
+                    }),
+                  );
+                }}
+                className={styles.datePicker}
+              />
+              <div style={{ position: 'absolute', left: 7, top: 3 }}>
+                <label htmlFor="calendar___open">
+                  <SvgCalendar width={16} height={16} />
+                </label>
               </div>
-            )}
+            </div>
           </Flex>
 
-          <div style={{ position: 'relative', display: 'flex' }}>
-            <DatePicker
-              id="calendar___open"
-              value={formik.values.date}
-              onChange={(date) => {
-                formik.setFieldValue('date', getDateString(date, 'MM/DD/YYYY'));
-                // calender api call
-                // setDate(getDateString(date, 'MM/DD/YYYY'))
-                dispatch(
-                  dashboardCalenderMiddleWare({
-                    date: getDateString(date, 'YYYY-MM-DD'),
-                  }),
-                );
-              }}
-              className={styles.datePicker}
-            />
-            <div style={{ position: 'absolute', right: 8, top: 3 }}>
-              <label htmlFor="calendar___open">
-                <SvgCalendar width={16} height={16} />
-              </label>
-            </div>
-          </div>
-        </Flex>
-      )}
+        </Flex> */}
+        {active === 1 && (
+          <Flex
+            row
+
+          >
+            <Flex row center >
+
+              <Flex >
+                <Flex marginLeft={150}>
+                  <Button
+                    types="primary"
+                    className={styles.syncBtn}
+                    onClick={checkAuth}
+
+                  >
+                    <Flex row >
+                      <Flex>
+                        <Text
+                          bold
+                          size={12}
+                          style={{ cursor: 'pointer', color: "white", marginRight: 20, marginBottom: 1 }}
+                        >
+                          Sync
+                        </Text>
+                      </Flex>
+                      <Flex marginTop={2}>
+                        <SvgRefresh height={14} width={14} fill={WHITE} />
+                      </Flex>
+                    </Flex>
+                  </Button>
+                  {isCalLoad && (
+                    <div style={{ marginLeft: 16 }}>
+                      <Loader withOutOverlay size={'medium'} />
+                    </div>
+                  )}
+                </Flex>
+              </Flex>
+              <Flex marginLeft={10}>
+                <Flex>
+                  <div style={{ position: 'relative', display: 'flex' }}>
+
+                    <DatePicker
+                      id="calendar___open"
+                      dateFormat="DD/MM/YYYY"
+                      value={formik.values.date}
+                      onChange={(date) => {
+                        formik.setFieldValue('date', getDateString(date, 'MM/DD/YYYY'));
+                        // calender api call
+                        // setDate(getDateString(date, 'MM/DD/YYYY'))
+                        dispatch(
+                          dashboardCalenderMiddleWare({
+                            date: getDateString(date, 'YYYY-MM-DD'),
+                          }),
+                        ).then((res) => {
+                          const dataout = res.payload.events;
+                          console.log("outlook", dataout);
+                          setEvent(
+                            res.payload.events.map(
+                              (items: {
+                                title: any;
+                                start_time: string | number | Date;
+                                end_time: string | number | Date;
+                                web_url: any;
+                              }) => {
+                                return {
+                                  title: items.title,
+                                  start: new Date(items.start_time),
+                                  end: new Date(items.end_time),
+                                  web_url: items.web_url,
+                                };
+                              },
+                            ),
+                          );
+                        });
+
+                        { console.log("date", date) }
+                      }}
+                      className={styles.datePicker}
+                    />
+                    <div style={{ position: 'absolute', left: 7, top: 3 }}>
+                      <label htmlFor="calendar___open">
+                        <SvgCalendar width={16} height={16} />
+                      </label>
+                    </div>
+                  </div>
+                </Flex>
+              </Flex>
+            </Flex>
+          </Flex>
+        )}
+      </Flex>
       <Flex
         columnFlex
         className={cx('scrollStyle', {
@@ -298,7 +425,7 @@ const CalenderCard = ({
         {active === 0 ? (
           <Flex center flex={1} middle columnFlex className={styles.noContent}>
             <Text color="gray" style={{ marginBottom: 16 }}>
-              Integrate your calendar with zita application to schedule your
+              Integrate your calendar with zita to schedule your
               meetings
             </Text>
             <LinkWrapper
@@ -313,41 +440,56 @@ const CalenderCard = ({
           </Flex>
         ) : event.length > 1 ? (
           event.map((list, index) => {
+
             if (
-              getDateString(list.start, 'MM/DD/YYYY') === formik.values.date
-            ) {
+              getDateString(list.start, 'MM/DD/YYYY') === formik.values.date) {
+              
+              console.log("title", list.title);
+              const startTime = moment(list.start);
+              const endTime = moment(list.end);
+              const duration = moment.duration(endTime.diff(startTime));
+              const durationInMinutes = Math.floor(duration.asMinutes());
+              const hours = Math.floor(durationInMinutes / 60);
+              const minutes = durationInMinutes % 60;
               return (
-                // {list.title !=='' ?
+
                 <Card key={list.title + index} className={styles.cardListStyle}>
+
                   <Flex row between center>
+
                     <Flex row center>
-                      <Flex className={styles.borderRight}>
-                        <Text>{getDateString(list.start, 'hh:mm A')}</Text>
-                        <Text>{getDateString(list.end, 'hh:mm A')}</Text>
+                      <Flex className={styles.borderRight} marginLeft={10}>
+                        <Text bold style={{ color: '#581845' }}>{moment(list.start).format('dddd')}</Text>
+                        <Text size={12}>{getDateString(list.start, 'hh:mm A')}-{getDateString(list.end, 'hh:mm A')}</Text>
+                        <Text size={12}>( {hours}hour {minutes === 0 ? <Text> )</Text> : <Text size={12}>{minutes}minutes )</Text>}
+                        </Text>
+
                       </Flex>
-                      <Text>{list.title}</Text>
+                      <Text bold style={{ color: "#581845" }}>{list.title}</Text>
+
+                      {console.log("eventlength:", event.length)}
                     </Flex>
-                    {/* <Button
-                        onClick={() => window.open(list.web_url)}
-                        types="tertiary"
-                      >
-                        <div style={{ position: 'relative', bottom: 2 }}>
-                          <SvgNewTab height={16} width={16} />
-                        </div>
-                      </Button> */}
+                    <Flex marginRight={8}>
+                      <Button onClick={() => window.open(list.web_url)} >
+                        Join
+                      </Button></Flex>
                   </Flex>
-                </Card>
-                // : null}
-              );
-            } else {
-              return <div key={list.title + index}></div>;
+                </Card>)
+              // : null}
+
             }
           })
         ) : (
           <Flex flex={1} center middle columnFlex className={styles.noContent}>
+            {console.log("cal_eventlength", event.length)}
             <Text color="gray"> No event scheduled</Text>
           </Flex>
-        )}
+        )
+        }
+        {/* (show===false)&&
+        {
+          <Flex flex={1} center middle columnFlex className={styles.noContent}>{setshow(!show)} <Text color="gray"> No event scheduled</Text></Flex>
+        } */}
       </Flex>
     </Card>
   );

@@ -102,7 +102,7 @@ const ApplicantsPipeline = ({ pipeline, planId,jd_metrics }: Props) => {
   
   return (
     <Card className={styles.overAll}>
-      <Text bold size={16}>
+      <Text bold size={16} style={{color:'#581845'}}>
         Applicants Pipeline
       </Text>
       {isCheckOne || (planId === 1 || jd_metrics.length === 0) ? (

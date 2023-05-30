@@ -63,8 +63,8 @@ const LoginInto = ({
             onChange={formik.handleChange('email')}
             keyboardType={!isShowPass ? 'password' : 'text'}
             actionRight={() => (
-              <Button types="link" onClick={handleShowPass}>
-                <SvgView nonView={isShowPass} height={20} width={20} />
+              <Button types="link" onClick={handleShowPass} >
+                <SvgView nonView={isShowPass} height={20} width={20}  />
               </Button>
             )}
             onKeyPress={(e) => enterKeyPress(e, formik.handleSubmit)}

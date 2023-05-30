@@ -1,9 +1,15 @@
 /* eslint max-len: ["error", { "code": 2000 }] */
 const defaultProps = {
   fill: '#cccccc',
+
   width: 16,
   height: 16,
+
+
+
+
 };
+
 
 const SvgSearch = ({ width, height, fill }: typeof defaultProps) => {
   return (
