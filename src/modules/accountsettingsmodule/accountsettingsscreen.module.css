@@ -1,11 +1,13 @@
 .overAll {
   margin: auto;
+
   margin-top: 13px;
   
 }
 .profilehight{
   height: auto !important;
   overflow-y: scroll;
+
 }
 @media screen and (min-width: 1280px) and (max-width: 1350px) {
   .overAll {

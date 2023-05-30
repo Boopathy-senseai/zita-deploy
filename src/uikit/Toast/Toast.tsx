@@ -1,12 +1,14 @@
 import { isEmpty } from '../helper'; // eslint-disable-line
 
-type DurationTypes = 'SHORT' | 'LONG';
+type DurationTypes = 'SHORT' | 'LONG'|'MEDIUM';
 type colors = 'error' | 'success' | 'warning' | 'info';
 
 const handleSetDuration = (duration: DurationTypes) => {
   switch (duration) {
     case 'LONG':
       return 4000;
+    case 'MEDIUM':
+      return 10000;
     default:
       return 2500;
   }

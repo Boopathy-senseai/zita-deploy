@@ -214,6 +214,7 @@ export const syncOutlookMiddleWare = createAsyncThunk(
   async (_a, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(syncOutlookApi);
+      
       return data;
     } catch (error) {
       const typedError = error as Error;

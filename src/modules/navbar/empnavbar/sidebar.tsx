@@ -92,7 +92,10 @@ const clearTabs = (e) => {
 };
   return (
     <>
-      <div className={Expent === '0' ? styles.sidebar : styles.sidebarmini}>
+
+      {console.log('check plan', is_plan)}
+      <div className={Expent === '0' ? styles.sidebar : styles.sidebarmini} style={{marginTop:'50px'}}>
+
         <ul>
           {is_plan ? (
                 changes  ?
@@ -135,7 +138,16 @@ const clearTabs = (e) => {
               </LinkWrapper>
             </li>)
           ) : (
-            <li className={pathname === '/' ? styles.select_row : ''}> 
+
+            <li className={pathname === '/' ? styles.select_row : ''}>
+            <a
+                className={styles.hoverview}
+                href={" "} 
+                onClick={(e)=>{
+                  e.preventDefault();
+                }}
+              >
+
             <text style={{verticalAlign:'middle',marginLeft:'-6px'}}>
               <SvgDashboard height={28} width={28} />
             </text>
@@ -147,6 +159,7 @@ const clearTabs = (e) => {
               >
                 Dashboard
               </Text>
+            </a>
             </li>
           )}
 
@@ -221,6 +234,13 @@ const clearTabs = (e) => {
                   : ''
               }
             >
+            <a
+            className={styles.hoverview}
+            href={" "} 
+            onClick={(e)=>{
+              e.preventDefault();
+            }}
+          >
              <text style={{verticalAlign:'middle'}}>
              <SvgJobPost height={22} width={22} />
               </text>
@@ -232,6 +252,7 @@ const clearTabs = (e) => {
               >
                 Job Postings
               </Text>
+              </a>
             </li>
           )}
 
@@ -290,6 +311,13 @@ const clearTabs = (e) => {
                     pathname === '/mydatabase' ? styles.select_row : ''
                   }
                 >
+                <a
+                className={styles.hoverview}
+                href={" "} 
+                onClick={(e)=>{
+                  e.preventDefault();
+                }}
+              >
                 <text style={{verticalAlign:'middle'}}>
                   <SvgDb width={16} height={16}
                   
@@ -303,6 +331,7 @@ const clearTabs = (e) => {
                   >
                     Database
                   </Text>
+                  </a>
                 </li>
               )}
             </>
@@ -363,6 +392,16 @@ const clearTabs = (e) => {
                     pathname === '/talent_sourcing' ? styles.select_row : ''
                   }
                 >
+                <a
+                className={styles.hoverview}
+                href={" "} 
+                onClick={(e)=>{
+                  e.preventDefault();
+                }}
+              >
+                 <text style={{verticalAlign:'middle'}}>
+                    <SvgUserSearch fill={'#581845'} width={22} height={22} />
+                  </text>
                   <Text
                     onClick={() => handleNavigate(4)}
                     className={Expent === '0' ? styles.text : styles.classpan}
@@ -371,6 +410,7 @@ const clearTabs = (e) => {
                   >
                     Talent Sourcing
                   </Text>
+                  </a>
                 </li>
               )}
             </>
@@ -431,6 +471,14 @@ const clearTabs = (e) => {
                     pathname === '/bulk_import' ? styles.select_row : ''
                   }
                 >
+                <a
+                className={styles.hoverview}
+                href={" "} 
+                onClick={(e)=>{
+                  e.preventDefault();
+                }}
+              >
+                <SvgImport fill={'none'} />
                   <Text
                     onClick={() => handleNavigate(5)}
                     className={Expent === '0' ? styles.text : styles.classpan}
@@ -439,6 +487,7 @@ const clearTabs = (e) => {
                   >
                     Import Candidates
                   </Text>
+                  </a>
                 </li>
               )}
             </>
@@ -495,6 +544,13 @@ const clearTabs = (e) => {
                     pathname.includes('/reports') ? styles.select_row : ''
                   }
                 >
+                <a
+                className={styles.hoverview}
+                href={" "} 
+                onClick={(e)=>{
+                  e.preventDefault();
+                }}
+              >
                   <SvgReport fill={'none'}  />
                   <Text
                     onClick={() => handleNavigate(6)}
@@ -504,6 +560,7 @@ const clearTabs = (e) => {
                   >
                     Reports
                   </Text>
+                  </a>
                 </li>
               )}
             </>
@@ -558,6 +615,13 @@ const clearTabs = (e) => {
                 <li
                   className={pathname === '/calendar' ? styles.select_row : ''}
                 >
+                <a
+                className={styles.hoverview}
+                href={" "} 
+                onClick={(e)=>{
+                  e.preventDefault();
+                }}
+              >
                 <text style={{marginLeft:"-2px"}}>
                 <SvgCalendar  height={22} width={22} />
                 </text>  
@@ -569,6 +633,7 @@ const clearTabs = (e) => {
                   >
                     Calendar
                   </Text>
+                  </a>
                 </li>
               )}
             </>
@@ -593,6 +658,14 @@ const clearTabs = (e) => {
             
            : (
             <li>
+            <a
+            
+            href={" "} 
+            onClick={(e)=>{
+              e.preventDefault();
+            }}
+          >
+            <SvgSetting fill={'#581845'}  height={20} width={20}  />
               <Text
                 className={Expent === '0' ? styles.text : styles.classpan}
                 color="primary"
@@ -600,6 +673,7 @@ const clearTabs = (e) => {
               >
                 Settings
               </Text>
+              </a>
             </li>
           )}
           <li >
@@ -625,6 +699,7 @@ const clearTabs = (e) => {
           </li>
         </ul>
       </div>
+     
     </>
   );
 };

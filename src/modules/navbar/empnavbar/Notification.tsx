@@ -121,7 +121,7 @@ const Notification = () => {
               </Text>
             </div>
           )}
-          <SvgBell fill={'#581845'} height={22} width={22} />
+          <SvgBell fill={'#581845'} height={20} width={20} />
         </div>
         {isOpen && (
           <Card

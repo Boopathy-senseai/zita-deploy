@@ -82,7 +82,7 @@ update();
     <>
       <div className={styles.overAll}>
         {isLogOutLoader && <Loader />}
-        <Flex row center between className={styles.nav}>
+        <Flex row center between className={styles.nav} style={{height:'45px'}}>
           <Flex row center>
             <SvgZitaLogo />
           </Flex>
@@ -94,7 +94,7 @@ update();
 
             {!is_plan ? (
               <div title="Contact Support" className={cx('svgMargin')}>
-                <SvgHelp fill={'#581845'} height={25} width={25} />
+                <SvgHelp fill={'#581845'} height={22} width={22} />
               </div>
             ) : (
               <a
@@ -103,7 +103,7 @@ update();
                 href={'https://share.hsforms.com/1WPpWRzsQT6CyEVAQuDP6wg49hg8'}
               >
                 <div title="Contact Support" className={cx('svgMargin')}>
-                  <SvgHelp fill={'#581845'} height={25} width={25} />
+                  <SvgHelp fill={'#581845'} height={22} width={22} />
                 </div>
               </a>
             )}
@@ -121,9 +121,9 @@ update();
             <div
               style={{
                 width: '1px',
-                height: '50px',
+                height: '30px',
                 backgroundColor: '#581845',
-                marginLeft: '10px',
+                marginLeft: '15px',
               }}
             ></div>
             <div>
@@ -138,7 +138,7 @@ update();
                           boxShadow: 'none',
                         }}
                       >
-                        <SvgUser fill={'#581845'} height={30} width={32} />
+                        <SvgUser fill={'#581845'} height={28} width={30} />
                       </Dropdown.Toggle>
                       <Dropdown.Menu className={styles.dropdown_item}>
                         <Dropdown.Item href="#">

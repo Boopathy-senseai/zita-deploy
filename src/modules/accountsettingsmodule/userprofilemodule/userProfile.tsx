@@ -59,12 +59,7 @@ const UserProfilepic = ({ value,update }: Props) => {
   const [modelopen, setmodelopen] = useState(false);
   const [formempty,setformempty] =  useState<any>([]);
   const [isMb, setMb] = useState(false);
-  
- 
 
-  
-
-   
   type Password = {
     oldpassword: string;
     newpassword1: string;
