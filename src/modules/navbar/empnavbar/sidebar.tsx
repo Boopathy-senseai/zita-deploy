@@ -74,8 +74,8 @@ const Sidebar = (props) => {
 
   return (
     <>
-      {console.log('check', Expent)}
-      <div className={Expent === '0' ? styles.sidebar : styles.sidebarmini}>
+      {console.log('check plan', is_plan)}
+      <div className={Expent === '0' ? styles.sidebar : styles.sidebarmini} style={{marginTop:'50px'}}>
         <ul>
           {is_plan ? (
             <li className={pathname === '/' ? styles.select_row : ''}>
@@ -99,6 +99,13 @@ const Sidebar = (props) => {
             </li>
           ) : (
             <li className={pathname === '/' ? styles.select_row : ''}>
+            <a
+                className={styles.hoverview}
+                href={" "} 
+                onClick={(e)=>{
+                  e.preventDefault();
+                }}
+              >
             <text style={{verticalAlign:'middle',marginLeft:'-6px'}}>
               <SvgDashboard height={28} width={28} />
             </text>
@@ -110,6 +117,7 @@ const Sidebar = (props) => {
               >
                 Dashboard
               </Text>
+            </a>
             </li>
           )}
 
@@ -155,6 +163,13 @@ const Sidebar = (props) => {
                   : ''
               }
             >
+            <a
+            className={styles.hoverview}
+            href={" "} 
+            onClick={(e)=>{
+              e.preventDefault();
+            }}
+          >
              <text style={{verticalAlign:'middle'}}>
              <SvgJobPost height={22} width={22} />
               </text>
@@ -166,6 +181,7 @@ const Sidebar = (props) => {
               >
                 Job Postings
               </Text>
+              </a>
             </li>
           )}
 
@@ -201,6 +217,13 @@ const Sidebar = (props) => {
                     pathname === '/mydatabase' ? styles.select_row : ''
                   }
                 >
+                <a
+                className={styles.hoverview}
+                href={" "} 
+                onClick={(e)=>{
+                  e.preventDefault();
+                }}
+              >
                 <text style={{verticalAlign:'middle'}}>
                   <SvgDb width={16} height={16}
                   
@@ -214,6 +237,7 @@ const Sidebar = (props) => {
                   >
                     Database
                   </Text>
+                  </a>
                 </li>
               )}
             </>
@@ -251,6 +275,16 @@ const Sidebar = (props) => {
                     pathname === '/talent_sourcing' ? styles.select_row : ''
                   }
                 >
+                <a
+                className={styles.hoverview}
+                href={" "} 
+                onClick={(e)=>{
+                  e.preventDefault();
+                }}
+              >
+                 <text style={{verticalAlign:'middle'}}>
+                    <SvgUserSearch fill={'#581845'} width={22} height={22} />
+                  </text>
                   <Text
                     onClick={() => handleNavigate(4)}
                     className={Expent === '0' ? styles.text : styles.classpan}
@@ -259,6 +293,7 @@ const Sidebar = (props) => {
                   >
                     Talent Sourcing
                   </Text>
+                  </a>
                 </li>
               )}
             </>
@@ -296,6 +331,14 @@ const Sidebar = (props) => {
                     pathname === '/bulk_import' ? styles.select_row : ''
                   }
                 >
+                <a
+                className={styles.hoverview}
+                href={" "} 
+                onClick={(e)=>{
+                  e.preventDefault();
+                }}
+              >
+                <SvgImport fill={'none'} />
                   <Text
                     onClick={() => handleNavigate(5)}
                     className={Expent === '0' ? styles.text : styles.classpan}
@@ -304,6 +347,7 @@ const Sidebar = (props) => {
                   >
                     Import Candidates
                   </Text>
+                  </a>
                 </li>
               )}
             </>
@@ -339,6 +383,13 @@ const Sidebar = (props) => {
                     pathname.includes('/reports') ? styles.select_row : ''
                   }
                 >
+                <a
+                className={styles.hoverview}
+                href={" "} 
+                onClick={(e)=>{
+                  e.preventDefault();
+                }}
+              >
                   <SvgReport fill={'none'}  />
                   <Text
                     onClick={() => handleNavigate(6)}
@@ -348,6 +399,7 @@ const Sidebar = (props) => {
                   >
                     Reports
                   </Text>
+                  </a>
                 </li>
               )}
             </>
@@ -381,6 +433,13 @@ const Sidebar = (props) => {
                 <li
                   className={pathname === '/calendar' ? styles.select_row : ''}
                 >
+                <a
+                className={styles.hoverview}
+                href={" "} 
+                onClick={(e)=>{
+                  e.preventDefault();
+                }}
+              >
                 <text style={{marginLeft:"-2px"}}>
                 <SvgCalendar  height={22} width={22} />
                 </text>  
@@ -392,6 +451,7 @@ const Sidebar = (props) => {
                   >
                     Calendar
                   </Text>
+                  </a>
                 </li>
               )}
             </>
@@ -416,6 +476,14 @@ const Sidebar = (props) => {
             </li>
           ) : (
             <li>
+            <a
+            
+            href={" "} 
+            onClick={(e)=>{
+              e.preventDefault();
+            }}
+          >
+            <SvgSetting fill={'#581845'}  height={20} width={20}  />
               <Text
                 className={Expent === '0' ? styles.text : styles.classpan}
                 color="primary"
@@ -423,6 +491,7 @@ const Sidebar = (props) => {
               >
                 Settings
               </Text>
+              </a>
             </li>
           )}
           <li >
@@ -448,6 +517,7 @@ const Sidebar = (props) => {
           </li>
         </ul>
       </div>
+     
     </>
   );
 };

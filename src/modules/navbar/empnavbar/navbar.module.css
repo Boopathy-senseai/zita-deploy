@@ -98,7 +98,7 @@
         right: 15px !important;
 }
 .svgMargin {
-  margin-right: -11px;
+  margin-right: -15px;
   padding: 3px 10px;
   border-radius: 8px;
 }
@@ -114,9 +114,9 @@
  }
 
 .searchStyle {
-  
+   height: 27px;
    border-radius: 10px !important;
-    padding: 6px 15px 5px 38px !important;
+  padding: 6px 15px 5px 38px !important;
    border: 1px solid #EEE8EC !important;
    outline: none;
    font-size: 14px;
@@ -147,8 +147,8 @@
 }
 
 .candiProfile {
-  height: 40px;
-  width: 40px;
+  height: 30px;
+  width: 30px;
   border-radius: 100%;
   -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
   -moz-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
