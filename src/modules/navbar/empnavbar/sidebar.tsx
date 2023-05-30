@@ -477,7 +477,7 @@ const Sidebar = (props) => {
           ) : (
             <li>
             <a
-            className={styles.hoverview}
+            
             href={" "} 
             onClick={(e)=>{
               e.preventDefault();
