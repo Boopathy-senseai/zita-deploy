@@ -1,8 +1,10 @@
 import axios from 'axios';
 import classNames from 'classnames/bind';
 import { useFormik } from 'formik';
+import { Editor } from '@tinymce/tinymce-react';
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Mention, MentionsInput } from 'react-mentions';
 import { useHistory } from 'react-router-dom';
 import SvgInfo from '../../icons/SvgInfo';
 import SvgNotes from '../../icons/SvgNotes';
@@ -61,11 +63,12 @@ const NotesTab = ({ isMeeting }: Props) => {
   const [active, setActive] = useState(0);
   const [isGoogle, setIsGoogle] = useState(2);
   const [isLoad, setIsLoad] = useState(true);
+  const [hideelement, sethideelement] = useState(true);
   const [myevents, setMyevents] = useState<any[]>([]);
   const history = useHistory();
 
   const checkAuth = () => {
-    console.log('******');
+
     dispatch(checkAuthMiddleware())
       .then((res) => {
         console.log(res);
@@ -189,15 +192,29 @@ const NotesTab = ({ isMeeting }: Props) => {
     onSubmit: handleSubmit,
     enableReinitialize: true,
   });
+
+  useEffect(()=>{
+if(formik.values.notes === '@'){
+  
+}
+  },[formik.values.notes])
+
+  const user=[
+    
+     " hi"
+    
+  ]
   // add notes function
   const hanldeInputOpen = () => {
     setButtonName('Add');
+    sethideelement(false);
     setCollapse(true);
     formik.setFieldValue('notes', '');
   };
   // close notes function
   const hanldeInputClose = () => {
     setCollapse(false);
+    sethideelement(true);
     formik.setFieldValue('notes', '');
   };
 
@@ -304,14 +321,23 @@ const NotesTab = ({ isMeeting }: Props) => {
         columnFlex
         className={cx({ notesOverAllContainer: isMeeting })}
       >
-        <Flex row center between>
-          <Text color="theme" bold>
+        {hideelement ? (
+          <Flex row className={styles.initialbutton}>
+            {/* <Text color="theme" bold>
             Notes
           </Text>
           <Button disabled={isCollapse} onClick={hanldeInputOpen}>
             Add Notes
-          </Button>
-        </Flex>
+          </Button> */}
+            <input
+              className={styles.initialbuttons}
+              onClick={hanldeInputOpen}
+              placeholder="Add notes"
+            />
+          </Flex>
+        ) : (
+          ''
+        )}
         {notes && notes.length === 0 && !isCollapse && (
           <Flex columnFlex flex={1} middle center>
             <SvgNotes />
@@ -320,13 +346,14 @@ const NotesTab = ({ isMeeting }: Props) => {
         )}
         {isCollapse && (
           <Flex>
-            <div className={styles.textArea}>
+            <div className={styles.textArea}> 
               <RichText
                 height={200}
                 value={formik.values.notes}
                 onChange={formik.handleChange('notes')}
-                placeholder="You can add and save details regarding the candidate"
-              />
+                placeholder="Type @ to mention and notify someone" 
+              
+              />  
             </div>
             <Flex row end>
               <Button onClick={hanldeInputClose} types="secondary">
@@ -372,9 +399,9 @@ const NotesTab = ({ isMeeting }: Props) => {
                         height={40}
                         width={40}
                         style={{
-                          borderRadius: '100%',
-                          objectFit: 'cover',
-                          marginRight: 8,
+                        borderRadius: '100%',
+                        objectFit: 'cover',
+                        marginRight: 8,
                           height: 40,
                         }}
                         src={mediaPath + list.emp_image}

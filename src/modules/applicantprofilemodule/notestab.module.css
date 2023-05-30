@@ -90,3 +90,13 @@
 .settingBtn {
   margin-left: 8px;
 }
+.initialbutton{
+  width: 100%;
+}
+.initialbuttons{
+  width: 100%;
+  padding-left: 10px;
+  border: 1px solid #D7C7D2 !important;
+  height: 40px;
+  border-radius: 3px;
+}
