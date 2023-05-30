@@ -142,7 +142,7 @@ Props) => {
               <Text className={styles.text_account}>
                 Don`t have an account ?{' '}
                 <u style={{textDecoration:'none'}}>
-                  <Link to="/recruiter/1" style={{fontWeight:"bold"}}>Signup</Link>
+                  <Link to="/recruiter/1" style={{fontWeight:"bold"}}>Sign up</Link>
                 </u>
               </Text>
             </Flex>

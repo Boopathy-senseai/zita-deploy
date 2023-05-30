@@ -729,7 +729,7 @@ const handlefunction2=()=>{
                       // disabled={formik.values.terms_and_conditions === '0'}
                       onClick={formik.handleSubmit}
                     >
-                      Signup
+                      Sign up
                     </Button>
                   </Flex>
                 
@@ -764,7 +764,7 @@ const handlefunction2=()=>{
                         style={{ marginTop: '-56px',position:'relative',bottom:'68px',borderRadius:'5px',marginBottom:'81px' }}
                         onClick={() => Redirect()}
                       >
-                        Ok
+                        OK
                       </Button>
                     </Flex>
                     </Flex>

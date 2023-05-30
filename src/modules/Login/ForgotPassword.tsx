@@ -94,49 +94,54 @@ Props) => {
                 </>
               ) : (
                 <>
-                  <Flex middle>
-                    <Text size={20} className={styles.text} bold style={{marginRight:'150px'}}>
-                      Forgot your password?
-                    </Text>
-                  </Flex>
-                  <Flex middle>
-                    <Text className={styles.verify_name} style={{marginLeft:'66px',marginRight:'-5px'}}>
-                      Please enter your registered email id to receive the
-                      password reset link.
-                    </Text>
-                  </Flex>
+                <Flex flex={2}></Flex>
+                 <Flex flex={8} column>
+                    <Flex >
+                      <Text size={20} className={styles.text} bold style={{marginLeft:'63px'}}>
+                        Forgot your password?
+                      </Text>
+                    </Flex>
+                    <Flex >
+                      <Text className={styles.verify_name} style={{marginLeft:'63px',marginRight:'-5px'}}>
+                        Please enter your registered email id to receive the
+                        password reset link.
+                      </Text>
+                    </Flex>
 
-                  <div>
-                    <InputText
-                      className={styles.input}
-                      placeholder="Your email "
-                      required
-                      value={forgotFormik.values.forgotEmail}
-                      onChange={forgotFormik.handleChange('forgotEmail')}
-                      keyboardType="email"
-                      actionLeft={() => (
-                        <Button types="link" className={styles.usericon}>
-                          <SvgEmail height={15} width={17} fill={'none'} />
-                        </Button>
-                      )}
-                    />
-                  </div>
-                  {handlefunction1()}
-                  <Flex className={styles.error_msg}>
-                    <ErrorMessage
-                      name="forgotEmail"
-                      errors={forgotFormik.errors}
-                      touched={forgotFormik.touched}
-                    />
+                    <Flex>
+                      <InputText
+                        className={styles.input}
+                        placeholder="Your email "
+                        required
+                        value={forgotFormik.values.forgotEmail}
+                        onChange={forgotFormik.handleChange('forgotEmail')}
+                        keyboardType="email"
+                        actionLeft={() => (
+                          <Button types="link" className={styles.usericon}>
+                            <SvgEmail height={15} width={17} fill={'none'} />
+                          </Button>
+                        )}
+                      />
+                    </Flex>
+                    {handlefunction1()}
+                    <Flex className={styles.error_msg}>
+                      <ErrorMessage
+                        name="forgotEmail"
+                        errors={forgotFormik.errors}
+                        touched={forgotFormik.touched}
+                      />
+                    </Flex>
+                    <Flex>
+                      <Button
+                        className={styles.login_button}
+                        onClick={forgotFormik.handleSubmit}
+                        // disabled={isEmpty(forgotFormik.values.forgotEmail)}
+                      >
+                        Send Link
+                      </Button>
+                    </Flex>
                   </Flex>
-
-                  <Button
-                    className={styles.login_button}
-                    onClick={forgotFormik.handleSubmit}
-                    // disabled={isEmpty(forgotFormik.values.forgotEmail)}
-                  >
-                    Send Link
-                  </Button>
+                  <Flex flex={2}></Flex>
                 </>
               )}
             </div>
