@@ -121,6 +121,9 @@ const UserProfilepic = ({ value,update }: Props) => {
 
         formikPassword.resetForm();
       }
+      else{
+        setError(true);
+      }
     });
     
     // onPristine();

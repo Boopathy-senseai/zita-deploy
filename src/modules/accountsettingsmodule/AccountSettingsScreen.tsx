@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect,useRef, useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Activity from '../../pages/activity/Activity';
@@ -86,13 +86,20 @@ const AccountSettingsScreen = ({value }:props) => {
       }
     }
   }, [tab]);
-
-  useEffect(()=>{
-    if(isReloadCompany){
-      value( );
-    }
+ 
     
-  },[isReloadCompany])
+useEffect(() => {
+  const unblock = history.block(
+    isReloadCompany
+  ? "Do you want to leave this site? Changes you made may not be saved."
+  : true
+  );
+  
+  return function cleanup() {
+  unblock();
+  };
+  }, [isReloadCompany]);
+  
 
   useEffect(() => {
     /**
@@ -264,7 +271,22 @@ const AccountSettingsScreen = ({value }:props) => {
               </Flex>
             )}
 
-          {tabKey === '1' && career_page_exists_build === false && (
+         {tabKey === '1' &&
+            company_detail &&
+            company_detail.no_of_emp === null?(tabKey === '1' && career_page_exists_build === false && (
+            <Flex row center className={styles.warningFlex}>
+              <SvgInfo height={16} width={16} fill={WARNING} />
+              <Text
+                size={12}
+                bold
+                color="warning"
+                className={styles.warningText}
+              >
+              Please complete your company profile and careers page to post
+                  jobs.
+              </Text>
+            </Flex>
+         ) ):(tabKey === '1' && career_page_exists_build === false && (
             <Flex row center className={styles.warningFlex}>
               <SvgInfo height={16} width={16} fill={WARNING} />
               <Text
@@ -275,8 +297,7 @@ const AccountSettingsScreen = ({value }:props) => {
               >
               Please complete your careers page to post jobs.
               </Text>
-            </Flex>
-          )}
+            </Flex>))}
 
           {isInput &&
             isLoadingCareer === false &&
