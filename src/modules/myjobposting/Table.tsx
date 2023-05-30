@@ -286,7 +286,7 @@ const MyJobPostingScreen = () => {
                          {isEmpty(list.applicant) ? <Text className={styles.zeroorder}>0</Text> :
                          <Text className={styles.numberorder}> <LinkWrapper
                          target={"_parent"}
-                         to={`/zita_match_candidate/${list.id}`}
+                         to={`/applicant_pipe_line/${list.id}`}
                          className={styles.zitamatch}
                        >
                         {list.applicant}
@@ -304,7 +304,7 @@ const MyJobPostingScreen = () => {
                            {isEmpty(list.applicant) ?<Text className={styles.zeroorder}>0</Text> :
                            <Text className={styles.numberorder}> <LinkWrapper
                            target={"_parent"}
-                           to={`/zita_match_candidate/${list.id}`}
+                           to={`/applicant_pipe_line/${list.id}`}
                            className={styles.zitamatch}
                          >
                           {list.applicant}
