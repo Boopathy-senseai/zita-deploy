@@ -59,5 +59,6 @@ export interface CompanyPageload {
   city_id: string;
   zipcode: string;
   logo: string;
+  logos:string;
 
 }

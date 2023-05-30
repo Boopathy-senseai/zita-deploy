@@ -6,7 +6,7 @@ import { parse } from 'query-string';
 import { useEffect } from 'react';
 import NavBar from '../modules/navbar/empnavbar/NavBar';
 import styles from './usertable.module.css';
-
+import UserProfile from '../modules/accountsettingsmodule/userprofilemodule/userProfile';
 import Sidebar from '../modules/navbar/empnavbar/sidebar';
 import { display } from '@mui/system';
 import { Flex } from '../uikit';
@@ -18,11 +18,21 @@ const ProtectedRoute = ({ notIsNav, component: Component, ...rest }) => {
   const history = useHistory();
   const location = useLocation();
   const [sidebar, setSidebar] = useState(false);
-
+  const [passwordupdate, setpasswordupdate] = useState(false);
+  const [unsavealert,setunsavealert] = useState(false);
+  const [statementalert,setstatementalert] = useState(false);
+ 
+  
+  const changeurlpopup =()=>{
+     setunsavealert(true);
+   } 
   const handlefunction = () => {
     setSidebar(!sidebar)
   }
-
+  const updatepassword =()=>{
+   setpasswordupdate(!passwordupdate)
+  }
+  
   useEffect(() => {
     const toggle =
       sessionStorage.getItem('EmpToggle') === null
@@ -51,17 +61,18 @@ const ProtectedRoute = ({ notIsNav, component: Component, ...rest }) => {
             <div>
               <div className='container-fluid'>
                 <div class="row">
-                  {notIsNav && <NavBar />}
+                  {notIsNav && <NavBar  update={updatepassword}/>}
                 </div>
                 <div style={{ marginTop: "85px" }}>
                   <div style={{ display: "flex" }}>
 
                     <div className={sidebar === false ? (styles.model) : (styles.model1)}  >
-                      <Sidebar data={handlefunction} />
+                      <Sidebar data={handlefunction} changes={unsavealert}    />
                     </div>
                     <div style={{width:"auto",flex:1 }} >
-                      <Component {...rest} {...props} />
-                    </div>
+                      <Component {...rest} {...props}   value={changeurlpopup}    /> 
+                      <div><UserProfile  value={passwordupdate} update={updatepassword}/></div> 
+                    </div> 
                   </div>
                 </div> 
               </div> 
@@ -80,6 +91,7 @@ const ProtectedRoute = ({ notIsNav, component: Component, ...rest }) => {
           );
         }
       }}
+
     />
   );
 };

@@ -32,11 +32,12 @@ import NavigationSearch from './NavigationSearch';
 import Notification from './Notification';
 
 const cx = classNames.bind(styles);
-
-const NavBar = () => {
+type Props = {
+update: () => void;};
+const NavBar = ({update}) => {
   const dispatch: AppDispatch = useDispatch();
   const [isLogOutLoader, setLogOutLoader] = useState(false);
-  //const [isSearch, setSearch] = useState(false);
+  const [isSearch, setSearch] = useState("");
   const [isOpen, setOpen] = useState(true);
 
   const { pathname } = useLocation();
@@ -47,18 +48,21 @@ const NavBar = () => {
     dispatch(userProfileMiddleWare());
   }, []);
 
-  const { permission, is_plan, isProfile, plan_id, email } = useSelector(
+  const { permission, is_plan, isProfile, plan_id, user } = useSelector(
     ({ permissionReducers, userProfileReducers }: RootState) => {
       return {
         permission: permissionReducers.Permission,
         is_plan: permissionReducers.is_plan,
         isProfile: userProfileReducers.profile,
         plan_id: permissionReducers.plan_id,
-        email: userProfileReducers.user.email,
+        user: userProfileReducers.user,
       };
     },
   );
 
+const passwordchange=()=>{
+update();
+}
   // logout function
   const handleLogout = () => {
     setLogOutLoader(true);
@@ -77,7 +81,6 @@ const NavBar = () => {
   return (
     <>
       <div className={styles.overAll}>
-        {console.log('sdsdsdsd', isOpen)}
         {isLogOutLoader && <Loader />}
         <Flex row center between className={styles.nav} style={{height:'45px'}}>
           <Flex row center>
@@ -248,9 +251,9 @@ const NavBar = () => {
                         </Dropdown.Item>
                         <Dropdown.Item href="#">
                           {is_plan ? (
-                            <LinkWrapper
-                              onClick={clearTab}
-                              to={'/account_setting/settings'}
+                            <Flex
+                              onClick={passwordchange}
+                               
                             >
                               <div
                                 style={{ marginLeft: '-10px' }}
@@ -274,10 +277,12 @@ const NavBar = () => {
                                     marginLeft: '15px',
                                   }}
                                 >
+                                  {/* < UserProfile /> */}
                                   Update Password
+                                  
                                 </span>
                               </div>
-                            </LinkWrapper>
+                            </Flex>
                           ) : (
                             <div
                               title="Account Settings"
@@ -285,8 +290,9 @@ const NavBar = () => {
                                 navFocusColor:
                                   pathname.includes('/account_setting'),
                               })}
+                              
                             >
-                            <text style={{verticalAlign:'3px'}}>
+                            <text style={{verticalAlign:'3px',cursor:"pointer"}}>
                               <SvgLock
                                 fill={'#581845'}
                                 height={20}
@@ -295,8 +301,9 @@ const NavBar = () => {
                               </text>
 
                               <span
-                                style={{ color: '#581845', marginLeft: '15px' }}
+                                style={{ color: '#581845', marginLeft: '15px',cursor:"pointer" }}
                               >
+                                {/* < UserProfile /> */}
                                 Update Password
                               </span>
                             </div>
@@ -307,9 +314,11 @@ const NavBar = () => {
                         <Flex style={{ color: '#FCC203', textAlign: 'center',fontSize:'14px' }}>
                           You have logged in as
                         </Flex>
+                        {user && 
                         <Flex style={{ color: '#581845', textAlign: 'center',paddingLeft:'15px',paddingRight:'15px' }}>
-                          {email}
+                          {user.email}
                         </Flex>
+                        }
                         <div
                           style={{
                             textAlign: 'center',
@@ -458,13 +467,12 @@ const NavBar = () => {
                         </Dropdown.Item>
                         <Dropdown.Item href="#">
                           {is_plan ? (
-                            <LinkWrapper
-                              onClick={clearTab}
-                              to={'/account_setting/settings'}
+                            <Flex
+                              onClick={passwordchange}
+                              
                             >
                               <div
-                                style={{ marginLeft: '-10px' }}
-                                title="Account Settings"
+                                style={{ marginLeft: '-10px',cursor:"pointer" }}
                                 className={cx('svgMargin', {
                                   navFocusColor:
                                     pathname.includes('/account_setting'),
@@ -481,13 +489,13 @@ const NavBar = () => {
                                 <span
                                   style={{
                                     color: '#581845',
-                                    marginLeft: '15px',
+                                    marginLeft: '15px',cursor:"pointer"
                                   }}
                                 >
                                   Update Password
                                 </span>
                               </div>
-                            </LinkWrapper>
+                            </Flex>
                           ) : (
                             <div
                               title="Account Settings"
@@ -496,16 +504,17 @@ const NavBar = () => {
                                   pathname.includes('/account_setting'),
                               })}
                             >
-                            <text style={{verticalAlign:'3px'}}>
+                            <text style={{verticalAlign:'3px',cursor:"pointer"}}  >
                               <SvgLock
                                 fill={'#581845'}
                                 height={20}
                                 width={20}
+                               
                               />
                             </text>
 
                               <span
-                                style={{ color: '#581845', marginLeft: '15px' }}
+                                style={{ color: '#581845', marginLeft: '15px',cursor:"pointer" }}
                               >
                                 Update Password
                               </span>
@@ -517,9 +526,12 @@ const NavBar = () => {
                         <Flex style={{ color: '#FCC203', textAlign: 'center',fontSize:'14px'  }}>
                           You have logged in as
                         </Flex>
+                        {user !== undefined && 
+                     
                         <Flex style={{ color: '#581845', textAlign: 'center',paddingLeft:'15px',paddingRight:'15px' }}>
-                          {email}
+                          {user.email}
                         </Flex>
+                           }
                         <div
                           style={{
                             textAlign: 'center',

@@ -101,6 +101,11 @@
   margin-right: -15px;
   padding: 3px 10px;
   border-radius: 8px;
+  cursor: pointer;
+}
+.pointerapply{
+  cursor: pointer;
+  margin-left: 10px;
 }
 .dropdown_toggle{
     /* margin-top:25px; */
