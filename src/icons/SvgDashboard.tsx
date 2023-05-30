@@ -24,4 +24,4 @@ const SvgDashboard = (props) => (
 </svg>
 );
 
-export default SvgDashboard;
+export default SvgDashboard
