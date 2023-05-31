@@ -18,7 +18,7 @@ const VerificationSuccessfully = () => {
           complete the registration.
         </Text>
         <Text align="center">
-          If you are not able to find our mail, please check the spam
+          In case you are not able to find our mail, please check the spam
           folder.
         </Text>
       </Flex>

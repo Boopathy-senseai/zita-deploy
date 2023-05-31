@@ -1,5 +1,5 @@
 import { textColors } from '../Text/Text';
-type buttonTypes = 'primary' | 'secondary' | 'link' | 'tertiary' | 'success';
+type buttonTypes = 'primary' | 'secondary' | 'link' | 'tertiary' | 'success'|'close';
 export const buttonHelper = (types?: buttonTypes, disabled?: boolean) => {
   let textColor: textColors = 'black';
   if (types === 'primary') {
@@ -20,6 +20,9 @@ export const buttonHelper = (types?: buttonTypes, disabled?: boolean) => {
   }
   if (types === 'tertiary') {
     textColor = 'black_1';
+  }
+  if(types === 'close'){
+    textColor = 'white';
   }
   return { textColor };
 };

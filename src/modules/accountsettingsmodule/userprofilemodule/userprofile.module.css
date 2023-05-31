@@ -31,9 +31,9 @@
 }.maxWidth2{
   max-width: 800px;
 }
-.maxWidth3{
-  max-width: 1200px;
-}
+/* .maxWidth3{
+  margin-top: 20px;
+} */
 .cardOverAll {
  padding: 20px;
  margin-top: 1rem;
@@ -129,13 +129,54 @@
   color: #666666
 }
 .companyrow{margin-top: 10px;width: 80%;margin-bottom: 10px;}
-.companyrow2{margin-top: 10px;width: 87%;margin-bottom: 10px;}
-
-
-img{
+.companyrow2{margin-top: 10px;margin-bottom: 10px;}
+.model {
+  
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 30px 20px; 
+  max-height: auto;
+  
+}
+.borderline{
+border-top: 1px solid #C3C3C3;
+margin-top: 15px;
+}
+.passwordhead{
+  font-size: 18px;
+  font-weight: 700;
+  color: #581845;
+  
+}
+.inputheight{
+  height: 35px !important;
+  margin-top: 5px;
+}
+.cancelbutton{
+  margin-right: 20px;
+}
+.btnstyleclosesave{
+  width: 100px;
+height: 30px;
+}
+.btnstyleclosesave1{
+  width: 100px;
+height: 30px;
+background-color: #888888;
+ 
+}
+.overallbtn{
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 28px;
+  margin-top: 25px;
+}
+/* img{ */
    /* height: 125px; // not crt methode
     width: 145px; */
-}
+
+/* } */
+
 
 .changeStyle {
   position: absolute;
@@ -145,6 +186,9 @@ img{
   height: 125px;
   z-index: 99;
     width: 145px;
+}
+.passwordicon{
+  margin-top: 8.5px;
 }
 .changeStyle1 {
   position: absolute;

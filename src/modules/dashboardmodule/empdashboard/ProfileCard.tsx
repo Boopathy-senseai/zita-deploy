@@ -527,7 +527,7 @@ useEffect(() => {
          
 {console.log("weburl",weburl)}
 
-            {weburl!=="https://" ? <Flex row> <Flex marginRight={5}><SvgGlobe height={20} width={20} fill={BLACK} /></Flex>
+            {weburl!==null ? <Flex row> <Flex marginRight={5}><SvgGlobe height={20} width={20} fill={BLACK} /></Flex>
               <Flex marginLeft={9}><Text style={{ marginBottom: "4px",textDecoration:"underline" }} >{weburl}</Text></Flex></Flex> :  
               <Flex row marginTop={7}>
                 <Flex marginRight={5} >
@@ -548,7 +548,7 @@ useEffect(() => {
           <Flex marginTop={16}>
 
 
-            {address !== "" ? <Flex row><Flex marginRight={1} ><SvgLocationicon height={30} width={30} fill={BLACK} /></Flex>
+            {address !== null ? <Flex row><Flex marginRight={1} ><SvgLocationicon height={30} width={30} fill={BLACK} /></Flex>
               <Flex  marginLeft={4}>{address}
               ,{city},{state},{country}
               ,{zipcode}

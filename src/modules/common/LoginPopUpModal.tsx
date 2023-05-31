@@ -102,7 +102,11 @@ const LoginPopUpModal = ({ cancel, open, closeLogin }: Props) => {
         );
         axios.defaults.headers.common['Authorization'] =
           'Token ' + localStorage.getItem('token');
-        dispatch(profileEditMiddleWare({jd_id:localStorage.getItem('careerJobViewJobId')}));
+        dispatch(
+          profileEditMiddleWare({
+            jd_id: localStorage.getItem('careerJobViewJobId'),
+          }),
+        );
         cancel();
       } else if (res.payload.inactive === true) {
         setInactive(true);
@@ -156,7 +160,7 @@ const LoginPopUpModal = ({ cancel, open, closeLogin }: Props) => {
             formik={formik}
             handleForgotOpen={handleForgotOpen}
             isInactive={isInactive}
-            loginTitle="Login"
+            //loginTitle="Login"
           />
         )}
         {isForgot && (
@@ -164,7 +168,8 @@ const LoginPopUpModal = ({ cancel, open, closeLogin }: Props) => {
             forgotFormik={forgotFormik}
             handleForgotClose={handleForgotClose}
             setEmailValid={setEmailValid}
-            isEmailValid={isEmailValid}
+            ResetSuccess={isResetSuccess}
+            // isEmailValid={isEmailValid}
           />
         )}
         {isResetSuccess && <ResetPasswordSuccess />}

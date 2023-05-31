@@ -156,8 +156,8 @@ const NavigationSearch = () => {
 
  
   return (
-    <div style={{ position: 'relative' }}>
-      <div style={{ position: 'absolute', zIndex: 11, top: 5, left: 10 }}>
+    <div style={{ position: 'relative',width:'195px' }}>
+      <div style={{ position: 'absolute', zIndex: 11, top: 3, left: 10 }}>
         <SvgSearch fill={'#581845'} />
       </div>
 
