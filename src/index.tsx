@@ -19,8 +19,11 @@ import store from './store';
 const msalInstance = new PublicClientApplication({
   auth: {
     clientId: config.appId,
+    authority:
+      'https://login.microsoftonline.com/334746e4-ef70-4862-af79-0260ee38f399',
     redirectUri: config.redirectUri,
   },
+
   cache: {
     cacheLocation: 'sessionStorage',
     storeAuthStateInCookie: true,

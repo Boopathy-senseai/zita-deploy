@@ -48,8 +48,8 @@ type Props = {
   }[];
   hanldeRefresh: () => void;
   handleSearch: () => void;
-  isExperience:any;
-  isSkillOption:any
+  isExperience: any;
+  isSkillOption: any;
 };
 
 const ApplicantPipeLineFilter = ({
@@ -69,7 +69,7 @@ const ApplicantPipeLineFilter = ({
   hanldeRefresh,
   handleSearch,
   isExperience,
-  isSkillOption
+  isSkillOption,
 }: Props) => {
   const selectInputRef = useRef<any>();
   const myRef = useRef<any>();
@@ -192,7 +192,9 @@ const ApplicantPipeLineFilter = ({
           <SelectTag
             value={
               experienceOption
-                ? experienceOption.find((option:any) => option.value === isExperience)
+                ? experienceOption.find(
+                    (option: any) => option.value === isExperience,
+                  )
                 : ''
             }
             options={experienceOption}

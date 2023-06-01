@@ -260,3 +260,5 @@ export const jobViewCountApi = (jdId: string) => {
   const url = `job_view_count_fun/${jdId}`;
   return url;
 };
+
+export const maillist = `email_label`;

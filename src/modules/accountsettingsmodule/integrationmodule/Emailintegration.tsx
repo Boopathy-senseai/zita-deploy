@@ -20,7 +20,7 @@ import SvgGmail from '../../../icons/SvgGmailNew';
 
 import SvgClose from '../../../icons/SvgClose';
 
-import SvgOutlookMail from '../../../icons/SvgOutlookmail';
+import SvgoutlookMail from '../../../icons/SvgOutlookmail';
 import SvgEdit from '../../../icons/SvgEdit';
 import SvgTick from '../../../icons/SvgTickNew';
 import {
@@ -52,7 +52,38 @@ const IntegrationScreen = () => {
     gapi.load('client:auth2', start);
   }, []);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    // const initialGoogleConnection = async () => {
+    //   gapi.load('client:auth2', {
+    //     callback: () => {
+    //       // Handle gapi.client initialization.
+    //       gapi.client.setApiKey(process.env.REACT_APP_API_KEY);
+    //       gapi.auth.authorize(
+    //         {
+    //           client_id: process.env.REACT_APP_CLIENT_ID,
+    //           scope: process.env.REACT_APP_SCOPES,
+    //           immediate: true,
+    //         },
+    //         handleAuthResult,
+    //       );
+    //     },
+    //     onerror: function () {
+    //       // Handle loading error.
+    //       console.log('gapi.client failed to load!');
+    //     },
+    //     timeout: 5000, // 5 seconds.
+    //     ontimeout: function () {
+    //       // Handle timeout.
+    //       console.log('gapi.client could not load in a timely manner!');
+    //     },
+    //   });
+    // };
+    // try {
+    //   initialGoogleConnection();
+    // } catch (error) {
+    //   console.log('error: ', error);
+    // }
+  }, []);
 
   const handleAuthResult = (authResult) => {
     if (authResult && !authResult.error) {
@@ -69,36 +100,6 @@ const IntegrationScreen = () => {
   };
 
   const select = () => {
-    const initialGoogleConnection = async () => {
-      gapi.load('client:auth2', {
-        callback: () => {
-          // Handle gapi.client initialization.
-          gapi.client.setApiKey(process.env.REACT_APP_API_KEY);
-          gapi.auth.authorize(
-            {
-              client_id: process.env.REACT_APP_CLIENT_ID,
-              scope: process.env.REACT_APP_SCOPES,
-              immediate: true,
-            },
-            handleAuthResult,
-          );
-        },
-        onerror: function () {
-          // Handle loading error.
-          console.log('gapi.client failed to load!');
-        },
-        timeout: 5000, // 5 seconds.
-        ontimeout: function () {
-          // Handle timeout.
-          console.log('gapi.client could not load in a timely manner!');
-        },
-      });
-    };
-    try {
-      initialGoogleConnection();
-    } catch (error) {
-      console.log('error: ', error);
-    }
     return gapi.auth.authorize(
       {
         client_id: process.env.REACT_APP_CLIENT_ID,
@@ -144,7 +145,7 @@ const IntegrationScreen = () => {
   //////outlook /////
 
   const outlookconfig = async () => {
-    // alert('outlook login');
+    alert('outlook login');
     await instance
       .loginPopup({
         scopes: ['openid', 'profile', 'User.Read', 'Mail.Read'],
@@ -155,7 +156,7 @@ const IntegrationScreen = () => {
         setAuthorizemail('outlook');
       })
       .catch((error) => {
-        alert('connection failed');
+        console.log('connection faild  error------', error);
       });
 
     //console.log('asasas', value);
@@ -205,7 +206,7 @@ const IntegrationScreen = () => {
                 <SvgTick />
               </Flex>
               <Flex row start className={styles.cardHeader}>
-                <SvgOutlookMail />
+                <SvgoutlookMail />
 
                 <Text
                   color="theme"
@@ -235,7 +236,7 @@ const IntegrationScreen = () => {
           <UnauthenticatedTemplate>
             <Card className={styles.cardStruture}>
               <Flex row start className={styles.cardHeader}>
-                <SvgOutlookMail />
+                <SvgoutlookMail />
 
                 <Text
                   color="theme"
@@ -341,7 +342,7 @@ const IntegrationScreen = () => {
                 You have connected your Email with Outlook Mail Service.
               </Text>
               <Flex row start className={styles.modelheadder}>
-                <SvgOutlookMail />
+                <SvgoutlookMail />
                 <Card className={styles.outlookEmailcard}>
                   <Flex style={{ padding: '10px' }}>
                     <Flex>Connected as</Flex>

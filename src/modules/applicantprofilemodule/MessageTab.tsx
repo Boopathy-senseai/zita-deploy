@@ -92,7 +92,7 @@ const MessageTab = () => {
   const client_id_id = candidate_details[0].client_id_id
     ? candidate_details[0].client_id_id
     : 0;
-    // template close function
+  // template close function
   const hanldeClose = () => {
     setUseTemplate(false);
   };
@@ -101,7 +101,7 @@ const MessageTab = () => {
     setUseTemplate(true);
   };
 
-  // message api call 5 sec once 
+  // message api call 5 sec once
   useEffect(() => {
     const interval = setInterval(() => {
       dispatch(applicantMessagesMiddleWare({ chatname, jd_id }));
@@ -168,6 +168,7 @@ const MessageTab = () => {
           flex={1}
           className={cx({ messageContainer: messages.length !== 0 })}
         >
+          {console.log('1st', message[0])}
           <MessageList
             client_id_id={client_id_id}
             messages={messages}

@@ -1,6 +1,6 @@
 .popup {
   width: 600px;
-  height: 600px;
+  height: 590px;
   background-color: white;
   border-radius: 5px 5px 0px 0px;
   position: absolute;
@@ -10,7 +10,7 @@
 }
 .modelmiddle {
   width: 1000px;
-  height: 600px;
+  height: 615px;
   background-color: white;
   border-radius: 5px 5px 0px 0px;
   padding: 20px;
@@ -48,4 +48,26 @@
 .searchinput {
   background-color: red;
   border: none !important;
+}
+.fromstyle {
+  margin-left: 20px;
+  padding: 3px 10px 3px 10px;
+  background-color: #eee8ec;
+  border-radius: 10px;
+}
+
+.filesname {
+  background-color: #eee8ec;
+  width: 250px;
+  height: 30px;
+  padding: 5px;
+  margin-bottom: 3px;
+}
+
+.buttoninsert {
+  margin-left: '10px';
+}
+
+.buttoninsert:hover {
+  background-color: 'white';
 }

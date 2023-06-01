@@ -39,10 +39,12 @@ const MessageTemplate = ({
         tempList.templates.toLowerCase().includes(searchTerm.toLowerCase()),
     );
     setSearchResults(results);
-  }, [searchTerm]);
+  }, [searchTerm, messageTemplate]);
 
   return (
     <Modal open={open}>
+      {console.log('rd', searchResults)}
+
       <Flex columnFlex className={styles.overAll}>
         <Text bold color="theme" className={styles.insertStyles}>
           Insert Templates

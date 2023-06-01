@@ -1,0 +1,28 @@
+.draftmodal {
+  width: 350px;
+  height: 350px;
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.flextop {
+  margin-top: 10px;
+}
+
+.buttonwidth {
+  width: 250px;
+}
+
+.buttonsecondary {
+  width: 250px;
+}
+
+.buttonsecondary:hover {
+  background-color: white !important;
+}
+
+.content {
+  margin-top: 10px;
+  text-align: center;
+}

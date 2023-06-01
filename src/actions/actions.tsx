@@ -103,18 +103,18 @@ export const JOBMETRICSDOWNLOAD = 'reports/job_metrics_download';
 export const SOURCINGPERFORMANCE = 'reports/sourcing_performance';
 export const JOBMETRICSCHARTDATA = 'reports/job_metrics_chart';
 export const SOURCINGPERFORMANCEDATA = 'reports/sourcing_performance_data';
-export const SOURCINGPERFORMANCEDOWNLOAD = 'reports/sourcing_performance_download';
-
+export const SOURCINGPERFORMANCEDOWNLOAD =
+  'reports/sourcing_performance_download';
 
 // account settings page
 export const COMPANYPAGE = 'companypage/companypage';
 export const USERPROFILE = 'userprofile/user_profile';
 export const INTEGRATION = 'intergration/intergration';
-export const GOOGLE_SYNC= 'google_sync_api/google_sync_api';
-export const  OUTLOOK_SYNC= 'outlook_sync_api/outlook_sync_api';
-export const  EMAILNOTIFI = 'email_preference/email_preference';
-export const  CALBACK_URL= 'calback_url/calback_url';
-export const  CALBACK_GOOGLE_URL= 'google_sync_api/google_sync_api';
+export const GOOGLE_SYNC = 'google_sync_api/google_sync_api';
+export const OUTLOOK_SYNC = 'outlook_sync_api/outlook_sync_api';
+export const EMAILNOTIFI = 'email_preference/email_preference';
+export const CALBACK_URL = 'calback_url/calback_url';
+export const CALBACK_GOOGLE_URL = 'google_sync_api/google_sync_api';
 export const PASSWORD = 'passwordchange/password_change';
 export const ACCOUNT_SETTING_BUILD_CAREER = 'account/account_build_career';
 export const ACCOUNT_SETTING_BUILD_CAREER_POST =
@@ -127,3 +127,7 @@ export const CANDIDATE_PROFILE_EMAIL_VALIDATE =
   'candidate/candidate_profile_email_validate';
 export const CANDIDATE_PROFILE_OTP_VALIDATE =
   'candidate/candidate_profile_otp_validate';
+
+//email integration
+
+export const GET_EMAIL = 'email_label';

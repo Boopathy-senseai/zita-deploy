@@ -1,19 +1,18 @@
  {
     "message": {
-      "subject": "emailContent.subject",
+      "subject": "",
       "body": {
         "contentType": "Text",
-        "content": "sample check email message"
+        "content": "verification send mail "
       },
-      "toRecipients": [
-        {
-          "emailAddress": {
-            "address": "jananirangesh@sense7ai.com"
-          }
-        }
-      ]
-     
-    },
+        "toRecipients": [],
+        "ccRecipients": [],
+        "bccRecipients": [],
+        "attachments": []
+        
+     },
     "saveToSentItems": false
   }
 
+
+ 

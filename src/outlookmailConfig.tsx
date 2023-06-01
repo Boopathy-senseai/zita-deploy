@@ -72,12 +72,18 @@
 
 const config = {
   appId: '159ed36b-e12a-400b-a101-7f1a558ed6ce',
+  authority:
+    'https://login.microsoftonline.com/334746e4-ef70-4862-af79-0260ee38f399',
   redirectUri: 'http://localhost:3000/account_setting/settings',
   scopes: [
     'user.read',
-    'mailboxsettings.read',
+    // 'mailboxsettings.read',
     'mail.read',
-    'calendars.readwrite',
+    //'mail.send',
+    //'mail.readwrite',
+    // 'calendars.readwrite',
+    ' api://159ed36b-e12a-400b-a101-7f1a558ed6ce/Mail.ReadWrite',
+    'api://159ed36b-e12a-400b-a101-7f1a558ed6ce/Mail.Send',
   ],
 };
 

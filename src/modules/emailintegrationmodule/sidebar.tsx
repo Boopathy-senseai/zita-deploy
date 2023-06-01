@@ -18,23 +18,42 @@ type Props = {
   open: () => void;
   send: () => void;
   draft: () => void;
+  inbox: () => void;
 };
 
-const Sidebar = ({ open, send, draft }: Props) => {
-  const [model, setmodel] = useState(false);
-  const [style, setstyle] = useState('popup');
-  const [openCc, setopenCc] = useState(false);
-  const [openBcc, setopenBcc] = useState(false);
+const Sidebar = ({ open, send, draft, inbox }: Props) => {
+  const [select, setSelect] = useState(1);
   const openmodel = () => {
     open();
+  };
+
+  const inboxmessage = (e) => {
+    e.preventDefault();
+    inbox();
+    setSelect(1);
+  };
+  const sendmessage = (e) => {
+    e.preventDefault();
+    send();
+    setSelect(2);
+  };
+  const draftmessage = (e) => {
+    e.preventDefault();
+    draft();
+    setSelect(3);
   };
 
   return (
     <div>
       <div className={styles.sidebar}>
         <ul>
-          <li className={styles.select_row}>
-            <a href="##">
+          <li style={{ cursor: 'pointer' }}>
+            <a
+              href={' '}
+              onClick={(e) => {
+                e.preventDefault();
+              }}
+            >
               <Button onClick={openmodel}>
                 <Flex row center>
                   <SvgPlus width={10} height={10} viewBox="0 0 9 9" />
@@ -45,8 +64,12 @@ const Sidebar = ({ open, send, draft }: Props) => {
               </Button>
             </a>
           </li>
-          <li className={styles.select_row}>
-            <a href="##" onClick={send} className={styles.hoverview}>
+          <li className={select === 1 ? styles.select_row : ''}>
+            <a
+              href={' '}
+              onClick={(e) => inboxmessage(e)}
+              className={styles.hoverview}
+            >
               <SvgInbox fill={'black'} />
               <Text
                 className={styles.text}
@@ -57,8 +80,12 @@ const Sidebar = ({ open, send, draft }: Props) => {
               </Text>
             </a>
           </li>
-          <li className={styles.select_row}>
-            <LinkWrapper onClick={draft} className={styles.hoverview}>
+          <li className={select === 2 ? styles.select_row : ''}>
+            <a
+              href={' '}
+              onClick={(e) => sendmessage(e)}
+              className={styles.hoverview}
+            >
               <SvgSend />
               <Text
                 className={styles.text}
@@ -67,10 +94,14 @@ const Sidebar = ({ open, send, draft }: Props) => {
               >
                 Sent
               </Text>
-            </LinkWrapper>
+            </a>
           </li>
-          <li className={styles.select_row}>
-            <LinkWrapper className={styles.hoverview}>
+          <li className={select === 3 ? styles.select_row : ''}>
+            <a
+              href={' '}
+              onClick={(e) => draftmessage(e)}
+              className={styles.hoverview}
+            >
               <SvgDraft />
               <Text
                 className={styles.text}
@@ -79,7 +110,7 @@ const Sidebar = ({ open, send, draft }: Props) => {
               >
                 Draft
               </Text>
-            </LinkWrapper>
+            </a>
           </li>
         </ul>
       </div>

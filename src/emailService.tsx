@@ -15,7 +15,7 @@ function ensureClient(authProvider: AuthCodeMSALBrowserAuthenticationProvider) {
       authProvider: authProvider,
     });
   }
-
+  console.log(graphClient);
   return graphClient;
 }
 
@@ -28,22 +28,57 @@ export async function getUser(
   const user = await graphClient!
     .api('/me')
     // Only retrieve the specific fields needed
-    .select('displayName,mail,mailboxSettings,userPrincipalName')
+    // .select('displayName,mail,mailboxSettings,userPrincipalName')
     .get();
-
+  console.log(user);
   return user;
 }
 
 export async function getmail(
   authProvider: AuthCodeMSALBrowserAuthenticationProvider,
 ) {
-  var response: any = await graphClient?.api('/me/messages').top(25).get();
-
+  var response: any = await graphClient
+    ?.api('/me/mailFolders/Inbox/messages')
+    .top(25)
+    .get();
+  console.log('-----mailresponce-----', response);
   return response;
 }
 
 export async function composemail(
   authProvider: AuthCodeMSALBrowserAuthenticationProvider,
+  data,
 ) {
-  console.log('data');
+  var response: any = await graphClient?.api('me/sendMail').post(data);
+  console.log('data---------', response);
+}
+
+export async function draftmail(
+  authProvider: AuthCodeMSALBrowserAuthenticationProvider,
+  data,
+) {
+  var response: any = await graphClient?.api('me/messages').post(data.message);
+  console.log('data---------', response);
+}
+
+export async function getdraft(
+  authProvider: AuthCodeMSALBrowserAuthenticationProvider,
+) {
+  var response: any = await graphClient
+    ?.api('/me/mailFolders/Drafts/messages')
+    .top(25)
+    .get();
+  console.log('-----mailresponce-----', response);
+  return response;
+}
+
+export async function getsenditem(
+  authProvider: AuthCodeMSALBrowserAuthenticationProvider,
+) {
+  var response: any = await graphClient
+    ?.api('/me/mailFolders/SentItems/messages')
+    .top(25)
+    .get();
+  console.log('-----sendmailresponce-----', response);
+  return response;
 }
