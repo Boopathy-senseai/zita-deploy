@@ -7,16 +7,13 @@ import SvgBack from '../../../icons/SvgBack';
 import Flex from '../../../uikit/Flex/Flex';
 import InputText from '../../../uikit/InputText/InputText';
 import Text from '../../../uikit/Text';
-import { enterKeyPress, isEmpty } from '../../../uikit/helper';
-import SvgTickBox from '../../../icons/SvgTickBox';
-import SvgCloseBox from '../../../icons/SvgCloseBox';
+import { isEmpty } from '../../../uikit/helper';
 import { Button, Loader, Toast } from '../../../uikit';
 import { AppDispatch, RootState } from '../../../store';
-import SvgPlusCircle from '../../../icons/SvgAddCircle';
-import { Chip } from '../../../uikit/StagesChip/stagesChip';
 import { StageCard } from '../../../uikit/StageCard/stagesCard';
 import { useStages } from '../../../hooks/useStages';
-import { StageData, SuggestionData } from '../../../hooks/useStages/types';
+import { StageData } from '../../../hooks/useStages/types';
+import { useForm } from '../../../hooks/useForm/useForm';
 import {
   ICreateTemplate,
   IUpdateTemplate,
@@ -42,7 +39,7 @@ type FormProps = {
 
 const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
   const [stage, setStage] = useState(false);
-  const [form, setForm] = useState({ title: '', pipelineTitle: '' });
+  const [form, setForm] = useState({ pipelineTitle: '' });
   const [isSubmitLoader, setSubmitLoader] = useState(false);
 
   const dispatch: AppDispatch = useDispatch();
@@ -67,6 +64,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     isStageDuplicate,
     isStageExist,
     addDefaultStages,
+    isEqual,
   } = useStages(stages);
 
   useEffect(() => {
@@ -96,20 +94,28 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
 
   const handleJobPipeline = (values: jobPipelineForm) => {
     const errors: Partial<jobPipelineForm> = {};
+    if (isEmpty(values.pipelineTitle) || values?.pipelineTitle.trim() === '') {
+      errors.pipelineTitle = 'Enter a valid stage name';
+    }
     if (isEmpty(values.pipelineTitle)) {
       errors.pipelineTitle = 'This field is required';
     }
-    if (!isEmpty(values.pipelineTitle) && values.pipelineTitle.length > 25) {
+    if (
+      !isEmpty(values.pipelineTitle) &&
+      values.pipelineTitle.trim().length > 25
+    ) {
       errors.pipelineTitle = 'Pipeline name should not exceed 25 characters.';
     }
     return errors;
   };
 
-  const formik = useFormik({
+  const formik = useForm<jobPipelineForm>({
     initialValues: form,
+    isTrim: false,
     validate: handleJobPipeline,
-    enableReinitialize: true,
+    // enableReinitialize: true,
     onSubmit: (data) => {
+      // formik.handleChange('pipelineTitle')(data.pipelineTitle.trim());
       if (wk_id) {
         handleUpdate();
       } else {
@@ -121,17 +127,19 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
 
   const isFormDirty = () => {
     if (stages && stages.length !== localStages.length) return true;
-    if (stages && JSON.stringify(stages) !== JSON.stringify(localStages)) {
+    if (stages && !isEqual(stages)) {
       return true;
     }
 
-    if (pipeline && formik.values.pipelineTitle !== pipeline.pipeline_name) {
+    if (pipeline && formik.isDirty) {
       return true;
     }
     return false;
   };
   const isFormValid = () => {
-    if (formik.values.pipelineTitle === '') return false;
+    if (!formik.isValid) return false;
+    // if (formik.values.pipelineTitle === '') return false;
+    // if (formik.values.pipelineTitle.length > 25) return false;
     if (localStages?.length === 0) return false;
     return true;
   };
@@ -147,7 +155,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
 
   const handleCreate = () => {
     const payload: ICreateTemplate = {
-      pipeline_name: formik.values.pipelineTitle,
+      pipeline_name: formik.values.pipelineTitle.trim(),
       stages: localStages,
     };
     setSubmitLoader(true);
@@ -161,7 +169,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
 
   const handleUpdate = () => {
     const payload: IUpdateTemplate = {
-      pipeline_name: formik.values.pipelineTitle,
+      pipeline_name: formik.values.pipelineTitle.trim(),
       workflow_id: wk_id,
       stages: localStages,
     };
@@ -177,11 +185,13 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
   return (
     <Flex>
       {isSubmitLoader && <Loader />}
-      <Flex row start className={styles.title} onClick={handleBack}>
-        <SvgBack height={14} width={14} />
-        <Text color="theme" bold size={16} style={{ marginLeft: '10px' }}>
-          Back to Pipeline
-        </Text>
+      <Flex row start className={styles.title}>
+        <Flex row center onClick={handleBack} style={{cursor: "pointer"}}>
+          <SvgBack height={14} width={14} />
+          <Text color="theme" bold size={16} style={{ marginLeft: '10px' }}>
+            Back to Pipeline
+          </Text>
+        </Flex>
       </Flex>
       <Flex column className={styles.bottomBorder}>
         <Flex column flex={1} marginBottom={30} start>
@@ -193,7 +203,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
             required
             name="pipelineTitle"
             value={formik.values.pipelineTitle}
-            style={{ width: 'fit-content' , marginBottom: '5px' }}
+            style={{ width: '250px', marginBottom: '5px' }}
             onChange={formik.handleChange('pipelineTitle')}
             className={styles.input}
           />
@@ -263,7 +273,12 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
           >
             Cancel
           </Button>
-          <Button onClick={formik.submitForm}>Save</Button>
+          <Button
+            onClick={formik.handleSubmit}
+            disabled={!(isFormValid() && isFormDirty())}
+          >
+            Save
+          </Button>
         </Flex>
       ) : (
         <Flex row end marginTop={50} marginBottom={20}>
@@ -275,7 +290,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
             Cancel
           </Button>
           <Button
-            onClick={formik.submitForm}
+            onClick={formik.handleSubmit}
             disabled={!(isFormValid() && isFormDirty())}
           >
             Update

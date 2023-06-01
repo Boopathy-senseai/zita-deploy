@@ -1,4 +1,10 @@
-import { ReactChild, ReactFragment, ReactPortal, useEffect, useState } from 'react';
+import {
+  ReactChild,
+  ReactFragment,
+  ReactPortal,
+  useEffect,
+  useState,
+} from 'react';
 import classNames from 'classnames/bind';
 import AutoSuggest from 'react-autosuggest';
 import { isEmpty, lowerCase } from '../../uikit/helper';
@@ -32,6 +38,7 @@ type Props = {
   onkeyPress?: (a: any) => void;
   style?: string;
   autoFocus?: boolean;
+  onChange?: (val: string) => void;
 };
 
 const renderInputComponent = ({
@@ -50,7 +57,7 @@ const renderInputComponent = ({
   style,
   autoFocus,
 }: any) => {
-  const getValue=value.includes(', usa')
+  const getValue = value.includes(', usa');
   return (
     <input
       // eslint-disable-next-line jsx-a11y/no-autofocus
@@ -59,7 +66,7 @@ const renderInputComponent = ({
       onSubmit={onSubmit}
       onBlur={onBlur}
       onChange={onChange}
-      value={getValue ? lowerCase(value.replace(', usa', ', USA')): value}
+      value={getValue ? lowerCase(value.replace(', usa', ', USA')) : value}
       placeholder={placeholder}
       disabled={disabled}
       type={type}
@@ -88,6 +95,7 @@ const InputSearch = ({
   onkeyPress,
   style,
   autoFocus,
+  ...rest
 }: Props) => {
   const [currentsuggestion, setSuggestion] = useState<any[]>([]);
   const [currentvalue, setValue] = useState(initialValue);
@@ -98,14 +106,14 @@ const InputSearch = ({
     options.map((company) => {
       return company.toLowerCase();
     });
-    useEffect(()=>{
-      setValue(initialValue)
-    },[initialValue])
-    useEffect(()=>{
-      if(isEmpty(currentvalue)){
-        setNoOptions(false);
-      }
-    },[currentvalue])
+  useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
+  useEffect(() => {
+    if (isEmpty(currentvalue)) {
+      setNoOptions(false);
+    }
+  }, [currentvalue]);
   const getSuggestions = (value: string) => {
     return (
       lowerCasedCompanies &&
@@ -143,6 +151,9 @@ const InputSearch = ({
 
   const onChange = (_event: object, { newValue }: { newValue: string }) => {
     setValue(newValue);
+    if (rest.onChange) {
+      rest.onChange(newValue);
+    }
   };
 
   const handleFocus = () => {
@@ -171,8 +182,12 @@ const InputSearch = ({
   const onSuggestionsFetchRequested = ({ value }: { value: string }) => {
     setValue(value);
     const requiredSuggestions: any = getSuggestions(value);
-    setSuggestion(requiredSuggestions);    
-    if (requiredSuggestions && requiredSuggestions.length === 0 && !isEmpty(value)) {
+    setSuggestion(requiredSuggestions);
+    if (
+      requiredSuggestions &&
+      requiredSuggestions.length === 0 &&
+      !isEmpty(value)
+    ) {
       setNoOptions(true);
     } else {
       setNoOptions(false);

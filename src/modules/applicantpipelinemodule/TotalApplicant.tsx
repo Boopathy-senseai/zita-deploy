@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FormikProps, useFormik } from 'formik';
 import classNames, { Value } from 'classnames/bind';
+import _ from 'lodash';
 import SvgList from '../../icons/SvgList';
 import SvgSetting from '../../icons/SvgSetting';
 import {
@@ -42,6 +43,7 @@ import SvgMove from '../../icons/SvgMove';
 import SvgDownload from '../../icons/SvgDownload';
 import { useStages } from '../../hooks/useStages';
 import { StageData } from '../../hooks/useStages/types';
+import { useForm } from '../../hooks/useForm';
 import styles from './totalapplicant.module.css';
 import MovePipelinePopup from './movepopup';
 import { updateKanbanStagesMiddleware } from './store/middleware/applicantpipelinemiddleware';
@@ -79,13 +81,26 @@ const TotalApplicant = ({
 
   const dispatch: AppDispatch = useDispatch();
 
-  const { stages, isLoading } = useSelector(
+  const { stages, isLoading, updateLoading } = useSelector(
     ({ kanbanStagesReducers }: RootState) => ({
       isLoading: kanbanStagesReducers.isLoading,
       stages: kanbanStagesReducers.stages,
+      updateLoading: kanbanStagesReducers.update.isLoading,
       // suggestions: kanbanStagesReducers.suggestion,
     }),
   );
+
+  const {
+    localStages,
+    onEditStage,
+    onAddStageFromSuggestion,
+    onAddStage,
+    onRemoveStage,
+    onReorder,
+    isStageDuplicate,
+    isEqual,
+    resetStages,
+  } = useStages(stages, columns);
 
   const handleOpenPopup = () => {
     setShowPopup(true);
@@ -98,6 +113,7 @@ const TotalApplicant = ({
   };
 
   const handleClosePopup = () => {
+    resetStages();
     setShowPopup(false);
     setStage(false);
   };
@@ -105,15 +121,7 @@ const TotalApplicant = ({
     dispatch(getTemplateDataMiddleWare());
   }, []);
 
-  const {
-    localStages,
-    onEditStage,
-    onAddStageFromSuggestion,
-    onAddStage,
-    onRemoveStage,
-    onReorder,
-    isStageDuplicate,
-  } = useStages(stages, columns);
+  
 
   const initial = {
     title: '',
@@ -121,8 +129,11 @@ const TotalApplicant = ({
 
   const handleJobPipeline = (values: { title: string }) => {
     const errors: Partial<{ title: string }> = {};
+    if (isEmpty(values.title) || values?.title.trim() === "") {
+      errors.title = 'Enter a valid stage name';
+    }
 
-    if (!isEmpty(values.title) && values.title.length > 25) {
+    if (!isEmpty(values.title.trim()) && values.title.trim().length > 25) {
       errors.title = 'Stage name should not exceed 25 characters.';
     }
     if (isStageDuplicate(values.title)) {
@@ -135,13 +146,15 @@ const TotalApplicant = ({
     formik.resetForm();
   };
 
-  const formik = useFormik({
+  const formik = useForm<{ title: string }>({
     initialValues: initial,
-    enableReinitialize: true,
+    isTrim: false,
+    // enableReinitialize: true,
     validate: handleJobPipeline,
     onSubmit: (data) => {
+      // formik.handleChange("stage_name")(data.title.trim());
       onAddStageFromSuggestion({
-        stage_name: data.title,
+        stage_name: data.title.trim(),
         // stage_order: suggestions.length + 1,
         stage_order: (localStages || [])?.length + 1,
         stage_color: '#888888',
@@ -152,6 +165,17 @@ const TotalApplicant = ({
       toggleStage();
     },
   });
+
+  const isFormDirty = () => {
+    if (stages && stages.length !== localStages.length) {
+      return true;
+    }
+    if (stages && !isEqual(stages)) {
+      return true;
+    }
+    return false;
+  };
+
   const clearTab = () => {
     sessionStorage.setItem('superUserTab', '7');
     sessionStorage.setItem('template', '1');
@@ -177,6 +201,7 @@ const TotalApplicant = ({
 
   return (
     <>
+      
       <Flex row center between className={styles.overAll}>
         <Text color="theme">
           Total Applicants:{' '}
@@ -199,6 +224,7 @@ const TotalApplicant = ({
                   style={{
                     paddingLeft: '5px',
                     borderLeft: '1px solid #581845',
+                    cursor: 'pointer',
                   }}
                   onClick={!disableMove ? handleMoveOpenPipeline : undefined}
                 >
@@ -220,6 +246,7 @@ const TotalApplicant = ({
                   style={{
                     paddingLeft: '5px',
                     borderLeft: '1px solid #581845',
+                    cursor: 'pointer',
                   }}
                   onClick={onExport}
                 >
@@ -249,13 +276,18 @@ const TotalApplicant = ({
           >
             <Flex row center style={{ cursor: 'pointer' }}>
               <SvgFavourites filled={isTotalFav} />
-              <Text style={{ marginLeft: '5px' }} color="theme" title={"Favourite Applicants"}>
+              <Text
+                style={{ marginLeft: '5px' }}
+                color="theme"
+                title={'Favourite Applicants'}
+              >
                 Favourites
               </Text>
             </Flex>
           </Button>
           <Dropdown className="dropdownButton dropleft">
-            <Dropdown.Toggle onClick={handleOpenPopup}
+            <Dropdown.Toggle
+              onClick={handleOpenPopup}
               style={{
                 borderColor: 'unset',
                 backgroundColor: 'unset',
@@ -266,7 +298,7 @@ const TotalApplicant = ({
               title="Edit Stages"
               id="dropdown-basic"
             >
-               <SvgEditStages height={16} width={16} />
+              <SvgEditStages height={16} width={16} />
               {/* <SvgSetting width={16} height={16} fill="#581845" /> */}
             </Dropdown.Toggle>
 
@@ -333,12 +365,14 @@ const TotalApplicant = ({
                   <Flex row noWrap marginBottom={15} width={'100%'}>
                     <Flex column flex={1}>
                       <InputText
+                        name="title"
                         value={formik.values.title}
                         onChange={formik.handleChange('title')}
                         lineInput
-                        size={12}
+                        size={14}
                         className={styles.input}
                         onKeyPress={handleKeyPress}
+                        onBlur={formik.handleBlur}
                       />
                       <ErrorMessage
                         touched={formik.touched}
@@ -361,7 +395,7 @@ const TotalApplicant = ({
                           tabIndex={-1}
                           role={'button'}
                           onClick={() => {
-                            formik.submitForm();
+                            formik.handleSubmit();
                           }}
                         >
                           <SvgTickBox className={styles.tickStyle} />
@@ -416,12 +450,17 @@ const TotalApplicant = ({
             >
               Cancel
             </Button>
-            <Button className={styles.update} onClick={handleUpdateStages}>
+            <Button
+              className={styles.update}
+              onClick={handleUpdateStages}
+              disabled={!isFormDirty()}
+            >
               Apply
             </Button>
           </Flex>
         </Flex>
       </Modal>
+      {updateLoading && <Loader />}
     </>
   );
 

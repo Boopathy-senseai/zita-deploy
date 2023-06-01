@@ -17,6 +17,7 @@ import { Chip } from '../../../uikit/StagesChip/stagesChip';
 import { StageCard } from '../../../uikit/StageCard/stagesCard';
 import { useStages } from '../../../hooks/useStages';
 import { StageData, SuggestionData } from '../../../hooks/useStages/types';
+import { useForm } from '../../../hooks/useForm';
 import {
   ICreateTemplate,
   IUpdateTemplate,
@@ -70,7 +71,10 @@ const PipelineSuggestions: React.FC<Props> = (props) => {
 
   const handleJobPipeline = (values: SuggestionForm) => {
     const errors: Partial<SuggestionForm> = {};
-    if (!isEmpty(values.title) && values.title.length > 25) {
+    if(!isEmpty(values.title) && values?.title.trim() === ""){
+      errors.title = "Enter a valid stage name";
+    }
+    if (!isEmpty(values.title) && values.title.trim().length > 25) {
       errors.title = 'Stage name should not exceed 25 characters.';
     }
     if (isStageDuplicate(values.title)) {
@@ -79,13 +83,13 @@ const PipelineSuggestions: React.FC<Props> = (props) => {
     return errors;
   };
 
-  const formik = useFormik({
+  const formik = useForm<SuggestionForm>({
     initialValues: form,
     validate: handleJobPipeline,
-    enableReinitialize: true,
     onSubmit: (data) => {
+      // formik.handleChange('title')(data.title.trim());
       onAddStageFromSuggestion({
-        stage_name: data.title,
+        stage_name: data.title.trim(),
         stage_order: localStages.length + 1,
         stage_color: '#888888',
         suggestion_id: new Date().getTime(),
@@ -139,12 +143,14 @@ const PipelineSuggestions: React.FC<Props> = (props) => {
         <>
           <Flex column noWrap>
             <InputText
+              name='title'
               value={formik.values.title}
               onChange={formik.handleChange('title')}
               lineInput
-              size={12}
+              size={14}
               className={styles.input}
               onKeyPress={handleKeyPress}
+              onBlur={formik.handleBlur}
             />
             <ErrorMessage
               touched={formik.touched}
@@ -167,7 +173,7 @@ const PipelineSuggestions: React.FC<Props> = (props) => {
                 tabIndex={-1}
                 role={'button'}
                 onClick={() => {
-                  formik.submitForm();
+                  formik.handleSubmit();
                 }}
               >
                 <SvgTickBox className={styles.tickStyle} />

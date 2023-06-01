@@ -28,7 +28,7 @@ const AlertDeletePopup = ({
 
         <Flex row end className={styles.borderLine}>
           <Button
-            className={styles.cancel}
+            // className={styles.cancel}
             types={'primary'}
             onClick={handleCloseDeletePopup}
           >

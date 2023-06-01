@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import _ from 'lodash';
 import { columnTypes } from '../../modules/applicantpipelinemodule/dndBoardTypes';
 import { SuggestionData } from './types';
 
@@ -14,6 +15,8 @@ export type UseStages<T> = {
   isStageExist: (name: string) => boolean;
   getDefaultStages: (value: SuggestionData[]) => SuggestionData[];
   addDefaultStages: (value: SuggestionData[]) => void;
+  isEqual: (value: T[]) => boolean;
+  resetStages: () => void;
 };
 
 export function useStages<
@@ -36,24 +39,28 @@ export function useStages<
   ];
   useEffect(() => {
     if (stages && stages.length !== 0) {
-      setLocalStages(() => {
-        if (!columns) {
-          return stages;
-        }
-
-        return [...stages].map((doc) => {
-          if (columns[doc.id]) {
-            return {
-              ...doc,
-              is_associated:
-                columns[doc.id]?.items && columns[doc.id]?.items.length !== 0,
-            };
-          }
-          return { ...doc, is_associated: false };
-        });
-      });
+      initializeStages();
     }
   }, [stages, columns]);
+
+  const initializeStages = () => {
+    setLocalStages(() => {
+      if (!columns) {
+        return stages;
+      }
+
+      return [...stages].map((doc) => {
+        if (columns[doc.id]) {
+          return {
+            ...doc,
+            is_associated:
+              columns[doc.id]?.items && columns[doc.id]?.items.length !== 0,
+          };
+        }
+        return { ...doc, is_associated: false };
+      });
+    });
+  }
 
   const onEditStage = (value: T) => {
     setLocalStages((prevStages) => {
@@ -167,6 +174,19 @@ export function useStages<
     }
   };
 
+
+  const isEqual = (list: T[]) => {
+    if(!columns){
+      return _.isEqual(_.sortBy(list), _.sortBy(localStages));
+    }
+    const local = localStages.map(doc => _.omit(doc, "is_associated"));
+    return _.isEqual(_.sortBy(list), _.sortBy(local));
+  }
+
+  const resetStages = () => {
+    initializeStages();
+  }
+
   return {
     localStages,
     setLocalStages,
@@ -179,5 +199,7 @@ export function useStages<
     isStageExist,
     getDefaultStages,
     addDefaultStages,
+    isEqual,
+    resetStages,
   };
 }

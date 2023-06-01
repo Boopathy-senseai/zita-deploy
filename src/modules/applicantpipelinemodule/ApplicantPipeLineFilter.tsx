@@ -262,7 +262,7 @@ const ApplicantPipeLineFilter = ({
     <>
       <Flex row style={{ justifyContent: 'space-between' }}>
         <Flex row className={styles.quickFilters}>
-          <Text>Quick Filters :</Text>
+          <Text style={{whiteSpace: "nowrap"}}>Quick Filters :</Text>
           {isDefaultFilter() ? (
             <Text className={styles.quickfil}>{'All'}</Text>
           ) : (
@@ -310,9 +310,10 @@ const ApplicantPipeLineFilter = ({
                 setShowDropDown((value) => !value);
               }}
             >
-              <Text bold color="theme" size={14} title={"Refresh filters"}>
+              <Text bold color="theme" size={14} >
                 View Filter
               </Text>
+              <div title="Refresh Filters" className={styles.svgRefresh}>
               <SvgRefresh
                 width={18}
                 height={18}
@@ -320,7 +321,12 @@ const ApplicantPipeLineFilter = ({
                   selectInputRef.current.clearValue();
                   hanldeRefresh();
                 }}
+                
               />
+            
+          
+          </div>
+              
             </Flex>
             <div
               className={`${styles.drop_down_menus} ${

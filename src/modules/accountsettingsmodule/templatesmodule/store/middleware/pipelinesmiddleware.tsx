@@ -18,10 +18,7 @@ export const getPipelineDataMiddleWare = createAsyncThunk<IJobPipeline, void>(
   async (_a, { rejectWithValue }) => {
     try {
       const response = await axios.get(templatesStages);
-      console.log(response.data)
       return response.data as IJobPipeline;
-      
-       //return JobPipelinesJson.data as PipelineData[];
     } catch (error) {
       const typedError = error as Error;
       return rejectWithValue(typedError);
@@ -33,8 +30,11 @@ export const updatejobPipelineMiddleWare = createAsyncThunk<
   PipelineData
 >(UPDATE_PIPELINE_DATA, async (payload, { rejectWithValue, dispatch }) => {
   try {
-    const {pipeline_name, wk_id, set_as_default} = payload;
-    const response = await axios.post(templatesStages, convertJsonToForm({pipeline_name, workflow_id: wk_id, set_as_default}));
+    const { pipeline_name, wk_id, set_as_default } = payload;
+    const response = await axios.post(
+      templatesStages,
+      convertJsonToForm({ pipeline_name, workflow_id: wk_id, set_as_default }),
+    );
     dispatch(getPipelineDataMiddleWare());
     return response.data;
   } catch (error) {
@@ -46,10 +46,11 @@ export const updatejobPipelineMiddleWare = createAsyncThunk<
 export const deleteJobPipelineMiddleWare = createAsyncThunk<number, number>(
   DELETE_PIPELINE_DATA,
   async (payload, { rejectWithValue, dispatch }) => {
-    
     try {
-      const url =  payload ? `${templatesStages}?workflow_id=${payload}` : templatesStages;
-      const {data} =  await axios.delete(url);
+      const url = payload
+        ? `${templatesStages}?workflow_id=${payload}`
+        : templatesStages;
+      const { data } = await axios.delete(url);
       dispatch(getPipelineDataMiddleWare());
 
       return data as number;

@@ -58,29 +58,28 @@ const PipelinePopupTwo = ({
 
   useEffect(() => {
     if (pipelineData && pipelineData.length > 0) {
-      const defaultPipeline = pipelineData.find((doc) => doc.set_as_default);
+      const defaultPipeline = pipelineData.find((doc) => doc.default_all);
       setSelectValue(
         getDefaultOption(defaultPipeline) || getDefaultOption(pipelineData[0]),
       );
     }
   }, [pipelineData]);
-  console.log(pipelineData);
+
+  const optionsList = pipelineData.map((doc) => ({
+    label: doc.default_all ? `${doc.pipeline_name}(default)` : doc.pipeline_name,
+    value: doc.wk_id,
+  }))
   return (
     <Modal open={openPipelinePopup}>
       <Flex flex={6} columnFlex className={styles.overAll}>
         <Text bold color="theme" className={styles.insertStyles}>
-        You can either continue with the current pipeline or choose the pipeline.
+          You can either continue with the current pipeline or choose the
+          pipeline.
         </Text>
         <SelectTag
           value={selectValue}
-          options={pipelineData.map((doc) => ({
-            label: doc.set_as_default
-              ? `${doc.pipeline_name} (default)`
-              : doc.pipeline_name,
-            value: doc.wk_id,
-          }))}
+          options={optionsList}
           onChange={(option) => {
-            console.log(option);
             setSelectValue(option);
           }}
           placeholder="Select"

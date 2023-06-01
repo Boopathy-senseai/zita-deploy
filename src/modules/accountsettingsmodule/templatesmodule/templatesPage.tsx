@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Dropdown } from 'react-bootstrap';
 import classNames, { Value } from 'classnames/bind';
-import { useFormik } from 'formik';
+// import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import Flex from '../../../uikit/Flex/Flex';
 import Text from '../../../uikit/Text';
@@ -25,6 +25,7 @@ import SvgTickBox from '../../../icons/SvgTickBox';
 import SvgCloseBox from '../../../icons/SvgCloseBox';
 import { AppDispatch, RootState } from '../../../store';
 import { PipelineData } from '../../../hooks/useStages/types';
+import { useForm } from '../../../hooks/useForm/useForm';
 import styles from './templates.module.css';
 import JobPipelinePage from './jobPipelinePage';
 import {
@@ -77,7 +78,7 @@ const TemplatesPage = () => {
       sessionStorage.removeItem('pipeline');
       sessionStorage.removeItem('button');
       sessionStorage.removeItem('wk_id');
-    }
+    };
   }, []);
   const selectTemplate = () => {
     setTemplate(1);
@@ -96,7 +97,7 @@ const TemplatesPage = () => {
     setshowbutton(2);
     sessionStorage.setItem('template', '1');
     sessionStorage.setItem('pipeline', '1');
-    sessionStorage.setItem('wk_id', JSON.stringify(id))
+    sessionStorage.setItem('wk_id', JSON.stringify(id));
   };
   const backFunction = () => {
     setPipeline(0);
@@ -138,76 +139,34 @@ const TemplatesPage = () => {
         {isLoading && <Loader />}
 
         <Flex row marginTop={'20px'}>
-          <Flex flex={2}>
-            <Card className={styles.cardStructure}>
-              <Flex row start className={styles.cardHeader}>
-                <SvgJobPipeline height={16} width={16} fill="#333333" />
-                <Text
-                  color="black2"
-                  bold
-                  size={16}
-                  style={{ marginLeft: '10px' }}
-                >
-                  Job Pipeline
-                </Text>
-              </Flex>
-
-              <Text style={{ marginTop: '10px' }}>
-                Create, modify, reorder, and delete job pipeline stages
-              </Text>
-
-              <Button className={styles.btn} onClick={() => selectTemplate()}>
-                <Text bold color="theme">
-                  Manage Pipeline
-                </Text>
-              </Button>
-            </Card>
+          <Flex flex={2} height={"unset"}>
+            <TemplateCard
+              icon={<SvgJobPipeline height={16} width={16} fill="#333333" />}
+              title={'Job Pipeline'}
+              subTitle={
+                'Create, modify, reorder, and delete job pipeline stages'
+              }
+              btnName={'Manage Pipeline'}
+              onClick={() => selectTemplate()}
+            />
           </Flex>
-          <Flex flex={2}>
-            <Card className={styles.cardStructure}>
-              <Flex row start className={styles.cardHeader}>
-                <SvgMessages height={16} width={16} />
-                <Text
-                  color="black2"
-                  bold
-                  size={16}
-                  style={{ marginLeft: '10px' }}
-                >
-                  Message Templates
-                </Text>
-              </Flex>
-              <Text style={{ marginTop: '10px' }}>
-                Design and send the custom message{' '}
-              </Text>
-              <Button className={styles.btn} onClick={() => {}}>
-                <Text bold color="theme">
-                  Manage Templates
-                </Text>
-              </Button>
-            </Card>
+          <Flex flex={2} height={"unset"}>
+            <TemplateCard
+              icon={<SvgMessages height={16} width={16} />}
+              title={'Message Templates'}
+              subTitle={'Design and send the custom message'}
+              btnName={'Manage Templates'}
+              onClick={() => {}}
+            />
           </Flex>
-          <Flex flex={2}>
-            <Card className={styles.cardStructure}>
-              <Flex row start className={styles.cardHeader}>
-                <SvgMessage height={16} width={16} fill="'#33333'" />
-                <Text
-                  color="black2"
-                  bold
-                  size={16}
-                  style={{ marginLeft: '10px' }}
-                >
-                  Email Templates
-                </Text>
-              </Flex>
-              <Text style={{ marginTop: '10px' }}>
-                Easily Create, Analyse and send your Emails{' '}
-              </Text>
-              <Button className={styles.btn} onClick={() => {}}>
-                <Text bold color="theme">
-                  Manage Templates
-                </Text>
-              </Button>
-            </Card>
+          <Flex flex={2} height={"unset"}>
+            <TemplateCard
+              icon={<SvgMessage height={16} width={16} fill="#333333" />}
+              title={'Email Templates'}
+              subTitle={'Easily Create, Analyse and send your Emails'}
+              btnName={'Manage Templates'}
+              onClick={() => {}}
+            />
           </Flex>
           <Flex flex={4}></Flex>
         </Flex>
@@ -300,7 +259,14 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
   const handleJobPipeline = (values: PipelineData) => {
     const errors: Partial<PipelineData> = {};
 
-    if (!isEmpty(values.pipeline_name) && values.pipeline_name.length > 25) {
+    if (!isEmpty(values.pipeline_name) && values?.pipeline_name.trim() === '') {
+      errors.pipeline_name = 'Enter a valid pipeline title';
+    }
+
+    if (
+      !isEmpty(values.pipeline_name) &&
+      values.pipeline_name.trim().length > 25
+    ) {
       errors.pipeline_name = 'Pipeline name should not exceed 25 characters.';
     }
     return errors;
@@ -308,15 +274,19 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
   useEffect(() => {
     setForm(list);
   }, [list, index]);
-  const formik = useFormik({
+
+  const formik = useForm<PipelineData>({
     initialValues: form,
-    enableReinitialize: true,
+    isTrim: false,
+    // enableReinitialize: true,
     validate: handleJobPipeline,
     onSubmit: (value) => {
-      onUpdate(value);
+      // formik.handleChange('pipeline_name')(value.pipeline_name.trim());
+      onUpdate({ ...value, pipeline_name: value.pipeline_name.trim() });
       handleRename();
     },
   });
+
   const handleRename = () => {
     setRenamePipeline(!renamePipeline);
     formik.resetForm();
@@ -332,12 +302,14 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
         <Flex row noWrap>
           <Flex column start>
             <InputText
+              name="pipeline_name"
               value={formik.values.pipeline_name}
               onChange={formik.handleChange('pipeline_name')}
               lineInput
               size={12}
               className={styles.input}
               onKeyPress={handleKeyPress}
+              onBlur={formik.handleBlur}
             />
             <ErrorMessage
               touched={formik.touched}
@@ -360,7 +332,7 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
                 tabIndex={-1}
                 role={'button'}
                 onClick={() => {
-                  formik.submitForm();
+                  formik.handleSubmit();
                 }}
               >
                 <SvgTickBox className={styles.tickStyle} />
@@ -481,6 +453,36 @@ const ActionsButton = ({
         )}
       </Dropdown>
     </>
+  );
+};
+
+interface TemplateCardProps {
+  title: string;
+  subTitle: string;
+  btnName: string;
+  icon: React.ReactNode;
+  onClick: () => void;
+}
+
+const TemplateCard: React.FC<TemplateCardProps> = (props) => {
+  const { title, subTitle, btnName, icon, onClick } = props;
+  return (
+    <Card className={styles.cardStructure}>
+      <Flex column start>
+        <Flex row start className={styles.cardHeader}>
+          {icon}
+          <Text color="black2" bold size={16} style={{ marginLeft: '10px' }}>
+            {title}
+          </Text>
+        </Flex>
+        <Text style={{ marginTop: '10px' }}>{subTitle} </Text>
+      </Flex>
+      <Button className={styles.btn} onClick={onClick}>
+        <Text bold color="theme">
+          {btnName}
+        </Text>
+      </Button>
+    </Card>
   );
 };
 

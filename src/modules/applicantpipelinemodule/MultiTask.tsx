@@ -37,7 +37,11 @@ import {
 } from '../calendarModule/types';
 import { getEditEventsDetails } from '../calendarModule/util';
 import SvgHeart from '../../icons/SvgHearts';
-import { GoogleEntity, ICardSelectionData, JobDetailsEntity } from './applicantPipeLineTypes';
+import {
+  GoogleEntity,
+  ICardSelectionData,
+  JobDetailsEntity,
+} from './applicantPipeLineTypes';
 import { handleDownload, hanldeFavAction } from './dndBoardHelper';
 import ProfileView from './ProfileView';
 
@@ -66,7 +70,7 @@ const MultiTask = ({
   onClick,
   isSelected,
 }: Props) => {
-  const {section, columnId, stage_name} = column;
+  const { section, columnId, stage_name } = column;
   const [isCalender, setCalender] = useState('popup');
   const [isProfileView, setProfileView] = useState(false);
   const dispatch: AppDispatch = useDispatch();
@@ -419,6 +423,7 @@ const MultiTask = ({
         {(provided) => (
           <div
             className={styles.container}
+            style={{ cursor: 'pointer' }}
             ref={provided.innerRef}
             // eslint-disable-next-line
             {...provided.dragHandleProps}
@@ -433,16 +438,25 @@ const MultiTask = ({
                   borderColor: isBorder,
                   borderLeftColor: isBorder,
                   backgroundColor: isSelected ? `${isBorder}40` : undefined,
+                  cursor: 'pointer',
                 }}
                 onClick={() => {
-                  if(onClick){
-                    onClick({ task, section, columnId })
+                  if (onClick) {
+                    onClick({ task, section, columnId });
                   }
                 }}
               >
-                <Flex row>
-                  <div style={{ position: 'relative' }}>
-                    <div className={styles.profile}>
+                <Flex
+                  row
+                  style={{
+                    cursor: 'pointer',
+                  }}
+                >
+                  <div style={{ position: 'relative', cursor: 'pointer' }}>
+                    <div
+                      className={styles.profile}
+                      style={{ cursor: 'pointer' }}
+                    >
                       <img
                         style={{ objectFit: 'contain' }}
                         alt=""
@@ -454,14 +468,31 @@ const MultiTask = ({
                       </div>
                     </div>
                   </div>
-                  <Flex columnFlex className={styles.nameContainer}>
-                    <Flex row center marginRight={16}>
+                  <Flex
+                    columnFlex
+                    className={styles.nameContainer}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <Flex
+                      row
+                      center
+                      marginRight={16}
+                      style={{ cursor: 'pointer' }}
+                    >
                       <Button
                         types="link"
                         className={styles.linkBtnStyle}
-                        onClick={hanldeProfileView}
+                        onClick={(e) => {
+                          hanldeProfileView();
+                          e.stopPropagation();
+                        }}
                       >
-                        <Text bold color="theme" textStyle={"ellipsis"} title={task.name}>
+                        <Text
+                          bold
+                          color="theme"
+                          textStyle={'ellipsis'}
+                          title={task.name}
+                        >
                           {task.name}
                         </Text>
                       </Button>
@@ -481,7 +512,7 @@ const MultiTask = ({
                         />
                       </div>
                     </Flex>
-                    <Flex row center>
+                    <Flex row center style={{ cursor: 'pointer' }}>
                       {task.location && (
                         <Text
                           size={12}
@@ -505,13 +536,18 @@ const MultiTask = ({
                         {workExp}
                       </Text>
                     </Flex>
-                    <Flex>
+                    <Flex style={{ cursor: 'pointer' }}>
                       <Text size={12} color="black2" textStyle="ellipsis">
                         {task.qualification}
                       </Text>
                     </Flex>
-                    <Flex>
-                      <Text size={12} color="black2" textStyle="ellipsis" title={getDateString(task.created_on, 'll hh:mm A')}>
+                    <Flex style={{ cursor: 'pointer' }}>
+                      <Text
+                        size={12}
+                        color="black2"
+                        textStyle="ellipsis"
+                        title={getDateString(task.created_on, 'll hh:mm A')}
+                      >
                         {getDateString(task.created_on, 'll hh:mm A')}
                         {/* {task.created_on} */}
                         {/* {getDateString(user_info?.last_login, 'll hh:mm A')} */}
@@ -519,9 +555,12 @@ const MultiTask = ({
                     </Flex>
                   </Flex>
                 </Flex>
-                <Flex row end center>
+                <Flex row end center style={{ cursor: 'pointer' }}>
                   {columnId === 0 && getDate && (
-                    <Flex className={styles.svgNewTag}>
+                    <Flex
+                      className={styles.svgNewTag}
+                      style={{ cursor: 'pointer' }}
+                    >
                       <img
                         style={{ objectFit: 'contain' }}
                         alt=""
@@ -531,7 +570,13 @@ const MultiTask = ({
                       />
                     </Flex>
                   )}
-                  <Flex row end center className={styles.svgContainer}>
+                  <Flex
+                    row
+                    end
+                    center
+                    className={styles.svgContainer}
+                    style={{ cursor: 'pointer' }}
+                  >
                     {/* {console.log('--file download--', task.file)} */}
                     <div
                       title="Download Resume"
@@ -583,7 +628,10 @@ const MultiTask = ({
                       //   href={link}
                       //   target={'_blank'}
                       // >
-                      <Flex onClick={scheduleEventHandler}>
+                      <Flex
+                        onClick={scheduleEventHandler}
+                        style={{ cursor: 'pointer' }}
+                      >
                         <SvgCalendar fill={PRIMARY} width={16} height={16} />
                       </Flex>
                       // </a>

@@ -101,14 +101,20 @@ const DndBoardScreen = ({
           btnCancel={hanldeCancel}
           btnDelete={hanldeAlertConfirm}
           open={isAlert.open}
-          btnRight={isAlert.destination}
+          btnRight={'Move'}
           title={
             <Flex columnFlex className={styles.statusFlex}>
-              <Text color={"theme"} size={16} bold>
-                {`Application status will be updated to ${isAlert.destination}`}
-                .
-              </Text>
-              <Text>Are you sure?</Text>
+              {/* {console.log(isAlert.destination)} */}
+              {isAlert.destination !== 'Rejected' ? (
+                <Text color={'theme'} size={16} bold>
+                  {`Application status will be updated to the applicant as 'Under Review’.`}
+                </Text>
+              ) : (
+                <Text color={'theme'} size={16} bold>
+                  {`Application status will be updated to the applicant as ‘No longer considered’.`}
+                </Text>
+              )}
+              <Text>Are you sure to proceed?</Text>
             </Flex>
           }
         />
@@ -120,22 +126,21 @@ const DndBoardScreen = ({
           onDragEnd(result);
         }}
       >
-        {columns
-          .map((column, index) => {
-            return (
-              <DndBoardCol
-                key={column.columnId}
-                column={column}
-                index={index}
-                isDropDisabled={index < isIndex}
-                outlook={outlook}
-                google={google}
-                job_details={job_details}
-                onClick={onClick}
-                cardSelectionMap={cardSelectionMap}
-              />
-            );
-          })}
+        {columns.map((column, index) => {
+          return (
+            <DndBoardCol
+              key={column.columnId}
+              column={column}
+              index={index}
+              isDropDisabled={index < isIndex}
+              outlook={outlook}
+              google={google}
+              job_details={job_details}
+              onClick={onClick}
+              cardSelectionMap={cardSelectionMap}
+            />
+          );
+        })}
       </DragDropContext>
     </div>
   );

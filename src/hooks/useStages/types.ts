@@ -20,6 +20,7 @@ export interface PipelineData {
   updated_at?: string;
   set_as_default: boolean;
   associate: number;
+  default_all: boolean;
 }
 export interface SuggestionData {
   suggestion_id: number;

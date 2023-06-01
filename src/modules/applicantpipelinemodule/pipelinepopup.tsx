@@ -65,7 +65,7 @@ const PipelinePopup = ({
       );
     }
   }, [pipelineData]);
-  console.log(pipelineData);
+  
   return (
     <Modal open={openPipelinePopup}>
       <Flex flex={6} columnFlex className={styles.overAll}>
@@ -83,6 +83,7 @@ const PipelinePopup = ({
           onChange={(option) => {
             console.log(option);
             setSelectValue(option);
+            setDefaultAll(false);
           }}
           placeholder="Select"
         />

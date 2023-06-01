@@ -3,6 +3,7 @@ import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { DropResult } from 'react-beautiful-dnd';
+import _ from 'lodash';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
@@ -88,6 +89,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
   const getAppliedView = localStorage.getItem('applied_view');
 
   const {
+    isLoading,
     location_list,
     jd_id,
     workflow_id,
@@ -118,6 +120,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
       kanbanStagesReducers,
     }: RootState) => {
       return {
+        isLoading: applicantPipeLineDataReducers.isLoading,
         location_list: myJobPosingReducers.location_list,
         jd_id: applicantPipeLineReducers.jd_id,
         workflow_id: applicantPipeLineDataReducers.workflow_id,
@@ -478,6 +481,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
 
   const getAppliedCanId: any = localStorage.getItem('applied_can_id');
   const getAppliedJd: any = localStorage.getItem('applied_jd_id');
+  const _debounceSearch = _.debounce(() =>handleSearch(), 2000);
 
   useEffect(() => {
     if (getAppliedView === 'true') {
@@ -485,9 +489,9 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     }
   }, [isApplicantView, getAppliedView]);
 
-  useEffect(() => {
-    handleSearch();
-  }, [formik.values.location]);
+  // useEffect(() => {
+  //   _debounceSearch();
+  // }, [formik.values.location]);
 
   /// Column Drag & Drop
 
@@ -630,7 +634,8 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     )
       .then(() => {
         getApplicanPipelineData();
-        Toast(`Applicant moved to ${destination.stage_name} successfully`);
+        // Toast(`Applicant ${destination.stage_name} successfully`);
+        Toast(`Applicant moved successfully`);
       })
       .catch(() => {
         setNoLoader(true);
@@ -651,7 +656,8 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
       )
         .then(() => {
           // getApplicanPipelineData();
-          Toast(`Applicant moved to ${getSTData(columns[droppableId])} successfully`);
+          // Toast(`Applicant ${getSTData(columns[droppableId])} successfully`);
+          Toast(`Applicant moved successfully`);
           setAlert(null);
         })
         .catch(() => {
@@ -775,7 +781,9 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
         stages: getSTData(columns[droppableId]),
       }),
     ).then(() => {
-      Toast('Applicants moved successfully', 'LONG');
+      if (isAlert.source !== REJECTED_COLUMN) {
+        Toast('Applicants moved successfully', 'LONG');
+      }
     });
   };
   function getSTData(data: IStageColumn) {
@@ -824,6 +832,43 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     });
   };
 
+  /// Search ------------------->
+
+  const onSearchChange = (e: React.ChangeEvent<any>) => {
+    setSearch(e.target.value);
+  };
+
+  const onLocationChange = (val: any) => {
+    if(val !== "") {
+      return;
+    }
+    formik.handleChange('location')(val);
+  }
+
+  const onLocationKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      formik.setFieldValue('location', event.target.value);
+      dispatch(
+        applicantPipeLineDataMiddleWare({
+          jd_id: jdId,
+          profile_match: isMatchRadio,
+          candidate: isSearch,
+          work_experience: isExperience,
+          profile_view: isProfile,
+          education_level: qaValue,
+          skill_match: optionsList,
+          fav: favAdd,
+          sortApplicant: isSortApplicant,
+          sortSortList: isSortApplicant,
+          sortInterview: isSortApplicant,
+          sortSelected: isSortApplicant,
+          sortRejected: isSortApplicant,
+          location: event.target.value,
+        }),
+      );
+    }
+  }
+
   return (
     <>
       {showPipelinePopup && showStagesPopup === null && (
@@ -851,7 +896,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
         />
       )}
       <Flex row className={styles.overAll}>
-        {applicantDataLoader && favSuccess === false && !favLoader && (
+        {applicantDataLoader || favLoader && (
           <Loader />
         )}
         {pipeLineLoader && <Loader />}
@@ -903,7 +948,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
                     )}
                     id="applicantpipelinefilters__search"
                     value={isSearch}
-                    onChange={(e) => setSearch(e.target.value)}
+                    onChange={onSearchChange}
                     // placeholder="Search candidate by name or email"
                     placeholder="Search by name or email"
                     onKeyPress={handleKeyPress}
@@ -925,19 +970,16 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
                     name="location"
                     style={styles.boxstyle}
                     labelBold
-                    onkeyPress={(event) => {
-                      if (event.key === 'Enter') {
-                        formik.setFieldValue('location', event.target.value);
-                      }
-                    }}
+                    onChange={onLocationChange}
+                    onkeyPress={onLocationKeyPress}
                   />
 
-                  <Flex className={styles.searchicons} onClick={handleSearch}>
+                  <Flex className={styles.searchicons}>
                     <SvgSearch
                       width={12}
                       height={12}
                       fill="#ffffff"
-                    ></SvgSearch>
+                    />
                   </Flex>
                 </Flex>
               </Flex>
@@ -988,7 +1030,9 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
               onMove={handleMove}
             />
             {isNotEmpty() ? (
-              <div style={{ position: 'relative', zIndex: 0, overflowX: "scroll"}}>
+              <div
+                style={{ position: 'relative', zIndex: 0, overflowX: 'scroll' }}
+              >
                 {columns && (
                   <DndTitle
                     columns={columnOrder
@@ -1033,6 +1077,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
           </div>
         </Flex>
       </Flex>
+      {isLoading && <Loader />}
     </>
   );
 

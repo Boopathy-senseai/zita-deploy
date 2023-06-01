@@ -84,7 +84,6 @@ const getApplicants = (payload: any) => {
 };
 
 const getApplicantsByStageId = (list: ApplicantEntity[]) => {
-  
   return list.reduce((o, v) => {
     const stageId = v?.stage_id_id ?? 0;
     return {
@@ -111,7 +110,9 @@ const applicantPipeLineDataReducer = createSlice({
         );
         state.isLoading = false;
         state.jd_id = action.payload.jd_id;
-        state.locations = (action.payload.applicants_list || []).filter(doc => doc.location !== null).map(doc => doc.location);
+        state.locations = (action.payload.applicants_list || [])
+          .filter((doc) => doc.location !== null)
+          .map((doc) => doc.location); /// TODO: dependent on applicants list so locations will be few if few applicants
         state.applicants_list = action.payload.applicants_list || [];
         state.applicants = applicantsObj;
         state.fav_id = action.payload.fav_id;

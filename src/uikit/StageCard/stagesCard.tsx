@@ -1,7 +1,6 @@
 import React, { createRef, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import classNames, { Value } from 'classnames/bind';
-import { useFormik } from 'formik';
 import Text from '../../uikit/Text';
 
 import { jobPipelineForm } from '../../modules/accountsettingsmodule/templatesmodule/templatesPageTypes';
@@ -17,6 +16,7 @@ import ColorPicker from '../../modules/accountsettingsmodule/buildyourcareerpage
 import { SvgEdit } from '../../icons';
 import SvgDelete from '../../icons/SvgDelete';
 import { StageData } from '../../hooks/useStages/types';
+import { useForm } from '../../hooks/useForm';
 import styles from './stagesCard.module.css';
 import DeletePopup from './deletePopup';
 import AlertDeletePopup from './alertDeletePopup';
@@ -47,25 +47,31 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
   const [showColorPallet, setShowColorPallet] = useState(false);
   const [isBtnColorOpen, setBtnColorOpen] = useState(false);
   const [isStageLoader, setStageLoader] = useState(false);
+  
   const [initial, setInitial] = useState<StageData>(doc);
   const myRef = createRef<any>();
   const handleJobPipeline = (values: StageData) => {
     const errors: Partial<StageData> = {};
+    if(isEmpty(values.stage_name) || values?.stage_name.trim() === ""){
+      errors.stage_name = "Enter a valid stage name";
+    }
 
-    if (!isEmpty(values.stage_name) && values.stage_name.length > 25) {
+    if (!isEmpty(values.stage_name) && values.stage_name.trim().length > 25) {
       errors.stage_name = 'Stage name should not exceed 25 characters.';
     }
     return errors;
   };
-  const formik = useFormik({
-    initialValues: initial,
-    enableReinitialize: true,
+  const formik = useForm<StageData>({
+    initialValues: initial, 
+    isTrim: false, 
     validate: handleJobPipeline,
     onSubmit: (form) => {
-      onEdit(form);
+      console.log(form)
+      onEdit({...form, stage_name: form.stage_name.trim()});
+      // formik.handleChange('stage_name')(form.stage_name.trim());
       setEdit(!edit);
     },
-  });
+  })
   const toggleStage = () => {
     setEdit(!edit);
     formik.resetForm();
@@ -122,18 +128,20 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
         <Flex row noWrap>
           <Flex column noWrap>
             <InputText
+              name='stage_name'
               value={formik.values.stage_name}
               onChange={formik.handleChange('stage_name')}
               lineInput
               size={12}
               className={styles.input}
               onKeyPress={handleKeyPress}
+              onBlur={formik.handleBlur}
               // onKeyPress={(e) => enterKeyPress(e, handleLocationSubmit)}
             />
             <ErrorMessage
               touched={formik.touched}
               errors={formik.errors}
-              name="title"
+              name="stage_name"
             />
           </Flex>
           <div className={styles.svgContainer}>
@@ -151,7 +159,7 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
                 tabIndex={-1}
                 role={'button'}
                 onClick={() => {
-                  formik.submitForm();
+                  formik.handleSubmit();
                 }}
               >
                 <SvgTickBox className={styles.tickStyle} />
