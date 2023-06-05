@@ -72,6 +72,7 @@ export const KANBAN_UPDATE_STATUS = 'applicantpipe/kanban_update_status';
 export const GET_KANBAN_DATA = 'applicantpipeline/kanban_stages';
 export const UPDATE_KANBAN_DATA = 'applicantpipeline/kanban_stages_update';
 export const DELETE_KANBAN_DATA = 'applicantpipeline/kanban_stages_delete';
+export const DOWNLOAD_APPLICANTS = 'applicantpipeline/download_applicants';
 
 // Zita Match Candidate
 export const ZITA_MATCH_CANDIDATE = 'zita/zita_match_candidate';

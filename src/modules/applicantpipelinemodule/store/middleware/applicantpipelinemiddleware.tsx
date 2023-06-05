@@ -5,6 +5,7 @@ import {
   APPLICANT_PIPE_LINE_DATA,
   APPLICANT_UPDATE_STATUS,
   DELETE_KANBAN_DATA,
+  DOWNLOAD_APPLICANTS,
   GET_KANBAN_DATA,
   KANBAN_UPDATE_STATUS,
   UPDATE_KANBAN_DATA,
@@ -13,6 +14,7 @@ import {
   applicantFilterApi,
   applicantPipeLineApi,
   applicantStatusUpdateApi,
+  downloadBulkExport,
   kanbanPipelineView,
   kanbanUpdation,
 } from '../../../../routes/apiRoutes';
@@ -22,10 +24,13 @@ import {
   ApplicantFilter,
   ApplicantPipeLinePayload,
   ApplicantUpdateStatusPayload,
+  IDownloadBulk,
   IUpdateKanbanStage,
 } from '../../applicantPipeLineTypes';
 import { IKanbanStages, StageData } from '../../../../hooks/useStages/types';
 import { convertJsonToForm, stringifyParams } from '../../../../uikit/helper';
+// eslint-disable-next-line import/no-cycle
+import { handleDownload } from '../../dndBoardHelper';
 
 export const applicantPipeLineMiddleWare = createAsyncThunk(
   APPLICANT_PIPE_LINE,
@@ -40,7 +45,10 @@ export const applicantPipeLineMiddleWare = createAsyncThunk(
   },
 );
 
-export const applicantPipeLineDataMiddleWare = createAsyncThunk<ApplicantData, ApplicantFilter>(
+export const applicantPipeLineDataMiddleWare = createAsyncThunk<
+  ApplicantData,
+  ApplicantFilter
+>(
   APPLICANT_PIPE_LINE_DATA,
   async (
     {
@@ -129,7 +137,9 @@ export const kanbanUpdateMiddleWare = createAsyncThunk<
     const { data } = await axios.get(url);
     // dispatch(applicantPipeLineMiddleWare({ jd_id: JSON.stringify(payload.jd_id)}));
     // dispatch(getKanbanStagesMiddleWare({jd_id: payload.jd_id}));
-    dispatch(applicantPipeLineDataMiddleWare({jd_id: JSON.stringify(payload.jd_id)}));
+    dispatch(
+      applicantPipeLineDataMiddleWare({ jd_id: JSON.stringify(payload.jd_id) }),
+    );
     return data;
   } catch (error) {
     const typedError = error as Error;
@@ -138,7 +148,11 @@ export const kanbanUpdateMiddleWare = createAsyncThunk<
 });
 
 export const getKanbanStagesMiddleWare = createAsyncThunk<
-  { select_pipeline?: boolean; data?: IKanbanStages[]; stages?: IKanbanStages[] },
+  {
+    select_pipeline?: boolean;
+    data?: IKanbanStages[];
+    stages?: IKanbanStages[];
+  },
   { workflow_id?: number; jd_id: number; default_all?: boolean } | void
 >(GET_KANBAN_DATA, async (payload, { rejectWithValue }) => {
   try {
@@ -193,6 +207,32 @@ export const deleteKanbanStagesMiddleware = createAsyncThunk<
         jd_id: payload.jd_id,
       }),
     );
+    return response.data;
+  } catch (error) {
+    const typedError = error as Error;
+    return rejectWithValue(typedError);
+  }
+});
+
+/// kanban download
+
+export const downloadApplicantsMiddleware = createAsyncThunk<
+  IDownloadBulk,
+  {
+    jd_id: string;
+    candidate_id?: number[];
+    download?: 'download';
+    csvdownload?: 'csvdownload';
+  }
+>(DOWNLOAD_APPLICANTS, async (payload, { rejectWithValue }) => {
+  try {
+    const url = `${downloadBulkExport}?${stringifyParams(payload)}`;
+    console.log(url);
+    const response = await axios.get(url);
+    if(response.data && (response.data?.file_path || response.data?.filepath)) {
+      handleDownload(response.data?.file_path || response.data?.filepath);
+    }
+    console.log(response.data);
     return response.data;
   } catch (error) {
     const typedError = error as Error;

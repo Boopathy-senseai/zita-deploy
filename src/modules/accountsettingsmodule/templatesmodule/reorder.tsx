@@ -91,6 +91,7 @@ const ReorderStage: React.FC<Props> = (props) => {
                     )}
                   >
                     <StageCard
+                      list={list}
                       doc={item}
                       index={index}
                       onEdit={onEdit}

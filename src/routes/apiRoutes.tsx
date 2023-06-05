@@ -151,6 +151,7 @@ export const templatesStages = `jobspipeline`;
 
 export const kanbanPipelineView = `kanban_pipeline_view`;
 export const kanbanUpdation = `kanban_updation`;
+export const downloadBulkExport = `download_bulk_export`;
 
 // Login Api
 export const authApi = `${process.env.REACT_APP_API_ENDPOINT}login_api/`;

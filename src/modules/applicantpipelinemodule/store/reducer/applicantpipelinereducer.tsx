@@ -2,16 +2,19 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   ApplicantData,
   ApplicantDataReducerState,
+  ApplicantDownloadReducerState,
   ApplicantEntity,
   ApplicantPipeLineReducerState,
   ApplicantUpdateReducerState,
   KanbanStageReducerState,
 } from '../../applicantPipeLineTypes';
+// eslint-disable-next-line import/no-cycle
 import {
   applicantPipeLineDataMiddleWare,
   applicantPipeLineMiddleWare,
   applicantUpdateStatusMiddleWare,
   deleteKanbanStagesMiddleware,
+  downloadApplicantsMiddleware,
   getKanbanStagesMiddleWare,
   kanbanUpdateMiddleWare,
   updateKanbanStagesMiddleware,
@@ -252,9 +255,45 @@ const kanbanStagesReducer = createSlice({
   },
 });
 
+/// Download reducer
+
+const applicantPipeLineDownloadState: ApplicantDownloadReducerState = {
+  isLoading: false,
+  error: '',
+  filepath: '',
+  message: '',
+};
+
+const applicantPipeLineDownloadReducer = createSlice({
+  name: 'applicantpipeDownload',
+  initialState: applicantPipeLineDownloadState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(downloadApplicantsMiddleware.pending, (state) => {
+      state.isLoading = true;
+      state.error = '';
+    });
+    builder.addCase(downloadApplicantsMiddleware.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.filepath = action.payload.filepath;
+      state.message = action.payload.message;
+    });
+    builder.addCase(
+      downloadApplicantsMiddleware.rejected,
+      (state, action) => {
+        state.isLoading = false;
+        if (typeof action.payload === 'string') {
+          state.error = action.payload;
+        }
+      },
+    );
+  },
+});
+
 export const applicantPipeLineReducers = applicantPipeLineReducer.reducer;
 export const applicantPipeLineDataReducers =
   applicantPipeLineDataReducer.reducer;
 export const applicantPipeLineUpdateReducers =
   applicantPipeLineUpdateReducer.reducer;
 export const kanbanStagesReducers = kanbanStagesReducer.reducer;
+export const applicantPipelineDownloadReducers = applicantPipeLineDownloadReducer.reducer;

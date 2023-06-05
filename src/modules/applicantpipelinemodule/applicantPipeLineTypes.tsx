@@ -180,3 +180,20 @@ export interface ICardSelectionData {
 }
 
 export type ICardSelectionMap = Map<number, ICardSelectionData>;
+
+/// Download types
+
+export interface IDownloadBulk {
+  filepath?: string;
+  file_path?: string;
+  file_type?: string;
+  success?: boolean;
+  message?: string;
+}
+
+export interface ApplicantDownloadReducerState{
+  isLoading: boolean;
+  error: string;
+  filepath: string;
+  message: string;
+}

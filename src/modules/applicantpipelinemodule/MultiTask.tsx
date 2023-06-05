@@ -38,6 +38,7 @@ import {
 import { getEditEventsDetails } from '../calendarModule/util';
 import SvgHeart from '../../icons/SvgHearts';
 import {
+  ApplicantEntity,
   GoogleEntity,
   ICardSelectionData,
   JobDetailsEntity,
@@ -47,9 +48,10 @@ import ProfileView from './ProfileView';
 
 import styles from './multitask.module.css';
 import { IStageColumn } from './dndBoardTypes';
+import { downloadApplicantsMiddleware } from './store/middleware/applicantpipelinemiddleware';
 
 type Props = {
-  task: any;
+  task: ApplicantEntity;
   index: number;
   isBorder: string;
   column: IStageColumn;
@@ -416,7 +418,7 @@ const MultiTask = ({
       <ProfileView
         open={isProfileView}
         cancel={() => setProfileView(false)}
-        jobId={task.jd_id_id}
+        jobId={JSON.stringify(task.jd_id_id)}
         candidateId={task.candidate_id_id}
       />
       <Draggable draggableId={task.id.toString() + dndBoardId} index={index}>
@@ -581,7 +583,14 @@ const MultiTask = ({
                     <div
                       title="Download Resume"
                       onClick={(e) => {
-                        handleDownload(task.file);
+                        // handleDownload(task.file);
+                        dispatch(
+                          downloadApplicantsMiddleware({
+                            jd_id: task.jd_id_id.toString(),
+                            candidate_id: [task.candidate_id_id],
+                            download: 'download',
+                          }),
+                        );
                         e.stopPropagation();
                       }}
                       tabIndex={-1}

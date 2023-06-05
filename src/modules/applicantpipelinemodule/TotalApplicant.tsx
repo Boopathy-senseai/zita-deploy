@@ -61,6 +61,7 @@ type Props = {
   allColumnsItemsLength: number;
   onExport?: () => void;
   onMove?: (stageId: number) => void;
+  onCSVDownload?: () => void;
 };
 
 const TotalApplicant = ({
@@ -73,6 +74,7 @@ const TotalApplicant = ({
   allColumnsItemsLength,
   onExport,
   onMove,
+  onCSVDownload,
 }: Props) => {
   const [showPopup, setShowPopup] = useState(false);
   const [movePopup, setMovePopup] = useState(false);
@@ -100,6 +102,7 @@ const TotalApplicant = ({
     isStageDuplicate,
     isEqual,
     resetStages,
+    NEW_APPLICANT_STAGE,
   } = useStages(stages, columns);
 
   const handleOpenPopup = () => {
@@ -189,13 +192,7 @@ const TotalApplicant = ({
     }
   };
 
-  const defaultStage: StageData = {
-    // id: 1ST,
-    stage_color: '#581845',
-    stage_name: 'New Applicants',
-    is_disabled: true,
-    // palatteDisabled: true,
-  };
+
 
   const disableMove = allColumnsItemsLength === seletedCardsLength;
 
@@ -287,7 +284,7 @@ const TotalApplicant = ({
           </Button>
           <Dropdown className="dropdownButton dropleft">
             <Dropdown.Toggle
-              onClick={handleOpenPopup}
+              // onClick={handleOpenPopup}
               style={{
                 borderColor: 'unset',
                 backgroundColor: 'unset',
@@ -298,11 +295,11 @@ const TotalApplicant = ({
               title="Edit Stages"
               id="dropdown-basic"
             >
-              <SvgEditStages height={16} width={16} />
-              {/* <SvgSetting width={16} height={16} fill="#581845" /> */}
+              {/* <SvgEditStages height={16} width={16} /> */}
+              <SvgSetting width={16} height={16} fill="#581845" />
             </Dropdown.Toggle>
 
-            {/* <Dropdown.Menu style={{ minWidth: '5rem' }}>
+            <Dropdown.Menu style={{ minWidth: '5rem' }}>
               <Dropdown.Item onClick={handleOpenPopup}>
                 <Flex row center className={styles.dropDownListStyle}>
                   <SvgEditStages height={16} width={16} />
@@ -310,15 +307,13 @@ const TotalApplicant = ({
                 </Flex>
               </Dropdown.Item>
 
-              <Dropdown.Item>
-                <LinkWrapper onClick={clearTab} to="/account_setting/settings">
-                  <Flex row center className={styles.dropDownListStyle}>
-                    <SvgEditPipeline height={16} width={16} />
-                    <Text style={{ marginLeft: 10 }}>Edit Pipeline</Text>
+              <Dropdown.Item onClick={onCSVDownload}>
+                  <Flex row center className={styles.dropDownListStyle} >
+                    <SvgDownload height={16} width={16} />
+                    <Text style={{ marginLeft: 10 }}>Download CSV</Text>
                   </Flex>
-                </LinkWrapper>
               </Dropdown.Item>
-            </Dropdown.Menu> */}
+            </Dropdown.Menu>
           </Dropdown>
           {/* <Button className={styles.btn1Style} types="primary">
             <SvgList width={16} height={16} fill="#581845" />
@@ -388,8 +383,8 @@ const TotalApplicant = ({
                       ) : (
                         <div
                           className={cx('svgTickMargin', {
-                            svgTickDisable: isEmpty(formik.values.title),
-                            tickStyle: !isEmpty(formik.values.title),
+                            svgTickDisable: !formik.isValid,
+                            tickStyle: !isEmpty(formik.values.title.trim()),
                           })}
                           //  onClick={handleLocationSubmit}
                           tabIndex={-1}
@@ -425,7 +420,7 @@ const TotalApplicant = ({
                 // }}
               >
                 <StageCard
-                  doc={defaultStage}
+                  doc={NEW_APPLICANT_STAGE}
                   index={-1}
                   isColorPicker={false}
                   isDrag={false}

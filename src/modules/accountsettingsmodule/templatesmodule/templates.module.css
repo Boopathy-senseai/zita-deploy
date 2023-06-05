@@ -124,3 +124,7 @@
   cursor: pointer;
   z-index: 11;
 }
+
+.dropDownListStyle{
+  cursor: pointer;
+}

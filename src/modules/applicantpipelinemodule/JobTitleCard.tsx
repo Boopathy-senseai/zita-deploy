@@ -26,25 +26,29 @@ type Props = {
 const JobTitleCard = ({ job_details }: Props) => {
   return (
     // <Card className={styles.cardStyle}>
-      <Flex row center className={styles.overAll}>
-        <div style={{marginBottom: "6px"}}><SvgJobtitle /></div>
-        <TitleLabel
-          title="Job Title:"
-          value={`${job_details.job_title} - ${job_details.job_id}`}
-        />
-        {/* {job_details.job_role__label_name !== 'Others' && (
+    <Flex row center className={styles.overAll}>
+      <div style={{ marginBottom: '6px' }}>
+        <SvgJobtitle />
+      </div>
+      <TitleLabel
+        title="Job Title:"
+        value={`${job_details.job_title} - ${job_details.job_id}`}
+      />
+      {/* {job_details.job_role__label_name !== 'Others' && (
           
           <TitleLabel
             title="Job Role:"
             value={job_details.job_role__label_name}
           />
         )} */}
-        <div style={{marginBottom: "6px"}}><SvgLocation  width = {16} height={16} fill='#581845'/></div>
-        <TitleLabel
-          title="Location:"
-          value={`${job_details.city}, ${job_details.state}, ${job_details.country} `}
-        />
-      </Flex>
+      <div style={{ marginBottom: '4px' }}>
+        <SvgLocation width={16} height={16} fill="#581845" />
+      </div>
+      <TitleLabel
+        title="Location:"
+        value={`${job_details.city}, ${job_details.state}, ${job_details.country} `}
+      />
+    </Flex>
     // </Card>
   );
 };

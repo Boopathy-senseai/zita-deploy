@@ -37,6 +37,9 @@ type FormProps = {
   wk_id?: number;
 };
 
+
+
+
 const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
   const [stage, setStage] = useState(false);
   const [form, setForm] = useState({ pipelineTitle: '' });
@@ -65,6 +68,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     isStageExist,
     addDefaultStages,
     isEqual,
+    NEW_APPLICANT_STAGE,
   } = useStages(stages);
 
   useEffect(() => {
@@ -142,13 +146,6 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     // if (formik.values.pipelineTitle.length > 25) return false;
     if (localStages?.length === 0) return false;
     return true;
-  };
-  const defaultStage: StageData = {
-    id: 1,
-    stage_color: '#581845',
-    stage_name: 'New Applicants',
-    is_disabled: true,
-    // palatteDisabled: true,
   };
 
   /// Save Form
@@ -228,7 +225,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
             </Flex>
             <Flex column style={{ overFlow: 'none' }}>
               <StageCard
-                doc={defaultStage}
+                doc={NEW_APPLICANT_STAGE}
                 index={-1}
                 isColorPicker={false}
                 isDrag={false}

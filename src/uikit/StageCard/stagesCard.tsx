@@ -17,6 +17,7 @@ import { SvgEdit } from '../../icons';
 import SvgDelete from '../../icons/SvgDelete';
 import { StageData } from '../../hooks/useStages/types';
 import { useForm } from '../../hooks/useForm';
+import { useStages } from '../../hooks/useStages';
 import styles from './stagesCard.module.css';
 import DeletePopup from './deletePopup';
 import AlertDeletePopup from './alertDeletePopup';
@@ -28,6 +29,7 @@ interface StageCardProps {
   index?: number;
   isDrag?: boolean;
   isColorPicker?: boolean;
+  list?: StageData[];
   doc: StageData;
   onEdit?: (value: StageData) => void;
   onDelete?: (value: number) => void;
@@ -39,6 +41,7 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
     isDrag = true,
     isColorPicker = true,
     doc,
+    list = [],
     onEdit,
     onDelete,
   } = props;
@@ -47,31 +50,36 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
   const [showColorPallet, setShowColorPallet] = useState(false);
   const [isBtnColorOpen, setBtnColorOpen] = useState(false);
   const [isStageLoader, setStageLoader] = useState(false);
-  
+
   const [initial, setInitial] = useState<StageData>(doc);
   const myRef = createRef<any>();
+  const {isStageDuplicate} = useStages(list);
+
   const handleJobPipeline = (values: StageData) => {
     const errors: Partial<StageData> = {};
-    if(isEmpty(values.stage_name) || values?.stage_name.trim() === ""){
-      errors.stage_name = "Enter a valid stage name";
+    if (isEmpty(values.stage_name) || values?.stage_name.trim() === '') {
+      errors.stage_name = 'Enter a valid stage name';
     }
-
     if (!isEmpty(values.stage_name) && values.stage_name.trim().length > 25) {
       errors.stage_name = 'Stage name should not exceed 25 characters.';
+    }
+    if(isStageDuplicate(values.stage_name)){
+      errors.stage_name = 'Already stage name exists';
     }
     return errors;
   };
   const formik = useForm<StageData>({
-    initialValues: initial, 
-    isTrim: false, 
+    initialValues: initial,
+    isTrim: false,
     validate: handleJobPipeline,
     onSubmit: (form) => {
-      console.log(form)
-      onEdit({...form, stage_name: form.stage_name.trim()});
+      console.log(form);
+      onEdit({ ...form, stage_name: form.stage_name.trim() });
       // formik.handleChange('stage_name')(form.stage_name.trim());
       setEdit(!edit);
     },
-  })
+  });
+
   const toggleStage = () => {
     setEdit(!edit);
     formik.resetForm();
@@ -121,14 +129,14 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
       formik.handleSubmit();
     }
   };
-  
+
   const renderTitle = () => {
     if (edit) {
       return (
         <Flex row noWrap>
           <Flex column noWrap>
             <InputText
-              name='stage_name'
+              name="stage_name"
               value={formik.values.stage_name}
               onChange={formik.handleChange('stage_name')}
               lineInput
@@ -152,8 +160,8 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
             ) : (
               <div
                 className={cx('svgTickMargin', {
-                  svgTickDisable: isEmpty(formik.values.stage_name),
-                  tickStyle: !isEmpty(formik.values.stage_name),
+                  svgTickDisable: !formik.isValid,
+                  tickStyle: !isEmpty(formik.values.stage_name.trim()),
                 })}
                 //  onClick={handleLocationSubmit}
                 tabIndex={-1}

@@ -71,7 +71,7 @@ const PipelineSuggestions: React.FC<Props> = (props) => {
 
   const handleJobPipeline = (values: SuggestionForm) => {
     const errors: Partial<SuggestionForm> = {};
-    if(!isEmpty(values.title) && values?.title.trim() === ""){
+    if(isEmpty(values.title) || values?.title.trim() === ""){
       errors.title = "Enter a valid stage name";
     }
     if (!isEmpty(values.title) && values.title.trim().length > 25) {
@@ -166,8 +166,8 @@ const PipelineSuggestions: React.FC<Props> = (props) => {
             ) : (
               <div
                 className={cx('svgTickMargin', {
-                  svgTickDisable: isEmpty(formik.values.title),
-                  tickStyle: !isEmpty(formik.values.title),
+                  svgTickDisable: !formik.isValid,
+                  tickStyle: !isEmpty(formik.values.title.trim()),
                 })}
                 //  onClick={handleLocationSubmit}
                 tabIndex={-1}

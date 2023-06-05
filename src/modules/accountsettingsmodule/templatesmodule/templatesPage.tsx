@@ -259,7 +259,7 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
   const handleJobPipeline = (values: PipelineData) => {
     const errors: Partial<PipelineData> = {};
 
-    if (!isEmpty(values.pipeline_name) && values?.pipeline_name.trim() === '') {
+    if (isEmpty(values.pipeline_name) || values?.pipeline_name.trim() === '') {
       errors.pipeline_name = 'Enter a valid pipeline title';
     }
 
@@ -326,11 +326,11 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
             ) : (
               <div
                 className={cx('svgTickMargin', {
-                  svgTickDisable: isEmpty(formik.values.pipeline_name),
-                  tickStyle: !isEmpty(formik.values.pipeline_name),
+                  svgTickDisable: !formik.isValid,
+                  tickStyle: !isEmpty(formik.values.pipeline_name.trim()),
                 })}
                 tabIndex={-1}
-                role={'button'}
+                role={'button'} 
                 onClick={() => {
                   formik.handleSubmit();
                 }}

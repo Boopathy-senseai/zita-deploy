@@ -17,6 +17,7 @@ export type UseStages<T> = {
   addDefaultStages: (value: SuggestionData[]) => void;
   isEqual: (value: T[]) => boolean;
   resetStages: () => void;
+  NEW_APPLICANT_STAGE: T;
 };
 
 export function useStages<
@@ -32,6 +33,16 @@ export function useStages<
   },
 >(stages: Array<T>, columns?: columnTypes): UseStages<T> {
   const [localStages, setLocalStages] = useState<Array<T>>([]);
+  const NEW_APPLICANT_STAGE: T = {
+    id: 0,
+    workflow_id_id: 0,
+    stage_id_id: 0,
+    stage_order: 0,
+    created_at: "string",
+    stage_color: '#581845',
+    stage_name: 'New Applicants',
+    is_disabled: true,
+  } as T;
   const defaultStageNames = [
     { name: 'Shortlisted', color: '#80C0D0' },
     { name: 'Offered', color: '#00BE4B' },
@@ -124,7 +135,7 @@ export function useStages<
   };
 
   const isStageDuplicate = (title: string) => {
-    const tilteMap = localStages.map((doc) =>
+    const tilteMap = [...localStages, NEW_APPLICANT_STAGE].map((doc) =>
       doc.stage_name.trim().toLowerCase(),
     );
     return tilteMap
@@ -201,5 +212,6 @@ export function useStages<
     addDefaultStages,
     isEqual,
     resetStages,
+    NEW_APPLICANT_STAGE,
   };
 }

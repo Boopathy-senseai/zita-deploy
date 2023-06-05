@@ -30,6 +30,7 @@ import {
   applicantPipeLineDataMiddleWare,
   applicantPipeLineMiddleWare,
   applicantUpdateStatusMiddleWare,
+  downloadApplicantsMiddleware,
   getKanbanStagesMiddleWare,
   kanbanUpdateMiddleWare,
 } from './store/middleware/applicantpipelinemiddleware';
@@ -108,6 +109,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     // updateLoader,
     zita_match_count,
     is_plan,
+    downloadState,
   } = useSelector(
     ({
       myJobPosingReducers,
@@ -118,6 +120,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
       permissionReducers,
       templatePageReducers,
       kanbanStagesReducers,
+      applicantPipelineDownloadReducers,
     }: RootState) => {
       return {
         isLoading: applicantPipeLineDataReducers.isLoading,
@@ -142,6 +145,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
         // updateLoader: applicantPipeLineUpdateReducers.isLoading,
         zita_match_count: applicantPipeLineReducers.zita_match_count,
         is_plan: permissionReducers.is_plan,
+        downloadState: applicantPipelineDownloadReducers,
       };
     },
   );
@@ -174,8 +178,6 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
       history.push('/account_setting/settings');
     }
   });
-
-  console.log(locations);
 
   const formik = useFormik({
     initialValues: initial,
@@ -213,11 +215,11 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     setCardSelection(newCardSelection);
   };
 
-  const handleBulkExport = () => {
-    cardSelection.forEach((doc) => {
-      handleDownload(doc.task.file);
-    });
-  };
+  // const handleBulkExport = () => {
+  //   cardSelection.forEach((doc) => {
+  //     handleDownload(doc.task.file);
+  //   });
+  // };
   // select All columns
   const handleColumnSelect = (data: IStageColumn) => {
     const { section, columnId } = data;
@@ -481,7 +483,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
 
   const getAppliedCanId: any = localStorage.getItem('applied_can_id');
   const getAppliedJd: any = localStorage.getItem('applied_jd_id');
-  const _debounceSearch = _.debounce(() =>handleSearch(), 2000);
+  const _debounceSearch = _.debounce(() => handleSearch(), 2000);
 
   useEffect(() => {
     if (getAppliedView === 'true') {
@@ -673,6 +675,11 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     }
   };
 
+  const getSelectedCandidateList = () => {
+    const selectedList = Array.from(cardSelection.values());
+    return selectedList.map((doc) => doc.task.id);
+  }
+
   // popup cancel function
   const hanldeCancel = () => {
     setNoLoader(true);
@@ -742,13 +749,15 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
       const movedList = getMovedList();
 
       function getMovedList() {
-        const selectedItems = selectedList.map((doc) => doc.task);
+        const selectedItems = selectedList.filter(doc => previous[doc.columnId].stage_name !== REJECTED_COLUMN).map((doc) => doc.task);
         let filterItems = previous[droppableId].items.filter(
           (doc) => !selectedItems.includes(doc),
         );
         return [...filterItems, ...selectedItems];
       }
-
+      console.log(removedList);
+      updateBulkKanbanStage(droppableId, new Map(cardSelection));
+      setCardSelection(new Map());
       return {
         ...previous,
         ...removedList,
@@ -759,10 +768,6 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
         },
       };
     });
-
-    updateBulkKanbanStage(droppableId, new Map(cardSelection));
-
-    setCardSelection(new Map());
   };
 
   const updateBulkKanbanStage = (
@@ -774,6 +779,14 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
       .filter((doc) => columns[doc.columnId].stage_name !== REJECTED_COLUMN)
       .map((doc) => doc.task.candidate_id_id);
 
+    const stageIds = selectedList
+      .filter((doc) => columns[doc.columnId].stage_name !== REJECTED_COLUMN)
+      .map((doc) => doc.columnId);
+
+    if(candidateIdList.length === 0){
+      return;
+    }
+
     dispatch(
       kanbanUpdateMiddleWare({
         jd_id: parseInt(jd_id),
@@ -781,7 +794,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
         stages: getSTData(columns[droppableId]),
       }),
     ).then(() => {
-      if (isAlert.source !== REJECTED_COLUMN) {
+      if (stageIds.length > 0) {
         Toast('Applicants moved successfully', 'LONG');
       }
     });
@@ -839,11 +852,11 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
   };
 
   const onLocationChange = (val: any) => {
-    if(val !== "") {
+    if (val !== '') {
       return;
     }
     formik.handleChange('location')(val);
-  }
+  };
 
   const onLocationKeyPress = (event) => {
     if (event.key === 'Enter') {
@@ -867,6 +880,22 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
         }),
       );
     }
+  };
+
+  /// Download ------------>
+
+  // useEffect(() => {
+  //   if(downloadState.isLoading === false && )
+
+  // },[downloadState])
+
+  const handleBulkDownload = () => {
+    const candidate_id = getSelectedCandidateList();
+    dispatch(downloadApplicantsMiddleware({ jd_id: jdId, download: "download", candidate_id}))
+  }
+
+  const handleCSVDownload = () => {
+    dispatch(downloadApplicantsMiddleware({ jd_id: jdId, csvdownload: "csvdownload"}));
   }
 
   return (
@@ -896,9 +925,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
         />
       )}
       <Flex row className={styles.overAll}>
-        {applicantDataLoader || favLoader && (
-          <Loader />
-        )}
+        {applicantDataLoader || (favLoader && <Loader />)}
         {pipeLineLoader && <Loader />}
         {getAppliedView === 'true' && (
           <ProfileView
@@ -960,7 +987,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
                       width={18}
                       height={18}
                       fill={'#581845'}
-                    ></SvgLocation>
+                    />
                   </Flex>
                   <InputSearch
                     initialValue={formik.values.location}
@@ -975,11 +1002,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
                   />
 
                   <Flex className={styles.searchicons}>
-                    <SvgSearch
-                      width={12}
-                      height={12}
-                      fill="#ffffff"
-                    />
+                    <SvgSearch width={12} height={12} fill="#ffffff" />
                   </Flex>
                 </Flex>
               </Flex>
@@ -1026,8 +1049,9 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
               filterTotalFav={filterTotalFav}
               isTotalFav={isTotalFav}
               seletedCardsLength={cardSelection.size}
-              onExport={handleBulkExport}
+              onExport={handleBulkDownload}
               onMove={handleMove}
+              onCSVDownload={handleCSVDownload}
             />
             {isNotEmpty() ? (
               <div

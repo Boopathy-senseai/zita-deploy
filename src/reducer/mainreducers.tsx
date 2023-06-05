@@ -1,7 +1,9 @@
+// eslint-disable-next-line import/no-cycle
 import {
   applicantPipeLineDataReducers,
   applicantPipeLineReducers,
   applicantPipeLineUpdateReducers,
+  applicantPipelineDownloadReducers,
   kanbanStagesReducers,
 } from '../modules/applicantpipelinemodule/store/reducer/applicantpipelinereducer';
 import {
@@ -193,4 +195,5 @@ export const reducers = {
   templatePageReducers,
   pipelinePageReducers,
   kanbanStagesReducers,
+  applicantPipelineDownloadReducers,
 };
