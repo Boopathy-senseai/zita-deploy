@@ -44,6 +44,7 @@ import SvgDownload from '../../icons/SvgDownload';
 import { useStages } from '../../hooks/useStages';
 import { StageData } from '../../hooks/useStages/types';
 import { useForm } from '../../hooks/useForm';
+import SvgCsvDownload from '../../icons/SvgCsvDownload';
 import styles from './totalapplicant.module.css';
 import MovePipelinePopup from './movepopup';
 import { updateKanbanStagesMiddleware } from './store/middleware/applicantpipelinemiddleware';
@@ -124,15 +125,13 @@ const TotalApplicant = ({
     dispatch(getTemplateDataMiddleWare());
   }, []);
 
-  
-
   const initial = {
     title: '',
   };
 
   const handleJobPipeline = (values: { title: string }) => {
     const errors: Partial<{ title: string }> = {};
-    if (isEmpty(values.title) || values?.title.trim() === "") {
+    if (isEmpty(values.title) || values?.title.trim() === '') {
       errors.title = 'Enter a valid stage name';
     }
 
@@ -192,13 +191,10 @@ const TotalApplicant = ({
     }
   };
 
-
-
   const disableMove = allColumnsItemsLength === seletedCardsLength;
 
   return (
     <>
-      
       <Flex row center between className={styles.overAll}>
         <Text color="theme">
           Total Applicants:{' '}
@@ -308,10 +304,10 @@ const TotalApplicant = ({
               </Dropdown.Item>
 
               <Dropdown.Item onClick={onCSVDownload}>
-                  <Flex row center className={styles.dropDownListStyle} >
-                    <SvgDownload height={16} width={16} />
-                    <Text style={{ marginLeft: 10 }}>Download CSV</Text>
-                  </Flex>
+                <Flex row center className={styles.dropDownListStyle}>
+                  <SvgCsvDownload height={16} width={16} />
+                  <Text style={{ marginLeft: 10 }}>Download CSV</Text>
+                </Flex>
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
