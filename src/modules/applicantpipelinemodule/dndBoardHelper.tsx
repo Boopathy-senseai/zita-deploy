@@ -1,5 +1,6 @@
 import { saveAs } from 'file-saver';
 import { DropResult } from 'react-beautiful-dnd';
+// eslint-disable-next-line import/no-cycle
 import { AppDispatch } from '../../store';
 import Toast from '../../uikit/Toast/Toast';
 import { applicantFavoriteMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';

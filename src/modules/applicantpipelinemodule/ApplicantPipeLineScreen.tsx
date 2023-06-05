@@ -677,7 +677,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
 
   const getSelectedCandidateList = () => {
     const selectedList = Array.from(cardSelection.values());
-    return selectedList.map((doc) => doc.task.id);
+    return selectedList.map((doc) => doc.task.candidate_id_id);
   }
 
   // popup cancel function
