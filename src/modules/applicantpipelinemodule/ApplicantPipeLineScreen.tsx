@@ -1089,6 +1089,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
                       onDragEnd={onDragEnd}
                       hanldeAlertConfirm={hanldeAlertComplete}
                       hanldeCancel={hanldeCancel}
+                      onRefresh={getApplicanPipelineData}
                     />
                   )}
                 </div>

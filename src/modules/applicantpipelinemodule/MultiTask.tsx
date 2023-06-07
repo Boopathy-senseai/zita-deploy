@@ -60,6 +60,7 @@ type Props = {
   job_details: JobDetailsEntity;
   onClick?: (data: ICardSelectionData) => void;
   isSelected: boolean;
+  onRefresh?: () => void;
 };
 const MultiTask = ({
   task,
@@ -71,6 +72,7 @@ const MultiTask = ({
   job_details,
   onClick,
   isSelected,
+  onRefresh,
 }: Props) => {
   const { section, columnId, stage_name } = column;
   const [isCalender, setCalender] = useState('popup');
@@ -417,7 +419,10 @@ const MultiTask = ({
       } */}
       <ProfileView
         open={isProfileView}
-        cancel={() => setProfileView(false)}
+        cancel={() => {
+          setProfileView(false);
+          onRefresh();
+        }}
         jobId={JSON.stringify(task.jd_id_id)}
         candidateId={task.candidate_id_id}
       />

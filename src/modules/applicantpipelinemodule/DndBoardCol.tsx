@@ -22,6 +22,7 @@ type Props = {
   google?: GoogleEntity[];
   job_details: JobDetailsEntity;
   onClick?: (data: ICardSelectionData) => void;
+  onRefresh?: () => void;
   // selectedCardList: {
   //   task: any;
   //   index: number;
@@ -39,6 +40,7 @@ const DndBoardCol = ({
   job_details,
   onClick,
   cardSelectionMap,
+  onRefresh
 }: Props) => {
   const [isBorder, setBorder] = useState(SUNRAY);
   // for card color set condition
@@ -92,6 +94,7 @@ const DndBoardCol = ({
                 job_details={job_details}
                 onClick={onClick}
                 isSelected={checkSelection(task.id)}
+                onRefresh={onRefresh}
               />
             ))}
             {provided.placeholder}

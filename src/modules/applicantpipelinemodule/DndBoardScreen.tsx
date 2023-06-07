@@ -49,6 +49,7 @@ type Props = {
   } | null;
   hanldeAlertConfirm?: () => void;
   hanldeCancel?: () => void;
+  onRefresh?: () => void;
   // isShortList: boolean;
   // isInterviewed: boolean;
   // isOffered: boolean;
@@ -85,6 +86,7 @@ const DndBoardScreen = ({
   isAlert,
   hanldeAlertConfirm,
   hanldeCancel,
+  onRefresh,
   // isShortList,
   // isInterviewed,
   // isOffered,
@@ -138,6 +140,7 @@ const DndBoardScreen = ({
               job_details={job_details}
               onClick={onClick}
               cardSelectionMap={cardSelectionMap}
+              onRefresh={onRefresh}
             />
           );
         })}

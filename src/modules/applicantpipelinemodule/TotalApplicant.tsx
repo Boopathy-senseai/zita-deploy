@@ -288,7 +288,7 @@ const TotalApplicant = ({
                 padding: '0px',
                 marginRight: '5px',
               }}
-              title="Edit Stages"
+              title="Settings"
               id="dropdown-basic"
             >
               {/* <SvgEditStages height={16} width={16} /> */}

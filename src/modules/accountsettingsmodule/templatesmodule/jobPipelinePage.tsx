@@ -46,10 +46,11 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
   const [isSubmitLoader, setSubmitLoader] = useState(false);
 
   const dispatch: AppDispatch = useDispatch();
-  const { pipeline, stages, suggestions, pipelineSuggestions, isLoading } =
+  const { pipeline, stages, suggestions, pipelineSuggestions, isLoading , error} =
     useSelector(({ templatePageReducers, pipelinePageReducers }: RootState) => {
       return {
         isLoading: templatePageReducers.isLoading,
+        error: templatePageReducers.error, 
         pipeline: templatePageReducers.data[0],
         stages: templatePageReducers.stages,
         pipelineSuggestions: pipelinePageReducers.suggestion,
@@ -98,6 +99,9 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
 
   const handleJobPipeline = (values: jobPipelineForm) => {
     const errors: Partial<jobPipelineForm> = {};
+    if(error){
+      errors.pipelineTitle = error;
+    }
     if (isEmpty(values.pipelineTitle) || values?.pipelineTitle.trim() === '') {
       errors.pipelineTitle = 'Enter a valid stage name';
     }
