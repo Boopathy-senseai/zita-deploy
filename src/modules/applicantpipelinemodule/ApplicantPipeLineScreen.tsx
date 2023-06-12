@@ -11,12 +11,7 @@ import Loader from '../../uikit/Loader/Loader';
 import Button from '../../uikit/Button/Button';
 import { AppDispatch, RootState } from '../../store';
 import {
-  AERO,
-  CANDY_PINK,
-  MEDIUM_PURPLE,
-  PISTACHIO,
   SUNRAY,
-  GRAY_BLACK,
 } from '../../uikit/Colors/colors';
 import { qualificationFilterHelper } from '../common/commonHelper';
 import SvgSearch from '../../icons/SvgSearch';
@@ -29,7 +24,6 @@ import PipelinePopup from './pipelinepopup';
 import {
   applicantPipeLineDataMiddleWare,
   applicantPipeLineMiddleWare,
-  applicantUpdateStatusMiddleWare,
   downloadApplicantsMiddleware,
   getKanbanStagesMiddleWare,
   kanbanUpdateMiddleWare,
@@ -46,10 +40,8 @@ import {
   ICardSelectionMap,
   JobDetailsEntity,
 } from './applicantPipeLineTypes';
-import { handleDownload } from './dndBoardHelper';
 import { columnTypes, IStageColumn } from './dndBoardTypes';
 import PipelinePopupTwo from './pipelinepopupTwo';
-// import { columnOrder } from './initialData';
 
 type ParamsType = {
   jdId: string;
@@ -214,12 +206,6 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     }
     setCardSelection(newCardSelection);
   };
-
-  // const handleBulkExport = () => {
-  //   cardSelection.forEach((doc) => {
-  //     handleDownload(doc.task.file);
-  //   });
-  // };
   // select All columns
   const handleColumnSelect = (data: IStageColumn) => {
     const { section, columnId } = data;

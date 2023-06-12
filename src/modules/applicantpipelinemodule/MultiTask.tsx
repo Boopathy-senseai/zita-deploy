@@ -26,6 +26,7 @@ import {
   getEventsMiddleware,
   getGoogleEventsMiddleware,
   syncOutlookMiddleWare,
+  applicantFavoriteMiddleWare,
 } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import MeetingSchedulingScreen from '../calendarModule/MeetingSchedulingScreen';
 // import SvgCloseSmall from '../../icons/SvgCloseSmall';
@@ -43,7 +44,6 @@ import {
   ICardSelectionData,
   JobDetailsEntity,
 } from './applicantPipeLineTypes';
-import { handleDownload, hanldeFavAction } from './dndBoardHelper';
 import ProfileView from './ProfileView';
 
 import styles from './multitask.module.css';
@@ -333,6 +333,14 @@ const MultiTask = ({
   //   setCard(false);
   // }
 
+  const hanldeFavAction = (
+    can_id: number,
+    jd_id: number,
+  ) => {
+    dispatch(applicantFavoriteMiddleWare({ can_id, jd_id }));
+  };
+  
+
   return (
     <>
       {isLoad && <Loader />}
@@ -588,7 +596,6 @@ const MultiTask = ({
                     <div
                       title="Download Resume"
                       onClick={(e) => {
-                        // handleDownload(task.file);
                         dispatch(
                           downloadApplicantsMiddleware({
                             jd_id: task.jd_id_id.toString(),
@@ -614,7 +621,6 @@ const MultiTask = ({
                         hanldeFavAction(
                           task.candidate_id_id,
                           task.jd_id_id,
-                          dispatch,
                         );
                         e.stopPropagation();
                       }}

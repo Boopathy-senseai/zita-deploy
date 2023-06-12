@@ -29,7 +29,6 @@ import {
 } from '../../applicantPipeLineTypes';
 import { IKanbanStages, StageData } from '../../../../hooks/useStages/types';
 import { convertJsonToForm, stringifyParams } from '../../../../uikit/helper';
-// eslint-disable-next-line import/no-cycle
 import { handleDownload } from '../../dndBoardHelper';
 
 export const applicantPipeLineMiddleWare = createAsyncThunk(

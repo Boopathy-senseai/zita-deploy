@@ -1,9 +1,6 @@
 import { saveAs } from 'file-saver';
 import { DropResult } from 'react-beautiful-dnd';
-// eslint-disable-next-line import/no-cycle
-import { AppDispatch } from '../../store';
 import Toast from '../../uikit/Toast/Toast';
-import { applicantFavoriteMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { columnTypes, setColumn, setIndexProps } from './dndBoardTypes';
 
 export const onDragEnd = (
@@ -44,10 +41,3 @@ export const handleDownload = (file: string) => {
   }
 };
 
-export const hanldeFavAction = (
-  can_id: number,
-  jd_id: number,
-  dispatch: AppDispatch,
-) => {
-  dispatch(applicantFavoriteMiddleWare({ can_id, jd_id }));
-};

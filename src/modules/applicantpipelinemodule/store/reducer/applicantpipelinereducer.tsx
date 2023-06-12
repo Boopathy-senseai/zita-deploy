@@ -8,7 +8,6 @@ import {
   ApplicantUpdateReducerState,
   KanbanStageReducerState,
 } from '../../applicantPipeLineTypes';
-// eslint-disable-next-line import/no-cycle
 import {
   applicantPipeLineDataMiddleWare,
   applicantPipeLineMiddleWare,
