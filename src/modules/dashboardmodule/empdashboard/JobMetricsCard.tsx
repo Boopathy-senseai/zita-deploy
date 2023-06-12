@@ -3,8 +3,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../store';
 import Card from '../../../uikit/Card/Card';
 import Flex from '../../../uikit/Flex/Flex';
+import SvgJobtitle from '../../../icons/SvgJobtitle';
+import SvgCalendaricon from '../../../icons/SvgCalendaricon';
+import SvgLocation from '../../../icons/SvgLocation';
+// import SvgPosting from '../../../icons/SvgPosting';
+ import SvgJobPost from '../../../icons/SvgJobPost';
+ import SvgJobselection from '../../../icons/SvgJobselection';
+ import SvgLocationjobpost from '../../../icons/SvgLocationjobpost';
+ import SvgSubscription from '../../../icons/SvgSubscription';
+import SvgGmailtest from '../../../icons/SvgGmailtest';
 import { getDateString } from '../../../uikit/helper';
 import SelectTag from '../../../uikit/SelectTag/SelectTag';
+import { PRIMARY } from '../../../uikit/Colors/colors';
 import Text from '../../../uikit/Text/Text';
 import ApplicantsPipeline from './ApplicantsPipeline';
 import ApplicantsSourcingChannel from './ApplicantsSourcingChannel';
@@ -12,6 +22,8 @@ import styles from './jobmetricscard.module.css';
 import MyDatabaseChart from './MyDatabaseChart';
 import SourcingPerformance from './SourcingPerformance';
 import { dashboardJobMetricsMiddleWare } from './store/dashboardmiddleware';
+
+
 
 const JobMetricsCard = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -45,7 +57,7 @@ const JobMetricsCard = () => {
       };
     },
   );
-// dropdown select function
+  // dropdown select function
   const handleSelect = (value: number) => {
     dispatch(dashboardJobMetricsMiddleWare({ jd_id: value }));
   };
@@ -56,91 +68,107 @@ const JobMetricsCard = () => {
     }
   }, [jd_metrics]);
 
-  const checkHide=Number(plan.plan_id_id) === 1 || jd_metrics.length === 0;
+  const checkHide = Number(plan.plan_id_id) === 1 || jd_metrics.length === 0;
 
   return (
-    <Card className={styles.overAll}>
+    <Flex className={styles.overAll}>
       {checkHide && (
         <div className={styles.hideStyle}>
-          {Number(plan.plan_id_id) === 1 ? <Text size={24} color="white" bold className={styles.noText}>
+          {Number(plan.plan_id_id) === 1 ?<Flex><Flex marginLeft={370} marginBottom={10}><SvgSubscription/></Flex> <Text size={24} color="white" bold className={styles.noText}>
             Please subscribe to any of the paid plans to view the job metrics
-          </Text> :
+          </Text></Flex>  :
             <Text size={24} color="white" bold className={styles.noText}>
               No Data Available
             </Text>
           }
         </div>
       )}
-      <Text color="theme" bold className={styles.jobTitle}>
-        Job Metrics
-      </Text>
-      <Flex marginLeft={16} marginRight={16}>
-        <Flex row center marginBottom={16} marginTop={16}>
-          <Text bold>Select Job</Text>
-          <Flex marginLeft={8} width={400}>
-          <SelectTag
-            isSearchable
-            placeholder="Select Job"
-            options={jd_metrics}
-            getOptionValue={(option: { id: number }) => `${option.id}`}
-            getOptionLabel={(option: { job_title: string; job_id: string }) =>
-              `${option.job_title} - ${option.job_id}`
-            }
-            onChange={(option) => {
-              handleSelect(option.id);
-              setValue(option.id)
-            }}
-            value={
-              jd_metrics
-                ? jd_metrics.find(
+
+      <Flex marginRight={5} marginLeft={5}>
+        <Flex row center marginBottom={8} marginTop={8} className={styles.line}>
+          <Text bold color="theme" className={styles.jobTitle} size={16}>Job Metrics</Text>
+          {/* <Flex flex={20} end  >
+          <SvgJobselection></SvgJobselection>
+          </Flex> */}
+          <Flex marginLeft={8} width={150} flex={3} end>
+            <Flex row>
+              <Flex marginTop={6} marginRight={5}> <SvgJobselection></SvgJobselection></Flex>
+              <Flex>
+                   
+            <SelectTag
+              
+              isSearchable
+              placeholder="Select Job"
+              options={jd_metrics}
+              getOptionValue={(option: { id: number }) => `${option.id}`}
+              getOptionLabel={(option: { job_title: string; job_id: string }) =>
+                `${option.job_title} - ${option.job_id}`
+              }
+              onChange={(option) => {
+                handleSelect(option.id);
+                setValue(option.id)
+              }}
+              value={
+                jd_metrics
+                  ? jd_metrics.find(
                     (option) => Number(option.id) === Number(isValue),
                   )
-                : ''
-            }
-          />
-        </Flex>
+                  : ''
+              }
+            />
+            </Flex>
+            </Flex>
+          
+          </Flex>
         </Flex>
 
-        {jd_metrics.length !==0 &&
-          <Card className={styles.titleCard}>
-          <Flex row center>
+        {/* <Flex marginLeft={5} marginRight={5} className={styles.line} >
+
+        </Flex> */}
+
+        {jd_metrics.length !== 0 &&
+          <Flex>
             <Flex row center>
-              <Text style={{ marginRight: 8 }} color="theme" bold>
-                Job Title:
-              </Text>
-              <Text>
-                {job_details && job_details?.job_title} -{' '}
-                {job_details && job_details?.job_id}
-              </Text>
-            </Flex>
-            <Flex row center marginLeft={16} marginRight={16}>
-              <Text style={{ marginRight: 8 }} color="theme" bold>
-                Location:
-              </Text>
-              <Text>
-                {job_details && job_details?.city},{' '}
-                {job_details && job_details?.state},{' '}
-                {job_details && job_details?.country}
-              </Text>
-            </Flex>
-            <Flex row center marginRight={16}>
-              <Text style={{ marginRight: 8 }} color="theme" bold>
-                Posted On:
-              </Text>
-              <Text>
-                {getDateString(job_details && job_details.job_posted_on, 'll')}
-              </Text>
-            </Flex>
-            {/* <Flex row center>
+              <Flex row center>
+             
+                  <Flex  marginLeft={14} marginTop={3}>
+                  <SvgJobtitle width={16} height={16}></SvgJobtitle></Flex>
+                
+                <Text align='center' >
+                  {job_details && job_details?.job_title} -{' '}
+                  {job_details && job_details?.job_id}
+                </Text>
+              </Flex>
+              <Flex row center marginLeft={16} marginRight={16}>
+            
+                  {/* <SvgLocation width={16} height={16} fill={PRIMARY}></SvgLocation> */}
+                  <SvgLocationjobpost></SvgLocationjobpost>
+                
+                <Text align='center' style={{marginLeft:"4px"}}>
+                  {job_details && job_details?.city},{' '}
+                  {job_details && job_details?.state},{' '}
+                  {job_details && job_details?.country}
+                </Text>
+              </Flex>
+              <Flex row center marginRight={16}>
+                  <Flex >
+                  <SvgCalendaricon fill={PRIMARY}></SvgCalendaricon>
+                  </Flex>
+               
+                <Text align='center' style={{marginLeft:"5px"}} >
+                  {getDateString(job_details && job_details.job_posted_on, 'll')}
+                </Text>
+              </Flex>
+              {/* <Flex row center>
               <Text style={{ marginRight: 8 }} color="theme" bold>
                 Posted Channels:
               </Text>
               <Text>{posted_channel}</Text>
             </Flex> */}
+            </Flex>
           </Flex>
-        </Card>
         }
-        
+
 
         <Flex marginTop={16} marginBottom={16}>
           <Flex row marginBottom={16}>
@@ -180,7 +208,7 @@ const JobMetricsCard = () => {
           </Flex>
         </Flex>
       </Flex>
-    </Card>
+    </Flex>
   );
 };
 

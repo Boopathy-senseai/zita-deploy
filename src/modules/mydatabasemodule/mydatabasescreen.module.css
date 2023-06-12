@@ -1,6 +1,8 @@
 .filterOverAll {
   padding-top: 20px;
   padding-right: 16px;
+  position: relative;
+  z-index: -1;
 }
 .tabsContainer {
   padding-top: 20px;

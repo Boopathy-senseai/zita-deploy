@@ -162,10 +162,13 @@ export const emailValidRequest = (email: string, domain?: string) => {
   return url;
 };
 export const signupRecruiterApi = `${process.env.REACT_APP_API_ENDPOINT}signup_recruiter/`;
-export const signupRecruiterGetApi = (username: string) => {
-  const url = `${process.env.REACT_APP_API_ENDPOINT}signup_recruiter/?username=${username}`;
+export const signupRecruiterGetApi = (email: string,username:string) => {
+  const url = `${process.env.REACT_APP_API_ENDPOINT}signup_recruiter/?email=${email} &username=${username} `;
+  // const url =  payload ? `${process.env.REACT_APP_API_ENDPOINT}signup_recruiter/?username=${username}` : 
+  // `${process.env.REACT_APP_API_ENDPOINT}signup_recruiter/?email=${email}`;
   return url;
 };
+
 export const emailActiveApi = (userId: string, confirmationToken: string) => {
   const url = `${process.env.REACT_APP_API_ENDPOINT}email_activate/?userid=${userId}&confirmation_token=${confirmationToken}`;
   return url;

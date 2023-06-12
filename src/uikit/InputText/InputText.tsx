@@ -53,9 +53,11 @@ type Props = {
   size?: 12 | 14 | 16;
   lineInput?: boolean;
   actionRight?: Function;
+  actionLeft?: Function;
   style?: CSSProperties;
   textarea?: boolean;
   labelSize?: any;
+  labelColor?: string;
   labelBold?: boolean;
   noBorder?: boolean;
   autoComplete?: string;
@@ -86,11 +88,13 @@ const InputText = (
     onFocus,
     id,
     size,
+    labelColor,
     lineInput,
     actionRight,
+    actionLeft,
+    labelSize,
     style,
     textarea,
-    labelSize,
     labelBold,
     noBorder,
     autoComplete,
@@ -134,6 +138,7 @@ const InputText = (
         required={required}
         label={label}
         bold={labelBold}
+        //color={labelColor}
         size={labelSize}
       >
         <Flex className={styles.inputFlexConatiner}>
@@ -182,6 +187,9 @@ const InputText = (
           )}
           {typeof actionRight === 'function' && (
             <div className={styles.actionRightStyle}>{actionRight()}</div>
+          )}
+          {typeof actionLeft === 'function' && (
+            <div className={styles.actionLeftStyle}>{actionLeft()}</div>
           )}
           {!isEmpty(errorMessage) && error && (
             <Text

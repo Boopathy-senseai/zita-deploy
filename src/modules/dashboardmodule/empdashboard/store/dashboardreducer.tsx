@@ -33,6 +33,7 @@ const dashBoardState: DashBoardEmpReducerState = {
     is_staff: false,
     is_active: false,
     date_joined: '',
+  
   },
   contact_count: 0,
   rejected_last_update: '',

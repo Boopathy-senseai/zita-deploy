@@ -41,7 +41,7 @@ const myJobPosingDataState: MyJobPosingDataReducerState = {
   final_list: [],
   career_page_url: '',
   len_list: 0,
-  Jobs_List: 0,
+  Jobs_List:0,
   params: '',
   location: [],
   zita_count: [],

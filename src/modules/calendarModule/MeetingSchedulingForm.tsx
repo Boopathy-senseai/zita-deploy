@@ -725,9 +725,7 @@ const MeetingSchedulingForm = ({
       !endTime.errorMessage
     ) {
       const timeDifference = Math.round(
-        (meetingForm.endTime.value.getTime() -
-          meetingForm.startTime.value.getTime()) /
-          60000,
+        (meetingForm.endTime.value.getTime() - meetingForm.startTime.value.getTime()) / 60000,
       );
 
       return (
