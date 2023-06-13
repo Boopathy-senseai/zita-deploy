@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import PhoneInput from 'react-phone-input-2';
 import { useState, useEffect } from "react";
@@ -55,26 +55,26 @@ const ProfileCard = () => {
     status,
     zipcode,
     weburl,
-   data3, 
- data2,
- datafin,
- company,
- cityid,
- stateid,
- countryid,
- countryidfin,
-    
-    
-  } = useSelector(({ dashboardEmpReducers, permissionReducers, companyPageReducers,locationReducers  }: RootState) => {
+    data3,
+    data2,
+    datafin,
+    company,
+    cityid,
+    stateid,
+    countryid,
+    countryidfin,
+
+
+  } = useSelector(({ dashboardEmpReducers, permissionReducers, companyPageReducers, locationReducers }: RootState) => {
     return {
-      company:companyPageReducers,
-      countryidfin: locationReducers.country, 
-      weburl:companyPageReducers.company_detail.company_website,
-      datafin:companyPageReducers,
+      company: companyPageReducers,
+      countryidfin: locationReducers.country,
+      weburl: companyPageReducers.company_detail.company_website,
+      datafin: companyPageReducers,
       address: companyPageReducers.company_detail.address,
-      zipcode:companyPageReducers.company_detail.zipcode,
-      data3:permissionReducers,
-      data2:dashboardEmpReducers,
+      zipcode: companyPageReducers.company_detail.zipcode,
+      data3: permissionReducers,
+      data2: dashboardEmpReducers,
       mobile_no: companyPageReducers.company_detail.contact,
       company_name: dashboardEmpReducers.company_name,
       logo: dashboardEmpReducers.logo,
@@ -87,43 +87,43 @@ const ProfileCard = () => {
       status: dashboardEmpReducers.plan.is_active,
       permission: permissionReducers.Permission,
       super_user: permissionReducers.super_user,
-      stateid:companyPageReducers.company_detail.state_id,
-      cityid:companyPageReducers.company_detail.city_id,
-      countryid:companyPageReducers.company_detail.country_id,
+      stateid: companyPageReducers.company_detail.state_id,
+      cityid: companyPageReducers.company_detail.city_id,
+      countryid: companyPageReducers.company_detail.country_id,
     };
   });
- 
+
 
   const logoPath = isEmpty(logo) ? 'logo.png' : logo;
-  
-  
+
+
   const clearTab = () => {
     sessionStorage.removeItem('superUserTab');
     sessionStorage.removeItem('superUserFalseTab');
   };
-  
+
   const [isGetCountry, setCountry] = useState<CountryEntity[]>([]);
   const [getState, setState] = useState<StateEntity[]>([]);
   const [getCity, setCity] = useState<CityEntity[]>([]);
 
 
-//   useEffect(() => {
-//     if (company!==null) {
-//       setState(company.state);
-//       setCity(company.city);
-//       setCountry(company.country);
-// }
-//   }, [company]);
-useEffect(() => {
- // dispatch(companyPageInitalMiddleWare());
-  dispatch(locationMiddleWare({}));
-}, []);
+  //   useEffect(() => {
+  //     if (company!==null) {
+  //       setState(company.state);
+  //       setCity(company.city);
+  //       setCountry(company.country);
+  // }
+  //   }, [company]);
+  useEffect(() => {
+    // dispatch(companyPageInitalMiddleWare());
+    dispatch(locationMiddleWare({}));
+  }, []);
 
-useEffect(() => {
-  if (countryidfin && countryidfin.length !== 0) {
-    setCountry(countryidfin);
-  }
-}, [countryidfin]);
+  useEffect(() => {
+    if (countryidfin && countryidfin.length !== 0) {
+      setCountry(countryidfin);
+    }
+  }, [countryidfin]);
   useEffect(() => {
     if (!isEmpty(countryid)) {
       dispatch(
@@ -149,34 +149,37 @@ useEffect(() => {
     }
   }, [stateid]);
 
-  const [state,setstate]=useState("");
-  const[city,setcity]=useState("");
-  const [country,setcountry]=useState("");
+  const [state, setstate] = useState("");
+  const [city, setcity] = useState("");
+  const [country, setcountry] = useState("");
   useEffect(() => {
-    
-    addresshand()
+
+    cityhand()
     statehand()
-  }, [getCity,getState,isGetCountry]);
+    countryhand()
+  }, [getCity, getState, isGetCountry]);
 
-    function  addresshand (){
-      if(getCity.length!==0||isGetCountry.length!==0){
-       if(getCity.find(((option) => (option.id) === (cityid)))!==undefined||""||null&&getState.find((option) => (option.id) === (stateid)).name!==undefined||null||""&&isGetCountry.find((option)=>(option.id)===countryid)!==undefined) {
-       {
-        {setcity(getCity.find((option) => (option.id) === (cityid)).name)}
-      
-        {setcountry(isGetCountry.find((option)=>(option.id)===countryid).name)}
-        
-  }}}
-    }
-
-    function statehand(){
-      if(getState.length!==0)
+  function cityhand() {
+    if (getCity.length !== 0) {
       {
-        console.log("notempty",getState.length)
-        {setstate(getState.find((option) => (option.id) === (stateid)).name)}
+
+        { setcity(getCity.find((option) => (option.id) === (cityid)).name) }
       }
     }
-    
+  }
+  function countryhand() {
+    if (isGetCountry.length !== 0) {
+      { setcountry(isGetCountry.find((option) => (option.id) === countryid).name) }
+    }
+  }
+
+  function statehand() {
+    if (getState.length !== 0) {
+      console.log("notempty", getState.length)
+      { setstate(getState.find((option) => (option.id) === (stateid)).name) }
+    }
+  }
+
   // }
   // useEffect(() => {
   //   addressHandler();
@@ -190,33 +193,33 @@ useEffect(() => {
   //     const selectedCity = company?.city?.find((obj) => obj.id === cityid);
   //     console.log("valuecheak",selectedCity);
   //     const selectedCountry = company?.country?.[0];
-      
-    
+
+
   //     setcity(selectedCity?.name || "");
   //     setcountry(selectedCountry?.name || "");
   //   }
   // }
 
-{
-  console.log("filterstate::",getState)
-  console.log("countryid",countryid)
-//   const filtered = getCity.filter(obj => {
-//   return obj.id === cityid;
-// });
-// console.log("filter",filtered)
-  //console.log("cityname",getCity.find((option) => (option.id) === (cityid)).name)}{
-  //console.log("statename",getState.find((option) => (option.id) === (stateid)).name)}
-}
+  {
+    console.log("filterstate::", getState)
+    console.log("countryid", countryid)
+    //   const filtered = getCity.filter(obj => {
+    //   return obj.id === cityid;
+    // });
+    // console.log("filter",filtered)
+    //console.log("cityname",getCity.find((option) => (option.id) === (cityid)).name)}{
+    //console.log("statename",getState.find((option) => (option.id) === (stateid)).name)}
+  }
   return (
 
 
 
 
     <Flex marginLeft={5} marginTop={10}>
-    {console.log("countryfin",isGetCountry)}
+      {console.log("countryfin", isGetCountry)}
       <Card className={styles.profileCardMain}>
         <Flex marginLeft={140} marginTop={15} center>
-    
+
           {logoPath === 'logo' ? <Button>a</Button> : <img
             style={{ objectFit: 'contain' }}
 
@@ -239,7 +242,7 @@ useEffect(() => {
           <Text align="center" bold>
             Last Login on :{' '}
             {getDateString(user_info?.last_login, 'll hh:mm A')}
-            {console.log("userinfo",user_info.last_login)}
+            {console.log("userinfo", user_info.last_login)}
           </Text>
 
         </Flex>
@@ -247,11 +250,11 @@ useEffect(() => {
         <Flex marginLeft={20} marginRight={20} className={styles.line} marginBottom={5} marginTop={15}>
 
         </Flex>
-        
 
-{console.log("dashboardempreducer", data2)}
-{console.log("permissionreducer", data3)
-}
+
+        {console.log("dashboardempreducer", data2)}
+        {console.log("permissionreducer", data3)
+        }
         <Flex row>
           <Flex>
             <Flex >
@@ -288,13 +291,13 @@ useEffect(() => {
                         : '(Annual)'}
                     </Text>
                   )}</Text>
-                 {console.log("status",status)}
+                {console.log("status", status)}
                 <Text style={{ marginTop: 5 }}>Status: {
                   status === false ? (<Text style={{ color: "#FF0000" }}>Expired</Text>) : (<Text style={{ color: "#00BE4B" }}>Active</Text>)
                 }
                 </Text>
-                <Text style={{ marginTop: 5 ,whiteSpace:"nowrap"}}>
-                  Renewal: {getDateString(plan.subscription_valid_till, 'll')}    
+                <Text style={{ marginTop: 5, whiteSpace: "nowrap" }}>
+                  Renewal: {getDateString(plan.subscription_valid_till, 'll')}
                 </Text>
 
               </Flex>
@@ -314,7 +317,7 @@ useEffect(() => {
 
               </Flex> */}
               <Flex marginTop={10} >
-                <Text style={{ fontWeight: 550}} bold>
+                <Text style={{ fontWeight: 550 }} bold>
                   Credits Availability
                 </Text></Flex>
             </Flex>
@@ -331,16 +334,16 @@ useEffect(() => {
               </Flex>
 
             </Flex>
-{console.log("error",getState)}
+            {console.log("error", getState)}
             <Flex row>
               <Flex marginTop={5}>
                 <Text >
                   Job:
                 </Text >
               </Flex>
-{/* {console.log("filtercity::",getCity.find((option) => (option.id) === (cityid)).name)} */}
+              {/* {console.log("filtercity::",getCity.find((option) => (option.id) === (cityid)).name)} */}
               <Flex marginLeft={5} marginTop={5}>
-                <Text style={{ color: 'black'}}className={styles.textoverflow1}>{unlimitedHelper(job_count)}
+                <Text style={{ color: 'black' }} className={styles.textoverflow1}>{unlimitedHelper(job_count)}
                 </Text>
               </Flex>
 
@@ -508,51 +511,51 @@ useEffect(() => {
             {mobile_no !== "" ? <Flex row ><Flex marginRight={5} marginTop={8}><SvgMobile height={20} width={20} fill={BLACK} /></Flex>
               <Flex marginLeft={9}><Text>
                 <PhoneInput value={mobile_no}
-                inputStyle={{border:"none",padding:"inherit"}}
-                showDropdown={false}   
-                defaultErrorMessage='false' 
-                disableDropdown={true}
-                disableSearchIcon={true}
-                country={null}
-                disabled={true}
-                buttonStyle={{display:"none"}}
-                dropdownStyle={{display:"none"}}
-              
-              
-            
-              />
+                  inputStyle={{ border: "none", padding: "inherit" }}
+                  showDropdown={false}
+                  defaultErrorMessage='false'
+                  disableDropdown={true}
+                  disableSearchIcon={true}
+                  country={null}
+                  disabled={true}
+                  buttonStyle={{ display: "none" }}
+                  dropdownStyle={{ display: "none" }}
+
+
+
+                />
               </Text></Flex></Flex> : ""}
           </Flex>
           <Flex marginTop={10}>
-         
-{console.log("weburl",weburl)}
 
-            {weburl!==null ? <Flex row> <Flex marginRight={5}><SvgGlobe height={20} width={20} fill={BLACK} /></Flex>
-              <Flex marginLeft={9}><Text style={{ marginBottom: "4px",textDecoration:"underline" }} >{weburl}</Text></Flex></Flex> :  
+            {console.log("weburl", weburl)}
+
+            {weburl !== null ? <Flex row> <Flex marginRight={5}><SvgGlobe height={20} width={20} fill={BLACK} /></Flex>
+              <Flex marginLeft={9}><Text style={{ marginBottom: "4px", textDecoration: "underline" }} >{weburl}</Text></Flex></Flex> :
               <Flex row marginTop={7}>
                 <Flex marginRight={5} >
                   <SvgGlobe height={30} width={30} fill={BLACK} />
                 </Flex>
                 <Flex >
-                <LinkWrapper
-                  // onClick={clearTab}
-                  to={ '/account_setting/settings'}
-                >
-                  <Text style={{color:"#581845",textDecoration:"underline"}} bold>
-                    Add Website URL
-                  </Text>
-                </LinkWrapper>
-               </Flex>
+                  <LinkWrapper
+                    // onClick={clearTab}
+                    to={'/account_setting/settings'}
+                  >
+                    <Text style={{ color: "#581845", textDecoration: "underline" }} bold>
+                      Add Website URL
+                    </Text>
+                  </LinkWrapper>
+                </Flex>
               </Flex>}
           </Flex>
           <Flex marginTop={16}>
 
 
             {address !== null ? <Flex row><Flex marginRight={1} ><SvgLocationicon height={30} width={30} fill={BLACK} /></Flex>
-              <Flex  marginLeft={4}>{address}
-              ,{city},{state},{country}
-              ,{zipcode}
-             
+              <Flex marginLeft={4}>{address}
+                ,{city},{state},{country}
+                ,{zipcode}
+
               </Flex></Flex> :
               <Flex row >
                 <Flex marginRight={5}>
@@ -561,17 +564,17 @@ useEffect(() => {
                 <Flex >
 
 
-                <LinkWrapper
-                  // onClick={clearTab}
-                  to={ '/account_setting/settings'}
-                >
-                  <Text style={{color:"#581845",textDecoration:"underline"}} bold>
-                    Add Company Address
-                  </Text>
-                </LinkWrapper>
-               </Flex>
+                  <LinkWrapper
+                    // onClick={clearTab}
+                    to={'/account_setting/settings'}
+                  >
+                    <Text style={{ color: "#581845", textDecoration: "underline" }} bold>
+                      Add Company Address
+                    </Text>
+                  </LinkWrapper>
+                </Flex>
               </Flex>
-              }
+            }
           </Flex>
           {/* <Text>{user_info.email}</Text>
                    <Text>{mobile_no}</Text>
@@ -589,52 +592,52 @@ useEffect(() => {
             </LinkWrapper>
           )}</Flex> */}
 
-          {permission.includes('create_post')===false?(
+          {permission.includes('create_post') === false ? (
             <Flex marginLeft={20} marginTop={10}>
-                 <LinkWrapper
-              target={isEmpty(career_page_url) ? '_parent' : '_blank'}
-              to={
-                isEmpty(career_page_url)
-                  ? `/account_setting/settings?tab=1`
-                  : `/${career_page_url}/careers`
-              }
-            >
-              <Button className={styles.buttonsizeauto} >
-                <Flex row center className={styles.pointer} >
-                  <Text bold style={{ color: "white", marginLeft: 123 }} >
-                    Careers Page
-                  </Text>
+              <LinkWrapper
+                target={isEmpty(career_page_url) ? '_parent' : '_blank'}
+                to={
+                  isEmpty(career_page_url)
+                    ? `/account_setting/settings?tab=1`
+                    : `/${career_page_url}/careers`
+                }
+              >
+                <Button className={styles.buttonsizeauto} >
+                  <Flex row center className={styles.pointer} >
+                    <Text bold style={{ color: "white", marginLeft: 123 }} >
+                      Careers Page
+                    </Text>
 
-                </Flex>
-              </Button>
-            </LinkWrapper>
+                  </Flex>
+                </Button>
+              </LinkWrapper>
             </Flex>
-          ):(
+          ) : (
             <Flex row>
-            <Flex marginLeft={20} className={styles.pointer} marginTop={5}> {permission.includes('create_post') && (
-            <LinkWrapper to={jobSelect}>
-              <Button style={{ marginBottom: 8 }} className={styles.buttonsize}>Post Job</Button>
-            </LinkWrapper>
-          )}</Flex>
-          <Flex marginLeft={98} marginTop={5} marginRight={23}>
-            <LinkWrapper
-              target={isEmpty(career_page_url) ? '_parent' : '_blank'}
-              to={
-                isEmpty(career_page_url)
-                  ? `/account_setting/settings?tab=1`
-                  : `/${career_page_url}/careers`
-              }
-            >
-              <Button className={styles.buttonsize}>
-                <Flex row center className={styles.pointer} >
-                  <Text bold style={{ color: "white", marginLeft: 10 }} >
-                    Careers Page
-                  </Text>
+              <Flex marginLeft={20} className={styles.pointer} marginTop={5}> {permission.includes('create_post') && (
+                <LinkWrapper to={jobSelect}>
+                  <Button style={{ marginBottom: 8 }} className={styles.buttonsize}>Post Job</Button>
+                </LinkWrapper>
+              )}</Flex>
+              <Flex marginLeft={98} marginTop={5} marginRight={23}>
+                <LinkWrapper
+                  target={isEmpty(career_page_url) ? '_parent' : '_blank'}
+                  to={
+                    isEmpty(career_page_url)
+                      ? `/account_setting/settings?tab=1`
+                      : `/${career_page_url}/careers`
+                  }
+                >
+                  <Button className={styles.buttonsize}>
+                    <Flex row center className={styles.pointer} >
+                      <Text bold style={{ color: "white", marginLeft: 10 }} >
+                        Careers Page
+                      </Text>
 
-                </Flex>
-              </Button>
-            </LinkWrapper>
-          </Flex></Flex>)}
+                    </Flex>
+                  </Button>
+                </LinkWrapper>
+              </Flex></Flex>)}
 
         </Flex>
 
