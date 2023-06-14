@@ -72,13 +72,6 @@ const TemplatesPage = () => {
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
     dispatch(getPipelineDataMiddleWare());
-
-    return () => {
-      sessionStorage.removeItem('template');
-      sessionStorage.removeItem('pipeline');
-      sessionStorage.removeItem('button');
-      sessionStorage.removeItem('wk_id');
-    };
   }, []);
   const selectTemplate = () => {
     setTemplate(1);
@@ -139,7 +132,7 @@ const TemplatesPage = () => {
         {isLoading && <Loader />}
 
         <Flex row marginTop={'20px'}>
-          <Flex flex={2} height={"unset"}>
+          <Flex flex={2} height={'unset'}>
             <TemplateCard
               icon={<SvgJobPipeline height={16} width={16} fill="#333333" />}
               title={'Job Pipeline'}
@@ -150,7 +143,7 @@ const TemplatesPage = () => {
               onClick={() => selectTemplate()}
             />
           </Flex>
-          <Flex flex={2} height={"unset"}>
+          <Flex flex={2} height={'unset'}>
             <TemplateCard
               icon={<SvgMessages height={16} width={16} />}
               title={'Message Templates'}
@@ -159,7 +152,7 @@ const TemplatesPage = () => {
               onClick={() => {}}
             />
           </Flex>
-          <Flex flex={2} height={"unset"}>
+          <Flex flex={2} height={'unset'}>
             <TemplateCard
               icon={<SvgMessage height={16} width={16} fill="#333333" />}
               title={'Email Templates'}
@@ -306,7 +299,7 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
               value={formik.values.pipeline_name}
               onChange={formik.handleChange('pipeline_name')}
               lineInput
-              size={12}
+              size={14}
               className={styles.input}
               onKeyPress={handleKeyPress}
               onBlur={formik.handleBlur}
@@ -330,7 +323,7 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
                   tickStyle: !isEmpty(formik.values.pipeline_name.trim()),
                 })}
                 tabIndex={-1}
-                role={'button'} 
+                role={'button'}
                 onClick={() => {
                   formik.handleSubmit();
                 }}
@@ -356,10 +349,10 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
       <Text
         color="black2"
         bold
-        size={16}
+        size={14}
         title={list.pipeline_name}
         className={styles.titleText}
-        style={{ marginLeft: '10px' }}
+        style={{ marginLeft: '10px', maxWidth: list.set_as_default? "105px": "200px"}}
       >
         {list.pipeline_name}
       </Text>
@@ -471,11 +464,13 @@ const TemplateCard: React.FC<TemplateCardProps> = (props) => {
       <Flex column start>
         <Flex row start className={styles.cardHeader}>
           {icon}
-          <Text color="black2" bold size={16} style={{ marginLeft: '10px' }}>
+          <Text color="black2" bold size={14} style={{ marginLeft: '10px' }}>
             {title}
           </Text>
         </Flex>
-        <Text style={{ marginTop: '10px' }}>{subTitle} </Text>
+        <Text size={13} style={{ marginTop: '10px' }}>
+          {subTitle}{' '}
+        </Text>
       </Flex>
       <Button className={styles.btn} onClick={onClick}>
         <Text bold color="theme">

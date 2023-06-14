@@ -1,5 +1,6 @@
 import SvgJobPipeline from '../../icons/SvgJobPipeline';
-//import SvgJobtitle from '../../icons/SvgJobtitle';
+import SvgJobtitle from '../../icons/SvgJobtitle';
+import SvgJobtitles from '../../icons/SvgJobtitles';
 import SvgLocation from '../../icons/SvgLocation';
 import Card from '../../uikit/Card/Card';
 import Flex from '../../uikit/Flex/Flex';
@@ -28,19 +29,12 @@ const JobTitleCard = ({ job_details }: Props) => {
     // <Card className={styles.cardStyle}>
     <Flex row center className={styles.overAll}>
       <div style={{ marginBottom: '6px' }}>
-        {/* <SvgJobtitle /> */}
+        <SvgJobtitles />
       </div>
       <TitleLabel
         title="Job Title:"
         value={`${job_details.job_title} - ${job_details.job_id}`}
       />
-      {/* {job_details.job_role__label_name !== 'Others' && (
-          
-          <TitleLabel
-            title="Job Role:"
-            value={job_details.job_role__label_name}
-          />
-        )} */}
       <div style={{ marginBottom: '4px' }}>
         <SvgLocation width={16} height={16} fill="#581845" />
       </div>

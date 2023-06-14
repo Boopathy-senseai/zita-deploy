@@ -66,15 +66,17 @@ const PipelinePopupTwo = ({
   }, [pipelineData]);
 
   const optionsList = pipelineData.map((doc) => ({
-    label: doc.default_all ? `${doc.pipeline_name}(default)` : doc.pipeline_name,
+    label: doc.default_all
+      ? `${doc.pipeline_name}(Default)`
+      : doc.pipeline_name,
     value: doc.wk_id,
-  }))
+  }));
   return (
     <Modal open={openPipelinePopup}>
       <Flex flex={6} columnFlex className={styles.overAll}>
-        <Text bold color="theme" className={styles.insertStyles}>
-          You can either continue with the current pipeline or choose the
-          pipeline.
+        <Text size={14}  color="theme" className={styles.insertStyles}>
+          You can either continue with the current pipeline or choose another
+          pipeline from the list.
         </Text>
         <SelectTag
           value={selectValue}
@@ -84,7 +86,7 @@ const PipelinePopupTwo = ({
           }}
           placeholder="Select"
         />
-        <Text className={styles.orText}>Or</Text>
+        <Text size={14} className={styles.orText}>Or</Text>
         <Button
           types="secondary"
           onClick={onNewPipeline}

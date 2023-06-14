@@ -252,7 +252,7 @@ const ApplicantPipeLineFilter = ({
         <Text style={{ marginRight: '10px', marginBottom: '2px' }}>
           {doc.label}
         </Text>
-        <SvgIntomark onClick={onClose} />
+        <SvgIntomark onClick={onClose} style={{cursor: "pointer"}}/>
       </Flex>
     );
   };
@@ -262,7 +262,7 @@ const ApplicantPipeLineFilter = ({
     <>
       <Flex row style={{ justifyContent: 'space-between' }}>
         <Flex row className={styles.quickFilters}>
-          <Text style={{whiteSpace: "nowrap"}}>Quick Filters :</Text>
+          <Text style={{whiteSpace: "nowrap", marginTop: "3px"}}>Quick Filters :</Text>
           {isDefaultFilter() ? (
             <Text className={styles.quickfil}>{'All'}</Text>
           ) : (
@@ -313,13 +313,14 @@ const ApplicantPipeLineFilter = ({
               <Text bold color="theme" size={14} >
                 View Filter
               </Text>
-              <div title="Refresh Filters" className={styles.svgRefresh}>
+              <div title="Clear Filters" className={styles.svgRefresh}>
               <SvgRefresh
                 width={18}
                 height={18}
-                onClick={() => {
+                onClick={(e) => {
                   selectInputRef.current.clearValue();
                   hanldeRefresh();
+                  e.stopPropagation();
                 }}
                 
               />

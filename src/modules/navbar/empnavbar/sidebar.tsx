@@ -25,7 +25,6 @@ import LinkWrapper from '../../../uikit/Link/LinkWrapper';
 import Loader from '../../../uikit/Loader/Loader';
 import Text from '../../../uikit/Text/Text';
 import { userProfileMiddleWare } from '../../accountsettingsmodule/userprofilemodule/store/middleware/userprofilemiddleware';
-import { mediaPath } from '../../constValue';
 import { permissionMiddleWare } from '../../Login/store/middleware/loginMiddleWare';
 import { logOutMiddleWare } from '../store/middleware/navbarmiddleware';
 import styles from './notification.module.css';

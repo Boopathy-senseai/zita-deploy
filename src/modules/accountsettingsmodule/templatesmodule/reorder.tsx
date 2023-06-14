@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { StageCard } from '../../../uikit/StageCard/stagesCard';
 import { StageData } from '../../../hooks/useStages/types';
+import AlertDeletePopup from '../../../uikit/StageCard/alertDeletePopup';
+import DeletePopup from '../../../uikit/StageCard/deletePopup';
 
 // a little function to help us with reordering the result
 const reorder = (list: StageData[], startIndex, endIndex): StageData[] => {
@@ -40,6 +42,18 @@ const ReorderStage: React.FC<Props> = (props) => {
     items: list || [],
   });
 
+  const [deletePopup, setDeletePopup] = useState<
+    { data: StageData; visible: boolean } | undefined
+  >();
+
+  const handleDeletePipelinePopup = (doc: StageData) => {
+    setDeletePopup(undefined);
+    onDelete(doc.id);
+  };
+  const handleCloseDeletePopup = () => {
+    setDeletePopup(undefined);
+  };
+
   useEffect(() => {
     onChange(state.items);
   }, [state.items]);
@@ -66,46 +80,65 @@ const ReorderStage: React.FC<Props> = (props) => {
     });
   };
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId="droppable">
-        {(provided, snapshot) => (
-          <div
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-            style={getListStyle(snapshot.isDraggingOver)}
-          >
-            {state.items.map((item, index) => (
-              <Draggable
-                key={`${item.id}-${index}`}
-                draggableId={`${item.id}-${index}`}
-                index={index}
-              >
-                {(providedD, snapshotD) => (
-                  <div
-                    ref={providedD.innerRef}
-                    {...providedD.draggableProps}
-                    {...providedD.dragHandleProps}
-                    style={getItemStyle(
-                      snapshotD.isDragging,
-                      providedD.draggableProps.style,
-                    )}
-                  >
-                    <StageCard
-                      list={list}
-                      doc={item}
-                      index={index}
-                      onEdit={onEdit}
-                      onDelete={onDelete}
-                    />
-                  </div>
-                )}
-              </Draggable>
-            ))}
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
-    </DragDropContext>
+    <>
+      {deletePopup && deletePopup?.data && deletePopup?.data?.is_associated ? (
+        <AlertDeletePopup
+          openDeletePopup={deletePopup?.visible}
+          handleDeletePipelinePopup={() =>
+            handleDeletePipelinePopup(deletePopup?.data)
+          }
+          handleCloseDeletePopup={handleCloseDeletePopup}
+        />
+      ) : (
+        <DeletePopup
+          openDeletePopup={deletePopup?.visible}
+          handleDeletePipelinePopup={() =>
+            handleDeletePipelinePopup(deletePopup?.data)
+          }
+          handleCloseDeletePopup={handleCloseDeletePopup}
+        />
+      )}
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId="droppable">
+          {(provided, snapshot) => (
+            <div
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              style={getListStyle(snapshot.isDraggingOver)}
+            >
+              {state.items.map((item, index) => (
+                <Draggable
+                  key={`${item.id}-${index}`}
+                  draggableId={`${item.id}-${index}`}
+                  index={index}
+                >
+                  {(providedD, snapshotD) => (
+                    <div
+                      ref={providedD.innerRef}
+                      {...providedD.draggableProps}
+                      {...providedD.dragHandleProps}
+                      style={getItemStyle(
+                        snapshotD.isDragging,
+                        providedD.draggableProps.style,
+                      )}
+                    >
+                      <StageCard
+                        list={list.filter((doc) => doc.id !== item.id)}
+                        doc={item}
+                        index={index}
+                        onEdit={onEdit}
+                        onDelete={(data) => setDeletePopup({ data, visible: true})}
+                      />
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
+    </>
   );
 };
 

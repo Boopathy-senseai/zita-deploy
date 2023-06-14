@@ -1,6 +1,6 @@
 .overAll {
   background-color: var(--color-white, #ffffff);
-  width: 500px;
+  width: 550px;
   padding: 25px;
   border-radius: 4px;
 }
@@ -22,7 +22,7 @@
 .orText::before{
     content: "";
     height: 1px;
-    width: 200px;
+    width: 230px;
     background-color: #C3C3C3;
     display: block;
     position: absolute;
@@ -32,7 +32,7 @@
 .orText::after{
     content: "";
     height: 1px;
-    width: 200px;
+    width: 230px;
     background-color: #C3C3C3;
     display: block;
     position: absolute;

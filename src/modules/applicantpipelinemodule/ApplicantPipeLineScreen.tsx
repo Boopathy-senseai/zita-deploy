@@ -930,7 +930,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
         <Flex
           columnFlex
           className={styles.dndBoardContainer}
-          width={window.innerWidth - 20}
+          width={window.innerWidth - 260}
         >
           <Flex row className={styles.titleContainer}>
             <Text bold size={16} color="theme">

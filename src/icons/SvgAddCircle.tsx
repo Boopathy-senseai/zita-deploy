@@ -10,6 +10,7 @@ const SvgPlusCircle = ({ width, height, fill }: typeof defaultProps) => {
       width={width}
       height={height}
       fill={fill}
+      viewBox="0 0 14 14"
     >
       <path
         fill="#581845"

@@ -54,7 +54,7 @@ const PipelinePopup = ({
 
   const getDefaultOption = (doc: PipelineData) => {
     if (!doc) return null;
-    return { label: doc.pipeline_name, value: doc.wk_id };
+    return { label: `${doc.pipeline_name} (Default)`, value: doc.wk_id };
   };
 
   useEffect(() => {
@@ -69,19 +69,18 @@ const PipelinePopup = ({
   return (
     <Modal open={openPipelinePopup}>
       <Flex flex={6} columnFlex className={styles.overAll}>
-        <Text bold color="theme" className={styles.insertStyles}>
+        <Text size={14} color="theme" className={styles.insertStyles}>
           Choose your pipeline
         </Text>
         <SelectTag
-          value={selectValue}
+          value={selectValue }
           options={pipelineData.map((doc) => ({
             label: doc.set_as_default
-              ? `${doc.pipeline_name} (default)`
+              ? `${doc.pipeline_name} (Default)`
               : doc.pipeline_name,
             value: doc.wk_id,
           }))}
           onChange={(option) => {
-            console.log(option);
             setSelectValue(option);
             setDefaultAll(false);
           }}
@@ -94,7 +93,8 @@ const PipelinePopup = ({
             onChange={() => setDefaultAll(!defaultAll)}
           />
           <Text className={styles.checkBoxText}>
-            Would you like to set the selected pipeline to all the Job Postings
+            Would you like to set the selected pipeline to all the upcoming
+            Jobs?
           </Text>
         </Flex>
 

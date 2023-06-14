@@ -32,7 +32,7 @@ interface StageCardProps {
   list?: StageData[];
   doc: StageData;
   onEdit?: (value: StageData) => void;
-  onDelete?: (value: number) => void;
+  onDelete?: (value: StageData) => void;
 }
 
 export const StageCard: React.FC<StageCardProps> = (props) => {
@@ -46,14 +46,14 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
     onDelete,
   } = props;
   const [edit, setEdit] = useState(false);
-  const [deletePopup, setDeletePopup] = useState(false);
+  // const [deletePopup, setDeletePopup] = useState(false);
   const [showColorPallet, setShowColorPallet] = useState(false);
   const [isBtnColorOpen, setBtnColorOpen] = useState(false);
   const [isStageLoader, setStageLoader] = useState(false);
 
   const [initial, setInitial] = useState<StageData>(doc);
   const myRef = createRef<any>();
-  const {isStageDuplicate} = useStages(list);
+  const { isStageDuplicate } = useStages(list);
 
   const handleJobPipeline = (values: StageData) => {
     const errors: Partial<StageData> = {};
@@ -63,8 +63,8 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
     if (!isEmpty(values.stage_name) && values.stage_name.trim().length > 25) {
       errors.stage_name = 'Stage name should not exceed 25 characters.';
     }
-    if(isStageDuplicate(values.stage_name)){
-      errors.stage_name = 'Already stage name exists';
+    if (isStageDuplicate(values.stage_name)) {
+      errors.stage_name = 'Stage name already exsist.';
     }
     return errors;
   };
@@ -84,13 +84,13 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
     setEdit(!edit);
     formik.resetForm();
   };
-  const handleDeletePipelinePopup = () => {
-    setDeletePopup(false);
-    onDelete(doc.id);
-  };
-  const handleCloseDeletePopup = () => {
-    setDeletePopup(false);
-  };
+  // const handleDeletePipelinePopup = () => {
+  //   setDeletePopup(false);
+  //   onDelete(doc.id);
+  // };
+  // const handleCloseDeletePopup = () => {
+  //   setDeletePopup(false);
+  // };
   const onColorChange = (value: StageData) => {
     onEdit(value);
   };
@@ -140,7 +140,7 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
               value={formik.values.stage_name}
               onChange={formik.handleChange('stage_name')}
               lineInput
-              size={12}
+              size={14}
               className={styles.input}
               onKeyPress={handleKeyPress}
               onBlur={formik.handleBlur}
@@ -210,14 +210,14 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
       return;
     }
     if (onDelete) {
-      setDeletePopup(true);
+      onDelete(doc);
     }
   };
 
   return (
     <>
       {/* delete popup without the data */}
-      {doc?.is_associated ? (
+      {/* {doc?.is_associated ? (
         <AlertDeletePopup
           openDeletePopup={deletePopup}
           handleDeletePipelinePopup={handleDeletePipelinePopup}
@@ -229,10 +229,14 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
           handleDeletePipelinePopup={handleDeletePipelinePopup}
           handleCloseDeletePopup={handleCloseDeletePopup}
         />
-      )}
+      )} */}
       <div ref={myRef} className={styles.pipelineCard}>
         <div className={styles.rowGroup}>
-          <Button types="link" className={styles.drgIcon}>
+          <Button
+            types="link"
+            style={{ cursor: isDrag ? 'pointer' : 'default' }}
+            className={styles.drgIcon}
+          >
             <SvgDrag
               width={16}
               height={16}
@@ -242,7 +246,10 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
           <button
             // disabled={doc.palatteDisabled}
             className={styles.colorCircle}
-            style={{ backgroundColor: doc.stage_color }}
+            style={{
+              backgroundColor: doc.stage_color,
+              cursor: isColorPicker ? 'pointer' : 'default',
+            }}
             onClick={() =>
               isColorPicker ? setShowColorPallet(!showColorPallet) : undefined
             }

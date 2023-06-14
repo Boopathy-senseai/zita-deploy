@@ -18,13 +18,12 @@ const DeletePopup = ({ visible, onDelete, onClose, data }: Props) => {
     if (data.associate) {
       return (
         <Flex flex={6} column center className={styles.overAll}>
-          <Text bold color="theme" className={styles.insertStyles}>
-            The Pipeline has been associated with the job post, so you cannot
-            delete the pipeline.
+          <Text size={14} color="theme" className={styles.insertStyles}>
+            You cannot delete this pipeline as its associated with a job post.
           </Text>
           <Flex row end marginTop={20} className={styles.borderLine}>
             <Button
-              className={styles.cancel}
+              // className={styles.cancel}
               types={'primary'}
               onClick={onClose}
             >
@@ -36,17 +35,17 @@ const DeletePopup = ({ visible, onDelete, onClose, data }: Props) => {
     }
     return (
       <Flex flex={6} column center className={styles.overAll}>
-        <Text bold color="theme" className={styles.insertStyles}>
-          The job pipeline and its stages will be deleted.
+        <Text size={14} color="theme" className={styles.insertStyles}>
+          This action will delete the the job pipeline and its stages.
         </Text>
-        <Text color="theme" className={styles.insertStyles}>
-          Are you sure?
+        <Text size={13} color="theme" className={styles.insertStyles}>
+          Are you sure to proceed?
         </Text>
         <Flex row end marginTop={20} className={styles.borderLine}>
           <Button className={styles.cancel} types={'primary'} onClick={onClose}>
             Cancel
           </Button>
-          <Button className={styles.update} onClick={()=> onDelete(data)}>
+          <Button className={styles.update} onClick={() => onDelete(data)}>
             Delete
           </Button>
         </Flex>
@@ -57,8 +56,8 @@ const DeletePopup = ({ visible, onDelete, onClose, data }: Props) => {
   return (
     <Modal open={visible}>
       {/* <Flex flex={6} column center className={styles.overAll}> */}
-        {renderTitle()}
-        {/* <Flex row end marginTop={20} className={styles.borderLine}>
+      {renderTitle()}
+      {/* <Flex row end marginTop={20} className={styles.borderLine}>
           <Button className={styles.cancel} types={'primary'} onClick={onClose}>
             Cancel
           </Button>

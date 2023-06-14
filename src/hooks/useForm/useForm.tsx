@@ -44,11 +44,12 @@ export function useForm<
 
   const initializeForm = useCallback(() => {
     setState(initialValues);
+    handleFormPropsUpdate('errors', validate(initialValues));
   }, [JSON.stringify(initialValues)]);
 
   useEffect(() => {
     initializeForm();
-  },[initializeForm]);
+  }, [initializeForm]);
 
   useEffect(() => {
     const val = Object.values(formProps.errors);

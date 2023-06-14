@@ -6,6 +6,7 @@ const cx = classNames.bind(styles);
 export type textSize =
   | 10
   | 12
+  | 13
   | 14
   | 16
   | 18

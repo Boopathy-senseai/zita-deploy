@@ -225,13 +225,15 @@ export const downloadApplicantsMiddleware = createAsyncThunk<
   }
 >(DOWNLOAD_APPLICANTS, async (payload, { rejectWithValue }) => {
   try {
-    const url = `${downloadBulkExport}?${stringifyParams(payload)}`;
-    console.log(url);
+    const params = stringifyParams(payload);
+    const url = `${downloadBulkExport}?${params}`;
     const response = await axios.get(url);
-    if(response.data && (response.data?.file_path || response.data?.filepath)) {
+    if (
+      response.data &&
+      (response.data?.file_path || response.data?.filepath)
+    ) {
       handleDownload(response.data?.file_path || response.data?.filepath);
     }
-    console.log(response.data);
     return response.data;
   } catch (error) {
     const typedError = error as Error;

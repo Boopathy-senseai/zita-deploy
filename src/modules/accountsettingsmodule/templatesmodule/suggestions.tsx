@@ -71,14 +71,14 @@ const PipelineSuggestions: React.FC<Props> = (props) => {
 
   const handleJobPipeline = (values: SuggestionForm) => {
     const errors: Partial<SuggestionForm> = {};
-    if(isEmpty(values.title) || values?.title.trim() === ""){
-      errors.title = "Enter a valid stage name";
+    if (isEmpty(values.title) || values?.title.trim() === '') {
+      errors.title = 'Enter a valid stage name.';
     }
     if (!isEmpty(values.title) && values.title.trim().length > 25) {
       errors.title = 'Stage name should not exceed 25 characters.';
     }
     if (isStageDuplicate(values.title)) {
-      errors.title = 'Already stage name exists';
+      errors.title = 'Stage name already exsist.';
     }
     return errors;
   };
@@ -90,7 +90,7 @@ const PipelineSuggestions: React.FC<Props> = (props) => {
       // formik.handleChange('title')(data.title.trim());
       onAddStageFromSuggestion({
         stage_name: data.title.trim(),
-        stage_order: localStages.length + 1,
+        stage_order: localStages.length,
         stage_color: '#888888',
         suggestion_id: new Date().getTime(),
         wk_id_id: wk_id,
@@ -100,6 +100,9 @@ const PipelineSuggestions: React.FC<Props> = (props) => {
     },
   });
 
+  const onAddSuggestion = (doc: SuggestionData) => {
+    onAddStageFromSuggestion({...doc, stage_order: localStages.length});
+  }
   const toggleStage = () => {
     setStage(!stage);
     formik.setFieldValue('title', '');
@@ -121,7 +124,7 @@ const PipelineSuggestions: React.FC<Props> = (props) => {
             isActive={isActive}
             doc={doc}
             index={index}
-            onAdd={onAddStageFromSuggestion}
+            onAdd={onAddSuggestion}
             onRemove={onRemoveStage}
           />
         );
@@ -140,10 +143,10 @@ const PipelineSuggestions: React.FC<Props> = (props) => {
           </Flex>
         </Button>
       ) : (
-        <>
+        <Flex row noWrap>
           <Flex column noWrap>
             <InputText
-              name='title'
+              name="title"
               value={formik.values.title}
               onChange={formik.handleChange('title')}
               lineInput
@@ -190,7 +193,7 @@ const PipelineSuggestions: React.FC<Props> = (props) => {
               <SvgCloseBox className={styles.tickStyle} />
             </div>
           </div>
-        </>
+        </Flex>
       )}
     </Flex>
   );

@@ -37,26 +37,33 @@ type FormProps = {
   wk_id?: number;
 };
 
-
-
-
 const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
   const [stage, setStage] = useState(false);
   const [form, setForm] = useState({ pipelineTitle: '' });
   const [isSubmitLoader, setSubmitLoader] = useState(false);
 
   const dispatch: AppDispatch = useDispatch();
-  const { pipeline, stages, suggestions, pipelineSuggestions, isLoading , error} =
-    useSelector(({ templatePageReducers, pipelinePageReducers }: RootState) => {
+  const {
+    piplineList,
+    pipeline,
+    stages,
+    suggestions,
+    pipelineSuggestions,
+    isLoading,
+    error,
+  } = useSelector(
+    ({ templatePageReducers, pipelinePageReducers }: RootState) => {
       return {
         isLoading: templatePageReducers.isLoading,
-        error: templatePageReducers.error, 
+        error: templatePageReducers.error,
         pipeline: templatePageReducers.data[0],
+        piplineList: pipelinePageReducers.pipeline,
         stages: templatePageReducers.stages,
         pipelineSuggestions: pipelinePageReducers.suggestion,
         suggestions: templatePageReducers.suggestion,
       };
-    });
+    },
+  );
 
   const {
     localStages,
@@ -97,9 +104,18 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     formik.setFieldValue('title', '');
   };
 
+  const isPipelineDuplicate = (title: string) => {
+    const tilteMap = [...piplineList].map((doc) =>
+      doc.pipeline_name.trim().toLowerCase(),
+    );
+    return tilteMap
+      .map((str) => str === title.trim().toLowerCase())
+      .includes(true);
+  };
+
   const handleJobPipeline = (values: jobPipelineForm) => {
     const errors: Partial<jobPipelineForm> = {};
-    if(error){
+    if (error) {
       errors.pipelineTitle = error;
     }
     if (isEmpty(values.pipelineTitle) || values?.pipelineTitle.trim() === '') {
@@ -113,6 +129,10 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
       values.pipelineTitle.trim().length > 25
     ) {
       errors.pipelineTitle = 'Pipeline name should not exceed 25 characters.';
+    }
+
+    if (isPipelineDuplicate(values.pipelineTitle)) {
+      errors.pipelineTitle = 'Pipeline Title already exist';
     }
     return errors;
   };
@@ -186,21 +206,13 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
   return (
     <Flex>
       {isSubmitLoader && <Loader />}
-      <Flex row start className={styles.title}>
-        <Flex row center onClick={handleBack} style={{cursor: "pointer"}}>
-          <SvgBack height={14} width={14} />
-          <Text color="theme" bold size={16} style={{ marginLeft: '10px' }}>
-            Back to Pipeline
-          </Text>
-        </Flex>
-      </Flex>
       <Flex column className={styles.bottomBorder}>
-        <Flex column flex={1} marginBottom={30} start>
+        <Flex column flex={1} marginBottom={10} marginTop={10} start>
           <InputText
             inputConatinerClass={styles.with80}
             label="Pipeline Title"
             disabled={pipeline?.is_active}
-            labelSize={16}
+            labelSize={14}
             required
             name="pipelineTitle"
             value={formik.values.pipelineTitle}
@@ -219,11 +231,11 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
             flex={4}
             className={`${styles.columnGroup} ${styles.borderRightLine}`}
           >
-            <Flex column start marginBottom={20}>
-              <Text color="theme" size={16}>
+            <Flex column start marginBottom={10}>
+              <Text color="theme" size={14}>
                 Pipeline Stages
               </Text>
-              <Text color="black2">
+              <Text color="black2" size={13}>
                 Create, Rename, reorder, and delete job pipeline stages.
               </Text>
             </Flex>
@@ -248,9 +260,12 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
             flex={4}
             className={`${styles.columnGroup} ${styles.paddingLeft}`}
           >
-            <Flex column start marginBottom={20}>
-              <Text color="theme" size={16}>
+            <Flex column start marginBottom={10}>
+              <Text color="theme" size={14}>
                 Proposed Stages
+              </Text>
+              <Text size={13} color="black2">
+                Click on the below stages to add it to your pipeline.
               </Text>
             </Flex>
             <PipelineSuggestions
@@ -265,41 +280,48 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
           </Flex>
         </Flex>
       </Flex>
-      {buttondata === 1 ? (
-        <Flex row end marginTop={50} marginBottom={20}>
-          <Button
-            className={styles.cancel}
-            onClick={handleBack}
-            types={'primary'}
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={formik.handleSubmit}
-            disabled={!(isFormValid() && isFormDirty())}
-          >
-            Save
-          </Button>
+      <Flex row middle className={styles.title}>
+        <Flex row center onClick={handleBack} style={{ cursor: 'pointer' }}>
+          {/* <SvgBack height={14} width={14} /> */}
+          <Button types={'secondary'}>Back to Pipeline</Button>
         </Flex>
-      ) : (
-        <Flex row end marginTop={50} marginBottom={20}>
-          <Button
-            className={styles.cancel}
-            onClick={handleBack}
-            types={'primary'}
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={formik.handleSubmit}
-            disabled={!(isFormValid() && isFormDirty())}
-          >
-            Update
-          </Button>
-        </Flex>
-      )}
+        {buttondata === 1 ? (
+          <Flex row end marginTop={20} marginBottom={10}>
+            <Button
+              className={styles.cancel}
+              onClick={handleBack}
+              types={'primary'}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={formik.handleSubmit}
+              disabled={!(isFormValid() && isFormDirty())}
+            >
+              Save
+            </Button>
+          </Flex>
+        ) : (
+          <Flex row end>
+            <Button
+              className={styles.cancel}
+              onClick={handleBack}
+              types={'primary'}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={formik.handleSubmit}
+              disabled={!(isFormValid() && isFormDirty())}
+            >
+              Update
+            </Button>
+          </Flex>
+        )}
+      </Flex>
     </Flex>
   );
 };
 
 export default JobPipelinePage;
+

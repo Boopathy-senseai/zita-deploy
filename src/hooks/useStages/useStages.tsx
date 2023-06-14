@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import _ from 'lodash';
 import { columnTypes } from '../../modules/applicantpipelinemodule/dndBoardTypes';
+import { Toast } from '../../uikit';
 import { SuggestionData } from './types';
 
 export type UseStages<T> = {
@@ -38,7 +39,7 @@ export function useStages<
     workflow_id_id: 0,
     stage_id_id: 0,
     stage_order: 0,
-    created_at: "string",
+    created_at: 'string',
     stage_color: '#581845',
     stage_name: 'New Applicants',
     is_disabled: true,
@@ -56,11 +57,12 @@ export function useStages<
 
   const initializeStages = () => {
     setLocalStages(() => {
+      const sortedStages = stages.length > 1 ? [...stages]?.sort((a, b) => a.stage_order - b.stage_order) : stages;
       if (!columns) {
-        return stages;
+        return sortedStages;
       }
 
-      return [...stages].map((doc) => {
+      return [...sortedStages].map((doc) => {
         if (columns[doc.id]) {
           return {
             ...doc,
@@ -71,7 +73,7 @@ export function useStages<
         return { ...doc, is_associated: false };
       });
     });
-  }
+  };
 
   const onEditStage = (value: T) => {
     setLocalStages((prevStages) => {
@@ -101,12 +103,13 @@ export function useStages<
 
   const onAddStageFromSuggestion = (doc: any) => {
     setLocalStages((prevStages) => {
+      const new_id = new Date().getTime();
       const newStage: T = {
-        id: doc.suggestion_id,
+        id: new_id,
         stage_name: doc.stage_name,
         stage_order: doc.stage_order,
         stage_color: doc.stage_color,
-        stage_id_id: doc.suggestion_id,
+        stage_id_id: new_id,
         is_disabled: false,
       } as T;
       const index = prevStages?.findIndex((data) => data.id === newStage.id);
@@ -128,6 +131,7 @@ export function useStages<
       }
       return prevStages;
     });
+    Toast('Stage deleted successfully');
   };
 
   const onReorder = (list: Array<T>) => {
@@ -185,18 +189,17 @@ export function useStages<
     }
   };
 
-
   const isEqual = (list: T[]) => {
-    if(!columns){
+    if (!columns) {
       return _.isEqual(_.sortBy(list), _.sortBy(localStages));
     }
-    const local = localStages.map(doc => _.omit(doc, "is_associated"));
+    const local = localStages.map((doc) => _.omit(doc, 'is_associated'));
     return _.isEqual(_.sortBy(list), _.sortBy(local));
-  }
+  };
 
   const resetStages = () => {
     initializeStages();
-  }
+  };
 
   return {
     localStages,
