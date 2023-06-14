@@ -105,16 +105,23 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
   };
 
   const isPipelineDuplicate = (title: string) => {
-    const tilteMap = [...piplineList].map((doc) =>
+    const trimTitle = title.trim().toLowerCase();
+    const list = pipeline
+      ? piplineList.filter(
+          (doc) =>
+            doc.pipeline_name.trim().toLowerCase() !==
+            pipeline?.pipeline_name.trim().toLowerCase(),
+        )
+      : piplineList;
+    const tilteMap = [...list].map((doc) =>
       doc.pipeline_name.trim().toLowerCase(),
     );
-    return tilteMap
-      .map((str) => str === title.trim().toLowerCase())
-      .includes(true);
+    return tilteMap.map((str) => str === trimTitle).includes(true);
   };
 
   const handleJobPipeline = (values: jobPipelineForm) => {
     const errors: Partial<jobPipelineForm> = {};
+    const trimValue = values?.pipelineTitle.trim();
     if (error) {
       errors.pipelineTitle = error;
     }
@@ -140,6 +147,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
   const formik = useForm<jobPipelineForm>({
     initialValues: form,
     isTrim: false,
+    initialValidation: true,
     validate: handleJobPipeline,
     // enableReinitialize: true,
     onSubmit: (data) => {
@@ -166,8 +174,6 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
   };
   const isFormValid = () => {
     if (!formik.isValid) return false;
-    // if (formik.values.pipelineTitle === '') return false;
-    // if (formik.values.pipelineTitle.length > 25) return false;
     if (localStages?.length === 0) return false;
     return true;
   };

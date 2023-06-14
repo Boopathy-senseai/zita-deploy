@@ -17,6 +17,7 @@ export type UseForm<T> = {
 interface Props<T> {
   initialValues?: T;
   isTrim?: boolean;
+  initialValidation?: boolean;
   validate?: (value: T) => Partial<T>;
   onSubmit?: (value: T) => void;
 }
@@ -32,8 +33,8 @@ export function useForm<
   T extends {
     [key: string]: any;
   },
->(opts: Props<T> = { isTrim: false }): UseForm<T> {
-  const { initialValues, isTrim, validate, onSubmit } = opts;
+>(opts: Props<T> = { initialValidation: false }): UseForm<T> {
+  const { initialValues, initialValidation, validate, onSubmit } = opts;
   const [state, setState] = useState<T>(initialValues);
   const [formProps, setFormProps] = useState<FormProps<T>>({
     errors: {},
@@ -44,7 +45,9 @@ export function useForm<
 
   const initializeForm = useCallback(() => {
     setState(initialValues);
-    handleFormPropsUpdate('errors', validate(initialValues));
+    if (initialValidation) {
+      handleFormPropsUpdate('errors', validate(initialValues));
+    }
   }, [JSON.stringify(initialValues)]);
 
   useEffect(() => {

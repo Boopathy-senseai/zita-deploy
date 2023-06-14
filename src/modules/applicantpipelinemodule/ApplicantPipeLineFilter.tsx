@@ -249,10 +249,10 @@ const ApplicantPipeLineFilter = ({
     // }
     return (
       <Flex row noWrap center className={styles.quickfil}>
-        <Text style={{ marginRight: '10px', marginBottom: '2px' }}>
+        <Text style={{ marginRight: '10px' }}>
           {doc.label}
         </Text>
-        <SvgIntomark onClick={onClose} style={{cursor: "pointer"}}/>
+        <SvgIntomark onClick={onClose} style={{ cursor: 'pointer' }} />
       </Flex>
     );
   };
@@ -262,7 +262,9 @@ const ApplicantPipeLineFilter = ({
     <>
       <Flex row style={{ justifyContent: 'space-between' }}>
         <Flex row className={styles.quickFilters}>
-          <Text style={{whiteSpace: "nowrap", marginTop: "3px"}}>Quick Filters :</Text>
+          <Text style={{ whiteSpace: 'nowrap', marginTop: '3px' }}>
+            Quick Filters :
+          </Text>
           {isDefaultFilter() ? (
             <Text className={styles.quickfil}>{'All'}</Text>
           ) : (
@@ -310,24 +312,20 @@ const ApplicantPipeLineFilter = ({
                 setShowDropDown((value) => !value);
               }}
             >
-              <Text bold color="theme" size={14} >
+              <Text bold color="theme" size={14}>
                 View Filter
               </Text>
               <div title="Clear Filters" className={styles.svgRefresh}>
-              <SvgRefresh
-                width={18}
-                height={18}
-                onClick={(e) => {
-                  selectInputRef.current.clearValue();
-                  hanldeRefresh();
-                  e.stopPropagation();
-                }}
-                
-              />
-            
-          
-          </div>
-              
+                <SvgRefresh
+                  width={18}
+                  height={18}
+                  onClick={(e) => {
+                    selectInputRef.current.clearValue();
+                    hanldeRefresh();
+                    e.stopPropagation();
+                  }}
+                />
+              </div>
             </Flex>
             <div
               className={`${styles.drop_down_menus} ${

@@ -97,12 +97,13 @@ const PipelineSuggestions: React.FC<Props> = (props) => {
         is_disabled: false,
       });
       toggleStage();
+      formik.resetForm();
     },
   });
 
   const onAddSuggestion = (doc: SuggestionData) => {
-    onAddStageFromSuggestion({...doc, stage_order: localStages.length});
-  }
+    onAddStageFromSuggestion({ ...doc, stage_order: localStages.length });
+  };
   const toggleStage = () => {
     setStage(!stage);
     formik.setFieldValue('title', '');

@@ -10,9 +10,7 @@ import Text from '../../uikit/Text/Text';
 import Loader from '../../uikit/Loader/Loader';
 import Button from '../../uikit/Button/Button';
 import { AppDispatch, RootState } from '../../store';
-import {
-  SUNRAY,
-} from '../../uikit/Colors/colors';
+import { SUNRAY } from '../../uikit/Colors/colors';
 import { qualificationFilterHelper } from '../common/commonHelper';
 import SvgSearch from '../../icons/SvgSearch';
 import SvgLocation from '../../icons/SvgLocation';
@@ -20,6 +18,7 @@ import { InputSearch, Toast } from '../../uikit';
 import InputText from '../../uikit/InputText/InputText';
 import { myJobPostingDataMiddleWare } from '../myjobposting/store/middleware/myjobpostingmiddleware';
 import { ERROR_MESSAGE } from '../constValue';
+import SvgIntomark from '../../icons/SvgCancel';
 import PipelinePopup from './pipelinepopup';
 import {
   applicantPipeLineDataMiddleWare,
@@ -520,6 +519,14 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     ?.map((key) => columnsFromBackend[key].total as number)
     .reduce((t, v) => (t = t + v), 0);
 
+  const getIsMultiMoveDisabled = () => {
+    const selectedList = Array.from(cardSelection.values());
+    const isSameColumn = selectedList
+      .map((doc) => doc.columnId)
+      .every((val, i, arr) => val === arr[0]);
+    return allColumnsItemsLength === cardSelection.size && !isSameColumn;
+  };
+
   const [isAlert, setAlert] = useState<{
     type: 'single' | 'bulk';
     source: string;
@@ -664,7 +671,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
   const getSelectedCandidateList = () => {
     const selectedList = Array.from(cardSelection.values());
     return selectedList.map((doc) => doc.task.candidate_id_id);
-  }
+  };
 
   // popup cancel function
   const hanldeCancel = () => {
@@ -735,7 +742,11 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
       const movedList = getMovedList();
 
       function getMovedList() {
-        const selectedItems = selectedList.filter(doc => previous[doc.columnId].stage_name !== REJECTED_COLUMN).map((doc) => doc.task);
+        const selectedItems = selectedList
+          .filter(
+            (doc) => previous[doc.columnId].stage_name !== REJECTED_COLUMN,
+          )
+          .map((doc) => doc.task);
         let filterItems = previous[droppableId].items.filter(
           (doc) => !selectedItems.includes(doc),
         );
@@ -769,7 +780,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
       .filter((doc) => columns[doc.columnId].stage_name !== REJECTED_COLUMN)
       .map((doc) => doc.columnId);
 
-    if(candidateIdList.length === 0){
+    if (candidateIdList.length === 0) {
       return;
     }
 
@@ -837,11 +848,55 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     setSearch(e.target.value);
   };
 
+  const onClearSearch = () => {
+    setSearch("");
+    dispatch(
+      applicantPipeLineDataMiddleWare({
+        jd_id: jdId,
+        profile_match: isMatchRadio,
+        candidate: "",
+        work_experience: isExperience,
+        profile_view: isProfile,
+        education_level: qaValue,
+        skill_match: optionsList,
+        fav: favAdd,
+        sortApplicant: isSortApplicant,
+        sortSortList: isSortApplicant,
+        sortInterview: isSortApplicant,
+        sortSelected: isSortApplicant,
+        sortRejected: isSortApplicant,
+        location: formik.values.location || "",
+      }),
+    );
+  }
+
   const onLocationChange = (val: any) => {
     if (val !== '') {
       return;
     }
     formik.handleChange('location')(val);
+  };
+
+  const onClearLocation = () => {
+    formik.handleChange('location')('');
+    dispatch(
+      applicantPipeLineDataMiddleWare({
+        jd_id: jdId,
+        profile_match: isMatchRadio,
+        candidate: isSearch,
+        work_experience: isExperience,
+        profile_view: isProfile,
+        education_level: qaValue,
+        skill_match: optionsList,
+        fav: favAdd,
+        sortApplicant: isSortApplicant,
+        sortSortList: isSortApplicant,
+        sortInterview: isSortApplicant,
+        sortSelected: isSortApplicant,
+        sortRejected: isSortApplicant,
+        location: '',
+      }),
+    );
   };
 
   const onLocationKeyPress = (event) => {
@@ -865,6 +920,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
           location: event.target.value,
         }),
       );
+      event.target.blur();
     }
   };
 
@@ -877,12 +933,20 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
 
   const handleBulkDownload = () => {
     const candidate_id = getSelectedCandidateList();
-    dispatch(downloadApplicantsMiddleware({ jd_id: jdId, download: "download", candidate_id}))
-  }
+    dispatch(
+      downloadApplicantsMiddleware({
+        jd_id: jdId,
+        download: 'download',
+        candidate_id,
+      }),
+    );
+  };
 
   const handleCSVDownload = () => {
-    dispatch(downloadApplicantsMiddleware({ jd_id: jdId, csvdownload: "csvdownload"}));
-  }
+    dispatch(
+      downloadApplicantsMiddleware({ jd_id: jdId, csvdownload: 'csvdownload' }),
+    );
+  };
 
   return (
     <>
@@ -967,13 +1031,17 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
                     onKeyPress={handleKeyPress}
                     className={styles.boxstyle}
                   />
+                  {isSearch.trim() !== '' && (
+                    <button
+                      className={styles.crossIcon}
+                      onClick={onClearSearch}
+                    >
+                      <SvgIntomark width={14} height={14} fill="#888888" />
+                    </button>
+                  )}
                   <Flex className={styles.middleline}></Flex>
                   <Flex className={styles.locationicon}>
-                    <SvgLocation
-                      width={18}
-                      height={18}
-                      fill={'#581845'}
-                    />
+                    <SvgLocation width={18} height={18} fill={'#581845'} />
                   </Flex>
                   <InputSearch
                     initialValue={formik.values.location}
@@ -986,6 +1054,14 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
                     onChange={onLocationChange}
                     onkeyPress={onLocationKeyPress}
                   />
+                  {formik.values.location.trim() !== '' && (
+                    <button
+                      className={styles.crossIcon}
+                      onClick={onClearLocation}
+                    >
+                      <SvgIntomark width={14} height={14} fill="#888888" />
+                    </button>
+                  )}
 
                   <Flex className={styles.searchicons}>
                     <SvgSearch width={12} height={12} fill="#ffffff" />
@@ -1031,7 +1107,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
               jd_id={parseInt(jdId)}
               columns={columns}
               total={total_applicants}
-              allColumnsItemsLength={allColumnsItemsLength}
+              moveDisabled={getIsMultiMoveDisabled()}
               filterTotalFav={filterTotalFav}
               isTotalFav={isTotalFav}
               seletedCardsLength={cardSelection.size}

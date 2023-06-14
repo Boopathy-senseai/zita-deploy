@@ -57,7 +57,10 @@ export function useStages<
 
   const initializeStages = () => {
     setLocalStages(() => {
-      const sortedStages = stages.length > 1 ? [...stages]?.sort((a, b) => a.stage_order - b.stage_order) : stages;
+      const sortedStages =
+        stages.length > 1
+          ? [...stages]?.sort((a, b) => a.stage_order - b.stage_order)
+          : stages;
       if (!columns) {
         return sortedStages;
       }

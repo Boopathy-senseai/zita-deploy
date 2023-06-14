@@ -36,7 +36,7 @@ type Props = {
   filterTotalFav: () => void;
   isTotalFav: boolean;
   seletedCardsLength: number;
-  allColumnsItemsLength: number;
+  moveDisabled: boolean;
   onExport?: () => void;
   onMove?: (stageId: number) => void;
   onCSVDownload?: () => void;
@@ -49,7 +49,7 @@ const TotalApplicant = ({
   filterTotalFav,
   isTotalFav,
   seletedCardsLength,
-  allColumnsItemsLength,
+  moveDisabled,
   onExport,
   onMove,
   onCSVDownload,
@@ -92,8 +92,6 @@ const TotalApplicant = ({
     sessionStorage.setItem('button', '0');
   };
 
-  const disableMove = allColumnsItemsLength === seletedCardsLength;
-
   return (
     <>
       <Flex row center between className={styles.overAll}>
@@ -120,16 +118,16 @@ const TotalApplicant = ({
                     borderLeft: '1px solid #581845',
                     cursor: 'pointer',
                   }}
-                  onClick={!disableMove ? handleMoveOpenPipeline : undefined}
+                  onClick={!moveDisabled ? handleMoveOpenPipeline : undefined}
                 >
                   <SvgMove
                     width={12}
                     height={12}
-                    fill={disableMove ? '#AB8BA2' : undefined}
+                    fill={moveDisabled ? '#AB8BA2' : undefined}
                   />
                   <Text
                     style={{ marginLeft: '10px' }}
-                    color={disableMove ? 'disabled' : 'theme'}
+                    color={moveDisabled ? 'disabled' : 'theme'}
                   >
                     Move
                   </Text>

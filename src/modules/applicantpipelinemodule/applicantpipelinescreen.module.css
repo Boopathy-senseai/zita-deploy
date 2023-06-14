@@ -66,6 +66,12 @@
 .locationicon {
   margin: 5px 0 5px 0;
 }
+.crossIcon {
+  all: unset;
+  cursor: pointer;
+  padding-top: 5px;
+  padding-right: 5px;
+}
 .searchicons {
   height: 30px;
   padding: 10px;
