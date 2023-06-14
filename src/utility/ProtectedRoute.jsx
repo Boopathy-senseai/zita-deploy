@@ -63,13 +63,13 @@ const ProtectedRoute = ({ notIsNav, component: Component, ...rest }) => {
                 <div class="row">
                   {notIsNav && <NavBar  update={updatepassword}/>}
                 </div>
-                <div style={{ marginTop: "85px" }}>
+                <div style={{ marginTop: "55px" }}>
                   <div style={{ display: "flex" }}>
 
                     <div className={sidebar === false ? (styles.model) : (styles.model1)}  >
                       <Sidebar data={handlefunction} changes={unsavealert}    />
                     </div>
-                    <div style={{width:"auto",flex:1 }} >
+                    <div style={{width:"auto",flex:1,position: "relative" }} >
                       <Component {...rest} {...props}   value={changeurlpopup}    /> 
                       <div><UserProfile  value={passwordupdate} update={updatepassword}/></div> 
                     </div> 

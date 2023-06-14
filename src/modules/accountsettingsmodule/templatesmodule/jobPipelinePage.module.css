@@ -5,6 +5,11 @@
   padding: 10px 0;
   justify-content: space-between;
   cursor: pointer;
+  position: absolute;
+  top: 615px;
+  left: 0;
+  right: 0;
+  border-top: 1px solid #c3c3c3;
 }
 
 .with80 {
@@ -238,7 +243,7 @@ ul {
   border-radius: 5px;
 }
 .bottomBorder {
-  border-bottom: 1px solid #c3c3c3;
+  /* border-bottom: 1px solid #c3c3c3; */
   padding-bottom: 10px;
 }
 .colorMenu {

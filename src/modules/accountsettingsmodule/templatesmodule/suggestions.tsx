@@ -115,7 +115,7 @@ const PipelineSuggestions: React.FC<Props> = (props) => {
   };
 
   return (
-    <Flex row wrap className={styles.borderLine}>
+    <Flex row wrap className={styles.borderLine} style={{overflowY: "scroll", maxHeight:"390px"}}>
       {suggestions.filter(skipStages).map((doc, index) => {
         const isActive = isStageExist(doc.stage_name);
         return (
