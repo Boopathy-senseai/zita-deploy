@@ -153,10 +153,12 @@ const ProfileCard = () => {
   const [city, setcity] = useState("");
   const [country, setcountry] = useState("");
   useEffect(() => {
-
-    cityhand()
+if(getCity.length !== 0 &&isGetCountry.length !== 0&&getState.length !== 0) {
+  cityhand()
     statehand()
     countryhand()
+} 
+  
   }, [getCity, getState, isGetCountry]);
 
   function cityhand() {
@@ -169,7 +171,11 @@ const ProfileCard = () => {
   }
   function countryhand() {
     if (isGetCountry.length !== 0) {
+       console.log("arraycoun",isGetCountry)
       { setcountry(isGetCountry.find((option) => (option.id) === countryid).name) }
+    }
+    else{
+      console.log("else check")
     }
   }
 
