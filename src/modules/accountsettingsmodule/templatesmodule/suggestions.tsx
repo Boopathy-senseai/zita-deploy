@@ -107,6 +107,7 @@ const PipelineSuggestions: React.FC<Props> = (props) => {
   const toggleStage = () => {
     setStage(!stage);
     formik.setFieldValue('title', '');
+    formik.resetForm();
   };
 
   const handleKeyPress = (event: { key: string }) => {
