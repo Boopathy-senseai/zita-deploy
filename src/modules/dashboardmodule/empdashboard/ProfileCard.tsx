@@ -153,28 +153,29 @@ const ProfileCard = () => {
   const [city, setcity] = useState("");
   const [country, setcountry] = useState("");
   useEffect(() => {
-if(getCity.length !== 0 &&isGetCountry.length !== 0&&getState.length !== 0) {
-  cityhand()
-    statehand()
-    countryhand()
-} 
-  
+    if (getCity.length !== 0 && isGetCountry.length !== 0 && getState.length !== 0) {
+      cityhand()
+      statehand()
+      countryhand()
+    }
+
   }, [getCity, getState, isGetCountry]);
 
   function cityhand() {
     if (getCity.length !== 0) {
       {
-
-        { setcity(getCity.find((option) => (option.id) === (cityid)).name) }
+          if(cityid!==null){
+        { setcity(getCity.find((option) => (option.id) === (cityid)).name) }}
       }
     }
   }
   function countryhand() {
     if (isGetCountry.length !== 0) {
-       console.log("arraycoun",isGetCountry)
+      console.log("arraycoun", isGetCountry)
+      if(countryid!==null)
       { setcountry(isGetCountry.find((option) => (option.id) === countryid).name) }
     }
-    else{
+    else {
       console.log("else check")
     }
   }
@@ -182,6 +183,7 @@ if(getCity.length !== 0 &&isGetCountry.length !== 0&&getState.length !== 0) {
   function statehand() {
     if (getState.length !== 0) {
       console.log("notempty", getState.length)
+      if(stateid!==null)
       { setstate(getState.find((option) => (option.id) === (stateid)).name) }
     }
   }
@@ -534,10 +536,14 @@ if(getCity.length !== 0 &&isGetCountry.length !== 0&&getState.length !== 0) {
           </Flex>
           <Flex marginTop={10}>
 
-            {console.log("weburl", weburl)}
-
-            {weburl !== null ? <Flex row> <Flex marginRight={5}><SvgGlobe height={20} width={20} fill={BLACK} /></Flex>
-              <Flex marginLeft={9}><Text style={{ marginBottom: "4px", textDecoration: "underline" }} >{weburl}</Text></Flex></Flex> :
+            {console.log("company", company)}
+{/* 
+            {weburl !== null  ? 
+            <Flex row> 
+            
+             <Flex marginRight={5}><SvgGlobe height={20} width={20} fill={BLACK} /></Flex>
+              <Flex marginLeft={9}><Text style={{ marginBottom: "4px", textDecoration: "underline" }} >{weburl}</Text></Flex>
+            </Flex> :
               <Flex row marginTop={7}>
                 <Flex marginRight={5} >
                   <SvgGlobe height={30} width={30} fill={BLACK} />
@@ -552,8 +558,47 @@ if(getCity.length !== 0 &&isGetCountry.length !== 0&&getState.length !== 0) {
                     </Text>
                   </LinkWrapper>
                 </Flex>
-              </Flex>}
-          </Flex>
+              </Flex>
+              } */}
+
+              {
+                 (weburl===null || weburl==="https://") ?
+                    
+                 <Flex row marginTop={7}>
+                <Flex marginRight={5} >
+                  <SvgGlobe height={30} width={30} fill={BLACK} />
+                </Flex>
+                <Flex >
+                  <LinkWrapper
+                    // onClick={clearTab}
+                    to={'/account_setting/settings'}
+                  >
+                    <Text style={{ color: "#581845", textDecoration: "underline" }} bold>
+                      Add Website URL
+                    </Text>
+                  </LinkWrapper>
+                </Flex>
+              </Flex>:
+              
+                  
+              <Flex row> 
+            
+              <Flex marginRight={5}><SvgGlobe height={20} width={20} fill={BLACK} /></Flex>
+               <Flex marginLeft={9}><Text style={{ marginBottom: "4px", textDecoration: "underline" }} >{weburl}</Text></Flex>
+             </Flex>
+              
+                
+                 
+              }
+              {/* {
+                (weburl!==null)&&
+                <Flex row> 
+            
+                <Flex marginRight={5}><SvgGlobe height={20} width={20} fill={BLACK} /></Flex>
+                 <Flex marginLeft={9}><Text style={{ marginBottom: "4px", textDecoration: "underline" }} >{weburl}</Text></Flex>
+               </Flex>
+              } */}
+            </Flex>
           <Flex marginTop={16}>
 
 
@@ -647,8 +692,8 @@ if(getCity.length !== 0 &&isGetCountry.length !== 0&&getState.length !== 0) {
 
         </Flex>
 
-      </Card>
-    </Flex>
+      </Card >
+    </Flex >
 
 
 
