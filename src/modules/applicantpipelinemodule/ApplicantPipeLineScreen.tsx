@@ -395,7 +395,7 @@ const ApplicantPipeLineScreen = () => {
   }, [isApplicantView, getAppliedView]);
 
   return (
-    <Flex row className={styles.overAll}>
+    <Flex row >
       {applicantDataLoader && favSuccess === false && !favLoader && <Loader />}
       {pipeLineLoader && <Loader />}
       {getAppliedView === 'true' && (
@@ -434,19 +434,19 @@ const ApplicantPipeLineScreen = () => {
       <Flex
         columnFlex
         className={styles.dndBoardContainer}
-        width={window.innerWidth - 308}
+        width={window.innerWidth - 508}
       >
         <Flex row center className={styles.titleContainer}>
           <Text bold size={16} color="black">
             Applicants Pipeline
           </Text>
           {zita_match_count === 0 ? (
-            <Button disabled className={styles.btnStyle} types="secondary">
+            <Button disabled className={styles.btnStyle} types="primary">
               Zita Match Candidates
             </Button>
           ) : (
             <LinkWrapper replace to={`/zita_match_candidate/${jdId}`}>
-              <Button className={styles.btnStyle} types="secondary">
+              <Button className={styles.btnStyle} types="primary">
                 Zita Match Candidates
               </Button>
             </LinkWrapper>

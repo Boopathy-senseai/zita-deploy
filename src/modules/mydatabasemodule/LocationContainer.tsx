@@ -330,6 +330,7 @@ const LocationContainer = ({
           </Text>
           {!isExperienceInput ? (
             <>
+            <div style={{width:'35%'}}>
               {isEmpty(dataList.work_exp) ? (
                 <Text
                   underLine
@@ -341,6 +342,7 @@ const LocationContainer = ({
                   Add Experience
                 </Text>
               ) : (
+                <div style={{width:'70px'}}>
                 <Text
                   // textStyle="ellipsis"
                   size={12}
@@ -351,7 +353,10 @@ const LocationContainer = ({
                 >
                   {workYear(dataList.work_exp)}
                 </Text>
+                </div>
               )}
+              
+              </div>
             </>
           ) : (
             <div
@@ -377,6 +382,7 @@ const LocationContainer = ({
                 )}
 
                 <div
+                 style={{marginTop: '-132%'}}
                   className={styles.svgClose}
                   onClick={handleCloseExperienceInput}
                   tabIndex={-1}

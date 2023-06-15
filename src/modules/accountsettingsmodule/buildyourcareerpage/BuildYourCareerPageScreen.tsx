@@ -561,7 +561,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
             </LinkWrapper>
           )}
           <LinkWrapper to="/">
-            <Button types="secondary">My Dashboard</Button>
+            <Button types="primary">My Dashboard</Button>
           </LinkWrapper>
         </Flex>
       </Flex>

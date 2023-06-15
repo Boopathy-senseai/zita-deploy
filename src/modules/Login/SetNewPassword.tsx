@@ -147,7 +147,9 @@ const SetNewPassword = ({
                   <InputText
                     actionLeft={() => (
                       <Button types="link" className={styles.usericon} style={{position:'absolute',top:'25px'}}>
-                        <SvgLock height={15} width={15} />
+                      <div style={{marginTop: '-8px'}}>  
+                      <SvgLock height={15} width={15} />
+                      </div>
                       </Button>
                     )}
                     className={styles.input}
@@ -162,11 +164,13 @@ const SetNewPassword = ({
                         className={styles.passwordicon}
                         onClick={() => setShowNewPass(!isShowNewPass)}
                       >
+                      <div style={{marginTop: '-15px'}}>
                         <SvgView
                           nonView={isShowNewPass}
                           height={20}
                           width={20}
                         />
+                        </div>
                       </Button>
                     )}
                   />
@@ -195,7 +199,9 @@ const SetNewPassword = ({
                   <InputText
                     actionLeft={() => (
                       <Button types="link" className={styles.usericon} style={{position:'absolute',top:'25px'}}>
-                        <SvgLock height={15} width={15} />
+                      <div style={{marginTop: '-8px'}}>
+                      <SvgLock height={15} width={15} />
+                      </div>
                       </Button>
                     )}
                     className={styles.input}
@@ -210,11 +216,13 @@ const SetNewPassword = ({
                         className={styles.passwordicon}
                         onClick={() => setShowChnagePass(!isShowChangePass)}
                       >
+                      <div style={{marginTop: '-15px'}}>
                         <SvgView
                           nonView={isShowChangePass}
                           height={20}
                           width={20}
                         />
+                      </div>
                       </Button>
                     )}
                   />

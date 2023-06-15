@@ -313,8 +313,8 @@
 .style1 {
   /* margin-left: 423px; */
   /* display: flex; */
-  width: 150px;
-  height: 35px;
+  /* width: 150px;
+  height: 35px; */
 }
 /* .overallsearchbox{
   justify-content: space-between;
@@ -323,8 +323,8 @@
 .style2 {
   margin-left: 15px;
   position: absolute;
-  width: 150px;
-  height: 35px;
+  /* width: 150px;
+  height: 35px; */
 }
 .postbutton {
   margin-left: 67.73px;
@@ -380,16 +380,16 @@
   color: #555555;
   font-style: normal;
   font-weight: 700;
-  font-size: 15px;
+  font-size: 16px;
 }
 .tableboarder {
   color: #555555;
   font-style: normal;
   font-weight: 700;
-  font-size: 15px;
+  font-size: 14px;
 }
 .hellothere {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   color: #581845;
 }

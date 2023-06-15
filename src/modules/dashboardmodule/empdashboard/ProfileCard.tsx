@@ -599,13 +599,8 @@ useEffect(() => {
                   : `/${career_page_url}/careers`
               }
             >
-              <Button className={styles.buttonsizeauto} >
-                <Flex row center className={styles.pointer} >
-                  <Text bold style={{ color: "white", marginLeft: 123 }} >
+              <Button className={styles.buttonsizeauto} > 
                     Careers Page
-                  </Text>
-
-                </Flex>
               </Button>
             </LinkWrapper>
             </Flex>
@@ -625,13 +620,9 @@ useEffect(() => {
                   : `/${career_page_url}/careers`
               }
             >
-              <Button className={styles.buttonsize}>
-                <Flex row center className={styles.pointer} >
-                  <Text bold style={{ color: "white", marginLeft: 10 }} >
-                    Careers Page
-                  </Text>
-
-                </Flex>
+              
+              <Button style={{marginLeft: 50}} className={styles.buttonsize}> 
+              Careers Page                  
               </Button>
             </LinkWrapper>
           </Flex></Flex>)}

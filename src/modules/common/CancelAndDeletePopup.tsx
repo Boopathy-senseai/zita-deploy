@@ -46,7 +46,7 @@ const CancelAndDeletePopup = ({
         <Flex row center middle className={styles.btnContainer}>
           <Button
             className={styles.btnCancelStyle}
-            types="secondary"
+            types="close"
             onClick={btnCancel}
           >
             {btnLeft}

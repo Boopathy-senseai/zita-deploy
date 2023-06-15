@@ -9,6 +9,8 @@ export const GARY_5 = '#cccccc';
 export const GARY_6 = '#b3b3b3';
 export const GARY_7 = '#dfdfdf';
 export const GARY_8 = '#fafafa';
+export const GARY_9 = '#f7f7f7';
+
 
 export const ERROR = '#f94949';
 export const ERROR_1 = '#d74242';

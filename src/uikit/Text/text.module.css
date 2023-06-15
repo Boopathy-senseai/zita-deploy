@@ -108,7 +108,9 @@
 }
 .textColor-theme {
   color: var(--color-primary, #581845);
+  /* color: var(--color-white, #ffffff); */
 }
+
 .textColor-warning {
   color: var(--color-warning, #ffb142);
 }

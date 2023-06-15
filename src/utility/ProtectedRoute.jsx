@@ -63,7 +63,7 @@ const ProtectedRoute = ({ notIsNav, component: Component, ...rest }) => {
                 <div class="row">
                   {notIsNav && <NavBar  update={updatepassword}/>}
                 </div>
-                <div style={{ marginTop: "85px" }}>
+                <div style={{ marginTop: "65px" }}>
                   <div style={{ display: "flex" }}>
 
                     <div className={sidebar === false ? (styles.model) : (styles.model1)}  >

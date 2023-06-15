@@ -9,6 +9,7 @@ import SingleButton from '../common/SingleButton';
 import Toast from '../../uikit/Toast/Toast';
 import { AppDispatch, RootState } from '../../store';
 import { ERROR_MESSAGE } from '../constValue';
+import { Text } from '../../uikit';
 import Title from '../common/Title';
 import Empty from '../common/Empty';
 import CancelAndDeletePopup from '../common/CancelAndDeletePopup';
@@ -466,7 +467,23 @@ const TalentSourcingScreen = () => {
     return <Loader />
   }
   return (
-    <Flex column className={styles.overAll}>
+    <>
+    <Flex row className={styles.ribbon} between>
+          
+
+    <Flex marginTop={9} marginLeft={8} >
+      <Text size={18} bold color="theme" >
+      Talent Sourcing
+      </Text>
+
+    </Flex>
+    <Flex >
+
+      <div className={styles.triangle}></div>
+    </Flex>
+
+   </Flex>
+    <Flex row className={styles.overAll}>
       <Flex top row>
         {(sourceLoader||isPdfLoader||searchLoader||stripeLoader||isCheckOutLoader) && <Loader />}
         <CancelAndDeletePopup
@@ -573,10 +590,7 @@ const TalentSourcingScreen = () => {
           between
           flex={1}
         >
-          <div style={{ width: window.innerWidth - 326 }}>
-            <Flex className={styles.padding}>
-              <Title title={'Talent Sourcing'} />
-            </Flex>
+          <div >
             <Flex className={styles.talentActionContainer}>
               <TalentAction
                 setInitalCheckBox={setInitalCheckBox}
@@ -641,6 +655,7 @@ const TalentSourcingScreen = () => {
         </Flex>
       </Flex>
     </Flex>
+    </>
   );
 };
 

@@ -217,6 +217,7 @@ position: absolute;
    cursor: pointer;
    color: #581845;
    font-weight: 700;
+   height: 15px;
 }
 .tooltipcontent{
   margin-top: 5px;
@@ -262,7 +263,7 @@ position: absolute;
 .phoneInput {
   border: 1px solid var(--color-gary-5, #cccccc) !important;
   width: 90%     !important;
-  height: 35px !important;
+  height: 30px !important;
   
 }
 .phoneInputs{
@@ -373,9 +374,9 @@ height: 35px;
   position: relative;
 }
 .cancel{
- margin-right:8px;
+ /* margin-right:8px;
  width: 100px;
- 
+  */
 }
 /* .overAll {
   
@@ -406,8 +407,8 @@ height: 35px;
   margin-bottom: 24px;
 }
 .cancelsave{
-  width: 100px;
-  height: 30px;
+  /* width: 100px;
+  height: 30px; */
 }
 .borderStyle {
   /* padding: 0 20px; */
@@ -449,7 +450,7 @@ height: 35px;
     width: 145px;
 }
 .inputheight{
-  height: 35px !important;
+ 
   margin-top: 5px;
   text-overflow: ellipsis;
   overflow: hidden;

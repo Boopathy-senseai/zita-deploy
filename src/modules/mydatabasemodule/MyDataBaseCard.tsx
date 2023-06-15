@@ -119,6 +119,7 @@ const MyDataBaseCard = ({
 
   return (
     <>
+    <Flex className={styles.cardwrap} >
       {isEmpty(dataList.candidate_id_id) && (
         <>
           <ZitaMatchCandidateDrawer
@@ -201,6 +202,7 @@ const MyDataBaseCard = ({
           btnRight={YES}
         />
       )}
+      
       <Card className={styles.cardOverAll}>
         <Flex row columnFlex className={styles.cardHeight}>
           <Flex columnFlex top>
@@ -286,6 +288,7 @@ const MyDataBaseCard = ({
           </Flex>
         </Flex>
       </Card>
+      </Flex>
     </>
   );
 };

@@ -103,6 +103,8 @@ const MyDataBaseList = ({
           overflowY: 'scroll',
           paddingRight: 16,
           paddingTop: 16,
+          display: 'flex',
+         flexWrap: 'wrap',
         }}
       >
         {data && data.length === 0 && (

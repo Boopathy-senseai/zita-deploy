@@ -679,7 +679,7 @@ const clearTabs = (e) => {
           <li >
             {Expent === '0' ? (
               <div style={{}} >
-                <Button style={{height:'19px',width:'19px',position:'relative',bottom:'45px',left:'25px'}}
+                <Button style={{height:'19px',width:'19px',position:'relative',bottom:'52px',left:'-12px'}}
                   types="link"
                   className={styles.collapse}
                   onClick={() => handlecheck('1')}
@@ -689,6 +689,7 @@ const clearTabs = (e) => {
               </div>
             ) : (
               <Button
+                 style={{left:'3px'}}
                 className={styles.Expend}
                 types="link"
                 onClick={() => handlecheck('0')}

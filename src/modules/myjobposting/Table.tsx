@@ -99,7 +99,7 @@ const MyJobPostingScreen = () => {
      {/* <div  style={{height:320}}>
      <table className="table"> */}
       <div className="table-responsisssve ">
-      <div >
+      
         <table className="table" style={{paddingLeft:"none"}} >
           <thead>
             <tr>
@@ -210,13 +210,13 @@ const MyJobPostingScreen = () => {
                           {/* </div> */}
                         </Flex>
                       </td>
-                      <td style={{fontSize:15,fontWeight:400}} className={styles.padchanges}>{list.job_id}</td>
-                      <td style={{fontSize:15,width:200,fontWeight:400}} className={styles.padchanges}>{list.location}</td>
+                      <td style={{fontSize:14,fontWeight:400}} className={styles.padchanges}>{list.job_id}</td>
+                      <td style={{fontSize:14,width:200,fontWeight:400}} className={styles.padchanges}>{list.location}</td>
                      
                       {list.jd_status__label_name === "Inactive" ? (
                         <td
                           style={{
-                            fontSize: 15 
+                            fontSize: 14
                           }}
                           className={styles.padchangesmiddle}
                         >
@@ -225,7 +225,7 @@ const MyJobPostingScreen = () => {
                       ) : (
                         <td
                           style={{
-                            fontSize: 15 
+                            fontSize: 14
                           }}
                           className={styles.hovercolormiddle}
                           
@@ -244,7 +244,7 @@ const MyJobPostingScreen = () => {
                         {list.jd_status__label_name === "Inactive" ? (
                         <td
                           style={{
-                            fontSize: 15 
+                            fontSize: 14
                           }}
                           className={styles.padchangesmiddle}
                         >
@@ -255,7 +255,7 @@ const MyJobPostingScreen = () => {
                       ) : (
                         <td
                           style={{
-                            fontSize: 15 
+                            fontSize: 14
                           }}
                           className={styles.padchangesmiddle}
                         >
@@ -278,7 +278,7 @@ const MyJobPostingScreen = () => {
                       {list.jd_status__label_name === "Inactive" ? (
                         <td
                         style={{
-                          fontSize: 15,
+                          fontSize: 14,
                           
                         }}
                         className={styles.hovercolormiddle}
@@ -296,7 +296,7 @@ const MyJobPostingScreen = () => {
                       ) : (
                         <td
                           style={{
-                            fontSize: 15,
+                            fontSize: 14,
                             
                           }}
                           className={styles.hovercolormiddle}
@@ -343,7 +343,7 @@ const MyJobPostingScreen = () => {
                             style={{
                               color: "#00BE4B",
                               fontWeight: 500,
-                              fontSize: 15,
+                              fontSize: 14,
                             }}
                           >
                             {list.jd_status__label_name}{" "}
@@ -356,7 +356,7 @@ const MyJobPostingScreen = () => {
                             style={{
                               color: "#FCC203",
                               fontWeight: 500,
-                              fontSize: 15,
+                              fontSize: 14,
                             }}
                           >
                             {list.jd_status__label_name}{" "}
@@ -369,7 +369,7 @@ const MyJobPostingScreen = () => {
                             style={{
                               color: "#FCC203",
                               fontWeight: 500,
-                              fontSize: 15,
+                              fontSize: 14,
                             }}
                           >
                             {"Draft"}{" "}
@@ -382,7 +382,7 @@ const MyJobPostingScreen = () => {
                             style={{
                               color: "red",
                               fontWeight: 500,
-                              fontSize: 15,
+                              fontSize: 14,
                             }}
                           >
                             {list.jd_status__label_name}{" "}
@@ -391,14 +391,14 @@ const MyJobPostingScreen = () => {
                           ""
                         )}
                       </td>
-                      <td style={{fontSize:15}}  className={styles.padchanges}>{getDateString(list.job_posted_on_date, "ll") }</td>
+                      <td style={{fontSize:14}}  className={styles.padchanges}>{getDateString(list.job_posted_on_date, "ll") }</td>
                     </tr>
                   </>
                 );
               })}
           </tbody>
         </table>
-      </div>
+      
    </div>
    </div>
     

@@ -2,7 +2,24 @@
   padding-top: 20px;
   padding-right: 16px;
   position: relative;
-  z-index: -1;
+  
+}
+.drop_down {
+  position: relative;
+  float: right;
+  margin-bottom: 20px;
+}
+
+.drop_down_header {
+  padding: 10px;
+  background-color: #ffff !important;
+  width: 230px;
+  height: 30px;
+  border: 1px solid #581845;
+  border-radius: 11px;
+  justify-content: space-between;
+  position: relative;
+  align-items: center;
 }
 .tabsContainer {
   padding-top: 20px;
@@ -44,3 +61,27 @@
     padding: 0 16px;
   }
 }
+.ribbon{
+  background-color: #EEE8EC;
+  height: 45px;
+}
+.triangle {
+
+  width: 0px;
+    
+  height: 0px;
+    
+  border-top: 22px solid transparent;
+    
+  border-right: 30px solid white;
+    
+  border-bottom: 22px solid transparent;
+    
+  position: relative;
+    
+  top: 71;
+    
+  right: 43;
+  
+    
+    }
