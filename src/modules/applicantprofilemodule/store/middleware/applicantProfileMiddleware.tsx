@@ -34,7 +34,8 @@ import {
   outlookAdd,
   calbackurlApi,
 } from '../../../../routes/apiRoutes';
-import { ApplicantProfilePayload } from '../../applicantProfileTypes';
+import { ApplicantProfilePayload, IApplicantStatus } from '../../applicantProfileTypes';
+import { stringifyParams } from '../../../../uikit/helper';
 
 export const applicantProfileInitialMiddleWare = createAsyncThunk(
   APPLICANT_PROFILE_INITIAL,
@@ -160,7 +161,7 @@ export const calenderMiddleWare = createAsyncThunk(
   },
 );
 
-export const applicantStatusMiddleWare = createAsyncThunk(
+export const applicantStatusMiddleWare = createAsyncThunk<IApplicantStatus[], { jd_id: string; can_id: string }>(
   APPLICANT_PROFILE_STATUS,
   async (
     { jd_id, can_id }: { jd_id: string; can_id: string },
@@ -170,7 +171,7 @@ export const applicantStatusMiddleWare = createAsyncThunk(
       const { data } = await axios.get(applicantsStatusApi, {
         params: { jd_id, candi_id: can_id },
       });
-      return data;
+      return data.data as IApplicantStatus[];
     } catch (error) {
       const typedError = error as Error;
       return rejectWithValue(typedError);
@@ -214,7 +215,6 @@ export const syncOutlookMiddleWare = createAsyncThunk(
   async (_a, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(syncOutlookApi);
-      
       return data;
     } catch (error) {
       const typedError = error as Error;
