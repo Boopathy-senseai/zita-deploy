@@ -1,8 +1,9 @@
 import { useFormik } from 'formik';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-//import { home } from '../../appRoutesPath';
+import { home, homeRoute } from '../../appRoutesPath';
 //import SvgZitaLogo from '../../icons/SvgZitaLogo';
 import { AppDispatch, RootState } from '../../store';
 //import Button from '../../uikit/Button/Button';
@@ -37,6 +38,19 @@ const LoginScreen = () => {
   const [isForgotLoader, setForgotLoader] = useState(false);
   const [isError, setError] = useState(false);
   const [isInactive, setInactive] = useState(false);
+  const location = useLocation<any>();
+  let nextUrl: any;
+
+ 
+
+  useEffect(()=>{
+    if(localStorage.getItem('token') !== null){
+      window.location.replace(`${window.location.origin + homeRoute}`);
+    }
+  },[])
+  if (typeof location.state !== 'undefined') {
+    nextUrl = location.state.from.pathname;
+  }
 
   // useEffect(() => {
    
