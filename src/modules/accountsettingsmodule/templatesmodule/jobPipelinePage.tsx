@@ -292,7 +292,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
           <Button types={'secondary'}>Back to Pipeline</Button>
         </Flex>
         {buttondata === 1 ? (
-          <Flex row end marginTop={20} marginBottom={10}>
+          <Flex row end >
             <Button
               className={styles.cancel}
               onClick={handleBack}
@@ -308,7 +308,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
             </Button>
           </Flex>
         ) : (
-          <Flex row end>
+          <Flex row end >
             <Button
               className={styles.cancel}
               onClick={handleBack}
