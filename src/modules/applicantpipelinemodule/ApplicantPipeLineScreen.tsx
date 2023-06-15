@@ -1030,6 +1030,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
                     placeholder="Search by name or email"
                     onKeyPress={handleKeyPress}
                     className={styles.boxstyle}
+                    style={{marginLeft: "5px"}}
                   />
                   {isSearch.trim() !== '' && (
                     <button
