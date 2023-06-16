@@ -10,7 +10,7 @@ export const home = `https://www.zita.ai/`;
 export const homeRoute = `/`;
 export const candidateChangePassWord = '/change_password';
 //Email
-export const inbox = '/inbox';
+export const inbox = '/mail';
 // Calendar
 export const calendarRoute = '/calendar';
 // My Job Posting

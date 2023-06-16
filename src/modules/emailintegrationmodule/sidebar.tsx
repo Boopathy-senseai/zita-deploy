@@ -11,6 +11,7 @@ import SvgSetting from '../../icons/SvgSetting';
 import SvgPlus from '../../icons/SvgPlus';
 import SvgInbox from '../../icons/SvgInbox';
 import SvgSend from '../../icons/SvgSend';
+import SvgTrash from '../../icons/SvgTrash';
 import SvgDraft from '../../icons/SvgMailDraft';
 import styles from './sidebar.module.css';
 
@@ -19,28 +20,65 @@ type Props = {
   send: () => void;
   draft: () => void;
   inbox: () => void;
+  archive: () => void;
+  updateroute: (val) => void;
+  deleteditems: () => void;
+  junkemail: () => void;
 };
 
-const Sidebar = ({ open, send, draft, inbox }: Props) => {
+const Sidebar = ({
+  open,
+  send,
+  draft,
+  inbox,
+  archive,
+  updateroute,
+  deleteditems,
+  junkemail,
+}: Props) => {
   const [select, setSelect] = useState(1);
   const openmodel = () => {
     open();
   };
 
-  const inboxmessage = (e) => {
+  const inboxmessage = (e, val) => {
     e.preventDefault();
     inbox();
-    setSelect(1);
+    setSelect(val);
+    updateroute(val);
   };
-  const sendmessage = (e) => {
+  const sendmessage = (e, val) => {
     e.preventDefault();
     send();
-    setSelect(2);
+    setSelect(val);
+    updateroute(val);
   };
-  const draftmessage = (e) => {
+  const draftmessage = (e, val) => {
     e.preventDefault();
     draft();
-    setSelect(3);
+    setSelect(val);
+    updateroute(val);
+  };
+
+  const archivemessage = (e, val) => {
+    e.preventDefault();
+    archive();
+    setSelect(val);
+    updateroute(val);
+  };
+
+  const trashmessage = (e, val) => {
+    e.preventDefault();
+    deleteditems();
+    setSelect(val);
+    updateroute(val);
+  };
+
+  const junkmessage = (e, val) => {
+    e.preventDefault();
+    junkemail();
+    setSelect(val);
+    updateroute(val);
   };
 
   return (
@@ -67,7 +105,7 @@ const Sidebar = ({ open, send, draft, inbox }: Props) => {
           <li className={select === 1 ? styles.select_row : ''}>
             <a
               href={' '}
-              onClick={(e) => inboxmessage(e)}
+              onClick={(e) => inboxmessage(e, 1)}
               className={styles.hoverview}
             >
               <SvgInbox fill={'black'} />
@@ -83,7 +121,7 @@ const Sidebar = ({ open, send, draft, inbox }: Props) => {
           <li className={select === 2 ? styles.select_row : ''}>
             <a
               href={' '}
-              onClick={(e) => sendmessage(e)}
+              onClick={(e) => sendmessage(e, 2)}
               className={styles.hoverview}
             >
               <SvgSend />
@@ -99,7 +137,7 @@ const Sidebar = ({ open, send, draft, inbox }: Props) => {
           <li className={select === 3 ? styles.select_row : ''}>
             <a
               href={' '}
-              onClick={(e) => draftmessage(e)}
+              onClick={(e) => draftmessage(e, 3)}
               className={styles.hoverview}
             >
               <SvgDraft />
@@ -109,6 +147,54 @@ const Sidebar = ({ open, send, draft, inbox }: Props) => {
                 style={{ marginLeft: '10px', fontSize: '18px' }}
               >
                 Draft
+              </Text>
+            </a>
+          </li>
+          <li className={select === 4 ? styles.select_row : ''}>
+            <a
+              href={' '}
+              onClick={(e) => archivemessage(e, 4)}
+              className={styles.hoverview}
+            >
+              <SvgDraft />
+              <Text
+                className={styles.text}
+                color="primary"
+                style={{ marginLeft: '10px', fontSize: '18px' }}
+              >
+                Archive
+              </Text>
+            </a>
+          </li>
+          <li className={select === 5 ? styles.select_row : ''}>
+            <a
+              href={' '}
+              onClick={(e) => trashmessage(e, 5)}
+              className={styles.hoverview}
+            >
+              <SvgTrash width={14} height={14} fill={'black'} />
+              <Text
+                className={styles.text}
+                color="primary"
+                style={{ marginLeft: '10px', fontSize: '18px' }}
+              >
+                Trash
+              </Text>
+            </a>
+          </li>
+          <li className={select === 6 ? styles.select_row : ''}>
+            <a
+              href={' '}
+              onClick={(e) => junkmessage(e, 6)}
+              className={styles.hoverview}
+            >
+              <SvgTrash width={14} height={14} fill={'black'} />
+              <Text
+                className={styles.text}
+                color="primary"
+                style={{ marginLeft: '10px', fontSize: '18px' }}
+              >
+                junk
               </Text>
             </a>
           </li>

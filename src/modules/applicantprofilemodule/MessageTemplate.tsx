@@ -43,8 +43,6 @@ const MessageTemplate = ({
 
   return (
     <Modal open={open}>
-      {console.log('rd', searchResults)}
-
       <Flex columnFlex className={styles.overAll}>
         <Text bold color="theme" className={styles.insertStyles}>
           Insert Templates

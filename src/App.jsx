@@ -373,7 +373,7 @@ const App = () => {
         <Route path="/profile" component={Profile} />
         <Route path={'/check_activate'} component={CheckSignUpActivate} />
 
-        <Route path="/inbox/*" component={Inbox}/>
+        <Route path="/mail/*" component={Inbox}/>
         {/* <Route path={''} component={NotFound} /> */}
         {/* <Route path="/calendar" component={Calendar} /> */}
         {localStorage.getItem('loginUserCheck') === 'true' ||

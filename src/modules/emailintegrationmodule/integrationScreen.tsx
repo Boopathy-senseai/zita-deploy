@@ -5,9 +5,20 @@ import { InteractionType, PublicClientApplication } from '@azure/msal-browser';
 import { useMsal } from '@azure/msal-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
-import { getEmail } from '../emailintegrationmodule/store/middleware/emailIntegrationMiddleWare';
+import {
+  getEmail,
+  outlookUserProfile,
+} from '../emailintegrationmodule/store/middleware/emailIntegrationMiddleWare';
 import { Flex, Text } from '../../uikit';
-import { getUser, getmail, getdraft, getsenditem } from '../../emailService';
+import {
+  getUser,
+  getmail,
+  getdraft,
+  getsenditem,
+  getarchivemsg,
+  getdeleteditems,
+  getjunkemail,
+} from '../../emailService';
 import config from '../../outlookmailConfig';
 import Sidebar from './sidebar';
 import Newcompose from './composemodal';
@@ -23,6 +34,7 @@ const EmailScreen = () => {
   const [messagelist, setmessagelist] = useState([]);
   const [message, setmesage] = useState('');
   const [usermail, setUsermail] = useState('');
+  const [sideroute, setsideroute] = useState(1);
   const authProvider = new AuthCodeMSALBrowserAuthenticationProvider(
     msal.instance as PublicClientApplication,
     {
@@ -66,13 +78,10 @@ const EmailScreen = () => {
 
   const getmails = async () => {
     await getmail(authProvider)
-      .then((res) => {
-        // console.log('res---------', res);
+      .then((res: any) => {
         setmessagelist(res.value);
       })
-      .catch((error) => {
-        // console.log('connection failed inboxxxxxxx', error);
-      });
+      .catch((error) => {});
   };
 
   const selectmessage = (msg) => {
@@ -85,18 +94,51 @@ const EmailScreen = () => {
   //   };
   // });
 
-  // console.log('val-----------', emailcollection);
-
   useEffect(() => {
     getprofile();
     getmails();
     // dispatch(getEmail()).then((res) => {
-    //   console.log('resemailcollection+++++++S', res);
+
     // });
   }, []);
 
   const inboxmail = () => {
     getmails();
+  };
+
+  const archive = async () => {
+    await getarchivemsg(authProvider)
+      .then((res: any) => {
+        //  console.log('achive---------', res);
+        setmessagelist(res.value);
+      })
+      .catch((error) => {
+        //  console.log('connection failed achive mail', error);
+      });
+  };
+
+  const deleteditems = async () => {
+    await getdeleteditems(authProvider)
+      .then((res) => {
+        setmessagelist(res.value);
+      })
+      .catch((error) => {
+        console.log('connection failed achive mail', error);
+      });
+  };
+
+  const updateroute = (val) => {
+    setsideroute(val);
+  };
+
+  const junkemail = async () => {
+    await getjunkemail(authProvider)
+      .then((res) => {
+        setmessagelist(res.value);
+      })
+      .catch((error) => {
+        console.log('get junk mail', error);
+      });
   };
 
   return (
@@ -114,17 +156,30 @@ const EmailScreen = () => {
             send={Send}
             draft={Draft}
             inbox={inboxmail}
+            archive={archive}
+            updateroute={updateroute}
+            deleteditems={deleteditems}
+            junkemail={junkemail}
           />
         </Flex>
         <Flex flex={3} className={styles.containerColumn}>
           <Maillist messagelist={messagelist} selectmessage={selectmessage} />
         </Flex>
         <Flex flex={9} className={styles.containerColumn}>
-          <Message message={message} />
+          <Message
+            message={message}
+            sidebarroute={sideroute}
+            composemodal={modelupdate}
+          />
         </Flex>
       </Flex>
       {/* <Flex flex={10}></Flex> */}
-      <Newcompose data={model} mail={usermail} onClose={modelupdate} />
+      <Newcompose
+        data={model}
+        mail={usermail}
+        onClose={modelupdate}
+        replaymsg={message}
+      />
     </Flex>
   );
 };

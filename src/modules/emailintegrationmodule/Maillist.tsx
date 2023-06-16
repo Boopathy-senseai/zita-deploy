@@ -8,7 +8,7 @@ type Props = {
   selectmessage: any;
 };
 const Maillist = ({ messagelist, selectmessage }: Props) => {
-  const [messages, setmesage] = useState();
+  const [messages, setmesage] = useState<any>();
 
   const getmessage = (get) => {
     setmesage(get);
@@ -16,7 +16,6 @@ const Maillist = ({ messagelist, selectmessage }: Props) => {
   };
   return (
     <div>
-      {console.log('getmessage', messages)}
       <Flex style={{ marginLeft: '2px' }} className={styles.maillist}>
         <InputText
           actionRight={() => <SvgSearch />}
@@ -32,13 +31,25 @@ const Maillist = ({ messagelist, selectmessage }: Props) => {
                 <>
                   <Card
                     key={int}
-                    className={styles.cardStyles}
+                    className={
+                      messages === undefined
+                        ? styles.cardStyles
+                        : messages.id === val.id
+                        ? styles.seletmsg
+                        : styles.cardStyles
+                    }
                     onClick={() => getmessage(val)}
                   >
                     <Flex row start className={styles.mailCard}>
                       <Flex>
                         <CheckBox className={styles.checkBox}></CheckBox>
                       </Flex>
+                      {val.isRead !== true ? (
+                        <Flex className={styles.notification_dot}></Flex>
+                      ) : (
+                        ''
+                      )}
+
                       <Flex style={{ marginLeft: '15px' }}>
                         <Flex row start between>
                           <Text

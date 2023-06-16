@@ -7,3 +7,15 @@ export interface UserEmail {
   error: string;
   mails: Emails[];
 }
+
+export interface OutlookProfile {
+  isLoading: boolean;
+  error: string;
+  profile: {};
+}
+
+export interface OutlookMailFolder {
+  isLoading: boolean;
+  error: string;
+  mailFolder: [];
+}

@@ -106,7 +106,10 @@ import { integrationReducers } from '../modules/accountsettingsmodule/integratio
 import { dashboardReducers } from '../modules/dashboardmodule/candidatedashboard/store/reducer/candidatedashboardreducer';
 import { notificationReducers } from '../modules/navbar/empnavbar/store/notificationreducer';
 
-import { useremail } from '../modules/emailintegrationmodule/store/reducer/emailreducer';
+import {
+  useremail,
+  getmailfolders,
+} from '../modules/emailintegrationmodule/store/reducer/emailreducer';
 
 export const reducers = {
   talentSourcingReducers,
@@ -188,4 +191,5 @@ export const reducers = {
   sourcingPerformanceReducers,
   sourcingPerformanceDataReducers,
   useremail,
+  getmailfolders,
 };

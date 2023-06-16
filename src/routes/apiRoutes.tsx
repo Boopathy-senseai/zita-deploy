@@ -261,4 +261,10 @@ export const jobViewCountApi = (jdId: string) => {
   return url;
 };
 
+//outlook integration
+
 export const maillist = `email_label`;
+
+export const outlookProfile = `/me`;
+
+export const getoutlookmaillist = `/me/mailFolders/Inbox/messages`;

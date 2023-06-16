@@ -131,3 +131,7 @@ export const CANDIDATE_PROFILE_OTP_VALIDATE =
 //email integration
 
 export const GET_EMAIL = 'email_label';
+
+export const OUTLOOK_USER_PROFILE = 'outlook/me';
+
+export const OUTLOOK_EMAIL_GET = '/me/mailFolders/Inbox/messages';

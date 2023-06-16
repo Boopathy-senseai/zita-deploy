@@ -32,7 +32,7 @@ import { InputText, LabelWrapper } from '../../uikit';
 import config from '../../outlookmailConfig';
 import RichText from '../common/RichText';
 import { SvgTrash } from '../../icons';
-import { composemail } from '../../emailService';
+import { composemail, mailreplay, mailforward } from '../../emailService';
 import VerificationModel from './emailverificationmodelwindow';
 import Draftmodel from './draftsavemodal';
 import Multiselect from './multiselect';
@@ -43,9 +43,10 @@ type Props = {
   data: boolean;
   mail: string;
   onClose: () => void;
+  replaymsg: any;
 };
 
-const Newmessage = ({ data, onClose, mail }: Props) => {
+const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
   const msal = useMsal();
   const dispatch: AppDispatch = useDispatch();
 
@@ -61,6 +62,10 @@ const Newmessage = ({ data, onClose, mail }: Props) => {
     { value: 'sridharc@sense7ai.com', label: 'sridharc@sense7ai.com' },
     { value: 'manojr@sense7ai.com', label: 'manojr@sense7ai.com' },
     { value: 'pugazhendhij@sense7ai.com', label: 'pugazhendhij@sense7ai.comm' },
+    {
+      value: 'sridharchinnathambi96@gmail.com',
+      label: 'sridharchinnathambi96@gmail.com',
+    },
   ]);
   const [tomail, setTomail] = useState([]);
   //multi select to mail //
@@ -102,9 +107,33 @@ const Newmessage = ({ data, onClose, mail }: Props) => {
 
   const [messagebody, setMessagebody] = useState('');
 
+  const replaymail = () => {
+    if (replaymsg !== '') {
+      var to = [];
+      var converto = [];
+      var a = {
+        value: replaymsg.from.emailAddress.address,
+        label: replaymsg.from.emailAddress.address,
+      };
+
+      const mailconvert = {
+        emailAddress: {
+          address: replaymsg.from.emailAddress.address,
+        },
+      };
+
+      to.push(a);
+      converto.push(mailconvert);
+      setTosample(to);
+      setTomail(converto);
+      setSubject(replaymsg.subject);
+    }
+  };
+
   useEffect(() => {
     dispatch(messagesTemplatesMiddleWare());
-  }, []);
+    replaymail();
+  }, [replaymsg]);
 
   //modal close function //
   const handleClose = () => {
@@ -142,11 +171,9 @@ const Newmessage = ({ data, onClose, mail }: Props) => {
   };
 
   //Email Props//
-
   const Emailprops = {
     message: {
       subject: subject,
-      // importance: 'Low',
       body: {
         contentType: 'HTML',
         content: messagebody,
@@ -157,6 +184,30 @@ const Newmessage = ({ data, onClose, mail }: Props) => {
       bccRecipients: bccmail,
       attachments: attachfile,
     },
+    saveToSentItems: true,
+  };
+
+  //Replay props//
+  const replay = {
+    message: {
+      subject: subject,
+      toRecipients: tomail,
+      ccRecipients: ccmail,
+      bccRecipients: bccmail,
+      attachments: attachfile,
+    },
+    comment: messagebody,
+    saveToSentItems: true,
+  };
+
+  //forward props//
+  const forward = {
+    comment: messagebody,
+    subject: subject,
+    toRecipients: tomail,
+    ccRecipients: ccmail,
+    bccRecipients: bccmail,
+    attachments: attachfile,
     saveToSentItems: true,
   };
 
@@ -172,14 +223,28 @@ const Newmessage = ({ data, onClose, mail }: Props) => {
       setmessage('please provide bodymessage to send');
       setVerifymodel(true);
     } else {
-      await composemail(authProvider, Emailprops)
+      // await composemail(authProvider, Emailprops)
+      //   .then((res) => {
+      //     Toast('message send successfully', 'LONG', 'success');
+      //     clearform();
+      //   })
+      //   .catch((error) => {});
+      // await mailreplay(authProvider, replaymsg.id, replay)
+      //   .then((res) => {
+      //     console.log('res', res);
+      //     Toast('message send successfully', 'LONG', 'success');
+      //     clearform();
+      //   })
+      //   .catch((error) => {
+      //     console.log('error', error);
+      //   });
+
+      await mailforward(authProvider, replaymsg.id, forward)
         .then((res) => {
-          console.log('res+++++', res);
-          Toast('message send successfully', 'LONG', 'success');
-          clearform();
+          // console.log('res', res);
         })
         .catch((error) => {
-          console.log('message not send', error);
+          // console.log('error', error);
         });
     }
   };
@@ -328,7 +393,6 @@ const Newmessage = ({ data, onClose, mail }: Props) => {
 
   return (
     <div>
-      {console.log('12', messagebody)}
       <div style={{ position: 'absolute', bottom: '0px', right: '0px' }}>
         <Modal open={data}>
           <div

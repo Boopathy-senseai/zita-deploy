@@ -20,6 +20,10 @@
 .cardStyles {
   border-radius: unset !important;
 }
+.seletmsg {
+  background-color: #eee8ec;
+  border-radius: unset !important;
+}
 .cardStyles:hover {
   background-color: #eee8ec;
 }
@@ -51,4 +55,13 @@
 .scroll {
   height: 715px;
   overflow-y: scroll;
+}
+
+.notification_dot {
+  margin-left: 10px;
+  border-radius: 50%;
+  background-color: #4f153e;
+  height: 10px;
+  width: 10px;
+  margin-top: 5px;
 }
