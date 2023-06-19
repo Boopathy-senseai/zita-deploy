@@ -3,8 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { AuthCodeMSALBrowserAuthenticationProvider } from '@microsoft/microsoft-graph-client/authProviders/authCodeMsalBrowser';
 import { InteractionType, PublicClientApplication } from '@azure/msal-browser';
 import { useMsal } from '@azure/msal-react';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
+import Loader from '../../uikit/Loader/Loader';
 import {
   getEmail,
   outlookUserProfile,
@@ -35,6 +37,7 @@ const EmailScreen = () => {
   const [message, setmesage] = useState('');
   const [usermail, setUsermail] = useState('');
   const [sideroute, setsideroute] = useState(1);
+  const [loader, setLoader] = useState(false);
   const authProvider = new AuthCodeMSALBrowserAuthenticationProvider(
     msal.instance as PublicClientApplication,
     {
@@ -50,10 +53,12 @@ const EmailScreen = () => {
   };
 
   const Send = async () => {
+    setLoader(true);
     await getsenditem(authProvider)
       .then((res) => {
         // console.log('res---------', res);
         setmessagelist(res.value);
+        setLoader(false);
       })
       .catch((error) => {
         // console.log('connection failed inboxxxxxxx', error);
@@ -61,10 +66,14 @@ const EmailScreen = () => {
   };
 
   const Draft = async () => {
+    setLoader(true);
+
     await getdraft(authProvider)
       .then((res) => {
         // console.log('res---------', res);
         setmessagelist(res.value);
+        removemessage();
+        setLoader(false);
       })
       .catch((error) => {
         // console.log('connection failed inboxxxxxxx', error);
@@ -77,15 +86,22 @@ const EmailScreen = () => {
   };
 
   const getmails = async () => {
+    setLoader(true);
     await getmail(authProvider)
       .then((res: any) => {
+        removemessage();
         setmessagelist(res.value);
+        setLoader(false);
       })
       .catch((error) => {});
   };
 
   const selectmessage = (msg) => {
     setmesage(msg);
+  };
+
+  const removemessage = () => {
+    setmesage('');
   };
 
   // const emailcollection = useSelector(({ useremail }: RootState) => {
@@ -107,10 +123,13 @@ const EmailScreen = () => {
   };
 
   const archive = async () => {
+    setLoader(true);
     await getarchivemsg(authProvider)
       .then((res: any) => {
         //  console.log('achive---------', res);
+        removemessage();
         setmessagelist(res.value);
+        setLoader(false);
       })
       .catch((error) => {
         //  console.log('connection failed achive mail', error);
@@ -118,9 +137,12 @@ const EmailScreen = () => {
   };
 
   const deleteditems = async () => {
+    setLoader(true);
     await getdeleteditems(authProvider)
       .then((res) => {
+        removemessage();
         setmessagelist(res.value);
+        setLoader(false);
       })
       .catch((error) => {
         console.log('connection failed achive mail', error);
@@ -132,9 +154,12 @@ const EmailScreen = () => {
   };
 
   const junkemail = async () => {
+    setLoader(true);
     await getjunkemail(authProvider)
       .then((res) => {
+        removemessage();
         setmessagelist(res.value);
+        setLoader(false);
       })
       .catch((error) => {
         console.log('get junk mail', error);
@@ -142,45 +167,49 @@ const EmailScreen = () => {
   };
 
   return (
-    <Flex column>
-      <Flex row className={styles.titleContainer}>
-        <Text bold size={16} color="theme">
-          Inbox
-        </Text>
-        <div className={styles.triangle}> </div>
+    <>
+      <Flex column>
+        {loader === true ? <Loader /> : ''}
+        <Flex row className={styles.titleContainer}>
+          <Text bold size={16} color="theme">
+            Inbox
+          </Text>
+          <div className={styles.triangle}> </div>
+        </Flex>
+        <Flex row className={styles.container}>
+          <Flex flex={1} className={styles.containerColumn}>
+            <Sidebar
+              open={modelupdate}
+              send={Send}
+              draft={Draft}
+              inbox={inboxmail}
+              archive={archive}
+              updateroute={updateroute}
+              deleteditems={deleteditems}
+              junkemail={junkemail}
+            />
+          </Flex>
+          <Flex flex={3} className={styles.containerColumn}>
+            <Maillist messagelist={messagelist} selectmessage={selectmessage} />
+          </Flex>
+          <Flex flex={9} className={styles.containerColumn}>
+            <Message
+              message={message}
+              sidebarroute={sideroute}
+              composemodal={modelupdate}
+              removemsg={removemessage}
+            />
+          </Flex>
+        </Flex>
+        {/* <Flex flex={10}></Flex> */}
+        <Newcompose
+          data={model}
+          mail={usermail}
+          onClose={modelupdate}
+          replaymsg={message}
+        />
       </Flex>
-      <Flex row className={styles.container}>
-        <Flex flex={1} className={styles.containerColumn}>
-          <Sidebar
-            open={modelupdate}
-            send={Send}
-            draft={Draft}
-            inbox={inboxmail}
-            archive={archive}
-            updateroute={updateroute}
-            deleteditems={deleteditems}
-            junkemail={junkemail}
-          />
-        </Flex>
-        <Flex flex={3} className={styles.containerColumn}>
-          <Maillist messagelist={messagelist} selectmessage={selectmessage} />
-        </Flex>
-        <Flex flex={9} className={styles.containerColumn}>
-          <Message
-            message={message}
-            sidebarroute={sideroute}
-            composemodal={modelupdate}
-          />
-        </Flex>
-      </Flex>
-      {/* <Flex flex={10}></Flex> */}
-      <Newcompose
-        data={model}
-        mail={usermail}
-        onClose={modelupdate}
-        replaymsg={message}
-      />
-    </Flex>
+    </>
   );
 };
 

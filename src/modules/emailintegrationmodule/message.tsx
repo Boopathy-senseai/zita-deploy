@@ -11,8 +11,9 @@ type Props = {
   message: any;
   sidebarroute: number;
   composemodal: () => void;
+  removemsg: () => void;
 };
-const Inbox = ({ message, sidebarroute, composemodal }: Props) => {
+const Inbox = ({ message, sidebarroute, composemodal, removemsg }: Props) => {
   const msal = useMsal();
   const [view, setview] = useState(true);
   const [read, setread] = useState(true);
@@ -75,6 +76,7 @@ const Inbox = ({ message, sidebarroute, composemodal }: Props) => {
     if (message !== '') {
       await movefolder(authProvider, message.id, 'archive')
         .then((res) => {
+          removemsg();
           // console.log('res---------', res);
         })
         .catch((error) => {
