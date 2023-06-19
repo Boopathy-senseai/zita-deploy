@@ -108,27 +108,75 @@ const LoginScreen = () => {
     onSubmit: (forgotValues) => handleForgot(forgotValues),
     validate: handleValidForgot,
   });
-
+  const getApplyProfile = sessionStorage.getItem('applyWithCompanyProfile');
   const hanldeLogin = (values: loginFormProps) => {
+
     setError(false);
+
     setInactive(false);
+
     dispatch(
+
       loginMiddleWare({
+
         username: values.userName,
+
         password: values.email,
+
       }),
+
     ).then((res) => {
+
       if (res.payload.token !== undefined) {
+
+        localStorage.setItem('loginUserCheck', res.payload.is_staff);
+
         localStorage.setItem('token', res.payload.token);
-        // history.push('/');
-        window.location.replace(`${window.location.origin + '/'}`);
-        // window.location.reload();
+
+        localStorage.setItem(
+
+          'loginUserId',
+
+          res.payload.is_staff ? '0' : res.payload.username,
+
+        );
+
+        if (res.payload.is_staff === false && getApplyProfile === 'true') {
+
+          window.location.replace( 
+            `${
+              window.location.origin +  
+              `/candidate_profile_edit/${res.payload.username}` 
+            }`,
+
+          );
+
+        } else {
+
+          if (isEmpty(nextUrl)) {
+
+            window.location.replace(`${window.location.origin + homeRoute}`);
+
+          } else {
+
+            window.location.replace(`${window.location.origin + nextUrl}`);
+
+          }
+
+        }
+
       } else if (res.payload.inactive === true) {
+
         setInactive(true);
+
       } else {
+
         setError(true);
+
       }
+
     });
+
   };
 
   const handleForgotOpen = () => {
