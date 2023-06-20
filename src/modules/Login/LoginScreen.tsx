@@ -109,7 +109,7 @@ const LoginScreen = () => {
     validate: handleValidForgot,
   });
 
- 
+
   const getApplyProfile = sessionStorage.getItem('applyWithCompanyProfile');
   const hanldeLogin = (values: loginFormProps) => {
         setError(false);
@@ -141,12 +141,19 @@ const LoginScreen = () => {
             window.location.replace(`${window.location.origin + nextUrl}`);
           }
         }
+
       } else if (res.payload.inactive === true) {
+
         setInactive(true);
+
       } else {
+
         setError(true);
+
       }
+
     });
+
   };
   
   const handleForgotOpen = () => {
