@@ -36,7 +36,7 @@ const DeletePopup = ({ visible, onDelete, onClose, data }: Props) => {
     return (
       <Flex flex={6} column center className={styles.overAll}>
         <Text size={14} color="theme" className={styles.insertStyles}>
-          This action will delete the the job pipeline and its stages.
+          This action will delete the job pipeline and its stages.
         </Text>
         <Text size={13} color="theme" className={styles.insertStyles}>
           Are you sure to proceed?
