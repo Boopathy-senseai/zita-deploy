@@ -153,6 +153,8 @@
 .pillStyle {
   border-radius: 20px;
   display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: center;
   padding: 2px 10px 2px 10px;
@@ -165,6 +167,13 @@
   border: none;
   background-color: unset;
 }
+
+.crossIcon {
+  all: unset;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
 .newBtn {
   /* background-color: #fff;
   border-color: #a5889c;

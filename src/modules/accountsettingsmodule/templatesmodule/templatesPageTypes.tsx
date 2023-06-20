@@ -1,4 +1,8 @@
-import { PipelineData, StageData, SuggestionData } from "../../../hooks/useStages/types";
+import {
+  PipelineData,
+  StageData,
+  SuggestionData,
+} from '../../../hooks/useStages/types';
 
 export interface jobPipelineForm {
   pipelineTitle: string;
@@ -16,11 +20,13 @@ export interface IUpdateTemplate {
   jd_id?: number;
   workflow_id: number;
   stages?: StageData[];
+  suggestion?: number[];
 }
 
 export interface ICreateTemplate {
   pipeline_name: string;
   stages: StageData[];
+  suggestion?: number[];
 }
 
 // export interface JobPipelineStages {

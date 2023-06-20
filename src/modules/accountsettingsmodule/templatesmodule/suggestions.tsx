@@ -47,6 +47,7 @@ interface Props {
   onAddStageFromSuggestion: (value: any) => void;
   onRemoveStage: (id: number) => void;
   isStageExist: (name: string) => boolean;
+  onRemoveSuggestion?: (value: SuggestionData) => void;
 }
 
 const PipelineSuggestions: React.FC<Props> = (props) => {
@@ -58,6 +59,7 @@ const PipelineSuggestions: React.FC<Props> = (props) => {
     onRemoveStage,
     isStageExist,
     onAddStageFromSuggestion,
+    onRemoveSuggestion,
   } = props;
   const form: SuggestionForm = { title: '' };
   const [stage, setStage] = useState(false);
@@ -128,6 +130,7 @@ const PipelineSuggestions: React.FC<Props> = (props) => {
             index={index}
             onAdd={onAddSuggestion}
             onRemove={onRemoveStage}
+            onDeleteSuggestion={onRemoveSuggestion}
           />
         );
       })}

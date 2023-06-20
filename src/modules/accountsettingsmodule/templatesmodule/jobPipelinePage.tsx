@@ -14,6 +14,7 @@ import { StageCard } from '../../../uikit/StageCard/stagesCard';
 import { useStages } from '../../../hooks/useStages';
 import { StageData } from '../../../hooks/useStages/types';
 import { useForm } from '../../../hooks/useForm/useForm';
+import { useSuggestions } from '../../../hooks/useSuggestions';
 import {
   ICreateTemplate,
   IUpdateTemplate,
@@ -78,6 +79,8 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     isEqual,
     NEW_APPLICANT_STAGE,
   } = useStages(stages);
+
+  const {localSuggestions, removedSuggestions, onRemoveSuggestion} = useSuggestions(wk_id ? suggestions : pipelineSuggestions)
 
   useEffect(() => {
     if (wk_id) {
@@ -166,6 +169,9 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     if (stages && !isEqual(stages)) {
       return true;
     }
+    if(removedSuggestions.length !== 0) {
+      return true;
+    }
 
     if (pipeline && formik.isDirty) {
       return true;
@@ -184,6 +190,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     const payload: ICreateTemplate = {
       pipeline_name: formik.values.pipelineTitle.trim(),
       stages: localStages,
+      suggestion: localSuggestions.map(v => v.suggestion_id),
     };
     setSubmitLoader(true);
     dispatch(createTemplateDataMiddleWare(payload)).then(() => {
@@ -199,6 +206,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
       pipeline_name: formik.values.pipelineTitle.trim(),
       workflow_id: wk_id,
       stages: localStages,
+      suggestion: localSuggestions.map(v => v.suggestion_id),
     };
     setSubmitLoader(true);
     dispatch(updateTemplateDataMiddleWare(payload)).then(() => {
@@ -277,11 +285,12 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
             <PipelineSuggestions
               wk_id={wk_id}
               localStages={localStages}
-              suggestions={wk_id ? suggestions : pipelineSuggestions}
+              suggestions={localSuggestions}
               isStageExist={isStageExist}
               onAddStageFromSuggestion={onAddStageFromSuggestion}
               onRemoveStage={onRemoveStage}
               isStageDuplicate={isStageDuplicate}
+              onRemoveSuggestion={(value) => onRemoveSuggestion(value.suggestion_id)}
             />
           </Flex>
         </Flex>
@@ -308,7 +317,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
             </Button>
           </Flex>
         ) : (
-          <Flex row end >
+          <Flex row end>
             <Button
               className={styles.cancel}
               onClick={handleBack}
@@ -330,4 +339,3 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
 };
 
 export default JobPipelinePage;
-

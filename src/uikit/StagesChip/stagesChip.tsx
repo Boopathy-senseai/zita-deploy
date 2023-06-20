@@ -1,5 +1,6 @@
 import classNames from 'classnames/bind';
 import { SuggestionData } from '../../hooks/useStages/types';
+import SvgIntomark from '../../icons/Intomark';
 import styles from './stagesChip.module.css';
 
 const cx = classNames.bind(styles);
@@ -7,13 +8,14 @@ const cx = classNames.bind(styles);
 // Custom chip
 interface ChipProps {
   index: number;
-  doc: SuggestionData ;
+  doc: SuggestionData;
   isActive: boolean;
   onAdd: (value: SuggestionData) => void;
   onRemove: (value: number) => void;
+  onDeleteSuggestion?: (value: SuggestionData) => void;
 }
 export const Chip: React.FC<ChipProps> = (props) => {
-  const { index, doc, isActive, onAdd, onRemove } = props;
+  const { index, doc, isActive, onAdd, onRemove, onDeleteSuggestion } = props;
   return (
     <div
       className={styles.pillStyle}
@@ -28,6 +30,14 @@ export const Chip: React.FC<ChipProps> = (props) => {
       >
         {doc.stage_name}
       </button>
+      {onDeleteSuggestion && (
+        <button
+          className={styles.crossIcon}
+          onClick={() => onDeleteSuggestion(doc)}
+        >
+          <SvgIntomark fill="#888888" />
+        </button>
+      )}
     </div>
   );
 };
