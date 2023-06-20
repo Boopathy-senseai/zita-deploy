@@ -5,8 +5,12 @@
   border-radius: 5px 5px 0px 0px;
   position: absolute;
   right: 0;
-  bottom: 5px;
+  bottom: 2px;
   z-index: 1;
+  margin-right: 10px;
+}
+.width100{
+  width: 100%;
 }
 .modelmiddle {
   width: 1000px;
@@ -34,9 +38,9 @@
 }
 .inputField {
   border-bottom: 0.5px solid #c3c3c3;
-  margin-left: 5px;
-  margin-right: 5px;
-  padding: 5px 10px 5px 10px;
+  /* margin-left: 5px; */
+  /* margin-right: 5px; */
+  padding: 5px 10px 5px 0px;
 }
 .inputStyle {
   border: none !important;
@@ -50,18 +54,20 @@
   border: none !important;
 }
 .fromstyle {
-  margin-left: 20px;
-  padding: 3px 10px 3px 10px;
+  margin-left: 8px;
+  padding: 1px 10px 1px 10px;
   background-color: #eee8ec;
-  border-radius: 10px;
+  border-radius: 20px;
 }
 
 .filesname {
   background-color: #eee8ec;
-  width: 250px;
+  /* width: 250px; */
   height: 30px;
-  padding: 5px;
+  padding: 10px;
   margin-bottom: 3px;
+  border-radius: 2px;
+  justify-content: space-between;
 }
 
 .buttoninsert {

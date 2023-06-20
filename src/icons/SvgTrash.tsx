@@ -1,8 +1,8 @@
 /* eslint max-len: ["error", { "code": 2000 }] */
 const defaultProps = {
-  fill: '#581845',
-  width: 22,
-  height: 22,
+  fill: '#333333',
+  width: 14,
+  height: 14,
 };
 
 const SvgTrash = ({ width, height, fill }: typeof defaultProps) => {

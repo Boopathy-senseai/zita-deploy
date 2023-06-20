@@ -26,13 +26,13 @@ import SvgVectorMinimise from '../../icons/SvgMailMinimise';
 import Upload from '../../icons/SvgAttach';
 import Temadd from '../../icons/SvgFileplus';
 import SvgVectorClose from '../../icons/SvgMailClose';
-import { InputText, LabelWrapper } from '../../uikit';
 
 //import SelectTag from '../../uikit/SelectTag/SelectTag';
 import config from '../../outlookmailConfig';
 import RichText from '../common/RichText';
 import { SvgTrash } from '../../icons';
 import { composemail, mailreplay, mailforward } from '../../emailService';
+import InputText from '../../uikit/InputText/InputText';
 import VerificationModel from './emailverificationmodelwindow';
 import Draftmodel from './draftsavemodal';
 import Multiselect from './multiselect';
@@ -404,12 +404,12 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                 : styles.popup
             }
           >
-            <Flex row between className={styles.topSection}>
+            <Flex row center between className={styles.topSection}>
               <Text color="white">New Email</Text>
-              <Flex row between className={styles.optionMenu}>
+              <Flex row center between className={styles.optionMenu}>
                 <Flex
                   style={{
-                    marginTop: '15px',
+                    marginTop: '10px',
                     marginRight: '15px',
                     cursor: 'pointer',
                   }}
@@ -418,14 +418,14 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                 </Flex>
                 <Flex
                   style={{
-                    marginTop: '7px',
+                    // marginTop: '2px',
                     marginRight: '15px',
                     cursor: 'pointer',
                   }}
                 >
                   <SvgVectorexpand onClick={handleview} />
                 </Flex>
-                <Flex style={{ marginTop: '7px', cursor: 'pointer' }}>
+                <Flex style={{ marginTop: '1px', cursor: 'pointer' }}>
                   <SvgVectorClose
                     width={11}
                     height={11}
@@ -438,27 +438,28 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
             </Flex>
 
             <Flex style={{ padding: '5px 10px 10px 10px' }}>
-              <div style={{ overflowY: 'scroll', height: '485px' }}>
+              <div >
                 <Flex row center className={styles.inputField}>
-                  <Text>From: </Text>
-                  <Text className={styles.fromstyle}>{mail}</Text>
-                </Flex>
-                <Flex row between>
-                  {/* <Text>To</Text>
-                  <InputText className={styles.inputStyle} /> */}
-                  <Text style={{ marginTop: '8px', marginLeft: '15px' }}>
-                    To:
+                  <Text>From </Text>
+                  <Text size={12} className={styles.fromstyle}>
+                    {mail}
                   </Text>
-                  <Flex center>
-                    <Multiselect
-                      options={Email}
-                      onChange={(e) => getto(e)}
-                      value={tosample}
-                    />
+                </Flex>
+                <Flex row center between className={styles.inputField} style={{flex: 1}}>
+                  <Flex row center style={{flex: 1}}>
+                    <Text>To </Text>
+                    <Flex marginLeft={14} style={{flex: 1}}>
+                      <Multiselect
+                        options={Email}
+                        onChange={(e) => getto(e)}
+                        value={tosample}
+                      />
+                    </Flex>
                   </Flex>
-                  <Flex row marginRight={10}>
+
+                  <Flex row>
                     {!openCc ? (
-                      <Flex marginRight={5} onClick={openCC}>
+                      <Flex marginRight={15} onClick={openCC}>
                         Cc
                       </Flex>
                     ) : (
@@ -468,20 +469,19 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                     {!openBcc ? <Flex onClick={openBCC}>Bcc</Flex> : ''}
                   </Flex>
                 </Flex>
-                <hr />
+
                 {openCc ? (
                   <>
-                    <Flex row center>
-                      <Text style={{ marginTop: '8px', marginLeft: '15px' }}>
-                        Cc:{' '}
-                      </Text>
-                      <Multiselect
-                        options={Email}
-                        onChange={(e) => getcc(e)}
-                        value={ccsample}
-                      />
+                    <Flex row center className={styles.inputField} style={{flex: 1}}>
+                      <Text size={14}>Cc</Text>
+                      <Flex marginLeft={12} style={{flex: 1}}>
+                        <Multiselect
+                          options={Email}
+                          onChange={(e) => getcc(e)}
+                          value={ccsample}
+                        />
+                      </Flex>
                     </Flex>
-                    <hr />
                   </>
                 ) : (
                   ''
@@ -489,46 +489,48 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
 
                 {openBcc ? (
                   <>
-                    <Flex row center>
-                      <Text style={{ marginTop: '8px', marginLeft: '15px' }}>
-                        Bcc
-                      </Text>
-                      <Multiselect
-                        options={Email}
-                        onChange={(e) => getbcc(e)}
-                        value={bccsample}
-                      />
+                    <Flex row center className={styles.inputField} style={{flex: 1}}>
+                      <Text size={14}>Bcc</Text>{' '}
+                      <Flex marginLeft={6} style={{flex: 1}}>
+                        <Multiselect
+                          options={Email}
+                          onChange={(e) => getbcc(e)}
+                          value={bccsample}
+                        />
+                      </Flex>
                     </Flex>
-                    <hr />
                   </>
                 ) : (
                   ''
                 )}
 
                 <Flex row center className={styles.inputField}>
-                  <Text>Subject</Text>
+                  {/* <Text style={{ marginTop: '1px' }}>Subject</Text> */}
                   <InputText
+                    inputConatinerClass={styles.width100}
                     value={subject}
                     className={styles.inputStyle}
                     onChange={(e) => getsubject(e)}
+                    placeholder="Add a subject"
+                    style={{ padding: '4px 12px 3px 0px' }}
                   />
                 </Flex>
-
-                <div style={{ marginTop: '10px', padding: '5px' }}>
+                <Flex style={{overflowY: 'scroll', height: "350px"}}>
+                <div style={{ marginTop: '10px' ,marginBottom: "10px",marginRight: "5px"}}>
                   <RichText
                     height={300}
                     value={formik.values.userMessage}
                     onChange={(e) => editchage(e)}
                   />
                 </div>
-                <Flex>
+                <Flex style={{marginRight: "5px"}}>
                   {file.length !== 0 ? (
                     <>
                       {file.map((list, index) => (
                         <>
                           <Flex
                             row
-                            wrap
+                            center
                             className={styles.filesname}
                             key={index}
                           >
@@ -537,11 +539,10 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                               width={11}
                               height={11}
                               style={{
-                                marginLeft: '85px',
-                                marginTop: '5px',
+
                                 cursor: 'pointer',
                               }}
-                              fill="#0a0a09"
+                              stroke="#333333"
                               viewBox="0 0 9 9"
                               onClick={() => romovefile(index)}
                             />
@@ -553,11 +554,14 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                     <></>
                   )}
                 </Flex>
+
+                </Flex>
+                
               </div>
               <Flex row between center style={{ marginTop: '30px' }}>
                 <Flex row>
-                  <Button onClick={() => sendmail()}>send</Button>
-                  <Flex style={{ marginLeft: '20px', marginTop: '5px' }}>
+                  <Button onClick={() => sendmail()}>Send</Button>
+                  <Flex style={{ margin: '0px 10px 0px 10px' }}>
                     <label style={{ cursor: 'pointer' }}>
                       <Upload />
                       <input
@@ -585,7 +589,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                 </Flex>
 
                 <Flex>
-                  <SvgTrash width={16} height={16} />
+                  <SvgTrash width={16} height={16} fill='#581845'/>
                 </Flex>
               </Flex>
             </Flex>

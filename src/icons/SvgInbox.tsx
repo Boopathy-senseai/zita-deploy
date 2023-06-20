@@ -1,14 +1,14 @@
-import * as React from 'react';
 const SvgInbox = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={14}
     height={14}
     fill="none"
+    viewBox='0 0 12 12'
     {...props}
   >
     <path
-      fill="#581845"
+      fill={props.fill}
       d="M1.333 12c-.366 0-.68-.13-.942-.392A1.281 1.281 0 0 1 0 10.667V1.333C0 
       .967.13.653.392.391.653.13.967 0 1.333 0h9.334c.366 0 
       .68.13.942.392.261.261.391.575.391.941v9.334c0 .366-.13.68-.392.942a1.282 

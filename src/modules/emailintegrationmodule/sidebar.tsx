@@ -13,6 +13,8 @@ import SvgInbox from '../../icons/SvgInbox';
 import SvgSend from '../../icons/SvgSend';
 import SvgTrash from '../../icons/SvgTrash';
 import SvgDraft from '../../icons/SvgMailDraft';
+import SvgArchive from '../../icons/SvgArchive';
+import SvgJunk from '../../icons/SvgJunk';
 import styles from './sidebar.module.css';
 
 type Props = {
@@ -92,12 +94,12 @@ const Sidebar = ({
                 e.preventDefault();
               }}
             >
-              <Button onClick={openmodel}>
+              <Button onClick={openmodel} style={{ padding: '5px' }}>
                 <Flex row center>
-                  <SvgPlus width={10} height={10} viewBox="0 0 9 9" />
-                  <Text color="white" style={{ marginLeft: '5px' }}>
+                  <SvgPlus width={12} height={12} viewBox="0 0 9 9" />
+                  {/* <Text color="white" style={{ marginLeft: '5px' }}>
                     Compose
-                  </Text>
+                  </Text> */}
                 </Flex>
               </Button>
             </a>
@@ -108,14 +110,14 @@ const Sidebar = ({
               onClick={(e) => inboxmessage(e, 1)}
               className={styles.hoverview}
             >
-              <SvgInbox fill={'black'} />
-              <Text
+              <SvgInbox width={16} height={16} fill={select === 1 ? "#581845" : "#333333"}/>
+              {/* <Text
                 className={styles.text}
                 color="primary"
                 style={{ marginLeft: '10px', fontSize: '18px' }}
               >
                 Inbox
-              </Text>
+              </Text> */}
             </a>
           </li>
           <li className={select === 2 ? styles.select_row : ''}>
@@ -124,14 +126,14 @@ const Sidebar = ({
               onClick={(e) => sendmessage(e, 2)}
               className={styles.hoverview}
             >
-              <SvgSend />
-              <Text
+              <SvgSend width={16} height={16} fill={select === 2 ? "#581845" : "#333333"}/>
+              {/* <Text
                 className={styles.text}
                 color="primary"
                 style={{ marginLeft: '10px', fontSize: '18px' }}
               >
                 Sent
-              </Text>
+              </Text> */}
             </a>
           </li>
           <li className={select === 3 ? styles.select_row : ''}>
@@ -140,14 +142,14 @@ const Sidebar = ({
               onClick={(e) => draftmessage(e, 3)}
               className={styles.hoverview}
             >
-              <SvgDraft />
-              <Text
+              <SvgDraft width={16} height={16} fill={select === 3 ? "#581845" : "#333333"}/>
+              {/* <Text
                 className={styles.text}
                 color="primary"
                 style={{ marginLeft: '10px', fontSize: '18px' }}
               >
                 Draft
-              </Text>
+              </Text> */}
             </a>
           </li>
           <li className={select === 4 ? styles.select_row : ''}>
@@ -156,14 +158,14 @@ const Sidebar = ({
               onClick={(e) => archivemessage(e, 4)}
               className={styles.hoverview}
             >
-              <SvgDraft />
-              <Text
+              <SvgArchive width={16} height={16} fill={select === 4 ? "#581845" : "#333333"}/>
+              {/* <Text
                 className={styles.text}
                 color="primary"
                 style={{ marginLeft: '10px', fontSize: '18px' }}
               >
                 Archive
-              </Text>
+              </Text> */}
             </a>
           </li>
           <li className={select === 5 ? styles.select_row : ''}>
@@ -172,14 +174,14 @@ const Sidebar = ({
               onClick={(e) => trashmessage(e, 5)}
               className={styles.hoverview}
             >
-              <SvgTrash width={14} height={14} fill={'black'} />
-              <Text
+              <SvgTrash width={16} height={16} fill={select === 5 ? "#581845" : "#333333"}/>
+              {/* <Text
                 className={styles.text}
                 color="primary"
                 style={{ marginLeft: '10px', fontSize: '18px' }}
               >
                 Trash
-              </Text>
+              </Text> */}
             </a>
           </li>
           <li className={select === 6 ? styles.select_row : ''}>
@@ -188,14 +190,14 @@ const Sidebar = ({
               onClick={(e) => junkmessage(e, 6)}
               className={styles.hoverview}
             >
-              <SvgTrash width={14} height={14} fill={'black'} />
-              <Text
+              <SvgJunk width={16} height={16} stroke={select === 6 ? "#581845" : "#333333"}/>
+              {/* <Text
                 className={styles.text}
                 color="primary"
                 style={{ marginLeft: '10px', fontSize: '18px' }}
               >
                 junk
-              </Text>
+              </Text> */}
             </a>
           </li>
         </ul>
