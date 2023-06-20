@@ -1,5 +1,5 @@
 .filterOverAll {
-  padding-top: 20px;
+  /* padding-top: 20px; */
   padding-right: 16px;
   position: relative;
   
@@ -22,13 +22,13 @@
   align-items: center;
 }
 .tabsContainer {
-  padding-top: 20px;
+  padding-top: 15px;
   width: 100%;
   overflow-y: scroll;
 }
 
 .tabsStyle {
-  margin-top: 30px;
+  margin-top: 15px;
   position: relative;
 }
 .infiStyle {

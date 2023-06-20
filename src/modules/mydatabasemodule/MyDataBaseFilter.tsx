@@ -2,11 +2,12 @@ import { Formik, FormikProps } from 'formik';
 import escapeRegExp from 'lodash/escapeRegExp'; // eslint-disable-line
 import { useMemo, useRef, useState, useEffect } from 'react';
 import ReactSwitch from 'react-switch';
+
 import SvgIntomark from '../../icons/Intomark';
 import SvgRefresh from '../../icons/SvgRefresh';
 import Card from '../../uikit/Card/Card';
 import Flex from '../../uikit/Flex/Flex';
-import { enterKeyPress } from '../../uikit/helper';
+import { enterKeyPress, isEmpty } from '../../uikit/helper';
 import InputCheckBox from '../../uikit/InputCheckbox/InputCheckBox';
 import InputRadio from '../../uikit/InputRadio/InputRadio';
 import InputText from '../../uikit/InputText/InputText';
@@ -14,6 +15,7 @@ import SelectTag from '../../uikit/SelectTag/SelectTag';
 import Text from '../../uikit/Text/Text';
 import { MAX_DISPLAYED_OPTIONS } from '../constValue';
 import { experienceOption, jobTypeData, myDataSkillList } from './mock';
+import styles1 from "./switch.module.css";
 import styles from './mydatabasefilter.module.css';
 import { MyDataFormProps } from './MyDataBaseScreen'; // eslint-disable-line
 
@@ -45,7 +47,17 @@ const MyDataBaseFilter = ({
   const [job,setjob]=useState(true);
   const [location,setlocation]=useState("")
   const [skill,setskill]=useState([])
- 
+  const [qual,setqual]=useState([])
+  const [qual1,setqual1]=useState([])
+  const [qualificationValue, setQualificationValue] = useState<
+  | {
+      value: string;
+      label: string;
+      checked: boolean;
+      onChange: () => void;
+    }[]
+  | undefined
+>();
 
   const selectInputRef = useRef<any>();
   const myRef = useRef<any>();
@@ -195,7 +207,24 @@ const MyDataBaseFilter = ({
   const closeexp = () => {
     setexperience('');
     formik.setFieldValue("experience","");
-  };
+  }  
+
+  const closequal = () => {
+    setqual([]);
+    
+      // const obj=qualificationOption.map(name=>name.checked===true).findIndex(name=>name.);
+    //  qualificationOption[objIndex].checked = false;
+     console.log("hello");
+     };
+
+     const closeQualification = (doc: {
+      value: string;
+      label: string;
+      checked: boolean;
+      onChange: () => void;
+    }) => {
+      doc.onChange();
+    };
 
   const closejob = () => {
   setjobname('');
@@ -204,22 +233,33 @@ const MyDataBaseFilter = ({
   
   const locationsrh = () => {
     setlocation('');
+    setSearch('')
     formik.setFieldValue("locationSearch","");
     };
 
-    const skillval = () => {
-      setskill([]);
-      formik.setFieldValue("skillValue","");
+    const skillval = (id) => {
+      console.log("id++++++++++++",id);
+      setskill(skill.splice(id,1) );
+      console.log("new change",skill);
+      // formik.setFieldValue("skillValue",skill);
+      // if(skill.length===1){
+      // setskill([]);
+      // formik.setFieldValue("skillValue","");}
       };
-  // useEffect(() => {
-  //   let ignore = false;
+  useEffect(() => {
+    setQualificationValue(
+      qualificationOption.filter((option) => option.checked),     
+    );
+  }, [qualificationOption]);
+  useEffect(()=>{
+    const ans=qualificationOption.filter(chek=>chek.checked !== false).map(name=>name.value);
+    if(qualificationOption.length !== 0 && ans.length !==0){
+      setqual(ans);
+    }
+   console.log("ans",ans);
+  },[qualificationOption])
 
-  //   async function closestatus1(id) {
-  //     const objIndex = qualificationOption.findIndex((obj,index)=> index === id); 
-  //     if (!ignore) qualificationOption[objIndex].checked = false;
-  //   }
-  //   return () => { ignore = true; }
-  // }, []);
+
     const closestatus1 = (id) => {
       
      const objIndex = qualificationOption.findIndex((obj,index)=> index === id); 
@@ -228,10 +268,66 @@ const MyDataBaseFilter = ({
      console.log("new quali",qualificationOption)
      };
 
-  
+  const expe=formik.values.experience.label==="All";
+  const job_type=isEmpty(formik.values.jobType);
+  const locsrc=isEmpty(formik.values.locationSearch);
+  const skillvul=formik.values.skillValue.length===0;
+  const reloc=formik.values.reLocateValue==="0";
+  const total=expe&&job_type&&locsrc&&skillvul&&reloc;
   console.log("qua",qualificationOption);
   console.log("formik",formik.values);
+  // console.log("total",total,expe,job_type,locsrc,skillvul);
   console.log("skill",skill);
+
+  // {qualificationOption.map((val,int)=>(
+  //   <>
+  //   {val.checked===true?(
+  //     <>
+  //     <Text className={styles.quickfil}> {val.value}
+  //     <SvgIntomark
+  //     className={styles.stylesvg}
+  //     onClick={() => closestatus1(int)}
+  //   />
+  //   </Text>
+  //   </>
+  //     ) : (
+  //       " " )        
+  //   }
+  //   </>
+  //   ))}
+  const RenderQuickFilter = (props: {
+    doc?: { label: string; value: any };
+    onClose: () => void;
+  }) => {
+    const { doc, onClose } = props;
+    if (doc === undefined) {
+      return null;
+    }
+    if (doc && (doc.value === '' || doc.value === 'any')) {
+      return null;
+    }
+    // if (doc && (doc.value === 'any')) {
+    //   return <Text className={styles.quickfil}>{doc.label}</Text>;
+    // }
+    return (
+      <>{doc.label !=="any"&&(
+      <Text className={styles.quickfil}>
+      {doc.label}{" "}
+      <SvgIntomark className={styles.stylesvg} onClick={onClose} />
+            </Text>
+            )}
+             {doc.label ==="any" &&total&&(
+              <Text className={styles.quickfil}>
+              {"Any"}
+              
+                    </Text>
+                    )}
+     </>       
+    );
+  };
+
+ 
+ 
   return (
 <>
 
@@ -239,22 +335,14 @@ const MyDataBaseFilter = ({
 <Text className={""} style={{ color: "#581845" }}>
         Quick Filters :
       </Text>
-            {qualificationOption.map((val,int)=>(
-              <>
-              {val.checked===true?(
-                <>
-                <Text className={styles.quickfil}> {val.value}
-                <SvgIntomark
-                className={styles.stylesvg}
-                onClick={() => closestatus1(int)}
-              />
-              </Text>
-              </>
-                ) : (
-                  " " )        
-              }
-              </>
-              ))}
+      {qualificationValue &&
+        qualificationValue.map((doc, index) => (
+          <RenderQuickFilter
+            key={index}
+            doc={{ label: doc.label, value: doc.value }}
+            onClose={() => closeQualification(doc)}
+          />
+        ))}
             {formik.values.experience.label ==="All"|| experience===''?(
               null
             ): (
@@ -294,13 +382,16 @@ const MyDataBaseFilter = ({
             {formik.values.skillValue.length === 0||skill.length=== 0?(
               null
             ): (
-              <Text className={styles.quickfil}>
-                {skill }{" "}
+              skill.map((skills,index) =>
+              <Text className={styles.quickfil} key={skills}>
+
+                {skills}{" "}
                 <SvgIntomark
                   className={styles.stylesvg}
-                  onClick={() => skillval()}
+                  onClick={() => skillval(index)}
                 />
               </Text>
+              )
             )
             }
 
@@ -429,27 +520,19 @@ const MyDataBaseFilter = ({
         </div>
       </Flex>
       <div className={styles.mtstyle}> 
-     
-
-        <ReactSwitch
-        checked={isRelocate}
-        onChange={() => setRelocate(!isRelocate)}
-        />
-        <input
-        checked={isRelocate}
-        onChange={() => setRelocate(!isRelocate)}
-        className="react-switch-checkbox"
-        id={`react-switch-new`}
-        type="checkbox"
-        role="switch"
-      />
-      <label
-        
-        className="react-switch-label"
-        htmlFor={`react-switch-new`}
-      >
-        <span className={`react-switch-button`} />
-      </label>
+      <Flex row >
+        <Flex>
+          <label className={styles1.toggleswitch} >
+          <input type="checkbox" checked={isRelocate}
+          onChange={() => setRelocate(!isRelocate)} />
+           <span className={styles1.switch} />
+           </label>
+      </Flex>
+        <Flex style={{marginLeft:'15px'}}>
+            {"  "}Willing to Relocate
+        </Flex>
+      </Flex>
+  
       </div>
     
     

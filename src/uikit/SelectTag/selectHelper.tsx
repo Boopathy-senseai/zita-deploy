@@ -386,13 +386,14 @@ export const customStylechanges1 = {
     boxColor:GARY_9,
     backgroundColor:GARY_9,
     borderColor:GARY_9,
+    color:PRIMARY,
   }),
   input: (provided: any) => ({
     ...provided,
     margin: '0px',
     fontSize: 12,
     fontFamily: `'Roboto', sans-serif`,
-    borderColor:GARY_9,
+    borderColor:PRIMARY,
     border: '0px',
   }),
   indicatorsContainer: (provided: any) => ({
@@ -430,10 +431,14 @@ export const customStylechanges1 = {
     maxHeight: 200,
     scrollbarWidth: 'thin',
     padding: 0,
-    borderColor:GARY_9,
+    borderColor:PRIMARY,
   }),
   hover: (provided: any) => ({
-  
-    borderColor:GARY_9,
+    color:PRIMARY,
+    borderColor:PRIMARY,
+  }),
+  selected: (provided: any) => ({
+    color:PRIMARY,
+    borderColor:PRIMARY,
   }),
 };
