@@ -14,10 +14,10 @@
 }
 .modelmiddle {
   width: 1000px;
-  height: 615px;
+  height: 595px;
   background-color: white;
   border-radius: 5px 5px 0px 0px;
-  padding: 20px;
+  /* padding: 20px; */
 }
 .minimised {
   width: 600px;

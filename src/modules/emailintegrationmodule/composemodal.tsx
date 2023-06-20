@@ -33,6 +33,7 @@ import RichText from '../common/RichText';
 import { SvgTrash } from '../../icons';
 import { composemail, mailreplay, mailforward } from '../../emailService';
 import InputText from '../../uikit/InputText/InputText';
+import SvgCollapse from '../../icons/Svgcollapse';
 import VerificationModel from './emailverificationmodelwindow';
 import Draftmodel from './draftsavemodal';
 import Multiselect from './multiselect';
@@ -156,6 +157,9 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
 
   const handleview = () => {
     setstyle(1);
+  };
+  const handleViewPopup = () => {
+    setstyle(0);
   };
 
   const Minimise = () => {
@@ -408,6 +412,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
               <Text color="white">New Email</Text>
               <Flex row center between className={styles.optionMenu}>
                 <Flex
+                  title="Minimize"
                   style={{
                     marginTop: '10px',
                     marginRight: '15px',
@@ -417,19 +422,27 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                   <SvgVectorMinimise onClick={Minimise} />
                 </Flex>
                 <Flex
+                  title={style === 1 ? 'Exit full screen' : 'Full screen'}
                   style={{
                     // marginTop: '2px',
                     marginRight: '15px',
                     cursor: 'pointer',
                   }}
                 >
-                  <SvgVectorexpand onClick={handleview} />
+                  {style === 1 ? (
+                    <SvgCollapse fill="#ffffff" onClick={handleViewPopup} />
+                  ) : (
+                    <SvgVectorexpand onClick={handleview} />
+                  )}
                 </Flex>
-                <Flex style={{ marginTop: '1px', cursor: 'pointer' }}>
+                <Flex
+                  title="Close"
+                  style={{ marginTop: '1px', cursor: 'pointer' }}
+                >
                   <SvgVectorClose
                     width={11}
                     height={11}
-                    fill="#ffffff"
+                    stroke="#ffffff"
                     viewBox="0 0 9 9"
                     onClick={handleClose}
                   />
@@ -437,8 +450,15 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
               </Flex>
             </Flex>
 
-            <Flex style={{ padding: '5px 10px 10px 10px' }}>
-              <div>
+            <Flex
+              flex={1}
+              style={{
+                padding: '5px 10px 10px',
+
+                // height: '-webkit-fill-available',
+              }}
+            >
+              <div style={{ flex: 1 }}>
                 <Flex row center className={styles.inputField}>
                   <Text>From </Text>
                   <Text size={12} className={styles.fromstyle}>
@@ -465,14 +485,24 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
 
                   <Flex row>
                     {!openCc ? (
-                      <Flex marginRight={15} onClick={openCC}>
+                      <Flex
+                        marginRight={15}
+                        onClick={openCC}
+                        style={{ cursor: 'pointer' }}
+                      >
                         Cc
                       </Flex>
                     ) : (
                       ''
                     )}
 
-                    {!openBcc ? <Flex onClick={openBCC}>Bcc</Flex> : ''}
+                    {!openBcc ? (
+                      <Flex onClick={openBCC} style={{ cursor: 'pointer' }}>
+                        Bcc
+                      </Flex>
+                    ) : (
+                      ''
+                    )}
                   </Flex>
                 </Flex>
 
@@ -528,15 +558,19 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                     className={styles.inputStyle}
                     onChange={(e) => getsubject(e)}
                     placeholder="Add a subject"
-                    style={{ padding: '4px 12px 3px 0px' }}
+                    style={{ padding: '4px 12px 3px 3px' }}
                   />
                 </Flex>
-                <Flex style={{ overflowY: 'scroll', height: '350px' }}>
+                <Flex
+                  flex={1}
+                  style={{ overflowY: 'scroll', maxHeight: '400px' }}
+                >
                   <div
                     style={{
                       marginTop: '10px',
-                      marginBottom: '10px',
+                      // marginBottom: '10px',
                       marginRight: '5px',
+                      flex: 1,
                     }}
                   >
                     <RichText
@@ -577,38 +611,61 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                   </Flex>
                 </Flex>
               </div>
-              <Flex row between center style={{ marginTop: '30px' }}>
-                <Flex row>
-                  <Button onClick={() => sendmail()}>Send</Button>
-                  <Flex style={{ margin: '0px 10px 0px 10px' }}>
-                    <label style={{ cursor: 'pointer' }}>
-                      <Upload />
-                      <input
-                        type="file"
-                        style={{ display: 'none' }}
-                        multiple
-                        //onChange={selectfile}
-                        onChange={(files) => selectfile(files)}
-                        accept=".doc,.docx,.pdf,.txt,.svg,.png,.jpeg,.jpg"
-                      />
-                    </label>
-                  </Flex>
+              <Flex
+                row
+                between
+                center
+                marginTop={10}
+                style={{ bottom: '10px' }}
+              >
+                <Flex row center>
                   <Button
-                    types="secondary"
-                    className={styles.buttoninsert}
-                    onClick={handleModel}
+                    onClick={() => sendmail()}
+                    style={{ marginRight: '10px' }}
                   >
-                    <Flex row center style={{ cursor: 'pointer' }}>
-                      <Temadd />
-                      <Text style={{ marginLeft: '5px' }} color="theme">
-                        Insert
-                      </Text>
-                    </Flex>
+                    Send
                   </Button>
+                  <Flex
+                    style={{ cursor: 'pointer', marginRight: '10px' }}
+                    // onClick={handleModel}
+                  >
+                    <Flex
+                      center
+                      style={{ cursor: 'pointer' }}
+                      title="Attach Files"
+                    >
+                      <label style={{ cursor: 'pointer', marginTop:"5px" }}>
+                        <Upload width="19px" height="19px" fill="#581845" />
+                        <input
+                          type="file"
+                          style={{ display: 'none' }}
+                          multiple
+                          //onChange={selectfile}
+                          onChange={(files) => selectfile(files)}
+                          accept=".doc,.docx,.pdf,.txt,.svg,.png,.jpeg,.jpg"
+                        />
+                      </label>
+                    </Flex>
+                  </Flex>
+                  <Flex
+                    style={{ cursor: 'pointer' }}
+                    onClick={handleModel}
+                    title="Insert Templates"
+                  >
+                    <Temadd width="16px" height="16px" />
+                  </Flex>
+
+                  {/* </Button> */}
+                  {/* <Flex style={{ margin: '0px 10px 0px 10px' }}>
+                    <Flex style={{ cursor: 'pointer' }}>
+                      <Upload />
+                      
+                    </label>
+                  </Flex> */}
                 </Flex>
 
                 <Flex>
-                  <SvgTrash width={16} height={16} fill="#581845" />
+                  <SvgTrash width={14} height={14} fill="#581845" />
                 </Flex>
               </Flex>
             </Flex>

@@ -184,7 +184,7 @@ const EmailScreen = () => {
           <div className={styles.triangle}> </div>
         </Flex>
         <Flex row className={styles.container}>
-          <Flex flex={1} className={styles.containerColumn}>
+          <Flex className={styles.containerColumn}>
             <Sidebar
               open={modelupdate}
               send={Send}

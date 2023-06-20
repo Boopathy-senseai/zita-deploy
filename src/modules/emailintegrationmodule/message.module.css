@@ -1,0 +1,21 @@
+.iconContainer{
+    padding: 5px 10px ;
+    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 47%) ;
+    border-radius: 5px;
+    margin-right: 5px;
+    margin-top: 5px;
+
+}
+.icons{
+    cursor: pointer;
+    padding: 5px;
+}
+.icons:hover{
+    background-color: #EEE8EC;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.bodyContainer{
+    
+    height: 100%;
+}
