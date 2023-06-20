@@ -58,6 +58,7 @@ const EmailScreen = () => {
       .then((res) => {
         // console.log('res---------', res);
         setmessagelist(res.value);
+        removemessage();
         setLoader(false);
       })
       .catch((error) => {
@@ -118,6 +119,12 @@ const EmailScreen = () => {
     // });
   }, []);
 
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     console.log('This will run after 1 second!');
+  //   }, 1000);
+  // });
+
   const inboxmail = () => {
     getmails();
   };
@@ -177,7 +184,7 @@ const EmailScreen = () => {
           <div className={styles.triangle}> </div>
         </Flex>
         <Flex row className={styles.container}>
-          <Flex className={styles.containerColumn}>
+          <Flex flex={1} className={styles.containerColumn}>
             <Sidebar
               open={modelupdate}
               send={Send}
@@ -198,6 +205,12 @@ const EmailScreen = () => {
               sidebarroute={sideroute}
               composemodal={modelupdate}
               removemsg={removemessage}
+              archiveapi={archive}
+              inboxapi={getmails}
+              senditemapi={Send}
+              deleteditemsapi={deleteditems}
+              junkemailapi={junkemail}
+              draftapi={Draft}
             />
           </Flex>
         </Flex>

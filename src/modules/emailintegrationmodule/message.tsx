@@ -12,8 +12,25 @@ type Props = {
   sidebarroute: number;
   composemodal: () => void;
   removemsg: () => void;
+  archiveapi: () => void;
+  inboxapi: () => void;
+  senditemapi: () => void;
+  deleteditemsapi: () => void;
+  junkemailapi: () => void;
+  draftapi: () => void;
 };
-const Inbox = ({ message, sidebarroute, composemodal, removemsg }: Props) => {
+const Inbox = ({
+  message,
+  sidebarroute,
+  composemodal,
+  removemsg,
+  archiveapi,
+  inboxapi,
+  senditemapi,
+  deleteditemsapi,
+  junkemailapi,
+  draftapi,
+}: Props) => {
   const msal = useMsal();
   const [view, setview] = useState(true);
   const [read, setread] = useState(true);
@@ -55,6 +72,7 @@ const Inbox = ({ message, sidebarroute, composemodal, removemsg }: Props) => {
       if (sidebarroute === 5) {
         await deletemail(authProvider, message.id)
           .then((res) => {
+            refetch();
             // console.log('res---------', res);
           })
           .catch((error) => {
@@ -63,6 +81,7 @@ const Inbox = ({ message, sidebarroute, composemodal, removemsg }: Props) => {
       } else {
         await movefolder(authProvider, message.id, 'deleteditems')
           .then((res) => {
+            refetch();
             // console.log('res---------', res);
           })
           .catch((error) => {
@@ -72,11 +91,28 @@ const Inbox = ({ message, sidebarroute, composemodal, removemsg }: Props) => {
     }
   };
 
+  const refetch = () => {
+    if (sidebarroute === 1) {
+      inboxapi();
+    } else if (sidebarroute === 2) {
+      senditemapi();
+    } else if (sidebarroute === 3) {
+      draftapi();
+    } else if (sidebarroute === 4) {
+      archiveapi();
+    } else if (sidebarroute === 5) {
+      deleteditemsapi();
+    } else {
+      junkemailapi();
+    }
+  };
+
   const archive = async () => {
     if (message !== '') {
       await movefolder(authProvider, message.id, 'archive')
         .then((res) => {
           removemsg();
+          refetch();
           // console.log('res---------', res);
         })
         .catch((error) => {
@@ -90,6 +126,7 @@ const Inbox = ({ message, sidebarroute, composemodal, removemsg }: Props) => {
       await movefolder(authProvider, message.id, 'junkemail')
         .then((res) => {
           alert('junk successful');
+          refetch();
         })
         .catch((error) => {
           // console.log('connection failed inboxxxxxxx', error);
@@ -104,6 +141,7 @@ const Inbox = ({ message, sidebarroute, composemodal, removemsg }: Props) => {
       };
       await mailread(authProvider, message.id, readmessage)
         .then((res) => {
+          refetch();
           //  console.log('read------++---', res);
         })
         .catch((error) => {
@@ -114,21 +152,38 @@ const Inbox = ({ message, sidebarroute, composemodal, removemsg }: Props) => {
 
   return (
     <div>
+      {console.log('message', message)}
+      {console.log('sidebarroute', sidebarroute)}
+
       {message !== '' ? (
         <>
+          {sidebarroute}
           <Flex row end between>
-            <Text onClick={remove}>delete</Text>
-            <Text onClick={archive}> Archive </Text>
-            <Text onClick={junk}> Junk </Text>
-            <Text onClick={composemodal}> Replay </Text>
-            <Text onClick={composemodal}> forward </Text>
-            <Text onClick={() => unread(false)}> UnRead </Text>
+            {sidebarroute !== 3 ? (
+              <>
+                <Text onClick={remove}>delete</Text>
+                {sidebarroute !== 4 ? (
+                  <Text onClick={archive}> Archive </Text>
+                ) : (
+                  ''
+                )}
+                {sidebarroute !== 6 ? <Text onClick={junk}> Junk </Text> : ''}
+                <Text onClick={composemodal}> Replay </Text>
+                <Text onClick={composemodal}> forward </Text>
+                <Text onClick={() => unread(false)}> UnRead </Text>
+              </>
+            ) : (
+              <>
+                <Text onClick={remove}>delete</Text>
+                <Text onClick={() => unread(false)}> UnRead </Text>
+                <Text>Re-Send</Text>
+              </>
+            )}
           </Flex>
         </>
       ) : (
         ''
       )}
-
       <Flex
         row
         style={{
