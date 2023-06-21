@@ -21,7 +21,7 @@ const AlertDeletePopup = ({
   return (
     <Modal open={openDeletePopup}>
       <Flex flex={6} column center className={styles.overAll}>
-        <Text size={14} color="theme" className={styles.insertStyles}>
+        <Text size={14} color="black2" className={styles.insertStyles}>
           In order to delete this stage, please transfer the assigned applicants
           to other stages.
         </Text>

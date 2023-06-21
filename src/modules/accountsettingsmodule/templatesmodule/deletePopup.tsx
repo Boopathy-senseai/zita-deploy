@@ -18,7 +18,7 @@ const DeletePopup = ({ visible, onDelete, onClose, data }: Props) => {
     if (data.associate) {
       return (
         <Flex flex={6} column center className={styles.overAll}>
-          <Text size={14} color="theme" className={styles.insertStyles}>
+          <Text size={14} color="black2" className={styles.insertStyles}>
             You cannot delete this pipeline as its associated with a job post.
           </Text>
           <Flex row end marginTop={20} className={styles.borderLine}>
@@ -35,10 +35,10 @@ const DeletePopup = ({ visible, onDelete, onClose, data }: Props) => {
     }
     return (
       <Flex flex={6} column center className={styles.overAll}>
-        <Text size={14} color="theme" className={styles.insertStyles}>
+        <Text size={14} color="black2" className={styles.insertStyles}>
           This action will delete the job pipeline and its stages.
         </Text>
-        <Text size={13} color="theme" className={styles.insertStyles}>
+        <Text size={14} color="black2" className={styles.insertStyles}>
           Are you sure to proceed?
         </Text>
         <Flex row end marginTop={20} className={styles.borderLine}>

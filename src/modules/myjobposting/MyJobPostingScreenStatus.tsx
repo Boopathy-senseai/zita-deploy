@@ -71,7 +71,7 @@ const MyJobPostingScreenStatus = ({ list }: Props) => {
               </Text>
               
         
-            <Text className={styles.fontScreen} style={{color:"#581845",width:8,height:8}}>Hired</Text>
+            <Text className={styles.fontScreen} style={{color:"#581845",width:8,height:8}}>Offered</Text>
             {/* </LinkWrapper> */}
 
           </li> 
@@ -87,7 +87,7 @@ const MyJobPostingScreenStatus = ({ list }: Props) => {
                 {selected}
               </Text>
               <Text className={styles.fontScreens} style={{color:"#581845",width:8,height:8}}
-            >Hired</Text>
+            >Offered</Text>
             </LinkWrapper>
            
           </li>

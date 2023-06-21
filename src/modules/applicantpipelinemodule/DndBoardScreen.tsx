@@ -108,15 +108,15 @@ const DndBoardScreen = ({
             <Flex columnFlex className={styles.statusFlex}>
               {/* {console.log(isAlert.destination)} */}
               {isAlert.destination !== 'Rejected' ? (
-                <Text color={'theme'} size={14} >
+                <Text color='black2' size={14} >
                   {`Application status will be updated to the applicant as 'Under Review’.`}
                 </Text>
               ) : (
-                <Text color={'theme'} size={14} >
+                <Text color='black2' size={14} >
                   {`Application status will be updated to the applicant as ‘No longer considered’.`}
                 </Text>
               )}
-              <Text size={13} color='theme'>Are you sure to proceed?</Text>
+              <Text size={14} color='black2'>Are you sure to proceed?</Text>
             </Flex>
           }
         />
