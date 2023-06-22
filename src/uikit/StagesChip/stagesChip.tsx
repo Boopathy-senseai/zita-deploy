@@ -26,7 +26,7 @@ export const Chip: React.FC<ChipProps> = (props) => {
       <button
         onClick={() => (isActive ? onRemove(doc.suggestion_id) : onAdd(doc))}
         className={styles.pillbutton}
-        style={{ color: isActive ? '#FFFFFF' : undefined }}
+        style={{ color: isActive ? '#FFFFFF' : undefined , whiteSpace:"pre"}}
       >
         {doc.stage_name}
       </button>

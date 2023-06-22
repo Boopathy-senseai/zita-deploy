@@ -188,7 +188,7 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
       );
     }
     return (
-      <Text color="theme" title={doc.stage_name}>
+      <Text color="theme" title={doc.stage_name} style={{ whiteSpace: "pre"}}>
         {doc.stage_name}
       </Text>
     );

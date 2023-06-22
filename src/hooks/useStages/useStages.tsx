@@ -194,10 +194,10 @@ export function useStages<
 
   const isEqual = (list: T[]) => {
     if (!columns) {
-      return _.isEqual(_.sortBy(list), _.sortBy(localStages));
+      return _.isEqual(_.sortBy(list, ["stage_order"]), _.sortBy(localStages, ["stage_order"]));
     }
     const local = localStages.map((doc) => _.omit(doc, 'is_associated'));
-    return _.isEqual(_.sortBy(list), _.sortBy(local));
+    return _.isEqual(_.sortBy(list, ["stage_order"]), _.sortBy(local,["stage_order"]));
   };
 
   const resetStages = () => {

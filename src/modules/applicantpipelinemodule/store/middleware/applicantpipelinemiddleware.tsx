@@ -232,7 +232,7 @@ export const downloadApplicantsMiddleware = createAsyncThunk<
       response.data &&
       (response.data?.file_path || response.data?.filepath)
     ) {
-      handleDownload(response.data?.file_path || response.data?.filepath);
+      handleDownload(response.data?.file_path || response.data?.filepath, response.data?.filename || response.data?.file_name);
     }
     return response.data;
   } catch (error) {

@@ -80,7 +80,8 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     NEW_APPLICANT_STAGE,
   } = useStages(stages);
 
-  const {localSuggestions, removedSuggestions, onRemoveSuggestion} = useSuggestions(wk_id ? suggestions : pipelineSuggestions)
+  const { localSuggestions, removedSuggestions, onRemoveSuggestion } =
+    useSuggestions(wk_id ? suggestions : pipelineSuggestions);
 
   useEffect(() => {
     if (wk_id) {
@@ -165,11 +166,13 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
   });
 
   const isFormDirty = () => {
-    if (stages && stages.length !== localStages.length) return true;
+    if (stages && stages.length !== localStages.length) {
+      return true;
+    }
     if (stages && !isEqual(stages)) {
       return true;
     }
-    if(removedSuggestions.length !== 0) {
+    if (removedSuggestions.length !== 0) {
       return true;
     }
 
@@ -190,7 +193,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     const payload: ICreateTemplate = {
       pipeline_name: formik.values.pipelineTitle.trim(),
       stages: localStages,
-      suggestion: localSuggestions.map(v => v.suggestion_id),
+      suggestion: localSuggestions.map((v) => v.suggestion_id),
     };
     setSubmitLoader(true);
     dispatch(createTemplateDataMiddleWare(payload)).then(() => {
@@ -206,7 +209,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
       pipeline_name: formik.values.pipelineTitle.trim(),
       workflow_id: wk_id,
       stages: localStages,
-      suggestion: localSuggestions.map(v => v.suggestion_id),
+      suggestion: localSuggestions.map((v) => v.suggestion_id),
     };
     setSubmitLoader(true);
     dispatch(updateTemplateDataMiddleWare(payload)).then(() => {
@@ -253,7 +256,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
                 Create, Rename, reorder, and delete job pipeline stages.
               </Text>
             </Flex>
-            <Flex column style={{ overflowY: 'scroll', maxHeight:"390px" }}>
+            <Flex column style={{ overflowY: 'scroll', maxHeight: '390px' }}>
               <StageCard
                 doc={NEW_APPLICANT_STAGE}
                 index={-1}
@@ -290,7 +293,9 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
               onAddStageFromSuggestion={onAddStageFromSuggestion}
               onRemoveStage={onRemoveStage}
               isStageDuplicate={isStageDuplicate}
-              onRemoveSuggestion={(value) => onRemoveSuggestion(value.suggestion_id)}
+              onRemoveSuggestion={(value) =>
+                onRemoveSuggestion(value.suggestion_id)
+              }
             />
           </Flex>
         </Flex>
@@ -301,7 +306,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
           <Button types={'secondary'}>Back to Pipeline</Button>
         </Flex>
         {buttondata === 1 ? (
-          <Flex row end >
+          <Flex row end>
             <Button
               className={styles.cancel}
               onClick={handleBack}

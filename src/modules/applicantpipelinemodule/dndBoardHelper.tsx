@@ -34,9 +34,9 @@ export const onDragEnd = (
   }
 };
 
-export const handleDownload = (file: string) => {
+export const handleDownload = (file: string, filename?: string) => {
   if (file) {
-    saveAs(`${process.env.REACT_APP_HOME_URL}media/${file}`, `${file}`);
+    saveAs(`${process.env.REACT_APP_HOME_URL}media/${file}`, `${filename || file}`);
     Toast('Resume downloaded successfully', 'LONG', 'success');
   }
 };
