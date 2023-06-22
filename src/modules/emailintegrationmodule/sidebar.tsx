@@ -26,6 +26,7 @@ type Props = {
   updateroute: (val) => void;
   deleteditems: () => void;
   junkemail: () => void;
+  page: () => void;
 };
 
 const Sidebar = ({
@@ -37,6 +38,7 @@ const Sidebar = ({
   updateroute,
   deleteditems,
   junkemail,
+  page,
 }: Props) => {
   const [select, setSelect] = useState(1);
   const openmodel = () => {
@@ -45,42 +47,43 @@ const Sidebar = ({
 
   const inboxmessage = (e, val) => {
     e.preventDefault();
-    inbox();
     setSelect(val);
     updateroute(val);
+    // page();
   };
   const sendmessage = (e, val) => {
     e.preventDefault();
-    send();
     setSelect(val);
     updateroute(val);
+    // page();
   };
   const draftmessage = (e, val) => {
     e.preventDefault();
-    draft();
+
     setSelect(val);
     updateroute(val);
+    //page();
   };
 
   const archivemessage = (e, val) => {
     e.preventDefault();
-    archive();
     setSelect(val);
     updateroute(val);
+    // page();
   };
 
   const trashmessage = (e, val) => {
     e.preventDefault();
-    deleteditems();
     setSelect(val);
     updateroute(val);
+    //  page();
   };
 
   const junkmessage = (e, val) => {
     e.preventDefault();
-    junkemail();
     setSelect(val);
     updateroute(val);
+    // page();
   };
 
   return (
@@ -110,7 +113,11 @@ const Sidebar = ({
               onClick={(e) => inboxmessage(e, 1)}
               className={styles.hoverview}
             >
-              <SvgInbox width={16} height={16} fill={select === 1 ? "#581845" : "#333333"}/>
+              <SvgInbox
+                width={16}
+                height={16}
+                fill={select === 1 ? '#581845' : '#333333'}
+              />
               {/* <Text
                 className={styles.text}
                 color="primary"
@@ -126,7 +133,11 @@ const Sidebar = ({
               onClick={(e) => sendmessage(e, 2)}
               className={styles.hoverview}
             >
-              <SvgSend width={16} height={16} fill={select === 2 ? "#581845" : "#333333"}/>
+              <SvgSend
+                width={16}
+                height={16}
+                fill={select === 2 ? '#581845' : '#333333'}
+              />
               {/* <Text
                 className={styles.text}
                 color="primary"
@@ -142,7 +153,11 @@ const Sidebar = ({
               onClick={(e) => draftmessage(e, 3)}
               className={styles.hoverview}
             >
-              <SvgDraft width={16} height={16} fill={select === 3 ? "#581845" : "#333333"}/>
+              <SvgDraft
+                width={16}
+                height={16}
+                fill={select === 3 ? '#581845' : '#333333'}
+              />
               {/* <Text
                 className={styles.text}
                 color="primary"
@@ -158,7 +173,11 @@ const Sidebar = ({
               onClick={(e) => archivemessage(e, 4)}
               className={styles.hoverview}
             >
-              <SvgArchive width={16} height={16} fill={select === 4 ? "#581845" : "#333333"}/>
+              <SvgArchive
+                width={16}
+                height={16}
+                fill={select === 4 ? '#581845' : '#333333'}
+              />
               {/* <Text
                 className={styles.text}
                 color="primary"
@@ -174,7 +193,11 @@ const Sidebar = ({
               onClick={(e) => trashmessage(e, 5)}
               className={styles.hoverview}
             >
-              <SvgTrash width={16} height={16} fill={select === 5 ? "#581845" : "#333333"}/>
+              <SvgTrash
+                width={16}
+                height={16}
+                fill={select === 5 ? '#581845' : '#333333'}
+              />
               {/* <Text
                 className={styles.text}
                 color="primary"
@@ -190,7 +213,11 @@ const Sidebar = ({
               onClick={(e) => junkmessage(e, 6)}
               className={styles.hoverview}
             >
-              <SvgJunk width={16} height={16} stroke={select === 6 ? "#581845" : "#333333"}/>
+              <SvgJunk
+                width={16}
+                height={16}
+                stroke={select === 6 ? '#581845' : '#333333'}
+              />
               {/* <Text
                 className={styles.text}
                 color="primary"

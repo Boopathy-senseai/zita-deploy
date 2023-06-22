@@ -3,14 +3,16 @@ const defaultProps = {
   fill: '#cccccc',
   width: 18,
   height: 18,
+  onClick: () => {},
 };
 
-const SvgSearch = ({ width, height, fill }: typeof defaultProps) => {
+const SvgSearch = ({ width, height, fill, onClick }: typeof defaultProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={width}
       height={height}
+      onClick={onClick}
       viewBox="0 0 24 24"
       style={{ cursor: 'pointer' }}
       fill={fill}

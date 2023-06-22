@@ -36,12 +36,19 @@ export async function getUser(
 
 export async function getmail(
   authProvider: AuthCodeMSALBrowserAuthenticationProvider,
+  previous,
+  range,
 ) {
+  console.log('1', previous);
+  console.log('2', range);
   var response: any = await graphClient
     ?.api('/me/mailFolders/Inbox/messages')
-    .top(25)
+    .count(true)
+    .skip(previous)
+    .top(range)
     .get();
-  console.log('-----mailresponce111-----', response);
+
+  console.log('-----Inboxmessage-----', response['@odata.count']);
   return response;
 }
 
@@ -154,10 +161,6 @@ export async function getjunkemail(
   return response;
 }
 
-const _boolean = {
-  messageIds: ['MC172851', 'MC167983'],
-};
-
 export async function mailread(
   authProvider: AuthCodeMSALBrowserAuthenticationProvider,
   id,
@@ -189,4 +192,39 @@ export async function mailforward(
     ?.api(`/me/messages/${id}/forward`)
     .post(data);
   //console.log('-----replaymail-----', response);
+}
+
+export async function getsearchmail(
+  authProvider: AuthCodeMSALBrowserAuthenticationProvider,
+  folder,
+  serchdata,
+) {
+  console.log('folder', folder);
+  console.log('serchdata', serchdata);
+  var response: any = await graphClient
+    ?.api(`/me/mailFolders/${folder}/messages`)
+    .search(serchdata)
+    .top(1000)
+    .get();
+  console.log('-----searchmail-----', response);
+  return response;
+}
+
+export async function getmessages(
+  authProvider: AuthCodeMSALBrowserAuthenticationProvider,
+  folder,
+  previous,
+  range,
+) {
+  console.log('------------ folder', folder);
+  console.log('------------ previous', previous);
+  console.log('------------ range', range);
+  var response: any = await graphClient
+    ?.api(`/me/mailFolders/${folder}/messages`)
+    .count(true)
+    .skip(previous)
+    .top(range)
+    .get();
+  //console.log('-----mailresponce-----', response);
+  return response;
 }

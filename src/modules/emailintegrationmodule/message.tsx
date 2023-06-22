@@ -152,9 +152,6 @@ const Inbox = ({
 
   return (
     <div>
-      {console.log('message', message)}
-      {console.log('sidebarroute', sidebarroute)}
-
       {message !== '' ? (
         <>
           {sidebarroute}

@@ -6,22 +6,44 @@ import styles from './maillist.module.css';
 type Props = {
   messagelist: any;
   selectmessage: any;
+  searchmessage: () => void;
+  searchinput: any;
+  search: string;
 };
-const Maillist = ({ messagelist, selectmessage }: Props) => {
+const Maillist = ({
+  messagelist,
+  selectmessage,
+  searchmessage,
+  searchinput,
+  search,
+}: Props) => {
   const [messages, setmesage] = useState<any>();
 
   const getmessage = (get) => {
     setmesage(get);
     selectmessage(get);
   };
+
+  const serchmail = (e: any) => {
+    searchinput(e.target.value);
+    //console.log('searchmail', e.target.value);
+  };
+
+  const click = () => {
+    searchmessage();
+  };
+
   return (
     <div>
       <Flex style={{ marginLeft: '2px' }} className={styles.maillist}>
         <InputText
-          actionRight={() => <SvgSearch />}
+          actionRight={() => <SvgSearch onClick={click} />}
+          onChange={(e) => serchmail(e)}
           placeholder="Search by email subject or body"
           className={styles.inputSearch}
+          value={search}
         />
+
         {/* <Flex></Flex> */}
 
         <Flex className={styles.scroll}>

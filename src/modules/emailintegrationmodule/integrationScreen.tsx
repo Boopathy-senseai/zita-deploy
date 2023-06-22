@@ -20,6 +20,8 @@ import {
   getarchivemsg,
   getdeleteditems,
   getjunkemail,
+  getsearchmail,
+  getmessages,
 } from '../../emailService';
 import config from '../../outlookmailConfig';
 import Sidebar from './sidebar';
@@ -27,10 +29,12 @@ import Newcompose from './composemodal';
 import styles from './integration.module.css';
 import Message from './message';
 import Maillist from './Maillist';
+import Pagination from './pagination';
 
 const EmailScreen = () => {
   const msal = useMsal();
   const dispatch: AppDispatch = useDispatch();
+
   const [model, setmodel] = useState(false);
   const [view, setview] = useState(0);
   const [messagelist, setmessagelist] = useState([]);
@@ -38,6 +42,15 @@ const EmailScreen = () => {
   const [usermail, setUsermail] = useState('');
   const [sideroute, setsideroute] = useState(1);
   const [loader, setLoader] = useState(false);
+  const [search, setSearch] = useState('');
+
+  const [previous, setPrevious] = useState(25);
+  const [previous1, setPrevious1] = useState(1);
+  const [skip, setSkip] = useState(0);
+  const [range, setRange] = useState(25);
+  const [total, setTotal] = useState(0);
+  const [del, setDel] = useState(0);
+
   const authProvider = new AuthCodeMSALBrowserAuthenticationProvider(
     msal.instance as PublicClientApplication,
     {
@@ -88,11 +101,13 @@ const EmailScreen = () => {
 
   const getmails = async () => {
     setLoader(true);
-    await getmail(authProvider)
+    await getmail(authProvider, previous, range)
       .then((res: any) => {
         removemessage();
         setmessagelist(res.value);
+        setTotal(res['@odata.count']);
         setLoader(false);
+        console.log('asasasas', res);
       })
       .catch((error) => {});
   };
@@ -113,11 +128,10 @@ const EmailScreen = () => {
 
   useEffect(() => {
     getprofile();
-    getmails();
+    page();
     // dispatch(getEmail()).then((res) => {
-
     // });
-  }, []);
+  }, [sideroute, skip]);
 
   // useEffect(() => {
   //   setTimeout(() => {
@@ -157,6 +171,10 @@ const EmailScreen = () => {
   };
 
   const updateroute = (val) => {
+    setPrevious(25);
+    setSkip(0);
+    setDel(0);
+    setPrevious1(1);
     setsideroute(val);
   };
 
@@ -173,8 +191,107 @@ const EmailScreen = () => {
       });
   };
 
+  const searchinput = (val) => {
+    setSearch(val);
+  };
+
+  const serchmessage = async () => {
+    setLoader(true);
+    var folder = '';
+
+    if (sideroute === 1) {
+      folder = 'Inbox';
+    } else if (sideroute === 2) {
+      folder = 'sentitems';
+    } else if (sideroute === 3) {
+      folder = 'drafts';
+    } else if (sideroute === 4) {
+      folder = 'archive	';
+    } else if (sideroute === 5) {
+      folder = 'deleteditems';
+    } else if (sideroute === 6) {
+      folder = 'junkemail';
+    }
+    await getsearchmail(authProvider, folder, search)
+      .then((res) => {
+        removemessage();
+        setmessagelist(res.value);
+        setLoader(false);
+      })
+      .catch((error) => {
+        console.log('get junk mail', error);
+      });
+  };
+
+  const page = async () => {
+    setLoader(true);
+    var folder = '';
+    if (sideroute === 1) {
+      folder = 'Inbox';
+    } else if (sideroute === 2) {
+      folder = 'sentitems';
+    } else if (sideroute === 3) {
+      folder = 'drafts';
+    } else if (sideroute === 4) {
+      folder = 'archive	';
+    } else if (sideroute === 5) {
+      folder = 'deleteditems';
+    } else if (sideroute === 6) {
+      folder = 'junkemail';
+    }
+
+    await getmessages(authProvider, folder, skip, range)
+      .then((res) => {
+        removemessage();
+        setmessagelist(res.value);
+        setTotal(res['@odata.count']);
+        setLoader(false);
+        if (res['@odata.count'] < range) {
+          setPrevious(res['@odata.count']);
+        }
+      })
+      .catch((error) => {
+        console.log('error', error);
+      });
+  };
+
+  const Nextdata = () => {
+    var a = previous + range;
+
+    if (a > total) {
+      setDel(total - previous);
+      setPrevious(previous + (total - previous));
+      setSkip(previous + 1);
+      setPrevious1(previous + 1);
+    } else if (previous < total) {
+      setPrevious(previous + range);
+      setSkip(previous + 1);
+      setPrevious1(previous + 1);
+    }
+  };
+
+  const Previousdata = () => {
+    if (del === 0) {
+      if (previous !== 0 && range !== previous) {
+        setPrevious(previous - range);
+        setSkip(previous - (range + range) + 1);
+        setPrevious1(previous - (range + range) + 1);
+      }
+    } else {
+      // alert(previous - del);
+      // alert(previous1 - range);
+      // alert(previous1);
+      // alert(range);
+      setPrevious(previous - del);
+      setSkip(previous1 - range);
+      setPrevious1(previous1 - range);
+      setDel(0);
+    }
+  };
+
   return (
     <>
+      {console.log('skip', skip)}
       <Flex column>
         {loader === true ? <Loader /> : ''}
         <Flex row className={styles.titleContainer}>
@@ -194,10 +311,25 @@ const EmailScreen = () => {
               updateroute={updateroute}
               deleteditems={deleteditems}
               junkemail={junkemail}
+              page={page}
             />
           </Flex>
           <Flex flex={3} className={styles.containerColumn}>
-            <Maillist messagelist={messagelist} selectmessage={selectmessage} />
+            <Pagination
+              previousfun={Previousdata}
+              nextfun={Nextdata}
+              range={range}
+              previous={previous}
+              previous1={previous1}
+              total={total}
+            />
+            <Maillist
+              messagelist={messagelist}
+              selectmessage={selectmessage}
+              searchmessage={serchmessage}
+              searchinput={searchinput}
+              search={search}
+            />
           </Flex>
           <Flex flex={9} className={styles.containerColumn}>
             <Message
