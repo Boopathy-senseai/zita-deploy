@@ -15,7 +15,7 @@ type Props = {
 
 const MyJobPostingScreenStatus = ({ list }: Props) => {
   const shortlisted = isEmpty(list.shortlisted) ? '0' : list.shortlisted;
-  const selected = isEmpty(list.selected) ? '0' : list.selected;
+  const selected = isEmpty(list.hired) ? '0' : list.hired;
   const rejected = isEmpty(list.rejected) ? '0' : list.rejected;
 
   return (
@@ -59,7 +59,7 @@ const MyJobPostingScreenStatus = ({ list }: Props) => {
         </ul>
 
        <ul className={styles.ulstyle2}>
-           {isEmpty(list.selected) ? 
+           {isEmpty(list.hired) ? 
 
          <li style={{color:"#00BE4B",fontSize:20}}>
            {/* <LinkWrapper

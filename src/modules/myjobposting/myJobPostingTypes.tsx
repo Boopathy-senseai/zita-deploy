@@ -49,7 +49,7 @@ export interface FinalListEntity {
   jd_status__label_name: string;
   created_on: string;
   applicants?: string;
-  selected?: string;
+  hired?: string;
   rejected?: string;
   shortlisted?: string;
   location_jd: string;
