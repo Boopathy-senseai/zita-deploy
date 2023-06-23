@@ -67,10 +67,8 @@ const Notesmeet = ({ isMeeting }: Props) => {
   const checkAuth = () => {
      
     dispatch(checkAuthMiddleware())
-      .then((res) => {
-        console.log(res);
-        if (res.payload.status === true) {
-          console.log(res.payload);
+      .then((res) => { 
+        if (res.payload.status === true) { 
           if (res.payload.account === 'google') {
             setIsGoogle(1);
           } else {
@@ -79,8 +77,7 @@ const Notesmeet = ({ isMeeting }: Props) => {
           setActive(1);
           setIsLoad(false);
           dispatch(eventsApplicantsMiddleware({ can_id }))
-            .then((response) => {
-              console.log(response);
+            .then((response) => { 
               if (response.payload.status === true) {
                 setMyevents(
                   response.payload.data.map((items: any) => {
@@ -182,8 +179,7 @@ const Notesmeet = ({ isMeeting }: Props) => {
         }
       });
     }
-  };
-  console.log(candidate_details);
+  }; 
   const formik = useFormik({
     initialValues: initial,
     onSubmit: handleSubmit,
@@ -299,108 +295,6 @@ const Notesmeet = ({ isMeeting }: Props) => {
       className={styles.overAll}
       height={window.innerHeight - 230}
     >
-      {/* <Flex
-        flex={1}
-        columnFlex
-        className={cx({ notesOverAllContainer: isMeeting })}
-      >
-        <Flex row center between>
-          <Text color="theme" bold>
-            Notes
-          </Text>
-          <Button disabled={isCollapse} onClick={hanldeInputOpen}>
-            Add Notes
-          </Button>
-        </Flex>
-        {notes && notes.length === 0 && !isCollapse && (
-          <Flex columnFlex flex={1} middle center>
-            <SvgNotes />
-            <Text color="gray">No notes created yet</Text>
-          </Flex>
-        )}
-        {isCollapse && (
-          <Flex>
-            <div className={styles.textArea}>
-              <RichText
-                height={200}
-                value={formik.values.notes}
-                onChange={formik.handleChange('notes')}
-                placeholder="You can add and save details regarding the candidate"
-              />
-            </div>
-            <Flex row end>
-              <Button onClick={hanldeInputClose} types="secondary">
-                {CANCEL}
-              </Button>
-              <Button
-                disabled={isEmpty(formik.values.notes)}
-                onClick={formik.handleSubmit}
-                className={styles.saveBtn}
-              >
-                {buttonName}
-              </Button>
-            </Flex>
-          </Flex>
-        )}
-
-        {notes &&
-          notes
-            .map((list, indexList) => {
-              return (
-                <Flex
-                  key={list.notes + indexList}
-                  columnFlex
-                  className={styles.notesOverAll}
-                >
-                  <Flex row center>
-                    {isEmpty(list.emp_image) ||
-                    list.emp_image === 'default.jpg' ? (
-                      <div
-                        className={cx('profile')}
-                        style={{
-                          backgroundColor: isColor[indexList % isColor.length],
-                        }}
-                      >
-                        <Text color="white" transform="uppercase">
-                          {!isEmpty(list.updated_by) &&
-                            firstNameChar(list.updated_by)}
-                        </Text>
-                      </div>
-                    ) : (
-                      <img
-                        alt="profile"
-                        height={40}
-                        width={40}
-                        style={{
-                          borderRadius: '100%',
-                          objectFit: 'cover',
-                          marginRight: 8,
-                          height: 40,
-                        }}
-                        src={mediaPath + list.emp_image}
-                      />
-                    )}
-                    <Text bold>{list.updated_by}</Text>
-                  </Flex>
-                  <Flex className={styles.noteListStyle}>
-                    <NotesDropDown
-                      notesList={list}
-                      handleDelete={handleDelete}
-                      handleOpenEdit={handleOpenEdit}
-                    />
-                    <td
-                      className={styles.notesTextStyle}
-                      dangerouslySetInnerHTML={{
-                        __html: list.notes,
-                      }}
-                    />
-                  </Flex>
-                </Flex>
-              );
-            })
-            .reverse()}
-      </Flex>
-      {isLoad && <Loader />} */}
       {isMeeting && (
         <Flex columnFlex>
           <Flex row center>

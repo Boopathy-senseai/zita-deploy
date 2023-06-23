@@ -9,6 +9,7 @@ import {
   applicantMatchReducers,
   applicantMessageReducers,
   applicantNotesReducers,
+  applicantUserlistReducer,
   applicantProfileInitalReducers,
   applicantScoreReducers,
   applicantStausReducers,
@@ -108,6 +109,7 @@ import { notificationReducers } from '../modules/navbar/empnavbar/store/notifica
 
 export const reducers = {
   talentSourcingReducers,
+  applicantUserlistReducer,
   talentSourcingSearchReducers,
   talentUnlockCandidateReducers,
   bulkActionReducers,

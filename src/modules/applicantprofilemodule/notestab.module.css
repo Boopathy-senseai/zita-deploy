@@ -1,33 +1,58 @@
 .textArea {
-  margin-top: 16px;
+  margin-top: 5px;
   margin-bottom: 8px;
+  max-width:100%;
 }
 
-.overAll {
+.overall1 {
   padding: 16px;
-  overflow: scroll;
+  
 }
+
 .noteListStyle {
-  border: 1px solid var(--color-gary-6, #b3b3b3);
+  /* border: 1px solid var(--color-gary-6, #b3b3b3); */
   border-radius: 4px;
   margin-top: 8px;
   box-sizing: border-box;
 }
 .dateStyle {
-  border-bottom: 1px solid var(--color-gary-6, #b3b3b3);
-  padding: 4px 8px;
   box-sizing: border-box;
+  margin-top: 5px;
+}
+.datetype{
+  margin-right: 10px;
+  text-align:center;
+  align-items: center;
 }
 .notesTextStyle {
-  padding: 8px;
   font-size: 14px;
+  color:  #333333;
+   
+}
+.notesTextStyle ul{
+  padding-left: 25px !important;
+}
+.notesTextStyle ol{
+  padding-left: 25px !important;
+}
+.notesTextStyle a{
+  color: #581845 !important;
+  font-weight:600 !important;
 }
 .notesTextStyle p{
   margin-bottom: 0px;
+  font-size: 14px !important;
+  color:  #333333 !important;
+}
+.cardinnotes{
+  padding: 10px;
+}
+.firstlastchar{
+  font-size: 12px;
 }
 .profile {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border-radius: 100%;
   margin-right: 8px;
   align-items: center;
@@ -36,8 +61,25 @@
   position: relative;
 }
 .notesOverAll {
-  margin-top: 16px;
+  margin-top: 16px; 
   position: relative;
+  /* padding:0px 1px; */
+  padding-bottom: 5px;
+
+  /* overflow: scroll; */
+}
+.sclllar{
+  overflow-y: scroll;
+  max-height: 400px;
+  /* margin-top: 10px; */ 
+  scrollbar-width: thin;
+  padding:0px 8px  0px 16px;
+}
+.scllllar{
+  overflow-y: scroll;
+  max-height: 280px; 
+  scrollbar-width: thin;
+  padding:0px 8px  0px 16px;
 }
 .dotSvg {
   cursor: pointer;
@@ -50,9 +92,7 @@
   cursor: pointer;
   padding: 4px 8px;
 }
-.dropDownOverAll:hover {
-  background-color: rgb(88 24 69 / 30%);
-}
+ 
 .dropBorder {
   border: 1px solid var(--color-gary-6, #b3b3b3);
   border-radius: 4px;
@@ -90,8 +130,11 @@
 .settingBtn {
   margin-left: 8px;
 }
+.overall2{
+  padding: 16px;
+}
 .initialbutton{
-  width: 100%;
+  width: 100%; 
 }
 .initialbuttons{
   width: 100%;
@@ -100,3 +143,76 @@
   height: 40px;
   border-radius: 3px;
 }
+ 
+.notestext{
+  display: flex;
+  justify-content: space-between;
+}
+.middleline{
+  margin-top: 20px;
+  border-bottom: 1px solid #C3C3C3;
+}
+.overAllss {
+  background-color: var(--color-white, #ffffff);
+  width: 350px;
+  padding: 25px;
+  border-radius: 4px;
+}
+.scrollStyle {
+  max-height: 300px;
+  overflow: scroll;
+  min-height: 300px;
+}
+.insertStyles { 
+    font-size: 14px; 
+    color: #333333;
+
+}
+.insertStyless {
+  /* text-align: center; */
+    font-size: 14px;
+    color: #333333;
+
+}
+
+.newBtn {
+  background-color: #fff;
+  border-color: #a5889c;
+  border-width: 1px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  width: auto;
+}
+.newBtn:hover,
+.newBtn:active,
+.newBtn:focus {
+  background: unset;
+  border-width: 1px;
+  border-color: #a5889c;
+}
+.cancel {
+  margin-right: 8px;
+  background-color: #888888;
+  border: none;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+.cancel:active,
+.cancel:focus {
+  background-color: #888888;
+  border: none;
+}
+.update {
+  border: none;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+.update:active,
+.update:focus {
+  border: none;
+}
+.nojoppostyettext{
+  color: #666666;
+  margin-top: -10px;
+}
+ 

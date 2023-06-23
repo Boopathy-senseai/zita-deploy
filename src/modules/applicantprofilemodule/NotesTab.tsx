@@ -1,13 +1,25 @@
 import axios from 'axios';
 import classNames from 'classnames/bind';
 import { useFormik } from 'formik';
-import { Editor } from '@tinymce/tinymce-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useRef, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Mention, MentionsInput } from 'react-mentions';
+import ReactQuill, { Quill } from 'react-quill';
+// import { Outlet } from "react-router-dom";
+// import { Invoice } from "./Root.utils";
+import ReactHtmlParser, {
+  processNodes,
+  convertNodeToElement,
+  htmlparser2,
+} from 'react-html-parser';
+import parse from 'html-react-parser';
+// import 'react-quill/dist/quill.snow.css';
+import Mention from 'quill-mention';
+Quill.register('modules/mention', Mention);
 import { useHistory } from 'react-router-dom';
+import { Card } from '../../uikit';
 import SvgInfo from '../../icons/SvgInfo';
 import SvgNotes from '../../icons/SvgNotes';
+import SvgNotesyet from '../../icons/Svgnonotesyet';
 import SvgRefresh from '../../icons/SvgRefresh';
 import { AppDispatch, RootState } from '../../store';
 import Button from '../../uikit/Button/Button';
@@ -16,6 +28,7 @@ import Flex from '../../uikit/Flex/Flex';
 import { firstNameChar, isEmpty } from '../../uikit/helper';
 import Table from '../../uikit/Table/Table';
 import Text from '../../uikit/Text/Text';
+import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
 import Toast from '../../uikit/Toast/Toast';
 import {
   clientSecret,
@@ -27,7 +40,14 @@ import {
 } from '../accountsettingsmodule/integrationmodule/store/middleware/integrationmiddleware';
 import RichText from '../common/RichText';
 import Loader from '../../uikit/Loader/Loader';
-import { CANCEL, config, mediaPath } from '../constValue';
+import {
+  mentionnotes,
+  CANCEL,
+  THIS_FIELD_REQUIRED,
+  config,
+  mediaPath,
+  mentionspecialcharacter,
+} from '../constValue';
 import { outlookTimeZone } from '../dashboardmodule/empdashboard/mock';
 import { meetingTitle } from './MeetingTable';
 import NotesDropDown from './NotesDropDown';
@@ -39,6 +59,8 @@ import {
   syncOutlookMiddleWare,
   checkAuthMiddleware,
   eventsApplicantsMiddleware,
+  applicantUserListMiddleWare,
+  applicantUserListstateMiddleWare,
 } from './store/middleware/applicantProfileMiddleware';
 var querystring = require('querystring');
 
@@ -51,11 +73,11 @@ const initial: FormProps = {
   notes: '',
 };
 
-type Props = {
-  isMeeting?: boolean;
-};
-const NotesTab = ({ isMeeting }: Props) => {
+const NotesTab = () => {
+  const [editorHtml, setEditorHtml] = useState<string>('');
+  const editorRef = useRef<ReactQuill | null>(null);
   const [isCollapse, setCollapse] = useState(false);
+  const [isstylechange, setstylechange] = useState(false);
   const [isColor, setColor] = useState<string[]>([]);
   const [buttonName, setButtonName] = useState('Add');
   const [getId, setGetId] = useState(0);
@@ -63,17 +85,28 @@ const NotesTab = ({ isMeeting }: Props) => {
   const [active, setActive] = useState(0);
   const [isGoogle, setIsGoogle] = useState(2);
   const [isLoad, setIsLoad] = useState(true);
+  const [requir, setrequir] = useState();
+  const [ischeck, setcheck] = useState(false);
+  const [update, setupdate] = useState(false);
+  const [valuestate, setvaluestate] = useState<string[]>([]);
+  const [valueun, setvalueun] = useState('');
+  const [listmen, setList] = useState([]);
   const [hideelement, sethideelement] = useState(true);
+  const [datastring, setDatastring] = useState<string | undefined>(
+    localStorage.getItem('Datastring') || undefined,
+  );
   const [myevents, setMyevents] = useState<any[]>([]);
   const history = useHistory();
+  useEffect(() => {
+    dispatch(applicantUserListMiddleWare()).then((res) => {
+      setIsLoad(false);
+    });
+  }, []);
 
   const checkAuth = () => {
-
     dispatch(checkAuthMiddleware())
       .then((res) => {
-        console.log(res);
         if (res.payload.status === true) {
-          console.log(res.payload);
           if (res.payload.account === 'google') {
             setIsGoogle(1);
           } else {
@@ -83,7 +116,6 @@ const NotesTab = ({ isMeeting }: Props) => {
           setIsLoad(false);
           dispatch(eventsApplicantsMiddleware({ can_id }))
             .then((response) => {
-              console.log(response);
               if (response.payload.status === true) {
                 setMyevents(
                   response.payload.data.map((items: any) => {
@@ -137,16 +169,19 @@ const NotesTab = ({ isMeeting }: Props) => {
     // calenderEvent,
     // google,
     outlook,
+    name,
     calenderLoader,
   } = useSelector(
     ({
       applicantNotesReducers,
       applicantProfileInitalReducers,
       calenderReducers,
+      applicantUserlistReducer,
     }: RootState) => {
       return {
         candidate_details: applicantProfileInitalReducers.candidate_details,
         notes: applicantNotesReducers.notes,
+        name: applicantUserlistReducer.data,
         can_id: applicantProfileInitalReducers.can_id,
         // calenderEvent: calenderReducers.event,
         // google: calenderReducers.google,
@@ -155,19 +190,69 @@ const NotesTab = ({ isMeeting }: Props) => {
       };
     },
   );
+
   // notes submit function
+
   const handleSubmit = (values: FormProps) => {
+    const string = valueun;
+    const final = [];
+    const list2 = [{ user: -1, value: 'Everyone' }]; 
+    if (name !== undefined) {
+      const valu = [...list2, ...name];
+      setList(valu);
+      for (let i = 0; i < valu.length; i++) {
+        const element = valu[i].value;
+        if (string.includes(element)) {
+          final.push(valu[i].user);
+        }
+      }
+    } else {
+      for (let i = 0; i < listmen.length; i++) {
+        const element = listmen[i].value;
+        if (string.includes(element)) {
+          final.push(listmen[i].user);
+        }
+      }
+    }
+
+    const formData = new FormData();
+    if (final.length !== 0) {
+      formData.append('otheruserid', final.toString());
+    } else {
+      const testing = '-2';
+      formData.append('otheruserid', testing);
+      formData.append('notes', '');
+    }
+
     const data = querystring.stringify({
       pk: can_id,
       notes: values.notes,
     });
-
+    formData.append('candidate_id', can_id);
     if (buttonName === 'Add') {
-      axios.post(`candidate_notes?pk=${can_id}`, data).then(() => {
-        setCollapse(false);
-        dispatch(applicantNotesMiddleWare({ can_id }));
-        Toast('Notes added successfully', 'LONG', 'success');
-      });
+      if (final.length !== 0) {
+        const applicantnames = candidate_details.map((e) => e.first_name);
+        const test = ' has added a note to ' + applicantnames + '’s profile.';
+        formData.append('notes', test);
+      }
+      setupdate(false);
+      setIsLoad(true);
+      axios
+        .post(`candidate_notes?pk=${can_id}`, data)
+        .then(() => {
+          setCollapse(false);
+          setstylechange(false);
+          sethideelement(true);
+          dispatch(applicantUserListstateMiddleWare({ formData }));
+          dispatch(applicantNotesMiddleWare({ can_id }));
+          Toast('Notes added successfully', 'LONG', 'success');
+        })
+        .then(() => {
+          setIsLoad(false);
+          setname1('');
+          formik.values.notes = '';
+          formik.resetForm();
+        });
     }
 
     const dataOne = querystring.stringify({
@@ -177,61 +262,114 @@ const NotesTab = ({ isMeeting }: Props) => {
     });
 
     if (buttonName === 'Update') {
-      axios.post(`candidate_notes?pk=${can_id}`, dataOne, config).then(() => {
-        setCollapse(false);
-        dispatch(applicantNotesMiddleWare({ can_id }));
-        if (buttonName === 'Update') {
-          Toast('Notes updated successfully', 'LONG', 'success');
-        }
-      });
+      if (final.length !== 0) {
+        const applicantnames = candidate_details.map((e) => e.first_name);
+        const test = ' has updated a note to ' + applicantnames + '’s profile.';
+        formData.append('notes', test);
+      }
+      setupdate(true);
+      setIsLoad(true);
+      axios
+        .post(`candidate_notes?pk=${can_id}`, dataOne, config)
+        .then(() => {
+          setCollapse(false);
+          sethideelement(true);
+          setstylechange(false);
+          dispatch(applicantUserListstateMiddleWare({ formData }));
+          dispatch(applicantNotesMiddleWare({ can_id }));
+          if (buttonName === 'Update') {
+            Toast('Notes updated successfully', 'LONG', 'success');
+          }
+          dispatch(applicantUserListMiddleWare());
+        })
+        .then(() => {
+          setIsLoad(false);
+          setname1('');
+          formik.values.notes = '';
+          formik.resetForm();
+        });
     }
   };
-  console.log(candidate_details);
+
+  const parser = new DOMParser();
+
+  type notess = {
+    notes: string;
+  };
+  const handlerequire = (values: notess) => {
+    const errors: Partial<notess> = {};
+    const doc = parser.parseFromString(formik.values.notes, 'text/html');
+    const textNodes = doc.querySelectorAll('body')[0].textContent;
+    const texttrim = textNodes.trim();
+    if (texttrim === '') {
+      setcheck(true);
+      errors.notes = 'Enter valid notes.';
+    } else if (
+      !mentionnotes.test(textNodes)  &&
+     mentionspecialcharacter.test(textNodes)
+    ) {
+      setcheck(true);
+      errors.notes = 'Notes length should not exceed 2000 characters.';
+    }
+    return errors;
+  };
+
   const formik = useFormik({
     initialValues: initial,
     onSubmit: handleSubmit,
+    validate: handlerequire,
     enableReinitialize: true,
   });
 
-  useEffect(()=>{
-if(formik.values.notes === '@'){
-  
-}
-  },[formik.values.notes])
+  useEffect(() => {
+    if (formik.values.notes) {
+      setvalueun(formik.values.notes);
+    }
+  }, [formik.values.notes]);
 
-  const user=[
-    
-     " hi"
-    
-  ]
   // add notes function
   const hanldeInputOpen = () => {
     setButtonName('Add');
     sethideelement(false);
+    setstylechange(true);
+    setcheck(false);
     setCollapse(true);
-    formik.setFieldValue('notes', '');
+    formik.setFieldValue('notes', name1);
+    dispatch(applicantUserListMiddleWare());
   };
   // close notes function
   const hanldeInputClose = () => {
     setCollapse(false);
+    setstylechange(false);
     sethideelement(true);
+    setcheck(false);
+    setname1('');
     formik.setFieldValue('notes', '');
+    formik.resetForm();
   };
 
   // notes delete function
   const handleDelete = (id: number) => {
-    axios.delete('candidate_notes', { params: { pk: id } }).then(() => {
-      Toast('Notes deleted successfully');
-      dispatch(applicantNotesMiddleWare({ can_id }));
-    });
+    setIsLoad(true);
+    axios
+      .delete('candidate_notes', { params: { pk: id } })
+      .then(() => {
+        Toast('Notes deleted successfully');
+        dispatch(applicantNotesMiddleWare({ can_id }));
+      })
+      .then(() => {
+        setIsLoad(false);
+      });
   };
 
   // notes submit function
   const handleOpenEdit = (value: string, id: any) => {
     setButtonName('Update');
+    setcheck(false);
     setGetId(id);
     formik.setFieldValue('notes', value);
     setCollapse(true);
+    sethideelement(false);
   };
   // const checkPlatForm =
   //   google && google.length === 0 && outlook && outlook.length === 0
@@ -281,6 +419,49 @@ if(formik.values.notes === '@'){
       }
     });
   };
+
+  if (editorRef.current) {
+    const list2 = [{ user: -1, value: 'Everyone' }];
+    if (name !== undefined) {
+      const valu = [...list2, ...name];
+      const fgt = valu.map((e) => e.value);
+      const quill = editorRef.current.getEditor();
+      const mention = new Mention(quill, {
+        mentionDenotationChars: ['@'],
+        allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
+        source: (searchTerm: string, renderList: (values: any[]) => void) => {
+          const filteredMentions = valu.filter((m) =>
+            m.value.toLowerCase().includes(searchTerm.toLowerCase()),
+          );
+          renderList(filteredMentions);
+          // dispatch(applicantUserListMiddleWare());
+        },
+      });
+    }
+  }
+  const LOCAL_STORAGE_KEY = can_id;
+  const [name1, setname1] = useState(
+    JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || '',
+  );
+  useEffect(() => {
+    const doc = parser.parseFromString(formik.values.notes, 'text/html');
+    const textNodes = doc.querySelectorAll('body')[0].textContent;
+    if (textNodes.length !== 0 || name1 === '') {
+      setname1(formik.values.notes);
+    }
+  }, [formik.values.notes, name1]);
+
+  useEffect(() => {
+    const doc = parser.parseFromString(formik.values.notes, 'text/html');
+    const textNodes = doc.querySelectorAll('body')[0].textContent;
+    if (textNodes.length === 0) {
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(''));
+    }
+  }, [formik.values.notes]);
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(name1));
+  }, [name1]); 
+
   const handleSetting = () => {
     sessionStorage.setItem('superUserTab', '4');
     sessionStorage.setItem('superUserFalseTab', '3');
@@ -289,26 +470,6 @@ if(formik.values.notes === '@'){
 
   const meetingMemo = useMemo(() => meetingTitle(), [myevents]);
   const checkCalendarOutlook = Array.isArray(outlook) && outlook.length !== 0;
-  // const checkCalendarGoogle = Array.isArray(google);
-
-  // const getOutLookTime: any = checkCalendarOutlook && outlook.length !==0 && outlook[0].timeZone;
-  // const getGoogleTime: any = checkCalendarGoogle && google.length !==0 && google[0].timeZone;
-
-  // const checkCalendar =
-  //   checkCalendarGoogle === true || checkCalendarOutlook === true
-  //     ? true
-  //     : false;
-
-  // useEffect(() => {
-  //   if (checkCalendar) {
-  //     localStorage.setItem(
-  //       'timeZone',
-  //       checkCalendarOutlook
-  //         ? getOutLookTime
-  //         : getGoogleTime,
-  //     );
-  //   }
-  // }, [outlook, google, checkCalendarOutlook,checkCalendar]);
 
   return (
     <Flex
@@ -316,184 +477,137 @@ if(formik.values.notes === '@'){
       className={styles.overAll}
       height={window.innerHeight - 230}
     >
-      <Flex
-        flex={1}
-        columnFlex
-        className={cx({ notesOverAllContainer: isMeeting })}
-      >
+      <Flex flex={1} columnFlex>
         {hideelement ? (
-          <Flex row className={styles.initialbutton}>
-            {/* <Text color="theme" bold>
-            Notes
-          </Text>
-          <Button disabled={isCollapse} onClick={hanldeInputOpen}>
-            Add Notes
-          </Button> */}
-            <input
-              className={styles.initialbuttons}
-              onClick={hanldeInputOpen}
-              placeholder="Add notes"
-            />
+          <Flex column className={styles.overall2} >
+            <Flex row className={styles.initialbutton}>
+              <input
+                className={styles.initialbuttons}
+                onClick={hanldeInputOpen}
+                placeholder="Add notes"
+              />
+            </Flex>
+            {notes && notes.length !== 0 && (
+              <Flex className={styles.middleline}></Flex>
+            )}
           </Flex>
         ) : (
           ''
         )}
+
         {notes && notes.length === 0 && !isCollapse && (
           <Flex columnFlex flex={1} middle center>
-            <SvgNotes />
-            <Text color="gray">No notes created yet</Text>
+            <SvgNotesyet />
+            <Text className={styles.nojoppostye}>Notes not created yet</Text>
           </Flex>
         )}
         {isCollapse && (
-          <Flex>
-            <div className={styles.textArea}> 
-              <RichText
-                height={200}
+          <Flex className={styles.overall1}>
+            <div className={styles.textArea}>
+              <ReactQuill
+                ref={editorRef}
                 value={formik.values.notes}
+                className={styles.reactquillchange}
                 onChange={formik.handleChange('notes')}
-                placeholder="Type @ to mention and notify someone" 
-              
-              />  
+                placeholder="Type @ to mention and notify your team members"
+              />
+              <ErrorMessage
+                touched={formik.touched}
+                errors={formik.errors}
+                name="notes"
+              />
             </div>
             <Flex row end>
-              <Button onClick={hanldeInputClose} types="secondary">
+              <Button onClick={hanldeInputClose} types={'close'} width="100px">
                 {CANCEL}
               </Button>
               <Button
-                disabled={isEmpty(formik.values.notes)}
+                width="100px"
+                // disabled={isEmpty(formik.values.notes)}
                 onClick={formik.handleSubmit}
                 className={styles.saveBtn}
               >
                 {buttonName}
               </Button>
             </Flex>
-          </Flex>
-        )}
-
-        {notes &&
-          notes
-            .map((list, indexList) => {
-              return (
-                <Flex
-                  key={list.notes + indexList}
-                  columnFlex
-                  className={styles.notesOverAll}
-                >
-                  <Flex row center>
-                    {isEmpty(list.emp_image) ||
-                    list.emp_image === 'default.jpg' ? (
-                      <div
-                        className={cx('profile')}
-                        style={{
-                          backgroundColor: isColor[indexList % isColor.length],
-                        }}
-                      >
-                        <Text color="white" transform="uppercase">
-                          {!isEmpty(list.updated_by) &&
-                            firstNameChar(list.updated_by)}
-                        </Text>
-                      </div>
-                    ) : (
-                      <img
-                        alt="profile"
-                        height={40}
-                        width={40}
-                        style={{
-                        borderRadius: '100%',
-                        objectFit: 'cover',
-                        marginRight: 8,
-                          height: 40,
-                        }}
-                        src={mediaPath + list.emp_image}
-                      />
-                    )}
-                    <Text bold>{list.updated_by}</Text>
-                  </Flex>
-                  <Flex className={styles.noteListStyle}>
-                    <NotesDropDown
-                      notesList={list}
-                      handleDelete={handleDelete}
-                      handleOpenEdit={handleOpenEdit}
-                    />
-                    <td
-                      className={styles.notesTextStyle}
-                      dangerouslySetInnerHTML={{
-                        __html: list.notes,
-                      }}
-                    />
-                  </Flex>
-                </Flex>
-              );
-            })
-            .reverse()}
-      </Flex>
-      {/* {isLoad && <Loader />}
-      {isMeeting && (
-        <Flex columnFlex>
-          <Flex row center>
-            <Text color="theme" bold className={styles.meetingFlex}>
-              Meeting Detail:
-            </Text>
-            {active === 0 ? (
-              <Flex row center className={styles.syncedWidth}>
-                (<SvgInfo className={styles.svgInfo} height={14} width={14} />
-                <Text>
-                  Integrate your calendar with Zita to schedule meetings)
-                </Text>
-                <Button
-                  types="tertiary"
-                  className={styles.settingBtn}
-                  onClick={handleSetting}
-                >
-                  Settings
-                </Button>
-              </Flex>
-            ) : (
-              <>
-                {isGoogle === 1 && (
-                  <Text className={styles.syncedWidth}>
-                    (Synced with gmail)
-                  </Text>
-                )}
-
-                {isGoogle === 0 && (
-                  <Text className={styles.syncedWidth}>
-                    (Synced with outlook)
-                  </Text>
-                )}
-                <Flex row center>
-                  <Button
-                    types="tertiary"
-                    className={styles.syncBtn}
-                    onClick={hanldeRefresh}
-                  >
-                    <Flex row center>
-                      <SvgRefresh height={14} width={14} fill={BLACK} />
-                      <Text
-                        bold
-                        size={12}
-                        style={{ marginLeft: 4, cursor: 'pointer' }}
-                      >
-                        Sync
-                      </Text>
-                    </Flex>
-                  </Button>
-                  <Text style={{ marginLeft: 8 }} color="gray" size={12}>
-                    Timezone:{' '}
-                    {checkCalendarOutlook ? outlookTimeZone[getOut] : getOut}
-                  </Text>
-                </Flex>
-              </>
+            {notes && notes.length !== 0 && (
+              <Flex className={styles.middleline}></Flex>
             )}
           </Flex>
-          <Table
-            columns={meetingMemo}
-            dataSource={myevents}
-            empty="No meetings scheduled yet"
-            isLoader={calenderLoader}
-          />
+        )}
+        <Flex
+          className={isstylechange === true ? styles.scllllar : styles.sclllar}
+        >
+          {notes &&
+            notes
+              .map((list, indexList) => {
+                return (
+                  <Flex
+                    key={list.notes + indexList}
+                    columnFlex
+                    className={styles.notesOverAll}
+                  >
+                    <Card className={styles.cardinnotes}>
+                      <Flex row className={styles.notestext}>
+                        <Flex row center>
+                          {isEmpty(list.emp_image) ||
+                          list.emp_image === 'default.jpg' ? (
+                            <div
+                              className={cx('profile')}
+                              style={{
+                                backgroundColor:
+                                  isColor[indexList % isColor.length],
+                              }}
+                            >
+                              <Text
+                                color="white"
+                                transform="uppercase"
+                                className={styles.firstlastchar}
+                              >
+                                {!isEmpty(list.updated_by) &&
+                                  firstNameChar(list.updated_by)}
+                              </Text>
+                            </div>
+                          ) : (
+                            <img
+                              alt="profile"
+                              height={30}
+                              width={30}
+                              style={{
+                                borderRadius: '100%',
+                                objectFit: 'cover',
+                                marginRight: 8,
+                                height: 40,
+                              }}
+                              src={mediaPath + list.emp_image}
+                            />
+                          )}
+                          <Text bold>{list.updated_by}</Text>
+                        </Flex>
+                        <Flex middle center row>
+                          <NotesDropDown
+                            notesList={list}
+                            handleDelete={handleDelete}
+                            handleOpenEdit={handleOpenEdit}
+                          />
+                        </Flex>
+                      </Flex>
+                      <Flex className={styles.noteListStyle}>
+                        <td
+                          className={styles.notesTextStyle}
+                          dangerouslySetInnerHTML={{
+                            __html: list.notes,
+                          }}
+                        />
+                      </Flex>
+                    </Card>
+                  </Flex>
+                );
+              })
+              .reverse()}
         </Flex>
-      )} */}
+        {isLoad && <Loader />}
+      </Flex>
     </Flex>
   );
 };
