@@ -207,11 +207,12 @@ const TemplatesPage = () => {
             </Button>
           </Flex>
           <Flex row wrap marginTop={'10px'}>
-            {pipelineData.map((list, index) => (
+            {pipelineData.map((item, index) => (
               <PipelineCard
-                key={`${list.wk_id}-${index}`}
-                list={list}
+                key={`${item.wk_id}-${index}`}
+                item={item}
                 index={index}
+                list={pipelineData}
                 onConfig={configPipeline}
                 onUpdate={handleUpdate}
                 onDelete={showDeletePopup}
@@ -231,16 +232,18 @@ const TemplatesPage = () => {
   );
 };
 interface PipelineCardPros {
-  list: PipelineData;
+  item: PipelineData;
   index: number;
+  list: PipelineData[];
   onConfig: (id: number) => void;
   onUpdate: (value: PipelineData) => void;
   onDelete: (value: PipelineData) => void;
   onDefault: (value: PipelineData) => void;
 }
 const PipelineCard: React.FC<PipelineCardPros> = ({
-  list,
+  item,
   index,
+  list,
   onConfig,
   onUpdate,
   onDelete,
@@ -248,29 +251,48 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
 }) => {
   const [renamePipeline, setRenamePipeline] = useState(false);
   const [isPipelineLoader, setPipelineLoader] = useState(false);
-  const [form, setForm] = useState(list);
+  const [form, setForm] = useState(item);
+  const isPipelineDuplicate = (title: string) => {
+    const trimTitle = title.trim().toLowerCase();
+    const newList = list
+      ? list.filter(
+          (doc) =>
+            doc.pipeline_name.trim().toLowerCase() !==
+            item?.pipeline_name.trim().toLowerCase(),
+        )
+      : list;
+    const tilteMap = [...newList].map((doc) =>
+      doc.pipeline_name.trim().toLowerCase(),
+    );
+    return tilteMap.map((str) => str === trimTitle).includes(true);
+  };
+
   const handleJobPipeline = (values: PipelineData) => {
     const errors: Partial<PipelineData> = {};
 
     if (isEmpty(values.pipeline_name) || values?.pipeline_name.trim() === '') {
-      errors.pipeline_name = 'Enter a valid pipeline title';
+      errors.pipeline_name = 'Enter a valid Pipeline Title';
     }
 
     if (
       !isEmpty(values.pipeline_name) &&
       values.pipeline_name.trim().length > 25
     ) {
-      errors.pipeline_name = 'Pipeline name should not exceed 25 characters.';
+      errors.pipeline_name = 'Pipeline Title should not exceed 25 characters.';
+    }
+    if (isPipelineDuplicate(values.pipeline_name)) {
+      errors.pipeline_name = 'Pipeline Title already exist';
     }
     return errors;
   };
   useEffect(() => {
-    setForm(list);
-  }, [list, index]);
+    setForm(item);
+  }, [item, index]);
 
   const formik = useForm<PipelineData>({
     initialValues: form,
     isTrim: false,
+    initialValidation: true,
     // enableReinitialize: true,
     validate: handleJobPipeline,
     onSubmit: (value) => {
@@ -350,20 +372,20 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
         color="black2"
         bold
         size={14}
-        title={list.pipeline_name}
+        title={item.pipeline_name}
         className={styles.titleText}
-        style={{ marginLeft: '10px', maxWidth: list.set_as_default? "105px": "200px"}}
+        style={{ marginLeft: '10px', maxWidth: item.set_as_default? "105px": "200px"}}
       >
-        {list.pipeline_name}
+        {item.pipeline_name}
       </Text>
     );
   };
   return (
-    <Card key={list.wk_id} className={styles.pipelineStructure}>
+    <Card key={item.wk_id} className={styles.pipelineStructure}>
       <Flex row start between className={styles.rowGroup}>
         <Flex row className={styles.cardHeader}>
           {renderTitle()}
-          {list.set_as_default === true ? (
+          {item.set_as_default === true ? (
             <Text color="yellow" className={styles.default}>
               Default
             </Text>
@@ -374,20 +396,20 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
 
         <Text>
           <ActionsButton
-            disabled={list.is_active}
-            defaults={list.set_as_default}
+            disabled={item.is_active}
+            defaults={item.set_as_default}
             onDefault={() =>
-              list.set_as_default
+              item.set_as_default
                 ? undefined
-                : onDefault({ ...list, set_as_default: true })
+                : onDefault({ ...item, set_as_default: true })
             }
-            onDelete={() => (list.is_active ? undefined : onDelete(list))}
-            onRename={() => (list.is_active ? undefined : handleRename())}
+            onDelete={() => (item.is_active ? undefined : onDelete(item))}
+            onRename={() => (item.is_active ? undefined : handleRename())}
           />
         </Text>
       </Flex>
 
-      <Button className={styles.btn2} onClick={() => onConfig(list.wk_id)}>
+      <Button className={styles.btn2} onClick={() => onConfig(item.wk_id)}>
         <Text bold color="theme">
           Configure Pipeline
         </Text>

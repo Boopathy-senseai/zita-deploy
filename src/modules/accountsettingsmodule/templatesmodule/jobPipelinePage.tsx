@@ -126,20 +126,21 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
   const handleJobPipeline = (values: jobPipelineForm) => {
     const errors: Partial<jobPipelineForm> = {};
     const trimValue = values?.pipelineTitle.trim();
-    if (error) {
-      errors.pipelineTitle = error;
-    }
-    if (isEmpty(values.pipelineTitle) || values?.pipelineTitle.trim() === '') {
-      errors.pipelineTitle = 'Enter a valid stage name';
-    }
+    // if (error) {
+    //   errors.pipelineTitle = error;
+    // }
     if (isEmpty(values.pipelineTitle)) {
       errors.pipelineTitle = 'This field is required';
     }
+    if (!isEmpty(values.pipelineTitle) && values?.pipelineTitle.trim() === '') {
+      errors.pipelineTitle = 'Enter a valid Pipeline Title';
+    }
+    
     if (
       !isEmpty(values.pipelineTitle) &&
       values.pipelineTitle.trim().length > 25
     ) {
-      errors.pipelineTitle = 'Pipeline name should not exceed 25 characters.';
+      errors.pipelineTitle = 'Pipeline Title should not exceed 25 characters.';
     }
 
     if (isPipelineDuplicate(values.pipelineTitle)) {
@@ -150,11 +151,11 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
 
   const formik = useForm<jobPipelineForm>({
     initialValues: form,
-    isTrim: false,
     initialValidation: true,
     validate: handleJobPipeline,
     // enableReinitialize: true,
     onSubmit: (data) => {
+      console.log(data);
       // formik.handleChange('pipelineTitle')(data.pipelineTitle.trim());
       if (wk_id) {
         handleUpdate();
@@ -192,7 +193,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
   const handleCreate = () => {
     const payload: ICreateTemplate = {
       pipeline_name: formik.values.pipelineTitle.trim(),
-      stages: localStages,
+      stages: localStages.map((doc, index) => ({ ...doc, stage_order: index + 1})),
       suggestion: localSuggestions.map((v) => v.suggestion_id),
     };
     setSubmitLoader(true);
@@ -208,7 +209,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     const payload: IUpdateTemplate = {
       pipeline_name: formik.values.pipelineTitle.trim(),
       workflow_id: wk_id,
-      stages: localStages,
+      stages: localStages.map((doc, index) => ({ ...doc, stage_order: index + 1})),
       suggestion: localSuggestions.map((v) => v.suggestion_id),
     };
     setSubmitLoader(true);
@@ -216,7 +217,6 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
       setSubmitLoader(false);
       Toast('Changes saved successfully.', 'LONG');
     });
-    // handleBack()
   };
   /// skip stages
 
@@ -316,7 +316,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
             </Button>
             <Button
               onClick={formik.handleSubmit}
-              disabled={!(isFormValid() && isFormDirty())}
+              // disabled={!(isFormValid() && isFormDirty())}
             >
               Save
             </Button>

@@ -107,7 +107,18 @@ export function useForm<
     });
   };
 
+  const handleFormTouch = () => {
+    Object.keys(state).forEach(key => {
+      handleFormPropsUpdate('touched', {
+        [key]: true,
+      });
+    })
+  }
+
   const handleSubmit = () => {
+    if(initialValidation){
+      handleFormTouch();
+    }
     if (onSubmit && formProps.isValid) {
       const newState = trimValue(state);
       setState(newState);

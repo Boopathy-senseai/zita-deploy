@@ -40,7 +40,7 @@ const ScreeningStatusTab = ({ title }: Props) => {
               {index !== stages?.length - 1 && <div className={styles.vrLine} style={{ borderRightColor: "#581845"}} />}
             </Flex>
             <Text className={styles.statusStyle}>
-              {doc.stage_id__stage_name} {getDateString(doc && doc.created_on, 'll')}
+              {`${doc.stage_id__stage_name} on ${getDateString(doc && doc.created_on, 'll')}`}
             </Text>
           </Flex>
         );
