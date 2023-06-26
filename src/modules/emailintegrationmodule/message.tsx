@@ -4,14 +4,19 @@ import { AuthCodeMSALBrowserAuthenticationProvider } from '@microsoft/microsoft-
 import { InteractionType, PublicClientApplication } from '@azure/msal-browser';
 import { useMsal } from '@azure/msal-react';
 
-import {
-  deletemail,
-  movefolder,
-  mailread,
-  dowloadattachments,
-} from '../../emailService';
+import { deletemail, movefolder, mailread } from '../../emailService';
 import config from '../../outlookmailConfig';
-import { Flex, Card, CheckBox, Text } from '../../uikit';
+import { Flex, Card, Text } from '../../uikit';
+import SvgArchive from '../../icons/SvgArchive';
+import { SvgTrash } from '../../icons';
+import SvgJunk from '../../icons/SvgJunk';
+import SvgReply from '../../icons/SvgReply';
+import SvgForward from '../../icons/SvgForward';
+import SvgRead from '../../icons/SvgRead';
+import SvgLeft from '../../icons/SvgLeft';
+import SvgRight from '../../icons/SvgRight';
+import styles from './message.module.css';
+
 type Props = {
   message: any;
   sidebarroute: number;
@@ -171,25 +176,85 @@ const Inbox = ({
       {console.log('attachments', attachments)}
       {message !== '' ? (
         <>
-          {sidebarroute}
-          <Flex row end between>
+          {/* {sidebarroute} */}
+          <Flex flex={1} row between center className={styles.iconContainer}>
             {sidebarroute !== 3 ? (
               <>
-                <Text onClick={remove}>delete</Text>
-                {sidebarroute !== 4 ? (
-                  <Text onClick={archive}> Archive </Text>
-                ) : (
-                  ''
-                )}
-                {sidebarroute !== 6 ? <Text onClick={junk}> Junk </Text> : ''}
-                <Text onClick={composemodal}> Replay </Text>
-                <Text onClick={composemodal}> forward </Text>
-                <Text onClick={() => unread(false)}> UnRead </Text>
+                <Flex row>
+                  {sidebarroute !== 4 ? (
+                    // <Text onClick={archive}> Archive </Text>
+                    <Flex title="Archive" className={styles.icons}>
+                      <SvgArchive
+                        width={16}
+                        height={16}
+                        fill={'#581845'}
+                        onClick={archive}
+                      />
+                    </Flex>
+                  ) : (
+                    ''
+                  )}
+                  <Flex
+                    title="Delete"
+                    className={styles.icons}
+                    onClick={remove}
+                  >
+                    <SvgTrash width={16} height={16} fill={'#581845'} />
+                  </Flex>
+
+                  {sidebarroute !== 6 ? (
+                    // <Text onClick={junk}> Junk </Text>
+                    <Flex title="Junk" className={styles.icons} onClick={junk}>
+                      <SvgJunk width={16} height={16} stroke={'#581845'} />
+                    </Flex>
+                  ) : (
+                    ''
+                  )}
+                </Flex>
+
+                {/* <Text onClick={remove}>delete</Text> */}
+                <Flex row>
+                  <Text>1-25 of 500</Text>
+                  <Flex
+                    title="previous"
+                    className={styles.icons}
+                    style={{ marginLeft: '5px' }}
+                  >
+                    <SvgLeft
+                      width={12}
+                      height={12}
+                      fill={'#581845'}
+                      // onClick={() => {}}
+                    />
+                  </Flex>
+                  <Flex title="Next" className={styles.icons}>
+                    <SvgRight
+                      width={12}
+                      height={12}
+                      fill={'#581845'}
+                      // onClick={() => {}}
+                    />
+                  </Flex>
+                </Flex>
               </>
             ) : (
               <>
-                <Text onClick={remove}>delete</Text>
-                <Text onClick={() => unread(false)}> UnRead </Text>
+                {/* <Text onClick={remove}>delete</Text> */}
+                <Flex
+                  title="Delete"
+                  style={{ cursor: 'pointer' }}
+                  onClick={remove}
+                >
+                  <SvgTrash width={16} height={16} fill={'#581845'} />
+                </Flex>
+                {/* <Text onClick={() => unread(false)}> UnRead </Text> */}
+                <Flex
+                  title="Mark as unread"
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => unread(false)}
+                >
+                  <SvgRead />
+                </Flex>
                 <Text>Re-Send</Text>
               </>
             )}
@@ -200,20 +265,64 @@ const Inbox = ({
       )}
       <Flex
         style={{
-          marginLeft: '2px',
-          marginTop: '10px',
-          marginRight: '10px',
-          with: '100%',
+          padding: '5px 10px',
+          width: '100%',
         }}
+        className={styles.bodyContainer}
       >
-        <Flex row>
-          <Flex>
-            {message !== '' ? (
-              <>{parse(message.body.content)} </>
-            ) : (
-              'no message selected'
-            )}
-          </Flex>
+        <Flex row width={'100%'}>
+          {message !== '' ? (
+            <>
+              <Flex column width={'100%'}>
+                <Flex row between style={{ borderBottom: '1px solid #c3c3c3' }}>
+                  <Flex width={'100%'} style={{ padding: '5px 10px' }}>
+                    <Flex row between width={'100%'}>
+                      <Text bold size={14}>
+                        {message.sender.emailAddress.name}
+                      </Text>
+
+                      <Flex row marginRight={10}>
+                        <Flex
+                          title="Reply"
+                          className={styles.icons}
+                          onClick={composemodal}
+                        >
+                          <SvgReply width={16} height={16} />
+                        </Flex>
+                        <Flex
+                          title="Forward"
+                          className={styles.icons}
+                          onClick={composemodal}
+                        >
+                          <SvgForward width={16} height={16} />
+                        </Flex>
+                        <Flex
+                          title="Mark as unread"
+                          className={styles.icons}
+                          onClick={() => unread(false)}
+                        >
+                          <SvgRead width={16} height={16} />
+                        </Flex>
+                      </Flex>
+                    </Flex>
+                    <Text size={14}>
+                      {message.subject !== ''
+                        ? message.subject
+                        : '(No Subject)'}
+                    </Text>
+                    <Text color="black">{`To: ${message.toRecipients.map(
+                      (doc) => doc.emailAddress.name,
+                    )}`}</Text>
+                  </Flex>
+                </Flex>
+                <Flex height={590} style={{ margin: '10px' }}>
+                  {parse(message.body.content)}
+                </Flex>
+              </Flex>
+            </>
+          ) : (
+            'no message selected'
+          )}
         </Flex>
         <Flex row>
           <Flex>

@@ -5,6 +5,7 @@ const SvgFilePlus = (props) => (
     width={12}
     height={12}
     fill="none"
+    viewBox='0 0 10 10'
     {...props}
   >
     <path
