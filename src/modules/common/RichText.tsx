@@ -4,7 +4,8 @@ import { forwardRef, LegacyRef } from 'react';
 
 type Props = {
   placeholder?: string;
-  height?: number;
+  height?: number | string;
+  min_height?: number;
   onChange?: (a: any) => void;
   initialValue?: string;
   value?: string;
@@ -13,12 +14,14 @@ type Props = {
   onBlur?: (arg: any) => void;
   id?: string;
   auto_focus?: string | true | undefined;
+  containerStyle?: React.CSSProperties;
 };
 
 const RichText = (
   {
     placeholder,
     height,
+    min_height,
     onChange,
     initialValue,
     value,
@@ -27,11 +30,12 @@ const RichText = (
     onBlur,
     id,
     auto_focus,
+    containerStyle
   }: Props,
   ref: LegacyRef<Editor> | undefined,
 ) => {
   return (
-    <div>
+    <div style={containerStyle}>
       <Editor
         id={id}
         onFocus={onFocus}
@@ -42,6 +46,7 @@ const RichText = (
         init={{
           height,
           placeholder,
+          min_height,
 
           content_style: `body { font-family:'Roboto', sans-serif; font-size:14px;color:#1a1a1a } p {margin: 0px;font-size:14px;color:#1a1a1a} h6 {font-size:14px;margin-top: 16px;margin-bottom: 8px;}.mce-content-body[data-mce-placeholder]:not(.mce-visualblocks)::before {
        color: rgb(174 174 175 / 70%)!important;

@@ -397,16 +397,26 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
 
   return (
     <div>
-      <div style={{ position: 'absolute', bottom: '0px', right: '0px' }}>
-        <Modal open={data}>
-          <div
-            className={
-              style === 1
-                ? styles.modelmiddle
-                : style === 2
-                ? styles.minimised
-                : styles.popup
-            }
+      {/* <div style={{ position: 'absolute', bottom: '0px', right: '0px' }}> */}
+      <Modal open={data}>
+        <div
+          className={
+            style === 1
+              ? styles.modelmiddle
+              : style === 2
+              ? styles.minimised
+              : styles.popup
+          }
+          style={{ overflow: 'hidden' }}
+        >
+          <Flex
+            column
+            flex={1}
+            style={{
+              position: 'relative',
+              overflow: 'hidden',
+              display: 'flex',
+            }}
           >
             <Flex row center between className={styles.topSection}>
               <Text color="white">New Email</Text>
@@ -449,32 +459,32 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                 </Flex>
               </Flex>
             </Flex>
-
             <Flex
               flex={1}
+              column
               style={{
-                padding: '5px 10px 10px',
+                display: 'flex',
+                flexDirection: 'column',
+                padding: '5px 5px 10px 10px',
+                overflowY: 'auto',
 
-                // height: '-webkit-fill-available',
               }}
             >
-              <div style={{ flex: 1 }}>
+              <Flex
+                flex={1}
+                column
+                style={{ display: 'flex', flexDirection: 'column' }}
+              >
                 <Flex row center className={styles.inputField}>
                   <Text>From </Text>
                   <Text size={12} className={styles.fromstyle}>
                     {mail}
                   </Text>
                 </Flex>
-                <Flex
-                  row
-                  center
-                  between
-                  className={styles.inputField}
-                  style={{ flex: 1 }}
-                >
-                  <Flex row center style={{ flex: 1 }}>
+                <Flex row center between className={styles.inputField}>
+                  <Flex row center style={{ width: '100%' }}>
                     <Text>To </Text>
-                    <Flex marginLeft={14} style={{ flex: 1 }}>
+                    <Flex marginLeft={14} style={{ width: '100%' }}>
                       <Multiselect
                         options={Email}
                         onChange={(e) => getto(e)}
@@ -512,10 +522,10 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                       row
                       center
                       className={styles.inputField}
-                      style={{ flex: 1 }}
+                      style={{ width: '100%' }}
                     >
                       <Text size={14}>Cc</Text>
-                      <Flex marginLeft={12} style={{ flex: 1 }}>
+                      <Flex marginLeft={12} style={{ width: '100%' }}>
                         <Multiselect
                           options={Email}
                           onChange={(e) => getcc(e)}
@@ -534,10 +544,10 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                       row
                       center
                       className={styles.inputField}
-                      style={{ flex: 1 }}
+                      style={{ width: '100%' }}
                     >
                       <Text size={14}>Bcc</Text>{' '}
-                      <Flex marginLeft={6} style={{ flex: 1 }}>
+                      <Flex marginLeft={6} style={{ width: '100%' }}>
                         <Multiselect
                           options={Email}
                           onChange={(e) => getbcc(e)}
@@ -563,18 +573,29 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                 </Flex>
                 <Flex
                   flex={1}
-                  style={{ overflowY: 'scroll', maxHeight: '400px' }}
+                  column
+                  marginBottom={45}
+                  style={{
+                    overflow: 'hidden',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    minHeight: 260,
+                    
+                  }}
                 >
                   <div
                     style={{
+                      display: 'flex',
                       marginTop: '10px',
                       // marginBottom: '10px',
                       marginRight: '5px',
+                      flexDirection: 'column',
                       flex: 1,
                     }}
                   >
                     <RichText
-                      height={300}
+                      containerStyle={{ flex: 1 }}
+                      height={'100%'}
                       value={formik.values.userMessage}
                       onChange={(e) => editchage(e)}
                     />
@@ -610,14 +631,8 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                     )}
                   </Flex>
                 </Flex>
-              </div>
-              <Flex
-                row
-                between
-                center
-                marginTop={10}
-                style={{ bottom: '10px' }}
-              >
+              </Flex>
+              <Flex row between center className={styles.action}>
                 <Flex row center>
                   <Button
                     onClick={() => sendmail()}
@@ -634,7 +649,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                       style={{ cursor: 'pointer' }}
                       title="Attach Files"
                     >
-                      <label style={{ cursor: 'pointer', marginTop:"5px" }}>
+                      <label style={{ cursor: 'pointer', marginTop: '5px' }}>
                         <Upload width="19px" height="19px" fill="#581845" />
                         <input
                           type="file"
@@ -664,14 +679,15 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                   </Flex> */}
                 </Flex>
 
-                <Flex>
+                <Flex marginRight={2}>
                   <SvgTrash width={14} height={14} fill="#581845" />
                 </Flex>
               </Flex>
             </Flex>
-          </div>
-        </Modal>
-      </div>
+          </Flex>
+        </div>
+      </Modal>
+      {/* </div> */}
       <MessageTemplate
         open={templatemodel}
         formik={formik}

@@ -12,6 +12,8 @@ import SvgJunk from '../../icons/SvgJunk';
 import SvgReply from '../../icons/SvgReply';
 import SvgForward from '../../icons/SvgForward';
 import SvgRead from '../../icons/SvgRead';
+import SvgLeft from '../../icons/SvgLeft';
+import SvgRight from '../../icons/SvgRight';
 import styles from './message.module.css';
 
 type Props = {
@@ -158,20 +160,20 @@ const Inbox = ({
   };
 
   return (
-    <div >
+    <div>
       {console.log('message', message)}
       {console.log('sidebarroute', sidebarroute)}
 
       {message !== '' ? (
         <>
           {/* {sidebarroute} */}
-          <Flex flex={1} row between className={styles.iconContainer}>
+          <Flex flex={1} row between center className={styles.iconContainer}>
             {sidebarroute !== 3 ? (
               <>
                 <Flex row>
                   {sidebarroute !== 4 ? (
                     // <Text onClick={archive}> Archive </Text>
-                    <Flex title="Archive" className= {styles.icons}>
+                    <Flex title="Archive" className={styles.icons}>
                       <SvgArchive
                         width={16}
                         height={16}
@@ -184,7 +186,7 @@ const Inbox = ({
                   )}
                   <Flex
                     title="Delete"
-                    className= {styles.icons}
+                    className={styles.icons}
                     onClick={remove}
                   >
                     <SvgTrash width={16} height={16} fill={'#581845'} />
@@ -192,11 +194,7 @@ const Inbox = ({
 
                   {sidebarroute !== 6 ? (
                     // <Text onClick={junk}> Junk </Text>
-                    <Flex
-                      title="Junk"
-                      className= {styles.icons}
-                      onClick={junk}
-                    >
+                    <Flex title="Junk" className={styles.icons} onClick={junk}>
                       <SvgJunk width={16} height={16} stroke={'#581845'} />
                     </Flex>
                   ) : (
@@ -206,30 +204,26 @@ const Inbox = ({
 
                 {/* <Text onClick={remove}>delete</Text> */}
                 <Flex row>
+                  <Text>1-25 of 500</Text>
                   <Flex
-                    title="Reply"
-                    className= {styles.icons}
-                    onClick={composemodal}
+                    title="previous"
+                    className={styles.icons}
+                    style={{ marginLeft: '5px' }}
                   >
-                    <SvgReply width={16} height={16} />
+                    <SvgLeft
+                      width={12}
+                      height={12}
+                      fill={'#581845'}
+                      // onClick={() => {}}
+                    />
                   </Flex>
-
-                  {/* <Text onClick={composemodal}> Replay </Text> */}
-                  {/* <Text onClick={composemodal}> forward </Text> */}
-                  <Flex
-                    title="Forward"
-                    className= {styles.icons}
-                    onClick={composemodal}
-                  >
-                    <SvgForward width={16} height={16} />
-                  </Flex>
-                  {/* <Text onClick={() => unread(false)}> UnRead </Text> */}
-                  <Flex
-                    title="Mark as unread"
-                    className= {styles.icons}
-                    onClick={() => unread(false)}
-                  >
-                    <SvgRead width={16} height={16} />
+                  <Flex title="Next" className={styles.icons}>
+                    <SvgRight
+                      width={12}
+                      height={12}
+                      fill={'#581845'}
+                      // onClick={() => {}}
+                    />
                   </Flex>
                 </Flex>
               </>
@@ -262,16 +256,64 @@ const Inbox = ({
       <Flex
         row
         style={{
-          marginLeft: '2px',
-          marginTop: '10px',
-          marginRight: '10px',
+          padding: "5px 10px",
           with: '100%',
         }}
         className={styles.bodyContainer}
       >
-        <Flex row>
+        <Flex row width={'100%'}>
           {message !== '' ? (
-            <>{parse(message.body.content)} </>
+            <>
+              <Flex column width={'100%'}>
+                <Flex row between style={{borderBottom: "1px solid #c3c3c3"}}>
+                  <Flex width={'100%'} style={{ padding: '5px 10px' }}>
+                    <Flex row between width={'100%'}>
+                      <Text bold size={14}>
+                        {message.sender.emailAddress.name}
+                      </Text>
+
+                      <Flex row marginRight={10}>
+                        <Flex
+                          title="Reply"
+                          className={styles.icons}
+                          onClick={composemodal}
+                        >
+                          <SvgReply width={16} height={16} />
+                        </Flex>
+                        <Flex
+                          title="Forward"
+                          className={styles.icons}
+                          onClick={composemodal}
+                        >
+                          <SvgForward width={16} height={16} />
+                        </Flex>
+                        <Flex
+                          title="Mark as unread"
+                          className={styles.icons}
+                          onClick={() => unread(false)}
+                        >
+                          <SvgRead width={16} height={16} />
+                        </Flex>
+                      </Flex>
+                    </Flex>
+                    <Text size={14}>
+                      {message.subject !== ''
+                        ? message.subject
+                        : '(No Subject)'}
+                    </Text>
+                    <Text color="black">{`To: ${message.toRecipients.map(
+                      (doc) => doc.emailAddress.name,
+                    )}`}</Text>
+                  </Flex>
+                </Flex>
+                <Flex
+                  height={590}
+                  style={{ margin: '10px' }}
+                >
+                  {parse(message.body.content)}
+                </Flex>
+              </Flex>
+            </>
           ) : (
             'no message selected'
           )}

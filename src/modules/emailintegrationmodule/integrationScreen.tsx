@@ -11,7 +11,9 @@ import {
   getEmail,
   outlookUserProfile,
 } from '../emailintegrationmodule/store/middleware/emailIntegrationMiddleWare';
-import { Flex, Text } from '../../uikit';
+import { Flex, InputText, Text } from '../../uikit';
+import SvgSearch from '../../icons/SvgSearch';
+
 import {
   getUser,
   getmail,
@@ -22,6 +24,7 @@ import {
   getjunkemail,
 } from '../../emailService';
 import config from '../../outlookmailConfig';
+import SvgRefresh from '../../icons/SvgRefresh';
 import Sidebar from './sidebar';
 import Newcompose from './composemodal';
 import styles from './integration.module.css';
@@ -177,10 +180,23 @@ const EmailScreen = () => {
     <>
       <Flex column>
         {loader === true ? <Loader /> : ''}
-        <Flex row className={styles.titleContainer}>
+        <Flex row between className={styles.titleContainer}>
           <Text bold size={16} color="theme">
             Inbox
           </Text>
+          <Flex>
+            <InputText
+              actionRight={() => (
+                <Flex style={{ marginTop: '3px' }}>
+                  <SvgSearch />
+                </Flex>
+              )}
+              placeholder="Search by email subject or body"
+              className={styles.inputSearch}
+            />
+          </Flex>
+
+          <Flex></Flex>
           <div className={styles.triangle}> </div>
         </Flex>
         <Flex row className={styles.container}>

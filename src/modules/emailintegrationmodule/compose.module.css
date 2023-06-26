@@ -1,4 +1,6 @@
 .popup {
+  display: flex;
+  flex-direction: column;
   width: 600px;
   height: 590px;
   background-color: white;
@@ -17,7 +19,8 @@
   height: 595px;
   background-color: white;
   border-radius: 5px 5px 0px 0px;
-  /* padding: 20px; */
+  display: flex;
+  flex-direction: column;
 }
 .minimised {
   width: 600px;
@@ -76,4 +79,12 @@
 
 .buttoninsert:hover {
   background-color: 'white';
+}
+.action{
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: 0px 10px 10px 10px;
+  background-color: white;
+  bottom: 0px;
 }
