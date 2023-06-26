@@ -22,6 +22,9 @@ import {
   getjunkemail,
   getsearchmail,
   getmessages,
+  getusermail,
+  getselectedmsg,
+  getattachments,
 } from '../../emailService';
 import config from '../../outlookmailConfig';
 import Sidebar from './sidebar';
@@ -43,6 +46,7 @@ const EmailScreen = () => {
   const [sideroute, setsideroute] = useState(1);
   const [loader, setLoader] = useState(false);
   const [search, setSearch] = useState('');
+  const [attachments, setAttachments] = useState('');
 
   const [previous, setPrevious] = useState(25);
   const [previous1, setPrevious1] = useState(1);
@@ -107,7 +111,7 @@ const EmailScreen = () => {
         setmessagelist(res.value);
         setTotal(res['@odata.count']);
         setLoader(false);
-        console.log('asasasas', res);
+        // console.log('asasasas', res);
       })
       .catch((error) => {});
   };
@@ -129,10 +133,20 @@ const EmailScreen = () => {
   useEffect(() => {
     getprofile();
     page();
+    //sss();
     // dispatch(getEmail()).then((res) => {
     // });
   }, [sideroute, skip]);
 
+  const sss = async () => {
+    await getusermail(authProvider)
+      .then((res: any) => {
+        //  console.log('achive---------', res);
+      })
+      .catch((error) => {
+        //  console.log('connection failed achive mail', error);
+      });
+  };
   // useEffect(() => {
   //   setTimeout(() => {
   //     console.log('This will run after 1 second!');
@@ -166,7 +180,7 @@ const EmailScreen = () => {
         setLoader(false);
       })
       .catch((error) => {
-        console.log('connection failed achive mail', error);
+        //  console.log('connection failed achive mail', error);
       });
   };
 
@@ -187,7 +201,7 @@ const EmailScreen = () => {
         setLoader(false);
       })
       .catch((error) => {
-        console.log('get junk mail', error);
+        // console.log('get junk mail', error);
       });
   };
 
@@ -219,7 +233,7 @@ const EmailScreen = () => {
         setLoader(false);
       })
       .catch((error) => {
-        console.log('get junk mail', error);
+        // console.log('get junk mail', error);
       });
   };
 
@@ -251,7 +265,7 @@ const EmailScreen = () => {
         }
       })
       .catch((error) => {
-        console.log('error', error);
+        //console.log('error', error);
       });
   };
 
@@ -289,9 +303,37 @@ const EmailScreen = () => {
     }
   };
 
+  const getmessageid = async (msgid) => {
+    setLoader(true);
+    await getselectedmsg(authProvider, msgid)
+      .then((res) => {
+        // console.log('addad', res);
+
+        if (res.hasAttachments === true) {
+          attachment(res.id);
+        } else {
+          setLoader(false);
+        }
+      })
+      .catch((error) => {
+        //  console.log('error', error);
+      });
+  };
+
+  const attachment = async (msgid) => {
+    await getattachments(authProvider, msgid)
+      .then((res) => {
+        console.log('attach', res);
+        setAttachments(res.value);
+        setLoader(false);
+      })
+      .catch((error) => {
+        console.log('error', error);
+      });
+  };
+
   return (
     <>
-      {console.log('skip', skip)}
       <Flex column>
         {loader === true ? <Loader /> : ''}
         <Flex row className={styles.titleContainer}>
@@ -329,6 +371,7 @@ const EmailScreen = () => {
               searchmessage={serchmessage}
               searchinput={searchinput}
               search={search}
+              getmessageid={getmessageid}
             />
           </Flex>
           <Flex flex={9} className={styles.containerColumn}>
@@ -337,12 +380,14 @@ const EmailScreen = () => {
               sidebarroute={sideroute}
               composemodal={modelupdate}
               removemsg={removemessage}
-              archiveapi={archive}
-              inboxapi={getmails}
-              senditemapi={Send}
-              deleteditemsapi={deleteditems}
-              junkemailapi={junkemail}
-              draftapi={Draft}
+              // archiveapi={archive}
+              // inboxapi={getmails}
+              //senditemapi={Send}
+              //deleteditemsapi={deleteditems}
+              // junkemailapi={junkemail}
+              //draftapi={Draft}
+              page={page}
+              attachments={attachments}
             />
           </Flex>
         </Flex>

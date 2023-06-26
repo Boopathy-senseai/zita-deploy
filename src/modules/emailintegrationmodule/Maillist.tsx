@@ -9,6 +9,7 @@ type Props = {
   searchmessage: () => void;
   searchinput: any;
   search: string;
+  getmessageid: any;
 };
 const Maillist = ({
   messagelist,
@@ -16,12 +17,14 @@ const Maillist = ({
   searchmessage,
   searchinput,
   search,
+  getmessageid,
 }: Props) => {
   const [messages, setmesage] = useState<any>();
 
-  const getmessage = (get) => {
+  const getmessage = (get, id) => {
     setmesage(get);
     selectmessage(get);
+    getmessageid(id);
   };
 
   const serchmail = (e: any) => {
@@ -60,7 +63,7 @@ const Maillist = ({
                         ? styles.seletmsg
                         : styles.cardStyles
                     }
-                    onClick={() => getmessage(val)}
+                    onClick={() => getmessage(val, val.id)}
                   >
                     <Flex row start className={styles.mailCard}>
                       <Flex>

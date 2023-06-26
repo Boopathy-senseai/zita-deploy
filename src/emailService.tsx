@@ -206,7 +206,7 @@ export async function getsearchmail(
     .search(serchdata)
     .top(1000)
     .get();
-  console.log('-----searchmail-----', response);
+  //console.log('-----searchmail-----', response);
   return response;
 }
 
@@ -216,9 +216,6 @@ export async function getmessages(
   previous,
   range,
 ) {
-  console.log('------------ folder', folder);
-  console.log('------------ previous', previous);
-  console.log('------------ range', range);
   var response: any = await graphClient
     ?.api(`/me/mailFolders/${folder}/messages`)
     .count(true)
@@ -226,5 +223,56 @@ export async function getmessages(
     .top(range)
     .get();
   //console.log('-----mailresponce-----', response);
+  return response;
+}
+
+export async function getusermail(
+  authProvider: AuthCodeMSALBrowserAuthenticationProvider,
+) {
+  var response: any = await graphClient
+    ?.api(
+      `me/mailFolders/Inbox/messages?$filter=from/emailAddress/address eq 'jananirangesh@sense7ai.com'`,
+    )
+    .count(true)
+    .get();
+  //console.log('-----particularmail-----', response);
+  return response;
+}
+
+//https://graph.microsoft.com/v1.0/me/messages?$filter=from/emailAddress/address eq 'sridharchinnathambi96@gmail.com'
+
+export async function getselectedmsg(
+  authProvider: AuthCodeMSALBrowserAuthenticationProvider,
+  id,
+) {
+  var response: any = await graphClient
+    ?.api(`/me/messages/${id}`)
+    // .select('attachments,toRecipients')
+    .top(25)
+    .get();
+  ///console.log('-----sssmsg-----', response);
+  return response;
+}
+
+export async function getattachments(
+  authProvider: AuthCodeMSALBrowserAuthenticationProvider,
+  id,
+) {
+  var response: any = await graphClient
+    ?.api(`/me/messages/${id}/attachments`)
+    .get();
+  console.log('-----attachment-----', response);
+  return response;
+}
+
+export async function dowloadattachments(
+  authProvider: AuthCodeMSALBrowserAuthenticationProvider,
+  id,
+  val,
+) {
+  var response: any = await graphClient
+    ?.api(`/me/messages/${id}/attachments/${val}`)
+    .get();
+  console.log('-----attachment-----', response);
   return response;
 }

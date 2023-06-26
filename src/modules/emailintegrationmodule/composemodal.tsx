@@ -132,7 +132,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
 
   useEffect(() => {
     dispatch(messagesTemplatesMiddleWare());
-    replaymail();
+    //replaymail();
   }, [replaymsg]);
 
   //modal close function //

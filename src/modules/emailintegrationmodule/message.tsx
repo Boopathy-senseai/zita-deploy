@@ -3,33 +3,42 @@ import parse from 'html-react-parser';
 import { AuthCodeMSALBrowserAuthenticationProvider } from '@microsoft/microsoft-graph-client/authProviders/authCodeMsalBrowser';
 import { InteractionType, PublicClientApplication } from '@azure/msal-browser';
 import { useMsal } from '@azure/msal-react';
-import { deletemail, movefolder, mailread } from '../../emailService';
+
+import {
+  deletemail,
+  movefolder,
+  mailread,
+  dowloadattachments,
+} from '../../emailService';
 import config from '../../outlookmailConfig';
 import { Flex, Card, CheckBox, Text } from '../../uikit';
-
 type Props = {
   message: any;
   sidebarroute: number;
   composemodal: () => void;
   removemsg: () => void;
-  archiveapi: () => void;
-  inboxapi: () => void;
-  senditemapi: () => void;
-  deleteditemsapi: () => void;
-  junkemailapi: () => void;
-  draftapi: () => void;
+  // archiveapi: () => void;
+  // inboxapi: () => void;
+  // senditemapi: () => void;
+  // deleteditemsapi: () => void;
+  // junkemailapi: () => void;
+  // draftapi: () => void;
+  page: () => void;
+  attachments: any;
 };
 const Inbox = ({
   message,
   sidebarroute,
   composemodal,
   removemsg,
-  archiveapi,
-  inboxapi,
-  senditemapi,
-  deleteditemsapi,
-  junkemailapi,
-  draftapi,
+  // archiveapi,
+  // inboxapi,
+  // senditemapi,
+  // deleteditemsapi,
+  // junkemailapi,
+  // draftapi,
+  page,
+  attachments,
 }: Props) => {
   const msal = useMsal();
   const [view, setview] = useState(true);
@@ -72,7 +81,7 @@ const Inbox = ({
       if (sidebarroute === 5) {
         await deletemail(authProvider, message.id)
           .then((res) => {
-            refetch();
+            page();
             // console.log('res---------', res);
           })
           .catch((error) => {
@@ -81,7 +90,7 @@ const Inbox = ({
       } else {
         await movefolder(authProvider, message.id, 'deleteditems')
           .then((res) => {
-            refetch();
+            page();
             // console.log('res---------', res);
           })
           .catch((error) => {
@@ -91,28 +100,28 @@ const Inbox = ({
     }
   };
 
-  const refetch = () => {
-    if (sidebarroute === 1) {
-      inboxapi();
-    } else if (sidebarroute === 2) {
-      senditemapi();
-    } else if (sidebarroute === 3) {
-      draftapi();
-    } else if (sidebarroute === 4) {
-      archiveapi();
-    } else if (sidebarroute === 5) {
-      deleteditemsapi();
-    } else {
-      junkemailapi();
-    }
-  };
+  // const refetch = () => {
+  //   if (sidebarroute === 1) {
+  //     inboxapi();
+  //   } else if (sidebarroute === 2) {
+  //     senditemapi();
+  //   } else if (sidebarroute === 3) {
+  //     draftapi();
+  //   } else if (sidebarroute === 4) {
+  //     archiveapi();
+  //   } else if (sidebarroute === 5) {
+  //     deleteditemsapi();
+  //   } else {
+  //     junkemailapi();
+  //   }
+  // };
 
   const archive = async () => {
     if (message !== '') {
       await movefolder(authProvider, message.id, 'archive')
         .then((res) => {
           removemsg();
-          refetch();
+          page();
           // console.log('res---------', res);
         })
         .catch((error) => {
@@ -126,7 +135,7 @@ const Inbox = ({
       await movefolder(authProvider, message.id, 'junkemail')
         .then((res) => {
           alert('junk successful');
-          refetch();
+          page();
         })
         .catch((error) => {
           // console.log('connection failed inboxxxxxxx', error);
@@ -141,7 +150,7 @@ const Inbox = ({
       };
       await mailread(authProvider, message.id, readmessage)
         .then((res) => {
-          refetch();
+          page();
           //  console.log('read------++---', res);
         })
         .catch((error) => {
@@ -150,8 +159,16 @@ const Inbox = ({
     }
   };
 
+  const donwnload = async (val) => {
+    var a = document.createElement('a');
+    a.href = `data:${val.contentType};base64,` + val.contentBytes;
+    a.download = val.name;
+    a.click();
+  };
+
   return (
     <div>
+      {console.log('attachments', attachments)}
       {message !== '' ? (
         <>
           {sidebarroute}
@@ -182,7 +199,6 @@ const Inbox = ({
         ''
       )}
       <Flex
-        row
         style={{
           marginLeft: '2px',
           marginTop: '10px',
@@ -191,11 +207,28 @@ const Inbox = ({
         }}
       >
         <Flex row>
-          {message !== '' ? (
-            <>{parse(message.body.content)} </>
-          ) : (
-            'no message selected'
-          )}
+          <Flex>
+            {message !== '' ? (
+              <>{parse(message.body.content)} </>
+            ) : (
+              'no message selected'
+            )}
+          </Flex>
+        </Flex>
+        <Flex row>
+          <Flex>
+            {attachments !== '' ? (
+              <>
+                {attachments.map((val, ind) => (
+                  <Flex key={ind} style={{ width: '200px', padding: '5px' }}>
+                    <Card onClick={() => donwnload(val)}>{val.name}</Card>
+                  </Flex>
+                ))}
+              </>
+            ) : (
+              ''
+            )}
+          </Flex>
         </Flex>
       </Flex>
     </div>
