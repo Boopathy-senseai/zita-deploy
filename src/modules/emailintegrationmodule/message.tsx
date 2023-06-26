@@ -30,6 +30,12 @@ type Props = {
   // draftapi: () => void;
   page: () => void;
   attachments: any;
+  previousfun: () => void;
+  nextfun: () => void;
+  range: any;
+  previous: any;
+  previous1: any;
+  total: any;
 };
 const Inbox = ({
   message,
@@ -44,6 +50,12 @@ const Inbox = ({
   // draftapi,
   page,
   attachments,
+  previousfun,
+  nextfun,
+  range,
+  previous,
+  previous1,
+  total,
 }: Props) => {
   const msal = useMsal();
   const [view, setview] = useState(true);
@@ -171,6 +183,14 @@ const Inbox = ({
     a.click();
   };
 
+  const Previousdata = () => {
+    previousfun();
+  };
+
+  const Nextdata = () => {
+    nextfun();
+  };
+
   return (
     <div>
       {console.log('attachments', attachments)}
@@ -214,7 +234,9 @@ const Inbox = ({
 
                 {/* <Text onClick={remove}>delete</Text> */}
                 <Flex row>
-                  <Text>1-25 of 500</Text>
+                  <Text>
+                    {previous1}-{previous} of {total}
+                  </Text>
                   <Flex
                     title="previous"
                     className={styles.icons}
@@ -224,7 +246,7 @@ const Inbox = ({
                       width={12}
                       height={12}
                       fill={'#581845'}
-                      // onClick={() => {}}
+                      onClick={Previousdata}
                     />
                   </Flex>
                   <Flex title="Next" className={styles.icons}>
@@ -232,7 +254,7 @@ const Inbox = ({
                       width={12}
                       height={12}
                       fill={'#581845'}
-                      // onClick={() => {}}
+                      onClick={Nextdata}
                     />
                   </Flex>
                 </Flex>

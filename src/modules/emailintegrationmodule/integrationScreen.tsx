@@ -389,6 +389,7 @@ const EmailScreen = () => {
               searchinput={searchinput}
               search={search}
               getmessageid={getmessageid}
+              sideroute={sideroute}
             />
           </Flex>
           <Flex flex={9} className={styles.containerColumn}>
@@ -405,6 +406,12 @@ const EmailScreen = () => {
               //draftapi={Draft}
               page={page}
               attachments={attachments}
+              previousfun={Previousdata}
+              nextfun={Nextdata}
+              range={range}
+              previous={previous}
+              previous1={previous1}
+              total={total}
             />
           </Flex>
         </Flex>

@@ -17,6 +17,7 @@ type Props = {
   searchinput: any;
   search: string;
   getmessageid: any;
+  sideroute: number;
 };
 const Maillist = ({
   messagelist,
@@ -25,6 +26,7 @@ const Maillist = ({
   searchinput,
   search,
   getmessageid,
+  sideroute,
 }: Props) => {
   const [messages, setmesage] = useState<any>();
 
@@ -43,8 +45,25 @@ const Maillist = ({
     searchmessage();
   };
 
+  const showfolder = () => {
+    if (sideroute === 1) {
+      return <Text>Inbox</Text>;
+    } else if (sideroute === 2) {
+      return <Text>Inbox</Text>;
+    } else if (sideroute === 3) {
+      return <Text>Inbox</Text>;
+    } else if (sideroute === 4) {
+      return <Text>Inbox</Text>;
+    } else if (sideroute === 5) {
+      return <Text>Inbox</Text>;
+    } else if (sideroute === 6) {
+      return <Text>Inbox</Text>;
+    }
+  };
+
   return (
     <div>
+      {console.log('siderouteaaa', sideroute)}
       <Flex
         style={{ marginLeft: '2px', borderRight: '1px solid #c3c3c3' }}
         className={styles.maillist}
@@ -114,7 +133,8 @@ const Maillist = ({
             borderBottom: '1px solid #c3c3c3',
           }}
         >
-          <Text>Inbox</Text>
+          {showfolder()}
+
           <Flex title="Refresh" marginLeft={5}>
             <SvgRefresh width={18} height={18} />
           </Flex>
