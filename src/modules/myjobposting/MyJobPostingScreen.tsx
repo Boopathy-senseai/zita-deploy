@@ -192,7 +192,7 @@ const MyJobPostingScreen = () => {
                   to={`${career_page_url}/careers`}
                 >
                   <Button className={styles.style2} types="primary">
-                    View Career Page
+                  View Careers Page
                   </Button>
                 </LinkWrapper>
               </Flex>

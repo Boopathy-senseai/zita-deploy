@@ -64,20 +64,19 @@ const MessageCard = () => {
       <Flex row center className={styles.msgText} between>
         
         <Text bold size={16} color="theme" style={{ marginRight: 16 }}>
-          Messages
-        </Text>
-        {console.log("list::",unique)}
+        Unread Messages
+        </Text> 
         <Flex>
         <div style={{ position: 'relative' }}>
           {message_count !== 0 && (
             <div className={styles.countStyle}>
-              <Text color="white" style={{ fontSize: 8 }}>
+              <Text color="white" style={{ fontSize: 10,marginTop:2 }}>
                 {message_count}
               </Text>
             </div>
           )}
         </div>
-      <SvgMessageIcon width={16} height={16} /></Flex>
+      <SvgMessageIcon width={22} height={22} /></Flex>
       </Flex>
       <Flex marginLeft={5} marginRight={5} className={styles.line} >
 
@@ -142,7 +141,7 @@ const MessageCard = () => {
                   {/* <Text>{moment(list.date_created).fromNow()}</Text> */}
                   {list.is_read ===false?(<Flex>
                     <Flex><Text>{moment(list.date_created).fromNow()}</Text></Flex>
-                    <Flex marginTop={5} marginLeft={30}><div className={styles.readStyle}></div></Flex>
+                    {/* <Flex marginTop={5} marginLeft={30}><div className={styles.readStyle}></div></Flex> */}
                   </Flex>):(<Text>{moment(list.date_created).fromNow()}</Text>)}
                   
                 </Flex>

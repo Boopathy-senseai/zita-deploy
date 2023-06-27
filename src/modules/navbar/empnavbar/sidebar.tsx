@@ -99,7 +99,7 @@ const clearTabs = (e) => {
         <ul>
           {is_plan ? (
                 changes  ?
-              ( <li className={pathname === '/' ? styles.select_row : ''}>
+              ( <li title='Dashboard' className={pathname === '/' ? styles.select_row : ''}>
               <LinkWrapper
                 className={styles.hoverview}
                 onClick={clearTabs} 
@@ -112,12 +112,13 @@ const clearTabs = (e) => {
                   className={Expent === '0' ? styles.text : styles.classpan}
                   color="primary"
                   style={{ color: '#581845', marginRight: '10px' }}
+                  
                 >
                   Dashboard
                 </Text>
               </LinkWrapper>
             </li>):
-           (<li className={pathname === '/' ? styles.select_row : ''}>
+           (<li title='Dashboard' className={pathname === '/' ? styles.select_row : ''}>
               <LinkWrapper
                 className={styles.hoverview}
                 onClick={clearTab}
@@ -131,7 +132,7 @@ const clearTabs = (e) => {
                   onClick={() => handleNavigate(1)}
                   className={Expent === '0' ? styles.text : styles.classpan}
                   color="primary"
-                  style={{ color: '#581845', marginRight: '10px' }}
+                  style={{ color: '#581845', marginRight: '10px' }} 
                 >
                   Dashboard
                 </Text>
@@ -139,7 +140,7 @@ const clearTabs = (e) => {
             </li>)
           ) : (
 
-            <li className={pathname === '/' ? styles.select_row : ''}>
+            <li  title='Dashboard' className={pathname === '/' ? styles.select_row : ''}>
             <a
                 className={styles.hoverview}
                 href={" "} 
@@ -156,6 +157,7 @@ const clearTabs = (e) => {
                 className={Expent === '0' ? styles.text : styles.classpan}
                 color="primary"
                 style={{ color: '#581845', marginRight: '10px' }}
+                
               >
                 Dashboard
               </Text>
@@ -164,7 +166,7 @@ const clearTabs = (e) => {
           )}
 
           {is_plan ? ( changes?
-          (<li
+          (<li title='Job Postings'
             className={
               pathname === '/job_list' ||
               pathname.includes('/jobs') ||
@@ -187,12 +189,12 @@ const clearTabs = (e) => {
                 onClick={() => handleNavigate(2)}
                 className={Expent === '0' ? styles.text : styles.classpan}
                 color="primary"
-                style={{ color: '#581845', marginRight: '10px' }}
+                style={{ color: '#581845', marginRight: '10px' }} 
               >
                 Job Postings
               </Text>
             </LinkWrapper>
-          </li>):(<li
+          </li>):(<li title='Job Postings'
               className={
                 pathname === '/job_list' ||
                 pathname.includes('/jobs') ||
@@ -215,7 +217,7 @@ const clearTabs = (e) => {
                   onClick={() => handleNavigate(2)}
                   className={Expent === '0' ? styles.text : styles.classpan}
                   color="primary"
-                  style={{ color: '#581845', marginRight: '10px' }}
+                  style={{ color: '#581845', marginRight: '10px' }} 
                 >
                   Job Postings
                 </Text>
@@ -223,7 +225,7 @@ const clearTabs = (e) => {
             </li>)
             
           ) : (
-            <li
+            <li title='Job Postings'
               className={
                 pathname === '/job_list' ||
                 pathname.includes('/jobs') ||
@@ -249,6 +251,7 @@ const clearTabs = (e) => {
                 className={Expent === '0' ? styles.text : styles.classpan}
                 color="primary"
                 style={{ color: '#581845', marginRight: '10px' }}
+                
               >
                 Job Postings
               </Text>
@@ -259,7 +262,7 @@ const clearTabs = (e) => {
           {permission.includes('my_database') && (
             <>
               {is_plan ? (changes?
-              ( <li
+              ( <li title='Database'
                 className={
                   pathname === '/mydatabase' ? styles.select_row : ''
                 }
@@ -276,12 +279,12 @@ const clearTabs = (e) => {
                     onClick={() => handleNavigate(3)}
                     className={Expent === '0' ? styles.text : styles.classpan}
                     color="primary"
-                    style={{ color: '#581845', marginRight: '10px',marginLeft:'20px' }}
+                    style={{ color: '#581845', marginRight: '10px',marginLeft:'20px' }} 
                   >
                     Database
                   </Text>
                 </LinkWrapper>
-              </li>):( <li
+              </li>):( <li title='Database'
                   className={
                     pathname === '/mydatabase' ? styles.select_row : ''
                   }
@@ -298,7 +301,7 @@ const clearTabs = (e) => {
                       onClick={() => handleNavigate(3)}
                       className={Expent === '0' ? styles.text : styles.classpan}
                       color="primary"
-                      style={{ color: '#581845', marginRight: '10px',marginLeft:'20px' }}
+                      style={{ color: '#581845', marginRight: '10px',marginLeft:'20px' }} 
                     >
                       Database
                     </Text>
@@ -306,7 +309,7 @@ const clearTabs = (e) => {
                 </li>)
                
               ) : (
-                <li
+                <li title='Database'
                   className={
                     pathname === '/mydatabase' ? styles.select_row : ''
                   }
@@ -328,6 +331,7 @@ const clearTabs = (e) => {
                     className={Expent === '0' ? styles.text : styles.classpan}
                     color="primary"
                     style={{ color: '#581845', marginRight: '10px',marginLeft:'20px' }}
+                    
                   >
                     Database
                   </Text>
@@ -340,7 +344,7 @@ const clearTabs = (e) => {
           {permission.includes('talent_sourcing') && (
             <>
               {is_plan ? (changes?
-              (<li
+              (<li  title='Talent Sourcing'
                 className={
                   pathname === '/talent_sourcing' ? styles.select_row : ''
                 }
@@ -357,12 +361,12 @@ const clearTabs = (e) => {
                     onClick={() => handleNavigate(4)}
                     className={Expent === '0' ? styles.text : styles.classpan}
                     color="primary"
-                    style={{ color: '#581845', marginRight: '10px' }}
+                    style={{ color: '#581845', marginRight: '10px' }} 
                   >
                     Talent Sourcing
                   </Text>
                 </LinkWrapper>
-              </li>):(<li
+              </li>):(<li  title='Talent Sourcing'
                   className={
                     pathname === '/talent_sourcing' ? styles.select_row : ''
                   }
@@ -379,7 +383,7 @@ const clearTabs = (e) => {
                       onClick={() => handleNavigate(4)}
                       className={Expent === '0' ? styles.text : styles.classpan}
                       color="primary"
-                      style={{ color: '#581845', marginRight: '10px' }}
+                      style={{ color: '#581845', marginRight: '10px' }} 
                     >
                       Talent Sourcing
                     </Text>
@@ -387,7 +391,7 @@ const clearTabs = (e) => {
                 </li>)
                 
               ) : (
-                <li
+                <li  title='Talent Sourcing'
                   className={
                     pathname === '/talent_sourcing' ? styles.select_row : ''
                   }
@@ -407,6 +411,7 @@ const clearTabs = (e) => {
                     className={Expent === '0' ? styles.text : styles.classpan}
                     color="primary"
                     style={{ color: '#581845', marginRight: '10px' }}
+                   
                   >
                     Talent Sourcing
                   </Text>
@@ -419,7 +424,7 @@ const clearTabs = (e) => {
           {permission.includes('bulkImport_candidates') && (
             <>
               {is_plan ? (changes?
-              (<li
+              (<li title='Import Candidates'
                 className={
                   pathname === '/bulk_import' ? styles.select_row : ''
                 }
@@ -436,12 +441,12 @@ const clearTabs = (e) => {
                     onClick={() => handleNavigate(5)}
                     className={Expent === '0' ? styles.text : styles.classpan}
                     color="primary"
-                    style={{ color: '#581845', marginRight: '10px' }}
+                    style={{ color: '#581845', marginRight: '10px' }} 
                   >
                     Import Candidates
                   </Text>
                 </LinkWrapper>
-              </li>):(<li
+              </li>):(<li title='Import Candidates'
                   className={
                     pathname === '/bulk_import' ? styles.select_row : ''
                   }
@@ -458,7 +463,7 @@ const clearTabs = (e) => {
                       onClick={() => handleNavigate(5)}
                       className={Expent === '0' ? styles.text : styles.classpan}
                       color="primary"
-                      style={{ color: '#581845', marginRight: '10px' }}
+                      style={{ color: '#581845', marginRight: '10px' }} 
                     >
                       Import Candidates
                     </Text>
@@ -466,7 +471,7 @@ const clearTabs = (e) => {
                 </li>)
                 
               ) : (
-                <li
+                <li title='Import Candidates'
                   className={
                     pathname === '/bulk_import' ? styles.select_row : ''
                   }
@@ -484,6 +489,7 @@ const clearTabs = (e) => {
                     className={Expent === '0' ? styles.text : styles.classpan}
                     color="primary"
                     style={{ color: '#581845', marginRight: '10px' }}
+                    
                   >
                     Import Candidates
                   </Text>
@@ -496,7 +502,7 @@ const clearTabs = (e) => {
           {plan_id !== 1 && (
             <>
               {is_plan ? (changes?
-              (<li
+              (<li title='Reports'
                 className={
                   pathname.includes('/reports') ? styles.select_row : ''
                 }
@@ -511,14 +517,14 @@ const clearTabs = (e) => {
                     onClick={() => handleNavigate(6)}
                     className={Expent === '0' ? styles.text : styles.classpan}
                     color="primary"
-                    style={{ color: '#581845', marginRight: '10px',marginLeft:'20px' }}
+                    style={{ color: '#581845', marginRight: '10px',marginLeft:'20px' }} 
                   >
                      Reports
                   </Text>
                 </LinkWrapper>
-              </li>):(<li
+              </li>):(<li title='Reports'
                   className={
-                    pathname.includes('/reports') ? styles.select_row : ''
+                    pathname.includes('/reports') ? styles.select_row : '' 
                   }
                 >
                   <LinkWrapper
@@ -531,7 +537,7 @@ const clearTabs = (e) => {
                       onClick={() => handleNavigate(6)}
                       className={Expent === '0' ? styles.text : styles.classpan}
                       color="primary"
-                      style={{ color: '#581845', marginRight: '10px',marginLeft:'20px' }}
+                      style={{ color: '#581845', marginRight: '10px',marginLeft:'20px' }} 
                     >
                        Reports
                     </Text>
@@ -539,7 +545,7 @@ const clearTabs = (e) => {
                 </li>)
                 
               ) : (
-                <li
+                <li title='Reports'
                   className={
                     pathname.includes('/reports') ? styles.select_row : ''
                   }
@@ -570,7 +576,7 @@ const clearTabs = (e) => {
             <>
               {is_plan ? (changes?
               (<li
-                className={pathname === '/calendar' ? styles.select_row : ''}
+                className={pathname === '/calendar' ? styles.select_row : ''} title='Calendar'
               >
                 <LinkWrapper
                   className={styles.hoverview}
@@ -584,13 +590,13 @@ const clearTabs = (e) => {
                     onClick={() => handleNavigate(7)}
                     className={Expent === '0' ? styles.text : styles.classpan}
                     color="primary"
-                    style={{ color: '#581845', marginRight: '10px' }}
+                    style={{ color: '#581845', marginRight: '10px' }} 
                   >
                     Calendar
                   </Text>
                 </LinkWrapper>
               </li>):(<li
-                  className={pathname === '/calendar' ? styles.select_row : ''}
+                  className={pathname === '/calendar' ? styles.select_row : ''} title='Calendar'
                 >
                   <LinkWrapper
                     className={styles.hoverview}
@@ -604,7 +610,7 @@ const clearTabs = (e) => {
                       onClick={() => handleNavigate(7)}
                       className={Expent === '0' ? styles.text : styles.classpan}
                       color="primary"
-                      style={{ color: '#581845', marginRight: '10px' }}
+                      style={{ color: '#581845', marginRight: '10px' }} 
                     >
                       Calendar
                     </Text>
@@ -613,7 +619,7 @@ const clearTabs = (e) => {
                 
               ) : (
                 <li
-                  className={pathname === '/calendar' ? styles.select_row : ''}
+                  className={pathname === '/calendar' ? styles.select_row : ''} title='Calendar'
                 >
                 <a
                 className={styles.hoverview}
@@ -641,7 +647,7 @@ const clearTabs = (e) => {
         </ul>
 
         <ul className={styles.setting} >
-          {is_plan ? (<li style={{height:'35px',width:'145px',position:'relative',bottom:'25px'}}>
+          {is_plan ? (<li style={{height:'35px',width:'145px',position:'relative',bottom:'25px'}}  title='Settings'>
               <LinkWrapper onClick={clearTab} to={'/account_setting/settings'} >
               
                 <SvgSetting fill={'#581845'}  height={20} width={20}  />
@@ -657,7 +663,7 @@ const clearTabs = (e) => {
             </li>)
             
            : (
-            <li>
+            <li  title='Settings'>
             <a
             
             href={" "} 
@@ -670,6 +676,7 @@ const clearTabs = (e) => {
                 className={Expent === '0' ? styles.text : styles.classpan}
                 color="primary"
                 style={{ color: '#581845', marginRight: '10px' }}
+               
               >
                 Settings
               </Text>

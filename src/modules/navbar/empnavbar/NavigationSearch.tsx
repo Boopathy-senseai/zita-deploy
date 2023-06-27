@@ -162,10 +162,10 @@ const NavigationSearch = () => {
       </div>
 
      <InputSearch
-        // eslint-disable-next-line jsx-a11y/no-autofocus
-        autoFocus
+        // // eslint-disable-next-line jsx-a11y/no-autofocus
+        // autoFocus
         style={styles.searchStyle}
-        placeholder="Type to Search"
+        placeholder="Enter your search here..."
         options={duplicateElementa}
         setFieldValue={formik.setFieldValue}
         name="value"

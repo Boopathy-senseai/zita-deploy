@@ -453,6 +453,7 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
 
     if (fileurl.file !== undefined) {
       formData.append('logo', fileurl.file) 
+      console.log(fileurl.file,'fileurl.filedsfgxhcjm,bmnbvcxzcvbn m')
     } else if (islogo.length === 0) {
       formData.append('logo',"");
     }
@@ -616,15 +617,15 @@ let jpgchange=jpg.toUpperCase();
     },[logoUrls,imgUrls])
   return (
     <Flex className={styles.overAll}>
-      <Flex row className={styles.companyuserheading}>
+      {/* <Flex row className={styles.companyuserheading}>
         <Flex>
           <SvgCompanyprofile></SvgCompanyprofile>
         </Flex>
         <Flex className={styles.profilehead}>Company Profile</Flex>
-      </Flex>
+      </Flex> */}
       {(isLoading || isload) && <Loader />}
       <Flex row className={styles.companyrow}>
-        <Flex flex={4}>
+        <Flex  >
           <InputText
             label="Company Name"
             inputConatinerClass={styles.with80}
@@ -640,7 +641,7 @@ let jpgchange=jpg.toUpperCase();
             name="company_name"
           />
         </Flex>
-        <Flex flex={4}>
+        <Flex  >
           <InputText
             inputConatinerClass={styles.with80}
             label="Work Email"
@@ -656,7 +657,7 @@ let jpgchange=jpg.toUpperCase();
             name="email"
           />
         </Flex>
-        <Flex flex={4}>
+        <Flex  >
           <LabelWrapper label="Contact Number" required>
             <PhoneInput
               containerClass={styles.phoneInputs}
@@ -675,7 +676,7 @@ let jpgchange=jpg.toUpperCase();
         </Flex>
       </Flex>
       <Flex row className={styles.companyrow}>
-        <Flex flex={4}>
+        <Flex  >
           <InputText
             inputConatinerClass={styles.with80}
             label="Company Website URL"
@@ -705,7 +706,7 @@ let jpgchange=jpg.toUpperCase();
             name="company_website"
           />
         </Flex>
-        <Flex flex={4}>
+        <Flex >
           <LabelWrapper label="Industry Type" required>
             <div className={styles.with80} style={{ marginTop: 5 }}>
               <SelectTag
@@ -736,7 +737,7 @@ let jpgchange=jpg.toUpperCase();
             </div>
           </LabelWrapper>
         </Flex>
-        <Flex flex={4}>
+        <Flex>
           <InputText
             inputConatinerClass={styles.with80}
             label="No of Employees"
@@ -771,9 +772,9 @@ let jpgchange=jpg.toUpperCase();
       </Flex>
 
       <Flex row className={styles.companyrow}>
-        <Flex flex={4}>
+        <Flex  >
           <InputText
-            inputConatinerClass={styles.width90}
+            inputConatinerClass={styles.width80}
             label="Street Address"
             required
             className={styles.inputheight}
@@ -790,7 +791,7 @@ let jpgchange=jpg.toUpperCase();
           />
         </Flex>
 
-        <Flex flex={4}>
+        <Flex  >
           <LabelWrapper label="Country" required>
             <div className={styles.with80} style={{ marginTop: 5 }}>
               <SelectTag
@@ -826,7 +827,7 @@ let jpgchange=jpg.toUpperCase();
             </div>
           </LabelWrapper>
         </Flex>
-        <Flex flex={4}>
+        <Flex  >
           <LabelWrapper label="State" required>
             <div className={styles.with80} style={{ marginTop: 5 }}>
               <SelectTag
@@ -864,7 +865,7 @@ let jpgchange=jpg.toUpperCase();
         </Flex>
       </Flex>
       <Flex row className={styles.companyrow} flex={12}>
-        <Flex flex={4}>
+        <Flex  >
           <LabelWrapper label="City" required>
             <div className={styles.with80} style={{ marginTop: 5 }}>
               <SelectTag
@@ -898,7 +899,7 @@ let jpgchange=jpg.toUpperCase();
             </div>
           </LabelWrapper>
         </Flex>
-        <Flex flex={4}>
+        <Flex  >
           <InputText
             inputConatinerClass={styles.with80}
             label="Zip Code"
@@ -912,12 +913,12 @@ let jpgchange=jpg.toUpperCase();
           />
           {!isEmpty(formik.values.zipcode) && formik.values.zipcode.length > 6 && (
             <Text size={12} color="error">
-              Zipcode must consist of less than 6 characters
+              Zip Code should not exceed 6 characters
             </Text>
           )}
           {!isEmpty(formik.values.zipcode) && formik.values.zipcode.length < 4 && (
             <Text size={12} color="error">
-              Zipcode must consist of more than 4 characters
+              Zip Code should have atleast 4 characters
             </Text>
           )}
           <ErrorMessage
@@ -934,7 +935,7 @@ let jpgchange=jpg.toUpperCase();
 
         {fileurl.length === 0 && islogo.length === 0   ? (
           <Flex row flex={12}>
-            <Flex flex={4}>
+            <Flex  >
               <LabelWrapper label="Company Logo" >
                 <Flex
                   height={'35px'}
@@ -999,22 +1000,22 @@ let jpgchange=jpg.toUpperCase();
                   </Flex>
                   <Flex  className={styles.tooltipcontent}>
                     <Text className={styles.gray_color}>
-                      Dimension :{' '}
+                      Dimension:{' '}
                       <Text className={styles.gray_color}>
                         {' '}
-                        Square :120px X 120px, Rectangle :500px X 230px
+                        Square: 120px X 120px, Rectangle: 500px X 230px
                       </Text>
                     </Text>
                     {/* <Text >
                 Square: 120px * 120px, Rectangle: 500px * 230px
               </Text> */}
                     <Text className={styles.gray_color}>
-                      File size must be less than 2MB
+                    File size should not exceed 2MB.
                     </Text>
-                    <Text style={{ marginTop: 5 }}>
+                    <Text style={{ marginTop: 5 ,fontSize:'13px'}}>
                       Note:
-                      <Text>
-                        This logo will be used in your career page created by
+                      <Text style={{ marginLeft: 3,fontSize:'13px' }}>
+                         This logo will be used in your career page created by
                         zita.
                       </Text>
                     </Text>
@@ -1037,7 +1038,7 @@ let jpgchange=jpg.toUpperCase();
         ) : (
           <Flex column flex={12}>
             <Flex row flex={12}>
-              <Flex flex={4}>
+              <Flex  >
                 <LabelWrapper label="Company Logo"  >
                   <Flex
                     height={'35px'}
@@ -1110,7 +1111,7 @@ let jpgchange=jpg.toUpperCase();
              
             </Flex>
             <Flex row flex={12} className={styles.merginghover}>
-              <Flex flex={4}>
+              <Flex >
                 {isShows && (
                   <Flex center middle className={styles.changeimgfile1}>
                     <label
@@ -1157,7 +1158,7 @@ let jpgchange=jpg.toUpperCase();
       <Flex>
         {(isLoading || isload) && <Loader />}
         <Flex className={styles.margintopline}></Flex>
-        <Flex row center>
+        {/* <Flex row center>
           <Flex center>
             <SvgUserdetail />
           </Flex>
@@ -1166,12 +1167,28 @@ let jpgchange=jpg.toUpperCase();
             User Profile
             </Text>
           </Flex>
-        </Flex>
+        </Flex> */}
 
        
         <Flex className={styles.companyrow}>
           <Flex row flex={12}>
-            <Flex flex={4}>
+          <Flex  >
+              <InputText
+                inputConatinerClass={styles.with80}
+                label="User Name"
+                required
+                disabled
+                value={formik.values.username}
+                className={styles.inputheight}
+                onChange={formik.handleChange('username')}
+              />
+              <ErrorMessage
+                touched={formik.touched}
+                errors={formik.errors}
+                name="username"
+              />
+            </Flex>
+            <Flex >
               <div>
                 {' '}
                 <InputText
@@ -1194,7 +1211,7 @@ let jpgchange=jpg.toUpperCase();
                 />
               </div>
             </Flex>
-            <Flex flex={4}>
+            <Flex >
               <InputText
                 inputConatinerClass={styles.with80}
                 label="Last Name"
@@ -1214,22 +1231,7 @@ let jpgchange=jpg.toUpperCase();
                 name="lastname"
               />
             </Flex>
-            <Flex flex={4}>
-              <InputText
-                inputConatinerClass={styles.with80}
-                label="User Name"
-                required
-                disabled
-                value={formik.values.username}
-                className={styles.inputheight}
-                onChange={formik.handleChange('username')}
-              />
-              <ErrorMessage
-                touched={formik.touched}
-                errors={formik.errors}
-                name="username"
-              />
-            </Flex>
+           
           </Flex>
          
         </Flex>
@@ -1241,7 +1243,7 @@ let jpgchange=jpg.toUpperCase();
             
               <Flex row flex={12}>
                 
-                <Flex flex={4}>
+                <Flex  >
                   <LabelWrapper label="Profile Picture"  >
                     <Flex
                       height={'35px'}
@@ -1334,14 +1336,14 @@ let jpgchange=jpg.toUpperCase();
                       </Flex>
                       <Flex className={styles.tooltipcontent}>
                         <Text className={styles.gray_color11}>
-                          Dimension :{' '}
+                          Dimension:{' '}
                           <Text className={styles.gray_color}>
                             {' '}
-                            Square :120px X 120px, Rectangle :500px X 230px
+                            Square: 120px X 120px, Rectangle: 500px X 230px
                           </Text>
                         </Text>
                         <Text className={styles.gray_color}>
-                          File size must be less than 2MB
+                        File size should not exceed 2MB.
                         </Text>
                       </Flex>
                     </Card>
@@ -1354,7 +1356,7 @@ let jpgchange=jpg.toUpperCase();
             ) : (
               <Flex>
                 <Flex row flex={12}>
-                  <Flex flex={4}>
+                  <Flex >
                     <LabelWrapper label="Profile Picture" >
                       <Flex
                         height={'35px'}
@@ -1412,7 +1414,7 @@ let jpgchange=jpg.toUpperCase();
                          
                           flex={1}
                           onClick={resets}
-                          title="Remove Logo"
+                          title="Change Profile Picture"
                           // onClick={() => cancelselect()}
                           // onMouseEnter={() => setShow(true)}
                         >
@@ -1425,7 +1427,7 @@ let jpgchange=jpg.toUpperCase();
                   <Flex flex={4}></Flex>                 
                 </Flex>
                 <Flex row flex={12} className={styles.merginghover}>
-                  <Flex flex={4}>
+                  <Flex  >
                     {isShow && (
                       <Flex center middle className={styles.changeimgfile}>
                         <label
@@ -1435,7 +1437,7 @@ let jpgchange=jpg.toUpperCase();
                           className={styles.merginghover1}
                         >
                           <Flex middle center className={styles.changelogo}>
-                            Change Logo
+                          Change Profile Picture
                           </Flex>
                         </label>
                       </Flex>

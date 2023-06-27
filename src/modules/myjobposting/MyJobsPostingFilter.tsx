@@ -131,22 +131,26 @@ const MyJobsPostingFilter = ({
   const [showDropDown, setShowDropDown] = useState(false);
   const dropDownRef = useRef(null);
 
-  // const closeDropDown = (e: any) => {
-  //   // console.log("closeDropDown")
-  //   // console.log({target: e.target, showDropDown, dropDownRef})
-  //   if (
-  //     dropDownRef.current &&
-  //     showDropDown &&
-  //     !dropDownRef.current.contains(e.target)
-  //   ) {
-  //     // console.log("SHOW FASLE")
-  //     setShowDropDown(false);
-  //   }
-  // };
+  const closeDropDown = (e: any) => {
+    // console.log("closeDropDown")
+    // console.log({target: e.target, showDropDown, dropDownRef})
+    if (
+      dropDownRef.current &&
+      showDropDown &&
+      !dropDownRef.current.contains(e.target)
+    ) {
+      // console.log("SHOW FASLE")
+      setShowDropDown(false);
+    }
+  };
 
-  // useEffect(() => {
-  //   document.addEventListener("click", closeDropDown);
-  // }, [showDropDown]);
+  useEffect(() => {
+    if(formik.values.jobId.length !== 0){
+      setShowDropDown(false);
+    }
+    else{
+    document.addEventListener("click", closeDropDown);}
+  }, [showDropDown]);
 
   const closestatus = () => {
     setdone("");
@@ -215,12 +219,8 @@ const MyJobsPostingFilter = ({
       Title.length === 0 &&
       locationdata.length === 0 &&
       done === "All" ? (
-        <Text className={styles.quickfil}> {done}</Text>
-      ) : done === "All" ? (
-      //   setdata(""),
-      // setdate(""),
-      // setTitle(""),
-      // setlocationdata("")
+        <Text className={styles.quickfilonlyall}> {done}</Text>
+      ) : done === "All" ? ( 
       " "
       ) : (
         <Text className={styles.quickfil}>
@@ -343,6 +343,35 @@ const MyJobsPostingFilter = ({
             showDropDown ? styles.show : ""
           }`}
         >
+          <Flex className={styles.mtstyle}   >
+            <div  >
+              <Text className={styles.jobTextStyle}>Job Title</Text>
+              
+              <Flex className={styles.hoverbox}>
+              <InputSearch
+                initialValue={formik.values.jobTitle}
+                setFieldValue={formik.setFieldValue}
+                
+                options={job_title}
+                placeholder="Enter a job title"
+               
+                style={styles.boxstyle}
+                name="jobTitle"
+                
+                onkeyPress={(event) => {
+                  if (event.key === "Enter") {
+                    formik.setFieldValue("jobTitle", event.target.value);
+                    setShowDropDown(true)
+                    
+                  }
+                }} /> 
+             
+              
+              
+              </Flex>
+             
+            </div>
+          </Flex>
           <Flex className={styles.mtstyle}>
             {/* <div className={styles.skillContainer}> */}
             <Text className={styles.jobTextStyle}>Job ID</Text>
@@ -361,6 +390,7 @@ const MyJobsPostingFilter = ({
               onkeyPress={(event) => {
                 if (event.key === "Enter") {
                   formik.setFieldValue("jobId", event.target.value);
+                  setShowDropDown(true)
                 }
               }} 
             /> 
@@ -370,11 +400,11 @@ const MyJobsPostingFilter = ({
           <Flex className={styles.mtstyle}>
             <div className={styles.skillContainer}>
               <Text className={styles.jobTextStyle} >Job Status</Text>
-              <Flex marginTop={5}>
+              <Flex marginTop={5} className={styles.matchRadioStyling}  >
                 {jobTypeData.map((jobList) => {
                   return (
                     <Flex
-                      row
+                      
                       key={jobList.value}
                       width={jobList.width}
                       className={styles.matchRadioStyle}
@@ -418,34 +448,7 @@ const MyJobsPostingFilter = ({
               </div>
             </div>
           </Flex>
-          <Flex className={styles.mtstyle}   >
-            <div  >
-              <Text className={styles.jobTextStyle}>Job Title</Text>
-              
-              <Flex className={styles.hoverbox}>
-              <InputSearch
-                initialValue={formik.values.jobTitle}
-                setFieldValue={formik.setFieldValue}
-                
-                options={job_title}
-                placeholder="Enter a job title"
-               
-                style={styles.boxstyle}
-                name="jobTitle"
-                
-                onkeyPress={(event) => {
-                  if (event.key === "Enter") {
-                    formik.setFieldValue("jobTitle", event.target.value);
-                    
-                  }
-                }} /> 
-             
-              
-              
-              </Flex>
-             
-            </div>
-          </Flex>
+          
           {/* <Flex className={styles.mtstyle}
             <div className={styles.skillContainer}>
             <Text
@@ -480,11 +483,13 @@ const MyJobsPostingFilter = ({
                 placeholder="Enter job location"
                 options={location_list}
                 setFieldValue={formik.setFieldValue}
+                
                 name="location" 
                 style={styles.boxstyle}
                 onkeyPress={(event) => {
                   if (event.key === "Enter") {
                     formik.setFieldValue("location", event.target.value);
+                    setShowDropDown(true)
                   }
                 }}
               />

@@ -34,7 +34,7 @@ const OverallJobActivities = () => {
     { title: 'Invited to Apply', vallue: invite_to_apply },
     { title: 'New Applicants', vallue: applicants },
     { title: 'Shortlisted', vallue: shortlisted },
-    { title: 'Offered', vallue: selected },
+    { title: 'Hired', vallue: selected },
     { title: 'Rejected', vallue: rejected },
   ];
   return (

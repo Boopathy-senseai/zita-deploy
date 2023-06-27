@@ -9,4 +9,4 @@ export { default as SvgOrganizer } from './SvgOrganizer';
 export { default as SvgInterviewCalendar } from './SvgInterviewCalendar';
 export { default as SvgInterviewers } from './SvgInterviewers';
 export { default as SvgEdit } from './SvgEdit';
-export { default as SvgCopy } from './SvgCopy';
+export { default as SvgCopy } from './SvgCopynoo';

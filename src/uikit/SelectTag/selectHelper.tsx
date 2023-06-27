@@ -12,7 +12,7 @@ import { isEmpty } from '../helper';
 export const customStyles = {
   option: (provided: any) => ({
     ...provided,
-    fontSize: 14,
+    fontSize: 13,
   }),
   control: (provided: any, state: { isFocused: any }) => ({
     ...provided,
@@ -25,13 +25,13 @@ export const customStyles = {
     ...provided,
     height: '30px',
     padding: '0 8px',
-    fontSize: 14,
+    fontSize: 13,
     color: GARY_1,
   }),
   input: (provided: any) => ({
     ...provided,
     margin: '0px',
-    fontSize: 14,
+    fontSize: 13,
     fontFamily: `'Roboto', sans-serif`,
     boxSizing: 'border-box',
   }),
@@ -167,7 +167,7 @@ export const selectTagTheme = (
 export const customStylesMulti = {
   option: (provided: any) => ({
     ...provided,
-    fontSize: 14,
+    fontSize: 13,
   }),
   control: (provided: any, state: { isFocused: any }) => ({
     ...provided,
@@ -176,7 +176,7 @@ export const customStylesMulti = {
   }),
   valueContainer: (provided: any) => ({
     ...provided,
-    fontSize: 14,
+    fontSize: 13,
     color: GARY_1,
     height: 74,
     overflowY: 'scroll',
@@ -187,7 +187,7 @@ export const customStylesMulti = {
   input: (provided: any) => ({
     ...provided,
     margin: '0px',
-    fontSize: 14,
+    fontSize: 13,
     fontFamily: `'Roboto', sans-serif`,
     boxSizing: 'border-box',
   }),
@@ -231,7 +231,7 @@ export const customStylesMulti = {
 export const customStyletrue = {
   option: (provided: any) => ({
     ...provided,
-    fontSize: 14,
+    fontSize: 13,
   }),
   control: (provided: any, state: { isFocused: any }) => ({
     ...provided,
@@ -245,13 +245,13 @@ export const customStyletrue = {
     ...provided,
     height: '35px',
     padding: '0 8px',
-    fontSize: 14,
+    fontSize: 13,
     color: GARY_1,
   }),
   input: (provided: any) => ({
     ...provided,
     margin: '0px',
-    fontSize: 14,
+    fontSize: 13,
     fontFamily: `'Roboto', sans-serif`,
     boxSizing: 'border-box',
   }),
@@ -297,7 +297,7 @@ export const customStyletrue = {
 export const customStylechanges = {
   option: (provided: any) => ({
     ...provided,
-    fontSize: 14,
+    fontSize: 13,
   }),
   control: (provided: any, state: { isFocused: any }) => ({
     ...provided,
@@ -311,7 +311,7 @@ export const customStylechanges = {
     ...provided,
     height: '40px',
     padding: '0 8px',
-    fontSize: 14,
+    fontSize: 13,
     color: GARY_1,
   }),
   input: (provided: any) => ({
@@ -335,7 +335,7 @@ export const customStylechanges = {
     return {
       ...defaultStyles,
       color: GARY_4,
-      fontSize: 12,
+      fontSize: 13,
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',

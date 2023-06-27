@@ -74,7 +74,7 @@ const JobMetricsCard = () => {
     <Flex className={styles.overAll}>
       {checkHide && (
         <div className={styles.hideStyle}>
-          {Number(plan.plan_id_id) === 1 ?<Flex><Flex marginLeft={370} marginBottom={10}><SvgSubscription/></Flex> <Text size={24} color="white" bold className={styles.noText}>
+          {Number(plan.plan_id_id) === 1 ?<Flex>  <Text size={24} color="white" bold className={styles.noText}>
             Please subscribe to any of the paid plans to view the job metrics
           </Text></Flex>  :
             <Text size={24} color="white" bold className={styles.noText}>
@@ -142,9 +142,9 @@ const JobMetricsCard = () => {
               <Flex row center marginLeft={16} marginRight={16}>
             
                   {/* <SvgLocation width={16} height={16} fill={PRIMARY}></SvgLocation> */}
-                  <SvgLocationjobpost></SvgLocationjobpost>
+                  <SvgLocationjobpost  width={16} height={16}></SvgLocationjobpost>
                 
-                <Text align='center' style={{marginLeft:"4px"}}>
+                <Text align='center' style={{marginLeft:"2px"}}>
                   {job_details && job_details?.city},{' '}
                   {job_details && job_details?.state},{' '}
                   {job_details && job_details?.country}

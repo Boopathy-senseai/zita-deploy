@@ -6,12 +6,14 @@ import { Dropdown } from 'react-bootstrap';
 import { reports } from '../../../appRoutesPath';
 import SvgHelp from '../../../icons/SvgHelp';
 import SvgZitaLogo from '../../../icons/SvgZitaLogo';
-
-import SvgProfile from '../../../icons/SvgProfile';
-import SvgLock from '../../../icons/SvgLock';
-import SvgSearch from '../../../icons/SvgSearch';
 import SvgSetting from '../../../icons/SvgSetting';
+import SvgSettingnav from '../../../icons/SvgSettingnav';
+import SvgLock from '../../../icons/SvgLock';
+import SvgLocknav from '../../../icons/SvgLocknav';
+
+import SvgSearch from '../../../icons/SvgSearch';
 import SvgUser from '../../../icons/SvgUser';
+import SvgUsernav from '../../../icons/SvgUsernav';
 import { routesPath } from '../../../routes/routesPath';
 import { AppDispatch, RootState } from '../../../store';
 import { WHITE } from '../../../uikit/Colors/colors';
@@ -109,7 +111,7 @@ update();
             )}
 
             <div
-              style={{ position: 'relative' }}
+              style={{ position: 'relative',marginLeft:'5px' }}
               className={cx('svgMargin', {
                 navFocusColor: pathname === '/change_password',
                 noPointer: !is_plan,
@@ -141,7 +143,7 @@ update();
                         <SvgUser fill={'#581845'} height={28} width={30} />
                       </Dropdown.Toggle>
                       <Dropdown.Menu className={styles.dropdown_item}>
-                        <Dropdown.Item href="#">
+                        <Dropdown.Item href="#" style={{padding:'0px 10px'}}>
                           {is_plan ? (
                             <LinkWrapper
                               onClick={clearTab}
@@ -149,23 +151,24 @@ update();
                             >
                               <div
                                 style={{ marginLeft: '-10px' }}
-                                title="Account Settings"
+                                title="Profile"
                                 className={cx('svgMargin', {
                                   navFocusColor:
                                     pathname.includes('/account_setting'),
                                 })}
                               >
                               <text style={{verticalAlign:'3px'}}>
-                                <SvgUser
+                                <SvgUsernav
                                   fill={'#581845'}
-                                  height={20}
-                                  width={20}
+                                  height={22}
+                                  width={18}
                                 />
                                 </text>
                                 <span
                                   style={{
                                     color: '#581845',
                                     marginLeft: '15px',
+                                    fontSize:'14px'
                                   }}
                                 >
                                   Profile
@@ -174,28 +177,29 @@ update();
                             </LinkWrapper>
                           ) : (
                             <div
-                              title="Account Settings"
+                              title="Profile"
                               className={cx('svgMargin', {
                                 navFocusColor:
                                   pathname.includes('/account_setting'),
                               })}
                             >
-                            <text style={{verticalAlign:'3px'}}>
-                              <SvgUser
+                            <text style={{verticalAlign:'3px',marginBottom:'-20px'}}>
+                              <SvgUsernav
                                 fill={'#581845'}
-                                height={20}
-                                width={20}
+                                height={22}
+                                width={18}
                               />
                             </text>
                               <span
-                                style={{ color: '#581845', marginLeft: '15px' }}
+                                style={{ color: '#581845', marginLeft: '15px',
+                                fontSize:'14px' }}
                               >
                                 Profile
                               </span>
                             </div>
                           )}
                         </Dropdown.Item>
-                        <Dropdown.Item href="#">
+                        <Dropdown.Item href="#" style={{padding:'0px 10px'}}>
                           {is_plan ? (
                             <LinkWrapper
                               onClick={clearTab}
@@ -210,16 +214,18 @@ update();
                                 })}
                               >
                               <text style={{verticalAlign:'3px'}}>
-                                <SvgSetting
+                                <SvgSettingnav
                                   fill={'#581845'}
-                                  height={20}
-                                  width={20}
+                                  height={22}
+                                width={18}
+                                  
                                 />
                               </text>
                                 <span
                                   style={{
                                     color: '#581845',
                                     marginLeft: '15px',
+                                    fontSize:'14px'
                                   }}
                                 >
                                   Settings
@@ -237,19 +243,20 @@ update();
                             <text style={{verticalAlign:'3px'}}>
                               <SvgSetting
                                 fill={'#581845'}
-                                height={20}
-                                width={20}
+                                height={22}
+                                width={18}
                               />
                             </text>
                               <span
-                                style={{ color: '#581845', marginLeft: '15px' }}
+                                style={{ color: '#581845', marginLeft: '15px',
+                                fontSize:'14px' }}
                               >
                                 Settings
                               </span>
                             </div>
                           )}
                         </Dropdown.Item>
-                        <Dropdown.Item href="#">
+                        <Dropdown.Item href="#" style={{padding:'0px 10px'}}>
                           {is_plan ? (
                             <Flex
                               onClick={passwordchange}
@@ -257,17 +264,17 @@ update();
                             >
                               <div
                                 style={{ marginLeft: '-10px' }}
-                                title="Account Settings"
+                                title="Change Password"
                                 className={cx('svgMargin', {
                                   navFocusColor:
                                     pathname.includes('/account_setting'),
                                 })}
                               >
                               <text style={{verticalAlign:'3px'}}>
-                                <SvgLock
+                                <SvgLocknav
                                   fill={'#581845'}
-                                  height={20}
-                                  width={20}
+                                  height={22}
+                                width={18}
                                 />
                                 </text>
 
@@ -275,17 +282,18 @@ update();
                                   style={{
                                     color: '#581845',
                                     marginLeft: '15px',
+                                    fontSize:'14px'
                                   }}
                                 >
                                   {/* < UserProfile /> */}
-                                  Update Password
+                                  Change Password
                                   
                                 </span>
                               </div>
                             </Flex>
                           ) : (
                             <div
-                              title="Account Settings"
+                              title="Change Password"
                               className={cx('svgMargin', {
                                 navFocusColor:
                                   pathname.includes('/account_setting'),
@@ -293,18 +301,19 @@ update();
                               
                             >
                             <text style={{verticalAlign:'3px',cursor:"pointer"}}>
-                              <SvgLock
+                              <SvgLocknav
                                 fill={'#581845'}
-                                height={20}
-                                width={20}
+                                height={22}
+                                width={18}
                               />
                               </text>
 
                               <span
-                                style={{ color: '#581845', marginLeft: '15px',cursor:"pointer" }}
+                                style={{ color: '#581845', marginLeft: '15px',cursor:"pointer",
+                                fontSize:'14px' }}
                               >
                                 {/* < UserProfile /> */}
-                                Update Password
+                                Change Password
                               </span>
                             </div>
                           )}
@@ -315,7 +324,8 @@ update();
                           You have logged in as
                         </Flex>
                         {user && 
-                        <Flex style={{ color: '#581845', textAlign: 'center',paddingLeft:'15px',paddingRight:'15px' }}>
+                        <Flex style={{ color: '#581845', textAlign: 'center',paddingLeft:'15px',paddingRight:'15px',
+                        fontSize:'14px' }}>
                           {user.email}
                         </Flex>
                         }
@@ -357,7 +367,7 @@ update();
                         </LinkWrapper>
                       </Dropdown.Toggle>
                       <Dropdown.Menu className={styles.dropdown_item}>
-                        <Dropdown.Item href="#">
+                        <Dropdown.Item href="#" style={{padding:'0px 10px'}}>
                           {is_plan ? (
                             <LinkWrapper
                               onClick={clearTab}
@@ -365,17 +375,17 @@ update();
                             >
                               <div
                                 style={{ marginLeft: '-10px' }}
-                                title="Account Settings"
+                                title="Profile"
                                 className={cx('svgMargin', {
                                   navFocusColor:
                                     pathname.includes('/account_setting'),
                                 })}
                               >
                               <text style={{verticalAlign:'3px'}}>
-                                <SvgUser
+                                <SvgUsernav
                                   fill={'#581845'}
-                                  height={20}
-                                  width={20}
+                                  height={22}
+                                  width={18}
                                 />
                                </text> 
                                 <span
@@ -390,17 +400,17 @@ update();
                             </LinkWrapper>
                           ) : (
                             <div
-                              title="Account Settings"
+                              title="Profile"
                               className={cx('svgMargin', {
                                 navFocusColor:
                                   pathname.includes('/account_setting'),
                               })}
                             >
                             <text style={{verticalAlign:'3px'}}>
-                              <SvgUser
+                              <SvgUsernav
                                 fill={'#581845'}
-                                height={20}
-                                width={20}
+                                height={22}
+                                width={18}
                               />
                             </text>
                               <span
@@ -411,7 +421,7 @@ update();
                             </div>
                           )}
                         </Dropdown.Item>
-                        <Dropdown.Item href="#">
+                        <Dropdown.Item href="#" style={{padding:'0px 10px'}}>
                           {is_plan ? (
                             <LinkWrapper
                               onClick={clearTab}
@@ -426,10 +436,10 @@ update();
                                 })}
                               >
                               <text style={{verticalAlign:'3px'}}>
-                                <SvgSetting
+                                <SvgSettingnav
                                   fill={'#581845'}
-                                  height={20}
-                                  width={20}
+                                  height={18}
+                                  width={24}
                                 />
                                 </text>
                                 <span
@@ -451,10 +461,10 @@ update();
                               })}
                             >
                             <text style={{verticalAlign:'3px'}}>
-                              <SvgSetting
+                              <SvgSettingnav
                                 fill={'#581845'}
-                                height={20}
-                                width={20}
+                                height={18}
+                                width={24}
                               />
                               </text>
                               <span
@@ -465,13 +475,14 @@ update();
                             </div>
                           )}
                         </Dropdown.Item>
-                        <Dropdown.Item href="#">
+                        <Dropdown.Item href="#" style={{padding:'0px 10px'}}>
                           {is_plan ? (
                             <Flex
                               onClick={passwordchange}
                               
                             >
                               <div
+                               title="Change Password"
                                 style={{ marginLeft: '-10px',cursor:"pointer" }}
                                 className={cx('svgMargin', {
                                   navFocusColor:
@@ -479,10 +490,10 @@ update();
                                 })}
                               >
                               <text style={{verticalAlign:'3px'}}>
-                                <SvgLock
+                                <SvgLocknav
                                   fill={'#581845'}
-                                  height={20}
-                                  width={20}
+                                  height={22}
+                                  width={18}
                                 />
                                 </text>
 
@@ -492,23 +503,23 @@ update();
                                     marginLeft: '15px',cursor:"pointer"
                                   }}
                                 >
-                                  Update Password
+                                  Change Password
                                 </span>
                               </div>
                             </Flex>
                           ) : (
                             <div
-                              title="Account Settings"
+                              title="Change Password"
                               className={cx('svgMargin', {
                                 navFocusColor:
                                   pathname.includes('/account_setting'),
                               })}
                             >
                             <text style={{verticalAlign:'3px',cursor:"pointer"}}  >
-                              <SvgLock
+                              <SvgLocknav
                                 fill={'#581845'}
-                                height={20}
-                                width={20}
+                                height={22}
+                                width={18}
                                
                               />
                             </text>
@@ -516,7 +527,7 @@ update();
                               <span
                                 style={{ color: '#581845', marginLeft: '15px',cursor:"pointer" }}
                               >
-                                Update Password
+                               Change Password
                               </span>
                             </div>
                           )}

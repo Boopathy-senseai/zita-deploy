@@ -13,11 +13,11 @@ const VerificationSuccessfully = () => {
         <Text size={20} bold align="center" style={{ margin: '8px 0' }}>
           Verification email sent successfully.
         </Text>
-        <Text align="center">
+        <Text align="center"size={16}>
           Please click on the verification link sent to your email id to
           complete the registration.
         </Text>
-        <Text align="center">
+        <Text align="center"size={16}>
           In case you are not able to find our mail, please check the spam
           folder.
         </Text>

@@ -252,7 +252,30 @@ useEffect(() => {
             </Flex>
           </Flex>
       <Flex columnFlex className={styles.overAll}>
-        <Flex center>
+        
+
+        {super_user === true && (
+          <Tabs
+            id={!is_plan ? 'account__settings' : 'setting'}
+            activeKey={tabKey}
+            onSelect={(keys: any) => {
+              if (is_plan) {
+                setTest(!isTest);
+                sessionStorage.setItem('superUserTab', keys);
+                if (!isReloadCareer && !isReloadCompany && !isReloadProfile) {
+                  setKey(keys);
+                }
+              }
+            }}
+          >
+            <Tab title={'Profiles'} eventKey={'0'}>
+              <div
+                style={{
+                  height: window.innerHeight - 215,
+                  overflowY: 'scroll',
+                }}
+              >
+                <Flex center>
           
           {tabKey === '0' &&
             company_detail &&
@@ -318,28 +341,6 @@ useEffect(() => {
               </Flex>
             )}
         </Flex>
-
-        {super_user === true && (
-          <Tabs
-            id={!is_plan ? 'account__settings' : 'setting'}
-            activeKey={tabKey}
-            onSelect={(keys: any) => {
-              if (is_plan) {
-                setTest(!isTest);
-                sessionStorage.setItem('superUserTab', keys);
-                if (!isReloadCareer && !isReloadCompany && !isReloadProfile) {
-                  setKey(keys);
-                }
-              }
-            }}
-          >
-            <Tab title={'Profiles'} eventKey={'0'}>
-              <div
-                style={{
-                  height: window.innerHeight - 215,
-                  overflowY: 'scroll',
-                }}
-              >
                 {tabKey === '0' && (
                   <CompanyPage
                     setKey={setKey}
@@ -356,6 +357,72 @@ useEffect(() => {
                   overflowY: 'scroll',
                 }}
               >
+                <Flex center>
+          
+          {tabKey === '0' &&
+            company_detail &&
+            company_detail.no_of_emp === null && (
+              <Flex row center className={styles.warningFlex}>
+                <SvgInfo height={16} width={16} fill={WARNING} />
+                <Text
+                  size={12}
+                  bold
+                  color="warning"
+                  className={styles.warningText}
+                >
+                  Please complete your company profile and careers page to post
+                  jobs.
+                </Text>
+              </Flex>
+            )}
+
+         {tabKey === '1' &&
+            company_detail &&
+            company_detail.no_of_emp === null?(tabKey === '1' && career_page_exists_build === false && (
+            <Flex row center className={styles.warningFlex}>
+              <SvgInfo height={16} width={16} fill={WARNING} />
+              <Text
+                size={12}
+                bold
+                color="warning"
+                className={styles.warningText}
+              >
+              Please complete your company profile and careers page to post
+                  jobs.
+              </Text>
+            </Flex>
+         ) ):(tabKey === '1' && career_page_exists_build === false && (
+            <Flex row center className={styles.warningFlex}>
+              <SvgInfo height={16} width={16} fill={WARNING} />
+              <Text
+                size={12}
+                bold
+                color="warning"
+                className={styles.warningText}
+              >
+              Please complete your careers page to post jobs.
+              </Text>
+            </Flex>))}
+
+          {isInput &&
+            isLoadingCareer === false &&
+            tabKey === '1' &&
+            career_page_exists_build === true && (
+              <Flex row center className={styles.warningFlex}>
+                <SvgInfo height={16} width={16} fill={WARNING} />
+                <Text
+                  size={12}
+                  bold
+                  color="warning"
+                  className={styles.warningText}
+                >
+                  Changing your careers page URL will change the URL for all
+                  jobs in your careers page. Note to change the jobs URL in your
+                  company’s careers page if connected.
+                </Text>
+              </Flex>
+            )}
+        </Flex>
                 {tabKey === '1' && (
                   <BuildYourCareerPageScreen
                     isInput={isInput}
