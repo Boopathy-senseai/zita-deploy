@@ -11,7 +11,7 @@ import Loader from '../../uikit/Loader/Loader';
 import { copyToClipboard, isEmpty } from '../../uikit/helper';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import { routesPath } from '../../routes/routesPath';
-import SvgCopy from '../../icons/SvgCopynoo';
+import SvgCopy from '../../icons/SvgCopy';
 import { PRIMARY, SUCCESS } from '../../uikit/Colors/colors';
 import PreviewTitle from './PreviewTitle';
 import {

@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 // import { map } from 'highcharts';
 // import SvgLocation from '../../icons/SvgLocation';
-import SvgCopynoo from '../../icons/SvgCopynoo';
+ 
 import SvgCopy from '../../icons/SvgCopy';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import Text from '../../uikit/Text/Text';
