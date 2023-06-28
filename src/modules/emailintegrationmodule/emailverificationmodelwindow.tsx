@@ -4,7 +4,6 @@ import Text from '../../uikit/Text/Text';
 import Flex from '../../uikit/Flex';
 import SvgVectorClose from '../../icons/SvgMailClose';
 import Button from '../../uikit/Button/Button';
-import SvgCross from '../../icons/SvgErrorCross';
 import styles from './emailverificationmodelwindow.module.css';
 type Props = {
   data: boolean;
