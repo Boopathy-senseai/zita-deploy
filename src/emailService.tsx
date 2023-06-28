@@ -222,7 +222,7 @@ export async function getmessages(
     .skip(previous)
     .top(range)
     .get();
-  //console.log('-----mailresponce-----', response);
+  console.log('-----folder-----', folder, response);
   return response;
 }
 
@@ -250,7 +250,7 @@ export async function getselectedmsg(
     // .select('attachments,toRecipients')
     .top(25)
     .get();
-  ///console.log('-----sssmsg-----', response);
+  console.log('----- selectmsg-----', response);
   return response;
 }
 
@@ -274,5 +274,16 @@ export async function dowloadattachments(
     ?.api(`/me/messages/${id}/attachments/${val}`)
     .get();
   console.log('-----attachment-----', response);
+  return response;
+}
+
+export async function getmailfolders(
+  authProvider: AuthCodeMSALBrowserAuthenticationProvider,
+) {
+  var response: any = await graphClient
+    ?.api(`/me/mailFolders`)
+    .select('id,displayName,totalItemCount,unreadItemCount')
+    .get();
+  //console.log('-----getmailfolder-----', response);
   return response;
 }

@@ -27,6 +27,7 @@ import {
   getusermail,
   getselectedmsg,
   getattachments,
+  getmailfolders,
 } from '../../emailService';
 import config from '../../outlookmailConfig';
 import SvgRefresh from '../../icons/SvgRefresh';
@@ -50,6 +51,7 @@ const EmailScreen = () => {
   const [loader, setLoader] = useState(false);
   const [search, setSearch] = useState('');
   const [attachments, setAttachments] = useState('');
+  const [mailfolders, setMailfolders] = useState('');
 
   const [previous, setPrevious] = useState(25);
   const [previous1, setPrevious1] = useState(1);
@@ -125,6 +127,7 @@ const EmailScreen = () => {
 
   const removemessage = () => {
     setmesage('');
+    setAttachments('');
   };
 
   // const emailcollection = useSelector(({ useremail }: RootState) => {
@@ -136,6 +139,7 @@ const EmailScreen = () => {
   useEffect(() => {
     getprofile();
     page();
+    getfolder();
     //sss();
     // dispatch(getEmail()).then((res) => {
     // });
@@ -192,6 +196,8 @@ const EmailScreen = () => {
     setSkip(0);
     setDel(0);
     setPrevious1(1);
+    setmessagelist([]);
+    setmesage('');
     setsideroute(val);
   };
 
@@ -259,13 +265,15 @@ const EmailScreen = () => {
 
     await getmessages(authProvider, folder, skip, range)
       .then((res) => {
-        removemessage();
+        //removemessage();
         setmessagelist(res.value);
         setTotal(res['@odata.count']);
         setLoader(false);
         if (res['@odata.count'] < range) {
           setPrevious(res['@odata.count']);
         }
+        getfolder();
+        console.log(folder, res.value);
       })
       .catch((error) => {
         //console.log('error', error);
@@ -311,11 +319,12 @@ const EmailScreen = () => {
     await getselectedmsg(authProvider, msgid)
       .then((res) => {
         // console.log('addad', res);
-
+        page();
         if (res.hasAttachments === true) {
           attachment(res.id);
         } else {
           setLoader(false);
+          setAttachments('');
         }
       })
       .catch((error) => {
@@ -332,6 +341,17 @@ const EmailScreen = () => {
       })
       .catch((error) => {
         console.log('error', error);
+      });
+  };
+
+  const getfolder = async () => {
+    await getmailfolders(authProvider)
+      .then((res) => {
+        // console.log('res---------', res);
+        setMailfolders(res.value);
+      })
+      .catch((error) => {
+        // console.log('connection failed inboxxxxxxx', error);
       });
   };
 
@@ -390,6 +410,7 @@ const EmailScreen = () => {
               search={search}
               getmessageid={getmessageid}
               sideroute={sideroute}
+              mailfolders={mailfolders}
             />
           </Flex>
           <Flex flex={9} className={styles.containerColumn}>

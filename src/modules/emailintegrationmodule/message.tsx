@@ -75,7 +75,6 @@ const Inbox = ({
 
   useEffect(() => {
     if (message.isRead !== true && message !== '') {
-      alert('im false');
       updatereadmessage();
     }
   }, [message]);
@@ -86,6 +85,7 @@ const Inbox = ({
     };
     await mailread(authProvider, message.id, readmessage)
       .then((res) => {
+        //page();
         //  console.log('read------++---', res);
       })
       .catch((error) => {
@@ -327,6 +327,7 @@ const Inbox = ({
                         </Flex>
                       </Flex>
                     </Flex>
+
                     <Text size={14}>
                       {message.subject !== ''
                         ? message.subject
