@@ -408,7 +408,7 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
           />
         </Text>
       </Flex>
-
+      <hr className={styles.borderLine}/>
       <Button className={styles.btn2} onClick={() => onConfig(item.wk_id)}>
         <Text bold color="theme">
           Configure Pipeline
@@ -494,6 +494,7 @@ const TemplateCard: React.FC<TemplateCardProps> = (props) => {
           {subTitle}{' '}
         </Text>
       </Flex>
+      <hr className={styles.borderLine}/>
       <Button className={styles.btn} onClick={onClick}>
         <Text bold color="theme">
           {btnName}

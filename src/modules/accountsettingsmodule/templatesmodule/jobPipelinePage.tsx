@@ -219,12 +219,14 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     });
   };
   /// skip stages
-
+  if(isLoading){
+    return <Loader />;
+  }
   return (
     <Flex>
       {isSubmitLoader && <Loader />}
       <Flex column className={styles.bottomBorder}>
-        <Flex column flex={1} marginBottom={10} marginTop={10} start>
+        <Flex column flex={1} marginBottom={15} marginTop={15} start>
           <InputText
             inputConatinerClass={styles.with80}
             label="Pipeline Title"
@@ -248,8 +250,8 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
             flex={4}
             className={`${styles.columnGroup} ${styles.borderRightLine}`}
           >
-            <Flex column start marginBottom={10}>
-              <Text color="theme" size={14}>
+            <Flex column start marginBottom={20}>
+              <Text color="black2" bold size={14}>
                 Pipeline Stages
               </Text>
               <Text color="black2" size={13}>
@@ -277,8 +279,8 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
             flex={4}
             className={`${styles.columnGroup} ${styles.paddingLeft}`}
           >
-            <Flex column start marginBottom={10}>
-              <Text color="theme" size={14}>
+            <Flex column start marginBottom={20}>
+              <Text bold color="black2" size={14}>
                 Proposed Stages
               </Text>
               <Text size={13} color="black2">

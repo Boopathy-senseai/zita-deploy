@@ -18,20 +18,8 @@ import { StageCard } from '../../../uikit/StageCard/stagesCard';
 import { useStages } from '../../../hooks/useStages';
 import { StageData, SuggestionData } from '../../../hooks/useStages/types';
 import { useForm } from '../../../hooks/useForm';
-import {
-  ICreateTemplate,
-  IUpdateTemplate,
-  jobPipelineForm,
-} from './templatesPageTypes';
-import {
-  getTemplateDataMiddleWare,
-  updateTemplateDataMiddleWare,
-  createTemplateDataMiddleWare,
-} from './store/middleware/templatesmiddleware';
-
 import styles from './jobPipelinePage.module.css';
-import ReorderStage from './reorder';
-import { templatePageReducerActions } from './store/reducer/templatesreducer';
+
 
 const cx = classNames.bind(styles);
 
@@ -80,13 +68,14 @@ const PipelineSuggestions: React.FC<Props> = (props) => {
       errors.title = 'Stage name should not exceed 25 characters.';
     }
     if (isStageDuplicate(values.title)) {
-      errors.title = 'Stage name already exsist.';
+      errors.title = 'Stage name already exist.';
     }
     return errors;
   };
 
   const formik = useForm<SuggestionForm>({
     initialValues: form,
+    initialValidation: true,
     validate: handleJobPipeline,
     onSubmit: (data) => {
       // formik.handleChange('title')(data.title.trim());
@@ -181,6 +170,7 @@ const PipelineSuggestions: React.FC<Props> = (props) => {
                 tabIndex={-1}
                 role={'button'}
                 onClick={() => {
+                  if(!formik.isValid) return;
                   formik.handleSubmit();
                 }}
               >

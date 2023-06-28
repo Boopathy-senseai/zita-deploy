@@ -77,7 +77,7 @@ export function useSuggestions<
       }
       return prevStages;
     });
-    Toast('Suggestion removed successfully');
+    Toast('Proposed stage removed successfully');
   };
 
   const onReorder = (docs: Array<T>) => {

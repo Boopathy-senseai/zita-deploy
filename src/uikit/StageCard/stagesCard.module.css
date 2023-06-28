@@ -10,6 +10,9 @@
   .with80 {
     width: 90%;
   }
+  .input{
+    font-size: 13px;
+  }
   
   .columnGroup {
     display: flex;

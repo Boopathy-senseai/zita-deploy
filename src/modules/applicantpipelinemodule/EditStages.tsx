@@ -70,7 +70,7 @@ const EditStagesModal: React.FC<Props> = (props) => {
       errors.title = 'Stage name should not exceed 25 characters.';
     }
     if (isStageDuplicate(values.title)) {
-      errors.title = 'Stage name already exsist.';
+      errors.title = 'Stage name already exist.';
     }
     return errors;
   };

@@ -2,10 +2,6 @@ import React, { createRef, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import classNames, { Value } from 'classnames/bind';
 import Text from '../../uikit/Text';
-
-import { jobPipelineForm } from '../../modules/accountsettingsmodule/templatesmodule/templatesPageTypes';
-import { AppDispatch } from '../../store';
-// import { updateJobPipelineStageMiddleWare } from '../../modules/accountsettingsmodule/templatesmodule/store/middleware/templatesmiddleware';
 import { Button, ErrorMessage, Flex, InputText, Loader } from '../../uikit';
 import { isEmpty } from '../helper';
 import SvgTickBox from '../../icons/SvgTickBox';
@@ -19,8 +15,7 @@ import { StageData } from '../../hooks/useStages/types';
 import { useForm } from '../../hooks/useForm';
 import { useStages } from '../../hooks/useStages';
 import styles from './stagesCard.module.css';
-import DeletePopup from './deletePopup';
-import AlertDeletePopup from './alertDeletePopup';
+
 
 const cx = classNames.bind(styles);
 
@@ -64,7 +59,7 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
       errors.stage_name = 'Stage name should not exceed 25 characters.';
     }
     if (isStageDuplicate(values.stage_name)) {
-      errors.stage_name = 'Stage name already exsist.';
+      errors.stage_name = 'Stage name already exist.';
     }
     return errors;
   };
@@ -140,7 +135,6 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
               value={formik.values.stage_name}
               onChange={formik.handleChange('stage_name')}
               lineInput
-              size={14}
               className={styles.input}
               onKeyPress={handleKeyPress}
               onBlur={formik.handleBlur}
@@ -188,7 +182,7 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
       );
     }
     return (
-      <Text color="theme" title={doc.stage_name} style={{ whiteSpace: "pre"}}>
+      <Text  size={13}color="theme" title={doc.stage_name} style={{ whiteSpace: "pre"}}>
         {doc.stage_name}
       </Text>
     );
@@ -216,20 +210,6 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
 
   return (
     <>
-      {/* delete popup without the data */}
-      {/* {doc?.is_associated ? (
-        <AlertDeletePopup
-          openDeletePopup={deletePopup}
-          handleDeletePipelinePopup={handleDeletePipelinePopup}
-          handleCloseDeletePopup={handleCloseDeletePopup}
-        />
-      ) : (
-        <DeletePopup
-          openDeletePopup={deletePopup}
-          handleDeletePipelinePopup={handleDeletePipelinePopup}
-          handleCloseDeletePopup={handleCloseDeletePopup}
-        />
-      )} */}
       <div ref={myRef} className={styles.pipelineCard}>
         <div className={styles.rowGroup}>
           <Button
@@ -279,7 +259,7 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
         )}
         <Flex className={styles.rowGroup}>
           <Button
-            disabled={doc.is_disabled}
+            disabled={doc.is_disabled || edit}
             types="link"
             className={styles.editIcon}
             onClick={handleEdit}

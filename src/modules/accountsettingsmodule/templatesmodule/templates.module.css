@@ -51,8 +51,8 @@
   color: #581845;
   border: none;
   width: 100%;
-  margin-top: 20px;
-  border-top: 1px solid #c3c3c3;
+  /* margin-top: 20px; */
+  /* border-top: 1px solid #c3c3c3; */
   border-radius: unset;
   padding: 10px 0;
 }
@@ -127,4 +127,13 @@
 
 .dropDownListStyle{
   cursor: pointer;
+}
+hr.borderLine{
+  height: 1px;
+  border: none;
+  background: #c3c3c3;
+  margin: 10px 0px 0px 0px;
+  /* border-top: 1px solid red; */
+  width: 100%;
+
 }
