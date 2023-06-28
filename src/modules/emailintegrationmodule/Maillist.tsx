@@ -1,12 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Flex, Card, CheckBox, Text, InputText } from '../../uikit';
-import SvgSearch from '../../icons/SvgSearch';
-import SvgArchive from '../../icons/SvgArchive';
-import { SvgTrash } from '../../icons';
-import SvgJunk from '../../icons/SvgJunk';
 import SvgRefresh from '../../icons/SvgRefresh';
-import SvgRight from '../../icons/SvgRight';
-import SvgLeft from '../../icons/SvgLeft';
 import { getDateString } from '../../uikit/helper';
 import styles from './maillist.module.css';
 
@@ -18,6 +12,7 @@ type Props = {
   search: string;
   getmessageid: any;
   sideroute: number;
+  mailfolders: any;
 };
 const Maillist = ({
   messagelist,
@@ -27,6 +22,7 @@ const Maillist = ({
   search,
   getmessageid,
   sideroute,
+  mailfolders,
 }: Props) => {
   const [messages, setmesage] = useState<any>();
 
@@ -46,84 +42,70 @@ const Maillist = ({
   };
 
   const showfolder = () => {
-    if (sideroute === 1) {
-      return <Text>Inbox</Text>;
-    } else if (sideroute === 2) {
-      return <Text>Inbox</Text>;
-    } else if (sideroute === 3) {
-      return <Text>Inbox</Text>;
-    } else if (sideroute === 4) {
-      return <Text>Inbox</Text>;
-    } else if (sideroute === 5) {
-      return <Text>Inbox</Text>;
-    } else if (sideroute === 6) {
-      return <Text>Inbox</Text>;
+    if (mailfolders.length !== 0) {
+      if (sideroute === 1) {
+        return <Text>Inbox({mailfolders[4].unreadItemCount})</Text>;
+      } else if (sideroute === 2) {
+        return <Text>SentItem({mailfolders[7].unreadItemCount})</Text>;
+      } else if (sideroute === 3) {
+        return <Text>Draft({mailfolders[3].unreadItemCount})</Text>;
+      } else if (sideroute === 4) {
+        return <Text>Archive({mailfolders[0].unreadItemCount})</Text>;
+      } else if (sideroute === 5) {
+        return <Text>DeletedItem({mailfolders[2].unreadItemCount})</Text>;
+      } else if (sideroute === 6) {
+        return <Text>Junkemail({mailfolders[5].unreadItemCount})</Text>;
+      }
+    }
+  };
+
+  const draftfunction = (val) => {
+    if (val.length !== 0) {
+      var result = val.reduce(function (nam, arr) {
+        // return the sum with previous value
+        return nam + ' & ' + arr.emailAddress.name;
+      }, '');
+      return <>{result.substring(2)}</>;
+    } else {
+      return <>{'(No Recipients)'}</>;
+    }
+  };
+
+  const handlemessage = (val) => {
+    if (sideroute === 3 || sideroute === 5) {
+      if (val.isDraft === true) {
+        if (val.toRecipients.length !== 0) {
+          var del = val.toRecipients.reduce(function (nam, arr) {
+            return nam + ' & ' + arr.emailAddress.name;
+          }, '');
+          return <>{'[Draft]' + del.substring(2)}</>;
+        }
+        return <>{'[Draft]  (No Recipients)'}</>;
+      }
+      return <>{val.from.emailAddress.name}</>;
+    } else {
+      if (sideroute === 2) {
+        if (val.toRecipients.length !== 0) {
+          var res = val.toRecipients.reduce(function (nam, arr) {
+            return nam + ' & ' + arr.emailAddress.name;
+          }, '');
+          return <>{res.substring(2)}</>;
+        } else {
+          return <>{'(No Recipients)'}</>;
+        }
+      }
+      return <>{val.from.emailAddress.name}</>;
     }
   };
 
   return (
     <Flex >
       {console.log('siderouteaaa', sideroute)}
+      {console.log('folder', mailfolders)}
       <Flex
         style={{ marginLeft: '2px', borderRight: '1px solid #c3c3c3' }}
         className={styles.maillist}
       >
-        {/* <InputText
-          actionRight={() => <SvgSearch onClick={click} />}
-          onChange={(e) => serchmail(e)}
-          placeholder="Search by email subject or body"
-          className={styles.inputSearch}
-          value={search}
-        /> */}
-
-        {/* <Flex></Flex> */}
-        {/* <Flex row between center className={styles.iconContainer}>
-          <Text bold>Inbox </Text>
-          <SvgRefresh width={16} height={16} /> */}
-
-        {/* <Flex row>
-            <Flex title="Archive" className={styles.icons}>
-              <SvgArchive
-                width={16}
-                height={16}
-                fill={'#581845'}
-                onClick={() => {}}
-              />
-            </Flex>
-            <Flex title="Delete" className={styles.icons} onClick={() => {}}>
-              <SvgTrash width={16} height={16} fill={'#581845'} />
-            </Flex>
-            <Flex title="Junk" className={styles.icons} onClick={() => {}}>
-              <SvgJunk width={16} height={16} stroke={'#581845'} />
-            </Flex>
-          </Flex> */}
-        {/* <Flex row center>
-            <Text >1-25 of 500</Text>
-            <Flex title="previous" className={styles.icons} style={{ marginLeft: '5px' }}>
-              <SvgLeft
-                width={12}
-                height={12}
-                fill={'#581845'}
-                // onClick={() => {}}
-              />
-            </Flex>
-            <Flex title="Next" className={styles.icons}>
-              <SvgRight
-                width={12}
-                height={12}
-                fill={'#581845'}
-                // onClick={() => {}}
-              />
-            </Flex>
-            <Flex title='Refresh' marginLeft={5}>
-            <SvgRefresh width={18} height={18} />
-
-            </Flex>
-
-           
-          </Flex> */}
-        {/* </Flex> */}
-
         <Flex
           row
           between
@@ -180,13 +162,17 @@ const Maillist = ({
                           style={{ display: 'flex', flexDirection: 'column' }}
                         >
                           <Flex row between>
-                            <Text
+                            {/* <Text
                               size={14}
                               className={styles.textHeadingStyle}
                               color="black"
                             >
-                              {val.sender.emailAddress.name}
-                            </Text>
+                              {sideroute !== 3
+                                ? val.sender.emailAddress.name
+                                : draftfunction(val.toRecipients)}
+                            </Text> */}
+
+                            <Text>{handlemessage(val)}</Text>
                             <Text size={14}>
                               {getDateString(val.sentDateTime, 'DD/MM/YYYY')}
                             </Text>
@@ -198,7 +184,9 @@ const Maillist = ({
                         </Flex>
                         <Flex>
                           <Text className={styles.textStyle} size={12}>
-                            {val.bodyPreview}
+                            {val.bodyPreview !== ''
+                              ? val.bodyPreview
+                              : 'This message has no content'}
                           </Text>
                         </Flex>
                       </Flex>
