@@ -218,18 +218,22 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
   //Email compose function //
   const sendmail = async () => {
     if (tomail.length === 0) {
-      setmessage('please provide destination email address');
+      setmessage('Email must have at least one recipient.');
       setVerifymodel(true);
     } else if (subject.length === 0) {
-      setmessage('please provide subject to send');
+      setmessage(
+        'Email subject is missing. Do you want to send without a subject?',
+      );
       setVerifymodel(true);
     } else if (formik.values.userMessage === '') {
-      setmessage('please provide bodymessage to send');
+      setmessage(
+        'Email content is missing. Please add the content before sending.',
+      );
       setVerifymodel(true);
     } else {
       await composemail(authProvider, Emailprops)
         .then((res) => {
-          Toast('message send successfully', 'LONG', 'success');
+          Toast('Message send successfully', 'LONG', 'success');
           clearform();
         })
         .catch((error) => {});
@@ -467,7 +471,6 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                 flexDirection: 'column',
                 padding: '5px 5px 10px 10px',
                 overflowY: 'auto',
-
               }}
             >
               <Flex
@@ -579,8 +582,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                     overflow: 'hidden',
                     display: 'flex',
                     flexDirection: 'column',
-                    minHeight: 260,
-                    
+                    minHeight: 400,
                   }}
                 >
                   <div
@@ -600,14 +602,20 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                       onChange={(e) => editchage(e)}
                     />
                   </div>
-                  <Flex style={{ marginRight: '5px' }}>
+                  <Flex
+                    row
+                    wrap
+                    style={{ marginRight: '5px', marginTop: '10px' }}
+                  >
                     {file.length !== 0 ? (
                       <>
                         {file.map((list, index) => (
                           <>
                             <Flex
+                              flex={1}
                               row
                               center
+                              marginRight={index%2 === 1 ? 0: "10px"}
                               className={styles.filesname}
                               key={index}
                             >
@@ -617,6 +625,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                                 height={11}
                                 style={{
                                   cursor: 'pointer',
+                                  marginLeft: '20px',
                                 }}
                                 stroke="#333333"
                                 viewBox="0 0 9 9"

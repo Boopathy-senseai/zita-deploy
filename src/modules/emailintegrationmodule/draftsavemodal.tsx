@@ -68,59 +68,34 @@ const Modaldraft = ({
       <Modal open={verifiymodel}>
         <Flex flex={6} column center className={styles.draftmodal}>
           <Text size={14} className={styles.insertStyles}>
-          Save this message as a draft ?
+            Save this message as a draft?
           </Text>
           <Text size={14} className={styles.insertStyles}>
-          This message has not been sent and contains unsaved changes. You can
-            save it as a draft to work on later.
-          </Text>
-          <Flex row between>
-          <Flex >
-          {/* <Button
-                className={styles.save}
-                // types="secondary"
-                onClick={cancel}
-              >
-              Don`t save
-              </Button> */}
-              <Button style={{marginTop:"20px"}} types={'secondary'}> Don`t save</Button>
-           
-          </Flex>
-          <Flex row>
-            <Flex>
-              <Button
-                className={styles.cancel}
-                types="primary"
-                onClick={cancel}
-              >
-                Cancel
-              </Button>
-            </Flex>
-            <Flex >
-              <Button className={styles.update} onClick={draftsave}>
-                Save
-              </Button>
-            </Flex>
-          </Flex>
-        </Flex>
-        </Flex>
-        
-        {/* <div className={styles.draftmodal}>
-          <Flex middle className={styles.flextop}>
-            <SvgoutlookMail />
-          </Flex>
-          <Flex className={styles.flextop}>
-            <Text size={14}>Save this message as a draft ?</Text>
-          </Flex>
-          <Flex className={styles.content}>
             This message has not been sent and contains unsaved changes. You can
             save it as a draft to work on later.
+          </Text>
+          <Flex row between marginTop={30}>
+            <Flex>
+              <Button types={'secondary'} onClick={dontsave}> Don`t Save</Button>
+            </Flex>
+            <Flex row>
+              <Flex>
+                <Button
+                  className={styles.cancel}
+                  types={'primary'}
+                  onClick={cancel}
+                >
+                  Cancel
+                </Button>
+              </Flex>
+              <Flex>
+                <Button types={'primary'} onClick={draftsave}>
+                  Save
+                </Button>
+              </Flex>
+            </Flex>
           </Flex>
-
-          
-
-         
-        </div> */}
+        </Flex>
       </Modal>
     </div>
   );

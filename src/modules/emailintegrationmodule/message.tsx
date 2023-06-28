@@ -15,6 +15,8 @@ import SvgForward from '../../icons/SvgForward';
 import SvgRead from '../../icons/SvgRead';
 import SvgLeft from '../../icons/SvgLeft';
 import SvgRight from '../../icons/SvgRight';
+import SvgDownload from '../../icons/SvgDownload';
+import SvgEmptyMail from '../../icons/SVGEmptyMail';
 import styles from './message.module.css';
 
 type Props = {
@@ -190,101 +192,113 @@ const Inbox = ({
   const Nextdata = () => {
     nextfun();
   };
-
+  const messageIcon = message !== '';
   return (
     <div>
+      <Flex flex={1} row between center className={styles.iconContainer}>
+        {sidebarroute !== 3 ? (
+          <>
+            <Flex row>
+              {sidebarroute !== 4 ? (
+                // <Text onClick={archive}> Archive </Text>
+                <Flex
+                  title="Archive"
+                  className={messageIcon ? styles.icons : styles.iconsDisabled}
+                >
+                  <SvgArchive
+                    width={16}
+                    height={16}
+                    fill={messageIcon ? '#581845' : '#58184550'}
+                    onClick={messageIcon ? archive : undefined}
+                  />
+                </Flex>
+              ) : (
+                ''
+              )}
+              <Flex
+                title="Delete"
+                className={messageIcon ? styles.icons : styles.iconsDisabled}
+                onClick={messageIcon ? remove : undefined}
+              >
+                <SvgTrash
+                  width={16}
+                  height={16}
+                  fill={messageIcon ? '#581845' : '#58184550'}
+                />
+              </Flex>
+
+              {sidebarroute !== 6 ? (
+                // <Text onClick={junk}> Junk </Text>
+                <Flex
+                  title="Junk"
+                  className={messageIcon ? styles.icons : styles.iconsDisabled}
+                  onClick={messageIcon ? junk : undefined}
+                >
+                  <SvgJunk
+                    width={16}
+                    height={16}
+                    stroke={messageIcon ? '#581845' : '#58184550'}
+                  />
+                </Flex>
+              ) : (
+                ''
+              )}
+            </Flex>
+
+            {/* <Text onClick={remove}>delete</Text> */}
+            <Flex row>
+              <Text color="theme">
+                {`${previous1}-${previous} of ${total}`}
+              </Text>
+              <Flex
+                title="previous"
+                className={
+                  previous1 !== 1 ? styles.icons : styles.iconsDisabled
+                }
+                style={{ marginLeft: '5px' }}
+              >
+                <SvgLeft
+                  width={12}
+                  height={12}
+                  fill={previous1 !== 1 ? '#581845' : '#58184550'}
+                  onClick={previous1 !== 1 ? Previousdata : undefined}
+                />
+              </Flex>
+              <Flex
+                title="Next"
+                className={
+                  previous !== total ? styles.icons : styles.iconsDisabled
+                }
+              >
+                <SvgRight
+                  width={12}
+                  height={12}
+                  fill={previous !== total ? '#581845' : '#58184550'}
+                  onClick={previous !== total ? Nextdata : undefined}
+                />
+              </Flex>
+            </Flex>
+          </>
+        ) : (
+          <>
+            {/* <Text onClick={remove}>delete</Text> */}
+            <Flex title="Delete" style={{ cursor: 'pointer' }} onClick={remove}>
+              <SvgTrash width={16} height={16} fill={'#581845'} />
+            </Flex>
+            {/* <Text onClick={() => unread(false)}> UnRead </Text> */}
+            <Flex
+              title="Mark as unread"
+              style={{ cursor: 'pointer' }}
+              onClick={() => unread(false)}
+            >
+              <SvgRead />
+            </Flex>
+            <Text>Re-Send</Text>
+          </>
+        )}
+      </Flex>
       {console.log('attachments', attachments)}
-      {message !== '' ? (
-        <>
-          {/* {sidebarroute} */}
-          <Flex flex={1} row between center className={styles.iconContainer}>
-            {sidebarroute !== 3 ? (
-              <>
-                <Flex row>
-                  {sidebarroute !== 4 ? (
-                    // <Text onClick={archive}> Archive </Text>
-                    <Flex title="Archive" className={styles.icons}>
-                      <SvgArchive
-                        width={16}
-                        height={16}
-                        fill={'#581845'}
-                        onClick={archive}
-                      />
-                    </Flex>
-                  ) : (
-                    ''
-                  )}
-                  <Flex
-                    title="Delete"
-                    className={styles.icons}
-                    onClick={remove}
-                  >
-                    <SvgTrash width={16} height={16} fill={'#581845'} />
-                  </Flex>
-
-                  {sidebarroute !== 6 ? (
-                    // <Text onClick={junk}> Junk </Text>
-                    <Flex title="Junk" className={styles.icons} onClick={junk}>
-                      <SvgJunk width={16} height={16} stroke={'#581845'} />
-                    </Flex>
-                  ) : (
-                    ''
-                  )}
-                </Flex>
-
-                {/* <Text onClick={remove}>delete</Text> */}
-                <Flex row>
-                  <Text>
-                    {previous1}-{previous} of {total}
-                  </Text>
-                  <Flex
-                    title="previous"
-                    className={styles.icons}
-                    style={{ marginLeft: '5px' }}
-                  >
-                    <SvgLeft
-                      width={12}
-                      height={12}
-                      fill={'#581845'}
-                      onClick={Previousdata}
-                    />
-                  </Flex>
-                  <Flex title="Next" className={styles.icons}>
-                    <SvgRight
-                      width={12}
-                      height={12}
-                      fill={'#581845'}
-                      onClick={Nextdata}
-                    />
-                  </Flex>
-                </Flex>
-              </>
-            ) : (
-              <>
-                {/* <Text onClick={remove}>delete</Text> */}
-                <Flex
-                  title="Delete"
-                  style={{ cursor: 'pointer' }}
-                  onClick={remove}
-                >
-                  <SvgTrash width={16} height={16} fill={'#581845'} />
-                </Flex>
-                {/* <Text onClick={() => unread(false)}> UnRead </Text> */}
-                <Flex
-                  title="Mark as unread"
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => unread(false)}
-                >
-                  <SvgRead />
-                </Flex>
-                <Text>Re-Send</Text>
-              </>
-            )}
-          </Flex>
-        </>
-      ) : (
-        ''
-      )}
+      {message !== '' ? <>{/* {sidebarroute} */}</> : ''}
       <Flex
         style={{
           padding: '5px 10px',
@@ -292,7 +306,7 @@ const Inbox = ({
         }}
         className={styles.bodyContainer}
       >
-        <Flex row width={'100%'}>
+        <Flex row width={'100%'} height={"100%"}>
           {message !== '' ? (
             <>
               <Flex column width={'100%'}>
@@ -337,30 +351,56 @@ const Inbox = ({
                     )}`}</Text>
                   </Flex>
                 </Flex>
-                <Flex height={590} style={{ margin: '10px' }}>
+                <Flex
+                  maxHeight={500}
+                  style={{ margin: '10px', overflowY: 'auto' }}
+                >
                   {parse(message.body.content)}
                 </Flex>
               </Flex>
             </>
           ) : (
-            'no message selected'
+            <Flex center style={{alignContent: "center", height:"100vh", margin:"auto"}}>
+              <SvgEmptyMail/>
+              <Text>Select an item to read</Text>
+              <Text>Nothing is selected</Text>
+              </Flex>
+            
           )}
         </Flex>
-        <Flex row>
-          <Flex>
-            {attachments !== '' ? (
-              <>
-                {attachments.map((val, ind) => (
-                  <Flex key={ind} style={{ width: '200px', padding: '5px' }}>
-                    <Card onClick={() => donwnload(val)}>{val.name}</Card>
+
+        {attachments && (
+          <Flex row width={'100%'} className={styles.filesContainer}>
+            {attachments.map((val, ind) => (
+              <Flex
+                flex={1}
+                row
+                center
+                between
+                key={ind}
+                className={styles.attachfile}
+              >
+                <Flex marginRight={10} style={{padding:"10px"}}>
+                  <span style={{ marginRight: '10px'}}>
+                    {val.name}
+                  </span>
+                </Flex>
+                <Flex style={{ borderLeft: '1px solid #c3c3c3', height:"100%", display:"flex", padding:"0" }} className={styles.iconsContainer}>
+                  <Flex
+                    style={{ cursor: 'pointer', padding:"5px 10px 5px 0px", height:"100%" }}
+                    onClick={() => donwnload(val)}
+                  >
+                    <SvgDownload
+                      width={14}
+                      height={14}
+                      className={styles.svgicon}
+                    />
                   </Flex>
-                ))}
-              </>
-            ) : (
-              ''
-            )}
+                </Flex>
+              </Flex>
+            ))}
           </Flex>
-        </Flex>
+        )}
       </Flex>
     </div>
   );

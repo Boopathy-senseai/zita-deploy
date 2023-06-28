@@ -5,6 +5,7 @@ import { InteractionType, PublicClientApplication } from '@azure/msal-browser';
 import { useMsal } from '@azure/msal-react';
 
 import { useDispatch, useSelector } from 'react-redux';
+import { Dropdown } from 'react-bootstrap';
 import { AppDispatch, RootState } from '../../store';
 import Loader from '../../uikit/Loader/Loader';
 import {
@@ -30,6 +31,8 @@ import {
 } from '../../emailService';
 import config from '../../outlookmailConfig';
 import SvgRefresh from '../../icons/SvgRefresh';
+import SvgDownload from '../../icons/SvgDownload';
+import SvgArrowDown from '../../icons/SvgArrowDown';
 import Sidebar from './sidebar';
 import Newcompose from './composemodal';
 import styles from './integration.module.css';
@@ -57,6 +60,8 @@ const EmailScreen = () => {
   const [range, setRange] = useState(25);
   const [total, setTotal] = useState(0);
   const [del, setDel] = useState(0);
+  const [searchDropdown, setSearchDropdown] = useState(false);
+  const [searchSection, setSearchSection] = useState("All folder")
 
   const authProvider = new AuthCodeMSALBrowserAuthenticationProvider(
     msal.instance as PublicClientApplication,
@@ -126,6 +131,32 @@ const EmailScreen = () => {
   const removemessage = () => {
     setmesage('');
   };
+  const searchDropdownMenu = [
+    {
+      name: 'All folder',
+      onclick: () => setSearchSection("All folder"),
+    },
+    {
+      name: 'Inbox',
+      onclick: () => setSearchSection("Inbox"),
+    },
+    {
+      name: 'Draft',
+      onclick: () => setSearchSection("Draft"),
+    },
+    {
+      name: 'Sent',
+      onclick: () => setSearchSection("Sent"),
+    },
+    {
+      name: 'Archive',
+      onclick: () => setSearchSection("Archive"),
+    },
+    {
+      name: 'Junk',
+      onclick: () => setSearchSection("Junk"),
+    },
+  ];
 
   // const emailcollection = useSelector(({ useremail }: RootState) => {
   //   return {
@@ -343,7 +374,42 @@ const EmailScreen = () => {
           <Text bold size={16} color="theme">
             Inbox
           </Text>
-          <Flex>
+          <Flex row>
+            {searchDropdown && (
+              <Dropdown className="dropdown toggle">
+                {
+                  <Dropdown.Toggle
+                  style={{
+                    borderColor: '#A5889C',
+                    backgroundColor: 'unset',
+                    boxShadow: 'none',
+                    padding: '0px',
+                  }}
+                   className={styles.Toggle}
+                    // id="dropdown-basic"
+                  >
+                    <Flex row noWrap center style={{padding:"5px"}}> 
+                    <Text size={12} color="theme" style={{marginRight: "10px",textTransform:"capitalize"}}> {searchSection}</Text>
+                    <SvgArrowDown width= {11} height={11}/>
+                    </Flex>
+
+                  </Dropdown.Toggle>
+                }
+
+                {
+                  <Dropdown.Menu style={{ minWidth: '5rem' }}>
+                    {searchDropdownMenu.map((doc, index) => (
+                      <Dropdown.Item key={index} onClick={doc.onclick}>
+                        <Flex row center className={styles.dropDownListStyle}>
+                          <Text >{doc.name}</Text>
+                        </Flex>
+                      </Dropdown.Item>
+                    ))}
+                  </Dropdown.Menu>
+                }
+              </Dropdown>
+            )}
+
             <InputText
               actionRight={() => (
                 <Flex style={{ marginTop: '3px' }}>
@@ -352,7 +418,15 @@ const EmailScreen = () => {
               )}
               placeholder="Search by email subject or body"
               className={styles.inputSearch}
+              style={searchDropdown ? {borderTopLeftRadius: 0,
+                borderBottomLeftRadius: 0}: {borderRadius:"4px"}}
               value={search}
+              onFocus={() => {
+                setSearchDropdown(true);
+              }}
+              // onBlur={() => {
+              //   setSearchDropdown(false);
+              // }}
             />
           </Flex>
 
@@ -373,7 +447,7 @@ const EmailScreen = () => {
               page={page}
             />
           </Flex>
-          <Flex flex={3} className={styles.containerColumn}>
+          <Flex flex={4} className={styles.containerColumn}>
             {/* <Pagination
               previousfun={Previousdata}
               nextfun={Nextdata}

@@ -62,7 +62,7 @@ const Maillist = ({
   };
 
   return (
-    <div>
+    <Flex >
       {console.log('siderouteaaa', sideroute)}
       <Flex
         style={{ marginLeft: '2px', borderRight: '1px solid #c3c3c3' }}
@@ -212,7 +212,7 @@ const Maillist = ({
           )}
         </Flex>
       </Flex>
-    </div>
+    </Flex>
   );
 };
 

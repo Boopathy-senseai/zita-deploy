@@ -77,6 +77,10 @@
   color: #666666;
 }
 .scroll {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
   height: 590px;
   overflow-y: scroll;
 }

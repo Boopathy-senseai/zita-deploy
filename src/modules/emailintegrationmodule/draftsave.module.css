@@ -1,55 +1,23 @@
 .draftmodal {
-  /* width: 600px;
-  height: 350px;
-  background-color: white;
-  border-radius: 10px;
-  padding: 10px; */
   background-color: var(--color-white, #ffffff);
-  width: 370px;
+  width: 470px;
   padding: 25px;
   border-radius: 4px;
 }
 .insertStyles {
   margin-bottom: 5px;
 }
-
-/* .flextop {
-  margin-top: 20px;
-} */
 .cancel {
   margin-right: 8px;
   background-color: #888888;
-  border: none;
+  border: 2px solid #888888;
   border-radius: 5px;
-  margin-top: 20px;
 }
-.cancel:active, .cancel:focus{
+.cancel:active,
+.cancel:focus {
   background-color: #888888;
   border: none;
 }
-.update {
-  border: none;
-  border-radius: 5px;
-  margin-top: 20px;
-}
-.update:active, .update:focus{
-  border: none;
-}
-
-/* .buttonwidth {
-  width: 250px;
-}
-
-.buttonsecondary {
-  width: 250px;
-} */
-
-/* 
-.buttonsecondary:hover {
-  margin-top: 20px;
-  background-color: white !important;
-
-} */
 
 .content {
   margin-top: 10px;

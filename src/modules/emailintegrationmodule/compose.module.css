@@ -68,9 +68,12 @@
   /* width: 250px; */
   height: 30px;
   padding: 10px;
-  margin-bottom: 3px;
+  margin-bottom: 10px;
+  /* margin-right: 10px; */
   border-radius: 2px;
   justify-content: space-between;
+  max-width: 50%;
+  min-width: 250px;
 }
 
 .buttoninsert {
