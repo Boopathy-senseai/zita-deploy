@@ -849,12 +849,12 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
   };
 
   const onClearSearch = () => {
-    setSearch("");
+    setSearch('');
     dispatch(
       applicantPipeLineDataMiddleWare({
         jd_id: jdId,
         profile_match: isMatchRadio,
-        candidate: "",
+        candidate: '',
         work_experience: isExperience,
         profile_view: isProfile,
         education_level: qaValue,
@@ -865,10 +865,10 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
         sortInterview: isSortApplicant,
         sortSelected: isSortApplicant,
         sortRejected: isSortApplicant,
-        location: formik.values.location || "",
+        location: formik.values.location || '',
       }),
     );
-  }
+  };
 
   const onLocationChange = (val: any) => {
     if (val !== '') {
@@ -994,7 +994,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
         <Flex
           columnFlex
           className={styles.dndBoardContainer}
-          width={window.innerWidth - 260}
+          // width={window.innerWidth - 260}
         >
           <Flex row className={styles.titleContainer}>
             <Text bold size={16} color="theme">
@@ -1030,7 +1030,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
                     placeholder="Search by name or email"
                     onKeyPress={handleKeyPress}
                     className={styles.boxstyle}
-                    style={{marginLeft: "5px"}}
+                    style={{ marginLeft: '5px' }}
                   />
                   {isSearch.trim() !== '' && (
                     <button
@@ -1103,66 +1103,78 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
             handleSearch={handleSearch}
             isExperience={isExperience}
           />
-          <div>
-            <TotalApplicant
-              jd_id={parseInt(jdId)}
-              columns={columns}
-              total={total_applicants}
-              moveDisabled={getIsMultiMoveDisabled()}
-              filterTotalFav={filterTotalFav}
-              isTotalFav={isTotalFav}
-              seletedCardsLength={cardSelection.size}
-              onExport={handleBulkDownload}
-              onMove={handleMove}
-              onCSVDownload={handleCSVDownload}
-            />
-            {isNotEmpty() ? (
+
+          <TotalApplicant
+            jd_id={parseInt(jdId)}
+            columns={columns}
+            total={total_applicants}
+            moveDisabled={getIsMultiMoveDisabled()}
+            filterTotalFav={filterTotalFav}
+            isTotalFav={isTotalFav}
+            seletedCardsLength={cardSelection.size}
+            onExport={handleBulkDownload}
+            onMove={handleMove}
+            onCSVDownload={handleCSVDownload}
+          />
+          {isNotEmpty() ? (
+            <div
+              style={{
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                position: 'relative',
+                overflow: 'auto',
+                height: '-webkit-fill-available',
+              }}
+            >
+              {columns && (
+                <DndTitle
+                  columns={columnOrder
+                    .map((key) => columns[key])
+                    .sort((a, b) => a.stage_order - b.stage_order)}
+                  setSortApplicant={handleSortColumn}
+                  onSelectAll={handleColumnSelect}
+                  onUnselectAll={handleColumnUnselect}
+                  cardSelectionMap={cardSelection}
+                />
+              )}
               <div
-                style={{ position: 'relative', zIndex: 0, overflowX: 'scroll' }}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  position: 'relative',
+                  flex: 1,
+                  height: '-webkit-fill-available',
+                }}
+                className={styles.scrollStyle}
               >
                 {columns && (
-                  <DndTitle
-                    columns={columnOrder
+                  <DndBoardScreen
+                    columns={Object.keys(columns)
                       .map((key) => columns[key])
                       .sort((a, b) => a.stage_order - b.stage_order)}
-                    setSortApplicant={handleSortColumn}
-                    onSelectAll={handleColumnSelect}
-                    onUnselectAll={handleColumnUnselect}
+                    jd_id={jd_id}
+                    outlook={outlook}
+                    google={google}
+                    job_details={job_details}
+                    onClick={handleCardSelection}
                     cardSelectionMap={cardSelection}
+                    isAlert={isAlert}
+                    isIndex={isIndex}
+                    onDragStart={onDragStart}
+                    onDragEnd={onDragEnd}
+                    hanldeAlertConfirm={hanldeAlertComplete}
+                    hanldeCancel={hanldeCancel}
+                    onRefresh={getApplicanPipelineData}
                   />
                 )}
-                <div
-                  style={{ height: window.innerHeight - 200 }}
-                  className={styles.scrollStyle}
-                >
-                  {columns && (
-                    <DndBoardScreen
-                      columns={Object.keys(columns)
-                        .map((key) => columns[key])
-                        .sort((a, b) => a.stage_order - b.stage_order)}
-                      jd_id={jd_id}
-                      outlook={outlook}
-                      google={google}
-                      job_details={job_details}
-                      onClick={handleCardSelection}
-                      cardSelectionMap={cardSelection}
-                      isAlert={isAlert}
-                      isIndex={isIndex}
-                      onDragStart={onDragStart}
-                      onDragEnd={onDragEnd}
-                      hanldeAlertConfirm={hanldeAlertComplete}
-                      hanldeCancel={hanldeCancel}
-                      onRefresh={getApplicanPipelineData}
-                    />
-                  )}
-                </div>
               </div>
-            ) : (
-              <Flex middle center height={window.innerHeight - 236}>
-                <Text color={'gray'}>No Applicants Found</Text>
-              </Flex>
-            )}
-          </div>
+            </div>
+          ) : (
+            <Flex middle center height={window.innerHeight - 236}>
+              <Text color={'gray'}>No Applicants Found</Text>
+            </Flex>
+          )}
         </Flex>
       </Flex>
       {isLoading && <Loader />}

@@ -223,10 +223,10 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     return <Loader />;
   }
   return (
-    <Flex>
+    <Flex style={{ display: "flex", flexDirection: "column", position: "relative", height: "100%", overflow: "hidden"}}>
       {isSubmitLoader && <Loader />}
       <Flex column className={styles.bottomBorder}>
-        <Flex column flex={1} marginBottom={15} marginTop={15} start>
+        <Flex column marginBottom={15} marginTop={15} start>
           <InputText
             inputConatinerClass={styles.with80}
             label="Pipeline Title"
@@ -245,7 +245,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
             name="pipelineTitle"
           />
         </Flex>
-        <Flex row noWrap>
+        <Flex row noWrap style={{ display: "flex", flexDirection: "row", position: "relative", flex: 1, overflow: "hidden"}}>
           <Flex
             flex={4}
             className={`${styles.columnGroup} ${styles.borderRightLine}`}

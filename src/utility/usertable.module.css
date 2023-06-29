@@ -10,10 +10,17 @@
 
 /* product route*/
 
-.model{
-width:230px;
+.model {
+  width: 230px;
 }
- 
+
 .model1 {
   width: 60px;
+}
+
+.tobbar {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }

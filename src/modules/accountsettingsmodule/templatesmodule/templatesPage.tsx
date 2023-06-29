@@ -128,11 +128,11 @@ const TemplatesPage = () => {
 
   if (template === 0) {
     return (
-      <>
+      <Flex className={styles.overflowContainer}>
         {isLoading && <Loader />}
 
         <Flex row marginTop={'20px'}>
-          <Flex flex={2} height={'unset'}>
+          <Flex flex={2} height={'unset'} minWidth={200} marginRight={20}>
             <TemplateCard
               icon={<SvgJobPipeline height={16} width={16} fill="#333333" />}
               title={'Job Pipeline'}
@@ -143,7 +143,7 @@ const TemplatesPage = () => {
               onClick={() => selectTemplate()}
             />
           </Flex>
-          <Flex flex={2} height={'unset'}>
+          <Flex flex={2} height={'unset'} minWidth={200} marginRight={20}>
             <TemplateCard
               icon={<SvgMessages height={16} width={16} />}
               title={'Message Templates'}
@@ -152,7 +152,7 @@ const TemplatesPage = () => {
               onClick={() => {}}
             />
           </Flex>
-          <Flex flex={2} height={'unset'}>
+          <Flex flex={2} height={'unset'} minWidth={200} marginRight={20}>
             <TemplateCard
               icon={<SvgMessage height={16} width={16} fill="#333333" />}
               title={'Email Templates'}
@@ -163,13 +163,13 @@ const TemplatesPage = () => {
           </Flex>
           <Flex flex={4}></Flex>
         </Flex>
-      </>
+      </Flex>
     );
   }
   return (
-    <>
+    <Flex className={styles.overflowContainer}>
       {pipeline === 0 ? (
-        <Flex column>
+        <Flex column className={styles.overflowContainer}>
           {deletePopup && (
             <DeletePopup
               onClose={handleClose}
@@ -228,7 +228,7 @@ const TemplatesPage = () => {
           wk_id={workId}
         />
       )}
-    </>
+    </Flex>
   );
 };
 interface PipelineCardPros {

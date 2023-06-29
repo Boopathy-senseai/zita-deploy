@@ -19,26 +19,25 @@ const ProtectedRoute = ({ notIsNav, component: Component, ...rest }) => {
   const location = useLocation();
   const [sidebar, setSidebar] = useState(false);
   const [passwordupdate, setpasswordupdate] = useState(false);
-  const [unsavealert,setunsavealert] = useState(false);
-  const [statementalert,setstatementalert] = useState(false);
- 
-  
-  const changeurlpopup =()=>{
-     setunsavealert(true);
-   } 
+  const [unsavealert, setunsavealert] = useState(false);
+  const [statementalert, setstatementalert] = useState(false);
+
+  const changeurlpopup = () => {
+    setunsavealert(true);
+  };
   const handlefunction = () => {
-    setSidebar(!sidebar)
-  }
-  const updatepassword =()=>{
-   setpasswordupdate(!passwordupdate)
-  }
-  
+    setSidebar(!sidebar);
+  };
+  const updatepassword = () => {
+    setpasswordupdate(!passwordupdate);
+  };
+
   useEffect(() => {
     const toggle =
       sessionStorage.getItem('EmpToggle') === null
         ? false
         : sessionStorage.getItem('EmpToggle');
-    if (toggle === "1") {
+    if (toggle === '1') {
       setSidebar(true);
     } else {
       setSidebar(false);
@@ -57,25 +56,81 @@ const ProtectedRoute = ({ notIsNav, component: Component, ...rest }) => {
       {...rest}
       render={(props) => {
         if (localStorage.getItem('token') !== null) {
-          return ( 
-            <div>
-              <div className='container-fluid'>
+          return (
+            <div
+              style={{
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'column',
+                width: '100%',
+                height: '100%',
+                overflow: "hidden",
+              }}
+            >
+              <div
+                className="container-fluid"
+                style={{
+                  position: 'relative',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: '100%',
+                  height: '100%',
+                  overflow: "hidden",
+                }}
+              >
                 <div class="row">
-                  {notIsNav && <NavBar  update={updatepassword}/>}
+                  {notIsNav && <NavBar update={updatepassword} />}
                 </div>
-                <div style={{ marginTop: "55px" }}>
-                  <div style={{ display: "flex" }}>
-
-                    <div className={sidebar === false ? (styles.model) : (styles.model1)}  >
-                      <Sidebar data={handlefunction} changes={unsavealert}    />
+                <div
+                  style={{
+                    position: 'relative',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: '100%',
+                    flex: 1,
+                    overflow: "hidden",
+                    paddingTop: 62,
+                    // paddingBottom: 14,
+                  }}
+                >
+                  <div
+                    style={{
+                      position: 'relative',
+                      display: 'flex',
+                      flexDirection: 'row',
+                      width: '100%',
+                      height: '100%',
+                      overflow: "hidden",
+                    }}
+                  >
+                    <div
+                      className={
+                        sidebar === false ? styles.model : styles.model1
+                      }
+                    >
+                      <Sidebar data={handlefunction} changes={unsavealert} />
                     </div>
-                    <div style={{width:"auto",flex:1,position: "relative" }} >
-                      <Component {...rest} {...props}   value={changeurlpopup}    /> 
-                      <div><UserProfile  value={passwordupdate} update={updatepassword}/></div> 
-                    </div> 
+                    <div
+                      style={{
+                        position: 'relative',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        flex: 1,
+                        overflow: "hidden",
+                        height: "-webkit-fill-available"
+                      }}
+                    >
+                      <Component {...rest} {...props} value={changeurlpopup} />
+                      <div>
+                        <UserProfile
+                          value={passwordupdate}
+                          update={updatepassword}
+                        />
+                      </div>
+                    </div>
                   </div>
-                </div> 
-              </div> 
+                </div>
+              </div>
             </div>
           );
         } else {
@@ -91,7 +146,6 @@ const ProtectedRoute = ({ notIsNav, component: Component, ...rest }) => {
           );
         }
       }}
-
     />
   );
 };

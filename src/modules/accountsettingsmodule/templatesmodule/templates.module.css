@@ -1,6 +1,6 @@
 .cardStructure {
   max-height: 160px;
-  margin-right: 20px;
+  /* margin-right: 20px; */
   padding: 15px 10px 0 10px;
   display: flex;
   flex-direction: column;
@@ -136,5 +136,11 @@ hr.borderLine{
   margin: 10px 0px 0px 0px;
   /* border-top: 1px solid red; */
   width: 100%;
-
+}
+.overflowContainer {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 100%;
+  overflow: auto;
 }
