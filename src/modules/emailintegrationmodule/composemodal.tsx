@@ -83,7 +83,10 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
   const [text, setText] = useState('');
 
   const [message, setmessage] = useState('');
-  const [verifiymodel, setVerifymodel] = useState(false);
+  const [verifiymodel, setVerifymodel] = useState<{
+    open: boolean;
+    actions?: React.ReactNode;
+  }>({ open: false });
 
   const { messageTemplate } = useSelector(
     ({ messageTemplateReducers }: RootState) => {
@@ -214,33 +217,55 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
     attachments: attachfile,
     saveToSentItems: true,
   };
+  const composeemail = async () => {
+    await composemail(authProvider, Emailprops)
+      .then((res) => {
+        Toast('Message send successfully', 'LONG', 'success');
+        clearform();
+        onClose();
+        setstyle(0);
+      })
+      .catch((error) => {});
+  };
+  const dailougeActions = (
+    <Flex row end marginTop={20} className={styles.borderLine}>
+      <Button
+        types={'secondary'}
+        onClick={() => setVerifymodel({ open: false, actions: undefined })}
+        style={{ marginRight: '10px' }}
+      >
+        Don`t send
+      </Button>
+      <Button
+        types={'primary'}
+        onClick={() => {
+          composeemail();
+          setVerifymodel({ open: false, actions: undefined });
+        }}
+      >
+        Send
+      </Button>
+    </Flex>
+  );
 
   //Email compose function //
   const sendmail = async () => {
     if (tomail.length === 0) {
       setmessage('Email must have at least one recipient.');
-      setVerifymodel(true);
+      setVerifymodel({ open: true });
     } else if (subject.length === 0) {
       setmessage(
         'Email subject is missing. Do you want to send without a subject?',
       );
-      setVerifymodel(true);
+      setVerifymodel({ open: true, actions: dailougeActions });
     } else if (formik.values.userMessage === '') {
       setmessage(
         'Email content is missing. Please add the content before sending.',
       );
-      setVerifymodel(true);
+      setVerifymodel({ open: true });
     } else {
-      await composemail(authProvider, Emailprops)
-        .then((res) => {
-          Toast('Message send successfully', 'LONG', 'success');
-          clearform();
-          onClose();
-          setstyle(0);
+      composeemail();
 
-
-        })
-        .catch((error) => {});
       // await mailreplay(authProvider, replaymsg.id, replay)
       //   .then((res) => {
       //     console.log('res', res);
@@ -384,7 +409,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
   };
 
   const close = () => {
-    setVerifymodel(false);
+    setVerifymodel({ open: false });
   };
 
   const romovefile = (valint) => {
@@ -609,7 +634,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                   <Flex
                     row
                     wrap
-                    style={{ margin:"10px 5px"}}
+                    style={{ margin: '10px 5px' }}
                     className={styles.filesContainer}
                   >
                     {file.length !== 0 &&
@@ -623,13 +648,15 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                           key={index}
                         >
                           <Flex style={{ padding: '5px' }}>
-                            <Text size={12}
+                            <Text
+                              size={12}
                               className={styles.attachfile}
                               title={`${index + 1}.${list.name}`}
                             >
                               {index + 1}.{list.name}
                             </Text>
-                            <Text size={10}
+                            <Text
+                              size={10}
                               title={`${Math.round(list.size / 1024)} KB`}
                               style={{ color: '#666666' }}
                             >
@@ -638,7 +665,6 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                           </Flex>
                           <Flex
                             style={{
-                              
                               height: '100%',
                               display: 'flex',
                               padding: '0',

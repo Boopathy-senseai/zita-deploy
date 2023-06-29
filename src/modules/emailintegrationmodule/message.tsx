@@ -298,7 +298,7 @@ const Inbox = ({
                 style={{ cursor: 'pointer' }}
                 onClick={() => unread(false)}
               >
-                <SvgRead width={16} height={16}/>
+                <SvgRead width={16} height={16} />
               </Flex>
               <Flex
                 title="Edit Message"
@@ -324,7 +324,11 @@ const Inbox = ({
         <Flex row width={'100%'} height={'100%'}>
           {message !== '' ? (
             <>
-              <Flex column width={'100%'}>
+              <Flex
+                column
+                width={'100%'}
+                style={{ border: '1px solid #c3c3c3', borderRadius: '5px 5px 0px 0px' }}
+              >
                 <Flex row between style={{ borderBottom: '1px solid #c3c3c3' }}>
                   <Flex width={'100%'} style={{ padding: '5px 10px' }}>
                     <Flex row between width={'100%'}>
@@ -403,8 +407,16 @@ const Inbox = ({
                 className={styles.attachfile}
               >
                 <Flex marginRight={10} style={{ padding: '10px' }}>
-                  <Text size={12} title={val.name} className={styles.fileName}>{val.name}</Text>
-                  <Text  size={10}title={`${Math.round(val.size/1024)} KB`}style={{color:"#666666"}}>{Math.round(val.size/1024)} KB</Text>
+                  <Text size={12} title={val.name} className={styles.fileName}>
+                    {val.name}
+                  </Text>
+                  <Text
+                    size={10}
+                    title={`${Math.round(val.size / 1024)} KB`}
+                    style={{ color: '#666666' }}
+                  >
+                    {Math.round(val.size / 1024)} KB
+                  </Text>
                 </Flex>
                 <Flex
                   style={{

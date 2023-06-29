@@ -6,7 +6,7 @@ import SvgVectorClose from '../../icons/SvgMailClose';
 import Button from '../../uikit/Button/Button';
 import styles from './emailverificationmodelwindow.module.css';
 type Props = {
-  data: boolean;
+  data: { open: boolean; actions?: React.ReactNode };
   message: string;
   close: () => void;
 };
@@ -17,12 +17,12 @@ const VerificationModel = ({ data, message, close }: Props) => {
 
   return (
     <div>
-      <Modal open={data}>
+      <Modal open={data.open}>
         <Flex flex={6} column center className={styles.overAll}>
           <Flex>
             <Flex marginBottom={5} row center>
               {/* <SvgCross width={14} height={14}/> */}
-              <Text bold size={14} style={{ color: 'red'}}>
+              <Text bold size={14} style={{ color: 'red' }}>
                 Error
               </Text>
             </Flex>
@@ -31,18 +31,15 @@ const VerificationModel = ({ data, message, close }: Props) => {
             </Text>
           </Flex>
 
-          <Flex row end marginTop={20} className={styles.borderLine}>
-            <Button
-              // className={styles.cancel}
-              types={'primary'}
-              onClick={handleClose}
-            >
-              OK
-            </Button>
-            {/* <Button className={styles.update} onClick={handleDeletePipelinePopup}>
-            Delete
-          </Button> */}
-          </Flex>
+          {!data.actions ? (
+            <Flex row end marginTop={20} className={styles.borderLine}>
+              <Button types={'primary'} onClick={handleClose}>
+                OK
+              </Button>
+            </Flex>
+          ) : (
+            data.actions
+          )}
 
           {/* <Flex style={{ padding: '5px 20px 20px 20px' }}>
             <Flex
