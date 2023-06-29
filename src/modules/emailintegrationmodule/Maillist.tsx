@@ -52,7 +52,9 @@ const Maillist = ({
       } else if (sideroute === 4) {
         return <Text bold>Archive ({mailfolders[0].unreadItemCount})</Text>;
       } else if (sideroute === 5) {
-        return <Text bold>Deleted Items ({mailfolders[2].unreadItemCount})</Text>;
+        return (
+          <Text bold>Deleted Items ({mailfolders[2].unreadItemCount})</Text>
+        );
       } else if (sideroute === 6) {
         return <Text bold>Junk Email ({mailfolders[5].unreadItemCount})</Text>;
       }
@@ -99,7 +101,7 @@ const Maillist = ({
   };
 
   return (
-    <Flex >
+    <Flex>
       {console.log('siderouteaaa', sideroute)}
       {console.log('folder', mailfolders)}
       <Flex
@@ -150,7 +152,7 @@ const Maillist = ({
 
                       <Flex
                         style={{
-                          marginLeft: '15px',
+                          marginLeft: val.isRead ? '20px' : '10px',
                           width: '100%',
                           display: 'flex',
                         }}
@@ -173,8 +175,8 @@ const Maillist = ({
                             </Text> */}
 
                             <Text>{handlemessage(val)}</Text>
-                            <Text size={14}>
-                              {getDateString(val.sentDateTime, 'DD/MM/YYYY')}
+                            <Text size={12}>
+                              {getDateString(val.sentDateTime, 'DD/MM/YY')}
                             </Text>
                           </Flex>
 

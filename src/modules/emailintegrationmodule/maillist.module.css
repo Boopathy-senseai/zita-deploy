@@ -73,7 +73,7 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  width: 250px;
+  width: 375px;
   color: #666666;
 }
 .scroll {
@@ -86,7 +86,7 @@
 }
 
 .notification_dot {
-  margin-left: 10px;
+  /* margin-right: 10px; */
   border-radius: 50%;
   background-color: #4f153e;
   height: 10px;
