@@ -8,7 +8,7 @@ import { deletemail, movefolder, mailread } from '../../emailService';
 import config from '../../outlookmailConfig';
 import { Flex, Card, Text } from '../../uikit';
 import SvgArchive from '../../icons/SvgArchive';
-import { SvgTrash } from '../../icons';
+import { SvgEdit, SvgTrash } from '../../icons';
 import SvgJunk from '../../icons/SvgJunk';
 import SvgReply from '../../icons/SvgReply';
 import SvgForward from '../../icons/SvgForward';
@@ -228,7 +228,6 @@ const Inbox = ({
               </Flex>
 
               {sidebarroute !== 6 ? (
-                // <Text onClick={junk}> Junk </Text>
                 <Flex
                   title="Junk"
                   className={messageIcon ? styles.icons : styles.iconsDisabled}
@@ -245,7 +244,6 @@ const Inbox = ({
               )}
             </Flex>
 
-            {/* <Text onClick={remove}>delete</Text> */}
             <Flex row>
               <Text color="theme">
                 {`${previous1}-${previous} of ${total}`}
@@ -281,19 +279,36 @@ const Inbox = ({
           </>
         ) : (
           <>
-            {/* <Text onClick={remove}>delete</Text> */}
-            <Flex title="Delete" style={{ cursor: 'pointer' }} onClick={remove}>
-              <SvgTrash width={16} height={16} fill={'#581845'} />
+            <Flex row>
+              {' '}
+              <Flex
+                title="Delete"
+                className={messageIcon ? styles.icons : styles.iconsDisabled}
+                onClick={messageIcon ? remove : undefined}
+              >
+                <SvgTrash
+                  width={16}
+                  height={16}
+                  fill={messageIcon ? '#581845' : '#58184550'}
+                />
+              </Flex>
+              <Flex
+                title="Mark as unread"
+                className={messageIcon ? styles.icons : styles.iconsDisabled}
+                style={{ cursor: 'pointer' }}
+                onClick={() => unread(false)}
+              >
+                <SvgRead width={16} height={16}/>
+              </Flex>
+              <Flex
+                title="Edit Message"
+                className={messageIcon ? styles.icons : styles.iconsDisabled}
+                style={{ cursor: 'pointer' }}
+                onClick={() => {}}
+              >
+                <SvgEdit width={16} height={16} />
+              </Flex>
             </Flex>
-            {/* <Text onClick={() => unread(false)}> UnRead </Text> */}
-            <Flex
-              title="Mark as unread"
-              style={{ cursor: 'pointer' }}
-              onClick={() => unread(false)}
-            >
-              <SvgRead />
-            </Flex>
-            <Text>Re-Send</Text>
           </>
         )}
       </Flex>
@@ -306,7 +321,7 @@ const Inbox = ({
         }}
         className={styles.bodyContainer}
       >
-        <Flex row width={'100%'} height={"100%"}>
+        <Flex row width={'100%'} height={'100%'}>
           {message !== '' ? (
             <>
               <Flex column width={'100%'}>
@@ -361,12 +376,18 @@ const Inbox = ({
               </Flex>
             </>
           ) : (
-            <Flex center style={{alignContent: "center", height:"100vh", margin:"auto"}}>
-              <SvgEmptyMail/>
+            <Flex
+              center
+              style={{
+                alignContent: 'center',
+                height: '100vh',
+                margin: 'auto',
+              }}
+            >
+              <SvgEmptyMail />
               <Text>Select an item to read</Text>
               <Text>Nothing is selected</Text>
-              </Flex>
-            
+            </Flex>
           )}
         </Flex>
 
@@ -381,14 +402,25 @@ const Inbox = ({
                 key={ind}
                 className={styles.attachfile}
               >
-                <Flex marginRight={10} style={{padding:"10px"}}>
-                  <span style={{ marginRight: '10px'}}>
-                    {val.name}
-                  </span>
+                <Flex marginRight={10} style={{ padding: '10px' }}>
+                  <Text size={12} title={val.name} className={styles.fileName}>{val.name}</Text>
+                  <Text  size={10}title={`${Math.round(val.size/1024)} KB`}style={{color:"#666666"}}>{Math.round(val.size/1024)} KB</Text>
                 </Flex>
-                <Flex style={{ borderLeft: '1px solid #c3c3c3', height:"100%", display:"flex", padding:"0" }} className={styles.iconsContainer}>
+                <Flex
+                  style={{
+                    borderLeft: '1px solid #c3c3c3',
+                    height: '100%',
+                    display: 'flex',
+                    padding: '0',
+                  }}
+                  className={styles.iconsContainer}
+                >
                   <Flex
-                    style={{ cursor: 'pointer', padding:"5px 10px 5px 0px", height:"100%" }}
+                    style={{
+                      cursor: 'pointer',
+                      padding: '5px 10px 5px 0px',
+                      height: '100%',
+                    }}
                     onClick={() => donwnload(val)}
                   >
                     <SvgDownload

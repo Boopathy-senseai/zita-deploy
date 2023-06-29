@@ -235,6 +235,10 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
         .then((res) => {
           Toast('Message send successfully', 'LONG', 'success');
           clearform();
+          onClose();
+          setstyle(0);
+
+
         })
         .catch((error) => {});
       // await mailreplay(authProvider, replaymsg.id, replay)
@@ -605,39 +609,72 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                   <Flex
                     row
                     wrap
-                    style={{ marginRight: '5px', marginTop: '10px' }}
+                    style={{ margin:"10px 5px"}}
+                    className={styles.filesContainer}
                   >
-                    {file.length !== 0 ? (
-                      <>
-                        {file.map((list, index) => (
-                          <>
-                            <Flex
-                              flex={1}
-                              row
-                              center
-                              marginRight={index%2 === 1 ? 0: "10px"}
-                              className={styles.filesname}
-                              key={index}
+                    {file.length !== 0 &&
+                      file.map((list, index) => (
+                        <Flex
+                          flex={1}
+                          row
+                          center
+                          marginRight={index % 2 === 1 ? 0 : '10px'}
+                          className={styles.filesname}
+                          key={index}
+                        >
+                          <Flex style={{ padding: '5px' }}>
+                            <Text size={12}
+                              className={styles.attachfile}
+                              title={`${index + 1}.${list.name}`}
                             >
-                              {index + 1}. {list.name}
+                              {index + 1}.{list.name}
+                            </Text>
+                            <Text size={10}
+                              title={`${Math.round(list.size / 1024)} KB`}
+                              style={{ color: '#666666' }}
+                            >
+                              {Math.round(list.size / 1024)} KB
+                            </Text>
+                          </Flex>
+                          <Flex
+                            style={{
+                              
+                              height: '100%',
+                              display: 'flex',
+                              padding: '0',
+                            }}
+                            className={styles.iconsContainer}
+                          >
+                            <Flex
+                              style={{
+                                cursor: 'pointer',
+                                padding: '5px 10px 5px 0px',
+                                height: '100%',
+                              }}
+                              onClick={() => romovefile(index)}
+                            >
                               <SvgVectorClose
                                 width={11}
                                 height={11}
-                                style={{
-                                  cursor: 'pointer',
-                                  marginLeft: '20px',
-                                }}
+                                className={styles.svgicon}
                                 stroke="#333333"
-                                viewBox="0 0 9 9"
-                                onClick={() => romovefile(index)}
                               />
                             </Flex>
-                          </>
-                        ))}
-                      </>
-                    ) : (
-                      <></>
-                    )}
+                          </Flex>
+
+                          {/* <SvgVectorClose
+                              width={11}
+                              height={11}
+                              style={{
+                                cursor: 'pointer',
+                                marginLeft: '20px',
+                              }}
+                              stroke="#333333"
+                              viewBox="0 0 9 9"
+                              onClick={() => romovefile(index)}
+                            /> */}
+                        </Flex>
+                      ))}
                   </Flex>
                 </Flex>
               </Flex>
