@@ -83,6 +83,7 @@ const EditStagesModal: React.FC<Props> = (props) => {
     initialValues: initial,
     isTrim: false,
     validate: handleJobPipeline,
+    initialValidation: true,
     onSubmit: (data) => {
       // formik.handleChange("stage_name")(data.title.trim());
       onAddStageFromSuggestion({

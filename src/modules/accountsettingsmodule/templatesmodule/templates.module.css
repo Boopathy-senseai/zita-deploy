@@ -9,7 +9,7 @@
 }
 .pipelineStructure {
   max-height: 160px;
-  width: 250px;
+  width: 21%;
   margin-right: 20px;
   margin-bottom: 20px;
   padding: 15px 10px 0 10px;
@@ -91,6 +91,7 @@
   border-radius: 20px;
   color: #fcc203;
   margin-left: 10px;
+  margin-bottom: 5px;
 }
 .pointer {
   cursor: pointer;
