@@ -32,17 +32,19 @@ const Maillist = ({
   const showfolder = () => {
     if (mailfolders.length !== 0) {
       if (sideroute === 1) {
-        return <Text>Inbox({mailfolders[4].unreadItemCount})</Text>;
+        return <Text bold>Inbox ({mailfolders[4].unreadItemCount})</Text>;
       } else if (sideroute === 2) {
-        return <Text>SentItem({mailfolders[7].unreadItemCount})</Text>;
+        return <Text bold>Sent Items ({mailfolders[7].unreadItemCount})</Text>;
       } else if (sideroute === 3) {
-        return <Text>Draft({mailfolders[3].unreadItemCount})</Text>;
+        return <Text bold>Drafts ({mailfolders[3].unreadItemCount})</Text>;
       } else if (sideroute === 4) {
-        return <Text>Archive({mailfolders[0].unreadItemCount})</Text>;
+        return <Text bold>Archive ({mailfolders[0].unreadItemCount})</Text>;
       } else if (sideroute === 5) {
-        return <Text>DeletedItem({mailfolders[2].unreadItemCount})</Text>;
+        return (
+          <Text bold>Deleted Items ({mailfolders[2].unreadItemCount})</Text>
+        );
       } else if (sideroute === 6) {
-        return <Text>Junkemail({mailfolders[5].unreadItemCount})</Text>;
+        return <Text bold>Junk Email ({mailfolders[5].unreadItemCount})</Text>;
       }
     }
   };
@@ -123,7 +125,7 @@ const Maillist = ({
 
                       <Flex
                         style={{
-                          marginLeft: '15px',
+                          marginLeft: val.isRead ? '20px' : '10px',
                           width: '100%',
                           display: 'flex',
                         }}
@@ -136,8 +138,8 @@ const Maillist = ({
                         >
                           <Flex row between>
                             <Text>{handlemessage(val)}</Text>
-                            <Text size={14}>
-                              {getDateString(val.sentDateTime, 'DD/MM/YYYY')}
+                            <Text size={12}>
+                              {getDateString(val.sentDateTime, 'DD/MM/YY')}
                             </Text>
                           </Flex>
 

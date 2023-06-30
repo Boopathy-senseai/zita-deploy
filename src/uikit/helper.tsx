@@ -19,6 +19,7 @@ export const isEmpty = (value: IsEmptyValueType): boolean =>
 export type DateType =
   | 'MMM DD, YYYY'
   | 'DD/MM/YYYY'
+  | 'DD/MM/YY'
   | 'DD MMM YYYY'
   | 'DD MMM'
   | 'DD MMM YYYY, hh:mm a'

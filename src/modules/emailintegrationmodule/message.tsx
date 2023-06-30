@@ -8,7 +8,7 @@ import { deletemail, movefolder, mailread } from '../../emailService';
 import config from '../../outlookmailConfig';
 import { Flex, Card, Text } from '../../uikit';
 import SvgArchive from '../../icons/SvgArchive';
-import { SvgTrash } from '../../icons';
+import { SvgEdit, SvgTrash } from '../../icons';
 import SvgJunk from '../../icons/SvgJunk';
 import SvgReply from '../../icons/SvgReply';
 import SvgForward from '../../icons/SvgForward';
@@ -229,7 +229,6 @@ const Inbox = ({
               </Flex>
 
               {sidebarroute !== 6 ? (
-                // <Text onClick={junk}> Junk </Text>
                 <Flex
                   title="Junk"
                   className={messageIcon ? styles.icons : styles.iconsDisabled}
@@ -246,7 +245,6 @@ const Inbox = ({
               )}
             </Flex>
 
-            {/* <Text onClick={remove}>delete</Text> */}
             {sidebarroute !== 0 ? (
               <>
                 <Flex row>
@@ -288,19 +286,36 @@ const Inbox = ({
           </>
         ) : (
           <>
-            {/* <Text onClick={remove}>delete</Text> */}
-            <Flex title="Delete" style={{ cursor: 'pointer' }} onClick={remove}>
-              <SvgTrash width={16} height={16} fill={'#581845'} />
+            <Flex row>
+              {' '}
+              <Flex
+                title="Delete"
+                className={messageIcon ? styles.icons : styles.iconsDisabled}
+                onClick={messageIcon ? remove : undefined}
+              >
+                <SvgTrash
+                  width={16}
+                  height={16}
+                  fill={messageIcon ? '#581845' : '#58184550'}
+                />
+              </Flex>
+              <Flex
+                title="Mark as unread"
+                className={messageIcon ? styles.icons : styles.iconsDisabled}
+                style={{ cursor: 'pointer' }}
+                onClick={() => unread(false)}
+              >
+                <SvgRead width={16} height={16} />
+              </Flex>
+              <Flex
+                title="Edit Message"
+                className={messageIcon ? styles.icons : styles.iconsDisabled}
+                style={{ cursor: 'pointer' }}
+                onClick={() => {}}
+              >
+                <SvgEdit width={16} height={16} />
+              </Flex>
             </Flex>
-            {/* <Text onClick={() => unread(false)}> UnRead </Text> */}
-            <Flex
-              title="Mark as unread"
-              style={{ cursor: 'pointer' }}
-              onClick={() => unread(false)}
-            >
-              <SvgRead />
-            </Flex>
-            <Text>Re-Send</Text>
           </>
         )}
       </Flex>
@@ -316,7 +331,14 @@ const Inbox = ({
         <Flex row width={'100%'} height={'100%'}>
           {message !== '' ? (
             <>
-              <Flex column width={'100%'}>
+              <Flex
+                column
+                width={'100%'}
+                style={{
+                  border: '1px solid #c3c3c3',
+                  borderRadius: '5px 5px 0px 0px',
+                }}
+              >
                 <Flex row between style={{ borderBottom: '1px solid #c3c3c3' }}>
                   <Flex width={'100%'} style={{ padding: '5px 10px' }}>
                     <Flex row between width={'100%'}>
@@ -401,7 +423,16 @@ const Inbox = ({
                 className={styles.attachfile}
               >
                 <Flex marginRight={10} style={{ padding: '10px' }}>
-                  <span style={{ marginRight: '10px' }}>{val.name}</span>
+                  <Text size={12} title={val.name} className={styles.fileName}>
+                    {val.name}
+                  </Text>
+                  <Text
+                    size={10}
+                    title={`${Math.round(val.size / 1024)} KB`}
+                    style={{ color: '#666666' }}
+                  >
+                    {Math.round(val.size / 1024)} KB
+                  </Text>
                 </Flex>
                 <Flex
                   style={{
