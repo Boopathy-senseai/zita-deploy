@@ -27,6 +27,7 @@ type Props = {
   deleteditems: () => void;
   junkemail: () => void;
   page: () => void;
+  sidebarroute: number;
 };
 
 const Sidebar = ({
@@ -39,6 +40,7 @@ const Sidebar = ({
   deleteditems,
   junkemail,
   page,
+  sidebarroute,
 }: Props) => {
   const [select, setSelect] = useState(1);
   const openmodel = () => {
@@ -100,7 +102,12 @@ const Sidebar = ({
               <Flex title="Compose" style={{ cursor: 'pointer' }}>
                 <Button onClick={openmodel} style={{ padding: '5px' }}>
                   <Flex row center>
-                    <SvgPlus width={12} height={12} viewBox="0 0 9 9" style={{cursor: "pointer"}}/>
+                    <SvgPlus
+                      width={12}
+                      height={12}
+                      viewBox="0 0 9 9"
+                      style={{ cursor: 'pointer' }}
+                    />
                     {/* <Text color="white" style={{ marginLeft: '5px' }}>
                     Compose
                   </Text> */}
@@ -109,17 +116,17 @@ const Sidebar = ({
               </Flex>
             </a>
           </li>
-          <li className={select === 1 ? styles.select_row : ''}>
+          <li className={sidebarroute === 1 ? styles.select_row : ''}>
             <a
               href={' '}
               onClick={(e) => inboxmessage(e, 1)}
               className={styles.hoverview}
-              title='Inbox'
+              title="Inbox"
             >
               <SvgInbox
                 width={16}
                 height={16}
-                fill={select === 1 ? '#581845' : '#333333'}
+                fill={sidebarroute === 1 ? '#581845' : '#333333'}
               />
               {/* <Text
                 className={styles.text}
@@ -130,17 +137,17 @@ const Sidebar = ({
               </Text> */}
             </a>
           </li>
-          <li className={select === 2 ? styles.select_row : ''}>
+          <li className={sidebarroute === 2 ? styles.select_row : ''}>
             <a
               href={' '}
               onClick={(e) => sendmessage(e, 2)}
               className={styles.hoverview}
-              title='Sent'
+              title="Sent"
             >
               <SvgSend
                 width={16}
                 height={16}
-                fill={select === 2 ? '#581845' : '#333333'}
+                fill={sidebarroute === 2 ? '#581845' : '#333333'}
               />
               {/* <Text
                 className={styles.text}
@@ -151,17 +158,17 @@ const Sidebar = ({
               </Text> */}
             </a>
           </li>
-          <li className={select === 3 ? styles.select_row : ''}>
+          <li className={sidebarroute === 3 ? styles.select_row : ''}>
             <a
               href={' '}
               onClick={(e) => draftmessage(e, 3)}
               className={styles.hoverview}
-              title='Draft'
+              title="Draft"
             >
               <SvgDraft
                 width={16}
                 height={16}
-                fill={select === 3 ? '#581845' : '#333333'}
+                fill={sidebarroute === 3 ? '#581845' : '#333333'}
               />
               {/* <Text
                 className={styles.text}
@@ -172,17 +179,17 @@ const Sidebar = ({
               </Text> */}
             </a>
           </li>
-          <li className={select === 4 ? styles.select_row : ''}>
+          <li className={sidebarroute === 4 ? styles.select_row : ''}>
             <a
               href={' '}
               onClick={(e) => archivemessage(e, 4)}
               className={styles.hoverview}
-              title='Archive'
+              title="Archive"
             >
               <SvgArchive
                 width={16}
                 height={16}
-                fill={select === 4 ? '#581845' : '#333333'}
+                fill={sidebarroute === 4 ? '#581845' : '#333333'}
               />
               {/* <Text
                 className={styles.text}
@@ -193,17 +200,17 @@ const Sidebar = ({
               </Text> */}
             </a>
           </li>
-          <li className={select === 5 ? styles.select_row : ''}>
+          <li className={sidebarroute === 5 ? styles.select_row : ''}>
             <a
               href={' '}
               onClick={(e) => trashmessage(e, 5)}
               className={styles.hoverview}
-              title='Trash'
+              title="Trash"
             >
               <SvgTrash
                 width={16}
                 height={16}
-                fill={select === 5 ? '#581845' : '#333333'}
+                fill={sidebarroute === 5 ? '#581845' : '#333333'}
               />
               {/* <Text
                 className={styles.text}
@@ -214,17 +221,17 @@ const Sidebar = ({
               </Text> */}
             </a>
           </li>
-          <li className={select === 6 ? styles.select_row : ''}>
+          <li className={sidebarroute === 6 ? styles.select_row : ''}>
             <a
               href={' '}
               onClick={(e) => junkmessage(e, 6)}
               className={styles.hoverview}
-              title='Junk'
+              title="Junk"
             >
               <SvgJunk
                 width={16}
                 height={16}
-                stroke={select === 6 ? '#581845' : '#333333'}
+                stroke={sidebarroute === 6 ? '#581845' : '#333333'}
               />
               {/* <Text
                 className={styles.text}

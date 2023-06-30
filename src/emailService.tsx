@@ -198,16 +198,32 @@ export async function getsearchmail(
   authProvider: AuthCodeMSALBrowserAuthenticationProvider,
   folder,
   serchdata,
+  previous,
+  range,
 ) {
-  console.log('folder', folder);
-  console.log('serchdata', serchdata);
-  var response: any = await graphClient
-    ?.api(`/me/mailFolders/${folder}/messages`)
-    .search(serchdata)
-    .top(1000)
-    .get();
-  //console.log('-----searchmail-----', response);
-  return response;
+  if (folder === 'All') {
+    var response1: any = await graphClient
+      ?.api(`/me/messages`)
+      .count(true)
+
+      .top(1000)
+      .search(serchdata)
+      .get();
+
+    console.log('-----allsearch-----', response1);
+    return response1;
+  } else {
+    var response: any = await graphClient
+      ?.api(`/me/mailFolders/${folder}/messages`)
+      .count(true)
+
+      .top(1000)
+      .search(serchdata)
+      .get();
+
+    console.log('-----particularsearchmail-----', response);
+    return response;
+  }
 }
 
 export async function getmessages(
@@ -238,8 +254,6 @@ export async function getusermail(
   //console.log('-----particularmail-----', response);
   return response;
 }
-
-//https://graph.microsoft.com/v1.0/me/messages?$filter=from/emailAddress/address eq 'sridharchinnathambi96@gmail.com'
 
 export async function getselectedmsg(
   authProvider: AuthCodeMSALBrowserAuthenticationProvider,

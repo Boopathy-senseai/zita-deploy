@@ -7,38 +7,26 @@ import styles from './maillist.module.css';
 type Props = {
   messagelist: any;
   selectmessage: any;
-  searchmessage: () => void;
-  searchinput: any;
-  search: string;
   getmessageid: any;
   sideroute: number;
   mailfolders: any;
+  removemsg: any;
 };
 const Maillist = ({
   messagelist,
   selectmessage,
-  searchmessage,
-  searchinput,
-  search,
   getmessageid,
   sideroute,
   mailfolders,
+  removemsg,
 }: Props) => {
   const [messages, setmesage] = useState<any>();
 
   const getmessage = (get, id) => {
+    removemsg();
     setmesage(get);
     selectmessage(get);
     getmessageid(id);
-  };
-
-  const serchmail = (e: any) => {
-    searchinput(e.target.value);
-    //console.log('searchmail', e.target.value);
-  };
-
-  const click = () => {
-    searchmessage();
   };
 
   const showfolder = () => {
@@ -59,20 +47,8 @@ const Maillist = ({
     }
   };
 
-  const draftfunction = (val) => {
-    if (val.length !== 0) {
-      var result = val.reduce(function (nam, arr) {
-        // return the sum with previous value
-        return nam + ' & ' + arr.emailAddress.name;
-      }, '');
-      return <>{result.substring(2)}</>;
-    } else {
-      return <>{'(No Recipients)'}</>;
-    }
-  };
-
   const handlemessage = (val) => {
-    if (sideroute === 3 || sideroute === 5) {
+    if (sideroute === 3 || sideroute === 5 || sideroute === 0) {
       if (val.isDraft === true) {
         if (val.toRecipients.length !== 0) {
           var del = val.toRecipients.reduce(function (nam, arr) {
@@ -99,7 +75,7 @@ const Maillist = ({
   };
 
   return (
-    <Flex >
+    <div>
       {console.log('siderouteaaa', sideroute)}
       {console.log('folder', mailfolders)}
       <Flex
@@ -139,9 +115,6 @@ const Maillist = ({
                     onClick={() => getmessage(val, val.id)}
                   >
                     <Flex row start className={styles.mailCard}>
-                      {/* <Flex>
-                        <CheckBox className={styles.checkBox}></CheckBox>
-                      </Flex> */}
                       {val.isRead !== true ? (
                         <Flex className={styles.notification_dot}></Flex>
                       ) : (
@@ -162,16 +135,6 @@ const Maillist = ({
                           style={{ display: 'flex', flexDirection: 'column' }}
                         >
                           <Flex row between>
-                            {/* <Text
-                              size={14}
-                              className={styles.textHeadingStyle}
-                              color="black"
-                            >
-                              {sideroute !== 3
-                                ? val.sender.emailAddress.name
-                                : draftfunction(val.toRecipients)}
-                            </Text> */}
-
                             <Text>{handlemessage(val)}</Text>
                             <Text size={14}>
                               {getDateString(val.sentDateTime, 'DD/MM/YYYY')}
@@ -200,7 +163,7 @@ const Maillist = ({
           )}
         </Flex>
       </Flex>
-    </Flex>
+    </div>
   );
 };
 

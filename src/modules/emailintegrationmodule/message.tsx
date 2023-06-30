@@ -195,6 +195,7 @@ const Inbox = ({
   const messageIcon = message !== '';
   return (
     <div>
+      {console.log('meaa', message)}
       <Flex flex={1} row between center className={styles.iconContainer}>
         {sidebarroute !== 3 ? (
           <>
@@ -246,38 +247,44 @@ const Inbox = ({
             </Flex>
 
             {/* <Text onClick={remove}>delete</Text> */}
-            <Flex row>
-              <Text color="theme">
-                {`${previous1}-${previous} of ${total}`}
-              </Text>
-              <Flex
-                title="previous"
-                className={
-                  previous1 !== 1 ? styles.icons : styles.iconsDisabled
-                }
-                style={{ marginLeft: '5px' }}
-              >
-                <SvgLeft
-                  width={12}
-                  height={12}
-                  fill={previous1 !== 1 ? '#581845' : '#58184550'}
-                  onClick={previous1 !== 1 ? Previousdata : undefined}
-                />
-              </Flex>
-              <Flex
-                title="Next"
-                className={
-                  previous !== total ? styles.icons : styles.iconsDisabled
-                }
-              >
-                <SvgRight
-                  width={12}
-                  height={12}
-                  fill={previous !== total ? '#581845' : '#58184550'}
-                  onClick={previous !== total ? Nextdata : undefined}
-                />
-              </Flex>
-            </Flex>
+            {sidebarroute !== 0 ? (
+              <>
+                <Flex row>
+                  <Text color="theme">
+                    {`${previous1}-${previous} of ${total}`}
+                  </Text>
+                  <Flex
+                    title="previous"
+                    className={
+                      previous1 !== 1 ? styles.icons : styles.iconsDisabled
+                    }
+                    style={{ marginLeft: '5px' }}
+                  >
+                    <SvgLeft
+                      width={12}
+                      height={12}
+                      fill={previous1 !== 1 ? '#581845' : '#58184550'}
+                      onClick={previous1 !== 1 ? Previousdata : undefined}
+                    />
+                  </Flex>
+                  <Flex
+                    title="Next"
+                    className={
+                      previous !== total ? styles.icons : styles.iconsDisabled
+                    }
+                  >
+                    <SvgRight
+                      width={12}
+                      height={12}
+                      fill={previous !== total ? '#581845' : '#58184550'}
+                      onClick={previous !== total ? Nextdata : undefined}
+                    />
+                  </Flex>
+                </Flex>
+              </>
+            ) : (
+              ''
+            )}
           </>
         ) : (
           <>
@@ -306,16 +313,22 @@ const Inbox = ({
         }}
         className={styles.bodyContainer}
       >
-        <Flex row width={'100%'} height={"100%"}>
+        <Flex row width={'100%'} height={'100%'}>
           {message !== '' ? (
             <>
               <Flex column width={'100%'}>
                 <Flex row between style={{ borderBottom: '1px solid #c3c3c3' }}>
                   <Flex width={'100%'} style={{ padding: '5px 10px' }}>
                     <Flex row between width={'100%'}>
-                      <Text bold size={14}>
-                        {message.sender.emailAddress.name}
-                      </Text>
+                      {message.isDraft !== true ? (
+                        <Text bold size={14}>
+                          {message.sender.emailAddress.name}
+                        </Text>
+                      ) : (
+                        <Text bold size={14}>
+                          {'[Draft] (No sender)'}
+                        </Text>
+                      )}
 
                       <Flex row marginRight={10}>
                         <Flex
@@ -361,12 +374,18 @@ const Inbox = ({
               </Flex>
             </>
           ) : (
-            <Flex center style={{alignContent: "center", height:"100vh", margin:"auto"}}>
-              <SvgEmptyMail/>
+            <Flex
+              center
+              style={{
+                alignContent: 'center',
+                height: '100vh',
+                margin: 'auto',
+              }}
+            >
+              <SvgEmptyMail />
               <Text>Select an item to read</Text>
               <Text>Nothing is selected</Text>
-              </Flex>
-            
+            </Flex>
           )}
         </Flex>
 
@@ -381,14 +400,24 @@ const Inbox = ({
                 key={ind}
                 className={styles.attachfile}
               >
-                <Flex marginRight={10} style={{padding:"10px"}}>
-                  <span style={{ marginRight: '10px'}}>
-                    {val.name}
-                  </span>
+                <Flex marginRight={10} style={{ padding: '10px' }}>
+                  <span style={{ marginRight: '10px' }}>{val.name}</span>
                 </Flex>
-                <Flex style={{ borderLeft: '1px solid #c3c3c3', height:"100%", display:"flex", padding:"0" }} className={styles.iconsContainer}>
+                <Flex
+                  style={{
+                    borderLeft: '1px solid #c3c3c3',
+                    height: '100%',
+                    display: 'flex',
+                    padding: '0',
+                  }}
+                  className={styles.iconsContainer}
+                >
                   <Flex
-                    style={{ cursor: 'pointer', padding:"5px 10px 5px 0px", height:"100%" }}
+                    style={{
+                      cursor: 'pointer',
+                      padding: '5px 10px 5px 0px',
+                      height: '100%',
+                    }}
                     onClick={() => donwnload(val)}
                   >
                     <SvgDownload

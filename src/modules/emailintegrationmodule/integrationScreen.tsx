@@ -53,7 +53,7 @@ const EmailScreen = () => {
   const [sideroute, setsideroute] = useState(1);
   const [loader, setLoader] = useState(false);
   const [search, setSearch] = useState('');
-  const [attachments, setAttachments] = useState('');
+  const [attachments, setAttachments] = useState([]);
   const [mailfolders, setMailfolders] = useState('');
 
   const [previous, setPrevious] = useState(25);
@@ -63,7 +63,8 @@ const EmailScreen = () => {
   const [total, setTotal] = useState(0);
   const [del, setDel] = useState(0);
   const [searchDropdown, setSearchDropdown] = useState(false);
-  const [searchSection, setSearchSection] = useState("All folder")
+  const [searchSection, setSearchSection] = useState('All');
+  const [searchFolder, setSearchFolder] = useState('All Folder');
 
   const authProvider = new AuthCodeMSALBrowserAuthenticationProvider(
     msal.instance as PublicClientApplication,
@@ -132,32 +133,43 @@ const EmailScreen = () => {
 
   const removemessage = () => {
     setmesage('');
-    setAttachments('');
+    setAttachments([]);
   };
+
+  const Select = (val, folder) => {
+    setSearchSection(val);
+    setSearchFolder(folder);
+  };
+
   const searchDropdownMenu = [
     {
       name: 'All folder',
-      onclick: () => setSearchSection("All folder"),
+      onclick: () => Select('All', 'All Folder'),
     },
     {
       name: 'Inbox',
-      onclick: () => setSearchSection("Inbox"),
-    },
-    {
-      name: 'Draft',
-      onclick: () => setSearchSection("Draft"),
+      onclick: () => Select('Inbox', 'Inbox'),
     },
     {
       name: 'Sent',
-      onclick: () => setSearchSection("Sent"),
+      onclick: () => Select('sentitems', 'Send Items'),
     },
     {
+      name: 'Draft',
+      onclick: () => Select('drafts', 'Drafts'),
+    },
+
+    {
       name: 'Archive',
-      onclick: () => setSearchSection("Archive"),
+      onclick: () => Select('archive', 'Archive'),
+    },
+    {
+      name: 'Delete',
+      onclick: () => Select('deleteditems', 'Deleted Items'),
     },
     {
       name: 'Junk',
-      onclick: () => setSearchSection("Junk"),
+      onclick: () => Select('junkemail', 'Junk Email'),
     },
   ];
 
@@ -168,28 +180,15 @@ const EmailScreen = () => {
   // });
 
   useEffect(() => {
-    getprofile();
-    page();
-    getfolder();
-    //sss();
+    if (sideroute !== 0) {
+      getprofile();
+      page();
+      getfolder();
+    }
+
     // dispatch(getEmail()).then((res) => {
     // });
   }, [sideroute, skip]);
-
-  const sss = async () => {
-    await getusermail(authProvider)
-      .then((res: any) => {
-        //  console.log('achive---------', res);
-      })
-      .catch((error) => {
-        //  console.log('connection failed achive mail', error);
-      });
-  };
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     console.log('This will run after 1 second!');
-  //   }, 1000);
-  // });
 
   const inboxmail = () => {
     getmails();
@@ -229,7 +228,12 @@ const EmailScreen = () => {
     setPrevious1(1);
     setmessagelist([]);
     setmesage('');
+    setSearchDropdown(false);
+    setSearch('');
     setsideroute(val);
+    setSearchFolder('All Folder');
+    setSearchSection('All');
+    setAttachments([]);
   };
 
   const junkemail = async () => {
@@ -245,31 +249,43 @@ const EmailScreen = () => {
       });
   };
 
-  const searchinput = (val) => {
-    setSearch(val);
+  const searchinput = (e) => {
+    setSearch(e.target.value);
+    console.log('search', e.target.value);
   };
 
-  const serchmessage = async () => {
+  const serchmessage = async (e) => {
+    e.preventDefault();
+    setsideroute(0);
+    setPrevious(25);
+    setSkip(0);
+    setDel(0);
+    setPrevious1(1);
+    setmessagelist([]);
+    setmesage('');
     setLoader(true);
-    var folder = '';
-
-    if (sideroute === 1) {
-      folder = 'Inbox';
-    } else if (sideroute === 2) {
-      folder = 'sentitems';
-    } else if (sideroute === 3) {
-      folder = 'drafts';
-    } else if (sideroute === 4) {
-      folder = 'archive	';
-    } else if (sideroute === 5) {
-      folder = 'deleteditems';
-    } else if (sideroute === 6) {
-      folder = 'junkemail';
-    }
-    await getsearchmail(authProvider, folder, search)
+    // var folder = '';
+    // if (sideroute === 1) {
+    //   folder = 'Inbox';
+    // } else if (sideroute === 2) {
+    //   folder = 'sentitems';
+    // } else if (sideroute === 3) {
+    //   folder = 'drafts';
+    // } else if (sideroute === 4) {
+    //   folder = 'archive	';
+    // } else if (sideroute === 5) {
+    //   folder = 'deleteditems';
+    // } else if (sideroute === 6) {
+    //   folder = 'junkemail';
+    // }
+    await getsearchmail(authProvider, searchSection, search, skip, range)
       .then((res) => {
-        removemessage();
+        // removemessage();
         setmessagelist(res.value);
+        if (res['@odata.count'] < range) {
+          setPrevious(res['@odata.count']);
+        }
+        setTotal(res['@odata.count']);
         setLoader(false);
       })
       .catch((error) => {
@@ -298,13 +314,13 @@ const EmailScreen = () => {
       .then((res) => {
         //removemessage();
         setmessagelist(res.value);
-        setTotal(res['@odata.count']);
-        setLoader(false);
         if (res['@odata.count'] < range) {
           setPrevious(res['@odata.count']);
         }
+        setTotal(res['@odata.count']);
+        setLoader(false);
         getfolder();
-        console.log(folder, res.value);
+        //console.log(folder, res.value);
       })
       .catch((error) => {
         //console.log('error', error);
@@ -334,10 +350,6 @@ const EmailScreen = () => {
         setPrevious1(previous - (range + range) + 1);
       }
     } else {
-      // alert(previous - del);
-      // alert(previous1 - range);
-      // alert(previous1);
-      // alert(range);
       setPrevious(previous - del);
       setSkip(previous1 - range);
       setPrevious1(previous1 - range);
@@ -355,7 +367,7 @@ const EmailScreen = () => {
           attachment(res.id);
         } else {
           setLoader(false);
-          setAttachments('');
+          setAttachments([]);
         }
       })
       .catch((error) => {
@@ -389,6 +401,7 @@ const EmailScreen = () => {
   return (
     <>
       <Flex column>
+        {console.log('asas', sideroute)}
         {loader === true ? <Loader /> : ''}
         <Flex row between className={styles.titleContainer}>
           <Text bold size={16} color="theme">
@@ -399,20 +412,29 @@ const EmailScreen = () => {
               <Dropdown className="dropdown toggle">
                 {
                   <Dropdown.Toggle
-                  style={{
-                    borderColor: '#A5889C',
-                    backgroundColor: 'unset',
-                    boxShadow: 'none',
-                    padding: '0px',
-                  }}
-                   className={styles.Toggle}
+                    style={{
+                      borderColor: '#A5889C',
+                      backgroundColor: 'unset',
+                      boxShadow: 'none',
+                      padding: '0px',
+                    }}
+                    className={styles.Toggle}
                     // id="dropdown-basic"
                   >
-                    <Flex row noWrap center style={{padding:"5px"}}> 
-                    <Text size={12} color="theme" style={{marginRight: "10px",textTransform:"capitalize"}}> {searchSection}</Text>
-                    <SvgArrowDown width= {11} height={11}/>
+                    <Flex row noWrap center style={{ padding: '5px' }}>
+                      <Text
+                        size={12}
+                        color="theme"
+                        style={{
+                          marginRight: '10px',
+                          textTransform: 'capitalize',
+                        }}
+                      >
+                        {' '}
+                        {searchFolder}
+                      </Text>
+                      <SvgArrowDown width={11} height={11} />
                     </Flex>
-
                   </Dropdown.Toggle>
                 }
 
@@ -421,7 +443,7 @@ const EmailScreen = () => {
                     {searchDropdownMenu.map((doc, index) => (
                       <Dropdown.Item key={index} onClick={doc.onclick}>
                         <Flex row center className={styles.dropDownListStyle}>
-                          <Text >{doc.name}</Text>
+                          <Text style={{ cursor: 'pointer' }}>{doc.name}</Text>
                         </Flex>
                       </Dropdown.Item>
                     ))}
@@ -432,14 +454,21 @@ const EmailScreen = () => {
 
             <InputText
               actionRight={() => (
-                <Flex style={{ marginTop: '3px' }}>
+                <Flex
+                  style={{ marginTop: '3px' }}
+                  onClick={(e) => serchmessage(e)}
+                >
                   <SvgSearch />
                 </Flex>
               )}
               placeholder="Search by email subject or body"
               className={styles.inputSearch}
-              style={searchDropdown ? {borderTopLeftRadius: 0,
-                borderBottomLeftRadius: 0}: {borderRadius:"4px"}}
+              onChange={(e) => searchinput(e)}
+              style={
+                searchDropdown
+                  ? { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }
+                  : { borderRadius: '4px' }
+              }
               value={search}
               onFocus={() => {
                 setSearchDropdown(true);
@@ -465,6 +494,7 @@ const EmailScreen = () => {
               deleteditems={deleteditems}
               junkemail={junkemail}
               page={page}
+              sidebarroute={sideroute}
             />
           </Flex>
           <Flex flex={4} className={styles.containerColumn}>
@@ -479,12 +509,10 @@ const EmailScreen = () => {
             <Maillist
               messagelist={messagelist}
               selectmessage={selectmessage}
-              searchmessage={serchmessage}
-              searchinput={searchinput}
-              search={search}
               getmessageid={getmessageid}
               sideroute={sideroute}
               mailfolders={mailfolders}
+              removemsg={removemessage}
             />
           </Flex>
           <Flex flex={9} className={styles.containerColumn}>
