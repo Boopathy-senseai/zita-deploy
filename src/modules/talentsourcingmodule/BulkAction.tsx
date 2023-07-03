@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import moment from 'moment';
 import classNames from 'classnames/bind';
 import { useDispatch } from 'react-redux';
 import { GARY_4, PRIMARY } from '../../uikit/Colors/colors';
+import Totalcount from '../../globulization/TotalCount';
 import InputCheckBox from '../../uikit/InputCheckbox/InputCheckBox';
 import Toast from '../../uikit/Toast/Toast';
 import { AppDispatch } from '../../store';
@@ -58,6 +60,7 @@ const BulkAction = ({
   setIsCheck,
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
+  const [selectcard, setselectcard] = useState('');
 // bulk unlock function
   const handleUnlockSubmit = () => {
     if (planID !== 1) {
@@ -73,11 +76,14 @@ const BulkAction = ({
               dispatch(
                 parsedTextMiddleWare({
                   unlock_can_list: response.payload.unlock_can_list,
+                 
                 }),
               );
               setCandiList(response.payload.candi_list);
               setCandidatesLimit(response.payload.candi_limit);
               setSourceLimit(response.payload.source_limit);
+              setselectcard(response.payload.unlock_can_list);
+              console.log(response.payload.unlock_can_list,"++++++++++++++");
               if (
                 response.payload.success === true &&
                 response.payload.unlock_can_list.length !== 0
@@ -119,7 +125,7 @@ const BulkAction = ({
           if (response.payload.file_path) {
             FileSaver.saveAs(
               window.location.protocol + '//' + response.payload.file_path,
-              `Candidates_Profiles_${moment(new Date()).format('ll')}.zip`,
+              `Talent Sourcing_Candidate Profile_${moment(new Date()).format('ll')}.zip`,
             );
           }
         })
@@ -129,61 +135,137 @@ const BulkAction = ({
     }
   };
 
-  const svgColor = isCheckArray.length === 0 ? GARY_4 : PRIMARY;
+
   const checkArray = isCheckArray.length === 0 ? false : true;
 
+  const value=isCheckArray.map(val=>val[0]).filter(id=>id!==undefined);
+
+
+console.log("isCheckAll",isCheckAll)
+console.log("check arry",checkArray,isCheckArray)
+console.log("map",value);
   return (
     <Flex row center between wrap className={styles.overAll}>
       <Flex row center>
         <InputCheckBox
+    
           name="selectAll"
           id={'selectAll'}
-          onChange={handleSelectAll}
-          checked={isCheckAll}
-          label={'Bulk'}
-        />
-        <Flex
-          className={cx('svgDownload', {
-            pointer: checkArray,
-            pointerNot: !checkArray,
-          })}
-          onClick={handleDownloadSubmit}
-          title={'Download Profiles'}
-        >
-          <SvgDownload fill={svgColor} />
-        </Flex>
-        <Flex
-          className={cx('svgUnlock', {
-            pointer: checkArray,
-            pointerNot: !checkArray,
-          })}
-          onClick={handleUnlockSubmit}
-          title={'Unlock Contacts'}
-        >
-          <SvgLock fill={svgColor} height={20} width={20} />
-        </Flex>
+          onChange={handleSelectAll}         
+          checked={isCheckAll}      />
+        
+
+
+
+
+
+
         <Text
           id="bulkaction__search_results"
           className={styles.searchTextStyle}
         >
-          Search Results: {searchResult}
+        <Totalcount 
+        name="Search Results"
+        numbers={searchResult}
+      />
         </Text>
       </Flex>
+{checkArray &&(
+      <Flex row center>
+      <Flex row center className={styles.bulkSelection}>
+        <Flex marginRight={0}>
+          <Text color="theme">{`Selected ${value.length} Candidates `}</Text>
+        </Flex>
+
+        <Flex row className={styles.bulkButton}>
+          <Flex
+            row
+            center
+            marginRight={20}
+            style={{
+              paddingLeft: '5px',
+              borderLeft: '1px solid #581845',
+              cursor: 'pointer',
+            }}
+            onClick={handleUnlockSubmit}
+          >
+          <SvgLock fill={PRIMARY} height={16} width={16} />
+            <Text
+              style={{ marginLeft: '10px' }}  
+              color="theme"          
+            >
+            Unlock Contacts
+            </Text>
+          </Flex>
+          <Flex
+            row
+            center
+            style={{
+              paddingLeft: '5px',
+              borderLeft: '1px solid #581845',
+              cursor: 'pointer',
+            }}
+            onClick={handleDownloadSubmit}
+          >
+            <SvgDownload width={14} height={14} />
+            <Text style={{ marginLeft: '10px' }} color="theme">
+            Export Resumes
+            </Text>
+          </Flex>
+        </Flex>
+      </Flex>
+    </Flex>
+  )}
+      
+
       <Flex row center>
         {isCandidatesLimit === null ? (
           <Text className={cx('candidatesText')}>
-            Candidates Limit: Unlimited
+          <Totalcount 
+          name="Candidates Limit"
+          numbers={"Unlimited"}
+        />
           </Text>
         ) : (
           <Text className={cx('candidatesText')}>
-            Candidates Limit: {isCandidatesLimit}
+          <Totalcount 
+          name="Candidates Limit"
+          numbers={isCandidatesLimit}
+        />
           </Text>
         )}
 
-        <Text>Contact Credits: {source_limit}</Text>
+        <Text>
+        <Totalcount 
+        name="Contact Credits"
+        numbers={source_limit}
+      />
+       </Text>
       </Flex>
     </Flex>
   );
 };
 
 export default BulkAction;
+
+
+// <Flex
+//           className={cx('svgDownload', {
+//             pointer: checkArray,
+//             pointerNot: !checkArray,
+//           })}
+//           onClick={handleDownloadSubmit}
+//           title={'Download Profiles'}
+//         >
+//           <SvgDownload fill={svgColor} />
+//         </Flex>
+//         <Flex
+//           className={cx('svgUnlock', {
+//             pointer: checkArray,
+//             pointerNot: !checkArray,
+//           })}
+//           onClick={handleUnlockSubmit}
+//           title={'Unlock Contacts'}
+//         >
+//           <SvgLock fill={svgColor} height={20} width={20} />
+//         </Flex>

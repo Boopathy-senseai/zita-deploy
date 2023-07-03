@@ -93,9 +93,9 @@ const clearTabs = (e) => {
   return (
     <>
 
-      {console.log('check plan', is_plan)}
+      {console.log('*******', Expent)}
       <div className={Expent === '0' ? styles.sidebar : styles.sidebarmini} style={{marginTop:'50px'}}>
-
+  
         <ul>
           {is_plan ? (
                 changes  ?

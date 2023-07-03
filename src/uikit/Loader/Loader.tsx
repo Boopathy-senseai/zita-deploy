@@ -51,7 +51,7 @@ const Loader = ({ size, withOutOverlay }: Props) => {
         </svg>
       
        
-      </div>  <div className={styles.loadertext}> Please wait....</div>
+      </div>  <div className={styles.loadertext}></div>
     </div>
   );
 };

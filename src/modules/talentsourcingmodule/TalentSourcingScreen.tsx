@@ -9,13 +9,15 @@ import SingleButton from '../common/SingleButton';
 import Toast from '../../uikit/Toast/Toast';
 import { AppDispatch, RootState } from '../../store';
 import { ERROR_MESSAGE } from '../constValue';
+
 import { Text } from '../../uikit';
 import Title from '../common/Title';
 import Empty from '../common/Empty';
 import CancelAndDeletePopup from '../common/CancelAndDeletePopup';
+import TalentFilter from './TalentFilter';
 import TalentAction from './TalentAction';
 import TalentCardList from './TalentCardList';
-import TalentFilter from './TalentFilter';
+
 import NoCountModal from './NoCountModal';
 import styles from './talentsourcingscreen.module.css';
 import {
@@ -68,11 +70,14 @@ const TalentSourcingScreen = () => {
   const [isPdfLoader,setPdfLoader]=useState(false)
   const [isSubmitLoader,setSubmitLoader]=useState(false);
   const [isInitialLoader,setInitialLoader]=useState(true);
-
+  const [visible,setvisible]=useState(false);
+  const [show,setshow]=useState(false);
   const uselocation = useLocation();
   const history = useHistory();
 
-  const usersPerPage = 10;
+  const [isCheck, setIsCheck] = useState<any>([]);
+
+  const usersPerPage = 12;
   const pagesVisited = pageNumber * usersPerPage;
   const length: any = isSearchData?.length;
   const pageCount = Math.ceil(length / usersPerPage);
@@ -85,6 +90,10 @@ const TalentSourcingScreen = () => {
       setInitialLoader(false)
     });
   }, []);
+
+  const update=(val)=>{
+setshow(val)
+  }
 
   useEffect(() => {
     const getUrl = window.location.href;
@@ -415,7 +424,7 @@ const TalentSourcingScreen = () => {
         if (response.payload.file) {
           setShowPdf(true);
         }
-          setPdfLoader(false)
+          setPdfLoader(false)        
       })
       .catch(() => {
         Toast(ERROR_MESSAGE, 'LONG', 'error');
@@ -435,6 +444,8 @@ const TalentSourcingScreen = () => {
   };
 
   const handleSetPage = (page: number) => {
+   setshow(false)
+   setIsCheck([])
     setPageNumber(page);
     getFocus();
   };
@@ -466,6 +477,13 @@ const TalentSourcingScreen = () => {
   if(isInitialLoader){
     return <Loader />
   }
+  if(isSubmitLoader){
+    return <Loader />
+  }
+    console.log("isSearchData",isSearchData);
+    console.log("isFind",isFind);
+    console.log("iSubmitLoaders",isSubmitLoader);
+    console.log("isCheck+++++++++++++++++++++",isCheck);
   return (
     <>
     <Flex row className={styles.ribbon} between>
@@ -484,8 +502,8 @@ const TalentSourcingScreen = () => {
 
    </Flex>
     <Flex row className={styles.overAll}>
-      <Flex top row>
-        {(sourceLoader||isPdfLoader||searchLoader||stripeLoader||isCheckOutLoader) && <Loader />}
+       
+        {(sourceLoader||isPdfLoader||searchLoader||stripeLoader||isCheckOutLoader) && isSubmitLoader}
         <CancelAndDeletePopup
           title={
             'Please subscribe to any of the premium plans to buy credits and unlock candidates'
@@ -539,7 +557,8 @@ const TalentSourcingScreen = () => {
         />
 
         <NoCountModal
-          title={`Your candidate limit got exceed. Please change your plan to "PRO" to get unlimited candidate storage for your account.`}
+          title={`You don’t have enough contact credits to unlock`}
+          subtitle={`Do you wish to buy?`}
           btnLeftTitle={'Cancel'}
           btnRightTitle={'Buy'}
           open={isNoCount}
@@ -565,30 +584,11 @@ const TalentSourcingScreen = () => {
           open={isCredit}
           btnOnclick={() => setCredit(false)}
         />
-        <TalentFilter
-          isInitalCheckBox={isInitalCheckBox}
-          setOther={setOther}
-          isOther={isOther}
-          isBachelors={isBachelors}
-          isDoctorate={isDoctorate}
-          isMasters={isMasters}
-          isAny={isAny}
-          setBachelors={setBachelors}
-          setDoctorate={setDoctorate}
-          setMasters={setMasters}
-          setAny={setAny}
-          isRelocate={isRelocate}
-          setRelocate={setRelocate}
-          isExperience={isExperience}
-          setExperience={setExperience}
-          setInitialPage={setPageNumber}
-          handleRefresh={handleRefresh}
-        />
+        
         <Flex
           className={styles.titleContainer}
           height={window.innerHeight - 71}
-          between
-          flex={1}
+           
         >
           <div >
             <Flex className={styles.talentActionContainer}>
@@ -600,8 +600,34 @@ const TalentSourcingScreen = () => {
                 setSourceLimit={setSourceLimit}
                 location={location}
                 setSubmitLoader={setSubmitLoader}
+                setvisible={setvisible}
               />
             </Flex>
+                
+          {  visible === true && (        
+          <div className={cx('filterOverAll')}>
+          <TalentFilter
+                  isInitalCheckBox={isInitalCheckBox}
+                  setOther={setOther}
+                  isOther={isOther}
+                  isBachelors={isBachelors}
+                  isDoctorate={isDoctorate}
+                  isMasters={isMasters}
+                  isAny={isAny}
+                  setBachelors={setBachelors}
+                  setDoctorate={setDoctorate}
+                  setMasters={setMasters}
+                  setAny={setAny}
+                  isRelocate={isRelocate}
+                  
+                  setRelocate={setRelocate}
+                  isExperience={isExperience}
+                  setExperience={setExperience}
+                  setInitialPage={setPageNumber}
+                  handleRefresh={handleRefresh}
+                />
+          </div> )}
+             
             {(isSearchData?.length === 0 && isFind && !isSubmitLoader) && (
               <div className={styles.emptyStyle}>
                 <Empty title="Please enter your search keywords in the search field to find the candidates" />
@@ -613,7 +639,12 @@ const TalentSourcingScreen = () => {
                 </div>
               )}
             {isSearchData?.length !== 0 && isSearchData !== null && isSubmitLoader !== true && (
+             
               <TalentCardList
+                  update={update}
+                  val={show}
+                  isCheck={isCheck}
+                   setIsCheck={setIsCheck}
                 setCandiList={setCandiList}
                 setNoCount={setNoCount}
                 candi_list={isCandiList}
@@ -639,6 +670,7 @@ const TalentSourcingScreen = () => {
                 planID={planId}
                 setFree={setFree}
               />
+             
             )}
           </div>
           {isSearchData?.length !== 0 &&
@@ -653,7 +685,7 @@ const TalentSourcingScreen = () => {
               </div>
             )}
         </Flex>
-      </Flex>
+       
     </Flex>
     </>
   );

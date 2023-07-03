@@ -5,6 +5,7 @@ import styles from './text.module.css';
 const cx = classNames.bind(styles);
 export type textSize =
   | 10
+  | 11
   | 12
   | 14
   | 16

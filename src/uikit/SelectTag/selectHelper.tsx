@@ -440,5 +440,10 @@ export const customStylechanges1 = {
   selected: (provided: any) => ({
     color:PRIMARY,
     borderColor:PRIMARY,
+    backgroundColor:PRIMARY,
+  }),
+  focus: (provided: any) => ({
+    color:PRIMARY,
+    borderColor:GARY_9,
   }),
 };

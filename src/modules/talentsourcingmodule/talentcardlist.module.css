@@ -1,5 +1,5 @@
 .cardConatiner {
-  padding: 8px;
+  padding: 5px;
 }
 .profile {
   width: 40px;
@@ -13,11 +13,11 @@
   top: 4px;
 }
 .profileContainer {
-  margin-bottom: 8px;
+  /* margin-bottom: 8px; */
   /* padding-right: 16px; */
 }
 .jobList {
-  margin-bottom: 8px;
+  /* margin-bottom: 8px; */
 }
 .unlockBtn {
   position: relative;
@@ -42,14 +42,29 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 112px;
+  max-width: 83px;
+}
+.jobTitle1{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 95px;
+}
+.line{
+    width: 1px;
+    height: 86px;
+    background-color: rgb(165, 136, 156);
+    margin-top: 2px;
+    /* z-index: 12; */
+    margin-right: 18px;
 }
 .pointer {
   cursor: pointer;
 }
 .relocateContainer {
-  margin-top: 29px;
-  padding-top: 6px;
+  margin-top: 58px;
+  /* padding-top: 6px; */
+  margin-left: -116px;
 }
 
 .ellipsis {

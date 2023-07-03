@@ -6,6 +6,12 @@
   /* width: 190px; */
   width: 25%;
 }
+.filterOverAll {
+  /* padding-top: 20px; */
+  padding-right: 16px;
+  position: relative;
+  
+}
 .distanceStyle {
   /* width: 190px; */
   margin-right: 16px;
@@ -26,8 +32,9 @@
   margin-bottom: 22px;
 }
 .rowContainer {
-  padding-bottom: 24px;
+  padding-bottom: 10px;
   align-items: flex-end;
+  padding-left: 8px;
 }
 .btnContainer {
   /* width: 18%; */

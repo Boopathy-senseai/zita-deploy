@@ -11,6 +11,7 @@ import InputSearch from '../../uikit/InputSearch/InputSearch';
 import Button from '../../uikit/Button/Button';
 import { AppDispatch } from '../../store';
 import { ERROR_MESSAGE, THIS_FIELD_REQUIRED } from '../constValue';
+import TalentFilter from './TalentFilter';
 import styles from './talentaction.module.css';
 import { distanceOptions, lastActiveOptions } from './mock';
 import { talentSourcingSearchMiddleWare } from './store/middleware/talentSoucringMiddleware';
@@ -25,6 +26,7 @@ type Props = {
   setFind: (arg: boolean) => void;
   setInitalCheckBox: (arg: boolean) => void;
   setSubmitLoader:any
+  setvisible:any
 };
 
 type FormProps = {
@@ -50,12 +52,14 @@ const TalentAction = ({
   setPageNumber,
   setFind,
   setInitalCheckBox,
-  setSubmitLoader
+  setSubmitLoader,
+  setvisible
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
 
   // form filter submit
   const handleSubmit = (values: FormProps) => {
+    setvisible(true)
     setSubmitLoader(true)
     dispatch(
       talentSourcingSearchMiddleWare({
@@ -99,8 +103,10 @@ const TalentAction = ({
     onSubmit: handleSubmit,
     enableReinitialize: true,
   });
+  // console.log("112233",formik.setFieldValue)
 
   return (
+    <>
     <Flex row between bottom className={cx('rowContainer')}>
       <Flex row bottom flex={1}>
         <InputText
@@ -159,8 +165,34 @@ const TalentAction = ({
           Find Candidates
         </Button>
       </div>
+
     </Flex>
+    
+    </>
   );
 };
 
 export default TalentAction;
+
+
+// <div className={cx('filterOverAll')}>
+//     <TalentFilter
+//              isInitalCheckBox={isInitalCheckBox}
+//              setOther={setOther}
+//              isOther={isOther}
+//              isBachelors={isBachelors}
+//              isDoctorate={isDoctorate}
+//              isMasters={isMasters}
+//              isAny={isAny}
+//              setBachelors={setBachelors}
+//              setDoctorate={setDoctorate}
+//              setMasters={setMasters}
+//              setAny={setAny}
+//              isRelocate={isRelocate}
+//              setRelocate={setRelocate}
+//              isExperience={isExperience}
+//              setExperience={setExperience}
+//              setInitialPage={setPageNumber}
+//              handleRefresh={handleRefresh}
+//            />
+//    </div>

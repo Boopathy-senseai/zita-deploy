@@ -18,17 +18,14 @@ const CandidateSuccessModal = ({ open, btnOnclick, credits }: Props) => {
   return (
     <Modal open={open}>
       <Flex className={styles.overAll}>
-        <Flex end onClick={btnOnclick}>
-          <SvgCloseSmall />
-        </Flex>
         <Flex row center className={styles.title}>
-          <SvgInfo />
+        
           <Flex row center>
             <Text className={styles.titleText}>
               Candidate unlocked successfully! Please click
             </Text>
             <LinkWrapper
-              target={'_parent'}
+              target={'_blank'}
               to={routesPath.MYDATABASE+'?tab=2'}
               onClick={() => sessionStorage.setItem('getMydataBaseTabKey', '2')}
             >

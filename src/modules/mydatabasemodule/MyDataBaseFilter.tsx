@@ -132,7 +132,7 @@ const MyDataBaseFilter = ({
     }else if (formik.values.jobType === "3") {
       setjobname("Contract");
     }
-  },[formik.values.jobType])
+  },[formik.values.jobType,formik.values.skillValue])
   // useEffect(() => {
   //   if (formik.values.jobType === "1") {
   //      setexperience("Active");
@@ -238,14 +238,19 @@ const MyDataBaseFilter = ({
     };
 
     const skillval = (id) => {
-      console.log("id++++++++++++",id);
-      setskill(skill.splice(id,1) );
+      if(skill.length===1){
+        setskill([]);
+        formik.setFieldValue("skillValue","");
+      }
+        console.log("id++++++++++++",id);
+        skill.splice(id,1) ;
+        formik.values.skillValue=skill;
+        setskill(formik.values.skillValue)
       console.log("new change",skill);
-      // formik.setFieldValue("skillValue",skill);
-      // if(skill.length===1){
-      // setskill([]);
-      // formik.setFieldValue("skillValue","");}
+     
+         
       };
+      
   useEffect(() => {
     setQualificationValue(
       qualificationOption.filter((option) => option.checked),     
@@ -326,6 +331,21 @@ const MyDataBaseFilter = ({
     );
   };
 
+  // {formik.values.skillValue.length === 0||skill.length=== 0?(
+  //   null
+  // ): (
+  //   skill.map((skills,index) =>
+  //   <Text className={styles.quickfil} key={skills}>
+
+  //     {skills}{" "}
+  //     <SvgIntomark
+  //       className={styles.stylesvg}
+  //       onClick={() => skillval(index)}
+  //     />
+  //   </Text>
+  //   )
+  // )
+  // }
  
  
   return (
@@ -488,7 +508,7 @@ const MyDataBaseFilter = ({
       </Flex>
       <Flex className={styles.mtstyle}   >
         <div className={styles.skillContainer}>
-              <SelectTag
+        <SelectTag
                 label="Skills"
                 labelBold
                 ref={selectInputRef}
@@ -528,8 +548,8 @@ const MyDataBaseFilter = ({
            <span className={styles1.switch} />
            </label>
       </Flex>
-        <Flex style={{marginLeft:'15px'}}>
-            {"  "}Willing to Relocate
+        <Flex style={{marginLeft:'10px'}}>
+            Willing to Relocate
         </Flex>
       </Flex>
   

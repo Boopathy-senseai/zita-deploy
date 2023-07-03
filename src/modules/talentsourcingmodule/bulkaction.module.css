@@ -15,10 +15,40 @@
   /* width: 190px; */
 }
 .overAll {
-  padding-left: 8px;
+  padding-left: 14px;
   padding-right: 24px;
   width: 100%;
 }
 .searchTextStyle {
   margin-right: 8px;
+  margin-left: 10px;
+}
+.svgTick {
+  margin-right: 4px;
+  cursor: pointer;
+}
+.svgTickMargin {
+  margin-right: 4px;
+  cursor: pointer;
+  z-index: 11;
+}
+.svgTickDisable {
+  pointer-events: none;
+  cursor: not-allowed !important;
+  opacity: 0.5;
+}
+.tickStyle:hover path {
+  fill: var(--color-gary-4, #979797) !important;
+}
+.bulkSelection {
+  justify-content: space-between;
+  background-color: #c6b8c2;
+  padding: 5px 20px 5px 20px;
+  border-radius: 11px;
+  height: 30px;
+  width: 500px;
+  white-space: nowrap;
+}
+.bulkButton {
+  margin-left: 20px;
 }

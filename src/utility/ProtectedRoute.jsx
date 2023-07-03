@@ -52,7 +52,9 @@ const ProtectedRoute = ({ notIsNav, component: Component, ...rest }) => {
       history.push(`${query.redirect}`);
     }
   }, [location.pathname]);
+ 
   return (
+    <>
     <Route
       {...rest}
       render={(props) => {
@@ -70,7 +72,7 @@ const ProtectedRoute = ({ notIsNav, component: Component, ...rest }) => {
                       <Sidebar data={handlefunction} changes={unsavealert}    />
                     </div>
                     <div style={{width:"auto",flex:1 }} >
-                      <Component {...rest} {...props}   value={changeurlpopup}    /> 
+                      <Component {...rest} {...props}   value={changeurlpopup}  /> 
                       <div><UserProfile  value={passwordupdate} update={updatepassword}/></div> 
                     </div> 
                   </div>
@@ -93,6 +95,8 @@ const ProtectedRoute = ({ notIsNav, component: Component, ...rest }) => {
       }}
 
     />
+    {console.log("1212",sidebar)}
+    </>
   );
 };
 
