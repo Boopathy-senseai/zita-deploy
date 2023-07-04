@@ -16,7 +16,7 @@ import {
   PRIMARY,
 } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
-import { getDateString, isEmpty } from '../../uikit/helper';
+import { getDateString, isEmpty, workExperiance } from '../../uikit/helper';
 import Text from '../../uikit/Text/Text';
 import Loader from '../../uikit/Loader/Loader';
 import { ADD_FAV, dndBoardId, REMOVE_FAV } from '../constValue';
@@ -80,8 +80,7 @@ const MultiTask = ({
   const [isCalender, setCalender] = useState('popup');
   const [isProfileView, setProfileView] = useState(false);
   const dispatch: AppDispatch = useDispatch();
-  const workExp =
-    task.work_exp > 1 ? task.work_exp + ' Years' : task.work_exp + ' Year';
+  const workExp = workExperiance(task.work_exp);
   const match = isEmpty(task.match) ? 0 : task.match;
 
   useEffect(() => {
@@ -501,8 +500,12 @@ const MultiTask = ({
                     <Flex
                       row
                       center
-                      marginRight={16}
-                      style={{ cursor: 'pointer' }}
+                      // marginRight={16}
+                      style={{
+                        cursor: 'pointer',
+                        flexDirection: 'row',
+                        width: '100%',
+                      }}
                     >
                       <Button
                         types="link"
@@ -516,9 +519,11 @@ const MultiTask = ({
                           bold
                           color="theme"
                           textStyle={'ellipsis'}
-                          title={`${task.first_name || ""} ${task.last_name || ""}`}
+                          title={`${task.first_name || ''} ${
+                            task.last_name || ''
+                          }`}
                         >
-                          {`${task.first_name || ""} ${task.last_name || ""}`}
+                          {`${task.first_name || ''} ${task.last_name || ''}`}
                         </Text>
                       </Button>
 
@@ -554,10 +559,10 @@ const MultiTask = ({
                         size={12}
                         color="black2"
                         textStyle="ellipsis"
-                        title={task.qualification}
+                        title={workExp}
                         style={{ maxWidth: '50%', marginRight: 2 }}
                       >
-                        {task.qualification}
+                        {workExp}
                       </Text>
                       {task.qualification && workExp && (
                         <Text color="black2"> | </Text>
@@ -566,9 +571,10 @@ const MultiTask = ({
                         size={12}
                         color="black2"
                         textStyle="ellipsis"
+                        title={task.qualification}
                         style={{ marginLeft: 2 }}
                       >
-                        {workExp}
+                        {task.qualification}
                       </Text>
                     </Flex>
                     <Flex style={{ cursor: 'pointer' }}>
@@ -585,7 +591,17 @@ const MultiTask = ({
                     </Flex>
                   </Flex>
                 </Flex>
-                <Flex row end center style={{ cursor: 'pointer' }}>
+                <Flex
+                  row
+                  end
+                  center
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    cursor: 'pointer',
+                    width: '100%',
+                  }}
+                >
                   {columnId === 0 && getDate && (
                     <Flex
                       className={styles.svgNewTag}

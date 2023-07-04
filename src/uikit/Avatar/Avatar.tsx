@@ -59,12 +59,20 @@ export function getUserInitials(user?: {
   lastName?: string;
   email?: string;
 }) {
-  return user && (user.email || user.firstName || user.lastName)
-    ? (user.firstName || user.lastName
-        ? user.firstName ? user.firstName[0] : "" + user.lastName ? user.lastName[0]: ""
-        : user.email.slice(0, 2)
-      ).toUpperCase()
-    : undefined;
+  const { firstName, lastName, email } = user;
+  if (firstName && lastName) {
+    return firstName[0] + lastName[0];
+  }
+  if (firstName) {
+    return firstName[0];
+  }
+  if (lastName) {
+    return lastName[0];
+  }
+  if (email) {
+    return email.slice(0, 2);
+  }
+  return '';
 }
 
 export function stringToHslColor(str: string, s: number, l: number) {
@@ -78,8 +86,8 @@ export function stringToHslColor(str: string, s: number, l: number) {
 }
 
 export function randomColor() {
-  let hex = Math.floor(Math.random() * 0xFFFFFF);
-  let color = "#" + hex.toString(16);
+  let hex = Math.floor(Math.random() * 0xffffff);
+  let color = '#' + hex.toString(16);
 
   return color;
 }

@@ -267,6 +267,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
               name="pipelineTitle"
             />
           </Flex>
+
           <Flex
             row
             noWrap
@@ -276,6 +277,10 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
               position: 'relative',
               flex: 1,
               overflow: 'hidden',
+              boxShadow: "0px 0px 2px 0px rgba(0, 0, 0, 0.36)",
+              padding: 28,
+              margin: "0 1px",
+              borderRadius: 10,
             }}
           >
             <Flex
@@ -290,7 +295,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
                   Create, Rename, reorder, and delete job pipeline stages.
                 </Text>
               </Flex>
-              <Flex column style={{ overflowY: 'scroll', maxHeight: '390px' }}>
+              <Flex column style={{ overflowY: 'auto', maxHeight: '390px', padding: "2px 2px" }}>
                 <StageCard
                   doc={NEW_APPLICANT_STAGE}
                   index={-1}

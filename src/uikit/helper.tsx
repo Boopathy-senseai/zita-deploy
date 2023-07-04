@@ -236,3 +236,13 @@ export function stringifyParams(
     return res + `&${key}=${jsonStringfy(json[key])}`;
   }, '');
 }
+
+export function workExperiance(year: number, months?: number) {
+  if (year === 0 && months && months !== 0) {
+    return `${months} ${months > 1 ? 'Months' : 'Month'}`;
+  }
+  if (year > 1) {
+    return `${Math.floor(year)} Years`;
+  }
+  return 'Fresher';
+}
