@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Flex, Card, CheckBox, Text, InputText } from '../../uikit';
 import SvgRefresh from '../../icons/SvgRefresh';
 import { getDateString } from '../../uikit/helper';
+import SvgSearchGlass from '../../icons/SvgSearchGlass';
 import styles from './maillist.module.css';
 
 type Props = {
@@ -64,9 +65,23 @@ const Maillist = ({
           var del = val.toRecipients.reduce(function (nam, arr) {
             return nam + ' & ' + arr.emailAddress.name;
           }, '');
-          return <>{'[Draft]' + del.substring(2)}</>;
+          // return <>{'Draft' + del.substring(2)}</>;
+          return (
+            <Flex row>
+              <Text style={{ color: '#ED4857', marginRight: '5px' }}>
+                Draft{' '}
+              </Text>
+              <Text>{del.substring(2)}</Text>
+            </Flex>
+          );
         }
-        return <>{'[Draft]  (No Recipients)'}</>;
+        // return <>{'Draft (No Recipients)'}</>;
+        return (
+          <Flex row>
+            <Text style={{ color: '#ED4857', marginRight: '5px' }}>Draft </Text>
+            <Text>{`(No Recipients)`}</Text>
+          </Flex>
+        );
       }
       return <>{val.from.emailAddress.name}</>;
     } else {
@@ -109,7 +124,7 @@ const Maillist = ({
         </Flex>
 
         <Flex className={styles.scroll}>
-          {messagelist ? (
+          {messagelist.length !== 0 ? (
             <>
               {messagelist.map((val, int) => (
                 <>
@@ -169,7 +184,19 @@ const Maillist = ({
               ))}
             </>
           ) : (
-            'No Data'
+            <Flex style={{
+              alignContent: 'center',
+              alignItems: 'center',
+              height: '100vh',
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              flexDirection: 'column',
+            }}>
+              <SvgSearchGlass width={65} height={65}/>
+              <Text style={{marginTop:"10px"}}>We didn`t find anthing.</Text>
+              <Text color='gray'>Try a different keyword.</Text>
+            </Flex>
           )}
         </Flex>
       </Flex>

@@ -362,9 +362,14 @@ const Inbox = ({
                           {message.sender.emailAddress.name}
                         </Text>
                       ) : (
-                        <Text bold size={14}>
-                          {'[Draft] (No sender)'}
-                        </Text>
+                        <Flex>
+                          <Text bold size={14} style={{ color: '#ED4857' }}>
+                            {'Draft'}
+                          </Text>
+                          <Text bold size={14}>
+                            {'(No Sender)'}
+                          </Text>
+                        </Flex>
                       )}
 
                       <Flex row marginRight={10}>
@@ -419,19 +424,32 @@ const Inbox = ({
               center
               style={{
                 alignContent: 'center',
+                alignItems: 'center',
                 height: '100vh',
-                margin: 'auto',
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                flexDirection: 'column',
               }}
             >
               <SvgEmptyMail />
-              <Text>Select an item to read</Text>
-              <Text>Nothing is selected</Text>
+              {/* <Flex center middle> */}
+              <Text style={{ marginTop: '10px' }}>Select an item to read</Text>
+              <Text color="gray">Nothing is selected</Text>
+              {/* </Flex> */}
             </Flex>
           )}
         </Flex>
 
         {attachments && (
-          <Flex row width={'100%'} className={styles.filesContainer}>
+          <Flex
+            row
+            width={'100%'}
+            className={styles.filesContainer}
+            style ={{
+              borderTop: attachments.length !== 0 ? '1px solid #c3c3c3' : 'unset',
+            }}
+          >
             {attachments.map((val, ind) => (
               <Flex
                 flex={1}
