@@ -100,6 +100,7 @@ const Inbox = ({
       if (sidebarroute === 5) {
         await deletemail(authProvider, message.id)
           .then((res) => {
+            removemsg();
             page();
             // console.log('res---------', res);
           })
@@ -109,6 +110,7 @@ const Inbox = ({
       } else {
         await movefolder(authProvider, message.id, 'deleteditems')
           .then((res) => {
+            removemsg();
             page();
             // console.log('res---------', res);
           })
@@ -153,7 +155,7 @@ const Inbox = ({
     if (message !== '') {
       await movefolder(authProvider, message.id, 'junkemail')
         .then((res) => {
-          alert('junk successful');
+          removemsg();
           page();
         })
         .catch((error) => {
@@ -169,6 +171,7 @@ const Inbox = ({
       };
       await mailread(authProvider, message.id, readmessage)
         .then((res) => {
+          removemsg();
           page();
           //  console.log('read------++---', res);
         })
@@ -219,12 +222,14 @@ const Inbox = ({
               <Flex
                 title="Delete"
                 className={messageIcon ? styles.icons : styles.iconsDisabled}
-                onClick={messageIcon ? remove : undefined}
+                // onClick={messageIcon ? remove : undefined}
               >
                 <SvgTrash
                   width={16}
                   height={16}
                   fill={messageIcon ? '#581845' : '#58184550'}
+                  onClick={messageIcon ? remove : undefined}
+                  cursor={messageIcon ? 'pointer' : 'auto'}
                 />
               </Flex>
 
@@ -237,6 +242,7 @@ const Inbox = ({
                   <SvgJunk
                     width={16}
                     height={16}
+                    ß
                     stroke={messageIcon ? '#581845' : '#58184550'}
                   />
                 </Flex>
@@ -297,23 +303,32 @@ const Inbox = ({
                   width={16}
                   height={16}
                   fill={messageIcon ? '#581845' : '#58184550'}
+                  cursor={messageIcon ? 'pointer' : 'auto'}
                 />
               </Flex>
-              <Flex
+              {/* <Flex
                 title="Mark as unread"
                 className={messageIcon ? styles.icons : styles.iconsDisabled}
                 style={{ cursor: 'pointer' }}
                 onClick={() => unread(false)}
               >
-                <SvgRead width={16} height={16} />
-              </Flex>
+                <SvgRead
+                  width={16}
+                  height={16}
+                  fill={messageIcon ? '#581845' : '#58184550'}
+                />
+              </Flex> */}
               <Flex
                 title="Edit Message"
-                className={messageIcon ? styles.icons : styles.iconsDisabled}
-                style={{ cursor: 'pointer' }}
+                className={styles.iconsDisabled}
+                // style={{ cursor: 'pointer' }}
                 onClick={() => {}}
               >
-                <SvgEdit width={16} height={16} />
+                <SvgEdit
+                  width={16}
+                  height={16}
+                  fill={messageIcon ? '#581845' : '#58184550'}
+                />
               </Flex>
             </Flex>
           </>
@@ -382,9 +397,13 @@ const Inbox = ({
                         ? message.subject
                         : '(No Subject)'}
                     </Text>
-                    <Text color="black">{`To: ${message.toRecipients.map(
-                      (doc) => doc.emailAddress.name,
-                    )}`}</Text>
+                    {message.toRecipients.length !== 0 ? (
+                      <Text color="black">{`To:  ${message.toRecipients.map(
+                        (doc) => doc.emailAddress.name,
+                      )}`}</Text>
+                    ) : (
+                      <Text color="black">{`To: (No Recipients)`}</Text>
+                    )}
                   </Flex>
                 </Flex>
                 <Flex

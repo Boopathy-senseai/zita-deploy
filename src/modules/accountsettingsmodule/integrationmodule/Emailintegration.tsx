@@ -145,7 +145,6 @@ const IntegrationScreen = () => {
   //////outlook /////
 
   const outlookconfig = async () => {
-    alert('outlook login');
     await instance
       .loginPopup({
         scopes: ['openid', 'profile', 'User.Read', 'Mail.Read'],
@@ -329,7 +328,12 @@ const IntegrationScreen = () => {
             style={{ marginRight: '15px' }}
             onClick={() => setmodelopen(!modelopen)}
           >
-            <SvgClose width={12} height={12} fill={'581845'} />
+            <SvgClose
+              width={12}
+              height={12}
+              fill={'581845'}
+              cursor={'pointer'}
+            />
           </Flex>
 
           {Edit === 'outlook' ? (

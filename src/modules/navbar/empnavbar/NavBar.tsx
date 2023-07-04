@@ -70,7 +70,7 @@ const NavBar = () => {
       <Flex row center between>
         <Flex row center>
           <img
-          style={{objectFit: 'contain'}}
+            style={{ objectFit: 'contain' }}
             alt="logo"
             src={
               process.env.REACT_APP_HOME_URL +
@@ -269,6 +269,35 @@ const NavBar = () => {
               )}
             </>
           )}
+
+          {permission.includes('talent_sourcing') && (
+            <>
+              {is_plan ? (
+                <LinkWrapper
+                  onClick={clearTab}
+                  to={is_plan ? routesPath.MAIL : accountPath}
+                >
+                  <Text
+                    color="white"
+                    className={cx('profileStyle', {
+                      navFocusColor: pathname === '/mail',
+                    })}
+                  >
+                    Mail box
+                  </Text>
+                </LinkWrapper>
+              ) : (
+                <Text
+                  color="white"
+                  className={cx('profileStyle', {
+                    navFocusColor: pathname === '/mail',
+                  })}
+                >
+                  Mail box
+                </Text>
+              )}
+            </>
+          )}
         </Flex>
 
         <Flex row center>
@@ -308,7 +337,7 @@ const NavBar = () => {
             style={{ position: 'relative' }}
             className={cx('svgMargin', {
               navFocusColor: pathname === '/change_password',
-              noPointer: !is_plan
+              noPointer: !is_plan,
             })}
           >
             <Notification />
@@ -345,7 +374,7 @@ const NavBar = () => {
               <SvgUser height={30} width={32} />
             ) : (
               <img
-              style={{objectFit: 'cover'}}
+                style={{ objectFit: 'cover' }}
                 src={mediaPath + isProfile}
                 alt="profile"
                 className={styles.candiProfile}

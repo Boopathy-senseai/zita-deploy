@@ -11,6 +11,7 @@ type Props = {
   sideroute: number;
   mailfolders: any;
   removemsg: any;
+  page: any;
 };
 const Maillist = ({
   messagelist,
@@ -19,6 +20,7 @@ const Maillist = ({
   sideroute,
   mailfolders,
   removemsg,
+  page,
 }: Props) => {
   const [messages, setmesage] = useState<any>();
 
@@ -45,8 +47,14 @@ const Maillist = ({
         );
       } else if (sideroute === 6) {
         return <Text bold>Junk Email ({mailfolders[5].unreadItemCount})</Text>;
+      } else if (sideroute === 0) {
+        return <Text bold> </Text>;
       }
     }
+  };
+
+  const referesh = () => {
+    page();
   };
 
   const handlemessage = (val) => {
@@ -96,7 +104,7 @@ const Maillist = ({
           {showfolder()}
 
           <Flex title="Refresh" marginLeft={5}>
-            <SvgRefresh width={18} height={18} />
+            <SvgRefresh width={18} height={18} onClick={referesh} />
           </Flex>
         </Flex>
 

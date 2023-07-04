@@ -232,6 +232,7 @@ export async function getmessages(
   previous,
   range,
 ) {
+  console.log('previous', previous);
   var response: any = await graphClient
     ?.api(`/me/mailFolders/${folder}/messages`)
     .count(true)

@@ -15,12 +15,13 @@
 .iconsDisabled {
   padding: 4px;
   margin-left: 5px;
+  cursor: auto;
 }
 .bodyContainer {
   width: 100%;
   height: 100%;
 }
-.filesContainer{
+.filesContainer {
   display: grid;
   border-top: 1px solid #c3c3c3;
   grid-template-columns: 1fr 1fr;
@@ -29,7 +30,7 @@
   margin-bottom: 10px;
   margin-top: 20px;
 }
-.attachfile{
+.attachfile {
   border-radius: 5px;
   box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
   /* padding: 10px; */
@@ -38,14 +39,14 @@
   width: 100%;
   display: flex;
 }
-.svgicon{
+.svgicon {
   margin-left: 10px;
 }
 /* .iconsContainer:hover{
   background-color: #eee8ec;
   cursor: pointer;
 } */
-.fileName{
+.fileName {
   margin-right: 10px;
   text-overflow: ellipsis;
   overflow: hidden;

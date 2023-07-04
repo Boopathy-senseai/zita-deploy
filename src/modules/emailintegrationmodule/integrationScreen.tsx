@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react';
 
 import { AuthCodeMSALBrowserAuthenticationProvider } from '@microsoft/microsoft-graph-client/authProviders/authCodeMsalBrowser';
 import { InteractionType, PublicClientApplication } from '@azure/msal-browser';
-import { useMsal } from '@azure/msal-react';
+import {
+  useMsal,
+  AuthenticatedTemplate,
+  UnauthenticatedTemplate,
+} from '@azure/msal-react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { Dropdown } from 'react-bootstrap';
@@ -12,7 +16,7 @@ import {
   getEmail,
   outlookUserProfile,
 } from '../emailintegrationmodule/store/middleware/emailIntegrationMiddleWare';
-import { Flex, InputText, Text } from '../../uikit';
+import { Flex, InputText, LinkWrapper, Button, Text } from '../../uikit';
 import SvgSearch from '../../icons/SvgSearch';
 
 import {
@@ -46,7 +50,7 @@ const EmailScreen = () => {
   const dispatch: AppDispatch = useDispatch();
 
   const [model, setmodel] = useState(false);
-  const [view, setview] = useState(0);
+  const [integration, setintegration] = useState(false);
   const [messagelist, setmessagelist] = useState([]);
   const [message, setmesage] = useState('');
   const [usermail, setUsermail] = useState('');
@@ -110,8 +114,13 @@ const EmailScreen = () => {
   };
 
   const getprofile = async () => {
-    const users = await getUser(authProvider);
-    setUsermail(users.mail);
+    await getUser(authProvider)
+      .then((res: any) => {
+        setUsermail(res.mail);
+      })
+      .catch((error) => {
+        console.log('sd', error);
+      });
   };
 
   const getmails = async () => {
@@ -264,20 +273,6 @@ const EmailScreen = () => {
     setmessagelist([]);
     setmesage('');
     setLoader(true);
-    // var folder = '';
-    // if (sideroute === 1) {
-    //   folder = 'Inbox';
-    // } else if (sideroute === 2) {
-    //   folder = 'sentitems';
-    // } else if (sideroute === 3) {
-    //   folder = 'drafts';
-    // } else if (sideroute === 4) {
-    //   folder = 'archive	';
-    // } else if (sideroute === 5) {
-    //   folder = 'deleteditems';
-    // } else if (sideroute === 6) {
-    //   folder = 'junkemail';
-    // }
     await getsearchmail(authProvider, searchSection, search, skip, range)
       .then((res) => {
         // removemessage();
@@ -333,11 +328,13 @@ const EmailScreen = () => {
     if (a > total) {
       setDel(total - previous);
       setPrevious(previous + (total - previous));
-      setSkip(previous + 1);
+      // setSkip(previous + 1);
+      setSkip(previous);
       setPrevious1(previous + 1);
     } else if (previous < total) {
       setPrevious(previous + range);
-      setSkip(previous + 1);
+      // setSkip(previous + 1);
+      setSkip(previous);
       setPrevious1(previous + 1);
     }
   };
@@ -398,107 +395,134 @@ const EmailScreen = () => {
       });
   };
 
+  const IntegrationMenuView = (
+    <div>
+      <Flex
+        center
+        flex={1}
+        middle
+        columnFlex
+        className={styles.integrationContent}
+      >
+        <Text color="gray" style={{ marginBottom: 16 }}>
+          Integrate your Email with zita application
+        </Text>
+        <LinkWrapper
+          onClick={() => {
+            sessionStorage.setItem('superUserTab', '4');
+            sessionStorage.setItem('superUserFalseTab', '3');
+          }}
+          to="/account_setting/settings"
+        >
+          <Button>Integrate</Button>
+        </LinkWrapper>
+      </Flex>
+    </div>
+  );
   return (
     <>
-      <Flex column>
-        {console.log('asas', sideroute)}
-        {loader === true ? <Loader /> : ''}
-        <Flex row between className={styles.titleContainer}>
-          <Text bold size={16} color="theme">
-            Inbox
-          </Text>
-          <Flex row>
-            {searchDropdown && (
-              <Dropdown className="dropdown toggle">
-                {
-                  <Dropdown.Toggle
-                    style={{
-                      borderColor: '#A5889C',
-                      backgroundColor: 'unset',
-                      boxShadow: 'none',
-                      padding: '0px',
-                    }}
-                    className={styles.Toggle}
-                    // id="dropdown-basic"
-                  >
-                    <Flex row noWrap center style={{ padding: '5px' }}>
-                      <Text
-                        size={12}
-                        color="theme"
-                        style={{
-                          marginRight: '10px',
-                          textTransform: 'capitalize',
-                        }}
-                      >
-                        {' '}
-                        {searchFolder}
-                      </Text>
-                      <SvgArrowDown width={11} height={11} />
-                    </Flex>
-                  </Dropdown.Toggle>
-                }
+      <AuthenticatedTemplate>
+        <Flex column>
+          {console.log('asas', sideroute)}
+          {loader === true ? <Loader /> : ''}
+          <Flex row between className={styles.titleContainer}>
+            <Text bold size={16} color="theme">
+              Mailbox
+            </Text>
+            <Flex row>
+              {searchDropdown && (
+                <Dropdown className="dropdown toggle">
+                  {
+                    <Dropdown.Toggle
+                      style={{
+                        borderColor: '#A5889C',
+                        backgroundColor: 'unset',
+                        boxShadow: 'none',
+                        padding: '0px',
+                      }}
+                      className={styles.Toggle}
+                      // id="dropdown-basic"
+                    >
+                      <Flex row noWrap center style={{ padding: '5px' }}>
+                        <Text
+                          size={12}
+                          color="theme"
+                          style={{
+                            marginRight: '10px',
+                            textTransform: 'capitalize',
+                          }}
+                        >
+                          {' '}
+                          {searchFolder}
+                        </Text>
+                        <SvgArrowDown width={11} height={11} />
+                      </Flex>
+                    </Dropdown.Toggle>
+                  }
 
-                {
-                  <Dropdown.Menu style={{ minWidth: '5rem' }}>
-                    {searchDropdownMenu.map((doc, index) => (
-                      <Dropdown.Item key={index} onClick={doc.onclick}>
-                        <Flex row center className={styles.dropDownListStyle}>
-                          <Text style={{ cursor: 'pointer' }}>{doc.name}</Text>
-                        </Flex>
-                      </Dropdown.Item>
-                    ))}
-                  </Dropdown.Menu>
-                }
-              </Dropdown>
-            )}
-
-            <InputText
-              actionRight={() => (
-                <Flex
-                  style={{ marginTop: '3px' }}
-                  onClick={(e) => serchmessage(e)}
-                >
-                  <SvgSearch />
-                </Flex>
+                  {
+                    <Dropdown.Menu style={{ minWidth: '5rem' }}>
+                      {searchDropdownMenu.map((doc, index) => (
+                        <Dropdown.Item key={index} onClick={doc.onclick}>
+                          <Flex row center className={styles.dropDownListStyle}>
+                            <Text style={{ cursor: 'pointer' }}>
+                              {doc.name}
+                            </Text>
+                          </Flex>
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown.Menu>
+                  }
+                </Dropdown>
               )}
-              placeholder="Search by email subject or body"
-              className={styles.inputSearch}
-              onChange={(e) => searchinput(e)}
-              style={
-                searchDropdown
-                  ? { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }
-                  : { borderRadius: '4px' }
-              }
-              value={search}
-              onFocus={() => {
-                setSearchDropdown(true);
-              }}
-              // onBlur={() => {
-              //   setSearchDropdown(false);
-              // }}
-            />
-          </Flex>
 
-          <Flex></Flex>
-          <div className={styles.triangle}> </div>
-        </Flex>
-        <Flex row className={styles.container}>
-          <Flex className={styles.containerColumn}>
-            <Sidebar
-              open={modelupdate}
-              send={Send}
-              draft={Draft}
-              inbox={inboxmail}
-              archive={archive}
-              updateroute={updateroute}
-              deleteditems={deleteditems}
-              junkemail={junkemail}
-              page={page}
-              sidebarroute={sideroute}
-            />
+              <InputText
+                actionRight={() => (
+                  <Flex
+                    style={{ marginTop: '3px' }}
+                    onClick={(e) => serchmessage(e)}
+                  >
+                    <SvgSearch />
+                  </Flex>
+                )}
+                placeholder="Search by email subject or body"
+                className={styles.inputSearch}
+                onChange={(e) => searchinput(e)}
+                style={
+                  searchDropdown
+                    ? { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }
+                    : { borderRadius: '4px' }
+                }
+                value={search}
+                onFocus={() => {
+                  setSearchDropdown(true);
+                }}
+                // onBlur={() => {
+                //   setSearchDropdown(false);
+                // }}
+              />
+            </Flex>
+
+            <Flex></Flex>
+            <div className={styles.triangle}> </div>
           </Flex>
-          <Flex flex={4} className={styles.containerColumn}>
-            {/* <Pagination
+          <Flex row className={styles.container}>
+            <Flex className={styles.containerColumn}>
+              <Sidebar
+                open={modelupdate}
+                send={Send}
+                draft={Draft}
+                inbox={inboxmail}
+                archive={archive}
+                updateroute={updateroute}
+                deleteditems={deleteditems}
+                junkemail={junkemail}
+                page={page}
+                sidebarroute={sideroute}
+              />
+            </Flex>
+            <Flex flex={4} className={styles.containerColumn}>
+              {/* <Pagination
               previousfun={Previousdata}
               nextfun={Nextdata}
               range={range}
@@ -506,46 +530,49 @@ const EmailScreen = () => {
               previous1={previous1}
               total={total}
             /> */}
-            <Maillist
-              messagelist={messagelist}
-              selectmessage={selectmessage}
-              getmessageid={getmessageid}
-              sideroute={sideroute}
-              mailfolders={mailfolders}
-              removemsg={removemessage}
-            />
+              <Maillist
+                messagelist={messagelist}
+                selectmessage={selectmessage}
+                getmessageid={getmessageid}
+                sideroute={sideroute}
+                mailfolders={mailfolders}
+                removemsg={removemessage}
+                page={page}
+              />
+            </Flex>
+            <Flex flex={9} className={styles.containerColumn}>
+              <Message
+                message={message}
+                sidebarroute={sideroute}
+                composemodal={modelupdate}
+                removemsg={removemessage}
+                // archiveapi={archive}
+                // inboxapi={getmails}
+                //senditemapi={Send}
+                //deleteditemsapi={deleteditems}
+                // junkemailapi={junkemail}
+                //draftapi={Draft}
+                page={page}
+                attachments={attachments}
+                previousfun={Previousdata}
+                nextfun={Nextdata}
+                range={range}
+                previous={previous}
+                previous1={previous1}
+                total={total}
+              />
+            </Flex>
           </Flex>
-          <Flex flex={9} className={styles.containerColumn}>
-            <Message
-              message={message}
-              sidebarroute={sideroute}
-              composemodal={modelupdate}
-              removemsg={removemessage}
-              // archiveapi={archive}
-              // inboxapi={getmails}
-              //senditemapi={Send}
-              //deleteditemsapi={deleteditems}
-              // junkemailapi={junkemail}
-              //draftapi={Draft}
-              page={page}
-              attachments={attachments}
-              previousfun={Previousdata}
-              nextfun={Nextdata}
-              range={range}
-              previous={previous}
-              previous1={previous1}
-              total={total}
-            />
-          </Flex>
+          {/* <Flex flex={10}></Flex> */}
+          <Newcompose
+            data={model}
+            mail={usermail}
+            onClose={modelupdate}
+            replaymsg={message}
+          />
         </Flex>
-        {/* <Flex flex={10}></Flex> */}
-        <Newcompose
-          data={model}
-          mail={usermail}
-          onClose={modelupdate}
-          replaymsg={message}
-        />
-      </Flex>
+      </AuthenticatedTemplate>
+      <UnauthenticatedTemplate>{IntegrationMenuView}</UnauthenticatedTemplate>
     </>
   );
 };
