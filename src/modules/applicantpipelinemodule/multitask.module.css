@@ -1,6 +1,6 @@
 .container {
   margin-bottom: 8px;
-  min-width: 190px;
+  /* min-width: 190px; */
 }
 .cardStyle{
   box-shadow: unset;

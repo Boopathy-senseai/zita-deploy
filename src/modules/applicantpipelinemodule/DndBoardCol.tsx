@@ -9,7 +9,13 @@ import {
   GRAY_BLACK,
 } from '../../uikit/Colors/colors';
 import { dndBoardId } from '../constValue';
-import { GoogleEntity, ICardSelectionData, ICardSelectionMap, JobDetailsEntity } from './applicantPipeLineTypes';
+import {
+  GoogleEntity,
+  ICardSelectionData,
+  ICardSelectionMap,
+  JobDetailsEntity,
+  KANBAN_COLUMN_WIDTH,
+} from './applicantPipeLineTypes';
 import MultiTask from './MultiTask';
 import styles from './dndboardcol.module.css';
 import { IStageColumn } from './dndBoardTypes';
@@ -40,7 +46,7 @@ const DndBoardCol = ({
   job_details,
   onClick,
   cardSelectionMap,
-  onRefresh
+  onRefresh,
 }: Props) => {
   const [isBorder, setBorder] = useState(SUNRAY);
   // for card color set condition
@@ -66,7 +72,7 @@ const DndBoardCol = ({
   };
 
   return (
-    <div className={styles.overAll}>
+    <div className={styles.overAll} style={{ minWidth: KANBAN_COLUMN_WIDTH }}>
       <Droppable
         // isDropDisabled={isDropDisabled}
         droppableId={`${column.columnId}`}

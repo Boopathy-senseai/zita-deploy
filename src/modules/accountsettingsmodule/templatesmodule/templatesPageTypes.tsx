@@ -46,4 +46,5 @@ export interface PipelinePageReducerState {
 export interface TemplatesPageReducerState extends IJobPipeline {
   isLoading: boolean;
   error: string;
+  isUpdateLoading: boolean;
 }

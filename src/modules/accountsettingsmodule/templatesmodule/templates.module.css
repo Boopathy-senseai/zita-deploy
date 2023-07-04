@@ -8,6 +8,7 @@
   justify-content: space-between;
 }
 .pipelineStructure {
+  position: relative;
   max-height: 160px;
   width: 21%;
   margin-right: 20px;
@@ -19,6 +20,7 @@
 }
 
 .cardHeader {
+  position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -32,6 +34,7 @@
   cursor: pointer;
 }
 .rowGroup {
+  position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -86,6 +89,7 @@
 }
 
 .default {
+  /* position: absolute; */
   padding: 1px 10px 1px 10px;
   border: 2px solid #fcc203;
   border-radius: 20px;
@@ -133,7 +137,8 @@ hr.borderLine{
   height: 1px;
   border: none;
   background: #c3c3c3;
-  margin: 10px 0px 0px 0px;
+  margin: 0;
+  padding: 0;
   /* border-top: 1px solid red; */
   width: 100%;
 }
@@ -143,4 +148,9 @@ hr.borderLine{
   position: relative;
   height: 100%;
   overflow: auto;
+}
+
+.cardContent{
+  padding-bottom: 10px;
+  border-bottom: 1px solid #c3c3c3;
 }
