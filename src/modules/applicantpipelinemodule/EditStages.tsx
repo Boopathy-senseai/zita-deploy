@@ -121,7 +121,7 @@ const EditStagesModal: React.FC<Props> = (props) => {
         <Flex row center className={styles.insertStyles}>
           <Flex marginBottom={5}>
             {' '}
-            <SvgEditStages fill="#333333" />
+            <SvgEditStages fill="#581845" />
           </Flex>
           <Text
             size={16}

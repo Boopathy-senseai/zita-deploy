@@ -79,6 +79,8 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     isStageExist,
     addDefaultStages,
     isEqual,
+    sortStages,
+    updateStageOrder,
     NEW_APPLICANT_STAGE,
   } = useStages(stages);
 
@@ -200,10 +202,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
   const handleCreate = () => {
     const payload: ICreateTemplate = {
       pipeline_name: formik.values.pipelineTitle.trim(),
-      stages: localStages.map((doc, index) => ({
-        ...doc,
-        stage_order: index + 1,
-      })),
+      stages: updateStageOrder(localStages),
       suggestion: localSuggestions.map((v) => v.suggestion_id),
     };
     // setSubmitLoader(true);
@@ -219,10 +218,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     const payload: IUpdateTemplate = {
       pipeline_name: formik.values.pipelineTitle.trim(),
       workflow_id: wk_id,
-      stages: localStages.map((doc, index) => ({
-        ...doc,
-        stage_order: index + 1,
-      })),
+      stages: updateStageOrder(localStages),
       suggestion: localSuggestions.map((v) => v.suggestion_id),
     };
     // setSubmitLoader(true);
@@ -231,6 +227,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
       Toast('Changes saved successfully.', 'LONG');
     });
   };
+ 
   /// skip stages
   if (isLoading) {
     return <Loader />;
@@ -277,9 +274,9 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
               position: 'relative',
               flex: 1,
               overflow: 'hidden',
-              boxShadow: "0px 0px 2px 0px rgba(0, 0, 0, 0.36)",
+              boxShadow: '0px 0px 2px 0px rgba(0, 0, 0, 0.36)',
               padding: 28,
-              margin: "0 1px",
+              margin: '0 1px',
               borderRadius: 10,
             }}
           >
@@ -295,7 +292,14 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
                   Create, Rename, reorder, and delete job pipeline stages.
                 </Text>
               </Flex>
-              <Flex column style={{ overflowY: 'auto', maxHeight: '390px', padding: "2px 2px" }}>
+              <Flex
+                column
+                style={{
+                  overflowY: 'auto',
+                  maxHeight: '390px',
+                  padding: '2px 2px',
+                }}
+              >
                 <StageCard
                   doc={NEW_APPLICANT_STAGE}
                   index={-1}

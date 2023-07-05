@@ -88,6 +88,7 @@ export interface ApplicantEntity {
   location: string;
   viewed: string;
   work_exp: number;
+  work_exp_mon: number;
   match?: number | null;
   image: string;
   file: string;

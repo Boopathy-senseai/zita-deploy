@@ -16,7 +16,7 @@ import {
   PRIMARY,
 } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
-import { getDateString, isEmpty, workExperiance } from '../../uikit/helper';
+import { getDateString, isEmpty, workExperience } from '../../uikit/helper';
 import Text from '../../uikit/Text/Text';
 import Loader from '../../uikit/Loader/Loader';
 import { ADD_FAV, dndBoardId, REMOVE_FAV } from '../constValue';
@@ -80,7 +80,7 @@ const MultiTask = ({
   const [isCalender, setCalender] = useState('popup');
   const [isProfileView, setProfileView] = useState(false);
   const dispatch: AppDispatch = useDispatch();
-  const workExp = workExperiance(task.work_exp);
+  const workExp = workExperience(task.work_exp, task.work_exp_mon);
   const match = isEmpty(task.match) ? 0 : task.match;
 
   useEffect(() => {

@@ -237,7 +237,7 @@ export function stringifyParams(
   }, '');
 }
 
-export function workExperiance(year: number, months?: number) {
+export function workExperience(year: number, months?: number) {
   if (year === 0 && months && months !== 0) {
     return `${months} ${months > 1 ? 'Months' : 'Month'}`;
   }

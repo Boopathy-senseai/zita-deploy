@@ -65,9 +65,9 @@ const TemplatesPage = () => {
     }),
   );
 
-  useEffect(() => {
-    if (message) Toast('Pipeline created successfully', 'LONG');
-  }, [message]);
+  // useEffect(() => {
+  //   if (message) Toast('Pipeline created successfully', 'LONG');
+  // }, [message]);
 
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
@@ -418,7 +418,16 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
         />
         {/* </Text> */}
       </Flex>
-      <Flex column style={{ display: "flex", flexDirection: "column", width: "100%", marginTop: 10, borderTop: "1px solid #c3c3c3"}}>
+      <Flex
+        column
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100%',
+          marginTop: 10,
+          borderTop: '1px solid #c3c3c3',
+        }}
+      >
         {/* <hr className={styles.borderLine} /> */}
         <Button className={styles.btn2} onClick={() => onConfig(item.wk_id)}>
           <Text bold color="theme">
@@ -506,12 +515,22 @@ const TemplateCard: React.FC<TemplateCardProps> = (props) => {
           {subTitle}{' '}
         </Text>
       </Flex>
-      {/* <hr className={styles.borderLine} /> */}
-      <Button className={styles.btn} onClick={onClick}>
-        <Text bold color="theme">
-          {btnName}
-        </Text>
-      </Button>
+      <Flex
+        column
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100%',
+          marginTop: 10,
+          borderTop: '1px solid #c3c3c3',
+        }}
+      >
+        <Button className={styles.btn} onClick={onClick}>
+          <Text bold color="theme">
+            {btnName}
+          </Text>
+        </Button>
+      </Flex>
     </Card>
   );
 };

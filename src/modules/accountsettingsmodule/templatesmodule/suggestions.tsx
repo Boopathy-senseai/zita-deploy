@@ -170,7 +170,7 @@ const PipelineSuggestions: React.FC<Props> = (props) => {
                 tabIndex={-1}
                 role={'button'}
                 onClick={() => {
-                  if(!formik.isValid) return;
+                  if(!formik.isValid || isEmpty(formik.values.title.trim())) return;
                   formik.handleSubmit();
                 }}
               >

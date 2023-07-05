@@ -40,6 +40,7 @@ export const updateTemplateDataMiddleWare = createAsyncThunk<
       templatesStages,
       convertJsonToForm(payload),
     );
+    if (response.data && response.data.message) Toast('Changes saved successfully', 'LONG');
     dispatch(getTemplateDataMiddleWare(payload.workflow_id));
     dispatch(getPipelineDataMiddleWare());
     return response.data;
@@ -58,6 +59,7 @@ export const createTemplateDataMiddleWare = createAsyncThunk<
       templatesStages,
       convertJsonToForm(payload),
     );
+    if (response.data && response.data.message) Toast('Pipeline created successfully', 'LONG');
     //const response = await axios.post(templatesStages);
     dispatch(getPipelineDataMiddleWare());
     return response.data;
