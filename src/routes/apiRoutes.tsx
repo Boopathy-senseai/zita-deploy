@@ -196,6 +196,11 @@ export const basicDetailApi = 'basic_detail/';
 export const emailValidationApi = `email_validation`;
 export const otpVerificationApi = `otp_verification`;
 export const profileEditApi = 'profile_edit';
+export const whatjobsApi = `what_jobs_posting/`;
+// export const whatjobsApi = (jdId?: string) => {
+//   const url = `what_jobs_posting/${jdId}`;
+//   return url;
+// };
 export const updatePersonalInfoApi = 'update_personal_info/';
 export const updateJobPreferenceApi = 'update_job_preference/';
 export const skillsUpdateApi = (empId: number) => {

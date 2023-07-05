@@ -89,6 +89,7 @@ export const JD_PROFILE = 'createjd/jd_profile';
 export const JD_QUESTIONNAIRE = 'createjd/jd_questionnaire_for_jd';
 export const JD_TEMPLATE = 'createjd/jd_template';
 export const JD_DUPLICATE = 'createjd/jd_duplicate';
+export const JD_WHATJOBS ='createjd/what_jobs_posting/'
 
 // my_job_posting
 
