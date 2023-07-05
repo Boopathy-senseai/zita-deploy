@@ -1,10 +1,14 @@
 import { createRef, useEffect, useState } from 'react';
+import moment from 'moment';
 import SvgBoxEdit from '../../icons/SvgBoxEdit';
 import SvgDotMenu from '../../icons/SvgDotMenu';
+import Svgeditingnotes from '../../icons/editingnotes';
+
 import SvgTrash from '../../icons/SvgTrash';
 import Flex from '../../uikit/Flex/Flex';
 import { getDateString } from '../../uikit/helper';
 import Text from '../../uikit/Text/Text';
+import { Button, Modal } from '../../uikit';
 import { Notes } from './applicantProfileTypes';
 import styles from './notestab.module.css';
 
@@ -15,79 +19,108 @@ type Props = {
 };
 
 const NotesDropDown = ({ notesList, handleDelete, handleOpenEdit }: Props) => {
-  const [isDrop, setDrop] = useState(false);
   const myRef = createRef<any>();
-
-  const handleOpenDrop = () => {
-    setDrop(!isDrop);
-  };
-
-  const handleClickOutside = (event: { target: any }) => {
-    if (myRef.current && !myRef.current.contains(event.target)) {
-      setDrop(false);
-    }
-  };
-
+  const [open, setopen] = useState(false);
+  const [user, setuser] = useState(false);
   useEffect(() => {
-    if (typeof Window !== 'undefined') {
-      document.addEventListener('click', handleClickOutside, true);
+    if (notesList.client_id_id === notesList.user) {
+      setuser(true);
+    } else {
+      setuser(false);
     }
-    return () => {
-      if (myRef) {
-        if (typeof Window !== 'undefined') {
-          document.removeEventListener('click', handleClickOutside, true);
-        }
-      }
-    };
-  });
-
+  }, []);
   return (
     <Flex row center between className={styles.dateStyle}>
-      <Text color="gray">
-        {getDateString(notesList.created_at, 'DD MMM YYYY LT')}
-      </Text>
-      <div
-        className={styles.dotSvg}
-        onClick={handleOpenDrop}
-        tabIndex={-1}
-        role={'button'}
-        onKeyPress={() => {}}
+      <Flex middle center row>
+        <Flex middle center>
+          <Text color="gray"   className={styles.datetype}>
+            {moment(notesList.created_at).fromNow()}
+          </Text>
+        </Flex>
+        {user?
+        <Flex
+        row
+        middle
+        center
+        onClick={() => {
+          handleOpenEdit(notesList.notes, notesList.id);
+        }}
+        className={styles.dropDownOverAll}
       >
-        <SvgDotMenu height={12} width={12} />
-      </div>
-      {isDrop && (
-        <div ref={myRef} className={styles.dropBorder}>
-          <Flex
-            row
-            center
-            onClick={() => {
-              handleOpenEdit(notesList.notes, notesList.id);
-              setDrop(false);
-            }}
-            className={styles.dropDownOverAll}
-          >
-            <div style={{ position: 'relative', bottom: 2 }}>
-              <SvgBoxEdit height={14} width={14} />
-            </div>
-            <Text className={styles.dropDownList}>{'Edit'}</Text>
-          </Flex>
-          <Flex
-            row
-            center
-            onClick={() => {
-              handleDelete(notesList.id);
-              setDrop(false);
-            }}
-            className={styles.dropDownOverAll}
-          >
-            <div style={{ position: 'relative', bottom: 2 }}>
-              <SvgTrash fill={'#424242'} height={14} width={14} />
-            </div>
-
-            <Text className={styles.dropDownList}>{'Delete'}</Text>
-          </Flex>
+        <div style={{ position: 'relative', bottom: 2 }}>
+          <Svgeditingnotes height={14} width={14} fill={'#581845'}/>
         </div>
-      )}
+      </Flex>:
+      <Flex
+      row
+      middle
+      center
+      disabled 
+      onClick={() => {
+        handleOpenEdit(notesList.notes, notesList.id);
+      }}
+      className={styles.dropDownOverAll}
+    >
+      <div style={{ position: 'relative', bottom: 2 }}>
+        <Svgeditingnotes height={14} width={14} fill={'rgb(88 24 69/50%)'} />
+      </div>
+    </Flex>
+        }
+        
+        {user?
+        <Flex
+          row
+          center
+          disabled={!user}
+          onClick={() => {
+            setopen(true);
+          }}
+          className={styles.dropDownOverAll}
+        >
+          {/* 'rgb(51 51 51/50%)' 88, 24, 69 */}
+          <div style={{ position: 'relative', bottom: 2 }}>
+            <SvgTrash height={14} width={14}  fill={'#581845'} />
+          </div>
+        </Flex>:<Flex
+          row
+          center
+          disabled={!user}
+          onClick={() => {
+            setopen(true);
+          }}
+          className={styles.dropDownOverAll}
+        >
+          {/* 'rgb(51 51 51/50%)' 88, 24, 69 */}
+          <div style={{ position: 'relative', bottom: 2 }}>
+            <SvgTrash height={14} width={14} fill={'rgb(88 24 69/50%)'} />
+          </div>
+        </Flex>}
+      </Flex>
+      <Modal open={open}>
+        <Flex flex={6} column center className={styles.overAllss}>
+          <Text size={14} className={styles.insertStyles}>
+            This action will permanently delete this note.
+          </Text>
+          <Text size={14} className={styles.insertStyless}>
+            Are your sure to proceed?
+          </Text>
+          <Flex row end className={styles.borderLine}>
+            <Button
+              className={styles.cancel}
+              types={'primary'}
+              onClick={() => setopen(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              className={styles.update}
+              onClick={() => handleDelete(notesList.id)}
+            >
+              Delete
+            </Button>
+          </Flex>
+        </Flex>
+      </Modal>
     </Flex>
   );
 };
