@@ -3,7 +3,7 @@ import parse from 'html-react-parser';
 import { AuthCodeMSALBrowserAuthenticationProvider } from '@microsoft/microsoft-graph-client/authProviders/authCodeMsalBrowser';
 import { InteractionType, PublicClientApplication } from '@azure/msal-browser';
 import { useMsal } from '@azure/msal-react';
-
+import Toast from '../../uikit/Toast/Toast';
 import { deletemail, movefolder, mailread } from '../../emailService';
 import config from '../../outlookmailConfig';
 import { Flex, Card, Text } from '../../uikit';
@@ -102,6 +102,8 @@ const Inbox = ({
           .then((res) => {
             removemsg();
             page();
+            Toast('Email remove permanent successfully', 'SHORT', 'success');
+
             // console.log('res---------', res);
           })
           .catch((error) => {
@@ -112,6 +114,8 @@ const Inbox = ({
           .then((res) => {
             removemsg();
             page();
+            Toast('Moved to delete email successfully', 'SHORT', 'success');
+
             // console.log('res---------', res);
           })
           .catch((error) => {
@@ -143,6 +147,8 @@ const Inbox = ({
         .then((res) => {
           removemsg();
           page();
+          Toast('Moved to archive email successfully', 'SHORT', 'success');
+
           // console.log('res---------', res);
         })
         .catch((error) => {
@@ -157,6 +163,7 @@ const Inbox = ({
         .then((res) => {
           removemsg();
           page();
+          Toast('Moved to junk email successfully', 'SHORT', 'success');
         })
         .catch((error) => {
           // console.log('connection failed inboxxxxxxx', error);
@@ -446,8 +453,9 @@ const Inbox = ({
             row
             width={'100%'}
             className={styles.filesContainer}
-            style ={{
-              borderTop: attachments.length !== 0 ? '1px solid #c3c3c3' : 'unset',
+            style={{
+              borderTop:
+                attachments.length !== 0 ? '1px solid #c3c3c3' : 'unset',
             }}
           >
             {attachments.map((val, ind) => (
