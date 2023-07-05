@@ -10,7 +10,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import parse from 'html-react-parser';
 import { AppDispatch, RootState } from '../../store';
 import MessageTemplate from '../../modules/applicantprofilemodule/MessageTemplate';
-
+import {
+  getEmail,
+  outlookUserProfile,
+} from '../emailintegrationmodule/store/middleware/emailIntegrationMiddleWare';
 import {
   applicantMessagesMiddleWare,
   messagesTemplatesMiddleWare,
@@ -55,7 +58,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
   const [style, setstyle] = useState(0);
   const [openCc, setopenCc] = useState(false);
   const [openBcc, setopenBcc] = useState(false);
-  const [file, setFile] = useState<any>('');
+  const [file, setFile] = useState([]);
   const [faildfile, setfaildfile] = useState([]);
   const [attachfile, setAttachfile] = useState([]);
   const [templatemodel, settemplatemodel] = useState(false);
@@ -98,6 +101,14 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
     },
   );
 
+  const emailcollection = useSelector(({ useremail }: RootState) => {
+    return {
+      emailcollection: useremail.mails,
+    };
+  });
+
+  console.log('email ccollection', emailcollection.emailcollection);
+
   const [subject, setSubject] = useState('');
 
   const authProvider = new AuthCodeMSALBrowserAuthenticationProvider(
@@ -139,6 +150,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
   useEffect(() => {
     dispatch(messagesTemplatesMiddleWare());
     //replaymail();
+    dispatch(getEmail()).then((res) => {});
   }, [replaymsg]);
 
   //modal close function //
@@ -309,10 +321,10 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
 
   const selectfile = (e: any) => {
     const filterFileGreter = [...e.target.files].filter(
-      (item) => item.size > 3000000,
+      (item) => item.size > 10000000,
     );
     const filterFileles = [...e.target.files].filter(
-      (item) => item.size < 3000000,
+      (item) => item.size < 10000000,
     );
 
     let as = filterFileles;
@@ -333,9 +345,11 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
         allFiles.push(fileInfo);
       };
     }
-    setFile([...file, filterFileles]);
+
+    setFile(file.concat(filterFileles));
+
     if (filterFileGreter.length !== 0) {
-      setfaildfile([...faildfile, filterFileGreter]);
+      setfaildfile(faildfile.concat(filterFileGreter));
     }
     setAttachfile(allFiles);
 
@@ -444,11 +458,13 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
 
   return (
     <div>
-      {console.log('as', faildfile)}
-      {console.log('as2', attachfile)}
-      {loader === true ? <Loader /> : ''}
+      {console.log('a1', file)}
+      {console.log('a2', faildfile)}
+      {console.log('a3', attachfile)}
+      {console.log('formik', formik.values.userMessage)}
       {/* <div style={{ position: 'absolute', bottom: '0px', right: '0px' }}> */}
       <Modal open={data}>
+        {loader === true ? <Loader /> : ''}
         <div
           className={
             style === 1
@@ -535,7 +551,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                     <Text>To </Text>
                     <Flex marginLeft={14} style={{ width: '100%' }}>
                       <Multiselect
-                        options={Email}
+                        options={emailcollection.emailcollection}
                         onChange={(e) => getto(e)}
                         value={tosample}
                       />
@@ -576,7 +592,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                       <Text size={14}>Cc</Text>
                       <Flex marginLeft={12} style={{ width: '100%' }}>
                         <Multiselect
-                          options={Email}
+                          options={emailcollection.emailcollection}
                           onChange={(e) => getcc(e)}
                           value={ccsample}
                         />
@@ -598,7 +614,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                       <Text size={14}>Bcc</Text>{' '}
                       <Flex marginLeft={6} style={{ width: '100%' }}>
                         <Multiselect
-                          options={Email}
+                          options={emailcollection.emailcollection}
                           onChange={(e) => getbcc(e)}
                           value={bccsample}
                         />
@@ -655,30 +671,103 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                     className={styles.filesContainer}
                   >
                     {file.length !== 0 &&
-                      file.map((list, index) =>
-                        list.map((list1, ind) => (
+                      file.map((list, index) => (
+                        <Flex
+                          flex={1}
+                          row
+                          center
+                          marginRight={index % 2 === 1 ? 0 : '10px'}
+                          className={styles.filesname}
+                          key={index}
+                        >
+                          <Flex style={{ padding: '5px' }}>
+                            <Text
+                              size={12}
+                              className={styles.attachfile}
+                              title={`${index + 1}.${list.name}`}
+                            >
+                              {index + 1}.{list.name}
+                            </Text>
+                            <Text
+                              size={10}
+                              title={`${Math.round(list.size / 1024)} KB`}
+                              style={{ color: '#666666' }}
+                            >
+                              {Math.round(list.size / 1024)} KB
+                            </Text>
+                          </Flex>
+                          <Flex
+                            style={{
+                              height: '100%',
+                              display: 'flex',
+                              padding: '0',
+                            }}
+                            className={styles.iconsContainer}
+                          >
+                            <Flex
+                              style={{
+                                cursor: 'pointer',
+                                padding: '5px 10px 5px 0px',
+                                height: '100%',
+                              }}
+                              onClick={() => romovefile(index)}
+                            >
+                              <SvgVectorClose
+                                width={11}
+                                height={11}
+                                className={styles.svgicon}
+                                stroke="#333333"
+                              />
+                            </Flex>
+                          </Flex>
+
+                          {/* <SvgVectorClose
+                              width={11}
+                              height={11}
+                              style={{
+                                cursor: 'pointer',
+                                marginLeft: '20px',
+                              }}
+                              stroke="#333333"
+                              viewBox="0 0 9 9"
+                              onClick={() => romovefile(index)}
+                            /> */}
+                        </Flex>
+                      ))}
+                  </Flex>
+                  {faildfile.length !== 0 ? (
+                    <>
+                      <Flex> faild count : {faildfile.length}</Flex>
+
+                      <Flex
+                        row
+                        wrap
+                        style={{ margin: '10px 5px' }}
+                        className={styles.filesContainer}
+                      >
+                        {faildfile.map((list, index) => (
                           <Flex
                             flex={1}
                             row
                             center
                             marginRight={index % 2 === 1 ? 0 : '10px'}
                             className={styles.filesname}
-                            key={ind}
+                            key={index}
                           >
                             <Flex style={{ padding: '5px' }}>
                               <Text
                                 size={12}
                                 className={styles.attachfile}
-                                title={`${index + 1}.${list1.name}`}
+                                title={`${index + 1}.${list.name}`}
                               >
-                                {index + 1}.{list1.name}
+                                {index + 1}.{list.name}
                               </Text>
                               <Text
                                 size={10}
-                                title={`${Math.round(list1.size / 1024)} KB`}
+                                title={`${Math.round(list.size / 1024)} KB`}
                                 style={{ color: '#666666' }}
                               >
-                                {Math.round(list1.size / 1024)} KB
+                                {Math.round(list.size / 1024)} KB
                               </Text>
                             </Flex>
                             <Flex
@@ -688,23 +777,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                                 padding: '0',
                               }}
                               className={styles.iconsContainer}
-                            >
-                              <Flex
-                                style={{
-                                  cursor: 'pointer',
-                                  padding: '5px 10px 5px 0px',
-                                  height: '100%',
-                                }}
-                                onClick={() => romovefile(index)}
-                              >
-                                <SvgVectorClose
-                                  width={11}
-                                  height={11}
-                                  className={styles.svgicon}
-                                  stroke="#333333"
-                                />
-                              </Flex>
-                            </Flex>
+                            ></Flex>
 
                             {/* <SvgVectorClose
                               width={11}
@@ -718,12 +791,8 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                               onClick={() => romovefile(index)}
                             /> */}
                           </Flex>
-                        )),
-                      )}
-                  </Flex>
-                  {faildfile.length !== 0 ? (
-                    <>
-                      <Flex> faild count : {faildfile.length}</Flex>
+                        ))}
+                      </Flex>
                     </>
                   ) : (
                     ''

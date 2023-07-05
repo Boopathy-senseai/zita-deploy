@@ -182,21 +182,12 @@ const EmailScreen = () => {
     },
   ];
 
-  // const emailcollection = useSelector(({ useremail }: RootState) => {
-  //   return {
-  //     emailcollection: useremail.mails,
-  //   };
-  // });
-
   useEffect(() => {
     if (sideroute !== 0) {
       getprofile();
       page();
       getfolder();
     }
-
-    // dispatch(getEmail()).then((res) => {
-    // });
   }, [sideroute, skip]);
 
   const inboxmail = () => {
@@ -259,33 +250,36 @@ const EmailScreen = () => {
   };
 
   const searchinput = (e) => {
-    setSearch(e.target.value);
-    console.log('search', e.target.value);
+    setSearch(e.target.value.trim());
   };
 
-  const serchmessage = async (e) => {
-    e.preventDefault();
-    setsideroute(0);
-    setPrevious(25);
-    setSkip(0);
-    setDel(0);
-    setPrevious1(1);
-    setmessagelist([]);
-    setmesage('');
-    setLoader(true);
-    await getsearchmail(authProvider, searchSection, search, skip, range)
-      .then((res) => {
-        // removemessage();
-        setmessagelist(res.value);
-        if (res['@odata.count'] < range) {
-          setPrevious(res['@odata.count']);
-        }
-        setTotal(res['@odata.count']);
-        setLoader(false);
-      })
-      .catch((error) => {
-        // console.log('get junk mail', error);
-      });
+  const serchmessage = async (e: any) => {
+    // e.preventDefault();
+    if (e.key === 'Enter') {
+      if (search !== '') {
+        setsideroute(0);
+        setPrevious(25);
+        setSkip(0);
+        setDel(0);
+        setPrevious1(1);
+        setmessagelist([]);
+        setmesage('');
+        setLoader(true);
+        await getsearchmail(authProvider, searchSection, search, skip, range)
+          .then((res) => {
+            // removemessage();
+            setmessagelist(res.value);
+            if (res['@odata.count'] < range) {
+              setPrevious(res['@odata.count']);
+            }
+            setTotal(res['@odata.count']);
+            setLoader(false);
+          })
+          .catch((error) => {
+            // console.log('get junk mail', error);
+          });
+      }
+    }
   };
 
   const page = async () => {
@@ -478,15 +472,13 @@ const EmailScreen = () => {
 
               <InputText
                 actionRight={() => (
-                  <Flex
-                    style={{ marginTop: '3px' }}
-                    onClick={(e) => serchmessage(e)}
-                  >
+                  <Flex style={{ marginTop: '3px' }}>
                     <SvgSearch />
                   </Flex>
                 )}
                 placeholder="Search by email subject or body"
                 className={styles.inputSearch}
+                onKeyPress={(e) => serchmessage(e)}
                 onChange={(e) => searchinput(e)}
                 style={
                   searchDropdown

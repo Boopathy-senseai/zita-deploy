@@ -56,7 +56,7 @@ const Modaldraft = ({
         closeverify();
         clearstate();
         composemodel();
-        Toast('Draft save successfully', 'LONG', 'success');
+        Toast('Draft saved successfully', 'LONG', 'success');
       })
       .catch((error) => {
         console.log('draft not save ', error);
@@ -76,7 +76,9 @@ const Modaldraft = ({
           </Text>
           <Flex row between marginTop={30}>
             <Flex>
-              <Button types={'secondary'} onClick={dontsave}> Don`t Save</Button>
+              <Button types={'secondary'} onClick={dontsave}>
+                Don`t Save
+              </Button>
             </Flex>
             <Flex row>
               <Flex>
