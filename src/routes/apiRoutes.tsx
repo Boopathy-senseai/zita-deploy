@@ -45,6 +45,7 @@ export const bulkUploadSkills = (id: number) => {
 export const applicantProfileView = `applicants_profile_api`;
 export const applicantMatchapi = `matching_analysis`;
 export const applicantNotesApi = `candidate_notes`;
+export const applicantUserlistApi=`mention_notification_candidate_notes`;
 export const calenderEventApi = `calender_event`;
 export const showAllMatch = `show_all_match`;
 export const applicantMessagesApi = `messages`;
@@ -162,6 +163,8 @@ export const signupRecruiterGetApi = (email: string,username:string) => {
   return url;
 };
 
+
+
 export const emailActiveApi = (userId: string, confirmationToken: string) => {
   const url = `${process.env.REACT_APP_API_ENDPOINT}email_activate/?userid=${userId}&confirmation_token=${confirmationToken}`;
   return url;
@@ -249,7 +252,6 @@ export const creditsPurchaseApi = 'credits_purchase';
 export const dashboardEmpApi = 'dashboard_emp';
 export const dashboardJobMetricsApi = 'dashboard_job_metrics';
 export const dashboardMessageApi = 'dashboard_message';
-
 export const applicantSourceApi = 'applicant_source_api';
 export const applicantSourceDataApi = 'applicant_source_data';
 export const applicantSourceDownloadApi = 'applicant_source_download';

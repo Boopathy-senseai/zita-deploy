@@ -7,6 +7,7 @@ import AboutTab from './AboutTab';
 import AllMatchTab from './AllMatchTab';
 // import ExperienceTab from './ExperienceTab';
 import NotesTab from './NotesTab';
+import Notesmeet from './Notesmeeting';
 // import QualificationTab from './QualificationTab';
 
 /* eslint max-len: ["error", { "code": 2000 }] */
@@ -34,8 +35,11 @@ const ApplicantTabLeftOne = ({ activeState }: typeof defaultProps) => {
       <Tab title={'Resume'}>
         <CandiDateResumeTab />
       </Tab>
-      <Tab title={'Notes/Meetings'}>
-        <NotesTab isMeeting />
+      <Tab title={'Notes'}>
+        <NotesTab  />
+      </Tab>
+      <Tab title={'Meetings'}>
+        <Notesmeet isMeeting />
       </Tab>
       <Tab title={'All Matching Job'}>
         <AllMatchTab
