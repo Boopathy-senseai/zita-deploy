@@ -11,6 +11,7 @@ import {
   applicantMatchReducers,
   applicantMessageReducers,
   applicantNotesReducers,
+  applicantUserlistReducer,
   applicantProfileInitalReducers,
   applicantScoreReducers,
   applicantStausReducers,
@@ -113,6 +114,7 @@ import { pipelinePageReducers } from '../modules/accountsettingsmodule/templates
 
 export const reducers = {
   talentSourcingReducers,
+  applicantUserlistReducer,
   talentSourcingSearchReducers,
   talentUnlockCandidateReducers,
   bulkActionReducers,

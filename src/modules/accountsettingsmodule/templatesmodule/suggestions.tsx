@@ -131,7 +131,7 @@ const PipelineSuggestions: React.FC<Props> = (props) => {
         >
           <Flex row center>
             <SvgPlusCircle fill="#581845" />
-            <Text color="theme" size={14} style={{ marginLeft: '5px' }}>
+            <Text color="theme" bold size={13} style={{ marginLeft: '5px' }}>
               Create a new stage
             </Text>
           </Flex>

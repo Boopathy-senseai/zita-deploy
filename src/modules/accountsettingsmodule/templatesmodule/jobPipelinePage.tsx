@@ -224,7 +224,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     // setSubmitLoader(true);
     dispatch(updateTemplateDataMiddleWare(payload)).then(() => {
       // setSubmitLoader(false);
-      Toast('Changes saved successfully.', 'LONG');
+      Toast('Changes saved successfully', 'LONG');
     });
   };
  

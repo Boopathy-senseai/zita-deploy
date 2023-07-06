@@ -101,7 +101,7 @@ const TemplatesPage = () => {
     setSubmitLoader(true);
     dispatch(updatejobPipelineMiddleWare(value)).then(() => {
       setSubmitLoader(false);
-      Toast('Changes saved successfully.', 'LONG');
+      Toast('Changes saved successfully', 'LONG');
     });
   };
   const showDeletePopup = (data: PipelineData) => {

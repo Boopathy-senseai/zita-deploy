@@ -21,7 +21,11 @@ export interface ApplicantProfile {
   personalInfo: PersonalInfoEntity[];
   source: string;
 }
-
+export interface mention{
+  recruiter_id:number;
+  recruiter_id__username:string;
+  company_name:string;
+}
 export interface QuestionnaireEntity {
   answer: string;
   created_on: string;
@@ -288,16 +292,30 @@ export interface Notes {
   candidate_id_id: number;
   notes: string;
   updated_by?: null;
+  date_created?: string;
   created_at: string;
-  emp_image: string;
+  emp_image:string;
+  user: number;
 }
 
 export interface NotesReducerState {
+  [x: string]: any;
   isLoading: boolean;
   error: string;
   notes: Notes[];
 }
 
+export interface MentionReducerState {
+  isLoading: boolean;
+  error: string;
+  data:[
+    {
+     user:number,
+     value:string,
+     
+   }
+  ];
+}
 export interface AllMatch {
   match: MatchEntityOne[];
   applicant?: ApplicantEntity[];
