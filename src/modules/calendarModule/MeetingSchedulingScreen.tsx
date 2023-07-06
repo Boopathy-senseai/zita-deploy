@@ -63,6 +63,7 @@ const MeetingSchedulingScreen = ({
   applicants,
   currentUser,
 }: Props) => {
+  const [showPopup, setShowPopup] = useState(false);
   const dispatch: AppDispatch = useDispatch();
   const [currentApplicantId, setCurrentApplicantId] = useState<number | null>(
     null,
@@ -193,14 +194,15 @@ const MeetingSchedulingScreen = ({
         open={openScheduleForm}
         closeModalOnOuterClick={false}
       >
-        <div>
-          <CrossButton
+        {/* <div> */}
+          {/* <CrossButton
             onClick={handleCloseSchedulingForm}
             size={'14px'}
             style={{ position: 'absolute', top: '12px', right: '12px' }}
-          />
+          /> */}
           {viewMeetingSummary === false ? (
             <MeetingSchedulingForm
+            
               updateCurrentApplicantId={updateCurrentApplicantId}
               applicants={applicants}
               currentUser={currentUser}
@@ -236,7 +238,7 @@ const MeetingSchedulingScreen = ({
               setIsTopLineLoading={setIsTopLineLoading}
             />
           )}
-        </div>
+        {/* </div> */}
       </Modal>
     </div>
   );
