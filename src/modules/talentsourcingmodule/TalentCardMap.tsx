@@ -52,7 +52,7 @@ const TalentCardMap = ({
   candi_list,
 
 }: Props) => {
-  const isTablet = useMediaQuery({ query: '(max-width: 1316px)' });
+  const isTablet = useMediaQuery({ query: '(max-width: 1250px)' });
   const isLarge = useMediaQuery({ query: '(min-width: 2560px)' });
 
   const [isColor, setColor] = useState<string[]>([]);
