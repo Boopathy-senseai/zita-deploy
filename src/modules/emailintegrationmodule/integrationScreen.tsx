@@ -187,8 +187,19 @@ const EmailScreen = () => {
       getprofile();
       page();
       getfolder();
+      as();
     }
   }, [sideroute, skip]);
+
+  const as = async () => {
+    await getusermail(authProvider)
+      .then((res: any) => {
+        console.log('---', res);
+      })
+      .catch((error) => {
+        console.log('---', error);
+      });
+  };
 
   const inboxmail = () => {
     getmails();

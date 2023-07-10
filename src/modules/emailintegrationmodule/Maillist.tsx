@@ -184,18 +184,20 @@ const Maillist = ({
               ))}
             </>
           ) : (
-            <Flex style={{
-              alignContent: 'center',
-              alignItems: 'center',
-              height: '100vh',
-              width: '100%',
-              display: 'flex',
-              justifyContent: 'center',
-              flexDirection: 'column',
-            }}>
-              <SvgSearchGlass width={65} height={65}/>
-              <Text style={{marginTop:"10px"}}>We didn`t find anthing.</Text>
-              <Text color='gray'>Try a different keyword.</Text>
+            <Flex
+              style={{
+                alignContent: 'center',
+                alignItems: 'center',
+                height: '100vh',
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                flexDirection: 'column',
+              }}
+            >
+              <SvgSearchGlass width={65} height={65} />
+              <Text style={{ marginTop: '10px' }}>We didn`t find anthing.</Text>
+              <Text color="gray">Try a different keyword.</Text>
             </Flex>
           )}
         </Flex>

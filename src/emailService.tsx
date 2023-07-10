@@ -246,13 +246,16 @@ export async function getmessages(
 export async function getusermail(
   authProvider: AuthCodeMSALBrowserAuthenticationProvider,
 ) {
+  // eslint-disable-next-line max-len
+  const searchQuery = `(from: 'manojr@sense7ai.com' OR from: 'jananirangesh@sense7ai.com') OR (to: 'manojr@sense7ai.com' OR to: 'jananirangesh@sense7ai.com') OR (cc: 'manojr@sense7ai.com' OR cc: 'jananirangesh@sense7ai.com') OR (bcc: 'manojr@sense7ai.com' OR bcc: 'jananirangesh@sense7ai.com')`;
+
   var response: any = await graphClient
-    ?.api(
-      `me/mailFolders/Inbox/messages?$filter=from/emailAddress/address eq 'jananirangesh@sense7ai.com'`,
-    )
+    ?.api(`/me/mailFolders/${'Inbox'}/messages`)
+    .query({ $search: searchQuery })
     .count(true)
+    .top(1000)
     .get();
-  //console.log('-----particularmail-----', response);
+  console.log('-----particularmail-----', response);
   return response;
 }
 

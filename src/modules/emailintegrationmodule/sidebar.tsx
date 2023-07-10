@@ -57,28 +57,28 @@ const Sidebar = ({
     e.preventDefault();
     setSelect(val);
     updateroute(val);
-    // page();
+    //page();
   };
   const draftmessage = (e, val) => {
     e.preventDefault();
 
     setSelect(val);
     updateroute(val);
-    //page();
+    // page();
   };
 
   const archivemessage = (e, val) => {
     e.preventDefault();
     setSelect(val);
     updateroute(val);
-    // page();
+    //page();
   };
 
   const trashmessage = (e, val) => {
     e.preventDefault();
     setSelect(val);
     updateroute(val);
-    //  page();
+    //page();
   };
 
   const junkmessage = (e, val) => {

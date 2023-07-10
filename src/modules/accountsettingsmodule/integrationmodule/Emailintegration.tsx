@@ -40,7 +40,8 @@ const IntegrationScreen = () => {
   const [Authorizemail, setAuthorizemail] = useState('');
   const [modelopen, setmodelopen] = useState(false);
   const [Edit, setEdit] = useState('');
-
+  const [isAuthorize, setIsAuthorize] = useState(false);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     function start() {
       gapi.client.init({
@@ -51,55 +52,61 @@ const IntegrationScreen = () => {
 
     gapi.load('client:auth2', start);
   }, []);
-
   useEffect(() => {
-    // const initialGoogleConnection = async () => {
-    //   gapi.load('client:auth2', {
-    //     callback: () => {
-    //       // Handle gapi.client initialization.
-    //       gapi.client.setApiKey(process.env.REACT_APP_API_KEY);
-    //       gapi.auth.authorize(
-    //         {
-    //           client_id: process.env.REACT_APP_CLIENT_ID,
-    //           scope: process.env.REACT_APP_SCOPES,
-    //           immediate: true,
-    //         },
-    //         handleAuthResult,
-    //       );
-    //     },
-    //     onerror: function () {
-    //       // Handle loading error.
-    //       console.log('gapi.client failed to load!');
-    //     },
-    //     timeout: 5000, // 5 seconds.
-    //     ontimeout: function () {
-    //       // Handle timeout.
-    //       console.log('gapi.client could not load in a timely manner!');
-    //     },
-    //   });
-    // };
-    // try {
-    //   initialGoogleConnection();
-    // } catch (error) {
-    //   console.log('error: ', error);
-    // }
+    setLoading(true);
+
+    const initialGoogleConnection = async () => {
+      await gapi.load('client:auth2', {
+        callback: () => {
+          // Handle gapi.client initialization.
+          gapi.client.setApiKey(process.env.REACT_APP_API_KEY);
+          gapi.auth.authorize(
+            {
+              client_id: process.env.REACT_APP_CLIENT_ID,
+              scope: process.env.REACT_APP_SCOPES,
+              immediate: true,
+            },
+            handleAuthResult,
+          );
+        },
+        onerror: function () {
+          // Handle loading error.
+          console.log('gapi.client failed to load!');
+        },
+        timeout: 5000, // 5 seconds.
+        ontimeout: function () {
+          // Handle timeout.
+          console.log('gapi.client could not load in a timely manner!');
+        },
+      });
+    };
+
+    try {
+      initialGoogleConnection();
+    } catch (error) {
+      console.log('error: ', error);
+    }
+
+    setLoading(false);
+    // eslint-disable-next-line
   }, []);
 
   const handleAuthResult = (authResult) => {
+    console.log(authResult);
     if (authResult && !authResult.error) {
-      console.log('Sign-in successful1', authResult);
-      console.log('Sign-in successful2', !authResult.error);
-      console.log('Sign-in successful3', authResult.access_token);
-
+      console.log('Sign-in successful');
+      // setIsAuthorize(true);
       loadClient();
       profile();
     } else {
       console.error('handleAuthResult...');
       console.error(authResult);
     }
+    setLoading(false);
   };
 
-  const select = () => {
+  const handleAuthClick = () => {
+    setLoading(true);
     return gapi.auth.authorize(
       {
         client_id: process.env.REACT_APP_CLIENT_ID,
@@ -110,18 +117,11 @@ const IntegrationScreen = () => {
     );
   };
 
-  const profile = () => {
-    const userprofile = gapi.auth2.getAuthInstance().currentUser.get();
-    console.log('dfdfdf', userprofile);
-    setIsAuthorizegoogle(true);
-    setEmail(userprofile.wt.cu);
-  };
-
   const loadClient = () => {
     return gapi.client.load('gmail', 'v1').then(
       (res) => {
-        console.log('gapi client loaded for API');
-
+        console.log('gapi client loaded for API', res);
+        setIsAuthorize(true);
         // getMessages();
       },
       (err) => {
@@ -130,6 +130,12 @@ const IntegrationScreen = () => {
     );
   };
 
+  const profile = () => {
+    const userprofile = gapi.auth2.getAuthInstance().currentUser.get();
+    console.log('dfdfdf', userprofile.wt.cu);
+    setEmail(userprofile.wt.cu);
+    setIsAuthorizegoogle(true);
+  };
   const EditMail = (Eval: string) => {
     setmodelopen(!modelopen);
     setEdit(Eval);
@@ -190,6 +196,7 @@ const IntegrationScreen = () => {
   return (
     <>
       {console.log('isAuthorizegoogle', isAuthorizegoogle)}
+      {console.log('email', email)}
       <Text color="theme" size={16} bold>
         Email Integrations
       </Text>
@@ -281,7 +288,7 @@ const IntegrationScreen = () => {
                 <Button
                   disabled={Authorizemail === 'outlook' ? true : false}
                   className={styles.btn}
-                  onClick={() => select()}
+                  onClick={() => handleAuthClick()}
                 >
                   <Text color="theme">Connect with Gmail</Text>
                 </Button>
