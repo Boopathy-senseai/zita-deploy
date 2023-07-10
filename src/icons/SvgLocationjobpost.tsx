@@ -40,9 +40,9 @@ const SvgLocationjobpost = (props) => (
   <svg
   xmlns="http://www.w3.org/2000/svg"
   width={16}
-  height={14}
+  height={13.5}
   fill="none"
-  viewBox="0 1 17 15" 
+  viewBox="0 2 17 15" 
   
 >
   <path

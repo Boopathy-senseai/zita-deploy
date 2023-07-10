@@ -86,7 +86,7 @@ const JobMetricsCard = () => {
 
       <Flex marginRight={5} marginLeft={5}>
         <Flex row center marginBottom={8} marginTop={8} className={styles.line}>
-          <Text bold color="theme" className={styles.jobTitle} size={16}>Job Metrics</Text>
+          <Text bold color="theme" className={styles.jobTitle} size={14}>Job Metrics</Text>
           {/* <Flex flex={20} end  >
           <SvgJobselection></SvgJobselection>
           </Flex> */}
@@ -134,7 +134,7 @@ const JobMetricsCard = () => {
                   <Flex  marginLeft={14} marginTop={3}>
                   <SvgJobtitle width={16} height={16}></SvgJobtitle></Flex>
                 
-                <Text align='center' >
+                <Text align='center' style={{fontSize:'13px'}} >
                   {job_details && job_details?.job_title} -{' '}
                   {job_details && job_details?.job_id}
                 </Text>
@@ -144,7 +144,7 @@ const JobMetricsCard = () => {
                   {/* <SvgLocation width={16} height={16} fill={PRIMARY}></SvgLocation> */}
                   <SvgLocationjobpost  width={16} height={16}></SvgLocationjobpost>
                 
-                <Text align='center' style={{marginLeft:"2px"}}>
+                <Text align='center' style={{marginLeft:"2px",fontSize:'13px'}}>
                   {job_details && job_details?.city},{' '}
                   {job_details && job_details?.state},{' '}
                   {job_details && job_details?.country}
@@ -155,7 +155,7 @@ const JobMetricsCard = () => {
                   <SvgCalendaricon fill={PRIMARY}></SvgCalendaricon>
                   </Flex>
                
-                <Text align='center' style={{marginLeft:"5px"}} >
+                <Text align='center' style={{marginLeft:"5px",fontSize:'13px'}} >
                   {getDateString(job_details && job_details.job_posted_on, 'll')}
                 </Text>
               </Flex>
@@ -180,7 +180,7 @@ const JobMetricsCard = () => {
                 jd_metrics={jd_metrics}
               />
             </Flex>
-            <Flex flex={6} marginLeft={8}>
+            <Flex flex={6} marginLeft={8} >
               <SourcingPerformance
                 role_base={role_base}
                 dates_length={dates_length}

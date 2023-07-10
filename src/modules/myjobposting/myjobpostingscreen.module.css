@@ -369,7 +369,11 @@
   vertical-align: baseline !important;
   padding-top: 7.5px !important;
   border-top: 1px solid #A5889C !important;
+ 
    
+}
+.table tbody td .padchang{
+  max-width:100px !important;
 }
 .tabeboarder {
   border-right: 0.5px solid #555555;
@@ -378,7 +382,7 @@
   color: #333333;
   font-style: normal;
   font-weight: 700;
-  font-size: 13px;
+  font-size: 14px;
 }
 .tableboarder {
   color: #333333;
@@ -390,6 +394,7 @@
   font-size: 12px;
   font-weight: 600;
   color: #581845;
+  /* max-width: 110px; */
 }
 .hovercolor:hover {
   color: #581845 !important;
@@ -432,10 +437,11 @@
   cursor: pointer;
   font-size: 13px;
 }
-.maxwidthjobtype{
-  max-width: 50px !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
+ .maxwidthjobtype{
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis; 
+  white-space: nowrap;
 }
 .twobutton {
   padding-right: 184px;

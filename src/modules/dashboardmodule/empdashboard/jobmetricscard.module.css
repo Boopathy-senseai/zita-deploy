@@ -1,5 +1,6 @@
 .jobTitle {
   padding: 7px;
+  font-size: 14px;
   
 }
 .titleCard {
@@ -48,6 +49,7 @@
   padding: 4px 2px;
   margin-left: 8px;
   margin-right: 8px;
+  font-size: 13px;
 
 }
 

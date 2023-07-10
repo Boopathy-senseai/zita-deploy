@@ -63,7 +63,7 @@ const MessageCard = () => {
       />
       <Flex row center className={styles.msgText} between>
         
-        <Text bold size={16} color="theme" style={{ marginRight: 16 }}>
+        <Text bold size={14} color="theme" style={{ marginRight: 16 }}>
         Unread Messages
         </Text> 
         <Flex>
@@ -89,7 +89,7 @@ const MessageCard = () => {
             <SvgNomessage/>
             
             
-            <Text color="gray">No Messages Received</Text>
+            <Text color="gray" style={{fontSize:13}}>No Messages Received</Text>
           </Flex>
         ) : (
           
@@ -102,14 +102,14 @@ const MessageCard = () => {
                 <Flex row between>
                   <Flex row>
                     <img
-                      style={{ objectFit: 'contain' }}
+                      style={{ objectFit: 'cover' }}
                       src={mediaPath + list.profile_pic}
                       alt="profile"
                       className={styles.profileStyle}
                     />
                     <Flex>
                       {list.can_source === 'applicant' ? (
-                        <Text style={{color:'#581845',marginLeft:7}}
+                        <Text style={{color:'#581845',marginLeft:7,fontSize:'13px'}}
                           onClick={() => {
                             setJd(list.jd_id_id);
                             setCandi(list.can_id);
@@ -129,20 +129,20 @@ const MessageCard = () => {
                           }}
                           color="link"
                           bold
-                          style={{color:'#581845',marginLeft:7}}
+                          style={{color:'#581845',marginLeft:7,fontSize:'13px'}}
                         >
                           {list.first_name} {list.last_name}
                         </Text>
                       )}
 
-                      <Text style={{ marginLeft:7}} className={styles.messagesizereducer}>{list.message}</Text>
+                      <Text style={{ marginLeft:7,fontSize:'13px'}} className={styles.messagesizereducer}>{list.message}</Text>
                     </Flex>
                   </Flex>
                   {/* <Text>{moment(list.date_created).fromNow()}</Text> */}
                   {list.is_read ===false?(<Flex>
-                    <Flex><Text>{moment(list.date_created).fromNow()}</Text></Flex>
-                    {/* <Flex marginTop={5} marginLeft={30}><div className={styles.readStyle}></div></Flex> */}
-                  </Flex>):(<Text>{moment(list.date_created).fromNow()}</Text>)}
+                    <Flex><Text style={{fontSize:'13px'}}>{moment(list.date_created).fromNow()}</Text></Flex>
+                    
+                  </Flex>):(<Text style={{fontSize:'13px'}}>{moment(list.date_created).fromNow()}</Text>)}
                   
                 </Flex>
               </Flex>

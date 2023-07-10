@@ -253,11 +253,11 @@ const CalenderCard = ({
       <Flex row between className={styles.msgText}>
         <Flex row>
           <Flex>
-            <Text bold size={16} color="theme" style={{ marginRight: 5, marginTop: 5 }}>
+            <Text bold size={16} color="theme" style={{ marginRight: 5, marginTop: 5 ,fontSize:'14px'}}>
               Calendar
             </Text></Flex>
           {active === 1 &&
-            <Flex marginTop={9}>
+            <Flex marginTop={7}>
               <Text color="gray" size={12}>
                 (Timezone){outlookTimeZone[getOut]}
                 {checkCalendarOutlook
@@ -424,7 +424,7 @@ const CalenderCard = ({
       >
         {active === 0 ? (
           <Flex center flex={1} middle columnFlex className={styles.noContent}>
-            <Text color="gray" style={{ marginBottom: 16 }}>
+            <Text color="gray" style={{ marginBottom: 16 ,fontSize:'13px'}}>
               Integrate your calendar with zita to schedule your
               meetings
             </Text>
@@ -482,7 +482,7 @@ const CalenderCard = ({
         ) : (
           <Flex flex={1} center middle columnFlex className={styles.noContent}>
             {console.log("cal_eventlength", event.length)}
-            <Text color="gray"> No event scheduled</Text>
+            <Text color="gray" style={{fontSize:'13px'}}> No event scheduled</Text>
           </Flex>
         )
         }
