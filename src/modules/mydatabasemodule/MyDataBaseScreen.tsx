@@ -372,7 +372,7 @@ const MyDataBaseScreen = () => {
         });
     }
   };
-
+  console.log("dataaaaaaaa",datas)
   return (
     <>
     <Flex row className={styles.ribbon} between>

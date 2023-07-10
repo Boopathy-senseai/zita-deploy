@@ -1,7 +1,7 @@
 import { Formik, FormikProps } from 'formik';
 import escapeRegExp from 'lodash/escapeRegExp'; // eslint-disable-line
 import { useMemo, useRef, useState, useEffect } from 'react';
-import ReactSwitch from 'react-switch';
+
 
 import SvgIntomark from '../../icons/Intomark';
 import SvgRefresh from '../../icons/SvgRefresh';

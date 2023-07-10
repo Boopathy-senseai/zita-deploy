@@ -9,9 +9,10 @@ import SelectTag from '../../uikit/SelectTag/SelectTag';
 import Toast from '../../uikit/Toast/Toast';
 import InputSearch from '../../uikit/InputSearch/InputSearch';
 import Button from '../../uikit/Button/Button';
+import { isEmpty} from '../../uikit/helper';
+import { space} from '../constValue';
 import { AppDispatch } from '../../store';
 import { ERROR_MESSAGE, THIS_FIELD_REQUIRED } from '../constValue';
-import TalentFilter from './TalentFilter';
 import styles from './talentaction.module.css';
 import { distanceOptions, lastActiveOptions } from './mock';
 import { talentSourcingSearchMiddleWare } from './store/middleware/talentSoucringMiddleware';
@@ -86,7 +87,7 @@ const TalentAction = ({
   };
 
   const handleValidation = (values: FormProps) => {
-    const errors: Partial<errorType> = {};
+    const errors: Partial<errorType> = {};    
     if (values.location === '') {
       errors.location = THIS_FIELD_REQUIRED;
     }
@@ -94,7 +95,10 @@ const TalentAction = ({
     if (values.keywords === '') {
       errors.keywords = THIS_FIELD_REQUIRED;
     }
-    return errors;
+    if (!space.test(formik.values.keywords)) {
+      errors.keywords = "Space is not a character";
+    }
+      return errors;
   };
 
   const formik = useFormik({
@@ -103,10 +107,11 @@ const TalentAction = ({
     onSubmit: handleSubmit,
     enableReinitialize: true,
   });
-  // console.log("112233",formik.setFieldValue)
+ 
+
 
   return (
-    <>
+<>
     <Flex row between bottom className={cx('rowContainer')}>
       <Flex row bottom flex={1}>
         <InputText
@@ -120,6 +125,7 @@ const TalentAction = ({
           errorMessage={formik.errors.keywords}
           error={formik.touched.keywords}
         />
+      
         <div className={cx('cityStyle')}>
           <InputSearch
             placeholder="e.g. City/State"
@@ -131,8 +137,10 @@ const TalentAction = ({
             errorMessage={formik.errors.location}
             error={formik.touched.location}
             initialValue={lowerCase(formik.values.location)}
-            style={styles.searchStyle}
+            style={styles.searchStyle}           
           />
+       
+        
         </div>
         <SelectTag
           id={'talentaction__distanceId'}
@@ -155,8 +163,7 @@ const TalentAction = ({
             formik.setFieldValue('lastActive', option.value)
           }
         />
-      </Flex>
-      <div className={styles.btnContainer}>
+        <div className={styles.btnContainer}>
         <Button
           disabled={!(formik.isValid && formik.dirty)}
           className={cx('findBtn')}
@@ -165,34 +172,26 @@ const TalentAction = ({
           Find Candidates
         </Button>
       </div>
-
     </Flex>
-    
+      </Flex>
+      
+
     </>
   );
 };
 
 export default TalentAction;
 
-
-// <div className={cx('filterOverAll')}>
-//     <TalentFilter
-//              isInitalCheckBox={isInitalCheckBox}
-//              setOther={setOther}
-//              isOther={isOther}
-//              isBachelors={isBachelors}
-//              isDoctorate={isDoctorate}
-//              isMasters={isMasters}
-//              isAny={isAny}
-//              setBachelors={setBachelors}
-//              setDoctorate={setDoctorate}
-//              setMasters={setMasters}
-//              setAny={setAny}
-//              isRelocate={isRelocate}
-//              setRelocate={setRelocate}
-//              isExperience={isExperience}
-//              setExperience={setExperience}
-//              setInitialPage={setPageNumber}
-//              handleRefresh={handleRefresh}
-//            />
-//    </div>
+ // const valid=!isEmpty(formik.values.location)&& !isEmpty(formik.values.keywords);
+  
+  // const handlefuction=()=>{
+  //   console.log("formik errorrrrrrrr",formik.isValid,formik.dirty,valid)
+  //   if (isEmpty(formik.values.location)&&(formik.isValid &&formik.dirty)){
+  //     console.log("i am here+++++++++++++++++++++++++++++++++++++++++++++++++",formik.isValid,formik.dirty)
+  //      return <>
+       
+  //    <div style={{color:"#f94949",fontSize:'12px'}}>This field is required</div>
+  //    </>
+     
+  //   }
+  // }

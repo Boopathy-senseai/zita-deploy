@@ -12,7 +12,7 @@
   width: 100%;
   box-sizing: border-box !important;
   font-family: "Roboto", sans-serif;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   
 }
 .search::placeholder{

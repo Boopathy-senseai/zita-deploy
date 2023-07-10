@@ -424,6 +424,7 @@ export const customStylechanges1 = {
     ...provided,
     margin: 0,
     borderColor:GARY_9,
+    color:"violet"
   }),
   menuList: (provided: any) => ({
     ...provided,
@@ -432,13 +433,14 @@ export const customStylechanges1 = {
     scrollbarWidth: 'thin',
     padding: 0,
     borderColor:PRIMARY,
+  
   }),
   hover: (provided: any) => ({
     color:PRIMARY,
     borderColor:PRIMARY,
   }),
   selected: (provided: any) => ({
-    color:PRIMARY,
+    color:"green",
     borderColor:PRIMARY,
     backgroundColor:PRIMARY,
   }),

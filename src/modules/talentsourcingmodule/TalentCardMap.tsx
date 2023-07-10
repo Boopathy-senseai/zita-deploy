@@ -23,7 +23,7 @@ const cx = classNames.bind(styles);
 
 type Props = {
   talentList: DataEntity;
-  index: number;
+  index: any;
   handleUnlockSubmit: (arg: string) => void;
   handleClick: (e: { target: { id: string; checked: boolean } }) => void;
   isCheck: DataEntity;
@@ -56,10 +56,20 @@ const TalentCardMap = ({
   const isLarge = useMediaQuery({ query: '(min-width: 2560px)' });
 
   const [isColor, setColor] = useState<string[]>([]);
-
+  const [count,setcount]=useState(0)
+  const [list,setlist]=useState([])
   useEffect(() => {
     setColor(colorCode);
   }, []);
+
+  useEffect(() => {
+  sessionStorage.setItem("index", (index+1));
+  }, [index]);
+
+
+  // const handlepage=()=>{
+  //  setcount(index+1)
+  // }
   const checkVist = candi_list?.includes(talentList.id.toString())
     ? true
     : false;
@@ -67,23 +77,22 @@ const TalentCardMap = ({
   const windowSize = sidebar ==='1'
     ? window.innerWidth / 3.31
     : window.innerWidth /3.76;
-    // console.log("innerwidth ",window.innerWidth);
+    console.log("innerwidth ",window.innerWidth);
     // console.log("innerwidth 1",window.innerWidth / 3 - 130);
     // console.log("innerwidth 2",window.innerWidth / 2 - 186);
-
+    
 console.log("sidebar111",windowSize,sidebar)
   return (
     <div
       style={{
-        width: isTablet ? '100%' : windowSize,
+        width: isTablet ? '100%' : '31.5%',
         border:'1px solid #A58896',
         borderRadius: '4px'
       }}
       className={styles.overAll}
     >
-    
       <Card key={talentList.first_name + index} className={cx('cardConatiner')}>
-
+    
         <Flex row top>
           <InputCheckBox
             key={talentList.candidate_hash}
@@ -93,6 +102,7 @@ console.log("sidebar111",windowSize,sidebar)
             checked={isCheck.includes(talentList.candidate_hash)}
             disabled={checkVist}
           />
+         
           <Flex row flex={1}>
             <Flex between row className={cx('profileOverAll')} flex={1}>
               <Flex flex={1}>
@@ -118,8 +128,9 @@ console.log("sidebar111",windowSize,sidebar)
                         onClick={() =>
                           handleCandidateView(talentList.candidate_hash)
                         }
+                        size={12}
                       >
-                        {talentList.first_name}
+                        {talentList.first_name} 
                       </Text>
                     </Flex>
                     {talentList.work_experience === 'not_set' ? (
@@ -145,7 +156,7 @@ console.log("sidebar111",windowSize,sidebar)
                         >
                           {' | '}
                         </Text>
-                        <Text color="primary" size={12}>{`${notSpecified(
+                        <Text color="primary" size={11}>{`${notSpecified(
                           talentList.work_experience,
                         )}`}</Text>
                       </Flex>
@@ -202,7 +213,7 @@ console.log("sidebar111",windowSize,sidebar)
                             >
                               {' | '}
                             </Text>
-                            <Text color="primary" size={12}>{`${notSpecified(
+                            <Text color="primary" size={11}>{`${notSpecified(
                               talentList.work_experience,
                             )} Years`}</Text>
                           </Flex>
@@ -210,17 +221,17 @@ console.log("sidebar111",windowSize,sidebar)
                       </>
                     )}
 
-                    <Flex row center>
+                    <Flex row center style={{marginBottom:'4px'}}>
                       <Text size={11} color="primary" style={{ marginRight: 2 }}>
                         Last Active:
                       </Text>
-                      <Text size={11} color="primary">
+                      <Text bold size={11} color="primary">
                         {moment(talentList.updated_on).fromNow()}
                       </Text>
                     </Flex>
                   </Flex>
                 </Flex>
-
+                
                 <Flex style={{marginLeft:'-5px'}}>
                   <Flex row center className={cx('jobList')}>
                   <Flex style={{marginRight:'1px'}}>
@@ -256,7 +267,7 @@ console.log("sidebar111",windowSize,sidebar)
                     {talentList.relocate === '1' ? (
                       <Text color="black_1" title={' Willing to Relocate:Yes'}  size={11} >Yes</Text>
                     ) : (
-                      <Text color="black_1" title={' Willing to Relocate:Not Specified'} size={11} >
+                      <Text color="black_1" title={' Willing to Relocate: Not Specified'} size={11} >
                         {notSpecified(talentList.relocate, talentList.relocate)}
                       </Text>
                     )}

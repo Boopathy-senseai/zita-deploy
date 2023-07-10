@@ -77,7 +77,7 @@ const TalentSourcingScreen = () => {
 
   const [isCheck, setIsCheck] = useState<any>([]);
 
-  const usersPerPage = 12;
+  const usersPerPage = 15;
   const pagesVisited = pageNumber * usersPerPage;
   const length: any = isSearchData?.length;
   const pageCount = Math.ceil(length / usersPerPage);
@@ -94,6 +94,11 @@ const TalentSourcingScreen = () => {
   const update=(val)=>{
 setshow(val)
   }
+//  const updatestate=(val)=>{
+//     setstore(val)
+//     setstore1(val)
+//       }
+    
 
   useEffect(() => {
     const getUrl = window.location.href;
@@ -477,15 +482,17 @@ setshow(val)
   if(isInitialLoader){
     return <Loader />
   }
-  if(isSubmitLoader){
-    return <Loader />
-  }
+  // if(isSubmitLoader){
+  //   return <Loader />
+  // }
     console.log("isSearchData",isSearchData);
     console.log("isFind",isFind);
     console.log("iSubmitLoaders",isSubmitLoader);
-    console.log("isCheck+++++++++++++++++++++",isCheck);
+    console.log("isCheck+++++++++++++++++++++",isCheck,"showww",show);
+    
   return (
     <>
+   
     <Flex row className={styles.ribbon} between>
           
 
@@ -503,7 +510,7 @@ setshow(val)
    </Flex>
     <Flex row className={styles.overAll}>
        
-        {(sourceLoader||isPdfLoader||searchLoader||stripeLoader||isCheckOutLoader) && isSubmitLoader}
+        {(sourceLoader||isPdfLoader||searchLoader||stripeLoader||isCheckOutLoader) && <Loader />}
         <CancelAndDeletePopup
           title={
             'Please subscribe to any of the premium plans to buy credits and unlock candidates'
@@ -593,6 +600,7 @@ setshow(val)
           <div >
             <Flex className={styles.talentActionContainer}>
               <TalentAction
+         
                 setInitalCheckBox={setInitalCheckBox}
                 setFind={setFind}
                 setPageNumber={setPageNumber}

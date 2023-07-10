@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import _ from 'lodash';
 import Flex from '../../uikit/Flex/Flex';
 import BulkAction from './BulkAction';
 import TalentCardMap from './TalentCardMap';
@@ -73,6 +74,7 @@ const TalentCardList = ({
 }: // setUnlockLoader,
 Props) => {
   const [isCheckAll, setIsCheckAll] = useState(false);
+  const [count, setcount] = useState(0);
   // const [isCheck, setIsCheck] = useState<any>([]);
   // const checkArray = isCheckArray.length === 0 ? false : true;
 // select box function
@@ -108,10 +110,19 @@ Props) => {
     }
   };
 
+  
+ 
+
   useEffect(() => {
-    if (isCheckAll && isCheck.length!==12) {
+    const valIndex=sessionStorage.getItem("index");
+    console.log("type offffffffffff",typeof(isCheck.length),typeof(valIndex))
+    const ans=(isCheck.length.toString()===valIndex);
+    console.log("number page",valIndex,isCheckAll,isCheck.length,ans)
+    
+
+    if (isCheckAll && isCheck.length.toString() !== valIndex) {
       setIsCheckAll(false);
-      update(false)
+      update(false) 
     }
   }, [isCheck]);
 
@@ -132,9 +143,34 @@ Props) => {
     setIsCheckAll(true);
     update(true)
   }
+  const handleChange=(int:any)=>{
+    console.log("index",int)
+    // setcount(int+1)
+  }
   console.log("userpage",isCheck.length);
+
+  console.log("number ++++_____====",searchData)
+
+//  const mapfuction=()=>{
+//     if(searchData){
+//       searchData
+//           .slice(pagesVisited, pagesVisited + usersPerPage)
+//           .map((dataList, index) => {
+          
+//             return (
+//               <>
+//            {console.log("index update value",index)}
+//            <p>{index}</p>
+//               </>
+//             )})
+//     }
+         
+//   }
+  
+ 
   return (
     <Flex wrap row style={{width:'100%'}}>
+    {console.log("index value",count)}
       <BulkAction
         // setUnlockLoader={setUnlockLoader}
         setCandiList={setCandiList}
@@ -171,8 +207,12 @@ Props) => {
               />
             );
           })}
+  
+   
+    
     </Flex>
   );
 };
 
 export default TalentCardList;
+// { mapfuction() }
