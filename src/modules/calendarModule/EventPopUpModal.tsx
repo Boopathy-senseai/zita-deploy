@@ -10,7 +10,7 @@ import {
   SvgEdit,
   SvgCopy,
 } from '../../icons';
-import { Text } from '../../uikit';
+import { Flex, Text } from '../../uikit';
 import { CrossButton, Modal } from '../../uikit/v2';
 import SvgInfo from '../../icons/SvgInfo';
 import { formatTo12HrClock, getEventHasMeeting } from './util';
@@ -59,15 +59,19 @@ const EventPopUpModal = ({
     >
       <div className={styles.deleteWarningPopUp}>
         <div className={styles.warningMessage}>
-          <SvgInfo />
-          <p>
+          {/* <SvgInfo /> */}
+          <Text size={14}>
             Meeting will be canceled and notified to the attendees.
             <br />
             Are you sure to proceed further?
-          </p>
+          </Text>
         </div>
 
         <div className={styles.actionButtonWrapper}>
+          
+          <button onClick={() => setOpenEventDeleteModal(false)}>
+            No, Thanks
+          </button>
           <button
             onClick={() => {
               handleRemoveEvent(setOpenEventDeleteModal);
@@ -75,9 +79,6 @@ const EventPopUpModal = ({
             className={styles.deleteButton}
           >
             Cancel Meeting
-          </button>
-          <button onClick={() => setOpenEventDeleteModal(false)}>
-            No, Thanks
           </button>
         </div>
       </div>
@@ -96,22 +97,22 @@ const EventPopUpModal = ({
           <Tooltip title={title} placement="top">
             <p className={styles.eventTitle}>{title}</p>
           </Tooltip>
-          <p>Gowtham Frontend Developer</p>
+          {/* <p>Gowtham Frontend Developer</p> */}
         </div>
       </div>
       <div className={styles.info}>
-        <SvgInterviewCalendar size={20} />
+        <SvgInterviewCalendar size={16} />
         <div className={styles.infoText}>
           <Text>{startDate.toDateString()}</Text>
           <br />
-          <Text>{`${formatTo12HrClock(startDate)} to ${formatTo12HrClock(
+          <Text>{`${formatTo12HrClock(startDate)} - ${formatTo12HrClock(
             endDate,
           )}`}</Text>
         </div>
       </div>
 
       <div className={styles.info}>
-        <SvgInterviewers size={20} />
+        <SvgInterviewers size={16} />
         {attendees?.length > 0 ? (
           <div className={styles.infoText}>
             <p>Interviewer&#40;s&#41;</p>
@@ -127,7 +128,7 @@ const EventPopUpModal = ({
       </div>
 
       <div className={styles.info}>
-        <SvgOrganizer size={20} />
+        <SvgOrganizer size={16} />
         <div className={styles.infoText}>
           <Text>Organizer</Text>
           <br />
@@ -189,19 +190,19 @@ const EventPopUpModal = ({
 
   const PrivateEvent = (
     <>
-      <p className={styles.title}>{title}</p>
+      <Text size={16} className={styles.title} >{title}</Text>
       <div className={styles.info}>
-        <SvgInterviewCalendar size={20} />
+        <SvgInterviewCalendar size={16} />
         <div className={styles.infoText}>
           <Text>{startDate.toString().slice(0, 15)}</Text>
           <br />
-          <Text>{`${formatTo12HrClock(startDate)} to ${formatTo12HrClock(
+          <Text>{`${formatTo12HrClock(startDate)} - ${formatTo12HrClock(
             endDate,
           )}`}</Text>
         </div>
       </div>
       <div className={styles.info}>
-        <SvgCalendar1 size={20} />
+        <SvgCalendar1 size={16} />
         <div className={styles.infoText}>
           <Text>Calendar</Text>
           <br />
@@ -209,7 +210,7 @@ const EventPopUpModal = ({
         </div>
       </div>
       <div className={styles.info}>
-        <SvgPrivate size={20} />
+        <SvgPrivate size={16} />
         <div className={styles.infoText} style={{ alignItems: 'center' }}>
           <Text>Private Event</Text>
         </div>
@@ -223,8 +224,9 @@ const EventPopUpModal = ({
         <div className={styles.eventPopUp}>
           <CrossButton
             onClick={handleCloseEventPopUpModal}
-            size={'14px'}
-            style={{ position: 'absolute', top: '12px', right: '12px' }}
+            size={12}
+            style={{ position: 'absolute', top: '12px', right: '15px' }}
+            
           />
           {isZitaEvent ? ZitaEvent : PrivateEvent}
         </div>

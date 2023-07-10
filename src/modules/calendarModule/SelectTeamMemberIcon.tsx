@@ -27,7 +27,7 @@ const SelectTeamMemberCheckBox = ({
           }}
           role="button"
         >
-          <SvgCheckedCircle checked={checked} />
+          <SvgCheckedCircle fill="#581845" checked={checked} />
         </div>
         <p
           className={style.label}

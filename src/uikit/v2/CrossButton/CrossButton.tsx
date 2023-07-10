@@ -36,7 +36,7 @@ const CrossButton = ({
         className={styles.svgWrapper}
         onClick={() => (onClick ? onClick() : null)}
       >
-        <SvgClose width={'100%'} height={'100%'} />
+        <SvgClose width={'100%'} height={'100%'} className={styles.icon}/>
       </button>
     </>
   );

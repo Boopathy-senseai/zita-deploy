@@ -334,7 +334,7 @@ small {
   padding: 0px !important;
   color: #ffffff;
   background-color: #581845;
-  box-shadow: 1px 2px 1px 1px #d7c7d2;
+  box-shadow: 1px 2px 1px 1px #D7C7D2;
 }
 
 .zitaNav .navbar-brand img {
@@ -402,10 +402,10 @@ small {
   font-weight: 600;
   border-top: 0px;
   padding-top: 0px;
-  border-bottom: 0.5px solid #a5889c;
+  border-bottom: 0.5px solid #A5889C;
   padding-bottom: 15px;
-}
-
+} 
+ 
 .table tbody td {
   font-family: 'Roboto', sans-serif;
   font-size: 13px;
@@ -547,8 +547,8 @@ small {
 }
 
 input:disabled {
-  color: hsl(0, 0%, 20%);
-  opacity: 0.5;
+ color:hsl(0, 0%, 20%);
+ opacity: 0.5;
 }
 
 .label {
@@ -789,4 +789,17 @@ input:-webkit-autofill:active {
   position: relative;
   overflow: auto !important;
   flex: 1;
+}
+
+
+.rbc-calendar {
+  height: calc(100% - 125px) !important;
+}
+
+.rbc-time-view {
+  height: 62%;
+}
+
+.MuiOutlinedInput-notchedOutline{
+  border-color: rgba(0, 0, 0, 0.57) !important;
 }

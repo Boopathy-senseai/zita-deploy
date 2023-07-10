@@ -7,9 +7,9 @@ import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { momentLocalizer } from 'react-big-calendar';
 import { useDispatch } from 'react-redux';
-import { SvgAddInterviewers } from '../../icons';
+import { SvgAddInterviewers, SvgCalendar } from '../../icons';
 import { AppDispatch } from '../../store';
-import { InputText, SelectTag } from '../../uikit';
+import { Button, Flex, InputText, Modal, SelectTag, Text } from '../../uikit';
 import { getJdMiddleware } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import AddInterviewerSlider from './AddInterviewerSlider';
 import InterviewerIcon from './InterviewerIcon';
@@ -506,7 +506,9 @@ const MeetingSchedulingForm = ({
         <DesktopDatePicker
           value={meetingForm.date.value}
           onChange={handleChangeDate}
-          renderInput={(params) => <TextField {...params} />}
+          renderInput={(params) => (
+            <TextField {...params} style={{ width: 'auto !important' }} />
+          )}
         />
       </LocalizationProvider>
       {meetingForm.date.error && (
@@ -688,10 +690,10 @@ const MeetingSchedulingForm = ({
 
   const NotesView = (
     <div className={styles.notes}>
-      <div>
-        <p>Notes</p>
+      <label style={{ display: "flex", flexDirection: "row", justifyContent: "space-between",  marginBottom: "7px"}}>
+        <p style={{color: "#581845"}}>Notes</p>
         <p>Visible to candidates</p>
-      </div>
+      </label>
       <InputText
         value={meetingForm.notes}
         textarea={true}
@@ -704,15 +706,19 @@ const MeetingSchedulingForm = ({
 
   const ActionButtonView = (
     <div className={styles.actionButtonWrapper}>
-      <button
-        onClick={handleCloseSchedulingForm}
-        className={styles.cancelButton}
-      >
-        Cancel
-      </button>
-      <button onClick={handleContinue} className={styles.continueButton}>
-        Continue
-      </button>
+      <div className={styles.buttonContainer}>
+        <button
+          onClick={handleCloseSchedulingForm}
+          className={styles.cancelButton}
+        >
+          Cancel
+        </button>
+      </div>
+      <div>
+        <button onClick={handleContinue} className={styles.continueButton}>
+          Continue
+        </button>
+      </div>
     </div>
   );
 
@@ -725,34 +731,59 @@ const MeetingSchedulingForm = ({
       !endTime.errorMessage
     ) {
       const timeDifference = Math.round(
-        (meetingForm.endTime.value.getTime() - meetingForm.startTime.value.getTime()) / 60000,
+        (meetingForm.endTime.value.getTime() -
+          meetingForm.startTime.value.getTime()) /
+          60000,
       );
 
       return (
         <div className={styles.duration}>
-          <p>Duration</p>
+          <p style={{ marginBottom: '7px', color: '#581845' }}>Duration</p>
           <p>{formatTime(timeDifference)}</p>
         </div>
       );
     }
     return (
       <div className={styles.duration}>
-        <p>Duration</p>
+        <p style={{ marginBottom: '7px', color: '#581845' }}>Duration</p>
         <p>00 : 00</p>
       </div>
     );
   };
 
-  const FormTitle = (
-    <>
-      <h4 className={styles.formTitle}>Schedule Meeting</h4>
-    </>
-  );
+  // const FormTitle = (
+  //   <Flex row center>
+  //     <SvgCalendar width={16} height={16}/>
+  //     <Text size={16} bold color="theme"  className={styles.formTitle}>
+  //       Schedule Meeting
+  //     </Text>
+  //   </Flex>
+  // );
 
   return (
-    <div className={styles.meetingForm}>
-      <>
-        {FormTitle}
+    <>
+      <Flex
+        row
+        center
+        style={{
+          padding: '25px 0px 0px',
+          margin: '0px 25px',
+          borderBottom: '0.5px solid #581845',
+        }}
+      >
+        <SvgCalendar width={18} height={18} style={{ marginBottom: '5px' }} />
+        <Text
+          size={16}
+          bold
+          color="theme"
+          className={styles.formTitle}
+          style={{ marginBottom: '5px' }}
+        >
+          Schedule Meeting
+        </Text>
+      </Flex>
+      <div className={styles.meetingForm}>
+        {/* {FormTitle} */}
         {ApplicantView}
         {JobTitleView}
         {DateView}
@@ -764,9 +795,9 @@ const MeetingSchedulingForm = ({
         {LocationView}
         {RemindarView}
         {NotesView}
-        {ActionButtonView}
-      </>
-    </div>
+      </div>
+      <Flex style={{ padding: '0px 25px 25px 25px' }}>{ActionButtonView}</Flex>
+    </>
   );
 };
 

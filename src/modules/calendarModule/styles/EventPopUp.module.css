@@ -1,6 +1,6 @@
 .eventPopUp {
-  padding: 20px 10px 10px 10px;
-  min-width: 400px;
+  padding: 25px;
+  min-width: 450px;
 }
 
 .eventPopUp p {
@@ -65,16 +65,18 @@
 }
 
 .eventPopUp .title {
-  font-size: 20px;
+  font-size: 16px;
   margin-left: 10px;
   color: var(--color-primary);
   font-weight: 500;
+  /* margin-bottom: 20px; */
+  text-transform: capitalize;
 }
 
 .profile {
   padding: 5px 10px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .profile img {
@@ -139,7 +141,8 @@
 .eventTitle {
   display: inline-block;
   width: 300px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
   overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }

@@ -61,6 +61,8 @@ import WeekHeader from './calendar-components/WeekHeader';
 import MeetingSchedulingScreen from './MeetingSchedulingScreen';
 import CalendarScreenLoader from './CalendarScreenLoader';
 
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+
 const Calendar = () => {
   const dispatch: AppDispatch = useDispatch();
   const [currentUser, setCurrentUser] = useState<UserInfo>({
@@ -751,35 +753,54 @@ const Calendar = () => {
     <>
       <div className={styles.headerMenu}>
         <div className={styles.calendarLogo}>
-          <SvgCalendar width={30} height={30} />
-          <p>Calendar</p>
+          {/* <SvgCalendar width={30} height={30} /> */}
+          <Text bold size={16} color="theme">
+            Calendar
+          </Text>
+          <div className={styles.triangle}> </div>
         </div>
-        <div className={styles.calendarInputs}>
-          {TimeZoneView}
-          <CalendarTypeMenu
-            style={{
-              margin: '0px 10px',
-            }}
-            handleTeamMemberEvents={handleTeamMemberEvents}
-            currentCalendarType={currentCalendarType}
-            handleCalendarType={handleCalendarType}
-            selectedTeamMembers={selectedTeamMembers}
-            teamMembers={teamMembers}
-            showDropDownMenu={showDropDownMenu}
-            handleDropDown={handleDropDown}
-            myCalendarOptions={myCalendarOptions}
-            teamCalendarOptions={teamCalendarOptions}
-            handleMyCalendarOptions={handleMyCalendarOptions}
-            handleTeamCalendarOptions={handleTeamCalendarOptions}
-          />
+      </div>
+      <Flex row between>
+        {' '}
+        <Flex className={styles.calendarInputs}>
+          <Flex row center marginRight={15}>
+            <Text size={14} color="theme">
+              Time Zone:
+            </Text>
+            {TimeZoneView}
+          </Flex>
+
+          <Flex row center>
+            <Text size={14} color="theme">
+              Calendar View:
+            </Text>
+            <CalendarTypeMenu
+              style={{
+                margin: '0px 10px',
+              }}
+              handleTeamMemberEvents={handleTeamMemberEvents}
+              currentCalendarType={currentCalendarType}
+              handleCalendarType={handleCalendarType}
+              selectedTeamMembers={selectedTeamMembers}
+              teamMembers={teamMembers}
+              showDropDownMenu={showDropDownMenu}
+              handleDropDown={handleDropDown}
+              myCalendarOptions={myCalendarOptions}
+              teamCalendarOptions={teamCalendarOptions}
+              handleMyCalendarOptions={handleMyCalendarOptions}
+              handleTeamCalendarOptions={handleTeamCalendarOptions}
+            />
+          </Flex>
+        </Flex>
+        <Flex>
           <Button
             className={styles.scheduleButton}
             onClick={handleEventScheduleForm}
           >
             Schedule Events
           </Button>
-        </div>
-      </div>
+        </Flex>
+      </Flex>
     </>
   );
 
@@ -788,12 +809,35 @@ const Calendar = () => {
   }
 
   return (
-    <div>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden',
+        paddingBottom: 15,
+      }}
+    >
       <Toaster position="top-right" reverseOrder={false} />
       <TopLineLoader show={isTopLineLoading} />
-      <div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100%',
+          height: '-webkit-fill-available',
+        }}
+      >
         {isCalendarIntegrated ? (
-          <div>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              width: '100%',
+              height: '100%',
+            }}
+          >
             {CalendarHeaderView}
             {teamMemberEvents && (
               <>
