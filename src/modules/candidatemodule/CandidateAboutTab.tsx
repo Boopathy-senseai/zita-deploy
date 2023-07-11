@@ -4,7 +4,10 @@ import Flex from '../../uikit/Flex/Flex';
 import { isEmpty, lowerCase, notSpecified } from '../../uikit/helper';
 import Status from '../../uikit/Status/Status';
 import Text from '../../uikit/Text/Text';
+import Tab from '../../uikit/Tabs/Tab';
 import { workYear } from '../common/commonHelper';
+import CandiDateResumeTab from './CandiDateResumeTab';
+
 import styles from './candidateabouttab.module.css';
 
 const AboutTab = () => {
@@ -71,41 +74,42 @@ const AboutTab = () => {
     ? []
     : candidate_details[0].skills.replace(',,', ',').split(',');
   return (
+    <Flex row>
     <Flex
       columnFlex
       className={styles.overAll}
       height={window.innerHeight - 230}
     >
-      <Text color="theme" bold className={styles.aboutCandidateStyle}>
-        About Candidate:
+      <Text  bold className={styles.aboutCandidateStyle}>
+        About Candidate
       </Text>
       {aboutData.map((list) => {
         return (
           <Flex key={list.lable} row center className={styles.flexLineHeight}>
-            <Text bold className={styles.lableWidth}>
+            <Text style={{fontSize:'13px'}}  color='theme' bold className={styles.lableWidth}>
               {list.lable}
             </Text>
-            <Text>{list.value}</Text>
+            <Text style={{fontSize:'13px'}}>{list.value}</Text>
           </Flex>
         );
       })}
-      <Text color="theme" bold className={styles.jobPreferenceStyle}>
-        Job Preference:
+      <Text  bold className={styles.jobPreferenceStyle}>
+        Job Preference
       </Text>
       {aboutData1.map((list) => {
         return (
           <Flex key={list.lable} row center className={styles.flexLineHeight}>
-            <Text bold className={styles.lableWidth}>
+            <Text style={{fontSize:'13px'}} color='theme' bold className={styles.lableWidth}>
               {list.lable}
             </Text>
-            <Text>{list.value}</Text>
+            <Text style={{fontSize:'13px'}}>{list.value}</Text>
           </Flex>
         );
       })}
       {skillSplit.length !== 0 && (
         <>
-          <Text color="theme" bold className={styles.jobPreferenceStyle}>
-            Professional Skills:
+          <Text  bold className={styles.jobPreferenceStyle}>
+            Professional Skills
           </Text>
           <Flex row center wrap>
             {skillSplit &&
@@ -121,7 +125,10 @@ const AboutTab = () => {
           </Flex>
         </>
       )}
-
+      </Flex>
+<Flex>
+<Tab title='Resume'>< CandiDateResumeTab/></Tab>
+</Flex>
     </Flex>
   );
 };

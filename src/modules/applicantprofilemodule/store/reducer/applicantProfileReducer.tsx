@@ -61,6 +61,10 @@ const applicantProfileInitialState: ApplicantProfileReducerState = {
       updated_by: '',
       image: '',
       file: '',
+      type_of_job__label_name: '',
+      available_to_start__label_name: '',
+      industry_type__label_name: '',
+      code_repo:'',
     },
   ],
   jd: {
@@ -228,6 +232,21 @@ const applicantProfileInitialState: ApplicantProfileReducerState = {
       question: '',
     },
   ],
+  ApplicantEntity:[
+    {candidate_id_id:0,
+      client_id_id: 0,
+      created_on: '',
+      fav:0,
+      id:0,
+      jd_id_id: 0,
+      match: '',
+      source: '',
+      status_id_id: 0,
+      updated_by: '',
+      jd_title: '',
+      job_id:'',},
+  ],
+  PersonalInfoEntity: undefined
 };
 
 const applicantProfileInitalReducer = createSlice({
@@ -549,6 +568,7 @@ const applicantStatusState: ScreenStatusReducerState = {
   isLoading: false,
   error: '',
   applied: [],
+  stages: [],
   interviewed: [],
   invite: [],
   selected: [],
@@ -567,12 +587,13 @@ const applicantStausReducer = createSlice({
     });
     builder.addCase(applicantStatusMiddleWare.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.applied = action.payload.applied;
-      state.interviewed = action.payload.interviewed;
-      state.invite = action.payload.invite;
-      state.selected = action.payload.selected;
-      state.shortlisted = action.payload.shortlisted;
-      state.rejected = action.payload.rejected;
+      state.stages = (action.payload || []);
+      // state.applied = action.payload.applied;
+      // state.interviewed = action.payload.interviewed;
+      // state.invite = action.payload.invite;
+      // state.selected = action.payload.selected;
+      // state.shortlisted = action.payload.shortlisted;
+      // state.rejected = action.payload.rejected;
     });
     builder.addCase(applicantStatusMiddleWare.rejected, (state, action) => {
       state.isLoading = false;

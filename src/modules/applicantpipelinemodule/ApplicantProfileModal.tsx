@@ -110,6 +110,7 @@ const ApplicantProfileModal = ({
   const {
     candidate_details,
     initialLoader,
+    personalInfo,
     jd,
     match,
     jd_id,
@@ -125,6 +126,7 @@ const ApplicantProfileModal = ({
     }: RootState) => {
       return {
         candidate_details: applicantProfileInitalReducers.candidate_details,
+        personalInfo: applicantProfileInitalReducers.personalInfo,
         initialLoader: applicantProfileInitalReducers.isLoading,
         jd: applicantProfileInitalReducers.jd,
         match: applicantMatchReducers.match ? applicantMatchReducers.match : [],
@@ -214,13 +216,16 @@ const ApplicantProfileModal = ({
         />
       )}
 
-      {candidate_details &&
-        candidate_details?.map((candiList, index) => {
+      
+      <Flex flex={1} row className={styles.tabContainer}>
+        {candidate_details &&
+        candidate_details  ?.map((candiList, index) => {
           return (
             <ProfileNavBar
               key={index + candiList.first_name}
               candiList={candiList}
               jdDetails={jd}
+              // personal={personalInfo}
               profile_match={profileMatch}
               nonMatch={checkMatch}
               inviteCall={hanldeInvitePopUp}
@@ -232,7 +237,6 @@ const ApplicantProfileModal = ({
             />
           );
         })}
-      <Flex flex={1} row className={styles.tabContainer}>
         {!isTab ? (
           <Flex flex={12} className={styles.tabLeftFlex}>
             <ApplicantTabLeftOne activeState={activeState} />
@@ -247,7 +251,7 @@ const ApplicantProfileModal = ({
           </Flex>
         )}
 
-        {isTab && (
+        {/* {isTab && (
           <Flex flex={5} className={styles.tabRightFlex}>
             {status_id.length === 0 ? (
               <ApplicantTabRightOne />
@@ -255,7 +259,7 @@ const ApplicantProfileModal = ({
               <ApplicantTabRight />
             )}
           </Flex>
-        )}
+        )} */}
       </Flex>
     </div>
   );

@@ -42,7 +42,7 @@ const ZitaMatchCandidateProfileView = ({
   const [isInvitePopUp, setInvitePopUp] = useState(false);
   const [isInviteLoader, setInviteLoader] = useState(false);
   const [isTab, setTab] = useState(false);
-  const [isNotesLoader, setNotesLoader]=useState(true)
+  const [isNotesLoader, setNotesLoader] = useState(true);
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -68,9 +68,11 @@ const ZitaMatchCandidateProfileView = ({
           }),
         );
         dispatch(messagesTemplatesMiddleWare());
-        dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id })).then(()=>{
-          setNotesLoader(false)
-        })
+        dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id })).then(
+          () => {
+            setNotesLoader(false);
+          },
+        );
         dispatch(applicantAllMatchMiddleWare({ can_id: res.payload.can_id }));
         dispatch(
           applicantScoreMiddleWare({
@@ -93,9 +95,11 @@ const ZitaMatchCandidateProfileView = ({
           can_id: candidateId,
         }),
       ).then((res) => {
-        dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id })).then(()=>{
-          setNotesLoader(false)
-        })
+        dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id })).then(
+          () => {
+            setNotesLoader(false);
+          },
+        );
         dispatch(applicantAllMatchMiddleWare({ can_id: res.payload.can_id }));
       });
     }
@@ -200,23 +204,23 @@ const ZitaMatchCandidateProfileView = ({
         />
       )}
 
-      {candidate_details &&
-        candidate_details?.map((candiList, index) => {
-          return (
-            <ProfileNavBar
-              key={index + candiList.first_name}
-              candiList={candiList}
-              isInvite={isTab}
-              inviteCall={hanldeInvitePopUp}
-              nonMatch={checkMatch}
-              withOutJD={isTab}
-              profile_match={profileMatch}
-              jdDetails={jd}
-              isProfileName
-            />
-          );
-        })}
       <Flex flex={1} row className={styles.tabContainer}>
+        {candidate_details &&
+          candidate_details?.map((candiList, index) => {
+            return (
+              <ProfileNavBar
+                key={index + candiList.first_name}
+                candiList={candiList}
+                isInvite={isTab}
+                inviteCall={hanldeInvitePopUp}
+                nonMatch={checkMatch}
+                withOutJD={isTab}
+                profile_match={profileMatch}
+                jdDetails={jd}
+                isProfileName
+              />
+            );
+          })}
         {!isTab ? (
           <Flex flex={12} className={styles.tabLeftFlex}>
             <CandiDateTabsLeftOne activeState={activeState} />

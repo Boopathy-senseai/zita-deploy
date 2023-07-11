@@ -2,6 +2,7 @@
   .overAll {
     padding: 16px;
     overflow: scroll;
+    width: 700px;
   }
   
   .resumeStyleOne {

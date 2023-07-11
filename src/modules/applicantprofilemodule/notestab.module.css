@@ -70,14 +70,14 @@
 }
 .sclllar{
   overflow-y: scroll;
-  max-height: 400px;
+  max-height: 520px;    
   /* margin-top: 10px; */ 
   scrollbar-width: thin;
   padding:0px 8px  0px 16px;
 }
 .scllllar{
   overflow-y: scroll;
-  max-height: 280px; 
+  max-height: 400px; 
   scrollbar-width: thin;
   padding:0px 8px  0px 16px;
 }
@@ -118,7 +118,6 @@
   margin-bottom: 24px;
 }
 .syncBtn {
-  border-radius: 20px;
   padding: 2px 4px;
 }
 .syncedWidth {
@@ -214,5 +213,9 @@
 .nojoppostyettext{
   color: #666666;
   margin-top: -10px;
+}
+.borderbellow{
+  border-bottom: 1px solid #C3C3C3;
+  margin-bottom: 5px;
 }
  

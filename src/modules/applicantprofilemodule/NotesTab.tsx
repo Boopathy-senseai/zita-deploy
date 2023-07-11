@@ -72,8 +72,11 @@ export type FormProps = {
 const initial: FormProps = {
   notes: '',
 };
+type Props = {
+  isMeeting?: boolean;
+};
 
-const NotesTab = () => {
+const NotesTab = ({ isMeeting }: Props) => {
   const [editorHtml, setEditorHtml] = useState<string>('');
   const editorRef = useRef<ReactQuill | null>(null);
   const [isCollapse, setCollapse] = useState(false);
@@ -196,7 +199,7 @@ const NotesTab = () => {
   const handleSubmit = (values: FormProps) => {
     const string = valueun;
     const final = [];
-    const list2 = [{ user: -1, value: 'Everyone' }]; 
+    const list2 = [{ user: -1, value: 'Everyone' }];
     if (name !== undefined) {
       const valu = [...list2, ...name];
       setList(valu);
@@ -305,8 +308,8 @@ const NotesTab = () => {
       setcheck(true);
       errors.notes = 'Enter valid notes.';
     } else if (
-      !mentionnotes.test(textNodes)  &&
-     mentionspecialcharacter.test(textNodes)
+      !mentionnotes.test(textNodes) &&
+      mentionspecialcharacter.test(textNodes)
     ) {
       setcheck(true);
       errors.notes = 'Notes length should not exceed 2000 characters.';
@@ -460,7 +463,7 @@ const NotesTab = () => {
   }, [formik.values.notes]);
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(name1));
-  }, [name1]); 
+  }, [name1]);
 
   const handleSetting = () => {
     sessionStorage.setItem('superUserTab', '4');
@@ -473,13 +476,14 @@ const NotesTab = () => {
 
   return (
     <Flex
-      columnFlex
+       row
+       flex={12}
       className={styles.overAll}
-      height={window.innerHeight - 230}
+      height={window.innerHeight-120}
     >
-      <Flex flex={1} columnFlex>
+      <Flex flex={6} columnFlex style={{padding:'5px'}}>
         {hideelement ? (
-          <Flex column className={styles.overall2} >
+          <Flex column className={styles.overall2}>
             <Flex row className={styles.initialbutton}>
               <input
                 className={styles.initialbuttons}
@@ -608,6 +612,71 @@ const NotesTab = () => {
         </Flex>
         {isLoad && <Loader />}
       </Flex>
+      {console.log(isMeeting, 'isMeeting1')}
+
+      {isMeeting && (
+        <Flex flex={6} columnFlex style={{padding:'5px'}}>
+          <Flex row between   center>
+            <Flex>
+            <Text color="theme" bold className={styles.meetingFlex}>
+               Details
+            </Text></Flex>
+            {active === 0 ? (
+               <Flex row  center middle className={styles.syncedWidth}> 
+                <Button
+                  types="tertiary"
+                  className={styles.settingBtn}
+                  onClick={handleSetting}
+                >
+                  Integrate
+                </Button>
+               </Flex>
+            ) : (
+              <>
+                {isGoogle === 1 && (
+                  <Text className={styles.syncedWidth}>
+                    (Synced with gmail)
+                  </Text>
+                )}
+
+                {isGoogle === 0 && (
+                  <Text className={styles.syncedWidth}>
+                    (Synced with outlook)
+                  </Text>
+                )}
+                <Flex row center>
+                  <Button
+                    types="tertiary"
+                    className={styles.syncBtn}
+                    onClick={hanldeRefresh}
+                  >
+                    <Flex row center>
+                      <SvgRefresh height={14} width={14} fill={BLACK} />
+                      <Text
+                        bold
+                        size={12}
+                        style={{ marginLeft: 4, cursor: 'pointer' }}
+                      >
+                        Sync
+                      </Text>
+                    </Flex>
+                  </Button>
+                  <Text style={{ marginLeft: 8 }} color="gray" size={12}>
+                    Timezone:{' '}
+                    {checkCalendarOutlook ? outlookTimeZone[getOut] : getOut}
+                  </Text>
+                </Flex>
+              </>
+            )}
+          </Flex>
+          <Table
+            columns={meetingMemo}
+            dataSource={myevents}
+            empty="No meetings scheduled yet"
+            isLoader={calenderLoader}
+          />
+        </Flex>
+      )}
     </Flex>
   );
 };

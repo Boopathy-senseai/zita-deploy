@@ -4,17 +4,22 @@
   
   .aboutCandidateStyle {
     margin-bottom: 8px;
+    color: '#333333';
   }
   .lableWidth {
     min-width: 195px;
+    font-size: 13px;
+    color: '#581845';
   }
   .jobPreferenceStyle {
     margin-top: 24px;
     margin-bottom: 8px;
+    color: '#333333';
   }
   .skillStyle {
     margin-right: 8px;
     margin-bottom: 8px;
+    font-size: 13px;
   }
   .softSkillStyle {
     margin-top: 16px;

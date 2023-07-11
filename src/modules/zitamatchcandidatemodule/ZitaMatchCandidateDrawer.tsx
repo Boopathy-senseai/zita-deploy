@@ -42,9 +42,9 @@ const ZitaMatchCandidateDrawer = ({
             to={`/candidate_profile_view/${jobId}/${candidateId}`}
           >
             <Flex row center className={'pointer'}>
-              <Text color="link" className={styles.openStyle}>
+              {/* <Text color="link" className={styles.openStyle}>
                 Open profile in a new window
-              </Text>
+              </Text> */}
               <SvgNewTab fill={LINK} width={20} height={20} />
             </Flex>
           </LinkWrapper>

@@ -148,6 +148,7 @@ export interface CourseEntity {
   updated_at: string;
 }
 export interface CandidateDetailsEntity {
+  
   id: number;
   can_source_id: number;
   client_id_id: number;
@@ -169,8 +170,12 @@ export interface CandidateDetailsEntity {
   updated_on: string;
   created_at: string;
   updated_by: string;
+  code_repo:string;
   image: string;
   file: string;
+  type_of_job__label_name: string;
+  available_to_start__label_name: string;
+  industry_type__label_name: string;
 }
 
 export interface SkillsEntity {
@@ -254,6 +259,8 @@ export interface JdEntity {
 }
 
 export interface ApplicantProfileReducerState extends ApplicantProfile {
+  ApplicantEntity: any;
+  PersonalInfoEntity: any;
   isLoading: boolean;
   error: string;
 }
@@ -400,6 +407,7 @@ export interface MessageTemplateReducerState {
 
 export interface Calender {
   google?: GoogleEntity[];
+  
   event?: EventEntity[];
   outlook?: GoogleEntity[];
 }
@@ -434,6 +442,7 @@ export interface CalenderReducerState extends Calender {
 
 export interface ScreenStatus {
   applied?: AppliedEntity[];
+  stages: IApplicantStatus[];
   shortlisted?: ShortlistedEntityOrInterviewedEntityOrSelectedEntity[];
   interviewed?: ShortlistedEntityOrInterviewedEntityOrSelectedEntity[];
   selected?: ShortlistedEntityOrInterviewedEntityOrSelectedEntity[];
@@ -473,6 +482,7 @@ export interface ShortlistedEntityOrInterviewedEntityOrSelectedEntity {
 }
 
 export interface ScreenStatusReducerState extends ScreenStatus {
+  stages: any;
   isLoading: boolean;
   error: string;
 }
@@ -482,3 +492,14 @@ export interface ApplicantFavReducerState {
   error: string;
   success: boolean;
 }
+export interface IApplicantStatus {
+  id: number;
+  jd_id: number;
+  stage_id: number;
+  stage_id__stage_name: string;
+  candidate_id: number;
+  client_id: number;
+  created_on: string;
+  updated_by: string;
+}
+

@@ -261,7 +261,7 @@ const ApplicantProfileScreen = () => {
           </Flex>
         )}
 
-        {isTab && (
+         {/* {isTab && (
           <Flex flex={5} className={styles.tabRightFlex}>
             {status_id.length === 0 ? (
               <ApplicantTabRightOne />
@@ -269,7 +269,7 @@ const ApplicantProfileScreen = () => {
               <ApplicantTabRight />
             )}
           </Flex>
-        )}
+        )}  */}
       </Flex>
     </div>
   );

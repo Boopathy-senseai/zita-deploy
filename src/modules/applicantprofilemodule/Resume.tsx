@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
+import Tab from '../../uikit/Tabs/Tab';
 import Collapse from '../../uikit/Collapse/Collapse';
 import SvgAngle from '../../icons/SvgAngle';
 import { isEmpty, notSpecified } from '../../uikit/helper';
@@ -54,12 +55,13 @@ const ResumeCoverTab = () => {
       className={styles.overAll}
       height={window.innerHeight - 201}
     >
-      <Flex className={cx('border')}>
-        <Flex row center between>
+      
+      {/* <Flex  */}
+        {/* <Flex row center between>
           {/* <Text bold color="theme">
             Cover Letter
           </Text> */}
-          {isEmpty(cover_letter[0].cover_letter) ? (
+          {/* {isEmpty(cover_letter[0].cover_letter) ? (
             <Text color="gray">
               {notSpecified(cover_letter && cover_letter[0].cover_letter)}
             </Text>
@@ -74,9 +76,9 @@ const ResumeCoverTab = () => {
               <SvgAngle up={isOpen} height={15} width={15} />
             </div>
           )}
-        </Flex>
+        </Flex> */} 
 
-        <Collapse isOpen={isOpen} noText={coverLetter}>
+        {/* <Collapse isOpen={isOpen} noText={coverLetter}>
           <pre
             className={cx('preStyle', {
               textCenter: coverLetter,
@@ -85,12 +87,13 @@ const ResumeCoverTab = () => {
             {notSpecified(cover_letter && cover_letter[0].cover_letter)}
           </pre>
         </Collapse>
-      </Flex>
-
+         */}
+      {/* </Flex> */}
       {/* <Text bold color="theme" className={cx('resumeStyle')}>
         Resume
-      </Text>
+      </Text> */}
       <div
+      className={cx('border')}
         style={{
           height: window.innerHeight - 40,
           overflow: 'scroll',
@@ -108,7 +111,8 @@ const ResumeCoverTab = () => {
             },
           }}
         />
-      </div> */}
+      </div>
+      
     </Flex>
   );
 };

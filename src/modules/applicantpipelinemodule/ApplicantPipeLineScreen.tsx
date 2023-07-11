@@ -387,6 +387,7 @@ const ApplicantPipeLineScreen = () => {
   ];
   const getAppliedCanId: any = localStorage.getItem('applied_can_id');
   const getAppliedJd: any = localStorage.getItem('applied_jd_id');
+  const getAppliedname: any = localStorage.getItem('jobtitle');
 
   useEffect(() => {
     if (getAppliedView === 'true') {
@@ -405,7 +406,7 @@ const ApplicantPipeLineScreen = () => {
             localStorage.setItem('applied_view', 'false');
             setApplicantView(false);
           }}
-          jobId={getAppliedJd}
+          jobId={getAppliedJd}   
           candidateId={getAppliedCanId}
           inviteIconNone
         />

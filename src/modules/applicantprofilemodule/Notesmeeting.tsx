@@ -7,9 +7,10 @@ import { useHistory } from 'react-router-dom';
 import SvgInfo from '../../icons/SvgInfo';
 import SvgNotes from '../../icons/SvgNotes';
 import SvgRefresh from '../../icons/SvgRefresh';
+import SvgMeetingicon from '../../icons/SvgMeetingicon';
 import { AppDispatch, RootState } from '../../store';
 import Button from '../../uikit/Button/Button';
-import { BLACK } from '../../uikit/Colors/colors';
+import { BLACK, WHITE } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
 import { firstNameChar, isEmpty } from '../../uikit/helper';
 import Table from '../../uikit/Table/Table';
@@ -65,10 +66,9 @@ const Notesmeet = ({ isMeeting }: Props) => {
   const history = useHistory();
 
   const checkAuth = () => {
-     
     dispatch(checkAuthMiddleware())
-      .then((res) => { 
-        if (res.payload.status === true) { 
+      .then((res) => {
+        if (res.payload.status === true) {
           if (res.payload.account === 'google') {
             setIsGoogle(1);
           } else {
@@ -77,7 +77,7 @@ const Notesmeet = ({ isMeeting }: Props) => {
           setActive(1);
           setIsLoad(false);
           dispatch(eventsApplicantsMiddleware({ can_id }))
-            .then((response) => { 
+            .then((response) => {
               if (response.payload.status === true) {
                 setMyevents(
                   response.payload.data.map((items: any) => {
@@ -129,7 +129,7 @@ const Notesmeet = ({ isMeeting }: Props) => {
     notes,
     can_id,
     // calenderEvent,
-    // google,
+    google,
     outlook,
     calenderLoader,
   } = useSelector(
@@ -143,7 +143,7 @@ const Notesmeet = ({ isMeeting }: Props) => {
         notes: applicantNotesReducers.notes,
         can_id: applicantProfileInitalReducers.can_id,
         // calenderEvent: calenderReducers.event,
-        // google: calenderReducers.google,
+        google: calenderReducers.google,
         outlook: calenderReducers.outlook,
         calenderLoader: calenderReducers.isLoading,
       };
@@ -179,7 +179,7 @@ const Notesmeet = ({ isMeeting }: Props) => {
         }
       });
     }
-  }; 
+  };
   const formik = useFormik({
     initialValues: initial,
     onSubmit: handleSubmit,
@@ -268,6 +268,7 @@ const Notesmeet = ({ isMeeting }: Props) => {
 
   const meetingMemo = useMemo(() => meetingTitle(), [myevents]);
   const checkCalendarOutlook = Array.isArray(outlook) && outlook.length !== 0;
+  console.log(checkCalendarOutlook,'checkCalendarOutlook')
   // const checkCalendarGoogle = Array.isArray(google);
 
   // const getOutLookTime: any = checkCalendarOutlook && outlook.length !==0 && outlook[0].timeZone;
@@ -295,54 +296,86 @@ const Notesmeet = ({ isMeeting }: Props) => {
       className={styles.overAll}
       height={window.innerHeight - 230}
     >
+      {console.log(isMeeting, 'isMeeting1')}
       {isMeeting && (
-        <Flex columnFlex>
-          <Flex row center>
-            <Text color="theme" bold className={styles.meetingFlex}>
-              Meeting Detail:
-            </Text>
+        <Flex flex={6} columnFlex style={{ padding: '5px' }}>
+          <Flex row between center className={styles.borderbellow}>
+            <Flex>
+              <Text color="theme" bold className={styles.meetingFlex}>
+                Details
+              </Text>
+            </Flex>
             {active === 0 ? (
-              <Flex row center className={styles.syncedWidth}>
-                (<SvgInfo className={styles.svgInfo} height={14} width={14} />
-                <Text>
-                  Integrate your calendar with Zita to schedule meetings)
-                </Text>
+              <Flex row center middle className={styles.syncedWidth}>
                 <Button
                   types="tertiary"
                   className={styles.settingBtn}
                   onClick={handleSetting}
                 >
-                  Settings
+                  Integrate
                 </Button>
               </Flex>
             ) : (
               <>
                 {isGoogle === 1 && (
-                  <Text className={styles.syncedWidth}>
-                    (Synced with gmail)
-                  </Text>
+                  <Flex>
+                  <Flex row>
+                    <Flex className={styles.syncedWidth}>
+                      <Text>Synced with</Text>
+                    </Flex>
+                    {/* <Flex></Flex> */}
+                    {/* {console.log(google,'google[0].email')} */}
+                    {/* <Text>{google[0].email}</Text> */}
+                  </Flex>
+                  <Flex row>
+                    <Flex className={styles.syncedWidth}>
+                      <Text>Time zone</Text>
+                    </Flex>
+                    {/* <Flex></Flex> */}
+                    <Text>{google[0].timeZone}</Text>
+                  </Flex>
+                  </Flex>
                 )}
 
                 {isGoogle === 0 && (
-                  <Text className={styles.syncedWidth}>
-                    (Synced with outlook)
-                  </Text>
+                  <Flex>
+                  <Flex row>
+                    <Flex className={styles.syncedWidth}>
+                      <Text>Synced with</Text>
+                    </Flex>
+                    {/* <Flex></Flex> */}
+                    {/* <Text>{outlook[0].email}</Text> */}
+                  </Flex>
+                  <Flex row>
+                    <Flex className={styles.syncedWidth}>
+                      <Text>Time zone</Text>
+                    </Flex>
+                    {/* <Flex></Flex> */}
+                    {/* {console.log(outlook,'google[0].email')} */}
+                    <Text>{outlook[0].timeZone}</Text>
+                  </Flex>
+                  </Flex>
                 )}
                 <Flex row center>
                   <Button
-                    types="tertiary"
+                    types="primary"
                     className={styles.syncBtn}
                     onClick={hanldeRefresh}
                   >
                     <Flex row center>
-                      <SvgRefresh height={14} width={14} fill={BLACK} />
                       <Text
                         bold
                         size={12}
-                        style={{ marginLeft: 4, cursor: 'pointer' }}
+                        style={{
+                          marginRight: 4,
+                          marginLeft: 4,
+                          cursor: 'pointer',
+                          color: '#ffffff',
+                        }}
                       >
                         Sync
                       </Text>
+                      <SvgRefresh height={14} width={14} fill={WHITE} />
                     </Flex>
                   </Button>
                   <Text style={{ marginLeft: 8 }} color="gray" size={12}>
@@ -353,12 +386,26 @@ const Notesmeet = ({ isMeeting }: Props) => {
               </>
             )}
           </Flex>
-          <Table
-            columns={meetingMemo}
-            dataSource={myevents}
-            empty="No meetings scheduled yet"
-            isLoader={calenderLoader}
-          />
+          {active === 0 && (
+            <Flex>
+              <Flex center middle marginTop={100}>
+                <SvgMeetingicon />
+              </Flex>
+              <Flex center middle marginTop={10}>
+                <Text style={{ fontSize: '13px' }}>
+                  Integrate your calendar with Zita to schedule meetings
+                </Text>
+              </Flex>
+            </Flex>
+          )}
+          {active !== 0 && (
+            <Table
+              columns={meetingMemo}
+              dataSource={myevents}
+              empty="No meetings scheduled yet"
+              isLoader={calenderLoader}
+            />
+          )}
         </Flex>
       )}
     </Flex>

@@ -12,6 +12,7 @@ type Props = {
   open: boolean;
   cancel: () => void;
   jobId: string;
+  // jobtitle: string;
   candidateId: any;
   inviteIconNone?: boolean;
   activeState?: number;
@@ -21,6 +22,7 @@ const ProfileView = ({
   cancel,
   open,
   jobId,
+  // jobtitle,
   candidateId,
   inviteIconNone,
   activeState,
@@ -38,24 +40,20 @@ const ProfileView = ({
           >
             <SvgClose fill={GARY_3} height={16} width={16} />
           </div>
-      
+
           <LinkWrapper
             target={'_blank'}
             to={`/applicant_profile_view/${jobId}/${candidateId}`}
           >
             <Flex row center className={'pointer'}>
-              <Text color="link" className={styles.openStyle}>
+              {/* <Text color="link" className={styles.openStyle}>
                 Open profile in a new window
-              </Text>
+              </Text> */}
               <SvgNewTab fill={LINK} width={20} height={20} />
             </Flex>
           </LinkWrapper>
-
-          
-                    
-         
         </Flex>
-
+        <div className={styles.middle}></div>
         <div
           style={{
             paddingBottom: 16,

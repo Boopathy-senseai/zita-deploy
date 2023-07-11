@@ -23,9 +23,9 @@ const CandiDateTabsLeftOne = ({ activeState }: typeof defaultProps) => {
       <Tab title="About">
         <CandidateAboutTab />
       </Tab>
-      <Tab title={'Resume'}>
+      {/* <Tab title={'Resume'}>
         <CandiDateResumeTab />
-      </Tab>
+      </Tab> */}
       <Tab title={'Notes'}>
         <NotesTab />
       </Tab>

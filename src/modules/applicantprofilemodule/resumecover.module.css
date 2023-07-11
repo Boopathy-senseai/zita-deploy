@@ -3,6 +3,7 @@
 }
 .overAll {
   padding: 16px;
+  width: 700px;
   overflow: scroll;
 }
 .border {
