@@ -8,8 +8,8 @@ export interface JobListEntity {
   job_title: string;
   job_id: string;
   no_of_vacancies: number;
-  applicant?: number;
-  hired?: number;
+  applicants?: number;
+  offered?: number;
   rejected?: number;
   shortlisted?: number;
   zita_match: number;

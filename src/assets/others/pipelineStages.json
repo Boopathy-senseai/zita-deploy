@@ -1,0 +1,26 @@
+[
+  {
+    "id": "shortlisted",
+    "color": "#80C0D0",
+    "title": "Shortlisted",
+    "disabled": true
+  },
+  {
+    "id": "interviewed",
+    "color": "#F29111",
+    "title": "Interview",
+    "disabled": false
+  },
+  {
+    "id": "selected",
+    "color": "#00BE4B",
+    "title": "Offered",
+    "disabled": true
+  },
+  {
+    "id": "rejected",
+    "color": "#ED4857",
+    "title": "Rejected",
+    "disabled": true
+  }
+]

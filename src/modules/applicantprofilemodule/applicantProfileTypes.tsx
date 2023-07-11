@@ -351,7 +351,7 @@ export interface MatchEntityOne {
   fav?: number;
   jd_title?: string;
   job_id?: string;
-  invited?:any
+  invited?: any;
 }
 
 export interface AllMatchReducerState extends AllMatch {
@@ -366,7 +366,7 @@ export interface Message {
   message: string;
   sender_image: string;
   receiver_image: string;
-  last_name:string
+  last_name: string;
 }
 
 export interface MessageReducerState {
@@ -417,7 +417,7 @@ export interface GoogleEntity {
   email: string;
   json_path: string;
   created_at: string;
-  timeZone:any
+  timeZone: any;
 }
 export interface EventEntity {
   id: number;
@@ -458,7 +458,7 @@ export interface InviteEntity {
   jd_id_id: number;
   responded_date: string;
   updated_by: string;
-  invited?:any
+  invited?: any;
 }
 export interface AppliedEntity {
   id: number;
@@ -477,8 +477,8 @@ export interface ShortlistedEntityOrInterviewedEntityOrSelectedEntity {
   status_id_id: number;
   created_on: string;
   updated_by: string;
-  invited:any;
-  timeZone:any
+  invited: any;
+  timeZone: any;
 }
 
 export interface ScreenStatusReducerState extends ScreenStatus {
@@ -492,6 +492,8 @@ export interface ApplicantFavReducerState {
   error: string;
   success: boolean;
 }
+
+/// Applicant types
 export interface IApplicantStatus {
   id: number;
   jd_id: number;
@@ -502,4 +504,3 @@ export interface IApplicantStatus {
   created_on: string;
   updated_by: string;
 }
-

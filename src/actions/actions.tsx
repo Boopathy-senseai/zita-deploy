@@ -67,6 +67,14 @@ export const APPLICANT_PIPE_LINE_DATA =
 export const APPLICANT_PIPE_LINE_FILTER =
   'applicantpipe/applicant_pipe_line_filter';
 export const APPLICANT_UPDATE_STATUS = 'applicantpipe/applicant_update_status';
+export const KANBAN_UPDATE_STATUS = 'applicantpipe/kanban_update_status';
+
+// kanban pipeline
+
+export const GET_KANBAN_DATA = 'applicantpipeline/kanban_stages';
+export const UPDATE_KANBAN_DATA = 'applicantpipeline/kanban_stages_update';
+export const DELETE_KANBAN_DATA = 'applicantpipeline/kanban_stages_delete';
+export const DOWNLOAD_APPLICANTS = 'applicantpipeline/download_applicants';
 
 // Zita Match Candidate
 export const ZITA_MATCH_CANDIDATE = 'zita/zita_match_candidate';
@@ -105,18 +113,18 @@ export const JOBMETRICSDOWNLOAD = 'reports/job_metrics_download';
 export const SOURCINGPERFORMANCE = 'reports/sourcing_performance';
 export const JOBMETRICSCHARTDATA = 'reports/job_metrics_chart';
 export const SOURCINGPERFORMANCEDATA = 'reports/sourcing_performance_data';
-export const SOURCINGPERFORMANCEDOWNLOAD = 'reports/sourcing_performance_download';
-
+export const SOURCINGPERFORMANCEDOWNLOAD =
+  'reports/sourcing_performance_download';
 
 // account settings page
 export const COMPANYPAGE = 'companypage/companypage';
 export const USERPROFILE = 'userprofile/user_profile';
 export const INTEGRATION = 'intergration/intergration';
-export const GOOGLE_SYNC= 'google_sync_api/google_sync_api';
-export const  OUTLOOK_SYNC= 'outlook_sync_api/outlook_sync_api';
-export const  EMAILNOTIFI = 'email_preference/email_preference';
-export const  CALBACK_URL= 'calback_url/calback_url';
-export const  CALBACK_GOOGLE_URL= 'google_sync_api/google_sync_api';
+export const GOOGLE_SYNC = 'google_sync_api/google_sync_api';
+export const OUTLOOK_SYNC = 'outlook_sync_api/outlook_sync_api';
+export const EMAILNOTIFI = 'email_preference/email_preference';
+export const CALBACK_URL = 'calback_url/calback_url';
+export const CALBACK_GOOGLE_URL = 'google_sync_api/google_sync_api';
 export const PASSWORD = 'passwordchange/password_change';
 export const ACCOUNT_SETTING_BUILD_CAREER = 'account/account_build_career';
 export const ACCOUNT_SETTING_BUILD_CAREER_POST =
@@ -129,3 +137,19 @@ export const CANDIDATE_PROFILE_EMAIL_VALIDATE =
   'candidate/candidate_profile_email_validate';
 export const CANDIDATE_PROFILE_OTP_VALIDATE =
   'candidate/candidate_profile_otp_validate';
+
+// [Account Settings] --> Templates
+export const GET_TEMPLATE_DATA = 'account/template_data';
+export const CREATE_TEMPLATE_DATA = 'account/template_data_create';
+export const UPDATE_TEMPLATE_DATA = 'account/template_data_update';
+export const PIPELINE_DATA = 'account/pipeline_data';
+export const UPDATE_PIPELINE_DATA = 'account/pipeline_data_update';
+export const DELETE_PIPELINE_DATA = 'account/pipeline_data_delete';
+export const DEFAULT_PIPELINE_DATA = 'account/pipeline_data_default';
+export const PIPELINE_STAGES = 'account/pipeline_stages';
+export const ADD_PIPELINE_STAGE = 'account/pipeline_stage_add';
+export const DELETE_PIPELINE_STAGE = 'account/pipeline_stage_delete';
+export const UPDATE_PIPELINE_STAGE = 'account/pipeline_stage_update';
+export const UPDATE_COLOUR_PALLATE = 'account/colour_pallate_update';
+export const PIPELINE_SUGGESTIONS = 'account/pipeline_suggestions';
+export const PIPELINE_STAGES_REORDER = 'account/pipeline_stages_reorder';

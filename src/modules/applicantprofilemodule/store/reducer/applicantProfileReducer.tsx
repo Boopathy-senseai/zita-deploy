@@ -470,7 +470,7 @@ const applicantMessageState: MessageReducerState = {
       message: '',
       receiver_image: '',
       sender_image: '',
-      last_name:''
+      last_name: '',
     },
   ],
 };
@@ -567,6 +567,7 @@ const calenderReducer = createSlice({
 const applicantStatusState: ScreenStatusReducerState = {
   isLoading: false,
   error: '',
+  stages: [],
   applied: [],
   stages: [],
   interviewed: [],
