@@ -197,7 +197,7 @@ const TotalApplicant = ({
             <Dropdown.Menu style={{ minWidth: '5rem' }}>
               <Dropdown.Item onClick={handleOpenPopup}>
                 <Flex row center className={styles.dropDownListStyle}>
-                  <SvgEditStages height={16} width={16} />
+                  <SvgEditStages height={16} width={16} fill="#333333"/>
                   <Text style={{ marginLeft: 10 }}>Edit Stages</Text>
                 </Flex>
               </Dropdown.Item>

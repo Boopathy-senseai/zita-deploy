@@ -296,8 +296,9 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
                 column
                 style={{
                   overflowY: 'auto',
-                  maxHeight: '390px',
+                  maxHeight: '370px',
                   padding: '2px 2px',
+                  marginBottom: "50px"
                 }}
               >
                 <StageCard
