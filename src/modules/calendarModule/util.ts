@@ -166,6 +166,7 @@ export const meetingFormInitialState: meetingFormProps = {
   startDateTime: null,
   endDateTime: null,
   notes: '',
+  privateNotes: '',
   location: {
     isHave: false,
     value: '',
@@ -188,6 +189,7 @@ export const meetingFormInitialState: meetingFormProps = {
     error: false,
   },
   interviewer: [],
+
 };
 
 export const SlotRangeInitialState = {

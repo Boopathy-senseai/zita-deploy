@@ -121,7 +121,7 @@ const MeetingSchedulingForm = ({
       'timezone',
       'event_type',
       'notes',
-      'private_notes',
+      'privateNotes',
       'location',
       'interviewers',
       'remMin',
@@ -361,6 +361,11 @@ const MeetingSchedulingForm = ({
     localStorage.setItem('notes', e.target.value.toString());
   };
 
+  const privateNotesHandler = (e: { target: HTMLTextAreaElement }) => {
+    setMeetingForm((form) => ({ ...form, privateNotes: e.target.value }));
+    localStorage.setItem('privateNotes', e.target.value.toString());
+  };
+
   const addTeamInterviewer = (memberInfo: TeamMemberType) => {
     if (!meetingForm.interviewer.includes(memberInfo)) {
       setMeetingForm((form) => ({
@@ -521,29 +526,44 @@ const MeetingSchedulingForm = ({
     <div>
       <label className={styles.label}>Time *</label>
       <div className={styles.timeInputWrapper}>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <TimePicker
-            value={meetingForm.startTime.value}
-            onChange={handleStartTime}
-            renderInput={(params) => <TextField {...params} />}
-            className={styles.timeInput}
-          />
-        </LocalizationProvider>
-        <p className={styles.to}>to</p>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <TimePicker
-            value={meetingForm.endTime.value}
-            onChange={handleEndTime}
-            renderInput={(params) => <TextField {...params} />}
-          />
-        </LocalizationProvider>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <TimePicker
+              value={meetingForm.startTime.value}
+              onChange={handleStartTime}
+              renderInput={(params) => <TextField {...params} />}
+              className={styles.timeInput}
+            />
+          </LocalizationProvider>
+          {meetingForm.startTime.errorMessage && (
+            <p className={styles.warn}>{meetingForm.startTime.errorMessage}</p>
+          )}
+        </div>
+        <p
+          className={styles.to}
+          style={{
+            marginBottom:
+              meetingForm.startTime.errorMessage ||
+              meetingForm.endTime.errorMessage
+                ? '20px'
+                : 0,
+          }}
+        >
+          to
+        </p>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <TimePicker
+              value={meetingForm.endTime.value}
+              onChange={handleEndTime}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
+          {meetingForm.endTime.errorMessage && (
+            <p className={styles.warn}>{meetingForm.endTime.errorMessage}</p>
+          )}
+        </div>
       </div>
-      {meetingForm.startTime.errorMessage && (
-        <p className={styles.warn}>{meetingForm.startTime.errorMessage}</p>
-      )}
-      {meetingForm.endTime.errorMessage && (
-        <p className={styles.warn}>{meetingForm.endTime.errorMessage}</p>
-      )}
     </div>
   );
 
@@ -690,8 +710,15 @@ const MeetingSchedulingForm = ({
 
   const NotesView = (
     <div className={styles.notes}>
-      <label style={{ display: "flex", flexDirection: "row", justifyContent: "space-between",  marginBottom: "7px"}}>
-        <p style={{color: "#581845"}}>Notes</p>
+      <label
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginBottom: '7px',
+        }}
+      >
+        <p style={{ color: '#581845' }}>Notes</p>
         <p>Visible to candidates</p>
       </label>
       <InputText
@@ -704,9 +731,34 @@ const MeetingSchedulingForm = ({
     </div>
   );
 
+  const PrivateNotesView = (
+    <div className={styles.notes}>
+      <label
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginBottom: '7px',
+        }}
+      >
+        <p style={{ color: '#581845' }}>Private Notes</p>
+      </label>
+      <InputText
+        value={meetingForm.privateNotes}
+        textarea={true}
+        placeholder="Add a note"
+        onChange={privateNotesHandler}
+        style={{ height: '50px' }}
+      />
+    </div>
+  );
+
   const ActionButtonView = (
-    <div className={styles.actionButtonWrapper} style={{borderTop:"1px solid #c3c3c3"}}>
-      <div className={styles.buttonContainer} >
+    <div
+      className={styles.actionButtonWrapper}
+      style={{ borderTop: '1px solid #c3c3c3' }}
+    >
+      <div className={styles.buttonContainer}>
         <button
           onClick={handleCloseSchedulingForm}
           className={styles.cancelButton}
@@ -795,6 +847,7 @@ const MeetingSchedulingForm = ({
         {LocationView}
         {RemindarView}
         {NotesView}
+        {PrivateNotesView}
       </div>
       <Flex style={{ padding: '0px 25px 25px 25px' }}>{ActionButtonView}</Flex>
     </>
