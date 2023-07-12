@@ -1,8 +1,11 @@
 import { Key } from 'react';
 import { useDispatch } from 'react-redux';
 import toast from 'react-hot-toast';
+import { useFormik } from 'formik';
 import { AppDispatch } from '../../store';
-import { SelectTag } from '../../uikit';
+import { Button, Flex, SelectTag, Text } from '../../uikit';
+import { SvgCalendar } from '../../icons';
+import RichText from '../common/RichText';
 import {
   scheduleEventMiddleware,
   updateEventMiddleware,
@@ -40,14 +43,49 @@ const MeetingSummary = ({
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
 
+  const basic = `<p><span style="color: #212529; font-size: 16px; background-color: #ffffff;">Hello Team,</span><br style="box-sizing: border-box; margin: 0px; padding: 0px; color: #212529; font-size: 16px; background-color: #ffffff;" /><span style="color: #212529; font-size: 16px; background-color: #ffffff;">We would like to confirm your interview. Please find all the relevant details below.</span></p>
+  <p>&nbsp;</p>
+  <p style="box-sizing: border-box; padding: 0px; font-size: 16px; color: #212529;">Onsite interview&nbsp;on&nbsp;<span style="box-sizing: border-box; margin: 0px; padding: 0px; font-weight: bolder;">Mon Jul 10 2023</span>&nbsp;from&nbsp;<span style="box-sizing: border-box; margin: 0px; padding: 0px; font-weight: bolder;">12:30 pm</span>&nbsp;to&nbsp;<span style="box-sizing: border-box; margin: 0px; padding: 0px; font-weight: bolder;">1:30 pm</span>&nbsp;with&nbsp;<span style="box-sizing: border-box; margin: 0px; padding: 0px; font-weight: bolder;">RahulS</span></p>
+  <p>&nbsp;</p>
+  <div style="box-sizing: border-box; margin: 5px 0px 0px; padding: 10px 0px 0px; outline: none; border-top: 1px solid #313131; color: #212529;">
+  <div style="box-sizing: border-box; margin: 0px; padding: 0px; outline: none;">
+  <p class="MeetingSummary_personHeader__wCnuX" style="box-sizing: border-box; padding: 0px; font-weight: bold; font-size: 16px;">Applicant</p>
+  <p style="box-sizing: border-box; padding: 0px; font-size: 16px;">${meetingForm.applicant.name
+    }</p>
+  </div>
+  <div style="box-sizing: border-box; margin: 0px; padding: 0px; outline: none;">
+  <p class="MeetingSummary_personHeader__wCnuX" style="box-sizing: border-box; padding: 0px; font-weight: bold; font-size: 16px;">Interviewers</p>
+  <div>
+  ${meetingForm.interviewer.map((user, index) => (
+      <p
+        key={index}
+        style={{ boxSizing: 'border-box', padding: ' 0px', fontSize: '16px' }}
+      >{` ${user.firstName} ${user.lastName}, `}</p>
+    ))}
+  </div>
+  </div>
+  </div>`;
+
+  const formik = useFormik({
+    initialValues: {
+      notes: meetingForm && meetingForm.notes ? meetingForm.notes : basic,
+    },
+    onSubmit: (data) => {
+      if (editEventDetails) {
+        handleUpdateEvent(data.notes);
+      } else {
+        handleScheduleEvent(data.notes);
+      }
+    },
+  });
+
   const getMeetingTitle = () => {
-    return `${
-      meetingForm.eventType.value
-    } on ${meetingForm.startDateTime.toDateString()} from ${formatTo12HrClock(
-      meetingForm.startDateTime,
-    )} to ${formatTo12HrClock(
-      meetingForm.endDateTime,
-    )} with ${currentUserLabel}`;
+    return `${meetingForm.eventType.value
+      } on ${meetingForm.startDateTime.toDateString()} from ${formatTo12HrClock(
+        meetingForm.startDateTime,
+      )} to ${formatTo12HrClock(
+        meetingForm.endDateTime,
+      )} with ${currentUserLabel}`;
   };
 
   const getReminder = () => {
@@ -57,7 +95,7 @@ const MeetingSummary = ({
     return meetingForm.reminder.value;
   };
 
-  const handleUpdateEvent = () => {
+  const handleUpdateEvent = (notes: any) => {
     if (editEventDetails) {
       let edit_jd = editEventDetails.jobRole.value;
       let app_id = editEventDetails.applicant.id;
@@ -82,7 +120,7 @@ const MeetingSummary = ({
           })),
           startTime: meetingForm.startDateTime,
           endTime: meetingForm.endDateTime,
-          notes: meetingForm.notes,
+          notes: notes || meetingForm.notes,
           location: meetingForm.location.value,
         }),
       )
@@ -104,13 +142,12 @@ const MeetingSummary = ({
     }
   };
 
-  const handleScheduleEvent = () => {
+  const handleScheduleEvent = (notes: any) => {
     const {
       startDateTime,
       endDateTime,
       eventType,
       location,
-      notes,
       job,
       timeZone,
       interviewer,
@@ -134,7 +171,7 @@ const MeetingSummary = ({
         startTime: startDateTime,
         endTime: endDateTime,
         location: location.value,
-        notes,
+        notes: notes || meetingForm.notes,
         privateNotes: null,
       }),
     )
@@ -173,7 +210,23 @@ const MeetingSummary = ({
   return (
     <>
       <div className={styles.meetingSummary}>
-        <h4 className={styles.formTitle}>Meeting Notification Summary</h4>
+        <Flex row
+        center
+        style={{
+          // padding: '25px 0px 0px',
+          // margin: '0px 25px',
+          borderBottom: '0.5px solid #581845',
+        }}>
+          <SvgCalendar width={18} height={18} style={{ marginBottom: '5px' }} />
+          <Text size={16}
+            bold
+            color="theme"
+            className={styles.formTitle}
+            style={{ marginBottom: '5px' }}
+          >Meeting Notification Summary</Text>
+
+        </Flex>
+
         <div className={styles.summary}>
           <p className={styles.header}>Summary</p>
           <div className={styles.content}>{MeetingTitleView}</div>
@@ -197,13 +250,19 @@ const MeetingSummary = ({
             <div className={styles.subject}>
               {MeetingTitleView}
               <br />
-              <p>
+              <RichText
+                height={300}
+                value={formik.values.notes}
+                onChange={formik.handleChange('notes')}
+                placeholder="Add your comments here..."
+              />
+              {/* <p>
                 Hello Team,
                 <br />
                 We would like to confirm your interview. Please find all the
                 relevant details below.
-              </p>
-              <div className={styles.details}>
+              </p> */}
+              {/* <div className={styles.details}>
                 {MeetingTitleView}
                 <div>
                   <div>
@@ -221,26 +280,26 @@ const MeetingSummary = ({
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
         <div className={styles.actionButtonWrapper}>
-          <button onClick={nextEvent}>Back</button>
+          <Button onClick={nextEvent} className={styles.cancel} types={'primary'}>Back</Button>
           {editEventDetails ? (
-            <button
-              onClick={handleUpdateEvent}
+            <Button
+              onClick={formik.submitForm} ///{handleUpdateEvent}
               className={styles.continueButton}
             >
               Update Invite
-            </button>
+            </Button>
           ) : (
-            <button
-              onClick={handleScheduleEvent}
+            <Button
+              onClick={formik.submitForm} /// {handleScheduleEvent}
               className={styles.continueButton}
             >
               Send Invite
-            </button>
+            </Button>
           )}
         </div>
       </div>

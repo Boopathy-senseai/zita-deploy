@@ -705,8 +705,8 @@ const MeetingSchedulingForm = ({
   );
 
   const ActionButtonView = (
-    <div className={styles.actionButtonWrapper}>
-      <div className={styles.buttonContainer}>
+    <div className={styles.actionButtonWrapper} style={{borderTop:"1px solid #c3c3c3"}}>
+      <div className={styles.buttonContainer} >
         <button
           onClick={handleCloseSchedulingForm}
           className={styles.cancelButton}

@@ -161,8 +161,9 @@
 
 .actionButtonWrapper {
   /* grid-column: 1 / span 2; */
+  border-top: 1px solid #c3c3c3;
   display: flex;
-  justify-self: flex-end;
+  justify-content: flex-end;
   
 }
 

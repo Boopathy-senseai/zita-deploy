@@ -765,6 +765,9 @@ input:-webkit-autofill:active {
 .rbc-header .rbc-button-link {
   width: 100%;
 }
+.css-hdw1oc{
+  width: auto !important;
+}
 
 /* MUI OVERRIDE */
 /* Input fields */
@@ -801,5 +804,5 @@ input:-webkit-autofill:active {
 }
 
 .MuiOutlinedInput-notchedOutline{
-  border-color: rgba(0, 0, 0, 0.57) !important;
+  border-color: #cccccc !important;
 }

@@ -3,17 +3,32 @@
   min-width: 450px;
 }
 
+.content {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.content > div {
+  margin-bottom: 10px;
+}
+
 .eventPopUp p {
   margin: 0;
 }
 
 .eventPopUp .info {
   display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
   margin: 10px;
   align-items: flex-start;
 }
 
 .eventPopUp .infoText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   margin: -2px 0px 0px 15px;
 }
 
@@ -26,8 +41,8 @@
 }
 
 .eventPopUp .icon:hover {
-  background-color: var(--color-primary-light-hover);
-}
+  background-color: #D7C7D2;
+  border-radius: 50%;}
 
 .eventPopUp .icon:active {
   transform: scale(0.8);
@@ -35,13 +50,13 @@
   transition: 500ms ease-in-out;
 }
 
-.eventPopUp .email {
-  background-color: rgba(0, 0, 0, 0.1);
-  letter-spacing: 1.5px;
-  padding: 2px 10px;
-  border-radius: 100px;
-  margin: 4px 6px;
-}
+/* .eventPopUp .email { */
+  /* background-color: rgba(0, 0, 0, 0.1); */
+  /* letter-spacing: 1.5px; */
+  /* padding: 2px 10px; */
+  /* border-radius: 100px; */
+  /* margin: 4px 6px; */
+/* } */
 
 .eventPopUp .emailContainer {
   width: 100%;
@@ -116,8 +131,9 @@
 
 .actionButtonWrapper {
   display: flex;
+  flex-direction: row;
   margin-top: 15px;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 
 .actionButtonWrapper button {
