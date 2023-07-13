@@ -147,8 +147,8 @@ const jobMetrics: jobMetricsReducerState = {
       job_title: '',
       job_id: '',
       no_of_vacancies: 0,
-      applicant: 0,
-      hired: 0,
+      applicants: 0,
+      offered: 0,
       rejected: 0,
       shortlisted: 0,
       zita_match: 0,
@@ -160,7 +160,6 @@ const jobMetrics: jobMetricsReducerState = {
   params: '',
   len_list: 1,
 };
-
 const jobMetricsChartReducer = createSlice({
   name: 'jobMetricsChart',
   initialState: jobMetricsChart,

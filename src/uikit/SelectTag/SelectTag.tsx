@@ -20,6 +20,8 @@ import {
   customStylesMulti,
   selectTagTheme,
   CustomStyle,
+  customStylechanges,
+  customStyletrue
 } from './selectHelper';
 import styles from './selecttag.module.css';
 
@@ -56,6 +58,7 @@ type Props = {
   defaultValue?: { label: string; value: string | number | any };
   components?: Partial<SelectComponents<any, boolean, GroupBase<any>>>;
   lineStyle?: boolean;
+  linechange?:boolean;
   id?: string;
   isOptionSelected?: (option: any, selectValue: Options<any>) => boolean;
   onInputChange?: (newValue: string, actionMeta: InputActionMeta) => void;
@@ -72,6 +75,7 @@ type Props = {
   menuIsOpen?: boolean;
   autoFocus?: boolean;
   inputId?: string;
+  stylechanges?:boolean;
 };
 
 const SelectTag = (
@@ -86,6 +90,7 @@ const SelectTag = (
     isMulti,
     onChange,
     className,
+    stylechanges,
     value,
     name,
     required,
@@ -95,6 +100,7 @@ const SelectTag = (
     defaultValue,
     components,
     lineStyle,
+    linechange,
     id,
     isOptionSelected,
     onInputChange,
@@ -117,11 +123,20 @@ const SelectTag = (
 
     if (isMulti) {
       setSelectStyle(customStylesMulti);
-    } else if (lineStyle) {
+    } 
+    else if (stylechanges && !isMulti&& !lineStyle && linechange){
+      setSelectStyle(customStylechanges);
+    }
+    else if (lineStyle) {
       setSelectStyle(customStylesLine);
-    } else if (!isMulti && !lineStyle) {
+    }else if(linechange && !isMulti && !lineStyle ){  
+      setSelectStyle(customStyletrue);
+    }
+    
+     else if (!isMulti && !lineStyle) {
       setSelectStyle(customStyles);
     }
+   
   }, []);
 
   return (
@@ -136,6 +151,7 @@ const SelectTag = (
             id={id}
             defaultValue={defaultValue}
             value={value}
+            
             name={name}
             isLoading={isLoading}
             isDisabled={isDisabled}
@@ -155,12 +171,14 @@ const SelectTag = (
             getOptionValue={getOptionValue}
             noOptionsMessage={noOptionsMessage}
             menuIsOpen={menuIsOpen}
+           
           />
         ) : (
           <Select
             inputId={inputId}
             ref={ref}
             id={id}
+
             defaultValue={defaultValue}
             value={value}
             name={name}

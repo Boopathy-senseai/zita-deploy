@@ -1,10 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { SIGNUP_RECRUITER } from '../../../../actions/actions';
+import { string } from 'prop-types';
+  import axios from 'axios';
+import { SIGNUP_RECRUITER,SIGN_GETRECRUITER } from '../../../../actions/actions';
 import {
   signupRecruiterApi,
-  signupRecruiterGetApi,
+  signupRecruiterGetApi
 } from '../../../../routes/apiRoutes';
 import { SignUpPayLoad } from '../../signupTypes';
+import { paramsSerializer } from '../../../../utility/helpers';
 var querystring = require('querystring');
 
 export const signUpMiddleWare = createAsyncThunk(
@@ -51,15 +54,32 @@ export const signUpMiddleWare = createAsyncThunk(
   },
 );
 
-export const userNameMiddleWare = createAsyncThunk(
-  'username',
-  async ({ username }: { username: string }, { rejectWithValue }) => {
+// export const userNameMiddleWare = createAsyncThunk(
+//   'username',
+//   async ({ username }: { username: string }, { rejectWithValue }) => {
+//     try {
+//       const data = await fetch(signupRecruiterGetApi(username));
+//       return await data.json();
+//     } catch (error) {
+//       const typedError = error as Error;
+//       return rejectWithValue(typedError);
+//     }
+//   },
+// );
+
+
+export const signupGetMiddleWare = createAsyncThunk(
+  SIGN_GETRECRUITER,
+  async ({ email,username }:any, { rejectWithValue }) => {
     try {
-      const data = await fetch(signupRecruiterGetApi(username));
+      // const { data } = (await axios.get(signupRecruiterGetApi(email), {})) 
+      const data = await fetch(signupRecruiterGetApi(email,username));
       return await data.json();
+      // return data;
     } catch (error) {
       const typedError = error as Error;
-      return rejectWithValue(typedError);
+ 
+      return rejectWithValue(typedError.message);
     }
   },
 );

@@ -41,7 +41,7 @@ const myJobPosingDataState: MyJobPosingDataReducerState = {
   final_list: [],
   career_page_url: '',
   len_list: 0,
-  Jobs_List: 0,
+  Jobs_List:0,
   params: '',
   location: [],
   zita_count: [],
@@ -58,15 +58,18 @@ const myJobPostingDataReducer = createSlice({
       state.error = '';
     });
     builder.addCase(myJobPostingDataMiddleWare.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.final_list = action.payload.final_list;
-      state.career_page_url = action.payload.career_page_url;
-      state.len_list = action.payload.len_list;
-      state.Jobs_List = action.payload.Jobs_List;
-      state.params = action.payload.params;
-      state.location = action.payload.location;
-      state.zita_count = action.payload.zita_count;
-      state.domain = action.payload.domain;
+      if(action.payload){
+        state.isLoading = false;
+        state.final_list = action.payload.final_list || [];
+        state.career_page_url = action.payload.career_page_url;
+        state.len_list = action.payload.len_list;
+        state.Jobs_List = action.payload.Jobs_List;
+        state.params = action.payload.params;
+        state.location = action.payload.location;
+        state.zita_count = action.payload.zita_count;
+        state.domain = action.payload.domain;
+      }
+      
     });
     builder.addCase(myJobPostingDataMiddleWare.rejected, (state, action) => {
       state.isLoading = false;

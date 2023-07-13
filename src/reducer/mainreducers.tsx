@@ -2,6 +2,8 @@ import {
   applicantPipeLineDataReducers,
   applicantPipeLineReducers,
   applicantPipeLineUpdateReducers,
+  applicantPipelineDownloadReducers,
+  kanbanStagesReducers,
 } from '../modules/applicantpipelinemodule/store/reducer/applicantpipelinereducer';
 import {
   applicantAllMatchReducers,
@@ -9,6 +11,7 @@ import {
   applicantMatchReducers,
   applicantMessageReducers,
   applicantNotesReducers,
+  applicantUserlistReducer,
   applicantProfileInitalReducers,
   applicantScoreReducers,
   applicantStausReducers,
@@ -110,9 +113,12 @@ import {
   useremail,
   getmailfolders,
 } from '../modules/emailintegrationmodule/store/reducer/emailreducer';
+import { templatePageReducers } from '../modules/accountsettingsmodule/templatesmodule/store/reducer/templatesreducer';
+import { pipelinePageReducers } from '../modules/accountsettingsmodule/templatesmodule/store/reducer/pipelinereducer';
 
 export const reducers = {
   talentSourcingReducers,
+  applicantUserlistReducer,
   talentSourcingSearchReducers,
   talentUnlockCandidateReducers,
   bulkActionReducers,
@@ -192,4 +198,8 @@ export const reducers = {
   sourcingPerformanceDataReducers,
   useremail,
   getmailfolders,
+  templatePageReducers,
+  pipelinePageReducers,
+  kanbanStagesReducers,
+  applicantPipelineDownloadReducers,
 };

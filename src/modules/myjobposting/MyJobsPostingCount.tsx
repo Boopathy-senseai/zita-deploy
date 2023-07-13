@@ -14,113 +14,117 @@ const MyJobsPostingCount = ({ list }: Props) => {
   const invite_to_apply = isEmpty(list.invite_to_apply)
     ? '0'
     : list.invite_to_apply;
-  const applicant = isEmpty(list.applicant) ? '0' : list.applicant;
-
-
-
+  const applicant = isEmpty(list.applicants) ? '0' : list.applicants;
 
   return (
     <Flex row center className={styles.justify}>
-
-      {isEmpty(list.zita_match) ?  
-
+      {isEmpty(list.zita_match) ? (
         <Flex center column className={styles.margin}>
-     
           <Text color={'gray'} bold>
             {zita_match}
           </Text>
-      
-        <Text className={styles.font} bold>Zita Match</Text>
-      </Flex> 
 
-      : 
-
-       <Flex center column className={styles.margin}>
-      {list.jd_status__label_name === 'Inactive' ? 
-        <>
-      
-          <Text color={'gray'} bold >
-            {zita_match}
+          <Text className={styles.font} bold>
+            Zita Match
           </Text>
-      
+        </Flex>
+      ) : (
+        <Flex center column className={styles.margin}>
+          {list.jd_status__label_name === 'Inactive' ? (
+            <>
+              <Text color={'gray'} bold>
+                {zita_match}
+              </Text>
 
-        <Text className={styles.font}bold> Zita Match</Text>
-      </>
-      :
+              <Text className={styles.font} bold>
+                {' '}
+                Zita Match
+              </Text>
+            </>
+          ) : (
+            <>
+              <LinkWrapper
+                target={'_parent'}
+                to={`/zita_match_candidate/${list.id}`}
+              >
+                <Text color={'link'} bold>
+                  {zita_match}
+                </Text>
+              </LinkWrapper>
+              <Text className={styles.font} bold>
+                Zita Match
+              </Text>
+            </>
+          )}
+        </Flex>
+      )}
 
-      <>
-        <LinkWrapper target={'_parent'} to={`/zita_match_candidate/${list.id}`}>
-          <Text color={'link'} bold>
-            {zita_match}
-          </Text>
-        </LinkWrapper>
-        <Text className={styles.font}bold>Zita Match</Text>
-      </>
-        }
-
-
-
-      </Flex>}
-
-
-   {isEmpty(list.invite_to_apply) ?  
-
-      <Flex center column className={styles.margin}>
+      {isEmpty(list.invite_to_apply) ? (
+        <Flex center column className={styles.margin}>
           <Text color={isEmpty(list.invite_to_apply) ? 'gray' : 'link'} bold>
             {invite_to_apply}
           </Text>
-        <Text className={styles.font} bold> Invited to Apply</Text>
-      </Flex>
-     : 
-
-  <Flex center column className={styles.margin}>
-  {list.jd_status__label_name === 'Inactive' ? 
-    <>
-      
-          <Text color={'gray'} bold>
-            {invite_to_apply}
+          <Text className={styles.font} bold>
+            {' '}
+            Invited to Apply
           </Text>
+        </Flex>
+      ) : (
+        <Flex center column className={styles.margin}>
+          {list.jd_status__label_name === 'Inactive' ? (
+            <>
+              <Text color={'gray'} bold>
+                {invite_to_apply}
+              </Text>
 
-        <Text className={styles.font}bold> Invited to Apply</Text>
-      </>
-      :
+              <Text className={styles.font} bold>
+                {' '}
+                Invited to Apply
+              </Text>
+            </>
+          ) : (
+            <Flex center column className={styles.margin}>
+              <LinkWrapper
+                target={'_parent'}
+                to={`/zita_match_candidate/${list.id}`}
+              >
+                <Text color={'link'} bold>
+                  {invite_to_apply}
+                </Text>
+              </LinkWrapper>
+              <Text className={styles.font} bold>
+                Invited to Apply
+              </Text>
+            </Flex>
+          )}
+        </Flex>
+      )}
 
-      <Flex center column className={styles.margin}>
-        <LinkWrapper target={'_parent'} to={`/zita_match_candidate/${list.id}`}>
-          <Text color={'link'} bold>
-            {invite_to_apply}
-          </Text>
-        </LinkWrapper>
-        <Text className={styles.font} bold>Invited to Apply</Text>
-      </Flex>
-        }
-
-      </Flex>
-      }
-
- {isEmpty(list.applicant) ?  
-      <Flex center column className={styles.margin}>
-       
-          <Text color={isEmpty(list.applicant) ? 'gray' : 'link'} bold>
+      {isEmpty(list.applicants) ? (
+        <Flex center column className={styles.margin}>
+          <Text color={isEmpty(list.applicants) ? 'gray' : 'link'} bold>
             {applicant}
           </Text>
-  
-        <Text className={styles.font} bold>Applicants</Text>
-      </Flex>
-      
- : 
 
-  <Flex center column className={styles.margin}>
-        <LinkWrapper target={'_parent'} to={`/applicant_pipe_line/${list.id}`}>
-          <Text color={isEmpty(list.applicant) ? 'gray' : 'link'} bold>
-            {applicant}
+          <Text className={styles.font} bold>
+            Applicants
           </Text>
-        </LinkWrapper>
-        <Text className={styles.font}bold>Applicants</Text>
-      </Flex>
-
-    }
-
+        </Flex>
+      ) : (
+        <Flex center column className={styles.margin}>
+          <LinkWrapper
+            target={'_parent'}
+            to={`/applicant_pipe_line/${list.id}`}
+          >
+            <Text color={isEmpty(list.applicants) ? 'gray' : 'link'} bold>
+              {applicant}
+            </Text>
+          </LinkWrapper>
+          <Text className={styles.font} bold>
+            Applicants
+          </Text>
+        </Flex>
+      )}
     </Flex>
   );
 };

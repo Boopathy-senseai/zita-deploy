@@ -19,8 +19,16 @@ export const LINK_1 = '#18adf0';
 export const SUCCESS = '#34cc65';
 export const WARNING = '#ffb142';
 
-export const SUNRAY = '#d6ab58';
-export const AERO = '#6cb4dc';
-export const MEDIUM_PURPLE = '#9983da';
-export const PISTACHIO = '#95d66d';
-export const CANDY_PINK = '#dc687d';
+// export const SUNRAY = '#d6ab58';
+// export const AERO = '#6cb4dc';
+// export const MEDIUM_PURPLE = '#9983da';
+// export const PISTACHIO = '#95d66d';
+// export const CANDY_PINK = '#dc687d';
+
+export const SUNRAY = '#581845';
+export const AERO = '#80C0D0';
+export const MEDIUM_PURPLE = '#F29111';
+export const PISTACHIO = '#00BE4B';
+export const CANDY_PINK = '#ED4857';
+export const GRAY_BLACK = "#333333";
+

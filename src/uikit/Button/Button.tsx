@@ -10,7 +10,9 @@ export type buttonTypes =
   | 'secondary'
   | 'link'
   | 'tertiary'
-  | 'success';
+  | 'success'
+  | 'close'
+  ;
 
 type Props = {
   children: import('react').ReactChild;

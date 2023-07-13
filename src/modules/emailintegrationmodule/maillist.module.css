@@ -66,14 +66,14 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  width: 100%;
+  max-width: 290px;
   color: #333333;
 }
 .textStyle {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  width: 375px;
+  max-width: 290px;
   color: #666666;
 }
 .scroll {

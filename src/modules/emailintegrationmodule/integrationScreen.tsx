@@ -233,7 +233,8 @@ const EmailScreen = () => {
   };
 
   const updateroute = (val) => {
-    setPrevious(25);
+    if(val !== sideroute){
+     setPrevious(25);
     setSkip(0);
     setDel(0);
     setPrevious1(1);
@@ -245,6 +246,7 @@ const EmailScreen = () => {
     setSearchFolder('All Folder');
     setSearchSection('All');
     setAttachments([]);
+    }
   };
 
   const junkemail = async () => {

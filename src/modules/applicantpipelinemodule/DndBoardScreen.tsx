@@ -13,271 +13,114 @@ import {
   ApplicantEntity,
   GoogleEntity,
   JobDetailsEntity,
+  ICardSelectionData,
+  ICardSelectionMap,
 } from './applicantPipeLineTypes';
 import DndBoardCol from './DndBoardCol';
 import styles from './dndboardscreen.module.css';
-import { columnTypes } from './dndBoardTypes';
+import { IStageColumn, columnTypes } from './dndBoardTypes';
 import { columnOrder } from './initialData';
 import { applicantUpdateStatusMiddleWare } from './store/middleware/applicantpipelinemiddleware';
 
 type Props = {
-  applicant: ApplicantEntity[];
-  shortlisted: ShortlistedEntityOrRejectedEntity[];
-  selected: InterviewedEntityOrSelectedEntity[];
-  rejected: ShortlistedEntityOrRejectedEntity[];
-  interviewed: InterviewedEntityOrSelectedEntity[];
+  // applicant: ApplicantEntity[];
+  // shortlisted: ShortlistedEntityOrRejectedEntity[];
+  // selected: InterviewedEntityOrSelectedEntity[];
+  // rejected: ShortlistedEntityOrRejectedEntity[];
+  // interviewed: InterviewedEntityOrSelectedEntity[];
+  columns: IStageColumn[];
   jd_id: string;
   outlook?: GoogleEntity[];
   google?: GoogleEntity[];
   job_details: JobDetailsEntity;
+  onDragStart?: (start: { source: { droppableId: string } }) => void;
+  onDragEnd?: (result: DropResult) => void;
+  // hanldeSortList?: () => void;
+  // hanldeInterview?: () => void;
+  // hanldeOffered?: () => void;
+  // hanldeReject?: () => void;
+  isAlert: {
+    type: 'bulk' | 'single';
+    source: string;
+    destination: string;
+    open: boolean;
+    droppableId: number;
+    taskId?: any;
+  } | null;
+  hanldeAlertConfirm?: () => void;
+  hanldeCancel?: () => void;
+  onRefresh?: () => void;
+  // isShortList: boolean;
+  // isInterviewed: boolean;
+  // isOffered: boolean;
+  // isRejected: boolean;
+  // isUpdateId: number;
+  isIndex: number;
+  onClick?: (data: ICardSelectionData) => void;
+  // selectedCardList: {
+  //   task: any;
+  //   // index: number;
+  //   // columnId: string;
+  //   // job_details: JobDetailsEntity;
+  // }[];
+  cardSelectionMap: ICardSelectionMap;
 };
 
 const DndBoardScreen = ({
-  interviewed,
-  selected,
-  rejected,
-  applicant,
-  shortlisted,
+  // interviewed,
+  // selected,
+  // rejected,
+  // applicant,
+  // shortlisted,
+  columns,
   jd_id,
   google,
   outlook,
   job_details,
+  onDragStart,
+  onDragEnd,
+  // hanldeSortList,
+  // hanldeInterview,
+  // hanldeOffered,
+  // hanldeReject,
+  isAlert,
+  hanldeAlertConfirm,
+  hanldeCancel,
+  onRefresh,
+  // isShortList,
+  // isInterviewed,
+  // isOffered,
+  // isRejected,
+  // isUpdateId,
+  isIndex,
+  onClick,
+  cardSelectionMap,
 }: Props) => {
-  const dispatch: AppDispatch = useDispatch();
-  const [isShortList, setShortList] = useState(false);
-  const [isInterviewed, setInterviewed] = useState(false);
-  const [isOffered, setOffered] = useState(false);
-  const [isRejected, setRejected] = useState(false);
-
-  const [isUpdateId, setUpdateId] = useState<number>(0);
-// initial value
-  const columnsFromBackend = {
-    'column-1': {
-      title: 'New Applicants',
-      items: applicant,
-      total: applicant.length,
-    },
-    'column-2': {
-      title: 'Shortlisted',
-      items: shortlisted,
-      total: shortlisted.length,
-    },
-    'column-3': {
-      title: 'Interviewed',
-      items: interviewed,
-      total: interviewed.length,
-    },
-    'column-4': {
-      title: 'Offered',
-      items: selected,
-      total: selected.length,
-    },
-    'column-5': {
-      title: 'Rejected',
-      items: rejected,
-      total: rejected.length,
-    },
-  };
-
-  const [columns, setColumns] = useState<columnTypes>(columnsFromBackend);
-  const [isIndex, setIndex] = useState<any>();
-  const [isNoLoader, setNoLoader] = useState(false);
-
-  useEffect(() => {
-    setColumns(columnsFromBackend);
-  }, [interviewed, selected, rejected, applicant, shortlisted, isNoLoader]);
-
-  const onDragStart = (start: { source: { droppableId: string } }) => {
-    const homeIndex = columnOrder.indexOf(start.source.droppableId);
-    setIndex(homeIndex);
-    if (homeIndex === 3) {
-      setIndex(8);
-    }
-  };
-
-  // card drag function
-  const onDragEnd = (result: DropResult) => {
-    setIndex(null);
-    if (!result.destination) return;
-    const { source, destination } = result;
-    if (source.droppableId !== destination.droppableId) {
-      const sourceColumn = columns[source.droppableId];
-      const destColumn = columns[destination.droppableId];
-      const sourceItems = [...sourceColumn.items];
-      const destItems = [...destColumn.items];
-      const [removed] = sourceItems.splice(source.index, 1);
-      destItems.splice(destination.index, 0, removed);
-      setColumns({
-        ...columns,
-        [source.droppableId]: {
-          ...sourceColumn,
-          items: sourceItems,
-        },
-        [destination.droppableId]: {
-          ...destColumn,
-          items: destItems,
-        },
-      });
-      setUpdateId(removed.id);
-
-      if (destination.droppableId === 'column-2') {
-        setShortList(true);
-      }
-      if (destination.droppableId === 'column-3') {
-        setInterviewed(true);
-      }
-      if (destination.droppableId === 'column-4') {
-        setOffered(true);
-      }
-      if (destination.droppableId === 'column-5') {
-        setRejected(true);
-      }
-    }
-  };
-// short list api call function
-  const hanldeSortList = () => {
-    dispatch(
-      applicantUpdateStatusMiddleWare({
-        jd_id,
-        applicant_id: isUpdateId,
-        status: 'shortlisted',
-      }),
-    )
-      .then(() => {
-        setShortList(false);
-        Toast('Applicant shortlisted successfully');
-      })
-      .catch(() => {
-        setNoLoader(true);
-        setTimeout(() => setNoLoader(false), 100);
-        Toast(ERROR_MESSAGE, 'LONG', 'error');
-      });
-  };
-// Interview api call function
-  const hanldeInterview = () => {
-    dispatch(
-      applicantUpdateStatusMiddleWare({
-        jd_id,
-        applicant_id: isUpdateId,
-        status: 'interviewed',
-      }),
-    )
-      .then(() => {
-        setInterviewed(false);
-        Toast('Applicant moved successfully');
-      })
-      .catch(() => {
-        setNoLoader(true);
-        setTimeout(() => setNoLoader(false), 100);
-        Toast(ERROR_MESSAGE, 'LONG', 'error');
-      });
-  };
-// offered api call function
-  const hanldeOffered = () => {
-    dispatch(
-      applicantUpdateStatusMiddleWare({
-        jd_id,
-        applicant_id: isUpdateId,
-        status: 'offered',
-      }),
-    )
-      .then(() => {
-        setOffered(false);
-        Toast('Applicant offered successfully');
-      })
-      .catch(() => {
-        setNoLoader(true);
-        setTimeout(() => setNoLoader(false), 100);
-        Toast(ERROR_MESSAGE, 'LONG', 'error');
-      });
-  };
-// reject api call function
-  const hanldeReject = () => {
-    dispatch(
-      applicantUpdateStatusMiddleWare({
-        jd_id,
-        applicant_id: isUpdateId,
-        status: 'rejected',
-      }),
-    )
-      .then(() => {
-        setRejected(false);
-        Toast('Applicant rejected successfully');
-      })
-      .catch(() => {
-        setNoLoader(true);
-        setTimeout(() => setNoLoader(false), 100);
-        Toast(ERROR_MESSAGE, 'LONG', 'error');
-      });
-  };
-
-  // popup cancel function
-  const hanldeCancel = () => {
-    setNoLoader(true);
-    setOffered(false);
-    setShortList(false);
-    setInterviewed(false);
-    setRejected(false);
-    setTimeout(() => setNoLoader(false), 100);
-  };
-
   return (
     <div className={styles.overAll}>
-      <CancelAndDeletePopup
-        btnCancel={hanldeCancel}
-        btnDelete={hanldeSortList}
-        open={isShortList}
-        btnRight="Shortlist"
-        title={
-          <Flex columnFlex className={styles.statusFlex}>
-            <Text>
-              {`Application status will be updated to the applicant as 'Under
-              Review’`}
-              .
-            </Text>
-            <Text>Are you sure to proceed?</Text>
-          </Flex>
-        }
-      />
-
-      <CancelAndDeletePopup
-        btnCancel={hanldeCancel}
-        btnDelete={hanldeInterview}
-        open={isInterviewed}
-        btnRight="Move"
-        title={`Are you sure to move this applicant to the interviewed stage?`}
-      />
-
-      <CancelAndDeletePopup
-        btnCancel={hanldeCancel}
-        btnDelete={hanldeOffered}
-        open={isOffered}
-        btnRight="Offer"
-        title={
-          <Flex columnFlex className={styles.statusFlex}>
-            <Text>
-              {`Application status will be updated to the applicant as 'Offered’.`}
-            </Text>
-            <Text>Are you sure to proceed?</Text>
-          </Flex>
-        }
-      />
-
-      <CancelAndDeletePopup
-        btnCancel={hanldeCancel}
-        btnDelete={hanldeReject}
-        open={isRejected}
-        btnRight="Reject"
-        title={
-          <Flex columnFlex className={styles.statusFlex}>
-            <Text>
-              Application status will be updated to the applicant as ‘No longer
-              considered’.
-            </Text>
-            <Text>Are you sure to proceed?</Text>
-          </Flex>
-        }
-      />
+      {isAlert && (
+        <CancelAndDeletePopup
+          btnCancel={hanldeCancel}
+          btnDelete={hanldeAlertConfirm}
+          open={isAlert.open}
+          btnRight={'Move'}
+          title={
+            <Flex columnFlex className={styles.statusFlex}>
+              {/* {console.log(isAlert.destination)} */}
+              {isAlert.destination !== 'Rejected' ? (
+                <Text color='black2' size={14} >
+                  {`Application status will be updated to the applicant as 'Under Review’.`}
+                </Text>
+              ) : (
+                <Text color='black2' size={14} >
+                  {`Application status will be updated to the applicant as ‘No longer considered’.`}
+                </Text>
+              )}
+              <Text size={14} color='black2'>Are you sure to proceed?</Text>
+            </Flex>
+          }
+        />
+      )}
 
       <DragDropContext
         onDragStart={onDragStart}
@@ -285,17 +128,19 @@ const DndBoardScreen = ({
           onDragEnd(result);
         }}
       >
-        {Object.entries(columns).map(([columnId, column], index) => {
+        {columns.map((column, index) => {
           return (
             <DndBoardCol
-              key={columnId}
-              columnId={columnId}
-              tasks={column}
+              key={column.columnId}
+              column={column}
               index={index}
               isDropDisabled={index < isIndex}
               outlook={outlook}
               google={google}
               job_details={job_details}
+              onClick={onClick}
+              cardSelectionMap={cardSelectionMap}
+              onRefresh={onRefresh}
             />
           );
         })}

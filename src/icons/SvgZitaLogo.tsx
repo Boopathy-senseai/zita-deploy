@@ -1,7 +1,7 @@
 /* eslint max-len: ["error", { "code": 20000 }] */
 const defaultProps = {
-  width: 150,
-  height: 70,
+  width: 130,
+  height: 60,
 };
 
 const SvgZitaLogo = ({ width, height }: typeof defaultProps) => {

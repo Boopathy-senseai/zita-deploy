@@ -1,16 +1,24 @@
 .overAll {
-  margin: auto;
-  padding: 0 36px;
+  /* margin: auto; */
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-top: 13px;
+  overflow: hidden;
 }
-
+.profilehight {
+  height: auto !important;
+  overflow-y: auto;
+}
 @media screen and (min-width: 1280px) and (max-width: 1350px) {
   .overAll {
+    margin: auto !important;
     padding: 0px 5% !important;
   }
 }
 @media screen and (min-width: 960px) and (max-width: 1280px) {
   .overAll {
-    padding: 0px 3% !important;
+    padding: 0px 0px !important;
   }
 }
 
@@ -35,6 +43,27 @@
 .with80 {
   width: 80%;
 }
+.titleContainer {
+  padding: 10px;
+  background-color: #eee8ec;
+  font-size: 12px;
+  margin-bottom: 10px;
+  display: flex;
+  color: #581845;
+  justify-content: space-between;
+  position: relative;
+  padding-right: 40px;
+}
+.triangle {
+  width: 0;
+  height: 0;
+  border-top: 22px solid transparent;
+  border-right: 30px solid white;
+  border-bottom: 22px solid transparent;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
 
 .companyrow {
   margin-top: 10px;
@@ -53,9 +82,34 @@
   background-color: rgba(255, 165, 0, 0.1);
   border-radius: 4px;
   width: fit-content;
-  margin-left: 16px;
 }
 
 /* .nav .nav-tabs{
 pointer-events: none;
 } */
+.triangle {
+  width: 0;
+  height: 0;
+  border-top: 22px solid transparent;
+  border-right: 30px solid white;
+  border-bottom: 22px solid transparent;
+  /* position: relative; */
+  top: 0;
+  right: 0;
+}
+.overallhead {
+  background-color: #eee8ec;
+  display: flex;
+  justify-content: space-between;
+  height: 45px;
+  /* margin-left: -10px; */
+}
+
+.tabContentContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: auto;
+}
+

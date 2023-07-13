@@ -1,6 +1,9 @@
+// import { Table } from 'react-bootstrap';
+
 import Text from '../../uikit/Text/Text';
+
 import Flex from '../../uikit/Flex/Flex';
-import Card from '../../uikit/Card/Card';
+// import Card from '../../uikit/Card/Card';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import { isEmpty } from '../../uikit/helper';
 import styles from './myjobpostingscreen.module.css';
@@ -12,107 +15,127 @@ type Props = {
 
 const MyJobPostingScreenStatus = ({ list }: Props) => {
   const shortlisted = isEmpty(list.shortlisted) ? '0' : list.shortlisted;
-  const selected = isEmpty(list.selected) ? '0' : list.selected;
+  const selected = isEmpty(list.hired) ? '0' : list.hired;
   const rejected = isEmpty(list.rejected) ? '0' : list.rejected;
 
   return (
-    <Flex>
-      <Text className={styles.screenStatus}>Screening Status</Text>
+    <Flex className={styles.screenstatu}>
+      {/* <Text className={styles.screenStatus}>Screening Status</Text> */}
 
-      <Card className={styles.screen}>
-        <Flex row className={styles.justify}>
+     
+       
+        <ul className={styles.ulstyle1}>  
         {isEmpty(list.shortlisted) ? 
 
-         <Flex center flex={4}className={styles.padding5}>
-           
-              <Text color={'gray'} bold>
+         <li style={{color:"#FCC203",fontSize:20}} className={styles.shortlist}>
+           {/* <LinkWrapper
+              target={'_parent'}
+              to={`/applicant_pipe_line/${list.id}`}
+            > */}
+              <Text className={styles.styletexts} >
                 {shortlisted}
-              </Text>
-        
-            <Text className={styles.fontScreen}bold>Shortlisted</Text>
-          </Flex> 
+              </Text> 
+            <Text className={styles.fontScreen}>Shortlisted</Text>
+            {/* </LinkWrapper> */}
+          </li> 
 
-          : 
+          :
 
-           <Flex center flex={4}className={styles.padding5}>
+           <li style={{color:"#FCC203",fontSize:20}} className={styles.shortlist} >
             <LinkWrapper
               target={'_parent'}
               to={`/applicant_pipe_line/${list.id}`}
             >
-              <Text color={'link' } bold>
+              <Text className={styles.styletext} >
                 {shortlisted}
               </Text>
+            <Text className={styles.fontScreens}bold>Shortlisted</Text>
+
             </LinkWrapper>
-            <Text className={styles.fontScreen}bold>Shortlisted</Text>
-          </Flex>
+
+          </li>
 
         }
-         
+        </ul>
 
-           {isEmpty(list.selected) ? 
+       <ul className={styles.ulstyle2}>
+           {isEmpty(list.hired) ? 
 
-         <Flex center flex={4}className={styles.padding5}>
-           
-              <Text color={'gray'} bold>
+         <li style={{color:"#00BE4B",fontSize:20}}>
+           {/* <LinkWrapper
+              target={'_parent'}
+              to={`/applicant_pipe_line/${list.id}`}
+            > */}
+              <Text className={styles.styletexts}>
                 {selected}
               </Text>
+              
         
-            <Text className={styles.fontScreen}bold>Offered</Text>
-          </Flex> 
+            <Text className={styles.fontScreen} style={{color:"#581845",width:8,height:8}}>Offered</Text>
+            {/* </LinkWrapper> */}
+
+          </li> 
 
           : 
 
-           <Flex center flex={4}className={styles.padding5}>
+           <li style={{color:"#00BE4B",fontSize:20}}   >
             <LinkWrapper
               target={'_parent'}
               to={`/applicant_pipe_line/${list.id}`}
             >
-              <Text color={'link' } bold>
+              <Text className={styles.styletext}>
                 {selected}
               </Text>
-            </LinkWrapper>
-            <Text className={styles.fontScreen}bold
+              <Text className={styles.fontScreens} style={{color:"#581845",width:8,height:8}}
             >Offered</Text>
-          </Flex>
+            </LinkWrapper>
+           
+          </li>
 
         }
+        </ul>
 
-
+<ul className={styles.ulstyle3}>
            {isEmpty(list.rejected) ? 
 
-         <Flex center flex={4}className={styles.padding5}>
-           
-              <Text color={'gray'} bold>
+         <li style={{color:"#FF0000",fontSize:20}}>
+           {/* <LinkWrapper
+              target={'_parent'}
+              to={`/applicant_pipe_line/${list.id}`}
+            > */}
+              {/* <Text className={styles.styletext}>
+                {rejected}
+              </Text> */}
+              <Text className={styles.styletexts}>
                 {rejected}
               </Text>
         
             <Text className={styles.fontScreen}bold>Rejected</Text>
-          </Flex> 
+            {/* </LinkWrapper> */}
+
+          </li> 
 
           : 
 
-           <Flex center flex={4}className={styles.padding5}>
+           <li  style={{color:"#FF0000",fontSize:20}}>
             <LinkWrapper
               target={'_parent'}
               to={`/applicant_pipe_line/${list.id}`}
             >
-              <Text color={'link' } bold>
+              <Text className={styles.styletext}>
                 {rejected}
               </Text>
+            <Text className={styles.fontScreens}bold>Rejected</Text>
+
             </LinkWrapper>
-            <Text className={styles.fontScreen}bold>Rejected</Text>
-          </Flex>
+          </li>
 
         }
-
-
-
-
-
-
+</ul>
         </Flex>
-      </Card>
-    </Flex>
+        
+        
+    
   );
 };
 

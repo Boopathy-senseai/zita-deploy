@@ -3,6 +3,7 @@ export const API_AUTH_login = 'auth/auth_login';
 export const PASSWORD_RESET = 'auth/password_reset_request';
 export const PASSWORD_RESET_VALID = 'auth/password_reset_request_valid';
 export const SIGNUP_RECRUITER = 'auth/signup_recruiter';
+export const SIGN_GETRECRUITER='auth/signup_getrecruiter';
 export const PASSWORD_SET = 'auth/password_set_request';
 export const API_USER = 'user/user';
 export const PERMISSION = 'user/permission';
@@ -43,6 +44,7 @@ export const BULK_UPLOADED_QUS = 'bulk/questionnaire_bulk';
 export const APPLICANT_PROFILE_INITIAL = 'applicant/applicant_profile_initial';
 export const APPLICANT_PROFILE_MATCH = 'applicant/applicant_profile_match';
 export const APPLICANT_PROFILE_NOTES = 'applicant/applicant_profile_notes';
+export const APPLICANT_PROFILE_LIST='applicant/applicant_profile_list';
 export const APPLICANT_PROFILE_ALLMATCH =
   'applicant/applicant_profile_all_match';
 export const APPLICANT_PROFILE_MESSAGE = 'applicant/applicant_message';
@@ -65,6 +67,14 @@ export const APPLICANT_PIPE_LINE_DATA =
 export const APPLICANT_PIPE_LINE_FILTER =
   'applicantpipe/applicant_pipe_line_filter';
 export const APPLICANT_UPDATE_STATUS = 'applicantpipe/applicant_update_status';
+export const KANBAN_UPDATE_STATUS = 'applicantpipe/kanban_update_status';
+
+// kanban pipeline
+
+export const GET_KANBAN_DATA = 'applicantpipeline/kanban_stages';
+export const UPDATE_KANBAN_DATA = 'applicantpipeline/kanban_stages_update';
+export const DELETE_KANBAN_DATA = 'applicantpipeline/kanban_stages_delete';
+export const DOWNLOAD_APPLICANTS = 'applicantpipeline/download_applicants';
 
 // Zita Match Candidate
 export const ZITA_MATCH_CANDIDATE = 'zita/zita_match_candidate';
@@ -135,3 +145,18 @@ export const GET_EMAIL = 'email_label';
 export const OUTLOOK_USER_PROFILE = 'outlook/me';
 
 export const OUTLOOK_EMAIL_GET = '/me/mailFolders/Inbox/messages';
+// [Account Settings] --> Templates
+export const GET_TEMPLATE_DATA = 'account/template_data';
+export const CREATE_TEMPLATE_DATA = 'account/template_data_create';
+export const UPDATE_TEMPLATE_DATA = 'account/template_data_update';
+export const PIPELINE_DATA = 'account/pipeline_data';
+export const UPDATE_PIPELINE_DATA = 'account/pipeline_data_update';
+export const DELETE_PIPELINE_DATA = 'account/pipeline_data_delete';
+export const DEFAULT_PIPELINE_DATA = 'account/pipeline_data_default';
+export const PIPELINE_STAGES = 'account/pipeline_stages';
+export const ADD_PIPELINE_STAGE = 'account/pipeline_stage_add';
+export const DELETE_PIPELINE_STAGE = 'account/pipeline_stage_delete';
+export const UPDATE_PIPELINE_STAGE = 'account/pipeline_stage_update';
+export const UPDATE_COLOUR_PALLATE = 'account/colour_pallate_update';
+export const PIPELINE_SUGGESTIONS = 'account/pipeline_suggestions';
+export const PIPELINE_STAGES_REORDER = 'account/pipeline_stages_reorder';

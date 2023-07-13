@@ -8,45 +8,59 @@
 }
 
 .checkboxStyle > input {
-  height: 18px;
-  width: 18px;
+  height: 16px;
+  width: 16px;
   -webkit-appearance: none;
   -moz-appearance: none;
   -o-appearance: none;
   appearance: none;
-  border: 2px solid var(--color-gary-5, #cccccc);
-  border-radius: 4px;
+  border: 1px solid #A5889C;
+  /* border-radius: 4px; */
   outline: none;
   transition-duration: 0.3s;
   background-color: var(--color-white, #ffffff);
   cursor: pointer;
 }
 .checkboxStyle > input:hover {
-  border: 2px solid var(--color-gary-6, #b3b3b3);
+  border: 1px solid #581845;
 }
 
 .checkboxStyle > input:checked {
-  border: 2px solid var(--color-primary, #581845);
+  border: 1px solid #581845;
   background-color: var(--color-white, #ffffff);
 }
 
 .checkboxStyle > input:checked + .checkBoxTick::before {
-  content: '\2713';
+  /* content: '\2711';
   display: block;
   text-align: center;
   color: var(--color-primary, #581845);
   position: absolute;
   left: 4px;
   font-size: 13px;
-  font-weight: bold;
-  top: 1px;
+  font-style: normal;
+  /* font-weight: bold;
+  top: 1px; */
+  content: "";
+  position: absolute;
+  border-color: #581845;
+  border-style: solid;
+  border-width: 0px 1.5px 1.5px 0;
+  height: 10px;
+  top: 9px;
+  left: 6px;
+  margin-top: -5px;
+  transform: rotate(45deg);
+  width: 5px;
+
 }
 .checkboxStyle > input:checked + .withOutLabel::before {
-  top: 0px;
+  top: 7px;
 }
 .withLabel {
   top: 0px;
   margin-left: 8px;
+  white-space: nowrap;
 }
 .disabledStyled > input {
   cursor: not-allowed !important;

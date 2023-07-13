@@ -181,7 +181,7 @@ Props) => {
         formik.setFieldValue('skills', techSkillEmpty);
       }
     }
-  }, [emp_data, open]);
+  }, [emp_data]);
 
   const onCloseModal = () => {
     if (

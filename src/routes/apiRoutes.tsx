@@ -45,6 +45,7 @@ export const bulkUploadSkills = (id: number) => {
 export const applicantProfileView = `applicants_profile_api`;
 export const applicantMatchapi = `matching_analysis`;
 export const applicantNotesApi = `candidate_notes`;
+export const applicantUserlistApi=`mention_notification_candidate_notes`;
 export const calenderEventApi = `calender_event`;
 export const showAllMatch = `show_all_match`;
 export const applicantMessagesApi = `messages`;
@@ -145,6 +146,13 @@ export const myjobpostapi = `my_job_posting`;
 export const myjobpostdataapi = `my_job_posting_data`;
 export const questionnaireTemplateApi = `questionnaire_templates`;
 export const selectDsorNonDsApi = `select_ds_or_non_ds`;
+export const templatesStages = `jobspipeline`;
+// export const kanbanPipelineView = (jd_id: number, workflow_id: number) =>
+//   `kanban_pipeline_view?jd_id=${jd_id}&workflow_id=${workflow_id}`;
+
+export const kanbanPipelineView = `kanban_pipeline_view`;
+export const kanbanUpdation = `kanban_updation`;
+export const downloadBulkExport = `download_bulk_export`;
 
 // Login Api
 export const authApi = `${process.env.REACT_APP_API_ENDPOINT}login_api/`;
@@ -155,10 +163,15 @@ export const emailValidRequest = (email: string, domain?: string) => {
   return url;
 };
 export const signupRecruiterApi = `${process.env.REACT_APP_API_ENDPOINT}signup_recruiter/`;
-export const signupRecruiterGetApi = (username: string) => {
-  const url = `${process.env.REACT_APP_API_ENDPOINT}signup_recruiter/?username=${username}`;
+export const signupRecruiterGetApi = (email: string,username:string) => {
+  const url = `${process.env.REACT_APP_API_ENDPOINT}signup_recruiter/?email=${email} &username=${username} `;
+  // const url =  payload ? `${process.env.REACT_APP_API_ENDPOINT}signup_recruiter/?username=${username}` : 
+  // `${process.env.REACT_APP_API_ENDPOINT}signup_recruiter/?email=${email}`;
   return url;
 };
+
+
+
 export const emailActiveApi = (userId: string, confirmationToken: string) => {
   const url = `${process.env.REACT_APP_API_ENDPOINT}email_activate/?userid=${userId}&confirmation_token=${confirmationToken}`;
   return url;
@@ -241,7 +254,6 @@ export const creditsPurchaseApi = 'credits_purchase';
 export const dashboardEmpApi = 'dashboard_emp';
 export const dashboardJobMetricsApi = 'dashboard_job_metrics';
 export const dashboardMessageApi = 'dashboard_message';
-
 export const applicantSourceApi = 'applicant_source_api';
 export const applicantSourceDataApi = 'applicant_source_data';
 export const applicantSourceDownloadApi = 'applicant_source_download';

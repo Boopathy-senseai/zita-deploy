@@ -37,7 +37,7 @@ import RichText from '../common/RichText';
 import { SvgTrash } from '../../icons';
 import { composemail, mailreplay, mailforward } from '../../emailService';
 import InputText from '../../uikit/InputText/InputText';
-import SvgCollapse from '../../icons/Svgcollapse';
+import SvgCollapse from '../../icons/SvgCollapse';
 import VerificationModel from './emailverificationmodelwindow';
 import Draftmodel from './draftsavemodal';
 import Multiselect from './multiselect';

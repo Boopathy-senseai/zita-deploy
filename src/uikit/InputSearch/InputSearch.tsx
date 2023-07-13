@@ -1,10 +1,18 @@
-import { ReactChild, ReactFragment, ReactPortal, useEffect, useState } from 'react';
+import {
+  ReactChild,
+  ReactFragment,
+  ReactPortal,
+  useEffect,
+  useState,
+} from 'react';
 import classNames from 'classnames/bind';
 import AutoSuggest from 'react-autosuggest';
-import { isEmpty, lowerCase } from '../../uikit/helper';
+import { enterKeyPress, isEmpty, lowerCase } from '../../uikit/helper';
 import LabelWrapper from '../../uikit/Label/LabelWrapper';
 import Text from '../../uikit/Text/Text';
 import styles from './inputsearch.module.css';
+// import { KeyObject } from 'crypto';
+// import { Key } from 'react-bootstrap-icons';
 
 const cx = classNames.bind(styles);
 
@@ -32,6 +40,9 @@ type Props = {
   onkeyPress?: (a: any) => void;
   style?: string;
   autoFocus?: boolean;
+  onChange?: (val: string) => void;
+  inputRef?: any;
+  // title?:string | undefined;
 };
 
 const renderInputComponent = ({
@@ -49,8 +60,10 @@ const renderInputComponent = ({
   onKeyPress,
   style,
   autoFocus,
+  
+  
 }: any) => {
-  const getValue=value.includes(', usa')
+  const getValue = value.includes(', usa');
   return (
     <input
       // eslint-disable-next-line jsx-a11y/no-autofocus
@@ -59,7 +72,7 @@ const renderInputComponent = ({
       onSubmit={onSubmit}
       onBlur={onBlur}
       onChange={onChange}
-      value={getValue ? lowerCase(value.replace(', usa', ', USA')): value}
+      value={getValue ? lowerCase(value.replace(', usa', ', USA')) : value}
       placeholder={placeholder}
       disabled={disabled}
       type={type}
@@ -68,6 +81,7 @@ const renderInputComponent = ({
       className={cx('search', style, { errorBorder: error })}
       autoComplete={'off'}
       onKeyPress={onKeyPress}
+     
     />
   );
 };
@@ -80,32 +94,36 @@ const InputSearch = ({
   disabled,
   options,
   onKeyDown,
+  onkeyPress,
   label,
   required,
   errorMessage,
   error,
   labelBold,
-  onkeyPress,
   style,
   autoFocus,
+  inputRef,
+  ...rest
+  
 }: Props) => {
   const [currentsuggestion, setSuggestion] = useState<any[]>([]);
   const [currentvalue, setValue] = useState(initialValue);
   const [isErrorFocus, setErrorFocus] = useState(false);
-  const [isNoOptions, setNoOptions] = useState(false);
+  const [NoOptions, setNoOptions] = useState(false);
+  const [isNovalue ,setNovalue]=useState(false);
   const lowerCasedCompanies =
     options &&
     options.map((company) => {
       return company.toLowerCase();
     });
-    useEffect(()=>{
-      setValue(initialValue)
-    },[initialValue])
-    useEffect(()=>{
-      if(isEmpty(currentvalue)){
-        setNoOptions(false);
-      }
-    },[currentvalue])
+  useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
+  useEffect(() => {
+    if (isEmpty(currentvalue)) {
+      setNoOptions(false);
+    }
+  }, [currentvalue]);
   const getSuggestions = (value: string) => {
     return (
       lowerCasedCompanies &&
@@ -143,14 +161,19 @@ const InputSearch = ({
 
   const onChange = (_event: object, { newValue }: { newValue: string }) => {
     setValue(newValue);
+    if (rest.onChange) {
+      rest.onChange(newValue);
+    }
   };
 
   const handleFocus = () => {
     setErrorFocus(true);
+    
   };
 
   const handleBlur = () => {
     setErrorFocus(false);
+    setNoOptions(false);
   };
 
   const inputProps: any = {
@@ -165,27 +188,31 @@ const InputSearch = ({
     onFocus: handleFocus,
     onKeyPress: onkeyPress,
     style,
-    autoFocus,
+    autoFocus,  
   };
-
   const onSuggestionsFetchRequested = ({ value }: { value: string }) => {
     setValue(value);
     const requiredSuggestions: any = getSuggestions(value);
-    setSuggestion(requiredSuggestions);    
-    if (requiredSuggestions && requiredSuggestions.length === 0 && !isEmpty(value)) {
+    setSuggestion(requiredSuggestions);
+    if (
+      requiredSuggestions &&
+      requiredSuggestions.length === 0 &&
+      !isEmpty(value)
+    ) {
       setNoOptions(true);
     } else {
       setNoOptions(false);
     }
-  };
-
+  }; 
   const onSuggestionsClearRequested = () => {
     setSuggestion([]);
   };
+   
   return (
     <div style={{ position: 'relative' }}>
       <LabelWrapper label={label} required={required} bold={labelBold}>
         <AutoSuggest
+          ref={inputRef}
           suggestions={currentsuggestion}
           onSuggestionsClearRequested={onSuggestionsClearRequested}
           onSuggestionsFetchRequested={onSuggestionsFetchRequested}
@@ -206,11 +233,16 @@ const InputSearch = ({
           </Text>
         )}
       </LabelWrapper>
-      {isNoOptions && (
-        <div className={styles.noOptionsDivStyle}>
+      {NoOptions && (
+        <>
+        <div className={styles.noOptionsDivStyle}  
+         >
           <Text color="gray">No search found</Text>
         </div>
-      )}
+        </>
+      ) }
+      
+    
     </div>
   );
 };
@@ -218,3 +250,5 @@ const InputSearch = ({
 InputSearch.defaultProps = defaultProps;
 
 export default InputSearch;
+
+ 

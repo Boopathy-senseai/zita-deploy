@@ -148,14 +148,14 @@ const MessageAction = (
 
 export const statusHelper = (value: string,invited:AppliedJobEntity) => {
   switch (value.toLocaleLowerCase()) {
-    case 'applicants':
+    case 'applicant':
       return !isEmpty(invited.invited) ? 'Invited and Applied':'Applied';
     case 'rejected':
-      return 'No longer considered.';
-    case 'selected':
+      return 'No longer considered';
+    case 'offered':
       return 'Offered';
-    case 'interviewed':
-      return 'Interviewed';
+    // case 'interviewed':
+    //   return 'Interviewed';
     default:
       return 'Under Review';
   }
