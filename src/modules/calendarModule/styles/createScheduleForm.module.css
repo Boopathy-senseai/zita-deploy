@@ -88,9 +88,9 @@
 
 .meetingForm {
   background-color: white;
-  max-height: 100%;
+  max-height: 549px;
   height: 100%;
-  border-radius: 4px;
+  /* border-radius: 4px; */
   width: 700px;
   max-width: 80vw;
   display: grid;
@@ -98,12 +98,13 @@
   grid-template-rows: auto;
   grid-gap: 20px 20px;
   padding: 25px;
+  overflow: auto;
   /* margin-top: 15px; */
 }
 
 .timeInputWrapper {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .timeInputWrapper .to {

@@ -11,6 +11,7 @@ import { SvgAddInterviewers, SvgCalendar } from '../../icons';
 import { AppDispatch } from '../../store';
 import { Button, Flex, InputText, Modal, SelectTag, Text } from '../../uikit';
 import { getJdMiddleware } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
+import { CrossButton } from '../../uikit/v2';
 import AddInterviewerSlider from './AddInterviewerSlider';
 import InterviewerIcon from './InterviewerIcon';
 import styles from './styles/createScheduleForm.module.css';
@@ -287,7 +288,7 @@ const MeetingSchedulingForm = ({
   const handleChangeDate = (value: Date | null) => {
     setMeetingForm((form) => ({
       ...form,
-      date: { ...form.date, value },
+      date: { ...form.date, value, error: null },
     }));
   };
 
@@ -602,7 +603,7 @@ const MeetingSchedulingForm = ({
             label: editEventDetails.eventType,
             value: editEventDetails.eventType,
           }}
-          value={eventMeetingTypes.filter(function (option) {
+          value={eventMeetingTypes.find(function (option) {
             return option.value === meetingForm.eventType.value;
           })}
           labelBold
@@ -612,7 +613,7 @@ const MeetingSchedulingForm = ({
       ) : (
         <SelectTag
           labelBold
-          value={eventMeetingTypes.filter(function (option) {
+          value={eventMeetingTypes.find(function (option) {
             return option.value === meetingForm.eventType.value;
           })}
           options={eventMeetingTypes}
@@ -814,11 +815,20 @@ const MeetingSchedulingForm = ({
   // );
 
   return (
-    <>
+    <div
+      style={{ display: 'flex', flexDirection: 'column', position: 'relative' }}
+    >
+      <CrossButton
+        onClick={handleCloseSchedulingForm}
+        size={10}
+        style={{ position: 'absolute', top: '12px', right: '15px' }}
+        fill={'#333'}
+      />
       <Flex
         row
         center
         style={{
+          position: 'relative',
           padding: '25px 0px 0px',
           margin: '0px 25px',
           borderBottom: '0.5px solid #581845',
@@ -851,7 +861,7 @@ const MeetingSchedulingForm = ({
         {PrivateNotesView}
       </div>
       <Flex style={{ padding: '0px 25px 25px 25px' }}>{ActionButtonView}</Flex>
-    </>
+    </div>
   );
 };
 

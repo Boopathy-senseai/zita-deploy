@@ -123,7 +123,8 @@ const EventPopUpModal = ({
                     <Avatar
                       key={index}
                       initials={getUserInitials({ email: item })}
-                      style={{ width: 35, height: 35 }}
+                      style={{ width: 28, height: 28 }}
+                      textStyle={{ fontSize: 12}}
                     />
                     // <p className={styles.email} key={index}>
                     //   {items}

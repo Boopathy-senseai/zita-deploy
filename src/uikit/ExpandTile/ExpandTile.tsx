@@ -51,14 +51,14 @@ const ExpandTile = (props: Props) => {
             <SvgArrowDown
               width={'100%'}
               height={'100%'}
-              fill={props.activeColor}
+              fill={"#581845"}
             />
           ) : (
             /// TODO: Find up arrow icon & replace here
             <SvgArrowDown
               width={'100%'}
               height={'100%'}
-              fill={props.activeColor}
+              fill={"#581845"}
             />
           )}
         </div>

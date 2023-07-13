@@ -334,7 +334,7 @@ small {
   padding: 0px !important;
   color: #ffffff;
   background-color: #581845;
-  box-shadow: 1px 2px 1px 1px #D7C7D2;
+  box-shadow: 1px 2px 1px 1px #d7c7d2;
 }
 
 .zitaNav .navbar-brand img {
@@ -402,10 +402,10 @@ small {
   font-weight: 600;
   border-top: 0px;
   padding-top: 0px;
-  border-bottom: 0.5px solid #A5889C;
+  border-bottom: 0.5px solid #a5889c;
   padding-bottom: 15px;
-} 
- 
+}
+
 .table tbody td {
   font-family: 'Roboto', sans-serif;
   font-size: 13px;
@@ -547,8 +547,8 @@ small {
 }
 
 input:disabled {
- color:hsl(0, 0%, 20%);
- opacity: 0.5;
+  color: hsl(0, 0%, 20%);
+  opacity: 0.5;
 }
 
 .label {
@@ -765,16 +765,12 @@ input:-webkit-autofill:active {
 .rbc-header .rbc-button-link {
   width: 100%;
 }
-.css-hdw1oc{
-  width: auto !important;
-}
 
 /* MUI OVERRIDE */
 /* Input fields */
 .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
   padding: 5px 10px !important;
 }
-
 
 /* tab-content */
 
@@ -794,13 +790,12 @@ input:-webkit-autofill:active {
   flex: 1;
 }
 
-
-.rbc-calendar {
-  height: calc(100% - 125px) !important;
+.MuiOutlinedInput-notchedOutline {
+  border-color: rgba(0, 0, 0, 0.23) !important;
 }
 
-.rbc-time-view {
-  height: 62%;
+.css-hdw1oc {
+  display: none;
 }
 
 .MuiOutlinedInput-notchedOutline{
@@ -819,3 +814,21 @@ input:-webkit-autofill:active {
 .css-118whkv,.css-2ujp1m{
  border: 16px solid #581845 !important;
 }
+/*--------- scroll bar styles---------*/
+
+/* width */
+/* ::-webkit-scrollbar {
+  width: 6px !important;
+  height: 6px !important;
+} */
+
+/* Handle */
+/* ::-webkit-scrollbar-thumb {
+  background: $tableBorderColor;
+  border-radius: 5px;
+} */
+
+/* Handle on hover */
+/* ::-webkit-scrollbar-thumb:hover {
+  background: $tableBorderColor;
+} */

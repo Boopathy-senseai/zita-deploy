@@ -1,7 +1,9 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import { SvgEdit } from '../../icons';
-import { Button, InputText } from '../../uikit';
+import { Button, ErrorMessage, InputText } from '../../uikit';
+import { isEmpty } from '../../uikit/helper';
+import { THIS_FIELD_REQUIRED } from '../constValue';
 import styles from './styles/MeetingSummary.module.css';
 import { TeamMemberType, meetingFormProps } from './types';
 import { formatTo12HrClock } from './util';
@@ -36,10 +38,19 @@ const EmailTemplate: React.FC<Props> = (props) => {
   } = props;
   const [edit, setEdit] = React.useState<boolean>(false);
 
+  const handleValid = (values: { greeting: string }) => {
+    const errors: Partial<{ greeting: string }> = {};
+    if (isEmpty(values.greeting.trim())) {
+      errors.greeting = THIS_FIELD_REQUIRED;
+    }
+    return errors;
+  };
+
   const formik = useFormik({
     initialValues: {
       greeting: greetingText,
     },
+    validate: handleValid,
     onSubmit: (data) => {
       setEdit(!edit);
       onSave(data?.greeting);
@@ -94,13 +105,20 @@ const EmailTemplate: React.FC<Props> = (props) => {
           )}
           {!edit && <pre className={styles.pre}>{formik?.values.greeting}</pre>}
           {edit && (
-            <InputText
-              name="greeting"
-              value={formik?.values.greeting}
-              textarea={true}
-              onChange={formik.handleChange}
-              style={{ minHeight: '50px', maxHeight: '100px' }}
-            />
+            <>
+              <InputText
+                name="greeting"
+                value={formik?.values.greeting}
+                textarea={true}
+                onChange={formik.handleChange}
+                style={{ minHeight: '50px', maxHeight: '100px' }}
+              />
+              <ErrorMessage
+                name="greeting"
+                errors={formik.errors}
+                touched={formik.touched}
+              />
+            </>
           )}
           <div className={styles.details}>
             {MeetingTitleView}

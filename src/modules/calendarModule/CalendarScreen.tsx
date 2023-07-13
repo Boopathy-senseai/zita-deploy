@@ -521,6 +521,9 @@ const Calendar = () => {
                 (event) => event.eventId !== eventPopUpDetails.eventId,
               ),
             );
+            toast.success('Event cancelled successfully', {
+              duration: 3500,
+            });
           } else {
             toast.error('Failed to Delete Event', {
               duration: 3500,
@@ -830,14 +833,7 @@ const Calendar = () => {
         }}
       >
         {isCalendarIntegrated ? (
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              width: '100%',
-              height: '100%',
-            }}
-          >
+          <div className={styles.calenderContent}>
             {CalendarHeaderView}
             {teamMemberEvents && (
               <>

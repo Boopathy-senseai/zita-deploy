@@ -7,6 +7,7 @@ import { InputText, Button, Flex, SelectTag, Text } from '../../uikit';
 import { SvgCalendar, SvgEdit } from '../../icons';
 import RichText from '../common/RichText';
 import ExpandTile from '../../uikit/ExpandTile';
+import { CrossButton } from '../../uikit/v2';
 import {
   scheduleEventMiddleware,
   updateEventMiddleware,
@@ -192,7 +193,15 @@ const MeetingSummary = ({
   );
 
   return (
-    <>
+    <div
+      style={{ display: 'flex', flexDirection: 'column', position: 'relative' }}
+    >
+      <CrossButton
+        onClick={handleCloseSchedulingForm}
+        size={10}
+        style={{ position: 'absolute', top: '12px', right: '15px' }}
+        fill={'#333'}
+      />
       <div className={styles.meetingSummary}>
         <Flex
           row
@@ -215,7 +224,10 @@ const MeetingSummary = ({
             Meeting Notification Summary
           </Text>
         </Flex>
-        <Flex column style={{ paddingBottom: 10, borderBottom: "1px solid #cccccc"}}>
+        <Flex
+          column
+          style={{ paddingBottom: 10, borderBottom: '1px solid #cccccc' }}
+        >
           <div className={styles.summary}>
             <p className={styles.header}>Summary</p>
             <div className={styles.content}>{MeetingTitleView}</div>
@@ -300,7 +312,7 @@ const MeetingSummary = ({
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
