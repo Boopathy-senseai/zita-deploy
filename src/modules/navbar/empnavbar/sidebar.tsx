@@ -12,6 +12,7 @@ import SvgJobPost from '../../../icons/SvgJobPost';
 import SvgSetting from '../../../icons/SvgSetting';
 import SvgUserSearch from '../../../icons/SvgUserSearch';
 import SvgImport from '../../../icons/SvgImport';
+import SvgMailbox from '../../../icons/SvgMailbox';
 import { LEAVE_THIS_SITE } from '../../constValue';
 import SvgReport from '../../../icons/SvgReport';
 import Button from '../../../uikit/Button/Button';
@@ -699,6 +700,89 @@ const Sidebar = ({ changes, data }: props) => {
                       style={{ color: '#581845', marginRight: '10px' }}
                     >
                       Calendar
+                    </Text>
+                  </a>
+                </li>
+              )}
+            </>
+          )}
+          {permission.includes('talent_sourcing') && (
+            <>
+              {is_plan ? (
+                changes ? (
+                  <li
+                    className={
+                      pathname === '/mail' ? styles.select_row : ''
+                    }
+                  >
+                    <LinkWrapper
+                      className={styles.hoverview}
+                      onClick={clearTabs}
+                      to={is_plan ? routesPath.MAIL : accountPath}
+                    >
+                      <text style={{ marginLeft: '-2px' }}>
+                        <SvgMailbox height={16} width={16} />
+                      </text>
+                      <Text
+                        onClick={() => handleNavigate(7)}
+                        className={
+                          Expent === '0' ? styles.text : styles.classpan
+                        }
+                        color="primary"
+                        style={{ color: '#581845', marginRight: '10px' }}
+                      >
+                        Mailbox
+                      </Text>
+                    </LinkWrapper>
+                  </li>
+                ) : (
+                  <li
+                    className={
+                      pathname === '/mail' ? styles.select_row : ''
+                    }
+                  >
+                    <LinkWrapper
+                      className={styles.hoverview}
+                      onClick={clearTab}
+                      to={is_plan ? routesPath.MAIL : accountPath}
+                    >
+                      <text style={{ marginLeft: '-2px' }}>
+                        <SvgMailbox height={16} width={16} />
+                      </text>
+                      <Text
+                        onClick={() => handleNavigate(7)}
+                        className={
+                          Expent === '0' ? styles.text : styles.classpan
+                        }
+                        color="primary"
+                        style={{ color: '#581845', marginRight: '10px' }}
+                      >
+                        Mailbox
+                      </Text>
+                    </LinkWrapper>
+                  </li>
+                )
+              ) : (
+                <li
+                  className={pathname === '/mail' ? styles.select_row : ''}
+                >
+                  <a
+                    className={styles.hoverview}
+                    href={' '}
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                  >
+                    <text style={{ marginLeft: '-2px' }}>
+                      <SvgMailbox height={16} width={16} />
+                    </text>
+                    <Text
+                      onClick={() => handleNavigate(7)}
+                      className={Expent === '0' ? styles.text : styles.classpan}
+                      color="primary"
+                      style={{ color: '#581845', marginRight: '10px' }}
+                    >
+                      Mailbox
                     </Text>
                   </a>
                 </li>

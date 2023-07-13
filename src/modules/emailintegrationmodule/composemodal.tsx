@@ -531,7 +531,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
               style={{
                 display: 'flex',
                 flexDirection: 'column',
-                padding: '5px 5px 10px 10px',
+                padding: '0px 5px 10px 10px',
                 overflowY: 'auto',
               }}
             >
@@ -707,7 +707,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                             <Flex
                               style={{
                                 cursor: 'pointer',
-                                padding: '5px 10px 5px 0px',
+                                padding: '10px 10px 5px 0px',
                                 height: '100%',
                               }}
                               onClick={() => romovefile(index)}
