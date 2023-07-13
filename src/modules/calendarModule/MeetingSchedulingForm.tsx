@@ -542,6 +542,7 @@ const MeetingSchedulingForm = ({
         <p
           className={styles.to}
           style={{
+            marginTop:"5px",
             marginBottom:
               meetingForm.startTime.errorMessage ||
               meetingForm.endTime.errorMessage
