@@ -32,6 +32,7 @@ import interviewdashboaerd from './TeamMail/interviewdasboard.json';
 import { timezonedisplay } from './eventType';
 import './DayPickerCustomStyles.css';
 
+
 // import DateRangePicker from 'react-bootstrap-daterangepicker';
 
 const slotter1 = (props) => {
@@ -460,7 +461,7 @@ const SlotterDate = (props) => {
       
         // setavailbility(schedule)
         
-          const schedule = schdulearray(list.startdate, list.enddate);
+          const schedule = schdulearray(list.startdate, list.enddate,list.times_zone);
           console.log('schedule>>>>>>>>>', schedule);
         
         // setEndDate(enddate);
@@ -502,8 +503,8 @@ const SlotterDate = (props) => {
     }
   };
 
-  const schdulearray = (start, end) => {
-    console.log("schdulearrayschdulearrayschdulearrayschdulearrayschdulearray",start,end)
+  const schdulearray = (start, end,time) => {
+    console.log("schdulearrayschdulearrayschdulearrayschdulearrayschdulearray",start,end,time)
     const excludedWeekdays = [];
     console.log('dddAAAAAAAAAA', useravailble, '\n', useravailble);
         // const exclude = datetime
@@ -557,7 +558,7 @@ const SlotterDate = (props) => {
         start,
         excludedWeekdays,
         end,
-        timezone,
+        time,
       );
       console.log('scheduleschedule', schedule);
       setavailbility(schedule);    
@@ -1511,6 +1512,7 @@ const InterviewDashBoard = (props) => {
     subject=${encodeURIComponent(
       eventTitle,
     )}&startTime=${startDate.toISOString()}&endTime=${endDate.toISOString()}`;
+    // GoogleIntergration()
 
     console.log(teamsCalendarLink);
   };

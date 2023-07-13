@@ -132,7 +132,7 @@ const CreateNewEvent = (props) => {
     { starttime: '9:00 AM', endtime: '6:00 PM' },
   ]);
   const [wednesday, setWednesday] = useState([
-    { starttime: '9:00 AM', endtime: '6:00PM' },
+    { starttime: '9:00 AM', endtime: '6:00 PM' },
   ]);
   const [thursday, setThursday] = useState([
     { starttime: '9:00 AM', endtime: '6:00 PM' },
@@ -909,7 +909,7 @@ const CreateNewEvent = (props) => {
                     name={'event_name'}
                     errors={formik.errors}
                     touched={formik.touched}
-                  />
+                  /> 
                 </div>
               </Flex>
               <Flex>

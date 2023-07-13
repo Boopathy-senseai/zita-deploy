@@ -51,6 +51,7 @@ import {
   jobMetrics,
   zitaMatchScreen,
   calendarRoute,
+  schedulerRoute
 } from './appRoutesPath';
 import CreateJdWithNonDs from './modules/createjdmodule/CreateJdWithNonDs';
 import MyJobPostingScreen from './modules/myjobposting/MyJobPostingScreen';
@@ -78,6 +79,8 @@ import CheckSignUpActivate from './modules/SignUp/CheckSignUpActivate';
 import DashBoardScreen from './modules/dashboardmodule/empdashboard/DashBoardScreen';
 import Slotter1 from './modules/accountsettingsmodule/events/Slotter1';
 import PreviewTab from './modules/accountsettingsmodule/events/PreviewTab';
+import EventScheduler from './modules/accountsettingsmodule/events/EventScheduler';
+import EventTabs from './modules/accountsettingsmodule/events/EventTabs';
 
 axios.defaults.baseURL = process.env.REACT_APP_API_ENDPOINT;
 
@@ -309,6 +312,13 @@ const App = () => {
     {
       path: calendarRoute,
       component: CalendarScreen,
+      exact: true,
+      noPermission: true,
+      isNav: true,
+    },
+    {
+      path: schedulerRoute,
+      component: EventTabs,
       exact: true,
       noPermission: true,
       isNav: true,

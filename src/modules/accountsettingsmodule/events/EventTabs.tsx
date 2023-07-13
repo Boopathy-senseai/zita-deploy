@@ -18,25 +18,17 @@ const EventTabs = () => {
 
   return (
     <Flex columnFlex className={styles.overAll}>
-        <br/>
-      <Flex row center> 
-        <Text size={16} >
-        Manage the event schedular and scheduled events in your organization
-        </Text>
-      </Flex>
-      <br/>
         <Tabs
           activeKey={tabKey}
           onSelect={(keys: SetStateAction<string>) => setKey(keys)}
         >
-          <Tab title={'Events Schedular'} eventKey={'0'}>
+          <Tab title={'Events'} eventKey={'0'}>
             <div
               style={{
                 height,
                 // overflowY: 'scroll',
               }}
             >
-              {/* {tabKey === '0' && <SlotterScreen />} */}
               {tabKey === '0' && <EventScheduler />}
 
             </div>

@@ -401,17 +401,6 @@ const AccountSettingsScreen = ({ value }: props) => {
                 <Tab title={'Email Notifications'} eventKey={'5'}>
                   <EmailNotification />
                 </Tab>
-                <Tab title={'Meeting Scheduler'} eventKey={'8'}>
-            <div
-              style={{
-                height: window.innerHeight - 192,
-                overflowY: 'scroll',
-              }}
-            > 
-            
-            <EventScheduler/>
-         </div> 
-          </Tab>
                 {/* <Tab title={'User Profile'} eventKey={'6'}>
               <div
                 style={{

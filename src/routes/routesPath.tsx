@@ -5,6 +5,7 @@ export const routesPath = {
   JOBS: '/jobs',
   MY_JOB_POSTING: '/job_list',
   REPORTS: '/reports',
-  CALENDAR: '/calendar'
+  CALENDAR: '/calendar',
+  MEETING_SCHEDULER :'/meeting_scheduler'
   
 };

@@ -705,6 +705,90 @@ const Sidebar = ({ changes, data }: props) => {
               )}
             </>
           )}
+
+        {permission.includes('talent_sourcing') && (
+            <>
+              {is_plan ? (
+                changes ? (
+                  <li
+                    className={
+                      pathname === '/meeting_scheduler' ? styles.select_row : ''
+                    }
+                  >
+                    <LinkWrapper
+                      className={styles.hoverview}
+                      onClick={clearTabs}
+                      to={is_plan ? routesPath.MEETING_SCHEDULER : accountPath}
+                    >
+                      <text style={{ marginLeft: '-2px' }}>
+                        <SvgCalendar height={22} width={22} />
+                      </text>
+                      <Text
+                        onClick={() => handleNavigate(8)}
+                        className={
+                          Expent === '0' ? styles.text : styles.classpan
+                        }
+                        color="primary"
+                        style={{ color: '#581845', marginRight: '10px' }}
+                      >
+                        Meeting Scheduler
+                      </Text>
+                    </LinkWrapper>
+                  </li>
+                ) : (
+                  <li
+                    className={
+                      pathname === '/meeting_scheduler' ? styles.select_row : ''
+                    }
+                  >
+                    <LinkWrapper
+                      className={styles.hoverview}
+                      onClick={clearTab}
+                      to={is_plan ? routesPath.MEETING_SCHEDULER : accountPath}
+                    >
+                      <text style={{ marginLeft: '-2px' }}>
+                        <SvgCalendar height={22} width={22} />
+                      </text>
+                      <Text
+                        onClick={() => handleNavigate(8)}
+                        className={
+                          Expent === '0' ? styles.text : styles.classpan
+                        }
+                        color="primary"
+                        style={{ color: '#581845', marginRight: '10px' }}
+                      >
+                         Meeting Scheduler
+                      </Text>
+                    </LinkWrapper>
+                  </li>
+                )
+              ) : (
+                <li
+                  className={pathname === '/meeting_scheduler' ? styles.select_row : ''}
+                >
+                  <a
+                    className={styles.hoverview}
+                    href={' '}
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                  >
+                    <text style={{ marginLeft: '-2px' }}>
+                      <SvgCalendar height={22} width={22} />
+                    </text>
+                    <Text
+                      onClick={() => handleNavigate(8)}
+                      className={Expent === '0' ? styles.text : styles.classpan}
+                      color="primary"
+                      style={{ color: '#581845', marginRight: '10px' }}
+                    >
+                       Meeting Scheduler
+                    </Text>
+                  </a>
+                </li>
+              )}
+            </>
+          )}
         </ul>
 
         <ul className={styles.setting}>

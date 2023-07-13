@@ -20,6 +20,7 @@ import OverAll from'./TeamMail/Overall.json';
 import IfData from './TeamMail/IfData.json'
 import { getScheduleMiddleWare } from './store/middleware/eventmiddleware';
 
+
 const EventScheduler = (props) => {
   const {event} = props;
   console.log(">?>?>?>?>?",props)
@@ -109,6 +110,7 @@ const EventScheduler = (props) => {
           <Text className={styles.headertxt}>
             Share your availability with candidates and schedule events
           </Text>
+         
           <Button
             types="primary"
             className={styles.newlink}
@@ -133,6 +135,7 @@ const EventScheduler = (props) => {
               schedule ={schedule}
                />
             </Modal>
+            
           ) : (
             ''
           )}
@@ -188,6 +191,8 @@ const EventScheduler = (props) => {
             </Flex>
           </Flex>
         )}
+        <Flex>
+        </Flex>
         </Flex>
       </div>
     </Flex>

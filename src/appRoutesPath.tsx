@@ -12,6 +12,10 @@ export const candidateChangePassWord = '/change_password';
 
 // Calendar
 export const calendarRoute = '/calendar';
+
+//Meeting Scheduler
+export const schedulerRoute = '/meeting_scheduler';
+
 // My Job Posting
 export const jobSelect = `${routesPath.JOBS}/select`;
 export const jobCreateDs = `${routesPath.JOBS}/create_ds`;
