@@ -218,7 +218,7 @@ const MyJobPostingScreen = () => {
                                 <div
                                   tabIndex={0}
                                   role={'button'}
-                                  style={{ marginLeft: 8 ,marginTop:.5}}
+                                  style={{ marginLeft: 8 ,marginTop:1}}
                                   title="Copy the job posting URL from your careers page"
                                   onClick={() =>
                                     copyToClipboard(
