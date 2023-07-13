@@ -1,0 +1,39 @@
+import React, { useState } from 'react';
+import DateRangePicker from 'react-bootstrap-daterangepicker';
+
+const YourComponent = () => {
+  const [dateRange, setDateRange] = useState({
+    startDate: null,
+    endDate: null,
+  });
+
+  const handleDateChange = (event, picker) => {
+    setDateRange({
+      startDate: picker.startDate,
+      endDate: picker.endDate,
+    });
+  };
+
+  return (
+    <DateRangePicker
+      startDate={dateRange.startDate}
+      endDate={dateRange.endDate}
+      onApply={handleDateChange}
+    >
+      <input
+        type="text"
+        className="form-control"
+        value={
+          dateRange.startDate && dateRange.endDate
+            ? `${dateRange.startDate.format('MM/DD/YYYY')} - ${dateRange.endDate.format(
+                'MM/DD/YYYY'
+              )}`
+            : ''
+        }
+        onChange={(e) => {
+          // Handle any necessary changes to the input value
+        }}
+      />
+    </DateRangePicker>
+  );
+};

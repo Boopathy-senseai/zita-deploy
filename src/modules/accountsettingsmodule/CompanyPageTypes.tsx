@@ -46,7 +46,6 @@ export interface companyPageReducerState extends CompanyPage {
 }
 
 export interface CompanyPageload {
-
   company_name: string;
   company_website: string;
   email: string;
@@ -60,5 +59,5 @@ export interface CompanyPageload {
   zipcode: string;
   logo: string;
   logos:string;
-
 }
+

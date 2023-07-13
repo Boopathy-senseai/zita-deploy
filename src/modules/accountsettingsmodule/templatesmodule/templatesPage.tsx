@@ -380,6 +380,7 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
       </Text>
     );
   };
+  
   return (
     <Card key={item.wk_id} className={styles.pipelineStructure}>
       <Flex row start between className={styles.rowGroup}>

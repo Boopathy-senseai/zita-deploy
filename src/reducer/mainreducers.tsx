@@ -110,6 +110,7 @@ import { notificationReducers } from '../modules/navbar/empnavbar/store/notifica
 
 import { templatePageReducers } from '../modules/accountsettingsmodule/templatesmodule/store/reducer/templatesreducer';
 import { pipelinePageReducers } from '../modules/accountsettingsmodule/templatesmodule/store/reducer/pipelinereducer';
+import { schedulerReducers, slotterReducers,timezoneReducers } from '../modules/accountsettingsmodule/events/store/reducer/eventreducer';
 
 export const reducers = {
   talentSourcingReducers,
@@ -194,4 +195,8 @@ export const reducers = {
   pipelinePageReducers,
   kanbanStagesReducers,
   applicantPipelineDownloadReducers,
+  schedulerReducers,
+  slotterReducers,
+  timezoneReducers
+  
 };

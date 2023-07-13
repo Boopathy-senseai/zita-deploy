@@ -1,0 +1,88 @@
+{
+    "suceess": true,
+    "data": [
+        {
+            "id": 78,
+            "emp_id_id": 621,
+            "company_id": 202,
+            "event_name": "pugazhendhi",
+            "event_type": "Phone Interview",
+            "location": "",
+            "daterange": "0",
+            "days": "",
+            "startdate": "25/06/2023",
+            "enddate": "values.enddate",
+            "duration": "1 hour",
+            "times_zone": "values.timezone",
+            "interviewer": "5",
+            "times_zone_display": "Automatically detect and show the times in my invitees time zone",
+            "description": "cvdbfngdsxcdsvbc",
+            "created_at": "2023-06-24T09:58:49.525929Z",
+            "is_active": true,
+            "updatedby": "2023-06-24T09:58:49.528223Z",
+            "isdeleted": false,
+            "ischecked": "True",
+            "company_name": "VK tech Solutions Pvt Ltd",
+            "company_logo": "logo.png"
+        }
+    ],
+    "interviewer": [
+        {
+            "id": 30,
+            "emp_id": 621,
+            "event_id": 78,
+            "full_name": "Thrisha Vijay"
+        }
+    ],
+    "datetime": {
+        "sunday": [
+            {
+                "day": "sunday",
+                "starttime": "11:00",
+                "endtime": "2:00"
+            }
+        ],
+        "monday": [
+            {
+                "day": "monday",
+                "starttime": "9:00",
+                "endtime": "11:00"
+            }
+        ],
+        "tuesday": [
+            {
+                "day": "tuesday",
+                "starttime": "9:00",
+                "endtime": "10:00"
+            }
+        ],
+        "wednesday": [
+            {
+                "day": "wednesday",
+                "starttime": "9:00",
+                "endtime": "11:00"
+            }
+        ],
+        "thursday": [
+            {
+                "day": "thursday",
+                "starttime": "9:00",
+                "endtime": "11:00"
+            }
+        ],
+        "friday": [
+            {
+                "day": "friday",
+                "starttime": "9:00",
+                "endtime": "11:00"
+            }
+        ],
+        "saturday": [
+            {
+                "day": "saturday",
+                "starttime": "11:00",
+                "endtime": "1:00"
+            }
+        ]
+    }
+}

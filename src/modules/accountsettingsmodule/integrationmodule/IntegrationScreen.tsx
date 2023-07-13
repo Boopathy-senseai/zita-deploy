@@ -314,33 +314,33 @@ const IntegrationScreen = () => {
   const [isGoogle, setIsGoogle] = useState(0);
   const [active, setActive] = useState(0);
   const [connected, setConnected] = useState(0);
-  const checkAuth = () => {
-    dispatch(checkAuthMiddleware())
-      .then((res) => {
-        if (res.payload.status === true) {
-          console.log(res.payload);
-          if (res.payload.account === 'google') {
-            console.log('inside if');
-            setIsGoogle(1);
-            setConnected(1);
-          } else {
-            console.log('inside else');
-            setIsGoogle(0);
-            setConnected(1);
-          }
-          setActive(1);
-        } else {
-          setActive(0);
-          setIsGoogle(2);
-        }
-      })
-      .catch(() => {
-        console.log('Error');
-      });
-  };
-  useEffect(() => {
-    checkAuth();
-  }, []);
+  // const checkAuth = () => {
+  //   dispatch(checkAuthMiddleware())
+  //     .then((res) => {
+  //       if (res.payload.status === true) {
+  //         console.log(res.payload);
+  //         if (res.payload.account === 'google') {
+  //           console.log('inside if');
+  //           setIsGoogle(1);
+  //           setConnected(1);
+  //         } else {
+  //           console.log('inside else');
+  //           setIsGoogle(0);
+  //           setConnected(1);
+  //         }
+  //         setActive(1);
+  //       } else {
+  //         setActive(0);
+  //         setIsGoogle(2);
+  //       }
+  //     })
+  //     .catch(() => {
+  //       console.log('Error');
+  //     });
+  // };
+  // useEffect(() => {
+  //   checkAuth();
+  // }, []);
 
   function outlookconfig(): void {
     throw new Error('Function not implemented.');

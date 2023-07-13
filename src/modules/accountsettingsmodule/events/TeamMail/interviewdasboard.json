@@ -1,0 +1,50 @@
+{
+    "slotterdata": [
+        {
+            "event_id": 85,
+            "event_id__event_name": "Technical_Interview",
+            "date": "02/08/2023",
+            "time": "9:45 AM - 10:00 AM",
+            "candidate_id__first_name": "nnnnn"
+        }
+    ],
+    "slotmembers": [
+        {
+            "id": 33,
+            "emp_id_id": 621,
+            "name_id": 202,
+            "event_id_id": 85,
+            "is_active": true,
+            "created_at": "2023-06-26T07:11:23.536154Z",
+            "full_name": "Thrisha Vijay"
+        },
+        {
+            "id": 34,
+            "emp_id_id": 621,
+            "name_id": 251,
+            "event_id_id": 85,
+            "is_active": true,
+            "created_at": "2023-06-26T07:11:23.558185Z",
+            "full_name": "Balaji Murugan"
+        },
+        {
+            "id": 35,
+            "emp_id_id": 621,
+            "name_id": 252,
+            "event_id_id": 85,
+            "is_active": true,
+            "created_at": "2023-06-26T07:11:23.580762Z",
+            "full_name": "Shreya Mahi"
+        },
+        {
+            "id": 36,
+            "emp_id_id": 621,
+            "name_id": 254,
+            "event_id_id": 85,
+            "is_active": true,
+            "created_at": "2023-06-26T07:11:23.606683Z",
+            "full_name": "Arul Vv"
+        }
+    ],
+    "success": true
+}

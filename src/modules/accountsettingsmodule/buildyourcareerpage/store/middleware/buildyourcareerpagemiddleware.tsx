@@ -138,7 +138,7 @@ export const candiInviteStatusMiddleware = createAsyncThunk(
         params: { can_id: candi_id, interested },
         transformRequest: (_a, headers) => {
           delete headers.common.Authorization;
-        },
+        }, 
       });
       return data;
     } catch (error) {

@@ -27,6 +27,7 @@ import EmailNotification from './emailmodule/EmailNotifications';
 import IntegrationScreen from './integrationmodule/IntegrationScreen';
 import ManageSubscriptionScreen from './managesubscription/ManageSubscriptionScreen';
 import TemplatesPage from './templatesmodule/templatesPage';
+import EventScheduler from './events/EventScheduler';
 // import { dispatch } from 'react-hot-toast/dist/core/store';
 
 const height = window.innerHeight - 212;
@@ -71,6 +72,7 @@ const AccountSettingsScreen = ({ value }: props) => {
   const [isReloadCompany, setReloadCompany] = useState(false);
   const [isReloadProfile, setReloadProfile] = useState(false);
   const [changeurl, setchangeurl] = useState(false);
+  const [event, setEvent] = useState(true);
 
   useEffect(() => {
     if (!isEmpty(tab)) {
@@ -109,7 +111,7 @@ const AccountSettingsScreen = ({ value }: props) => {
      */
 
     localStorage.setItem('freeCheck', 'true');
-    console.log(window.location.href);
+    // console.log(window.location.href);
     var url = new URL(window.location.href);
     if (url.searchParams.get('scope')) {
       // Google
@@ -399,6 +401,17 @@ const AccountSettingsScreen = ({ value }: props) => {
                 <Tab title={'Email Notifications'} eventKey={'5'}>
                   <EmailNotification />
                 </Tab>
+                <Tab title={'Meeting Scheduler'} eventKey={'8'}>
+            <div
+              style={{
+                height: window.innerHeight - 192,
+                overflowY: 'scroll',
+              }}
+            > 
+            
+            <EventScheduler/>
+         </div> 
+          </Tab>
                 {/* <Tab title={'User Profile'} eventKey={'6'}>
               <div
                 style={{
