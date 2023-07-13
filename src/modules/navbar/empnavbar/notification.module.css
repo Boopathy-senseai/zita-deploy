@@ -26,17 +26,17 @@
 } 
 
 .listStyle {
-  cursor: pointer;
+  cursor: pointer; 
+  width: fit-content;
 }
-.borderBottom {
-  /* border-bottom: 1px solid #ccc; */
-}
-
+ 
+ 
 .readStyle {
   width: 8px;
   height: 8px;
   background-color: #581845 !important;
   border-radius: 100%;
+   margin-top: 5.5px; 
 }
 .hoverStyle {
   padding-top: 8px;
@@ -46,18 +46,28 @@
   margin-left: 10px;
   margin-right: 4px;
   padding-right: 6px;
+  display: flex;
+    align-items: flex-start;
 }
 .hoverStyle:hover {
   background-color: rgb(88 24 69 / 15%);
 }
 
 .hr_line{
-    margin-top: 0.5rem !important;
-    margin-bottom: 0.5rem !important;
+    margin-top: 0.1rem !important;
+    margin-bottom: 0.1rem !important;
     margin-right: 10px !important;
     border: 0 !important;
     margin-left: 15px !important;
     border-top: 1px solid rgba(0, 0, 0, .1)!important;
+}
+.hr_lineforbutton{
+  margin-top: 0.1rem !important;
+  margin-bottom: 0.5rem !important;
+  margin-right: 10px !important;
+  border: 0 !important;
+  margin-left: 15px !important;
+  border-top: 1px solid rgba(0, 0, 0, .1)!important;
 }
 .line{
   margin-top: 0rem !important;
@@ -71,14 +81,14 @@
 
 .countStyle {
   position: absolute;
-  right: -6px;
-  top: -6px;
+  right: -2px;
+    top: -1px;
   background-color: var(--color-error, #f94949);
   border-radius: 100%;
   z-index: 11;
   display: flex;
-  height: 14px;
-  width: 14px;
+  height: 18px;
+  width: 18px;
   justify-content: center;
   align-items: center;
 }
@@ -86,11 +96,16 @@
 .model {
   background-color: #ffffff;
   border-radius: 10px;
-  height: 200px;
   width: 400px;
-  position: absolute;
+  /* position: absolute; */
+  padding: 20px;
   top: 150px;
   right: 102px;
+}
+.hoverback:hover{
+  background-color: #D7C7D2;
+  
+  border-radius: 100%;
 }
 .model_open {
           float: right;
@@ -106,17 +121,15 @@
    
 .confirm_txt{
       /* z-index: -1; */
-     text-align:center;
+     text-align:left;
      font-size:14px;
-     color:#A5889C;
+     color:#333333;
 }
 
 .confirm_title{
-    color:#581845;
-    text-align:center;
-    font-size:18px;
-    margin-top:20px;
-    font-weight:600;
+    color:#333333;
+    text-align:left;
+    font-size:14px; 
 }
              
 /*sidebar*/

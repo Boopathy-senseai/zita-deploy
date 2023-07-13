@@ -391,7 +391,7 @@ update();
                                 <span
                                   style={{
                                     color: '#581845',
-                                    marginLeft: '15px',
+                                    marginLeft: '15px',fontSize: '14px'
                                   }}
                                 >
                                   Profile
@@ -414,7 +414,7 @@ update();
                               />
                             </text>
                               <span
-                                style={{ color: '#581845', marginLeft: '15px'}}
+                                style={{ color: '#581845', marginLeft: '15px',fontSize: '14px'}}
                               >
                                 Profile
                               </span>
@@ -439,13 +439,13 @@ update();
                                 <SvgSettingnav
                                   fill={'#581845'}
                                   height={18}
-                                  width={24}
+                                  width={18}
                                 />
                                 </text>
                                 <span
                                   style={{
                                     color: '#581845',
-                                    marginLeft: '15px',
+                                    marginLeft: '15px',fontSize: '14px'
                                   }}
                                 >
                                   Settings
@@ -464,11 +464,11 @@ update();
                               <SvgSettingnav
                                 fill={'#581845'}
                                 height={18}
-                                width={24}
+                                width={14}
                               />
                               </text>
                               <span
-                                style={{ color: '#581845', marginLeft: '15px' }}
+                                style={{ color: '#581845', marginLeft: '15px',fontSize: '14px' }}
                               >
                                 Settings
                               </span>
@@ -500,7 +500,8 @@ update();
                                 <span
                                   style={{
                                     color: '#581845',
-                                    marginLeft: '15px',cursor:"pointer"
+                                    marginLeft: '15px',cursor:"pointer",
+                                    fontSize: '14px'
                                   }}
                                 >
                                   Change Password
@@ -525,7 +526,7 @@ update();
                             </text>
 
                               <span
-                                style={{ color: '#581845', marginLeft: '15px',cursor:"pointer" }}
+                                style={{ color: '#581845', marginLeft: '15px',cursor:"pointer",fontSize: '14px' }}
                               >
                                Change Password
                               </span>
@@ -539,7 +540,7 @@ update();
                         </Flex>
                         {user !== undefined && 
                      
-                        <Flex style={{ color: '#581845', textAlign: 'center',paddingLeft:'15px',paddingRight:'15px' }}>
+                        <Flex style={{ color: '#581845', textAlign: 'center',paddingLeft:'15px',paddingRight:'15px',fontSize: '14px' }}>
                           {user.email}
                         </Flex>
                            }

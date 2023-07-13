@@ -277,17 +277,16 @@ useEffect(() => {
               >
                 <Flex center>
           
-          {tabKey === '0' &&
+                {tabKey === '0' &&
             company_detail &&
             company_detail.no_of_emp === null && (
               <Flex row center className={styles.warningFlex}>
-                <SvgInfo height={16} width={16} fill={WARNING} />
-                <Text
-                  size={12}
-                  bold
-                  color="warning"
+                <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
+                <Text 
+                 style={{color:"#333333"}}
                   className={styles.warningText}
                 >
+                   <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px'}} bold >Heads Up!{' '}</Text>
                   Please complete your company profile and careers page to post
                   jobs.
                 </Text>
@@ -359,47 +358,31 @@ useEffect(() => {
               >
                 <Flex center>
           
-          {tabKey === '0' &&
-            company_detail &&
-            company_detail.no_of_emp === null && (
-              <Flex row center className={styles.warningFlex}>
-                <SvgInfo height={16} width={16} fill={WARNING} />
-                <Text
-                  size={12}
-                  bold
-                  color="warning"
-                  className={styles.warningText}
-                >
-                  Please complete your company profile and careers page to post
-                  jobs.
-                </Text>
-              </Flex>
-            )}
 
          {tabKey === '1' &&
             company_detail &&
             company_detail.no_of_emp === null?(tabKey === '1' && career_page_exists_build === false && (
             <Flex row center className={styles.warningFlex}>
-              <SvgInfo height={16} width={16} fill={WARNING} />
-              <Text
-                size={12}
-                bold
-                color="warning"
+              <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
+              <Text 
+               style={{color:"#333333"}} 
                 className={styles.warningText}
               >
+                   <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px'}} bold >Heads Up!{' '}</Text>
+
               Please complete your company profile and careers page to post
                   jobs.
               </Text>
             </Flex>
          ) ):(tabKey === '1' && career_page_exists_build === false && (
             <Flex row center className={styles.warningFlex}>
-              <SvgInfo height={16} width={16} fill={WARNING} />
-              <Text
-                size={12}
-                bold
-                color="warning"
+              <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
+              <Text 
+                style={{color:"#333333"}} 
                 className={styles.warningText}
               >
+                   <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px'}} bold >Heads Up!{' '}</Text>
+
               Please complete your careers page to post jobs.
               </Text>
             </Flex>))}
@@ -409,13 +392,12 @@ useEffect(() => {
             tabKey === '1' &&
             career_page_exists_build === true && (
               <Flex row center className={styles.warningFlex}>
-                <SvgInfo height={16} width={16} fill={WARNING} />
+                <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
                 <Text
-                  size={12}
-                  bold
-                  color="warning"
+                 style={{color:"#333333"}} 
                   className={styles.warningText}
                 >
+                   <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px'}} bold >Heads Up!{' '}</Text>
                   Changing your careers page URL will change the URL for all
                   jobs in your careers page. Note to change the jobs URL in your
                   company’s careers page if connected.

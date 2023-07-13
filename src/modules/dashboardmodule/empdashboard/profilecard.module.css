@@ -8,7 +8,7 @@
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2), 0 0 0 transparent;
 
 }
-.profileCard:hover {
+.profileCardMain:hover {
   box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55);
   -webkit-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55);
   -moz-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55);
@@ -160,6 +160,7 @@ align-items: center; */
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap; 
+  font-size: 13px;
   width: 70px; 
 }
 

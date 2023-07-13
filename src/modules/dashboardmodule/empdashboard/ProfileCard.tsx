@@ -241,14 +241,14 @@ const ProfileCard = () => {
           )}
         </Flex>
         <Flex marginTop={12}>
-          <Text bold align="center" size={16} className={styles.companyColor}>
+          <Text bold align="center" size={14} className={styles.companyColor}>
             {company_name}
           </Text>
 
-          <Text style={{ marginBottom: 7 }} align="center">
+          <Text style={{ marginBottom: 7,fontSize:'13px' }} align="center">
             {user_info.email}
           </Text>
-          <Text align="center" bold>
+          <Text align="center" bold style={{fontSize:'13px'}}>
             Last Login on: {getDateString(user_info?.last_login, 'll hh:mm A')}
             {console.log('userinfo', user_info.last_login)}
           </Text>
@@ -275,7 +275,7 @@ const ProfileCard = () => {
 
               </Flex> */}
               <Flex marginTop={10} marginLeft={18}>
-                <Text style={{ marginLeft: 2, fontWeight: 550 }} bold>
+                <Text style={{ marginLeft: 2, fontWeight: 550,fontSize:'14px' }} bold>
                   Subscription
                 </Text>
               </Flex>
@@ -283,12 +283,12 @@ const ProfileCard = () => {
 
             <Flex marginLeft={20}>
               <Flex>
-                <Text style={{ marginTop: 5 }}>
+                <Text style={{ marginTop: 5,fontSize:'13px' }}>
                   Plan:
                   {plan.plan_id_id === 1 ? (
-                    <Text style={{ marginBottom: 2 }}>Free Trial</Text>
+                    <Text style={{ marginBottom: 2,fontSize:'13px' }}>Free Trial</Text>
                   ) : (
-                    <Text style={{ marginBottom: 2 }}>
+                    <Text style={{ marginBottom: 2,fontSize:'13px' }}>
                       {' '}
                       {plan.plan_id_id === 2 || plan.plan_id_id === 3
                         ? 'Basic'
@@ -300,15 +300,15 @@ const ProfileCard = () => {
                   )}
                 </Text>
                 {console.log('status', status)}
-                <Text style={{ marginTop: 5 }}>
+                <Text style={{ marginTop: 5 ,fontSize:'13px'}}>
                   Status:{' '}
                   {status === false ? (
-                    <Text style={{ color: '#FF0000',fontWeight:600 }}>Expired</Text>
+                    <Text style={{ color: '#FF0000',fontWeight:600,fontSize:'13px' }}>Expired</Text>
                   ) : (
-                    <Text style={{ color: '#00BE4B',fontWeight:600 }}>Active</Text>
+                    <Text style={{ color: '#00BE4B',fontWeight:600,fontSize:'13px' }}>Active</Text>
                   )}
                 </Text>
-                <Text style={{ marginTop: 5, whiteSpace: 'nowrap' }}>
+                <Text style={{ marginTop: 5, whiteSpace: 'nowrap',fontSize:'13px' }}>
                   Renewal: {getDateString(plan.subscription_valid_till, 'll')}
                 </Text>
               </Flex>
@@ -322,19 +322,19 @@ const ProfileCard = () => {
 
               </Flex> */}
               <Flex marginTop={10}>
-                <Text style={{ fontWeight: 550 }} bold>
+                <Text style={{ fontWeight: 550 ,fontSize:'14px'}} bold>
                   Credits Availability
                 </Text>
               </Flex>
             </Flex>
             <Flex row>
               <Flex>
-                <Text style={{ marginTop: 5 }}>Contact Credits:</Text>
+                <Text style={{ marginTop: 5,fontSize:'13px'}}>Contact Credits:</Text>
               </Flex>
 
               <Flex marginLeft={3} marginTop={5}>
                 <Text
-                  style={{ color: 'black' }}
+                  style={{ color: 'black',fontSize:'13px' }}
                   className={styles.textoverflow}
                 >
                   {contact_count}
@@ -343,13 +343,13 @@ const ProfileCard = () => {
             </Flex>
             {console.log('error', getState)}
             <Flex row>
-              <Flex marginTop={5}>
-                <Text>Job:</Text>
+              <Flex marginTop={5} >
+                <Text style={{fontSize:'13px'}}>Job:</Text>
               </Flex>
               {/* {console.log("filtercity::",getCity.find((option) => (option.id) === (cityid)).name)} */}
               <Flex marginLeft={3} marginTop={5}>
                 <Text
-                  style={{ color: 'black' }}
+                  style={{ color: 'black' ,fontSize:'13px'}}
                   className={styles.textoverflow1}
                 >
                   {unlimitedHelper(job_count)}
@@ -358,13 +358,13 @@ const ProfileCard = () => {
             </Flex>
 
             <Flex row>
-              <Flex marginTop={5}>
-                <Text>Candidates:</Text>
+              <Flex marginTop={5} >
+                <Text style={{fontSize:'13px'}}>Candidates:</Text>
               </Flex>
 
               <Flex marginLeft={3} marginTop={5}>
                 <Text
-                  style={{ color: 'black' }}
+                  style={{ color: 'black',fontSize:'13px' }}
                   className={styles.textoverflow1}
                 >
                   {unlimitedHelper(candidate_count)}
@@ -513,13 +513,13 @@ const ProfileCard = () => {
             {console.log('company', company)} 
             {weburl === null || weburl === 'https://' ? (
               <Flex row marginTop={7}>
-                <Flex marginRight={5}>
-                  <SvgGlobe height={30} width={30} fill={BLACK} />
+                <Flex marginRight={5} marginTop={1}>
+                  <SvgGlobe height={24} width={24} fill={BLACK} />
                 </Flex>
                 <Flex>
                   <LinkWrapper to={'/account_setting/settings'}>
                     <Text
-                      style={{ color: '#581845', textDecoration: 'underline' }}
+                      style={{ color: '#581845' ,fontSize:'13px',marginLeft:' 5px' }}
                       bold
                     >
                       Add Website URL
@@ -529,17 +529,18 @@ const ProfileCard = () => {
               </Flex>
             ) : (
               <Flex row>
-                <Flex marginRight={5}>
-                  <SvgGlobe height={20} width={20} fill={BLACK} />
+                <Flex marginRight={5} marginTop={2}>
+                  <SvgGlobe height={24} width={24} fill={BLACK} />
                 </Flex>
-                <Flex marginLeft={9}>
+                <Flex marginLeft={7}>
                   {' '}
                   <a target={'_blank'} rel="noreferrer" href={weburl}>
                     <Text
                       style={{
                         marginBottom: '4px',
                         color: '#581845',
-                        fontWeight: 600,
+                        fontWeight: 600
+                        ,fontSize:'13px'
                       }}
                       tag={undefined}
                     >
@@ -555,14 +556,14 @@ const ProfileCard = () => {
           <Flex  >
             {mobile_no !== '' ? (
               <Flex row>
-                <Flex marginRight={5} marginTop={8}>
+                <Flex marginRight={5} marginTop={7}>
                   <SvgMobile height={20} width={20} fill={BLACK} />
                 </Flex>
                 <Flex marginLeft={9}>
-                  <Text>
+                  <Text style={{fontSize:'13px'}}>
                     <PhoneInput
                       value={mobile_no}
-                      inputStyle={{ border: 'none', padding: 'inherit' }}
+                      inputStyle={{ border: 'none', padding: 'inherit',height:'30px' }}
                       showDropdown={false}
                       defaultErrorMessage="false"
                       disableDropdown={true}
@@ -581,26 +582,25 @@ const ProfileCard = () => {
           </Flex>
           <Flex>
             {address !== null ? (
-              <Flex row>
-                <Flex marginRight={1}>
+              <Flex row marginTop={3} >
+                <Flex marginRight={1} >
                   <SvgLocationicon height={25} width={25} fill={'#333333'} />
                 </Flex>
-                <Flex marginLeft={7.5}>
+                <Flex marginLeft={7.5} style={{fontSize:'13px'}}>
                   {address}, {city}, {state}, {country}, {zipcode}
                 </Flex>
               </Flex>
             ) : (
-              <Flex row>
+              <Flex row   marginTop={3} >
                 <Flex >
-                  <SvgLocationicon height={30} width={30} fill={BLACK} />
+                  <SvgLocationicon height={25} width={25} fill={'#333333'} />
                 </Flex>
                 <Flex>
-                  <LinkWrapper
-                    // onClick={clearTab}
+                  <LinkWrapper 
                     to={'/account_setting/settings'}
                   >
                     <Text
-                      style={{ color: '#581845', textDecoration: 'underline' }}
+                      style={{ color: '#581845',fontSize:'13px' }}
                       bold
                     >
                       Add Company Address
@@ -638,7 +638,7 @@ const ProfileCard = () => {
               >
                 <Button className={styles.buttonsizeauto}>
                   <Flex row center className={styles.pointer}>
-                    <Text bold style={{ color: 'white', marginLeft: 123 }}>
+                    <Text bold style={{ color: 'white', marginLeft: 123,fontSize:'14px' }}>
                       Careers Page
                     </Text>
                   </Flex>

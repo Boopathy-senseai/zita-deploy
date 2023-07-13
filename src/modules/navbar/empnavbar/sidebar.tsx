@@ -91,9 +91,11 @@ const clearTabs = (e) => {
 }
 };
   return (
+    
     <>
 
-      {console.log('check plan', is_plan)}
+      {console.log('check plan',  plan_id)}
+      { plan_id === 0?(''):(
       <div className={Expent === '0' ? styles.sidebar : styles.sidebarmini} style={{marginTop:'50px'}}>
 
         <ul>
@@ -705,7 +707,7 @@ const clearTabs = (e) => {
             )}
           </li>
         </ul>
-      </div>
+      </div>)}
      
     </>
   );

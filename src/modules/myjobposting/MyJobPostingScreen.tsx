@@ -16,7 +16,7 @@ import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 // import Card from '../../uikit/Card/Card';
 import Loader from '../../uikit/Loader/Loader';
-import Button from '../../uikit/Button/Button';
+import Button from '../../uikit/Button/Button'; 
 import { getBlur, getFocus, copyToClipboard } from '../../uikit/helper';
 import Pangination from '../../uikit/Pagination/Pangination';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
@@ -54,11 +54,15 @@ const initial: MyJobFormProps = {
 const MyJobPostingScreen = () => {
   const dispatch: AppDispatch = useDispatch();
   const [isPage, setPage] = useState(0);
+  const [isLoad, setIsLoad] = useState(true);
   const history = useHistory();
 
   useEffect(() => {
+    setIsLoad(true)
     localStorage.setItem('freeCheck', 'true');
-    dispatch(myJobPostingInitalMiddleWare());
+    dispatch(myJobPostingInitalMiddleWare()).then((res)=>
+     { setIsLoad(false)}
+    )
   }, []);
 
   const {
@@ -121,6 +125,7 @@ const MyJobPostingScreen = () => {
   };
 
   useEffect(() => {
+    setIsLoad(true)
     dispatch(
       myJobPostingDataMiddleWare({
         jobTitle: formik.values.jobTitle,
@@ -130,7 +135,9 @@ const MyJobPostingScreen = () => {
         location: formik.values.location,
         page: isPage + 1,
       }),
-    );
+    ).then(()=>{
+      setIsLoad(false)
+    })
   }, [isPage, formik.values]);
 
   return (
@@ -285,6 +292,7 @@ const MyJobPostingScreen = () => {
           </Flex>{' '}
         </Flex>
       )}
+      {isLoad && <Loader />}
     </Flex>
   );
 };

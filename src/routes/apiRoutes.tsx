@@ -74,7 +74,7 @@ export const applicantStatusUpdateApi = (jd_id: string) => {
   return url;
 };
 export const zitaMatchDataApi = `zita_match_data`;
-export const zitaMatchApi = `zita_match`;
+export const  zitaMatchApi= `zita_match`;
 export const zitaMatchDownloadApi = `bulk_download`;
 export const myDataBaseInitalApi = 'my_database';
 export const myDataBaseDataApi = `my_database_data`;

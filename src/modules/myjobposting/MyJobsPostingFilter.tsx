@@ -5,7 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import SvgIntomark from "../../icons/Intomark";
 
 // import { Button, DropdownButton } from 'react-bootstrap';
-import { InputCheckBox, InputRadio } from "../../uikit";
+import { InputCheckBox  } from "../../uikit";
+import InputRadio from '../../uikit/InputRadio/InputRadio';
 // import Dropdown from 'react-bootstrap';
 import SvgRefresh from "../../icons/SvgRefresh";
 import Flex from "../../uikit/Flex/Flex";
@@ -51,6 +52,7 @@ const MyJobsPostingFilter = ({
   const [date, setdate] = useState("");
   const [Title, setTitle] = useState("");
   const [locationdata, setlocationdata] = useState("");
+  const[clickevent,setclickevent] = useState(false);
   const inputRef = useRef<any>()
   
   const pageReload = () => {
@@ -131,26 +133,48 @@ const MyJobsPostingFilter = ({
   const [showDropDown, setShowDropDown] = useState(false);
   const dropDownRef = useRef(null);
 
-  const closeDropDown = (e: any) => {
-    // console.log("closeDropDown")
-    // console.log({target: e.target, showDropDown, dropDownRef})
-    if (
-      dropDownRef.current &&
-      showDropDown &&
-      !dropDownRef.current.contains(e.target)
-    ) {
-      // console.log("SHOW FASLE")
-      setShowDropDown(false);
-    }
-  };
+  // const closeDropDown = (e: any) => { 
+  //   console.log(showDropDown,'ffffffffffffffffffffffffffffff')
+  //   if (
+  //     dropDownRef.current &&
+  //     showDropDown &&
+  //     !dropDownRef.current.contains(e.target)
+  //   ) { 
+  //     setShowDropDown(false);
+      
+  //   }
 
-  useEffect(() => {
-    if(formik.values.jobId.length !== 0){
-      setShowDropDown(false);
-    }
-    else{
-    document.addEventListener("click", closeDropDown);}
-  }, [showDropDown]);
+  // };
+
+//    useEffect(() =>{
+//     if (typeof Window !== 'undefined') {
+//       document.addEventListener('click',closeDropDown); 
+//     }
+//   })
+//   const onchek = localStorage.getItem('oncheck')
+//   useEffect(() => { 
+//     if(onchek === 'false'){
+//     if (typeof Window !== 'undefined') {
+//       document.addEventListener('click', closeDropDown); 
+//     }}
+//     else{
+     
+         
+       
+//   }
+//     return () => {
+//       if (dropDownRef) {
+//         if (typeof Window === 'undefined') {
+//           document.removeEventListener('click',closeDropDown,false);
+//         }
+//       }
+//     };}
+//   );
+
+//  useEffect(()=>{ 
+// setShowDropDown(true)
+//  },[formik.values])
+  
 
   const closestatus = () => {
     setdone("");
@@ -205,7 +229,7 @@ const MyJobsPostingFilter = ({
   //     return () => window.removeEventListener('scroll', onScroll);
   // }, []);
 
-  
+ 
 
   return (
     <>
@@ -310,6 +334,7 @@ const MyJobsPostingFilter = ({
           className={styles.drop_down_header}
           onClick={() => {
             setShowDropDown((value) => !value);
+            // console.log(showDropDown,'vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv')
           }}
         >
           <Flex>
@@ -351,19 +376,14 @@ const MyJobsPostingFilter = ({
               <InputSearch
                 initialValue={formik.values.jobTitle}
                 setFieldValue={formik.setFieldValue}
-                
-                options={job_title}
+                options={job_title}  
                 placeholder="Enter a job title"
-               
                 style={styles.boxstyle}
-                name="jobTitle"
-                
+                name="jobTitle"  
                 onkeyPress={(event) => {
                   if (event.key === "Enter") {
-                    formik.setFieldValue("jobTitle", event.target.value);
-                    setShowDropDown(true)
-                    
-                  }
+                    formik.setFieldValue("jobTitle", event.target.value); 
+                  } 
                 }} /> 
              
               
@@ -372,8 +392,7 @@ const MyJobsPostingFilter = ({
              
             </div>
           </Flex>
-          <Flex className={styles.mtstyle}>
-            {/* <div className={styles.skillContainer}> */}
+          <Flex className={styles.mtstyle}> 
             <Text className={styles.jobTextStyle}>Job ID</Text>
             
             <InputSearch
@@ -381,8 +400,9 @@ const MyJobsPostingFilter = ({
               initialValue={formik.values.jobId}
               options={job_ids}
               placeholder="Enter a job id"
+            
               // labelBold
-              setFieldValue={formik.setFieldValue}
+              setFieldValue={formik.setFieldValue} 
               inputRef={inputRef}
               name="jobId"
               // // eslint-disable-next-line jsx-a11y/no-autofocus
@@ -390,11 +410,9 @@ const MyJobsPostingFilter = ({
               onkeyPress={(event) => {
                 if (event.key === "Enter") {
                   formik.setFieldValue("jobId", event.target.value);
-                  setShowDropDown(true)
                 }
               }} 
-            /> 
-            {console.log(formik.values.jobId)}
+            />  
           </Flex>
 
           <Flex className={styles.mtstyle}>
@@ -409,12 +427,14 @@ const MyJobsPostingFilter = ({
                       width={jobList.width}
                       className={styles.matchRadioStyle}
                     >
-                      <InputCheckBox
-                        className={styles.checkbox}
+                      <InputRadio
+                        // className={styles.checkbox}
                         label={jobList.value}
                         checked={jobList.label === formik.values.jobType}
-                        onClick={() =>
-                          formik.setFieldValue("jobType", jobList.label)
+                        onClick={() =>{
+                          formik.setFieldValue("jobType", jobList.label) 
+                           
+                        }
                         }
                       />
                     </Flex>
@@ -439,7 +459,8 @@ const MyJobsPostingFilter = ({
                     )
                     :  ' '
                 }  
-                options={postedOn}                
+                options={postedOn} 
+                               
                 onChange={(options) => {
                   
                 formik.setFieldValue("postedOn",options)
@@ -483,13 +504,12 @@ const MyJobsPostingFilter = ({
                 placeholder="Enter job location"
                 options={location_list}
                 setFieldValue={formik.setFieldValue}
-                
                 name="location" 
                 style={styles.boxstyle}
                 onkeyPress={(event) => {
                   if (event.key === "Enter") {
                     formik.setFieldValue("location", event.target.value);
-                    setShowDropDown(true)
+                     setShowDropDown(true)
                   }
                 }}
               />

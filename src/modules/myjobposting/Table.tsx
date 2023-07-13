@@ -155,6 +155,7 @@ const MyJobPostingScreen = () => {
             </thead>
 
             <tbody style={{ paddingTop: 20 }} className={styles.tablebody}>
+               
               {final_list &&
                 Jobs_List &&
                 location_list &&
@@ -202,16 +203,14 @@ const MyJobPostingScreen = () => {
                                 />
                               </div>
                             )} */}
-
+{console.log(list.job_title,'job_titlesafdfbfdbzcv bxfdbbf')}
                             {list.jd_status__label_name === 'Active' && (
                               <Flex row top >
                                 <LinkWrapper
-                                  to={`/job_view/${list.id}`}
-                                  // className={styles.link}
+                                  to={`/job_view/${list.id}`} 
                                   className={styles.maxwidthjobtype}
-
                                 >
-                                  <Text color="link" bold >
+                                  <Text color="link" bold title={list.job_title}   >
                                     {list.job_title}
                                   </Text>
                                 </LinkWrapper>
@@ -219,7 +218,7 @@ const MyJobPostingScreen = () => {
                                 <div
                                   tabIndex={0}
                                   role={'button'}
-                                  style={{ marginLeft: 8 ,marginTop:.5}}
+                                  style={{ marginLeft: 8 ,marginTop:1}}
                                   title="Copy the job posting URL from your careers page"
                                   onClick={() =>
                                     copyToClipboard(
@@ -242,18 +241,18 @@ const MyJobPostingScreen = () => {
                                 {list.is_ds_role !== true ? (
                                   <LinkWrapper
                                     to={`/jobs/create_non_ds_edit/${list.id}`}
-                                    className={styles.link}
+                                    className={styles.maxwidthjobtype}
                                   >
-                                    <Text color="link" bold>
+                                    <Text color="link" bold title={list.job_title}  >
                                       {list.job_title}
                                     </Text>
                                   </LinkWrapper>
                                 ) : (
                                   <LinkWrapper
                                     to={`/jobs/create_ds_edit/${list.id}`}
-                                    className={styles.link}
+                                    className={styles.maxwidthjobtype}
                                   >
-                                    <Text color="link" bold>
+                                    <Text color="link" bold title={list.job_title}  >
                                       {list.job_title}
                                     </Text>
                                   </LinkWrapper>
@@ -275,20 +274,20 @@ const MyJobPostingScreen = () => {
                               <Flex row top>
                                 <LinkWrapper
                                   to={`/job_view/${list.id}`}
-                                  className={styles.link}
+                                  className={styles.maxwidthjobtype}
                                 >
-                                  <Text color="link" bold>
+                                  <Text color="link" bold title={list.job_title}  >
                                     {list.job_title}
                                   </Text>
                                 </LinkWrapper>{' '}
                                 <div
                                   tabIndex={0}
                                   role={'button'}
-                                  style={{ marginLeft: 8,marginTop:1,cursor:'default' }}
+                                  style={{ marginLeft: 8,marginTop:1,cursor:'default'}}
                                 >
                                   <SvgCopy  width={11.33}
-                                  height={13.33}
-                                  fill={'rgb(255 255 255/30%)'} />
+                                  height={13.33} 
+                                  fill={'rgb(88 24 69/30%)'}/>
                                 </div>
                               </Flex>
                             )}
@@ -296,9 +295,9 @@ const MyJobPostingScreen = () => {
                               <Flex row top>
                                 <LinkWrapper
                                   to={`/jobs/questionnaire/${list.id}`}
-                                  className={styles.link}
+                                  className={styles.maxwidthjobtype}
                                 >
-                                  <Text color="link" bold>
+                                  <Text color="link" bold title={list.job_title}  >
                                     {list.job_title}
                                   </Text>
                                 </LinkWrapper>{' '}
@@ -317,16 +316,16 @@ const MyJobPostingScreen = () => {
                               <Flex row top>
                                 <LinkWrapper
                                   to={`/jobs/preview/${list.id}`}
-                                  className={styles.link}
+                                  className={styles.maxwidthjobtype}
                                 >
-                                  <Text color="link" bold>
+                                  <Text color="link" bold title={list.job_title}  >
                                     {list.job_title}
                                   </Text>
                                 </LinkWrapper>{' '}
                                 <div
                                   tabIndex={0}
                                   role={'button'}
-                                  style={{ marginLeft: 8,marginTop:1,cursor:'none' }}
+                                  style={{ marginLeft: 8,marginTop:1,cursor:'default'}}
                                 >
                                   <SvgCopy  width={11.33}
                                   height={13.33}

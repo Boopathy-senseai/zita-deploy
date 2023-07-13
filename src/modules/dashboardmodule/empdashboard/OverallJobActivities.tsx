@@ -56,7 +56,7 @@ const OverallJobActivities = () => {
             return (
             <tr style={{marginLeft: "10px"}} key={list.title}>
               
-             <td><Flex marginLeft={30}><Text style={{marginTop:3}} >{list.title}</Text></Flex></td>
+             <td><Flex marginLeft={30}><Text style={{marginTop:3,fontSize:'13px'}} >{list.title}</Text></Flex></td>
                 
                 <td style={{marginBottom: "4px"}}>
                 {/* <Flex>
@@ -64,7 +64,7 @@ const OverallJobActivities = () => {
                     <Text className={styles.valueStyle} style={{ color: "#581845" }} bold>{list.vallue}</Text>
                     </Button></Flex> */}
                     <Flex className={styles.circleflexover} marginBottom={5} marginTop={6} marginRight={30}>
-                    <Text className={styles.valueStyle} style={{ color: "#581845" }} bold >{list.vallue}</Text>
+                    <Text className={styles.valueStyle} style={{ color: "#581845",fontSize:'13px' }} bold >{list.vallue}</Text>
                     </Flex>
                     </td>
               

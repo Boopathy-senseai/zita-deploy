@@ -1,4 +1,10 @@
-import { ReactChild, ReactFragment, ReactPortal, useEffect, useState } from 'react';
+import {
+  ReactChild,
+  ReactFragment,
+  ReactPortal,
+  useEffect,
+  useState,
+} from 'react';
 import classNames from 'classnames/bind';
 import AutoSuggest from 'react-autosuggest';
 import { enterKeyPress, isEmpty, lowerCase } from '../../uikit/helper';
@@ -16,6 +22,7 @@ const defaultProps = {
   initialValue: '',
   disabled: false,
   onSubmit: null,
+  onclick,
 };
 
 type Props = {
@@ -25,6 +32,7 @@ type Props = {
   name?: string;
   placeholder?: string;
   initialValue?: string;
+  onClick?: (arg: any) => void;
   onKeyDown?: (arg: any) => void;
   label?: string;
   required?: boolean;
@@ -32,9 +40,10 @@ type Props = {
   error?: boolean;
   labelBold?: boolean;
   onkeyPress?: (a: any) => void;
+  // onBlur?: (a: any) => void;
   style?: string;
   autoFocus?: boolean;
-  inputRef?: any
+  inputRef?: any;
   // title?:string | undefined;
 };
 
@@ -43,6 +52,7 @@ const renderInputComponent = ({
   onSubmit,
   onBlur,
   onChange,
+  onClick,
   value,
   placeholder,
   disabled,
@@ -53,12 +63,10 @@ const renderInputComponent = ({
   onKeyPress,
   style,
   autoFocus,
-  
-  
 }: any) => {
-  const getValue=value.includes(', usa')
+  const getValue = value.includes(', usa');
 
-console.log("GG0", ref?.current?.value)
+  console.log('GG0', ref?.current?.value);
   return (
     <input
       // eslint-disable-next-line jsx-a11y/no-autofocus
@@ -67,16 +75,16 @@ console.log("GG0", ref?.current?.value)
       onSubmit={onSubmit}
       onBlur={onBlur}
       onChange={onChange}
-      value={getValue? lowerCase(value.replace(', usa', ', USA')): value}
+      value={getValue ? lowerCase(value.replace(', usa', ', USA')) : value}
       placeholder={placeholder}
       disabled={disabled}
       type={type}
       onKeyDown={onKeyDown}
+      onClick={onClick}
       onFocus={onFocus}
       className={cx('search', style, { errorBorder: error })}
       autoComplete={'off'}
       onKeyPress={onKeyPress}
-     
     />
   );
 };
@@ -90,6 +98,7 @@ const InputSearch = ({
   options,
   onKeyDown,
   onkeyPress,
+  onClick,
   label,
   required,
   errorMessage,
@@ -97,40 +106,36 @@ const InputSearch = ({
   labelBold,
   style,
   autoFocus,
-  inputRef
-  
+  inputRef,
 }: Props) => {
   const [currentsuggestion, setSuggestion] = useState<any[]>([]);
   const [currentvalue, setValue] = useState(initialValue);
   const [isErrorFocus, setErrorFocus] = useState(false);
   const [NoOptions, setNoOptions] = useState(false);
-  const [isNovalue ,setNovalue]=useState(false);
+  const [isNovalue, setNovalue] = useState(false);
   const lowerCasedCompanies =
     options &&
     options.map((company) => {
-      return company.toLowerCase();
+      return company;
     });
-    useEffect(()=>{
-      setValue(initialValue)
-    },[initialValue])
+  useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
 
-    useEffect(()=>{
-      if(isEmpty(currentvalue)){
-        setNoOptions(false);
-      }
-      
-    },[currentvalue])
+  useEffect(() => {
+    if (isEmpty(currentvalue)) {
+      setNoOptions(false);
+    }
+  }, [currentvalue]);
   const getSuggestions = (value: string) => {
     return (
       lowerCasedCompanies &&
       lowerCasedCompanies.filter((company) =>
-        company.includes(value.trim().toLowerCase()),
+        company.toLowerCase().includes(value.toLowerCase()),
       )
     );
   };
-
   const getSuggestionValue = (suggestion: any) => suggestion;
-
   const renderSuggestion = (
     suggestion:
       | boolean
@@ -139,13 +144,7 @@ const InputSearch = ({
       | ReactPortal
       | null
       | undefined,
-  ) => (
-    <div style={{ textTransform: 'capitalize' }}>
-      {typeof suggestion === 'string'
-        ? suggestion.replace(', usa', ', USA')
-        : suggestion}
-    </div>
-  );
+  ) => <div>{typeof suggestion === 'string' ? suggestion : suggestion}</div>;
 
   const onSuggestionSelected = (_event: any, { suggestion }: any) => {
     let requiredValue = '';
@@ -161,45 +160,46 @@ const InputSearch = ({
 
   const handleFocus = () => {
     setErrorFocus(true);
-    
   };
 
   const handleBlur = () => {
     setErrorFocus(false);
     setNoOptions(false);
   };
-
   const inputProps: any = {
     placeholder,
     value: currentvalue,
     onChange,
     disabled,
     id: name,
+    onClick: onclick,
     onkeydown: onKeyDown,
     error: error && isEmpty(currentvalue),
     onBlur: handleBlur,
     onFocus: handleFocus,
     onKeyPress: onkeyPress,
     style,
-    autoFocus,  
+    autoFocus,
   };
   const onSuggestionsFetchRequested = ({ value }: { value: string }) => {
     setValue(value);
     const requiredSuggestions: any = getSuggestions(value);
-   
-    setSuggestion(requiredSuggestions);    
-    if (requiredSuggestions && requiredSuggestions.length === 0 && !isEmpty(value) ) { 
-       setNoOptions(true);
 
-    } 
-     else {
+    setSuggestion(requiredSuggestions);
+    if (
+      requiredSuggestions &&
+      requiredSuggestions.length === 0 &&
+      !isEmpty(value)
+    ) {
+      setNoOptions(true);
+    } else {
       setNoOptions(false);
     }
-  }; 
+  };
   const onSuggestionsClearRequested = () => {
     setSuggestion([]);
   };
-   
+
   return (
     <div style={{ position: 'relative' }}>
       <LabelWrapper label={label} required={required} bold={labelBold}>
@@ -227,14 +227,11 @@ const InputSearch = ({
       </LabelWrapper>
       {NoOptions && (
         <>
-        <div className={styles.noOptionsDivStyle}  
-         >
-          <Text color="gray">No search found</Text>
-        </div>
+          <div className={styles.noOptionsDivStyle}>
+            <Text color="gray">No search found</Text>
+          </div>
         </>
-      ) }
-      
-    
+      )}
     </div>
   );
 };
@@ -242,5 +239,3 @@ const InputSearch = ({
 InputSearch.defaultProps = defaultProps;
 
 export default InputSearch;
-
- 

@@ -30,6 +30,7 @@ import {
   mediaPath,
   specialCharacter,
   ENTER_VALID_URL,
+  space,
 } from '../../modules/constValue';
 import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
 import Button from '../../uikit/Button/Button';
@@ -137,6 +138,7 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
     state_id: '',
     city_id: '',
     zipcode: '',
+    zipcod: '',
     logo: '',
     logos: '',
     firstname: '',
@@ -168,6 +170,7 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
     state_id: string;
     city_id: string;
     zipcode: string;
+    zipcod: string;
     logo: string;
     logos: string;
     firstname: string;
@@ -239,10 +242,10 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
   const handleCompanyPageValid = (values: CompanyPage) => { 
     const errors: Partial<CompanyPage> = {};
   
-    if (isEmpty(values.firstname)) {
+    if (isEmpty(values.firstname.trim())) {
       errors.firstname = THIS_FIELD_REQUIRED;
     }
-    if (isEmpty(values.lastname)) {
+    if (isEmpty(values.lastname.trim())) {
       errors.lastname =THIS_FIELD_REQUIRED;
     }
     
@@ -262,8 +265,11 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
     if (isEmpty(values.no_of_emp)) {
       errors.no_of_emp = THIS_FIELD_REQUIRED;
     }
-    if (isEmpty(values.address)) {
-      errors.address = THIS_FIELD_REQUIRED;
+     
+    if (isEmpty(values.address) ||isEmpty(values.address.trim()) ) {
+      
+        errors.address= THIS_FIELD_REQUIRED;
+     
     }
 
     if (!isEmpty(values.address) && values.address.length > 150) {
@@ -274,12 +280,9 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
     if (isEmpty(values.country_id)) {
       errors.country_id = THIS_FIELD_REQUIRED;
     }
-
+  
     if (isEmpty(values.state_id)) {
       errors.state_id = THIS_FIELD_REQUIRED;
-    }
-    if (isEmpty(values.zipcode)) {
-      errors.zipcode = THIS_FIELD_REQUIRED;
     }
     if (isEmpty(values.company_website)) {
       errors.company_website = THIS_FIELD_REQUIRED;
@@ -297,7 +300,9 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
     if (!isEmpty(values.zipcode) && values.zipcode.length > 6) {
       errors.zipcode = ' ';
     }
-
+    if (!isEmpty(values.zipcode) && (values.zipcode.length > 4)) {
+         errors.zipcode = THIS_FIELD_REQUIRED;
+       }
     if (!isEmpty(values.no_of_emp) && Number(values.no_of_emp) > 1000) {
       errors.no_of_emp = '';
     }
@@ -307,17 +312,18 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
     if (isEmpty(values.zipcode)) {
       errors.zipcode = THIS_FIELD_REQUIRED;
     }
+    if (!emtysp) {
+      errors.zipcod = 'Space is not a character';
+    }
     if ((values.company_website.length === 5)) {
       errors.zipcode = THIS_FIELD_REQUIRED;
     }
-    if (isEmpty(values.zipcode)) {
-      errors.zipcode = THIS_FIELD_REQUIRED;
-    }
+    // if (isEmpty(values.zipcode.trim())) {
+    //   errors.zipcode = THIS_FIELD_REQUIRED;
+    // }
     if (isEmpty(values.contact)) {
       errors.contact = THIS_FIELD_REQUIRED;
-    }
-     
-
+    } 
     return errors;
   };
   const handlePasswordValid = (values: Password) => {
@@ -423,19 +429,24 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
   }, [user]);
   const logoUrls = profile && profile !== 'default.jpg' ? profile : '';
 
-
+console.log()
   useEffect(() => {
-     if(profile){
-      setlogos(profile);
+     if(profile&& profile !== 'default.jpg'){
+      const userlogo = profile.substring(profile.lastIndexOf('/') + 1);
+    // setlogo(userlogo);
+      setlogos(userlogo);
      } 
-  }, [logoUrls]);
+     else{ setlogos('')
+    }
+       }, [logoUrls]);
   
   const logoUrl =
     company_detail && company_detail.logo && company_detail.logo
       ? company_detail.logo
       : '';
   useEffect(() => {
-    setlogo(logoUrl);
+   const companylogo = logoUrl.substring(logoUrl.lastIndexOf('/') + 1);
+    setlogo(companylogo);
   }, [logoUrl]);
 
   
@@ -452,8 +463,7 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
      
 
     if (fileurl.file !== undefined) {
-      formData.append('logo', fileurl.file) 
-      console.log(fileurl.file,'fileurl.filedsfgxhcjm,bmnbvcxzcvbn m')
+      formData.append('logo', fileurl.file)  
     } else if (islogo.length === 0) {
       formData.append('logo',"");
     }
@@ -508,6 +518,9 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
    
   };
    
+
+  const emtysp = space.test(formik.values.zipcode);
+  const emtysps = space.test(formik.values.address);
 
 
   const hanldePasswordSubmitform = (values: Password) => {
@@ -615,6 +628,7 @@ let jpgchange=jpg.toUpperCase();
        setimgtypes(false) 
      }  
     },[logoUrls,imgUrls])
+    console.log(emtysp,'cxvznmg,.h/hglkfujyhtgrfd')
   return (
     <Flex className={styles.overAll}>
       {/* <Flex row className={styles.companyuserheading}>
@@ -665,6 +679,7 @@ let jpgchange=jpg.toUpperCase();
               dropdownClass={styles.dropDownStyle}
               country={'us'}
               value={formik.values.contact}
+              onChange={formik.handleChange('contact')}
               //onChange={handleOnChange}
             />
           </LabelWrapper>
@@ -911,21 +926,27 @@ let jpgchange=jpg.toUpperCase();
               setReload(true);
             }}
           />
-          {!isEmpty(formik.values.zipcode) && formik.values.zipcode.length > 6 && (
+          {console.log(emtysp,'manoj')}
+          {emtysp && !isEmpty(formik.values.zipcode) && formik.values.zipcode.trim().length > 6 ?(
             <Text size={12} color="error">
               Zip Code should not exceed 6 characters
             </Text>
-          )}
-          {!isEmpty(formik.values.zipcode) && formik.values.zipcode.length < 4 && (
+          ):('')}
+          {emtysp && !isEmpty(formik.values.zipcode) && formik.values.zipcode.trim().length < 4 ? (
             <Text size={12} color="error">
               Zip Code should have atleast 4 characters
             </Text>
-          )}
-          <ErrorMessage
+          ):('')}
+          {!emtysp? (
+            <Text size={12} color="error">
+              Space is not a character
+            </Text>
+          ):('')}
+          {emtysp? <ErrorMessage
             touched={formik.touched}
             errors={formik.errors}
             name="zipcode"
-          />
+          /> : '' }
         </Flex>
         <Flex flex={4}></Flex>
       </Flex>
