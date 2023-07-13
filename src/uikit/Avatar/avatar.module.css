@@ -1,0 +1,24 @@
+.avatar {
+  height: 32px;
+  width: 32px;
+  background-color: #fff;
+}
+.avatarPlaceholder {
+  align-items: center;
+  background-color: #fff;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+}
+.avatarInitials {
+  height: 32px;
+  width: 32px;
+  line-height: 32px;
+  color: #581845;
+  text-align: center;
+}
+.avatarInitials {
+  font-size: 16px;
+  color: white;
+  font-weight: bold;
+}

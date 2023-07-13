@@ -1,6 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit';
-// eslint-disable-next-line import/no-named-as-default
-// import logger from 'redux-logger';
 import { reducers } from './reducer/mainreducers';
 
 // const resetStoreActionType = 'main/resetStore';

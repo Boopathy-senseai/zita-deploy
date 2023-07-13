@@ -451,7 +451,7 @@ const applicantMessageState: MessageReducerState = {
       message: '',
       receiver_image: '',
       sender_image: '',
-      last_name:''
+      last_name: '',
     },
   ],
 };
@@ -548,6 +548,7 @@ const calenderReducer = createSlice({
 const applicantStatusState: ScreenStatusReducerState = {
   isLoading: false,
   error: '',
+  stages: [],
   applied: [],
   interviewed: [],
   invite: [],
@@ -567,12 +568,13 @@ const applicantStausReducer = createSlice({
     });
     builder.addCase(applicantStatusMiddleWare.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.applied = action.payload.applied;
-      state.interviewed = action.payload.interviewed;
-      state.invite = action.payload.invite;
-      state.selected = action.payload.selected;
-      state.shortlisted = action.payload.shortlisted;
-      state.rejected = action.payload.rejected;
+      state.stages = (action.payload || []);
+      // state.applied = action.payload.applied;
+      // state.interviewed = action.payload.interviewed;
+      // state.invite = action.payload.invite;
+      // state.selected = action.payload.selected;
+      // state.shortlisted = action.payload.shortlisted;
+      // state.rejected = action.payload.rejected;
     });
     builder.addCase(applicantStatusMiddleWare.rejected, (state, action) => {
       state.isLoading = false;

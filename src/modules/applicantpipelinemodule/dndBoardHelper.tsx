@@ -1,8 +1,6 @@
 import { saveAs } from 'file-saver';
 import { DropResult } from 'react-beautiful-dnd';
-import { AppDispatch } from '../../store';
 import Toast from '../../uikit/Toast/Toast';
-import { applicantFavoriteMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { columnTypes, setColumn, setIndexProps } from './dndBoardTypes';
 
 export const onDragEnd = (
@@ -36,17 +34,10 @@ export const onDragEnd = (
   }
 };
 
-export const handleDownload = (file: string) => {
+export const handleDownload = (file: string, filename?: string) => {
   if (file) {
-    saveAs(`${process.env.REACT_APP_HOME_URL}media/${file}`, `${file}`);
+    saveAs(`${process.env.REACT_APP_HOME_URL}media/${file}`, `${filename || file}`);
     Toast('Resume downloaded successfully', 'LONG', 'success');
   }
 };
 
-export const hanldeFavAction = (
-  can_id: number,
-  jd_id: number,
-  dispatch: AppDispatch,
-) => {
-  dispatch(applicantFavoriteMiddleWare({ can_id, jd_id }));
-};
