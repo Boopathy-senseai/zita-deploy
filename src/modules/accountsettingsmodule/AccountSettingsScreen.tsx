@@ -1,4 +1,4 @@
-import { useEffect,useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Activity from '../../pages/activity/Activity';
@@ -26,20 +26,20 @@ import BuildYourCareerPageScreen from './buildyourcareerpage/BuildYourCareerPage
 import EmailNotification from './emailmodule/EmailNotifications';
 import IntegrationScreen from './integrationmodule/IntegrationScreen';
 import ManageSubscriptionScreen from './managesubscription/ManageSubscriptionScreen';
+import TemplatesPage from './templatesmodule/templatesPage';
 // import { dispatch } from 'react-hot-toast/dist/core/store';
 
 const height = window.innerHeight - 212;
 
 type ParamsType = {
   itemId: string;
-  value:string;
-   
+  value: string;
 };
-type props ={
+type props = {
   value: () => void;
-}
+};
 
-const AccountSettingsScreen = ({value }:props) => {
+const AccountSettingsScreen = ({ value }: props) => {
   const dispatch: AppDispatch = useDispatch();
   const { itemId } = useParams<ParamsType>();
   const history = useHistory();
@@ -70,7 +70,7 @@ const AccountSettingsScreen = ({value }:props) => {
   const [isTest, setTest] = useState(false);
   const [isReloadCompany, setReloadCompany] = useState(false);
   const [isReloadProfile, setReloadProfile] = useState(false);
-  const [changeurl,setchangeurl] = useState(false);
+  const [changeurl, setchangeurl] = useState(false);
 
   useEffect(() => {
     if (!isEmpty(tab)) {
@@ -86,20 +86,18 @@ const AccountSettingsScreen = ({value }:props) => {
       }
     }
   }, [tab]);
- 
-    
-useEffect(() => {
-  const unblock = history.block(
-    isReloadCompany
-  ? "Do you want to leave this site? Changes you made may not be saved."
-  : true
-  );
-  
-  return function cleanup() {
-  unblock();
-  };
+
+  useEffect(() => {
+    const unblock = history.block(
+      isReloadCompany
+        ? 'Do you want to leave this site? Changes you made may not be saved.'
+        : true,
+    );
+
+    return function cleanup() {
+      unblock();
+    };
   }, [isReloadCompany]);
-  
 
   useEffect(() => {
     /**
@@ -164,14 +162,13 @@ useEffect(() => {
     },
   );
 
-  const { routerPrompt,onDirty, onPristine } = useUnsavedChangesWarning();
+  const { routerPrompt, onDirty, onPristine } = useUnsavedChangesWarning();
   // var oldURL = window.location.href;
   // if(window.location.href !== oldURL){
   //   alert("url changed!");
- 
- 
+
   useEffect(() => {
-    if ( isReloadCareer && window.confirm(LEAVE_THIS_SITE)) {
+    if (isReloadCareer && window.confirm(LEAVE_THIS_SITE)) {
       setReloadCareer(false);
       setKey(sessionStorage.getItem('superUserTab'));
       setKeyOne(sessionStorage.getItem('superUserFalseTab'));
@@ -201,7 +198,7 @@ useEffect(() => {
       // sessionStorage.setItem('superUserTab', tabKey);
       // sessionStorage.setItem('superUserFalseTab', tabKeyOne);
     }
-  }, [tabKey, isTest, tabKeyOne,history.push]);
+  }, [tabKey, isTest, tabKeyOne, history.push]);
 
   useEffect(() => {
     if (isReloadCareer) {
@@ -215,7 +212,6 @@ useEffect(() => {
       onDirty();
     } else if (!isReloadProfile) {
       onPristine();
-      
     }
   }, [isReloadProfile]);
   useEffect(() => {
@@ -233,10 +229,12 @@ useEffect(() => {
   return (
     !isLoading && (
       <>
-      <Flex row center className={styles.overallhead}>
-            <Flex row center>
-              <Flex center marginLeft={20}><SvgSettings/></Flex>
-              <Flex>
+        <Flex row center className={styles.overallhead}>
+          <Flex row center>
+            <Flex center marginLeft={20}>
+              <SvgSettings />
+            </Flex>
+            <Flex>
               <Text
                 bold
                 size={16}
@@ -293,33 +291,38 @@ useEffect(() => {
               </Flex>
             )}
 
-         {tabKey === '1' &&
+            {tabKey === '1' &&
             company_detail &&
-            company_detail.no_of_emp === null?(tabKey === '1' && career_page_exists_build === false && (
-            <Flex row center className={styles.warningFlex}>
-              <SvgInfo height={16} width={16} fill={WARNING} />
-              <Text
-                size={12}
-                bold
-                color="warning"
-                className={styles.warningText}
-              >
-              Please complete your company profile and careers page to post
-                  jobs.
-              </Text>
-            </Flex>
-         ) ):(tabKey === '1' && career_page_exists_build === false && (
-            <Flex row center className={styles.warningFlex}>
-              <SvgInfo height={16} width={16} fill={WARNING} />
-              <Text
-                size={12}
-                bold
-                color="warning"
-                className={styles.warningText}
-              >
-              Please complete your careers page to post jobs.
-              </Text>
-            </Flex>))}
+            company_detail.no_of_emp === null
+              ? tabKey === '1' &&
+                career_page_exists_build === false && (
+                  <Flex row center className={styles.warningFlex}>
+                    <SvgInfo height={16} width={16} fill={WARNING} />
+                    <Text
+                      size={12}
+                      bold
+                      color="warning"
+                      className={styles.warningText}
+                    >
+                      Please complete your company profile and careers page to
+                      post jobs.
+                    </Text>
+                  </Flex>
+                )
+              : tabKey === '1' &&
+                career_page_exists_build === false && (
+                  <Flex row center className={styles.warningFlex}>
+                    <SvgInfo height={16} width={16} fill={WARNING} />
+                    <Text
+                      size={12}
+                      bold
+                      color="warning"
+                      className={styles.warningText}
+                    >
+                      Please complete your careers page to post jobs.
+                    </Text>
+                  </Flex>
+                )}
 
           {isInput &&
             isLoadingCareer === false &&
@@ -466,52 +469,56 @@ useEffect(() => {
                 )}
               </div>
             </Tab> */}
-          </Tabs>
-        )}
+              </Tabs>
+            )}
 
-        {Permission.includes('manage_account_settings') &&
-          super_user === false && (
-            <Tabs
-              id={!is_plan ? 'account__settings' : 'setting'}
-              activeKey={tabKeyOne}
-              onSelect={(keys: any) => {
-                if (is_plan) {
-                  setTest(!isTest);
-                  sessionStorage.setItem('superUserTab', keys);
-                  if (!isReloadCompany && !isReloadCareer && !isReloadProfile) {
-                    setKeyOne(keys);
-                  }
-                }
-              }}
-            >
-              <Tab title={'Profiles'} eventKey={'0'}>
-                <div style={{ height }}>
-                  <CompanyPage
-                    setKey={setKey}
-                    setReload={setReloadCompany}
-                    setReloadProfile={setReloadProfile}
-                  />
-                </div>
-              </Tab>
-
-              <Tab title={'Build Your Careers Page'} eventKey={'1'}>
-                <div
-                  style={{
-                    height,
+            {Permission.includes('manage_account_settings') &&
+              super_user === false && (
+                <Tabs
+                  id={!is_plan ? 'account__settings' : 'setting'}
+                  activeKey={tabKeyOne}
+                  onSelect={(keys: any) => {
+                    if (is_plan) {
+                      setTest(!isTest);
+                      sessionStorage.setItem('superUserTab', keys);
+                      if (
+                        !isReloadCompany &&
+                        !isReloadCareer &&
+                        !isReloadProfile
+                      ) {
+                        setKeyOne(keys);
+                      }
+                    }
                   }}
                 >
-                  <BuildYourCareerPageScreen
-                    isInput={isInput}
-                    setInput={setInput}
-                    setReload={setReloadCareer}
-                  />
-                </div>
-              </Tab>
+                  <Tab title={'Profiles'} eventKey={'0'}>
+                    <div style={{ height }}>
+                      <CompanyPage
+                        setKey={setKey}
+                        setReload={setReloadCompany}
+                        setReloadProfile={setReloadProfile}
+                      />
+                    </div>
+                  </Tab>
 
-              <Tab title={'Integrations'} eventKey={'3'}>
-                {tabKeyOne === '3' && <IntegrationScreen />}
-              </Tab>
-              {/* <Tab title={'User Profile'} eventKey={'4'}>
+                  <Tab title={'Build Your Careers Page'} eventKey={'1'}>
+                    <div
+                      style={{
+                        height,
+                      }}
+                    >
+                      <BuildYourCareerPageScreen
+                        isInput={isInput}
+                        setInput={setInput}
+                        setReload={setReloadCareer}
+                      />
+                    </div>
+                  </Tab>
+
+                  <Tab title={'Integrations'} eventKey={'3'}>
+                    {tabKeyOne === '3' && <IntegrationScreen />}
+                  </Tab>
+                  {/* <Tab title={'User Profile'} eventKey={'4'}>
                 <div
                   style={{
                     height: window.innerHeight - 192,
@@ -523,23 +530,23 @@ useEffect(() => {
                   )}
                 </div>
               </Tab> */}
-            </Tabs>
-          )}
+                </Tabs>
+              )}
 
-        {!Permission.includes('manage_account_settings') &&
-          super_user === false && (
-            <Tabs
-              activeKey={tabKeyTwo}
-              onSelect={(keys: any) => {
-                setKeyTwo(keys);
-                sessionStorage.setItem('superUserTabTwo', keys);
-              }}
-            >
-              <Tab title={'Integrations'} eventKey={'0'}>
-                {tabKeyTwo === '0' && <IntegrationScreen />}
-              </Tab>
+            {!Permission.includes('manage_account_settings') &&
+              super_user === false && (
+                <Tabs
+                  activeKey={tabKeyTwo}
+                  onSelect={(keys: any) => {
+                    setKeyTwo(keys);
+                    sessionStorage.setItem('superUserTabTwo', keys);
+                  }}
+                >
+                  <Tab title={'Integrations'} eventKey={'0'}>
+                    {tabKeyTwo === '0' && <IntegrationScreen />}
+                  </Tab>
 
-              {/* <Tab title={'User Profile'} eventKey={'1'}>
+                  {/* <Tab title={'User Profile'} eventKey={'1'}>
                 <div
                   style={{
                     height: window.innerHeight - 192,
@@ -551,11 +558,12 @@ useEffect(() => {
                   )}
                 </div>
               </Tab> */}
-            </Tabs>
-          )}
+                </Tabs>
+              )}
+          </Flex>
 
-        {/* {routerPrompt} */}
-      </Flex>
+          {/* {routerPrompt} */}
+        </Flex>
       </>
     )
   );

@@ -223,6 +223,48 @@ const Notification = () => {
                                         </Flex>
                                       </LinkWrapper>
                                     </>
+                                  ) : list.description.toLowerCase() ===
+                                    'candidatenotes' ? (
+                                    <>
+                                      <Flex
+                                        onClick={() => {
+                                          setCandi(list.target_object_id);
+                                          setProfile(true);
+                                          setMessageTab(2);
+                                          handleReadNotification(list.id);
+                                        }}
+                                      >
+                                        <Flex
+                                          row
+                                          center
+                                          between
+                                          className={styles.hoverStyle}
+                                        >
+                                          <Flex
+                                            row
+                                            className={styles.listStyle}
+                                          >
+                                            <Text
+                                              size={12}
+                                              style={{ maxWidth: '75%' }}
+                                            >
+                                              {list.verb}
+                                            </Text>
+                                            <Text
+                                              style={{ marginLeft: 16 }}
+                                              size={12}
+                                              color="gray"
+                                            >
+                                              {moment(list.timestamp).fromNow()}
+                                            </Text>
+                                          </Flex>
+                                          {list.unread && (
+                                            <div className={styles.readStyle} />
+                                          )}
+                                        </Flex>
+                                      </Flex>
+                                      <hr className={styles.hr_line} />
+                                    </>
                                   ) : (
                                     <>
                                       {index === 0 ? (
@@ -366,6 +408,44 @@ const Notification = () => {
                                       </Flex>
                                     </LinkWrapper>{' '}
                                   </>
+                                ) : list.description.toLowerCase() ===
+                                  'candidatenotes' ? (
+                                  <>
+                                    <Flex
+                                      onClick={() => {
+                                        setCandi(list.target_object_id);
+                                        setProfile(true);
+                                        setMessageTab(2);
+                                        handleReadNotification(list.id);
+                                      }}
+                                    >
+                                      <Flex
+                                        row
+                                        center
+                                        between
+                                        className={styles.hoverStyle}
+                                      >
+                                        <Flex row className={styles.listStyle}>
+                                          <Text
+                                            size={12}
+                                            style={{ maxWidth: '75%' }}
+                                          >
+                                            {list.verb}
+                                          </Text>
+                                          <Text
+                                            style={{ marginLeft: 16 }}
+                                            size={12}
+                                            color="gray"
+                                          >
+                                            {moment(list.timestamp).fromNow()}
+                                          </Text>
+                                        </Flex>
+                                        {list.unread && (
+                                          <div className={styles.readStyle} />
+                                        )}
+                                      </Flex>
+                                    </Flex>
+                                  </>
                                 ) : (
                                   <>
                                     {' '}
@@ -503,6 +583,45 @@ const Notification = () => {
                                         </Flex>
                                       </Flex>
                                     </LinkWrapper>{' '}
+                                  </>
+                                ) : list.description.toLowerCase() ===
+                                  'candidatenotes' ? (
+                                  <>
+                                    <Flex
+                                      onClick={() => { 
+                                        setCandi(list.target_object_id);
+                                        setProfile(true);
+                                        setMessageTab(2);
+                                        handleReadNotification(list.id);
+                                      }}
+                                    >
+                                      <Flex
+                                        row
+                                        center
+                                        between
+                                        className={styles.hoverStyle}
+                                      >
+                                        <Flex row className={styles.listStyle}>
+                                          <Text
+                                            size={12}
+                                            style={{ maxWidth: '75%' }}
+                                          >
+                                            {list.verb}
+                                          </Text>
+                                          <Text
+                                            style={{ marginLeft: 16 }}
+                                            size={12}
+                                            color="gray"
+                                          >
+                                            {moment(list.timestamp).fromNow()}
+                                          </Text>
+                                        </Flex>
+                                        {list.unread && (
+                                          <div className={styles.readStyle} />
+                                        )}
+                                      </Flex>
+                                    </Flex>
+                                    <hr className={styles.hr_line} />
                                   </>
                                 ) : (
                                   <>

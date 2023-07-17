@@ -43,6 +43,7 @@ type Props = {
   // onBlur?: (a: any) => void;
   style?: string;
   autoFocus?: boolean;
+  onChange?: (val: string) => void;
   inputRef?: any;
   // title?:string | undefined;
 };
@@ -107,6 +108,8 @@ const InputSearch = ({
   style,
   autoFocus,
   inputRef,
+  ...rest
+  
 }: Props) => {
   const [currentsuggestion, setSuggestion] = useState<any[]>([]);
   const [currentvalue, setValue] = useState(initialValue);
@@ -121,7 +124,6 @@ const InputSearch = ({
   useEffect(() => {
     setValue(initialValue);
   }, [initialValue]);
-
   useEffect(() => {
     if (isEmpty(currentvalue)) {
       setNoOptions(false);
@@ -156,6 +158,9 @@ const InputSearch = ({
 
   const onChange = (_event: object, { newValue }: { newValue: string }) => {
     setValue(newValue);
+    if (rest.onChange) {
+      rest.onChange(newValue);
+    }
   };
 
   const handleFocus = () => {

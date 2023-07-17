@@ -1,0 +1,198 @@
+{
+    "messaage": "78-readed successfully",
+    "data": [
+      {
+        "wk_id": 78,
+        "emp_id_id": 396,
+        "pipeline_name": "Zita",
+        "is_active": false,
+        "created_on": "2023-05-09T11:40:36.827222Z",
+        "updated_at": "2023-05-09T11:40:36.827879Z",
+        "set_as_default": true,
+        "associate": 0
+      }
+    ],
+    "stages": [
+      {
+        "id": 109,
+        "workflow_id_id": 78,
+        "stage_id_id": null,
+        "stage_name": "New_Applicant",
+        "stage_order": 1,
+        "stage_color": "Red",
+        "created_at": "2023-05-09T11:40:36.839133Z",
+        "is_disabled": false
+      },
+      {
+        "id": 110,
+        "workflow_id_id": 78,
+        "stage_id_id": null,
+        "stage_name": "Shortlisted",
+        "stage_order": 2,
+        "stage_color": "Blue",
+        "created_at": "2023-05-09T11:40:36.849522Z",
+        "is_disabled": false
+      },
+      {
+        "id": 111,
+        "workflow_id_id": 78,
+        "stage_id_id": null,
+        "stage_name": "Interviewed",
+        "stage_order": 3,
+        "stage_color": "Yellow",
+        "created_at": "2023-05-09T11:40:36.857234Z",
+        "is_disabled": false
+      },
+      {
+        "id": 112,
+        "workflow_id_id": 78,
+        "stage_id_id": null,
+        "stage_name": "Hired",
+        "stage_order": 4,
+        "stage_color": "Green",
+        "created_at": "2023-05-09T11:40:36.863914Z",
+        "is_disabled": false
+      },
+      {
+        "id": 113,
+        "workflow_id_id": 78,
+        "stage_id_id": null,
+        "stage_name": "Rejected",
+        "stage_order": 5,
+        "stage_color": "White",
+        "created_at": "2023-05-09T11:40:36.873060Z",
+        "is_disabled": false
+      }
+    ],
+    "suggestion": [
+      {
+        "suggestion_id": 48,
+        "wk_id_id": 396,
+        "stage_name": "New_Applicant",
+        "stage_order": 1,
+        "stage_color": "Red",
+        "is_disabled": true
+      },
+      {
+        "suggestion_id": 49,
+        "wk_id_id": 396,
+        "stage_name": "Shortlisted",
+        "stage_order": 2,
+        "stage_color": "Blue",
+        "is_disabled": true
+      },
+      {
+        "suggestion_id": 50,
+        "wk_id_id": 396,
+        "stage_name": "Interviewed",
+        "stage_order": 3,
+        "stage_color": "Yellow",
+        "is_disabled": false
+      },
+      {
+        "suggestion_id": 51,
+        "wk_id_id": 396,
+        "stage_name": "Hired",
+        "stage_order": 4,
+        "stage_color": "Green",
+        "is_disabled": true
+      },
+      {
+        "suggestion_id": 52,
+        "wk_id_id": 396,
+        "stage_name": "Rejected",
+        "stage_order": 5,
+        "stage_color": "White",
+        "is_disabled": true
+      },
+      {
+        "suggestion_id": 53,
+        "wk_id_id": 396,
+        "stage_name": "Screening",
+        "stage_order": 6,
+        "stage_color": "Green",
+        "is_disabled": false
+      },
+      {
+        "suggestion_id": 54,
+        "wk_id_id": 396,
+        "stage_name": "Assessment",
+        "stage_order": 7,
+        "stage_color": "Grey",
+        "is_disabled": false
+      },
+      {
+        "suggestion_id": 55,
+        "wk_id_id": 396,
+        "stage_name": "Scheduling Interview",
+        "stage_order": 8,
+        "stage_color": "Grey",
+        "is_disabled": false
+      },
+      {
+        "suggestion_id": 56,
+        "wk_id_id": 396,
+        "stage_name": "Phone Interview",
+        "stage_order": 9,
+        "stage_color": "Grey",
+        "is_disabled": false
+      },
+      {
+        "suggestion_id": 57,
+        "wk_id_id": 396,
+        "stage_name": "On-site Interview",
+        "stage_order": 10,
+        "stage_color": "Grey",
+        "is_disabled": false
+      },
+      {
+        "suggestion_id": 58,
+        "wk_id_id": 396,
+        "stage_name": "HR interview",
+        "stage_order": 11,
+        "stage_color": "Grey",
+        "is_disabled": false
+      },
+      {
+        "suggestion_id": 59,
+        "wk_id_id": 396,
+        "stage_name": "Final Interview",
+        "stage_order": 12,
+        "stage_color": "Grey",
+        "is_disabled": false
+      },
+      {
+        "suggestion_id": 60,
+        "wk_id_id": 396,
+        "stage_name": "Scheduling Interview",
+        "stage_order": 13,
+        "stage_color": "Grey",
+        "is_disabled": false
+      },
+      {
+        "suggestion_id": 61,
+        "wk_id_id": 396,
+        "stage_name": "On-Hold",
+        "stage_order": 14,
+        "stage_color": "Grey",
+        "is_disabled": false
+      },
+      {
+        "suggestion_id": 62,
+        "wk_id_id": 396,
+        "stage_name": "On Boarding",
+        "stage_order": 15,
+        "stage_color": "Grey",
+        "is_disabled": false
+      },
+      {
+        "suggestion_id": 63,
+        "wk_id_id": 396,
+        "stage_name": "Probation",
+        "stage_order": 16,
+        "stage_color": "Grey",
+        "is_disabled": false
+      }
+    ]
+  }
+  

@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { string } from 'prop-types';
 import {
   AllMatchReducerState,
   ApplicantFavReducerState,
@@ -10,11 +11,13 @@ import {
   MessageTemplateReducerState,
   NotesReducerState,
   ScreenStatusReducerState,
+  MentionReducerState,
 } from '../../applicantProfileTypes';
 import {
   applicantAllMatchMiddleWare,
   applicantFavoriteMiddleWare,
   applicantMatchMiddleWare,
+  applicantUserListMiddleWare,
   applicantMessagesMiddleWare,
   applicantNotesMiddleWare,
   applicantProfileInitialMiddleWare,
@@ -23,6 +26,8 @@ import {
   calenderMiddleWare,
   messagesTemplatesMiddleWare,
 } from '../middleware/applicantProfileMiddleware';
+
+
 
 const applicantProfileInitialState: ApplicantProfileReducerState = {
   isLoading: false,
@@ -322,7 +327,8 @@ const applicantNotesState: NotesReducerState = {
       notes: '',
       updated_by: null,
       created_at: '',
-      emp_image:''
+      emp_image:'',
+      user:0,
     },
   ],
 };
@@ -341,6 +347,38 @@ const applicantNotesReducer = createSlice({
       state.notes = action.payload;
     });
     builder.addCase(applicantNotesMiddleWare.rejected, (state, action) => {
+      state.isLoading = false;
+      if (typeof action.payload === 'string') {
+        state.error = action.payload;
+      }
+    });
+  },
+});
+
+const applicantUserListstate:  MentionReducerState = {
+  isLoading: false,
+  error: '',
+  data:[
+    {
+    user:0,
+    value:'',
+  }
+  ],
+};
+const applicantUserListReducer = createSlice({
+  name: 'applicant',
+  initialState: applicantUserListstate,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase( applicantUserListMiddleWare.pending, (state) => {
+      state.isLoading = true;
+      state.error = '';
+    });
+    builder.addCase( applicantUserListMiddleWare.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.data = action.payload.data;
+    });
+    builder.addCase( applicantUserListMiddleWare.rejected, (state, action) => {
       state.isLoading = false;
       if (typeof action.payload === 'string') {
         state.error = action.payload;
@@ -413,7 +451,7 @@ const applicantMessageState: MessageReducerState = {
       message: '',
       receiver_image: '',
       sender_image: '',
-      last_name:''
+      last_name: '',
     },
   ],
 };
@@ -510,6 +548,7 @@ const calenderReducer = createSlice({
 const applicantStatusState: ScreenStatusReducerState = {
   isLoading: false,
   error: '',
+  stages: [],
   applied: [],
   interviewed: [],
   invite: [],
@@ -529,12 +568,13 @@ const applicantStausReducer = createSlice({
     });
     builder.addCase(applicantStatusMiddleWare.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.applied = action.payload.applied;
-      state.interviewed = action.payload.interviewed;
-      state.invite = action.payload.invite;
-      state.selected = action.payload.selected;
-      state.shortlisted = action.payload.shortlisted;
-      state.rejected = action.payload.rejected;
+      state.stages = (action.payload || []);
+      // state.applied = action.payload.applied;
+      // state.interviewed = action.payload.interviewed;
+      // state.invite = action.payload.invite;
+      // state.selected = action.payload.selected;
+      // state.shortlisted = action.payload.shortlisted;
+      // state.rejected = action.payload.rejected;
     });
     builder.addCase(applicantStatusMiddleWare.rejected, (state, action) => {
       state.isLoading = false;
@@ -613,6 +653,7 @@ export const applicantProfileInitalReducers =
   applicantProfileInitalReducer.reducer;
 export const applicantMatchReducers = applicantMatchReducer.reducer;
 export const applicantNotesReducers = applicantNotesReducer.reducer;
+export const applicantUserlistReducer =applicantUserListReducer.reducer;
 export const applicantAllMatchReducers = applicantAllMatchReducer.reducer;
 export const applicantMessageReducers = applicantMessageReducer.reducer;
 export const applicantScoreReducers = applicantScoreReducer.reducer;

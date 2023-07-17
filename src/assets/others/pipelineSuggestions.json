@@ -1,0 +1,44 @@
+[
+  
+  {
+    "id": "1SUG",
+    "title": "Screening"
+  },
+  {
+    "id": "2SUG",
+    "title": "Assessment"
+  },
+  {
+    "id": "3SUG",
+    "title": "Scheduling Interview"
+  },
+  {
+    "id": "4SUG",
+    "title": "Phone Interview"
+  },
+  {
+    "id": "5SUG",
+    "title": "On-Site Interview"
+  },
+  {
+    "id": "6SUG",
+    "title": "HR Interview"
+  },
+  {
+    "id": "7SUG",
+    "title": "Final Interview"
+  },
+  {
+    "id": "8SUG",
+    "title": "On-Hold"
+  },
+  {
+    "id": "9SUG",
+    "title": "Onboarding"
+  },
+  {
+    "id": "10SUG",
+    "title": "Probation"
+  }
+
+]

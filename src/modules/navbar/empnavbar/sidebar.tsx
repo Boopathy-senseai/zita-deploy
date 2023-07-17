@@ -25,33 +25,28 @@ import LinkWrapper from '../../../uikit/Link/LinkWrapper';
 import Loader from '../../../uikit/Loader/Loader';
 import Text from '../../../uikit/Text/Text';
 import { userProfileMiddleWare } from '../../accountsettingsmodule/userprofilemodule/store/middleware/userprofilemiddleware';
-import { mediaPath } from '../../constValue';
 import { permissionMiddleWare } from '../../Login/store/middleware/loginMiddleWare';
 import { logOutMiddleWare } from '../store/middleware/navbarmiddleware';
 import styles from './notification.module.css';
 
 import NavigationSearch from './NavigationSearch';
 import Notification from './Notification';
- 
-
 
 const cx = classNames.bind(styles);
- type props ={
+type props = {
   changes: (arg: boolean) => void;
   data: () => void;
- }
-  
-const Sidebar = ({changes,data }:props) => {
+};
+
+const Sidebar = ({ changes, data }: props) => {
   const dispatch: AppDispatch = useDispatch();
   //const [Select, setSelect] = useState('/');
   const [Expent, setExpent] = useState();
   const { pathname } = useLocation();
   const history = useHistory();
-  const changeurl= sessionStorage.getItem('changingurl');
-  const handleNavigate = (val) => {
-    
-  };
- 
+  const changeurl = sessionStorage.getItem('changingurl');
+  const handleNavigate = (val) => {};
+
   useEffect(() => {
     const toggle: any =
       sessionStorage.getItem('EmpToggle') === null
@@ -76,20 +71,24 @@ const Sidebar = ({changes,data }:props) => {
     },
   );
   const accountPath = '/account_setting/settings';
- 
-  const clearTab = () => { 
-  sessionStorage.removeItem('superUserTab');
-  sessionStorage.removeItem('superUserFalseTab');
-};
- 
-const clearTabs = (e) => {  
-  e.stopPropagation();
-  if(window.confirm(LEAVE_THIS_SITE)) {
-    history.push('/')
-} else {
-  e.preventDefault()
-}
-};
+
+  const clearTab = () => {
+    sessionStorage.removeItem('superUserTab');
+    sessionStorage.removeItem('superUserFalseTab');
+    sessionStorage.removeItem('template');
+    sessionStorage.removeItem('pipeline');
+    sessionStorage.removeItem('button');
+    sessionStorage.removeItem('wk_id');
+  };
+
+  const clearTabs = (e) => {
+    e.stopPropagation();
+    if (window.confirm(LEAVE_THIS_SITE)) {
+      history.push('/');
+    } else {
+      e.preventDefault();
+    }
+  };
   return (
     
     <>
@@ -145,8 +144,8 @@ const clearTabs = (e) => {
             <li  title='Dashboard' className={pathname === '/' ? styles.select_row : ''}>
             <a
                 className={styles.hoverview}
-                href={" "} 
-                onClick={(e)=>{
+                href={' '}
+                onClick={(e) => {
                   e.preventDefault();
                 }}
               >
@@ -552,22 +551,26 @@ const clearTabs = (e) => {
                     pathname.includes('/reports') ? styles.select_row : ''
                   }
                 >
-                <a
-                className={styles.hoverview}
-                href={" "} 
-                onClick={(e)=>{
-                  e.preventDefault();
-                }}
-              >
-                  <SvgReport fill={'none'}  />
-                  <Text
-                    onClick={() => handleNavigate(6)}
-                    className={Expent === '0' ? styles.text : styles.classpan}
-                    color="primary"
-                    style={{ color: '#581845', marginRight: '10px',marginLeft:'20px' }}
+                  <a
+                    className={styles.hoverview}
+                    href={' '}
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
                   >
-                    Reports
-                  </Text>
+                    <SvgReport fill={'none'} />
+                    <Text
+                      onClick={() => handleNavigate(6)}
+                      className={Expent === '0' ? styles.text : styles.classpan}
+                      color="primary"
+                      style={{
+                        color: '#581845',
+                        marginRight: '10px',
+                        marginLeft: '20px',
+                      }}
+                    >
+                      Reports
+                    </Text>
                   </a>
                 </li>
               )}
@@ -623,24 +626,24 @@ const clearTabs = (e) => {
                 <li
                   className={pathname === '/calendar' ? styles.select_row : ''} title='Calendar'
                 >
-                <a
-                className={styles.hoverview}
-                href={" "} 
-                onClick={(e)=>{
-                  e.preventDefault();
-                }}
-              >
-                <text style={{marginLeft:"-2px"}}>
-                <SvgCalendar  height={22} width={22} />
-                </text>  
-                  <Text
-                    onClick={() => handleNavigate(7)}
-                    className={Expent === '0' ? styles.text : styles.classpan}
-                    color="primary"
-                    style={{ color: '#581845', marginRight: '10px' }}
+                  <a
+                    className={styles.hoverview}
+                    href={' '}
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
                   >
-                    Calendar
-                  </Text>
+                    <text style={{ marginLeft: '-2px' }}>
+                      <SvgCalendar height={22} width={22} />
+                    </text>
+                    <Text
+                      onClick={() => handleNavigate(7)}
+                      className={Expent === '0' ? styles.text : styles.classpan}
+                      color="primary"
+                      style={{ color: '#581845', marginRight: '10px' }}
+                    >
+                      Calendar
+                    </Text>
                   </a>
                 </li>
               )}
@@ -685,15 +688,22 @@ const clearTabs = (e) => {
               </a>
             </li>
           )}
-          <li >
+          <li>
             {Expent === '0' ? (
-              <div style={{}} >
-                <Button style={{height:'19px',width:'19px',position:'relative',bottom:'45px',left:'25px'}}
+              <div style={{}}>
+                <Button
+                  style={{
+                    height: '19px',
+                    width: '19px',
+                    position: 'relative',
+                    bottom: '45px',
+                    left: '25px',
+                  }}
                   types="link"
                   className={styles.collapse}
                   onClick={() => handlecheck('1')}
                 >
-                  <SvgCollapse  height={19} width={18} />
+                  <SvgCollapse height={19} width={18} />
                 </Button>
               </div>
             ) : (

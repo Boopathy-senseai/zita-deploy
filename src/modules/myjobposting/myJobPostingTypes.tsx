@@ -2,14 +2,13 @@ export interface MyJobPosing {
   location_list?: string[];
   job_title?: string[];
   job_ids?: string[];
- 
 }
 
 export interface MyJobPosingData {
   final_list: FinalListEntity[];
   career_page_url: string;
   len_list: number;
-  Jobs_List: number|string;
+  Jobs_List: number | string;
   params: string;
   domain: string;
   location?: LocationEntity[];
@@ -49,8 +48,8 @@ export interface FinalListEntity {
   job_type_id: number;
   jd_status__label_name: string;
   created_on: string;
-  applicant?: string;
-  selected?: string;
+  applicants?: string;
+  hired?: string;
   rejected?: string;
   shortlisted?: string;
   location_jd: string;
@@ -92,7 +91,6 @@ export interface MyJobPosingDataReducerState extends MyJobPosingData {
 }
 
 export interface MyJobPostingPayload {
- 
   jobId?: string;
   postedOn?: string;
   jobType?: string;

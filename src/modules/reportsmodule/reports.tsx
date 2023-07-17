@@ -28,8 +28,11 @@ const Reports = () => {
   return (
     <div
       style={{
-        height,
-        overflowY: 'scroll',
+        position: "relative",
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+        overflowY: 'auto',
       }}
     >
       <Flex className={styles.overAll} >
