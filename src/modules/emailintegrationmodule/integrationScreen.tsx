@@ -233,19 +233,19 @@ const EmailScreen = () => {
   };
 
   const updateroute = (val) => {
-    if(val !== sideroute){
-     setPrevious(25);
-    setSkip(0);
-    setDel(0);
-    setPrevious1(1);
-    setmessagelist([]);
-    setmesage('');
-    setSearchDropdown(false);
-    setSearch('');
-    setsideroute(val);
-    setSearchFolder('All Folder');
-    setSearchSection('All');
-    setAttachments([]);
+    if (val !== sideroute) {
+      setPrevious(25);
+      setSkip(0);
+      setDel(0);
+      setPrevious1(1);
+      setmessagelist([]);
+      setmesage('');
+      setSearchDropdown(false);
+      setSearch('');
+      setsideroute(val);
+      setSearchFolder('All Folder');
+      setSearchSection('All');
+      setAttachments([]);
     }
   };
 
@@ -512,7 +512,7 @@ const EmailScreen = () => {
             <div className={styles.triangle}> </div>
           </Flex>
           <Flex row className={styles.container}>
-            <Flex className={styles.containerColumn}>
+            <Flex className={styles.containerColumn} marginTop={1}>
               <Sidebar
                 open={modelupdate}
                 send={Send}
@@ -526,7 +526,7 @@ const EmailScreen = () => {
                 sidebarroute={sideroute}
               />
             </Flex>
-            <Flex flex={4} className={styles.containerColumn}>
+            <Flex flex={4} marginTop={1} className={styles.containerColumn}>
               {/* <Pagination
               previousfun={Previousdata}
               nextfun={Nextdata}
@@ -545,7 +545,14 @@ const EmailScreen = () => {
                 page={page}
               />
             </Flex>
-            <Flex flex={9} className={styles.containerColumn}>
+            <Flex
+              flex={9}
+              marginTop={1}
+              marginRight={1}
+              width={'100%'}
+              height={'100%'}
+              className={styles.containerColumn1}
+            >
               <Message
                 message={message}
                 sidebarroute={sideroute}

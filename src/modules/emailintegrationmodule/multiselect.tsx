@@ -5,6 +5,7 @@ type Props = {
   options?: any;
   onChange?: (arg: any) => void;
   value?: any;
+  placeholder?: string;
 };
 const customStyles: StylesConfig = {
   control: (baseStyles, state) => ({
@@ -21,7 +22,6 @@ const customStyles: StylesConfig = {
     },
     '&: css-319lph-ValueContainer':{
       padding: "unset"
-
     },
     minHeight: "10px",
     cursor: 'text',
@@ -77,13 +77,18 @@ const customStyles: StylesConfig = {
       color: '#333333',
     },
   }),
+  placeholder: (styles) => ({
+    ...styles,
+    color: "#b3b3b3",
+    fontSize: "12px",
+  }),
 };
 
-const multiselect = ({ options, onChange, value }: Props) => {
+const multiselect = ({ options, onChange, value,placeholder }: Props) => {
   return (
     <Select
       isMulti
-      placeholder={''}
+      placeholder={placeholder}
       isClearable={false}
       styles={customStyles}
       options={options}

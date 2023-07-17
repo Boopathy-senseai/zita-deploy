@@ -6,7 +6,6 @@ import { reports } from '../../../appRoutesPath';
 import SvgCalendar from '../../../icons/SvgDBCalandar';
 import SvgDashboard from '../../../icons/SvgDashboard';
 import useUnsavedChangesWarning from '../../common/useUnsavedChangesWarning';
-import SvgCollapse from '../../../icons/SvgCollapse';
 import SvgExpand from '../../../icons/SvgExpant';
 import SvgJobPost from '../../../icons/SvgJobPost';
 import SvgSetting from '../../../icons/SvgSetting';
@@ -28,6 +27,7 @@ import Text from '../../../uikit/Text/Text';
 import { userProfileMiddleWare } from '../../accountsettingsmodule/userprofilemodule/store/middleware/userprofilemiddleware';
 import { permissionMiddleWare } from '../../Login/store/middleware/loginMiddleWare';
 import { logOutMiddleWare } from '../store/middleware/navbarmiddleware';
+import SvgCollapse from '../../../icons/Svgcollapse';
 import styles from './notification.module.css';
 
 import NavigationSearch from './NavigationSearch';

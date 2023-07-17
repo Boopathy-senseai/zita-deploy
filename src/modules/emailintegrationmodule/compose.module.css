@@ -23,14 +23,15 @@
   flex-direction: column;
 }
 .minimised {
-  width: 600px;
+  width: 400px;
   height: 30px;
   background-color: white;
   border-radius: 5px 5px 0px 0px;
   position: absolute;
   right: 0;
-  bottom: 5px;
+  bottom: 1px;
   z-index: 1;
+  margin-right: 15px;
 }
 
 .topSection {

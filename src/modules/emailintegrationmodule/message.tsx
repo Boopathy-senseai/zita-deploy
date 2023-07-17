@@ -102,7 +102,7 @@ const Inbox = ({
           .then((res) => {
             removemsg();
             page();
-            Toast('Email remove permanent successfully', 'SHORT', 'success');
+            Toast('Email removed permanently', 'SHORT', 'success');
 
             // console.log('res---------', res);
           })
@@ -204,7 +204,7 @@ const Inbox = ({
   };
   const messageIcon = message !== '';
   return (
-    <div>
+    <div style={{width:"100%", height:"100%"}}>
       {console.log('meaa', message)}
       <Flex flex={1} row between center className={styles.iconContainer}>
         {sidebarroute !== 3 ? (
@@ -299,7 +299,7 @@ const Inbox = ({
           </>
         ) : (
           <>
-            <Flex row>
+            <Flex row width={'100%'} height={'100%'}>
               {' '}
               <Flex
                 title="Delete"
@@ -347,6 +347,7 @@ const Inbox = ({
         style={{
           padding: '5px 10px',
           width: '100%',
+          height:"100%"
         }}
         className={styles.bodyContainer}
       >
@@ -362,7 +363,7 @@ const Inbox = ({
                 }}
               >
                 <Flex row between style={{ borderBottom: '1px solid #c3c3c3' }}>
-                  <Flex width={'100%'} style={{ padding: '5px 10px' }}>
+                  <Flex width={'100%'} height={'100%'} style={{ padding: '5px 10px' }}>
                     <Flex row between width={'100%'}>
                       {message.isDraft !== true ? (
                         <Text bold size={14}>
@@ -432,7 +433,7 @@ const Inbox = ({
               style={{
                 alignContent: 'center',
                 alignItems: 'center',
-                height: '100vh',
+                height: '100%',
                 width: '100%',
                 display: 'flex',
                 justifyContent: 'center',

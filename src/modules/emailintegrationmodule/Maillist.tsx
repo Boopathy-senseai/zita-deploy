@@ -104,21 +104,20 @@ const Maillist = ({
       {console.log('siderouteaaa', sideroute)}
       {console.log('folder', mailfolders)}
       <Flex
-        style={{ marginLeft: '2px', borderRight: '1px solid #c3c3c3' }}
+        style={{ margintop: '1px'}}
         className={styles.maillist}
       >
         <Flex
           row
           between
           style={{
-            padding: '4px',
-            marginBottom: '10px',
             borderBottom: '1px solid #c3c3c3',
           }}
         >
+          <Flex style={{padding: "6px", }}>
           {showfolder()}
-
-          <Flex title="Refresh" marginLeft={5}>
+          </Flex>
+          <Flex title="Refresh" style={{padding: "6px", }}>
             <SvgRefresh width={18} height={18} onClick={referesh} />
           </Flex>
         </Flex>

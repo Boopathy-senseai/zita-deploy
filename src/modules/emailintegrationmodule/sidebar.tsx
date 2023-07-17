@@ -142,7 +142,7 @@ const Sidebar = ({
               href={' '}
               onClick={(e) => sendmessage(e, 2)}
               className={styles.hoverview}
-              title="Sent"
+              title="Sent Items"
             >
               <SvgSend
                 width={16}
@@ -163,7 +163,7 @@ const Sidebar = ({
               href={' '}
               onClick={(e) => draftmessage(e, 3)}
               className={styles.hoverview}
-              title="Draft"
+              title="Drafts"
             >
               <SvgDraft
                 width={16}
@@ -205,7 +205,7 @@ const Sidebar = ({
               href={' '}
               onClick={(e) => trashmessage(e, 5)}
               className={styles.hoverview}
-              title="Trash"
+              title="Deleted Items"
             >
               <SvgTrash
                 width={16}
@@ -226,7 +226,7 @@ const Sidebar = ({
               href={' '}
               onClick={(e) => junkmessage(e, 6)}
               className={styles.hoverview}
-              title="Junk"
+              title="Junk Email"
             >
               <SvgJunk
                 width={16}

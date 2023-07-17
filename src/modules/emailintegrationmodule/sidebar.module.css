@@ -1,5 +1,5 @@
 .sidebar {
-  margin-top: 1px;
+  /* margin-top: 1px; */
   height: 90vh;
   z-index: 1;
   top: 0;
@@ -10,6 +10,7 @@
   box-shadow: 2px 2px 2px #d7c7d2;
   display: flex;
   justify-content: center;
+  margin-right: 5px;
 }
 ul{
   list-style-type: none;

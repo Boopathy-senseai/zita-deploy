@@ -37,7 +37,8 @@ import RichText from '../common/RichText';
 import { SvgTrash } from '../../icons';
 import { composemail, mailreplay, mailforward } from '../../emailService';
 import InputText from '../../uikit/InputText/InputText';
-import SvgCollapse from '../../icons/SvgCollapse';
+import SvgCollapse from '../../icons/Svgcollapse';
+import SvgExitFullScreen from '../../icons/SvgFullscreen';
 import VerificationModel from './emailverificationmodelwindow';
 import Draftmodel from './draftsavemodal';
 import Multiselect from './multiselect';
@@ -107,7 +108,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
     };
   });
 
-  console.log('email ccollection', emailcollection.emailcollection);
+  // console.log('email ccollection', emailcollection.emailcollection);
 
   const [subject, setSubject] = useState('');
 
@@ -488,14 +489,16 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
               <Text color="white">New Email</Text>
               <Flex row center between className={styles.optionMenu}>
                 <Flex
-                  title="Minimize"
+                  title={style === 1 ? 'Minimize' : 'Maximize'}
                   style={{
                     marginTop: '10px',
                     marginRight: '15px',
                     cursor: 'pointer',
                   }}
                 >
-                  <SvgVectorMinimise onClick={Minimise} />
+                  <Flex style={{justifyConent: style === 1 ? "flex-start" : "center", cursor: 'pointer'}}>
+                    <SvgVectorMinimise onClick={Minimise} />
+                  </Flex>
                 </Flex>
                 <Flex
                   title={style === 1 ? 'Exit full screen' : 'Full screen'}
@@ -506,9 +509,19 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                   }}
                 >
                   {style === 1 ? (
-                    <SvgCollapse fill="#ffffff" onClick={handleViewPopup} />
+                    <SvgExitFullScreen
+                      width={11}
+                      height={11}
+                      fill="#ffffff"
+                      onClick={handleViewPopup}
+                    />
                   ) : (
-                    <SvgVectorexpand onClick={handleview} />
+                    <SvgVectorexpand
+                      width={11}
+                      height={11}
+                      fill="#ffffff"
+                      onClick={handleview}
+                    />
                   )}
                 </Flex>
                 <Flex
@@ -547,18 +560,21 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                   </Text>
                 </Flex>
                 <Flex row center between className={styles.inputField}>
-                  <Flex row center style={{ width: '100%' }}>
+                  <Flex row style={{ width: '100%' }}>
                     <Text>To </Text>
                     <Flex marginLeft={14} style={{ width: '100%' }}>
                       <Multiselect
                         options={emailcollection.emailcollection}
                         onChange={(e) => getto(e)}
                         value={tosample}
+                        placeholder={
+                          'Search for a candidate, applicant, or team member'
+                        }
                       />
                     </Flex>
                   </Flex>
 
-                  <Flex row>
+                  <Flex row bottom>
                     {!openCc ? (
                       <Flex
                         marginRight={15}
@@ -595,6 +611,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                           options={emailcollection.emailcollection}
                           onChange={(e) => getcc(e)}
                           value={ccsample}
+                          placeholder={'Add Cc recipients'}
                         />
                       </Flex>
                     </Flex>
@@ -617,6 +634,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                           options={emailcollection.emailcollection}
                           onChange={(e) => getbcc(e)}
                           value={bccsample}
+                          placeholder={'Add Bcc recipients'}
                         />
                       </Flex>
                     </Flex>
@@ -632,7 +650,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                     value={subject}
                     className={styles.inputStyle}
                     onChange={(e) => getsubject(e)}
-                    placeholder="Add a subject"
+                    placeholder="Add your email subject"
                     style={{ padding: '4px 12px 3px 3px' }}
                   />
                 </Flex>
