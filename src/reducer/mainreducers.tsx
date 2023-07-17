@@ -11,6 +11,7 @@ import {
   applicantMatchReducers,
   applicantMessageReducers,
   applicantNotesReducers,
+  applicantUserlistReducer,
   applicantProfileInitalReducers,
   applicantScoreReducers,
   applicantStausReducers,
@@ -114,6 +115,7 @@ import { schedulerReducers, slotterReducers,timezoneReducers } from '../modules/
 
 export const reducers = {
   talentSourcingReducers,
+  applicantUserlistReducer,
   talentSourcingSearchReducers,
   talentUnlockCandidateReducers,
   bulkActionReducers,

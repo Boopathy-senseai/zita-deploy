@@ -51,11 +51,13 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     suggestions,
     pipelineSuggestions,
     isLoading,
+    isUpdateLoading,
     error,
   } = useSelector(
     ({ templatePageReducers, pipelinePageReducers }: RootState) => {
       return {
         isLoading: templatePageReducers.isLoading,
+        isUpdateLoading: templatePageReducers.isUpdateLoading,
         error: templatePageReducers.error,
         pipeline: templatePageReducers.data[0],
         piplineList: pipelinePageReducers.pipeline,
@@ -77,6 +79,8 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     isStageExist,
     addDefaultStages,
     isEqual,
+    sortStages,
+    updateStageOrder,
     NEW_APPLICANT_STAGE,
   } = useStages(stages);
 
@@ -84,11 +88,15 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     useSuggestions(wk_id ? suggestions : pipelineSuggestions);
 
   useEffect(() => {
+    if (error !== '') {
+      Toast(error, 'LONG', 'error');
+    }
+  }, [error]);
+
+  useEffect(() => {
     if (wk_id) {
-      setSubmitLoader(true);
-      dispatch(getTemplateDataMiddleWare(wk_id)).then(() => {
-        setSubmitLoader(false);
-      });
+      // setSubmitLoader(true);
+      dispatch(getTemplateDataMiddleWare(wk_id));
     } else {
       dispatch(templatePageReducerActions.clearState());
       addDefaultStages(undefined);
@@ -97,6 +105,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
       dispatch(templatePageReducerActions.clearState());
     };
   }, [wk_id]);
+
   useEffect(() => {
     if (pipeline) {
       setForm({ ...form, pipelineTitle: pipeline.pipeline_name });
@@ -135,7 +144,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     if (!isEmpty(values.pipelineTitle) && values?.pipelineTitle.trim() === '') {
       errors.pipelineTitle = 'Enter a valid Pipeline Title';
     }
-    
+
     if (
       !isEmpty(values.pipelineTitle) &&
       values.pipelineTitle.trim().length > 25
@@ -193,14 +202,14 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
   const handleCreate = () => {
     const payload: ICreateTemplate = {
       pipeline_name: formik.values.pipelineTitle.trim(),
-      stages: localStages.map((doc, index) => ({ ...doc, stage_order: index + 1})),
+      stages: updateStageOrder(localStages),
       suggestion: localSuggestions.map((v) => v.suggestion_id),
     };
-    setSubmitLoader(true);
+    // setSubmitLoader(true);
     dispatch(createTemplateDataMiddleWare(payload)).then(() => {
-      setSubmitLoader(false);
+      // setSubmitLoader(false);
+      handleBack();
     });
-    handleBack();
   };
 
   /// update form
@@ -209,139 +218,173 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     const payload: IUpdateTemplate = {
       pipeline_name: formik.values.pipelineTitle.trim(),
       workflow_id: wk_id,
-      stages: localStages.map((doc, index) => ({ ...doc, stage_order: index + 1})),
+      stages: updateStageOrder(localStages),
       suggestion: localSuggestions.map((v) => v.suggestion_id),
     };
-    setSubmitLoader(true);
+    // setSubmitLoader(true);
     dispatch(updateTemplateDataMiddleWare(payload)).then(() => {
-      setSubmitLoader(false);
-      Toast('Changes saved successfully.', 'LONG');
+      // setSubmitLoader(false);
+      Toast('Changes saved successfully', 'LONG');
     });
   };
+ 
   /// skip stages
-  if(isLoading){
+  if (isLoading) {
     return <Loader />;
   }
   return (
-    <Flex style={{ display: "flex", flexDirection: "column", position: "relative", height: "100%", overflow: "hidden"}}>
-      {isSubmitLoader && <Loader />}
-      <Flex column className={styles.bottomBorder}>
-        <Flex column marginBottom={15} marginTop={15} start>
-          <InputText
-            inputConatinerClass={styles.with80}
-            label="Pipeline Title"
-            disabled={pipeline?.is_active}
-            labelSize={14}
-            required
-            name="pipelineTitle"
-            value={formik.values.pipelineTitle}
-            style={{ width: '250px', marginBottom: '5px' }}
-            onChange={formik.handleChange('pipelineTitle')}
-            className={styles.input}
-          />
-          <ErrorMessage
-            touched={formik.touched}
-            errors={formik.errors}
-            name="pipelineTitle"
-          />
-        </Flex>
-        <Flex row noWrap style={{ display: "flex", flexDirection: "row", position: "relative", flex: 1, overflow: "hidden"}}>
-          <Flex
-            flex={4}
-            className={`${styles.columnGroup} ${styles.borderRightLine}`}
-          >
-            <Flex column start marginBottom={20}>
-              <Text color="black2" bold size={14}>
-                Pipeline Stages
-              </Text>
-              <Text color="black2" size={13}>
-                Create, Rename, reorder, and delete job pipeline stages.
-              </Text>
-            </Flex>
-            <Flex column style={{ overflowY: 'scroll', maxHeight: '390px' }}>
-              <StageCard
-                doc={NEW_APPLICANT_STAGE}
-                index={-1}
-                isColorPicker={false}
-                isDrag={false}
-                // onEdit={onStageEdit}
-                //onDelete={onStageDelete}
-              />
-              <ReorderStage
-                list={localStages}
-                onEdit={onEditStage}
-                onDelete={onRemoveStage}
-                onChange={onReorder}
-              />
-            </Flex>
-          </Flex>
-          <Flex
-            flex={4}
-            className={`${styles.columnGroup} ${styles.paddingLeft}`}
-          >
-            <Flex column start marginBottom={20}>
-              <Text bold color="black2" size={14}>
-                Proposed Stages
-              </Text>
-              <Text size={13} color="black2">
-                Click on the below stages to add it to your pipeline.
-              </Text>
-            </Flex>
-            <PipelineSuggestions
-              wk_id={wk_id}
-              localStages={localStages}
-              suggestions={localSuggestions}
-              isStageExist={isStageExist}
-              onAddStageFromSuggestion={onAddStageFromSuggestion}
-              onRemoveStage={onRemoveStage}
-              isStageDuplicate={isStageDuplicate}
-              onRemoveSuggestion={(value) =>
-                onRemoveSuggestion(value.suggestion_id)
-              }
+    <>
+      {isUpdateLoading && <Loader />}
+      <Flex
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          position: 'relative',
+          height: '100%',
+          overflow: 'hidden',
+        }}
+      >
+        <Flex column className={styles.bottomBorder}>
+          <Flex column marginBottom={15} marginTop={15} start>
+            <InputText
+              inputConatinerClass={styles.with80}
+              label="Pipeline Title"
+              disabled={pipeline?.is_active}
+              labelSize={14}
+              required
+              name="pipelineTitle"
+              value={formik.values.pipelineTitle}
+              style={{ width: '250px', marginBottom: '5px' }}
+              onChange={formik.handleChange('pipelineTitle')}
+              className={styles.input}
+            />
+            <ErrorMessage
+              touched={formik.touched}
+              errors={formik.errors}
+              name="pipelineTitle"
             />
           </Flex>
+
+          <Flex
+            row
+            noWrap
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              position: 'relative',
+              flex: 1,
+              overflow: 'hidden',
+              boxShadow: '0px 0px 2px 0px rgba(0, 0, 0, 0.36)',
+              padding: 28,
+              margin: '0 1px',
+              borderRadius: 10,
+            }}
+          >
+            <Flex
+              flex={4}
+              className={`${styles.columnGroup} ${styles.borderRightLine}`}
+            >
+              <Flex column start marginBottom={20}>
+                <Text color="black2" bold size={14}>
+                  Pipeline Stages
+                </Text>
+                <Text color="black2" size={13}>
+                  Create, Rename, reorder, and delete job pipeline stages.
+                </Text>
+              </Flex>
+              <Flex
+                column
+                style={{
+                  overflowY: 'auto',
+                  maxHeight: '370px',
+                  padding: '2px 2px',
+                  marginBottom: "50px"
+                }}
+              >
+                <StageCard
+                  doc={NEW_APPLICANT_STAGE}
+                  index={-1}
+                  isColorPicker={false}
+                  isDrag={false}
+                  // onEdit={onStageEdit}
+                  //onDelete={onStageDelete}
+                />
+                <ReorderStage
+                  list={localStages}
+                  onEdit={onEditStage}
+                  onDelete={onRemoveStage}
+                  onChange={onReorder}
+                />
+              </Flex>
+            </Flex>
+            <Flex
+              flex={4}
+              className={`${styles.columnGroup} ${styles.paddingLeft}`}
+            >
+              <Flex column start marginBottom={20}>
+                <Text bold color="black2" size={14}>
+                  Proposed Stages
+                </Text>
+                <Text size={13} color="black2">
+                  Click on the below stages to add it to your pipeline.
+                </Text>
+              </Flex>
+              <PipelineSuggestions
+                wk_id={wk_id}
+                localStages={localStages}
+                suggestions={localSuggestions}
+                isStageExist={isStageExist}
+                onAddStageFromSuggestion={onAddStageFromSuggestion}
+                onRemoveStage={onRemoveStage}
+                isStageDuplicate={isStageDuplicate}
+                onRemoveSuggestion={(value) =>
+                  onRemoveSuggestion(value.suggestion_id)
+                }
+              />
+            </Flex>
+          </Flex>
+        </Flex>
+        <Flex row middle className={styles.title}>
+          <Flex row center onClick={handleBack} style={{ cursor: 'pointer' }}>
+            {/* <SvgBack height={14} width={14} /> */}
+            <Button types={'secondary'}>Back to Pipeline</Button>
+          </Flex>
+          {buttondata === 1 ? (
+            <Flex row end>
+              <Button
+                className={styles.cancel}
+                onClick={handleBack}
+                types={'primary'}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={formik.handleSubmit}
+                // disabled={!(isFormValid() && isFormDirty())}
+              >
+                Save
+              </Button>
+            </Flex>
+          ) : (
+            <Flex row end>
+              <Button
+                className={styles.cancel}
+                onClick={handleBack}
+                types={'primary'}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={formik.handleSubmit}
+                disabled={!(isFormValid() && isFormDirty())}
+              >
+                Update
+              </Button>
+            </Flex>
+          )}
         </Flex>
       </Flex>
-      <Flex row middle className={styles.title}>
-        <Flex row center onClick={handleBack} style={{ cursor: 'pointer' }}>
-          {/* <SvgBack height={14} width={14} /> */}
-          <Button types={'secondary'}>Back to Pipeline</Button>
-        </Flex>
-        {buttondata === 1 ? (
-          <Flex row end>
-            <Button
-              className={styles.cancel}
-              onClick={handleBack}
-              types={'primary'}
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={formik.handleSubmit}
-              // disabled={!(isFormValid() && isFormDirty())}
-            >
-              Save
-            </Button>
-          </Flex>
-        ) : (
-          <Flex row end>
-            <Button
-              className={styles.cancel}
-              onClick={handleBack}
-              types={'primary'}
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={formik.handleSubmit}
-              disabled={!(isFormValid() && isFormDirty())}
-            >
-              Update
-            </Button>
-          </Flex>
-        )}
-      </Flex>
-    </Flex>
+    </>
   );
 };
 

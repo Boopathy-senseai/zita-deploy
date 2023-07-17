@@ -72,7 +72,7 @@
   border-top-right-radius: 4px;
   background-color: var(--color-white, #ffffff);
   top: -3px;
-  min-width: 200px;
+  /* min-width: 200px; */
 }
 .filterFlex {
   margin-right: 16px;

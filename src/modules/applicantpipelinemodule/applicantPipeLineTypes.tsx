@@ -79,6 +79,8 @@ export interface ApplicantEntity {
   source: string;
   fav?: null;
   name: string;
+  first_name: string;
+  last_name: string;
   email: string;
   qualification: string;
   skills: string;
@@ -86,6 +88,7 @@ export interface ApplicantEntity {
   location: string;
   viewed: string;
   work_exp: number;
+  work_exp_mon: number;
   match?: number | null;
   image: string;
   file: string;
@@ -197,3 +200,5 @@ export interface ApplicantDownloadReducerState{
   filepath: string;
   message: string;
 }
+
+export const KANBAN_COLUMN_WIDTH = 260;

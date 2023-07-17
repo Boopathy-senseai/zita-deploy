@@ -4,6 +4,7 @@ import Text from '../../uikit/Text/Text';
 import SvgDotMenu from '../../icons/SvgDotMenu';
 import styles from './dndtitle.module.css';
 import { IStageColumn } from './dndBoardTypes';
+import { KANBAN_COLUMN_WIDTH } from './applicantPipeLineTypes';
 
 type Props = {
   column: IStageColumn;
@@ -63,7 +64,7 @@ const DndTitleMap = ({
   };
   return (
     <div
-      style={{ left: column?.left, borderBottomColor: column?.stage_color }}
+      style={{ left: column?.left, borderBottomColor: column?.stage_color, minWidth: KANBAN_COLUMN_WIDTH }}
       className={styles.colTitle}
     >
       <Flex row center>

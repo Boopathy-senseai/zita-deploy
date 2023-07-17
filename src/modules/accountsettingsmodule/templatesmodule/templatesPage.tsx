@@ -65,9 +65,9 @@ const TemplatesPage = () => {
     }),
   );
 
-  useEffect(() => {
-    if (message) Toast(message, 'LONG');
-  }, [message]);
+  // useEffect(() => {
+  //   if (message) Toast('Pipeline created successfully', 'LONG');
+  // }, [message]);
 
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
@@ -101,7 +101,7 @@ const TemplatesPage = () => {
     setSubmitLoader(true);
     dispatch(updatejobPipelineMiddleWare(value)).then(() => {
       setSubmitLoader(false);
-      Toast('Changes saved successfully.', 'LONG');
+      Toast('Changes saved successfully', 'LONG');
     });
   };
   const showDeletePopup = (data: PipelineData) => {
@@ -128,48 +128,49 @@ const TemplatesPage = () => {
 
   if (template === 0) {
     return (
-      <Flex className={styles.overflowContainer}>
+      <>
         {isLoading && <Loader />}
-
-        <Flex row marginTop={'20px'}>
-          <Flex flex={2} height={'unset'} minWidth={200} marginRight={20}>
-            <TemplateCard
-              icon={<SvgJobPipeline height={16} width={16} fill="#333333" />}
-              title={'Job Pipeline'}
-              subTitle={
-                'Create, modify, reorder, and delete job pipeline stages'
-              }
-              btnName={'Manage Pipeline'}
-              onClick={() => selectTemplate()}
-            />
+        <Flex className={styles.overflowContainer}>
+          <Flex row marginTop={'20px'}>
+            <Flex flex={2} height={'unset'} minWidth={200} marginRight={20}>
+              <TemplateCard
+                icon={<SvgJobPipeline height={16} width={16} fill="#333333" />}
+                title={'Job Pipeline'}
+                subTitle={
+                  'Create, modify, reorder, and delete job pipeline stages'
+                }
+                btnName={'Manage Pipeline'}
+                onClick={() => selectTemplate()}
+              />
+            </Flex>
+            <Flex flex={2} height={'unset'} minWidth={200} marginRight={20}>
+              <TemplateCard
+                icon={<SvgMessages height={16} width={16} />}
+                title={'Message Templates'}
+                subTitle={'Design and send the custom message'}
+                btnName={'Manage Templates'}
+                onClick={() => {}}
+              />
+            </Flex>
+            <Flex flex={2} height={'unset'} minWidth={200} marginRight={20}>
+              <TemplateCard
+                icon={<SvgMessage height={16} width={16} fill="#333333" />}
+                title={'Email Templates'}
+                subTitle={'Easily Create, Analyse and send your Emails'}
+                btnName={'Manage Templates'}
+                onClick={() => {}}
+              />
+            </Flex>
+            <Flex flex={4}></Flex>
           </Flex>
-          <Flex flex={2} height={'unset'} minWidth={200} marginRight={20}>
-            <TemplateCard
-              icon={<SvgMessages height={16} width={16} />}
-              title={'Message Templates'}
-              subTitle={'Design and send the custom message'}
-              btnName={'Manage Templates'}
-              onClick={() => {}}
-            />
-          </Flex>
-          <Flex flex={2} height={'unset'} minWidth={200} marginRight={20}>
-            <TemplateCard
-              icon={<SvgMessage height={16} width={16} fill="#333333" />}
-              title={'Email Templates'}
-              subTitle={'Easily Create, Analyse and send your Emails'}
-              btnName={'Manage Templates'}
-              onClick={() => {}}
-            />
-          </Flex>
-          <Flex flex={4}></Flex>
         </Flex>
-      </Flex>
+      </>
     );
   }
   return (
-    <Flex className={styles.overflowContainer}>
+    <>
       {pipeline === 0 ? (
-        <Flex column className={styles.overflowContainer}>
+        <>
           {deletePopup && (
             <DeletePopup
               onClose={handleClose}
@@ -180,55 +181,63 @@ const TemplatesPage = () => {
           )}
 
           {isSubmitLoader && <Loader />}
-
-          <Flex row between className={styles.titleBar}>
-            <Flex
-              row
-              start
-              className={styles.title}
-              onClick={() => {
-                setTemplate(0);
-                sessionStorage.setItem('template', '0');
-              }}
-            >
-              <SvgBack height={14} width={14} />
-              <Text color="theme" bold size={16} style={{ marginLeft: '10px' }}>
-                Job Pipeline
-              </Text>
-            </Flex>
-
-            <Button onClick={() => selectPipeline()}>
-              <Flex row center className={styles.pointer}>
-                <SvgAdd height={10} width={10} fill="#FFFFFF" />
-                <Text color="white" size={16} style={{ marginLeft: '10px' }}>
-                  Add Pipeline
+          <Flex column className={styles.overflowContainer}>
+            <Flex row between className={styles.titleBar}>
+              <Flex
+                row
+                start
+                className={styles.title}
+                onClick={() => {
+                  setTemplate(0);
+                  sessionStorage.setItem('template', '0');
+                }}
+              >
+                <SvgBack height={14} width={14} />
+                <Text
+                  color="theme"
+                  bold
+                  size={16}
+                  style={{ marginLeft: '10px' }}
+                >
+                  Job Pipeline
                 </Text>
               </Flex>
-            </Button>
+
+              <Button onClick={() => selectPipeline()}>
+                <Flex row center className={styles.pointer}>
+                  <SvgAdd height={10} width={10} fill="#FFFFFF" />
+                  <Text color="white" size={16} style={{ marginLeft: '10px' }}>
+                    Add Pipeline
+                  </Text>
+                </Flex>
+              </Button>
+            </Flex>
+            <Flex row wrap marginTop={'10px'}>
+              {pipelineData.map((item, index) => (
+                <PipelineCard
+                  key={`${item.wk_id}-${index}`}
+                  item={item}
+                  index={index}
+                  list={pipelineData}
+                  onConfig={configPipeline}
+                  onUpdate={handleUpdate}
+                  onDelete={showDeletePopup}
+                  onDefault={handleDefault}
+                />
+              ))}
+            </Flex>
           </Flex>
-          <Flex row wrap marginTop={'10px'}>
-            {pipelineData.map((item, index) => (
-              <PipelineCard
-                key={`${item.wk_id}-${index}`}
-                item={item}
-                index={index}
-                list={pipelineData}
-                onConfig={configPipeline}
-                onUpdate={handleUpdate}
-                onDelete={showDeletePopup}
-                onDefault={handleDefault}
-              />
-            ))}
-          </Flex>
-        </Flex>
+        </>
       ) : (
-        <JobPipelinePage
-          handleBack={backFunction}
-          buttondata={showbutton}
-          wk_id={workId}
-        />
+        <Flex className={styles.overflowContainer}>
+          <JobPipelinePage
+            handleBack={backFunction}
+            buttondata={showbutton}
+            wk_id={workId}
+          />
+        </Flex>
       )}
-    </Flex>
+    </>
   );
 };
 interface PipelineCardPros {
@@ -374,7 +383,10 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
         size={14}
         title={item.pipeline_name}
         className={styles.titleText}
-        style={{ marginLeft: '10px', maxWidth: item.set_as_default? "105px": "200px"}}
+        style={{
+          marginLeft: '10px',
+          maxWidth: item.set_as_default ? '105px' : '200px',
+        }}
       >
         {item.pipeline_name}
       </Text>
@@ -386,35 +398,44 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
       <Flex row start between className={styles.rowGroup}>
         <Flex row className={styles.cardHeader}>
           {renderTitle()}
-          {item.set_as_default === true ? (
+          {item.set_as_default === true && (
             <Text color="yellow" className={styles.default}>
               Default
             </Text>
-          ) : (
-            ''
           )}
         </Flex>
 
-        <Text>
-          <ActionsButton
-            disabled={item.is_active}
-            defaults={item.set_as_default}
-            onDefault={() =>
-              item.set_as_default
-                ? undefined
-                : onDefault({ ...item, set_as_default: true })
-            }
-            onDelete={() => (item.is_active ? undefined : onDelete(item))}
-            onRename={() => (item.is_active ? undefined : handleRename())}
-          />
-        </Text>
+        {/* <Text> */}
+        <ActionsButton
+          disabled={item.is_active}
+          defaults={item.set_as_default}
+          onDefault={() =>
+            item.set_as_default
+              ? undefined
+              : onDefault({ ...item, set_as_default: true })
+          }
+          onDelete={() => (item.is_active ? undefined : onDelete(item))}
+          onRename={() => (item.is_active ? undefined : handleRename())}
+        />
+        {/* </Text> */}
       </Flex>
-      <hr className={styles.borderLine}/>
-      <Button className={styles.btn2} onClick={() => onConfig(item.wk_id)}>
-        <Text bold color="theme">
-          Configure Pipeline
-        </Text>
-      </Button>
+      <Flex
+        column
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100%',
+          marginTop: 10,
+          borderTop: '1px solid #c3c3c3',
+        }}
+      >
+        {/* <hr className={styles.borderLine} /> */}
+        <Button className={styles.btn2} onClick={() => onConfig(item.wk_id)}>
+          <Text bold color="theme">
+            Configure Pipeline
+          </Text>
+        </Button>
+      </Flex>
     </Card>
   );
 };
@@ -484,7 +505,7 @@ const TemplateCard: React.FC<TemplateCardProps> = (props) => {
   const { title, subTitle, btnName, icon, onClick } = props;
   return (
     <Card className={styles.cardStructure}>
-      <Flex column start>
+      <Flex column start className={styles.cardContent}>
         <Flex row start className={styles.cardHeader}>
           {icon}
           <Text color="black2" bold size={14} style={{ marginLeft: '10px' }}>
@@ -495,12 +516,22 @@ const TemplateCard: React.FC<TemplateCardProps> = (props) => {
           {subTitle}{' '}
         </Text>
       </Flex>
-      <hr className={styles.borderLine}/>
-      <Button className={styles.btn} onClick={onClick}>
-        <Text bold color="theme">
-          {btnName}
-        </Text>
-      </Button>
+      <Flex
+        column
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100%',
+          marginTop: 10,
+          borderTop: '1px solid #c3c3c3',
+        }}
+      >
+        <Button className={styles.btn} onClick={onClick}>
+          <Text bold color="theme">
+            {btnName}
+          </Text>
+        </Button>
+      </Flex>
     </Card>
   );
 };

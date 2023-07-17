@@ -20,7 +20,7 @@ const pipelinePageReducer = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getPipelineDataMiddleWare.pending, (state) => {
-      state.isLoading = true;
+      state.isLoading = state.pipeline.length !== 0 ? false : true;
       state.error = '';
     });
     builder.addCase(getPipelineDataMiddleWare.fulfilled, (state, action) => {

@@ -13,6 +13,7 @@ import { TemplatesPageReducerState } from '../../templatesPageTypes';
 
 const templatesPageState: TemplatesPageReducerState = {
   isLoading: false,
+  isUpdateLoading: false,
   error: '',
   message: '',
   data: [],
@@ -35,7 +36,7 @@ const templatePageReducer = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getTemplateDataMiddleWare.pending, (state) => {
-      state.isLoading = true;
+      state.isLoading = (state.data.length !== 0 || state.stages.length !==0)  ? false : true;
       state.error = '';
     });
     builder.addCase(getTemplateDataMiddleWare.fulfilled, (state, action) => {
@@ -55,28 +56,28 @@ const templatePageReducer = createSlice({
     });
 
     builder.addCase(updateTemplateDataMiddleWare.pending, (state) => {
-      state.isLoading = true;
+      state.isUpdateLoading = true;
       state.error = '';
     });
     builder.addCase(updateTemplateDataMiddleWare.fulfilled, (state, action) => {
-      return { ...state, ...action.payload, isLoading: false };
+      return { ...state, ...action.payload, isUpdateLoading: false };
     });
     builder.addCase(updateTemplateDataMiddleWare.rejected, (state, action) => {
-      state.isLoading = false;
+      state.isUpdateLoading = false;
       if (typeof action.payload === 'string') {
         state.error = action.payload;
       }
     });
 
     builder.addCase(createTemplateDataMiddleWare.pending, (state) => {
-      state.isLoading = true;
+      state.isUpdateLoading = true;
       state.error = '';
     });
     builder.addCase(createTemplateDataMiddleWare.fulfilled, (state, action) => {
-      return { ...state, ...action.payload, isLoading: false };
+      return { ...state, ...action.payload, isUpdateLoading: false };
     });
     builder.addCase(createTemplateDataMiddleWare.rejected, (state, action) => {
-      state.isLoading = false;
+      state.isUpdateLoading = false;
       if (typeof action.payload === 'string') {
         state.error = action.payload;
       }

@@ -94,6 +94,8 @@ export const isValidURL = (string: string) => {
 export const usernameNumberCase = /^\d/;
 export const letters = /^[A-Za-z]+$/;
 export const onlyNumber = /^[0-9\b]+$/;
+export const mentionnotes = /^[:;,\-@0-9a-zA-Zâéè'.\s]{1,2000}$/;
+export const mentionspecialcharacter=/^[^ !"`'#%&,:;<>=@{}~\$\(\)\*\+\/\\\?\[\]\^\|]+$/;
 export const zipCodeRegx = /^[A-Za-z0-9\-]+$/;
 export const space = /^\S*$/;
 export const phoneRegExp =

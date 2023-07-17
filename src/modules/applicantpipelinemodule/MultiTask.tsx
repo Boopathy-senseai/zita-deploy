@@ -16,7 +16,7 @@ import {
   PRIMARY,
 } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
-import { getDateString, isEmpty } from '../../uikit/helper';
+import { getDateString, isEmpty, workExperience } from '../../uikit/helper';
 import Text from '../../uikit/Text/Text';
 import Loader from '../../uikit/Loader/Loader';
 import { ADD_FAV, dndBoardId, REMOVE_FAV } from '../constValue';
@@ -38,11 +38,13 @@ import {
 } from '../calendarModule/types';
 import { getEditEventsDetails } from '../calendarModule/util';
 import SvgHeart from '../../icons/SvgHearts';
+import Avatar, { getUserInitials } from '../../uikit/Avatar';
 import {
   ApplicantEntity,
   GoogleEntity,
   ICardSelectionData,
   JobDetailsEntity,
+  KANBAN_COLUMN_WIDTH,
 } from './applicantPipeLineTypes';
 import ProfileView from './ProfileView';
 
@@ -78,8 +80,7 @@ const MultiTask = ({
   const [isCalender, setCalender] = useState('popup');
   const [isProfileView, setProfileView] = useState(false);
   const dispatch: AppDispatch = useDispatch();
-  const workExp =
-    task.work_exp > 1 ? task.work_exp + ' Years' : task.work_exp + ' Year';
+  const workExp = workExperience(task.work_exp, task.work_exp_mon);
   const match = isEmpty(task.match) ? 0 : task.match;
 
   useEffect(() => {
@@ -333,13 +334,9 @@ const MultiTask = ({
   //   setCard(false);
   // }
 
-  const hanldeFavAction = (
-    can_id: number,
-    jd_id: number,
-  ) => {
+  const hanldeFavAction = (can_id: number, jd_id: number) => {
     dispatch(applicantFavoriteMiddleWare({ can_id, jd_id }));
   };
-  
 
   return (
     <>
@@ -438,7 +435,7 @@ const MultiTask = ({
         {(provided) => (
           <div
             className={styles.container}
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: 'pointer', minWidth: KANBAN_COLUMN_WIDTH - 20 }}
             ref={provided.innerRef}
             // eslint-disable-next-line
             {...provided.dragHandleProps}
@@ -472,12 +469,24 @@ const MultiTask = ({
                       className={styles.profile}
                       style={{ cursor: 'pointer' }}
                     >
-                      <img
-                        style={{ objectFit: 'contain' }}
+                      <Avatar
+                        className={styles.profile}
+                        avatar={
+                          task.image && task.image !== 'default.jpg'
+                            ? `${process.env.REACT_APP_HOME_URL}media/${task.image}`
+                            : undefined
+                        }
+                        initials={getUserInitials({
+                          firstName: task.first_name,
+                          lastName: task.last_name,
+                        })}
+                      />
+                      {/* <img
+                        style={{ objectFit: 'cover' }}
                         alt=""
                         className={styles.profile}
                         src={`${process.env.REACT_APP_HOME_URL}media/${task.image}`}
-                      />
+                      /> */}
                       <div className={styles.percentageStyle}>
                         <Text bold>{match}%</Text>
                       </div>
@@ -491,8 +500,12 @@ const MultiTask = ({
                     <Flex
                       row
                       center
-                      marginRight={16}
-                      style={{ cursor: 'pointer' }}
+                      // marginRight={16}
+                      style={{
+                        cursor: 'pointer',
+                        flexDirection: 'row',
+                        width: '100%',
+                      }}
                     >
                       <Button
                         types="link"
@@ -506,9 +519,11 @@ const MultiTask = ({
                           bold
                           color="theme"
                           textStyle={'ellipsis'}
-                          title={task.name}
+                          title={`${task.first_name || ''} ${
+                            task.last_name || ''
+                          }`}
                         >
-                          {task.name}
+                          {`${task.first_name || ''} ${task.last_name || ''}`}
                         </Text>
                       </Button>
 
@@ -534,25 +549,31 @@ const MultiTask = ({
                           color="black2"
                           textStyle="ellipsis"
                           title={task.location}
-                          style={{ maxWidth: '40%', marginRight: 2 }}
                         >
                           {task.location}
                         </Text>
                       )}
-                      {task.location && workExp && (
+                    </Flex>
+                    <Flex row center style={{ cursor: 'pointer' }}>
+                      <Text
+                        size={12}
+                        color="black2"
+                        textStyle="ellipsis"
+                        title={workExp}
+                        style={{ maxWidth: '50%', marginRight: 2 }}
+                      >
+                        {workExp}
+                      </Text>
+                      {task.qualification && workExp && (
                         <Text color="black2"> | </Text>
                       )}
                       <Text
                         size={12}
                         color="black2"
                         textStyle="ellipsis"
+                        title={task.qualification}
                         style={{ marginLeft: 2 }}
                       >
-                        {workExp}
-                      </Text>
-                    </Flex>
-                    <Flex style={{ cursor: 'pointer' }}>
-                      <Text size={12} color="black2" textStyle="ellipsis">
                         {task.qualification}
                       </Text>
                     </Flex>
@@ -570,7 +591,17 @@ const MultiTask = ({
                     </Flex>
                   </Flex>
                 </Flex>
-                <Flex row end center style={{ cursor: 'pointer' }}>
+                <Flex
+                  row
+                  end
+                  center
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    cursor: 'pointer',
+                    width: '100%',
+                  }}
+                >
                   {columnId === 0 && getDate && (
                     <Flex
                       className={styles.svgNewTag}
@@ -592,7 +623,7 @@ const MultiTask = ({
                     className={styles.svgContainer}
                     style={{ cursor: 'pointer' }}
                   >
-                    {/* {console.log('--file download--', task.file)} */}
+                    {/* {void console.log('--file download--', task.file)} */}
                     <div
                       title="Download Resume"
                       onClick={(e) => {
@@ -618,10 +649,7 @@ const MultiTask = ({
                     <div
                       title={isEmpty(task.fav) ? ADD_FAV : REMOVE_FAV}
                       onClick={(e) => {
-                        hanldeFavAction(
-                          task.candidate_id_id,
-                          task.jd_id_id,
-                        );
+                        hanldeFavAction(task.candidate_id_id, task.jd_id_id);
                         e.stopPropagation();
                       }}
                       tabIndex={-1}

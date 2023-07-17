@@ -18,6 +18,8 @@ export type UseStages<T> = {
   addDefaultStages: (value: SuggestionData[]) => void;
   isEqual: (value: T[]) => boolean;
   resetStages: () => void;
+  sortStages : (value: T[]) => T[];
+  updateStageOrder : (value: T[]) => T[];
   NEW_APPLICANT_STAGE: T;
 };
 
@@ -57,10 +59,7 @@ export function useStages<
 
   const initializeStages = () => {
     setLocalStages(() => {
-      const sortedStages =
-        stages.length > 1
-          ? [...stages]?.sort((a, b) => a.stage_order - b.stage_order)
-          : stages;
+      const sortedStages = sortStages(stages);
       if (!columns) {
         return sortedStages;
       }
@@ -77,6 +76,19 @@ export function useStages<
       });
     });
   };
+
+  const sortStages = (list: T[]): T[] => {
+    return list.length > 1
+      ? [...list]?.sort((a, b) => a.stage_order - b.stage_order)
+      : list;
+  };
+
+  const updateStageOrder = (list: T[]): T[] => {
+    return list.map((doc, index) => ({
+      ...doc,
+      stage_order: index + 1,
+    }));
+  }
 
   const onEditStage = (value: T) => {
     setLocalStages((prevStages) => {
@@ -130,7 +142,7 @@ export function useStages<
       const index = newStages?.findIndex((data) => data.id === id);
       if (index !== -1) {
         newStages.splice(index, 1);
-        return newStages;
+        return updateStageOrder(newStages);
       }
       return prevStages;
     });
@@ -194,10 +206,17 @@ export function useStages<
 
   const isEqual = (list: T[]) => {
     if (!columns) {
-      return _.isEqual(_.sortBy(list, ["stage_order"]), _.sortBy(localStages, ["stage_order"]));
+      return _.isEqual(
+        _.sortBy(list, ['stage_order']),
+        _.sortBy(localStages, ['stage_order']),
+      );
     }
     const local = localStages.map((doc) => _.omit(doc, 'is_associated'));
-    return _.isEqual(_.sortBy(list, ["stage_order"]), _.sortBy(local,["stage_order"]));
+    const nonLocal = list.map((doc) => _.omit(doc, 'is_associated'));
+    return _.isEqual(
+      _.sortBy(nonLocal, ['stage_order']),
+      _.sortBy(local, ['stage_order']),
+    );
   };
 
   const resetStages = () => {
@@ -218,6 +237,8 @@ export function useStages<
     addDefaultStages,
     isEqual,
     resetStages,
+    sortStages,
+    updateStageOrder,
     NEW_APPLICANT_STAGE,
   };
 }

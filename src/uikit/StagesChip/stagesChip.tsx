@@ -35,7 +35,7 @@ export const Chip: React.FC<ChipProps> = (props) => {
           className={styles.crossIcon}
           onClick={() => onDeleteSuggestion(doc)}
         >
-          <SvgIntomark fill="#888888" />
+          <SvgIntomark fill="#888888" style={{cursor:"pointer"}}/>
         </button>
       )}
     </div>

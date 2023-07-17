@@ -12,7 +12,7 @@ const reorder = (list: StageData[], startIndex, endIndex): StageData[] => {
   result.splice(endIndex, 0, removed);
 
   return result.map((doc, index) => {
-    return { ...doc, stage_order: index };
+    return { ...doc, stage_order: index + 1 };
   });
 };
 

@@ -9,6 +9,7 @@ import {
   APPLICANT_PROFILE_MATCH,
   APPLICANT_PROFILE_MESSAGE,
   APPLICANT_PROFILE_NOTES,
+  APPLICANT_PROFILE_LIST,
   APPLICANT_PROFILE_STATUS,
   SYNC_GOOGLE,
   SYNC_OUTLOOK,
@@ -21,6 +22,7 @@ import {
   applicantsStatusApi,
   calenderEventApi,
   favouriteApi,
+  applicantUserlistApi,
   InterviewScorecardApi,
   messagesTemplates,
   showAllMatch,
@@ -84,7 +86,32 @@ export const applicantNotesMiddleWare = createAsyncThunk(
     }
   },
 );
-
+export const applicantUserListMiddleWare = createAsyncThunk(
+  APPLICANT_PROFILE_LIST,
+  async (_a, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get( applicantUserlistApi)
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+export const applicantUserListstateMiddleWare = createAsyncThunk(
+  APPLICANT_PROFILE_LIST,
+  async ({ formData }: any, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(applicantUserlistApi,
+        formData 
+      )
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+); 
 export const applicantAllMatchMiddleWare = createAsyncThunk(
   APPLICANT_PROFILE_ALLMATCH,
   async ({ can_id }: { can_id: number | string }, { rejectWithValue }) => {
