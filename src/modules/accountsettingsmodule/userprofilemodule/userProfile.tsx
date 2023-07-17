@@ -113,13 +113,12 @@ const UserProfilepic = ({ value, update }: Props) => {
           setShowNewPass1(false);
           setShowNewPass(false);
           setShowOldPass(false);
+          update();
         } else {
           setError(true);
         }
-      })
-      .then(() => {
-        update();
       });
+      
 
     // onPristine();
     setload(false);

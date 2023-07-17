@@ -300,8 +300,8 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
     if (!isEmpty(values.zipcode) && values.zipcode.length > 6) {
       errors.zipcode = ' ';
     }
-    if (!isEmpty(values.zipcode) && (values.zipcode.length > 4)) {
-         errors.zipcode = THIS_FIELD_REQUIRED;
+    if (!isEmpty(values.zipcode) && values.zipcode.length < 4) {
+         errors.zipcode = '';
        }
     if (!isEmpty(values.no_of_emp) && Number(values.no_of_emp) > 1000) {
       errors.no_of_emp = '';
@@ -927,7 +927,7 @@ let jpgchange=jpg.toUpperCase();
             }}
           />
           {console.log(emtysp,'manoj')}
-          {emtysp && !isEmpty(formik.values.zipcode) && formik.values.zipcode.trim().length > 6 ?(
+          {emtysp && !isEmpty(formik.values.zipcode) && formik.values.zipcode.length > 6 ?(
             <Text size={12} color="error">
               Zip Code should not exceed 6 characters
             </Text>
@@ -1435,7 +1435,7 @@ let jpgchange=jpg.toUpperCase();
                          
                           flex={1}
                           onClick={resets}
-                          title="Change Profile Picture"
+                          title="Remove Profile Picture"
                           // onClick={() => cancelselect()}
                           // onMouseEnter={() => setShow(true)}
                         >

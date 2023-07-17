@@ -140,9 +140,9 @@ const MessageCard = () => {
                   </Flex>
                   {/* <Text>{moment(list.date_created).fromNow()}</Text> */}
                   {list.is_read ===false?(<Flex>
-                    <Flex><Text style={{fontSize:'13px'}}>{moment(list.date_created).fromNow()}</Text></Flex>
+                    <Flex><Text style={{fontSize:'13px',color:'#666666'}}>{moment(list.date_created).fromNow()}</Text></Flex>
                     
-                  </Flex>):(<Text style={{fontSize:'13px'}}>{moment(list.date_created).fromNow()}</Text>)}
+                  </Flex>):(<Text style={{fontSize:'13px',color:'#666666'}}>{moment(list.date_created).fromNow()}</Text>)}
                   
                 </Flex>
               </Flex>

@@ -165,8 +165,9 @@ const Notification = () => {
                                       style={{
                                         padding: '8px 16px 0px 16px',
                                         fontWeight: 600,
+                                        fontSize:'13px'
                                       }}
-                                      size={12}
+                                       
                                       bold
                                     >
                                       TODAY
@@ -198,8 +199,8 @@ const Notification = () => {
                                             className={styles.listStyle}
                                           >
                                             <Text
-                                              size={12}
-                                              style={{ maxWidth: '295px' }}
+                                              
+                                              style={{ maxWidth: '295px',fontSize:'13px' }}
                                             >
                                               {list.verb}
                                             </Text>
@@ -209,7 +210,7 @@ const Notification = () => {
                                             top
                                             // className={styles.notificationtime}
                                           >
-                                            <Text size={12} color="gray">
+                                            <Text  style={{fontSize:'13px'}} color="gray">
                                               {moment(list.timestamp).fromNow()}
                                             </Text>
                                             {list.unread && (
@@ -257,8 +258,8 @@ const Notification = () => {
                                             className={styles.listStyle}
                                           >
                                             <Text
-                                              size={12}
-                                              style={{ maxWidth: '295px' }}
+                                           
+                                              style={{ maxWidth: '295px',fontSize:'13px' }}
                                             >
                                               {list.verb}
                                             </Text>
@@ -268,7 +269,7 @@ const Notification = () => {
                                             top
                                             // className={styles.notificationtime}
                                           >
-                                            <Text size={12} color="gray">
+                                            <Text style={{fontSize:'13px'}} color="gray">
                                               {moment(list.timestamp).fromNow()}
                                             </Text>
                                             {list.unread && (
@@ -307,8 +308,9 @@ const Notification = () => {
                                     style={{
                                       padding: '16px 16px 0px 16px',
                                       fontWeight: 600,
+                                      fontSize:'13px'
                                     }}
-                                    size={12}
+                                   
                                     bold
                                   >
                                     YESTERDAY
@@ -337,8 +339,8 @@ const Notification = () => {
                                       >
                                         <Flex row className={styles.listStyle}>
                                           <Text
-                                            size={12}
-                                            style={{ maxWidth: '295px' }}
+                                            
+                                            style={{ maxWidth: '295px',fontSize:'13px' }}
                                           >
                                             {list.verb}
                                           </Text>
@@ -348,8 +350,8 @@ const Notification = () => {
                                           className={styles.notificationtime}
                                         >
                                           <Text
-                                            style={{ marginLeft: 16 }}
-                                            size={12}
+                                            style={{ marginLeft: 16,fontSize:'13px' }}
+                                             
                                             color="gray"
                                           >
                                             {moment(list.timestamp).fromNow()}
@@ -395,9 +397,8 @@ const Notification = () => {
                                         className={styles.hoverStyle}
                                       >
                                         <Flex row className={styles.listStyle}>
-                                          <Text
-                                            size={12}
-                                            style={{ maxWidth: '295px' }}
+                                          <Text 
+                                            style={{ maxWidth: '295px',fontSize:'13px' }}
                                           >
                                             {list.verb}
                                           </Text>
@@ -407,8 +408,8 @@ const Notification = () => {
                                           className={styles.notificationtime}
                                         >
                                           <Text
-                                            style={{ marginLeft: 16 }}
-                                            size={12}
+                                            style={{ marginLeft: 16,fontSize:'13px' }}
+                                             
                                             color="gray"
                                           >
                                             {moment(list.timestamp).fromNow()}
@@ -449,8 +450,9 @@ const Notification = () => {
                                     style={{
                                       padding: '16px 16px 0px 16px',
                                       fontWeight: 600,
+                                      fontSize:'13px'
                                     }}
-                                    size={12}
+                                   
                                     bold
                                   >
                                     OLDER
@@ -479,8 +481,8 @@ const Notification = () => {
                                       >
                                         <Flex row className={styles.listStyle}>
                                           <Text
-                                            size={12}
-                                            style={{ maxWidth: '295px' }}
+                                          
+                                            style={{ maxWidth: '295px',fontSize:'13px' }}
                                           >
                                             {list.verb}
                                           </Text>
@@ -489,7 +491,7 @@ const Notification = () => {
                                           row
                                           className={styles.notificationtime}
                                         >
-                                          <Text size={12} color="gray">
+                                          <Text style={{fontSize:'13px'}} color="gray">
                                             {moment(list.timestamp).fromNow()}
                                           </Text>
                                           {list.unread && (
@@ -533,9 +535,8 @@ const Notification = () => {
                                         className={styles.hoverStyle}
                                       >
                                         <Flex row className={styles.listStyle}>
-                                          <Text
-                                            size={12}
-                                            style={{ maxWidth: '295px' }}
+                                          <Text 
+                                            style={{ maxWidth: '295px',fontSize:'13px' }}
                                           >
                                             {list.verb}
                                           </Text>
@@ -544,7 +545,7 @@ const Notification = () => {
                                           row
                                           className={styles.notificationtime}
                                         >
-                                          <Text size={12} color="gray">
+                                          <Text style={{fontSize:'13px'}} color="gray">
                                             {moment(list.timestamp).fromNow()}
                                           </Text>
                                           {list.unread && (

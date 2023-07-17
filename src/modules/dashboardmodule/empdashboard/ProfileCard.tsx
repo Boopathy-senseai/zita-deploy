@@ -283,12 +283,12 @@ const ProfileCard = () => {
 
             <Flex marginLeft={20}>
               <Flex>
-                <Text style={{ marginTop: 5,fontSize:'13px' }}>
+                <Text style={{ marginTop: 5,fontSize:'13px'}}>
                   Plan:
                   {plan.plan_id_id === 1 ? (
-                    <Text style={{ marginBottom: 2,fontSize:'13px' }}>Free Trial</Text>
+                    <Text style={{ marginBottom: 2,fontSize:'13px',marginLeft:3 }}>Free Trial</Text>
                   ) : (
-                    <Text style={{ marginBottom: 2,fontSize:'13px' }}>
+                    <Text style={{ marginBottom: 2,fontSize:'13px',marginLeft:3 }}>
                       {' '}
                       {plan.plan_id_id === 2 || plan.plan_id_id === 3
                         ? 'Basic'
@@ -553,7 +553,7 @@ const ProfileCard = () => {
            
           </Flex>
           
-          <Flex  >
+          <Flex style={{cursor:'default'}} >
             {mobile_no !== '' ? (
               <Flex row>
                 <Flex marginRight={5} marginTop={7}>
@@ -563,7 +563,7 @@ const ProfileCard = () => {
                   <Text style={{fontSize:'13px'}}>
                     <PhoneInput
                       value={mobile_no}
-                      inputStyle={{ border: 'none', padding: 'inherit',height:'30px' }}
+                      inputStyle={{ border: 'none', padding: 'inherit',height:'30px',cursor:'default' }}
                       showDropdown={false}
                       defaultErrorMessage="false"
                       disableDropdown={true}
@@ -580,7 +580,7 @@ const ProfileCard = () => {
               ''
             )}
           </Flex>
-          <Flex>
+          <Flex >
             {address !== null ? (
               <Flex row marginTop={3} >
                 <Flex marginRight={1} >
