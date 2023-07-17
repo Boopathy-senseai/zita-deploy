@@ -238,7 +238,7 @@ const EventPopUpModal = ({
           <CrossButton
             onClick={handleCloseEventPopUpModal}
             size={10}
-            style={{ position: 'absolute', top: '12px', right: '15px' }}
+            style={{ position: 'absolute', top: '12px', right: '15px', display: "flex", justifyContent: "center" }}
             fill={'#333'}
           />
           {isZitaEvent ? ZitaEvent : PrivateEvent}

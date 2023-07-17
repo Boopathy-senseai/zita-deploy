@@ -139,6 +139,8 @@ export const getEventMeetingType = (eventType: string): EventMeetingType => {
     return 'Onsite interview';
   } else if (eventType.includes('Phone')) {
     return 'Phone interview';
+  } else if (eventType.includes('Microsoft')) {
+    return 'Microsoft Teams interview';
   } else {
     return 'Google Meet interview';
   }
@@ -189,7 +191,6 @@ export const meetingFormInitialState: meetingFormProps = {
     error: false,
   },
   interviewer: [],
-
 };
 
 export const SlotRangeInitialState = {

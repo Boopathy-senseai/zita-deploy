@@ -202,15 +202,15 @@ const MeetingSummary = ({
         style={{ position: 'absolute', top: '12px', right: '15px' }}
         fill={'#333'}
       />
-      <div className={styles.meetingSummary}>
+      <div style={{padding:"25px"}}>
         <Flex
           row
           center
           style={{
+            position: 'relative',
             // padding: '25px 0px 0px',
             // margin: '0px 25px',
             borderBottom: '0.5px solid #581845',
-            marginBottom: 10,
           }}
         >
           <SvgCalendar width={18} height={18} style={{ marginBottom: '5px' }} />
@@ -225,17 +225,23 @@ const MeetingSummary = ({
           </Text>
         </Flex>
         <Flex
+          className={styles.meetingSummary}
           column
-          style={{ paddingBottom: 10, borderBottom: '1px solid #cccccc' }}
+          style={{
+            paddingBottom: 10,
+            // borderBottom: '1px solid #cccccc',
+            overflow: 'auto',
+            // maxHeight: '90vh',
+          }}
         >
           <div className={styles.summary}>
-            <p className={styles.header}>Summary</p>
+            <p className={styles.header} style={{marginTop:"5px"}}>Summary</p>
             <div className={styles.content}>{MeetingTitleView}</div>
           </div>
           <ExpandTile
             backgroundColor="#58184530"
             activeColor="#000000"
-            title={'Email Notification to Applicant'}
+            title={'Email notification to Applicant'}
             show={tileState?.applicant}
             onClick={() =>
               setTileState({ ...tileState, applicant: !tileState.applicant })
@@ -259,7 +265,7 @@ const MeetingSummary = ({
             <ExpandTile
               backgroundColor="#58184530"
               activeColor="#000000"
-              title={'Email Notification to Interviewer'}
+              title={'Email notification to interviewer'}
               show={tileState?.interviewer}
               onClick={() =>
                 setTileState({
@@ -287,7 +293,7 @@ const MeetingSummary = ({
             </ExpandTile>
           )}
         </Flex>
-        <div className={styles.actionButtonWrapper}>
+        <div className={styles.actionButtonWrapper} style={{ borderTop: '1px solid #c3c3c3' }}>
           <Button
             onClick={nextEvent}
             className={styles.cancel}

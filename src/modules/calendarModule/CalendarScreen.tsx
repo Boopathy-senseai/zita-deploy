@@ -55,7 +55,9 @@ import {
 } from './util';
 import EventPopUpModal from './EventPopUpModal';
 import { setColor } from './colors';
-import ToolBar from './calendar-components/ToolBar';
+//import ToolBar from './calendar-components/ToolBar';
+import SimpleToolBar from './calendar-components/SimpleToolBar';
+
 import ColorEvent from './calendar-components/ColorEvent';
 import WeekHeader from './calendar-components/WeekHeader';
 import MeetingSchedulingScreen from './MeetingSchedulingScreen';
@@ -843,7 +845,7 @@ const Calendar = () => {
                     events={visibleEvents}
                     dayLayoutAlgorithm={'no-overlap'}
                     defaultView={'work_week'}
-                    views={['day', 'month', 'work_week', 'week']}
+                    views={['day', 'work_week', 'week', 'month']}
                     onSelectSlot={(slotInfo) => {
                       handleOnSelectSlot(slotInfo);
                     }}
@@ -856,7 +858,7 @@ const Calendar = () => {
                       eventTimeRangeFormat: () => '',
                     }}
                     components={{
-                      toolbar: ToolBar,
+                      toolbar: SimpleToolBar,
                       event: ColorEvent,
                       week: {
                         header: WeekHeader,

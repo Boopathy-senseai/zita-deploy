@@ -36,13 +36,16 @@
   background-color: transparent;
   border: none;
   border-radius: 5px;
-  padding: 5px;
+  /* padding: 5px; */
   margin-left: 5px;
+  width: 30px;
+  height: 30px;
 }
 
 .eventPopUp .icon:hover {
   background-color: #D7C7D2;
-  border-radius: 50%;}
+  border-radius: 50%;
+}
 
 .eventPopUp .icon:active {
   transform: scale(0.8);

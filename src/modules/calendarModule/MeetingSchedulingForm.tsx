@@ -543,7 +543,6 @@ const MeetingSchedulingForm = ({
         <p
           className={styles.to}
           style={{
-            marginTop:"5px",
             marginBottom:
               meetingForm.startTime.errorMessage ||
               meetingForm.endTime.errorMessage
@@ -593,7 +592,6 @@ const MeetingSchedulingForm = ({
       </div>
     );
   };
-
   const EventTypeView = (
     <div>
       <label className={styles.label}>Event Type *</label>
@@ -748,7 +746,7 @@ const MeetingSchedulingForm = ({
       <InputText
         value={meetingForm.privateNotes}
         textarea={true}
-        placeholder="Add a note"
+        placeholder="Add a note, visible only to the team members"
         onChange={privateNotesHandler}
         style={{ height: '50px' }}
       />
@@ -818,12 +816,12 @@ const MeetingSchedulingForm = ({
     <div
       style={{ display: 'flex', flexDirection: 'column', position: 'relative' }}
     >
-      <CrossButton
+      {/* <CrossButton
         onClick={handleCloseSchedulingForm}
         size={10}
         style={{ position: 'absolute', top: '12px', right: '15px' }}
         fill={'#333'}
-      />
+      /> */}
       <Flex
         row
         center

@@ -87,23 +87,15 @@ const EmailTemplate: React.FC<Props> = (props) => {
           className={styles.boxView}
           style={{ borderBottom: '1px solid #cccccc' }}
         >
-          {editGreeting && (
-            <div className={styles.actionBtns}>
-              <div className={styles.editIcon}>
-                {!edit && (
+          <div className={styles.editIcon} style={{display:"flex", justifyContent:"flex-end"}}>
+          {!edit && (
                   <Button types="link" onClick={() => setEdit(!edit)}>
                     <SvgEdit width={14} height={14} />
                   </Button>
                 )}
-                {edit && (
-                  <Button types="primary" onClick={formik.submitForm}>
-                    {'Save'}
-                  </Button>
-                )}
-              </div>
-            </div>
-          )}
+          </div>
           {!edit && <pre className={styles.pre}>{formik?.values.greeting}</pre>}
+          
           {edit && (
             <>
               <InputText
@@ -120,14 +112,29 @@ const EmailTemplate: React.FC<Props> = (props) => {
               />
             </>
           )}
+          {editGreeting && (
+            <div className={styles.actionBtns}>
+              <div className={styles.editIcon}>
+                
+                {edit && (
+                  <Button types="primary" onClick={formik.submitForm}>
+                    {'Save'}
+                  </Button>
+                )}
+              </div>
+            </div>
+          )}
           <div className={styles.details}>
             {MeetingTitleView}
             <div>
-              <div>
+              { notes && 
+                <div>
                 <p className={styles.personHeader}>Notes</p>
                 <p>{notes}</p>
+                <br />
               </div>
-              <br />
+}
+             
               {/* <div>
                     <p className={styles.personHeader}>Applicant</p>
                     <p>{rest.applicant.name}</p>

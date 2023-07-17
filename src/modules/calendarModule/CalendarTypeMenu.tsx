@@ -64,7 +64,8 @@ const CalendarTypeMenu = ({
           />
         </div>
       </div>
-      <div style={{ marginTop: '14px' }}>
+      <div style={{ marginTop: '10px', borderTop:"1px solid #c3c3c3"}}>
+        <p style={{ margin: 0, marginTop:"10px"}}>Team</p>
         {teamMembers.map((member, index) =>
           member.calendarEmail ? (
             <SelectTeamMemberCheckBox
@@ -143,14 +144,14 @@ const CalendarTypeMenu = ({
   const MenuButtonView = () => (
     <button className={styles.dropDownBtn} onClick={handleDropDown}>
       <Flex row center noWrap>
-        <Text size={14}className={styles.container}>
+        <Text size={14} className={styles.container}>
           {currentCalendarType === CalendarType.MyCalendar
             ? 'My Calendar'
             : 'Team Calendar'}
         </Text>
-        <Flex marginTop={2} style={{cursor: "pointer"}}>
+        <Flex marginTop={2} style={{ cursor: 'pointer' }}>
           <SvgArrowDown width={14} height={12} />
-        </Flex> 
+        </Flex>
       </Flex>
     </button>
   );
