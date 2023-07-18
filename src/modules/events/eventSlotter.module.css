@@ -1,0 +1,12 @@
+.text{
+    color:black
+};
+.date{
+    --theme-color: black !important;
+    --selected-date-color: red !important;
+    width:500px
+}
+/* .dayselect{
+    background-color: #007bff;
+    color: #ffffff;
+} */

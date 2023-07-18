@@ -1,0 +1,332 @@
+{
+  "suceess": false,
+  "data": [
+      {
+          "id": 86,
+          "emp_id_id": 621,
+          "company_id": 202,
+          "event_name": "Technical_Interview",
+          "event_type": "Phone Interview",
+          "location": "",
+          "daterange": "",
+          "days": "Calendar Days",
+          "startdate": "26/06/2023",
+          "enddate": "27/06/2023",
+          "duration": "15 minutes",
+          "times_zone": "+05:30 (Asia/Calcutta)",
+          "interviewer": "23",
+          "times_zone_display": "Automatically detect and show the times in my invitees time zone",
+          "description": "Hi\\ We would like to move to the \\                 technical interview round for Software QA Engineer.\\                 Please come prepared with the technical. \\aspects of your work experience\\                 Please choose a time slot in the calendar",
+          "created_at": "2023-06-28T03:48:33.644059Z",
+          "is_active": true,
+          "updatedby": "2023-06-28T03:48:33.644464Z",
+          "isdeleted": false,
+          "ischecked": "True"
+      },
+      {
+          "id": 91,
+          "emp_id_id": 621,
+          "company_id": 202,
+          "event_name": "Technical_Interview",
+          "event_type": "Phone Interview",
+          "location": "",
+          "daterange": "",
+          "days": "Calendar Days",
+          "startdate": "26/06/2023",
+          "enddate": "27/06/2023",
+          "duration": "15 minutes",
+          "times_zone": "+05:30 (Asia/Calcutta)",
+          "interviewer": "23",
+          "times_zone_display": "Automatically detect and show the times in my invitees time zone",
+          "description": "Hi\\ We would like to move to the \\                 technical interview round for Software QA Engineer.\\                 Please come prepared with the technical. \\aspects of your work experience\\                 Please choose a time slot in the calendar",
+          "created_at": "2023-06-28T10:38:57.074817Z",
+          "is_active": true,
+          "updatedby": "2023-06-28T10:38:57.074986Z",
+          "isdeleted": false,
+          "ischecked": "True"
+      },
+      {
+          "id": 93,
+          "emp_id_id": 621,
+          "company_id": 202,
+          "event_name": "Technical_Interview",
+          "event_type": "Phone Interview",
+          "location": "",
+          "daterange": "",
+          "days": "Calendar Days",
+          "startdate": "26/06/2023",
+          "enddate": "27/06/2023",
+          "duration": "15 minutes",
+          "times_zone": "+05:30 (Asia/Calcutta)",
+          "interviewer": "23",
+          "times_zone_display": "Automatically detect and show the times in my invitees time zone",
+          "description": "Hi\\ We would like to move to the \\                 technical interview round for Software QA Engineer.\\                 Please come prepared with the technical. \\aspects of your work experience\\                 Please choose a time slot in the calendar",
+          "created_at": "2023-06-28T10:52:54.725117Z",
+          "is_active": true,
+          "updatedby": "2023-06-28T10:52:54.725281Z",
+          "isdeleted": false,
+          "ischecked": "True"
+      },
+      {
+          "id": 94,
+          "emp_id_id": 621,
+          "company_id": 202,
+          "event_name": "sdfbvcxzc",
+          "event_type": "Microsoft Teams",
+          "location": "",
+          "daterange": "",
+          "days": "Calendar Days",
+          "startdate": "Thu Jun 29 2023 00:00:00 GMT+0530 (India Standard Time)",
+          "enddate": "Sat Jul 01 2023 00:00:00 GMT+0530 (India Standard Time)",
+          "duration": "30 mins",
+          "times_zone": "+05:30 (Asia/Calcutta)",
+          "interviewer": "5",
+          "times_zone_display": "Automatically detect and show the times in my invitees time zone",
+          "description": "asdsfvcxsvf",
+          "created_at": "2023-06-28T10:54:58.941363Z",
+          "is_active": true,
+          "updatedby": "2023-06-28T10:54:58.941437Z",
+          "isdeleted": false,
+          "ischecked": "True"
+      },
+      {
+          "id": 95,
+          "emp_id_id": 621,
+          "company_id": 202,
+          "event_name": "Technical_Interview",
+          "event_type": "Phone Interview",
+          "location": "",
+          "daterange": "",
+          "days": "Calendar Days",
+          "startdate": "29/06/2023",
+          "enddate": "08/07/2023",
+          "duration": "15 minutes",
+          "times_zone": "+05:30 (Asia/Calcutta)",
+          "interviewer": "5",
+          "times_zone_display": "Automatically detect and show the times in my invitees time zone",
+          "description": "Hi\\ We would like to move to the \\                 technical interview round for Software QA Engineer.\\                 Please come prepared with the technical. \\aspects of your work experience\\                 Please choose a time slot in the calendar",
+          "created_at": "2023-06-29T04:41:37.365168Z",
+          "is_active": true,
+          "updatedby": "2023-06-29T04:41:37.366792Z",
+          "isdeleted": false,
+          "ischecked": "True"
+      },
+      {
+          "id": 96,
+          "emp_id_id": 621,
+          "company_id": 202,
+          "event_name": "pugazhendhi jeyakumar",
+          "event_type": "On-site Interview",
+          "location": "welcome",
+          "daterange": "",
+          "days": "Calendar Days",
+          "startdate": "29/06/2023",
+          "enddate": "01/07/2023",
+          "duration": "30 minutes",
+          "times_zone": "+05:30 (Asia/Calcutta)",
+          "interviewer": "5",
+          "times_zone_display": "Automatically detect and show the times in my invitees time zone",
+          "description": "asdsfvcxsvf",
+          "created_at": "2023-06-29T04:48:37.399909Z",
+          "is_active": true,
+          "updatedby": "2023-06-29T04:48:37.400063Z",
+          "isdeleted": false,
+          "ischecked": "True"
+      },
+      {
+          "id": 97,
+          "emp_id_id": 621,
+          "company_id": 202,
+          "event_name": "team interview - sense7",
+          "event_type": "Microsoft Teams",
+          "location": "",
+          "daterange": "",
+          "days": "Calendar Days",
+          "startdate": "30/07/2023",
+          "enddate": "05/08/2023",
+          "duration": "45 minutes",
+          "times_zone": "+05:30 (Asia/Calcutta)",
+          "interviewer": "5",
+          "times_zone_display": "Automatically detect and show the times in my invitees time zone",
+          "description": "xsadfvvcvf",
+          "created_at": "2023-06-29T04:53:59.601457Z",
+          "is_active": true,
+          "updatedby": "2023-06-29T04:53:59.601643Z",
+          "isdeleted": false,
+          "ischecked": "True"
+      }
+  ],
+  "interviewer": [
+      {
+          "id": 37,
+          "event_id": 86,
+          "name_id": 202,
+          "full_name": "Thrisha Vijay"
+      },
+      {
+          "id": 38,
+          "event_id": 86,
+          "name_id": 251,
+          "full_name": "Balaji Murugan"
+      },
+      {
+          "id": 39,
+          "event_id": 86,
+          "name_id": 252,
+          "full_name": "Shreya Mahi"
+      },
+      {
+          "id": 40,
+          "event_id": 86,
+          "name_id": 254,
+          "full_name": "Arul Vv"
+      },
+      {
+          "id": 45,
+          "event_id": 91,
+          "name_id": 202,
+          "full_name": "Thrisha Vijay"
+      },
+      {
+          "id": 46,
+          "event_id": 91,
+          "name_id": 251,
+          "full_name": "Balaji Murugan"
+      },
+      {
+          "id": 47,
+          "event_id": 91,
+          "name_id": 252,
+          "full_name": "Shreya Mahi"
+      },
+      {
+          "id": 48,
+          "event_id": 91,
+          "name_id": 254,
+          "full_name": "Arul Vv"
+      },
+      {
+          "id": 53,
+          "event_id": 93,
+          "name_id": 202,
+          "full_name": "Thrisha Vijay"
+      },
+      {
+          "id": 54,
+          "event_id": 93,
+          "name_id": 251,
+          "full_name": "Balaji Murugan"
+      },
+      {
+          "id": 55,
+          "event_id": 93,
+          "name_id": 252,
+          "full_name": "Shreya Mahi"
+      },
+      {
+          "id": 56,
+          "event_id": 93,
+          "name_id": 254,
+          "full_name": "Arul Vv"
+      },
+      {
+          "id": 57,
+          "event_id": 94,
+          "name_id": 202,
+          "full_name": "Thrisha Vijay"
+      },
+      {
+          "id": 58,
+          "event_id": 95,
+          "name_id": 202,
+          "full_name": "Thrisha Vijay"
+      },
+      {
+          "id": 59,
+          "event_id": 96,
+          "name_id": 202,
+          "full_name": "Thrisha Vijay"
+      },
+      {
+          "id": 60,
+          "event_id": 97,
+          "name_id": 202,
+          "full_name": "Thrisha Vijay"
+      }
+  ],
+  "shareLink": [
+      {
+          "candidate_id": 2941,
+          "candidate_id__candidate_id": 293,
+          "candidate_id__email": "rahulmithun@yopmail.com",
+          "type": "Applicant",
+          "full_name": "Rahul Mithun"
+      },
+      {
+          "candidate_id": 2926,
+          "candidate_id__candidate_id": null,
+          "candidate_id__email": "testemail08@yopmail.com",
+          "type": "Candidate",
+          "full_name": "Anu "
+      },
+      {
+          "candidate_id": 5617,
+          "candidate_id__candidate_id": 3025,
+          "candidate_id__email": "vottaugremouta-5663@yopmail.com",
+          "type": "Applicant",
+          "full_name": "Notes j"
+      },
+      {
+          "candidate_id": 5618,
+          "candidate_id__candidate_id": 3026,
+          "candidate_id__email": "creffeiwottaugi-6471@yopmail.com",
+          "type": "Applicant",
+          "full_name": "nameee fds"
+      },
+      {
+          "candidate_id": 5619,
+          "candidate_id__candidate_id": 3027,
+          "candidate_id__email": "froicrakeunowe-7918@yopmail.com",
+          "type": "Applicant",
+          "full_name": "helolo dd"
+      },
+      {
+          "candidate_id": 5622,
+          "candidate_id__candidate_id": 3030,
+          "candidate_id__email": "teizeddoboile-2895@yopmail.com",
+          "type": "Applicant",
+          "full_name": "jii j"
+      },
+      {
+          "candidate_id": 5623,
+          "candidate_id__candidate_id": 3031,
+          "candidate_id__email": "wixarautonnoi-3971@yopmail.com",
+          "type": "Applicant",
+          "full_name": "nnnnn n"
+      }   
+    
+  ],
+  "addmembers": [
+      {
+          "id": 251,
+          "user": 672,
+          "user__first_name": "Balaji",
+          "user__last_name": "Murugan",
+          "full_name": "Balaji Murugan"
+      },
+      {
+          "id": 252,
+          "user": 673,
+          "user__first_name": "Shreya",
+          "user__last_name": "Mahi",
+          "full_name": "Shreya Mahi"
+      },
+      {
+          "id": 254,
+          "user": 676,
+          "user__first_name": "Arul",
+          "user__last_name": "Vv",
+          "full_name": "Arul Vv"
+      }
+  ]
+}

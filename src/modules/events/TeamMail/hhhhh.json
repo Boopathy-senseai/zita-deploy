@@ -1,0 +1,141 @@
+{
+    "suceess": true,
+    "data": [
+        {
+            "id": 85,
+            "emp_id_id": 621,
+            "company_id": 202,
+            "event_name": "Technical_Interview",
+            "event_type": "Phone Interview",
+            "location": "",
+            "daterange": "",
+            "days": "Calendar Days",
+            "startdate": "26/06/2023",
+            "enddate": "01/09/2023",
+            "duration": "15 minutes",
+            "times_zone": "+05:30 (Asia/Calcutta)",
+            "interviewer": "23",
+            "times_zone_display": "Automatically detect and show the times in my invitees time zone",
+            "description": "Hi\\ We would like to move to the \\                 technical interview round for Software QA Engineer.\\                 Please come prepared with the technical. \\aspects of your work experience\\                 Please choose a time slot in the calendar",
+            "created_at": "2023-06-26T07:11:23.378291Z",
+            "is_active": true,
+            "updatedby": "2023-06-26T07:11:23.378508Z",
+            "isdeleted": false,
+            "ischecked": "True",
+            "company_name": "VK tech Solutions Pvt Ltd",
+            "company_logo": "logo.png"
+        }
+    ],
+    "interviewer": [
+        {
+            "id": 33,
+            "emp_id": 621,
+            "event_id": 85,
+            "full_name": "Thrisha Vijay"
+        },
+        {
+            "id": 34,
+            "emp_id": 621,
+            "event_id": 85,
+            "full_name": "Thrisha Vijay"
+        },
+        {
+            "id": 35,
+            "emp_id": 621,
+            "event_id": 85,
+            "full_name": "Thrisha Vijay"
+        },
+        {
+            "id": 36,
+            "emp_id": 621,
+            "event_id": 85,
+            "full_name": "Thrisha Vijay"
+        }
+    ],
+    "datetime": {
+        "sunday": [
+            {
+                "day": "sunday",
+                "starttime": "9:00",
+                "endtime": "9:15"
+            },
+            {
+                "day": "sunday",
+                "starttime": "9:30",
+                "endtime": "9:45"
+            }
+        ],
+        "monday": [
+            {
+                "day": "monday",
+                "starttime": "9:00",
+                "endtime": "12.00"
+            },
+            {
+                "day": "monday",
+                "starttime": "12.30",
+                "endtime": "2.00"
+            }
+        ],
+        "tuesday": [
+            {
+                "day": "tuesday",
+                "starttime": "9:00",
+                "endtime": "9:15"
+            },
+            {
+                "day": "tuesday",
+                "starttime": "9:30",
+                "endtime": "9:45"
+            }
+        ],
+        "wednesday": [
+            {
+                "day": "wednesday",
+                "starttime": "9:00",
+                "endtime": "9:15"
+            },
+            {
+                "day": "wednesday",
+                "starttime": "9:30",
+                "endtime": "9:45"
+            }
+        ],
+        "thursday": [
+            {
+                "day": "thursday",
+                "starttime": "9:00",
+                "endtime": "9:15"
+            },
+            {
+                "day": "thursday",
+                "starttime": "9:30",
+                "endtime": "9:45"
+            }
+        ],
+        "friday": [
+            {
+                "day": "friday",
+                "starttime": "9:00",
+                "endtime": "9:15"
+            },
+            {
+                "day": "friday",
+                "starttime": "9:30",
+                "endtime": "9:45"
+            }
+        ],
+        "saturday": [
+            {
+                "day": "saturday",
+                "starttime": "9:00",
+                "endtime": "9:15"
+            },
+            {
+                "day": "saturday",
+                "starttime": "9:30",
+                "endtime": "9:45"
+            }
+        ]
+    }
+}
