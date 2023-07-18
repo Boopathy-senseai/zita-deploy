@@ -1,0 +1,59 @@
+.createnewlink {
+  background-color: #fff;
+  padding: 10px 30px;
+  overflow: scroll;
+  z-index: 2;
+  width: 740px;
+  height: 1000px;
+}
+.text1 {
+  /* font-size: 16px; */
+  color: #581845;
+  font-weight: bold;
+  padding-top: 1px;
+}
+.close {
+  border: none;
+  background: none;
+  margin-left: 520px;
+}
+.inputtextbox{
+  width: 250px;
+}
+.location {
+  width: 770px;
+}
+.row{
+  margin-bottom: 10px;
+}
+.my-datepicker{
+  width: 300px; /* Adjust the width as per your requirement */
+  height: 400px; /* Adjust the height as per your requirement */
+  font-size: 16px; /* Adjust the font size as per your requirement */
+}
+
+.button1{
+  margin-left:420px;
+}
+.line {
+  margin-top: 10px;
+  border-top: 1px  solid rgb(0, 0, 0);
+}
+.line1 {
+  /* margin-top: 10px; */
+  border-top: 1px  solid rgb(0, 0, 0);
+}
+/* .placeholder_label {
+  position: absolute;
+  top: 10px; 
+  left: 10px;
+  color: #999;
+  pointer-events: none;
+  transition: all 0.2s ease;
+} */
+.daytimesplit{
+  overflow: scroll;
+  height: 300px;
+  /* width: 500px; */
+}
+

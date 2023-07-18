@@ -1,0 +1,11 @@
+.model {
+  width: 100%;
+  border: 1px solid #b3b3b3;
+  padding: 18px 47px 12px 27px;
+  height: 280px;
+  border-radius: 4px;
+  overflow: scroll  ;
+}
+.align{
+  margin-left: 20px;
+}

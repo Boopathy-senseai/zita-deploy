@@ -1,0 +1,60 @@
+.sharelink{
+    background-color: #fff;
+    padding: 10px 30px;
+    /* overflow : scroll; */
+    width: 780px; 
+    height : 400px;
+    /* overflow: scroll;      */
+    }
+.title {
+    margin-left: 10px;
+    font-size:  18px;
+    font-weight: bold;
+    top: 10px;
+    /* margin-left: 10px; */
+}
+.type {
+    font-size:  14px;
+    /* font-weight: bold; */
+    /* margin-left: 10px; */
+
+}
+.duration{
+    margin-left: 540px;
+    margin-top:  10px;
+}
+.close {
+    border :"none";
+    background: "none";
+    margin-right: 10px;
+}
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Three equal columns */
+    grid-template-rows: auto; /* Automatically sized rows */
+    gap: 10px;  
+    height: 150px;
+    width: 600px;
+    overflow: scroll;
+}
+.line {
+    border-top: 1px solid rgb(0, 0, 0);
+  }
+  .container {
+    display: grid;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .leftColumn {
+    /* flex: 1; */
+    margin-left: 10px;
+  }
+  
+  .rightColumn {
+    /* flex-shrink: 0; */
+    margin-left: 70px;
+  }
+  .candidate{
+    overflow:  scroll;
+  }

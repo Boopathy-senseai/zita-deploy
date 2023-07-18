@@ -271,6 +271,7 @@ export const eventSchedulerApi = 'scheduler_dashboard';
 export const slotterApi = 'slotter_interview';
 export const availbleslot = 'slotter_availble';
 
+
 export const jobViewCountApi = (jdId: string) => {
   const url = `job_view_count_fun/${jdId}`;
   return url;
