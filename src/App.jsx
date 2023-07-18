@@ -94,7 +94,7 @@ const App = () => {
       return response;
     },
     (error) => {
-      if (error.response.status === 401) {
+      if (error?.response && error?.response?.status === 401) {
         window.location.replace(`${window.location.origin + '/login'}`);
         localStorage.clear();
         sessionStorage.clear();
@@ -374,7 +374,6 @@ const App = () => {
         <Route path={'/check_activate'} component={CheckSignUpActivate} />
         {/* <Route path={''} component={NotFound} /> */}
         {/* <Route path="/calendar" component={Calendar} /> */}
-        <Route path="/meeting_scheduler" component={MeetingSchedulerScreen} />
         <Route path="/slotter" component={Slotter1}/>
         <Route path="/event_preview" component={PreviewTabs}/>
         {localStorage.getItem('loginUserCheck') === 'true' ||
