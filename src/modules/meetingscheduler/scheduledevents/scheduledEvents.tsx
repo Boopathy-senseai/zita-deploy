@@ -17,7 +17,7 @@ const ScheduledEventsPage = () => {
         <Text>Past Events</Text>
       </Flex>
       <Flex>
-        {/* <Button></Button> */}
+        
       </Flex>
     </Flex>
   );
