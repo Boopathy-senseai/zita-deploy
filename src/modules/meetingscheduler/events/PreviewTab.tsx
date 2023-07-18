@@ -9,7 +9,7 @@ import { AppDispatch, RootState } from '../../../store';
 import DashBoard from './DashBoard';
 import CreateNewEvent from './CreateNewEvent';
 import { dashboard, overall } from './eventType';
-import OverAll from'./TeamMail/Overall.json';
+// import OverAll from'./TeamMail/Overall.json';
 import { getScheduleMiddleWare } from './store/middleware/eventmiddleware';
 import Slotter1 from './Slotter1';
 

@@ -27,8 +27,6 @@ import {
   getScheduleMiddleWare,
   getSlotterMiddleware,
 } from './store/middleware/eventmiddleware';
-import slotterjson from './TeamMail/slotterjson.json';
-import interviewdashboaerd from './TeamMail/interviewdasboard.json';
 import { timezonedisplay } from './eventType';
 import './DayPickerCustomStyles.css';
 
@@ -110,8 +108,6 @@ const slotter1 = (props) => {
 
   // console.log('confromflagconfromflagssssss', availbleslot);
   // console.log('slotterdata', slotterdata,slotmembers,"\n",slotmembers.length,slotterdata.length);
-
-  console.log('slotterjsonslotterjson', slotterjson);
   console.log('uiduiduid', uid, typeof uid);
   console.log('eventideventid', eventid, typeof eventid);
   console.log('datadatadatadata', data, typeof data);
