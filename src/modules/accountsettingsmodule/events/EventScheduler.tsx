@@ -110,7 +110,6 @@ const EventScheduler = (props) => {
           <Text className={styles.headertxt}>
             Share your availability with candidates and schedule events
           </Text>
-         
           <Button
             types="primary"
             className={styles.newlink}

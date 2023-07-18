@@ -33,8 +33,6 @@ import { timezonedisplay } from './eventType';
 import './DayPickerCustomStyles.css';
 
 
-// import DateRangePicker from 'react-bootstrap-daterangepicker';
-
 const slotter1 = (props) => {
   const { userpreview, setuserPreview } = props;
   console.log("props1111111",props)
@@ -423,7 +421,7 @@ const SlotterDate = (props) => {
   console.log(
     'selectedRange.fromselectedRange.from',
     selectedRange.from,
-    typeof selectedRange.from,
+    selectedRange.to,
   );
   console.log('startMonthstartMonthstartMonth', startMonth);
   console.log('startMonthstartMonthstartMonth________', endMonth);
@@ -449,17 +447,17 @@ const SlotterDate = (props) => {
       response?.map((list) => {
         // const startdate = list.startdate
         // const enddate = list.enddate
-
         // setstartMonth(startdate);
         // setendMonth(enddate);
         timezoneset(list.times_zone_display, list.times_zone);
         console.log('strtaaadatee', list.startdate, '\n', 'strtaaadatee', list.enddate);
-        // setSelectedRange({
-        //   from: startdate,
-        //   to: enddate,
-        // });
+        setSelectedRange({
+          from: list.startdate,
+          to: list.enddate,
+        });
       
         // setavailbility(schedule)
+        console.log("selectedRangeselectedRangeselectedRange",selectedRange)
         
           const schedule = schdulearray(list.startdate, list.enddate,list.times_zone);
           console.log('schedule>>>>>>>>>', schedule);
@@ -1069,6 +1067,13 @@ const SlotterDate = (props) => {
     "Samedi",
 ];
 const WEEKDAYS_SHORT = ["Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa"];
+const currentDate = new Date();
+const startOfMonth = new Date(selectedRange.from);
+const endOfMonth = new Date(selectedRange.to);
+console.log("************",startOfMonth,endOfMonth)
+
+
+
 
   return (
     <>
@@ -1081,10 +1086,10 @@ const WEEKDAYS_SHORT = ["Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa"];
 
       {console.log(
         'startMonth//////',
-        startMonth,
+        startOfMonth,
         '\n',
         'endMOnth',
-        endMonth,
+        endOfMonth,
         '\n',
         'selectedRange',
         selectedRange,
@@ -1213,10 +1218,10 @@ const WEEKDAYS_SHORT = ["Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa"];
                           //   height : '100px'
                           // }
                         }}
-                        // onSelect={setDays}
-                        // fromMonth={selectedRange.from}
-                        // // defaultMonth ={initialMonth}
-                        // toMonth={selectedRange.to}
+                        onSelect={setDays}
+                        fromMonth={startOfMonth}
+                        // defaultMonth ={initialMonth}
+                        toMonth={endOfMonth}
                         className="custom-daypicker"
                         // weekdays={WEEKDAYS_SHORT}
                         // numberOfMonths={1} 
@@ -1224,8 +1229,8 @@ const WEEKDAYS_SHORT = ["Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa"];
                         // onDayMouseEnter={handleDayMouseEnter}
                         // onDayClick={handleDayClick}
                         // footer={footer123}
-                        // fromDate={startDate}
-                        // toDate={endDate}
+                        fromDate={startDate}
+                        toDate={endDate}
                         // selectedDays
                         // onDayClick ={(list)=>{
                         //     timeslot1(list)
@@ -1319,6 +1324,47 @@ const Conformpage = (props) => {
   }, []);
   console.log('response12333333333', response);
   console.log('time_zone', time_zone);
+
+
+
+  const googleaddevent = async () =>{
+    alert("googleaddevent")
+    const addevent ={
+      'summary' : 'heloo',
+      'description': 'googleadd event',
+      'start' :{
+        'datetime': Date.now(),
+        'timezone' : Intl.DateTimeFormat().resolvedOptions().timeZone,
+      },
+      'end' :{
+        'datetime': Date.now(),
+        'timezone' : Intl.DateTimeFormat().resolvedOptions().timeZone,
+      }
+
+    }
+
+    const events = await fetch("https://www.googleapis.com/calendar/v3/calendars/primary/events",{
+      method : "POST",
+      headers :{
+        'Authorization' : 'Bearer' + "ya29.a0AbVbY6MrtjxCaueL5oYyKaU73Lqro_oJOvBwDGZ-pVeqCxGNGg3uWvQFbDufFZ9gbu7pdHervKGeeZYTmoS3wzMQSrag1yzk5tqZf67D8iYqjTivkKc6t_27jqvGrLvkyAvK9d3hWRGU2U9JxeC72g3f5yOoaCgYKAYkSARISFQFWKvPlo5LDr5gDd7__fd2zTjjFjA0163"
+        // 'ContentType' : "application/x-www-form-urlencoded",
+      },
+      body : JSON.stringify(addevent)
+    }).then((data) =>{
+      return data.json();
+    }).then((data)=>{
+      console.log(data)
+      alert("Event Created Successfully")
+    }).then((err)=>{
+      console.log("err",err)
+      // alert("Event err Successfully")
+    })
+
+    // console.log("eventsevents",events)
+
+  }
+
+
   return (
     <>
 
@@ -1451,7 +1497,7 @@ const Conformpage = (props) => {
                 marginTop: '10px',
               }}
             >
-              <button className={styles.button}>
+              <button className={styles.button} onClick={googleaddevent}>
                 <Text>Add to your calendar</Text>
               </button>
             </div>
@@ -1688,5 +1734,6 @@ const InterviewDashBoard = (props) => {
     </>
   );
 };
+
 
 export default slotter1;

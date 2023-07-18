@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { isEmptyArray, useFormik } from 'formik';
+import { isEmptyArray, useField, useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import moment from 'moment-timezone';
 import DatePicker from 'react-datepicker';
-import DateRangePicker from 'react-bootstrap-daterangepicker';
+import DateRangePicker, { Props } from 'react-bootstrap-daterangepicker';
 // import { DateRangePicker } from 'react-date-range';
 import Modal from '../../../uikit/Modal/Modal';
 import Toast from '../../../uikit/Toast/Toast';
@@ -58,6 +58,7 @@ type CreateEvent = {
   sunday: [];
   timezonedisplay: string;
   description: string;
+  availbletimebook: string;
   isactive: boolean;
   isdeleted: boolean;
   updatedby: string;
@@ -79,7 +80,7 @@ const initial: CreateEvent = {
   timezonedisplay:
     'Automatically detect and show the times in my invitees time zone',
   description: '',
-  // sunday : [],
+  availbletimebook : '',
   isactive: true,
   isdeleted: false,
   updatedby: '',
@@ -171,22 +172,21 @@ const CreateNewEvent = (props) => {
   console.log('..........', profilename);
   console.log('PPPPPPPPPPP', organiser);
   console.log('++++++++++++()()()()()()()()()()()()()(0', datetime);
-  // if (datetime.length > 0 ){
-  //   alert("///////")
-  //   setschedata(datetime)
-  // }
 
   useEffect(() => {
-    dispatch(userProfileMiddleWare());
+    // dispatch(userProfileMiddleWare());
     console.log('``````````', datetime, typeof datetime);
     if (!isEmpty(editModel) && datetime !== undefined) {
       openModelEdit(editModel, datetime);
       setedit_id(editModel.id);
       console.log('SSSSSSSSSSSSS', datetime);
     }else{
-      formik.values = initial
-      formik.setValues(initial)
+      // formik.values = initial
+      // formik.setValues(initial)
+    
     }
+
+
     console.log('datetimedatetime===============&&&', datetime);
     // formik.values.timezone = userzone;
     console.log('datetimedatetime', datetime);
@@ -209,23 +209,23 @@ const CreateNewEvent = (props) => {
     //   // setsaturdaycheck(true)
     // }
     if (mondaycheck === false) {
-      const newData = [{ starttime: '9:00AM', endtime: '6:00PM' }];
+      const newData = [{ starttime: '9:00 AM', endtime: '6:00 PM' }];
       setMonday(newData);
     }
     if (tuesdaycheck === false) {
-      const newData = [{ starttime: '9:00AM', endtime: '6:00PM' }];
+      const newData = [{ starttime: '9:00 AM', endtime: '6:00 PM' }];
       setTuesday(newData);
     }
     if (wednesdaycheck === false) {
-      const newData = [{ starttime: '9:00AM', endtime: '6:00PM' }];
+      const newData = [{ starttime: '9:00 AM', endtime: '6:00 PM' }];
       setWednesday(newData);
     }
     if (thursdaycheck === false) {
-      const newData = [{ starttime: '9:00AM', endtime: '6:00PM' }];
+      const newData = [{ starttime: '9:00 AM', endtime: '6:00 PM' }];
       setThursday(newData);
     }
     if (fridaycheck === false) {
-      const newData = [{ starttime: '9:00AM', endtime: '6:00PM' }];
+      const newData = [{ starttime: '9:00 AM', endtime: '6:00 PM' }];
       setFriday(newData);
     }
   }, [
@@ -248,8 +248,8 @@ const CreateNewEvent = (props) => {
 
   const vaio = timezonesdata.find((fil) => fil.label === userzone);
   console.log('vaiovaiovaiovaio', vaio);
-
   console.log('timezonedata', timezonesdata);
+
 
   const conversion = (data: any) => {
     // alert('////////////////');
@@ -380,6 +380,7 @@ const CreateNewEvent = (props) => {
   };
 
   const handleEventValid = (values: CreateEvent) => {
+    console.log("[[[[[[[[[[[[[[",sundaycheck,mondaycheck,tuesdaycheck,wednesdaycheck,thursdaycheck,fridaycheck,saturdaycheck)
     console.log('<><><><><><><><><>', values);
     const errors: Partial<CreateEvent> = {};
     if (isEmpty(values.event_name.trim())) {
@@ -403,11 +404,11 @@ const CreateNewEvent = (props) => {
       errors.days = THIS_FIELD_REQUIRED;
     }
     if (isEmpty(values.startdate)) {
-      errors.startdate = 'Startdate Required';
+      errors.startdate = 'Invalid Date';
     }
-    if (isEmpty(values.enddate)) {
-      errors.enddate = 'Enddate Required';
-    }
+    // if (isEmpty(values.enddate)) {
+    //   errors.enddate = 'Enddate Required';
+    // }
     if (isEmpty(values.duration)) {
       errors.duration = THIS_FIELD_REQUIRED;
     }
@@ -426,6 +427,10 @@ const CreateNewEvent = (props) => {
     if (isEmpty(values.description.trim())) {
       formik.values.description = '';
       errors.description = THIS_FIELD_REQUIRED;
+    }
+    if(sundaycheck === false || mondaycheck === false || tuesdaycheck === false || wednesdaycheck === false || thursdaycheck === false || fridaycheck === false || saturdaycheck === false ){
+      formik.values.availbletimebook ='';
+      errors.availbletimebook = "Please Select The Alteast One AvailbleDay"
     }
     console.log('errorserrorserrorserrors', errors);
     return errors;
@@ -638,17 +643,15 @@ const CreateNewEvent = (props) => {
       formik.values.event_name,
       formik.values.event_name.length,
       );
-      console.log('[[[[[[[[[[[[[', formik.values);
-   
-
-    
-
+      console.log('[[[[[[[[[[[[[', formik.values);   
   };
 
   const formik = useFormik({
     initialValues: initial,
+    enableReinitialize: true,
     onSubmit: (values) => handleSubmitForm(values),
     validate: handleEventValid,
+    
   }); 
 
   console.log('***************', formik.isValid);
@@ -819,8 +822,8 @@ const CreateNewEvent = (props) => {
   return convertedDate
   }
   function onclose(){
-    formik.values = initial   
-    formik.setValues(initial) 
+    // formik.values = initial   
+    // formik.setValues(initial) 
     setIsOpen(false)
 
   }
@@ -848,6 +851,11 @@ const CreateNewEvent = (props) => {
       });
         }
   }
+
+  const currentMonthStart = new Date();
+  const initialSettings: Props['initialSettings'] = {
+    minDate: currentMonthStart,
+  };
 
   return (
     <>
@@ -877,9 +885,6 @@ const CreateNewEvent = (props) => {
             <Text className={styles.text1} size={16}>
               Create Event
             </Text>
-            {/* <button className={styles.close} onClick={() => setIsOpen(false)}>
-              <SvgCloseSmall />
-            </button> */}
           </Flex>
 
           <div style={{ width: '80%' }}>
@@ -1125,7 +1130,9 @@ const CreateNewEvent = (props) => {
                         </div>
                       }
                     /> */}
-                         <DateRangePicker
+                        <DateRangePicker   
+                         initialSettings={initialSettings}     
+                                                      
                          onApply={(event,picker)=>onApplyChange(event,picker)}>
                         <div style={{ display: 'flex', alignItems: 'center' }}>
                           <input
@@ -1142,6 +1149,7 @@ const CreateNewEvent = (props) => {
                                 ? `${selectedRange.startDate} - ${selectedRange.endDate}`
                                 : ''
                             }
+                            // disabled={true}
                           
                           />
 
@@ -1297,6 +1305,11 @@ const CreateNewEvent = (props) => {
               />
             </Flex>
           </div>
+          <ErrorMessage
+                    name={'availbletimebook'}
+                    errors={formik.errors}
+                    touched={formik.touched}
+                  />
 
           <div
             style={{

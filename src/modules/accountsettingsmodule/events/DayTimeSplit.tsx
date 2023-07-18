@@ -223,25 +223,25 @@ const DayTimeSplit = (props) => {
 
   const handleAddClickForSunday = () => {
     console.log('dddddddddddddd======', day1);
-    if (sunday[0].endtime !== '6:00PM' && day1.length > 1) {
+    if (sunday[0].endtime !== '6:00 PM' && day1.length > 1) {
       setSunday([...sunday, { starttime: '', endtime: '' }]);
       console.log('handleAddClickForSunday', sunday);
     }
   };
   const RemoveClickForSunday = (index) => {
-    console.log("sunday[index]",sunday[index],time)
+    // console.log("sunday[index]",sunday[index],time)
 
-    const check = time.find(
-      (option) => option.label === sunday[index].starttime,
-    )
-    const updatetime = [...time.splice(0, check.id)];
+    // const check = time.find(
+    //   (option) => option.label === sunday[index].starttime,
+    // )
+    // const updatetime = [...time.splice(0, check.id)];
     
-    console.log("checkcheckcheck",check,updatetime)
-    const removedDate = sunday[index];
+    // console.log("checkcheckcheck",check,updatetime)
+    // const removedDate = sunday[index];
     const list = [...sunday];
     list.splice(index, 1);
     setSunday(list);
-    setDay1(updatetime)
+    // setDay1(updatetime)
 
     // if (!day1.includes(removedDate)) {
     //   setDay1([...day1, removedDate]); // Add the removed date to day1 array if it doesn't already exist
@@ -271,7 +271,7 @@ const DayTimeSplit = (props) => {
   };
 
   const handleAddClickForMonday = () => {
-    if (monday[0].endtime !== '6:00PM' && day2.length > 1) {
+    if (monday[0].endtime !== '6:00 PM' && day2.length > 1) {
       setMonday([...monday, { starttime: '', endtime: '' }]);
       console.log('handleAddClickForSunday', monday);
     }
@@ -304,7 +304,7 @@ const DayTimeSplit = (props) => {
   };
 
   const handleAddClickForTuesday = () => {
-    if (tuesday[0].endtime !== '6:00PM' && day3.length > 1) {
+    if (tuesday[0].endtime !== '6:00 PM' && day3.length > 1) {
       setTuesday([...tuesday, { starttime: '', endtime: '' }]);
       console.log('handleAddClickForSunday', tuesday);
     }
@@ -336,7 +336,7 @@ const DayTimeSplit = (props) => {
   };
 
   const handleAddClickForWednesday = () => {
-    if (wednesday[0].endtime !== '6:00PM' && day4.length > 1) {
+    if (wednesday[0].endtime !== '6:00 PM' && day4.length > 1) {
       setWednesday([...wednesday, { starttime: '', endtime: '' }]);
       console.log('handleAddClickForSunday', wednesday);
     }
@@ -371,7 +371,7 @@ const DayTimeSplit = (props) => {
   };
 
   const handleAddClickForThursday = () => {
-    if (thursday[0].endtime !== '6:00PM' && day5.length > 1) {
+    if (thursday[0].endtime !== '6:00 PM' && day5.length > 1) {
       setThursday([...thursday, { starttime: '', endtime: '' }]);
       console.log('handleAddClickForSunday', thursday);
     }
@@ -403,7 +403,7 @@ const DayTimeSplit = (props) => {
   };
 
   const handleAddClickForFriday = () => {
-    if (friday[0].endtime !== '6:00PM' && day6.length > 1) {
+    if (friday[0].endtime !== '6:00 PM' && day6.length > 1) {
       setFriday([...friday, { starttime: '', endtime: '' }]);
       console.log('handleAddClickForSunday', friday);
     }
@@ -435,7 +435,7 @@ const DayTimeSplit = (props) => {
   };
 
   const handleAddClickForSaturday = () => {
-    if (saturday[0].endtime !== '6:00PM' && day7.length > 1) {
+    if (saturday[0].endtime !== '6:00 PM' && day7.length > 1) {
       setSaturday([...saturday, { starttime: '', endtime: '' }]);
       console.log('handleAddClickForSunday', saturday);
     }
@@ -457,6 +457,7 @@ const DayTimeSplit = (props) => {
     }
     if (name === 'monday') {
       setmondaycheck(checked);
+
     }
     if (name === 'tuesday') {
       settuesdaycheck(checked);
@@ -639,8 +640,8 @@ const DayTimeSplit = (props) => {
                       label: '9:00 AM',
                     }}
                     value={
-                      day1
-                        ? day1.find(
+                      time
+                        ? time.find(
                             (option) => option.label === sunday[0].starttime,
                           )
                         : ''
@@ -674,8 +675,8 @@ const DayTimeSplit = (props) => {
                       label: '6:00 PM',
                     }}
                     value={
-                      day1
-                        ? day1.find(
+                      time
+                        ? time.find(
                             (option) => option.label === sunday[0].endtime,
                           )
                         : ''
@@ -794,8 +795,8 @@ const DayTimeSplit = (props) => {
                               placeholder={'time'}
                               name="starttime"
                               value={
-                                day1
-                                  ? day1.find(
+                                time
+                                  ? time.find(
                                       (option) => option.label === x.starttime,
                                     )
                                   : ''
@@ -825,8 +826,8 @@ const DayTimeSplit = (props) => {
                               placeholder={'time'}
                               name="endtime"
                               value={
-                                day1
-                                  ? day1.find(
+                                time
+                                  ? time.find(
                                       (option) => option.label === x.endtime,
                                     )
                                   : ''
@@ -2511,12 +2512,8 @@ const CopyClipBoard = (props) => {
   const applyonclick = (senditem: any, dayof: any, tslot: any) => {
     console.log('senditem', senditem);
     console.log('senditemdayof', dayof);
-    console.log('senditemtimeslot', tslot);
-    // useEffect(()=> {
+    console.log('senditemtimeslots', tslot);
 
-    // },[dayof])
-
-    // alert('applyonclick');
     if (final.includes('sunday')) {
       const filteredData = dayof.filter(
         (item) => item.starttime !== '' && item.endtime !== '',
@@ -2527,9 +2524,6 @@ const CopyClipBoard = (props) => {
         typeof filteredData,
       );
       setSunday(filteredData);
-
-      // setDay1();
-      // setrender(Date.now())
     }
     if (final.includes('monday')) {
       const filteredData = dayof.filter(
@@ -2539,49 +2533,43 @@ const CopyClipBoard = (props) => {
         'filteredDatafilteredDatafilteredDatafilteredDatafilteredData',
         filteredData,
       );
-      const ts = tslot;
-      console.log('tststs', ts);
       setMonday(filteredData);
-      // setDay2(ts);
-      // setrender(Date.now())
     }
     if (final.includes('tuesday')) {
       const filteredData = dayof.filter(
         (item) => item.starttime !== '' && item.endtime !== '',
       );
       setTuesday(filteredData);
-      // setDay3(tslot);
     }
     if (final.includes('wednesday')) {
       const filteredData = dayof.filter(
         (item) => item.starttime !== '' && item.endtime !== '',
       );
       setWednesday(filteredData);
-      // setDay4(tslot);
     }
     if (final.includes('thursday')) {
       const filteredData = dayof.filter(
         (item) => item.starttime !== '' && item.endtime !== '',
       );
       setThursday(filteredData);
-      // setDay5(tslot);
     }
     if (final.includes('friday')) {
       const filteredData = dayof.filter(
         (item) => item.starttime !== '' && item.endtime !== '',
       );
       setFriday(filteredData);
-      // setDay6(tslot);
     }
     if (final.includes('saturday')) {
       const filteredData = dayof.filter(
         (item) => item.starttime !== '' && item.endtime !== '',
       );
       setSaturday(filteredData);
-      // setDay7(tslot);
     }
-    closeButton();
-    timeslotset(tslot)
+    closeButton();   
+    setTimeout(() => {
+      console.log('Timeout completed!');
+      timeslotset(tslot)
+    }, 1000);
   };
 
 
@@ -2591,28 +2579,28 @@ const CopyClipBoard = (props) => {
     updatedTimeSlots.shift();
     console.log('~~~~~~~~~~~~',updatedTimeSlots)
 
-    // console.log("dayofdayof",dayof)
-    // if (final.includes('sunday')) {
-    //   setDay1(dayof)
-    // }
-    // if (final.includes('monday')) {
-    //   setDay2(dayof)
-    // }
-    // if (final.includes('tuesday')) {
-    //   setDay3(dayof)
-    // }
-    // if (final.includes('wednesday')) {
-    //   setDay4(dayof)
-    // }
-    // if (final.includes('thursday')) {
-    //   setDay5(dayof)
-    // }
-    // if (final.includes('friday')) {
-    //   setDay6(dayof)
-    // }
-    // if (final.includes('saturday')) {
-    //   setDay7(dayof)
-    // }
+    console.log("dayofdayof",dayof)
+    if (final.includes('sunday')) {
+      setDay1(dayof)
+    }
+    if (final.includes('monday')) {
+      setDay2(dayof)
+    }
+    if (final.includes('tuesday')) {
+      setDay3(dayof)
+    }
+    if (final.includes('wednesday')) {
+      setDay4(dayof)
+    }
+    if (final.includes('thursday')) {
+      setDay5(dayof)
+    }
+    if (final.includes('friday')) {
+      setDay6(dayof)
+    }
+    if (final.includes('saturday')) {
+      setDay7(dayof)
+    }
   }
   return (
     <>

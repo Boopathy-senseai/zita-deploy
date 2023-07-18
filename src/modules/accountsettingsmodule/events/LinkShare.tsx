@@ -15,6 +15,7 @@ import ShareButton from '../buildyourcareerpage/ShareButton';
 import Loader from '../../../uikit/Loader/Loader';
 import styles from './linkshare.module.css';
 import { getScheduleMiddleWare } from './store/middleware/eventmiddleware';
+// import GoogleIntergration from './googleintergration';
 // import { nameList, sharelinkdata } from './eventType';
 
 
