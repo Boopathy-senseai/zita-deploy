@@ -48,3 +48,5 @@ export const passivecandidate = `${routesPath.REPORTS}/passive-candidate`;
 export const jobMetrics = `${routesPath.REPORTS}/job-metrics`;
 export const sourcingPerformance = `${routesPath.REPORTS}/sourcing-performance`;
 
+// meeting scheduler
+export const meetingScheduler = `meeting_scheduler`;
