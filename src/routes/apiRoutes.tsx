@@ -269,6 +269,10 @@ export const sourcingPerformanceDownloadApi = 'sourcing_performance_download';
 export const dashboardCalenderApi = 'dashboard_calender';
 export const notificationApi = 'notification';
 export const urlValidApi = `url_verification`;
+export const eventSchedulerApi = 'scheduler_dashboard';
+export const slotterApi = 'slotter_interview';
+export const availbleslot = 'slotter_availble';
+
 
 export const jobViewCountApi = (jdId: string) => {
   const url = `job_view_count_fun/${jdId}`;

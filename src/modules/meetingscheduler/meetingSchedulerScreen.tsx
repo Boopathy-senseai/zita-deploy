@@ -27,6 +27,10 @@ import IntegrationScreen from '../accountsettingsmodule/integrationmodule/Integr
 import SvgScheduler from '../../icons/SvgScheduler';
 import styles from './meetingSchedulerScreen.module.css';
 import ScheduledEventsPage from './scheduledevents/scheduledEvents';
+import EventScheduler from './events/EventScheduler';
+import DashBoard from './events/DashBoard';
+import Slotter1 from './events/Slotter1';
+import EventTabs from './events/EventTabs';
 
 type ParamsType = {
   itemId: string;
@@ -271,7 +275,7 @@ const MeetingSchedulerScreen = ({ value }: props) => {
                 }}
               >
                 <Tab title={'Event Schedular'} eventKey={'1'}>
-                  {tabKey === '1'}
+                  {tabKey === '1' && <EventScheduler/>}
                 </Tab>
                 <Tab title={'Scheduled Events'} eventKey={'2'}>
                   {tabKey === '2' && <ScheduledEventsPage />}

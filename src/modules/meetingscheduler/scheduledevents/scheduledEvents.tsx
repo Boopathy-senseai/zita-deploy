@@ -37,6 +37,7 @@ const ScheduledEventsPage = () => {
       </Flex>
       <Flex style={{ padding: '10px' }}>
         <Table />
+        
       </Flex>
     </>
   );

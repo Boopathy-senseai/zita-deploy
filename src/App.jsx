@@ -78,6 +78,8 @@ import SourcingPerformance from './modules/reportsmodule/SourcingPerformance';
 import CheckSignUpActivate from './modules/SignUp/CheckSignUpActivate';
 import DashBoardScreen from './modules/dashboardmodule/empdashboard/DashBoardScreen';
 import MeetingSchedulerScreen from './modules/meetingscheduler/meetingSchedulerScreen';
+import Slotter1 from './modules/meetingscheduler/events/Slotter1';
+import PreviewTabs from './modules/meetingscheduler/events/PreviewTab';
 
 axios.defaults.baseURL = process.env.REACT_APP_API_ENDPOINT;
 
@@ -373,6 +375,8 @@ const App = () => {
         {/* <Route path={''} component={NotFound} /> */}
         {/* <Route path="/calendar" component={Calendar} /> */}
         <Route path="/meeting_scheduler" component={MeetingSchedulerScreen} />
+        <Route path="/slotter" component={Slotter1}/>
+        <Route path="/event_preview" component={PreviewTabs}/>
         {localStorage.getItem('loginUserCheck') === 'true' ||
         localStorage.getItem('loginUserCheck') === null
           ? permissionRoutes.map(
