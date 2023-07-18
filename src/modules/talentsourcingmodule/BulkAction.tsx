@@ -126,6 +126,7 @@ const BulkAction = ({
             FileSaver.saveAs(
               window.location.protocol + '//' + response.payload.file_path,
               `Talent Sourcing_Candidate Profile_${moment(new Date()).format('ll')}.zip`,
+              Toast('Resume exported successfully','LONG','success'),
             );
           }
         })

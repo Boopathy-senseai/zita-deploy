@@ -75,6 +75,7 @@ const TalentCardList = ({
 Props) => {
   const [isCheckAll, setIsCheckAll] = useState(false);
   const [count, setcount] = useState(0);
+  const [stylevalue,setstylevalue]=useState(false);
   // const [isCheck, setIsCheck] = useState<any>([]);
   // const checkArray = isCheckArray.length === 0 ? false : true;
 // select box function
@@ -111,20 +112,22 @@ Props) => {
   };
 
   
- 
+
 
   useEffect(() => {
     const valIndex=sessionStorage.getItem("index");
     console.log("type offffffffffff",typeof(isCheck.length),typeof(valIndex))
     const ans=(isCheck.length.toString()===valIndex);
     console.log("number page",valIndex,isCheckAll,isCheck.length,ans)
-    
+    const styleval= Number(valIndex)>12
+    console.log("stylevalllllllll",Number(valIndex),styleval)
+    setstylevalue(styleval)
 
     if (isCheckAll && isCheck.length.toString() !== valIndex) {
       setIsCheckAll(false);
       update(false) 
     }
-  }, [isCheck]);
+  }, [isCheck,stylevalue]);
 
   // useEffect(() => {
   //   setIsCheckAll(false);
@@ -166,11 +169,11 @@ Props) => {
 //     }
          
 //   }
+
   
- 
   return (
-    <Flex wrap row style={{width:'100%'}}>
-    {console.log("index value",count)}
+    <Flex wrap row style={{width:'100%',  overflowY: 'scroll',height: !stylevalue?'fit-content':window.innerHeight - 293,padding: '0 0 8px 0',alignContent:'flex-start' }}>
+    {console.log("index value",window.innerHeight,stylevalue)}
       <BulkAction
         // setUnlockLoader={setUnlockLoader}
         setCandiList={setCandiList}

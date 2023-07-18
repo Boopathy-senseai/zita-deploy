@@ -74,6 +74,7 @@ const TalentSourcingScreen = () => {
   const [show,setshow]=useState(false);
   const uselocation = useLocation();
   const history = useHistory();
+  const [apply, setapply] = useState(false);
 
   const [isCheck, setIsCheck] = useState<any>([]);
 
@@ -85,7 +86,7 @@ const TalentSourcingScreen = () => {
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
     localStorage.setItem('freeCheck','true');
-    dispatch(talentSourcingMiddleWare()).then(() => {
+    dispatch(talentSourcingMiddleWare()).then(() => {      
       setInitalCheckBox(true);
       setInitialLoader(false)
     });
@@ -280,6 +281,7 @@ setshow(val)
   } = talentFilterHelper(getStoreSearchData, isExperience);
 
   useEffect(() => {
+    if(isAny&& isExperience.value==="all" && !isRelocate){
     filterCondition(
       setSearchData,
       isAny,
@@ -356,7 +358,7 @@ setshow(val)
       searchOtherBachelorsMastersDoctorateRelocate,
       searchOtherBachelorsMastersDoctorateExperienceRelocate,
     );
-  }, [
+  }}, [
     isAny,
     isBachelors,
     isDoctorate,
@@ -461,6 +463,86 @@ setshow(val)
     history.push('/account_setting/settings?planFocus=focus')
   };
 
+  const updatechckbox=()=>{
+    filterCondition(
+      setSearchData,
+      isAny,
+      isRelocate,
+      isExperience,
+      isMasters,
+      isDoctorate,
+      isBachelors,
+      getStoreSearchData,
+      searchExperienceRelocate,
+      searchRelocate,
+      searchExperienceBachelorMasterDoctorate,
+      searchBachelorsMasterDoctorateRelocate,
+      searchExperienceBachelorMaster,
+      searchExperienceBachelorDoctorate,
+      searchExperienceDoctorateMaster,
+      searchThreeFilter,
+      searchBachelorDoctorateRelocate,
+      searchMasterDoctorateRelocate,
+      searchBachelorMasterRelocate,
+      searchExperienceBachelor,
+      searchExperienceMaster,
+      searchExperienceDoctorate,
+      searchBachelorsMastersFilter,
+      searchBachelorsDoctorateFilter,
+      searchDoctorateMastersFilter,
+      searchBachelorRelocate,
+      searchMasterRelocate,
+      searchDoctorateRelocate,
+      searchBachelorsFilter,
+      searchDoctorateFilter,
+      searchMastersFilter,
+      searchExperience,
+      searchBachelorExperienceRelocate,
+      searchDoctorateExperienceRelocate,
+      searchMastersExperienceRelocate,
+      searchBachelorsMasterExperienceRelocate,
+      searchBachelorDoctorateExperienceRelocate,
+      searchMastersDoctorateExperienceRelocate,
+      searchBachelorsMasterDoctorateExperienceRelocate,
+      searchUnselectCheckbox,
+      searchUnCheckExperience,
+      isOther,
+      searchOther,
+      searchOtherBachelor,
+      searchOtherMasters,
+      searchOtherDoctorate,
+      searchOtherBachelorsMasters,
+      searchOtherBachelorsDoctorate,
+      searchOtherMastersDoctorate,
+      searchOtherBachelorsMastersDoctorate,
+      searchOtherExperience,
+      searchOtherBachelorExperience,
+      searchOtherMastersExperience,
+      searchOtherDoctorateExperience,
+      searchOtherBachelorsMastersExperience,
+      searchOtherBachelorsDoctorateExperience,
+      searchOtherMastersDoctorateExperience,
+      searchOtherBachelorsMastersDoctorateExperience,
+      searchOtherRelocate,
+      searchOtherExperienceRelocate,
+      searchOtherBachelorRelocate,
+      searchOtherBachelorExperienceRelocate,
+      searchOtherMastersRelocate,
+      searchOtherMastersExperienceRelocate,
+      searchOtherDoctorateRelocate,
+      searchOtherDoctorateExperienceRelocate,
+      searchOtherBachelorsMastersRelocate,
+      searchOtherBachelorsMastersExperienceRelocate,
+      searchOtherBachelorsDoctorateRelocate,
+      searchOtherBachelorsDoctorateExperienceRelocate,
+      searchOtherMastersDoctorateReloacate,
+      searchOtherMastersDoctorateExperienceRelocate,
+      searchOtherBachelorsMastersDoctorateRelocate,
+      searchOtherBachelorsMastersDoctorateExperienceRelocate,
+    )
+
+  }
+
   useEffect(() => {
     setSearchData([]);
   }, []);
@@ -482,9 +564,9 @@ setshow(val)
   if(isInitialLoader){
     return <Loader />
   }
-  // if(isSubmitLoader){
-  //   return <Loader />
-  // }
+
+ 
+
     console.log("isSearchData",isSearchData);
     console.log("isFind",isFind);
     console.log("iSubmitLoaders",isSubmitLoader);
@@ -492,7 +574,11 @@ setshow(val)
     
   return (
     <>
-   
+    {console.log("applyyyyy",apply)}
+   {
+    isSubmitLoader&&
+    <Loader /> 
+   }
     <Flex row className={styles.ribbon} between>
           
 
@@ -510,7 +596,7 @@ setshow(val)
    </Flex>
     <Flex row className={styles.overAll}>
        
-        {(sourceLoader||isPdfLoader||searchLoader||stripeLoader||isCheckOutLoader) && <Loader />}
+        {(sourceLoader||isPdfLoader||searchLoader||stripeLoader||isCheckOutLoader) && isSubmitLoader}
         <CancelAndDeletePopup
           title={
             'Please subscribe to any of the premium plans to buy credits and unlock candidates'
@@ -538,7 +624,7 @@ setshow(val)
         />
         <UnlockLoaderModal
           title={
-            'Unlocking the profile. Please wait until the process gets completed.'
+            'Unlocking the profiles. Please wait until the process gets completed.'
           }
           open={unLockLoader || bulkUnlockLoader}
         />
@@ -594,13 +680,15 @@ setshow(val)
         
         <Flex
           className={styles.titleContainer}
-          height={window.innerHeight - 71}
+        
            
         >
           <div >
             <Flex className={styles.talentActionContainer}>
               <TalentAction
-         
+              update={update}
+              val={show}
+                setIsCheck={setIsCheck}
                 setInitalCheckBox={setInitalCheckBox}
                 setFind={setFind}
                 setPageNumber={setPageNumber}
@@ -612,9 +700,12 @@ setshow(val)
               />
             </Flex>
                 
-          {  visible === true && (        
+          { visible&& isSearchData !== null && (        
           <div className={cx('filterOverAll')}>
           <TalentFilter
+                  updatechckbox={updatechckbox}
+                  apply={apply}
+                  setapply={setapply}
                   isInitalCheckBox={isInitalCheckBox}
                   setOther={setOther}
                   isOther={isOther}
@@ -638,11 +729,11 @@ setshow(val)
              
             {(isSearchData?.length === 0 && isFind && !isSubmitLoader) && (
               <div className={styles.emptyStyle}>
-                <Empty title="Please enter your search keywords in the search field to find the candidates" />
+                <Empty title="Please enter your search keywords in the required search field to find the candidates" />
               </div>
             )}
             {(isSearchData === null || isSearchData?.length === 0 && !isFind) && !isSubmitLoader && (
-                <div className={styles.emptyStyle}>
+                <div className={styles.emptyStyle} style={{marginRight:'3%'}}>
                   <Empty title="No Candidate Found" />
                 </div>
               )}

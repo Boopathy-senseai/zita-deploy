@@ -73,13 +73,14 @@
   align-items: center;
   justify-content: center;
   display: flex;
-  padding-top: 30px;
+  padding-top: 10px;
 }
 .emptyStyle{
   align-items: center;
   justify-content: center;
   height: 75%;
   display: flex;
+  margin-top: 10%;
 }
 .ribbon{
   background-color: #EEE8EC;

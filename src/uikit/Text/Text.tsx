@@ -111,7 +111,7 @@ const Text = ({
 
 /* eslint max-len: ["error", { "code": 2000 }] */
 const defaultProps = {
-  size: 14,
+  size: 13,
   color: 'primary',
   tag: 'span',
 };

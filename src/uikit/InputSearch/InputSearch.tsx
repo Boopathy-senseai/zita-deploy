@@ -31,10 +31,11 @@ type Props = {
   errorMessage?: string;
   error?: boolean;
   labelBold?: boolean;
-  onkeyPress?: (a: any) => void;
+  onkeyPress?: any;
   style?: string;
   autoFocus?: boolean;
   inputRef?: any
+  onChange?: (a: any) => void
   // title?:string | undefined;
 };
 
@@ -59,6 +60,8 @@ const renderInputComponent = ({
   const getValue=value.includes(', usa')
 
 console.log("GG0", ref?.current?.value)
+ 
+
   return (
     <input
       // eslint-disable-next-line jsx-a11y/no-autofocus
@@ -89,6 +92,7 @@ const InputSearch = ({
   disabled,
   options,
   onKeyDown,
+  onChange,
   onkeyPress,
   label,
   required,
@@ -97,7 +101,9 @@ const InputSearch = ({
   labelBold,
   style,
   autoFocus,
-  inputRef
+  inputRef,
+  
+  
   
 }: Props) => {
   const [currentsuggestion, setSuggestion] = useState<any[]>([]);
@@ -155,9 +161,9 @@ const InputSearch = ({
     setFieldValue(name, requiredValue);
   };
 
-  const onChange = (_event: object, { newValue }: { newValue: string }) => {
-    setValue(newValue);
-  };
+  // const onChange = (_event: object, { newValue }: { newValue: string }) => {
+  //   setValue(newValue);
+  // };
 
   const handleFocus = () => {
     setErrorFocus(true);
@@ -172,7 +178,7 @@ const InputSearch = ({
   const inputProps: any = {
     placeholder,
     value: currentvalue,
-    onChange,
+    onChange:onChange,
     disabled,
     id: name,
     onkeydown: onKeyDown,

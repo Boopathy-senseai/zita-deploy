@@ -86,7 +86,6 @@ console.log("sidebar111",windowSize,sidebar)
     <div
       style={{
         width: isTablet ? '100%' : '31.5%',
-        border:'1px solid #A58896',
         borderRadius: '4px'
       }}
       className={styles.overAll}
@@ -137,15 +136,14 @@ console.log("sidebar111",windowSize,sidebar)
                       <Flex
                         row
                         center
-                        title={`${talentList.hometown} | ${notSpecified(
-                          talentList.work_experience,
-                        )}`}
+                     
                         // wrap
                       >
                         <Text
                           color="primary"
                           size={11}
                           className={styles.ellipsis}
+                          title={`Location: ${talentList.hometown}`}
                         >
                           {talentList.hometown}
                         </Text>
@@ -156,7 +154,9 @@ console.log("sidebar111",windowSize,sidebar)
                         >
                           {' | '}
                         </Text>
-                        <Text color="primary" size={11}>{`${notSpecified(
+                        <Text color="primary" size={11}    title={`Experience: ${notSpecified(
+                          talentList.work_experience
+                        )}`}  >{`${notSpecified(
                           talentList.work_experience,
                         )}`}</Text>
                       </Flex>
@@ -167,14 +167,13 @@ console.log("sidebar111",windowSize,sidebar)
                             // wrap
                             row
                             center
-                            title={`${talentList.hometown} | ${notSpecified(
-                              talentList.work_experience,
-                            )} Year`}
+                           
                           >
                             <Text
                               color="primary"
                               size={11}
                               className={styles.ellipsis}
+                              title={`Location: ${talentList.hometown}`}
                             >
                               {talentList.hometown}
                             </Text>
@@ -185,7 +184,9 @@ console.log("sidebar111",windowSize,sidebar)
                             >
                               {' | '}
                             </Text>
-                            <Text color="primary" size={12}>{`${notSpecified(
+                            <Text color="primary" size={12}  title={`Experience: ${notSpecified(
+                              talentList.work_experience,
+                            )} Year`} >{`${notSpecified(
                               talentList.work_experience,
                             )} Year`}</Text>
                           </Flex>
@@ -195,14 +196,13 @@ console.log("sidebar111",windowSize,sidebar)
                             // wrap
                             row
                             center
-                            title={`${talentList.hometown} | ${notSpecified(
-                              talentList.work_experience,
-                            )} Years`}
+                            
                           >
                             <Text
                               color="primary"
                               size={11}
                               className={styles.ellipsis}
+                              title={`Location: ${talentList.hometown}`}
                             >
                               {talentList.hometown}
                             </Text>
@@ -213,7 +213,7 @@ console.log("sidebar111",windowSize,sidebar)
                             >
                               {' | '}
                             </Text>
-                            <Text color="primary" size={11}>{`${notSpecified(
+                            <Text color="primary" size={11} title={`Experience: ${notSpecified(talentList.work_experience)} Years`}>{`${notSpecified(
                               talentList.work_experience,
                             )} Years`}</Text>
                           </Flex>
@@ -238,7 +238,7 @@ console.log("sidebar111",windowSize,sidebar)
                   <SvgJobtitle fill={'#581845'} width={14} height={14} />
                   </Flex>
                     <Text
-                      title={`Job Title:${notSpecified(talentList.desired_job_title)}`}
+                      title={`Job Title: ${notSpecified(talentList.desired_job_title)}`}
                       color="black_1"
                       className={styles.jobTitle}
                       size={11} 
@@ -250,7 +250,7 @@ console.log("sidebar111",windowSize,sidebar)
                   <Flex style={{marginLeft:'-3px'}}>
                   <SvgQualification fill={'#581845'} width={16} height={16} />
                   </Flex>
-                    <Text color="black_1" style={{marginLeft:'3px'}}  title={`Qualification:${notSpecified(talentList.education_level)}`} size={11} >
+                    <Text color="black_1" style={{marginLeft:'3px'}}  title={`Qualification: ${notSpecified(talentList.education_level)}`} size={11} >
                       {notSpecified(talentList.education_level)}
                     </Text>
                   </Flex>
@@ -291,20 +291,20 @@ console.log("sidebar111",windowSize,sidebar)
               <Flex style={{marginTop:'30px',marginRight: '8px'}} >
               <Flex  width={'113%'} >
               {!checkVist ? (
-                <Flex style={{marginLeft:'22px' }}
+                <Flex style={{marginLeft:'25px' }}
                 onClick={() => handleUnlockSubmit(talentList.candidate_hash)}
         
                 >
-                <SvgLock fill={'#581845'} width={20} height={20} />
+                <SvgLock fill={'#581845'} width={22} height={22} />
                 </Flex>
               ) : (
-                <div style={{marginLeft:'31px'}}
+                <div style={{marginLeft:'34px'}}
                 >
-                <SvgUnlock fill={'#581845'} width={20} height={20} />
+                <SvgUnlock fill={'#581845'} width={22} height={22} />
                 </div>
                 
               )}
-              <Text bold  size={11}  style={{ marginLeft: '-5px', color:'#581845' }}>
+              <Text bold  size={11}  style={{ marginLeft: '-5px', color:'#581845',fontSize:'12px' }}>
                 {checkVist ? 'Unlocked Contact' : 'Unlock Contact'}
               </Text>
             </Flex>

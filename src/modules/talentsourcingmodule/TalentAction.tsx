@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction,useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import classNames from 'classnames/bind';
 import Flex from '../../uikit/Flex/Flex';
@@ -28,6 +28,9 @@ type Props = {
   setInitalCheckBox: (arg: boolean) => void;
   setSubmitLoader:any
   setvisible:any
+  setIsCheck?:any
+  val:any
+  update:any
 };
 
 type FormProps = {
@@ -54,12 +57,16 @@ const TalentAction = ({
   setFind,
   setInitalCheckBox,
   setSubmitLoader,
-  setvisible
+  setvisible,
+  setIsCheck,
+  val,
+  update
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
 
   // form filter submit
   const handleSubmit = (values: FormProps) => {
+    
     setvisible(true)
     setSubmitLoader(true)
     dispatch(
@@ -84,6 +91,8 @@ const TalentAction = ({
         Toast(ERROR_MESSAGE, 'LONG', 'error');
         setSubmitLoader(false)
       });
+      setIsCheck([])
+      update(false)
   };
 
   const handleValidation = (values: FormProps) => {
@@ -95,11 +104,13 @@ const TalentAction = ({
     if (values.keywords === '') {
       errors.keywords = THIS_FIELD_REQUIRED;
     }
-    if (!space.test(formik.values.keywords)) {
+    if (!(formik.values.keywords).trim()) {
       errors.keywords = "Space is not a character";
     }
       return errors;
   };
+
+
 
   const formik = useFormik({
     initialValues: initial,
@@ -107,13 +118,27 @@ const TalentAction = ({
     onSubmit: handleSubmit,
     enableReinitialize: true,
   });
- 
+  useEffect(() => {
+    
+    if (formik.values.location === '') {
+      formik.errors.location = THIS_FIELD_REQUIRED;
+    }
+  
+}, [formik.values.location]);
+
+  const handleInputChange=(event)=>{
+    console.log("keyyyyyy",event.target.value);
+    formik.setFieldValue("location", event.target.value);
+   
+  }
+
 
 
   return (
 <>
+{console.log("formik.values",formik.values)}
     <Flex row between bottom className={cx('rowContainer')}>
-      <Flex row bottom flex={1}>
+      <Flex row  width={'89%'} >
         <InputText
           id={'talentaction__keywords'}
           label={'Job Title'}
@@ -128,7 +153,7 @@ const TalentAction = ({
       
         <div className={cx('cityStyle')}>
           <InputSearch
-            placeholder="e.g. City/State"
+            placeholder="e.g. City or State"
             options={location}
             setFieldValue={formik.setFieldValue}
             name="location"
@@ -137,7 +162,8 @@ const TalentAction = ({
             errorMessage={formik.errors.location}
             error={formik.touched.location}
             initialValue={lowerCase(formik.values.location)}
-            style={styles.searchStyle}           
+            style={styles.searchStyle}  
+            onChange={handleInputChange}   
           />
        
         
@@ -163,7 +189,11 @@ const TalentAction = ({
             formik.setFieldValue('lastActive', option.value)
           }
         />
-        <div className={styles.btnContainer}>
+        
+        
+    </Flex>
+    <Flex>
+    <div className={styles.btnContainer}>
         <Button
           disabled={!(formik.isValid && formik.dirty)}
           className={cx('findBtn')}

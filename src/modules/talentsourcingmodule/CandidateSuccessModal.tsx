@@ -34,7 +34,7 @@ const CandidateSuccessModal = ({ open, btnOnclick, credits }: Props) => {
               </Button>
             </LinkWrapper>
 
-            <Text>{`to view details. Your available credits ${credits}.`}</Text>
+            <Text>{`to view unlocked candidate details. Your available credits ${credits}.`}</Text>
           </Flex>
         </Flex>
         <Flex row center middle className={styles.btnContainer}>

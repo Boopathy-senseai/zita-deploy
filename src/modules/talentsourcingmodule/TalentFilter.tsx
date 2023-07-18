@@ -3,6 +3,8 @@ import classNames from 'classnames/bind';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import Card from '../../uikit/Card/Card';
+import { Button } from '../../uikit';
+import InputSwitch from '../../uikit/Switch/InputSwitch'
 import InputCheckBox from '../../uikit/InputCheckbox/InputCheckBox';
 import SelectTag from '../../uikit/SelectTag/SelectTag';
 import SvgRefresh from '../../icons/SvgRefresh';
@@ -10,6 +12,7 @@ import SvgIntomark from '../../icons/Intomark';
 import styles from './talentfilter.module.css';
 import styles1 from "./../mydatabasemodule/switch.module.css"
 import { experienceOptions } from './mock';
+
 
 
 
@@ -25,6 +28,8 @@ type Props = {
   isDoctorate: boolean;
   isMasters: boolean;
   isAny: boolean;
+  apply:boolean;
+  setapply:any;
   setBachelors: (arg: boolean) => void;
   setDoctorate: (arg: boolean) => void;
   setMasters: (arg: boolean) => void;
@@ -38,6 +43,7 @@ type Props = {
   setOther: (arg: boolean) => void;
   isInitalCheckBox: boolean;
   handleRefresh:()=>void
+  updatechckbox:any;
 };
 const TalentFilter = ({
   isBachelors,
@@ -55,47 +61,66 @@ const TalentFilter = ({
   setInitialPage,
   isOther,
   setOther,
+  apply,
+  setapply,
   isInitalCheckBox,
+  updatechckbox,
   handleRefresh
 }: Props) => {
   const handleBachelor = () => {
+
     setBachelors(!isBachelors);
     setAny(false);
     setInitialPage(0);
+    
   };
   const handleDoctorate = () => {
+
     setDoctorate(!isDoctorate);
     setAny(false);
     setInitialPage(0);
+
   };
   const handleMaster = () => {
+
     setMasters(!isMasters);
     setAny(false);
     setInitialPage(0);
-  };
+    
+    };
   const handleOther = () => {
-    setAny(false);
+
+        setAny(false);
     setOther(!isOther);
     setInitialPage(0);
-  };
-  const handleAny = () => {
+         };
+  const handleAny = () => { 
+
     setAny(!isAny);
     setBachelors(false);
     setDoctorate(false);
     setMasters(false);
     setOther(false);
     setInitialPage(0);
+
   };
   const filterRefresh = () => {
+ 
     handleRefresh();
     setRelocate(false);
-
+ 
   };
   const selectInputRef = useRef<any>();
   const myRef = useRef<any>();
   const dropDownRef = useRef(null);
   const [showDropDown, setShowDropDown] = useState(false);
-
+  const [apply1,setapply1]=useState(false)
+  const [newexperience,setnewexperience]=useState(null)
+  const [NewBachelors1,setnewBachelors1]=useState(false)
+  const [Newmaster1,setnewmaster1]=useState(false)
+  const [NewDoctorate1,setnewDoctorate1]=useState(false)
+  const [Newothers1,setnewothers1]=useState(false)
+  const [newrelocate,setnewrelocate]=useState(false)
   useEffect(() => {
     if (!isBachelors && !isDoctorate && !isMasters && !isOther) {
       setAny(true);
@@ -104,28 +129,65 @@ const TalentFilter = ({
 
   const closebachelor=()=>{
     setBachelors(false)
+    setnewBachelors1(false)
   }
   const closedoctorate=()=>{
     setDoctorate(false)
+    setnewDoctorate1(false)
   }
   const closemasters=()=>{
     setMasters(false)
+    setnewmaster1(false)
   }
   const closeother=()=>{
     setOther(false)
+    setnewothers1(false)
+  }
+  const closerelocate=()=>{
+    setRelocate(false)
+    setnewrelocate(false)
   }
   const close=()=>{
     setExperience(experienceOptions[0])
+    setnewexperience(experienceOptions[0])
   }
+   const handlechange=()=>{
+    updatechckbox()
+    setapply(true)
+    setShowDropDown(false)
+    setapply1(true)
+    setnewBachelors1(isBachelors)
+    setnewDoctorate1(isDoctorate)
+    setnewmaster1(isMasters)
+    setnewothers1(isOther)
+    setnewexperience(isExperience)
+    setnewrelocate(isRelocate)
+   }
+   const experiencevalid=()=>{
+    if (newexperience !=="all"||newexperience !==null) {
+      return (
+
+        <>
+
+          <Flex className={styles.notification_dot}></Flex>
+
+        </>
+
+      );
+
+    }
+    
+   }
 
   console.log(experienceOptions,"is exp")
 
   return (
    <>
+   {console.log("Experience",newexperience)}
      <Text className={""} style={{ color: "#581845" }}>
         Quick Filters :
       </Text>
-      {  !isBachelors && !isDoctorate && !isMasters && !isOther ?(
+      {  !NewBachelors1 && !NewDoctorate1 && !Newmaster1 && !Newothers1 ?(
        <Text className={styles.quickfil}>
         {"Any"}
       </Text>
@@ -133,7 +195,7 @@ const TalentFilter = ({
         null
       )
       }
-      {  isBachelors  ?(
+      { NewBachelors1 ?(
            <Text className={styles.quickfil}>
               {"Bachelors"}{" "}
               <SvgIntomark
@@ -145,7 +207,7 @@ const TalentFilter = ({
         null
       )
       }
-      {  isDoctorate  ?(
+      { NewDoctorate1  ?(
         <Text className={styles.quickfil}>
            {"Doctorate"}{" "}
            <SvgIntomark
@@ -158,7 +220,7 @@ const TalentFilter = ({
    )
    }
       
-    {  isMasters  ?(
+    { Newmaster1  ?(
       <Text className={styles.quickfil}>
          {"Masters"}{" "}
          <SvgIntomark
@@ -170,7 +232,7 @@ const TalentFilter = ({
    null
   )
   }
-  {  isOther  ?(
+  {Newothers1 ?(
     <Text className={styles.quickfil}>
        {"Other"}{" "}
        <SvgIntomark
@@ -182,19 +244,34 @@ const TalentFilter = ({
  null
 )
 }
-
-{  isExperience.value !=="all" ?(
+{newrelocate ?(
   <Text className={styles.quickfil}>
-     {isExperience.label}{" "}
+     {"Willing to Relocate"}{" "}
      <SvgIntomark
-     className={styles.stylesvg}
-     onClick={() => close()}
-   />
+              className={styles.stylesvg}
+              onClick={() => closerelocate()}
+            />
    </Text>
 ): (
 null
 )
 }
+
+{ 
+  ((newexperience !==null)) ?(
+    (newexperience.value !=="all")?(
+    <Text className={styles.quickfil}>
+       {isExperience.label}{" "}
+       <SvgIntomark
+       className={styles.stylesvg}
+       onClick={() => close()}
+     />
+     </Text>):(null)
+  ): (
+  null
+  ) 
+}
+
 
 
 
@@ -202,11 +279,11 @@ null
     <Flex
       row
       className={styles.drop_down_header}
-      onClick={() => {
-        setShowDropDown((value) => !value);
-      }}
+    
     >
-      <Flex>
+      <Flex style={{width:'90%'}}  onClick={() => {
+        setShowDropDown((value) => !value);
+      }}>
         <Text
           bold
           className={styles.filtername}
@@ -216,7 +293,7 @@ null
         </Text>
       </Flex>
     
-          <Flex title={"Clear Filters"}>
+          <Flex title={"Clear Filters"} >
                 <SvgRefresh
                   width={18}
                   height={18}
@@ -230,7 +307,31 @@ null
         showDropDown ? styles.show : ""
       }`}
     >
- 
+    
+      <Flex className={styles.mtstyle}>
+      <SelectTag
+                id={'talentfilter__experienceId'}
+                defaultValue={{
+                  value: isExperience.value,
+                  label: isExperience.label,
+                }}
+                value={
+                  experienceOptions
+                    ? experienceOptions.find(
+                        (option) =>
+                          option.value === isExperience.value,
+                      )
+                    : ''
+                }
+                labelBold
+                options={experienceOptions}
+                label={'Experience'}
+                onChange={(value) => setExperience(value)}
+                isDisabled={isInitalCheckBox}
+              />
+    
+      </Flex>
+
       <Flex className={styles.mtstyle}>
         <Flex className={styles.skillContainer} >
         <Text type="titleSmall" bold style={{color:'#581845',marginBottom:'2px'}} >Qualification</Text>
@@ -272,54 +373,39 @@ null
               onChange={handleAny}
               checked={isAny}
               label="Any"
-              disabled={isInitalCheckBox}
+              disabled={isAny}
             />
           </Flex>
         </Flex>
-      </Flex>
-      </Flex>
-    
-      <Flex className={styles.mtstyle}>
-      <SelectTag
-                id={'talentfilter__experienceId'}
-                defaultValue={{
-                  value: isExperience.value,
-                  label: isExperience.label,
-                }}
-                value={
-                  experienceOptions
-                    ? experienceOptions.find(
-                        (option) =>
-                          option.value === isExperience.value,
-                      )
-                    : ''
-                }
-                labelBold
-                options={experienceOptions}
-                label={'Experience'}
-                onChange={(value) => setExperience(value)}
-                isDisabled={isInitalCheckBox}
-              />
-    
+       </Flex>
       </Flex>
       
       
       <div className={styles.mtstyle}> 
       <Flex row >
         <Flex>
-          <label className={styles1.toggleswitch} >
-          <input type="checkbox" checked={isRelocate}
-          onChange={() => setRelocate(!isRelocate)} disabled={isInitalCheckBox}/>
-           <span className={styles1.switch} />
-           </label>
+        <InputSwitch
+        checked={isRelocate}
+        onClick={() => setRelocate(!isRelocate)}
+        disabled={isInitalCheckBox}
+        />
       </Flex>
-        <Flex style={{marginLeft:'10px',color:'black'}}>
+        <Flex style={{marginLeft:'5px',color:'black',fontSize:'13px'}}>
             Willing to Relocate
         </Flex>
       </Flex>
   
       </div>
-    
+      <div style={{padding:'6px',display:'flex',justifyContent: 'center',alignItems:'center'}}>
+      <Button
+      className={styles.buyBtn}
+      onClick={handlechange}
+    >
+     Apply
+    </Button>
+    </div>
+
+      
     
     </div>
     </div>
@@ -329,6 +415,12 @@ null
 
 export default TalentFilter;
 
+// <Button
+//       className={styles.buyBtn}
+//       onClick={handlechange}
+//     >
+//      Apply
+//     </Button>
 
 
 // <Card className={cx('cardConatiner')}>
