@@ -11,13 +11,14 @@ import ReactHtmlParser, {
   convertNodeToElement,
   htmlparser2,
 } from 'react-html-parser';
-import parse from 'html-react-parser';
+// import parse from 'html-react-parser';
 // import 'react-quill/dist/quill.snow.css';
 import Mention from 'quill-mention';
 Quill.register('modules/mention', Mention);
 import { useHistory } from 'react-router-dom';
 import { Card } from '../../uikit';
 import SvgInfo from '../../icons/SvgInfo';
+
 import SvgNotes from '../../icons/SvgNotes';
 import SvgNotesyet from '../../icons/Svgnonotesyet';
 import SvgRefresh from '../../icons/SvgRefresh';
