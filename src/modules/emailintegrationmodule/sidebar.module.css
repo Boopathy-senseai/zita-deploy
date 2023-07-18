@@ -1,9 +1,10 @@
 .sidebar {
   /* margin-top: 1px; */
-  height: 90vh;
-  z-index: 1;
+  height: -webkit-fill-available;
+  /* z-index: 1; 
   top: 0;
   left: 0;
+  bottom: 0; */
   background-color: #eee8ec;
   overflow-x: hidden;
   padding-top: 16px;

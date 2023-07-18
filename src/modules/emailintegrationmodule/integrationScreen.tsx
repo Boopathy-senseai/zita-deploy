@@ -429,9 +429,9 @@ const EmailScreen = () => {
   return (
     <>
       <AuthenticatedTemplate>
-        <Flex column>
-          {console.log('asas', sideroute)}
-          {loader === true ? <Loader /> : ''}
+        <Flex column className={styles.inboxContainer}>
+          {/* {console.log('asas', sideroute)} */}
+          {loader === true && <Loader />}
           <Flex row between className={styles.titleContainer}>
             <Text bold size={16} color="theme">
               Mailbox
@@ -526,7 +526,7 @@ const EmailScreen = () => {
                 sidebarroute={sideroute}
               />
             </Flex>
-            <Flex flex={4} marginTop={1} className={styles.containerColumn}>
+            <Flex marginTop={1} className={styles.containerColumn} style={{ minWidth: 349, maxWidth: 349 }}>
               {/* <Pagination
               previousfun={Previousdata}
               nextfun={Nextdata}
@@ -546,11 +546,8 @@ const EmailScreen = () => {
               />
             </Flex>
             <Flex
-              flex={9}
               marginTop={1}
               marginRight={1}
-              width={'100%'}
-              height={'100%'}
               className={styles.containerColumn1}
             >
               <Message

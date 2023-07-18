@@ -17,16 +17,18 @@
   justify-content: center;
   background-color: green;
 } */
-.iconContainer{
+.iconContainer {
   padding: 5px;
   /* box-shadow: 0 1px 4px 0 rgb(0 0 0 / 47%) ; */
   /* border-radius: 5px; */
   /* margin-right: 5px; */
   /* margin-top: 5px; */
   border-bottom: 1px solid #c3c3c3;
-
 }
 .cardStyles {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
   border-radius: 5px;
   box-shadow: unset !important;
 }
@@ -34,28 +36,36 @@
   background-color: #eee8ec;
   border-radius: 5px;
   box-shadow: unset !important;
-
 }
 .cardStyles:hover {
   background-color: #eee8ec;
 }
 .mailCard {
+  display: flex;
+  flex-direction: row;
+  width: -webkit-fill-available;
   padding: 5px;
   height: 70px;
   border-bottom: 0.5px solid #c3c3c3;
 }
-.icons{
+.icons {
   cursor: pointer;
   padding: 5px;
 }
-.icons:hover{
-  background-color: #EEE8EC;
+.icons:hover {
+  background-color: #eee8ec;
   cursor: pointer;
   border-radius: 5px;
 }
 .maillist {
   /* padding: 5px; */
-  box-shadow: rgba(0, 0, 0, 0.14) 0px 1px 2px 0px, rgba(0, 0, 0, 0.12) 0px 0px 2px 0px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: -webkit-fill-available;
+  width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.14) 0px 1px 2px 0px,
+    rgba(0, 0, 0, 0.12) 0px 0px 2px 0px;
   border-radius: 4px 4px 0 0;
   /* margin-top: 2px; */
 }
@@ -69,14 +79,14 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  max-width: 290px;
+  max-width: 100%;
   color: #333333;
 }
 .textStyle {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  max-width: 290px;
+  max-width: -webkit-fill-available;
   color: #666666;
 }
 .scroll {
@@ -84,8 +94,10 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: stretch;
-  height: 590px;
-  overflow-y: scroll;
+  height: -webkit-fill-available;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 .notification_dot {

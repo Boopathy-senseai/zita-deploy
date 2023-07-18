@@ -1,4 +1,7 @@
 .iconContainer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
   border-bottom: 1px solid #c3c3c3;
   padding: 5px 5px;
 }
@@ -17,9 +20,20 @@
   margin-left: 5px;
   cursor: auto;
 }
-.bodyContainer {
+.messageContainer{
+  position: relative;
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  height: 100%;
+  height: -webkit-fill-available;
+}
+.bodyContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 5px;
+  height: calc(100% - 40px);
+  /* width: 100%;
+  height: 100%; */
 }
 .filesContainer {
   display: grid;
