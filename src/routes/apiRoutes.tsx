@@ -154,6 +154,8 @@ export const kanbanPipelineView = `kanban_pipeline_view`;
 export const kanbanUpdation = `kanban_updation`;
 export const downloadBulkExport = `download_bulk_export`;
 
+export const scheduledEvents = `calender_scheduled_events`;
+
 // Login Api
 export const authApi = `${process.env.REACT_APP_API_ENDPOINT}login_api/`;
 export const userApi = `users`;
