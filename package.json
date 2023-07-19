@@ -18,10 +18,13 @@
     "precommit": "npm run prfiles:lint && lint-staged"
   },
   "dependencies": {
+    "@azure/identity": "^3.2.3",
+    "@azure/msal-node": "^1.18.0",
     "@babel/core": "^7.14.5",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@hookform/resolvers": "^2.6.1",
+    "@microsoft/microsoft-graph-client": "^3.0.5",
     "@microsoft/microsoft-graph-types": "^2.15.0",
     "@mui/material": "^5.9.1",
     "@mui/x-date-pickers": "^5.0.0-beta.1",
