@@ -8,7 +8,7 @@ const RightChevron = () => {
         style={{
           width: '100%',
           height: '100%',
-          fill: 'white',
+          fill: '#581845',
         }}
         viewBox="0 0 384 512"
       >

@@ -7,10 +7,11 @@ import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { momentLocalizer } from 'react-big-calendar';
 import { useDispatch } from 'react-redux';
-import { SvgAddInterviewers } from '../../icons';
+import { SvgAddInterviewers, SvgCalendar } from '../../icons';
 import { AppDispatch } from '../../store';
-import { InputText, SelectTag } from '../../uikit';
+import { Button, Flex, InputText, Modal, SelectTag, Text } from '../../uikit';
 import { getJdMiddleware } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
+import { CrossButton } from '../../uikit/v2';
 import AddInterviewerSlider from './AddInterviewerSlider';
 import InterviewerIcon from './InterviewerIcon';
 import styles from './styles/createScheduleForm.module.css';
@@ -121,7 +122,7 @@ const MeetingSchedulingForm = ({
       'timezone',
       'event_type',
       'notes',
-      'private_notes',
+      'privateNotes',
       'location',
       'interviewers',
       'remMin',
@@ -287,7 +288,7 @@ const MeetingSchedulingForm = ({
   const handleChangeDate = (value: Date | null) => {
     setMeetingForm((form) => ({
       ...form,
-      date: { ...form.date, value },
+      date: { ...form.date, value, error: null },
     }));
   };
 
@@ -359,6 +360,11 @@ const MeetingSchedulingForm = ({
   const notesHandler = (e: { target: HTMLTextAreaElement }) => {
     setMeetingForm((form) => ({ ...form, notes: e.target.value }));
     localStorage.setItem('notes', e.target.value.toString());
+  };
+
+  const privateNotesHandler = (e: { target: HTMLTextAreaElement }) => {
+    setMeetingForm((form) => ({ ...form, privateNotes: e.target.value }));
+    localStorage.setItem('privateNotes', e.target.value.toString());
   };
 
   const addTeamInterviewer = (memberInfo: TeamMemberType) => {
@@ -506,7 +512,9 @@ const MeetingSchedulingForm = ({
         <DesktopDatePicker
           value={meetingForm.date.value}
           onChange={handleChangeDate}
-          renderInput={(params) => <TextField {...params} />}
+          renderInput={(params) => (
+            <TextField {...params} style={{ width: 'auto !important' }} />
+          )}
         />
       </LocalizationProvider>
       {meetingForm.date.error && (
@@ -519,29 +527,44 @@ const MeetingSchedulingForm = ({
     <div>
       <label className={styles.label}>Time *</label>
       <div className={styles.timeInputWrapper}>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <TimePicker
-            value={meetingForm.startTime.value}
-            onChange={handleStartTime}
-            renderInput={(params) => <TextField {...params} />}
-            className={styles.timeInput}
-          />
-        </LocalizationProvider>
-        <p className={styles.to}>to</p>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <TimePicker
-            value={meetingForm.endTime.value}
-            onChange={handleEndTime}
-            renderInput={(params) => <TextField {...params} />}
-          />
-        </LocalizationProvider>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <TimePicker
+              value={meetingForm.startTime.value}
+              onChange={handleStartTime}
+              renderInput={(params) => <TextField {...params} />}
+              className={styles.timeInput}
+            />
+          </LocalizationProvider>
+          {meetingForm.startTime.errorMessage && (
+            <p className={styles.warn}>{meetingForm.startTime.errorMessage}</p>
+          )}
+        </div>
+        <p
+          className={styles.to}
+          style={{
+            marginBottom:
+              meetingForm.startTime.errorMessage ||
+              meetingForm.endTime.errorMessage
+                ? '20px'
+                : 0,
+          }}
+        >
+          to
+        </p>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <TimePicker
+              value={meetingForm.endTime.value}
+              onChange={handleEndTime}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
+          {meetingForm.endTime.errorMessage && (
+            <p className={styles.warn}>{meetingForm.endTime.errorMessage}</p>
+          )}
+        </div>
       </div>
-      {meetingForm.startTime.errorMessage && (
-        <p className={styles.warn}>{meetingForm.startTime.errorMessage}</p>
-      )}
-      {meetingForm.endTime.errorMessage && (
-        <p className={styles.warn}>{meetingForm.endTime.errorMessage}</p>
-      )}
     </div>
   );
 
@@ -569,7 +592,6 @@ const MeetingSchedulingForm = ({
       </div>
     );
   };
-
   const EventTypeView = (
     <div>
       <label className={styles.label}>Event Type *</label>
@@ -579,7 +601,7 @@ const MeetingSchedulingForm = ({
             label: editEventDetails.eventType,
             value: editEventDetails.eventType,
           }}
-          value={eventMeetingTypes.filter(function (option) {
+          value={eventMeetingTypes.find(function (option) {
             return option.value === meetingForm.eventType.value;
           })}
           labelBold
@@ -589,7 +611,7 @@ const MeetingSchedulingForm = ({
       ) : (
         <SelectTag
           labelBold
-          value={eventMeetingTypes.filter(function (option) {
+          value={eventMeetingTypes.find(function (option) {
             return option.value === meetingForm.eventType.value;
           })}
           options={eventMeetingTypes}
@@ -688,10 +710,17 @@ const MeetingSchedulingForm = ({
 
   const NotesView = (
     <div className={styles.notes}>
-      <div>
-        <p>Notes</p>
+      <label
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginBottom: '7px',
+        }}
+      >
+        <p style={{ color: '#581845' }}>Notes</p>
         <p>Visible to candidates</p>
-      </div>
+      </label>
       <InputText
         value={meetingForm.notes}
         textarea={true}
@@ -702,17 +731,46 @@ const MeetingSchedulingForm = ({
     </div>
   );
 
-  const ActionButtonView = (
-    <div className={styles.actionButtonWrapper}>
-      <button
-        onClick={handleCloseSchedulingForm}
-        className={styles.cancelButton}
+  const PrivateNotesView = (
+    <div className={styles.notes}>
+      <label
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginBottom: '7px',
+        }}
       >
-        Cancel
-      </button>
-      <button onClick={handleContinue} className={styles.continueButton}>
-        Continue
-      </button>
+        <p style={{ color: '#581845' }}>Private Notes</p>
+      </label>
+      <InputText
+        value={meetingForm.privateNotes}
+        textarea={true}
+        placeholder="Add a note, visible only to the team members"
+        onChange={privateNotesHandler}
+        style={{ height: '50px' }}
+      />
+    </div>
+  );
+
+  const ActionButtonView = (
+    <div
+      className={styles.actionButtonWrapper}
+      style={{ borderTop: '1px solid #c3c3c3' }}
+    >
+      <div className={styles.buttonContainer}>
+        <button
+          onClick={handleCloseSchedulingForm}
+          className={styles.cancelButton}
+        >
+          Cancel
+        </button>
+      </div>
+      <div>
+        <button onClick={handleContinue} className={styles.continueButton}>
+          Continue
+        </button>
+      </div>
     </div>
   );
 
@@ -725,34 +783,68 @@ const MeetingSchedulingForm = ({
       !endTime.errorMessage
     ) {
       const timeDifference = Math.round(
-        (meetingForm.endTime.value.getTime() - meetingForm.startTime.value.getTime()) / 60000,
+        (meetingForm.endTime.value.getTime() -
+          meetingForm.startTime.value.getTime()) /
+          60000,
       );
 
       return (
         <div className={styles.duration}>
-          <p>Duration</p>
+          <p style={{ marginBottom: '7px', color: '#581845' }}>Duration</p>
           <p>{formatTime(timeDifference)}</p>
         </div>
       );
     }
     return (
       <div className={styles.duration}>
-        <p>Duration</p>
+        <p style={{ marginBottom: '7px', color: '#581845' }}>Duration</p>
         <p>00 : 00</p>
       </div>
     );
   };
 
-  const FormTitle = (
-    <>
-      <h4 className={styles.formTitle}>Schedule Meeting</h4>
-    </>
-  );
+  // const FormTitle = (
+  //   <Flex row center>
+  //     <SvgCalendar width={16} height={16}/>
+  //     <Text size={16} bold color="theme"  className={styles.formTitle}>
+  //       Schedule Meeting
+  //     </Text>
+  //   </Flex>
+  // );
 
   return (
-    <div className={styles.meetingForm}>
-      <>
-        {FormTitle}
+    <div
+      style={{ display: 'flex', flexDirection: 'column', position: 'relative' }}
+    >
+      {/* <CrossButton
+        onClick={handleCloseSchedulingForm}
+        size={10}
+        style={{ position: 'absolute', top: '12px', right: '15px' }}
+        fill={'#333'}
+      /> */}
+      <Flex
+        row
+        center
+        style={{
+          position: 'relative',
+          padding: '25px 0px 0px',
+          margin: '0px 25px',
+          borderBottom: '0.5px solid #581845',
+        }}
+      >
+        <SvgCalendar width={18} height={18} style={{ marginBottom: '5px' }} />
+        <Text
+          size={16}
+          bold
+          color="theme"
+          className={styles.formTitle}
+          style={{ marginBottom: '5px' }}
+        >
+          Schedule Meeting
+        </Text>
+      </Flex>
+      <div className={styles.meetingForm}>
+        {/* {FormTitle} */}
         {ApplicantView}
         {JobTitleView}
         {DateView}
@@ -764,8 +856,9 @@ const MeetingSchedulingForm = ({
         {LocationView}
         {RemindarView}
         {NotesView}
-        {ActionButtonView}
-      </>
+        {PrivateNotesView}
+      </div>
+      <Flex style={{ padding: '0px 25px 25px 25px' }}>{ActionButtonView}</Flex>
     </div>
   );
 };
