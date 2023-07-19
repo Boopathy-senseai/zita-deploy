@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import toast, { Toaster } from 'react-hot-toast';
 
 import moment from 'moment';
+import { useLocation } from 'react-router-dom';
 import { Flex, Text, Button, LinkWrapper, SelectTag } from '../../uikit';
 import { SvgCalendar } from '../../icons';
 import { AppDispatch } from '../../store';
@@ -60,8 +61,12 @@ import ColorEvent from './calendar-components/ColorEvent';
 import WeekHeader from './calendar-components/WeekHeader';
 import MeetingSchedulingScreen from './MeetingSchedulingScreen';
 import CalendarScreenLoader from './CalendarScreenLoader';
+interface stateType {
+  openScheduleEvent: boolean;
+}
 
 const Calendar = () => {
+  const { state: locationState } = useLocation<stateType>();
   const dispatch: AppDispatch = useDispatch();
   const [currentUser, setCurrentUser] = useState<UserInfo>({
     id: null,
@@ -840,7 +845,7 @@ const Calendar = () => {
                 )}
               </>
             )}
-            {openScheduleForm && (
+            {(openScheduleForm ||locationState?.openScheduleEvent) && (
               <MeetingSchedulingScreen
                 username={currentUser.name}
                 applicants={applicants}
@@ -850,7 +855,7 @@ const Calendar = () => {
                 calendarProvider={calendarProvider}
                 editEventDetails={isEditEvent ? editEventDetails[0] : null}
                 teamMembers={teamMembers}
-                openScheduleForm={openScheduleForm}
+                openScheduleForm={openScheduleForm || locationState?.openScheduleEvent}
                 handleEventScheduleForm={handleEventScheduleForm}
                 slotRange={slotRange}
                 setIsTopLineLoading={setIsTopLineLoading}

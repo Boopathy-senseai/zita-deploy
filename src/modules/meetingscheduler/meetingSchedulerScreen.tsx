@@ -49,14 +49,7 @@ const MeetingSchedulerScreen = ({ value }: props) => {
       : sessionStorage.getItem('superUserTabTwo');
 
   const [tabKey, setKey] = useState(tabInitial);
-  const [tabKeyOne, setKeyOne] = useState<any>(tabTwoInitial);
-  const [tabKeyTwo, setKeyTwo] = useState<any>(tabOneInitial);
-  const [isInput, setInput] = useState(false);
-  const [isReloadCareer, setReloadCareer] = useState(false);
   const [isTest, setTest] = useState(false);
-  const [isReloadCompany, setReloadCompany] = useState(false);
-  const [isReloadProfile, setReloadProfile] = useState(false);
-  const [changeurl, setchangeurl] = useState(false);
 
   useEffect(() => {
     if (!isEmpty(tab)) {
@@ -73,68 +66,13 @@ const MeetingSchedulerScreen = ({ value }: props) => {
     }
   }, [tab]);
 
-  useEffect(() => {
-    const unblock = history.block(
-      isReloadCompany
-        ? 'Do you want to leave this site? Changes you made may not be saved.'
-        : true,
-    );
-
-    return function cleanup() {
-      unblock();
+  const { isLoading } = useSelector(({ permissionReducers }: RootState) => {
+    return {
+      Permission: permissionReducers.Permission,
+      isLoading: permissionReducers.isLoading,
     };
-  }, [isReloadCompany]);
+  });
 
-  useEffect(() => {
-    localStorage.setItem('freeCheck', 'true');
-    var url = new URL(window.location.href);
-    if (url.searchParams.get('scope')) {
-      // Google
-      const code = url.searchParams.get('code');
-      dispatch(googleCallbackMiddleware({ codeUrl: code })).then((res) => {
-        window.close();
-      });
-    } else if (url.searchParams.get('session_state')) {
-      // Outlook
-      const access_urls = {
-        code: url.searchParams.get('code'),
-        state: url.searchParams.get('state'),
-        session_state: url.searchParams.get('session_state'),
-      };
-      dispatch(outlookCallbackMiddleware(access_urls))
-        .then((res) => {
-          console.log(res);
-          window.close();
-        })
-        .catch((err) => {
-          console.log('error', err);
-        });
-    }
-  }, []);
-
-  const {
-    super_user,
-    isLoading,
-    is_plan,
-  } = useSelector(
-    ({
-      permissionReducers,
-      companyPageReducers,
-      buildCareerPageReducers,
-    }: RootState) => {
-      return {
-        Permission: permissionReducers.Permission,
-        super_user: permissionReducers.super_user,
-        isLoading: permissionReducers.isLoading,
-        company_detail: companyPageReducers.company_detail,
-        career_page_exists_build: buildCareerPageReducers.career_page_exists,
-        isLoadingCareer: buildCareerPageReducers.isLoading,
-        is_plan: permissionReducers.is_plan,
-      };
-    },
-  );
-
-  const { routerPrompt, onDirty, onPristine } = useUnsavedChangesWarning();
 
   if (isLoading) {
     return <Loader />;
@@ -173,32 +111,22 @@ const MeetingSchedulerScreen = ({ value }: props) => {
               overflow: 'hidden',
             }}
           >
-            {super_user === true && (
-              <Tabs
-                // id={''}
-                activeKey={tabKey}
-                onSelect={(keys: any) => {
-                  if (is_plan) {
-                    setTest(!isTest);
-                    sessionStorage.setItem('superUserTab', keys);
-                    if (
-                      !isReloadCareer &&
-                      !isReloadCompany &&
-                      !isReloadProfile
-                    ) {
-                      setKey(keys);
-                    }
-                  }
-                }}
-              >
-                <Tab title={'Event Schedular'} eventKey={'1'}>
-                  {tabKey === '1' && <EventScheduler/>}
-                </Tab>
-                <Tab title={'Scheduled Events'} eventKey={'2'}>
-                  {tabKey === '2' && <ScheduledEventsPage />}
-                </Tab>
-              </Tabs>
-            )}
+            <Tabs
+              // id={''}
+              activeKey={tabKey}
+              onSelect={(keys: any) => {
+                setTest(!isTest);
+                sessionStorage.setItem('superUserTab', keys);
+                setKey(keys);
+              }}
+            >
+              <Tab title={'Event Schedular'} eventKey={'0'}>
+                {tabKey === '0' && <EventScheduler />}
+              </Tab>
+              <Tab title={'Scheduled Events'} eventKey={'1'}>
+                {tabKey === '1' && <ScheduledEventsPage />}
+              </Tab>
+            </Tabs>
           </Flex>
         </Flex>
       </>
