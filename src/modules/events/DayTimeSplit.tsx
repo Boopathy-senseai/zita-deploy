@@ -5,6 +5,7 @@ import Text from '../../uikit/Text/Text';
 import { isEmpty } from '../../uikit/helper';
 import SvgCopy from '../../icons/SvgCopy';
 import SvgRoundAdd from '../../icons/SvgRoundAdd';
+
 import Button from '../../uikit/Button/Button';
 import SelectTag from '../../uikit/SelectTag/SelectTag';
 import SvgCloseSmall from '../../icons/SvgCloseSmall';
@@ -12,6 +13,8 @@ import InputCheckBox from '../../uikit/InputCheckbox/InputCheckBox';
 // import CopyModal from '../../uikit/CopyModal/CopyModal';
 import styles from './daytimesplit.module.css';
 import { timezone } from './eventType';
+import { Dropdown } from 'react-bootstrap';
+import SvgSetting from '../../icons/SvgSetting';
 const DayTimeSplit = (props) => {
   const {
     duration,
@@ -950,6 +953,7 @@ const DayTimeSplit = (props) => {
                   ></SelectTag>
                 </div>
               </Flex>
+             
               <div style={{ textAlign: 'left', width: '84%' }}>
                 {day2.length > 0 ? (
                   <button
@@ -1029,6 +1033,7 @@ const DayTimeSplit = (props) => {
           ) : (
             'Unavailble'
           )}
+         
         </Flex>
         <div style={{ marginLeft: '120px' }}>
           {monday.length > 1 && sunday
@@ -2779,5 +2784,51 @@ const CopyClipBoard = (props) => {
     </>
   );
 };
+
+const ActionButtonCopy  = () => {
+  return (    <>
+        <Flex className={styles.btnsetting}>
+        <Dropdown className="dropdownButton dropleft">
+            <Dropdown.Toggle
+              style={{
+                borderColor: 'unset',
+                backgroundColor: 'unset',
+                boxShadow: 'none',
+              }}
+              id="dropdown-basic"
+            >
+             <SvgSetting fill={'#black'} height={17} width={17} />
+            </Dropdown.Toggle>
+  
+            <Dropdown.Menu style={{ minWidth: '5rem' }}>
+                <Dropdown.Item 
+                // onClick={() => onEdit(data.id, data)}
+                >
+                  <Flex row center className={styles.dropDownListStyle}>
+                    <Text>Edit</Text>
+                  </Flex>
+                </Dropdown.Item>
+  
+                <Dropdown.Item 
+                //  onClick={()=>onDuplicate(data.id)}
+                >
+                  <Flex row center className={styles.dropDownListStyle}>
+                    <Text>Duplicate</Text>
+                  </Flex>
+                </Dropdown.Item>
+  
+                <Dropdown.Item 
+                // onClick={() => handleShow(data.id)}
+                >
+                  <Flex row center className={styles.dropDownListStyle}>
+                    <Text>Delete</Text>
+                  </Flex>
+                </Dropdown.Item>
+            </Dropdown.Menu>
+        </Dropdown>
+        </Flex>
+      </>
+    );
+  };
 
 export default DayTimeSplit;
