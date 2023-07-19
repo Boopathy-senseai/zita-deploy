@@ -412,7 +412,8 @@ const EmailScreen = () => {
         className={styles.integrationContent}
       >
         <Text color="gray" style={{ marginBottom: 16 }}>
-          Integrate your Email with zita application
+          Integrate your email with zita application to handle mailing inside
+          zita
         </Text>
         <LinkWrapper
           onClick={() => {
@@ -526,7 +527,11 @@ const EmailScreen = () => {
                 sidebarroute={sideroute}
               />
             </Flex>
-            <Flex marginTop={1} className={styles.containerColumn} style={{ minWidth: 349, maxWidth: 349 }}>
+            <Flex
+              marginTop={1}
+              className={styles.containerColumn}
+              style={{ minWidth: 349, maxWidth: 349 }}
+            >
               {/* <Pagination
               previousfun={Previousdata}
               nextfun={Nextdata}

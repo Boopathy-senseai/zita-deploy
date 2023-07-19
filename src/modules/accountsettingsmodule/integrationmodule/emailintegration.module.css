@@ -10,18 +10,26 @@
   width: 400px !important;
 }
 .cardStruture {
+  position: relative;
   max-height: 200px;
-  margin-right: 20px;
+  /* margin-right: 20px; */
+  /* width: 100%; */
   padding: 15px 10px 0 10px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  justify-content: space-between;
+  height: 100%;
 }
-
+.editButton{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .selectCard {
   position: relative;
   max-height: 200px;
-  margin-right: 20px;
+  /* margin-right: 20px; */
   padding: 15px 10px 0 10px;
   display: flex;
   flex-direction: column;
@@ -50,8 +58,8 @@
   color: #581845;
   border: none;
   width: 100%;
-  margin-top: 20px;
-  border-top: 1px solid #c3c3c3; /*change css */
+  /* margin-top: 20px; */
+  /* border-top: 1px solid #c3c3c3; */
   border-radius: unset;
   padding: 10px 0;
 }
@@ -63,7 +71,6 @@
   border: unset;
   border-radius: unset;
 }
-
 .editmodal {
   background-color: var(--color-white, #ffffff);
   width: 500px;

@@ -205,9 +205,9 @@ const IntegrationScreen = () => {
         Recruitee
       </Text>
       <Flex row style={{ marginTop: '10px' }}>
-        <Flex flex={3}>
+        <Flex flex={3} height={'unset'} minWidth={200} marginRight={20}>
           <AuthenticatedTemplate>
-            <Card className={styles.selectCard}>
+            <Card className={styles.cardStruture}>
               <Flex end style={{ position: 'absolute', right: '10px' }}>
                 <SvgTick />
               </Flex>
@@ -228,14 +228,27 @@ const IntegrationScreen = () => {
               <Text color="theme" style={{ marginTop: '1px' }}>
                 {email}
               </Text>
-              <Button
-                className={styles.btn}
-                onClick={() => EditMail('outlook')}
+              <Flex
+                marginTop={10}
+                style={{
+                  borderTop: '1px solid #c3c3c3',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: '100%',
+                }}
               >
-                <Text color="theme">
-                  <SvgEdit width={14} height={14} /> Edit Configuration
-                </Text>
-              </Button>
+                <Button
+                  className={styles.btn}
+                  onClick={() => EditMail('outlook')}
+                >
+                  <Flex row center className={styles.editButton}>
+                    <SvgEdit width={14} height={14} />
+                    <Text color="theme" style={{ marginLeft: '5px' }}>
+                      Edit Configuration
+                    </Text>
+                  </Flex>
+                </Button>
+              </Flex>
             </Card>
           </AuthenticatedTemplate>
 
@@ -257,10 +270,20 @@ const IntegrationScreen = () => {
               <Text style={{ marginTop: '10px' }}>
                 Connect your inbox with Outlook Mail Service.
               </Text>
-
-              <Button className={styles.btn} onClick={() => outlookconfig()}>
-                <Text color="theme">Connect With Outlook</Text>
-              </Button>
+              <Flex
+                column
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: '100%',
+                  marginTop: 10,
+                  borderTop: '1px solid #c3c3c3',
+                }}
+              >
+                <Button className={styles.btn} onClick={() => outlookconfig()}>
+                  <Text color="theme">Connect With Outlook</Text>
+                </Button>
+              </Flex>
             </Card>
           </UnauthenticatedTemplate>
         </Flex>
@@ -284,14 +307,24 @@ const IntegrationScreen = () => {
                 <Text style={{ marginTop: '10px' }}>
                   Connect your inbox with Google Mail Service.
                 </Text>
-
-                <Button
-                  disabled={Authorizemail === 'outlook' ? true : false}
-                  className={styles.btn}
-                  onClick={() => handleAuthClick()}
+                <Flex
+                  column
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    width: '100%',
+                    marginTop: 10,
+                    borderTop: '1px solid #c3c3c3',
+                  }}
                 >
-                  <Text color="theme">Connect with Gmail</Text>
-                </Button>
+                  <Button
+                    disabled={Authorizemail === 'outlook' ? true : false}
+                    className={styles.btn}
+                    onClick={() => handleAuthClick()}
+                  >
+                    <Text color="theme">Connect with Gmail</Text>
+                  </Button>
+                </Flex>
               </Card>
             </>
           ) : (
@@ -316,10 +349,48 @@ const IntegrationScreen = () => {
               <Text color="theme" style={{ marginTop: '1px' }}>
                 {email}
               </Text>
-
-              <Button className={styles.btn} onClick={() => EditMail('gmail')}>
-                <Text color="theme">Edit Configuration</Text>
-              </Button>
+              {/* <Flex
+                marginTop={10}
+                style={{
+                  borderTop: '1px solid #c3c3c3',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: '100%',
+                }}
+              >
+                <Button
+                  className={styles.btn}
+                  onClick={() => EditMail('outlook')}
+                >
+                  <Flex row center className={styles.editButton}>
+                    <SvgEdit width={14} height={14} />
+                    <Text color="theme" style={{ marginLeft: '5px' }}>
+                      Edit Configuration
+                    </Text>
+                  </Flex>
+                </Button>
+              </Flex> */}
+              <Flex
+                marginTop={10}
+                style={{
+                  borderTop: '1px solid #c3c3c3',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: '100%',
+                }}
+              >
+                <Button
+                  className={styles.btn}
+                  onClick={() => EditMail('gmail')}
+                >
+                  <Flex row center className={styles.editButton}>
+                    <SvgEdit width={14} height={14} />
+                    <Text color="theme" style={{ marginLeft: '5px' }}>
+                      Edit Configuration
+                    </Text>
+                  </Flex>
+                </Button>
+              </Flex>
             </Card>
           )}
         </Flex>

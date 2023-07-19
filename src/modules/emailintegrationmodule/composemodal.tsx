@@ -180,8 +180,13 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
     setstyle(0);
   };
 
-  const Minimise = () => {
-    setstyle(2);
+  const handleMinimise = () => {
+    if(style === 2){
+      setstyle(0);
+    }else {
+      setstyle(2);
+    }
+    
   };
 
   const openCC = () => {
@@ -371,7 +376,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
 
   const getto = (val) => {
     setTosample(val);
-    let lastElement = val.slice(-1);
+    let lastElement = val ? val.slice(-1) : [];
 
     let check = tosample.filter((x) => !val.includes(x));
 
@@ -383,7 +388,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
     } else {
       const mailconvert = {
         emailAddress: {
-          address: lastElement[0].value,
+          address: lastElement[0]?.value,
         },
       };
 
@@ -458,14 +463,9 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
   };
 
   return (
-    <div>
-      {console.log('a1', file)}
-      {console.log('a2', faildfile)}
-      {console.log('a3', attachfile)}
-      {console.log('formik', formik.values.userMessage)}
-      {/* <div style={{ position: 'absolute', bottom: '0px', right: '0px' }}> */}
+    <>
       <Modal open={data}>
-        {loader === true ? <Loader /> : ''}
+        {loader === true && <Loader />}
         <div
           className={
             style === 1
@@ -491,13 +491,21 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                 <Flex
                   title={style === 1 ? 'Minimize' : 'Maximize'}
                   style={{
-                    marginTop: '10px',
                     marginRight: '15px',
                     cursor: 'pointer',
+                    marginBottom: style === 2 ? 10 : 0, 
+                    marginTop: style === 0 ? 10 : 0
                   }}
                 >
-                  <Flex style={{justifyConent: style === 1 ? "flex-start" : "center", cursor: 'pointer'}}>
-                    <SvgVectorMinimise onClick={Minimise} />
+                  {void console.log(style)}
+                  <Flex
+                    style={{
+                      justifyConent: style === 1 ? 'flex-start' : 'center',
+                      cursor: 'pointer',
+                    }}
+                    onClick={handleMinimise}
+                  >
+                    <SvgVectorMinimise />
                   </Flex>
                 </Flex>
                 <Flex
@@ -553,15 +561,35 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                 column
                 style={{ display: 'flex', flexDirection: 'column' }}
               >
-                <Flex row center className={styles.inputField}>
+                <Flex
+                  row
+                  center
+                  className={styles.inputField}
+                  style={{ padding: '7px 10px 7px 0px' }}
+                >
                   <Text>From </Text>
                   <Text size={12} className={styles.fromstyle}>
                     {mail}
                   </Text>
                 </Flex>
-                <Flex row center between className={styles.inputField}>
-                  <Flex row style={{ width: '100%' }}>
-                    <Text>To </Text>
+                <Flex
+                  row
+                  center
+                  between
+                  className={styles.inputField}
+                  style={{ padding: '0px' }}
+                >
+                  <Flex
+                    row
+                    style={{
+                      width: '100%',
+                      display: 'flex',
+                      flexDirection: 'row',
+                      flexWrap: 'nowrap',
+                      alignItems: 'flex-start',
+                    }}
+                  >
+                    <Text style={{ marginTop: 6 }}>To</Text>
                     <Flex marginLeft={14} style={{ width: '100%' }}>
                       <Multiselect
                         options={emailcollection.emailcollection}
@@ -574,8 +602,8 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                     </Flex>
                   </Flex>
 
-                  <Flex row bottom>
-                    {!openCc ? (
+                  <Flex row bottom marginBottom={6}>
+                    {!openCc && (
                       <Flex
                         marginRight={15}
                         onClick={openCC}
@@ -583,16 +611,12 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                       >
                         Cc
                       </Flex>
-                    ) : (
-                      ''
                     )}
 
-                    {!openBcc ? (
+                    {!openBcc && (
                       <Flex onClick={openBCC} style={{ cursor: 'pointer' }}>
                         Bcc
                       </Flex>
-                    ) : (
-                      ''
                     )}
                   </Flex>
                 </Flex>
@@ -603,10 +627,15 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                       row
                       center
                       className={styles.inputField}
-                      style={{ width: '100%' }}
+                      style={{ width: '100%', alignItems: 'flex-start' }}
                     >
-                      <Text size={14}>Cc</Text>
-                      <Flex marginLeft={12} style={{ width: '100%' }}>
+                      <Text size={14} style={{ marginTop: 6 }}>
+                        Cc
+                      </Text>
+                      <Flex
+                        marginLeft={12}
+                        style={{ width: '100%', padding: '0px' }}
+                      >
                         <Multiselect
                           options={emailcollection.emailcollection}
                           onChange={(e) => getcc(e)}
@@ -626,10 +655,15 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                       row
                       center
                       className={styles.inputField}
-                      style={{ width: '100%' }}
+                      style={{ width: '100%', alignItems: 'flex-start' }}
                     >
-                      <Text size={14}>Bcc</Text>{' '}
-                      <Flex marginLeft={6} style={{ width: '100%' }}>
+                      <Text size={14} style={{ marginTop: 6 }}>
+                        Bcc
+                      </Text>{' '}
+                      <Flex
+                        marginLeft={6}
+                        style={{ width: '100%', padding: '0px' }}
+                      >
                         <Multiselect
                           options={emailcollection.emailcollection}
                           onChange={(e) => getbcc(e)}
@@ -643,7 +677,12 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                   ''
                 )}
 
-                <Flex row center className={styles.inputField}>
+                <Flex
+                  row
+                  center
+                  className={styles.inputField}
+                  style={{ padding: '3px 10px 3px 0px' }}
+                >
                   {/* <Text style={{ marginTop: '1px' }}>Subject</Text> */}
                   <InputText
                     inputConatinerClass={styles.width100}
@@ -892,7 +931,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
         clearstate={clearform}
         Emailprops={Emailprops}
       />
-    </div>
+    </>
   );
 };
 
