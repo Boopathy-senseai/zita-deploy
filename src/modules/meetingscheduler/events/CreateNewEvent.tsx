@@ -1413,7 +1413,7 @@ const CreateNewEvent = (props) => {
                       onClick={formik.handleSubmit}
                       // disabled={!formik.isValid}
                     >
-                      Save
+                      Save Link
                     </Button>
                   </Flex>
                 )}

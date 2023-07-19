@@ -332,7 +332,7 @@ const ActionsButton = (props) => {
                   event types.
                   {/* <br/> */}
                   <Text style={{ marginLeft: '10px' }}>
-                    Meetings previously scheduled will not affected.
+                    Meetings previously scheduled will not be affected.
                   </Text>
                 </Text>
                 <Text style={{ marginLeft: '10px' }}>

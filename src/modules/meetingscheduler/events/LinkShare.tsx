@@ -153,7 +153,7 @@ const LinkShare = (props) => {
             marginTop: '5px',
           }}
           onChange = {(e)=>{searchItems(e.target.value)}}
-          placeholder="Select team members"
+          placeholder= "Search candidate or applicant by the name"
         />
       </Flex>
       <Flex row className={styles.candidate}>

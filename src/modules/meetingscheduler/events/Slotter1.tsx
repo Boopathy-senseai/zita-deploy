@@ -22,6 +22,7 @@ import SvgGlobe from '../../../icons/SvgGlobe';
 import SvgInfoCircle from '../../../icons/SvgInfoCircle';
 import Loader from '../../../uikit/Loader/Loader';
 import styles from './slotter.module.css';
+
 import {
   getAvailbleSlot,
   getScheduleMiddleWare,
@@ -1287,7 +1288,7 @@ console.log("************",startOfMonth,endOfMonth)
                             <Button className={styles.selectslot}
                               onClick={() => onSubmit(date, selecttime)}
                             >
-                              Schedule
+                              Confirm
                             </Button>
                           </div>
                         </>
@@ -1327,40 +1328,132 @@ const Conformpage = (props) => {
 
 
 
-  const googleaddevent = async () =>{
-    alert("googleaddevent")
-    const addevent ={
-      'summary' : 'heloo',
-      'description': 'googleadd event',
-      'start' :{
-        'datetime': Date.now(),
-        'timezone' : Intl.DateTimeFormat().resolvedOptions().timeZone,
-      },
-      'end' :{
-        'datetime': Date.now(),
-        'timezone' : Intl.DateTimeFormat().resolvedOptions().timeZone,
-      }
+  // const googleaddevent = async () =>{
+  //   alert("googleaddevent")
+  //   // const addevent ={
+  //   //   'summary' : 'heloo',
+  //   //   'description': 'googleadd event',
+  //   //   'start' :{
+  //   //     'datetime': Date.now(),
+  //   //     'timezone' : Intl.DateTimeFormat().resolvedOptions().timeZone,
+  //   //   },
+  //   //   'end' :{
+  //   //     'datetime': Date.now(),
+  //   //     'timezone' : Intl.DateTimeFormat().resolvedOptions().timeZone,
+  //   //   }
 
-    }
+  //   // }
 
-    const events = await fetch("https://www.googleapis.com/calendar/v3/calendars/primary/events",{
-      method : "POST",
-      headers :{
-        'Authorization' : 'Bearer' + "ya29.a0AbVbY6MrtjxCaueL5oYyKaU73Lqro_oJOvBwDGZ-pVeqCxGNGg3uWvQFbDufFZ9gbu7pdHervKGeeZYTmoS3wzMQSrag1yzk5tqZf67D8iYqjTivkKc6t_27jqvGrLvkyAvK9d3hWRGU2U9JxeC72g3f5yOoaCgYKAYkSARISFQFWKvPlo5LDr5gDd7__fd2zTjjFjA0163"
-        // 'ContentType' : "application/x-www-form-urlencoded",
-      },
-      body : JSON.stringify(addevent)
-    }).then((data) =>{
-      return data.json();
-    }).then((data)=>{
-      console.log(data)
-      alert("Event Created Successfully")
-    }).then((err)=>{
-      console.log("err",err)
-      // alert("Event err Successfully")
-    })
+  //   // const events = await fetch("https://www.googleapis.com/calendar/v3/calendars/primary/events",{
+  //   //   method : "POST",
+  //   //   headers :{
+  //   //     'Authorization' : 'Bearer' + "ya29.a0AbVbY6MrtjxCaueL5oYyKaU73Lqro_oJOvBwDGZ-pVeqCxGNGg3uWvQFbDufFZ9gbu7pdHervKGeeZYTmoS3wzMQSrag1yzk5tqZf67D8iYqjTivkKc6t_27jqvGrLvkyAvK9d3hWRGU2U9JxeC72g3f5yOoaCgYKAYkSARISFQFWKvPlo5LDr5gDd7__fd2zTjjFjA0163"
+  //   //     // 'ContentType' : "application/x-www-form-urlencoded",
+  //   //   },
+  //   //   body : JSON.stringify(addevent)
+  //   // }).then((data) =>{
+  //   //   return data.json();
+  //   // }).then((data)=>{
+  //   //   console.log(data)
+  //   //   alert("Event Created Successfully")
+  //   // }).then((err)=>{
+  //   //   console.log("err",err)
+  //   //   // alert("Event err Successfully")
+  //   // })
+  //   const { Client } = require('@microsoft/microsoft-graph-client');
+  //   const { ClientSecretCredential } = require('@azure/identity');
+  //   const clientId = '63177925-c246-4962-8277-eab973bbf0fb';
+  //   const clientSecret = 'Td07Q~u64ynLz1w61m1NNRMcPtk70pwXd5I3a';
+  //   const tenantId = 'YOUR_TENANT_ID';
 
-    // console.log("eventsevents",events)
+  //   // Create a client credential authentication provider
+  //   const authProvider = new ClientSecretCredential(tenantId, clientId, clientSecret);
+
+
+  //   const options = {
+  //     authProvider,
+  //   };
+    
+  //   const client = Client.init(options);
+    
+  //   const event = {
+  //     subject: 'Prep for customer meeting',
+  //     body: {
+  //       contentType: 'HTML',
+  //       content: 'Does this time work for you?'
+  //     },
+  //     start: {
+  //         dateTime: '2019-11-20T13:00:00',
+  //         timeZone: 'Pacific Standard Time'
+  //     },
+  //     end: {
+  //         dateTime: '2019-11-20T14:00:00',
+  //         timeZone: 'Pacific Standard Time'
+  //     },
+  //     location: {
+  //         displayName: 'Cordova conference room'
+  //     },
+  //     attendees: [
+  //       {
+  //         emailAddress: {
+  //           address: 'AdeleV@contoso.OnMicrosoft.com',
+  //           name: 'Adele Vance'
+  //         },
+  //         type: 'required'
+  //       }
+  //     ],
+  //     allowNewTimeProposals: true,
+  //     isOnlineMeeting: true,
+  //     onlineMeetingProvider: 'teamsForBusiness'
+  //   };
+    
+  //   await client.api('/me/events')
+  //     .post(event);
+
+  // }
+
+  const googleaddevent = () => {
+    // Refer to the JavaScript quickstart on how to setup the environment:
+// https://developers.google.com/calendar/quickstart/js
+// Change the scope to 'https://www.googleapis.com/auth/calendar' and delete any
+// stored credentials.
+
+const event = {
+  'summary': 'Google I/O 2015',
+  'location': '800 Howard St., San Francisco, CA 94103',
+  'description': 'A chance to hear more about Google\'s developer products.',
+  'start': {
+    'dateTime': '2015-05-28T09:00:00-07:00',
+    'timeZone': 'America/Los_Angeles'
+  },
+  'end': {
+    'dateTime': '2015-05-28T17:00:00-07:00',
+    'timeZone': 'America/Los_Angeles'
+  },
+  'recurrence': [
+    'RRULE:FREQ=DAILY;COUNT=2'
+  ],
+  'attendees': [
+    {'email': 'lpage@example.com'},
+    {'email': 'sbrin@example.com'}
+  ],
+  'reminders': {
+    'useDefault': false,
+    'overrides': [
+      {'method': 'email', 'minutes': 24 * 60},
+      {'method': 'popup', 'minutes': 10}
+    ]
+  }
+};
+
+// const request = gapi.client.calendar.events.insert({
+//   'calendarId': 'primary',
+//   'resource': event
+// });
+
+// request.execute(function(event) {
+//   appendPre('Event created: ' + event.htmlLink);
+// });
 
   }
 
