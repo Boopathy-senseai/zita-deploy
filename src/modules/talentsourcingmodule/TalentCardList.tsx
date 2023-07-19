@@ -119,7 +119,7 @@ Props) => {
     console.log("type offffffffffff",typeof(isCheck.length),typeof(valIndex))
     const ans=(isCheck.length.toString()===valIndex);
     console.log("number page",valIndex,isCheckAll,isCheck.length,ans)
-    const styleval= Number(valIndex)>12
+    const styleval= Number(valIndex)>9
     console.log("stylevalllllllll",Number(valIndex),styleval)
     setstylevalue(styleval)
 
