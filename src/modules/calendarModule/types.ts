@@ -90,6 +90,7 @@ export interface meetingFormProps {
     error: boolean;
   };
   notes: string | null;
+  privateNotes: string | null;
   eventType: {
     value: EventMeetingType | null;
     error: boolean;

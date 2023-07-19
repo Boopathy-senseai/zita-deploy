@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
-import { reports } from '../../../appRoutesPath';
+import { meetingScheduler, reports } from '../../../appRoutesPath';
 import SvgCalendar from '../../../icons/SvgDBCalandar';
 import SvgDashboard from '../../../icons/SvgDashboard';
 import useUnsavedChangesWarning from '../../common/useUnsavedChangesWarning';
@@ -712,13 +712,13 @@ const Sidebar = ({ changes, data }: props) => {
                 changes ? (
                   <li
                     className={
-                      pathname === '/meeting_scheduler' ? styles.select_row : ''
+                      pathname === meetingScheduler ? styles.select_row : ''
                     }
                   >
                     <LinkWrapper
                       className={styles.hoverview}
                       onClick={clearTabs}
-                      to={is_plan ? routesPath.SCHEDULER : accountPath}
+                      to={is_plan ? meetingScheduler : accountPath}
                     >
                       <text style={{ marginLeft: '-2px' }}>
                         <SvgScheduler height={20} width={22} />
@@ -738,13 +738,13 @@ const Sidebar = ({ changes, data }: props) => {
                 ) : (
                   <li
                     className={
-                      pathname === '/meeting_scheduler' ? styles.select_row : ''
+                      pathname === meetingScheduler ? styles.select_row : ''
                     }
                   >
                     <LinkWrapper
                       className={styles.hoverview}
                       onClick={clearTab}
-                      to={is_plan ? routesPath.SCHEDULER : accountPath}
+                      to={is_plan ? meetingScheduler : accountPath}
                     >
                       <text style={{ marginLeft: '-2px' }}>
                         <SvgScheduler height={20} width={20} />
@@ -764,7 +764,7 @@ const Sidebar = ({ changes, data }: props) => {
                 )
               ) : (
                 <li
-                  className={pathname === '/meeting_scheduler' ? styles.select_row : ''}
+                  className={pathname === meetingScheduler ? styles.select_row : ''}
                 >
                   <a
                     className={styles.hoverview}

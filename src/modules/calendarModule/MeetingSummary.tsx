@@ -1,8 +1,13 @@
-import { Key } from 'react';
+import { Key, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import toast from 'react-hot-toast';
+import { useFormik } from 'formik';
 import { AppDispatch } from '../../store';
-import { SelectTag } from '../../uikit';
+import { InputText, Button, Flex, SelectTag, Text } from '../../uikit';
+import { SvgCalendar, SvgEdit } from '../../icons';
+import RichText from '../common/RichText';
+import ExpandTile from '../../uikit/ExpandTile';
+import { CrossButton } from '../../uikit/v2';
 import {
   scheduleEventMiddleware,
   updateEventMiddleware,
@@ -10,6 +15,7 @@ import {
 import styles from './styles/MeetingSummary.module.css';
 import { EditEventDetails, meetingFormProps, UserType } from './types';
 import { formatTo12HrClock } from './util';
+import EmailTemplate from './EmailTemplate';
 
 interface Props {
   meetingForm: meetingFormProps;
@@ -39,6 +45,19 @@ const MeetingSummary = ({
   setIsTopLineLoading,
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
+  const [tileState, setTileState] = useState<{
+    applicant: boolean;
+    interviewer: boolean;
+  }>({
+    applicant: true,
+    interviewer: false,
+  });
+  const [applicantGreeting, setApplicantGreeting] = useState(`Hello ${
+    meetingForm?.applicant?.name || ''
+  }, 
+  We'd like to confirm your interview. Please find all the relevant details below.`);
+  const [interviewGreeting, setInterviewGreeting] = useState(`Hello Team,
+  We'd like to confirm your interview. Please find all the relevant details below.`);
 
   const getMeetingTitle = () => {
     return `${
@@ -71,7 +90,7 @@ const MeetingSummary = ({
           extraNotes,
           myJd: meetingForm.job.label,
           eventId,
-          privateNotes: null,
+          privateNotes: meetingForm.privateNotes,
           eventType: meetingForm.eventType.value,
           edit_jd,
           curJd: meetingForm.job.value,
@@ -110,10 +129,10 @@ const MeetingSummary = ({
       endDateTime,
       eventType,
       location,
-      notes,
       job,
       timeZone,
       interviewer,
+      notes,
     } = meetingForm;
 
     setIsTopLineLoading(true);
@@ -134,8 +153,8 @@ const MeetingSummary = ({
         startTime: startDateTime,
         endTime: endDateTime,
         location: location.value,
-        notes,
-        privateNotes: null,
+        notes: notes,
+        privateNotes: meetingForm.privateNotes,
       }),
     )
       .then((res) => {
@@ -155,10 +174,13 @@ const MeetingSummary = ({
       });
   };
 
-  const email =
+  const applicantEmail =
     applicants.filter(
       (applicant) => applicant.value === Number(meetingForm.applicant.id),
     )[0]?.email || null;
+
+  const interviewerEmail =
+    meetingForm?.interviewer.map((doc) => doc.email) || null;
 
   const MeetingTitleView = (
     <p>
@@ -171,80 +193,132 @@ const MeetingSummary = ({
   );
 
   return (
-    <>
-      <div className={styles.meetingSummary}>
-        <h4 className={styles.formTitle}>Meeting Notification Summary</h4>
-        <div className={styles.summary}>
-          <p className={styles.header}>Summary</p>
-          <div className={styles.content}>{MeetingTitleView}</div>
-        </div>
-        <div className={styles.notification}>
-          <p className={styles.header}>Email Notification</p>
-          <div className={styles.emailContainer}>
-            <div className={styles.emails}>
-              <p>To &nbsp;</p>
-              <div>
-                {email && <div className={styles.email}>{email}</div>}
-                {meetingForm.interviewer.map((interview, index: Key) => (
-                  <div key={index} className={styles.email}>
-                    {interview.calendarEmail
-                      ? interview.calendarEmail
-                      : interview.email}
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className={styles.subject}>
-              {MeetingTitleView}
-              <br />
-              <p>
-                Hello Team,
-                <br />
-                We would like to confirm your interview. Please find all the
-                relevant details below.
-              </p>
-              <div className={styles.details}>
-                {MeetingTitleView}
-                <div>
-                  <div>
-                    <p className={styles.personHeader}>Applicant</p>
-                    <p>{meetingForm.applicant.name}</p>
-                  </div>
-                  <div>
-                    <p className={styles.personHeader}>Interviewers</p>
-                    <div className={styles.interviewers}>
-                      {meetingForm.interviewer.map((user, index) => (
-                        <p
-                          key={index}
-                        >{` ${user.firstName} ${user.lastName}, `}</p>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+    <div
+      style={{ display: 'flex', flexDirection: 'column', position: 'relative' }}
+    >
+      <CrossButton
+        onClick={handleCloseSchedulingForm}
+        size={10}
+        style={{ position: 'absolute', top: '12px', right: '15px' }}
+        fill={'#333'}
+      />
+      <div style={{padding:"25px"}}>
+        <Flex
+          row
+          center
+          style={{
+            position: 'relative',
+            // padding: '25px 0px 0px',
+            // margin: '0px 25px',
+            borderBottom: '0.5px solid #581845',
+          }}
+        >
+          <SvgCalendar width={18} height={18} style={{ marginBottom: '5px' }} />
+          <Text
+            size={16}
+            bold
+            color="theme"
+            className={styles.formTitle}
+            style={{ marginBottom: '5px' }}
+          >
+            Meeting Notification Summary
+          </Text>
+        </Flex>
+        <Flex
+          className={styles.meetingSummary}
+          column
+          style={{
+            paddingBottom: 10,
+            // borderBottom: '1px solid #cccccc',
+            overflow: 'auto',
+            // maxHeight: '90vh',
+          }}
+        >
+          <div className={styles.summary}>
+            <p className={styles.header} style={{marginTop:"5px"}}>Summary</p>
+            <div className={styles.content}>{MeetingTitleView}</div>
           </div>
-        </div>
-        <div className={styles.actionButtonWrapper}>
-          <button onClick={nextEvent}>Back</button>
+          <ExpandTile
+            backgroundColor="#58184530"
+            activeColor="#000000"
+            title={'Email notification to Applicant'}
+            show={tileState?.applicant}
+            onClick={() =>
+              setTileState({ ...tileState, applicant: !tileState.applicant })
+            }
+          >
+            <EmailTemplate
+              {...meetingForm}
+              currentUserLabel={currentUserLabel}
+              greetingText={applicantGreeting}
+              email={applicantEmail}
+              interviewerData={meetingForm?.interviewer}
+              onSave={(value) => {
+                /// save this text to some field
+                setApplicantGreeting(value);
+              }}
+              editGreeting={true}
+            />
+          </ExpandTile>
+
+          {meetingForm.interviewer.length !== 0 && (
+            <ExpandTile
+              backgroundColor="#58184530"
+              activeColor="#000000"
+              title={'Email notification to interviewer'}
+              show={tileState?.interviewer}
+              onClick={() =>
+                setTileState({
+                  ...tileState,
+                  interviewer: !tileState.interviewer,
+                })
+              }
+            >
+              <EmailTemplate
+                {...meetingForm}
+                currentUserLabel={currentUserLabel}
+                greetingText={interviewGreeting}
+                email={meetingForm.interviewer.map((interview, index: Key) =>
+                  interview.calendarEmail
+                    ? interview.calendarEmail
+                    : interview.email,
+                )}
+                notes={meetingForm.privateNotes}
+                applicantInfo={meetingForm.applicant}
+                onSave={(value) => {
+                  /// save this text to some field
+                  setInterviewGreeting(value);
+                }}
+              />
+            </ExpandTile>
+          )}
+        </Flex>
+        <div className={styles.actionButtonWrapper} style={{ borderTop: '1px solid #c3c3c3' }}>
+          <Button
+            onClick={nextEvent}
+            className={styles.cancel}
+            types={'primary'}
+          >
+            Back
+          </Button>
           {editEventDetails ? (
-            <button
+            <Button
               onClick={handleUpdateEvent}
               className={styles.continueButton}
             >
               Update Invite
-            </button>
+            </Button>
           ) : (
-            <button
+            <Button
               onClick={handleScheduleEvent}
               className={styles.continueButton}
             >
               Send Invite
-            </button>
+            </Button>
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

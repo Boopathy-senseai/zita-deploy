@@ -25,6 +25,7 @@ const InterviewerIcon = ({ name, index }: { name: string; index?: number }) => {
           borderRadius: '50%',
           height: '1%',
           marginRight: '1%',
+          marginLeft:"5px"
         }}
       />
     </Tooltip>
