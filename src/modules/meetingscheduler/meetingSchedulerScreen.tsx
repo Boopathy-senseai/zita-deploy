@@ -80,7 +80,7 @@ const MeetingSchedulerScreen = ({ value }: props) => {
 
   return (
     !isLoading && (
-      <>
+      <Flex column height={'100%'} style={{display:"flex"}}>
         <Flex row center className={styles.overallhead}>
           <Flex row center>
             <Flex center marginLeft={20}>
@@ -104,6 +104,7 @@ const MeetingSchedulerScreen = ({ value }: props) => {
         <Flex columnFlex className={styles.overAll}>
           <Flex
             style={{
+              height:"100%",
               position: 'relative',
               display: 'flex',
               flexDirection: 'column',
@@ -129,7 +130,7 @@ const MeetingSchedulerScreen = ({ value }: props) => {
             </Tabs>
           </Flex>
         </Flex>
-      </>
+      </Flex>
     )
   );
 };

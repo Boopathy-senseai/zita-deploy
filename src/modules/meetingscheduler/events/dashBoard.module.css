@@ -1,51 +1,51 @@
 .svgRefresh {
-    margin-left: 16px;
-    cursor: pointer;
-  }
-  .button {
-    border: none;
-    background: none;
-  }
-  .filterStyle {
-    padding-left: 16px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--color-gary-7, #dfdfdf);
-  }
-  .matchRadioStyle {
-    width: 116px;
-    margin-bottom: 8px;
-  }
-  .matchTextStyle {
-    margin-bottom: 8px;
-    margin-top: 16px;
-  }
-  .profileTextStyle {
-    margin-bottom: 8px;
-    margin-top: 8px;
-  }
-  .qualificationTextStyle {
-    margin-top: 16px;
-    margin-bottom: 8px;
-  }
-  .qualificationConatiner {
-    padding-top: 8px;
-    padding-bottom: 8px;
-  }
-  .checkBoxContainerOne {
-    min-width: 116px;
-  }
-  .checkBoxContainer {
-    padding-bottom: 16px;
-    padding-top: 8px;
-  }
-  .checkBoxOne {
-    padding-bottom: 16px;
-  }
-  .showCheckBox {
-    margin-top: 24px;
-  }
-  .cardConatiner {
-    height: 221px;
+  margin-left: 16px;
+  cursor: pointer;
+}
+.button {
+  border: none;
+  background: none;
+}
+.filterStyle {
+  padding-left: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-gary-7, #dfdfdf);
+}
+.matchRadioStyle {
+  width: 116px;
+  margin-bottom: 8px;
+}
+.matchTextStyle {
+  margin-bottom: 8px;
+  margin-top: 16px;
+}
+.profileTextStyle {
+  margin-bottom: 8px;
+  margin-top: 8px;
+}
+.qualificationTextStyle {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+.qualificationConatiner {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.checkBoxContainerOne {
+  min-width: 116px;
+}
+.checkBoxContainer {
+  padding-bottom: 16px;
+  padding-top: 8px;
+}
+.checkBoxOne {
+  padding-bottom: 16px;
+}
+.showCheckBox {
+  margin-top: 24px;
+}
+.cardConatiner {
+  /* height: 221px;
     width: 460px;
     margin-right: 0px;
     padding: 15px 10px 10px 10px;
@@ -55,158 +55,152 @@
     margin-top: 35px;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: space-between;
+    justify-content: space-between; */
+  position: relative;
+  max-height: 190px;
+  min-width: 350px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  padding: 15px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.scrollFlex {
+  overflow-y: scroll;
+  padding-left: 14px;
+  padding-right: 16px;
+  padding-bottom: 8px;
+  padding-top: 12px;
+  scrollbar-width: thin;
+}
 
+.scrollFlex::-webkit-scrollbar {
+  width: 4px;
+  margin-left: 16px;
+  height: 4px;
+  overflow: scroll;
+  scrollbar-color: rgba(26, 26, 26, 0.3) white;
+}
 
-  }
-  .scrollFlex {
-    overflow-y: scroll;
-    padding-left: 14px;
-    padding-right: 16px;
-    padding-bottom: 8px;
-    padding-top: 12px;
-    scrollbar-width: thin;
-  }
-  
-  .scrollFlex::-webkit-scrollbar {
-    width: 4px;
-    margin-left: 16px;
-    height: 4px;
-    overflow: scroll;
-    scrollbar-color: rgba(26, 26, 26, 0.3) white;
-  }
+.title {
+  margin-left: 10px;
+  margin-top: 10px;
+}
+.setting {
+  width: 130px;
+  height: 110px;
+  position: relative;
+  margin-left: 100px;
+  /* position: 'absolute', */
+}
+.gird {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; /* Three equal columns */
+  /* grid-template-rows: auto;  */
+  gap: 10px;
+}
+.window {
+  width: 500px;
+  height: 150px;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+.dropDownListStyle {
+  cursor: auto;
+}
+.rowGroup {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.cardHeader {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+.titletext {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 240px;
+}
+.copybutton {
+  /* margin-top: 10px;
+  margin-left: 15px; */
+  border: none;
+  background: none;
+}
+.btnsetting {
+  /* margin-right: 10px; */
+  /* margin-top: 10px;
+  margin-left: 70px; */
+  border: none;
+  background: none;
+}
 
-  .title{
-    margin-left: 10px;
-    margin-top: 10px;
-    font-size: 16px;
-  }
-  .setting{
-    width:  130px;
-    height: 110px;
-    position: relative; 
-    margin-left: 100px;
-    /* position: 'absolute', */
-    
-  }
-  .gird{
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr; /* Three equal columns */
-      /* grid-template-rows: auto;  */
-      gap: 10px;  
-  }
-  .window {
-    width:  500px;
-    height: 150px;
-    margin-left: 10px;
-    margin-top: 10px;
-  }
-  .dropDownListStyle{
-    cursor: auto;
-  }
-  .rowGroup {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    margin-top : -13px;
+/* .rowGroup1 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+} */
+.title2 {
+  margin-left: 10px;
+  margin-top: 10px;
+}
+.initials {
+  height: 32px;
+  width: 32px;
+  border-radius: 35px;
+  background-color: #fcc203;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+.textinitials {
+  text-align: center;
 
-  }
-  .cardHeader {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    overflow: hidden;   
-  }
-  .titletext{
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    margin-left: 10px;
-    margin-top: 10px;
-    font-size: 20px;
-    font-weight: bold;
-    width: 170px;
-  }
-  .copybutton{
-    margin-top: 10px;
-    margin-left: 15px;
-    border: none;
-    background: none;
-  }
-  .btnsetting{
-    /* margin-right: 10px; */
-    margin-top: 10px;
-    margin-left: 70px;
-    border: none;
-    background: none;
-    
-  }
+  margin-top: 5px;
+}
+.line {
+  /* height: 1px; */
+  margin: 15px 0px;
+  /* width: 440px; */
+  border: 0.5px solid #c3c3c3;
+  display: flex;
+  width: 100%;
+}
 
-  .rowGroup1 {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    font-size: 18px;
-    /* margin-top : -13px; */
-  }
-  .title2{
-    font-size: 18px;
-    margin-left: 10px ;
-    margin-top: 10px;
-  }
-  .initials{
-    height: 32px;
-    width: 32px;
-    border-radius: 35px;
-    background-color : #fcc203;
-    margin-left :10px;
-    margin-top :10px;
-  }
-  .textinitials{
-    text-align: center;
-    font-size: 16px;
-    margin-top: 5px;
-  }
-  .line {
-    height: 1px;
-    margin-top: 13px;
-    width: 440px;
-    border-top: 1px solid rgb(0, 0, 0);
-  }
+.rowGroup2 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 
-  .rowGroup2 {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-
-    font-size: 18px;
-    /* margin-top: 10px; */
-    /* margin-top : -13px; */
-  }
-  .previewbtn{
-    border: none;
-    background: none;
-    margin-top: 10px;
-    margin-left: 15px;
-  }
-  .buttonshare{
-    background-color: white;
-    padding: 3px;
-    margin-top: 15px;
-    height: 40px;
-    width: 90px;
-    margin-left: 300px;
-    
-  }
-  .sharetxt{
-    color: black;
-    font-size: 16px;
-  }
- 
+  /* margin-top: 10px; */
+  /* margin-top : -13px; */
+}
+.previewbtn {
+  border: none;
+  background: none;
+  /* margin-top: 10px; */
+  /* margin-left: 15px; */
+}
+.buttonshare {
+  background-color: white;
+  /* padding: 3px; */
+  /* margin-top: 15px; */
+  /* height: 40px; */
+  /* width: 90px; */
+  /* margin-left: 300px; */
+}
+.sharetxt {
+  color: black;
+}

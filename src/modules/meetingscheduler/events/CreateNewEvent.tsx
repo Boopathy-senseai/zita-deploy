@@ -6,7 +6,7 @@ import moment from 'moment-timezone';
 import DatePicker from 'react-datepicker';
 import DateRangePicker, { Props } from 'react-bootstrap-daterangepicker';
 // import { DateRangePicker } from 'react-date-range';
-import Modal from '../../../uikit/Modal';
+import Modal from '../../../uikit/Modal/Modal';
 import Flex from '../../../uikit/Flex/Flex';
 import Toast from '../../../uikit/Toast/Toast';
 import { isEmpty } from '../../../uikit/helper';
@@ -97,10 +97,7 @@ const CreateNewEvent = (props) => {
     setisLoader,
     intern,
   } = props;
-  console.log('propsprops_-------', props);
-  console.log('propsprops////////////////', props.teammembers);
 
-  // console.log('>>>>', interviewclose);
   const dispatch: AppDispatch = useDispatch();
   const [interviewer, setInterviewer] = useState(false);
   const [interviewerData, setinterviewerData] = useState([]);
@@ -115,7 +112,6 @@ const CreateNewEvent = (props) => {
   const [organiser, setorganiser] = useState(teammembers ? teammembers : []);
   const [zone, setzone] = useState('');
 
-  console.log('<><><><><><><><><><><><><><><><><><><>', organiser);
   const [selectedRange, setSelectedRange] = useState({
     startDate: null,
     endDate: null,
@@ -166,47 +162,21 @@ const CreateNewEvent = (props) => {
     }),
   );
 
-  console.log('user', user);
   let profilename = user.first_name + ' ' + user.last_name;
-  console.log('..........', profilename);
-  console.log('PPPPPPPPPPP', organiser);
-  console.log('++++++++++++()()()()()()()()()()()()()(0', datetime);
 
   useEffect(() => {
     // dispatch(userProfileMiddleWare());
-    console.log('``````````', datetime, typeof datetime);
     if (!isEmpty(editModel) && datetime !== undefined) {
       openModelEdit(editModel, datetime);
       setedit_id(editModel.id);
-      console.log('SSSSSSSSSSSSS', datetime);
     }else{
       // formik.values = initial
       // formik.setValues(initial)
     
     }
-
-
-    console.log('datetimedatetime===============&&&', datetime);
-    // formik.values.timezone = userzone;
-    console.log('datetimedatetime', datetime);
   }, [duration, datetime]);
 
   useEffect(() => {
-    // if (duration) {
-    //   if (sundaycheck === true && duration && sunday.length > 0) {
-    //     alert("slice")
-    //     const newData = [[]];
-    //     setSunday([{starttime: '', endtime: ''}]);
-    //   }
-    //   if (saturday.length > 1) {
-    //     // alert("slicesatyurday")
-    //     const newData = [{ starttime: '9:00AM', endtime: '6:00PM' }];
-    //     setSaturday(newData);
-    //   }
-    // } else if (include === true) {
-    //   // setsundaycheck(true)
-    //   // setsaturdaycheck(true)
-    // }
     if (mondaycheck === false) {
       const newData = [{ starttime: '9:00 AM', endtime: '6:00 PM' }];
       setMonday(newData);
@@ -239,55 +209,38 @@ const CreateNewEvent = (props) => {
     duration,
   ]);
   const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  console.log('userTimezone', userTimezone);
   const offset = moment.tz(userTimezone).format('Z');
-  console.log('offset', offset);
   const userzone = `${moment.tz(userTimezone).format('Z')} (${userTimezone})`;
-  console.log('label', userzone);
 
   const vaio = timezonesdata.find((fil) => fil.label === userzone);
-  console.log('vaiovaiovaiovaio', vaio);
-  console.log('timezonedata', timezonesdata);
 
 
   const conversion = (data: any) => {
-    // alert('////////////////');
-    console.log('data..........', data);
     return data.map((obj) => {
       const { day, ...rest } = obj; // Destructure the "day" property
-      console.log('restrestrest', rest);
       return rest; // Return the object without the "day" property
     });
   };
 
   const openModelEdit = (datalist: any, dt: any) => {
-    console.log('scheduleschedulescheduleschedulescheduleschedule', schedule);
-    console.log('schedataschedataschedataschedata', schedata);
-    console.log('dtdtdtdtdtdtdtdtdtdtdtdtdt', dt);
     setsaveButton(true);
-    console.log('???????________', intern);
     if (intern && intern.length > 0) {
       const fullNamesArray = intern?.map((i) => i.full_name);
       const userid = intern?.map((i) => i.name__user);
-      console.log('fullNamesArrayfullNamesArrayfullNamesArray', fullNamesArray);
       setinterviewerData(fullNamesArray);
       setCheckedItems(userid);
     } else {
       setinterviewerData([]);
-      // setCheckedItems([]);
     }
     const datas = datalist;
-    console.log('datasdatasdatas', datas);
     formik.values.event_name = datas.event_name;
     formik.values.event_type = datas.event_type;
-    console.log('@@@@@@@', datas.event_type);
     formik.values.location = datas.location;
     formik.values.days = datas.days;
     selectedRange.endDate = datas.enddate;
     selectedRange.startDate = datas.startdate;
     formik.values.startdate = datas.startdate;
     formik.values.enddate = datas.enddate;
-    console.log('datas.startdate',datas.startdate,datas.enddate)
     if (datas.duration === '1 hour') {
       formik.values.duration = '1 hour';
       const durationminutes = '60 Minutes';
@@ -300,10 +253,8 @@ const CreateNewEvent = (props) => {
     formik.values.description = datas.description;
     formik.values.timezonedisplay = datas.times_zone_display;
     if (dt !== undefined && dt !== null) {
-      console.log('sunday++++++++++++++++++++++++', dt);
       if (dt && dt.sunday && dt.sunday.length > 0) {
         const editsunday = conversion(dt.sunday);
-        console.log('editsunday', editsunday);
         setSunday(editsunday);
         setsundaycheck(true);
       } else {
@@ -311,7 +262,6 @@ const CreateNewEvent = (props) => {
       }
       if (dt && dt.monday && dt.monday.length > 0) {
         const editmonday = conversion(dt.monday);
-        console.log('editmonday', editmonday);
         setMonday(editmonday);
         setmondaycheck(true);
       } else {
@@ -319,7 +269,6 @@ const CreateNewEvent = (props) => {
       }
       if (dt && dt.tuesday && dt.tuesday.length > 0) {
         const edittuesday = conversion(dt.tuesday);
-        console.log('edittuesday', edittuesday);
         setTuesday(edittuesday);
         settuesdaycheck(true);
       } else {
@@ -327,7 +276,6 @@ const CreateNewEvent = (props) => {
       }
       if (dt && dt.wednesday && dt.wednesday.length > 0) {
         const editwednesday = conversion(dt.wednesday);
-        console.log('editwednesday', editwednesday);
         setWednesday(editwednesday);
         setwednesdaycheck(true);
       } else {
@@ -335,7 +283,6 @@ const CreateNewEvent = (props) => {
       }
       if (dt && dt.thursday && dt.thursday.length > 0) {
         const editthursday = conversion(dt.thursday);
-        console.log('editthursday', editthursday);
         setThursday(editthursday);
         setthursdaycheck(true);
       } else {
@@ -343,44 +290,22 @@ const CreateNewEvent = (props) => {
       }
       if (dt && dt.friday && dt.friday.length > 0) {
         const editfriday = conversion(dt.friday);
-        console.log('editfriday', editfriday);
         setFriday(editfriday);
         setfridaycheck(true);
       } else {
         setfridaycheck(false);
       }
       if (dt && dt.saturday && dt.saturday.length > 0) {
-        alert('******');
         const editsaturday = conversion(dt.saturday);
-        console.log('editsaturday', editsaturday);
         setSaturday(editsaturday);
         setsaturdaycheck(true);
       } else {
         setsaturdaycheck(false);
       }
-      console.log('sunday********************************', dt.sunday);
-      // setSunday(datetime.sunday)
-      // setMonday(datetime.monday)
-      // setTuesday(datetime.tuesday)
-      // setWednesday(datetime.wednesday)
-      // setThursday(datetime.thursday)
-      // setFriday(datetime.friday)
-      // setSaturday(datetime.saturday)
     }
-
-    console.log('datatatatatatata', datas.enddate, typeof datas.enddate);
-    console.log('new Date(datas.enddate)', new Date(datas.enddate));
-    console.log('selectedRangeselectedRange', selectedRange);
-    console.log('datayayayayayaya', sunday);
-
-    console.log('formikformik', formik.values);
-
-    // setEditList();
   };
 
   const handleEventValid = (values: CreateEvent) => {
-    console.log("[[[[[[[[[[[[[[",sundaycheck,mondaycheck,tuesdaycheck,wednesdaycheck,thursdaycheck,fridaycheck,saturdaycheck)
-    console.log('<><><><><><><><><>', values);
     const errors: Partial<CreateEvent> = {};
     if (isEmpty(values.event_name.trim())) {
       formik.values.event_name = '';
@@ -389,9 +314,6 @@ const CreateNewEvent = (props) => {
     if (isEmpty(values.event_type.trim())) {
       errors.event_type = THIS_FIELD_REQUIRED;
     }
-    // if (isEmpty(values.dateRange)) {
-    //   errors.dateRange = THIS_FIELD_REQUIRED;
-    // }
     if (
       values.event_type === 'On-site Interview' &&
       isEmpty(values.location.trim())
@@ -405,9 +327,6 @@ const CreateNewEvent = (props) => {
     if (isEmpty(values.startdate)) {
       errors.startdate = 'Invalid Date';
     }
-    // if (isEmpty(values.enddate)) {
-    //   errors.enddate = 'Enddate Required';
-    // }
     if (isEmpty(values.duration)) {
       errors.duration = THIS_FIELD_REQUIRED;
     }
@@ -417,12 +336,6 @@ const CreateNewEvent = (props) => {
     if (isEmpty(values.timezonedisplay)) {
       errors.timezonedisplay = THIS_FIELD_REQUIRED;
     }
-    // if (isEmpty(values.interviewer)) {
-    //   errors.interviewer = THIS_FIELD_REQUIRED;
-    // }
-    //   if (isEmpty(values.schedule)) {
-    //     errors.schedule = THIS_FIELD_REQUIRED;
-    //   }
     if (isEmpty(values.description.trim())) {
       formik.values.description = '';
       errors.description = THIS_FIELD_REQUIRED;
@@ -431,37 +344,17 @@ const CreateNewEvent = (props) => {
       formik.values.availbletimebook ='';
       errors.availbletimebook = "Please Select The Alteast One AvailbleDay"
     }
-    console.log('errorserrorserrorserrors', errors);
     return errors;
   };
 
   const handleDateChange = (date) => {
-    alert(date);
-    // console.log('||||+++++ ', date,dat1);
-    // if (date !== undefined && date !== null) {
-    //   const [startDateStr, endDateStr] = date.split(' - ');
-    //   console.log('startDateStr, endDateStr', startDateStr, endDateStr);
-    //   setSelectedRange({
-    //     startDate: moment(startDateStr, 'MM/DD/YYYY'),
-    //     endDate: moment(endDateStr, 'MM/DD/YYYY'),
-    //   });
-    // } else {
-    //   setSelectedRange({
-    //     startDate: null,
-    //     endDate: null,
-    //   });
-    // }
-
     if (!selectedRange.startDate || selectedRange.endDate) {
       // If no start date is selected, or both start and end dates are already selected, set the start date
       setSelectedRange({
         startDate: date,
         endDate: null,
       });
-
-      alert('./');
       formik.setFieldValue('startdate', formatDate(date));
-      console.log('formik.setFieldvalue', formik);
     } else if (date <= selectedRange.startDate) {
       alert('e');
       // If a start date is already selected, and the new date is less than or equal to the start date, update the start date
@@ -1040,7 +933,6 @@ const CreateNewEvent = (props) => {
                     }
                     onChange={(option) => {
                       formik.setFieldValue('timezone', option.label);
-                      // setButton(false);
                     }}
                   ></SelectTag>
                   <ErrorMessage
@@ -1299,7 +1191,6 @@ const CreateNewEvent = (props) => {
                 setfridaycheck={setfridaycheck}
                 saturdaycheck={saturdaycheck}
                 setsaturdaycheck={setsaturdaycheck}
-                // setinclude={setinclude}
               />
             </Flex>
           </div>
@@ -1326,13 +1217,11 @@ const CreateNewEvent = (props) => {
                 return (
                   <Flex row key={jobList.value}>
                     <InputRadio
-                      // label={`Option 1 | Option 2 | Option 3`}
                       label={jobList.label}
                       checked={jobList.label === formik.values.timezonedisplay}
                       onClick={() =>
                         formik.setFieldValue('timezonedisplay', jobList.label)
                       }
-                      // style={{ display: 'flex', flexDirection: 'column' }}
                     />
                   </Flex>
                 );
@@ -1361,30 +1250,11 @@ const CreateNewEvent = (props) => {
                   height: '79px',
                   marginBottom: '5px',
                   width: '637px',
-                  // marginTop: '10px',
-                  // marginLeft: '10px',
                   paddingTop: '10px',
                   textAlign: 'left',
                   verticalAlign: 'top',
                 }}
               />
-              {/* <textarea
-                placeholder="Enter the details that your invitee should know about the event."
-                value={formik.values.description}
-                onChange={(e) => {
-                  formik.setFieldValue('description', e.target.value);
-                }}
-                style={{
-                  border: '1px solid  #b3b3b3',
-                  borderRadius: '4px',
-                  height: '79px',
-                  marginBottom: '5px',
-                  width: '637px',
-                  paddingTop :  '10px',
-                  textAlign: 'left',                
-                }}/> */}
-
-              {/* </textarea> */}
               <ErrorMessage
                 name={'description'}
                 errors={formik.errors}
@@ -1402,7 +1272,6 @@ const CreateNewEvent = (props) => {
                   <Flex>
                     <Button
                       onClick={formik.handleSubmit}
-                      // disabled={!formik.isValid}
                     >
                       Create Link
                     </Button>
@@ -1411,7 +1280,6 @@ const CreateNewEvent = (props) => {
                   <Flex>
                     <Button
                       onClick={formik.handleSubmit}
-                      // disabled={!formik.isValid}
                     >
                       Save
                     </Button>

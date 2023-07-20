@@ -5,7 +5,7 @@ import Button from '../../../uikit/Button/Button';
 import Flex from '../../../uikit/Flex/Flex';
 import InputCheckBox from '../../../uikit/InputCheckbox/InputCheckBox';
 import InputText from '../../../uikit/InputText/InputText';
-import Text from '../.././../uikit/Text/Text';
+import Text from '../../../uikit/Text/Text';
 import { nameList } from './eventType';
 import styles from './interviewer.module.css';
 

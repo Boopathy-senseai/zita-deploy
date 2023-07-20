@@ -1,18 +1,16 @@
 .sharelink{
     background-color: #fff;
-    padding: 10px 30px;
-    /* overflow : scroll; */
-    width: 780px; 
-    height : 400px;
-    /* overflow: scroll;      */
+    padding: 25px;
+    width: 680px; 
+    border-radius: 4px;
     }
-.title {
-    margin-left: 10px;
-    font-size:  18px;
-    font-weight: bold;
-    top: 10px;
+/* .title {
     /* margin-left: 10px; */
-}
+    /* font-size:  18px; */
+    /* font-weight: bold; */
+    /* top: 10px; */
+    /* margin-left: 10px; */
+
 .type {
     font-size:  14px;
     /* font-weight: bold; */

@@ -258,6 +258,11 @@ const Calendar = () => {
     );
   }, []);
 
+  useEffect(() => {
+    if (locationState.openScheduleEvent === true) {
+      setOpenScheduleForm(true);
+    }
+  }, []);
   const handleEventScheduleForm = () => {
     if (calendarProvider) handleGetEvents(calendarProvider);
     setIsEditEvent(false);
@@ -887,7 +892,7 @@ const Calendar = () => {
                 )}
               </>
             )}
-            {(openScheduleForm ||locationState?.openScheduleEvent) && (
+            {openScheduleForm && (
               <MeetingSchedulingScreen
                 username={currentUser.name}
                 applicants={applicants}
@@ -897,7 +902,7 @@ const Calendar = () => {
                 calendarProvider={calendarProvider}
                 editEventDetails={isEditEvent ? editEventDetails[0] : null}
                 teamMembers={teamMembers}
-                openScheduleForm={openScheduleForm || locationState?.openScheduleEvent}
+                openScheduleForm={openScheduleForm}
                 handleEventScheduleForm={handleEventScheduleForm}
                 slotRange={slotRange}
                 setIsTopLineLoading={setIsTopLineLoading}

@@ -405,7 +405,7 @@ const CalenderCard = ({
                     />
                     <div style={{ position: 'absolute', left: 7, top: 3 }}>
                       <label htmlFor="calendar___open">
-                        <SvgCalendar width={16} height={16} fill={"red"}/>
+                        <SvgCalendar width={16} height={16}/>
                       </label>
                     </div>
                   </div>
