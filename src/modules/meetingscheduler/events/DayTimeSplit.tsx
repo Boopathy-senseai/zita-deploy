@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Dropdown } from 'react-bootstrap';
 import { isEmptyArray, useFormik } from 'formik';
 import Flex from '../../../uikit/Flex/Flex';
 import Text from '../../../uikit/Text/Text';
@@ -9,6 +10,7 @@ import Button from '../../../uikit/Button/Button';
 import SelectTag from '../../../uikit/SelectTag/SelectTag';
 import SvgCloseSmall from '../../../icons/SvgCloseSmall';
 import InputCheckBox from '../../../uikit/InputCheckbox/InputCheckBox';
+import SvgSetting from '../../../icons/SvgSetting';
 // import CopyModal from '../../uikit/CopyModal/CopyModal';
 import styles from './daytimesplit.module.css';
 import { timezone } from './eventType';
@@ -77,12 +79,11 @@ const DayTimeSplit = (props) => {
     }
   }, [duration]);
   useEffect(() => {
-    // if (duration){      
+    // if (duration){
     //   if(sundaycheck === true){
     //     alert("<.")
-  //     setSunday([])
+    //     setSunday([])
     //   }
-
     // }
   }, [
     mondaycheck,
@@ -93,8 +94,15 @@ const DayTimeSplit = (props) => {
     fridaycheck,
     saturdaycheck,
   ]);
-  useEffect(()=>{
-  },[sunday,monday,tuesday,wednesday,thursday,friday,saturday])
+  useEffect(() => {}, [
+    sunday,
+    monday,
+    tuesday,
+    wednesday,
+    thursday,
+    friday,
+    saturday,
+  ]);
 
   useEffect(() => {
     // console.log("timeslottimeslot",timeslot)
@@ -235,7 +243,7 @@ const DayTimeSplit = (props) => {
     //   (option) => option.label === sunday[index].starttime,
     // )
     // const updatetime = [...time.splice(0, check.id)];
-    
+
     // console.log("checkcheckcheck",check,updatetime)
     // const removedDate = sunday[index];
     const list = [...sunday];
@@ -457,7 +465,6 @@ const DayTimeSplit = (props) => {
     }
     if (name === 'monday') {
       setmondaycheck(checked);
-
     }
     if (name === 'tuesday') {
       settuesdaycheck(checked);
@@ -554,9 +561,9 @@ const DayTimeSplit = (props) => {
         '\n',
         'saturdaycheck',
         saturdaycheck,
-        "\n",
+        '\n',
         'duration',
-         duration
+        duration,
       )}
       {console.log('>?>?>?>?>?>??>?>>??sundaymondaysundaymonday', sunday)}
       {console.log('thursdaythursday', thursday)}
@@ -717,7 +724,7 @@ const DayTimeSplit = (props) => {
                   </button>
                 )}
               </div>
-              <div style={{ textAlign: 'left', marginRight: '84%' }}>
+              {/* <div style={{ textAlign: 'left', marginRight: '84%' }}>
                 <button
                   key={1}
                   style={{
@@ -768,7 +775,42 @@ const DayTimeSplit = (props) => {
                     )}
                   </Flex>
                 </div>
-              </div>
+              </div> */}
+
+              <Text>
+                {' '}
+                <CopyClipBoard
+                  key={1}
+                  name="sunday"
+                  copy={copy}
+                  day={sunday}
+                  setCopy={SetCopy}
+                  SetCopyId={SetCopyId}
+                  days={days}
+                  //   setSunday ={setSunday}
+                  setMonday={setMonday}
+                  setTuesday={setTuesday}
+                  setWednesday={setWednesday}
+                  setThursday={setThursday}
+                  setFriday={setFriday}
+                  setSaturday={setSaturday}
+                  timeslot={day1}
+                  setDay1={setDay1}
+                  setDay2={setDay2}
+                  setDay3={setDay3}
+                  setDay4={setDay4}
+                  setDay5={setDay5}
+                  setDay6={setDay6}
+                  setDay7={setDay7}
+                  sundaycheck={sundaycheck}
+                  mondaycheck={mondaycheck}
+                  tuesdaycheck={tuesdaycheck}
+                  wednesdaycheck={wednesdaycheck}
+                  thursdaycheck={thursdaycheck}
+                  fridaycheck={fridaycheck}
+                  saturdaycheck={saturdaycheck}
+                />
+              </Text>
             </>
           ) : (
             'Unavailble'
@@ -976,7 +1018,7 @@ const DayTimeSplit = (props) => {
                   </button>
                 )}
               </div>
-              <div style={{ textAlign: 'left', marginRight: '84%' }}>
+              {/* <div style={{ textAlign: 'left', marginRight: '84%' }}>
                 <button
                   key={2}
                   style={{
@@ -1024,6 +1066,40 @@ const DayTimeSplit = (props) => {
                 ) : (
                   ''
                 )}
+              </div> */}
+
+              <div className={styles.copyclip}>
+                <CopyClipBoard
+                  key={2}
+                  copy={copy}
+                  name="monday"
+                  day={monday}
+                  days={days}
+                  setCopy={SetCopy}
+                  SetCopyId={SetCopyId}
+                  setSunday={setSunday}
+                  //    setMonday ={setMonday}
+                  setTuesday={setTuesday}
+                  setWednesday={setWednesday}
+                  setThursday={setThursday}
+                  setFriday={setFriday}
+                  setSaturday={setSaturday}
+                  timeslot={day2}
+                  setDay1={setDay1}
+                  setDay2={setDay2}
+                  setDay3={setDay3}
+                  setDay4={setDay4}
+                  setDay5={setDay5}
+                  setDay6={setDay6}
+                  setDay7={setDay7}
+                  sundaycheck={sundaycheck}
+                  mondaycheck={mondaycheck}
+                  tuesdaycheck={tuesdaycheck}
+                  wednesdaycheck={wednesdaycheck}
+                  thursdaycheck={thursdaycheck}
+                  fridaycheck={fridaycheck}
+                  saturdaycheck={saturdaycheck}
+                />
               </div>
             </>
           ) : (
@@ -1232,7 +1308,7 @@ const DayTimeSplit = (props) => {
                   </button>
                 )}
               </div>
-              <div style={{ textAlign: 'left', marginRight: '84%' }}>
+              {/* <div style={{ textAlign: 'left', marginRight: '84%' }}>
                 <button
                   key={3}
                   style={{
@@ -1280,7 +1356,42 @@ const DayTimeSplit = (props) => {
                 ) : (
                   ''
                 )}
-              </div>
+              </div> */}
+              <Text>
+                {' '}
+                <CopyClipBoard
+                  key={3}
+                  copy={copy}
+                  name="tuesday"
+                  day={tuesday}
+                  setCopy={SetCopy}
+                  days={days}
+                  SetCopyId={SetCopyId}
+                  //   setTuesday ={setTuesday}
+                  setSunday={setSunday}
+                  setMonday={setMonday}
+                  //  setTuesday ={setTuesday}
+                  setWednesday={setWednesday}
+                  setThursday={setThursday}
+                  setFriday={setFriday}
+                  setSaturday={setSaturday}
+                  timeslot={day3}
+                  setDay1={setDay1}
+                  setDay2={setDay2}
+                  setDay3={setDay3}
+                  setDay4={setDay4}
+                  setDay5={setDay5}
+                  setDay6={setDay6}
+                  setDay7={setDay7}
+                  sundaycheck={sundaycheck}
+                  mondaycheck={mondaycheck}
+                  tuesdaycheck={tuesdaycheck}
+                  wednesdaycheck={wednesdaycheck}
+                  thursdaycheck={thursdaycheck}
+                  fridaycheck={fridaycheck}
+                  saturdaycheck={saturdaycheck}
+                />
+              </Text>
             </>
           ) : (
             'unavailble'
@@ -1490,7 +1601,7 @@ const DayTimeSplit = (props) => {
                   </button>
                 )}
               </div>
-              <div style={{ textAlign: 'left', marginRight: '84%' }}>
+              {/* <div style={{ textAlign: 'left', marginRight: '84%' }}>
                 <button
                   key={4}
                   style={{
@@ -1537,7 +1648,41 @@ const DayTimeSplit = (props) => {
                 ) : (
                   ''
                 )}
-              </div>
+              </div> */}
+              <Text>
+                {' '}
+                <CopyClipBoard
+                  key={4}
+                  copy={copy}
+                  name="wednesday"
+                  days={days}
+                  day={wednesday}
+                  setCopy={SetCopy}
+                  SetCopyId={SetCopyId}
+                  setSunday={setSunday}
+                  setMonday={setMonday}
+                  setTuesday={setTuesday}
+                  //    setWednesday ={setWednesday}
+                  setThursday={setThursday}
+                  setFriday={setFriday}
+                  setSaturday={setSaturday}
+                  timeslot={day4}
+                  setDay1={setDay1}
+                  setDay2={setDay2}
+                  setDay3={setDay3}
+                  setDay4={setDay4}
+                  setDay5={setDay5}
+                  setDay6={setDay6}
+                  setDay7={setDay7}
+                  sundaycheck={sundaycheck}
+                  mondaycheck={mondaycheck}
+                  tuesdaycheck={tuesdaycheck}
+                  wednesdaycheck={wednesdaycheck}
+                  thursdaycheck={thursdaycheck}
+                  fridaycheck={fridaycheck}
+                  saturdaycheck={saturdaycheck}
+                />
+              </Text>
             </>
           ) : (
             'Unavailble'
@@ -1750,7 +1895,7 @@ const DayTimeSplit = (props) => {
                   </button>
                 )}
               </div>
-              <div style={{ textAlign: 'left', marginRight: '84%' }}>
+              {/* <div style={{ textAlign: 'left', marginRight: '84%' }}>
                 <button
                   key={5}
                   style={{
@@ -1797,7 +1942,41 @@ const DayTimeSplit = (props) => {
                 ) : (
                   ''
                 )}
-              </div>
+              </div> */}
+              <Text>
+                {' '}
+                <CopyClipBoard
+                  key={5}
+                  copy={copy}
+                  days={days}
+                  name="thursday"
+                  day={thursday}
+                  setCopy={SetCopy}
+                  SetCopyId={SetCopyId}
+                  setSunday={setSunday}
+                  setMonday={setMonday}
+                  setTuesday={setTuesday}
+                  setWednesday={setWednesday}
+                  //    setThursday ={setThursday}
+                  setFriday={setFriday}
+                  setSaturday={setSaturday}
+                  timeslot={day5}
+                  setDay1={setDay1}
+                  setDay2={setDay2}
+                  setDay3={setDay3}
+                  setDay4={setDay4}
+                  setDay5={setDay5}
+                  setDay6={setDay6}
+                  setDay7={setDay7}
+                  sundaycheck={sundaycheck}
+                  mondaycheck={mondaycheck}
+                  tuesdaycheck={tuesdaycheck}
+                  wednesdaycheck={wednesdaycheck}
+                  thursdaycheck={thursdaycheck}
+                  fridaycheck={fridaycheck}
+                  saturdaycheck={saturdaycheck}
+                />
+              </Text>
             </>
           ) : (
             'Unavailble'
@@ -2006,7 +2185,7 @@ const DayTimeSplit = (props) => {
                   </button>
                 )}
               </div>
-              <div style={{ textAlign: 'left', marginRight: '84%' }}>
+              {/* <div style={{ textAlign: 'left', marginRight: '84%' }}>
                 <button
                   style={{
                     border: 'none',
@@ -2052,7 +2231,41 @@ const DayTimeSplit = (props) => {
                 ) : (
                   ''
                 )}
-              </div>
+              </div> */}
+              <Text>
+                {' '}
+                <CopyClipBoard
+                  key={6}
+                  copy={copy}
+                  name="friday"
+                  setCopy={SetCopy}
+                  days={days}
+                  SetCopyId={SetCopyId}
+                  day={friday}
+                  setSunday={setSunday}
+                  setMonday={setMonday}
+                  setTuesday={setTuesday}
+                  setWednesday={setWednesday}
+                  setThursday={setThursday}
+                  //   setFriday = {setFriday}
+                  setSaturday={setSaturday}
+                  timeslot={day6}
+                  setDay1={setDay1}
+                  setDay2={setDay2}
+                  setDay3={setDay3}
+                  setDay4={setDay4}
+                  setDay5={setDay5}
+                  setDay6={setDay6}
+                  setDay7={setDay7}
+                  sundaycheck={sundaycheck}
+                  mondaycheck={mondaycheck}
+                  tuesdaycheck={tuesdaycheck}
+                  wednesdaycheck={wednesdaycheck}
+                  thursdaycheck={thursdaycheck}
+                  fridaycheck={fridaycheck}
+                  saturdaycheck={saturdaycheck}
+                />
+              </Text>
             </>
           ) : (
             'Unavailble'
@@ -2268,7 +2481,7 @@ const DayTimeSplit = (props) => {
                   </button>
                 )}
               </div>
-              <div style={{ textAlign: 'left', marginRight: '84%' }}>
+              {/* <div style={{ textAlign: 'left', marginRight: '84%' }}>
                 <button
                   key={7}
                   style={{
@@ -2317,7 +2530,43 @@ const DayTimeSplit = (props) => {
                 ) : (
                   ''
                 )}
-              </div>
+              </div> */}
+              <Text>
+                {' '}
+                <CopyClipBoard
+                  key={7}
+                  copy={copy}
+                  name="saturday"
+                  setCopy={SetCopy}
+                  SetCopyId={SetCopyId}
+                  day={saturday}
+                  days={days}
+                  setSunday={setSunday}
+                  setMonday={setMonday}
+                  setTuesday={setTuesday}
+                  setWednesday={setWednesday}
+                  setThursday={setThursday}
+                  setFriday={setFriday}
+                  //  setSaturday = {setSaturday}
+                  timeslot={day7}
+                  setDay1={setDay1}
+                  setDay2={setDay2}
+                  setDay3={setDay3}
+                  setDay4={setDay4}
+                  setDay5={setDay5}
+                  setDay6={setDay6}
+                  setDay7={setDay7}
+                  setrender={setrender}
+                  // include ={include}
+                  sundaycheck={sundaycheck}
+                  mondaycheck={mondaycheck}
+                  tuesdaycheck={tuesdaycheck}
+                  wednesdaycheck={wednesdaycheck}
+                  thursdaycheck={thursdaycheck}
+                  fridaycheck={fridaycheck}
+                  saturdaycheck={saturdaycheck}
+                />
+              </Text>
             </>
           ) : (
             'Unavailble'
@@ -2484,6 +2733,7 @@ const CopyClipBoard = (props) => {
   const [mondayclick, setMondayClick] = useState(false);
   const [apply, setApply] = useState([]);
   const [check, setCheck] = useState([]);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
     console.log('timeslottimeslot', timeslot);
@@ -2492,6 +2742,7 @@ const CopyClipBoard = (props) => {
   console.log('time123', time123);
   const final = [];
   const handleCheckboxChange = (assignedvalue: string) => {
+    alert(assignedvalue);
     if (final.includes(assignedvalue)) {
       // alert('splice');
       const indexToRemove = final.indexOf(assignedvalue);
@@ -2565,56 +2816,241 @@ const CopyClipBoard = (props) => {
       );
       setSaturday(filteredData);
     }
-    closeButton();   
+    closeButton();
     setTimeout(() => {
       console.log('Timeout completed!');
-      timeslotset(tslot)
+      timeslotset(tslot);
     }, 1000);
   };
 
-
   const timeslotset = (dayof) => {
-    console.log("dayof!@#$%^&UIO",dayof)
+    console.log('dayof!@#$%^&UIO', dayof);
     const updatedTimeSlots = [...dayof];
     updatedTimeSlots.shift();
-    console.log('~~~~~~~~~~~~',updatedTimeSlots)
+    console.log('~~~~~~~~~~~~', updatedTimeSlots);
 
-    console.log("dayofdayof",dayof)
+    console.log('dayofdayof', dayof);
     if (final.includes('sunday')) {
-      setDay1(dayof)
+      setDay1(dayof);
     }
     if (final.includes('monday')) {
-      setDay2(dayof)
+      setDay2(dayof);
     }
     if (final.includes('tuesday')) {
-      setDay3(dayof)
+      setDay3(dayof);
     }
     if (final.includes('wednesday')) {
-      setDay4(dayof)
+      setDay4(dayof);
     }
     if (final.includes('thursday')) {
-      setDay5(dayof)
+      setDay5(dayof);
     }
     if (final.includes('friday')) {
-      setDay6(dayof)
+      setDay6(dayof);
     }
     if (final.includes('saturday')) {
-      setDay7(dayof)
+      setDay7(dayof);
     }
-  }
+  };
   return (
     <>
       {console.log('monday+++++++++1', monday123)}
       {console.log('finalfinalfinal', final)}
+      {console.log('showDropdown', showDropdown)}
 
-      <div
+      <Flex className={styles.btnsetting}>
+        <Dropdown className="dropdownButton dropleft">
+          <Dropdown.Toggle
+            style={{
+              borderColor: 'unset',
+              backgroundColor: 'unset',
+              boxShadow: 'none',
+            }}
+            id="dropdown-basic"
+          >
+            <SvgCopy width={18} height={18} fill="goldenrod" />
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu style={{ minWidth: '5rem' }}>
+            <Dropdown.Item
+            // onClick={() => onEdit(data.id, data)}
+            >
+              <Flex row center className={styles.dropDownListStyle}>
+                {name === 'sunday' ? (
+                  <InputCheckBox
+                    checked={name === 'sunday'}
+                    disabled={name === 'sunday'}
+                    //   onChange={() => handleCheckboxChange('monday')}
+                  />
+                ) : sundaycheck === true ? (
+                  <InputCheckBox
+                    onChange={() => handleCheckboxChange('sunday')}
+                  />
+                ) : (
+                  <InputCheckBox
+                    onChange={() => handleCheckboxChange('sunday')}
+                    disabled={true}
+                  />
+                )}
+                <Text>Sunday</Text>
+              </Flex>
+            </Dropdown.Item>
+
+            <Dropdown.Item
+            //  onClick={()=>onDuplicate(data.id)}
+            >
+              <Flex row center className={styles.dropDownListStyle}>
+                {name === 'monday' ? (
+                  <InputCheckBox
+                    checked={name === 'monday'}
+                    disabled={name === 'monday'}
+                  />
+                ) : mondaycheck === true ? (
+                  <InputCheckBox
+                    onChange={() => handleCheckboxChange('monday')}
+                  />
+                ) : (
+                  <InputCheckBox
+                    onChange={() => handleCheckboxChange('monday')}
+                    disabled
+                  />
+                )}
+                <Text>Monday</Text>
+              </Flex>
+            </Dropdown.Item>
+
+            <Dropdown.Item
+            // onClick={() => handleShow(data.id)}
+            >
+              <Flex row center className={styles.dropDownListStyle}>
+                {name === 'tuesday' ? (
+                  <InputCheckBox
+                    checked={name === 'tuesday'}
+                    disabled={name === 'tuesday'}
+                  />
+                ) : tuesdaycheck === true ? (
+                  <InputCheckBox
+                    onChange={() => handleCheckboxChange('tuesday')}
+                  />
+                ) : (
+                  <InputCheckBox
+                    onChange={() => handleCheckboxChange('tuesday')}
+                    disabled={true}
+                  />
+                )}
+                <Text>Tuesday</Text>
+              </Flex>
+            </Dropdown.Item>
+
+            <Dropdown.Item
+            // onClick={() => handleShow(data.id)}
+            >
+              <Flex row center className={styles.dropDownListStyle}>
+                {name === 'wednesday' ? (
+                  <InputCheckBox
+                    checked={name === 'wednesday'}
+                    disabled={name === 'wednesday'}
+                  />
+                ) : wednesdaycheck === true ? (
+                  <InputCheckBox
+                    onChange={() => handleCheckboxChange('wednesday')}
+                  />
+                ) : (
+                  <InputCheckBox
+                    onChange={() => handleCheckboxChange('wednesday')}
+                    disabled={true}
+                  />
+                )}
+                <Text>Wednesday</Text>
+              </Flex>
+            </Dropdown.Item>
+
+            <Dropdown.Item
+            // onClick={() => handleShow(data.id)}
+            >
+              <Flex row center className={styles.dropDownListStyle}>
+                {name === 'thursday' ? (
+                  <InputCheckBox
+                    checked={name === 'thursday'}
+                    disabled={name === 'thursday'}
+                  />
+                ) : thursdaycheck === true ? (
+                  <InputCheckBox
+                    onChange={() => handleCheckboxChange('thursday')}
+                  />
+                ) : (
+                  <InputCheckBox
+                    onChange={() => handleCheckboxChange('thursday')}
+                    disabled={true}
+                  />
+                )}
+                <Text>Thursday</Text>
+              </Flex>
+            </Dropdown.Item>
+
+            <Dropdown.Item
+            // onClick={() => handleShow(data.id)}
+            >
+              <Flex row center className={styles.dropDownListStyle}>
+                {name === 'friday' ? (
+                  <InputCheckBox
+                    checked={name === 'friday'}
+                    disabled={name === 'friday'}
+                  />
+                ) : fridaycheck === true ? (
+                  <InputCheckBox
+                    onChange={() => handleCheckboxChange('friday')}
+                  />
+                ) : (
+                  <InputCheckBox
+                    onChange={() => handleCheckboxChange('friday')}
+                    disabled={true}
+                  />
+                )}
+                <Text>Friday</Text>
+              </Flex>
+            </Dropdown.Item>
+
+            <Dropdown.Item
+            // onClick={() => handleShow(data.id)}
+            >
+              <Flex row center className={styles.dropDownListStyle}>
+                {name === 'saturday' ? (
+                  <InputCheckBox
+                    checked={name === 'saturday'}
+                    disabled={name === 'saturday'}
+                  />
+                ) : saturdaycheck === true ? (
+                  <InputCheckBox
+                    onChange={() => handleCheckboxChange('saturday')}
+                  />
+                ) : (
+                  <InputCheckBox
+                    onChange={() => handleCheckboxChange('saturday')}
+                    disabled={true}
+                  />
+                )}
+                <Text>Saturday</Text>
+              </Flex>
+            </Dropdown.Item>
+            <Button
+              className={styles.apply}
+              onClick={() => applyonclick(final, day, timeslot)}
+            >
+              Apply
+            </Button>
+          </Dropdown.Menu>
+        </Dropdown>
+      </Flex>
+
+      {/* <div
         style={{
           width: '150px',
           height: '250px',
           position: 'relative',
         }}
-      >
-        {/* <CopyModal open={copy} onClose={close}>
+      > */}
+      {/* <CopyModal open={copy} onClose={close}>
           <Flex>
             <div
               style={{
@@ -2775,7 +3211,7 @@ const CopyClipBoard = (props) => {
             </Button>
           </Flex>
         </CopyModal> */}
-      </div>
+      {/* </div> */}
     </>
   );
 };

@@ -9,3 +9,19 @@
 .align{
   margin-left: 20px;
 }
+.btnsetting{
+  /* margin-right: 10px; */
+  margin-top: 10px;
+  margin-left: 10px;
+  border: none;
+  background: none;
+  
+}
+.apply{
+  margin-left: 20px;
+  margin-top: 10px;
+
+}
+.copyclip {
+  margin-top: 10px;
+}

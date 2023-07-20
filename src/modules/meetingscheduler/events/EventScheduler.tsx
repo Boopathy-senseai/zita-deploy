@@ -60,7 +60,6 @@ const EventScheduler = () => {
 
   useEffect(() => {
       console.log('EventScheduler!!!');
-      alert("*")
         setisLoader(true);
         dispatch(getScheduleMiddleWare(undefined))
         .then((res: any) => {

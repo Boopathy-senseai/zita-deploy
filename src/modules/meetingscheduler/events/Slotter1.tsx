@@ -7,6 +7,7 @@ import { format } from 'date-fns';
 import axios from 'axios';
 import moment, { duration } from 'moment';
 import { enUS } from 'date-fns/locale';
+// import { load } from 'googleapis';
 // import { DateRangePicker } from 'daterangepicker';
 import { AppDispatch, RootState } from '../../../store';
 import 'react-day-picker/dist/style.css';
@@ -22,6 +23,7 @@ import SvgGlobe from '../../../icons/SvgGlobe';
 import SvgInfoCircle from '../../../icons/SvgInfoCircle';
 import Loader from '../../../uikit/Loader/Loader';
 import styles from './slotter.module.css';
+// import { load } from 'googleapis';
 
 import {
   getAvailbleSlot,
@@ -32,6 +34,7 @@ import {
 // import interviewdashboaerd from './TeamMail/interviewdasboard.json';
 import { timezonedisplay } from './eventType';
 import './DayPickerCustomStyles.css';
+import { loadGapi } from './google.tsx/gapiLoader';
 
 
 const slotter1 = (props) => {
@@ -1412,22 +1415,31 @@ const Conformpage = (props) => {
 
   // }
 
-  const googleaddevent = () => {
-    // Refer to the JavaScript quickstart on how to setup the environment:
-// https://developers.google.com/calendar/quickstart/js
-// Change the scope to 'https://www.googleapis.com/auth/calendar' and delete any
-// stored credentials.
+  useEffect(() => {
+    loadGapi(() => {
+      // Initialize the Google API client
+      window.gapi.load('client:auth2', () => {
+        window.gapi.auth2.init({
+          client_id: '396086087663-fgeas18n6jmnakspsdefe92ha7strcgt',
+          scope: 'https://www.googleapis.com/auth/calendar',
+        });
+      });
+    });
+  }, []);
 
-const event = {
+const googleaddevent = () => {
+  alert("?")
+
+const events = {
   'summary': 'Google I/O 2015',
   'location': '800 Howard St., San Francisco, CA 94103',
   'description': 'A chance to hear more about Google\'s developer products.',
   'start': {
-    'dateTime': '2015-05-28T09:00:00-07:00',
+    'dateTime': '2023-07-20T09:00:00-07:00',
     'timeZone': 'America/Los_Angeles'
   },
   'end': {
-    'dateTime': '2015-05-28T17:00:00-07:00',
+    'dateTime': '2023-07-20T17:00:00-07:00',
     'timeZone': 'America/Los_Angeles'
   },
   'recurrence': [
@@ -1445,15 +1457,21 @@ const event = {
     ]
   }
 };
+console.log("requestrequest")
 
-// const request = gapi.client.calendar.events.insert({
+// const request = window.gapi.client.calendar.events.insert({
 //   'calendarId': 'primary',
-//   'resource': event
+//   'resource': event122
 // });
+const request = window.gapi.client.calendar.events.list({
+  calendarId: 'primary',
+  resource: events,
+});
+console.log("requestrequest",request)
 
-// request.execute(function(event) {
-//   appendPre('Event created: ' + event.htmlLink);
-// });
+request.execute((re) => {
+  console.log('Event created: ', re);
+});
 
   }
 
