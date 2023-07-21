@@ -8,6 +8,7 @@ import Text from '../../uikit/Text/Text';
 import Card from '../../uikit/Card/Card';
 import Chart from '../../uikit/Chart/Chart';
 import Toast from '../../uikit/Toast/Toast';
+import { Button } from '../../uikit';
 import SvgAngle from '../../icons/SvgAngle';
 import Loader from '../../uikit/Loader/Loader';
 // import Collapse from '../../uikit/Collapse/Collapse';
@@ -57,7 +58,7 @@ const JdViewScreen = () => {
     applicants_line,
     career_page_url,
     is_plan
-  } = useSelector(({ jdViewReducers,permissionReducers }: RootState) => {
+  } = useSelector(({ jdViewReducers, permissionReducers }: RootState) => {
     return {
       statusList: jdViewReducers.int_list,
       jdDetails: jdViewReducers.jd,
@@ -83,8 +84,8 @@ const JdViewScreen = () => {
     setloading(true);
     dispatch(jdDownloadMiddleWare({ jd_id: jdId })).then((data) => {
 
-      saveAs(`${data.payload.file_path}`,`${jdDetails.job_id}`,);
-      
+      saveAs(`${data.payload.file_path}`, `${jdDetails.job_id}`,);
+
       Toast('JD downloaded successfully', 'LONG', 'success');
 
       setloading(false);
@@ -110,14 +111,14 @@ const JdViewScreen = () => {
   const jobViewWeekArray: any =
     job_view_line &&
     job_view_line.map((list, index) => {
-      const result = index === 0 ? list.label : `Week ${index }`;
+      const result = index === 0 ? list.label : `Week ${index}`;
       return result;
     });
 
   const applicantWeekArray: any =
     applicants_line &&
     applicants_line.map((list, index) => {
-      const result = index === 0 ? list.label : `Week ${index }`;
+      const result = index === 0 ? list.label : `Week ${index}`;
       return result;
     });
 
@@ -137,9 +138,14 @@ const JdViewScreen = () => {
   const options = {
     title: {
       text: 'Trend Line of Job Views and Applicants',
+
       style: {
-        color: '#581845',
+        color: '#333333',
         fontWeight: 'bold',
+        fontSize: '16px',
+        marginBottom:"10px",
+        borderBottom:"1px solid black",
+
       },
     },
     xAxis: {
@@ -188,96 +194,104 @@ const JdViewScreen = () => {
         career_page_url={career_page_url}
         hanldeInactive={hanldeInactive}
       />
-      <Card className={styles.cardOne}>
-        <Flex className={styles.jobMetricsStyle}>
-          <Flex row between onClick={() => setCollapse(!isCollapse)}>
-            <Text
+
+      <Flex >
+        <Flex row between onClick={() => setCollapse(!isCollapse)}>
+          {/* <Text
               bold
               color="theme"
               className={styles.font20}
               
             >
               Job Metrics
-            </Text>
-              <Flex className={styles.postion}>
-            <SvgAngle width={15} height={15} up={isCollapse} />
-          </Flex>
+            </Text> */}
+          <Flex className={styles.postion}>
+            {/* <SvgAngle width={15} height={15} up={isCollapse} /> */}
           </Flex>
         </Flex>
-        {isCollapse && (
-          <Flex row center className={styles.padding2}>
-            <Flex flex={6}>
-              <Card className={styles.chartStyle}>
-                {dates_len === 0 ? (
-                  <>
-                  <Text  align="center"
-          bold
-          size={18}
-          color="theme"
-          className={styles.jdStatus}
-          >Trend Line of Job Views and Applicants</Text>
-                  <Flex className={styles.center}>
-                    <Text bold className={styles.font20px}>
-                      No Data Available
-                    </Text>
-                  </Flex>
-                  </>
-                ) : (
-                  <Chart options={options} />
-                )}
-              </Card>
-            </Flex>
-            <Flex flex={6}>
-              <JdLog statusList={statusList} jdDetails={jdDetails} />
-            </Flex>
-          </Flex>
-        )}
-      </Card>
+      </Flex>
+      {/* {isCollapse && ( */}
+      <Flex row center className={styles.padding2}>
+        <Flex flex={6}>
+          <Card className={styles.chartStyle}>
+            {dates_len === 0 ? (
+              <>
+                <Text align="center"
+                  bold
+                  size={16}
+                  color="theme"
+                  className={styles.jdStatus}
+                >Trend Line of Job Views and Applicants</Text>
+                <Flex className={styles.center}>
+                  <Text bold className={styles.font10px} style={{ color: "#888888", fontWeight: "100" }}>
+                    No Data Available
+                  </Text>
+                </Flex>
+              </>
+            ) : (
 
-      <Card className={styles.cardTwo}>
-        <Flex row between className={styles.jobMetricsStyle} onClick={() => setCollapsedes(!isCollapsedes)}>
+
+              <Chart options={options} />
+
+            )}
+          </Card>
+        </Flex>
+        <Flex flex={6}>
+          <JdLog statusList={statusList} jdDetails={jdDetails} />
+        </Flex>
+      </Flex>
+      {/* )} */}
+
+      <Flex row between className={styles.jobMetricsStyle} onClick={() => setCollapsedes(!isCollapsedes)}>
+
+        <Flex >
           <Text
             bold
             color="theme"
-            className={styles.font20}
-            
+            size={16}
           >
             Job Details & Description
           </Text>
-          <Flex className={styles.postion}>
-          <SvgAngle width={15} height={15} up={isCollapsedes} />
-          </Flex>
         </Flex>
-        {isCollapsedes && (
-          <Flex className={styles.padding2}>
-            <PreviewTitle
-              jd_view
-              jdDetails={jdDetails}
-              profile={profile}
-              location={location}
-              qualification={qualification}
-              skills={skills}
-            />
-          </Flex>
-        )}
+        <Flex >
+          <Button onClick={handleDownload}><Text style={{ color: "white" }}>Download Jd</Text></Button>
+        </Flex>
 
-        <CancelAndDeletePopup
-          title={
-            <Flex className={styles.popTitle}>
-              <Text>
-                This will remove the job posting from the careers page.
-              </Text>
-              <Text>Are you sure you want to Inactivate this job?</Text>
-            </Flex>
-          }
-          btnDelete={hanldeInactiveDone}
-          btnCancel={hanldeInactiveclose}
-          btnRight={YES}
-          open={isOpen}
-          loader={isloading}
+      </Flex>
+      <Flex className={styles.postion}>
+        {/* <SvgAngle width={15} height={15} up={isCollapsedes} /> */}
+      </Flex>
+
+      {/* {isCollapsedes && ( */}
+      <Flex className={styles.padding2}>
+        <PreviewTitle
+          jd_view
+          jdDetails={jdDetails}
+          profile={profile}
+          location={location}
+          qualification={qualification}
+          skills={skills}
         />
+      </Flex>
+      {/* )} */}
 
-        {/*<Modal open={isOpen}>
+      <CancelAndDeletePopup
+        title={
+          <Flex className={styles.popTitle}>
+            <Text>
+              This will remove the job posting from the careers page.
+            </Text>
+            <Text>Are you sure you want to Inactivate this job?</Text>
+          </Flex>
+        }
+        btnDelete={hanldeInactiveDone}
+        btnCancel={hanldeInactiveclose}
+        btnRight={YES}
+        open={isOpen}
+        loader={isloading}
+      />
+
+      {/*<Modal open={isOpen}>
         <Flex  className={styles.modalOverAll}>
    
         <Flex >
@@ -293,7 +307,7 @@ const JdViewScreen = () => {
           </Flex>
        
       </Modal>*/}
-      </Card>
+
     </Flex>
   );
 };

@@ -5,6 +5,8 @@ import { LINK } from '../../uikit/Colors/colors';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
+import { Button } from '../../uikit';
+import SvgRight from '../../icons/SvgRight';
 import SvgNewTab from '../../icons/SvgNewTab';
 import { Jd } from './jdViewTypes';
 import styles from './jdtitle.module.css';
@@ -22,10 +24,33 @@ const JdTitle = ({
   career_page_url,
 }: Props) => {
   return (
+    <Flex>
+    <Flex row className={styles.ribbon} between>
+          
+
+          <Flex  row marginTop={10} marginLeft={8} >
+            <Flex>
+            <Text size={16} bold color="theme" >
+              Job Posting 
+            </Text></Flex>
+            <Flex  marginTop={8} marginLeft={8} >
+            <SvgRight fill={'#581845'} ></SvgRight></Flex>
+            <Flex  marginTop={1} marginLeft={3}>
+            <Text size={16} bold color="theme" >
+            {jdDetails.job_title}</Text>
+            </Flex>
+
+          </Flex>
+          <Flex >
+
+            <div className={styles.triangle}></div>
+          </Flex>
+        
+      </Flex>
     <Flex row center between className={styles.jobDesFlex}>
       <Flex row center>
-        <Text size={20} bold color="theme" style={{ marginRight: 25 }}>
-          Job Title: {jdDetails.job_title}
+        <Text size={16} bold color="theme" style={{ marginRight: 15 }}>
+          {jdDetails.job_title}
         </Text>
         {jdDetails.is_ds_role === true ? (
           <div className={styles.svgMargin} title="Duplicate Job">
@@ -33,7 +58,7 @@ const JdTitle = ({
               to={`/jobs/create_ds/${jdDetails.id}?duplicate=duplicate`}
             >
               <Text color="link" bold>
-                <SvgDuplicate width={19} height={19} />
+                <SvgDuplicate width={19} height={19} fill={'#FCC203'}/>
               </Text>
             </LinkWrapper>
           </div>
@@ -55,7 +80,7 @@ const JdTitle = ({
             title="Inactivate Job"
             className={styles.svgMargin}
           >
-            <SvgInactivate width={19} height={19} fill={'#581845'} />
+            <SvgInactivate width={19} height={19} fill={'#FCC203'} />
           </div>
         )}
         {jdDetails.jd_status__label_name === 'Inactive' && (
@@ -68,7 +93,7 @@ const JdTitle = ({
             <SvgInactivate width={19} height={19} fill={'#979797'} />
           </div>
         )}
-        <div
+        {/* <div
           tabIndex={-1}
           role={'button'}
           onKeyPress={() => {}}
@@ -77,7 +102,7 @@ const JdTitle = ({
           className={styles.svgMargin}
         >
           <SvgDownload width={19} height={19} />
-        </div>
+        </div> */}
       </Flex>
       {jdDetails.jd_status__label_name === 'Active' && (
         <Flex row center>
@@ -87,18 +112,18 @@ const JdTitle = ({
           >
             <Flex row>
 
-       
+       <Button>
             <Text bold size={18} color="link" className={styles.viewText}>
               View in Careers Page
-            </Text>
+            </Text></Button>
             <Flex className={styles.careerPage}>
-            <SvgNewTab fill={LINK} />
+          
             </Flex>
             </Flex>
           </LinkWrapper>
         </Flex>
       )}
-    </Flex>
+    </Flex></Flex>
   );
 };
 

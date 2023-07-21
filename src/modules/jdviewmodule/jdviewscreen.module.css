@@ -4,11 +4,13 @@
 .chartStyle {
   min-height: 400px;
   margin-right: 8px;
+  color:#333333;
+  font-size: 16px;
 }
 
 .cardOverAll {
-  padding: 16px;
-  margin: 24px 70px;
+  padding: 5px 10px 5px 5px;
+  /* margin: 24px 70px; */
   overflow: scroll;
 }
 .postion{
@@ -16,8 +18,15 @@
     top: 9px;
 }
 .jdStatus {
-  margin-bottom: 20px;
-  margin-top: 10px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  font-size: 16px;
+  color: #333333;
+  border-bottom: 1px solid #581845;
+  padding-right: 5px;
+  padding-left: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 .modalOverAll {
   background-color: var(--color-white, #ffffff);
@@ -30,7 +39,7 @@
   margin-bottom: 16px;
 }
 .jobMetricsStyle {
-  padding: 16px 0;
+  padding: 20px 0;
 }
 .cardTwo {
   padding: 16px;
@@ -64,4 +73,15 @@
 }
 .popTitle{
   margin-left: 8px;
+}
+.titlejobdetails{
+  padding-bottom: 10px;
+  padding-top: 10px;
+  font-size: 16px;
+  color: #333333;
+  border-bottom: 1px solid #581845;
+  padding-right: 5px;
+  padding-left: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
 }

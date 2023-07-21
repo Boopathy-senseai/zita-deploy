@@ -6,13 +6,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import ReactQuill, { Quill } from 'react-quill';
 // import { Outlet } from "react-router-dom";
 // import { Invoice } from "./Root.utils";
-import ReactHtmlParser, {
-  processNodes,
-  convertNodeToElement,
-  htmlparser2,
-} from 'react-html-parser';
-import parse from 'html-react-parser';
-// import 'react-quill/dist/quill.snow.css';
+// import ReactHtmlParser, {
+//   processNodes,
+//   convertNodeToElement,
+//   htmlparser2,
+// } from 'react-html-parser';
+// import parse from 'html-react-parser';
+// // import 'react-quill/dist/quill.snow.css';
 import Mention from 'quill-mention';
 Quill.register('modules/mention', Mention);
 import { useHistory } from 'react-router-dom';

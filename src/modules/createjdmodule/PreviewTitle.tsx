@@ -45,16 +45,19 @@ const PreviewTitle = ({
             className={styles.des}
             dangerouslySetInnerHTML={{
               __html: jdDetails.richtext_job_description,
+            
             }}
+          
           />
         )}
-
+     
         {skills && (
           <Flex>
             <Text
               bold
               color="theme"
               style={{ paddingTop: 16 }}
+              className={styles.borderbottomline}
             >
               Required Skills
             </Text>
@@ -108,13 +111,15 @@ const PreviewTitle = ({
 
         {skills && (
           <Flex>
+            <Flex  className={styles.borderbottomline}>
             <Text
               bold
               color="theme"
               style={{ paddingTop: 16 }}
+          
             >
               Required Skills
-            </Text>
+            </Text></Flex>
             <Flex row center wrap className={styles.statusContainer}>
               {skills.map((skillList: any, index: number) => {
                 const exp =

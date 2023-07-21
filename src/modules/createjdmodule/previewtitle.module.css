@@ -13,8 +13,29 @@
   margin-bottom: 8px;
 }
 .statusContainer{
-  margin-top: 8px;
+  margin-top: 12px;
 }
 .des ul{
   padding-left: 24px;
+  list-style-type: disc;
+}
+.des h4 {
+  color : #581845;
+  padding-bottom: 5px;
+  padding-top:10px ;
+  border-bottom: 1px solid #581845;
+  font-size: 16px;
+  font-weight: bold;
+}
+.des h6{
+  color : #581845;
+  padding-bottom: 5px;
+  padding-top:10px ;
+  border-bottom: 1px solid #581845;
+  font-size: 16px;
+  font-weight: 600 !important;
+}
+.borderbottomline{
+  padding-bottom: 5px;
+  border-bottom: 1px solid #581845;
 }
