@@ -10,7 +10,7 @@ import styles from '../../accountsettingsmodule/accountsettingsscreen.module.css
 import Slotter1 from './Slotter1';
 import EventScheduler from './EventScheduler';
 
-const height = window.innerHeight - 212;
+// const height = window.innerHeight - 212;
 
 const EventTabs = () => {
   // const dispatch: AppDispatch = useDispatch();
@@ -48,7 +48,7 @@ const EventTabs = () => {
           </Tab>
        
         </Tabs> */}
-        <EventScheduler/>
+        {/* <EventScheduler/> */}
     </Flex>
   );
 };
