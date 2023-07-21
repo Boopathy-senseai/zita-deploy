@@ -84,14 +84,12 @@ const DashBoard = (props) => {
   }
 
   const getInitials = (fullName) => {
-    console.log("fullNamefullNamefullNamefullName",fullName)
     if (fullName !== null && fullName !== undefined && !isEmpty(fullName)){
       const words = fullName.split(' ');
       let initials = '';
       for (let i = 0; i < words.length; i++) {
         initials += words[i][0].toUpperCase();
       }
-      console.log("initialsinitials",initials)
       return initials;
     }
   };

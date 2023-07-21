@@ -52,7 +52,7 @@ const EventScheduler = () => {
     google: schedulerReducers.google,
     outlook: schedulerReducers.outlook,
   }));
-
+  console.log("isLoading",isLoading)
   useEffect(() => {
     setisLoader(true);
     dispatch(getScheduleMiddleWare(undefined)).then((res: any) => {
@@ -74,6 +74,10 @@ const EventScheduler = () => {
     setIsOpen(true);
     setEditList(null);
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <>

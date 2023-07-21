@@ -133,9 +133,6 @@ const schedlerReducer = createSlice({
     builder.addCase(getScheduleMiddleWare.fulfilled, (state, action) => {
       console.log("actionactionaction",action)
       console.log("actionactionactionstate",state)
-
-      // console.log("actionactionaction",action.payload.interviewer)
-
       state.isLoading = false;
       state.data = action.payload.data;
       state.interviewer = action.payload.interviewer;
