@@ -57,7 +57,7 @@ type CreateEvent = {
   sunday: [];
   timezonedisplay: string;
   description: string;
-  availbletimebook: string;
+  // availbletimebook: string;
   isactive: boolean;
   isdeleted: boolean;
   updatedby: string;
@@ -79,7 +79,7 @@ const initial: CreateEvent = {
   timezonedisplay:
     'Automatically detect and show the times in my invitees time zone',
   description: '',
-  availbletimebook : '',
+  // availbletimebook : '',
   isactive: true,
   isdeleted: false,
   updatedby: '',
@@ -96,6 +96,8 @@ const CreateNewEvent = (props) => {
     datetime,
     setisLoader,
     intern,
+    google,
+    outlook,
   } = props;
   console.log('propsprops_-------', props);
   console.log('propsprops////////////////', props.teammembers);
@@ -179,12 +181,10 @@ const CreateNewEvent = (props) => {
       openModelEdit(editModel, datetime);
       setedit_id(editModel.id);
       console.log('SSSSSSSSSSSSS', datetime);
-    }else{
+    } else {
       // formik.values = initial
       // formik.setValues(initial)
-    
     }
-
 
     console.log('datetimedatetime===============&&&', datetime);
     // formik.values.timezone = userzone;
@@ -249,7 +249,6 @@ const CreateNewEvent = (props) => {
   console.log('vaiovaiovaiovaio', vaio);
   console.log('timezonedata', timezonesdata);
 
-
   const conversion = (data: any) => {
     // alert('////////////////');
     console.log('data..........', data);
@@ -287,7 +286,7 @@ const CreateNewEvent = (props) => {
     selectedRange.startDate = datas.startdate;
     formik.values.startdate = datas.startdate;
     formik.values.enddate = datas.enddate;
-    console.log('datas.startdate',datas.startdate,datas.enddate)
+    console.log('datas.startdate', datas.startdate, datas.enddate);
     if (datas.duration === '1 hour') {
       formik.values.duration = '1 hour';
       const durationminutes = '60 Minutes';
@@ -379,7 +378,16 @@ const CreateNewEvent = (props) => {
   };
 
   const handleEventValid = (values: CreateEvent) => {
-    console.log("[[[[[[[[[[[[[[",sundaycheck,mondaycheck,tuesdaycheck,wednesdaycheck,thursdaycheck,fridaycheck,saturdaycheck)
+    console.log(
+      '[[[[[[[[[[[[[[',
+      sundaycheck,
+      mondaycheck,
+      tuesdaycheck,
+      wednesdaycheck,
+      thursdaycheck,
+      fridaycheck,
+      saturdaycheck,
+    );
     console.log('<><><><><><><><><>', values);
     const errors: Partial<CreateEvent> = {};
     if (isEmpty(values.event_name.trim())) {
@@ -427,10 +435,10 @@ const CreateNewEvent = (props) => {
       formik.values.description = '';
       errors.description = THIS_FIELD_REQUIRED;
     }
-    if(sundaycheck === false || mondaycheck === false || tuesdaycheck === false || wednesdaycheck === false || thursdaycheck === false || fridaycheck === false || saturdaycheck === false ){
-      formik.values.availbletimebook ='';
-      errors.availbletimebook = "Please Select The Alteast One AvailbleDay"
-    }
+    // if(sundaycheck === false || mondaycheck === false || tuesdaycheck === false || wednesdaycheck === false || thursdaycheck === false || fridaycheck === false || saturdaycheck === false ){
+    //   formik.values.availbletimebook ='';
+    //   errors.availbletimebook = "Please Select The Alteast One AvailbleDay"
+    // }
     console.log('errorserrorserrorserrors', errors);
     return errors;
   };
@@ -480,16 +488,36 @@ const CreateNewEvent = (props) => {
         'datedatedatedatedatedatedatedatedatedatedatedate',
         formatDate(date),
       );
-      formik.setFieldValue('enddate', formatDate(date));  
+      formik.setFieldValue('enddate', formatDate(date));
       console.log('...............', formik.values.enddate);
     }
   };
 
-  const ondatepickercancel = () => {
-    setSelectedRange({
-      startDate: null,
-      endDate:null,
-  })
+  const eventonChange = (label) => {
+    console.log('');
+    if (label === 'Microsoft Teams') {
+      if (label === 'Microsoft Teams' && outlook === true) {
+        formik.setFieldValue('event_type', label);
+      } else {
+        alert(
+          'Zita Administrator needs to integrate the outlook calendar first',
+        );
+        formik.values.event_type = " " ;
+      }
+    }
+    if (label === 'Google Hangouts/Meet') {
+      if (label === 'Google Hangouts/Meet' && google === true) {
+        formik.setFieldValue('event_type', label);
+      } else {
+        alert(
+          'At least one interviewer must have Google Calendar connected. Otherwise, the video conference will not be created',
+        );
+        formik.values.event_type ="";
+      }
+    }
+    if(label === 'On-site Interview' || label ==='Phone Interview'){
+      formik.setFieldValue('event_type', label);
+    }
   };
 
   const handleInputChange = (e) => {
@@ -617,16 +645,16 @@ const CreateNewEvent = (props) => {
     if (saturdaycheck === true) {
       formData.append('saturday', JSON.stringify(saturday));
     }
-    const schedulearr =  calculateSchedule();
-    console.log("schedulearrschedulearr",schedulearr)
-    formData.append('slot',JSON.stringify(schedulearr))
+    const schedulearr = calculateSchedule();
+    console.log('schedulearrschedulearr', schedulearr);
+    formData.append('slot', JSON.stringify(schedulearr));
     dispatch(postScheduleMiddleWare({ formData })).then((res: any) => {
       console.log('resresresres,><><><>,', res.payload.data.message);
       setisLoader(true);
       if (res.payload.data.message === 'Created Event Successfully') {
         Toast('Event Created Successfully!');
         dispatch(getScheduleMiddleWare(undefined));
-        axios.get(`${eventSchedulerApi}`)
+        axios.get(`${eventSchedulerApi}`);
         setisLoader(false);
       }
       if (res.payload.data.message === 'Updated Event Successfully') {
@@ -641,8 +669,8 @@ const CreateNewEvent = (props) => {
       '[[[',
       formik.values.event_name,
       formik.values.event_name.length,
-      );
-      console.log('[[[[[[[[[[[[[', formik.values);   
+    );
+    console.log('[[[[[[[[[[[[[', formik.values);
   };
 
   const formik = useFormik({
@@ -650,8 +678,7 @@ const CreateNewEvent = (props) => {
     enableReinitialize: true,
     onSubmit: (values) => handleSubmitForm(values),
     validate: handleEventValid,
-    
-  }); 
+  });
 
   console.log('***************', formik.isValid);
   console.log('***************editModel', editModel);
@@ -668,112 +695,132 @@ const CreateNewEvent = (props) => {
       setDurationField(option);
     }
   };
-  const convertion = (dateStr)=> {
+  const convertion = (dateStr) => {
     const momentObj = moment(dateStr, 'DD/MM/YYYY');
     const formattedDate = momentObj.format('ddd MMM DD YYYY HH:mm:ss [GMT]ZZ');
-    console.log("?????????????",formattedDate);
-    return formattedDate
-  } 
-
+    console.log('?????????????', formattedDate);
+    return formattedDate;
+  };
 
   const calculateSchedule = () => {
-    alert("calculateSchedulecalculateSchedule")
-    console.log("@@@@@@@@@@sunday",sunday,"\n","monday",monday,"\n","tuesday",tuesday,
-    "\n","wednesday",wednesday,"\n","thursday",thursday,"\n","friday",friday,"\n","saturdday",saturday)
+    alert('calculateSchedulecalculateSchedule');
+    console.log(
+      '@@@@@@@@@@sunday',
+      sunday,
+      '\n',
+      'monday',
+      monday,
+      '\n',
+      'tuesday',
+      tuesday,
+      '\n',
+      'wednesday',
+      wednesday,
+      '\n',
+      'thursday',
+      thursday,
+      '\n',
+      'friday',
+      friday,
+      '\n',
+      'saturdday',
+      saturday,
+    );
     const excludedWeekdays = [];
     if (sundaycheck === true) {
       excludedWeekdays.push(0);
     }
-    if (
-      mondaycheck === true
-    ) {
+    if (mondaycheck === true) {
       excludedWeekdays.push(1);
     }
-    if (
-      tuesdaycheck === true
-    ) {
+    if (tuesdaycheck === true) {
       excludedWeekdays.push(2);
     }
-    if (
-      wednesdaycheck === true
-    ) {
+    if (wednesdaycheck === true) {
       excludedWeekdays.push(3);
     }
-    if (
-      thursdaycheck === true
-    ) {
+    if (thursdaycheck === true) {
       excludedWeekdays.push(4);
     }
-    if (
-      fridaycheck === true
-    ) {
+    if (fridaycheck === true) {
       excludedWeekdays.push(5);
     }
-    if (
-      saturdaycheck === true
-    ) {
+    if (saturdaycheck === true) {
       excludedWeekdays.push(6);
     }
-    
-    if ( formik.values.timezone !== null && formik.values.timezone !== undefined) {
-      alert("!@##")
+
+    if (
+      formik.values.timezone !== null &&
+      formik.values.timezone !== undefined
+    ) {
+      alert('!@##');
       const tzone = timezoneset(formik.values.timezonedisplay);
-      console.log("tzonetzonetzonetzonetzonetzonetzonetzone",tzone)
+      console.log('tzonetzonetzonetzonetzonetzonetzonetzone', tzone);
       const schedule1 = [];
-      const startdate = convertion(formik.values.startdate)
-      const enddate = convertion(formik.values.enddate)
-      console.log("selectedRangeselectedRangeselectedRangeselectedRange",selectedRange,formik.values)
+      const startdate = convertion(formik.values.startdate);
+      const enddate = convertion(formik.values.enddate);
+      console.log(
+        'selectedRangeselectedRangeselectedRangeselectedRange',
+        selectedRange,
+        formik.values,
+      );
       let currentDate = moment.tz(startdate, tzone).startOf('day');
       const lastDate = moment.tz(enddate, tzone).startOf('day');
-      console.log("currentDatecurrentDate",currentDate.toDate(),lastDate,excludedWeekdays)
+      console.log(
+        'currentDatecurrentDate',
+        currentDate.toDate(),
+        lastDate,
+        excludedWeekdays,
+      );
 
       let count = 0;
       // let currentArray = dateformat(currentDate);
       // console.log("currentArraycurrentArray",currentArray)
-  
+
       while (currentDate.isSameOrBefore(lastDate)) {
-        const weekday = currentDate.weekday()
-        console.log("schedulearrschedulearr...........",weekday,excludedWeekdays)
-        if (excludedWeekdays.includes(weekday)) {          
-          const slots = [];  
-          // const slots = datetime[moment.weekdays(weekday).toLowerCase()]  
-          console.log("currentDatecurrentDate.toDate()",currentDate.toDate())
-          const day = currentDate.toDate().getDay()        
-          if (day === 0){
-          slots.push(...sunday)  
+        const weekday = currentDate.weekday();
+        console.log(
+          'schedulearrschedulearr...........',
+          weekday,
+          excludedWeekdays,
+        );
+        if (excludedWeekdays.includes(weekday)) {
+          const slots = [];
+          // const slots = datetime[moment.weekdays(weekday).toLowerCase()]
+          console.log('currentDatecurrentDate.toDate()', currentDate.toDate());
+          const day = currentDate.toDate().getDay();
+          if (day === 0) {
+            slots.push(...sunday);
           }
-          if (day === 1){
-            slots.push(...monday)  
+          if (day === 1) {
+            slots.push(...monday);
           }
-          if (day === 2){
-            slots.push(...tuesday)  
+          if (day === 2) {
+            slots.push(...tuesday);
           }
-          if (day  === 3){
-            slots.push(...wednesday)  
+          if (day === 3) {
+            slots.push(...wednesday);
           }
-          if (day===4){
-              slots.push(...thursday)  
+          if (day === 4) {
+            slots.push(...thursday);
           }
-          if (day===5){
-            slots.push(...friday)  
+          if (day === 5) {
+            slots.push(...friday);
           }
-            if (day===6){
-              slots.push(...saturday)  
+          if (day === 6) {
+            slots.push(...saturday);
           }
-         console.log("schedulearrschedulearrslots",slots)
-         schedule1.push(
-            {
-              'date':dateformat(currentDate.toDate()),
-              'slot' : slots
-            }            
-            );
+          console.log('schedulearrschedulearrslots', slots);
+          schedule1.push({
+            date: dateformat(currentDate.toDate()),
+            slot: slots,
+          });
           count++;
         }
         currentDate = currentDate.add(1, 'day');
       }
-      console.log("schedule1schedule1",schedule1)
+      console.log('schedule1schedule1', schedule1);
       return schedule1;
-
     }
   };
 
@@ -781,7 +828,7 @@ const CreateNewEvent = (props) => {
     // console.log('>?>?>?>?>?>?', str);
     // const display = data.map((li : any )=>li.times_zone_display)
     if (
-      str  === 'Automatically detect and show the times in my invitees time zone'
+      str === 'Automatically detect and show the times in my invitees time zone'
     ) {
       // const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
       // console.log('userTimezone', userTimezone);
@@ -789,10 +836,10 @@ const CreateNewEvent = (props) => {
       // console.log('offset', offset);
       // const userzone = `${userTimezone} (${offset})`;
       // console.log('label', userzone);
-      console.log("userTimezoneuserTimezone",userTimezone)
+      console.log('userTimezoneuserTimezone', userTimezone);
       setzone(userTimezone);
       return userzone;
-    } else if ( str === 'Lock the timezone (best for in-person events)') {
+    } else if (str === 'Lock the timezone (best for in-person events)') {
       // // console.log()
 
       // const [timeOffset, locations] = "+13:00 (Pacific/Apia)";
@@ -809,47 +856,44 @@ const CreateNewEvent = (props) => {
       const result = `${locationWithoutParentheses}`;
       console.log('result', result);
       setzone(locationWithoutParentheses);
-      return result
-
+      return result;
     }
   };
   const dateformat = (originalDate) => {
     // const originalDate = "Wed Jul 12 2023 05:30:00 GMT+0530 (India Standard Time)";
-  const convertedDate = moment(originalDate).format('DD/MM/YYYY');
-  
-  console.log("convertedDate",convertedDate);
-  return convertedDate
-  }
-  function onclose(){
-    // formik.values = initial   
-    // formik.setValues(initial) 
-    setIsOpen(false)
+    const convertedDate = moment(originalDate).format('DD/MM/YYYY');
 
+    console.log('convertedDate', convertedDate);
+    return convertedDate;
+  };
+  function onclose() {
+    // formik.values = initial
+    // formik.setValues(initial)
+    setIsOpen(false);
   }
-  
-  const onApplyChange = (sdate,picker) => {
-    alert(picker)
+
+  const onApplyChange = (sdate, picker) => {
+    alert(picker);
     const startdate = picker.startDate;
     const enddate = picker.endDate;
-    console.log("pickerpicker",startdate,enddate)
-    console.log("pickerpicker",picker.endDate._d)
+    console.log('pickerpicker', startdate, enddate);
+    console.log('pickerpicker', picker.endDate._d);
     if (startdate !== null && enddate !== null) {
       // Both start and end dates are valid, update the selected date range
       setSelectedRange({
         startDate: startdate.format('DD/MM/YYYY'),
         endDate: enddate.format('DD/MM/YYYY'),
       });
-      formik.setFieldValue('startdate', startdate.format('DD/MM/YYYY'))
-      formik.setFieldValue('enddate',enddate.format('DD/MM/YYYY'))
-      
+      formik.setFieldValue('startdate', startdate.format('DD/MM/YYYY'));
+      formik.setFieldValue('enddate', enddate.format('DD/MM/YYYY'));
     } else {
       // Invalid input, clear the selected date range
       setSelectedRange({
         startDate: null,
         endDate: null,
       });
-        }
-  }
+    }
+  };
 
   const currentMonthStart = new Date();
   const initialSettings: Props['initialSettings'] = {
@@ -873,9 +917,8 @@ const CreateNewEvent = (props) => {
       {console.log('////////////////////////////////', sunday, '\n', monday)}
       {console.log('schedataschedataschedata', schedata, datetime)}
       {console.log('****************', selectedRange)}
-      {console.log("()()()()()(~~~~~",formik.values)}
-      {console.log("zone123",zone)}
-
+      {console.log('()()()()()(~~~~~', formik.values)}
+      {console.log('zone123', zone)}
 
       <Flex>
         <div className={styles.createnewlink}>
@@ -912,7 +955,7 @@ const CreateNewEvent = (props) => {
                     name={'event_name'}
                     errors={formik.errors}
                     touched={formik.touched}
-                  /> 
+                  />
                 </div>
               </Flex>
               <Flex>
@@ -936,10 +979,10 @@ const CreateNewEvent = (props) => {
                         : ''
                     }
                     placeholder="Select event type"
-                    onChange={(option) => {
-                      formik.setFieldValue('event_type', option.label);
-                      // setButton(false);
-                    }}
+                    onChange={(option) => eventonChange(option.label)}
+                    // formik.setFieldValue('event_type', option.label);
+                    // setButton(false);
+                    // }}
                   ></SelectTag>
 
                   <ErrorMessage
@@ -1128,10 +1171,12 @@ const CreateNewEvent = (props) => {
                         </div>
                       }
                     /> */}
-                        <DateRangePicker   
-                         initialSettings={initialSettings}     
-                                                      
-                         onApply={(event,picker)=>onApplyChange(event,picker)}>
+                      <DateRangePicker
+                        initialSettings={initialSettings}
+                        onApply={(event, picker) =>
+                          onApplyChange(event, picker)
+                        }
+                      >
                         <div style={{ display: 'flex', alignItems: 'center' }}>
                           <input
                             type="dates"
@@ -1148,16 +1193,12 @@ const CreateNewEvent = (props) => {
                                 : ''
                             }
                             // disabled={true}
-                          
                           />
 
                           <SvgCalendar fill="#581845" height={16} width={16} />
                         </div>
-  
-
                       </DateRangePicker>
-                      
-                 
+
                       <Flex>
                         <ErrorMessage
                           name={'startdate'}
@@ -1303,11 +1344,11 @@ const CreateNewEvent = (props) => {
               />
             </Flex>
           </div>
-          <ErrorMessage
+          {/* <ErrorMessage
                     name={'availbletimebook'}
                     errors={formik.errors}
                     touched={formik.touched}
-                  />
+                  /> */}
 
           <div
             style={{

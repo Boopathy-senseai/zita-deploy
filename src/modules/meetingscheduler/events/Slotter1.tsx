@@ -34,7 +34,8 @@ import {
 // import interviewdashboaerd from './TeamMail/interviewdasboard.json';
 import { timezonedisplay } from './eventType';
 import './DayPickerCustomStyles.css';
-import { loadGapi } from './google.tsx/gapiLoader';
+import { loadGapi } from './google/gapiLoader';
+
 
 
 const slotter1 = (props) => {

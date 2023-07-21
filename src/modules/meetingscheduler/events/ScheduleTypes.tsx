@@ -8,6 +8,8 @@ export interface schedulerPageReducerState {
     addmembers ?: MemberEntity[] ;
     datetime ?: Datetime;
     suceess : string;
+    google : string;
+    outlook : string;
     error: string;    
   }
   

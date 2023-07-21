@@ -115,6 +115,10 @@ const schedulerState: schedulerPageReducerState = {
     ],
   },
   suceess: '',
+  google: '',
+  outlook: '',
+
+
 };
 
 const schedlerReducer = createSlice({
@@ -139,6 +143,9 @@ const schedlerReducer = createSlice({
       state.addmembers = action.payload.addmembers;
       state.datetime = action.payload.datetime;
       state.suceess = action.payload.suceess;
+      state.google = action.payload.google;
+      state.outlook = action.payload.outlook;
+
     });
 
     builder.addCase(getScheduleMiddleWare.rejected, (state, action) => {

@@ -782,7 +782,7 @@ const DayTimeSplit = (props) => {
                 <CopyClipBoard
                   key={1}
                   name="sunday"
-                  copy={copy}
+                  copy={true}
                   day={sunday}
                   setCopy={SetCopy}
                   SetCopyId={SetCopyId}
@@ -2704,6 +2704,8 @@ const CopyClipBoard = (props) => {
     // include,
   } = props;
   // console.log("setDay1setDay1setDay1",setDay1,setDay2,setDay3,setDay4,setDay5,setDay6,setDay7)
+
+  console.log("PropsPropsPropsPropsPropsProps",props)
   console.log(
     'setDay1setDay1setDay1',
     setDay1,
@@ -2721,6 +2723,7 @@ const CopyClipBoard = (props) => {
 
   useEffect(() => {
     // console.log("timeslottimeslot",timeslot)
+    setShowDropdown(true);
   }, [sunday, monday, tuesday, wednesday, thursday, friday, saturday]);
 
   //   const { tuesday, updateTuesday } = props;
@@ -2734,6 +2737,7 @@ const CopyClipBoard = (props) => {
   const [apply, setApply] = useState([]);
   const [check, setCheck] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [selectedDays, setSelectedDays] = useState([]);
 
   useEffect(() => {
     console.log('timeslottimeslot', timeslot);
@@ -2852,6 +2856,13 @@ const CopyClipBoard = (props) => {
       setDay7(dayof);
     }
   };
+
+  const handleDropdownItemClick = (event) => {
+    // Prevent the default behavior of the click event on the dropdown items
+    console.log("event.preventDefault",event)
+    event.preventDefault();
+  };
+
   return (
     <>
       {console.log('monday+++++++++1', monday123)}
@@ -2859,6 +2870,7 @@ const CopyClipBoard = (props) => {
       {console.log('showDropdown', showDropdown)}
 
       <Flex className={styles.btnsetting}>
+        
         <Dropdown className="dropdownButton dropleft">
           <Dropdown.Toggle
             style={{
@@ -2867,13 +2879,16 @@ const CopyClipBoard = (props) => {
               boxShadow: 'none',
             }}
             id="dropdown-basic"
+            // onClick={()=>setShowDropdown(true)}
           >
             <SvgCopy width={18} height={18} fill="goldenrod" />
           </Dropdown.Toggle>
-
+          {/* {copy ? (
+            <>           */}
           <Dropdown.Menu style={{ minWidth: '5rem' }}>
+
             <Dropdown.Item
-            // onClick={() => onEdit(data.id, data)}
+            onClick={handleDropdownItemClick}
             >
               <Flex row center className={styles.dropDownListStyle}>
                 {name === 'sunday' ? (
@@ -2897,7 +2912,6 @@ const CopyClipBoard = (props) => {
             </Dropdown.Item>
 
             <Dropdown.Item
-            //  onClick={()=>onDuplicate(data.id)}
             >
               <Flex row center className={styles.dropDownListStyle}>
                 {name === 'monday' ? (
@@ -3040,6 +3054,8 @@ const CopyClipBoard = (props) => {
               Apply
             </Button>
           </Dropdown.Menu>
+          {/* </>
+          ):''} */}
         </Dropdown>
       </Flex>
 

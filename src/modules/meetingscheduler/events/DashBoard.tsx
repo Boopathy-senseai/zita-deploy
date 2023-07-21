@@ -113,12 +113,16 @@ const DashBoard = (props) => {
   console.log('share', share, '\n', 'setting', setting);
 
   const getInitials = (fullName) => {
-    const words = fullName.split(' ');
-    let initials = '';
-    for (let i = 0; i < words.length; i++) {
-      initials += words[i][0];
+    console.log("fullNamefullNamefullNamefullName",fullName)
+    if (fullName !== null && fullName !== undefined && !isEmpty(fullName)){
+      const words = fullName.split(' ');
+      let initials = '';
+      for (let i = 0; i < words.length; i++) {
+        initials += words[i][0].toUpperCase();
+      }
+      console.log("initialsinitials",initials)
+      return initials;
     }
-    return initials;
   };
 
   
@@ -162,8 +166,10 @@ const DashBoard = (props) => {
                     const initials = getInitials(data.full_name);
                     return (
                       <Flex className={styles.initials} key={data.id}>
-                      <Text className={styles.textinitials}                      
+                      <Text title={data.full_name} className={styles.textinitials}  
+                                          
                       >
+                      
                         {initials}
                       </Text>
                       </Flex>

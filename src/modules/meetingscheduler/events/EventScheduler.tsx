@@ -40,7 +40,7 @@ const EventScheduler = () => {
 
   console.log("editideditideditideditideditid",editid)
 
-  const { data,interviewer,shareLink,addmembers,datetime,isLoading,success } = useSelector(
+  const { data,interviewer,shareLink,addmembers,datetime,isLoading,success,google,outlook} = useSelector(
     ({ schedulerReducers }: RootState) => ({
       isLoading:schedulerReducers.isLoading,
       data: schedulerReducers.data,
@@ -49,8 +49,12 @@ const EventScheduler = () => {
       addmembers : schedulerReducers.addmembers,
       datetime :  schedulerReducers.datetime,
       success : schedulerReducers.suceess,
+      google : schedulerReducers.google,
+      outlook : schedulerReducers.outlook,
     }),
+    // }),
   );
+  console.log("googlegooglegoogle",google,outlook)
 
   console.log("datadata",data)
   console.log("interviewerinterviewer((((((",interviewer)
@@ -130,6 +134,8 @@ const EventScheduler = () => {
               // teammembers = {addmembers}              
               setisLoader = {setisLoader}  
               schedule ={schedule}
+              google ={google}
+              outlook ={outlook}
                />
             </Modal>
             
