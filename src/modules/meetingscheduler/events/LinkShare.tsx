@@ -117,23 +117,20 @@ const LinkShare = (props) => {
             </Flex>
           </Flex>
         </Flex>
-        <div className={styles.line}></div>
-
-        <Flex row>
-          <Text size={14}>Candidate/Applicants</Text>
-        </Flex>
-
-        <Flex row>
+        <Flex className={styles.line}></Flex>
+        <Text size={14}>Candidate/Applicants</Text>
+        <Flex row width={300}>
           <InputText
             style={{
-              width: '600px',
-              marginBottom: '27px',
+              width: '100%',
+              marginBottom: '15px',
               marginTop: '5px',
             }}
             onChange={(e) => {
               searchItems(e.target.value);
             }}
             placeholder="Select team members"
+            inputConatinerClass={styles.inputContainer}
           />
         </Flex>
         <Flex row className={styles.candidate}>
@@ -141,22 +138,10 @@ const LinkShare = (props) => {
             {data.map((name, index) => (
               <Flex row key={index}>
                 <div className={styles.flex}>
-                  {/* {sharelinkdata.length > 0 &&
-                sharelinkdata.includes(name.name) ? ( */}
-                  {/* <InputCheckBox
-                    value={name.name}
-                    checked={true}
-                    disabled={true}
-                    onChange={handleCheckboxChange}
-                  /> */}
-                  {/* ) : ( */}
                   <InputCheckBox
                     value={name.candidate_id}
-                    // checked= {checkedItems.includes(name.candidate_id_id)}
-                    // checked={checkedItems.includes(name.name)}
                     onChange={handleCheckboxChange}
                   />
-                  {/* )} */}
                 </div>
                 <div style={{ marginLeft: '10px' }}>
                   <Text size={14}>
@@ -167,17 +152,19 @@ const LinkShare = (props) => {
             ))}
           </div>
         </Flex>
-        <Flex row>
+        <Flex row end marginTop={10} className={styles.borderLine}>
           <Button
-            types="secondary"
-            style={{ marginRight: '20px' }}
+            types="primary"
+            className={styles.cancel}
+            // style={{ marginRight: '20px' }}
             onClick={() => setShare(false)}
           >
             Cancel
           </Button>
           <Button
-            types="primary"
-            style={{ marignRight: '20px' }}
+            // types="primary"
+            className={styles.share}
+            // style={{ marignRight: '20px' }}
             onClick={() => onbuttonclick(details.id)}
           >
             Share Link

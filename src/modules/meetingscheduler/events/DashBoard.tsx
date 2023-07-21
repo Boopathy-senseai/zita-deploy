@@ -111,7 +111,7 @@ const DashBoard = (props) => {
                 className={styles.copybutton}
                 onClick={() => copylink(list.id)}
               >
-                <SvgCopy fill="goldenrod" height={15} width={15} />
+                <SvgCopy fill="#FCC203" height={15} width={15} />
               </Button>
             </Flex>
           </Flex>
@@ -121,11 +121,28 @@ const DashBoard = (props) => {
         <Text>
           {modifiedTimeString(list.duration)}, {list.event_type}
         </Text>
+        <Flex row>
+          {interview.map((data) => {
+            if (data.event_id === list.id) {
+              const initials = getInitials(data.full_name);
+              return (
+                <Flex className={styles.initials} key={data.id}>
+                  <Text size={12} title={data.full_name} className={styles.textinitials}>
+                    {initials}
+                  </Text>
+                </Flex>
+              );
+            }
+
+            return null;
+          })}
+        </Flex>
 
         <div className={styles.line}></div>
 
         <Flex className={styles.rowGroup}>
           <Button
+            types="link"
             className={styles.previewbtn}
             onClick={() => PreviewOnClick(list.id)}
           >

@@ -66,6 +66,9 @@
   flex-direction: column;
   align-items: flex-start;
 }
+.cardConatiner:hover {
+  box-shadow: 5px 5px 10px #a5889c;
+}
 .scrollFlex {
   overflow-y: scroll;
   padding-left: 14px;
@@ -156,17 +159,20 @@
   margin-top: 10px;
 }
 .initials {
-  height: 32px;
-  width: 32px;
-  border-radius: 35px;
+  height: 26px;
+  width: 26px;
+  border-radius: 50%;
   background-color: #fcc203;
-  margin-left: 10px;
+  margin-right: 10px;
   margin-top: 10px;
 }
 .textinitials {
   text-align: center;
-
-  margin-top: 5px;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* margin-top: 5px; */
 }
 .line {
   /* height: 1px; */
