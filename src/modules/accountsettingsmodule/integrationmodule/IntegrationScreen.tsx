@@ -47,6 +47,7 @@ import {
   deleteOutlookMiddleware,
   deleteGoogleMiddleware,
 } from './store/middleware/integrationmiddleware';
+import CalenderConfig from './calendarconfiguration';
 
 
 
@@ -80,6 +81,8 @@ const IntegrationScreen = () => {
   // const [isChange, setChange] = useState(false);
   const [isLoginLoader, setLoginLoader] = useState(false);
   const [modelopen, setmodelopen] = useState(false);
+  const [conflictopen, setConflictopen] = useState(true);
+
   
   
   console.log(setMail);
@@ -345,6 +348,7 @@ const IntegrationScreen = () => {
   function outlookconfig(): void {
     throw new Error('Function not implemented.');
   }
+  console.log("conflictopen",conflictopen)
 
   return (
     <Flex className={styles.overAll}>
@@ -717,6 +721,9 @@ const IntegrationScreen = () => {
             ''
           )}
         </Flex>
+      </Modal>
+      <Modal open={conflictopen} onClose={close}>
+        <CalenderConfig/>
       </Modal>
    
 

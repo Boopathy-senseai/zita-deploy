@@ -35,33 +35,61 @@ import {
   checkAuthMiddleware,
   googleCallApiMiddleware,
 } from '../../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
+import SvgAddToCalendar from '../../../icons/SvgAddToCalendar';
 import SvgConflicts from '../../../icons/SvgConflicts';
-import styles from './integrationscreen.module.css';
+import styles from './calendarconfig.module.css';
 
 
 const CalenderConfig  = () =>{
 
 return(
     <>
-    <Flex className={styles.window}> 
-    <SvgConflicts /> 
-    <Flex className={styles.conflicts}>
-    <Text className={styles.text1}>Check for Conflicts</Text> 
-    </Flex>    
+    <div className={styles.modalwidth}>
+    <Flex row between> 
+    <SvgConflicts height={20} width={20} /> 
+    <Text>Check for Conflicts</Text> 
+    <Text>Set the calendar(s) to check for conflicts to prevent double bookings.</Text>    
     </Flex> 
+    <CheckForConflicts/>
+
+    <Flex row between> 
+    <SvgAddToCalendar height={20} width={20} fill={'#979797'} /> 
+    <Text>Add to Calendar</Text> 
+    <Text>Set the calendar(s) to check for conflicts to prevent double bookings.</Text> 
+    </Flex> 
+    <Addtocalender/>
+    </div>
+
 
     </>
 )}
 
-// const EditOutLook = () => {9
-//     return(
-//         <>
-//         </>
-//     )
-// }
-// const EditGoogle = () => {
+const CheckForConflicts = () => {
+    return(
+        <>
+        <div className={styles.checkforconflict}>
+
+        </div>
+        </>
+    )
+}
+const Addtocalender = () => {
+  const email ="pugazhendhi@sense7ai.com"
+  return(
+    <>
+    <div className={styles.addtocalendar}>
+      <Flex row between className={styles.aodicon}>
+      <SvgOutlook height={20} width={20} />
+      <Flex row start className={styles.rowgroup1}>
+        <Text> Add to {email}</Text>
+        <SvgEdit height={16} width={16}/>
+      </Flex>
+      </Flex>
+    </div>
+    </>
+  )
     
-// }
+}
 
 export default CalenderConfig;
 
