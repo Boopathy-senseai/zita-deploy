@@ -11,6 +11,7 @@ import Text from '../../../uikit/Text/Text';
 import Modal from '../../../uikit/Modal/Modal';
 import SvgLink from '../../../icons/SvgLInk';
 import Loader from '../../../uikit/Loader/Loader';
+import Toast from '../../../uikit/Toast/Toast';
 import { AppDispatch, RootState } from '../../../store';
 import DashBoard from './DashBoard';
 import CreateNewEvent from './CreateNewEvent';
@@ -28,6 +29,8 @@ const EventScheduler = () => {
   const [isLoader, setisLoader] = useState(false);
   const [sharedata, setsharedata] = useState([]);
   const [schedule, setschedule] = useState([]);
+  const [editmembers, seteditmembers] = useState([]);
+
 
   const [open, setopen] = useState(0);
 
@@ -52,22 +55,56 @@ const EventScheduler = () => {
     google: schedulerReducers.google,
     outlook: schedulerReducers.outlook,
   }));
+
+
+
   console.log("isLoading",isLoading)
   useEffect(() => {
-    setisLoader(true);
-    dispatch(getScheduleMiddleWare(undefined)).then((res: any) => {
-      setisLoader(false);
-    });
+    dispatch(getScheduleMiddleWare(undefined))
   }, []);
 
   function editdata(id: number, datalist: any) {
     if (id !== undefined && id !== null) {
       setIsOpen(true);
       setEditList(datalist);
-      dispatch(getScheduleMiddleWare(id)).then((res) => {
-        dispatch(getScheduleMiddleWare(undefined));
-      });
+      // dispatch(getScheduleMiddleWare(id)).then((res) => {
+      //   dispatch(getScheduleMiddleWare(undefined));
+      // });
+      // axios
+      // .get(`${eventSchedulerApi}?pk=${id}`)
+      // .then((res) => {
+      //   console.log('resresresresresres', res);
+      //   if (res.data) {
+      //     let scheduledata = res.data.datetime
+      //     let interviewdata = res.data.interviewer
+      //     setschedule(scheduledata)
+      //     seteditmembers(interviewdata)
+      //     console.log('scheduleschedule', schedule,interviewdata);
+      //     // dispatch(getScheduleMiddleWare(undefined));
+      //   }
+      // })
+      // .catch((err) => {
+      //   console.log(err);
+      // });
     }
+  }
+  function HandleButton(ToastMessage){
+    alert("Toast")
+      if (ToastMessage) {
+        alert("+")
+        // setIsOpen(false);
+        Toast('Updated Event Successfully!');
+        // dispatch(getScheduleMiddleWare(undefined));
+        setisLoader(false);
+      }
+      else{
+        alert("-")
+        // setIsOpen(false);
+        Toast('Event Created Successfully!');
+        // dispatch(getScheduleMiddleWare(undefined));       
+        setisLoader(false);
+      }
+
   }
   const response = data;
   const CreateEvent = () => {
@@ -78,7 +115,7 @@ const EventScheduler = () => {
   if (isLoading) {
     return <Loader />;
   }
-
+  console.log("scheduleschedulescheduleschedule",schedule,editmembers)
   return (
     <>
       <Flex>
@@ -114,12 +151,11 @@ const EventScheduler = () => {
                 setEditList={setEditList}
                 teammembers={addmembers}
                 intern={interviewer}
-                setisLoader={setisLoader}
-                schedule={schedule}
+                // setisLoader={setisLoader}
+                // schedule={schedule}
                 google={google}
-                outlook={outlook}
-
-                
+                outlook={outlook}    
+                HandleButton ={HandleButton}           
               />
             </Modal>
           ) : (
@@ -135,6 +171,7 @@ const EventScheduler = () => {
                   return (
                     <Flex key={index}>
                       <DashBoard
+                        isLoading ={isLoading}
                         list={list}
                         index={index}
                         editdata={editdata}

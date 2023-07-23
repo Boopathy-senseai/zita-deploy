@@ -17,13 +17,15 @@ import CancelAndDeletePopup from '../../common/CancelAndDeletePopup';
 import Button from '../../../uikit/Button/Button';
 import { eventSchedulerApi } from '../../../routes/apiRoutes';
 import SvgCopy from '../../../icons/SvgCopy';
+import { Loader } from '../../../uikit';
 import LinkShare from './LinkShare';
 import styles from './dashBoard.module.css';
-import { getScheduleMiddleWare } from './store/middleware/eventmiddleware';
+import { deleteScheduleMiddleWare, getScheduleMiddleWare } from './store/middleware/eventmiddleware';
 
 const DashBoard = (props) => {
   const dispatch: AppDispatch = useDispatch();
   const {
+    isLoading,
     list,
     index,
     editdata,
@@ -44,8 +46,11 @@ const DashBoard = (props) => {
   const [share, SetShare] = useState(false);
   const [dataid, setdataid] = useState(null);
   const [openWindowId, setOpenWindowId] = useState(null);
+  // useEffect(() => {
+  //   dispatch(getScheduleMiddleWare(undefined));
+  // }, []);
 
-  useEffect(() => {}, [dataid, list]);
+
 
   const modifiedTimeString = (timeString) => {
     let value = '';
@@ -94,6 +99,9 @@ const DashBoard = (props) => {
     }
   };
 
+  // if (isLoading) {
+  //   return <Loader />;
+  // }
   const filteredData = interview.filter((item) => item.event_id === list.id);
   return (
     <>

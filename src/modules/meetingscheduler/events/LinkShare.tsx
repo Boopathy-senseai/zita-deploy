@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // import SvgCloseSmall from '../../icons/SvgCloseSmall';
 import { eventSchedulerApi } from '../../../routes/apiRoutes';
 import { AppDispatch } from '../../../store';
@@ -50,9 +50,9 @@ const LinkShare = (props) => {
       setCheckedItems((prevItems) =>
         prevItems.filter((item) => item !== value),
       );
-      //   setinterviewerData(checkedItemzs)
     }
   };
+
 
   console.log('checkedItems............', checkedItems, typeof checkedItems);
 
@@ -64,11 +64,10 @@ const LinkShare = (props) => {
     const filteredItems = items.filter((item) =>
       item.full_name.toLowerCase().includes(lowercaseQuery),
     );
-    console.log('_+_+_++++_+_++_+_++_+_', filteredItems);
+    console.log('filteredItemsfilteredItems', filteredItems);
     if (filteredItems.length > 0) {
       setData(filteredItems);
     } else {
-      alert('No Applicants/candidate found!');
       setData([]);
     }
     return filteredItems;
@@ -91,8 +90,6 @@ const LinkShare = (props) => {
         .catch((err) => {
           console.log(err);
         });
-    } else {
-      alert('Select atleast one or more candidates');
     }
   };
 
@@ -133,15 +130,29 @@ const LinkShare = (props) => {
             inputConatinerClass={styles.inputContainer}
           />
         </Flex>
+        {data.length > 0 ? (
+          <>
         <Flex row className={styles.candidate}>
           <div className={styles.grid}>
             {data.map((name, index) => (
               <Flex row key={index}>
                 <div className={styles.flex}>
-                  <InputCheckBox
+                  {checkedItems.includes(name.candidate_id) ?(
+                    <>                    
+                  <InputCheckBox                    
+                    value={name.candidate_id}
+                    checked ={checkedItems.includes(name.candidate_id)}
+                    onChange={handleCheckboxChange}
+                  />
+                  </>
+                  ):(
+                    <>
+                    <InputCheckBox                    
                     value={name.candidate_id}
                     onChange={handleCheckboxChange}
                   />
+                  </>
+                  ) }
                 </div>
                 <div style={{ marginLeft: '10px' }}>
                   <Text size={14}>
@@ -152,15 +163,19 @@ const LinkShare = (props) => {
             ))}
           </div>
         </Flex>
+        </>
+        ) :('No Applicants/Candidates found')}
         <Flex row end marginTop={10} className={styles.borderLine}>
           <Button
             types="primary"
-            className={styles.cancel}
-            // style={{ marginRight: '20px' }}
+            className={styles.cancel}            
             onClick={() => setShare(false)}
           >
             Cancel
           </Button>
+          {data.length > 0 &&  checkedItems.length > 0 ? (
+
+          <>
           <Button
             // types="primary"
             className={styles.share}
@@ -169,6 +184,19 @@ const LinkShare = (props) => {
           >
             Share Link
           </Button>
+          </>
+          ):(
+            <>
+          <Button
+            // types="primary"
+            className={styles.share}
+            // style={{ marignRight: '20px' }}            
+            disabled
+          >
+            Share Link
+          </Button>
+          </>
+          )}
         </Flex>
       </div>
     </>

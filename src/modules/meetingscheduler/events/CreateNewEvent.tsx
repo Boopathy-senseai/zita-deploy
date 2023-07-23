@@ -24,6 +24,7 @@ import SvgCopy from '../../../icons/SvgCopy';
 import { eventSchedulerApi } from '../../../routes/apiRoutes';
 import SvgCalendar from '../../../icons/SvgCalendar';
 import SvgRoundAdd from '../../../icons/SvgRoundAdd';
+import SvgDateRangePicker from '../../../icons/SvgDateRangePicker';
 import {
   eventType,
   days,
@@ -97,10 +98,12 @@ const CreateNewEvent = (props) => {
     teammembers,
     datetime,
     setisLoader,
-    intern,
+    // intern,
     google,
     outlook,
+    HandleButton,
   } = props;
+  console.log("props+++++++",props)
 
   const dispatch: AppDispatch = useDispatch();
   const [interviewer, setInterviewer] = useState(false);
@@ -115,12 +118,10 @@ const CreateNewEvent = (props) => {
   const [dayField, setDaysField] = useState('Calendar Days');
   const [organiser, setorganiser] = useState(teammembers ? teammembers : []);
   const [zone, setzone] = useState('');
-
   const [selectedRange, setSelectedRange] = useState({
     startDate: null,
     endDate: null,
   });
-  // const [schedata,setschedata] = useState(datetime ? datetime :[])
   const [isButton, setButton] = useState(true);
   const [sunday, setSunday] = useState([
     { starttime: '9:00 AM', endtime: '6:00 PM' },
@@ -144,9 +145,9 @@ const CreateNewEvent = (props) => {
     { starttime: '9:00 AM', endtime: '6:00 PM' },
   ]);
   const [checkedItems, setCheckedItems] = useState([]);
-  const [schedule, setSchedule] = useState(
-    datetime !== undefined ? datetime : null,
-  );
+  // const [schedule, setSchedule] = useState(
+  //   datetime !== undefined ? datetime : null,
+  // );
   const [render, setrender] = useState(Date.now());
   const [timezones, setTimezones] = useState([]);
   const [sundaycheck, setsundaycheck] = useState(false);
@@ -156,30 +157,49 @@ const CreateNewEvent = (props) => {
   const [thursdaycheck, setthursdaycheck] = useState(true);
   const [fridaycheck, setfridaycheck] = useState(true);
   const [saturdaycheck, setsaturdaycheck] = useState(false);
-  const [schedata, setschedata] = useState(datetime !== null ? datetime : null);
+  // const [schedata, setschedata] = useState(datetime !== null ? datetime : null);
 
+
+  console.log("interviewerDatainterviewerData",interviewerData,checkedItems)
   const { user, profile, isLoading } = useSelector(
     ({ userProfileReducers }: RootState) => ({
       isLoading: userProfileReducers.isLoading,
       user: userProfileReducers.user,
       profile: userProfileReducers.profile,
     }),
-  );
-
+  );  
   let profilename = user.first_name + ' ' + user.last_name;
-
   useEffect(() => {
     // dispatch(userProfileMiddleWare());
-    if (!isEmpty(editModel) && datetime !== undefined) {
-      openModelEdit(editModel, datetime);
+    if (!isEmpty(editModel)) {
       setedit_id(editModel.id);
+      axios
+      .get(`${eventSchedulerApi}?pk=${editModel.id}`)
+      .then((res) => {
+        console.log('resres', res);
+        if (res.data) {
+          let scheduledata = res.data.datetime
+          let interviewdata = res.data.interviewer
+          openModelEdit(editModel,scheduledata,interviewdata);
+        }
+      })
+   
     } else {
-      // formik.values = initial
-      // formik.setValues(initial)
+
     }
-  }, [duration, datetime]);
+  }, [duration,datetime]);
+
+  
+
+
+
+
 
   useEffect(() => {
+    if (sundaycheck === false) {
+      const newData = [{ starttime: '9:00 AM', endtime: '6:00 PM' }];
+      setSunday(newData);
+    }
     if (mondaycheck === false) {
       const newData = [{ starttime: '9:00 AM', endtime: '6:00 PM' }];
       setMonday(newData);
@@ -200,8 +220,12 @@ const CreateNewEvent = (props) => {
       const newData = [{ starttime: '9:00 AM', endtime: '6:00 PM' }];
       setFriday(newData);
     }
+    if (saturdaycheck === false) {
+      const newData = [{ starttime: '9:00 AM', endtime: '6:00 PM' }];
+      setSaturday(newData);
+    }
   }, [
-    include,
+  
     mondaycheck,
     tuesdaycheck,
     wednesdaycheck,
@@ -209,7 +233,6 @@ const CreateNewEvent = (props) => {
     fridaycheck,
     sundaycheck,
     saturdaycheck,
-    duration,
   ]);
   const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const offset = moment.tz(userTimezone).format('Z');
@@ -224,13 +247,15 @@ const CreateNewEvent = (props) => {
     });
   };
 
-  const openModelEdit = (datalist: any, dt: any) => {
+  const openModelEdit = (datalist: any, dt: any,intern) => {  
+    console.log("@@@@@@@@@@+++++______+++++",datalist,dt,intern)
     setsaveButton(true);
     if (intern && intern.length > 0) {
       const fullNamesArray = intern?.map((i) => i.full_name);
-      const userid = intern?.map((i) => i.name__user);
+      const checked = intern?.map((i) => i.name__user);
+      console.log("::::::()()()()()()()",checked)
       setinterviewerData(fullNamesArray);
-      setCheckedItems(userid);
+      setCheckedItems(checked);
     } else {
       setinterviewerData([]);
     }
@@ -427,21 +452,13 @@ const CreateNewEvent = (props) => {
   const formatDate = (date) => {
     return date ? date.toLocaleDateString() : '';
   };
-  const getInitials = (name: any) => {
-    // name = JSON.parse(name);
-    if (name !== undefined) {
-      var parts = name.split(' ');
-      var initials = '';
-      for (var i = 0; i < parts.length; i++) {
-        if (parts[i].length > 0 && parts[i] !== '') {
-          initials += parts[i][0];
-        }
-      }
-      return initials;
-    }
-  };
 
   const handleSubmitForm = (values: CreateEvent) => {
+    const schedulearr = calculateSchedule();
+    console.log("schedulearrschedulearrschedulearrschedulearr",schedulearr)
+    if(isEmptyArray(schedulearr)){
+      alert("Date Range does not include a Availble Day")
+    } else if (sundaycheck || mondaycheck || tuesdaycheck || wednesdaycheck || thursdaycheck || fridaycheck || saturdaycheck ){    
     const userid = [];
     userid.push(user.id);
     const mergedArray =
@@ -482,30 +499,44 @@ const CreateNewEvent = (props) => {
     if (saturdaycheck === true) {
       formData.append('saturday', JSON.stringify(saturday));
     }
-    const schedulearr = calculateSchedule();
+    // const schedulearr = calculateSchedule();
     formData.append('slot', JSON.stringify(schedulearr));
-    dispatch(postScheduleMiddleWare({ formData })).then((res: any) => {
-      setisLoader(true);
-      if (res.payload.data.message === 'Created Event Successfully') {
-        Toast('Event Created Successfully!');
-        dispatch(getScheduleMiddleWare(undefined));
-        axios.get(`${eventSchedulerApi}`);
-        setisLoader(false);
-      }
-      if (res.payload.data.message === 'Updated Event Successfully') {
-        Toast('Updated Event Successfully!');
-        dispatch(getScheduleMiddleWare(undefined));
-        setisLoader(false);
-      }
-    });
+    dispatch(postScheduleMiddleWare({ formData })).then((res)=> {
+      const ToastMessage = formData.has('pk')
+      dispatch(getScheduleMiddleWare(undefined));
+      HandleButton(ToastMessage);   
+    })
+    // .then((res: any) => {
+      // alert("!@#$5")
+      // console.log('?//////////res',res,ToastMessage)
+      // setisLoader(true);
+      // if (ToastMessage) {
+      //   alert("+")
+      //   // setIsOpen(false);
+      //   Toast('Updated Event Successfully!');
+      //   // dispatch(getScheduleMiddleWare(undefined));
+      //   setisLoader(false);
+      // }
+      // else{
+      //   alert("-")
+      //   // setIsOpen(false);
+      //   Toast('Event Created Successfully!');
+      //   // dispatch(getScheduleMiddleWare(undefined));       
+      //   setisLoader(false);
+      // }
+    // });
     setIsOpen(false);
+   
+  }else{
+    alert("Select Atleast One Availble Day")
+  }
   };
 
   const formik = useFormik({
     initialValues: initial,
-    enableReinitialize: true,
     onSubmit: (values) => handleSubmitForm(values),
     validate: handleEventValid,
+    enableReinitialize: true,
   });
   const onDurationClick = (option: any) => {
     if (option === '1 hour') {
@@ -622,6 +653,7 @@ const CreateNewEvent = (props) => {
     // formik.values = initial
     // formik.setValues(initial)
     setIsOpen(false);
+    formik.resetForm();
   }
 
   const onApplyChange = (sdate, picker) => {
@@ -648,8 +680,12 @@ const CreateNewEvent = (props) => {
   const currentMonthStart = new Date();
   const initialSettings: Props['initialSettings'] = {
     minDate: currentMonthStart,
+    // minDate: dateformat(selectedRange.startDate),
+    // endDate: selectedRange.endDate,
   };
+  console.log("initialSettings",initialSettings)
 
+  console.log("1234567867543213456789",formik.values)
   return (
     <Flex>
       <Flex className={styles.createnewlink}>
@@ -695,8 +731,9 @@ const CreateNewEvent = (props) => {
                   }
                   placeholder="Select event type"
                   onChange={(option) => {
-                    formik.setFieldValue('event_type', option.label);
+                    // formik.setFieldValue('event_type', option.label);
                     // setButton(false);
+                    eventonChange(option.label)
                   }}
                 ></SelectTag>
 
@@ -714,7 +751,7 @@ const CreateNewEvent = (props) => {
 
         {formik.values.event_type === 'On-site Interview' ? (
           <Flex row className={styles.row}>
-            <Flex>
+            <Flex flex={2}>
               <InputText
                 inputConatinerClass={styles.with80}
                 label="Location"
@@ -827,7 +864,7 @@ const CreateNewEvent = (props) => {
                         : ''
                     }
                   />
-                  <SvgCalendar width={16} height={16} />
+                  <SvgDateRangePicker width={16} height={16} />
                   {/* <div style={{ position: 'absolute', left: 7, top: 3 }}>
                     <label htmlFor="calendar___open">
                       <SvgCalendar width={16} height={16} />
@@ -1067,7 +1104,7 @@ const CreateNewEvent = (props) => {
                   types={'primary'}
                 >
                   Cancel
-                </Button>
+              </Button>
                 <Button onClick={formik.handleSubmit}>Save</Button>
               </Flex>
             )}

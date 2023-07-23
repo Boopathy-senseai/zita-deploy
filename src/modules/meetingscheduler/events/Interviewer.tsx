@@ -26,18 +26,8 @@ const Interviewer = (props) => {
 
   useEffect(()=> {
     if (interviewerData?.length > 0 ){
-      alert("/////////")
       setmember(interviewerData)
-      // teammembers.forEach(opt => {
-      //   if (data.find(user => user === opt)) {
-      //     // checkedItems.push(opt);
-      //   }
-      // });
-    }
-    // console.log("@@@@@@@@@@@@@",checkedItems)
-    // setCheckedItems(checkedItems)
-   
-
+    }  
   },[interviewerData])
 
 
@@ -87,7 +77,6 @@ const Interviewer = (props) => {
   };
 
   const addmembers = () => {
-    alert("addmembers")
     console.log('checkedItemscheckedItems', checkedItems,"\n",member);
     if (member.length >  0 ) {
       console.log("membermembermembermembermembermembermembermembermembermember",member)
@@ -101,30 +90,26 @@ const Interviewer = (props) => {
         setCheckedItems(namelist)
         console.log("~~~~~~~~~~~~~~~~~~~~~`",namelist)
       });
-
       setinterviewerData(member);
-      setInterviewer(false);
-      
-    } else {
-      // alert('else');
-    }
+      setInterviewer(false);      
+    } 
   };
 
-  function searchItems(query) {
-    const items = teammembers;
-    const lowercaseQuery = query.toLowerCase();
-    const filteredItems = items.filter((item) =>
-      item.full_name.toLowerCase().includes(lowercaseQuery),
-    );
-    console.log('_+_+_++++_+_++_+_++_+_', filteredItems);
-    if (filteredItems.length > 0) {
-      setData(filteredItems);
-    } else {
-      setData([]);
-      alert('Noapplicant found');
-    }
-    return filteredItems;
-  }
+  // function searchItems(query) {
+  //   const items = teammembers;
+  //   const lowercaseQuery = query.toLowerCase();
+  //   const filteredItems = items.filter((item) =>
+  //     item.full_name.toLowerCase().includes(lowercaseQuery),
+  //   );
+  //   console.log('_+_+_++++_+_++_+_++_+_', filteredItems);
+  //   if (filteredItems.length > 0) {
+  //     setData(filteredItems);
+  //   } else {
+  //     setData([]);
+  //     alert('Noapplicant found');
+  //   }
+  //   return filteredItems;
+  // }
   function oncancel(){
     setInterviewer(false)
     setCheckedItems([])
@@ -184,9 +169,15 @@ const Interviewer = (props) => {
           >
             Cancel
           </Button>
+          {member.length > 0 ? (<>
           <Button types="primary" onClick={addmembers}>
             Add
           </Button>
+          </>):(<>
+            <Button types="primary" onClick={addmembers} disabled>
+            Add
+          </Button>
+          </>)}
         </Flex>
         </div>
       </div>

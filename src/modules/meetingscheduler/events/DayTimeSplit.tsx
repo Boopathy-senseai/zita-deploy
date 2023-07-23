@@ -50,6 +50,8 @@ const DayTimeSplit = (props) => {
     setsaturdaycheck,
     // setinclude,
   } = props;
+
+  console.log("+++_+_+_+_+_+",props.duration)
   const [copy, SetCopy] = useState(false);
   const [copyid, SetCopyId] = useState(0);
   const [time, SetTime] = useState([]);
@@ -151,6 +153,34 @@ const DayTimeSplit = (props) => {
       setDay7([]);
     }
     SetTime(timeSlots);
+    if (sundaycheck === true) {
+      const newData = [{ starttime: '9:00 AM', endtime: '6:00 PM' }];
+      setSunday(newData);
+    }
+    if (mondaycheck === true) {
+      const newData = [{ starttime: '9:00 AM', endtime: '6:00 PM' }];
+      setMonday(newData);
+    }
+    if (tuesdaycheck === true) {
+      const newData = [{ starttime: '9:00 AM', endtime: '6:00 PM' }];
+      setTuesday(newData);
+    }
+    if (wednesdaycheck === true) {
+      const newData = [{ starttime: '9:00 AM', endtime: '6:00 PM' }];
+      setWednesday(newData);
+    }
+    if (thursdaycheck === true) {
+      const newData = [{ starttime: '9:00 AM', endtime: '6:00 PM' }];
+      setThursday(newData);
+    }
+    if (fridaycheck === true) {
+      const newData = [{ starttime: '9:00 AM', endtime: '6:00 PM' }];
+      setFriday(newData);
+    }
+    if (saturdaycheck === true) {
+      const newData = [{ starttime: '9:00 AM', endtime: '6:00 PM' }];
+      setSaturday(newData);
+    }
     return timeSlots;
   };
   const copyonclick = (id: number) => {
@@ -237,23 +267,22 @@ const DayTimeSplit = (props) => {
     }
   };
   const RemoveClickForSunday = (index) => {
-    // console.log("sunday[index]",sunday[index],time)
+    const object = sunday[index]
+    const check = time.find(
+      (option) => option.label === sunday[index-1].endtime    )    
+    const lastObject = sunday[sunday.length - 1];
+    if (lastObject === object && object.starttime !== '' && object.endtime !== ''){
+      const specificObject = check;
+      const index1 = time.findIndex(obj => obj.id === specificObject.id);
+      if (index !== -1) {
+        const remainingObjects = time.slice(index1 + 1);
+        setDay1(remainingObjects)
+      } 
+    }  
 
-    // const check = time.find(
-    //   (option) => option.label === sunday[index].starttime,
-    // )
-    // const updatetime = [...time.splice(0, check.id)];
-
-    // console.log("checkcheckcheck",check,updatetime)
-    // const removedDate = sunday[index];
     const list = [...sunday];
     list.splice(index, 1);
     setSunday(list);
-    // setDay1(updatetime)
-
-    // if (!day1.includes(removedDate)) {
-    //   setDay1([...day1, removedDate]); // Add the removed date to day1 array if it doesn't already exist
-    // }
   };
 
   const handleInputChangeForMonday = (e, index, text) => {
@@ -285,12 +314,24 @@ const DayTimeSplit = (props) => {
     }
   };
   const RemoveClickForMonday = (index) => {
+    const object = monday[index]
+    const check = time.find(
+      (option) => option.label === monday[index-1].endtime,
+    )     
+    const lastObject = monday[monday.length - 1];
+    if (lastObject === object && object.starttime !== '' && object.endtime !== ''){
+      const specificObject = check;
+      const index1 = time.findIndex(obj => obj.id === specificObject.id);
+      if (index !== -1) {
+        const remainingObjects = time.slice(index1 + 1);
+        setDay2(remainingObjects)
+      } 
+    }
+    console.log("lastObjectlastObject",lastObject)
     const list = [...monday];
     list.splice(index, 1);
     setMonday(list);
   };
-  // useEffect(()=>{
-  // },[monday])
 
   const handleInputChangeForTuesday = (e, index, text) => {
     // alert('eedex');
@@ -318,6 +359,19 @@ const DayTimeSplit = (props) => {
     }
   };
   const RemoveClickForTuesday = (index) => {
+    const object = tuesday[index]
+    const check = time.find(
+      (option) => option.label === tuesday[index-1].endtime,
+    )     
+    const lastObject = tuesday[tuesday.length - 1];
+    if (lastObject === object && object.starttime !== '' && object.endtime !== ''){
+      const specificObject = check;
+      const index1 = time.findIndex(obj => obj.id === specificObject.id);
+      if (index !== -1) {
+        const remainingObjects = time.slice(index1 + 1);
+        setDay3(remainingObjects)
+      } 
+    }
     const list = [...tuesday];
     list.splice(index, 1);
     setTuesday(list);
@@ -350,12 +404,24 @@ const DayTimeSplit = (props) => {
     }
   };
   const RemoveClickForWednesday = (index) => {
+    const object = wednesday[index]
+    const check = time.find(
+      (option) => option.label === wednesday[index-1].endtime,
+    ) 
+    
+    const lastObject = wednesday[wednesday.length - 1];
+    if (lastObject === object && object.starttime !== '' && object.endtime !== ''){
+      const specificObject = check;
+      const index1 = time.findIndex(obj => obj.id === specificObject.id);
+      if (index !== -1) {
+        const remainingObjects = time.slice(index1 + 1);
+        setDay4(remainingObjects)
+      } 
+    }
     const list = [...wednesday];
     list.splice(index, 1);
     setWednesday(list);
   };
-  // useEffect(()=>{
-  // },[wednesday])
 
   const handleInputChangeForThursday = (e, index, text) => {
     const { id, label } = e;
@@ -385,12 +451,23 @@ const DayTimeSplit = (props) => {
     }
   };
   const RemoveClickForThursday = (index) => {
+    const object = thursday[index]
+    const check = time.find(
+      (option) => option.label === thursday[index-1].endtime,
+    )     
+    const lastObject = thursday[thursday.length - 1];
+    if (lastObject === object && object.starttime !== '' && object.endtime !== ''){
+      const specificObject = check;
+      const index1 = time.findIndex(obj => obj.id === specificObject.id);
+      if (index !== -1) {
+        const remainingObjects = time.slice(index1 + 1);
+        setDay5(remainingObjects)
+      } 
+    }
     const list = [...thursday];
     list.splice(index, 1);
     setThursday(list);
   };
-  // useEffect(()=>{
-  // },[thursday])
 
   const handleInputChangeForFriday = (e, index, text) => {
     const { id, label } = e;
@@ -417,13 +494,24 @@ const DayTimeSplit = (props) => {
     }
   };
   const RemoveClickForFriday = (index) => {
+    console.log("friday[index]",friday[index],time,day1)
+    const object = friday[index]
+    const check = time.find(
+      (option) => option.label === friday[index-1].endtime,
+    )     
+    const lastObject = friday[friday.length - 1];
+    if (lastObject === object && object.starttime !== '' && object.endtime !== ''){
+      const specificObject = check;
+      const index1 = time.findIndex(obj => obj.id === specificObject.id);
+      if (index !== -1) {
+        const remainingObjects = time.slice(index1 + 1);
+        setDay6(remainingObjects)
+      } 
+    }
     const list = [...friday];
     list.splice(index, 1);
     setFriday(list);
   };
-  // useEffect(()=>{
-  // },[friday])
-
   const handleInputChangeForSaturday = (e, index, text) => {
     const { id, label } = e;
     const updatedSaturday = [...saturday];
@@ -449,6 +537,22 @@ const DayTimeSplit = (props) => {
     }
   };
   const RemoveClickForSaturday = (index) => {
+    console.log("saturday[index]",saturday[index],time,day1)
+    const object = saturday[index]
+
+    const check = time.find(
+      (option) => option.label === saturday[index-1].endtime,
+    )     
+    const lastObject = saturday[saturday.length - 1];
+
+    if (lastObject === object && object.starttime !== '' && object.endtime !== ''){
+      const specificObject = check;
+      const index1 = time.findIndex(obj => obj.id === specificObject.id);
+      if (index !== -1) {
+        const remainingObjects = time.slice(index1 + 1);
+        setDay7(remainingObjects)
+      } 
+    }
     const list = [...saturday];
     list.splice(index, 1);
     setSaturday(list);
@@ -593,7 +697,6 @@ const DayTimeSplit = (props) => {
         day2,
       )}
 
-      {/* {setrender(Date.now())} */}
       <div>
         <Flex row>
           <div
@@ -945,8 +1048,8 @@ const DayTimeSplit = (props) => {
                       label: '9:00 AM',
                     }}
                     value={
-                      day2
-                        ? day2.find(
+                      time
+                        ? time.find(
                             (option) => option.label === monday[0].starttime,
                           )
                         : ''
@@ -979,8 +1082,8 @@ const DayTimeSplit = (props) => {
                       label: '6:00 PM',
                     }}
                     value={
-                      day2
-                        ? day2.find(
+                      time
+                        ? time.find(
                             (option) => option.label === monday[0].endtime,
                           )
                         : ''
@@ -1126,8 +1229,8 @@ const DayTimeSplit = (props) => {
                               placeholder={'time'}
                               name="starttime"
                               value={
-                                day2
-                                  ? day2.find(
+                                time
+                                  ? time.find(
                                       (option) => option.label === x.starttime,
                                     )
                                   : ''
@@ -1157,8 +1260,8 @@ const DayTimeSplit = (props) => {
                               placeholder={'time'}
                               name="endtime"
                               value={
-                                day2
-                                  ? day2.find(
+                                time
+                                  ? time.find(
                                       (option) => option.label === x.endtime,
                                     )
                                   : ''
@@ -1234,8 +1337,8 @@ const DayTimeSplit = (props) => {
                     }}
                     name="starttime"
                     value={
-                      day3
-                        ? day3.find(
+                      time
+                        ? time.find(
                             (option) => option.label === tuesday[0].starttime,
                           )
                         : ''
@@ -1269,8 +1372,8 @@ const DayTimeSplit = (props) => {
                     }}
                     name="endtime"
                     value={
-                      day3
-                        ? day3.find(
+                      time
+                        ? time.find(
                             (option) => option.label === tuesday[0].endtime,
                           )
                         : ''
@@ -1418,8 +1521,8 @@ const DayTimeSplit = (props) => {
                               placeholder={'time'}
                               name="starttime"
                               value={
-                                day3
-                                  ? day3.find(
+                                time
+                                  ? time.find(
                                       (option) => option.label === x.starttime,
                                     )
                                   : ''
@@ -1449,8 +1552,8 @@ const DayTimeSplit = (props) => {
                               placeholder={'time'}
                               name="endtime"
                               value={
-                                day3
-                                  ? day3.find(
+                                time
+                                  ? time.find(
                                       (option) => option.label === x.endtime,
                                     )
                                   : ''
@@ -1525,8 +1628,8 @@ const DayTimeSplit = (props) => {
                     }}
                     name="starttime"
                     value={
-                      day4
-                        ? day4.find(
+                      time
+                        ? time.find(
                             (option) => option.label === wednesday[0].starttime,
                           )
                         : ''
@@ -1560,8 +1663,8 @@ const DayTimeSplit = (props) => {
                     }}
                     name="endtime"
                     value={
-                      day4
-                        ? day4.find(
+                      time
+                        ? time.find(
                             (option) => option.label === wednesday[0].endtime,
                           )
                         : ''
@@ -1706,10 +1809,10 @@ const DayTimeSplit = (props) => {
                             <SelectTag
                               options={day4}
                               placeholder={'time'}
-                              name="endtime"
+                              name="starttime"
                               value={
-                                day4
-                                  ? day4.find(
+                                time
+                                  ? time.find(
                                       (option) =>
                                         // {console.log("optionoption",option)}
                                         option.label === x.starttime,
@@ -1717,7 +1820,7 @@ const DayTimeSplit = (props) => {
                                   : ''
                               }
                               onChange={(e) =>
-                                handleInputChangeForWednesday(e, i, 'endtime')
+                                handleInputChangeForWednesday(e, i, 'starttime')
                               }
                             ></SelectTag>
                           </div>
@@ -1741,8 +1844,8 @@ const DayTimeSplit = (props) => {
                               placeholder={'time'}
                               name="endtime"
                               value={
-                                day4
-                                  ? day4.find(
+                                time
+                                  ? time.find(
                                       (option) =>
                                         // {console.log("optionoption",option)}
                                         option.label === x.endtime,
@@ -1819,8 +1922,8 @@ const DayTimeSplit = (props) => {
                     }}
                     name="starttime"
                     value={
-                      day5
-                        ? day5.find(
+                      time
+                        ? time.find(
                             (option) => option.label === thursday[0].starttime,
                           )
                         : ''
@@ -1854,8 +1957,8 @@ const DayTimeSplit = (props) => {
                     }}
                     name="endtime"
                     value={
-                      day5
-                        ? day5.find(
+                      time
+                        ? time.find(
                             (option) => option.label === thursday[0].endtime,
                           )
                         : ''
@@ -2000,16 +2103,16 @@ const DayTimeSplit = (props) => {
                             <SelectTag
                               options={day5}
                               placeholder={'time'}
-                              name="endtime"
+                              name="starttime"
                               value={
-                                day5
-                                  ? day5.find(
+                                time
+                                  ? time.find(
                                       (option) => option.label === x.starttime,
                                     )
                                   : ''
                               }
                               onChange={(e) =>
-                                handleInputChangeForThursday(e, i, 'endtime')
+                                handleInputChangeForThursday(e, i, 'starttime')
                               }
                             ></SelectTag>
                           </div>
@@ -2033,8 +2136,8 @@ const DayTimeSplit = (props) => {
                               placeholder={'time'}
                               name="endtime"
                               value={
-                                day5
-                                  ? day5.find(
+                                time
+                                  ? time.find(
                                       (option) => option.label === x.endtime,
                                     )
                                   : ''
@@ -2109,8 +2212,8 @@ const DayTimeSplit = (props) => {
                     }}
                     name="starttime"
                     value={
-                      day6
-                        ? day6.find(
+                      time
+                        ? time.find(
                             (option) => option.label === friday[0].starttime,
                           )
                         : ''
@@ -2144,8 +2247,8 @@ const DayTimeSplit = (props) => {
                     }}
                     name="endtime"
                     value={
-                      day6
-                        ? day6.find(
+                      time
+                        ? time.find(
                             (option) => option.label === friday[0].endtime,
                           )
                         : ''
@@ -2291,8 +2394,8 @@ const DayTimeSplit = (props) => {
                               placeholder={'time'}
                               name="starttime"
                               value={
-                                day6
-                                  ? day6.find(
+                                time
+                                  ? time.find(
                                       (option) => option.label === x.starttime,
                                     )
                                   : ''
@@ -2322,8 +2425,8 @@ const DayTimeSplit = (props) => {
                               placeholder={'time'}
                               name="endtime"
                               value={
-                                day6
-                                  ? day6.find(
+                                time
+                                  ? time.find(
                                       (option) => option.label === x.endtime,
                                     )
                                   : ''
@@ -2405,8 +2508,8 @@ const DayTimeSplit = (props) => {
                     }}
                     name="starttime"
                     value={
-                      day7
-                        ? day7.find(
+                      time
+                        ? time.find(
                             (option) => option.label === saturday[0].starttime,
                           )
                         : ''
@@ -2440,8 +2543,8 @@ const DayTimeSplit = (props) => {
                     }}
                     name="endtime"
                     value={
-                      day7
-                        ? day7.find(
+                      time
+                        ? time.find(
                             (option) => option.label === saturday[0].endtime,
                           )
                         : ''
@@ -2592,8 +2695,8 @@ const DayTimeSplit = (props) => {
                               placeholder={'time'}
                               name="starttime"
                               value={
-                                day7
-                                  ? day7.find(
+                                time
+                                  ? time.find(
                                       (option) =>
                                         // {console.log("optionoption",option)}
                                         option.label === x.starttime,
@@ -2625,8 +2728,8 @@ const DayTimeSplit = (props) => {
                               placeholder={'time'}
                               name="endtime"
                               value={
-                                day7
-                                  ? day7.find(
+                                time
+                                  ? time.find(
                                       (option) => option.label === x.endtime,
                                     )
                                   : ''
@@ -2706,24 +2809,13 @@ const CopyClipBoard = (props) => {
   // console.log("setDay1setDay1setDay1",setDay1,setDay2,setDay3,setDay4,setDay5,setDay6,setDay7)
 
   console.log("PropsPropsPropsPropsPropsProps",props)
-  console.log(
-    'setDay1setDay1setDay1',
-    setDay1,
-    '\n',
-    'setSundaysetSunday',
-    setSunday,
-  );
-  console.log(
-    'propspropspropspropspropspropspropspropspropspropspropsprops',
-    props.include,
-  );
 
   //   const [monday1, updateMonday1 ] = useState(monday);
   const [monday123, updateMonday123] = useState([]);
 
   useEffect(() => {
     // console.log("timeslottimeslot",timeslot)
-    setShowDropdown(true);
+    // setShowDropdown(true);
   }, [sunday, monday, tuesday, wednesday, thursday, friday, saturday]);
 
   //   const { tuesday, updateTuesday } = props;
@@ -2738,13 +2830,13 @@ const CopyClipBoard = (props) => {
   const [check, setCheck] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedDays, setSelectedDays] = useState([]);
+  const [final,setfinal] = useState([]);
 
   useEffect(() => {
     console.log('timeslottimeslot', timeslot);
   }, [sunday, monday, tuesday, wednesday, thursday, friday, saturday]);
 
-  console.log('time123', time123);
-  const final = [];
+
   const handleCheckboxChange = (assignedvalue: string) => {
     alert(assignedvalue);
     if (final.includes(assignedvalue)) {
@@ -2802,7 +2894,7 @@ const CopyClipBoard = (props) => {
       );
       setWednesday(filteredData);
     }
-    if (final.includes('thursday')) {
+    if (final.includes('thursday')) { 
       const filteredData = dayof.filter(
         (item) => item.starttime !== '' && item.endtime !== '',
       );
@@ -2825,6 +2917,7 @@ const CopyClipBoard = (props) => {
       console.log('Timeout completed!');
       timeslotset(tslot);
     }, 1000);
+    setfinal([]);
   };
 
   const timeslotset = (dayof) => {
@@ -2865,6 +2958,7 @@ const CopyClipBoard = (props) => {
 
   return (
     <>
+    {Date.now}
       {console.log('monday+++++++++1', monday123)}
       {console.log('finalfinalfinal', final)}
       {console.log('showDropdown', showDropdown)}
@@ -2883,14 +2977,12 @@ const CopyClipBoard = (props) => {
           >
             <SvgCopy width={18} height={18} fill="goldenrod" />
           </Dropdown.Toggle>
-          {/* {copy ? (
-            <>           */}
-          <Dropdown.Menu style={{ minWidth: '5rem' }}>
 
-            <Dropdown.Item
+          <Dropdown.Menu style={{ minWidth: '5rem' }}>
+            {/* <Dropdown.Item
             onClick={handleDropdownItemClick}
-            >
-              <Flex row center className={styles.dropDownListStyle}>
+            > */}
+              <Flex row center  marginLeft={'25px'} marginTop={'5px'} className={styles.dropDownListStyle}>
                 {name === 'sunday' ? (
                   <InputCheckBox
                     checked={name === 'sunday'}
@@ -2909,11 +3001,11 @@ const CopyClipBoard = (props) => {
                 )}
                 <Text>Sunday</Text>
               </Flex>
-            </Dropdown.Item>
+            {/* </Dropdown.Item> */}
 
-            <Dropdown.Item
-            >
-              <Flex row center className={styles.dropDownListStyle}>
+            {/* <Dropdown.Item
+            > */}
+              <Flex row center marginLeft={'25px'}  marginTop={'5px'}className={styles.dropDownListStyle}>
                 {name === 'monday' ? (
                   <InputCheckBox
                     checked={name === 'monday'}
@@ -2931,12 +3023,12 @@ const CopyClipBoard = (props) => {
                 )}
                 <Text>Monday</Text>
               </Flex>
-            </Dropdown.Item>
+            {/* </Dropdown.Item> */}
 
-            <Dropdown.Item
+            {/* <Dropdown.Item
             // onClick={() => handleShow(data.id)}
-            >
-              <Flex row center className={styles.dropDownListStyle}>
+            > */}
+              <Flex row center  marginLeft={'25px'} marginTop={'5px'} className={styles.dropDownListStyle}>
                 {name === 'tuesday' ? (
                   <InputCheckBox
                     checked={name === 'tuesday'}
@@ -2954,18 +3046,18 @@ const CopyClipBoard = (props) => {
                 )}
                 <Text>Tuesday</Text>
               </Flex>
-            </Dropdown.Item>
+            {/* </Dropdown.Item> */}
 
-            <Dropdown.Item
+            {/* <Dropdown.Item
             // onClick={() => handleShow(data.id)}
-            >
-              <Flex row center className={styles.dropDownListStyle}>
+            > */}
+              <Flex row center  marginLeft={'25px'}  marginTop={'5px'}className={styles.dropDownListStyle}>
                 {name === 'wednesday' ? (
                   <InputCheckBox
                     checked={name === 'wednesday'}
                     disabled={name === 'wednesday'}
                   />
-                ) : wednesdaycheck === true ? (
+                ) : wednesdaycheck === true  ? (
                   <InputCheckBox
                     onChange={() => handleCheckboxChange('wednesday')}
                   />
@@ -2977,12 +3069,12 @@ const CopyClipBoard = (props) => {
                 )}
                 <Text>Wednesday</Text>
               </Flex>
-            </Dropdown.Item>
+            {/* </Dropdown.Item> */}
 
-            <Dropdown.Item
+            {/* <Dropdown.Item
             // onClick={() => handleShow(data.id)}
-            >
-              <Flex row center className={styles.dropDownListStyle}>
+            > */}
+              <Flex row center  marginLeft={'25px'} marginTop={'5px'} className={styles.dropDownListStyle}>
                 {name === 'thursday' ? (
                   <InputCheckBox
                     checked={name === 'thursday'}
@@ -3000,12 +3092,12 @@ const CopyClipBoard = (props) => {
                 )}
                 <Text>Thursday</Text>
               </Flex>
-            </Dropdown.Item>
+            {/* </Dropdown.Item> */}
 
-            <Dropdown.Item
+            {/* <Dropdown.Item
             // onClick={() => handleShow(data.id)}
-            >
-              <Flex row center className={styles.dropDownListStyle}>
+            > */}
+              <Flex row center  marginLeft={'25px'} marginTop={'5px'} className={styles.dropDownListStyle}>
                 {name === 'friday' ? (
                   <InputCheckBox
                     checked={name === 'friday'}
@@ -3013,6 +3105,7 @@ const CopyClipBoard = (props) => {
                   />
                 ) : fridaycheck === true ? (
                   <InputCheckBox
+                    // checked={final.includes('friday')}
                     onChange={() => handleCheckboxChange('friday')}
                   />
                 ) : (
@@ -3023,12 +3116,12 @@ const CopyClipBoard = (props) => {
                 )}
                 <Text>Friday</Text>
               </Flex>
-            </Dropdown.Item>
+            {/* </Dropdown.Item> */}
 
-            <Dropdown.Item
+            {/* <Dropdown.Item
             // onClick={() => handleShow(data.id)}
-            >
-              <Flex row center className={styles.dropDownListStyle}>
+            > */}
+              <Flex row center  marginLeft={'25px'} marginTop={'5px'} className={styles.dropDownListStyle}>
                 {name === 'saturday' ? (
                   <InputCheckBox
                     checked={name === 'saturday'}
@@ -3046,16 +3139,16 @@ const CopyClipBoard = (props) => {
                 )}
                 <Text>Saturday</Text>
               </Flex>
-            </Dropdown.Item>
+            {/* </Dropdown.Item> */}
+            <Dropdown.Item>
             <Button
               className={styles.apply}
               onClick={() => applyonclick(final, day, timeslot)}
             >
               Apply
             </Button>
+            </Dropdown.Item>
           </Dropdown.Menu>
-          {/* </>
-          ):''} */}
         </Dropdown>
       </Flex>
 
