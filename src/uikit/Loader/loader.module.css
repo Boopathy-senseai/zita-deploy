@@ -1,6 +1,8 @@
 .loaderConatiner {
   top: 0;
   left: 0;
+  right: 0;
+  bottom: 0;
   background-color: rgba(0, 0, 0, 0.18);
   z-index: 99;
   flex: 1;
@@ -8,8 +10,8 @@
   align-items: center;
   overflow: hidden;
   width: 100vw;
-  height: 100vh;
-  position: absolute;
+  /* height: 100vh; */
+  position: fixed;
   display: grid;
   text-align: center;
 }

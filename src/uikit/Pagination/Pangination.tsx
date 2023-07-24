@@ -74,7 +74,7 @@ const Pangination = ({ currentPage, setCurrentPage, maxPages }: Props) => {
   const disabledLast = currentPage === maxPages;
 
   const paginationRender = (
-    <div className={styles.renderContainer}>
+    <div className={styles.renderContainer} style={{position: 'fixed',bottom: '0'}}>
       <Text
         onClick={handleFirst}
         bold

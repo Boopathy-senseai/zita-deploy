@@ -1,5 +1,6 @@
 .findBtn {
   margin-top: 16px;
+  border: 1px solid #581845;
 }
 .lastActiveStyle {
   margin-right: 16px;
@@ -33,10 +34,10 @@
 }
 .rowContainer {
   padding-bottom: 10px;
-  align-items: flex-end;
+  /* align-items: flex-end; */
   padding-left: 8px;
   justify-content: space-between;
-  padding-right: 20px;
+  padding-right: 16px;
 }
 .btnContainer {
   width: 100%;
@@ -46,4 +47,11 @@
 }
 .searchStyle{
   /* text-transform: capitalize; */
+}
+.react-autosuggest__suggestions-container--open{
+  font-size: 10px;
+}
+.react-autosuggest__suggestion{
+  color: red;
+  font-size: 10px !important;
 }

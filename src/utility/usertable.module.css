@@ -11,9 +11,16 @@
 /* product route*/
 
 .model{
-width:190px;
+width:180px;
 }
- 
+
 .model1 {
-  width: 40px;
+  width: 37px;
+}
+
+.tobbar {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }

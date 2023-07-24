@@ -10,7 +10,7 @@ const SvgQualification = ({ width, height, fill }: typeof defaultProps) => (
     fill={fill}
     width={width}
     height={height}
-    viewBox="0 0 11 8"
+    viewBox="-1 0 11 8"
 
   >
     <path

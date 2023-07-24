@@ -44,6 +44,7 @@ type Props = {
   isInitalCheckBox: boolean;
   handleRefresh:()=>void
   updatechckbox:any;
+  setchange?:any;
 };
 const TalentFilter = ({
   isBachelors,
@@ -65,42 +66,43 @@ const TalentFilter = ({
   setapply,
   isInitalCheckBox,
   updatechckbox,
+  setchange,  
   handleRefresh
 }: Props) => {
   const handleBachelor = () => {
-
     setBachelors(!isBachelors);
     setAny(false);
+    setchange(true)
     setInitialPage(0);
     
   };
   const handleDoctorate = () => {
-
     setDoctorate(!isDoctorate);
     setAny(false);
+    setchange(true)
     setInitialPage(0);
 
   };
   const handleMaster = () => {
-
     setMasters(!isMasters);
     setAny(false);
+    setchange(true)
     setInitialPage(0);
     
     };
   const handleOther = () => {
-
         setAny(false);
     setOther(!isOther);
+    setchange(true)
     setInitialPage(0);
          };
   const handleAny = () => { 
-
     setAny(!isAny);
     setBachelors(false);
     setDoctorate(false);
     setMasters(false);
     setOther(false);
+    setchange(true)
     setInitialPage(0);
 
   };
@@ -130,26 +132,32 @@ const TalentFilter = ({
   const closebachelor=()=>{
     setBachelors(false)
     setnewBachelors1(false)
+    setchange(false)
   }
   const closedoctorate=()=>{
     setDoctorate(false)
     setnewDoctorate1(false)
+    setchange(false)
   }
   const closemasters=()=>{
     setMasters(false)
     setnewmaster1(false)
+    setchange(false)
   }
   const closeother=()=>{
     setOther(false)
     setnewothers1(false)
+    setchange(false)
   }
   const closerelocate=()=>{
     setRelocate(false)
     setnewrelocate(false)
+    setchange(false)
   }
   const close=()=>{
     setExperience(experienceOptions[0])
     setnewexperience(experienceOptions[0])
+    setchange(false)
   }
    const handlechange=()=>{
     updatechckbox()
@@ -162,24 +170,16 @@ const TalentFilter = ({
     setnewothers1(isOther)
     setnewexperience(isExperience)
     setnewrelocate(isRelocate)
+    setchange(false)
    }
-   const experiencevalid=()=>{
-    if (newexperience !=="all"||newexperience !==null) {
-      return (
-
-        <>
-
-          <Flex className={styles.notification_dot}></Flex>
-
-        </>
-
-      );
-
-    }
-    
+   const changeexperience=()=>{
+    setchange(true)
    }
-
-  console.log(experienceOptions,"is exp")
+   const handlerelocate=()=>{
+    setRelocate(!isRelocate)
+    setchange(true)
+   }
+   
 
   return (
    <>
@@ -188,13 +188,28 @@ const TalentFilter = ({
         Quick Filters :
       </Text>
       {  !NewBachelors1 && !NewDoctorate1 && !Newmaster1 && !Newothers1 ?(
-       <Text className={styles.quickfil}>
+       <Text className={styles.quickfil} style={{cursor:'default'}}>
         {"Any"}
       </Text>
       ): (
         null
       )
       }
+      { 
+        ((newexperience !==null)) ?(
+          (newexperience.value !=="all")?(
+          <Text className={styles.quickfil}>
+             {isExperience.label}{" "}
+             <SvgIntomark
+             className={styles.stylesvg}
+             onClick={() => close()}
+           />
+           </Text>):(null)
+        ): (
+        null
+        ) 
+      }
+      
       { NewBachelors1 ?(
            <Text className={styles.quickfil}>
               {"Bachelors"}{" "}
@@ -257,20 +272,6 @@ null
 )
 }
 
-{ 
-  ((newexperience !==null)) ?(
-    (newexperience.value !=="all")?(
-    <Text className={styles.quickfil}>
-       {isExperience.label}{" "}
-       <SvgIntomark
-       className={styles.stylesvg}
-       onClick={() => close()}
-     />
-     </Text>):(null)
-  ): (
-  null
-  ) 
-}
 
 
 
@@ -326,7 +327,9 @@ null
                 labelBold
                 options={experienceOptions}
                 label={'Experience'}
-                onChange={(value) => setExperience(value)}
+                onChange={(value) => (setExperience(value),
+                  setchange(true))
+                 }
                 isDisabled={isInitalCheckBox}
               />
     
@@ -386,11 +389,11 @@ null
         <Flex>
         <InputSwitch
         checked={isRelocate}
-        onClick={() => setRelocate(!isRelocate)}
+        onClick={handlerelocate}
         disabled={isInitalCheckBox}
         />
       </Flex>
-        <Flex style={{marginLeft:'5px',color:'black',fontSize:'13px'}}>
+        <Flex style={{marginLeft:'5px',color:'#581845',fontSize:'14px',fontWeight:'bold'}}>
             Willing to Relocate
         </Flex>
       </Flex>

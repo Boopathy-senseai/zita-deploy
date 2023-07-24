@@ -10,12 +10,13 @@ import SvgLock from '../../icons/SvgLock';
 import { WHITE } from '../../uikit/Colors/colors';
 import SvgUnlock from '../../icons/SvgUnlock';
 import SvgDollar from '../../icons/Svgdollar1';
-import SvgJobtitle from '../../icons/SvgJobtitle';
+// import SvgJobtitle from '../../icons/SvgJobtitle';
 import SvgQualification from '../../icons/qualification1';
 import SvgRelocate from '../../icons/Relocate1';
 import SvgSalary from '../../icons/Salary1';
 import InputCheckBox from '../../uikit/InputCheckbox/InputCheckBox';
 import { colorCode } from '../constValue';
+import SvgJobtitle from '../../icons/Jobtitle';
 import styles from './talentcardlist.module.css';
 import { DataEntity } from './talentSourcingTypes';
 
@@ -29,7 +30,7 @@ type Props = {
   isCheck: DataEntity;
   handleCandidateView: (hashKey: string) => void;
   candi_list?: string[];
-  
+ 
 };
 
 const notSpecified = (value: string, reLocate?: string) => {
@@ -65,7 +66,10 @@ const TalentCardMap = ({
   useEffect(() => {
   sessionStorage.setItem("index", (index+1));
   }, [index]);
-
+  // const handleloader=(val)=>{
+  //   setSubmitLoader();
+  //   handleCandidateView(val)
+  // }
 
   // const handlepage=()=>{
   //  setcount(index+1)
@@ -235,11 +239,12 @@ console.log("sidebar111",windowSize,sidebar)
                 <Flex style={{marginLeft:'-5px'}}>
                   <Flex row center className={cx('jobList')}>
                   <Flex style={{marginRight:'1px'}}>
-                  <SvgJobtitle fill={'#581845'} width={14} height={14} />
+                  <SvgJobtitle fill={'#581845'} width={10} height={10} />
                   </Flex>
                     <Text
                       title={`Job Title: ${notSpecified(talentList.desired_job_title)}`}
                       color="black_1"
+                      style={{marginLeft:'3px'}}
                       className={styles.jobTitle}
                       size={11} 
                     >
@@ -265,7 +270,7 @@ console.log("sidebar111",windowSize,sidebar)
                   <SvgRelocate fill={'#581845'} width={14} height={14} />
                   </Flex>
                     {talentList.relocate === '1' ? (
-                      <Text color="black_1" title={' Willing to Relocate:Yes'}  size={11} >Yes</Text>
+                      <Text color="black_1" title={' Willing to Relocate: Yes'}  size={11} >Yes</Text>
                     ) : (
                       <Text color="black_1" title={' Willing to Relocate: Not Specified'} size={11} >
                         {notSpecified(talentList.relocate, talentList.relocate)}
@@ -293,7 +298,6 @@ console.log("sidebar111",windowSize,sidebar)
               {!checkVist ? (
                 <Flex style={{marginLeft:'25px' }}
                 onClick={() => handleUnlockSubmit(talentList.candidate_hash)}
-        
                 >
                 <SvgLock fill={'#581845'} width={22} height={22} />
                 </Flex>
@@ -304,7 +308,8 @@ console.log("sidebar111",windowSize,sidebar)
                 </div>
                 
               )}
-              <Text bold  size={11}  style={{ marginLeft: '-5px', color:'#581845',fontSize:'12px' }}>
+              <Text bold  size={11}  style={{ marginLeft: '-5px', color:'#581845',fontSize:'12px',cursor:'default' }} 
+               onClick={() => handleUnlockSubmit(talentList.candidate_hash)}>
                 {checkVist ? 'Unlocked Contact' : 'Unlock Contact'}
               </Text>
             </Flex>

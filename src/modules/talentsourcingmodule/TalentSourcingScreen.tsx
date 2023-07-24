@@ -75,7 +75,8 @@ const TalentSourcingScreen = () => {
   const uselocation = useLocation();
   const history = useHistory();
   const [apply, setapply] = useState(false);
-
+  const [change,setchange]=useState(false)
+  const [cardloader,setcardloader]=useState(false)
   const [isCheck, setIsCheck] = useState<any>([]);
 
   const usersPerPage = 15;
@@ -281,7 +282,7 @@ setshow(val)
   } = talentFilterHelper(getStoreSearchData, isExperience);
 
   useEffect(() => {
-    if(isAny&& isExperience.value==="all" && !isRelocate){
+   if(!change){
     filterCondition(
       setSearchData,
       isAny,
@@ -422,6 +423,7 @@ setshow(val)
 // open resume function
   const handleCandidateView = (hashKey: string) => {
     setPdfLoader(true)
+    setcardloader(true)
     dispatch(
       candidateViewMiddleWare({
         key: hashKey,
@@ -431,11 +433,13 @@ setshow(val)
         if (response.payload.file) {
           setShowPdf(true);
         }
-          setPdfLoader(false)        
+          setPdfLoader(false)    
+          setcardloader(false)
       })
       .catch(() => {
         Toast(ERROR_MESSAGE, 'LONG', 'error');
         setPdfLoader(false)
+        setcardloader(false)
       });
   };
 
@@ -574,7 +578,7 @@ setshow(val)
     
   return (
     <>
-    {console.log("applyyyyy",apply)}
+    {console.log("changeeee",change)}
    {
     isSubmitLoader&&
     <Loader /> 
@@ -703,6 +707,7 @@ setshow(val)
           { visible&& isSearchData !== null && (        
           <div className={cx('filterOverAll')}>
           <TalentFilter
+                  setchange={setchange}
                   updatechckbox={updatechckbox}
                   apply={apply}
                   setapply={setapply}
@@ -740,6 +745,7 @@ setshow(val)
             {isSearchData?.length !== 0 && isSearchData !== null && isSubmitLoader !== true && (
              
               <TalentCardList
+              
                   update={update}
                   val={show}
                   isCheck={isCheck}
@@ -772,6 +778,12 @@ setshow(val)
              
             )}
           </div>
+        
+            {
+              cardloader&&
+              <Loader /> 
+             }
+      
           {isSearchData?.length !== 0 &&
             pageCount - 1 !== 0 &&
             isSearchData !== null && isSubmitLoader !== true && (

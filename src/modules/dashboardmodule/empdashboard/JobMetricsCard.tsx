@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../store';
 import Card from '../../../uikit/Card/Card';
 import Flex from '../../../uikit/Flex/Flex';
-import SvgJobtitle from '../../../icons/SvgJobtitle';
 import SvgCalendaricon from '../../../icons/SvgCalendaricon';
 import SvgLocation from '../../../icons/SvgLocation';
 // import SvgPosting from '../../../icons/SvgPosting';
@@ -16,6 +15,7 @@ import { getDateString } from '../../../uikit/helper';
 import SelectTag from '../../../uikit/SelectTag/SelectTag';
 import { PRIMARY } from '../../../uikit/Colors/colors';
 import Text from '../../../uikit/Text/Text';
+import SvgJobTitle from '../../../icons/SvgJobTitle';
 import ApplicantsPipeline from './ApplicantsPipeline';
 import ApplicantsSourcingChannel from './ApplicantsSourcingChannel';
 import styles from './jobmetricscard.module.css';
@@ -132,7 +132,7 @@ const JobMetricsCard = () => {
               <Flex row center>
              
                   <Flex  marginLeft={14} marginTop={3}>
-                  <SvgJobtitle width={16} height={16}></SvgJobtitle></Flex>
+                  <SvgJobTitle width={16} height={16}/></Flex>
                 
                 <Text align='center' >
                   {job_details && job_details?.job_title} -{' '}

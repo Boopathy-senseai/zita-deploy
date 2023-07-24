@@ -1,6 +1,7 @@
 import { useFormik } from 'formik';
-import { Dispatch, SetStateAction,useEffect } from 'react';
+import { Dispatch, SetStateAction,useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import * as Yup from 'yup';
 import classNames from 'classnames/bind';
 import Flex from '../../uikit/Flex/Flex';
 import { lowerCase } from '../../uikit/helper';
@@ -63,7 +64,7 @@ const TalentAction = ({
   update
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
-
+  const [error,seterror]=useState(0)
   // form filter submit
   const handleSubmit = (values: FormProps) => {
     
@@ -97,34 +98,52 @@ const TalentAction = ({
 
   const handleValidation = (values: FormProps) => {
     const errors: Partial<errorType> = {};    
-    if (values.location === '') {
-      errors.location = THIS_FIELD_REQUIRED;
-    }
+    // if (values.location === '') {
+    //   errors.location = THIS_FIELD_REQUIRED;
+    // }
 
-    if (values.keywords === '') {
-      errors.keywords = THIS_FIELD_REQUIRED;
-    }
-    if (!(formik.values.keywords).trim()) {
-      errors.keywords = "Space is not a character";
-    }
+    // if (values.keywords === '') {
+    //   errors.keywords = THIS_FIELD_REQUIRED;
+    // }
+    
+    // if ((((formik.values.keywords).trim().length )<1)) {
+    //   console.log("consoleeee11111",typeof((formik.values.keywords).trim().length))
+    //    errors.keywords = "Space is not a character";
+    // }
+    // if ((((formik.values.location).length )<1)) {
+    //    errors.location = "Space is not a character";
+    // }
       return errors;
   };
-
-
+  const SignupSchema = Yup.object().shape({
+    keywords: Yup.string()
+    .trim('Space is not a character')
+    .min(1, 'Space is not a character')
+    .max(512, 'The contact name cannot exceed 512 char')
+    .required(THIS_FIELD_REQUIRED),
+    location: Yup.string()
+    .trim('Space is not a character')
+    .min(1, 'Space is not a character')
+    .max(512, 'The contact name cannot exceed 512 char')
+    .required(THIS_FIELD_REQUIRED),
+  });
+  const formikRef = useRef();
 
   const formik = useFormik({
+    innerRef: formikRef,
     initialValues: initial,
     validate: handleValidation,
+    validationSchema: SignupSchema,
     onSubmit: handleSubmit,
     enableReinitialize: true,
+    validateOnBlur: true,
+    validateOnChange: true,
   });
   useEffect(() => {
     
-    if (formik.values.location === '') {
-      formik.errors.location = THIS_FIELD_REQUIRED;
-    }
-  
-}, [formik.values.location]);
+    seterror((formik.values.keywords).trim().length);
+   console.log("errorrrrr",error)
+}, [formik.values.keywords]);
 
   const handleInputChange=(event)=>{
     console.log("keyyyyyy",event.target.value);
@@ -136,7 +155,7 @@ const TalentAction = ({
 
   return (
 <>
-{console.log("formik.values",formik.values)}
+{console.log("formik.values",formik.values,(formik.values.keywords).trim().length)}
     <Flex row between bottom className={cx('rowContainer')}>
       <Flex row  width={'89%'} >
         <InputText

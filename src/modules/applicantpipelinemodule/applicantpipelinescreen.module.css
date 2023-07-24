@@ -1,21 +1,96 @@
 .overAll {
-  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  position: relative;
+  height: 100%;
 }
 .dndBoardContainer {
-  /* width: 100%; */
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: -webkit-fill-available;
 }
 .btnStyle {
-  margin-left: 16px;
+  margin-right: 10px;
 }
 
 .titleContainer {
-  padding-bottom: 16px;
+  padding: 10px;
+  background-color: #eee8ec;
+  font-size: 12px;
+  margin-bottom: 10px;
+  display: flex;
+  color: #581845;
+  justify-content: space-between;
+  position: relative;
+  padding-right: 40px;
+}
+.triangle {
+  width: 0;
+  height: 0;
+  border-top: 22px solid transparent;
+  border-right: 30px solid white;
+  border-bottom: 22px solid transparent;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.jobstext {
+  height: 30px;
+  padding: 10px;
+  background-color: #eee8ec;
+  display: flex;
+  align-items: center;
+  color: #581845;
+}
+.boxstyle {
+  text-transform: none !important;
+  background-color: #f7f7f7;
+  height: 30px;
+  border: none !important;
+  border-radius: 0 !important;
+  scroll-behavior: smooth;
+  width: 160px;
+  text-overflow: ellipsis;
+}
+.searchstyle {
+  /* width: 412.27px; */
+  display: flex;
+  align-items: center;
+}
+.searchboxoverall {
+  border-radius: 0px 20px 20px 0px;
+  background-color: #f7f7f7;
+  height: 30px !important;
+}
+.middleline {
+  margin-right: 10px;
+  height: 25px;
+  border: 1px solid #e4dae1;
+  margin-top: 2px;
+}
+.locationicon {
+  margin: 5px 0 5px 0;
+}
+.crossIcon {
+  all: unset;
+  cursor: pointer;
+  padding-top: 5px;
+  padding-right: 5px;
+}
+.searchicons {
+  height: 30px;
+  padding: 10px;
+  background-color: #581845;
+  border-radius: 0px 20px 20px 0px;
+  cursor: default;
 }
 
 .scrollStyle {
   scrollbar-width: thin;
   scrollbar-color: rgba(26, 26, 26, 0.3) white;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
 }
 .col {
   display: flex;
@@ -25,6 +100,6 @@
   z-index: 99;
 }
 .filterFlex {
-  margin-right: 16px;
-  margin-left: 16px;
+  /* margin-right: 5px; */
+  margin-left: 10px;
 }

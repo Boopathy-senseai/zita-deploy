@@ -17,7 +17,15 @@ body {
 }
 
 #root {
-  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .admin-bc {
@@ -300,6 +308,10 @@ small {
   border: 1px solid #dc3545 !important;
 }
 
+.react-autosuggest__suggestion{
+  font-size: 13px !important;
+}
+
 /* //Container */
 
 /* @media (min-width: 1200px) {
@@ -326,7 +338,7 @@ small {
   padding: 0px !important;
   color: #ffffff;
   background-color: #581845;
-  box-shadow: 1px 2px 1px 1px #D7C7D2;
+  box-shadow: 1px 2px 1px 1px #d7c7d2;
 }
 
 .zitaNav .navbar-brand img {
@@ -394,10 +406,10 @@ small {
   font-weight: 600;
   border-top: 0px;
   padding-top: 0px;
-  border-bottom: 0.5px solid #A5889C;
+  border-bottom: 0.5px solid #a5889c;
   padding-bottom: 15px;
-} 
- 
+}
+
 .table tbody td {
   font-family: 'Roboto', sans-serif;
   font-size: 13px;
@@ -539,8 +551,8 @@ small {
 }
 
 input:disabled {
- color:hsl(0, 0%, 20%);
- opacity: 0.5;
+  color: hsl(0, 0%, 20%);
+  opacity: 0.5;
 }
 
 .label {
@@ -762,4 +774,23 @@ input:-webkit-autofill:active {
 /* Input fields */
 .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
   padding: 5px 10px !important;
+}
+
+
+/* tab-content */
+
+.tab-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden !important;
+  flex: 1;
+}
+
+.tab-pane {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: auto !important;
+  flex: 1;
 }

@@ -112,7 +112,9 @@ export const unlimitedHelper = (value: string | number | null | undefined) => {
   const result = value === null ? 'Unlimited' : value;
   return result;
 };
-export const notSpecified = (value: string | number | null | undefined | string[]) => {
+export const notSpecified = (
+  value: string | number | null | undefined | string[],
+) => {
   const result =
     value === undefined || value === null || value === ''
       ? 'Not Specified'
@@ -199,3 +201,48 @@ export const dateFromDay = (year: any) => {
   var date = new Date(year, 0);
   return new Date(date.setDate(1));
 };
+
+export const convertJsonToForm = (json: { [key: string]: any }) => {
+  const form = new FormData();
+  Object.keys(json).forEach((key) => {
+    if (typeof json[key] !== 'string') {
+      form.append(key, JSON.stringify(json[key]));
+    } else {
+      form.append(key, json[key]);
+    }
+  });
+
+  return form;
+};
+
+export function stringifyParams(
+  json: { [key: string]: any } | { [key: number]: any },
+) {
+  return Object.keys(json).reduce((res, key) => {
+    if (res === '') {
+      // console.log(res);
+      // console.log(`${key}=${jsonStringfy(json[key])}`)
+      return `${key}=${jsonStringfy(json[key])}`;
+    }
+
+    function jsonStringfy(data: any) {
+      let value = data;
+      if (typeof data !== 'string') {
+        value = JSON.stringify(data);
+      }
+      // console.log(`${value}`);
+      return `${value}`;
+    }
+    return res + `&${key}=${jsonStringfy(json[key])}`;
+  }, '');
+}
+
+export function workExperience(year: number, months?: number) {
+  if (year === 0 && months && months !== 0) {
+    return `${months} ${months > 1 ? 'Months' : 'Month'}`;
+  }
+  if (year > 1) {
+    return `${Math.floor(year)} Years`;
+  }
+  return 'Fresher';
+}

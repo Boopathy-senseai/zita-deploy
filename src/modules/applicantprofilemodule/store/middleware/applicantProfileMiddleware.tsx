@@ -9,6 +9,7 @@ import {
   APPLICANT_PROFILE_MATCH,
   APPLICANT_PROFILE_MESSAGE,
   APPLICANT_PROFILE_NOTES,
+  APPLICANT_PROFILE_LIST,
   APPLICANT_PROFILE_STATUS,
   SYNC_GOOGLE,
   SYNC_OUTLOOK,
@@ -21,6 +22,7 @@ import {
   applicantsStatusApi,
   calenderEventApi,
   favouriteApi,
+  applicantUserlistApi,
   InterviewScorecardApi,
   messagesTemplates,
   showAllMatch,
@@ -34,7 +36,11 @@ import {
   outlookAdd,
   calbackurlApi,
 } from '../../../../routes/apiRoutes';
-import { ApplicantProfilePayload } from '../../applicantProfileTypes';
+import {
+  ApplicantProfilePayload,
+  IApplicantStatus,
+} from '../../applicantProfileTypes';
+import { stringifyParams } from '../../../../uikit/helper';
 
 export const applicantProfileInitialMiddleWare = createAsyncThunk(
   APPLICANT_PROFILE_INITIAL,
@@ -80,7 +86,32 @@ export const applicantNotesMiddleWare = createAsyncThunk(
     }
   },
 );
-
+export const applicantUserListMiddleWare = createAsyncThunk(
+  APPLICANT_PROFILE_LIST,
+  async (_a, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get( applicantUserlistApi)
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+export const applicantUserListstateMiddleWare = createAsyncThunk(
+  APPLICANT_PROFILE_LIST,
+  async ({ formData }: any, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(applicantUserlistApi,
+        formData 
+      )
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+); 
 export const applicantAllMatchMiddleWare = createAsyncThunk(
   APPLICANT_PROFILE_ALLMATCH,
   async ({ can_id }: { can_id: number | string }, { rejectWithValue }) => {
@@ -160,7 +191,10 @@ export const calenderMiddleWare = createAsyncThunk(
   },
 );
 
-export const applicantStatusMiddleWare = createAsyncThunk(
+export const applicantStatusMiddleWare = createAsyncThunk<
+  IApplicantStatus[],
+  { jd_id: string; can_id: string }
+>(
   APPLICANT_PROFILE_STATUS,
   async (
     { jd_id, can_id }: { jd_id: string; can_id: string },
@@ -170,7 +204,7 @@ export const applicantStatusMiddleWare = createAsyncThunk(
       const { data } = await axios.get(applicantsStatusApi, {
         params: { jd_id, candi_id: can_id },
       });
-      return data;
+      return data.data as IApplicantStatus[];
     } catch (error) {
       const typedError = error as Error;
       return rejectWithValue(typedError);
@@ -214,7 +248,7 @@ export const syncOutlookMiddleWare = createAsyncThunk(
   async (_a, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(syncOutlookApi);
-      
+
       return data;
     } catch (error) {
       const typedError = error as Error;

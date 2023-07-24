@@ -38,7 +38,8 @@ type Props = {
   update:any;
   val:any;
   isCheck:any;
-  setIsCheck:any
+  setIsCheck:any;
+
   // setUnlockLoader: (arg: boolean) => void;
 };
 
@@ -71,6 +72,7 @@ const TalentCardList = ({
   val,
   isCheck,
   setIsCheck,
+ 
 }: // setUnlockLoader,
 Props) => {
   const [isCheckAll, setIsCheckAll] = useState(false);
@@ -199,6 +201,7 @@ Props) => {
           .map((dataList, index) => {
             return (
               <TalentCardMap
+          
                 candi_list={candi_list}
                 handleCandidateView={handleCandidateView}
                 isCheck={isCheck}
