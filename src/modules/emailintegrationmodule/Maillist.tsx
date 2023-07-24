@@ -24,12 +24,18 @@ const Maillist = ({
   page,
 }: Props) => {
   const [messages, setmesage] = useState<any>();
+  const [integration, setintegration] = useState('google');
 
   const getmessage = (get, id) => {
-    removemsg();
-    setmesage(get);
-    selectmessage(get);
-    getmessageid(id);
+    if (integration === 'google') {
+      alert(id);
+      getmessageid(id);
+    } else {
+      removemsg();
+      setmesage(get);
+      selectmessage(get);
+      getmessageid(id);
+    }
   };
 
   const showfolder = () => {
@@ -99,10 +105,50 @@ const Maillist = ({
     }
   };
 
+  const getsubject = (data: any) => {
+    if (data.length !== 0) {
+      const subject = data.filter((item) => item.name === 'Subject');
+
+      if (subject.length !== 0) {
+        return <>{subject[0].value}</>;
+      } else {
+        return <>{'(No Subject)'}</>;
+      }
+    } else {
+      return <>{'(No Subject)'}</>;
+    }
+  };
+
+  const getfrom = (data: any) => {
+    if (data.length !== 0) {
+      const from = data.filter((item) => item.name === 'From');
+
+      if (from.length !== 0) {
+        let From = from[0].value.replace(/\s\S*$/, '');
+        return <>{From}</>;
+      } else {
+        return <>{'(No Recipients)'}</>;
+      }
+    } else {
+      return <>{'(No Recipients)'}</>;
+    }
+  };
+
+  const notification = (val) => {
+    const labelIds = val.labelIds || [];
+    const isRead = !labelIds.includes('UNREAD');
+    if (isRead === false) {
+      return (
+        <>
+          <Flex className={styles.notification_dot}></Flex>
+        </>
+      );
+    }
+  };
+
   return (
     <div>
-      {console.log('siderouteaaa', sideroute)}
-      {console.log('folder', mailfolders)}
+      {console.log('qw', messagelist)}
       <Flex
         style={{ marginLeft: '2px', borderRight: '1px solid #c3c3c3' }}
         className={styles.maillist}
@@ -128,58 +174,115 @@ const Maillist = ({
             <>
               {messagelist.map((val, int) => (
                 <>
-                  <Card
-                    key={int}
-                    className={
-                      messages === undefined
-                        ? styles.cardStyles
-                        : messages.id === val.id
-                        ? styles.seletmsg
-                        : styles.cardStyles
-                    }
-                    onClick={() => getmessage(val, val.id)}
-                  >
-                    <Flex row start className={styles.mailCard}>
-                      {val.isRead !== true ? (
-                        <Flex className={styles.notification_dot}></Flex>
-                      ) : (
-                        ''
-                      )}
+                  {integration === 'google' ? (
+                    <Card
+                      key={int}
+                      className={
+                        messages === undefined
+                          ? styles.cardStyles
+                          : messages.id === val.id
+                          ? styles.seletmsg
+                          : styles.cardStyles
+                      }
+                      onClick={() => getmessage(val, val.id)}
+                    >
+                      <Flex row start className={styles.mailCard}>
+                        {notification(val)}
 
-                      <Flex
-                        style={{
-                          marginLeft: val.isRead ? '20px' : '10px',
-                          width: '100%',
-                          display: 'flex',
-                        }}
-                      >
                         <Flex
-                          column
-                          start
-                          between
-                          style={{ display: 'flex', flexDirection: 'column' }}
+                          style={{
+                            marginLeft: '10px',
+                            width: '100%',
+                            display: 'flex',
+                          }}
                         >
-                          <Flex row between>
-                            <Text>{handlemessage(val)}</Text>
-                            <Text size={12}>
-                              {getDateString(val.sentDateTime, 'DD/MM/YY')}
+                          <Flex
+                            column
+                            start
+                            between
+                            style={{ display: 'flex', flexDirection: 'column' }}
+                          >
+                            <Flex row between>
+                              <Text>{getfrom(val.payload.headers)}</Text>
+                              <Text size={12}>02/07/23</Text>
+                            </Flex>
+
+                            <Text size={14} className={styles.textHeadingStyle}>
+                              {getsubject(val.payload.headers)}
                             </Text>
                           </Flex>
-
-                          <Text size={14} className={styles.textHeadingStyle}>
-                            {val.subject !== '' ? val.subject : '(no subject)'}
-                          </Text>
-                        </Flex>
-                        <Flex>
-                          <Text className={styles.textStyle} size={12}>
-                            {val.bodyPreview !== ''
-                              ? val.bodyPreview
-                              : 'This message has no content'}
-                          </Text>
+                          <Flex>
+                            <Text className={styles.textStyle} size={12}>
+                              {val.snippet}
+                            </Text>
+                          </Flex>
                         </Flex>
                       </Flex>
-                    </Flex>
-                  </Card>
+                    </Card>
+                  ) : (
+                    <>
+                      <Card
+                        key={int}
+                        className={
+                          messages === undefined
+                            ? styles.cardStyles
+                            : messages.id === val.id
+                            ? styles.seletmsg
+                            : styles.cardStyles
+                        }
+                        onClick={() => getmessage(val, val.id)}
+                      >
+                        <Flex row start className={styles.mailCard}>
+                          {val.isRead !== true ? (
+                            <Flex className={styles.notification_dot}></Flex>
+                          ) : (
+                            ''
+                          )}
+
+                          <Flex
+                            style={{
+                              marginLeft: val.isRead ? '20px' : '10px',
+                              width: '100%',
+                              display: 'flex',
+                            }}
+                          >
+                            <Flex
+                              column
+                              start
+                              between
+                              style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                              }}
+                            >
+                              <Flex row between>
+                                <Text>{handlemessage(val)}</Text>
+                                <Text size={12}>
+                                  {getDateString(val.sentDateTime, 'DD/MM/YY')}
+                                </Text>
+                              </Flex>
+
+                              <Text
+                                size={14}
+                                className={styles.textHeadingStyle}
+                              >
+                                {val.subject !== ''
+                                  ? val.subject
+                                  : '(no subject)'}
+                              </Text>
+                            </Flex>
+                            <Flex>
+                              <Text className={styles.textStyle} size={12}>
+                                {val.bodyPreview !== ''
+                                  ? val.bodyPreview
+                                  : 'This message has no content'}
+                              </Text>
+                            </Flex>
+                          </Flex>
+                        </Flex>
+                      </Card>
+                    </>
+                  )}
                 </>
               ))}
             </>

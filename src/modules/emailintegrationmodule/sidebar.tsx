@@ -43,6 +43,7 @@ const Sidebar = ({
   sidebarroute,
 }: Props) => {
   const [select, setSelect] = useState(1);
+  const [integration, setintegration] = useState('google');
   const openmodel = () => {
     open();
   };
@@ -179,33 +180,58 @@ const Sidebar = ({
               </Text> */}
             </a>
           </li>
-          <li className={sidebarroute === 4 ? styles.select_row : ''}>
-            <a
-              href={' '}
-              onClick={(e) => archivemessage(e, 4)}
-              className={styles.hoverview}
-              title="Archive"
-            >
-              <SvgArchive
-                width={16}
-                height={16}
-                fill={sidebarroute === 4 ? '#581845' : '#333333'}
-              />
-              {/* <Text
+          {integration === 'outlook' ? (
+            <li className={sidebarroute === 4 ? styles.select_row : ''}>
+              <a
+                href={' '}
+                onClick={(e) => archivemessage(e, 4)}
+                className={styles.hoverview}
+                title="Archive"
+              >
+                <SvgArchive
+                  width={16}
+                  height={16}
+                  fill={sidebarroute === 4 ? '#581845' : '#333333'}
+                />
+                {/* <Text
                 className={styles.text}
                 color="primary"
                 style={{ marginLeft: '10px', fontSize: '18px' }}
               >
                 Archive
               </Text> */}
-            </a>
-          </li>
+              </a>
+            </li>
+          ) : (
+            <li className={sidebarroute === 4 ? styles.select_row : ''}>
+              <a
+                href={' '}
+                onClick={(e) => archivemessage(e, 4)}
+                className={styles.hoverview}
+                title="Spam"
+              >
+                <SvgArchive
+                  width={16}
+                  height={16}
+                  fill={sidebarroute === 4 ? '#581845' : '#333333'}
+                />
+                {/* <Text
+                className={styles.text}
+                color="primary"
+                style={{ marginLeft: '10px', fontSize: '18px' }}
+              >
+                Archive
+              </Text> */}
+              </a>
+            </li>
+          )}
+
           <li className={sidebarroute === 5 ? styles.select_row : ''}>
             <a
               href={' '}
               onClick={(e) => trashmessage(e, 5)}
               className={styles.hoverview}
-              title="Trash"
+              title={integration === 'outlook' ? 'Trash' : 'Bin'}
             >
               <SvgTrash
                 width={16}
@@ -221,27 +247,31 @@ const Sidebar = ({
               </Text> */}
             </a>
           </li>
-          <li className={sidebarroute === 6 ? styles.select_row : ''}>
-            <a
-              href={' '}
-              onClick={(e) => junkmessage(e, 6)}
-              className={styles.hoverview}
-              title="Junk"
-            >
-              <SvgJunk
-                width={16}
-                height={16}
-                stroke={sidebarroute === 6 ? '#581845' : '#333333'}
-              />
-              {/* <Text
+          {integration === 'outlook' ? (
+            <li className={sidebarroute === 6 ? styles.select_row : ''}>
+              <a
+                href={' '}
+                onClick={(e) => junkmessage(e, 6)}
+                className={styles.hoverview}
+                title="Junk"
+              >
+                <SvgJunk
+                  width={16}
+                  height={16}
+                  stroke={sidebarroute === 6 ? '#581845' : '#333333'}
+                />
+                {/* <Text
                 className={styles.text}
                 color="primary"
                 style={{ marginLeft: '10px', fontSize: '18px' }}
               >
                 junk
               </Text> */}
-            </a>
-          </li>
+              </a>
+            </li>
+          ) : (
+            ''
+          )}
         </ul>
       </div>
     </div>

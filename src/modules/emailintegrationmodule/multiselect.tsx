@@ -19,36 +19,32 @@ const customStyles: StylesConfig = {
       border: '1px solid white',
       boxShadow: '0px 0px 6px white',
     },
-    '&: css-319lph-ValueContainer':{
-      padding: "unset"
-
+    '&: css-319lph-ValueContainer': {
+      padding: 'unset',
     },
-    minHeight: "10px",
+    minHeight: '10px',
     cursor: 'text',
     // width: '480px',
-    flex: 1
+    flex: 1,
   }),
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
     return {
       ...styles,
       backgroundColor: isSelected
-        ? "#333333"
+        ? '#333333'
         : isFocused
-        ? "#EEE8EC"
+        ? '#EEE8EC'
         : undefined,
-      color: isSelected
-        ? '#ccc'
-        : "#333333",
+      color: isSelected ? '#ccc' : '#333333',
       cursor: isDisabled ? 'not-allowed' : 'default',
       zIndex: 199999999999999,
-    
 
       ':active': {
         ...styles[':active'],
         backgroundColor: !isDisabled
           ? isSelected
-            ? "red"
-            : "#EEE8EC"
+            ? 'red'
+            : '#EEE8EC'
           : undefined,
       },
     };
@@ -95,7 +91,6 @@ const multiselect = ({ options, onChange, value }: Props) => {
       }}
       className="basic-multi-select"
       classNamePrefix="select"
-    
     />
   );
 };

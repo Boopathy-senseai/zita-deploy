@@ -283,7 +283,7 @@ const NavBar = () => {
                       navFocusColor: pathname === '/mail',
                     })}
                   >
-                    Mail box
+                    Mailbox
                   </Text>
                 </LinkWrapper>
               ) : (
@@ -293,7 +293,7 @@ const NavBar = () => {
                     navFocusColor: pathname === '/mail',
                   })}
                 >
-                  Mail box
+                  Mailbox
                 </Text>
               )}
             </>

@@ -64,6 +64,7 @@
     "highcharts-react-official": "^3.1.0",
     "html-react-parser": "^3.0.16",
     "jquery": "^3.6.0",
+    "js-base64": "^3.7.5",
     "lodash.escaperegexp": "4.1.2",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.34",

@@ -6,7 +6,7 @@ import {
 } from '@microsoft/microsoft-graph-client';
 import { AuthCodeMSALBrowserAuthenticationProvider } from '@microsoft/microsoft-graph-client/authProviders/authCodeMsalBrowser';
 // import { User } from 'microsoft-graph';
-
+import { gapi } from 'gapi-script';
 let graphClient: Client | undefined = undefined;
 
 function ensureClient(authProvider: AuthCodeMSALBrowserAuthenticationProvider) {
@@ -305,3 +305,193 @@ export async function getmailfolders(
   //console.log('-----getmailfolder-----', response);
   return response;
 }
+
+/////// Gmail /////////
+
+export async function gmail_Account_Profile() {
+  await gapi.auth2
+    .getAuthInstance()
+    .currentUser.get()
+    .then.then((res: any) => {
+      return res;
+    })
+    .catch((errmsg) => {
+      return errmsg;
+    });
+}
+
+export const initGoogleAuth = () => {
+  return new Promise<void>((resolve, reject) => {
+    gapi.load('client:auth2', () => {
+      gapi.client
+        .init({
+          clientId: process.env.REACT_APP_CLIENT_ID,
+          scope: process.env.REACT_APP_SCOPES,
+        })
+        .then(() => {
+          // Load the Gmail API client
+          return gapi.client.load('gmail', 'v1');
+        })
+        .then(() => {
+          resolve();
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  });
+};
+
+export function handleGoogleAuth() {
+  initGoogleAuth()
+    .then(() => {
+      // console.log('Google API client initialized');
+      // After successful initialization and authentication, fetch inbox messages
+    })
+    .catch((error) => {
+      console.error('Failed to initialize Google API client:', error);
+    });
+}
+
+export async function gmail_Inbox() {
+  var response: any = await gapi.client.gmail.users.messages.list({
+    userId: 'me',
+    labelIds: 'INBOX',
+    maxResults: 20, // Adjust the number of results as needed
+  });
+  return response;
+}
+
+export const fetchFullMessageContent = (messageId) => {
+  return gapi.client.gmail.users.messages.get({
+    userId: 'me',
+    id: messageId,
+    format: 'full', // Request the full message body
+  });
+};
+
+export async function gmail_send(base64EncodedEmail) {
+  const res = gapi.client.gmail.users.messages.send({
+    userId: 'me',
+    resource: {
+      raw: base64EncodedEmail,
+    },
+  });
+  return res;
+}
+
+export async function Gmail_Mails(folder) {
+  try {
+    const response = await gapi.client.gmail.users.messages.list({
+      userId: 'me',
+      labelIds: folder,
+      maxResults: 25,
+    });
+
+    const { messages } = response.result;
+    if (messages && messages.length > 0) {
+      const messageIds = messages.map((message) => message.id);
+      var messageResponses = [];
+
+      for (const messageId of messageIds) {
+        const messageResponse = await gapi.client.gmail.users.messages.get({
+          userId: 'me',
+          id: messageId,
+          format: 'metadata',
+          metadataHeaders: ['From', 'Subject', 'To', 'X-GM-Labels'],
+        });
+
+        messageResponses.push(messageResponse.result);
+      }
+    }
+    return messageResponses;
+  } catch (error) {
+    console.error('Error loading messages:', error);
+  }
+}
+export async function Selected_message(id) {
+  try {
+    const response = await gapi.client.gmail.users.messages.get({
+      userId: 'me',
+      id: id,
+      format: 'full',
+    });
+    const message = response.result;
+    return message;
+  } catch (error) {
+    console.error('Error loading message body:', error);
+  }
+}
+export const Gmail_read_messages = async (messageId) => {
+  const response = await gapi.client.gmail.users.messages.modify({
+    userId: 'me',
+    id: messageId,
+    resource: {
+      removeLabelIds: ['UNREAD'],
+    },
+  });
+  console.log('sdsd', response);
+  return response;
+};
+
+export const Gmail_unread_messages = (messageId) => {
+  return gapi.client.gmail.users.messages.modify({
+    userId: 'me',
+    id: messageId,
+    resource: {
+      addLabelIds: ['UNREAD'],
+    },
+  });
+};
+export const Gmail_MessageToBin = (messageId) => {
+  return gapi.client.gmail.users.messages.trash({
+    userId: 'me',
+    id: messageId,
+  });
+};
+
+export const Gmail_search = async (Folder, serchdata) => {
+  try {
+    const query = `in:${Folder} ${serchdata}`;
+    const response = await gapi.client.gmail.users.messages.list({
+      userId: 'me',
+      q: query,
+    });
+
+    const { messages } = response.result;
+    if (messages && messages.length > 0) {
+      const messageIds = messages.map((message) => message.id);
+      var messageResponses = [];
+
+      for (const messageId of messageIds) {
+        const messageResponse = await gapi.client.gmail.users.messages.get({
+          userId: 'me',
+          id: messageId,
+          format: 'full',
+        });
+
+        messageResponses.push(messageResponse.result);
+      }
+    }
+    console.log('-search-', messageResponses);
+    return messageResponses;
+  } catch (error) {
+    console.error('Error loading messages:', error);
+  }
+};
+
+export const Gmail_Draft = async (Folder, serchdata) => {
+  var draft = 'sd';
+  gapi.client.gmail.users.drafts
+    .create({
+      userId: 'me',
+      resource: draft,
+    })
+    .then((response) => {
+      console.log('Draft saved successfully.', response);
+      // You can perform additional actions here after the draft is saved
+    })
+    .catch((error) => {
+      console.error('Error saving draft:', error);
+    });
+};
