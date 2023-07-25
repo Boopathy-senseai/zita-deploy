@@ -15,6 +15,7 @@ const SvgCheck2Circle = ({ width, height, fill , className }: typeof defaultProp
       width={width}
       height={height}
       fill={fill}
+      viewBox="0 0 16 16"
       className={className}
       
     >
