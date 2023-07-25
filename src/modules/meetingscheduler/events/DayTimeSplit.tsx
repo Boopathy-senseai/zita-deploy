@@ -124,11 +124,12 @@ const DayTimeSplit = (props) => {
       const hour = currentTime.getHours() % 12 || 12; // Convert to 12-hour format
       const minute = currentTime.getMinutes().toString().padStart(2, '0'); // Ensure 2-digit format
       const ampm = currentTime.getHours() >= 12 ? 'PM' : 'AM'; // Determine AM/PM based on the hour
-      const timeSlot = { id: index, label: `${hour}:${minute} ${ampm}` };
+      if(index > 0){
+        const timeSlot = { id: index, label: `${hour}:${minute} ${ampm}`};
+        timeSlots.push(timeSlot);
+      }
 
-      timeSlots.push(timeSlot);
       console.log('......', timeSlots);
-
       currentTime = new Date(currentTime.getTime() + timeIncrement * 60000);
       index++;
     }
