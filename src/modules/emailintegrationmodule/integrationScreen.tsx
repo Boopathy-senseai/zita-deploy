@@ -69,6 +69,7 @@ const EmailScreen = () => {
   const [searchDropdown, setSearchDropdown] = useState(false);
   const [searchSection, setSearchSection] = useState('All');
   const [searchFolder, setSearchFolder] = useState('All Folder');
+  const [searchicon, setSearchicon] = useState(true);
 
   const authProvider = new AuthCodeMSALBrowserAuthenticationProvider(
     msal.instance as PublicClientApplication,
@@ -263,13 +264,14 @@ const EmailScreen = () => {
   };
 
   const searchinput = (e) => {
-    setSearch(e.target.value.trim());
+    setSearch(e.target.value);
   };
 
   const serchmessage = async (e: any) => {
     // e.preventDefault();
     if (e.key === 'Enter') {
       if (search !== '') {
+        setSearchicon(false);
         setsideroute(0);
         setPrevious(25);
         setSkip(0);
@@ -280,6 +282,7 @@ const EmailScreen = () => {
         setLoader(true);
         await getsearchmail(authProvider, searchSection, search, skip, range)
           .then((res) => {
+            setSearchicon(true);
             // removemessage();
             setmessagelist(res.value);
             if (res['@odata.count'] < range) {
@@ -555,6 +558,9 @@ const EmailScreen = () => {
                 previous={previous}
                 previous1={previous1}
                 total={total}
+                msglistcount={messagelist.length}
+                searchicon={searchicon}
+                message={message}
               />
             </Flex>
             <Flex
@@ -581,6 +587,7 @@ const EmailScreen = () => {
                 // previous={previous}
                 // previous1={previous1}
                 // total={total}
+                msglistcount={messagelist.length}
               />
             </Flex>
           </Flex>

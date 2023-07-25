@@ -22,6 +22,9 @@ type Props = {
   previous: any;
   previous1: any;
   total: any;
+  msglistcount: any;
+  searchicon: any;
+  message: any;
 };
 const Maillist = ({
   messagelist,
@@ -38,32 +41,71 @@ const Maillist = ({
   previous,
   previous1,
   total,
+  msglistcount,
+  searchicon,
+  message,
 }: Props) => {
-  const [messages, setmesage] = useState<any>();
+  const [messages, setmesage] = useState<any>('');
 
   const getmessage = (get, id) => {
-    removemsg();
-    setmesage(get);
-    selectmessage(get);
-    getmessageid(id);
+    if (message.id !== id) {
+      removemsg();
+      setmesage(get);
+      selectmessage(get);
+      getmessageid(id);
+    }
   };
 
   const showfolder = () => {
     if (mailfolders.length !== 0) {
       if (sideroute === 1) {
-        return <Text bold>Inbox ({mailfolders[4].unreadItemCount})</Text>;
+        return (
+          <Text bold>
+            {mailfolders[4].unreadItemCount !== 0
+              ? `Inbox (${mailfolders[4].unreadItemCount})`
+              : 'Inbox'}
+          </Text>
+        );
       } else if (sideroute === 2) {
-        return <Text bold>Sent Items ({mailfolders[7].unreadItemCount})</Text>;
+        return (
+          <Text bold>
+            {mailfolders[7].unreadItemCount !== 0
+              ? `Sent Items (${mailfolders[7].unreadItemCount})`
+              : 'Sent Items'}
+          </Text>
+        );
       } else if (sideroute === 3) {
-        return <Text bold>Drafts ({mailfolders[3].unreadItemCount})</Text>;
+        return (
+          <Text bold>
+            {mailfolders[3].unreadItemCount !== 0
+              ? `Drafts (${mailfolders[3].unreadItemCount})`
+              : 'Drafts'}
+          </Text>
+        );
       } else if (sideroute === 4) {
-        return <Text bold>Archive ({mailfolders[0].unreadItemCount})</Text>;
+        return (
+          <Text bold>
+            {mailfolders[0].unreadItemCount !== 0
+              ? `Archive (${mailfolders[0].unreadItemCount})`
+              : 'Archive'}
+          </Text>
+        );
       } else if (sideroute === 5) {
         return (
-          <Text bold>Deleted Items ({mailfolders[2].unreadItemCount})</Text>
+          <Text bold>
+            {mailfolders[2].unreadItemCount !== 0
+              ? ` Deleted Items (${mailfolders[2].unreadItemCount})`
+              : ' Deleted Items'}
+          </Text>
         );
       } else if (sideroute === 6) {
-        return <Text bold>Junk Email ({mailfolders[5].unreadItemCount})</Text>;
+        return (
+          <Text bold>
+            {mailfolders[5].unreadItemCount !== 0
+              ? ` Junk Email (${mailfolders[5].unreadItemCount})`
+              : ' Junk Email'}
+          </Text>
+        );
       } else if (sideroute === 0) {
         return <Text bold> </Text>;
       }
@@ -99,7 +141,12 @@ const Maillist = ({
           </Flex>
         );
       }
-      return <>{val.from.emailAddress.name}</>;
+
+      if (val.from !== undefined) {
+        return <>{val.from.emailAddress.name}</>;
+      } else {
+        return <>{'(No Recipients)'}</>;
+      }
     } else {
       if (sideroute === 2) {
         if (val.toRecipients.length !== 0) {
@@ -128,36 +175,40 @@ const Maillist = ({
 
         <Flex row center>
           {sidebarroute !== 0 && (
-            <Flex row center>
-              <Text color="theme">{`${previous1}-${previous} of ${total}`}</Text>
-              <Flex
-                title="previous"
-                className={
-                  previous1 !== 1 ? styles.icons : styles.iconsDisabled
-                }
-                style={{ marginLeft: '5px' }}
-              >
-                <SvgLeft
-                  width={12}
-                  height={12}
-                  fill={previous1 !== 1 ? '#581845' : '#58184550'}
-                  onClick={previous1 !== 1 ? previousfun : undefined}
-                />
-              </Flex>
-              <Flex
-                title="Next"
-                className={
-                  previous !== total ? styles.icons : styles.iconsDisabled
-                }
-              >
-                <SvgRight
-                  width={12}
-                  height={12}
-                  fill={previous !== total ? '#581845' : '#58184550'}
-                  onClick={previous !== total ? nextfun : undefined}
-                />
-              </Flex>
-            </Flex>
+            <>
+              {msglistcount !== 0 && (
+                <Flex row center>
+                  <Text color="theme">{`${previous1}-${previous} of ${total}`}</Text>
+                  <Flex
+                    title="previous"
+                    className={
+                      previous1 !== 1 ? styles.icons : styles.iconsDisabled
+                    }
+                    style={{ marginLeft: '5px' }}
+                  >
+                    <SvgLeft
+                      width={12}
+                      height={12}
+                      fill={previous1 !== 1 ? '#581845' : '#58184550'}
+                      onClick={previous1 !== 1 ? previousfun : undefined}
+                    />
+                  </Flex>
+                  <Flex
+                    title="Next"
+                    className={
+                      previous !== total ? styles.icons : styles.iconsDisabled
+                    }
+                  >
+                    <SvgRight
+                      width={12}
+                      height={12}
+                      fill={previous !== total ? '#581845' : '#58184550'}
+                      onClick={previous !== total ? nextfun : undefined}
+                    />
+                  </Flex>
+                </Flex>
+              )}
+            </>
           )}
           <Flex title="Refresh" style={{ padding: '6px' }}>
             <SvgRefresh width={18} height={18} onClick={referesh} />
@@ -234,21 +285,35 @@ const Maillist = ({
             </Card>
           ))
         ) : (
-          <Flex
-            style={{
-              alignContent: 'center',
-              alignItems: 'center',
-              height: '100%',
-              // width: '100%',
-              display: 'flex',
-              justifyContent: 'center',
-              flexDirection: 'column',
-            }}
-          >
-            <SvgSearchGlass width={65} height={65} />
-            <Text style={{ marginTop: '10px' }}>We didn`t find anthing.</Text>
-            <Text color="gray">Try a different keyword.</Text>
-          </Flex>
+          <>
+            {sideroute === 0 ? (
+              <>
+                {searchicon === true ? (
+                  <Flex
+                    style={{
+                      alignContent: 'center',
+                      alignItems: 'center',
+                      height: '100%',
+                      // width: '100%',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      flexDirection: 'column',
+                    }}
+                  >
+                    <SvgSearchGlass width={65} height={65} />
+                    <Text style={{ marginTop: '10px' }}>
+                      We didn`t find anthing.
+                    </Text>
+                    <Text color="gray">Try a different keyword.</Text>
+                  </Flex>
+                ) : (
+                  ' '
+                )}
+              </>
+            ) : (
+              ''
+            )}
+          </>
         )}
       </Flex>
     </Flex>

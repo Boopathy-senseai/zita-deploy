@@ -38,7 +38,7 @@ type Props = {
   // previous: any;
   // previous1: any;
   // total: any;
-
+  msglistcount: any;
 };
 const Inbox = ({
   message,
@@ -59,6 +59,7 @@ const Inbox = ({
   // previous,
   // previous1,
   // total,
+  msglistcount,
 }: Props) => {
   const msal = useMsal();
   const [view, setview] = useState(true);
@@ -410,22 +411,21 @@ const Inbox = ({
         <Flex
           column
           style={{
-            position: "relative",
+            position: 'relative',
             border: '1px solid #c3c3c3',
             borderRadius: '5px 5px 0px 0px',
             display: 'flex',
             flexDirection: 'column',
             width: '100%',
-            height: "fit-content",
+            height: 'fit-content',
             maxHeight: '-webkit-fill-available',
           }}
         >
-          
           <Flex
             row
             between
             style={{
-              position: "relative",
+              position: 'relative',
               borderBottom: '1px solid #c3c3c3',
               display: 'flex',
               flexDirection: 'column',
@@ -434,7 +434,7 @@ const Inbox = ({
           >
             <Flex
               style={{
-                position: "relative",
+                position: 'relative',
                 display: 'flex',
                 flexDirection: 'column',
                 padding: '5px 10px',
@@ -541,7 +541,11 @@ const Inbox = ({
       <Flex row between center className={styles.iconContainer}>
         {topActionBar()}
       </Flex>
-      <Flex className={styles.bodyContainer}>{renderBody()}</Flex>
+      {msglistcount !== 0 ? (
+        <Flex className={styles.bodyContainer}>{renderBody()}</Flex>
+      ) : (
+        ''
+      )}
     </div>
   );
 };

@@ -181,12 +181,11 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
   };
 
   const handleMinimise = () => {
-    if(style === 2){
+    if (style === 2) {
       setstyle(0);
-    }else {
+    } else {
       setstyle(2);
     }
-    
   };
 
   const openCC = () => {
@@ -319,7 +318,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
     setTosample([]);
     setFile([]);
     formik.resetForm();
-    // onClose();
+    onClose();
     setstyle(0);
     setopenCc(false);
     setopenBcc(false);
@@ -493,8 +492,8 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                   style={{
                     marginRight: '15px',
                     cursor: 'pointer',
-                    marginBottom: style === 2 ? 10 : 0, 
-                    marginTop: style === 0 ? 10 : 0
+                    marginBottom: style === 2 ? 10 : 0,
+                    marginTop: style === 0 ? 10 : 0,
                   }}
                 >
                   {void console.log(style)}
@@ -541,7 +540,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                     height={11}
                     stroke="#ffffff"
                     viewBox="0 0 9 9"
-                    onClick={handleClose}
+                    onClick={clearform}
                   />
                 </Flex>
               </Flex>
@@ -908,7 +907,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
                     width={14}
                     height={14}
                     fill="#581845"
-                    onClick={clearform}
+                    onClick={handleClose}
                   />
                 </Flex>
               </Flex>
