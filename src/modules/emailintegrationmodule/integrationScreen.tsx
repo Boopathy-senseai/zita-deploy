@@ -270,8 +270,9 @@ const EmailScreen = () => {
   const serchmessage = async (e: any) => {
     // e.preventDefault();
     if (e.key === 'Enter') {
-      if (search !== '') {
+      if (search.trim() !== '') {
         setSearchicon(false);
+        setSearch(search.trim());
         setsideroute(0);
         setPrevious(25);
         setSkip(0);
@@ -280,7 +281,13 @@ const EmailScreen = () => {
         setmessagelist([]);
         setmesage('');
         setLoader(true);
-        await getsearchmail(authProvider, searchSection, search, skip, range)
+        await getsearchmail(
+          authProvider,
+          searchSection,
+          search.trim(),
+          skip,
+          range,
+        )
           .then((res) => {
             setSearchicon(true);
             // removemessage();

@@ -207,7 +207,7 @@ export async function getsearchmail(
       .count(true)
 
       .top(1000)
-      .search(serchdata)
+      .query(`$search="${serchdata}"`)
       .get();
 
     console.log('-----allsearch-----', response1);
@@ -218,7 +218,7 @@ export async function getsearchmail(
       .count(true)
 
       .top(1000)
-      .search(serchdata)
+      .query(`$search="${serchdata}"`)
       .get();
 
     console.log('-----particularsearchmail-----', response);
