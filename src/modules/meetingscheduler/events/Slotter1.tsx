@@ -1,15 +1,12 @@
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 import { DayPicker, DayPickerProps } from 'react-day-picker';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { format } from 'date-fns';
-// import { zonedTimeToUtc, utcToZonedTime } from 'date-fns-tz';
-import axios from 'axios';
-import moment, { duration } from 'moment';
+import moment, { duration, weekdays } from 'moment';
 import { enUS } from 'date-fns/locale';
-// import { load } from 'googleapis';
-// import { DateRangePicker } from 'daterangepicker';
 import { AppDispatch, RootState } from '../../../store';
+import { availbleslot, slotterApi } from '../../../routes/apiRoutes';
 import 'react-day-picker/dist/style.css';
 import Flex from '../../../uikit/Flex/Flex';
 import Text from '../../../uikit/Text/Text';
@@ -23,24 +20,20 @@ import SvgGlobe from '../../../icons/SvgGlobe';
 import SvgInfoCircle from '../../../icons/SvgInfoCircle';
 import Loader from '../../../uikit/Loader/Loader';
 import styles from './slotter.module.css';
-// import { load } from 'googleapis';
-
 import {
   getAvailbleSlot,
   getScheduleMiddleWare,
   getSlotterMiddleware,
 } from './store/middleware/eventmiddleware';
-// import slotterjson from './TeamMail/slotterjson.json';
-// import interviewdashboaerd from './TeamMail/interviewdasboard.json';
-import { timezonedisplay } from './eventType';
 import './DayPickerCustomStyles.css';
 import { loadGapi } from './google/gapiLoader';
-
+import interviewdashboard from './interviewdasboard.json';
+import slotterjson from './slotterjson.json';
 
 
 const slotter1 = (props) => {
-  const { userpreview, setuserPreview } = props;
-  console.log("props1111111",props)
+  const { userpreview } = props;
+  console.log('props1111111', props);
   const location = useLocation();
   const dispatch: AppDispatch = useDispatch();
   const searchParams = new URLSearchParams(location.search);
@@ -69,41 +62,35 @@ const slotter1 = (props) => {
   console.log('timee', time);
   const [endDate, setEndDate] = useState(new Date());
   const [loader, setloader] = useState(false);
-  // const [availble,setavailble] = useState([]); 
+  const [availblity,setavailblity] = useState([]);
 
-  const { data, interviewer, sharelink, addmembers, datetime, isLoading } =
+  const [candiname,setcandiname] = useState('candidate');
+
+
+  const { data, datetime, isLoading } =
     useSelector(({ schedulerReducers, slotterReducers }: RootState) => ({
       isLoading: schedulerReducers.isLoading,
-      data: schedulerReducers.data,
-      interviewer: schedulerReducers.interviewer,
-      sharelink: schedulerReducers.shareLink,
-      addmembers: schedulerReducers.addmembers,
+      data: schedulerReducers.data.length > 0 ? schedulerReducers.data : [],
       datetime: schedulerReducers.datetime,
-      success: slotterReducers.success,
     }));
 
-  const { success, slotterdata, slotmembers, candidate_name } = useSelector(
+  const { Loading,candidate_name,slotterdata,slotmembers } = useSelector(
     ({ slotterReducers }: RootState) => ({
-      isLoading: slotterReducers.isLoading,
-      success: slotterReducers.success,
-      slotterdata: slotterReducers.slotterdata,
+      Loading: slotterReducers.isLoading,
+      slotterdata : slotterReducers.slotterdata,
       slotmembers: slotterReducers.slotmembers,
       candidate_name: slotterReducers.candidate_name,
-      message: slotterReducers.message,
     }),
+
+    );
+    console.log("serviceservice",slotterdata,"\n",'provider',slotmembers,candidate_name)
+
+
+  console.log(
+    'interviewdashboardinterviewdashboard',
+    interviewdashboard.slotterdata,
   );
 
-  const { availbleslot } = useSelector(
-    ({ timezoneReducers }: RootState) => ({
-      isLoading: timezoneReducers.isLoading,
-      availbleslot: timezoneReducers.availbleslot,
-     
-    }),
-  );
-
-
-
-  // const candi_name = 'John Smith';
   const candi_name = candidate_name ? candidate_name : 'candidate';
   // if (candidate_name !== undefined){
   //   console.log("candi_name",candi_name)
@@ -116,7 +103,7 @@ const slotter1 = (props) => {
   // console.log('confromflagconfromflagssssss', availbleslot);
   // console.log('slotterdata', slotterdata,slotmembers,"\n",slotmembers.length,slotterdata.length);
 
-  // console.log('slotterjsonslotterjson', slotterjson);
+  console.log('slotterjsonslotterjson', slotterdata ,slotmembers);
   console.log('uiduiduid', uid, typeof uid);
   console.log('eventideventid', eventid, typeof eventid);
   console.log('datadatadatadata', data, typeof data);
@@ -124,29 +111,58 @@ const slotter1 = (props) => {
 
   // useEffect(() => {
   //   const event_id = event;
-  
+
   // }, []);
 
   useEffect(() => {
     const event_id = event;
     console.log('M<MMMMM', uid, userpreview);
     setloader(true);
-    // profilepic(); 
-    dispatch(getAvailbleSlot(event))
-    dispatch(getScheduleMiddleWare(event));
+    // if(event_id !== undefined){
+
+     
+    // }
+    
+    axios.get(`${availbleslot}?pk=${event}`).then((res: any) => {
+      console.log('resssss', res);
+      if (res.data !== null) {
+        const value = res.data.availbleslot
+        setavailblity(value)
+        // setDeleteModal(false);
+        // dispatch(getScheduleMiddleWare(undefined));
+        // Toast('Event Deleted successfully', 'LONG');
+        // setdeleteBtnLoader(false);
+      }
+      
+    });
+    if (userpreview === undefined && uid !== null ) {
+
+    //     axios.get(`${slotterApi}/${uid}?event_id=${event_id}`).then((res: any) => {
+    //       console.log('slotterApislotterApi', res);
+    //       const name = res.data.candidate_name
+    //       setcandiname(name)
+    //       if (res.data.slotmembers.length > 0 && res.data.slotterdata.leading > 0) {
+    //         alert("+++++++++")
+    //         const slotter = res.data.slotterdata
+    //         setslotterdata(slotter)
+    //         const members = res.data.slotmembers
+    //         setslotmembers(members)
+    //         setDashboard(true)
+    //         // const value = res.data.availbleslot
+    //         // setavailblity(value)
+    //         // setDeleteModal(false);
+    //         // dispatch(getScheduleMiddleWare(undefined));
+    //         // Toast('Event Deleted successfully', 'LONG');
+    //         // setdeleteBtnLoader(false);
+    //       }
+
+    // })
+    dispatch(getSlotterMiddleware({ uid, event_id }));
+  }
+  dispatch(getScheduleMiddleWare(event));
     
     // setProfile(res.data.data.company_logo);
-    if (userpreview === undefined) {
-      alert('/');
-      dispatch(getSlotterMiddleware({ uid, event_id })).then((res) => {
-        if (slotterdata && slotterdata.length > 0) {
-          console.log('slotterdataslotterdata', slotterdata);
-          alert('9090');
-          setloader(true);
-          setDashboard(true);
-        }
-      });
-    }
+    
     // setuserPreview(false)
     setloader(false);
     // if (candidate_name !== undefined){
@@ -154,9 +170,42 @@ const slotter1 = (props) => {
     //   console.log("candi_namecandi_namecandi_namecandi_name",candi)
     //   setcandi_name(candi_name)
     // }
-  }, []);
+  }, [uid,eventid]);
 
 
+  useEffect(()=> {
+    if (slotterdata !== undefined && slotmembers !== undefined){
+      if(slotmembers.length > 0 && slotterdata.length > 0){
+        setDashboard(true)
+      }
+    }
+   
+  },[slotmembers,slotterdata])
+
+  function formatDate(inputDate) {
+    const months = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    
+    const dateObj = new Date(inputDate);
+    const day = dateObj.getDate();
+    const monthIndex = dateObj.getMonth();
+    const year = dateObj.getFullYear();
+    
+    // Add leading zeros to day and month if necessary
+    const formattedDay = day < 10 ? `0${day}` : `${day}`;
+    const formattedMonth = (monthIndex + 1) < 10 ? `0${monthIndex + 1}` : `${monthIndex + 1}`;
+    
+    // Create the formatted date string
+    const formattedDate = `${formattedDay}/${formattedMonth}/${year}`;
+    return formattedDate;
+  }
+  
+  const inputDate = "Monday, July 31";
+  const formattedDate = formatDate(inputDate);
+  console.log(formattedDate); // Output: "31/07/2023"
+  
 
   const onSubmit = (selectdate11, selecttime11) => {
     console.log('lists', selectdate11, '\n', 'data', selecttime11);
@@ -164,16 +213,14 @@ const slotter1 = (props) => {
     setConfirm(true);
     SetConfromFlag(true);
     var event_id = eventid;
-    var selecteddate = selectDate;
+    var selecteddate = formatDate(selectDate);
     var selectedtime = selecttime11;
     // const date123 = new Date(selectdate11);
-    // const formattedDate = date123.toLocaleDateString("en-GB");
-    // var selecteddate =formattedDate
+    // const formattedDate = selectDate.toLocaleDateString("en-GB");
+    // var selecteddate = formattedDate
     // console.log(formattedDate); // Output: 01/07/2023
     console.log('selectDateselectDate', selecteddate);
-    // dispatch(
-    //   getSlotterMiddleware({ uid, event_id, selecteddate, selectedtime }),
-    // );
+    dispatch(getSlotterMiddleware({ uid, event_id, selecteddate, selectedtime }));
   };
 
   const getinter = (inter) => {
@@ -257,13 +304,17 @@ const slotter1 = (props) => {
   const startTime = '9:00 AM';
   const endTime = '12:00 PM';
   const timezone = 'Pacific/Apia';
-  
+
   // Format start time and end time in the desired timezone
-  const formattedStartTime = moment(startTime, 'h:mm A').tz(timezone).format('h:mm A');
-  const formattedEndTime = moment(endTime, 'h:mm A').tz(timezone).format('h:mm A');
-  
-  console.log("formattedStartTime",formattedStartTime,formattedEndTime); // Output: 9:00 AM
-  console.log(formattedEndTime); // 
+  const formattedStartTime = moment(startTime, 'h:mm A')
+    .tz(timezone)
+    .format('h:mm A');
+  const formattedEndTime = moment(endTime, 'h:mm A')
+    .tz(timezone)
+    .format('h:mm A');
+
+  console.log('formattedStartTime', formattedStartTime, formattedEndTime); // Output: 9:00 AM
+  console.log(formattedEndTime); //
 
   const userTimezone = 'Asia/Kolkata' + 5.3; // Replace with the user's timezone
   const targetTimezone = ' Pacific/Apia' + 13.0; // Replace with the target timezone
@@ -285,52 +336,52 @@ const slotter1 = (props) => {
 
   console.log('Time Difference:', timeDifference);
 
+
+
   return (
     <>
-      {console.log('<><><><><<>><>><', success)}
+      {console.log('candidate_name', candidate_name)}
       {console.log('<><><><><<>><>><userpreview', userpreview)}
+      {console.log('availblityavailblityavailblityavailblity', availblity)}
+
 
       {console.log('datetimedatetimedatetimedatetimedatetime', datetime)}
+      {console.log('slotterdataslotterdata', slotterdata,"\n","slotmembers",slotmembers)}
 
-      <Flex className={styles.element}>
-        {loader && <Loader />}
 
+      <Flex>
         {dashboard === true ? (
           <Flex>
-            {slotterdata && slotmembers ? (
               <InterviewDashBoard
+                Loading = {Loading}
                 slotterdata={slotterdata}
                 slotmembers={slotmembers}
-                // slotterdata={interviewdashboaerd.slotterdata}
-                // slotmembers={interviewdashboaerd.slotmembers}
                 getinter={getinter}
                 dashboard={data}
                 isProfile={isProfile}
-                // dashboard = {slotterjson.data}
+
                 timezones={timezones}
               />
-            ) : (
-              ' '
-            )}
           </Flex>
         ) : confromflag === false && dashboard === false ? (
           <Flex>
             <SlotterDate
-            event = {eventid}
+           
+              event={eventid}
               response={data}
-              // response={slotterjson.data}
+             
+              isLoading ={isLoading}
               margin={margin}
               change={change}
               days={days}
               setSelect={setSelect}
-              // onDateChange={onDateChange}
+
               selecttime={selecttime}
               setSelectTime={setSelectTime}
               onSubmit={onSubmit}
               setDays={setDays}
               date={date}
               select={select}
-              // modifiers={modifiers}
               divwidth={divwidth}
               setStartDate={setStartDate}
               setEndDate={setEndDate}
@@ -340,7 +391,6 @@ const slotter1 = (props) => {
               setChange={setChange}
               setDate={setDate}
               datetime={datetime}
-              // datetime={slotterjson.datetime}
               finalIntervals={finalIntervals}
               setfinalIntervals={setfinalIntervals}
               selectDate={selectDate}
@@ -349,9 +399,7 @@ const slotter1 = (props) => {
               getinter={getinter}
               isProfile={isProfile}
               timezones={timezones}
-              availbleslot ={availbleslot}
-              // timezone ={timezone}
-              // settimezone ={settimezone}
+              availbles={availblity}
             />
           </Flex>
         ) : confromflag === true ? (
@@ -360,9 +408,7 @@ const slotter1 = (props) => {
               margin={margin}
               selecttime={selecttime}
               date={date}
-              // time_zone={interviewslot}
               response={data}
-              // response={slotterjson.data}
               candidate_name={candi_name}
               getinter={getinter}
               isProfile={isProfile}
@@ -377,25 +423,19 @@ const slotter1 = (props) => {
 
 const SlotterDate = (props) => {
   const {
-    event,
     change,
     setselectedDate1,
-    setChange,
     setDate,
-    setActive,
     onSubmit,
     days,
-    setDays,
     date,
     select,
     selecttime,
     setSelectTime,
     // modifiers,
     setSelect,
-    divwidth,
     response,
-    setStartDate,
-    setEndDate,
+    setDays,
     datetime,
     finalIntervals,
     setfinalIntervals,
@@ -406,8 +446,12 @@ const SlotterDate = (props) => {
     endDate,
     isProfile,
     timezones,
-    availbleslot
+    availbles,
+    isLoading,
   } = props;
+
+
+  console.log("isLoadingisLoadingisLoading",isLoading)
   console.log('datetimedatetimeprops', props);
   console.log('candidate_namecandidate_namecandidate_name', candidate_name);
 
@@ -431,20 +475,36 @@ const SlotterDate = (props) => {
   console.log('startMonthstartMonthstartMonth', startMonth);
   console.log('startMonthstartMonthstartMonth________', endMonth);
 
-  console.log("useravailble",useravailble)
-
+  console.log('useravailble', useravailble);
 
   useEffect(() => {
-    // dispatch(getAvailbleSlot(event))
     mount();
   }, [response, timezone]);
 
+  const dateObject = availbles
+  
+  const allDatesArray = Object.keys(dateObject);
+
+  console.log(allDatesArray);
+  
+  console.log("allDatesArrayallDatesArray",allDatesArray,typeof allDatesArray);
+
+  const dateObjectsArray = allDatesArray.map((dateString) => {
+    const parts = dateString.split("/");
+    const year = parseInt(parts[2], 10);
+    const month = parseInt(parts[1], 10) - 1; // Months in JavaScript are 0-indexed
+    const day = parseInt(parts[0], 10);
+
+    return new Date(year, month, day);
+  });
+  console.log("dateObjectsArraydateObjectsArraydateObjectsArray",dateObjectsArray);
+
+
   const mount = () => {
-   
     // alert("mount")
-    console.log("<>~!!@@@!!!!!!availbleslot",availbleslot)
-    if (availbleslot !== undefined){
-      setuseravailble(availbleslot)
+    console.log('<>~!!@@@!!!!!!availbleslot', availbles);
+    if (availbles !== undefined) {
+      setuseravailble(availbles);
     }
 
     console.log('SELECTEDDARE', response);
@@ -455,18 +515,28 @@ const SlotterDate = (props) => {
         // setstartMonth(startdate);
         // setendMonth(enddate);
         timezoneset(list.times_zone_display, list.times_zone);
-        console.log('strtaaadatee', list.startdate, '\n', 'strtaaadatee', list.enddate);
+        console.log(
+          'strtaaadatee',
+          list.startdate,
+          '\n',
+          'strtaaadatee',
+          list.enddate,
+        );
         setSelectedRange({
           from: list.startdate,
           to: list.enddate,
         });
-      
+
         // setavailbility(schedule)
-        console.log("selectedRangeselectedRangeselectedRange",selectedRange)
-        
-          const schedule = schdulearray(list.startdate, list.enddate,list.times_zone);
-          console.log('schedule>>>>>>>>>', schedule);
-        
+        console.log('selectedRangeselectedRangeselectedRange', selectedRange);
+
+        const schedule = schdulearray(
+          list.startdate,
+          list.enddate,
+          list.times_zone,
+        );
+        console.log('schedule>>>>>>>>>', schedule);
+
         // setEndDate(enddate);
       });
     }
@@ -506,11 +576,16 @@ const SlotterDate = (props) => {
     }
   };
 
-  const schdulearray = (start, end,time) => {
-    console.log("schdulearrayschdulearrayschdulearrayschdulearrayschdulearray",start,end,time)
+  const schdulearray = (start, end, time) => {
+    console.log(
+      'schdulearrayschdulearrayschdulearrayschdulearrayschdulearray',
+      start,
+      end,
+      time,
+    );
     const excludedWeekdays = [];
     console.log('dddAAAAAAAAAA', useravailble, '\n', useravailble);
-        // const exclude = datetime
+    // const exclude = datetime
 
     if (
       !Object.prototype.hasOwnProperty.call(datetime, 'sunday') ||
@@ -556,17 +631,12 @@ const SlotterDate = (props) => {
     }
     console.log('excludedWeekdays:', excludedWeekdays);
     console.log('timezonetimezone', timezone);
-  
-      const schedule = calculateSchedule(
-        start,
-        excludedWeekdays,
-        end,
-        time,
-      );
-      console.log('scheduleschedule', schedule);
-      setavailbility(schedule);    
+
+    const schedule = calculateSchedule(start, excludedWeekdays, end, time);
+    console.log('scheduleschedule', schedule);
+    setavailbility(schedule);
   };
-  const dateconvert = (formattedDate) =>{
+  const dateconvert = (formattedDate) => {
     // const date12 = new Date(dateString);
     // const formattedDate = date12.toLocaleString("en-US", {
     //   weekday: "short",
@@ -586,19 +656,19 @@ const SlotterDate = (props) => {
     // console.log("originalDateStringoriginalDateString",originalDateString)
     // return originalDateString
     const convertedDate = moment(formattedDate).format('DD/MM/YYYY');
-  
+
     console.log(convertedDate);
-    return convertedDate
-  }
+    return convertedDate;
+  };
   const AvailbleSlots = (datetimes) => {
-    const check = dateconvert(datetimes)
-    console.log("check",check)
-    console.log("datetimes",datetimes,typeof datetimes)
-    console.log("datetimes!!!!!@@@@#####",useravailble)
+    const check = dateconvert(datetimes);
+    console.log('check', check);
+    console.log('datetimes', datetimes, typeof datetimes);
+    console.log('datetimes!!!!!@@@@#####', useravailble);
     const filteredData = Object.fromEntries(
-      Object.entries(useravailble).filter(([key, value]) => key === check )
+      Object.entries(useravailble).filter(([key, value]) => key === check),
     );
-    console.log('filteredData',filteredData[check]);
+    console.log('filteredData', filteredData[check]);
     // const filteredDates = Object.entries(useravailble).filter(([d, slots]) => {
     //   // Filter dates based on the provided 'datetimes' value
     //   return slots;
@@ -629,6 +699,9 @@ const SlotterDate = (props) => {
 
     const day = datetimes.getDay();
     const intervalMinutes = parseInt(response.map((dur) => dur.duration));
+    const intervalSeconds = intervalMinutes === 1 ?intervalMinutes * 60 : intervalMinutes;
+    console.log("intervalSecondsintervalSeconds",intervalSeconds)
+
     console.log('daydayday', (datetimes.getDay() + 1) % 7);
     console.log('?????????', datetime, timezone);
     const dateformat = moment.tz(datetimes, timezone).toDate();
@@ -639,7 +712,7 @@ const SlotterDate = (props) => {
     const userTimeZone = 0;
     const adjustedDay = day === currentDay ? day : currentDay;
     console.log('Adjusted day++++Adjusted day++++', adjustedDay);
-    console.log("")
+    console.log('');
     // switch (day) {
     //   case 0:
     //     console.log('Sunday');
@@ -747,13 +820,11 @@ const SlotterDate = (props) => {
     //     console.log('Invalid day');
     //   // return result
     // }
-
-    // const saturday = conversion(datetime.saturday);
-        const saturdayslot = generateIntervals(
-          filteredData[check],
-          intervalMinutes,
-        ); 
-        setfinalIntervals(saturdayslot)
+    const saturdayslot = generateIntervals(
+      filteredData[check],
+      intervalSeconds,
+    );
+    setfinalIntervals(saturdayslot);
 
     console.log('finalIntervalsfinalIntervalsfinalIntervals', finalIntervals);
   };
@@ -767,12 +838,12 @@ const SlotterDate = (props) => {
       return rest; // Return the object without the "day" property
     });
   };
-  const convertion = (dateStr)=> {
+  const convertion = (dateStr) => {
     const momentObj = moment(dateStr, 'DD/MM/YYYY');
     const formattedDate = momentObj.format('ddd MMM DD YYYY HH:mm:ss [GMT]ZZ');
-    console.log("?????????????",formattedDate);
-    return formattedDate
-  } 
+    console.log('?????????????', formattedDate);
+    return formattedDate;
+  };
 
   const calculateSchedule = (starDate, excludedWeekdays, enDate, tz) => {
     console.log('lastDatelastDate1111', starDate, enDate, '\n', tz);
@@ -785,16 +856,18 @@ const SlotterDate = (props) => {
       // let currentDate = moment(starDate).startOf('day');
       // const lastDate = moment(enDate).startOf('day');
       const schedule = [];
-      const startdate = convertion(starDate)
-      const enddate = convertion(enDate)
+      const startdate = convertion(starDate);
+      const enddate = convertion(enDate);
       let currentDate = moment.tz(startdate, tzone).startOf('day');
       const lastDate = moment.tz(enddate, tzone).startOf('day');
 
       console.log('lastDatelastDate', currentDate, lastDate);
 
+      // schedule.push(currentDate.toDate());
       while (currentDate.isSameOrBefore(lastDate)) {
         const weekday = currentDate.weekday();
-        if (!excludedWeekdays.includes(weekday)) {
+        console.log('weekdayweekdayweekdayweekday', weekday);
+        if (excludedWeekdays.includes(weekday)) {
           schedule.push(currentDate.toDate());
         }
         currentDate = currentDate.add(1, 'day');
@@ -830,18 +903,6 @@ const SlotterDate = (props) => {
   //   }
   // };
 
-  const getTimeSlotsForDay = (dat, timezuone) => {
-    // Here, you can implement your logic to fetch or generate the time slots for a specific day in the given timezone.
-    // Return an array of time slots for the day.
-    // Example: return an array of predefined time slots
-    return [
-      { startTime: '9:00 AM', endTime: '10:00 AM' },
-      { startTime: '11:30 AM', endTime: '1:00 PM' },
-      { startTime: '2:30 PM', endTime: '4:00 PM' },
-      // Add more time slots as needed
-    ];
-  };
-
   const onDateChange = (datetimes: any) => {
     // const sd = new Date(selectedRange.from);
     // const ed = new Date(selectedRange.to);
@@ -854,7 +915,7 @@ const SlotterDate = (props) => {
     const currentDate = new Date(datetimes);
     console.log('currentDatecurrentDate', datetimes);
 
-    const isInSchedule = availability.some((d) => {
+    const isInSchedule = dateObjectsArray.some((d) => {
       const scheduleDate = new Date(d);
       scheduleDate.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0 for comparison
       currentDate.setHours(0, 0, 0, 0);
@@ -947,7 +1008,7 @@ const SlotterDate = (props) => {
   // };
 
   function parseTime(time) {
-    console.log("time)))))))))))))))",time)
+    console.log('time)))))))))))))))', time);
     const [timePart, amPm] = time.split(' ');
     let [hour, minute] = timePart.split(':').map(Number);
 
@@ -959,7 +1020,7 @@ const SlotterDate = (props) => {
   }
 
   function generateIntervals(timeBreaks, intervalMinutes) {
-    console.log('timeBreakstimeBreaks', timeBreaks);
+    console.log('timeBreakstimeBreaks', timeBreaks,intervalMinutes,typeof intervalMinutes);
     const intervals12 = [];
     // const intervals24 = [];
     for (const timeBreak of timeBreaks) {
@@ -1036,7 +1097,7 @@ const SlotterDate = (props) => {
   }
 
   const modifiers = {
-    selected: availability,
+    selected: dateObjectsArray,
     // range: {
     //   from: selectedRange.from, // Set the start date to the current date
     //   to: selectedRange.to, // Set the end date to a specific date (e.g., August 7, 2023)
@@ -1061,24 +1122,13 @@ const SlotterDate = (props) => {
       // innerWidth :'300px'
     },
   };
+  const startOfMonth = new Date(selectedRange.from);
+  const endOfMonth = new Date(selectedRange.to);
+  console.log('************', startOfMonth, endOfMonth);
 
-  const WEEKDAYS_LONG = [
-    "Dimanche",
-    "Lundi",
-    "Mardi",
-    "Mercredi",
-    "Jeudi",
-    "Vendredi",
-    "Samedi",
-];
-const WEEKDAYS_SHORT = ["Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa"];
-const currentDate = new Date();
-const startOfMonth = new Date(selectedRange.from);
-const endOfMonth = new Date(selectedRange.to);
-console.log("************",startOfMonth,endOfMonth)
-
-
-
+  if(isLoading){
+    return <Loader/>
+  }
 
   return (
     <>
@@ -1087,7 +1137,7 @@ console.log("************",startOfMonth,endOfMonth)
         `${process.env.REACT_APP_HOME_URL}media/company_logo/${isProfile}`,
       )}
       {console.log('process.env.PUBLIC_UR', isProfile)}
-      {console.log("availbledayavailbleday",timezone)}
+      {console.log('availbledayavailbleday', timezone)}
 
       {console.log(
         'startMonth//////',
@@ -1111,7 +1161,7 @@ console.log("************",startOfMonth,endOfMonth)
               <div>
                 <Flex row>
                   <div style={{ marginBottom: '5px' }}>
-                    {data.company_logo !== '' ? (
+                    {data.company_logo ? (
                       <img
                         src={`${process.env.REACT_APP_HOME_URL}media/${data.company_logo}`}
                         alt="Company Logo"
@@ -1120,12 +1170,10 @@ console.log("************",startOfMonth,endOfMonth)
                     ) : (
                       ''
                     )}
-                  {/* </div>
-                  <div style={{ marginBottom: '5px' }}> */}
                     <Text
                       size={24}
                       bold
-                      style={{color: '#581845' , marginLeft: '15px'}}
+                      style={{ color: '#581845', marginLeft: '15px' }}
                     >
                       {data.company_name}{' '}
                     </Text>
@@ -1181,101 +1229,102 @@ console.log("************",startOfMonth,endOfMonth)
               </div>
             </Flex>
             <div className={styles.straightline}></div>
-            <Flex >
+            <Flex>
               {/* <div> */}
-                 <div>
-                  <Flex row className={styles.rightside}>
-                    <div>
-                      <DayPicker
-                        // navbarElement={renderNavbar}
-                        locale={enUS}
-                        // dayPickerProps={dayPickerProps}
-                        mode="single"
-                        styles={{                          
-                          head_cell: {                            
-                            width: "29px",
-                            // height :"100px"                        
-                          },
-                          table: {
-                            maxWidth: "none",
-                          },
-                          day: {
-                            margin: "7px",
-                          },
-                          head : {
-                            width: "29px",                           
-                          },
-                          months:{
-                            width : "130px",   
-                            color : "#581845",                         
-                          },
-                          nav:{
-                            margin : "15px"
-                          },
-                                                  
-                          
-                          // weeknumber : {
-                          //   marginTop :"10px"
-                          // }
-                          
-                          
-                          // nav_button_next:{
-                          //   height : '100px'
-                          // }
-                        }}
-                        onSelect={setDays}
-                        fromMonth={startOfMonth}
-                        // defaultMonth ={initialMonth}
-                        toMonth={endOfMonth}
-                        className="custom-daypicker"
-                        // weekdays={WEEKDAYS_SHORT}
-                        // numberOfMonths={1} 
-                        // pagedNavigation
-                        // onDayMouseEnter={handleDayMouseEnter}
-                        // onDayClick={handleDayClick}
-                        // footer={footer123}
-                        fromDate={startDate}
-                        toDate={endDate}
-                        // selectedDays
-                        // onDayClick ={(list)=>{
-                        //     timeslot1(list)
-                        // }}
-                        // dayPickerProps={{
-                        //   locale: 'en-US',
-                        //   formatDay: (day) => {
-                        //     return day.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase();
-                        //   },
-                        // } as DayPickerProps}
-                        onDayClick={(e) => onDateChange(e)}
-                        modifiers={modifiers}
-                        // disabled={false}
-                        modifiersStyles={modifiersStyles}
-                        // onNextClick = {onnext}
-                        // onPrevClick?: MonthChangeEventHandler;
-                        // locale={localeWithTimeZone}
-                      />
-                    </div>
-                  </Flex>
-                  </div>
+              <div>
+                <Flex row className={styles.rightside}>
                   <div>
-                  <div style={{ marginTop: '20px' }}></div>
-                  <Flex>
-                    {date ? <div className={styles.line3}></div> : ''}   
-                <div style={{ marginTop: '20px' }}></div>
+                    <DayPicker
+                      // navbarElement={renderNavbar}
+                      locale={enUS}
+                      // dayPickerProps={dayPickerProps}
+                      mode="single"
+                      styles={{
+                        head_cell: {
+                          width: '29px',
+                          // height :"100px"
+                        },
+                        table: {
+                          maxWidth: 'none',
+                        },
+                        day: {
+                          margin: '7px',
+                        },
+                        head: {
+                          width: '29px',
+                        },
+                        months: {
+                          width: '130px',
+                          color: '#581845',
+                        },
+                        nav: {
+                          margin: '15px',
+                        },
 
-                      {date ? (
-                          <div style={{ marginLeft: '50px',}}>
-                            <Text size={18} style ={{color : "#581845" }} bold>Availability for {date}</Text>
-                          </div>
-                        ) : (
-                          ''
-                        )}
+                        // weeknumber : {
+                        //   marginTop :"10px"
+                        // }
+
+                        // nav_button_next:{
+                        //   height : '100px'
+                        // }
+                      }}
+                      onSelect={setDays}
+                      fromMonth={startOfMonth}
+                      // defaultMonth ={initialMonth}
+                      toMonth={endOfMonth}
+                      className="custom-daypicker"
+                      // weekdays={WEEKDAYS_SHORT}
+                      // numberOfMonths={1}
+                      // pagedNavigation
+                      // onDayMouseEnter={handleDayMouseEnter}
+                      // onDayClick={handleDayClick}
+                      // footer={footer123}
+                      fromDate={startDate}
+                      toDate={endDate}
+                      // selectedDays
+                      // onDayClick ={(list)=>{
+                      //     timeslot1(list)
+                      // }}
+                      // dayPickerProps={{
+                      //   locale: 'en-US',
+                      //   formatDay: (day) => {
+                      //     return day.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase();
+                      //   },
+                      // } as DayPickerProps}
+                      onDayClick={(e) => onDateChange(e)}
+                      modifiers={modifiers}
+                      // disabled={false}
+                      modifiersStyles={modifiersStyles}
+                      // onNextClick = {onnext}
+                      // onPrevClick?: MonthChangeEventHandler;
+                      // locale={localeWithTimeZone}
+                    />
+                  </div>
+                </Flex>
+              </div>
+              <div>
+                <div style={{ marginTop: '20px' }}></div>
+                <Flex>
+                  {date ? <div className={styles.line3}></div> : ''}
+                  <div style={{ marginTop: '20px' }}></div>
+
+                  {date ? (
+                    <div style={{ marginLeft: '50px' }}>
+                      <Text size={18} style={{ color: '#581845' }} bold>
+                        Availability for {date}
+                      </Text>
+                    </div>
+                  ) : (
+                    ''
+                  )}
                   <Flex className={styles.select}>
                     <Flex>
                       <div style={{ marginLeft: '30px' }}>
                         {finalIntervals?.length > 0 &&
                           finalIntervals?.map((obj, index) => (
-                            <button className={styles.button1}
+                            <button
+                              className={styles.button1}
                               key={index}
                               onClick={() => selectbutton(obj)}
                             >
@@ -1289,7 +1338,8 @@ console.log("************",startOfMonth,endOfMonth)
                       {selecttime ? (
                         <>
                           <div style={{ marginLeft: '400px' }}>
-                            <Button className={styles.selectslot}
+                            <Button
+                              className={styles.selectslot}
                               onClick={() => onSubmit(date, selecttime)}
                             >
                               Confirm
@@ -1300,10 +1350,10 @@ console.log("************",startOfMonth,endOfMonth)
                         ''
                       )}
                     </Flex>
-                  {/* </div> */}
+                    {/* </div> */}
                   </Flex>
-                  </Flex>
-                </div>
+                </Flex>
+              </div>
               {/* </div> */}
             </Flex>
           </div>
@@ -1327,10 +1377,9 @@ const Conformpage = (props) => {
   useEffect(() => {
     // mount();
   }, []);
+  console.log(")_)_)_)_)_)_)_)_",props)
   console.log('response12333333333', response);
   console.log('time_zone', time_zone);
-
-
 
   // const googleaddevent = async () =>{
   //   alert("googleaddevent")
@@ -1373,13 +1422,12 @@ const Conformpage = (props) => {
   //   // Create a client credential authentication provider
   //   const authProvider = new ClientSecretCredential(tenantId, clientId, clientSecret);
 
-
   //   const options = {
   //     authProvider,
   //   };
-    
+
   //   const client = Client.init(options);
-    
+
   //   const event = {
   //     subject: 'Prep for customer meeting',
   //     body: {
@@ -1410,7 +1458,7 @@ const Conformpage = (props) => {
   //     isOnlineMeeting: true,
   //     onlineMeetingProvider: 'teamsForBusiness'
   //   };
-    
+
   //   await client.api('/me/events')
   //     .post(event);
 
@@ -1428,64 +1476,55 @@ const Conformpage = (props) => {
     });
   }, []);
 
-const googleaddevent = () => {
-  alert("?")
+  const googleaddevent = () => {
+    alert('?');
 
-const events = {
-  'summary': 'Google I/O 2015',
-  'location': '800 Howard St., San Francisco, CA 94103',
-  'description': 'A chance to hear more about Google\'s developer products.',
-  'start': {
-    'dateTime': '2023-07-20T09:00:00-07:00',
-    'timeZone': 'America/Los_Angeles'
-  },
-  'end': {
-    'dateTime': '2023-07-20T17:00:00-07:00',
-    'timeZone': 'America/Los_Angeles'
-  },
-  'recurrence': [
-    'RRULE:FREQ=DAILY;COUNT=2'
-  ],
-  'attendees': [
-    {'email': 'lpage@example.com'},
-    {'email': 'sbrin@example.com'}
-  ],
-  'reminders': {
-    'useDefault': false,
-    'overrides': [
-      {'method': 'email', 'minutes': 24 * 60},
-      {'method': 'popup', 'minutes': 10}
-    ]
-  }
-};
-console.log("requestrequest")
+    const events = {
+      summary: 'Google I/O 2015',
+      location: '800 Howard St., San Francisco, CA 94103',
+      description: "A chance to hear more about Google's developer products.",
+      start: {
+        dateTime: '2023-07-20T09:00:00-07:00',
+        timeZone: 'America/Los_Angeles',
+      },
+      end: {
+        dateTime: '2023-07-20T17:00:00-07:00',
+        timeZone: 'America/Los_Angeles',
+      },
+      recurrence: ['RRULE:FREQ=DAILY;COUNT=2'],
+      attendees: [
+        { email: 'lpage@example.com' },
+        { email: 'sbrin@example.com' },
+      ],
+      reminders: {
+        useDefault: false,
+        overrides: [
+          { method: 'email', minutes: 24 * 60 },
+          { method: 'popup', minutes: 10 },
+        ],
+      },
+    };
+    console.log('requestrequest');
 
-// const request = window.gapi.client.calendar.events.insert({
-//   'calendarId': 'primary',
-//   'resource': event122
-// });
-const request = window.gapi.client.calendar.events.list({
-  calendarId: 'primary',
-  resource: events,
-});
-console.log("requestrequest",request)
+    // const request = window.gapi.client.calendar.events.insert({
+    //   'calendarId': 'primary',
+    //   'resource': event122
+    // });
+    const request = window.gapi.client.calendar.events.list({
+      calendarId: 'primary',
+      resource: events,
+    });
+    console.log('requestrequest', request);
 
-request.execute((re) => {
-  console.log('Event created: ', re);
-});
-
-  }
-
+    request.execute((re) => {
+      console.log('Event created: ', re);
+    });
+  };
 
   return (
     <>
-
       {response?.map((list: any) => (
-        <div
-          className={styles.confrompage}
-          key={list.id} 
-        >
-
+        <div className={styles.confrompage} key={list.id}>
           <Flex row>
             <div
               style={{
@@ -1496,29 +1535,39 @@ request.execute((re) => {
                 // height : "100px"
               }}
             >
-              <SvgCheck2Circle width={30} height={30} fill={'green'}/>
+              <SvgCheck2Circle width={30} height={30} fill={'green'} />
             </div>
           </Flex>
           <Flex row>
-              <Text size={26} bold style={{  marginLeft: '70px', color: '#581845' }}>
-                Your Interview has been Successfully Scheduled
-              </Text>
+            <Text
+              size={26}
+              bold
+              style={{ marginLeft: '70px', color: '#581845' }}
+            >
+              Your Interview has been Successfully Scheduled
+            </Text>
           </Flex>
           <div style={{ marginTop: '70px' }}></div>
           <Flex row>
             <div>
-              <img
-                // src={process.env.PUBLIC_URL + list.company_logo}
-                src={`${process.env.REACT_APP_HOME_URL}media/${list.company_logo}`}
-                alt="Company Logo"
-                style={{ width: '100px', height: '100px' }}
-              />
-              <Text 
+              {list.company_logo ? (
+                <>
+                  <img
+                    // src={process.env.PUBLIC_URL + list.company_logo}
+                    src={`${process.env.REACT_APP_HOME_URL}media/${list.company_logo}`}
+                    alt="Company Logo"
+                    style={{ width: '100px', height: '100px' }}
+                  />
+                </>
+              ) : (
+                ''
+              )}
+              <Text
                 style={{
                   // color: '#581845',
                   fontWeight: 'bold',
                   fontSize: '20px',
-                  marginLeft : "30px"
+                  marginLeft: '30px',
                 }}
                 size={20}
               >
@@ -1529,10 +1578,13 @@ request.execute((re) => {
           </Flex>
           <div style={{ marginTop: '30px' }}></div>
           <Flex row>
-              <Text bold size={20} style={{ marginLeft: '10px', color: '#581845' }}>
-                {list.event_name}
-              </Text>
-            
+            <Text
+              bold
+              size={20}
+              style={{ marginLeft: '10px', color: '#581845' }}
+            >
+              {list.event_name}
+            </Text>
           </Flex>
           <Flex row>
             <div
@@ -1548,7 +1600,7 @@ request.execute((re) => {
               </Text>
             </div>
           </Flex>
-          <div style={{marginTop : "10px"}}></div>
+          <div style={{ marginTop: '10px' }}></div>
           <Flex row>
             <div
               style={{
@@ -1559,11 +1611,13 @@ request.execute((re) => {
             >
               <SvgClock width={16} height={16} fill={'#581845'} />
               {/* <i class="bi bi-clock"></i> */}
-              <Text size={16} style={{ marginLeft: '10px' }}>{list.duration}</Text>
+              <Text size={16} style={{ marginLeft: '10px' }}>
+                {list.duration}
+              </Text>
               <br />
             </div>
           </Flex>
-          <div style={{marginTop : "10px"}}></div>
+          <div style={{ marginTop: '10px' }}></div>
 
           <Flex row>
             <div
@@ -1581,7 +1635,7 @@ request.execute((re) => {
             </div>
             {/* })} */}
           </Flex>
-          <div style={{marginTop : "10px"}}></div>
+          <div style={{ marginTop: '10px' }}></div>
           <Flex row>
             <div
               style={{
@@ -1591,13 +1645,14 @@ request.execute((re) => {
               }}
             >
               <SvgInfoCircle width={18} height={18} fill={'#581845'} />
-              <Text  size={16} style={{ marginLeft: '10px' }}>
-                This is an {getinter(list.event_type)}.Please come prepared with  the technical aspects of your work experience along with CV/Resume
+              <Text size={16} style={{ marginLeft: '10px' }}>
+                This is an {getinter(list.event_type)}.Please come prepared with
+                the technical aspects of your work experience along with
+                CV/Resume
               </Text>
-              
             </div>
           </Flex>
-          <div style={{marginTop : "10px"}}></div>
+          <div style={{ marginTop: '10px' }}></div>
           <div style={{ marginTop: '50px' }}></div>
           <div className={styles.line4}></div>
           <div style={{ marginTop: '30px' }}></div>
@@ -1622,6 +1677,7 @@ request.execute((re) => {
 
 const InterviewDashBoard = (props) => {
   const {
+    Loading,
     margin,
     slotterdata,
     slotmembers,
@@ -1633,10 +1689,15 @@ const InterviewDashBoard = (props) => {
   } = props;
 
   console.log('responseresponse.......', dashboard);
-  console.log('responseresponseslotterdata', slotterdata,slotmembers);
+  console.log(
+    'responseresponseslotterdata',
+    slotterdata,
+    slotmembers,
+    dashboard,
+  );
 
-  const mergedArray = [...dashboard, ...slotterdata];
-  console.log('Merged Array:', mergedArray);
+  // const mergedArray = [...dashboard, ...slotterdata];
+  // console.log('Merged Array:', mergedArray);
 
   useEffect(() => {
     // setloader(true);
@@ -1675,177 +1736,182 @@ const InterviewDashBoard = (props) => {
     console.log(teamsCalendarLink);
   };
 
+  if(Loading){
+    return <Loader/>
+  }
+
   return (
     <>
       <Flex>
         {dashboard.map((list: any, index) => (
-          <div
-            key={index}
-            className ={styles.dashboard} >
+          <div key={index} className={styles.dashboard}>
             <Flex>
-                <Flex row>
-                  <div style={{ marginLeft: '10px'}}>
-                    <img
-                      // src={process.env.PUBLIC_URL + list.company_logo}
-                      src={`${process.env.REACT_APP_HOME_URL}media/${list.company_logo}`}
-                      alt="Company Logo"
-                      style={{ width: '100px', height: '100px' }}
-                    />
-                  {/* </div>
-                  <div style={{  }}> */}
-                    <Text
-                      style={{
-                        color: '#581845',
-                        fontWeight: 'bold',
-                        fontSize: '24px',
-                        marginLeft: '20px'
-                      }}
-                    >
-                      {list.company_name}{' '}
-                    </Text>
-                    <br />
-                  </div>
-                </Flex>
-                {/* })} */}
-                <Flex row>
-                  <div
+              <Flex row>
+                <div style={{ marginLeft: '10px' }}>
+                  {list.company_logo ? (
+                    <>
+                      <img
+                        // src={process.env.PUBLIC_URL + list.company_logo}
+                        src={`${process.env.REACT_APP_HOME_URL}media/${list.company_logo}`}
+                        alt="Company Logo"
+                        style={{ width: '100px', height: '100px' }}
+                      />
+                    </>
+                  ) : (
+                    ''
+                  )}
+                  <Text
                     style={{
+                      color: '#581845',
+                      fontWeight: 'bold',
+                      fontSize: '24px',
                       marginLeft: '20px',
-                      textAlign: 'center',
-                      marginTop: '10px',
                     }}
                   >
-                    <Text
-                      size={18}
-                      style={{
-                        color: '#581845',
-                        fontWeight: 'bold',
-                        fontSize: '22px',
-                      }}
-                    >
-                      {list.event_name}
-                    </Text>
-                  </div>
-                </Flex>
-                <div style={{ marginTop: '20px' }}></div>
-                <Flex row>
-                  <div
-                    style={{
-                      marginLeft: '20px',
-                      textAlign: 'center',
-                      marginTop: '10px',
-                    }}
-                  >
-                    <SvgCalendarEvent width={18} height={18} />
-                    <Text style={{ marginLeft: '10px' }}>
-                      {/* {data.time} */}
-                      {slotterdata.map((li) => li.time)} ,{' '}
-                      {slotterdata.map((li) => formatDate(li.date))}
-                    </Text>
-                  </div>
-                </Flex>
-                <div style={{ marginTop: '20px' }}></div>
-                <Flex row>
-                  <div
-                    style={{
-                      marginLeft: '20px',
-                      textAlign: 'center',
-                      marginTop: '10px',
-                    }}
-                  >
-                    <SvgClock width={16} height={16} fill={'#581845'} />
-                    {/* <i class="bi bi-clock"></i> */}
-                    <Text style={{ marginLeft: '10px' }}>{list.duration}</Text>
-                    <br />
-                  </div>
-                </Flex>
-                <div style={{ marginTop: '20px' }}></div>
-                <Flex row>               
-                  <div                    
-                    style={{
-                      marginLeft: '20px',
-                      textAlign: 'center',
-                      marginTop: '10px',
-                    }}
-                  >
-                    <SvgGlobe width={18} height={18} fill={'#581845'} />
-
-                    <Text style={{ marginLeft: '10px' }}>
-                      Time Zone is {timezones(list.times_zone)}
-                    </Text>
-                  </div>
-                  {/* })} */}
-                </Flex>
-                <div style={{ marginTop: '20px' }}></div>
-                <Flex row>
-                  <div
-                    style={{
-                      marginLeft : "20px",
-                      // textAlign: 'center',
-                      marginTop: '10px',
-                    }}
-                  >
-                    <SvgInfoCircle width={18} height={18} fill={'#581845'} />
-                    <Text style={{ marginLeft: '10px' }}>
-                      This is an {getinter(list.event_type)}.Please come
-                      prepared with the technical aspects of your work
-                      experience along with your CV/Resume
-                    </Text>
-                    <br />
-                  </div>
-                </Flex>
-                <div style={{ marginTop: '20px' }}></div>
-                <div className={styles.line5}></div>
-                <div style={{ marginTop: '20px' }}></div>
-
-                <div style={{ textAlign: 'left', marginLeft: '20px' }}>
-                  <SvgPersonFill width={18} height={18} fill={'#581845'} />
-                  <Text style={{ marginLeft: '10px' }}>
-                    Candidate / Applicant
+                    {list.company_name}{' '}
                   </Text>
-                  <div style={{ marginTop: '10px' }}></div>
-
-                  <Text style={{ marginLeft: '10px' }}>
-                    {/* {list.candidate_id__first_name} */}
-                    {slotterdata.map((li) => li.candidate_id__first_name)}
-                  </Text>
+                  <br />
                 </div>
-                <div style={{ textAlign: 'left', marginLeft: '20px' }}>
-                  <SvgPeopleFill width={18} height={18} fill={'#581845'} />
-                  <Text style={{ marginLeft: '10px' }}>Interviewer(s)</Text>
-                  <div style={{ marginTop: '20px' }}></div>
-
-                  <Text style={{ marginLeft: '10px' }}>
-                    {slotmembers.map((data) => data.full_name).join(', ')}
-                  </Text>
-                </div>
-                <div style={{ marginTop: '20px' }}></div>
-                <div className={styles.line5}></div>
-                <div style={{ marginTop: '20px' }}></div>
-
-                <Flex row>
-                  <div
-                    style={{
-                      marginLeft: '260px',
-                      textAlign: 'center',
-                      marginTop: '10px',
-                    }}
-                  >
-                    <button
-                      className={styles.button}
-                      onClick={() => addtocalender()}
-                    >
-                      <Text>Add to your calendar</Text>
-                    </button>
-                  </div>
-                </Flex>
               </Flex>
+              {/* })} */}
+              <Flex row>
+                <div
+                  style={{
+                    marginLeft: '20px',
+                    textAlign: 'center',
+                    marginTop: '10px',
+                  }}
+                >
+                  <Text
+                    size={18}
+                    style={{
+                      color: '#581845',
+                      fontWeight: 'bold',
+                      fontSize: '22px',
+                    }}
+                  >
+                    {list.event_name}
+                  </Text>
+                </div>
+              </Flex>
+              <div style={{ marginTop: '20px' }}></div>
+              <Flex row>
+                <div
+                  style={{
+                    marginLeft: '20px',
+                    textAlign: 'center',
+                    marginTop: '10px',
+                  }}
+                >
+                  <SvgCalendarEvent width={18} height={18} />
+                  <Text style={{ marginLeft: '10px' }}>
+                    {/* {data.time} */}
+                    {slotterdata.map((li) => li.time)} ,{' '}
+                    {slotterdata.map((li) => formatDate(li.date))}
+                  </Text>
+                </div>
+              </Flex>
+              <div style={{ marginTop: '20px' }}></div>
+              <Flex row>
+                <div
+                  style={{
+                    marginLeft: '20px',
+                    textAlign: 'center',
+                    marginTop: '10px',
+                  }}
+                >
+                  <SvgClock width={16} height={16} fill={'#581845'} />
+                  {/* <i class="bi bi-clock"></i> */}
+                  <Text style={{ marginLeft: '10px' }}>{list.duration}</Text>
+                  <br />
+                </div>
+              </Flex>
+              <div style={{ marginTop: '20px' }}></div>
+              <Flex row>
+                <div
+                  style={{
+                    marginLeft: '20px',
+                    textAlign: 'center',
+                    marginTop: '10px',
+                  }}
+                >
+                  <SvgGlobe width={18} height={18} fill={'#581845'} />
+
+                  <Text style={{ marginLeft: '10px' }}>
+                    Time Zone is {list.times_zone}
+                  </Text>
+                </div>
+                {/* })} */}
+              </Flex>
+              <div style={{ marginTop: '20px' }}></div>
+              <Flex row>
+                <div
+                  style={{
+                    marginLeft: '20px',
+                    // textAlign: 'center',
+                    marginTop: '10px',
+                  }}
+                >
+                  <SvgInfoCircle width={18} height={18} fill={'#581845'} />
+                  <Text style={{ marginLeft: '10px' }}>
+                    This is an {getinter(list.event_type)}.Please come prepared
+                    with the technical aspects of your work experience along
+                    with your CV/Resume
+                  </Text>
+                  <br />
+                </div>
+              </Flex>
+              <div style={{ marginTop: '20px' }}></div>
+              <div className={styles.line5}></div>
+              <div style={{ marginTop: '20px' }}></div>
+
+              <div style={{ textAlign: 'left', marginLeft: '20px' }}>
+                <SvgPersonFill width={18} height={18} fill={'#581845'} />
+                <Text style={{ marginLeft: '10px' }}>
+                  Candidate / Applicant
+                </Text>
+                <div style={{ marginTop: '10px' }}></div>
+
+                <Text style={{ marginLeft: '10px' }}>
+                  {/* {list.candidate_id__first_name} */}
+                  {slotterdata.map((li) => li.candidate_id__first_name)}
+                </Text>
+              </div>
+              <div style={{ textAlign: 'left', marginLeft: '20px' }}>
+                <SvgPeopleFill width={18} height={18} fill={'#581845'} />
+                <Text style={{ marginLeft: '10px' }}>Interviewer(s)</Text>
+                <div style={{ marginTop: '20px' }}></div>
+
+                <Text style={{ marginLeft: '10px' }}>
+                  {slotmembers.map((data) => data.full_name).join(', ')}
+                </Text>
+              </div>
+              <div style={{ marginTop: '20px' }}></div>
+              <div className={styles.line5}></div>
+              <div style={{ marginTop: '20px' }}></div>
+
+              <Flex row>
+                <div
+                  style={{
+                    marginLeft: '260px',
+                    textAlign: 'center',
+                    marginTop: '10px',
+                  }}
+                >
+                  <button
+                    className={styles.button}
+                    onClick={() => addtocalender()}
+                  >
+                    <Text>Add to your calendar</Text>
+                  </button>
+                </div>
+              </Flex>
+            </Flex>
           </div>
         ))}
       </Flex>
     </>
   );
 };
-
 
 export default slotter1;

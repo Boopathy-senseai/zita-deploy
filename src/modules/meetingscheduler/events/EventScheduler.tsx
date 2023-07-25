@@ -30,6 +30,9 @@ const EventScheduler = () => {
   const [sharedata, setsharedata] = useState([]);
   const [schedule, setschedule] = useState([]);
   const [editmembers, seteditmembers] = useState([]);
+  const [reset, setreset] = useState(false);
+
+
 
 
   const [open, setopen] = useState(0);
@@ -66,6 +69,7 @@ const EventScheduler = () => {
   function editdata(id: number, datalist: any) {
     if (id !== undefined && id !== null) {
       setIsOpen(true);
+      setreset(false)
       setEditList(datalist);
       // dispatch(getScheduleMiddleWare(id)).then((res) => {
       //   dispatch(getScheduleMiddleWare(undefined));
@@ -89,26 +93,18 @@ const EventScheduler = () => {
     }
   }
   function HandleButton(ToastMessage){
-    alert("Toast")
       if (ToastMessage) {
-        alert("+")
-        // setIsOpen(false);
         Toast('Updated Event Successfully!');
-        // dispatch(getScheduleMiddleWare(undefined));
-        setisLoader(false);
       }
       else{
-        alert("-")
-        // setIsOpen(false);
         Toast('Event Created Successfully!');
-        // dispatch(getScheduleMiddleWare(undefined));       
-        setisLoader(false);
       }
 
   }
   const response = data;
   const CreateEvent = () => {
     setIsOpen(true);
+    setreset(true)
     setEditList(null);
   };
 
@@ -121,9 +117,6 @@ const EventScheduler = () => {
       <Flex>
         <Flex row between className={styles.initial}>
           <Flex>
-            {/* <Text color="theme" bold size={16}>
-              Events
-            </Text> */}
             <Text size={16}>
               Share your availability with candidates and schedule events
             </Text>
@@ -151,7 +144,7 @@ const EventScheduler = () => {
                 setEditList={setEditList}
                 teammembers={addmembers}
                 intern={interviewer}
-                // setisLoader={setisLoader}
+                reset={reset}
                 // schedule={schedule}
                 google={google}
                 outlook={outlook}    

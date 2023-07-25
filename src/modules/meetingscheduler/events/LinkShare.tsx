@@ -40,36 +40,46 @@ const LinkShare = (props) => {
   console.log('details', details);
 
   const handleCheckboxChange = (event) => {
-    console.log('event', event.target);
+    console.log('eventeventevent', event.target);
     const { value, checked } = event.target;
     console.log('value........', value, 'checked', checked);
     if (checked) {
       setCheckedItems((prevItems) => [...prevItems, value]);
-      //   setinterviewerData(checkedItems)
+      // setinterviewerData(checkedItems)
     } else {
       setCheckedItems((prevItems) =>
         prevItems.filter((item) => item !== value),
       );
     }
+
   };
 
 
   console.log('checkedItems............', checkedItems, typeof checkedItems);
 
-  function searchItems(query) {
-    console.log('query', query);
+  function searchItems(searchquery) {
+    console.log('query', searchquery);
+
     const items = sharelinkdata;
     console.log('itemms', items);
-    const lowercaseQuery = query.toLowerCase();
+    const query = searchquery.trim() 
+    console.log("searchquery///////",searchquery,searchquery.length,"\n","query",query,query.length)
+    const lowercaseQuery = searchquery.toLowerCase();
+    console.log('searchquerylowercaseQuery', lowercaseQuery);
+
     const filteredItems = items.filter((item) =>
-      item.full_name.toLowerCase().includes(lowercaseQuery),
+      item.full_name.toLowerCase().includes(lowercaseQuery.toString().trim()),
     );
-    console.log('filteredItemsfilteredItems', filteredItems);
+    console.log('searchqueryfilteredItemsfilteredItems', filteredItems);
     if (filteredItems.length > 0) {
       setData(filteredItems);
     } else {
       setData([]);
     }
+  //   setCheckedItems((prevItems) => 
+  //   prevItems.filter((item) => filteredItems.some((fItem) => fItem.candidate_id === item)),
+  // );
+  console.log("~~~~~~~~~~~~~~",checkedItems)
     return filteredItems;
   }
 
@@ -95,7 +105,7 @@ const LinkShare = (props) => {
 
   return (
     <>
-      {console.log('filteredItems', data)}
+      {console.log('checkedItemscheckedItemsfilteredItems', data)}
       {console.log('checkedItemscheckedItems', checkedItems)}
       {loader && <Loader />}
       <div className={styles.sharelink}>
@@ -135,20 +145,21 @@ const LinkShare = (props) => {
         <Flex row className={styles.candidate}>
           <div className={styles.grid}>
             {data.map((name, index) => (
-              <Flex row key={index}>
+              <Flex row key={index} >
                 <div className={styles.flex}>
-                  {checkedItems.includes(name.candidate_id) ?(
+                  {checkedItems.includes(name.candidate_id.toString()) ? (
                     <>                    
-                  <InputCheckBox                    
-                    value={name.candidate_id}
-                    checked ={checkedItems.includes(name.candidate_id)}
+                  <InputCheckBox                
+                    value={name.candidate_id}                   
+                    checked={true}
                     onChange={handleCheckboxChange}
                   />
                   </>
                   ):(
                     <>
-                    <InputCheckBox                    
+                    <InputCheckBox                   
                     value={name.candidate_id}
+                    // checked ={name.candidate_id ? true : false}
                     onChange={handleCheckboxChange}
                   />
                   </>

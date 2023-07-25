@@ -47,7 +47,7 @@ import {
   deleteOutlookMiddleware,
   deleteGoogleMiddleware,
 } from './store/middleware/integrationmiddleware';
-import CalenderConfig from './calendarconfiguration';
+import CalenderConfig from './calendarconfigurations/calendarconfig';
 
 
 

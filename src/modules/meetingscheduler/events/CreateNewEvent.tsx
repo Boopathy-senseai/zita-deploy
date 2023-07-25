@@ -43,7 +43,7 @@ import DayTimeSplit from './DayTimeSplit';
 // import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-daterangepicker/daterangepicker.css';
 // eslint-disable-next-line import/order
-import { LabelWrapper } from '../../../uikit';
+import { LabelWrapper, Loader } from '../../../uikit';
 
 type CreateEvent = {
   event_name: string;
@@ -98,6 +98,7 @@ const CreateNewEvent = (props) => {
     teammembers,
     datetime,
     setisLoader,
+    reset,
     // intern,
     google,
     outlook,
@@ -105,12 +106,16 @@ const CreateNewEvent = (props) => {
   } = props;
   console.log("props+++++++",props)
 
+  console.log("resetresetresetresetresetreset",reset)
+
   const dispatch: AppDispatch = useDispatch();
   const [interviewer, setInterviewer] = useState(false);
   const [interviewerData, setinterviewerData] = useState([]);
   const [edit_id, setedit_id] = useState(0);
   const [include, setinclude] = useState(false);
   const [dateRangeRadio, setdateRangeRadio] = useState(false);
+  const [loading, setloading] = useState(false);
+
   const [daterange, setDaterange] = useState(0);
   const [saveButton, setsaveButton] = useState(false);
   const [fullname, setfullname] = useState('');
@@ -169,31 +174,26 @@ const CreateNewEvent = (props) => {
     }),
   );  
   let profilename = user.first_name + ' ' + user.last_name;
+  console.log("profilenameprofilenameprofilename",profilename)
   useEffect(() => {
-    // dispatch(userProfileMiddleWare());
     if (!isEmpty(editModel)) {
       setedit_id(editModel.id);
       axios
       .get(`${eventSchedulerApi}?pk=${editModel.id}`)
       .then((res) => {
         console.log('resres', res);
+        setloading(true)
         if (res.data) {
           let scheduledata = res.data.datetime
           let interviewdata = res.data.interviewer
           openModelEdit(editModel,scheduledata,interviewdata);
         }
+        setloading(false);
       })
-   
     } else {
-
+      formik.resetForm();
     }
   }, [duration,datetime]);
-
-  
-
-
-
-
 
   useEffect(() => {
     if (sundaycheck === false) {
@@ -239,6 +239,36 @@ const CreateNewEvent = (props) => {
   const userzone = `${moment.tz(userTimezone).format('Z')} (${userTimezone})`;
 
   const vaio = timezonesdata.find((fil) => fil.label === userzone);
+
+
+
+  function resetformik(){
+    formik.values.event_name = '';
+    formik.values.event_type = '';
+    formik.values.location = ''
+    formik.values.dateRange = '0'
+    formik.values.days = 'Calendar Days'
+    formik.values.startdate = ''
+    formik.values.enddate = ''
+    formik.values.duration = ''
+    formik.values.timezone = ''
+    formik.values.interviewer = ''
+    formik.values.schedule = ''
+    formik.values.sunday = []
+    formik.values.timezonedisplay =
+      'Automatically detect and show the times in my invitees time zone'
+      formik.values.description= ''
+    // availbletimebook = '',
+    formik.values.isactive  = true
+    formik.values.isdeleted = false
+  };
+
+  useEffect(()=>{
+    if(reset){
+      resetformik();
+      console.log("resetresetresetresetresetresetformikformikformik",formik.values)
+    }
+  },[reset])
 
   const conversion = (data: any) => {
     return data.map((obj) => {
@@ -330,6 +360,7 @@ const CreateNewEvent = (props) => {
         setsaturdaycheck(false);
       }
     }
+  
   };
 
   const handleEventValid = (values: CreateEvent) => {
@@ -340,6 +371,10 @@ const CreateNewEvent = (props) => {
     }
     if (isEmpty(values.event_type.trim())) {
       errors.event_type = THIS_FIELD_REQUIRED;
+      // if(formik.values.event_type === ''){
+      //   formik.setFieldValue('event_type','')
+      // }
+      
     }
     if (
       values.event_type === 'On-site Interview' &&
@@ -410,7 +445,7 @@ const CreateNewEvent = (props) => {
         alert(
           'Zita Administrator needs to integrate the outlook calendar first',
         );
-        formik.values.event_type = " " ;
+        formik.values.event_type = "" ;
       }
     }
     if (label === 'Google Hangouts/Meet') {
@@ -686,6 +721,10 @@ const CreateNewEvent = (props) => {
   console.log("initialSettings",initialSettings)
 
   console.log("1234567867543213456789",formik.values)
+
+  if(loading){
+    <Loader/>
+  }
   return (
     <Flex>
       <Flex className={styles.createnewlink}>
@@ -1081,6 +1120,7 @@ const CreateNewEvent = (props) => {
               touched={formik.touched}
             />
           </Flex>
+
         </div>
         <div className={styles.line}></div>
         <Flex row end marginTop={20}>

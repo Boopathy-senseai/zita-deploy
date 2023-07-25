@@ -1,0 +1,101 @@
+.modalwidth {
+  background-color: #fff;
+  padding: 26px 26px;
+  width: 680px;
+  height: fit-content;
+  border-radius: 4px;
+  overflow: scroll;
+}
+.checkforconflict {
+  margin-top: 20px;
+  margin-left: 40px;
+  justify-content: center;
+  /* display: flex; */
+  height: 170px;
+  width: 380px;
+  border-radius: 4px;
+  outline: solid black;
+}
+.addtocalendar {
+  margin-top: 20px;
+  margin-left: 40px;
+  justify-content: center;
+  /* display: flex; */
+  max-width: 570px;
+  width: 380px;
+  border-radius: 4px;
+  outline: solid black;
+}
+.rowgroup1 {
+  /* flex-direction: row; */
+  margin-left: 30px;
+  font-weight: bold;
+  color: #581845;
+}
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Three equal columns */
+  grid-template-rows: auto; /* Automatically sized rows */
+  gap: 10px;
+  height: 170px;
+  width: 600px;
+  overflow: scroll;
+}
+.cardStruture {
+  max-height: 400px;
+  width: 490px;
+  margin-right: 20px;
+  padding: 15px;
+  box-shadow: none;
+  border: 1px solid #581845;
+  margin-top: 20px;
+  margin-left: 66px;
+}
+.btncheck {
+  /* width: px;
+    height: 200px; */
+  margin-top: 10px;
+}
+.txt1 {
+  margin-left: 20px;
+}
+.txt2 {
+  margin-left: 10px;
+}
+.header2 {
+  margin-top: 10px;
+}
+.cancel {
+  margin-right: 8px;
+  background-color: #888888;
+  border: none;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+.cancel:active,
+.cancel:focus {
+  background-color: #888888;
+  border: none;
+}
+.share {
+  border: none;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+.share:active,
+.share:focus {
+  border: none;
+}
+.borderLine {
+  border-top: 1px solid #c3c3c3;
+  /* padding-bottom: 20px; */
+}
+
+.theme {
+  color: #581845;
+}
+
+.email{
+    color: #581845;
+    font-weight: bolder;
+}

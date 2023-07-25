@@ -268,22 +268,42 @@ const DayTimeSplit = (props) => {
   };
   const RemoveClickForSunday = (index) => {
     const object = sunday[index]
+    console.log('sunday[index]sunday[index]....',sunday[index-1],index,sunday,object)
     const check = time.find(
       (option) => option.label === sunday[index-1].endtime    )    
     const lastObject = sunday[sunday.length - 1];
+
+    console.log('lastObjectlastObject',lastObject,check,sunday[index-1],object)
     if (lastObject === object && object.starttime !== '' && object.endtime !== ''){
       const specificObject = check;
+      console.log('lastObjectlastObjectlastObjectlastObject',specificObject,lastObject)
       const index1 = time.findIndex(obj => obj.id === specificObject.id);
       if (index !== -1) {
         const remainingObjects = time.slice(index1 + 1);
         setDay1(remainingObjects)
       } 
     }  
+    // if(lastObject.starttime === '' || lastObject.endtime === ''){
+    //   alert("______")
+    //   const specificObject = check;
+    //   console.log('__________________',specificObject,lastObject)
+    //   const index1 = time.findIndex(obj => obj.id === specificObject.id);
+    //   console.log("__________________index1",index1)
+    //   if (index !== -1) {
+    //     const remainingObjects = time.slice(index1 + 1);
+    //     setDay1(remainingObjects)
+    //   } 
+    // }
+
 
     const list = [...sunday];
     list.splice(index, 1);
+    console.log("sunday[index]sunday[index]....listlistlistlist",list,index)
     setSunday(list);
   };
+  useEffect(()=> {
+
+  },[day1])
 
   const handleInputChangeForMonday = (e, index, text) => {
     // alert('eedex');
@@ -294,7 +314,8 @@ const DayTimeSplit = (props) => {
     console.log('??????????', updatedMonday);
     if (text === 'starttime') {
       updatedMonday[index].starttime = label;
-    } else if (text === 'endtime') {
+    } else if (text === 'endtime' && updatedMonday[index].starttime !== '') {
+      alert("LK")
       updatedMonday[index].endtime = label;
     }
     setMonday(updatedMonday);
@@ -339,7 +360,7 @@ const DayTimeSplit = (props) => {
     const updatedTuesday = [...tuesday];
     if (text === 'starttime') {
       updatedTuesday[index].starttime = label;
-    } else if (text === 'endtime') {
+    } else if (text === 'endtime' && updatedTuesday[index].starttime !== '') {
       updatedTuesday[index].endtime = label;
     }
     setTuesday(updatedTuesday);
@@ -384,7 +405,7 @@ const DayTimeSplit = (props) => {
     const updatedWednesday = [...wednesday];
     if (text === 'starttime') {
       updatedWednesday[index].starttime = label;
-    } else if (text === 'endtime') {
+    } else if (text === 'endtime' && updatedWednesday[index].starttime !== '') {
       updatedWednesday[index].endtime = label;
     }
     setWednesday(updatedWednesday);
@@ -430,7 +451,7 @@ const DayTimeSplit = (props) => {
     if (text === 'starttime') {
       updatedThursday[index].starttime = label;
       console.log('e123345', updatedThursday);
-    } else if (text === 'endtime') {
+    } else if (text === 'endtime' && updatedThursday[index].starttime !== '') {
       updatedThursday[index].endtime = label;
     }
     console.log('thursday', thursday);
@@ -474,7 +495,7 @@ const DayTimeSplit = (props) => {
     const updatedFriday = [...friday];
     if (text === 'starttime') {
       updatedFriday[index].starttime = label;
-    } else if (text === 'endtime') {
+    } else if (text === 'endtime' && updatedFriday[index].starttime !== '') {
       updatedFriday[index].endtime = label;
     }
     setFriday(updatedFriday);
@@ -517,7 +538,7 @@ const DayTimeSplit = (props) => {
     const updatedSaturday = [...saturday];
     if (text === 'starttime') {
       updatedSaturday[index].starttime = label;
-    } else if (text === 'endtime') {
+    } else if (text === 'endtime' && updatedSaturday[index].starttime !== '') {
       updatedSaturday[index].endtime = label;
     }
     setSaturday(updatedSaturday);
