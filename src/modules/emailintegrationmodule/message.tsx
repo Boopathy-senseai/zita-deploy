@@ -32,12 +32,13 @@ type Props = {
   // draftapi: () => void;
   page: () => void;
   attachments: any;
-  previousfun: () => void;
-  nextfun: () => void;
-  range: any;
-  previous: any;
-  previous1: any;
-  total: any;
+  // previousfun: () => void;
+  // nextfun: () => void;
+  // range: any;
+  // previous: any;
+  // previous1: any;
+  // total: any;
+
 };
 const Inbox = ({
   message,
@@ -52,12 +53,12 @@ const Inbox = ({
   // draftapi,
   page,
   attachments,
-  previousfun,
-  nextfun,
-  range,
-  previous,
-  previous1,
-  total,
+  // previousfun,
+  // nextfun,
+  // range,
+  // previous,
+  // previous1,
+  // total,
 }: Props) => {
   const msal = useMsal();
   const [view, setview] = useState(true);
@@ -195,13 +196,13 @@ const Inbox = ({
     a.click();
   };
 
-  const Previousdata = () => {
-    previousfun();
-  };
+  // const Previousdata = () => {
+  //   previousfun();
+  // };
 
-  const Nextdata = () => {
-    nextfun();
-  };
+  // const Nextdata = () => {
+  //   nextfun();
+  // };
   const messageIcon = message !== '';
 
   const topActionBar = () => {
@@ -253,7 +254,7 @@ const Inbox = ({
             )}
           </Flex>
 
-          {sidebarroute !== 0 && (
+          {/* {sidebarroute !== 0 && (
             <>
               <Flex row>
                 <Text color="theme">{`${previous1}-${previous} of ${total}`}</Text>
@@ -286,7 +287,7 @@ const Inbox = ({
                 </Flex>
               </Flex>
             </>
-          )}
+          )} */}
         </>
       );
     }
@@ -336,6 +337,73 @@ const Inbox = ({
     );
   };
 
+
+  const renderAttachments = (
+    attachments && (
+      <Flex
+        row
+        width={'100%'}
+        className={styles.filesContainer}
+        style={{
+          borderTop:
+            attachments.length !== 0 ? '1px solid #c3c3c3' : 'unset',
+        }}
+      >
+        {attachments.map((val, ind) => (
+          <Flex
+            flex={1}
+            row
+            center
+            between
+            key={ind}
+            className={styles.attachfile}
+          >
+            <Flex marginRight={10} style={{ padding: '10px' }}>
+              <Text
+                size={12}
+                title={val.name}
+                className={styles.fileName}
+              >
+                {val.name}
+              </Text>
+              <Text
+                size={10}
+                title={`${Math.round(val.size / 1024)} KB`}
+                style={{ color: '#666666' }}
+              >
+                {Math.round(val.size / 1024)} KB
+              </Text>
+            </Flex>
+            <Flex
+              style={{
+                borderLeft: '1px solid #c3c3c3',
+                height: '100%',
+                display: 'flex',
+                padding: '0',
+              }}
+              className={styles.iconsContainer}
+            >
+              <Flex
+                style={{
+                  cursor: 'pointer',
+                  padding: '5px 10px 5px 0px',
+                  height: '100%',
+                }}
+                onClick={() => donwnload(val)}
+              >
+                <SvgDownload
+                  width={14}
+                  height={14}
+                  className={styles.svgicon}
+                />
+              </Flex>
+            </Flex>
+          </Flex>
+        ))}
+      </Flex>
+    )
+  );
+
   const renderBody = () => {
     if (message !== '') {
       return (
@@ -352,6 +420,7 @@ const Inbox = ({
             maxHeight: '-webkit-fill-available',
           }}
         >
+          
           <Flex
             row
             between
@@ -426,6 +495,7 @@ const Inbox = ({
               )}
             </Flex>
           </Flex>
+          
           <Flex
             style={{
               display: "flex",
@@ -439,6 +509,7 @@ const Inbox = ({
           >
             {parse(message.body.content)}
           </Flex>
+          {renderAttachments}
         </Flex>
       );
     }
@@ -467,12 +538,9 @@ const Inbox = ({
 
   return (
     <div className={styles.messageContainer}>
-      {/* {console.log('meaa', message)} */}
       <Flex row between center className={styles.iconContainer}>
         {topActionBar()}
       </Flex>
-      {/* {console.log('attachments', attachments)} */}
-      {/*{message !== '' ? <> {sidebarroute} </> : ''}*/}
       <Flex className={styles.bodyContainer}>{renderBody()}</Flex>
     </div>
   );

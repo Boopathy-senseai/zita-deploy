@@ -548,6 +548,13 @@ const EmailScreen = () => {
                 mailfolders={mailfolders}
                 removemsg={removemessage}
                 page={page}
+                sidebarroute={sideroute}
+                previousfun={Previousdata}
+                nextfun={Nextdata}
+                range={range}
+                previous={previous}
+                previous1={previous1}
+                total={total}
               />
             </Flex>
             <Flex
@@ -568,12 +575,12 @@ const EmailScreen = () => {
                 //draftapi={Draft}
                 page={page}
                 attachments={attachments}
-                previousfun={Previousdata}
-                nextfun={Nextdata}
-                range={range}
-                previous={previous}
-                previous1={previous1}
-                total={total}
+                // previousfun={Previousdata}
+                // nextfun={Nextdata}
+                // range={range}
+                // previous={previous}
+                // previous1={previous1}
+                // total={total}
               />
             </Flex>
           </Flex>

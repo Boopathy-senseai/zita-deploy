@@ -282,6 +282,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
           >
             <Flex
               flex={4}
+              style={{ height: "-webkit-fill-available"}}
               className={`${styles.columnGroup} ${styles.borderRightLine}`}
             >
               <Flex column start marginBottom={20}>
@@ -298,7 +299,6 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
                   overflowY: 'auto',
                   maxHeight: '370px',
                   padding: '2px 2px',
-                  marginBottom: "50px"
                 }}
               >
                 <StageCard
@@ -319,6 +319,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
             </Flex>
             <Flex
               flex={4}
+              style={{ height: "-webkit-fill-available"}}
               className={`${styles.columnGroup} ${styles.paddingLeft}`}
             >
               <Flex column start marginBottom={20}>

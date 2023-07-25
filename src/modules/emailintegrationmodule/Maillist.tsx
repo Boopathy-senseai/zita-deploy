@@ -3,6 +3,8 @@ import { Flex, Card, CheckBox, Text, InputText } from '../../uikit';
 import SvgRefresh from '../../icons/SvgRefresh';
 import { getDateString } from '../../uikit/helper';
 import SvgSearchGlass from '../../icons/SvgSearchGlass';
+import SvgRight from '../../icons/SvgRight';
+import SvgLeft from '../../icons/SvgLeft';
 import styles from './maillist.module.css';
 
 type Props = {
@@ -13,6 +15,13 @@ type Props = {
   mailfolders: any;
   removemsg: any;
   page: any;
+  sidebarroute: any;
+  previousfun: () => void;
+  nextfun: () => void;
+  range: any;
+  previous: any;
+  previous1: any;
+  total: any;
 };
 const Maillist = ({
   messagelist,
@@ -22,6 +31,13 @@ const Maillist = ({
   mailfolders,
   removemsg,
   page,
+  sidebarroute,
+  previousfun,
+  nextfun,
+  range,
+  previous,
+  previous1,
+  total,
 }: Props) => {
   const [messages, setmesage] = useState<any>();
 
@@ -110,8 +126,42 @@ const Maillist = ({
       >
         <Flex style={{ padding: '6px' }}>{showfolder()}</Flex>
 
-        <Flex title="Refresh" style={{ padding: '6px' }}>
-          <SvgRefresh width={18} height={18} onClick={referesh} />
+        <Flex row center>
+          {sidebarroute !== 0 && (
+            <Flex row center>
+              <Text color="theme">{`${previous1}-${previous} of ${total}`}</Text>
+              <Flex
+                title="previous"
+                className={
+                  previous1 !== 1 ? styles.icons : styles.iconsDisabled
+                }
+                style={{ marginLeft: '5px' }}
+              >
+                <SvgLeft
+                  width={12}
+                  height={12}
+                  fill={previous1 !== 1 ? '#581845' : '#58184550'}
+                  onClick={previous1 !== 1 ? previousfun : undefined}
+                />
+              </Flex>
+              <Flex
+                title="Next"
+                className={
+                  previous !== total ? styles.icons : styles.iconsDisabled
+                }
+              >
+                <SvgRight
+                  width={12}
+                  height={12}
+                  fill={previous !== total ? '#581845' : '#58184550'}
+                  onClick={previous !== total ? nextfun : undefined}
+                />
+              </Flex>
+            </Flex>
+          )}
+          <Flex title="Refresh" style={{ padding: '6px' }}>
+            <SvgRefresh width={18} height={18} onClick={referesh} />
+          </Flex>
         </Flex>
       </Flex>
 
@@ -157,7 +207,12 @@ const Maillist = ({
                         width: '100%',
                       }}
                     >
-                      <Text className={styles.textHeadingStyle} style={{ maxWidth: "70%"}}>{handlemessage(val)}</Text>
+                      <Text
+                        className={styles.textHeadingStyle}
+                        style={{ maxWidth: '70%' }}
+                      >
+                        {handlemessage(val)}
+                      </Text>
                       <Text size={12}>
                         {getDateString(val.sentDateTime, 'DD/MM/YY')}
                       </Text>
