@@ -292,25 +292,26 @@ console.log("sidebar111",windowSize,sidebar)
                   </Flex>
                 </Flex>
               </Flex>
-              <div className={styles.line}></div>
-              <Flex style={{marginTop:'30px',marginRight: '8px'}} >
+   
+              <div className={styles.line} style={{ marginRight: checkVist?'22px':'18px'}}></div>
+              <Flex style={{marginTop:'30px',marginRight: checkVist?'17px':'25px',marginLeft:checkVist?'0px':'10px'}} >
               <Flex  width={'113%'} >
               {!checkVist ? (
-                <Flex style={{marginLeft:'25px' }}
+                <Flex style={{marginLeft:'2px',cursor:checkVist ?'default':'pointer' }}
                 onClick={() => handleUnlockSubmit(talentList.candidate_hash)}
                 >
-                <SvgLock fill={'#581845'} width={22} height={22} />
+                <SvgLock fill={'#581845'} width={24} height={24} />
                 </Flex>
               ) : (
-                <div style={{marginLeft:'34px'}}
+                <div style={{marginLeft:'11px'}}
                 >
-                <SvgUnlock fill={'#581845'} width={22} height={22} />
+                <SvgUnlock fill={'#581845'} width={24} height={24} />
                 </div>
                 
               )}
-              <Text bold  size={11}  style={{ marginLeft: '-5px', color:'#581845',fontSize:'12px',cursor:'default' }} 
+              <Text bold  size={11} title={checkVist ? 'Unlocked Contact' : 'Unlock Contact'}  style={{ marginLeft: '-5px', color:checkVist ?'black':'#581845',fontSize:'12px',cursor:checkVist ?'default':'pointer' }} 
                onClick={() => handleUnlockSubmit(talentList.candidate_hash)}>
-                {checkVist ? 'Unlocked Contact' : 'Unlock Contact'}
+                {checkVist ? 'Unlocked' : 'Unlock'}
               </Text>
             </Flex>
               </Flex>
