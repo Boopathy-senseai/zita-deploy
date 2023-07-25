@@ -110,7 +110,12 @@ const TalentFilter = ({
  
     handleRefresh();
     setRelocate(false);
- 
+    setnewexperience(null);
+    setnewBachelors1(false);
+    setnewmaster1(false);
+    setnewDoctorate1(false);
+    setnewothers1(false);
+    setnewrelocate(false);
   };
   const selectInputRef = useRef<any>();
   const myRef = useRef<any>();
