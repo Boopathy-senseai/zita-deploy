@@ -198,30 +198,67 @@ const Notification = () => {
                                             row
                                             className={styles.listStyle}
                                           >
-                                            <Text
-                                              
-                                              style={{ maxWidth: '295px',fontSize:'13px' }}
+                                            <Text 
+                                              style={{ maxWidth: '72%',fontSize:'13px' }}
                                             >
                                               {list.verb}
                                             </Text>
-                                          </Flex>
-                                          <Flex
-                                            row
-                                            top
-                                            // className={styles.notificationtime}
-                                          >
-                                            <Text  style={{fontSize:'13px'}} color="gray">
+                                            <Text
+                                              style={{ marginLeft: 16,fontSize:'13px' }} 
+                                              color="gray"
+                                            >
                                               {moment(list.timestamp).fromNow()}
                                             </Text>
-                                            {list.unread && (
-                                              <div
-                                                className={styles.readStyle}
-                                                style={{ marginLeft: 10 }}
-                                              />
-                                            )}
                                           </Flex>
-                                        </Flex>
+                                          {list.unread && (
+                                            <div className={styles.readStyle} />
+                                          )}
+                                        </Flex> 
                                       </LinkWrapper>
+                                    </>
+                                  ) : list.description.toLowerCase() ===
+                                    'candidatenotes' ? (
+                                    <>
+                                    {index === 0 ? (
+                                        ''
+                                      ) : (
+                                        <hr className={styles.hr_line} />
+                                      )}
+                                      <Flex
+                                        onClick={() => {
+                                          setCandi(list.target_object_id);
+                                          setProfile(true);
+                                          setMessageTab(2);
+                                          handleReadNotification(list.id);
+                                        }}
+                                      >
+                                        <Flex
+                                          row
+                                          center
+                                          between
+                                          className={styles.hoverStyle}
+                                        >
+                                          <Flex
+                                            row
+                                            className={styles.listStyle}
+                                          >
+                                            <Text 
+                                              style={{ maxWidth: '72%',fontSize:'13px' }}
+                                            >
+                                              {list.verb}
+                                            </Text>
+                                            <Text
+                                              style={{ marginLeft: 16,fontSize:'13px' }} 
+                                              color="gray"
+                                            >
+                                              {moment(list.timestamp).fromNow()}
+                                            </Text>
+                                          </Flex>
+                                          {list.unread && (
+                                            <div className={styles.readStyle} />
+                                          )}
+                                        </Flex>
+                                      </Flex> 
                                     </>
                                   ) : (
                                     <>
@@ -257,28 +294,21 @@ const Notification = () => {
                                             row
                                             className={styles.listStyle}
                                           >
-                                            <Text
-                                           
-                                              style={{ maxWidth: '295px',fontSize:'13px' }}
+                                            <Text 
+                                              style={{ maxWidth: '72%',fontSize:'13px' }}
                                             >
                                               {list.verb}
                                             </Text>
-                                          </Flex>
-                                          <Flex
-                                            row
-                                            top
-                                            // className={styles.notificationtime}
-                                          >
-                                            <Text style={{fontSize:'13px'}} color="gray">
+                                            <Text
+                                              style={{ marginLeft: 16,fontSize:'13px' }} 
+                                              color="gray"
+                                            >
                                               {moment(list.timestamp).fromNow()}
                                             </Text>
-                                            {list.unread && (
-                                              <div
-                                                className={styles.readStyle}
-                                                style={{ marginLeft: 10 }}
-                                              />
-                                            )}
                                           </Flex>
+                                          {list.unread && (
+                                            <div className={styles.readStyle} />
+                                          )}
                                         </Flex>
                                       </Flex>
                                     </>
@@ -332,39 +362,76 @@ const Notification = () => {
                                       }}
                                     >
                                       <Flex
-                                        row
-                                        center
-                                        between
-                                        className={styles.hoverStyle}
-                                      >
-                                        <Flex row className={styles.listStyle}>
-                                          <Text
-                                            
-                                            style={{ maxWidth: '295px',fontSize:'13px' }}
-                                          >
-                                            {list.verb}
-                                          </Text>
-                                        </Flex>
-                                        <Flex
                                           row
-                                          className={styles.notificationtime}
+                                          center
+                                          between
+                                          className={styles.hoverStyle}
                                         >
-                                          <Text
-                                            style={{ marginLeft: 16,fontSize:'13px' }}
-                                             
-                                            color="gray"
+                                          <Flex
+                                            row
+                                            className={styles.listStyle}
                                           >
-                                            {moment(list.timestamp).fromNow()}
-                                          </Text>
+                                            <Text 
+                                              style={{ maxWidth: '72%',fontSize:'13px' }}
+                                            >
+                                              {list.verb}
+                                            </Text>
+                                            <Text
+                                              style={{ marginLeft: 16,fontSize:'13px' }} 
+                                              color="gray"
+                                            >
+                                              {moment(list.timestamp).fromNow()}
+                                            </Text>
+                                          </Flex>
                                           {list.unread && (
-                                            <div
-                                              className={styles.readStyle}
-                                              style={{ marginLeft: 10 }}
-                                            />
+                                            <div className={styles.readStyle} />
                                           )}
                                         </Flex>
-                                      </Flex>
                                     </LinkWrapper>{' '}
+                                  </>
+                                ) : list.description.toLowerCase() ===
+                                  'candidatenotes' ? (
+                                  <>
+                                  {index === 0 ? (
+                                        ''
+                                      ) : (
+                                        <hr className={styles.hr_line} />
+                                      )}
+                                    <Flex
+                                      onClick={() => {
+                                        setCandi(list.target_object_id);
+                                        setProfile(true);
+                                        setMessageTab(2);
+                                        handleReadNotification(list.id);
+                                      }}
+                                    >
+                                      <Flex
+                                          row
+                                          center
+                                          between
+                                          className={styles.hoverStyle}
+                                        >
+                                          <Flex
+                                            row
+                                            className={styles.listStyle}
+                                          >
+                                            <Text 
+                                              style={{ maxWidth: '72%',fontSize:'13px' }}
+                                            >
+                                              {list.verb}
+                                            </Text>
+                                            <Text
+                                              style={{ marginLeft: 16,fontSize:'13px' }} 
+                                              color="gray"
+                                            >
+                                              {moment(list.timestamp).fromNow()}
+                                            </Text>
+                                          </Flex>
+                                          {list.unread && (
+                                            <div className={styles.readStyle} />
+                                          )}
+                                        </Flex>
+                                    </Flex>
                                   </>
                                 ) : (
                                   <>
@@ -391,37 +458,31 @@ const Notification = () => {
                                       }}
                                     >
                                       <Flex
-                                        row
-                                        center
-                                        between
-                                        className={styles.hoverStyle}
-                                      >
-                                        <Flex row className={styles.listStyle}>
-                                          <Text 
-                                            style={{ maxWidth: '295px',fontSize:'13px' }}
-                                          >
-                                            {list.verb}
-                                          </Text>
-                                        </Flex>{' '}
-                                        <Flex
                                           row
-                                          className={styles.notificationtime}
+                                          center
+                                          between
+                                          className={styles.hoverStyle}
                                         >
-                                          <Text
-                                            style={{ marginLeft: 16,fontSize:'13px' }}
-                                             
-                                            color="gray"
+                                          <Flex
+                                            row
+                                            className={styles.listStyle}
                                           >
-                                            {moment(list.timestamp).fromNow()}
-                                          </Text>
+                                            <Text 
+                                              style={{ maxWidth: '72%',fontSize:'13px' }}
+                                            >
+                                              {list.verb}
+                                            </Text>
+                                            <Text
+                                              style={{ marginLeft: 16,fontSize:'13px' }} 
+                                              color="gray"
+                                            >
+                                              {moment(list.timestamp).fromNow()}
+                                            </Text>
+                                          </Flex>
                                           {list.unread && (
-                                            <div
-                                              className={styles.readStyle}
-                                              style={{ marginLeft: 10 }}
-                                            />
+                                            <div className={styles.readStyle} />
                                           )}
                                         </Flex>
-                                      </Flex>
                                     </Flex>{' '}
                                   </>
                                 )}
@@ -474,35 +535,76 @@ const Notification = () => {
                                       }}
                                     >
                                       <Flex
-                                        row
-                                        center
-                                        between
-                                        className={styles.hoverStyle}
-                                      >
-                                        <Flex row className={styles.listStyle}>
-                                          <Text
-                                          
-                                            style={{ maxWidth: '295px',fontSize:'13px' }}
-                                          >
-                                            {list.verb}
-                                          </Text>
-                                        </Flex>
-                                        <Flex
                                           row
-                                          className={styles.notificationtime}
+                                          center
+                                          between
+                                          className={styles.hoverStyle}
                                         >
-                                          <Text style={{fontSize:'13px'}} color="gray">
-                                            {moment(list.timestamp).fromNow()}
-                                          </Text>
+                                          <Flex
+                                            row
+                                            className={styles.listStyle}
+                                          >
+                                            <Text 
+                                              style={{ maxWidth: '72%',fontSize:'13px' }}
+                                            >
+                                              {list.verb}
+                                            </Text>
+                                            <Text
+                                              style={{ marginLeft: 16,fontSize:'13px' }} 
+                                              color="gray"
+                                            >
+                                              {moment(list.timestamp).fromNow()}
+                                            </Text>
+                                          </Flex>
                                           {list.unread && (
-                                            <div
-                                              className={styles.readStyle}
-                                              style={{ marginLeft: 10 }}
-                                            />
+                                            <div className={styles.readStyle} />
                                           )}
                                         </Flex>
-                                      </Flex>
                                     </LinkWrapper>{' '}
+                                  </>
+                                ) : list.description.toLowerCase() ===
+                                  'candidatenotes' ? (
+                                  <>
+                                  {index === 0 ? (
+                                        ''
+                                      ) : (
+                                        <hr className={styles.hr_line} />
+                                      )}
+                                    <Flex
+                                      onClick={() => { 
+                                        setCandi(list.target_object_id);
+                                        setProfile(true);
+                                        setMessageTab(2);
+                                        handleReadNotification(list.id);
+                                      }}
+                                    >
+                                      <Flex
+                                          row
+                                          center
+                                          between
+                                          className={styles.hoverStyle}
+                                        >
+                                          <Flex
+                                            row
+                                            className={styles.listStyle}
+                                          >
+                                            <Text 
+                                              style={{ maxWidth: '72%',fontSize:'13px' }}
+                                            >
+                                              {list.verb}
+                                            </Text>
+                                            <Text
+                                              style={{ marginLeft: 16,fontSize:'13px' }} 
+                                              color="gray"
+                                            >
+                                              {moment(list.timestamp).fromNow()}
+                                            </Text>
+                                          </Flex>
+                                          {list.unread && (
+                                            <div className={styles.readStyle} />
+                                          )}
+                                        </Flex>
+                                    </Flex> 
                                   </>
                                 ) : (
                                   <>
@@ -528,34 +630,33 @@ const Notification = () => {
                                         handleReadNotification(list.id);
                                       }}
                                     >
-                                      <Flex
-                                        row
-                                        center
-                                        between
-                                        className={styles.hoverStyle}
-                                      >
-                                        <Flex row className={styles.listStyle}>
-                                          <Text 
-                                            style={{ maxWidth: '295px',fontSize:'13px' }}
-                                          >
-                                            {list.verb}
-                                          </Text>
-                                        </Flex>
-                                        <Flex
-                                          row
-                                          className={styles.notificationtime}
+                                      <Flex 
+                                      row
+                                          className={styles.hoverStyle}
                                         >
-                                          <Text style={{fontSize:'13px'}} color="gray">
-                                            {moment(list.timestamp).fromNow()}
-                                          </Text>
+                                          <Flex
+                                            row
+                                            between
+                                            className={styles.listStyle}
+                                          >
+                                            <Flex>
+                                            <Text 
+                                              style={{ maxWidth: '72%',fontSize:'13px' }}
+                                            >
+                                              {list.verb}
+                                            </Text></Flex> 
+                                            <Flex>
+                                            <Text
+                                              style={{ marginLeft: 16,fontSize:'13px',display:'flex' }} 
+                                              color="gray"
+                                            >
+                                              {moment(list.timestamp).fromNow()}
+                                            </Text></Flex>
+                                          </Flex>
                                           {list.unread && (
-                                            <div
-                                              className={styles.readStyle}
-                                              style={{ marginLeft: 10 }}
-                                            />
+                                            <div className={styles.readStyle} />
                                           )}
                                         </Flex>
-                                      </Flex>
                                     </Flex>
                                   </>
                                 )}

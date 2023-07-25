@@ -1,4 +1,4 @@
-import { useEffect,useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Activity from '../../pages/activity/Activity';
@@ -20,26 +20,26 @@ import {
   googleCallbackMiddleware,
 } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import CompanyPage from './companypage';
- //import UserProfile from './userprofilemodule/userProfile';
+//import UserProfile from './userprofilemodule/userProfile';
 import styles from './accountsettingsscreen.module.css';
 import BuildYourCareerPageScreen from './buildyourcareerpage/BuildYourCareerPageScreen';
 import EmailNotification from './emailmodule/EmailNotifications';
 import IntegrationScreen from './integrationmodule/IntegrationScreen';
 import ManageSubscriptionScreen from './managesubscription/ManageSubscriptionScreen';
+import TemplatesPage from './templatesmodule/templatesPage';
 // import { dispatch } from 'react-hot-toast/dist/core/store';
 
 const height = window.innerHeight - 212;
 
 type ParamsType = {
   itemId: string;
-  value:string;
-   
+  value: string;
 };
-type props ={
+type props = {
   value: () => void;
-}
+};
 
-const AccountSettingsScreen = ({value }:props) => {
+const AccountSettingsScreen = ({ value }: props) => {
   const dispatch: AppDispatch = useDispatch();
   const { itemId } = useParams<ParamsType>();
   const history = useHistory();
@@ -70,7 +70,7 @@ const AccountSettingsScreen = ({value }:props) => {
   const [isTest, setTest] = useState(false);
   const [isReloadCompany, setReloadCompany] = useState(false);
   const [isReloadProfile, setReloadProfile] = useState(false);
-  const [changeurl,setchangeurl] = useState(false);
+  const [changeurl, setchangeurl] = useState(false);
 
   useEffect(() => {
     if (!isEmpty(tab)) {
@@ -86,20 +86,18 @@ const AccountSettingsScreen = ({value }:props) => {
       }
     }
   }, [tab]);
- 
-    
-useEffect(() => {
-  const unblock = history.block(
-    isReloadCompany
-  ? "Do you want to leave this site? Changes you made may not be saved."
-  : true
-  );
-  
-  return function cleanup() {
-  unblock();
-  };
+
+  useEffect(() => {
+    const unblock = history.block(
+      isReloadCompany
+        ? 'Do you want to leave this site? Changes you made may not be saved.'
+        : true,
+    );
+
+    return function cleanup() {
+      unblock();
+    };
   }, [isReloadCompany]);
-  
 
   useEffect(() => {
     /**
@@ -164,14 +162,13 @@ useEffect(() => {
     },
   );
 
-  const { routerPrompt,onDirty, onPristine } = useUnsavedChangesWarning();
+  const { routerPrompt, onDirty, onPristine } = useUnsavedChangesWarning();
   // var oldURL = window.location.href;
   // if(window.location.href !== oldURL){
   //   alert("url changed!");
- 
- 
+
   useEffect(() => {
-    if ( isReloadCareer && window.confirm(LEAVE_THIS_SITE)) {
+    if (isReloadCareer && window.confirm(LEAVE_THIS_SITE)) {
       setReloadCareer(false);
       setKey(sessionStorage.getItem('superUserTab'));
       setKeyOne(sessionStorage.getItem('superUserFalseTab'));
@@ -201,7 +198,7 @@ useEffect(() => {
       // sessionStorage.setItem('superUserTab', tabKey);
       // sessionStorage.setItem('superUserFalseTab', tabKeyOne);
     }
-  }, [tabKey, isTest, tabKeyOne,history.push]);
+  }, [tabKey, isTest, tabKeyOne, history.push]);
 
   useEffect(() => {
     if (isReloadCareer) {
@@ -215,7 +212,6 @@ useEffect(() => {
       onDirty();
     } else if (!isReloadProfile) {
       onPristine();
-      
     }
   }, [isReloadProfile]);
   useEffect(() => {
@@ -233,10 +229,12 @@ useEffect(() => {
   return (
     !isLoading && (
       <>
-      <Flex row center className={styles.overallhead}>
-            <Flex row center>
-              <Flex center marginLeft={20}><SvgSettings/></Flex>
-              <Flex>
+        <Flex row center className={styles.overallhead}>
+          <Flex row center>
+            <Flex center marginLeft={20}>
+              <SvgSettings />
+            </Flex>
+            <Flex>
               <Text
                 bold
                 size={16}
@@ -245,39 +243,50 @@ useEffect(() => {
               >
                 Account Settings
               </Text>
-              </Flex>
-            </Flex>
-            <Flex>
-              <div className={styles.triangle}></div>
             </Flex>
           </Flex>
-      <Flex columnFlex className={styles.overAll}>
-        
-
-        {super_user === true && (
-          <Tabs
-            id={!is_plan ? 'account__settings' : 'setting'}
-            activeKey={tabKey}
-            onSelect={(keys: any) => {
-              if (is_plan) {
-                setTest(!isTest);
-                sessionStorage.setItem('superUserTab', keys);
-                if (!isReloadCareer && !isReloadCompany && !isReloadProfile) {
-                  setKey(keys);
-                }
-              }
+          <Flex>
+            <div className={styles.triangle}></div>
+          </Flex>
+        </Flex>
+        <Flex columnFlex className={styles.overAll}>
+          <Flex
+            style={{
+              position: 'relative',
+              display: 'flex',
+              flexDirection: 'column',
+              flex: 1,
+              overflow: 'hidden',
             }}
           >
+            {super_user === true && (
+              <Tabs
+                id={!is_plan ? 'account__settings' : 'setting'}
+                activeKey={tabKey}
+                onSelect={(keys: any) => {
+                  if (is_plan) {
+                    setTest(!isTest);
+                    sessionStorage.setItem('superUserTab', keys);
+                    if (
+                      !isReloadCareer &&
+                      !isReloadCompany &&
+                      !isReloadProfile
+                    ) {
+                      setKey(keys);
+                    }
+                  }
+                }}
+              >
             <Tab title={'Profiles'} eventKey={'0'}>
-              <div
+                <div
                 style={{
                   height: window.innerHeight - 215,
                   overflowY: 'scroll',
                 }}
               >
-                <Flex center>
+         <Flex center> 
           
-                {tabKey === '0' &&
+            {tabKey === '0' &&
             company_detail &&
             company_detail.no_of_emp === null && (
               <Flex row center className={styles.warningFlex}>
@@ -293,30 +302,29 @@ useEffect(() => {
               </Flex>
             )}
 
-         {tabKey === '1' &&
+           {tabKey === '1' &&
             company_detail &&
             company_detail.no_of_emp === null?(tabKey === '1' && career_page_exists_build === false && (
             <Flex row center className={styles.warningFlex}>
-              <SvgInfo height={16} width={16} fill={WARNING} />
-              <Text
-                size={12}
-                bold
-                color="warning"
-                className={styles.warningText}
-              >
+              <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
+                <Text 
+                 style={{color:"#333333"}}
+                  className={styles.warningText}
+                >
+                   <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px'}} bold >Heads Up!{' '}</Text>
+
               Please complete your company profile and careers page to post
                   jobs.
               </Text>
             </Flex>
          ) ):(tabKey === '1' && career_page_exists_build === false && (
-            <Flex row center className={styles.warningFlex}>
-              <SvgInfo height={16} width={16} fill={WARNING} />
-              <Text
-                size={12}
-                bold
-                color="warning"
-                className={styles.warningText}
-              >
+          <Flex row center className={styles.warningFlex}>
+          <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
+              <Text 
+                 style={{color:"#333333"}}
+                  className={styles.warningText}
+                >
+                   <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px'}} bold >Heads Up!{' '}</Text>
               Please complete your careers page to post jobs.
               </Text>
             </Flex>))}
@@ -326,13 +334,12 @@ useEffect(() => {
             tabKey === '1' &&
             career_page_exists_build === true && (
               <Flex row center className={styles.warningFlex}>
-                <SvgInfo height={16} width={16} fill={WARNING} />
-                <Text
-                  size={12}
-                  bold
-                  color="warning"
+                 <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
+              <Text 
+                 style={{color:"#333333"}}
                   className={styles.warningText}
                 >
+                   <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px'}} bold >Heads Up!{' '}</Text>
                   Changing your careers page URL will change the URL for all
                   jobs in your careers page. Note to change the jobs URL in your
                   company’s careers page if connected.
@@ -348,9 +355,10 @@ useEffect(() => {
                   />
                 )}
               </div>
-            </Tab>
-            <Tab title={'Build Your Careers Page'} eventKey={'1'}>
-              <div
+            
+                </Tab>
+                <Tab title={'Build Your Careers Page'} eventKey={'1'}>
+                <div
                 style={{
                   height: window.innerHeight - 192,
                   overflowY: 'scroll',
@@ -413,48 +421,42 @@ useEffect(() => {
                   />
                 )}
               </div>
-            </Tab>
-            <Tab title={'Manage Subscription'} eventKey={'2'}>
-              <div
-                style={{
-                  height: window.innerHeight - 192,
-                  overflowY: 'scroll',
-                  padding: '1px',
-                }}
-              >
-                {tabKey === '2' && <ManageSubscriptionScreen setTab={setKey} />}
-              </div>
-            </Tab>
-            <Tab title={'Manage Users'} eventKey={'3'}>
-              <div
-                className={
-                  itemId === 'settings' ? styles.borderStyle : styles.overFlow
-                }
-                style={{
-                  height:
-                    itemId === 'settings' ? height : window.innerHeight - 192,
-                }}
-              >
-                {tabKey === '3' && itemId === 'settings' && (
-                  <ManageUsers setKey={setKey} />
-                )}
-                {tabKey === '3' && itemId !== 'settings' && <Activity />}
-              </div>
-            </Tab>
-            <Tab title={'Integrations'} eventKey={'4'}>
-              {tabKey === '4' && <IntegrationScreen />}
-            </Tab>
-            <Tab title={'Email Notifications'} eventKey={'5'}>
-              <div
-                style={{
-                  height: window.innerHeight,
-                  overflowY: 'scroll',
-                }}
-              >
-                <EmailNotification />
-              </div>
-            </Tab>
-            {/* <Tab title={'User Profile'} eventKey={'6'}>
+                </Tab>
+                <Tab title={'Manage Subscription'} eventKey={'2'}>
+                  {tabKey === '2' && (
+                    <ManageSubscriptionScreen setTab={setKey} />
+                  )}
+                </Tab>
+                <Tab title={'Manage Users'} eventKey={'3'}>
+                  <div
+                    className={
+                      itemId === 'settings'
+                        ? styles.borderStyle
+                        : styles.overFlow
+                    }
+                    style={{
+                      height:
+                        itemId === 'settings'
+                          ? height
+                          : window.innerHeight - 192,
+                    }}
+                  >
+                    {tabKey === '3' && itemId === 'settings' && (
+                      <ManageUsers setKey={setKey} />
+                    )}
+                    {tabKey === '3' && itemId !== 'settings' && <Activity />}
+                  </div>
+                </Tab>
+                <Tab title={'Integrations'} eventKey={'4'}>
+                  {tabKey === '4' && <IntegrationScreen />}
+                </Tab>
+                <Tab title={'Templates'} eventKey={'7'}>
+                  {tabKey === '7' && <TemplatesPage />}
+                </Tab>
+                <Tab title={'Email Notifications'} eventKey={'5'}>
+                  <EmailNotification />
+                </Tab>
+                {/* <Tab title={'User Profile'} eventKey={'6'}>
               <div
                 style={{
                   height: window.innerHeight - 192,
@@ -466,52 +468,175 @@ useEffect(() => {
                 )}
               </div>
             </Tab> */}
-          </Tabs>
-        )}
+              </Tabs>
+            )}
 
-        {Permission.includes('manage_account_settings') &&
-          super_user === false && (
-            <Tabs
-              id={!is_plan ? 'account__settings' : 'setting'}
-              activeKey={tabKeyOne}
-              onSelect={(keys: any) => {
-                if (is_plan) {
-                  setTest(!isTest);
-                  sessionStorage.setItem('superUserTab', keys);
-                  if (!isReloadCompany && !isReloadCareer && !isReloadProfile) {
-                    setKeyOne(keys);
-                  }
-                }
-              }}
-            >
-              <Tab title={'Profiles'} eventKey={'0'}>
-                <div style={{ height }}>
-                  <CompanyPage
-                    setKey={setKey}
-                    setReload={setReloadCompany}
-                    setReloadProfile={setReloadProfile}
-                  />
-                </div>
-              </Tab>
-
-              <Tab title={'Build Your Careers Page'} eventKey={'1'}>
-                <div
-                  style={{
-                    height,
+            {Permission.includes('manage_account_settings') &&
+              super_user === false && (
+                <Tabs
+                  id={!is_plan ? 'account__settings' : 'setting'}
+                  activeKey={tabKeyOne}
+                  onSelect={(keys: any) => {
+                    if (is_plan) {
+                      setTest(!isTest);
+                      sessionStorage.setItem('superUserTab', keys);
+                      if (
+                        !isReloadCompany &&
+                        !isReloadCareer &&
+                        !isReloadProfile
+                      ) {
+                        setKeyOne(keys);
+                      }
+                    }
                   }}
                 >
-                  <BuildYourCareerPageScreen
-                    isInput={isInput}
-                    setInput={setInput}
-                    setReload={setReloadCareer}
-                  />
-                </div>
-              </Tab>
+                  <Tab title={'Profiles'} eventKey={'0'}>
+                  <div
+                style={{
+                  height: window.innerHeight - 215,
+                  overflowY: 'scroll',
+                }}
+              >
+         <Flex center> 
+          
+            {tabKey === '0' &&
+            company_detail &&
+            company_detail.no_of_emp === null && (
+              <Flex row center className={styles.warningFlex}>
+                <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
+                <Text 
+                 style={{color:"#333333"}}
+                  className={styles.warningText}
+                >
+                   <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px'}} bold >Heads Up!{' '}</Text>
+                  Please complete your company profile and careers page to post
+                  jobs.
+                </Text>
+              </Flex>
+            )}
 
-              <Tab title={'Integrations'} eventKey={'3'}>
-                {tabKeyOne === '3' && <IntegrationScreen />}
-              </Tab>
-              {/* <Tab title={'User Profile'} eventKey={'4'}>
+           {tabKey === '1' &&
+            company_detail &&
+            company_detail.no_of_emp === null?(tabKey === '1' && career_page_exists_build === false && (
+            <Flex row center className={styles.warningFlex}>
+              <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
+                <Text 
+                 style={{color:"#333333"}}
+                  className={styles.warningText}
+                >
+                   <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px'}} bold >Heads Up!{' '}</Text>
+
+              Please complete your company profile and careers page to post
+                  jobs.
+              </Text>
+            </Flex>
+         ) ):(tabKey === '1' && career_page_exists_build === false && (
+          <Flex row center className={styles.warningFlex}>
+          <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
+              <Text 
+                 style={{color:"#333333"}}
+                  className={styles.warningText}
+                >
+                   <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px'}} bold >Heads Up!{' '}</Text>
+              Please complete your careers page to post jobs.
+              </Text>
+            </Flex>))}
+
+          {isInput &&
+            isLoadingCareer === false &&
+            tabKey === '1' &&
+            career_page_exists_build === true && (
+              <Flex row center className={styles.warningFlex}>
+                 <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
+              <Text 
+                 style={{color:"#333333"}}
+                  className={styles.warningText}
+                >
+                   <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px'}} bold >Heads Up!{' '}</Text>
+                  Changing your careers page URL will change the URL for all
+                  jobs in your careers page. Note to change the jobs URL in your
+                  company’s careers page if connected.
+                </Text>
+              </Flex>
+            )}
+        </Flex>  
+                      <CompanyPage
+                        setKey={setKey}
+                        setReload={setReloadCompany}
+                        setReloadProfile={setReloadProfile}
+                      />
+                    </div>
+                  </Tab>
+
+                  <Tab title={'Build Your Careers Page'} eventKey={'1'}>
+                  <div
+                style={{
+                  height: window.innerHeight - 192,
+                  overflowY: 'scroll',
+                }}
+              >
+                <Flex center>
+          
+
+         {tabKey === '1' &&
+            company_detail &&
+            company_detail.no_of_emp === null?(tabKey === '1' && career_page_exists_build === false && (
+            <Flex row center className={styles.warningFlex}>
+              <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
+              <Text 
+               style={{color:"#333333"}} 
+                className={styles.warningText}
+              >
+                   <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px'}} bold >Heads Up!{' '}</Text>
+
+              Please complete your company profile and careers page to post
+                  jobs.
+              </Text>
+            </Flex>
+         ) ):(tabKey === '1' && career_page_exists_build === false && (
+            <Flex row center className={styles.warningFlex}>
+              <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
+              <Text 
+                style={{color:"#333333"}} 
+                className={styles.warningText}
+              >
+                   <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px'}} bold >Heads Up!{' '}</Text>
+
+              Please complete your careers page to post jobs.
+              </Text>
+            </Flex>))}
+
+          {isInput &&
+            isLoadingCareer === false &&
+            tabKey === '1' &&
+            career_page_exists_build === true && (
+              <Flex row center className={styles.warningFlex}>
+                <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
+                <Text
+                 style={{color:"#333333"}} 
+                  className={styles.warningText}
+                >
+                   <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px'}} bold >Heads Up!{' '}</Text>
+                  Changing your careers page URL will change the URL for all
+                  jobs in your careers page. Note to change the jobs URL in your
+                  company’s careers page if connected.
+                </Text>
+              </Flex>
+            )}
+        </Flex>
+                
+                      <BuildYourCareerPageScreen
+                        isInput={isInput}
+                        setInput={setInput}
+                        setReload={setReloadCareer}
+                      />
+                    </div>
+                  </Tab>
+
+                  <Tab title={'Integrations'} eventKey={'3'}>
+                    {tabKeyOne === '3' && <IntegrationScreen />}
+                  </Tab>
+                  {/* <Tab title={'User Profile'} eventKey={'4'}>
                 <div
                   style={{
                     height: window.innerHeight - 192,
@@ -523,23 +648,23 @@ useEffect(() => {
                   )}
                 </div>
               </Tab> */}
-            </Tabs>
-          )}
+                </Tabs>
+              )}
 
-        {!Permission.includes('manage_account_settings') &&
-          super_user === false && (
-            <Tabs
-              activeKey={tabKeyTwo}
-              onSelect={(keys: any) => {
-                setKeyTwo(keys);
-                sessionStorage.setItem('superUserTabTwo', keys);
-              }}
-            >
-              <Tab title={'Integrations'} eventKey={'0'}>
-                {tabKeyTwo === '0' && <IntegrationScreen />}
-              </Tab>
+            {!Permission.includes('manage_account_settings') &&
+              super_user === false && (
+                <Tabs
+                  activeKey={tabKeyTwo}
+                  onSelect={(keys: any) => {
+                    setKeyTwo(keys);
+                    sessionStorage.setItem('superUserTabTwo', keys);
+                  }}
+                >
+                  <Tab title={'Integrations'} eventKey={'0'}>
+                    {tabKeyTwo === '0' && <IntegrationScreen />}
+                  </Tab>
 
-              {/* <Tab title={'User Profile'} eventKey={'1'}>
+                  {/* <Tab title={'User Profile'} eventKey={'1'}>
                 <div
                   style={{
                     height: window.innerHeight - 192,
@@ -551,11 +676,12 @@ useEffect(() => {
                   )}
                 </div>
               </Tab> */}
-            </Tabs>
-          )}
+                </Tabs>
+              )}
+          </Flex>
 
-        {/* {routerPrompt} */}
-      </Flex>
+          {/* {routerPrompt} */}
+        </Flex>
       </>
     )
   );

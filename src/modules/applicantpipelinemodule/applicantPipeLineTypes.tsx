@@ -1,12 +1,13 @@
+import { IKanbanStages, StageData } from '../../hooks/useStages/types';
+
 export interface ApplicantPipeLine {
   success: boolean;
   skill_list: SkillListEntity[];
   jd_id: string;
   job_details: JobDetailsEntity;
   permission?: string[];
-  zita_match_count:number
+  zita_match_count: number;
 }
-
 export interface SkillListEntity {
   label: string;
   value: string;
@@ -24,6 +25,22 @@ export interface ApplicantPipeLineReducerState extends ApplicantPipeLine {
   isLoading: boolean;
   error: string;
 }
+export interface KanbanStageReducerState {
+  isLoading: boolean;
+  error: string;
+  selectPipeline: boolean | null;
+  stages: IKanbanStages[];
+  update: {
+    isLoading: boolean;
+    error: string;
+    message: string;
+  };
+  delete: {
+    isLoading: boolean;
+    error: string;
+    message: string;
+  };
+}
 
 export interface ApplicantPipeLinePayload {
   jd_id: string;
@@ -36,16 +53,13 @@ export interface ApplicantUpdateStatusPayload {
 
 export interface ApplicantData {
   jd_id: number;
-  applicant: ApplicantEntity[];
-  shortlisted: ShortlistedEntityOrRejectedEntity[];
-  interviewed: InterviewedEntityOrSelectedEntity[];
-  selected: InterviewedEntityOrSelectedEntity[];
-  rejected: ShortlistedEntityOrRejectedEntity[];
+  workflow_id?: number | null;
   params: string;
   fav_id: boolean;
   google?: GoogleEntity[];
   outlook?: GoogleEntity[];
-  total_applicants: number;
+  total_applicant: number;
+  applicants_list: ApplicantEntity[];
 }
 export interface GoogleEntity {
   id: number;
@@ -65,6 +79,8 @@ export interface ApplicantEntity {
   source: string;
   fav?: null;
   name: string;
+  first_name: string;
+  last_name: string;
   email: string;
   qualification: string;
   skills: string;
@@ -72,9 +88,11 @@ export interface ApplicantEntity {
   location: string;
   viewed: string;
   work_exp: number;
+  work_exp_mon: number;
   match?: number | null;
   image: string;
   file: string;
+  stage_id_id: number;
 }
 export interface ShortlistedEntityOrRejectedEntity {
   id: number;
@@ -124,6 +142,8 @@ export interface InterviewedEntityOrSelectedEntity {
 export interface ApplicantDataReducerState extends ApplicantData {
   isLoading: boolean;
   error: string;
+  applicants: { [key: number]: ApplicantEntity[] };
+  locations: string[];
 }
 
 export interface ApplicantFilter {
@@ -140,9 +160,45 @@ export interface ApplicantFilter {
   sortInterview?: string;
   sortSelected?: string;
   sortRejected?: string;
+  location?: string;
+}
+
+export interface IUpdateKanbanStage {
+  workflow_id?: number;
+  jd_id: number;
+  stages: StageData[];
 }
 
 export interface ApplicantUpdateReducerState {
   isLoading: boolean;
   error: string;
 }
+
+/// Card seclection Map Type
+
+export interface ICardSelectionData {
+  task: ApplicantEntity;
+  section: number;
+  columnId: number;
+}
+
+export type ICardSelectionMap = Map<number, ICardSelectionData>;
+
+/// Download types
+
+export interface IDownloadBulk {
+  filepath?: string;
+  file_path?: string;
+  file_type?: string;
+  success?: boolean;
+  message?: string;
+}
+
+export interface ApplicantDownloadReducerState{
+  isLoading: boolean;
+  error: string;
+  filepath: string;
+  message: string;
+}
+
+export const KANBAN_COLUMN_WIDTH = 260;

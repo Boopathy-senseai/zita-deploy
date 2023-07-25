@@ -1,7 +1,6 @@
 import { useSelector } from 'react-redux';
 // import { map } from 'highcharts';
 // import SvgLocation from '../../icons/SvgLocation';
- 
 import SvgCopy from '../../icons/SvgCopy';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import Text from '../../uikit/Text/Text';
@@ -89,7 +88,7 @@ const MyJobPostingScreen = () => {
     const invite_to_apply = isEmpty(list.invite_to_apply)
       ? '0'
       : list.invite_to_apply;
-    const applicant = isEmpty(list.applicant) ? '0' : list.applicant;
+    const applicant = isEmpty(list.applicants) ? '0' : list.applicants;
   };
 
   return (
@@ -154,7 +153,7 @@ const MyJobPostingScreen = () => {
               </tr>
             </thead>
 
-            <tbody style={{ paddingTop: 20 }} className={styles.tablebody}>
+            <tbody style={{ paddingTop: 20 }} className={styles.tablebody} >
                
               {final_list &&
                 Jobs_List &&
@@ -433,7 +432,7 @@ const MyJobPostingScreen = () => {
                             }}
                             className={styles.hovercolormiddle}
                           >
-                            {isEmpty(list.applicant) ? (
+                            {isEmpty(list.applicants) ? (
                               <Text className={styles.zeroorder}>0</Text>
                             ) : (
                               <Text className={styles.numberorder}>
@@ -443,7 +442,7 @@ const MyJobPostingScreen = () => {
                                   to={`/applicant_pipe_line/${list.id}`}
                                   className={styles.zitamatch}
                                 >
-                                  {list.applicant}
+                                  {list.applicants}
                                 </LinkWrapper>
                               </Text>
                             )}
@@ -455,7 +454,7 @@ const MyJobPostingScreen = () => {
                             }}
                             className={styles.hovercolormiddle}
                           >
-                            {isEmpty(list.applicant) ? (
+                            {isEmpty(list.applicants) ? (
                               <Text className={styles.zeroorder}>0</Text>
                             ) : (
                               <Text className={styles.numberorder}>
@@ -465,7 +464,7 @@ const MyJobPostingScreen = () => {
                                   to={`/applicant_pipe_line/${list.id}`}
                                   className={styles.zitamatch}
                                 >
-                                  {list.applicant}
+                                  {list.applicants}
                                 </LinkWrapper>
                               </Text>
                             )}

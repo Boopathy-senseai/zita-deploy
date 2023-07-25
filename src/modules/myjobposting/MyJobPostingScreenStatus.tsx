@@ -15,7 +15,7 @@ type Props = {
 
 const MyJobPostingScreenStatus = ({ list }: Props) => {
   const shortlisted = isEmpty(list.shortlisted) ? '0' : list.shortlisted;
-  const selected = isEmpty(list.selected) ? '0' : list.selected;
+  const selected = isEmpty(list.hired) ? '0' : list.hired;
   const rejected = isEmpty(list.rejected) ? '0' : list.rejected;
 
   return (
@@ -59,7 +59,7 @@ const MyJobPostingScreenStatus = ({ list }: Props) => {
         </ul>
 
        <ul className={styles.ulstyle2}>
-           {isEmpty(list.selected) ? 
+           {isEmpty(list.hired) ? 
 
          <li style={{color:"#00BE4B",fontSize:14}}>
            {/* <LinkWrapper
@@ -71,7 +71,7 @@ const MyJobPostingScreenStatus = ({ list }: Props) => {
               </Text>
               
         
-            <Text className={styles.fontScreen} style={{color:"#581845",width:8,height:8}}>Hired</Text>
+            <Text className={styles.fontScreen} style={{color:"#581845",width:8,height:8}}>Offered</Text>
             {/* </LinkWrapper> */}
 
           </li> 
@@ -87,7 +87,7 @@ const MyJobPostingScreenStatus = ({ list }: Props) => {
                 {selected}
               </Text>
               <Text className={styles.fontScreens} style={{color:"#581845",width:8,height:8}}
-            >Hired</Text>
+            >Offered</Text>
             </LinkWrapper>
            
           </li>

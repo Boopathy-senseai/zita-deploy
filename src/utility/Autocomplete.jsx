@@ -42,7 +42,7 @@ class Autocomplete extends Component {
 
   renderSuggestions() {
     const { suggestions } = this.state;
-    if (suggestions.length === 0) {
+    if (suggestions && suggestions?.length === 0) {
       return null;
     }
     return (

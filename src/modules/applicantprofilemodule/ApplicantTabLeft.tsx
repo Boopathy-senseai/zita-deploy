@@ -7,6 +7,7 @@ import AllMatchTab from './AllMatchTab';
 // import ExperienceTab from './ExperienceTab';
 import MessageTab from './MessageTab';
 import NotesTab from './NotesTab';
+import Notesmeet from './Notesmeeting';
 // import QualificationTab from './QualificationTab';
 import ResumeCoverTab from './ResumeCoverTab';
 
@@ -35,8 +36,11 @@ const ApplicantTabLeft = ({ activeState }: typeof defaultProps) => {
       <Tab title={'Resume/Cover'}>
         <ResumeCoverTab />
       </Tab>
-      <Tab title={'Notes/Meetings'}>
-        <NotesTab isMeeting />
+      <Tab title={'Notes'}>
+        <NotesTab   />
+      </Tab>
+      <Tab title={'Meetings'}>
+        <Notesmeet isMeeting />
       </Tab>
       <Tab title={'Messages'}>
         <MessageTab />

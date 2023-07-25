@@ -141,7 +141,7 @@ const MyJobPostingScreen = () => {
   }, [isPage, formik.values]);
 
   return (
-    <Flex>
+    <Flex className={styles.overFlowContainer}>
       <div>
         <Flex row className={styles.titleContainer}>
           {/* <SvgJobPost width={15.71} height={16} /> */}

@@ -3,7 +3,6 @@ import { Draggable } from 'react-beautiful-dnd';
 import { useDispatch } from 'react-redux';
 import SvgCalendar from '../../icons/SvgCalendar';
 import SvgDownload from '../../icons/SvgDownload';
-import SvgHeart from '../../icons/SvgHeart';
 import SvgView from '../../icons/SvgView';
 import { AppDispatch } from '../../store';
 import Button from '../../uikit/Button/Button';
@@ -17,7 +16,7 @@ import {
   PRIMARY,
 } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
-import { getDateString, isEmpty } from '../../uikit/helper';
+import { getDateString, isEmpty, workExperience } from '../../uikit/helper';
 import Text from '../../uikit/Text/Text';
 import Loader from '../../uikit/Loader/Loader';
 import { ADD_FAV, dndBoardId, REMOVE_FAV } from '../constValue';
@@ -27,6 +26,7 @@ import {
   getEventsMiddleware,
   getGoogleEventsMiddleware,
   syncOutlookMiddleWare,
+  applicantFavoriteMiddleWare,
 } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import MeetingSchedulingScreen from '../calendarModule/MeetingSchedulingScreen';
 // import SvgCloseSmall from '../../icons/SvgCloseSmall';
@@ -37,36 +37,50 @@ import {
   ZitaEventType,
 } from '../calendarModule/types';
 import { getEditEventsDetails } from '../calendarModule/util';
-import { GoogleEntity, JobDetailsEntity } from './applicantPipeLineTypes';
-import { handleDownload, hanldeFavAction } from './dndBoardHelper';
+import SvgHeart from '../../icons/SvgHearts';
+import Avatar, { getUserInitials } from '../../uikit/Avatar';
+import {
+  ApplicantEntity,
+  GoogleEntity,
+  ICardSelectionData,
+  JobDetailsEntity,
+  KANBAN_COLUMN_WIDTH,
+} from './applicantPipeLineTypes';
 import ProfileView from './ProfileView';
 
 import styles from './multitask.module.css';
+import { IStageColumn } from './dndBoardTypes';
+import { downloadApplicantsMiddleware } from './store/middleware/applicantpipelinemiddleware';
 
 type Props = {
-  task: any;
+  task: ApplicantEntity;
   index: number;
   isBorder: string;
-  columnId: string;
+  column: IStageColumn;
   outlook?: GoogleEntity[];
   google?: GoogleEntity[];
   job_details: JobDetailsEntity;
+  onClick?: (data: ICardSelectionData) => void;
+  isSelected: boolean;
+  onRefresh?: () => void;
 };
 const MultiTask = ({
   task,
   index,
   isBorder,
-  columnId,
+  column,
   google,
   outlook,
   job_details,
+  onClick,
+  isSelected,
+  onRefresh,
 }: Props) => {
+  const { section, columnId, stage_name } = column;
   const [isCalender, setCalender] = useState('popup');
-  console.log(isCalender);
   const [isProfileView, setProfileView] = useState(false);
   const dispatch: AppDispatch = useDispatch();
-  const workExp =
-    task.work_exp > 1 ? task.work_exp + ' Years' : task.work_exp + ' Year';
+  const workExp = workExperience(task.work_exp, task.work_exp_mon);
   const match = isEmpty(task.match) ? 0 : task.match;
 
   useEffect(() => {
@@ -207,6 +221,9 @@ const MultiTask = ({
   const [isLoad, setIsLoad] = useState(true);
   const [myevents, setMyevents] = useState<any[]>([]);
   const [userName, setUserName] = useState('');
+
+  // const [download,setdownload]=useState(["candidate_resume/AnshulKhare_1_iLsbaL2.doc","candidate_resume/AmarJain_1_w74asKQ.doc"])
+
   const openForm = () => {
     setOpen((prevState) => !prevState);
   };
@@ -317,6 +334,10 @@ const MultiTask = ({
   //   setCard(false);
   // }
 
+  const hanldeFavAction = (can_id: number, jd_id: number) => {
+    dispatch(applicantFavoriteMiddleWare({ can_id, jd_id }));
+  };
+
   return (
     <>
       {isLoad && <Loader />}
@@ -403,14 +424,18 @@ const MultiTask = ({
       } */}
       <ProfileView
         open={isProfileView}
-        cancel={() => setProfileView(false)}
-        jobId={task.jd_id_id}
+        cancel={() => {
+          setProfileView(false);
+          onRefresh();
+        }}
+        jobId={JSON.stringify(task.jd_id_id)}
         candidateId={task.candidate_id_id}
       />
       <Draggable draggableId={task.id.toString() + dndBoardId} index={index}>
         {(provided) => (
           <div
             className={styles.container}
+            style={{ cursor: 'pointer', minWidth: KANBAN_COLUMN_WIDTH - 20 }}
             ref={provided.innerRef}
             // eslint-disable-next-line
             {...provided.dragHandleProps}
@@ -418,33 +443,88 @@ const MultiTask = ({
             {...provided.draggableProps}
             // isDragging={snapshot.isDragging}
           >
-            <Card>
-              <div
+            <Card className={styles.cardStyle}>
+              <Flex
                 className={styles.cardFlexStyle}
-                style={{ borderLeftColor: isBorder }}
+                style={{
+                  borderColor: isBorder,
+                  borderLeftColor: isBorder,
+                  backgroundColor: isSelected ? `${isBorder}40` : undefined,
+                  cursor: 'pointer',
+                }}
+                onClick={() => {
+                  if (onClick) {
+                    onClick({ task, section, columnId });
+                  }
+                }}
               >
-                <Flex row>
-                  <div style={{ position: 'relative' }}>
-                    <div className={styles.profile}>
-                      <img
-                        style={{ objectFit: 'contain' }}
+                <Flex
+                  row
+                  style={{
+                    cursor: 'pointer',
+                  }}
+                >
+                  <div style={{ position: 'relative', cursor: 'pointer' }}>
+                    <div
+                      className={styles.profile}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <Avatar
+                        className={styles.profile}
+                        avatar={
+                          task.image && task.image !== 'default.jpg'
+                            ? `${process.env.REACT_APP_HOME_URL}media/${task.image}`
+                            : undefined
+                        }
+                        initials={getUserInitials({
+                          firstName: task.first_name,
+                          lastName: task.last_name,
+                        })}
+                      />
+                      {/* <img
+                        style={{ objectFit: 'cover' }}
                         alt=""
                         className={styles.profile}
                         src={`${process.env.REACT_APP_HOME_URL}media/${task.image}`}
-                      />
-                    </div>
-                    <div className={styles.percentageStyle}>
-                      <Text bold>{match}%</Text>
+                      /> */}
+                      <div className={styles.percentageStyle}>
+                        <Text bold>{match}%</Text>
+                      </div>
                     </div>
                   </div>
-                  <Flex columnFlex className={styles.nameContainer}>
-                    <Flex row center>
+                  <Flex
+                    columnFlex
+                    className={styles.nameContainer}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <Flex
+                      row
+                      center
+                      // marginRight={16}
+                      style={{
+                        cursor: 'pointer',
+                        flexDirection: 'row',
+                        width: '100%',
+                      }}
+                    >
                       <Button
                         types="link"
                         className={styles.linkBtnStyle}
-                        onClick={hanldeProfileView}
+                        onClick={(e) => {
+                          hanldeProfileView();
+                          e.stopPropagation();
+                        }}
                       >
-                        {task.name}
+                        <Text
+                          bold
+                          color="theme"
+                          textStyle={'ellipsis'}
+                          title={`${task.first_name || ''} ${
+                            task.last_name || ''
+                          }`}
+                        >
+                          {`${task.first_name || ''} ${task.last_name || ''}`}
+                        </Text>
                       </Button>
 
                       <div
@@ -462,81 +542,71 @@ const MultiTask = ({
                         />
                       </div>
                     </Flex>
-                    <Flex row center>
+                    <Flex row center style={{ cursor: 'pointer' }}>
+                      {task.location && (
+                        <Text
+                          size={12}
+                          color="black2"
+                          textStyle="ellipsis"
+                          title={task.location}
+                        >
+                          {task.location}
+                        </Text>
+                      )}
+                    </Flex>
+                    <Flex row center style={{ cursor: 'pointer' }}>
                       <Text
                         size={12}
-                        color="gray"
+                        color="black2"
                         textStyle="ellipsis"
-                        title={task.location}
-                        style={{ maxWidth: '40%' }}
+                        title={workExp}
+                        style={{ maxWidth: '50%', marginRight: 2 }}
                       >
-                        {task.location}
+                        {workExp}
                       </Text>
+                      {task.qualification && workExp && (
+                        <Text color="black2"> | </Text>
+                      )}
                       <Text
                         size={12}
-                        color="gray"
+                        color="black2"
                         textStyle="ellipsis"
+                        title={task.qualification}
                         style={{ marginLeft: 2 }}
                       >
-                        | {workExp}
+                        {task.qualification}
+                      </Text>
+                    </Flex>
+                    <Flex style={{ cursor: 'pointer' }}>
+                      <Text
+                        size={12}
+                        color="black2"
+                        textStyle="ellipsis"
+                        title={getDateString(task.created_on, 'll hh:mm A')}
+                      >
+                        {getDateString(task.created_on, 'll hh:mm A')}
+                        {/* {task.created_on} */}
+                        {/* {getDateString(user_info?.last_login, 'll hh:mm A')} */}
                       </Text>
                     </Flex>
                   </Flex>
                 </Flex>
-                <Flex row center className={styles.svgContainer}>
-                  <div
-                    title="Download Resume"
-                    onClick={() => handleDownload(task.file)}
-                    tabIndex={-1}
-                    role={'button'}
-                    onKeyPress={() => {}}
-                  >
-                    <SvgDownload
-                      className={styles.svgDownloadStyle}
-                      width={19}
-                      height={19}
-                    />
-                  </div>
-                  <div
-                    title={isEmpty(task.fav) ? ADD_FAV : REMOVE_FAV}
-                    onClick={() =>
-                      hanldeFavAction(
-                        task.candidate_id_id,
-                        task.jd_id_id,
-                        dispatch,
-                      )
-                    }
-                    tabIndex={-1}
-                    role={'button'}
-                    onKeyPress={() => {}}
-                  >
-                    <SvgHeart
-                      className={styles.svgDownloadStyle}
-                      width={19}
-                      height={19}
-                      filled={!isEmpty(task.fav)}
-                    />
-                  </div>
-                  {columnId === 'column-2' && (
-                    // <a
-                    //   rel="noopener noreferrer"
-                    //   title={calenderTitle}
-                    //   className={
-                    //     isCalender === 'popup'
-                    //       ? styles.svgCalnStyle
-                    //       : styles.svgDownloadStyle
-                    //   }
-                    //   href={link}
-                    //   target={'_blank'}
-                    // >
-                    <Flex onClick={scheduleEventHandler}>
-                      <SvgCalendar fill={PRIMARY} width={19} height={19} />
-                    </Flex>
-                    // </a>
-                  )}
-
-                  {columnId === 'column-1' && getDate && (
-                    <Flex className={styles.svgNewTag}>
+                <Flex
+                  row
+                  end
+                  center
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    cursor: 'pointer',
+                    width: '100%',
+                  }}
+                >
+                  {columnId === 0 && getDate && (
+                    <Flex
+                      className={styles.svgNewTag}
+                      style={{ cursor: 'pointer' }}
+                    >
                       <img
                         style={{ objectFit: 'contain' }}
                         alt=""
@@ -546,8 +616,77 @@ const MultiTask = ({
                       />
                     </Flex>
                   )}
+                  <Flex
+                    row
+                    end
+                    center
+                    className={styles.svgContainer}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {/* {void console.log('--file download--', task.file)} */}
+                    <div
+                      title="Download Resume"
+                      onClick={(e) => {
+                        dispatch(
+                          downloadApplicantsMiddleware({
+                            jd_id: task.jd_id_id.toString(),
+                            candidate_id: [task.candidate_id_id],
+                            download: 'download',
+                          }),
+                        );
+                        e.stopPropagation();
+                      }}
+                      tabIndex={-1}
+                      role={'button'}
+                      onKeyPress={() => {}}
+                    >
+                      <SvgDownload
+                        className={styles.svgDownloadStyle}
+                        width={16}
+                        height={16}
+                      />
+                    </div>
+                    <div
+                      title={isEmpty(task.fav) ? ADD_FAV : REMOVE_FAV}
+                      onClick={(e) => {
+                        hanldeFavAction(task.candidate_id_id, task.jd_id_id);
+                        e.stopPropagation();
+                      }}
+                      tabIndex={-1}
+                      role={'button'}
+                      onKeyPress={() => {}}
+                    >
+                      <SvgHeart
+                        className={styles.svgDownloadStyle}
+                        width={16}
+                        height={16}
+                        filled={!isEmpty(task.fav)}
+                        fill="#ED4857"
+                      />
+                    </div>
+                    {columnId !== 0 && stage_name !== 'Rejected' && (
+                      // <a
+                      //   rel="noopener noreferrer"
+                      //   title={calenderTitle}
+                      //   className={
+                      //     isCalender === 'popup'
+                      //       ? styles.svgCalnStyle
+                      //       : styles.svgDownloadStyle
+                      //   }
+                      //   href={link}
+                      //   target={'_blank'}
+                      // >
+                      <Flex
+                        onClick={scheduleEventHandler}
+                        style={{ cursor: 'pointer' }}
+                      >
+                        <SvgCalendar fill={PRIMARY} width={16} height={16} />
+                      </Flex>
+                      // </a>
+                    )}
+                  </Flex>
                 </Flex>
-              </div>
+              </Flex>
             </Card>
           </div>
         )}

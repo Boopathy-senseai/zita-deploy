@@ -6,6 +6,7 @@ const cx = classNames.bind(styles);
 export type textSize =
   | 10
   | 12
+  | 13
   | 14
   | 16
   | 18
@@ -39,7 +40,9 @@ export type textColors =
   | 'black_1'
   | 'blue'
   | 'warning'
-  | 'yellow';
+  | 'yellow'
+  | 'black2'
+  | 'disabled';
 
 export type textTransform =
   | 'capitalize'

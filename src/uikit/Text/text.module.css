@@ -135,6 +135,12 @@
 .textColor-black_1 {
   color: var(--color-gray-2, #333333);
 }
+.textColor-black2 {
+  color: #333333;
+}
+.textColor-disabled{
+  color:  #ab8ba2;
+}
 
 .type-titleLarge {
   font-size: 20px;
