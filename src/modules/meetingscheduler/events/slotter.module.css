@@ -73,16 +73,25 @@
   overflow-y: scroll;
 }
 .confrompage {
-  margin-top: 80px;
+  margin-top: 100px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 4px 4px rgba(88, 24, 69, 0.1);
+  background: #f0ebed;
+  padding: 25px;
 }
 .dashboard {
-  text-align: center;
+  /* text-align: center;
   padding: 50px;
   width: 730px;
   height: 859px;
   margin-top: 40px;
   display: flex row;
-  text-align: center;
+  text-align: center; */
+  margin-top: 100px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 4px 4px rgba(88, 24, 69, 0.1);
+  background: #f0ebed;
+  padding: 25px;
 }
 
 .line5 {

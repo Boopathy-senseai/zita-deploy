@@ -51,11 +51,7 @@ const DayTimeSplit = (props) => {
   const [copy, SetCopy] = useState(false);
   const [copyid, SetCopyId] = useState(0);
   const [time, SetTime] = useState([]);
-  console.log('duration>>>>>>', days);
-  console.log('................', duration, days);
-  console.log('duration', time);
 
-  console.log('propsssssssssssssssss', props);
   const [day1, setDay1] = useState([]);
   const [day2, setDay2] = useState([]);
   const [day3, setDay3] = useState([]);
@@ -64,9 +60,7 @@ const DayTimeSplit = (props) => {
   const [day6, setDay6] = useState([]);
   const [day7, setDay7] = useState([]);
 
-  console.log('copycopycopy', copy);
   useEffect(() => {
-    console.log('duration>>>>>>', duration, days);
     TimeSlots(days);
     const ScheduleData = { sunday };
     if (!isEmpty(duration)) {
@@ -77,12 +71,11 @@ const DayTimeSplit = (props) => {
     }
   }, [duration]);
   useEffect(() => {
-    // if (duration){      
+    // if (duration){
     //   if(sundaycheck === true){
     //     alert("<.")
-  //     setSunday([])
+    //     setSunday([])
     //   }
-
     // }
   }, [
     mondaycheck,
@@ -93,12 +86,17 @@ const DayTimeSplit = (props) => {
     fridaycheck,
     saturdaycheck,
   ]);
-  useEffect(()=>{
-  },[sunday,monday,tuesday,wednesday,thursday,friday,saturday])
+  useEffect(() => {}, [
+    sunday,
+    monday,
+    tuesday,
+    wednesday,
+    thursday,
+    friday,
+    saturday,
+  ]);
 
-  useEffect(() => {
-    // console.log("timeslottimeslot",timeslot)
-  }, [day1, day2, day3, day4, day5, day6, day7]);
+  useEffect(() => {}, [day1, day2, day3, day4, day5, day6, day7]);
 
   const TimeSlots = (dayfor) => {
     const timeSlots = [];
@@ -117,14 +115,10 @@ const DayTimeSplit = (props) => {
       const timeSlot = { id: index, label: `${hour}:${minute} ${ampm}` };
 
       timeSlots.push(timeSlot);
-      console.log('......', timeSlots);
-
       currentTime = new Date(currentTime.getTime() + timeIncrement * 60000);
       index++;
     }
-    console.log('???????', timeSlots);
-    console.log('lengthlength', timeSlots.length, dayfor);
-    console.log('daysdaysdaysdaysdaysdaysdaysdaysdaysdaysdaysdays', dayfor);
+
     if (days === 'Calendar Days' && timeSlots.length > 1) {
       setDay1(timeSlots);
       setDay2(timeSlots);
@@ -149,112 +143,49 @@ const DayTimeSplit = (props) => {
     // alert(id);
     SetCopy(true);
     SetCopyId(id);
-    console.log('id', copyid);
   };
 
   const handleInputChangeForSunday = (e, index, text) => {
-    console.log('>>>>>>>>>>>>>>>>>>>>>>', e, index, text);
-    // alert('eedex');
-    console.log('sunday', text);
-    console.log('eeeeeeeee', e);
-    console.log('eeeeeeeee', index);
-
     const { id, label } = e;
     const updatedSunday = [...sunday];
     if (text === 'starttime') {
       updatedSunday[index].starttime = label;
-      console.log(':::::::::::label', label);
     }
     if (text === 'endtime') {
       if (updatedSunday[index].starttime !== '') {
         updatedSunday[index].endtime = label;
-
-        console.log(
-          'updatedSunday[index].starttime',
-          updatedSunday[index].starttime,
-        );
       }
     }
-    // if (text === 'starttime') {
-    //   updatedSunday[index].starttime = label;
-    //   if (
-    //     updatedSunday[index].starttime !== '' &&
-    //     updatedSunday[index].endtime !== '' &&
-    //     updatedSunday[index].starttime < updatedSunday[index].endtime
-    //   ) {
-    //     alert("llll")
-    //     // Handle the case when the starttime is greater than the endtime
-    //     // You can show an error message or perform any desired action here
-    //   }
-    // } else if (text === 'endtime') {
-    //   updatedSunday[index].endtime = label;
-    //   if (
-    //     updatedSunday[index].starttime !== '' &&
-    //     updatedSunday[index].endtime !== '' &&
-    //     updatedSunday[index].starttime < updatedSunday[index].endtime
-    //   ) {
-    //     alert("llll------")
-
-    //     // Handle the case when the endtime is less than the starttime
-    //     // You can show an error message or perform any desired action here
-    //   }
-    // }
     if (
       updatedSunday[index].starttime !== '' &&
       updatedSunday[index].endtime !== ''
     ) {
       setSunday(updatedSunday);
     }
-    console.log('.........???>>>>>>>', sunday);
 
     const values = day1;
     const selectedIndex = values.indexOf(e);
-    console.log('valuesvalues', values);
-    console.log('valuesvaluesday1', selectedIndex);
 
     if (selectedIndex !== -1) {
       const elementsAfterIndex = values.slice(selectedIndex + 1);
       setDay1(elementsAfterIndex);
-      console.log('dddddddddddddd', elementsAfterIndex);
-      console.log('Elements after the selected index:', elementsAfterIndex);
     }
-    console.log('ddddddddddddddddddddddddddd', day1);
   };
 
   const handleAddClickForSunday = () => {
-    console.log('dddddddddddddd======', day1);
     if (sunday[0].endtime !== '6:00 PM' && day1.length > 1) {
       setSunday([...sunday, { starttime: '', endtime: '' }]);
-      console.log('handleAddClickForSunday', sunday);
     }
   };
   const RemoveClickForSunday = (index) => {
-    // console.log("sunday[index]",sunday[index],time)
-
-    // const check = time.find(
-    //   (option) => option.label === sunday[index].starttime,
-    // )
-    // const updatetime = [...time.splice(0, check.id)];
-    
-    // console.log("checkcheckcheck",check,updatetime)
-    // const removedDate = sunday[index];
     const list = [...sunday];
     list.splice(index, 1);
     setSunday(list);
-    // setDay1(updatetime)
-
-    // if (!day1.includes(removedDate)) {
-    //   setDay1([...day1, removedDate]); // Add the removed date to day1 array if it doesn't already exist
-    // }
   };
 
   const handleInputChangeForMonday = (e, index, text) => {
-    // alert('eedex');
-    console.log('<>><<>><<><><', e, index, text);
     const { id, label } = e;
-    console.log('monday', e);
     const updatedMonday = [...monday];
-    console.log('??????????', updatedMonday);
     if (text === 'starttime') {
       updatedMonday[index].starttime = label;
     } else if (text === 'endtime') {
@@ -266,14 +197,12 @@ const DayTimeSplit = (props) => {
     if (selectedIndex !== -1) {
       const elementsAfterIndex = values.slice(selectedIndex + 1);
       setDay2(elementsAfterIndex);
-      console.log('Elements after the selected index:', elementsAfterIndex);
     }
   };
 
   const handleAddClickForMonday = () => {
     if (monday[0].endtime !== '6:00 PM' && day2.length > 1) {
       setMonday([...monday, { starttime: '', endtime: '' }]);
-      console.log('handleAddClickForSunday', monday);
     }
   };
   const RemoveClickForMonday = (index) => {
@@ -281,8 +210,6 @@ const DayTimeSplit = (props) => {
     list.splice(index, 1);
     setMonday(list);
   };
-  // useEffect(()=>{
-  // },[monday])
 
   const handleInputChangeForTuesday = (e, index, text) => {
     // alert('eedex');
@@ -299,14 +226,12 @@ const DayTimeSplit = (props) => {
     if (selectedIndex !== -1) {
       const elementsAfterIndex = values.slice(selectedIndex + 1);
       setDay3(elementsAfterIndex);
-      console.log('Elements after the selected index:', elementsAfterIndex);
     }
   };
 
   const handleAddClickForTuesday = () => {
     if (tuesday[0].endtime !== '6:00 PM' && day3.length > 1) {
       setTuesday([...tuesday, { starttime: '', endtime: '' }]);
-      console.log('handleAddClickForSunday', tuesday);
     }
   };
   const RemoveClickForTuesday = (index) => {
@@ -331,14 +256,12 @@ const DayTimeSplit = (props) => {
     if (selectedIndex !== -1) {
       const elementsAfterIndex = values.slice(selectedIndex + 1);
       setDay4(elementsAfterIndex);
-      console.log('Elements after the selected index:', elementsAfterIndex);
     }
   };
 
   const handleAddClickForWednesday = () => {
     if (wednesday[0].endtime !== '6:00 PM' && day4.length > 1) {
       setWednesday([...wednesday, { starttime: '', endtime: '' }]);
-      console.log('handleAddClickForSunday', wednesday);
     }
   };
   const RemoveClickForWednesday = (index) => {
@@ -351,29 +274,24 @@ const DayTimeSplit = (props) => {
 
   const handleInputChangeForThursday = (e, index, text) => {
     const { id, label } = e;
-    console.log('e123345', e, text);
     const updatedThursday = [...thursday];
     if (text === 'starttime') {
       updatedThursday[index].starttime = label;
-      console.log('e123345', updatedThursday);
     } else if (text === 'endtime') {
       updatedThursday[index].endtime = label;
     }
-    console.log('thursday', thursday);
     setThursday(updatedThursday);
     const values = day5;
     const selectedIndex = values.indexOf(e);
     if (selectedIndex !== -1) {
       const elementsAfterIndex = values.slice(selectedIndex + 1);
       setDay5(elementsAfterIndex);
-      console.log('Elements after the selected index:', elementsAfterIndex);
     }
   };
 
   const handleAddClickForThursday = () => {
     if (thursday[0].endtime !== '6:00 PM' && day5.length > 1) {
       setThursday([...thursday, { starttime: '', endtime: '' }]);
-      console.log('handleAddClickForSunday', thursday);
     }
   };
   const RemoveClickForThursday = (index) => {
@@ -398,14 +316,12 @@ const DayTimeSplit = (props) => {
     if (selectedIndex !== -1) {
       const elementsAfterIndex = values.slice(selectedIndex + 1);
       setDay6(elementsAfterIndex);
-      console.log('Elements after the selected index:', elementsAfterIndex);
     }
   };
 
   const handleAddClickForFriday = () => {
     if (friday[0].endtime !== '6:00 PM' && day6.length > 1) {
       setFriday([...friday, { starttime: '', endtime: '' }]);
-      console.log('handleAddClickForSunday', friday);
     }
   };
   const RemoveClickForFriday = (index) => {
@@ -430,14 +346,12 @@ const DayTimeSplit = (props) => {
     if (selectedIndex !== -1) {
       const elementsAfterIndex = values.slice(selectedIndex + 1);
       setDay7(elementsAfterIndex);
-      console.log('Elements after the selected index:', elementsAfterIndex);
     }
   };
 
   const handleAddClickForSaturday = () => {
     if (saturday[0].endtime !== '6:00 PM' && day7.length > 1) {
       setSaturday([...saturday, { starttime: '', endtime: '' }]);
-      console.log('handleAddClickForSunday', saturday);
     }
   };
   const RemoveClickForSaturday = (index) => {
@@ -451,13 +365,11 @@ const DayTimeSplit = (props) => {
   const dateCheckboxChange = (event, name) => {
     alert(name);
     const { value, checked } = event.target;
-    console.log('valuevalue111', value, 'checked', checked);
     if (name === 'sunday') {
       setsundaycheck(checked);
     }
     if (name === 'monday') {
       setmondaycheck(checked);
-
     }
     if (name === 'tuesday') {
       settuesdaycheck(checked);
@@ -475,425 +387,227 @@ const DayTimeSplit = (props) => {
       setsaturdaycheck(checked);
     }
   };
-
-  const updateSundayTime = (newStartTime, newEndTime) => {
-    setSunday([{ starttime: newStartTime, endtime: newEndTime }]);
+  const dateheader = (name, value, onChange) => {
+    return (
+      <Flex row center flex={1} style={{ maxWidth: '100px' }}>
+        <InputCheckBox
+          key={1}
+          value={value}
+          checked={value === true ? true : false}
+          onChange={onChange}
+        />
+        <Flex marginLeft={5}>
+          <Text>{name}</Text>
+        </Flex>
+      </Flex>
+    );
   };
 
-  // const findUserById = (users, userId) => {
-  //   console.log("user",users,"\n",userId)
-  //   return users.find(user => user.label === sunday[0].starttime);
-  // }
-  // const value  = findUserById(day1,sunday)
-  // console.log("valuevalue",value)
-
-  console.log('mondayyyyy', sunday);
   return (
-    <>
-      {console.log(':::::::::::::::', time)}
-      {console.log(
-        'sunday',
-        sunday,
-        '\n',
-        'monday',
-        monday,
-        '\n',
-        'tuesday',
-        tuesday,
-        '\n',
-        'wednesday',
-        wednesday,
-        '\n',
-        'thursday',
-        thursday,
-        '\n',
-        'friday',
-        friday,
-        '\n',
-        'saturday',
-        saturday,
-        '\n',
-        'day1',
-        day1,
-        '\n',
-        'day2',
-        day2,
-        '\n',
-        'day3',
-        day3,
-        '\n',
-        'day4',
-        day4,
-        '\n',
-        'day5',
-        day6,
-        '\n',
-        'day6',
-        day6,
-        '\n',
-        'day7',
-        day7,
-        '\n',
-        'sundaycheck',
-        sundaycheck,
-        '\n',
-        'mondaycheck',
-        mondaycheck,
-        '\n',
-        'tuesdaycheck',
-        tuesdaycheck,
-        '\n',
-        'wednesdaycheck',
-        wednesdaycheck,
-        '\n',
-        'thursdaycheck',
-        thursdaycheck,
-        '\n',
-        'fridaycheck',
-        fridaycheck,
-        '\n',
-        'saturdaycheck',
-        saturdaycheck,
-        "\n",
-        'duration',
-         duration
-      )}
-      {console.log('>?>?>?>?>?>??>?>>??sundaymondaysundaymonday', sunday)}
-      {console.log('thursdaythursday', thursday)}
-      {console.log('thursdaythursdayfriday', friday)}
-      {console.log('>?_+_+_+__+_+_+_+_++_++_+_day', day1)}
-      {console.log('>?_+_+_+__+_+_+_+_++_++_+_day', day1)}
-      {console.log(
-        '///////////////////////////////////////////',
-        sunday,
-        '\n',
-        monday,
-        '\n',
-        'adyyyyyyyyyyyyyyyyy',
-        day1,
-        '\n',
-        day2,
-      )}
-      {console.log(
-        '///////////////////////////////////////////',
-        sunday,
-        '\n',
-        monday,
-        '\n',
-        'adyyyyyyyyyyyyyyyyy',
-        day1,
-        '\n',
-        day2,
-      )}
+    <Flex>
+      <Flex row marginBottom={10}>
+        {dateheader('Sunday', sundaycheck, (e) =>
+          dateCheckboxChange(e, 'sunday'),
+        )}
+        <Flex>
+          <Flex row center style={{ marginBottom: sunday.length > 1 ?'10px': '0px' }}>
+            {sundaycheck === true ? (
+              <Flex row center flex={1}>
+                <Flex row center className={styles.align}>
+                  <div className={styles.selectTag}>
+                    <SelectTag
+                      options={day1}
+                      placeholder={'time'}
+                      name="starttime"
+                      defaultValue={{
+                        value: '0',
+                        label: '9:00 AM',
+                      }}
+                      value={
+                        time
+                          ? time.find(
+                              (option) => option.label === sunday[0].starttime,
+                            )
+                          : ''
+                      }
+                      onChange={(e) =>
+                        handleInputChangeForSunday(e, 0, 'starttime')
+                      }
+                    ></SelectTag>
+                  </div>
+                  <div className={styles.to}>
+                    <Text size={14} className={styles.txt}>
+                      to
+                    </Text>
+                  </div>
 
-      {/* {setrender(Date.now())} */}
-      <div>
-        <Flex row>
-          <div
-            style={{
-              marginRight: '5px',
-              marginTop: '2px',
-            }}
-          >
-            {/* { sundaycheck === true ? ( */}
-            <InputCheckBox
-              // onChange={() => day("1")}
-              key={1}
-              value={sundaycheck}
-              checked={sundaycheck === true ? true : false}
-              onChange={(e) => dateCheckboxChange(e, 'sunday')}
-            />
-
-            {/* ) 
-            : (
-              <InputCheckBox
-                // onChange={() => day("1")}
-                key={1}
-                // disabled={true}
-              />
-            )} */}
-          </div>
-          <div
-            style={{
-              marginRight: '50px',
-            }}
-          >
-            <Text>Sunday</Text>
-          </div>
-
-          {sundaycheck === true ? (
-            <>
-              <Flex row className={styles.align}>
-                <div
-                  style={{
-                    marginRight: '30px',
-                    width: '119px',
-                    height: '32px',
-                  }}
-                >
-                  <SelectTag
-                    options={day1}
-                    placeholder={'time'}
-                    name="starttime"
-                    defaultValue={{
-                      value: '0',
-                      label: '9:00 AM',
-                    }}
-                    value={
-                      time
-                        ? time.find(
-                            (option) => option.label === sunday[0].starttime,
-                          )
-                        : ''
-                    }
-                    onChange={(e) =>
-                      handleInputChangeForSunday(e, 0, 'starttime')
-                    }
-                  ></SelectTag>
-                </div>
-                <div
-                  style={{
-                    marginRight: '30px',
-                  }}
-                >
-                  <Text className={styles.txt}>to</Text>
-                </div>
-
-                <div
-                  style={{
-                    marginRight: '20px',
-                    width: '119px',
-                    height: '32px',
-                  }}
-                >
-                  <SelectTag
-                    options={day1}
-                    placeholder={'time'}
-                    name="endtime"
-                    defaultValue={{
-                      value: '0',
-                      label: '6:00 PM',
-                    }}
-                    value={
-                      time
-                        ? time.find(
-                            (option) => option.label === sunday[0].endtime,
-                          )
-                        : ''
-                    }
-                    onChange={(e) =>
-                      handleInputChangeForSunday(e, 0, 'endtime')
-                    }
-                  ></SelectTag>
-                </div>
-              </Flex>
-              <div style={{ textAlign: 'left', width: '84%' }}>
+                  <div className={styles.selectTag}>
+                    <SelectTag
+                      options={day1}
+                      placeholder={'time'}
+                      name="endtime"
+                      defaultValue={{
+                        value: '0',
+                        label: '6:00 PM',
+                      }}
+                      value={
+                        time
+                          ? time.find(
+                              (option) => option.label === sunday[0].endtime,
+                            )
+                          : ''
+                      }
+                      onChange={(e) =>
+                        handleInputChangeForSunday(e, 0, 'endtime')
+                      }
+                    ></SelectTag>
+                  </div>
+                </Flex>
                 {day1.length > 0 ? (
                   <button
-                    style={{
-                      border: 'none',
-                      background: 'none',
-                      marginLeft: '0px',
-                    }}
+                    className={styles.add}
                     type="button"
-                    // as="a"
                     onClick={handleAddClickForSunday}
                   >
                     <SvgRoundAdd width={18} height={18} fill={'#581845'} />
                   </button>
                 ) : (
-                  <button
-                    style={{
-                      border: 'none',
-                      background: 'none',
-                      marginLeft: '0px',
-                    }}
-                    type="button"
-                    disabled={true}
-                    // as="a"
-                    // onClick={handleAddClickForSunday}
-                  >
+                  <button className={styles.add} type="button" disabled={true}>
                     <SvgRoundAdd width={18} height={18} fill={'#581845'} />
                   </button>
                 )}
-              </div>
-              <div style={{ textAlign: 'left', marginRight: '84%' }}>
-                <button
-                  key={1}
-                  style={{
-                    border: 'none',
-                    background: 'none',
-                    marginLeft: '10px',
-                  }}
-                  onClick={() => copyonclick(1)}
-                >
-                  <SvgCopy width={18} height={18} fill="goldenrod" />
-                </button>
                 <div>
-                  <Flex row>
-                    {copyid === 1 ? (
-                      <CopyClipBoard
-                        key={1}
-                        name="sunday"
-                        copy={copy}
-                        day={sunday}
-                        setCopy={SetCopy}
-                        SetCopyId={SetCopyId}
-                        days={days}
-                        //   setSunday ={setSunday}
-                        setMonday={setMonday}
-                        setTuesday={setTuesday}
-                        setWednesday={setWednesday}
-                        setThursday={setThursday}
-                        setFriday={setFriday}
-                        setSaturday={setSaturday}
-                        timeslot={day1}
-                        setDay1={setDay1}
-                        setDay2={setDay2}
-                        setDay3={setDay3}
-                        setDay4={setDay4}
-                        setDay5={setDay5}
-                        setDay6={setDay6}
-                        setDay7={setDay7}
-                        sundaycheck={sundaycheck}
-                        mondaycheck={mondaycheck}
-                        tuesdaycheck={tuesdaycheck}
-                        wednesdaycheck={wednesdaycheck}
-                        thursdaycheck={thursdaycheck}
-                        fridaycheck={fridaycheck}
-                        saturdaycheck={saturdaycheck}
-                      />
-                    ) : (
-                      ''
-                    )}
-                  </Flex>
+                  <button
+                    key={1}
+                    className={styles.add}
+                    onClick={() => copyonclick(1)}
+                  >
+                    <SvgCopy width={18} height={18} fill="#FFC203" />
+                  </button>
+                  <div>
+                    <Flex row>
+                      {copyid === 1 ? (
+                        <CopyClipBoard
+                          key={1}
+                          name="sunday"
+                          copy={copy}
+                          day={sunday}
+                          setCopy={SetCopy}
+                          SetCopyId={SetCopyId}
+                          days={days}
+                          //   setSunday ={setSunday}
+                          setMonday={setMonday}
+                          setTuesday={setTuesday}
+                          setWednesday={setWednesday}
+                          setThursday={setThursday}
+                          setFriday={setFriday}
+                          setSaturday={setSaturday}
+                          timeslot={day1}
+                          setDay1={setDay1}
+                          setDay2={setDay2}
+                          setDay3={setDay3}
+                          setDay4={setDay4}
+                          setDay5={setDay5}
+                          setDay6={setDay6}
+                          setDay7={setDay7}
+                          sundaycheck={sundaycheck}
+                          mondaycheck={mondaycheck}
+                          tuesdaycheck={tuesdaycheck}
+                          wednesdaycheck={wednesdaycheck}
+                          thursdaycheck={thursdaycheck}
+                          fridaycheck={fridaycheck}
+                          saturdaycheck={saturdaycheck}
+                        />
+                      ) : (
+                        ''
+                      )}
+                    </Flex>
+                  </div>
                 </div>
-              </div>
-            </>
-          ) : (
-            'Unavailble'
-          )}
-        </Flex>
-        <div style={{ marginLeft: '120px' }}>
-          {sunday.length > 1
-            ? sunday.map((x, i) => {
-                console.log('xxxxxxxxxxxxxx', x);
-                if (i > 0) {
-                  return (
-                    <>
-                      <Flex row>
-                        <Flex row className={styles.align}>
-                          <div
-                            style={{
-                              marginRight: '30px',
-                              width: '119px',
-                              height: '32px',
-                            }}
-                          >
-                            <SelectTag
-                              options={day1}
-                              placeholder={'time'}
-                              name="starttime"
-                              value={
-                                time
-                                  ? time.find(
-                                      (option) => option.label === x.starttime,
-                                    )
-                                  : ''
-                              }
-                              onChange={(e) =>
-                                handleInputChangeForSunday(e, i, 'starttime')
-                              }
-                            ></SelectTag>
-                          </div>
-                          <div
-                            style={{
-                              marginRight: '30px',
-                            }}
-                          >
-                            <Text className={styles.txt}>to</Text>
-                          </div>
+              </Flex>
+            ) : (
+              <Flex flex={1}>
+                <Text>Unavailble</Text>
+              </Flex>
+            )}
+          </Flex>
+          <div style={{ marginBottom: sunday.length > 1 ?'10px': '0px' }}>
+            {sunday.length > 1
+              ? sunday.map((x, i) => {
+                  if (i > 0) {
+                    return (
+                      <>
+                        <Flex row>
+                          <Flex row className={styles.align}>
+                            <div className={styles.selectTag}>
+                              <SelectTag
+                                options={day1}
+                                placeholder={'time'}
+                                name="starttime"
+                                value={
+                                  time
+                                    ? time.find(
+                                        (option) =>
+                                          option.label === x.starttime,
+                                      )
+                                    : ''
+                                }
+                                onChange={(e) =>
+                                  handleInputChangeForSunday(e, i, 'starttime')
+                                }
+                              ></SelectTag>
+                            </div>
+                            <div className={styles.to}>
+                              <Text className={styles.txt}>to</Text>
+                            </div>
 
-                          <div
-                            style={{
-                              marginRight: '20px',
-                              width: '119px',
-                              height: '32px',
-                            }}
-                          >
-                            <SelectTag
-                              options={day1}
-                              placeholder={'time'}
-                              name="endtime"
-                              value={
-                                time
-                                  ? time.find(
-                                      (option) => option.label === x.endtime,
-                                    )
-                                  : ''
-                              }
-                              onChange={(e) =>
-                                handleInputChangeForSunday(e, i, 'endtime')
-                              }
-                            ></SelectTag>
+                            <div className={styles.selectTag}>
+                              <SelectTag
+                                options={day1}
+                                placeholder={'time'}
+                                name="endtime"
+                                value={
+                                  time
+                                    ? time.find(
+                                        (option) => option.label === x.endtime,
+                                      )
+                                    : ''
+                                }
+                                onChange={(e) =>
+                                  handleInputChangeForSunday(e, i, 'endtime')
+                                }
+                              ></SelectTag>
+                            </div>
+                          </Flex>
+                          <div>
+                            {sunday.length !== 1 && (
+                              <button
+                                onClick={() => RemoveClickForSunday(i)}
+                                className={styles.add}
+                              >
+                                <SvgCloseSmall  width={18} height={18} fill={'#581845'}/>
+                              </button>
+                            )}
                           </div>
                         </Flex>
-                        <div style={{ textAlign: 'left', width: '84%' }}>
-                          {sunday.length !== 1 && (
-                            <button
-                              onClick={() => RemoveClickForSunday(i)}
-                              style={{
-                                marginRight: '10px',
-                                border: 'none',
-                                background: 'none',
-                              }}
-                            >
-                              <SvgCloseSmall />
-                            </button>
-                          )}
-                        </div>
-                      </Flex>
-                    </>
-                  );
-                }
-              })
-            : ''}
-        </div>
-        <div style={{ marginTop: '10px' }}></div>
+                      </>
+                    );
+                  }
+                })
+              : ''}
+          </div>
+        </Flex>
+      </Flex>
 
-        <Flex row>
-          <div
-            style={{
-              marginRight: '5px',
-              marginTop: '2px',
-            }}
-          >
-            <InputCheckBox
-              // onChange={() => day("1")}
-              key={1}
-              // checked={true}
-              value={mondaycheck}
-              checked={mondaycheck === true ? true : false}
-              onChange={(e) => dateCheckboxChange(e, 'monday')}
-            />
-          </div>
-          <div
-            style={{
-              marginRight: '50px',
-            }}
-          >
-            <Text>Monday</Text>
-          </div>
+      <Flex row marginBottom={10}>
+        {dateheader('Monday', mondaycheck, (e) =>
+          dateCheckboxChange(e, 'monday'),
+        )}
+        <Flex row center>
           {mondaycheck === true ? (
             <>
               <Flex row className={styles.align}>
-                <div
-                  style={{
-                    marginRight: '30px',
-                    width: '119px',
-                    height: '32px',
-                  }}
-                >
+                <div className={styles.selectTag}>
                   <SelectTag
                     options={day2}
                     placeholder={'time'}
@@ -914,21 +628,11 @@ const DayTimeSplit = (props) => {
                     }
                   ></SelectTag>
                 </div>
-                <div
-                  style={{
-                    marginRight: '30px',
-                  }}
-                >
+                <div className={styles.to}>
                   <Text className={styles.txt}>to</Text>
                 </div>
 
-                <div
-                  style={{
-                    marginRight: '20px',
-                    width: '119px',
-                    height: '32px',
-                  }}
-                >
+                <div className={styles.selectTag}>
                   <SelectTag
                     options={day2}
                     placeholder={'time'}
@@ -950,44 +654,29 @@ const DayTimeSplit = (props) => {
                   ></SelectTag>
                 </div>
               </Flex>
-              <div style={{ textAlign: 'left', width: '84%' }}>
+              <div>
                 {day2.length > 0 ? (
                   <button
-                    style={{
-                      border: 'none',
-                      background: 'none',
-                      marginLeft: '0px',
-                    }}
+                    className={styles.add}
                     type="button"
                     onClick={handleAddClickForMonday}
                   >
                     <SvgRoundAdd width={18} height={18} fill={'#581845'} />
                   </button>
                 ) : (
-                  <button
-                    style={{
-                      border: 'none',
-                      background: 'none',
-                      marginLeft: '0px',
-                    }}
-                    type="button"
-                  >
+                  <button className={styles.add} type="button">
                     <SvgRoundAdd width={18} height={18} fill={'#581845'} />
                   </button>
                 )}
               </div>
-              <div style={{ textAlign: 'left', marginRight: '84%' }}>
+              <div>
                 <button
                   key={2}
-                  style={{
-                    border: 'none',
-                    background: 'none',
-                    marginLeft: '10px',
-                  }}
+                  className={styles.add}
                   //   onClick={() => SetCopy(true)}
                   onClick={() => copyonclick(2)}
                 >
-                  <SvgCopy width={18} height={18} fill="goldenrod" />
+                  <SvgCopy width={18} height={18} fill="#FFC203" />
                 </button>
                 {copyid === 2 ? (
                   <CopyClipBoard
@@ -1027,10 +716,12 @@ const DayTimeSplit = (props) => {
               </div>
             </>
           ) : (
-            'Unavailble'
+            <Flex flex={1}>
+              <Text>Unavailble</Text>
+            </Flex>
           )}
         </Flex>
-        <div style={{ marginLeft: '120px' }}>
+        <div style={{ marginBottom: '10px' }}>
           {monday.length > 1 && sunday
             ? monday.map((x, i) => {
                 if (i > 0) {
@@ -1041,8 +732,8 @@ const DayTimeSplit = (props) => {
                           <div
                             style={{
                               marginRight: '30px',
-                              width: '119px',
-                              height: '32px',
+                              width: '120px',
+                              height: '30px',
                             }}
                           >
                             <SelectTag
@@ -1072,8 +763,8 @@ const DayTimeSplit = (props) => {
                           <div
                             style={{
                               marginRight: '20px',
-                              width: '119px',
-                              height: '32px',
+                              width: '120px',
+                              height: '30px',
                             }}
                           >
                             <SelectTag
@@ -1093,17 +784,13 @@ const DayTimeSplit = (props) => {
                             ></SelectTag>
                           </div>
                         </Flex>
-                        <div style={{ textAlign: 'left', width: '84%' }}>
+                        <div>
                           {monday.length !== 1 && (
                             <button
                               onClick={() => RemoveClickForMonday(i)}
-                              style={{
-                                marginRight: '10px',
-                                border: 'none',
-                                background: 'none',
-                              }}
+                              className={styles.add}
                             >
-                              <SvgCloseSmall />
+                              <SvgCloseSmall width={18} height={18} fill={'#581845'}/>
                             </button>
                           )}
                         </div>
@@ -1114,41 +801,17 @@ const DayTimeSplit = (props) => {
               })
             : ''}
         </div>
+      </Flex>
 
-        <div style={{ marginTop: '10px' }}></div>
-
-        <Flex row>
-          <div
-            style={{
-              marginRight: '5px',
-              marginTop: '2px',
-            }}
-          >
-            <InputCheckBox
-              // onChange={() => day("1")}
-              key={1}
-              value={tuesdaycheck}
-              checked={tuesdaycheck === true ? true : false}
-              onChange={(e) => dateCheckboxChange(e, 'tuesday')}
-            />
-          </div>
-          <div
-            style={{
-              marginRight: '50px',
-            }}
-          >
-            <Text>Tuesday</Text>
-          </div>
+      <Flex row marginBottom={10}>
+        {dateheader('Tuesday', tuesdaycheck, (e) =>
+          dateCheckboxChange(e, 'tuesday'),
+        )}
+        <Flex row center>
           {tuesdaycheck === true ? (
             <>
               <Flex row className={styles.align}>
-                <div
-                  style={{
-                    marginRight: '30px',
-                    width: '119px',
-                    height: '32px',
-                  }}
-                >
+                <div className={styles.selectTag}>
                   <SelectTag
                     options={day3}
                     placeholder={'time'}
@@ -1169,21 +832,11 @@ const DayTimeSplit = (props) => {
                     }
                   ></SelectTag>
                 </div>
-                <div
-                  style={{
-                    marginRight: '30px',
-                  }}
-                >
+                <div className={styles.to}>
                   <Text className={styles.txt}>to</Text>
                 </div>
 
-                <div
-                  style={{
-                    marginRight: '20px',
-                    width: '119px',
-                    height: '32px',
-                  }}
-                >
+                <div className={styles.selectTag}>
                   <SelectTag
                     options={day3}
                     placeholder={'time'}
@@ -1205,14 +858,10 @@ const DayTimeSplit = (props) => {
                   ></SelectTag>
                 </div>
               </Flex>
-              <div style={{ textAlign: 'left', width: '84%' }}>
+              <div>
                 {day3.length > 0 ? (
                   <button
-                    style={{
-                      border: 'none',
-                      background: 'none',
-                      marginLeft: '0px',
-                    }}
+                    className={styles.add}
                     type="button"
                     onClick={handleAddClickForTuesday}
                   >
@@ -1220,11 +869,7 @@ const DayTimeSplit = (props) => {
                   </button>
                 ) : (
                   <button
-                    style={{
-                      border: 'none',
-                      background: 'none',
-                      marginLeft: '0px',
-                    }}
+                    className={styles.add}
                     type="button"
                     // onClick={handleAddClickForTuesday}
                   >
@@ -1232,17 +877,13 @@ const DayTimeSplit = (props) => {
                   </button>
                 )}
               </div>
-              <div style={{ textAlign: 'left', marginRight: '84%' }}>
+              <div>
                 <button
                   key={3}
-                  style={{
-                    border: 'none',
-                    background: 'none',
-                    marginLeft: '10px',
-                  }}
+                  className={styles.add}
                   onClick={() => copyonclick(3)}
                 >
-                  <SvgCopy width={18} height={18} fill="goldenrod" />
+                  <SvgCopy width={18} height={18} fill="#FFC203" />
                 </button>
                 {copyid === 3 ? (
                   <CopyClipBoard
@@ -1283,11 +924,12 @@ const DayTimeSplit = (props) => {
               </div>
             </>
           ) : (
-            'unavailble'
+            <Flex flex={1}>
+              <Text>Unavailble</Text>
+            </Flex>
           )}
         </Flex>
-
-        <div style={{ marginLeft: '120px' }}>
+        <div style={{ marginBottom: '10px' }}>
           {tuesday.length > 1
             ? tuesday.map((x, i) => {
                 if (i > 0) {
@@ -1298,8 +940,8 @@ const DayTimeSplit = (props) => {
                           <div
                             style={{
                               marginRight: '30px',
-                              width: '119px',
-                              height: '32px',
+                              width: '120px',
+                              height: '30px',
                             }}
                           >
                             <SelectTag
@@ -1329,8 +971,8 @@ const DayTimeSplit = (props) => {
                           <div
                             style={{
                               marginRight: '20px',
-                              width: '119px',
-                              height: '32px',
+                              width: '120px',
+                              height: '30px',
                             }}
                           >
                             <SelectTag
@@ -1350,17 +992,13 @@ const DayTimeSplit = (props) => {
                             ></SelectTag>
                           </div>
                         </Flex>
-                        <div style={{ textAlign: 'left', width: '84%' }}>
+                        <div>
                           {tuesday.length !== 1 && (
                             <button
                               onClick={() => RemoveClickForTuesday(i)}
-                              style={{
-                                marginRight: '10px',
-                                border: 'none',
-                                background: 'none',
-                              }}
+                              className={styles.add}
                             >
-                              <SvgCloseSmall />
+                              <SvgCloseSmall width={18} height={18} fill={'#581845'}/>
                             </button>
                           )}
                         </div>
@@ -1371,40 +1009,17 @@ const DayTimeSplit = (props) => {
               })
             : ''}
         </div>
-        <div style={{ marginTop: '10px' }}></div>
+      </Flex>
 
-        <Flex row>
-          <div
-            style={{
-              marginRight: '5px',
-              marginTop: '2px',
-            }}
-          >
-            <InputCheckBox
-              // onChange={() => day("1")}
-              key={1}
-              value={wednesdaycheck}
-              checked={wednesdaycheck === true ? true : false}
-              onChange={(e) => dateCheckboxChange(e, 'wednesday')}
-            />
-          </div>
-          <div
-            style={{
-              marginRight: '50px',
-            }}
-          >
-            <Text>Wednesday</Text>
-          </div>
+      <Flex row marginBottom={10}>
+        {dateheader('Wednesday', wednesdaycheck, (e) =>
+          dateCheckboxChange(e, 'wednesday'),
+        )}
+        <Flex row center>
           {wednesdaycheck === true ? (
             <>
               <Flex row>
-                <div
-                  style={{
-                    marginRight: '30px',
-                    width: '119px',
-                    height: '32px',
-                  }}
-                >
+                <div className={styles.selectTag}>
                   <SelectTag
                     options={day4}
                     placeholder={'time'}
@@ -1425,21 +1040,11 @@ const DayTimeSplit = (props) => {
                     }
                   ></SelectTag>
                 </div>
-                <div
-                  style={{
-                    marginRight: '30px',
-                  }}
-                >
+                <div className={styles.to}>
                   <Text className={styles.txt}>to</Text>
                 </div>
 
-                <div
-                  style={{
-                    marginRight: '20px',
-                    width: '119px',
-                    height: '32px',
-                  }}
-                >
+                <div className={styles.selectTag}>
                   <SelectTag
                     options={day4}
                     placeholder={'time'}
@@ -1461,14 +1066,10 @@ const DayTimeSplit = (props) => {
                   ></SelectTag>
                 </div>
               </Flex>
-              <div style={{ textAlign: 'left', width: '84%' }}>
+              <div>
                 {day4.length > 0 ? (
                   <button
-                    style={{
-                      border: 'none',
-                      background: 'none',
-                      marginLeft: '0px',
-                    }}
+                    className={styles.add}
                     type="button"
                     // as="a"
                     onClick={handleAddClickForWednesday}
@@ -1477,11 +1078,7 @@ const DayTimeSplit = (props) => {
                   </button>
                 ) : (
                   <button
-                    style={{
-                      border: 'none',
-                      background: 'none',
-                      marginLeft: '0px',
-                    }}
+                    className={styles.add}
                     type="button"
                     // as="a"
                     // onClick={handleAddClickForWednesday}
@@ -1490,17 +1087,13 @@ const DayTimeSplit = (props) => {
                   </button>
                 )}
               </div>
-              <div style={{ textAlign: 'left', marginRight: '84%' }}>
+              <div>
                 <button
                   key={4}
-                  style={{
-                    border: 'none',
-                    background: 'none',
-                    marginLeft: '10px',
-                  }}
+                  className={styles.add}
                   onClick={() => copyonclick(4)}
                 >
-                  <SvgCopy width={18} height={18} fill="goldenrod" />
+                  <SvgCopy width={18} height={18} fill="#FFC203" />
                 </button>
                 {copyid === 4 ? (
                   <CopyClipBoard
@@ -1540,10 +1133,12 @@ const DayTimeSplit = (props) => {
               </div>
             </>
           ) : (
-            'Unavailble'
+            <Flex flex={1}>
+              <Text>Unavailble</Text>
+            </Flex>
           )}
         </Flex>
-        <div style={{ marginLeft: '120px' }}>
+        <div style={{ marginBottom: '10px' }}>
           {wednesday.length > 1
             ? wednesday.map((x, i) => {
                 if (i > 0) {
@@ -1554,8 +1149,8 @@ const DayTimeSplit = (props) => {
                           <div
                             style={{
                               marginRight: '30px',
-                              width: '119px',
-                              height: '32px',
+                              width: '120px',
+                              height: '30px',
                             }}
                           >
                             <SelectTag
@@ -1565,9 +1160,7 @@ const DayTimeSplit = (props) => {
                               value={
                                 day4
                                   ? day4.find(
-                                      (option) =>
-                                        // {console.log("optionoption",option)}
-                                        option.label === x.starttime,
+                                      (option) => option.label === x.starttime,
                                     )
                                   : ''
                               }
@@ -1587,8 +1180,8 @@ const DayTimeSplit = (props) => {
                           <div
                             style={{
                               marginRight: '20px',
-                              width: '119px',
-                              height: '32px',
+                              width: '120px',
+                              height: '30px',
                             }}
                           >
                             <SelectTag
@@ -1598,9 +1191,7 @@ const DayTimeSplit = (props) => {
                               value={
                                 day4
                                   ? day4.find(
-                                      (option) =>
-                                        // {console.log("optionoption",option)}
-                                        option.label === x.endtime,
+                                      (option) => option.label === x.endtime,
                                     )
                                   : ''
                               }
@@ -1610,17 +1201,13 @@ const DayTimeSplit = (props) => {
                             ></SelectTag>
                           </div>
                         </Flex>
-                        <div style={{ textAlign: 'left', width: '84%' }}>
+                        <div>
                           {wednesday.length !== 1 && (
                             <button
                               onClick={() => RemoveClickForWednesday(i)}
-                              style={{
-                                marginRight: '10px',
-                                border: 'none',
-                                background: 'none',
-                              }}
+                              className={styles.add}
                             >
-                              <SvgCloseSmall />
+                              <SvgCloseSmall width={18} height={18} fill={'#581845'}/>
                             </button>
                           )}
                         </div>
@@ -1631,40 +1218,17 @@ const DayTimeSplit = (props) => {
               })
             : ''}
         </div>
-        <div style={{ marginTop: '10px' }}></div>
+      </Flex>
 
-        <Flex row>
-          <div
-            style={{
-              marginRight: '5px',
-              marginTop: '2px',
-            }}
-          >
-            <InputCheckBox
-              // onChange={() => day("1")}
-              key={1}
-              value={thursdaycheck}
-              checked={thursdaycheck === true ? true : false}
-              onChange={(e) => dateCheckboxChange(e, 'thursday')}
-            />
-          </div>
-          <div
-            style={{
-              marginRight: '50px',
-            }}
-          >
-            <Text>Thursday</Text>
-          </div>
+      <Flex row marginBottom={10}>
+        {dateheader('Thursday', thursdaycheck, (e) =>
+          dateCheckboxChange(e, 'thursday'),
+        )}
+        <Flex row center>
           {thursdaycheck === true ? (
             <>
               <Flex row className={styles.align}>
-                <div
-                  style={{
-                    marginRight: '30px',
-                    width: '119px',
-                    height: '32px',
-                  }}
-                >
+                <div className={styles.selectTag}>
                   <SelectTag
                     options={day5}
                     placeholder={'time'}
@@ -1685,21 +1249,11 @@ const DayTimeSplit = (props) => {
                     }
                   ></SelectTag>
                 </div>
-                <div
-                  style={{
-                    marginRight: '30px',
-                  }}
-                >
+                <div className={styles.to}>
                   <Text className={styles.txt}>to</Text>
                 </div>
 
-                <div
-                  style={{
-                    marginRight: '20px',
-                    width: '119px',
-                    height: '32px',
-                  }}
-                >
+                <div className={styles.selectTag}>
                   <SelectTag
                     options={day5}
                     placeholder={'time'}
@@ -1721,14 +1275,10 @@ const DayTimeSplit = (props) => {
                   ></SelectTag>
                 </div>
               </Flex>
-              <div style={{ textAlign: 'left', width: '84%' }}>
+              <div>
                 {day6.length > 0 ? (
                   <button
-                    style={{
-                      border: 'none',
-                      background: 'none',
-                      marginLeft: '0px',
-                    }}
+                    className={styles.add}
                     type="button"
                     // as="a"
                     onClick={handleAddClickForThursday}
@@ -1736,31 +1286,18 @@ const DayTimeSplit = (props) => {
                     <SvgRoundAdd width={18} height={18} fill={'#581845'} />
                   </button>
                 ) : (
-                  <button
-                    style={{
-                      border: 'none',
-                      background: 'none',
-                      marginLeft: '0px',
-                    }}
-                    type="button"
-                    // as="a"
-                    // onClick={handleAddClickForThursday}
-                  >
+                  <button className={styles.add} type="button">
                     <SvgRoundAdd width={18} height={18} fill={'#581845'} />
                   </button>
                 )}
               </div>
-              <div style={{ textAlign: 'left', marginRight: '84%' }}>
+              <div>
                 <button
                   key={5}
-                  style={{
-                    border: 'none',
-                    background: 'none',
-                    marginLeft: '10px',
-                  }}
+                  className={styles.add}
                   onClick={() => copyonclick(5)}
                 >
-                  <SvgCopy width={18} height={18} fill="goldenrod" />
+                  <SvgCopy width={18} height={18} fill="#FFC203" />
                 </button>
                 {copyid === 5 ? (
                   <CopyClipBoard
@@ -1800,10 +1337,12 @@ const DayTimeSplit = (props) => {
               </div>
             </>
           ) : (
-            'Unavailble'
+            <Flex flex={1}>
+              <Text>Unavailble</Text>
+            </Flex>
           )}
         </Flex>
-        <div style={{ marginLeft: '120px' }}>
+        <div style={{ marginBottom: '10px' }}>
           {thursday.length > 1
             ? thursday.map((x, i) => {
                 if (i > 0) {
@@ -1814,8 +1353,8 @@ const DayTimeSplit = (props) => {
                           <div
                             style={{
                               marginRight: '30px',
-                              width: '119px',
-                              height: '32px',
+                              width: '120px',
+                              height: '30px',
                             }}
                           >
                             <SelectTag
@@ -1845,8 +1384,8 @@ const DayTimeSplit = (props) => {
                           <div
                             style={{
                               marginRight: '20px',
-                              width: '119px',
-                              height: '32px',
+                              width: '120px',
+                              height: '30px',
                             }}
                           >
                             <SelectTag
@@ -1866,17 +1405,13 @@ const DayTimeSplit = (props) => {
                             ></SelectTag>
                           </div>
                         </Flex>
-                        <div style={{ textAlign: 'left', width: '84%' }}>
+                        <div>
                           {thursday.length !== 1 && (
                             <button
                               onClick={() => RemoveClickForThursday(i)}
-                              style={{
-                                marginRight: '10px',
-                                border: 'none',
-                                background: 'none',
-                              }}
+                              className={styles.add}
                             >
-                              <SvgCloseSmall />
+                              <SvgCloseSmall width={18} height={18} fill={'#581845'}/>
                             </button>
                           )}
                         </div>
@@ -1887,40 +1422,17 @@ const DayTimeSplit = (props) => {
               })
             : ''}
         </div>
-        <div style={{ marginTop: '10px' }}></div>
+      </Flex>
 
-        <Flex row>
-          <div
-            style={{
-              marginRight: '5px',
-              marginTop: '2px',
-            }}
-          >
-            <InputCheckBox
-              // onChange={() => day("1")}
-              key={1}
-              value={fridaycheck}
-              checked={fridaycheck === true ? true : false}
-              onChange={(e) => dateCheckboxChange(e, 'friday')}
-            />
-          </div>
-          <div
-            style={{
-              marginRight: '50px',
-            }}
-          >
-            <Text>Friday</Text>
-          </div>
+      <Flex row marginBottom={10}>
+        {dateheader('Friday', fridaycheck, (e) =>
+          dateCheckboxChange(e, 'friday'),
+        )}
+        <Flex row center>
           {fridaycheck === true ? (
             <>
               <Flex row className={styles.align}>
-                <div
-                  style={{
-                    marginRight: '30px',
-                    width: '119px',
-                    height: '32px',
-                  }}
-                >
+                <div className={styles.selectTag}>
                   <SelectTag
                     options={day6}
                     placeholder={'time'}
@@ -1941,21 +1453,11 @@ const DayTimeSplit = (props) => {
                     }
                   ></SelectTag>
                 </div>
-                <div
-                  style={{
-                    marginRight: '30px',
-                  }}
-                >
+                <div className={styles.to}>
                   <Text className={styles.txt}>to</Text>
                 </div>
 
-                <div
-                  style={{
-                    marginRight: '20px',
-                    width: '119px',
-                    height: '32px',
-                  }}
-                >
+                <div className={styles.selectTag}>
                   <SelectTag
                     options={day6}
                     placeholder={'time'}
@@ -1977,14 +1479,10 @@ const DayTimeSplit = (props) => {
                   ></SelectTag>
                 </div>
               </Flex>
-              <div style={{ textAlign: 'left', width: '84%' }}>
+              <div>
                 {day6.length > 0 ? (
                   <button
-                    style={{
-                      border: 'none',
-                      background: 'none',
-                      marginLeft: '0px',
-                    }}
+                    className={styles.add}
                     type="button"
                     // as="a"
                     onClick={handleAddClickForFriday}
@@ -1993,11 +1491,7 @@ const DayTimeSplit = (props) => {
                   </button>
                 ) : (
                   <button
-                    style={{
-                      border: 'none',
-                      background: 'none',
-                      marginLeft: '0px',
-                    }}
+                    className={styles.add}
                     type="button"
                     // as="a"
                     // onClick={handleAddClickForFriday}
@@ -2006,16 +1500,12 @@ const DayTimeSplit = (props) => {
                   </button>
                 )}
               </div>
-              <div style={{ textAlign: 'left', marginRight: '84%' }}>
+              <div>
                 <button
-                  style={{
-                    border: 'none',
-                    background: 'none',
-                    marginLeft: '10px',
-                  }}
+                  className={styles.add}
                   onClick={() => copyonclick(6)}
                 >
-                  <SvgCopy width={18} height={18} fill="goldenrod" />
+                  <SvgCopy width={18} height={18} fill="#FFC203" />
                 </button>
                 {copyid === 6 ? (
                   <CopyClipBoard
@@ -2055,10 +1545,12 @@ const DayTimeSplit = (props) => {
               </div>
             </>
           ) : (
-            'Unavailble'
+            <Flex flex={1}>
+              <Text>Unavailble</Text>
+            </Flex>
           )}
         </Flex>
-        <div style={{ marginLeft: '120px' }}>
+        <div style={{ marginBottom: '10px' }}>
           {friday.length > 1
             ? friday.map((x, i) => {
                 if (i > 0) {
@@ -2069,8 +1561,8 @@ const DayTimeSplit = (props) => {
                           <div
                             style={{
                               marginRight: '30px',
-                              width: '119px',
-                              height: '32px',
+                              width: '120px',
+                              height: '30px',
                             }}
                           >
                             <SelectTag
@@ -2100,8 +1592,8 @@ const DayTimeSplit = (props) => {
                           <div
                             style={{
                               marginRight: '20px',
-                              width: '119px',
-                              height: '32px',
+                              width: '120px',
+                              height: '30px',
                             }}
                           >
                             <SelectTag
@@ -2121,17 +1613,13 @@ const DayTimeSplit = (props) => {
                             ></SelectTag>
                           </div>
                         </Flex>
-                        <div style={{ textAlign: 'left', width: '84%' }}>
+                        <div>
                           {friday.length !== 1 && (
                             <button
                               onClick={() => RemoveClickForFriday(i)}
-                              style={{
-                                marginRight: '10px',
-                                border: 'none',
-                                background: 'none',
-                              }}
+                              className={styles.add}
                             >
-                              <SvgCloseSmall />
+                              <SvgCloseSmall width={18} height={18} fill={'#581845'}/>
                             </button>
                           )}
                         </div>
@@ -2142,47 +1630,17 @@ const DayTimeSplit = (props) => {
               })
             : ''}
         </div>
-        <div style={{ marginTop: '10px' }}></div>
-        <Flex row>
-          <div
-            style={{
-              marginRight: '5px',
-              marginTop: '2px',
-            }}
-          >
-            {/* {saturdaycheck === true ? ( */}
-            <InputCheckBox
-              // onChange={() => day("1")}
-              key={1}
-              value={saturdaycheck}
-              checked={saturdaycheck === true ? true : false}
-              onChange={(e) => dateCheckboxChange(e, 'saturday')}
-            />
-            {/* ) : (
-              <InputCheckBox
-                // onChange={() => day("1")}
-                key={1}
-                disabled={true}
-              />
-            )} */}
-          </div>
-          <div
-            style={{
-              marginRight: '50px',
-            }}
-          >
-            <Text>Saturday</Text>
-          </div>
+      </Flex>
+
+      <Flex row marginBottom={10}>
+        {dateheader('Saturday', saturdaycheck, (e) =>
+          dateCheckboxChange(e, 'saturday'),
+        )}
+        <Flex row center>
           {saturdaycheck === true ? (
             <>
               <Flex row className={styles.align}>
-                <div
-                  style={{
-                    marginRight: '30px',
-                    width: '119px',
-                    height: '32px',
-                  }}
-                >
+                <div className={styles.selectTag}>
                   <SelectTag
                     options={day7}
                     placeholder={'time'}
@@ -2203,21 +1661,11 @@ const DayTimeSplit = (props) => {
                     }
                   ></SelectTag>
                 </div>
-                <div
-                  style={{
-                    marginRight: '30px',
-                  }}
-                >
+                <div className={styles.to}>
                   <Text className={styles.txt}>to</Text>
                 </div>
 
-                <div
-                  style={{
-                    marginRight: '20px',
-                    width: '119px',
-                    height: '32px',
-                  }}
-                >
+                <div className={styles.selectTag}>
                   <SelectTag
                     options={day7}
                     placeholder={'time'}
@@ -2239,14 +1687,10 @@ const DayTimeSplit = (props) => {
                   ></SelectTag>
                 </div>
               </Flex>
-              <div style={{ textAlign: 'left', width: '84%' }}>
+              <div>
                 {day7.length > 0 ? (
                   <button
-                    style={{
-                      border: 'none',
-                      background: 'none',
-                      marginLeft: '0px',
-                    }}
+                    className={styles.add}
                     type="button"
                     // as="a"
                     onClick={handleAddClickForSaturday}
@@ -2255,11 +1699,7 @@ const DayTimeSplit = (props) => {
                   </button>
                 ) : (
                   <button
-                    style={{
-                      border: 'none',
-                      background: 'none',
-                      marginLeft: '0px',
-                    }}
+                    className={styles.add}
                     type="button"
                     // as="a"
                     // onClick={handleAddClickForSaturday}
@@ -2268,17 +1708,13 @@ const DayTimeSplit = (props) => {
                   </button>
                 )}
               </div>
-              <div style={{ textAlign: 'left', marginRight: '84%' }}>
+              <div>
                 <button
                   key={7}
-                  style={{
-                    border: 'none',
-                    background: 'none',
-                    marginLeft: '10px',
-                  }}
+                  className={styles.add}
                   onClick={() => copyonclick(7)}
                 >
-                  <SvgCopy width={18} height={18} fill="goldenrod" />
+                  <SvgCopy width={18} height={18} fill="#FFC203" />
                 </button>
                 {copyid === 7 ? (
                   <CopyClipBoard
@@ -2320,10 +1756,12 @@ const DayTimeSplit = (props) => {
               </div>
             </>
           ) : (
-            'Unavailble'
+            <Flex flex={1}>
+              <Text>Unavailble</Text>
+            </Flex>
           )}
         </Flex>
-        <div style={{ marginLeft: '120px' }}>
+        <div style={{ marginBottom: '10px' }}>
           {saturday.length > 1
             ? saturday.map((x, i) => {
                 if (i > 0) {
@@ -2332,11 +1770,7 @@ const DayTimeSplit = (props) => {
                       <Flex row>
                         <Flex row className={styles.align}>
                           <div
-                            style={{
-                              marginRight: '30px',
-                              width: '119px',
-                              height: '32px',
-                            }}
+                            className={styles.selectTag}
                           >
                             <SelectTag
                               options={day7}
@@ -2345,9 +1779,7 @@ const DayTimeSplit = (props) => {
                               value={
                                 day7
                                   ? day7.find(
-                                      (option) =>
-                                        // {console.log("optionoption",option)}
-                                        option.label === x.starttime,
+                                      (option) => option.label === x.starttime,
                                     )
                                   : ''
                               }
@@ -2357,19 +1789,13 @@ const DayTimeSplit = (props) => {
                             ></SelectTag>
                           </div>
                           <div
-                            style={{
-                              marginRight: '30px',
-                            }}
+                            className={styles.to}
                           >
                             <Text className={styles.txt}>to</Text>
                           </div>
 
                           <div
-                            style={{
-                              marginRight: '20px',
-                              width: '119px',
-                              height: '32px',
-                            }}
+                            className={styles.selectTag}
                           >
                             <SelectTag
                               options={day7}
@@ -2388,17 +1814,13 @@ const DayTimeSplit = (props) => {
                             ></SelectTag>
                           </div>
                         </Flex>
-                        <div style={{ textAlign: 'left', width: '84%' }}>
+                        <div>
                           {saturday.length !== 1 && (
                             <button
                               onClick={() => RemoveClickForSaturday(i)}
-                              style={{
-                                marginRight: '10px',
-                                border: 'none',
-                                background: 'none',
-                              }}
+                              className={styles.add}
                             >
-                              <SvgCloseSmall />
+                              <SvgCloseSmall width={18} height={18} fill={'#581845'}/>
                             </button>
                           )}
                         </div>
@@ -2409,8 +1831,8 @@ const DayTimeSplit = (props) => {
               })
             : ''}
         </div>
-      </div>
-    </>
+      </Flex>
+    </Flex>
   );
 };
 
@@ -2454,42 +1876,33 @@ const CopyClipBoard = (props) => {
     saturdaycheck,
     // include,
   } = props;
-  // console.log("setDay1setDay1setDay1",setDay1,setDay2,setDay3,setDay4,setDay5,setDay6,setDay7)
-  console.log(
-    'setDay1setDay1setDay1',
-    setDay1,
-    '\n',
-    'setSundaysetSunday',
-    setSunday,
-  );
-  console.log(
-    'propspropspropspropspropspropspropspropspropspropspropsprops',
-    props.include,
-  );
-
-  //   const [monday1, updateMonday1 ] = useState(monday);
   const [monday123, updateMonday123] = useState([]);
 
-  useEffect(() => {
-    // console.log("timeslottimeslot",timeslot)
-  }, [sunday, monday, tuesday, wednesday, thursday, friday, saturday]);
-
-  //   const { tuesday, updateTuesday } = props;
-
-  console.log('day', day);
-  console.log('key', key, name);
-  console.log('timeslottimeslottimeslottimeslottimeslot', timeslot);
+  useEffect(() => {}, [
+    sunday,
+    monday,
+    tuesday,
+    wednesday,
+    thursday,
+    friday,
+    saturday,
+  ]);
 
   const [time123, setTime123] = useState(copy);
   const [mondayclick, setMondayClick] = useState(false);
   const [apply, setApply] = useState([]);
   const [check, setCheck] = useState([]);
 
-  useEffect(() => {
-    console.log('timeslottimeslot', timeslot);
-  }, [sunday, monday, tuesday, wednesday, thursday, friday, saturday]);
+  useEffect(() => {}, [
+    sunday,
+    monday,
+    tuesday,
+    wednesday,
+    thursday,
+    friday,
+    saturday,
+  ]);
 
-  console.log('time123', time123);
   const final = [];
   const handleCheckboxChange = (assignedvalue: string) => {
     if (final.includes(assignedvalue)) {
@@ -2498,9 +1911,7 @@ const CopyClipBoard = (props) => {
       final.splice(indexToRemove, 1);
     } else {
       // alert('handleCheckboxChanges');
-      console.log('assignedvalue', assignedvalue);
       final.push(assignedvalue);
-      console.log('final', final);
     }
   };
 
@@ -2510,28 +1921,15 @@ const CopyClipBoard = (props) => {
   }
 
   const applyonclick = (senditem: any, dayof: any, tslot: any) => {
-    console.log('senditem', senditem);
-    console.log('senditemdayof', dayof);
-    console.log('senditemtimeslots', tslot);
-
     if (final.includes('sunday')) {
       const filteredData = dayof.filter(
         (item) => item.starttime !== '' && item.endtime !== '',
-      );
-      console.log(
-        'filteredDatafilteredDatafilteredData',
-        filteredData,
-        typeof filteredData,
       );
       setSunday(filteredData);
     }
     if (final.includes('monday')) {
       const filteredData = dayof.filter(
         (item) => item.starttime !== '' && item.endtime !== '',
-      );
-      console.log(
-        'filteredDatafilteredDatafilteredDatafilteredDatafilteredData',
-        filteredData,
       );
       setMonday(filteredData);
     }
@@ -2565,217 +1963,47 @@ const CopyClipBoard = (props) => {
       );
       setSaturday(filteredData);
     }
-    closeButton();   
+    closeButton();
     setTimeout(() => {
-      console.log('Timeout completed!');
-      timeslotset(tslot)
+      timeslotset(tslot);
     }, 1000);
   };
 
-
   const timeslotset = (dayof) => {
-    console.log("dayof!@#$%^&UIO",dayof)
     const updatedTimeSlots = [...dayof];
     updatedTimeSlots.shift();
-    console.log('~~~~~~~~~~~~',updatedTimeSlots)
 
-    console.log("dayofdayof",dayof)
     if (final.includes('sunday')) {
-      setDay1(dayof)
+      setDay1(dayof);
     }
     if (final.includes('monday')) {
-      setDay2(dayof)
+      setDay2(dayof);
     }
     if (final.includes('tuesday')) {
-      setDay3(dayof)
+      setDay3(dayof);
     }
     if (final.includes('wednesday')) {
-      setDay4(dayof)
+      setDay4(dayof);
     }
     if (final.includes('thursday')) {
-      setDay5(dayof)
+      setDay5(dayof);
     }
     if (final.includes('friday')) {
-      setDay6(dayof)
+      setDay6(dayof);
     }
     if (final.includes('saturday')) {
-      setDay7(dayof)
+      setDay7(dayof);
     }
-  }
+  };
   return (
     <>
-      {console.log('monday+++++++++1', monday123)}
-      {console.log('finalfinalfinal', final)}
-
       <div
         style={{
           width: '150px',
           height: '250px',
           position: 'relative',
         }}
-      >
-        {/* <CopyModal open={copy} onClose={close}>
-          <Flex>
-            <div
-              style={{
-                position: 'relative',
-                background: '#ffffff',
-                padding: '20px',
-                // marginLeft : "1px"
-              }}
-            >
-              <div>
-                <Flex row>
-                  <Text size={12} bold>
-                    Copy Times to...
-                  </Text>
-                </Flex>
-                <Button
-                  style={{
-                    border: 'none',
-                    background: 'none',
-                  }}
-                  onClick={closeButton}
-                >
-                  <SvgCloseSmall />
-                </Button>
-              </div>
-            </div>
-
-            <Flex row marginBottom={20} key={1}>
-              {name === 'sunday' ? (
-                <InputCheckBox
-                  checked={name === 'sunday'}
-                  disabled={name === 'sunday'}
-                  //   onChange={() => handleCheckboxChange('monday')}
-                />
-              ) : sundaycheck === true ? (
-                <InputCheckBox
-                  onChange={() => handleCheckboxChange('sunday')}
-                />
-              ) : (
-                <InputCheckBox
-                  onChange={() => handleCheckboxChange('sunday')}
-                  disabled={true}
-                />
-              )}
-              <Text>Sunday</Text>
-            </Flex>
-
-            <Flex row marginBottom={10}>
-              {name === 'monday' ? (
-                <InputCheckBox
-                  checked={name === 'monday'}
-                  disabled={name === 'monday'}
-                />
-              ) : mondaycheck === true ? (
-                <InputCheckBox
-                  onChange={() => handleCheckboxChange('monday')}
-                />
-              ) : (
-                <InputCheckBox
-                  onChange={() => handleCheckboxChange('monday')}
-                  disabled
-                />
-              )}
-              <Text>Monday</Text>
-            </Flex>
-            <Flex row marginBottom={10}>
-              {name === 'tuesday' ? (
-                <InputCheckBox
-                  checked={name === 'tuesday'}
-                  disabled={name === 'tuesday'}
-                />
-              ) : tuesdaycheck === true ? (
-                <InputCheckBox
-                  onChange={() => handleCheckboxChange('tuesday')}
-                />
-              ) : (
-                <InputCheckBox
-                  onChange={() => handleCheckboxChange('tuesday')}
-                  disabled={true}
-                />
-              )}
-              <Text>Tuesday</Text>
-            </Flex>
-            <Flex row marginBottom={10}>
-              {name === 'wednesday' ? (
-                <InputCheckBox
-                  checked={name === 'wednesday'}
-                  disabled={name === 'wednesday'}
-                />
-              ) : wednesdaycheck === true ? (
-                <InputCheckBox
-                  onChange={() => handleCheckboxChange('wednesday')}
-                />
-              ) : (
-                <InputCheckBox
-                  onChange={() => handleCheckboxChange('wednesday')}
-                  disabled={true}
-                />
-              )}
-              <Text>Wednesday</Text>
-            </Flex>
-            <Flex row marginBottom={10}>
-              {name === 'thursday' ? (
-                <InputCheckBox
-                  checked={name === 'thursday'}
-                  disabled={name === 'thursday'}
-                />
-              ) : thursdaycheck === true ? (
-                <InputCheckBox
-                  onChange={() => handleCheckboxChange('thursday')}
-                />
-              ) : (
-                <InputCheckBox
-                  onChange={() => handleCheckboxChange('thursday')}
-                  disabled={true}
-                />
-              )}
-              <Text>Thursday</Text>
-            </Flex>
-            <Flex row marginBottom={10}>
-              {name === 'friday' ? (
-                <InputCheckBox
-                  checked={name === 'friday'}
-                  disabled={name === 'friday'}
-                />
-              ) : fridaycheck === true ? (
-                <InputCheckBox
-                  onChange={() => handleCheckboxChange('friday')}
-                />
-              ) : (
-                <InputCheckBox
-                  onChange={() => handleCheckboxChange('friday')}
-                  disabled={true}
-                />
-              )}
-              <Text>Friday</Text>
-            </Flex>
-            <Flex row>
-              {name === 'saturday' ? (
-                <InputCheckBox
-                  checked={name === 'saturday'}
-                  disabled={name === 'saturday'}
-                />
-              ) : saturdaycheck === true ? (
-                <InputCheckBox
-                  onChange={() => handleCheckboxChange('saturday')}
-                />
-              ) : (
-                <InputCheckBox
-                  onChange={() => handleCheckboxChange('saturday')}
-                  disabled={true}
-                />
-              )}
-              <Text>Saturday</Text>
-            </Flex>
-            <Button onClick={() => applyonclick(final, day, timeslot)}>
-              Apply
-            </Button>
-          </Flex>
-        </CopyModal> */}
-      </div>
+      ></div>
     </>
   );
 };
