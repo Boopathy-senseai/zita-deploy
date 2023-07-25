@@ -27,8 +27,6 @@ import {
 } from './store/middleware/eventmiddleware';
 import './DayPickerCustomStyles.css';
 import { loadGapi } from './google/gapiLoader';
-import interviewdashboard from './interviewdasboard.json';
-import slotterjson from './slotterjson.json';
 
 
 const slotter1 = (props) => {
@@ -84,12 +82,6 @@ const slotter1 = (props) => {
 
     );
     console.log("serviceservice",slotterdata,"\n",'provider',slotmembers,candidate_name)
-
-
-  console.log(
-    'interviewdashboardinterviewdashboard',
-    interviewdashboard.slotterdata,
-  );
 
   const candi_name = candidate_name ? candidate_name : 'candidate';
   // if (candidate_name !== undefined){
