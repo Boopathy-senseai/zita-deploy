@@ -113,9 +113,9 @@ const PreviewTitle = ({
           <Flex>
             <Flex  className={styles.borderbottomline}>
             <Text
-              bold
-              color="theme"
-              style={{ paddingTop: 16 }}
+            
+              
+              className={styles.requiredskil}
           
             >
               Required Skills

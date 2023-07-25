@@ -58,7 +58,7 @@ const JdPreviewScreen = () => {
     postLoader,
     feature,
     career_page_url,
-    is_plan,
+    is_plan, 
   } = useSelector(
     ({
       jdPreviewReducers,
@@ -84,7 +84,7 @@ const JdPreviewScreen = () => {
         is_plan: permissionReducers.is_plan,
       };
     },
-  );
+  ); 
   useEffect(() => {
     if (!is_plan) {
       sessionStorage.setItem('superUserTab', '2');
@@ -111,7 +111,7 @@ const whatjob =(values) =>{
     }
     else if(extarajobpost === 0) {
       dispatch(whatjobsMiddleWare({formData})); 
-      dispatch(postJdMiddleWare({ jd_id: jdId })).then((res) => {
+      dispatch(postJdMiddleWare({ jd_id: jdId})).then((res) => {
         if (res.payload.success) {
           setOpen(true);
         }
@@ -119,9 +119,6 @@ const whatjob =(values) =>{
     }
    
     else if (extarajobpost === 1) { 
-      alert(extarajobpost)
-      // dispatch(whatjobsMiddleWare({formData}))
-      alert('hi')
       dispatch(postJdMiddleWare({ jd_id: jdId })).then((res) => {
         if (res.payload.success) {
           setOpen(true);
@@ -129,7 +126,7 @@ const whatjob =(values) =>{
       });
     }
   };
-
+console.log("externaljob",extarajobpost)
   return (
     <Flex
       columnFlex

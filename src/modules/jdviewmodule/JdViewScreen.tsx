@@ -9,7 +9,10 @@ import Card from '../../uikit/Card/Card';
 import Chart from '../../uikit/Chart/Chart';
 import Toast from '../../uikit/Toast/Toast';
 import { Button } from '../../uikit';
+import { PRIMARY } from '../../uikit/Colors/colors';
 import SvgAngle from '../../icons/SvgAngle';
+
+import Svgwhatjobs from '../../icons/Svgwhatjobs';
 import Loader from '../../uikit/Loader/Loader';
 // import Collapse from '../../uikit/Collapse/Collapse';
 // import Modal from '../../uikit/Modal/Modal';
@@ -57,7 +60,10 @@ const JdViewScreen = () => {
     job_view_line,
     applicants_line,
     career_page_url,
-    is_plan
+    is_plan,
+    external,
+    ext_jobs,
+    jdview,
   } = useSelector(({ jdViewReducers, permissionReducers }: RootState) => {
     return {
       statusList: jdViewReducers.int_list,
@@ -72,8 +78,12 @@ const JdViewScreen = () => {
       job_view_line: jdViewReducers.job_view_line,
       applicants_line: jdViewReducers.applicants_line,
       is_plan: permissionReducers.is_plan,
+      external:jdViewReducers.has_external_posting,
+      ext_jobs:jdViewReducers.ext_jobs,
+      jdview:jdViewReducers,
     };
   });
+  console.log(ext_jobs,'hhh')
   useEffect(() => {
     if (!is_plan) {
       sessionStorage.setItem('superUserTab', '2');
@@ -145,6 +155,7 @@ const JdViewScreen = () => {
         fontSize: '16px',
         marginBottom:"10px",
         borderBottom:"1px solid black",
+        display:"none",
 
       },
     },
@@ -229,10 +240,15 @@ const JdViewScreen = () => {
                 </Flex>
               </>
             ) : (
-
-
-              <Chart options={options} />
-
+              <>
+              <Text align="center"
+                  bold
+                  size={16}
+                  color="theme"
+                  className={styles.jdStatus}
+                >Trend Line of Job Views and Applicants</Text>
+              <Chart options={options}  />
+              </>
             )}
           </Card>
         </Flex>
@@ -254,11 +270,11 @@ const JdViewScreen = () => {
           </Text>
         </Flex>
         <Flex >
-          <Button onClick={handleDownload}><Text style={{ color: "white" }}>Download Jd</Text></Button>
+          <Button onClick={handleDownload} types='primary'>Download Jd</Button>
         </Flex>
 
       </Flex>
-      <Flex className={styles.postion}>
+      <Flex className={styles.postion} >
         {/* <SvgAngle width={15} height={15} up={isCollapsedes} /> */}
       </Flex>
 
@@ -274,6 +290,24 @@ const JdViewScreen = () => {
         />
       </Flex>
       {/* )} */}
+      {ext_jobs.length!==0 &&
+       
+        <Flex>
+          {ext_jobs[0].jobposting_url!==null &&
+          <Flex>
+        <Text 
+                  bold
+                  size={16}
+                  color="theme"
+                  className={styles.boards}
+                >Job Posted Boards(Includes Company Career Page)</Text>
+                <Flex marginTop={10} marginBottom={10}>
+                <a href={ext_jobs[0].jobposting_url} >
+                <Svgwhatjobs></Svgwhatjobs></a></Flex></Flex>
+              
+          }
+        </Flex>
+      }
 
       <CancelAndDeletePopup
         title={

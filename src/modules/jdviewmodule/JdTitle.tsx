@@ -112,10 +112,10 @@ const JdTitle = ({
           >
             <Flex row>
 
-       <Button>
-            <Text bold size={18} color="link" className={styles.viewText}>
+       <Button types='primary'>
+           
               View in Careers Page
-            </Text></Button>
+            </Button>
             <Flex className={styles.careerPage}>
           
             </Flex>

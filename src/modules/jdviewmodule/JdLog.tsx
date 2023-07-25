@@ -90,14 +90,14 @@ console.log('statusList',statusList);
             <>
            
             {list.value === 0 ? (
-              <Flex row center className={styles.listFlex}>
+              <Flex row center className={styles.listFlex1}>
                 <Text color="theme" bold className={styles.titleStyle}>
                   {list.title}
                 </Text>
                 <Text>{list.value}</Text>
               </Flex>
             ) : (
-              <Flex row center className={styles.listFlex}>
+              <Flex row center className={styles.listFlex1}>
                 {list.title === 'Status' && (
                   <>
                 <Text color="theme" bold className={styles.titleStyle}>
@@ -141,46 +141,65 @@ console.log('statusList',statusList);
             return (
               <>
                 {list.value === 0 ? (
-                  <Flex  center className={styles.listFlex}>
+                  <Flex  row between end className={styles.listFlex}>
+                       <Flex>
+                    <Text color="theme" bold className={styles.titleStyle}>
+                      {list.title}
+                    </Text></Flex>
                      <Flex className={styles.circleflexover}>
                       <Text>{list.value}</Text>
                       </Flex>
-                    <Text color="theme" bold className={styles.titleStyle}>
-                      {list.title}
-                    </Text>
+                    
                   
                   </Flex>
                 ) : (
                   <Flex  center className={styles.listFlex}>
                       {list.title === 'Views' && (
                       <>
-                      <Flex className={styles.circleflexover}>
-                       <Text >{list.value}</Text></Flex>
+                      <Flex row between end className={styles.box}>
+                      
+                       <Flex>
                     <Text color="theme" bold className={styles.titleStyle}>
                       {list.title}
-                    </Text>
+                    </Text></Flex>
+                    <Flex className={styles.circleflexover}>
+                       <Text >{list.value}</Text>
+                       </Flex>
+                    </Flex>
                        
                     </>
                 )}  {list.title === 'Zita Match' && (
                 <>
                 { jdDetails.jd_status__label_name === 'Inactive' ?
                       <>
-                       <Flex className={styles.circleflexover}>
-                      <Text >{list.value}</Text></Flex>
+                       <Flex  row between end className={styles.box}>
+                       <Flex>
                     <Text color="theme" bold className={styles.titleStyle}>
                       {list.title}
-                    </Text>
+                    </Text></Flex>
+                       <Flex className={styles.circleflexover}>
+                      <Text >{list.value}</Text>
+                      </Flex>
+                    
+                    </Flex>
                       
                     </>
                     :
                       <>
-                      <LinkWrapper to={`/zita_match_candidate/${jdDetails.id}`} target={'_parent'}>
-                      <Flex className={styles.circleflexover}>
-                      <Text color="link">{list.value}</Text></Flex>
-                    </LinkWrapper>
+                       <Flex row between end className={styles.box}>
+                       <Flex>
                     <Text color="theme" bold className={styles.titleStyle}>
                       {list.title}
                     </Text>
+                    </Flex>
+                        <Flex>
+                      <LinkWrapper to={`/zita_match_candidate/${jdDetails.id}`} target={'_parent'}>
+                      <Flex className={styles.circleflexover}>
+                      <Text color="link">{list.value}</Text>
+                      </Flex>
+                    </LinkWrapper></Flex>
+                   
+                    </Flex>
                     </>
                   }
                   </>
@@ -188,69 +207,104 @@ console.log('statusList',statusList);
                       <>
                 { jdDetails.jd_status__label_name === 'Inactive' ?
                       <>
-                       <Flex className={styles.circleflexover}>
-                       <Text >{list.value}</Text></Flex>
+                       <Flex row between end className={styles.box}>
+                       <Flex>
                     <Text color="theme" bold className={styles.titleStyle}>
                       {list.title}
                     </Text>
+                    </Flex>
+                       <Flex className={styles.circleflexover}>
+                       <Text >{list.value}</Text>
+                       </Flex>
+                     
+                    </Flex>
                                        
                   
                     </>
                     :
-                      <>
-                         <LinkWrapper to={`/zita_match_candidate/${jdDetails.id}`} target={'_parent'}>
-                         <Flex className={styles.circleflexover}>
-                      <Text color="link">{list.value}</Text></Flex>
-                    </LinkWrapper>
+                      <> <Flex row between end className={styles.box}>
+                        <Flex>
                     <Text color="theme" bold className={styles.titleStyle}>
                       {list.title}
                     </Text>
+                    </Flex>
+                        <Flex>
+                         <LinkWrapper to={`/zita_match_candidate/${jdDetails.id}`} target={'_parent'}>
+                         <Flex className={styles.circleflexover}>
+                      <Text color="link">{list.value}</Text></Flex>
+                    </LinkWrapper></Flex>
+                    
+                    </Flex>
                  
                     </>
                   }
                   </>
                 )}{list.title === 'Applicants' && (
                       <>
+                       <Flex row between end className={styles.box}>
+                       <Flex>
+                    <Text color="theme" bold className={styles.titleStyle}>
+                      {list.title}
+                    </Text></Flex>
+                        <Flex>
                        <LinkWrapper to={`/applicant_pipe_line/${jdDetails.id}`} target={'_parent'}>
                        <Flex className={styles.circleflexover}>
                       <Text color="link">{list.value}</Text></Flex>
-                    </LinkWrapper>
+                    </LinkWrapper></Flex>
+                    
+                    </Flex>
+                      
+                    </>
+                )}
+                {list.title === 'Shortlisted' && (
+                      <>
+                       <Flex row between end className={styles.box}>
+                       <Flex>
                     <Text color="theme" bold className={styles.titleStyle}>
                       {list.title}
                     </Text>
-                      
-                    </>
-                )}{list.title === 'Shortlisted' && (
-                      <>
+                    </Flex>
+                        <Flex>
                       <LinkWrapper to={`/applicant_pipe_line/${jdDetails.id}`} target={'_parent'}>
                       <Flex className={styles.circleflexover}>
                       <Text color="link">{list.value}</Text></Flex>
-                    </LinkWrapper>
-                    <Text color="theme" bold className={styles.titleStyle}>
-                      {list.title}
-                    </Text>
+                    </LinkWrapper></Flex>
+                   
+                    </Flex>
                        
                     </>
                 )}{list.title === 'Offered' && (
                       <>
-                       <LinkWrapper to={`/applicant_pipe_line/${jdDetails.id}`} target={'_parent'}>
-                       <Flex className={styles.circleflexover}>
-                      <Text color="link">{list.value}</Text></Flex>
-                    </LinkWrapper>
+                       <Flex  row between end className={styles.box}>
+                       <Flex>
                     <Text color="theme" bold className={styles.titleStyle}>
                       {list.title}
                     </Text>
+                    </Flex>
+                        <Flex>
+                       <LinkWrapper to={`/applicant_pipe_line/${jdDetails.id}`} target={'_parent'}>
+                       <Flex className={styles.circleflexover}>
+                      <Text color="link">{list.value}</Text></Flex>
+                    </LinkWrapper></Flex>
+                    
+                    </Flex>
                    
                     </>
                 )}{list.title === 'Rejected' && (
                       <>
-                       <LinkWrapper to={`/applicant_pipe_line/${jdDetails.id}`} target={'_parent'}>
-                        <Flex className={styles.circleflexover}>
-                      <Text color="link">{list.value}</Text></Flex>
-                    </LinkWrapper>
+                       <Flex row between end  className={styles.box}>
+                       <Flex>
                     <Text color="theme" bold className={styles.titleStyle}>
                       {list.title}
                     </Text>
+                    </Flex>
+                        <Flex>
+                       <LinkWrapper to={`/applicant_pipe_line/${jdDetails.id}`} target={'_parent'}>
+                        <Flex className={styles.circleflexover}>
+                      <Text color="link">{list.value}</Text></Flex>
+                    </LinkWrapper></Flex>
+                   
+                    </Flex>
                     
                     </>
                 )}

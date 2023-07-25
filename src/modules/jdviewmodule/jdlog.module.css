@@ -11,6 +11,11 @@
 }
 .listFlex {
   margin-bottom: 10px;
+  width:22%;
+}
+.listFlex1 {
+  margin-bottom: 10px;
+
 }
 .jdStatus {
   padding-bottom: 10px;
@@ -25,17 +30,15 @@
 }
 .paddingstatus{
   padding:20px 20px 10px 10px;
-  border-bottom: 1px solid #581845;
+  border-bottom: 1px solid #C3C3C3;
   margin-left: 10px;
   margin-right: 10px;
 }
 .flexproperty{
   display: flex;
   flex-wrap: wrap;
-  flex-direction: row;
-  
-  padding: 20px 20px 0px 20px;
-
+  height: 250px;
+  padding: 25px 20px 0px 20px;
   grid-gap: 15px;
 }
 .circleflexover{
@@ -44,4 +47,7 @@
   width: fit-content;
   padding: 5px 15px 5px 15px ;
   border-radius: 20%;
+}
+.box{
+  width:25%;
 }

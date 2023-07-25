@@ -56,6 +56,7 @@ const jdViewState: jdViewReducerState = {
   },
   applicants_line: [],
   job_view_line: [],
+  ext_jobs:[]
 };
 
 const jdViewReducer = createSlice({

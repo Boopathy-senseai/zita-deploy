@@ -21,7 +21,7 @@
   padding-bottom: 10px;
   padding-top: 10px;
   font-size: 16px;
-  color: #333333;
+  color: #581845;
   border-bottom: 1px solid #581845;
   padding-right: 5px;
   padding-left: 5px;
@@ -84,4 +84,12 @@
   padding-left: 5px;
   margin-left: 10px;
   margin-right: 10px;
+}
+.boards{
+  padding-bottom: 5px;
+  padding-top: 10px;
+  font-size: 16px;
+  color: #581845;
+  border-bottom: 1px solid #581845;
+
 }
