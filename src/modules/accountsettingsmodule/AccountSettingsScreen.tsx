@@ -468,30 +468,34 @@ const AccountSettingsScreen = ({ value }: props) => {
                 )}
               </div>
             </Tab> */}
-              </Tabs>
-            )}
+                  </Tabs>
+                )}
 
-            {Permission.includes('manage_account_settings') &&
-              super_user === false && (
-                <Tabs
-                  id={!is_plan ? 'account__settings' : 'setting'}
-                  activeKey={tabKeyOne}
-                  onSelect={(keys: any) => {
-                    if (is_plan) {
-                      setTest(!isTest);
-                      sessionStorage.setItem('superUserTab', keys);
-                      if (
+                {Permission.includes('manage_account_settings') &&
+                  super_user === false && (
+                    <Tabs
+                      id={!is_plan ? 'account__settings' : 'setting'}
+                      activeKey={tabKeyOne}
+                      onSelect={(keys: any) => {
+                        if (is_plan) {
+                          setTest(!isTest);
+                          sessionStorage.setItem('superUserTab', keys);
+                          if (
+                        
                         !isReloadCompany &&
+                       
                         !isReloadCareer &&
+                       
                         !isReloadProfile
+                      
                       ) {
-                        setKeyOne(keys);
-                      }
-                    }
-                  }}
-                >
-                  <Tab title={'Profiles'} eventKey={'0'}>
-                  <div
+                            setKeyOne(keys);
+                          }
+                        }
+                      }}
+                    >
+                      <Tab title={'Profiles'} eventKey={'0'}>
+                      <div
                 style={{
                   height: window.innerHeight - 215,
                   overflowY: 'scroll',
@@ -560,13 +564,13 @@ const AccountSettingsScreen = ({ value }: props) => {
               </Flex>
             )}
         </Flex>  
-                      <CompanyPage
-                        setKey={setKey}
-                        setReload={setReloadCompany}
-                        setReloadProfile={setReloadProfile}
-                      />
-                    </div>
-                  </Tab>
+                          <CompanyPage
+                            setKey={setKey}
+                            setReload={setReloadCompany}
+                            setReloadProfile={setReloadProfile}
+                          />
+                        </div>
+                      </Tab>
 
                   <Tab title={'Build Your Careers Page'} eventKey={'1'}>
                   <div
