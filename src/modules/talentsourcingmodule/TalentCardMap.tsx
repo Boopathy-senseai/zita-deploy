@@ -89,7 +89,7 @@ console.log("sidebar111",windowSize,sidebar)
   return (
     <div
       style={{
-        width: isTablet ? '100%' : '31.4%',
+        width: isTablet ? '100%' : '31.39%',
         borderRadius: '4px'
       }}
       className={styles.overAll}
