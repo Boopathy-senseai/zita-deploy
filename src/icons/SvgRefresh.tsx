@@ -3,7 +3,7 @@ const defaultProps = {
   fill: '#581845',
   width: 24,
   height: 24,
-  onClick: () => {},
+  onClick: (e) => undefined,
   className: '',
 };
 

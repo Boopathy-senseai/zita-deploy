@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import _ from 'lodash';
 import Flex from '../../uikit/Flex/Flex';
 import BulkAction from './BulkAction';
 import TalentCardMap from './TalentCardMap';
@@ -34,6 +35,11 @@ type Props = {
   setCandiList: (arg: string[]) => void;
   setFree: (arg: boolean) => void;
   planID?: number;
+  update:any;
+  val:any;
+  isCheck:any;
+  setIsCheck:any;
+
   // setUnlockLoader: (arg: boolean) => void;
 };
 
@@ -62,13 +68,23 @@ const TalentCardList = ({
   setCandiList,
   setFree,
   planID,
+  update,
+  val,
+  isCheck,
+  setIsCheck,
+ 
 }: // setUnlockLoader,
 Props) => {
   const [isCheckAll, setIsCheckAll] = useState(false);
-  const [isCheck, setIsCheck] = useState<any>([]);
+  const [count, setcount] = useState(0);
+  const [stylevalue,setstylevalue]=useState(false);
+  // const [isCheck, setIsCheck] = useState<any>([]);
+  // const checkArray = isCheckArray.length === 0 ? false : true;
 // select box function
   const handleSelectAll = () => {
     setIsCheckAll(!isCheckAll);
+    update(!val)
+     console.log("#########",isCheckAll)
     setIsCheck(
       searchData &&
         searchData
@@ -78,8 +94,15 @@ Props) => {
         ),
     );
     if (isCheckAll) {
+      console.log("_---------",isCheckAll)
       setIsCheck([]);
+      setIsCheckAll(false);
+      update(false)
+
+
     }
+   
+
   };
 
   const handleClick = (e: { target: { id: string; checked: boolean } }) => {
@@ -90,31 +113,69 @@ Props) => {
     }
   };
 
-  useEffect(() => {
-    if (isCheck && isCheck.length !== searchData?.length) {
-      setIsCheckAll(false);
-    }
-    // eslint-disable-next-line
-  }, [isCheck]);
+  
+
 
   useEffect(() => {
-    setIsCheckAll(false);
-    setIsCheck([]);
-  }, [
-    searchLoader,
-    isAny,
-    isBachelors,
-    isMasters,
-    isDoctorate,
-    isRelocate,
-    isExperience,
-  ]);
+    const valIndex=sessionStorage.getItem("index");
+    console.log("type offffffffffff",typeof(isCheck.length),typeof(valIndex))
+    const ans=(isCheck.length.toString()===valIndex);
+    console.log("number page",valIndex,isCheckAll,isCheck.length,ans)
+    const styleval= Number(valIndex)>9
+    console.log("stylevalllllllll",Number(valIndex),styleval)
+    setstylevalue(styleval)
+
+    if (isCheckAll && isCheck.length.toString() !== valIndex) {
+      setIsCheckAll(false);
+      update(false) 
+    }
+  }, [isCheck,stylevalue]);
+
+  // useEffect(() => {
+  //   setIsCheckAll(false);
+  //   setIsCheck([]);
+  // }, [
+  //   searchLoader,
+  //   isAny,
+  //   isBachelors,
+  //   isMasters,
+  //   isDoctorate,
+  //   isRelocate,
+  //   isExperience,
+  // ]);
 
   if (isCheck.length === searchData?.length && isCheckAll === false) {
     setIsCheckAll(true);
+    update(true)
   }
+  const handleChange=(int:any)=>{
+    console.log("index",int)
+    // setcount(int+1)
+  }
+  console.log("userpage",isCheck.length);
+
+  console.log("number ++++_____====",searchData)
+
+//  const mapfuction=()=>{
+//     if(searchData){
+//       searchData
+//           .slice(pagesVisited, pagesVisited + usersPerPage)
+//           .map((dataList, index) => {
+          
+//             return (
+//               <>
+//            {console.log("index update value",index)}
+//            <p>{index}</p>
+//               </>
+//             )})
+//     }
+         
+//   }
+
+  
   return (
-    <Flex wrap row>
+    <Flex wrap row style={{width:'100%',  overflowY: 'scroll',height: !stylevalue?'fit-content':window.innerHeight - 293,padding: '0 0 8px 0',alignContent:'flex-start' }}>
+    {console.log("index value",window.innerHeight,stylevalue)}
       <BulkAction
         // setUnlockLoader={setUnlockLoader}
         setCandiList={setCandiList}
@@ -127,7 +188,7 @@ Props) => {
         source_limit={source_limit}
         setSourceLimit={setSourceLimit}
         handleSelectAll={handleSelectAll}
-        isCheckAll={isCheckAll}
+        isCheckAll={val}
         searchResult={searchData?.length}
         isCheckArray={isCheck}
         setFree={setFree}
@@ -140,6 +201,7 @@ Props) => {
           .map((dataList, index) => {
             return (
               <TalentCardMap
+          
                 candi_list={candi_list}
                 handleCandidateView={handleCandidateView}
                 isCheck={isCheck}
@@ -151,8 +213,12 @@ Props) => {
               />
             );
           })}
+  
+   
+    
     </Flex>
   );
 };
 
 export default TalentCardList;
+// { mapfuction() }

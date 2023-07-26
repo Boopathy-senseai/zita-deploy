@@ -5,6 +5,32 @@
 .text-12 {
   font-size: 12px;
 }
+.text-11 {
+  font-size: 11px;
+}
+/* @media screen and (min-width: 1300px) and (max-width: 1399px) {
+  .text-11{
+  font-size: 12px;
+  }
+}
+@media screen and (min-width: 960px) and (max-width: 1280px) {
+  .text-11 {
+    font-size: 11px;
+  }
+}
+@media screen and (min-width: 1400px) and (max-width: 1600px) {
+  .text-11 {
+    font-size: 13px;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .text-11 {
+    font-size: 11px;
+  }
+} */
+
+
 .text-13 {
   font-size: 13px;
 }
@@ -109,6 +135,7 @@
 .textColor-theme {
   color:#555555;
 }
+
 .textColor-warning {
   color: var(--color-warning, #ffb142);
 }
@@ -135,13 +162,19 @@
 .textColor-black_1 {
   color: var(--color-gray-2, #333333);
 }
+.textColor-black2 {
+  color: #333333;
+}
+.textColor-disabled{
+  color:  #ab8ba2;
+}
 
 .type-titleLarge {
   font-size: 20px;
   font-weight: bold;
 }
 .type-titleMedium {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
 }
 .type-titleSmall {

@@ -6,30 +6,47 @@ import {
   MEDIUM_PURPLE,
   PISTACHIO,
   CANDY_PINK,
+  GRAY_BLACK,
 } from '../../uikit/Colors/colors';
 import { dndBoardId } from '../constValue';
-import { GoogleEntity,JobDetailsEntity } from './applicantPipeLineTypes';
+import {
+  GoogleEntity,
+  ICardSelectionData,
+  ICardSelectionMap,
+  JobDetailsEntity,
+  KANBAN_COLUMN_WIDTH,
+} from './applicantPipeLineTypes';
 import MultiTask from './MultiTask';
 import styles from './dndboardcol.module.css';
+import { IStageColumn } from './dndBoardTypes';
 
 type Props = {
-  tasks: any;
-  columnId: string;
+  column: IStageColumn;
   index: number;
   isDropDisabled: boolean;
   outlook?: GoogleEntity[];
   google?: GoogleEntity[];
   job_details: JobDetailsEntity;
-
+  onClick?: (data: ICardSelectionData) => void;
+  onRefresh?: () => void;
+  // selectedCardList: {
+  //   task: any;
+  //   index: number;
+  //   columnId: string;
+  //   job_details: JobDetailsEntity;
+  // }[];
+  cardSelectionMap: ICardSelectionMap;
 };
 const DndBoardCol = ({
-  tasks,
-  columnId,
+  column,
   index,
   isDropDisabled,
   google,
   outlook,
   job_details,
+  onClick,
+  cardSelectionMap,
+  onRefresh,
 }: Props) => {
   const [isBorder, setBorder] = useState(SUNRAY);
   // for card color set condition
@@ -44,14 +61,21 @@ const DndBoardCol = ({
       setBorder(PISTACHIO);
     } else if (index === 4) {
       setBorder(CANDY_PINK);
+    } else if (index === 5) {
+      setBorder(GRAY_BLACK);
     }
   }, [index]);
 
+  const checkSelection = (id: number) => {
+    const taskIndex = cardSelectionMap.has(id);
+    return taskIndex;
+  };
+
   return (
-    <div className={styles.overAll}>
+    <div className={styles.overAll} style={{ minWidth: KANBAN_COLUMN_WIDTH }}>
       <Droppable
-        isDropDisabled={isDropDisabled}
-        droppableId={columnId}
+        // isDropDisabled={isDropDisabled}
+        droppableId={`${column.columnId}`}
         type="task"
       >
         {(provided) => (
@@ -64,16 +88,19 @@ const DndBoardCol = ({
             // eslint-disable-next-line
             {...provided.droppableProps}
           >
-            {tasks.items.map((task: any, taskIndex: number) => (
+            {column.items.map((task, taskIndex) => (
               <MultiTask
                 key={task.id.toString() + dndBoardId}
                 task={task}
+                column={column}
                 index={taskIndex}
-                isBorder={isBorder}
-                columnId={columnId}
+                isBorder={column?.stage_color || isBorder}
                 outlook={outlook}
                 google={google}
                 job_details={job_details}
+                onClick={onClick}
+                isSelected={checkSelection(task.id)}
+                onRefresh={onRefresh}
               />
             ))}
             {provided.placeholder}

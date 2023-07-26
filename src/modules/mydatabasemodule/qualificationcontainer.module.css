@@ -12,8 +12,8 @@
   align-items: center;
   margin-top: 4px;
   position: absolute;
-  top: 16px;
-  right: 0;
+  top: -4px;
+  right: -22px;
 }
 .svgTick {
   margin-right: 4px;

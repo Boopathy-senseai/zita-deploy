@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useFormik } from 'formik';
+import Totalcount from '../../globulization/TotalCount';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import Toast from '../../uikit/Toast/Toast';
@@ -160,23 +161,41 @@ const BulkImportScreen = () => {
         Toast(ERROR_MESSAGE, 'LONG', 'error');
       });
   };
+  let value=unlimitedHelper(isFeaturesBalance)
+  let value1 = value as number;
 
   return (
+    <>
+    {console.log("hello" ,unlimitedHelper(isFeaturesBalance))}
     <div
       className={styles.overAllContainer}
     >
       <Flex className={styles.overAlll}>
         {bulkInitalLoader && <Loader />}
-        <Title
-          title={'Import Candidates'}
-          des={
-            'Import the resumes and create your own database to match candidates with the posted jobs. You can Import up to 500 resumes at a time.'
-          }
-        />
+
+        <Flex row className={styles.ribbon} between>
+          <Flex marginTop={9} marginLeft={8} >
+            <Text size={18} bold color="theme" >
+             Import Candidates
+            </Text>
+
+          </Flex>
+          <Flex >
+
+            <div className={styles.triangle}></div>
+          </Flex>
+
+        </Flex>
+        
+        <p>Import the resumes and create your own database to match candidates with the posted jobs. You can Import up to 500 resumes at a time.</p>
+         
         <Flex className={styles.tabFlex}>
-          <Text bold className={styles.candidatesText}>
-            Candidates Limit: {unlimitedHelper(isFeaturesBalance)}
-          </Text>
+        <Flex className={styles.candidatesText}>
+          <Totalcount
+          name= "Candidates Limit"
+           numbers={value1} 
+          />
+        </Flex>
           <BulkImportTabs
             emp_pool={emp_pool}
             jd_id={jdId}
@@ -202,6 +221,7 @@ const BulkImportScreen = () => {
         </Flex>
       </Flex>
     </div>
+    </>
   );
 };
 

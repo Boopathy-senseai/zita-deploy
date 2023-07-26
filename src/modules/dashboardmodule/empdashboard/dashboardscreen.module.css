@@ -1,11 +1,9 @@
 .overAll {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
   width: "100%";
-  /* z-index: -1; */
-  /* margin-left:-20px; */
- 
-  
-
 }
 .freeImg {
   width: 100%;
@@ -20,6 +18,7 @@
   border-radius: 4px;
   width: fit-content;
   max-width: 1196px;
+  border-top: 4px;
 }
 .borderBottom {
   border-bottom: 1px solid #ccc;

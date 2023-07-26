@@ -149,19 +149,18 @@ margin-top: 15px;
   
 }
 .inputheight{
-  height: 35px !important;
   margin-top: 5px;
 }
 .cancelbutton{
   margin-right: 20px;
 }
 .btnstyleclosesave{
-  width: 100px;
-height: 30px;
+  /* width: 100px;
+height: 30px; */
 }
 .btnstyleclosesave1{
-  width: 100px;
-height: 30px;
+  /* width: 100px;
+height: 30px; */
 background-color: #888888;
  
 }

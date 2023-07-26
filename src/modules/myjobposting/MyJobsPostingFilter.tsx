@@ -322,12 +322,7 @@ const MyJobsPostingFilter = ({
             </Text>
           </Flex>
 
-          {/* <div
-         tabIndex={-1}
-         role={'button'}
-          onClick={pageReload}
-         onKeyPress={() => { } } 
-       > */}
+        
           <Flex title={"Clear Filters"}>
             <SvgRefresh
               width={18}
@@ -336,7 +331,6 @@ const MyJobsPostingFilter = ({
               className={styles.filtersvg}
             />
           </Flex>
-          {/* </div> */}
         </Flex>
         <div
           className={`${styles.drop_down_menus} ${
@@ -446,32 +440,7 @@ const MyJobsPostingFilter = ({
              
             </div>
           </Flex>
-          {/* <Flex className={styles.mtstyle}
-            <div className={styles.skillContainer}>
-            <Text
-                
-                className={styles.jobTextStyle}
-              >
-                Location
-              </Text>
-              <InputSearch
-                initialValue={formik.values.jobTitle}
-                placeholder="Enter job location"
-                options={job_title}
-                setFieldValue={formik.setFieldValue}
-                name="jobtitle"
-                // labelBold
-                // label={"Location"}
-                style={styles.boxstyle}
-                onkeyPress={(event) => {
-                  if (event.key === "Enter") {
-                    formik.setFieldValue("jobtitle", event.target.value);
-                  }
-
-                }}
-              />
-            </div>
-          </Flex> */}
+         
           <Flex className={styles.mtstyle}>
             <div>
               <Text className={styles.jobTextStyle}>Location</Text>
@@ -491,51 +460,7 @@ const MyJobsPostingFilter = ({
             </div>
           </Flex>
 
-          {/* <div className={styles.inputmargin}>
-      <SelectTag
-        label="Posted On"
-        labelBold
-        options={postedOn}
-        placeholder="Select"
-        onChange={(option) => {
-          formik.setFieldValue('postedOn', option);
-        }}
-        value={
-          postedOn
-            ? postedOn.find(
-                (option) =>
-                  option.value === formik.values.postedOn.value,
-              )
-            : ''
-        }
-      />
-    </div> */}
-
-          {/* <div className={styles.skillContainer}>
-      <Text color="black" bold className={styles.jobTextStyle}>
-        Job Status
-      </Text>
-      <Flex column>
-        {jobTypeData.map((jobList) => {
-          return (
-            <Flex
-              row
-              key={jobList.value}
-              width={jobList.width}
-            
-
-              className={styles.matchRadioStyle}
-            >
-              <InputCheckBox
-                label={jobList.value}
-                checked={jobList.label === formik.values.jobType}
-                onClick={() => formik.setFieldValue('jobType', jobList.label)}
-              />
-            </Flex>
-          );
-        })}
-      </Flex>
-    </div> */}
+        
         </div>
       </div>
     </>

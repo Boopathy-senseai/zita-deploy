@@ -42,7 +42,7 @@ const CareerViewFooter = ({ career_page_setting, company_detail }: Props) => {
                       About Us
                     </Text>
                     <Text
-                      style={{ fontFamily, fontSize, lineBreak: 'anywhere' }}
+                      style={{ fontFamily, fontSize, lineBreak: 'anywhere'}}
                     >
                       {career_page_setting.about_us}
                     </Text>
