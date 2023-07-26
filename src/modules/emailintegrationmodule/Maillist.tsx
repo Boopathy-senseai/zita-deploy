@@ -5,6 +5,7 @@ import { getDateString } from '../../uikit/helper';
 import SvgSearchGlass from '../../icons/SvgSearchGlass';
 import SvgRight from '../../icons/SvgRight';
 import SvgLeft from '../../icons/SvgLeft';
+import SvgNoEmail from '../../icons/SvgNoEmails';
 import styles from './maillist.module.css';
 
 type Props = {
@@ -25,6 +26,7 @@ type Props = {
   msglistcount: any;
   searchicon: any;
   message: any;
+  noEmails:boolean;
 };
 const Maillist = ({
   messagelist,
@@ -44,6 +46,7 @@ const Maillist = ({
   msglistcount,
   searchicon,
   message,
+  noEmails
 }: Props) => {
   const [messages, setmesage] = useState<any>('');
 
@@ -107,7 +110,7 @@ const Maillist = ({
           </Text>
         );
       } else if (sideroute === 0) {
-        return <Text bold> </Text>;
+        return <Text bold>Search Results</Text>;
       }
     }
   };
@@ -290,15 +293,7 @@ const Maillist = ({
               <>
                 {searchicon === true ? (
                   <Flex
-                    style={{
-                      alignContent: 'center',
-                      alignItems: 'center',
-                      height: '100%',
-                      // width: '100%',
-                      display: 'flex',
-                      justifyContent: 'center',
-                      flexDirection: 'column',
-                    }}
+                    className={styles.noEmail}
                   >
                     <SvgSearchGlass width={65} height={65} />
                     <Text style={{ marginTop: '10px' }}>
@@ -307,11 +302,20 @@ const Maillist = ({
                     <Text color="gray">Try a different keyword.</Text>
                   </Flex>
                 ) : (
-                  ' '
+                ""
                 )}
               </>
             ) : (
-              ''
+              <>
+                  
+              {noEmails &&
+              <Flex className={styles.noEmail}>
+                <SvgNoEmail/>
+                <Text>No emails yet.</Text> 
+              </Flex>
+              
+              }
+              </>
             )}
           </>
         )}

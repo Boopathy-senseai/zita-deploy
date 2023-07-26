@@ -59,6 +59,7 @@ const EmailScreen = () => {
   const [search, setSearch] = useState('');
   const [attachments, setAttachments] = useState([]);
   const [mailfolders, setMailfolders] = useState('');
+  const [noEmails, setNoEmails] = useState(false);
 
   const [previous, setPrevious] = useState(25);
   const [previous1, setPrevious1] = useState(1);
@@ -270,9 +271,8 @@ const EmailScreen = () => {
   const serchmessage = async (e: any) => {
     // e.preventDefault();
     if (e.key === 'Enter') {
-      if (search.trim() !== '') {
+      if (search !== '') {
         setSearchicon(false);
-        setSearch(search.trim());
         setsideroute(0);
         setPrevious(25);
         setSkip(0);
@@ -281,13 +281,7 @@ const EmailScreen = () => {
         setmessagelist([]);
         setmesage('');
         setLoader(true);
-        await getsearchmail(
-          authProvider,
-          searchSection,
-          search.trim(),
-          skip,
-          range,
-        )
+        await getsearchmail(authProvider, searchSection, search, skip, range)
           .then((res) => {
             setSearchicon(true);
             // removemessage();
@@ -326,6 +320,7 @@ const EmailScreen = () => {
       .then((res) => {
         //removemessage();
         setmessagelist(res.value);
+        setNoEmails(res.value.length === 0 ? true : false)
         if (res['@odata.count'] < range) {
           setPrevious(res['@odata.count']);
         }
@@ -413,7 +408,7 @@ const EmailScreen = () => {
   };
 
   const IntegrationMenuView = (
-    <div>
+    
       <Flex
         center
         flex={1}
@@ -435,7 +430,7 @@ const EmailScreen = () => {
           <Button>Integrate</Button>
         </LinkWrapper>
       </Flex>
-    </div>
+ 
   );
   return (
     <>
@@ -568,6 +563,7 @@ const EmailScreen = () => {
                 msglistcount={messagelist.length}
                 searchicon={searchicon}
                 message={message}
+                noEmails={noEmails}
               />
             </Flex>
             <Flex
