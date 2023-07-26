@@ -1,27 +1,16 @@
-.model {
-  width: 100%;
-  border: 1px solid #b3b3b3;
-  padding: 18px 47px 12px 27px;
-  height: 280px;
-  border-radius: 4px;
-  overflow: scroll  ;
-}
+
 .align{
   margin-left: 20px;
 }
-.btnsetting{
-  /* margin-right: 10px; */
-  margin-top: 10px;
-  margin-left: 10px;
+.selectTag{
+  width: 120px;
+  height: 30px;
+}
+.to{
+  margin: 0px 15px;
+}
+.add{
   border: none;
   background: none;
-  
-}
-.apply{
   margin-left: 10px;
-  margin-top: 10px;
-
-}
-.copyclip {
-  margin-top: 10px;
 }

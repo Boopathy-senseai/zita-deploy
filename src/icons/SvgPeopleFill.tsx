@@ -10,6 +10,7 @@ const SvgPeopleFill = ({ width, height, fill }: typeof defaultProps) => (
     width={width}
     height={height}
     fill={fill}
+    viewBox="0 0 16 16"
     className="people-fill_svg__bi people-fill_svg__bi-people-fill"
   >
     <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 

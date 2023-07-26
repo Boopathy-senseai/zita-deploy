@@ -814,6 +814,18 @@ input:-webkit-autofill:active {
 .css-118whkv,.css-2ujp1m{
  border: 16px solid #581845 !important;
 }
+.rdp-day{
+  font-size: 13px !important;
+}
+.rdp-head_cell{
+  font-size: 13px !important;
+}
+.rdp-caption_label{
+  font-size: 14px !important;
+}
+.rdp{
+  margin: 0px 0px 10px 0px !important;
+}
 /*--------- scroll bar styles---------*/
 
 /* width */

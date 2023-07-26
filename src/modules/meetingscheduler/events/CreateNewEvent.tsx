@@ -728,390 +728,338 @@ const CreateNewEvent = (props) => {
   return (
     <Flex>
       <Flex className={styles.createnewlink}>
-        <Flex className={styles.title}>
-          <Text color="theme" bold size={16} style={{ marginBottom: '5px' }}>
-            Create Event
-          </Text>
+        <Flex style={{ padding: '0px 25px' }}>
+          <Flex className={styles.title}>
+            <Text color="theme" bold size={16} style={{ marginBottom: '5px' }}>
+              Create Event
+            </Text>
+          </Flex>
         </Flex>
 
-        <Flex row className={styles.row}>
-          <Flex flex={4}>
-            <InputText
-              inputConatinerClass={styles.with80}
-              label="Event Name"
-              required
-              value={formik.values.event_name}
-              placeholder="Enter event name"
-              style={{ marginTop: '5px' }}
-              onChange={(e) => {
-                formik.setFieldValue('event_name', e.target.value);
-                // setButton(false);
-              }}
-            />
-            <ErrorMessage
-              name={'event_name'}
-              errors={formik.errors}
-              touched={formik.touched}
-            />
-          </Flex>
-          <Flex flex={4}>
-            <LabelWrapper label="Event Type" required>
-              <Flex marginTop={5} className={styles.with80}>
-                <SelectTag
-                  id="Event_Type"
-                  options={eventType}
-                  required
-                  value={
-                    eventType
-                      ? eventType.find(
-                          (option) => option.label === formik.values.event_type,
-                        )
-                      : ''
-                  }
-                  placeholder="Select event type"
-                  onChange={(option) => {
-                    // formik.setFieldValue('event_type', option.label);
-                    // setButton(false);
-                    eventonChange(option.label)
-                  }}
-                ></SelectTag>
+        <Flex
+          style={{ maxHeight: '480px', overflowY: 'auto', padding: '0px 25px' }}
+        >
+          <Flex row className={styles.row}>
+            <Flex flex={1} marginRight={25}>
+              <InputText
+                label="Event Name"
+                required
+                value={formik.values.event_name}
+                placeholder="Enter event name"
+                style={{ marginTop: '5px' }}
+                onChange={(e) => {
+                  formik.setFieldValue('event_name', e.target.value);
+                  // setButton(false);
+                }}
+              />
+              <ErrorMessage
+                name={'event_name'}
+                errors={formik.errors}
+                touched={formik.touched}
+              />
+            </Flex>
+            <Flex flex={1}>
+              <LabelWrapper label="Event Type" required>
+                <Flex marginTop={5}>
+                  <SelectTag
+                    id="Event_Type"
+                    options={eventType}
+                    required
+                    value={
+                      eventType
+                        ? eventType.find(
+                            (option) =>
+                              option.label === formik.values.event_type,
+                          )
+                        : ''
+                    }
+                    placeholder="Select event type"
+                    onChange={(option) => {
+                      eventonChange(option.label);
+                      // setButton(false);
+                    }}
+                  ></SelectTag>
 
+                  <ErrorMessage
+                    name={'event_type'}
+                    errors={formik.errors}
+                    touched={formik.touched}
+                  />
+                </Flex>
+              </LabelWrapper>
+
+              {/* </div> */}
+            </Flex>
+          </Flex>
+
+          {formik.values.event_type === 'On-site Interview' ? (
+            <Flex row className={styles.row}>
+              <Flex flex={1}>
+                <InputText
+                  label="Location"
+                  placeholder="Add location"
+                  value={formik.values.location}
+                  style={{ marginTop: '5px' }}
+                  onChange={(e: any) => {
+                    formik.setFieldValue('location', e.target.value);
+                    // setButton(false);
+                  }}
+                  className={styles.inputheight}
+                />
                 <ErrorMessage
-                  name={'event_type'}
+                  name={'location'}
                   errors={formik.errors}
                   touched={formik.touched}
                 />
               </Flex>
-            </LabelWrapper>
+            </Flex>
+          ) : (
+            ' '
+          )}
 
-            {/* </div> */}
-          </Flex>
-        </Flex>
-
-        {formik.values.event_type === 'On-site Interview' ? (
           <Flex row className={styles.row}>
-            <Flex flex={2}>
-              <InputText
-                inputConatinerClass={styles.with80}
-                label="Location"
-                placeholder="Add location"
-                value={formik.values.location}
-                onChange={(e: any) => {
-                  formik.setFieldValue('location', e.target.value);
-                  // setButton(false);
-                }}
-                className={styles.inputheight}
-              />
+            <Flex flex={1} marginRight={25}>
+              <LabelWrapper label="Duration" required>
+                <div style={{ marginTop: 5 }}>
+                  <SelectTag
+                    options={duration}
+                    required
+                    placeholder={'Select the Duration'}
+                    value={
+                      duration
+                        ? duration.find(
+                            (option) => option.label === formik.values.duration,
+                          )
+                        : ''
+                    }
+                    onChange={(option) => {
+                      formik.setFieldValue('duration', option.label);
+                      onDurationClick(option.label);
+                      // setButton(false);
+                    }}
+                  ></SelectTag>
+                  <ErrorMessage
+                    name={'duration'}
+                    errors={formik.errors}
+                    touched={formik.touched}
+                  />
+                </div>
+              </LabelWrapper>
+            </Flex>
+            <Flex flex={1}>
+              <LabelWrapper label="Choose your Time Zone" required>
+                <div style={{ marginTop: 5 }}>
+                  <SelectTag
+                    required
+                    options={timezonesdata}
+                    // label="Choose your Time zone"
+                    placeholder={'Select your Time zone'}
+                    defaultValue={{
+                      value: '1', // Replace with the actual value of the user's timezone
+                      label: userzone, // Replace with the actual label of the user's timezone
+                    }}
+                    value={
+                      timezonesdata
+                        ? timezonesdata.find(
+                            (option) => option.label === formik.values.timezone,
+                          )
+                        : ''
+                    }
+                    onChange={(option) => {
+                      formik.setFieldValue('timezone', option.label);
+                    }}
+                  ></SelectTag>
+                  <ErrorMessage
+                    name={'timezone'}
+                    errors={formik.errors}
+                    touched={formik.touched}
+                  />
+                </div>
+              </LabelWrapper>
+            </Flex>
+          </Flex>
+          <Flex row className={styles.row} marginRight={25}>
+            <Flex flex={1}>
+              <LabelWrapper label="Within a date range">
+                <DateRangePicker
+                  initialSettings={initialSettings}
+                  onApply={(event, picker) => onApplyChange(event, picker)}
+                >
+                  <div className={styles.dateInput}>
+                    <input
+                      type="dates"
+                      className={styles.datePicker}
+                      value={
+                        selectedRange.startDate && selectedRange.endDate
+                          ? `${selectedRange.startDate} - ${selectedRange.endDate}`
+                          : ''
+                      }
+                    />
+                    <Flex marginRight={5} style={{ cursor: 'pointer' }}>
+                      <SvgCalendar width={16} height={16} />
+                    </Flex>
+                  </div>
+                </DateRangePicker>
+              </LabelWrapper>
+
               <ErrorMessage
-                name={'location'}
+                name={'startdate'}
                 errors={formik.errors}
                 touched={formik.touched}
               />
             </Flex>
           </Flex>
-        ) : (
-          ' '
-        )}
-
-        <Flex row className={styles.row}>
-          <Flex flex={4}>
-            <LabelWrapper label="Duration" required>
-              <div className={styles.with80} style={{ marginTop: 5 }}>
-                <SelectTag
-                  options={duration}
-                  required
-                  placeholder={'Select the Duration'}
-                  value={
-                    duration
-                      ? duration.find(
-                          (option) => option.label === formik.values.duration,
-                        )
-                      : ''
-                  }
-                  onChange={(option) => {
-                    formik.setFieldValue('duration', option.label);
-                    onDurationClick(option.label);
-                    // setButton(false);
-                  }}
-                ></SelectTag>
-                <ErrorMessage
-                  name={'duration'}
-                  errors={formik.errors}
-                  touched={formik.touched}
-                />
-              </div>
-            </LabelWrapper>
-          </Flex>
-          <Flex flex={4}>
-            <LabelWrapper label="Choose your Time Zone" required>
-              <div className={styles.with80} style={{ marginTop: 5 }}>
-                <SelectTag
-                  required
-                  options={timezonesdata}
-                  // label="Choose your Time zone"
-                  placeholder={'Select your Time zone'}
-                  defaultValue={{
-                    value: '1', // Replace with the actual value of the user's timezone
-                    label: userzone, // Replace with the actual label of the user's timezone
-                  }}
-                  value={
-                    timezonesdata
-                      ? timezonesdata.find(
-                          (option) => option.label === formik.values.timezone,
-                        )
-                      : ''
-                  }
-                  onChange={(option) => {
-                    formik.setFieldValue('timezone', option.label);
-                  }}
-                ></SelectTag>
-                <ErrorMessage
-                  name={'timezone'}
-                  errors={formik.errors}
-                  touched={formik.touched}
-                />
-              </div>
-            </LabelWrapper>
-          </Flex>
-        </Flex>
-        <Flex row className={styles.row}>
-          <Flex flex={4}>
-            {/* <div className={styles.inputtextbox}> */}
-            {/* <Text bold size={14} className={styles.text1}>
-                Within a date range
-                <br />
-              </Text> */}
-            <LabelWrapper label="Within a date range">
-              <DateRangePicker
-                initialSettings={initialSettings}
-                onApply={(event, picker) => onApplyChange(event, picker)}
-              >
-                <div className={styles.with80} style={{ marginTop: 5 }}>
-                  <input
-                    type="dates"
-                    // style={{
-                    //   fontSize: '13px',
-                    //   width: '50%',
-                    //   height: '30px',
-                    //   border: ' 1px solid #cccccc',
-                    //   borderRadius: '4px',
-                    // }}
-                    className={styles.datePicker}
-                    value={
-                      selectedRange.startDate && selectedRange.endDate
-                        ? `${selectedRange.startDate} - ${selectedRange.endDate}`
-                        : ''
-                    }
-                  />
-                  <SvgDateRangePicker width={16} height={16} />
-                  {/* <div style={{ position: 'absolute', left: 7, top: 3 }}>
-                    <label htmlFor="calendar___open">
-                      <SvgCalendar width={16} height={16} />
-                    </label>
-                  </div> */}
-                </div>
-              </DateRangePicker>
-            </LabelWrapper>
-
-            <ErrorMessage
-              name={'startdate'}
-              errors={formik.errors}
-              touched={formik.touched}
-            />
-          </Flex>
-        </Flex>
-        <div className={styles.line}></div>
-        <Flex row center>
-          <Text size={14} color="theme" className={styles.text1}>
-            Interviewers
-          </Text>
-          <Text size={12} color="theme" style={{ marginLeft: '5px' }}>
-            (choose your date for interviews)
-          </Text>
-        </Flex>
-
-        <div style={{ marginTop: '10px' }}></div>
-        <Flex row>
-          <div
-            style={{
-              height: '20px',
-              width: profilename.length > 10 ? '100px' : '80px',
-              border: 'solid 1px #b3b3b3',
-              padding: ' 8 8 8 8px',
-            }}
-          >
-            <Text
-              style={{
-                border: '10px',
-                borderBlock: '10px',
-                marginLeft: '10px',
-              }}
-            >
-              {profilename}
+          <div className={styles.line}></div>
+          <Flex row center marginBottom={10}>
+            <Text size={14} color="theme" className={styles.text1}>
+              Interviewers
             </Text>
-          </div>
-          {interviewerData.map((name: any) => (
-            <Flex row key={1}>
-              <Flex row center>
-                <div
+            <Text size={12} color="theme" style={{ marginLeft: '5px' }}>
+              (choose your date for interviews)
+            </Text>
+          </Flex>
+
+          <Flex row between center>
+            <Flex row>
+              <Button
+                types="secondary"
+                style={{
+                  border: '1px solid #581845',
+                  borderRadius: '2px 2px 0px 0px',
+                  padding: '5px',
+                }}
+              >
+                {profilename}
+              </Button>
+              {interviewerData.map((name: any, index) => (
+                <Button
+                  key={index}
                   style={{
-                    height: '20px',
-                    width: name.length > 7 ? '100px' : '80px',
-                    border: 'solid 1px #b3b3b3',
-                    padding: ' 8 8 8 8px',
+                    border: '1px solid #581845',
+                    borderRadius: '2px 2px 0px 0px',
+                    padding: '5px',
                   }}
+                  types="secondary"
                 >
-                  <Text
-                    style={{
-                      border: '10px',
-                      borderBlock: '10px',
-                      marginLeft: '10px',
-                    }}
-                  >
-                    {name}
-                  </Text>
-                </div>
+                  {name}
+                </Button>
+              ))}
+            </Flex>
+
+            {organiser?.length > 0 ? (
+              <Flex row center onClick={() => setInterviewer(true)}>
+                <SvgRoundAdd width={14} height={14} fill={'#581845'} />
+                <Text
+                  size={14}
+                  bold
+                  color="theme"
+                  style={{ marginLeft: '5px' }}
+                >
+                  Add Interviewer
+                </Text>
               </Flex>
-            </Flex>
-          ))}
-          <div>
-            <Flex>
-              {organiser?.length > 0 ? (
-                <button
-                  onClick={() => setInterviewer(true)}
-                  style={{
-                    border: 'none',
-                    background: 'none',
-                    marginLeft: '400px',
-                  }}
-                >
-                  <SvgRoundAdd width={18} height={18} fill={'#581845'} />
-                  <Text>Add Interviewer</Text>
-                </button>
-              ) : (
-                ''
-              )}
-            </Flex>
-            <Flex>
-              {interviewer ? (
-                <Modal open={interviewer} onClose={close}>
-                  <Interviewer
-                    interviewer={interviewer}
-                    setInterviewer={setInterviewer}
-                    interviewerData={interviewerData}
-                    setinterviewerData={setinterviewerData}
-                    teammembers={organiser}
-                    checkedItems={checkedItems}
-                    setCheckedItems={setCheckedItems}
-                  />
-                </Modal>
-              ) : (
-                ''
-              )}
+            ) : (
+              ''
+            )}
+          </Flex>
+          {interviewer ? (
+            <Modal open={interviewer} onClose={close}>
+              <Interviewer
+                interviewer={interviewer}
+                setInterviewer={setInterviewer}
+                interviewerData={interviewerData}
+                setinterviewerData={setinterviewerData}
+                teammembers={organiser}
+                checkedItems={checkedItems}
+                setCheckedItems={setCheckedItems}
+              />
+            </Modal>
+          ) : (
+            ''
+          )}
+          {/* <div className={styles.line1}></div> */}
+          <div className={styles.daytimesplit}>
+            <Flex row style={{border:"1px solid #c3c3c3", padding: '10px'}}>
+              <DayTimeSplit
+                key={render}
+                duration={durationField}
+                days={dayField}
+                sunday={sunday}
+                setSunday={setSunday}
+                monday={monday}
+                setMonday={setMonday}
+                tuesday={tuesday}
+                setTuesday={setTuesday}
+                wednesday={wednesday}
+                setWednesday={setWednesday}
+                thursday={thursday}
+                setThursday={setThursday}
+                friday={friday}
+                setFriday={setFriday}
+                saturday={saturday}
+                setSaturday={setSaturday}
+                setrender={setrender}
+                include={include}
+                sundaycheck={sundaycheck}
+                setsundaycheck={setsundaycheck}
+                mondaycheck={mondaycheck}
+                setmondaycheck={setmondaycheck}
+                tuesdaycheck={tuesdaycheck}
+                settuesdaycheck={settuesdaycheck}
+                wednesdaycheck={wednesdaycheck}
+                setwednesdaycheck={setwednesdaycheck}
+                thursdaycheck={thursdaycheck}
+                setthursdaycheck={setthursdaycheck}
+                fridaycheck={fridaycheck}
+                setfridaycheck={setfridaycheck}
+                saturdaycheck={saturdaycheck}
+                setsaturdaycheck={setsaturdaycheck}
+              />
             </Flex>
           </div>
-        </Flex>
-        <div className={styles.line1}></div>
-        <div style={{ marginTop: '20px' }}></div>
-        <div className={styles.daytimesplit}>
-          <Flex row>
-            <DayTimeSplit
-              key={render}
-              duration={durationField}
-              days={dayField}
-              sunday={sunday}
-              setSunday={setSunday}
-              monday={monday}
-              setMonday={setMonday}
-              tuesday={tuesday}
-              setTuesday={setTuesday}
-              wednesday={wednesday}
-              setWednesday={setWednesday}
-              thursday={thursday}
-              setThursday={setThursday}
-              friday={friday}
-              setFriday={setFriday}
-              saturday={saturday}
-              setSaturday={setSaturday}
-              setrender={setrender}
-              include={include}
-              sundaycheck={sundaycheck}
-              setsundaycheck={setsundaycheck}
-              mondaycheck={mondaycheck}
-              setmondaycheck={setmondaycheck}
-              tuesdaycheck={tuesdaycheck}
-              settuesdaycheck={settuesdaycheck}
-              wednesdaycheck={wednesdaycheck}
-              setwednesdaycheck={setwednesdaycheck}
-              thursdaycheck={thursdaycheck}
-              setthursdaycheck={setthursdaycheck}
-              fridaycheck={fridaycheck}
-              setfridaycheck={setfridaycheck}
-              saturdaycheck={saturdaycheck}
-              setsaturdaycheck={setsaturdaycheck}
-            />
-          </Flex>
-        </div>
-        <ErrorMessage
-          name={'availbletimebook'}
-          errors={formik.errors}
-          touched={formik.touched}
-        />
+          <ErrorMessage
+            name={'availbletimebook'}
+            errors={formik.errors}
+            touched={formik.touched}
+          />
+          <LabelWrapper label="Time Zone Display">
+            <div style={{ marginTop: 5 }}>
+              <Flex column>
+                {timezonedisplay.map((jobList) => {
+                  return (
+                    <Flex row key={jobList.value}>
+                      <InputRadio
+                        label={jobList.label}
+                        checked={
+                          jobList.label === formik.values.timezonedisplay
+                        }
+                        onClick={() =>
+                          formik.setFieldValue('timezonedisplay', jobList.label)
+                        }
+                      />
+                    </Flex>
+                  );
+                })}
+              </Flex>
+            </div>
+          </LabelWrapper>
 
-        <div
-          style={{
-            width: '100%',
-            marginTop: '10px',
-            marginBottom: '10px',
-          }}
-        >
-          <Text bold size={14} className={styles.text1}>
-            Time Zone Display
-            <br />
-          </Text>
-
-          <Flex column>
-            {timezonedisplay.map((jobList) => {
-              return (
-                <Flex row key={jobList.value}>
-                  <InputRadio
-                    label={jobList.label}
-                    checked={jobList.label === formik.values.timezonedisplay}
-                    onClick={() =>
-                      formik.setFieldValue('timezonedisplay', jobList.label)
-                    }
-                  />
-                </Flex>
-              );
-            })}
-          </Flex>
-        </div>
-
-        <div className={styles.line}></div>
-        <div style={{ marginTop: '10px' }}></div>
-
-        <div className={styles.inputtextbox}>
-          <Text bold size={14} className={styles.text1}>
-            Description/Instructions
-          </Text>
-          <div style={{ marginTop: '10px' }}></div>
-          <Flex>
+          <div className={styles.line}></div>
+          <Flex flex={1}>
             <InputText
               placeholder="Enter the details that your invitee should know about the event."
               value={formik.values.description}
               onChange={(e) => {
                 formik.setFieldValue('description', e.target.value);
               }}
+              label="Description/Instructions"
               textarea
               style={{
                 border: '1px solid  #b3b3b3',
                 borderRadius: '4px',
-      
                 marginBottom: '20px',
-                
-                paddingTop: '10px',
-                textAlign: 'left',
-                verticalAlign: 'top',
+                width: '100%',
+                marginTop: '5px',
               }}
             />
             <ErrorMessage
@@ -1120,11 +1068,12 @@ const CreateNewEvent = (props) => {
               touched={formik.touched}
             />
           </Flex>
-
-        </div>
-        <div className={styles.line}></div>
-        <Flex row end marginTop={20}>
-          <div>
+        </Flex>
+        <Flex style={{ padding: '0px 25px' }}>
+          <div className={styles.line}></div>
+        </Flex>
+        <Flex style={{ padding: '0px 25px' }}>
+          <Flex row end marginTop={20}>
             {saveButton === false ? (
               <Flex row end>
                 <Button
@@ -1148,7 +1097,7 @@ const CreateNewEvent = (props) => {
                 <Button onClick={formik.handleSubmit}>Save</Button>
               </Flex>
             )}
-          </div>
+          </Flex>
         </Flex>
       </Flex>
     </Flex>

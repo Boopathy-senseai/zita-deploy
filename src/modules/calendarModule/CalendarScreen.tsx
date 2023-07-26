@@ -780,7 +780,7 @@ const Calendar = () => {
         <Flex className={styles.calendarInputs}>
           <Flex row center marginRight={15}>
             <Text size={14} color="theme">
-              Time Zone:
+              Time zone:
             </Text>
             {TimeZoneView}
           </Flex>

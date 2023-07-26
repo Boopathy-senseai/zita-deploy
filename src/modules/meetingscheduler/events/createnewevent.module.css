@@ -1,10 +1,10 @@
 .createnewlink {
   background-color: #fff;
-  padding: 25px;
-  overflow: scroll;
+  padding: 25px 0px;
+  overflow: hidden;
   z-index: 2;
-  width: 680px;
-  height: 680px;
+  /* width: 680px;
+  height: 680px; */
   border-radius: 4px;
 }
 .close {
@@ -12,7 +12,7 @@
   background: none;
   margin-left: 520px;
 }
-.cancel{
+.cancel {
   margin-right: 8px;
   background-color: #888888;
   border: none;
@@ -23,39 +23,51 @@
   background-color: #888888;
   border: none;
 }
-.inputtextbox{
+/* .inputtextbox{
   width: 250px;
-}
+} */
 .location {
   width: 770px;
 }
-.row{
-  margin-bottom: 10px; 
+.row {
+  margin-bottom: 10px;
   /* width: 80%; */
 }
-.title{
+.title {
+  /* padding: 0px 25px; */
   margin-bottom: 15px;
   border-bottom: 0.5px solid #581458;
 }
-.inputheight{
-  height: 35px !important;
-  margin-bottom: 5px;
+.inputheight {
+  height: 30px !important;
+  /* margin-bottom: 5px; */
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  
 }
-.with80{
+.with80 {
   width: 90%;
 }
-.datePicker{
- font-size: 13px;
- width: 50%;
- height: 30px;
- border: 1px solid #ccc;
- border-radius: 4px;
+.with100 {
+  width: 100%;
 }
-.my-datepicker{
+.datePicker {
+  font-size: 13px;
+  width: -webkit-fill-available;
+  height: 28px;
+  border: none;
+  border-radius: 4px;
+}
+.dateInput {
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 50%;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+}
+.my-datepicker {
   width: 300px; /* Adjust the width as per your requirement */
   height: 400px; /* Adjust the height as per your requirement */
   font-size: 16px; /* Adjust the font size as per your requirement */
@@ -71,15 +83,14 @@
   margin-left:420px;
 } */
 .line {
-  margin: 10px 0px 0px;
-  border-top: 1px  solid #c3c3c3;
+  margin: 10px 0px;
+  border-top: 1px solid #c3c3c3;
 }
 .line1 {
-  border-top: 1px  solid rgb(0, 0, 0);
+  border-top: 1px solid #c3c3c3;
 }
 
-.daytimesplit{
-  overflow: scroll;
-  height: 300px;
+.daytimesplit {
+  overflow: hidden;
+  min-height: 300px;
 }
-
