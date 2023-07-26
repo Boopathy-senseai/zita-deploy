@@ -164,7 +164,6 @@ const BulkImportScreen = () => {
   return (
     <div
       className={styles.overAllContainer}
-      style={{ height: window.innerHeight - 86 }}
     >
       <Flex className={styles.overAlll}>
         {bulkInitalLoader && <Loader />}

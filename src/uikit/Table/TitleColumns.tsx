@@ -32,6 +32,7 @@ const defaultTitleProps: DefaultTitleProps = {
 const TitleColumns = ({ columns }: typeof defaultTitleProps) => {
   return (
     <>
+    {console.log("rowwww",columns)}
       {columns.map((column) => {
         const { renderFilter, renderTitle, ...columnRestData } = column;
         const flex = columnRestData.flex ? columnRestData.flex : 1;
@@ -46,14 +47,20 @@ const TitleColumns = ({ columns }: typeof defaultTitleProps) => {
             className={cx('titleTextStyle')}
             middle={center}
           >
+          {console.log("laast indexxxx",renderTitle)}
+        
             {renderTitle ? (
+              <Text style={{borderRight:   'none !important'}}>
               renderTitle(column.title as string)
+              </Text>
             ) : (
-              <Text size={14} bold color={'theme'}>
+              <Text size={14} bold color={'theme'} style={{borderRight:'none !important'}}>
                 {column.title as string}
               </Text>
             )}
+            <Text style={{borderRight:'none !important'}}>
             {typeof renderFilter === 'function' && renderFilter(columnRestData)}
+            </Text>
           </Flex>
         );
       })}
