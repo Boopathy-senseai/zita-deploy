@@ -647,7 +647,12 @@ const CreateNewEvent = (props) => {
         </Flex>
 
         <Flex
-          style={{ maxHeight: '480px', overflowY: 'auto', padding: '0px 25px' }}
+          style={{
+            maxHeight: '480px',
+            overflowY: 'auto',
+            padding: '0px 25px',
+            minWidth: '620px',
+          }}
         >
           <Flex row className={styles.row}>
             <Flex flex={1} marginRight={25}>
@@ -889,7 +894,7 @@ const CreateNewEvent = (props) => {
           )}
           {/* <div className={styles.line1}></div> */}
           <div className={styles.daytimesplit}>
-            <Flex row style={{border:"1px solid #c3c3c3", padding: '10px'}}>
+            <Flex row style={{ border: '1px solid #c3c3c3', padding: '10px' }}>
               <DayTimeSplit
                 key={render}
                 duration={durationField}
@@ -932,27 +937,32 @@ const CreateNewEvent = (props) => {
             errors={formik.errors}
             touched={formik.touched}
           />
-          <LabelWrapper label="Time Zone Display">
-            <div style={{ marginTop: 5 }}>
-              <Flex column>
-                {timezonedisplay.map((jobList) => {
-                  return (
-                    <Flex row key={jobList.value}>
-                      <InputRadio
-                        label={jobList.label}
-                        checked={
-                          jobList.label === formik.values.timezonedisplay
-                        }
-                        onClick={() =>
-                          formik.setFieldValue('timezonedisplay', jobList.label)
-                        }
-                      />
-                    </Flex>
-                  );
-                })}
-              </Flex>
-            </div>
-          </LabelWrapper>
+          <div style={{ marginTop: 10 }}>
+            <LabelWrapper label="Time Zone Display">
+              <div style={{ marginTop: 5 }}>
+                <Flex column>
+                  {timezonedisplay.map((jobList) => {
+                    return (
+                      <Flex row key={jobList.value}>
+                        <InputRadio
+                          label={jobList.label}
+                          checked={
+                            jobList.label === formik.values.timezonedisplay
+                          }
+                          onClick={() =>
+                            formik.setFieldValue(
+                              'timezonedisplay',
+                              jobList.label,
+                            )
+                          }
+                        />
+                      </Flex>
+                    );
+                  })}
+                </Flex>
+              </div>
+            </LabelWrapper>
+          </div>
 
           <div className={styles.line}></div>
           <Flex flex={1}>

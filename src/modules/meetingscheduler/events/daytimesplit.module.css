@@ -1,6 +1,23 @@
 
 .align{
-  margin-left: 20px;
+  /* margin-left: 20px; */
+  align-items: center;
+}
+.selectTag{
+  width: 120px;
+  height: 30px;
+}
+.to{
+  margin: 0px 15px;
+}
+.add{
+  border: none;
+  background: none;
+  margin-left: 10px;
+}
+.align{
+  /* margin-left: 20px; */
+  align-items: center;
 }
 .selectTag{
   width: 120px;
