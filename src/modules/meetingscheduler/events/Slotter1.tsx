@@ -203,9 +203,9 @@ const slotter1 = (props) => {
 
   return (
     <Flex>
-      <Flex className={styles.element}>
+      <Flex height={'100%'} className={styles.element}>
         {dashboard === true ? (
-          <Flex>
+          <Flex height={'100%'}>
             <InterviewDashBoard
               Loading={Loading}
               isLoading={isLoading}
@@ -218,7 +218,7 @@ const slotter1 = (props) => {
             />
           </Flex>
         ) : confromflag === false && dashboard === false ? (
-          <Flex>
+          <Flex height={'100%'}>
             <SlotterDate
               isLoading={isLoading}
               event={eventid}
@@ -254,7 +254,7 @@ const slotter1 = (props) => {
             />
           </Flex>
         ) : confromflag === true ? (
-          <Flex>
+          <Flex height={'100%'}>
             <Conformpage
               margin={margin}
               selecttime={selecttime}
@@ -616,20 +616,21 @@ const SlotterDate = (props) => {
   }
 
   return (
-    <Flex>
+    <Flex height={'100%'}>
       <Flex row center className={styles.banner}>
         <SvgZitaLogo />
         <Text bold color="theme" size={16}>
           Interview Scheduling
         </Text>
       </Flex>
-      <Flex row center className={styles.slotcontainer}>
+      <Flex row height={'100%'} className={styles.slotcontainer}>
         {response?.map((data, item) => (
           <Flex
             row
             key={item}
             className={styles.slotter}
             style={{ padding: '10px' }}
+            height={'-web-fill-available'}
           >
             <Flex flex={4} className={styles.leftside}>
               <Flex row center>
@@ -811,7 +812,7 @@ const Conformpage = (props) => {
       .then((err) => {});
   };
   return (
-    <Flex>
+    <Flex height={'100%'}>
       <Flex row center className={styles.banner}>
         <SvgZitaLogo />
         <Text bold color="theme" size={16}>
@@ -942,7 +943,7 @@ const InterviewDashBoard = (props) => {
     return <Loader />;
   }
   return (
-    <Flex>
+    <Flex height={'100%'}>
       <Flex row center className={styles.banner}>
         <SvgZitaLogo />
         <Text bold color="theme" size={16}>
