@@ -84,45 +84,61 @@ const MyDataBaseBulkAction = ({
       }),
     );
   }, [isCheckbox]);
+  const chklen=isCheck.length>0
 
   return (
     <Flex row between center className={styles.overAll}>
-      <Flex row center>
+      <Flex row center className={styles.totalcandidatescheckbox}>
         <InputCheckBox
-          label="Bulk"
           checked={isCheckAll}
           onChange={handleSelectAll}
           id="mydatabasebulkaction__input"
         />
+
         <div
           className={cx('svgDownload', { svgDownloadNone: checkValue })}
-          onClick={hanldeDownload}
-          title="Download Resumes"
-          tabIndex={-1}
-          role={'button'}
-          onKeyPress={() => {}}
-        >
-          <SvgDownload
-            width={18}
-            height={18}
-            fill={checkValue ? GARY_4 : PRIMARY}
-          />
-        </div>
-        <Text style={{ marginRight: 8 }}>Search results: {totalCount}</Text>
-        {!isEmpty(filterFormik.values.jobTitle) && (
-          <div
-            onClick={handleFav}
-            title="Favourite Candidates"
-            className="pointer"
-            tabIndex={-1}
-            role={'button'}
-            onKeyPress={() => {}}
           >
-            <SvgHeart width={18} height={18} filled={isFav} />
-          </div>
-        )}
-      </Flex>
-      {!isEmpty(filterFormik.values.jobTitle) && (
+          <Text style={{ marginRight: 8 }}className={styles.totalcandidatescount}>
+            Total Candidates: 
+          </Text>
+          <Text className={styles.totalCount}>
+          {totalCount}
+          </Text>
+        </div>
+          
+        <Flex>
+          
+        {chklen && (
+              <Flex row center className={styles.bulktab}>
+              <Flex row center className={styles.bulkSelection}>
+                <Flex marginRight={0}>
+                  <Text color="theme">{`Selected ${isCheck.length} Candidates`}</Text>
+                </Flex>
+
+                <Flex row className={styles.bulkButton}>
+                  <Flex
+                    row
+                    center
+                    style={{
+                      paddingLeft: '5px',
+                      borderLeft: '1px solid #581845',
+                      cursor: 'pointer',
+                    }}
+                    onClick={hanldeDownload}
+                    title="Download Resumes"
+                  >
+                    <SvgDownload width={14} height={14} />
+                    <Text style={{ marginLeft: '10px' }} color="theme">
+                        Export Resumes
+                    </Text>
+                  </Flex>
+                </Flex>
+              </Flex>
+            </Flex>
+          )}
+          </Flex>
+          
+        {!isEmpty(filterFormik.values.jobTitle) && (
         <Flex row center>
           {tabKey === '3' && (
             <InputCheckBox
@@ -131,9 +147,16 @@ const MyDataBaseBulkAction = ({
               checked={isCheckbox}
             />
           )}
-          <Text className={styles.sortText}>Sort By:</Text>
+        </Flex>
+      )}
+      </Flex>
+      <Flex>
+        <Flex className={styles.favandsort}>
+          <Flex className={styles.sortbybar}>
+      <Text className={styles.sortText}>Sort By:</Text>
           <div className={styles.selectTagStyle}>
             <SelectTag
+              stylechangess1
               id="mydatabasebulkaction__sort"
               value={isSortOptions}
               options={sortOptions}
@@ -143,9 +166,30 @@ const MyDataBaseBulkAction = ({
               isSearchable
             />
           </div>
-        </Flex>
-      )}
+          </Flex>
+          <Flex width={5}></Flex>
+        {!isEmpty(filterFormik.values.jobTitle) && (
+          <div
+            onClick={handleFav}
+            title="Favourite Candidates"
+            className={styles.pointer}
+            // tabIndex={-1}
+            role={'button'}
+            onKeyPress={() => {}}
+          >
+            <div className={styles.svgHeart}>
+              <SvgHeart width={15} height={15} filled={isFav} />
+            </div>
+              <div 
+                className={styles.favourites}
+                >
+                  Favourites
+                </div>
+          </div> 
+        )}
+      </Flex>
     </Flex>
+    </Flex>    
   );
 };
 export default MyDataBaseBulkAction;

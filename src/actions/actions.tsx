@@ -74,6 +74,7 @@ export const ZITA_MATCH_DATA_CANDIDATE = 'zita/zita_match_data_candidate';
 // My DataBase
 export const MY_DATABASE_INITIAL = 'mydatabase/mydatabase_inital';
 export const MY_DATABASE_DATA = 'mydatabase/mydatabase_data';
+export const MY_DATABASE_PROFILE_FAVORITE = 'mydatabase/mydatabase_profile_favorite';
 
 // Jd View
 export const JD_VIEW = 'jdview/jd_view';

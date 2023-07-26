@@ -130,6 +130,26 @@
     
     }
     
+    .boxstyle2 {
+    
+      text-transform: none !important;
+    
+      background-color: #f7f7f7;
+    
+      height: 30px;
+    
+      border: none !important;
+    
+      border-radius: 0 !important;
+    
+      scroll-behavior: smooth;
+    
+      width: 210px;
+    
+      text-overflow: ellipsis;
+    
+    }
+
     .searchstyle {
     
       /* width: 412.27px; */
@@ -137,7 +157,8 @@
       display: flex;
     
       align-items: center;
-    
+
+      position: relative;
     }
     
     .searchboxoverall {
@@ -215,4 +236,13 @@
     
       margin-left: 10px;
     
+    }
+
+    .tabsStyle {
+      margin-top: 15px;
+      position: relative;
+    }
+
+    .screenrow{
+      justify-content: space-between;
     }

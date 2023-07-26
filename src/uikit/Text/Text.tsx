@@ -5,7 +5,9 @@ import styles from './text.module.css';
 const cx = classNames.bind(styles);
 export type textSize =
   | 10
+  | 11
   | 12
+  | 13
   | 14
   | 16
   | 18
@@ -110,7 +112,7 @@ const Text = ({
 
 /* eslint max-len: ["error", { "code": 2000 }] */
 const defaultProps = {
-  size: 14,
+  size: 13,
   color: 'primary',
   tag: 'span',
 };

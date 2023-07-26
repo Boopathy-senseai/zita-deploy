@@ -89,6 +89,8 @@ const MyDataBaseScreen = () => {
     dispatch(myDataBaseInitalMiddleWare());
   }, []);
 
+
+
   const {
     initalLoader,
     candidate_available,
@@ -170,7 +172,7 @@ const MyDataBaseScreen = () => {
       label: 'Bachelor',
       checked: isBachelors,
       onChange: handleBachelor,
-      width: 110,
+      width: 125,
     },
     {
       value: 'Masters',
@@ -184,14 +186,14 @@ const MyDataBaseScreen = () => {
       label: 'Doctorate',
       checked: isDoctorate,
       onChange: handleDoctorate,
-      width: 87,
+      width: 125,
     },
     {
       value: 'Others',
       label: 'Other',
       checked: isOther,
       onChange: handleOther,
-      width: 110,
+      width: 80,
     },
     {
       value: 'Any',
@@ -342,8 +344,11 @@ const MyDataBaseScreen = () => {
   };
 // fav filter function
   const handleFav = () => {
-    setFav(!isFav);
+    setFav(!isFav)
   };
+  useEffect(()=>{
+
+  },[])
 // resume download function
   const hanldeDownload = () => {
     if (isCheck.length !== 0) {
@@ -378,21 +383,20 @@ const MyDataBaseScreen = () => {
     <Flex row className={styles.ribbon} between>
           
 
-    <Flex marginTop={9} marginLeft={8} >
-      <Text size={18} bold color="theme" >
+    <Flex className={styles.titleContainer}  >
+      <Text size={16} bold color="theme" >
       My Database
       </Text>
 
     </Flex>
     <Flex >
-
       <div className={styles.triangle}></div>
     </Flex>
 
    </Flex>
     <Flex row className={styles.overAll}>
-      {initalLoader && <Loader />}
-      {dataLoader && <Loader />}
+      {initalLoader && <Loader  />}
+      {dataLoader && <Loader  />}
       {isInviteLoader && <Loader />}
       {isDownloadLoader && <Loader />}
 
@@ -409,20 +413,6 @@ const MyDataBaseScreen = () => {
         />
       </div> 
         <div className={styles.tabsStyle}>
-          <Flex row center className={styles.infiStyle}>
-            <Totalcount
-            name="Candidates Limit"
-            numbers={candidate_available}
-            />
-            {isEmpty(candidate_available) && (
-              <div
-                className={styles.svgInfy}
-                title="Unlimited Candidate Storage"
-              >
-                <SvgInfinity />
-              </div>
-            )}
-          </Flex>
           <MyDataBaseTabs
             totalCount={totalCount}
             data={datas}

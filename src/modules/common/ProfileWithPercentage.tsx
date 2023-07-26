@@ -47,7 +47,7 @@ const ProfileWithPercentage = ({ index, dataList, isPercentage }: Props) => {
             percentageStyle: !isEmpty(dataList.match),
           })}
         >
-          <Text bold color={isEmpty(dataList.match) ? 'white' : 'black'}>
+          <Text className={styles.percentagefont} bold color={isEmpty(dataList.match) ? 'white' : 'black'}>
             {!isEmpty(dataList.match) ? dataList.match : '0'}%
           </Text>
         </div>

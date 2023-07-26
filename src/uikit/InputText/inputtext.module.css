@@ -36,7 +36,8 @@
   border: none;
   border-bottom: 1px solid var(--color-gary-6, #b3b3b3);
   background-color: var(--color-white, #ffffff);
-  width: 100%;
+  width: 165%;
+  height: 20px;
   box-sizing: border-box !important;
   font-family: 'Roboto', sans-serif;
 }
@@ -117,7 +118,9 @@
 .inputFlexConatiner {
   position: relative;
 }
-
+.size-11 {
+  font-size: 11px;
+}
 .size-12 {
   font-size: 12px;
 }

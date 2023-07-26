@@ -1,6 +1,10 @@
 .inviteStyle {
   cursor: pointer;
 }
+.invitetext{
+  width: 70px;
+}
+
 .inviteDisable {
   opacity: 0.3;
   pointer-events: none;
@@ -16,14 +20,55 @@
 .appliedText {
   margin: 0 4px;
 }
+.applied{
+  right: 8px;
+  position: relative;
+}
 .svgInviteNone {
   pointer-events: none;
   opacity: 0.3;
 }
+
 .svgInviteNoneOne {
   pointer-events: none;
   opacity: 0.3;
 }
 .svgInvitePointer {
   cursor: pointer;
+}
+.lastinvitetext{
+  margin-left: 2px;
+  width: 66px;
+}
+
+.notinterestedtext{
+  font-size: 13px;
+  color: #ED4857;
+  margin-left: 4px;
+}
+
+.interestedtext{
+  font-size: 13px;
+  color: #1890FF;
+  margin-left: 4px;
+}
+
+.invitetoapplybutton{
+  width: 100%;
+  height: 55px;
+  position: relative;
+  top: 22px;
+}
+
+.interestedrow{
+  margin-bottom: 6px;
+  margin-left: -13px;
+}
+
+.notinterested{
+  width: 103px;
+  margin-bottom: -2px;
+  margin-left: -34px;
+  left: 17px;
+  position: relative;
 }
