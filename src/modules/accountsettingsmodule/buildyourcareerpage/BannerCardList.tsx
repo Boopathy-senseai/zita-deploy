@@ -2,6 +2,7 @@ import { useMediaQuery } from 'react-responsive';
 import SvgBag from '../../../icons/SvgBag';
 import SvgCalendar from '../../../icons/SvgCalendar';
 import SvgLocation from '../../../icons/SvgLocation';
+import Totalcount from '../../../globulization/TotalCount';
 import Button from '../../../uikit/Button/Button';
 import Card from '../../../uikit/Card/Card';
 import { GARY_4 } from '../../../uikit/Colors/colors';
@@ -27,14 +28,12 @@ const BannerCardList = ({ jd_form, career_page_setting, total }: Props) => {
   const fontSize = career_page_setting.page_font_size;
   return (
     <Flex columnFlex className={styles.overAll}>
-      <Text
-        size={20}
-        bold
-        className={styles.totalTextStyle}
-        style={{ fontFamily, fontSize: titleFontSize }}
-      >
-        Total Jobs Found: {total}
-      </Text>
+    <Totalcount 
+    name="Total Jobs Found "
+    numbers={total}
+  />
+       
+     
       {isMobile && (
         <Flex>
           {jd_form &&

@@ -8,6 +8,7 @@
   background-color: transparent;
   padding: 3px 12px 2px 12px;
   width: fit-content;
+  height: 30px;
 }
 
 /* primary button style */
@@ -82,8 +83,10 @@
 
 /* secondary Button Styles */
 .buttonTypes-secondary {
-  background-color: var(--color-white, #ffffff);
-  border: 2px solid var(--color-primary, #581845);
+  /* background-color: var(--color-white, #ffffff);
+  border: 2px solid var(--color-primary, #581845); */
+  background-color: #DCD1D9;
+  border: 2px solid #DCD1D9;
 }
 
 .buttonTypes-secondary:hover {

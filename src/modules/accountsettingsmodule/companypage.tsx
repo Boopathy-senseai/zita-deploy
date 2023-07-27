@@ -937,7 +937,7 @@ let jpgchange=jpg.toUpperCase();
             <Flex flex={4}>
               <LabelWrapper label="Company Logo" >
                 <Flex
-                  height={'35px'}
+                  height={'30px'}
                   className={styles.imgStyle}
                   row
                   center
@@ -1040,7 +1040,7 @@ let jpgchange=jpg.toUpperCase();
               <Flex flex={4}>
                 <LabelWrapper label="Company Logo"  >
                   <Flex
-                    height={'35px'}
+                    height={'30px'}
                     className={styles.imgStyle}
                     row
                     center
@@ -1244,7 +1244,7 @@ let jpgchange=jpg.toUpperCase();
                 <Flex flex={4}>
                   <LabelWrapper label="Profile Picture"  >
                     <Flex
-                      height={'35px'}
+                      height={'30px'}
                       className={styles.imgStylebanner}
                       row
                       center
@@ -1357,7 +1357,7 @@ let jpgchange=jpg.toUpperCase();
                   <Flex flex={4}>
                     <LabelWrapper label="Profile Picture" >
                       <Flex
-                        height={'35px'}
+                        height={'30px'}
                         className={styles.imgStylebanner}
                         row
                         center

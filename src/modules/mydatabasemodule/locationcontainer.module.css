@@ -1,8 +1,9 @@
 .slace {
-  margin: 0 2px;
+  margin: 0 2px 0px 50px;
 }
 .marginTop {
   margin-top: 2px;
+  width: fit-content;
 }
 
 .inputOverAll {
@@ -25,6 +26,9 @@
   margin-right: 4px;
   cursor: pointer;
   z-index: 11;
+  margin-top: -38%;
+  margin-left: 102%;
+
 }
 .svgTickDisable {
   pointer-events: none;
@@ -37,11 +41,14 @@
 .svgClose {
   cursor: pointer;
   z-index: 11;
+  margin-top: -41%;
+
 }
 .locationStyle {
   cursor: pointer;
-  max-width: 50%;
+  max-width: 25%;
 }
 .width85 {
-  min-width: 70%;
+  min-width: 300%;
+  width: 100%;
 }

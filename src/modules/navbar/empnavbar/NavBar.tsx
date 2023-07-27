@@ -539,13 +539,9 @@ update();
                             marginTop: '10px',
                           }}
                         >
-                          <Button
-                            className={styles.Signot}
-                            onClick={handleLogout}
-                            style={{verticalAlign:'1px'}}
-                          >
-                            Log out
-                          </Button>
+                        <LinkWrapper >
+                        <Button  className={styles.Signot} onClick={handleLogout} style={{verticalAlign:'1px'}} >Log out</Button>
+                      </LinkWrapper>
                         </div>
                       </Dropdown.Menu>
                     </Dropdown>

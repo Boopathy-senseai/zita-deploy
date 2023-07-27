@@ -135,7 +135,7 @@ const QualificationContainer = ({
   };
 
   return (
-    <div style={{ position: 'relative' }}>
+    <div style={{ position: 'relative',minWidth:'115%' }}>
       {dataList.can_source_id !== 1 && (
         <Text
           textStyle="ellipsis"
@@ -148,7 +148,7 @@ const QualificationContainer = ({
       )}
       <>
         {isInput ? (
-          <div ref={myRef} className={cx('inputOverAll')}>
+          <div ref={myRef} className={cx('inputOverAll')} >
             <SelectTag
               id={'qualificationAdd__optional'}
               placeholder={'Optional'}

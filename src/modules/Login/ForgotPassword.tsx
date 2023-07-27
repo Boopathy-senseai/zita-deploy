@@ -71,7 +71,9 @@ Props) => {
               {ResetSuccess === true ? (
                 <>
                   <Flex middle center>
+                  <div style={{marginTop: '-15px'}}>
                     <SvgResetPasswordIcon fill={PRIMARY} />
+                  </div>
                   </Flex>
 
                   <Flex middle center className={styles.text_margin}>
@@ -118,7 +120,9 @@ Props) => {
                         keyboardType="email"
                         actionLeft={() => (
                           <Button types="link" className={styles.usericon}>
+                          <div style={{marginTop: '-15px'}}>
                             <SvgEmail height={15} width={17} fill={'none'} />
+                          </div>
                           </Button>
                         )}
                       />
