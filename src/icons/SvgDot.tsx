@@ -10,6 +10,7 @@ const SvgDot = ({ width, height, fill }: typeof defaultProps) => (
     width={width}
     height={height}
     fill={fill}
+    viewBox="0 0 14 14"
   >
     <circle cx={5} cy={5} r={5} fill={fill} />
   </svg>

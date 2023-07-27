@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import SvgEdit from '../../../../icons/SvgEdit';
 import SvgOutlook from '../../../../icons/SvgOutlook';
@@ -38,51 +37,55 @@ const CalenderConfig = () => {
   }
 
   return (
-    <>
-      <div className={styles.modalwidth}>
+    <Flex className={styles.modalwidth}>
+      <Flex className={styles.container}>
         <Flex row>
           <Flex middle>
             <SvgConflicts height={32} width={32} />
           </Flex>
-          <Flex marginLeft={30}>
-            <Text bold className={styles.theme}>
-              Check for Conflicts
-            </Text>
-            <Text>
-              Set the calendar(s) to check for conflicts to prevent double
-              bookings.
-            </Text>
+          <Flex marginLeft={15}>
+            <Flex>
+              <Text bold color="theme">
+                Check for Conflicts
+              </Text>
+              <Text>
+                Set the calendar(s) to check for conflicts to prevent double
+                bookings.
+              </Text>
+            </Flex>
+            <CheckForConflicts
+              email={email}
+              conflict={conflict}
+              editConflict={editConflict}
+              closeModal1={closeModal1}
+            />
           </Flex>
         </Flex>
-        <CheckForConflicts
-          email={email}
-          conflict={conflict}
-          editConflict={editConflict}
-          closeModal1={closeModal1}
-        />
 
         <Flex row marginTop={20}>
           <Flex middle>
-            <SvgAddToCalendar height={32} width={32} fill={'#979797'} />
+            <SvgAddToCalendar height={32} width={32} fill="#581845" />
           </Flex>
-          <Flex marginLeft={30}>
-            <Text bold className={styles.theme}>
-              Add to Calendar
-            </Text>
-            <Text>
-              Set the calendar you would like to add new events to as they are
-              scheduled.
-            </Text>
+          <Flex marginLeft={15}>
+            <Flex>
+              <Text bold color="theme">
+                Add to Calendar
+              </Text>
+              <Text>
+                Set the calendar you would like to add new events to as they are
+                scheduled.
+              </Text>
+            </Flex>
+            <AddtoCalendar
+              email={email}
+              calendar={calendar}
+              editCalendar={editCalendar}
+              closeModal2={closeModal2}
+            />
           </Flex>
         </Flex>
-        <AddtoCalendar
-          email={email}
-          calendar={calendar}
-          editCalendar={editCalendar}
-          closeModal2={closeModal2}
-        />
-      </div>
-    </>
+      </Flex>
+    </Flex>
   );
 };
 interface CheckForConflictProps {
@@ -137,21 +140,21 @@ const CheckForConflicts: React.FC<CheckForConflictProps> = ({
   return (
     <>
       <Card className={styles.cardStruture}>
-        <Flex row between>
-          <Flex row>
-            <SvgOutlook height={20} width={20} />
-            <Text className={styles.txt1}>
-              Check for <span className={styles.email}>{email}</span>
+        <Flex row center between>
+          <Flex row center>
+            <SvgOutlook height={18} width={18} />
+            <Text style={{ marginLeft: '5px' }}>
+              Check for <Text color="theme">{email}</Text>
             </Text>
           </Flex>
-          <Flex row end onClick={editConflict} style={{ cursor: 'pointer' }}>
-            <SvgEdit height={16} width={16} />
+          <Flex row onClick={editConflict} style={{ cursor: 'pointer' }}>
+            <SvgEdit height={14} width={14} />
           </Flex>
         </Flex>
         {conflict ? (
           <Flex>
-            <Flex row marginTop={10}>
-              <Text>
+            <Flex row marginTop={15}>
+              <Text bold>
                 Consider me unavailble when Office 365/Outlook.com shows me as:
               </Text>
             </Flex>
@@ -164,7 +167,7 @@ const CheckForConflicts: React.FC<CheckForConflictProps> = ({
                       checked={checkedItems.includes(list.label)}
                       onChange={handleCheckboxChange}
                     />
-                    <Text className={styles.txt2}>{list.label}</Text>
+                    <Text style={{ marginLeft: '10px' }}>{list.label}</Text>
                   </Flex>
                 );
               })}
@@ -180,7 +183,7 @@ const CheckForConflicts: React.FC<CheckForConflictProps> = ({
                 checked={calendarflag ? true : false}
                 onChange={onCheckboxchange}
               />
-              <Text className={styles.txt2}>{calendar}</Text>
+              <Text style={{ marginLeft: '10px' }}>{calendar}</Text>
             </Flex>
             <Flex row end marginTop={10} className={styles.borderLine}>
               <Button
@@ -191,21 +194,17 @@ const CheckForConflicts: React.FC<CheckForConflictProps> = ({
                 Cancel
               </Button>
 
-              <Button
-                className={styles.share}
-              >
-                Update
-              </Button>
+              <Button className={styles.share}>Update</Button>
             </Flex>
           </Flex>
         ) : (
           <>
-            <Flex row marginLeft={40} marginTop={10}>
-              <Flex row middle center>
-                <SvgDot width={14} height={14} />
-                <Text align="center" size={16} className={styles.txt2}>
-                  Calendar
-                </Text>
+            <Flex row marginLeft={25} marginTop={5}>
+              <Flex row center>
+                <Flex marginTop={3}>
+                  <SvgDot width={14} height={14} />
+                </Flex>
+                <Text size={14}>Calendar</Text>
               </Flex>
             </Flex>
           </>
@@ -261,31 +260,28 @@ const AddtoCalendar: React.FC<AddtoCalendarProps> = ({
   }, []);
   return (
     <>
-      <Card className={styles.cardStruture}>
-        <Flex row between>
-          <Flex row>
-            <SvgOutlook height={20} width={20} />
-            <Text className={styles.txt1}>
-              {' '}
-              Add to <span className={styles.email}>{email}</span>
+      <Card className={styles.cardStruture1}>
+        <Flex row center between>
+          <Flex row center>
+            <SvgOutlook height={18} width={18} />
+            <Text style={{ marginLeft: '5px' }}>
+              Add to <Text color="theme">{email}</Text>
             </Text>
           </Flex>
           <Flex row end onClick={editCalendar} style={{ cursor: 'pointer' }}>
-            <SvgEdit height={16} width={16} />
+            <SvgEdit height={14} width={14} />
           </Flex>
         </Flex>
         {calendar ? (
           <>
-            <Flex column>
+            <Flex column marginTop={5}>
               {ratioTag.map((list, index) => {
                 return (
                   <Flex row key={index} marginTop={10}>
                     <InputRadio
                       label={list.label}
                       checked={list.label === checklabel}
-                      onClick={() =>
-                        onRatioChange(list.label)
-                      }
+                      onClick={() => onRatioChange(list.label)}
                     />
                   </Flex>
                 );
@@ -327,7 +323,10 @@ const AddtoCalendar: React.FC<AddtoCalendarProps> = ({
           <>
             <Flex row marginLeft={40} marginTop={10}>
               <Flex row middle center>
-                <SvgDot width={14} height={14} />
+                <Flex marginTop={3}>
+                  <SvgDot width={14} height={14} />
+                </Flex>
+
                 <Text align="center" size={16} className={styles.txt2}>
                   Calendar
                 </Text>
