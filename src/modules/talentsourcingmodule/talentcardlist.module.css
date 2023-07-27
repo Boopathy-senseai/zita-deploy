@@ -103,6 +103,11 @@
     max-width: 100%;
   }
 }
-
+.paginationStyle {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  /* padding-top: 10px; */
+}
 
 
