@@ -4,6 +4,7 @@ import classNames from 'classnames/bind';
 import { FormikProps, useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
+import { ErrorMessage } from '../../uikit';
 import { enterKeyPress, isEmpty, notSpecified } from '../../uikit/helper';
 import Text from '../../uikit/Text/Text';
 import Flex from '../../uikit/Flex/Flex';
@@ -20,6 +21,7 @@ import { workYear } from '../common/commonHelper';
 import { DataEntity } from './myDataBaseTypes';
 import { MyDataFormProps } from './MyDataBaseScreen';
 import { experienceOptionAdd } from './mock';
+import { useForm } from '../../hooks/useForm';
 import styles from './locationcontainer.module.css';
 import { myDataBaseDataMiddleWare } from './store/middleware/mydatabasemiddleware';
 
@@ -46,6 +48,8 @@ type Props = {
   isPage: number;
 };
 
+
+
 const LocationContainer = ({
   dataList,
   filterFormik,
@@ -65,20 +69,32 @@ const LocationContainer = ({
   const myRefLocation = createRef<any>();
   const myRefExperience = createRef<any>();
   const addFav = isFav ? 'add' : '';
-  const handleOpenLocationInput = () => {
+
+
+  // const handleOpenLocationInput = () => {
+  //     setLocationInput(true);  
+  // };
+  const handleOpenLocationInput = (values: { location: string }) => {
     setLocationInput(true);
+    const errors: Partial<{ location: string }> = {};
+    if (isEmpty(values.location) || values?.location.trim() === '') {
+      errors.location = '';
+    }
+    return errors;
   };
+  const toggleStage = () => {
+    setLocationInput(true);
+    formik.resetForm();
+  };
+
   const handleCloseLocationInput = () => {
     setLocationInput(false);
   };
 
-  const handleOpenExperienceInput = () => {
-    setExperienceInput(true);
-  };
   const handleCloseExperienceInput = () => {
     setExperienceInput(false);
   };
-
+  
   const handleClickOutside = (event: { target: any }) => {
     if (
       myRefLocation.current &&
@@ -127,10 +143,21 @@ const LocationContainer = ({
     experience: dataList.work_exp,
   };
 
-  const formik = useFormik({
+  const formik = useFormik<{ location: string }>({
     initialValues: initial,
-    onSubmit: () => { },
+    validate: handleOpenLocationInput,
+    onSubmit: (dataList) => {
+      location:dataList.location.trim()
+    toggleStage();
+    }
   });
+
+  // const handleKeyPress = (event: { key: string }) => {
+  //   if (event.key === 'Enter') {
+  //     formik.handleSubmit();
+  //   }
+  // };
+
   // Location from submit function
   const handleLocationSubmit = () => {
     if (formik.values.location !== '') {
@@ -228,8 +255,9 @@ const LocationContainer = ({
             <Text
               textStyle="ellipsis"
               size={11}
-              color="gray"
+              color="black_1"
               className={styles.marginTop}
+              title= {`Location: ${dataList?.location}`}
             >
               {notSpecified(dataList.location)}
             </Text>
@@ -238,7 +266,7 @@ const LocationContainer = ({
               <Text
                 // textStyle="ellipsis"
                 size={11}
-                color="gray"
+                color="black_1"
                 className={styles.locationtab}
                 style={{ maxWidth: '50%', width: "10pc" }}
                 title= {`Location: ${dataList?.location}`}
@@ -284,27 +312,38 @@ const LocationContainer = ({
               <div ref={myRefLocation} className={styles.inputOverAll}>
                 <InputText
                   autoFocus
+                  className={styles.locationinput}
+                  name="location"
                   value={formik.values.location}
                   onChange={formik.handleChange('location')}
                   lineInput
                   size={11}
-                  onKeyPress={(e) => enterKeyPress(e, handleLocationSubmit)}
+                  // onKeyPress={(e) => enterKeyPress(e, handleLocationSubmit)}
+                  // onKeyPress={handleKeyPress}
+                  onBlur={formik.handleBlur}
                 />
+              <ErrorMessage
+                      touched={formik.touched}
+                      errors={formik.errors}
+                      name="location"
+                    />
                 <div className={styles.svgContainer}>
                   {isLocationLoader ? (
                     <div className={styles.svgTick}>
-                      <Loader withOutOverlay size={'small'} />
+                      <div className={styles.locationloader}><Loader withOutOverlay size={'small'} /></div>
                     </div>
                   ) : (
                     <div
                       className={cx('svgTickMargin', {
-                        svgTickDisable: isEmpty(formik.values.location),
+                        svgTickDisable: !formik.isValid,
                         tickStyle: !isEmpty(formik.values.location),
                       })}
                       onClick={handleLocationSubmit}
                       tabIndex={-1}
                       role={'button'}
-                      onKeyPress={() => { }}
+                      // onClick={() => {
+                      //   formik.handleSubmit
+                      // }}
                     >
                       <SvgTickBox className={styles.tickStyle} />
                     </div>

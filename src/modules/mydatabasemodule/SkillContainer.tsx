@@ -22,13 +22,13 @@ const size=sidebar==="1"
 return (
     <Flex style={{top: !size?  "16%" : "-35%"}} className={styles.skillFlex}>
       <Text
-        color="gray"
+        color="black_1"
         className={styles.skillTextStyle}
         style={{marginTop: !size?  "-2%" : "10%"}} 
         title={`Skills: ${dataList.skills}`}
         size={11}
       >
-        <Text color="gray" bold size={11}>
+        <Text color="black_1" bold size={11}>
           Skills:{' '}
         </Text>
         {notSpecified(lowerCase(dataList.skills.replace(/,/g, ', ')))}

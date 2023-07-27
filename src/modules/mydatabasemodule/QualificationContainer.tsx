@@ -225,7 +225,7 @@ const QualificationContainer = ({
               <Text
                 // textStyle="ellipsis"
                 size={11}
-                color="gray"
+                color="black_1"
                 className={styles.cardaqualification}
                 title={`Qualification: ${dataList.qualification}`}
               >
@@ -236,7 +236,7 @@ const QualificationContainer = ({
               </Text>
               <Text 
                 title={`Experience: ${workYear(dataList.work_exp)}`}
-                className={styles.textworkexp} size={11} color="gray" >
+                className={styles.textworkexp} size={11} color="black_1" >
                 {notSpecified(workYear(dataList.work_exp))}
               </Text>
           </Flex>
@@ -257,7 +257,7 @@ const QualificationContainer = ({
             <div className={styles.svgContainer}>
               {isLoader && (
                 <div className={styles.svgTick}>
-                  <Loader withOutOverlay size={'small'} />
+                <div className={styles.qualificationloader}>  <Loader withOutOverlay size={'small'} /></div>
                 </div>
               )}
               <div
@@ -274,13 +274,13 @@ const QualificationContainer = ({
         ) : (
           <>
             {dataList.can_source_id === 1 && (
-              <Flex row center className={cx('marginTop', 'width85')}>
+              <Flex row center className={styles.minwidth}>
               {isEmpty(dataList.qualification) ? (
                 <Text
                   size={11}
                   color="link"
                   underLine
-                  className={styles.marginTop}
+                  // className={styles.marginTop}
                   onClick={handleOpenInput}
                 >
                   Add Qualification
@@ -303,7 +303,7 @@ const QualificationContainer = ({
                 </Text>
                 {!isExperienceInput ? (
             <>
-            <div style={{width:'fit-content'}}>
+            <div style={{width:'fit-content' , bottom: 1, position: "relative"}}>
               {isEmpty(dataList.work_exp) ? (
                 <Text
                   underLine
@@ -350,7 +350,7 @@ const QualificationContainer = ({
               <div className={styles.svgContainer}>
                 {isExperienceLoader && (
                   <div className={styles.svgTick}>
-                    <Loader withOutOverlay size={'small'} />
+                    <div className={styles.experienceloader}><Loader withOutOverlay size={'small'} /></div>
                   </div>
                 )}
 

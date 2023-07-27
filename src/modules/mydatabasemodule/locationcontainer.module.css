@@ -2,7 +2,7 @@
   margin: 0 2px 0px 2px;
 }
 .marginTop {
-  margin-top: 2px;
+  margin-top: 0;
   width: fit-content;
 }
 
@@ -85,4 +85,21 @@
     white-space: nowrap;
     text-overflow: ellipsis;
   }
+}
+
+.locationloader{
+  position: relative;
+  bottom: 26px
+}
+
+.locationinput{
+  border-radius: 0px;
+  padding: 0;
+  border: none;
+  border-bottom: 1px solid var(--color-gary-6, #b3b3b3);
+  background-color: var(--color-white, #ffffff);
+  width: 165%;
+  height: 20px;
+  box-sizing: border-box !important;
+  font-family: 'Roboto', sans-serif;
 }

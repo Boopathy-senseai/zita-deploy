@@ -81,7 +81,7 @@ const MyDataBaseCard = ({
     setFavLoader(true);
     setFavourite(!isFav)
     {console.log("formikfilter",filterFormik,)}
-    {console.log("jdid", jd_id)}
+    
     dispatch(MyDataBaseFavoriteMiddleWare({ can_id, jd_id }))
     .then(() => { 
         // if(res.payload.success===true){
@@ -353,13 +353,13 @@ const MyDataBaseCard = ({
           // title={(dataList.id === dataList.fav ? 'Remove from Favourites' : 'Add to Favourites')}
           title={(isEmpty(dataList.fav) ? 'Add to Favourites' : 'Remove From Favourites')}
         >
-          <SvgHeart height={15} width={15} filled= {!isEmpty(dataList.fav)}/>
-          {/* {dataList.id === dataList.fav ?
+          {/* <SvgHeart height={15} width={15} filled= {!isEmpty(dataList.fav)}/> */}
+          {dataList.id === dataList.fav ?
           (
             <SvgHeart height={15} width={15} filled= {!isEmpty(dataList.fav)}/>
           ) : (
             <SvgHeart height={15} width={15} filled= {isFav}/>  
-          )}       */}
+          )}      
          
       </div>
         )}

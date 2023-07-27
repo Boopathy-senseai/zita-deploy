@@ -50,15 +50,19 @@ const InviteContainer = ({
           </div>
           <Text  
           title="Please choose a job title to invite the candidate"
-          color="gray" size={11}
+          color="black_1" size={11}
           className={styles.invitetext}>
             Invite to Apply
           </Text>
         </>
       ) : (
         <>
-          {!isEmpty(dataList.interested) && dataList.interested === true ? (
-            <div className={cx('svgInviteNone')} title="Invite to Apply">
+          {!isEmpty(dataList.interested) && dataList.interested === false ? (
+            <div 
+            className={cx({
+              svgnointerested: !isEmpty(dataList.interested)
+            })}
+            title="Invite to Apply">
               <SvgInvite width={28} height={28} color="theme" />
             </div>
           ) : (
@@ -69,17 +73,22 @@ const InviteContainer = ({
               onClick={handleInviteView}
               className={cx({
                 svgInvitePointer: isEmpty(dataList.applicant),
-                svgInviteNone: !isEmpty(dataList.applicant),
+                // svgInviteNone: !isEmpty(dataList.applicant),
+                svgInviteapplied: !isEmpty(dataList.applicant)
               })}
               title="Invite to Apply"
             >
               <SvgInvite width={28} height={28} color="theme" />
             </div>
           )}
-
+          {/* {!isEmpty(dataList.applicant) &&
+                    <div>
+                      <SvgInvite width={28} height={28} color="theme" />
+                    </div>
+          } */}
           {isEmpty(dataList.invite) ? (
             <Text 
-              color="gray" size={11} 
+              color="black_1" size={11} 
               className={styles.invitebutton}>
               {!isEmpty(dataList.applicant)
                 ? ''
@@ -155,7 +164,7 @@ const InviteContainer = ({
             <SvgInterested
               width={22}
               height={22}
-              fill={dataList.interested ? SUCCESS : ERROR}
+              // fill={dataList.interested ? SUCCESS : ERROR}
             />
             <Text
               title={`Last Invited: ${dataList?.invite && getDateString(dataList.invite, 'll')}`}
@@ -178,7 +187,7 @@ const InviteContainer = ({
           )}
           {!isEmpty(dataList.applicant) && (
             <Flex row center className={styles.applied}>
-              <SvgAppliedIcon fill={SUCCESS} width={17} height={17} />
+              <div className={styles.svgapplied}><SvgAppliedIcon fill={SUCCESS} width={17} height={17} /></div>
               <Link target={'_parent'} to={`/applicant_pipe_line/${jobId}`}>
                 <div>
                 <Text

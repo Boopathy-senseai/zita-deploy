@@ -78,7 +78,8 @@ const MyDataBaseList = ({
   useEffect(()=>{
 
   },[])
-  const getHeight = jobId === false ? 293 : 303;
+  // const getHeight = jobId === false ? 293 : 303;
+  const getHeight = jobId === false ? 249 : 303
   return (
     <div>
       <MyDataBaseBulkAction
@@ -104,7 +105,7 @@ const MyDataBaseList = ({
           height: window.innerHeight - getHeight,
           overflowY: 'scroll',
           paddingRight: 0,
-          paddingTop: 3,
+          paddingTop: 0,
           display: 'flex',
           flexWrap: 'wrap',
           alignContent: 'flex-start',

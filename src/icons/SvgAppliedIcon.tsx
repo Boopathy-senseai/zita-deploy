@@ -4,7 +4,7 @@ const defaultProps = {
   fill: '#581845',
   width: 24,
   height: 24,
-  viewBox:"0 0 24 24"
+  viewBox:"0 0 20 20"
 };
 
 const SvgAppliedIcon = ({ width, height, fill, viewBox }: typeof defaultProps) => {

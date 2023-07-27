@@ -172,21 +172,21 @@ const MyDataBaseScreen = () => {
       label: 'Bachelor',
       checked: isBachelors,
       onChange: handleBachelor,
-      width: 125,
+      width: 110,
     },
     {
       value: 'Masters',
       label: 'Master',
       checked: isMasters,
       onChange: handleMaster,
-      width: 110,
+      width: 80,
     },
     {
       value: 'Doctorate',
       label: 'Doctorate',
       checked: isDoctorate,
       onChange: handleDoctorate,
-      width: 125,
+      width: 110,
     },
     {
       value: 'Others',
@@ -377,7 +377,7 @@ const MyDataBaseScreen = () => {
         });
     }
   };
-
+  console.log("dataaaaaaaa",datas)
   return (
     <>
     <Flex row className={styles.ribbon} between>

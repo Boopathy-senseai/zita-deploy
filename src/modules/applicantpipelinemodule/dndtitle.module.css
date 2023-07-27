@@ -50,9 +50,11 @@
 .col {
   display: flex;
   flex-direction: row;
-  position: absolute;
+  position: sticky;
+  top: 0;
   width: 100%;
   z-index: 11;
+  /* overflow-x: auto; */
 }
 .colTitle {
   box-sizing: border-box;
@@ -60,17 +62,21 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid var(--color-gary-7, #dfdfdf);
-  border-bottom-width: 5px;
+  /* border: 1px solid var(--color-gary-7, #dfdfdf); */
+  border-bottom: 3px solid white;
+  /* border-radius: 10px 10px 10px 10px; */
   padding: 6px 8px 6px 8px;
   margin-right: 14px;
   position: relative;
-  border-bottom-width: 5px;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   background-color: var(--color-white, #ffffff);
   top: -3px;
+  /* min-width: 200px; */
 }
 .filterFlex {
   margin-right: 16px;
+}
+.dropdown-item {
+padding: 10px !important;
 }

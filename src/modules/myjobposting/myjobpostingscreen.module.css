@@ -1,3 +1,10 @@
+.overFlowContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  width: "100%";
+}
 .filterOverAll {
   padding-top: 20px;
   padding-right: 16px;

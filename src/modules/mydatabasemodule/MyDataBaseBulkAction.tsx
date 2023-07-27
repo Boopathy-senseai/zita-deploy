@@ -13,6 +13,7 @@ import InputCheckBox from '../../uikit/InputCheckbox/InputCheckBox';
 import SelectTag from '../../uikit/SelectTag/SelectTag';
 import Text from '../../uikit/Text/Text';
 import { sortOptions } from './mock';
+import Totalcount from '../../globulization/TotalCount';
 import styles from './mydatabasebulkaction.module.css';
 import { MyDataFormProps } from './MyDataBaseScreen';
 import { myDataBaseDataMiddleWare } from './store/middleware/mydatabasemiddleware';
@@ -98,45 +99,18 @@ const MyDataBaseBulkAction = ({
         <div
           className={cx('svgDownload', { svgDownloadNone: checkValue })}
           >
-          <Text style={{ marginRight: 8 }}className={styles.totalcandidatescount}>
-            Total Candidates: 
-          </Text>
-          <Text className={styles.totalCount}>
+          <Flex style={{ marginRight: 8 }}className={styles.totalcandidatescount}>
+          <Totalcount 
+          name="Total Candidates"
+          numbers={totalCount}
+        />
+          </Flex>
+          {/* <Text className={styles.totalCount}>
           {totalCount}
-          </Text>
+          </Text> */}
         </div>
           
-        <Flex>
-          
-        {chklen && (
-              <Flex row center className={styles.bulktab}>
-              <Flex row center className={styles.bulkSelection}>
-                <Flex marginRight={0}>
-                  <Text color="theme">{`Selected ${isCheck.length} Candidates`}</Text>
-                </Flex>
 
-                <Flex row className={styles.bulkButton}>
-                  <Flex
-                    row
-                    center
-                    style={{
-                      paddingLeft: '5px',
-                      borderLeft: '1px solid #581845',
-                      cursor: 'pointer',
-                    }}
-                    onClick={hanldeDownload}
-                    title="Download Resumes"
-                  >
-                    <SvgDownload width={14} height={14} />
-                    <Text style={{ marginLeft: '10px' }} color="theme">
-                        Export Resumes
-                    </Text>
-                  </Flex>
-                </Flex>
-              </Flex>
-            </Flex>
-          )}
-          </Flex>
           
         {!isEmpty(filterFormik.values.jobTitle) && (
         <Flex row center>
@@ -149,6 +123,37 @@ const MyDataBaseBulkAction = ({
           )}
         </Flex>
       )}
+              <Flex>
+          
+          {chklen && (
+                <Flex row center className={styles.bulktab}>
+                <Flex row center className={styles.bulkSelection}>
+                  <Flex marginRight={0}>
+                    <Text color="theme">{`Selected ${isCheck.length} Candidates`}</Text>
+                  </Flex>
+  
+                  <Flex row className={styles.bulkButton}>
+                    <Flex
+                      row
+                      center
+                      style={{
+                        paddingLeft: '5px',
+                        borderLeft: '1px solid #581845',
+                        cursor: 'pointer',
+                      }}
+                      onClick={hanldeDownload}
+                      title="Download Resumes"
+                    >
+                      <SvgDownload width={14} height={14} />
+                      <Text style={{ marginLeft: '10px' }} color="theme">
+                          Export Resumes
+                      </Text>
+                    </Flex>
+                  </Flex>
+                </Flex>
+              </Flex>
+            )}
+            </Flex>
       </Flex>
       <Flex>
         <Flex className={styles.favandsort}>

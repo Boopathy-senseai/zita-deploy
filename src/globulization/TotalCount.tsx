@@ -10,7 +10,7 @@ const cx = classNames.bind(styles);
 
 type Props = {
     name: string;
-    numbers: number;
+    numbers: any;
   };
 
 const Totalcount =({

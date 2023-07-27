@@ -1,31 +1,26 @@
 import { createRef, useEffect, useState } from 'react';
-import SvgSort from '../../icons/SvgSort';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
+import SvgDotMenu from '../../icons/SvgDotMenu';
 import styles from './dndtitle.module.css';
+import { IStageColumn } from './dndBoardTypes';
+import { KANBAN_COLUMN_WIDTH } from './applicantPipeLineTypes';
 
 type Props = {
-  list: {
-    title: string;
-    left: string;
-    borderColor: string;
-    total: number;
-  };
-  setSortApplicant: (arg: string) => void;
-  setSortSortList: (arg: string) => void;
-  setSortInterview: (arg: string) => void;
-  setSortSelected: (arg: string) => void;
-  setSortRejected: (arg: string) => void;
+  column: IStageColumn;
+  setSortApplicant: (columnId: number, arg: string) => void;
   index: number;
+  onSelectAll?: (data: IStageColumn) => void;
+  onUnselectAll?: (data: IStageColumn) => void;
+  columnSelected?: boolean;
 };
 const DndTitleMap = ({
-  list,
+  column,
   setSortApplicant,
-  setSortSortList,
-  setSortInterview,
-  setSortSelected,
-  setSortRejected,
   index,
+  onSelectAll,
+  onUnselectAll,
+  columnSelected,
 }: Props) => {
   const [isDropDown, setDropDown] = useState(false);
   const myRef = createRef<any>();
@@ -53,76 +48,43 @@ const DndTitleMap = ({
 
   // date sort function
   const hanldeDateSort = (indexValue: number) => {
-    if (indexValue === 0) {
-      setSortApplicant('date');
-    }
-    if (indexValue === 1) {
-      setSortSortList('date');
-    }
-    if (indexValue === 2) {
-      setSortInterview('date');
-    }
-    if (indexValue === 3) {
-      setSortSelected('date');
-    }
-    if (indexValue === 4) {
-      setSortRejected('date');
-    }
+    setSortApplicant(column.columnId, 'date');
     setDropDown(false);
   };
-  // name sort function
+  //name sort function
   const hanldeNameSort = (indexValue: number) => {
-    if (indexValue === 0) {
-      setSortApplicant('name');
-    }
-    if (indexValue === 1) {
-      setSortSortList('name');
-    }
-    if (indexValue === 2) {
-      setSortInterview('name');
-    }
-    if (indexValue === 3) {
-      setSortSelected('name');
-    }
-    if (indexValue === 4) {
-      setSortRejected('name');
-    }
+    setSortApplicant(column.columnId,'name');
+
     setDropDown(false);
   };
-// match sort function
+  // match sort function
   const hanldeMatchSort = (indexValue: number) => {
-    if (indexValue === 0) {
-      setSortApplicant('match');
-    }
-    if (indexValue === 1) {
-      setSortSortList('match');
-    }
-    if (indexValue === 2) {
-      setSortInterview('match');
-    }
-    if (indexValue === 3) {
-      setSortSelected('match');
-    }
-    if (indexValue === 4) {
-      setSortRejected('match');
-    }
+    setSortApplicant(column.columnId, 'match');
     setDropDown(false);
   };
   return (
     <div
-      style={{
-        left: list.left,
-        borderBottomColor: list.borderColor,
-      }}
+      style={{ left: column?.left, borderBottomColor: column?.stage_color, minWidth: KANBAN_COLUMN_WIDTH }}
       className={styles.colTitle}
     >
       <Flex row center>
-        <Text bold>{list.title}</Text>
-        <Text style={{ marginLeft: 4, color: list.borderColor }} bold>
-          ({list.total})
+        <Text
+          style={{
+            color: column?.stage_color,
+            borderBottom: 3,
+            fontWeight: 500,
+          }}
+        >
+          {column?.title}
+        </Text>
+        <Text
+          style={{ marginLeft: 4, color: column?.stage_color, fontWeight: 500 }}
+        >
+          ({column?.total})
         </Text>
       </Flex>
-      <div ref={myRef}>
+
+      {column?.total !== 0 && <div ref={myRef}>
         <div
           onKeyPress={() => {}}
           role={'button'}
@@ -130,10 +92,25 @@ const DndTitleMap = ({
           onClick={handleOpenDrop}
           className={styles.svgSort}
         >
-          <SvgSort width={16} height={16} />
+          <SvgDotMenu width={14} height={14} fill={column?.stage_color} />
         </div>
         {isDropDown && (
           <Flex className={styles.dropDownFlex}>
+            {!columnSelected ? (
+              <Text
+                onClick={() => onSelectAll(column)}
+                className={styles.dropDate}
+              >
+                {'Select All'}
+              </Text>
+            ) : (
+              <Text
+                onClick={() => onUnselectAll(column)}
+                className={styles.dropDate}
+              >
+                {'Unselect All'}
+              </Text>
+            )}
             <Text
               onClick={() => hanldeDateSort(index)}
               className={styles.dropDate}
@@ -154,7 +131,7 @@ const DndTitleMap = ({
             </Text>
           </Flex>
         )}
-      </div>
+      </div>}
     </div>
   );
 };

@@ -25,33 +25,28 @@ import LinkWrapper from '../../../uikit/Link/LinkWrapper';
 import Loader from '../../../uikit/Loader/Loader';
 import Text from '../../../uikit/Text/Text';
 import { userProfileMiddleWare } from '../../accountsettingsmodule/userprofilemodule/store/middleware/userprofilemiddleware';
-import { mediaPath } from '../../constValue';
 import { permissionMiddleWare } from '../../Login/store/middleware/loginMiddleWare';
 import { logOutMiddleWare } from '../store/middleware/navbarmiddleware';
 import styles from './notification.module.css';
 
 import NavigationSearch from './NavigationSearch';
 import Notification from './Notification';
- 
-
 
 const cx = classNames.bind(styles);
- type props ={
+type props = {
   changes: (arg: boolean) => void;
   data: () => void;
- }
-  
-const Sidebar = ({changes,data }:props) => {
+};
+
+const Sidebar = ({ changes, data }: props) => {
   const dispatch: AppDispatch = useDispatch();
   //const [Select, setSelect] = useState('/');
   const [Expent, setExpent] = useState();
   const { pathname } = useLocation();
   const history = useHistory();
-  const changeurl= sessionStorage.getItem('changingurl');
-  const handleNavigate = (val) => {
-    
-  };
- 
+  const changeurl = sessionStorage.getItem('changingurl');
+  const handleNavigate = (val) => {};
+
   useEffect(() => {
     const toggle: any =
       sessionStorage.getItem('EmpToggle') === null
@@ -76,152 +71,156 @@ const Sidebar = ({changes,data }:props) => {
     },
   );
   const accountPath = '/account_setting/settings';
- 
-  const clearTab = () => { 
-  sessionStorage.removeItem('superUserTab');
-  sessionStorage.removeItem('superUserFalseTab');
-};
- 
-const clearTabs = (e) => {  
-  e.stopPropagation();
-  if(window.confirm(LEAVE_THIS_SITE)) {
-    history.push('/')
-} else {
-  e.preventDefault()
-}
-};
+
+  const clearTab = () => {
+    sessionStorage.removeItem('superUserTab');
+    sessionStorage.removeItem('superUserFalseTab');
+    sessionStorage.removeItem('template');
+    sessionStorage.removeItem('pipeline');
+    sessionStorage.removeItem('button');
+    sessionStorage.removeItem('wk_id');
+  };
+
+  const clearTabs = (e) => {
+    e.stopPropagation();
+    if (window.confirm(LEAVE_THIS_SITE)) {
+      history.push('/');
+    } else {
+      e.preventDefault();
+    }
+  };
   return (
     <>
 
-      {console.log('check plan', is_plan)}
+      {console.log('*******', Expent)}
       <div className={Expent === '0' ? styles.sidebar : styles.sidebarmini} style={{marginTop:'50px'}}>
-
+  
         <ul>
           {is_plan ? (
-                changes  ?
-              ( <li className={pathname === '/' ? styles.select_row : ''}>
-              <LinkWrapper
-                className={styles.hoverview}
-                onClick={clearTabs} 
-              >
-              <text style={{verticalAlign:'middle',marginLeft:'-6px'}}>
-                <SvgDashboard   height={28} width={28} />
-                </text>
-                <Text
-                  onClick={() => handleNavigate(1)}
-                  className={Expent === '0' ? styles.text : styles.classpan}
-                  color="primary"
-                  style={{ color: '#581845', marginRight: '10px' }}
+            changes ? (
+              <li className={pathname === '/' ? styles.select_row : ''}>
+                <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
+                  <text style={{ verticalAlign: 'middle', marginLeft: '-6px' }}>
+                    <SvgDashboard height={28} width={28} />
+                  </text>
+                  <Text
+                    onClick={() => handleNavigate(1)}
+                    className={Expent === '0' ? styles.text : styles.classpan}
+                    color="primary"
+                    style={{ color: '#581845', marginRight: '10px' }}
+                  >
+                    Dashboard
+                  </Text>
+                </LinkWrapper>
+              </li>
+            ) : (
+              <li className={pathname === '/' ? styles.select_row : ''}>
+                <LinkWrapper
+                  className={styles.hoverview}
+                  onClick={clearTab}
+                  // onClick={changeurlss}
+                  to={is_plan ? '/' : accountPath}
                 >
-                  Dashboard
-                </Text>
-              </LinkWrapper>
-            </li>):
-           (<li className={pathname === '/' ? styles.select_row : ''}>
-              <LinkWrapper
-                className={styles.hoverview}
-                onClick={clearTab}
-                // onClick={changeurlss}
-                to={is_plan   ?  '/' : accountPath}  
-              >
-              <text style={{verticalAlign:'middle',marginLeft:'-6px'}}>
-                <SvgDashboard   height={28} width={28} />
-                </text>
-                <Text
-                  onClick={() => handleNavigate(1)}
-                  className={Expent === '0' ? styles.text : styles.classpan}
-                  color="primary"
-                  style={{ color: '#581845', marginRight: '10px' }}
-                >
-                  Dashboard
-                </Text>
-              </LinkWrapper>
-            </li>)
+                  <text style={{ verticalAlign: 'middle', marginLeft: '-6px' }}>
+                    <SvgDashboard height={28} width={28} />
+                  </text>
+                  <Text
+                    onClick={() => handleNavigate(1)}
+                    className={Expent === '0' ? styles.text : styles.classpan}
+                    color="primary"
+                    style={{ color: '#581845', marginRight: '10px' }}
+                  >
+                    Dashboard
+                  </Text>
+                </LinkWrapper>
+              </li>
+            )
           ) : (
-
             <li className={pathname === '/' ? styles.select_row : ''}>
-            <a
+              <a
                 className={styles.hoverview}
-                href={" "} 
-                onClick={(e)=>{
+                href={' '}
+                onClick={(e) => {
                   e.preventDefault();
                 }}
               >
-
-            <text style={{verticalAlign:'middle',marginLeft:'-6px'}}>
-              <SvgDashboard height={28} width={28} />
-            </text>
-              <Text
-                onClick={() => handleNavigate(1)}
-                className={Expent === '0' ? styles.text : styles.classpan}
-                color="primary"
-                style={{ color: '#581845', marginRight: '10px' }}
-              >
-                Dashboard
-              </Text>
-            </a>
-            </li>
-          )}
-
-          {is_plan ? ( changes?
-          (<li
-            className={
-              pathname === '/job_list' ||
-              pathname.includes('/jobs') ||
-              pathname.includes('/job_view') ||
-              pathname.includes('/zita_match_candidate') ||
-              pathname.includes('/applicant_pipe_line')
-                ? styles.select_row
-                : ''
-            }
-          >
-            <LinkWrapper
-              className={styles.hoverview}
-              onClick={clearTabs}
-              to={is_plan ? routesPath.MY_JOB_POSTING : accountPath}
-            >
-            <text style={{verticalAlign:'middle'}}>
-              <SvgJobPost height={22} width={22} />
-            </text>
-              <Text
-                onClick={() => handleNavigate(2)}
-                className={Expent === '0' ? styles.text : styles.classpan}
-                color="primary"
-                style={{ color: '#581845', marginRight: '10px' }}
-              >
-                Job Postings
-              </Text>
-            </LinkWrapper>
-          </li>):(<li
-              className={
-                pathname === '/job_list' ||
-                pathname.includes('/jobs') ||
-                pathname.includes('/job_view') ||
-                pathname.includes('/zita_match_candidate') ||
-                pathname.includes('/applicant_pipe_line')
-                  ? styles.select_row
-                  : ''
-              }
-            >
-              <LinkWrapper
-                className={styles.hoverview}
-                onClick={clearTab}
-                to={is_plan ? routesPath.MY_JOB_POSTING : accountPath}
-              >
-              <text style={{verticalAlign:'middle'}}>
-                <SvgJobPost height={22} width={22} />
-              </text>
+                <text style={{ verticalAlign: 'middle', marginLeft: '-6px' }}>
+                  <SvgDashboard height={28} width={28} />
+                </text>
                 <Text
-                  onClick={() => handleNavigate(2)}
+                  onClick={() => handleNavigate(1)}
                   className={Expent === '0' ? styles.text : styles.classpan}
                   color="primary"
                   style={{ color: '#581845', marginRight: '10px' }}
                 >
-                  Job Postings
+                  Dashboard
                 </Text>
-              </LinkWrapper>
-            </li>)
-            
+              </a>
+            </li>
+          )}
+
+          {is_plan ? (
+            changes ? (
+              <li
+                className={
+                  pathname === '/job_list' ||
+                  pathname.includes('/jobs') ||
+                  pathname.includes('/job_view') ||
+                  pathname.includes('/zita_match_candidate') ||
+                  pathname.includes('/applicant_pipe_line')
+                    ? styles.select_row
+                    : ''
+                }
+              >
+                <LinkWrapper
+                  className={styles.hoverview}
+                  onClick={clearTabs}
+                  to={is_plan ? routesPath.MY_JOB_POSTING : accountPath}
+                >
+                  <text style={{ verticalAlign: 'middle' }}>
+                    <SvgJobPost height={22} width={22} />
+                  </text>
+                  <Text
+                    onClick={() => handleNavigate(2)}
+                    className={Expent === '0' ? styles.text : styles.classpan}
+                    color="primary"
+                    style={{ color: '#581845', marginRight: '10px' }}
+                  >
+                    Job Postings
+                  </Text>
+                </LinkWrapper>
+              </li>
+            ) : (
+              <li
+                className={
+                  pathname === '/job_list' ||
+                  pathname.includes('/jobs') ||
+                  pathname.includes('/job_view') ||
+                  pathname.includes('/zita_match_candidate') ||
+                  pathname.includes('/applicant_pipe_line')
+                    ? styles.select_row
+                    : ''
+                }
+              >
+                <LinkWrapper
+                  className={styles.hoverview}
+                  onClick={clearTab}
+                  to={is_plan ? routesPath.MY_JOB_POSTING : accountPath}
+                >
+                  <text style={{ verticalAlign: 'middle' }}>
+                    <SvgJobPost height={22} width={22} />
+                  </text>
+                  <Text
+                    onClick={() => handleNavigate(2)}
+                    className={Expent === '0' ? styles.text : styles.classpan}
+                    color="primary"
+                    style={{ color: '#581845', marginRight: '10px' }}
+                  >
+                    Job Postings
+                  </Text>
+                </LinkWrapper>
+              </li>
+            )
           ) : (
             <li
               className={
@@ -234,103 +233,120 @@ const clearTabs = (e) => {
                   : ''
               }
             >
-            <a
-            className={styles.hoverview}
-            href={" "} 
-            onClick={(e)=>{
-              e.preventDefault();
-            }}
-          >
-             <text style={{verticalAlign:'middle'}}>
-             <SvgJobPost height={22} width={22} />
-              </text>
-              <Text
-                onClick={() => handleNavigate(2)}
-                className={Expent === '0' ? styles.text : styles.classpan}
-                color="primary"
-                style={{ color: '#581845', marginRight: '10px' }}
+              <a
+                className={styles.hoverview}
+                href={' '}
+                onClick={(e) => {
+                  e.preventDefault();
+                }}
               >
-                Job Postings
-              </Text>
+                <text style={{ verticalAlign: 'middle' }}>
+                  <SvgJobPost height={22} width={22} />
+                </text>
+                <Text
+                  onClick={() => handleNavigate(2)}
+                  className={Expent === '0' ? styles.text : styles.classpan}
+                  color="primary"
+                  style={{ color: '#581845', marginRight: '10px' }}
+                >
+                  Job Postings
+                </Text>
               </a>
             </li>
           )}
 
           {permission.includes('my_database') && (
             <>
-              {is_plan ? (changes?
-              ( <li
-                className={
-                  pathname === '/mydatabase' ? styles.select_row : ''
-                }
-              >
-                <LinkWrapper
-                  className={styles.hoverview}
-                  to={is_plan ? routesPath.MYDATABASE : accountPath}
-                  onClick={clearTabs}
-                >
-                <text style={{verticalAlign:'top'}}>
-                  <SvgDb width={16} height={16} />
-                </text>
-                  <Text
-                    onClick={() => handleNavigate(3)}
-                    className={Expent === '0' ? styles.text : styles.classpan}
-                    color="primary"
-                    style={{ color: '#581845', marginRight: '10px',marginLeft:'20px' }}
+              {is_plan ? (
+                changes ? (
+                  <li
+                    className={
+                      pathname === '/mydatabase' ? styles.select_row : ''
+                    }
                   >
-                    Database
-                  </Text>
-                </LinkWrapper>
-              </li>):( <li
-                  className={
-                    pathname === '/mydatabase' ? styles.select_row : ''
-                  }
-                >
-                  <LinkWrapper
-                    className={styles.hoverview}
-                    to={is_plan ? routesPath.MYDATABASE : accountPath}
-                    onClick={clearTab}
-                  >
-                  <text style={{verticalAlign:'top'}}>
-                    <SvgDb width={16} height={16} />
-                  </text>
-                    <Text
-                      onClick={() => handleNavigate(3)}
-                      className={Expent === '0' ? styles.text : styles.classpan}
-                      color="primary"
-                      style={{ color: '#581845', marginRight: '10px',marginLeft:'20px' }}
+                    <LinkWrapper
+                      className={styles.hoverview}
+                      to={is_plan ? routesPath.MYDATABASE : accountPath}
+                      onClick={clearTabs}
                     >
-                      Database
-                    </Text>
-                  </LinkWrapper>
-                </li>)
-               
+                      <text style={{ verticalAlign: 'top' }}>
+                        <SvgDb width={16} height={16} />
+                      </text>
+                      <Text
+                        onClick={() => handleNavigate(3)}
+                        className={
+                          Expent === '0' ? styles.text : styles.classpan
+                        }
+                        color="primary"
+                        style={{
+                          color: '#581845',
+                          marginRight: '10px',
+                          marginLeft: '20px',
+                        }}
+                      >
+                        Database
+                      </Text>
+                    </LinkWrapper>
+                  </li>
+                ) : (
+                  <li
+                    className={
+                      pathname === '/mydatabase' ? styles.select_row : ''
+                    }
+                  >
+                    <LinkWrapper
+                      className={styles.hoverview}
+                      to={is_plan ? routesPath.MYDATABASE : accountPath}
+                      onClick={clearTab}
+                    >
+                      <text style={{ verticalAlign: 'top' }}>
+                        <SvgDb width={16} height={16} />
+                      </text>
+                      <Text
+                        onClick={() => handleNavigate(3)}
+                        className={
+                          Expent === '0' ? styles.text : styles.classpan
+                        }
+                        color="primary"
+                        style={{
+                          color: '#581845',
+                          marginRight: '10px',
+                          marginLeft: '20px',
+                        }}
+                      >
+                        Database
+                      </Text>
+                    </LinkWrapper>
+                  </li>
+                )
               ) : (
                 <li
                   className={
                     pathname === '/mydatabase' ? styles.select_row : ''
                   }
                 >
-                <a
-                className={styles.hoverview}
-                href={" "} 
-                onClick={(e)=>{
-                  e.preventDefault();
-                }}
-              >
-                <text style={{verticalAlign:'middle'}}>
-                  <SvgDb width={16} height={16}
-                  
-                  />
-                  </text>
-                  <Text
-                    onClick={() => handleNavigate(3)}
-                    className={Expent === '0' ? styles.text : styles.classpan}
-                    color="primary"
-                    style={{ color: '#581845', marginRight: '10px',marginLeft:'20px' }}
+                  <a
+                    className={styles.hoverview}
+                    href={' '}
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
                   >
-                    Database
-                  </Text>
+                    <text style={{ verticalAlign: 'middle' }}>
+                      <SvgDb width={16} height={16} />
+                    </text>
+                    <Text
+                      onClick={() => handleNavigate(3)}
+                      className={Expent === '0' ? styles.text : styles.classpan}
+                      color="primary"
+                      style={{
+                        color: '#581845',
+                        marginRight: '10px',
+                        marginLeft: '20px',
+                      }}
+                    >
+                      Database
+                    </Text>
                   </a>
                 </li>
               )}
@@ -339,42 +355,84 @@ const clearTabs = (e) => {
 
           {permission.includes('talent_sourcing') && (
             <>
-              {is_plan ? (changes?
-              (<li
-                className={
-                  pathname === '/talent_sourcing' ? styles.select_row : ''
-                }
-              >
-                <LinkWrapper
-                  className={styles.hoverview}
-                  onClick={clearTabs}
-                  to={is_plan ? routesPath.TALENT_SOURCING : accountPath}
-                >
-                <text style={{verticalAlign:'middle'}}>
-                  <SvgUserSearch fill={'#581845'} width={22} height={22} />
-                </text>
-                  <Text
-                    onClick={() => handleNavigate(4)}
-                    className={Expent === '0' ? styles.text : styles.classpan}
-                    color="primary"
-                    style={{ color: '#581845', marginRight: '10px' }}
+              {is_plan ? (
+                changes ? (
+                  <li
+                    className={
+                      pathname === '/talent_sourcing' ? styles.select_row : ''
+                    }
                   >
-                    Talent Sourcing
-                  </Text>
-                </LinkWrapper>
-              </li>):(<li
+                    <LinkWrapper
+                      className={styles.hoverview}
+                      onClick={clearTabs}
+                      to={is_plan ? routesPath.TALENT_SOURCING : accountPath}
+                    >
+                      <text style={{ verticalAlign: 'middle' }}>
+                        <SvgUserSearch
+                          fill={'#581845'}
+                          width={22}
+                          height={22}
+                        />
+                      </text>
+                      <Text
+                        onClick={() => handleNavigate(4)}
+                        className={
+                          Expent === '0' ? styles.text : styles.classpan
+                        }
+                        color="primary"
+                        style={{ color: '#581845', marginRight: '10px' }}
+                      >
+                        Talent Sourcing
+                      </Text>
+                    </LinkWrapper>
+                  </li>
+                ) : (
+                  <li
+                    className={
+                      pathname === '/talent_sourcing' ? styles.select_row : ''
+                    }
+                  >
+                    <LinkWrapper
+                      className={styles.hoverview}
+                      onClick={clearTab}
+                      to={is_plan ? routesPath.TALENT_SOURCING : accountPath}
+                    >
+                      <text style={{ verticalAlign: 'middle' }}>
+                        <SvgUserSearch
+                          fill={'#581845'}
+                          width={22}
+                          height={22}
+                        />
+                      </text>
+                      <Text
+                        onClick={() => handleNavigate(4)}
+                        className={
+                          Expent === '0' ? styles.text : styles.classpan
+                        }
+                        color="primary"
+                        style={{ color: '#581845', marginRight: '10px' }}
+                      >
+                        Talent Sourcing
+                      </Text>
+                    </LinkWrapper>
+                  </li>
+                )
+              ) : (
+                <li
                   className={
                     pathname === '/talent_sourcing' ? styles.select_row : ''
                   }
                 >
-                  <LinkWrapper
+                  <a
                     className={styles.hoverview}
-                    onClick={clearTab}
-                    to={is_plan ? routesPath.TALENT_SOURCING : accountPath}
+                    href={' '}
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
                   >
-                  <text style={{verticalAlign:'middle'}}>
-                    <SvgUserSearch fill={'#581845'} width={22} height={22} />
-                  </text>
+                    <text style={{ verticalAlign: 'middle' }}>
+                      <SvgUserSearch fill={'#581845'} width={22} height={22} />
+                    </text>
                     <Text
                       onClick={() => handleNavigate(4)}
                       className={Expent === '0' ? styles.text : styles.classpan}
@@ -383,33 +441,6 @@ const clearTabs = (e) => {
                     >
                       Talent Sourcing
                     </Text>
-                  </LinkWrapper>
-                </li>)
-                
-              ) : (
-                <li
-                  className={
-                    pathname === '/talent_sourcing' ? styles.select_row : ''
-                  }
-                >
-                <a
-                className={styles.hoverview}
-                href={" "} 
-                onClick={(e)=>{
-                  e.preventDefault();
-                }}
-              >
-                 <text style={{verticalAlign:'middle'}}>
-                    <SvgUserSearch fill={'#581845'} width={22} height={22} />
-                  </text>
-                  <Text
-                    onClick={() => handleNavigate(4)}
-                    className={Expent === '0' ? styles.text : styles.classpan}
-                    color="primary"
-                    style={{ color: '#581845', marginRight: '10px' }}
-                  >
-                    Talent Sourcing
-                  </Text>
                   </a>
                 </li>
               )}
@@ -418,42 +449,72 @@ const clearTabs = (e) => {
 
           {permission.includes('bulkImport_candidates') && (
             <>
-              {is_plan ? (changes?
-              (<li
-                className={
-                  pathname === '/bulk_import' ? styles.select_row : ''
-                }
-              >
-                <LinkWrapper
-                  className={styles.hoverview}
-                  onClick={clearTabs}
-                  to={is_plan ? routesPath.BULK_IMPORT : accountPath}
-                >
-                
-                  <SvgImport fill={'none'} />
-                
-                  <Text
-                    onClick={() => handleNavigate(5)}
-                    className={Expent === '0' ? styles.text : styles.classpan}
-                    color="primary"
-                    style={{ color: '#581845', marginRight: '10px' }}
+              {is_plan ? (
+                changes ? (
+                  <li
+                    className={
+                      pathname === '/bulk_import' ? styles.select_row : ''
+                    }
                   >
-                    Import Candidates
-                  </Text>
-                </LinkWrapper>
-              </li>):(<li
+                    <LinkWrapper
+                      className={styles.hoverview}
+                      onClick={clearTabs}
+                      to={is_plan ? routesPath.BULK_IMPORT : accountPath}
+                    >
+                      <SvgImport fill={'none'} />
+
+                      <Text
+                        onClick={() => handleNavigate(5)}
+                        className={
+                          Expent === '0' ? styles.text : styles.classpan
+                        }
+                        color="primary"
+                        style={{ color: '#581845', marginRight: '10px' }}
+                      >
+                        Import Candidates
+                      </Text>
+                    </LinkWrapper>
+                  </li>
+                ) : (
+                  <li
+                    className={
+                      pathname === '/bulk_import' ? styles.select_row : ''
+                    }
+                  >
+                    <LinkWrapper
+                      className={styles.hoverview}
+                      onClick={clearTab}
+                      to={is_plan ? routesPath.BULK_IMPORT : accountPath}
+                    >
+                      <SvgImport fill={'none'} />
+
+                      <Text
+                        onClick={() => handleNavigate(5)}
+                        className={
+                          Expent === '0' ? styles.text : styles.classpan
+                        }
+                        color="primary"
+                        style={{ color: '#581845', marginRight: '10px' }}
+                      >
+                        Import Candidates
+                      </Text>
+                    </LinkWrapper>
+                  </li>
+                )
+              ) : (
+                <li
                   className={
                     pathname === '/bulk_import' ? styles.select_row : ''
                   }
                 >
-                  <LinkWrapper
+                  <a
                     className={styles.hoverview}
-                    onClick={clearTab}
-                    to={is_plan ? routesPath.BULK_IMPORT : accountPath}
+                    href={' '}
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
                   >
-                  
                     <SvgImport fill={'none'} />
-                  
                     <Text
                       onClick={() => handleNavigate(5)}
                       className={Expent === '0' ? styles.text : styles.classpan}
@@ -462,31 +523,6 @@ const clearTabs = (e) => {
                     >
                       Import Candidates
                     </Text>
-                  </LinkWrapper>
-                </li>)
-                
-              ) : (
-                <li
-                  className={
-                    pathname === '/bulk_import' ? styles.select_row : ''
-                  }
-                >
-                <a
-                className={styles.hoverview}
-                href={" "} 
-                onClick={(e)=>{
-                  e.preventDefault();
-                }}
-              >
-                <SvgImport fill={'none'} />
-                  <Text
-                    onClick={() => handleNavigate(5)}
-                    className={Expent === '0' ? styles.text : styles.classpan}
-                    color="primary"
-                    style={{ color: '#581845', marginRight: '10px' }}
-                  >
-                    Import Candidates
-                  </Text>
                   </a>
                 </li>
               )}
@@ -495,71 +531,90 @@ const clearTabs = (e) => {
 
           {plan_id !== 1 && (
             <>
-              {is_plan ? (changes?
-              (<li
-                className={
-                  pathname.includes('/reports') ? styles.select_row : ''
-                }
-              >
-                <LinkWrapper
-                  className={styles.hoverview}
-                  onClick={clearTabs}
-                  to={is_plan ? reports : accountPath}
-                >
-                  <SvgReport fill={'none'} />
-                  <Text
-                    onClick={() => handleNavigate(6)}
-                    className={Expent === '0' ? styles.text : styles.classpan}
-                    color="primary"
-                    style={{ color: '#581845', marginRight: '10px',marginLeft:'20px' }}
+              {is_plan ? (
+                changes ? (
+                  <li
+                    className={
+                      pathname.includes('/reports') ? styles.select_row : ''
+                    }
                   >
-                     Reports
-                  </Text>
-                </LinkWrapper>
-              </li>):(<li
-                  className={
-                    pathname.includes('/reports') ? styles.select_row : ''
-                  }
-                >
-                  <LinkWrapper
-                    className={styles.hoverview}
-                    onClick={clearTab}
-                    to={is_plan ? reports : accountPath}
-                  >
-                    <SvgReport fill={'none'} />
-                    <Text
-                      onClick={() => handleNavigate(6)}
-                      className={Expent === '0' ? styles.text : styles.classpan}
-                      color="primary"
-                      style={{ color: '#581845', marginRight: '10px',marginLeft:'20px' }}
+                    <LinkWrapper
+                      className={styles.hoverview}
+                      onClick={clearTabs}
+                      to={is_plan ? reports : accountPath}
                     >
-                       Reports
-                    </Text>
-                  </LinkWrapper>
-                </li>)
-                
+                      <SvgReport fill={'none'} />
+                      <Text
+                        onClick={() => handleNavigate(6)}
+                        className={
+                          Expent === '0' ? styles.text : styles.classpan
+                        }
+                        color="primary"
+                        style={{
+                          color: '#581845',
+                          marginRight: '10px',
+                          marginLeft: '20px',
+                        }}
+                      >
+                        Reports
+                      </Text>
+                    </LinkWrapper>
+                  </li>
+                ) : (
+                  <li
+                    className={
+                      pathname.includes('/reports') ? styles.select_row : ''
+                    }
+                  >
+                    <LinkWrapper
+                      className={styles.hoverview}
+                      onClick={clearTab}
+                      to={is_plan ? reports : accountPath}
+                    >
+                      <SvgReport fill={'none'} />
+                      <Text
+                        onClick={() => handleNavigate(6)}
+                        className={
+                          Expent === '0' ? styles.text : styles.classpan
+                        }
+                        color="primary"
+                        style={{
+                          color: '#581845',
+                          marginRight: '10px',
+                          marginLeft: '20px',
+                        }}
+                      >
+                        Reports
+                      </Text>
+                    </LinkWrapper>
+                  </li>
+                )
               ) : (
                 <li
                   className={
                     pathname.includes('/reports') ? styles.select_row : ''
                   }
                 >
-                <a
-                className={styles.hoverview}
-                href={" "} 
-                onClick={(e)=>{
-                  e.preventDefault();
-                }}
-              >
-                  <SvgReport fill={'none'}  />
-                  <Text
-                    onClick={() => handleNavigate(6)}
-                    className={Expent === '0' ? styles.text : styles.classpan}
-                    color="primary"
-                    style={{ color: '#581845', marginRight: '10px',marginLeft:'20px' }}
+                  <a
+                    className={styles.hoverview}
+                    href={' '}
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
                   >
-                    Reports
-                  </Text>
+                    <SvgReport fill={'none'} />
+                    <Text
+                      onClick={() => handleNavigate(6)}
+                      className={Expent === '0' ? styles.text : styles.classpan}
+                      color="primary"
+                      style={{
+                        color: '#581845',
+                        marginRight: '10px',
+                        marginLeft: '20px',
+                      }}
+                    >
+                      Reports
+                    </Text>
                   </a>
                 </li>
               )}
@@ -568,38 +623,74 @@ const clearTabs = (e) => {
 
           {permission.includes('talent_sourcing') && (
             <>
-              {is_plan ? (changes?
-              (<li
-                className={pathname === '/calendar' ? styles.select_row : ''}
-              >
-                <LinkWrapper
-                  className={styles.hoverview}
-                  onClick={clearTabs}
-                  to={is_plan ? routesPath.CALENDAR : accountPath}
-                >
-                <text style={{marginLeft:"-2px"}}>
-                  <SvgCalendar  height={22} width={22} />
-                </text>
-                  <Text
-                    onClick={() => handleNavigate(7)}
-                    className={Expent === '0' ? styles.text : styles.classpan}
-                    color="primary"
-                    style={{ color: '#581845', marginRight: '10px' }}
+              {is_plan ? (
+                changes ? (
+                  <li
+                    className={
+                      pathname === '/calendar' ? styles.select_row : ''
+                    }
                   >
-                    Calendar
-                  </Text>
-                </LinkWrapper>
-              </li>):(<li
+                    <LinkWrapper
+                      className={styles.hoverview}
+                      onClick={clearTabs}
+                      to={is_plan ? routesPath.CALENDAR : accountPath}
+                    >
+                      <text style={{ marginLeft: '-2px' }}>
+                        <SvgCalendar height={22} width={22} />
+                      </text>
+                      <Text
+                        onClick={() => handleNavigate(7)}
+                        className={
+                          Expent === '0' ? styles.text : styles.classpan
+                        }
+                        color="primary"
+                        style={{ color: '#581845', marginRight: '10px' }}
+                      >
+                        Calendar
+                      </Text>
+                    </LinkWrapper>
+                  </li>
+                ) : (
+                  <li
+                    className={
+                      pathname === '/calendar' ? styles.select_row : ''
+                    }
+                  >
+                    <LinkWrapper
+                      className={styles.hoverview}
+                      onClick={clearTab}
+                      to={is_plan ? routesPath.CALENDAR : accountPath}
+                    >
+                      <text style={{ marginLeft: '-2px' }}>
+                        <SvgCalendar height={22} width={22} />
+                      </text>
+                      <Text
+                        onClick={() => handleNavigate(7)}
+                        className={
+                          Expent === '0' ? styles.text : styles.classpan
+                        }
+                        color="primary"
+                        style={{ color: '#581845', marginRight: '10px' }}
+                      >
+                        Calendar
+                      </Text>
+                    </LinkWrapper>
+                  </li>
+                )
+              ) : (
+                <li
                   className={pathname === '/calendar' ? styles.select_row : ''}
                 >
-                  <LinkWrapper
+                  <a
                     className={styles.hoverview}
-                    onClick={clearTab}
-                    to={is_plan ? routesPath.CALENDAR : accountPath}
+                    href={' '}
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
                   >
-                  <text style={{marginLeft:"-2px"}}>
-                    <SvgCalendar  height={22} width={22} />
-                  </text>
+                    <text style={{ marginLeft: '-2px' }}>
+                      <SvgCalendar height={22} width={22} />
+                    </text>
                     <Text
                       onClick={() => handleNavigate(7)}
                       className={Expent === '0' ? styles.text : styles.classpan}
@@ -608,31 +699,6 @@ const clearTabs = (e) => {
                     >
                       Calendar
                     </Text>
-                  </LinkWrapper>
-                </li>)
-                
-              ) : (
-                <li
-                  className={pathname === '/calendar' ? styles.select_row : ''}
-                >
-                <a
-                className={styles.hoverview}
-                href={" "} 
-                onClick={(e)=>{
-                  e.preventDefault();
-                }}
-              >
-                <text style={{marginLeft:"-2px"}}>
-                <SvgCalendar  height={22} width={22} />
-                </text>  
-                  <Text
-                    onClick={() => handleNavigate(7)}
-                    className={Expent === '0' ? styles.text : styles.classpan}
-                    color="primary"
-                    style={{ color: '#581845', marginRight: '10px' }}
-                  >
-                    Calendar
-                  </Text>
                   </a>
                 </li>
               )}
@@ -640,12 +706,19 @@ const clearTabs = (e) => {
           )}
         </ul>
 
-        <ul className={styles.setting} >
-          {is_plan ? (<li style={{height:'35px',width:'145px',position:'relative',bottom:'25px'}}>
-              <LinkWrapper onClick={clearTab} to={'/account_setting/settings'} >
-              
-                <SvgSetting fill={'#581845'}  height={20} width={20}  />
-              
+        <ul className={styles.setting}>
+          {is_plan ? (
+            <li
+              style={{
+                height: '35px',
+                width: '145px',
+                position: 'relative',
+                bottom: '25px',
+              }}
+            >
+              <LinkWrapper onClick={clearTab} to={'/account_setting/settings'}>
+                <SvgSetting fill={'#581845'} height={20} width={20} />
+
                 <Text
                   className={Expent === '0' ? styles.text : styles.classpan}
                   color="primary"
@@ -654,29 +727,27 @@ const clearTabs = (e) => {
                   Settings
                 </Text>
               </LinkWrapper>
-            </li>)
-            
-           : (
+            </li>
+          ) : (
             <li>
-            <a
-            
-            href={" "} 
-            onClick={(e)=>{
-              e.preventDefault();
-            }}
-          >
-            <SvgSetting fill={'#581845'}  height={20} width={20}  />
-              <Text
-                className={Expent === '0' ? styles.text : styles.classpan}
-                color="primary"
-                style={{ color: '#581845', marginRight: '10px' }}
+              <a
+                href={' '}
+                onClick={(e) => {
+                  e.preventDefault();
+                }}
               >
-                Settings
-              </Text>
+                <SvgSetting fill={'#581845'} height={20} width={20} />
+                <Text
+                  className={Expent === '0' ? styles.text : styles.classpan}
+                  color="primary"
+                  style={{ color: '#581845', marginRight: '10px' }}
+                >
+                  Settings
+                </Text>
               </a>
             </li>
           )}
-          <li >
+          <li>
             {Expent === '0' ? (
               <div style={{}} >
                 <Button style={{height:'19px',width:'19px',position:'relative',bottom:'52px',left:'-12px'}}
@@ -684,7 +755,7 @@ const clearTabs = (e) => {
                   className={styles.collapse}
                   onClick={() => handlecheck('1')}
                 >
-                  <SvgCollapse  height={19} width={18} />
+                  <SvgCollapse height={19} width={18} />
                 </Button>
               </div>
             ) : (
@@ -700,7 +771,6 @@ const clearTabs = (e) => {
           </li>
         </ul>
       </div>
-     
     </>
   );
 };

@@ -41,7 +41,9 @@ export type textColors =
   | 'black_1'
   | 'blue'
   | 'warning'
-  | 'yellow';
+  | 'yellow'
+  | 'black2'
+  | 'disabled';
 
 export type textTransform =
   | 'capitalize'
@@ -61,7 +63,8 @@ export type Props = {
   textStyle?: textStyle;
   title?: string;
   type?: 'titleLarge' | 'titleMedium' | 'titleSmall';
-  onClick?: () => void;
+  // onClick?: () => void;
+  onClick?: any;
   id?: string;
   tag: any;
   underLine?: boolean;

@@ -43,7 +43,7 @@ const CancelAndDeletePopup = ({
             title
           )}
         </Flex>
-        <Flex row center middle className={styles.btnContainer}>
+        <Flex row end  className={styles.btnContainer}>
           <Button
             className={styles.btnCancelStyle}
             types="close"
@@ -51,7 +51,7 @@ const CancelAndDeletePopup = ({
           >
             {btnLeft}
           </Button>
-          <Button className="btnDeleteStyle" onClick={btnDelete}>
+          <Button className={styles.btnDeleteStyle} types="primary" onClick={btnDelete}>
             {btnRight}
           </Button>
         </Flex>

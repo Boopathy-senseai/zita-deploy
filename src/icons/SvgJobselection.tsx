@@ -1,5 +1,5 @@
 import * as React from 'react';
-const SvgJobtitle = (props) => (
+const SvgJobSelection = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={17}
@@ -14,4 +14,4 @@ const SvgJobtitle = (props) => (
     />
   </svg>
 );
-export default SvgJobtitle;
+export default SvgJobSelection;

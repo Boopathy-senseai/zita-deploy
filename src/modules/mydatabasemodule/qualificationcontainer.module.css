@@ -4,8 +4,26 @@
 
 .marginTop {
   margin-top: 2px;
-  /* min-width: 208px; */
+  min-width: 100%;
 }
+@media only screen and (max-width: 1366px) {
+  .marginTop {
+    min-width: 100%;
+  }
+}
+
+@media only screen and (min-width: 1366px) and (max-width:1920px) {
+  .marginTop {
+    min-width: 100%;
+  }
+}
+
+@media screen and (min-width: 1920px) {
+  .marginTop {
+    min-width: 1%;
+  }
+}
+
 
 .width85{
   min-width:170px;
@@ -28,7 +46,7 @@
 
 @media only screen and (min-width: 1366px) and (max-width:1920px) {
   .cardaqualification{
-    width: 56px;
+    width: fit-content;
 
   }
 }
@@ -50,13 +68,14 @@
 @media only screen and (max-width: 1366px) {
   .textworkexp{
     width: 100px;
-    white-space: nowrap;
   }
 }
 
 @media only screen and (min-width: 1366px) and (max-width:1920px) {
   .textworkexp{
-    width: 80px;
+    width: 67px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
@@ -64,6 +83,7 @@
   .textworkexp{
     width: fit-content;
     white-space: nowrap;
+
   }
 }
 
@@ -105,4 +125,14 @@
 
 .experienceinput{
   width: 11px;
+}
+
+.experienceloader{
+  left: 100px;
+  position: relative;  
+}
+
+.qualificationloader{
+  left: 100px;
+  position: relative;
 }

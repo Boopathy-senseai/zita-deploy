@@ -1,0 +1,60 @@
+.overAll {
+  background-color: var(--color-white, #ffffff);
+  width: 500px;
+  padding: 25px;
+  border-radius: 4px;
+}
+.scrollStyle {
+  max-height: 300px;
+  overflow: scroll;
+  min-height: 300px;
+}
+.insertStyles {
+  margin-bottom: 15px;
+  border-bottom: 0.5px solid #581845;
+}
+.matchRadioStyle {
+  margin-bottom: 10px;
+}
+.borderLine {
+  border-top: 1px solid #c3c3c3;
+  /* padding-bottom: 20px; */
+}
+
+.newBtn {
+  background-color: #fff;
+  border-color: #a5889c;
+  border-width: 1px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  width: auto;
+}
+.newBtn:hover,
+.newBtn:active,
+.newBtn:focus {
+  background: unset;
+  border-width: 1px;
+  border-color: #a5889c;
+}
+
+.cancel {
+  margin-right: 8px;
+  background-color: #888888;
+  border: none;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+.cancel:active,
+.cancel:focus {
+  background-color: #888888;
+  border: none;
+}
+.update {
+  border: none;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+.update:active,
+.update:focus {
+  border: none;
+}

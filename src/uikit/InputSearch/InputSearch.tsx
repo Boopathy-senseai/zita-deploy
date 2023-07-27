@@ -1,4 +1,10 @@
-import { ReactChild, ReactFragment, ReactPortal, useEffect, useState } from 'react';
+import {
+  ReactChild,
+  ReactFragment,
+  ReactPortal,
+  useEffect,
+  useState,
+} from 'react';
 import classNames from 'classnames/bind';
 import AutoSuggest from 'react-autosuggest';
 import { enterKeyPress, isEmpty, lowerCase } from '../../uikit/helper';
@@ -31,10 +37,11 @@ type Props = {
   errorMessage?: string;
   error?: boolean;
   labelBold?: boolean;
-  onkeyPress?: (a: any) => void;
+  onkeyPress?: any;
   style?: string;
   autoFocus?: boolean;
   inputRef?: any
+  onChange?: (a: any) => void
   // title?:string | undefined;
 };
 
@@ -59,6 +66,8 @@ const renderInputComponent = ({
   const getValue=value.includes(', usa')
 
 console.log("GG0", ref?.current?.value)
+ 
+
   return (
     <input
       // eslint-disable-next-line jsx-a11y/no-autofocus
@@ -67,7 +76,7 @@ console.log("GG0", ref?.current?.value)
       onSubmit={onSubmit}
       onBlur={onBlur}
       onChange={onChange}
-      value={getValue? lowerCase(value.replace(', usa', ', USA')): value}
+      value={getValue ? lowerCase(value.replace(', usa', ', USA')) : value}
       placeholder={placeholder}
       disabled={disabled}
       type={type}
@@ -89,6 +98,7 @@ const InputSearch = ({
   disabled,
   options,
   onKeyDown,
+  onChange,
   onkeyPress,
   label,
   required,
@@ -97,7 +107,9 @@ const InputSearch = ({
   labelBold,
   style,
   autoFocus,
-  inputRef
+  inputRef,
+  
+  
   
 }: Props) => {
   const [currentsuggestion, setSuggestion] = useState<any[]>([]);
@@ -110,16 +122,14 @@ const InputSearch = ({
     options.map((company) => {
       return company.toLowerCase();
     });
-    useEffect(()=>{
-      setValue(initialValue)
-    },[initialValue])
-
-    useEffect(()=>{
-      if(isEmpty(currentvalue)){
-        setNoOptions(false);
-      }
-      
-    },[currentvalue])
+  useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
+  useEffect(() => {
+    if (isEmpty(currentvalue)) {
+      setNoOptions(false);
+    }
+  }, [currentvalue]);
   const getSuggestions = (value: string) => {
     return (
       lowerCasedCompanies &&
@@ -155,9 +165,9 @@ const InputSearch = ({
     setFieldValue(name, requiredValue);
   };
 
-  const onChange = (_event: object, { newValue }: { newValue: string }) => {
-    setValue(newValue);
-  };
+  // const onChange = (_event: object, { newValue }: { newValue: string }) => {
+  //   setValue(newValue);
+  // };
 
   const handleFocus = () => {
     setErrorFocus(true);
@@ -172,7 +182,7 @@ const InputSearch = ({
   const inputProps: any = {
     placeholder,
     value: currentvalue,
-    onChange,
+    onChange:onChange,
     disabled,
     id: name,
     onkeydown: onKeyDown,
@@ -186,13 +196,14 @@ const InputSearch = ({
   const onSuggestionsFetchRequested = ({ value }: { value: string }) => {
     setValue(value);
     const requiredSuggestions: any = getSuggestions(value);
-   
-    setSuggestion(requiredSuggestions);    
-    if (requiredSuggestions && requiredSuggestions.length === 0 && !isEmpty(value) ) { 
-       setNoOptions(true);
-
-    } 
-     else {
+    setSuggestion(requiredSuggestions);
+    if (
+      requiredSuggestions &&
+      requiredSuggestions.length === 0 &&
+      !isEmpty(value)
+    ) {
+      setNoOptions(true);
+    } else {
       setNoOptions(false);
     }
   }; 
@@ -201,8 +212,8 @@ const InputSearch = ({
   };
    
   return (
-    <div style={{ position: 'relative' }}>
-      <LabelWrapper label={label} required={required} bold={labelBold}>
+    <div style={{ position: 'relative',fontSize:'13px' }}>
+      <LabelWrapper label={label} required={required} bold={labelBold} >
         <AutoSuggest
           ref={inputRef}
           suggestions={currentsuggestion}

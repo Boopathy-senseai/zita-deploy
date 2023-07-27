@@ -15,10 +15,27 @@
 }
 .btnCancelStyle {
   margin-right: 8px;
+  background-color: #888888;
+  border: none;
+  border-radius: 5px;
+  color: #ffffff;
+}
+.btnCancelStyle:active,
+.btnCancelStyle:focus {
+  background-color: #888888;
+  border: none;
 }
 .btnDeleteStyle {
-  margin-left: 8px;
+  border: none;
+    border-radius: 5px;
+    text-transform: capitalize;
+    /* margin-top: 20px; */
 }
+.btnDeleteStyle:active, .btnDeleteStyle:focus{
+  border: none;
+
+}
+
 .svgClose{
   position: absolute;
   right: 4px;
