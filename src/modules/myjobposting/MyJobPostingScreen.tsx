@@ -166,7 +166,7 @@ const MyJobPostingScreen = () => {
                   <Text
                     style={{
                       color: '#581845',
-                      fontSize: 16,
+                      fontSize: 14,
                       fontWeight: 500,
                     }}
                   >
@@ -175,7 +175,7 @@ const MyJobPostingScreen = () => {
                   <Text
                     style={{
                       color: '#581845',
-                      fontSize: 16,
+                      fontSize: 14,
                       fontWeight: 600,
                       paddingLeft: 4.5,
                       paddingTop: 0.5,

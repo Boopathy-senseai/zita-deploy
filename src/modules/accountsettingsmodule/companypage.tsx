@@ -292,7 +292,7 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
       isValidURL(values.company_website) === false &&
       values.company_website !== 'https://'
     ) {
-      errors.company_website = THIS_FIELD_REQUIRED;
+      errors.company_website ="";
     }
     if (isEmpty(values.city_id)) {
       errors.city_id = THIS_FIELD_REQUIRED;
@@ -483,6 +483,7 @@ console.log()
     formData.append('company_name', values.company_name);
     formData.append('company_website', values.company_website);
     formData.append('contact', values.contact);
+   // console.log("contact",values.contact);
     formData.append('industry_type', values.industry_type_id);
     formData.append('no_of_emp', values.no_of_emp);
     formData.append('address', values.address);
@@ -491,6 +492,7 @@ console.log()
     formData.append('city', values.city_id);
     formData.append('zipcode', values.zipcode);
     formData.append('email', values.email);
+  
     dispatch(
       userProfilePostMiddleWare({
         formData:formProfile
@@ -498,15 +500,20 @@ console.log()
      ).then(() => {
             dispatch(userProfileMiddleWare());
             dispatch(
-              companyPagePostMiddleWare({
-                
+              companyPagePostMiddleWare({  
+             
                 formData,
               }),
             )  .then((res: any) => {  if (res.payload.data.success) 
               {
                 setReload(false);
                 setload(false);
+                console.log("res",res)
                 Toast('Details saved successfully', 'LONG', 'success');
+                dispatch(companyPageInitalMiddleWare());
+                  dispatch(userProfileMiddleWare()) 
+            dispatch(userProfileMiddleWare());
+                
                 if (build_career_page === false) {
                   setKey('1');
                 }
@@ -647,8 +654,10 @@ let jpgchange=jpg.toUpperCase();
             disabled
             className={styles.inputheight}
             value={formik.values.company_name}
+            
             onChange={formik.handleChange('company_name')}
           />
+          
           <ErrorMessage
             touched={formik.touched}
             errors={formik.errors}
@@ -674,14 +683,16 @@ let jpgchange=jpg.toUpperCase();
         <Flex  >
           <LabelWrapper label="Contact Number" required>
             <PhoneInput
+            
               containerClass={styles.phoneInputs}
               inputClass={styles.phoneInput}
               dropdownClass={styles.dropDownStyle}
               country={'us'}
               value={formik.values.contact}
               onChange={formik.handleChange('contact')}
-              //onChange={handleOnChange}
+              
             />
+            {console.log("contact",formik.values.contact)}
           </LabelWrapper>
           <ErrorMessage
             touched={formik.touched}
@@ -1356,7 +1367,7 @@ let jpgchange=jpg.toUpperCase();
                         </Text>{' '}
                       </Flex>
                       <Flex className={styles.tooltipcontent}>
-                        <Text className={styles.gray_color11}>
+                        <Text className={styles.gray_color}>
                           Dimension:{' '}
                           <Text className={styles.gray_color}>
                             {' '}

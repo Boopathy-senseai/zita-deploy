@@ -513,10 +513,11 @@ const SignUpScreen = (props: any) => {
                   </div>
                   <div className="row">
                     <div className="col">
-                      <Flex className={styles.signup_col}>
+                      <Flex className={styles.signup_col }>
                         <InputText
                           label="Company Name"
                           labelColor={'theme'}
+                        
                           className={styles.signup_input}
                           required
                           value={formik.values.company_name}
@@ -577,6 +578,7 @@ const SignUpScreen = (props: any) => {
                           className={styles.signup_input}
                           label="Work Email"
                           required
+                          style={{fontSize:"14px"}}
                           value={formik.values.email}
                           onChange={formik.handleChange('email')}
                         />

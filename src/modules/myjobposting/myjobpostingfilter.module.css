@@ -77,7 +77,7 @@ font-weight: 400;
 .drop_down_header {
   padding: 10px;
   background-color: #ffff !important;
-  width: 230px;
+  /* width: 230px; */
   height: 30px;
   border: 1px solid #581845;
   border-radius: 11px;

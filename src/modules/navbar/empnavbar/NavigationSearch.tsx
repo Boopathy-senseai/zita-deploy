@@ -12,8 +12,9 @@ import InputSearch from '../../../uikit/InputSearch/InputSearch';
 import { searchOptions } from './mock';
 import styles from './navbar.module.css';
 
-
-const NavigationSearch = () => {
+type Props = {
+  onButtonClick: () => void;};
+const NavigationSearch = ({ onButtonClick }) => {
 
   const history = useHistory();
   const formik = useFormik({
@@ -30,6 +31,7 @@ const NavigationSearch = () => {
     },
   );
 
+
   // search redirection condition
   const searchNavigate = (value: string) => {
     switch (value.toLocaleLowerCase()) {
@@ -44,10 +46,14 @@ const NavigationSearch = () => {
         );
       case 'user profile':
       case 'password change':
+        onButtonClick();
         return (
+          
           super_user === true &&
           history.push('/account_setting/settings?tab=6'),
-          permission.includes('manage_account_settings') &&
+          permission.includes('manage_account_settings') 
+          
+          &&
           super_user === false &&
           history.push('/account_setting/settings?tab=4'),
           !permission.includes('manage_account_settings') &&
@@ -57,7 +63,7 @@ const NavigationSearch = () => {
       case 'profile update':
         return (
           super_user === true &&
-          history.push('/account_setting/settings?tab=6'),
+          history.push('/account_setting/settings?tab=0'),
           permission.includes('manage_account_settings') &&
           super_user === false &&
           history.push('/account_setting/settings?tab=4'),
@@ -156,7 +162,9 @@ const NavigationSearch = () => {
 
  
   return (
+    
     <div style={{ position: 'relative',width:'195px' }}>
+      {console.log("history",history)}
       <div style={{ position: 'absolute', zIndex: 11, top: 3, left: 10 }}>
         <SvgSearch fill={'#581845'} />
       </div>

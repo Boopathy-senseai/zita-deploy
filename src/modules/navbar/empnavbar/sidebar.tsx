@@ -94,7 +94,7 @@ const Sidebar = ({ changes, data }: props) => {
     <>
 
       {console.log('check plan',  plan_id)}
-      { plan_id === 0?(''):(
+      
       <div className={Expent === '0' ? styles.sidebar : styles.sidebarmini} style={{marginTop:'50px'}}>
 
         <ul>
@@ -651,9 +651,13 @@ const Sidebar = ({ changes, data }: props) => {
           )}
         </ul>
 
+
+
         <ul className={styles.setting} >
-          {is_plan ? (<li style={{height:'35px',width:'145px',position:'relative',bottom:'25px'}}  title='Settings'>
-              <LinkWrapper onClick={clearTab} to={'/account_setting/settings'} >
+          {is_plan ? (<li style={{height:'35px',width:'230px',position:'relative',bottom:'25px'}}  title='Settings'  className={
+                  pathname === '/account_setting/settings' ? styles.select_row : ''
+                }>
+              <LinkWrapper onClick={clearTab} to={'/account_setting/settings'}  className={styles.hoverview}>
               
                 <SvgSetting fill={'#581845'}  height={20} width={20}  />
               
@@ -668,7 +672,9 @@ const Sidebar = ({ changes, data }: props) => {
             </li>)
             
            : (
-            <li  title='Settings'>
+            <li  title='Settings' className={
+              pathname === '/account_setting/settings' ? styles.select_row : ''
+            }>
             <a
             
             href={" "} 
@@ -690,13 +696,16 @@ const Sidebar = ({ changes, data }: props) => {
           )}
           <li>
             {Expent === '0' ? (
-              <div style={{}}>
+              <div  className={
+                pathname === '/account_setting/settings' ? styles.select_row : ''
+              }>
+                
                 <Button
                   style={{
                     height: '19px',
                     width: '19px',
                     position: 'relative',
-                    bottom: '45px',
+                    bottom: '46px',
                     left: '25px',
                   }}
                   types="link"
@@ -705,6 +714,7 @@ const Sidebar = ({ changes, data }: props) => {
                 >
                   <SvgCollapse height={19} width={18} />
                 </Button>
+                
               </div>
             ) : (
               <Button
@@ -717,7 +727,7 @@ const Sidebar = ({ changes, data }: props) => {
             )}
           </li>
         </ul>
-      </div>)}
+      </div>
      
     </>
   );

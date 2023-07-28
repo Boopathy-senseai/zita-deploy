@@ -40,7 +40,9 @@
   background-color: #581845 !important;
   border-radius: 100%;
    margin-top: 6.8px; 
+   margin-left: 12px;
 }
+
 .hoverStyle {
   padding-top: 8px;
   padding-bottom: 8px;
@@ -240,6 +242,7 @@ border-top-right-radius: 20px;
  
   }
 
+
 .Expend{
   padding: 8px 8px 8px 20px;
   text-decoration: none;
@@ -255,3 +258,11 @@ font-family: 'Courier New', Courier, monospace;
 /* .svg{
   vertical-align:text-top;
 } */
+
+.backgroundcollapse{
+  background-color: #eee8ec;
+}
+
+.backgroundcollapse:hover{
+  background-color: #eee8ec;
+}

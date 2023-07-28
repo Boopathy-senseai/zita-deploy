@@ -1,7 +1,8 @@
 import axios from 'axios';
 import classNames from 'classnames/bind';
 import moment from 'moment';
-import { createRef, useEffect, useState } from 'react';
+import { createRef, useEffect, useState,useRef } from 'react';
+
 import { useDispatch } from 'react-redux';
 import SvgBell from '../../../icons/SvgBell';
 import SvgClose from '../../../icons/SvgClose';
@@ -32,13 +33,40 @@ const Notification = () => {
   const [isCandi, setCandi] = useState();
   const [isProfile, setProfile] = useState(false);
   const [modelopen, setmodelopen] = useState(false);
+  const [check,setcheck ] = useState(false);
   const [isMessageTab, setMessageTab] = useState(5);
+  const dropDownRef = useRef(null);
   useEffect(() => {
     axios.get(notificationApi).then((res) => {
       setData(res.data);
     });
   }, []);
   // notification api call
+
+    const closeDropDown = (e: any) => {
+
+    console.log("closeDropDown")
+
+     console.log({target: e.target, modelopen, dropDownRef})
+
+    if (
+
+      dropDownRef.current &&
+
+      modelopen &&
+
+      !dropDownRef.current.contains(e.target)
+
+    ) {
+
+      // console.log("SHOW FASLE")
+
+      setmodelopen(false);
+
+    }
+
+  };
+
   useEffect(() => {
     const interval = setInterval(() => {
       axios.get(notificationApi).then((res) => {
@@ -76,6 +104,8 @@ const Notification = () => {
         Toast('Notifications cleared successfully');
       });
     });
+    setcheck(true)
+    setmodelopen(false)
     setOpen(false);
   };
 
@@ -88,14 +118,27 @@ const Notification = () => {
     });
     setOpen(false);
   };
+const myfunction=()=>{ 
+ 
+  {
+  setOpen(true);}
+ 
+}
 
   const handleclose = () => {
     setOpen(false);
   };
 
+  // if(isOpen===false){
+  //   setmodelopen(false);
+  // }
+  
+
   return (
-    <>
-      <div ref={myRef} style={{ position: 'relative' }}>
+    
+    <Flex >
+      {console.log("open",isOpen)}
+      <div ref={myRef} style={{ position: 'relative' }} >
         <ProfileView
           open={isProfile}
           cancel={() => {
@@ -203,7 +246,7 @@ const Notification = () => {
                                             </Text>
                                             <Text
                                               style={{
-                                                marginLeft: 16,
+                                                marginLeft: 3,
                                                 fontSize: '13px',
                                               }}
                                               color="gray"
@@ -253,7 +296,7 @@ const Notification = () => {
                                             </Text>
                                             <Text
                                               style={{
-                                                marginLeft: 16,
+                                                marginLeft: 3,
                                                 fontSize: '13px',
                                               }}
                                               color="gray"
@@ -311,7 +354,7 @@ const Notification = () => {
                                             </Text>
                                             <Text
                                               style={{
-                                                marginLeft: 16,
+                                                marginLeft: 3,
                                                 fontSize: '13px',
                                               }}
                                               color="gray"
@@ -425,7 +468,7 @@ const Notification = () => {
                                           </Text>
                                           <Text
                                             style={{
-                                              marginLeft: 16,
+                                              marginLeft: 3,
                                               fontSize: '13px',
                                             }}
                                             color="gray"
@@ -477,7 +520,7 @@ const Notification = () => {
                                           </Text>
                                           <Text
                                             style={{
-                                              marginLeft: 16,
+                                              marginLeft:3,
                                               fontSize: '13px',
                                             }}
                                             color="gray"
@@ -556,7 +599,7 @@ const Notification = () => {
                                           </Text>
                                           <Text
                                             style={{
-                                              marginLeft: 16,
+                                              marginLeft: 3,
                                               fontSize: '13px',
                                             }}
                                             color="gray"
@@ -603,7 +646,7 @@ const Notification = () => {
                                           </Text>
                                           <Text
                                             style={{
-                                              marginLeft: 16,
+                                              marginLeft: 3,
                                               fontSize: '13px',
                                             }}
                                             color="gray"
@@ -660,7 +703,7 @@ const Notification = () => {
                                           <Flex>
                                             <Text
                                               style={{
-                                                marginLeft: 16,
+                                                marginLeft: 3,
                                                 fontSize: '13px',
                                                 display: 'flex',
                                               }}
@@ -697,7 +740,7 @@ const Notification = () => {
             ) : (
               <Flex>
                 <Flex row center between className={styles.headerStyle}>
-                  <Text color="theme" style={{ fontSize: '16px' }} bold>
+                  <Text color="theme" style={{ fontSize: '14px' }} bold>
                     Notifications
                   </Text>
                   <Flex onClick={handleclose} style={{ cursor: 'pointer' }}>
@@ -738,8 +781,9 @@ const Notification = () => {
         )}
       </div>
 
-      <Modal open={modelopen}>
-        <Flex className={styles.model}>
+<Flex ref={dropDownRef}  onClick={myfunction}>
+      <Modal open={modelopen}  data-bs-backdrop='static'  >
+        <Flex className={styles.model}  >
           <Flex className={styles.confirm_title}>
             This action will clear all the notifications.
           </Flex>
@@ -765,7 +809,8 @@ const Notification = () => {
           </Flex>
         </Flex>
       </Modal>
-    </>
+      </Flex>
+    </Flex>
   );
 };
 

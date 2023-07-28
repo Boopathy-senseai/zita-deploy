@@ -94,13 +94,13 @@ const CalenderCard = ({
       
       dispatch(getGoogleEventsMiddleware({ tz })).then((res) => {
 
-        const data = res.payload.events;
-       
+        const data = res.payload.events;  
         
-        console.log("gmail  ", data);
-        
+        const filteredData =  data.filter((item) => getDateString(new Date(item.start.dateTime), 'MM/DD/YYYY') ===  formik.values.date);
+        console.log("filteredData  ", filteredData);
+        if(data !== undefined){
         setEvent(
-          data.map((items: { summary: any; start: { dateTime: any }; end: { dateTime: any }; hangoutLink: any }) => {
+          filteredData.map((items: { summary: any; start: { dateTime: any }; end: { dateTime: any }; hangoutLink: any }) => {
             //   if(items.start.dateTime!==null){
             //  if(getDateString(items.start.dateTime, 'MM/DD/YYYY') === formik.values.date){
               
@@ -114,7 +114,7 @@ const CalenderCard = ({
           // }}
          
           }),
-        );
+        );}
         
       });
     } else {
@@ -122,9 +122,12 @@ const CalenderCard = ({
 
       dispatch(syncOutlookMiddleWare()).then((res) => {
         const dataout = res.payload.events;
-        console.log("outlook", dataout);
+        console.log("errorf", dataout);
+        if(dataout !== undefined){
+          const filteredData =  res.payload.events.filter((item) => getDateString(item.start_time, 'MM/DD/YYYY') ===  formik.values.date);
         setEvent(
-          res.payload.events.map(
+          
+          filteredData.map(
             (items: {
               title: any;
               start_time: string | number | Date;
@@ -141,7 +144,7 @@ const CalenderCard = ({
             //}
             },
           ),
-        );
+        );}
       });
     }
   };
@@ -253,11 +256,11 @@ const CalenderCard = ({
       <Flex row between className={styles.msgText}>
         <Flex row>
           <Flex>
-            <Text bold size={16} color="theme" style={{ marginRight: 5, marginTop: 5 ,fontSize:'14px'}}>
+            <Text bold size={16} color="theme" style={{ marginRight: 5, marginTop: 5 }}>
               Calendar
             </Text></Flex>
           {active === 1 &&
-            <Flex marginTop={7}>
+            <Flex marginTop={9}>
               <Text color="gray" size={12}>
                 (Timezone){outlookTimeZone[getOut]}
                 {checkCalendarOutlook
@@ -424,7 +427,7 @@ const CalenderCard = ({
       >
         {active === 0 ? (
           <Flex center flex={1} middle columnFlex className={styles.noContent}>
-            <Text color="gray" style={{ marginBottom: 16 ,fontSize:'13px'}}>
+            <Text color="gray" style={{ marginBottom: 16 }}>
               Integrate your calendar with zita to schedule your
               meetings
             </Text>
@@ -438,7 +441,7 @@ const CalenderCard = ({
               <Button>Integrate</Button>
             </LinkWrapper>
           </Flex>
-        ) : event.length > 1 ? (
+        ) : event.length >= 1 ? (
           event.map((list, index) => {
 
             if (
@@ -482,7 +485,7 @@ const CalenderCard = ({
         ) : (
           <Flex flex={1} center middle columnFlex className={styles.noContent}>
             {console.log("cal_eventlength", event.length)}
-            <Text color="gray" style={{fontSize:'13px'}}> No event scheduled</Text>
+            <Text color="gray"> No event scheduled</Text>
           </Flex>
         )
         }

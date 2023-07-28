@@ -231,8 +231,8 @@ const ProfileCard = () => {
           {logoPath === 'logo' ? (
             <Button>a</Button>
           ) : (
-            <img
-              style={{ objectFit: 'contain' }}
+            <img 
+              style={{ objectFit: 'cover' }}
               alt="LOGO HERE"
               src={mediaPath + logoPath}
               className={styles.profileImg}
@@ -579,7 +579,7 @@ const ProfileCard = () => {
               ''
             )}
           </Flex>
-          <Flex >
+          <Flex marginTop={3}>
             {address !== null ? (
               <Flex row marginTop={3} >
                 <Flex marginRight={1} >
@@ -599,7 +599,7 @@ const ProfileCard = () => {
                     to={'/account_setting/settings'}
                   >
                     <Text
-                      style={{ color: '#581845',fontSize:'13px' }}
+                      style={{ color: '#581845',fontSize:'13px',marginLeft:"9px" }}
                       bold
                     >
                       Add Company Address

@@ -109,11 +109,11 @@ const UserProfilepic = ({ value, update }: Props) => {
           Toast('Password changed successfully', 'LONG', 'success');
           setError(false);
           setload(true);
+          update();
           formikPassword.resetForm();
           setShowNewPass1(false);
           setShowNewPass(false);
-          setShowOldPass(false);
-          update();
+          setShowOldPass(false); 
         } else {
           setError(true);
         }

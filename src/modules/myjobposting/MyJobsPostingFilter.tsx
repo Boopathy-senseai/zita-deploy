@@ -332,16 +332,17 @@ const MyJobsPostingFilter = ({
         <Flex
           row
           className={styles.drop_down_header}
+          
+        >
+          <Flex
           onClick={() => {
             setShowDropDown((value) => !value);
             // console.log(showDropDown,'vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv')
-          }}
-        >
-          <Flex>
+          }}>
             <Text
               bold
               className={styles.filtername}
-              style={{ cursor: "Pointer",paddingTop:7,fontSize:14 }}
+              style={{ cursor: "Pointer",paddingTop:7,fontSize:14,paddingRight:"120px"}}
             >
               View Filter
             </Text>

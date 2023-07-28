@@ -10,7 +10,6 @@ import SvgSetting from '../../../icons/SvgSetting';
 import SvgSettingnav from '../../../icons/SvgSettingnav';
 import SvgLock from '../../../icons/SvgLock';
 import SvgLocknav from '../../../icons/SvgLocknav';
-
 import SvgSearch from '../../../icons/SvgSearch';
 import SvgUser from '../../../icons/SvgUser';
 import SvgUsernav from '../../../icons/SvgUsernav';
@@ -75,6 +74,11 @@ update();
       setLogOutLoader(false);
     });
   };
+  const imagefunction=(e)=>{
+    setOpen(!isOpen);
+    console.log("openchangepass",isOpen);
+    e.preventDefault();
+  }
   const accountPath = '/account_setting/settings';
   const clearTab = () => {
     sessionStorage.removeItem('superUserTab');
@@ -91,7 +95,7 @@ update();
 
           <Flex row center>
             <div className={cx('svgInputDiv')}>
-              <NavigationSearch />
+              <NavigationSearch  onButtonClick={update}/>
             </div>
 
             {!is_plan ? (
@@ -357,14 +361,15 @@ update();
                           boxShadow: 'none',
                         }}
                       >
-                        <LinkWrapper onClick={() => setOpen(!isOpen)}>
+                        <a  href={" "}  onClick={imagefunction}>
+                          
                           <img
                             style={{ objectFit: 'cover' }}
                             src={mediaPath + isProfile}
                             alt="profile"
                             className={styles.candiProfile}
                           />
-                        </LinkWrapper>
+                        </a>
                       </Dropdown.Toggle>
                       <Dropdown.Menu className={styles.dropdown_item}>
                         <Dropdown.Item href="#" style={{padding:'0px 10px'}}>
