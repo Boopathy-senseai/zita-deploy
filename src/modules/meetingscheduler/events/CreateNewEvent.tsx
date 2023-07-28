@@ -113,6 +113,7 @@ const CreateNewEvent = (props) => {
   const [dayField, setDaysField] = useState('Calendar Days');
   const [organiser, setorganiser] = useState(teammembers ? teammembers : []);
   const [zone, setzone] = useState('');
+   const [datePickerOpen, setDatePickerOpen] = useState(false);
 
   const [selectedRange, setSelectedRange] = useState({
     startDate: null,
@@ -649,7 +650,7 @@ const CreateNewEvent = (props) => {
         <Flex
           style={{
             maxHeight: '480px',
-            overflowY: 'auto',
+            overflowY: datePickerOpen ? 'hidden' : 'auto',
             padding: '0px 25px',
             minWidth: '620px',
           }}
@@ -799,6 +800,10 @@ const CreateNewEvent = (props) => {
                 <DateRangePicker
                   initialSettings={initialSettings}
                   onApply={(event, picker) => onApplyChange(event, picker)}
+                  onShow={() => {
+                    setDatePickerOpen(true);
+                  }}
+                  onHide={() => setDatePickerOpen(false)}
                 >
                   <div className={styles.dateInput}>
                     <input
@@ -809,6 +814,12 @@ const CreateNewEvent = (props) => {
                           ? `${selectedRange.startDate} - ${selectedRange.endDate}`
                           : ''
                       }
+                      // onFocus={() => {
+                      //   setDatePicker(true);
+                      // }}
+                      // onBlur={() => {
+                      //   setDatePicker(false);
+                      // }}
                     />
                     <Flex marginRight={5} style={{ cursor: 'pointer' }}>
                       <SvgCalendar width={16} height={16} />
@@ -839,24 +850,26 @@ const CreateNewEvent = (props) => {
               <Button
                 types="secondary"
                 style={{
-                  border: '1px solid #581845',
+                  border: '1px solid #ccc',
+                  borderBottom: 'none',
                   borderRadius: '2px 2px 0px 0px',
                   padding: '5px',
                 }}
               >
-                {profilename}
+                <Text color="theme"> {profilename}</Text>
               </Button>
               {interviewerData.map((name: any, index) => (
                 <Button
                   key={index}
                   style={{
-                    border: '1px solid #581845',
+                    border: '1px solid #ccc',
+                    borderBottom: 'none',
                     borderRadius: '2px 2px 0px 0px',
                     padding: '5px',
                   }}
                   types="secondary"
                 >
-                  {name}
+                  <Text color="theme"> {name}</Text>
                 </Button>
               ))}
             </Flex>

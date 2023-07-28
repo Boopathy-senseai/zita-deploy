@@ -7,9 +7,10 @@ import SvgCopy from '../../../icons/SvgCopy';
 import SvgRoundAdd from '../../../icons/SvgRoundAdd';
 import Button from '../../../uikit/Button/Button';
 import SelectTag from '../../../uikit/SelectTag/SelectTag';
-import SvgCloseSmall from '../../../icons/SvgCloseSmall';
+// import SvgCloseSmall from '../../../icons/SvgCloseSmall';
 import InputCheckBox from '../../../uikit/InputCheckbox/InputCheckBox';
 // import CopyModal from '../../uikit/CopyModal/CopyModal';
+import SvgCross from '../../../icons/SvgCross';
 import styles from './daytimesplit.module.css';
 import { timezone } from './eventType';
 const DayTimeSplit = (props) => {
@@ -536,7 +537,7 @@ const DayTimeSplit = (props) => {
                   if (i > 0) {
                     return (
                       <>
-                        <Flex row style={{ marginBottom: '10px' }}>
+                        <Flex row center style={{ marginBottom: '10px' }}>
                           <Flex row className={styles.align}>
                             <div className={styles.selectTag}>
                               <SelectTag
@@ -581,12 +582,13 @@ const DayTimeSplit = (props) => {
                           <div>
                             {sunday.length !== 1 && (
                               <button
+                                type="button"
                                 onClick={() => RemoveClickForSunday(i)}
                                 className={styles.add}
                               >
-                                <SvgCloseSmall
-                                  width={18}
-                                  height={18}
+                                <SvgCross
+                                  width={16}
+                                  height={16}
                                   fill={'#581845'}
                                 />
                               </button>
@@ -735,7 +737,7 @@ const DayTimeSplit = (props) => {
                   if (i > 0) {
                     return (
                       <>
-                        <Flex row style={{ marginBottom: '10px' }}>
+                        <Flex row center style={{ marginBottom: '10px' }}>
                           <Flex row className={styles.align}>
                             <div className={styles.selectTag}>
                               <SelectTag
@@ -782,10 +784,11 @@ const DayTimeSplit = (props) => {
                               <button
                                 onClick={() => RemoveClickForMonday(i)}
                                 className={styles.add}
+                                type="button"
                               >
-                                <SvgCloseSmall
-                                  width={18}
-                                  height={18}
+                                <SvgCross
+                                  width={16}
+                                  height={16}
                                   fill={'#581845'}
                                 />
                               </button>
@@ -806,7 +809,11 @@ const DayTimeSplit = (props) => {
           dateCheckboxChange(e, 'tuesday'),
         )}
         <Flex>
-          <Flex row center>
+          <Flex
+            row
+            center
+            style={{ marginBottom: tuesday.length > 1 ? '10px' : '0px' }}
+          >
             {tuesdaycheck === true ? (
               <Flex row center flex={1}>
                 <Flex row className={styles.align}>
@@ -934,7 +941,7 @@ const DayTimeSplit = (props) => {
                   if (i > 0) {
                     return (
                       <>
-                        <Flex row style={{ marginBottom: '10px' }}>
+                        <Flex row center style={{ marginBottom: '10px' }}>
                           <Flex row className={styles.align}>
                             <div className={styles.selectTag}>
                               <SelectTag
@@ -981,10 +988,11 @@ const DayTimeSplit = (props) => {
                               <button
                                 onClick={() => RemoveClickForTuesday(i)}
                                 className={styles.add}
+                                type="button"
                               >
-                                <SvgCloseSmall
-                                  width={18}
-                                  height={18}
+                                <SvgCross
+                                  width={16}
+                                  height={16}
                                   fill={'#581845'}
                                 />
                               </button>
@@ -1005,7 +1013,11 @@ const DayTimeSplit = (props) => {
           dateCheckboxChange(e, 'wednesday'),
         )}
         <Flex>
-          <Flex row center>
+          <Flex
+            row
+            center
+            style={{ marginBottom: wednesday.length > 1 ? '10px' : '0px' }}
+          >
             {wednesdaycheck === true ? (
               <Flex row center flex={1}>
                 <Flex row>
@@ -1135,7 +1147,7 @@ const DayTimeSplit = (props) => {
                   if (i > 0) {
                     return (
                       <>
-                        <Flex row style={{ marginBottom: '10px' }}>
+                        <Flex row center style={{ marginBottom: '10px' }}>
                           <Flex row className={styles.align}>
                             <div className={styles.selectTag}>
                               <SelectTag
@@ -1182,10 +1194,11 @@ const DayTimeSplit = (props) => {
                               <button
                                 onClick={() => RemoveClickForWednesday(i)}
                                 className={styles.add}
+                                type="button"
                               >
-                                <SvgCloseSmall
-                                  width={18}
-                                  height={18}
+                                <SvgCross
+                                  width={16}
+                                  height={16}
                                   fill={'#581845'}
                                 />
                               </button>
@@ -1206,7 +1219,11 @@ const DayTimeSplit = (props) => {
           dateCheckboxChange(e, 'thursday'),
         )}
         <Flex>
-          <Flex row center>
+          <Flex
+            row
+            center
+            style={{ marginBottom: thursday.length > 1 ? '10px' : '0px' }}
+          >
             {thursdaycheck === true ? (
               <Flex row center flex={1}>
                 <Flex row className={styles.align}>
@@ -1331,7 +1348,7 @@ const DayTimeSplit = (props) => {
                   if (i > 0) {
                     return (
                       <>
-                        <Flex row style={{ marginBottom: '10px' }}>
+                        <Flex row center style={{ marginBottom: '10px' }}>
                           <Flex row className={styles.align}>
                             <div className={styles.selectTag}>
                               <SelectTag
@@ -1378,10 +1395,11 @@ const DayTimeSplit = (props) => {
                               <button
                                 onClick={() => RemoveClickForThursday(i)}
                                 className={styles.add}
+                                type="button"
                               >
-                                <SvgCloseSmall
-                                  width={18}
-                                  height={18}
+                                <SvgCross
+                                  width={16}
+                                  height={16}
                                   fill={'#581845'}
                                 />
                               </button>
@@ -1402,7 +1420,11 @@ const DayTimeSplit = (props) => {
           dateCheckboxChange(e, 'friday'),
         )}
         <Flex>
-          <Flex row center>
+          <Flex
+            row
+            center
+            style={{ marginBottom: friday.length > 1 ? '10px' : '0px' }}
+          >
             {fridaycheck === true ? (
               <Flex row center flex={1}>
                 <Flex row className={styles.align}>
@@ -1525,7 +1547,7 @@ const DayTimeSplit = (props) => {
                   if (i > 0) {
                     return (
                       <>
-                        <Flex row style={{ marginBottom: '10px' }}>
+                        <Flex row center style={{ marginBottom: '10px' }}>
                           <Flex row className={styles.align}>
                             <div className={styles.selectTag}>
                               <SelectTag
@@ -1572,10 +1594,11 @@ const DayTimeSplit = (props) => {
                               <button
                                 onClick={() => RemoveClickForFriday(i)}
                                 className={styles.add}
+                                type="button"
                               >
-                                <SvgCloseSmall
-                                  width={18}
-                                  height={18}
+                                <SvgCross
+                                  width={16}
+                                  height={16}
                                   fill={'#581845'}
                                 />
                               </button>
@@ -1596,7 +1619,11 @@ const DayTimeSplit = (props) => {
           dateCheckboxChange(e, 'saturday'),
         )}
         <Flex>
-          <Flex row center>
+          <Flex
+            row
+            center
+            style={{ marginBottom: saturday.length > 1 ? '10px' : '0px' }}
+          >
             {saturdaycheck === true ? (
               <Flex row center flex={1}>
                 <Flex row className={styles.align}>
@@ -1728,7 +1755,7 @@ const DayTimeSplit = (props) => {
                   if (i > 0) {
                     return (
                       <>
-                        <Flex row style={{ marginBottom: '10px' }}>
+                        <Flex row center style={{ marginBottom: '10px' }}>
                           <Flex row className={styles.align}>
                             <div className={styles.selectTag}>
                               <SelectTag
@@ -1779,10 +1806,11 @@ const DayTimeSplit = (props) => {
                               <button
                                 onClick={() => RemoveClickForSaturday(i)}
                                 className={styles.add}
+                                type="button"
                               >
-                                <SvgCloseSmall
-                                  width={18}
-                                  height={18}
+                                <SvgCross
+                                  width={16}
+                                  height={16}
                                   fill={'#581845'}
                                 />
                               </button>

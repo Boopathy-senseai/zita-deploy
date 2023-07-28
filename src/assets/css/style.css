@@ -834,6 +834,7 @@ input:-webkit-autofill:active {
 .rdp-caption_label {
   font-size: 14px !important;
   padding: 0 !important;
+  color: #333 !important;
 }
 .rdp-cell {
   color: #333 !important;
@@ -855,6 +856,24 @@ input:-webkit-autofill:active {
   background-color: #581845 !important;
   color: white !important;
   font-weight: normal !important;
+}
+
+.rdp-caption{
+  margin-left: 15px;
+}
+.daterangepicker td.in-range{
+ background-color: #d7c7d2 !important;
+}
+.daterangepicker td.active{
+  background-color: #581845 !important;
+}
+.cancelBtn.btn.btn-sm.btn-default{
+  background-color: #888888;
+  color: #fff;
+  /* text-transform: capitalize; */
+}
+.daterangepicker .drp-buttons .btn{
+  text-transform: capitalize;
 }
 
 /*--------- scroll bar styles---------*/
