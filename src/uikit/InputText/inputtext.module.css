@@ -7,7 +7,7 @@
   width: 100%;
   box-sizing: border-box !important;
   font-family: 'Roboto', sans-serif;
-  padding: 4px 12px 3px 2px;
+  padding: 4px 12px 3px 8px;
 }
 .inputCommonStyle:hover {
   border: 1px solid var(--color-gary-6, #b3b3b3);
@@ -129,6 +129,6 @@
 .actionRightStyle {
   margin: 0;
   right: 8px;
-  top: 3px;
+  top: 8px;
   position: absolute;
 }

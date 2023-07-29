@@ -224,7 +224,7 @@ const ApplicantProfileModal = ({
               profile_match={profileMatch}
               nonMatch={checkMatch}
               inviteCall={hanldeInvitePopUp}
-              isInvite={status_id.length === 0}
+              // isInvite={status_id.length === 0}
               isResume
               withOutJD={isTab}
               source={source}
@@ -239,7 +239,7 @@ const ApplicantProfileModal = ({
           </Flex>
         ) : (
           <Flex flex={7} className={styles.tabLeftFlex}>
-            {status_id.length === 0 ? (
+            {status_id?.length === 0 ? (
               <ApplicantTabLeftTwo activeState={activeState} />
             ) : (
               <ApplicantTabLeft activeState={activeState} />
@@ -249,7 +249,7 @@ const ApplicantProfileModal = ({
 
         {isTab && (
           <Flex flex={5} className={styles.tabRightFlex}>
-            {status_id.length === 0 ? (
+            {status_id?.length === 0 ? (
               <ApplicantTabRightOne />
             ) : (
               <ApplicantTabRight />

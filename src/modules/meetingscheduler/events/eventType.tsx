@@ -98,11 +98,12 @@ export const loginid = [
 
 
  const getTimezones = () => {
-      return moment.tz.names().map((time) => {
+      return moment.tz.names().map((time,index) => {
         const offset = moment.tz(time).format('Z');
+        const value = index
         return {
           offset,
-          // label: time
+          value: value,
           label: `${moment.tz(time).format('Z')} (${time})`,
         };
       });

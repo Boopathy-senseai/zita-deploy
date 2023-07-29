@@ -1,5 +1,6 @@
 import { func } from 'prop-types';
 import React, { useEffect, useState } from 'react';
+import SvgSearch from '../../../icons/SvgSearch';
 // import SvgCloseSmall from '../../icons/SvgCloseSmall';
 import Button from '../../../uikit/Button/Button';
 import Flex from '../../../uikit/Flex/Flex';
@@ -19,11 +20,14 @@ const Interviewer = (props) => {
     checkedItems,
     setCheckedItems,
   } = props;
+
+  console.log("00000000000000000000000000",props)
   const [data, setData] = useState(teammembers);
   const [member, setmember] = useState([]);
 
   useEffect(() => {
     if (interviewerData?.length > 0) {
+      console.log("interviewerDatainterviewerDatainterviewerDatainterviewerData",interviewerData)
       setmember(interviewerData);
     }
   }, [interviewerData]);
@@ -31,10 +35,12 @@ const Interviewer = (props) => {
   const handleCheckboxChange = (event, name) => {
     const { value, checked } = event.target;
     if (checked) {
+      alert("_____")
       setCheckedItems((prevItems) => [...prevItems, value]);
-
       member.push(name);
     } else {
+      alert(value)
+
       // Remove the value from the array
       setCheckedItems((prevItems) =>
         prevItems.filter((item) => item !== value),
@@ -44,17 +50,35 @@ const Interviewer = (props) => {
       );
 
       const index = member.findIndex((nam) => nam === name);
+      console.log("indexindexindexindex",index)
       if (index !== -1) {
         member.splice(index, 1);
       }
-      const remove = checkedItems.findIndex((nam) => nam === value);
+      const remove = checkedItems.find((nam) => nam === value);
+      console.log("indexindexindexindexindexindex",index)
       if (remove !== -1) {
         checkedItems.splice(remove, 1);
       }
+      console.log("indexindexindexindexindexindexcheckedItems",checkedItems)
 
       // setinterviewerData(member)
     }
   };
+
+  function searchItems(query) {
+    const items = teammembers;
+    const lowercaseQuery = query.toLowerCase();
+    const filteredItems = items.filter((item) =>
+      item.full_name.toLowerCase().includes(lowercaseQuery),
+    );
+    console.log('_+_+_++++_+_++_+_++_+_', filteredItems);
+    if (filteredItems.length > 0) {
+      setData(filteredItems);
+    } else {
+      setData([]);
+    }
+    return filteredItems;
+  }
 
   const addmembers = () => {
     if (member.length > 0) {
@@ -72,10 +96,15 @@ const Interviewer = (props) => {
     }
   };
 
-  function oncancel(){
-    setInterviewer(false)
-    setCheckedItems([])
+  function oncancel() {
+    setInterviewer(false);
+    // setCheckedItems([]);
   }
+
+  console.log("interviewerDatainterviewerData.........",interviewerData)
+  console.log("datatatatatatattat",data)
+
+
 
   return (
     <>
@@ -90,30 +119,41 @@ const Interviewer = (props) => {
             <InputText
               className={styles.selectmembers}
               placeholder="Select team members"
-              value={member?.length > 0 ? member.join(', ') : ''}
-            />
-
+              // value={member?.length > 0 ? member.join(', ') : ''}
+              onChange={(e) => {
+                searchItems(e.target.value);
+              }}
+              actionRight={() => (
+                <label htmlFor={'members search'} style={{ margin: 5 }}>
+                  <SvgSearch />
+                </label>
+              )}
+          /> 
+            {data.length > 0 ? (<>
+            <Flex>
             {data.map((name, index) => (
               <Flex row center key={index} marginBottom={10}>
                 <Flex className={styles.checkbox}>
-                  {interviewerData.length > 0 &&
-                  interviewerData.includes(name.full_name) ? (
+                  {console.log("interviewerDatainterviewerData",name.full_name)}
+                  {checkedItems.includes(name.user.toString()) || checkedItems.includes(name.user) ? (
                     <InputCheckBox
-                      value={name.full_name}
+                      value={name.user}
                       checked={true}
                       // disabled={true}
-                      onChange={(e) => handleCheckboxChange(e, name.full_name)}
+                      onChange={(e) => handleCheckboxChange(e, name.user)}
                     />
                   ) : (
                     <InputCheckBox
                       value={name.user}
-                      onChange={(e) => handleCheckboxChange(e, name.full_name)}
+                      onChange={(e) => handleCheckboxChange(e, name.user)}
                     />
                   )}
                 </Flex>
                 <Text size={13}>{name.full_name}</Text>
               </Flex>
             ))}
+            </Flex>
+            </>) : (<Flex middle>No Interviewers Found</Flex>)}
           </Flex>
           <Flex
             row
@@ -129,7 +169,8 @@ const Interviewer = (props) => {
             >
               Cancel
             </Button>
-            <Button
+            {checkedItems.length > 0 ? (
+              <Button
               style={{ marginTop: '20px', marginLeft: '8px' }}
               className={styles.update}
               types="primary"
@@ -137,6 +178,21 @@ const Interviewer = (props) => {
             >
               Add
             </Button>
+
+            ):(
+              <Button
+              style={{ marginTop: '20px', marginLeft: '8px' }}
+              className={styles.update}
+              types="primary"
+              onClick={addmembers}
+              disabled
+            >
+              Add
+            </Button>
+
+            )}
+            
+            
           </Flex>
         </Flex>
       </div>

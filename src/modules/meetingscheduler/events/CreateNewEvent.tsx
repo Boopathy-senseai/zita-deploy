@@ -25,6 +25,8 @@ import { eventSchedulerApi } from '../../../routes/apiRoutes';
 import SvgCalendar from '../../../icons/SvgCalendar';
 import SvgRoundAdd from '../../../icons/SvgRoundAdd';
 import SvgDateRangePicker from '../../../icons/SvgDateRangePicker';
+import CancelAndDeletePopup from '../../common/CancelAndDeletePopup';
+import useUnsavedChangesWarning from '../../common/useUnsavedChangesWarning';
 import {
   eventType,
   days,
@@ -119,6 +121,7 @@ const CreateNewEvent = (props) => {
   const [daterange, setDaterange] = useState(0);
   const [saveButton, setsaveButton] = useState(false);
   const [fullname, setfullname] = useState('');
+  const [cancelpopup, setcancelpopup] = useState(false);
   const [durationField, setDurationField] = useState('');
   const [dayField, setDaysField] = useState('Calendar Days');
   const [organiser, setorganiser] = useState(teammembers ? teammembers : []);
@@ -239,8 +242,6 @@ const CreateNewEvent = (props) => {
   const userzone = `${moment.tz(userTimezone).format('Z')} (${userTimezone})`;
 
   const vaio = timezonesdata.find((fil) => fil.label === userzone);
-
-
 
   function resetformik(){
     formik.values.event_name = '';
@@ -436,6 +437,8 @@ const CreateNewEvent = (props) => {
     }
   };
 
+
+
   const eventonChange = (label) => {
     console.log('');
     if (label === 'Microsoft Teams') {
@@ -463,27 +466,6 @@ const CreateNewEvent = (props) => {
     }
   };
 
-  const handleInputChange = (e) => {
-    alert('1');
-    const inputText = e.target.value;
-    const [startDateString, endDateString] = inputText.split(' - ');
-    const startDate = moment(startDateString, 'MM/DD/YYYY');
-    const endDate = moment(endDateString, 'MM/DD/YYYY');
-
-    if (startDate.isValid() && endDate.isValid()) {
-      // Both start and end dates are valid, update the selected date range
-      setSelectedRange({
-        startDate: startDate.startOf('day'),
-        endDate: endDate.endOf('day'),
-      });
-    } else {
-      // Invalid input, clear the selected date range
-      setSelectedRange({
-        startDate: null,
-        endDate: null,
-      });
-    }
-  };
   const formatDate = (date) => {
     return date ? date.toLocaleDateString() : '';
   };
@@ -661,6 +643,8 @@ const CreateNewEvent = (props) => {
         }
         currentDate = currentDate.add(1, 'day');
       }
+
+      console.log("schedule1schedule1schedule1schedule1",schedule1)
       return schedule1;
     }
   };
@@ -687,8 +671,17 @@ const CreateNewEvent = (props) => {
   function onclose() {
     // formik.values = initial
     // formik.setValues(initial)
+
+
     setIsOpen(false);
     formik.resetForm();
+   
+    if(formik.dirty === true){
+      window.confirm(
+        'Do you want to leave this site? Changes you made may not be saved.',
+      )
+    }
+    // useUnsavedChangesWarning();
   }
 
   const onApplyChange = (sdate, picker) => {
@@ -720,11 +713,19 @@ const CreateNewEvent = (props) => {
   };
   console.log("initialSettings",initialSettings)
 
-  console.log("1234567867543213456789",formik.values)
+  console.log("1234567867543213456789",formik)
+
+
+  console.log("&&&&&&&&&&&&&&&&&&&&&&&",timezonesdata.find(
+                            (option) => option.label === formik.values.timezone,
+                          ),"\n","durations",duration.find(
+                            (option) => option.label === formik.values.duration,
+                          ),typeof formik.values.timezone,typeof formik.values.duration)
 
   if(loading){
     <Loader/>
   }
+
   return (
     <Flex>
       <Flex className={styles.createnewlink}>
@@ -737,7 +738,12 @@ const CreateNewEvent = (props) => {
         </Flex>
 
         <Flex
-          style={{ maxHeight: '480px', overflowY: 'auto', padding: '0px 25px' }}
+          style={{
+            maxHeight: '480px',
+            overflowY: 'auto',
+            padding: '0px 25px',
+            minWidth: '620px',
+          }}
         >
           <Flex row className={styles.row}>
             <Flex flex={1} marginRight={25}>
@@ -771,7 +777,7 @@ const CreateNewEvent = (props) => {
                             (option) =>
                               option.label === formik.values.event_type,
                           )
-                        : ''
+                        : null
                     }
                     placeholder="Select event type"
                     onChange={(option) => {
@@ -881,11 +887,12 @@ const CreateNewEvent = (props) => {
           <Flex row className={styles.row} marginRight={25}>
             <Flex flex={1}>
               <LabelWrapper label="Within a date range">
-                <DateRangePicker
+               
+                  <div className={styles.dateInput}>
+                  <DateRangePicker
                   initialSettings={initialSettings}
                   onApply={(event, picker) => onApplyChange(event, picker)}
                 >
-                  <div className={styles.dateInput}>
                     <input
                       type="dates"
                       className={styles.datePicker}
@@ -895,11 +902,12 @@ const CreateNewEvent = (props) => {
                           : ''
                       }
                     />
-                    <Flex marginRight={5} style={{ cursor: 'pointer' }}>
+                    </DateRangePicker>
+                    <Flex marginRight={5} style={{ cursor: 'pointer', }}>
                       <SvgCalendar width={16} height={16} />
                     </Flex>
                   </div>
-                </DateRangePicker>
+                
               </LabelWrapper>
 
               <ErrorMessage
@@ -979,7 +987,7 @@ const CreateNewEvent = (props) => {
           )}
           {/* <div className={styles.line1}></div> */}
           <div className={styles.daytimesplit}>
-            <Flex row style={{border:"1px solid #c3c3c3", padding: '10px'}}>
+            <Flex row style={{ border: '1px solid #c3c3c3', padding: '10px' }}>
               <DayTimeSplit
                 key={render}
                 duration={durationField}
@@ -1022,27 +1030,32 @@ const CreateNewEvent = (props) => {
             errors={formik.errors}
             touched={formik.touched}
           />
-          <LabelWrapper label="Time Zone Display">
-            <div style={{ marginTop: 5 }}>
-              <Flex column>
-                {timezonedisplay.map((jobList) => {
-                  return (
-                    <Flex row key={jobList.value}>
-                      <InputRadio
-                        label={jobList.label}
-                        checked={
-                          jobList.label === formik.values.timezonedisplay
-                        }
-                        onClick={() =>
-                          formik.setFieldValue('timezonedisplay', jobList.label)
-                        }
-                      />
-                    </Flex>
-                  );
-                })}
-              </Flex>
-            </div>
-          </LabelWrapper>
+          <div style={{ marginTop: 10 }}>
+            <LabelWrapper label="Time Zone Display">
+              <div style={{ marginTop: 5 }}>
+                <Flex column>
+                  {timezonedisplay.map((jobList) => {
+                    return (
+                      <Flex row key={jobList.value}>
+                        <InputRadio
+                          label={jobList.label}
+                          checked={
+                            jobList.label === formik.values.timezonedisplay
+                          }
+                          onClick={() =>
+                            formik.setFieldValue(
+                              'timezonedisplay',
+                              jobList.label,
+                            )
+                          }
+                        />
+                      </Flex>
+                    );
+                  })}
+                </Flex>
+              </div>
+            </LabelWrapper>
+          </div>
 
           <div className={styles.line}></div>
           <Flex flex={1}>
@@ -1103,5 +1116,6 @@ const CreateNewEvent = (props) => {
     </Flex>
   );
 };
+
 
 export default CreateNewEvent;

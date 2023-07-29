@@ -1,6 +1,7 @@
 
 .align{
-  margin-left: 20px;
+  /* margin-left: 20px; */
+  align-items: center;
 }
 .selectTag{
   width: 120px;
@@ -13,4 +14,8 @@
   border: none;
   background: none;
   margin-left: 10px;
+
+}
+.space{
+  margin-left: 5px;
 }

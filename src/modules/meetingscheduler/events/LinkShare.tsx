@@ -11,6 +11,7 @@ import InputText from '../../../uikit/InputText/InputText';
 import SvgClock from '../../../icons/SvgClock';
 import Text from '../../../uikit/Text/Text';
 import Toast from '../../../uikit/Toast/Toast';
+import SvgSearch from '../../../icons/SvgSearch';
 // import ShareButton from '../buildyourcareerpage/ShareButton';
 import Loader from '../../../uikit/Loader/Loader';
 import styles from './linkshare.module.css';
@@ -42,7 +43,7 @@ const LinkShare = (props) => {
   const handleCheckboxChange = (event) => {
     console.log('eventeventevent', event.target);
     const { value, checked } = event.target;
-    console.log('value........', value, 'checked', checked);
+    console.log('checkedItems...........', value, 'checked', checked);
     if (checked) {
       setCheckedItems((prevItems) => [...prevItems, value]);
       // setinterviewerData(checkedItems)
@@ -82,6 +83,8 @@ const LinkShare = (props) => {
   console.log("~~~~~~~~~~~~~~",checkedItems)
     return filteredItems;
   }
+
+
 
   const onbuttonclick = (eventid: any) => {
     console.log('checkedItemscheckedItemscheckedItems', checkedItems);
@@ -138,6 +141,12 @@ const LinkShare = (props) => {
             }}
             placeholder="Search candidate or applicant by the name"
             inputConatinerClass={styles.inputContainer}
+            actionRight={() => (
+              <label htmlFor={'candidate/applicant found'} style={{ margin: 0 }}>
+                <SvgSearch />
+              </label>
+            )}
+            
           />
         </Flex>
         {data.length > 0 ? (
@@ -175,7 +184,11 @@ const LinkShare = (props) => {
           </div>
         </Flex>
         </>
-        ) :('No Applicants/Candidates found')}
+        ) :(
+          <Flex middle>
+          No Applicants/Candidates found
+          </Flex>
+        )}
         <Flex row end marginTop={10} className={styles.borderLine}>
           <Button
             types="primary"

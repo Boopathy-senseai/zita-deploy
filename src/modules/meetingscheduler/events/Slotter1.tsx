@@ -130,15 +130,28 @@ const slotter1 = (props) => {
     return formattedDate;
   }
 
+  const dateconvert = (d) => {
+    console.log("dddddddddddddd",d)
+    const day = d.getDate().toString().padStart(2, "0");
+    const month = (d.getMonth() + 1).toString().padStart(2, "0"); // Months in JavaScript are 0-indexed
+    const year = d.getFullYear();
+    const value = `${day}/${month}/${year}`
+    return value
+  }
+
   const onSubmit = (selectdate11, selecttime11) => {
     setConfirm(true);
     SetConfromFlag(true);
     var event_id = eventid;
-    var selecteddate = formatDate(selectDate);
+    console.log("selectDate",selectDate)
+    var selecteddate = dateconvert(selectDate)
+    console.log("dateconvertdateconvertdateconvertdateconvertdateconvert",dateconvert(selectDate))
     var selectedtime = selecttime11;
-    dispatch(
-      getSlotterMiddleware({ uid, event_id, selecteddate, selectedtime }),
-    );
+    // if (uid !== null && event_id !== null ){
+      dispatch(
+        getSlotterMiddleware({ uid, event_id, selecteddate, selectedtime }),
+      );
+    // }
   };
 
   const getinter = (inter) => {
@@ -204,9 +217,9 @@ const slotter1 = (props) => {
 
   return (
     <Flex>
-      <Flex className={styles.element}>
+      <Flex height={'100%'} className={styles.element}>
         {dashboard === true ? (
-          <Flex>
+          <Flex height={'100%'}>
             <InterviewDashBoard
               Loading={Loading}
               isLoading={isLoading}
@@ -219,7 +232,7 @@ const slotter1 = (props) => {
             />
           </Flex>
         ) : confromflag === false && dashboard === false ? (
-          <Flex>
+          <Flex height={'100%'}>
             <SlotterDate
               isLoading = {isLoading}
               event={eventid}
@@ -256,7 +269,7 @@ const slotter1 = (props) => {
             />
           </Flex>
         ) : confromflag === true ? (
-          <Flex>
+          <Flex height={'100%'}>
             <Conformpage
               margin={margin}
               selecttime={selecttime}
@@ -323,21 +336,34 @@ const SlotterDate = (props) => {
   const [useravailble, setuseravailble] = useState([]);
   const [timezone, settimezone] = useState('');
   const [candidate, setCandidate] = useState(candidate_name);
+  const [selectedDays, setselectedDays] = useState([]);
 
   useEffect(() => {
     mount();
-  }, [response, timezone]);
+  }, [response, timezone,availbles]);
 
-    const dateObject = availbles  
+  const dateObject = availbles  
   const allDatesArray = Object.keys(dateObject);
-  const dateObjectsArray = allDatesArray.map((dateString) => {
+  const today = new Date(); 
+  console.log("today.toLocaleString()",today.toDateString());
+  const dateObjectsArray = allDatesArray.reduce((datesArray, dateString) => {
     const parts = dateString.split("/");
     const year = parseInt(parts[2], 10);
     const month = parseInt(parts[1], 10) - 1; // Months in JavaScript are 0-indexed
     const day = parseInt(parts[0], 10);
-    return new Date(year, month, day);
-  });
-
+    const dates = new Date(year, month, day);
+  
+    // Check if the current date is not today's date
+    console.log("datesdates",dates)
+    if ( dates > today || dates.toDateString() === today.toDateString() ) {
+      console.log("todaytodaytoday",today,'dates',dates)
+      datesArray.push(dates);
+    }
+    console.log("datesArraydatesArray",datesArray)
+    return datesArray;
+  }, []);
+ 
+  console.log("availblesavailblesavailblesavailbles",availbles)
   const mount = () => {
     if (availbles !== undefined) {
       setuseravailble(availbles);
@@ -434,6 +460,7 @@ const SlotterDate = (props) => {
     return convertedDate;
   };
   const AvailbleSlots = (datetimes) => {
+    alert("+++++++")
     const check = dateconvert(datetimes);
     const filteredData = Object.fromEntries(
       Object.entries(useravailble).filter(([key, value]) => key === check),
@@ -441,18 +468,18 @@ const SlotterDate = (props) => {
 
     const day = datetimes.getDay();
     const intervalMinutes = parseInt(response.map((dur) => dur.duration));
-    const intervalSeconds = intervalMinutes === 1 ?intervalMinutes * 60 : intervalMinutes;  
+    const intervalSeconds = intervalMinutes === 1 ? intervalMinutes * 60 : intervalMinutes;  
     const dateformat = moment.tz(datetimes, timezone).toDate();
     const currentDay = (datetimes.getDay() + 1) % 7; // Get the current day in UTC
     const selectedDay = currentDay;
     const userTimeZone = 0;
     const adjustedDay = day === currentDay ? day : currentDay;
 
-    const saturdayslot = generateIntervals(
+    const timeslot = generateIntervals(
       filteredData[check],
       intervalSeconds,
     );
-
+    setfinalIntervals(timeslot);
   };
 
   const conversion = (data: any) => {
@@ -496,22 +523,25 @@ const SlotterDate = (props) => {
   };
 
   const onDateChange = (datetimes: any) => {
+    alert(datetimes)
     const currentDate = new Date(datetimes);
-
+    
     const isInSchedule = dateObjectsArray.some((d) => {
       const scheduleDate = new Date(d);
       scheduleDate.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0 for comparison
       currentDate.setHours(0, 0, 0, 0);
       return scheduleDate.getTime() === currentDate.getTime();
     });
+    console.log("$%^&*(O)P){",dateObjectsArray,isInSchedule)
 
     if (isInSchedule) {
       AvailbleSlots(datetimes);
       const options = { weekday: 'long', day: '2-digit', month: 'long' };
       const formattedDate = datetimes.toLocaleDateString('en-US', options);
       setDate(formattedDate);
+      alert(formattedDate)
       setSelectTime('');
-      setSelectDate(formattedDate);
+      setSelectDate(datetimes);
       setselectedDate1(datetimes);
     } else {
       setDate(null);
@@ -537,6 +567,7 @@ const SlotterDate = (props) => {
   }
 
   function generateIntervals(timeBreaks, intervalMinutes) {
+    console.log("timeBreakstimeBreaks",timeBreaks,intervalMinutes)
     const intervals12 = [];
     // const intervals24 = [];
     for (const timeBreak of timeBreaks) {
@@ -608,7 +639,7 @@ const SlotterDate = (props) => {
     return dateFrom
     }    
   };
-
+  console.log("dateObjectsArraydateObjectsArray",dateObjectsArray)
   const WEEKDAYS_LONG = [
     "Dimanche",
     "Lundi",
@@ -635,21 +666,23 @@ console.log("************",startOfMonth,endOfMonth)
     return <Loader/>
   }
 
+  console.log("selectedDaysselectedDaysselectedDaysselectedDays",selectedDays)
   return (
-    <Flex>
+    <Flex height={'100%'}>
       <Flex row center className={styles.banner}>
         <SvgZitaLogo />
         <Text bold color="theme" size={16}>
           Interview Scheduling
         </Text>
       </Flex>
-      <Flex row center className={styles.slotcontainer}>
+      <Flex row height={'100%'} className={styles.slotcontainer}>
         {response?.map((data, item) => (
           <Flex
             row
             key={item}
             className={styles.slotter}
             style={{ padding: '10px' }}
+            height={'-web-fill-available'}
           >
             <Flex flex={4} className={styles.leftside}>
               <Flex row center>
@@ -658,8 +691,8 @@ console.log("************",startOfMonth,endOfMonth)
                     src={`${process.env.REACT_APP_HOME_URL}media/${data.company_logo}`}
                     alt="Company Logo"
                     style={{
-                      width: '24px',
-                      height: '24px',
+                      width: '36px',
+                      height: '36px',
                       borderRadius: '50%',
                     }}
                   />
@@ -680,7 +713,7 @@ console.log("************",startOfMonth,endOfMonth)
               </Text>
               <div className={styles.line}></div>
               <Flex marginBottom={10}>
-                <Text bold size={14} style={{ textTransform: 'capitalize' }}>
+                <Text bold size={14}>
                   {data.event_name}
                 </Text>
               </Flex>
@@ -795,43 +828,9 @@ const Conformpage = (props) => {
     timezones,
   } = props;
 
-  useEffect(() => {
-    // mount();
-  }, []);
-  const googleaddevent = async () => {
-    const addevent = {
-      summary: 'heloo',
-      description: 'googleadd event',
-      start: {
-        datetime: Date.now(),
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-      },
-      end: {
-        datetime: Date.now(),
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-      },
-    };
 
-    const events = await fetch(
-      'https://www.googleapis.com/calendar/v3/calendars/primary/events',
-      {
-        method: 'POST',
-        headers: {
-          Authorization:
-            'Bearer' +
-            'ya29.a0AbVbY6MrtjxCaueL5oYyKaU73Lqro_oJOvBwDGZ-pVeqCxGNGg3uWvQFbDufFZ9gbu7pdHervKGeeZYTmoS3wzMQSrag1yzk5tqZf67D8iYqjTivkKc6t_27jqvGrLvkyAvK9d3hWRGU2U9JxeC72g3f5yOoaCgYKAYkSARISFQFWKvPlo5LDr5gDd7__fd2zTjjFjA0163',
-        },
-        body: JSON.stringify(addevent),
-      },
-    )
-      .then((data) => {
-        return data.json();
-      })
-      .then((data) => {})
-      .then((err) => {});
-  };
   return (
-    <Flex>
+    <Flex height={'100%'}>
       <Flex row center className={styles.banner}>
         <SvgZitaLogo />
         <Text bold color="theme" size={16}>
@@ -848,11 +847,15 @@ const Conformpage = (props) => {
               </Text>
             </Flex>
             <Flex row center marginTop={15}>
+              { list.company_logo ? (<>
               <img
                 src={`${process.env.REACT_APP_HOME_URL}media/${list.company_logo}`}
                 alt="Company Logo"
-                style={{ width: '24px', height: '24px', borderRadius: '50%' }}
+                style={{ width: '36px', height: '36px', borderRadius: '50%' }}
               />
+              </>) : (
+                ''
+              )}
               <Text
                 bold
                 size={14}
@@ -899,11 +902,6 @@ const Conformpage = (props) => {
             </Flex>
 
             <div className={styles.line} style={{ margin: '20px 0px' }}></div>
-            <Flex row center middle>
-              <Button types="secondary" onClick={googleaddevent}>
-                Add to your calendar
-              </Button>
-            </Flex>
           </Flex>
         ))}
       </Flex>
@@ -962,7 +960,7 @@ const InterviewDashBoard = (props) => {
 
 
   return (
-    <Flex>
+    <Flex height={'100%'}>
       <Flex row center className={styles.banner}>
         <SvgZitaLogo />
         <Text bold color="theme" size={16}>
@@ -973,11 +971,13 @@ const InterviewDashBoard = (props) => {
         {dashboard.map((list: any, index) => (
           <Flex key={index} className={styles.dashboard}>
             <Flex row center>
+              {list.company_logo ? (<>
               <img
                 src={`${process.env.REACT_APP_HOME_URL}media/${list.company_logo}`}
                 alt="Company Logo"
-                style={{ width: '24px', height: '24px', borderRadius: '50%' }}
+                style={{ width: '36px', height: '36px', borderRadius: '50%' }}
               />
+              </>):('')}
               <Text
                 bold
                 size={14}
@@ -1059,12 +1059,6 @@ const InterviewDashBoard = (props) => {
               </Flex>
             </Flex>
             <div className={styles.line} style={{ margin: '20px 0px' }}></div>
-
-            <Flex row center middle>
-              <Button types="secondary" onClick={() => addtocalender()}>
-                Add to your calendar
-              </Button>
-            </Flex>
           </Flex>
         ))}
       </Flex>

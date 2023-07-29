@@ -4,7 +4,6 @@ import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Button, Flex, InputSwitch, Text } from '../../../uikit';
-import CalendarTypeMenu from '../../calendarModule/CalendarTypeMenu';
 import { getDateString } from '../../../uikit/helper';
 import { AppDispatch } from '../../../store';
 import { dashboardCalenderMiddleWare } from '../../dashboardmodule/empdashboard/store/dashboardmiddleware';
@@ -12,21 +11,24 @@ import { SvgCalendar } from '../../../icons';
 import { calendarRoute } from '../../../appRoutesPath';
 import Table from './eventsTable';
 import styles from './scheduledEvents.module.css';
+import EventsMenu from './eventsMenu';
 
 const ScheduledEventsPage = () => {
   const dispatch: AppDispatch = useDispatch();
-  const [event, setEvent] = useState([{ title: '', start: '', end: '', web_url: '' }]);
+  const [event, setEvent] = useState([
+    { title: '', start: '', end: '', web_url: '' },
+  ]);
   const [showDropDownMenu, setShowDropDownMenu] = useState<boolean>(false);
-  const history = useHistory()
+  const history = useHistory();
   const gotoCalander = () => {
-    history.push(calendarRoute,{ openScheduleEvent: true});
-  }
+    history.push(calendarRoute, { openScheduleEvent: true });
+  };
   const handleDropDown = () => {
     setShowDropDownMenu((state) => !state);
   };
   const formik = useFormik({
     initialValues: { date: getDateString(new Date(), 'MM/DD/YYYY') },
-    onSubmit: () => { },
+    onSubmit: () => {},
   });
   return (
     <>
@@ -87,14 +89,15 @@ const ScheduledEventsPage = () => {
               />
               <div style={{ position: 'absolute', left: 7, top: 3 }}>
                 <label htmlFor="calendar___open">
-                  <SvgCalendar width={16} height={16}/>
+                  <SvgCalendar width={16} height={16} />
                 </label>
               </div>
             </div>
           </Flex>
         </Flex>
-        <Flex>
-          <Flex row center></Flex>
+        <Flex row>
+          <EventsMenu />
+
           <Button className={styles.scheduleButton} onClick={gotoCalander}>
             Schedule Events
           </Button>

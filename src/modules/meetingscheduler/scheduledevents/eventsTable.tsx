@@ -5,7 +5,6 @@ import { Flex, LinkWrapper, Toast, Text } from '../../../uikit';
 import { getDateString, isEmpty } from '../../../uikit/helper';
 import styles from './eventsTable.module.css';
 
-
 export interface DateEntity {
   label: string;
   value: string;
@@ -52,55 +51,48 @@ const EventSchedulerScreen = () => {
 
   return (
     <div>
-
       <div className="table-responsisssve ">
         <div>
           <table className="table" style={{ paddingLeft: 'none' }}>
             <thead>
               <tr>
                 <th className={styles.padchange}>
-                  <Text color="theme" bold className={styles.tabeboarder}>
+                  <Text color="theme" bold className={styles.tableboarder}>
                     Date
                   </Text>
                 </th>
                 <th className={styles.padchange}>
-                  <Text color="theme" bold className={styles.tabeboarder}>
-                  Timings
+                  <Text color="theme" bold className={styles.tableboarder}>
+                    Timings
                   </Text>
                 </th>
                 <th className={styles.padchange}>
-                  <Text color="theme" bold className={styles.tabeboarder}>
-                  Duration
+                  <Text color="theme" bold className={styles.tableboarder}>
+                    Duration
                   </Text>
                 </th>
                 <th className={styles.padchange}>
-                  <Text color="theme" bold className={styles.tabeboarder}>
-                  Event Title
+                  <Text color="theme" bold className={styles.tableboarder}>
+                    Event Title
                   </Text>
                 </th>
                 <th className={styles.padchange}>
-                  <Text color="theme" bold className={styles.tabeboarder}>
-                  Event Type
+                  <Text color="theme" bold className={styles.tableboarder}>
+                    Event Type
                   </Text>
                 </th>
                 <th className={styles.padchange}>
-                  <Text color="theme" bold className={styles.tabeboarder}>
-                  Interviewers
+                  <Text color="theme" bold className={styles.tableboarder}>
+                    Interviewers
                   </Text>
                 </th>{' '}
                 <th className={styles.padchange}>
-                  <Text color="theme" bold className={styles.tabeboarder}>
-                  Organiser
+                  <Text color="theme" bold className={styles.tableboarder}>
+                    Organiser
                   </Text>
                 </th>
-                {/* <th className="text-center" scope="col">
-                <Text color="theme" bold className={styles.tabeboarder}>
-                  Metric
-                </Text>
-              </th> */}
-                
                 <th className={styles.padchange}>
-                  <Text color="theme" bold className={styles.tableboarder}>
+                  <Text color="theme" bold>
                     Actions
                   </Text>
                 </th>
@@ -125,7 +117,7 @@ const EventSchedulerScreen = () => {
                             >
                               {list.job_title}
                             </LinkWrapper>
-                            </Flex>
+                          </Flex>
                         </td>
                         <td
                           style={{ fontSize: 15, fontWeight: 400 }}
@@ -264,7 +256,6 @@ const EventSchedulerScreen = () => {
                         <td className={styles.padchanges} style={{}}>
                           {/* <MyJobPostingScreenStatus list={list} /> */}
                         </td>
-                
 
                         <td className={styles.padchanges}>
                           {list.jd_status__label_name === 'Active' ? (

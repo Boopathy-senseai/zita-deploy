@@ -722,9 +722,9 @@ const IntegrationScreen = () => {
           )}
         </Flex>
       </Modal>
-      <Modal open={conflictopen} onClose={close}>
+      {/* <Modal open={conflictopen} onClose={close}>
         <CalenderConfig/>
-      </Modal>
+      </Modal> */}
    
 
     {/* <Flex className={styles.borderbottom} marginTop={30}>
