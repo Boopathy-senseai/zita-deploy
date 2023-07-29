@@ -278,4 +278,4 @@ export const jobViewCountApi = (jdId: string) => {
 
 /// Scheduled Events
 
-export const calendarScheduledEvents = 'calendar_scheduled_events';
+export const calendarScheduledEvents = 'calender_scheduled_events';

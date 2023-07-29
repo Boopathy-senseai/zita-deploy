@@ -66,7 +66,7 @@
   .middleline {
     margin-right: 20px;
     height: 25px;
-    border: 1px solid #e4dae1;
+    border: 0.5px solid #e4dae1;
     margin-top: 2px;
   }
   .searchstyle {
@@ -352,7 +352,7 @@
     padding-right: 15px !important;
     vertical-align: baseline !important;
     padding-top: 7.5px !important;
-    border-top: 1px solid #A5889C !important;
+    border-top: 0.5px solid #A5889C !important;
   }
   .padchangesmiddle{ 
     vertical-align: baseline !important;
@@ -361,7 +361,7 @@
     padding-right: 45px !important;
     text-align: center;
     padding-top: 7.5px !important;
-    border-top: 1px solid #A5889C !important;
+    border-top: 0.5px solid #A5889C !important;
   }
   .zeroorder{
     font-weight: 500;
@@ -377,28 +377,37 @@
     padding-right: 15px !important;
     vertical-align: baseline !important;
     padding-top: 7.5px !important;
-    border-top: 1px solid #A5889C !important;
+    border-top: 0.5px solid #A5889C !important;
      
   }
   .tableboarder {
     border-right: 0.5px solid #555555;
     display: flex;
-    /* padding:0; */
     color: #555555;
-    font-style: normal;
-    font-weight: 700;
-    font-size: 15px;
   }
-  .tableboarder {
+  /* .tableboarder {
     color: #555555;
     font-style: normal;
     font-weight: 700;
     font-size: 15px;
+  } */
+  .tableboarderAction{
+    display: flex;
+    color: #555555;
+    /* align-items: center; */
   }
   .hellothere {
     font-size: 16px;
     font-weight: 600;
     color: #581845;
+  }
+  .stBold {
+    font-size: 13px;
+    /* font-weight: 500; */
+    color: #333;
+  }
+  .dropDownListStyle{
+    cursor: pointer;
   }
   .hovercolor:hover {
     color: #581845 !important;
@@ -408,13 +417,21 @@
     color: #581845 !important;
     
   }
+  .dropdown-item {
+    padding: 10px !important;
+    }
+
+    .table .dropdown-menu{
+      padding: 8px 0px !important;
+
+    }
   .hovercolor{
     padding: 0 !important;
     padding-bottom: 15px !important;
     padding-right: 15px !important;
     padding-top: 7.5px !important;
     vertical-align: baseline !important;
-    border-top: 1px solid #A5889C !important;
+    border-top: 0.5px solid #A5889C !important;
   }
   .hovercolormiddle{
     padding: 0 !important;
@@ -423,7 +440,7 @@
     text-align: center;
     padding-top: 7.5px !important;
     vertical-align: baseline !important;
-    border-top: 1px solid #A5889C !important;
+    border-top: 0.5px solid #A5889C !important;
   }
   .hovercol{
     padding: 0 !important;

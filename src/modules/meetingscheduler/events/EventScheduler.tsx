@@ -77,16 +77,11 @@ const EventScheduler = () => {
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
-        height: '100%',
-        padding: '10px',
+        height: "100%",
+        padding: "10px",
       }}
     >
-      <Flex
-        row
-        between
-        className={styles.initial}
-        style={{ width: '100%', marginBottom: 10 }}
-      >
+      <Flex row between className={styles.initial} style={{width: "100%", marginBottom: 10}}>
         <Flex>
           {/* <Text color="theme" bold size={16}>
               Events
@@ -127,12 +122,9 @@ const EventScheduler = () => {
         )}
       </Flex>
 
-      <Flex
-        className={styles.outline}
-        style={{ width: '100%', height: '-webkit-fill-available' }}
-      >
+      <Flex className={styles.outline} style={{width: "100%", height: "-webkit-fill-available"}}>
         {response?.length > 0 ? (
-          <Flex row wrap>
+          <Flex row wrap marginTop={'10px'}>
             {response &&
               response?.map((list, index) => {
                 return (
