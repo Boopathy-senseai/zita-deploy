@@ -176,7 +176,7 @@ const InviteContainer = ({
             <>
             {!isEmpty(dataList.interested) && isEmpty(dataList.applicant) && (
             <Flex row center title='You can’t send Invite' className={styles.notinterested}>
-              <SvgNotInterested width={17} height={17}/>
+              <Flex className={styles.svgnoticon}><SvgNotInterested width={20} height={20}/></Flex>
             <Text
               className={styles.notinterestedtext}>
               {!dataList.interested ? 'Not Interested' : ''}

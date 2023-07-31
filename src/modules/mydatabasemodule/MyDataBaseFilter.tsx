@@ -1,6 +1,7 @@
 import { Formik, FormikProps } from 'formik';
 import escapeRegExp from 'lodash/escapeRegExp'; // eslint-disable-line
 import { useMemo, useRef, useState, useEffect } from 'react'; 
+import { set } from 'react-hook-form';
 import SvgIntomark from '../../icons/Intomark';
 import SvgRefresh from '../../icons/SvgRefresh';
 import Card from '../../uikit/Card/Card';
@@ -58,6 +59,13 @@ const MyDataBaseFilter = ({
   const myRef = useRef<any>();
   const dropDownRef = useRef(null);
   const [showDropDown, setShowDropDown] = useState(false); 
+  const click=()=>{
+    setShowDropDown(!showDropDown)
+    dropDownRef.current.scroll({
+      top:0,
+      behavior:"smooth"
+    })
+}
   const filteredOptions = useMemo(() => { 
     if (!isSkills) { 
       return myDataSkillList;
@@ -179,8 +187,18 @@ const MyDataBaseFilter = ({
     hanldeRefresh();
     setSearch('');
     setRelocate(false);
+    
     formik.resetForm()
   };
+
+// const click=()=>{
+//   setShowDropDown(!showDropDown && ((prevIsOpen) => !prevIsOpen));
+//     if (showDropDown && dropDownRef.current) {
+//       dropDownRef.current.scrollTop = 0;
+//     }
+//   }
+
+  
   const closeexp = () => {
     setexperience('');
     formik.setFieldValue("experience","");
@@ -269,24 +287,30 @@ const MyDataBaseFilter = ({
     //   return <Text className={styles.quickfil}>{doc.label}</Text>;
     // }
 
+
+
     return (
-      <>{doc.label !=="any"&&(
+      <>
+      {console.log("KKKKKKKKKKKKKKKKK", total)}
+      {doc.label !=="any"?(
       <Text className={styles.quickfil}>
       {doc.label}{" "}
       <SvgIntomark className={styles.stylesvg} onClick={onClose} />
             </Text>
-            )}
-             {doc.label ==="any" &&total&&(
-              <Text className={styles.quickfil}>
-              {"Any"}
-                    </Text>
-                    )}
+            ):(
+              doc.label ==="any" &&(
+                <Text className={styles.quickfil}>
+                {"Any"}
+                      </Text>
+                      ) )
+                    }
      </>      
     );
   };
+
  return (
 <>
-
+<div className={styles.quickfilters}>
 <Text className={""} style={{ color: "#581845" }}>
         Quick Filters :
       </Text>
@@ -338,7 +362,7 @@ const MyDataBaseFilter = ({
             }
             {formik.values.skillValue.length === 0||skill.length=== 0?(
               null
-            ): (
+            ) : (
               skill.map((skills,index) =>
               <Text className={styles.quickfil} key={skills}>
                 {skills}{" "}
@@ -350,16 +374,26 @@ const MyDataBaseFilter = ({
               )
             )
             }
-
-    <div ref={dropDownRef} className={styles.drop_down} style={{ zIndex: 1}}>
+{isRelocate ?(
+  <Text className={styles.quickfil}>
+     {"Willing to Relocate"}{" "}
+     <SvgIntomark
+              className={styles.stylesvg}
+              onClick={() => setRelocate(true)}
+            />
+   </Text>
+): (
+null
+)
+}
+</div>
+    <div  ref={dropDownRef} className={styles.drop_down} style={{ zIndex: 1}}>
     <Flex
       row
       className={styles.drop_down_header}
-      onClick={() => {
-        setShowDropDown((value) => !value);
-      }}
     >
-      <Flex>
+      <Flex style={{width:'90%'}}
+      onClick={click} >
         <Text
           bold
           className={styles.filtername}
@@ -371,6 +405,7 @@ const MyDataBaseFilter = ({
 
      <Flex title={"Clear Filters"}>
         <SvgRefresh
+        
           width={18}
           height={18}
           onClick={filterRefresh}
@@ -384,7 +419,7 @@ const MyDataBaseFilter = ({
       }`}
     >
       <Flex className={styles.mtstyle}>
-      <Text color="theme" bold className={styles.jobTextStyle}>
+      <Text color="theme" size={14} bold className={styles.jobTextStyle}>
       Job Type
     </Text>
     <Flex row center className={styles.filterstyle}  >
@@ -418,7 +453,7 @@ const MyDataBaseFilter = ({
 
 
      <Flex className={styles.mtstyle}>
-      <Text color="theme" bold className={styles.qualificationTextStyle}>
+      <Text color="theme" size={14} bold className={styles.qualificationTextStyle}>
       Qualification
     </Text>
     <Flex row center wrap>
@@ -486,7 +521,7 @@ const MyDataBaseFilter = ({
             checked={isRelocate}
            />
       </Flex>
-        <Flex style={{marginLeft:'10px'}}>
+        <Flex className={styles.toggletext}>
             Willing to Relocate
         </Flex>
       </Flex>

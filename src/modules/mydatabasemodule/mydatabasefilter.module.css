@@ -69,10 +69,11 @@ font-weight: 400;
   margin-bottom: 20px;
   position: relative;
   float: right;
+  right:23px
 }
 
 .drop_down_header { 
-  padding: 5px 10px 5px 10px;
+  /* padding: 5px 10px 5px 10px;
   background-color: #ffffff !important;
   cursor: pointer;
   width: 260px;
@@ -81,8 +82,17 @@ font-weight: 400;
   border-radius: 11px;
   justify-content: space-between;
   position: relative;
-  align-items: center;
+  align-items: center; */
  
+  padding: 10px;
+  background-color: #ffff !important;
+  width: 230px;
+  height: 30px;
+  border: 1px solid #581845;
+  border-radius: 11px;
+  justify-content: space-between;
+  position: relative;
+  align-items: center;
 }
 /* #typePrompt:hover  */
 .hoverbo.hover {
@@ -117,10 +127,10 @@ font-weight: 400;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.47000000000000003);
   -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.47); */
 
-  background-color: #fff;
+  /* background-color: #fff;
   position: absolute;
   background-color: var(--color-white, #fff);
-  /* border-radius: 0 0 10px 10px; */
+  border-radius: 0 0 10px 10px;
   border-radius: 12px;
   width: 100%;
   z-index: 12;
@@ -130,7 +140,19 @@ font-weight: 400;
   -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.47);
   max-height: 450px;
   overflow-y: auto;
-  height: 300px;
+  height: 300px; */
+
+  background-color: #fff;
+  position: absolute;
+  background-color: var(--color-white, #fff);
+  border-radius: 12px;
+  max-height:450px ;
+  overflow-y: scroll;
+  width: 230px;
+  display: none;
+  box-sizing: border-box;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.47000000000000003);
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.47);
 }
 
 .show {
@@ -182,7 +204,9 @@ font-weight: 400;
   width: fit-content;
   border: 1px solid #581845;
   margin-left: 15px;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
+  color: #581845;
+  font-size: 13px;
 }
 
 .quickfil2 {
@@ -221,4 +245,18 @@ font-weight: 400;
 .switch{
   position: relative;
   top: 2px;
+}
+
+.quickfilters{
+  width: 99%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.toggletext{
+  margin-left: 10px;
+  font-size: 13px;
+  top: 1px;
+  position: relative;
 }

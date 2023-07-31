@@ -24,8 +24,12 @@ return (
       <Text
         color="black_1"
         className={styles.skillTextStyle}
-        style={{marginTop: !size?  "-2%" : "10%"}} 
-        title={`Skills: ${dataList.skills}`}
+        style={{marginTop: !size?  "0%" : "13%"}} 
+        title={
+          !isEmpty (dataList.skills) 
+          ? `Skills: ${dataList.skills}`
+          : `Skills: ${notSpecified(lowerCase(dataList.skills.replace(/,/g, ', ')))}`
+        }
         size={11}
       >
         <Text color="black_1" bold size={11}>

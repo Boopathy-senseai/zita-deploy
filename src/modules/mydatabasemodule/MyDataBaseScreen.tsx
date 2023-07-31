@@ -385,7 +385,7 @@ const MyDataBaseScreen = () => {
 
     <Flex className={styles.titleContainer}  >
       <Text size={16} bold color="theme" >
-      My Database
+      Database
       </Text>
 
     </Flex>

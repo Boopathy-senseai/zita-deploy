@@ -50,4 +50,24 @@
   font-weight: bold;
   cursor: pointer;
   width: 138px;
+  position: relative;
+  left: 50px;
+}
+
+@media only screen and (max-width: 1366px) {
+  .showallmatching{
+    left: 20px;
+  }
+}
+
+@media only screen and (max-width: 1366px) and (max-width:1920px) {
+  .showallmatching{
+    left: 20px;
+  }
+}
+
+@media screen and (min-width: 1920px) {
+  .showallmatching{
+    left: 20px;
+  }
 }

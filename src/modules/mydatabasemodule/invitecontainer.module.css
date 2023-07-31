@@ -71,8 +71,11 @@
   width: 103px;
   margin-bottom: -2px;
   margin-left: -34px;
+  display: flex;
   left: 17px;
   position: relative;
+  flex-direction: column;
+  top: 7px
 }
 
 .svgInviteapplied{

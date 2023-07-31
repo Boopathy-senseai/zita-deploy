@@ -65,7 +65,7 @@ const MyDataBaseList = ({
   setPage,
   addFavFilter,
 }: Props) => {
-  const usersPerPage = 20;
+  const usersPerPage = 15;
   const pageCount = Math.ceil(totalCount / usersPerPage);
 // pagination function
   const handleSetPagination = (a: number) => {
@@ -140,7 +140,7 @@ const MyDataBaseList = ({
               />
             );
           })}
-        {totalCount > 20 && (
+        {totalCount > 15 && (
           <Flex middle className={styles.pagination}>
             <Pangination
               maxPages={pageCount - 1}

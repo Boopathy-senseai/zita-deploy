@@ -183,7 +183,7 @@ const MyDataBaseBulkAction = ({
             onKeyPress={() => {}}
           >
             <div className={styles.svgHeart}>
-              <SvgHeart width={15} height={15} filled={isFav} />
+              <SvgHeart width={13} height={13} filled={isFav} />
             </div>
               <div 
                 className={styles.favourites}

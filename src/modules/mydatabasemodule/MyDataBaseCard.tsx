@@ -272,18 +272,22 @@ const MyDataBaseCard = ({
               />
               <Flex row >
               <Flex className={styles.nameFlex}>
-                <Flex row>
+                <Flex row style={{overflow: "hidden", width:"80%"}}>
                   <Text
                     bold
                     textStyle="ellipsis"
-                    title={dataList.first_name}
+                    // title= {dataList.first_name}
+                    title= 
+                    {!isEmpty(dataList.last_name)? `${dataList.first_name} ${dataList.last_name}` 
+                    : `${dataList.first_name}`}
+
                     onClick={handleProfileView}
                     color={isEmpty(dataList.applicant) ? 'link' : 'gray'}
                     className={cx({
                       pointerEvet: !isEmpty(dataList.applicant),
                     })}
                   >
-                    {dataList.first_name}
+                    {dataList.first_name} {dataList.last_name}
                   </Text>
                   <div
                     className={styles.svgView}
@@ -350,7 +354,7 @@ const MyDataBaseCard = ({
           onKeyPress={() => {}}
           onClick={()=> handleFavAction(dataList.id, filterFormik.values.jobTitle)}
           className={styles.svgHeartaddtofavourites}
-          // title={(dataList.id === dataList.fav ? 'Remove from Favourites' : 'Add to Favourites')}
+          style={{left: !size? "38%"  : "41%"}}
           title={(isEmpty(dataList.fav) ? 'Add to Favourites' : 'Remove From Favourites')}
         >
           {/* <SvgHeart height={15} width={15} filled= {!isEmpty(dataList.fav)}/> */}

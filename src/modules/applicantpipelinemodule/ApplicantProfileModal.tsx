@@ -224,7 +224,7 @@ const ApplicantProfileModal = ({
               profile_match={profileMatch}
               nonMatch={checkMatch}
               inviteCall={hanldeInvitePopUp}
-              isInvite={status_id.length === 0}
+              // isInvite={status_id.length === 0}
               isResume
               withOutJD={isTab}
               source={source}

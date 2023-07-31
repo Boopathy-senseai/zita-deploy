@@ -107,6 +107,8 @@
       align-items: center;
     
       color: #581845;
+      
+      font-size: 14px;
     
     }
     
@@ -124,7 +126,9 @@
     
       scroll-behavior: smooth;
     
-      width: 270px;
+      /* width: 270px; */
+
+      width: 300px;
     
       text-overflow: ellipsis;
     
@@ -144,7 +148,9 @@
     
       scroll-behavior: smooth;
     
-      width: 210px;
+      /* width: 210px; */
+
+      width: 220px;
     
       text-overflow: ellipsis;
     
@@ -245,4 +251,10 @@
 
     .screenrow{
       justify-content: space-between;
+    }
+
+    .infiStyle{
+      position: relative;
+      right: 10px;
+      top: 5px
     }
