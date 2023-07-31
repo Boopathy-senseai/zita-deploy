@@ -45,7 +45,7 @@ export const bulkUploadSkills = (id: number) => {
 export const applicantProfileView = `applicants_profile_api`;
 export const applicantMatchapi = `matching_analysis`;
 export const applicantNotesApi = `candidate_notes`;
-export const applicantUserlistApi=`mention_notification_candidate_notes`;
+export const applicantUserlistApi = `mention_notification_candidate_notes`;
 export const calenderEventApi = `calender_event`;
 export const showAllMatch = `show_all_match`;
 export const applicantMessagesApi = `messages`;
@@ -165,14 +165,12 @@ export const emailValidRequest = (email: string, domain?: string) => {
   return url;
 };
 export const signupRecruiterApi = `${process.env.REACT_APP_API_ENDPOINT}signup_recruiter/`;
-export const signupRecruiterGetApi = (email: string,username:string) => {
+export const signupRecruiterGetApi = (email: string, username: string) => {
   const url = `${process.env.REACT_APP_API_ENDPOINT}signup_recruiter/?email=${email} &username=${username} `;
-  // const url =  payload ? `${process.env.REACT_APP_API_ENDPOINT}signup_recruiter/?username=${username}` : 
+  // const url =  payload ? `${process.env.REACT_APP_API_ENDPOINT}signup_recruiter/?username=${username}` :
   // `${process.env.REACT_APP_API_ENDPOINT}signup_recruiter/?email=${email}`;
   return url;
 };
-
-
 
 export const emailActiveApi = (userId: string, confirmationToken: string) => {
   const url = `${process.env.REACT_APP_API_ENDPOINT}email_activate/?userid=${userId}&confirmation_token=${confirmationToken}`;
@@ -273,8 +271,11 @@ export const eventSchedulerApi = 'scheduler_dashboard';
 export const slotterApi = 'slotter_interview';
 export const availbleslot = 'slotter_availble';
 
-
 export const jobViewCountApi = (jdId: string) => {
   const url = `job_view_count_fun/${jdId}`;
   return url;
 };
+
+/// Scheduled Events
+
+export const calendarScheduledEvents = 'calender_scheduled_events';

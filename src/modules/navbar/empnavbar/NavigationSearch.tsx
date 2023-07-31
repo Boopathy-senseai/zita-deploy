@@ -105,6 +105,8 @@ const NavigationSearch = () => {
         );
       case 'talent sourcing':
         return history.push(routesPath.TALENT_SOURCING);
+      case 'meeting scheduler':
+          return history.push('/meeting_scheduler');
     }
   };
 

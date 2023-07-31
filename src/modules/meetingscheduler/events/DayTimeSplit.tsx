@@ -8,11 +8,11 @@ import SvgCopy from '../../../icons/SvgCopy';
 import SvgRoundAdd from '../../../icons/SvgRoundAdd';
 import Button from '../../../uikit/Button/Button';
 import SelectTag from '../../../uikit/SelectTag/SelectTag';
-import SvgCloseSmall from '../../../icons/SvgCloseSmall';
+// import SvgCloseSmall from '../../../icons/SvgCloseSmall';
 import InputCheckBox from '../../../uikit/InputCheckbox/InputCheckBox';
 // import CopyModal from '../../uikit/CopyModal/CopyModal';
+import SvgCross from '../../../icons/SvgCross';
 import styles from './daytimesplit.module.css';
-import { timezone } from './eventType';
 const DayTimeSplit = (props) => {
   const {
     duration,
@@ -48,6 +48,7 @@ const DayTimeSplit = (props) => {
     saturdaycheck,
     setsaturdaycheck,
     // setinclude,
+    ErrMessage,
   } = props;
   const [copy, SetCopy] = useState(false);
   const [copyid, SetCopyId] = useState(0);
@@ -60,6 +61,8 @@ const DayTimeSplit = (props) => {
   const [day5, setDay5] = useState([]);
   const [day6, setDay6] = useState([]);
   const [day7, setDay7] = useState([]);
+  const [final, setfinal] = useState([]);
+  const [copybtn,setcopybtn] = useState(false)
 
   useEffect(() => {
     TimeSlots(days);
@@ -86,6 +89,7 @@ const DayTimeSplit = (props) => {
     thursdaycheck,
     fridaycheck,
     saturdaycheck,
+    final
   ]);
   useEffect(() => {}, [
     sunday,
@@ -113,32 +117,36 @@ const DayTimeSplit = (props) => {
       const hour = currentTime.getHours() % 12 || 12; // Convert to 12-hour format
       const minute = currentTime.getMinutes().toString().padStart(2, '0'); // Ensure 2-digit format
       const ampm = currentTime.getHours() >= 12 ? 'PM' : 'AM'; // Determine AM/PM based on the hour
-      if (index > 0) {
-        const timeSlot = { id: index,value:index, label: `${hour}:${minute} ${ampm}` };
-        timeSlots.push(timeSlot);
-      }
+      // if (index > 0) {
+        // }
+      const timeSlot = { id: index,value:index, label: `${hour}:${minute} ${ampm}` };
+      timeSlots.push(timeSlot);
       currentTime = new Date(currentTime.getTime() + timeIncrement * 60000);
       index++;
     }
-
-    if (days === 'Calendar Days' && timeSlots.length > 1) {
-      setDay1(timeSlots);
-      setDay2(timeSlots);
-      setDay3(timeSlots);
-      setDay4(timeSlots);
-      setDay5(timeSlots);
-      setDay6(timeSlots);
-      setDay7(timeSlots);
-    } else if (days === 'Week Days' && timeSlots.length > 1) {
-      setDay1([]);
-      setDay2(timeSlots);
-      setDay3(timeSlots);
-      setDay4(timeSlots);
-      setDay5(timeSlots);
-      setDay6(timeSlots);
-      setDay7([]);
-    }
     SetTime(timeSlots);
+    
+    if (days === 'Calendar Days' && timeSlots.length > 1) {
+      const newdata = [...timeSlots]
+      newdata.shift()
+      console.log("newdatanewdatanewdatanewdata",newdata)
+      setDay1(newdata);
+      setDay2(newdata);
+      setDay3(newdata);
+      setDay4(newdata);
+      setDay5(newdata);
+      setDay6(newdata);
+      setDay7(newdata);
+    } 
+    // else if (days === 'Week Days' && timeSlots.length > 1) {
+    //   setDay1([]);
+    //   setDay2(timeSlots);
+    //   setDay3(timeSlots);
+    //   setDay4(timeSlots);
+    //   setDay5(timeSlots);
+    //   setDay6(timeSlots);
+    //   setDay7([]);
+    // }
     if (sundaycheck === true) {
       const newData = [{ starttime: '9:00 AM', endtime: '6:00 PM' }];
       setSunday(newData);
@@ -167,6 +175,7 @@ const DayTimeSplit = (props) => {
       const newData = [{ starttime: '9:00 AM', endtime: '6:00 PM' }];
       setSaturday(newData);
     }
+   
     return timeSlots;
   };
   const copyonclick = (id: number) => {
@@ -577,6 +586,26 @@ const DayTimeSplit = (props) => {
     );
   };
 
+  console.log("11111111111111111",time)
+
+
+  const handleWrapperMouseEnter = () => {
+    // Handle mouse enter event on the wrapper
+    console.log('Mouse entered wrapper!');
+    alert("handleWrapperMouseEnter")
+  };
+  function copybtnClose(){
+    alert("N")
+    setcopybtn(!copybtn)
+    setfinal([]);
+  }
+
+  useEffect(()=> {
+
+  },[copybtn,final])
+
+  console.log("+++++++++++++++++",copybtn,final)
+
   return (
     <Flex>
       {console.log(
@@ -659,9 +688,9 @@ const DayTimeSplit = (props) => {
             {sundaycheck === true ? (
               <Flex row center flex={1}>
                 <Flex row center className={styles.align}>
-                  <div className={styles.selectTag}>
+                  <div onFocus={()=>ErrMessage(day1)} className={styles.selectTag}>
                     <SelectTag
-                      options={day1}
+                      options={day1}  
                       placeholder={'Time'}
                       name="starttime"
                       defaultValue={{
@@ -678,6 +707,7 @@ const DayTimeSplit = (props) => {
                       onChange={(e) =>
                         handleInputChangeForSunday(e, 0, 'starttime')
                       }
+                      // getOptionValue={() => day1.length === 0 ? ErrMessage(day1) : ''}                                          
                     ></SelectTag>
                   </div>
                   <div className={styles.to}>
@@ -763,6 +793,9 @@ const DayTimeSplit = (props) => {
                       thursdaycheck={thursdaycheck}
                       fridaycheck={fridaycheck}
                       saturdaycheck={saturdaycheck}
+                      copybtn ={copybtn}
+                      setcopybtn ={setcopybtn}
+                      copybtnClose ={copybtnClose}
                     />
                   {/* )}
                 </div> */}
@@ -779,7 +812,7 @@ const DayTimeSplit = (props) => {
                   if (i > 0) {
                     return (
                       <>
-                        <Flex row style={{ marginBottom: '10px' }}>
+                        <Flex row center style={{ marginBottom: '10px' }}>
                           <Flex row className={styles.align}>
                             <div className={styles.selectTag}>
                               <SelectTag
@@ -787,7 +820,7 @@ const DayTimeSplit = (props) => {
                                 placeholder={'Time'}
                                 name="starttime"
                                 value={
-                                  time
+                                  x.starttime !== ''
                                     ? time.find(
                                         (option) =>
                                           option.label === x.starttime,
@@ -809,7 +842,7 @@ const DayTimeSplit = (props) => {
                                 placeholder={'Time'}
                                 name="endtime"
                                 value={
-                                  time
+                                  x.endtime !== ''
                                     ? time.find(
                                         (option) => option.label === x.endtime,
                                       )
@@ -824,12 +857,13 @@ const DayTimeSplit = (props) => {
                           <div>
                             {sunday.length !== 1 && (
                               <button
+                                type="button"
                                 onClick={() => RemoveClickForSunday(i)}
                                 className={styles.add}
                               >
-                                <SvgCloseSmall
-                                  width={18}
-                                  height={18}
+                                <SvgCross
+                                  width={16}
+                                  height={16}
                                   fill={'#581845'}
                                 />
                               </button>
@@ -877,10 +911,11 @@ const DayTimeSplit = (props) => {
                       onChange={(e) =>
                         handleInputChangeForMonday(e, 0, 'starttime')
                       }
+                      // getOptionValue={() => day2.length === 0 ? ErrMessage(day2) : ''}       
                     ></SelectTag>
                   </div>
                   <div className={styles.to}>
-                    <Text className={styles.txt}> To</Text>
+                    <Text className={styles.txt}>To</Text>
                   </div>
 
                   <div className={styles.selectTag}>
@@ -959,7 +994,10 @@ const DayTimeSplit = (props) => {
                       wednesdaycheck={wednesdaycheck}
                       thursdaycheck={thursdaycheck}
                       fridaycheck={fridaycheck}
-                      saturdaycheck={saturdaycheck}
+                      saturdaycheck={saturdaycheck}            
+                      copybtn ={copybtn}
+                      setcopybtn ={setcopybtn}
+                      copybtnClose ={copybtnClose}
                     />
                   {/* ) : (
                     ''
@@ -973,12 +1011,12 @@ const DayTimeSplit = (props) => {
             )}
           </Flex>
           <div>
-            {monday.length > 1 && sunday
+            {monday.length > 1 && monday
               ? monday.map((x, i) => {
                   if (i > 0) {
                     return (
                       <>
-                        <Flex row style={{ marginBottom: '10px' }}>
+                        <Flex row center style={{ marginBottom: '10px' }}>
                           <Flex row className={styles.align}>
                             <div className={styles.selectTag}>
                               <SelectTag
@@ -986,7 +1024,7 @@ const DayTimeSplit = (props) => {
                                 placeholder={'Time'}
                                 name="starttime"
                                 value={
-                                  time
+                                  x.starttime !== ''
                                     ? time.find(
                                         (option) =>
                                           option.label === x.starttime,
@@ -999,7 +1037,7 @@ const DayTimeSplit = (props) => {
                               ></SelectTag>
                             </div>
                             <div className={styles.to}>
-                              <Text className={styles.txt}> To</Text>
+                              <Text className={styles.txt}>To</Text>
                             </div>
 
                             <div className={styles.selectTag}>
@@ -1008,7 +1046,7 @@ const DayTimeSplit = (props) => {
                                 placeholder={'Time'}
                                 name="endtime"
                                 value={
-                                  time
+                                  x.endtime !== ''
                                     ? time.find(
                                         (option) => option.label === x.endtime,
                                       )
@@ -1025,10 +1063,11 @@ const DayTimeSplit = (props) => {
                               <button
                                 onClick={() => RemoveClickForMonday(i)}
                                 className={styles.add}
+                                type="button"
                               >
-                                <SvgCloseSmall
-                                  width={18}
-                                  height={18}
+                                <SvgCross
+                                  width={16}
+                                  height={16}
                                   fill={'#581845'}
                                 />
                               </button>
@@ -1043,6 +1082,7 @@ const DayTimeSplit = (props) => {
           </div>
         </Flex>
       </Flex>
+
 
       <Flex row marginBottom={10}>
         {dateheader('Tuesday', tuesdaycheck, (e) =>
@@ -1163,7 +1203,10 @@ const DayTimeSplit = (props) => {
                       wednesdaycheck={wednesdaycheck}
                       thursdaycheck={thursdaycheck}
                       fridaycheck={fridaycheck}
-                      saturdaycheck={saturdaycheck}
+                      saturdaycheck={saturdaycheck}                     
+                      copybtn ={copybtn}
+                      setcopybtn ={setcopybtn}
+                      copybtnClose ={copybtnClose}
                     />
                   {/* ) : (
                     ''
@@ -1190,7 +1233,7 @@ const DayTimeSplit = (props) => {
                                 placeholder={'Time'}
                                 name="starttime"
                                 value={
-                                  time
+                                  x.starttime !== ''
                                     ? time.find(
                                         (option) =>
                                           option.label === x.starttime,
@@ -1212,7 +1255,7 @@ const DayTimeSplit = (props) => {
                                 placeholder={'Time'}
                                 name="endtime"
                                 value={
-                                  time
+                                  x.endtime !== ''
                                     ? time.find(
                                         (option) => option.label === x.endtime,
                                       )
@@ -1230,9 +1273,9 @@ const DayTimeSplit = (props) => {
                                 onClick={() => RemoveClickForTuesday(i)}
                                 className={styles.add}
                               >
-                                <SvgCloseSmall
-                                  width={18}
-                                  height={18}
+                               <SvgCross
+                                  width={16}
+                                  height={16}
                                   fill={'#581845'}
                                 />
                               </button>
@@ -1370,6 +1413,9 @@ const DayTimeSplit = (props) => {
                       thursdaycheck={thursdaycheck}
                       fridaycheck={fridaycheck}
                       saturdaycheck={saturdaycheck}
+                      copybtn ={copybtn}
+                      setcopybtn ={setcopybtn}
+                      copybtnClose ={copybtnClose}
                     />
                   {/* ) : (
                     ''
@@ -1396,7 +1442,7 @@ const DayTimeSplit = (props) => {
                                 placeholder={'Time'}
                                 name="endtime"
                                 value={
-                                  time
+                                  x.starttime !== ''
                                     ? time.find(
                                         (option) =>
                                           option.label === x.starttime,
@@ -1418,7 +1464,7 @@ const DayTimeSplit = (props) => {
                                 placeholder={'Time'}
                                 name="endtime"
                                 value={
-                                  time
+                                  x.endtime !== ''
                                     ? time.find(
                                         (option) => option.label === x.endtime,
                                       )
@@ -1436,9 +1482,9 @@ const DayTimeSplit = (props) => {
                                 onClick={() => RemoveClickForWednesday(i)}
                                 className={styles.add}
                               >
-                                <SvgCloseSmall
-                                  width={18}
-                                  height={18}
+                               <SvgCross
+                                  width={16}
+                                  height={16}
                                   fill={'#581845'}
                                 />
                               </button>
@@ -1517,7 +1563,7 @@ const DayTimeSplit = (props) => {
                   </div>
                 </Flex>
                 <div>
-                  {day6.length > 0 ? (
+                  {day5.length > 0 ? (
                     <button
                       className={styles.add}
                       type="button"
@@ -1571,6 +1617,9 @@ const DayTimeSplit = (props) => {
                       thursdaycheck={thursdaycheck}
                       fridaycheck={fridaycheck}
                       saturdaycheck={saturdaycheck}
+                      copybtn ={copybtn}
+                      setcopybtn ={setcopybtn}
+                      copybtnClose ={copybtnClose}
                     />
                   {/* ) : (
                     ''
@@ -1597,7 +1646,7 @@ const DayTimeSplit = (props) => {
                                 placeholder={'Time'}
                                 name="endtime"
                                 value={
-                                  time
+                                  x.starttime !== ''
                                     ? time.find(
                                         (option) =>
                                           option.label === x.starttime,
@@ -1619,7 +1668,7 @@ const DayTimeSplit = (props) => {
                                 placeholder={'Time'}
                                 name="endtime"
                                 value={
-                                  time
+                                  x.endtime !== ''
                                     ? time.find(
                                         (option) => option.label === x.endtime,
                                       )
@@ -1637,9 +1686,9 @@ const DayTimeSplit = (props) => {
                                 onClick={() => RemoveClickForThursday(i)}
                                 className={styles.add}
                               >
-                                <SvgCloseSmall
-                                  width={18}
-                                  height={18}
+                             <SvgCross
+                                  width={16}
+                                  height={16}
                                   fill={'#581845'}
                                 />
                               </button>
@@ -1772,6 +1821,9 @@ const DayTimeSplit = (props) => {
                       thursdaycheck={thursdaycheck}
                       fridaycheck={fridaycheck}
                       saturdaycheck={saturdaycheck}
+                      copybtn={copybtn}
+                      setcopybtn={setcopybtn}
+                      copybtnClose ={copybtnClose}
                     />
                   {/* )}
                 </div> */}
@@ -1796,7 +1848,7 @@ const DayTimeSplit = (props) => {
                                 placeholder={'Time'}
                                 name="starttime"
                                 value={
-                                  time
+                                  x.starttime !== ''
                                     ? time.find(
                                         (option) =>
                                           option.label === x.starttime,
@@ -1818,7 +1870,7 @@ const DayTimeSplit = (props) => {
                                 placeholder={'Time'}
                                 name="endtime"
                                 value={
-                                  time
+                                  x.endtime !== ''
                                     ? time.find(
                                         (option) => option.label === x.endtime,
                                       )
@@ -1836,9 +1888,9 @@ const DayTimeSplit = (props) => {
                                 onClick={() => RemoveClickForFriday(i)}
                                 className={styles.add}
                               >
-                                <SvgCloseSmall
-                                  width={18}
-                                  height={18}
+                               <SvgCross
+                                  width={16}
+                                  height={16}
                                   fill={'#581845'}
                                 />
                               </button>
@@ -1978,6 +2030,9 @@ const DayTimeSplit = (props) => {
                       thursdaycheck={thursdaycheck}
                       fridaycheck={fridaycheck}
                       saturdaycheck={saturdaycheck}
+                      copybtn ={copybtn}
+                      setcopybtn ={setcopybtn}
+                      copybtnClose ={copybtnClose}
                     />
                   {/* ) : (
                     ''
@@ -2004,7 +2059,7 @@ const DayTimeSplit = (props) => {
                                 placeholder={'Time'}
                                 name="starttime"
                                 value={
-                                  time
+                                  x.starttime !== ''
                                     ? time.find(
                                         (option) =>
                                           option.label === x.starttime,
@@ -2030,7 +2085,7 @@ const DayTimeSplit = (props) => {
                                 placeholder={'Time'}
                                 name="endtime"
                                 value={
-                                  time
+                                  x.endtime !== ''
                                     ? time.find(
                                         (option) => option.label === x.endtime,
                                       )
@@ -2048,9 +2103,9 @@ const DayTimeSplit = (props) => {
                                 onClick={() => RemoveClickForSaturday(i)}
                                 className={styles.add}
                               >
-                                <SvgCloseSmall
-                                  width={18}
-                                  height={18}
+                              <SvgCross
+                                  width={16}
+                                  height={16}
                                   fill={'#581845'}
                                 />
                               </button>
@@ -2107,7 +2162,11 @@ const CopyClipBoard = (props) => {
     thursdaycheck,
     fridaycheck,
     saturdaycheck,
-    // include,
+    // final,
+    // setfinal,
+    copybtn,
+    setcopybtn,
+    copybtnClose,
   } = props;
 
   console.log("^^^^^^^^^^^^^^^^^^^^^^^",props)
@@ -2115,7 +2174,7 @@ const CopyClipBoard = (props) => {
 
   useEffect(() => {
     setfinal([])
-  }, [sunday, monday, tuesday, wednesday, thursday, friday, saturday]);
+  }, []);
 
   const [time123, setTime123] = useState(copy);
   const [mondayclick, setMondayClick] = useState(false);
@@ -2123,15 +2182,16 @@ const CopyClipBoard = (props) => {
   const [check, setCheck] = useState([]);
   const [final, setfinal] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [checked,setChecked] = useState([])
 
   useEffect(() => {}, [
-    sunday,
-    monday,
-    tuesday,
-    wednesday,
-    thursday,
-    friday,
-    saturday,
+    // sunday,
+    // monday,
+    // tuesday,
+    // wednesday,
+    // thursday,
+    // friday,
+    // saturday,
   ]);
 
   const toggleDropdown = () => {
@@ -2140,20 +2200,25 @@ const CopyClipBoard = (props) => {
   };
   useEffect(()=>{
 
-  },[final])
+  },[])
 
   const handleCheckboxChange = (assignedvalue: string) => {
     alert("?")
-    if (final.includes(assignedvalue)) {
-      // alert('splice');
-      const indexToRemove = final.indexOf(assignedvalue);
-      final.splice(indexToRemove, 1);
+    if (checked.includes(assignedvalue)) {
+      alert('splice');
+      const indexToRemove = checked.indexOf(assignedvalue);
+      checked.splice(indexToRemove, 1);
+      setfinal(checked)
+      setChecked(checked)
     } else {
-      // alert('handleCheckboxChanges');
-      final.push(assignedvalue);
-      console.log("finalallllllllllll>>>>>>>>>",final)
+      alert(assignedvalue);
+      checked.push(assignedvalue);      
+      // setfinal(checked)
+      console.log("finalallllllllllll>>>>>>>>>",checked,checked.includes(assignedvalue))
+      setChecked(checked)
     }
   };
+
 
   function closeButton() {
     setCopy(false);
@@ -2161,6 +2226,7 @@ const CopyClipBoard = (props) => {
   }
 
   const applyonclick = (senditem: any, dayof: any, tslot: any) => {
+    copybtnClose();
     if (final.includes('sunday')) {
       const filteredData = dayof.filter(
         (item) => item.starttime !== '' && item.endtime !== '',
@@ -2204,10 +2270,11 @@ const CopyClipBoard = (props) => {
       setSaturday(filteredData);
     }
     closeButton();
+    setfinal([]);
     setTimeout(() => {
       timeslotset(tslot);
     }, 1000);
-    setfinal([]);
+    // setChecked([])
   };
 
   const timeslotset = (dayof) => {
@@ -2237,10 +2304,17 @@ const CopyClipBoard = (props) => {
     }
   };
 
+
   console.log("finalallllllllllll",final)
+  console.log("finalallllllllllllcopybtn",copybtn)
+  {console.log("checkeddddddddd---------------",checked)}
+
+
   return (
     <>
-      <Flex className={styles.btnsetting}>
+    {console.log("checkeddddddddd",checked)}
+
+      <Flex className={styles.btnsetting}  onClick={()=>setcopybtn(true)}>
         <Dropdown className="dropdownButton dropleft">
           <Dropdown.Toggle
           //  className={styles.add}
@@ -2252,11 +2326,12 @@ const CopyClipBoard = (props) => {
               // marginLeft:"-7px"             
             }}
             // id="dropdown-basic"
-            // onClick={toggleDropdown}
+           
           >
             <SvgCopy width={18} height={18} fill="581458"/>
           </Dropdown.Toggle>
 
+          {copybtn && 
           <Dropdown.Menu style={{ minWidth: '5rem' }}>
             {/* <Dropdown.Item
             onClick={handleDropdownItemClick}
@@ -2275,14 +2350,16 @@ const CopyClipBoard = (props) => {
                       disabled={name === 'sunday'}
                       //   onChange={() => handleCheckboxChange('monday')}
                     />
-                  ) : !final.includes(name) && sundaycheck === true ? (
+                  ) : sundaycheck === true ? (
                     <>
                  
-                    {console.log("!final.includes(name)",!final.includes(name))}
+                    {console.log("!final.includes(name)",final.includes(name.toString()))}
 
                     <InputCheckBox
                       onChange={() => handleCheckboxChange('sunday')}
+                      checked={checked.includes('sunday') ? true : false}
                     />
+                    {console.log("finalallllllllllllfinalallllllllllll",name ,typeof name,"\n",checked.includes('sunday'))}
                     
                     </>
                   ) : (
@@ -2310,9 +2387,11 @@ const CopyClipBoard = (props) => {
                       checked={name === 'monday'}
                       disabled={name === 'monday'}
                     />
-                  ) : !final.includes(name) &&  mondaycheck === true ? (
+                  ) : mondaycheck === true ? (
                     <InputCheckBox
                       onChange={() => handleCheckboxChange('monday')}
+                      checked={checked.includes('monday') ? true : false}
+                      
                     />
                   ) : (
                     <InputCheckBox
@@ -2339,10 +2418,14 @@ const CopyClipBoard = (props) => {
                       checked={name === 'tuesday'}
                       disabled={name === 'tuesday'}
                     />
-                  ) : !final.includes(name) && tuesdaycheck === true ? (
+                  ) : tuesdaycheck === true ? (
+                    <>
                     <InputCheckBox
                       onChange={() => handleCheckboxChange('tuesday')}
+                      checked={checked.includes(name.toString()) ? true : false}
                     />
+                    {console.log("checked.includes",checked.includes('tuesday'))}
+                    </>
                   ) : (
                     <InputCheckBox
                       onChange={() => handleCheckboxChange('tuesday')}
@@ -2368,9 +2451,10 @@ const CopyClipBoard = (props) => {
                       checked={name === 'wednesday'}
                       disabled={name === 'wednesday'}
                     />
-                  ) : !final.includes(name) && wednesdaycheck === true ? (
+                  ) : wednesdaycheck === true ? (
                     <InputCheckBox
                       onChange={() => handleCheckboxChange('wednesday')}
+                      checked={checked.includes('wednesday') ? true : false}
                     />
                   ) : (
                     <InputCheckBox
@@ -2397,9 +2481,11 @@ const CopyClipBoard = (props) => {
                       checked={name === 'thursday'}
                       disabled={name === 'thursday'}
                     />
-                  ) : !final.includes(name) && thursdaycheck === true ? (
+                  ) : thursdaycheck === true ? (
                     <InputCheckBox
-                      onChange={() => handleCheckboxChange('thursday')}
+                      onChange={() => handleCheckboxChange('thursday')} 
+                      checked={checked.includes('thursday') ? true : false}
+        
                     />
                   ) : (
                     <InputCheckBox
@@ -2426,10 +2512,11 @@ const CopyClipBoard = (props) => {
                       checked={name === 'friday'}
                       disabled={name === 'friday'}
                     />
-                  ) : !final.includes(name) && fridaycheck === true ? (
+                  ) : fridaycheck === true ? (
                     <InputCheckBox
                       // checked={final.includes('friday')}
                       onChange={() => handleCheckboxChange('friday')}
+                      checked={checked.includes('friday') ? true : false}
                     />
                   ) : (
                     <InputCheckBox
@@ -2456,18 +2543,21 @@ const CopyClipBoard = (props) => {
                       checked={name === 'saturday'}
                       disabled={name === 'saturday'}
                     />
-                  ) : saturdaycheck === true ? (    
-                    !final.includes(name) ? (
+                  ) : saturdaycheck === true ? (  
+                    // final.includes(name) ? (
                       <InputCheckBox
-                        checked={true}
+                        // checked={true}
                         onChange={() => handleCheckboxChange('saturday')}
-                        // disabled={!nameIsChecked}
+                        checked={checked.includes('saturday') ? true : false}
+                        // disabled={true}
                       />
-                    ) : (
-                      <InputCheckBox
-                        onChange={() => handleCheckboxChange('saturday')}
-                      />
-                    )
+                    
+                    // ) : (
+                    //   <InputCheckBox
+                    //     onChange={() => handleCheckboxChange('saturday')}
+                    //     // disabled={true}
+                    //   />
+                    // )
 
                    
                   ) : (
@@ -2490,6 +2580,7 @@ const CopyClipBoard = (props) => {
               {/* </>
             )} */}
           </Dropdown.Menu>
+}
         </Dropdown>
       </Flex>
     </>

@@ -158,3 +158,6 @@ export const PIPELINE_STAGES_REORDER = 'account/pipeline_stages_reorder';
 // [Meeting Scheduler ] --> events
 export const EVENT_SCHEDULER_FORM_DETAILS = 'events/events';
 export const SLOTTER_FORM_DETAILS = 'events/slotter';
+
+export const EVENTS_LIST = 'events/list';
+export const EVENTS_DELETE = 'events/delete';

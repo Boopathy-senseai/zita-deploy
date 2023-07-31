@@ -12,12 +12,18 @@ import {
 } from '../../../../uikit';
 import SvgAddToCalendar from '../../../../icons/SvgAddToCalendar';
 import SvgConflicts from '../../../../icons/SvgConflicts';
+import SvgGmail from '../../../../icons/SvgGmail';
 import { isEmpty } from '../../../../uikit/helper';
 import styles from './calendarconfig.module.css';
 import { calendarratio, unavailble } from './ConfigTypes';
 
-const CalenderConfig = () => {
-  const email = 'pugazhendhi@sense7ai.com';
+interface CalenderConfigProps {
+  isGoogle: number;
+  email: string;
+}
+
+const CalenderConfig = ({ isGoogle, email }: CalenderConfigProps) => {
+  console.log('isGoogleisGoogle', isGoogle);
   const [conflict, setconflict] = useState(false);
   const [calendar, setcalendar] = useState(false);
 
@@ -36,12 +42,19 @@ const CalenderConfig = () => {
     setcalendar(!calendar);
   }
 
+  function updateConflicts() {
+    setconflict(!conflict);
+  }
+  function updateCalendar() {
+    setcalendar(!calendar);
+  }
+
   return (
     <Flex className={styles.modalwidth}>
       <Flex className={styles.container}>
         <Flex row>
-          <Flex middle>
-            <SvgConflicts height={32} width={32} />
+          <Flex marginTop={3}>
+            <SvgConflicts height={18} width={18} />
           </Flex>
           <Flex marginLeft={15}>
             <Flex>
@@ -55,16 +68,18 @@ const CalenderConfig = () => {
             </Flex>
             <CheckForConflicts
               email={email}
+              isGoogle={isGoogle}
               conflict={conflict}
               editConflict={editConflict}
               closeModal1={closeModal1}
+              updateConflicts={updateConflicts}
             />
           </Flex>
         </Flex>
 
         <Flex row marginTop={20}>
-          <Flex middle>
-            <SvgAddToCalendar height={32} width={32} fill="#581845" />
+          <Flex marginTop={3}>
+            <SvgAddToCalendar height={18} width={18} fill="#581845" />
           </Flex>
           <Flex marginLeft={15}>
             <Flex>
@@ -81,6 +96,8 @@ const CalenderConfig = () => {
               calendar={calendar}
               editCalendar={editCalendar}
               closeModal2={closeModal2}
+              isGoogle={isGoogle}
+              updateCalendar={updateCalendar}
             />
           </Flex>
         </Flex>
@@ -91,15 +108,19 @@ const CalenderConfig = () => {
 interface CheckForConflictProps {
   email: string;
   conflict: boolean;
+  isGoogle: number;
   editConflict: () => void;
   closeModal1: () => void;
+  updateConflicts: () => void;
 }
 
 const CheckForConflicts: React.FC<CheckForConflictProps> = ({
   email,
-  editConflict,
   conflict,
+  isGoogle,
   closeModal1,
+  editConflict,
+  updateConflicts,
 }) => {
   console.log('editmodaleditmodal', conflict);
 
@@ -109,6 +130,13 @@ const CheckForConflicts: React.FC<CheckForConflictProps> = ({
   useEffect(() => {
     if (conflict === true) {
       setcalendarflag(true);
+      const checked = [
+        'Busy',
+        'Tentative',
+        'Away/ Out of Office',
+        'Working Elsewhere',
+      ];
+      setCheckedItems(checked);
     } else {
       setcalendarflag(false);
     }
@@ -142,7 +170,11 @@ const CheckForConflicts: React.FC<CheckForConflictProps> = ({
       <Card className={styles.cardStruture}>
         <Flex row center between>
           <Flex row center>
-            <SvgOutlook height={18} width={18} />
+            {isGoogle === 0 ? (
+              <SvgOutlook height={18} width={18} />
+            ) : (
+              <SvgGmail height={18} width={18} />
+            )}
             <Text style={{ marginLeft: '5px' }}>
               Check for <Text color="theme">{email}</Text>
             </Text>
@@ -194,7 +226,9 @@ const CheckForConflicts: React.FC<CheckForConflictProps> = ({
                 Cancel
               </Button>
 
-              <Button className={styles.share}>Update</Button>
+              <Button className={styles.share} onClick={updateConflicts}>
+                Update
+              </Button>
             </Flex>
           </Flex>
         ) : (
@@ -217,15 +251,19 @@ const CheckForConflicts: React.FC<CheckForConflictProps> = ({
 interface AddtoCalendarProps {
   email: string;
   calendar: boolean;
+  isGoogle: number;
   editCalendar: () => void;
   closeModal2: () => void;
+  updateCalendar: () => void;
 }
 
 const AddtoCalendar: React.FC<AddtoCalendarProps> = ({
   email,
   editCalendar,
   calendar,
+  isGoogle,
   closeModal2,
+  updateCalendar,
 }) => {
   const [showDropdown, setshowDropdown] = useState(false);
   const [checklabel, setchecklabel] = useState(email);
@@ -243,7 +281,7 @@ const AddtoCalendar: React.FC<AddtoCalendarProps> = ({
     if (label === email) {
       alert('>');
       setshowDropdown(true);
-      setcheckedFlag(true);
+      setcheckedFlag(false);
     } else {
       setshowDropdown(false);
     }
@@ -255,7 +293,7 @@ const AddtoCalendar: React.FC<AddtoCalendarProps> = ({
     setshowDropdown(true);
     if (checklabel === email) {
       setshowDropdown(true);
-      setcheckedFlag(true);
+      setcheckedFlag(false);
     }
   }, []);
   return (
@@ -263,7 +301,11 @@ const AddtoCalendar: React.FC<AddtoCalendarProps> = ({
       <Card className={styles.cardStruture1}>
         <Flex row center between>
           <Flex row center>
-            <SvgOutlook height={18} width={18} />
+            {isGoogle === 0 ? (
+              <SvgOutlook height={18} width={18} />
+            ) : (
+              <SvgGmail height={18} width={18} />
+            )}
             <Text style={{ marginLeft: '5px' }}>
               Add to <Text color="theme">{email}</Text>
             </Text>
@@ -316,7 +358,9 @@ const AddtoCalendar: React.FC<AddtoCalendarProps> = ({
                 Cancel
               </Button>
 
-              <Button className={styles.share}>Update</Button>
+              <Button className={styles.share} onClick={updateCalendar}>
+                Update
+              </Button>
             </Flex>
           </>
         ) : (

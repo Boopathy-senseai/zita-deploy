@@ -1,9 +1,5 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getIn, isEmptyArray, useFormik } from 'formik';
-import { eventSchedulerApi } from '../../../routes/apiRoutes';
-import Card from '../../../uikit/Card/Card';
 import Button from '../../../uikit/Button/Button';
 import SvgAdd from '../../../icons/SvgAdd';
 import Flex from '../../../uikit/Flex/Flex';
@@ -15,9 +11,51 @@ import Toast from '../../../uikit/Toast/Toast';
 import { AppDispatch, RootState } from '../../../store';
 import DashBoard from './DashBoard';
 import CreateNewEvent from './CreateNewEvent';
-import { dashboard, overall } from './eventType';
 import styles from './eventscheduler.module.css';
 import { getScheduleMiddleWare } from './store/middleware/eventmiddleware';
+
+type CreateEvent = {
+  event_name: string;
+  event_type: string;
+  location: string;
+  dateRange: string;
+  days: string;
+  startdate: string;
+  enddate: string;
+  duration: string;
+  timezone: string;
+  interviewer: string;
+  schedule: string;
+  sunday: [];
+  timezonedisplay: string;
+  description: string;
+  // availbletimebook: string;
+  isactive: boolean;
+  isdeleted: boolean;
+  updatedby: string;
+};
+
+const initial: CreateEvent = {
+  event_name: '',
+  event_type: '',
+  location: '',
+  dateRange: '0',
+  days: 'Calendar Days',
+  startdate: '',
+  enddate: '',
+  duration: '',
+  timezone: '',
+  interviewer: '',
+  schedule: '',
+  sunday: [],
+  timezonedisplay:
+    'Automatically detect and show the times in my invitees time zone',
+  description: '',
+  // availbletimebook : '',
+  isactive: true,
+  isdeleted: false,
+  updatedby: '',
+};
 
 const EventScheduler = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -31,13 +69,8 @@ const EventScheduler = () => {
   const [schedule, setschedule] = useState([]);
   const [editmembers, seteditmembers] = useState([]);
   const [reset, setreset] = useState(false);
-
-
-
-
   const [open, setopen] = useState(0);
-
-
+  
   const {
     data,
     interviewer,
@@ -93,6 +126,14 @@ const EventScheduler = () => {
       // });
     }
   }
+
+  function HandleResetForm(formik){
+    // alert("HandleResetForm")
+    // formik.resetForm();
+    console.log("HandleResetFormHandleResetForm",formik)
+  }
+
+
   function HandleButton(ToastMessage){
       if (ToastMessage) {
         Toast('Updated Event Successfully!');
@@ -114,14 +155,24 @@ const EventScheduler = () => {
   }
   console.log("scheduleschedulescheduleschedule",schedule,editmembers)
   return (
-    <>
-      <Flex>
-        <Flex row between className={styles.initial}>
-          <Flex>
-            <Text size={16}>
-              Share your availability with candidates and schedule events
-            </Text>
-          </Flex>
+    <Flex
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        height: "100%",
+        padding: "10px",
+      }}
+    >
+      <Flex row between className={styles.initial} style={{width: "100%", marginBottom: 10}}>
+        <Flex>
+          {/* <Text color="theme" bold size={16}>
+              Events
+            </Text> */}
+          <Text size={16}>
+            Share your availability with candidates and schedule events
+          </Text>
+        </Flex>
 
           <Button
             types="primary"
@@ -145,11 +196,12 @@ const EventScheduler = () => {
                 setEditList={setEditList}
                 teammembers={addmembers}
                 intern={interviewer}
-                reset={reset}
-                // schedule={schedule}
+                setisLoader={setisLoader}
+                schedule={schedule}
                 google={google}
                 outlook={outlook}    
-                HandleButton ={HandleButton}           
+                HandleButton ={HandleButton}  
+                HandleResetForm={HandleResetForm}
               />
             </Modal>
           ) : (
@@ -197,7 +249,6 @@ const EventScheduler = () => {
           )}
         </Flex>
       </Flex>
-    </>
   );
 };
 

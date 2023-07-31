@@ -1,9 +1,24 @@
 import React, { useEffect, useRef } from 'react';
 import { Flex, InputSwitch, Text } from '../../../uikit';
 import SvgArrowDown from '../../../icons/SvgArrow';
+import { EVENT_TYPE } from '../types';
 import styles from './eventsMenu.module.css';
 
-const EventsMenu = ({}) => {
+interface Props {
+  showDropDownMenu: boolean;
+  eventType: EVENT_TYPE;
+  onEventType: (v: EVENT_TYPE) => void;
+  handleDropDown: () => void;
+  style?: React.CSSProperties;
+}
+
+const EventsMenu: React.FC<Props> = ({
+  showDropDownMenu,
+  eventType,
+  onEventType,
+  handleDropDown,
+  style,
+}) => {
   const TeameventsOptions = () => (
     <div style={{ marginTop: '10px' }}>
       <div>
@@ -17,7 +32,7 @@ const EventsMenu = ({}) => {
         </div>
       </div>
       <div style={{ marginTop: '14px' }}>
-      <Text style={{ margin: 0, marginTop:"10px"}}>Team</Text>
+        <Text style={{ margin: 0, marginTop: '10px' }}>Team</Text>
       </div>
     </div>
   );
@@ -42,21 +57,31 @@ const EventsMenu = ({}) => {
   const EventsTypeOptions = () => (
     <>
       <div className={styles.filter_wrapper}>
-        <button className={styles.currenteventsType} onClick={() => {}}>
+        <button
+          className={
+            eventType === EVENT_TYPE.MY_EVENTS ? styles.activeFilter : ''
+          }
+          onClick={() => onEventType(EVENT_TYPE.MY_EVENTS)}
+        >
           My events
         </button>
-        <button className={styles.currenteventsType} onClick={() => {}}>
-          Everyone’s events
+        <button
+          className={
+            eventType === EVENT_TYPE.TEAM_EVENTS ? styles.activeFilter : ''
+          }
+          onClick={() => onEventType(EVENT_TYPE.TEAM_EVENTS)}
+        >
+          Team events
         </button>
       </div>
     </>
   );
 
   const MenuButtonView = () => (
-    <button className={styles.dropDownBtn} onClick={() => {}}>
+    <button className={styles.dropDownBtn} onClick={handleDropDown}>
       <Flex row center noWrap>
         <Text size={14} className={styles.container}>
-          Everyone’s events
+          {eventType === EVENT_TYPE.MY_EVENTS ? "My Events" :  "Team Events"}
         </Text>
         <Flex marginTop={2} style={{ cursor: 'pointer' }}>
           <SvgArrowDown width={14} height={12} />
@@ -67,12 +92,12 @@ const EventsMenu = ({}) => {
 
   return (
     <>
-      <div style={{ position: 'relative' }}>
+      <div style={{ position: 'relative', ...style }}>
         <MenuButtonView />
-        <Overlay show={true} onClose={() => {}} />
+        <Overlay show={showDropDownMenu} onClose={handleDropDown} />
         <div
           style={{
-            display: true ? 'block' : 'none',
+            display: showDropDownMenu ? 'block' : 'none',
           }}
           className={styles.dropdownFilter}
         >
@@ -81,7 +106,13 @@ const EventsMenu = ({}) => {
             style={{
               padding: '5px 8px',
             }}
-          ></div>
+          >
+            {eventType === EVENT_TYPE.MY_EVENTS ? (
+              <div>MY EVENT</div>
+            ) : (
+              <div>TEAM EVENT</div>
+            )}
+          </div>
         </div>
       </div>
     </>
@@ -111,16 +142,16 @@ const Overlay = ({ show, onClose }: OverlayProps) => {
   return (
     <div
       ref={overlayRef}
-      // style={{
-      //   position: 'fixed',
-      //   width: '100vw',
-      //   height: '100vh',
-      //   top: 0,
-      //   left: 0,
-      //   backgroundColor: 'transparent',
-      //   zIndex: 100,
-      //   display: show ? 'block' : 'none',
-      // }}
+      style={{
+        position: 'fixed',
+        width: '100vw',
+        height: '100vh',
+        top: 0,
+        left: 0,
+        backgroundColor: 'transparent',
+        zIndex: 100,
+        display: show ? 'block' : 'none',
+      }}
     ></div>
   );
 };

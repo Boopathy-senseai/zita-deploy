@@ -479,7 +479,7 @@ small {
   cursor: pointer;
   padding: 8px 15px;
   transition: all 0.3s;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  /* border-bottom: 1px solid rgba(0, 0, 0, 0.04); */
 }
 .dropdown-item:hover {
   background-color: rgb(88 24 69 / 15%) !important;
@@ -834,6 +834,7 @@ input:-webkit-autofill:active {
 .rdp-caption_label {
   font-size: 14px !important;
   padding: 0 !important;
+  color: #333 !important;
 }
 .rdp-cell {
   color: #333 !important;
@@ -852,9 +853,27 @@ input:-webkit-autofill:active {
 }
 
 .rdp-day_today:not(.rdp-day_outside) {
-  /* background-color: #581845 !important;
-  color: white !important; */
+  /* background-color: #581845 !important; */
+  color: black !important;
   font-weight: bold !important;
+}
+
+.rdp-caption{
+  margin-left: 15px;
+}
+.daterangepicker td.in-range{
+ background-color: #d7c7d2 !important;
+}
+.daterangepicker td.active{
+  background-color: #581845 !important;
+}
+.cancelBtn.btn.btn-sm.btn-default{
+  background-color: #888888;
+  color: #fff;
+  /* text-transform: capitalize; */
+}
+.daterangepicker .drp-buttons .btn{
+  text-transform: capitalize;
 }
 
 /*--------- scroll bar styles---------*/

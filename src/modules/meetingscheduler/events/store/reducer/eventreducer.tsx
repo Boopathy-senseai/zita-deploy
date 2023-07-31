@@ -43,6 +43,9 @@ const schedulerState: schedulerPageReducerState = {
       event_id: 0,
       name_id: 0,
       full_name: '',
+      name__user : '',
+      google_calendar :'',
+      outlook_calendar : ''
     },
   ],
   shareLink: [
@@ -63,6 +66,7 @@ const schedulerState: schedulerPageReducerState = {
       full_name: '',
     },
   ],
+
   datetime: {
     sunday: [
       {
@@ -78,7 +82,7 @@ const schedulerState: schedulerPageReducerState = {
         endtime: '',
       },
     ],
-    tueday: [
+    tuesday: [
       {
         day: '',
         starttime: '',

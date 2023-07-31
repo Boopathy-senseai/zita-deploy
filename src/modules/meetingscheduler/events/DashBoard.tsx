@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { Dropdown } from 'react-bootstrap';
-import SvgDotMenu from '../../../icons/SvgDotMenu';
 import { AppDispatch } from '../../../store';
 import Flex from '../../../uikit/Flex/Flex';
 import Text from '../../../uikit/Text/Text';
@@ -17,10 +15,9 @@ import CancelAndDeletePopup from '../../common/CancelAndDeletePopup';
 import Button from '../../../uikit/Button/Button';
 import { eventSchedulerApi } from '../../../routes/apiRoutes';
 import SvgCopy from '../../../icons/SvgCopy';
-import { Loader } from '../../../uikit';
 import LinkShare from './LinkShare';
 import styles from './dashBoard.module.css';
-import { deleteScheduleMiddleWare, getScheduleMiddleWare } from './store/middleware/eventmiddleware';
+import { getScheduleMiddleWare } from './store/middleware/eventmiddleware';
 
 const DashBoard = (props) => {
   const dispatch: AppDispatch = useDispatch();
@@ -172,9 +169,6 @@ const DashBoard = (props) => {
           share={share}
           setShare={SetShare}
           list={list}
-          // title={'Team interview'}
-          // type={'Team interview'}
-          // duration={'30 Minutes'}
           sharelinkdata={response}
           details={details}
           sharedata={sharedata}
@@ -287,14 +281,14 @@ const ActionsButton = (props) => {
               <Text style={{ marginLeft: '10px' }}>
                 Users will be unable to schedule further meeting with deleted
                 event types.
-                {/* <br/> */}
-                <Text style={{ marginLeft: '10px' }}>
+                <br/>              
+                <Text>
                   Meetings previously scheduled will not be affected.
                 </Text>
               </Text>
               <Text style={{ marginLeft: '10px' }}>
                 Are you sure to proceed?
-              </Text>
+              </Text>              
             </Flex>
           }
           btnDelete={onDelete}

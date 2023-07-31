@@ -58,9 +58,9 @@
 .outline {
   display: flex;
   flex-wrap: wrap;
-  padding: 5px;
-  margin-top: 10px;
-  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1), 0px 0px 8px rgba(0, 0, 0, 0.1);
+  /* padding: 5px; */
+  /* margin-top: 10px; */
+  /* box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1), 0px 0px 8px rgba(0, 0, 0, 0.1); */
 }
 .eventtxt {
   font-size: 20px;
