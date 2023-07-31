@@ -95,7 +95,7 @@ update();
 
           <Flex row center>
             <div className={cx('svgInputDiv')}>
-              <NavigationSearch  onButtonClick={update}/>
+              <NavigationSearch  onButtonClick={update} onbuttonchange={imagefunction}/>
             </div>
 
             {!is_plan ? (

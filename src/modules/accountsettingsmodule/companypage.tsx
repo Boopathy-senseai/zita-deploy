@@ -433,11 +433,9 @@ console.log()
   useEffect(() => {
      if(profile&& profile !== 'default.jpg'){
       const userlogo = profile.substring(profile.lastIndexOf('/') + 1);
-    // setlogo(userlogo);
       setlogos(userlogo);
      } 
-     else{ setlogos('')
-    }
+   
        }, [logoUrls]);
   
   const logoUrl =
@@ -1019,8 +1017,6 @@ let jpgchange=jpg.toUpperCase();
               errors={formik.errors}
               name="Company Logo"
             />
-
-          
             <Flex flex={5} style={{ margintop: '-2vh' }}>
               {openpopup === true ? (
                 <Card className={styles.cardfront1}>
