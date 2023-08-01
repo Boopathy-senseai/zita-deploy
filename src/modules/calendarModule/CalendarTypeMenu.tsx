@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { SvgDownArrow } from '../../icons';
-import { InputSwitch } from '../../uikit';
+import { Flex, InputSwitch, Text } from '../../uikit';
+import SvgArrowDown from '../../icons/SvgArrow';
 import { CalendarOptions, CalendarType, Colors, TeamMemberType } from './types';
 import styles from './styles/calendarScreen.module.css';
 import SelectTeamMemberCheckBox from './SelectTeamMemberIcon';
@@ -141,14 +142,16 @@ const CalendarTypeMenu = ({
 
   const MenuButtonView = () => (
     <button className={styles.dropDownBtn} onClick={handleDropDown}>
-      <p>
-        {currentCalendarType === CalendarType.MyCalendar
-          ? 'My Calendar'
-          : 'Team Calendar'}
-      </p>
-      <div>
-        <SvgDownArrow />
-      </div>
+      <Flex row center noWrap>
+        <Text size={14}className={styles.container}>
+          {currentCalendarType === CalendarType.MyCalendar
+            ? 'My Calendar'
+            : 'Team Calendar'}
+        </Text>
+        <Flex>
+          <SvgArrowDown width={14} height={12} />
+        </Flex>
+      </Flex>
     </button>
   );
 
