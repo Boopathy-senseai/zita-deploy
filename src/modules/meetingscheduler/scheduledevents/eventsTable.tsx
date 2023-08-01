@@ -92,7 +92,7 @@ const EventSchedulerScreen: React.FC<Props> = (props) => {
                           top
                           //  className={styles.hellothere}
                         >
-                          <Text>{doc.date}</Text>
+                          <Text className={styles.stBold}>{doc.date}</Text>
                         </Flex>
                       </td>
                       <td className={styles.padchanges}>

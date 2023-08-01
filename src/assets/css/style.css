@@ -875,6 +875,12 @@ input:-webkit-autofill:active {
 .daterangepicker .drp-buttons .btn{
   text-transform: capitalize;
 }
+.react-datepicker__day--keyboard-selected:hover{
+  background-color: #581845 !important;
+}
+.react-datepicker__day--keyboard-selected{
+  background-color: #581845 !important;
+}
 
 /*--------- scroll bar styles---------*/
 
