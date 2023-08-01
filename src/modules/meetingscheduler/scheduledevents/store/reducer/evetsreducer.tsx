@@ -1,12 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getEventsMiddleWare, deleteEventMiddleWare } from '../middleware/eventsmiddleware';
-import { IEvent } from '../../../types';
+import { IEvent, IEventInterviewer } from '../../../types';
 
 interface State {
   isLoading: boolean;
   error: any;
   pastEvent: IEvent[];
   upcomingEvent: IEvent[];
+  interviewers: IEventInterviewer[];
   deleteState: {
     id: any;
     isLoading: boolean;
@@ -19,6 +20,7 @@ const initialState: State = {
   error: '',
   pastEvent: [],
   upcomingEvent: [],
+  interviewers: [],
   deleteState: {
     id: null,
     isLoading: false,
@@ -39,6 +41,7 @@ const scheduledEventsReducer = createSlice({
       state.isLoading = false;
       state.pastEvent = action.payload.past_event;
       state.upcomingEvent = action.payload.upcoming_event;
+      state.interviewers =  action.payload.interviewer;
     });
     builder.addCase(getEventsMiddleWare.rejected, (state, action) => {
       state.isLoading = false;
