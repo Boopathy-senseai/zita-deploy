@@ -7,6 +7,7 @@ import {
 import { AuthCodeMSALBrowserAuthenticationProvider } from '@microsoft/microsoft-graph-client/authProviders/authCodeMsalBrowser';
 // import { User } from 'microsoft-graph';
 import { gapi } from 'gapi-script';
+import { Base64 } from 'js-base64';
 let graphClient: Client | undefined = undefined;
 
 function ensureClient(authProvider: AuthCodeMSALBrowserAuthenticationProvider) {
@@ -380,15 +381,18 @@ export async function gmail_send(base64EncodedEmail) {
   return res;
 }
 
-export async function Gmail_Mails(folder) {
+export async function Gmail_Mails(folder, pageToken, maxresult) {
   try {
     const response = await gapi.client.gmail.users.messages.list({
       userId: 'me',
       labelIds: folder,
-      maxResults: 25,
+      maxResults: maxresult,
+      pageToken: pageToken,
     });
 
     const { messages } = response.result;
+    const token = response.result.nextPageToken;
+
     if (messages && messages.length > 0) {
       const messageIds = messages.map((message) => message.id);
       var messageResponses = [];
@@ -398,17 +402,19 @@ export async function Gmail_Mails(folder) {
           userId: 'me',
           id: messageId,
           format: 'metadata',
-          metadataHeaders: ['From', 'Subject', 'To', 'X-GM-Labels'],
+          metadataHeaders: ['From', 'Subject', 'To', 'Date', 'X-GM-Labels'],
         });
 
         messageResponses.push(messageResponse.result);
       }
     }
-    return messageResponses;
+    console.log('totalres', messageResponses);
+    return { messageResponses, token };
   } catch (error) {
     console.error('Error loading messages:', error);
   }
 }
+
 export async function Selected_message(id) {
   try {
     const response = await gapi.client.gmail.users.messages.get({
@@ -417,11 +423,49 @@ export async function Selected_message(id) {
       format: 'full',
     });
     const message = response.result;
-    return message;
+    console.log('full message', message);
+    const attachments = [];
+    const parts = message.payload.parts || [];
+    parts.forEach((part) => {
+      if (part.filename && part.body && part.body.attachmentId) {
+        const attachment = {
+          attachmentId: part.body.attachmentId,
+          name: part.filename,
+          mimeType: part.mimeType,
+        };
+        attachments.push(attachment);
+      }
+    });
+
+    // Extract the body of the message
+    var body = getMessageBody(message.payload);
+    console.log('as', attachments);
+    return { attachments, body, message };
   } catch (error) {
     console.error('Error loading message body:', error);
   }
 }
+
+const getMessageBody = (mes) => {
+  const encodedBody =
+    typeof mes.parts === 'undefined' ? mes.body.data : getHTMLPart(mes.parts);
+
+  return Base64.decode(encodedBody);
+};
+
+const getHTMLPart = (arr) => {
+  for (var x = 0; x <= arr.length; x++) {
+    if (typeof arr[x].parts === 'undefined') {
+      if (arr[x].mimeType === 'text/html') {
+        return arr[x].body.data;
+      }
+    } else {
+      return getHTMLPart(arr[x].parts);
+    }
+  }
+  return '';
+};
+
 export const Gmail_read_messages = async (messageId) => {
   const response = await gapi.client.gmail.users.messages.modify({
     userId: 'me',
@@ -480,8 +524,7 @@ export const Gmail_search = async (Folder, serchdata) => {
   }
 };
 
-export const Gmail_Draft = async (Folder, serchdata) => {
-  var draft = 'sd';
+export const Gmail_Draft = async (draft) => {
   gapi.client.gmail.users.drafts
     .create({
       userId: 'me',
@@ -494,4 +537,23 @@ export const Gmail_Draft = async (Folder, serchdata) => {
     .catch((error) => {
       console.error('Error saving draft:', error);
     });
+};
+
+export const Gmail_Attachment = async (id, attachid) => {
+  const response = await gapi.client.gmail.users.messages.attachments.get({
+    userId: 'me',
+    // eslint-disable-next-line max-len
+    id: attachid,
+    messageId: id,
+  });
+  return response;
+};
+
+export const Gmail_Folder_Total_count = async (folder) => {
+  const count = gapi.client.gmail.users.labels.get({
+    userId: 'me',
+    id: folder,
+  });
+
+  return count;
 };

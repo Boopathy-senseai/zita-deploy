@@ -100,9 +100,7 @@ const Inbox = ({
         .then((res) => {
           Toast('read successfully', 'SHORT', 'success');
         })
-        .catch((error) => {
-          // console.log('connection failed inboxxxxxxx', error);
-        });
+        .catch((error) => {});
     }
   };
 
@@ -114,11 +112,8 @@ const Inbox = ({
       await mailread(authProvider, message.id, readmessage)
         .then((res) => {
           //page();
-          //  console.log('read------++---', res);
         })
-        .catch((error) => {
-          //  console.log('connection failed inboxxxxxxx', error);
-        });
+        .catch((error) => {});
     }
   };
 
@@ -128,9 +123,7 @@ const Inbox = ({
       .then((res) => {
         Toast('move trach successfully', 'SHORT', 'success');
       })
-      .catch((error) => {
-        // console.log('connection failed inboxxxxxxx', error);
-      });
+      .catch((error) => {});
   };
 
   const remove = async () => {
@@ -141,24 +134,16 @@ const Inbox = ({
             removemsg();
             page();
             Toast('Email remove permanent successfully', 'SHORT', 'success');
-
-            // console.log('res---------', res);
           })
-          .catch((error) => {
-            // console.log('connection failed inboxxxxxxx', error);
-          });
+          .catch((error) => {});
       } else {
         await movefolder(authProvider, message.id, 'deleteditems')
           .then((res) => {
             removemsg();
             page();
             Toast('Moved to delete email successfully', 'SHORT', 'success');
-
-            // console.log('res---------', res);
           })
-          .catch((error) => {
-            // console.log('connection failed inboxxxxxxx', error);
-          });
+          .catch((error) => {});
       }
     }
   };
@@ -186,12 +171,8 @@ const Inbox = ({
           removemsg();
           page();
           Toast('Moved to archive email successfully', 'SHORT', 'success');
-
-          // console.log('res---------', res);
         })
-        .catch((error) => {
-          // console.log('connection failed inboxxxxxxx', error);
-        });
+        .catch((error) => {});
     }
   };
 
@@ -203,9 +184,7 @@ const Inbox = ({
           page();
           Toast('Moved to junk email successfully', 'SHORT', 'success');
         })
-        .catch((error) => {
-          // console.log('connection failed inboxxxxxxx', error);
-        });
+        .catch((error) => {});
     }
   };
 
@@ -217,11 +196,8 @@ const Inbox = ({
       .then((res) => {
         removemsg();
         page();
-        //  console.log('read------++---', res);
       })
-      .catch((error) => {
-        // console.log('connection failed inboxxxxxxx', error);
-      });
+      .catch((error) => {});
   };
 
   const donwnload = async (val) => {
@@ -264,15 +240,12 @@ const Inbox = ({
       .then((res) => {
         Toast('unread successfully', 'SHORT', 'success');
       })
-      .catch((error) => {
-        // console.log('connection failed inboxxxxxxx', error);
-      });
+      .catch((error) => {});
   };
 
   const to = (data, val) => {
     const from = data.filter((item) => item.name === 'To');
     if (from.length !== 0) {
-      console.log('Frrrrr', from);
       let From = from[0].value.replace(/\s\S*$/, '');
       return <>{`To: ${from[0].value}`}</>;
     } else {
@@ -283,7 +256,6 @@ const Inbox = ({
   const messageIcon = message !== '';
   return (
     <div>
-      {console.log('meaa', message)}
       <Flex flex={1} row between center className={styles.iconContainer}>
         {sidebarroute !== 3 ? (
           <>
@@ -435,7 +407,7 @@ const Inbox = ({
           </>
         )}
       </Flex>
-      {console.log('attachments', attachments)}
+
       {message !== '' ? <>{/* {sidebarroute} */}</> : ''}
       <Flex
         style={{

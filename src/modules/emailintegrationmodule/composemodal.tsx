@@ -41,6 +41,7 @@ import {
   mailforward,
   initGoogleAuth,
   gmail_send,
+  Gmail_Draft,
 } from '../../emailService';
 import InputText from '../../uikit/InputText/InputText';
 import SvgCollapse from '../../icons/Svgcollapse';
@@ -237,6 +238,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
     attachments: attachfile,
     saveToSentItems: true,
   };
+
   const composeemail = async () => {
     setloader(true);
     await composemail(authProvider, Emailprops)
@@ -344,7 +346,6 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
 
       reader.onload = () => {
         let fileInfo = {
-          // '@odata.type': '#microsoft.graph.fileAttachment',
           type: filecollection.type,
           name: filecollection.name,
           contentBytes: String(reader.result).split(',')[1],
@@ -510,7 +511,68 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
     const toEmails = tomail.join(', ');
     const toCC = ccmail.join(', ');
     const toBCC = bccmail.join(', ');
+    const emailss = [
+      'Content-Type: multipart/mixed; boundary="boundary"\n',
+      'MIME-Version: 1.0\n',
+      `To: ${toEmails}\n`,
+      `Cc: ${toCC}\n`,
+      `Bcc: ${toBCC}\n`,
+      `Subject: ${subject}\n\n`,
+      `--boundary\n`,
+      'Content-Type: text/html; charset="UTF-8"\n',
+      'MIME-Version: 1.0\n',
+      `\n${messagebody}\n\n`,
+    ];
 
+    attachfile.forEach(async (attachment) => {
+      console.log('1', attachment.type);
+      console.log('2', attachment.name);
+      console.log('3', attachment.contentBytes);
+
+      emailss.push(
+        `--boundary\n`,
+        `Content-Type: ${attachment.type}\n`,
+        'MIME-Version: 1.0\n',
+        'Content-Transfer-Encoding: base64\n',
+        `Content-Disposition: attachment; filename="${attachment.name}"\n\n`,
+        `${attachment.contentBytes}\n\n`,
+      );
+    });
+
+    emailss.push(`--boundary--`);
+
+    console.log('===', emailss);
+
+    const email = emailss.join('');
+
+    const base64EncodedEmail1 = btoa(email);
+
+    setloader(true);
+    initGoogleAuth()
+      .then(() => {
+        gmail_send(base64EncodedEmail1)
+          .then((res) => {
+            setloader(false);
+            Toast('Message send successfully', 'SHORT', 'success');
+            clearform();
+            onClose();
+            setstyle(0);
+          })
+          .catch((error) => {
+            Toast('Message not send ', 'SHORT', 'error');
+            setloader(false);
+          });
+      })
+      .catch((error) => {
+        Toast('Message not send ', 'SHORT', 'error');
+        setloader(false);
+      });
+  };
+
+  const GmailDraft = () => {
+    const toEmails = tomail.join(', ');
+    const toCC = ccmail.join(', ');
+    const toBCC = bccmail.join(', ');
     const emailss = [
       'Content-Type: multipart/mixed; boundary="boundary"\n',
       'MIME-Version: 1.0\n',
@@ -538,27 +600,37 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
 
     const email = emailss.join('');
 
-    const base64EncodedEmail1 = btoa(email);
+    const rawMessage = btoa(email);
+    const drafts = {
+      message: {
+        raw: rawMessage,
+      },
+    };
 
     setloader(true);
     initGoogleAuth()
       .then(() => {
-        gmail_send(base64EncodedEmail1)
+        Gmail_Draft(drafts)
           .then((res) => {
             setloader(false);
-            Toast('Message send successfully', 'SHORT', 'success');
+            Toast('Draft save successfully', 'SHORT', 'success');
             clearform();
+            closeverify();
             onClose();
             setstyle(0);
           })
           .catch((error) => {
-            Toast('Message not send ', 'SHORT', 'error');
+            Toast('Draft not save ', 'SHORT', 'error');
             setloader(false);
+            closeverify();
+            onClose();
           });
       })
       .catch((error) => {
-        Toast('Message not send ', 'SHORT', 'error');
+        Toast('Draft not save', 'SHORT', 'error');
         setloader(false);
+        closeverify();
+        onClose();
       });
   };
 
@@ -974,7 +1046,8 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
         closeverify={closeverify}
         composemodel={onClose}
         clearstate={clearform}
-        Emailprops={Emailprops}
+        Emailprops={integration === 'google' ? GmailDraft : Emailprops}
+        auth={integration}
       />
     </div>
   );

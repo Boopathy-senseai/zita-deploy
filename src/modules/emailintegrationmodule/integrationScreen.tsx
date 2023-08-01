@@ -39,6 +39,8 @@ import {
   initGoogleAuth,
   Selected_message,
   Gmail_search,
+  Gmail_Attachment,
+  Gmail_Folder_Total_count,
 } from '../../emailService';
 import config from '../../outlookmailConfig';
 
@@ -63,12 +65,14 @@ const EmailScreen = () => {
   const [search, setSearch] = useState('');
   const [attachments, setAttachments] = useState([]);
   const [mailfolders, setMailfolders] = useState('');
+  const [gmailunread, setgmailunread] = useState(0);
+  const [nextpagetoken, setnextpagetoken] = useState('02142003198877269687');
 
   const [previous, setPrevious] = useState(25);
   const [previous1, setPrevious1] = useState(1);
   const [skip, setSkip] = useState(0);
   const [range, setRange] = useState(25);
-  const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState<any>(0);
   const [del, setDel] = useState(0);
   const [searchDropdown, setSearchDropdown] = useState(false);
   const [searchSection, setSearchSection] = useState('All');
@@ -93,14 +97,11 @@ const EmailScreen = () => {
     setLoader(true);
     await getsenditem(authProvider)
       .then((res) => {
-        // console.log('res---------', res);
         setmessagelist(res.value);
         removemessage();
         setLoader(false);
       })
-      .catch((error) => {
-        // console.log('connection failed inboxxxxxxx', error);
-      });
+      .catch((error) => {});
   };
 
   const Draft = async () => {
@@ -108,27 +109,21 @@ const EmailScreen = () => {
 
     await getdraft(authProvider)
       .then((res) => {
-        // console.log('res---------', res);
         setmessagelist(res.value);
         removemessage();
         setLoader(false);
       })
-      .catch((error) => {
-        // console.log('connection failed inboxxxxxxx', error);
-      });
+      .catch((error) => {});
   };
 
   const getprofile = async () => {
     if (integration === 'google') {
-      console.log('as');
     } else if (integration === 'outlook') {
       await getUser(authProvider)
         .then((res: any) => {
           setUsermail(res.mail);
         })
-        .catch((error) => {
-          console.log('sd', error);
-        });
+        .catch((error) => {});
     }
   };
   const getmails = async () => {
@@ -139,7 +134,6 @@ const EmailScreen = () => {
         setmessagelist(res.value);
         setTotal(res['@odata.count']);
         setLoader(false);
-        // console.log('asasasas', res);
       })
       .catch((error) => {});
   };
@@ -223,12 +217,8 @@ const EmailScreen = () => {
   ];
   const as = async () => {
     await getusermail(authProvider)
-      .then((res: any) => {
-        console.log('---', res);
-      })
-      .catch((error) => {
-        console.log('---', error);
-      });
+      .then((res: any) => {})
+      .catch((error) => {});
   };
 
   const inboxmail = () => {
@@ -239,14 +229,11 @@ const EmailScreen = () => {
     setLoader(true);
     await getarchivemsg(authProvider)
       .then((res: any) => {
-        //  console.log('achive---------', res);
         removemessage();
         setmessagelist(res.value);
         setLoader(false);
       })
-      .catch((error) => {
-        //  console.log('connection failed achive mail', error);
-      });
+      .catch((error) => {});
   };
 
   const deleteditems = async () => {
@@ -257,9 +244,7 @@ const EmailScreen = () => {
         setmessagelist(res.value);
         setLoader(false);
       })
-      .catch((error) => {
-        //  console.log('connection failed achive mail', error);
-      });
+      .catch((error) => {});
   };
 
   const updateroute = (val) => {
@@ -275,6 +260,7 @@ const EmailScreen = () => {
     setSearchFolder('All Folder');
     setSearchSection('All');
     setAttachments([]);
+    setnextpagetoken(null);
   };
 
   const junkemail = async () => {
@@ -285,9 +271,7 @@ const EmailScreen = () => {
         setmessagelist(res.value);
         setLoader(false);
       })
-      .catch((error) => {
-        // console.log('get junk mail', error);
-      });
+      .catch((error) => {});
   };
   const searchinput = (e) => {
     setSearch(e.target.value.trim());
@@ -316,7 +300,6 @@ const EmailScreen = () => {
           })
           .catch((error) => {
             setLoader(false);
-            // console.log('get junk mail', error);
           });
       } else if (search !== '' && integration === 'google') {
         setsideroute(0);
@@ -332,14 +315,12 @@ const EmailScreen = () => {
             Gmail_search(searchSection, search)
               .then((res) => {
                 setLoader(false);
-                // console.log('res---------', res);
+
                 // setMailfolders(res);
                 setmessagelist(res);
-                //console.log('vkkk', res);
               })
               .catch((error) => {
                 setLoader(false);
-                // console.log('connection failed inboxxxxxxx', error);
               });
           })
           .catch((error) => {
@@ -377,11 +358,8 @@ const EmailScreen = () => {
           setTotal(res['@odata.count']);
           setLoader(false);
           getfolder();
-          //console.log(folder, res.value);
         })
-        .catch((error) => {
-          //console.log('error', error);
-        });
+        .catch((error) => {});
     } else if (integration === 'google') {
       var Gfolder = '';
       if (sideroute === 1) {
@@ -397,19 +375,20 @@ const EmailScreen = () => {
       }
       initGoogleAuth()
         .then(() => {
-          Gmail_Mails(Gfolder)
+          Gmail_Mails(Gfolder, nextpagetoken, range)
             .then((res) => {
-              setmessagelist(res);
-              console.log('tak', res);
+              console.log('rem', res);
+              if (res.messageResponses !== undefined) {
+                setmessagelist(res.messageResponses);
+              }
+              setnextpagetoken(res.token);
               setLoader(false);
             })
             .catch((err) => {
-              console.log('er', err);
               setLoader(false);
             });
         })
         .catch((error) => {
-          console.error('Failed to initialize Google API client:', error);
           setLoader(false);
         });
     }
@@ -446,36 +425,64 @@ const EmailScreen = () => {
       setDel(0);
     }
   };
+  const get_attach = async (id, attach, res) => {
+    let getfile = [];
 
+    attach.map(async (val, ind) => {
+      await Gmail_Attachment(id, val.attachmentId).then((responce) => {
+        let fileInfo = {
+          name: val.name,
+          size: responce.result.size,
+          contentBytes: responce.result.data,
+          contentType: val.mimeType,
+        };
+        getfile.push(fileInfo);
+      });
+    });
+
+    var obj = {
+      id: id,
+      labelIds: res.message.labelIds,
+      header: res.message.payload.headers,
+      body: res.body,
+    };
+
+    setTimeout(function () {
+      setmesage(obj);
+      setAttachments(getfile);
+      setLoader(false);
+    }, 2500);
+  };
   const getmessageid = async (msgid) => {
+    setLoader(true);
     if (integration === 'google') {
       initGoogleAuth()
         .then(() => {
           Selected_message(msgid)
             .then((res) => {
-              var bodymessage = getMessageBody(res.payload);
-              var obj = {
-                id: msgid,
-                labelIds: res.labelIds,
-                header: res.payload.headers,
-                body: bodymessage,
-              };
-              setmesage(obj);
+              if (res.attachments.length === 0) {
+                setLoader(false);
+                var obj = {
+                  id: msgid,
+                  labelIds: res.message.labelIds,
+                  header: res.message.payload.headers,
+                  body: res.body,
+                };
+                setmesage(obj);
+                setAttachments(res.attachments);
+              } else {
+                get_attach(msgid, res.attachments, res);
+              }
             })
-            .catch((err) => {
-              //console.log('er', err);
-              setLoader(false);
-            });
+            .catch((err) => {});
         })
         .catch((error) => {
-          // console.error('Failed to initialize Google API client:', error);
           setLoader(false);
         });
     } else {
       setLoader(true);
       await getselectedmsg(authProvider, msgid)
         .then((res) => {
-          // console.log('addad', res);
           page();
           if (res.hasAttachments === true) {
             attachment(res.id);
@@ -484,39 +491,32 @@ const EmailScreen = () => {
             setAttachments([]);
           }
         })
-        .catch((error) => {
-          //  console.log('error', error);
-        });
+        .catch((error) => {});
     }
   };
 
   const attachment = async (msgid) => {
     await getattachments(authProvider, msgid)
       .then((res) => {
-        console.log('attach', res);
         setAttachments(res.value);
         setLoader(false);
       })
-      .catch((error) => {
-        console.log('error', error);
-      });
+      .catch((error) => {});
   };
 
   const getfolder = async () => {
     await getmailfolders(authProvider)
       .then((res) => {
-        // console.log('res---------', res);
         setMailfolders(res.value);
       })
-      .catch((error) => {
-        // console.log('connection failed inboxxxxxxx', error);
-      });
+      .catch((error) => {});
   };
 
   useEffect(() => {
     if (integration === 'google') {
       if (sideroute !== 0) {
         page();
+        foldercount();
       }
     } else if (integration === 'outlook') {
       if (sideroute !== 0) {
@@ -528,24 +528,37 @@ const EmailScreen = () => {
     }
   }, [sideroute, skip]);
   //////gmail ///////
-  const getMessageBody = (mes) => {
-    const encodedBody =
-      typeof mes.parts === 'undefined' ? mes.body.data : getHTMLPart(mes.parts);
 
-    return Base64.decode(encodedBody);
-  };
-
-  const getHTMLPart = (arr) => {
-    for (var x = 0; x <= arr.length; x++) {
-      if (typeof arr[x].parts === 'undefined') {
-        if (arr[x].mimeType === 'text/html') {
-          return arr[x].body.data;
-        }
-      } else {
-        return getHTMLPart(arr[x].parts);
-      }
+  const foldercount = () => {
+    var Gfolder = '';
+    if (sideroute === 1) {
+      Gfolder = 'INBOX';
+    } else if (sideroute === 2) {
+      Gfolder = 'SENT';
+    } else if (sideroute === 3) {
+      Gfolder = 'DRAFT';
+    } else if (sideroute === 4) {
+      Gfolder = 'SPAM';
+    } else if (sideroute === 5) {
+      Gfolder = 'TRASH';
     }
-    return '';
+    initGoogleAuth()
+      .then(() => {
+        Gmail_Folder_Total_count(Gfolder)
+          .then((res) => {
+            if (res.result.messagesTotal < range) {
+              setPrevious(res.result.messagesTotal);
+            }
+            setgmailunread(res.result.messagesUnread);
+            setTotal(res.result.messagesTotal);
+          })
+          .catch((err) => {
+            // console.log('error', err);
+          });
+      })
+      .catch(() => {
+        // console.log('auth error');
+      });
   };
 
   const IntegrationMenuView = (
@@ -574,8 +587,8 @@ const EmailScreen = () => {
   );
   return (
     <>
+      {console.log('token', nextpagetoken)}
       <Flex column>
-        {console.log('asas', sideroute)}
         {loader === true ? <Loader /> : ''}
         <Flex row between className={styles.titleContainer}>
           <Text bold size={16} color="theme">
@@ -685,6 +698,7 @@ const EmailScreen = () => {
               sideroute={sideroute}
               mailfolders={mailfolders}
               removemsg={removemessage}
+              gmailunread={gmailunread}
               page={page}
             />
           </Flex>

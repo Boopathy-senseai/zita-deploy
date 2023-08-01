@@ -13,6 +13,7 @@ type Props = {
   mailfolders: any;
   removemsg: any;
   page: any;
+  gmailunread: any;
 };
 const Maillist = ({
   messagelist,
@@ -22,6 +23,7 @@ const Maillist = ({
   mailfolders,
   removemsg,
   page,
+  gmailunread,
 }: Props) => {
   const [messages, setmesage] = useState<any>();
   const [integration, setintegration] = useState('google');
@@ -39,23 +41,71 @@ const Maillist = ({
   };
 
   const showfolder = () => {
-    if (mailfolders.length !== 0) {
+    if (integration === 'google') {
       if (sideroute === 1) {
-        return <Text bold>Inbox ({mailfolders[4].unreadItemCount})</Text>;
+        return <Text bold>{`Inbox (${gmailunread})`}</Text>;
       } else if (sideroute === 2) {
-        return <Text bold>Sent Items ({mailfolders[7].unreadItemCount})</Text>;
+        return <Text bold>{`Sent (${gmailunread})`}</Text>;
       } else if (sideroute === 3) {
-        return <Text bold>Drafts ({mailfolders[3].unreadItemCount})</Text>;
+        return <Text bold>{`Draft (${gmailunread})`}</Text>;
       } else if (sideroute === 4) {
-        return <Text bold>Archive ({mailfolders[0].unreadItemCount})</Text>;
+        return <Text bold>{`Spam (${gmailunread})`}</Text>;
       } else if (sideroute === 5) {
-        return (
-          <Text bold>Deleted Items ({mailfolders[2].unreadItemCount})</Text>
-        );
-      } else if (sideroute === 6) {
-        return <Text bold>Junk Email ({mailfolders[5].unreadItemCount})</Text>;
-      } else if (sideroute === 0) {
-        return <Text bold> </Text>;
+        return <Text bold>{`Trash (${gmailunread})`}</Text>;
+      }
+    } else if (integration === 'outlook') {
+      if (mailfolders.length !== 0) {
+        if (sideroute === 1) {
+          return (
+            <Text bold>
+              {mailfolders[4].unreadItemCount !== 0
+                ? `Inbox (${mailfolders[4].unreadItemCount})`
+                : 'Inbox'}
+            </Text>
+          );
+        } else if (sideroute === 2) {
+          return (
+            <Text bold>
+              {mailfolders[7].unreadItemCount !== 0
+                ? `Sent Items (${mailfolders[7].unreadItemCount})`
+                : 'Sent Items'}
+            </Text>
+          );
+        } else if (sideroute === 3) {
+          return (
+            <Text bold>
+              {mailfolders[3].unreadItemCount !== 0
+                ? `Drafts (${mailfolders[3].unreadItemCount})`
+                : 'Drafts'}
+            </Text>
+          );
+        } else if (sideroute === 4) {
+          return (
+            <Text bold>
+              {mailfolders[0].unreadItemCount !== 0
+                ? `Archive (${mailfolders[0].unreadItemCount})`
+                : 'Archive'}
+            </Text>
+          );
+        } else if (sideroute === 5) {
+          return (
+            <Text bold>
+              {mailfolders[2].unreadItemCount !== 0
+                ? ` Deleted Items (${mailfolders[2].unreadItemCount})`
+                : ' Deleted Items'}
+            </Text>
+          );
+        } else if (sideroute === 6) {
+          return (
+            <Text bold>
+              {mailfolders[5].unreadItemCount !== 0
+                ? ` Junk Email (${mailfolders[5].unreadItemCount})`
+                : ' Junk Email'}
+            </Text>
+          );
+        } else if (sideroute === 0) {
+          return <Text bold>Search Results</Text>;
+        }
       }
     }
   };
@@ -146,6 +196,13 @@ const Maillist = ({
     }
   };
 
+  const date = (data) => {
+    const from = data.filter((item) => item.name === 'Date');
+    if (from.length !== 0) {
+      return <>{getDateString(from[0].value, 'DD/MM/YY')}</>;
+    }
+  };
+
   return (
     <div>
       {console.log('qw', messagelist)}
@@ -204,7 +261,7 @@ const Maillist = ({
                           >
                             <Flex row between>
                               <Text>{getfrom(val.payload.headers)}</Text>
-                              <Text size={12}>02/07/23</Text>
+                              <Text size={12}>{date(val.payload.headers)}</Text>
                             </Flex>
 
                             <Text size={14} className={styles.textHeadingStyle}>
