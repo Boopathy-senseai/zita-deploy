@@ -2,7 +2,8 @@ import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import Drawer from '../../uikit/Drawer/Drawer';
-import SvgClose from '../../icons/SvgClose';
+import SvgLeft from '../../icons/SvgLeft';
+import SvgshareIcon from '../../icons/SvgShareIconview';
 import SvgNewTab from '../../icons/SvgNewTab';
 import { GARY_3, LINK } from '../../uikit/Colors/colors';
 import ZitaMatchCandidateProfileView from './ZitaMatchCandidateProfileView';
@@ -34,18 +35,15 @@ const ZitaMatchCandidateDrawer = ({
             role={'button'}
             onKeyPress={() => {}}
           >
-            <SvgClose fill={GARY_3} height={16} width={16} />
+             <SvgLeft fill={'#581845'} height={16} width={16} />
           </div>
           <LinkWrapper
             replace
             target={'_blank'}
             to={`/candidate_profile_view/${jobId}/${candidateId}`}
           >
-            <Flex row center className={'pointer'}>
-              {/* <Text color="link" className={styles.openStyle}>
-                Open profile in a new window
-              </Text> */}
-              <SvgNewTab fill={LINK} width={20} height={20} />
+            <Flex row center className={'pointer'} style={{cursor:'pointer'}}>
+              <SvgshareIcon width={18} height={18} />
             </Flex>
           </LinkWrapper>
         </Flex>

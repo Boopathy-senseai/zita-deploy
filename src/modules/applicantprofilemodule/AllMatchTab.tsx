@@ -9,9 +9,10 @@ import InviteMatch from './InviteMatch';
 type Props = {
   title: string;
   inviteMessage: string;
+  width?:string;
 };
-const AllMatchTab = ({ title, inviteMessage }: Props) => {
-  const { match, applicant, candidate_details,can_id } = useSelector(
+const AllMatchTab = ({width, title, inviteMessage }: Props) => {
+  const { match, applicant, candidate_details, can_id } = useSelector(
     ({
       applicantAllMatchReducers,
       applicantStausReducers,
@@ -28,21 +29,24 @@ const AllMatchTab = ({ title, inviteMessage }: Props) => {
   );
 
   return (
-    <Flex
-      columnFlex
-      height={window.innerHeight - 230}
-      className={styles.overAll}
-    >
-      {match && match.length === 0 && applicant && applicant.length === 0 ? (
-        <Flex flex={1} center middle>
-          <Text color="gray">This candidate is not a match for any jobs</Text>
+    <Flex   className={styles.overAll}>
+      <Text bold size={14}>
+        All Matching jobs
+      </Text>
+      {match && match.length === 0 && applicant && applicant.length === 0 && (
+        <Flex center middle  height={window.innerHeight - 125} >
+          This candidate is not a match for any jobs
         </Flex>
-      ) : (
-        <Text color="theme" bold>
-          {title}
-        </Text>
       )}
-      <Flex row wrap className={styles.allMatchText}>
+     {match && match.length !== 0 || applicant && applicant.length !== 0 ?
+      <Flex
+        row
+        wrap
+        width={width}
+        className={styles.allMatchText}
+        height={window.innerHeight - 155}
+        style={{ overflow: 'scroll',display:'flex',alignContent:'flex-start'}}
+      >
         {match &&
           match.map((list, index) => {
             return (
@@ -68,7 +72,7 @@ const AllMatchTab = ({ title, inviteMessage }: Props) => {
               />
             );
           })}
-      </Flex>
+      </Flex>:''}
     </Flex>
   );
 };

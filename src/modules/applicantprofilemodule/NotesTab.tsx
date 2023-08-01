@@ -6,12 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import ReactQuill, { Quill } from 'react-quill';
 // import { Outlet } from "react-router-dom";
 // import { Invoice } from "./Root.utils";
-import ReactHtmlParser, {
-  processNodes,
-  convertNodeToElement,
-  htmlparser2,
-} from 'react-html-parser';
-import parse from 'html-react-parser';
+// import ReactHtmlParser, {
+//   processNodes,
+//   convertNodeToElement,
+//   htmlparser2,
+// } from 'react-html-parser';
+// import parse from 'html-react-parser';
 // import 'react-quill/dist/quill.snow.css';
 import Mention from 'quill-mention';
 Quill.register('modules/mention', Mention);
@@ -30,6 +30,7 @@ import Table from '../../uikit/Table/Table';
 import Text from '../../uikit/Text/Text';
 import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
 import Toast from '../../uikit/Toast/Toast';
+import CandidateMessageTab from '../candidatemodule/CandidateMessageTab';
 import {
   clientSecret,
   googleClientId,
@@ -62,6 +63,7 @@ import {
   applicantUserListMiddleWare,
   applicantUserListstateMiddleWare,
 } from './store/middleware/applicantProfileMiddleware';
+import MessageTab from './MessageTab';
 var querystring = require('querystring');
 
 const cx = classNames.bind(styles);
@@ -74,9 +76,11 @@ const initial: FormProps = {
 };
 type Props = {
   isMeeting?: boolean;
+  issingletab?: boolean;
+  candidatemessage?:boolean;
+  nomessagetab?:boolean;
 };
-
-const NotesTab = ({ isMeeting }: Props) => {
+const NotesTab = ({ isMeeting, issingletab,candidatemessage,nomessagetab }: Props) => {
   const [editorHtml, setEditorHtml] = useState<string>('');
   const editorRef = useRef<ReactQuill | null>(null);
   const [isCollapse, setCollapse] = useState(false);
@@ -172,6 +176,7 @@ const NotesTab = ({ isMeeting }: Props) => {
     // calenderEvent,
     // google,
     outlook,
+     message,
     name,
     calenderLoader,
   } = useSelector(
@@ -180,12 +185,14 @@ const NotesTab = ({ isMeeting }: Props) => {
       applicantProfileInitalReducers,
       calenderReducers,
       applicantUserlistReducer,
+      applicantMessageReducers
     }: RootState) => {
       return {
         candidate_details: applicantProfileInitalReducers.candidate_details,
         notes: applicantNotesReducers.notes,
         name: applicantUserlistReducer.data,
         can_id: applicantProfileInitalReducers.can_id,
+         message: applicantMessageReducers?.message,
         // calenderEvent: calenderReducers.event,
         // google: calenderReducers.google,
         outlook: calenderReducers.outlook,
@@ -328,8 +335,11 @@ const NotesTab = ({ isMeeting }: Props) => {
     if (formik.values.notes) {
       setvalueun(formik.values.notes);
     }
-  }, [formik.values.notes]);
-
+   
+  }, [formik.values.notes ]);
+useEffect(() => {
+  formik.setFieldValue('notes', name1);
+},[])
   // add notes function
   const hanldeInputOpen = () => {
     setButtonName('Add');
@@ -464,25 +474,25 @@ const NotesTab = ({ isMeeting }: Props) => {
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(name1));
   }, [name1]);
-
   const handleSetting = () => {
     sessionStorage.setItem('superUserTab', '4');
     sessionStorage.setItem('superUserFalseTab', '3');
     history.push('/account_setting/settings');
   };
-
   const meetingMemo = useMemo(() => meetingTitle(), [myevents]);
   const checkCalendarOutlook = Array.isArray(outlook) && outlook.length !== 0;
-
   return (
     <Flex
-       row
-       flex={12}
+      row
+      flex={12}
       className={styles.overAll}
-      height={window.innerHeight-120}
+      height={window.innerHeight - 120}
     >
-      <Flex flex={6} columnFlex style={{padding:'5px'}}>
-        {hideelement ? (
+      <Flex flex={6} columnFlex style={{ padding: '5px' }}>
+        <Text bold style={{ fontSize: '14px',marginTop:'10px',paddingLeft:16 }}>
+          Notes for Team Members
+        </Text>
+        {/* {hideelement ? (
           <Flex column className={styles.overall2}>
             <Flex row className={styles.initialbutton}>
               <input
@@ -497,186 +507,159 @@ const NotesTab = ({ isMeeting }: Props) => {
           </Flex>
         ) : (
           ''
-        )}
+        )} */}
 
-        {notes && notes.length === 0 && !isCollapse && (
-          <Flex columnFlex flex={1} middle center>
-            <SvgNotesyet />
-            <Text className={styles.nojoppostye}>Notes not created yet</Text>
+        <Flex className={styles.overall1}>
+          <div className={styles.textArea}>
+            <ReactQuill
+              ref={editorRef}
+              value={formik.values.notes}
+              className={styles.reactquillchange}
+              onChange={formik.handleChange('notes')}
+              placeholder="Type @ to mention and notify your team members"
+            />
+            <ErrorMessage
+              touched={formik.touched}
+              errors={formik.errors}
+              name="notes"
+            />
+          </div>
+          <Flex row end>
+            <Button onClick={hanldeInputClose} types={'close'} width="100px">
+              {CANCEL}
+            </Button>
+            <Button
+              width="100px"
+              // disabled={isEmpty(formik.values.notes)}
+              onClick={formik.handleSubmit}
+              className={styles.saveBtn}
+            >
+              {buttonName}
+            </Button>
           </Flex>
-        )}
-        {isCollapse && (
-          <Flex className={styles.overall1}>
-            <div className={styles.textArea}>
-              <ReactQuill
-                ref={editorRef}
-                value={formik.values.notes}
-                className={styles.reactquillchange}
-                onChange={formik.handleChange('notes')}
-                placeholder="Type @ to mention and notify your team members"
-              />
-              <ErrorMessage
-                touched={formik.touched}
-                errors={formik.errors}
-                name="notes"
-              />
-            </div>
-            <Flex row end>
-              <Button onClick={hanldeInputClose} types={'close'} width="100px">
-                {CANCEL}
-              </Button>
-              <Button
-                width="100px"
-                // disabled={isEmpty(formik.values.notes)}
-                onClick={formik.handleSubmit}
-                className={styles.saveBtn}
-              >
-                {buttonName}
-              </Button>
+          {notes && notes.length !== 0 && (
+            <Flex className={styles.middleline}></Flex>
+          )}
+        </Flex>
+        {(notes && notes.length === 0) &&
+          // (notes.length === 1 && notes[0].notes === '' && (
+            <Flex columnFlex flex={1} middle center marginTop={'110px'}>
+              <SvgNotesyet />
+              <Text className={styles.nojoppostye}>Notes not created yet</Text>
             </Flex>
-            {notes && notes.length !== 0 && (
-              <Flex className={styles.middleline}></Flex>
-            )}
-          </Flex>
-        )}
+          }
+
         <Flex
-          className={isstylechange === true ? styles.scllllar : styles.sclllar}
+          height={window.innerHeight - 338}
+          style={{
+            overflow: 'scroll',
+            padding: ' 0px 8px 0px 16px',
+            display: 'flex',
+          }}
         >
           {notes &&
             notes
               .map((list, indexList) => {
                 return (
-                  <Flex
-                    key={list.notes + indexList}
-                    columnFlex
-                    className={styles.notesOverAll}
-                  >
-                    <Card className={styles.cardinnotes}>
-                      <Flex row className={styles.notestext}>
-                        <Flex row center>
-                          {isEmpty(list.emp_image) ||
-                          list.emp_image === 'default.jpg' ? (
-                            <div
-                              className={cx('profile')}
-                              style={{
-                                backgroundColor:
-                                  isColor[indexList % isColor.length],
+                  <>
+                    {list.notes !== '' && (
+                      <Flex
+                        key={list.notes + indexList}
+                        columnFlex
+                        className={styles.notesOverAll}
+                      >
+                        {console.log(
+                          list.emp_image,
+                          'list.emp_imagelist.emp_image',
+                        )}
+                        <Card className={styles.cardinnotes}>
+                          <Flex row className={styles.notestext}>
+                            <Flex row center>
+                              {isEmpty(list.emp_image) ||
+                              list.emp_image === 'default.jpg' ? (
+                                <div
+                                  className={cx('profile')}
+                                  style={{
+                                    backgroundColor:
+                                      isColor[indexList % isColor.length],
+                                  }}
+                                >
+                                  <Text
+                                    color="white"
+                                    transform="uppercase"
+                                    className={styles.firstlastchar}
+                                  >
+                                    {!isEmpty(list.updated_by) &&
+                                      firstNameChar(list.updated_by)}
+                                  </Text>
+                                </div>
+                              ) : (
+                                <img
+                                  alt="profile"
+                                  style={{
+                                    borderRadius: '100%',
+                                    objectFit: 'cover',
+                                    marginRight: 8,
+                                    height: 40,
+                                    width: 40,
+                                  }}
+                                  src={mediaPath + list.emp_image}
+                                />
+                              )}
+                              <Text bold>{list.updated_by}</Text>
+                            </Flex>
+                            <Flex middle center row>
+                              <NotesDropDown
+                                notesList={list}
+                                handleDelete={handleDelete}
+                                handleOpenEdit={handleOpenEdit}
+                              />
+                            </Flex>
+                          </Flex>
+                          <Flex className={styles.noteListStyle}>
+                            <td
+                              className={styles.notesTextStyle}
+                              dangerouslySetInnerHTML={{
+                                __html: list.notes,
                               }}
-                            >
-                              <Text
-                                color="white"
-                                transform="uppercase"
-                                className={styles.firstlastchar}
-                              >
-                                {!isEmpty(list.updated_by) &&
-                                  firstNameChar(list.updated_by)}
-                              </Text>
-                            </div>
-                          ) : (
-                            <img
-                              alt="profile"
-                              height={30}
-                              width={30}
-                              style={{
-                                borderRadius: '100%',
-                                objectFit: 'cover',
-                                marginRight: 8,
-                                height: 40,
-                              }}
-                              src={mediaPath + list.emp_image}
                             />
-                          )}
-                          <Text bold>{list.updated_by}</Text>
-                        </Flex>
-                        <Flex middle center row>
-                          <NotesDropDown
-                            notesList={list}
-                            handleDelete={handleDelete}
-                            handleOpenEdit={handleOpenEdit}
-                          />
-                        </Flex>
+                          </Flex>
+                        </Card>
                       </Flex>
-                      <Flex className={styles.noteListStyle}>
-                        <td
-                          className={styles.notesTextStyle}
-                          dangerouslySetInnerHTML={{
-                            __html: list.notes,
-                          }}
-                        />
-                      </Flex>
-                    </Card>
-                  </Flex>
+                    )}
+                  </>
                 );
               })
               .reverse()}
         </Flex>
         {isLoad && <Loader />}
       </Flex>
-      {console.log(isMeeting, 'isMeeting1')}
-
-      {isMeeting && (
-        <Flex flex={6} columnFlex style={{padding:'5px'}}>
-          <Flex row between   center>
-            <Flex>
-            <Text color="theme" bold className={styles.meetingFlex}>
-               Details
-            </Text></Flex>
-            {active === 0 ? (
-               <Flex row  center middle className={styles.syncedWidth}> 
-                <Button
-                  types="tertiary"
-                  className={styles.settingBtn}
-                  onClick={handleSetting}
-                >
-                  Integrate
-                </Button>
-               </Flex>
-            ) : (
-              <>
-                {isGoogle === 1 && (
-                  <Text className={styles.syncedWidth}>
-                    (Synced with gmail)
-                  </Text>
-                )}
-
-                {isGoogle === 0 && (
-                  <Text className={styles.syncedWidth}>
-                    (Synced with outlook)
-                  </Text>
-                )}
-                <Flex row center>
-                  <Button
-                    types="tertiary"
-                    className={styles.syncBtn}
-                    onClick={hanldeRefresh}
-                  >
-                    <Flex row center>
-                      <SvgRefresh height={14} width={14} fill={BLACK} />
-                      <Text
-                        bold
-                        size={12}
-                        style={{ marginLeft: 4, cursor: 'pointer' }}
-                      >
-                        Sync
-                      </Text>
-                    </Flex>
-                  </Button>
-                  <Text style={{ marginLeft: 8 }} color="gray" size={12}>
-                    Timezone:{' '}
-                    {checkCalendarOutlook ? outlookTimeZone[getOut] : getOut}
-                  </Text>
-                </Flex>
-              </>
-            )}
-          </Flex>
-          <Table
-            columns={meetingMemo}
-            dataSource={myevents}
-            empty="No meetings scheduled yet"
-            isLoader={calenderLoader}
-          />
-        </Flex>
+      
+      {nomessagetab ||!candidatemessage?"": (
+        <Flex
+          height={window.innerHeight - 115}
+          style={{
+            border: '1px solid #C3C3C3',
+            width: '1px',
+            margin: '15px 5px 10px 5px',
+            paddingTop: '10px',
+            paddingBottom: '10px',
+          }}
+        ></Flex>
       )}
+       {nomessagetab 
+        &&
+        <Flex flex={6.4}>
+      
+          <MessageTab />
+        
+        </Flex>}
+        {candidatemessage &&
+        <Flex flex={6.4}>
+        <CandidateMessageTab />
+        </Flex>}
+         
+      
     </Flex>
   );
 };

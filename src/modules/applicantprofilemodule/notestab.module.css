@@ -51,8 +51,8 @@
   font-size: 12px;
 }
 .profile {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   border-radius: 100%;
   margin-right: 8px;
   align-items: center;
@@ -68,18 +68,11 @@
 
   /* overflow: scroll; */
 }
-.sclllar{
-  overflow-y: scroll;
-  max-height: 520px;    
-  /* margin-top: 10px; */ 
+ 
+.Notesscrol{
+  overflow-y: scroll; 
   scrollbar-width: thin;
-  padding:0px 8px  0px 16px;
-}
-.scllllar{
-  overflow-y: scroll;
-  max-height: 400px; 
-  scrollbar-width: thin;
-  padding:0px 8px  0px 16px;
+  padding:16px 8px  0px 16px;
 }
 .dotSvg {
   cursor: pointer;
@@ -113,16 +106,16 @@
 .saveBtn {
   margin-left: 16px;
 }
-.meetingFlex {
+/* .meetingFlex {
   margin-top: 24px;
   margin-bottom: 24px;
-}
+} */
 .syncBtn {
   padding: 2px 4px;
 }
-.syncedWidth {
+/* .syncedWidth {
   margin: 0px 8px;
-}
+} */
 .svgInfo {
   margin-right: 4px;
 }
@@ -216,6 +209,7 @@
 }
 .borderbellow{
   border-bottom: 1px solid #C3C3C3;
-  margin-bottom: 5px;
+  padding-bottom: 10px;
+  margin-top: -15px;
 }
  

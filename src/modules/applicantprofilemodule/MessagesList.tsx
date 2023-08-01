@@ -1,6 +1,7 @@
+import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
-import { firstNameChar, getDateString,isEmpty } from '../../uikit/helper';
-import {  mediaPath } from '../constValue';
+import { firstNameChar, getDateString, isEmpty } from '../../uikit/helper';
+import { mediaPath } from '../constValue';
 import styles from './messageslist.module.css';
 // import { Message } from './applicantProfileTypes';
 
@@ -19,10 +20,10 @@ const MessageList = ({
 }: Props) => {
   return (
     <div
-      style={{ height: fixedHeight ? height : window.innerHeight - height }}
+      style={{ height: fixedHeight ? height : window.innerHeight - 280}}
       className={styles.overall}
     >
-      {messages
+      {  messages!== undefined && messages
         .map((messageList, index) => {
           return (
             <>
@@ -31,35 +32,32 @@ const MessageList = ({
                   key={messageList.message + index}
                   className={styles.newMessageContainer}
                 >
-                  <div className={styles.newMessage}>
-                    <div className={styles.nameContainer}>
-                      <input
-                        // disabled
-                        className={styles.inputDateStyle}
-                        type="text"
-                        value={getDateString(
-                          messageList.date_created,
-                          'DD MMM YYYY LT',
-                        )}
-                        id={`message_list_date_${index}`}
-                        onChange={() => {}}
-                      />
-                      <Text bold className={styles.userNameText}>
-                        {/* {messageList.username} */} HR
+                  <Flex row end className={styles.newMessage} flex={12}>
+                    <Flex marginRight={10}>
+                      <Text color="black" className={styles.senderTextBox}>
+                        {messageList.message}
                       </Text>
+                      <Flex end className={styles.nameContainer}>
+                        <input 
+                          className={styles.inputDateStyle}
+                          type="text"
+                          value={getDateString(
+                            messageList.date_created,
+                            'DD MMM YYYY LT',
+                          )}
+                          id={`message_list_date_${index}`}
+                          onChange={() => {}}
+                        />
+                      </Flex>
+                    </Flex>
+                    <Flex bottom marginBottom={20}>
                       <div className={styles.senderStyleProfile}>
                         <Text bold color="white" transform="uppercase">
-                          {/* {firstNameChar(
-                            `${messageList.username} ${messageList.last_name}`,
-                          )} */}
                           HR
                         </Text>
                       </div>
-                    </div>
-                    <Text color="black" className={styles.senderTextBox}>
-                      {messageList.message}
-                    </Text>
-                  </div>
+                    </Flex>
+                  </Flex>
                 </div>
               ) : (
                 <div
@@ -69,43 +67,53 @@ const MessageList = ({
                   <div className={styles.newMessage}>
                     <div className={styles.otherContainer}>
                       <div className={styles.otherStyleProfile}>
-                      {(isEmpty(messageList.sender_image) ||
-                    messageList.sender_image === 'default.jpg') ? (
-                      <Text bold color="white" transform="uppercase">
-                          {firstNameChar(
-                            `${messageList.username} ${messageList.last_name}`,
-                          )}
-                        </Text>
-                    ) : (
-                      <img
-                        alt='profile'
-                        height={40}
-                        width={40}
-
-                        style={{ borderRadius: '100%' ,objectFit:'cover',height: 40,width:40}}
-
-                        src={mediaPath + messageList.sender_image}
-                      />
-                    )}
+                        {isEmpty(messageList.sender_image) ||
+                        messageList.sender_image === 'default.jpg' ? (
+                          <Text bold color="white" transform="uppercase">
+                            {firstNameChar(
+                              `${messageList.username} ${messageList.last_name}`,
+                            )}
+                          </Text>
+                        ) : (
+                          <img
+                            alt="profile"
+                            height={40}
+                            width={40}
+                            style={{
+                              borderRadius: '100%',
+                              objectFit: 'cover',
+                              height: 40,
+                              width: 40,
+                            }}
+                            src={mediaPath + messageList.sender_image}
+                          />
+                        )}
                         {/* <Text bold color="white" transform="uppercase">
                           {firstNameChar(
                             `${messageList.username} ${messageList.last_name}`,
                           )}
                         </Text> */}
                       </div>
-                      <Text bold className={styles.userNameText}>
+                      {/* <Text bold className={styles.userNameText}>
                         {messageList.username}
-                      </Text>
-                      <Text size={12} color="gray">
-                        {getDateString(
-                          messageList.date_created,
-                          'DD MMM YYYY LT',
-                        )}
-                      </Text>
+                      </Text> */}
                     </div>
-                    <Text color="white" className={styles.otherTextBox}>
-                      {messageList.message}
-                    </Text>
+                    <Flex>
+                      <Flex>
+                      <Text   className={styles.otherTextBox}>
+                        {messageList.message}
+                      </Text>{' '}
+                      </Flex>
+                      <Flex>
+                        {' '}
+                        <Text size={12} color="gray">
+                          {getDateString(
+                            messageList.date_created,
+                            'DD MMM YYYY LT',
+                          )}
+                        </Text>
+                      </Flex>
+                    </Flex>
                   </div>
                 </div>
               )}

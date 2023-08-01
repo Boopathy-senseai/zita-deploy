@@ -451,7 +451,7 @@ const ApplicantsTab = ({
         open={isProfileView}
         cancel={() => setProfileView(false)}
         jobId={isJdId}
-        // bulkId={isCanId}
+        // bulkId={isCanId} 
         candidateId={isCanId.toString()}
         inviteIconNone={true}
         // hanldeEditProfileView={hanldeEditProfileView}

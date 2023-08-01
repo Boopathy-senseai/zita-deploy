@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import getSymbolFromCurrency from 'currency-symbol-map';
 import { RootState } from '../../store';
@@ -12,14 +13,16 @@ import Tabs from '../../uikit/Tabs/Tabs';
 import styles from './abouttab.module.css';
 import ResumeCoverTab from './ResumeCoverTab';
 import Resume from './Resume';
+import Questionnaire from './Questionnaire';
 const AboutTab = () => {
-  const { candidate_details, total_exp, skills, personalInfo, source,create} = useSelector(
-    ({ applicantProfileInitalReducers }: RootState) => {
+  const { candidate_details, total_exp, skills, personalInfo, source, create,questionnaire } =
+    useSelector(({ applicantProfileInitalReducers }: RootState) => {
       return {
         source: applicantProfileInitalReducers.source,
         candidate_details: applicantProfileInitalReducers.candidate_details,
-        create:applicantProfileInitalReducers.status_id[0].created_on,
+        create: applicantProfileInitalReducers.status_id=== null ||applicantProfileInitalReducers.status_id=== undefined?'':applicantProfileInitalReducers.status_id[0].created_on === undefined?'':applicantProfileInitalReducers.status_id[0].created_on,
         initialLoader: applicantProfileInitalReducers.isLoading,
+        questionnaire: applicantProfileInitalReducers.questionnaire,
         total_exp: applicantProfileInitalReducers.total_exp
           ? applicantProfileInitalReducers.total_exp
           : [
@@ -87,8 +90,7 @@ const AboutTab = () => {
               },
             ],
       };
-    },
-  );
+    });
 
   const totalYear =
     total_exp && total_exp[0].total_exp_year !== 0
@@ -109,7 +111,7 @@ const AboutTab = () => {
     : personalInfo[0].relocate === true
     ? 'Yes'
     : 'No';
-    const remotework  = isEmpty(personalInfo[0].remote_work)
+  const remotework = isEmpty(personalInfo[0].remote_work)
     ? 'Not Specified'
     : personalInfo[0].relocate === true
     ? 'Yes'
@@ -172,7 +174,7 @@ const AboutTab = () => {
   ) {
     workLocation = 'Not Specified';
   }
-  let  Authorized;
+  let Authorized;
   if (
     isEmpty(personalInfo[0].current1_country) &&
     isEmpty(personalInfo[0].current2_country) &&
@@ -180,13 +182,21 @@ const AboutTab = () => {
   ) {
     Authorized = 'Not Specified';
   }
-   console.log(personalInfo[0].current1_country,'.personalInfo[0].current1_country')
-   console.log(personalInfo[0].current2_country,'.personalInfo[0].current2_country')
-   console.log(personalInfo[0].current3_country,'.personalInfo[0].current3_country')
-   console.log(create ,'.personalInfo[0].current3333333333_country')
-  // if(create[0].created_on !== null){
-  const date = create.slice(0, create.indexOf('T'));
-  console.log(date);
+  console.log(
+    personalInfo[0].current1_country,
+    '.personalInfo[0].current1_country',
+  );
+  console.log(
+    personalInfo[0].current2_country,
+    '.personalInfo[0].current2_country',
+  );
+  console.log(
+    personalInfo[0].current3_country,
+    '.personalInfo[0].current3_country',
+  );
+  console.log(create, '.personalInfo[0].current3333333333_country');
+  const date = isEmpty(create) ? '' : create.slice(0, create.indexOf('T')); 
+
   const aboutData = [
     {
       lable: 'Applied Source:',
@@ -206,7 +216,7 @@ const AboutTab = () => {
         currentLocation === 'Not Specified'
           ? currentLocation
           : `${city__name}${state__name}${country__name}`,
-    }, 
+    },
     {
       lable: 'Email ID:',
       value: notSpecified(personalInfo[0].email),
@@ -219,11 +229,12 @@ const AboutTab = () => {
     //   lable: 'GitHub:',
     //   value: notSpecified(personalInfo[0].code_repo),
     // },
-   
+
     {
       lable: 'Experience:',
       value: getFresher ? 'Fresher' : `${totalYear} ${totalMonths}`,
-    },{
+    },
+    {
       lable: 'Qualification:',
       value: notSpecified(candidate_details[0].qualification),
     },
@@ -247,11 +258,11 @@ const AboutTab = () => {
     },
     {
       lable: 'Willing to Relocate:',
-      value: relocate, 
+      value: relocate,
     },
     {
       lable: 'Remote Availability:',
-      value:remotework,
+      value: remotework,
     },
     {
       lable: 'Industry Type:',
@@ -268,7 +279,7 @@ const AboutTab = () => {
     {
       lable: 'Countries Authorized to Work:',
       value:
-      Authorized  === 'Not Specified'
+        Authorized === 'Not Specified'
           ? 'Not Specified'
           : `${personalInfo[0].current1_country}, ${personalInfo[0].current2_country}, ${personalInfo[0].current3_country}`,
     },
@@ -283,12 +294,14 @@ const AboutTab = () => {
       : skills[0].soft_skill.replace(',,', ',').split(',');
   console.log('softSkillSplit', softSkillSplit);
   return (
-    <Flex row >
-      <Flex 
+    <Flex row>
+      <Flex
+        flex={6}
         className={styles.overAll}
-        height={window.innerHeight-120}
+        height={window.innerHeight - 93}
+        style={{display: 'flex'}}
       >
-        <Text  bold className={styles.aboutCandidateStyle}>
+        {/* <Text  bold className={styles.aboutCandidateStyle}>
           About Candidate
         </Text>
         {aboutData.map((list) => {
@@ -306,80 +319,120 @@ const AboutTab = () => {
               )}
             </Flex>
           );
-        })}
-        <Text  bold className={styles.jobPreferenceStyle}>
-          Job Preferences
-        </Text>
-        {aboutData1.map((list) => {
-          return (
-            <Flex key={list.lable} row center className={styles.flexLineHeight}>
-              <Text color="theme" style={{fontSize:'13px'}}  bold className={styles.lableWidth}>
-                {list.lable}
-              </Text>
-              <Text style={{fontSize:'13px'}}>{list.value}</Text>
-            </Flex>
-          );
-        })}
-        {techSkillSplit.length !== 0 && (
-          <>
-            <Text  bold className={styles.jobPreferenceStyle}>
-              Professional Skills
-            </Text>
-            <Flex row center wrap>
-              {techSkillSplit &&
-                techSkillSplit.map((skilsList, index) => {
-                  return (
-                    skilsList !== ' ' && (
-                      <Flex
-                        key={skilsList + index}
-                        className={styles.skillStyle}
-                        style={{fontSize:'13px'}}
-                      >
-                        <Status   label={lowerCase(skilsList)} />
-                      </Flex>
-                    )
-                  );
-                })}
-            </Flex>
-          </>
-        )}
-
-        {softSkillSplit.length !== 0 && (
-          <>
-            {softSkillSplit[0] !== '' && (
-              <>
-                <Text   bold className={styles.softSkillStyle}>
-                  Soft Skills
+        })} */}
+        <Flex>
+          <Text bold className={styles.jobPreferenceStyle}>
+            Job Preferences
+          </Text>
+          {aboutData1.map((list) => {
+            return (
+              <Flex
+                key={list.lable}
+                row
+                center
+                className={styles.flexLineHeight}
+              >
+                <Text
+                  color="theme"
+                  style={{ fontSize: '13px' }}
+                  bold
+                  className={styles.lableWidth}
+                >
+                  {list.lable}
                 </Text>
-                <Flex row center wrap>
-                  {softSkillSplit &&
-                    softSkillSplit.map((skilsList, index) => {
-                      return (
-                        skilsList !== ' ' && (
-                          <Flex
-                            key={skilsList + index}
-                            className={styles.skillStyle}
-                            style={{fontSize:'13px',color:'#581845'}}
-                          >
-                            <Status label={lowerCase(skilsList)}  />
-                          </Flex>
-                        )
-                      );
-                    })}
-                </Flex>
-              </>
-            )}
-          </>
-        )}
+                <Text style={{ fontSize: '13px' }}>{list.value}</Text>
+              </Flex>
+            );
+          })}
         </Flex>
-       <Flex style={{marginTop:' 4px'
-}}>
+        <Flex>
+          {techSkillSplit.length !== 0 && (
+            <>
+              <Text bold className={styles.jobPreferenceStyle}>
+                Professional Skills
+              </Text>
+              <Flex row center wrap>
+                {techSkillSplit &&
+                  techSkillSplit.map((skilsList, index) => {
+                    return (
+                      skilsList !== ' ' && (
+                        <Flex
+                          key={skilsList + index}
+                          className={styles.skillStyle}
+                          style={{ fontSize: '13px' }}
+                        >
+                          <Status label={lowerCase(skilsList)} />
+                        </Flex>
+                      )
+                    );
+                  })}
+              </Flex>
+            </>
+          )}
+        </Flex>
+        <Flex>
+          {softSkillSplit.length !== 0 && (
+            <>
+              {softSkillSplit[0] !== '' && (
+                <>
+                  <Text bold className={styles.softSkillStyle}>
+                    Soft Skills  
+                  </Text>
+                  <Flex row center wrap>
+                    {softSkillSplit &&
+                      softSkillSplit.map((skilsList, index) => {
+                        return (
+                          skilsList !== ' ' && (
+                            <Flex
+                              key={skilsList + index}
+                              className={styles.skillStyle}
+                              style={{ fontSize: '13px', color: '#581845' }}
+                            >
+                              <Status label={lowerCase(skilsList)} />
+                            </Flex>
+                          )
+                        );
+                      })}
+                  </Flex>
+                </>
+              )}
+            </>
+          )}
+        </Flex>
+        <Flex> 
+              {questionnaire&& questionnaire.length !== 0  && (
+                <>
+                  <Text bold className={styles.softSkillStyle}>
+                  Applicant questionnaire
+                  </Text>
+                  <Flex>
+                    <Questionnaire issingletab={false} />
+                  </Flex>
+                </>
+              )} 
+        </Flex>
+      </Flex>
+      <Flex
+        height={window.innerHeight - 115}
+        style={{
+          border: '1px solid #C3C3C3',
+          width: '1px',
+          margin: '15px 5px 10px 5px',
+          paddingTop: '10px',
+          paddingBottom:'10px'
+        }}
+      ></Flex>
+      <Flex flex={6.4} style={{ marginTop: ' 6px' }}>
         <Tabs>
-       <Tab title='Resume' ><Resume /></Tab>
-        <Tab title='Cover Letter'><ResumeCoverTab /></Tab>
+          <Tab title="Resume">
+            <Resume />
+          </Tab>
+          <Tab title="Cover Letter">
+            <ResumeCoverTab />
+          </Tab>
         </Tabs>
       </Flex>
-      </Flex> 
+    </Flex>
   );
 };
 

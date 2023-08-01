@@ -218,10 +218,10 @@ const AboutTab = () => {
           ? 'Not Specified'
           : `${personalInfo[0].current_city__name}, ${personalInfo[0].current_state__name}, ${personalInfo[0].current_country__name}`,
     },
-    {
-      lable: 'Willing to Relocate:',
-      value: relocate,
-    },
+    // {
+    //   lable: 'Willing to Relocate:',
+    //   value: relocate,
+    // },
     {
       lable: 'Industry Type:',
       value: notSpecified(personalInfo[0].industry_type__label_name),
@@ -245,12 +245,13 @@ const AboutTab = () => {
       : skills[0].soft_skill.replace(',,', ',').split(',');
   console.log('softSkillSplit', softSkillSplit);
   return (
-    <Flex row >
-      <Flex 
+    <Flex row flex={12}>
+      <Flex
+        flex={6}
         className={styles.overAll}
         height={window.innerHeight-120}
       >
-        <Text  bold className={styles.aboutCandidateStyle}>
+        {/* <Text  bold className={styles.aboutCandidateStyle}>
           About Candidate
         </Text>
         {aboutData.map((list) => {
@@ -268,23 +269,28 @@ const AboutTab = () => {
               )}
             </Flex>
           );
-        })}
-        <Text  bold className={styles.jobPreferenceStyle}>
+        })} */}
+        <Text bold className={styles.jobPreferenceStyle}>
           Job Preferences
         </Text>
         {aboutData1.map((list) => {
           return (
             <Flex key={list.lable} row center className={styles.flexLineHeight}>
-              <Text color="theme" style={{fontSize:'13px'}}  bold className={styles.lableWidth}>
+              <Text
+                color="theme"
+                style={{ fontSize: '13px' }}
+                bold
+                className={styles.lableWidth}
+              >
                 {list.lable}
               </Text>
-              <Text style={{fontSize:'13px'}}>{list.value}</Text>
+              <Text style={{ fontSize: '13px' }}>{list.value}</Text>
             </Flex>
           );
         })}
         {techSkillSplit.length !== 0 && (
           <>
-            <Text  bold className={styles.jobPreferenceStyle}>
+            <Text bold className={styles.jobPreferenceStyle}>
               Professional Skills
             </Text>
             <Flex row center wrap>
@@ -295,9 +301,9 @@ const AboutTab = () => {
                       <Flex
                         key={skilsList + index}
                         className={styles.skillStyle}
-                        style={{fontSize:'13px'}}
+                        style={{ fontSize: '13px' }}
                       >
-                        <Status   label={lowerCase(skilsList)} />
+                        <Status label={lowerCase(skilsList)} />
                       </Flex>
                     )
                   );
@@ -310,7 +316,7 @@ const AboutTab = () => {
           <>
             {softSkillSplit[0] !== '' && (
               <>
-                <Text   bold className={styles.softSkillStyle}>
+                <Text bold className={styles.softSkillStyle}>
                   Soft Skills
                 </Text>
                 <Flex row center wrap>
@@ -321,7 +327,7 @@ const AboutTab = () => {
                           <Flex
                             key={skilsList + index}
                             className={styles.skillStyle}
-                            style={{fontSize:'13px'}}
+                            style={{ fontSize: '13px' }}
                           >
                             <Status label={lowerCase(skilsList)} />
                           </Flex>
@@ -333,15 +339,23 @@ const AboutTab = () => {
             )}
           </>
         )}
-        </Flex>
-       <Flex style={{marginTop:' 4px'
-}}>
-        {/* <Tabs> */}
-        <Tab title='Resume' ><CandiDateResumeTab /></Tab>
-        {/* <Tab title='Cover Letter'><ResumeCoverTab /></Tab> */}
-        {/* </Tabs> */}
       </Flex>
-      </Flex> 
+      <Flex
+        height={window.innerHeight - 100}
+        style={{
+          border: '1px solid #C3C3C3',
+          width: '1px',
+          margin: '15px 5px 10px 5px',
+          paddingTop: '10px',
+          paddingBottom: '10px',
+        }}
+      ></Flex>
+      <Flex flex={6.4} style={{ marginTop: ' 6px' }}>
+        <Tab title="Resume">
+          <CandiDateResumeTab />
+        </Tab>
+      </Flex>
+    </Flex>
   );
 };
 

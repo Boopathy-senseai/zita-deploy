@@ -52,17 +52,22 @@ const ResumeCoverTab = () => {
     <Flex
       columnFlex
       className={styles.overAll}
-      height={window.innerHeight - 201}
+      height={window.innerHeight - 160}
+      style={{display:'flex',
+        alignItems:'center',
+        justifyContent:'center'}}
     >
-      <Flex className={cx('border')}>
-        <Flex row center between>
+      <Flex   >
+        <Flex row   between>
           {/* <Text bold color="theme">
             Cover Letter
           </Text> */}
           {isEmpty(cover_letter[0].cover_letter) ? (
+            <Flex center middle>
             <Text color="gray">
               {notSpecified(cover_letter && cover_letter[0].cover_letter)}
             </Text>
+            </Flex>
           ) : (
             <div
               tabIndex={-1}
@@ -74,8 +79,7 @@ const ResumeCoverTab = () => {
               <SvgAngle up={isOpen} height={15} width={15} />
             </div>
           )}
-        </Flex>
-
+        </Flex> 
         <Collapse isOpen={isOpen} noText={coverLetter}>
           <pre
             className={cx('preStyle', {

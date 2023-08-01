@@ -5,14 +5,13 @@ import { AppDispatch } from '../../store';
 import Loader from '../../components/Loader';
 import SvgHeart from '../../icons/SvgHeart';
 import SvgInvite from '../../icons/SvgInvite';
+import SvgInviter from '../../icons/SvgInviter';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import { isEmpty } from '../../uikit/helper';
 import ProgressBar from '../../uikit/ProgressBar/ProgressBar';
 import { MatchEntity, ApplicantEntity } from './applicantProfileTypes';
-import {
-  applicantFavoriteMiddleWare,
-} from './store/middleware/applicantProfileMiddleware';
+import { applicantFavoriteMiddleWare } from './store/middleware/applicantProfileMiddleware';
 import styles from './allmatchtab.module.css';
 
 const cx = classNames.bind(styles);
@@ -30,8 +29,8 @@ const ApplicantMatch = ({ list, match, applicant }: Props) => {
   const checkApplicant = useMemo(
     () =>
       match && match.length === 0 && applicant && applicant.length === 1
-        ? '50%'
-        : '50%',
+        ? '48%'
+        : '48%',
     [],
   );
 
@@ -45,46 +44,65 @@ const ApplicantMatch = ({ list, match, applicant }: Props) => {
   // fav icon filter function
   const hanldeFavAction = (can_id: number, jd_id: number) => {
     setFavLoader(true);
-    dispatch(applicantFavoriteMiddleWare({ can_id, jd_id }))
+    dispatch(applicantFavoriteMiddleWare({ can_id, jd_id }));
   };
 
   return (
     <Flex
       width={checkApplicant}
       columnFlex
+      row
+      between
       className={cx('listOverAllCommon', 'listOverAll')}
+      style={{
+        border: '1px solid #A5889C',
+        borderRadius: '10px',
+        padding: '8px',
+        fontSize:'13px',display: 'flex',
+        // alignItems:' center'
+      }}
     >
-      <Flex row center className={styles.jobTitle} width={'84%'}>
-        <Text title={applicantTitle} textStyle="ellipsis">
-          {applicantTitle}
-        </Text>
-        <Flex row center>
-          <Text style={{ margin: '0 2px' }} className={styles.whiteSpace}>
-            (Job ID: {list.job_id}) -
+      <Flex center className={styles.jobTitle} width={'84%'}>
+        <Flex row style={{ whiteSpace:'nowrap',textOverflow:'ellipsis',
+              overflow:' hidden',maxWidth:'170px' }} >
+          <Text title={applicantTitle} style={{ whiteSpace:'nowrap',textOverflow:'ellipsis',
+              overflow:' hidden',maxWidth:'170px',fontSize:'13px'}} textStyle="ellipsis">
+            {applicantTitle} 
           </Text>
-          <Text bold color="success">{`Applied`}</Text>
+          
+        </Flex>
+        <Flex row center>
+            <Text  className={styles.whiteSpace} style={{ fontSize:'13px'}}>
+              {list.job_id}
+            </Text>
+          </Flex>
+        <Flex row marginTop={5}>
+          <Text style={{ fontSize:'13px'}}>Status :</Text>
+          <Text bold color="success" style={{ margin: '0 3px' , fontSize:'13px'}}>{`Applied`}</Text>
         </Flex>
       </Flex>
-      <Flex row center width={checkApplicantLable}>
-        <ProgressBar type="hr" percentage={0} />
+      <Flex row end  >
+        <div className={styles.countStyle1}>
+          <Text color="white" style={{ fontSize: 16, marginTop: ' 2px' }}>
+            {0}%
+          </Text>
+        </div>
+        {/* <ProgressBar type="hr" percentage={list.profile_match} /> */}
         <div
-          tabIndex={-1}
-          role={'button'}
-          onKeyPress={() => {}}
-          onClick={() => hanldeFavAction(list.candidate_id_id, list.jd_id_id)}
           className={styles.favDiv}
           title={
             isEmpty(list.fav) ? 'Add to Favourites' : 'Remove from Favourites'
           }
+          onClick={() => hanldeFavAction(list.candidate_id_id, list.jd_id_id)}
+          tabIndex={-1}
+          role={'button'}
+          onKeyPress={() => {}}
         >
           {isFavLoader ? (
             <Loader withOutOverlay size="small" />
           ) : (
             <SvgHeart height={20} width={20} filled={!isEmpty(list.fav)} />
           )}
-        </div>
-        <div className={styles.svgInviteOne}>
-          <SvgInvite />
         </div>
       </Flex>
     </Flex>

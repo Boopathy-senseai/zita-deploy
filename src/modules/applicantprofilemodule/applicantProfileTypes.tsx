@@ -176,6 +176,7 @@ export interface CandidateDetailsEntity {
   type_of_job__label_name: string;
   available_to_start__label_name: string;
   industry_type__label_name: string;
+  created_on:string,
 }
 
 export interface SkillsEntity {
@@ -267,12 +268,25 @@ export interface ApplicantProfileReducerState extends ApplicantProfile {
 
 export interface Match {
   success: boolean;
-  data: Data;
+  matched_data: Data;
+  overall_percentage:number;
+  skills_percent:number;
+  qualification_percent:number;
   match: MatchEntity[];
+  not_matched_data: Datas,
+  source:overall;
+}
+export interface overall {
+   jd_skills:[]
+  qualifications:[]
 }
 export interface Data {
-  groups: any[];
-  score?: string;
+  matched_skills:[]
+  matched_qualification:[]
+}
+export interface Datas { 
+  not_matched_skills:[]
+  not_matched_qualification:[]
 }
 export interface MatchEntity {
   id: number;
@@ -280,6 +294,7 @@ export interface MatchEntity {
   jd_id_id: number;
   profile_match: number;
   created_at: string;
+  // overall_percentage:number;
 }
 
 export interface MatchReducerState extends Match {
@@ -383,6 +398,9 @@ export interface InterviewEntity {
   candidate_id_id: number;
   jd_id_id: number;
   rating: number;
+  first_name:  string,
+  last_name: string,
+  img_name:string,
   comments: string;
   created_at: string;
 }
@@ -391,7 +409,15 @@ export interface InterviewScorecardReducerState extends InterviewScorecard {
   isLoading: boolean;
   error: string;
 }
-
+export interface Intergratemailstate {
+  isLoading: boolean;
+  error: string;
+  mail:string;
+  email:IntergrateEntity[];
+}
+export interface IntergrateEntity {
+   email:string;
+}
 export interface MessageTemplates {
   created_on: string;
   id: number;

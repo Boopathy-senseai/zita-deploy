@@ -16,21 +16,22 @@ const CandiDateTabsLeftOne = ({ activeState }: typeof defaultProps) => {
   return (
     <Tabs
       activeColor={BLACK}
-      borderColor={SECONDARY}
-      tabsWithBorder
+      borderColor={'#581845'}
       active={activeState}
     >
+       {/* {alert('CandiDateTabsLeft1 ')} */}
       <Tab title="About">
         <CandidateAboutTab />
       </Tab>
       {/* <Tab title={'Resume'}>
         <CandiDateResumeTab />
       </Tab> */}
-      <Tab title={'Notes'}>
+      <Tab title={'Communications'}>
         <NotesTab />
       </Tab>
-      <Tab title={'All Matching Jobs'}>
+      <Tab title={'All Matching Jobs'} >
         <AllMatchTab
+        width={"50%"}
           title={ALL_CANDI_MATCH_TITLE}
           inviteMessage={'Candidate Invited successfully'}
         />

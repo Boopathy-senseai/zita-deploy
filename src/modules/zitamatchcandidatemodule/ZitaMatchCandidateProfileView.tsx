@@ -208,6 +208,7 @@ const ZitaMatchCandidateProfileView = ({
         {candidate_details &&
           candidate_details?.map((candiList, index) => {
             return (
+              <Flex key={''} height={window.innerHeight} style={{boxShadow: '2px 2px 2px #D7C7D2',marginRight: '5px'}}> 
               <ProfileNavBar
                 key={index + candiList.first_name}
                 candiList={candiList}
@@ -219,6 +220,7 @@ const ZitaMatchCandidateProfileView = ({
                 jdDetails={jd}
                 isProfileName
               />
+              </Flex>
             );
           })}
         {!isTab ? (
@@ -231,11 +233,11 @@ const ZitaMatchCandidateProfileView = ({
           </Flex>
         )}
 
-        {isTab && (
+        {/* {isTab && (
           <Flex flex={6} className={styles.tabRightFlex}>
             <CandiDateTabsRight />
           </Flex>
-        )}
+        )} */}
       </Flex>
     </Flex>
   );

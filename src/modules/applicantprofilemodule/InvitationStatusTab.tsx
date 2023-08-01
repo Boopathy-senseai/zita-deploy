@@ -17,9 +17,9 @@ const InvitationStatusTab = () => {
     <Flex
       columnFlex
       className={styles.overAll}
-      height={window.innerHeight - 230}
+      height={window.innerHeight - 120}
     >
-      <Text bold color="theme" className={styles.screenText}>
+      <Text bold   className={styles.screenText}>
         Screening Status of the Applicant
       </Text>
 

@@ -1,7 +1,7 @@
-.overAll {
-  overflow: scroll;
-  padding: 16px;
-}
+/* .overAll {
+  /* overflow: scroll; */
+  /* padding: 16px; */
+/* }  */
 .addText {
   margin-top: 4px;
   margin-bottom: 16px;
@@ -31,26 +31,55 @@
   border-radius: 4px;
 }
 .dateStyle {
-  border-bottom: 1px solid var(--color-gary-6, #b3b3b3);
-  padding: 4px 8px;
+  /* border-bottom: 1px solid var(--color-gary-6, #b3b3b3); */
+  /* padding: 4px 8px; */
   box-sizing: border-box;
 }
 .borderStyle {
-  border: 1px solid var(--color-gary-6, #b3b3b3);
+  /* border: 1px solid var(--color-gary-6, #b3b3b3); */
   box-sizing: border-box;
   border-radius: 4px;
   margin-top: 12px;
-  margin-bottom: 16px;
+  /* margin-bottom: 16px; */
 }
 .commentTextStyle {
-  padding: 8px;
+  padding: 8px 8px 8px 0px;
 }
 .commentTextStyle p{
   margin: 0;
 }
+.commentTextStyle  ul li{
+  margin-left: 40px;
+  list-style:disc;
+}
+.commentTextStyle  ol li{
+  margin-left: 40px;
+ }
 .svgEdit {
   cursor: pointer;
 }
 .rateFlex{
   margin-left: 16px;
+}
+.starstyle i{
+ font-size: 30px;
+}
+.feedbackstyle{
+  margin-top: 10px;
+  padding:5px 10px 0px 10px;
+}
+.initialbuttons{
+  border: 1px solid #D7C7D2;
+  border-radius: 4px;
+  padding:8px;
+}
+.profile {
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  margin-right: 8px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  position: relative;
 }

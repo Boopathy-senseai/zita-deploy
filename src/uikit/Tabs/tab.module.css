@@ -14,3 +14,6 @@
   border-radius: 4px;
   /* margin-top: 4px; */
 }
+.childTopBorderStyle{
+  border-top: 1px solid #dfdfdf;
+}

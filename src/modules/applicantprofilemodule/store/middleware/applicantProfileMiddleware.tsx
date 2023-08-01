@@ -30,8 +30,10 @@ import {
   syncOutlookApi,
   getGoogleEventsAPI,
   googleAddEvent,
+   Zitamatching,
   checkAuth,
   addOauth,
+  intergrationmailApi,
   outlookSyncApi,
   outlookAdd,
   calbackurlApi,
@@ -61,7 +63,7 @@ export const applicantMatchMiddleWare = createAsyncThunk(
   APPLICANT_PROFILE_MATCH,
   async ({ jd_id, can_id }: ApplicantProfilePayload, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(applicantMatchapi, {
+      const { data } = await axios.get(Zitamatching, {
         params: { jd_id, can_id },
       });
       return data;
@@ -91,6 +93,18 @@ export const applicantUserListMiddleWare = createAsyncThunk(
   async (_a, { rejectWithValue }) => {
     try {
       const { data } = await axios.get( applicantUserlistApi)
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+export const IntergratemailMiddleWare = createAsyncThunk(
+  APPLICANT_PROFILE_LIST,
+  async (_a, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(intergrationmailApi)
       return data;
     } catch (error) {
       const typedError = error as Error;
@@ -154,6 +168,23 @@ export const applicantScoreMiddleWare = createAsyncThunk(
     try {
       const { data } = await axios.get(InterviewScorecardApi, {
         params: { jd_id, can_id },
+      });
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+export const applicantScoreMiddleWares = createAsyncThunk(
+  APPLICANT_PROFILE_INTERVIEW_SCORECARD,
+  async (
+    { jd_id, can_id,rating,comments}: { jd_id: string; can_id: string ,rating:number,comments:any},
+    { rejectWithValue },
+  ) => {
+    try {
+      const { data } = await axios.get(InterviewScorecardApi, {
+        params: { jd_id, can_id,rating,comments},
       });
       return data;
     } catch (error) {

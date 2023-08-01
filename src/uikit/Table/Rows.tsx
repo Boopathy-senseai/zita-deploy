@@ -8,9 +8,11 @@ const cx = classNames.bind(styles);
 export interface ColumnItem {
   title: string | ReactNode;
   dataIndex: string;
+  data?:[]
   key?: string;
   renderFilter?: Function;
   flex?: number;
+  width?:any;
   render?: (
     a: any,
     rowData: any,

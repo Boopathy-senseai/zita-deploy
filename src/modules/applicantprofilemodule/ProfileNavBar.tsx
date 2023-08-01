@@ -1,6 +1,12 @@
+import { ReactNode, useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import { saveAs } from 'file-saver';
-import { ReactNode } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import StarRatingComponent from 'react-star-rating-component';
+import { inviteToApplyApi } from '../../routes/apiRoutes';
+import { AppDispatch, RootState } from '../../store';
+import { ERROR_MESSAGE, YES, config } from '../constValue';
 import SvgDownload from '../../icons/SvgDownload';
 import SvgInvite from '../../icons/SvgInvite';
 import SvgLocation from '../../icons/SvgLocationapplicant';
@@ -11,20 +17,29 @@ import SvgPhone from '../../icons/SvgPhones';
 import SvgApplicantprofile from '../../icons/SvgApplicantprofile';
 import SvgTopic from '../../icons/SvgTopic';
 import SvgglobalGit from '../../icons/SvgglobalGit';
-
+import SvgRadioWithLine from '../../icons/SvgRadioWithLine';
+import SvgRadioWithOutOutLine from '../../icons/SvgRadioWithOutOutLine';
 import { SECONDARY } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
-import { isEmpty, notSpecified } from '../../uikit/helper';
+import { Button, LinkWrapper } from '../../uikit';
+import { InputCheckBox, InputRadio } from '../../uikit';
+import { getDateString, isEmpty, notSpecified } from '../../uikit/helper';
 import ProgressBar from '../../uikit/ProgressBar/ProgressBar';
 import Text from '../../uikit/Text/Text';
 import Toast from '../../uikit/Toast/Toast';
+import CancelAndDeletePopup from '../common/CancelAndDeletePopup';
 import {
   CandidateDetailsEntity,
   JdEntity,
   PersonalInfoEntity,
 } from './applicantProfileTypes';
 import styles from './profilenavbar.module.css';
-
+// import { applicantProfileInitalReducers } from './store/reducer/applicantProfileReducer';
+import {
+  applicantScoreMiddleWare,
+  applicantStatusMiddleWare,
+} from './store/middleware/applicantProfileMiddleware';
+var querystring = require('querystring');
 const cx = classNames.bind(styles);
 
 type FontLableProps = {
@@ -33,9 +48,17 @@ type FontLableProps = {
   className?: string;
   bold?: boolean;
   title?: string;
+  inviteMessage: string;
 };
 
-const FontLable = ({ icon, label, className, bold, title }: FontLableProps) => {
+const FontLable = ({
+  icon,
+  label,
+  className,
+  bold,
+  title,
+  inviteMessage,
+}: FontLableProps) => {
   return (
     <Flex row center className={className} title={title}>
       {icon}
@@ -63,6 +86,7 @@ type Props = {
   isProfileName?: boolean;
   inviteIconDisable?: boolean;
   inviteIconNone?: boolean;
+  setjobtitle?: any;
 } & typeof defaultProps;
 
 const ProfileNavBar = ({
@@ -70,17 +94,26 @@ const ProfileNavBar = ({
   candiList,
   jdDetails,
   profile_match,
-
   isInvite,
   inviteCall,
   isResume,
   withOutJD,
+  setjobtitle,
   source,
   isProfileName,
   inviteIconDisable,
   inviteIconNone,
 }: Props) => {
   // profile download function
+  const dispatch: AppDispatch = useDispatch();
+  const [checkingstatus, setcheckingstatus] = useState('');
+  const [interviewstatus, setinterviewstatus] = useState(Number);
+  const [isInvitePopUp, setInvitePopUp] = useState(false);
+  if (jdDetails !== null && setjobtitle) {
+    const state = jdDetails.job_title;
+    setjobtitle(state);
+  }
+
   const handleDownload = () => {
     if (candiList.file) {
       saveAs(
@@ -90,6 +123,118 @@ const ProfileNavBar = ({
       Toast('Resume downloaded successfully', 'LONG', 'success');
     }
   };
+
+  const {
+    match,
+    stages,
+    interview,
+    can_id,
+    jd_id,
+    total_exp,
+    personalInfo,
+    candidate_details,
+  } = useSelector(
+    ({
+      applicantStausReducers,
+      applicantScoreReducers,
+      applicantAllMatchReducers,
+      applicantProfileInitalReducers,
+    }: RootState) => {
+      return {
+        match:
+          applicantAllMatchReducers.match !== undefined &&
+          applicantAllMatchReducers.match,
+        candidate_details: applicantProfileInitalReducers.candidate_details,
+        stages: applicantStausReducers?.stages, 
+        can_id: applicantProfileInitalReducers.can_id,
+        total_exp: applicantProfileInitalReducers.total_exp,
+        jd_id: applicantProfileInitalReducers.jd_id,
+        interview:
+          typeof applicantScoreReducers.interview !== 'undefined' &&
+          applicantScoreReducers.interview.length === 0
+            ? [
+                {
+                  candidate_id_id: 0,
+                  jd_id_id: 0,
+                  rating: 0,
+                  img_name: '',
+                  first_name: '',
+                  comments: '',
+                  created_at: '',
+                  last_name: '',
+                },
+              ]
+            : applicantScoreReducers.interview,
+        personalInfo: applicantProfileInitalReducers.personalInfo
+          ? applicantProfileInitalReducers.personalInfo
+          : [
+              {
+                application_id: 0,
+                user_id_id: 0,
+                firstname: '',
+                lastname: '',
+                email: '',
+                contact_no: 0,
+                country_id: 0,
+                state_id: 0,
+                city_id: 0,
+                zipcode: '',
+                Date_of_birth: 0,
+                linkedin_url: '',
+                career_summary: '',
+                gender_id: 0,
+                updated_at: '',
+                code_repo: '',
+                visa_sponsorship: false,
+                remote_work: false,
+                type_of_job_id: 0,
+                available_to_start_id: 0,
+                industry_type_id: 0,
+                curr_gross: '',
+                current_currency: '',
+                exp_gross: 0,
+                salary_negotiable: false,
+                current_country_id: 0,
+                current_state_id: 0,
+                current_city_id: 0,
+                current1_country: '',
+                current2_country: '',
+                current3_country: '',
+                relocate: false,
+                current_city__name: '',
+                current_country__name: '',
+                current_state__name: '',
+                type_of_job__label_name: '',
+                available_to_start__label_name: '',
+                industry_type__label_name: '',
+                country__name: '',
+                city__name: '',
+                state__name: '',
+              },
+            ],
+      };
+    },
+  );
+  useEffect(() => {
+    dispatch(applicantScoreMiddleWare({ jd_id, can_id }));
+  }, []);
+  useEffect(() => {
+    if (stages.length === 0) {
+      setcheckingstatus('');
+    }
+    if (stages.length === 1) {
+      setcheckingstatus(stages[0].stage_id__stage_name);
+    }
+    if (stages.length === 2) {
+      setcheckingstatus(stages[1].stage_id__stage_name);
+    }
+    if (stages.length === 3) {
+      setcheckingstatus(stages[2].stage_id__stage_name);
+    }
+    if (stages.length === 4) {
+      setcheckingstatus(stages[3].stage_id__stage_name);
+    }
+  }, [stages]); 
   const linkedin_url =
     candiList.linkedin_url !== null && candiList.linkedin_url !== ''
       ? candiList.linkedin_url
@@ -99,53 +244,166 @@ const ProfileNavBar = ({
     linkedin_url.startsWith('http') === true
       ? linkedin_url
       : 'https://' + linkedin_url;
+
+  useEffect(() => {
+    const ratingValue =
+      interview && interview[interview.length - 1].rating
+        ? interview[interview.length - 1].rating
+        : 0;
+    setinterviewstatus(ratingValue);
+  }, [interview]);
+  console.log(candidate_details[0].created_on,'manojmanonjmanoj')
+  const date = isEmpty(candidate_details[0].created_on) ? '' : candidate_details[0].created_on.slice(0, candidate_details[0].created_on.indexOf('T'));
+  const getFresher =
+    total_exp &&
+    total_exp[0].total_exp_year === 0 &&
+    total_exp &&
+    total_exp[0].total_exp_year === 0
+      ? true
+      : false;
+  const totalYear =
+    total_exp && total_exp[0].total_exp_year !== 0
+      ? total_exp && total_exp[0].total_exp_year > 1
+        ? `${total_exp[0].total_exp_year} Years`
+        : `${total_exp[0].total_exp_year} Year`
+      : '';
+
+  const totalMonths =
+    total_exp && total_exp[0].total_exp_month !== 0
+      ? total_exp && total_exp[0].total_exp_month > 1
+        ? `${total_exp[0].total_exp_month} Months`
+        : `${total_exp[0].total_exp_month} Month`
+      : '';
+
+  const handlefunct = () => setInvitePopUp(true);
+  const hanldeInviteClosePopUp = () => {
+    setInvitePopUp(false);
+  };
+
+  // function hanldeInvite(jd_id_id: any, candidate_id_id: any): void {
+  //   throw new Error('Function not implemented.');
+  // }
+  const hanldeInvite = (jdId: number, candId: number) => {
+    hanldeInviteClosePopUp();
+    setInviteLoader(true);
+    const data = querystring.stringify({
+      jd_id: jdId,
+      candi_id: candId,
+    });
+    axios
+      .post(inviteToApplyApi, data, config)
+      .then(() => {
+        setInviteLoader(false);
+        Toast('Candidate invited successfully');
+        dispatch(applicantAllMatchMiddleWare({ can_id: candId }));
+        dispatch(
+          applicantStatusMiddleWare({
+            jd_id: jdId.toString(),
+            can_id: candId.toString(),
+          }),
+        );
+      })
+      .catch(() => {
+        setInviteLoader(false);
+        Toast(ERROR_MESSAGE, 'LONG', 'error');
+      });
+  };
+
   return (
-    <Flex column className={styles.overAll}>
-      <Flex row middle style={{ position: 'relative' }}>
-        {isProfileName || candiList.image === 'default.jpg' ? (
-          <Flex className={styles.profile}>
-            <div className={styles.countStyle}>
-              <Text color="white" style={{ fontSize: 10, marginTop: ' 2px' }}>
-                {profile_match}
-              </Text>
-            </div>
-            {isEmpty(candiList.first_name) && (
-              <Text size={30} bold transform="uppercase">
-                NS
-              </Text>
-            )}
-            {!isEmpty(candiList.first_name) && (
-              <>
-                {isEmpty(candiList.last_name) ? (
-                  <Text size={30} bold transform="uppercase">
-                    {candiList.first_name.charAt(0)}
-                  </Text>
-                ) : (
-                  <Text size={30} bold transform="uppercase">
-                    {candiList.first_name.charAt(0)}
-                    {candiList.last_name.charAt(0)}
-                  </Text>
-                )}
-              </>
-            )}
-          </Flex>
-        ) : (
-          <img
-            style={{ objectFit: 'cover' }}
-            alt="Profile"
-            className={styles.imageStyle}
-            src={`${process.env.REACT_APP_HOME_URL}media/${candiList.image}`}
-          />
-        )}
-      </Flex>
-      <Flex>
-        <div>
-          <Flex column className={styles.headerpart}>
-            <Flex row center middle>
-              <Text bold size={14} style={{ paddingRight: '10px' }}>
-                {notSpecified(candiList.first_name)} {candiList.last_name}
-              </Text>
-              <div>
+    <>
+      {isEmpty(match[0]?.invited) && (
+        <CancelAndDeletePopup
+          title={`Invite will be sent as an email to ${
+            candidate_details && candidate_details[0].first_name
+          }. Are you sure to proceed?`}
+          btnDelete={() =>
+            hanldeInvite(match[0]?.jd_id_id, match[0]?.candidate_id_id)
+          }
+          btnCancel={hanldeInviteClosePopUp}
+          btnRight={YES}
+          open={isInvitePopUp}
+        />
+      )}
+      {!isEmpty(match[0]?.invited) && (
+        <CancelAndDeletePopup
+          title={
+            <Flex className={styles.popTitle}>
+              <Text>{`The candidate ${
+                candidate_details && candidate_details[0].first_name
+              } has already been invited for this job on ${getDateString(
+                match[0].invited,
+                'll',
+              )}.`}</Text>
+              <Text>Do you wish to invite again?</Text>
+            </Flex>
+          }
+          btnDelete={() =>
+            hanldeInvite(match[0]?.jd_id_id, match[0]?.candidate_id_id)
+          }
+          btnCancel={hanldeInviteClosePopUp}
+          btnRight={YES}
+          open={isInvitePopUp}
+        />
+      )}
+      <Flex column className={styles.overAll} height={window.innerHeight - 40} style={{overflow:'scroll',display:'flex'}}>
+        <Flex row middle style={{ position: 'relative', marginTop: '20px' }}>
+          {isProfileName || candiList.image === 'default.jpg' ? (
+            <Flex className={styles.profile}>
+              <div className={styles.countStyle}>
+                <Text color="white" style={{ fontSize: 10, marginTop: ' 2px' }}>
+                  {profile_match}
+                </Text>
+              </div>
+              {isEmpty(candiList.first_name) && (
+                <Text size={30} bold transform="uppercase">
+                  NS
+                </Text>
+              )}
+              {!isEmpty(candiList.first_name) && (
+                <>
+                  {isEmpty(candiList.last_name) ? (
+                    <Text size={30} bold transform="uppercase">
+                      {candiList.first_name.charAt(0)}
+                    </Text>
+                  ) : (
+                    <Text size={30} bold transform="uppercase">
+                      {candiList.first_name.charAt(0)}
+                      {candiList.last_name.charAt(0)}
+                    </Text>
+                  )}
+                </>
+              )}
+            </Flex>
+          ) : (
+            <Flex>
+              <img
+                style={{ objectFit: 'cover' }}
+                alt="Profile"
+                className={styles.profileimg}
+                src={`${process.env.REACT_APP_HOME_URL}media/${candiList.image}`}
+              />
+            </Flex>
+          )}
+        </Flex>
+        {console.log(jd_id,'nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn')}
+        {jd_id === undefined || jd_id === null || jd_id === '' ?'':
+          <Flex middle center>
+            <StarRatingComponent
+              className={styles.starstyle}
+              name="rate1"
+              starCount={5}
+              value={interviewstatus} 
+            />
+          </Flex> 
+        }
+        <Flex>
+          <div>
+            <Flex column className={styles.headerpart}>
+              <Flex row center middle>
+                <Text bold size={14} style={{ paddingRight: '10px' }}>
+                  {notSpecified(candiList.first_name)} {candiList.last_name}
+                </Text>
+                {/*   <div>
                 <div
                   tabIndex={-1}
                   role={'button'}
@@ -159,149 +417,264 @@ const ProfileNavBar = ({
                     height={20}
                   />
                 </div>
-              </div>
-              {candiList.linkedin_url !== null &&
+              </div> */}
+                {/* {candiList.linkedin_url !== null &&
                 candiList.linkedin_url !== '' && (
                   <div className={styles.svgDownloadStyle}>
                     <a target={'_blank'} rel="noreferrer" href={url}>
                       <SvgLinkedIn fill={'#0288d1'} width={14.5} height={18} />
                     </a>
                   </div>
-                )}
-              {candiList.code_repo !== undefined && candiList.code_repo !== '' && (
+                )} */}
+                {/* {candiList.code_repo !== undefined && candiList.code_repo !== '' && (
                 <div className={styles.svgDownloadStyle}>
                   <a target={'_blank'} rel="noreferrer" href={url}>
                     <SvgglobalGit fill={'#0288d1'} width={22} height={22} />
                   </a>
                 </div>
-              )}
-              {console.log(candiList.code_repo, 'candiList.code_repo')}
-              {/* <div><SvgglobalGit /></div> */}
-              {/* {isInvite && (
-              <div
-                title="Invite to Apply"
-                onClick={inviteCall}
-                tabIndex={-1}
-                role={'button'}
-                onKeyPress={() => {}}
-                className={cx('inviteStyle', {
-                  inviteIconClassName: inviteIconDisable,
-                  inviteIconNone,
-                })}
+              )} */}
+              </Flex>
+              <Flex
+                row
+                middle
+                style={{ fontsize: '13px', marginBottom: '10px' }}
               >
-                <SvgInvite color="#581845" />
-              </div>
-            )} */}
-            </Flex>
-            <Flex row middle style={{ fontsize: '13px', marginBottom: '10px' }}>
-              {candiList.email}
-            </Flex>
-          </Flex>
-          <Flex className={styles.headerpart1}>
-            <Flex row style={{ marginTop: '10px' }}>
-              <Flex style={{ marginRight: '10px' }}>
-                <SvgPhone height={14} width={18} fill="#333333" />
+                {candiList.email}
               </Flex>
-              {candiList.contact === null ? (
-                <Flex style={{ paddingLeft: '2.2px' }}>Not Specified</Flex>
-              ) : (
-                <Flex>{candiList.contact}</Flex>
-              )}
             </Flex>
 
-            <Flex row style={{ marginTop: '5px', marginBottom: '10px' }}>
-              <Flex style={{ marginRight: '10px' }}>
-                <SvgLocation height={17} width={17} fill="#333333" />
+            <Flex className={styles.headerpart1}>
+              <Flex row style={{ marginTop: '10px' }} marginLeft={5}>
+                <div
+                  tabIndex={-1}
+                  role={'button'}
+                  onKeyPress={() => {}}
+                  style={{ display: 'flex', alignItems: 'center' }}
+                  title="Download Resume"
+                  onClick={handleDownload}
+                >
+                  <SvgApplicantprofile
+                    fill={'#581845'}
+                    width={20}
+                    height={25}
+                  />
+                  <Flex>
+                    {' '}
+                    <Text
+                      bold
+                      color="theme"
+                      style={{ cursor: 'pointer', fontSize: '13px' }}
+                    >
+                      Download Resume
+                    </Text>
+                  </Flex>
+                </div>
               </Flex>
-              {candiList.location === null ? (
-                <Flex style={{ fontsize: '13px' }}>Not Specified</Flex>
-              ) : (
-                <Flex style={{ fontsize: '13px' }}> {candiList.location}</Flex>
-              )}
-            </Flex>
-          </Flex>
-          {isResume && (
-            <Flex>
-              <Flex className={styles.headingpart} marginTop={10}>
-                Applicant Source
-              </Flex>
-              {source === null ? (
-                <Flex className={styles.changingtext}>Not Specified</Flex>
-              ) : (
-                <Flex className={styles.changingtext}>{source}</Flex>
-              )}
-            </Flex>
-          )}
-          <Flex row flex={12}>
-            <Flex flex={6}>
-              <Flex className={styles.headingpart} marginTop={10}>
-                Industry Type
-              </Flex>
-              {candiList.industry_type__label_name === undefined ? (
-                <Flex className={styles.changingtext}>Not Specified</Flex>
-              ) : (
-                <Flex className={styles.changingtext}>
-                  {candiList.industry_type__label_name}
+              <Flex row>
+                <Flex style={{ marginRight: '10px' }}>
+                  <SvgPhone height={14} width={18} fill="#581845" />
                 </Flex>
-              )}
-            </Flex>
-            <Flex flex={6}>
-              <Flex className={styles.headingpart} marginTop={10}>
-                Job Type
+                {candiList.contact === null ||
+                candiList.contact === undefined ||
+                candiList.contact === '' ? (
+                  <Flex style={{ paddingLeft: '2.2px' }}>Not Specified</Flex>
+                ) : (
+                  <Flex>{candiList.contact}</Flex>
+                )}
               </Flex>
-              {candiList.industry_type__label_name === undefined ? (
-                <Flex className={styles.changingtext}>Not Specified</Flex>
-              ) : (
-                <Flex className={styles.changingtext}>
-                  {candiList.type_of_job__label_name}
-                </Flex>
-              )}
-            </Flex>
-          </Flex>
-          <Flex
-            row
-            flex={12}
-            marginBottom={'10px'}
-            className={styles.borderstyles}
-          >
-            <Flex flex={6}>
-              <Flex className={styles.headingpart} marginTop={10}>
-                Availability Date
-              </Flex>
-              {candiList.industry_type__label_name === undefined ? (
-                <Flex className={styles.changingtext}>Not Specified</Flex>
-              ) : (
-                <Flex className={styles.changingtext}>
-                  {candiList.exp_salary}
-                </Flex>
-              )}
-            </Flex>
-            <Flex flex={6}>
-              <Flex className={styles.headingpart} marginTop={10}>
-                Desired Salary
-              </Flex>
-              {candiList.industry_type__label_name === undefined ? (
-                <Flex className={styles.changingtext}>Not Specified</Flex>
-              ) : (
-                <Flex className={styles.changingtext}>
-                  {candiList.exp_salary}
-                </Flex>
-              )}
-            </Flex>
-          </Flex>
-          {/* <Flex    className={styles.marginStyleFlexOne}> */}
 
-          {/* <FontLable
-            icon={
-              <div style={{ marginRight: 2 }}>
-                <SvgMail height={16} width={14} fill="#581845" />
-              </div>
-            }
-            label={notSpecified(candiList.email)}
-            bold
-          /> */}
-        </div>
-        {/* {withOutJD && (
+              <Flex row style={{ marginTop: '5px', marginBottom: '10px' }}>
+                <Flex style={{ marginRight: '10px' }}>
+                  <SvgLocation height={17} width={17} fill="#581845" />
+                </Flex>
+                {candiList.location === null ||
+                candiList.location === undefined ||
+                candiList.location === '' ? (
+                  <Flex style={{ fontsize: '13px' }}>Not Specified</Flex>
+                ) : (
+                  <Flex style={{ fontsize: '13px' }}>
+                    {' '}
+                    {candiList.location}
+                  </Flex>
+                )}
+              </Flex>
+            </Flex>
+            {(candiList.linkedin_url !== null &&
+              candiList.linkedin_url !== '') ||
+            (candiList.code_repo !== undefined &&
+              candiList.code_repo !== '') ? (
+              <Flex className={styles.headerpart1}>
+                <Flex className={styles.headingpart} marginTop={10}>
+                  Social media
+                </Flex>
+                <Flex row>
+                  {candiList.linkedin_url !== null &&
+                    candiList.linkedin_url !== '' && (
+                      <div
+                        className={styles.svgDownloadStyle}
+                        style={{
+                          marginBottom: 10,
+                          paddingTop: '4px',
+                          marginRight: '10px',
+                        }}
+                      >
+                        <a target={'_blank'} rel="noreferrer" href={url}>
+                          <SvgLinkedIn
+                            fill={'#0288d1'}
+                            width={17.5}
+                            height={22}
+                          />
+                        </a>
+                      </div>
+                    )}
+                  {candiList.code_repo !== undefined &&
+                    candiList.code_repo !== '' && (
+                      <div
+                        className={styles.svgDownloadStyle}
+                        style={{ marginBottom: 10 }}
+                      >
+                        <a target={'_blank'} rel="noreferrer" href={url}>
+                          <SvgglobalGit
+                            fill={'#0288d1'}
+                            width={26.5}
+                            height={26.5}
+                          />
+                        </a>
+                      </div>
+                    )}
+                </Flex>
+              </Flex>
+            ) : (
+              ''
+            )}
+            <Flex row flex={12}>
+              <Flex flex={6}>
+                <Flex className={styles.headingpart} marginTop={10}>
+                  Qualification
+                </Flex>
+                {candiList.qualification === null ||
+                candiList.qualification === undefined ||
+                candiList.qualification === '' ? (
+                  <Flex className={styles.changingtext}><Text className={styles.changingtext}>Not Specified</Text></Flex>
+                ) : (
+                  <Flex className={styles.changingtext} title={candiList.qualification}>
+                    <Text className={styles.changingtext}>{candiList.qualification}</Text>
+                  </Flex>
+                )}
+              </Flex>
+              {isResume && (
+                <Flex flex={6}>
+                  <Flex className={styles.headingpart} marginTop={10}>
+                    Applicant Source
+                  </Flex>
+                  {source === null || source === undefined || source === '' ? (
+                    <Flex className={styles.changingtext}><Text className={styles.changingtext}>Not Specified</Text></Flex>
+                  ) : (
+                    <Flex className={styles.changingtext} title={source}><Text className={styles.changingtext}>{source}</Text></Flex>
+                  )}
+                </Flex>
+              )}
+            </Flex>
+            <Flex row flex={12} style={{ paddingBottom: '10px' }}>
+              <Flex flex={6}>
+                <Flex className={styles.headingpart} marginTop={10}>
+                  Applied date
+                </Flex>
+                {date === ''? (
+                  <Flex className={styles.changingtext}><Text className={styles.changingtext}>Not Specified</Text></Flex>
+                ) : (
+                  <Flex className={styles.changingtext} title={date}><Text className={styles.changingtext}>{date}</Text></Flex>
+                )}
+                {console.log(date,'ggggggggggggggggg')}
+              </Flex>
+              <Flex flex={6}>
+                <Flex className={styles.headingpart} marginTop={10}>
+                  Expirence
+                </Flex>
+                { total_exp=== undefined || total_exp === null ? (
+                  <Flex className={styles.changingtext}><Text className={styles.changingtext}>Not Specified</Text></Flex>
+                ) : (
+                  <Flex className={styles.changingtext} title={getFresher ? 'Fresher' : `${totalYear} ${totalMonths}`}>
+                  <Text className={styles.changingtext}> {getFresher ? 'Fresher' : `${totalYear} ${totalMonths}`}</Text> 
+                  </Flex>
+                )}
+              </Flex>
+            </Flex>
+           
+            <Flex row flex={12} style={{ borderTop: '1px solid #C3C3C3' }}>
+              <Flex flex={6} >
+                 <Flex className={styles.headingpart} marginTop={10}>
+                Willing to Relocate
+              </Flex>
+              {personalInfo[0].relocate === null ||
+              personalInfo[0].relocate === undefined ? (
+                <Flex className={styles.changingtext}><Text className={styles.changingtext}>Not Specified</Text></Flex>
+              ) : (
+                <Flex className={styles.changingtext} title={personalInfo[0].relocate === true ? 'yes' : 'No'}>
+                  {personalInfo[0].relocate === true ? 'yes' : 'No'}
+                </Flex>
+              )}
+              </Flex>
+              <Flex flex={6}>
+                <Flex className={styles.headingpart} marginTop={10}>
+                  Job Type
+                </Flex>
+                {candiList.type_of_job__label_name === undefined ||
+                candiList.type_of_job__label_name === null ||
+                candiList.type_of_job__label_name === '' ? (
+                  <Flex className={styles.changingtext}><Text className={styles.changingtext}>Not Specified</Text></Flex>
+                ) : (
+                  <Flex className={styles.changingtext} title={candiList.type_of_job__label_name}>
+                    <Text className={styles.changingtext}>{candiList.type_of_job__label_name}</Text>
+                  </Flex>
+                )}
+              </Flex>
+            </Flex>
+            <Flex row flex={12} marginBottom={'10px'}>
+              <Flex flex={6}>
+                <Flex className={styles.headingpart} marginTop={10}>
+                  Availability Date
+                </Flex>
+                {candiList.industry_type__label_name === undefined ? (
+                  <Flex className={styles.changingtext}><Text className={styles.changingtext}>Not Specified</Text></Flex>
+                ) : (
+                  <Flex className={styles.changingtext} title={candiList.available_to_start__label_name}>
+                    <Text className={styles.changingtext}>{candiList.available_to_start__label_name}</Text>
+                  </Flex>
+                )}
+              </Flex>
+              <Flex flex={6}>
+                <Flex className={styles.headingpart} marginTop={10}>
+                  Desired Salary
+                </Flex>
+                {candiList.exp_salary === undefined ||
+                candiList.exp_salary === null ||
+                candiList.exp_salary === '' ? (
+                   <Flex className={styles.changingtext}><Text className={styles.changingtext}>Not Specified</Text></Flex>
+                ) : (
+                  <Flex className={styles.changingtext} title={candiList.exp_salary}>
+                  <Text className={styles.changingtext}>{candiList.exp_salary}</Text>  
+                  </Flex>
+                )}
+              {  console.log(candiList.exp_salary,'candiList.exp_salarycandiList.exp_salary')}
+              </Flex>
+            </Flex>
+            <Flex  style={{paddingBottom:'10px'}} >
+            <Flex className={styles.headingpart} >
+                  Industry Type
+                </Flex>
+                {candiList.industry_type__label_name === undefined ||
+                candiList.industry_type__label_name === null ||
+                candiList.industry_type__label_name === '' ? (
+                  <Flex > <Text className={styles.changingtext}>Not Specified</Text></Flex>
+                ) : (
+                  <Flex className={styles.changingtexts} title={candiList.industry_type__label_name}>
+                   <Text className={styles.changingtext}>{candiList.industry_type__label_name}</Text> 
+                  </Flex>
+                )}
+            </Flex>
+          </div>
+          {/* {withOutJD && (
           <>
             {!nonMatch ? (
               <Flex center>
@@ -309,7 +682,7 @@ const ProfileNavBar = ({
                   Job Title: {jdDetails && jdDetails.job_title} | Job ID:{' '}
                   {jdDetails && jdDetails.job_id}
                 </Text> */}
-                {/* <Flex className={styles.barStyle}>
+          {/* <Flex className={styles.barStyle}>
                   <Flex middle flex={1}>
                     <ProgressBar
                       roundProgressHeight={65}
@@ -323,11 +696,11 @@ const ProfileNavBar = ({
               </Flex>
             ) : (
               <Flex columnFlex className={styles.nonMatchFlex}> */}
-                {/* <Text bold>
+          {/* <Text bold>
                   Job Title: {jdDetails && jdDetails.job_title} | Job ID:{' '}
                   {jdDetails && jdDetails.job_id}
                 </Text> */}
-                {/*  <Flex end>
+          {/*  <Flex end>
                   <Text align="right" className={styles.nonMatch}>
                     Non-Match
                   </Text>
@@ -336,11 +709,81 @@ const ProfileNavBar = ({
             )} */}
           {/* </>
         )} */}
+        </Flex> 
+        {stages[0] === '' ||
+        stages[0] === null ||
+        stages[0] === undefined   ? (
+          <>
+          {jd_id !== '' ||
+        jd_id !== undefined ||
+        jd_id !== null &&
+          <Flex
+            center
+            middle
+            className={styles.borderstyles} 
+          >
+            <Button onClick={() => handlefunct}>Invited to Apply</Button>{' '}
+          </Flex>}
+          </>
+        ) : (
+          <Flex className={styles.borderstyles} >
+            <Flex marginBottom={5}>
+              <Text style={{ fontSize: 13, color: '#581845', fontWeight: 600 }}>
+                Screening Status
+              </Text>
+            </Flex>
+            <Flex
+              row
+              between
+              style={{
+                border: '1px solid #A5889C',
+                padding: '10px',
+                borderRadius: '5px',
+              }}
+            >
+              <Flex title="Applied">
+                {checkingstatus === 'Applied' ? (
+                  <SvgRadioWithLine fill="#581845" />
+                ) : (
+                  <SvgRadioWithOutOutLine fill="#581845" />
+                )}
+              </Flex>
+              <Flex style={{ color: '#80C0D0' }} title="Shortlisted">
+                {checkingstatus === 'Shortlisted' ? (
+                  <SvgRadioWithLine fill="#80C0D0" />
+                ) : (
+                  <SvgRadioWithOutOutLine fill="#80C0D0" />
+                )}
+              </Flex>
+              <Flex title="Offered">
+                {checkingstatus === 'Offered' ? (
+                  <SvgRadioWithLine fill="#00BE4B" />
+                ) : (
+                  <SvgRadioWithOutOutLine fill="#00BE4B" />
+                )}
+              </Flex>
+              <Flex title="Rejected">
+                {checkingstatus === 'Rejected' ? (
+                  <SvgRadioWithLine fill="#ED4857" />
+                ) : (
+                  <SvgRadioWithOutOutLine fill="#ED4857" />
+                )}
+              </Flex>
+            </Flex>
+          </Flex>
+        )}
       </Flex>
-    </Flex>
+    </>
   );
 };
 
 ProfileNavBar.defaultProps = defaultProps;
 
 export default ProfileNavBar;
+function setInviteLoader(arg0: boolean) {
+  throw new Error('Function not implemented.');
+}
+
+function applicantAllMatchMiddleWare(arg0: { can_id: any }): any {
+  throw new Error('Function not implemented.');
+}

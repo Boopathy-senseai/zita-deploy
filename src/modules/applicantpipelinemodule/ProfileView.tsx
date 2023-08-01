@@ -1,5 +1,9 @@
+import { useState } from 'react';
 import SvgClose from '../../icons/SvgClose';
 import SvgNewTab from '../../icons/SvgNewTab';
+import SvgLeft from '../../icons/SvgLeft';
+import SvgshareIcon from '../../icons/SvgShareIconview';
+import SvgJobselection from '../../icons/SvgJobselection';
 import { GARY_3, LINK } from '../../uikit/Colors/colors';
 import Drawer from '../../uikit/Drawer/Drawer';
 import Flex from '../../uikit/Flex/Flex';
@@ -27,39 +31,53 @@ const ProfileView = ({
   inviteIconNone,
   activeState,
 }: Props) => {
+  const [jobtitle, setjobtitle] = useState<string>();
   return (
     <Drawer open={open}>
       <div className={styles.overAll}>
         <Flex row center between flex={1} className={styles.border}>
-          <div
-            tabIndex={-1}
-            role={'button'}
-            onKeyPress={() => {}}
+          <Flex
             className={'pointer'}
+            style={{ cursor: 'pointer' }}
             onClick={cancel}
           >
-            <SvgClose fill={GARY_3} height={16} width={16} />
-          </div>
-
+            <SvgLeft fill={'#581845'} height={16} width={16} />
+          </Flex>
+          {jobId !== ''||jobId !== null||jobId!==undefined ?
+          <Flex row>
+            <Flex marginTop={2}>
+              <SvgJobselection width={16} height={14} />
+            </Flex>
+            <Flex marginLeft={4}>
+              {jobtitle} - {jobId}
+            </Flex>
+          </Flex>:''}
           <LinkWrapper
             target={'_blank'}
             to={`/applicant_profile_view/${jobId}/${candidateId}`}
           >
-            <Flex row center className={'pointer'}>
+            <Flex
+              row
+              center
+              className={'pointer'}
+              style={{ cursor: 'pointer' }}
+              marginTop={1}
+            >
               {/* <Text color="link" className={styles.openStyle}>
                 Open profile in a new window
               </Text> */}
-              <SvgNewTab fill={LINK} width={20} height={20} />
+              <SvgshareIcon width={18} height={18} />
             </Flex>
           </LinkWrapper>
         </Flex>
-        <div className={styles.middle}></div>
+        {/* <div className={styles.middle}></div> */}
         <div
           style={{
             paddingBottom: 16,
           }}
         >
           <ApplicantProfileModal
+            setjobtitle={setjobtitle}
             jobId={jobId}
             candidateId={candidateId}
             inviteIconNone={inviteIconNone}

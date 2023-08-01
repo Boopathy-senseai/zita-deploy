@@ -95,6 +95,7 @@ export const JD_TEMPLATES = 'createjd/jd_templates';
 export const JD_CREATE = 'createjd/create_jd';
 export const JD_LOCATION = 'createjd/location';
 export const JD_PROFILE = 'createjd/jd_profile';
+export const JD_PROFILES = 'createjd/matching_algorithm';
 export const JD_QUESTIONNAIRE = 'createjd/jd_questionnaire_for_jd';
 export const JD_TEMPLATE = 'createjd/jd_template';
 export const JD_DUPLICATE = 'createjd/jd_duplicate';

@@ -74,6 +74,7 @@ export const applicantStatusUpdateApi = (jd_id: string) => {
   const url = `update_status/${jd_id}`;
   return url;
 };
+export const Zitamatching =`match_alg_api`;
 export const zitaMatchDataApi = `zita_match_data`;
 export const zitaMatchApi = `zita_match`;
 export const zitaMatchDownloadApi = `bulk_download`;
@@ -141,6 +142,7 @@ export const dsOrNotApi = (jdId?: string) => {
   const url = `dst_or_not/${jdId}`;
   return url;
 };
+export const matchingoverallApi = `matching_algorithm`
 export const validateJobIdApi = `validate_job_id`;
 export const myjobpostapi = `my_job_posting`;
 export const myjobpostdataapi = `my_job_posting_data`;
@@ -188,6 +190,7 @@ export const googleSyncApi = `google_cal_api`;
 export const calbackurlGoogleApi = `google_sync_api`;
 export const outlookSyncApi = `outlook_cal_api`;
 export const calbackurlApi = `calback_url`;
+export const intergrationmailApi =`mail_integrate`;
 export const passwordChangeApi = `password_change`;
 export const buildCareerPageApi = 'build_career_page';
 export const emailPreferenceApi = 'email_preference';

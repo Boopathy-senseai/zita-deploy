@@ -1,11 +1,16 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
+import SvgQuestion from '../../icons/SvgQustionarries';
 import Flex from '../../uikit/Flex/Flex';
 import { isEmpty } from '../../uikit/helper';
 import Text from '../../uikit/Text/Text';
 import styles from './questionnaire.module.css';
+import MessageTab from './MessageTab';
 
-const Questionnaire = () => {
+type Props = {
+  issingletab: boolean;
+};
+const Questionnaire = ({issingletab}:Props) => {
   const { questionnaire } = useSelector(
     ({ applicantProfileInitalReducers }: RootState) => {
       return {
@@ -15,47 +20,56 @@ const Questionnaire = () => {
   );
 
   return (
+    <Flex row> 
     <Flex
+    flex={6}
       columnFlex
-      height={window.innerHeight - 230}
+      height={window.innerHeight - 120}
       className={styles.overAll}
     >
-      {questionnaire && questionnaire.length === 0 ? (
-        <Flex flex={1} center middle>
-          <Text color="gray">No questions available for this job</Text>
-        </Flex>
-      ) : (
-        <Text bold color="theme">
-          Applicant Response for Questionnaire
+      {/* {questionnaire && questionnaire.length !== 0 && (
+        // <Flex center middle marginTop={200}>
+        //   <Flex center middle>
+        //     <SvgQuestion fill={'#666666'} width={24} height={24} />
+        //   </Flex>
+        //   <Flex>
+        //     <Text color="gray">No question found for this job</Text>
+        //   </Flex>
+        // </Flex>
+      // ) : (
+        <Text bold style={{ marginBottom: '20px' }}>
+          Application Question for this job
         </Text>
-      )}
+      )} */}
       {questionnaire &&
         questionnaire.map((list, index) => {
           return (
             <Flex columnFlex key={list.question + index}>
-              <Text textStyle="underline" bold className={styles.qustionStyle}>
-                Question {index + 1}:
-              </Text>
-              <Text>{list.question}</Text>
-
+              <Flex row>
+                <Text color="theme" className={styles.qustionStyle}>
+                  {index + 1}:
+                </Text>
+                <Text color="theme">{list.question}</Text>
+              </Flex>
               <Flex className={styles.resStyle} row center>
-                <Text bold>Response:</Text>
+                {/* <Text bold>Response:</Text> */}
 
-                {list.answer === '0' && (
-                  <Text style={{ marginLeft: 2 }}>No</Text>
-                )}
-                {list.answer === '1' && (
-                  <Text style={{ marginLeft: 2 }}>Yes</Text>
-                )}
+                {list.answer === '0' && <Text>No</Text>}
+                {list.answer === '1' && <Text>Yes</Text>}
                 {list.answer !== '0' && list.answer !== '1' && (
                   <Text style={{ marginLeft: 2 }}>
-                    {isEmpty(list.answer) ? 'Not Answered' : list.answer}
+                    {isEmpty(list.answer) ? (
+                      <Text style={{ color: '#666666' }}>Not Answered</Text>
+                    ) : (
+                      list.answer
+                    )}
                   </Text>
                 )}
               </Flex>
             </Flex>
           );
         })}
+    </Flex>
     </Flex>
   );
 };

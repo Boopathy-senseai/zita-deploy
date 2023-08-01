@@ -35,19 +35,21 @@ type Props = {
   candidateId: string;
   inviteIconNone?: boolean;
   activeState?: number;
+  setjobtitle?:any;
 };
 const ApplicantProfileModal = ({
   jobId,
   candidateId,
   inviteIconNone,
   activeState,
+  setjobtitle,
 }: Props) => {
   const [isInvitePopUp, setInvitePopUp] = useState(false);
   const [isTab, setTab] = useState(false);
   const [isInviteLoader, setInviteLoader] = useState(false);
   const [isNotesLoader, setNotesLoader]=useState(true);
   const [isNotesMeeting, setNotesMeeting]=useState(true)
-
+ 
   const dispatch: AppDispatch = useDispatch();
 
   // initial api call
@@ -118,6 +120,7 @@ const ApplicantProfileModal = ({
     status_id,
     invite,
     source,
+    stages
   } = useSelector(
     ({
       applicantProfileInitalReducers,
@@ -136,6 +139,7 @@ const ApplicantProfileModal = ({
         status_id: applicantProfileInitalReducers.status_id,
         invite: applicantStausReducers.invite,
         source: applicantProfileInitalReducers.source,
+        stages: applicantStausReducers?.stages,
       };
     },
   );
@@ -214,10 +218,9 @@ const ApplicantProfileModal = ({
           btnRight={YES}
           open={isInvitePopUp}
         />
-      )}
-
-      
-      <Flex flex={1} row className={styles.tabContainer}>
+      )} 
+      <Flex row className={styles.tabContainer}>
+        <Flex height={window.innerHeight} style={{boxShadow: '2px 2px 2px #D7C7D2',marginRight: '5px'}}>
         {candidate_details &&
         candidate_details  ?.map((candiList, index) => {
           return (
@@ -225,11 +228,13 @@ const ApplicantProfileModal = ({
               key={index + candiList.first_name}
               candiList={candiList}
               jdDetails={jd}
+              setjobtitle={setjobtitle}
+              // callback 
               // personal={personalInfo}
               profile_match={profileMatch}
               nonMatch={checkMatch}
               inviteCall={hanldeInvitePopUp}
-              isInvite={status_id.length === 0}
+              // isInvite={status_id.length === 0}
               isResume
               withOutJD={isTab}
               source={source}
@@ -237,13 +242,14 @@ const ApplicantProfileModal = ({
             />
           );
         })}
+        </Flex>
         {!isTab ? (
-          <Flex flex={12} className={styles.tabLeftFlex}>
+          <Flex flex={12} className={styles.tabLeftFlex} marginTop={10}>
             <ApplicantTabLeftOne activeState={activeState} />
           </Flex>
         ) : (
-          <Flex flex={7} className={styles.tabLeftFlex}>
-            {status_id.length === 0 ? (
+          <Flex flex={7} className={styles.tabLeftFlex} marginTop={10}>
+            {stages.length === 0 ? (
               <ApplicantTabLeftTwo activeState={activeState} />
             ) : (
               <ApplicantTabLeft activeState={activeState} />

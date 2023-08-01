@@ -1,4 +1,4 @@
-.textInput {
-    margin-top: 16px;
-    height: 90px;
-  }
+.textInput{
+  max-height: 400px;
+}
+  

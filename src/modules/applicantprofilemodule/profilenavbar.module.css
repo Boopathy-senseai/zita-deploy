@@ -10,10 +10,10 @@
 .countStyle {
   position: absolute;
   right: 80px;
-    /* top: 1px; */
-    top: -6px;
-  background-color: #EEAC17;
-  border: 0.1px solid #A5889C;
+  /* top: 1px; */
+  top: -6px;
+  background-color: #eeac17;
+  border: 0.1px solid #a5889c;
   border-radius: 100%;
   z-index: 11;
   display: flex;
@@ -21,9 +21,8 @@
   width: 27px;
   justify-content: center;
   align-items: center;
-
 }
-.curser{
+.curser {
   cursor: pointer;
 }
 .useNameStyle {
@@ -41,7 +40,7 @@
 .marginBottom {
   margin-bottom: 8px;
 }
-.fontLabelStyle{
+.fontLabelStyle {
   margin-bottom: 8px;
   width: 150px;
   white-space: nowrap;
@@ -55,14 +54,14 @@
 .flexNameConatiner {
   margin-left: 156px;
 }
-.barStyle { 
+.barStyle {
   position: relative;
 }
 .matchStyle {
   position: relative;
   top: 3px;
 }
-.svgDownloadStyle { 
+.svgDownloadStyle {
   cursor: pointer;
 }
 .nonMatch {
@@ -96,7 +95,7 @@
   position: relative;
   top: 5px;
 }
-.inviteIconNone{
+.inviteIconNone {
   display: none !important;
 }
 
@@ -121,22 +120,58 @@
     #fcc203
   );
 }
-.headerpart{
-  font-size: 13px;
-  border-bottom: 1px solid #C3C3C3;
+.profileimg {
+  width: 70px;
+  height: 70px;
+  border-radius: 100%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  /* position: relative;
+  margin-right: 16px; */
+  /* position: absolute; */
+  top: 12px;
+  left: 16px;
+  /* background-image: linear-gradient(
+    to right top,
+    #581845,
+    #982a4e,
+    #d04e46,
+    #f3832f,
+    #fcc203
+  ); */
 }
-.headerpart1{
+.headerpart {
   font-size: 13px;
-  border-bottom: 1px solid #C3C3C3;
+  border-bottom: 1px solid #c3c3c3;
 }
-.headingpart{
-  font-size: 14px;
+.headerpart1 {
+  font-size: 13px;
+  border-bottom: 1px solid #c3c3c3;
+}
+.headingpart {
+  font-size: 13px;
   color: #581845;
+  font-weight: 400;
 }
-.changingtext{
+.changingtext {
   font-size: 13px;
+  max-width: 110px;
+  overflow: hidden;
+  text-overflow: ellipsis; 
+  white-space: nowrap;
 }
-.borderstyles{
-  border-bottom: 1px solid #C3C3C3;
-  padding-bottom: 10px;
+.changingtexts {
+  font-size: 13px;
+  white-space: 'nowrap';
+  text-overflow: 'ellipsis';
+  overflow: ' hidden';
+  max-width: '200px';
+}
+.borderstyles {
+  border-top: 1px solid #c3c3c3;
+  padding-top: 10px;
+}
+.starstyle i {
+  font-size: 20px;
 }

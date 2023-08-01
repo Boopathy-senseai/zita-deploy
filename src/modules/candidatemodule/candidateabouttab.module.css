@@ -26,7 +26,7 @@
     margin-bottom: 8px;
   }
   .overAll {
-    padding: 16px;
+    padding: 16px 0px;
     overflow: scroll;
     /* background-color: red; */
   }

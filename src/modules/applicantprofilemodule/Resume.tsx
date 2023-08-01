@@ -21,7 +21,7 @@ const ResumeCoverTab = () => {
       return {
         candidate_details: applicantProfileInitalReducers.candidate_details,
         cover_letter:
-          applicantProfileInitalReducers.cover_letter.length !== 0
+          applicantProfileInitalReducers.cover_letter?.length !== 0
             ? applicantProfileInitalReducers.cover_letter
             : [
                 {
@@ -53,7 +53,7 @@ const ResumeCoverTab = () => {
     <Flex
       columnFlex
       className={styles.overAll}
-      height={window.innerHeight - 201}
+      height={window.innerHeight - 97}
     >
       
       {/* <Flex  */}
@@ -100,7 +100,8 @@ const ResumeCoverTab = () => {
         }}
       >
         <DocViewer
-          style={{ height: '100%',width:'100%' }}
+          style={{ height: '100%',width:'100%',
+          maxWidth: '550px'}}
           pluginRenderers={DocViewerRenderers}
           documents={docs}
           config={{

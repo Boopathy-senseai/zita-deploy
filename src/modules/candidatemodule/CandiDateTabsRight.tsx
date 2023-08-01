@@ -7,12 +7,12 @@ import { SCREEN_CANDIDATE_STATUS_TITLE } from '../constValue';
 
 const CandiDateTabsRight = () => {
   return (
-    <Tabs activeColor={BLACK} borderColor={SECONDARY} tabsWithBorder>
+    <Tabs activeColor={BLACK} borderColor={'#581845'} >
       <Tab title={'Matching Analysis'}>
         <MatchingAnalysisTab />
       </Tab>
       <Tab title={'Invitation Status'}>
-        <ScreeningStatusTab title={SCREEN_CANDIDATE_STATUS_TITLE} />
+        <ScreeningStatusTab title={SCREEN_CANDIDATE_STATUS_TITLE} issingletab={false} />
       </Tab>
     </Tabs>
   );

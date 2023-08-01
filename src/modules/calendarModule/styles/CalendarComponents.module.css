@@ -194,3 +194,12 @@
   color: rgb(255, 255, 255);
   background-color: var(--color-primary);
 }
+.coloreventstyle{
+  background-color: color ;
+  border-Left: 4px solid  ;
+  color: 'black';
+  height: '100%';
+  margin-Bottom: 0;
+  padding: '5px';
+  z-Index: 100;
+}

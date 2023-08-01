@@ -26,115 +26,73 @@ const defaultProps = {
 };
 
 const ApplicantTabLeft = ({ activeState }: typeof defaultProps) => {
-  const { status_id } = useSelector(
-    ({ applicantProfileInitalReducers }: RootState) => {
+  const { status_id,stages } = useSelector(
+    ({ applicantProfileInitalReducers,applicantStausReducers }: RootState) => {
       return {
         status_id: applicantProfileInitalReducers.status_id,
+        stages: applicantStausReducers?.stages,
       };
     },
   );
 
   return (
     <>
-      {status_id.length === 0 ? (
+      {stages.length === 0 ? (
         // {console.log(status_id,'fnnmngbfdsfgbn')}
         <Tabs
           activeColor={BLACK}
-          borderColor={SECONDARY}
-          tabsWithBorder
+          borderColor={'#581845'}
           active={activeState}
         >
-          <Tab title={'About'}>
+          <Tab title={'About '} >
             <AboutTab />
-          </Tab>
-          {/* <Tab title={'Experience'}>
-        <ExperienceTab />
-      </Tab>
-      <Tab title={'Qualification'}>
-        <QualificationTab />
-      </Tab>*/}
-          <Tab title={'Resume/Cover'}>
+          </Tab> 
+          {/* <Tab title={'Resume/Cover'}>
             <ResumeCoverTab />
-          </Tab>
-          <Tab title={'Notes'}>
-            <NotesTab />
+          </Tab> */}
+          <Tab title={'Communications'}>
+            <NotesTab  nomessagetab ={true}/>
           </Tab>
           <Tab title={'Meetings'}>
             <Notesmeet isMeeting />
           </Tab>
-          <Tab title={'Messages'}>
+          {/* <Tab title={'Messages'}>
             <MessageTab />
-          </Tab>
-          <Tab title={'All Matching Jobs'}>
-            <AllMatchTab
-              title={ALL_APPLICANT_MATCH_TITLE}
-              inviteMessage={'Applicant Invited successfully'}
-            />
-          </Tab>
-
-          {/* {status_id.length === 0 &&
-      <Tab title={'Questionnaire'}> 
-        <Questionnaire />
-      </Tab>} */}
+          </Tab>  */}
+          {/* <Tab title={'Questionnaire/Messages'}>
+            <Questionnaire issingletab={false} />
+          </Tab> */}
           <Tab title={'Matching Analysis'}>
             <MatchingAnalysisTab />
           </Tab>
           <Tab title={'Screening Status'}>
-            <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} />
-          </Tab>
-          {/* {status_id.length === 0  &&
-      <Tab title={'Scorecard'}>
-        <InterviewScorecardTab />
-      </Tab> } */}
+            <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab  />
+          </Tab> 
         </Tabs>
       ) : (
         <Tabs
           activeColor={BLACK}
-          borderColor={SECONDARY}
-          tabsWithBorder
+          borderColor={'#581845'} 
           active={activeState}
         >
           <Tab title={'About'}>
             <AboutTab />
-          </Tab>
-          {/* <Tab title={'Experience'}>
-        <ExperienceTab />
-      </Tab>
-      <Tab title={'Qualification'}>
-        <QualificationTab />
-      </Tab>*/}
-          {/* <Tab title={'Resume/Cover'}>
-            <ResumeCoverTab />
-          </Tab> */}
-          <Tab title={'Notes'}>
-            <NotesTab isMeeting  />
+          </Tab> 
+          <Tab title={'Communications'}>
+            <NotesTab isMeeting  nomessagetab ={true} />
           </Tab>
           <Tab title={'Meetings'}>
             <Notesmeet  isMeeting />
-          </Tab>
-          <Tab title={'Messages'}>
-            <MessageTab />
-          </Tab>
-          <Tab title={'All Matching Jobs'}>
-            <AllMatchTab
-              title={ALL_APPLICANT_MATCH_TITLE}
-              inviteMessage={'Applicant Invited successfully'}
-            />
-          </Tab>
-
-          <Tab title={'Questionnaire'}>
-            <Questionnaire />
-          </Tab>
+          </Tab> 
+          {/* <Tab title={'Questionnaire/Messages'}>
+            <Questionnaire issingletab={false} />
+          </Tab> */}
           <Tab title={'Matching Analysis'}>
             <MatchingAnalysisTab />
           </Tab>
-          <Tab title={'Screening Status'}>
-            <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} />
-          </Tab>
-
-          <Tab title={'Scorecard'}>
-            <InterviewScorecardTab />
-          </Tab>
+          <Tab title={'Screening Status/Scorecard'}>
+            <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab={false} />
+          </Tab> 
         </Tabs>
       )}
     </>
