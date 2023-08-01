@@ -31,13 +31,14 @@ const PreviewTitle = ({
   skills,
 }: Props) => {
   return jd_view ? (
-    <Flex>
+    <Flex >
       <Flex columnFlex>
         <JdDetails
           jdDetails={jdDetails}
           location={location}
           qualification={qualification}
         />
+        <Flex className={styles.cardOverAll}>
         {profile && jdDetails.is_ds_role === true ? (
           <RolesandResponsibilities jdDetails={jdDetails} profile={profile} />
         ) : (
@@ -55,8 +56,8 @@ const PreviewTitle = ({
           <Flex>
             <Text
               bold
-              color="theme"
-              style={{ paddingTop: 16 }}
+              
+              style={{ paddingTop: 16 ,color:"#333333"}}
               className={styles.borderbottomline}
             >
               Required Skills
@@ -85,7 +86,7 @@ const PreviewTitle = ({
             </Flex>
           </Flex>
         )}
-      </Flex>
+      </Flex></Flex>
     </Flex>
   ) : (
     <Card className={styles.cardOverAll}>

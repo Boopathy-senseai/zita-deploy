@@ -8,6 +8,7 @@
   width: 160px;
   margin-top: 5px;
   font-weight: 400;
+  font-size: 13px;
 }
 
 .listFlex {
@@ -48,6 +49,7 @@
   width: fit-content;
   padding: 5px 15px 5px 15px ;
   border-radius: 20%;
+  
 }
 .box{
   width:25%;

@@ -107,30 +107,38 @@ const JdTitle = ({
           <SvgDownload width={19} height={19} />
         </div> */}
       </Flex>
+
       {jdDetails.jd_status__label_name === 'Active' && (
         <Flex row center>
+             <Flex row center>
+         
+      {whatjob.length!==0 &&
+       
+       <Flex marginRight={10}>
+         {whatjob[0].jobposting_url!==null &&
+         <Flex>
+   
+               <Flex >
+               {/* <a href={whatjob[0].jobposting_url} target='blank'>
+               <Svgwhatjobs width={80} height={13}></Svgwhatjobs></a> */}
+                 
+                 <a href={whatjob[0].jobposting_url} target='blank'>
+             <Button  types="secondary">
+              View in Whatjob
+             </Button></a>
+         
+               </Flex>
+               </Flex>
+             
+         }
+       </Flex>
+     }
+      </Flex>
           <LinkWrapper
             target={'_blank'}
             to={`/${career_page_url}/career_job_view/${jdDetails.id}/${jdDetails.job_title}`}
           >
             <Flex row>
-      {/* )} */}
-      <Flex marginTop={5} marginRight={10}>
-        <Text size={14} className={styles.viewin}>View In:</Text>
-      </Flex>
-      {whatjob.length!==0 &&
-       
-       <Flex>
-         {whatjob[0].jobposting_url!==null &&
-         <Flex>
-   
-               <Flex marginTop={5} marginRight={25}>
-               <a href={whatjob[0].jobposting_url} >
-               <Svgwhatjobs></Svgwhatjobs></a></Flex></Flex>
-             
-         }
-       </Flex>
-     }
        <Button types='primary'>
            
               View in Careers Page
@@ -142,7 +150,8 @@ const JdTitle = ({
           </LinkWrapper>
         </Flex>
       )}
-    </Flex></Flex>
+    </Flex>
+    </Flex>
   );
 };
 

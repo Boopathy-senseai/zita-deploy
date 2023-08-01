@@ -147,7 +147,7 @@ console.log('statusList',statusList);
                       {list.title}
                     </Text></Flex>
                      <Flex className={styles.circleflexover}>
-                      <Text>{list.value}</Text>
+                      <Text style={{fontSize:"13px"}}>{list.value}</Text>
                       </Flex>
                     
                   
@@ -163,7 +163,7 @@ console.log('statusList',statusList);
                       {list.title}
                     </Text></Flex>
                     <Flex className={styles.circleflexover}>
-                       <Text >{list.value}</Text>
+                       <Text style={{fontSize:"13px"}}>{list.value}</Text>
                        </Flex>
                     </Flex>
                        
@@ -178,7 +178,7 @@ console.log('statusList',statusList);
                       {list.title}
                     </Text></Flex>
                        <Flex className={styles.circleflexover}>
-                      <Text >{list.value}</Text>
+                      <Text style={{fontSize:"13px"}}>{list.value}</Text>
                       </Flex>
                     
                     </Flex>
@@ -195,7 +195,7 @@ console.log('statusList',statusList);
                         <Flex>
                       <LinkWrapper to={`/zita_match_candidate/${jdDetails.id}`} target={'_parent'}>
                       <Flex className={styles.circleflexover}>
-                      <Text color="link" bold>{list.value}</Text>
+                      <Text color="link" bold style={{fontSize:"13px"}}>{list.value}</Text>
                       </Flex>
                     </LinkWrapper></Flex>
                    
@@ -214,7 +214,7 @@ console.log('statusList',statusList);
                     </Text>
                     </Flex>
                        <Flex className={styles.circleflexover}>
-                       <Text >{list.value}</Text>
+                       <Text style={{fontSize:"13px"}} >{list.value}</Text>
                        </Flex>
                      
                     </Flex>
@@ -231,7 +231,7 @@ console.log('statusList',statusList);
                         <Flex>
                          <LinkWrapper to={`/zita_match_candidate/${jdDetails.id}`} target={'_parent'}>
                          <Flex className={styles.circleflexover}>
-                      <Text color="link" bold>{list.value}</Text></Flex>
+                      <Text color="link" bold style={{fontSize:"13px"}}>{list.value}</Text></Flex>
                     </LinkWrapper></Flex>
                     
                     </Flex>
@@ -249,7 +249,7 @@ console.log('statusList',statusList);
                         <Flex>
                        <LinkWrapper to={`/applicant_pipe_line/${jdDetails.id}`} target={'_parent'}>
                        <Flex className={styles.circleflexover}>
-                      <Text color="link" bold>{list.value}</Text></Flex>
+                      <Text color="link" bold style={{fontSize:"13px"}}>{list.value}</Text></Flex>
                     </LinkWrapper></Flex>
                     
                     </Flex>
@@ -267,7 +267,7 @@ console.log('statusList',statusList);
                         <Flex>
                       <LinkWrapper to={`/applicant_pipe_line/${jdDetails.id}`} target={'_parent'}>
                       <Flex className={styles.circleflexover}>
-                      <Text color="link" bold>{list.value}</Text></Flex>
+                      <Text color="link" bold style={{fontSize:"13px"}}>{list.value}</Text></Flex>
                     </LinkWrapper></Flex>
                    
                     </Flex>
@@ -284,7 +284,7 @@ console.log('statusList',statusList);
                         <Flex>
                        <LinkWrapper to={`/applicant_pipe_line/${jdDetails.id}`} target={'_parent'}>
                        <Flex className={styles.circleflexover}>
-                      <Text color="link" bold>{list.value}</Text></Flex>
+                      <Text color="link" bold style={{fontSize:"13px"}}>{list.value}</Text></Flex>
                     </LinkWrapper></Flex>
                     
                     </Flex>
@@ -301,7 +301,7 @@ console.log('statusList',statusList);
                         <Flex>
                        <LinkWrapper to={`/applicant_pipe_line/${jdDetails.id}`} target={'_parent'}>
                         <Flex className={styles.circleflexover}>
-                      <Text color="link" bold>{list.value}</Text></Flex>
+                      <Text color="link" bold style={{fontSize:"13px"}}>{list.value}</Text></Flex>
                     </LinkWrapper></Flex>
                    
                     </Flex>

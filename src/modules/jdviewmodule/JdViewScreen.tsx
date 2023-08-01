@@ -224,9 +224,10 @@ const JdViewScreen = () => {
 
     <Flex
       columnFlex
-      className={session2?(styles.cardOverAll1):(styles.cardOverAll)}
+      className={styles.cardOverAll}
       height={615}
     >
+      <Flex>
       {(loader || isloading) && <Loader />}
       <JdTitle
         handleDownload={handleDownload}
@@ -260,7 +261,7 @@ const JdViewScreen = () => {
                 <Text align="center"
                   bold
                   size={14}
-                  color="theme"
+                  style={{color:"#333333"}}
                   className={styles.jdStatus}
                 >Trend Line of Job Views and Applicants</Text>
                 <Flex className={styles.center}>
@@ -274,7 +275,7 @@ const JdViewScreen = () => {
               <Text align="center"
                   bold
                   size={14}
-                  color="theme"
+                  style={{color:"#333333"}}
                   className={styles.jdStatus}
                 >Trend Line of Job Views and Applicants</Text>
               <Chart options={options}  />
@@ -287,28 +288,27 @@ const JdViewScreen = () => {
         </Flex>
       </Flex>
       {/* )} */}
-
-      <Flex row between className={styles.jobMetricsStyle} onClick={() => setCollapsedes(!isCollapsedes)}>
-
-        <Flex >
-          <Text
-            bold
-            color="theme"
-            size={14}
-          >
-            Job Details & Description
-          </Text>
-        </Flex>
-        <Flex >
-          <Button onClick={handleDownload} types='primary'>Download JD</Button>
-        </Flex>
-
-      </Flex>
-      <Flex className={styles.postion} >
-        {/* <SvgAngle width={15} height={15} up={isCollapsedes} /> */}
       </Flex>
 
       {/* {isCollapsedes && ( */}
+      <Flex className={styles.padding}>
+        
+      <Flex row between className={styles.jobMetricsStyle} onClick={() => setCollapsedes(!isCollapsedes)}>
+
+<Flex >
+  <Text
+    bold
+    style={{color:"#333333"}}
+    size={14}
+  >
+    Job Details & Description
+  </Text>
+</Flex>
+<Flex >
+  <Button onClick={handleDownload} types='primary'>Download JD</Button>
+</Flex>
+
+</Flex>
       <Flex className={styles.padding2}>
         <PreviewTitle
           jd_view
@@ -319,26 +319,7 @@ const JdViewScreen = () => {
           skills={skills}
         />
       </Flex>
-      {/* )} */}
-      {/* {ext_jobs.length!==0 &&
-       
-        <Flex>
-          {ext_jobs[0].jobposting_url!==null &&
-          <Flex>
-        <Text 
-                  bold
-                  size={16}
-                  color="theme"
-                  className={styles.boards}
-                >Job Posted Boards(Includes Company Career Page)</Text>
-                <Flex marginTop={10} marginBottom={10}>
-                <a href={ext_jobs[0].jobposting_url} >
-                <Svgwhatjobs></Svgwhatjobs></a></Flex></Flex>
-              
-          }
-        </Flex>
-      } */}
-
+  
       <CancelAndDeletePopup
         title={
           <Flex className={styles.popTitle}>
@@ -354,23 +335,7 @@ const JdViewScreen = () => {
         open={isOpen}
         loader={isloading}
       />
-
-      {/*<Modal open={isOpen}>
-        <Flex  className={styles.modalOverAll}>
-   
-        <Flex >
-          <Text>This will remove the job posting from the career page.
-          </Text>
-          <Text>Are you sure you want to Inactivate this job?
-          </Text>
-          </Flex>
-               <Flex row middle  >
-               <Button types="secondary" className={styles.margin10}>Cancel</Button>
-               <Button onClick={hanldeInactiveDone} >Yes</Button>
-          </Flex>
-          </Flex>
-       
-      </Modal>*/}
+</Flex>
 
     </Flex>
     </Flex>

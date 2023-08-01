@@ -1,5 +1,11 @@
 .cardOverAll {
   padding: 16px;
+  background-color: var(--color-white, #ffffff);
+    border-radius: 4px;
+    box-sizing: border-box;
+    /* -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36); */
+    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 47%);
+    -webkit-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 47%);
 }
 .mainTitle {
   margin-top: 8px;
@@ -17,53 +23,32 @@
 }
 .des ul,li{
   /* padding-left: 24px; */
-  list-style-type: disc;
+  /* list-style-type: disc; */
+  font-size: 13px;
 }
 
 .des h4 {
-  color : #581845;
-  padding-bottom: 5px;
-  padding-top:10px ;
-  
-  font-size: 14px;
-  font-weight: bold;
+  color : #333333; 
+  font-size: 14px; 
+  font-weight: 600;
 }
 .des h6{
-  color : #581845;
-  padding-bottom: 5px;
-  padding-top:10px ;
-
+  color : #333333;
   font-size: 14px;
+  font-weight: 600;
 }
 .des h6 strong{
   font-weight: 600 !important;
-}
-.des span{
-  color:#581845 !important;
-  padding-bottom: 5px;
-
 }
 .borderbottomline{
   padding-bottom: 5px;
   
 }
-p>strong
-{
-  padding-bottom: 5px;
-  font-size: 14px;
-  color:#581845;
-  /* border-bottom: 1px solid #581845;  */
+.des{
+  font-size: 13px;
+}
+.des.p{
+  font-size: 13px !important;
 }
 
-/* .des h4,h6{
-  font-size: 16px;
-  font-weight: 600;
-}
-.requiredskill{
- font-size: 16px;
- color:black;
-font-weight: 600;
-}
-.des h6 strong{
-  font-weight: 600 !important;
-} */
+
