@@ -21,7 +21,7 @@ const RolesandResponsibilities = ({ jdDetails, profile }: Props) => {
       style: {
         color: PRIMARY,
         fontWeight: 'bold',
-        fontSize:"16px",
+        fontSize:"14px",
       },
     },
     plotOptions: {

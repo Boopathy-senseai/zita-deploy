@@ -24,16 +24,16 @@
   color : #581845;
   padding-bottom: 5px;
   padding-top:10px ;
-  border-bottom: 1px solid #581845;
-  font-size: 16px;
+  
+  font-size: 14px;
   font-weight: bold;
 }
 .des h6{
   color : #581845;
   padding-bottom: 5px;
   padding-top:10px ;
-  border-bottom: 1px solid #581845;
-  font-size: 16px;
+
+  font-size: 14px;
 }
 .des h6 strong{
   font-weight: 600 !important;
@@ -41,16 +41,16 @@
 .des span{
   color:#581845 !important;
   padding-bottom: 5px;
-  border-bottom: 1px solid #581845;
+
 }
 .borderbottomline{
   padding-bottom: 5px;
-  border-bottom: 1px solid #581845;
+  
 }
 p>strong
 {
   padding-bottom: 5px;
-  font-size: 16px;
+  font-size: 14px;
   color:#581845;
   /* border-bottom: 1px solid #581845;  */
 }

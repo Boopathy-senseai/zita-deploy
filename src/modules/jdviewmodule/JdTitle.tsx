@@ -1,6 +1,7 @@
 import SvgDownload from '../../icons/SvgDownload';
 import SvgDuplicate from '../../icons/SvgDuplicate';
 import SvgInactivate from '../../icons/SvgInactivate';
+import Svgwhatjobs from '../../icons/Svgwhatjobs';
 import { LINK } from '../../uikit/Colors/colors';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import Flex from '../../uikit/Flex/Flex';
@@ -16,16 +17,18 @@ type Props = {
   hanldeInactive: () => void;
   jdDetails: Jd;
   career_page_url: string;
+  whatjob:any[];
 };
 const JdTitle = ({
   handleDownload,
   hanldeInactive,
+  whatjob,
   jdDetails,
   career_page_url,
 }: Props) => {
   return (
     <Flex>
-    <Flex row className={styles.ribbon} between>
+    {/* <Flex row className={styles.ribbon} between>
           
 
           <Flex  row marginTop={10} marginLeft={8} >
@@ -46,10 +49,10 @@ const JdTitle = ({
             <div className={styles.triangle}></div>
           </Flex>
         
-      </Flex>
+      </Flex> */}
     <Flex row center between className={styles.jobDesFlex}>
       <Flex row center>
-        <Text size={16} bold color="theme" style={{ marginRight: 15 }}>
+        <Text size={14} bold color="theme" style={{ marginRight: 15 }}>
           {jdDetails.job_title}
         </Text>
         {jdDetails.is_ds_role === true ? (
@@ -58,7 +61,7 @@ const JdTitle = ({
               to={`/jobs/create_ds/${jdDetails.id}?duplicate=duplicate`}
             >
               <Text color="link" bold>
-                <SvgDuplicate width={19} height={19} fill={'#FCC203'}/>
+                <SvgDuplicate width={19} height={19} fill={'#581845'}/>
               </Text>
             </LinkWrapper>
           </div>
@@ -80,7 +83,7 @@ const JdTitle = ({
             title="Inactivate Job"
             className={styles.svgMargin}
           >
-            <SvgInactivate width={19} height={19} fill={'#FCC203'} />
+            <SvgInactivate width={19} height={19} fill={'#581845'} />
           </div>
         )}
         {jdDetails.jd_status__label_name === 'Inactive' && (
@@ -111,7 +114,23 @@ const JdTitle = ({
             to={`/${career_page_url}/career_job_view/${jdDetails.id}/${jdDetails.job_title}`}
           >
             <Flex row>
-
+      {/* )} */}
+      <Flex marginTop={5} marginRight={10}>
+        <Text size={14} className={styles.viewin}>View In:</Text>
+      </Flex>
+      {whatjob.length!==0 &&
+       
+       <Flex>
+         {whatjob[0].jobposting_url!==null &&
+         <Flex>
+   
+               <Flex marginTop={5} marginRight={25}>
+               <a href={whatjob[0].jobposting_url} >
+               <Svgwhatjobs></Svgwhatjobs></a></Flex></Flex>
+             
+         }
+       </Flex>
+     }
        <Button types='primary'>
            
               View in Careers Page

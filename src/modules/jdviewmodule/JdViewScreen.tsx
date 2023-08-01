@@ -13,6 +13,7 @@ import { PRIMARY } from '../../uikit/Colors/colors';
 import SvgAngle from '../../icons/SvgAngle';
 
 import Svgwhatjobs from '../../icons/Svgwhatjobs';
+import SvgRight from '../../icons/SvgRight';
 import Loader from '../../uikit/Loader/Loader';
 // import Collapse from '../../uikit/Collapse/Collapse';
 // import Modal from '../../uikit/Modal/Modal';
@@ -90,6 +91,7 @@ const JdViewScreen = () => {
       history.push('/account_setting/settings');
     }
   });
+  const [session,setsession]=useState("");
   const handleDownload = () => {
     setloading(true);
     dispatch(jdDownloadMiddleWare({ jd_id: jdId })).then((data) => {
@@ -192,11 +194,38 @@ const JdViewScreen = () => {
       },
     ],
   };
+  const session1=(sessionStorage.getItem("EmpToggle"))
+  const session2=session1==='1';
+ 
   return (
+    <Flex>
+    <Flex row className={styles.ribbon} between>
+          
+
+    <Flex  row marginTop={10} marginLeft={8} >
+      <Flex>
+      <Text size={14} bold color="theme" >
+        Job Posting 
+      </Text></Flex>
+      <Flex  marginTop={8} marginLeft={8} >
+      <SvgRight fill={'#581845'} ></SvgRight></Flex>
+      <Flex  marginTop={1} marginLeft={3}>
+      <Text size={14} bold color="theme" >
+      {jdDetails.job_title}</Text>
+      </Flex>
+
+    </Flex>
+    <Flex >
+
+      <div className={styles.triangle}></div>
+    </Flex>
+  
+</Flex>
+
     <Flex
       columnFlex
-      className={styles.cardOverAll}
-      height={window.innerHeight - 100}
+      className={session2?(styles.cardOverAll1):(styles.cardOverAll)}
+      height={615}
     >
       {(loader || isloading) && <Loader />}
       <JdTitle
@@ -204,6 +233,7 @@ const JdViewScreen = () => {
         jdDetails={jdDetails}
         career_page_url={career_page_url}
         hanldeInactive={hanldeInactive}
+        whatjob={ext_jobs}
       />
 
       <Flex >
@@ -223,13 +253,13 @@ const JdViewScreen = () => {
       </Flex>
       {/* {isCollapse && ( */}
       <Flex row center className={styles.padding2}>
-        <Flex flex={6}>
+        <Flex flex={9}>
           <Card className={styles.chartStyle}>
             {dates_len === 0 ? (
               <>
                 <Text align="center"
                   bold
-                  size={16}
+                  size={14}
                   color="theme"
                   className={styles.jdStatus}
                 >Trend Line of Job Views and Applicants</Text>
@@ -243,7 +273,7 @@ const JdViewScreen = () => {
               <>
               <Text align="center"
                   bold
-                  size={16}
+                  size={14}
                   color="theme"
                   className={styles.jdStatus}
                 >Trend Line of Job Views and Applicants</Text>
@@ -252,7 +282,7 @@ const JdViewScreen = () => {
             )}
           </Card>
         </Flex>
-        <Flex flex={6}>
+        <Flex flex={3}>
           <JdLog statusList={statusList} jdDetails={jdDetails} />
         </Flex>
       </Flex>
@@ -264,13 +294,13 @@ const JdViewScreen = () => {
           <Text
             bold
             color="theme"
-            size={16}
+            size={14}
           >
             Job Details & Description
           </Text>
         </Flex>
         <Flex >
-          <Button onClick={handleDownload} types='primary'>Download Jd</Button>
+          <Button onClick={handleDownload} types='primary'>Download JD</Button>
         </Flex>
 
       </Flex>
@@ -290,7 +320,7 @@ const JdViewScreen = () => {
         />
       </Flex>
       {/* )} */}
-      {ext_jobs.length!==0 &&
+      {/* {ext_jobs.length!==0 &&
        
         <Flex>
           {ext_jobs[0].jobposting_url!==null &&
@@ -307,7 +337,7 @@ const JdViewScreen = () => {
               
           }
         </Flex>
-      }
+      } */}
 
       <CancelAndDeletePopup
         title={
@@ -342,6 +372,7 @@ const JdViewScreen = () => {
        
       </Modal>*/}
 
+    </Flex>
     </Flex>
   );
 };
