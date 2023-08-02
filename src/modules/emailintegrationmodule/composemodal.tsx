@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import { Editor } from '@tinymce/tinymce-react';
 import Select from 'react-select';
-
+import { Base64 } from 'js-base64';
 import { AuthCodeMSALBrowserAuthenticationProvider } from '@microsoft/microsoft-graph-client/authProviders/authCodeMsalBrowser';
 import { InteractionType, PublicClientApplication } from '@azure/msal-browser';
 import { useMsal } from '@azure/msal-react';
@@ -35,7 +35,14 @@ import SvgVectorClose from '../../icons/SvgMailClose';
 import config from '../../outlookmailConfig';
 import RichText from '../common/RichText';
 import { SvgTrash } from '../../icons';
-import { composemail, mailreplay, mailforward } from '../../emailService';
+import {
+  composemail,
+  mailreplay,
+  mailforward,
+  initGoogleAuth,
+  gmail_send,
+  Gmail_Draft,
+} from '../../emailService';
 import InputText from '../../uikit/InputText/InputText';
 import SvgCollapse from '../../icons/Svgcollapse';
 import SvgExitFullScreen from '../../icons/SvgFullscreen';
@@ -50,9 +57,10 @@ type Props = {
   mail: string;
   onClose: () => void;
   replaymsg: any;
+  integration: string;
 };
 
-const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
+const Newmessage = ({ data, onClose, mail, replaymsg, integration }: Props) => {
   const msal = useMsal();
   const dispatch: AppDispatch = useDispatch();
 
@@ -108,7 +116,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
     };
   });
 
-  // console.log('email ccollection', emailcollection.emailcollection);
+  //console.log('email ccollection', emailcollection.emailcollection);
 
   const [subject, setSubject] = useState('');
 
@@ -236,17 +244,22 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
     attachments: attachfile,
     saveToSentItems: true,
   };
+
   const composeemail = async () => {
     setloader(true);
-    await composemail(authProvider, Emailprops)
-      .then((res) => {
-        setloader(false);
-        Toast('Message send successfully', 'LONG', 'success');
-        clearform();
-        onClose();
-        setstyle(0);
-      })
-      .catch((error) => {});
+    if (integration === 'google') {
+      gmail_compose();
+    } else if (integration === 'outlook') {
+      await composemail(authProvider, Emailprops)
+        .then((res) => {
+          setloader(false);
+          Toast('Message send successfully', 'LONG', 'success');
+          clearform();
+          onClose();
+          setstyle(0);
+        })
+        .catch((error) => {});
+    }
   };
   const dailougeActions = (
     <Flex row end marginTop={20} className={styles.borderLine}>
@@ -343,7 +356,8 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
 
       reader.onload = () => {
         let fileInfo = {
-          '@odata.type': '#microsoft.graph.fileAttachment',
+          // '@odata.type': '#microsoft.graph.fileAttachment',
+          type: filecollection.type,
           name: filecollection.name,
           contentBytes: String(reader.result).split(',')[1],
         };
@@ -374,66 +388,107 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
   });
 
   const getto = (val) => {
-    setTosample(val);
-    let lastElement = val ? val.slice(-1) : [];
-
-    let check = tosample.filter((x) => !val.includes(x));
-
-    if (check.length !== 0) {
-      const removemail = tomail.filter(
-        (item) => item.emailAddress.address !== check[0].value,
-      );
-      setTomail(removemail);
+    if (integration === 'google') {
+      setTosample(val);
+      let lastElement = val.slice(-1);
+      let check = tosample.filter((x) => !val.includes(x));
+      console.log('sdsd', check);
+      if (check.length !== 0) {
+        const removemail = tomail.filter((item) => item !== check[0].value);
+        console.log('---', removemail);
+        setTomail(removemail);
+      } else {
+        setTomail([...tomail, lastElement[0].value]);
+      }
     } else {
-      const mailconvert = {
-        emailAddress: {
-          address: lastElement[0]?.value,
-        },
-      };
+      setTosample(val);
+      let lastElement = val.slice(-1);
 
-      setTomail([...tomail, mailconvert]);
+      let check = tosample.filter((x) => !val.includes(x));
+
+      if (check.length !== 0) {
+        const removemail = tomail.filter(
+          (item) => item.emailAddress.address !== check[0].value,
+        );
+        setTomail(removemail);
+      } else {
+        const mailconvert = {
+          emailAddress: {
+            address: lastElement[0].value,
+          },
+        };
+        setTomail([...tomail, mailconvert]);
+      }
     }
   };
 
   const getcc = (val) => {
-    setCcsample(val);
-    let lastElement = val.slice(-1);
+    if (integration === 'google') {
+      setCcsample(val);
+      let lastElement = val.slice(-1);
+      let check = ccsample.filter((x) => !val.includes(x));
 
-    let check = ccsample.filter((x) => !val.includes(x));
-
-    if (check.length !== 0) {
-      const removemail = ccmail.filter(
-        (item) => item.emailAddress.address !== check[0].value,
-      );
-      setCcmail(removemail);
+      if (check.length !== 0) {
+        const removemail = ccmail.filter((item) => item !== check[0].value);
+        console.log('---', removemail);
+        setCcmail(removemail);
+      } else {
+        setCcmail([...ccmail, lastElement[0].value]);
+      }
     } else {
-      const mailconvert = {
-        emailAddress: {
-          address: lastElement[0].value,
-        },
-      };
-      setCcmail([...ccmail, mailconvert]);
+      setCcsample(val);
+      let lastElement = val.slice(-1);
+
+      let check = ccsample.filter((x) => !val.includes(x));
+
+      if (check.length !== 0) {
+        const removemail = ccmail.filter(
+          (item) => item.emailAddress.address !== check[0].value,
+        );
+        setCcmail(removemail);
+      } else {
+        const mailconvert = {
+          emailAddress: {
+            address: lastElement[0].value,
+          },
+        };
+        setCcmail([...ccmail, mailconvert]);
+      }
     }
   };
 
   const getbcc = (val) => {
-    setBccsample(val);
-    let lastElement = val.slice(-1);
+    if (integration === 'google') {
+      setBccsample(val);
+      let lastElement = val.slice(-1);
+      let check = bccsample.filter((x) => !val.includes(x));
 
-    let check = bccsample.filter((x) => !val.includes(x));
-
-    if (check.length !== 0) {
-      const removemail = bccmail.filter(
-        (item) => item.emailAddress.address !== check[0].value,
-      );
-      setBccmail(removemail);
+      if (check.length !== 0) {
+        const removemail = bccmail.filter((item) => item !== check[0].value);
+        console.log('---', removemail);
+        setBccmail(removemail);
+      } else {
+        setBccmail([...bccmail, lastElement[0].value]);
+      }
     } else {
-      const mailconvert = {
-        emailAddress: {
-          address: lastElement[0].value,
-        },
-      };
-      setBccmail([...bccmail, mailconvert]);
+      setBccsample(val);
+      let lastElement = val.slice(-1);
+
+      let check = bccsample.filter((x) => !val.includes(x));
+
+      if (check.length !== 0) {
+        const removemail = bccmail.filter(
+          (item) => item.emailAddress.address !== check[0].value,
+        );
+        setBccmail(removemail);
+      } else {
+        const mailconvert = {
+          emailAddress: {
+            address: lastElement[0].value,
+          },
+        };
+        setBccmail([...bccmail, mailconvert]);
+      }
     }
   };
 
@@ -461,8 +516,139 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
     setMessagebody(e);
   };
 
+  ////// gmail /////
+
+  const gmail_compose = () => {
+    const toEmails = tomail.join(', ');
+    const toCC = ccmail.join(', ');
+    const toBCC = bccmail.join(', ');
+    const emailss = [
+      'Content-Type: multipart/mixed; boundary="boundary"\n',
+      'MIME-Version: 1.0\n',
+      `To: ${toEmails}\n`,
+      `Cc: ${toCC}\n`,
+      `Bcc: ${toBCC}\n`,
+      `Subject: ${subject}\n\n`,
+      `--boundary\n`,
+      'Content-Type: text/html; charset="UTF-8"\n',
+      'MIME-Version: 1.0\n',
+      `\n${messagebody}\n\n`,
+    ];
+
+    attachfile.forEach(async (attachment) => {
+      console.log('1', attachment.type);
+      console.log('2', attachment.name);
+      console.log('3', attachment.contentBytes);
+
+      emailss.push(
+        `--boundary\n`,
+        `Content-Type: ${attachment.type}\n`,
+        'MIME-Version: 1.0\n',
+        'Content-Transfer-Encoding: base64\n',
+        `Content-Disposition: attachment; filename="${attachment.name}"\n\n`,
+        `${attachment.contentBytes}\n\n`,
+      );
+    });
+
+    emailss.push(`--boundary--`);
+
+    console.log('===', emailss);
+
+    const email = emailss.join('');
+
+    const base64EncodedEmail1 = btoa(email);
+
+    setloader(true);
+    initGoogleAuth()
+      .then(() => {
+        gmail_send(base64EncodedEmail1)
+          .then((res) => {
+            setloader(false);
+            Toast('Message send successfully', 'SHORT', 'success');
+            clearform();
+            onClose();
+            setstyle(0);
+          })
+          .catch((error) => {
+            Toast('Message not send ', 'SHORT', 'error');
+            setloader(false);
+          });
+      })
+      .catch((error) => {
+        Toast('Message not send ', 'SHORT', 'error');
+        setloader(false);
+      });
+  };
+
+  const GmailDraft = () => {
+    const toEmails = tomail.join(', ');
+    const toCC = ccmail.join(', ');
+    const toBCC = bccmail.join(', ');
+    const emailss = [
+      'Content-Type: multipart/mixed; boundary="boundary"\n',
+      'MIME-Version: 1.0\n',
+      `To: ${toEmails}\n`,
+      `Cc: ${toCC}\n`,
+      `Bcc: ${toBCC}\n`,
+      `Subject: ${subject}\n\n`,
+      `--boundary\n`,
+      'Content-Type: text/html; charset="UTF-8"\n',
+      'MIME-Version: 1.0\n',
+      `\n${messagebody}\n\n`,
+    ];
+
+    attachfile.forEach(async (attachment) => {
+      emailss.push(
+        `--boundary\n`,
+        `Content-Type: ${attachment.type}\n`,
+        'MIME-Version: 1.0\n',
+        'Content-Transfer-Encoding: base64\n',
+        `Content-Disposition: attachment; filename="${attachment.name}"\n\n`,
+        `${attachment.contentBytes}\n\n`,
+      );
+    });
+
+    emailss.push(`--boundary--`);
+
+    const email = emailss.join('');
+
+    const rawMessage = btoa(email);
+    const drafts = {
+      message: {
+        raw: rawMessage,
+      },
+    };
+
+    setloader(true);
+    initGoogleAuth()
+      .then(() => {
+        Gmail_Draft(drafts)
+          .then((res) => {
+            setloader(false);
+            Toast('Draft save successfully', 'SHORT', 'success');
+            clearform();
+            closeverify();
+            onClose();
+            setstyle(0);
+          })
+          .catch((error) => {
+            Toast('Draft not save ', 'SHORT', 'error');
+            setloader(false);
+            closeverify();
+            onClose();
+          });
+      })
+      .catch((error) => {
+        Toast('Draft not save', 'SHORT', 'error');
+        setloader(false);
+        closeverify();
+        onClose();
+      });
+  };
+
   return (
-    <>
+    <div>
+      {/* <div style={{ position: 'absolute', bottom: '0px', right: '0px' }}> */}
       <Modal open={data}>
         {loader === true && <Loader />}
         <div
@@ -928,10 +1114,14 @@ const Newmessage = ({ data, onClose, mail, replaymsg }: Props) => {
         closeverify={closeverify}
         composemodel={onClose}
         clearstate={clearform}
-        Emailprops={Emailprops}
+        Emailprops={integration === 'google' ? GmailDraft : Emailprops}
+        auth={integration}
       />
-    </>
+    </div>
   );
 };
 
 export default Newmessage;
+function encodeFileToBase64(file: any) {
+  throw new Error('Function not implemented.');
+}

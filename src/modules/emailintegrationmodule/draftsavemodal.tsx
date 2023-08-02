@@ -11,7 +11,7 @@ import SvgoutlookMail from '../../icons/SvgOutlookmail';
 import SvgVectorClose from '../../icons/SvgMailClose';
 import Button from '../../uikit/Button/Button';
 import config from '../../outlookmailConfig';
-import { draftmail } from '../../emailService';
+import { draftmail, Gmail_Draft } from '../../emailService';
 import styles from './draftsave.module.css';
 
 type Props = {
@@ -19,7 +19,8 @@ type Props = {
   closeverify: () => void;
   composemodel: () => void;
   clearstate: () => void;
-  Emailprops: object;
+  Emailprops: any;
+  auth: any;
 };
 
 const Modaldraft = ({
@@ -28,6 +29,7 @@ const Modaldraft = ({
   composemodel,
   clearstate,
   Emailprops,
+  auth,
 }: Props) => {
   const msal = useMsal();
 
@@ -51,16 +53,20 @@ const Modaldraft = ({
   };
 
   const draftsave = async () => {
-    await draftmail(authProvider, Emailprops)
-      .then((res) => {
-        closeverify();
-        clearstate();
-        composemodel();
-        Toast('Draft saved successfully', 'LONG', 'success');
-      })
-      .catch((error) => {
-        console.log('draft not save ', error);
-      });
+    if (auth === 'google') {
+      Emailprops();
+    } else if (auth === 'outlook') {
+      await draftmail(authProvider, Emailprops)
+        .then((res) => {
+          closeverify();
+          clearstate();
+          composemodel();
+          Toast('Draft saved successfully', 'LONG', 'success');
+        })
+        .catch((error) => {
+          console.log('draft not save ', error);
+        });
+    }
   };
 
   return (
