@@ -197,3 +197,14 @@ img{
 .textsection{
   margin-top: 1rem;
 }
+
+.ticon{
+  display: flex;
+  flex-direction: row;
+}
+
+.tsicon{
+  margin-top: 0.4rem;
+  margin-bottom: 0.4rem;
+  margin-left: 0.5rem;
+}

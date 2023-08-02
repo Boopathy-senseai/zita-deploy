@@ -179,7 +179,7 @@ if(isload){
 		<Card className={styles.cardOverAll}>
 			
 			<Flex>
-				<Text bold size={16}>
+				<Text bold size={14}>
 					Set your preferences for email notifications
 				</Text>
 				<Text>
@@ -190,12 +190,12 @@ if(isload){
 			<Flex row className={styles.marginTop}>
 				<Flex flex={3}> </Flex>
 				<Flex flex={6}>
-					<Text bold size={16}>
+					<Text bold size={14}>
 						Email Description
 					</Text>
 				</Flex>
 				<Flex flex={4}>
-					<Text bold size={16}>
+					<Text bold size={14}>
 						Email Status
 					</Text>
 				</Flex>
@@ -206,18 +206,18 @@ if(isload){
 						Create & Manage Account
 					</Text>
 				</Flex>
-				<Flex flex={6}>
+				<Flex flex={6} className={styles.ticon}>
 					<Text className={styles.content}>
 						We’ll send you emails during account creation, Reset passwords, etc.
 					</Text>
-					<Flex row>
-						<div style={{ marginTop: -1 }}>
-							<SvgInfo height={18} width={18} />
+					<Flex title={"These emails are mandatory, cannot be disabled."} row>
+						<div className={styles.tsicon}>
+							<SvgInfo height={14} width={14} />
 						</div>
-						<Text style={{ marginLeft: 10 }}>
+						{/* <Text style={{ marginLeft: 10 }}>
 							{' '}
 							These emails are mandatory, cannot be disabled.
-						</Text>
+						</Text> */}
 					</Flex>
 				</Flex>
 				<Flex flex={4}>
@@ -256,24 +256,35 @@ if(isload){
 					</Text>
 				</Flex>
 				<Flex flex={6}>
+					<Flex className={styles.ticon}>
 					<Text className={styles.content}>
 						We’ll send an email when a trial or plan is purchased or upgraded.
 					</Text>
+					<Flex row title={"These emails are mandatory, cannot be disabled."}>
+						<div className={styles.tsicon}>
+							<SvgInfo height={14} width={14} />
+						</div></Flex>
+					</Flex>
+
+					<Flex className={styles.ticon}>
 					<Text className={styles.content}>
 						We’ll remind you regarding the free trial and subscription expiry.
 					</Text>
+					<Flex row title={"These emails are mandatory, cannot be disabled."}>
+						<div className={styles.tsicon}>
+							<SvgInfo height={14} width={14} />
+						</div></Flex>
+					</Flex>
+
+                    <Flex className={styles.ticon}>
 					<Text className={styles.content}>
 						We’ll send an email when you cancel the subscription.
 					</Text>
-					<Flex row>
-						<div style={{ marginTop: -1 }}>
-							<SvgInfo height={18} width={18} />
-						</div>
-						<Text style={{ marginLeft: 10 }}>
-							{' '}
-							These emails are mandatory, cannot be disabled.
-						</Text>
-					</Flex>
+					<Flex row title={"These emails are mandatory, cannot be disabled."}>
+						<div className={styles.tsicon}>
+							<SvgInfo height={14} width={14} />
+						</div></Flex>
+				    </Flex>
 				</Flex>
 				<Flex flex={4}>
 					<div className={styles.content} style={{ marginLeft: 22 }}>
@@ -338,6 +349,8 @@ if(isload){
 					</div>
 				</Flex>
 			</Flex>
+
+
 			<Flex row>
 				<Flex flex={10}>
 					<div className={styles.Line6}></div>
@@ -350,18 +363,23 @@ if(isload){
 						Purchase Receipts
 					</Text>
 				</Flex>
-				<Flex flex={6}>
+				<Flex flex={6} className={styles.ticon}>
 					<Text className={styles.content}>
 						We’ll send you receipts during the Add-on purchase.
 					</Text>
-					<Flex row>
-						<div style={{ marginTop: -1 }}>
-							<SvgInfo height={18} width={18} />
+					<Flex row title= {"This email is mandatory, cannot be disabled."}>
+						<div className={styles.tsicon}>
+							<SvgInfo height={14} width={14} />
 						</div>
-						<Text style={{ marginLeft: 10 }}>
+
+						{/* old format css */}
+						{/* <div style={{ marginTop: -1 }}>
+							<SvgInfo height={18} width={18} />
+						</div> */} {/* old format css end */}
+						{/* <Text style={{ marginLeft: 10 }}>
 							{' '}
 							This email is mandatory, cannot be disabled.
-						</Text>
+						</Text> */}
 					</Flex>
 				</Flex>
 				<Flex flex={4}>
@@ -454,18 +472,20 @@ if(isload){
 					<Text className={styles.content}>
 						We’ll send a status email on the bulk candidate importing process.
 					</Text>
+					<Flex className={styles.ticon}>
 					<Text className={styles.content}>
 						We’ll send an email to the candidate when you invite them to apply
 						for a job.
 					</Text>
-					<Flex row>
-						<div style={{ marginTop: -1 }}>
-							<SvgInfo height={18} width={18} />
+					<Flex row title={"This email is mandatory, cannot be disabled."}>
+						<div className={styles.tsicon}>
+							<SvgInfo height={14} width={14} />
 						</div>
-						<Text style={{ marginLeft: 10 }}>
+						{/* <Text style={{ marginLeft: 10 }}>
 							{' '}
 							This email is mandatory, cannot be disabled.
-						</Text>
+						</Text> */}
+					</Flex>
 					</Flex>
 				</Flex>
 				<Flex flex={4}>
