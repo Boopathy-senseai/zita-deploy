@@ -277,7 +277,7 @@ const EmailScreen = () => {
       .catch((error) => {});
   };
   const searchinput = (e) => {
-    setSearch(e.target.value.trim());
+    setSearch(e.target.value);
   };
   const serchmessage = async (e: any) => {
     // e.preventDefault();
@@ -292,7 +292,14 @@ const EmailScreen = () => {
         setmessagelist([]);
         setmesage('');
         setLoader(true);
-        await getsearchmail(authProvider, searchSection, search, skip, range)
+        setSearch(search.trim());
+        await getsearchmail(
+          authProvider,
+          searchSection,
+          search.trim(),
+          skip,
+          range,
+        )
           .then((res) => {
             setSearchicon(true);
             // removemessage();
@@ -304,7 +311,7 @@ const EmailScreen = () => {
             setLoader(false);
           })
           .catch((error) => {
-            setLoader(false);
+            // console.log('get junk mail', error);
           });
       } else if (search !== '' && integration === 'google') {
         setsideroute(0);
@@ -315,9 +322,10 @@ const EmailScreen = () => {
         setmessagelist([]);
         setmesage('');
         setLoader(true);
+        setSearch(search.trim());
         initGoogleAuth()
           .then(() => {
-            Gmail_search(searchSection, search)
+            Gmail_search(searchSection, search.trim())
               .then((res) => {
                 setLoader(false);
 

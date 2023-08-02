@@ -348,21 +348,36 @@ const Newmessage = ({ data, onClose, mail, replaymsg, integration }: Props) => {
     let as = filterFileles;
 
     var allFiles = [...attachfile];
+    if (integration === 'google') {
+      for (var i = 0; i < as.length; i++) {
+        let filecollection = as[i];
+        let reader = new FileReader();
+        reader.readAsDataURL(filecollection);
 
-    for (var i = 0; i < as.length; i++) {
-      let filecollection = as[i];
-      let reader = new FileReader();
-      reader.readAsDataURL(filecollection);
-
-      reader.onload = () => {
-        let fileInfo = {
-          // '@odata.type': '#microsoft.graph.fileAttachment',
-          type: filecollection.type,
-          name: filecollection.name,
-          contentBytes: String(reader.result).split(',')[1],
+        reader.onload = () => {
+          let fileInfo = {
+            type: filecollection.type,
+            name: filecollection.name,
+            contentBytes: String(reader.result).split(',')[1],
+          };
+          allFiles.push(fileInfo);
         };
-        allFiles.push(fileInfo);
-      };
+      }
+    } else if (integration === 'outlook') {
+      for (var j = 0; j < as.length; j++) {
+        let filecollection = as[j];
+        let reader = new FileReader();
+        reader.readAsDataURL(filecollection);
+
+        reader.onload = () => {
+          let fileInfo = {
+            '@odata.type': '#microsoft.graph.fileAttachment',
+            name: filecollection.name,
+            contentBytes: String(reader.result).split(',')[1],
+          };
+          allFiles.push(fileInfo);
+        };
+      }
     }
 
     setFile(file.concat(filterFileles));
