@@ -11,6 +11,7 @@ import InputText from '../../../uikit/InputText/InputText';
 import LinkWrapper from '../../../uikit/Link/LinkWrapper';
 import Text from '../../../uikit/Text/Text';
 import { nameRegex } from '../../constValue';
+import SvgModuleicon from '../../../icons/SvgModuleicon';
 import { CareerPageEntityEntity } from './buildCareerPageTypes';
 import styles from './careerspageurl.module.css';
 import { formikFormTypes } from './formikTypes';
@@ -41,14 +42,14 @@ const CareersPageURL = ({
         <Flex>
           <Flex>
             <Flex row center>
-              <Text color="theme" bold size={16} className={styles.urlText}>
-                Your Careers Page URL (by Zita)*
+              <Text bold size={14} className={styles.urlText}>
+                {`Your Careers Page URL (by Zita)*`}
               </Text>
-              <div
+              <Flex marginTop={1} style={{cursor:"pointer"}}
                 title={`To keep this as your company's careers page, copy this URL and paste it in your website careers page link.`}
               >
-                <SvgHelp fill={GARY_4} height={18} width={18} />
-              </div>
+                <SvgHelp fill="#581845" height={16} width={16} />
+              </Flex>
             </Flex>
 
             <Flex row center className={styles.paddingTopFlex}>
@@ -71,7 +72,7 @@ const CareersPageURL = ({
                   </Text>
                   <div className={styles.inputStyle}>
                     <InputText
-                    id='CareersPageURL___urlInput'
+                      id="CareersPageURL___urlInput"
                       value={formik.values.pagaeUrl}
                       onChange={(e) => {
                         formik.setFieldValue('pagaeUrl', e.target.value);
@@ -119,14 +120,14 @@ const CareersPageURL = ({
           </Flex>
         </Flex>
         <Flex row center className={styles.bottomFlex}>
-          <SvgInfo height={16} width={16} />
-          <Text className={styles.learnText}>Learn how to</Text>
+          <SvgModuleicon fill='#581845' height={16} width={16} />
+          <Text size={13} className={styles.learnText}>Learn how to</Text>
           <a
             rel="noreferrer"
             href="https://www.youtube.com/watch?v=LUIzrimnTq0"
             target={'_blank'}
           >
-            <Text color="link">
+            <Text color="link" bold>
               connect the jobs with your company’s careers page.
             </Text>
           </a>

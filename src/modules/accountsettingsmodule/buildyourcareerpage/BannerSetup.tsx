@@ -7,6 +7,7 @@ import InputText from '../../../uikit/InputText/InputText';
 import SelectTag from '../../../uikit/SelectTag/SelectTag';
 import Text from '../../../uikit/Text/Text';
 import { JOB_TITLE_LIMIT } from '../../constValue';
+import { LabelWrapper } from '../../../uikit';
 import styles from './bannersetup.module.css';
 import { formikFormTypes } from './formikTypes';
 import { fontSizeOptions } from './mock';
@@ -16,18 +17,25 @@ type Props = {
   imgUrl: string | undefined;
   setFile: (a: any) => void;
   setReload: () => void;
-  setBtnDisable:(arg:boolean)=>void
+  setBtnDisable: (arg: boolean) => void;
 };
-const BannerSetup = ({ formik, imgUrl, setFile, setReload ,setBtnDisable}: Props) => {
+const BannerSetup = ({
+  formik,
+  imgUrl,
+  setFile,
+  setReload,
+  setBtnDisable,
+}: Props) => {
   return (
     <Card className={styles.overAll}>
-      <Text color="theme" bold size={16}>
+      <Text bold size={14}>
         Banner Setup
       </Text>
       <Flex row center className={styles.marginTop16}>
         <Flex flex={6}>
           <Flex>
             <InputText
+              style={{ marginTop: '5px' }}
               label="Banner Heading Text"
               value={formik.values.bannerHeadingText}
               onChange={(e) => {
@@ -43,49 +51,61 @@ const BannerSetup = ({ formik, imgUrl, setFile, setReload ,setBtnDisable}: Props
               )}
           </Flex>
           <Flex className={styles.marginTop16}>
-            <SelectTag
-              id={'banner_setup____banerheading_size'}
-              options={fontSizeOptions}
-              label="Banner Heading Font Size"
-              value={
-                fontSizeOptions
-                  ? fontSizeOptions.find(
-                      (option) =>
-                        Number(option.value) ===
-                        Number(formik.values.bannerHeadingFontSize),
-                    )
-                  : ''
-              }
-              onChange={(option) => {
-                setReload();
+            <LabelWrapper label="Banner Heading Font Size">
+              <Flex marginTop={5}>
+                <SelectTag
+                  id={'banner_setup____banerheading_size'}
+                  options={fontSizeOptions}
+                  // label="Banner Heading Font Size"
+                  value={
+                    fontSizeOptions
+                      ? fontSizeOptions.find(
+                          (option) =>
+                            Number(option.value) ===
+                            Number(formik.values.bannerHeadingFontSize),
+                        )
+                      : ''
+                  }
+                  onChange={(option) => {
+                    setReload();
 
-                formik.setFieldValue('bannerHeadingFontSize', option.value);
-              }}
-            />
+                    formik.setFieldValue('bannerHeadingFontSize', option.value);
+                  }}
+                />
+              </Flex>
+            </LabelWrapper>
           </Flex>
           <Flex className={styles.marginTop16}>
-            <SelectTag
-              id={'banner_setup____banertext_size'}
-              options={fontSizeOptions}
-              label="Banner Text Font Size"
-              value={
-                fontSizeOptions
-                  ? fontSizeOptions.find(
-                      (option) =>
-                        Number(option.value) ===
-                        Number(formik.values.bannerTextFontSize),
-                    )
-                  : ''
-              }
-              onChange={(option) => {
-                setReload();
-                formik.setFieldValue('bannerTextFontSize', option.value);
-              }}
-            />
+            <LabelWrapper label="Banner Text Font Size">
+              <Flex marginTop={5}>
+                <SelectTag
+                  id={'banner_setup____banertext_size'}
+                  options={fontSizeOptions}
+                  value={
+                    fontSizeOptions
+                      ? fontSizeOptions.find(
+                          (option) =>
+                            Number(option.value) ===
+                            Number(formik.values.bannerTextFontSize),
+                        )
+                      : ''
+                  }
+                  onChange={(option) => {
+                    setReload();
+                    formik.setFieldValue('bannerTextFontSize', option.value);
+                  }}
+                />
+              </Flex>
+            </LabelWrapper>
           </Flex>
         </Flex>
         <Flex middle columnFlex center flex={6}>
-          <ImageUpload setBtnDisable={setBtnDisable} borderRadius imgUrl={imgUrl} setFile={setFile} />
+          <ImageUpload
+            setBtnDisable={setBtnDisable}
+            borderRadius
+            imgUrl={imgUrl}
+            setFile={setFile}
+          />
           <Text size={12} style={{ marginTop: 12 }} color="gray">
             Recommended image size :1920px X 1280px
           </Text>
@@ -101,6 +121,7 @@ const BannerSetup = ({ formik, imgUrl, setFile, setReload ,setBtnDisable}: Props
           value={formik.values.bannerText}
           textarea
           label="Banner Text"
+          style={{marginTop:"5px"}}
           onChange={(e) => {
             setReload();
             formik.setFieldValue('bannerText', e.target.value);
