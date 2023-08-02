@@ -1,7 +1,6 @@
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-// import SvgCloseSmall from '../../icons/SvgCloseSmall';
 import { eventSchedulerApi } from '../../../routes/apiRoutes';
 import { AppDispatch } from '../../../store';
 import Button from '../../../uikit/Button/Button';
@@ -12,23 +11,15 @@ import SvgClock from '../../../icons/SvgClock';
 import Text from '../../../uikit/Text/Text';
 import Toast from '../../../uikit/Toast/Toast';
 import SvgSearch from '../../../icons/SvgSearch';
-// import ShareButton from '../buildyourcareerpage/ShareButton';
 import Loader from '../../../uikit/Loader/Loader';
 import styles from './linkshare.module.css';
 import { getScheduleMiddleWare } from './store/middleware/eventmiddleware';
-// import GoogleIntergration from './googleintergration';
-// import { nameList, sharelinkdata } from './eventType';
 
 const LinkShare = (props) => {
   const dispatch: AppDispatch = useDispatch();
   const {
-    share,
-    title,
-    type,
-    duration,
     setShare,
     sharelinkdata,
-    response,
     details,
     sharedata,
   } = props;

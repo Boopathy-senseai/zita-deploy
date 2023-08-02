@@ -59,6 +59,13 @@
   border-radius: 4px;
   margin-left: 10px;
 }
+
+.customInput::placeholder {
+  font-size: 12px; /* Adjust the font size as desired */
+  color: #999; /* Adjust the color as desired */
+  /* Add any other custom styles for the placeholder */
+}
+
 .dateInput {
   margin-top: 5px;
   border: 1px solid #ccc;
@@ -68,6 +75,7 @@
   display: flex;
   flex-direction: row;
 }
+
 .my-datepicker {
   width: 300px; /* Adjust the width as per your requirement */
   height: 400px; /* Adjust the height as per your requirement */
@@ -93,5 +101,4 @@
 
 .daytimesplit {
   overflow: hidden;
-  min-height: 300px;
 }

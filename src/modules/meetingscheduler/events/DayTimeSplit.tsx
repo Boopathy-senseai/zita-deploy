@@ -10,7 +10,6 @@ import Button from '../../../uikit/Button/Button';
 import SelectTag from '../../../uikit/SelectTag/SelectTag';
 // import SvgCloseSmall from '../../../icons/SvgCloseSmall';
 import InputCheckBox from '../../../uikit/InputCheckbox/InputCheckBox';
-// import CopyModal from '../../uikit/CopyModal/CopyModal';
 import SvgCross from '../../../icons/SvgCross';
 import styles from './daytimesplit.module.css';
 const DayTimeSplit = (props) => {
@@ -62,7 +61,10 @@ const DayTimeSplit = (props) => {
   const [day6, setDay6] = useState([]);
   const [day7, setDay7] = useState([]);
   const [final, setfinal] = useState([]);
-  const [copybtn,setcopybtn] = useState(false)
+  const [copybtn, setcopybtn] = useState(false);
+  const [copyOpen, setcopyOpen] = useState(false);
+  const [checkedArray, setCheckedArray] = useState([]);
+
 
   useEffect(() => {
     TimeSlots(days);
@@ -89,7 +91,7 @@ const DayTimeSplit = (props) => {
     thursdaycheck,
     fridaycheck,
     saturdaycheck,
-    final
+    final,
   ]);
   useEffect(() => {}, [
     sunday,
@@ -118,18 +120,22 @@ const DayTimeSplit = (props) => {
       const minute = currentTime.getMinutes().toString().padStart(2, '0'); // Ensure 2-digit format
       const ampm = currentTime.getHours() >= 12 ? 'PM' : 'AM'; // Determine AM/PM based on the hour
       // if (index > 0) {
-        // }
-      const timeSlot = { id: index,value:index, label: `${hour}:${minute} ${ampm}` };
+      // }
+      const timeSlot = {
+        id: index,
+        value: index,
+        label: `${hour}:${minute} ${ampm}`,
+      };
       timeSlots.push(timeSlot);
       currentTime = new Date(currentTime.getTime() + timeIncrement * 60000);
       index++;
     }
     SetTime(timeSlots);
-    
+
     if (days === 'Calendar Days' && timeSlots.length > 1) {
-      const newdata = [...timeSlots]
-      newdata.shift()
-      console.log("newdatanewdatanewdatanewdata",newdata)
+      const newdata = [...timeSlots];
+      newdata.shift();
+      console.log('newdatanewdatanewdatanewdata', newdata);
       setDay1(newdata);
       setDay2(newdata);
       setDay3(newdata);
@@ -137,7 +143,7 @@ const DayTimeSplit = (props) => {
       setDay5(newdata);
       setDay6(newdata);
       setDay7(newdata);
-    } 
+    }
     // else if (days === 'Week Days' && timeSlots.length > 1) {
     //   setDay1([]);
     //   setDay2(timeSlots);
@@ -175,7 +181,7 @@ const DayTimeSplit = (props) => {
       const newData = [{ starttime: '9:00 AM', endtime: '6:00 PM' }];
       setSaturday(newData);
     }
-   
+
     return timeSlots;
   };
   const copyonclick = (id: number) => {
@@ -586,25 +592,27 @@ const DayTimeSplit = (props) => {
     );
   };
 
-  console.log("11111111111111111",time)
-
+  console.log('11111111111111111', time);
 
   const handleWrapperMouseEnter = () => {
     // Handle mouse enter event on the wrapper
     console.log('Mouse entered wrapper!');
-    alert("handleWrapperMouseEnter")
+    alert('handleWrapperMouseEnter');
   };
-  function copybtnClose(){
-    alert("N")
-    setcopybtn(!copybtn)
-    setfinal([]);
+  function copybtnClose() {
+    alert('N');
+    setcopybtn(false);
+    // if(final.length > 0 ){
+    //   setfinal([]);
+    // }else{
+    //   setfinal([])
+    // }
+    setfinal([])
   }
 
-  useEffect(()=> {
+  useEffect(() => {}, [ copybtn]);
 
-  },[copybtn,final])
-
-  console.log("+++++++++++++++++",copybtn,final)
+  console.log('+++++++++++++++++', copybtn, final);
 
   return (
     <Flex>
@@ -675,6 +683,8 @@ const DayTimeSplit = (props) => {
         'duration',
         duration,
       )}
+
+      {console.log('copyOpencopyOpencopyOpencopyOpen', copyOpen)}
       <Flex row marginBottom={10}>
         {dateheader('Sunday', sundaycheck, (e) =>
           dateCheckboxChange(e, 'sunday'),
@@ -688,9 +698,12 @@ const DayTimeSplit = (props) => {
             {sundaycheck === true ? (
               <Flex row center flex={1}>
                 <Flex row center className={styles.align}>
-                  <div onFocus={()=>ErrMessage(day1)} className={styles.selectTag}>
+                  <div
+                    onFocus={() => ErrMessage(day1)}
+                    className={styles.selectTag}
+                  >
                     <SelectTag
-                      options={day1}  
+                      options={day1}
                       placeholder={'Time'}
                       name="starttime"
                       defaultValue={{
@@ -707,7 +720,7 @@ const DayTimeSplit = (props) => {
                       onChange={(e) =>
                         handleInputChangeForSunday(e, 0, 'starttime')
                       }
-                      // getOptionValue={() => day1.length === 0 ? ErrMessage(day1) : ''}                                          
+                      // getOptionValue={() => day1.length === 0 ? ErrMessage(day1) : ''}
                     ></SelectTag>
                   </div>
                   <div className={styles.to}>
@@ -716,7 +729,8 @@ const DayTimeSplit = (props) => {
                     </Text>
                   </div>
 
-                  <div className={styles.selectTag}>
+                  <div className={styles.selectTag}
+                  onFocus={() => ErrMessage(day1)}>
                     <SelectTag
                       options={day1}
                       placeholder={'Time'}
@@ -751,53 +765,46 @@ const DayTimeSplit = (props) => {
                     <SvgRoundAdd width={18} height={18} fill={'#581845'} />
                   </button>
                 )}
-                {/* <div>
-                  <button
+              
+                  {/* <Flex onClick={() => setcopybtn(true)}> */}
+                  <CopyClipBoard
                     key={1}
-                    className={styles.add}
-                    onClick={() => copyonclick(1)}
-                  >
-                    <SvgCopy width={18} height={18} fill="#FFC203" />
-                  </button>
-            
-                 
-
-                  {copyid === 1 && ( */}
-                    <CopyClipBoard
-                      key={1}
-                      name="sunday"
-                      copy={copy}
-                      day={sunday}
-                      setCopy={SetCopy}
-                      SetCopyId={SetCopyId}
-                      days={days}
-                      //   setSunday ={setSunday}
-                      setMonday={setMonday}
-                      setTuesday={setTuesday}
-                      setWednesday={setWednesday}
-                      setThursday={setThursday}
-                      setFriday={setFriday}
-                      setSaturday={setSaturday}
-                      timeslot={day1}
-                      setDay1={setDay1}
-                      setDay2={setDay2}
-                      setDay3={setDay3}
-                      setDay4={setDay4}
-                      setDay5={setDay5}
-                      setDay6={setDay6}
-                      setDay7={setDay7}
-                      sundaycheck={sundaycheck}
-                      mondaycheck={mondaycheck}
-                      tuesdaycheck={tuesdaycheck}
-                      wednesdaycheck={wednesdaycheck}
-                      thursdaycheck={thursdaycheck}
-                      fridaycheck={fridaycheck}
-                      saturdaycheck={saturdaycheck}
-                      copybtn ={copybtn}
-                      setcopybtn ={setcopybtn}
-                      copybtnClose ={copybtnClose}
-                    />
-                  {/* )}
+                    name="sunday"
+                    copy={copy}
+                    day={sunday}
+                    setCopy={SetCopy}
+                    SetCopyId={SetCopyId}
+                    days={days}
+                    //   setSunday ={setSunday}
+                    setMonday={setMonday}
+                    setTuesday={setTuesday}
+                    setWednesday={setWednesday}
+                    setThursday={setThursday}
+                    setFriday={setFriday}
+                    setSaturday={setSaturday}
+                    timeslot={day1}
+                    setDay1={setDay1}
+                    setDay2={setDay2}
+                    setDay3={setDay3}
+                    setDay4={setDay4}
+                    setDay5={setDay5}
+                    setDay6={setDay6}
+                    setDay7={setDay7}
+                    sundaycheck={sundaycheck}
+                    mondaycheck={mondaycheck}
+                    tuesdaycheck={tuesdaycheck}
+                    wednesdaycheck={wednesdaycheck}
+                    thursdaycheck={thursdaycheck}
+                    fridaycheck={fridaycheck}
+                    saturdaycheck={saturdaycheck}
+                    copybtn={copybtn}
+                    setcopybtn={setcopybtn}
+                    copybtnClose={copybtnClose}
+                    final ={final}
+                    setfinal ={setfinal}
+                  />
+                  {/* </Flex> */}
+                {/* )}
                 </div> */}
               </Flex>
             ) : (
@@ -892,7 +899,7 @@ const DayTimeSplit = (props) => {
             {mondaycheck === true ? (
               <Flex row center flex={1}>
                 <Flex row className={styles.align}>
-                  <div className={styles.selectTag}>
+                  <div className={styles.selectTag} onFocus={() => ErrMessage(day2)} >
                     <SelectTag
                       options={day2}
                       placeholder={'Time'}
@@ -911,14 +918,14 @@ const DayTimeSplit = (props) => {
                       onChange={(e) =>
                         handleInputChangeForMonday(e, 0, 'starttime')
                       }
-                      // getOptionValue={() => day2.length === 0 ? ErrMessage(day2) : ''}       
+                      // getOptionValue={() => day2.length === 0 ? ErrMessage(day2) : ''}
                     ></SelectTag>
                   </div>
                   <div className={styles.to}>
                     <Text className={styles.txt}>To</Text>
                   </div>
 
-                  <div className={styles.selectTag}>
+                  <div className={styles.selectTag} onFocus={() => ErrMessage(day2)} >
                     <SelectTag
                       options={day2}
                       placeholder={'Time'}
@@ -965,7 +972,7 @@ const DayTimeSplit = (props) => {
                     <SvgCopy width={18} height={18} fill="#FFC203" />
                   </button>
                   {copyid === 2 ? ( */}
-                    <CopyClipBoard
+                <CopyClipBoard
                       key={2}
                       copy={copy}
                       name="monday"
@@ -999,7 +1006,7 @@ const DayTimeSplit = (props) => {
                       setcopybtn ={setcopybtn}
                       copybtnClose ={copybtnClose}
                     />
-                  {/* ) : (
+                {/* ) : (
                     ''
                   )}
                 </div> */}
@@ -1083,7 +1090,6 @@ const DayTimeSplit = (props) => {
         </Flex>
       </Flex>
 
-
       <Flex row marginBottom={10}>
         {dateheader('Tuesday', tuesdaycheck, (e) =>
           dateCheckboxChange(e, 'tuesday'),
@@ -1098,7 +1104,7 @@ const DayTimeSplit = (props) => {
                 style={{ marginBottom: tuesday.length > 1 ? '10px' : '0px' }}
               >
                 <Flex row className={styles.align}>
-                  <div className={styles.selectTag}>
+                  <div className={styles.selectTag} onFocus={() => ErrMessage(day3)}>
                     <SelectTag
                       options={day3}
                       placeholder={'Time'}
@@ -1123,7 +1129,7 @@ const DayTimeSplit = (props) => {
                     <Text className={styles.txt}> To</Text>
                   </div>
 
-                  <div className={styles.selectTag}>
+                  <div className={styles.selectTag} onFocus={() => ErrMessage(day3)}>
                     <SelectTag
                       options={day3}
                       placeholder={'Time'}
@@ -1173,7 +1179,7 @@ const DayTimeSplit = (props) => {
                     <SvgCopy width={18} height={18} fill="#FFC203" />
                   </button>
                   {copyid === 3 ? ( */}
-                    <CopyClipBoard
+                <CopyClipBoard
                       key={3}
                       copy={copy}
                       name="tuesday"
@@ -1208,7 +1214,7 @@ const DayTimeSplit = (props) => {
                       setcopybtn ={setcopybtn}
                       copybtnClose ={copybtnClose}
                     />
-                  {/* ) : (
+                {/* ) : (
                     ''
                   )}
                 </div> */}
@@ -1273,7 +1279,7 @@ const DayTimeSplit = (props) => {
                                 onClick={() => RemoveClickForTuesday(i)}
                                 className={styles.add}
                               >
-                               <SvgCross
+                                <SvgCross
                                   width={16}
                                   height={16}
                                   fill={'#581845'}
@@ -1305,7 +1311,7 @@ const DayTimeSplit = (props) => {
                 style={{ marginBottom: wednesday.length > 1 ? '10px' : '0px' }}
               >
                 <Flex row>
-                  <div className={styles.selectTag}>
+                  <div className={styles.selectTag} onFocus={() => ErrMessage(day4)}>
                     <SelectTag
                       options={day4}
                       placeholder={'Time'}
@@ -1331,7 +1337,7 @@ const DayTimeSplit = (props) => {
                     <Text className={styles.txt}> To</Text>
                   </div>
 
-                  <div className={styles.selectTag}>
+                  <div className={styles.selectTag} onFocus={() => ErrMessage(day4)}>
                     <SelectTag
                       options={day4}
                       placeholder={'Time'}
@@ -1383,7 +1389,7 @@ const DayTimeSplit = (props) => {
                     <SvgCopy width={18} height={18} fill="#FFC203" />
                   </button>
                   {copyid === 4 ? ( */}
-                    <CopyClipBoard
+                <CopyClipBoard
                       key={4}
                       copy={copy}
                       name="wednesday"
@@ -1417,7 +1423,7 @@ const DayTimeSplit = (props) => {
                       setcopybtn ={setcopybtn}
                       copybtnClose ={copybtnClose}
                     />
-                  {/* ) : (
+                {/* ) : (
                     ''
                   )}
                 </div> */}
@@ -1482,7 +1488,7 @@ const DayTimeSplit = (props) => {
                                 onClick={() => RemoveClickForWednesday(i)}
                                 className={styles.add}
                               >
-                               <SvgCross
+                                <SvgCross
                                   width={16}
                                   height={16}
                                   fill={'#581845'}
@@ -1514,7 +1520,7 @@ const DayTimeSplit = (props) => {
                 style={{ marginBottom: thursday.length > 1 ? '10px' : '0px' }}
               >
                 <Flex row className={styles.align}>
-                  <div className={styles.selectTag}>
+                  <div className={styles.selectTag} onFocus={() => ErrMessage(day5)}>
                     <SelectTag
                       options={day5}
                       placeholder={'Time'}
@@ -1540,7 +1546,7 @@ const DayTimeSplit = (props) => {
                     <Text className={styles.txt}> To</Text>
                   </div>
 
-                  <div className={styles.selectTag}>
+                  <div className={styles.selectTag} onFocus={() => ErrMessage(day5)}>
                     <SelectTag
                       options={day5}
                       placeholder={'Time'}
@@ -1587,7 +1593,7 @@ const DayTimeSplit = (props) => {
                     <SvgCopy width={18} height={18} fill="#FFC203" />
                   </button>
                   {copyid === 5 ? ( */}
-                    <CopyClipBoard
+                <CopyClipBoard
                       key={5}
                       copy={copy}
                       days={days}
@@ -1621,7 +1627,7 @@ const DayTimeSplit = (props) => {
                       setcopybtn ={setcopybtn}
                       copybtnClose ={copybtnClose}
                     />
-                  {/* ) : (
+                {/* ) : (
                     ''
                   )}
                 </div> */}
@@ -1686,7 +1692,7 @@ const DayTimeSplit = (props) => {
                                 onClick={() => RemoveClickForThursday(i)}
                                 className={styles.add}
                               >
-                             <SvgCross
+                                <SvgCross
                                   width={16}
                                   height={16}
                                   fill={'#581845'}
@@ -1718,7 +1724,7 @@ const DayTimeSplit = (props) => {
                 style={{ marginBottom: friday.length > 1 ? '10px' : '0px' }}
               >
                 <Flex row className={styles.align}>
-                  <div className={styles.selectTag}>
+                  <div className={styles.selectTag} onFocus={() => ErrMessage(day6)}>
                     <SelectTag
                       options={day6}
                       placeholder={'Time'}
@@ -1743,7 +1749,7 @@ const DayTimeSplit = (props) => {
                     <Text className={styles.txt}> To</Text>
                   </div>
 
-                  <div className={styles.selectTag}>
+                  <div className={styles.selectTag} onFocus={() => ErrMessage(day6)}>
                     <SelectTag
                       options={day6}
                       placeholder={'Time'}
@@ -1791,7 +1797,7 @@ const DayTimeSplit = (props) => {
                     <SvgCopy width={18} height={18} fill="#FFC203" />
                   </button>
                   {copyid === 6 && ( */}
-                    <CopyClipBoard
+                <CopyClipBoard
                       key={6}
                       copy={copy}
                       name="friday"
@@ -1825,7 +1831,7 @@ const DayTimeSplit = (props) => {
                       setcopybtn={setcopybtn}
                       copybtnClose ={copybtnClose}
                     />
-                  {/* )}
+                {/* )}
                 </div> */}
               </Flex>
             ) : (
@@ -1888,7 +1894,7 @@ const DayTimeSplit = (props) => {
                                 onClick={() => RemoveClickForFriday(i)}
                                 className={styles.add}
                               >
-                               <SvgCross
+                                <SvgCross
                                   width={16}
                                   height={16}
                                   fill={'#581845'}
@@ -1920,7 +1926,7 @@ const DayTimeSplit = (props) => {
                 style={{ marginBottom: saturday.length > 1 ? '10px' : '0px' }}
               >
                 <Flex row className={styles.align}>
-                  <div className={styles.selectTag}>
+                  <div className={styles.selectTag} onFocus={() => ErrMessage(day7)}>
                     <SelectTag
                       options={day7}
                       placeholder={'Time'}
@@ -1946,7 +1952,7 @@ const DayTimeSplit = (props) => {
                     <Text className={styles.txt}> To</Text>
                   </div>
 
-                  <div className={styles.selectTag}>
+                  <div className={styles.selectTag} onFocus={() => ErrMessage(day7)}>
                     <SelectTag
                       options={day7}
                       placeholder={'Time'}
@@ -1998,7 +2004,7 @@ const DayTimeSplit = (props) => {
                     <SvgCopy width={18} height={18} fill="#FFC203" />
                   </button>
                   {copyid === 7 ? ( */}
-                    <CopyClipBoard
+                <CopyClipBoard
                       key={7}
                       copy={copy}
                       name="saturday"
@@ -2034,7 +2040,7 @@ const DayTimeSplit = (props) => {
                       setcopybtn ={setcopybtn}
                       copybtnClose ={copybtnClose}
                     />
-                  {/* ) : (
+                {/* ) : (
                     ''
                   )}
                 </div> */}
@@ -2103,7 +2109,7 @@ const DayTimeSplit = (props) => {
                                 onClick={() => RemoveClickForSaturday(i)}
                                 className={styles.add}
                               >
-                              <SvgCross
+                                <SvgCross
                                   width={16}
                                   height={16}
                                   fill={'#581845'}
@@ -2162,424 +2168,585 @@ const CopyClipBoard = (props) => {
     thursdaycheck,
     fridaycheck,
     saturdaycheck,
-    // final,
-    // setfinal,
+    final,
+    setfinal,
     copybtn,
     setcopybtn,
     copybtnClose,
+    checked,
+    setChecked,
   } = props;
 
-  console.log("^^^^^^^^^^^^^^^^^^^^^^^",props)
+  console.log('^^^^^^^^^^^^^^^^^^^^^^^', props);
   const [monday123, updateMonday123] = useState([]);
 
-  useEffect(() => {
-    setfinal([])
-  }, []);
+  useEffect(() => {}, []);
 
   const [time123, setTime123] = useState(copy);
   const [mondayclick, setMondayClick] = useState(false);
   const [apply, setApply] = useState([]);
   const [check, setCheck] = useState([]);
-  const [final, setfinal] = useState([]);
+  // const [final, setfinal] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [checked,setChecked] = useState([])
+  // const [checked,setChecked] = useState([])
+  const [dataexist, setdataexist] = useState([]);
 
-  useEffect(() => {}, [
-    // sunday,
-    // monday,
-    // tuesday,
-    // wednesday,
-    // thursday,
-    // friday,
-    // saturday,
-  ]);
+  const [check1,setcheck1] = useState(false);
+  const [check2,setcheck2] = useState(false);
+  const [check3,setcheck3] = useState(false);
+  const [check4,setcheck4] = useState(false);
+  const [check5,setcheck5] = useState(false);
+  const [check6,setcheck6] = useState(false);
+  const [check7,setcheck7] = useState(false);
+
+
+  useEffect(
+    () => {},
+    [
+      sunday,
+      monday,
+      tuesday,
+      wednesday,
+      thursday,
+      friday,
+      saturday,
+    ],
+  );
 
   const toggleDropdown = () => {
     alert(showDropdown);
     setShowDropdown(!showDropdown);
   };
-  useEffect(()=>{
 
-  },[])
 
-  const handleCheckboxChange = (assignedvalue: string) => {
-    alert("?")
-    if (checked.includes(assignedvalue)) {
-      alert('splice');
-      const indexToRemove = checked.indexOf(assignedvalue);
-      checked.splice(indexToRemove, 1);
-      setfinal(checked)
-      setChecked(checked)
-    } else {
-      alert(assignedvalue);
-      checked.push(assignedvalue);      
-      // setfinal(checked)
-      console.log("finalallllllllllll>>>>>>>>>",checked,checked.includes(assignedvalue))
-      setChecked(checked)
+  // const emptyArray = []
+  const handleCheckboxChange = (assignedvalue) => {
+    // const { value, checkflag } = event.target;
+    // console.log(">>>>>>><<<<<<<",checkflag)
+    // alert(checkflag);
+    // if (dataexist.includes(assignedvalue)) {
+    //   alert('splice');
+    //   const indexToRemove = dataexist.indexOf(assignedvalue);
+    //   console.log("?????????????",dataexist,indexToRemove)
+
+    //   dataexist.splice(indexToRemove, 1);
+    //   console.log("?????????????",dataexist,indexToRemove)
+    //   setfinal(dataexist);
+    //   setdataexist(dataexist)
+    //   // setChecked(checked)
+    // } else {      
+    //   alert(assignedvalue);
+    //   dataexist.push(assignedvalue);
+    //   console.log('//////////////////', dataexist);
+    //   setdataexist(dataexist)
+    //   setfinal(dataexist);
+
+    //   // setChecked(checked)
+    // }
+    if(assignedvalue === 'sunday'){
+      setcheck1(!check1)
     }
+    if(assignedvalue === 'monday'){
+      setcheck2(!check2)
+    }
+    if(assignedvalue === 'tuesday'){
+      setcheck3(!check3)
+    }
+    if(assignedvalue === 'wednesday'){
+      setcheck4(!check4)
+    }
+    if(assignedvalue === 'thursday'){
+      setcheck5(!check5)
+    }
+    if(assignedvalue === 'friday'){
+      setcheck6(!check6)
+    }
+    if(assignedvalue === 'saturday'){
+      setcheck7(!check7)
+    }
+   
+
+    console.log('11111111111111111111', final);
+    // setfinal(final)
   };
 
+  
 
   function closeButton() {
     setCopy(false);
     SetCopyId(0);
   }
 
+  function ModalReset(){
+    setcheck1(false)
+    setcheck2(false)
+    setcheck3(false)
+    setcheck4(false)
+    setcheck5(false)
+    setcheck6(false)
+    setcheck7(false)
+  }
+
   const applyonclick = (senditem: any, dayof: any, tslot: any) => {
+    setcopybtn(false)
+  
     copybtnClose();
-    if (final.includes('sunday')) {
+    closeButton();  
+    if (check1) {
       const filteredData = dayof.filter(
         (item) => item.starttime !== '' && item.endtime !== '',
       );
       setSunday(filteredData);
     }
-    if (final.includes('monday')) {
+    if (check2) {
       const filteredData = dayof.filter(
         (item) => item.starttime !== '' && item.endtime !== '',
       );
       setMonday(filteredData);
     }
-    if (final.includes('tuesday')) {
+    if (check3) {
       const filteredData = dayof.filter(
         (item) => item.starttime !== '' && item.endtime !== '',
       );
       setTuesday(filteredData);
     }
-    if (final.includes('wednesday')) {
+    if (check4) {
       const filteredData = dayof.filter(
         (item) => item.starttime !== '' && item.endtime !== '',
       );
       setWednesday(filteredData);
     }
-    if (final.includes('thursday')) {
+    if (check5) {
       const filteredData = dayof.filter(
         (item) => item.starttime !== '' && item.endtime !== '',
       );
       setThursday(filteredData);
     }
-    if (final.includes('friday')) {
+    if (check6) {
       const filteredData = dayof.filter(
         (item) => item.starttime !== '' && item.endtime !== '',
       );
       setFriday(filteredData);
     }
-    if (final.includes('saturday')) {
+    if (check7) {
       const filteredData = dayof.filter(
         (item) => item.starttime !== '' && item.endtime !== '',
       );
       setSaturday(filteredData);
     }
-    closeButton();
-    setfinal([]);
+    ModalReset()
     setTimeout(() => {
       timeslotset(tslot);
     }, 1000);
     // setChecked([])
   };
 
+  function onCopyClick() {
+    setcopybtn(true)
+  }
+
   const timeslotset = (dayof) => {
     const updatedTimeSlots = [...dayof];
     updatedTimeSlots.shift();
-
-    if (final.includes('sunday')) {
+    if (check1) {
       setDay1(dayof);
     }
-    if (final.includes('monday')) {
+    if (check2) {
       setDay2(dayof);
     }
-    if (final.includes('tuesday')) {
+    if (check3) {
       setDay3(dayof);
     }
-    if (final.includes('wednesday')) {
+    if (check4) {
       setDay4(dayof);
     }
-    if (final.includes('thursday')) {
+    if (check5) {
       setDay5(dayof);
     }
-    if (final.includes('friday')) {
+    if (check6) {
       setDay6(dayof);
     }
-    if (final.includes('saturday')) {
+    if (check7) {
       setDay7(dayof);
     }
   };
 
+  console.log('finalallllllllllll', final);
+  console.log('finalallllllllllllcopybtn', copybtn,final);
+  {
+    console.log('checkeddddddddd---------------', checked);
+  }
+  console.log('dataexistdataexistdataexist/....................', dataexist);
 
-  console.log("finalallllllllllll",final)
-  console.log("finalallllllllllllcopybtn",copybtn)
-  {console.log("checkeddddddddd---------------",checked)}
-
-
+  {
+    console.log('checkeddddddddd>>>>>>>>>>', final);
+  }
+  console.log('copybtncopybtncopybtncopybtn',copybtn);
   return (
     <>
-    {console.log("checkeddddddddd",checked)}
+      {console.log(
+        'checkeddddddddd',
+        final,
+        "\n",
+        "datasexist",dataexist,
+        '\n',
+        'sunday',
+        check1,
+        '\n',
+        'monday',
+        check2,
+        '\n',
+        'tuesday',
+        check3,
+        '\n',
+        'wednesday',
+        check4,
+        '\n',
+        'thursday',
+        check5,
+        '\n',
+        'friday',
+        check6,
+        '\n',
+        'saturday',
+        check7,
+      )}
 
-      <Flex className={styles.btnsetting}  onClick={()=>setcopybtn(true)}>
+      <Flex className={styles.btnsetting} onClick={()=>onCopyClick()}>
         <Dropdown className="dropdownButton dropleft">
           <Dropdown.Toggle
-          //  className={styles.add}
+            //  className={styles.add}
             style={{
               borderColor: 'unset',
               backgroundColor: 'unset',
               boxShadow: 'none',
-              border : 'none',
-              // marginLeft:"-7px"             
+              border: 'none',
+              // marginLeft:"-7px"
             }}
             // id="dropdown-basic"
-           
           >
-            <SvgCopy width={18} height={18} fill="581458"/>
+            <SvgCopy width={18} height={18} fill={'#581845'} />
           </Dropdown.Toggle>
-
           {copybtn && 
-          <Dropdown.Menu style={{ minWidth: '5rem' }}>
-            {/* <Dropdown.Item
+
+            <Dropdown.Menu style={{ minWidth: '5rem' }}>
+              {/* <Dropdown.Item
             onClick={handleDropdownItemClick}
             > */}
-        
-                <Flex
-                  row
-                  center
-                  marginLeft={'25px'}
-                  marginTop={'5px'}
-                  className={styles.dropDownListStyle}
-                >
-                  {name === 'sunday' ? (
-                    <InputCheckBox
-                      checked={name === 'sunday'}
-                      disabled={name === 'sunday'}
-                      //   onChange={() => handleCheckboxChange('monday')}
-                    />
-                  ) : sundaycheck === true ? (
-                    <>
+
+              <Flex
+                row
+                center
+                marginLeft={'25px'}
+                marginTop={'5px'}
+                className={styles.dropDownListStyle}
+              >
+                {name === 'sunday' ? (
+                  <InputCheckBox
+                    checked={name === 'sunday'}
+                    disabled={name === 'sunday'}
+                    //   onChange={() => handleCheckboxChange('monday')}
+                  />
+                ) : sundaycheck === true ? (
                  
-                    {console.log("!final.includes(name)",final.includes(name.toString()))}
-
                     <InputCheckBox
                       onChange={() => handleCheckboxChange('sunday')}
-                      checked={checked.includes('sunday') ? true : false}
+                      checked={check1 ? true : false}
                     />
-                    {console.log("finalallllllllllllfinalallllllllllll",name ,typeof name,"\n",checked.includes('sunday'))}
-                    
-                    </>
-                  ) : (
-                    
-                    <InputCheckBox
-                      onChange={() => handleCheckboxChange('sunday')}
-                      disabled={true}
-                    />
-                  )}
-                  <Text className={styles.space}>Sunday</Text>
-                </Flex>
-                {/* </Dropdown.Item> */}
+                   
+                ) : (
+                  <InputCheckBox
+                    onChange={() => handleCheckboxChange('sunday')}
+                    disabled={true}
+                  />
+                )}
+                <Text className={styles.space}>Sunday</Text>
+              </Flex>
+              {/* </Dropdown.Item> */}
 
-                {/* <Dropdown.Item
+              {/* <Dropdown.Item
             > */}
-                <Flex
-                  row
-                  center
-                  marginLeft={'25px'}
-                  marginTop={'5px'}
-                  className={styles.dropDownListStyle}
-                >
-                  {name === 'monday' ? (
-                    <InputCheckBox
-                      checked={name === 'monday'}
-                      disabled={name === 'monday'}
-                    />
-                  ) : mondaycheck === true ? (
-                    <InputCheckBox
-                      onChange={() => handleCheckboxChange('monday')}
-                      checked={checked.includes('monday') ? true : false}
-                      
-                    />
-                  ) : (
-                    <InputCheckBox
-                      onChange={() => handleCheckboxChange('monday')}
-                      disabled
-                    />
-                  )}
-                  <Text className={styles.space}>Monday</Text>
-                </Flex>
-                {/* </Dropdown.Item> */}
+              <Flex
+                row
+                center
+                marginLeft={'25px'}
+                marginTop={'5px'}
+                className={styles.dropDownListStyle}
+              >
+                {name === 'monday' ? (
+                  <InputCheckBox
+                    checked={name === 'monday'}
+                    disabled={name === 'monday'}
+                  />
+                ) : mondaycheck === true ? (
+              
+                  <InputCheckBox
+                    onChange={() => handleCheckboxChange('monday')}
+                    // checked={final.includes('monday') ? true : false }
+                    checked ={check2 ? true : false}
+                  />
+                 
+                
+                  // dataexist.includes('monday') ? (
+                  //   <InputCheckBox
+                  //     onChange={() => handleCheckboxChange('monday')}
+                  //     checked={dataexist.includes('monday') ? true : false}
+                  //     // checked={true}
+                  //   />
+                  // ) : (
+                  //   <InputCheckBox
+                  //     onChange={() => handleCheckboxChange('monday')}
+                  //     checked={dataexist.includes('monday') ? true : false }
+                  //   />
+                  // )
+                ) : (
+                  <InputCheckBox
+                    onChange={() => handleCheckboxChange('monday')}
+                    disabled
+                  />
+                )}
+                <Text className={styles.space}>Monday</Text>
+              </Flex>
+              {/* </Dropdown.Item> */}
 
-                {/* <Dropdown.Item
+              {/* <Dropdown.Item
             // onClick={() => handleShow(data.id)}
             > */}
-                <Flex
-                  row
-                  center
-                  marginLeft={'25px'}
-                  marginTop={'5px'}
-                  className={styles.dropDownListStyle}
-                >
-                  {name === 'tuesday' ? (
-                    <InputCheckBox
-                      checked={name === 'tuesday'}
-                      disabled={name === 'tuesday'}
-                    />
-                  ) : tuesdaycheck === true ? (
-                    <>
+              <Flex
+                row
+                center
+                marginLeft={'25px'}
+                marginTop={'5px'}
+                className={styles.dropDownListStyle}
+              >
+                {name === 'tuesday' ? (
+                  <InputCheckBox
+                    checked={name === 'tuesday'}
+                    disabled={name === 'tuesday'}
+                  />
+                ) : tuesdaycheck === true ? (
+                  // final.includes('tuesday') ? (
+                  //   <InputCheckBox
+                  //     onChange={() => handleCheckboxChange('tuesday')}
+                  //     checked={final.includes('tuesday') ? true : false}
+                  //     // checked={true}
+                  //   />
+                  // ) : (
                     <InputCheckBox
                       onChange={() => handleCheckboxChange('tuesday')}
-                      checked={checked.includes(name.toString()) ? true : false}
-                    />
-                    {console.log("checked.includes",checked.includes('tuesday'))}
-                    </>
-                  ) : (
-                    <InputCheckBox
-                      onChange={() => handleCheckboxChange('tuesday')}
-                      disabled={true}
-                    />
-                  )}
-                  <Text className={styles.space}>Tuesday</Text>
-                </Flex>
-                {/* </Dropdown.Item> */}
+                      // checked={final.includes('tuesday') ? true : false }
+                      checked ={check3 ? true : false}
 
-                {/* <Dropdown.Item
+                    />
+                  // )
+                ) : (
+                  <InputCheckBox
+                    onChange={() => handleCheckboxChange('tuesday')}
+                    disabled={true}
+                  />
+                )}
+                <Text className={styles.space}>Tuesday</Text>
+              </Flex>
+              {/* </Dropdown.Item> */}
+
+              {/* <Dropdown.Item
             // onClick={() => handleShow(data.id)}
             > */}
-                <Flex
-                  row
-                  center
-                  marginLeft={'25px'}
-                  marginTop={'5px'}
-                  className={styles.dropDownListStyle}
-                >
-                  {name === 'wednesday' ? (
-                    <InputCheckBox
-                      checked={name === 'wednesday'}
-                      disabled={name === 'wednesday'}
-                    />
-                  ) : wednesdaycheck === true ? (
+              <Flex
+                row
+                center
+                marginLeft={'25px'}
+                marginTop={'5px'}
+                className={styles.dropDownListStyle}
+              >
+                {name === 'wednesday' ? (
+                  <InputCheckBox
+                    checked={name === 'wednesday'}
+                    disabled={name === 'wednesday'}
+                  />
+                ) : wednesdaycheck === true ? (
+                  // <InputCheckBox
+                  //   onChange={() => handleCheckboxChange('wednesday')}
+                  //   // checked={checked.includes('wednesday') ? true : false}
+                  // />
+                  // final.includes('wednesday') ? (
+                  //   <InputCheckBox
+                  //     onChange={() => handleCheckboxChange('wednesday')}
+                  //     checked={final.includes('wednesday') ? true : false}
+                  //   />
+                  // ) : (
                     <InputCheckBox
                       onChange={() => handleCheckboxChange('wednesday')}
-                      checked={checked.includes('wednesday') ? true : false}
-                    />
-                  ) : (
-                    <InputCheckBox
-                      onChange={() => handleCheckboxChange('wednesday')}
-                      disabled={true}
-                    />
-                  )}
-                  <Text className={styles.space}>Wednesday</Text>
-                </Flex>
-                {/* </Dropdown.Item> */}
+                      // checked={final.includes('tuesday') ? true : false }
+                    checked ={check4 ? true : false}
 
-                {/* <Dropdown.Item
+                    />
+                  // )
+                ) : (
+                  <InputCheckBox
+                    onChange={() => handleCheckboxChange('wednesday')}
+                    disabled={true}
+                  />
+                )}
+                <Text className={styles.space}>Wednesday</Text>
+              </Flex>
+              {/* </Dropdown.Item> */}
+
+              {/* <Dropdown.Item
             // onClick={() => handleShow(data.id)}
             > */}
-                <Flex
-                  row
-                  center
-                  marginLeft={'25px'}
-                  marginTop={'5px'}
-                  className={styles.dropDownListStyle}
-                >
-                  {name === 'thursday' ? (
-                    <InputCheckBox
-                      checked={name === 'thursday'}
-                      disabled={name === 'thursday'}
-                    />
-                  ) : thursdaycheck === true ? (
-                    <InputCheckBox
-                      onChange={() => handleCheckboxChange('thursday')} 
-                      checked={checked.includes('thursday') ? true : false}
-        
-                    />
-                  ) : (
+              <Flex
+                row
+                center
+                marginLeft={'25px'}
+                marginTop={'5px'}
+                className={styles.dropDownListStyle}
+              >
+                {name === 'thursday' ? (
+                  <InputCheckBox
+                    checked={name === 'thursday'}
+                    disabled={name === 'thursday'}
+                  />
+                ) : thursdaycheck === true ? (
+                  // <InputCheckBox
+                  //   onChange={() => handleCheckboxChange('thursday')}
+                  //   checked={final.includes('thursday') ? true : false}
+                  // />
+                  // final.includes('thursday') ? (
+                  //   <InputCheckBox
+                  //     onChange={() => handleCheckboxChange('thursday')}
+                  //     checked={final.includes('thursday') ? true : false}
+                  //     // checked={true}
+                  //   />
+                  // ) : (
                     <InputCheckBox
                       onChange={() => handleCheckboxChange('thursday')}
-                      disabled={true}
+                      // checked={final.includes('tuesday') ? true : false }
+                      checked ={check5 ? true : false}
                     />
-                  )}
-                  <Text className={styles.space}>Thursday</Text>
-                </Flex>
-                {/* </Dropdown.Item> */}
+                  // )
+                ) : (
+                  <InputCheckBox
+                    onChange={() => handleCheckboxChange('thursday')}
+                    disabled={true}
+                  />
+                )}
+                <Text className={styles.space}>Thursday</Text>
+              </Flex>
+              {/* </Dropdown.Item> */}
 
-                {/* <Dropdown.Item
+              {/* <Dropdown.Item
             // onClick={() => handleShow(data.id)}
             > */}
-                <Flex
-                  row
-                  center
-                  marginLeft={'25px'}
-                  marginTop={'5px'}
-                  className={styles.dropDownListStyle}
-                >
-                  {name === 'friday' ? (
+              <Flex
+                row
+                center
+                marginLeft={'25px'}
+                marginTop={'5px'}
+                className={styles.dropDownListStyle}
+              >
+                {name === 'friday' ? (
+                  <InputCheckBox
+                    checked={name === 'friday'}
+                    disabled={name === 'friday'}
+                  />
+                ) : fridaycheck === true ? (
+                  // <InputCheckBox
+                  //   // checked={final.includes('friday')}
+                  //   onChange={() => handleCheckboxChange('friday')}
+                  //   checked={final.includes('friday') ? true : false}
+                  // />
+                  // final.includes('friday') ? (
+                  //   <InputCheckBox
+                  //     onChange={() => handleCheckboxChange('friday')}
+                  //     checked={final.includes('friday') ? true : false}
+                  //     // checked={true}
+                  //   />
+                  // ) : (
                     <InputCheckBox
-                      checked={name === 'friday'}
-                      disabled={name === 'friday'}
-                    />
-                  ) : fridaycheck === true ? (
-                    <InputCheckBox
-                      // checked={final.includes('friday')}
                       onChange={() => handleCheckboxChange('friday')}
-                      checked={checked.includes('friday') ? true : false}
-                    />
-                  ) : (
-                    <InputCheckBox
-                      onChange={() => handleCheckboxChange('friday')}
-                      disabled={true}
-                    />
-                  )}
-                  <Text className={styles.space}>Friday</Text>
-                </Flex>
-                {/* </Dropdown.Item> */}
+                      // checked={final.includes('tuesday') ? true : false }
+                    checked ={check6 ? true : false}
 
-                {/* <Dropdown.Item
+                    />
+                  // )
+                  
+                ) : (
+                  <InputCheckBox
+                    onChange={() => handleCheckboxChange('friday')}
+                    disabled={true}
+                  />
+                )}
+                <Text className={styles.space}>Friday</Text>
+              </Flex>
+              {/* </Dropdown.Item> */}
+
+              {/* <Dropdown.Item
             // onClick={() => handleShow(data.id)}
             > */}
-                <Flex
-                  row
-                  center
-                  marginLeft={'25px'}
-                  marginTop={'5px'}
-                  className={styles.dropDownListStyle}
-                >
-                  {name === 'saturday' ? (
-                    <InputCheckBox
-                      checked={name === 'saturday'}
-                      disabled={name === 'saturday'}
-                    />
-                  ) : saturdaycheck === true ? (  
-                    // final.includes(name) ? (
-                      <InputCheckBox
-                        // checked={true}
-                        onChange={() => handleCheckboxChange('saturday')}
-                        checked={checked.includes('saturday') ? true : false}
-                        // disabled={true}
-                      />
-                    
-                    // ) : (
-                    //   <InputCheckBox
-                    //     onChange={() => handleCheckboxChange('saturday')}
-                    //     // disabled={true}
-                    //   />
-                    // )
-
-                   
-                  ) : (
+              <Flex
+                row
+                center
+                marginLeft={'25px'}
+                marginTop={'5px'}
+                className={styles.dropDownListStyle}
+              >
+                {name === 'saturday' ? (
+                  <InputCheckBox
+                    checked={name === 'saturday'}
+                    disabled={name === 'saturday'}
+                  />
+                ) : saturdaycheck === true ? (
+                  // final.includes(name) ? (
+                  // <InputCheckBox
+                  //   // checked={true}
+                  //   onChange={() => handleCheckboxChange('saturday')}
+                  //   checked={final.includes('saturday') ? true : false}
+                  //   // disabled={true}
+                  // />
+                  // final.includes('saturday') ? (
+                  //   <InputCheckBox
+                  //     onChange={() => handleCheckboxChange('saturday')}
+                  //     checked={final.includes('saturday') ? true : false}
+                  //     // checked={true}
+                  //   />
+                  // ) : (
                     <InputCheckBox
                       onChange={() => handleCheckboxChange('saturday')}
-                      disabled={true}
+                      // checked={final.includes('tuesday') ? true : false }
+                    checked ={check7? true : false}
+
                     />
-                  )}
-                  <Text className={styles.space}>Saturday</Text>
-                </Flex>
-                {/* </Dropdown.Item> */}
-                <Dropdown.Item>
-                  <Button
-                    className={styles.apply}
-                    onClick={() => applyonclick(final, day, timeslot)}
-                  >
-                    Apply
-                  </Button>
-                </Dropdown.Item>
+                  // )
+                ) : (
+                  // ) : (
+                  //   <InputCheckBox
+                  //     onChange={() => handleCheckboxChange('saturday')}
+                  //     // disabled={true}
+                  //   />
+                  // )
+
+                  <InputCheckBox
+                    onChange={() => handleCheckboxChange('saturday')}
+                    disabled={true}
+                  />
+                )}
+                <Text className={styles.space}>Saturday</Text>
+              </Flex>
+              {/* </Dropdown.Item> */}
+              <Dropdown.Item className={styles.apply} >
+                <Button
+                  // className={styles.apply}
+                  onClick={() => 
+                    applyonclick(final, day, timeslot)
+                    }
+                >
+                  Apply
+                </Button>
+              </Dropdown.Item>
               {/* </>
             )} */}
-          </Dropdown.Menu>
+            </Dropdown.Menu>
 }
         </Dropdown>
       </Flex>

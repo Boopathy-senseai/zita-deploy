@@ -36,7 +36,7 @@ export const duration =[
 
 
 export const timezonedisplay = [
-  {value : "1",label : "Automatically detect and show the times in my invitees time zone"},
+  {value : "1",label : "Automatically detect and show the times in my invitee's time zone"},
   {value : "2", label : "Lock the timezone (best for in-person events)"}
 ]
 

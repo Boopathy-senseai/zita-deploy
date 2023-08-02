@@ -188,7 +188,6 @@ const ActionsButton = (props) => {
   console.log('propsprops', props);
 
   const onDuplicate = (id: number) => {
-    alert(id);
     console.log('propsprops', id);
     axios
       .get(`${eventSchedulerApi}?pk=${id}&duplicate=duplicate`)

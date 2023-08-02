@@ -56,6 +56,9 @@ const slotter1 = (props) => {
   const [isProfile, setProfile] = useState(null);
   const [confromflag, SetConfromFlag] = useState(false);
   const [endDate, setEndDate] = useState(new Date());
+  // const [startFrom, setStartFrom] = useState(new Date());
+  // const [endFrom, setEndFrom] = useState(new Date());
+
   const [loader, setloader] = useState(false);
   const [availblity, setavailblity] = useState([]);
 
@@ -96,6 +99,8 @@ const slotter1 = (props) => {
       dispatch(getSlotterMiddleware({ uid, event_id }));
     }
     dispatch(getScheduleMiddleWare(event));
+
+    
   }, []);
 
   useEffect(() => {
@@ -142,6 +147,8 @@ const slotter1 = (props) => {
     const value = `${day}/${month}/${year}`;
     return value;
   };
+
+  
 
   const CalendarIntegration = (list, selecteddate, selectedtime) => {
     console.log('listttttttttttttttt111111', list);
@@ -195,12 +202,14 @@ const slotter1 = (props) => {
       dateconvert(selectDate),
     );
     var selectedtime = selecttime11;
-    // if (uid !== null && event_id !== null ){
+    console.log("%%^%^%^^^",uid,event_id)
+    if (uid !== null && event_id !== null && userpreview === undefined  ){
+      alert(uid)
     dispatch(
       getSlotterMiddleware({ uid, event_id, selecteddate, selectedtime }),
     );
     console.log('dadadataaatatatatatata', data);
-    // }
+    }
     CalendarIntegration(data[0], selecteddate, selectedtime);
   };
 
@@ -218,6 +227,8 @@ const slotter1 = (props) => {
         return inter;
     }
   };
+
+
 
   const timezones = (str) => {
     const display = data.map((li: any) => li.times_zone_display);
@@ -264,6 +275,9 @@ const slotter1 = (props) => {
   const targetTimezoneOffset = 13.0; // UTC offset for Pacific/Apia is +13:00
 
   const timeDifference = targetTimezoneOffset - userTimezoneOffset;
+
+  // console.log("FFFFFFFFFFFFFFFFFOOOOOOOOOOOOOO",startFrom,endFrom)
+
 
   return (
     <Flex>
@@ -314,6 +328,8 @@ const slotter1 = (props) => {
               timezones={timezones}
               availbles={availblity}
               formatDate={formatDate}
+              // startFrom = {startFrom}
+              // endFrom ={endFrom}
             />
           </Flex>
         ) : confromflag === true ? (
@@ -369,8 +385,11 @@ const SlotterDate = (props) => {
   const [timezone, settimezone] = useState('');
   const [candidate, setCandidate] = useState(candidate_name);
   const [selectedDays, setselectedDays] = useState([]);
-  const [startOfMonth, setstartOfMonth] = useState(null);
-  const [endOfMonth, setendOfMonth] = useState(null);
+  const [startOfMonth, setstartOfMonth] = useState(new Date());
+  const [endOfMonth, setendOfMonth] = useState(new Date());
+  const [defaultMonth, setdefaultMonth] = useState('');
+  const [startFrom, setStartFrom] = useState(new Date());
+  const [endFrom, setEndFrom] = useState(new Date());
 
   useEffect(() => {
     mount();
@@ -379,7 +398,38 @@ const SlotterDate = (props) => {
     const endMonth = convertmonth(selectedRange.to);
     console.log('************', startMonth, endMonth);
     setendOfMonth(endMonth);
-  }, [response, timezone, availbles]);
+  }, [response, timezone, availbles,]);
+
+  const DateFormatShow = (dateString)=> {
+    if(dateString !== undefined){
+
+      var parts = dateString.split("/");
+      var dateObject = new Date(parts[2], parts[1] - 1 , parts[0]);
+      return dateObject
+    }
+  }
+
+  useEffect(()=> {
+    if(response.length > 0 && response !== undefined){
+      
+      response.map((start)=>{
+        if(start.startdate !== null  && start.enddate !== null){
+          // alert('&^&')
+          console.log("starkkkkkkkkkkkkkt",start)
+         
+
+          const startmonth = DateFormatShow(start.startdate)
+          setStartFrom(startmonth)
+          const endmonth = DateFormatShow(start.enddate)
+          console.log("endmonthendmonthendmonthendmonth",endmonth,start.enddate)
+          setEndFrom(endmonth)
+          console.log("FFFFFFFFFFFFFFFFFF",startFrom,endFrom)
+        }
+      })
+    }
+
+  },[response])
+
 
   const dateObject = availbles;
   const allDatesArray = Object.keys(dateObject);
@@ -501,6 +551,7 @@ const SlotterDate = (props) => {
   };
   const AvailbleSlots = (datetimes) => {
     const check = dateconvert(datetimes);
+    console.log("datetimesdatetimes*********",check)
     const filteredData = Object.fromEntries(
       Object.entries(useravailble).filter(([key, value]) => key === check),
     );
@@ -515,7 +566,7 @@ const SlotterDate = (props) => {
     const userTimeZone = 0;
     const adjustedDay = day === currentDay ? day : currentDay;
 
-    const timeslot = generateIntervals(filteredData[check], intervalSeconds);
+    const timeslot = generateIntervals(filteredData[check], intervalSeconds,check);
     setfinalIntervals(timeslot);
   };
 
@@ -608,8 +659,25 @@ const SlotterDate = (props) => {
     return [hour, minute];
   }
 
-  function generateIntervals(timeBreaks, intervalMinutes) {
-    console.log('timeBreakstimeBreaks', timeBreaks, intervalMinutes);
+  function getTimeIn12HrsFormat(currentTime) {
+      // const date = new Date(currentTime);
+      let hours = currentTime.getHours();
+      let minutes = currentTime.getMinutes();
+      const ampm = hours >= 12 ? "pm" : "am";
+      hours = hours % 12 || 12;
+      minutes = minutes < 10 ? 0 : minutes;
+      const timeIn12HourFormat = `${hours}:${minutes} ${ampm}`;
+      return timeIn12HourFormat
+  }
+  
+  // Usage example:
+  // const date = new Date();
+  // const time12HrsFormat = getTimeIn12HrsFormat(date);
+  // console.log(time12HrsFormat); // Output: "3:30 PM" (assuming the current time is 3:30 PM)
+  
+
+  function generateIntervals(timeBreaks, intervalMinutes,datetimes) {
+    console.log('timeBreakstimeBreaks', timeBreaks, intervalMinutes,datetimes);
     const intervals12 = [];
     // const intervals24 = [];
     for (const timeBreak of timeBreaks) {
@@ -619,6 +687,7 @@ const SlotterDate = (props) => {
       const [endHour, endMinute] = parseTime(endtime);
       let currentHour = startHour;
       let currentMinute = startMinute;
+      console.log("startHourstartHour",startHour,"\n","endHourendHour",endHour)
       while (
         currentHour < parseInt(endHour, 10) ||
         (currentHour === parseInt(endHour, 10) &&
@@ -652,10 +721,27 @@ const SlotterDate = (props) => {
         const formattedEndMinute = currentMinute.toString().padStart(2, '0');
         const endAmPm = currentHour < 12 && currentHour > 6 ? 'am' : 'pm';
         const endInterval12 = `${formattedEndHour12}:${formattedEndMinute} ${endAmPm}`;
-        const interval12 = `${startInterval12} - ${endInterval12}`;
-        intervals12.push(interval12);
+        const currentDate = dateconvert(new Date())
+        const currenttime = new Date()
+        console.log("currentDatecurrentDatecurrentDatecurrentDatecurrentDate",currentDate,datetimes)
+        const time = getTimeIn12HrsFormat(currenttime);
+        // time = getTimeIn12HrsFormat(time)
+        console.log("endInterval12endInterval12",endInterval12,time,"\n","currenttime",currenttime)
+        if(currentDate.toString() === datetimes){
+          if(time < endInterval12 && endInterval12 < '9:00'){
+
+            const interval12 = `${startInterval12} - ${endInterval12}`;
+            console.log("interval12interval12",interval12)
+            intervals12.push(interval12);
+          }
+        }else{
+          const interval12 = `${startInterval12} - ${endInterval12}`;
+          console.log("interval12interval12",interval12)
+          intervals12.push(interval12);
+        }
       }
     }
+    console.log("====================",intervals12)
     return intervals12;
   }
 
@@ -702,16 +788,17 @@ const SlotterDate = (props) => {
     return <Loader />;
   }
 
-  const defaultMonth = startOfMonth;
+  // const defaultMonth = new Date(2023,11,1);
 
   console.log('selectedtimeselectedtimeselectedtime', selecttime);
 
   console.log(
     'selectedDaysselectedDaysselectedDaysselectedDays',
-    startOfMonth,
-    endOfMonth,
-    '\n',
-    defaultMonth,
+    startFrom,"\n",
+    endFrom,"\n",    
+    defaultMonth,'\n',
+    startOfMonth,'\n',
+    endOfMonth,'\n'
   );
   return (
     <Flex height={'100%'}>
@@ -741,9 +828,15 @@ const SlotterDate = (props) => {
                     ) : (
                       ''
                     )}
+                    {data.company_logo !== '' ? (
                     <Text size={14} bold style={{ marginLeft: '5px' }}>
                       {data.company_name}
                     </Text>
+                    ) : (
+                      <Text size={14} bold style={{ marginLeft: '0px' }}>
+                      {data.company_name}
+                    </Text>
+                    )}
                   </Flex>
                   <Flex marginBottom={10} marginTop={10}>
                     <Text size={14}>Hi {candidate_name},</Text>
@@ -796,13 +889,13 @@ const SlotterDate = (props) => {
                         color: '#581845',
                       },
                     }}
-                    // defaultMonth={defaultMonth}
+                    defaultMonth={startOfMonth}
                     // onSelect={setDays}
-                    fromMonth={startOfMonth !== undefined ? startOfMonth : null}
-                    toMonth={endOfMonth !== undefined ? endOfMonth : null}
+                    fromMonth={startFrom}
+                    toMonth={endFrom}
                     className="custom-daypicker"
-                    // fromDate={startOfMonth}
-                    // toDate={endOfMonth}
+                    // fromDate={startFrom}
+                    // toDate={endFrom}
                     onDayClick={(e) => onDateChange(e)}
                     modifiers={modifiers}
                     modifiersStyles={modifiersStyles}
@@ -897,13 +990,15 @@ const Conformpage = (props) => {
               ) : (
                 ''
               )}
-              <Text
-                bold
-                size={14}
-                style={{ marginLeft: '5px', textTransform: 'capitalize' }}
-              >
-                {list.company_name}
-              </Text>
+               {list.company_logo !== '' ? (
+                    <Text size={14} bold style={{ marginLeft: '5px' }}>
+                      {list.company_name}
+                    </Text>
+                    ) : (
+                      <Text size={14} bold style={{ marginLeft: '0px' }}>
+                      {list.company_name}
+                    </Text>
+                    )}
             </Flex>
             <Text
               bold
@@ -1006,13 +1101,15 @@ const InterviewDashBoard = (props) => {
               ) : (
                 ''
               )}
-              <Text
-                bold
-                size={14}
-                style={{ marginLeft: '5px', textTransform: 'capitalize' }}
-              >
-                {list.company_name}
-              </Text>
+               {list.company_logo !== '' ? (
+                    <Text size={14} bold style={{ marginLeft: '5px' }}>
+                      {list.company_name}
+                    </Text>
+                    ) : (
+                      <Text size={14} bold style={{ marginLeft: '0px' }}>
+                      {list.company_name}
+                    </Text>
+                    )}
             </Flex>
             <Text
               bold

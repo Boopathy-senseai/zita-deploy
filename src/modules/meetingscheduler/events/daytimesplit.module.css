@@ -35,3 +35,13 @@
 .space{
   margin-left: 5px;
 }
+
+.apply {
+  border: none;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+.apply:active,
+.apply:focus {
+  border: none;
+}
