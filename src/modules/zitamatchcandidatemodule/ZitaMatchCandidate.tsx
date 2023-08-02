@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState ,useRef} from 'react';
 import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
+import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames/bind';
 import { saveAs } from 'file-saver';
@@ -13,6 +14,11 @@ import { AppDispatch, RootState } from '../../store';
 import { inviteToApplyApi, zitaMatchDownloadApi } from '../../routes/apiRoutes';
 import Loader from '../../uikit/Loader/Loader';
 import Toast from '../../uikit/Toast/Toast';
+import { InputText } from '../../uikit';
+import { enterKeyPress } from '../../uikit/helper';
+import SvgSearch from '../../icons/SvgSearch';
+import SvgLocation from '../../icons/SvgLocation';
+import SvgIntomark from '../../icons/Intomark';
 import {
   applicantPipeLineDataMiddleWare,
   applicantPipeLineMiddleWare,
@@ -42,6 +48,9 @@ type ParamsType = {
 };
 
 const ZitaMatchCandidate = () => {
+  const myRef = useRef<any>();
+  const selectInputRef = useRef<any>();
+  const [isOut, setOut] = useState(false);
   const { jdId } = useParams<ParamsType>();
   const history = useHistory();
   const dispatch: AppDispatch = useDispatch();
@@ -72,13 +81,13 @@ const ZitaMatchCandidate = () => {
     return new URLSearchParams(useLocation().search);
   };
   const query = useQuery();
-  const getCandiId=query.get('candi_id');
+  const getCandiId = query.get('candi_id');
 
   const favAdd = isTotalFav ? 'add' : '';
 
   useEffect(() => {
-    dispatch(zitaMatchCandidateMiddleWare({ jd_id: jdId })).then(()=>{
-      if(!isEmpty(getCandiId)){
+    dispatch(zitaMatchCandidateMiddleWare({ jd_id: jdId })).then(() => {
+      if (!isEmpty(getCandiId)) {
         setProfileView(true)
       }
     })
@@ -98,7 +107,8 @@ const ZitaMatchCandidate = () => {
     zitaLoader,
     initalLoader,
     applicants_count,
-    is_plan
+    is_plan,
+    
   } = useSelector(
     ({
       zitaMatchCandidateReducers,
@@ -110,6 +120,7 @@ const ZitaMatchCandidate = () => {
         jd_id: zitaMatchCandidateReducers.jd_id,
         job_details: zitaMatchCandidateReducers.job_details,
         datas: zitaMatchDataCandidateReducers.data,
+        
         total_applicants: zitaMatchDataCandidateReducers.total_count,
         favLoader: applicantFavReducers.isLoading,
         zitaLoader: zitaMatchDataCandidateReducers.isLoading,
@@ -119,6 +130,7 @@ const ZitaMatchCandidate = () => {
       };
     },
   );
+  console.log("oooooooooooooooooooooo",datas)
   useEffect(() => {
     if (!is_plan) {
       sessionStorage.setItem('superUserTab', '2');
@@ -159,6 +171,30 @@ const ZitaMatchCandidate = () => {
       }),
     );
   };
+
+  
+  const onClearSearch = () => {
+    setSearch('');
+    
+    dispatch(
+      zitaMatchDataCandidateMiddleWare({
+        jd_id: jdId,
+        profile_match: isProfile,
+        fav: favAdd,
+        candidate: isSearch,
+        work_experience: isExperience,
+        relocate: isRelocate ? '1' : '0',
+        invite: isCandiStatus,
+        profile_view: isProfile,
+        education_level: qaValue,
+        type_of_job: isJobType,
+        preferred_location: isLocation ? '1' : '0',
+        skill_match: skillsOptionsList,
+        page: isPage + 1,
+      }),
+    );
+  };
+
 
   const hanldeMatch = (listValue: SkillListEntity) => {
     setMatchRadio(listValue.label);
@@ -348,7 +384,7 @@ const ZitaMatchCandidate = () => {
     isInviteLoader,
     isPage,
   ]);
-// filter refesh function
+  // filter refesh function
   const hanldeRefresh = () => {
     setDoctorate(false);
     setMasters(false);
@@ -382,7 +418,7 @@ const ZitaMatchCandidate = () => {
       }),
     );
   };
-// resume download function
+  // resume download function
   const hanldeDownload = () => {
     if (isCheck.length !== 0) {
       setDownLoadLoader(true);
@@ -410,11 +446,11 @@ const ZitaMatchCandidate = () => {
         });
     }
   };
-// filter fav function
+  // filter fav function
   const hanldeFav = (can_id: number) => {
     dispatch(applicantFavoriteMiddleWare({ jd_id, can_id }));
   };
-// invite function
+  // invite function
   const hanldeInvite = (can_id: number) => {
     setInviteLoader(true);
     const data = querystring.stringify({
@@ -442,7 +478,11 @@ const ZitaMatchCandidate = () => {
       );
     });
   };
-// pagination function
+  // useEffect(() => {
+  //   if (isSearch !== '') setOut(true);
+  // }, [isSearch]);
+
+  // pagination function
   const handleSetPagination = (a: number) => {
     getFocus('zitaaction__checkbox');
     setPage(a);
@@ -468,6 +508,29 @@ const ZitaMatchCandidate = () => {
         page: isPage + 1,
       }),
     );
+
+    const handleKeyPress = (event: { key: string }) => {
+      if (event.key === 'Enter') {
+        dispatch(
+          zitaMatchDataCandidateMiddleWare({
+            jd_id: jdId,
+            profile_match: isProfile,
+            fav: favAdd,
+            candidate: isSearch,
+            work_experience: isExperience,
+            relocate: isRelocate ? '1' : '0',
+            invite: isCandiStatus,
+            profile_view: isProfile,
+            education_level: qaValue,
+            type_of_job: isJobType,
+            preferred_location: isLocation ? '1' : '0',
+            skill_match: skillsOptionsList,
+            page: isPage + 1,
+          }),
+        );
+      }
+    };
+
     if (query.has('candi_id')) {
       query.delete('candi_id');
       history.replace({
@@ -478,7 +541,158 @@ const ZitaMatchCandidate = () => {
   };
 
   return (
-    <Flex row className={styles.overAll}>
+    // <Flex row className={styles.overAll}>
+
+    //   {!isEmpty(getCandiId) && (
+    //     <ZitaMatchCandidateDrawer
+    //       activeState={0}
+    //       open={isProfileView}
+    //       cancel={handleClose}
+    //       jobId={jdId}
+    //       candidateId={getCandiId}
+    //     />
+    //   )}
+    //   {!isEmpty(getCandiId) && (
+    //     <ProfileView
+    //       open={isProfileView}
+    //       cancel={handleClose}
+    //       jobId={jdId}
+    //       candidateId={getCandiId}
+    //     />
+    //   )}
+    //   {zitaLoader && <Loader />}
+    //   {initalLoader && <Loader />}
+    //   {isDownloadLoader && <Loader />}
+    //   {isInviteLoader && <Loader />}
+    //   <div className={styles.filterOverAll}>
+
+    //     <ZitaMatchFilters
+    //       setSearch={setSearch}
+    //       isSearch={isSearch}
+    //       handleSearchSubmit={handleSearchSubmit}
+    //       isMatchRadio={isMatchRadio}
+    //       hanldeMatch={hanldeMatch}
+    //       handleExperience={handleExperience}
+    //       setExperience={setExperience}
+    //       setSkills={setSkills}
+    //       setSkillOption={setSkillOption}
+    //       isSkills={isSkills}
+    //       isJobType={isJobType}
+    //       setJobType={setJobType}
+    //       hanldeProfile={hanldeProfile}
+    //       isProfile={isProfile}
+    //       qualificationOption={qualificationOption}
+    //       isCandiStatus={isCandiStatus}
+    //       setCandiStatus={setCandiStatus}
+    //       isRelocate={isRelocate}
+    //       handleRelocate={handleRelocate}
+    //       isLocation={isLocation}
+    //       handleLocation={handleLocation}
+    //       hanldeRefresh={hanldeRefresh}
+    //       isExperience={isExperience}
+    //     />
+    //   </div>
+
+    //   <Flex row className={cx('scollDiv')}>
+    //     <Flex
+    //       columnFlex
+    //       height={'100%'}
+    //       width={'100%'}
+
+    //     >
+    //       <Flex row center className={styles.titleContainer}>
+    //         <Text bold size={16} color="black">
+    //           Zita Match Candidates
+    //         </Text>
+    //         {applicants_count === 0 ? (
+    //           <Button
+    //             disabled={true}
+    //             className={styles.btnStyle}
+    //             types="primary"
+    //             onClick={handleApplicant}
+    //           >
+    //             Applicants Pipeline
+    //           </Button>
+    //         ) : (
+    //           <Link to={`/applicant_pipe_line/${jd_id}`}>
+    //             <Button
+    //               className={styles.btnStyle}
+    //               types="primary"
+    //               onClick={handleApplicant}
+    //             >
+    //               Applicants Pipeline
+    //             </Button>
+    //           </Link>
+    //         )}
+    //       </Flex>
+    //       <JobTitleCard job_details={job_details} />
+    //       {total_applicants !== 0 && (
+    //         <ZitaAction
+    //           total={total_applicants}
+    //           filterTotalFav={filterTotalFav}
+    //           isTotalFav={isTotalFav}
+    //           handleSelectAll={handleSelectAll}
+    //           isCheckAll={isCheckAll}
+    //           hanldeDownload={hanldeDownload}
+    //           isCheck={isCheck}
+    //         />
+    //       )}
+    //       <div
+    //         style={{
+    //           height: window.innerHeight - 232,
+    //           overflowY: 'scroll',
+    //           paddingBottom: 16,
+    //           paddingRight: 12,
+    //         }}
+    //       >
+    //         <>
+    //           {total_applicants === 0 && (
+    //             <Flex height={'100%'} flex={1} center middle>
+    //               <Text color="gray">No Candidates Found</Text>
+    //             </Flex>
+    //           )}
+
+    //           {datas &&
+    //             datas.map((dataList, index) => {
+    //               return (
+    //                 <ZitaMatchDataCard
+    //                   hanldeFav={hanldeFav}
+    //                   dataList={dataList}
+    //                   key={index + dataList.first_name}
+    //                   index={index}
+    //                   jobId={jd_id}
+    //                   isCheck={isCheck}
+    //                   handleClick={handleClick}
+    //                   hanldeInvite={hanldeInvite}
+    //                   isProfile={isProfile}
+    //                   favAdd={favAdd}
+    //                   isSearch={isSearch}
+    //                   isExperience={isExperience}
+    //                   isRelocate={isRelocate}
+    //                   isCandiStatus={isCandiStatus}
+    //                   qaValue={qaValue}
+    //                   isJobType={isJobType}
+    //                   isLocation={isLocation}
+    //                   skillsOptionsList={skillsOptionsList}
+    //                   isPage={isPage}
+    //                 />
+    //               );
+    //             })}
+    //           {total_applicants > 20 && (
+    //             <Flex middle className={styles.pagination}>
+    //               <Pangination
+    //                 maxPages={pageCount - 1}
+    //                 currentPage={isPage}
+    //                 setCurrentPage={handleSetPagination}
+    //               />
+    //             </Flex>
+    //           )}
+    //         </>
+    //       </div>
+    //     </Flex>
+    //   </Flex>
+    // </Flex>
+    <Flex className={styles.overAll}>
       {!isEmpty(getCandiId) && (
         <ZitaMatchCandidateDrawer
           activeState={0}
@@ -500,86 +714,97 @@ const ZitaMatchCandidate = () => {
       {initalLoader && <Loader />}
       {isDownloadLoader && <Loader />}
       {isInviteLoader && <Loader />}
-      <div className={styles.filterOverAll}>
-        <ZitaMatchFilters
-          setSearch={setSearch}
-          isSearch={isSearch}
-          handleSearchSubmit={handleSearchSubmit}
-          isMatchRadio={isMatchRadio}
-          hanldeMatch={hanldeMatch}
-          handleExperience={handleExperience}
-          setExperience={setExperience}
-          setSkills={setSkills}
-          setSkillOption={setSkillOption}
-          isSkills={isSkills}
-          isJobType={isJobType}
-          setJobType={setJobType}
-          hanldeProfile={hanldeProfile}
-          isProfile={isProfile}
-          qualificationOption={qualificationOption}
-          isCandiStatus={isCandiStatus}
-          setCandiStatus={setCandiStatus}
-          isRelocate={isRelocate}
-          handleRelocate={handleRelocate}
-          isLocation={isLocation}
-          handleLocation={handleLocation}
-          hanldeRefresh={hanldeRefresh}
-          isExperience={isExperience}
-        />
-      </div>
 
-      <Flex row className={cx('scollDiv')}>
-        <Flex
-          columnFlex
-          height={'100%'}
-          width={'100%'}
-          className={styles.scrollBottom}
-        >
-          <Flex row center className={styles.titleContainer}>
-            <Text bold size={16} color="black">
-              Zita Match Candidates
-            </Text>
-            {applicants_count === 0 ? (
+      <Flex row className={styles.titleContainer}>
+        <Text bold size={16} color="theme">
+          Zita Match
+        </Text>
+        <JobTitleCard job_details={job_details} />
+        <div className={styles.triangle}> </div>
+      </Flex>
+
+      <Flex row between marginBottom={15}>
+        <Flex>
+          <Flex
+            row
+            style={{ position: 'relative', overFlowX: 'auto' }}
+            className={styles.searchbox}
+          >
+            <Flex row className={styles.searchstyle}>
+              <Text className={styles.jobstext}>Applicants</Text>
+              <Flex row className={styles.searchboxoverall}>
+              <InputText
+            ref={myRef}
+            value={isSearch}
+            className={styles.boxstyle}
+          
+            onChange={(e) => setSearch(e.target.value)}
+            id="zitamatchfilters__search"
+            placeholder="Search by name or email"
+            actionRight={() => (
+              <label
+                htmlFor={'zitamatchfilters__search'}
+                style={{ margin: 0 }}
+                onClick={handleSearchSubmit}
+                tabIndex={-1}
+                role={'button'} // eslint-disable-line
+                onKeyPress={() => {}}
+              >
+                {isSearch.trim() !== '' && (
+            <button
+              className={styles.crossIcon}
+              onClick={onClearSearch}
+            >
+              <SvgIntomark width={14} height={14} fill="#888888" />
+            </button>
+          )}
+              </label>
+            )}
+            onKeyPress={(e) => enterKeyPress(e, handleSearchSubmit)}
+          /> 
+             <Flex className={styles.middleline}></Flex>
+             <Flex className={styles.locationicon}>
+                    <SvgLocation width={18} height={18} fill={'#581845'} />
+                  </Flex>
+       
+
+              </Flex>
+            </Flex>
+          </Flex>
+        </Flex>
+        <Flex>
+          {applicants_count === 0 ? (
+            <Button
+              disabled={true}
+              className={styles.btnStyle}
+              types="primary"
+              onClick={handleApplicant}
+            >
+              Applicants Pipeline
+            </Button>
+          ) : (
+            <Link to={`/applicant_pipe_line/${jd_id}`}>
               <Button
-                disabled={true}
                 className={styles.btnStyle}
                 types="primary"
                 onClick={handleApplicant}
               >
                 Applicants Pipeline
               </Button>
-            ) : (
-              <Link to={`/applicant_pipe_line/${jd_id}`}>
-                <Button
-                  className={styles.btnStyle}
-                  types="primary"
-                  onClick={handleApplicant}
-                >
-                  Applicants Pipeline
-                </Button>
-              </Link>
-            )}
-          </Flex>
-          <JobTitleCard job_details={job_details} />
-          {total_applicants !== 0 && (
-            <ZitaAction
-              total={total_applicants}
-              filterTotalFav={filterTotalFav}
-              isTotalFav={isTotalFav}
-              handleSelectAll={handleSelectAll}
-              isCheckAll={isCheckAll}
-              hanldeDownload={hanldeDownload}
-              isCheck={isCheck}
-            />
+            </Link>
           )}
-          <div
-            style={{
-              height: window.innerHeight - 232,
-              overflowY: 'scroll',
-              paddingBottom: 16,
-              paddingRight: 12,
-            }}
-          >
+        </Flex>
+      </Flex>
+
+
+      <div
+           style={{
+             height: window.innerHeight - 232,
+             overflowY: 'scroll',
+             paddingBottom: 16,
+             paddingRight: 12,
+           }}
+         >
             <>
               {total_applicants === 0 && (
                 <Flex height={'100%'} flex={1} center middle>
@@ -600,32 +825,30 @@ const ZitaMatchCandidate = () => {
                       handleClick={handleClick}
                       hanldeInvite={hanldeInvite}
                       isProfile={isProfile}
-                      favAdd={favAdd}
+                     favAdd={favAdd}
                       isSearch={isSearch}
-                      isExperience={isExperience}
+                     isExperience={isExperience}
                       isRelocate={isRelocate}
-                      isCandiStatus={isCandiStatus}
-                      qaValue={qaValue}
+                     isCandiStatus={isCandiStatus}
+                 qaValue={qaValue}
                       isJobType={isJobType}
-                      isLocation={isLocation}
-                      skillsOptionsList={skillsOptionsList}
-                      isPage={isPage}
+                 isLocation={isLocation}
+                     skillsOptionsList={skillsOptionsList}
+                isPage={isPage}
                     />
-                  );
+        );
                 })}
-              {total_applicants > 20 && (
+         {total_applicants > 20 && (
                 <Flex middle className={styles.pagination}>
-                  <Pangination
-                    maxPages={pageCount - 1}
-                    currentPage={isPage}
-                    setCurrentPage={handleSetPagination}
+             <Pangination
+               maxPages={pageCount - 1}
+               currentPage={isPage}
+                   setCurrentPage={handleSetPagination}
                   />
-                </Flex>
+           </Flex>
               )}
             </>
-          </div>
-        </Flex>
-      </Flex>
+         </div>
     </Flex>
   );
 };
