@@ -1,4 +1,4 @@
-import { useEffect, useState ,useRef} from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
@@ -49,10 +49,13 @@ type ParamsType = {
 
 const ZitaMatchCandidate = () => {
   const myRef = useRef<any>();
+
   const selectInputRef = useRef<any>();
   const [isOut, setOut] = useState(false);
   const { jdId } = useParams<ParamsType>();
   const history = useHistory();
+  const [location, setlocation] = useState("");
+  const [profilevalue,setprofilevalue]=useState("");
   const dispatch: AppDispatch = useDispatch();
   const [isMatchRadio, setMatchRadio] = useState('');
   const [isProfile, setProfile] = useState('');
@@ -108,7 +111,7 @@ const ZitaMatchCandidate = () => {
     initalLoader,
     applicants_count,
     is_plan,
-    
+
   } = useSelector(
     ({
       zitaMatchCandidateReducers,
@@ -120,7 +123,7 @@ const ZitaMatchCandidate = () => {
         jd_id: zitaMatchCandidateReducers.jd_id,
         job_details: zitaMatchCandidateReducers.job_details,
         datas: zitaMatchDataCandidateReducers.data,
-        
+
         total_applicants: zitaMatchDataCandidateReducers.total_count,
         favLoader: applicantFavReducers.isLoading,
         zitaLoader: zitaMatchDataCandidateReducers.isLoading,
@@ -130,7 +133,7 @@ const ZitaMatchCandidate = () => {
       };
     },
   );
-  console.log("oooooooooooooooooooooo",datas)
+  console.log("oooooooooooooooooooooo", datas)
   useEffect(() => {
     if (!is_plan) {
       sessionStorage.setItem('superUserTab', '2');
@@ -172,10 +175,10 @@ const ZitaMatchCandidate = () => {
     );
   };
 
-  
+
   const onClearSearch = () => {
     setSearch('');
-    
+
     dispatch(
       zitaMatchDataCandidateMiddleWare({
         jd_id: jdId,
@@ -201,7 +204,9 @@ const ZitaMatchCandidate = () => {
   };
   const hanldeProfile = (listValue: SkillListEntity) => {
     setProfile(listValue.label);
+    setprofilevalue(listValue.value)
   };
+  
   const handleBachelor = () => {
     setBachelors(!isBachelors);
     setAny(false);
@@ -314,6 +319,7 @@ const ZitaMatchCandidate = () => {
     setLocation(!isLocation);
   };
 
+
   const candiList = datas.map((list) => {
     return list.id.toString();
   });
@@ -391,8 +397,8 @@ const ZitaMatchCandidate = () => {
     setAny(true);
     setBachelors(false);
     setOther(false);
-    setSearch('')
-    setMatchRadio('')
+    setSearch('');
+    setMatchRadio('');
     setExperience('');
     setProfile('');
     setSkillOption('')
@@ -418,6 +424,23 @@ const ZitaMatchCandidate = () => {
       }),
     );
   };
+
+  const handleradiovclear=()=>{
+    setMatchRadio('')
+  }
+  const handleexpclear=()=>{
+    setExperience('');
+    
+  }
+
+  const hanleprofileclear=()=>{
+    setProfile('');
+    setprofilevalue("");
+  }
+
+  const hanlejobtypeclear=()=>{
+    setJobType('');
+  }
   // resume download function
   const hanldeDownload = () => {
     if (isCheck.length !== 0) {
@@ -477,6 +500,7 @@ const ZitaMatchCandidate = () => {
         }),
       );
     });
+
   };
   // useEffect(() => {
   //   if (isSearch !== '') setOut(true);
@@ -731,42 +755,50 @@ const ZitaMatchCandidate = () => {
             className={styles.searchbox}
           >
             <Flex row className={styles.searchstyle}>
-              <Text className={styles.jobstext}>Applicants</Text>
+              <Text className={styles.jobstext}>Candidates</Text>
               <Flex row className={styles.searchboxoverall}>
-              <InputText
-            ref={myRef}
-            value={isSearch}
-            className={styles.boxstyle}
-          
-            onChange={(e) => setSearch(e.target.value)}
-            id="zitamatchfilters__search"
-            placeholder="Search by name or email"
-            actionRight={() => (
-              <label
-                htmlFor={'zitamatchfilters__search'}
-                style={{ margin: 0 }}
-                onClick={handleSearchSubmit}
-                tabIndex={-1}
-                role={'button'} // eslint-disable-line
-                onKeyPress={() => {}}
-              >
-                {isSearch.trim() !== '' && (
-            <button
-              className={styles.crossIcon}
-              onClick={onClearSearch}
-            >
-              <SvgIntomark width={14} height={14} fill="#888888" />
-            </button>
-          )}
-              </label>
-            )}
-            onKeyPress={(e) => enterKeyPress(e, handleSearchSubmit)}
-          /> 
-             <Flex className={styles.middleline}></Flex>
-             <Flex className={styles.locationicon}>
-                    <SvgLocation width={18} height={18} fill={'#581845'} />
-                  </Flex>
-       
+                <InputText
+                  ref={myRef}
+                  value={isSearch}
+                  className={styles.boxstyle}
+
+                  onChange={(e) => setSearch(e.target.value)}
+                  id="zitamatchfilters__search"
+                  placeholder="Search by name or email"
+                  actionRight={() => (
+                    <label
+                      htmlFor={'zitamatchfilters__search'}
+                      style={{ margin: 0 }}
+                      onClick={handleSearchSubmit}
+                      tabIndex={-1}
+                      role={'button'} // eslint-disable-line
+                      onKeyPress={() => { }}
+                    >
+                      {isSearch.trim() !== '' && (
+                        <button
+                          className={styles.crossIcon}
+                          onClick={onClearSearch}
+                        >
+                          <SvgIntomark width={14} height={14} fill="#888888" />
+                        </button>
+                      )}
+                    </label>
+                  )}
+                  onKeyPress={(e) => enterKeyPress(e, handleSearchSubmit)}
+                />
+                <Flex className={styles.middleline}></Flex>
+                <Flex className={styles.locationicon}>
+                  <SvgLocation width={18} height={18} fill={'#581845'} />
+                </Flex>
+                {/* <InputText
+              ref={myRef}
+              
+              labelBold
+              value={location}
+              onChange={(e) => setlocation(e.target.value)}
+              onKeyPress={(e) => enterKeyPress(e, handleLocation)}
+              placeholder="location"
+            /> */}
 
               </Flex>
             </Flex>
@@ -795,60 +827,112 @@ const ZitaMatchCandidate = () => {
           )}
         </Flex>
       </Flex>
-
-
+      <Flex>
+        <ZitaMatchFilters
+        isSkillOption={isSkillOption}
+        handleBachelor={handleBachelor}
+        handleDoctorate={handleDoctorate}
+        handleMaster={handleMaster}
+        handleOther={handleOther}
+        isBachelors={isBachelors}
+        isDoctorate={isDoctorate}
+        isMasters={isMasters}
+        isOther={isOther}
+          setSearch={setSearch}
+          isSearch={isSearch}
+          isAny={isAny}
+          handleSearchSubmit={handleSearchSubmit}
+          isMatchRadio={isMatchRadio}
+          hanldeMatch={hanldeMatch}
+          handleExperience={handleExperience}
+          setExperience={setExperience}
+          setSkills={setSkills}
+          setSkillOption={setSkillOption}
+          isSkills={isSkills}
+          isJobType={isJobType}
+          hanlejobtypeclear={hanlejobtypeclear}
+          setJobType={setJobType}
+          handleexpclear={handleexpclear}
+          hanldeProfile={hanldeProfile}
+          handleradiovclear={handleradiovclear }
+          isProfile={isProfile}
+          profilevalue={profilevalue}
+          qualificationOption={qualificationOption}
+          isCandiStatus={isCandiStatus}
+          setCandiStatus={setCandiStatus}
+          hanleprofileclear={hanleprofileclear}
+          isRelocate={isRelocate}
+          handleRelocate={handleRelocate}
+          isLocation={isLocation}
+          handleLocation={handleLocation}
+          hanldeRefresh={hanldeRefresh}
+          isExperience={isExperience}
+        />
+      </Flex>
+      <Flex>
+             <ZitaAction
+               total={total_applicants}
+               filterTotalFav={filterTotalFav}
+               isTotalFav={isTotalFav}
+               handleSelectAll={handleSelectAll}
+               isCheckAll={isCheckAll}
+               hanldeDownload={hanldeDownload}
+               isCheck={isCheck}
+             />         
+      </Flex>
+    
       <div
-           style={{
-             height: window.innerHeight - 232,
-             overflowY: 'scroll',
-             paddingBottom: 16,
-             paddingRight: 12,
-           }}
-         >
-            <>
-              {total_applicants === 0 && (
-                <Flex height={'100%'} flex={1} center middle>
-                  <Text color="gray">No Candidates Found</Text>
-                </Flex>
-              )}
+        style={{
+          height: window.innerHeight - 232,
+          overflowY: 'scroll',
+          paddingBottom: 16,
+          paddingRight: 12,
+        }}
+      >
+        <>
+          {total_applicants === 0 && (
+            <Flex height={'100%'} flex={1} center middle>
+              <Text color="gray">No Candidates Found</Text>
+            </Flex>
+          )}
 
-              {datas &&
-                datas.map((dataList, index) => {
-                  return (
-                    <ZitaMatchDataCard
-                      hanldeFav={hanldeFav}
-                      dataList={dataList}
-                      key={index + dataList.first_name}
-                      index={index}
-                      jobId={jd_id}
-                      isCheck={isCheck}
-                      handleClick={handleClick}
-                      hanldeInvite={hanldeInvite}
-                      isProfile={isProfile}
-                     favAdd={favAdd}
-                      isSearch={isSearch}
-                     isExperience={isExperience}
-                      isRelocate={isRelocate}
-                     isCandiStatus={isCandiStatus}
-                 qaValue={qaValue}
-                      isJobType={isJobType}
-                 isLocation={isLocation}
-                     skillsOptionsList={skillsOptionsList}
-                isPage={isPage}
-                    />
-        );
-                })}
-         {total_applicants > 20 && (
-                <Flex middle className={styles.pagination}>
-             <Pangination
-               maxPages={pageCount - 1}
-               currentPage={isPage}
-                   setCurrentPage={handleSetPagination}
-                  />
-           </Flex>
-              )}
-            </>
-         </div>
+          {datas &&
+            datas.map((dataList, index) => {
+              return (
+                <ZitaMatchDataCard
+                  hanldeFav={hanldeFav}
+                  dataList={dataList}
+                  key={index + dataList.first_name}
+                  index={index}
+                  jobId={jd_id}
+                  isCheck={isCheck}
+                  handleClick={handleClick}
+                  hanldeInvite={hanldeInvite}
+                  isProfile={isProfile}
+                  favAdd={favAdd}
+                  isSearch={isSearch}
+                  isExperience={isExperience}
+                  isRelocate={isRelocate}
+                  isCandiStatus={isCandiStatus}
+                  qaValue={qaValue}
+                  isJobType={isJobType}
+                  isLocation={isLocation}
+                  skillsOptionsList={skillsOptionsList}
+                  isPage={isPage}
+                />
+              );
+            })}
+          {total_applicants > 20 && (
+            <Flex middle className={styles.pagination}>
+              <Pangination
+                maxPages={pageCount - 1}
+                currentPage={isPage}
+                setCurrentPage={handleSetPagination}
+              />
+            </Flex>
+          )}
+        </>
+      </div>
     </Flex>
   );
 };

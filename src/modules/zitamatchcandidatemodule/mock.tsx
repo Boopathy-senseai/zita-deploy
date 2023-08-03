@@ -1,10 +1,10 @@
 export const matchOptions = [
-  { value: '> 90%', label: '91-100', width: 110 },
-  { value: '> 80%', label: '81-100', width: 110 },
-  { value: '> 70%', label: '71-100', width: 70 },
-  { value: '> 60%', label: '61-100', width: 110 },
-  { value: '<= 60%', label: '0-60', width: 110 },
-  { value: 'Any', label: '', width: 70 },
+  { value: '> 90%', label: '91-100'},
+  { value: '> 80%', label: '81-100' },
+  { value: '> 70%', label: '71-100' },
+  { value: '> 60%', label: '61-100'},
+  { value: '<= 60%', label: '0-60' },
+  { value: 'Any', label: ''},
 ];
 
 export const profileData = [

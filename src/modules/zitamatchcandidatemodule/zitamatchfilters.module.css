@@ -1,4 +1,4 @@
-.cardConatiner {
+/* .cardConatiner {
   width: 344px;
 }
 .svgRefresh {
@@ -31,11 +31,11 @@
 }
 
 .experienceTextStyle {
-  margin-top: 8px;
-  margin-bottom: 8px;
+  margin-top: 5px;
+  margin-bottom: 10px;
 }
 .skillsTextStyle {
-  margin-top: 16px;
+  margin-top: 5px;
   margin-bottom: 8px;
 }
 .jobTextStyle {
@@ -43,8 +43,8 @@
   margin-bottom: 2px;
 }
 .profileTextStyle {
-  margin-top: 16px;
-  margin-bottom: 0px;
+  margin-top: 10px;
+  margin-bottom: 5px;
 }
 .qualificationTextStyle {
   margin-top: 16px;
@@ -61,3 +61,218 @@
   margin-top: 16px;
   margin-bottom: 8px;
 }
+.drop_down {
+  margin-right: 10px; 
+  margin-bottom: 20px;
+  position: relative;
+ }
+.drop_down_header {
+  padding: 5px 10px 5px 10px;
+  background-color: #ffffff !important;
+  cursor: pointer;
+  width: 260px;
+  height: 30px;
+  border: 1px solid #581845;
+  border-radius: 11px;
+  justify-content: space-between;
+  position: relative;
+}
+.drop_down_menus {
+  background-color: #fff;
+  position: absolute;
+  background-color: var(--color-white, #fff);
+  border-radius: 0 0 10px 10px;
+  width: 100%;
+  z-index: 12;
+  display: none;
+  box-sizing: border-box;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.47000000000000003);
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.47);
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+.show {
+  display: block;
+}
+.mtstyle {
+  color: #581845 !important;
+  border-top: 1px solid #dee2e6;
+  padding: 10px;
+  text-transform: none !important;
+}
+
+.InputSearch {
+  text-transform: none !important;
+}
+.quickFilters{
+  margin-right: 10px;
+}
+.quickfil {
+  
+   border-radius: 20px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   padding: 2px 10px 2px 10px;
+   width: fit-content;
+   border: 1px solid #581845;
+   margin-left: 15px;
+   margin-bottom: 15px;
+  
+  } */
+
+
+
+  .svgRefresh {
+    margin-left: 16px;
+    cursor: pointer;
+  }
+  .filterStyle {
+    padding-left: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--color-gary-7, #dfdfdf);
+  }
+  .matchRadioStyle {
+    width: 110px;
+    margin-bottom: 8px;
+  }
+  .matchTextStyle {
+    margin-bottom: 5px;
+    /* margin-top: 8px; */
+  }
+  .profileTextStyle {
+    margin-bottom: 5px;
+    /* margin-top: 8px; */
+  }
+  .qualificationTextStyle {
+    margin-bottom: 5px;
+    /* margin-top: 8px; */
+  }
+  .qualificationConatiner {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+  .checkBoxContainerOne {
+    min-width: 116px;
+  }
+  .checkBoxContainer {
+    padding-bottom: 16px;
+    padding-top: 8px;
+  }
+  .checkBoxOne {
+    padding-bottom: 16px;
+  }
+  .showCheckBox {
+    margin-top: 24px;
+  }
+  .cardConatiner {
+    width: 270px;
+    padding-top: 8px;
+  }
+  .scrollFlex {
+    overflow-y: scroll;
+    padding-left: 14px;
+    padding-right: 16px;
+    padding-bottom: 8px;
+    padding-top: 12px;
+    scrollbar-width: thin;
+  }
+  
+  .scrollFlex::-webkit-scrollbar {
+    width: 4px;
+    margin-left: 16px;
+    height: 4px;
+    overflow: scroll;
+    scrollbar-color: rgba(26, 26, 26, 0.3) white;
+  }
+  .filter_color {
+    background-color: white !important;
+    border-radius: 11px;
+    width: 300px;
+    align-items: center;
+  }
+  
+  .filter_ali {
+    float: right;
+    position: relative;
+  }
+  .drop_down {
+   margin-right: 10px; 
+   margin-bottom: 20px;
+   position: relative;
+  }
+  
+  .drop_down_header {
+    padding: 5px 10px 5px 10px;
+    background-color: #ffffff !important;
+    cursor: pointer;
+    width: 260px;
+    height: 30px;
+    border: 1px solid #581845;
+    border-radius: 11px;
+    justify-content: space-between;
+    position: relative;
+  }
+  .drop_down_menus {
+    background-color: #fff;
+    position: absolute;
+    background-color: var(--color-white, #fff);
+    border-radius: 0 0 10px 10px;
+    width: 100%;
+    z-index: 12;
+    display: none;
+    box-sizing: border-box;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.47000000000000003);
+    -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.47);
+    max-height: 480px;
+    overflow-y: auto;
+  }
+  .show {
+    display: block;
+  }
+  .mtstyle {
+    color: #581845 !important;
+    border-top: 1px solid #dee2e6;
+    padding: 10px;
+    text-transform: none !important;
+  }
+  
+  .InputSearch {
+    text-transform: none !important;
+  }
+  .quickFilters{
+    margin-right: 10px;
+  }
+  .quickfil {
+    
+     border-radius: 20px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     padding: 2px 10px 2px 10px;
+     width: fit-content;
+     border: 1px solid #581845;
+     margin-left: 15px;
+     margin-bottom: 15px;
+    
+    }
+    .wrap{
+      flex-wrap: wrap;
+      grid-gap: 10px;
+    }
+    .stylesvg {
+      margin-left: 10px;
+      cursor: pointer;
+    }
+    .switch{
+      position: relative;
+      top: 2px;
+    }
+    
+    .toggletext{
+     margin-left: 5px;
+      font-size: 13px;
+      top: 1px;
+      position: relative;
+    }

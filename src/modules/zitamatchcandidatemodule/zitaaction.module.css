@@ -14,3 +14,12 @@
   margin: 0 8px;
   cursor: not-allowed;
 }
+.btnStyle {
+  background-color: #eee8ec;
+  border: #eee8ec;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.btnStyle:active {
+  background-color: #eee8ec !important;
+}
