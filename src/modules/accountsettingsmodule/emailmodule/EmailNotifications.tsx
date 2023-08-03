@@ -7,6 +7,7 @@ import Card from '../..//../uikit/Card/Card';
 import InputSwitch from '../..//../uikit/Switch/InputSwitch';
 import SvgInfo from '../..//../icons/SvgInfo';
 import Loader from '../../../uikit/Loader/Loader';
+import ExternalSwitch from '../..//../uikit/externalswitch/Externalswitch';
 import styles from './email.module.css';
 import {
 	emailPreferenceMiddleWare,
@@ -25,6 +26,26 @@ const EmailNotifications = () => {
 	const [isstage6, setstage6] = useState(true);
 	const [isstage7, setstage7] = useState(true);
 	const [isstage8, setstage8] = useState(true);
+	// const []
+
+//     const [extarajobpost, setextarajobpost] = useState('1');
+//  const extarajob = () => {
+//     if (extarajobpost === '0') {
+//       setextarajobpost('1');  
+//     } else {
+//       setextarajobpost('0'); 
+//     } 
+//   };
+
+//   const [extarajob1post, setextarajob1post] = useState('1');
+//   const extarajob1 = () => {
+// 	 if (extarajob1post === '0') {
+// 	   setextarajob1post('1');  
+// 	 } else {
+// 	   setextarajob1post('0'); 
+// 	 } 
+//    };
+
 
 	useEffect(() => {
 		dispatch(emailPreferenceMiddleWare()).then(()=> {
@@ -222,6 +243,12 @@ if(isload){
 				</Flex>
 				<Flex flex={4}>
 					<div className={styles.content} style={{ marginLeft: 22 }}>
+					{/* <ExternalSwitch
+                     checked={extarajobpost === '0'}
+                     onClick={
+                     () => extarajob()
+                     }
+                     /> */}
 						<InputSwitch
 							label="On"
 							disabled
@@ -288,6 +315,13 @@ if(isload){
 				</Flex>
 				<Flex flex={4}>
 					<div className={styles.content} style={{ marginLeft: 22 }}>
+					
+					{/* <ExternalSwitch
+                     checked={extarajobpost === '0'}
+                     onClick={
+                     () => extarajob()
+                     }
+                     /> */}
 						<InputSwitch
 							label={isstage1 ? 'On' : 'Off'}
 							checked={isstage1}
@@ -308,6 +342,12 @@ if(isload){
 						/>
 					</div>
 					<div className={styles.content} style={{ marginLeft: 22 }}>
+					{/* <ExternalSwitch
+                     checked={extarajobpost === '0'}
+                     onClick={
+                     () => extarajob()
+                     }
+                     /> */}
 						<InputSwitch
 							label={isstage2 ? 'On' : 'Off'}
 							checked={isstage2}
@@ -328,6 +368,12 @@ if(isload){
 						/>
 					</div>
 					<div className={styles.content} style={{ marginLeft: 22 }}>
+					{/* <ExternalSwitch
+                     checked={extarajobpost === '0'}
+                    //  onClick={
+                    //  () => extarajob()
+                    //  }
+                     /> */}
 						<InputSwitch
 							label={isstage3 ? 'On' : 'Off'}
 							checked={isstage3}
@@ -384,6 +430,12 @@ if(isload){
 				</Flex>
 				<Flex flex={4}>
 					<div className={styles.content} style={{ marginLeft: 22 }}>
+					{/* <ExternalSwitch
+                     checked={extarajobpost === '0'}
+                     onClick={
+                     () => extarajob()
+                     }
+                     /> */}
 							<InputSwitch
 							label='On'
 							checked={true}
@@ -490,6 +542,12 @@ if(isload){
 				</Flex>
 				<Flex flex={4}>
 					<div className={styles.content} style={{ marginLeft: 22 }}>
+					{/* <ExternalSwitch
+                     checked={extarajobpost === '0'}
+                     onClick={
+                     () => extarajob()
+                     }
+                     /> */}
 						<InputSwitch
 							label={isstage6 ? 'On' : 'Off'}
 							checked={isstage6}
@@ -509,6 +567,12 @@ if(isload){
 						/>
 					</div>
 					<div className={styles.content} style={{ marginLeft: 22 }}>
+					{/* <ExternalSwitch
+                     checked={extarajob1post === '0'}
+                     onClick={
+                     () => extarajob1()
+                     }
+                     /> */}
 						<InputSwitch
 							label={isstage7 ? 'On' : 'Off'}
 							checked={isstage7}
