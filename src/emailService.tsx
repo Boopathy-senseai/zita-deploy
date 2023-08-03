@@ -195,6 +195,17 @@ export async function mailforward(
   //console.log('-----replaymail-----', response);
 }
 
+export async function mailreplayall(
+  authProvider: AuthCodeMSALBrowserAuthenticationProvider,
+  id,
+  data,
+) {
+  var response: any = await graphClient
+    ?.api(`/me/messages/${id}/replyAll`)
+    .post(data);
+  //console.log('-----replaymail-----', response);
+}
+
 export async function getsearchmail(
   authProvider: AuthCodeMSALBrowserAuthenticationProvider,
   folder,

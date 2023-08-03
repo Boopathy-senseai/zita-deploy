@@ -47,6 +47,7 @@ type Props = {
   // total: any;
   msglistcount: any;
   integration: string;
+  updateMailaction: (val: any) => void;
 };
 const Inbox = ({
   message,
@@ -69,6 +70,7 @@ const Inbox = ({
   // total,
   msglistcount,
   integration,
+  updateMailaction,
 }: Props) => {
   const msal = useMsal();
   const [view, setview] = useState(true);
@@ -87,6 +89,11 @@ const Inbox = ({
     setview(!view);
   };
 
+  const mail = (val) => {
+    updateMailaction(val);
+    composemodal();
+  };
+
   useEffect(() => {
     if (integration === 'google') {
       readmessages();
@@ -94,6 +101,7 @@ const Inbox = ({
       updatereadmessage();
     }
   }, [message]);
+
   const readmessages = async () => {
     const labelIds = message.labelIds || [];
     const isRead = !labelIds.includes('UNREAD');
@@ -625,20 +633,34 @@ const Inbox = ({
                       )}
 
                       <Flex row marginRight={10}>
-                        <Flex
-                          title="Reply"
-                          className={styles.icons}
-                          onClick={composemodal}
-                        >
-                          <SvgReply width={16} height={16} />
-                        </Flex>
-                        <Flex
-                          title="Forward"
-                          className={styles.icons}
-                          onClick={composemodal}
-                        >
-                          <SvgForward width={16} height={16} />
-                        </Flex>
+                        {message.isDraft !== true ? (
+                          <>
+                            <Flex
+                              title="Reply"
+                              className={styles.icons}
+                              onClick={() => mail('reply')}
+                            >
+                              <SvgReply width={16} height={16} />
+                            </Flex>
+                            <Flex
+                              title="ReplyAll"
+                              className={styles.icons}
+                              onClick={() => mail('replyall')}
+                            >
+                              <SvgReply width={16} height={16} />
+                            </Flex>
+                            <Flex
+                              title="Forward"
+                              className={styles.icons}
+                              onClick={() => mail('forward')}
+                            >
+                              <SvgForward width={16} height={16} />
+                            </Flex>
+                          </>
+                        ) : (
+                          ''
+                        )}
+
                         <Flex
                           title="Mark as unread"
                           className={styles.icons}

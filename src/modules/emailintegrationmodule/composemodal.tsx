@@ -42,6 +42,7 @@ import {
   initGoogleAuth,
   gmail_send,
   Gmail_Draft,
+  mailreplayall,
 } from '../../emailService';
 import InputText from '../../uikit/InputText/InputText';
 import SvgCollapse from '../../icons/Svgcollapse';
@@ -58,9 +59,19 @@ type Props = {
   onClose: () => void;
   replaymsg: any;
   integration: string;
+  Mail_action: string;
+  updateMailaction: (val: any) => void;
 };
 
-const Newmessage = ({ data, onClose, mail, replaymsg, integration }: Props) => {
+const Newmessage = ({
+  data,
+  onClose,
+  mail,
+  replaymsg,
+  integration,
+  Mail_action,
+  updateMailaction,
+}: Props) => {
   const msal = useMsal();
   const dispatch: AppDispatch = useDispatch();
 
@@ -116,8 +127,6 @@ const Newmessage = ({ data, onClose, mail, replaymsg, integration }: Props) => {
     };
   });
 
-  //console.log('email ccollection', emailcollection.emailcollection);
-
   const [subject, setSubject] = useState('');
 
   const authProvider = new AuthCodeMSALBrowserAuthenticationProvider(
@@ -156,11 +165,75 @@ const Newmessage = ({ data, onClose, mail, replaymsg, integration }: Props) => {
     }
   };
 
+  const forward = () => {
+    if (replaymsg !== '') {
+      setSubject(replaymsg.subject);
+    }
+  };
+
+  const replyall = () => {
+    if (replaymsg !== '') {
+      console.log('to', replaymsg.toRecipients);
+      console.log('cc', replaymsg.ccRecipients);
+      console.log('bcc', replaymsg.bccRecipients);
+
+      var to = [];
+      var cc = [];
+      var bcc = [];
+      if (replaymsg.toRecipients.length !== 0) {
+        replaymsg.toRecipients.map((val, int) => {
+          console.log('m', val['emailAddress'].address);
+          to.push({
+            value: val['emailAddress'].address,
+            label: val['emailAddress'].address,
+          });
+        });
+      }
+
+      if (replaymsg.ccRecipients.length !== 0) {
+        replaymsg.ccRecipients.map((val, int) => {
+          console.log('m', val['emailAddress'].address);
+          cc.push({
+            value: val['emailAddress'].address,
+            label: val['emailAddress'].address,
+          });
+        });
+      }
+      if (replaymsg.bccRecipients.length !== 0) {
+        replaymsg.bccRecipients.map((val, int) => {
+          console.log('m', val['emailAddress'].address);
+          bcc.push({
+            value: val['emailAddress'].address,
+            label: val['emailAddress'].address,
+          });
+        });
+      }
+
+      setTosample(to);
+      setCcsample(cc);
+      setBccsample(bcc);
+      setTomail(replaymsg.toRecipients);
+      setCcmail(replaymsg.ccRecipients);
+      setBccmail(replaymsg.bccRecipients);
+      setSubject(replaymsg.subject);
+    }
+  };
+
   useEffect(() => {
     dispatch(messagesTemplatesMiddleWare());
-    //replaymail();
+
     dispatch(getEmail()).then((res) => {});
-  }, [replaymsg]);
+  }, []);
+
+  useEffect(() => {
+    if (Mail_action === 'reply') {
+      replaymail();
+    } else if (Mail_action === 'forward') {
+      forward();
+    } else if (Mail_action === 'replyall') {
+      replyall();
+    }
+  }, [Mail_action, replaymsg]);
 
   //modal close function //
   const handleClose = () => {
@@ -221,8 +294,8 @@ const Newmessage = ({ data, onClose, mail, replaymsg, integration }: Props) => {
     saveToSentItems: true,
   };
 
-  //Replay props//
-  const replay = {
+  //Reply props//
+  const outlook_replay_props = {
     message: {
       subject: subject,
       toRecipients: tomail,
@@ -235,7 +308,19 @@ const Newmessage = ({ data, onClose, mail, replaymsg, integration }: Props) => {
   };
 
   //forward props//
-  const forward = {
+  const outlook_forward_props = {
+    comment: messagebody,
+    subject: subject,
+    toRecipients: tomail,
+    ccRecipients: ccmail,
+    bccRecipients: bccmail,
+    attachments: attachfile,
+    saveToSentItems: true,
+  };
+
+  //replyall props//
+
+  const replyAll_props = {
     comment: messagebody,
     subject: subject,
     toRecipients: tomail,
@@ -250,15 +335,23 @@ const Newmessage = ({ data, onClose, mail, replaymsg, integration }: Props) => {
     if (integration === 'google') {
       gmail_compose();
     } else if (integration === 'outlook') {
-      await composemail(authProvider, Emailprops)
-        .then((res) => {
-          setloader(false);
-          Toast('Message send successfully', 'LONG', 'success');
-          clearform();
-          onClose();
-          setstyle(0);
-        })
-        .catch((error) => {});
+      if (Mail_action === 'compose') {
+        await composemail(authProvider, Emailprops)
+          .then((res) => {
+            setloader(false);
+            Toast('Message send successfully', 'LONG', 'success');
+            clearform();
+            onClose();
+            setstyle(0);
+          })
+          .catch((error) => {});
+      } else if (Mail_action === 'reply') {
+        outlookreplay();
+      } else if (Mail_action === 'forward') {
+        outlookforward();
+      } else if (Mail_action === 'replyall') {
+        outlookreplayall();
+      }
     }
   };
   const dailougeActions = (
@@ -299,25 +392,34 @@ const Newmessage = ({ data, onClose, mail, replaymsg, integration }: Props) => {
       setVerifymodel({ open: true });
     } else {
       composeemail();
-
-      // await mailreplay(authProvider, replaymsg.id, replay)
-      //   .then((res) => {
-      //     console.log('res', res);
-      //     Toast('message send successfully', 'LONG', 'success');
-      //     clearform();
-      //   })
-      //   .catch((error) => {
-      //     console.log('error', error);
-      //   });
-
-      // await mailforward(authProvider, replaymsg.id, forward)
-      //   .then((res) => {
-      //     // console.log('res', res);
-      //   })
-      //   .catch((error) => {
-      //     // console.log('error', error);
-      //   });
     }
+  };
+
+  const outlookreplay = async () => {
+    await mailreplay(authProvider, replaymsg.id, outlook_replay_props)
+      .then((res) => {
+        Toast('message send successfully', 'LONG', 'success');
+        clearform();
+      })
+      .catch((error) => {});
+  };
+
+  const outlookforward = async () => {
+    await mailforward(authProvider, replaymsg.id, outlook_forward_props)
+      .then((res) => {
+        Toast('message send successfully', 'LONG', 'success');
+        clearform();
+      })
+      .catch((error) => {});
+  };
+
+  const outlookreplayall = async () => {
+    await mailreplayall(authProvider, replaymsg.id, replyAll_props)
+      .then((res) => {
+        Toast('message send successfully', 'LONG', 'success');
+        clearform();
+      })
+      .catch((error) => {});
   };
 
   const clearform = () => {
@@ -335,6 +437,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg, integration }: Props) => {
     setstyle(0);
     setopenCc(false);
     setopenBcc(false);
+    updateMailaction('compose');
   };
 
   const selectfile = (e: any) => {
@@ -386,9 +489,6 @@ const Newmessage = ({ data, onClose, mail, replaymsg, integration }: Props) => {
       setfaildfile(faildfile.concat(filterFileGreter));
     }
     setAttachfile(allFiles);
-
-    console.log('cv', allFiles);
-    // setAttachfile(attachfile.concat(allFiles));
   };
 
   const handleModel = () => {
@@ -407,10 +507,10 @@ const Newmessage = ({ data, onClose, mail, replaymsg, integration }: Props) => {
       setTosample(val);
       let lastElement = val.slice(-1);
       let check = tosample.filter((x) => !val.includes(x));
-      console.log('sdsd', check);
+
       if (check.length !== 0) {
         const removemail = tomail.filter((item) => item !== check[0].value);
-        console.log('---', removemail);
+
         setTomail(removemail);
       } else {
         setTomail([...tomail, lastElement[0].value]);
@@ -445,7 +545,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg, integration }: Props) => {
 
       if (check.length !== 0) {
         const removemail = ccmail.filter((item) => item !== check[0].value);
-        console.log('---', removemail);
+
         setCcmail(removemail);
       } else {
         setCcmail([...ccmail, lastElement[0].value]);
@@ -480,7 +580,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg, integration }: Props) => {
 
       if (check.length !== 0) {
         const removemail = bccmail.filter((item) => item !== check[0].value);
-        console.log('---', removemail);
+
         setBccmail(removemail);
       } else {
         setBccmail([...bccmail, lastElement[0].value]);
@@ -551,10 +651,6 @@ const Newmessage = ({ data, onClose, mail, replaymsg, integration }: Props) => {
     ];
 
     attachfile.forEach(async (attachment) => {
-      console.log('1', attachment.type);
-      console.log('2', attachment.name);
-      console.log('3', attachment.contentBytes);
-
       emailss.push(
         `--boundary\n`,
         `Content-Type: ${attachment.type}\n`,
@@ -566,8 +662,6 @@ const Newmessage = ({ data, onClose, mail, replaymsg, integration }: Props) => {
     });
 
     emailss.push(`--boundary--`);
-
-    console.log('===', emailss);
 
     const email = emailss.join('');
 
@@ -686,7 +780,7 @@ const Newmessage = ({ data, onClose, mail, replaymsg, integration }: Props) => {
             }}
           >
             <Flex row center between className={styles.topSection}>
-              <Text color="white">New Email</Text>
+              <Text color="white">New Email </Text>
               <Flex row center between className={styles.optionMenu}>
                 <Flex
                   title={style === 1 ? 'Minimize' : 'Maximize'}
@@ -697,7 +791,6 @@ const Newmessage = ({ data, onClose, mail, replaymsg, integration }: Props) => {
                     marginTop: style === 0 ? 10 : 0,
                   }}
                 >
-                  {void console.log(style)}
                   <Flex
                     style={{
                       justifyConent: style === 1 ? 'flex-start' : 'center',

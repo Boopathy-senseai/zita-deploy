@@ -80,6 +80,7 @@ const EmailScreen = () => {
   const [searchFolder, setSearchFolder] = useState('All Folder');
   const [searchDropdownMenu, setsearchDropdownMenu] = useState([]);
   const [searchicon, setSearchicon] = useState(true);
+  const [Mailaction, setMailaction] = useState('compose');
   const authProvider = new AuthCodeMSALBrowserAuthenticationProvider(
     msal.instance as PublicClientApplication,
     {
@@ -89,6 +90,10 @@ const EmailScreen = () => {
       interactionType: InteractionType.Popup,
     },
   );
+
+  const updateMailaction = (val) => {
+    setMailaction(val);
+  };
 
   const modelupdate = () => {
     setmodel(!model);
@@ -769,6 +774,7 @@ const EmailScreen = () => {
                   // total={total}
                   msglistcount={messagelist.length}
                   integration={integration}
+                  updateMailaction={updateMailaction}
                 />
               </Flex>
             </Flex>
@@ -779,6 +785,8 @@ const EmailScreen = () => {
               onClose={modelupdate}
               replaymsg={message}
               integration={integration}
+              Mail_action={Mailaction}
+              updateMailaction={updateMailaction}
             />
           </>
         ) : (
