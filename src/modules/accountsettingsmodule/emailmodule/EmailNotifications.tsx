@@ -6,9 +6,12 @@ import Flex from '../..//../uikit/Flex/Flex';
 import Card from '../..//../uikit/Card/Card';
 import InputSwitch from '../..//../uikit/Switch/InputSwitch';
 import SvgInfo from '../..//../icons/SvgInfo';
+import SvgModuleicon from '../../../icons/SvgModuleicon';
 import Loader from '../../../uikit/Loader/Loader';
 import ExternalSwitch from '../..//../uikit/externalswitch/Externalswitch';
 import styles from './email.module.css';
+
+
 import {
 	emailPreferenceMiddleWare,
 	emailPreferencePostMiddleWare,
@@ -233,7 +236,8 @@ if(isload){
 					</Text>
 					<Flex title={"These emails are mandatory, cannot be disabled."} row>
 						<div className={styles.tsicon}>
-							<SvgInfo height={14} width={14} />
+							{/* <SvgInfo height={14} width={14} /> */}
+							<SvgModuleicon/>
 						</div>
 						{/* <Text style={{ marginLeft: 10 }}>
 							{' '}
@@ -289,7 +293,8 @@ if(isload){
 					</Text>
 					<Flex row title={"These emails are mandatory, cannot be disabled."}>
 						<div className={styles.tsicon}>
-							<SvgInfo height={14} width={14} />
+							{/* <SvgInfo height={14} width={14} /> */}
+							<SvgModuleicon/>
 						</div></Flex>
 					</Flex>
 
@@ -299,7 +304,8 @@ if(isload){
 					</Text>
 					<Flex row title={"These emails are mandatory, cannot be disabled."}>
 						<div className={styles.tsicon}>
-							<SvgInfo height={14} width={14} />
+							{/* <SvgInfo height={14} width={14} /> */}
+							<SvgModuleicon/>
 						</div></Flex>
 					</Flex>
 
@@ -309,7 +315,8 @@ if(isload){
 					</Text>
 					<Flex row title={"These emails are mandatory, cannot be disabled."}>
 						<div className={styles.tsicon}>
-							<SvgInfo height={14} width={14} />
+							{/* <SvgInfo height={14} width={14} /> */}
+							<SvgModuleicon/>
 						</div></Flex>
 				    </Flex>
 				</Flex>
@@ -415,7 +422,8 @@ if(isload){
 					</Text>
 					<Flex row title= {"This email is mandatory, cannot be disabled."}>
 						<div className={styles.tsicon}>
-							<SvgInfo height={14} width={14} />
+							{/* <SvgInfo height={14} width={14} /> */}
+							<SvgModuleicon/>
 						</div>
 
 						{/* old format css */}
@@ -531,7 +539,8 @@ if(isload){
 					</Text>
 					<Flex row title={"This email is mandatory, cannot be disabled."}>
 						<div className={styles.tsicon}>
-							<SvgInfo height={14} width={14} />
+							{/* <SvgInfo height={14} width={14} /> */}
+							<SvgModuleicon/>
 						</div>
 						{/* <Text style={{ marginLeft: 10 }}>
 							{' '}
