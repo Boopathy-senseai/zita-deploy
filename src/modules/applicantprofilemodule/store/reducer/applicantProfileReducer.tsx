@@ -273,18 +273,28 @@ const applicantProfileInitalReducer = createSlice({
 
 const applicantMatchState: MatchReducerState = {
   isLoading: false,
+  overall_percentage:0,
+  skills_percent:0,
+  qualification_percent:0,
   error: '',
   success: false,
-  data: { groups: [] },
+  matched_data:{ 
+  matched_skills:[],
+  matched_qualification:[]},
+
+  not_matched_data:{ 
+    not_matched_skills:[],
+    not_matched_qualification:[]},
   match: [
     {
       id: 0,
       candidate_id_id: 0,
       jd_id_id: 0,
       profile_match: 0,
-      created_at: '',
+      created_at: '', 
     },
   ],
+ 
 };
 
 const applicantMatchReducer = createSlice({
@@ -299,7 +309,12 @@ const applicantMatchReducer = createSlice({
     builder.addCase(applicantMatchMiddleWare.fulfilled, (state, action) => {
       state.isLoading = false;
       state.match = action.payload.match;
-      state.data = action.payload.data;
+      state.overall_percentage =action.payload.overall_percentage;
+      state.not_matched_data= action.payload.not_matched_data;
+      state.matched_data= action.payload.matched_data;
+      state.qualification_percent = action.payload.qualification_percent;
+      state.skills_percent =action.payload.skills_percent;
+      // state.data = action.payload.matched_data;
     });
     builder.addCase(applicantMatchMiddleWare.rejected, (state, action) => {
       state.isLoading = false;

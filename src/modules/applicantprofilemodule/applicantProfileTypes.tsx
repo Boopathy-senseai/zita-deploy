@@ -256,12 +256,20 @@ export interface ApplicantProfileReducerState extends ApplicantProfile {
 
 export interface Match {
   success: boolean;
-  data: Data;
+  matched_data: Data;
+  overall_percentage:number;
+  skills_percent:number;
+  qualification_percent:number;
   match: MatchEntity[];
+  not_matched_data: Datas,
 }
 export interface Data {
-  groups: any[];
-  score?: string;
+  matched_skills:[]
+  matched_qualification:[]
+}
+export interface Datas { 
+  not_matched_skills:[]
+  not_matched_qualification:[]
 }
 export interface MatchEntity {
   id: number;
@@ -269,6 +277,7 @@ export interface MatchEntity {
   jd_id_id: number;
   profile_match: number;
   created_at: string;
+  // overall_percentage:number;
 }
 
 export interface MatchReducerState extends Match {

@@ -17,6 +17,7 @@ import PreviewTitle from './PreviewTitle';
 import {
   dsOrNonDsGetdMiddleWare,
   jdPreviewMiddleWare,
+  jdProfileMiddleWares,
   postJdMiddleWare,
   questionnaireForJdMiddleWare,
   selectDsorNonDsMiddleWare,
@@ -41,6 +42,7 @@ const JdPreviewScreen = () => {
     dispatch(questionnaireForJdMiddleWare({ jd_id: jdId }));
     dispatch(dsOrNonDsGetdMiddleWare({ jd_id: jdId }));
     dispatch(selectDsorNonDsMiddleWare());
+   
   }, []);
 
   const {
@@ -93,6 +95,8 @@ const JdPreviewScreen = () => {
 
   // publish form submit
   const hanldePulish = () => {
+   
+      
     if (isEmpty(career_page_url)) {
       if (isEmpty(company_detail.no_of_emp)) {
         sessionStorage.setItem('superUserTab', '0');
@@ -104,11 +108,12 @@ const JdPreviewScreen = () => {
       dispatch(postJdMiddleWare({ jd_id: jdId })).then((res) => {
         if (res.payload.success) {
           setOpen(true);
+          dispatch(jdProfileMiddleWares({ jd_id: jdId })) 
         }
       });
-    }
-  };
-
+    }}
+  
+  
   return (
     <Flex
       columnFlex

@@ -10,6 +10,7 @@ import {
   jdProfileApi,
   jdTemplatesApi,
   locationApi,
+  matchingoverallApi,
   missSkillsApi,
   postJdApi,
   questionnaireForJdApi,
@@ -27,6 +28,7 @@ import {
   JD_QUESTIONNAIRE,
   JD_TEMPLATE,
   JD_DUPLICATE,
+  JD_PROFILES,
 } from '../../../../actions/actions';
 import {
   CreateJdPostPayload,
@@ -86,7 +88,21 @@ export const jdProfileMiddleWare = createAsyncThunk(
     }
   },
 );
-
+export const jdProfileMiddleWares = createAsyncThunk(
+  JD_PROFILES,
+  async ({ jd_id }: { jd_id:string }, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(matchingoverallApi ,{
+        params: {pk:jd_id},
+      } );
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+ 
 export const jdProfilePostMiddleWare = createAsyncThunk(
   JD_PROFILE + '_post',
   async (

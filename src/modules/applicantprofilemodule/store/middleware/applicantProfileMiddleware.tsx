@@ -30,6 +30,7 @@ import {
   googleAddEvent,
   checkAuth,
   addOauth,
+  Zitamatching,
   outlookSyncApi,
   outlookAdd,
   calbackurlApi,
@@ -51,11 +52,26 @@ export const applicantProfileInitialMiddleWare = createAsyncThunk(
   },
 );
 
+// export const applicantMatchMiddleWare = createAsyncThunk(
+//   APPLICANT_PROFILE_MATCH,
+//   async ({ jd_id, can_id }: ApplicantProfilePayload, { rejectWithValue }) => {
+//     try {
+//       const { data } = await axios.get(applicantMatchapi, {
+//         params: { jd_id, can_id },
+//       });
+//       return data;
+//     } catch (error) {
+//       const typedError = error as Error;
+//       return rejectWithValue(typedError);
+//     }
+//   },
+// );
+
 export const applicantMatchMiddleWare = createAsyncThunk(
   APPLICANT_PROFILE_MATCH,
   async ({ jd_id, can_id }: ApplicantProfilePayload, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(applicantMatchapi, {
+      const { data } = await axios.get(Zitamatching, {
         params: { jd_id, can_id },
       });
       return data;

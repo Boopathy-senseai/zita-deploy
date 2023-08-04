@@ -42,7 +42,7 @@ export const BULK_UPLOADED_QUS = 'bulk/questionnaire_bulk';
 
 // applicant profile view action
 export const APPLICANT_PROFILE_INITIAL = 'applicant/applicant_profile_initial';
-export const APPLICANT_PROFILE_MATCH = 'applicant/applicant_profile_match';
+export const APPLICANT_PROFILE_MATCH = 'applicant/match_alg_api';
 export const APPLICANT_PROFILE_NOTES = 'applicant/applicant_profile_notes';
 export const APPLICANT_PROFILE_ALLMATCH =
   'applicant/applicant_profile_all_match';
@@ -86,6 +86,7 @@ export const JD_TEMPLATES = 'createjd/jd_templates';
 export const JD_CREATE = 'createjd/create_jd';
 export const JD_LOCATION = 'createjd/location';
 export const JD_PROFILE = 'createjd/jd_profile';
+export const JD_PROFILES = 'createjd/matching_algorithm';
 export const JD_QUESTIONNAIRE = 'createjd/jd_questionnaire_for_jd';
 export const JD_TEMPLATE = 'createjd/jd_template';
 export const JD_DUPLICATE = 'createjd/jd_duplicate';
