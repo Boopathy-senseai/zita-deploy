@@ -60,7 +60,7 @@ const LinkShare = (props) => {
     console.log('searchquerylowercaseQuery', lowercaseQuery);
 
     const filteredItems = items.filter((item) =>
-      item.full_name.toLowerCase().includes(lowercaseQuery.toString().trim()),
+      item.full_name.toLowerCase().includes(lowercaseQuery.toString()),
     );
     console.log('searchqueryfilteredItemsfilteredItems', filteredItems);
     if (filteredItems.length > 0) {
@@ -105,16 +105,16 @@ const LinkShare = (props) => {
       <div className={styles.sharelink}>
         <Flex row between center>
           <Flex>
-            <Text bold>{details.event_name}</Text>
+            <Text size={14} bold>{details.event_name}</Text>
             <Text size={13} style={{ marginTop: '5px' }}>
               Select to whom you want to share the link
             </Text>
           </Flex>
           <Flex>
-            <Text>{details.event_type}</Text>
+            <Text size={13}>{details.event_type}</Text>
             <Flex row center style={{ marginTop: '5px' }}>
               <SvgClock width={16} height={16} fill={'#581845'} />
-              <Text style={{ marginLeft: '5px' }}>{details.duration}</Text>
+              <Text size={13} style={{ marginLeft: '5px' }}>{details.duration}</Text>
             </Flex>
           </Flex>
         </Flex>
@@ -166,7 +166,7 @@ const LinkShare = (props) => {
                   ) }
                 </div>
                 <div style={{ marginLeft: '10px' }}>
-                  <Text size={14}>
+                  <Text size={13}>
                     {name.full_name}({name.type})
                   </Text>
                 </div>
@@ -176,7 +176,7 @@ const LinkShare = (props) => {
         </Flex>
         </>
         ) :(
-          <Flex middle>
+          <Flex middle className={styles.nodata}>
           No Applicants/Candidates found
           </Flex>
         )}

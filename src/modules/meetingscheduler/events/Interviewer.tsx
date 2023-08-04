@@ -17,22 +17,21 @@ const Interviewer = (props) => {
     teammembers,
     checkedItems,
     setCheckedItems,
-    google
+    google,
   } = props;
 
-  
-
-  console.log("00000000000000000000000000",props.checkedItems)
+  console.log('00000000000000000000000000', props.checkedItems);
   const [data, setData] = useState(teammembers);
   const [member, setmember] = useState([]);
-  const [checkedData,setcheckedData] = useState(checkedItems);
-
-
+  const [checkedData, setcheckedData] = useState(checkedItems);
 
   useEffect(() => {
     if (interviewerData?.length > 0) {
       // setcheckedData()
-      console.log("interviewerDatainterviewerDatainterviewerDatainterviewerData",interviewerData)
+      console.log(
+        'interviewerDatainterviewerDatainterviewerDatainterviewerData',
+        interviewerData,
+      );
       setmember(interviewerData);
     }
     // if(checkedItems.length > 0 && checkedData.length === 0){
@@ -40,40 +39,44 @@ const Interviewer = (props) => {
     // }
   }, []);
 
-  const handleCheckboxChange = (event, name,list) => {
-    console.log("77777777777",list,formik)
-    if( formik.event_type === 'Google Hangouts/Meet' && list.google_calendar === null && google === false ){
-      alert("Atleast One inteerview must be integrated to the Google Calendar")
+  const handleCheckboxChange = (event, name, list) => {
+    console.log('77777777777', list, formik);
+    if (
+      formik.event_type === 'Google Hangouts/Meet' &&
+      list.google_calendar === null &&
+      google === false
+    ) {
+      alert('Atleast One inteerview must be integrated to the Google Calendar');
     }
     // if (formik.event_type !== 'Google Hangouts/Meet'){
-      else{
+    else {
       const { value, checked } = event.target;
-      console.log("listtttttttttt",list,name,"\n",value,checkedData)
+      console.log('listtttttttttt', list, name, '\n', value, checkedData);
       if (checked) {
         setcheckedData((prevItems) => [...prevItems, value]);
         member.push(name);
       } else {
         setcheckedData((prevItems) =>
-        prevItems.filter((item) => item !== value),
-      );
-      setinterviewerData((prevItems) =>
-        prevItems.filter((item) => item !== value),
-      );
-      const index = member.findIndex((nam) => nam === name);
-      console.log("indexindexindexindex",index)
-      if (index !== -1) {
-        member.splice(index, 1);
+          prevItems.filter((item) => item !== value),
+        );
+        setinterviewerData((prevItems) =>
+          prevItems.filter((item) => item !== value),
+        );
+        const index = member.findIndex((nam) => nam === name);
+        console.log('indexindexindexindex', index);
+        if (index !== -1) {
+          member.splice(index, 1);
+        }
+        const remove = checkedData.find((nam) => nam === value);
+        console.log('indexindexindexindexindexindex', remove);
+        if (remove !== -1) {
+          alert('(((((()))))');
+          checkedData.splice(remove, 1);
+        }
+        console.log('indexindexindexindexindexindexcheckedItems', checkedData);
+        // setinterviewerData(member)
       }
-      const remove = checkedData.find((nam) => nam === value);
-      console.log("indexindexindexindexindexindex",remove)
-      if (remove !== -1) {
-        alert("(((((()))))")
-        checkedData.splice(remove, 1);
-      }
-      console.log("indexindexindexindexindexindexcheckedItems",checkedData)
-      // setinterviewerData(member)
     }
-  }
   };
 
   function searchItems(query) {
@@ -103,7 +106,7 @@ const Interviewer = (props) => {
 
       setinterviewerData(member);
       setInterviewer(false);
-      setCheckedItems(checkedData)
+      setCheckedItems(checkedData);
     } else {
     }
   };
@@ -113,14 +116,10 @@ const Interviewer = (props) => {
     setCheckedItems(checkedItems);
   }
 
-  console.log("interviewerDatainterviewerData.........",interviewerData)
-  console.log("datatatatatatattat",data)
+  console.log('interviewerDatainterviewerData.........', interviewerData);
+  console.log('datatatatatatattat', data);
 
-
-  console.log("checkediTEmSssssssss",checkedData)
-
-
-
+  console.log('checkediTEmSssssssss', checkedData);
 
   return (
     <>
@@ -140,37 +139,58 @@ const Interviewer = (props) => {
                 searchItems(e.target.value);
               }}
               actionRight={() => (
-                <label htmlFor={'members search'} style={{ margin: 5 }}>
+                <label htmlFor={'members search'} style={{ margin: 6 }}>
                   <SvgSearch />
                 </label>
               )}
-          /> 
-            {data.length > 0 ? (<>
-            <Flex>
-            {data.map((name, index) => (
-              <Flex row center key={index} marginBottom={10}>
-                <Flex className={styles.checkbox}>
-                  {console.log("interviewerDatainterviewerData",name.full_name)}
-                  {checkedData.includes(name.user.toString()) ? (
-                    <InputCheckBox
-                      value={name.user}
-                      checked={checkedData.includes(name.user.toString()) ? true : false}
-                      // disabled={true}
-                      onChange={(e) => handleCheckboxChange(e, name.full_name,name)}
-                    />
-                  ) : (
-                    <InputCheckBox
-                      value={name.user}
-                      checked={checkedData.includes(name.user.toString()) ? true : false}
-                      onChange={(e) => handleCheckboxChange(e, name.full_name,name)}
-                    />
-                  )}
+            />
+            {data.length > 0 ? (
+              <>
+                <Flex marginTop={10}>
+                  {data.map((name, index) => (
+                    <Flex row center key={index} marginBottom={10}>
+                      <Flex className={styles.checkbox}>
+                        {console.log(
+                          'interviewerDatainterviewerData',
+                          name.full_name,
+                        )}
+                        {checkedData.includes(name.user.toString()) ? (
+                          <InputCheckBox
+                            value={name.user}
+                            checked={
+                              checkedData.includes(name.user.toString())
+                                ? true
+                                : false
+                            }
+                            // disabled={true}
+                            onChange={(e) =>
+                              handleCheckboxChange(e, name.full_name, name)
+                            }
+                          />
+                        ) : (
+                          <InputCheckBox
+                            value={name.user}
+                            checked={
+                              checkedData.includes(name.user.toString())
+                                ? true
+                                : false
+                            }
+                            onChange={(e) =>
+                              handleCheckboxChange(e, name.full_name, name)
+                            }
+                          />
+                        )}
+                      </Flex>
+                      <Text size={13}>{name.full_name}</Text>
+                    </Flex>
+                  ))}
                 </Flex>
-                <Text size={13}>{name.full_name}</Text>
+              </>
+            ) : (
+              <Flex middle className={styles.nodata}>
+                No Interviewers Found
               </Flex>
-            ))}
-            </Flex>
-            </>) : (<Flex middle>No Interviewers Found</Flex>)}
+            )}
           </Flex>
           <Flex
             row
@@ -188,28 +208,24 @@ const Interviewer = (props) => {
             </Button>
             {checkedData.length > 0 ? (
               <Button
-              style={{ marginTop: '20px', marginLeft: '8px' }}
-              className={styles.update}
-              types="primary"
-              onClick={addmembers}
-            >
-              Add
-            </Button>
-
-            ):(
+                style={{ marginTop: '20px', marginLeft: '8px' }}
+                className={styles.update}
+                types="primary"
+                onClick={addmembers}
+              >
+                Add
+              </Button>
+            ) : (
               <Button
-              style={{ marginTop: '20px', marginLeft: '8px' }}
-              className={styles.update}
-              types="primary"
-              onClick={addmembers}
-              disabled
-            >
-              Add
-            </Button>
-
+                style={{ marginTop: '20px', marginLeft: '8px' }}
+                className={styles.update}
+                types="primary"
+                onClick={addmembers}
+                disabled
+              >
+                Add
+              </Button>
             )}
-            
-            
           </Flex>
         </Flex>
       </div>

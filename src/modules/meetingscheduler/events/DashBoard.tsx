@@ -114,18 +114,18 @@ const DashBoard = (props) => {
               >
                 {list.event_name}
               </Text>
-              <Button
+              <Flex
                 className={styles.copybutton}
                 onClick={() => copylink(list.id)}
               >
                 <SvgCopy fill="#FCC203" height={15} width={15} />
-              </Button>
+              </Flex>
             </Flex>
           </Flex>
           <ActionsButton data={list} onEdit={onEdit} />
         </Flex>
 
-        <Text>
+        <Text size={13}>
           {modifiedTimeString(list.duration)}, {list.event_type}
         </Text>
         <Flex row>
@@ -277,17 +277,24 @@ const ActionsButton = (props) => {
           btnCancel={() => onCancel()}
           title={
             <Flex className={styles.popUpFlex}>
+              <Flex column>
+                <Flex>
               <Text style={{ marginLeft: '10px' }}>
                 Users will be unable to schedule further meeting with deleted
                 event types.
-                <br/>              
+                </Text>
+                </Flex>
+                <Flex marginLeft={10}>             
                 <Text>
                   Meetings previously scheduled will not be affected.
-                </Text>
-              </Text>
-              <Text style={{ marginLeft: '10px' }}>
+                </Text>             
+              </Flex>
+              </Flex>
+              <Flex>
+              <Text style={{ marginLeft: '10px', marginTop : '2px'}}>
                 Are you sure to proceed?
-              </Text>              
+              </Text> 
+              </Flex>             
             </Flex>
           }
           btnDelete={onDelete}

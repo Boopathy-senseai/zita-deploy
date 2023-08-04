@@ -87,7 +87,17 @@ const slotter1 = (props) => {
     const event_id = event;
     setloader(true);
     // dispatch(getAvailbleSlot(event));
-    axios.get(`${availbleslot}?pk=${event}`).then((res: any) => {
+    axios.get(`${availbleslot}?pk=${event}`, {
+      headers: {
+        Authorization: undefined // Setting to undefined will remove the "Authorization" header
+      },
+      transformResponse: [(datalist) => {
+        const parsedData = JSON.parse(datalist);
+        return parsedData;
+      }]
+    })
+    // axios.get(`${availbleslot}?pk=${event}`).
+    .then((res: any) => {
       console.log('resssss', res);
       if (res.data !== null) {
         const value = res.data.availbleslot;
@@ -96,7 +106,8 @@ const slotter1 = (props) => {
     });
 
     if (userpreview === undefined && uid !== null) {
-      dispatch(getSlotterMiddleware({ uid, event_id }));
+       dispatch(getSlotterMiddleware({ uid, event_id }));
+      
     }
     dispatch(getScheduleMiddleWare(event));
 
@@ -154,7 +165,6 @@ const slotter1 = (props) => {
     console.log('listttttttttttttttt111111', list);
 
     if (list !== null) {
-      alert('>>>>>>>>>>');
       console.log('44444444444', list.event_name, list.time_zone);
       const formData = new FormData();
       const [timeOffset, locations] = list.times_zone.split(' ');
@@ -177,15 +187,15 @@ const slotter1 = (props) => {
         formData.append('attendees', JSON.stringify(attendees));
         dispatch(googleAddEventMiddleware({ formData }));
       }
-      if (outlook) {
-        interviewer?.map((datalist) => {
-          if(datalist.outlook_calendar !== null){
-            attendees.push(datalist.outlook_calendar);
-          }
-        });
-        formData.append('attendees', JSON.stringify(attendees));
-        dispatch(outlookAddEventMiddleware({ formData }));
-      }
+      // if (outlook) {
+      //   interviewer?.map((datalist) => {
+      //     if(datalist.outlook_calendar !== null){
+      //       attendees.push(datalist.outlook_calendar);
+      //     }
+      //   });
+      //   formData.append('attendees', JSON.stringify(attendees));
+      //   dispatch(outlookAddEventMiddleware({ formData }));
+      // }
       console.log('??/////////////', attendees);
       // dispatch(googleAddEventMiddleware({ formData }));
       // ["abineshnk@sense7ai.com","manojr@sense7ai.com"]
@@ -388,8 +398,8 @@ const SlotterDate = (props) => {
   const [startOfMonth, setstartOfMonth] = useState(new Date());
   const [endOfMonth, setendOfMonth] = useState(new Date());
   const [defaultMonth, setdefaultMonth] = useState('');
-  const [startFrom, setStartFrom] = useState(new Date());
-  const [endFrom, setEndFrom] = useState(new Date());
+  const [startFrom, setStartFrom] = useState(new Date(2023,9-1,4));
+  const [endFrom, setEndFrom] = useState(new Date(2023,11,4));
 
   useEffect(() => {
     mount();
@@ -401,12 +411,15 @@ const SlotterDate = (props) => {
   }, [response, timezone, availbles,]);
 
   const DateFormatShow = (dateString)=> {
-    if(dateString !== undefined){
+    console.log("dateStringdateStringdateStringdateStringdateString",dateString)
+    if( dateString !== "" && dateString !== undefined){
 
       var parts = dateString.split("/");
       var dateObject = new Date(parts[2], parts[1] - 1 , parts[0]);
+      console.log("KKKKKKKKKKKKKKKK",dateObject)
       return dateObject
     }
+    return null
   }
 
   useEffect(()=> {
@@ -418,11 +431,21 @@ const SlotterDate = (props) => {
           console.log("starkkkkkkkkkkkkkt",start)
          
 
-          const startmonth = DateFormatShow(start.startdate)
-          setStartFrom(startmonth)
-          const endmonth = DateFormatShow(start.enddate)
+          const smonth = DateFormatShow(start.startdate)
+          const startmonth = smonth !== null ?  smonth : "Invalid Date";
+
+          if(startmonth !== "Invalid Date" ){
+            // alert(startmonth)
+            setStartFrom(startmonth)
+          }
+          const emonth = DateFormatShow(start.enddate)
+          const endmonth = emonth !== null ?  smonth : "Invalid Date";
+          if(endmonth !== "Invalid Date"  ){
+            // alert(endmonth)
+
+            setEndFrom(endmonth)
+          }
           console.log("endmonthendmonthendmonthendmonth",endmonth,start.enddate)
-          setEndFrom(endmonth)
           console.log("FFFFFFFFFFFFFFFFFF",startFrom,endFrom)
         }
       })
@@ -794,8 +817,8 @@ const SlotterDate = (props) => {
 
   console.log(
     'selectedDaysselectedDaysselectedDaysselectedDays',
-    startFrom,"\n",
-    endFrom,"\n",    
+    "startFrom",startFrom,"\n",
+    "endFrom",endFrom,"\n",    
     defaultMonth,'\n',
     startOfMonth,'\n',
     endOfMonth,'\n'
@@ -839,12 +862,12 @@ const SlotterDate = (props) => {
                     )}
                   </Flex>
                   <Flex marginBottom={10} marginTop={10}>
-                    <Text size={14}>Hi {candidate_name},</Text>
-                    <Text>
+                    <Text size={13}>Hi {candidate_name},</Text>
+                    <Text size={13}>
                       {`you have been selected for an ${data.event_name} at 
                    ${data.company_name}.`}
                     </Text>
-                    <Text style={{ marginTop: '5px' }}>
+                    <Text size={13} style={{ marginTop: '5px' }}>
                       Pick a time and date.
                     </Text>
                   </Flex>
@@ -857,13 +880,13 @@ const SlotterDate = (props) => {
                   </Flex>
                   <Flex row center marginBottom={10}>
                     <SvgClock width={14} height={14} fill={'#581845'} />
-                    <Text size={14} style={{ marginLeft: '5px' }}>
+                    <Text size={13} style={{ marginLeft: '5px' }}>
                       {data.duration}
                     </Text>
                   </Flex>
                   <Flex row center marginBottom={10}>
                     <SvgGlobe width={14} height={14} fill={'#581845'} />
-                    <Text size={14} style={{ marginLeft: '5px' }}>
+                    <Text size={13} style={{ marginLeft: '5px' }}>
                       Time zone is {timezones(data.times_zone)}
                     </Text>
                   </Flex>
@@ -872,7 +895,7 @@ const SlotterDate = (props) => {
                       <SvgInfo width={14} height={14} fill={'#581845'} />
                     </Flex>
 
-                    <Text size={14} style={{ marginLeft: '5px' }}>
+                    <Text size={13} style={{ marginLeft: '5px' }}>
                       This is an {InterviewText(data.event_type)}.Please come
                       prepared with the technical aspects of your work
                       experience along with your CV/Resume
@@ -1009,19 +1032,19 @@ const Conformpage = (props) => {
             </Text>
             <Flex row center marginBottom={10}>
               <SvgCalendarEvent width={14} height={14} fill={'#581845'} />
-              <Text size={14} style={{ marginLeft: '5px' }}>
+              <Text size={13} style={{ marginLeft: '5px' }}>
                 {selecttime},{date}
               </Text>
             </Flex>
             <Flex row center marginBottom={10}>
               <SvgClock width={14} height={14} fill={'#581845'} />
-              <Text size={14} style={{ marginLeft: '5px' }}>
+              <Text size={13} style={{ marginLeft: '5px' }}>
                 {list.duration}
               </Text>
             </Flex>
             <Flex row center marginBottom={10}>
               <SvgGlobe width={14} height={14} fill={'#581845'} />
-              <Text size={14} style={{ marginLeft: '5px' }}>
+              <Text size={13} style={{ marginLeft: '5px' }}>
                 Time zone is {timezones(list.times_zone)}
               </Text>
             </Flex>
@@ -1030,14 +1053,14 @@ const Conformpage = (props) => {
                 <SvgInfo width={14} height={14} fill={'#581845'} />
               </Flex>
 
-              <Text size={14} style={{ marginLeft: '5px' }}>
+              <Text size={13} style={{ marginLeft: '5px' }}>
                 This is an {InterviewText(list.event_type)}.Please come prepared with
                 the technical aspects of your work experience along with
                 CV/Resume
               </Text>
             </Flex>
 
-            <div className={styles.line} style={{ margin: '20px 0px' }}></div>
+           
           </Flex>
         ))}
       </Flex>
@@ -1058,27 +1081,32 @@ const InterviewDashBoard = (props) => {
 
   useEffect(() => {});
 
-  const formatDate = (dateStr) => {
+  const formatDateChange = (dateString) => {
     // const dateStr = '02/08/2023';
-    const date = new Date(dateStr);
-    const options: Intl.DateTimeFormatOptions = {
-      weekday: 'long',
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-    };
-    const formattedDate = date.toLocaleDateString('en-US', options);
-
+    const months = [
+      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+  
+    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  
+    const [day, month, year] = dateString.split("/");
+    const date = new Date(year, month - 1, day);
+    const dayOfWeek = daysOfWeek[date.getDay()];
+    const formattedDate = `${dayOfWeek}, ${months[parseInt(month) - 1]} ${day}, ${year}`;
+  
     return formattedDate;
   };
 
   if (Loading) {
     return <Loader />;
   }
-  if (isLoading) {
-    return <Loader />;
-  }
+  // if (isLoading) {
+  //   return <Loader />;
+  // }
 
+
+  console.log("slotterdataslotterdataslotterdataslotterdata",slotterdata)
   return (
     <Flex className={styles.successTick}>
       <SvgZitaLogo width={240} height={125} />
@@ -1122,7 +1150,7 @@ const InterviewDashBoard = (props) => {
               <SvgCalendarEvent width={14} height={14} fill={'#581845'} />
               <Text size={14} style={{ marginLeft: '5px' }}>
                 {slotterdata.map((li) => li.time)} ,{' '}
-                {slotterdata.map((li) => formatDate(li.date))}
+                {slotterdata.map((li) => formatDateChange(li.date))}
               </Text>
             </Flex>
             <Flex row center marginBottom={10}>

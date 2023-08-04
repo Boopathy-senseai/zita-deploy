@@ -36,3 +36,7 @@
 .update:focus {
   border: none;
 }
+
+.nodata{
+  padding: 10px;
+}

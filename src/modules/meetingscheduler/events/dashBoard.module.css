@@ -138,6 +138,8 @@
   margin-left: 15px; */
   border: none;
   background: none;
+  margin-left: 15px;
+  cursor: pointer;
 }
 .btnsetting {
   /* margin-right: 10px; */

@@ -40,8 +40,19 @@
   border: none;
   border-radius: 5px;
   margin-top: 20px;
+  margin-left: 15px;
 }
 .apply:active,
 .apply:focus {
   border: none;
+}
+.applybtn{
+  background: white !important;
+  margin-top: 6px;
+  margin-left: 3px;
+  align-content: center;
+}
+.copyalign{
+  margin-left: 15px;
+  margin-top: 5px;
 }
