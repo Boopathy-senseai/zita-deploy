@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 // import { Client } from '@microsoft/microsoft-graph-client';
 // import { google } from 'googleapis';
-import { availbleslot, EventSchedule, eventSchedulerApi, slotterApi } from '../../../../../routes/apiRoutes';
+import { availbleslot, eventSchedulerApi, slotterApi } from '../../../../../routes/apiRoutes';
 import { EVENT_SCHEDULER_FORM_DETAILS,SLOTTER_FORM_DETAILS } from '../../../../../actions/actions';
 
 
