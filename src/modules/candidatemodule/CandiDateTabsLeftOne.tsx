@@ -15,7 +15,7 @@ const defaultProps = {
 const CandiDateTabsLeftOne = ({ activeState }: typeof defaultProps) => {
   return (
     <Tabs
-      activeColor={BLACK}
+      activeColor={'#581845'}
       borderColor={'#581845'}
       active={activeState}
     >

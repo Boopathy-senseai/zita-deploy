@@ -107,10 +107,7 @@ export const meetingTitle = () => [
         setColor(colorCode);
       }, []);
       return (
-        <Flex row center>
-          {console.log(index, 'llllllllllllllllllllllooooooooooooo')}
-
-          {/* {console.log(indexList, 'indexListindexListindexList')} */}
+        <Flex row center> 
           {isEmpty(index.organizer.image) ? (
             <div
               className={cx('profile')}
@@ -159,10 +156,8 @@ export const meetingTitle = () => [
     align: 'center',
     index: 'index',
 
-    render: (value: string, index) => {
-      console.log(value, 'navigatting');
-      const history = useHistory();
-      console.log(index.index, 'llllllllllllllllllllllllllllllllllllll');
+    render: (value: string, index) => { 
+      const history = useHistory(); 
       const handleClick = () => {
         window.open(calendarRoute);
         localStorage.setItem('eventhandeler', 'true');

@@ -7,6 +7,7 @@ import StarRatingComponent from 'react-star-rating-component';
 import { inviteToApplyApi } from '../../routes/apiRoutes';
 import { AppDispatch, RootState } from '../../store';
 import { ERROR_MESSAGE, YES, config } from '../constValue';
+import Avatar, { getUserInitials } from '../../uikit/Avatar';
 import SvgDownload from '../../icons/SvgDownload';
 import SvgInvite from '../../icons/SvgInvite';
 import SvgLocation from '../../icons/SvgLocationapplicant';
@@ -38,6 +39,7 @@ import styles from './profilenavbar.module.css';
 import {
   applicantScoreMiddleWare,
   applicantStatusMiddleWare,
+  applicantAllMatchMiddleWare,
 } from './store/middleware/applicantProfileMiddleware';
 var querystring = require('querystring');
 const cx = classNames.bind(styles);
@@ -133,19 +135,24 @@ const ProfileNavBar = ({
     total_exp,
     personalInfo,
     candidate_details,
+    overall_percentage
   } = useSelector(
     ({
       applicantStausReducers,
       applicantScoreReducers,
       applicantAllMatchReducers,
+      applicantMatchReducers,
       applicantProfileInitalReducers,
     }: RootState) => {
       return {
         match:
           applicantAllMatchReducers.match !== undefined &&
           applicantAllMatchReducers.match,
+          overall_percentage:
+        typeof applicantMatchReducers.overall_percentage !== 'undefined' &&
+        applicantMatchReducers.overall_percentage,
         candidate_details: applicantProfileInitalReducers.candidate_details,
-        stages: applicantStausReducers?.stages, 
+        stages: applicantStausReducers?.stages,
         can_id: applicantProfileInitalReducers.can_id,
         total_exp: applicantProfileInitalReducers.total_exp,
         jd_id: applicantProfileInitalReducers.jd_id,
@@ -234,7 +241,7 @@ const ProfileNavBar = ({
     if (stages.length === 4) {
       setcheckingstatus(stages[3].stage_id__stage_name);
     }
-  }, [stages]); 
+  }, [stages]);
   const linkedin_url =
     candiList.linkedin_url !== null && candiList.linkedin_url !== ''
       ? candiList.linkedin_url
@@ -251,9 +258,13 @@ const ProfileNavBar = ({
         ? interview[interview.length - 1].rating
         : 0;
     setinterviewstatus(ratingValue);
-  }, [interview]);
-  console.log(candidate_details[0].created_on,'manojmanonjmanoj')
-  const date = isEmpty(candidate_details[0].created_on) ? '' : candidate_details[0].created_on.slice(0, candidate_details[0].created_on.indexOf('T'));
+  }, [interview]); 
+  const date = isEmpty(candidate_details[0].created_on)
+    ? ''
+    : candidate_details[0].created_on.slice(
+        0,
+        candidate_details[0].created_on.indexOf('T'),
+      );
   const getFresher =
     total_exp &&
     total_exp[0].total_exp_year === 0 &&
@@ -285,7 +296,7 @@ const ProfileNavBar = ({
   // }
   const hanldeInvite = (jdId: number, candId: number) => {
     hanldeInviteClosePopUp();
-    setInviteLoader(true);
+    // setInviteLoader(true);
     const data = querystring.stringify({
       jd_id: jdId,
       candi_id: candId,
@@ -293,7 +304,7 @@ const ProfileNavBar = ({
     axios
       .post(inviteToApplyApi, data, config)
       .then(() => {
-        setInviteLoader(false);
+        // setInviteLoader(false);
         Toast('Candidate invited successfully');
         dispatch(applicantAllMatchMiddleWare({ can_id: candId }));
         dispatch(
@@ -304,7 +315,7 @@ const ProfileNavBar = ({
         );
       })
       .catch(() => {
-        setInviteLoader(false);
+        // setInviteLoader(false);
         Toast(ERROR_MESSAGE, 'LONG', 'error');
       });
   };
@@ -345,21 +356,39 @@ const ProfileNavBar = ({
           open={isInvitePopUp}
         />
       )}
-      <Flex column className={styles.overAll} height={window.innerHeight - 40} style={{overflow:'scroll',display:'flex'}}>
-        <Flex row middle style={{ position: 'relative', marginTop: '20px' }}>
-          {isProfileName || candiList.image === 'default.jpg' ? (
+      <Flex column className={styles.overAll}>
+        <Flex style={{ padding: '0px 8px 0px 8px' }}>
+          <Flex row middle style={{ position: 'relative', marginTop: '20px' }}>
             <Flex className={styles.profile}>
-              <div className={styles.countStyle}>
+              <Avatar
+              className={styles.profile}
+                 style={{fontSize:'26px'}}
+                avatar={
+                  candiList.image && candiList.image !== 'default.jpg'
+                    ? `${process.env.REACT_APP_HOME_URL}media/${candiList.image}`
+                    : undefined
+                }
+                initials={getUserInitials({
+                  firstName: candiList.first_name,
+                  lastName: candiList.last_name,
+                })}
+              />
+              {jd_id !== null &&
+              <div className={cx({
+          countStyle1:(overall_percentage< 40),
+          countStyle2:(overall_percentage >= 40 && profile_match < 69),
+          countStyle3:(overall_percentage > 69  )})}>
                 <Text color="white" style={{ fontSize: 10, marginTop: ' 2px' }}>
-                  {profile_match}
+                  {overall_percentage} 
                 </Text>
-              </div>
-              {isEmpty(candiList.first_name) && (
+              </div>}
+              {/* {isEmpty(candiList.first_name) && (
                 <Text size={30} bold transform="uppercase">
                   NS
                 </Text>
-              )}
-              {!isEmpty(candiList.first_name) && (
+              )} */}
+            </Flex>
+            {/* {!isEmpty(candiList.first_name) && (
                 <>
                   {isEmpty(candiList.last_name) ? (
                     <Text size={30} bold transform="uppercase">
@@ -372,8 +401,8 @@ const ProfileNavBar = ({
                     </Text>
                   )}
                 </>
-              )}
-            </Flex>
+              )} */}
+            {/* 
           ) : (
             <Flex>
               <img
@@ -382,28 +411,27 @@ const ProfileNavBar = ({
                 className={styles.profileimg}
                 src={`${process.env.REACT_APP_HOME_URL}media/${candiList.image}`}
               />
+            </Flex> */}
+          </Flex> 
+          {jd_id === undefined || jd_id === null || jd_id === '' ? (
+            ''
+          ) : (
+            <Flex middle center>
+              <StarRatingComponent
+                className={styles.starstyle}
+                name="rate1"
+                starCount={5}
+                value={interviewstatus}
+              />
             </Flex>
           )}
-        </Flex>
-        {console.log(jd_id,'nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn')}
-        {jd_id === undefined || jd_id === null || jd_id === '' ?'':
-          <Flex middle center>
-            <StarRatingComponent
-              className={styles.starstyle}
-              name="rate1"
-              starCount={5}
-              value={interviewstatus} 
-            />
-          </Flex> 
-        }
-        <Flex>
-          <div>
-            <Flex column className={styles.headerpart}>
-              <Flex row center middle>
-                <Text bold size={14} style={{ paddingRight: '10px' }}>
-                  {notSpecified(candiList.first_name)} {candiList.last_name}
-                </Text>
-                {/*   <div>
+
+          <Flex column className={styles.headerpart}>
+            <Flex row center middle>
+              <Text bold size={14} style={{ paddingRight: '10px' }}>
+                {notSpecified(candiList.first_name)} {candiList.last_name}
+              </Text>
+              {/*   <div>
                 <div
                   tabIndex={-1}
                   role={'button'}
@@ -418,7 +446,7 @@ const ProfileNavBar = ({
                   />
                 </div>
               </div> */}
-                {/* {candiList.linkedin_url !== null &&
+              {/* {candiList.linkedin_url !== null &&
                 candiList.linkedin_url !== '' && (
                   <div className={styles.svgDownloadStyle}>
                     <a target={'_blank'} rel="noreferrer" href={url}>
@@ -426,139 +454,144 @@ const ProfileNavBar = ({
                     </a>
                   </div>
                 )} */}
-                {/* {candiList.code_repo !== undefined && candiList.code_repo !== '' && (
+              {/* {candiList.code_repo !== undefined && candiList.code_repo !== '' && (
                 <div className={styles.svgDownloadStyle}>
                   <a target={'_blank'} rel="noreferrer" href={url}>
                     <SvgglobalGit fill={'#0288d1'} width={22} height={22} />
                   </a>
                 </div>
               )} */}
-              </Flex>
-              <Flex
-                row
-                middle
-                style={{ fontsize: '13px', marginBottom: '10px' }}
+            </Flex>
+            <Flex row middle style={{ fontsize: '13px', marginBottom: '10px' }}>
+              {candiList.email}
+            </Flex>
+          </Flex>
+
+          <Flex className={styles.headerpart1}>
+            <Flex row style={{ marginTop: '10px' }} marginLeft={5}>
+              <div
+                tabIndex={-1}
+                role={'button'}
+                onKeyPress={() => {}}
+                style={{ display: 'flex', alignItems: 'center' }}
+                title="Download Resume"
+                onClick={handleDownload}
               >
-                {candiList.email}
+                <SvgApplicantprofile fill={'#581845'} width={20} height={25} />
+                <Flex>
+                  {' '}
+                  <Text
+                    bold
+                    color="theme"
+                    style={{ cursor: 'pointer', fontSize: '13px' }}
+                  >
+                    Download Resume
+                  </Text>
+                </Flex>
+              </div>
+            </Flex>
+            <Flex row>
+              <Flex style={{ marginRight: '10px' }}>
+                <SvgPhone height={14} width={18} fill="#581845" />
               </Flex>
+              {candiList.contact === null ||
+              candiList.contact === undefined ||
+              candiList.contact === '' ? (
+                <Flex style={{ paddingLeft: '2.2px' }}>Not Specified</Flex>
+              ) : (
+                <Flex>{candiList.contact}</Flex>
+              )}
             </Flex>
 
-            <Flex className={styles.headerpart1}>
-              <Flex row style={{ marginTop: '10px' }} marginLeft={5}>
-                <div
-                  tabIndex={-1}
-                  role={'button'}
-                  onKeyPress={() => {}}
-                  style={{ display: 'flex', alignItems: 'center' }}
-                  title="Download Resume"
-                  onClick={handleDownload}
-                >
-                  <SvgApplicantprofile
-                    fill={'#581845'}
-                    width={20}
-                    height={25}
-                  />
-                  <Flex>
-                    {' '}
-                    <Text
-                      bold
-                      color="theme"
-                      style={{ cursor: 'pointer', fontSize: '13px' }}
+            <Flex row style={{ marginTop: '5px', marginBottom: '10px' }}>
+              <Flex style={{ marginRight: '10px' }}>
+                <SvgLocation height={17} width={17} fill="#581845" />
+              </Flex>
+              {candiList.location === null ||
+              candiList.location === undefined ||
+              candiList.location === '' ? (
+                <Flex style={{ fontsize: '13px' }}>Not Specified</Flex>
+              ) : (
+                <Flex style={{ fontsize: '13px' }}> {candiList.location}</Flex>
+              )}
+            </Flex>
+          </Flex>
+          {(candiList.linkedin_url !== null && candiList.linkedin_url !== '') ||
+          (candiList.code_repo !== undefined && candiList.code_repo !== '') ? (
+            <Flex row className={styles.headerpart1}>
+              <Flex className={styles.headingpart} marginTop={10} marginBottom={10}>
+                Social media
+              </Flex>
+              <Flex row center middle style={{marginTop: '6px',
+    marginLeft: '10px'}}>
+                {candiList.linkedin_url !== null &&
+                  candiList.linkedin_url !== '' && (
+                    <div
+                      className={styles.svgDownloadStyle}
+                      style={{
+                        marginBottom: 10,
+                        paddingTop: '4px',
+                        marginRight: '10px',
+                      }}
                     >
-                      Download Resume
-                    </Text>
-                  </Flex>
-                </div>
-              </Flex>
-              <Flex row>
-                <Flex style={{ marginRight: '10px' }}>
-                  <SvgPhone height={14} width={18} fill="#581845" />
-                </Flex>
-                {candiList.contact === null ||
-                candiList.contact === undefined ||
-                candiList.contact === '' ? (
-                  <Flex style={{ paddingLeft: '2.2px' }}>Not Specified</Flex>
-                ) : (
-                  <Flex>{candiList.contact}</Flex>
-                )}
-              </Flex>
-
-              <Flex row style={{ marginTop: '5px', marginBottom: '10px' }}>
-                <Flex style={{ marginRight: '10px' }}>
-                  <SvgLocation height={17} width={17} fill="#581845" />
-                </Flex>
-                {candiList.location === null ||
-                candiList.location === undefined ||
-                candiList.location === '' ? (
-                  <Flex style={{ fontsize: '13px' }}>Not Specified</Flex>
-                ) : (
-                  <Flex style={{ fontsize: '13px' }}>
-                    {' '}
-                    {candiList.location}
-                  </Flex>
-                )}
+                      <a target={'_blank'} rel="noreferrer" href={url}>
+                        <SvgLinkedIn
+                          fill={'#0288d1'}
+                          width={17.5}
+                          height={22}
+                        />
+                      </a>
+                    </div>
+                    )}  
+                     {candiList.code_repo !== undefined &&
+                  candiList.code_repo !== '' && ( 
+                    <div
+                      className={styles.svgDownloadStyle}
+                      style={{ marginBottom: 10 }}
+                    >
+                      <a target={'_blank'} rel="noreferrer" href={url}>
+                        <SvgglobalGit
+                          fill={'#0288d1'}
+                          width={26.5}
+                          height={26.5}
+                        />
+                      </a>
+                    </div>
+                    )} 
               </Flex>
             </Flex>
-            {(candiList.linkedin_url !== null &&
-              candiList.linkedin_url !== '') ||
-            (candiList.code_repo !== undefined &&
-              candiList.code_repo !== '') ? (
-              <Flex className={styles.headerpart1}>
-                <Flex className={styles.headingpart} marginTop={10}>
-                  Social media
-                </Flex>
-                <Flex row>
-                  {candiList.linkedin_url !== null &&
-                    candiList.linkedin_url !== '' && (
-                      <div
-                        className={styles.svgDownloadStyle}
-                        style={{
-                          marginBottom: 10,
-                          paddingTop: '4px',
-                          marginRight: '10px',
-                        }}
-                      >
-                        <a target={'_blank'} rel="noreferrer" href={url}>
-                          <SvgLinkedIn
-                            fill={'#0288d1'}
-                            width={17.5}
-                            height={22}
-                          />
-                        </a>
-                      </div>
-                    )}
-                  {candiList.code_repo !== undefined &&
-                    candiList.code_repo !== '' && (
-                      <div
-                        className={styles.svgDownloadStyle}
-                        style={{ marginBottom: 10 }}
-                      >
-                        <a target={'_blank'} rel="noreferrer" href={url}>
-                          <SvgglobalGit
-                            fill={'#0288d1'}
-                            width={26.5}
-                            height={26.5}
-                          />
-                        </a>
-                      </div>
-                    )}
-                </Flex>
-              </Flex>
-            ) : (
-              ''
-            )}
+           ) : (
+            ''
+          )} 
+        </Flex>
+        <Flex
+          style={{ overflow: 'scroll', padding: '0px 0px 0px 8px'  }}
+         height={window.innerHeight - 320}
+        >
+          <Flex>
             <Flex row flex={12}>
               <Flex flex={6}>
-                <Flex className={styles.headingpart} marginTop={10}>
+                <Flex
+                  className={styles.headingpart}
+                  marginTop={10}
+                  style={{ display: 'flex' }}
+                >
                   Qualification
                 </Flex>
                 {candiList.qualification === null ||
                 candiList.qualification === undefined ||
                 candiList.qualification === '' ? (
-                  <Flex className={styles.changingtext}><Text className={styles.changingtext}>Not Specified</Text></Flex>
+                  <Flex className={styles.changingtext}>
+                    <Text className={styles.changingtext}>Not Specified</Text>
+                  </Flex>
                 ) : (
-                  <Flex className={styles.changingtext} title={candiList.qualification}>
-                    <Text className={styles.changingtext}>{candiList.qualification}</Text>
+                  <Flex
+                    className={styles.changingtext}
+                    title={candiList.qualification}
+                  >
+                    <Text className={styles.changingtext}>
+                      {candiList.qualification}
+                    </Text>
                   </Flex>
                 )}
               </Flex>
@@ -568,9 +601,13 @@ const ProfileNavBar = ({
                     Applicant Source
                   </Flex>
                   {source === null || source === undefined || source === '' ? (
-                    <Flex className={styles.changingtext}><Text className={styles.changingtext}>Not Specified</Text></Flex>
+                    <Flex className={styles.changingtext}>
+                      <Text className={styles.changingtext}>Not Specified</Text>
+                    </Flex>
                   ) : (
-                    <Flex className={styles.changingtext} title={source}><Text className={styles.changingtext}>{source}</Text></Flex>
+                    <Flex className={styles.changingtext} title={source}>
+                      <Text className={styles.changingtext}>{source}</Text>
+                    </Flex>
                   )}
                 </Flex>
               )}
@@ -580,40 +617,58 @@ const ProfileNavBar = ({
                 <Flex className={styles.headingpart} marginTop={10}>
                   Applied date
                 </Flex>
-                {date === ''? (
-                  <Flex className={styles.changingtext}><Text className={styles.changingtext}>Not Specified</Text></Flex>
+                {date === '' ? (
+                  <Flex className={styles.changingtext}>
+                    <Text className={styles.changingtext}>Not Specified</Text>
+                  </Flex>
                 ) : (
-                  <Flex className={styles.changingtext} title={date}><Text className={styles.changingtext}>{date}</Text></Flex>
-                )}
-                {console.log(date,'ggggggggggggggggg')}
+                  <Flex className={styles.changingtext} title={date}>
+                    <Text className={styles.changingtext}>{date}</Text>
+                  </Flex>
+                )} 
               </Flex>
               <Flex flex={6}>
                 <Flex className={styles.headingpart} marginTop={10}>
                   Expirence
                 </Flex>
-                { total_exp=== undefined || total_exp === null ? (
-                  <Flex className={styles.changingtext}><Text className={styles.changingtext}>Not Specified</Text></Flex>
+                {total_exp === undefined || total_exp === null ? (
+                  <Flex className={styles.changingtext}>
+                    <Text className={styles.changingtext}>Not Specified</Text>
+                  </Flex>
                 ) : (
-                  <Flex className={styles.changingtext} title={getFresher ? 'Fresher' : `${totalYear} ${totalMonths}`}>
-                  <Text className={styles.changingtext}> {getFresher ? 'Fresher' : `${totalYear} ${totalMonths}`}</Text> 
+                  <Flex
+                    className={styles.changingtext}
+                    title={
+                      getFresher ? 'Fresher' : `${totalYear} ${totalMonths}`
+                    }
+                  >
+                    <Text className={styles.changingtext}>
+                      {' '}
+                      {getFresher ? 'Fresher' : `${totalYear} ${totalMonths}`}
+                    </Text>
                   </Flex>
                 )}
               </Flex>
             </Flex>
-           
+
             <Flex row flex={12} style={{ borderTop: '1px solid #C3C3C3' }}>
-              <Flex flex={6} >
-                 <Flex className={styles.headingpart} marginTop={10}>
-                Willing to Relocate
-              </Flex>
-              {personalInfo[0].relocate === null ||
-              personalInfo[0].relocate === undefined ? (
-                <Flex className={styles.changingtext}><Text className={styles.changingtext}>Not Specified</Text></Flex>
-              ) : (
-                <Flex className={styles.changingtext} title={personalInfo[0].relocate === true ? 'yes' : 'No'}>
-                  {personalInfo[0].relocate === true ? 'yes' : 'No'}
+              <Flex flex={6}>
+                <Flex className={styles.headingpart} marginTop={10}>
+                  Willing to Relocate
                 </Flex>
-              )}
+                {personalInfo[0].relocate === null ||
+                personalInfo[0].relocate === undefined ? (
+                  <Flex className={styles.changingtext}>
+                    <Text className={styles.changingtext}>Not Specified</Text>
+                  </Flex>
+                ) : (
+                  <Flex
+                    className={styles.changingtext}
+                    title={personalInfo[0].relocate === true ? 'yes' : 'No'}
+                  >
+                    {personalInfo[0].relocate === true ? 'yes' : 'No'}
+                  </Flex>
+                )}
               </Flex>
               <Flex flex={6}>
                 <Flex className={styles.headingpart} marginTop={10}>
@@ -622,10 +677,17 @@ const ProfileNavBar = ({
                 {candiList.type_of_job__label_name === undefined ||
                 candiList.type_of_job__label_name === null ||
                 candiList.type_of_job__label_name === '' ? (
-                  <Flex className={styles.changingtext}><Text className={styles.changingtext}>Not Specified</Text></Flex>
+                  <Flex className={styles.changingtext}>
+                    <Text className={styles.changingtext}>Not Specified</Text>
+                  </Flex>
                 ) : (
-                  <Flex className={styles.changingtext} title={candiList.type_of_job__label_name}>
-                    <Text className={styles.changingtext}>{candiList.type_of_job__label_name}</Text>
+                  <Flex
+                    className={styles.changingtext}
+                    title={candiList.type_of_job__label_name}
+                  >
+                    <Text className={styles.changingtext}>
+                      {candiList.type_of_job__label_name}
+                    </Text>
                   </Flex>
                 )}
               </Flex>
@@ -636,10 +698,17 @@ const ProfileNavBar = ({
                   Availability Date
                 </Flex>
                 {candiList.industry_type__label_name === undefined ? (
-                  <Flex className={styles.changingtext}><Text className={styles.changingtext}>Not Specified</Text></Flex>
+                  <Flex className={styles.changingtext}>
+                    <Text className={styles.changingtext}>Not Specified</Text>
+                  </Flex>
                 ) : (
-                  <Flex className={styles.changingtext} title={candiList.available_to_start__label_name}>
-                    <Text className={styles.changingtext}>{candiList.available_to_start__label_name}</Text>
+                  <Flex
+                    className={styles.changingtext}
+                    title={candiList.available_to_start__label_name}
+                  >
+                    <Text className={styles.changingtext}>
+                      {candiList.available_to_start__label_name}
+                    </Text>
                   </Flex>
                 )}
               </Flex>
@@ -650,39 +719,51 @@ const ProfileNavBar = ({
                 {candiList.exp_salary === undefined ||
                 candiList.exp_salary === null ||
                 candiList.exp_salary === '' ? (
-                   <Flex className={styles.changingtext}><Text className={styles.changingtext}>Not Specified</Text></Flex>
-                ) : (
-                  <Flex className={styles.changingtext} title={candiList.exp_salary}>
-                  <Text className={styles.changingtext}>{candiList.exp_salary}</Text>  
+                  <Flex className={styles.changingtext}>
+                    <Text className={styles.changingtext}>Not Specified</Text>
                   </Flex>
-                )}
-              {  console.log(candiList.exp_salary,'candiList.exp_salarycandiList.exp_salary')}
+                ) : (
+                  <Flex
+                    className={styles.changingtext}
+                    title={candiList.exp_salary}
+                  >
+                    <Text className={styles.changingtext}>
+                      {candiList.exp_salary}
+                    </Text>
+                  </Flex>
+                )} 
               </Flex>
             </Flex>
-            <Flex  style={{paddingBottom:'10px'}} >
-            <Flex className={styles.headingpart} >
-                  Industry Type
+            <Flex style={{ paddingBottom: '10px' }}>
+              <Flex className={styles.headingpart}>Industry Type</Flex>
+              {candiList.industry_type__label_name === undefined ||
+              candiList.industry_type__label_name === null ||
+              candiList.industry_type__label_name === '' ? (
+                <Flex>
+                  {' '}
+                  <Text className={styles.changingtext}>Not Specified</Text>
                 </Flex>
-                {candiList.industry_type__label_name === undefined ||
-                candiList.industry_type__label_name === null ||
-                candiList.industry_type__label_name === '' ? (
-                  <Flex > <Text className={styles.changingtext}>Not Specified</Text></Flex>
-                ) : (
-                  <Flex className={styles.changingtexts} title={candiList.industry_type__label_name}>
-                   <Text className={styles.changingtext}>{candiList.industry_type__label_name}</Text> 
-                  </Flex>
-                )}
+              ) : (
+                <Flex
+                  className={styles.changingtexts}
+                  title={candiList.industry_type__label_name}
+                >
+                  <Text className={styles.changingtext}>
+                    {candiList.industry_type__label_name}
+                  </Text>
+                </Flex>
+              )}
             </Flex>
-          </div>
-          {/* {withOutJD && (
-          <>
-            {!nonMatch ? (
+
+            {/* {withOutJD && (
+              <>
+              {!nonMatch ? (
               <Flex center>
                 {/* <Text bold>
                   Job Title: {jdDetails && jdDetails.job_title} | Job ID:{' '}
                   {jdDetails && jdDetails.job_id}
                 </Text> */}
-          {/* <Flex className={styles.barStyle}>
+            {/* <Flex className={styles.barStyle}>
                   <Flex middle flex={1}>
                     <ProgressBar
                       roundProgressHeight={65}
@@ -694,84 +775,90 @@ const ProfileNavBar = ({
                   </Text>
                 </Flex>
               </Flex>
-            ) : (
+              ) : (
               <Flex columnFlex className={styles.nonMatchFlex}> */}
-          {/* <Text bold>
+            {/* <Text bold>
                   Job Title: {jdDetails && jdDetails.job_title} | Job ID:{' '}
                   {jdDetails && jdDetails.job_id}
                 </Text> */}
-          {/*  <Flex end>
+            {/*  <Flex end>
                   <Text align="right" className={styles.nonMatch}>
                     Non-Match
                   </Text>
                 </Flex>
               </Flex>
-            )} */}
-          {/* </>
-        )} */}
-        </Flex> 
-        {stages[0] === '' ||
-        stages[0] === null ||
-        stages[0] === undefined   ? (
-          <>
-          {jd_id !== '' ||
-        jd_id !== undefined ||
-        jd_id !== null &&
-          <Flex
-            center
-            middle
-            className={styles.borderstyles} 
-          >
-            <Button onClick={() => handlefunct}>Invited to Apply</Button>{' '}
-          </Flex>}
-          </>
-        ) : (
-          <Flex className={styles.borderstyles} >
-            <Flex marginBottom={5}>
-              <Text style={{ fontSize: 13, color: '#581845', fontWeight: 600 }}>
-                Screening Status
-              </Text>
-            </Flex>
-            <Flex
-              row
-              between
-              style={{
-                border: '1px solid #A5889C',
-                padding: '10px',
-                borderRadius: '5px',
-              }}
-            >
-              <Flex title="Applied">
-                {checkingstatus === 'Applied' ? (
-                  <SvgRadioWithLine fill="#581845" />
-                ) : (
-                  <SvgRadioWithOutOutLine fill="#581845" />
-                )}
-              </Flex>
-              <Flex style={{ color: '#80C0D0' }} title="Shortlisted">
-                {checkingstatus === 'Shortlisted' ? (
-                  <SvgRadioWithLine fill="#80C0D0" />
-                ) : (
-                  <SvgRadioWithOutOutLine fill="#80C0D0" />
-                )}
-              </Flex>
-              <Flex title="Offered">
-                {checkingstatus === 'Offered' ? (
-                  <SvgRadioWithLine fill="#00BE4B" />
-                ) : (
-                  <SvgRadioWithOutOutLine fill="#00BE4B" />
-                )}
-              </Flex>
-              <Flex title="Rejected">
-                {checkingstatus === 'Rejected' ? (
-                  <SvgRadioWithLine fill="#ED4857" />
-                ) : (
-                  <SvgRadioWithOutOutLine fill="#ED4857" />
-                )}
-              </Flex>
-            </Flex>
+              )} */}
+            {/* </>
+              )} */}
+
+            {stages[0] === '' ||
+            stages[0] === null ||
+            stages[0] === undefined ? (
+              <>
+                {jd_id !== '' ||
+                  jd_id !== undefined ||
+                  (jd_id !== null && (
+                    <Flex center middle className={styles.borderstyles}>
+                      <Button onClick={() => handlefunct}>
+                        Invited to Apply
+                      </Button>{' '}
+                    </Flex>
+                  ))}
+              </>
+            ) : (
+              <>
+              {jd_id !== null &&
+              <Flex className={styles.borderstyles} marginBottom={10}>
+                <Flex marginBottom={5}>
+                  <Text
+                    style={{ fontSize: 13, color: '#581845', fontWeight: 600 }}
+                  >
+                    Screening Status
+                  </Text>
+                </Flex>
+                <Flex
+                  row
+                  between
+                  style={{
+                    border: '1px solid #A5889C',
+                    padding: '10px',
+                    borderRadius: '5px',
+                  }}
+                >
+                  <Flex title="Applied">
+                    {checkingstatus === 'Applied' ? (
+                      <SvgRadioWithLine fill="#581845" />
+                    ) : (
+                      <SvgRadioWithOutOutLine fill="#581845" />
+                    )}
+                  </Flex>
+                  <Flex style={{ color: '#80C0D0' }} title="Shortlisted">
+                    {checkingstatus === 'Shortlisted' ? (
+                      <SvgRadioWithLine fill="#80C0D0" />
+                    ) : (
+                      <SvgRadioWithOutOutLine fill="#80C0D0" />
+                    )}
+                  </Flex>
+                  <Flex title="Offered">
+                    {checkingstatus === 'Offered' ? (
+                      <SvgRadioWithLine fill="#00BE4B" />
+                    ) : (
+                      <SvgRadioWithOutOutLine fill="#00BE4B" />
+                    )}
+                  </Flex>
+                  <Flex title="Rejected">
+                    {checkingstatus === 'Rejected' ? (
+                      <SvgRadioWithLine fill="#ED4857" />
+                    ) : (
+                      <SvgRadioWithOutOutLine fill="#ED4857" />
+                    )}
+                  </Flex>
+                </Flex>
+              </Flex>}
+              </>
+            )}
           </Flex>
-        )}
+        </Flex>
       </Flex>
     </>
   );
@@ -780,10 +867,3 @@ const ProfileNavBar = ({
 ProfileNavBar.defaultProps = defaultProps;
 
 export default ProfileNavBar;
-function setInviteLoader(arg0: boolean) {
-  throw new Error('Function not implemented.');
-}
-
-function applicantAllMatchMiddleWare(arg0: { can_id: any }): any {
-  throw new Error('Function not implemented.');
-}

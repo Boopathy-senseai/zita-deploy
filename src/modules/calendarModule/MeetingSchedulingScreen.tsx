@@ -27,6 +27,7 @@ moment.tz.setDefault(Intl.DateTimeFormat().resolvedOptions().timeZone);
 interface Props {
   username: string;
   cand_id?: number;
+  APPLY?:Boolean;
   cand_name?: string;
   cand_email?: string;
   jd_id?: number;
@@ -48,6 +49,7 @@ const MeetingSchedulingScreen = ({
   openScheduleForm,
   handleEventScheduleForm,
   teamMembers,
+  APPLY,
   editEventDetails,
   eventId,
   calendarProvider,
@@ -82,7 +84,10 @@ const MeetingSchedulingScreen = ({
   );
 
   const updateCurrentApplicantId = (applicantId: number) => {
-    setCurrentApplicantId(applicantId);
+    if(localStorage.getItem('jdid') !== '')
+    {setCurrentApplicantId(Number(localStorage.getItem('jdid')))}
+    else{
+    setCurrentApplicantId(applicantId);}
   };
 
   useEffect(() => {
@@ -129,7 +134,20 @@ const MeetingSchedulingScreen = ({
       });
     }
   }, [editEventDetails]);
-
+  useEffect(() => { 
+    if (APPLY) {
+      setMeetingForm((form) => {
+        return {
+          ...form,
+          applicant: {
+            ...form.applicant,
+            id:Number(localStorage.getItem('jdid')),
+            name:localStorage.getItem('Applicantname'),
+          },
+          job: { ...form.job, label:localStorage.getItem('Jdname') }, 
+    }
+    })}}, [APPLY]);
+ 
   useEffect(() => {
     // dispatch(getApplicantsMiddleware())
     //   .then((res: any) => {
@@ -181,7 +199,9 @@ const MeetingSchedulingScreen = ({
       'location',
       'interviewers',
     ].forEach((item) => localStorage.removeItem(item));
-
+    localStorage.setItem('Applicantname','')
+    localStorage.setItem('Jdname','')
+    localStorage.setItem('jdid','')
     setViewMeetingSummary(false);
     setMeetingForm(meetingFormInitialState);
     handleEventScheduleForm();

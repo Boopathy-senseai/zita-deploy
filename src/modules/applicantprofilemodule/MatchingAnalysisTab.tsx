@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import SvgDone from '../../icons/SvgDone';
@@ -7,6 +8,7 @@ import ProgressBar from '../../uikit/ProgressBar/ProgressBar';
 import { GARY_7, WHITE } from '../../uikit/Colors/colors';
 import { RootState } from '../../store';
 import Tab from '../../uikit/Tabs/Tab';
+import { Loader } from '../../uikit';
 import Tabs from '../../uikit/Tabs/Tabs';
 import { removeUnderScores, lowerCase } from '../../uikit/helper';
 import {
@@ -43,9 +45,11 @@ const MatchingAnalysisTab = () => {
     qualification_percent,
     skills_percent,
     overallskill,
+    isLoading,
     overallQualification,
   } = useSelector(({ applicantMatchReducers }: RootState) => {
     return {
+      isLoading:applicantMatchReducers.isLoading,
       match: applicantMatchReducers.match ? applicantMatchReducers.match : [],
       matchql:
         typeof applicantMatchReducers.matched_data.matched_qualification !==
@@ -71,21 +75,30 @@ const MatchingAnalysisTab = () => {
         typeof applicantMatchReducers.source.jd_skills !== 'undefined' &&
         applicantMatchReducers.source.jd_skills,
       overallQualification:
-        typeof applicantMatchReducers.source.qualifications !== 'undefined' &&
-        applicantMatchReducers.source.qualifications,
+        typeof applicantMatchReducers.source.qualification !== 'undefined' &&
+        applicantMatchReducers.source.qualification,
     };
-  });
+  }); 
+  const [isloadings,setisloading] = useState(false)
+  useEffect(()=>{
+    if(isLoading === true){
+    setisloading(true)}
+    else{
+      setisloading(false) 
+    }
+  })
   const checkMatch =
     overall_percentage && overall_percentage === 0 ? true : false;
   const profileMatch = checkMatch ? 0 : overall_percentage;
   return (
     <Flex row flex={12} height={window.innerHeight - 120}>
+       {isloadings && <Loader />}
       <Flex
         flex={6}
         className={styles.overAll}
       >
         <Text bold style={{ fontSize: '14px',marginBottom:'5px'}}>
-        matching analysis
+        Matching Analysis
       </Text>
         {checkMatch ? (
           <Flex flex={1} center middle>
@@ -95,7 +108,7 @@ const MatchingAnalysisTab = () => {
           <>
             <Flex center>
               <Flex>
-                <Text bold size={14}>
+                <Text size={14}>
                   Overall matching score for this candidate with the job
                 </Text>
               </Flex> 
@@ -145,7 +158,7 @@ const MatchingAnalysisTab = () => {
             
 <Flex height={window.innerHeight - 275} style={{overflow:'scroll',display:'flex'}}>
             {data && (
-              <Flex flex={1} className={styles.mapListContainer}> 
+              <Flex   className={styles.mapListContainer}> 
                 <Flex 
                   row
                   center
@@ -157,8 +170,8 @@ const MatchingAnalysisTab = () => {
                   </Flex>
                   <Flex flex={2}>
                     <Text bold style={{ fontSize: '13px' }}>
-                      {overallskill ? overallskill.length : 0}/
-                      {data ? data.length : 0}
+                    {data ? data.length : 0}/{overallskill ? overallskill.length : 0}
+                     
                     </Text>
                   </Flex>
                   <Flex flex={7}>
@@ -216,11 +229,10 @@ const MatchingAnalysisTab = () => {
                   <Flex flex={3}>
                     <Text className={styles.titleStyle}>Qualification</Text>
                   </Flex>
-                  <Flex flex={2}>
-                    {}
+                  <Flex flex={2}> 
                     <Text bold style={{ fontSize: '13px' }}>
-                      {overallQualification ? overallQualification.length : 0}/
-                      {matchql ? matchql.length : 0}
+                     
+                      {matchql ? matchql.length : 0}/{overallQualification ? overallQualification.length : 0}
                     </Text>
                   </Flex>
                   <Flex flex={7}>
@@ -268,7 +280,7 @@ const MatchingAnalysisTab = () => {
       <Flex
        height={window.innerHeight - 115}
        style={{
-         border: '1px solid #C3C3C3',
+         border: '0.3px solid #C3C3C3',
          width: '1px',
          margin: '15px 5px 10px 5px',
          paddingTop: '10px',

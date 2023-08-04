@@ -29,41 +29,38 @@ const MessageTemplate = ({
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<MessageTemplates[]>([]);
   const handleChange = (e: { target: { value: SetStateAction<string> } }) => {
-    setSearchTerm(e.target.value);
-    console.log(e.target.value,'e.target.value')
+    setSearchTerm(e.target.value); 
   };
 
   useEffect(() => {
     const results = messageTemplate.filter(
       (tempList) =>
-
         tempList.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         tempList.templates.toLowerCase().includes(searchTerm.toLowerCase()),
     );
-    
+
     setSearchResults(results);
-  }, [searchTerm]); 
+  }, [searchTerm]);
   return (
     <Modal open={open}>
       <Flex columnFlex className={styles.overAll}>
         <Text bold className={styles.insertStyles}>
           Insert Message Template
         </Text>
-        <Flex row center >
-           
-            <InputText
-              id="messsageTemplate_search_id"
-              placeholder="Search by template name..."
-              className={styles.inputchanges}
-              value={searchTerm}
-              onChange={handleChange}
-              // actionRight={() => (
-              //   <label htmlFor={'messsageTemplate_search_id'} style={{ margin: 0,right:0 }}>
-              //     <SvgSearch />
-              //   </label>
-              // )}
-            />
-          
+        <Flex row center>
+          <InputText
+            id="messsageTemplate_search_id"
+            placeholder="Search by template name..."
+            className={styles.inputchanges}
+            value={searchTerm}
+            onChange={handleChange}
+            // actionRight={() => (
+            //   <label htmlFor={'messsageTemplate_search_id'} style={{ margin: 0,right:0 }}>
+            //     <SvgSearch />
+            //   </label>
+            // )}
+          />
+
           <Flex
             style={{ position: 'absolute' }}
             marginTop={1.5}
@@ -73,8 +70,21 @@ const MessageTemplate = ({
           >
             <SvgSearch />
           </Flex>
-          <Flex middle center  row marginLeft={15} style={{color:'#581845'}}><Flex>Total Search Count :</Flex>
-          <Flex marginTop={2} marginLeft={3} style={{fontWeight:'bold'}}>{searchResults.length}</Flex></Flex>
+          <Flex
+            middle
+            center
+            row
+            marginLeft={15}
+            className={styles.totalcountchanges}
+            style={{ color:'#581845',fontsize:'13px' }}
+          >
+            <Flex>
+              Total Search Count :
+            </Flex>
+            <Flex>
+              {searchResults.length}
+            </Flex>
+          </Flex>
         </Flex>
         {/* <InputText
           id="messsageTemplate_search_id"

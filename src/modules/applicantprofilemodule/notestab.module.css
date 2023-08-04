@@ -1,12 +1,11 @@
 .textArea {
   margin-top: 5px;
   margin-bottom: 8px;
-  max-width:100%;
+  max-width: 100%;
 }
 
 .overall1 {
-  padding: 16px;
-  
+  padding: 10px 16px 0px;;
 }
 
 .noteListStyle {
@@ -19,35 +18,39 @@
   box-sizing: border-box;
   margin-top: 5px;
 }
-.datetype{
+.datetype {
   margin-right: 10px;
-  text-align:center;
+  text-align: center;
   align-items: center;
 }
 .notesTextStyle {
   font-size: 14px;
-  color:  #333333;
-   
+  color: #333333;
+  flex-wrap: wrap;
+  overflow: hidden;
+  text-overflow: clip;
+  white-space: wrap;
+  overflow-wrap: break-word;
 }
-.notesTextStyle ul{
+.notesTextStyle ul {
   padding-left: 25px !important;
 }
-.notesTextStyle ol{
+.notesTextStyle ol {
   padding-left: 25px !important;
 }
-.notesTextStyle a{
+.notesTextStyle a {
   color: #581845 !important;
-  font-weight:600 !important;
+  font-weight: 600 !important;
 }
-.notesTextStyle p{
+.notesTextStyle p {
   margin-bottom: 0px;
   font-size: 14px !important;
-  color:  #333333 !important;
+  color: #333333 !important;
 }
-.cardinnotes{
+.cardinnotes {
   padding: 10px;
 }
-.firstlastchar{
+.firstlastchar {
   font-size: 12px;
 }
 .profile {
@@ -61,18 +64,18 @@
   position: relative;
 }
 .notesOverAll {
-  margin-top: 16px; 
+  margin-top: 16px;
   position: relative;
   /* padding:0px 1px; */
   padding-bottom: 5px;
 
   /* overflow: scroll; */
 }
- 
-.Notesscrol{
-  overflow-y: scroll; 
+
+.Notesscrol {
+  overflow-y: scroll;
   scrollbar-width: thin;
-  padding:16px 8px  0px 16px;
+  padding: 16px 8px 0px 16px;
 }
 .dotSvg {
   cursor: pointer;
@@ -85,7 +88,7 @@
   cursor: pointer;
   padding: 4px 8px;
 }
- 
+
 .dropBorder {
   border: 1px solid var(--color-gary-6, #b3b3b3);
   border-radius: 4px;
@@ -122,27 +125,27 @@
 .settingBtn {
   margin-left: 8px;
 }
-.overall2{
+.overall2 {
   padding: 16px;
 }
-.initialbutton{
-  width: 100%; 
+.initialbutton {
+  width: 100%;
 }
-.initialbuttons{
+.initialbuttons {
   width: 100%;
   padding-left: 10px;
-  border: 1px solid #D7C7D2 !important;
+  border: 1px solid #d7c7d2 !important;
   height: 40px;
   border-radius: 3px;
 }
- 
-.notestext{
+
+.notestext {
   display: flex;
   justify-content: space-between;
 }
-.middleline{
+.middleline {
   margin-top: 20px;
-  border-bottom: 1px solid #C3C3C3;
+  border-bottom: 1px solid #c3c3c3;
 }
 .overAllss {
   background-color: var(--color-white, #ffffff);
@@ -155,16 +158,14 @@
   overflow: scroll;
   min-height: 300px;
 }
-.insertStyles { 
-    font-size: 14px; 
-    color: #333333;
-
+.insertStyles {
+  font-size: 14px;
+  color: #333333;
 }
 .insertStyless {
   /* text-align: center; */
-    font-size: 14px;
-    color: #333333;
-
+  font-size: 14px;
+  color: #333333;
 }
 
 .newBtn {
@@ -203,13 +204,12 @@
 .update:focus {
   border: none;
 }
-.nojoppostyettext{
+.nojoppostyettext {
   color: #666666;
   margin-top: -10px;
 }
-.borderbellow{
-  border-bottom: 1px solid #C3C3C3;
+.borderbellow {
+  border-bottom: 1px solid #c3c3c3;
   padding-bottom: 10px;
   margin-top: -15px;
 }
- 

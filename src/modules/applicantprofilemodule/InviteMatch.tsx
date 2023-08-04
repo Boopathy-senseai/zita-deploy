@@ -122,10 +122,14 @@ const InviteMatch = ({
     <>
       {isInviteLoader && <Loader />}
       {isEmpty(isDate) && (
-        <CancelAndDeletePopup
-          title={`Invite will be sent as an email to ${
+        <CancelAndDeletePopup 
+        width={'350px'}
+          title={
+            <Flex>
+            <Text>{`Invite will be sent as an email to ${
             candidate_details && candidate_details[0].first_name
-          }. Are you sure to proceed?`}
+          }`}</Text>
+        <Text>Are you sure to proceed?</Text></Flex>}
           btnDelete={() => hanldeInvite(list.jd_id_id, list.candidate_id_id)}
           btnCancel={hanldeInviteClosePopUp}
           btnRight={YES}
@@ -188,7 +192,7 @@ const InviteMatch = ({
             >
               {matchTitle}
             </Text>
-          </Flex>
+          </Flex> 
           <Text className={styles.whiteSpace} style={{ fontSize: '13px' }}>
             {' '}
             {list.job_id}

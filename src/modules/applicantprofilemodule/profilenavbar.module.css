@@ -1,19 +1,49 @@
 .overAll {
   /* background-color: var(--color-primary, #581845); */
-  padding: 8px;
+  /* padding: 8px; */
   margin-bottom: 44px;
   width: 270px;
   position: relative;
   /* box-shadow: 3px 0 5px -2px rgba(238, 232, 236, 1); */
   /* color: #333333; */
 }
-.countStyle {
+.countStyle1 {
+  position: absolute;
+  right: 83px;
+  /* top: 1px; */
+  top: -3px;
+  background-color: #ED4857;
+  /* border: 0.1px solid #a5889c; */
+  border-radius: 100%;
+  z-index: 11;
+  display: flex;
+  height: 27px;
+  width: 27px;
+  justify-content: center;
+  align-items: center;
+} 
+.countStyle2{
   position: absolute;
   right: 80px;
   /* top: 1px; */
   top: -6px;
-  background-color: #eeac17;
-  border: 0.1px solid #a5889c;
+  background-color:  #EEAC17;
+  /* border: 0.1px solid #a5889c; */
+  border-radius: 100%;
+  z-index: 11;
+  display: flex;
+  height: 27px;
+  width: 27px;
+  justify-content: center;
+  align-items: center;
+}
+.countStyle3{
+  position: absolute;
+  right: 80px;
+  /* top: 1px; */
+  top: -6px;
+  background-color: #00BE4B;
+  /* border: 0.1px solid #a5889c; */
   border-radius: 100%;
   z-index: 11;
   display: flex;
@@ -98,27 +128,14 @@
 .inviteIconNone {
   display: none !important;
 }
-
+ 
 .profile {
   width: 70px;
   height: 70px;
-  border-radius: 100%;
+  border-radius: 100%; 
   align-items: center;
   justify-content: center;
   display: flex;
-  /* position: relative;
-  margin-right: 16px; */
-  /* position: absolute; */
-  top: 12px;
-  left: 16px;
-  background-image: linear-gradient(
-    to right top,
-    #581845,
-    #982a4e,
-    #d04e46,
-    #f3832f,
-    #fcc203
-  );
 }
 .profileimg {
   width: 70px;
@@ -144,6 +161,7 @@
 .headerpart {
   font-size: 13px;
   border-bottom: 1px solid #c3c3c3;
+   padding:0px 8px 0px 8px;
 }
 .headerpart1 {
   font-size: 13px;

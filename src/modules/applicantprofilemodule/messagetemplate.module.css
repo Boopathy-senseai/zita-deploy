@@ -17,6 +17,11 @@
 .listHeadingStyles {
   font-size: 14px;
 }
+.totalcountchanges{
+  font-size: 13px;
+  color: #581845;
+}
+
 .trimStyle {
   white-space: nowrap;
   overflow: hidden;

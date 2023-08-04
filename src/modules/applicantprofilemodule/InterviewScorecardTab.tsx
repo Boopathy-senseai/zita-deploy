@@ -22,7 +22,7 @@ import { Card, ErrorMessage } from '../../uikit';
 import { firstNameChar, getDateString, isEmpty } from '../../uikit/helper';
 import { AppDispatch, RootState } from '../../store';
 import { InterviewScorecardApi, checkAuth } from '../../routes/apiRoutes';
-import { CANCEL, config, mediaPath, mentionnotes } from '../constValue';
+import { CANCEL, config, mediaPath, mentionnotes, mentionspecialcharacter } from '../constValue';
 import RichText from '../common/RichText';
 import {
   applicantScoreMiddleWare,
@@ -179,12 +179,14 @@ const InterviewScorecardTab = () => {
     const doc = parser.parseFromString(formik.values.userMessage, 'text/html');
     const textNodes = doc.querySelectorAll('body')[0].textContent;
     const texttrim = textNodes.trim();
+    if(isEmpty(texttrim)) {
+      errors.userMessage = 'Enter valid notes.';
+    }
     if (texttrim === '') {
       errors.userMessage = '';
     }
-    if (isEmpty(textNodes)) {
-      errors.userMessage = 'Enter valid notes.';
-    } else if (!mentionnotes.test(textNodes)) {
+    else if (!mentionnotes.test(textNodes)&&
+    mentionspecialcharacter.test(textNodes)) {
       errors.userMessage = 'Message length should not exceed 2000 characters.';
     }
     return errors;
@@ -228,8 +230,7 @@ const InterviewScorecardTab = () => {
 
   const onStarClick = { setRating };
 
-  const onstarclicking = (e) => {
-    console.log(e, 'eeeeeeeeeeeeeeeeeeeeee');
+  const onstarclicking = (e) => { 
     setRating(e);
     const data = querystring.stringify({
       jd_id,

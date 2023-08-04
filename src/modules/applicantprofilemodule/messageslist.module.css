@@ -56,7 +56,6 @@
   background-color: var(--color-secondary, #ffc203);
 }
 .senderTextBox {
-  padding: 8px;
   border-radius: 5px;
   background-color: #D7C7D2;
   border-top-right-radius: 4px;
@@ -66,8 +65,7 @@
   overflow: hidden;
   text-overflow: clip;
 }
-.otherTextBox {
-  padding: 8px;
+.otherTextBox { 
   border-radius: 5px;
   white-space: wrap; 
   overflow-wrap: break-word;

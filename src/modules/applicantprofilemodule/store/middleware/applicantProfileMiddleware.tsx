@@ -16,7 +16,7 @@ import {
 } from '../../../../actions/actions';
 import {
   applicantMatchapi,
-  applicantMessagesApi,
+  applicantMessagesApi, 
   applicantNotesApi,
   applicantProfileView,
   applicantsStatusApi,
@@ -363,7 +363,7 @@ export const outlookCallApiMiddleware = createAsyncThunk(
       return rejectWithValue(typedError);
     }
   },
-);
+); 
 export const googleCallApiMiddleware = createAsyncThunk(
   'google_auth',
   async (_a, { rejectWithValue }) => {

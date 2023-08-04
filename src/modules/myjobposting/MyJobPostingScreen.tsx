@@ -187,6 +187,7 @@ const MyJobPostingScreen = () => {
                     </Button>
                   </LinkWrapper>
                 )}
+                {console.log(career_page_url,'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff')}
                 <LinkWrapper
                   target={'_blank'}
                   to={`${career_page_url}/careers`}

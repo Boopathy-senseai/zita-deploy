@@ -82,7 +82,7 @@ const ApplicantMatch = ({ list, match, applicant }: Props) => {
         </Flex>
       </Flex>
       <Flex row end  >
-        <div className={styles.countStyle1}>
+        <div className={styles.countStyle1} style={{marginTop:'15px'}}>
           <Text color="white" style={{ fontSize: 16, marginTop: ' 2px' }}>
             {0}%
           </Text>

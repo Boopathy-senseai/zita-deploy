@@ -489,7 +489,7 @@ useEffect(() => {
       height={window.innerHeight - 120}
     >
       <Flex flex={6} columnFlex style={{ padding: '5px' }}>
-        <Text bold style={{ fontSize: '14px',marginTop:'10px',paddingLeft:16 }}>
+        <Text bold style={{ fontSize: '14px',marginTop:'13.5px',paddingLeft:16 }}>
           Notes for Team Members
         </Text>
         {/* {hideelement ? (
@@ -524,7 +524,7 @@ useEffect(() => {
               name="notes"
             />
           </div>
-          <Flex row end>
+          <Flex marginTop={3.5} row end>
             <Button onClick={hanldeInputClose} types={'close'} width="100px">
               {CANCEL}
             </Button>
@@ -541,8 +541,7 @@ useEffect(() => {
             <Flex className={styles.middleline}></Flex>
           )}
         </Flex>
-        {(notes && notes.length === 0) &&
-          // (notes.length === 1 && notes[0].notes === '' && (
+        {notes && notes.length === 0 && 
             <Flex columnFlex flex={1} middle center marginTop={'110px'}>
               <SvgNotesyet />
               <Text className={styles.nojoppostye}>Notes not created yet</Text>
@@ -567,11 +566,7 @@ useEffect(() => {
                         key={list.notes + indexList}
                         columnFlex
                         className={styles.notesOverAll}
-                      >
-                        {console.log(
-                          list.emp_image,
-                          'list.emp_imagelist.emp_image',
-                        )}
+                      > 
                         <Card className={styles.cardinnotes}>
                           <Flex row className={styles.notestext}>
                             <Flex row center>
@@ -616,7 +611,11 @@ useEffect(() => {
                               />
                             </Flex>
                           </Flex>
-                          <Flex className={styles.noteListStyle}>
+                          <Flex className={styles.noteListStyle} style={{ 
+                                flexWrap: 'wrap',
+                                overflow: ' hidden',
+                                textOverflow: 'clip',
+                              }}>
                             <td
                               className={styles.notesTextStyle}
                               dangerouslySetInnerHTML={{
@@ -635,18 +634,18 @@ useEffect(() => {
         {isLoad && <Loader />}
       </Flex>
       
-      {nomessagetab ||!candidatemessage?"": (
+      {nomessagetab ||candidatemessage ? (
         <Flex
           height={window.innerHeight - 115}
           style={{
-            border: '1px solid #C3C3C3',
-            width: '1px',
+            border: '0.3px solid #C3C3C3',
+            width: '0.3px',
             margin: '15px 5px 10px 5px',
             paddingTop: '10px',
             paddingBottom: '10px',
           }}
         ></Flex>
-      )}
+      ):''}
        {nomessagetab 
         &&
         <Flex flex={6.4}>

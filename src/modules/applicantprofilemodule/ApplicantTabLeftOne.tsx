@@ -38,10 +38,10 @@ const ApplicantTabLeftOne = ({ activeState }: typeof defaultProps) => {
       {' '}
       {stages.length === 0 ? (
         <Tabs
-          activeColor={BLACK}
+          activeColor={'#581845'}
           borderColor={'#581845'} 
           active={activeState}
-        >
+        > 
           <Tab title={'About'}>
             <AboutTab />
           </Tab> 
@@ -51,19 +51,20 @@ const ApplicantTabLeftOne = ({ activeState }: typeof defaultProps) => {
           <Tab title={'Meetings'}>
             <Notesmeet  isMeeting  />
           </Tab> 
-          <Tab title={'Matching Analysis'}>
-            <MatchingAnalysisTab />
+          <Tab  title={'All Matching Jobs'}>
+            {/* <MatchingAnalysisTab /> */}
+            <AllMatchTab title={''} inviteMessage={''} width={'50%'} />
           </Tab>
-          <Tab title={'Screening Status'}>
+          {/* <Tab title={'Screening Status'}>
             <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab/>
-          </Tab> 
+          </Tab>  */}
         </Tabs>
       ) : (
         <Tabs
-          activeColor={BLACK}
+          activeColor={'#581845'}
           borderColor={'#581845'} 
           active={activeState}
-        >
+        > 
           <Tab title={'About'}>
             <AboutTab />
           </Tab> 
@@ -76,9 +77,9 @@ const ApplicantTabLeftOne = ({ activeState }: typeof defaultProps) => {
           <Tab title={'Meetings'}>
             <Notesmeet isMeeting />
           </Tab> 
-          <Tab title={'Questionnaire'}>
+          {/* <Tab title={'Questionnaire'}>
             <Questionnaire  issingletab />
-          </Tab>
+          </Tab> */}
           <Tab title={'Matching Analysis'}>
             <MatchingAnalysisTab />
           </Tab>

@@ -16,7 +16,12 @@
   font-size: 13px;
 }
 .jobPreferenceStyle {
-    margin-top: 20px; 
+  /* margin-top: 20px;  */
+  margin-bottom: 8px;
+  color: '#333333';
+}
+.jobPreferenceStyle {
+  /* margin-top: 15px; */
   margin-bottom: 8px;
   color: '#333333';
 }
@@ -27,7 +32,7 @@
   color: '#581845';
 }
 .softSkillStyle {
-  margin-top: 20px;
+  margin-top: 15px;
   margin-bottom: 8px;
   color: '#333333';
 }

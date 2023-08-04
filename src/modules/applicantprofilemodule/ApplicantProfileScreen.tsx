@@ -208,8 +208,8 @@ const ApplicantProfileScreen = () => {
               // onClick={cancel}
             >
               <SvgLeft fill={'#581845'} height={16} width={16} />
-            </Flex> */}
-            {jd_id !== ''||jd_id !== null||jd_id!==undefined ?
+            </Flex> */}   
+            { jobtitle !==  undefined &&
             <Flex row>
               <Flex marginTop={2}>
                 <SvgJobselection width={16} height={14} />
@@ -217,7 +217,7 @@ const ApplicantProfileScreen = () => {
               <Flex marginLeft={4}>
                      {jobtitle} - {jd_id}
               </Flex> 
-              </Flex>:""}
+              </Flex>}
             </Flex>
       </Flex>
       <Flex row className={styles.overAll}>
@@ -290,17 +290,7 @@ const ApplicantProfileScreen = () => {
                 <ApplicantTabLeft activeState={isTabValue} />
               )}
             </Flex>
-          )}
-
-          {/* {isTab && (
-          <Flex flex={5} className={styles.tabRightFlex}>
-            {status_id.length === 0 ? (
-              <ApplicantTabRightOne />
-            ) : (
-              <ApplicantTabRight />
-            )}
-          </Flex>
-        )}  */}
+          )} 
         </Flex>
       </Flex>
     </Flex>

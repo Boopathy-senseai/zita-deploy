@@ -318,7 +318,7 @@ const applicantMatchState: MatchReducerState = {
   },
   source: {
     jd_skills: [],
-    qualifications: [],
+    qualification: [],
   },
   match: [
     {

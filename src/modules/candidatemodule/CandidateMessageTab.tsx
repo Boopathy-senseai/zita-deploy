@@ -18,7 +18,12 @@ import MessageTemplate from '../applicantprofilemodule/MessageTemplate';
 // import NotesTab from '../applicantprofilemodule/NotesTab';
 import MessageList from '../applicantprofilemodule/MessagesList';
 import styles from '../applicantprofilemodule/messagetab.module.css';
-import { CANCEL, ERROR_MESSAGE, mentionnotes } from '../constValue';
+import {
+  CANCEL,
+  ERROR_MESSAGE,
+  mentionnotes,
+  mentionspecialcharacter,
+} from '../constValue';
 import { Message } from './candidateTypes';
 import { candidateMessageMiddleWare } from './store/middleware/candidateMiddleWare';
 
@@ -47,7 +52,7 @@ const CandidateMessageTab = () => {
           can_id: applicantProfileInitalReducers.can_id,
         };
       },
-    ); 
+    );
   useEffect(() => {
     dispatch(candidateMessageMiddleWare({ can_id, jd_id }));
   }, [can_id, jd_id]);
@@ -102,7 +107,10 @@ const CandidateMessageTab = () => {
     }
     if (isEmpty(textNodes)) {
       errors.userMessage = 'Enter valid Messages.';
-    } else if (!mentionnotes.test(texttrim)) {
+    } else if (
+      !mentionnotes.test(texttrim) &&
+      mentionspecialcharacter.test(textNodes)
+    ) {
       errors.userMessage = 'Message length should not exceed 2000 characters.';
     }
     return errors;
@@ -130,18 +138,39 @@ const CandidateMessageTab = () => {
     setUseTemplate(true);
   };
   return (
-    
-      <Flex
-        style={{
-          height: window.innerHeight - 120,
-        }}
-        className={styles.overAll}
-        flex={6.4}
-      >
-        <Text style={{ fontSize: '14px',marginBottom:5,padding: '16px 0px 0px 16px'}} bold>
-          Message to Candidate:
-        </Text>
-        <Flex style={{ padding: '16px 16px 0px 16px' }}>
+    <Flex
+      style={{
+        height: window.innerHeight - 120,
+      }}
+      className={styles.overAll}
+      flex={6.4}
+    >
+      <Flex row center between style={{ padding: '16px 16px 0px 16px' }}>
+        <Flex
+          style={{
+            fontSize: '14px',
+            marginBottom: 5,
+          }}
+        >
+          {' '}
+          <Text bold>Message to Candidate:</Text>
+        </Flex>
+        <Flex onClick={hanldeOpen}>
+          <Text
+            className={'pointer'}
+            bold
+            color="theme"
+            style={{
+              fontSize: '14px',
+              marginBottom: 5,
+            }}
+          >
+            Use Templates
+          </Text>
+        </Flex>
+      </Flex>
+
+      <Flex style={{ padding: '8px 16px 0px 16px' }}>
         <MessageTopBar formik={formik} />
         <ErrorMessage
           touched={formik.touched}
@@ -154,61 +183,64 @@ const CandidateMessageTab = () => {
           messageTemplate={messageTemplate}
           hanldeClose={hanldeClose}
         />
-</Flex>
-        <Flex row center between className={styles.btnContainer} style={{ padding: '0px 16px 0px ' }}>
-          <Flex>
+      </Flex>
+      <Flex
+        row
+        center
+        end
+        className={styles.btnContainer}
+        style={{ padding: '0px 16px 0px ' }}
+      >
+        <Flex row>
+          <Button
+            onClick={handleCancel}
+            className={styles.cancelBtn}
+            types="close"
+          >
+            {CANCEL}
+          </Button>
+          {isPostLoader ? (
+            <Flex center middle style={{ width: '70px' }}>
+              <Loader size="small" withOutOverlay />
+            </Flex>
+          ) : (
             <Button
-              className={'pointer'}
-              onClick={hanldeOpen}
-              types="secondary"
-            >
-              Use Templates
-            </Button>
-          </Flex>
-          <Flex row>
-            <Button
-              onClick={handleCancel}
-              className={styles.cancelBtn}
-              types="close"
-            >
-              {CANCEL}
-            </Button>
-            <Button
+              width={'70px'}
               // disabled={isEmpty(formik.values.userMessage)}
               onClick={formik.handleSubmit}
               types="primary"
             >
               Send
             </Button>
-          </Flex>
-          {isPostLoader && (
+          )}
+        </Flex>
+        {/* {isPostLoader && (
             <div style={{ marginLeft: 8 }}>
               <Loader size="small" withOutOverlay />
             </div>
-          )}
-        </Flex>
-        
-          {messages.length === 0 ? (
-            <Flex flex={1} columnFlex center middle>
-              <Svgchatmessage />
-              <Text style={{ paddingTop: 10 }} color="gray">
-                No conversations to show
-              </Text>
-            </Flex>
-          ) : (
-            <Flex
-              flex={1}
-              className={cx({ messageContainer: messages.length !== 0 })}
-            >
-              <MessageList
-                client_id_id={client_id_id}
-                messages={messages}
-                height={428}
-              />
-            </Flex>
-          )}
-        
+          )} */}
       </Flex>
+
+      {messages.length === 0 ? (
+        <Flex flex={1} columnFlex center middle>
+          <Svgchatmessage />
+          <Text style={{ paddingTop: 10 }} color="gray">
+            No conversations to show
+          </Text>
+        </Flex>
+      ) : (
+        <Flex
+          flex={1}
+          className={cx({ messageContainer: messages.length !== 0 })}
+        >
+          <MessageList
+            client_id_id={client_id_id}
+            messages={messages}
+            height={428}
+          />
+        </Flex>
+      )}
+    </Flex>
   );
 };
 export default CandidateMessageTab;

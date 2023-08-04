@@ -39,7 +39,7 @@ const ApplicantTabLeftTwo = ({ activeState }: typeof defaultProps) => {
       {' '}
       {stages.length === 0 ? (
         <Tabs
-          activeColor={BLACK}
+          activeColor={'#581845'}
           borderColor={'#581845'}
           tabsWithBorder
           active={activeState}
@@ -74,7 +74,7 @@ const ApplicantTabLeftTwo = ({ activeState }: typeof defaultProps) => {
         </Tabs>
       ) : (
         <Tabs
-          activeColor={BLACK}
+          activeColor={'#581845'}
           borderColor={'#581845'}
           tabsWithBorder
           active={activeState}

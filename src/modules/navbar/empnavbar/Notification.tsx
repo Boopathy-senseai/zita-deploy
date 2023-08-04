@@ -211,7 +211,7 @@ const Notification = () => {
                                         onClick={() => {
                                           setCandi(list.target_object_id);
                                           setProfile(true);
-                                          setMessageTab(2);
+                                          setMessageTab(1);
                                           handleReadNotification(list.id);
                                         }}
                                       >
@@ -369,7 +369,7 @@ const Notification = () => {
                                       onClick={() => {
                                         setCandi(list.target_object_id);
                                         setProfile(true);
-                                        setMessageTab(2);
+                                        setMessageTab(1);
                                         handleReadNotification(list.id);
                                       }}
                                     >
@@ -519,7 +519,7 @@ const Notification = () => {
                                       onClick={() => { 
                                         setCandi(list.target_object_id);
                                         setProfile(true);
-                                        setMessageTab(2);
+                                        setMessageTab(1);
                                         handleReadNotification(list.id);
                                       }}
                                     >

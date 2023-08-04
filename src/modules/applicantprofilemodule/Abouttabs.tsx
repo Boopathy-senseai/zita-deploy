@@ -242,14 +242,14 @@ const AboutTab = () => {
   const softSkillSplit =
     (skills && skills.length === 0) || skills[0].soft_skill === null
       ? []
-      : skills[0].soft_skill.replace(',,', ',').split(',');
-  console.log('softSkillSplit', softSkillSplit);
+      : skills[0].soft_skill.replace(',,', ',').split(','); 
   return (
     <Flex row flex={12}>
       <Flex
         flex={6}
         className={styles.overAll}
         height={window.innerHeight-120}
+        style={{display: 'flex'}}
       >
         {/* <Text  bold className={styles.aboutCandidateStyle}>
           About Candidate
@@ -278,8 +278,7 @@ const AboutTab = () => {
             <Flex key={list.lable} row center className={styles.flexLineHeight}>
               <Text
                 color="theme"
-                style={{ fontSize: '13px' }}
-                bold
+                style={{ fontSize: '13px' }} 
                 className={styles.lableWidth}
               >
                 {list.lable}
@@ -288,9 +287,9 @@ const AboutTab = () => {
             </Flex>
           );
         })}
-        {techSkillSplit.length !== 0 && (
+        {techSkillSplit.length !== 0 || techSkillSplit[0] !== '' ||techSkillSplit[0] !== undefined && (
           <>
-            <Text bold className={styles.jobPreferenceStyle}>
+            <Text bold className={styles.jobPreferenceStyles}>
               Professional Skills
             </Text>
             <Flex row center wrap>
@@ -343,7 +342,7 @@ const AboutTab = () => {
       <Flex
         height={window.innerHeight - 100}
         style={{
-          border: '1px solid #C3C3C3',
+          border: '0.3px solid #C3C3C3',
           width: '1px',
           margin: '15px 5px 10px 5px',
           paddingTop: '10px',

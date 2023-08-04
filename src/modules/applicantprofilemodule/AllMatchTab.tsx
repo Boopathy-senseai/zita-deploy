@@ -60,7 +60,7 @@ const AllMatchTab = ({width, title, inviteMessage }: Props) => {
                 candidate_details={candidate_details}
               />
             );
-          })}
+          }).reverse()}
         {applicant &&
           applicant.map((list, index) => {
             return (
@@ -71,7 +71,7 @@ const AllMatchTab = ({width, title, inviteMessage }: Props) => {
                 key={list.candidate_id_id + index}
               />
             );
-          })}
+          }).reverse()}
       </Flex>:''}
     </Flex>
   );

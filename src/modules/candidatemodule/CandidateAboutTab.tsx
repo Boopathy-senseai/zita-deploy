@@ -90,8 +90,7 @@ const AboutTab = () => {
             <Flex key={list.lable} row center className={styles.flexLineHeight}>
               <Text
                 style={{ fontSize: '13px' }}
-                color="theme"
-                bold
+                color="theme" 
                 className={styles.lableWidth}
               >
                 {list.lable}
@@ -101,9 +100,9 @@ const AboutTab = () => {
           );
         })}
        { console.log(skillSplit,'skillSplitskillSplit')}
-        {skillSplit.length !== 0 && (
+        {skillSplit.length !== 0 || skillSplit[0] !== ''||skillSplit[0] !== undefined && (
           <>
-            <Text bold className={styles.jobPreferenceStyle}>
+            <Text bold className={styles.jobPreferenceStyles}>
               Professional Skills
             </Text>
             <Flex row center wrap>

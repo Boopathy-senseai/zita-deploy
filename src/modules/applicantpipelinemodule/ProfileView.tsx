@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import SvgClose from '../../icons/SvgClose';
 import SvgNewTab from '../../icons/SvgNewTab';
 import SvgLeft from '../../icons/SvgLeft';
@@ -9,6 +9,7 @@ import Drawer from '../../uikit/Drawer/Drawer';
 import Flex from '../../uikit/Flex/Flex';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import Text from '../../uikit/Text/Text';
+import { Loader } from '../../uikit';
 import ApplicantProfileModal from './ApplicantProfileModal';
 import styles from './profileview.module.css';
 
@@ -42,16 +43,17 @@ const ProfileView = ({
             onClick={cancel}
           >
             <SvgLeft fill={'#581845'} height={16} width={16} />
-          </Flex>
-          {jobId !== ''||jobId !== null||jobId!==undefined ?
-          <Flex row>
-            <Flex marginTop={2}>
-              <SvgJobselection width={16} height={14} />
+          </Flex> 
+           {jobtitle !==  undefined && 
+            <Flex row>
+              <Flex marginTop={2}>
+                <SvgJobselection width={16} height={14} />
+              </Flex>
+              <Flex marginLeft={4}>
+                {jobtitle} - {jobId}
+              </Flex>
             </Flex>
-            <Flex marginLeft={4}>
-              {jobtitle} - {jobId}
-            </Flex>
-          </Flex>:''}
+          }
           <LinkWrapper
             target={'_blank'}
             to={`/applicant_profile_view/${jobId}/${candidateId}`}
@@ -89,3 +91,4 @@ const ProfileView = ({
   );
 };
 export default ProfileView;
+ 

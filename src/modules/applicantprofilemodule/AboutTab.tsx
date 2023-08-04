@@ -182,21 +182,7 @@ const AboutTab = () => {
   ) {
     Authorized = 'Not Specified';
   }
-  console.log(
-    personalInfo[0].current1_country,
-    '.personalInfo[0].current1_country',
-  );
-  console.log(
-    personalInfo[0].current2_country,
-    '.personalInfo[0].current2_country',
-  );
-  console.log(
-    personalInfo[0].current3_country,
-    '.personalInfo[0].current3_country',
-  );
-  console.log(create, '.personalInfo[0].current3333333333_country');
   const date = isEmpty(create) ? '' : create.slice(0, create.indexOf('T')); 
-
   const aboutData = [
     {
       lable: 'Applied Source:',
@@ -291,8 +277,7 @@ const AboutTab = () => {
   const softSkillSplit =
     (skills && skills.length === 0) || skills[0].soft_skill === null
       ? []
-      : skills[0].soft_skill.replace(',,', ',').split(',');
-  console.log('softSkillSplit', softSkillSplit);
+      : skills[0].soft_skill.replace(',,', ',').split(','); 
   return (
     <Flex row>
       <Flex
@@ -321,7 +306,7 @@ const AboutTab = () => {
           );
         })} */}
         <Flex>
-          <Text bold className={styles.jobPreferenceStyle}>
+          <Text bold className={styles.jobPreferenceStyles}>
             Job Preferences
           </Text>
           {aboutData1.map((list) => {
@@ -334,8 +319,7 @@ const AboutTab = () => {
               >
                 <Text
                   color="theme"
-                  style={{ fontSize: '13px' }}
-                  bold
+                  style={{ fontSize: '13px' }} 
                   className={styles.lableWidth}
                 >
                   {list.lable}
@@ -344,9 +328,9 @@ const AboutTab = () => {
               </Flex>
             );
           })}
-        </Flex>
+        </Flex> 
         <Flex>
-          {techSkillSplit.length !== 0 && (
+          {techSkillSplit.length !== 0 || techSkillSplit[0] !== '' ||techSkillSplit[0] !== undefined && (
             <>
               <Text bold className={styles.jobPreferenceStyle}>
                 Professional Skills
@@ -415,7 +399,7 @@ const AboutTab = () => {
       <Flex
         height={window.innerHeight - 115}
         style={{
-          border: '1px solid #C3C3C3',
+          border: '0.3px solid #C3C3C3',
           width: '1px',
           margin: '15px 5px 10px 5px',
           paddingTop: '10px',

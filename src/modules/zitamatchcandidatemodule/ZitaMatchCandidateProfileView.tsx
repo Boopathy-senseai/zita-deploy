@@ -32,12 +32,14 @@ type Props = {
   jobId: string | boolean;
   candidateId: string;
   activeState: number;
+  setjobtitle?:any;
 };
 
 const ZitaMatchCandidateProfileView = ({
   jobId,
   candidateId,
   activeState,
+  setjobtitle
 }: Props) => {
   const [isInvitePopUp, setInvitePopUp] = useState(false);
   const [isInviteLoader, setInviteLoader] = useState(false);
@@ -215,6 +217,7 @@ const ZitaMatchCandidateProfileView = ({
                 isInvite={isTab}
                 inviteCall={hanldeInvitePopUp}
                 nonMatch={checkMatch}
+                setjobtitle={setjobtitle}
                 withOutJD={isTab}
                 profile_match={profileMatch}
                 jdDetails={jd}

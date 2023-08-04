@@ -37,10 +37,9 @@ const ApplicantTabLeft = ({ activeState }: typeof defaultProps) => {
 
   return (
     <>
-      {stages.length === 0 ? (
-        // {console.log(status_id,'fnnmngbfdsfgbn')}
+      {stages.length === 0 ? ( 
         <Tabs
-          activeColor={BLACK}
+          activeColor={'#581845'}
           borderColor={'#581845'}
           active={activeState}
         >
@@ -71,7 +70,7 @@ const ApplicantTabLeft = ({ activeState }: typeof defaultProps) => {
         </Tabs>
       ) : (
         <Tabs
-          activeColor={BLACK}
+          activeColor={'#581845'}
           borderColor={'#581845'} 
           active={activeState}
         >

@@ -278,7 +278,7 @@ export interface Match {
 }
 export interface overall {
    jd_skills:[]
-  qualifications:[]
+  qualification:[]
 }
 export interface Data {
   matched_skills:[]
