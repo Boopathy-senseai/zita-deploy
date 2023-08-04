@@ -278,5 +278,5 @@ const MyJobPostingScreen = () => {
     </Flex>
   );
 };
-};
+;
 export default MyJobPostingScreen; 
