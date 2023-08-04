@@ -13,4 +13,10 @@ jobs:
         username: root
         password: Raja@!#%&(
         port: 5902
-        script: whoami
+        script: |
+          ls -al
+          cd zita-front-end-application
+          git pull https://github.com/Sense7ai/zita-front-end-application.git
+          yarn 
+          npm start
+        
