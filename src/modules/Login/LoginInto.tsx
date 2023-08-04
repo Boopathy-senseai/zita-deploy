@@ -67,7 +67,9 @@ Props) => {
                   keyboardType="email"
                   actionLeft={() => (
                     <Button types="link" className={styles.usericon}>
+                    <div style={{marginTop: '-15px'}}>
                       <SvgEmail height={15} width={17} fill={'none'} />
+                    </div>
                     </Button>
                   )}
                 />
@@ -83,7 +85,9 @@ Props) => {
                 <InputText
                   actionLeft={() => (
                     <Button types="link" className={styles.Passicon}>
+                    <div style={{marginTop: '-15px'}}>
                       <SvgLock height={20} width={19} />
+                    </div>
                     </Button>
                   )}
                   className={styles.input}
@@ -98,7 +102,9 @@ Props) => {
                       className={styles.passwordicon}
                       onClick={handleShowPass}
                     >
+                    <div style={{marginTop: '-15px'}}>
                       <SvgView nonView={isShowPass} height={20} width={20} />
+                    </div>
                     </Button>
                   )}
                   onKeyPress={(e) => enterKeyPress(e, formik.handleSubmit)}

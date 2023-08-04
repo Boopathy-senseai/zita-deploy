@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { useDispatch, useSelector } from 'react-redux';
-
+import Totalcount from '../../globulization/TotalCount';
 import SvgJobPost from '../../icons/SvgJobPost';
 import {
   ErrorMessage,
@@ -148,7 +148,7 @@ const MyJobPostingScreen = () => {
           {/* <SvgJobPost width={15.71} height={16} /> */}
           <Text
             bold
-            size={16}
+            size={18}
             style={{ marginLeft: 8, color: '#581845' }}
             className={styles.postingcl}
           >
@@ -162,30 +162,11 @@ const MyJobPostingScreen = () => {
         <Flex  >
           <div className={cx('tabsContainer')}>
             <Flex row className={styles.searchbox}>
-              <Flex row>
-                <Flex row className={styles.totaljobs}>
-                  <Text
-                    style={{
-                      color: '#581845',
-                      fontSize: 14,
-                      fontWeight: 500,
-                    }}
-                  >
-                    Total Jobs Found :{' '}
-                  </Text>
-                  <Text
-                    style={{
-                      color: '#581845',
-                      fontSize: 14,
-                      fontWeight: 600,
-                      paddingLeft: 4.5,
-                      paddingTop: 0.5,
-                    }}
-                  >
-                    {len_list}
-                  </Text>
-                </Flex>
-              </Flex>
+              <Totalcount 
+                name="Total Jobs Found "
+                numbers={len_list}
+              />
+          
               <Flex row className={styles.twobutton}>
                 {' '}
                 {Permission.includes('create_post') && (
@@ -296,5 +277,6 @@ const MyJobPostingScreen = () => {
       {isLoad && <Loader />}
     </Flex>
   );
+};
 };
 export default MyJobPostingScreen; 

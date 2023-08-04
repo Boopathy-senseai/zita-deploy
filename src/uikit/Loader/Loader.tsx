@@ -6,8 +6,9 @@ const cx = classNames.bind(styles);
 type Props = {
   size?: 'large' | 'medium' | 'small';
   withOutOverlay?: boolean;
+  customsize?:boolean;
 };
-const Loader = ({ size, withOutOverlay }: Props) => {
+const Loader = ({ size, withOutOverlay,customsize }: Props) => {
   return !withOutOverlay ? (
     <div className={styles.loaderConatiner}>
       <div className={cx('content')}>
@@ -33,6 +34,7 @@ const Loader = ({ size, withOutOverlay }: Props) => {
       </div>
     </div>
   ) : (
+    !customsize?(
     <div className={cx('contentOne')}>
       <div
         className={cx('spinner', {
@@ -52,9 +54,31 @@ const Loader = ({ size, withOutOverlay }: Props) => {
         </svg>
       
        
-      </div> 
-       {/* <div className={styles.loadertext}> Please wait....</div> */}
+      </div>  <div className={styles.loadertext}></div>
     </div>
+    ):(
+      <div className={cx('contentOne1')}>
+      <div
+        className={cx('spinner', {
+          spinnerLarge: size === 'large',
+          spinnerSmall: size === 'small',
+          spinnerMedium: size === 'medium',
+        })}
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle cx="8" cy="8" r="7" strokeWidth="2" />
+        </svg>
+      
+       
+      </div>  <div className={styles.loadertext}></div>
+    </div>
+    )
   );
 };
 

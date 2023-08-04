@@ -1,6 +1,7 @@
 import { useMemo, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
+import Totalcount from '../../globulization/TotalCount';
 import SvgSearch from '../../icons/SvgSearch';
 import { getBlur, getFocus, unlimitedHelper } from '../../uikit/helper';
 import Loader from '../../uikit/Loader/Loader';
@@ -410,10 +411,14 @@ const CandidateDatabaseTab = ({
 
       <Flex row center className={styles.filterStyle}>
         <Flex row center className={styles.marginLeft}>
-          <Text bold={isTab === 'total'}>Total Candidates:</Text>
+         
           {total_count === 0 ? (
             <Text bold={isTab === 'total'} className={styles.linkSpaceDefault}>
-              {total_count}
+            <Totalcount
+            name="Total Candidates"
+            numbers={total_count}
+            />
+            
             </Text>
           ) : (
             <Text
@@ -425,7 +430,10 @@ const CandidateDatabaseTab = ({
               className={styles.linkSpace}
               color={'link'}
             >
-              {total_count}
+            <Totalcount
+            name="Total Candidates"
+            numbers={total_count}
+            />
             </Text>
           )}
         </Flex>

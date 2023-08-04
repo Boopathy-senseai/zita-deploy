@@ -220,6 +220,7 @@ position: absolute;
    cursor: pointer;
    color: #581845;
    font-weight: 700;
+   height: 15px;
 }
 .tooltipcontent{
   margin-top: 5px;
@@ -377,9 +378,9 @@ height: 35px;
   position: relative;
 }
 .cancel{
- margin-right:8px;
+ /* margin-right:8px;
  width: 100px;
- 
+  */
 }
 /* .overAll {
   
@@ -410,8 +411,8 @@ height: 35px;
   margin-bottom: 24px;
 }
 .cancelsave{
-  width: 100px;
-  height: 30px;
+  /* width: 100px;
+  height: 30px; */
 }
 .borderStyle {
   /* padding: 0 20px; */
@@ -455,7 +456,7 @@ height: 35px;
     width: 145px;
 }
 .inputheight{
-  height: 35px !important;
+ 
   margin-top: 5px;
   margin-right: 20px;
   width: 300px;

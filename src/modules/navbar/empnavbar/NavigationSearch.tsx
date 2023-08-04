@@ -266,7 +266,7 @@ const NavigationSearch = ({ onButtonClick ,onbuttonchange}) => {
       permission.includes('manage_account_settings') &&
       super_user === false
     ) {
-      optionsArray.push('Build Your Careers Page', 'Company Profile');
+      optionsArray.push('', 'Company Profile');
     }
   }, [searchOptions, plan_id, super_user, permission]);
   const toFindDuplicates = (arry: string[]) =>

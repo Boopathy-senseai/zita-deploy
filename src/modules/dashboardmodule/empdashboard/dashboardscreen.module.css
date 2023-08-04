@@ -27,6 +27,7 @@ has context menu
   background-color: #2E6ADD20;
   border-radius: 8px;
   border-left: 8px solid #2E6ADD !important;
+  border-top: 4px;
 }
 .borderBottom {
   border-bottom: 1px solid #ccc;

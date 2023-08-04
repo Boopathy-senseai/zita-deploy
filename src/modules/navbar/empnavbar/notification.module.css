@@ -119,8 +119,8 @@
       }
 .Btn_clear {
   margin-right: 10px;
- padding-right: 19px;
- padding-left: 19px;
+ /* padding-right: 19px;
+ padding-left: 19px; */
 
    }
    
@@ -142,7 +142,7 @@
 .sidebar {
   margin-top: 77px;
   height: 100%;
-  width: 230px;
+  width: 195px;
   position: fixed;
   /* z-index: 44; */
   top: 0;
@@ -150,24 +150,26 @@
   background-color: #ffffff;
   overflow-x: hidden;
   padding-top: 16px;
-  box-shadow: 2px 2px 2px #D7C7D2;
+  box-shadow: 1px 2px 2px #D7C7D2;
   border-top-right-radius: 0px;
   /* transition: width 0.3s ease; */
 }
 
 .sidebar a {
-  padding: 8px 8px 8px 20px;
+  padding: 1px 10px 1px 10px;
   text-decoration: none;
   font-size: 20px;
   color: #581845;
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 4px;
+  margin-left: 4px;
+  margin-right: 4px;
   border-left: 6px solid #ffffff !important;
   /* transition: width 0.3s ease; */
 }
 
 .text{
-  margin-left: 15px;
+  margin-left: 12px;
 }
 
 .classpan {
@@ -177,13 +179,13 @@
 .select_row .hoverview {
   color: #581845;
   background-color: #eee8ec;
-  border-radius: 5px 0px 0px 5px;
+  border-radius: 5px 5px 5px 5px;
   border-left: 6px solid #581845 !important;
   /* transition: width 0.3s ease; */
 }
 
 .sidebar .hoverview:hover {
-  border-radius: 5px 0px 0px 5px;
+  border-radius: 5px 5px 5px 5px;
   color: #581845;
   background-color: #eee8ec;
   border-left: 6px solid #581845 !important;
@@ -191,10 +193,10 @@
 }
 
 .sidebarmini {
-  border-radius: 5px 0px 0px 5px;
+  border-radius: 5px 5px 5px 5px;
   margin-top: 77px;
   height: 100vh;
-  width: 60px;
+  width: 50px;
   position: fixed;
   /* z-index: 1; */
   top: 0;
@@ -202,19 +204,22 @@
   background-color: #ffffff;
   overflow-x: hidden;
   padding-top: 16px;
- box-shadow: 2px 2px 2px #D7C7D2;
-border-top-right-radius: 20px;
+  margin-left: 2px;
+ box-shadow: 1px 2px 2px #D7C7D2;
+/* border-top-right-radius: 20px; */
   transform: scale(1);
 }
 
 .sidebarmini a {
-  border-radius: 5px 0px 0px 5px;
-  padding: 8px 8px 8px 20px;
+  border-radius: 5px 5px 5px 5px;
+  padding: 1px 10px 1px 10px;
   text-decoration: none;
   font-size: 20px;
   color: #581845;
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 4px;
+  margin-left: 4px;
+  margin-right: 4px;
   border-left: 6px solid #ffffff !important;
 }
 
@@ -244,12 +249,15 @@ border-top-right-radius: 20px;
 
 
 .Expend{
-  padding: 8px 8px 8px 20px;
+  padding: 1px 10px 1px 10px;
   text-decoration: none;
   font-size: 20px;
   color: #581845;
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 4px;
+  margin-left: 4px;
+  margin-right: 4px;
+  margin-left: 2px;
   border-left: 6px solid #ffffff !important;
 }
 /* .li >text{

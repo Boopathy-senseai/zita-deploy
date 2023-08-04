@@ -93,10 +93,9 @@ const Sidebar = ({ changes, data }: props) => {
     
     <>
 
-      {console.log('check plan',  plan_id)}
-      
+      {console.log('*******', Expent)}
       <div className={Expent === '0' ? styles.sidebar : styles.sidebarmini} style={{marginTop:'50px'}}>
-
+  
         <ul>
           {is_plan ? (
                 changes  ?
@@ -718,6 +717,7 @@ const Sidebar = ({ changes, data }: props) => {
               </div>
             ) : (
               <Button
+                 style={{left:'3px'}}
                 className={styles.Expend}
                 types="link"
                 onClick={() => handlecheck('0')}

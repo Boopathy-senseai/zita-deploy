@@ -1,6 +1,6 @@
 .errorMessageStyle {
-  position: absolute;
-  bottom: -22px;
+  /* position: absolute;
+  bottom: -22px; */
 }
 .search {
   border-radius: 4px;
@@ -12,6 +12,7 @@
   width: 100%;
   box-sizing: border-box !important;
   font-family: "Roboto", sans-serif;
+  height:30px
   /* text-transform: capitalize; */
   
 }
