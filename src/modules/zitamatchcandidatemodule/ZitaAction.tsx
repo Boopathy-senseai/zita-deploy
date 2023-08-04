@@ -44,7 +44,7 @@ const ZitaAction = ({
         <Flex marginLeft={5}>
         <Totalcount name="Total Candidates" numbers={total} /></Flex>
       </Flex>
-      <Flex>
+      
       {/* <div title="Favourite Candidates" className="pointer">
           <SvgHeart
             height={18}
@@ -53,6 +53,68 @@ const ZitaAction = ({
             filled={isTotalFav}
           />
         </div> */}
+        <Flex>
+         {downloadCheck ===false &&
+          
+          //   <SvgDownload
+          //   height={18}
+          //   width={18}
+          //   fill={downloadCheck ? GARY_4 : PRIMARY}
+          // />
+         <Flex row center className={styles.bulktab}>
+           <Flex row center className={styles.bulkSelection}>
+           <Flex marginRight={0}>
+               <Text color="theme">{`Selected ${isCheck.length} Candidates`}</Text>
+             </Flex>
+
+             <Flex row className={styles.bulkButton}>
+         <Flex
+             row
+                 center
+                 style={{
+               paddingLeft: '5px',
+               borderLeft: '1px solid #581845',
+               cursor: 'pointer',
+             }}
+             onClick={hanldeDownload}
+             title="Download Resumes"
+               >
+                 <SvgDownload width={14} height={14} />
+                 <Text style={{ marginLeft: '10px' }} color="theme">
+                    Export Resumes
+                 </Text>
+               </Flex>
+              </Flex>
+           </Flex>
+         </Flex>
+        //   <Flex row center className={styles.bulktab}>
+        //   <Flex row center className={styles.bulkSelection}>
+        //     <Flex marginRight={0}>
+        //       <Text color="theme">{`Selected ${isCheck.length} Candidates`}</Text>
+        //     </Flex>
+
+        //     <Flex row className={styles.bulkButton}>
+        //       <Flex
+        //         row
+        //         center
+        //         style={{
+        //           paddingLeft: '5px',
+        //           borderLeft: '1px solid #581845',
+        //           cursor: 'pointer',
+        //         }}
+        //         onClick={hanldeDownload}
+        //         title="Download Resumes"
+        //       >
+        //         <SvgDownload width={14} height={14} />
+        //         <Text style={{ marginLeft: '10px' }} color="theme">
+        //             Export Resumes
+        //         </Text>
+        //       </Flex>
+        //     </Flex>
+        //   </Flex>
+        // </Flex>
+          }
+        </Flex>
         <Flex>
         <Button
             className={styles.btnStyle}
@@ -71,7 +133,7 @@ const ZitaAction = ({
             </Flex>
           </Button>
         </Flex>
-        {console.log()}
+        
 {/*        
      
         <div
@@ -89,7 +151,7 @@ const ZitaAction = ({
           />
         </div> */}
      
-      </Flex>
+      
 
     </Flex>
   );

@@ -73,6 +73,7 @@ const ZitaMatchCandidate = () => {
   const [isRelocate, setRelocate] = useState(false);
   const [isLocation, setLocation] = useState(false);
   const [isCheckAll, setIsCheckAll] = useState(false);
+  const [islocationsearch,setlocationsearch]=useState("");
   const [isCheck, setIsCheck] = useState<any>([]);
   const [isTotalFav, setTotalFav] = useState(false);
   const [isInviteLoader, setInviteLoader] = useState(false);
@@ -156,12 +157,14 @@ const ZitaMatchCandidate = () => {
 
   const handleSearchSubmit = () => {
     setIsCheck([]);
+    console.log("close",isSearch)
     dispatch(
       zitaMatchDataCandidateMiddleWare({
         jd_id: jdId,
         profile_match: isProfile,
         fav: favAdd,
         candidate: isSearch,
+        searchlocation:islocationsearch,
         work_experience: isExperience,
         relocate: isRelocate ? '1' : '0',
         invite: isCandiStatus,
@@ -177,14 +180,15 @@ const ZitaMatchCandidate = () => {
 
 
   const onClearSearch = () => {
-    setSearch('');
-
+    setSearch("");
+    console.log("close calll",isSearch);
     dispatch(
       zitaMatchDataCandidateMiddleWare({
         jd_id: jdId,
         profile_match: isProfile,
         fav: favAdd,
         candidate: isSearch,
+        searchlocation:islocationsearch,
         work_experience: isExperience,
         relocate: isRelocate ? '1' : '0',
         invite: isCandiStatus,
@@ -272,6 +276,7 @@ const ZitaMatchCandidate = () => {
       width: 110,
     },
   ];
+  
   useEffect(() => {
     if (
       isBachelors === false &&
@@ -299,6 +304,7 @@ const ZitaMatchCandidate = () => {
         profile_match: isMatchRadio,
         fav: favAdd,
         candidate: isSearch,
+        searchlocation:islocationsearch,
         work_experience: selectedValue,
         relocate: isRelocate ? '1' : '0',
         invite: isCandiStatus,
@@ -332,6 +338,28 @@ const ZitaMatchCandidate = () => {
     }
   };
 
+  const onClearLocationsearch=()=>{
+    setlocationsearch("");
+    dispatch(
+      zitaMatchDataCandidateMiddleWare({
+        jd_id: jdId,
+        profile_match: isProfile,
+        fav: favAdd,
+        candidate: isSearch,
+        searchlocation:"",
+        work_experience: isExperience,
+        relocate: isRelocate ? '1' : '0',
+        invite: isCandiStatus,
+        profile_view: isProfile,
+        education_level: qaValue,
+        type_of_job: isJobType,
+        preferred_location: isLocation ? '1' : '0',
+        skill_match: skillsOptionsList,
+        page: isPage + 1,
+      }),
+    );
+  }
+
   const handleClick = (e: { target: { id: string; checked: boolean } }) => {
     const { id, checked } = e.target;
     setIsCheck([...isCheck, id]);
@@ -360,6 +388,7 @@ const ZitaMatchCandidate = () => {
         profile_match: isMatchRadio,
         fav: favAdd,
         candidate: isSearch,
+        searchlocation:islocationsearch,
         work_experience: isExperience,
         relocate: isRelocate ? '1' : '0',
         invite: isCandiStatus,
@@ -397,7 +426,8 @@ const ZitaMatchCandidate = () => {
     setAny(true);
     setBachelors(false);
     setOther(false);
-    setSearch('');
+    setSearch(''); 
+    setlocationsearch('');
     setMatchRadio('');
     setExperience('');
     setProfile('');
@@ -412,6 +442,7 @@ const ZitaMatchCandidate = () => {
         profile_match: isMatchRadio,
         fav: favAdd,
         candidate: '',
+        searchlocation:"",
         work_experience: '',
         relocate: '0',
         invite: isCandiStatus,
@@ -430,7 +461,24 @@ const ZitaMatchCandidate = () => {
   }
   const handleexpclear=()=>{
     setExperience('');
-    
+    dispatch(
+      zitaMatchDataCandidateMiddleWare({
+        jd_id: jdId,
+        profile_match: isMatchRadio,
+        fav: favAdd,
+        candidate: isSearch,
+        searchlocation:islocationsearch,
+        work_experience: "",
+        relocate: isRelocate ? '1' : '0',
+        invite: isCandiStatus,
+        profile_view: isProfile,
+        education_level: qaValue,
+        type_of_job: isJobType,
+        preferred_location: isLocation ? '1' : '0',
+        skill_match: skillsOptionsList,
+        page: isPage + 1,
+      }),
+    );
   }
 
   const hanleprofileclear=()=>{
@@ -541,6 +589,7 @@ const ZitaMatchCandidate = () => {
             profile_match: isProfile,
             fav: favAdd,
             candidate: isSearch,
+            searchlocation:islocationsearch,
             work_experience: isExperience,
             relocate: isRelocate ? '1' : '0',
             invite: isCandiStatus,
@@ -769,10 +818,9 @@ const ZitaMatchCandidate = () => {
                     <label
                       htmlFor={'zitamatchfilters__search'}
                       style={{ margin: 0 }}
-                      onClick={handleSearchSubmit}
+                    //  onClick={handleSearchSubmit}
                       tabIndex={-1}
                       role={'button'} // eslint-disable-line
-                      onKeyPress={() => { }}
                     >
                       {isSearch.trim() !== '' && (
                         <button
@@ -790,15 +838,28 @@ const ZitaMatchCandidate = () => {
                 <Flex className={styles.locationicon}>
                   <SvgLocation width={18} height={18} fill={'#581845'} />
                 </Flex>
-                {/* <InputText
+                <InputText
               ref={myRef}
               
               labelBold
-              value={location}
-              onChange={(e) => setlocation(e.target.value)}
-              onKeyPress={(e) => enterKeyPress(e, handleLocation)}
-              placeholder="location"
-            /> */}
+              value={islocationsearch}
+              onChange={(e) => setlocationsearch(e.target.value)}
+              onKeyPress={(e) => enterKeyPress(e, handleSearchSubmit)}
+              placeholder="Enter applicant location"
+              className={styles.boxstyle}
+              
+            /> {islocationsearch.trim() !== '' && (
+              <button
+                className={styles.crossIcon}
+                onClick={onClearLocationsearch}
+              >
+                <SvgIntomark width={14} height={14} fill="#888888" />
+              </button>
+            )}
+
+            <Flex className={styles.searchicons}>
+              <SvgSearch width={12} height={12} fill="#ffffff" />
+            </Flex>
 
               </Flex>
             </Flex>
@@ -882,11 +943,11 @@ const ZitaMatchCandidate = () => {
       </Flex>
     
       <div
+      className={styles.cards}
         style={{
           height: window.innerHeight - 232,
-          overflowY: 'scroll',
-          paddingBottom: 16,
-          paddingRight: 12,
+      
+    
         }}
       >
         <>
@@ -922,7 +983,7 @@ const ZitaMatchCandidate = () => {
                 />
               );
             })}
-          {total_applicants > 20 && (
+          {total_applicants > 15 && (
             <Flex middle className={styles.pagination}>
               <Pangination
                 maxPages={pageCount - 1}

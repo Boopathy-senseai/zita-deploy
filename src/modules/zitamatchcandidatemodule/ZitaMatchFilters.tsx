@@ -499,8 +499,8 @@ const ZitaMatchFilters = ({
                   /></Text>
               }
               {
-                getexperience !== "" &&
-                <Text className={styles.quickfil}>{getexperience} Years
+                isExperience !== "" &&
+                <Text className={styles.quickfil}>{isExperience} Years
                   <SvgIntomark
                     className={styles.stylesvg}
                     onClick={() => closeexp()

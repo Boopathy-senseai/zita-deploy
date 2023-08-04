@@ -15,6 +15,7 @@ export const zitaMatchDataCandidateMiddleWare = createAsyncThunk(
       jd_id,
       profile_match,
       candidate,
+      searchlocation,
       work_experience,
       relocate,
       invite,
@@ -33,8 +34,9 @@ export const zitaMatchDataCandidateMiddleWare = createAsyncThunk(
         params: {
           jd_id,
           profile_match,
-          fav,
+          fav,  
           candidate,
+         searchlocation,
           work_experience,
           relocate,
           invite,
