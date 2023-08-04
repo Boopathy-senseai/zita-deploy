@@ -78,7 +78,7 @@ const NavigationSearch = ({ onButtonClick ,onbuttonchange}) => {
 
        
       case 'profile update':
-        onButtonClick();
+        history.push('/account_setting/settings?tab=0')
         break;
         // return (
         //   super_user === true &&

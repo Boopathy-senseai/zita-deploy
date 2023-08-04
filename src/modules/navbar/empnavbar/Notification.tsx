@@ -176,7 +176,7 @@ const myfunction=()=>{
             {isData && isData.total !== 0 ? (
               <>
                 <Flex row center between className={styles.headerStyle}>
-                  <Text color="theme" style={{ fontSize: '18px' }} bold>
+                  <Text color="theme" style={{ fontSize: '14px' }} bold>
                     Notifications
                   </Text>
                   <Flex onClick={handleclose} style={{ cursor: 'pointer' }}>

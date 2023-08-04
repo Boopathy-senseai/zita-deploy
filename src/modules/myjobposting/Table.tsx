@@ -55,7 +55,7 @@ const MyJobPostingScreen = () => {
     final_list,
     Jobs_List,
     // is_loadingone,
-    // len_list,
+     len_list,
     // is_loading,
     career_page_url,
     domain,
@@ -95,42 +95,43 @@ const MyJobPostingScreen = () => {
     <div>
       {/* <div  style={{height:320}}>
      <table className="table"> */}
-      <div className="table-responsisssve ">
-        <div>
+      <Flex className="table-responsisssve " style={{overflowY:'scroll'
+   }} height={window.innerHeight-320} >  
           <table className="table" style={{ paddingLeft: 'none' }}>
-            <thead>
+            <thead style={{ position: 'sticky',
+  top: 0,backgroundColor: 'white'}}>
               <tr>
-                <th className={styles.padchange}>
+                <th className={styles.padchange} >
                   <Text color="theme" bold className={styles.tabeboarder}>
                     Job Title
                   </Text>
                 </th>
-                <th className={styles.padchange}>
+                <th className={styles.padchange} style={{ width:'130px'}}>
                   <Text color="theme" bold className={styles.tabeboarder}>
                     Job ID
                   </Text>
                 </th>
-                <th className={styles.padchange}>
+                <th className={styles.padchange} style={{ width:'235px'}}>
                   <Text color="theme" bold className={styles.tabeboarder}>
                     Location
                   </Text>
                 </th>
-                <th className={styles.padchange}>
+                <th className={styles.padchange} style={{ width:'88px'}}>
                   <Text color="theme" bold className={styles.tabeboarder}>
                     Zita Match
                   </Text>
                 </th>
-                <th className={styles.padchange}>
+                <th className={styles.padchange} style={{ width:'124px'}}>
                   <Text color="theme" bold className={styles.tabeboarder}>
                     Invited to Apply
                   </Text>
                 </th>
-                <th className={styles.padchange}>
+                <th className={styles.padchange} style={{ width:'90px'}}>
                   <Text color="theme" bold className={styles.tabeboarder}>
                     Applicants
                   </Text>
                 </th>{' '}
-                <th className={styles.padchange}>
+                <th className={styles.padchange}style={{ width:'135px'}}>
                   <Text color="theme" bold className={styles.tabeboarder}>
                     Screening Status
                   </Text>
@@ -140,20 +141,19 @@ const MyJobPostingScreen = () => {
                   Metric
                 </Text>
               </th> */}
-                <th className={styles.padchange}>
+                <th className={styles.padchange} style={{width:'70px'}}>
                   <Text color="theme" bold className={styles.tabeboarder}>
                     Status
                   </Text>
                 </th>
-                <th className={styles.padchange}>
+                <th className={styles.padchange} style={{width:'100px'}}>
                   <Text color="theme" bold className={styles.tableboarder}>
                     Posted on
                   </Text>
                 </th>
               </tr>
-            </thead>
-
-            <tbody style={{ paddingTop: 20 }} className={styles.tablebody} >
+            </thead> 
+            <tbody style={{ paddingTop: 20 }}  className={styles.tablebody} >
                
               {final_list &&
                 Jobs_List &&
@@ -168,8 +168,7 @@ const MyJobPostingScreen = () => {
                           <Flex row top className={styles.hellothere}>
                             {/* <LinkWrapper to={`/job_view/${list.id}`} className={styles.hovercol} >
                             {list.job_title}
-                          </LinkWrapper>
-                           
+                          </LinkWrapper> 
                           <Flex marginLeft={8}marginTop={2} >
                             {list.jd_status__label_name === "Inactive" ? (
                               <div style={{cursor:"default" }} className={styles.svcopy} >
@@ -201,8 +200,7 @@ const MyJobPostingScreen = () => {
                                   fill={"#333333"}
                                 />
                               </div>
-                            )} */}
-{console.log(list.job_title,'job_titlesafdfbfdbzcv bxfdbbf')}
+                            )} */} 
                             {list.jd_status__label_name === 'Active' && (
                               <Flex row top >
                                 <LinkWrapper
@@ -560,9 +558,10 @@ const MyJobPostingScreen = () => {
                   );
                 })}
             </tbody>
+            {/* </Flex> */}
           </table>
-        </div>
-      </div>
+         
+      </Flex>
     </div>
   );
 };
