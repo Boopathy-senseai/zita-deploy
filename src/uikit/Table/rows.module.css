@@ -16,4 +16,3 @@
 .rowFocus {
   background-color: var(--color-gary-8, #dbdbdb);
 }
-.row:hover {background-color: var(--color-gary-8, #dbdbdb)}

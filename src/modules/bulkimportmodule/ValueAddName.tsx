@@ -269,7 +269,7 @@ const ValueAddName = ({
           {!isInput && (
             <Flex  >
               <Text
-                size={12}
+                size={13}
                 color="link"
                 textStyle="underline"
                 onClick={handleOpenInput}
@@ -285,7 +285,7 @@ const ValueAddName = ({
           {!isInput && (
             <div className={styles.textContainerName}>
               <Text
-                size={12}
+                size={13}
                 onClick={handleOpenInput}
                 className={styles.nameStyle}
                 style={{ marginRight: 18 }}
@@ -309,9 +309,10 @@ const ValueAddName = ({
             value={formik.values.name}
             onChange={formik.handleChange('name')}
             lineInput
-            size={12}
+            size={13}
             placeholder={'Required'}
             onKeyPress={(e) => handleKeyPress(e, value.id)}
+            style={{width:'67%'}}
           />
           <div className={styles.svgContainer}>
             {isLoader ? (

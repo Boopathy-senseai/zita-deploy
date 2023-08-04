@@ -216,7 +216,7 @@ const SkillsAdd = ({
         <>
           {!isInput && (
             <Text
-              size={12}
+              size={13}
               color="link"
               textStyle="underline"
               onClick={handleOpenInput}
@@ -230,7 +230,7 @@ const SkillsAdd = ({
           {!isInput && (
             <div className={styles.textContainer}>
               <Text
-                size={12}
+                size={13}
                 onClick={handleOpenInput}
                 className={styles.nameStyle}
               >
@@ -255,8 +255,9 @@ const SkillsAdd = ({
             value={formik.values.name}
             onChange={formik.handleChange('name')}
             lineInput
-            size={12}
+            size={13}
             onKeyPress={(e) => handleKeyPress(e, value.id)}
+            style={{width:'64%'}}
           />
           <div className={styles.svgContainer}>
             {isLoader ? (

@@ -45,9 +45,11 @@ export const bulkImportMiddleWare = createAsyncThunk(
 
 export const bulkImportMatchMiddleWare = createAsyncThunk(
   BULK_UPLOADED_MATCH,
-  async ({ formData }: { formData: any }, { rejectWithValue }) => {
+  async ({ isJdId }: { isJdId: any }, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(bulkUploadMatch, formData);
+      console.log("params",isJdId)
+      const url = `${bulkUploadMatch}?pk=${isJdId}`
+      const { data } = await axios.get(url);
       return data;
     } catch (error) {
       const typedError = error as Error;

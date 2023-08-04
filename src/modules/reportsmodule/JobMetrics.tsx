@@ -190,23 +190,32 @@ const hanldeJobListform = () => {
 	return (
 		<Flex className={styles.overAll} height={window.innerHeight - 70}>
 			{isLoading && <Loader />}
-			<Card className={styles.cardOverAllApplicant}>
+			<Flex>
 				<Flex>
-					<Text bold size={18}>
-						Job Metrics
-					</Text>
-					<Text style={{marginBottom:10}}>
+				<Flex row className={styles.ribbon} between>
+				<Flex marginTop={9} marginLeft={8} >
+				<Text size={18} bold color="theme" >
+				Job Metrics
+				</Text>
+
+				</Flex>
+				<Flex >
+
+				<div className={styles.triangle}></div>
+				</Flex>
+				</Flex>
+					<Text style={{margin:'10px 0px 10px 5px'}}>
 						Analyse your jobs together/individually. The reports go a long way
 						in providing useful data such as the number of views and candidates
 						in the pipeline for each job, the number of offered & rejected
 						candidates.
 					</Text>
 				</Flex>
-				<Text bold size={16}>
+				<Text bold size={14} style={{marginLeft:'5px'}}>
 					Overall Job Metrics
 				</Text>
-				<Flex row className={styles.marginTop1} >
-					<Text bold className={styles.selected}>
+				<Flex row className={styles.marginTop1} style={{marginLeft:'5px'}}>
+					<Text  className={styles.selected}>
 						Filter By
 					</Text>
 					<div className={styles.skillContainer}>
@@ -223,13 +232,14 @@ const hanldeJobListform = () => {
 					<Button  onClick={hanldeJobListform} disabled={len_list===0}>Download Report</Button>
 				</Flex>
 				{job_list && job_list.length > 0 && (
-					<Flex>
+					<Flex >
 					
-					
+					<Flex style={{marginLeft:'5px'}}>
 					<Totalcount 
 					name="Total Jobs Found "
 					numbers={len_list}
 				    />
+					</Flex>
 										<input
                           className={styles.inputNone}
                           id="jobMetrics___input"
@@ -269,20 +279,28 @@ const hanldeJobListform = () => {
 
 				)}
 				{len_list === 0 && (
-	<Text className={styles.reportsJobMetrics}>
-		No Data Available
-	</Text>
-			)}
-			</Card>
+				<Text className={styles.reportsJobMetrics}>
+					No Data Available
+				</Text>
+				)}
+			</Flex>
 
 			{isJd && (
-				<Card className={styles.cardOverAllApplicant}>
+				<Flex style={{marginLeft:'5px'}}>
+				<Card className={styles.cardOverAllApplicant} >
 					<Flex>
-					<Flex row between className={styles.marginTop1}>
-						
-						<Text bold size={18} >Detailed Metrics</Text>
+					<Flex row between style={{marginTop:'16px'}}>
+						<Flex style={{marginLeft:'3px'}}>
+						<Text bold size={14} >Detailed Metrics</Text>
+						<Text style={{marginTop:'0px',marginBottom:'10px'}} >
+						A comprehensive data table showcasing count about the candidates & applicants for selected job.
+						</Text>
+						</Flex>
+
+
 						<Button onClick={hanldeJobIdform}> Download Report</Button>
 					</Flex>
+					
 						<Flex row>
 							<Flex flex={4} className={styles.chartStyle}>
 								<Flex row>
@@ -434,7 +452,7 @@ const hanldeJobListform = () => {
 						</Flex>
 					</Flex>
 				</Card>
-
+			</Flex>
 
 			)}
 			{!isJd && len_list !== 0 && (

@@ -50,7 +50,7 @@ type Props = {
   inputConatinerClass?: string;
   value?: string;
   id?: string;
-  size?: 12 | 14 | 16;
+  size?: 13 | 14 | 16 | 12;
   lineInput?: boolean;
   actionRight?: Function;
   actionLeft?: Function;
@@ -193,7 +193,7 @@ const InputText = (
           )}
           {!isEmpty(errorMessage) && error && (
             <Text
-              size={12}
+              size={13}
               color={'error'}
               className={cx('errorMessageStyle', { errorFocus: isErrorFocus })}
             >

@@ -20,6 +20,7 @@ import Flex from '../../uikit/Flex/Flex';
 import Card from '../../uikit/Card/Card';
 import CancelAndDeletePopup from '../common/CancelAndDeletePopup';
 import Text from '../../uikit/Text/Text';
+import { Modal } from '../../uikit';
 import PersonalInformationEdit from './PersonalInfoTableData';
 // import { THIS_FIELD_REQUIRED } from './../constValue';
 // import AddandUpdateWorkExperienceEdit from './ExpAdd';
@@ -36,6 +37,7 @@ import {
 } from './store/middleware/bulkImportMiddleware';
 // import { applocationFormPostMiddleWare } from './../accountsettingsmodule/buildyourcareerpage/store/middleware/buildyourcareerpagemiddleware';
 import styles from './profileviewmodal.module.css';
+
 
 const inital: applicationFormikForms = {
   qualification: '',
@@ -385,8 +387,8 @@ const ProfileViewModal = ({
                     />
                   </Flex>
                   <Card className={styles.cardOverAll}>
-                    {isProfileView && (
-                      <Flex>
+                  <Modal open={isProfileView} >
+                      <Flex style={{backgroundColor:'#ffffff',padding:'25px',height:'496px',width:'650px'}}>
                         <PersonalInformationEdit
                           cancel={() => setProfileView(false)}
                           skills_list={skills_list}
@@ -395,9 +397,8 @@ const ProfileViewModal = ({
                           displayHandler={() => setDisplay(false)}
                         />
                       </Flex>
-                    )
-                  }
-                    {!isProfileView && (
+                  </Modal>
+                    
                       <>
                         <div
                           className={styles.svgEdit}
@@ -447,7 +448,7 @@ const ProfileViewModal = ({
                         ))}
                         </div>
                       </>
-                    )}
+                  
                   </Card>
                   {/* <Flex className={styles.titleStyle}>
                     <Text size={16} bold>

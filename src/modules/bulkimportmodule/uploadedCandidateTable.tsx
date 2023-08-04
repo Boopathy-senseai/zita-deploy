@@ -27,7 +27,7 @@ export const title = (
     title: 'Name *',
     dataIndex: 'first_name',
     key: 'first_name',
-    flex: 13,
+    flex: 12,
     render: (_a: any, value: EmpPoolEntity) => {
       return (
         <ValueAddName
@@ -63,10 +63,10 @@ export const title = (
     },
   },
   {
-    title: 'Contact Number',
+    title: 'Contact',
     dataIndex: 'contact',
     key: 'contact',
-    flex: 13,
+    flex: 11,
     render: (_a: any, value: EmpPoolEntity) => {
       return (
         <ContactAdd
@@ -104,7 +104,7 @@ export const title = (
     title: 'Qualification',
     dataIndex: 'qualification',
     key: 'qualification',
-    flex: 11,
+    flex: 12,
     render: (_a: any, value: EmpPoolEntity) => {
       return (
         <QualificationAdd
@@ -123,7 +123,7 @@ export const title = (
     title: 'Experience',
     dataIndex: 'work_exp',
     key: 'work_exp',
-    flex: 10,
+    flex: 12,
     render: (_a: any, value: EmpPoolEntity) => {
       return (
         <ExperienceAdd
@@ -142,7 +142,7 @@ export const title = (
     title: 'Skills',
     dataIndex: 'skills',
     key: 'skills',
-    flex: 14,
+    flex: 10,
     render: (_a: any, value: EmpPoolEntity) => {
       return (
         <SkillsAdd
@@ -157,21 +157,12 @@ export const title = (
       );
     },
   },
-  {
-    title: 'Imported On',
-    dataIndex: 'created_at',
-    key: 'created_at',
-    flex: 10,
-    render: (value: string) => {
-      return <ImportedOnAdd value={value} />;
-    },
-    align: 'center',
-  },
+
   {
     title: 'Updated On',
     dataIndex: 'updated_on',
     key: 'updated_on',
-    flex: 10,
+    flex: 7,
     render: (value: string) => {
       return <ImportedOnAdd value={value} />;
     },
@@ -181,7 +172,7 @@ export const title = (
     title: 'Status',
     dataIndex: 'status',
     key: 'status',
-    flex: 8,
+    flex: 4,
     render: (_a: any, value: EmpPoolEntity) => {
       return <Status value={value} />;
     },
@@ -190,7 +181,7 @@ export const title = (
     title: 'Action',
     dataIndex: 'action',
     key: 'action',
-    flex: 8,
+    flex: 4,
     render: (_a: any, value: EmpPoolEntity) => {
       return (
         <Action
@@ -248,7 +239,7 @@ export const applicantTable = (
     title: 'Email ID *',
     dataIndex: 'email',
     key: 'email',
-    flex: 12,
+    flex: 13,
     render: (_a: any, value: EmpPoolEntity) => {
       return (
         <EmailAdd
@@ -265,10 +256,10 @@ export const applicantTable = (
     },
   },
   {
-    title: 'Contact Number',
+    title: 'Contact',
     dataIndex: 'contact',
     key: 'contact',
-    flex: 13,
+    flex: 12,
     render: (_a: any, value: EmpPoolEntity) => {
       return (
         <ContactAdd
@@ -285,10 +276,10 @@ export const applicantTable = (
     },
   },
     {
-    title: 'Match Score',
+    title: 'Match',
     dataIndex: 'match',
     key: 'match',
-    flex: 12,
+    flex: 8,
     render: (value: number) => {
       return (
         <>
@@ -325,7 +316,7 @@ export const applicantTable = (
     title: 'Qualification',
     dataIndex: 'qualification',
     key: 'qualification',
-    flex: 11,
+    flex: 13,
     render: (_a: any, value: EmpPoolEntity) => {
       return (
         <QualificationAdd
@@ -345,7 +336,7 @@ export const applicantTable = (
     title: 'Experience',
     dataIndex: 'work_exp',
     key: 'work_exp',
-    flex: 10,
+    flex: 13,
     render: (_a: any, value: EmpPoolEntity) => {
       return (
         <ExperienceAdd
@@ -381,72 +372,24 @@ export const applicantTable = (
       );
     },
   },
-  {
-    title: 'Imported On',
-    dataIndex: 'created_at',
-    key: 'created_at',
-    flex: 10,
-    render: (value: string) => {
-      return <ImportedOnAdd value={value} />;
-    },
-    align: 'center',
-  },
-
+ 
   {
     title: 'Status',
     dataIndex: 'status',
     key: 'status',
-    flex: 8,
+    flex: 5,
     render: (_a: any, value: EmpPoolEntity) => {
       return <Status value={value} jdId={isJdId}/>;
     },
     align: 'center',
   },
 
- {
-    title: 'Screening Status',
-    dataIndex: 'screen_status',
-    key: 'screen_status',
-    flex: 10,
-    render: (_a: string,value: EmpPoolEntity) => {
-     return !isEmpty(_a) ? (
-       <>
-       {value.first_name !== null && value.email !== null ?
-              <>
-              {_a === 'Applicants' ?
-        <Text size={12} align={'center'}>Applied</Text>
-        :
-        <Text size={12} align={'center'}>{_a}</Text>
-            }
-             </>
-        :
-        <Text size={12} align={'center'}>Pending</Text>
-       }
-        </>
-        
-      ) : (
-        <>
-       {value.first_name !== null && value.email !== null ?
-              <>
-              {_a === 'Applicants' ?
-        <Text size={12} align={'center'}>Applied</Text>
-        :
-        <Text size={12} align={'center'}>{_a}</Text>
-            }
-             </>
-        :
-        <Text size={12} align={'center'}>Pending</Text>
-       }
-        </>
-      );
-    },
-    align: 'center',
-  },
+ 
    {
     title: 'Action',
     dataIndex: 'action',
     key: 'action',
-    flex: 8,
+    flex: 5,
     render: (_a: any, value: EmpPoolEntity) => {
       return (
         <Action

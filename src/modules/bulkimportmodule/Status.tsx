@@ -32,7 +32,7 @@ const Status = ({ value,jdId }: Props) => {
         <div
           title={jdId=== undefined ?'Candidate profile is incomplete and not sent for matching': 'Applicant profile is incomplete and not sent for matching'}
         >
-          <SvgRoundClose fill={ERROR} height={22} width={22} />
+          <SvgRoundClose fill={ERROR} height={16} width={16} />
         </div>
       )}
     </Flex>
