@@ -14,13 +14,14 @@ type Props = {
 };
 const PageSetup = ({ formik, setReload }: Props) => {
   return (
-    <Card className={styles.overAll}>
-      <Text bold size={14}>
+    // <Card className={styles.overAll}>
+    <>
+      {/* <Text bold size={14}>
         Page Setup
-      </Text>
-      <Flex row top className={styles.flexContainer}>
+      </Text> */}
+      <Flex row top className={styles.c}>
         <Flex flex={6} className={styles.tagOne}>
-          <LabelWrapper label="Page Font">
+          <LabelWrapper label="Font">
             <div style={{ marginTop: 5 }}>
               <SelectTag
                 id={'page_setup____font_family'}
@@ -43,37 +44,44 @@ const PageSetup = ({ formik, setReload }: Props) => {
           </LabelWrapper>
         </Flex>
         <Flex flex={6} className={styles.tagTwo}>
-          <LabelWrapper label="Page Font Size">
+          <LabelWrapper label="Font Size">
             <div style={{ marginTop: 5 }}>
-            <SelectTag
-            id={'page_setup____font_size'}
-            // label="Page Font Size"
-            options={fontSizeOptions}
-            value={
-              fontSizeOptions
-                ? fontSizeOptions.find(
-                    (option) =>
-                      Number(option.value) ===
-                      Number(formik.values.pageFontSize),
-                  )
-                : ''
-            }
-            onChange={(option) => {
-              setReload();
-              formik.setFieldValue('pageFontSize', Number(option.value));
-            }}
-          />
-
+              <SelectTag
+                id={'page_setup____font_size'}
+                // label="Page Font Size"
+                options={fontSizeOptions}
+                value={
+                  fontSizeOptions
+                    ? fontSizeOptions.find(
+                        (option) =>
+                          Number(option.value) ===
+                          Number(formik.values.pageFontSize),
+                      )
+                    : ''
+                }
+                onChange={(option) => {
+                  setReload();
+                  formik.setFieldValue('pageFontSize', Number(option.value));
+                }}
+              />
             </div>
           </LabelWrapper>
-         
         </Flex>
         {/* <Button onclick={}>
           preview
         </Button> */}
       </Flex>
-    </Card>
+    </>
+    // </Card>
   );
 };
+
+export function PageSetupTitle() {
+  return (
+    <Text bold size={14}>
+      Page Setup
+    </Text>
+  );
+}
 
 export default PageSetup;

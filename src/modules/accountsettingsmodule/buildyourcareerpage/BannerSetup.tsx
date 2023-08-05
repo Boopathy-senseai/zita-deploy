@@ -27,16 +27,16 @@ const BannerSetup = ({
   setBtnDisable,
 }: Props) => {
   return (
-    <Card className={styles.overAll}>
-      <Text bold size={14}>
+    <>
+      {/* <Text bold size={14}>
         Banner Setup
-      </Text>
-      <Flex row center className={styles.marginTop16}>
+      </Text> */}
+      <Flex row  >
         <Flex flex={6}>
-          <Flex>
+          <Flex className={styles.marginTop16}>
             <InputText
               style={{ marginTop: '5px' }}
-              label="Banner Heading Text"
+              label="Heading Text"
               value={formik.values.bannerHeadingText}
               onChange={(e) => {
                 setReload();
@@ -51,7 +51,7 @@ const BannerSetup = ({
               )}
           </Flex>
           <Flex className={styles.marginTop16}>
-            <LabelWrapper label="Banner Heading Font Size">
+            <LabelWrapper label="Heading Font Size">
               <Flex marginTop={5}>
                 <SelectTag
                   id={'banner_setup____banerheading_size'}
@@ -76,7 +76,7 @@ const BannerSetup = ({
             </LabelWrapper>
           </Flex>
           <Flex className={styles.marginTop16}>
-            <LabelWrapper label="Banner Text Font Size">
+            <LabelWrapper label="Subheading Font Size">
               <Flex marginTop={5}>
                 <SelectTag
                   id={'banner_setup____banertext_size'}
@@ -99,7 +99,10 @@ const BannerSetup = ({
             </LabelWrapper>
           </Flex>
         </Flex>
-        <Flex middle columnFlex center flex={6}>
+        <Flex marginLeft={16} flex={6}>
+          <Text size={14} color='theme' style={{marginBottom:"7px"}}>
+          Background Image
+          </Text>
           <ImageUpload
             setBtnDisable={setBtnDisable}
             borderRadius
@@ -120,8 +123,8 @@ const BannerSetup = ({
           className={styles.textArea}
           value={formik.values.bannerText}
           textarea
-          label="Banner Text"
-          style={{marginTop:"5px"}}
+          label="Subheading Text"
+          style={{ marginTop: '5px' }}
           onChange={(e) => {
             setReload();
             formik.setFieldValue('bannerText', e.target.value);
@@ -140,7 +143,15 @@ const BannerSetup = ({
             </Text>
           )}
       </Flex>
-    </Card>
+    </>
   );
 };
+
+export function BannerSetupTitle() {
+  return (
+    <Text bold size={14}>
+      Banner Setup
+    </Text>
+  );
+}
 export default BannerSetup;

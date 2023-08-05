@@ -16,11 +16,12 @@ import {
   nameRegex,
   THIS_FIELD_REQUIRED,
 } from '../../constValue';
-import BannerSetup from './BannerSetup';
-import CareersPageURL from './CareersPageURL';
-import FooterSetup from './FooterSetup';
-import HeaderSetup from './HeaderSetup';
-import PageSetup from './PageSetup';
+import ExpandTile from '../../../uikit/ExpandTile';
+import BannerSetup, { BannerSetupTitle } from './BannerSetup';
+import CareersPageURL, { CareerTitle } from './CareersPageURL';
+import FooterSetup, { FooterSetupTitle } from './FooterSetup';
+import HeaderSetup, { HeaderSetupTitle } from './HeaderSetup';
+import PageSetup, { PageSetupTitle } from './PageSetup';
 import styles from './buildyourcareerpageScreen.module.css';
 import { formikFormTypes } from './formikTypes';
 import {
@@ -72,6 +73,19 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
   const [isSubmitLoader, setSubmitLoader] = useState(false);
   const [isBtnDisable, setBtnDisable] = useState(true);
   const [isUrlError, setUrlError] = useState(false);
+  const [tileState, setTileState] = useState<{
+    careersPage: boolean;
+    pageSetup: boolean;
+    headerSetup: boolean;
+    bannerSetup: boolean;
+    buttonAndFooterSetup: boolean;
+  }>({
+    careersPage: false,
+    pageSetup: false,
+    headerSetup: false,
+    bannerSetup: false,
+    buttonAndFooterSetup: false,
+  });
 
   // initial api call
   useEffect(() => {
@@ -455,28 +469,66 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
   }
 
   return (
-    <Flex>
-      <Flex row>
+    <>
+      <Flex
+        row
+        style={{
+          height: 'calc(100% - 55px)',
+          display: 'flex',
+          flexDirection: 'row',
+          overflow: 'auto',
+          paddingBottom: '10px',
+        }}
+      >
         {isSubmitLoader && <Loader />}
-        <Flex columnFlex flex={6} className={styles.leftFlex}>
-          <div
-            onClick={handleUrlClick}
-            tabIndex={-1}
-            role="button"
-            onKeyDown={() => {}}
+        <Flex columnFlex flex={1} className={styles.leftFlex}>
+          <ExpandTile
+            backgroundColor="#58184530"
+            activeColor="#000000"
+            title={<CareerTitle />}
+            show={tileState?.careersPage}
+            styles={{ border: "none", marginTop: "16px", boxShadow: "0 1px 4px 0 rgb(0 0 0 / 47%)"}}
+            contentStyles={{ padding: '10px' }}
+            onClick={() =>
+              setTileState({
+                ...tileState,
+                careersPage: !tileState.careersPage,
+              })
+            }
           >
-            <CareersPageURL
-              formik={formik}
-              career_page={career_page}
-              isInput={isInput}
-              setInput={setInput}
-              setReload={() => {
-                setReload(true);
-                setBtnDisable(false);
-              }}
-              isUrlError={isUrlError}
-            />
-          </div>
+            <div
+              onClick={handleUrlClick}
+              tabIndex={-1}
+              role="button"
+              onKeyDown={() => {}}
+            >
+              <CareersPageURL
+                formik={formik}
+                career_page={career_page}
+                isInput={isInput}
+                setInput={setInput}
+                setReload={() => {
+                  setReload(true);
+                  setBtnDisable(false);
+                }}
+                isUrlError={isUrlError}
+              />
+            </div>
+          </ExpandTile>
+          <ExpandTile
+            backgroundColor="#58184530"
+            activeColor="#000000"
+            title={<PageSetupTitle />}
+            show={tileState?.pageSetup}
+            styles={{ border: "none", marginTop: "16px", boxShadow: "0 1px 4px 0 rgb(0 0 0 / 47%)"}}
+            contentStyles={{ padding: '10px' }}
+            onClick={() =>
+              setTileState({
+                ...tileState,
+                pageSetup: !tileState.pageSetup,
+              })
+            }
+          >
           <div
             onClick={handlePageSetUpClick}
             tabIndex={-1}
@@ -491,6 +543,21 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
               }}
             />
           </div>
+          </ExpandTile>
+          <ExpandTile
+            backgroundColor="#58184530"
+            activeColor="#000000"
+            title={<HeaderSetupTitle />}
+            show={tileState?.headerSetup}
+            styles={{ border: "none", marginTop: "16px", boxShadow: "0 1px 4px 0 rgb(0 0 0 / 47%)"}}
+            contentStyles={{ padding: '10px' }}
+            onClick={() =>
+              setTileState({
+                ...tileState,
+                headerSetup: !tileState.headerSetup,
+              })
+            }
+          >
           <div
             onClick={handleHeaderSetUp}
             tabIndex={-1}
@@ -506,6 +573,21 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
               }}
             />
           </div>
+          </ExpandTile>
+          <ExpandTile
+            backgroundColor="#58184530"
+            activeColor="#000000"
+            title={<BannerSetupTitle />}
+            show={tileState?.bannerSetup}
+            styles={{ border: "none", marginTop: "16px", boxShadow: "0 1px 4px 0 rgb(0 0 0 / 47%)"}}
+            contentStyles={{ padding: '10px' }}
+            onClick={() =>
+              setTileState({
+                ...tileState,
+                bannerSetup: !tileState.bannerSetup,
+              })
+            }
+          >
           <div
             onClick={handleBannerSetUp}
             tabIndex={-1}
@@ -523,6 +605,21 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
               }}
             />
           </div>
+          </ExpandTile>
+          <ExpandTile
+            backgroundColor="#58184530"
+            activeColor="#000000"
+            title={<FooterSetupTitle />}
+            show={tileState?.buttonAndFooterSetup}
+            styles={{ border: "none", marginTop: "16px", boxShadow: "0 1px 4px 0 rgb(0 0 0 / 47%)"}}
+            contentStyles={{ padding: '10px' }}
+            onClick={() =>
+              setTileState({
+                ...tileState,
+                buttonAndFooterSetup: !tileState.buttonAndFooterSetup,
+              })
+            }
+          >
           <div
             onClick={handleFooterSetUp}
             tabIndex={-1}
@@ -537,8 +634,9 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
               }}
             />
           </div>
+          </ExpandTile>
         </Flex>
-        <Flex columnFlex flex={6} className={styles.rightFlex}>
+        <Flex columnFlex flex={1} className={styles.rightFlex}>
           {isCareerImgClick && (
             <Card className={styles.careerPageCard}>
               <img
@@ -595,7 +693,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
         </Flex>
         <Flex row>
           {isEmpty(previewUrl) ? (
-            <Button types='secondary' className={styles.previewBtn} disabled>
+            <Button types="secondary" className={styles.previewBtn} disabled>
               Preview
             </Button>
           ) : (
@@ -604,7 +702,9 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
               replace
               to={`/${previewUrl}/careers`}
             >
-              <Button types='secondary' className={styles.previewBtn}>Preview</Button>
+              <Button types="secondary" className={styles.previewBtn}>
+                Preview
+              </Button>
             </LinkWrapper>
           )}
           <Button
@@ -623,7 +723,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
           </Button>
         </Flex>
       </Flex>
-    </Flex>
+    </>
   );
 };
 

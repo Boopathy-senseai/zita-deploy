@@ -37,11 +37,11 @@ const CareersPageURL = ({
       ? career_page.career_page_url
       : '';
   return (
-    <Card className={styles.overAll}>
-      <Flex columnFlex>
+    // <Card className={styles.overAll}>
+    <Flex columnFlex>
+      <Flex>
         <Flex>
-          <Flex>
-            <Flex row center>
+          {/* <Flex row center>
               <Text bold size={14} className={styles.urlText}>
                 {`Your Careers Page URL (by Zita)*`}
               </Text>
@@ -50,90 +50,105 @@ const CareersPageURL = ({
               >
                 <SvgHelp fill="#581845" height={16} width={16} />
               </Flex>
-            </Flex>
+            </Flex> */}
 
-            <Flex row center className={styles.paddingTopFlex}>
-              {!isInput && (
-                <div
-                  tabIndex={-1}
-                  onClick={() => setInput(true)}
-                  role={'button'}
-                  onKeyDown={() => {}}
-                  className={styles.svgBox}
-                  title="Edit URL"
-                >
-                  <SvgBoxEdit fill={PRIMARY} />
-                </div>
-              )}
-              {isInput ? (
-                <>
-                  <Text className={styles.appText}>
-                    {window.location.origin}/
-                  </Text>
-                  <div className={styles.inputStyle}>
-                    <InputText
-                      id="CareersPageURL___urlInput"
-                      value={formik.values.pagaeUrl}
-                      onChange={(e) => {
-                        formik.setFieldValue('pagaeUrl', e.target.value);
-                        setReload();
-                      }}
-                      className={styles.inputWidthStyle}
-                    />
-                    {!isEmpty(formik.values.pagaeUrl) &&
-                      !nameRegex.test(formik.values.pagaeUrl) && (
-                        <Text
-                          className={styles.errorMsg}
-                          size={12}
-                          color="error"
-                        >
-                          {'Enter a valid url'}
-                        </Text>
-                      )}
-                    <div className={styles.errorMsg}>
-                      <ErrorMessage
-                        name="pagaeUrl"
-                        touched={formik.touched}
-                        errors={formik.errors}
-                      />
-                    </div>
-                    {isUrlError && (
+          <Flex row center className={styles.paddingTopFlex}>
+            {!isInput && (
+              <div
+                tabIndex={-1}
+                onClick={() => setInput(true)}
+                role={'button'}
+                onKeyDown={() => {}}
+                className={styles.svgBox}
+                title="Edit URL"
+              >
+                <SvgBoxEdit fill={PRIMARY} />
+              </div>
+            )}
+            {isInput ? (
+              <>
+                <Text className={styles.appText}>
+                  {window.location.origin}/
+                </Text>
+                <div className={styles.inputStyle}>
+                  <InputText
+                    id="CareersPageURL___urlInput"
+                    value={formik.values.pagaeUrl}
+                    onChange={(e) => {
+                      formik.setFieldValue('pagaeUrl', e.target.value);
+                      setReload();
+                    }}
+                    className={styles.inputWidthStyle}
+                  />
+                  {!isEmpty(formik.values.pagaeUrl) &&
+                    !nameRegex.test(formik.values.pagaeUrl) && (
                       <Text className={styles.errorMsg} size={12} color="error">
-                        This URL already exist
+                        {'Enter a valid url'}
                       </Text>
                     )}
+                  <div className={styles.errorMsg}>
+                    <ErrorMessage
+                      name="pagaeUrl"
+                      touched={formik.touched}
+                      errors={formik.errors}
+                    />
                   </div>
-                  <Text className={styles.careerText}>/careers</Text>
-                </>
-              ) : (
-                <LinkWrapper
-                  target={'_blank'}
-                  replace
-                  to={`/${careerUrl}/careers`}
-                >
-                  <Text color="link">
-                    {window.location.origin}/{formik.values.pagaeUrl}/careers
-                  </Text>
-                </LinkWrapper>
-              )}
-            </Flex>
+                  {isUrlError && (
+                    <Text className={styles.errorMsg} size={12} color="error">
+                      This URL already exist
+                    </Text>
+                  )}
+                </div>
+                <Text className={styles.careerText}>/careers</Text>
+              </>
+            ) : (
+              <LinkWrapper
+                target={'_blank'}
+                replace
+                to={`/${careerUrl}/careers`}
+              >
+                <Text color="link">
+                  {window.location.origin}/{formik.values.pagaeUrl}/careers
+                </Text>
+              </LinkWrapper>
+            )}
           </Flex>
         </Flex>
-        <Flex row center className={styles.bottomFlex}>
-          <SvgModuleicon fill='#581845' height={16} width={16} />
-          <Text size={13} className={styles.learnText}>Learn how to</Text>
-          <a
-            rel="noreferrer"
-            href="https://www.youtube.com/watch?v=LUIzrimnTq0"
-            target={'_blank'}
-          >
-            <Text color="link" bold>
-              connect the jobs with your company’s careers page.
-            </Text>
-          </a>
-        </Flex>
       </Flex>
-    </Card>
+      <Flex row center className={styles.bottomFlex}>
+        <SvgModuleicon fill="#581845" height={16} width={16} />
+        <Text size={13} className={styles.learnText}>
+          Learn how to
+        </Text>
+        <a
+          rel="noreferrer"
+          href="https://www.youtube.com/watch?v=LUIzrimnTq0"
+          target={'_blank'}
+        >
+          <Text color="link" bold>
+            connect the jobs with your company’s careers page.
+          </Text>
+        </a>
+      </Flex>
+    </Flex>
+    // </Card>
   );
 };
+
+export const CareerTitle:React.FC = () => {
+  return (
+    <Flex row center>
+      <Text bold size={14} className={styles.urlText}>
+        {`Your Careers Page URL (by Zita)*`}
+      </Text>
+      <Flex
+        marginTop={1}
+        style={{ cursor: 'pointer' }}
+        title={`To keep this as your company's careers page, copy this URL and paste it in your website careers page link.`}
+      >
+        <SvgHelp fill="#581845" height={16} width={16} />
+      </Flex>
+    </Flex>
+  );
+}
 export default CareersPageURL;

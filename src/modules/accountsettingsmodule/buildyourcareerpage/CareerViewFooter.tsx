@@ -84,6 +84,7 @@ const CareerViewFooter = ({ career_page_setting, company_detail }: Props) => {
       >
         <Text
           align="center"
+          bold
           size={14}
           style={{ fontFamily }}
           onClick={zitaPath}

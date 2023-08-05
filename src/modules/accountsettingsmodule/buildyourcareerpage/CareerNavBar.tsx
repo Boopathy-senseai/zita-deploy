@@ -11,6 +11,7 @@ import Drawer from '../../../uikit/Drawer/Drawer';
 import SvgCloseSmall from '../../../icons/SvgCloseSmall';
 import Text from '../../../uikit/Text/Text';
 import { mediaPath } from '../../constValue';
+import { Button } from '../../../uikit';
 import { CareerPageSetting, CompanyDetailEntity } from './buildCareerPageTypes';
 import styles from './careernavbar.module.css';
 
@@ -57,7 +58,7 @@ const CareerNavBar = ({
       ) : (
         <div />
       )}
-      
+
       <Drawer open={isOpen}>
         <div className={styles.menuStyle}>
           <div
@@ -78,9 +79,7 @@ const CareerNavBar = ({
                 className={styles.menuStyleText}
                 onClick={() => setOpen(false)}
               >
-                <Text style={menuStyle}>
-                  {career_page_setting.menu_1}
-                </Text>
+                <Text style={menuStyle}>{career_page_setting.menu_1}</Text>
               </a>
             )}
             {!isEmpty(career_page_setting.menu_2) && (
@@ -91,9 +90,7 @@ const CareerNavBar = ({
                 className={styles.menuStyleText}
                 onClick={() => setOpen(false)}
               >
-                <Text style={menuStyle}>
-                  {career_page_setting.menu_2}
-                </Text>
+                <Text style={menuStyle}>{career_page_setting.menu_2}</Text>
               </a>
             )}
             {!isEmpty(career_page_setting.menu_3) && (
@@ -104,17 +101,19 @@ const CareerNavBar = ({
                 className={styles.menuStyleText}
                 onClick={() => setOpen(false)}
               >
-                <Text style={menuStyle}>
-                  {career_page_setting.menu_3}
-                </Text>
+                <Text style={menuStyle}>{career_page_setting.menu_3}</Text>
               </a>
             )}
             {loginUser && (
               <Flex>
                 <Text
-                className={styles.menuStyleText}
+                  className={styles.menuStyleText}
                   style={menuStyle}
-                  onClick={() => history.push(`/candidate_profile_upload/${career_page_setting?.recruiter_id_id}`)}
+                  onClick={() =>
+                    history.push(
+                      `/candidate_profile_upload/${career_page_setting?.recruiter_id_id}`,
+                    )
+                  }
                 >
                   Candidate Login
                 </Text>
@@ -128,7 +127,6 @@ const CareerNavBar = ({
                   /
                 </Text> */}
                 <Text
-                
                   style={menuStyle}
                   onClick={() =>
                     history.push(
@@ -136,7 +134,7 @@ const CareerNavBar = ({
                     )
                   }
                 >
-                Candidate Sign Up
+                  Candidate Sign Up
                 </Text>
               </Flex>
             )}
@@ -144,36 +142,36 @@ const CareerNavBar = ({
         </div>
       </Drawer>
       {isMobile ? (
-        <div style={{display:'flex',alignItems:'center'}}>
-        {!loginUser && (
-        <LinkWrapper to="/">
-          <Flex row center marginRight={8}>
-            <div style={{ marginRight: 16, cursor: 'pointer' }}>
-              {isEmpty(image) || image === 'default.jpg' ? (
-                <SvgUser height={30} width={30} />
-              ) : (
-                <img
-                  style={{ objectFit: 'contain' }}
-                  src={mediaPath + image}
-                  alt="profile"
-                  className={styles.candiProfile}
-                />
-              )}
-            </div>
-            <Text style={menuStyle}>
-              {fName} {lName}
-            </Text>
-          </Flex>
-        </LinkWrapper>
-      )}
-        <div
-          tabIndex={-1}
-          role="button"
-          onKeyPress={() => {}}
-          onClick={() => setOpen(true)}
-        >
-          <SvgMenuOne fill={BLACK} />
-        </div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {!loginUser && (
+            <LinkWrapper to="/">
+              <Flex row center marginRight={8}>
+                <div style={{ marginRight: 16, cursor: 'pointer' }}>
+                  {isEmpty(image) || image === 'default.jpg' ? (
+                    <SvgUser height={30} width={30} />
+                  ) : (
+                    <img
+                      style={{ objectFit: 'contain' }}
+                      src={mediaPath + image}
+                      alt="profile"
+                      className={styles.candiProfile}
+                    />
+                  )}
+                </div>
+                <Text style={menuStyle}>
+                  {fName} {lName}
+                </Text>
+              </Flex>
+            </LinkWrapper>
+          )}
+          <div
+            tabIndex={-1}
+            role="button"
+            onKeyPress={() => {}}
+            onClick={() => setOpen(true)}
+          >
+            <SvgMenuOne fill={BLACK} />
+          </div>
         </div>
       ) : (
         <Flex row center>
@@ -212,27 +210,20 @@ const CareerNavBar = ({
           )}
           {loginUser ? (
             <Flex row center>
-              <Text
-              
+              <Button
+                className={styles.login}
+                types="secondary"
                 style={menuStyle}
-                onClick={() =>history.push(
+                onClick={() =>
+                  history.push(
                     `/candidate_profile_upload/${career_page_setting?.recruiter_id_id}`,
-                  )}
+                  )
+                }
               >
-               Candidate Login
-              </Text>
-              <Text
-              
-                style={{
-                  fontSize: career_page_setting.header_font_size,
-                  fontFamily: career_page_setting.page_font,
-                  margin: '0 2px',
-                }}
-              >
-                /
-              </Text>
-              <Text
-              
+                Login
+              </Button>
+
+              <Button
                 style={menuStyle}
                 onClick={() =>
                   history.push(
@@ -241,7 +232,20 @@ const CareerNavBar = ({
                 }
               >
                 Sign Up
+              </Button>
+              <Flex marginLeft={10} style={{borderLeft:"1px solid #581845"}}>
+              <Text bold
+                style={{
+                  fontSize: career_page_setting.header_font_size,
+                  fontFamily: career_page_setting.page_font,
+                  margin: '5px',
+                  height:"100%"
+                }}
+              >
+                For Candidate
               </Text>
+                </Flex>
+              
             </Flex>
           ) : (
             <LinkWrapper to="/">

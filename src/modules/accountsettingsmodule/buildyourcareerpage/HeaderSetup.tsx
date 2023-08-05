@@ -60,13 +60,14 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
       ? company_detail.logo
       : 'logo.png';
   return (
-    <Card className={styles.overAll}>
-      <Text bold size={14}>
+    // <Card className={styles.overAll}>
+    <>
+      {/* <Text bold size={14}>
         Header Setup
-      </Text>
+      </Text> */}
       <Flex row top className={styles.marginTop16}>
         <Flex flex={6} className={styles.tagOne}>
-          <LabelWrapper label="Header Font Size">
+          <LabelWrapper label="Font Size">
             <div style={{ marginTop: 5 }}>
               <SelectTag
                 id={'header_setup____headerheading_size'}
@@ -90,9 +91,9 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
         <div className={styles.colorInput} ref={myRef}>
           <InputText
             value={formik.values.headerColor.hex}
-            label="Header Color"
+            label="Font Color"
             required
-            style={{marginTop:"5px"}}
+            style={{ marginTop: '5px' }}
             onChange={formik.handleChange('headerColor.hex')}
             actionRight={() => (
               <Button types="link" onClick={() => setColorOpen(!isColorOpen)}>
@@ -127,8 +128,8 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
       <Flex row top className={styles.marginTop16}>
         <Flex flex={6} className={styles.tagOne}>
           <InputText
-            label="Header Menu 1"
-            style={{marginTop:"5px"}}
+            label="Menu 1"
+            style={{ marginTop: '5px' }}
             value={formik.values.menu1}
             onChange={(e) => {
               setReload();
@@ -151,8 +152,8 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
         </Flex>
         <Flex flex={6} className={styles.tagTwo}>
           <InputText
-            label="Header Menu 1 URL"
-            style={{marginTop:"5px"}}
+            label="Menu 1 URL"
+            style={{ marginTop: '5px' }}
             value={formik.values.menu1Url}
             onChange={(e) => {
               setReload();
@@ -177,8 +178,8 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
       <Flex row top className={styles.marginTop16}>
         <Flex flex={6} className={styles.tagOne}>
           <InputText
-            label="Header Menu 2"
-            style={{marginTop:"5px"}}
+            label="Menu 2"
+            style={{ marginTop: '5px' }}
             value={formik.values.menu2}
             onChange={(e) => {
               setReload();
@@ -201,8 +202,8 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
         </Flex>
         <Flex flex={6} className={styles.tagTwo}>
           <InputText
-            label="Header Menu 2 URL"
-            style={{marginTop:"5px"}}
+            label="Menu 2 URL"
+            style={{ marginTop: '5px' }}
             value={formik.values.menu2Url}
             onChange={(e) => {
               setReload();
@@ -228,8 +229,8 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
       <Flex row top className={styles.marginTop16}>
         <Flex flex={6} className={styles.tagOne}>
           <InputText
-            label="Header Menu 3"
-            style={{marginTop:"5px"}}
+            label="Menu 3"
+            style={{ marginTop: '5px' }}
             value={formik.values.menu3}
             onChange={(e) => {
               setReload();
@@ -251,8 +252,8 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
         </Flex>
         <Flex flex={6} className={styles.tagTwo}>
           <InputText
-            label="Header Menu 3 URL"
-            style={{marginTop:"5px"}}
+            label="Menu 3 URL"
+            style={{ marginTop: '5px' }}
             value={formik.values.menu3Url}
             onChange={(e) => {
               setReload();
@@ -274,20 +275,29 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
             )}
         </Flex>
       </Flex>
-      <Flex row center className={styles.marginTop16}>
+      <Flex  center className={styles.marginTop16}>
+      <Text size={14} color='theme' style={{marginBottom:"5px"}}>
+          {company_detail && !isEmpty(company_detail.logo)
+            ? 'Company Logo'
+            : 'Add logo in your company profile'}
+        </Text>
         <img
           style={{ objectFit: 'contain' }}
           className={styles.imgStyle}
           src={mediaPath + logo}
           alt="logo"
         />
-        <Text>
-          {company_detail && !isEmpty(company_detail.logo)
-            ? 'Company Logo'
-            : 'Add logo in your company profile'}
-        </Text>
+        
       </Flex>
-    </Card>
+    </>
+    // </Card>
   );
 };
+export function HeaderSetupTitle() {
+  return (
+    <Text bold size={14}>
+      Header Setup
+    </Text>
+  );
+}
 export default HeaderSetup;
