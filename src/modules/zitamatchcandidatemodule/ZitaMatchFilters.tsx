@@ -788,10 +788,10 @@ const ZitaMatchFilters = ({
 
 
             <Flex className={styles.mtstyle}>
-              <Text color="theme" bold className={styles.candidateTextStyle}>
+              <Text color="theme" bold className={styles.candidateTextStyle} >
                 Candidate Invite Status
               </Text>
-              <Flex row center className={styles.wrap}>
+              <Flex row center className={styles.wrap} marginTop={2}>
                 {candidateInviteStatus.map((statusList) => {
                   return (
                     <Flex

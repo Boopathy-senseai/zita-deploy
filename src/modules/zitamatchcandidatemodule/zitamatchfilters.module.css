@@ -156,6 +156,9 @@
   .checkBoxContainerOne {
     min-width: 116px;
   }
+  .candidateTextStyle {
+    padding-bottom: 8px;
+  }
   .checkBoxContainer {
     padding-bottom: 16px;
     padding-top: 8px;

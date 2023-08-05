@@ -27,8 +27,9 @@
   height: 100%;
 }
 .pagination {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin: 1% 40%;
 }
 .scrollBottom {
   margin-right: 2px;

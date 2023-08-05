@@ -142,7 +142,7 @@ const ZitaMatchCandidate = () => {
     }
   });
 
-  const usersPerPage = 20;
+  const usersPerPage = 15;
   const pageCount = Math.ceil(total_applicants / usersPerPage);
 
   const skillsOptionsList =
@@ -164,7 +164,7 @@ const ZitaMatchCandidate = () => {
         profile_match: isProfile,
         fav: favAdd,
         candidate: isSearch,
-        searchlocation:islocationsearch,
+        location:islocationsearch,
         work_experience: isExperience,
         relocate: isRelocate ? '1' : '0',
         invite: isCandiStatus,
@@ -187,8 +187,8 @@ const ZitaMatchCandidate = () => {
         jd_id: jdId,
         profile_match: isProfile,
         fav: favAdd,
-        candidate: isSearch,
-        searchlocation:islocationsearch,
+        candidate: "",
+        location:islocationsearch,
         work_experience: isExperience,
         relocate: isRelocate ? '1' : '0',
         invite: isCandiStatus,
@@ -304,7 +304,7 @@ const ZitaMatchCandidate = () => {
         profile_match: isMatchRadio,
         fav: favAdd,
         candidate: isSearch,
-        searchlocation:islocationsearch,
+        location:islocationsearch,
         work_experience: selectedValue,
         relocate: isRelocate ? '1' : '0',
         invite: isCandiStatus,
@@ -346,7 +346,7 @@ const ZitaMatchCandidate = () => {
         profile_match: isProfile,
         fav: favAdd,
         candidate: isSearch,
-        searchlocation:"",
+        location:"",
         work_experience: isExperience,
         relocate: isRelocate ? '1' : '0',
         invite: isCandiStatus,
@@ -388,7 +388,7 @@ const ZitaMatchCandidate = () => {
         profile_match: isMatchRadio,
         fav: favAdd,
         candidate: isSearch,
-        searchlocation:islocationsearch,
+        location:islocationsearch,
         work_experience: isExperience,
         relocate: isRelocate ? '1' : '0',
         invite: isCandiStatus,
@@ -442,7 +442,7 @@ const ZitaMatchCandidate = () => {
         profile_match: isMatchRadio,
         fav: favAdd,
         candidate: '',
-        searchlocation:"",
+        location:"",
         work_experience: '',
         relocate: '0',
         invite: isCandiStatus,
@@ -467,7 +467,7 @@ const ZitaMatchCandidate = () => {
         profile_match: isMatchRadio,
         fav: favAdd,
         candidate: isSearch,
-        searchlocation:islocationsearch,
+        location:islocationsearch,
         work_experience: "",
         relocate: isRelocate ? '1' : '0',
         invite: isCandiStatus,
@@ -589,7 +589,7 @@ const ZitaMatchCandidate = () => {
             profile_match: isProfile,
             fav: favAdd,
             candidate: isSearch,
-            searchlocation:islocationsearch,
+            location:islocationsearch,
             work_experience: isExperience,
             relocate: isRelocate ? '1' : '0',
             invite: isCandiStatus,
@@ -943,11 +943,15 @@ const ZitaMatchCandidate = () => {
       </Flex>
     
       <div
-      className={styles.cards}
+     // className={styles.cards}
         style={{
-          height: window.innerHeight - 232,
-      
-    
+          height: window.innerHeight - 303,
+          overflowY: 'scroll',
+          paddingRight: 0,
+          paddingTop: 0,
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignContent: 'flex-start',
         }}
       >
         <>
