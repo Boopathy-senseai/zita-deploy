@@ -28,7 +28,7 @@ type Props = {
   login_user: boolean;
   jobId: string;
   applied_status: number;
-  career_page_setting:CareerPageSetting
+  career_page_setting: CareerPageSetting;
 };
 const JobViewCard = ({
   jd_form,
@@ -38,7 +38,7 @@ const JobViewCard = ({
   login_user,
   jobId,
   applied_status,
-  career_page_setting
+  career_page_setting,
 }: Props) => {
   const isTablet = useMediaQuery({ query: '(max-width: 770px)' });
   const isMobile = useMediaQuery({ query: '(max-width: 700px)' });
@@ -122,29 +122,43 @@ const JobViewCard = ({
   return (
     <Card className={styles.overAll}>
       <Flex row={!isMobile} between={!isMobile}>
-        <Flex flex={isMobile ?1:8} className={styles.jobDetails}>
+        <Flex flex={isMobile ? 1 : 8} className={styles.jobDetails}>
           <LinkWrapper to={`/${career_page_setting?.career_page_url}/careers`}>
-          <Flex row center marginBottom={16}>
-            <div style={{cursor:'pointer',position:'relative',top:-2}}>
-            <SvgBack width={14} height={14} fill={LINK}/>
-            </div>
-            <Text style={{marginLeft: 8}} bold color='link'>Back to careers</Text>
-          </Flex>
+            <Flex row center marginBottom={16}>
+              <div style={{ cursor: 'pointer', position: 'relative', top: -2 }}>
+                <SvgBack
+                  width={14}
+                  height={14}
+                  fill={career_page_setting.button_color}
+                />
+              </div>
+              <Text
+                style={{
+                  marginLeft: 5,
+                  color: career_page_setting.button_color,
+                  cursor:"pointer"
+                }}
+                bold
+              >
+                Back to careers
+              </Text>
+            </Flex>
           </LinkWrapper>
-          <Text bold size={16} style={{ marginBottom: 16 }}>
+          <Text bold size={16} style={{ marginBottom: 5}}>
             Job Details
           </Text>
+          <Flex marginBottom={10} style={{border:"1px solid #c3c3c3", padding:"10px", borderRadius:"4px"}}>
           <Flex row={!isTablet} top wrap>
             {jdData.map((list, index) => {
               return (
                 list.check && (
                   <Flex
-                    width={ isTablet ? '100%':index % 2 === 0 ? '55%' : '45%'}
+                    width={isTablet ? '100%' : index % 2 === 0 ? '55%' : '45%'}
                     row
                     key={list.title + index}
                     className={styles.listFlex}
                   >
-                    <Text bold color="theme">
+                    <Text  color="theme">
                       {list.title}
                     </Text>
                     {list.title === 'Qualification:' ? (
@@ -163,8 +177,8 @@ const JobViewCard = ({
             })}
           </Flex>
           {jd_form?.show_sal_to_candidate === false && (
-            <Flex row top marginBottom={16}>
-              <Text bold color="theme">
+            <Flex row top >
+              <Text  color="theme">
                 Qualification:
               </Text>
               <Text className={styles.valueStyle}>
@@ -174,31 +188,52 @@ const JobViewCard = ({
               </Text>
             </Flex>
           )}
+
+          </Flex>
+         
         </Flex>
 
         {login_user ? (
-          <Flex flex={isMobile ? 1: 4} columnFlex className={styles.btnContainer} >
+          <Flex
+            flex={isMobile ? 1 : 4}
+            columnFlex
+            className={styles.btnContainer}
+          >
             {applied_status !== 0 && (
               <div style={{ marginBottom: 20, marginRight: 34 }}>
                 <Status label={'Applied'} color="success" />
               </div>
             )}
             <LinkWrapper to={`/`}>
-              <Button           
-              style={{
-                backgroundColor: career_page_setting?.button_color,
-                borderColor: career_page_setting?.button_color,
-              }}>Go to Dashboard</Button>
+              <Button
+                style={{
+                  backgroundColor: career_page_setting?.button_color,
+                  borderColor: career_page_setting?.button_color,
+                }}
+              >
+                Go to Dashboard
+              </Button>
             </LinkWrapper>
           </Flex>
         ) : (
-          <Flex flex={isMobile ? 1: 4} columnFlex className={styles.btnContainer} >
+          <Flex row
+            flex={isMobile ? 1 : 4}
+            columnFlex
+            className={styles.btnContainer}
+          >
             <LinkWrapper
               to={`/candidate_profile_upload/${company_detail?.recruiter_id_id}`}
               onClick={() => localStorage.setItem('careerJobViewJobId', jobId)}
             >
-              <Button style={{ width: 218, marginBottom: 20,backgroundColor: career_page_setting?.button_color,
-                borderColor: career_page_setting?.button_color, }}>
+              <Button types='secondary'
+                style={{
+                  width: 230,
+                  marginRight: 8,
+                  whiteSpace: "nowrap",
+                  // backgroundColor: career_page_setting?.button_color,
+                  borderColor: career_page_setting?.button_color,
+                }}
+              >
                 Create Company Profile
               </Button>
             </LinkWrapper>
@@ -212,8 +247,16 @@ const JobViewCard = ({
                 localStorage.setItem('careerJobViewJobId', jobId);
               }}
             >
-              <Button style={{ width: 218 ,backgroundColor: career_page_setting?.button_color,
-                borderColor: career_page_setting?.button_color,}}>Apply with Company Profile</Button>
+              <Button
+                style={{
+                  width: 218,
+                  whiteSpace: "nowrap",
+                  backgroundColor: career_page_setting?.button_color,
+                  borderColor: career_page_setting?.button_color,
+                }}
+              >
+                Apply with Company Profile
+              </Button>
             </LinkWrapper>
           </Flex>
         )}

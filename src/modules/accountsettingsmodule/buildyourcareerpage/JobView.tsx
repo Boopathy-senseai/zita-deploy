@@ -295,18 +295,18 @@ const JobView = () => {
                       align="center"
                       color="white"
                       bold
-                      size={isTablet ? 24 : 50}
+                      size={isTablet ? 24 : 20}
                       style={{ marginBottom: 8 }}
                     >
                       {jd_form?.job_title}
                     </Text>
                     <Flex className={styles.centerStyle} row={!isMobile} center ={!isMobile}>
                       <Flex row center ={!isMobile}>
-                        <SvgLocation height={20} width={20} />
+                        <SvgLocation height={20} width={20} fill={WHITE}/>
                         <Text
-                          size={isTablet ? 14 : 20}
+                          size={isTablet ? 14 : 16}
                           color="white"
-                          style={{ marginLeft: 8, marginRight: 8 }}
+                          style={{ marginLeft: 5, marginRight: 10 }}
                         >
                           {jd_form?.job_location}
                         </Text>
@@ -316,7 +316,7 @@ const JobView = () => {
                         <Text
                           size={isTablet ? 14 : 20}
                           color="white"
-                          style={{ marginLeft: 8 }}
+                          style={{ marginLeft: 5 }}
                         >
                           {jd_form?.job_type__label_name}
                         </Text>
@@ -371,10 +371,11 @@ const JobView = () => {
               style={{
                 backgroundColor: career_page_setting.footer_color,
                 cursor: 'pointer',
+                borderTop:"1px solid #c3c3c3"
               }}
               className={styles.footerStyle}
             >
-              <Text align="center" size={14} onClick={zitaPath}>
+              <Text bold align="center" size={14} onClick={zitaPath}>
                 Powered by Zita.ai
               </Text>
             </div>

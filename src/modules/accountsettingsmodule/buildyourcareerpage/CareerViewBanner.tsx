@@ -11,12 +11,12 @@ import { enterKeyPress } from '../../../uikit/helper';
 import InputText from '../../../uikit/InputText/InputText';
 import Text from '../../../uikit/Text/Text';
 import { mediaPath } from '../../constValue';
+import SvgJobTitles from '../../../icons/SvgJobTitles';
 import BannerCardList from './BannerCardList';
 import { CareerPageSetting, JdFormEntity } from './buildCareerPageTypes';
 import styles from './careerviewbanner.module.css';
 
 const cx = classNames.bind(styles);
-
 
 type Props = {
   career_page_setting: CareerPageSetting;
@@ -38,14 +38,14 @@ const CareerViewBanner = ({
   return (
     <Flex className={styles.overAll}>
       <Flex className={styles.imgFlex}>
-        <div style={{position:'relative',width:'100%'}}>
-        <img
-          alt="Banner"
-          src={mediaPath + career_page_setting.banner_img}
-          className={styles.bannerStyle}
-        />
-         <div className={styles.overLay}/>
-         </div>
+        <div style={{ position: 'relative', width: '100%' }}>
+          <img
+            alt="Banner"
+            src={mediaPath + career_page_setting.banner_img}
+            className={styles.bannerStyle}
+          />
+          <div className={styles.overLay} />
+        </div>
         <Flex center middle className={styles.innerText}>
           <Text
             align="center"
@@ -70,11 +70,26 @@ const CareerViewBanner = ({
             {career_page_setting.banner_text}
           </Text>
         </Flex>
+      </Flex>
+      <Flex style={{ padding: '10px' }}>
+        {/* <Flex marginBottom={10}>
+          <Text bold size={14}>
+            Get the right job that you deserve.
+          </Text>
+          <Text size={13}>Your dream job is waiting!</Text>
+        </Flex> */}
         <Card className={styles.searchCard}>
-          <Flex row={!isMobile} top>
-            <div style={{ position: 'relative',width:'100%', }}>
+          <Flex row={!isMobile} center>
+            <Flex marginRight={10}>
+              <Text bold style={{ whiteSpace: 'nowrap' }}>Im Interested in</Text>
+            </Flex>
+            <div style={{ position: 'relative', width: '50%' }}>
               <div className={styles.svgBagStyle}>
-                <SvgBag height={16} width={16} fill={GARY_4} />
+                <SvgJobTitles
+                  height={14}
+                  width={14}
+                  fill={career_page_setting.button_color}
+                />
               </div>
 
               <InputText
@@ -83,11 +98,26 @@ const CareerViewBanner = ({
                 className={styles.jobTitleInput}
                 placeholder="Job Title"
                 onKeyPress={(e) => enterKeyPress(e, formik.handleSubmit)}
+                style={{width:"100%"}}
               />
             </div>
-            <div className={styles.locationDiv} style={{ position: 'relative',width:'100%',margin:!isMobile ? '0 16px': '16px 0' }}>
+            <Flex marginLeft={10}>
+              <Text bold style={{ whiteSpace: 'nowrap' }}>Located in</Text>
+            </Flex>
+            <div
+              className={styles.locationDiv}
+              style={{
+                position: 'relative',
+                width: '50%',
+                margin: !isMobile ? '0 10px' : '10px 0',
+              }}
+            >
               <div className={styles.svgLocation}>
-                <SvgLocation height={16} width={16} fill={GARY_4} />
+                <SvgLocation
+                  height={14}
+                  width={14}
+                  fill={career_page_setting.button_color}
+                />
               </div>
               <InputText
                 onChange={formik.handleChange('job_location')}
@@ -95,6 +125,7 @@ const CareerViewBanner = ({
                 className={styles.locationInput}
                 placeholder="Location"
                 onKeyPress={(e) => enterKeyPress(e, formik.handleSubmit)}
+                style={{width:"100%"}}
               />
             </div>
 
@@ -113,34 +144,34 @@ const CareerViewBanner = ({
             </Button>
           </Flex>
         </Card>
+        <div
+          className={cx('paddingStyle', 'marginAuto', {
+            disPlayStyle: jd_form && jd_form.length === 0,
+          })}
+        >
+          {jd_form && jd_form.length !== 0 ? (
+            <BannerCardList
+              key={Date.now()}
+              total={total}
+              jd_form={jd_form}
+              career_page_setting={career_page_setting}
+            />
+          ) : (
+            <Flex flex={1} center middle height={200}>
+              {jd_active === true && (
+                <Text align="center" color="gray">
+                  No jobs found
+                </Text>
+              )}
+              {jd_active !== true && (
+                <Text align="center" bold>
+                  No Current Openings
+                </Text>
+              )}
+            </Flex>
+          )}
+        </div>
       </Flex>
-      <div
-        className={cx('paddingStyle','marginAuto', {
-          disPlayStyle: jd_form && jd_form.length === 0,
-        })}
-      >
-        {jd_form && jd_form.length !== 0 ? (
-          <BannerCardList
-            key={Date.now()}
-            total={total}
-            jd_form={jd_form}
-            career_page_setting={career_page_setting}
-          />
-        ) : (
-          <Flex flex={1} center middle height={200}>
-            {jd_active === true && (
-              <Text align="center" color="gray">
-                No jobs found
-              </Text>
-            )}
-            {jd_active !== true && (
-              <Text align="center" bold>
-                No Current Openings
-              </Text>
-            )}
-          </Flex>
-        )}
-      </div>
     </Flex>
   );
 };

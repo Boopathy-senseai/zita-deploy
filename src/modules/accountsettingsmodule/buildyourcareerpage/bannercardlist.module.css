@@ -4,6 +4,12 @@
 .cardPadding {
   padding: 16px;
   width: 100%;
+  min-height: 130px;
+}
+.cardPadding:hover {
+  padding: 16px;
+  width: 100%;
+  min-height: 130px;
 }
 .labelStyle {
   margin-left: 8px;

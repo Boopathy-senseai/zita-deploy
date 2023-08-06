@@ -91,7 +91,7 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
         <div className={styles.colorInput} ref={myRef}>
           <InputText
             value={formik.values.headerColor.hex}
-            label="Font Color"
+            label="Background Color"
             required
             style={{ marginTop: '5px' }}
             onChange={formik.handleChange('headerColor.hex')}

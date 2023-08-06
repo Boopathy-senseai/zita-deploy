@@ -85,8 +85,8 @@
 .buttonTypes-secondary {
   /* background-color: var(--color-white, #ffffff);
   border: 2px solid var(--color-primary, #581845); */
-  background-color: #DCD1D9;
-  border: 2px solid #DCD1D9;
+  /* background-color: #DCD1D9; */
+  border: 2px solid #581845;
 }
 
 .buttonTypes-secondary:hover {

@@ -23,8 +23,8 @@ const CareerViewFooter = ({ career_page_setting, company_detail }: Props) => {
       <div className={styles.divStyle}>
         <Flex className={styles.aboutFlex}>
           <Flex
-          marginTop={isTablet ? 20 : 0}
-          marginBottom={isTablet ? 20 : 0}
+            marginTop={isTablet ? 20 : 0}
+            marginBottom={isTablet ? 20 : 0}
             row={!isTablet}
             between
             className={cx({
@@ -33,24 +33,23 @@ const CareerViewFooter = ({ career_page_setting, company_detail }: Props) => {
           >
             {!isEmpty(career_page_setting.about_us) && (
               <div style={{ display: 'flex' }}>
-                
-                  <Flex className={styles.aboutText}>
-                    <Text
-                      bold
-                      style={{ fontFamily, fontSize, marginBottom: 8 }}
-                    >
-                      About Us
-                    </Text>
-                    <Text
-                      style={{ fontFamily, fontSize, lineBreak: 'anywhere'}}
-                    >
-                      {career_page_setting.about_us}
-                    </Text>
-                  </Flex>
+                <Flex  className={styles.aboutText}>
+                  <Text bold style={{ fontFamily, fontSize, marginBottom: 8 }}>
+                    About Us
+                  </Text>
+                  <Text style={{ fontFamily, fontSize, lineBreak: 'anywhere' }}>
+                    {career_page_setting.about_us}
+                  </Text>
+                </Flex>
               </div>
             )}
 
-            <Flex marginTop={isTablet ? 20 : 0} columnFlex className={styles.contactFlex}>
+            <Flex
+              marginTop={isTablet ? 20 : 0}
+              columnFlex
+              className={styles.contactFlex}
+              
+            >
               <Text bold style={{ fontFamily, fontSize, marginBottom: 6 }}>
                 Contact Us
               </Text>
@@ -88,7 +87,6 @@ const CareerViewFooter = ({ career_page_setting, company_detail }: Props) => {
           size={14}
           style={{ fontFamily }}
           onClick={zitaPath}
-         
         >
           Powered by Zita.ai
         </Text>

@@ -36,7 +36,9 @@ const CareerNavBar = ({
   const menuStyle = {
     fontSize: career_page_setting.header_font_size,
     fontFamily: career_page_setting.page_font,
+    // color: career_page_setting.header_color,
     cursor: 'pointer',
+    // backgroundColor: career_page_setting.button_color,
   };
   const isMobile = useMediaQuery({ query: '(max-width: 850px)' });
 
@@ -49,15 +51,52 @@ const CareerNavBar = ({
       className={styles.overAll}
       style={{ backgroundColor: career_page_setting.header_color }}
     >
-      {!isEmpty(company_detail.logo) ? (
-        <img
-          className={styles.profile}
-          alt="logo"
-          src={mediaPath + company_detail.logo}
-        />
-      ) : (
-        <div />
-      )}
+      <Flex row center>
+        {!isEmpty(company_detail.logo) ? (
+          <img
+            className={styles.profile}
+            alt="logo"
+            src={mediaPath + company_detail.logo}
+          />
+        ) : (
+          <div />
+        )}
+        <Flex row marginLeft={50}>
+          {!isEmpty(career_page_setting.menu_1) && (
+            <a
+              href={career_page_setting.menu_1_url}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Text bold className={styles.menu1Style} style={menuStyle}>
+                {career_page_setting.menu_1}
+              </Text>
+            </a>
+          )}
+          {!isEmpty(career_page_setting.menu_2) && (
+            <a
+              href={career_page_setting.menu_2_url}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Text bold className={styles.menu2Style} style={menuStyle}>
+                {career_page_setting.menu_2}
+              </Text>
+            </a>
+          )}
+          {!isEmpty(career_page_setting.menu_3) && (
+            <a
+              href={career_page_setting.menu_3_url}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Text bold className={styles.menu3Style} style={menuStyle}>
+                {career_page_setting.menu_3}
+              </Text>
+            </a>
+          )}
+        </Flex>
+      </Flex>
 
       <Drawer open={isOpen}>
         <div className={styles.menuStyle}>
@@ -175,7 +214,7 @@ const CareerNavBar = ({
         </div>
       ) : (
         <Flex row center>
-          {!isEmpty(career_page_setting.menu_1) && (
+          {/* {!isEmpty(career_page_setting.menu_1) && (
             <a
               href={career_page_setting.menu_1_url}
               target="_blank"
@@ -207,12 +246,12 @@ const CareerNavBar = ({
                 {career_page_setting.menu_3}
               </Text>
             </a>
-          )}
+          )} */}
           {loginUser ? (
             <Flex row center>
-              <Button
+              <Flex
                 className={styles.login}
-                types="secondary"
+                // types="secondary"
                 style={menuStyle}
                 onClick={() =>
                   history.push(
@@ -220,10 +259,15 @@ const CareerNavBar = ({
                   )
                 }
               >
-                Login
-              </Button>
+                <Text bold style={{
+                    fontSize: career_page_setting.header_font_size,
+                    fontFamily: career_page_setting.page_font,
+                    // margin: '10px',
+                    height: '100%',
+                  }}>Login / Sign Up</Text>
+              </Flex>
 
-              <Button
+              {/* <Button
                 style={menuStyle}
                 onClick={() =>
                   history.push(
@@ -232,20 +276,20 @@ const CareerNavBar = ({
                 }
               >
                 Sign Up
-              </Button>
-              <Flex marginLeft={10} style={{borderLeft:"1px solid #581845"}}>
-              <Text bold
-                style={{
-                  fontSize: career_page_setting.header_font_size,
-                  fontFamily: career_page_setting.page_font,
-                  margin: '5px',
-                  height:"100%"
-                }}
-              >
-                For Candidate
-              </Text>
-                </Flex>
-              
+              </Button> */}
+              <Flex style={{ borderLeft: '1px solid #581845' }}>
+                <Text
+                  
+                  style={{
+                    fontSize: career_page_setting.header_font_size,
+                    fontFamily: career_page_setting.page_font,
+                    margin: '10px',
+                    height: '100%',
+                  }}
+                >
+                  For Candidate
+                </Text>
+              </Flex>
             </Flex>
           ) : (
             <LinkWrapper to="/">
