@@ -150,6 +150,7 @@ const EventScheduler = () => {
     setEditList(null);
   };
 
+
   if (isLoading) {
     return <Loader />;
   }
@@ -192,6 +193,7 @@ const EventScheduler = () => {
                 isopen={isopen}
                 setIsOpen={setIsOpen}
                 editModel={editlist}
+                seteditModel = {setEditList}
                 datetime={datetime}
                 setEditList={setEditList}
                 teammembers={addmembers}

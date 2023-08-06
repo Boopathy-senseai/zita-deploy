@@ -241,25 +241,40 @@ const slotter1 = (props) => {
 
 
   const timezones = (str) => {
-    const display = data.map((li: any) => li.times_zone_display);
-    if (
-      display.includes(
-        'Automatically detect and show the times in my invitees time zone',
-      )
-    ) {
-      const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      const offset = moment.tz(userTimezone).format('Z');
-      const userzone = `${userTimezone} (${offset})`;
-      return userzone;
-    } else if (
-      display.includes('Lock the timezone (best for in-person events)')
-    ) {
-      const [timeOffset, locations] = str.split(' ');
-      const locationWithoutParentheses = locations.slice(1, -1);
-      // Create the desired string format: "(Location) Time Offset"
-      const result = `${locationWithoutParentheses} (${timeOffset})`;
-      // settimezone(locationWithoutParentheses)
-      return result;
+    let timeszonesdisplay = ''
+    const display = data.map((li: any) => {
+     timeszonesdisplay =  li.times_zone_display}
+      );
+    console.log("display!@#",data,display,timeszonesdisplay)
+    if(timeszonesdisplay !== ''){
+      // if (
+      //   timeszonesdisplay === 
+      //     'Automatically detect and show the times in my invitees time zone'
+        
+      // ) {
+      //   const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      //   alert("userTimezone"+userTimezone)
+      //   const offset = moment.tz(userTimezone).format('Z');
+      //   const userzone1 = `${userTimezone} (${offset})`;
+      //   console.log("userzoneuserzoneuserzoneuserzone",userzone1)
+      //   return userzone1;
+      // 
+      if (
+        timeszonesdisplay === 'Lock the timezone (best for in-person events)'
+      ) {
+        const [timeOffset, locations] = str.split(' ');
+        const locationWithoutParentheses = locations.slice(1, -1);
+        // Create the desired string format: "(Location) Time Offset"
+        const result = `${locationWithoutParentheses} (${timeOffset})`;
+        // settimezone(locationWithoutParentheses)
+        return result;
+      }else{
+        const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const offset = moment.tz(userTimezone).format('Z');
+        const userzone1 = `${userTimezone} (${offset})`;
+        console.log("userzoneuserzoneuserzoneuserzone",userzone1)
+        return userzone1;
+      }
     }
   };
 
@@ -783,7 +798,7 @@ const SlotterDate = (props) => {
     },
   };
 
-  console.log('dateObjectsArraydateObjectsArray', dateObjectsArray);
+  console.log('dateObjectsArray::::::::', dateObjectsArray);
   const WEEKDAYS_LONG = [
     'Dimanche',
     'Lundi',
@@ -805,7 +820,7 @@ const SlotterDate = (props) => {
   // const startOfMonth = new Date(selectedRange.from); // July 2023
   // const endOfMonth = new Date(selectedRange.to); // July 2023
 
-  useEffect(() => {}, [startOfMonth, endOfMonth]);
+  // useEffect(() => {}, [startOfMonth, endOfMonth]);
 
   if (isLoading) {
     return <Loader />;
@@ -823,6 +838,8 @@ const SlotterDate = (props) => {
     startOfMonth,'\n',
     endOfMonth,'\n'
   );
+
+  console.log("timezonetimezonetimezonetimezonetimezonetimezonetimezone",timezone)
   return (
     <Flex height={'100%'}>
       <Flex row center className={styles.banner}>
@@ -912,13 +929,13 @@ const SlotterDate = (props) => {
                         color: '#581845',
                       },
                     }}
-                    defaultMonth={startOfMonth}
+                    defaultMonth={dateObjectsArray[0]}
                     // onSelect={setDays}
-                    fromMonth={startFrom}
-                    toMonth={endFrom}
+                    // fromMonth={dateObjectsArray[0]}
+                    // toMonth={dateObjectsArray[dateObjectsArray.length-1]}
                     className="custom-daypicker"
-                    // fromDate={startFrom}
-                    // toDate={endFrom}
+                    // fromDate={dateObjectsArray[0]}
+                    // toDate={dateObjectsArray[dateObjectsArray.length-1]}
                     onDayClick={(e) => onDateChange(e)}
                     modifiers={modifiers}
                     modifiersStyles={modifiersStyles}

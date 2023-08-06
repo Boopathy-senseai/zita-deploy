@@ -87,6 +87,7 @@ const CreateNewEvent = (props) => {
   const {
     setIsOpen,
     editModel,
+    seteditModel,
     teammembers,
     datetime,
     reset,
@@ -148,9 +149,6 @@ const CreateNewEvent = (props) => {
     { starttime: '9:00 AM', endtime: '6:00 PM' },
   ]);
   const [checkedItems, setCheckedItems] = useState([]);
-  // const [schedule, setSchedule] = useState(
-  //   datetime !== undefined ? datetime : null,
-  // );
   const [render, setrender] = useState(Date.now());
   const [timezones, setTimezones] = useState([]);
   const [sundaycheck, setsundaycheck] = useState(false);
@@ -160,6 +158,7 @@ const CreateNewEvent = (props) => {
   const [thursdaycheck, setthursdaycheck] = useState(true);
   const [fridaycheck, setfridaycheck] = useState(true);
   const [saturdaycheck, setsaturdaycheck] = useState(false);
+
 
   const [errMsg, seterrMsg] = useState(false);
   const [userzone, setuserzone] = useState('');
@@ -491,6 +490,9 @@ const CreateNewEvent = (props) => {
           } else {
             formik.values.event_type = '';
           }
+        }else{
+        
+          formik.setFieldValue('event_type', label)
         }
 
         // console.log("objectsToRemove",objectsToRemove);
@@ -709,44 +711,44 @@ const CreateNewEvent = (props) => {
       formData.append('description', values.description.trim());
       if (sundaycheck === true) {
         const filteredTimeSlots = sunday.filter(
-          (slot) => slot.starttime !== '' || slot.endtime !== '',
+          (slot) => slot.starttime !== '' && slot.endtime !== '',
         );
         console.log('filteredTimeSlots', filteredTimeSlots);
         formData.append('sunday', JSON.stringify(filteredTimeSlots));
       }
       if (mondaycheck === true) {
         const filteredTimeSlots = monday.filter(
-          (slot) => slot.starttime !== '' || slot.endtime !== '',
+          (slot) => slot.starttime !== '' && slot.endtime !== '',
         );
         formData.append('monday', JSON.stringify(filteredTimeSlots));
       }
       if (tuesdaycheck === true) {
         const filteredTimeSlots = tuesday.filter(
-          (slot) => slot.starttime !== '' || slot.endtime !== '',
+          (slot) => slot.starttime !== '' && slot.endtime !== '',
         );
         formData.append('tuesday', JSON.stringify(filteredTimeSlots));
       }
       if (wednesdaycheck === true) {
         const filteredTimeSlots = wednesday.filter(
-          (slot) => slot.starttime !== '' || slot.endtime !== '',
+          (slot) => slot.starttime !== '' && slot.endtime !== '',
         );
         formData.append('wednesday', JSON.stringify(filteredTimeSlots));
       }
       if (thursdaycheck === true) {
         const filteredTimeSlots = thursday.filter(
-          (slot) => slot.starttime !== '' || slot.endtime !== '',
+          (slot) => slot.starttime !== '' && slot.endtime !== '',
         );
         formData.append('thursday', JSON.stringify(filteredTimeSlots));
       }
       if (fridaycheck === true) {
         const filteredTimeSlots = friday.filter(
-          (slot) => slot.starttime !== '' || slot.endtime !== '',
+          (slot) => slot.starttime !== '' && slot.endtime !== '',
         );
         formData.append('friday', JSON.stringify(filteredTimeSlots));
       }
       if (saturdaycheck === true) {
         const filteredTimeSlots = saturday.filter(
-          (slot) => slot.starttime !== '' || slot.endtime !== '',
+          (slot) => slot.starttime !== '' && slot.endtime !== '',
         );
         formData.append('saturday', JSON.stringify(filteredTimeSlots));
       }
@@ -851,25 +853,46 @@ const CreateNewEvent = (props) => {
           // const slots = datetime[moment.weekdays(weekday).toLowerCase()]
           const day = currentDate.toDate().getDay();
           if (day === 0) {
-            slots.push(...sunday);
+            const filteredTimeSlots = sunday.filter(
+              (slot) => slot.starttime !== '' && slot.endtime !== '',
+            );
+            slots.push(...filteredTimeSlots);
           }
           if (day === 1) {
-            slots.push(...monday);
+            const filteredTimeSlots = monday.filter(
+              (slot) => slot.starttime !== '' && slot.endtime !== '',
+            );
+            slots.push(...filteredTimeSlots);
           }
           if (day === 2) {
-            slots.push(...tuesday);
+            const filteredTimeSlots = tuesday.filter(
+              (slot) => slot.starttime !== '' && slot.endtime !== '',
+            );
+            slots.push(...filteredTimeSlots);
           }
           if (day === 3) {
-            slots.push(...wednesday);
+            const filteredTimeSlots = wednesday.filter(
+              (slot) => slot.starttime !== '' && slot.endtime !== '',
+            );
+            slots.push(...filteredTimeSlots);
           }
           if (day === 4) {
-            slots.push(...thursday);
+            const filteredTimeSlots = thursday.filter(
+              (slot) => slot.starttime !== '' && slot.endtime !== '',
+            );
+            slots.push(...filteredTimeSlots);
           }
           if (day === 5) {
-            slots.push(...friday);
+            const filteredTimeSlots = friday.filter(
+              (slot) => slot.starttime !== '' && slot.endtime !== '',
+            );
+            slots.push(...filteredTimeSlots);
           }
           if (day === 6) {
-            slots.push(...saturday);
+            const filteredTimeSlots = saturday.filter(
+              (slot) => slot.starttime !== '' && slot.endtime !== '',
+            );
+            slots.push(...filteredTimeSlots);
           }
           schedule1.push({
             date: dateformat(currentDate.toDate()),
@@ -1116,11 +1139,13 @@ const CreateNewEvent = (props) => {
 
   console.log('1234567867543213456789', formik);
 
-  console.log('@@@@@@######', onValid);
+  console.log('@@@@@@######onValidonValid', onValid);
 
   // if (loader) {
   //   return <Loader />;
   // }
+
+
 
 
   const convertmonth = (selectMonth: any) => {
@@ -1136,7 +1161,20 @@ const CreateNewEvent = (props) => {
 
   const handleDateRangePickerShow = (event, picker) => {
     alert('????/');
+    console.log("pickerpickerpicker",picker)
     setDatePickerOpen(true);
+    if(onSelectShow !== null){
+      picker.startDate = moment(onSelectShow.startDate)
+      picker.endDate = moment(onSelectShow.endDate)
+//       endDate
+// // : 
+// // Tue Oct 31 2023 00:00:00 GMT+0530 (India Standard Time) {}
+// // startDate
+// // : 
+// // Sun Oct 01 2023 00:00:00 GMT+0530 (India Standard Time) {}
+
+    }
+    console.log("picker.startDate",picker.startDate,"\n","picker.startDate",picker,"\n","onselextShow",onSelectShow)
     console.log(
       'DateRangePicker shown with selected range:',
       onSelectShow.startDate,
@@ -1157,6 +1195,12 @@ const CreateNewEvent = (props) => {
   console.log('datepickeropen', datePickerOpen, durationOpen);
   console.log('selectedRangeselectedRangeselectedRangeselectedRange', onSelectShow,new Date(2023,10,2) );
 
+
+  // function editFormReset() {
+  //   alert("editFormReset")
+  //   // seteditModel('')
+  // }
+
   return (
     <Flex>
       {loader && <Loader />}
@@ -1175,7 +1219,7 @@ const CreateNewEvent = (props) => {
             maxHeight: '480px',
             overflowY: datePickerOpen ? 'hidden' : 'auto',
             padding: '0px 25px',
-            minWidth: '620px',
+            minWidth: '638px',
           }}
         >
           <Flex row className={styles.row}>
@@ -1343,7 +1387,7 @@ const CreateNewEvent = (props) => {
               <LabelWrapper label="Within a date range">
                 <div className={styles.dateInput}>
                   <DateRangePicker
-                    initialSettings={initialSettings}
+                    // initialSettings={initialSettings}
                     // onShowCalendar={selectedRange.startDate}
                     onApply={(event, picker) => onApplyChange(event, picker)}
                     // onShow={() => {
@@ -1354,10 +1398,15 @@ const CreateNewEvent = (props) => {
                     //   });
                     // }}
                     onShow={handleDateRangePickerShow}
-                    // initialSettings={{
-                    //   startDate: onSelectShow.startDate !== null ? onSelectShow.startDate : new Date() ,
-                    //   endDate:  onSelectShow.endDate !== null ? onSelectShow.endDate : new Date()
-                    // }}
+                    initialSettings={{
+                      // if(onSelectShow !== null){
+                        // startDate: onSelectShow !== null ? onSelectShow.startDate : new Date(),
+                        // endDate: onSelectShow !== null ? onSelectShow.endDate : new Date(),
+
+                        startDate: onSelectShow.startDate !== null ? onSelectShow.startDate : new Date() ,
+                        endDate:  onSelectShow.endDate !== null ? onSelectShow.endDate : new Date()
+                      // }
+                    }}
                     onHide={() => setDatePickerOpen(false)}
                   >
                     <input
@@ -1423,10 +1472,11 @@ const CreateNewEvent = (props) => {
                     borderBottom: 'none',
                     borderRadius: '2px 2px 0px 0px',
                     padding: '5px',
+                    
                   }}
                   types="secondary"
                 >
-                  <Text color="theme"> {name}</Text>
+                  <Text title={name} color="theme" className={styles.interviewertxt}> {name}</Text>
                 </Button>
               ))}
             </Flex>
@@ -1502,7 +1552,10 @@ const CreateNewEvent = (props) => {
                 saturdaycheck={saturdaycheck}
                 setsaturdaycheck={setsaturdaycheck}
                 ErrMessage={ErrMessage}
-                // onApplyButtonClick ={onApplyButtonClick}
+                editModel ={editModel}
+                onValid ={onValid}
+                seteditModel ={seteditModel}
+              
               />
             </Flex>
           </div>

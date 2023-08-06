@@ -144,6 +144,8 @@ const Interviewer = (props) => {
                 </label>
               )}
             />
+          </Flex>
+          <Flex className={styles.model}>
             {data.length > 0 ? (
               <>
                 <Flex marginTop={10}>
