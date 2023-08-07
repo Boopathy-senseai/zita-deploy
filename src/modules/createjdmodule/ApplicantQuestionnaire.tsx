@@ -185,10 +185,10 @@ const ApplicantQuestionnaire = () => {
           </Text>
         </Flex>
       </Flex>
-      <Card className={styles.cardOverAll}>
-        <Text size={16} bold className={styles.applicantTitle}>
+      <Flex className={styles.cardOverAll}>
+        {/* <Text size={16} bold className={styles.applicantTitle}>
           Applicant Questionnaire
-        </Text>
+        </Text> */}
         <Text>
           Add your own pre-screening questions or choose from our library for
           applicants to answer while applying for the job.
@@ -255,7 +255,7 @@ const ApplicantQuestionnaire = () => {
             </Tab>
           </Tabs>
         </div>
-      </Card>
+      </Flex>
       <AddedApplicantQuestionnaire
         tabledata={tabledata}
         jdId={jd_id}

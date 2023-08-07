@@ -1,3 +1,5 @@
+import { spawn } from 'child_process';
+import * as Yup from 'yup';
 import Chart from '../../uikit/Chart/Chart';
 import { PRIMARY } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
@@ -64,14 +66,26 @@ const RolesandResponsibilities = ({ jdDetails, profile }: Props) => {
       },
     ],
   };
-
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(jdDetails.richtext_job_description, 'text/html');
+  const textNodes = doc.querySelectorAll('body')[0].textContent;
+  // const texttrim = textNodes.trim();
+  // const SignupSchema = Yup.object().shape({
+  //   textNodes: Yup.string()
+  //   .trim()})
+  // const lines = texttrim.split('\n');  
+  // const value = lines.join('\n');
+//  const removeExtraSpace = textNodes.trim().split(/ +/).join(' ');
+//   const value = jdDetails.richtext_job_description.replace(/^\s*$/gm, '');
+  // console.log("lklklklklkl",texttrim)
   return (
     <Flex row>
       <Flex flex={8}>
+         {/* {removeExtraSpace}  */}
         <td
           className={styles.des}
           dangerouslySetInnerHTML={{
-            __html: jdDetails.richtext_job_description,
+            __html:jdDetails.richtext_job_description,
           }}
         />
       </Flex>

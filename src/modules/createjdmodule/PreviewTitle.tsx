@@ -38,6 +38,7 @@ const PreviewTitle = ({
           location={location}
           qualification={qualification}
         />
+        <Card className={styles.rolesandresponsibilitiescard}>
         {profile && jdDetails.is_ds_role === true ? (
           <RolesandResponsibilities jdDetails={jdDetails} profile={profile} />
         ) : (
@@ -53,8 +54,8 @@ const PreviewTitle = ({
           <Flex>
             <Text
               bold
-              color="theme"
-              style={{ paddingTop: 16 }}
+              color="primary"
+              style={{ paddingTop: 0 }}
             >
               Required Skills
             </Text>
@@ -82,12 +83,13 @@ const PreviewTitle = ({
             </Flex>
           </Flex>
         )}
+        </Card>
       </Flex>
     </Flex>
   ) : (
-    <Card className={styles.cardOverAll}>
+    <Flex className={styles.cardOverAll}>
       <Flex columnFlex>
-        <Text bold color="theme" size={16} className={styles.title}>
+        <Text bold size={16} className={styles.title}>
           {jdDetails.job_title}
         </Text>
         <JdDetails
@@ -95,6 +97,7 @@ const PreviewTitle = ({
           location={location}
           qualification={qualification}
         />
+          <Card className={styles.rolesandresponsibilitiescard}>
         {profile && jdDetails.is_ds_role === true ? (
           <RolesandResponsibilities jdDetails={jdDetails} profile={profile} />
         ) : (
@@ -110,8 +113,8 @@ const PreviewTitle = ({
           <Flex>
             <Text
               bold
-              color="theme"
-              style={{ paddingTop: 16 }}
+              color="primary"
+              style={{ paddingTop: 15 }}
             >
               Required Skills
             </Text>
@@ -139,8 +142,9 @@ const PreviewTitle = ({
             </Flex>
           </Flex>
         )}
+        </Card>
       </Flex>
-    </Card>
+    </Flex>
   );
 };
 

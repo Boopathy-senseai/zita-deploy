@@ -1,9 +1,9 @@
-.cardOverAll {
+/* .cardOverAll {
   padding: 16px;
-}
+} */
 .applicantTitle {
   border-bottom: 2px solid var(--color-gary-7, #dfdfdf);
-  padding-bottom: 16px;
+  padding-bottom: 8px;
   margin-bottom: 8px;
 }
 .tableDiv {

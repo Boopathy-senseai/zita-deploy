@@ -127,7 +127,7 @@ const JdPreviewScreen = () => {
         />
         <Flex columnFlex className={styles.step3Flex}>
           <div className={styles.round}>
-            <Text bold size={18} color={'white'}>
+            <Text bold size={16} color={'white'}>
               {3}
             </Text>
           </div>
@@ -140,7 +140,10 @@ const JdPreviewScreen = () => {
         <Flex columnFlex className={styles.modalOverAll}>
           <Flex row center middle>
             <div style={{ marginRight: 8 }}>
-              <SvgTick fill={SUCCESS} />
+              <SvgTick fill={SUCCESS} /> 
+            </div>
+            <div style={{ marginRight: 8 }}>
+            <SvgCopy width={12} height={14} fill={'rgb(51 51 51/50%)'} />
             </div>
             <Text>You have successfully posted the job</Text>
             <div
@@ -151,7 +154,7 @@ const JdPreviewScreen = () => {
               onKeyDown={() => {}}
               title="Copy the job posting URL from your careers page"
             >
-              <SvgCopy fill={PRIMARY} width={16} height={16} />
+              {/* <SvgCopy fill={PRIMARY} width={16} height={16} /> */}
             </div>
           </Flex>
           <Text align="center" style={{ marginTop: 8 }}>

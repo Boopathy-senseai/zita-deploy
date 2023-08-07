@@ -11,13 +11,14 @@
   display: flex;
   justify-content: center;
   min-height: 80px;
+  height: 135px;
 }
 .labelStyle {
   margin: 0;
   margin-left: 4px;
 }
 .cardOverAll {
-  height: 150px;
+  /* height: 150px; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -35,12 +36,13 @@
   position: relative;
   bottom: 2px;
 }
-.title {
+/* .title {
   margin-bottom: 4px;
-}
-.desText {
+} */
+/* .desText {
   margin-bottom: 24px;
-}
+  font-weight: bold;
+} */
 .innerFlex{
   position: relative;
 }

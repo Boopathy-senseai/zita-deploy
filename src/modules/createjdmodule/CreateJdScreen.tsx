@@ -47,11 +47,25 @@ const CreateJdScreen = () => {
 
   return (
     <Flex columnFlex>
+      <div>
+        <Flex row className={styles.titleContainer}>
+          {/* <SvgJobPost width={15.71} height={16} /> */}
+          <Text
+            bold
+            size={18}
+            style={{ marginLeft: 8, color: '#581845' }}
+            className={styles.postingcl}
+          >
+            Job Posting
+          </Text>
+          <div className={styles.triangle}></div>
+        </Flex>
+      </div>
       {feature === 0 && (
         <Flex middle columnFlex center>
           <Flex middle row center className={styles.warningFlex}>
             <SvgInfo fill={WARNING} />
-            <Text size={12} bold color="warning" className={styles.warningText}>
+            <Text size={13} bold color="warning" className={styles.warningText}>
               {`You’ve reached the number of job postings for your current plan 
           but you can keep new job descriptions in Draft. Please `}
               <LinkWrapper
@@ -61,7 +75,7 @@ const CreateJdScreen = () => {
                 }}
                 to="/account_setting/settings?planFocus=focus"
               >
-                <Text size={12} bold color="link">
+                <Text size={13} bold color="link">
                   upgrade{' '}
                 </Text>
               </LinkWrapper>
@@ -82,7 +96,7 @@ const CreateJdScreen = () => {
           Choose your Job category
         </Text>
         <Flex row center middle>
-          <div className={styles.leftCard}>
+          <div className={styles.leftCard}> 
             <JdSelectCard
               title={'Data Science Jobs'}
               des={`Take your first step to create your data science and AI jobs with
@@ -106,7 +120,7 @@ const CreateJdScreen = () => {
               onClick={() => {}}
             />
           </div>
-        </Flex>
+        </Flex>                   
       </Flex>
     </Flex>
   );

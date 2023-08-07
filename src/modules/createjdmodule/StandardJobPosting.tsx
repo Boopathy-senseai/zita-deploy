@@ -26,9 +26,10 @@ const StandardJobPosting = ({
     sessionStorage.setItem('superUserTab', '2');
   };
   return (
-    <Card className={styles.cardOverAll}>
+    <Flex>
       <Flex columnFlex>
-        <Text color="theme" bold>
+        <Card className={styles.cardOverAll}>
+        <Text color="primary" bold>
           Standard Job Posting
         </Text>
         <Text className={styles.defaultText}>
@@ -39,12 +40,13 @@ const StandardJobPosting = ({
             <div style={{ opacity: 0.5, marginRight: 8 }}>
               <SvgCheckBox fill={PRIMARY} />
             </div>
-            <Text bold color="theme">
+            <Text bold color="primary">
               Company Website Career Page
             </Text>
           </Flex>
         </div>
-        <Flex row center between>
+        </Card>
+        <Flex row center between style={{marginTop:"10px"}}>
           <LinkWrapper target={'_parent'} to={`/jobs/questionnaire/${jdId}`}>
             <Button types="secondary">{BACK}</Button>
           </LinkWrapper>
@@ -86,7 +88,7 @@ const StandardJobPosting = ({
           </Flex>
         </Flex>
       </Flex>
-    </Card>
+    </Flex>
   );
 };
 export default StandardJobPosting;

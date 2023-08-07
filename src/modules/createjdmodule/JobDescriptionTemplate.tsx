@@ -1,7 +1,9 @@
 import classNames from 'classnames/bind';
 import { useFormik } from 'formik';
 import { memo, useEffect, useState } from 'react';
+import Totalcount from '../../globulization/TotalCount';
 import Button from '../../uikit/Button/Button';
+import SvgSearch from '../../icons/SvgSearch';
 import Flex from '../../uikit/Flex/Flex';
 import InputText from '../../uikit/InputText/InputText';
 import Modal from '../../uikit/Modal/Modal';
@@ -60,43 +62,50 @@ const JobDescriptionTemplate = ({
   };
 
   return (
+   
     <Modal open={open}>
+       {console.log("hbhgy6tf",searchResults)}
       <Flex
         columnFlex
         className={styles.overAll}
         width={window.innerWidth / 1.35}
       >
         <Flex className={styles.title}>
-          <Text color="white" bold>
+          <Text color="black" bold size={16}>
             Job Description Template
           </Text>
         </Flex>
         <Flex row className={styles.inputContainer} center>
           <Flex row center>
             <Flex row center>
-              <Text>Job Title</Text>
-              <Text color="theme" style={{ marginLeft: 2, marginRight: 8 }}>
+              {/* <Text style={{marginRight:"10px"}}>Job Title</Text> */}
+              {/* <Text color="theme" style={{ marginLeft: 2, marginRight: 8 }}>
                 *
-              </Text>
+              </Text> */}
             </Flex>
-            <div style={{ width: 300, position: 'relative' }}>
-              <InputText
-                placeholder="Search by job title"
-                value={formik.values.jobTitle}
-                onChange={formik.handleChange('jobTitle')}
-              />
-            </div>
+            <Flex row >
+                <Flex style={{ width: 300, position: 'relative' }}>
+                  <InputText
+                    placeholder="Search by job title"
+                    value={formik.values.jobTitle}
+                    onChange={formik.handleChange('jobTitle')}
+                  />
+                  <div style={{ position: 'absolute', zIndex: 11, top: 4, right: 10 }}>
+                    <SvgSearch/>
+                  </div>
+                </Flex>
+                <Flex className={styles.totalsearchcount}>
+                <Totalcount 
+                  name="Total Search Count"
+                  numbers={searchResults.length}
+                 />
+                    {/* <Text color="theme">Total Search Count: {searchResults.length}</Text> */}
+                  </Flex>
+            </Flex>
           </Flex>
-          <Button
-            className={styles.addBtn}
-            types="secondary"
-            onClick={hanldeClose}
-          >
-            {CANCEL}
-          </Button>
         </Flex>
         <Flex
-          height={window.innerHeight - 280}
+          height={window.innerHeight - 401}
           columnFlex
           className={cx('scrollStyle')}
         >
@@ -120,6 +129,15 @@ const JobDescriptionTemplate = ({
             </Flex>
           )}
         </Flex>
+        <Flex style={{justifyContent: "end"}}>
+        <Button
+            className={styles.addBtn}
+            types="close"
+            onClick={hanldeClose}
+          >
+            {CANCEL}
+          </Button>
+          </Flex>
       </Flex>
     </Modal>
   );

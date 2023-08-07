@@ -113,7 +113,7 @@ const JdDetails = ({ jdDetails, location, qualification }: Props) => {
                 key={list.title}
                 className={styles.listFlex}
               >
-                <Text bold color="theme">
+                <Text color="theme">
                   {list.title}
                 </Text>
                 {list.title === 'Qualification:' ? (

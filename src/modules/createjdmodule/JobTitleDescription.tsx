@@ -82,10 +82,10 @@ const JobTitleDescription = ({
   return (
     <Flex columnFlex>
       <Flex row center className={styles.jobTitleFlex}>
-        <Text size={16} bold className={styles.jobTitle}>
+        <Text size={14} bold className={styles.jobTitle}>
           Job Title & Description
         </Text>
-        <Text bold color="link" underLine onClick={handleTempOpen}>
+        <Text bold color="link" onClick={handleTempOpen}>
           Import from our templates
         </Text>
       </Flex>
