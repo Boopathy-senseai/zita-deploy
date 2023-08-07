@@ -1,3 +1,7 @@
 .titleTextStyle{
     padding: 0 8px;
+    color: #333333;
+}
+.title{
+    color: #333333 !important;
 }

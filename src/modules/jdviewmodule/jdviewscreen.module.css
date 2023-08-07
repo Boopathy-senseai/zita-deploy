@@ -128,3 +128,14 @@ right: 43;
   .mainpadding{
     padding:12px;
   }
+  .cardOverAll {
+    padding: 16px;
+    margin: 20px 0;
+  }
+  .tableDiv {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  .svgAngle{
+    margin-left: 8px;
+  }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { saveAs } from 'file-saver';
@@ -9,18 +9,24 @@ import Card from '../../uikit/Card/Card';
 import Chart from '../../uikit/Chart/Chart';
 import Toast from '../../uikit/Toast/Toast';
 import { Button } from '../../uikit';
+import Collapse from '../../uikit/Collapse/Collapse';
 import { PRIMARY } from '../../uikit/Colors/colors';
 import SvgAngle from '../../icons/SvgAngle';
+import { LINK } from '../../uikit/Colors/colors';
+import {Table }from '../../uikit';
+import QuestionTable from '../createjdmodule/QuestionTable';
+import { resultTitle } from '../createjdmodule/questionnaireTable';
 
 import Svgwhatjobs from '../../icons/Svgwhatjobs';
 import SvgRight from '../../icons/SvgRight';
 import Loader from '../../uikit/Loader/Loader';
-// import Collapse from '../../uikit/Collapse/Collapse';
+
 // import Modal from '../../uikit/Modal/Modal';
 // import Button from '../../uikit/Button/Button';
 import { AppDispatch, RootState } from '../../store';
 import { YES } from '../constValue';
 import CancelAndDeletePopup from '../common/CancelAndDeletePopup';
+import EEOCompliance from '../createjdmodule/EEOCompliance';
 import JdLog from './JdLog';
 // import JdDetails from './JdDetails';
 // import RolesandResponsibilities from './RolesandResponsibilities';
@@ -65,10 +71,15 @@ const JdViewScreen = () => {
     external,
     ext_jobs,
     jdview,
+    company_detail,
+    questionnaire,
+    
   } = useSelector(({ jdViewReducers, permissionReducers }: RootState) => {
     return {
       statusList: jdViewReducers.int_list,
       jdDetails: jdViewReducers.jd,
+      company_detail:jdViewReducers.company_detail,
+      questionnaire:jdViewReducers.questionnaire,
       skills: jdViewReducers.skills,
       qualification: jdViewReducers.qualification,
       location: jdViewReducers.location,
@@ -81,10 +92,11 @@ const JdViewScreen = () => {
       is_plan: permissionReducers.is_plan,
       external:jdViewReducers.has_external_posting,
       ext_jobs:jdViewReducers.ext_jobs,
+
       jdview:jdViewReducers,
     };
   });
-  console.log(statusList,'hhh')
+  console.log(questionnaire,'kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk')
   useEffect(() => {
     if (!is_plan) {
       sessionStorage.setItem('superUserTab', '2');
@@ -92,6 +104,7 @@ const JdViewScreen = () => {
     }
   });
   const [session,setsession]=useState("");
+  // setsession(company_detail.company_name);
   const handleDownload = () => {
     setloading(true);
     dispatch(jdDownloadMiddleWare({ jd_id: jdId })).then((data) => {
@@ -111,9 +124,9 @@ const JdViewScreen = () => {
   };
   const hanldeInactiveDone = () => {
     setloading(true);
-    alert("dispatch");
+ 
     dispatch(jdInactiveMiddleWare({ jd_id: jdId })).then((res) => {
-      alert("dispatch");
+     
       if (res.payload.success) {
         setOpen(false);
         Toast('Job inactivated successfully.', 'LONG', 'success');
@@ -198,11 +211,14 @@ const JdViewScreen = () => {
   };
   const session1=(sessionStorage.getItem("EmpToggle"))
   const session2=session1==='1';
+  const columns = useMemo(() => resultTitle(), [questionnaire]);
+  console.log("")
+  //const [isCollapse, setCollapse] = useState(false);
  
   return (
     <Flex>
     <Flex row className={styles.ribbon} between>
-          
+      
 
     <Flex  row className={styles.mainpadding} >
       <Flex>
@@ -321,6 +337,55 @@ const JdViewScreen = () => {
           skills={skills}
         />
       </Flex>
+      {console.log("skill",jdview)}
+
+      <Card className={styles.cardOverAll}>
+      <Flex columnFlex>
+      <Text bold size={14} style={{color:"#333333"}}>
+          Applicant Questionnaire:
+        </Text>
+        <div className={styles.tableDiv}>
+           {
+            questionnaire.length === 0 ? (
+            <Text color="gray">No questions added for this job</Text>
+          ) : (
+             <Table
+               empty={'No questions added for this job'}
+               dataSource={questionnaire}
+               columns={columns}
+               border="overAll"
+               
+             />
+   )} 
+          
+          
+        </div>
+{/*      
+              {jdDetails.is_eeo_comp === true && (
+          <Flex row center>
+            <Button types="link" onClick={() => setCollapse(!isCollapse)}>
+              EEO Compliance (USA)
+            </Button>
+            <Button
+              className={styles.svgAngle}
+              types="link"
+              onClick={() => setCollapse(!isCollapse)}
+            >
+              <SvgAngle up={isCollapse} width={16} height={16} fill={LINK} />
+            </Button>
+          </Flex>
+        )}
+                 
+               <Collapse isOpen={isCollapse}>
+          <EEOCompliance
+            handleCompliance={() => {}}
+            isCheck={false}
+            company_name={company_detail?.company_name}
+            isPreview
+          />
+        </Collapse>   */}
+      </Flex>
+      </Card>
   
       <CancelAndDeletePopup
         title={
