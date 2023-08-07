@@ -124,7 +124,7 @@ const JdTitle = ({
                  
                  <a href={whatjob[0].jobposting_url} target='blank'>
              <Button  types="secondary">
-              View in Whatjob
+              View in WhatJob
              </Button></a>
          
                </Flex>

@@ -44,12 +44,17 @@
   /* grid-gap: 15px; */
 }
 .circleflexover{
-
   background-color: #EEE8EC;
-  width: fit-content;
-  padding: 5px 15px 5px 15px ;
+  width: -moz-fit-content;
+  /* width: fit-content; */
+  padding: 5px 22px 5px 22px;
   border-radius: 20%;
-  
+  max-width: 25px;
+  display: inline-flex;
+  align-items: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .box{
   width:25%;

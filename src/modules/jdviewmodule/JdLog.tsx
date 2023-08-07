@@ -141,7 +141,7 @@ console.log('statusList',statusList);
             return (
               <>
                 {list.value === 0 ? (
-                  <Flex  row between end className={styles.listFlex}>
+                  <Flex  row  className={styles.listFlex}>
                        <Flex>
                     <Text color="theme" bold className={styles.titleStyle}>
                       {list.title}

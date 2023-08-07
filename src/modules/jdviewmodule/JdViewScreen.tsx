@@ -84,7 +84,7 @@ const JdViewScreen = () => {
       jdview:jdViewReducers,
     };
   });
-  console.log(ext_jobs,'hhh')
+  console.log(statusList,'hhh')
   useEffect(() => {
     if (!is_plan) {
       sessionStorage.setItem('superUserTab', '2');
@@ -111,7 +111,9 @@ const JdViewScreen = () => {
   };
   const hanldeInactiveDone = () => {
     setloading(true);
+    alert("dispatch");
     dispatch(jdInactiveMiddleWare({ jd_id: jdId })).then((res) => {
+      alert("dispatch");
       if (res.payload.success) {
         setOpen(false);
         Toast('Job inactivated successfully.', 'LONG', 'success');
@@ -202,12 +204,12 @@ const JdViewScreen = () => {
     <Flex row className={styles.ribbon} between>
           
 
-    <Flex  row marginTop={10} marginLeft={8} >
+    <Flex  row className={styles.mainpadding} >
       <Flex>
       <Text size={14} bold color="theme" >
         Job Posting 
       </Text></Flex>
-      <Flex  marginTop={8} marginLeft={8} >
+      <Flex  marginTop={6} marginLeft={7}  marginRight={2}>
       <SvgRight fill={'#581845'} ></SvgRight></Flex>
       <Flex  marginTop={1} marginLeft={3}>
       <Text size={14} bold color="theme" >
@@ -324,9 +326,9 @@ const JdViewScreen = () => {
         title={
           <Flex className={styles.popTitle}>
             <Text>
-              This will remove the job posting from the careers page.
+            This will remove the job posting from both the external job board & careers page.
             </Text>
-            <Text>Are you sure you want to Inactivate this job?</Text>
+            <Text style={{textAlign:"center"}}>Are you sure you want to Inactivate this job?</Text>
           </Flex>
         }
         btnDelete={hanldeInactiveDone}
