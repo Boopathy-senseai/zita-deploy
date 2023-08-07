@@ -828,8 +828,14 @@ input:-webkit-autofill:active {
   margin-bottom: 5px !important;
 }
 .rdp-head_cell {
-  font-size: 14px !important;
-  color: #333 !important;
+  vertical-align: middle;
+  font-size: 0.75em;
+  font-weight: 700;
+  text-align: center;
+  height: 100%;
+  height: var(--rdp-cell-size);
+  padding: 20px;
+  text-transform: uppercase;
 }
 .rdp-caption_label {
   font-size: 14px !important;
@@ -841,7 +847,7 @@ input:-webkit-autofill:active {
   color: #333 !important;
 }
 .rdp {
-  margin: 0px 0px 10px 0px !important;
+  margin: 10px 0px 10px 0px !important;
 }
 .rdp-button:hover:not([disabled]):not(.rdp-day_selected) {
   background-color: #d7c7d2 !important;
@@ -882,7 +888,9 @@ daterangepicker td.off, .daterangepicker td.off.in-range, .daterangepicker td.of
   border-color: transparent;
   color: #999;
 }
-
+/* .rdp-head_cell{
+  padding-right: 20px;
+} */
 /*--------- scroll bar styles---------*/
 
 /* width */

@@ -131,6 +131,9 @@ const EventScheduler = () => {
     // alert("HandleResetForm")
     // formik.resetForm();
     console.log("HandleResetFormHandleResetForm",formik)
+    // resetformik();
+    // formik.initialValues = null;
+    // formik.values = null;
   }
 
 
@@ -242,8 +245,8 @@ const EventScheduler = () => {
           ) : (
             <Flex className={styles.noevent} width={'100%'}>
               <SvgLink width={16} height={16} fill={'currentColor'} />
-              <Text> No scheduler links created yet</Text>
-              <Text>
+              <Text size={13}> No scheduler links created yet</Text>
+              <Text size={13}>
                 Scheduler links allow candidates to pick a date and time that
                 works for them.
               </Text>

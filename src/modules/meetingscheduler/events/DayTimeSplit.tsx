@@ -49,6 +49,9 @@ const DayTimeSplit = (props) => {
     editModel,
     seteditModel,
     onValid,
+    setonValid,
+    changeCount,
+    setChangeCount
   } = props;
   const [copy, SetCopy] = useState(false);
   const [copyid, SetCopyId] = useState(0);
@@ -99,14 +102,52 @@ const DayTimeSplit = (props) => {
     //     setSunday([])
     //   }
     // }
+    const resetday = [...time];
+    resetday.shift();  
+    if (sundaycheck === false) {
+      const newData = [{ starttime: '9:00 AM', endtime: '6:00 PM' }];
+      setSunday(newData);
+      setDay1(resetday)
+    }
+    if (mondaycheck === false) {
+      const newData = [{ starttime: '9:00 AM', endtime: '6:00 PM' }];
+      setMonday(newData);
+      setDay2(resetday)
+    }
+    if (tuesdaycheck === false) {
+      const newData = [{ starttime: '9:00 AM', endtime: '6:00 PM' }];
+      setTuesday(newData);
+      setDay3(resetday)
+    }
+    if (wednesdaycheck === false) {
+      const newData = [{ starttime: '9:00 AM', endtime: '6:00 PM' }];
+      setWednesday(newData);
+      setDay4(resetday)
+    }
+    if (thursdaycheck === false ) {
+      const newData = [{ starttime: '9:00 AM', endtime: '6:00 PM' }];
+      setThursday(newData);
+      setDay5(resetday)
+    }
+    if (fridaycheck === false) {
+      const newData = [{ starttime: '9:00 AM', endtime: '6:00 PM' }];
+      setFriday(newData);
+      setDay6(resetday)
+    }
+    if (saturdaycheck === false) {
+      const newData = [{ starttime: '9:00 AM', endtime: '6:00 PM' }];
+      setSaturday(newData);
+      setDay7(resetday)
+    }
+
   }, [
-    // mondaycheck,
-    // sundaycheck,
-    // tuesdaycheck,
-    // wednesdaycheck,
-    // thursdaycheck,
-    // fridaycheck,
-    // saturdaycheck,
+    mondaycheck,
+    sundaycheck,
+    tuesdaycheck,
+    wednesdaycheck,
+    thursdaycheck,
+    fridaycheck,
+    saturdaycheck,
     // final,
   ]);
   useEffect(() => {
@@ -264,11 +305,10 @@ const DayTimeSplit = (props) => {
     //   // // setDay6(newdata);
     //   // // setDay7(newdata);
     // }
-    if (days === 'Calendar Days' && timeSlots.length > 1 && dayoption === false )  {
-      alert("if:")
+    if (days === 'Calendar Days' && timeSlots.length > 1 && dayoption === false || changeCount === 1 )  {
+      // alert("if:")
       const newdata = [...timeSlots];
-      newdata.shift();
-  
+      newdata.shift();  
       console.log('dayrrrrrrr', sunday);     
         setDay1(newdata);
         setDay2(newdata);
@@ -288,7 +328,7 @@ const DayTimeSplit = (props) => {
       console.log('newdatanewdatanewdatanewdata', resetDay);
       console.log('editModel.duration === duration', editModel.duration === duration);
 
-      if(editModel.duration === duration && onValid !== null && dayoption){
+      if(editModel.duration === duration && onValid !== null && dayoption && changeCount === 0 ) {
         if (resetDay.length > 0){
           filterAndSetDay(onValid?.sunday,"sunday",resetDay)
           filterAndSetDay(onValid?.monday,"monday",resetDay);
@@ -298,13 +338,13 @@ const DayTimeSplit = (props) => {
           filterAndSetDay(onValid?.friday,"friday",resetDay);
           filterAndSetDay(onValid?.saturday,"saturday",resetDay);
           // setdayoption(false)
+          // setonValid('')
          
         }
       }
       if(dayoption &&  editModel.duration !== duration){
         const newdata = [...timeSlots];
-      newdata.shift();
-  
+      newdata.shift();  
       console.log('dayrrrrrrr', sunday);     
         setDay1(newdata);
         setDay2(newdata);
@@ -423,6 +463,8 @@ const DayTimeSplit = (props) => {
     }
   }
   
+  
+ 
   
 
 
@@ -1186,7 +1228,7 @@ const DayTimeSplit = (props) => {
       const elementsAfterIndex = values.slice(selectedIndex + 1);
       setDay7(elementsAfterIndex);
     }else if (updatedSaturday[index].endtime === "6:00 PM"){
-      alert("OK")
+      // alert("OK")
       const elementsAfterIndex = values.slice(selectedIndex + 1);
       setDay7(elementsAfterIndex);
     }
@@ -1292,7 +1334,7 @@ const DayTimeSplit = (props) => {
   }
 
   console.log('+++++++++++++++++', copybtn, final);
-  console.log('openIndexopenIndexopenIndex',dayoption, time);
+  console.log('openIndexopenIndexopenIndex',dayoption, "\n",time,"\n",onValid);
 
 
   return (
@@ -3042,6 +3084,7 @@ const CopyClipBoard = (props) => {
       setSaturday(newArrayOfObjects)
     }
   }
+  useEffect(()=>{},[copybtn])
 
   const applyonclick = (senditem: any, dayoffilter: any, tslot: any,txt : string) => {
     setcopybtn(false)
@@ -3049,7 +3092,7 @@ const CopyClipBoard = (props) => {
     closeButton();  
 
     
-    alert("text:"+txt)
+    // alert("text:"+txt)
      const filteredArray = dayoffilter.filter((item) => item.starttime !== '' && item.endtime !== '');
     
     if (check1) {
@@ -3512,6 +3555,7 @@ const CopyClipBoard = (props) => {
               {/* </Dropdown.Item> */}
               <Flex className={styles.applybtn} >
               <Dropdown.Item  
+              className={styles.applybackground}
               >
               
                 <Button

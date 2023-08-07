@@ -162,6 +162,8 @@ const CreateNewEvent = (props) => {
 
   const [errMsg, seterrMsg] = useState(false);
   const [userzone, setuserzone] = useState('');
+  const [changeCount, setChangeCount] = useState(0);
+
 
   // const [schedata, setschedata] = useState(datetime !== null ? datetime : null);
 
@@ -191,6 +193,7 @@ const CreateNewEvent = (props) => {
       });
     } else {
       formik.resetForm();
+      // resetformik()
     }
     Timeszones();
   }, [duration, datetime, userzone]);
@@ -234,6 +237,10 @@ const CreateNewEvent = (props) => {
     // saturdaycheck,
   ]);
   useEffect(() => {
+    // if(editModel !== null){
+    //   alert(":::L")
+    //   resetformik();
+    // }
     if (userzone !== null && userzone !== undefined) {
       formik.values.timezone = userzone;
     }
@@ -309,7 +316,6 @@ const CreateNewEvent = (props) => {
     formik.values.enddate = datas.enddate;
 
     if(datas.startdate && datas.enddate){
-      alert("selectedRange"+selectedRange)
       setonSelectShow({
         startDate: convertmonth(datas.startdate),
         endDate: convertmonth(datas.enddate),
@@ -438,7 +444,6 @@ const CreateNewEvent = (props) => {
 
   const GoogleCalendar = (label) => {
     if (interviewerData.length === 0) {
-      alert('1');
       if (google === false && label === 'Google Hangouts/Meet') {
         const validate = window.confirm(
           'Google Calendar not be Integrated, Select this option after the Integration',
@@ -447,7 +452,9 @@ const CreateNewEvent = (props) => {
           setIsOpen(false);
           dispatch(googleCallApiMiddleware()).then((res) => {
             window.open(res.payload.url);
+            dispatch(getScheduleMiddleWare(undefined))
           });
+
         } else {
           formik.values.event_type = '';
         }
@@ -536,6 +543,7 @@ const CreateNewEvent = (props) => {
             if (res.payload.success === true) {
               window.open(res.payload.authorization_url);
               console.log('outlookcallApi', outlookCallApiMiddleware());
+              dispatch(getScheduleMiddleWare(undefined))
             }
           });
         } else {
@@ -678,7 +686,10 @@ const CreateNewEvent = (props) => {
   const handleSubmitForm = (values: CreateEvent) => {
     const schedulearr = calculateSchedule();
     console.log('schedulearrschedulearrschedulearrschedulearr', schedulearr);
-    if (isEmptyArray(schedulearr)) {
+    if(sundaycheck === false && mondaycheck === false && tuesdaycheck === false && wednesdaycheck === false && thursdaycheck === false && fridaycheck === false && saturdaycheck  === false) {
+      alert('Select Atleast One Availble Day');
+    }
+    else if (isEmptyArray(schedulearr)) {
       const reschedule = DateBasedReschedule();
       console.log('reschedulereschedule', reschedule);
     } else if (
@@ -754,6 +765,17 @@ const CreateNewEvent = (props) => {
       }
       // const schedulearr = calculateSchedule();
       formData.append('slot', JSON.stringify(schedulearr));
+      // if(formik.dirty === false){
+        resetformik();
+        formik.initialValues = null;
+        formik.values = null;
+        setIsOpen(false);
+      // }
+
+      
+ 
+      // setIsOpen(false);
+      console.log("postScheduleMiddleWareGGGGGGGGG",formik.values,"\n",formik)
       dispatch(postScheduleMiddleWare({ formData })).then((res) => {
         const ToastMessage = formData.has('pk');
         dispatch(getScheduleMiddleWare(undefined));
@@ -778,13 +800,23 @@ const CreateNewEvent = (props) => {
       //   setisLoader(false);
       // }
       // });
+      // resetformik();
+      // formik.initialValues = null;
+      // formik.values = null;
+      if(formik.dirty === true){
       resetformik();
-      formik.initialValues = null;
       formik.values = null;
-      setIsOpen(false);
-    } else {
-      alert('Select Atleast One Availble Day');
-    }
+
+        formik.values.event_name =''
+        formik.values.event_type = ''
+        formik.values.duration =''
+        formik.values.description =''
+
+
+        setIsOpen(false);
+      }
+      // setIsOpen(false);
+    } 
   };
 
   const formik = useFormik({
@@ -799,6 +831,12 @@ const CreateNewEvent = (props) => {
       setDurationField(value);
     } else {
       setDurationField(option);
+    }
+    if (editModel !== null){
+      if (editModel.duration === option){
+        // alert("setChangeCount:"+ changeCount)
+        setChangeCount(1)
+      }
     }
   };
   const convertion = (dateStr) => {
@@ -1160,7 +1198,6 @@ const CreateNewEvent = (props) => {
   };
 
   const handleDateRangePickerShow = (event, picker) => {
-    alert('????/');
     console.log("pickerpickerpicker",picker)
     setDatePickerOpen(true);
     if(onSelectShow !== null){
@@ -1192,14 +1229,18 @@ const CreateNewEvent = (props) => {
 
   },[onSelectShow])
 
-  console.log('datepickeropen', datePickerOpen, durationOpen);
+  console.log('datePickerOpen', datePickerOpen, durationOpen);
+  console.log('formikformik!!!!!!!', formik,"\n",formik.values);
+
   console.log('selectedRangeselectedRangeselectedRangeselectedRange', onSelectShow,new Date(2023,10,2) );
 
+  const MAX_BUTTONS = 3;
+  const MAX_BUTTON_TEXT_WIDTH = 100;
 
   // function editFormReset() {
   //   alert("editFormReset")
   //   // seteditModel('')
-  // }
+  // }aQZx  aZ
 
   return (
     <Flex>
@@ -1387,7 +1428,7 @@ const CreateNewEvent = (props) => {
               <LabelWrapper label="Within a date range">
                 <div className={styles.dateInput}>
                   <DateRangePicker
-                    // initialSettings={initialSettings}
+                    initialSettings={initialSettings}
                     // onShowCalendar={selectedRange.startDate}
                     onApply={(event, picker) => onApplyChange(event, picker)}
                     // onShow={() => {
@@ -1398,15 +1439,15 @@ const CreateNewEvent = (props) => {
                     //   });
                     // }}
                     onShow={handleDateRangePickerShow}
-                    initialSettings={{
-                      // if(onSelectShow !== null){
-                        // startDate: onSelectShow !== null ? onSelectShow.startDate : new Date(),
-                        // endDate: onSelectShow !== null ? onSelectShow.endDate : new Date(),
+                    // initialSettings={{
+                    //   // if(onSelectShow !== null){
+                    //     // startDate: onSelectShow !== null ? onSelectShow.startDate : new Date(),
+                    //     // endDate: onSelectShow !== null ? onSelectShow.endDate : new Date(),
 
-                        startDate: onSelectShow.startDate !== null ? onSelectShow.startDate : new Date() ,
-                        endDate:  onSelectShow.endDate !== null ? onSelectShow.endDate : new Date()
-                      // }
-                    }}
+                    //     startDate: onSelectShow.startDate !== null ? onSelectShow.startDate : new Date() ,
+                    //     endDate:  onSelectShow.endDate !== null ? onSelectShow.endDate : new Date()
+                    //   // }
+                    // }}
                     onHide={() => setDatePickerOpen(false)}
                   >
                     <input
@@ -1452,7 +1493,7 @@ const CreateNewEvent = (props) => {
           </Flex>
 
           <Flex row between center>
-            <Flex row>
+            <Flex row className={styles.overflowbtn}>
               <Button
                 types="secondary"
                 style={{
@@ -1464,7 +1505,8 @@ const CreateNewEvent = (props) => {
               >
                 <Text color="theme"> {profilename}</Text>
               </Button>
-              {interviewerData.map((name: any, index) => (
+              
+              {/* {interviewerData.slice(0, MAX_BUTTONS).map((name, index) => (
                 <Button
                   key={index}
                   style={{
@@ -1479,6 +1521,55 @@ const CreateNewEvent = (props) => {
                   <Text title={name} color="theme" className={styles.interviewertxt}> {name}</Text>
                 </Button>
               ))}
+               {interviewerData.length > MAX_BUTTONS && (
+        <Button
+          style={{
+            border: '1px solid #ccc',
+            borderBottom: 'none',
+            borderRadius: '2px 2px 0px 0px',
+            padding: '5px',
+          }}
+          types="secondary"
+        >
+          <Text color="theme" className={styles.interviewertxt}>{`+${interviewerData.length - MAX_BUTTONS}`}</Text>
+         </Button>
+      )} */}
+      {interviewerData.slice(0, MAX_BUTTONS).map((name, index) => (
+        <Button
+          key={index}
+          style={{
+            border: '1px solid #ccc',
+            borderBottom: 'none',
+            borderRadius: '2px 2px 0px 0px',
+            padding: '5px',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            maxWidth: MAX_BUTTON_TEXT_WIDTH + 'px',
+          }}
+          types="secondary"
+        >
+          <Text title={name} color="theme" className={styles.interviewertxt}> {name}</Text>
+        </Button>
+      ))}
+      {interviewerData.length > MAX_BUTTONS && (
+        <Button
+          style={{
+            border: '1px solid #ccc',
+            borderBottom: 'none',
+            borderRadius: '2px 2px 0px 0px',
+            padding: '5px',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            maxWidth: MAX_BUTTON_TEXT_WIDTH + 'px',
+          }}
+          types="secondary"
+        >
+          <Text color="theme" className={styles.interviewertxt}>{`+${interviewerData.length - MAX_BUTTONS}`}</Text>
+         </Button>
+      )}
+              
             </Flex>
 
             {organiser?.length > 0 ? (
@@ -1555,6 +1646,9 @@ const CreateNewEvent = (props) => {
                 editModel ={editModel}
                 onValid ={onValid}
                 seteditModel ={seteditModel}
+                setonValid ={setonValid}
+                changeCount ={changeCount}
+                setChangeCount = {setChangeCount}
               
               />
             </Flex>

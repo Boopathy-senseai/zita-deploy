@@ -70,7 +70,6 @@ const Interviewer = (props) => {
         const remove = checkedData.find((nam) => nam === value);
         console.log('indexindexindexindexindexindex', remove);
         if (remove !== -1) {
-          alert('(((((()))))');
           checkedData.splice(remove, 1);
         }
         console.log('indexindexindexindexindexindexcheckedItems', checkedData);

@@ -177,24 +177,30 @@ const slotter1 = (props) => {
       formData.append('date', selecteddate);
       formData.append('time', selectedtime);
       formData.append('timezone', result);
-      if (google !== null) {
-        // attendees.push({ email: google})
-        interviewer?.map((datalist, index) => {
-          if(datalist.google_calendar !==  null){
-            attendees.push({ email: datalist.google_calendar });
-          }
-        });
-        formData.append('attendees', JSON.stringify(attendees));
-        dispatch(googleAddEventMiddleware({ formData }));
-      }
-      // if (outlook) {
-      //   interviewer?.map((datalist) => {
-      //     if(datalist.outlook_calendar !== null){
-      //       attendees.push(datalist.outlook_calendar);
-      //     }
-      //   });
-      //   formData.append('attendees', JSON.stringify(attendees));
-      //   dispatch(outlookAddEventMiddleware({ formData }));
+      console.log("googlegoogle",google,"\n",outlook)
+
+      // if(google || outlook){
+        if (google) {
+          alert("Google")
+          // attendees.push({ email: google})
+          interviewer?.map((datalist, index) => {
+            if(datalist.google_calendar !==  null){
+              attendees.push({ email: datalist.google_calendar });
+            }
+          });
+          formData.append('attendees', JSON.stringify(attendees));
+          dispatch(googleAddEventMiddleware({ formData }));
+        }
+        if (outlook) {
+          alert("outlook")
+          interviewer?.map((datalist) => {
+            if(datalist.outlook_calendar !== null){
+              attendees.push(datalist.outlook_calendar);
+            }
+          });
+          formData.append('attendees', JSON.stringify(attendees));
+          dispatch(outlookAddEventMiddleware({ formData }));
+        }
       // }
       console.log('??/////////////', attendees);
       // dispatch(googleAddEventMiddleware({ formData }));
@@ -214,13 +220,13 @@ const slotter1 = (props) => {
     var selectedtime = selecttime11;
     console.log("%%^%^%^^^",uid,event_id)
     if (uid !== null && event_id !== null && userpreview === undefined  ){
-      alert(uid)
+      // alert(uid)
     dispatch(
       getSlotterMiddleware({ uid, event_id, selecteddate, selectedtime }),
     );
     console.log('dadadataaatatatatatata', data);
-    }
     CalendarIntegration(data[0], selecteddate, selectedtime);
+  }
   };
 
   const InterviewText = (inter) => {
@@ -921,6 +927,7 @@ const SlotterDate = (props) => {
                   {/* <div className={styles.line}></div> */}
                 </Flex>
                 <Flex flex={4} className={styles.rightside}>
+                  <div style={{marginLeft : "90px"}}>
                   <DayPicker
                     // locale={enUS}
                     mode="single"
@@ -928,6 +935,7 @@ const SlotterDate = (props) => {
                       months: {
                         color: '#581845',
                       },
+                      
                     }}
                     defaultMonth={dateObjectsArray[0]}
                     // onSelect={setDays}
@@ -940,6 +948,7 @@ const SlotterDate = (props) => {
                     modifiers={modifiers}
                     modifiersStyles={modifiersStyles}
                   />
+                  </div>
                 </Flex>
               </Flex>
 
@@ -962,7 +971,7 @@ const SlotterDate = (props) => {
                   ''
                 )}
                 <Flex row wrap className={styles.select}>
-                  {finalIntervals?.length > 0 &&
+                  {finalIntervals?.length > 0 && 
                     finalIntervals?.map((obj, index) => (
                       <button
                         className={styles.button1}
@@ -973,6 +982,7 @@ const SlotterDate = (props) => {
                       </button>
                     ))}
                 </Flex>
+               
                 {selecttime ? (
                   <Flex end className={styles.content} marginTop={20}>
                     <Button
@@ -1228,7 +1238,6 @@ const InterviewDashBoard = (props) => {
                 </Text>
               </Flex>
             </Flex>
-            <div className={styles.line} style={{ margin: '20px 0px' }}></div>
           </Flex>
         ))}
       </Flex>
