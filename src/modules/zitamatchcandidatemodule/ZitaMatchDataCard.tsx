@@ -593,12 +593,15 @@ const ZitaMatchDataCard = ({
                     svgInviteNone: !isEmpty(dataList.applicant),
                   })}
                 >
-                  <SvgInvite width={36} height={36} color="theme" /> 
+                  {!isEmpty(dataList.applicant)?(""):(
+                    <SvgInvite width={36} height={36} color="theme" /> 
+                  )}
+                  
                 </div>
               )}
                 <Text size={12} color="gray" >
                   {!isEmpty(dataList.applicant)
-                    ? 'You can’t send Invite'
+                    ? ''
                     : 'Invite to Apply'}
                 </Text></>
               )}

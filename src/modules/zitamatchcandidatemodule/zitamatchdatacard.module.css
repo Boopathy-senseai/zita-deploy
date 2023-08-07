@@ -105,3 +105,7 @@
   border-left: 1px solid #581845;
   height: 95px;
 }
+.fav{
+  display: flex;
+  justify-content: flex-end;
+}
