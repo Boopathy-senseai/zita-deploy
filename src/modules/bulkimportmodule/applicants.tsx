@@ -569,12 +569,10 @@ const ApplicantsTab = ({
             to={`/${isUrl}/career_job_view/${isJob.id}/${isJob.job_title}`}
           >
             <Flex row>
-              <Text bold color="link" className={styles.viewText}>
+              <Button types='secondary' className={styles.viewText} style={{marginTop:'0px'}}>
                 View Job
-              </Text>
-              <Flex className={styles.careerPage}>
-                <SvgNewTab fill={LINK} height={15} width={15} />
-              </Flex>
+              </Button>
+              
             </Flex>
           </LinkWrapper>
     </Flex>)}

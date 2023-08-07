@@ -292,7 +292,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
 
             {checkSelectLength ? (
               <Flex columnFlex>
-                <Flex row center wrap>
+                <Flex row  wrap>
                   {unique.length !== 0 &&
                     unique.map((list: any, index: number) => {
                       return (
@@ -302,7 +302,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
                           center
                           className={styles.listStyle}
                         >
-                          <Text size={12} color={'gray'}>
+                          <Text size={12} color={'primary'} style={{width:'90px'}}>
                             {index + 1}.{list.name.substring(0, 10) + '...'}
                           </Text>
                           <div
@@ -343,7 +343,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
                     className={styles.labelStyle}
                     htmlFor={'candidate__file_upload'}
                   >
-                    <Text color="link">Browse Files</Text>
+                    <Text color="link" bold>Browse Files</Text>
                   </label>
                 </Flex>
                 <Text

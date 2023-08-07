@@ -297,7 +297,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
                         center
                         className={styles.listStyle}
                       >
-                        <Text size={12} color={'gray'}>
+                        <Text size={12} color={'primary'} style={{width:'90px'}}>
                           {index + 1}.{list.name.substring(0, 10) + '...'}
                         </Text>
                         <div
@@ -334,7 +334,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
                     className={this.props.isjdId !== '0' ? styles.labelStyle : styles.labelStyleNone}
                     htmlFor={'applicant__file_upload'}
                   >
-                    <Text color={this.props.isjdId !== '0' ? 'link' : 'gray'} >Browse Files</Text>
+                    <Text color={this.props.isjdId !== '0' ? 'link' : 'gray'} bold >Browse Files</Text>
                   </label>
                 </Flex>
                 <Text
