@@ -99,7 +99,7 @@ const MyDataBaseBulkAction = ({
         <div
           className={cx('svgDownload', { svgDownloadNone: checkValue })}
           >
-          <Flex style={{ marginRight: 8 }}className={styles.totalcandidatescount}>
+          <Flex className={styles.totalcandidatescount}>
           <Totalcount 
           name="Total Candidates"
           numbers={totalCount}
@@ -157,7 +157,8 @@ const MyDataBaseBulkAction = ({
       </Flex>
       <Flex>
         <Flex className={styles.favandsort}>
-          <Flex className={styles.sortbybar}>
+        {!isEmpty(filterFormik.values.jobTitle) && (
+      <Flex className={styles.sortbybar}>
       <Text className={styles.sortText}>Sort By:</Text>
           <div className={styles.selectTagStyle}>
             <SelectTag
@@ -171,9 +172,7 @@ const MyDataBaseBulkAction = ({
               isSearchable
             />
           </div>
-          </Flex>
           <Flex width={5}></Flex>
-        {!isEmpty(filterFormik.values.jobTitle) && (
           <div
             onClick={handleFav}
             title="Favourite Candidates"
@@ -191,6 +190,7 @@ const MyDataBaseBulkAction = ({
                   Favourites
                 </div>
           </div> 
+          </Flex>
         )}
       </Flex>
     </Flex>

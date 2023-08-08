@@ -86,7 +86,7 @@ font-weight: 400;
  
   padding: 10px;
   background-color: #ffff !important;
-  width: 230px;
+  width: 260px;
   height: 30px;
   border: 1px solid #581845;
   border-radius: 11px;
@@ -101,6 +101,9 @@ font-weight: 400;
 
 .hoverbo{
   display: none;
+}
+.qualificationRadioStyle {
+  margin-bottom: 8px;
 }
 .drop_down_menus {
   /* background-color: rgb(142, 142, 245);
@@ -146,9 +149,9 @@ font-weight: 400;
   position: absolute;
   background-color: var(--color-white, #fff);
   border-radius: 12px;
-  max-height:450px ;
+  max-height:480px ;
   overflow-y: scroll;
-  width: 230px;
+  width: 100%;
   display: none;
   box-sizing: border-box;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.47000000000000003);
@@ -205,7 +208,7 @@ font-weight: 400;
   border: 1px solid #581845;
   margin-left: 15px;
   margin-bottom: 5px;
-  color: #581845;
+  /* color: #581845; */
   font-size: 13px;
 }
 
@@ -220,6 +223,7 @@ font-weight: 400;
 }
 .stylesvg {
   margin-left: 10px;
+  cursor: pointer;
 }
 .checkbox {
   color: #581845;
@@ -259,4 +263,8 @@ font-weight: 400;
   font-size: 13px;
   top: 1px;
   position: relative;
+}
+
+.jobTextStyle {
+  margin-bottom: 5px;
 }

@@ -298,7 +298,7 @@ const LocationContainer = ({
                   title={dataList.location}
                   textStyle="ellipsis"
                   size={11}
-                  color="gray"
+                  color="primary"
                   onClick={handleOpenLocationInput}
                   underLine
                   className={styles.locationStyle}
@@ -327,9 +327,9 @@ const LocationContainer = ({
                       errors={formik.errors}
                       name="location"
                     />
-                <div className={styles.svgContainer}>
+                {/* <div style={{ display: 'flex', flexDirection: 'row' }}>
                   {isLocationLoader ? (
-                    <div className={styles.svgTick}>
+                    <div>
                       <div className={styles.locationloader}><Loader withOutOverlay size={'small'} /></div>
                     </div>
                   ) : (
@@ -341,11 +341,8 @@ const LocationContainer = ({
                       onClick={handleLocationSubmit}
                       tabIndex={-1}
                       role={'button'}
-                      // onClick={() => {
-                      //   formik.handleSubmit
-                      // }}
                     >
-                      <SvgTickBox className={styles.tickStyle} />
+                      <SvgTickBox />
                     </div>
                   )}
 
@@ -358,7 +355,36 @@ const LocationContainer = ({
                   >
                     <SvgCloseBox className={styles.tickStyle} />
                   </div>
+                </div> */}
+              <div className={styles.svgContainer}>
+              {isLocationLoader ? (
+                <div className={styles.svgTick}>
+                  <Loader withOutOverlay size={'small'} />
                 </div>
+              ) : (
+                <div
+                className={cx('svgTickMargin', {
+                  svgTickDisable: !formik.isValid,
+                  tickStyle: !isEmpty(formik.values.location),
+                  })}
+                  onClick={handleLocationSubmit}
+                  tabIndex={-1}
+                  role={'button'}
+                  onKeyPress={() => {}}
+                >
+                  <SvgTickBox />
+                </div>
+              )} 
+              <div
+                className={styles.svgClose}
+                tabIndex={-1}
+                onClick={handleCloseLocationInput}
+                role={'button'}
+                onKeyPress={() => {}}
+              >
+                <SvgCloseBox className={styles.tickStyle} />
+              </div>
+              </div>
               </div>
             </>
           )}

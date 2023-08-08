@@ -94,10 +94,15 @@
 }
 
 .totalcandidatescount{
-    margin-right: 8px;
-    color: #581845;
-    font-weight: 500;
+  margin-right: 8px;
+  color: #581845;
+  font-weight: 500;
+  height: 30px;
+  align-items: center;
+  position: relative;
+  /* top: 1px; */
 }
+
 .totalcandidatescheckbox{
   right: -3px;
   position: relative;

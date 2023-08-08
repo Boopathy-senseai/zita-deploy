@@ -80,7 +80,6 @@ const MyDataBaseCard = ({
   const handleFavAction = (can_id:number, jd_id:any) => {
     setFavLoader(true);
     setFavourite(!isFav)
-    {console.log("formikfilter",filterFormik,)}
     
     dispatch(MyDataBaseFavoriteMiddleWare({ can_id, jd_id }))
     .then(() => { 
@@ -163,12 +162,8 @@ const MyDataBaseCard = ({
   const size=sidebar==="1"
   return (
     <>
-    {console.log("isColorisColor",isColor,dataList.id)}
-    {console.log("dataListdataList",dataList,dataList.id,dataList.first_name,dataList.fav)}
-    {console.log("TAbindex",index)}
 
     <Flex className={styles.cardwrap} >
-      {console.log("vpkvpk",isFav)}
       {isEmpty(dataList.candidate_id_id) && (
         <>
           <ZitaMatchCandidateDrawer
@@ -225,7 +220,7 @@ const MyDataBaseCard = ({
       {isEmpty(dataList.invite) && (
         <CancelAndDeletePopup
           open={isInvite}
-          title={`Invite will be sent as an email to ${dataList.first_name}. Are you sure to proceed?`}
+          title={`Invite will be sent as an email to ${dataList.first_name} ${dataList.last_name}. Are you sure to proceed?`}
           btnDelete={inviteSubmit}
           btnCancel={() => setInvite(false)}
           btnRight={YES}
@@ -337,7 +332,7 @@ const MyDataBaseCard = ({
             </Flex>
             <Flex className={styles.cardsplit} style={{left: !size? "38%"  : "40%"}}></Flex>
             <Flex className={styles.invitesplit} ></Flex>
-            <Flex className={styles.invitecontainer} style={{left: !size? "39%"  : "41%"}}>
+            <Flex className={styles.invitecontainer} style={{left: !size? "40%"  : "42%"}}>
                 <InviteContainer
                   inviteDisable={isEmpty(filterFormik.values.jobTitle)}
                   dataList={dataList}
@@ -346,8 +341,6 @@ const MyDataBaseCard = ({
                   handleApplicantView={handleApplicantView}
                 />
                 </Flex>
-                {console.log("____manoj1",dataList.id)}
-          {console.log("____manoj2",isFav,isColor,dataList.fav)}
         {!isEmpty(filterFormik.values.jobTitle) && (
         <div
           role={'button'}
@@ -369,7 +362,6 @@ const MyDataBaseCard = ({
         )}
           </Flex>
         </Flex>
-        {console.log("abcdddd",index,dataList.id,dataList.fav)}
       </Card>
       </Flex>
     </>

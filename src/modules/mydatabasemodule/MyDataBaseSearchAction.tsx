@@ -128,7 +128,7 @@ const MyDataBaseSearchAction = ({ jobTitle, formik,isSearchValue,setSearchValue 
                       onClick={hanldeSearch}
                       onKeyDown={() => {}}
                     >
-                    <div style={{marginTop: '-22px'}}>
+                    <div style={{marginTop: '-20px'}}>
                       <SvgSearch width={12} height={12} fill="#ffffff" />
                     </div>
                     </Button>

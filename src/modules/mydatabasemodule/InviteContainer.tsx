@@ -35,11 +35,10 @@ const InviteContainer = ({
   return (
     <Flex columnFlex center middle className={styles.invitetoapplybutton}
       >
-      {console.log("VP",dataList.interested)}
       {inviteDisable ? (
         <>
-        <div
-          style={{width:'2px',height:'10px',color:'black'}}></div>
+        {/* <div
+          style={{width:'2px',height:'10px',color:'black'}}></div> */}
           <div
             title="Invite to Apply"
             className={cx('inviteStyle', { inviteDisable })}
@@ -107,20 +106,26 @@ const InviteContainer = ({
           ) : (
             <>
               {!isEmpty(dataList.invite) && isEmpty(dataList.applicant) && (
+                <Flex className={styles.lastinviteset}>
                 <Text 
                 color="gray" size={11} className={styles.lastinvitetext}>
-                  Last Invited:{' '}
-                  {dataList?.invite && getDateString(dataList.invite, 'll')}
+                  Last Invited: 
                 </Text>
+                <Text color="gray" size={11} >
+                {' '}{dataList?.invite && getDateString(dataList.invite, 'll')}
+                </Text>
+                </Flex>
               )}
           {!isEmpty(dataList.interested) && dataList.interested === true ? (
-            <Flex row center>
+            <Flex>
                <Text 
                 color="gray" size={11} className={styles.lastinvitetext}>
-                  Last Invited:{' '}
-                  {dataList?.invite && getDateString(dataList.invite, 'll')}
+                  Last Invited: 
                 </Text>
-          </Flex>
+                <Text color="gray" size={11}>
+                  {' '}{dataList?.invite && getDateString(dataList.invite, 'll')}
+                  </Text>
+            </Flex>
           ):(
             <div></div>
           )}
@@ -176,7 +181,9 @@ const InviteContainer = ({
             <>
             {!isEmpty(dataList.interested) && isEmpty(dataList.applicant) && (
             <Flex row center title='You can’t send Invite' className={styles.notinterested}>
-              <Flex className={styles.svgnoticon}><SvgNotInterested width={20} height={20}/></Flex>
+              <Flex className={styles.svgnoticon}>
+                <SvgNotInterested width={20} height={20}/>
+                </Flex>
             <Text
               className={styles.notinterestedtext}>
               {!dataList.interested ? 'Not Interested' : ''}
@@ -187,8 +194,10 @@ const InviteContainer = ({
           )}
           {!isEmpty(dataList.applicant) && (
             <Flex row center className={styles.applied}>
-              <div className={styles.svgapplied}><SvgAppliedIcon fill={SUCCESS} width={17} height={17} /></div>
-              <Link target={'_parent'} to={`/applicant_pipe_line/${jobId}`}>
+              <div className={styles.svgapplied}>
+                <SvgAppliedIcon fill={SUCCESS} width={17} height={17} />
+                </div>
+              <Link target={'_blank'} to={`/applicant_pipe_line/${jobId}`}>
                 <div>
                 <Text
                   title="You can't send invite"

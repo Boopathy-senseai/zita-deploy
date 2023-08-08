@@ -79,7 +79,7 @@ const MyDataBaseList = ({
 
   },[])
   // const getHeight = jobId === false ? 293 : 303;
-  const getHeight = jobId === false ? 249 : 303
+  const getHeight = jobId === false ? 271 : 303
   return (
     <div>
       <MyDataBaseBulkAction
