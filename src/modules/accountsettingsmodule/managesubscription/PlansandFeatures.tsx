@@ -146,21 +146,12 @@ const PlansandFeatures = ({
     <Card className={styles.overAll} id='plans_and_features__plan'>
       <Flex >
         <Flex row center between>
-          <Text size={16} bold>
-            Plans and Features
-          </Text>
-          <div
-            tabIndex={-1}
-            role="button"
-            onKeyDown={() => {}}
-            onClick={() => setPriceShow(!isShowPrice)}
-          >
-            <SvgAngle fill={GARY_4} height={16} width={16} up={isShowPrice} />
-          </div>
-        </Flex>
-        {isShowPrice && (
-          <>
-            <Flex row center className={styles.switchFlex}>
+          <Flex>
+            <Text size={16} bold>
+              Plans and Features
+            </Text>
+          </Flex>
+          <Flex row center className={styles.switchFlex}>
               <Text >Billed Monthly</Text>
               <div style={{ margin: '0 8px' }}>
                 <InputSwitch
@@ -170,7 +161,21 @@ const PlansandFeatures = ({
                 />
               </div>
               <Text >Billed Annually</Text>
+                  <div
+                  style={{marginLeft:'5px'}}
+                tabIndex={-1}
+                role="button"
+                onKeyDown={() => {}}
+                onClick={() => setPriceShow(!isShowPrice)}
+                >
+                <SvgAngle fill={GARY_4} height={16} width={16} up={isShowPrice} />
+              </div>
             </Flex>
+          
+        </Flex>
+        {isShowPrice && (
+          <>
+            
             <Flex columnFlex>
               <Flex row>
                 <PriceCard

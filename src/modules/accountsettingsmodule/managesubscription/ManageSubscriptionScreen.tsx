@@ -12,6 +12,7 @@ import {
 } from '../../../uikit/helper';
 import Loader from '../../../uikit/Loader/Loader';
 import Text from '../../../uikit/Text/Text';
+import { Button } from '../../../uikit';
 import SingleButton from '../../common/SingleButton';
 import { permissionMiddleWare } from '../../Login/store/middleware/loginMiddleWare';
 import {
@@ -22,10 +23,12 @@ import AddOnCard from './AddOnCard';
 import styles from './managesubscriptionscreen.module.css';
 import PlansandFeatures from './PlansandFeatures';
 import {
+  billingPortalMiddleWare,
   manageSubscriptionMiddleWare,
   renewSubscriptionMiddleWare,
 } from './store/managesubscriptionmiddleware';
 import SubscriptionPlan from './SubscriptionPlan';
+
 
 type Props = {
   setTab: (a: string) => void;
@@ -141,6 +144,13 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
       });
     });
   };
+  const handleInvoice = () => {
+    setLoader(true);
+    dispatch(billingPortalMiddleWare({})).then((res) => {
+      window.location.replace(res.payload.url);
+      setLoader(false);
+    });
+  };
 
   // plan card function
   const handleFocus = () => {
@@ -152,13 +162,11 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
   }
   return (
     <Flex className={styles.overAll}>
-      <Flex row center className={styles.titleStyle}>
+      <Flex row center between className={styles.titleStyle}>
         <Text size={16} bold>
-          Zita Platform Subscription
+         Subscription
         </Text>
-        <Text size={16} style={{ marginLeft: 8 }}>
-          (Timezone: UTC)
-        </Text>
+        <Button onClick={handleInvoice}>Invoices & Payment Info</Button>
       </Flex>
       {/*{subscription && subscription?.plan_id_id === 1 &&
         subscription?.subscription_remains_days <= 0 && (
