@@ -326,6 +326,22 @@ const ApplicantsTab = ({
     }
   };
 
+  useEffect(() => {
+    if(searchValue === '' && isJdId !== '0'){
+      dispatch(bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: isJdId })).then(
+        () => {
+          getFocus('candidates__input');
+          setPageNumber(0);
+          getBlur('candidates__input');
+          setCandiTableLoader(false);
+        },
+      );
+    }
+  }, [searchValue]);
+
+
+
+
   // Table Refresh Function
   const hanldeSvgRefresh = (e: any) => {
     setCandiTableLoader(true);
@@ -429,6 +445,7 @@ const ApplicantsTab = ({
   const value1=value>4;
   return (
     <Flex style={{overflowY:'scroll',maxHeight:value1?'547px':'fit-content',paddingRight:'10px'}}>
+    {console.log("isJdId+++++",isJdId)}
       <YesOrNoModal
         title={
           <Text style={{ width: 580, marginLeft: 12 }}>
@@ -546,11 +563,11 @@ const ApplicantsTab = ({
         onChange={searchHandleChange}
         id={'applicant__input'}
         actionRight={() => (
-          <label htmlFor={'applicant__buttonFind'} style={{ margin: 0 }}>
+          <label style={{ margin: 0 }}>
             <SvgSearch />
           </label>
         )}
-        onKeyPress={handleKeyPress}
+       
       />
       
       <Button

@@ -102,10 +102,15 @@ const CandidateDatabaseTab = ({
       setFile(res.payload.resume_file_path);
     });
   };
-  useEffect(() => {
-    dispatch(bulkuploadedCandidatesMiddleWare({}));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(bulkuploadedCandidatesMiddleWare({}));
+  // }, []);
 
+  useEffect(() => {
+    if(searchValue === '' ){
+      dispatch(bulkuploadedCandidatesMiddleWare({}));
+    }
+  }, [searchValue]);
 
   const {
     emp_pool,
@@ -166,6 +171,7 @@ const CandidateDatabaseTab = ({
     localStorage.setItem('bulk_loader', 'true');
   };
 
+  
   const handleOpenParse = () => setParse(true);
 
   // Pagination Function
@@ -259,6 +265,9 @@ const CandidateDatabaseTab = ({
       setCandiTableLoader(false);
     });
   };
+
+
+
   const hanldeSvgRefreshOnUpdate = (e: any) => {
     setOpenProfile(false);
     setCandiTableLoader(true);
@@ -305,8 +314,10 @@ const CandidateDatabaseTab = ({
   });
 
   const handleKeyPress = (event: { key: string }) => {
-    if (event.key === 'Enter') {
-      handleSubmit();
+    console.log("hhhhhhhhhhh1")
+    if (event.key=== "Backspace" || event.key === "Delete") {
+      console.log("hhhhh")
+      hanldeSvgRefresh(event);
     }
   };
   const value=emp_pool.length;
@@ -406,14 +417,14 @@ const CandidateDatabaseTab = ({
           onChange={searchHandleChange}
           id={'candidates__input'}
           actionRight={() => (
-            <label htmlFor={'candidates__buttonFind'} style={{ margin: 0 }}>
+            <label style={{ margin: 0 }}>
               <SvgSearch />
             </label>
           )}
           onKeyPress={handleKeyPress}
         />
         <Button
-          id="candidates__buttonFind"
+         
           disabled={searchValue === '' ? true : false}
           onClick={handleSubmit}
         >
