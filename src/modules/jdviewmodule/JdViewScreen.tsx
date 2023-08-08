@@ -342,7 +342,7 @@ const JdViewScreen = () => {
       <Card className={styles.cardOverAll}>
       <Flex columnFlex>
       <Text bold size={14} style={{color:"#333333"}}>
-          Applicant Questionnaire:
+          Applicant Questionnaire
         </Text>
         <div className={styles.tableDiv}>
            {
@@ -393,7 +393,7 @@ const JdViewScreen = () => {
             <Text>
             This will remove the job posting from both the external job board & careers page.
             </Text>
-            <Text style={{textAlign:"center"}}>Are you sure you want to Inactivate this job?</Text>
+            <Text >Are you sure you want to Inactivate this job?</Text>
           </Flex>
         }
         btnDelete={hanldeInactiveDone}
