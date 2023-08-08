@@ -266,7 +266,7 @@ const UserProfilepic = ({ value, update }: Props) => {
                       >
                       <Flex style={{marginBottom:'8px'}}>
                       <SvgView
-                        nonView={isShowOldPass}
+                        nonView={isShowNewPass}
                         height={20}
                         width={20}
                       />
@@ -332,7 +332,7 @@ const UserProfilepic = ({ value, update }: Props) => {
                       >
                       <Flex style={{marginBottom:'8px'}}>
                       <SvgView
-                        nonView={isShowOldPass}
+                        nonView={isShowNewPass1}
                         height={20}
                         width={20}
                       />

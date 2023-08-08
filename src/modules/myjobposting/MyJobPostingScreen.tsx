@@ -212,7 +212,10 @@ const MyJobPostingScreen = () => {
               </div>
 
               <Flex>
-                <Table />
+                <Table
+                currentPage={isPage}
+                setCurrentPage={handleSetPagination}
+                  />
 
                 {len_list === 0 && (
                   <Flex
@@ -236,15 +239,7 @@ const MyJobPostingScreen = () => {
                 )}
               </Flex>
             </Flex>
-            {len_list > 10 && (
-              <Flex middle className={styles.pagination}>
-                <Pangination
-                  maxPages={pageCount - 1}
-                  currentPage={isPage}
-                  setCurrentPage={handleSetPagination}
-                />
-              </Flex>
-            )}
+          
           </div>
         </Flex>
       )}
@@ -275,6 +270,15 @@ const MyJobPostingScreen = () => {
         </Flex>
       )}
       {isLoad && <Loader />}
+      {/* {len_list > 10 && (
+              <Flex middle className={styles.pagination}>
+                <Pangination
+                  maxPages={pageCount - 1}
+                  currentPage={isPage}
+                  setCurrentPage={handleSetPagination}
+                />
+              </Flex>
+            )} */}
     </Flex>
   );
 };

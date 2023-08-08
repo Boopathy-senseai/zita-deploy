@@ -9,6 +9,7 @@ import { RootState } from '../../store';
 // import Flex from '../../uikit/Flex/Flex';
 // import MyJobsPostingData from './MyJobsPostingData';
 import Flex from '../../uikit/Flex/Flex';
+import { Pangination } from '../../uikit';
 import { getDateString, isEmpty } from '../../uikit/helper';
 
 import SvgMetrics from '../../icons/SvgMetrics';
@@ -47,7 +48,12 @@ export type MyJobFormProps = {
   jobType: string;
   location: string;
 };
-const MyJobPostingScreen = () => {
+type props={
+  currentPage?:any;
+  setCurrentPage?:any;
+  
+}
+const MyJobPostingScreen = ({currentPage,setCurrentPage}:props) => {
   const {
     location_list,
     job_ids,
@@ -82,6 +88,7 @@ const MyJobPostingScreen = () => {
 
   type Props = {
     list: FinalListEntity;
+    
   };
   const MyJobsPostingCount = ({ list }: Props) => {
     const zita_match = isEmpty(list.zita_match) ? '0' : list.zita_match;
@@ -90,13 +97,14 @@ const MyJobPostingScreen = () => {
       : list.invite_to_apply;
     const applicant = isEmpty(list.applicants) ? '0' : list.applicants;
   };
-
+  const usersPerPage = 10;
+  const pageCount = Math.ceil(len_list / usersPerPage);
   return (
     <div>
       {/* <div  style={{height:320}}>
      <table className="table"> */}
       <Flex className="table-responsisssve " style={{overflowY:'scroll'
-   }} height={window.innerHeight-320} >  
+   }} height={window.innerHeight-220} >  
           <table className="table" style={{ paddingLeft: 'none' }}>
             <thead style={{ position: 'sticky',
   top: 0,backgroundColor: 'white'}}>
@@ -559,9 +567,18 @@ const MyJobPostingScreen = () => {
                 })}
             </tbody>
             {/* </Flex> */}
-          </table>
-         
+          </table> 
+               {len_list > 10 && (
+              <Flex middle className={styles.pagination}>
+                <Pangination
+                  maxPages={pageCount - 1}
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                />
+              </Flex>
+            )}
       </Flex>
+
     </div>
   );
 };

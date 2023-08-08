@@ -652,14 +652,19 @@ const Sidebar = ({ changes, data }: props) => {
 
 
 
-        <ul className={styles.setting} >
-          {is_plan ? (<li style={{height:'35px',width:'230px',position:'relative',bottom:'25px'}}  title='Settings'  className={
-                  pathname === '/account_setting/settings' ? styles.select_row : ''
-                }>
-              <LinkWrapper onClick={clearTab} to={'/account_setting/settings'}  className={styles.hoverview}>
-              
-                <SvgSetting fill={'#581845'}  height={20} width={20}  />
-              
+        <ul className={styles.setting}>
+          {is_plan ? (
+            <li
+              style={{
+                height: '35px',
+                width: '145px',
+                position: 'relative',
+                bottom: '25px',
+              }}
+            >
+              <LinkWrapper onClick={clearTab} to={'/account_setting/settings'}>
+                <SvgSetting fill={'#581845'} height={20} width={20} />
+
                 <Text
                   className={Expent === '0' ? styles.text : styles.classpan}
                   color="primary"
@@ -668,61 +673,50 @@ const Sidebar = ({ changes, data }: props) => {
                   Settings
                 </Text>
               </LinkWrapper>
-            </li>)
-            
-           : (
-            <li  title='Settings' className={
-              pathname === '/account_setting/settings' ? styles.select_row : ''
-            }>
-            <a
-            
-            href={" "} 
-            onClick={(e)=>{
-              e.preventDefault();
-            }}
-          >
-            <SvgSetting fill={'#581845'}  height={20} width={20}  />
-              <Text
-                className={Expent === '0' ? styles.text : styles.classpan}
-                color="primary"
-                style={{ color: '#581845', marginRight: '10px' }}
-               
+            </li>
+          ) : (
+            <li>
+              <a
+                href={' '}
+                onClick={(e) => {
+                  e.preventDefault();
+                }}
               >
-                Settings
-              </Text>
+                <SvgSetting fill={'#581845'} height={20} width={20} />
+                <Text
+                  className={Expent === '0' ? styles.text : styles.classpan}
+                  color="primary"
+                  style={{ color: '#581845', marginRight: '10px' }}
+                >
+                  Settings
+                </Text>
               </a>
             </li>
           )}
           <li>
             {Expent === '0' ? (
-              <div  className={
-                pathname === '/account_setting/settings' ? styles.select_row : ''
-              }>
-                
+              <div style={{}}>
                 <Button
                   style={{
                     height: '19px',
                     width: '19px',
                     position: 'relative',
-                    bottom: '46px',
-                    left: '25px',
+                    bottom: '51px', 
                   }}
                   types="link"
                   className={styles.collapse}
                   onClick={() => handlecheck('1')}
                 >
-                  <SvgCollapse height={19} width={18} />
+                  <SvgCollapse  height={16} width={16} />
                 </Button>
-                
               </div>
             ) : (
               <Button
-                 style={{left:'3px'}}
                 className={styles.Expend}
                 types="link"
                 onClick={() => handlecheck('0')}
               >
-                <SvgExpand width={19} height={18} />
+                <SvgExpand  height={16} width={16} />
               </Button>
             )}
           </li>
