@@ -212,3 +212,11 @@
 .sharetxt {
   color: black;
 }
+
+.overflowbtn{
+  max-width: 332px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+}

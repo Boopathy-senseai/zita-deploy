@@ -685,10 +685,12 @@ const SlotterDate = (props) => {
     if (select === false) {
       setSelect(true);
       setSelectTime(obj);
-    } else if (obj === selecttime) {
-      setSelect(false);
-      setSelectTime('');
-    } else {
+    } 
+    // else if (obj === selecttime) {
+    //   setSelect(false);
+    //   setSelectTime('');
+    // } 
+    else {
       setSelectTime(obj);
     }
   };
@@ -861,9 +863,23 @@ const SlotterDate = (props) => {
               <Flex row>
                 <Flex flex={4} className={styles.leftside}>
                   <Flex row center>
-                    {data.company_logo !== '' ? (
-                      <img
-                        src={`${process.env.REACT_APP_HOME_URL}media/${data.company_logo}`}
+                    {console.log("data.company_logo",data.company_logo)}
+                    {data.company_logo !== '' ? (        
+                      // data.company_logo.includes("company_logo") ?
+                      // ( <img
+                      //   src={`${process.env.REACT_APP_HOME_URL}media/${data.company_logo}`}
+                      //   alt="Company Logo"
+                      //   style={{
+                      //     width: '36px',
+                      //     height: '36px',
+                      //     borderRadius: '50%',
+                      //   }}
+                      // />
+
+
+                      // ):(
+                        <img
+                        src={`${process.env.REACT_APP_HOME_URL}media/company_logo/${data.company_logo}`}
                         alt="Company Logo"
                         style={{
                           width: '36px',
@@ -871,6 +887,11 @@ const SlotterDate = (props) => {
                           borderRadius: '50%',
                         }}
                       />
+                       
+                      // )       
+
+                     
+                      
                     ) : (
                       ''
                     )}

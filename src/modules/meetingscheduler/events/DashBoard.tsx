@@ -18,6 +18,7 @@ import SvgCopy from '../../../icons/SvgCopy';
 import LinkShare from './LinkShare';
 import styles from './dashBoard.module.css';
 import { getScheduleMiddleWare } from './store/middleware/eventmiddleware';
+import Interviewer from './Interviewer';
 
 const DashBoard = (props) => {
   const dispatch: AppDispatch = useDispatch();
@@ -100,6 +101,7 @@ const DashBoard = (props) => {
   //   return <Loader />;
   // }
   const filteredData = interview.filter((item) => item.event_id === list.id);
+  const MAX_BUTTONS = 7;
   return (
     <>
       <Card className={styles.cardConatiner}>
@@ -128,9 +130,12 @@ const DashBoard = (props) => {
         <Text size={13}>
           {modifiedTimeString(list.duration)}, {list.event_type}
         </Text>
-        <Flex row>
-          {interview.map((data) => {
-            if (data.event_id === list.id) {
+        <Flex row className={styles.overflowbtn}>
+          {interview
+          .filter(data => data.event_id === list.id) // Filter based on event_id
+          .slice(0, 7)
+          .map((data) => {
+            if (data.event_id === list.id)  {
               const initials = getInitials(data.full_name);
               return (
                 <Flex className={styles.initials} key={data.id}>
@@ -139,10 +144,19 @@ const DashBoard = (props) => {
                   </Text>
                 </Flex>
               );
+              
             }
 
             return null;
           })}
+          {interview.filter(data => data.event_id === list.id).length > 7 && (
+    <Flex className={styles.initials}>
+      <Text size={12} className={styles.textinitials}>
+      {`+${interview.filter(data => data.event_id === list.id).length - MAX_BUTTONS}`}
+      </Text>
+    </Flex>
+  )}
+         
         </Flex>
 
         <div className={styles.line}></div>

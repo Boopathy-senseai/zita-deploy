@@ -453,7 +453,11 @@ const CreateNewEvent = (props) => {
           dispatch(googleCallApiMiddleware()).then((res) => {
             window.open(res.payload.url);
             dispatch(getScheduleMiddleWare(undefined))
+            // newWindow.onload = () => {
+            //   alert("newWindow")
+            // }
           });
+
 
         } else {
           formik.values.event_type = '';
@@ -765,12 +769,25 @@ const CreateNewEvent = (props) => {
       }
       // const schedulearr = calculateSchedule();
       formData.append('slot', JSON.stringify(schedulearr));
-      // if(formik.dirty === false){
+      if(formik.dirty === false){
         resetformik();
         formik.initialValues = null;
         formik.values = null;
         setIsOpen(false);
-      // }
+      }
+      if(formik.dirty === true){
+        resetformik();
+        formik.initialValues = null;
+        formik.values = null;
+        formik.setFieldValue('event_name','')
+        formik.setFieldValue('event_type','')
+        formik.setFieldValue('duration','')
+        formik.setFieldValue('description','')
+        // setTimeout(()=>resetformik(),1000);
+
+
+        setIsOpen(false);
+      }
 
       
  
@@ -803,19 +820,22 @@ const CreateNewEvent = (props) => {
       // resetformik();
       // formik.initialValues = null;
       // formik.values = null;
-      if(formik.dirty === true){
-      resetformik();
-      formik.values = null;
+      // if(formik.dirty === true){
+      //   alert("dirty")
+      //   resetformik();
+      //   formik.initialValues = null;
+      //   formik.values = null;
+      //   formik.setFieldValue('event_name','')
+      //   formik.setFieldValue('event_type','')
+      //   formik.setFieldValue('duration','')
+      //   formik.setFieldValue('description','')
+      //   // setTimeout(()=>resetformik(),1000);
 
-        formik.values.event_name =''
-        formik.values.event_type = ''
-        formik.values.duration =''
-        formik.values.description =''
 
-
-        setIsOpen(false);
-      }
+      //   setIsOpen(false);
+      // }
       // setIsOpen(false);
+      console.log("postScheduleMiddleWareGGGGGGGGG",formik.values,"\n",formik)
     } 
   };
 
@@ -1076,15 +1096,17 @@ const CreateNewEvent = (props) => {
   const currentMonthStart = new Date();
   const initialSettings: Props['initialSettings'] = {
     minDate: currentMonthStart,
+  }
 
-    // startdate : selectedRange !== null ? selectedRange : currentMonthStart,
-    // enddate : selectedRange !== null ? selectedRange : currentMonthStart,
-    // minDate: selectedRange.startDate,
-    // endDate: selectedRange.endDate,
-  };
+  //   // startdate : selectedRange !== null ? selectedRange : currentMonthStart,
+  //   // enddate : selectedRange !== null ? selectedRange : currentMonthStart,
+  //   // minDate: selectedRange.startDate,
+  //   // endDate: selectedRange.endDate,
+  // };
+
   // const initialSettings = {
-  //   startDate: selectedRange.startDate !== null ? new Date("2023-09-09") : new Date(), // Set startDate to selectedRange.startDate if not null, else set it to today's date
-  //   endDate: selectedRange.endDate !== null ? new Date("2023-09-19") : new Date(),
+  //   startDate: onSelectShow.startDate !== null ? new Date(selectedRange.startDate) : new Date(), // Set startDate to selectedRange.startDate if not null, else set it to today's date
+  //   endDate: onSelectShow.endDate !== null ? new Date(selectedRange.startDate) : new Date(),
   // };
   console.log('initialSettings', initialSettings);
 
@@ -1178,6 +1200,8 @@ const CreateNewEvent = (props) => {
   console.log('1234567867543213456789', formik);
 
   console.log('@@@@@@######onValidonValid', onValid);
+  console.log('@@@@@@######onSelectShow', onSelectShow);
+
 
   // if (loader) {
   //   return <Loader />;
@@ -1199,11 +1223,14 @@ const CreateNewEvent = (props) => {
 
   const handleDateRangePickerShow = (event, picker) => {
     console.log("pickerpickerpicker",picker)
+  console.log('@@@@@@######onSelectShow1111', onSelectShow);
+
+    // alert("picker")
     setDatePickerOpen(true);
     if(onSelectShow !== null){
       picker.startDate = moment(onSelectShow.startDate)
       picker.endDate = moment(onSelectShow.endDate)
-//       endDate
+    
 // // : 
 // // Tue Oct 31 2023 00:00:00 GMT+0530 (India Standard Time) {}
 // // startDate
@@ -1211,6 +1238,7 @@ const CreateNewEvent = (props) => {
 // // Sun Oct 01 2023 00:00:00 GMT+0530 (India Standard Time) {}
 
     }
+
     console.log("picker.startDate",picker.startDate,"\n","picker.startDate",picker,"\n","onselextShow",onSelectShow)
     console.log(
       'DateRangePicker shown with selected range:',
@@ -1235,7 +1263,7 @@ const CreateNewEvent = (props) => {
   console.log('selectedRangeselectedRangeselectedRangeselectedRange', onSelectShow,new Date(2023,10,2) );
 
   const MAX_BUTTONS = 3;
-  const MAX_BUTTON_TEXT_WIDTH = 100;
+  const MAX_BUTTON_TEXT_WIDTH = 85;
 
   // function editFormReset() {
   //   alert("editFormReset")
@@ -1357,7 +1385,7 @@ const CreateNewEvent = (props) => {
                     required
                     placeholder={'Select the duration'}
                     value={
-                      duration
+                      formik.values.duration !== ""
                         ? duration.find(
                             (option) => option.label === formik.values.duration,
                           )
@@ -1442,12 +1470,14 @@ const CreateNewEvent = (props) => {
                     // initialSettings={{
                     //   // if(onSelectShow !== null){
                     //     // startDate: onSelectShow !== null ? onSelectShow.startDate : new Date(),
-                    //     // endDate: onSelectShow !== null ? onSelectShow.endDate : new Date(),
+                    //     // endDate: onSelectShow !== null ? onSelectShow.endDate : new Date(),                    
 
-                    //     startDate: onSelectShow.startDate !== null ? onSelectShow.startDate : new Date() ,
-                    //     endDate:  onSelectShow.endDate !== null ? onSelectShow.endDate : new Date()
+                    //     startDate: onSelectShow.startDate !== null ? new Date(2023,9,19) : new Date() ,
+                    //     endDate:  onSelectShow.endDate !== null ? new Date(2023,10,19) : new Date()
                     //   // }
                     // }}
+
+                    
                     onHide={() => setDatePickerOpen(false)}
                   >
                     <input

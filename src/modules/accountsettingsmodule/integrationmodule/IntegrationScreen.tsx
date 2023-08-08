@@ -256,7 +256,7 @@ const IntegrationScreen = () => {
       setConnected(0);
       setIsGoogle(1);
     }
-    setConflictopen(true)
+    // setConflictopen(true)
   };
   const disconnectfun = () => {
     setmodelopen(!modelopen);
@@ -273,7 +273,7 @@ const IntegrationScreen = () => {
       setConnected(0);
       setIsGoogle(0);
     }
-    setConflictopen(true)
+    // setConflictopen(true)
     // Toast('Details saved successfully', 'LONG');
   };
 
