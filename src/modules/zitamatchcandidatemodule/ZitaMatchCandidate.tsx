@@ -36,6 +36,7 @@ import {
 import ZitaAction from './ZitaAction';
 import JobTitleCard from './JobTitleCard';
 import { SkillListEntity } from './zitaMatchCandidateTypes';
+import { sortOptions } from './mock';
 import ZitaMatchDataCard from './ZitaMatchDataCard';
 import ZitaMatchCandidateDrawer from './ZitaMatchCandidateDrawer';
 
@@ -80,6 +81,7 @@ const ZitaMatchCandidate = () => {
   const [isDownloadLoader, setDownLoadLoader] = useState(false);
   const [isProfileView, setProfileView] = useState(false);
   const [isPage, setPage] = useState(0);
+  const [isSortOptions, setSortOptions] = useState(sortOptions[0]);
 
   const useQuery = () => {
     return new URLSearchParams(useLocation().search);
@@ -165,6 +167,7 @@ const ZitaMatchCandidate = () => {
         fav: favAdd,
         candidate: isSearch,
         location:islocationsearch,
+        sort:isSortOptions.value,
         work_experience: isExperience,
         relocate: isRelocate ? '1' : '0',
         invite: isCandiStatus,
@@ -178,7 +181,7 @@ const ZitaMatchCandidate = () => {
     );
   };
 
-
+console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
   const onClearSearch = () => {
     setSearch("");
     console.log("close calll",isSearch);
@@ -189,6 +192,7 @@ const ZitaMatchCandidate = () => {
         fav: favAdd,
         candidate: "",
         location:islocationsearch,
+        sort:isSortOptions.value,
         work_experience: isExperience,
         relocate: isRelocate ? '1' : '0',
         invite: isCandiStatus,
@@ -305,6 +309,7 @@ const ZitaMatchCandidate = () => {
         fav: favAdd,
         candidate: isSearch,
         location:islocationsearch,
+        sort:isSortOptions.value,
         work_experience: selectedValue,
         relocate: isRelocate ? '1' : '0',
         invite: isCandiStatus,
@@ -317,6 +322,28 @@ const ZitaMatchCandidate = () => {
       }),
     );
   };
+
+  const handlesortby=(selectedValue: string)=>{
+    dispatch(
+      zitaMatchDataCandidateMiddleWare({
+        jd_id: jdId,
+        profile_match: isProfile,
+        fav: favAdd,
+        candidate: isSearch,
+        location:islocationsearch,
+        sort:selectedValue,
+        work_experience: isExperience,
+        relocate: isRelocate ? '1' : '0',
+        invite: isCandiStatus,
+        profile_view: isProfile,
+        education_level: qaValue,
+        type_of_job: isJobType,
+        preferred_location: isLocation ? '1' : '0',
+        skill_match: skillsOptionsList,
+        page: isPage + 1,
+      }),
+    );
+  }
 
   const handleRelocate = () => {
     setRelocate(!isRelocate);
@@ -347,6 +374,7 @@ const ZitaMatchCandidate = () => {
         fav: favAdd,
         candidate: isSearch,
         location:"",
+        sort:isSortOptions.value,
         work_experience: isExperience,
         relocate: isRelocate ? '1' : '0',
         invite: isCandiStatus,
@@ -389,6 +417,7 @@ const ZitaMatchCandidate = () => {
         fav: favAdd,
         candidate: isSearch,
         location:islocationsearch,
+        sort:isSortOptions.value,
         work_experience: isExperience,
         relocate: isRelocate ? '1' : '0',
         invite: isCandiStatus,
@@ -443,6 +472,7 @@ const ZitaMatchCandidate = () => {
         fav: favAdd,
         candidate: '',
         location:"",
+        sort:isSortOptions.value,
         work_experience: '',
         relocate: '0',
         invite: isCandiStatus,
@@ -468,6 +498,7 @@ const ZitaMatchCandidate = () => {
         fav: favAdd,
         candidate: isSearch,
         location:islocationsearch,
+        sort:isSortOptions.value,
         work_experience: "",
         relocate: isRelocate ? '1' : '0',
         invite: isCandiStatus,
@@ -509,7 +540,7 @@ const ZitaMatchCandidate = () => {
               `Candidates_Profiles_${getDateString(new Date(), 'll')}.zip`,
             );
           }
-          Toast('Resume downloaded successfully');
+          Toast('Resume exported successfully');
         })
         .catch(() => {
           setDownLoadLoader(false);
@@ -790,7 +821,7 @@ const ZitaMatchCandidate = () => {
 
       <Flex row className={styles.titleContainer}>
         <Text bold size={16} color="theme">
-          Zita Match
+          Zita Match Candidates
         </Text>
         <JobTitleCard job_details={job_details} />
         <div className={styles.triangle}> </div>
@@ -804,7 +835,7 @@ const ZitaMatchCandidate = () => {
             className={styles.searchbox}
           >
             <Flex row className={styles.searchstyle}>
-              <Text className={styles.jobstext}>Candidates</Text>
+              <Text className={styles.jobstext} style={{fontSize:"14px"}}>Candidates</Text>
               <Flex row className={styles.searchboxoverall}>
                 <InputText
                   ref={myRef}
@@ -845,7 +876,7 @@ const ZitaMatchCandidate = () => {
               value={islocationsearch}
               onChange={(e) => setlocationsearch(e.target.value)}
               onKeyPress={(e) => enterKeyPress(e, handleSearchSubmit)}
-              placeholder="Enter applicant location"
+              placeholder="Select candidate location"
               className={styles.boxstyle}
               
             /> {islocationsearch.trim() !== '' && (
@@ -876,7 +907,7 @@ const ZitaMatchCandidate = () => {
               Applicants Pipeline
             </Button>
           ) : (
-            <Link to={`/applicant_pipe_line/${jd_id}`}>
+            <Link to={`/applicant_pipe_line/${jd_id}`} target='blank'>
               <Button
                 className={styles.btnStyle}
                 types="primary"
@@ -939,13 +970,16 @@ const ZitaMatchCandidate = () => {
                isCheckAll={isCheckAll}
                hanldeDownload={hanldeDownload}
                isCheck={isCheck}
+               setSortOptions={setSortOptions}
+               isSortOptions={isSortOptions}
+               handlesortby={handlesortby}
              />         
       </Flex>
     
       <div
      // className={styles.cards}
         style={{
-          height: window.innerHeight - 303,
+          height: window.innerHeight - 303 +54,
           overflowY: 'scroll',
           paddingRight: 0,
           paddingTop: 0,

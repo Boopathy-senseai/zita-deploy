@@ -201,7 +201,7 @@
     position: relative;
   }
   .drop_down {
-   margin-right: 10px; 
+   /* margin-right: 10px;  */
    margin-bottom: 20px;
    position: relative;
   }
@@ -221,7 +221,7 @@
     background-color: #fff;
     position: absolute;
     background-color: var(--color-white, #fff);
-    border-radius: 0 0 10px 10px;
+    border-radius:10px;
     width: 100%;
     z-index: 12;
     display: none;

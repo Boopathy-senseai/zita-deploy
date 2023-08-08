@@ -632,7 +632,7 @@ const ZitaMatchDataCard = ({
                           <SvgInvite width={36} height={36} color="theme" /> 
                         </div>
                     <Text color="gray" size={12} style={{paddingLeft:"7px",width:"65%"}}>
-                      Last Invited:{' '}
+                      Last Invited{' '}
                       {dataList?.invite && getDateString(dataList.invite, 'll')}
                     </Text></>
                   )}

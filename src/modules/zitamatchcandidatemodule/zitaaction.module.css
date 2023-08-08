@@ -7,7 +7,7 @@
 }
 .overAll {
   padding-bottom: 16px;
-  padding-left: 7px;
+  padding-left: 11px;
   border-bottom: 1px solid var(--color-gary-7, #dfdfdf);
 }
 .svgNone {
@@ -17,7 +17,7 @@
 .btnStyle {
   background-color: #eee8ec;
   border: #eee8ec;
-  margin-right: 10px;
+  /* margin-right: 10px; */
   cursor: pointer;
 }
 .btnStyle:active {
@@ -39,4 +39,14 @@
 }
 .bulkButton {
   margin-left: 20px;
+}
+.sortbybar{
+  display: contents;
+}
+.sortText {
+  /* margin: 0 8px; */
+  position: relative;
+  top: 7px;
+  font-size: 13px;
+  color: rgb(88, 24, 69);
 }

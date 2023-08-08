@@ -7,16 +7,43 @@ export const matchOptions = [
   { value: 'Any', label: ''},
 ];
 
+export const sortOptions = [
+  {
+    value: 'match',
+    label: 'Match Score',
+  },
+  {
+    value: 'name',
+    label: 'Candidate Name',
+  },
+  {
+    value: 'interested',
+    label: 'Those interested in this job',
+  },
+  {
+    value: 'not_interested',
+    label: 'Not Interested Candidates',
+  },
+  {
+    value: 'invited',
+    label: 'Invited to Apply',
+  },
+  {
+    value: 'not_invited',
+    label: 'Yet to be Invited to Apply',
+  },
+];
+
 export const profileData = [
   { value: 'Viewed', label: '1', width: 110 },
   { value: 'Yet to View', label: '0', width: 110 },
-  { value: 'All', label: '', width: 70 },
+  { value: 'Both', label: '', width: 70 },
 ];
 
 export const candidateInviteStatus = [
   { value: 'Invited', label: '1', width: 110 },
   { value: 'Uninvited', label: '0', width: 110 },
-  { value: 'All', label: '', width: 70 },
+  { value: 'Both', label: '', width: 70 },
 ];
 
 export const jobTypeData = [

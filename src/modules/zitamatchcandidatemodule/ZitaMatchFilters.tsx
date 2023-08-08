@@ -226,6 +226,7 @@ const ZitaMatchFilters = ({
   const one = "> 90"
   const two = "> 80"
   const three = "> 70"
+  const four="> 60"
   const showSkills = isSkillOption.slice(0, 4);
   const hiddenSkills = isSkillOption.slice(4, isSkillOption.length);
   const closeSkillOption = (doc: { value: string; label: string }) => {
@@ -498,9 +499,63 @@ const ZitaMatchFilters = ({
                     }
                   /></Text>
               }
+                {match === "61-100" &&
+
+            <Text className={styles.quickfil}>{four}
+          <SvgIntomark
+    className={styles.stylesvg}
+    onClick={() => closematch()
+    }
+  /></Text>
+}
               {
-                isExperience !== "" &&
-                <Text className={styles.quickfil}>{isExperience} Years
+                 isExperience ==="10-30" &&
+                <Text className={styles.quickfil}>10+ Years
+                  <SvgIntomark
+                    className={styles.stylesvg}
+                    onClick={() => closeexp()
+                    }
+                  /></Text>
+              }
+              {
+                 isExperience ==="0-1" &&
+                <Text className={styles.quickfil}>1 Year
+                  <SvgIntomark
+                    className={styles.stylesvg}
+                    onClick={() => closeexp()
+                    }
+                  /></Text>
+              }
+                {
+                 isExperience ==="1-2" &&
+                <Text className={styles.quickfil}>1-2 Years
+                  <SvgIntomark
+                    className={styles.stylesvg}
+                    onClick={() => closeexp()
+                    }
+                  /></Text>
+              }
+               {
+                 isExperience ==="2-3" &&
+                <Text className={styles.quickfil}>2-3 Years
+                  <SvgIntomark
+                    className={styles.stylesvg}
+                    onClick={() => closeexp()
+                    }
+                  /></Text>
+              }
+               {
+                 isExperience ==="3-5" &&
+                <Text className={styles.quickfil}>3-5 Years
+                  <SvgIntomark
+                    className={styles.stylesvg}
+                    onClick={() => closeexp()
+                    }
+                  /></Text>
+              }
+                 {
+                 isExperience ==="6-10" &&
+                <Text className={styles.quickfil}>6-10 Years
                   <SvgIntomark
                     className={styles.stylesvg}
                     onClick={() => closeexp()
@@ -519,7 +574,7 @@ const ZitaMatchFilters = ({
 
               {
                 jobtype === "3" &&
-                <Text className={styles.quickfil}>Contact
+                <Text className={styles.quickfil}>Contract
                   <SvgIntomark
                     className={styles.stylesvg}
                     onClick={() => closejobtype()
@@ -546,7 +601,7 @@ const ZitaMatchFilters = ({
               }
               {
                 isCandiStatus === "0" &&
-                <Text className={styles.quickfil}>UnInvited
+                <Text className={styles.quickfil}>Uninvited
                   <SvgIntomark
                     className={styles.stylesvg}
                     onClick={() => closestatus()
@@ -582,7 +637,7 @@ const ZitaMatchFilters = ({
               }
               {
                 isOther === true &&
-                <Text className={styles.quickfil}>Other
+                <Text className={styles.quickfil}>Others
                   <SvgIntomark
                     className={styles.stylesvg}
                     onClick={() => handleOther()
@@ -591,7 +646,7 @@ const ZitaMatchFilters = ({
               }
               {
                 isRelocate === true &&
-                <Text className={styles.quickfil}>Relocate
+                <Text className={styles.quickfil}>Willing to relocate
                   <SvgIntomark
                     className={styles.stylesvg}
                     onClick={() => handleRelocate()
@@ -661,7 +716,7 @@ const ZitaMatchFilters = ({
           >
             <Flex className={styles.mtstyle}>
               <Text color="theme" bold className={styles.matchTextStyle}>
-                Match
+                Match Score
               </Text>
               <Flex row center wrap>
                 {matchOptions.map((matchList) => {
@@ -685,8 +740,12 @@ const ZitaMatchFilters = ({
 
             <Flex className={styles.mtstyle}>
               <div style={{ marginTop: 8, marginBottom: 16 }}>
+              <Text color="theme" bold className={styles.jobTextStyle} style={{marginBottom:"5px"}}>
+              Experience
+              </Text>
+              <div style={{marginTop:"5px"}}>
                 <SelectTag
-                  label="Experience"
+                
                   labelBold
                   value={
                     experienceOption
@@ -698,14 +757,16 @@ const ZitaMatchFilters = ({
                     setExperience(option.value);
                     handleExperience(option.value);
                   }}
-                />
+                /></div>
               </div></Flex>
 
             <Flex className={styles.mtstyle}>
+            <Text color="theme" bold className={styles.jobTextStyle} style={{marginBottom:"5px"}}>
+                Skills
+              </Text>
               <SelectTag
                 isCreate
                 isSearchable
-                label="Skills"
                 labelBold
                 ref={selectInputRef}
                 isMulti
@@ -720,7 +781,7 @@ const ZitaMatchFilters = ({
               <Text color="theme" bold className={styles.jobTextStyle}>
                 Job Type
               </Text>
-              <Flex row center className={styles.wrap}>
+              <Flex row center className={styles.wrap} marginTop={3}>
                 {jobTypeData.map((jobList) => {
                   return (
                     <Flex

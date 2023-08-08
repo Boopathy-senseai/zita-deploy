@@ -44,7 +44,8 @@ export interface ZitaMatchPayload {
   profile_match?: string;
   fav?: string;
   candidate?: string;
-  location?:string;
+  location?:string; 
+  sort?: string;
   work_experience?: string;
   relocate?: string;
   invite?: string;

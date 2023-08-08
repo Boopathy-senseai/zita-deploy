@@ -1,14 +1,17 @@
 import classNames from 'classnames/bind';
 import { Dropdown } from 'react-bootstrap';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import SvgDownload from '../../icons/SvgDownload';
 import Totalcount from '../../globulization/TotalCount';
 import SvgHeart from '../../icons/SvgHeart';
 import { GARY_4, PRIMARY } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
 import { Button } from '../../uikit';
+import {SelectTag} from '../../uikit';
 import SvgFavourites from '../../icons/SvgFavourties';
 import InputCheckBox from '../../uikit/InputCheckbox/InputCheckBox';
 import Text from '../../uikit/Text/Text';
+import { sortOptions } from './mock';
 import styles from './zitaaction.module.css';
 
 const cx = classNames.bind(styles);
@@ -19,7 +22,18 @@ type Props = {
   handleSelectAll: () => void;
   isCheckAll: boolean;
   hanldeDownload: () => void;
+  handlesortby: (selectedValue: string) => void;
   isCheck: string[];
+  isSortOptions: {
+    value: string;
+    label: string;
+  };
+  setSortOptions: Dispatch<
+    SetStateAction<{
+      value: string;
+      label: string;
+    }>
+  >;
 };
 const ZitaAction = ({
   total,
@@ -29,6 +43,9 @@ const ZitaAction = ({
   handleSelectAll,
   hanldeDownload,
   isCheck,
+  setSortOptions,
+  isSortOptions,
+  handlesortby
 }: Props) => {
   const downloadCheck = isCheck.length === 0;
   return (
@@ -115,7 +132,24 @@ const ZitaAction = ({
         // </Flex>
           }
         </Flex>
-        <Flex>
+        <Flex row>
+        <Flex  className={styles.sortbybar}>
+      <Text className={styles.sortText}>Sort By:</Text>
+          <div className={styles.selectTagStyle}>
+            <SelectTag
+              stylechangess1
+              id="mydatabasebulkaction__sort"
+              value={isSortOptions}
+              options={sortOptions}
+              onChange={(options) => {
+                setSortOptions(options);
+                handlesortby(options.value);
+              }}
+              isSearchable
+            />
+          </div>
+          </Flex>
+          <Flex>
         <Button
             className={styles.btnStyle}
             types="primary"
@@ -126,12 +160,12 @@ const ZitaAction = ({
               <Text
                 style={{ marginLeft: '5px' }}
                 color="theme"
-                title={'Favourite Applicants'}
+                title={'Favourite Candidates'}
               >
                 Favourites
               </Text>
             </Flex>
-          </Button>
+          </Button></Flex>
         </Flex>
         
 {/*        
