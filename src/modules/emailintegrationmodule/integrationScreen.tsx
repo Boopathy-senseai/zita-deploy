@@ -57,7 +57,7 @@ const EmailScreen = () => {
   const dispatch: AppDispatch = useDispatch();
 
   const [model, setmodel] = useState(false);
-  const [integration, setintegration] = useState('outlook');
+  const [integration, setintegration] = useState('google');
   const [messagelist, setmessagelist] = useState([]);
   const [message, setmesage] = useState<any>('');
   const [usermail, setUsermail] = useState('');
@@ -221,7 +221,7 @@ const EmailScreen = () => {
       onclick: () => Select('trash ', 'Trash '),
     },
   ];
-  const as = async () => {
+  const particularmailget = async () => {
     await getusermail(authProvider)
       .then((res: any) => {})
       .catch((error) => {});
@@ -461,6 +461,9 @@ const EmailScreen = () => {
 
     var obj = {
       id: id,
+      snippet: res.message.snippet,
+      internalDate: res.message.internalDate,
+      threadId: res.message.threadId,
       labelIds: res.message.labelIds,
       header: res.message.payload.headers,
       body: res.body,
@@ -481,8 +484,12 @@ const EmailScreen = () => {
             .then((res) => {
               if (res.attachments.length === 0) {
                 setLoader(false);
+                console.log('xv', res);
                 var obj = {
                   id: msgid,
+                  snippet: res.message.snippet,
+                  internalDate: res.message.internalDate,
+                  threadId: res.message.threadId,
                   labelIds: res.message.labelIds,
                   header: res.message.payload.headers,
                   body: res.body,
@@ -543,7 +550,7 @@ const EmailScreen = () => {
           getprofile();
           page();
           getfolder();
-          //as();
+          particularmailget();
         }
       }
     }
@@ -787,6 +794,7 @@ const EmailScreen = () => {
               integration={integration}
               Mail_action={Mailaction}
               updateMailaction={updateMailaction}
+              atfiles={attachments}
             />
           </>
         ) : (

@@ -43,6 +43,7 @@ import {
   gmail_send,
   Gmail_Draft,
   mailreplayall,
+  Gmail_Reply_forward,
 } from '../../emailService';
 import InputText from '../../uikit/InputText/InputText';
 import SvgCollapse from '../../icons/Svgcollapse';
@@ -61,6 +62,7 @@ type Props = {
   integration: string;
   Mail_action: string;
   updateMailaction: (val: any) => void;
+  atfiles: any;
 };
 
 const Newmessage = ({
@@ -71,6 +73,7 @@ const Newmessage = ({
   integration,
   Mail_action,
   updateMailaction,
+  atfiles,
 }: Props) => {
   const msal = useMsal();
   const dispatch: AppDispatch = useDispatch();
@@ -143,79 +146,170 @@ const Newmessage = ({
   const [messagebody, setMessagebody] = useState('');
 
   const replaymail = () => {
-    if (replaymsg !== '') {
-      var to = [];
-      var converto = [];
-      var a = {
-        value: replaymsg.from.emailAddress.address,
-        label: replaymsg.from.emailAddress.address,
+    if (integration === 'outlook') {
+      if (replaymsg !== '') {
+        console.log('msg', replaymsg.body.content);
+        var to = [];
+        var converto = [];
+        var a = {
+          value: replaymsg.from.emailAddress.address,
+          label: replaymsg.from.emailAddress.address,
+        };
+
+        const mailconvert = {
+          emailAddress: {
+            address: replaymsg.from.emailAddress.address,
+          },
+        };
+
+        to.push(a);
+        formik.setFieldValue('userMessage', replaymsg.body.content);
+        converto.push(mailconvert);
+        setTosample(to);
+        setTomail(converto);
+        setSubject(replaymsg.subject);
+      }
+    }
+    if (integration === 'google') {
+      let repmail = [];
+      const fromEmail = replaymsg.header.find(
+        (header) => header.name === 'From',
+      ).value;
+      repmail.push(fromEmail);
+      const subjects = replaymsg.header.find(
+        (header) => header.name === 'Subject',
+      ).value;
+
+      var togmail = {
+        value: fromEmail,
+        label: fromEmail,
       };
 
-      const mailconvert = {
-        emailAddress: {
-          address: replaymsg.from.emailAddress.address,
-        },
-      };
-
-      to.push(a);
-      converto.push(mailconvert);
-      setTosample(to);
-      setTomail(converto);
-      setSubject(replaymsg.subject);
+      formik.setFieldValue('userMessage', replaymsg.body);
+      setTosample(togmail);
+      setTomail(repmail);
+      setSubject(subjects);
     }
   };
 
   const forward = () => {
     if (replaymsg !== '') {
-      setSubject(replaymsg.subject);
+      if (integration === 'outlook') {
+        setSubject(replaymsg.subject);
+        formik.setFieldValue('userMessage', replaymsg.body.content);
+      }
+
+      if (integration === 'google') {
+        const subjects = replaymsg.header.find(
+          (header) => header.name === 'Subject',
+        ).value;
+
+        let collect = [];
+
+        atfiles.map((val, int) => {
+          let fileInfo = {
+            type: val.contentType,
+            name: val.name,
+            contentBytes: val.contentBytes,
+            size: val.size,
+          };
+
+          collect.push(fileInfo);
+        });
+        setFile(collect);
+        setAttachfile(collect);
+        setSubject(subjects);
+        formik.setFieldValue('userMessage', replaymsg.body);
+      }
     }
   };
 
   const replyall = () => {
     if (replaymsg !== '') {
-      console.log('to', replaymsg.toRecipients);
-      console.log('cc', replaymsg.ccRecipients);
-      console.log('bcc', replaymsg.bccRecipients);
-
       var to = [];
       var cc = [];
       var bcc = [];
-      if (replaymsg.toRecipients.length !== 0) {
-        replaymsg.toRecipients.map((val, int) => {
-          console.log('m', val['emailAddress'].address);
-          to.push({
-            value: val['emailAddress'].address,
-            label: val['emailAddress'].address,
+      if (integration === 'outlook') {
+        if (replaymsg.toRecipients.length !== 0) {
+          replaymsg.toRecipients.map((val, int) => {
+            to.push({
+              value: val['emailAddress'].address,
+              label: val['emailAddress'].address,
+            });
           });
-        });
+        }
+
+        if (replaymsg.ccRecipients.length !== 0) {
+          replaymsg.ccRecipients.map((val, int) => {
+            console.log('m', val['emailAddress'].address);
+            cc.push({
+              value: val['emailAddress'].address,
+              label: val['emailAddress'].address,
+            });
+          });
+        }
+        if (replaymsg.bccRecipients.length !== 0) {
+          replaymsg.bccRecipients.map((val, int) => {
+            bcc.push({
+              value: val['emailAddress'].address,
+              label: val['emailAddress'].address,
+            });
+          });
+        }
+        formik.setFieldValue('userMessage', replaymsg.body.content);
+        setTosample(to);
+        setCcsample(cc);
+        setBccsample(bcc);
+        setTomail(replaymsg.toRecipients);
+        setCcmail(replaymsg.ccRecipients);
+        setBccmail(replaymsg.bccRecipients);
+        setSubject(replaymsg.subject);
+        formik.setFieldValue('userMessage', replaymsg.body.content);
       }
 
-      if (replaymsg.ccRecipients.length !== 0) {
-        replaymsg.ccRecipients.map((val, int) => {
-          console.log('m', val['emailAddress'].address);
-          cc.push({
-            value: val['emailAddress'].address,
-            label: val['emailAddress'].address,
-          });
-        });
-      }
-      if (replaymsg.bccRecipients.length !== 0) {
-        replaymsg.bccRecipients.map((val, int) => {
-          console.log('m', val['emailAddress'].address);
-          bcc.push({
-            value: val['emailAddress'].address,
-            label: val['emailAddress'].address,
-          });
-        });
-      }
+      if (integration === 'google') {
+        const subjects = replaymsg.header.find(
+          (header) => header.name === 'Subject',
+        ).value;
+        setSubject(subjects);
+        formik.setFieldValue('userMessage', replaymsg.body);
+        const ToEmails = replaymsg.header
+          .filter((header) => header.name === 'To')
+          .map((header) => header.value);
 
-      setTosample(to);
-      setCcsample(cc);
-      setBccsample(bcc);
-      setTomail(replaymsg.toRecipients);
-      setCcmail(replaymsg.ccRecipients);
-      setBccmail(replaymsg.bccRecipients);
-      setSubject(replaymsg.subject);
+        const CcEmails = replaymsg.header
+          .filter((header) => header.name === 'Cc')
+          .map((header) => header.value);
+
+        const BccEmails = replaymsg.header
+          .filter((header) => header.name === 'Bcc')
+          .map((header) => header.value);
+        if (ToEmails.length !== 0) {
+          const ToArray = ToEmails[0].split(', ');
+          const ToObjectsArray = ToArray.map((email, index) => {
+            return { value: email, label: email };
+          });
+          setTosample(ToObjectsArray);
+          setTomail(ToArray);
+        }
+        if (CcEmails.length !== 0) {
+          const CcArray = CcEmails[0].split(', ');
+          const CcObjectsArray = CcArray.map((email, index) => {
+            return { value: email, label: email };
+          });
+          setCcmail(CcArray);
+          setCcsample(CcObjectsArray);
+        }
+
+        if (BccEmails.length !== 0) {
+          const BccArray = BccEmails[0].split(', ');
+          const BccObjectsArray = BccArray.map((email, index) => {
+            return { value: email, label: email };
+          });
+          setBccmail(BccArray);
+          setBccsample(BccObjectsArray);
+        }
+      }
     }
   };
 
@@ -226,6 +320,8 @@ const Newmessage = ({
   }, []);
 
   useEffect(() => {
+    alert(integration);
+    alert(Mail_action);
     if (Mail_action === 'reply') {
       replaymail();
     } else if (Mail_action === 'forward') {
@@ -333,7 +429,15 @@ const Newmessage = ({
   const composeemail = async () => {
     setloader(true);
     if (integration === 'google') {
-      gmail_compose();
+      if (Mail_action === 'compose') {
+        gmail_compose();
+      } else if (Mail_action === 'reply') {
+        gmai_action();
+      } else if (Mail_action === 'forward') {
+        gmai_action();
+      } else if (Mail_action === 'replyall') {
+        gmai_action();
+      }
     } else if (integration === 'outlook') {
       if (Mail_action === 'compose') {
         await composemail(authProvider, Emailprops)
@@ -755,9 +859,80 @@ const Newmessage = ({
       });
   };
 
+  const gmai_action = async () => {
+    const toEmails = tomail.join(', ');
+    const toCC = ccmail.join(', ');
+    const toBCC = bccmail.join(', ');
+    const fromEmail = replaymsg.header.find(
+      (header) => header.name === 'From',
+    ).value;
+    let replyContent = '';
+
+    if (Mail_action === 'reply' || Mail_action === 'replyall') {
+      // note :- reply and  replyall is same email content
+      replyContent = `On ${replaymsg.internalDate}, ${fromEmail} wrote:\n\n${replaymsg.snippet}\n\n ${messagebody}.`;
+    } else if (Mail_action === 'forward') {
+      replyContent =
+        `---------- Forwarded message ----------\n` +
+        `from: ${fromEmail}\n` +
+        `Subject: ${subject}\n\n` +
+        `${messagebody}` +
+        replaymsg.snippet;
+    }
+
+    const emailss = [
+      'Content-Type: multipart/mixed; boundary="boundary"\n',
+      'MIME-Version: 1.0\n',
+      `To: ${toEmails}\n`,
+      `Cc: ${toCC}\n`,
+      `Bcc: ${toBCC}\n`,
+      `References: ${replaymsg.threadId}\n`,
+      `In-Reply-To: ${replaymsg.id}\n`,
+      `Subject: ${subject}\n\n`,
+      `--boundary\n`,
+      'Content-Type: text/html; charset="UTF-8"\n',
+      'MIME-Version: 1.0\n',
+      `\n${replyContent}\n\n`,
+    ];
+    attachfile.forEach(async (attachment) => {
+      emailss.push(
+        `--boundary\n`,
+        `Content-Type: ${attachment.type}\n`,
+        'MIME-Version: 1.0\n',
+        'Content-Transfer-Encoding: base64\n',
+        `Content-Disposition: attachment; filename="${attachment.name}"\n\n`,
+        `${attachment.contentBytes}\n\n`,
+      );
+    });
+
+    emailss.push(`--boundary--`);
+
+    const email = emailss.join('');
+
+    const rawMessage = btoa(email);
+    initGoogleAuth()
+      .then(async () => {
+        await Gmail_Reply_forward(rawMessage)
+          .then((res) => {
+            Toast('message send successfully', 'LONG', 'success');
+            clearform();
+          })
+          .catch((error) => {
+            Toast('Message not send ', 'SHORT', 'error');
+            setloader(false);
+          });
+      })
+      .catch((err) => {
+        Toast('Message not send ', 'SHORT', 'error');
+        setloader(false);
+      });
+  };
+
   return (
     <div>
       {/* <div style={{ position: 'absolute', bottom: '0px', right: '0px' }}> */}
+      {console.log('zc', tomail)}
+
       <Modal open={data}>
         {loader === true && <Loader />}
         <div

@@ -258,15 +258,42 @@ export async function getmessages(
 export async function getusermail(
   authProvider: AuthCodeMSALBrowserAuthenticationProvider,
 ) {
-  // eslint-disable-next-line max-len
-  const searchQuery = `(from: 'manojr@sense7ai.com' OR from: 'jananirangesh@sense7ai.com') OR (to: 'manojr@sense7ai.com' OR to: 'jananirangesh@sense7ai.com') OR (cc: 'manojr@sense7ai.com' OR cc: 'jananirangesh@sense7ai.com') OR (bcc: 'manojr@sense7ai.com' OR bcc: 'jananirangesh@sense7ai.com')`;
+  // const emailList = ["'manojr@sense7ai.com'", "'jananirangesh@sense7ai.com'"];
+  // const searchQueries = emailList
+  //   .map((email) => `from/emailAddress/address eq ${email}`)
+  //   .join(' or ');
 
-  var response: any = await graphClient
-    ?.api(`/me/mailFolders/${'Inbox'}/messages`)
-    .query({ $search: searchQuery })
+  // const response = await graphClient
+  //   .api(`/me/mailFolders/${'Inbox'}/messages`)
+  //   .filter(searchQueries)
+  //   .top(1000)
+  //   .skip(10)
+  //   .count(true)
+  //   .get();
+
+  // const emailList = ['manojr@sense7ai.com', 'jananirangesh@sense7ai.com'];
+  // const emailFilters = emailList.map((email) => `from:${email} `).join(' OR ');
+
+  // const response = await graphClient
+  //   .api('/me/messages')
+  //   .query(emailFilters)
+  //   .top(1000)
+  //   .get();
+
+  const emailList = ['manojr@sense7ai.com', 'jananirangesh@sense7ai.com'];
+
+  const searchdata = emailList
+    .map(
+      (email) => `from:${email} OR to:${email} OR cc:${email} OR bcc:${email}`,
+    )
+    .join(' OR ');
+
+  const response = await graphClient
+    .api(`/me/mailFolders/${'Inbox'}/messages`)
     .count(true)
-    .top(1000)
+    .query(`$search="${searchdata}"`)
     .get();
+
   console.log('-----particularmail-----', response);
   return response;
 }
@@ -567,4 +594,14 @@ export const Gmail_Folder_Total_count = async (folder) => {
   });
 
   return count;
+};
+
+export const Gmail_Reply_forward = async (data) => {
+  const reply = gapi.client.gmail.users.messages.send({
+    userId: 'me',
+    resource: {
+      raw: data,
+    },
+  });
+  return reply;
 };

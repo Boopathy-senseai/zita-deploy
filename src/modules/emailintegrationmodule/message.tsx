@@ -538,14 +538,21 @@ const Inbox = ({
                         <Flex
                           title="Reply"
                           className={styles.icons}
-                          onClick={composemodal}
+                          onClick={() => mail('reply')}
+                        >
+                          <SvgReply width={16} height={16} />
+                        </Flex>
+                        <Flex
+                          title="ReplyAll"
+                          className={styles.icons}
+                          onClick={() => mail('replyall')}
                         >
                           <SvgReply width={16} height={16} />
                         </Flex>
                         <Flex
                           title="Forward"
                           className={styles.icons}
-                          onClick={composemodal}
+                          onClick={() => mail('forward')}
                         >
                           <SvgForward width={16} height={16} />
                         </Flex>
