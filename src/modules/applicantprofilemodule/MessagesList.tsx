@@ -83,9 +83,11 @@ const MessageList = ({
                         <div className={styles.otherStyleProfile}>
                           {isEmpty(messageList.sender_image) ||
                           messageList.sender_image === 'default.jpg' ? (
-                            <Text bold color="white" transform="uppercase">
+                            <Text bold color="white" transform="uppercase" title= { 
+                              `${messageList.username}+' '+${messageList.last_name}`
+                            }>
                               {firstNameChar(
-                                `${messageList.username} ${messageList.last_name}`,
+                                `${messageList.username} ${messageList.last_name}`
                               )}
                             </Text>
                           ) : (
@@ -101,16 +103,8 @@ const MessageList = ({
                               }}
                               src={mediaPath + messageList.sender_image}
                             />
-                          )}
-                          {/* <Text bold color="white" transform="uppercase">
-                          {firstNameChar(
-                            `${messageList.username} ${messageList.last_name}`,
-                          )}
-                        </Text> */}
-                        </div>
-                        {/* <Text bold className={styles.userNameText}>
-                        {messageList.username}
-                      </Text> */}
+                          )}    
+                        </div> 
                       </div>
                       <Flex>
                         <Flex className={styles.otherTextBox}>

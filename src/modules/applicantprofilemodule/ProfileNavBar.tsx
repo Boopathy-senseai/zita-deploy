@@ -3,6 +3,7 @@ import classNames from 'classnames/bind';
 import { saveAs } from 'file-saver';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import getSymbolFromCurrency from 'currency-symbol-map';
 import StarRatingComponent from 'react-star-rating-component';
 import { inviteToApplyApi } from '../../routes/apiRoutes';
 import { AppDispatch, RootState } from '../../store';
@@ -40,7 +41,7 @@ import {
   applicantScoreMiddleWare,
   applicantStatusMiddleWare,
   applicantAllMatchMiddleWare,
-} from './store/middleware/applicantProfileMiddleware';
+} from './store/middleware/applicantProfileMiddleware'; 
 var querystring = require('querystring');
 const cx = classNames.bind(styles);
 
@@ -155,7 +156,7 @@ const ProfileNavBar = ({
         stages: applicantStausReducers?.stages,
         can_id: applicantProfileInitalReducers.can_id,
         total_exp: applicantProfileInitalReducers.total_exp,
-        jd_id: applicantProfileInitalReducers.jd_id,
+        jd_id: applicantProfileInitalReducers?.jd_id,
         interview:
           typeof applicantScoreReducers.interview !== 'undefined' &&
           applicantScoreReducers.interview.length === 0
@@ -259,6 +260,7 @@ const ProfileNavBar = ({
         : 0;
     setinterviewstatus(ratingValue);
   }, [interview]); 
+  console.log(candidate_details ,'kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk')
   const date = isEmpty(candidate_details[0].created_on)
     ? ''
     : candidate_details[0].created_on.slice(
@@ -290,7 +292,18 @@ const ProfileNavBar = ({
   const hanldeInviteClosePopUp = () => {
     setInvitePopUp(false);
   };
+  const perAnnumExpGross = isEmpty(personalInfo[0].exp_gross)
+    ? ''
+    : `Per Annum ${
+        personalInfo[0].salary_negotiable === false ? '' : '- Negotiable'
+      }`;
 
+  const expGross =
+  notSpecified(personalInfo[0].exp_gross) !== 'Not Specified'
+    ? `${getSymbolFromCurrency(personalInfo[0].current_currency)} ${
+        personalInfo[0].exp_gross
+      } ${perAnnumExpGross}`
+    : notSpecified(personalInfo[0].exp_gross);
   // function hanldeInvite(jd_id_id: any, candidate_id_id: any): void {
   //   throw new Error('Function not implemented.');
   // }
@@ -362,7 +375,7 @@ const ProfileNavBar = ({
             <Flex className={styles.profile}>
               <Avatar
               className={styles.profile}
-                 style={{fontSize:'26px'}}
+                 style={{fontSize:'26px',textTransform:'uppercase'}}
                 avatar={
                   candiList.image && candiList.image !== 'default.jpg'
                     ? `${process.env.REACT_APP_HOME_URL}media/${candiList.image}`
@@ -416,7 +429,7 @@ const ProfileNavBar = ({
           {jd_id === undefined || jd_id === null || jd_id === '' ? (
             ''
           ) : (
-            <Flex middle center>
+            <Flex middle center style={{cursor:'default'}} >
               <StarRatingComponent
                 className={styles.starstyle}
                 name="rate1"
@@ -507,12 +520,19 @@ const ProfileNavBar = ({
               <Flex style={{ marginRight: '10px' }}>
                 <SvgLocation height={17} width={17} fill="#581845" />
               </Flex>
-              {candiList.location === null ||
-              candiList.location === undefined ||
-              candiList.location === '' ? (
+              {console.log(personalInfo[0].city__name,'personalInfo[0].city__namepersonalInfo[0].city__name')}
+              {personalInfo[0].city__name === null || 
+              personalInfo[0].city__name === '' ? (
                 <Flex style={{ fontsize: '13px' }}>Not Specified</Flex>
               ) : (
-                <Flex style={{ fontsize: '13px' }}> {candiList.location}</Flex>
+                <Flex row>
+                 { personalInfo[0].city__name !== undefined && personalInfo[0].city__name !== null && 
+                <Flex style={{ fontsize: '13px' }}> { personalInfo[0].city__name},</Flex>}
+ { personalInfo[0].state__name !== undefined && personalInfo[0].state__name !== null && 
+                <Flex style={{ fontsize: '13px' }}> { personalInfo[0].state__name},</Flex>}
+                { personalInfo[0].country__name !== undefined && personalInfo[0].country__name !== null && 
+                <Flex style={{ fontsize: '13px' }}> { personalInfo[0].country__name}</Flex>}
+                </Flex>
               )}
             </Flex>
           </Flex>
@@ -612,6 +632,7 @@ const ProfileNavBar = ({
                 </Flex>
               )}
             </Flex>
+            {console.log(date,'ggggggggggggggggggggggggggggggggggggggggggggggggggg')}
             <Flex row flex={12} style={{ paddingBottom: '10px' }}>
               <Flex flex={6}>
                 <Flex className={styles.headingpart} marginTop={10}>
@@ -629,7 +650,7 @@ const ProfileNavBar = ({
               </Flex>
               <Flex flex={6}>
                 <Flex className={styles.headingpart} marginTop={10}>
-                  Expirence
+                Experience
                 </Flex>
                 {total_exp === undefined || total_exp === null ? (
                   <Flex className={styles.changingtext}>
@@ -664,9 +685,9 @@ const ProfileNavBar = ({
                 ) : (
                   <Flex
                     className={styles.changingtext}
-                    title={personalInfo[0].relocate === true ? 'yes' : 'No'}
+                    title={personalInfo[0].relocate === true ? 'Yes' : 'No'}
                   >
-                    {personalInfo[0].relocate === true ? 'yes' : 'No'}
+                    {personalInfo[0].relocate === true ? 'Yes' : 'No'}
                   </Flex>
                 )}
               </Flex>
@@ -674,19 +695,19 @@ const ProfileNavBar = ({
                 <Flex className={styles.headingpart} marginTop={10}>
                   Job Type
                 </Flex>
-                {candiList.type_of_job__label_name === undefined ||
-                candiList.type_of_job__label_name === null ||
-                candiList.type_of_job__label_name === '' ? (
+                {personalInfo[0].type_of_job__label_name === undefined ||
+                personalInfo[0].type_of_job__label_name === null ||
+                personalInfo[0].type_of_job__label_name === '' ? (
                   <Flex className={styles.changingtext}>
                     <Text className={styles.changingtext}>Not Specified</Text>
                   </Flex>
                 ) : (
                   <Flex
                     className={styles.changingtext}
-                    title={candiList.type_of_job__label_name}
+                    title={personalInfo[0].type_of_job__label_name}
                   >
-                    <Text className={styles.changingtext}>
-                      {candiList.type_of_job__label_name}
+                    <Text className={styles.changingtext} style={{textTransform:'capitalize'}}>
+                      {personalInfo[0].type_of_job__label_name}
                     </Text>
                   </Flex>
                 )}
@@ -714,7 +735,7 @@ const ProfileNavBar = ({
               </Flex>
               <Flex flex={6}>
                 <Flex className={styles.headingpart} marginTop={10}>
-                  Desired Salary
+                Expected Salary
                 </Flex>
                 {candiList.exp_salary === undefined ||
                 candiList.exp_salary === null ||
@@ -725,10 +746,10 @@ const ProfileNavBar = ({
                 ) : (
                   <Flex
                     className={styles.changingtext}
-                    title={candiList.exp_salary}
+                    title={expGross.toString()}
                   >
                     <Text className={styles.changingtext}>
-                      {candiList.exp_salary}
+                      {expGross}
                     </Text>
                   </Flex>
                 )} 
@@ -736,9 +757,9 @@ const ProfileNavBar = ({
             </Flex>
             <Flex style={{ paddingBottom: '10px' }}>
               <Flex className={styles.headingpart}>Industry Type</Flex>
-              {candiList.industry_type__label_name === undefined ||
-              candiList.industry_type__label_name === null ||
-              candiList.industry_type__label_name === '' ? (
+              {personalInfo[0].industry_type__label_name === undefined ||
+              personalInfo[0].industry_type__label_name === null ||
+              personalInfo[0].industry_type__label_name === '' ? (
                 <Flex>
                   {' '}
                   <Text className={styles.changingtext}>Not Specified</Text>
@@ -746,10 +767,10 @@ const ProfileNavBar = ({
               ) : (
                 <Flex
                   className={styles.changingtexts}
-                  title={candiList.industry_type__label_name}
+                  title={personalInfo[0].industry_type__label_name}
                 >
                   <Text className={styles.changingtext}>
-                    {candiList.industry_type__label_name}
+                    {personalInfo[0].industry_type__label_name}
                   </Text>
                 </Flex>
               )}
@@ -838,6 +859,14 @@ const ProfileNavBar = ({
                     ) : (
                       <SvgRadioWithOutOutLine fill="#80C0D0" />
                     )}
+                  </Flex>
+                  {console.log(checkingstatus,'checkingstatuscheckingstatuscheckingstatus')}
+                  <Flex title="Under Assessment">
+                    { checkingstatus !==  "Applied" && checkingstatus !== "Shortlisted" && checkingstatus !=="Offered"  && checkingstatus !== 'Rejected'  ? (
+                       <SvgRadioWithLine fill="#ffc203" /> 
+                   ) : ( 
+                      <SvgRadioWithOutOutLine fill="#ffc203" />
+                     )} 
                   </Flex>
                   <Flex title="Offered">
                     {checkingstatus === 'Offered' ? (

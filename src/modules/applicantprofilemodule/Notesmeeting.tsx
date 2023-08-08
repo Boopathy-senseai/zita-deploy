@@ -253,45 +253,92 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
 
   // refresh calendar function
   const hanldeRefresh = () => {
-    dispatch(calenderTokenGetMiddleWare()).then((res) => {
-      if (!isEmpty(res.payload.google)) {
-        axios
-          .request({
-            method: 'post',
-            url: 'https://oauth2.googleapis.com/token',
-            headers: { 'content-type': 'application/x-www-form-urlencoded' },
-            params: {
-              client_id: googleClientId,
-              client_secret: clientSecret,
-              refresh_token: res.payload.google[0].accessToken,
-              grant_type: 'refresh_token',
-            },
-          })
-          .then((refresh) => {
-            dispatch(
-              calenderTokenMiddleWare({
-                calendar: 'google',
-                info: {
-                  accessToken: refresh.data.access_token,
-                  email: res.payload.google[0].email,
-                  timeZone: getOut,
-                },
-              }),
-            );
-          })
-          .then(() => {
-            dispatch(syncGoogleMiddleWare()).then(() => {
-              dispatch(calenderMiddleWare({ can_id }));
+    dispatch(checkAuthMiddleware())
+      .then((res) => {
+        if (res.payload.status === true) {
+          if (res.payload.account === 'google') {
+            setIsGoogle(1);
+          } else {
+            setIsGoogle(0);
+          }
+          setActive(1);
+          setIsLoad(false);
+          dispatch(eventsApplicantsMiddleware({ can_id }))
+            .then((response) => {
+              // if (response.payload.status === true) {
+                setMyevents(
+                  response.payload.data.map((items: any, index) => {
+                    const Time = Math.floor(items.duration/60)  
+                    return {
+                      title: items.event_type + ' ' + items.applicant,
+                      organizer: response.payload.user,
+                      date: items.s_time,
+                      time: `${moment(items.s_time.slice(11, 16), [
+                        'HH.mm',
+                      ]).format('hh:mm a')}  - ${moment(
+                        items.e_time.slice(11, 16),
+                        ['HH.mm'],
+                      ).format('hh:mm a')}`,
+                      web_url: items.eventId,
+                      data: mail,
+                      index: index,
+                     Time: Time,
+                    };
+                  })
+                )
+              // }
+            })
+            .catch((error) => {
+              console.log(error);
             });
-          });
-      }
+        } else {
+          setActive(0);
+          setIsLoad(false);
+        }
+      })
+      .catch(() => {
+        console.log('Error');
+      }); 
+    // dispatch(calenderTokenGetMiddleWare()).then((res) => {
+    //   if (!isEmpty(res.payload.google)) {
+    //     axios
+    //       .request({
+    //         method: 'post',
+    //         url: 'https://oauth2.googleapis.com/token',
+    //         headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    //         params: {
+    //           client_id: googleClientId,
+    //           client_secret: clientSecret,
+    //           refresh_token: res.payload.google[0].accessToken,
+    //           grant_type: 'refresh_token',
+    //         },
+    //       })
+    //       .then((refresh) => {
+    //         dispatch(
+    //           calenderTokenMiddleWare({
+    //             calendar: 'google',
+    //             info: {
+    //               accessToken: refresh.data.access_token,
+    //               email: res.payload.google[0].email,
+    //               timeZone: getOut,
+    //             },
+    //           }),
+    //         );
+    //       })
+    //       .then(() => {
+    //         dispatch(syncGoogleMiddleWare()).then(() => {
+    //           dispatch(calenderMiddleWare({ can_id }));
+    //         });
+    //       });
+    //   }
 
-      if (!isEmpty(res.payload.outlook)) {
-        dispatch(syncOutlookMiddleWare()).then(() => {
-          dispatch(calenderMiddleWare({ can_id }));
-        });
-      }
-    });
+    //   if (!isEmpty(res.payload.outlook)) {
+    //     dispatch(syncOutlookMiddleWare()).then(() => {
+    //       dispatch(calenderMiddleWare({ can_id }));
+          
+    //     });
+    //   }
+    // });
   };
   const handleSetting = () => {
     sessionStorage.setItem('superUserTab', '4');
@@ -321,7 +368,12 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
     localStorage.setItem('Applicantname',candidate_details[0].first_name+' '+candidate_details[0].last_name)
     localStorage.setItem('Jdname',jd)
     localStorage.setItem('jdid',can_id) 
-  }
+  } 
+  const now = new Date();
+  const utcOffsetMinutes = now.getTimezoneOffset();
+  const hours = Math.floor(Math.abs(utcOffsetMinutes) / 60);
+  const minutes = Math.abs(utcOffsetMinutes) % 60;
+  const utcOffsetString = `UTC ${utcOffsetMinutes >= 0 ? '-' : '+'}${hours}:${minutes.toString().padStart(2, '0')}`;
   return (
     <Flex
       columnFlex
@@ -343,7 +395,7 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
                     <Flex row>
                       <Flex className={styles.syncedWidth}>
                         <Text color="theme" style={{ fontSize: '13px' }}>
-                          Synced with :
+                          Synced with:
                         </Text>
                       </Flex>
                       <Flex marginLeft={5}>
@@ -356,10 +408,10 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
                           color="theme"
                           style={{ fontSize: '13px', marginRight: '15px' }}
                         >
-                          Time zone :
+                          Time zone:
                         </Text>
                       </Flex>
-                      <Flex>{userTimezone}</Flex>
+                      <Flex>{utcOffsetString}</Flex>
                     </Flex>
                   </Flex>
                 )}
@@ -368,7 +420,7 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
                     <Flex row>
                       <Flex className={styles.syncedWidth}>
                         <Text color="theme" style={{ fontSize: '13px' }}>
-                          Synced with :
+                          Synced with:
                         </Text>
                       </Flex>
                       <Flex marginLeft={5}>
@@ -380,12 +432,12 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
                       <Flex className={styles.syncedWidth}>
                         <Text
                           color="theme"
-                          style={{ fontSize: '13px', marginRight: '15px' }}
+                          style={{ fontSize: '13px', marginRight: '5px' }}
                         >
-                          Time zone :
+                          Time zone:
                         </Text>
                       </Flex>
-                      <Flex style={{ fontSize: '13px' }}>{userTimezone}</Flex>
+                      <Flex style={{ fontSize: '13px' }}>{utcOffsetString}</Flex>
                     </Flex>
                   </Flex>
                 )}
@@ -460,7 +512,7 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
             </Flex>
           )}
           {active !== 0 && myevents.length !== 0 && (
-            <Flex>
+            <Flex style={{ margin:' 0 -8px'}}>
               <Table
                 border={'outline'}
                 columns={meetingMemo}

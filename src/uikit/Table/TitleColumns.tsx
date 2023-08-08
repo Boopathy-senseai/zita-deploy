@@ -51,7 +51,7 @@ const TitleColumns = ({ columns }: typeof defaultTitleProps) => {
             {renderTitle ? (
               renderTitle(column.title as string)
             ) : (
-              <Text size={14} bold style={{color:'#666666'}}>
+              <Text  bold style={{color:'#666666',fontSize:'13px'}}>
                 {column.title as string}
               </Text>
             )}

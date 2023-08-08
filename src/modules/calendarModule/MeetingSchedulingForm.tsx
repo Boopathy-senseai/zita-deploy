@@ -158,6 +158,9 @@ const MeetingSchedulingForm = ({
   };
 
   const handleContinue = () => {
+    if(localStorage.getItem('Applicantname') !== ''){
+      localStorage.setItem('Applicantsname',localStorage.getItem('Applicantname'))
+    }
     localStorage.setItem('Applicantname','')
     localStorage.setItem('Jdname','')
     localStorage.setItem('jdid','')

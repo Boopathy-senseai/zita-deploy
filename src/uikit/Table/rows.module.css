@@ -1,7 +1,7 @@
 .rowBorder-normal {
   border-bottom: 1px solid var(--color-gary-7, #dfdfdf);
   padding: 8px 0px;
-  margin: 0 8px;
+  margin: 0 8px; 
 }
 .rowBorder-outline {
   border-bottom: 1px solid #A5889C;

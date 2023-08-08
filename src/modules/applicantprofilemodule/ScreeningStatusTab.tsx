@@ -49,12 +49,12 @@ const ScreeningStatusTab = ({ title, issingletab }: Props) => {
                 )}
               </Flex>
               <Text className={styles.statusStyle}>
-                {doc.stage_id__stage_name}{' '}
+                {doc.stage_id__stage_name}{' '}on{' '}
                 {getDateString(doc && doc.created_on, 'll')}
               </Text>
             </Flex>
           );
-        })}
+        }).reverse()}
       </Flex>
       {!issingletab &&
       <Flex

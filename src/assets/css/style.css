@@ -1630,8 +1630,9 @@ input:-webkit-autofill:active {
 
 .ql-snow .ql-tooltip a {
   cursor: pointer;
-
   text-decoration: none;
+  text-decoration-color: #333333;
+
 }
 
 .ql-snow .ql-tooltip.ql-flip {
@@ -1733,7 +1734,8 @@ input:-webkit-autofill:active {
 }
 
 .ql-snow .ql-editor a {
-  text-decoration: underline;
+  text-decoration: underline; 
+  text-decoration-color: #000000;
 }
 
 .ql-snow .ql-editor blockquote {
@@ -2085,11 +2087,9 @@ input:-webkit-autofill:active {
 
 .ql-toolbar.ql-snow {
   border: 1px solid #ccc;
-
   box-sizing: border-box;
-
   font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-
+ border-radius: 4px 4px 0px 0px;
   padding: 8px;
 }
 
@@ -2229,4 +2229,5 @@ input:-webkit-autofill:active {
 
 .ql-container.ql-snow {
   border: 1px solid #ccc;
+  border-radius: 0px 0px 4px 4px;
 }

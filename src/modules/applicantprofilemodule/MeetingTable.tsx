@@ -61,7 +61,7 @@ export const meetingTitle = () => [
     dataIndex: 'Time',
     key: 'Time',
     index: 'index',
-    flex:1,
+    flex:1.5,
     // render: (value:string,index) => (
     // // const value = Math.floor(value/60)+":"+ value % 60; 
        
@@ -76,7 +76,7 @@ export const meetingTitle = () => [
           row
           style={{ borderRight: 'none', display: 'flex' }}
         >
-           {values}hour{minutes === 0?'':' :'} {minutes === 0?'':minutes}{minutes === 0?'':'min'}
+           {values ===  0?'':values} {values ===  0?'':'Hour'}{minutes === 0?'':' '} {minutes === 0?'':minutes}{minutes === 0?'':' Minutes'}
         </Flex>
       );
     },
@@ -115,6 +115,7 @@ export const meetingTitle = () => [
                 backgroundColor: isColor[index.index % isColor.length],
               }}
             >
+              {}
               <Text
                 color="black"
                 transform="uppercase"

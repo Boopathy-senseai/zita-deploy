@@ -198,6 +198,7 @@ const InviteMatch = ({
             {list.job_id}
           </Text>
           <Flex marginTop={5}>
+            {console.log(list.applicant,'list.applicantlist.applicant')}
             {!isEmpty(list.applicant) ? (
               <Flex row center>
                 <Text style={{ fontSize: '13px' }}>Status :</Text>

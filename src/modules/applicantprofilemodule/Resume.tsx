@@ -50,6 +50,12 @@ const ResumeCoverTab = () => {
 
   const docs = [{ uri: file }];
   return (
+    <>
+    {candidate_details[0].file === null?
+      <Flex center middle height={window.innerHeight}>
+        <Text color='gray'>Not Specified </Text> 
+      </Flex>
+      :
     <Flex
       columnFlex
       className={styles.overAll}
@@ -92,6 +98,8 @@ const ResumeCoverTab = () => {
       {/* <Text bold color="theme" className={cx('resumeStyle')}>
         Resume
       </Text> */}
+      {console.log(candidate_details[0].file,'ggggggggggggggggggggggggggggggggggggggggggdddd')}
+     
       <div
       className={cx('border')}
         style={{
@@ -114,7 +122,8 @@ const ResumeCoverTab = () => {
         />
       </div>
       
-    </Flex>
+    </Flex>}
+    </>
   );
 };
 

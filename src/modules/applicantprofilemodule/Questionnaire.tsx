@@ -46,7 +46,7 @@ const Questionnaire = ({issingletab}:Props) => {
           return (
             <Flex columnFlex key={list.question + index}>
               <Flex row>
-                <Text color="theme" className={styles.qustionStyle}>
+                <Text color="theme" className={styles.qustionStyle} style={{ marginRight: 3 }}>
                   {index + 1}:
                 </Text>
                 <Text color="theme">{list.question}</Text>
@@ -57,7 +57,7 @@ const Questionnaire = ({issingletab}:Props) => {
                 {list.answer === '0' && <Text>No</Text>}
                 {list.answer === '1' && <Text>Yes</Text>}
                 {list.answer !== '0' && list.answer !== '1' && (
-                  <Text style={{ marginLeft: 2 }}>
+                  <Text style={{ marginLeft: 5 }}>
                     {isEmpty(list.answer) ? (
                       <Text style={{ color: '#666666' }}>Not Answered</Text>
                     ) : (

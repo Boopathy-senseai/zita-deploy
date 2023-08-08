@@ -294,6 +294,7 @@ const NotesTab = ({ isMeeting, issingletab,candidatemessage,nomessagetab }: Prop
         })
         .then(() => {
           setIsLoad(false);
+          setButtonName('Add')
           setname1('');
           formik.values.notes = '';
           formik.resetForm();
@@ -542,9 +543,9 @@ useEffect(() => {
           )}
         </Flex>
         {notes && notes.length === 0 && 
-            <Flex columnFlex flex={1} middle center marginTop={'110px'}>
-              <SvgNotesyet />
-              <Text className={styles.nojoppostye}>Notes not created yet</Text>
+            <Flex columnFlex flex={1} middle center marginTop={'198px'}>
+              <SvgNotesyet fill='gray' />
+              <Text className={styles.nojoppostye} color='gray'>Notes not created yet</Text>
             </Flex>
           }
 

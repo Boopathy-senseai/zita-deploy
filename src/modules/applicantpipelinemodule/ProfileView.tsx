@@ -1,4 +1,6 @@
 import { useState,useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store';
 import SvgClose from '../../icons/SvgClose';
 import SvgNewTab from '../../icons/SvgNewTab';
 import SvgLeft from '../../icons/SvgLeft';
@@ -10,8 +12,10 @@ import Flex from '../../uikit/Flex/Flex';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import Text from '../../uikit/Text/Text';
 import { Loader } from '../../uikit';
+import { applicantMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import ApplicantProfileModal from './ApplicantProfileModal';
 import styles from './profileview.module.css';
+
 
 type Props = {
   open: boolean;
@@ -33,6 +37,13 @@ const ProfileView = ({
   activeState,
 }: Props) => {
   const [jobtitle, setjobtitle] = useState<string>();
+  const dispatch: AppDispatch = useDispatch();
+  dispatch(
+    applicantMatchMiddleWare({
+      jd_id: jobId,
+      can_id: candidateId,
+    }),
+  );
   return (
     <Drawer open={open}>
       <div className={styles.overAll}>

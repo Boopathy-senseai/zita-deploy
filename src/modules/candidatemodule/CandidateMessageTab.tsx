@@ -170,7 +170,7 @@ const CandidateMessageTab = () => {
         </Flex>
       </Flex>
 
-      <Flex style={{ padding: '8px 16px 0px 16px' }}>
+      <Flex style={{ padding: '12.5px 16px 0px 16px' }}>
         <MessageTopBar formik={formik} />
         <ErrorMessage
           touched={formik.touched}
@@ -189,6 +189,7 @@ const CandidateMessageTab = () => {
         center
         end
         className={styles.btnContainer}
+        marginTop={11}
         style={{ padding: '0px 16px 0px ' }}
       >
         <Flex row>
@@ -223,7 +224,7 @@ const CandidateMessageTab = () => {
 
       {messages.length === 0 ? (
         <Flex flex={1} columnFlex center middle>
-          <Svgchatmessage />
+          <Svgchatmessage fill='gray' />
           <Text style={{ paddingTop: 10 }} color="gray">
             No conversations to show
           </Text>

@@ -54,14 +54,14 @@ const AboutTab = () => {
   ];
 
   const aboutData1 = [
-    {
-      lable: 'Job Type:',
-      value: notSpecified(candidate_details[0].job_title),
-    },
-    {
-      lable: 'Willing to Relocate:',
-      value: relocate,
-    },
+    // {
+    //   lable: 'Job Type:',
+    //   value: notSpecified(candidate_details[0].job_title),
+    // },
+    // {
+    //   lable: 'Willing to Relocate:',
+    //   value: relocate,
+    // },
     {
       lable: 'Expected Gross Salary:',
       value:
@@ -82,7 +82,7 @@ const AboutTab = () => {
         className={styles.overAll}
          height={window.innerHeight - 120}
       > 
-        <Text bold className={styles.jobPreferenceStyle}>
+        {/* <Text bold className={styles.jobPreferenceStyle}>
           Job Preference
         </Text>
         {aboutData1.map((list) => {
@@ -98,9 +98,9 @@ const AboutTab = () => {
               <Text style={{ fontSize: '13px' }}>{list.value}</Text>
             </Flex>
           );
-        })}
+        })} */}
        { console.log(skillSplit,'skillSplitskillSplit')}
-        {skillSplit.length !== 0 || skillSplit[0] !== ''||skillSplit[0] !== undefined && (
+        {  skillSplit[0] !== ""&& skillSplit.length > 0 && skillSplit[0] !== undefined  ? (
           <>
             <Text bold className={styles.jobPreferenceStyles}>
               Professional Skills
@@ -121,7 +121,7 @@ const AboutTab = () => {
                 })}
             </Flex>
           </>
-        )}
+        ):''}
         <Flex>
           {questionnaire && questionnaire.length !== 0 && (
             <>

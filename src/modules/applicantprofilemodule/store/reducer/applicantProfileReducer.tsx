@@ -342,7 +342,7 @@ const applicantMatchReducer = createSlice({
     });
     builder.addCase(applicantMatchMiddleWare.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.match = action.payload.match;
+      state.match = action.payload?.match;
       state.overall_percentage = action.payload.overall_percentage;
       state.not_matched_data = action.payload.not_matched_data;
       state.matched_data = action.payload.matched_data;

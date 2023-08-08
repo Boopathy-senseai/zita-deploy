@@ -248,7 +248,7 @@ const InterviewScorecardTab = () => {
   return (
     <Flex columnFlex className={styles.overAll} >
       <Text bold style={{ fontSize: '14px',padding: '13px 0px 0px 16px'  }}>
-        Scorecard
+      Interview Scorecard
       </Text>
       <Flex column center middle style={{ padding: '0px 16px 0px 16px' }}>
         <Flex>
@@ -288,7 +288,7 @@ const InterviewScorecardTab = () => {
                 value={formik.values.userMessage}
                 className={styles.reactquillchange}
                 onChange={formik.handleChange('userMessage')}
-                placeholder="Add your comments here"
+                placeholder="Add Your comments here"
               />
               <ErrorMessage
                 touched={formik.touched}
@@ -332,6 +332,7 @@ const InterviewScorecardTab = () => {
                     <Flex className={styles.borderStyle}>
                       <Flex row center between className={styles.dateStyle}>
                         <Flex row between center>
+                          {console.log(list,'lllllllllllllllllllllllllllllllllllll')}
                           {list.img_name === '' ? (
                             <div
                               className={cx('profile')}
@@ -345,8 +346,7 @@ const InterviewScorecardTab = () => {
                                 transform="uppercase"
                                 className={styles.firstlastchar}
                               >
-                                {!isEmpty(list.first_name) &&
-                                  firstNameChar(list.first_name)}
+                              {`${!isEmpty(list.first_name) && firstNameChar(list.first_name)}${!isEmpty(list.last_name) &&firstNameChar(list.last_name)}`}
                               </Text>
                             </div>
                           ) : (
@@ -387,13 +387,18 @@ const InterviewScorecardTab = () => {
                           </div>
                         </Flex>
                       </Flex>
-
+                      <Flex  className={styles.feedbackcard} style={{ 
+                                flexWrap: 'wrap',
+                                overflow: ' hidden',
+                                textOverflow: 'clip',
+                              }}>
                       <td
                         className={styles.commentTextStyle}
                         dangerouslySetInnerHTML={{
                           __html: list.comments,
                         }}
                       />
+                      </Flex>
                     </Flex>
                   </Card>
                 )}

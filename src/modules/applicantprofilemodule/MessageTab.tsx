@@ -175,7 +175,7 @@ const MessageTab = () => {
         </Flex>
       </Flex>
 
-      <Flex style={{ padding: '8px 16px 0px 16px' }}>
+      <Flex style={{ padding: '12.5px 16px 0px 16px' }}>
         <MessageTopBar formik={formik} />
         <ErrorMessage
           touched={formik.touched}
@@ -193,7 +193,7 @@ const MessageTab = () => {
         row
         center
         end
-        marginTop={10}
+        marginTop={11}
         className={styles.btnContainer}
         style={{ padding: '0px 16px 0px ' }}
       >
@@ -223,7 +223,7 @@ const MessageTab = () => {
       </Flex>
       {messages === undefined || messages?.length === 0 ? (
         <Flex columnFlex center middle style={{ paddingTop: 200 }}>
-          <Svgchatmessage />
+          <Svgchatmessage fill='gray' />
           <Text color="gray">No conversations to show</Text>
         </Flex>
       ) : (

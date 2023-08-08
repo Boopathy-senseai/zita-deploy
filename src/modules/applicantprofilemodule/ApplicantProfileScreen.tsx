@@ -124,6 +124,7 @@ const ApplicantProfileScreen = () => {
     notesLoader,
     status_id,
     invite,
+    stages,
     source,
     is_plan,
   } = useSelector(
@@ -147,6 +148,7 @@ const ApplicantProfileScreen = () => {
         invite: applicantStausReducers.invite,
         source: applicantProfileInitalReducers.source,
         is_plan: permissionReducers.is_plan,
+        stages: applicantStausReducers?.stages,
       };
     },
   );
@@ -284,7 +286,7 @@ const ApplicantProfileScreen = () => {
             </Flex>
           ) : (
             <Flex flex={7} className={styles.tabLeftFlex}>
-              {status_id.length === 0 ? (
+              {stages.length === 0 ? (
                 <ApplicantTabLeftTwo activeState={isTabValue} />
               ) : (
                 <ApplicantTabLeft activeState={isTabValue} />
