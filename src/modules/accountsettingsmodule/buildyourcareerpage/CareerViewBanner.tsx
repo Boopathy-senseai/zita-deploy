@@ -36,7 +36,7 @@ const CareerViewBanner = ({
   const isMobile = useMediaQuery({ query: '(max-width: 850px)' });
   const fontFamily = career_page_setting.page_font;
   return (
-    <Flex className={styles.overAll}>
+    <Flex  height={"100%"} width={"100%"}className={styles.overAll}>
       <Flex className={styles.imgFlex}>
         <div style={{ position: 'relative', width: '100%' }}>
           <img
@@ -71,7 +71,7 @@ const CareerViewBanner = ({
           </Text>
         </Flex>
       </Flex>
-      <Flex style={{ padding: '10px' }}>
+      <Flex height={"100%"} style={{ padding: '10px' }}>
         {/* <Flex marginBottom={10}>
           <Text bold size={14}>
             Get the right job that you deserve.
@@ -151,7 +151,7 @@ const CareerViewBanner = ({
           </Card>
         )}
 
-        <div
+        <div style={{height:"100%", width:"100%"}}
           className={cx('paddingStyle', 'marginAuto', {
             disPlayStyle: jd_form && jd_form.length === 0,
           })}
@@ -171,7 +171,7 @@ const CareerViewBanner = ({
                 </Text>
               )}
               {jd_active !== true && (
-                <Text align="center" bold>
+                <Text align="center" color="gray">
                   No Current Openings
                 </Text>
               )}
