@@ -104,11 +104,11 @@ console.log('statusList',statusList);
                   {list.title}
                 </Text>
                 {list.value ==="Active"&&
-                  <Text style={{color:"green",fontWeight:"600"}} >{list.value}</Text> }   
+                  <Text style={{color:"green", fontWeight: 600}} >{list.value}</Text> }   
                   {list.value ==="Inactive"&&
-                  <Text style={{color:"red",fontWeight:"600"}} >{list.value}</Text> }   
+                  <Text style={{color:"red",fontWeight:600}} >{list.value}</Text> }   
                     {list.value ==="Draft"&&
-                  <Text style={{color:"yellow",fontWeight:"600"}} >{list.value}</Text> }              
+                  <Text style={{color:"yellow",fontWeight:600}} >{list.value}</Text> }              
                 </>
             )}  {list.title === 'Active For' && (
             <>
