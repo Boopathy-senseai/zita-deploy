@@ -14,7 +14,7 @@ export const bulkImportUpdatePersonalApi = 'update_personal_info_bulk/';
 export const uploadedCandidatesApi = 'uploaded_candidates/';
 export const bulkUploadEducationEdit = 'education_bulk/';
 export const bulkUploadQus = 'questionnaire_bulk/';
-export const bulkUploadMatch = 'matching_api_bulk/';
+export const bulkUploadMatch = 'matching_algorithm';
 export const bulkUploadExpAdd = 'experiences_bulk/';
 export const uploadedCandiDelete = (id: number) => {
   const url = `delete_candidate/${id}`;

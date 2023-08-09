@@ -2,13 +2,13 @@ import axios from 'axios';
 import { Fragment, useState } from 'react';
 import classNames from 'classnames/bind';
 import { useDispatch } from 'react-redux';
-import SvgTrash from '../../icons/SvgTrash';
+import { Dropdown } from 'react-bootstrap';
 import { GARY_3, LINK } from '../../uikit/Colors/colors';
+import { Text } from '../../uikit';
 import { uploadedCandidatesApi } from '../../routes/apiRoutes';
 import Flex from '../../uikit/Flex/Flex';
 import { AppDispatch } from '../../store';
-import SvgView from '../../icons/SvgView';
-import SvgMail from '../../icons/SvgMail';
+import SvgDotMenu from '../../icons/SvgDotMenu';
 import Toast from '../../uikit/Toast/Toast';
 import { config } from '../constValue';
 import Loader from '../../uikit/Loader/Loader';
@@ -19,6 +19,8 @@ import {
   uploadedDeleteMiddleWare,
 } from './store/middleware/bulkImportMiddleware';
 import styles from './action.module.css';
+
+
 // import { EmpPoolEntity } from './bulkImportTypes';
 const cx = classNames.bind(styles);
 var querystring = require('querystring');
@@ -257,84 +259,112 @@ const Action = ({
         <Loader withOutOverlay size="small" />
       ) : (
         <>
-         <div
-            title="Open profile"
-            className={styles.svgExternal}
-            onClick={() => {
-              hanldeProfileView(value.id);
-            }}
-            tabIndex={-1}
-            role={'button'}
-            onKeyPress={() => {}}
-          >
-            <SvgView fill={LINK} width={20} height={20} />
-          </div>
-          <Fragment>
-            {!applicant && (
-              <>
-                {value.applicant !== null && (
-                  <div
-                    title="Candidate Applied for a Job."
-                    className={cx('pointerEvent')}
-                  >
-                    <SvgTrash fill={GARY_3} width={20} height={20} />
-                  </div>
-                )}
-                {value.applicant === null && (
-                  <div
-                    onClick={handleOpenModal}
-                    className={cx('pointer')}
-                    tabIndex={-1}
-                    role={'button'}
-                    onKeyPress={() => {}}
-                  >
-                    <SvgTrash fill={GARY_3} width={20} height={20} />
-                  </div>
-                )}
-              </>
-            )}
-          </Fragment>
-         
-          {applicant && (
-            <>
-              {value.login_shared === true ? (
+        <Dropdown className="dropdownButton dropleft">
+            <Dropdown.Toggle
+              // onClick={handleOpenPopup}
+              style={{
+                borderColor: 'unset',
+                backgroundColor: 'unset',
+                boxShadow: 'none',
+                padding: '0px',
+               marginRight: '5px',
+              }}
+              id="dropdown-basic"
+            >
+              {/* <SvgEditStages height={16} width={16} /> */}
+              <SvgDotMenu width={16} height={16} fill="#581845" />
+            </Dropdown.Toggle>
+            <Dropdown.Menu style={{ minWidth: '5rem' }}>
+              <Dropdown.Item  >
+                <Flex row center className={styles.dropDownListStyle}>
                 <div
-                  title="Login credentials already sent to the applicant"
-                  onClick={handleOpenEmail}
-                  className={cx('pointer')}
-                  tabIndex={-1}
-                  role={'button'}
-                  onKeyPress={() => {}}
-                >
-                  <SvgMail fill={LINK} width={20} height={20} />
+                title="Open profile"
+                className={styles.svgExternal}
+                onClick={() => {
+                  hanldeProfileView(value.id);
+                }}
+                 tabIndex={-1}
+                 role={'button'}
+                 onKeyPress={() => {}}
+                 >
+                 View
                 </div>
-              ) : (
-                <>
-                  {(value.email !== null && value.first_name !== null)  ? (
-                    <div
-                      title="Login credentials not yet sent"
-                      onClick={handleOpenEmail}
-                      className={cx('pointer')}
+                </Flex>
+              </Dropdown.Item>
+              <Dropdown.Item  
+              >
+                <Flex row center className={styles.dropDownListStyle}>
+                <Fragment>
+                {!applicant && (
+                  <>
+                    {value.applicant !== null && (
+                      <div
+                        title="Candidate Applied for a Job."
+                        className={cx('pointerEvent')}
+                      >
+                        Delete
+                      </div>
+                    )}
+                    {value.applicant === null && (
+                      <div
+                        onClick={handleOpenModal}
+                        tabIndex={-1}
+                        role={'button'}
+                        onKeyPress={() => {}}
+                      >
+                      Delete
+                      </div>
+                    )}
+                  </>
+                )}
+                {applicant && (
+                  <>
+                    {value.login_shared === true ? (
+                      <div
+                        title="Login credentials already sent to the applicant"
+                        onClick={handleOpenEmail}
+                        tabIndex={-1}
+                        role={'button'}
+                        onKeyPress={() => {}}
+                      >
+                        Mail
+                      </div>
+                    ) : (
+                      <>
+                        {(value.email !== null && value.first_name !== null)  ? (
+                          <div
+                            title="Login credentials not yet sent"
+                            onClick={handleOpenEmail}
+                           
+      
+                            tabIndex={-1}
+                            role={'button'}
+                            onKeyPress={() => {}}
+                          >
+                            Mail
+                          </div>
+                        ) : (
+                          <div
+                            title="Add name and email to send the login credentials"
+                            className={cx('pointerEvent')}
+                          >
+                           Mail
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </>
+                )}
+              </Fragment>
 
-                      tabIndex={-1}
-                      role={'button'}
-                      onKeyPress={() => {}}
-                    >
-                      <SvgMail fill={LINK} width={20} height={20} />
-                    </div>
-                  ) : (
-                    <div
-                      title="Add name and email to send the login credentials"
-                      className={cx('pointerEvent')}
-                    >
-                      <SvgMail fill={GARY_3} width={20} height={20} />
-                    </div>
-                  )}
-                </>
-              )}
-            </>
-          )}
-        </>
+                </Flex>
+              </Dropdown.Item>
+              
+            </Dropdown.Menu>
+
+          </Dropdown>
+        
+          </>
       )}
     </Flex>
   );

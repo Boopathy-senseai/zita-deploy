@@ -133,7 +133,7 @@ function UploadJd() {
                       className={styles.labelStyle}
                       htmlFor={'upload__file_upload'}
                     >
-                      <Text color="link">Browse Files</Text>
+                      <Text color="link" bold>Browse Files</Text>
                     </label>
                   </Flex> 
                   <Text

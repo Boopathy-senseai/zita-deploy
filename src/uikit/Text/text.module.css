@@ -136,8 +136,7 @@
   /* font-size: 0px; */
 }
 .textColor-theme {
-  color: var(--color-primary, #581845);
-  /* color: var(--color-white, #ffffff); */
+  color:#581845;
 }
 
 .textColor-warning {

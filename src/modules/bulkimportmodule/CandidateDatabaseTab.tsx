@@ -4,6 +4,7 @@ import { AppDispatch, RootState } from '../../store';
 import Totalcount from '../../globulization/TotalCount';
 import SvgSearch from '../../icons/SvgSearch';
 import { getBlur, getFocus, unlimitedHelper } from '../../uikit/helper';
+import { Modal } from '../../uikit';
 import Loader from '../../uikit/Loader/Loader';
 import Button from '../../uikit/Button/Button';
 import Flex from '../../uikit/Flex/Flex';
@@ -28,6 +29,7 @@ import {
 } from './store/middleware/bulkImportMiddleware';
 import ParsingLoadingModal from './ParsingLoadingModal';
 import ProfileViewModal from './ProfileViewModal';
+
 
 type Tabs = 'total' | 'completed' | 'inCompleted';
 
@@ -79,6 +81,7 @@ const CandidateDatabaseTab = ({
   const [isCanId, setCanId] = useState<any>([]);
  
   const dispatch: AppDispatch = useDispatch();
+  const [model, setmodel] = useState(false);
 // const history=useHistory()
   // Profile View Function
 
@@ -99,10 +102,15 @@ const CandidateDatabaseTab = ({
       setFile(res.payload.resume_file_path);
     });
   };
-  useEffect(() => {
-    dispatch(bulkuploadedCandidatesMiddleWare({}));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(bulkuploadedCandidatesMiddleWare({}));
+  // }, []);
 
+  useEffect(() => {
+    if(searchValue === '' ){
+      dispatch(bulkuploadedCandidatesMiddleWare({}));
+    }
+  }, [searchValue]);
 
   const {
     emp_pool,
@@ -163,6 +171,7 @@ const CandidateDatabaseTab = ({
     localStorage.setItem('bulk_loader', 'true');
   };
 
+  
   const handleOpenParse = () => setParse(true);
 
   // Pagination Function
@@ -256,6 +265,9 @@ const CandidateDatabaseTab = ({
       setCandiTableLoader(false);
     });
   };
+
+
+
   const hanldeSvgRefreshOnUpdate = (e: any) => {
     setOpenProfile(false);
     setCandiTableLoader(true);
@@ -302,12 +314,17 @@ const CandidateDatabaseTab = ({
   });
 
   const handleKeyPress = (event: { key: string }) => {
-    if (event.key === 'Enter') {
-      handleSubmit();
+    console.log("hhhhhhhhhhh1")
+    if (event.key=== "Backspace" || event.key === "Delete") {
+      console.log("hhhhh")
+      hanldeSvgRefresh(event);
     }
   };
+  const value=emp_pool.length;
+  const value1=value>4;
+  const isBulkLoaderprocess=localStorage.getItem('bulk_loader');
   return (
-    <Flex>
+    <Flex  style={{overflowY:'scroll',maxHeight:value1?'547px':'fit-content',paddingRight:'10px'}}>
       <YesOrNoModal
         title={
           <Text style={{ width: 580, marginLeft: 12 }}>
@@ -356,6 +373,7 @@ const CandidateDatabaseTab = ({
 
       <ParsingLoadingModal
         info
+        css
         title={'Resumes imported successfully....'}
         open={isImport === 'true' ? true : false}
         close={handleCloseImportModal}
@@ -376,15 +394,20 @@ const CandidateDatabaseTab = ({
           </Text>
         }
       />
-
+      <Modal open={model}>
+      <Flex style={{backgroundColor:'#ffffff',padding:'25px',height:'320px',width:'600px'}}>
       <CandidateDatabase
+        setmodel={setmodel}
         hanldeParsing={hanldeParsing}
         setParse={handleOpenParse}
         isBulkLoader={localStorage.getItem('bulk_loader')}
         setUpgrade={setUpgrade}
         candidatesLimit={features_balance}
       />
-
+      </Flex>
+      </Modal>
+      
+      <Flex row between>
       <Flex row center className={styles.inputConatiner}>
         <InputText
           className={styles.inputWidth}
@@ -394,20 +417,38 @@ const CandidateDatabaseTab = ({
           onChange={searchHandleChange}
           id={'candidates__input'}
           actionRight={() => (
-            <label htmlFor={'candidates__buttonFind'} style={{ margin: 0 }}>
+            <label style={{ margin: 0 }}>
               <SvgSearch />
             </label>
           )}
           onKeyPress={handleKeyPress}
         />
         <Button
-          id="candidates__buttonFind"
+         
           disabled={searchValue === '' ? true : false}
           onClick={handleSubmit}
         >
           Find Candidates
         </Button>
       </Flex>
+      <Flex className={styles.inputConatiner}>
+      {isBulkLoaderprocess === 'true' ? (
+        <Flex row  >
+        <Loader size="medium" withOutOverlay />
+        <Text color="gray" style={{ marginLeft: 16 }}>
+          Processing...
+        </Text>
+      </Flex>
+      ):(
+      <Button
+      onClick={() => setmodel(true)}
+      >
+      Bulk Import
+     </Button>
+     )}
+      </Flex>
+      </Flex>
+      
 
       <Flex row center className={styles.filterStyle}>
         <Flex row center className={styles.marginLeft}>
@@ -417,6 +458,7 @@ const CandidateDatabaseTab = ({
             <Totalcount
             name="Total Candidates"
             numbers={total_count}
+            click={total_count===0?false:true}
             />
             
             </Text>
@@ -429,10 +471,12 @@ const CandidateDatabaseTab = ({
               bold={isTab === 'total'}
               className={styles.linkSpace}
               color={'link'}
+              style={{cursor: 'pointer'}}
             >
             <Totalcount
             name="Total Candidates"
             numbers={total_count}
+            click={total_count===0?false:true}
             />
             </Text>
           )}
@@ -440,37 +484,54 @@ const CandidateDatabaseTab = ({
         {total_count !== 0 && (
           <>
             <Flex row center className={styles.marginLeft}>
-              <Text bold={isTab === 'completed'}>Completed Profiles:</Text>
               {completed === 0 ? (
                 <Text
                   bold={isTab === 'completed'}
                   className={styles.linkSpaceDefault}
+                  style={{cursor: 'pointer'}}
                 >
-                  {completed}
+                <Totalcount
+                name="Completed Profiless"
+                numbers={completed}
+                click
+                />
+                  
                 </Text>
               ) : (
                 <Text
                   onClick={() => {
                     handleCompleted();
                     setTab('completed');
+                   
                   }}
                   bold={isTab === 'completed'}
                   color={'link'}
                   className={styles.linkSpace}
+                  style={{cursor: 'pointer'}}
                 >
-                  {completed}
+                <Totalcount
+                name="Completed Profiless"
+                numbers={completed}
+                click
+                />
                 </Text>
               )}
             </Flex>
 
             <Flex row center className={styles.inComplete}>
-              <Text bold={isTab === 'inCompleted'}>Incomplete Profiles:</Text>
+            
               {incompleted === 0 ? (
                 <Text
                   bold={isTab === 'inCompleted'}
                   className={styles.linkSpaceDefault}
+                  style={{cursor: 'pointer'}}
                 >
-                  {incompleted}
+                <Totalcount
+                name="Incompleted Profiless"
+                numbers={incompleted}
+                click={incompleted===0?false:true}
+                />
+                
                 </Text>
               ) : (
                 <Text
@@ -481,13 +542,20 @@ const CandidateDatabaseTab = ({
                   }}
                   bold={isTab === 'inCompleted'}
                   className={styles.linkSpace}
+                  style={{cursor: 'pointer'}}
                 >
-                  {incompleted}
+                <Totalcount
+                name="Incompleted Profiless"
+                numbers={incompleted}
+                click
+                />
+                
                 </Text>
               )}
             </Flex>
           </>
         )}
+        {total_count> 0 &&(
         <div
           tabIndex={-1}
           role={'button'}
@@ -500,11 +568,12 @@ const CandidateDatabaseTab = ({
         >
           <SvgRefresh />
         </div>
+        )}
       </Flex>
       { isCandiTableLoader? (
         <Flex center middle height={100}>
-          <Loader withOutOverlay size={'medium'} />
-        </Flex>
+        <Loader withOutOverlay size={'medium'} />
+      </Flex>
       ) : (
         <Tabel
           empty={

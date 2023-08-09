@@ -252,12 +252,23 @@ const SourcingPerformanceReport = () => {
 	return (
 		<Flex className={styles.overAll} height={window.innerHeight - 70}>
 			{(isLoading || isLoadingData) && <Loader />}
-			<Card className={styles.cardOverAllApplicant}>
+			<Flex>
 				<Flex>
-					<Text bold size={18}>
-						Sourcing Performance Report
+				<Flex row className={styles.ribbon} between>
+					<Flex marginTop={9} marginLeft={8} >
+					<Text size={18} bold color="theme" >
+					Sourcing Performance Report
 					</Text>
-					<Text>
+
+					</Flex>
+					<Flex >
+
+					<div className={styles.triangle}></div>
+					</Flex>
+
+				</Flex>
+					
+					<Text style={{marginTop:'10px',marginLeft:'5px'}}>
 						Gives insights on JD traffic in a specified duration of time. It
 						will display the view count of JD on the company’s careers page and
 						applicants with time-stamped.
@@ -265,9 +276,9 @@ const SourcingPerformanceReport = () => {
 				</Flex>
 
 				<Flex row className={styles.marginTop}>
-					<Flex flex={6}>
-						<Flex row className={styles.marginTop}>
-							<Text bold className={styles.selected}>
+					<Flex flex={6}>  
+  						<Flex row  style={{marginTop: '10px'}}>
+							<Text  className={styles.selected}>
 								Select Job
 							</Text>
 							<div className={styles.skillContainer}>
@@ -371,7 +382,7 @@ const SourcingPerformanceReport = () => {
 					</Flex>
 				</Flex>
 				{table && table.length > 0 ? (
-					<Flex>
+					<Flex style={{paddingLeft:'5px'}}>
 						<Flex row>
 							<Flex flex={6}>
 								<Card className={styles.cardOverAllChart}>
@@ -392,8 +403,9 @@ const SourcingPerformanceReport = () => {
 							</Flex>
 						</Flex>
 						<Flex>
-							<Card className={styles.cardOverAllApplicant}>
-								<Text bold style={{marginBottom:10}}>Report Data</Text>
+							<Flex>
+								<Text bold style={{margin:'20px 0px 0px 10px'}}>Report Data</Text>
+								<Text  style={{margin:'5px 0px 5px 10px'}}>A comprehensive data table showcasing count about the job views and applicant conversion rate.</Text>
 								<Flex >
 								<Table
 									columns={columns}
@@ -405,7 +417,7 @@ const SourcingPerformanceReport = () => {
 									fixedScrollHeight
 								/>
 								</Flex >
-							</Card>
+							</Flex>
 						</Flex>
 					</Flex>
 				) : (
@@ -413,7 +425,7 @@ const SourcingPerformanceReport = () => {
 						<Text bold>No Data Available</Text>
 					</Flex>
 				)}
-			</Card>
+			</Flex>
 		</Flex>
 	);
 };

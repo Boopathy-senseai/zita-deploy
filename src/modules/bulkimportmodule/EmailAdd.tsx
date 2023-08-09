@@ -257,7 +257,7 @@ const EmailAdd = ({
         <>
           {!isInput && (
             <Text
-              size={12}
+              size={13}
               color="link"
               textStyle="underline"
               onClick={handleOpenInput}
@@ -271,7 +271,7 @@ const EmailAdd = ({
           {!isInput && (
             <div className={styles.textContainer}>
               <Text
-                size={12}
+                size={13}
                 onClick={handleOpenInput}
                 className={styles.nameStyle}
               >
@@ -294,9 +294,27 @@ const EmailAdd = ({
             value={formik.values.mail}
             onChange={formik.handleChange('mail')}
             lineInput
-            size={12}
+            size={13}
             onKeyPress={(e) => handleKeyPress(e, value.id)}
+            style={{width:'67%'}}
           />
+          {isError && (
+            <Text style={{
+              display: "flex",
+              alignSelf: 'flex-start'
+            }} size={10} color="error" align='left'>
+              Enter valid email
+            </Text>
+          )}
+          {
+            !isEmpty(formik.values.mail) && isEmailId &&
+            <Text  style={{
+              display: "flex",
+              alignSelf: 'flex-start'
+            }} size={10} color="error" align='left'>
+              Email already exists
+            </Text>
+          }
 
           <div
             className={styles.svgContainer}
@@ -307,23 +325,7 @@ const EmailAdd = ({
               zIndex: 11
             }}
           >
-            {isError && (
-              <Text style={{
-                display: "flex",
-                alignSelf: 'flex-start'
-              }} size={10} color="error" align='left'>
-                Enter valid email
-              </Text>
-            )}
-            {
-              !isEmpty(formik.values.mail) && isEmailId &&
-              <Text  style={{
-                display: "flex",
-                alignSelf: 'flex-start'
-              }} size={10} color="error" align='left'>
-                Email already exists
-              </Text>
-            }
+           
             <div style={{ display: 'flex', flexDirection: 'row' }}>
               {isLoader ? (
                 <div className={styles.svgTick}>

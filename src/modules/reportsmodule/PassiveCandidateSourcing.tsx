@@ -230,19 +230,30 @@ const PassiveCandidateReports = () => {
 	return (
 		<Flex className={styles.overAll} height={window.innerHeight - 70}>
 			{isLoading && <Loader />}
-			<Card className={styles.cardOverAllApplicant}>
+			<Flex>
 				<Flex>
-					<Text bold size={18}>
-						Passive Candidate Sourcing Report
-					</Text>
-					<Text style={{ marginBottom: 10 }}>
+				<Flex row className={styles.ribbon} between>
+				<Flex marginTop={9} marginLeft={8} >
+				<Text size={18} bold color="theme" >
+				Passive Candidate Sourcing Report
+				</Text>
+
+				</Flex>
+				<Flex >
+
+				<div className={styles.triangle}></div>
+				</Flex>
+
+			</Flex>
+					
+					<Text style={{ marginBottom: 5,marginTop:'10px',marginLeft:'5px' }}>
 						Gives insights on the count about the unlocked contacts, invited
 						candidates, applicants via invited list to analyze the passive
 						candidate sourcing.
 					</Text>
 				</Flex>
 				<Flex row className={styles.marginTop}>
-					<Text bold className={styles.selected}>
+					<Text  className={styles.selected}>
 						Duration
 					</Text>
 					<div className={styles.skillContainer}>
@@ -264,11 +275,11 @@ const PassiveCandidateReports = () => {
 					</Button>
 				</Flex>
 				{add_on_dict && add_on_dict.length > 0 && isChart ? (
-					<Flex>
+					<Flex style={{paddingLeft:'5px'}}>
 						<Flex row>
 							<Flex flex={6}>
 								<Card className={styles.cardOverAllChart}>
-									<Text bold>Passive Candidate Conversion</Text>
+									<Text bold size={14}>Passive Candidate Conversion</Text>
 									<Text style={{ marginBottom: 20 }}>
 										Insights: Count of unlocked candidates conversion as
 										Applicants
@@ -278,7 +289,7 @@ const PassiveCandidateReports = () => {
 							</Flex>
 							<Flex flex={6}>
 								<Card className={styles.cardOverAllChart}>
-									<Text bold>Amount Spent on Contact Credits</Text>{' '}
+									<Text bold size={14}>Amount Spent on Contact Credits</Text>{' '}
 									<Text style={{ marginBottom: 20 }}>
 										Insights: Total amount spent on purchasing contact credits
 									</Text>
@@ -293,11 +304,15 @@ const PassiveCandidateReports = () => {
 					</Flex>
 				)}
 				{add_on_dict && add_on_dict.length > 0 && isChart && (
-					<Flex>
-						<Card className={styles.cardOverAllApplicant}>
-							<Text bold style={{ marginBottom: 10 }}>
+					<Flex style={{marginLeft:'5px'}}>
+						
+							<Text bold style={{ margin: '20px 0px 5px 10px'}} size={14}>
 								Report Data
 							</Text>
+							<Text  style={{ margin: '0px 0px 10px 10px'}}>
+							A comprehensive data table showcasing count about the analyze of the passive candidate sourcing.
+							</Text>
+							
 							<Table
 								columns={columns}
 								dataSource={add_on_dict}
@@ -306,10 +321,10 @@ const PassiveCandidateReports = () => {
 								border="normal"
 								fixedScrollHeight
 							/>
-						</Card>
+					
 					</Flex>
 				)}
-			</Card>
+			</Flex>
 		</Flex>
 	);
 };

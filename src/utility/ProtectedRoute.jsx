@@ -118,7 +118,7 @@ const ProtectedRoute = ({ notIsNav, component: Component, ...rest }) => {
                         display: 'flex',
                         flexDirection: 'column',
                         flex: 1,
-                        overflow: "hidden",
+                        overflow: "scroll",
                         height: "-webkit-fill-available",
                         paddingLeft:'10px'
                       }}

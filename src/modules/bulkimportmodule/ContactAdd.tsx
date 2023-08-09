@@ -237,7 +237,7 @@ const ContactAdd = ({
         <>
           {!isInput && (
             <Text
-              size={12}
+              size={13}
               color="link"
               textStyle="underline"
               onClick={handleOpenInput}
@@ -251,7 +251,7 @@ const ContactAdd = ({
           {!isInput && (
             <div className={styles.textContainer}>
               <Text
-                size={12}
+                size={13}
                 onClick={handleOpenInput}
                 className={styles.nameStyle}
               >
@@ -272,10 +272,11 @@ const ContactAdd = ({
             value={formik.values.name}
             onChange={formik.handleChange('name')}
             lineInput
-            size={12}
+            size={13}
             placeholder={'Optional'}
             onKeyPress={(e) => handleKeyPress(e, value.id)}
             id="contactAdd__contactId"
+            style={{width:'66%'}}
           />
 
           <div

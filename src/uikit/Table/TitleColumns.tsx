@@ -48,14 +48,16 @@ const TitleColumns = ({ columns }: typeof defaultTitleProps) => {
             key={column.dataIndex}
             className={value===column.dataIndex?cx('titleTextStyle1'):cx('titleTextStyle')}
             middle={center}
-            >
+            
+          >
           {console.log("laast indexxxx",renderTitle,column.dataIndex)}
+        
             {renderTitle ? (
               <Text style={{color:'#555555'}}>
               {renderTitle(column.title as string)}
               </Text>
             ) : (
-              <Text size={14} bold style={{color:"#333333"}}>
+              <Text size={14} bold color={'theme'} style={{color:'#555555'}}>
                 {column.title as string}
               </Text>
             )}
@@ -68,14 +70,10 @@ const TitleColumns = ({ columns }: typeof defaultTitleProps) => {
     </>
   );
 };
- 
+
 // export default memo(
-
 //   TitleColumns,
-
 //   (prevProps: Props, nextProps: Props) =>
-
 //     prevProps.columns === nextProps.columns
-
 // );
 export default TitleColumns;

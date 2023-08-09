@@ -210,12 +210,12 @@ const ExperienceAdd = ({
     : '';
 
   return (
-    <div className={styles.overAll}>
+    <div className={styles.overAll} style={{width:'90%'}}>
       {isEmpty(formik.values.name) ? (
         <>
           {!isInput && (
             <Text
-              size={12}
+              size={13}
               color="link"
               textStyle="underline"
               onClick={handleOpenInput}
@@ -229,7 +229,7 @@ const ExperienceAdd = ({
           {!isInput && (
             <div className={styles.textContainer}>
               <Text
-                size={12}
+                size={13}
                 onClick={handleOpenInput}
                 className={styles.nameStyle}
               >
@@ -243,7 +243,7 @@ const ExperienceAdd = ({
         </>
       )}
       {isInput && (
-        <div ref={myRef} className={`width100,${cx('inputOverAll')}`}>
+        <div ref={myRef} className={`width100,${cx('inputOverAll')}`} style={{width:'85px'}}>
           <SelectTag
             id={'experienceAdd__optional'}
             placeholder={'Optional'}
@@ -254,7 +254,7 @@ const ExperienceAdd = ({
             }}
             lineStyle
           />
-          <div className={styles.svgContainer}>
+          <div className={styles.svgContainer1}>
             {isLoader && (
               <div className={styles.svgTick}>
                 <Loader withOutOverlay size={'small'} />

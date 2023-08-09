@@ -193,7 +193,7 @@ const InputText = (
           )}
           {!isEmpty(errorMessage) && error && (
             <Text
-              size={12}
+              size={13}
               color={'error'}
               className={cx('errorMessageStyle', { errorFocus: isErrorFocus })}
             >
