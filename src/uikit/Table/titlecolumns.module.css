@@ -1,20 +1,13 @@
-.titleTextStyle{
+.titleTextStyle {
+  padding: 0 8px;
 
-   
-
-    padding: 0 8px;
-
-    border-right: 0.5px solid #555555;
-
+  border-right: 0.5px solid #555555;
 }
 
-.titleTextStyle1{
-
-   
-
-    padding: 0 8px;
-    color: #333333;
+.titleTextStyle1 {
+  padding: 0 8px;
+  color: #333333;
 }
-.title{
-    color: #333333 !important;
+.title {
+  color: #333333 !important;
 }
