@@ -62,3 +62,6 @@ right: 43;
 
   
   }
+  .scroll{
+    overflow-y: auto !important;
+  }

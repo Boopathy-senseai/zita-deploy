@@ -50,7 +50,7 @@ type Props = {
   inputConatinerClass?: string;
   value?: string;
   id?: string;
-  size?: 12 | 14 | 16;
+  size?: 11 | 12 | 13 | 14 | 16;
   lineInput?: boolean;
   actionRight?: Function;
   actionLeft?: Function;

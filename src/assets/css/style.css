@@ -718,6 +718,7 @@ input:-webkit-autofill:active {
 .nav-tabs {
   /* border-bottom: 1px solid #dfdfdf; */
   box-sizing: border-box;
+  width: 100%;
 }
 
 .nav-tabs .nav-item.show .nav-link,
@@ -1873,4 +1874,8 @@ input:-webkit-autofill:active {
 ul {
   margin-bottom: 1rem ! important;
   list-style-type: disc ! important;
+}
+
+.css-12jo7m5{
+  font-size: 13px;
 }

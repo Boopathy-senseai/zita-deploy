@@ -147,6 +147,7 @@ const CandidateScreen = () => {
   };
     // invite submit function
   const hanldeInvite = () => {
+    alert("alert2")
     hanldeInviteClosePopUp();
     setInviteLoader(true);
     const data = querystring.stringify({

@@ -7,6 +7,7 @@ import SvgHeart from '../../icons/SvgHeart';
 import SvgHelp from '../../icons/SvgHelp';
 import SvgInterested from '../../icons/SvgInterested';
 import SvgInvite from '../../icons/SvgInvite';
+import SvgNotInterested from '../../icons/SvgNotInterested';
 import SvgNotesOne from '../../icons/SvgNotesOne';
 import SvgView from '../../icons/SvgView';
 import { AppDispatch } from '../../store';
@@ -139,7 +140,7 @@ const ZitaMatchDataCard = ({
   console.log('jobId',jobId);
   
   return (
-    <>
+    <Flex className={styles.cardwrap} >
       {isEmpty(dataList.candidate_id_id) && (
         <>
           <ZitaMatchCandidateDrawer
@@ -150,7 +151,7 @@ const ZitaMatchDataCard = ({
             candidateId={dataList.id.toString()}
           />
           <ZitaMatchCandidateDrawer
-            activeState={2}
+            activeState={1}
             open={isNotes}
             cancel={handleClose}
             jobId={jobId}
@@ -167,7 +168,7 @@ const ZitaMatchDataCard = ({
             candidateId={dataList.id.toString()}
           />
           <ProfileView
-            activeState={4}
+            activeState={1}
             open={isNotes}
             cancel={handleClose}
             jobId={jobId}
@@ -205,9 +206,10 @@ const ZitaMatchDataCard = ({
           btnRight={YES}
         />
       )}
-      <Card className={styles.cardOverAll}>
-        <Flex columnFlex row className={styles.height}>
-          <Flex columnFlex top className={styles.checkBoxContainer}>
+
+      {/* <Card className={styles.cardOverAll}>
+        <Flex columnFlex row className={styles.cardHeight}>
+          <Flex columnFlex top >
             <InputCheckBox
               onChange={handleClick}
               checked={isCheck.includes(dataList.id.toString())}
@@ -216,6 +218,7 @@ const ZitaMatchDataCard = ({
               id={dataList.id.toString()}
             />
           </Flex>
+          
           <Flex flex={1} row width={'100%'}>
             <Flex row className={styles.profileFlex}>
               <ProfileWithPercentage
@@ -410,8 +413,345 @@ const ZitaMatchDataCard = ({
             </Flex>
           </Flex>
         </Flex>
+      </Card> */}
+
+      <Card className={styles.cardOverAll}>
+      <Flex columnFlex row className={styles.cardHeight}>
+          <Flex columnFlex top >
+          <InputCheckBox
+              onChange={handleClick}
+              checked={isCheck.includes(dataList.id.toString())}
+              key={dataList.id.toString()}
+              name={dataList.first_name}
+              id={dataList.id.toString()}
+            />
+            </Flex>
+             
+          <Flex flex={1} row width={'100%'}>
+             <Flex width="70%">
+             <Flex row marginLeft={5}>
+              <Flex>
+              <ProfileWithPercentage
+                isPercentage={true}
+                index={index}
+                dataList={dataList}
+              />
+              </Flex>
+              <Flex>
+                <Flex row>
+                  <Flex>
+                  <Text
+                    color={isEmpty(dataList.applicant) ? 'link' : 'gray'}
+                    bold
+                    title={dataList.first_name}
+                    textStyle="ellipsis"
+                    onClick={handleProfileView}
+                  >
+                    {dataList.first_name}
+                  </Text>
+                  </Flex>
+                  <Flex>
+                  <div
+                    className={styles.svgViewStyle}
+                    title={
+                      !isEmpty(dataList.applicant_view)
+                        ? 'Profile Viewed'
+                        : 'Yet to View'
+                    }
+                  >
+                    <SvgView
+                      height={18}
+                      width={18}
+                      nonView={isEmpty(dataList.applicant_view)}
+                    />
+                  </div>
+                  </Flex>
+                </Flex>
+                <Flex>
+                {dataList.work_exp === 'Not Specified' ? (
+                  <Flex row center>
+                    {dataList.location===null?(
+                       <Text
+                       size={12}
+                       style={{color:"#333333"}}
+                       
+                       title={`Location:Not Specified`}
+                     >
+                       {notSpecified(dataList.location)}
+                     </Text>
+                    ):(
+                      <Text
+                      size={12}
+                      style={{color:"#333333"}}
+                      
+                      title={`Location:${dataList.location}`}
+                    >
+                      {notSpecified(dataList.location)}
+                    </Text>
+                    )}
+                  
+                    <Text size={12}  style={{ marginLeft: 2 ,color:"#333333"}} title='Not Specified'>
+                       {' Not Specified'}
+                    </Text>
+                  </Flex>
+                ) : (
+                  <Flex row center>
+                     {dataList.location===null?(
+                       <Text
+                       size={12}
+                       style={{color:"#333333",maxWidth:"197px"}}
+                       textStyle="ellipsis"
+                       title={`Location:Not Specified`}
+                       
+                     >
+                       {notSpecified(dataList.location)}
+                     </Text>
+                    ):(
+                      <Text
+                      size={12}
+                      style={{color:"#333333",maxWidth:"197px"}}
+                      textStyle="ellipsis"
+                      title={`Location:${dataList.location}`}
+                    >
+                      {notSpecified(dataList.location)}
+                    </Text>
+                    )}
+                    {/* <Text size={12}  style={{ marginLeft: 2 ,color:"#333333"}}>
+                      | {notSpecified(workYear(dataList.work_exp))}
+                    </Text> */}
+                  </Flex>
+                )}
+                </Flex>
+                <Flex row marginTop={2}>
+                  <Flex>
+                    {dataList.qualification===null ?(
+                      <Text textStyle="ellipsis" size={12}  style={{color:"#333333"}} title={`Qualification:Not Specified`}>
+
+                      {notSpecified(dataList.qualification)}
+                    </Text>
+                    ):(
+                      <Text textStyle="ellipsis" size={12}  style={{color:"#333333"}} title={`Qualification:${dataList.qualification}`}>
+
+                  {notSpecified(dataList.qualification)}
+                </Text>
+                    )}
+                {/* <Text textStyle="ellipsis" size={12}  style={{color:"#333333"}} title={`Qualification:${dataList.qualification}`}>
+
+                  {notSpecified(dataList.qualification)}
+                </Text> */}
+                </Flex>
+                <Flex>
+                  {dataList.work_exp===null||undefined||""?(
+                    <Text size={12}  style={{ marginLeft: 2 ,color:"#333333"}} title={`Experience:Not Specified`}>
+                    | {notSpecified(workYear(dataList.work_exp))}
+                  </Text>
+                  ):(
+                    <Text size={12}  style={{ marginLeft: 2 ,color:"#333333"}} title={`Experience:${workYear(dataList.work_exp)}`}>
+                      | {notSpecified(workYear(dataList.work_exp))}
+                    </Text>
+                  )}
+                
+                </Flex>
+                </Flex>
+              </Flex>
+             </Flex>
+             <Flex marginLeft={10}>
+              <Flex marginTop={5} >
+              <Text size={12}  className={styles.skillStyle} textStyle="ellipsis"   style={{ maxWidth: '95%',color:"#333333" }}>
+                <Text bold  size={12} textStyle="ellipsis"   style={{ maxWidth: '90%' ,color:"#333333"}}>
+                  Skills:{' '}
+                </Text>
+                 {dataList.skills===null||undefined||""?(<Text  title={`Skills:Not Specified`}>
+                  {notSpecified(lowerCase(dataList.skills.replace(/,/g, ', ')))}
+                 </Text>):(<Text  title={`Skills: ${dataList.skills.replace(/,/g, ', ')}`}>
+                  { notSpecified(lowerCase(dataList.skills.replace(/,/g, ', ')))}
+                 </Text>)
+              }
+              </Text>
+              </Flex>
+             <Flex
+                row
+                center
+                className={isEmpty(dataList.applicant) ? styles.notesFlex : styles.notesDisableFlex}
+                onClick={handleNotesView}
+              >
+                <SvgNotesOne height={14} width={14} />
+                <Text size={12} bold color={isEmpty(dataList.applicant) ? 'link' : 'gray'} style={{ marginLeft: 4 }}>
+                  Notes
+                </Text>
+              </Flex>
+             
+             </Flex>
+             </Flex>
+             <Flex width="30%" className={styles.border}>
+             <Flex className={styles.fav} >
+              <Flex>
+              <div
+                    title={
+                      !isEmpty(dataList.fav)
+                        ? 'Remove from Favourites'
+                        : 'Add to Favourites'
+                    }
+                    onClick={() => hanldeFav(dataList.id)}
+                    className={styles.fav}
+                    tabIndex={-1}
+                    role={'button'}
+                    onKeyPress={() => {}}
+                  >
+                    <SvgHeart
+                      height={18}
+                      width={18}
+                      filled={!isEmpty(dataList.fav)}
+                    />
+                  </div></Flex>
+              </Flex>
+             <Flex columnFlex middle center className={styles.inviteContainer}>
+              {/* {!isEmpty(dataList.interested) &&
+              dataList.interested === false ? (
+                <div className={cx('svgInviteNone')}>
+                  <SvgInvite width={36} height={36} color="theme" />
+                </div>
+              ) : (
+                <div
+                  tabIndex={-1}
+                  role={'button'}
+                  onKeyPress={() => {}}
+                  onClick={handleInviteView}
+                  className={cx({
+                    svgInvitePointer: isEmpty(dataList.applicant),
+                    svgInviteNone: !isEmpty(dataList.applicant),
+                  })}
+                >
+                  <SvgInvite width={36} height={36} color="theme" /> 
+                </div>
+              )} */}
+
+              {isEmpty(dataList.invite) && (
+                 <>
+                 
+                 {!isEmpty(dataList.interested) &&
+              dataList.interested === false ? (
+                
+                <div className={cx('svgInviteNone')}>
+                  <SvgInvite width={36} height={36} color="theme"  />
+                </div>
+              ) : (
+                <div
+                  tabIndex={-1}
+                  role={'button'}
+                  onKeyPress={() => {}}
+                  onClick={handleInviteView}
+                  className={cx({
+                    svgInvitePointer: isEmpty(dataList.applicant),
+                    svgInviteNone: !isEmpty(dataList.applicant),
+                  })}
+                >
+                  {!isEmpty(dataList.applicant)?(""):(
+                    <Flex title='Invite to Apply' className={styles.pointer}>
+                    <SvgInvite width={36} height={36} color="theme" /> </Flex>
+                  )}
+                  
+                </div>
+              )}
+                <Text size={12} color="gray" >
+                  {!isEmpty(dataList.applicant)
+                    ? ''
+                    : 'Invite to Apply'}
+                </Text></>
+              )}
+
+              {!isEmpty(dataList.interested) &&
+              dataList.interested === false ? (
+                <>
+                <div className={cx('svgInviteNone')}>
+                <SvgInvite width={36} height={36} color="theme" />
+              </div>
+                <Text color="gray" size={12}>
+                  You can’t send Invite
+                </Text></>
+              ) : (
+                <>
+                  {!isEmpty(dataList.invite) && isEmpty(dataList.applicant) && (
+                    <>
+                          <div
+                          tabIndex={-1}
+                          role={'button'}
+                          onKeyPress={() => {}}
+                          onClick={handleInviteView}
+                          className={cx({
+                            svgInvitePointer: isEmpty(dataList.applicant),
+                            svgInviteNone: !isEmpty(dataList.applicant),
+                          })}
+                        >
+                          <SvgInvite width={36} height={36} color="theme" /> 
+                        </div>
+                    <Text color="gray" size={12} style={{paddingLeft:"7px",width:"65%"}}>
+                      Last Invited{' '}
+                      {dataList?.invite && getDateString(dataList.invite, 'll')}
+                    </Text></>
+                  )}
+                </>
+              )}
+              
+              {/* {!isEmpty(dataList.invite) && !isEmpty(dataList.applicant) && (
+                <Text color="gray" size={12}>
+                  You can’t send Invite
+                </Text>
+              )} */}
+
+              {!isEmpty(dataList.interested) && isEmpty(dataList.applicant) && (
+                <Flex row center>
+                  {
+                    dataList.interested ?(
+                      <SvgInterested
+                      width={17}
+                      height={17}
+                      fill={SUCCESS }
+                    />
+                    ):(
+                      <SvgNotInterested></SvgNotInterested>
+                    
+                    )
+                  }
+                 {
+                  dataList.interested ?(
+                    <Text  style={{ marginLeft: 4,color:"#581845" }} size={12} >Interested</Text>
+                  ):(
+                    <Text  style={{ marginLeft: 4,color:"#ff0000" }} size={12}>Not Interested</Text>
+                  )
+                 }
+                 
+                </Flex>
+                 )}  
+
+              
+
+
+              {!isEmpty(dataList.applicant) && (
+                <Flex row center>
+                   <SvgAppliedIcon fill={SUCCESS} width={17} height={17} /> 
+                  <Link target={'_parent'} to={`/applicant_pipe_line/${jobId}`}>
+                    <Text
+                      color="link"
+                      bold
+                      className={styles.appliedText}
+                      onClick={handleApplicantView}
+                    >
+                      Applied
+                    </Text>
+                  </Link>
+                  <div title="View the profile in Applicants Pipeline page.">
+                    <SvgHelp width={16} height={16} fill={GARY_4} />
+                  </div>
+                </Flex>
+              )}
+            </Flex>
+             </Flex>
+
+          </Flex>
+            </Flex>
       </Card>
-    </>
+    </Flex>
   );
 };
 

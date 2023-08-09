@@ -4,12 +4,13 @@
   margin-right: 8px;
 }
 .profile {
-  height: 45px;
-  width: 45px;
+  height: 42px;
+  width: 42px;
   border-radius: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top:2px;
 }
 .percentageStyle {
   background-color: var(--color-secondary, #ffc203);
@@ -19,10 +20,10 @@
   justify-content: center;
   padding-top: 2px;
   padding-bottom: 1px;
-  width: 45px;
+  width: 36px;
   position: absolute;
-  bottom: -4px;
-  left: 5.5px;
+  top: 38px;
+  left: 2.5px;
 }
 .percentageStyleError {
   background-color: var(--color-erro, #f94949);
@@ -32,8 +33,13 @@
   justify-content: center;
   padding-top: 2px;
   padding-bottom: 1px;
-  width: 45px;
+  width: 36px;
   position: absolute;
-  bottom: -4px;
-  left: 5.5px;
+  top: 38px;
+  left: 2.5px;
+}
+
+.percentagefont{
+  font-size: 11px;
+  padding-top: 2px;
 }

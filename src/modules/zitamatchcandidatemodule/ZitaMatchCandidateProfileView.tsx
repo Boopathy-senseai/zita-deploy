@@ -132,6 +132,7 @@ const ZitaMatchCandidateProfileView = ({
   };
   const hanldeInvite = () => {
     hanldeInviteClosePopUp();
+    alert("alert1")
     setInviteLoader(true);
     const data = querystring.stringify({
       jd_id,
