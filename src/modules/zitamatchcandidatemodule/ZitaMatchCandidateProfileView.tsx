@@ -137,6 +137,7 @@ const ZitaMatchCandidateProfileView = ({
     setInvitePopUp(false);
   };
   const hanldeInvite = () => {
+    alert('hi')
     hanldeInviteClosePopUp();
     setInviteLoader(true);
     const data = querystring.stringify({
@@ -217,6 +218,7 @@ const ZitaMatchCandidateProfileView = ({
                 isInvite={isTab}
                 inviteCall={hanldeInvitePopUp}
                 nonMatch={checkMatch}
+                applieddatecheck ={true}
                 setjobtitle={setjobtitle}
                 withOutJD={isTab}
                 profile_match={profileMatch}
@@ -228,7 +230,7 @@ const ZitaMatchCandidateProfileView = ({
           })}
         {!isTab ? (
           <Flex flex={12} className={styles.tabLeftFlex}>
-            <CandiDateTabsLeftOne activeState={activeState} />
+            <CandiDateTabsLeftOne activeState={activeState}  />
           </Flex>
         ) : (
           <Flex flex={6} className={styles.tabLeftFlex}>

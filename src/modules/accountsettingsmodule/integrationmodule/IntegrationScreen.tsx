@@ -1,7 +1,7 @@
 // import axios from 'axios';
 import { useEffect, useState } from 'react';
 import {
-  useDispatch,
+  useDispatch, useSelector,
   // useSelector
 } from 'react-redux';
 import SvgGmail from '../../../icons/SvgGmail';
@@ -12,7 +12,7 @@ import SvgClose from '../../../icons/SvgClose';
 import SvgOutlookcalendar from '../../../icons/SvgOutlookcalendar';
 import SvgGooglecalendar from '../../../icons/SvgGooglecalendar';
 import {
-  AppDispatch,
+  AppDispatch, RootState,
   //  RootState
 } from '../../../store';
 import {
@@ -34,6 +34,7 @@ import {
   outlookCallApiMiddleware,
   checkAuthMiddleware,
   googleCallApiMiddleware,
+  IntergratemailMiddleWare,
 } from '../../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import styles from './integrationscreen.module.css';
 // import MicrosoftLogin from './microSoftLogin/MicrosoftLogin';
@@ -81,7 +82,7 @@ const IntegrationScreen = () => {
   const [isLoginLoader, setLoginLoader] = useState(false);
   const [modelopen, setmodelopen] = useState(false);
   
-  
+ 
   console.log(setMail);
   // initial api call
   // useEffect(() => {
@@ -208,6 +209,29 @@ const IntegrationScreen = () => {
   //     );
   //   });
   // };
+  const { 
+    email,
+    mail, 
+  } = useSelector(
+    ({
+      applicantNotesReducers,
+      applicantProfileInitalReducers,
+      calenderReducers,
+      applicantIntegratemailReducers,
+    }: RootState) => {
+      return {
+        
+        email:
+          applicantIntegratemailReducers.email !== undefined ?
+          applicantIntegratemailReducers.email[0]?.email:'',
+        mail: applicantIntegratemailReducers?.mail,
+      };
+    },
+  )
+  useEffect(() => {
+    dispatch(IntergratemailMiddleWare());
+    setTimeout(() => dispatch(IntergratemailMiddleWare()), 5000);
+  }, []);
 
   const googleAuthHandler = () => {
     
@@ -223,7 +247,7 @@ const IntegrationScreen = () => {
         setActive(1);
         window.open(res.payload.url);
         Toast('Outlook google Integrated Successfully', 'MEDIUM')
-        
+       
       })
       .catch((err) => {
         console.log(err);
@@ -244,6 +268,7 @@ const IntegrationScreen = () => {
           Toast('Outlook calendar Integrated Successfully', 'MEDIUM');
           window.open(res.payload.authorization_url);
           console.log("outlookcallApi",outlookCallApiMiddleware())
+         
         }
       })
       .catch((err) => {
@@ -416,7 +441,7 @@ const IntegrationScreen = () => {
 
               <Text style={{ marginTop: '10px' }}>Connected as</Text>
               <Text color="theme" style={{ marginTop: '1px' }}>
-                {/* {email} */}vishalrupakvr@gmail.com
+                {email} 
               </Text>
               {/* {modelopen===false&&
                  Toast('Outlook calendar Integrated Successfully', 'MEDIUM')
@@ -481,7 +506,7 @@ const IntegrationScreen = () => {
 
              <Text style={{ marginTop: '10px' }}>Connected as</Text>
              <Text color="theme" style={{ marginTop: '1px' }}>
-               {/* {email} */}vishalrupakvr@gmail.com
+               {email} 
              </Text>
              
              {/* {modelopen===false&&
@@ -628,7 +653,7 @@ const IntegrationScreen = () => {
                     <Flex>Connected as</Flex>
                     <Flex>
                       <Text color="theme">
-                        {/* {email} */}vishalrupakvr@sense7ai.com
+                        {email} 
                       </Text>
                     </Flex>
                   </Flex>
@@ -680,7 +705,7 @@ const IntegrationScreen = () => {
                     <Flex>Connected as</Flex>
                     <Flex>
                       <Text color="theme">
-                        {/* {email} */}vishalrupakvr@gmail
+                        {email} 
                       </Text>
                     </Flex>
                   </Flex>

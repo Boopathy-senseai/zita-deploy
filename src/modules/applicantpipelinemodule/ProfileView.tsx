@@ -38,12 +38,14 @@ const ProfileView = ({
 }: Props) => {
   const [jobtitle, setjobtitle] = useState<string>();
   const dispatch: AppDispatch = useDispatch();
-  dispatch(
-    applicantMatchMiddleWare({
-      jd_id: jobId,
-      can_id: candidateId,
-    }),
-  );
+  // useEffect(()=>{
+  //   if(Number(jobId) !== 0){
+  // dispatch(
+  //   applicantMatchMiddleWare({
+  //     jd_id: Number(jobId),
+  //     can_id: candidateId,
+  //   }),
+  // );}},[])
   return (
     <Drawer open={open}>
       <div className={styles.overAll}>

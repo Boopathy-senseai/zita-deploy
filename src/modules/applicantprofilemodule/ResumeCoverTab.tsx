@@ -49,19 +49,7 @@ const ResumeCoverTab = () => {
 
   const docs = [{ uri: file }];
   return (
-    <Flex
-      columnFlex
-      className={styles.overAll}
-      height={window.innerHeight - 160}
-      style={{display:'flex',
-        alignItems:'center',
-        justifyContent:'center'}}
-    >
-      <Flex   >
-        <Flex row   between>
-          {/* <Text bold color="theme">
-            Cover Letter
-          </Text> */}
+    <> 
           {isEmpty(cover_letter[0].cover_letter) ? (
             <Flex center middle>
             <Text color="gray">
@@ -69,27 +57,28 @@ const ResumeCoverTab = () => {
             </Text>
             </Flex>
           ) : (
-            <div
-              tabIndex={-1}
-              role={'button'}
-              onKeyPress={() => {}}
-              onClick={() => setOpen(!isOpen)}
-              className={styles.pointer}
-            >
-              <SvgAngle up={isOpen} height={15} width={15} />
-            </div>
+            <Flex
+            columnFlex
+            className={styles.overAll}
+            height={window.innerHeight - 160}
+            style={{display:'flex'
+               ,overflow:'scroll'}}
+          > 
+          <Text bold>Cover Letter</Text>
+            <Text style={{fontSize:'13px',textAlign:'justify'}}>{cover_letter && cover_letter[0].cover_letter}</Text>
+        </Flex>
           )}
-        </Flex> 
-        <Collapse isOpen={isOpen} noText={coverLetter}>
-          <pre
-            className={cx('preStyle', {
-              textCenter: coverLetter,
-            })}
-          >
-            {notSpecified(cover_letter && cover_letter[0].cover_letter)}
-          </pre>
-        </Collapse>
-      </Flex>
+         
+       
+             {/* <Collapse isOpen={true} noText={coverLetter}> */}
+          {/* <pre */}
+          {/* //   className={cx('preStyle', {
+          //     textCenter: coverLetter,
+          //   })}
+          // > */}
+            
+        {/* //   </pre>
+        // </Collapse>} */}
 
       {/* <Text bold color="theme" className={cx('resumeStyle')}>
         Resume
@@ -113,7 +102,7 @@ const ResumeCoverTab = () => {
           }}
         />
       </div> */}
-    </Flex>
+    </>
   );
 };
 

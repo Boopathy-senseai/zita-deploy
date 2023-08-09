@@ -1,7 +1,6 @@
 .textArea {
   margin-top: 5px;
-  margin-bottom: 8px;
-  max-width: 100%;
+  margin-bottom: 8px; 
 }
 
 .overall1 {
@@ -43,6 +42,20 @@
 .reactquillchange p u{
   color: #333333;
 }
+ .textArea .ql-editor p {
+  max-height: 20000px; /* Adjust the max height as needed */
+  overflow-y: auto; /* Add vertical scroll if content exceeds max height */
+}
+.textArea .ql-editor {
+  max-height: 20000px; /* Adjust the max height as needed */
+  overflow-y: auto; /* Add vertical scroll if content exceeds max height */
+}
+.textArea ql-container ql-snow{
+  height: 30px;
+}
+/* .reactquillchange p {
+  max-height: 700px;
+}   */
 .notesTextStyle ol {
   padding-left: 25px !important;
 }
@@ -111,7 +124,7 @@
   box-sizing: border-box;
   border-radius: 4px;
   padding: 20px;
-  min-height: 350px;
+  /* min-height: 2000px; */
   overflow: scroll;
 }
 .saveBtn {

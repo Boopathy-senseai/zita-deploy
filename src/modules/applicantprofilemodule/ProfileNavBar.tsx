@@ -82,6 +82,7 @@ type Props = {
   jdDetails: JdEntity;
   profile_match: number;
   isInvite?: boolean;
+  applieddatecheck?: boolean;
   inviteCall?: () => void;
   isResume?: boolean;
   withOutJD: boolean;
@@ -99,6 +100,7 @@ const ProfileNavBar = ({
   profile_match,
   isInvite,
   inviteCall,
+  applieddatecheck,
   isResume,
   withOutJD,
   setjobtitle,
@@ -112,6 +114,7 @@ const ProfileNavBar = ({
   const [checkingstatus, setcheckingstatus] = useState('');
   const [interviewstatus, setinterviewstatus] = useState(Number);
   const [isInvitePopUp, setInvitePopUp] = useState(false);
+  const [isDate, setDate] = useState('');
   if (jdDetails !== null && setjobtitle) {
     const state = jdDetails.job_title;
     setjobtitle(state);
@@ -287,8 +290,12 @@ const ProfileNavBar = ({
         ? `${total_exp[0].total_exp_month} Months`
         : `${total_exp[0].total_exp_month} Month`
       : '';
+console.log(match[0].invited,'match[0].invitedmatch[0].invitedmatch[0].invited')
+  const handlefunct = () => {
+    setInvitePopUp(true)
+    setDate(match[0].invited)
 
-  const handlefunct = () => setInvitePopUp(true);
+  };
   const hanldeInviteClosePopUp = () => {
     setInvitePopUp(false);
   };
@@ -335,6 +342,40 @@ const ProfileNavBar = ({
 
   return (
     <>
+     {isDate === null&& (
+        <CancelAndDeletePopup 
+        width={'350px'}
+          title={
+            <Flex>
+            <Text>{`Invite will be sent as an email to ${
+            candidate_details && candidate_details[0].first_name
+          }`}</Text>
+        <Text>Are you sure to proceed?</Text></Flex>}
+          btnDelete={() => hanldeInvite(Number(jd_id), Number(can_id))}
+          btnCancel={hanldeInviteClosePopUp}
+          btnRight={YES}
+          open={isInvitePopUp}
+        />
+      )}
+      {!isEmpty(isDate) && (
+        <CancelAndDeletePopup
+          title={
+            <Flex className={styles.popTitle}>
+              <Text>{`The candidate ${
+                candidate_details && candidate_details[0].first_name
+              } has already been invited for this job on ${getDateString(
+                isDate,
+                'll',
+              )}.`}</Text>
+              <Text>Do you wish to invite again?</Text>
+            </Flex>
+          }
+          btnDelete={() => hanldeInvite(Number(jd_id), Number(can_id))}
+          btnCancel={hanldeInviteClosePopUp}
+          btnRight={YES}
+          open={isInvitePopUp}
+        />
+      )}
       {isEmpty(match[0]?.invited) && (
         <CancelAndDeletePopup
           title={`Invite will be sent as an email to ${
@@ -633,21 +674,7 @@ const ProfileNavBar = ({
               )}
             </Flex>
             {console.log(date,'ggggggggggggggggggggggggggggggggggggggggggggggggggg')}
-            <Flex row flex={12} style={{ paddingBottom: '10px' }}>
-              <Flex flex={6}>
-                <Flex className={styles.headingpart} marginTop={10}>
-                  Applied date
-                </Flex>
-                {date === '' ? (
-                  <Flex className={styles.changingtext}>
-                    <Text className={styles.changingtext}>Not Specified</Text>
-                  </Flex>
-                ) : (
-                  <Flex className={styles.changingtext} title={date}>
-                    <Text className={styles.changingtext}>{date}</Text>
-                  </Flex>
-                )} 
-              </Flex>
+            <Flex row flex={12} style={{ paddingBottom: '10px' }}> 
               <Flex flex={6}>
                 <Flex className={styles.headingpart} marginTop={10}>
                 Experience
@@ -670,6 +697,21 @@ const ProfileNavBar = ({
                   </Flex>
                 )}
               </Flex>
+              {!applieddatecheck && Number(jd_id) !== 0 &&
+              <Flex flex={6}>
+                <Flex className={styles.headingpart} marginTop={10}>
+                  Applied date
+                </Flex>
+                {date === '' ? (
+                  <Flex className={styles.changingtext}>
+                    <Text className={styles.changingtext}>Not Specified</Text>
+                  </Flex>
+                ) : (
+                  <Flex className={styles.changingtext} title={date}>
+                    <Text className={styles.changingtext}>{date}</Text>
+                  </Flex>
+                )} 
+              </Flex>}
             </Flex>
 
             <Flex row flex={12} style={{ borderTop: '1px solid #C3C3C3' }}>
@@ -811,13 +853,12 @@ const ProfileNavBar = ({
               )} */}
             {/* </>
               )} */}
-
-            {stages[0] === '' ||
-            stages[0] === null ||
+{console.log(stages[0],'stages[0]stages[0]stages[0]')}
+            { 
             stages[0] === undefined ? (
               <>
-                {jd_id !== '' ||
-                  jd_id !== undefined ||
+                {jd_id !== '' &&
+                  jd_id !== undefined &&
                   (jd_id !== null && (
                     <Flex center middle className={styles.borderstyles}>
                       <Button onClick={() => handlefunct}>

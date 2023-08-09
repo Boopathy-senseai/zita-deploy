@@ -489,7 +489,8 @@ useEffect(() => {
       className={styles.overAll}
       height={window.innerHeight - 120}
     >
-      <Flex flex={6} columnFlex style={{ padding: '5px' }}>
+      <Flex flex={6} columnFlex style={{ padding: '5px',overflow:'scroll' }}  height={window.innerHeight - 120}
+       >
         <Text bold style={{ fontSize: '14px',marginTop:'13.5px',paddingLeft:16 }}>
           Notes for Team Members
         </Text>
@@ -511,11 +512,11 @@ useEffect(() => {
         )} */}
 
         <Flex className={styles.overall1}>
-          <div className={styles.textArea}>
+          <Flex className={styles.textArea} >
             <ReactQuill
               ref={editorRef}
               value={formik.values.notes}
-              className={styles.reactquillchange}
+              className={styles.reactquillchange} 
               onChange={formik.handleChange('notes')}
               placeholder="Type @ to mention and notify your team members"
             />
@@ -524,8 +525,8 @@ useEffect(() => {
               errors={formik.errors}
               name="notes"
             />
-          </div>
-          <Flex marginTop={3.5} row end>
+          </Flex>
+          <Flex marginTop={2.5} row end>
             <Button onClick={hanldeInputClose} types={'close'} width="100px">
               {CANCEL}
             </Button>
@@ -543,18 +544,18 @@ useEffect(() => {
           )}
         </Flex>
         {notes && notes.length === 0 && 
-            <Flex columnFlex flex={1} middle center marginTop={'198px'}>
+            <Flex columnFlex flex={1} middle center marginTop={'45px'}>
               <SvgNotesyet fill='gray' />
               <Text className={styles.nojoppostye} color='gray'>Notes not created yet</Text>
             </Flex>
           }
 
         <Flex
-          height={window.innerHeight - 338}
+          // height={window.innerHeight - 338}
           style={{
-            overflow: 'scroll',
-            padding: ' 0px 8px 0px 16px',
-            display: 'flex',
+          //   overflow: 'scroll',
+             padding: ' 0px 16px 0px 16px',
+          //   display: 'flex',
           }}
         >
           {notes &&

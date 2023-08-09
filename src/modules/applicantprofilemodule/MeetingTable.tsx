@@ -26,12 +26,20 @@ export const meetingTitle = () => [
     title: 'Event Title',
     dataIndex: 'title',
     key: 'title',
-    flex:3,
-    render: (value:string) => (
-      <Text style={{textOverflow: 'ellipsis',
-        overflow:' hidden',
-        whiteSpace: 'nowrap',
-        maxWidth: '350px',fontSize:'13px'}} title={value}>{value}</Text>
+    flex: 3,
+    render: (value: string) => (
+      <Text
+        style={{
+          textOverflow: 'ellipsis',
+          overflow: ' hidden',
+          whiteSpace: 'nowrap',
+          maxWidth: '350px',
+          fontSize: '13px',
+        }}
+        title={value}
+      >
+        {value}
+      </Text>
     ),
   },
   {
@@ -39,10 +47,10 @@ export const meetingTitle = () => [
     dataIndex: 'date',
     key: 'date',
     index: 'index',
-    flex:1,
-    render: (value: string ) => (
+    flex: 1,
+    render: (value: string) => (
       <Flex>
-      <Text size={12}>{getDateString(value, 'll')}</Text>
+        <Text size={12}>{getDateString(value, 'll')}</Text>
       </Flex>
     ),
   },
@@ -50,33 +58,35 @@ export const meetingTitle = () => [
     title: 'Timings',
     dataIndex: 'time',
     key: 'time',
-    flex:1.5,
-    render: (value:string) => (
+    flex: 1.5,
+    render: (value: string) => (
       <Flex>
-      <Text style={{fontSize:'13px'}} >{value}</Text></Flex>
-    )
+        <Text style={{ fontSize: '13px' }}>{value}</Text>
+      </Flex>
+    ),
   },
   {
     title: 'Duration',
     dataIndex: 'Time',
     key: 'Time',
     index: 'index',
-    flex:1.5,
-    // render: (value:string,index) => (
-    // // const value = Math.floor(value/60)+":"+ value % 60; 
-       
-    //   <Text style={{fontSize:'13px'}} >{value}</Text></Flex>)
+    flex: 1.5,
+
     render: (value: number, index) => {
-      const [duration,setduration] = useState(value)
-      const values = Math.floor(duration/60);
-      const minutes = duration % 60
+      const [duration, setduration] = useState(value);
+      const [hours, sethours] = useState<any>();
+      const [minutes, setminutes] = useState<any>();
+      useEffect(() => {
+        const values = Math.floor(value / 60);
+        sethours(values);
+        const min = value % 60;
+        setminutes(min);
+      }, [value]);
       return (
-        <Flex
-          between
-          row
-          style={{ borderRight: 'none', display: 'flex' }}
-        >
-           {values ===  0?'':values} {values ===  0?'':'Hour'}{minutes === 0?'':' '} {minutes === 0?'':minutes}{minutes === 0?'':' Minutes'}
+        <Flex between row style={{ borderRight: 'none', display: 'flex' }}>
+          {hours === 0 ? '' : hours} {hours === 0 ? '' : 'Hour'}
+          {minutes === 0 ? '' : ' '} {minutes === 0 ? '' : minutes}
+          {minutes === 0 ? '' : ' Minutes'}
         </Flex>
       );
     },
@@ -86,7 +96,7 @@ export const meetingTitle = () => [
     dataIndex: 'organizer',
     key: 'organizer',
     index: 'index',
-    flex:2,
+    flex: 2,
     render: (value: string, index) => {
       const [isColor, setColor] = useState<string[]>([]);
       useEffect(() => {
@@ -107,7 +117,7 @@ export const meetingTitle = () => [
         setColor(colorCode);
       }, []);
       return (
-        <Flex row center> 
+        <Flex row center>
           {isEmpty(index.organizer.image) ? (
             <div
               className={cx('profile')}
@@ -146,7 +156,7 @@ export const meetingTitle = () => [
               ' ' +
               index.organizer.user__last_name}
           </Flex>
-        </Flex> 
+        </Flex>
       );
     },
   },
@@ -157,17 +167,29 @@ export const meetingTitle = () => [
     align: 'center',
     index: 'index',
 
-    render: (value: string, index) => { 
-      const history = useHistory(); 
+    render: (value: string, index) => {
+      const history = useHistory();
       const handleClick = () => {
+        
+        const phrase = index.title;
+        const match = phrase.match(/^\w+/);
+  const firstWord = match ? match[0] : '';
+        if(firstWord === 'Microsoft'){
         window.open(calendarRoute);
         localStorage.setItem('eventhandeler', 'true');
         localStorage.setItem('eventhandelerid', value);
-        localStorage.setItem('checkstatus', mail);
+        localStorage.setItem('checkstatus','OUTLOOK');}
+      
+      else {
+        window.open(calendarRoute);
+        localStorage.setItem('eventhandeler', 'true');
+        localStorage.setItem('eventhandelerid', value);
+        localStorage.setItem('checkstatus','GOOGLE');}
       };
       const schedulehandleClick = () => {
         window.open(calendarRoute);
-      localStorage.setItem('scheduleven','false')}
+        localStorage.setItem('scheduleven', 'false');
+      };
       const { can_id, jd_id, mail } = useSelector(
         ({
           applicantProfileInitalReducers,
@@ -180,7 +202,7 @@ export const meetingTitle = () => [
           };
         },
       );
-
+      console.log(index, 'pppppppppppppppppppppppppppppppppppppppppppppppp');
       return (
         <Flex
           between
@@ -206,7 +228,7 @@ export const meetingTitle = () => [
             </Dropdown.Toggle>
 
             <Dropdown.Menu style={{ minWidth: '5rem' }}>
-              <Dropdown.Item onClick={handleClick}>
+              <Dropdown.Item onClick={() => handleClick()}>
                 <Flex row center className={styles.dropDownListStyle}>
                   <Text style={{ cursor: 'pointer' }}>Edit</Text>
                 </Flex>
@@ -227,7 +249,7 @@ export const meetingTitle = () => [
                 </Flex>
               </Dropdown.Item> */}
             </Dropdown.Menu>
-          </Dropdown> 
+          </Dropdown>
         </Flex>
       );
     },
@@ -236,4 +258,3 @@ export const meetingTitle = () => [
 function setCurrentTime(arg0: string) {
   throw new Error('Function not implemented.');
 }
-

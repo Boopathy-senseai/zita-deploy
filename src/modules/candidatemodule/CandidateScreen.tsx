@@ -149,6 +149,7 @@ const CandidateScreen = () => {
   };
   // invite submit function
   const hanldeInvite = () => {
+    alert('hi1')
     hanldeInviteClosePopUp();
     setInviteLoader(true);
     const data = querystring.stringify({
@@ -251,6 +252,7 @@ const CandidateScreen = () => {
                   nonMatch={checkMatch}
                   setjobtitle={setjobtitle}
                   withOutJD={isTab}
+                  applieddatecheck ={true}
                   profile_match={profileMatch}
                   jdDetails={jd}
                   isProfileName

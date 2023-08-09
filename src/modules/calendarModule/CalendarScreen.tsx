@@ -260,13 +260,16 @@ const Calendar = () => {
       localStorage.setItem('eventhandeler', 'false');
       handleCloseEventPop();
       setCurrentEventId(localStorage.getItem('eventhandelerid'));
+      console.log(localStorage.getItem('checkstatus'),'ggggggggggggggggggggggggggggffffffffffffffffffffffffffff')
       if (localStorage.getItem('checkstatus') === CALENDAR.Google) {
         dispatch(
           googleEditEventMiddleware({
             eventId: localStorage.getItem('eventhandelerid'),
           }),
+         
         )
           .then((res) => {
+            console.log(localStorage.getItem('eventhandelerid'))
             if (res.payload.data === true) {
               setEditEventDetails(
                 res.payload.events.map((event: ZitaEventType) =>

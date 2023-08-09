@@ -167,7 +167,7 @@ const ZitaMatchDataCard = ({
             candidateId={dataList.id.toString()}
           />
           <ProfileView
-            activeState={4}
+            activeState={1}
             open={isNotes}
             cancel={handleClose}
             jobId={jobId}

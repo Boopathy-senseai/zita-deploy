@@ -119,6 +119,7 @@ const MyDataBaseCard = ({
 
   return (
     <>
+    {console.log(checkWithJd,'ffffffffffffffffggggggggggggggggggggggg')}
       {isEmpty(dataList.candidate_id_id) && (
         <>
           <ZitaMatchCandidateDrawer

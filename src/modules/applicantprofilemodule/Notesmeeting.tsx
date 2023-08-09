@@ -88,6 +88,8 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
                 setMyevents(
                   response.payload.data.map((items: any, index) => {
                     const Time = Math.floor(items.duration/60)  
+
+                    console.log(items,'plzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz')
                     return {
                       title: items.event_type + ' ' + items.applicant,
                       organizer: response.payload.user,
