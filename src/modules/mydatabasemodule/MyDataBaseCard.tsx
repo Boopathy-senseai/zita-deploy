@@ -123,7 +123,7 @@ const MyDataBaseCard = ({
 
   const handleApplicantView = () => {
     localStorage.setItem('applied_view', 'true');
-    localStorage.setItem('applied_can_id', dataList.id.toString());
+    // localStorage.setItem('applied_can_id', dataList.id.toString());
     localStorage.setItem('applied_jd_id', jobId.toString());
   };
 
@@ -150,7 +150,7 @@ const MyDataBaseCard = ({
         candidate: filterFormik.values.searchValue,
         userType: tabKey,
         sort: isSortOptions.value,
-        page: isPage,
+        page: isPage + 1,
         applicant_only: filterFormik.values.applicantOnly,
       }),
     );

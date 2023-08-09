@@ -305,7 +305,7 @@ const QualificationContainer = ({
                 </Text>
                 {!isExperienceInput ? (
             <>
-            <div style={{width:'fit-content' , bottom: 1, position: "relative"}}>
+            <div style={{width:'fit-content' , bottom: 2, position: "relative"}}>
               {isEmpty(dataList.work_exp) ? (
                 <Text
                   underLine
