@@ -54,3 +54,17 @@
 .pointer {
   cursor: pointer;
 }
+.tab-pane {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: auto !important;
+  flex: 1;
+}
+.tab-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden !important;
+  flex: 1;
+}

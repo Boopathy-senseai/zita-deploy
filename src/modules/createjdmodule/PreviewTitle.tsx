@@ -42,14 +42,16 @@ const PreviewTitle = ({
         {profile && jdDetails.is_ds_role === true ? (
           <RolesandResponsibilities jdDetails={jdDetails} profile={profile} />
         ) : (
+          <>
+      {console.log("kjkjkjkkjk",jdDetails.richtext_job_description)}
           <td
             className={styles.des}
             dangerouslySetInnerHTML={{
               __html: jdDetails.richtext_job_description,
             }}
           />
+          </>
         )}
-
         {skills && (
           <Flex>
             <Text
@@ -101,12 +103,16 @@ const PreviewTitle = ({
         {profile && jdDetails.is_ds_role === true ? (
           <RolesandResponsibilities jdDetails={jdDetails} profile={profile} />
         ) : (
+          <>
+          {console.log('kkkkkkkkkkkkkkkkkkkkkkkkkkk',jdDetails.richtext_job_description)}
           <td
             className={styles.des}
             dangerouslySetInnerHTML={{
               __html: jdDetails.richtext_job_description,
+              // __html: jdDetails.reactquill_job_description,
             }}
           />
+          </>
         )}
 
         {skills && (

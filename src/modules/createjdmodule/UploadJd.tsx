@@ -22,6 +22,7 @@ function UploadJd() {
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     uploadFile(file);
+    setmodal(false)
   };
   // resume clear function
   const handleClear = () => setFile([]);
@@ -134,7 +135,7 @@ function UploadJd() {
                     >
                       <Text color="link">Browse Files</Text>
                     </label>
-                  </Flex>
+                  </Flex> 
                   <Text
                     size={12}
                     align="center"
