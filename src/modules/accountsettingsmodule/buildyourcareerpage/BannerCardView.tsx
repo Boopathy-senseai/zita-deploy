@@ -23,27 +23,26 @@ const BannerCardView = ({
   const [isHover, setHover] = useState(false);
 
   // color code condition
-  function hexToRGB(hex:any, alpha:any) {
+  function hexToRGB(hex: any, alpha: any) {
     var r = parseInt(hex.slice(1, 3), 16),
-        g = parseInt(hex.slice(3, 5), 16),
-        b = parseInt(hex.slice(5, 7), 16);
+      g = parseInt(hex.slice(3, 5), 16),
+      b = parseInt(hex.slice(5, 7), 16);
 
     if (alpha) {
-        return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
+      return 'rgba(' + r + ', ' + g + ', ' + b + ', ' + alpha + ')';
     } else {
-        return "rgb(" + r + ", " + g + ", " + b + ")";
+      return 'rgb(' + r + ', ' + g + ', ' + b + ')';
     }
-}
+  }
 
   return (
     <div
       key={list.jd_status_id + index.toString()}
       style={{
-        marginRight: !isTablet ? (index % 2 === 0 ? 10 : 0) : 20,
-        marginLeft: !isTablet ? (index % 2 === 0 ? 0 : 10) : 20,
+        marginRight: 20,
         marginBottom: 20,
         position: 'relative',
-        width: !isTablet ? '49%' : '100%',
+        width: !isTablet ? '30%' : '100%',
       }}
     >
       <Card className={styles.cardPadding}>
@@ -60,13 +59,18 @@ const BannerCardView = ({
                 style={{
                   fontFamily,
                   fontSize: titleFontSize,
+                  color: career_page_setting.button_color 
                 }}
               >
                 {list.job_title}
               </Text>
             </LinkWrapper>
             <Flex row center className={styles.lineHeight}>
-              <SvgBag height={16} width={16} fill={GARY_4} />
+              <SvgBag
+                height={14}
+                width={14}
+                fill={career_page_setting.button_color}
+              />
               <Text
                 className={styles.labelStyle}
                 style={{
@@ -78,7 +82,7 @@ const BannerCardView = ({
               </Text>
             </Flex>
           </Flex>
-          <Flex columnFlex between className={styles.btnContainer} flex={4}>
+          <Flex columnFlex between className={styles.btnContainer}>
             <LinkWrapper
               onClick={() =>
                 localStorage.setItem('careerJobTitle', list.job_title)
@@ -89,13 +93,18 @@ const BannerCardView = ({
                 types="secondary"
                 style={{
                   borderColor: career_page_setting.button_color,
-                  backgroundColor: isHover ? hexToRGB(career_page_setting.button_color, 0.2) : WHITE,
-                  width:106
+                  // backgroundColor: isHover
+                  //   ? hexToRGB(career_page_setting.button_color, 0.2)
+                  //   : career_page_setting.button_color,
+                  backgroundColor: career_page_setting.button_color,
+                  // width: 106,
+                  
+
                 }}
                 onMouseOver={() => setHover(true)}
                 onMouseLeave={() => setHover(false)}
               >
-                <Text style={{ color: career_page_setting.button_color }}>
+                <Text bold style={{ color: career_page_setting.button_color !== WHITE ?  WHITE : career_page_setting.button_color }}>
                   Apply
                 </Text>
               </Button>
@@ -104,8 +113,12 @@ const BannerCardView = ({
         </Flex>
         <Flex row>
           <Flex flex={8}>
-            <Flex row center>
-              <SvgLocation height={16} width={16} fill={GARY_4} />
+            <Flex row top>
+              <SvgLocation
+                height={16}
+                width={16}
+                fill={career_page_setting.button_color}
+              />
               <Text
                 className={styles.labelStyle}
                 style={{
@@ -117,9 +130,14 @@ const BannerCardView = ({
               </Text>
             </Flex>
           </Flex>
-          <Flex flex={4}>
+          <Flex>
             <Flex row center>
-              <SvgCalendar height={16} width={16} fill={GARY_4} />
+              <SvgCalendar
+                height={14}
+                width={14}
+                fill={career_page_setting.button_color}
+                stroke= {career_page_setting.button_color}
+              />
               <Text
                 className={styles.labelStyle}
                 style={{

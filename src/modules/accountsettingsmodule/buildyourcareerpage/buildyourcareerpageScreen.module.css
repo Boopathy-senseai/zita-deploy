@@ -1,9 +1,18 @@
 .previewBtn {
-  margin: 0px 16px;
+  margin-right: 8px;
 }
 .marginTop16 {
-  margin-top: 16px;
+  margin-top: 10px;
   margin-bottom: 30px;
+}
+.actions{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: white;
+  padding: 10px;
+
 }
 .rightFlex {
   margin-left: 8px;
@@ -18,18 +27,18 @@
   padding: 8px;
 }
 .pageCard {
-  margin-top: 163px;
+  margin-top: 146px;
   padding: 8px;
 }
 .headerCard {
   padding: 8px;
-  margin-top: 303px;
+  margin-top: 280px;
 }
 .bannerCard {
   padding: 8px;
-  margin-top: 778px;
+  margin-top: 775px;
 }
 .footerCard {
   padding: 8px;
-  margin-top: 1185px;
+  margin-top: 1186px;
 }

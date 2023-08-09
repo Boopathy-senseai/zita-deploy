@@ -54,15 +54,16 @@ const FooterSetup = ({ formik, setReload }: Props) => {
   });
 
   return (
-    <Card className={styles.overAll}>
-      <Text color="theme" bold size={16}>
+    <>
+      {/* <Text bold size={14}>
         Button & Footer Setup
-      </Text>
+      </Text> */}
       <Flex row top className={styles.marginTop16}>
         <div className={styles.tagOne} ref={myRefBtn}>
           <InputText
             value={formik.values.btnColor.hex}
             label="Button Color"
+            style={{ marginTop: '5px' }}
             required
             actionRight={() => (
               <Button
@@ -103,6 +104,7 @@ const FooterSetup = ({ formik, setReload }: Props) => {
         <div className={styles.tagTwo} ref={myRefHeader}>
           <InputText
             required
+            style={{ marginTop: '5px' }}
             onChange={(e) => {
               setReload();
               formik.setFieldValue('footerColor.hex', e.target.value);
@@ -147,6 +149,7 @@ const FooterSetup = ({ formik, setReload }: Props) => {
         <InputText
           value={formik.values.aboutText}
           label="About Us"
+          style={{ marginTop: '5px' }}
           textarea
           className={styles.textArea}
           onChange={(e) => {
@@ -172,7 +175,14 @@ const FooterSetup = ({ formik, setReload }: Props) => {
           name="aboutText"
         />
       </Flex>
-    </Card>
+    </>
   );
 };
+export function FooterSetupTitle() {
+  return (
+    <Text bold size={14}>
+      Button & Footer Setup
+    </Text>
+  );
+}
 export default memo(FooterSetup);

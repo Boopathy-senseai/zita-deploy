@@ -1,5 +1,5 @@
 .marginTop16 {
-  margin-top: 16px;
+  margin-bottom: 10px;
 }
 .overAll {
   padding: 16px;
@@ -13,4 +13,20 @@
 
 .textArea {
   height: 90px;
+}
+
+.changeStyle11 {
+  margin-bottom: 0px !important;
+  cursor: pointer;
+  margin-left: 5px;
+  cursor: pointer;
+  font-size: 12px !important;
+}
+
+.cardfront{
+  position: absolute;
+  z-index: 10000;
+  padding: 5px 10px 5px;
+  transform: translate(127px, -125px);
+
 }
