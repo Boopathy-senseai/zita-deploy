@@ -22,7 +22,7 @@ type Props = {
 const PlanTable =  ( data : Props)  => {
   console.log("++++++++++++",data.data[0].current_status,data.data[0])
   return (
-    <Flex row style={{paddingBottom: '10px'}}>
+    <Flex row style={{paddingBottom: '10px',paddingLeft: '10px'}}>
       <Flex center className={styles.boxshadow}>
       <Text>Subscription Plan</Text>
       <Text className={styles.textstyle}>
@@ -99,21 +99,21 @@ const PlanTable =  ( data : Props)  => {
           )}
 
           {data.data[0].current_status === false && data.data[0].free_expired !== 0 && (
-            <Button className={styles.Inactive}><Text>Inactive</Text></Button>
+            <Text bold style={{color:"red"}}>Inactive</Text>
           )}
           {data.data[0].current_status === true &&
             Number(data.data[0].subscription_changed_to) === -1 &&
             data.data[0].plan !== 1 && (
-              <Button className={styles.Inactive}>
-                <Text>Cancelled</Text>
-              </Button>
+            
+                <Text  bold style={{color:"yellow"}}>Cancelled</Text>
+            
             )}
           {data.data[0].current_status === true &&
             Number(data.data[0].subscription_changed_to) === -2 &&
             data.data[0].plan !== 1 && (
-              <Button disabled>
-                <Text>Expired</Text>
-              </Button>
+              
+                <Text  bold style={{color:"red"}}>Expired</Text>
+             
             )}
         
       </Text>

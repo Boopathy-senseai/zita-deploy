@@ -185,7 +185,7 @@ const PlansandFeatures = ({
                   setTotalUser={setTotalUser}
                   btnTitle={freePlanBtn}
                   data={freeData}
-                  headerTitle="TRY OUT"
+                  headerTitle="FREE"
                   price="FREE"
                   days="14 Days Trial"
                   disabled={subscription && subscription.plan_id_id !== 1}

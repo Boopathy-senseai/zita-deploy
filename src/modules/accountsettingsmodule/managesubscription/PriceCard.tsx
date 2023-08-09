@@ -208,27 +208,26 @@ const PriceCard = ({
       <div style={{ position: 'relative' }}>
         {disabled && <div className={styles.disabled} />}
         <Card className={styles.overAll}>
-          <Flex middle center className={styles.headerStyle}>
-            <Text color="white" bold size={16}>
+          <Flex style={{margin:'25px 0px 0px 25px'}}>
+              <Text bold size={16}>
               {headerTitle}
-            </Text>
+              </Text>
+            <Flex row >
+              
+              <Text              
+                color="theme"
+                size={14}
+                bold
+                style={{ marginBottom: 4 }}
+              >
+                {price}
+              </Text>
+              {userPrice && <Text >/user -</Text>}
+              <Text align="center" size={16} textStyle="italic">
+                {days}
+              </Text>
+            </Flex>              
           </Flex>
-          <Flex row middle>
-            <Text
-              align="center"
-              color="theme"
-              size={30}
-              bold
-              style={{ marginBottom: 4 }}
-            >
-              {price}
-            </Text>
-            {userPrice && <Text style={{ alignSelf: 'center' }}>/user</Text>}
-          </Flex>
-
-          <Text align="center" size={16} textStyle="italic">
-            {days}
-          </Text>
           <Flex columnFlex className={styles.priceList} marginTop={24}>
             {data.map((list, index) => (
               <Flex row center key={list.value + index} marginBottom={12}>
