@@ -23,6 +23,7 @@
 .applied{
   right: 8px;
   position: relative;
+  top: 0px;
 }
 .svgInviteNone {
   pointer-events: none;
@@ -37,8 +38,8 @@
   cursor: pointer;
 }
 .lastinvitetext{
-  margin-left: 2px;
-  width: 66px;
+  /* margin-left: 8px; */
+  width: 74px;
 }
 
 .notinterestedtext{
@@ -59,12 +60,14 @@
   width: 100%;
   height: 55px;
   position: relative;
-  top: 14px;
+  top: 20px;
 }
 
 .interestedrow{
   margin-bottom: 6px;
   margin-left: -13px;
+  left: 5px;
+  position: relative;
 }
 
 .notinterested{
@@ -72,10 +75,10 @@
   margin-bottom: -2px;
   margin-left: -34px;
   display: flex;
-  left: 17px;
+  left: 19px;
   position: relative;
   flex-direction: column;
-  top: 7px
+  top: 0px
 }
 
 .svgInviteapplied{
@@ -84,4 +87,14 @@
 
 .svgnointerested{
   display: none;
+}
+.svgnoticon{
+  left: 3px;
+  position: relative;
+}
+
+.lastinviteset{
+  margin-left: -3px;
+  position: relative;
+  right: -9px;
 }

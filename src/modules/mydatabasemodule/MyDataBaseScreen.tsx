@@ -173,6 +173,7 @@ const MyDataBaseScreen = () => {
       checked: isBachelors,
       onChange: handleBachelor,
       width: 110,
+      padding:10,
     },
     {
       value: 'Masters',
@@ -180,6 +181,7 @@ const MyDataBaseScreen = () => {
       checked: isMasters,
       onChange: handleMaster,
       width: 80,
+      margin:8,
     },
     {
       value: 'Doctorate',
@@ -196,7 +198,7 @@ const MyDataBaseScreen = () => {
       width: 80,
     },
     {
-      value: 'Any',
+      value: 'Any Qualification',
       label: 'any',
       width: 110,
       checked: isAny,

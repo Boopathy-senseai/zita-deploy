@@ -7,18 +7,18 @@
 }
 
 .inputOverAll {
-  display: inline-grid;
+  display: flex;
   position: relative;
-  width: 75px;
+  width: 100px;
   margin-right:-35px;
 }
 .svgContainer {
   display: flex;
-  align-items: center;
-  margin-top: 0px;
+  flex-direction: row;
   position: absolute;
-  top: 23px;
-  right: -93px;
+  /* top: 23px;
+  right: -93px; */
+  left: 126px;
 }
 .svgTick {
   margin-right: 4px;
@@ -28,7 +28,7 @@
   margin-right: 4px;
   cursor: pointer;
   z-index: 11;
-  margin-top: -62%;
+  /* margin-top: -62%; */
   margin-left: 0%;
 }
 .svgTickDisable {
@@ -41,8 +41,6 @@
 }
 .svgClose {
   cursor: pointer;
-  z-index: 11;
-  margin-top: -64%;
 
 }
 .locationStyle {
@@ -98,7 +96,7 @@
   border: none;
   border-bottom: 1px solid var(--color-gary-6, #b3b3b3);
   background-color: var(--color-white, #ffffff);
-  width: 165%;
+  width: 120%;
   height: 20px;
   box-sizing: border-box !important;
   font-family: 'Roboto', sans-serif;

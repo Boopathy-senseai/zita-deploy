@@ -227,7 +227,9 @@ const QualificationContainer = ({
                 size={11}
                 color="black_1"
                 className={styles.cardaqualification}
-                title={`Qualification: ${dataList.qualification}`}
+                title={(!isEmpty(dataList.qualification)
+                        ? `Qualification: ${dataList.qualification}`
+                        : `Qualification: Not Specified` )}
               >
               {notSpecified(dataList.qualification)}
               </Text>
@@ -289,7 +291,7 @@ const QualificationContainer = ({
                 <Text
                   textStyle="ellipsis"
                   size={11}
-                  color="gray"
+                  color="primary"
                   className={`pointer {cx('marginTop')}`}
                   underLine
                   onClick={handleOpenInput}
@@ -320,7 +322,7 @@ const QualificationContainer = ({
                 <Text
                   // textStyle="ellipsis"
                   size={11}
-                  color="gray"
+                  color="primary"
                   onClick={handleOpenExperienceInput}
                   underLine
                   className={'pointer'}
@@ -334,7 +336,7 @@ const QualificationContainer = ({
           ) : (
             <div
               ref={myRefExperience}
-              style={{ width:'', right:"90px" }}
+              // style={{ width:'', right:"90px" }}
               className={cx('inputOverAll')}
             >
               <SelectTag

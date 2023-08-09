@@ -311,7 +311,7 @@ const MyDataBaseFilter = ({
  return (
 <>
 <div className={styles.quickfilters}>
-<Text className={""} style={{ color: "#581845" }}>
+<Text size={13}className={""} style={{marginTop:"3px"}}>
         Quick Filters :
       </Text>
       {qualificationValue &&
@@ -425,7 +425,7 @@ null
     <Flex row center className={styles.filterstyle}  >
       {jobTypeData.map((jobList) => {
         return (
-          <Flex row key={jobList.value} width={jobList.width}>
+          <Flex row key={jobList.value} width={jobList.width} marginBottom="8px">
             <InputRadio
               label={jobList.value}
               checked={jobList.label === formik.values.jobType}
@@ -439,9 +439,10 @@ null
 
      <Flex className={styles.mtstyle}>
         <Flex className={styles.skillContainer} >
+        <Text color="theme" bold size={14} style={{marginBottom: "5px"}}>Experience</Text>
         <SelectTag
         labelBold
-        label="Experience"
+        // label="Experience"
         value={formik.values.experience}
         options={experienceOption}
         onChange={(option) => {
@@ -453,7 +454,7 @@ null
 
 
      <Flex className={styles.mtstyle}>
-      <Text color="theme" size={14} bold className={styles.qualificationTextStyle}>
+      <Text color="theme" size={14} bold style={{marginBottom:"5px"}} className={styles.qualificationTextStyle}>
       Qualification
     </Text>
     <Flex row center wrap>

@@ -1,6 +1,7 @@
 import { relative } from 'path';
 import { Theme } from 'react-select';
 import {
+  BLACK,
   ERROR,
   GARY_1,
   GARY_4,
@@ -16,6 +17,7 @@ export const customStyles = {
   option: (provided: any) => ({
     ...provided,
     fontSize: 13,
+    // color:GARY_1
   }),
   control: (provided: any, state: { isFocused: any }) => ({
     ...provided,
@@ -73,6 +75,7 @@ export const customStyles = {
     maxHeight: 200,
     scrollbarWidth: 'thin',
     padding: 0,
+    color:BLACK
   }),
 };
 
@@ -171,6 +174,7 @@ export const customStylesMulti = {
   option: (provided: any) => ({
     ...provided,
     fontSize: 13,
+    color:BLACK,
   }),
   control: (provided: any, state: { isFocused: any }) => ({
     ...provided,
@@ -244,6 +248,7 @@ export const customStyletrue = {
     boxShadow: state.isFocused ? null : null,
     boxSizing: 'border-box',
   }),
+  
   valueContainer: (provided: any) => ({
     ...provided,
     height: '30px',
@@ -311,6 +316,7 @@ export const customStylechanges = {
     boxShadow: state.isFocused ? null : null,
     boxSizing: 'border-box',
   }),
+
   valueContainer: (provided: any) => ({
     ...provided,
     height: '40px',
@@ -325,6 +331,7 @@ export const customStylechanges = {
     fontFamily: `'Roboto', sans-serif`,
     boxSizing: 'border-box',
   }),
+
   indicatorsContainer: (provided: any) => ({
     ...provided,
     height: '40px',
@@ -353,6 +360,7 @@ export const customStylechanges = {
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
     boxSizing: 'border-box',
+    
   }),
   menuList: (provided: any) => ({
     ...provided,
@@ -377,6 +385,12 @@ export const customStylechanges1 ={
     margin: '0px',
     borderColor:GARY_9,
     border: '0px',
+  }),
+  singleValue:() => ({
+    fontSize: "13px",
+    bottom: 19,
+    position: "relative",
+    color:BLACK
   }),
   valueContainer: (provided: any) => ({
     ...provided,
