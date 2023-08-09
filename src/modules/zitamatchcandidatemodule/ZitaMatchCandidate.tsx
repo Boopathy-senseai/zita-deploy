@@ -485,10 +485,12 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
       }),
     );
   };
+  console.log("datas",datas)
 
   const handleradiovclear=()=>{
     setMatchRadio('')
   }
+  const wrapperRef = useRef(null);
   const handleexpclear=()=>{
     setExperience('');
     dispatch(
@@ -586,10 +588,18 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
   // }, [isSearch]);
 
   // pagination function
+  useEffect(()=>{
+    window.scrollTo({top: 0});
+},[isPage,pageCount])
+
   const handleSetPagination = (a: number) => {
-    getFocus('zitaaction__checkbox');
+   // getFocus('zitaaction__checkbox');
     setPage(a);
-    getBlur('zitaaction__checkbox');
+    // getBlur('zitaaction__checkbox'); 
+    if (datas.length !== 0) {
+      getFocus(datas[0].id.toString());
+      getBlur(datas[0].id.toString());
+    }
   };
 
   // close applicant and candidate view function
@@ -978,6 +988,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
     
       <div
      // className={styles.cards}
+        ref={wrapperRef}
         style={{
           height: window.innerHeight - 303 +54,
           overflowY: 'scroll',
@@ -988,7 +999,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
           alignContent: 'flex-start',
         }}
       >
-        <>
+        
           {total_applicants === 0 && (
             <Flex height={'100%'} flex={1} center middle>
               <Text color="gray">No Candidates Found</Text>
@@ -1022,15 +1033,15 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
               );
             })}
           {total_applicants > 15 && (
-            <Flex middle className={styles.pagination}>
+            <Flex middle className={styles.pagination} >
               <Pangination
                 maxPages={pageCount - 1}
                 currentPage={isPage}
-                setCurrentPage={handleSetPagination}
-              />
+                setCurrentPage={handleSetPagination}        
+              />  
             </Flex>
           )}
-        </>
+        
       </div>
     </Flex>
   );

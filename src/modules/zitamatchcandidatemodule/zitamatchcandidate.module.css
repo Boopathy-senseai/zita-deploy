@@ -142,3 +142,24 @@
   width: 100%;
   margin-left:-2px;
 }
+/* .pagination {
+  margin: 1% 38%;
+}
+
+@media only screen and (max-width: 1366px) {
+  .pagination{
+    margin: 1% 35%;
+  }
+}
+
+@media only screen and (min-width: 1366px) and (max-width:1920px) {
+  .pagination{
+    margin: 1% 35%;
+  }
+}
+
+@media screen and (min-width: 1920px) {
+  .pagination{
+    margin: 1% 38%;
+  }
+} */

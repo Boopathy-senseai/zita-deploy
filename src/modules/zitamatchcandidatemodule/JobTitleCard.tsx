@@ -34,7 +34,7 @@ const JobTitleCard = ({ job_details }: Props) => {
         title="Job Title:"
         value={`${job_details.job_title} - ${job_details.job_id}`}
       />
-      <div style={{ marginBottom: '4px' }}>
+      <div style={{  }}>
         <SvgLocation width={16} height={16} fill="#581845" />
       </div>
       <TitleLabel

@@ -40,6 +40,7 @@ const Pangination = ({ currentPage, setCurrentPage, maxPages }: Props) => {
         onClick={() => {
           setCurrentPage(number);
           window.scrollTo({top: 0})
+          
         }}
         tabIndex={-1}
         role={'button'}

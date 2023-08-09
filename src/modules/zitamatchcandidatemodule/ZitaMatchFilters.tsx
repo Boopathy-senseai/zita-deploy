@@ -886,7 +886,7 @@ const ZitaMatchFilters = ({
                   checked={isRelocate}
                 />
               </Flex>
-              <Flex className={styles.toggletext}>
+              <Flex className={styles.toggletext} >
                 Show candidates willing to relocate
               </Flex>
             </Flex>
