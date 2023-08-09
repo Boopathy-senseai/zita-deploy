@@ -136,6 +136,7 @@ const BannerCardView = ({
                 height={14}
                 width={14}
                 fill={career_page_setting.button_color}
+                stroke= {career_page_setting.button_color}
               />
               <Text
                 className={styles.labelStyle}

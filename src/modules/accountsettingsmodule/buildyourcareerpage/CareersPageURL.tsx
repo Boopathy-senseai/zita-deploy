@@ -99,7 +99,7 @@ const CareersPageURL = ({
                 replace
                 to={`/${careerUrl}/careers`}
               >
-                <Text color="link" style={{marginTop:"2px"}}>
+                <Text color="link" bold style={{marginTop:"2px"}}>
                   {window.location.origin}/{formik.values.pagaeUrl}/careers
                 </Text>
               </LinkWrapper>
@@ -131,7 +131,7 @@ const CareersPageURL = ({
           href="https://www.youtube.com/watch?v=LUIzrimnTq0"
           target={'_blank'}
         >
-          <Text color="link" bold>
+          <Text size={13} color="link" bold>
             connect the jobs with your company’s careers page.
           </Text>
         </a>

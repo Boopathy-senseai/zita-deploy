@@ -136,7 +136,7 @@ const JobViewCard = ({
                 style={{
                   marginLeft: 5,
                   color: career_page_setting.button_color,
-                  cursor:"pointer"
+                  cursor: 'pointer',
                 }}
                 bold
               >
@@ -144,53 +144,58 @@ const JobViewCard = ({
               </Text>
             </Flex>
           </LinkWrapper>
-          <Text bold size={16} style={{ marginBottom: 5}}>
+          <Text bold size={16} style={{ marginBottom: 5 }}>
             Job Details
           </Text>
-          <Flex marginBottom={10} style={{border:"1px solid #c3c3c3", padding:"10px", borderRadius:"4px"}}>
-          <Flex row={!isTablet} top wrap>
-            {jdData.map((list, index) => {
-              return (
-                list.check && (
-                  <Flex
-                    width={isTablet ? '100%' : index % 2 === 0 ? '55%' : '45%'}
-                    row
-                    key={list.title + index}
-                    className={styles.listFlex}
-                  >
-                    <Text  color="theme">
-                      {list.title}
-                    </Text>
-                    {list.title === 'Qualification:' ? (
-                      <Text
-                        style={{ width: '68%', overflowWrap: 'anywhere' }}
-                        className={styles.valueStyle}
-                      >
-                        {list.value}
-                      </Text>
-                    ) : (
-                      <Text className={styles.valueStyle}>{list.value}</Text>
-                    )}
-                  </Flex>
-                )
-              );
-            })}
-          </Flex>
-          {jd_form?.show_sal_to_candidate === false && (
-            <Flex row top >
-              <Text  color="theme">
-                Qualification:
-              </Text>
-              <Text className={styles.valueStyle}>
-                {qualification
-                  ? `${qualification.toString().replace(/,/g, ', ')}`
-                  : notSpecified(qualification)}
-              </Text>
+          <Flex
+            marginBottom={10}
+            style={{
+              border: '1px solid #c3c3c3',
+              padding: '10px',
+              borderRadius: '4px',
+            }}
+          >
+            <Flex row={!isTablet} top wrap>
+              {jdData.map((list, index) => {
+                return (
+                  list.check && (
+                    <Flex
+                      width={
+                        isTablet ? '100%' : index % 2 === 0 ? '55%' : '45%'
+                      }
+                      row
+                      key={list.title + index}
+                      className={styles.listFlex}
+                    >
+                      <Text>{list.title}</Text>
+                      {list.title === 'Qualification:' ? (
+                        <Text
+                          style={{ width: '68%', overflowWrap: 'anywhere' }}
+                          className={styles.valueStyle}
+                        >
+                          {list.value}
+                        </Text>
+                      ) : (
+                        <Text bold className={styles.valueStyle}>
+                          {list.value}
+                        </Text>
+                      )}
+                    </Flex>
+                  )
+                );
+              })}
             </Flex>
-          )}
-
+            {jd_form?.show_sal_to_candidate === false && (
+              <Flex row top>
+                <Text>Qualification:</Text>
+                <Text bold className={styles.valueStyle}>
+                  {qualification
+                    ? `${qualification.toString().replace(/,/g, ', ')}`
+                    : notSpecified(qualification)}
+                </Text>
+              </Flex>
+            )}
           </Flex>
-         
         </Flex>
 
         {login_user ? (
@@ -216,7 +221,8 @@ const JobViewCard = ({
             </LinkWrapper>
           </Flex>
         ) : (
-          <Flex row
+          <Flex
+            row
             flex={isMobile ? 1 : 4}
             columnFlex
             className={styles.btnContainer}
@@ -225,16 +231,24 @@ const JobViewCard = ({
               to={`/candidate_profile_upload/${company_detail?.recruiter_id_id}`}
               onClick={() => localStorage.setItem('careerJobViewJobId', jobId)}
             >
-              <Button types='secondary'
+              <Button
+                types="secondary"
                 style={{
                   width: 230,
                   marginRight: 8,
-                  whiteSpace: "nowrap",
+                  whiteSpace: 'nowrap',
                   // backgroundColor: career_page_setting?.button_color,
                   borderColor: career_page_setting?.button_color,
+                  color: career_page_setting?.button_color,
                 }}
               >
-                Create Company Profile
+                <Text
+                  bold
+                  size={13}
+                  style={{ color: career_page_setting?.button_color }}
+                >
+                  Create Company Profile
+                </Text>
               </Button>
             </LinkWrapper>
             <LinkWrapper
@@ -250,7 +264,7 @@ const JobViewCard = ({
               <Button
                 style={{
                   width: 218,
-                  whiteSpace: "nowrap",
+                  whiteSpace: 'nowrap',
                   backgroundColor: career_page_setting?.button_color,
                   borderColor: career_page_setting?.button_color,
                 }}
@@ -261,9 +275,15 @@ const JobViewCard = ({
           </Flex>
         )}
       </Flex>
-      <Text bold size={16} className={styles.jobDes}>
-        Job Description
-      </Text>
+      <Flex
+        style={{ borderBottom: '1px solid #c3c3c3' }}
+        className={styles.jobDes}
+      >
+        <Text bold size={16}>
+          Job Description
+        </Text>
+      </Flex>
+
       <td
         className={styles.des}
         dangerouslySetInnerHTML={{
@@ -272,7 +292,7 @@ const JobViewCard = ({
       />
       {skills && (
         <Flex>
-          <Text bold color="theme" style={{ marginTop: 24 }}>
+          <Text bold style={{ marginTop: 10 }}>
             Required Skills
           </Text>
           <Flex row center wrap className={styles.statusContainer}>
