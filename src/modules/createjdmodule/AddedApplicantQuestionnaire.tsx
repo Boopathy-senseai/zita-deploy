@@ -25,7 +25,7 @@ const AddedApplicantQuestionnaire = ({
 }: Props) => {
   const columns = useMemo(() => questionTitle(jdId), [tabledata]);
   return (
-    <Card className={styles.cardOverAll}>
+    <Flex className={styles.cardOverAll}>
       <Flex columnFlex>
         <Text bold size={16} className={styles.applicantTitle}>
           Added Applicant Questionnaire
@@ -56,7 +56,7 @@ const AddedApplicantQuestionnaire = ({
 
         <Flex row center>
           <LinkWrapper  to={routesPath.MY_JOB_POSTING}>
-            <Button types="secondary">{CANCEL}</Button>
+            <Button types="close">{CANCEL}</Button>
           </LinkWrapper>
 
           <LinkWrapper
@@ -78,7 +78,7 @@ const AddedApplicantQuestionnaire = ({
           </LinkWrapper>
         </Flex>
       </Flex>
-    </Card>
+    </Flex>
   );
 };
 

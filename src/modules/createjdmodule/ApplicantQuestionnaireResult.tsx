@@ -28,10 +28,10 @@ const ApplicantQuestionnaireResult = ({
   return (
     <Card className={styles.cardOverAll}>
       <Flex columnFlex>
-        <Text bold size={16} color="theme">
+        <Text bold size={16} color="primary">
           Applicant Questionnaire:
         </Text>
-        <div className={styles.tableDiv}>
+        <div>
           {data.length === 0 ? (
             <Text color="gray">No questions added for this job</Text>
           ) : (
@@ -39,7 +39,7 @@ const ApplicantQuestionnaireResult = ({
               empty={'No questions added for this job'}
               dataSource={data}
               columns={columns}
-              border="overAll"
+              border="overAll"  
             />
           )}
         </div>

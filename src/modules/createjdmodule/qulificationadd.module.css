@@ -16,3 +16,9 @@
   color: var(--color-error, #f94949);
   font-size: 12px;
 }
+
+.svgadd{
+  margin-right: 8px;
+  bottom: 1px;
+  position: relative;
+}

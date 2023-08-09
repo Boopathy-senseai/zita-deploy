@@ -102,16 +102,16 @@ const MissingSkills = ({
       <Flex className={styles.overAll}>
         <Text
           size={16}
-          color="theme"
+          color="primary"
           bold
-          align="center"
+          // align="center"
           className={styles.title}
         >
           {`Missing Skills Recommendation for Selected Role - ${
             isEmpty(new_role) ? otherValue(old_role) : otherValue(new_role)
           }`}
         </Text>
-        <Text align="center">
+        <Text>
           Please drag and drop the recommended missing skills to the required
           technical skills that you may require for this job.
         </Text>

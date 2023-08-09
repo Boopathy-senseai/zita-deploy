@@ -42,9 +42,10 @@ const StandardJobPosting = ({
     sessionStorage.setItem('superUserTab', '2');
   };
   return (
-    <Card className={styles.cardOverAll}>
+    <Flex>
       <Flex columnFlex>
-        <Text color="theme" bold>
+        <Card className={styles.cardOverAll}>
+        <Text color="primary" bold>
           Standard Job Posting
         </Text>
         <Text className={styles.defaultText}>
@@ -121,7 +122,7 @@ const StandardJobPosting = ({
           </Flex>
         </Flex>
       </Flex>
-    </Card>
+    </Flex>
   );
 };
 export default StandardJobPosting;

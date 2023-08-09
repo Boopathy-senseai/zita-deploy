@@ -1,5 +1,6 @@
 .listOverAll {
   margin-right: 8px;
+  margin-top:10px;
 }
 .listHeadingStyle {
   margin-top: 8px;
@@ -17,8 +18,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
   border-bottom: 1px solid var(--color-gary-6, #b3b3b3);
-  height: 34px;
-  padding-top: 8px;
+  /* height: 34px; */
+  height: 20px;
+  /* padding-top: 8px; */
 }
 .trimStyle p {
   white-space: nowrap;

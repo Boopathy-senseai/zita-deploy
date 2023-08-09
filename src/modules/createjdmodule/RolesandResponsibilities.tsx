@@ -1,3 +1,5 @@
+import { spawn } from 'child_process';
+import * as Yup from 'yup';
 import Chart from '../../uikit/Chart/Chart';
 import { PRIMARY } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
@@ -71,7 +73,7 @@ const RolesandResponsibilities = ({ jdDetails, profile }: Props) => {
         <td
           className={styles.des}
           dangerouslySetInnerHTML={{
-            __html: jdDetails.richtext_job_description,
+            __html:jdDetails.richtext_job_description,
           }}
         />
       </Flex>

@@ -38,22 +38,28 @@ const SkillSaveModal = ({
     <Modal open={open}>
       <Flex columnFlex className={styles.overAll}>
         {isLoader && <Loader />}
-        <Text align="center" color="theme" bold>
+        {/* <Text align="center" color="theme" bold>
           Skill-based experience
         </Text>
         <Text align="center" className={styles.addText}>
           Please add experience (no. of years) for each skill
+        </Text> */}
+        <Text size={16} color="primary" bold>
+          Skill-based experience
         </Text>
-        <Flex columnFlex>
+        <Text className={styles.addText}>
+          Please add experience (no. of years) for each skill
+        </Text>
+        <Flex columnFlex style= {{alignItems: "center"}}className={styles.skillstableoverall}>
           <Flex columnFlex className={styles.borderStyle}>
             <Flex row center between className={styles.headerStyle}>
               <Flex flex={5}>
-                <Text align="center" color="theme" bold>
+                <Text size={14} align="center" bold>
                   Skills
                 </Text>
               </Flex>
               <Flex flex={7} className={styles.inputBorder}>
-                <Text align="center" color="theme" bold>
+                <Text size={14} align="center" bold>
                   Skill-based experience (in years)
                 </Text>
               </Flex>
@@ -333,11 +339,11 @@ const SkillSaveModal = ({
         </Flex>
         <Flex row center middle className={styles.btnContainer}>
           <Button
-            types="secondary"
+            types="close"
             onClick={handleClose}
             className={styles.closeBtn}
           >
-            Close
+            Cancel
           </Button>
           {isMissSkill && (
             <LinkWrapper target={'_parent'} to={`/jobs/questionnaire/${jd_id}`}>

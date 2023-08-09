@@ -1,7 +1,8 @@
 .cardStyle {
-    padding: 16px 20px;
+    /* padding: 16px 20px; */
+    padding: 10px 20px;
     padding-bottom: 0px;
-    margin-bottom: 24px;
+    margin-bottom: 10px;
   }
   .listFlex {
     margin-bottom: 16px;

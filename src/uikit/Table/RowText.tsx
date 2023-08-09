@@ -11,7 +11,7 @@ const RowText = ({ columnData }: Props) => {
     return <></>;
   }
   return (
-    <Text size={12} className={styles.textStyle}>
+    <Text size={13} className={styles.textStyle}>
       {columnData}
     </Text>
   );

@@ -48,7 +48,7 @@ console.log('setCancel',setCancel);
     title: {
       text: 'Role Recommendation',
       style: {
-        color: PRIMARY,
+        color: "#333",
         fontWeight: 'bold',
       },
     },
@@ -111,7 +111,7 @@ console.log('setCancel',setCancel);
     title: {
       text: 'Role Recommendation',
       style: {
-        color: PRIMARY,
+        color: "#333",
         fontWeight: 'bold',
       },
     },
@@ -237,11 +237,11 @@ console.log('setCancel',setCancel);
             </Text>
           </>
         )}
-        <Flex row center middle>
+        <Flex row center middle style={{justifyContent:"end"}}>
           <LinkWrapper target={'_parent'} to={`/jobs/create_ds_edit/${jd_id}`}>
           <Button
             id="role_recommendation____cancel"
-            types="secondary"
+            types="close"
             // onClick={() => {
             //   setCancel(true);
             //   cancel();

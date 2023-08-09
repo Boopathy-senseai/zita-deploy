@@ -11,15 +11,16 @@
 .titleContainer {
   margin-bottom: 8px;
 }
-.tagTop {
+/* .tagTop {
   margin-top: 16px;
-}
+} */
 .btnFlex {
   margin-top: 16px;
 }
 .btnFlexOne {
-  margin-top: 24px;
-  padding-bottom: 8px;
+  margin-top: 20px;
+  /* padding-bottom: 8px; */
+  justify-content: end;
 }
 .errorMessage {
   position: absolute;
