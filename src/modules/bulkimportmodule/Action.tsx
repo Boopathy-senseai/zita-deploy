@@ -7,7 +7,7 @@ import { GARY_3, LINK } from '../../uikit/Colors/colors';
 import { Text } from '../../uikit';
 import { uploadedCandidatesApi } from '../../routes/apiRoutes';
 import Flex from '../../uikit/Flex/Flex';
-import { AppDispatch } from '../../store';;
+import { AppDispatch } from '../../store';
 import SvgDotMenu from '../../icons/SvgDotMenu';
 import Toast from '../../uikit/Toast/Toast';
 import { config } from '../constValue';
