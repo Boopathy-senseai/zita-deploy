@@ -24,7 +24,7 @@ const BannerCardList = ({ jd_form, career_page_setting, total }: Props) => {
   const isTablet = useMediaQuery({ query: '(max-width: 1050px)' });
   const isMobile = useMediaQuery({ query: '(max-width: 500px)' });
   const fontFamily = career_page_setting.page_font;
-  const titleFontSize = career_page_setting.page_font_size + 2;
+  const titleFontSize = career_page_setting.page_font_size +2;
   const fontSize = career_page_setting.page_font_size;
   return (
     <Flex columnFlex className={styles.overAll}>

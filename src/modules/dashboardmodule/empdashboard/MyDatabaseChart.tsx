@@ -108,7 +108,7 @@ const MyDatabaseChart = ({
   };
   return (
     <Card className={styles.overAll}>
-      <Text bold size={16} style={{color:'#581845'}}>
+      <Text bold size={14} style={{color:'#581845'}}>
         My Database
       </Text>
       {(Array.isArray(my_database) &&
@@ -123,7 +123,7 @@ const MyDatabaseChart = ({
         />
       ) : (
         <Flex flex={1} center middle>
-          <Text color="gray">No Data Available</Text>
+          <Text color="gray" style={{fontSize:13}}>No Data Available</Text>
         </Flex>
       )}
     </Card>
