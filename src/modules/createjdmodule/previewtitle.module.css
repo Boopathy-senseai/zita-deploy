@@ -1,5 +1,11 @@
 .cardOverAll {
-  /* padding: 16px; */
+  padding: 16px;
+  background-color: var(--color-white, #ffffff);
+    border-radius: 4px;
+    box-sizing: border-box;
+    /* -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36); */
+    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 47%);
+    -webkit-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 47%);
 }
 .mainTitle {
   margin-top: 8px;
@@ -13,13 +19,36 @@
   margin-bottom: 8px;
 }
 .statusContainer{
-  margin-top: 8px;
+  margin-top: 12px;
 }
-.des ul{
-  padding-left: 24px;
-  /* list-style-type: disc;
-  margin-bottom: 1rem; */
+.des ul,li{
+  /* padding-left: 24px; */
+  /* list-style-type: disc; */
+  font-size: 13px;
 }
-.rolesandresponsibilitiescard{
-  padding: 16px;
+
+.des h4 {
+  color : #333333; 
+  font-size: 14px; 
+  font-weight: 600;
 }
+.des h6{
+  color : #333333;
+  font-size: 14px;
+  font-weight: 600;
+}
+.des h6 strong{
+  font-weight: 600 !important;
+}
+.borderbottomline{
+  padding-bottom: 5px;
+  
+}
+.des{
+  font-size: 13px;
+}
+.des.p{
+  font-size: 13px !important;
+}
+
+

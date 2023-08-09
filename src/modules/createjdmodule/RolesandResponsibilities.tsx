@@ -23,6 +23,7 @@ const RolesandResponsibilities = ({ jdDetails, profile }: Props) => {
       style: {
         color: PRIMARY,
         fontWeight: 'bold',
+        fontSize:"14px",
       },
     },
     plotOptions: {
@@ -76,6 +77,7 @@ const RolesandResponsibilities = ({ jdDetails, profile }: Props) => {
             __html:jdDetails.richtext_job_description,
           }}
         />
+        {console.log("htmldata:",jdDetails.richtext_job_description)}
       </Flex>
       <Flex flex={4}>
         <Chart options={options} />

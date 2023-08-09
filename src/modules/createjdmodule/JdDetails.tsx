@@ -111,18 +111,20 @@ const JdDetails = ({ jdDetails, location, qualification }: Props) => {
                 key={list.title}
                 className={styles.listFlex}
               >
-                <Text color="theme">
+                <Text  color="theme" style={{fontSize:"13px"}}>
                   {list.title}
                 </Text>
                 {list.title === 'Qualification:' ? (
                   <Text
-                    style={{ width: '68%', overflowWrap: 'anywhere' }}
+                    style={{ width: '68%', overflowWrap: 'anywhere' ,fontSize:"13px"}}
                     className={styles.valueStyle}
                   >
                     {list.value}
                   </Text>
                 ) : (
-                  <Text className={styles.valueStyle}>{list.value}</Text>
+                  <Text className={styles.valueStyle}
+                  style={{ fontSize:"13px"}}
+                  >{list.value}</Text>
                 )}
               </Flex>
             )
