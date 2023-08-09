@@ -78,72 +78,79 @@ const CareerViewBanner = ({
           </Text>
           <Text size={13}>Your dream job is waiting!</Text>
         </Flex> */}
-        <Card className={styles.searchCard}>
-          <Flex row={!isMobile} center>
-            <Flex marginRight={10}>
-              <Text bold style={{ whiteSpace: 'nowrap' }}>Im Interested in</Text>
-            </Flex>
-            <div style={{ position: 'relative', width: '50%' }}>
-              <div className={styles.svgBagStyle}>
-                <SvgJobTitles
-                  height={14}
-                  width={14}
-                  fill={career_page_setting.button_color}
+        {jd_form && jd_form.length !== 0 && (
+          <Card className={styles.searchCard}>
+            <Flex row={!isMobile} center>
+              <Flex marginRight={10}>
+                <Text bold style={{ whiteSpace: 'nowrap' }}>
+                  Im Interested in
+                </Text>
+              </Flex>
+              <div style={{ position: 'relative', width: '50%' }}>
+                <div className={styles.svgBagStyle}>
+                  <SvgJobTitles
+                    height={14}
+                    width={14}
+                    fill={career_page_setting.button_color}
+                  />
+                </div>
+
+                <InputText
+                  value={formik.values.job_title}
+                  onChange={formik.handleChange('job_title')}
+                  className={styles.jobTitleInput}
+                  placeholder="Job Title"
+                  onKeyPress={(e) => enterKeyPress(e, formik.handleSubmit)}
+                  style={{ width: '100%' }}
+                />
+              </div>
+              <Flex marginLeft={10}>
+                <Text bold style={{ whiteSpace: 'nowrap' }}>
+                  Located in
+                </Text>
+              </Flex>
+              <div
+                className={styles.locationDiv}
+                style={{
+                  position: 'relative',
+                  width: '50%',
+                  margin: !isMobile ? '0 10px' : '10px 0',
+                }}
+              >
+                <div className={styles.svgLocation}>
+                  <SvgLocation
+                    height={14}
+                    width={14}
+                    fill={career_page_setting.button_color}
+                  />
+                </div>
+                <InputText
+                  onChange={formik.handleChange('job_location')}
+                  value={formik.values.job_location}
+                  className={styles.locationInput}
+                  placeholder="Location"
+                  onKeyPress={(e) => enterKeyPress(e, formik.handleSubmit)}
+                  style={{ width: '100%' }}
                 />
               </div>
 
-              <InputText
-                value={formik.values.job_title}
-                onChange={formik.handleChange('job_title')}
-                className={styles.jobTitleInput}
-                placeholder="Job Title"
-                onKeyPress={(e) => enterKeyPress(e, formik.handleSubmit)}
-                style={{width:"100%"}}
-              />
-            </div>
-            <Flex marginLeft={10}>
-              <Text bold style={{ whiteSpace: 'nowrap' }}>Located in</Text>
+              <Button
+                disabled={
+                  formik.values.job_title === '' &&
+                  formik.values.job_location === ''
+                }
+                style={{
+                  backgroundColor: career_page_setting.button_color,
+                  borderColor: career_page_setting.button_color,
+                }}
+                onClick={formik.handleSubmit}
+              >
+                Search
+              </Button>
             </Flex>
-            <div
-              className={styles.locationDiv}
-              style={{
-                position: 'relative',
-                width: '50%',
-                margin: !isMobile ? '0 10px' : '10px 0',
-              }}
-            >
-              <div className={styles.svgLocation}>
-                <SvgLocation
-                  height={14}
-                  width={14}
-                  fill={career_page_setting.button_color}
-                />
-              </div>
-              <InputText
-                onChange={formik.handleChange('job_location')}
-                value={formik.values.job_location}
-                className={styles.locationInput}
-                placeholder="Location"
-                onKeyPress={(e) => enterKeyPress(e, formik.handleSubmit)}
-                style={{width:"100%"}}
-              />
-            </div>
+          </Card>
+        )}
 
-            <Button
-              disabled={
-                formik.values.job_title === '' &&
-                formik.values.job_location === ''
-              }
-              style={{
-                backgroundColor: career_page_setting.button_color,
-                borderColor: career_page_setting.button_color,
-              }}
-              onClick={formik.handleSubmit}
-            >
-              Search
-            </Button>
-          </Flex>
-        </Card>
         <div
           className={cx('paddingStyle', 'marginAuto', {
             disPlayStyle: jd_form && jd_form.length === 0,

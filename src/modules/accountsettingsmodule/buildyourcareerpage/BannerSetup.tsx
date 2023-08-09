@@ -1,4 +1,5 @@
 import { FormikProps } from 'formik';
+import { useState } from 'react';
 import Card from '../../../uikit/Card/Card';
 import Flex from '../../../uikit/Flex/Flex';
 import { isEmpty } from '../../../uikit/helper';
@@ -8,6 +9,7 @@ import SelectTag from '../../../uikit/SelectTag/SelectTag';
 import Text from '../../../uikit/Text/Text';
 import { JOB_TITLE_LIMIT } from '../../constValue';
 import { LabelWrapper } from '../../../uikit';
+import SvgModuleicon from '../../../icons/SvgModuleicon';
 import styles from './bannersetup.module.css';
 import { formikFormTypes } from './formikTypes';
 import { fontSizeOptions } from './mock';
@@ -26,12 +28,13 @@ const BannerSetup = ({
   setReload,
   setBtnDisable,
 }: Props) => {
+  const [openPopup, setOpenPopuptwo] = useState<boolean>(false);
   return (
     <>
       {/* <Text bold size={14}>
         Banner Setup
       </Text> */}
-      <Flex row  >
+      <Flex row>
         <Flex flex={6}>
           <Flex className={styles.marginTop16}>
             <InputText
@@ -100,21 +103,26 @@ const BannerSetup = ({
           </Flex>
         </Flex>
         <Flex marginLeft={16} flex={6}>
-          <Text size={14} color='theme' style={{marginBottom:"7px"}}>
-          Background Image
-          </Text>
+          <Flex row center style={{ marginBottom: '7px' }}>
+            <Text size={14} color="theme">
+              Background Image
+            </Text>
+            <label
+              title={'Recommended image size :1920px X 1280px \n  File size must be less than 2MB'}
+              className={styles.changeStyle11}
+            >
+              <SvgModuleicon />
+            </label>
+          </Flex>
+
           <ImageUpload
             setBtnDisable={setBtnDisable}
             borderRadius
             imgUrl={imgUrl}
             setFile={setFile}
+            height={98}
           />
-          <Text size={12} style={{ marginTop: 12 }} color="gray">
-            Recommended image size :1920px X 1280px
-          </Text>
-          <Text size={12} color="gray">
-            File size must be less than 2MB
-          </Text>
+          
         </Flex>
       </Flex>
 

@@ -80,7 +80,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
     bannerSetup: boolean;
     buttonAndFooterSetup: boolean;
   }>({
-    careersPage: false,
+    careersPage: true,
     pageSetup: false,
     headerSetup: false,
     bannerSetup: false,

@@ -91,7 +91,7 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
         <div className={styles.colorInput} ref={myRef}>
           <InputText
             value={formik.values.headerColor.hex}
-            label="Background Color"
+            label="Font Color"
             required
             style={{ marginTop: '5px' }}
             onChange={formik.handleChange('headerColor.hex')}
@@ -276,7 +276,7 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
         </Flex>
       </Flex>
       <Flex  center className={styles.marginTop16}>
-      <Text size={14} color='theme' style={{marginBottom:"5px"}}>
+      <Text size={14} color='theme' style={{marginBottom:"7px"}}>
           {company_detail && !isEmpty(company_detail.logo)
             ? 'Company Logo'
             : 'Add logo in your company profile'}

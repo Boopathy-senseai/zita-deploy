@@ -12,6 +12,8 @@ import LinkWrapper from '../../../uikit/Link/LinkWrapper';
 import Text from '../../../uikit/Text/Text';
 import { nameRegex } from '../../constValue';
 import SvgModuleicon from '../../../icons/SvgModuleicon';
+import SvgGlobal from '../../../icons/SvgGlobe';
+import { SvgEdit } from '../../../icons';
 import { CareerPageEntityEntity } from './buildCareerPageTypes';
 import styles from './careerspageurl.module.css';
 import { formikFormTypes } from './formikTypes';
@@ -51,20 +53,10 @@ const CareersPageURL = ({
                 <SvgHelp fill="#581845" height={16} width={16} />
               </Flex>
             </Flex> */}
-
-          <Flex row center className={styles.paddingTopFlex}>
-            {!isInput && (
-              <div
-                tabIndex={-1}
-                onClick={() => setInput(true)}
-                role={'button'}
-                onKeyDown={() => {}}
-                className={styles.svgBox}
-                title="Edit URL"
-              >
-                <SvgBoxEdit fill={PRIMARY} />
-              </div>
-            )}
+          <Flex row top  className={styles.paddingTopFlex}>
+            <div tabIndex={-1} className={styles.svgBox}>
+              <SvgGlobal fill={PRIMARY} width={14} height={14}/>
+            </div>
             {isInput ? (
               <>
                 <Text className={styles.appText}>
@@ -107,10 +99,24 @@ const CareersPageURL = ({
                 replace
                 to={`/${careerUrl}/careers`}
               >
-                <Text color="link">
+                <Text color="link" style={{marginTop:"2px"}}>
                   {window.location.origin}/{formik.values.pagaeUrl}/careers
                 </Text>
               </LinkWrapper>
+            )}
+            {!isInput && (
+              <div
+                tabIndex={-1}
+                onClick={() => setInput(true)}
+                role={'button'}
+                onKeyDown={() => {}}
+                className={styles.svgBox}
+                style={{ marginLeft: 10}}
+                title="Edit URL"
+              >
+                {/* <SvgBoxEdit fill={PRIMARY} /> */}
+                <SvgEdit fill={PRIMARY} width={12} height={12} />
+              </div>
             )}
           </Flex>
         </Flex>
@@ -135,7 +141,7 @@ const CareersPageURL = ({
   );
 };
 
-export const CareerTitle:React.FC = () => {
+export const CareerTitle: React.FC = () => {
   return (
     <Flex row center>
       <Text bold size={14} className={styles.urlText}>
@@ -150,5 +156,5 @@ export const CareerTitle:React.FC = () => {
       </Flex>
     </Flex>
   );
-}
+};
 export default CareersPageURL;
