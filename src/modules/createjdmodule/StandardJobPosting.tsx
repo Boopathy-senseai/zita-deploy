@@ -28,7 +28,7 @@ const StandardJobPosting = ({
   whatjob,
 }: Props) => {
   const [extarajobpost, setextarajobpost] = useState('1');
-
+  
   const extarajob = () => {
     if (extarajobpost === '0') {
       setextarajobpost('1');
