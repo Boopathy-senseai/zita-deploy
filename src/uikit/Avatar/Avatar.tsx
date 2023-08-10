@@ -36,7 +36,12 @@ const Avatar: React.FC<AvatarProps> = ({
       className={clsx(className, styles.avatar, styles.avatarPlaceholder)}
       style={{ backgroundColor: stringToHslColor(initials, 30, 80), ...style }}
     >
-      <div className={styles.avatarInitials}>{initials}</div>
+      <div
+        className={styles.avatarInitials}
+        style={{ textTransform: 'uppercase', ...textStyle }}
+      >
+        {initials}
+      </div>
     </div>
   );
 };

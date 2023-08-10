@@ -781,11 +781,11 @@ input:-webkit-autofill:active {
   /* overflow: hidden !important; */
   flex: 1;
 }
-
 .ql-mention-list-container {
   width: 270px;
 
   border: 1px solid #f0f0f0;
+/* tab-content */
 
   border-radius: 4px;
 
@@ -1870,6 +1870,49 @@ input:-webkit-autofill:active {
   /* overflow: auto !important; */
   flex: 1;
 }
+
+.MuiOutlinedInput-notchedOutline {
+  border-color: rgba(0, 0, 0, 0.23) !important;
+}
+
+.css-hdw1oc {
+  display: none;
+}
+
+.MuiOutlinedInput-notchedOutline{
+  border-color: #cccccc !important;
+}
+.css-92nr1f-MuiButtonBase-root-MuiIconButton-root, .css-1s220mh-MuiButtonBase-root-MuiIconButton-root{
+  background-color: #581845 !important;
+}
+.css-92nr1f-MuiButtonBase-root-MuiIconButton-root:hover, .css-1s220mh-MuiButtonBase-root-MuiIconButton-root:hover{
+  background-color: #581845 !important;
+}
+.css-12ha4i7, .css-7lip4c, .css-118whkv{
+  /* border: 16px solid #581845; */
+  background-color: #581845 !important;
+}
+.css-118whkv,.css-2ujp1m{
+ border: 16px solid #581845 !important;
+}
+/*--------- scroll bar styles---------*/
+
+/* width */
+/* ::-webkit-scrollbar {
+  width: 6px !important;
+  height: 6px !important;
+} */
+
+/* Handle */
+/* ::-webkit-scrollbar-thumb {
+  background: $tableBorderColor;
+  border-radius: 5px;
+} */
+
+/* Handle on hover */
+/* ::-webkit-scrollbar-thumb:hover {
+  background: $tableBorderColor;
+} */
 
 ul {
   margin-bottom: 1rem ! important;
