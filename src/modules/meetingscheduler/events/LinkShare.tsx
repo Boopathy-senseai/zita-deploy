@@ -1,7 +1,6 @@
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import { useState } from 'react';
-// import SvgCloseSmall from '../../icons/SvgCloseSmall';
+import { useEffect, useState } from 'react';
 import { eventSchedulerApi } from '../../../routes/apiRoutes';
 import { AppDispatch } from '../../../store';
 import Button from '../../../uikit/Button/Button';
@@ -11,23 +10,16 @@ import InputText from '../../../uikit/InputText/InputText';
 import SvgClock from '../../../icons/SvgClock';
 import Text from '../../../uikit/Text/Text';
 import Toast from '../../../uikit/Toast/Toast';
-// import ShareButton from '../buildyourcareerpage/ShareButton';
+import SvgSearch from '../../../icons/SvgSearch';
 import Loader from '../../../uikit/Loader/Loader';
 import styles from './linkshare.module.css';
 import { getScheduleMiddleWare } from './store/middleware/eventmiddleware';
-// import GoogleIntergration from './googleintergration';
-// import { nameList, sharelinkdata } from './eventType';
 
 const LinkShare = (props) => {
   const dispatch: AppDispatch = useDispatch();
   const {
-    share,
-    title,
-    type,
-    duration,
     setShare,
     sharelinkdata,
-    response,
     details,
     sharedata,
   } = props;
@@ -40,39 +32,50 @@ const LinkShare = (props) => {
   console.log('details', details);
 
   const handleCheckboxChange = (event) => {
-    console.log('event', event.target);
+    console.log('eventeventevent', event.target);
     const { value, checked } = event.target;
-    console.log('value........', value, 'checked', checked);
+    console.log('checkedItems...........', value, 'checked', checked);
     if (checked) {
       setCheckedItems((prevItems) => [...prevItems, value]);
-      //   setinterviewerData(checkedItems)
+      // setinterviewerData(checkedItems)
     } else {
       setCheckedItems((prevItems) =>
         prevItems.filter((item) => item !== value),
       );
-      //   setinterviewerData(checkedItemzs)
     }
+
   };
+
 
   console.log('checkedItems............', checkedItems, typeof checkedItems);
 
-  function searchItems(query) {
-    console.log('query', query);
+  function searchItems(searchquery) {
+    console.log('query', searchquery);
+
     const items = sharelinkdata;
     console.log('itemms', items);
-    const lowercaseQuery = query.toLowerCase();
+    const query = searchquery.trim() 
+    console.log("searchquery///////",searchquery,searchquery.length,"\n","query",query,query.length)
+    const lowercaseQuery = searchquery.toLowerCase();
+    console.log('searchquerylowercaseQuery', lowercaseQuery);
+
     const filteredItems = items.filter((item) =>
-      item.full_name.toLowerCase().includes(lowercaseQuery),
+      item.full_name.toLowerCase().includes(lowercaseQuery.toString()),
     );
-    console.log('_+_+_++++_+_++_+_++_+_', filteredItems);
+    console.log('searchqueryfilteredItemsfilteredItems', filteredItems);
     if (filteredItems.length > 0) {
       setData(filteredItems);
     } else {
-      alert('No Applicants/candidate found!');
       setData([]);
     }
+  //   setCheckedItems((prevItems) => 
+  //   prevItems.filter((item) => filteredItems.some((fItem) => fItem.candidate_id === item)),
+  // );
+  console.log("~~~~~~~~~~~~~~",checkedItems)
     return filteredItems;
   }
+
+
 
   const onbuttonclick = (eventid: any) => {
     console.log('checkedItemscheckedItemscheckedItems', checkedItems);
@@ -91,29 +94,27 @@ const LinkShare = (props) => {
         .catch((err) => {
           console.log(err);
         });
-    } else {
-      alert('Select atleast one or more candidates');
     }
   };
 
   return (
     <>
-      {console.log('filteredItems', data)}
+      {console.log('checkedItemscheckedItemsfilteredItems', data)}
       {console.log('checkedItemscheckedItems', checkedItems)}
       {loader && <Loader />}
       <div className={styles.sharelink}>
         <Flex row between center>
           <Flex>
-            <Text bold>{details.event_name}</Text>
+            <Text size={14} bold>{details.event_name}</Text>
             <Text size={13} style={{ marginTop: '5px' }}>
               Select to whom you want to share the link
             </Text>
           </Flex>
           <Flex>
-            <Text>{details.event_type}</Text>
+            <Text size={13}>{details.event_type}</Text>
             <Flex row center style={{ marginTop: '5px' }}>
               <SvgClock width={16} height={16} fill={'#581845'} />
-              <Text style={{ marginLeft: '5px' }}>{details.duration}</Text>
+              <Text size={13} style={{ marginLeft: '5px' }}>{details.duration}</Text>
             </Flex>
           </Flex>
         </Flex>
@@ -129,38 +130,70 @@ const LinkShare = (props) => {
             onChange={(e) => {
               searchItems(e.target.value);
             }}
-            placeholder="Select team members"
+            placeholder="Search candidate or applicant by the name"
             inputConatinerClass={styles.inputContainer}
+            actionRight={() => (
+              <label htmlFor={'candidate/applicant found'} style={{ margin: 0 }}>
+                <SvgSearch />
+              </label>
+            )}
+            
           />
         </Flex>
+        {data.length > 0 ? (
+          <>
         <Flex row className={styles.candidate}>
           <div className={styles.grid}>
             {data.map((name, index) => (
               <Flex row key={index}>
+                  <Flex row center>
                 <div className={styles.flex}>
-                  <InputCheckBox
-                    value={name.candidate_id}
+                  {checkedItems.includes(name.candidate_id.toString()) ? (
+                    <>                    
+                  <InputCheckBox                
+                    value={name.candidate_id}                   
+                    checked={true}
                     onChange={handleCheckboxChange}
                   />
+                  </>
+                  ):(
+                    <>
+                    <InputCheckBox                   
+                    value={name.candidate_id}
+                    // checked ={name.candidate_id ? true : false}
+                    onChange={handleCheckboxChange}
+                  />
+                  </>
+                  ) }
+                 
                 </div>
                 <div style={{ marginLeft: '10px' }}>
-                  <Text size={14}>
+                  <Text size={13}>
                     {name.full_name}({name.type})
                   </Text>
                 </div>
+                </Flex>
               </Flex>
             ))}
           </div>
         </Flex>
+        </>
+        ) :(
+          <Flex middle className={styles.nodata}>
+          No Applicants/Candidates found
+          </Flex>
+        )}
         <Flex row end marginTop={10} className={styles.borderLine}>
           <Button
             types="primary"
-            className={styles.cancel}
-            // style={{ marginRight: '20px' }}
+            className={styles.cancel}            
             onClick={() => setShare(false)}
           >
             Cancel
           </Button>
+          {data.length > 0 &&  checkedItems.length > 0 ? (
+
+          <>
           <Button
             // types="primary"
             className={styles.share}
@@ -169,6 +202,19 @@ const LinkShare = (props) => {
           >
             Share Link
           </Button>
+          </>
+          ):(
+            <>
+          <Button
+            // types="primary"
+            className={styles.share}
+            // style={{ marignRight: '20px' }}            
+            disabled
+          >
+            Share Link
+          </Button>
+          </>
+          )}
         </Flex>
       </div>
     </>

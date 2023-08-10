@@ -194,6 +194,8 @@ const NavigationSearch = ({ onButtonClick ,onbuttonchange}) => {
     
     case 'sourcing':
         return history.push(routesPath.TALENT_SOURCING);
+      case 'meeting scheduler':
+          return history.push('/meeting_scheduler');
     }
   };
 

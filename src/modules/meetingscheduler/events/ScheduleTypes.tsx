@@ -8,6 +8,8 @@ export interface schedulerPageReducerState {
     addmembers ?: MemberEntity[] ;
     datetime ?: Datetime;
     suceess : string;
+    google : string;
+    outlook : string;
     error: string;    
   }
   
@@ -37,7 +39,10 @@ export interface schedulerPageReducerState {
     id: number,
     event_id: number,
     name_id: number,
-    full_name: string
+    full_name: string;
+    name__user : string;
+    google_calendar : string;
+    outlook_calendar : string;
   }
 
   export interface ShareEntity{
@@ -57,6 +62,7 @@ export interface schedulerPageReducerState {
   }
 
   export interface Datetime{
+    tuesday: any;
     sunday ?: DayEntity[],
     monday ?: DayEntity[],
     tueday ?: DayEntity[],

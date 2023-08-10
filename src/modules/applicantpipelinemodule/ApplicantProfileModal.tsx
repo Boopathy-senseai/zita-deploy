@@ -241,7 +241,7 @@ const ApplicantProfileModal = ({
           </Flex>
         ) : (
           <Flex flex={7} className={styles.tabLeftFlex}>
-            {stages.length === 0 ? (
+            {status_id?.length === 0 ? (
               <ApplicantTabLeftTwo activeState={activeState} />
             ) : (
               <ApplicantTabLeft activeState={activeState} />
@@ -251,7 +251,7 @@ const ApplicantProfileModal = ({
 
         {isTab && (
           <Flex flex={5} className={styles.tabRightFlex}>
-            {stages.length === 0 ? (
+            {status_id?.length === 0 ? (
               <ApplicantTabRightOne />
             ) : (
               <ApplicantTabRight />

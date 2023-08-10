@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import moment, { duration } from 'moment';
-import { enUS } from 'date-fns/locale';
 import { AppDispatch, RootState } from '../../../store';
 import 'react-day-picker/dist/style.css';
 import Flex from '../../../uikit/Flex/Flex';
@@ -20,17 +19,19 @@ import SvgGlobe from '../../../icons/SvgGlobe';
 import SvgInfo from '../../../icons/SvgInfo';
 import Loader from '../../../uikit/Loader/Loader';
 import SvgZitaLogo from '../../../icons/SvgZitaLogo';
+import {
+  googleAddEventMiddleware,
+  outlookAddEventMiddleware,
+} from '../../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import styles from './slotter.module.css';
 import {
-  getAvailbleSlot,
   getScheduleMiddleWare,
   getSlotterMiddleware,
 } from './store/middleware/eventmiddleware';
-import { timezonedisplay } from './eventType';
 import './DayPickerCustomStyles.css';
 
 const slotter1 = (props) => {
-  const { userpreview, setuserPreview } = props;
+  const { userpreview } = props;
   const location = useLocation();
   const dispatch: AppDispatch = useDispatch();
   const searchParams = new URLSearchParams(location.search);
@@ -40,7 +41,6 @@ const slotter1 = (props) => {
   const [date, setDate] = useState(null);
   const [change, setChange] = useState(false);
   const [select, setSelect] = useState(false);
-  const [footer, setFooter] = useState(false);
   const [divwidth, setWidth] = useState('500.5px');
   const [margin, setMargin] = useState('300px');
   const [confirm, setConfirm] = useState(false);
@@ -56,16 +56,21 @@ const slotter1 = (props) => {
   const [isProfile, setProfile] = useState(null);
   const [confromflag, SetConfromFlag] = useState(false);
   const [endDate, setEndDate] = useState(new Date());
+  // const [startFrom, setStartFrom] = useState(new Date());
+  // const [endFrom, setEndFrom] = useState(new Date());
+
   const [loader, setloader] = useState(false);
   const [availblity, setavailblity] = useState([]);
 
-  const { data, datetime, isLoading } = useSelector(
-    ({ schedulerReducers }: RootState) => ({
+  const { data, datetime, isLoading, interviewer, google, outlook } =
+    useSelector(({ schedulerReducers }: RootState) => ({
       isLoading: schedulerReducers.isLoading,
       data: schedulerReducers.data,
       datetime: schedulerReducers.datetime,
-    }),
-  );
+      interviewer: schedulerReducers.interviewer,
+      google: schedulerReducers.google,
+      outlook: schedulerReducers.outlook,
+    }));
 
   const { slotterdata, slotmembers, candidate_name, Loading } = useSelector(
     ({ slotterReducers }: RootState) => ({
@@ -76,11 +81,23 @@ const slotter1 = (props) => {
     }),
   );
   const candi_name = candidate_name ? candidate_name : 'candidate';
+
+  console.log("GGGGGGGGGGGGGGGGGG",google,outlook)
   useEffect(() => {
     const event_id = event;
     setloader(true);
     // dispatch(getAvailbleSlot(event));
-    axios.get(`${availbleslot}?pk=${event}`).then((res: any) => {
+    axios.get(`${availbleslot}?pk=${event}`, {
+      headers: {
+        Authorization: undefined // Setting to undefined will remove the "Authorization" header
+      },
+      transformResponse: [(datalist) => {
+        const parsedData = JSON.parse(datalist);
+        return parsedData;
+      }]
+    })
+    // axios.get(`${availbleslot}?pk=${event}`).
+    .then((res: any) => {
       console.log('resssss', res);
       if (res.data !== null) {
         const value = res.data.availbleslot;
@@ -89,9 +106,12 @@ const slotter1 = (props) => {
     });
 
     if (userpreview === undefined && uid !== null) {
-      dispatch(getSlotterMiddleware({ uid, event_id }));
+       dispatch(getSlotterMiddleware({ uid, event_id }));
+      
     }
     dispatch(getScheduleMiddleWare(event));
+
+    
   }, []);
 
   useEffect(() => {
@@ -130,18 +150,86 @@ const slotter1 = (props) => {
     return formattedDate;
   }
 
+  const dateconvert = (d) => {
+    console.log('dddddddddddddd', d);
+    const day = d.getDate().toString().padStart(2, '0');
+    const month = (d.getMonth() + 1).toString().padStart(2, '0'); // Months in JavaScript are 0-indexed
+    const year = d.getFullYear();
+    const value = `${day}/${month}/${year}`;
+    return value;
+  };
+
+  
+
+  const CalendarIntegration = (list, selecteddate, selectedtime) => {
+    console.log('listttttttttttttttt111111', list);
+
+    if (list !== null) {
+      console.log('44444444444', list.event_name, list.time_zone);
+      const formData = new FormData();
+      const [timeOffset, locations] = list.times_zone.split(' ');
+      const locationWithoutParentheses = locations.slice(1, -1);
+      const result = `${locationWithoutParentheses}`;
+      console.log('1111111111!!!!!!!!', result, typeof result);
+      const attendees = [];
+      formData.append('pk', JSON.stringify(event));
+      formData.append('title', list.event_name);
+      formData.append('date', selecteddate);
+      formData.append('time', selectedtime);
+      formData.append('timezone', result);
+      console.log("googlegoogle",google,"\n",outlook)
+
+      // if(google || outlook){
+        if (google) {
+          // alert("Google")
+          // attendees.push({ email: google})
+          interviewer?.map((datalist, index) => {
+            if(datalist.google_calendar !==  null){
+              attendees.push({ email: datalist.google_calendar });
+            }
+          });
+          formData.append('attendees', JSON.stringify(attendees));
+          dispatch(googleAddEventMiddleware({ formData }));
+        }
+        if (outlook) {
+          // alert("outlook")
+          interviewer?.map((datalist) => {
+            if(datalist.outlook_calendar !== null){
+              attendees.push(datalist.outlook_calendar);
+            }
+          });
+          formData.append('attendees', JSON.stringify(attendees));
+          dispatch(outlookAddEventMiddleware({ formData }));
+        }
+      // }
+      console.log('??/////////////', attendees);
+      // dispatch(googleAddEventMiddleware({ formData }));
+      // ["abineshnk@sense7ai.com","manojr@sense7ai.com"]
+    }
+  };
   const onSubmit = (selectdate11, selecttime11) => {
     setConfirm(true);
     SetConfromFlag(true);
     var event_id = eventid;
-    var selecteddate = formatDate(selectDate);
+    console.log('selectDate', selectDate);
+    var selecteddate = dateconvert(selectDate);
+    console.log(
+      'dateconvertdateconvertdateconvertdateconvertdateconvert',
+      dateconvert(selectDate),
+    );
     var selectedtime = selecttime11;
+    console.log("%%^%^%^^^",uid,event_id)
+    if (uid !== null && event_id !== null && userpreview === undefined  ){
+      // alert(uid)
     dispatch(
       getSlotterMiddleware({ uid, event_id, selecteddate, selectedtime }),
     );
+    console.log('dadadataaatatatatatata', data);
+    CalendarIntegration(data[0], selecteddate, selectedtime);
+  }
   };
 
-  const getinter = (inter) => {
+  const InterviewText = (inter) => {
     switch (inter) {
       case 'On-site Interview':
         return 'Offline Interview';
@@ -155,26 +243,44 @@ const slotter1 = (props) => {
         return inter;
     }
   };
+
+
+
   const timezones = (str) => {
-    const display = data.map((li: any) => li.times_zone_display);
-    if (
-      display.includes(
-        'Automatically detect and show the times in my invitees time zone',
-      )
-    ) {
-      const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      const offset = moment.tz(userTimezone).format('Z');
-      const userzone = `${userTimezone} (${offset})`;
-      return userzone;
-    } else if (
-      display.includes('Lock the timezone (best for in-person events)')
-    ) {
-      const [timeOffset, locations] = str.split(' ');
-      const locationWithoutParentheses = locations.slice(1, -1);
-      // Create the desired string format: "(Location) Time Offset"
-      const result = `${locationWithoutParentheses} (${timeOffset})`;
-      // settimezone(locationWithoutParentheses)
-      return result;
+    let timeszonesdisplay = ''
+    const display = data.map((li: any) => {
+     timeszonesdisplay =  li.times_zone_display}
+      );
+    console.log("display!@#",data,display,timeszonesdisplay)
+    if(timeszonesdisplay !== ''){
+      // if (
+      //   timeszonesdisplay === 
+      //     'Automatically detect and show the times in my invitees time zone'
+        
+      // ) {
+      //   const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      //   alert("userTimezone"+userTimezone)
+      //   const offset = moment.tz(userTimezone).format('Z');
+      //   const userzone1 = `${userTimezone} (${offset})`;
+      //   console.log("userzoneuserzoneuserzoneuserzone",userzone1)
+      //   return userzone1;
+      // 
+      if (
+        timeszonesdisplay === 'Lock the timezone (best for in-person events)'
+      ) {
+        const [timeOffset, locations] = str.split(' ');
+        const locationWithoutParentheses = locations.slice(1, -1);
+        // Create the desired string format: "(Location) Time Offset"
+        const result = `${locationWithoutParentheses} (${timeOffset})`;
+        // settimezone(locationWithoutParentheses)
+        return result;
+      }else{
+        const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const offset = moment.tz(userTimezone).format('Z');
+        const userzone1 = `${userTimezone} (${offset})`;
+        console.log("userzoneuserzoneuserzoneuserzone",userzone1)
+        return userzone1;
+      }
     }
   };
 
@@ -201,6 +307,9 @@ const slotter1 = (props) => {
 
   const timeDifference = targetTimezoneOffset - userTimezoneOffset;
 
+  // console.log("FFFFFFFFFFFFFFFFFOOOOOOOOOOOOOO",startFrom,endFrom)
+
+
   return (
     <Flex>
       <Flex height={'100%'} className={styles.element}>
@@ -211,10 +320,11 @@ const slotter1 = (props) => {
               isLoading={isLoading}
               slotterdata={slotterdata}
               slotmembers={slotmembers}
-              getinter={getinter}
+              InterviewText={InterviewText}
               dashboard={data}
               isProfile={isProfile}
               timezones={timezones}
+              candidate_name ={candi_name}
             />
           </Flex>
         ) : confromflag === false && dashboard === false ? (
@@ -223,7 +333,6 @@ const slotter1 = (props) => {
               isLoading={isLoading}
               event={eventid}
               response={data}
-              margin={margin}
               change={change}
               days={days}
               setSelect={setSelect}
@@ -236,7 +345,6 @@ const slotter1 = (props) => {
               divwidth={divwidth}
               setStartDate={setStartDate}
               setEndDate={setEndDate}
-              setMargin={setMargin}
               setselectedDate1={setselectedDate1}
               setWidth={setWidth}
               setChange={setChange}
@@ -247,21 +355,23 @@ const slotter1 = (props) => {
               selectDate={selectDate}
               setSelectDate={setSelectDate}
               candidate_name={candi_name}
-              getinter={getinter}
+              InterviewText={InterviewText}
               isProfile={isProfile}
               timezones={timezones}
               availbles={availblity}
+              formatDate={formatDate}
+              // startFrom = {startFrom}
+              // endFrom ={endFrom}
             />
           </Flex>
         ) : confromflag === true ? (
           <Flex height={'100%'}>
             <Conformpage
-              margin={margin}
               selecttime={selecttime}
               date={date}
               response={data}
               candidate_name={candi_name}
-              getinter={getinter}
+              InterviewText={InterviewText}
               isProfile={isProfile}
               timezones={timezones}
             />
@@ -274,65 +384,120 @@ const slotter1 = (props) => {
 
 const SlotterDate = (props) => {
   const {
-    event,
-    change,
     setselectedDate1,
-    setChange,
     setDate,
-    setActive,
     onSubmit,
-    days,
-    setDays,
     date,
     select,
     selecttime,
     setSelectTime,
-    // modifiers,
     setSelect,
-    divwidth,
     response,
-    setStartDate,
-    setEndDate,
-    datetime,
     finalIntervals,
     setfinalIntervals,
     setSelectDate,
     candidate_name,
-    getinter,
-    startDate,
-    endDate,
-    isProfile,
+    InterviewText,
     timezones,
     availbles,
     isLoading,
   } = props;
+  console.log('datetimedatetimeprops', props);
+  console.log('candidate_namecandidate_namecandidate_name', candidate_name);
 
   const [selectedRange, setSelectedRange] = useState({
     from: null,
     to: null,
   });
   const dispatch: AppDispatch = useDispatch();
-  const [startMonth, setstartMonth] = useState(null);
-  const [endMonth, setendMonth] = useState(null);
+  // const [startMonth, setstartMonth] = useState(null);
+  // const [endMonth, setendMonth] = useState(null);
   const [availability, setavailbility] = useState([]);
   const [useravailble, setuseravailble] = useState([]);
   const [timezone, settimezone] = useState('');
   const [candidate, setCandidate] = useState(candidate_name);
+  const [selectedDays, setselectedDays] = useState([]);
+  const [startOfMonth, setstartOfMonth] = useState(new Date());
+  const [endOfMonth, setendOfMonth] = useState(new Date());
+  const [defaultMonth, setdefaultMonth] = useState('');
+  const [startFrom, setStartFrom] = useState(new Date(2023,9-1,4));
+  const [endFrom, setEndFrom] = useState(new Date(2023,11,4));
 
   useEffect(() => {
     mount();
-  }, [response, timezone]);
+    const startMonth = convertmonth(selectedRange.from);
+    setstartOfMonth(startMonth);
+    const endMonth = convertmonth(selectedRange.to);
+    console.log('************', startMonth, endMonth);
+    setendOfMonth(endMonth);
+  }, [response, timezone, availbles,]);
+
+  const DateFormatShow = (dateString)=> {
+    console.log("dateStringdateStringdateStringdateStringdateString",dateString)
+    if( dateString !== "" && dateString !== undefined){
+
+      var parts = dateString.split("/");
+      var dateObject = new Date(parts[2], parts[1] - 1 , parts[0]);
+      console.log("KKKKKKKKKKKKKKKK",dateObject)
+      return dateObject
+    }
+    return null
+  }
+
+  useEffect(()=> {
+    if(response.length > 0 && response !== undefined){
+      
+      response.map((start)=>{
+        if(start.startdate !== null  && start.enddate !== null){
+          // alert('&^&')
+          console.log("starkkkkkkkkkkkkkt",start)
+         
+
+          const smonth = DateFormatShow(start.startdate)
+          const startmonth = smonth !== null ?  smonth : "Invalid Date";
+
+          if(startmonth !== "Invalid Date" ){
+            // alert(startmonth)
+            setStartFrom(startmonth)
+          }
+          const emonth = DateFormatShow(start.enddate)
+          const endmonth = emonth !== null ?  smonth : "Invalid Date";
+          if(endmonth !== "Invalid Date"  ){
+            // alert(endmonth)
+
+            setEndFrom(endmonth)
+          }
+          console.log("endmonthendmonthendmonthendmonth",endmonth,start.enddate)
+          console.log("FFFFFFFFFFFFFFFFFF",startFrom,endFrom)
+        }
+      })
+    }
+
+  },[response])
+
 
   const dateObject = availbles;
   const allDatesArray = Object.keys(dateObject);
-  const dateObjectsArray = allDatesArray.map((dateString) => {
+  const today = new Date();
+  console.log('today.toLocaleString()', today.toDateString());
+  const dateObjectsArray = allDatesArray.reduce((datesArray, dateString) => {
     const parts = dateString.split('/');
     const year = parseInt(parts[2], 10);
     const month = parseInt(parts[1], 10) - 1; // Months in JavaScript are 0-indexed
     const day = parseInt(parts[0], 10);
-    return new Date(year, month, day);
-  });
+    const dates = new Date(year, month, day);
 
+    // Check if the current date is not today's date
+    console.log('datesdates', dates);
+    if (dates > today || dates.toDateString() === today.toDateString()) {
+      console.log('todaytodaytoday', today, 'dates', dates);
+      datesArray.push(dates);
+    }
+    console.log('datesArraydatesArray', datesArray);
+    return datesArray;
+  }, []);
+
+  console.log('availblesavailblesavailblesavailbles', availbles);
   const mount = () => {
     if (availbles !== undefined) {
       setuseravailble(availbles);
@@ -345,14 +510,6 @@ const SlotterDate = (props) => {
           from: list.startdate,
           to: list.enddate,
         });
-
-        const schedule = schdulearray(
-          list.startdate,
-          list.enddate,
-          list.times_zone,
-        );
-
-        // setEndDate(enddate);
       });
     }
   };
@@ -375,61 +532,71 @@ const SlotterDate = (props) => {
     }
   };
 
-  const schdulearray = (start, end, time) => {
-    const excludedWeekdays = [];
-    // const exclude = datetime
-
-    if (
-      !Object.prototype.hasOwnProperty.call(datetime, 'sunday') ||
-      datetime.sunday.length === 0
-    ) {
-      excludedWeekdays.push(0);
+  const convertmonth = (selectMonth: any) => {
+    if (selectMonth) {
+      const [dayFrom, monthFrom, yearFrom] = selectMonth.split('/').map(Number);
+      const dateFrom = new Date(yearFrom, monthFrom - 1, dayFrom);
+      console.log('>>>>>>>', dateFrom);
+      return dateFrom;
     }
-    if (
-      !Object.prototype.hasOwnProperty.call(datetime, 'monday') ||
-      datetime.monday.length === 0
-    ) {
-      excludedWeekdays.push(1);
-    }
-    if (
-      !Object.prototype.hasOwnProperty.call(datetime, 'tuesday') ||
-      datetime.tuesday.length === 0
-    ) {
-      excludedWeekdays.push(2);
-    }
-    if (
-      !Object.prototype.hasOwnProperty.call(datetime, 'wednesday') ||
-      datetime.wednesday.length === 0
-    ) {
-      excludedWeekdays.push(3);
-    }
-    if (
-      !Object.prototype.hasOwnProperty.call(datetime, 'thursday') ||
-      datetime.thursday.length === 0
-    ) {
-      excludedWeekdays.push(4);
-    }
-    if (
-      !Object.prototype.hasOwnProperty.call(datetime, 'friday') ||
-      datetime.friday.length === 0
-    ) {
-      excludedWeekdays.push(5);
-    }
-    if (
-      !Object.prototype.hasOwnProperty.call(datetime, 'saturday') ||
-      datetime.saturday.length === 0
-    ) {
-      excludedWeekdays.push(6);
-    }
-    const schedule = calculateSchedule(start, excludedWeekdays, end, time);
-    setavailbility(schedule);
   };
+
+  // const schdulearray = (start, end, time) => {
+  //   const excludedWeekdays = [];
+  //   // const exclude = datetime
+
+  //   if (
+  //     !Object.prototype.hasOwnProperty.call(datetime, 'sunday') ||
+  //     datetime.sunday.length === 0
+  //   ) {
+  //     excludedWeekdays.push(0);
+  //   }
+  //   if (
+  //     !Object.prototype.hasOwnProperty.call(datetime, 'monday') ||
+  //     datetime.monday.length === 0
+  //   ) {
+  //     excludedWeekdays.push(1);
+  //   }
+  //   if (
+  //     !Object.prototype.hasOwnProperty.call(datetime, 'tuesday') ||
+  //     datetime.tuesday.length === 0
+  //   ) {
+  //     excludedWeekdays.push(2);
+  //   }
+  //   if (
+  //     !Object.prototype.hasOwnProperty.call(datetime, 'wednesday') ||
+  //     datetime.wednesday.length === 0
+  //   ) {
+  //     excludedWeekdays.push(3);
+  //   }
+  //   if (
+  //     !Object.prototype.hasOwnProperty.call(datetime, 'thursday') ||
+  //     datetime.thursday.length === 0
+  //   ) {
+  //     excludedWeekdays.push(4);
+  //   }
+  //   if (
+  //     !Object.prototype.hasOwnProperty.call(datetime, 'friday') ||
+  //     datetime.friday.length === 0
+  //   ) {
+  //     excludedWeekdays.push(5);
+  //   }
+  //   if (
+  //     !Object.prototype.hasOwnProperty.call(datetime, 'saturday') ||
+  //     datetime.saturday.length === 0
+  //   ) {
+  //     excludedWeekdays.push(6);
+  //   }
+  //   const schedule = calculateSchedule(start, excludedWeekdays, end, time);
+  //   setavailbility(schedule);
+  // };
   const dateconvert = (formattedDate) => {
     const convertedDate = moment(formattedDate).format('DD/MM/YYYY');
     return convertedDate;
   };
   const AvailbleSlots = (datetimes) => {
     const check = dateconvert(datetimes);
+    console.log("datetimesdatetimes*********",check)
     const filteredData = Object.fromEntries(
       Object.entries(useravailble).filter(([key, value]) => key === check),
     );
@@ -444,52 +611,49 @@ const SlotterDate = (props) => {
     const userTimeZone = 0;
     const adjustedDay = day === currentDay ? day : currentDay;
 
-    const saturdayslot = generateIntervals(
-      filteredData[check],
-      intervalSeconds,
-    );
-    setfinalIntervals(saturdayslot);
+    const timeslot = generateIntervals(filteredData[check], intervalSeconds,check);
+    setfinalIntervals(timeslot);
   };
 
-  const conversion = (data: any) => {
-    return data?.map((obj) => {
-      const { day, ...rest } = obj; // Destructure the "day" property
-      return rest; // Return the object without the "day" property
-    });
-  };
+  // const conversion = (data: any) => {
+  //   return data?.map((obj) => {
+  //     const { day, ...rest } = obj; // Destructure the "day" property
+  //     return rest; // Return the object without the "day" property
+  //   });
+  // };
   const convertion = (dateStr) => {
     const momentObj = moment(dateStr, 'DD/MM/YYYY');
     const formattedDate = momentObj.format('ddd MMM DD YYYY HH:mm:ss [GMT]ZZ');
     return formattedDate;
   };
 
-  const calculateSchedule = (starDate, excludedWeekdays, enDate, tz) => {
-    if (tz !== null && tz !== undefined) {
-      const tzone = tz;
-      // moment.tz.setDefault(tzone);
-      const schedule = [];
-      const startdate = convertion(starDate);
-      const enddate = convertion(enDate);
-      let currentDate = moment.tz(startdate, tzone).startOf('day');
-      const lastDate = moment.tz(enddate, tzone).startOf('day');
-      while (currentDate.isSameOrBefore(lastDate)) {
-        const weekday = currentDate.weekday();
-        if (!excludedWeekdays.includes(weekday)) {
-          schedule.push(currentDate.toDate());
-        }
-        currentDate = currentDate.add(1, 'day');
-      }
-      return schedule;
-    }
-  };
+  // const calculateSchedule = (starDate, excludedWeekdays, enDate, tz) => {
+  //   if (tz !== null && tz !== undefined) {
+  //     const tzone = tz;
+  //     // moment.tz.setDefault(tzone);
+  //     const schedule = [];
+  //     const startdate = convertion(starDate);
+  //     const enddate = convertion(enDate);
+  //     let currentDate = moment.tz(startdate, tzone).startOf('day');
+  //     const lastDate = moment.tz(enddate, tzone).startOf('day');
+  //     while (currentDate.isSameOrBefore(lastDate)) {
+  //       const weekday = currentDate.weekday();
+  //       if (!excludedWeekdays.includes(weekday)) {
+  //         schedule.push(currentDate.toDate());
+  //       }
+  //       currentDate = currentDate.add(1, 'day');
+  //     }
+  //     return schedule;
+  //   }
+  // };
 
-  const getTimeSlotsForDay = (dat, timezuone) => {
-    return [
-      { startTime: '9:00 AM', endTime: '10:00 AM' },
-      { startTime: '11:30 AM', endTime: '1:00 PM' },
-      { startTime: '2:30 PM', endTime: '4:00 PM' },
-    ];
-  };
+  // const getTimeSlotsForDay = (dat, timezuone) => {
+  //   return [
+  //     { startTime: '9:00 AM', endTime: '10:00 AM' },
+  //     { startTime: '11:30 AM', endTime: '1:00 PM' },
+  //     { startTime: '2:30 PM', endTime: '4:00 PM' },
+  //   ];
+  // };
 
   const onDateChange = (datetimes: any) => {
     const currentDate = new Date(datetimes);
@@ -500,6 +664,7 @@ const SlotterDate = (props) => {
       currentDate.setHours(0, 0, 0, 0);
       return scheduleDate.getTime() === currentDate.getTime();
     });
+    console.log('$%^&*(O)P){', dateObjectsArray, isInSchedule);
 
     if (isInSchedule) {
       AvailbleSlots(datetimes);
@@ -507,7 +672,7 @@ const SlotterDate = (props) => {
       const formattedDate = datetimes.toLocaleDateString('en-US', options);
       setDate(formattedDate);
       setSelectTime('');
-      setSelectDate(formattedDate);
+      setSelectDate(datetimes);
       setselectedDate1(datetimes);
     } else {
       setDate(null);
@@ -518,8 +683,17 @@ const SlotterDate = (props) => {
 
   const selectbutton = (obj) => {
     const { index, value } = obj;
-    setSelect(true);
-    setSelectTime(obj);
+    if (select === false) {
+      setSelect(true);
+      setSelectTime(obj);
+    } 
+    // else if (obj === selecttime) {
+    //   setSelect(false);
+    //   setSelectTime('');
+    // } 
+    else {
+      setSelectTime(obj);
+    }
   };
 
   function parseTime(time) {
@@ -532,7 +706,25 @@ const SlotterDate = (props) => {
     return [hour, minute];
   }
 
-  function generateIntervals(timeBreaks, intervalMinutes) {
+  function getTimeIn12HrsFormat(currentTime) {
+      // const date = new Date(currentTime);
+      let hours = currentTime.getHours();
+      let minutes = currentTime.getMinutes();
+      const ampm = hours >= 12 ? "pm" : "am";
+      hours = hours % 12 || 12;
+      minutes = minutes < 10 ? 0 : minutes;
+      const timeIn12HourFormat = `${hours}:${minutes} ${ampm}`;
+      return timeIn12HourFormat
+  }
+  
+  // Usage example:
+  // const date = new Date();
+  // const time12HrsFormat = getTimeIn12HrsFormat(date);
+  // console.log(time12HrsFormat); // Output: "3:30 PM" (assuming the current time is 3:30 PM)
+  
+
+  function generateIntervals(timeBreaks, intervalMinutes,datetimes) {
+    console.log('timeBreakstimeBreaks', timeBreaks, intervalMinutes,datetimes);
     const intervals12 = [];
     // const intervals24 = [];
     for (const timeBreak of timeBreaks) {
@@ -542,6 +734,7 @@ const SlotterDate = (props) => {
       const [endHour, endMinute] = parseTime(endtime);
       let currentHour = startHour;
       let currentMinute = startMinute;
+      console.log("startHourstartHour",startHour,"\n","endHourendHour",endHour)
       while (
         currentHour < parseInt(endHour, 10) ||
         (currentHour === parseInt(endHour, 10) &&
@@ -558,7 +751,7 @@ const SlotterDate = (props) => {
 
         if (currentMinute >= 60) {
           currentHour++;
-          currentMinute -= 60;
+        currentMinute -= 60;
         }
 
         // Check if the current time exceeds the end time
@@ -575,10 +768,27 @@ const SlotterDate = (props) => {
         const formattedEndMinute = currentMinute.toString().padStart(2, '0');
         const endAmPm = currentHour < 12 && currentHour > 6 ? 'am' : 'pm';
         const endInterval12 = `${formattedEndHour12}:${formattedEndMinute} ${endAmPm}`;
-        const interval12 = `${startInterval12} - ${endInterval12}`;
-        intervals12.push(interval12);
+        const currentDate = dateconvert(new Date())
+        const currenttime = new Date()
+        console.log("currentDatecurrentDatecurrentDatecurrentDatecurrentDate",currentDate,datetimes)
+        const time = getTimeIn12HrsFormat(currenttime);
+        // time = getTimeIn12HrsFormat(time)
+        console.log("endInterval12endInterval12",endInterval12,time,"\n","currenttime",currenttime)
+        if(currentDate.toString() === datetimes){
+          if(time < endInterval12 && endInterval12 < '9:00'){
+
+            const interval12 = `${startInterval12} - ${endInterval12}`;
+            console.log("interval12interval12",interval12)
+            intervals12.push(interval12);
+          }
+        }else{
+          const interval12 = `${startInterval12} - ${endInterval12}`;
+          console.log("interval12interval12",interval12)
+          intervals12.push(interval12);
+        }
       }
     }
+    console.log("====================",intervals12)
     return intervals12;
   }
 
@@ -597,6 +807,7 @@ const SlotterDate = (props) => {
     },
   };
 
+  console.log('dateObjectsArray::::::::', dateObjectsArray);
   const WEEKDAYS_LONG = [
     'Dimanche',
     'Lundi',
@@ -608,13 +819,36 @@ const SlotterDate = (props) => {
   ];
   const WEEKDAYS_SHORT = ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'];
   const currentDate = new Date();
-  const startOfMonth = new Date(selectedRange.from);
-  const endOfMonth = new Date(selectedRange.to);
+
+  // if(selectedRange !== null){
+  // const startOfMonth = convertmonth(selectedRange.from);
+  // const endOfMonth = convertmonth(selectedRange.to);
+  // console.log('************', startOfMonth, endOfMonth);
+  // }
+
+  // const startOfMonth = new Date(selectedRange.from); // July 2023
+  // const endOfMonth = new Date(selectedRange.to); // July 2023
+
+  // useEffect(() => {}, [startOfMonth, endOfMonth]);
 
   if (isLoading) {
     return <Loader />;
   }
 
+  // const defaultMonth = new Date(2023,11,1);
+
+  console.log('selectedtimeselectedtimeselectedtime', selecttime);
+
+  console.log(
+    'selectedDaysselectedDaysselectedDaysselectedDays',
+    "startFrom",startFrom,"\n",
+    "endFrom",endFrom,"\n",    
+    defaultMonth,'\n',
+    startOfMonth,'\n',
+    endOfMonth,'\n'
+  );
+
+  console.log("timezonetimezonetimezonetimezonetimezonetimezonetimezone",timezone)
   return (
     <Flex height={'100%'}>
       <Flex row center className={styles.banner}>
@@ -626,13 +860,27 @@ const SlotterDate = (props) => {
       <Flex height={'100%'} className={styles.slotcontainer}>
         {response?.map((data, item) => (
           <Flex key={item} className={styles.slotter}>
-            <Flex >
+            <Flex>
               <Flex row>
                 <Flex flex={4} className={styles.leftside}>
                   <Flex row center>
-                    {data.company_logo !== '' ? (
-                      <img
-                        src={`${process.env.REACT_APP_HOME_URL}media/${data.company_logo}`}
+                    {console.log("data.company_logo",data.company_logo)}
+                    {data.company_logo !== '' ? (        
+                      // data.company_logo.includes("company_logo") ?
+                      // ( <img
+                      //   src={`${process.env.REACT_APP_HOME_URL}media/${data.company_logo}`}
+                      //   alt="Company Logo"
+                      //   style={{
+                      //     width: '36px',
+                      //     height: '36px',
+                      //     borderRadius: '50%',
+                      //   }}
+                      // />
+
+
+                      // ):(
+                        <img
+                        src={`${process.env.REACT_APP_HOME_URL}media/company_logo/${data.company_logo}`}
                         alt="Company Logo"
                         style={{
                           width: '36px',
@@ -640,20 +888,31 @@ const SlotterDate = (props) => {
                           borderRadius: '50%',
                         }}
                       />
+                       
+                      // )       
+
+                     
+                      
                     ) : (
                       ''
                     )}
+                    {data.company_logo !== '' ? (
                     <Text size={14} bold style={{ marginLeft: '5px' }}>
                       {data.company_name}
                     </Text>
+                    ) : (
+                      <Text size={14} bold style={{ marginLeft: '0px' }}>
+                      {data.company_name}
+                    </Text>
+                    )}
                   </Flex>
                   <Flex marginBottom={10} marginTop={10}>
-                    <Text size={14}>Hi {candidate_name},</Text>
-                    <Text>
+                    <Text size={13}>Hi {candidate_name},</Text>
+                    <Text size={13}>
                       {`you have been selected for an ${data.event_name} at 
                    ${data.company_name}.`}
                     </Text>
-                    <Text style={{ marginTop: '5px' }}>
+                    <Text size={13} style={{ marginTop: '5px' }}>
                       Pick a time and date.
                     </Text>
                   </Flex>
@@ -666,13 +925,13 @@ const SlotterDate = (props) => {
                   </Flex>
                   <Flex row center marginBottom={10}>
                     <SvgClock width={14} height={14} fill={'#581845'} />
-                    <Text size={14} style={{ marginLeft: '5px' }}>
+                    <Text size={13} style={{ marginLeft: '5px' }}>
                       {data.duration}
                     </Text>
                   </Flex>
                   <Flex row center marginBottom={10}>
                     <SvgGlobe width={14} height={14} fill={'#581845'} />
-                    <Text size={14} style={{ marginLeft: '5px' }}>
+                    <Text size={13} style={{ marginLeft: '5px' }}>
                       Time zone is {timezones(data.times_zone)}
                     </Text>
                   </Flex>
@@ -681,8 +940,8 @@ const SlotterDate = (props) => {
                       <SvgInfo width={14} height={14} fill={'#581845'} />
                     </Flex>
 
-                    <Text size={14} style={{ marginLeft: '5px' }}>
-                      This is an {getinter(data.event_type)}.Please come
+                    <Text size={13} style={{ marginLeft: '5px' }}>
+                      This is an {InterviewText(data.event_type)}.Please come
                       prepared with the technical aspects of your work
                       experience along with your CV/Resume
                     </Text>
@@ -690,38 +949,51 @@ const SlotterDate = (props) => {
                   {/* <div className={styles.line}></div> */}
                 </Flex>
                 <Flex flex={4} className={styles.rightside}>
+                  <div style={{marginLeft : "90px"}}>
                   <DayPicker
-                    locale={enUS}
+                    // locale={enUS}
                     mode="single"
                     styles={{
                       months: {
                         color: '#581845',
                       },
+                      
                     }}
-                    onSelect={setDays}
-                    fromMonth={startOfMonth}
-                    toMonth={endOfMonth}
+                    defaultMonth={dateObjectsArray[0]}
+                    // onSelect={setDays}
+                    // fromMonth={dateObjectsArray[0]}
+                    // toMonth={dateObjectsArray[dateObjectsArray.length-1]}
                     className="custom-daypicker"
-                    fromDate={startDate}
-                    toDate={endDate}
+                    // fromDate={dateObjectsArray[0]}
+                    // toDate={dateObjectsArray[dateObjectsArray.length-1]}
                     onDayClick={(e) => onDateChange(e)}
                     modifiers={modifiers}
                     modifiersStyles={modifiersStyles}
                   />
+                  </div>
                 </Flex>
               </Flex>
 
-              <Flex>{date ? <div className={styles.line} style={{margin:"10px 0px"}}></div> : ''}</Flex>
               <Flex>
                 {date ? (
-                  <Text size={14} bold>
+                  <div
+                    className={styles.line}
+                    style={{ margin: '10px 0px' }}
+                  ></div>
+                ) : (
+                  ''
+                )}
+              </Flex>
+              <Flex>
+                {date ? (
+                  <Text size={13} bold>
                     Availability for {date}
                   </Text>
                 ) : (
                   ''
                 )}
-                <Flex row wrap className={styles.select}>
-                  {finalIntervals?.length > 0 &&
+                <Flex row wrap className={styles.select} marginTop={10}>
+                  {finalIntervals?.length > 0 && 
                     finalIntervals?.map((obj, index) => (
                       <button
                         className={styles.button1}
@@ -732,10 +1004,11 @@ const SlotterDate = (props) => {
                       </button>
                     ))}
                 </Flex>
+               
                 {selecttime ? (
-                  <Flex end className={styles.content}marginTop={20}>
+                  <Flex end className={styles.content} marginTop={20}>
                     <Button
-                      style={{marginTop:"20px"}}
+                      style={{ marginTop: '20px' }}
                       onClick={() => onSubmit(date, selecttime)}
                     >
                       Schedule
@@ -754,51 +1027,13 @@ const SlotterDate = (props) => {
 };
 const Conformpage = (props) => {
   const {
-    margin,
     selecttime,
     date,
-    time_zone,
     response,
-    getinter,
-    isProfile,
+    InterviewText,
     timezones,
   } = props;
 
-  useEffect(() => {
-    // mount();
-  }, []);
-  const googleaddevent = async () => {
-    const addevent = {
-      summary: 'heloo',
-      description: 'googleadd event',
-      start: {
-        datetime: Date.now(),
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-      },
-      end: {
-        datetime: Date.now(),
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-      },
-    };
-
-    const events = await fetch(
-      'https://www.googleapis.com/calendar/v3/calendars/primary/events',
-      {
-        method: 'POST',
-        headers: {
-          Authorization:
-            'Bearer' +
-            'ya29.a0AbVbY6MrtjxCaueL5oYyKaU73Lqro_oJOvBwDGZ-pVeqCxGNGg3uWvQFbDufFZ9gbu7pdHervKGeeZYTmoS3wzMQSrag1yzk5tqZf67D8iYqjTivkKc6t_27jqvGrLvkyAvK9d3hWRGU2U9JxeC72g3f5yOoaCgYKAYkSARISFQFWKvPlo5LDr5gDd7__fd2zTjjFjA0163',
-        },
-        body: JSON.stringify(addevent),
-      },
-    )
-      .then((data) => {
-        return data.json();
-      })
-      .then((data) => {})
-      .then((err) => {});
-  };
   return (
     <Flex className={styles.successTick}>
       <SvgZitaLogo width={240} height={125} />
@@ -812,18 +1047,30 @@ const Conformpage = (props) => {
               </Text>
             </Flex>
             <Flex row center marginTop={15}>
-              <img
-                src={`${process.env.REACT_APP_HOME_URL}media/${list.company_logo}`}
-                alt="Company Logo"
-                style={{ width: '36px', height: '36px', borderRadius: '50%' }}
-              />
-              <Text
-                bold
-                size={14}
-                style={{ marginLeft: '5px', textTransform: 'capitalize' }}
-              >
-                {list.company_name}
-              </Text>
+              {list.company_logo ? (
+                <>
+                  <img
+                    src={`${process.env.REACT_APP_HOME_URL}media/${list.company_logo}`}
+                    alt="Company Logo"
+                    style={{
+                      width: '36px',
+                      height: '36px',
+                      borderRadius: '50%',
+                    }}
+                  />
+                </>
+              ) : (
+                ''
+              )}
+               {list.company_logo !== '' ? (
+                    <Text size={14} bold style={{ marginLeft: '5px' }}>
+                      {list.company_name}
+                    </Text>
+                    ) : (
+                      <Text size={14} bold style={{ marginLeft: '0px' }}>
+                      {list.company_name}
+                    </Text>
+                    )}
             </Flex>
             <Text
               bold
@@ -834,19 +1081,19 @@ const Conformpage = (props) => {
             </Text>
             <Flex row center marginBottom={10}>
               <SvgCalendarEvent width={14} height={14} fill={'#581845'} />
-              <Text size={14} style={{ marginLeft: '5px' }}>
+              <Text size={13} style={{ marginLeft: '5px' }}>
                 {selecttime},{date}
               </Text>
             </Flex>
             <Flex row center marginBottom={10}>
               <SvgClock width={14} height={14} fill={'#581845'} />
-              <Text size={14} style={{ marginLeft: '5px' }}>
+              <Text size={13} style={{ marginLeft: '5px' }}>
                 {list.duration}
               </Text>
             </Flex>
             <Flex row center marginBottom={10}>
               <SvgGlobe width={14} height={14} fill={'#581845'} />
-              <Text size={14} style={{ marginLeft: '5px' }}>
+              <Text size={13} style={{ marginLeft: '5px' }}>
                 Time zone is {timezones(list.times_zone)}
               </Text>
             </Flex>
@@ -855,19 +1102,14 @@ const Conformpage = (props) => {
                 <SvgInfo width={14} height={14} fill={'#581845'} />
               </Flex>
 
-              <Text size={14} style={{ marginLeft: '5px' }}>
-                This is an {getinter(list.event_type)}.Please come prepared with
+              <Text size={13} style={{ marginLeft: '5px' }}>
+                This is an {InterviewText(list.event_type)}.Please come prepared with
                 the technical aspects of your work experience along with
                 CV/Resume
               </Text>
             </Flex>
 
-            <div className={styles.line} style={{ margin: '20px 0px' }}></div>
-            <Flex row center middle>
-              <Button types="secondary" onClick={googleaddevent}>
-                Add to your calendar
-              </Button>
-            </Flex>
+           
           </Flex>
         ))}
       </Flex>
@@ -877,54 +1119,44 @@ const Conformpage = (props) => {
 
 const InterviewDashBoard = (props) => {
   const {
-    margin,
     slotterdata,
     slotmembers,
-    getinter,
-    isProfile,
-    setloader,
+    InterviewText,
     dashboard,
     timezones,
     Loading,
     isLoading,
+    candidate_name
   } = props;
 
-  const mergedArray = [...dashboard, ...slotterdata];
+  useEffect(() => {});
 
-  useEffect(() => {
-    // setloader(true);
-  });
-
-  const formatDate = (dateStr) => {
+  const formatDateChange = (dateString) => {
     // const dateStr = '02/08/2023';
-    const date = new Date(dateStr);
-    const options: Intl.DateTimeFormatOptions = {
-      weekday: 'long',
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-    };
-    const formattedDate = date.toLocaleDateString('en-US', options);
-
+    const months = [
+      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+  
+    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  
+    const [day, month, year] = dateString.split("/");
+    const date = new Date(year, month - 1, day);
+    const dayOfWeek = daysOfWeek[date.getDay()];
+    const formattedDate = `${dayOfWeek}, ${months[parseInt(month) - 1]} ${day}, ${year}`;
+  
     return formattedDate;
-  };
-
-  const addtocalender = () => {
-    const eventTitle = 'My Event';
-    const startDate = new Date('2023-08-02T09:45:00');
-    const endDate = new Date('2023-08-02T10:00:00');
-    const teamsCalendarLink = `https://teams.microsoft.com/l/meeting/new?
-    subject=${encodeURIComponent(
-      eventTitle,
-    )}&startTime=${startDate.toISOString()}&endTime=${endDate.toISOString()}`;
   };
 
   if (Loading) {
     return <Loader />;
   }
-  if (isLoading) {
-    return <Loader />;
-  }
+  // if (isLoading) {
+  //   return <Loader />;
+  // }
+
+
+  console.log("slotterdataslotterdataslotterdataslotterdata",slotterdata)
   return (
     <Flex className={styles.successTick}>
       <SvgZitaLogo width={240} height={125} />
@@ -932,42 +1164,54 @@ const InterviewDashBoard = (props) => {
         {dashboard.map((list: any, index) => (
           <Flex key={index} className={styles.dashboard}>
             <Flex row center>
-              <img
-                src={`${process.env.REACT_APP_HOME_URL}media/${list.company_logo}`}
-                alt="Company Logo"
-                style={{ width: '36px', height: '36px', borderRadius: '50%' }}
-              />
-              <Text
-                bold
-                size={14}
-                style={{ marginLeft: '5px', textTransform: 'capitalize' }}
-              >
-                {list.company_name}
-              </Text>
+              {list.company_logo ? (
+                <>
+                  <img
+                    src={`${process.env.REACT_APP_HOME_URL}media/${list.company_logo}`}
+                    alt="Company Logo"
+                    style={{
+                      width: '36px',
+                      height: '36px',
+                      borderRadius: '50%',
+                    }}
+                  />
+                </>
+              ) : (
+                ''
+              )}
+               {list.company_logo !== '' ? (
+                    <Text size={14} bold style={{ marginLeft: '5px' }}>
+                      {list.company_name}
+                    </Text>
+                    ) : (
+                      <Text size={14} bold style={{ marginLeft: '0px' }}>
+                      {list.company_name}
+                    </Text>
+                    )}
             </Flex>
             <Text
               bold
-              size={14}
+              size={13}
               style={{ margin: '10px 0px', textTransform: 'capitalize' }}
             >
               {list.event_name}
             </Text>
             <Flex row center marginBottom={10}>
               <SvgCalendarEvent width={14} height={14} fill={'#581845'} />
-              <Text size={14} style={{ marginLeft: '5px' }}>
+              <Text size={13} style={{ marginLeft: '5px' }}>
                 {slotterdata.map((li) => li.time)} ,{' '}
-                {slotterdata.map((li) => formatDate(li.date))}
+                {slotterdata.map((li) => formatDateChange(li.date))}
               </Text>
             </Flex>
             <Flex row center marginBottom={10}>
               <SvgClock width={14} height={14} fill={'#581845'} />
-              <Text size={14} style={{ marginLeft: '5px' }}>
+              <Text size={13} style={{ marginLeft: '5px' }}>
                 {list.duration}
               </Text>
             </Flex>
             <Flex row center marginBottom={10}>
               <SvgGlobe width={14} height={14} fill={'#581845'} />
-              <Text style={{ marginLeft: '5px' }}>
+              <Text style={{ marginLeft: '5px' }} size={13}>
                 Time zone is {timezones(list.times_zone)}
               </Text>
             </Flex>
@@ -976,8 +1220,8 @@ const InterviewDashBoard = (props) => {
                 <SvgInfo width={14} height={14} fill={'#581845'} />{' '}
               </Flex>
 
-              <Text size={14} style={{ marginLeft: '5px' }}>
-                This is an {getinter(list.event_type)}.Please come prepared with
+              <Text size={13} style={{ marginLeft: '5px' }}>
+                This is an {InterviewText(list.event_type)}.Please come prepared with
                 the technical aspects of your work experience along with
                 CV/Resume
               </Text>
@@ -993,10 +1237,10 @@ const InterviewDashBoard = (props) => {
                 <Text bold size={14} style={{ marginLeft: '5px' }}>
                   Candidate / Applicant
                 </Text>
-                <Text
+                <Text size={13}
                   style={{ marginLeft: '5px', textTransform: 'capitalize' }}
                 >
-                  {slotterdata.map((li) => li.candidate_id__first_name)}
+                  {candidate_name}
                 </Text>
               </Flex>
             </Flex>
@@ -1010,19 +1254,12 @@ const InterviewDashBoard = (props) => {
                 <Text bold style={{ marginLeft: '5px' }}>
                   Interviewer(s)
                 </Text>
-                <Text
+                <Text size={13}
                   style={{ marginLeft: '5px', textTransform: 'capitalize' }}
                 >
                   {slotmembers.map((data) => data.full_name).join(', ')}
                 </Text>
               </Flex>
-            </Flex>
-            <div className={styles.line} style={{ margin: '20px 0px' }}></div>
-
-            <Flex row center middle>
-              <Button types="secondary" onClick={() => addtocalender()}>
-                Add to your calendar
-              </Button>
             </Flex>
           </Flex>
         ))}

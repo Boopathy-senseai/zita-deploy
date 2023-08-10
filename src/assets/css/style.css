@@ -1909,19 +1909,26 @@ input:-webkit-autofill:active {
   margin-bottom: 5px !important;
 }
 .rdp-head_cell {
-  font-size: 14px !important;
-  color: #333 !important;
+  vertical-align: middle;
+  font-size: 0.75em;
+  font-weight: 700;
+  text-align: center;
+  height: 100%;
+  height: var(--rdp-cell-size);
+  padding: 20px;
+  text-transform: uppercase;
 }
 .rdp-caption_label {
   font-size: 14px !important;
   padding: 0 !important;
   color: #333 !important;
+  margin-bottom: 10px;
 }
 .rdp-cell {
   color: #333 !important;
 }
 .rdp {
-  margin: 0px 0px 10px 0px !important;
+  margin: 10px 0px 10px 0px !important;
 }
 .rdp-button:hover:not([disabled]):not(.rdp-day_selected) {
   background-color: #d7c7d2 !important;
@@ -1934,13 +1941,14 @@ input:-webkit-autofill:active {
 }
 
 .rdp-day_today:not(.rdp-day_outside) {
-  background-color: #581845 !important;
-  color: white !important;
-  font-weight: normal !important;
+  /* background-color: #581845 !important; */
+  color: black !important;
+  font-weight: bold !important;
 }
 
 .rdp-caption{
   margin-left: 15px;
+  margin-bottom: 10px;
 }
 .daterangepicker td.in-range{
  background-color: #d7c7d2 !important;
@@ -1956,7 +1964,14 @@ input:-webkit-autofill:active {
 .daterangepicker .drp-buttons .btn{
   text-transform: capitalize;
 }
-.react-datepicker__day--keyboard-selected:hover{
+daterangepicker td.off, .daterangepicker td.off.in-range, .daterangepicker td.off.start-date, .daterangepicker td.off.end-date {
+  background-color: #fff;
+  border-color: transparent;
+  color: #999;
+}
+/* .rdp-head_cell{
+  padding-right: 20px;
+} */.react-datepicker__day--keyboard-selected:hover{
   background-color: #581845 !important;
 }
 .react-datepicker__day--keyboard-selected{

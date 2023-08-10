@@ -272,9 +272,14 @@ export const getGoogleEventsMiddleware = createAsyncThunk(
 
 export const googleAddEventMiddleware = createAsyncThunk(
   'google_add_event',
-  async (_a, { rejectWithValue }) => {
+  async ({ formData} : any, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(googleAddEvent);
+      const config = { transformRequest: (_a, headers) => { delete headers.common.Authorization; } } 
+      const { data } = await axios.post(googleAddEvent,formData,{
+        headers :{
+          Authorization: undefined, 
+        }
+      });
       return data;
     } catch (error) {
       const typedError = error as Error;
@@ -311,9 +316,13 @@ export const addOauthMiddleware = createAsyncThunk(
 
 export const outlookAddEventMiddleware = createAsyncThunk(
   'outlook_auth',
-  async (_a, { rejectWithValue }) => {
+  async ({ formData }: any, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(outlookAdd);
+      const { data } = await axios.post(outlookAdd,formData,{
+        headers :{
+          Authorization: undefined, 
+        }
+      });
       return data;
     } catch (error) {
       const typedError = error as Error;

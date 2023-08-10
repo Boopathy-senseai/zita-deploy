@@ -4,7 +4,9 @@ import {
   useDispatch,
   // useSelector
 } from 'react-redux';
+import { Dropdown } from 'react-bootstrap';
 import SvgGmail from '../../../icons/SvgGmail';
+import SvgDotMenu from '../../../icons/SvgDotMenu';
 import SvgEdit from '../../../icons/SvgEdit';
 import SvgTick from '../../../icons/SvgTick';
 import SvgOutlook from '../../../icons/SvgOutlook';
@@ -47,6 +49,7 @@ import {
   deleteOutlookMiddleware,
   deleteGoogleMiddleware,
 } from './store/middleware/integrationmiddleware';
+import CalenderConfig from './calendarconfigurations/calendarconfig';
 
 // import { GoogleLogin } from './googleLogin/index';
 // var querystring = require('qs');
@@ -78,6 +81,7 @@ const IntegrationScreen = () => {
   // const [isChange, setChange] = useState(false);
   const [isLoginLoader, setLoginLoader] = useState(false);
   const [modelopen, setmodelopen] = useState(false);
+  const [conflictopen, setConflictopen] = useState(false);
 
   console.log(setMail);
   // initial api call
@@ -249,10 +253,12 @@ const IntegrationScreen = () => {
     googleAuthHandler();
     setActive(1);
     setIsGoogle(1);
+
     if (connected && isGoogle === 0) {
       setConnected(0);
       setIsGoogle(1);
     }
+    // setConflictopen(true)
   };
   const disconnectfun = () => {
     setmodelopen(!modelopen);
@@ -269,6 +275,7 @@ const IntegrationScreen = () => {
       setConnected(0);
       setIsGoogle(0);
     }
+    // setConflictopen(true)
     // Toast('Details saved successfully', 'LONG');
   };
 
@@ -336,6 +343,12 @@ const IntegrationScreen = () => {
   function outlookconfig(): void {
     throw new Error('Function not implemented.');
   }
+  console.log('conflictopen', conflictopen);
+
+  function Configuration() {
+    alert('Configuration');
+    setConflictopen(true);
+  }
 
   return (
     <Flex className={styles.overAll}>
@@ -383,9 +396,9 @@ const IntegrationScreen = () => {
           </Flex>
         </Flex> */}
         <Flex row marginTop={20}>
-          <Flex  >
+          <Flex flex={3}>
             {connected === 1 && active === 1 && isGoogle === 0 ? (
-              <Card className={styles.selectCard} >
+              <Card className={styles.selectCard}>
                 <Flex end style={{ position: 'absolute', right: '10px' }}>
                   <SvgTick />
                 </Flex>
@@ -396,26 +409,15 @@ const IntegrationScreen = () => {
                   <Text
                     color="theme"
                     bold
-                    size={14}
+                    size={16}
                     style={{ marginLeft: '10px' }}
                   >
-                    Outlook Calendar
+                    Outlook Mail
                   </Text>
                 </Flex>
 
-                <Text style={{ marginTop: '10px', fontSize: '13px' }}>
-                  Connected as
-                </Text>
-                <Text
-                  color="theme"
-                  className={styles.linefix}
-                  style={{
-                    marginTop: '1px',
-                    fontSize: '13px',
-                    borderBottom: ' 1px solid #c3c3c3',
-                    paddingBottom: '10px',
-                  }}
-                >
+                <Text style={{ marginTop: '10px' }}>Connected as</Text>
+                <Text color="theme" style={{ marginTop: '1px' }}>
                   {/* {email} */}vishalrupakvr@gmail.com
                 </Text>
                 {/* {modelopen===false&&
@@ -423,7 +425,7 @@ const IntegrationScreen = () => {
                 } */}
                 <Button className={styles.btn} onClick={() => disconnectfun()}>
                   <Text color="theme" bold>
-                    <SvgEdit width={14} height={20} /> Edit Configuration
+                    <SvgEdit width={14} height={14} /> Edit Configuration
                   </Text>
                 </Button>
               </Card>
@@ -435,24 +437,16 @@ const IntegrationScreen = () => {
                   <Text
                     color="theme"
                     bold
-                    size={14}
+                    size={16}
                     style={{ marginLeft: '10px' }}
                   >
-                    Outlook Calendar
+                    Outlook Mail
                   </Text>
                 </Flex>
 
-                <Text
-                  style={{
-                    marginTop: '10px',
-                    fontSize: '13px',
-                    borderBottom: ' 1px solid #c3c3c3',
-                    paddingBottom: '10px',
-                  }}
-                >
-                 Connect your calendar with Outlook Calendar Service. 
+                <Text style={{ marginTop: '10px' }}>
+                  Connect your inbox with Outlook Calendar Service.
                 </Text>
-
                 {connected === 1 && active === 1 && isGoogle === 1 ? (
                   <Button
                     className={styles.btn}
@@ -476,7 +470,7 @@ const IntegrationScreen = () => {
               </Card>
             )}
           </Flex>
-          <Flex  >
+          <Flex flex={3}>
             {connected === 1 && active === 1 && isGoogle === 1 ? (
               <Card className={styles.selectCard}>
                 <Flex end style={{ position: 'absolute', right: '10px' }}>
@@ -489,36 +483,24 @@ const IntegrationScreen = () => {
                   <Text
                     color="theme"
                     bold
-                    size={14}
+                    size={16}
                     style={{ marginLeft: '10px' }}
                   >
                     Google Calendar
                   </Text>
                 </Flex>
 
-                <Text style={{ marginTop: '10px', fontSize: '13px' }}>
-                  Connected as
-                </Text>
-                <Text
-                  color="theme"
-                  className={styles.linefix}
-                  style={{
-                    marginTop: '1px',
-                    fontSize: '13px',
-                    borderBottom: ' 1px solid #c3c3c3',
-                    paddingBottom: '10px',
-                  }}
-                >
+                <Text style={{ marginTop: '10px' }}>Connected as</Text>
+                <Text color="theme" style={{ marginTop: '1px' }}>
                   {/* {email} */}vishalrupakvr@gmail.com
                 </Text>
-                {/* <Flex className={styles.linefix} style={{ borderBottom:' 1px solid #c3c3c3',paddingBottom:'10px'}}>
-                </Flex> */}
+
                 {/* {modelopen===false&&
                  Toast('Google calendar Integrated Successfully', 'MEDIUM')
                 } */}
                 <Button className={styles.btn} onClick={() => disconnectfun()}>
                   <Text color="theme" bold>
-                    <SvgEdit width={14} height={20} /> Edit Configuration
+                    <SvgEdit width={14} height={14} /> Edit Configuration
                   </Text>
                 </Button>
               </Card>
@@ -530,22 +512,15 @@ const IntegrationScreen = () => {
                   <Text
                     color="theme"
                     bold
-                    size={14}
+                    size={16}
                     style={{ marginLeft: '10px' }}
                   >
                     Google Calendar
                   </Text>
                 </Flex>
 
-                <Text
-                  style={{
-                    marginTop: '10px',
-                    fontSize: '13px',
-                    borderBottom: ' 1px solid #c3c3c3',
-                    paddingBottom: '10px',
-                  }}
-                >
-                 Connect your calendar with Google Calendar Service.
+                <Text style={{ marginTop: '10px' }}>
+                  Connect your inbox with Google calendar Service.
                 </Text>
                 {connected === 1 && active === 1 && isGoogle === 0 ? (
                   <Button
@@ -570,7 +545,13 @@ const IntegrationScreen = () => {
               </Card>
             )}
           </Flex>
-           
+          <Flex flex={9}></Flex>
+          <Flex row end>
+            <ActionsButton 
+            Configuration={Configuration}
+            connected ={connected}
+            active ={active} />
+          </Flex>
         </Flex>
 
         {/* {connected === 1 && active === 1 && isGoogle === 0 && (
@@ -643,31 +624,23 @@ const IntegrationScreen = () => {
 
       <Modal open={modelopen}>
         <Flex className={styles.editmodal}>
+          <Flex
+            end
+            style={{ marginRight: '15px' }}
+            onClick={() => setmodelopen(!modelopen)}
+          >
+            <SvgClose width={12} height={12} fill={'581845'} />
+          </Flex>
+
           {connected === 1 && active === 1 && isGoogle === 0 ? (
             <Flex>
-              <Flex row className={styles.popfix}>
-                <Flex>
-                  {/* <Text style={{color:"#333333"}} size={16} bold>
-                    {' '}
-                    <SvgEdit width={14} height={14} fill={"#333333"} /> Edit Configuration
-                  </Text> */}
-                  <Text  style={{color:'#333333'}} bold>
-                    <SvgEdit width={14} height={20} fill='#333333' /> Edit Configuration
-                  </Text>
-                  <Text>
-                    You have connected your calendar with Outlook Calendar
-                    Service.
-                  </Text>
-                </Flex>
-                <Flex
-                  end
-                  style={{ marginRight: '5px', marginTop: '7px',cursor:'pointer' }}
-                  onClick={() => setmodelopen(!modelopen)}
-                >
-                  <SvgClose  width={8} height={8} fill={'#333333'} />
-                </Flex>
-              </Flex>
-
+              <Text color="theme" size={16} bold>
+                {' '}
+                <SvgEdit width={14} height={14} /> Edit Configuration
+              </Text>
+              <Text>
+                You have connected your Email with Outlook Mail Service.
+              </Text>
               <Flex row start className={styles.modelheadder}>
                 <SvgOutlookcalendar></SvgOutlookcalendar>
                 <Card className={styles.outlookEmailcard}>
@@ -776,9 +749,69 @@ const IntegrationScreen = () => {
         </Flex>
       </Modal>
 
+      {connected === 1 && active === 1 ? (
+        <Modal open={conflictopen} onClose={close}>
+          <CalenderConfig
+            isGoogle={isGoogle}
+            email={'pugazhendhij@sense7ai.com'}
+          />
+        </Modal>
+      ) : (
+        ''
+      )}
+
       {/* <Flex className={styles.borderbottom} marginTop={30}>
 
     </Flex> */}
+    </Flex>
+  );
+};
+
+interface ActionButtonProps {
+  Configuration: () => void;
+  connected :  number,
+  active : number,
+}
+
+const ActionsButton: React.FC<ActionButtonProps> = ({ 
+  Configuration,
+  connected,
+  active
+
+ }) => {
+
+
+
+  function BtnClick(){
+    // alert("BtnClick")
+
+  }
+  return (
+    <Flex>
+      <Dropdown>
+
+        <Dropdown.Toggle
+          style={{
+            borderColor: 'unset',
+            backgroundColor: 'unset',
+            boxShadow: 'none',
+          }}
+          id="dropdown-basic"
+          // onClick={BtnClick }
+        >
+          <SvgDotMenu fill={'#black'} height={17} width={17} />
+        </Dropdown.Toggle>
+        {/* { connected === 1 && active === 1 ? ( */}
+        <Dropdown.Menu>
+          <Dropdown.Item onClick={Configuration}>
+            <Flex row center className={styles.pointer}>
+              <Text>Calendar Configurations</Text>
+            </Flex>
+          </Dropdown.Item>
+        </Dropdown.Menu>
+
+        {/* ) :('')} */}
+      </Dropdown>
     </Flex>
   );
 };

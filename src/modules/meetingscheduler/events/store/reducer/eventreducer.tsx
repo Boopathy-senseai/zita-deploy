@@ -43,6 +43,9 @@ const schedulerState: schedulerPageReducerState = {
       event_id: 0,
       name_id: 0,
       full_name: '',
+      name__user : '',
+      google_calendar :'',
+      outlook_calendar : ''
     },
   ],
   shareLink: [
@@ -63,6 +66,7 @@ const schedulerState: schedulerPageReducerState = {
       full_name: '',
     },
   ],
+
   datetime: {
     sunday: [
       {
@@ -78,7 +82,7 @@ const schedulerState: schedulerPageReducerState = {
         endtime: '',
       },
     ],
-    tueday: [
+    tuesday: [
       {
         day: '',
         starttime: '',
@@ -115,6 +119,10 @@ const schedulerState: schedulerPageReducerState = {
     ],
   },
   suceess: '',
+  google: '',
+  outlook: '',
+
+
 };
 
 const schedlerReducer = createSlice({
@@ -129,9 +137,6 @@ const schedlerReducer = createSlice({
     builder.addCase(getScheduleMiddleWare.fulfilled, (state, action) => {
       console.log("actionactionaction",action)
       console.log("actionactionactionstate",state)
-
-      // console.log("actionactionaction",action.payload.interviewer)
-
       state.isLoading = false;
       state.data = action.payload.data;
       state.interviewer = action.payload.interviewer;
@@ -139,6 +144,9 @@ const schedlerReducer = createSlice({
       state.addmembers = action.payload.addmembers;
       state.datetime = action.payload.datetime;
       state.suceess = action.payload.suceess;
+      state.google = action.payload.google;
+      state.outlook = action.payload.outlook;
+
     });
 
     builder.addCase(getScheduleMiddleWare.rejected, (state, action) => {

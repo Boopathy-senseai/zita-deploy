@@ -3,9 +3,7 @@ import { isEmptyArray, useField, useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import moment from 'moment-timezone';
-import DatePicker from 'react-datepicker';
 import DateRangePicker, { Props } from 'react-bootstrap-daterangepicker';
-// import { DateRangePicker } from 'react-date-range';
 import Modal from '../../../uikit/Modal/Modal';
 import Flex from '../../../uikit/Flex/Flex';
 import Toast from '../../../uikit/Toast/Toast';
@@ -17,17 +15,17 @@ import ErrorMessage from '../../../uikit/ErrorMessage/ErrorMessage';
 import InputText from '../../../uikit/InputText/InputText';
 import SelectTag from '../../../uikit/SelectTag/SelectTag';
 import InputRadio from '../../../uikit/InputRadio/InputRadio';
-import { userProfileMiddleWare } from '../../accountsettingsmodule/userprofilemodule/store/middleware/userprofilemiddleware';
 import Button from '../../../uikit/Button/Button';
-import InputCheckBox from '../../../uikit/InputCheckbox/InputCheckBox';
-import SvgCopy from '../../../icons/SvgCopy';
 import { eventSchedulerApi } from '../../../routes/apiRoutes';
 import SvgCalendar from '../../../icons/SvgCalendar';
 import SvgRoundAdd from '../../../icons/SvgRoundAdd';
+import { LabelWrapper, Loader } from '../../../uikit';
+import {
+  googleCallApiMiddleware,
+  outlookCallApiMiddleware,
+} from '../../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import {
   eventType,
-  days,
-  timezone,
   duration,
   timezonedisplay,
   timezonesdata,
@@ -42,7 +40,6 @@ import DayTimeSplit from './DayTimeSplit';
 // import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-daterangepicker/daterangepicker.css';
 // eslint-disable-next-line import/order
-import { LabelWrapper } from '../../../uikit';
 
 type CreateEvent = {
   event_name: string;
@@ -59,7 +56,7 @@ type CreateEvent = {
   sunday: [];
   timezonedisplay: string;
   description: string;
-  availbletimebook: string;
+  // availbletimebook: string;
   isactive: boolean;
   isdeleted: boolean;
   updatedby: string;
@@ -78,10 +75,9 @@ const initial: CreateEvent = {
   interviewer: '',
   schedule: '',
   sunday: [],
-  timezonedisplay:
-    'Automatically detect and show the times in my invitees time zone',
+  timezonedisplay: timezonedisplay[0].label,
   description: '',
-  availbletimebook: '',
+  // availbletimebook : '',
   isactive: true,
   isdeleted: false,
   updatedby: '',
@@ -89,38 +85,48 @@ const initial: CreateEvent = {
 
 const CreateNewEvent = (props) => {
   const {
-    modalclose,
-    isopen,
     setIsOpen,
     editModel,
-    setEditList,
+    seteditModel,
     teammembers,
     datetime,
-    setisLoader,
-    intern,
+    reset,
+    // intern,
+    google,
+    outlook,
+    HandleButton,
+    HandleResetForm,
   } = props;
+  console.log('props+++++++', props);
+
+  console.log('resetresetresetresetresetreset', reset);
 
   const dispatch: AppDispatch = useDispatch();
   const [interviewer, setInterviewer] = useState(false);
   const [interviewerData, setinterviewerData] = useState([]);
   const [edit_id, setedit_id] = useState(0);
   const [include, setinclude] = useState(false);
-  const [dateRangeRadio, setdateRangeRadio] = useState(false);
-  const [daterange, setDaterange] = useState(0);
+  const [loading, setloading] = useState(false);
   const [saveButton, setsaveButton] = useState(false);
   const [fullname, setfullname] = useState('');
+  const [cancelpopup, setcancelpopup] = useState(false);
   const [durationField, setDurationField] = useState('');
   const [dayField, setDaysField] = useState('Calendar Days');
   const [organiser, setorganiser] = useState(teammembers ? teammembers : []);
   const [zone, setzone] = useState('');
-   const [datePickerOpen, setDatePickerOpen] = useState(false);
-
+  const [datePickerOpen, setDatePickerOpen] = useState(false);
+  const [durationOpen, setDurationOpen] = useState(false);
+  const [onValid, setonValid] = useState(null);
   const [selectedRange, setSelectedRange] = useState({
     startDate: null,
     endDate: null,
   });
-  // const [schedata,setschedata] = useState(datetime ? datetime :[])
+  const [onSelectShow, setonSelectShow] = useState({
+    startDate: null,
+    endDate: null,
+  });
   const [isButton, setButton] = useState(true);
+  const [loader, setloader] = useState(false);
   const [sunday, setSunday] = useState([
     { starttime: '9:00 AM', endtime: '6:00 PM' },
   ]);
@@ -143,9 +149,6 @@ const CreateNewEvent = (props) => {
     { starttime: '9:00 AM', endtime: '6:00 PM' },
   ]);
   const [checkedItems, setCheckedItems] = useState([]);
-  const [schedule, setSchedule] = useState(
-    datetime !== undefined ? datetime : null,
-  );
   const [render, setrender] = useState(Date.now());
   const [timezones, setTimezones] = useState([]);
   const [sundaycheck, setsundaycheck] = useState(false);
@@ -155,7 +158,14 @@ const CreateNewEvent = (props) => {
   const [thursdaycheck, setthursdaycheck] = useState(true);
   const [fridaycheck, setfridaycheck] = useState(true);
   const [saturdaycheck, setsaturdaycheck] = useState(false);
-  const [schedata, setschedata] = useState(datetime !== null ? datetime : null);
+
+
+  const [errMsg, seterrMsg] = useState(false);
+  const [userzone, setuserzone] = useState('');
+  const [changeCount, setChangeCount] = useState(0);
+
+
+  // const [schedata, setschedata] = useState(datetime !== null ? datetime : null);
 
   const { user, profile, isLoading } = useSelector(
     ({ userProfileReducers }: RootState) => ({
@@ -164,21 +174,35 @@ const CreateNewEvent = (props) => {
       profile: userProfileReducers.profile,
     }),
   );
-
   let profilename = user.first_name + ' ' + user.last_name;
-
+  console.log('profilenameprofilenameprofilename', profilename);
   useEffect(() => {
-    // dispatch(userProfileMiddleWare());
-    if (!isEmpty(editModel) && datetime !== undefined) {
-      openModelEdit(editModel, datetime);
+    if (!isEmpty(editModel)) {
       setedit_id(editModel.id);
+      setloader(true);
+      axios.get(`${eventSchedulerApi}?pk=${editModel.id}`).then((res) => {
+        console.log('resres', res);
+        setloading(true);
+        if (res.data) {
+          let scheduledata = res.data.datetime;
+          let interviewdata = res.data.interviewer;
+          openModelEdit(editModel, scheduledata, interviewdata);
+          setonValid(scheduledata);
+        }
+        setloading(false);
+      });
     } else {
-      // formik.values = initial
-      // formik.setValues(initial)
+      formik.resetForm();
+      // resetformik()
     }
-  }, [duration, datetime]);
+    Timeszones();
+  }, [duration, datetime, userzone]);
 
   useEffect(() => {
+    if (sundaycheck === false) {
+      const newData = [{ starttime: '9:00 AM', endtime: '6:00 PM' }];
+      setSunday(newData);
+    }
     if (mondaycheck === false) {
       const newData = [{ starttime: '9:00 AM', endtime: '6:00 PM' }];
       setMonday(newData);
@@ -199,22 +223,66 @@ const CreateNewEvent = (props) => {
       const newData = [{ starttime: '9:00 AM', endtime: '6:00 PM' }];
       setFriday(newData);
     }
+    if (saturdaycheck === false) {
+      const newData = [{ starttime: '9:00 AM', endtime: '6:00 PM' }];
+      setSaturday(newData);
+    }
   }, [
-    include,
-    mondaycheck,
-    tuesdaycheck,
-    wednesdaycheck,
-    thursdaycheck,
-    fridaycheck,
-    sundaycheck,
-    saturdaycheck,
-    duration,
+    // mondaycheck,
+    // tuesdaycheck,
+    // wednesdaycheck,
+    // thursdaycheck,
+    // fridaycheck,
+    // sundaycheck,
+    // saturdaycheck,
   ]);
-  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const offset = moment.tz(userTimezone).format('Z');
-  const userzone = `${moment.tz(userTimezone).format('Z')} (${userTimezone})`;
+  useEffect(() => {
+    // if(editModel !== null){
+    //   alert(":::L")
+    //   resetformik();
+    // }
+    if (userzone !== null && userzone !== undefined) {
+      formik.values.timezone = userzone;
+    }
+  }, [userzone]);
 
-  const vaio = timezonesdata.find((fil) => fil.label === userzone);
+  function Timeszones() {
+    const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const tzone = `${moment
+      .tz(userTimezone)
+      .format('Z')} (${userTimezone})`.trim();
+    setuserzone(tzone);
+  }
+
+  function resetformik() {
+    formik.values.event_name = '';
+    formik.values.event_type = '';
+    formik.values.location = '';
+    formik.values.dateRange = '0';
+    formik.values.days = 'Calendar Days';
+    formik.values.startdate = '';
+    formik.values.enddate = '';
+    formik.values.duration = '';
+    formik.values.timezone = '';
+    formik.values.interviewer = '';
+    formik.values.schedule = '';
+    formik.values.sunday = [];
+    formik.values.timezonedisplay = timezonedisplay[0].label;
+    formik.values.description = '';
+    // availbletimebook = '',
+    formik.values.isactive = true;
+    formik.values.isdeleted = false;
+  }
+
+  useEffect(() => {
+    if (reset) {
+      resetformik();
+      console.log(
+        'resetresetresetresetresetresetformikformikformik',
+        formik.values,
+      );
+    }
+  }, [reset]);
 
   const conversion = (data: any) => {
     return data.map((obj) => {
@@ -223,13 +291,15 @@ const CreateNewEvent = (props) => {
     });
   };
 
-  const openModelEdit = (datalist: any, dt: any) => {
+  const openModelEdit = (datalist: any, dt: any, intern) => {
+    console.log('@@@@@@@@@@+++++______+++++', datalist, dt, intern);
     setsaveButton(true);
     if (intern && intern.length > 0) {
       const fullNamesArray = intern?.map((i) => i.full_name);
-      const userid = intern?.map((i) => i.name__user);
+      const checked = intern?.map((i) => i.name__user.toString());
+      console.log('::::::()()()()()()()', checked);
       setinterviewerData(fullNamesArray);
-      setCheckedItems(userid);
+      setCheckedItems(checked);
     } else {
       setinterviewerData([]);
     }
@@ -237,11 +307,21 @@ const CreateNewEvent = (props) => {
     formik.values.event_name = datas.event_name;
     formik.values.event_type = datas.event_type;
     formik.values.location = datas.location;
+
+    
     formik.values.days = datas.days;
     selectedRange.endDate = datas.enddate;
     selectedRange.startDate = datas.startdate;
     formik.values.startdate = datas.startdate;
     formik.values.enddate = datas.enddate;
+
+    if(datas.startdate && datas.enddate){
+      setonSelectShow({
+        startDate: convertmonth(datas.startdate),
+        endDate: convertmonth(datas.enddate),
+      });    
+    }
+    console.log("onSelectShowonSelectShowonSelectShow",onSelectShow)
     if (datas.duration === '1 hour') {
       formik.values.duration = '1 hour';
       const durationminutes = '60 Minutes';
@@ -252,7 +332,16 @@ const CreateNewEvent = (props) => {
     }
     formik.values.timezone = datas.times_zone;
     formik.values.description = datas.description;
-    formik.values.timezonedisplay = datas.times_zone_display;
+    if (
+      datas.times_zone_display ===
+      "Automatically detect and show the times in my invitee's time zone"
+    ) {
+      formik.values.timezonedisplay = timezonedisplay[0].label;
+    } else {
+      formik.values.timezonedisplay = timezonedisplay[1].label;
+    }
+
+    console.log('HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH', formik, datas);
     if (dt !== undefined && dt !== null) {
       if (dt && dt.sunday && dt.sunday.length > 0) {
         const editsunday = conversion(dt.sunday);
@@ -304,6 +393,7 @@ const CreateNewEvent = (props) => {
         setsaturdaycheck(false);
       }
     }
+    setloader(false);
   };
 
   const handleEventValid = (values: CreateEvent) => {
@@ -314,6 +404,9 @@ const CreateNewEvent = (props) => {
     }
     if (isEmpty(values.event_type.trim())) {
       errors.event_type = THIS_FIELD_REQUIRED;
+      // if(formik.values.event_type === ''){
+      //   formik.setFieldValue('event_type','')
+      // }
     }
     if (
       values.event_type === 'On-site Interview' &&
@@ -341,157 +434,416 @@ const CreateNewEvent = (props) => {
       formik.values.description = '';
       errors.description = THIS_FIELD_REQUIRED;
     }
-    if (
-      sundaycheck === false ||
-      mondaycheck === false ||
-      tuesdaycheck === false ||
-      wednesdaycheck === false ||
-      thursdaycheck === false ||
-      fridaycheck === false ||
-      saturdaycheck === false
-    ) {
-      formik.values.availbletimebook = '';
-      errors.availbletimebook = 'Please Select The Alteast One AvailbleDay';
-    }
+    // if(sundaycheck === false || mondaycheck === false || tuesdaycheck === false || wednesdaycheck === false || thursdaycheck === false || fridaycheck === false || saturdaycheck === false ){
+    //   formik.values.availbletimebook ='';
+    //   errors.availbletimebook = "Please Select The Alteast One AvailbleDay"
+    // }
+    console.log('errorserrorserrorserrors', errors);
     return errors;
   };
 
-  const handleDateChange = (date) => {
-    if (!selectedRange.startDate || selectedRange.endDate) {
-      // If no start date is selected, or both start and end dates are already selected, set the start date
-      setSelectedRange({
-        startDate: date,
-        endDate: null,
-      });
-      formik.setFieldValue('startdate', formatDate(date));
-    } else if (date <= selectedRange.startDate) {
-      alert('e');
-      // If a start date is already selected, and the new date is less than or equal to the start date, update the start date
-      setSelectedRange({
-        startDate: date,
-        endDate: selectedRange.endDate,
-      });
+  const GoogleCalendar = (label) => {
+    if (interviewerData.length === 0) {
+      if (google === false && label === 'Google Hangouts/Meet') {
+        const validate = window.confirm(
+          'Google Calendar not be Integrated, Select this option after the Integration',
+        );
+        if (validate) {
+          setIsOpen(false);
+          dispatch(googleCallApiMiddleware()).then((res) => {
+            window.open(res.payload.url);
+            dispatch(getScheduleMiddleWare(undefined))
+            // newWindow.onload = () => {
+            //   alert("newWindow")
+            // }
+          });
 
-      formik.setFieldValue('enndate', formatDate(date));
+
+        } else {
+          formik.values.event_type = '';
+        }
+      } else {
+        formik.setFieldValue('event_type', label);
+      }
     } else {
-      setSelectedRange({
-        startDate: selectedRange.startDate,
-        endDate: date,
-      });
-      formik.setFieldValue('enddate', formatDate(date));
+      if (interviewerData.length > 0) {
+        const objectsToRemove = teammembers.filter((item) =>
+          interviewerData.includes(item.full_name),
+        );
+
+        const filteredGoogleCalendars = objectsToRemove.reduce((acc, obj) => {
+          if (obj.google_calendar !== null) {
+            acc.push(obj.google_calendar);
+          }
+          if (google === true) {
+            acc.push(true);
+          }
+          return acc;
+        }, []);
+
+        console.log(
+          'filteredGoogleCalendarsfilteredGoogleCalendars',
+          filteredGoogleCalendars,
+        );
+
+        if (
+          filteredGoogleCalendars.length === 0 &&
+          label === 'Google Hangouts/Meet'
+        ) {
+          const validate = window.confirm(
+            'At least one interviewer must be integrated to the Google Calendar.Otherwise, the video conference will not be created',
+          );
+          if (validate) {
+            setIsOpen(false);
+            // dispatch(googleCallApiMiddleware()).then((res) => {
+            //   window.open(res.payload.url);
+            // });
+          } else {
+            formik.values.event_type = '';
+          }
+        }else{
+        
+          formik.setFieldValue('event_type', label)
+        }
+
+        // console.log("objectsToRemove",objectsToRemove);
+        // objectsToRemove.map((item)=> {
+        //   const newArray = []
+        //   const newdata = []
+
+        //   if(item.google_calendar === null && google === false){
+        //    return(
+        //     window.confirm(
+        //       'Do you want to leave this site? Changes you made may not be saved.',
+        //     )
+        //    )
+        // newArray.push(item.full_name)
+        // newdata.push(item.user.toString())
+        // console.log("5555555555555",newArray,newdata)
+        // setinterviewerData(newArray)
+        // setCheckedItems(newdata)
+        //   }else{
+        //     console.log("newArraynewArraynewArraynewArraynewArray")
+        //   }
+        //   console.log("newArraynewArraynewArraynewArraynewArray",newArray,newdata)
+        // })
+      }
     }
   };
 
-  const ondatepickercancel = () => {
-    setSelectedRange({
-      startDate: null,
-      endDate: null,
-    });
-  };
-
-  const handleInputChange = (e) => {
-    alert('1');
-    const inputText = e.target.value;
-    const [startDateString, endDateString] = inputText.split(' - ');
-    const startDate = moment(startDateString, 'MM/DD/YYYY');
-    const endDate = moment(endDateString, 'MM/DD/YYYY');
-
-    if (startDate.isValid() && endDate.isValid()) {
-      // Both start and end dates are valid, update the selected date range
-      setSelectedRange({
-        startDate: startDate.startOf('day'),
-        endDate: endDate.endOf('day'),
-      });
-    } else {
-      // Invalid input, clear the selected date range
-      setSelectedRange({
-        startDate: null,
-        endDate: null,
-      });
+  const eventonChange = (label) => {
+    console.log('');
+    if (label === 'Microsoft Teams') {
+      if (label === 'Microsoft Teams' && outlook === true) {
+        formik.setFieldValue('event_type', label);
+      } else {
+        const validate = window.confirm(
+          'Zita Administrator needs to integrate the outlook calendar first',
+        );
+        if (validate) {
+          setIsOpen(false);
+          dispatch(outlookCallApiMiddleware()).then((res) => {
+            console.log('outlookintegration', res);
+            if (res.payload.success === true) {
+              window.open(res.payload.authorization_url);
+              console.log('outlookcallApi', outlookCallApiMiddleware());
+              dispatch(getScheduleMiddleWare(undefined))
+            }
+          });
+        } else {
+          console.log('((((((((((((((((((', formik.values.event_type);
+          formik.values.event_type = '';
+          formik.setFieldValue('event_type', '');
+        }
+      }
+    }
+    // if (label === 'Google Hangouts/Meet') {
+    //   if (label === 'Google Hangouts/Meet' && google === true) {
+    //     formik.setFieldValue('event_type', label);
+    //   } else {
+    //     alert(
+    //       'At least one interviewer must have Google Calendar connected. Otherwise, the video conference will not be created',
+    //     );
+    //     formik.values.event_type ="";
+    //   }
+    // }
+    if (label === 'On-site Interview' || label === 'Phone Interview') {
+      if (google === false && outlook === false) {
+        const validate = window.confirm('Integrate the calendar first');
+        if (validate) {
+          setIsOpen(false);
+        }
+      } else {
+        formik.setFieldValue('event_type', label);
+      }
+    }
+    if (label === 'Google Hangouts/Meet') {
+      GoogleCalendar(label);
     }
   };
+
   const formatDate = (date) => {
     return date ? date.toLocaleDateString() : '';
   };
-  const getInitials = (name: any) => {
-    // name = JSON.parse(name);
-    if (name !== undefined) {
-      var parts = name.split(' ');
-      var initials = '';
-      for (var i = 0; i < parts.length; i++) {
-        if (parts[i].length > 0 && parts[i] !== '') {
-          initials += parts[i][0];
-        }
-      }
-      return initials;
+
+  const Dayincludes = (dateString) => {
+    const [day, month, year] = dateString.split('/');
+    const dateObject = new Date(year, month - 1, day);
+    const dayOfWeekNumber = dateObject.getDay();
+    const dayNames = [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+    ];
+    const dayOfWeekName = dayNames[dayOfWeekNumber];
+    return dayOfWeekNumber;
+  };
+  const DateBasedReschedule = () => {
+    // const dateObject = new Date(dateRange,"DD/MM/YYYY");
+    // // Extract day, month, and year from the Date object
+    // const day = dateObject.getDate(); // Day of the month (1-31)
+    // const month = dateObject.getMonth() + 1;
+    // console.log(month)// Month (0-based index, so adding 1 to get the actual month number)
+    // const year = dateObject.getFullYear(); // Full year (e.g., 2023)
+
+    // // Function to add leading zeros to single-digit numbers
+    // const addLeadingZero = (num) => (num < 10 ? '0' + num : num);
+
+    // // Format the components into the desired date string format 'MM/DD/YYYY'
+    // const formattedDate = `${addLeadingZero(month)}/${addLeadingZero(day)}/${year}`;
+    // console.log("dateRangedateRangedateRange",formattedDate)
+    // const dateObj = new Date(dateRange);
+    // const dayOfWeek = dateObj.getDay();
+    // const dayNames = [
+    //   'Sunday',
+    //   'Monday',
+    //   'Tuesday',
+    //   'Wednesday',
+    //   'Thursday',
+    //   'Friday',
+    //   'Saturday',
+    // ];
+    // const dayName = dayNames[dayOfWeek];
+    // console.log(
+    //   'dateRangedateRangedateRange',
+    //   dateRange,
+    //   dateObj,
+    //   dayOfWeek,
+    //   dayNames,
+    //   dayName,
+    // );
+    // return dayName;
+
+    if (sundaycheck === true) {
+      setsundaycheck(false);
+    } else {
+      setsundaycheck(true);
+    }
+
+    if (mondaycheck === true) {
+      setmondaycheck(false);
+    } else {
+      setmondaycheck(true);
+    }
+
+    if (tuesdaycheck === true) {
+      settuesdaycheck(false);
+    } else {
+      settuesdaycheck(true);
+    }
+
+    if (wednesdaycheck === true) {
+      setwednesdaycheck(false);
+    } else {
+      setwednesdaycheck(true);
+    }
+
+    if (thursdaycheck === true) {
+      setthursdaycheck(false);
+    } else {
+      setthursdaycheck(true);
+    }
+
+    if (fridaycheck === true) {
+      setfridaycheck(false);
+    } else {
+      setfridaycheck(true);
+    }
+
+    if (saturdaycheck === true) {
+      setsaturdaycheck(false);
+    } else {
+      setsaturdaycheck(true);
+    }
+
+    if (sundaycheck === true) {
+      setsundaycheck(false);
+    } else {
+      setsundaycheck(true);
     }
   };
 
   const handleSubmitForm = (values: CreateEvent) => {
-    const userid = [];
-    userid.push(user.id);
-    const mergedArray =
-      checkedItems.length === 0 ? userid : [...userid, ...checkedItems];
-    const formData = new FormData();
-    if (edit_id > 0) {
-      formData.append('pk', JSON.stringify(edit_id));
-    }
-    formData.append('event_name', values.event_name.trim());
-    formData.append('event_type', values.event_type);
-    formData.append('location', values.location.trim());
-    formData.append('days', values.days);
-    formData.append('startdate', values.startdate);
-    formData.append('enddate', values.enddate);
-    formData.append('duration', values.duration);
-    formData.append('timezone', values.timezone);
-    formData.append('interviewer', JSON.stringify(mergedArray));
-    formData.append('times_zone_display', values.timezonedisplay);
-    formData.append('description', values.description.trim());
-    if (sundaycheck === true) {
-      formData.append('sunday', JSON.stringify(sunday));
-    }
-    if (mondaycheck === true) {
-      formData.append('monday', JSON.stringify(monday));
-    }
-    if (tuesdaycheck === true) {
-      formData.append('tuesday', JSON.stringify(tuesday));
-    }
-    if (wednesdaycheck === true) {
-      formData.append('wednesday', JSON.stringify(wednesday));
-    }
-    if (thursdaycheck === true) {
-      formData.append('thursday', JSON.stringify(thursday));
-    }
-    if (fridaycheck === true) {
-      formData.append('friday', JSON.stringify(friday));
-    }
-    if (saturdaycheck === true) {
-      formData.append('saturday', JSON.stringify(saturday));
-    }
     const schedulearr = calculateSchedule();
-    formData.append('slot', JSON.stringify(schedulearr));
-    dispatch(postScheduleMiddleWare({ formData })).then((res: any) => {
-      setisLoader(true);
-      if (res.payload.data.message === 'Created Event Successfully') {
-        Toast('Event Created Successfully!');
-        dispatch(getScheduleMiddleWare(undefined));
-        axios.get(`${eventSchedulerApi}`);
-        setisLoader(false);
+    console.log('schedulearrschedulearrschedulearrschedulearr', schedulearr);
+    if(sundaycheck === false && mondaycheck === false && tuesdaycheck === false && wednesdaycheck === false && thursdaycheck === false && fridaycheck === false && saturdaycheck  === false) {
+      alert('Select Atleast One Availble Day');
+    }
+    else if (isEmptyArray(schedulearr)) {
+      const reschedule = DateBasedReschedule();
+      console.log('reschedulereschedule', reschedule);
+    } else if (
+      sundaycheck ||
+      mondaycheck ||
+      tuesdaycheck ||
+      wednesdaycheck ||
+      thursdaycheck ||
+      fridaycheck ||
+      saturdaycheck
+    ) {
+      const userid = [];
+      userid.push(user.id.toString());
+      const mergedArray =
+        checkedItems.length === 0 ? userid : [...userid, ...checkedItems];
+      const formData = new FormData();
+      if (edit_id > 0) {
+        formData.append('pk', JSON.stringify(edit_id));
       }
-      if (res.payload.data.message === 'Updated Event Successfully') {
-        Toast('Updated Event Successfully!');
-        dispatch(getScheduleMiddleWare(undefined));
-        setisLoader(false);
+      formData.append('event_name', values.event_name.trim());
+      formData.append('event_type', values.event_type);
+      formData.append('location', values.location.trim());
+      formData.append('days', values.days);
+      formData.append('startdate', values.startdate);
+      formData.append('enddate', values.enddate);
+      formData.append('duration', values.duration);
+      formData.append('timezone', values.timezone);
+      formData.append('interviewer', JSON.stringify(mergedArray));
+      formData.append('times_zone_display', values.timezonedisplay);
+      formData.append('description', values.description.trim());
+      if (sundaycheck === true) {
+        const filteredTimeSlots = sunday.filter(
+          (slot) => slot.starttime !== '' && slot.endtime !== '',
+        );
+        console.log('filteredTimeSlots', filteredTimeSlots);
+        formData.append('sunday', JSON.stringify(filteredTimeSlots));
       }
-    });
-    setIsOpen(false);
+      if (mondaycheck === true) {
+        const filteredTimeSlots = monday.filter(
+          (slot) => slot.starttime !== '' && slot.endtime !== '',
+        );
+        formData.append('monday', JSON.stringify(filteredTimeSlots));
+      }
+      if (tuesdaycheck === true) {
+        const filteredTimeSlots = tuesday.filter(
+          (slot) => slot.starttime !== '' && slot.endtime !== '',
+        );
+        formData.append('tuesday', JSON.stringify(filteredTimeSlots));
+      }
+      if (wednesdaycheck === true) {
+        const filteredTimeSlots = wednesday.filter(
+          (slot) => slot.starttime !== '' && slot.endtime !== '',
+        );
+        formData.append('wednesday', JSON.stringify(filteredTimeSlots));
+      }
+      if (thursdaycheck === true) {
+        const filteredTimeSlots = thursday.filter(
+          (slot) => slot.starttime !== '' && slot.endtime !== '',
+        );
+        formData.append('thursday', JSON.stringify(filteredTimeSlots));
+      }
+      if (fridaycheck === true) {
+        const filteredTimeSlots = friday.filter(
+          (slot) => slot.starttime !== '' && slot.endtime !== '',
+        );
+        formData.append('friday', JSON.stringify(filteredTimeSlots));
+      }
+      if (saturdaycheck === true) {
+        const filteredTimeSlots = saturday.filter(
+          (slot) => slot.starttime !== '' && slot.endtime !== '',
+        );
+        formData.append('saturday', JSON.stringify(filteredTimeSlots));
+      }
+      // const schedulearr = calculateSchedule();
+      formData.append('slot', JSON.stringify(schedulearr));
+      if(formik.dirty === false){
+        resetformik();
+        formik.initialValues = null;
+        formik.values = null;
+        setIsOpen(false);
+      }
+      if(formik.dirty === true){
+        resetformik();
+        formik.initialValues = null;
+        formik.values = null;
+        formik.setFieldValue('event_name','')
+        formik.setFieldValue('event_type','')
+        formik.setFieldValue('duration','')
+        formik.setFieldValue('description','')
+        // setTimeout(()=>resetformik(),1000);
+
+
+        setIsOpen(false);
+      }
+
+      
+ 
+      // setIsOpen(false);
+      console.log("postScheduleMiddleWareGGGGGGGGG",formik.values,"\n",formik)
+      dispatch(postScheduleMiddleWare({ formData })).then((res) => {
+        const ToastMessage = formData.has('pk');
+        dispatch(getScheduleMiddleWare(undefined));
+        HandleButton(ToastMessage);
+      });
+      // .then((res: any) => {
+      // alert("!@#$5")
+      // console.log('?//////////res',res,ToastMessage)
+      // setisLoader(true);
+      // if (ToastMessage) {
+      //   alert("+")
+      //   // setIsOpen(false);
+      //   Toast('Updated Event Successfully!');
+      //   // dispatch(getScheduleMiddleWare(undefined));
+      //   setisLoader(false);
+      // }
+      // else{
+      //   alert("-")
+      //   // setIsOpen(false);
+      //   Toast('Event Created Successfully!');
+      //   // dispatch(getScheduleMiddleWare(undefined));
+      //   setisLoader(false);
+      // }
+      // });
+      // resetformik();
+      // formik.initialValues = null;
+      // formik.values = null;
+      // if(formik.dirty === true){
+      //   alert("dirty")
+      //   resetformik();
+      //   formik.initialValues = null;
+      //   formik.values = null;
+      //   formik.setFieldValue('event_name','')
+      //   formik.setFieldValue('event_type','')
+      //   formik.setFieldValue('duration','')
+      //   formik.setFieldValue('description','')
+      //   // setTimeout(()=>resetformik(),1000);
+
+
+      //   setIsOpen(false);
+      // }
+      // setIsOpen(false);
+      console.log("postScheduleMiddleWareGGGGGGGGG",formik.values,"\n",formik)
+    } 
   };
 
   const formik = useFormik({
     initialValues: initial,
-    enableReinitialize: true,
     onSubmit: (values) => handleSubmitForm(values),
     validate: handleEventValid,
+    enableReinitialize: true,
   });
   const onDurationClick = (option: any) => {
     if (option === '1 hour') {
@@ -499,6 +851,12 @@ const CreateNewEvent = (props) => {
       setDurationField(value);
     } else {
       setDurationField(option);
+    }
+    if (editModel !== null){
+      if (editModel.duration === option){
+        // alert("setChangeCount:"+ changeCount)
+        setChangeCount(1)
+      }
     }
   };
   const convertion = (dateStr) => {
@@ -553,25 +911,46 @@ const CreateNewEvent = (props) => {
           // const slots = datetime[moment.weekdays(weekday).toLowerCase()]
           const day = currentDate.toDate().getDay();
           if (day === 0) {
-            slots.push(...sunday);
+            const filteredTimeSlots = sunday.filter(
+              (slot) => slot.starttime !== '' && slot.endtime !== '',
+            );
+            slots.push(...filteredTimeSlots);
           }
           if (day === 1) {
-            slots.push(...monday);
+            const filteredTimeSlots = monday.filter(
+              (slot) => slot.starttime !== '' && slot.endtime !== '',
+            );
+            slots.push(...filteredTimeSlots);
           }
           if (day === 2) {
-            slots.push(...tuesday);
+            const filteredTimeSlots = tuesday.filter(
+              (slot) => slot.starttime !== '' && slot.endtime !== '',
+            );
+            slots.push(...filteredTimeSlots);
           }
           if (day === 3) {
-            slots.push(...wednesday);
+            const filteredTimeSlots = wednesday.filter(
+              (slot) => slot.starttime !== '' && slot.endtime !== '',
+            );
+            slots.push(...filteredTimeSlots);
           }
           if (day === 4) {
-            slots.push(...thursday);
+            const filteredTimeSlots = thursday.filter(
+              (slot) => slot.starttime !== '' && slot.endtime !== '',
+            );
+            slots.push(...filteredTimeSlots);
           }
           if (day === 5) {
-            slots.push(...friday);
+            const filteredTimeSlots = friday.filter(
+              (slot) => slot.starttime !== '' && slot.endtime !== '',
+            );
+            slots.push(...filteredTimeSlots);
           }
           if (day === 6) {
-            slots.push(...saturday);
+            const filteredTimeSlots = saturday.filter(
+              (slot) => slot.starttime !== '' && slot.endtime !== '',
+            );
+            slots.push(...filteredTimeSlots);
           }
           schedule1.push({
             date: dateformat(currentDate.toDate()),
@@ -581,6 +960,8 @@ const CreateNewEvent = (props) => {
         }
         currentDate = currentDate.add(1, 'day');
       }
+
+      console.log('schedule1schedule1schedule1schedule1', schedule1);
       return schedule1;
     }
   };
@@ -589,7 +970,7 @@ const CreateNewEvent = (props) => {
     if (
       str === 'Automatically detect and show the times in my invitees time zone'
     ) {
-      setzone(userTimezone);
+      setzone(userzone);
       return userzone;
     } else if (str === 'Lock the timezone (best for in-person events)') {
       const strValue = formik.values.timezone;
@@ -604,14 +985,61 @@ const CreateNewEvent = (props) => {
     const convertedDate = moment(originalDate).format('DD/MM/YYYY');
     return convertedDate;
   };
+
   function onclose() {
     // formik.values = initial
     // formik.setValues(initial)
-    setIsOpen(false);
+
+    // formik.resetForm();
+    console.log('555555555555555555555555', onValid);
+    if (formik.dirty === true) {
+      const validate = window.confirm(
+        'Do you want to leave this site? Changes you made may not be saved.',
+      );
+      if (validate) {
+        HandleResetForm(formik.values);
+        setIsOpen(false);
+      } else {
+        setIsOpen(true);
+      }
+    } else {
+      setIsOpen(false);
+    }
+  }
+  function oneditClose() {
+    if (onValid !== null && formik.dirty === true) {
+      // if (
+      //   onValid.sunday?.length !== sunday.length ||
+      //   onValid.monday?.length !== monday.length ||
+      //   onValid.tuesday?.length !== tuesday.length ||
+      //   onValid.wednesday?.length !== wednesday.length ||
+      //   onValid.thursday?.length !== thursday.length ||
+      //   onValid.friday?.length !== friday.length ||
+      //   onValid.saturday?.length !== saturday.length
+      // ) {
+      const validate = window.confirm(
+        'Do you want to leave this site? Changes you made may not be saved.',
+      );
+      if (validate) {
+        // HandleResetForm(formik.values);
+        setIsOpen(false);
+        resetformik();
+        formik.initialValues = null;
+        formik.values = null;
+      } else {
+        setIsOpen(true);
+      }
+      // }
+    } else {
+      setIsOpen(false);
+      resetformik();
+      formik.initialValues = null;
+      formik.values = null;
+    }
   }
 
   const onApplyChange = (sdate, picker) => {
-    alert(picker);
+    console.log('onApplyChangepickerpicker', picker, sdate);
     const startdate = picker.startDate;
     const enddate = picker.endDate;
     if (startdate !== null && enddate !== null) {
@@ -631,17 +1059,227 @@ const CreateNewEvent = (props) => {
     }
   };
 
+  // const onApplyButtonClick = (dayof,check1,check2,check3,check4,check5,check6,check7 , name) => {
+  //   alert("name:"+ name)
+    
+  //   const filterAndSetDay = (data, setDay) => {
+  //     const filteredData = data.filter((item) => item.starttime !== '' && item.endtime !== '');
+  //     setDay(filteredData);
+  //   };
+  //   if (check1) {
+  //     const newArray1 = [...sunday]      
+  //   filterAndSetDay(dayof, setSunday);
+  //   }
+  //   if (check2) {
+  //     alert("kkkkkk")
+  //     filterAndSetDay(dayof, setMonday);
+  //   }
+  //   if (check3) {
+  //     filterAndSetDay(dayof, setTuesday);
+  //   }
+  //   if (check4) {
+  //     filterAndSetDay(dayof, setWednesday);
+  //   }
+  //   if (check5) {
+  //     filterAndSetDay(dayof, setThursday);
+  //   }
+  //   if (check6) {
+  //     filterAndSetDay(dayof, setFriday);
+  //   }
+  //   if (check7) {
+  //     filterAndSetDay(dayof, setSaturday);
+  //   }
+  // }
+
+
+
   const currentMonthStart = new Date();
   const initialSettings: Props['initialSettings'] = {
     minDate: currentMonthStart,
+  }
+
+  //   // startdate : selectedRange !== null ? selectedRange : currentMonthStart,
+  //   // enddate : selectedRange !== null ? selectedRange : currentMonthStart,
+  //   // minDate: selectedRange.startDate,
+  //   // endDate: selectedRange.endDate,
+  // };
+
+  // const initialSettings = {
+  //   startDate: onSelectShow.startDate !== null ? new Date(selectedRange.startDate) : new Date(), // Set startDate to selectedRange.startDate if not null, else set it to today's date
+  //   endDate: onSelectShow.endDate !== null ? new Date(selectedRange.startDate) : new Date(),
+  // };
+  console.log('initialSettings', initialSettings);
+
+  useEffect(() => {
+    // if (interviewerData.length > 0) {
+    //   const objectsToRemove = teammembers.filter((item) =>
+    //     interviewerData.includes(item.full_name),
+    //   );
+    //   const filteredGoogleCalendars = objectsToRemove.reduce((acc, obj) => {
+    //     if (obj.google_calendar !== null) {
+    //       acc.push(obj.google_calendar);
+    //     }
+    //     if (google === true) {
+    //       acc.push(true);
+    //     }
+    //     return acc;
+    //   }, []);
+    //   console.log(
+    //     'filteredGoogleCalendarsfilteredGoogleCalendars',
+    //     filteredGoogleCalendars,
+    //   );
+    //   if (
+    //     filteredGoogleCalendars.length === 0 &&
+    //     formik.values.event_type === 'Google Hangouts/Meet'
+    //   ) {
+    //     const validate = window.confirm(
+    //       'At least one interviewer must be integrated to the Google Calendar.Otherwise, the video conference will not be created',
+    //     );
+    //     if (validate) {
+    //       setIsOpen(false);
+    //       dispatch(googleCallApiMiddleware()).then((res) => {
+    //         window.open(res.payload.url);
+    //       });
+    //     } else {
+    //       formik.values.event_type = '';
+    //     }
+    //   }
+    //   // console.log("objectsToRemove",objectsToRemove);
+    //   // objectsToRemove.map((item)=> {
+    //   //   const newArray = []
+    //   //   const newdata = []
+    //   //   if(item.google_calendar === null && google === false){
+    //   //    return(
+    //   //     window.confirm(
+    //   //       'Do you want to leave this site? Changes you made may not be saved.',
+    //   //     )
+    //   //    )
+    //   // newArray.push(item.full_name)
+    //   // newdata.push(item.user.toString())
+    //   // console.log("5555555555555",newArray,newdata)
+    //   // setinterviewerData(newArray)
+    //   // setCheckedItems(newdata)
+    //   //   }else{
+    //   //     console.log("newArraynewArraynewArraynewArraynewArray")
+    //   //   }
+    //   //   console.log("newArraynewArraynewArraynewArraynewArray",newArray,newdata)
+    //   // })
+    // }
+    // else if (
+    //   google === false &&
+    //   formik.values.event_type === 'Google Hangouts/Meet'
+    // ) {
+    //   const validate = window.confirm(
+    //     'Google Calendar not be Integrated, Select this option after the Integration',
+    //   );
+    //   if (validate) {
+    //     setIsOpen(false);
+    //     dispatch(googleCallApiMiddleware()).then((res) => {
+    //       window.open(res.payload.url);
+    //     });
+    //   } else {
+    //     formik.values.event_type = '';
+    //   }
+    // }
+  }, [formik.values.event_type]);
+
+  function ErrMessage(timeslot) {
+    console.log('&&&&&&&&&&&', timeslot);
+    if (timeslot.length === 0 && formik.values.duration === '') {
+      seterrMsg(true);
+      const error = 'Please select the duration';
+      formik.setFieldError('duration', error); 
+      formik.touched.duration = true;
+    } else {
+      formik.touched.duration = false;
+    }
+  }
+
+  console.log('i333333333333333333333333333', interviewerData, checkedItems);
+
+  console.log('1234567867543213456789', formik);
+
+  console.log('@@@@@@######onValidonValid', onValid);
+  console.log('@@@@@@######onSelectShow', onSelectShow);
+
+
+  // if (loader) {
+  //   return <Loader />;
+  // }
+
+
+
+
+  const convertmonth = (selectMonth: any) => {
+    if (selectMonth) {
+      const [dayFrom, monthFrom, yearFrom] = selectMonth.split('/').map(Number);
+      const dateFrom = new Date(yearFrom, monthFrom - 1, dayFrom);
+      console.log('>>>>>>>', dateFrom);
+      return dateFrom;
+    }else{
+      return null
+    }
   };
+
+  const handleDateRangePickerShow = (event, picker) => {
+    console.log("pickerpickerpicker",picker)
+  console.log('@@@@@@######onSelectShow1111', onSelectShow);
+
+    // alert("picker")
+    setDatePickerOpen(true);
+
+    if(onSelectShow.startDate !== null && onSelectShow.endDate !== null){
+      alert(":p")
+      picker.startDate = moment(onSelectShow.startDate)
+      picker.endDate = moment(onSelectShow.endDate)
+    
+// // : 
+// // Tue Oct 31 2023 00:00:00 GMT+0530 (India Standard Time) {}
+// // startDate
+// // : 
+// // Sun Oct 01 2023 00:00:00 GMT+0530 (India Standard Time) {}
+
+    }
+
+    console.log("picker.startDate",picker.startDate,"\n","picker.startDate",picker,"\n","onselextShow",onSelectShow)
+    console.log(
+      'DateRangePicker shown with selected range:',
+      onSelectShow.startDate,
+      onSelectShow.endDate,
+    );
+    // You can perform any additional actions when the DateRangePicker is shown in edit view mode
+  };
+
+  function dateRangeClose() {
+    console.log("dateRangeClosedateRangeClose",datePickerOpen)
+    setDatePickerOpen(false)
+    setDurationOpen(false)
+  }
+  useEffect(()=> {
+
+  },[onSelectShow])
+
+  console.log('datePickerOpen', datePickerOpen, durationOpen);
+  console.log('formikformik!!!!!!!', formik,"\n",formik.values);
+
+  console.log('selectedRangeselectedRangeselectedRangeselectedRange', onSelectShow,new Date(2023,10,2) );
+
+  const MAX_BUTTONS = 3;
+  const MAX_BUTTON_TEXT_WIDTH = 85;
+
+  // function editFormReset() {
+  //   alert("editFormReset")
+  //   // seteditModel('')
+  // }aQZx  aZ
 
   return (
     <Flex>
+      {loader && <Loader />}
+      {console.log("sundaysunday",sunday,"\n","monday",monday,"\n","tuesday",tuesday,"\n","wednesday",wednesday,"\n","thursday",thursday,"\n","friday",friday,"\n","saturday",saturday,)}
       <Flex className={styles.createnewlink}>
         <Flex style={{ padding: '0px 25px' }}>
           <Flex className={styles.title}>
-            <Text color="theme" bold size={16} style={{ marginBottom: '5px' }}>
+            <Text color="theme" bold size={14} style={{ marginBottom: '5px' }}>
               Create Event
             </Text>
           </Flex>
@@ -652,13 +1290,14 @@ const CreateNewEvent = (props) => {
             maxHeight: '480px',
             overflowY: datePickerOpen ? 'hidden' : 'auto',
             padding: '0px 25px',
-            minWidth: '620px',
+            minWidth: '638px',
           }}
         >
           <Flex row className={styles.row}>
             <Flex flex={1} marginRight={25}>
               <InputText
                 label="Event Name"
+                size={14}
                 required
                 value={formik.values.event_name}
                 placeholder="Enter event name"
@@ -675,25 +1314,27 @@ const CreateNewEvent = (props) => {
               />
             </Flex>
             <Flex flex={1}>
-              <LabelWrapper label="Event Type" required>
+              <LabelWrapper label="Event Type" required size={14}>
                 <Flex marginTop={5}>
                   <SelectTag
                     id="Event_Type"
-                    options={eventType}
+                    options={eventType}                    
                     required
                     value={
-                      eventType
+                      formik.values.event_type !== ''
                         ? eventType.find(
                             (option) =>
                               option.label === formik.values.event_type,
                           )
-                        : ''
+                        : null
                     }
-                    placeholder="Select event type"
+                    placeholder="Select the event type"
                     onChange={(option) => {
-                      formik.setFieldValue('event_type', option.label);
+                      eventonChange(option.label);
                       // setButton(false);
                     }}
+                   
+                    
                   ></SelectTag>
 
                   <ErrorMessage
@@ -713,6 +1354,8 @@ const CreateNewEvent = (props) => {
               <Flex flex={1}>
                 <InputText
                   label="Location"
+                  size={14}
+                  required
                   placeholder="Add location"
                   value={formik.values.location}
                   style={{ marginTop: '5px' }}
@@ -735,14 +1378,19 @@ const CreateNewEvent = (props) => {
 
           <Flex row className={styles.row}>
             <Flex flex={1} marginRight={25}>
-              <LabelWrapper label="Duration" required>
-                <div style={{ marginTop: 5 }}>
+              <LabelWrapper label="Duration" required size={14}>
+                <div
+                  style={{ marginTop: 5 }}
+                  // onMouseEnter={() => setDurationOpen(false)}
+                  onFocus= {()=>dateRangeClose()}
+                  
+                >
                   <SelectTag
                     options={duration}
                     required
-                    placeholder={'Select the Duration'}
+                    placeholder={'Select the duration'}
                     value={
-                      duration
+                      formik.values.duration !== ""
                         ? duration.find(
                             (option) => option.label === formik.values.duration,
                           )
@@ -754,16 +1402,29 @@ const CreateNewEvent = (props) => {
                       // setButton(false);
                     }}
                   ></SelectTag>
+                  {/* {errMsg ? (
+                    <>
+                      {console.log('______________', errMsg)}
+                    
+                      <ErrorMessage
+                        name="duration"
+                        errors="please select the duration"
+                        touched={formik.touched}
+                      />
+                    
+                    </>
+                  ) : ( */}
                   <ErrorMessage
                     name={'duration'}
                     errors={formik.errors}
                     touched={formik.touched}
                   />
+                  {/* )} */}
                 </div>
               </LabelWrapper>
             </Flex>
             <Flex flex={1}>
-              <LabelWrapper label="Choose your Time Zone" required>
+              <LabelWrapper label="Choose Your Time Zone" required size={14} >
                 <div style={{ marginTop: 5 }}>
                   <SelectTag
                     required
@@ -785,6 +1446,7 @@ const CreateNewEvent = (props) => {
                       formik.setFieldValue('timezone', option.label);
                     }}
                   ></SelectTag>
+
                   <ErrorMessage
                     name={'timezone'}
                     errors={formik.errors}
@@ -796,24 +1458,44 @@ const CreateNewEvent = (props) => {
           </Flex>
           <Flex row className={styles.row} marginRight={25}>
             <Flex flex={1}>
-              <LabelWrapper label="Within a date range">
-                <DateRangePicker
-                  initialSettings={initialSettings}
-                  onApply={(event, picker) => onApplyChange(event, picker)}
-                  onShow={() => {
-                    setDatePickerOpen(true);
-                  }}
-                  onHide={() => setDatePickerOpen(false)}
-                >
-                  <div className={styles.dateInput}>
+              <LabelWrapper label="Within a date range" size={14} required>
+                <div className={styles.dateInput}>
+                  <DateRangePicker
+                    initialSettings={initialSettings}
+                    // onShowCalendar={selectedRange.startDate}
+                    onApply={(event, picker) => onApplyChange(event, picker)}
+                    // onShow={() => {
+                    //   setDatePickerOpen(true);
+                    //                setSelectedRange({
+                    //                 startDate: onSelectShow.startDate !== null ? onSelectShow.startDate : new Date() ,
+                    //                 endDate:  onSelectShow.endDate !== null ? onSelectShow.endDate : new Date()
+                    //   });
+                    // }}
+                    onShow={handleDateRangePickerShow}
+                    // initialSettings={{
+                    //   // if(onSelectShow !== null){
+                    //     // startDate: onSelectShow !== null ? onSelectShow.startDate : new Date(),
+                    //     // endDate: onSelectShow !== null ? onSelectShow.endDate : new Date(),                    
+
+                    //     startDate: onSelectShow.startDate !== null ? new Date(2023,9,19) : new Date() ,
+                    //     endDate:  onSelectShow.endDate !== null ? new Date(2023,10,19) : new Date()
+                    //   // }
+                    // }}
+
+                    
+                    onHide={() => setDatePickerOpen(false)}
+                  >
                     <input
                       type="dates"
-                      className={styles.datePicker}
+                      className={`${styles.datePicker} ${styles.customInput}`}
                       value={
                         selectedRange.startDate && selectedRange.endDate
                           ? `${selectedRange.startDate} - ${selectedRange.endDate}`
                           : ''
                       }
+                      placeholder="Choose your date range"
+                      // readOnly
+
                       // onFocus={() => {
                       //   setDatePicker(true);
                       // }}
@@ -821,11 +1503,11 @@ const CreateNewEvent = (props) => {
                       //   setDatePicker(false);
                       // }}
                     />
-                    <Flex marginRight={5} style={{ cursor: 'pointer' }}>
-                      <SvgCalendar width={16} height={16} />
-                    </Flex>
-                  </div>
-                </DateRangePicker>
+                  </DateRangePicker>
+                  <Flex marginRight={5} style={{ cursor: 'pointer' }}>
+                    <SvgCalendar width={16} height={16} />
+                  </Flex>
+                </div>
               </LabelWrapper>
 
               <ErrorMessage
@@ -846,7 +1528,7 @@ const CreateNewEvent = (props) => {
           </Flex>
 
           <Flex row between center>
-            <Flex row>
+            <Flex row className={styles.overflowbtn}>
               <Button
                 types="secondary"
                 style={{
@@ -858,7 +1540,8 @@ const CreateNewEvent = (props) => {
               >
                 <Text color="theme"> {profilename}</Text>
               </Button>
-              {interviewerData.map((name: any, index) => (
+              
+              {/* {interviewerData.slice(0, MAX_BUTTONS).map((name, index) => (
                 <Button
                   key={index}
                   style={{
@@ -866,22 +1549,72 @@ const CreateNewEvent = (props) => {
                     borderBottom: 'none',
                     borderRadius: '2px 2px 0px 0px',
                     padding: '5px',
+                    
                   }}
                   types="secondary"
                 >
-                  <Text color="theme"> {name}</Text>
+                  <Text title={name} color="theme" className={styles.interviewertxt}> {name}</Text>
                 </Button>
               ))}
+               {interviewerData.length > MAX_BUTTONS && (
+        <Button
+          style={{
+            border: '1px solid #ccc',
+            borderBottom: 'none',
+            borderRadius: '2px 2px 0px 0px',
+            padding: '5px',
+          }}
+          types="secondary"
+        >
+          <Text color="theme" className={styles.interviewertxt}>{`+${interviewerData.length - MAX_BUTTONS}`}</Text>
+         </Button>
+      )} */}
+      {interviewerData.slice(0, MAX_BUTTONS).map((name, index) => (
+        <Button
+          key={index}
+          style={{
+            border: '1px solid #ccc',
+            borderBottom: 'none',
+            borderRadius: '2px 2px 0px 0px',
+            padding: '5px',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            maxWidth: MAX_BUTTON_TEXT_WIDTH + 'px',
+          }}
+          types="secondary"
+        >
+          <Text title={name} color="theme" className={styles.interviewertxt}> {name}</Text>
+        </Button>
+      ))}
+      {interviewerData.length > MAX_BUTTONS && (
+        <Button
+          style={{
+            border: '1px solid #ccc',
+            borderBottom: 'none',
+            borderRadius: '2px 2px 0px 0px',
+            padding: '5px',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            maxWidth: MAX_BUTTON_TEXT_WIDTH + 'px',
+          }}
+          types="secondary"
+        >
+          <Text color="theme" className={styles.interviewertxt}>{`+${interviewerData.length - MAX_BUTTONS}`}</Text>
+         </Button>
+      )}
+              
             </Flex>
 
             {organiser?.length > 0 ? (
-              <Flex row center onClick={() => setInterviewer(true)}>
+              <Flex row center onClick={() => setInterviewer(true)} className={styles.pointer}>
                 <SvgRoundAdd width={14} height={14} fill={'#581845'} />
                 <Text
                   size={14}
                   bold
                   color="theme"
-                  style={{ marginLeft: '5px' }}
+                  style={{ marginLeft: '5px',cursor:"pointer" }}
                 >
                   Add Interviewer
                 </Text>
@@ -900,12 +1633,14 @@ const CreateNewEvent = (props) => {
                 teammembers={organiser}
                 checkedItems={checkedItems}
                 setCheckedItems={setCheckedItems}
+                formik={formik.values}
+                google={google}
               />
             </Modal>
           ) : (
             ''
           )}
-          {/* <div className={styles.line1}></div> */}
+
           <div className={styles.daytimesplit}>
             <Flex row style={{ border: '1px solid #c3c3c3', padding: '10px' }}>
               <DayTimeSplit
@@ -942,6 +1677,14 @@ const CreateNewEvent = (props) => {
                 setfridaycheck={setfridaycheck}
                 saturdaycheck={saturdaycheck}
                 setsaturdaycheck={setsaturdaycheck}
+                ErrMessage={ErrMessage}
+                editModel ={editModel}
+                onValid ={onValid}
+                seteditModel ={seteditModel}
+                setonValid ={setonValid}
+                changeCount ={changeCount}
+                setChangeCount = {setChangeCount}
+              
               />
             </Flex>
           </div>
@@ -951,16 +1694,27 @@ const CreateNewEvent = (props) => {
             touched={formik.touched}
           />
           <div style={{ marginTop: 10 }}>
-            <LabelWrapper label="Time Zone Display">
+            <LabelWrapper label="Time Zone Display" size={14}>
               <div style={{ marginTop: 5 }}>
                 <Flex column>
                   {timezonedisplay.map((jobList) => {
                     return (
-                      <Flex row key={jobList.value}>
+                      <Flex row key={jobList.value} marginTop={3}>
+                        {console.log(
+                          'jobList.label === formik.values.timezonedisplay',
+                          jobList.label,
+                          typeof jobList.label,
+                          '\n',
+                          formik.values.timezonedisplay,
+                          typeof formik.values.timezonedisplay,
+                        )}
                         <InputRadio
                           label={jobList.label}
                           checked={
                             jobList.label === formik.values.timezonedisplay
+                              ? true
+                              : false
+                            // jobList.label === formik.values.timezonedisplay ? true : false
                           }
                           onClick={() =>
                             formik.setFieldValue(
@@ -970,7 +1724,7 @@ const CreateNewEvent = (props) => {
                           }
                         />
                       </Flex>
-                    );
+                    ); 
                   })}
                 </Flex>
               </div>
@@ -980,6 +1734,7 @@ const CreateNewEvent = (props) => {
           <div className={styles.line}></div>
           <Flex flex={1}>
             <InputText
+              size={14}
               placeholder="Enter the details that your invitee should know about the event."
               value={formik.values.description}
               onChange={(e) => {
@@ -987,10 +1742,11 @@ const CreateNewEvent = (props) => {
               }}
               label="Description/Instructions"
               textarea
+              required
               style={{
                 border: '1px solid  #b3b3b3',
                 borderRadius: '4px',
-                marginBottom: '20px',
+                // marginBottom: '10px',
                 width: '100%',
                 marginTop: '5px',
               }}
@@ -1013,21 +1769,24 @@ const CreateNewEvent = (props) => {
                   onClick={onclose}
                   className={styles.cancel}
                   types={'primary'}
+                  textSize={13}
+                
                 >
                   Cancel
                 </Button>
-                <Button onClick={formik.handleSubmit}>Create Link</Button>
+                <Button onClick={formik.handleSubmit}  textSize={13}>Create Link</Button>
               </Flex>
             ) : (
               <Flex row end>
                 <Button
-                  onClick={onclose}
+                  onClick={oneditClose}
                   className={styles.cancel}
                   types={'primary'}
+                  textSize={13}
                 >
                   Cancel
                 </Button>
-                <Button onClick={formik.handleSubmit}>Save</Button>
+                <Button onClick={formik.handleSubmit}  textSize={13} >Save</Button>
               </Flex>
             )}
           </Flex>

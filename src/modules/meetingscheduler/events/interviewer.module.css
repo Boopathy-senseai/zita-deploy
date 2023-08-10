@@ -8,6 +8,14 @@
   padding: 25px;
   border-radius: 4px;
 }
+.model{
+  overflow: scroll;
+  background-color: #fff;
+  padding: 4px;
+  width: 452px;
+  max-height: 166px;
+  border-radius: 4px;
+}
 .selectmembers {
   width: 450px;
   margin: 10px 0px;
@@ -35,4 +43,8 @@
 .update:active,
 .update:focus {
   border: none;
+}
+
+.nodata{
+  padding: 10px;
 }
