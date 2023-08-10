@@ -605,3 +605,10 @@ export const Gmail_Reply_forward = async (data) => {
   });
   return reply;
 };
+
+export const Gmail_profile = async () => {
+  const profile = await gapi.client.gmail.users.getProfile({
+    userId: 'me', // 'me' refers to the authenticated user
+  });
+  return profile;
+};

@@ -57,7 +57,6 @@ const Maillist = ({
   const getmessage = (get, id) => {
     if (message.id !== id) {
       if (integration === 'google') {
-        alert(id);
         getmessageid(id);
       } else {
         removemsg();
@@ -202,18 +201,82 @@ const Maillist = ({
     }
   };
 
-  const getfrom = (data: any) => {
+  const getfrom = (data: any, val: any) => {
     if (data.length !== 0) {
-      const from = data.filter((item) => item.name === 'From');
+      if (sideroute === 1 || sideroute === 4) {
+        const from = data.filter((item) => item.name === 'From');
+        if (from.length !== 0) {
+          let From = from[0].value.replace(/\s\S*$/, '');
+          return <>{From}</>;
+        } else {
+          return <>{'(No Recipients)'}</>;
+        }
+      }
 
-      if (from.length !== 0) {
-        let From = from[0].value.replace(/\s\S*$/, '');
-        return <>{From}</>;
+      if (sideroute === 3) {
+        const To = data.filter((item) => item.name === 'To');
+        if (To.length !== 0) {
+          const ToEmails = data
+            .filter((header) => header.name === 'To')
+            .map((header) => header.value);
+          return (
+            <Flex row>
+              <Text style={{ color: '#ED4857', marginRight: '5px' }}>
+                Draft{' '}
+              </Text>
+              <Text>{ToEmails[0]}</Text>
+            </Flex>
+          );
+        } else {
+          return (
+            <Flex row>
+              <Text style={{ color: '#ED4857', marginRight: '5px' }}>
+                Draft{' '}
+              </Text>
+              <Text>{`(No Recipients)`}</Text>
+            </Flex>
+          );
+        }
+      }
+
+      if (sideroute === 5 || sideroute === 0) {
+        var get = val.labelIds.includes('DRAFT');
+
+        if (get === true) {
+          const from = data.filter((item) => item.name === 'From');
+          if (from.length !== 0) {
+            let From = from[0].value.replace(/\s\S*$/, '');
+            return (
+              <>
+                <Flex row>
+                  <Text style={{ color: '#ED4857', marginRight: '5px' }}>
+                    Draft{' '}
+                  </Text>
+                  <Text>{From}</Text>
+                </Flex>
+              </>
+            );
+          } else {
+            return <>{'(No Recipients)'}</>;
+          }
+        } else {
+          const ToEmails = data
+            .filter((header) => header.name === 'To')
+            .map((header) => header.value);
+
+          return <>{ToEmails[0]}</>;
+        }
+      }
+
+      if (sideroute === 2) {
+        const ToEmails = data
+          .filter((header) => header.name === 'To')
+          .map((header) => header.value);
+
+        return <>{ToEmails[0]}</>;
       } else {
         return <>{'(No Recipients)'}</>;
       }
-    } else {
-      return <>{'(No Recipients)'}</>;
     }
   };
 
@@ -324,7 +387,9 @@ const Maillist = ({
                           style={{ display: 'flex', flexDirection: 'column' }}
                         >
                           <Flex row between>
-                            <Text>{getfrom(val.payload.headers)}</Text>
+                            <Text className={styles.textHeadingStyle}>
+                              {getfrom(val.payload.headers, val)}
+                            </Text>
                             <Text size={12}>{date(val.payload.headers)}</Text>
                           </Flex>
 

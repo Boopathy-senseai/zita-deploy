@@ -41,6 +41,7 @@ import {
   Gmail_search,
   Gmail_Attachment,
   Gmail_Folder_Total_count,
+  Gmail_profile,
 } from '../../emailService';
 import config from '../../outlookmailConfig';
 import SvgRefresh from '../../icons/SvgRefresh';
@@ -538,12 +539,25 @@ const EmailScreen = () => {
       .catch((error) => {});
   };
 
+  const gProfile = () => {
+    initGoogleAuth().then(() => {
+      Gmail_profile()
+        .then((res) => {
+          setUsermail(res.result.emailAddress);
+        })
+        .catch((err) => {
+          console.log('error');
+        });
+    });
+  };
+
   useEffect(() => {
     if (integration !== '') {
       if (integration === 'google') {
         if (sideroute !== 0) {
           page();
           foldercount();
+          gProfile();
         }
       } else if (integration === 'outlook') {
         if (sideroute !== 0) {
@@ -795,6 +809,7 @@ const EmailScreen = () => {
               Mail_action={Mailaction}
               updateMailaction={updateMailaction}
               atfiles={attachments}
+              sidebarroute={sideroute}
             />
           </>
         ) : (

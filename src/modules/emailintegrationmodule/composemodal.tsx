@@ -8,6 +8,8 @@ import { InteractionType, PublicClientApplication } from '@azure/msal-browser';
 import { useMsal } from '@azure/msal-react';
 import { useDispatch, useSelector } from 'react-redux';
 import parse from 'html-react-parser';
+import moment from 'moment';
+import { getDateString } from '../../uikit/helper';
 import { AppDispatch, RootState } from '../../store';
 import MessageTemplate from '../../modules/applicantprofilemodule/MessageTemplate';
 import {
@@ -44,6 +46,7 @@ import {
   Gmail_Draft,
   mailreplayall,
   Gmail_Reply_forward,
+  Gmail_profile,
 } from '../../emailService';
 import InputText from '../../uikit/InputText/InputText';
 import SvgCollapse from '../../icons/Svgcollapse';
@@ -63,6 +66,7 @@ type Props = {
   Mail_action: string;
   updateMailaction: (val: any) => void;
   atfiles: any;
+  sidebarroute: any;
 };
 
 const Newmessage = ({
@@ -74,6 +78,7 @@ const Newmessage = ({
   Mail_action,
   updateMailaction,
   atfiles,
+  sidebarroute,
 }: Props) => {
   const msal = useMsal();
   const dispatch: AppDispatch = useDispatch();
@@ -171,24 +176,58 @@ const Newmessage = ({
       }
     }
     if (integration === 'google') {
-      let repmail = [];
-      const fromEmail = replaymsg.header.find(
-        (header) => header.name === 'From',
-      ).value;
-      repmail.push(fromEmail);
       const subjects = replaymsg.header.find(
         (header) => header.name === 'Subject',
       ).value;
+      if (sidebarroute === 2) {
+        replyto();
+      }
 
-      var togmail = {
-        value: fromEmail,
-        label: fromEmail,
-      };
+      if (sidebarroute === 1) {
+        replyfrom();
+      }
 
+      if (sidebarroute === 4 || sidebarroute === 5) {
+        const datas = replaymsg.labelIds.includes('INBOX');
+        if (datas === true) {
+          replyfrom();
+        } else {
+          replyto();
+        }
+      }
       formik.setFieldValue('userMessage', replaymsg.body);
-      setTosample(togmail);
-      setTomail(repmail);
       setSubject(subjects);
+    }
+  };
+
+  const replyfrom = () => {
+    let repmail = [];
+    const fromEmail = replaymsg.header.find(
+      (header) => header.name === 'From',
+    ).value;
+    repmail.push(fromEmail);
+
+    var togmail = {
+      value: fromEmail,
+      label: fromEmail,
+    };
+
+    setTosample(togmail);
+    setTomail(repmail);
+  };
+
+  const replyto = () => {
+    const ToEmails = replaymsg.header
+      .filter((header) => header.name === 'To')
+      .map((header) => header.value);
+
+    if (ToEmails.length !== 0) {
+      const ToArray = ToEmails[0].split(', ');
+      const ToObjectsArray = ToArray.map((email, index) => {
+        return { value: email, label: email };
+      });
+      setTosample(ToObjectsArray);
+      setTomail(ToArray);
     }
   };
 
@@ -320,8 +359,6 @@ const Newmessage = ({
   }, []);
 
   useEffect(() => {
-    alert(integration);
-    alert(Mail_action);
     if (Mail_action === 'reply') {
       replaymail();
     } else if (Mail_action === 'forward') {
@@ -868,9 +905,11 @@ const Newmessage = ({
     ).value;
     let replyContent = '';
 
+    const time = moment(replaymsg.internalDate).format('llll');
+
     if (Mail_action === 'reply' || Mail_action === 'replyall') {
       // note :- reply and  replyall is same email content
-      replyContent = `On ${replaymsg.internalDate}, ${fromEmail} wrote:\n\n${replaymsg.snippet}\n\n ${messagebody}.`;
+      replyContent = `On ${time}, ${fromEmail} wrote:\n\n${replaymsg.snippet}\n\n ${messagebody}.`;
     } else if (Mail_action === 'forward') {
       replyContent =
         `---------- Forwarded message ----------\n` +

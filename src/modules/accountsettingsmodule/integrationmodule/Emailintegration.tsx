@@ -157,6 +157,7 @@ const IntegrationScreen = () => {
       })
       .then((res) => {
         console.log('res---------', res.account);
+        console.log('res++++', res);
         setEmail(res.account.username);
         setAuthorizemail('outlook');
       })

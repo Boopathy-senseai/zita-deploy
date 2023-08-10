@@ -18,6 +18,7 @@ import SvgArchive from '../../icons/SvgArchive';
 import { SvgEdit, SvgTrash } from '../../icons';
 import SvgJunk from '../../icons/SvgJunk';
 import SvgReply from '../../icons/SvgReply';
+import SvgReplyall from '../../icons/SvgReplyall';
 import SvgForward from '../../icons/SvgForward';
 import SvgRead from '../../icons/SvgRead';
 import SvgLeft from '../../icons/SvgLeft';
@@ -296,12 +297,16 @@ const Inbox = ({
                 title="Archive"
                 className={messageIcon ? styles.icons : styles.iconsDisabled}
               >
-                <SvgArchive
-                  width={16}
-                  height={16}
-                  fill={messageIcon ? '#581845' : '#58184550'}
-                  onClick={messageIcon ? archive : undefined}
-                />
+                {integration === 'outlook' ? (
+                  <SvgArchive
+                    width={16}
+                    height={16}
+                    fill={messageIcon ? '#581845' : '#58184550'}
+                    onClick={messageIcon ? archive : undefined}
+                  />
+                ) : (
+                  ''
+                )}
               </Flex>
             )}
 
@@ -547,7 +552,7 @@ const Inbox = ({
                           className={styles.icons}
                           onClick={() => mail('replyall')}
                         >
-                          <SvgReply width={16} height={16} />
+                          <SvgReplyall width={16} height={16} />
                         </Flex>
                         <Flex
                           title="Forward"
@@ -654,7 +659,7 @@ const Inbox = ({
                               className={styles.icons}
                               onClick={() => mail('replyall')}
                             >
-                              <SvgReply width={16} height={16} />
+                              <SvgReplyall width={16} height={16} />
                             </Flex>
                             <Flex
                               title="Forward"
