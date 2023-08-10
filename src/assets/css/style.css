@@ -483,7 +483,7 @@ small {
   cursor: pointer;
   padding: 8px 15px;
   transition: all 0.3s;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  /* border-bottom: 1px solid rgba(0, 0, 0, 0.04); */
 }
 .dropdown-item:hover {
   background-color: rgb(88 24 69 / 15%) !important;
@@ -773,6 +773,9 @@ input:-webkit-autofill:active {
 /* Input fields */
 .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
   padding: 5px 10px !important;
+  height: 20px !important;
+  font-size: 14px !important;
+  color: #333 !important;
 }
 .tab-content {
   position: relative;
@@ -1879,22 +1882,87 @@ input:-webkit-autofill:active {
   display: none;
 }
 
-.MuiOutlinedInput-notchedOutline{
+.MuiOutlinedInput-notchedOutline {
   border-color: #cccccc !important;
 }
-.css-92nr1f-MuiButtonBase-root-MuiIconButton-root, .css-1s220mh-MuiButtonBase-root-MuiIconButton-root{
+.css-92nr1f-MuiButtonBase-root-MuiIconButton-root,
+.css-1s220mh-MuiButtonBase-root-MuiIconButton-root {
   background-color: #581845 !important;
 }
-.css-92nr1f-MuiButtonBase-root-MuiIconButton-root:hover, .css-1s220mh-MuiButtonBase-root-MuiIconButton-root:hover{
+.css-92nr1f-MuiButtonBase-root-MuiIconButton-root:hover,
+.css-1s220mh-MuiButtonBase-root-MuiIconButton-root:hover {
   background-color: #581845 !important;
 }
-.css-12ha4i7, .css-7lip4c, .css-118whkv{
+.css-12ha4i7,
+.css-7lip4c,
+.css-118whkv {
   /* border: 16px solid #581845; */
   background-color: #581845 !important;
 }
-.css-118whkv,.css-2ujp1m{
- border: 16px solid #581845 !important;
+.css-118whkv,
+.css-2ujp1m {
+  border: 16px solid #581845 !important;
 }
+.rdp-day {
+  font-size: 14px !important;
+  margin-right: 15px !important;
+  margin-bottom: 5px !important;
+}
+.rdp-head_cell {
+  font-size: 14px !important;
+  color: #333 !important;
+}
+.rdp-caption_label {
+  font-size: 14px !important;
+  padding: 0 !important;
+  color: #333 !important;
+}
+.rdp-cell {
+  color: #333 !important;
+}
+.rdp {
+  margin: 0px 0px 10px 0px !important;
+}
+.rdp-button:hover:not([disabled]):not(.rdp-day_selected) {
+  background-color: #d7c7d2 !important;
+}
+.rdp-button.rdp-day_selected {
+  background-color: #d7c7d2 !important;
+  color: #581845 !important;
+  padding: 5px !important;
+
+}
+
+.rdp-day_today:not(.rdp-day_outside) {
+  background-color: #581845 !important;
+  color: white !important;
+  font-weight: normal !important;
+}
+
+.rdp-caption{
+  margin-left: 15px;
+}
+.daterangepicker td.in-range{
+ background-color: #d7c7d2 !important;
+}
+.daterangepicker td.active{
+  background-color: #581845 !important;
+}
+.cancelBtn.btn.btn-sm.btn-default{
+  background-color: #888888;
+  color: #fff;
+  /* text-transform: capitalize; */
+}
+.daterangepicker .drp-buttons .btn{
+  text-transform: capitalize;
+}
+.react-datepicker__day--keyboard-selected:hover{
+  background-color: #581845 !important;
+}
+.react-datepicker__day--keyboard-selected{
+  background-color: #581845 !important;
+}
+
 /*--------- scroll bar styles---------*/
 
 /* width */

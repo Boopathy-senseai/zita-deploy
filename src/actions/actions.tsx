@@ -155,3 +155,11 @@ export const UPDATE_PIPELINE_STAGE = 'account/pipeline_stage_update';
 export const UPDATE_COLOUR_PALLATE = 'account/colour_pallate_update';
 export const PIPELINE_SUGGESTIONS = 'account/pipeline_suggestions';
 export const PIPELINE_STAGES_REORDER = 'account/pipeline_stages_reorder';
+
+
+// [Meeting Scheduler ] --> events
+export const EVENT_SCHEDULER_FORM_DETAILS = 'events/events';
+export const SLOTTER_FORM_DETAILS = 'events/slotter';
+
+export const EVENTS_LIST = 'events/list';
+export const EVENTS_DELETE = 'events/delete';

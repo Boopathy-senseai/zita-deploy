@@ -52,6 +52,7 @@ import {
   jobMetrics,
   zitaMatchScreen,
   calendarRoute,
+  meetingScheduler,
 } from './appRoutesPath';
 import CreateJdWithNonDs from './modules/createjdmodule/CreateJdWithNonDs';
 import MyJobPostingScreen from './modules/myjobposting/MyJobPostingScreen';
@@ -77,6 +78,9 @@ import JobMetrics from './modules/reportsmodule/JobMetrics';
 import SourcingPerformance from './modules/reportsmodule/SourcingPerformance';
 import CheckSignUpActivate from './modules/SignUp/CheckSignUpActivate';
 import DashBoardScreen from './modules/dashboardmodule/empdashboard/DashBoardScreen';
+import MeetingSchedulerScreen from './modules/meetingscheduler/meetingSchedulerScreen';
+import Slotter1 from './modules/meetingscheduler/events/Slotter1';
+import PreviewTabs from './modules/meetingscheduler/events/PreviewTab';
 
 
 axios.defaults.baseURL = process.env.REACT_APP_API_ENDPOINT;
@@ -92,7 +96,7 @@ const App = () => {
       return response;
     },
     (error) => {
-      if (error.response.status === 401) {
+      if (error?.response && error?.response?.status === 401) {
         window.location.replace(`${window.location.origin + '/login'}`);
         localStorage.clear();
         sessionStorage.clear();
@@ -100,7 +104,6 @@ const App = () => {
       return error;
     },
   );
-
 
   // useEffect(() => {
   //   const query = parse(location.search);
@@ -313,10 +316,16 @@ const App = () => {
       noPermission: true,
       isNav: true,
     },
+    {
+      path: meetingScheduler,
+      component: MeetingSchedulerScreen,
+      exact: true,
+      noPermission: true,
+      isNav: true,
+    },
 
     { path: '/logout', component: Logout, exact: true, noPermission: true },
   ];
-
 
   // Candidate Route
 
@@ -368,33 +377,34 @@ const App = () => {
         <Route path={'/check_activate'} component={CheckSignUpActivate} />
         {/* <Route path={''} component={NotFound} /> */}
         {/* <Route path="/calendar" component={Calendar} /> */}
+        <Route path="/slotter" component={Slotter1}/>
+        <Route path="/event_preview" component={PreviewTabs}/>
         {localStorage.getItem('loginUserCheck') === 'true' ||
-          localStorage.getItem('loginUserCheck') === null
+        localStorage.getItem('loginUserCheck') === null
           ? permissionRoutes.map(
-            (route) =>
-              route.noPermission && (
-                <ProtectedRoute
-                  key={route.path}
-                  exact={route.exact}
-                  path={route.path}
-                  component={route.component}
-                  notIsNav={route.isNav}
-                />
-              ),
-          )
+              (route) =>
+                route.noPermission && (
+                  <ProtectedRoute
+                    key={route.path}
+                    exact={route.exact}
+                    path={route.path}
+                    component={route.component}
+                    notIsNav={route.isNav}
+                  />
+                ),
+            )
           : candidateRoutes.map((route) => (
-            <ProtectedRouteCandidate
-              key={route.path}
-              exact={route.exact}
-              path={route.path}
-              component={route.component}
-              notIsNav={route.isNav}
-            />
-          ))}
+              <ProtectedRouteCandidate
+                key={route.path}
+                exact={route.exact}
+                path={route.path}
+                component={route.component}
+                notIsNav={route.isNav}
+              />
+            ))}
       </Switch>
     </BrowserRouter>
   );
 };
 
 export default App;
- 

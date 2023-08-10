@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import toast, { Toaster } from 'react-hot-toast';
 
 import moment from 'moment';
+import { useLocation } from 'react-router-dom';
 import { Flex, Text, Button, LinkWrapper, SelectTag } from '../../uikit';
 import { SvgCalendar } from '../../icons';
 import { AppDispatch } from '../../store';
@@ -62,10 +63,14 @@ import ColorEvent from './calendar-components/ColorEvent';
 import WeekHeader from './calendar-components/WeekHeader';
 import MeetingSchedulingScreen from './MeetingSchedulingScreen';
 import CalendarScreenLoader from './CalendarScreenLoader';
+interface stateType {
+  openScheduleEvent: boolean;
+}
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 const Calendar = () => {
+  const { state: locationState } = useLocation<stateType>();
   const dispatch: AppDispatch = useDispatch();
   const [currentUser, setCurrentUser] = useState<UserInfo>({
     id: null,
@@ -253,6 +258,11 @@ const Calendar = () => {
     );
   }, []);
 
+  useEffect(() => {
+    if (locationState.openScheduleEvent === true) {
+      setOpenScheduleForm(true);
+    }
+  }, []);
   const handleEventScheduleForm = () => {
     if (calendarProvider) handleGetEvents(calendarProvider);
     setIsEditEvent(false);
@@ -770,7 +780,7 @@ const Calendar = () => {
         <Flex className={styles.calendarInputs}>
           <Flex row center marginRight={15}>
             <Text size={14} color="theme">
-              Time Zone:
+              Time zone:
             </Text>
             {TimeZoneView}
           </Flex>

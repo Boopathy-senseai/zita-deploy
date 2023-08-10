@@ -1,0 +1,96 @@
+.createnewlink {
+  background-color: #fff;
+  padding: 25px 5px;
+  overflow: hidden;
+  z-index: 2;
+  /* width: 680px;
+  height: 680px; */
+  border-radius: 4px;
+}
+.close {
+  border: none;
+  background: none;
+  margin-left: 520px;
+}
+.cancel {
+  margin-right: 8px;
+  background-color: #888888;
+  border: none;
+  border-radius: 5px;
+}
+.cancel:active,
+.cancel:focus {
+  background-color: #888888;
+  border: none;
+}
+/* .inputtextbox{
+  width: 250px;
+} */
+.location {
+  width: 770px;
+}
+.row {
+  margin-bottom: 10px;
+  /* width: 80%; */
+}
+.title {
+  /* padding: 0px 25px; */
+  margin-bottom: 15px;
+  border-bottom: 0.5px solid #581458;
+}
+.inputheight {
+  height: 30px !important;
+  /* margin-bottom: 5px; */
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.with80 {
+  width: 90%;
+}
+.with100 {
+  width: 100%;
+}
+.datePicker {
+  font-size: 13px;
+  width: -webkit-fill-available;
+  height: 28px;
+  border: none;
+  border-radius: 4px;
+}
+.dateInput {
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 50%;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+}
+.my-datepicker {
+  width: 300px; /* Adjust the width as per your requirement */
+  height: 400px; /* Adjust the height as per your requirement */
+  font-size: 16px; /* Adjust the font size as per your requirement */
+}
+
+.borderLine {
+  border-top: 1px solid #c3c3c3;
+  padding-bottom: 20px;
+  /* margin-bottom: 20px; */
+}
+
+/* .button1{
+  margin-left:420px;
+} */
+.line {
+  margin: 10px 0px;
+  border-top: 1px solid #c3c3c3;
+}
+.line1 {
+  border-top: 1px solid #c3c3c3;
+}
+
+.daytimesplit {
+  overflow: hidden;
+  min-height: 300px;
+}
