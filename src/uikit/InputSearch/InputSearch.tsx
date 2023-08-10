@@ -37,11 +37,11 @@ type Props = {
   errorMessage?: string;
   error?: boolean;
   labelBold?: boolean;
-  onkeyPress?: (a: any) => void;
+  onkeyPress?: any;
   style?: string;
   autoFocus?: boolean;
-  onChange?: (val: string) => void;
-  inputRef?: any;
+  inputRef?: any
+  onChange?: (a: any) => void
   // title?:string | undefined;
 };
 
@@ -63,7 +63,11 @@ const renderInputComponent = ({
   
   
 }: any) => {
-  const getValue = value.includes(', usa');
+  const getValue=value.includes(', usa')
+
+console.log("GG0", ref?.current?.value)
+ 
+
   return (
     <input
       // eslint-disable-next-line jsx-a11y/no-autofocus
@@ -94,6 +98,7 @@ const InputSearch = ({
   disabled,
   options,
   onKeyDown,
+  onChange,
   onkeyPress,
   label,
   required,
@@ -103,7 +108,8 @@ const InputSearch = ({
   style,
   autoFocus,
   inputRef,
-  ...rest
+  
+  
   
 }: Props) => {
   const [currentsuggestion, setSuggestion] = useState<any[]>([]);
@@ -159,12 +165,9 @@ const InputSearch = ({
     setFieldValue(name, requiredValue);
   };
 
-  const onChange = (_event: object, { newValue }: { newValue: string }) => {
-    setValue(newValue);
-    if (rest.onChange) {
-      rest.onChange(newValue);
-    }
-  };
+  // const onChange = (_event: object, { newValue }: { newValue: string }) => {
+  //   setValue(newValue);
+  // };
 
   const handleFocus = () => {
     setErrorFocus(true);
@@ -179,7 +182,7 @@ const InputSearch = ({
   const inputProps: any = {
     placeholder,
     value: currentvalue,
-    onChange,
+    onChange:onChange,
     disabled,
     id: name,
     onkeydown: onKeyDown,
@@ -209,8 +212,8 @@ const InputSearch = ({
   };
    
   return (
-    <div style={{ position: 'relative' }}>
-      <LabelWrapper label={label} required={required} bold={labelBold}>
+    <div style={{ position: 'relative',fontSize:'13px' }}>
+      <LabelWrapper label={label} required={required} bold={labelBold} >
         <AutoSuggest
           ref={inputRef}
           suggestions={currentsuggestion}

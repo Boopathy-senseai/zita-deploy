@@ -36,9 +36,20 @@ const Reports = () => {
       }}
     >
       <Flex className={styles.overAll} >
-        <Text size={20} bold className={styles.pageTitle}>
+        
+        <Flex row className={styles.ribbon} between>
+        <Flex marginTop={9} marginLeft={8} >
+          <Text size={18} bold color="theme" >
           Reports
-        </Text>
+          </Text>
+
+        </Flex>
+        <Flex >
+
+          <div className={styles.triangle}></div>
+        </Flex>
+
+        </Flex>
 
         <Flex className={styles.marginTop}>
           <Text size={18} bold>

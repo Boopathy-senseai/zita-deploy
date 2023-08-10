@@ -16,7 +16,7 @@ type Props = {
 
 const SkillContainer = ({ dataList, notesClick, showMatchClick }: Props) => {
   return (
-    <Flex width={'35%'} className={styles.skillFlex}>
+    <Flex width={'70%'} style={{marginLeft: '-14%',marginTop: '15%'}} className={styles.skillFlex}>
       <Text
         color="gray"
         className={styles.skillTextStyle}

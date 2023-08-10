@@ -308,6 +308,10 @@ small {
   border: 1px solid #dc3545 !important;
 }
 
+.react-autosuggest__suggestion{
+  font-size: 13px !important;
+}
+
 /* //Container */
 
 /* @media (min-width: 1200px) {

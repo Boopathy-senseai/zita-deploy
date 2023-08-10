@@ -9,6 +9,7 @@ import styles from './nocountmodal.module.css';
 type Props = {
   open: boolean;
   title: string;
+  subtitle?:string;
   btnLeftTitle: string;
   btnRightTitle: string;
   btnLeftOnclick: () => void;
@@ -19,6 +20,7 @@ const NoCountModal = ({
   open,
   btnLeftTitle,
   title,
+  subtitle,
   btnRightTitle,
   btnLeftOnclick,
   btnRightOnclick,
@@ -26,17 +28,17 @@ const NoCountModal = ({
   return (
     <Modal open={open}>
       <Flex className={styles.overAll}>
-        <Flex end onClick={btnLeftOnclick}>
-          <SvgCloseSmall />
-        </Flex>
-        <Flex row center className={styles.title}>
-          <SvgInfo width={29} height={50} />
-          <Text className={styles.titelText}>{title}</Text>
+      <Flex end onClick={btnLeftOnclick}>
+      <SvgCloseSmall />
+    </Flex>
+        <Flex center className={styles.title}>          
+          <Text className={styles.titelText} style={{color:'black'}}>{title}</Text>
+          <Text className={styles.titelText1} style={{color:'black'}}>{subtitle}</Text>
         </Flex>
         <Flex row center middle className={styles.btnContainer}>
           <Button
-            types="secondary"
-            className={styles.leftBtn}
+            types="primary"
+            className={styles.buttonTypesclose}
             onClick={btnLeftOnclick}
           >
             {btnLeftTitle}

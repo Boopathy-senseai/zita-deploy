@@ -1,19 +1,22 @@
 .inputCommonStyle {
+  height: 30px ;
   border-radius: 4px;
   border: 1px solid var(--color-gary-5, #cccccc);
   outline: none;
-  font-size: 14px;
+  font-size: 13px;
   background-color: var(--color-white, #ffffff);
   width: 100%;
   box-sizing: border-box !important;
   font-family: 'Roboto', sans-serif;
-  padding: 4px 12px 3px 8px;
+  padding: 3px 12px 3px 2px;
 }
 .inputCommonStyle:hover {
   border: 1px solid var(--color-gary-6, #b3b3b3);
 }
+
+
 .inputCommonStyle:focus {
-  /* border: 1px solid var(--color-primary, #581845); */
+  border: 1px solid var(--color-primary, #581845);
 }
 
 .inputCommonStyle::placeholder {

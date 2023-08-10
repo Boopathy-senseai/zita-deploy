@@ -147,11 +147,11 @@ const LinkShare = (props) => {
             {data.map((name, index) => (
               <Flex row key={index}>
                   <Flex row center>
-                <div className={styles.flex}>
-                  {checkedItems.includes(name.candidate_id.toString()) ? (
+                <Flex className={styles.flex} >
+                  {checkedItems.includes(name.id.toString()) ? (
                     <>                    
                   <InputCheckBox                
-                    value={name.candidate_id}                   
+                    value={name.id}                   
                     checked={true}
                     onChange={handleCheckboxChange}
                   />
@@ -159,19 +159,19 @@ const LinkShare = (props) => {
                   ):(
                     <>
                     <InputCheckBox                   
-                    value={name.candidate_id}
+                    value={name.id}
                     // checked ={name.candidate_id ? true : false}
                     onChange={handleCheckboxChange}
                   />
                   </>
                   ) }
                  
-                </div>
-                <div style={{ marginLeft: '10px' }}>
+                </Flex>
+                <Flex style={{ marginLeft: '10px' }}>
                   <Text size={13}>
                     {name.full_name}({name.type})
                   </Text>
-                </div>
+                </Flex>
                 </Flex>
               </Flex>
             ))}

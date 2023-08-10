@@ -199,7 +199,25 @@ const DashBoardScreen = () => {
     //     </Flex>
     //   );
     // };
-    <Flex className={styles.overAll} height={window.innerHeight - flexHeight} >
+    <Flex >
+
+    <Flex row className={styles.ribbon} between>
+      
+
+        <Flex marginTop={9} marginLeft={8} >
+          <Text size={18} bold color="theme" >
+            Dashboard
+          </Text>
+
+        </Flex>
+        <Flex >
+
+          <div className={styles.triangle}></div>
+        </Flex>
+      
+    </Flex>
+    <Flex className={styles.overAll}  >
+    {console.log("dash==>",window.innerHeight,flexHeight )}
       <Flex row center>
 
         <div style={{ display: 'flex' ,marginBottom:"5px"}}>
@@ -231,24 +249,6 @@ const DashBoardScreen = () => {
             )}
         </div>
       </Flex>
-
-      <Flex >
-
-        <Flex row className={styles.ribbon} between>
-          
-
-            <Flex marginTop={9} marginLeft={8} >
-              <Text size={16} bold color="theme" >
-                Dashboard
-              </Text>
-
-            </Flex>
-            <Flex >
-
-              <div className={styles.triangle}></div>
-            </Flex>
-          
-        </Flex>
 
 
         <Flex row>

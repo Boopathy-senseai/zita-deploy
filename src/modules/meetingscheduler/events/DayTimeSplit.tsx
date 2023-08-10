@@ -550,11 +550,9 @@ const DayTimeSplit = (props) => {
       
       console.log("elementsAfterIndexelementsAfterIndex")
       if (text=== 'starttime'){
-        alert("1")
         const elementsAfterIndex = values.slice(selectedIndex + 1);
         setDay1(elementsAfterIndex);
       }else{
-        alert("2")
         const elementsAfterIndex = values.slice(selectedIndex);
         setDay1(elementsAfterIndex);
       }
@@ -1351,7 +1349,7 @@ const DayTimeSplit = (props) => {
   };
   const dateheader = (name, value, onChange) => {
     return (
-      <Flex row center style={{ width: '130px' }}>
+      <Flex row center style={{ width: '130px',marginTop:'5px' }}>
         <InputCheckBox
           key={1}
           value={value}
@@ -1453,6 +1451,7 @@ const DayTimeSplit = (props) => {
       )}
 
       {console.log('copyOpencopyOpencopyOpencopyOpen', copyOpen)}
+      <Flex row center>
       <Flex row marginBottom={10} marginTop={5}>
         {dateheader('Sunday', sundaycheck, (e) =>
           dateCheckboxChange(e, 'sunday'),
@@ -1657,6 +1656,7 @@ const DayTimeSplit = (props) => {
               : ''}
           </div>
         </Flex>
+      </Flex>
       </Flex>
 
       <Flex row marginBottom={10} >

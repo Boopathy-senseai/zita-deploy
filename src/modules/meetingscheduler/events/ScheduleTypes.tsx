@@ -46,9 +46,9 @@ export interface schedulerPageReducerState {
   }
 
   export interface ShareEntity{
-    candidate_id: number,
-    candidate_id__candidate_id: number,
-    candidate_id__email: string,
+    id: number,
+    candidate_id__application_id: number,
+    email: string,
     type: string,
     full_name: string
   }

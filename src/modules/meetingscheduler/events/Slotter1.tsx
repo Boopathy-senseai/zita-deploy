@@ -880,7 +880,7 @@ const SlotterDate = (props) => {
 
                       // ):(
                         <img
-                        src={`${process.env.REACT_APP_HOME_URL}media/company_logo/${data.company_logo}`}
+                        src={`${process.env.REACT_APP_HOME_URL}media/${data.company_logo}`}
                         alt="Company Logo"
                         style={{
                           width: '36px',

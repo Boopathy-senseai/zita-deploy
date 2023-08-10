@@ -1,6 +1,6 @@
 .cardOverAll {
   background-color: var(--color-gary-8, #fafafa);
-  padding: 20px 200px 40px;
+  padding: 20px 40px;
   border-radius: 4px;
   position: relative;
 }

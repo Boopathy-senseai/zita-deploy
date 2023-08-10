@@ -50,9 +50,9 @@ const schedulerState: schedulerPageReducerState = {
   ],
   shareLink: [
     {
-      candidate_id: 0,
-      candidate_id__candidate_id: 0,
-      candidate_id__email: '',
+      id: 0,
+      candidate_id__application_id: 0,
+      email: '',
       type: '',
       full_name: '',
     },

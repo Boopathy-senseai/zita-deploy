@@ -162,14 +162,17 @@ const DashBoard = (props) => {
 
         <div className={styles.line}></div>
 
-        <Flex className={styles.rowGroup} title={"preview"}>
+        <Flex className={styles.rowGroup}>
+          <Flex title={'preview'}>
           <Button
             types="link"
             className={styles.previewbtn}
             onClick={() => PreviewOnClick(list.id)}
+            // t={"preview"}
           >
             <SvgShareIcon fill={'#581845'} height={17} width={17} />
           </Button>
+          </Flex>
           <Button
             types="secondary"
             className={styles.buttonshare}
@@ -296,7 +299,7 @@ const ActionsButton = (props) => {
               <Flex column>
                 <Flex>
               <Text size={14} style={{ marginLeft: '10px' }}>
-                Users will be unable to schedule further meeting with deleted
+                Users will be unable to schedule further meetings with deleted
                 event types.
                 </Text>
                 </Flex>

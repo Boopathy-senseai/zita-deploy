@@ -107,6 +107,7 @@
     "react-select": "5.2.1",
     "react-share": "^4.4.0",
     "react-svg": "^14.0.16",
+    "react-switch": "^7.0.0",
     "react-time-picker": "^4.5.0",
     "react-timeit": "^1.2.12",
     "react-virtualized-auto-sizer": "^1.0.6",

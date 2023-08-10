@@ -177,6 +177,7 @@ const CreateNewEvent = (props) => {
   let profilename = user.first_name + ' ' + user.last_name;
   console.log('profilenameprofilenameprofilename', profilename);
   useEffect(() => {
+
     if (!isEmpty(editModel)) {
       setedit_id(editModel.id);
       setloader(true);
@@ -192,6 +193,7 @@ const CreateNewEvent = (props) => {
         setloading(false);
       });
     } else {
+      resetformik()
       formik.resetForm();
       // resetformik()
     }
@@ -994,7 +996,7 @@ const CreateNewEvent = (props) => {
     console.log('555555555555555555555555', onValid);
     if (formik.dirty === true) {
       const validate = window.confirm(
-        'Do you want to leave this site? Changes you made may not be saved.',
+        'You have unsaved changes that will be lost, Are you sure to Proceed ?',
       );
       if (validate) {
         HandleResetForm(formik.values);
@@ -1301,7 +1303,7 @@ const CreateNewEvent = (props) => {
                 required
                 value={formik.values.event_name}
                 placeholder="Enter event name"
-                style={{ marginTop: '5px' }}
+                style={{ marginTop: '5px' , paddingLeft : '8px' }}
                 onChange={(e) => {
                   formik.setFieldValue('event_name', e.target.value);
                   // setButton(false);
@@ -1536,7 +1538,10 @@ const CreateNewEvent = (props) => {
                   borderBottom: 'none',
                   borderRadius: '2px 2px 0px 0px',
                   padding: '5px',
+                  // cursor : 'arrow'
+                  cursor : 'default'
                 }}
+                
               >
                 <Text color="theme"> {profilename}</Text>
               </Button>
@@ -1581,6 +1586,7 @@ const CreateNewEvent = (props) => {
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             maxWidth: MAX_BUTTON_TEXT_WIDTH + 'px',
+            cursor : 'default'
           }}
           types="secondary"
         >
@@ -1749,6 +1755,7 @@ const CreateNewEvent = (props) => {
                 // marginBottom: '10px',
                 width: '100%',
                 marginTop: '5px',
+                paddingLeft : '8px'
               }}
             />
             <ErrorMessage
