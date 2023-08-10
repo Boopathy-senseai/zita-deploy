@@ -1227,7 +1227,9 @@ const CreateNewEvent = (props) => {
 
     // alert("picker")
     setDatePickerOpen(true);
-    if(onSelectShow !== null){
+
+    if(onSelectShow.startDate !== null && onSelectShow.endDate !== null){
+      alert(":p")
       picker.startDate = moment(onSelectShow.startDate)
       picker.endDate = moment(onSelectShow.endDate)
     
@@ -1277,7 +1279,7 @@ const CreateNewEvent = (props) => {
       <Flex className={styles.createnewlink}>
         <Flex style={{ padding: '0px 25px' }}>
           <Flex className={styles.title}>
-            <Text color="theme" bold size={16} style={{ marginBottom: '5px' }}>
+            <Text color="theme" bold size={14} style={{ marginBottom: '5px' }}>
               Create Event
             </Text>
           </Flex>
@@ -1295,6 +1297,7 @@ const CreateNewEvent = (props) => {
             <Flex flex={1} marginRight={25}>
               <InputText
                 label="Event Name"
+                size={14}
                 required
                 value={formik.values.event_name}
                 placeholder="Enter event name"
@@ -1311,11 +1314,11 @@ const CreateNewEvent = (props) => {
               />
             </Flex>
             <Flex flex={1}>
-              <LabelWrapper label="Event Type" required>
+              <LabelWrapper label="Event Type" required size={14}>
                 <Flex marginTop={5}>
                   <SelectTag
                     id="Event_Type"
-                    options={eventType}
+                    options={eventType}                    
                     required
                     value={
                       formik.values.event_type !== ''
@@ -1351,6 +1354,8 @@ const CreateNewEvent = (props) => {
               <Flex flex={1}>
                 <InputText
                   label="Location"
+                  size={14}
+                  required
                   placeholder="Add location"
                   value={formik.values.location}
                   style={{ marginTop: '5px' }}
@@ -1373,7 +1378,7 @@ const CreateNewEvent = (props) => {
 
           <Flex row className={styles.row}>
             <Flex flex={1} marginRight={25}>
-              <LabelWrapper label="Duration" required>
+              <LabelWrapper label="Duration" required size={14}>
                 <div
                   style={{ marginTop: 5 }}
                   // onMouseEnter={() => setDurationOpen(false)}
@@ -1419,7 +1424,7 @@ const CreateNewEvent = (props) => {
               </LabelWrapper>
             </Flex>
             <Flex flex={1}>
-              <LabelWrapper label="Choose Your Time Zone" required>
+              <LabelWrapper label="Choose Your Time Zone" required size={14} >
                 <div style={{ marginTop: 5 }}>
                   <SelectTag
                     required
@@ -1453,7 +1458,7 @@ const CreateNewEvent = (props) => {
           </Flex>
           <Flex row className={styles.row} marginRight={25}>
             <Flex flex={1}>
-              <LabelWrapper label="Within a date range">
+              <LabelWrapper label="Within a date range" size={14} required>
                 <div className={styles.dateInput}>
                   <DateRangePicker
                     initialSettings={initialSettings}
@@ -1603,13 +1608,13 @@ const CreateNewEvent = (props) => {
             </Flex>
 
             {organiser?.length > 0 ? (
-              <Flex row center onClick={() => setInterviewer(true)}>
+              <Flex row center onClick={() => setInterviewer(true)} className={styles.pointer}>
                 <SvgRoundAdd width={14} height={14} fill={'#581845'} />
                 <Text
                   size={14}
                   bold
                   color="theme"
-                  style={{ marginLeft: '5px' }}
+                  style={{ marginLeft: '5px',cursor:"pointer" }}
                 >
                   Add Interviewer
                 </Text>
@@ -1689,7 +1694,7 @@ const CreateNewEvent = (props) => {
             touched={formik.touched}
           />
           <div style={{ marginTop: 10 }}>
-            <LabelWrapper label="Time Zone Display">
+            <LabelWrapper label="Time Zone Display" size={14}>
               <div style={{ marginTop: 5 }}>
                 <Flex column>
                   {timezonedisplay.map((jobList) => {
@@ -1729,6 +1734,7 @@ const CreateNewEvent = (props) => {
           <div className={styles.line}></div>
           <Flex flex={1}>
             <InputText
+              size={14}
               placeholder="Enter the details that your invitee should know about the event."
               value={formik.values.description}
               onChange={(e) => {
@@ -1763,10 +1769,12 @@ const CreateNewEvent = (props) => {
                   onClick={onclose}
                   className={styles.cancel}
                   types={'primary'}
+                  textSize={13}
+                
                 >
                   Cancel
                 </Button>
-                <Button onClick={formik.handleSubmit}>Create Link</Button>
+                <Button onClick={formik.handleSubmit}  textSize={13}>Create Link</Button>
               </Flex>
             ) : (
               <Flex row end>
@@ -1774,10 +1782,11 @@ const CreateNewEvent = (props) => {
                   onClick={oneditClose}
                   className={styles.cancel}
                   types={'primary'}
+                  textSize={13}
                 >
                   Cancel
                 </Button>
-                <Button onClick={formik.handleSubmit}>Save</Button>
+                <Button onClick={formik.handleSubmit}  textSize={13} >Save</Button>
               </Flex>
             )}
           </Flex>

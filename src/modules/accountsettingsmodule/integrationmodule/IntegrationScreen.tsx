@@ -4,7 +4,9 @@ import {
   useDispatch,
   // useSelector
 } from 'react-redux';
+import { Dropdown } from 'react-bootstrap';
 import SvgGmail from '../../../icons/SvgGmail';
+import SvgDotMenu from '../../../icons/SvgDotMenu';
 import SvgEdit from '../../../icons/SvgEdit';
 import SvgTick from '../../../icons/SvgTick';
 import SvgOutlook from '../../../icons/SvgOutlook';
@@ -251,7 +253,7 @@ const IntegrationScreen = () => {
     googleAuthHandler();
     setActive(1);
     setIsGoogle(1);
-  
+
     if (connected && isGoogle === 0) {
       setConnected(0);
       setIsGoogle(1);
@@ -342,6 +344,11 @@ const IntegrationScreen = () => {
     throw new Error('Function not implemented.');
   }
   console.log('conflictopen', conflictopen);
+
+  function Configuration() {
+    alert('Configuration');
+    setConflictopen(true);
+  }
 
   return (
     <Flex className={styles.overAll}>
@@ -539,6 +546,12 @@ const IntegrationScreen = () => {
             )}
           </Flex>
           <Flex flex={9}></Flex>
+          <Flex row end>
+            <ActionsButton 
+            Configuration={Configuration}
+            connected ={connected}
+            active ={active} />
+          </Flex>
         </Flex>
 
         {/* {connected === 1 && active === 1 && isGoogle === 0 && (
@@ -723,11 +736,13 @@ const IntegrationScreen = () => {
           )}
         </Flex>
       </Modal>
+
       {connected === 1 && active === 1 ? (
         <Modal open={conflictopen} onClose={close}>
-          <CalenderConfig 
-          isGoogle={isGoogle}
-          email ={'pugazhendhij@sense7ai.com'} />
+          <CalenderConfig
+            isGoogle={isGoogle}
+            email={'pugazhendhij@sense7ai.com'}
+          />
         </Modal>
       ) : (
         ''
@@ -736,6 +751,55 @@ const IntegrationScreen = () => {
       {/* <Flex className={styles.borderbottom} marginTop={30}>
 
     </Flex> */}
+    </Flex>
+  );
+};
+
+interface ActionButtonProps {
+  Configuration: () => void;
+  connected :  number,
+  active : number,
+}
+
+const ActionsButton: React.FC<ActionButtonProps> = ({ 
+  Configuration,
+  connected,
+  active
+
+ }) => {
+
+
+
+  function BtnClick(){
+    // alert("BtnClick")
+
+  }
+  return (
+    <Flex>
+      <Dropdown>
+
+        <Dropdown.Toggle
+          style={{
+            borderColor: 'unset',
+            backgroundColor: 'unset',
+            boxShadow: 'none',
+          }}
+          id="dropdown-basic"
+          // onClick={BtnClick }
+        >
+          <SvgDotMenu fill={'#black'} height={17} width={17} />
+        </Dropdown.Toggle>
+        {/* { connected === 1 && active === 1 ? ( */}
+        <Dropdown.Menu>
+          <Dropdown.Item onClick={Configuration}>
+            <Flex row center className={styles.pointer}>
+              <Text>Calendar Configurations</Text>
+            </Flex>
+          </Dropdown.Item>
+        </Dropdown.Menu>
+
+        {/* ) :('')} */}
+      </Dropdown>
     </Flex>
   );
 };

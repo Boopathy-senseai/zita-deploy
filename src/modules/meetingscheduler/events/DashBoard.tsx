@@ -68,7 +68,7 @@ const DashBoard = (props) => {
   function copylink(id: any) {
     const eventid = id;
     const url = `${window.location.origin}/event_preview?uid=null&eventid=${eventid}`;
-    Toast('Linked Copied');
+    Toast('Link Copied');
     const tempInput = document.createElement('input');
     tempInput.style.position = 'fixed';
     tempInput.style.opacity = '0';
@@ -117,6 +117,7 @@ const DashBoard = (props) => {
                 {list.event_name}
               </Text>
               <Flex
+                title={"copy"}
                 className={styles.copybutton}
                 onClick={() => copylink(list.id)}
               >
@@ -161,7 +162,7 @@ const DashBoard = (props) => {
 
         <div className={styles.line}></div>
 
-        <Flex className={styles.rowGroup}>
+        <Flex className={styles.rowGroup} title={"preview"}>
           <Button
             types="link"
             className={styles.previewbtn}
@@ -173,6 +174,7 @@ const DashBoard = (props) => {
             types="secondary"
             className={styles.buttonshare}
             onClick={() => SetShare(true)}
+            textSize ={13}
           >
             Share
           </Button>
@@ -266,19 +268,19 @@ const ActionsButton = (props) => {
 
           <Dropdown.Menu style={{ minWidth: '5rem' }}>
             <Dropdown.Item onClick={() => onEdit(data.id, data)}>
-              <Flex row center className={styles.dropDownListStyle}>
+              <Flex row center className={styles.pointer}>
                 <Text>Edit</Text>
               </Flex>
             </Dropdown.Item>
 
             <Dropdown.Item onClick={() => onDuplicate(data.id)}>
-              <Flex row center className={styles.dropDownListStyle}>
+              <Flex row center className={styles.pointer}>
                 <Text>Duplicate</Text>
               </Flex>
             </Dropdown.Item>
 
             <Dropdown.Item onClick={() => handleShow(data.id)}>
-              <Flex row center className={styles.dropDownListStyle}>
+              <Flex row center className={styles.pointer}>
                 <Text>Delete</Text>
               </Flex>
             </Dropdown.Item>
@@ -293,19 +295,19 @@ const ActionsButton = (props) => {
             <Flex className={styles.popUpFlex}>
               <Flex column>
                 <Flex>
-              <Text style={{ marginLeft: '10px' }}>
+              <Text size={14} style={{ marginLeft: '10px' }}>
                 Users will be unable to schedule further meeting with deleted
                 event types.
                 </Text>
                 </Flex>
-                <Flex marginLeft={10}>             
-                <Text>
+                <Flex marginLeft={10} >             
+                <Text size={14}>
                   Meetings previously scheduled will not be affected.
                 </Text>             
               </Flex>
               </Flex>
-              <Flex>
-              <Text style={{ marginLeft: '10px', marginTop : '2px'}}>
+              <Flex >
+              <Text size={13} style={{ marginLeft: '10px', marginTop : '2px'}}>
                 Are you sure to proceed?
               </Text> 
               </Flex>             

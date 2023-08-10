@@ -181,7 +181,7 @@ const slotter1 = (props) => {
 
       // if(google || outlook){
         if (google) {
-          alert("Google")
+          // alert("Google")
           // attendees.push({ email: google})
           interviewer?.map((datalist, index) => {
             if(datalist.google_calendar !==  null){
@@ -192,7 +192,7 @@ const slotter1 = (props) => {
           dispatch(googleAddEventMiddleware({ formData }));
         }
         if (outlook) {
-          alert("outlook")
+          // alert("outlook")
           interviewer?.map((datalist) => {
             if(datalist.outlook_calendar !== null){
               attendees.push(datalist.outlook_calendar);
@@ -324,6 +324,7 @@ const slotter1 = (props) => {
               dashboard={data}
               isProfile={isProfile}
               timezones={timezones}
+              candidate_name ={candi_name}
             />
           </Flex>
         ) : confromflag === false && dashboard === false ? (
@@ -985,13 +986,13 @@ const SlotterDate = (props) => {
               </Flex>
               <Flex>
                 {date ? (
-                  <Text size={14} bold>
+                  <Text size={13} bold>
                     Availability for {date}
                   </Text>
                 ) : (
                   ''
                 )}
-                <Flex row wrap className={styles.select}>
+                <Flex row wrap className={styles.select} marginTop={10}>
                   {finalIntervals?.length > 0 && 
                     finalIntervals?.map((obj, index) => (
                       <button
@@ -1125,6 +1126,7 @@ const InterviewDashBoard = (props) => {
     timezones,
     Loading,
     isLoading,
+    candidate_name
   } = props;
 
   useEffect(() => {});
@@ -1189,27 +1191,27 @@ const InterviewDashBoard = (props) => {
             </Flex>
             <Text
               bold
-              size={14}
+              size={13}
               style={{ margin: '10px 0px', textTransform: 'capitalize' }}
             >
               {list.event_name}
             </Text>
             <Flex row center marginBottom={10}>
               <SvgCalendarEvent width={14} height={14} fill={'#581845'} />
-              <Text size={14} style={{ marginLeft: '5px' }}>
+              <Text size={13} style={{ marginLeft: '5px' }}>
                 {slotterdata.map((li) => li.time)} ,{' '}
                 {slotterdata.map((li) => formatDateChange(li.date))}
               </Text>
             </Flex>
             <Flex row center marginBottom={10}>
               <SvgClock width={14} height={14} fill={'#581845'} />
-              <Text size={14} style={{ marginLeft: '5px' }}>
+              <Text size={13} style={{ marginLeft: '5px' }}>
                 {list.duration}
               </Text>
             </Flex>
             <Flex row center marginBottom={10}>
               <SvgGlobe width={14} height={14} fill={'#581845'} />
-              <Text style={{ marginLeft: '5px' }}>
+              <Text style={{ marginLeft: '5px' }} size={13}>
                 Time zone is {timezones(list.times_zone)}
               </Text>
             </Flex>
@@ -1218,7 +1220,7 @@ const InterviewDashBoard = (props) => {
                 <SvgInfo width={14} height={14} fill={'#581845'} />{' '}
               </Flex>
 
-              <Text size={14} style={{ marginLeft: '5px' }}>
+              <Text size={13} style={{ marginLeft: '5px' }}>
                 This is an {InterviewText(list.event_type)}.Please come prepared with
                 the technical aspects of your work experience along with
                 CV/Resume
@@ -1235,10 +1237,10 @@ const InterviewDashBoard = (props) => {
                 <Text bold size={14} style={{ marginLeft: '5px' }}>
                   Candidate / Applicant
                 </Text>
-                <Text
+                <Text size={13}
                   style={{ marginLeft: '5px', textTransform: 'capitalize' }}
                 >
-                  {slotterdata.map((li) => li.candidate_id__first_name)}
+                  {candidate_name}
                 </Text>
               </Flex>
             </Flex>
@@ -1252,7 +1254,7 @@ const InterviewDashBoard = (props) => {
                 <Text bold style={{ marginLeft: '5px' }}>
                   Interviewer(s)
                 </Text>
-                <Text
+                <Text size={13}
                   style={{ marginLeft: '5px', textTransform: 'capitalize' }}
                 >
                   {slotmembers.map((data) => data.full_name).join(', ')}

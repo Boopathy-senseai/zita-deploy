@@ -145,7 +145,8 @@ const LinkShare = (props) => {
         <Flex row className={styles.candidate}>
           <div className={styles.grid}>
             {data.map((name, index) => (
-              <Flex row key={index} >
+              <Flex row key={index}>
+                  <Flex row center>
                 <div className={styles.flex}>
                   {checkedItems.includes(name.candidate_id.toString()) ? (
                     <>                    
@@ -164,12 +165,14 @@ const LinkShare = (props) => {
                   />
                   </>
                   ) }
+                 
                 </div>
                 <div style={{ marginLeft: '10px' }}>
                   <Text size={13}>
                     {name.full_name}({name.type})
                   </Text>
                 </div>
+                </Flex>
               </Flex>
             ))}
           </div>

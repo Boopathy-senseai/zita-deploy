@@ -139,7 +139,7 @@ const EventScheduler = () => {
 
   function HandleButton(ToastMessage){
       if (ToastMessage) {
-        Toast('Updated Event Successfully!');
+        Toast('Event updated successfully');
       }
       else{
         Toast('Event Created Successfully!');
@@ -173,7 +173,7 @@ const EventScheduler = () => {
           {/* <Text color="theme" bold size={16}>
               Events
             </Text> */}
-          <Text size={16}>
+          <Text size={13}>
             Share your availability with candidates and schedule events
           </Text>
         </Flex>
@@ -185,7 +185,7 @@ const EventScheduler = () => {
           >
             <Flex row center style={{ cursor: 'pointer' }}>
               <SvgAdd height={10} width={10} fill="#FFFFFF" />
-              <Text color="white" size={16} style={{ marginLeft: '10px' }}>
+              <Text color="white" size={13}  bold style={{ marginLeft: '10px' }}>
                 Create Event
               </Text>
             </Flex>
@@ -243,10 +243,12 @@ const EventScheduler = () => {
                 })}
             </Flex>
           ) : (
-            <Flex className={styles.noevent} width={'100%'}>
+            <Flex className={styles.noevent} marginTop={200} width={'100%'}>
+              <Flex middle>
               <SvgLink width={16} height={16} fill={'currentColor'} />
-              <Text size={13}> No scheduler links created yet</Text>
-              <Text size={13}>
+              </Flex>
+              <Text size={13} align={'center'}> No scheduler links created yet.</Text>
+              <Text size={13} align={'center'}>
                 Scheduler links allow candidates to pick a date and time that
                 works for them.
               </Text>

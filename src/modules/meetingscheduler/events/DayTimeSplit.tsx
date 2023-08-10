@@ -535,7 +535,7 @@ const DayTimeSplit = (props) => {
           setSunday(elementsAfterIndex);
       
         }else if (nextStartTime > label){
-          const elementsAfterIndex = updatedSunday.slice(0,index + 1);  
+          const elementsAfterIndex = updatedSunday.slice(0,index +1);  
           console.log(".....>>>>>>>>>>>>>>>>",elementsAfterIndex)        
           setSunday(elementsAfterIndex);      
         }
@@ -547,9 +547,20 @@ const DayTimeSplit = (props) => {
     console.log("valuesvaluesvaluesvaluesvalues",values,"\n",selectedIndex)
 
     if (selectedIndex !== -1 && updatedSunday[index].starttime !== '' && label !== "6:00 PM") {
-      const elementsAfterIndex = values.slice(selectedIndex + 1);
-      setDay1(elementsAfterIndex);
+      
+      console.log("elementsAfterIndexelementsAfterIndex")
+      if (text=== 'starttime'){
+        alert("1")
+        const elementsAfterIndex = values.slice(selectedIndex + 1);
+        setDay1(elementsAfterIndex);
+      }else{
+        alert("2")
+        const elementsAfterIndex = values.slice(selectedIndex);
+        setDay1(elementsAfterIndex);
+      }
+      // setDay1(elementsAfterIndex);
     }else if (updatedSunday[index].endtime === "6:00 PM"){
+      
       const elementsAfterIndex = values.slice(selectedIndex + 1);
       setDay1(elementsAfterIndex);
     }
@@ -596,7 +607,7 @@ const DayTimeSplit = (props) => {
         "\n","index",index
       );
       if (index !== -1) {
-        const remainingObjects = time.slice(index1 + 1);
+        const remainingObjects = time.slice(index1);
         setDay1(remainingObjects);
       }
     }else if(  lastObject.starttime === '' &&
@@ -611,7 +622,7 @@ const DayTimeSplit = (props) => {
       const specificObject = lastvalue.label !== object.endtime ? lastvalue : check;
       const index1 = time.findIndex((obj) => obj.id === specificObject.id);
       if (index !== -1) {
-        const remainingObjects = time.slice(index1 + 1);
+        const remainingObjects = time.slice(index1);
         setDay1(remainingObjects);
       }    
   }
@@ -687,8 +698,13 @@ const DayTimeSplit = (props) => {
     const values = day2;
     const selectedIndex = values.indexOf(e);
     if (selectedIndex !== -1 && updatedMonday[index].starttime !== '' && label !== "6:00 PM") {
-      const elementsAfterIndex = values.slice(selectedIndex + 1);
-      setDay2(elementsAfterIndex);
+      if (text=== 'starttime'){
+        const elementsAfterIndex = values.slice(selectedIndex + 1);
+        setDay2(elementsAfterIndex);
+      }else{
+        const elementsAfterIndex = values.slice(selectedIndex);
+        setDay2(elementsAfterIndex);
+      }
     }else if (updatedMonday[index].endtime === "6:00 PM"){
       const elementsAfterIndex = values.slice(selectedIndex + 1);
       setDay2(elementsAfterIndex);
@@ -714,7 +730,7 @@ const DayTimeSplit = (props) => {
       const specificObject = check;
       const index1 = time.findIndex((obj) => obj.id === specificObject.id);
       if (index !== -1) {
-        const remainingObjects = time.slice(index1 + 1);
+        const remainingObjects = time.slice(index1);
         setDay2(remainingObjects);
       }
     }else if(  lastObject.starttime === '' &&
@@ -729,7 +745,7 @@ const DayTimeSplit = (props) => {
       const specificObject = lastvalue.label !== object.endtime ? lastvalue : check;
       const index1 = time.findIndex((obj) => obj.id === specificObject.id);
       if (index !== -1) {
-        const remainingObjects = time.slice(index1 + 1);
+        const remainingObjects = time.slice(index1);
         setDay2(remainingObjects);
       }    
   }
@@ -794,8 +810,14 @@ const DayTimeSplit = (props) => {
     const values = day3;
     const selectedIndex = values.indexOf(e);
     if (selectedIndex !== -1 && updatedTuesday[index].starttime !== '' && label !== "6:00 PM") {
-      const elementsAfterIndex = values.slice(selectedIndex + 1);
+      if (text=== 'starttime'){
+        const elementsAfterIndex = values.slice(selectedIndex + 1);
       setDay3(elementsAfterIndex);
+      }else{
+
+        const elementsAfterIndex = values.slice(selectedIndex);
+        setDay3(elementsAfterIndex);
+      }
     }else if (updatedTuesday[index].endtime === "6:00 PM"){
       const elementsAfterIndex = values.slice(selectedIndex + 1);
       setDay3(elementsAfterIndex);
@@ -821,7 +843,7 @@ const DayTimeSplit = (props) => {
       const specificObject = check;
       const index1 = time.findIndex((obj) => obj.id === specificObject.id);
       if (index !== -1) {
-        const remainingObjects = time.slice(index1 + 1);
+        const remainingObjects = time.slice(index1);
         setDay3(remainingObjects);
       }
     }else if(  lastObject.starttime === '' &&
@@ -836,7 +858,7 @@ const DayTimeSplit = (props) => {
       const specificObject = lastvalue.label !== object.endtime ? lastvalue : check;
       const index1 = time.findIndex((obj) => obj.id === specificObject.id);
       if (index !== -1) {
-        const remainingObjects = time.slice(index1 + 1);
+        const remainingObjects = time.slice(index1);
         setDay3(remainingObjects);
       }    
   }
@@ -902,8 +924,14 @@ const DayTimeSplit = (props) => {
     const values = day4;
     const selectedIndex = values.indexOf(e);
     if (selectedIndex !== -1 && updatedWednesday[index].starttime !== '' && label !== "6:00 PM" ) {
-      const elementsAfterIndex = values.slice(selectedIndex + 1);
-      setDay4(elementsAfterIndex);
+      if (text=== 'starttime'){
+        const elementsAfterIndex = values.slice(selectedIndex + 1);
+        setDay4(elementsAfterIndex);
+      }else{
+
+        const elementsAfterIndex = values.slice(selectedIndex);
+        setDay4(elementsAfterIndex);
+      }
     }else if (updatedWednesday[index].endtime === "6:00 PM"){
       const elementsAfterIndex = values.slice(selectedIndex + 1);
       setDay4(elementsAfterIndex);
@@ -931,7 +959,7 @@ const DayTimeSplit = (props) => {
       const specificObject = check;
       const index1 = time.findIndex((obj) => obj.id === specificObject.id);
       if (index !== -1) {
-        const remainingObjects = time.slice(index1 + 1);
+        const remainingObjects = time.slice(index1);
         setDay4(remainingObjects);
       }
     }else if(  lastObject.starttime === '' &&
@@ -946,7 +974,7 @@ const DayTimeSplit = (props) => {
       const specificObject = lastvalue.label !== object.endtime ? lastvalue : check;
       const index1 = time.findIndex((obj) => obj.id === specificObject.id);
       if (index !== -1) {
-        const remainingObjects = time.slice(index1 + 1);
+        const remainingObjects = time.slice(index1);
         setDay4(remainingObjects);
       }    
   }
@@ -1010,8 +1038,14 @@ const DayTimeSplit = (props) => {
     const values = day5;
     const selectedIndex = values.indexOf(e);
     if (selectedIndex !== -1 && updatedThursday[index].starttime !== ''  && label !== "6:00 PM") {
-      const elementsAfterIndex = values.slice(selectedIndex + 1);
-      setDay5(elementsAfterIndex);
+      if (text=== 'starttime'){
+        const elementsAfterIndex = values.slice(selectedIndex + 1);
+        setDay5(elementsAfterIndex);
+      }else{
+
+        const elementsAfterIndex = values.slice(selectedIndex);
+        setDay5(elementsAfterIndex);
+      }
     }else if (updatedThursday[index].endtime === "6:00 PM"){
       const elementsAfterIndex = values.slice(selectedIndex + 1);
       setDay5(elementsAfterIndex);
@@ -1037,7 +1071,7 @@ const DayTimeSplit = (props) => {
       const specificObject = check;
       const index1 = time.findIndex((obj) => obj.id === specificObject.id);
       if (index !== -1) {
-        const remainingObjects = time.slice(index1 + 1);
+        const remainingObjects = time.slice(index1);
         setDay5(remainingObjects);
       }
     }else if(  lastObject.starttime === '' &&
@@ -1052,7 +1086,7 @@ const DayTimeSplit = (props) => {
       const specificObject = lastvalue.label !== object.endtime ? lastvalue : check;
       const index1 = time.findIndex((obj) => obj.id === specificObject.id);
       if (index !== -1) {
-        const remainingObjects = time.slice(index1 + 1);
+        const remainingObjects = time.slice(index1);
         setDay5(remainingObjects);
       }    
   }
@@ -1118,8 +1152,13 @@ const DayTimeSplit = (props) => {
     const values = day6;
     const selectedIndex = values.indexOf(e);
     if (selectedIndex !== -1 && updatedFriday[index].starttime !== '' && label !== "6:00 PM")  {
-      const elementsAfterIndex = values.slice(selectedIndex + 1);
-      setDay6(elementsAfterIndex);
+      if (text=== 'starttime'){
+        const elementsAfterIndex = values.slice(selectedIndex + 1);
+        setDay6(elementsAfterIndex);
+      }else{
+        const elementsAfterIndex = values.slice(selectedIndex);
+        setDay6(elementsAfterIndex);
+      }
     }else if (updatedFriday[index].endtime === "6:00 PM"){
       const elementsAfterIndex = values.slice(selectedIndex + 1);
       setDay6(elementsAfterIndex);
@@ -1146,7 +1185,7 @@ const DayTimeSplit = (props) => {
       const specificObject = check;
       const index1 = time.findIndex((obj) => obj.id === specificObject.id);
       if (index !== -1) {
-        const remainingObjects = time.slice(index1 + 1);
+        const remainingObjects = time.slice(index1);
         setDay6(remainingObjects);
       }
     }else if(  lastObject.starttime === '' &&
@@ -1161,7 +1200,7 @@ const DayTimeSplit = (props) => {
       const specificObject = lastvalue.label !== object.endtime ? lastvalue : check;
       const index1 = time.findIndex((obj) => obj.id === specificObject.id);
       if (index !== -1) {
-        const remainingObjects = time.slice(index1 + 1);
+        const remainingObjects = time.slice(index1);
         setDay6(remainingObjects);
       }    
   }
@@ -1225,8 +1264,14 @@ const DayTimeSplit = (props) => {
     const values = day7;
     const selectedIndex = values.indexOf(e);
     if (selectedIndex !== -1 && updatedSaturday[index].starttime !== '' && label !== "6:00 PM") {
-      const elementsAfterIndex = values.slice(selectedIndex + 1);
-      setDay7(elementsAfterIndex);
+      if (text=== 'starttime'){
+        const elementsAfterIndex = values.slice(selectedIndex + 1);
+        setDay7(elementsAfterIndex);
+      }else{
+        const elementsAfterIndex = values.slice(selectedIndex);
+        setDay7(elementsAfterIndex);
+      }
+     
     }else if (updatedSaturday[index].endtime === "6:00 PM"){
       // alert("OK")
       const elementsAfterIndex = values.slice(selectedIndex + 1);
@@ -1256,7 +1301,7 @@ const DayTimeSplit = (props) => {
       const specificObject = check;
       const index1 = time.findIndex((obj) => obj.id === specificObject.id);
       if (index !== -1) {
-        const remainingObjects = time.slice(index1 + 1);
+        const remainingObjects = time.slice(index1);
         setDay7(remainingObjects);
       }
     }else if(  lastObject.starttime === '' &&
@@ -1271,7 +1316,7 @@ const DayTimeSplit = (props) => {
       const specificObject = lastvalue.label !== object.endtime ? lastvalue : check;
       const index1 = time.findIndex((obj) => obj.id === specificObject.id);
       if (index !== -1) {
-        const remainingObjects = time.slice(index1 + 1);
+        const remainingObjects = time.slice(index1);
         setDay7(remainingObjects);
       }    
   }
@@ -1487,7 +1532,7 @@ const DayTimeSplit = (props) => {
                     <SvgRoundAdd width={18} height={18} fill={'#581845'} />
                   </button>
                 ) : (
-                  <button className={styles.add} type="button" disabled={true}>
+                  <button className={styles.noadd} type="button" disabled={true}>
                     <SvgRoundAdd width={18} height={18} fill={'#581845'} />
                   </button>
                 )}
@@ -1537,7 +1582,7 @@ const DayTimeSplit = (props) => {
             )}
           }) : (
               <Flex flex={1}>
-                <Text>Unavailble</Text>
+                <Text>Unavailable</Text>
               </Flex>
             )}
           </Flex>
@@ -1614,7 +1659,7 @@ const DayTimeSplit = (props) => {
         </Flex>
       </Flex>
 
-      <Flex row marginBottom={10}>
+      <Flex row marginBottom={10} >
         {dateheader('Monday', mondaycheck, (e) =>
           dateCheckboxChange(e, 'monday'),
         )}
@@ -1688,7 +1733,7 @@ const DayTimeSplit = (props) => {
                       <SvgRoundAdd width={18} height={18} fill={'#581845'} />
                     </button>
                   ) : (
-                    <button className={styles.add} type="button">
+                    <button className={styles.noadd} type="button" disabled={true}>
                       <SvgRoundAdd width={18} height={18} fill={'#581845'} />
                     </button>
                   )}
@@ -1746,7 +1791,7 @@ const DayTimeSplit = (props) => {
             )}
           }) : (
               <Flex flex={1}>
-                <Text>Unavailble</Text>
+                <Text>Unavailable</Text>
               </Flex>
             )}
           </Flex>
@@ -1898,8 +1943,9 @@ const DayTimeSplit = (props) => {
                     </button>
                   ) : (
                     <button
-                      className={styles.add}
+                      className={styles.noadd}
                       type="button"
+                      disabled={true}
                       // onClick={handleAddClickForTuesday}
                     >
                       <SvgRoundAdd width={18} height={18} fill={'#581845'} />
@@ -1946,7 +1992,7 @@ const DayTimeSplit = (props) => {
               )}
             }): (
               <Flex flex={1}>
-                <Text>Unavailble</Text>
+                <Text>Unavailable</Text>
               </Flex>
             )}
           </Flex>
@@ -2098,7 +2144,8 @@ const DayTimeSplit = (props) => {
                     </button>
                   ) : (
                     <button
-                      className={styles.add}
+                      className={styles.noadd}
+                      disabled={true}
                       type="button"
                       // as="a"
                       // onClick={handleAddClickForWednesday}
@@ -2159,7 +2206,7 @@ const DayTimeSplit = (props) => {
              )}
             }): (
               <Flex flex={1}>
-                <Text>Unavailble</Text>
+                <Text>Unavailable</Text>
               </Flex>
             )}
           </Flex>
@@ -2310,7 +2357,7 @@ const DayTimeSplit = (props) => {
                       <SvgRoundAdd width={18} height={18} fill={'#581845'} />
                     </button>
                   ) : (
-                    <button className={styles.add} type="button">
+                    <button className={styles.noadd} type="button"  disabled={true}>
                       <SvgRoundAdd width={18} height={18} fill={'#581845'} />
                     </button>
                   )}
@@ -2353,7 +2400,7 @@ const DayTimeSplit = (props) => {
              )}
             }) : (
               <Flex flex={1}>
-                <Text>Unavailble</Text>
+                <Text>Unavailable</Text>
               </Flex>
             )}
           </Flex>
@@ -2504,8 +2551,9 @@ const DayTimeSplit = (props) => {
                     </button>
                   ) : (
                     <button
-                      className={styles.add}
+                      className={styles.noadd}
                       type="button"
+                      disabled={true}
                       // as="a"
                       // onClick={handleAddClickForFriday}
                     >
@@ -2559,7 +2607,7 @@ const DayTimeSplit = (props) => {
              )}
             }) : (
               <Flex flex={1}>
-                <Text>Unavailble</Text>
+                <Text>Unavailable</Text>
               </Flex>
             )}
           </Flex>
@@ -2712,8 +2760,9 @@ const DayTimeSplit = (props) => {
                     </button>
                   ) : (
                     <button
-                      className={styles.add}
+                      className={styles.noadd}
                       type="button"
+                       disabled={true}
                      
                     >
                       <SvgRoundAdd width={18} height={18} fill={'#581845'} />
@@ -2761,7 +2810,7 @@ const DayTimeSplit = (props) => {
             )}
           }): (
               <Flex flex={1}>
-                <Text>Unavailble</Text>
+                <Text>Unavailable</Text>
               </Flex>
             )}
           </Flex>

@@ -58,10 +58,10 @@ const CalenderConfig = ({ isGoogle, email }: CalenderConfigProps) => {
           </Flex>
           <Flex marginLeft={15}>
             <Flex>
-              <Text bold color="theme">
+              <Text  size={14} bold color="theme">
                 Check for Conflicts
               </Text>
-              <Text>
+              <Text size={13}>
                 Set the calendar(s) to check for conflicts to prevent double
                 bookings.
               </Text>
@@ -76,17 +76,17 @@ const CalenderConfig = ({ isGoogle, email }: CalenderConfigProps) => {
             />
           </Flex>
         </Flex>
-
+        {isGoogle === 0 ? (
         <Flex row marginTop={20}>
           <Flex marginTop={3}>
             <SvgAddToCalendar height={18} width={18} fill="#581845" />
           </Flex>
           <Flex marginLeft={15}>
             <Flex>
-              <Text bold color="theme">
+              <Text bold color="theme" size={14}>
                 Add to Calendar
               </Text>
-              <Text>
+              <Text size={13}>
                 Set the calendar you would like to add new events to as they are
                 scheduled.
               </Text>
@@ -101,6 +101,7 @@ const CalenderConfig = ({ isGoogle, email }: CalenderConfigProps) => {
             />
           </Flex>
         </Flex>
+        ) : ('')}
       </Flex>
     </Flex>
   );
@@ -175,7 +176,7 @@ const CheckForConflicts: React.FC<CheckForConflictProps> = ({
             ) : (
               <SvgGmail height={18} width={18} />
             )}
-            <Text style={{ marginLeft: '5px' }}>
+            <Text style={{ marginLeft: '15px'}} size={13}>
               Check for <Text color="theme">{email}</Text>
             </Text>
           </Flex>
@@ -185,12 +186,14 @@ const CheckForConflicts: React.FC<CheckForConflictProps> = ({
         </Flex>
         {conflict ? (
           <Flex>
-            <Flex row marginTop={15}>
-              <Text bold>
+           
+            {isGoogle === 0 ? (
+            <Flex>
+               <Flex row marginTop={15}>
+              <Text bold size={13} >
                 Consider me unavailble when Office 365/Outlook.com shows me as:
               </Text>
             </Flex>
-            <Flex>
               {unavailble.map((list, index) => {
                 return (
                   <Flex row className={styles.btncheck} key={index}>
@@ -199,13 +202,14 @@ const CheckForConflicts: React.FC<CheckForConflictProps> = ({
                       checked={checkedItems.includes(list.label)}
                       onChange={handleCheckboxChange}
                     />
-                    <Text style={{ marginLeft: '10px' }}>{list.label}</Text>
+                    <Text size={13} style={{ marginLeft: '10px' }}>{list.label}</Text>
                   </Flex>
                 );
               })}
             </Flex>
-            <Flex row className={styles.header2}>
-              <Text size={14} bold>
+            ):('')}
+            <Flex row className={styles.header2} marginTop={20}>
+              <Text size={13} bold>
                 Check these places for conflicts
               </Text>
             </Flex>
@@ -215,18 +219,19 @@ const CheckForConflicts: React.FC<CheckForConflictProps> = ({
                 checked={calendarflag ? true : false}
                 onChange={onCheckboxchange}
               />
-              <Text style={{ marginLeft: '10px' }}>{calendar}</Text>
+              <Text size={13} style={{ marginLeft: '10px' }}>{calendar}</Text>
             </Flex>
             <Flex row end marginTop={10} className={styles.borderLine}>
               <Button
                 types="primary"
                 className={styles.cancel}
                 onClick={closeModal1}
+                textSize ={13}
               >
                 Cancel
               </Button>
 
-              <Button className={styles.share} onClick={updateConflicts}>
+              <Button className={styles.share} onClick={updateConflicts}  textSize ={13}>
                 Update
               </Button>
             </Flex>
@@ -234,11 +239,11 @@ const CheckForConflicts: React.FC<CheckForConflictProps> = ({
         ) : (
           <>
             <Flex row marginLeft={25} marginTop={5}>
-              <Flex row center>
+              <Flex row center marginLeft={9}> 
                 <Flex marginTop={3}>
                   <SvgDot width={14} height={14} />
                 </Flex>
-                <Text size={14}>Calendar</Text>
+                <Text style={{marginLeft : '5px'}} size={13}>Calendar</Text>
               </Flex>
             </Flex>
           </>
@@ -306,7 +311,7 @@ const AddtoCalendar: React.FC<AddtoCalendarProps> = ({
             ) : (
               <SvgGmail height={18} width={18} />
             )}
-            <Text style={{ marginLeft: '5px' }}>
+            <Text style={{ marginLeft: '15px' }} size={13}>
               Add to <Text color="theme">{email}</Text>
             </Text>
           </Flex>
@@ -316,15 +321,19 @@ const AddtoCalendar: React.FC<AddtoCalendarProps> = ({
         </Flex>
         {calendar ? (
           <>
+          
             <Flex column marginTop={5}>
               {ratioTag.map((list, index) => {
                 return (
-                  <Flex row key={index} marginTop={10}>
-                    <InputRadio
+                  <Flex row key={index} marginTop={10} style={{fontsize : '13px'}}>
+                    <InputRadio                      
                       label={list.label}
+                      
                       checked={list.label === checklabel}
                       onClick={() => onRatioChange(list.label)}
+                      
                     />
+                    
                   </Flex>
                 );
               })}
@@ -333,7 +342,7 @@ const AddtoCalendar: React.FC<AddtoCalendarProps> = ({
             {showDropdown ? (
               <>
                 <Flex row marginTop={10}>
-                  <Text bold color="black">
+                  <Text bold color="black" size={13}>
                     Sync Cancellation
                   </Text>
                 </Flex>
@@ -342,6 +351,7 @@ const AddtoCalendar: React.FC<AddtoCalendarProps> = ({
                     label="Deleting or declining an event in your calendar will also cancel it in Zita"
                     checked={checkedFlag ? true : false}
                     onChange={handleCheckboxChange}
+                    
                   />
                 </Flex>
               </>
@@ -354,11 +364,12 @@ const AddtoCalendar: React.FC<AddtoCalendarProps> = ({
                 types="primary"
                 className={styles.cancel}
                 onClick={closeModal2}
+                textSize ={13}
               >
                 Cancel
               </Button>
 
-              <Button className={styles.share} onClick={updateCalendar}>
+              <Button className={styles.share} onClick={updateCalendar}  textSize ={13}>
                 Update
               </Button>
             </Flex>
@@ -371,7 +382,7 @@ const AddtoCalendar: React.FC<AddtoCalendarProps> = ({
                   <SvgDot width={14} height={14} />
                 </Flex>
 
-                <Text align="center" size={16} className={styles.txt2}>
+                <Text style={{marginLeft : '5px'}} size={13} className={styles.txt2}>
                   Calendar
                 </Text>
               </Flex>

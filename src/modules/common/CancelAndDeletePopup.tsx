@@ -45,10 +45,11 @@ const CancelAndDeletePopup = ({
             className={styles.btnCancelStyle}
             types="primary"
             onClick={btnCancel}
+            textSize ={13}
           >
             {btnLeft}
           </Button>
-          <Button className={styles.btnDeleteStyle} types="primary" onClick={btnDelete}>
+          <Button className={styles.btnDeleteStyle} types="primary" onClick={btnDelete} textSize ={13}>
             {btnRight}
           </Button>
         </Flex>

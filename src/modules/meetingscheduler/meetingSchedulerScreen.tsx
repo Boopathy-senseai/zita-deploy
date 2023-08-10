@@ -122,7 +122,7 @@ const MeetingSchedulerScreen = ({ value }: props) => {
                 setKey(keys);
               }}
             >
-              <Tab title={'Event Schedular'} eventKey={'0'}>
+              <Tab title={'Events Schedular'} eventKey={'0'}>
                 {tabKey === '0' && <EventScheduler />}
               </Tab>
               <Tab title={'Scheduled Events'} eventKey={'1'}>
