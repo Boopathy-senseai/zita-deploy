@@ -76,30 +76,30 @@ const ScheduledEventsPage = () => {
   };
 
   const getTrue = (type: EVENT_FILTER_OPTION) => {
-    if (type === EVENT_FILTER_OPTION.DATE){
-      return "Tru";
+    if (type === EVENT_FILTER_OPTION.DATE) {
+      return 'Tru';
     }
-    return "True";
-  }
+    return 'True';
+  };
 
   useEffect(() => {
     dispatch(getUsersByCompanyMiddleware())
-    .then((res) => {
-      setTeamMembers(
-        res.payload.users.map((user: TeamMemberType) => {
-          return {
-            userId: user.userId,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            email: user.email,
-            calendarEmail: user.calendarEmail,
-          };
-        }),
-      );
-    })
-    .catch((err: Error) => {
-      console.error(err);
-    });
+      .then((res) => {
+        setTeamMembers(
+          res.payload.users.map((user: TeamMemberType) => {
+            return {
+              userId: user.userId,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              email: user.email,
+              calendarEmail: user.calendarEmail,
+            };
+          }),
+        );
+      })
+      .catch((err: Error) => {
+        console.error(err);
+      });
 
     dispatch(
       getEventsMiddleWare({
@@ -112,7 +112,10 @@ const ScheduledEventsPage = () => {
   useEffect(() => {
     dispatch(
       getEventsMiddleWare({
-        event: filters.type === EVENT_TYPE.MY_EVENTS ? getTrue(filters.activeRadio) : 'False',
+        event:
+          filters.type === EVENT_TYPE.MY_EVENTS
+            ? getTrue(filters.activeRadio)
+            : 'False',
         data: getCurrentDate(filters.activeRadio),
       }),
     );
@@ -143,9 +146,18 @@ const ScheduledEventsPage = () => {
     );
   };
 
-  const handlePeopleChange = (value: any) => {
-    setSelectedPeople(prev => ({...prev, value}))
-  }
+  const handlePeopleChange = (value: number) => {
+    
+    setSelectedPeople((prev) => {
+      const newArray = [...prev];
+      const index = newArray.indexOf(value);
+      if (index !== -1) {
+        newArray.splice(index, 1);
+        return newArray;
+      }
+      return [...newArray, value];
+    });
+  };
 
   const eventsList = (): IEventTableItem[] => {
     if (filters.isPast) {
