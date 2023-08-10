@@ -139,3 +139,6 @@ right: 43;
   .svgAngle{
     margin-left: 8px;
   }
+  .fontweight{
+    font-weight: 100 !important;
+  }

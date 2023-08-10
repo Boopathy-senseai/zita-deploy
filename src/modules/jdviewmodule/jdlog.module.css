@@ -59,3 +59,6 @@
 .box{
   width:25%;
 }
+.fontweight{
+  font-weight: 600 !important;
+}
