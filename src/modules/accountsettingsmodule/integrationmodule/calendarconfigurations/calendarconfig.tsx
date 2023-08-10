@@ -177,7 +177,7 @@ const CheckForConflicts: React.FC<CheckForConflictProps> = ({
               <SvgGmail height={18} width={18} />
             )}
             <Text style={{ marginLeft: '15px'}} size={13}>
-              Check for <Text color="theme">{email}</Text>
+              Check for <Text color="theme" size={13}>{email}</Text>
             </Text>
           </Flex>
           <Flex row onClick={editConflict} style={{ cursor: 'pointer' }}>
@@ -312,7 +312,7 @@ const AddtoCalendar: React.FC<AddtoCalendarProps> = ({
               <SvgGmail height={18} width={18} />
             )}
             <Text style={{ marginLeft: '15px' }} size={13}>
-              Add to <Text color="theme">{email}</Text>
+              Add to <Text color="theme" size={13}>{email}</Text>
             </Text>
           </Flex>
           <Flex row end onClick={editCalendar} style={{ cursor: 'pointer' }}>
@@ -327,13 +327,10 @@ const AddtoCalendar: React.FC<AddtoCalendarProps> = ({
                 return (
                   <Flex row key={index} marginTop={10} style={{fontsize : '13px'}}>
                     <InputRadio                      
-                      label={list.label}
-                      
+                      label={list.label}    
                       checked={list.label === checklabel}
-                      onClick={() => onRatioChange(list.label)}
-                      
-                    />
-                    
+                      onClick={() => onRatioChange(list.label)}                      
+                    />                    
                   </Flex>
                 );
               })}
@@ -351,7 +348,7 @@ const AddtoCalendar: React.FC<AddtoCalendarProps> = ({
                     label="Deleting or declining an event in your calendar will also cancel it in Zita"
                     checked={checkedFlag ? true : false}
                     onChange={handleCheckboxChange}
-                    
+                    className = {styles.fontsize}      
                   />
                 </Flex>
               </>
