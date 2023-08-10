@@ -276,7 +276,7 @@ const QualificationContainer = ({
         ) : (
           <>
             {dataList.can_source_id === 1 && (
-              <Flex row center className={styles.minwidth}>
+            <Flex row center  className={styles.width85}>
               {isEmpty(dataList.qualification) ? (
                 <Text
                   size={11}
@@ -305,7 +305,7 @@ const QualificationContainer = ({
                 </Text>
                 {!isExperienceInput ? (
             <>
-            <div style={{width:'fit-content' , bottom: 2, position: "relative"}}>
+            <div style={{width:'fit-content' , bottom: 1, position: "relative"}}>
               {isEmpty(dataList.work_exp) ? (
                 <Text
                   underLine

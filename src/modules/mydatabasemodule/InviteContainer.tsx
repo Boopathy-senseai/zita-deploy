@@ -39,6 +39,7 @@ const InviteContainer = ({
         <>
         {/* <div
           style={{width:'2px',height:'10px',color:'black'}}></div> */}
+          {console.log("jjjjdjdjdjdjdjdj",(dataList))}
           <div
             title="Invite to Apply"
             className={cx('inviteStyle', { inviteDisable })}
@@ -80,11 +81,11 @@ const InviteContainer = ({
               <SvgInvite width={28} height={28} color="theme" />
             </div>
           )}
-          {/* {!isEmpty(dataList.applicant) &&
+          {!isEmpty(dataList.applicant) &&
                     <div>
-                      <SvgInvite width={28} height={28} color="theme" />
+                      {/* <SvgInvite width={28} height={28} color="theme" /> */}
                     </div>
-          } */}
+          }
           {isEmpty(dataList.invite) ? (
             <Text 
               color="black_1" size={11} 
@@ -109,7 +110,7 @@ const InviteContainer = ({
                 <Flex className={styles.lastinviteset}>
                 <Text 
                 color="gray" size={11} className={styles.lastinvitetext}>
-                  Last Invited: 
+                  Last Invited 
                 </Text>
                 <Text color="gray" size={11} >
                 {' '}{dataList?.invite && getDateString(dataList.invite, 'll')}
@@ -120,7 +121,7 @@ const InviteContainer = ({
             <Flex>
                <Text 
                 color="gray" size={11} className={styles.lastinvitetext}>
-                  Last Invited: 
+                  Last Invited 
                 </Text>
                 <Text color="gray" size={11}>
                   {' '}{dataList?.invite && getDateString(dataList.invite, 'll')}
