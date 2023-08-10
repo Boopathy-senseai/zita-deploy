@@ -41,8 +41,16 @@ cursor: pointer;
 }
 
 .boxshadow{
-  background-color: rgb(215, 199, 210);
-  padding: 15px;
+  background-color: #D7C7D24D;
+  padding: 15px 25px 15px 25px;
+  margin-right: 28px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 47%);
+  box-shadow: 0 1px 4px 0 rgb(0 0 0 / 47%);
+}
+.boxshadow1{
+  background-color: #D7C7D24D;
+  padding: 15px 33px 15px 33px;
   margin-right: 28px;
   border-radius: 5px;
   -webkit-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 47%);

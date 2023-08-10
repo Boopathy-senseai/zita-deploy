@@ -22,11 +22,12 @@ import PlanTable from './tableHelper';
 
 type Props = {
   setRenew: () => void;
+  setCancelOne?:any;
+  isCancelOne?:any;
 };
-const SubscriptionPlan = ({ setRenew }: Props) => {
+const SubscriptionPlan = ({ setRenew,isCancelOne,setCancelOne }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const [isLoader, setLoader] = useState(false);
-  const [isCancelOne, setCancelOne] = useState(false);
   const [isCancelTwo, setCancelTwo] = useState(false);
   const [isCancelSuccess, setCancelSuccess] = useState(false);
   const { subscription, price, free_expired,base_price } = useSelector(

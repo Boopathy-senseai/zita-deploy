@@ -30,6 +30,7 @@ import {
 import SubscriptionPlan from './SubscriptionPlan';
 
 
+
 type Props = {
   setTab: (a: string) => void;
 };
@@ -40,7 +41,7 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
   const [isNewUser, setNewUser] = useState(false);
   const [isRemoveUser, setRemoveUser] = useState(false);
   const [isRenew, setRenew] = useState(false);
-
+  const [isCancelOne, setCancelOne] = useState(false);
   const history = useHistory();
 
   const useQuery = () => {
@@ -163,10 +164,25 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
   return (
     <Flex className={styles.overAll}>
       <Flex row center between className={styles.titleStyle}>
-        <Text size={16} bold>
-         Subscription
-        </Text>
-        <Button onClick={handleInvoice}>Invoices & Payment Info</Button>
+        <Flex>
+          <Text size={16} bold>
+          Subscription
+          </Text>
+        </Flex>
+        <Flex row>
+        {subscription &&
+          subscription.is_active === true &&
+          isEmpty(subscription.subscription_changed_to) ? (
+            <Button  onClick={() => setCancelOne(true)}  types='close'>
+              Cancel Subscription
+            </Button>
+          ) : (
+            <Button  onClick={hanldeRenew} types='primary' >
+              Renew Subscription
+            </Button>
+          )}
+          <Button onClick={handleInvoice} style={{marginLeft:'15px'}}>Invoices & Payment Info</Button>        
+        </Flex>
       </Flex>
       {/*{subscription && subscription?.plan_id_id === 1 &&
         subscription?.subscription_remains_days <= 0 && (
@@ -191,14 +207,14 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
 
       {subscription && subscription.plan_id_id === 1 && free_expired === 1 && (
         <Flex columnFlex>
-          <Flex middle row center className={styles.warningFlex}>
-            <SvgInfo fill={WARNING} />
-            <Text size={12} bold color="warning" className={styles.warningText}>
+          <Flex middle row center className={styles.warningFlex1}>
+          <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
+            <Text size={12}   className={styles.warningText1}>
               {`Your free trial ends on ${getDateString(
                 subscription?.subscription_end_ts,
                 'll',
               )}. Please `}
-              <Text size={12} bold color="link" onClick={handleFocus}>
+              <Text size={13} bold color="link" onClick={handleFocus}>
                 upgrade{' '}
               </Text>
               to a paid plan to get uninterrupted access and enjoy more zita
@@ -215,7 +231,7 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
         Number(subscription.subscription_changed_to) !== -2 && (
           <Flex columnFlex>
             <Flex middle row center className={styles.warningFlex}>
-              <SvgInfo fill={WARNING} />
+              <SvgInfo fill={WARNING} height={16} width={16}/>
               <Text
                 size={12}
                 bold
@@ -245,16 +261,16 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
         subscription.plan_id_id === 1 && (
           <Flex columnFlex>
             <Flex middle row center className={styles.warningFlex}>
-              <SvgInfo fill={WARNING} />
+              <SvgInfo fill={WARNING} height={16} width={16} />
               <Text
-                size={12}
-                bold
+                size={13}
+                
                 color="warning"
                 className={styles.warningText}
                 
               >
                 {`Your free trial expired. Please `}
-                <Text size={12} bold color="link" onClick={handleFocus}>
+                <Text size={13} bold color="link" onClick={handleFocus}>
                   upgrade{' '}
                 </Text>
                 to access plan features.
@@ -269,15 +285,14 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
         subscription.plan_id_id !== 1 && (
           <Flex columnFlex>
             <Flex middle row center className={styles.warningFlex}>
-              <SvgInfo fill={WARNING} />
+              <SvgInfo fill={WARNING} height={16} width={16}/>
               <Text
-                size={12}
-                bold
+                size={13}             
                 color="warning"
                 className={styles.warningText}
               >
                 {`Your subscription expired. Please `}
-                <Text size={12} bold color="link" onClick={handleFocus}>
+                <Text size={13} bold color="link" onClick={handleFocus}>
                   renew{' '}
                 </Text>
                 your subscription to access plan features
@@ -347,7 +362,11 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
         svgTick
       />
       {subscription !== null && (
-        <SubscriptionPlan setRenew={() => setRenew(true)} />
+        <SubscriptionPlan 
+        setCancelOne={setCancelOne}
+        isCancelOne={isCancelOne}
+        setRenew={() => setRenew(true)} 
+        />
       )}
       <PlansandFeatures
         subscription={subscription}
