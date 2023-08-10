@@ -783,7 +783,7 @@ input:-webkit-autofill:active {
   position: relative;
   display: flex;
   flex-direction: column;
-  overflow: hidden !important;
+  /* overflow: hidden !important; */
   flex: 1;
 }
 
@@ -791,6 +791,6 @@ input:-webkit-autofill:active {
   display: flex;
   flex-direction: column;
   position: relative;
-  overflow: auto !important;
+  /* overflow: auto !important; */
   flex: 1;
 }

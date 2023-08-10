@@ -6,6 +6,7 @@ import { DropResult } from 'react-beautiful-dnd';
 import _ from 'lodash';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import Flex from '../../uikit/Flex/Flex';
+import { lowerCase } from '../../uikit/helper';
 import Text from '../../uikit/Text/Text';
 import Loader from '../../uikit/Loader/Loader';
 import Button from '../../uikit/Button/Button';
@@ -877,6 +878,12 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     formik.handleChange('location')(val);
   };
 
+  const handleInputChange=(event)=>{
+    console.log("keyyyyyy",event.target.value);
+    formik.setFieldValue("location", event.target.value);
+   
+  }
+
   const onClearLocation = () => {
     formik.handleChange('location')('');
     dispatch(
@@ -1044,7 +1051,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
                   <Flex className={styles.locationicon}>
                     <SvgLocation width={18} height={18} fill={'#581845'} />
                   </Flex>
-                  <InputSearch
+                  {/* <InputSearch
                     initialValue={formik.values.location}
                     placeholder="Enter applicant location"
                     options={locations}
@@ -1053,6 +1060,17 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
                     style={styles.boxstyle}
                     labelBold
                     onChange={onLocationChange}
+                    onkeyPress={onLocationKeyPress}
+                  /> */}
+                  <InputSearch
+                    placeholder="Enter applicant location"
+                    options={locations}
+                    setFieldValue={formik.setFieldValue}
+                    name="location"
+                    labelBold
+                    initialValue={lowerCase(formik.values.location)}
+                    style={styles.boxstyle}
+                    onChange={handleInputChange}   
                     onkeyPress={onLocationKeyPress}
                   />
                   {formik.values.location.trim() !== '' && (

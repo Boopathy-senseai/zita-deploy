@@ -50,7 +50,7 @@ export const customStyles = {
     return {
       ...defaultStyles,
       color: GARY_4,
-      fontSize: 12,
+      fontSize: 13,
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
@@ -118,7 +118,7 @@ export const customStylesLine = {
     return {
       ...defaultStyles,
       color: GARY_4,
-      fontSize: 12,
+      fontSize: 13,
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
@@ -203,7 +203,7 @@ export const customStylesMulti = {
     return {
       ...defaultStyles,
       color: GARY_4,
-      fontSize: 12,
+      fontSize: 13,
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
@@ -271,7 +271,7 @@ export const customStyletrue = {
     return {
       ...defaultStyles,
       color: GARY_4,
-      fontSize: 12,
+      fontSize: 13,
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
@@ -337,7 +337,7 @@ export const customStylechanges = {
     return {
       ...defaultStyles,
       color: GARY_4,
-      fontSize: 12,
+      fontSize: 13,
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
@@ -412,7 +412,7 @@ export const customStylechanges1 = {
     return {
       ...defaultStyles,
       color: GARY_4,
-      fontSize: 12,
+      fontSize: 13,
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
