@@ -6,21 +6,28 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { isEmpty } from '../uikit/helper';
+import SvgEmail from '../icons/SvgEmail';
+import SvgLock from '../icons/SvgLock';
 import SvgView from '../icons/SvgView';
+import SvgZitaLogo from '../icons/SvgZitaLogo';
 import Loader from '../uikit/Loader/Loader';
 import Text from '../uikit/Text/Text';
+import { InputText } from '../uikit';
 import Flex from '../uikit/Flex/Flex';
 import styles from './setpassword.module.css';
 import LabelWrapper from '../uikit/Label/LabelWrapper';
 import Button from '../uikit/Button/Button';
 import { GARY_8 } from '../uikit/Colors/colors';
 import { ErrorMessages } from '../modules/Login/SetNewPassword';
+import Loginslider from '../modules/Login/Loginslider';
+
 import {
   checkUpperCase,
   PASSWORD_MATCH,
   specialCharacter,
 } from '../modules/constValue';
 import Toast from '../uikit/Toast/Toast';
+
 
 const SetPassword = () => {
   const { id } = useParams();
@@ -78,7 +85,7 @@ const SetPassword = () => {
     }
   };
 
-  useEffect(() => {
+  useEffect(() => { 
     localStorage.clear();
     const data = {
       token: id,
@@ -87,12 +94,15 @@ const SetPassword = () => {
       .patch('users/check-token', data, {
         headers: { Authorization: '' },
       })
+      
       .then((res) => {
-        if (res.data.ststus === true) {
+        console.log("res.data", res.data)
+        if (res.data.status === true) {
+          alert("er")
           setUserEmail(res.data.data.email);
         } else {
           localStorage.clear();
-          return history.push('/login');
+          // return history.push('/login');
         }
         setLoader(true);
       })
@@ -100,9 +110,10 @@ const SetPassword = () => {
         // setLoader(true);
         // if (err.response.data.success === false) {
         localStorage.clear();
-        return history.push('/login');
+        // return history.push('/login');
         // }
       });
+      alert("Check")
   }, [id]);
 
   const checkOne = !isEmpty(isPassword) && !checkUpperCase.test(isPassword);
@@ -126,24 +137,30 @@ const SetPassword = () => {
   }
   return (
     <>
+    {console.log("userEmail", userEmail)}
       {isLogin && <Loader />}
-      <section className="section-padding">
-        <div className="container">
-          <div className="row align-items-center justify-content-center full-height">
-            <div className="col-lg-5 col-md-5 col-12">
-              <Flex middle columnFlex center className={styles.titleContainer}>
-                <Text size={20} bold>
+      {/* <section className="section-padding"> */}
+        {/* <div className="container"> */}
+          {/* <div className="row align-items-center justify-content-center full-height"> */}
+          <Flex className={styles.rows}>
+            <Flex className={styles.splitrows_1}>
+            <Flex className={styles.centers_aligh}>
+              {/* <Flex middle columnFlex center className={styles.titleContainer}> */}
+                <Text size={22} className={styles.Logs_title} bold >
                   Welcome to Zita.
                 </Text>
-                <Text>Create your password and activate your account</Text>
-              </Flex>
+                <Text className={styles.textx}>
+                  Create your password and activate your account
+                </Text>
+              {/* </Flex> */}
               <div
-                className="rounded-lg border rounded px-4"
+                // className="rounded-lg border rounded px-4"
+                className={styles.inputsp1}
                 style={{
-                  paddingTop: 16,
+                  paddingTop: 20,
                   paddingLeft: '40px !important',
                   paddingRight: '40px !important',
-                  backgroundColor: GARY_8,
+                  // backgroundColor: GARY_8,
                 }}
               >
                 <Text size={20} bold style={{ marginTop: 30 }}>
@@ -156,24 +173,42 @@ const SetPassword = () => {
                   method="POST"
                   style={{ marginTop: 16 }}
                 >
+                  {/* label starts */}
                   <div>
-                    <LabelWrapper label="Email" required>
-                      <input
+                    <LabelWrapper  required>
+                      <InputText
+                      actionLeft={() => (
+                        <Button types="link" className={styles.Passicons}>
+                        <div style={{marginTop: '-30px'}}>
+                          <SvgEmail height={20} width={19} />
+                        </div>
+                        </Button>
+                      )}
                         className={styles.inputStyle}
                         type="text"
                         required
-                        placeholder="email"
+                        placeholder="Your email or username"
                         disabled
                         value={userEmail}
+
                       />
+
                     </LabelWrapper>
                   </div>
                   <div className={styles.marginTop}>
-                    <LabelWrapper label="Password" required>
+                    <LabelWrapper required>
                       <div className={styles.inputPosition}>
-                        <input
+                        <InputText
+                        actionLeft={() => (
+                          <Button types="link" className={styles.Passicons}>
+                          <div style={{marginTop: '-35px'}}>
+                            <SvgLock height={20} width={19} />
+                          </div>
+                          </Button>
+                        )}
                           ref={myRef}
                           className={styles.inputStyle}
+                          placeholder="Password at least 8 characters"
                           type={!isShowNewPass ? 'password' : 'text'}
                           {...register('password')}
                           name="password"
@@ -200,7 +235,6 @@ const SetPassword = () => {
                     <Text size={12} color="error">
                       {errors.password?.message}
                     </Text>
-
                     {!isEmpty(isPassword) && isValid && (
                       <Flex columnFlex>
                         <ErrorMessages
@@ -221,10 +255,18 @@ const SetPassword = () => {
                     )}
                   </div>
                   <div className={styles.marginTop}>
-                    <LabelWrapper label="Confirm password" required>
+                    <LabelWrapper  required>
                       <div className={styles.inputPosition}>
-                        <input
+                        <InputText
+                        actionLeft={() => (
+                          <Button types="link" className={styles.Passicons}>
+                          <div style={{marginTop: '-35px'}}>
+                            <SvgLock height={20} width={19} />
+                          </div>
+                          </Button>
+                        )}
                           className={styles.inputStyle}
+                          placeholder="Confirm Your Password"tton
                           type={!isShowChangePass ? 'password' : 'text'}
                           name="confirm_password"
                           {...register('confirm_password')}
@@ -258,6 +300,8 @@ const SetPassword = () => {
                   </div>
                   <div className={styles.btnContainer}>
                     <Button
+                    className={styles.login_button}
+                    
                       disabled={
                         changeValid !== isValid ||
                         isEmpty(isPassword) ||
@@ -271,10 +315,20 @@ const SetPassword = () => {
                   </div>
                 </form>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
+            </Flex>
+            </Flex>
+            <Flex className={styles.splitrows_2}>
+            <Flex middle className={styles.logos}>
+            <SvgZitaLogo width={240} height={125} />
+             </Flex>
+             <Flex className={styles.centers_aligh_slider}>
+            <Loginslider />
+             </Flex>
+            </Flex>
+            </Flex>
+          {/* </div> */}
+        {/* </div> */}
+      {/* </section> */}
     </>
   );
 };

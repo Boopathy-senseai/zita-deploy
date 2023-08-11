@@ -289,18 +289,19 @@ const InviteModal = (props) => {
           onHide={onCloseModal}
           size={props.size}
           aria-labelledby="contained-modal-title-vcenter"
-          centered
+          centered 
         >
           <Modal.Body>
             <form onSubmit={handleSubmit(onSubmit)}>
+            <Flex className={styles.muModalpadding}>
               <Flex row center between>
                 <Text bold size={16} color="theme">
                   Invite New User
                 </Text>
 
-                <Button types="link" onClick={onCloseModal}>
+                {/* <Button types="link" onClick={onCloseModal}>
                   <SvgClose fill={'#979797'} height={14} width={14} />
-                </Button>
+                </Button> */}
               </Flex>
               <div className="row">
                 <div className="col-12">
@@ -442,10 +443,10 @@ const InviteModal = (props) => {
                       <Loader size="small" withOutOverlay />
                     </Flex>
                   </div>
-                  <div className={displayRolesLoading ? 'card d-none' : 'card'}>
+                  <div className={displayRolesLoading ? 'card d-none' : 'card'} style={{ border: 0 }} >
                     <div
                       className="card-body"
-                      style={{ paddingBottom: 8, paddingTop: 8 }}
+                      style={{ padding: 0 }}
                     >
                       <Flex columnFlex>
                         <Text bold>User Privileges</Text>
@@ -477,13 +478,25 @@ const InviteModal = (props) => {
                   </div>
                 </div>
                 <div className="col-md-12 mt-4" style={{ marginBottom: 16 }}>
-                  <Flex row center>
+                  <Flex row center style={{gap: 10, justifyContent: "end"}}>
+                    <Button types="close" onClick={onCloseModal}
+                    >
+                      Close
+                    </Button>
+
+                    {/* <Button types="close" onClick={onCloseModal}>
+                  <SvgClose fill={'#979797'} height={14} width={14} />
+                </Button> */}
+                    
+
+
+
                     <Button
                       disabled={!checkValue || isEmailValid}
                       type="submit"
                       style={{ marginRight: 16 }}
                     >
-                      Send Invite
+                     Invite
                     </Button>
                     {props.inviteBtnLoader && (
                       <Loader size="small" withOutOverlay />
@@ -491,6 +504,7 @@ const InviteModal = (props) => {
                   </Flex>
                 </div>
               </div>
+              </Flex>
             </form>
           </Modal.Body>
         </Modal>

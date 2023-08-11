@@ -24,3 +24,10 @@ width:180px;
   flex-direction: column;
   width: 100%;
 }
+
+
+.titleuser{
+  padding: 5px 0;
+  border-right: 0.5px solid #555555;
+  display: flex;
+}

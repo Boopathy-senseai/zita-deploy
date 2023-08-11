@@ -249,6 +249,7 @@ class UserEditModal extends Component {
                               type="checkbox"
                               className="custom-control-input"
                               id="CreatePostJob"
+                              
                             />
                             <label
                               className="custom-control-label"
@@ -256,6 +257,7 @@ class UserEditModal extends Component {
                             >
                               Create & Post Job
                             </label>
+                            
                           </div>
                           <div className="custom-control custom-checkbox">
                             <input

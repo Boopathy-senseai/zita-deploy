@@ -29,7 +29,7 @@ body {
 }
 
 .admin-bc {
-  background: #dfdfdf;
+  /* background: #dfdfdf; */
 }
 
 img {
@@ -190,8 +190,8 @@ small {
 }
 
 .status-btn-success {
-  background-color: #34cc65;
-  color: #000000;
+  background-color: #ffffff00;
+  color: #34cc65;
   font-family: 'Roboto', sans-serif;
   font-size: 13px;
   text-transform: uppercase;
@@ -201,11 +201,12 @@ small {
   min-width: 80px;
   line-height: 30px;
   border-radius: 5px;
+  text-align:left ;
 }
 
 .status-btn-inactive {
-  background-color: #979797;
-  color: #000000;
+  background-color: #ffffff00;
+  color: #fd1111;
   font-family: 'Roboto', sans-serif;
   font-size: 13px;
   text-transform: uppercase;
@@ -215,6 +216,7 @@ small {
   min-width: 80px;
   line-height: 30px;
   border-radius: 5px;
+  text-align:left ;
 }
 .status-btn-admin {
   background-color: #fcc203;
@@ -228,10 +230,11 @@ small {
   min-width: 80px;
   line-height: 30px;
   border-radius: 5px;
+  
 }
 .status-btn-warning {
-  background-color: #ffc203;
-  color: #000000;
+  background-color: #ffffff00;
+  color: #ffc203;
   font-family: 'Roboto', sans-serif;
   font-size: 13px;
   text-transform: uppercase;
@@ -241,6 +244,7 @@ small {
   min-width: 80px;
   line-height: 30px;
   border-radius: 5px;
+  text-align:left ;
 }
 
 .status-btn-primary {
@@ -793,4 +797,20 @@ input:-webkit-autofill:active {
   position: relative;
   overflow: auto !important;
   flex: 1;
+}
+
+.cardHo:hover{
+  background-color: #EDE6EB;
+  box-shadow: 1px 1px 1px #EDE6EB;
+  border-left: 5px solid #581845;
+}
+
+.cardHo{
+  border: 1px solid #EDE6EB;
+  width: 135px;
+  box-shadow: 2px 2px 5px 1px #EDE6EB;
+}
+
+.bottomborder{
+  border-bottom: 1px solid #EDE6EB;
 }

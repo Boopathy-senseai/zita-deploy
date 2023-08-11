@@ -29,6 +29,7 @@ import ManageSubscriptionScreen from './managesubscription/ManageSubscriptionScr
 import TemplatesPage from './templatesmodule/templatesPage';
 // import { dispatch } from 'react-hot-toast/dist/core/store';
 
+
 const height = window.innerHeight - 212;
 
 type ParamsType = {
@@ -71,6 +72,23 @@ const AccountSettingsScreen = ({ value }: props) => {
   const [isReloadCompany, setReloadCompany] = useState(false);
   const [isReloadProfile, setReloadProfile] = useState(false);
   const [changeurl, setchangeurl] = useState(false);
+
+/* new use effect start */
+
+// useEffect(() => {
+//   const queryParams = new URLSearchParams(location.search)
+  
+//   if (queryParams.has('error')) {
+    
+//     queryParams.delete('error')
+//     history.replace({
+//       search: queryParams.toString(),
+//     })
+//   }
+// }, [])
+
+/* new use effect end */
+
 
   useEffect(() => {
     if (!isEmpty(tab)) {
