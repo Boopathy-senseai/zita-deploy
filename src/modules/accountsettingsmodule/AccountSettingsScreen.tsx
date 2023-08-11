@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import toast from 'react-hot-toast';
 import Activity from '../../pages/activity/Activity';
 import ManageUsers from '../../pages/home/ManageUsers';
 import { RootState, AppDispatch } from '../../store';
@@ -21,6 +22,7 @@ import {
   googleCallbackMiddleware,
   IntergratemailMiddleWare,
 } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
+import Toast from '../../uikit/Toast/Toast';
 import CompanyPage from './companypage';
  //import UserProfile from './userprofilemodule/userProfile';
 import styles from './accountsettingsscreen.module.css';
@@ -29,6 +31,7 @@ import EmailNotification from './emailmodule/EmailNotifications';
 import IntegrationScreen from './integrationmodule/IntegrationScreen';
 import ManageSubscriptionScreen from './managesubscription/ManageSubscriptionScreen';
 import TemplatesPage from './templatesmodule/templatesPage';
+
 // import { dispatch } from 'react-hot-toast/dist/core/store';
 
 const height = window.innerHeight - 212;
@@ -119,13 +122,16 @@ const AccountSettingsScreen = ({ value }: props) => {
       // Google
       const code = url.searchParams.get('code');
 
-      console.log("lllllllllll",code);
+   
 
       dispatch(googleCallbackMiddleware({ codeUrl: code })).then((res) => { 
 
-        //dispatch(IntergratemailMiddleWare());
+        dispatch(IntergratemailMiddleWare());
         history.push('/account_setting/settings'); 
-        window.location.reload();     
+        localStorage.setItem('integrationSuccess', 'true');
+        window.location.reload();  
+
+       
       });
     } else if (url.searchParams.get('session_state')) {
       // Outlook
@@ -137,9 +143,12 @@ const AccountSettingsScreen = ({ value }: props) => {
       dispatch(outlookCallbackMiddleware(access_urls))
         .then((res) => {
           console.log(res,'responce') ;    
-            dispatch(IntergratemailMiddleWare()); 
-            history.push('/account_setting/settings'); 
-            window.location.reload();       
+          dispatch(IntergratemailMiddleWare()); 
+          history.push('/account_setting/settings'); 
+          localStorage.setItem('integrationSuccess', 'true');
+          window.location.reload();  
+ 
+         //  Toast('Outlook calendar Integrated Successfully', 'MEDIUM');     
         })
         .catch((err) => {
           console.log('error', err);

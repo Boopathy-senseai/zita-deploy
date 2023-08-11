@@ -96,7 +96,7 @@ const IntegrationScreen = () => {
     },
   )
   
-  
+  const [tost,settost]=useState(false);
 
 
   const googleAuthHandler = () => {  
@@ -105,19 +105,19 @@ const IntegrationScreen = () => {
 
       .then((res) => {
         setLoginLoader(false);
-        alert('inside')
         console.log("googlecallApi,",res)
-        setConnected(1);
-        setIsGoogle(1);
-        setActive(1);
+        // setConnected(1);
+        // setIsGoogle(1);
+        // setActive(1);
         window.location.href=res.payload.url;
-        Toast('Outlook google Integrated Successfully', 'MEDIUM')  ; 
+       // Toast('Google Calender Integrated Successfully', 'MEDIUM')  ; 
       })
       .catch((err) => {
         console.log(err);
       });
   };
-
+  const integrationSuccess = localStorage.getItem('integrationSuccess');
+  console.log("aaaaaaaaaaaaaaaaaaa",integrationSuccess)
   const msAuthHandler = () => {
     setLoginLoader(true);
    
@@ -126,21 +126,19 @@ const IntegrationScreen = () => {
         console.log("outlookintegration",res);
         if (res.payload.success === true) {
           setLoginLoader(false);
-          setConnected(1);
-          setIsGoogle(0);
-          setActive(1);
-          Toast('Outlook calendar Integrated Successfully', 'MEDIUM');
+          // setConnected(1);
+          // setIsGoogle(0);
+          // setActive(1);
+        //  Toast('Outlook calendar Integrated Successfully', 'MEDIUM');
           window.location.href=res.payload.authorization_url;
-       
-         // window.location.reload()
-         // window.open(res.payload.authorization_url);
-  
         }
       })
+     
       .catch((err) => {
         console.error('outlookCallApiMiddleware ', err);
       });
   };
+
   // google radio button function
   const handleGoogleRadio = () => {
     googleAuthHandler();
@@ -233,6 +231,7 @@ const IntegrationScreen = () => {
     checkAuth();
     
   }, []);
+  
 
   function outlookconfig(): void {
     throw new Error('Function not implemented.');
@@ -240,6 +239,7 @@ const IntegrationScreen = () => {
 
   return (
     <Flex className={styles.overAll}>
+      {  console.log(tost,'ttttttttt')}
       {console.log("outlookcallapimiddle::",outlookCallApiMiddleware)}
       {isLoginLoader && <Loader />}
       <Flex columnFlex>
@@ -253,13 +253,19 @@ const IntegrationScreen = () => {
             {connected === 1 && active === 1 && isGoogle === 0 ?(
  
                <Card className={styles.selectCard}>
+            
               <Flex end style={{ position: 'absolute', right: '10px' }}>
                 <SvgTick />
               </Flex>
               <Flex row start className={styles.cardHeader}>
                 {/* <SvgOutlookMail /> */}
                 <SvgOutlookcalendar></SvgOutlookcalendar>
+               {integrationSuccess === 'true'&&
+                 Toast('Outlook Calendar Integrated Successfully', 'SHORT')}
 
+              {integrationSuccess === 'true'&&
+                 localStorage.removeItem('integrationSuccess')
+               }
                 <Text
                   color="theme"
                   bold
@@ -273,10 +279,7 @@ const IntegrationScreen = () => {
               <Text style={{ marginTop: '10px' }}>Connected as</Text>
               <Text color="theme" style={{ marginTop: '1px' }}>
                 {email} 
-              </Text>
-              {/* {modelopen===false&&
-                 Toast('Outlook calendar Integrated Successfully', 'MEDIUM')
-                } */}
+              </Text>        
               <Button
                 className={styles.btn}
                 onClick={() =>disconnectfun() }
@@ -286,12 +289,11 @@ const IntegrationScreen = () => {
                 </Text>
               </Button>
             </Card>
-
             ):(
           <Card className={styles.cardStruture}>
               <Flex row start className={styles.cardHeader}>
                 <SvgOutlookcalendar></SvgOutlookcalendar>
-
+               {/* {  Toast('Outlook google Integrated Successfully', 'MEDIUM')   } */}
                 <Text
                   color="theme"
                   bold
@@ -319,10 +321,16 @@ const IntegrationScreen = () => {
             {connected === 1 && active === 1 && isGoogle === 1?(
             
              <Card className={styles.selectCard}>
-            
+             {integrationSuccess === 'true'&&
+                 Toast('Google Calendar Integrated Successfully', 'SHORT')}
+
+              {integrationSuccess === 'true'&&
+                 localStorage.removeItem('integrationSuccess')
+               }
              <Flex end style={{ position: 'absolute', right: '10px' }}>
                <SvgTick />
              </Flex>
+             {/* {      Toast('Google Calender Integrated Successfully', 'MEDIUM') } */}
              <Flex row start className={styles.cardHeader}>
                {/* <SvgOutlookMail /> */}
                <SvgGooglecalendar></SvgGooglecalendar>
@@ -359,7 +367,7 @@ const IntegrationScreen = () => {
           <Card className={styles.cardStruture}>
               <Flex row start className={styles.cardHeader}>
                 <SvgGooglecalendar></SvgGooglecalendar>
-
+             
                 <Text
                   color="theme"
                   bold
