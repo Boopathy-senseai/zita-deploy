@@ -1,8 +1,8 @@
 /* eslint max-len: ["error", { "code": 2000 }] */
 const defaultProps = {
-  fill: '#979797',
-  width: 24,
-  height: 24,
+  fill: '#ff0000',
+  width: 17,
+  height: 17,
 };
 
 const SvgNotInterested = ({ width, height, fill }: typeof defaultProps) => {

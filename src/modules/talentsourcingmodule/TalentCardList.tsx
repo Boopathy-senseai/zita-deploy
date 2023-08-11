@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import _ from 'lodash';
 import Flex from '../../uikit/Flex/Flex';
+import { Pangination } from '../../uikit';
 import BulkAction from './BulkAction';
 import TalentCardMap from './TalentCardMap';
 import { DataEntity } from './talentSourcingTypes';
+
 
 type experienceOptionsType = {
   value: string;
@@ -12,8 +14,7 @@ type experienceOptionsType = {
 
 type Props = {
   searchData?: DataEntity[];
-  pagesVisited: number;
-  usersPerPage: number;
+
   handleUnlockSubmit: (arg: string) => void;
   searchLoader: boolean;
   isBachelors: boolean;
@@ -39,14 +40,15 @@ type Props = {
   val:any;
   isCheck:any;
   setIsCheck:any;
-
+  isSubmitLoader?:any;
+  pageNumber?:any;
+  handleSetPage?:any;
   // setUnlockLoader: (arg: boolean) => void;
 };
 
 const TalentCardList = ({
   searchData,
-  pagesVisited,
-  usersPerPage,
+ 
   handleUnlockSubmit,
   searchLoader,
   isBachelors,
@@ -72,12 +74,20 @@ const TalentCardList = ({
   val,
   isCheck,
   setIsCheck,
- 
+  isSubmitLoader,
+  pageNumber,
+  handleSetPage,
 }: // setUnlockLoader,
 Props) => {
   const [isCheckAll, setIsCheckAll] = useState(false);
   const [count, setcount] = useState(0);
   const [stylevalue,setstylevalue]=useState(false);
+
+  const usersPerPage = 15;
+  const pagesVisited = pageNumber * usersPerPage;
+  const length: any = searchData?.length;
+  const pageCount = Math.ceil(length / usersPerPage);
+ 
   // const [isCheck, setIsCheck] = useState<any>([]);
   // const checkArray = isCheckArray.length === 0 ? false : true;
 // select box function
@@ -174,48 +184,61 @@ Props) => {
 
   
   return (
-    <Flex wrap row style={{width:'100%',  overflowY: 'scroll',height: !stylevalue?'fit-content':window.innerHeight - 293,padding: '0 0 8px 0',alignContent:'flex-start' }}>
-    {console.log("index value",window.innerHeight,stylevalue)}
-      <BulkAction
-        // setUnlockLoader={setUnlockLoader}
-        setCandiList={setCandiList}
-        setNoCount={setNoCount}
-        setNoLimit={setNoLimit}
-        setNoPermission={setNoPermission}
-        setSuccess={setSuccess}
-        setCandidatesLimit={setCandidatesLimit}
-        isCandidatesLimit={isCandidatesLimit}
-        source_limit={source_limit}
-        setSourceLimit={setSourceLimit}
-        handleSelectAll={handleSelectAll}
-        isCheckAll={val}
-        searchResult={searchData?.length}
-        isCheckArray={isCheck}
-        setFree={setFree}
-        planID={planID}
-        setIsCheck={setIsCheck}
-      />
-      {searchData &&
-        searchData
-          .slice(pagesVisited, pagesVisited + usersPerPage)
-          .map((dataList, index) => {
-            return (
-              <TalentCardMap
-          
-                candi_list={candi_list}
-                handleCandidateView={handleCandidateView}
-                isCheck={isCheck}
-                handleClick={handleClick}
-                key={dataList.first_name + index}
-                talentList={dataList}
-                index={index}
-                handleUnlockSubmit={handleUnlockSubmit}
-              />
-            );
+    <Flex  style={{width:'100%',  overflowY: 'scroll',height: !stylevalue?'fit-content':window.innerHeight - 240,padding: '0 0 8px 0',alignContent:'flex-start' }}>
+     {console.log("index value",window.innerHeight,stylevalue)}
+     <Flex wrap row>
+        <BulkAction
+          // setUnlockLoader={setUnlockLoader}
+          setCandiList={setCandiList}
+          setNoCount={setNoCount}
+          setNoLimit={setNoLimit}
+          setNoPermission={setNoPermission}
+          setSuccess={setSuccess}
+          setCandidatesLimit={setCandidatesLimit}
+          isCandidatesLimit={isCandidatesLimit}
+          source_limit={source_limit}
+          setSourceLimit={setSourceLimit}
+          handleSelectAll={handleSelectAll}
+          isCheckAll={val}
+          searchResult={searchData?.length}
+          isCheckArray={isCheck}
+          setFree={setFree}
+          planID={planID}
+          setIsCheck={setIsCheck}
+        />
+        {searchData &&
+          searchData
+            .slice(pagesVisited, pagesVisited + usersPerPage)
+            .map((dataList, index) => {
+              return (
+                <TalentCardMap
+            
+                  candi_list={candi_list}
+                  handleCandidateView={handleCandidateView}
+                  isCheck={isCheck}
+                  handleClick={handleClick}
+                  key={dataList.first_name + index}
+                  talentList={dataList}
+                  index={index}
+                  handleUnlockSubmit={handleUnlockSubmit}
+                />
+              );
           })}
-  
+     </Flex>
+        <Flex style={{paddingTop:'10px'}}>
+          {searchData?.length !== 0 &&
+            pageCount - 1 !== 0 &&
+            searchData !== null && isSubmitLoader !== true && (
+              <div style={{alignItems:'center',justifyContent:'center',display:'flex'}}>
+                <Pangination
+                  maxPages={pageCount - 1}
+                  currentPage={pageNumber}
+                  setCurrentPage={handleSetPage}
+                />
+              </div>
+            )}
    
-    
+        </Flex>
     </Flex>
   );
 };
