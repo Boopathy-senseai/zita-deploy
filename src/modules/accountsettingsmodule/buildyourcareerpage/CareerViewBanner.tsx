@@ -71,15 +71,9 @@ const CareerViewBanner = ({
           </Text>
         </Flex>
       </Flex>
-      <Flex height={"100%"} style={{ padding: '10px 30px' }}>
-        {/* <Flex marginBottom={10}>
-          <Text bold size={14}>
-            Get the right job that you deserve.
-          </Text>
-          <Text size={13}>Your dream job is waiting!</Text>
-        </Flex> */}
+      <Flex height={"100%"} style={{ padding: '10px 10px 10px 30px' }}>
         {jd_form && jd_form.length !== 0 && (
-          <Card className={styles.searchCard}>
+          <Card className={styles.searchCard} >
             <Flex row={!isMobile} center>
               <Flex marginRight={10}>
                 <Text bold style={{ whiteSpace: 'nowrap' }}>

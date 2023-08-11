@@ -42,7 +42,10 @@ const BannerCardView = ({
         marginRight: 20,
         marginBottom: 20,
         position: 'relative',
-        width: !isTablet ? '30%' : '100%',
+        minWidth: !isTablet ? '31%' : '100%',
+        maxWidth: !isTablet ? '32%' : '100%',
+        flex:1
+        
       }}
     >
       <Card className={styles.cardPadding}>
@@ -141,7 +144,7 @@ const BannerCardView = ({
         </Flex>
         <Flex row>
           <Flex flex={1}>
-            <Flex row top>
+            <Flex row center>
               <SvgLocation
                 height={16}
                 width={16}

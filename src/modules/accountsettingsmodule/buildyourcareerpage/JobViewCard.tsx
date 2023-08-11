@@ -123,38 +123,123 @@ const JobViewCard = ({
     <Card className={styles.overAll}>
       <Flex row={!isMobile} between={!isMobile}>
         <Flex flex={isMobile ? 1 : 8} className={styles.jobDetails}>
-          <LinkWrapper to={`/${career_page_setting?.career_page_url}/careers`}>
-            <Flex row center marginBottom={16}>
-              <div style={{ cursor: 'pointer', position: 'relative', top: -2 }}>
-                <SvgBack
-                  width={14}
-                  height={14}
-                  fill={career_page_setting.button_color}
-                />
-              </div>
-              <Text
-                style={{
-                  marginLeft: 5,
-                  color: career_page_setting.button_color,
-                  cursor: 'pointer',
-                }}
-                bold
+          <Flex row center between marginBottom={15}>
+            <Flex>
+              <LinkWrapper
+                to={`/${career_page_setting?.career_page_url}/careers`}
               >
-                Back to careers
-              </Text>
+                <Flex row center>
+                  <div
+                    style={{ cursor: 'pointer', position: 'relative', top: -2 }}
+                  >
+                    <SvgBack
+                      width={14}
+                      height={14}
+                      fill={career_page_setting.button_color}
+                    />
+                  </div>
+                  <Text
+                    style={{
+                      marginLeft: 5,
+                      color: career_page_setting.button_color,
+                      cursor: 'pointer',
+                    }}
+                    bold
+                  >
+                    Back to careers
+                  </Text>
+                </Flex>
+              </LinkWrapper>
             </Flex>
-          </LinkWrapper>
-          <Text bold size={16} style={{ marginBottom: 5 }}>
-            Job Details
-          </Text>
-          <Flex
-            marginBottom={10}
-            style={{
-              border: '1px solid #c3c3c3',
-              padding: '10px',
-              borderRadius: '4px',
-            }}
-          >
+            <Flex>
+              {login_user ? (
+                <Flex
+                  // flex={isMobile ? 1 : 4}
+                  columnFlex
+                  className={styles.btnContainer}
+                >
+                  {applied_status !== 0 && (
+                    <div style={{ marginBottom: 20, marginRight: 34 }}>
+                      <Status label={'Applied'} color="success" />
+                    </div>
+                  )}
+                  <LinkWrapper to={`/`}>
+                    <Button
+                      style={{
+                        backgroundColor: career_page_setting?.button_color,
+                        borderColor: career_page_setting?.button_color,
+                      }}
+                    >
+                      Go to Dashboard
+                    </Button>
+                  </LinkWrapper>
+                </Flex>
+              ) : (
+                <Flex
+                  row
+                  // flex={isMobile ? 1 : 4}
+                  columnFlex
+                  className={styles.btnContainer}
+                >
+                  <LinkWrapper
+                    to={`/candidate_profile_upload/${company_detail?.recruiter_id_id}`}
+                    onClick={() =>
+                      localStorage.setItem('careerJobViewJobId', jobId)
+                    }
+                  >
+                    <Button
+                      types="secondary"
+                      style={{
+                        width: 230,
+                        marginRight: 8,
+                        whiteSpace: 'nowrap',
+                        // backgroundColor: career_page_setting?.button_color,
+                        borderColor: career_page_setting?.button_color,
+                        color: career_page_setting?.button_color,
+                      }}
+                    >
+                      <Text
+                        bold
+                        size={13}
+                        style={{ color: career_page_setting?.button_color }}
+                      >
+                        Create Company Profile
+                      </Text>
+                    </Button>
+                  </LinkWrapper>
+                  <LinkWrapper
+                    to="/login"
+                    onClick={() => {
+                      dispatch(logOutMiddleWare()).then(() => {
+                        localStorage.removeItem('token');
+                      });
+                      sessionStorage.setItem('applyWithCompanyProfile', 'true');
+                      localStorage.setItem('careerJobViewJobId', jobId);
+                    }}
+                  >
+                    <Button
+                      style={{
+                        width: 218,
+                        whiteSpace: 'nowrap',
+                        backgroundColor: career_page_setting?.button_color,
+                        borderColor: career_page_setting?.button_color,
+                      }}
+                    >
+                      Apply with Company Profile
+                    </Button>
+                  </LinkWrapper>
+                </Flex>
+              )}
+            </Flex>
+          </Flex>
+
+          <Flex style={{ borderTop: '1px solid #c3c3c3', padding: '5px 0' }}>
+            <Text bold size={14} style={{margin:"5px 0"}}>
+              Job Details
+            </Text>
+          </Flex>
+
+          <Flex marginBottom={10} className={styles.jobDetail}>
             <Flex row={!isTablet} top wrap>
               {jdData.map((list, index) => {
                 return (
@@ -167,7 +252,7 @@ const JobViewCard = ({
                       key={list.title + index}
                       className={styles.listFlex}
                     >
-                      <Text>{list.title}</Text>
+                      <Text style={{color: career_page_setting.button_color}}>{list.title}</Text>
                       {list.title === 'Qualification:' ? (
                         <Text
                           style={{ width: '68%', overflowWrap: 'anywhere' }}
@@ -176,7 +261,7 @@ const JobViewCard = ({
                           {list.value}
                         </Text>
                       ) : (
-                        <Text bold className={styles.valueStyle}>
+                        <Text size={13} className={styles.valueStyle}>
                           {list.value}
                         </Text>
                       )}
@@ -187,8 +272,8 @@ const JobViewCard = ({
             </Flex>
             {jd_form?.show_sal_to_candidate === false && (
               <Flex row top>
-                <Text>Qualification:</Text>
-                <Text bold className={styles.valueStyle}>
+                <Text style={{color: career_page_setting.button_color}}>Qualification:</Text>
+                <Text size={13} className={styles.valueStyle}>
                   {qualification
                     ? `${qualification.toString().replace(/,/g, ', ')}`
                     : notSpecified(qualification)}
@@ -197,93 +282,16 @@ const JobViewCard = ({
             )}
           </Flex>
         </Flex>
-
-        {login_user ? (
-          <Flex
-            flex={isMobile ? 1 : 4}
-            columnFlex
-            className={styles.btnContainer}
-          >
-            {applied_status !== 0 && (
-              <div style={{ marginBottom: 20, marginRight: 34 }}>
-                <Status label={'Applied'} color="success" />
-              </div>
-            )}
-            <LinkWrapper to={`/`}>
-              <Button
-                style={{
-                  backgroundColor: career_page_setting?.button_color,
-                  borderColor: career_page_setting?.button_color,
-                }}
-              >
-                Go to Dashboard
-              </Button>
-            </LinkWrapper>
-          </Flex>
-        ) : (
-          <Flex
-            row
-            flex={isMobile ? 1 : 4}
-            columnFlex
-            className={styles.btnContainer}
-          >
-            <LinkWrapper
-              to={`/candidate_profile_upload/${company_detail?.recruiter_id_id}`}
-              onClick={() => localStorage.setItem('careerJobViewJobId', jobId)}
-            >
-              <Button
-                types="secondary"
-                style={{
-                  width: 230,
-                  marginRight: 8,
-                  whiteSpace: 'nowrap',
-                  // backgroundColor: career_page_setting?.button_color,
-                  borderColor: career_page_setting?.button_color,
-                  color: career_page_setting?.button_color,
-                }}
-              >
-                <Text
-                  bold
-                  size={13}
-                  style={{ color: career_page_setting?.button_color }}
-                >
-                  Create Company Profile
-                </Text>
-              </Button>
-            </LinkWrapper>
-            <LinkWrapper
-              to="/login"
-              onClick={() => {
-                dispatch(logOutMiddleWare()).then(() => {
-                  localStorage.removeItem('token');
-                });
-                sessionStorage.setItem('applyWithCompanyProfile', 'true');
-                localStorage.setItem('careerJobViewJobId', jobId);
-              }}
-            >
-              <Button
-                style={{
-                  width: 218,
-                  whiteSpace: 'nowrap',
-                  backgroundColor: career_page_setting?.button_color,
-                  borderColor: career_page_setting?.button_color,
-                }}
-              >
-                Apply with Company Profile
-              </Button>
-            </LinkWrapper>
-          </Flex>
-        )}
       </Flex>
       <Flex
-        style={{ borderBottom: '1px solid #c3c3c3' }}
+        // style={{ borderBottom: '1px solid #c3c3c3' }}
         className={styles.jobDes}
       >
-        <Text bold size={16}>
+        <Text bold size={14} style={{margin:"5px 0"}}>
           Job Description
         </Text>
       </Flex>
-
+      <Flex className={styles.jobDetail}>
       <td
         className={styles.des}
         dangerouslySetInnerHTML={{
@@ -319,6 +327,9 @@ const JobViewCard = ({
           </Flex>
         </Flex>
       )}
+
+      </Flex>
+      
     </Card>
   );
 };

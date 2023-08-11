@@ -14,19 +14,19 @@
 .labelStyle {
   margin-left: 8px;
   text-transform: capitalize;
-  max-width: 370px;
+  max-width: 390px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .labelStyle1 {
-  max-width: 370px;
+  max-width: 390px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .labelStyle2 {
-  max-width: 320px;
+  max-width: 350px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

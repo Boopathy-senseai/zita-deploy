@@ -277,7 +277,7 @@ const CareerNavBar = ({
               >
                 Sign Up
               </Button> */}
-              <Flex style={{ borderLeft: '1px solid #581845' }}>
+              <Flex style={{ borderLeft: '1px solid #333' }}>
                 <Text
                   
                   style={{

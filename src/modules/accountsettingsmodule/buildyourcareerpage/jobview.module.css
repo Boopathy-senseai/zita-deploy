@@ -37,7 +37,7 @@
   position: fixed;
   left: 0;
   z-index: 11;
-  top: 120px;
+  top: 285px;
 }
 .nonePage {
   background-color: var(--color-gary-8, #fafafa);
