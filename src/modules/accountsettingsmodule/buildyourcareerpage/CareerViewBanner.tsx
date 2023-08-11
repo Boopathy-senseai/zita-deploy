@@ -71,7 +71,7 @@ const CareerViewBanner = ({
           </Text>
         </Flex>
       </Flex>
-      <Flex height={"100%"} style={{ padding: '10px' }}>
+      <Flex height={"100%"} style={{ padding: '10px 30px' }}>
         {/* <Flex marginBottom={10}>
           <Text bold size={14}>
             Get the right job that you deserve.

@@ -49,10 +49,10 @@ const initial: formikFormTypes = {
   menu3: '',
   menu3Url: 'https://',
   bannerHeadingText: '',
-  bannerHeadingFontSize: '14',
+  bannerHeadingFontSize: '20',
   bannerTextFontSize: '14',
   bannerText: '',
-  btnColor: { hex: '#f26522' },
+  btnColor: { hex: '#581845' },
   footerColor: { hex: '#fffff' },
   aboutText: '',
 };
@@ -377,7 +377,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
         career_page.banner_heading_size.toString(),
       );
     } else {
-      formik.setFieldValue('bannerHeadingFontSize', '14');
+      formik.setFieldValue('bannerHeadingFontSize', '20');
     }
 
     if (career_page && !isEmpty(career_page.banner_font_size)) {
@@ -392,7 +392,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
     if (career_page && !isEmpty(career_page.button_color)) {
       formik.setFieldValue('btnColor.hex', career_page.button_color);
     } else {
-      formik.setFieldValue('btnColor.hex', '#f26522');
+      formik.setFieldValue('btnColor.hex', '#581845');
     }
 
     if (career_page && !isEmpty(career_page.footer_color)) {
@@ -685,10 +685,10 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
         </Flex>
       </Flex>
 
-      <Flex row between className={styles.actions}>
+      <Flex width={"50%"} row between className={styles.actions}>
         <Flex>
           <LinkWrapper to="/">
-            <Button types="primary">My Dashboard</Button>
+            <Button types="primary">Dashboard</Button>
           </LinkWrapper>
         </Flex>
         <Flex row>
@@ -723,6 +723,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
           </Button>
         </Flex>
       </Flex>
+      
     </>
   );
 };

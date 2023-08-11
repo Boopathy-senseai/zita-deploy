@@ -375,7 +375,7 @@ const JobView = () => {
               }}
               className={styles.footerStyle}
             >
-              <Text bold align="center" size={14} onClick={zitaPath}>
+              <Text bold color='theme' align="center" size={14} onClick={zitaPath}>
                 Powered by Zita.ai
               </Text>
             </div>

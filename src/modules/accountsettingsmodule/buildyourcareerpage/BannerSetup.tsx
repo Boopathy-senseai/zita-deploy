@@ -29,6 +29,8 @@ const BannerSetup = ({
   setBtnDisable,
 }: Props) => {
   const [openPopup, setOpenPopuptwo] = useState<boolean>(false);
+  const [openpopup, setopenpopup] = useState(false);
+
   return (
     <>
       {/* <Text bold size={14}>
@@ -108,11 +110,35 @@ const BannerSetup = ({
               Background Image
             </Text>
             <label
-              title={'Recommended image size :1920px X 1280px \n  File size must be less than 2MB'}
+              onMouseEnter={() => setopenpopup(true)}
+              onMouseLeave={() => setopenpopup(false)}
+              // title={'Recommended image size :1920px X 1280px \n  File size must be less than 2MB'}
               className={styles.changeStyle11}
             >
               <SvgModuleicon />
             </label>
+          </Flex>
+          <Flex flex={5} style={{ margintop: '-2vh' }}>
+            {openpopup === true ? (
+              <Card className={styles.cardfront}>
+                <Flex row center>
+                  <SvgModuleicon />{' '}
+                  <Text className={styles.moreinformation}>
+                    More Information
+                  </Text>{' '}
+                </Flex>
+                <Flex marginTop={5} className={styles.tooltipcontent}>
+                  <Text className={styles.gray_color}>
+                    Recommended image size :1920px X 1280px
+                  </Text>
+                  <Text className={styles.gray_color}>
+                    File size must be less than 2MB
+                  </Text>
+                </Flex>
+              </Card>
+            ) : (
+              ''
+            )}
           </Flex>
 
           <ImageUpload
@@ -122,7 +148,6 @@ const BannerSetup = ({
             setFile={setFile}
             height={98}
           />
-          
         </Flex>
       </Flex>
 
