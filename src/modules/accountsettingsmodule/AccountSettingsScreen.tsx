@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Activity from '../../pages/activity/Activity';
@@ -18,6 +19,7 @@ import useUnsavedChangesWarning from '../common/useUnsavedChangesWarning';
 import {
   outlookCallbackMiddleware,
   googleCallbackMiddleware,
+  IntergratemailMiddleWare,
 } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import CompanyPage from './companypage';
  //import UserProfile from './userprofilemodule/userProfile';
@@ -99,6 +101,8 @@ const AccountSettingsScreen = ({ value }: props) => {
     };
   }, [isReloadCompany]);
 
+
+
   useEffect(() => {
     /**
      *
@@ -114,9 +118,14 @@ const AccountSettingsScreen = ({ value }: props) => {
     if (url.searchParams.get('scope')) {
       // Google
       const code = url.searchParams.get('code');
-      dispatch(googleCallbackMiddleware({ codeUrl: code })).then((res) => {
-        console.log(res);
-        window.close();
+
+      console.log("lllllllllll",code);
+
+      dispatch(googleCallbackMiddleware({ codeUrl: code })).then((res) => { 
+
+        //dispatch(IntergratemailMiddleWare());
+        history.push('/account_setting/settings'); 
+        window.location.reload();     
       });
     } else if (url.searchParams.get('session_state')) {
       // Outlook
@@ -127,8 +136,10 @@ const AccountSettingsScreen = ({ value }: props) => {
       };
       dispatch(outlookCallbackMiddleware(access_urls))
         .then((res) => {
-          console.log(res);
-          window.close();
+          console.log(res,'responce') ;    
+            dispatch(IntergratemailMiddleWare()); 
+            history.push('/account_setting/settings'); 
+            window.location.reload();       
         })
         .catch((err) => {
           console.log('error', err);
