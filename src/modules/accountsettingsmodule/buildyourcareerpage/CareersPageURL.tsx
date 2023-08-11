@@ -53,12 +53,12 @@ const CareersPageURL = ({
                 <SvgHelp fill="#581845" height={16} width={16} />
               </Flex>
             </Flex> */}
-          <Flex row top  className={styles.paddingTopFlex}>
+          <Flex row top className={styles.paddingTopFlex}>
             <div tabIndex={-1} className={styles.svgBox}>
-              <SvgGlobal fill={PRIMARY} width={14} height={14}/>
+              <SvgGlobal fill={PRIMARY} width={14} height={14} />
             </div>
             {isInput ? (
-              <>
+              <Flex row center marginBottom={7}>
                 <Text className={styles.appText}>
                   {window.location.origin}/
                 </Text>
@@ -92,14 +92,14 @@ const CareersPageURL = ({
                   )}
                 </div>
                 <Text className={styles.careerText}>/careers</Text>
-              </>
+              </Flex>
             ) : (
               <LinkWrapper
                 target={'_blank'}
                 replace
                 to={`/${careerUrl}/careers`}
               >
-                <Text color="link" bold style={{marginTop:"2px"}}>
+                <Text color="link" bold style={{ marginTop: '2px' }}>
                   {window.location.origin}/{formik.values.pagaeUrl}/careers
                 </Text>
               </LinkWrapper>
@@ -111,7 +111,7 @@ const CareersPageURL = ({
                 role={'button'}
                 onKeyDown={() => {}}
                 className={styles.svgBox}
-                style={{ marginLeft: 10}}
+                style={{ marginLeft: 10 }}
                 title="Edit URL"
               >
                 {/* <SvgBoxEdit fill={PRIMARY} /> */}

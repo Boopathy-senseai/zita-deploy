@@ -49,37 +49,59 @@ const BannerCardView = ({
         <Flex row>
           <Flex columnFlex flex={8}>
             <LinkWrapper
+            className={styles.labelStyle2}
               onClick={() =>
                 localStorage.setItem('careerJobTitle', list.job_title)
               }
               to={`/${career_page_setting.career_page_url}/career_job_view/${list.id}/${list.job_title}`}
             >
-              <Text
+              <Text className={styles.labelStyle1}
                 bold
                 style={{
                   fontFamily,
                   fontSize: titleFontSize,
-                  color: career_page_setting.button_color 
+                  color: career_page_setting.button_color,
                 }}
               >
                 {list.job_title}
               </Text>
             </LinkWrapper>
-            <Flex row center className={styles.lineHeight}>
-              <SvgBag
-                height={14}
-                width={14}
-                fill={career_page_setting.button_color}
-              />
-              <Text
-                className={styles.labelStyle}
-                style={{
-                  fontFamily,
-                  fontSize,
-                }}
-              >
-                {list.job_type__label_name}
-              </Text>
+            <Flex row>
+              <Flex row marginRight={20} center className={styles.lineHeight}>
+                <SvgBag
+                  height={14}
+                  width={14}
+                  fill={career_page_setting.button_color}
+                />
+                <Text
+                  className={styles.labelStyle}
+                  style={{
+                    fontFamily,
+                    fontSize,
+                  }}
+                >
+                  {list.job_type__label_name}
+                </Text>
+              </Flex>
+              <Flex row marginRight={20} center className={styles.lineHeight}>
+                <Flex row center>
+                  <SvgCalendar
+                    height={14}
+                    width={14}
+                    fill={career_page_setting.button_color}
+                    stroke={career_page_setting.button_color}
+                  />
+                  <Text
+                    className={styles.labelStyle}
+                    style={{
+                      fontFamily,
+                      fontSize,
+                    }}
+                  >
+                    {getDateString(list.job_posted_on, 'll')}
+                  </Text>
+                </Flex>
+              </Flex>
             </Flex>
           </Flex>
           <Flex columnFlex between className={styles.btnContainer}>
@@ -98,13 +120,19 @@ const BannerCardView = ({
                   //   : career_page_setting.button_color,
                   backgroundColor: career_page_setting.button_color,
                   // width: 106,
-                  
-
                 }}
                 onMouseOver={() => setHover(true)}
                 onMouseLeave={() => setHover(false)}
               >
-                <Text bold style={{ color: career_page_setting.button_color !== WHITE ?  WHITE : career_page_setting.button_color }}>
+                <Text
+                  bold
+                  style={{
+                    color:
+                      career_page_setting.button_color !== WHITE
+                        ? WHITE
+                        : career_page_setting.button_color,
+                  }}
+                >
                   Apply
                 </Text>
               </Button>
@@ -112,7 +140,7 @@ const BannerCardView = ({
           </Flex>
         </Flex>
         <Flex row>
-          <Flex flex={8}>
+          <Flex flex={1}>
             <Flex row top>
               <SvgLocation
                 height={16}
@@ -127,25 +155,6 @@ const BannerCardView = ({
                 }}
               >
                 {list.job_location}
-              </Text>
-            </Flex>
-          </Flex>
-          <Flex>
-            <Flex row center>
-              <SvgCalendar
-                height={14}
-                width={14}
-                fill={career_page_setting.button_color}
-                stroke= {career_page_setting.button_color}
-              />
-              <Text
-                className={styles.labelStyle}
-                style={{
-                  fontFamily,
-                  fontSize,
-                }}
-              >
-                {getDateString(list.job_posted_on, 'll')}
               </Text>
             </Flex>
           </Flex>

@@ -40,7 +40,7 @@ const BannerSetup = ({
         <Flex flex={6}>
           <Flex className={styles.marginTop16}>
             <InputText
-              style={{ marginTop: '5px' }}
+             
               label="Heading Text"
               value={formik.values.bannerHeadingText}
               onChange={(e) => {
@@ -57,7 +57,7 @@ const BannerSetup = ({
           </Flex>
           <Flex className={styles.marginTop16}>
             <LabelWrapper label="Heading Font Size">
-              <Flex marginTop={5}>
+              <Flex >
                 <SelectTag
                   id={'banner_setup____banerheading_size'}
                   options={fontSizeOptions}
@@ -82,7 +82,7 @@ const BannerSetup = ({
           </Flex>
           <Flex className={styles.marginTop16}>
             <LabelWrapper label="Subheading Font Size">
-              <Flex marginTop={5}>
+              <Flex >
                 <SelectTag
                   id={'banner_setup____banertext_size'}
                   options={fontSizeOptions}
@@ -105,7 +105,7 @@ const BannerSetup = ({
           </Flex>
         </Flex>
         <Flex marginLeft={16} flex={6}>
-          <Flex row center style={{ marginBottom: '7px' }}>
+          <Flex row center style={{ marginBottom: '2px' }}>
             <Text size={14} color="theme">
               Background Image
             </Text>
@@ -157,7 +157,6 @@ const BannerSetup = ({
           value={formik.values.bannerText}
           textarea
           label="Subheading Text"
-          style={{ marginTop: '5px' }}
           onChange={(e) => {
             setReload();
             formik.setFieldValue('bannerText', e.target.value);

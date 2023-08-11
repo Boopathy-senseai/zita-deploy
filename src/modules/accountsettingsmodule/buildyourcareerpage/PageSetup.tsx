@@ -22,7 +22,7 @@ const PageSetup = ({ formik, setReload }: Props) => {
       <Flex row top className={styles.c}>
         <Flex flex={6} className={styles.tagOne}>
           <LabelWrapper label="Font">
-            <div style={{ marginTop: 5 }}>
+            <div >
               <SelectTag
                 id={'page_setup____font_family'}
                 // label=""
@@ -45,7 +45,7 @@ const PageSetup = ({ formik, setReload }: Props) => {
         </Flex>
         <Flex flex={6} className={styles.tagTwo}>
           <LabelWrapper label="Font Size">
-            <div style={{ marginTop: 5 }}>
+            <div >
               <SelectTag
                 id={'page_setup____font_size'}
                 // label="Page Font Size"

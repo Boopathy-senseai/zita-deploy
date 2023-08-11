@@ -259,12 +259,12 @@ const CareerNavBar = ({
                   )
                 }
               >
-                <Text bold style={{
+                <Button className={styles.loginbtn} types='secondary' style={{
                     fontSize: career_page_setting.header_font_size,
                     fontFamily: career_page_setting.page_font,
                     // margin: '10px',
                     height: '100%',
-                  }}>Login / Sign Up</Text>
+                  }}>Login / Sign Up</Button>
               </Flex>
 
               {/* <Button

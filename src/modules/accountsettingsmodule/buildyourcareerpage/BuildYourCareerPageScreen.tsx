@@ -330,7 +330,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
         career_page.header_font_size.toString(),
       );
     } else {
-      formik.setFieldValue('headerFontSize', '16');
+      formik.setFieldValue('headerFontSize', '14');
     }
 
     if (career_page && !isEmpty(career_page.header_color)) {

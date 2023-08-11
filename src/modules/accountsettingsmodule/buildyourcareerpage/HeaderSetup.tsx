@@ -68,7 +68,7 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
       <Flex row top className={styles.marginTop16}>
         <Flex flex={6} className={styles.tagOne}>
           <LabelWrapper label="Font Size">
-            <div style={{ marginTop: 5 }}>
+            <div >
               <SelectTag
                 id={'header_setup____headerheading_size'}
                 options={fontSizeOptions}
@@ -93,7 +93,7 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
             value={formik.values.headerColor.hex}
             label="Header Color"
             required
-            style={{ marginTop: '5px' }}
+           
             onChange={formik.handleChange('headerColor.hex')}
             actionRight={() => (
               <Button types="link" onClick={() => setColorOpen(!isColorOpen)}>
@@ -129,7 +129,7 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
         <Flex flex={6} className={styles.tagOne}>
           <InputText
             label="Menu 1"
-            style={{ marginTop: '5px' }}
+           
             value={formik.values.menu1}
             onChange={(e) => {
               setReload();
@@ -153,7 +153,6 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
         <Flex flex={6} className={styles.tagTwo}>
           <InputText
             label="Menu 1 URL"
-            style={{ marginTop: '5px' }}
             value={formik.values.menu1Url}
             onChange={(e) => {
               setReload();
@@ -179,7 +178,7 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
         <Flex flex={6} className={styles.tagOne}>
           <InputText
             label="Menu 2"
-            style={{ marginTop: '5px' }}
+           
             value={formik.values.menu2}
             onChange={(e) => {
               setReload();
@@ -203,7 +202,7 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
         <Flex flex={6} className={styles.tagTwo}>
           <InputText
             label="Menu 2 URL"
-            style={{ marginTop: '5px' }}
+           
             value={formik.values.menu2Url}
             onChange={(e) => {
               setReload();
@@ -230,7 +229,7 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
         <Flex flex={6} className={styles.tagOne}>
           <InputText
             label="Menu 3"
-            style={{ marginTop: '5px' }}
+          
             value={formik.values.menu3}
             onChange={(e) => {
               setReload();
@@ -253,7 +252,7 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
         <Flex flex={6} className={styles.tagTwo}>
           <InputText
             label="Menu 3 URL"
-            style={{ marginTop: '5px' }}
+           
             value={formik.values.menu3Url}
             onChange={(e) => {
               setReload();
@@ -276,7 +275,7 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
         </Flex>
       </Flex>
       <Flex  center className={styles.marginTop16}>
-      <Text size={14} color='theme' style={{marginBottom:"7px"}}>
+      <Text size={14} color='theme' style={{marginBottom:"2px"}}>
           {company_detail && !isEmpty(company_detail.logo)
             ? 'Company Logo'
             : 'Add logo in your company profile'}
