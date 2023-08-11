@@ -553,6 +553,7 @@ const ApplicantsTab = ({
               setJdId(option.id.toString());
               hanldeApplicant(option.id.toString());
             }}
+            
           />
         </div>
         <InputText
@@ -567,7 +568,7 @@ const ApplicantsTab = ({
             <SvgSearch />
           </label>
         )}
-       
+        onKeyPress={handleKeyPress}
       />
       
       <Button

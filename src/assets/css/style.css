@@ -724,7 +724,7 @@ input:-webkit-autofill:active {
 .nav-tabs .nav-link.active {
   color: #581845;
   background-color: #ffffff;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: bold;
   /* box-sizing: border-box !important; */
   border-bottom: 3px solid #581845;
@@ -732,7 +732,7 @@ input:-webkit-autofill:active {
 
 .nav-tabs .nav-link {
   font-family: 'Roboto', sans-serif;
-  font-size: 14px;
+  font-size: 13px;
   margin-bottom: 0px;
   border: 0px solid transparent;
   /* font-weight: bold; */

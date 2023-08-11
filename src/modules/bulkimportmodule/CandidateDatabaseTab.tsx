@@ -313,11 +313,10 @@ const CandidateDatabaseTab = ({
     setImport(localStorage.getItem('isImport'));
   });
 
+  
   const handleKeyPress = (event: { key: string }) => {
-    console.log("hhhhhhhhhhh1")
-    if (event.key=== "Backspace" || event.key === "Delete") {
-      console.log("hhhhh")
-      hanldeSvgRefresh(event);
+    if (event.key === 'Enter') {
+      handleSubmit();
     }
   };
   const value=emp_pool.length;
