@@ -4,6 +4,7 @@ import SvgSearch from '../../icons/SvgSearch';
 import SvgLocation from '../../icons/SvgLocation';
 import Button from '../../uikit/Button/Button';
 import Flex from '../../uikit/Flex/Flex';
+import SvgIntomark from '../../icons/Intomark';
 import { enterKeyPress } from '../../uikit/helper';
 import InputText from '../../uikit/InputText/InputText';
 import SelectTag from '../../uikit/SelectTag/SelectTag';
@@ -17,10 +18,11 @@ type Props = {
   jobTitle: JobTitleEntity[];
   formik: FormikProps<MyDataFormProps>;
   isSearchValue:any;
-  setSearchValue:any
+  setSearchValue:any;
+  closesearch: () => void;
 };
 
-const MyDataBaseSearchAction = ({ jobTitle, formik,isSearchValue,setSearchValue }: Props) => {
+const MyDataBaseSearchAction = ({ jobTitle, formik,isSearchValue,setSearchValue ,closesearch}: Props) => {
   const selectInputRef = useRef<any>();
 
   const hanldeSearch = () => {
@@ -101,7 +103,14 @@ const MyDataBaseSearchAction = ({ jobTitle, formik,isSearchValue,setSearchValue 
                       onKeyPress={(e) => enterKeyPress(e, hanldeSearch)}
                     />
 
-
+                {isSearchValue.trim() !== '' && (
+                    <button
+                      className={styles.crossIcon}
+                       onClick={closesearch}
+                    >
+                      <SvgIntomark width={14} height={14} fill="#888888" />
+                    </button>
+                  )}
 
 
           <Flex className={styles.searchicons}>

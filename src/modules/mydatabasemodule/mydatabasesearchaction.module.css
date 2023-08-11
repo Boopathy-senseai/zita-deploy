@@ -216,3 +216,10 @@
       margin-left: 10px;
     
     }
+
+    .crossIcon {
+      all: unset;
+      cursor: pointer;
+      padding-top: 5px;
+      padding-right: 5px;
+    }

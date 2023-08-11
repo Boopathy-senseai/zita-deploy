@@ -294,6 +294,27 @@ const MyDataBaseScreen = () => {
     isPage,
   ]);
 
+  const closesearch=()=>{
+    setSearchValue("");
+    dispatch(
+      myDataBaseDataMiddleWare({
+        jobTitle: formik.values.jobTitle,
+        fav: addFavFilter,
+        experience: formik.values.experience.value,
+        educationLevel: qaValue,
+        typeofJob: formik.values.jobType,
+        location: formik.values.locationSearch,
+        skill_match: skillsOptionsList,
+        relocate: formik.values.reLocateValue,
+        candidate: "",
+        userType: tabKey,
+        sort: isSortOptions.value,
+        page: isPage + 1,
+        applicant_only: formik.values.applicantOnly,
+      }),
+    );
+  }
+
   // filter refresh function
   const hanldeRefresh = () => {
     setAny(true);
@@ -400,6 +421,7 @@ const MyDataBaseScreen = () => {
       <div className={cx('tabsContainer')}>
         <MyDataBaseSearchAction jobTitle={job_title} formik={formik} 
         setSearchValue={setSearchValue} 
+        closesearch={closesearch}
         isSearchValue={isSearchValue}/>
         <div className={cx('filterOverAll')}>
         <MyDataBaseFilter

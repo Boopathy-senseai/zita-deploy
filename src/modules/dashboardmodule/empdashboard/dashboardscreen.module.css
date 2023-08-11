@@ -53,3 +53,6 @@ right: 43;
 
   
   }
+  .overflowy{
+    overflow-y: scroll ;
+  }

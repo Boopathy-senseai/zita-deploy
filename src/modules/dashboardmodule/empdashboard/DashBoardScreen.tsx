@@ -199,7 +199,7 @@ const DashBoardScreen = () => {
     //     </Flex>
     //   );
     // };
-    <Flex >
+    <Flex className={styles.overflowy}>
 
     <Flex row className={styles.ribbon} between>
       
