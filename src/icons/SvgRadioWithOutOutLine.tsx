@@ -3,8 +3,8 @@
 /* eslint max-len: ["error", { "code": 2000 }] */
 const defaultProps = {
   fill: '#cccccc',
-  width: 22,
-  height: 22,
+  width: 16,
+  height: 16,
   className: '',
 };
 const SvgRadioWithOutOutLine = ({

@@ -149,7 +149,7 @@ const MyJobPostingScreen = () => {
           <div className={styles.triangle}></div>
         </Flex>
       </div>
-      {/* {(is_loading || is_loadingone) && <Loader />} */}
+      {(is_loading || is_loadingone) && <Loader />}
       {Jobs_List === 2 && (
         <Flex  >
           <div className={cx('tabsContainer')}>
