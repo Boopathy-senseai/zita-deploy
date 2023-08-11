@@ -5,7 +5,6 @@ import { useLocation, useHistory } from 'react-router-dom';
 import { reports } from '../../../appRoutesPath';
 import SvgCalendar from '../../../icons/SvgDBCalandar';
 import SvgDashboard from '../../../icons/SvgDashboard';
-import useUnsavedChangesWarning from '../../common/useUnsavedChangesWarning';
 import SvgCollapse from '../../../icons/SvgCollapse';
 import SvgExpand from '../../../icons/SvgExpant';
 import SvgJobPost from '../../../icons/SvgJobPost';
