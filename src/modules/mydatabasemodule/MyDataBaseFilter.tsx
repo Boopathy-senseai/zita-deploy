@@ -1,12 +1,12 @@
 import { Formik, FormikProps } from 'formik';
 import escapeRegExp from 'lodash/escapeRegExp'; // eslint-disable-line
-import { useMemo, useRef, useState, useEffect } from 'react';
-
-
+import { useMemo, useRef, useState, useEffect } from 'react'; 
+import { set } from 'react-hook-form';
 import SvgIntomark from '../../icons/Intomark';
 import SvgRefresh from '../../icons/SvgRefresh';
 import Card from '../../uikit/Card/Card';
 import Flex from '../../uikit/Flex/Flex';
+import { InputSwitch } from '../../uikit';
 import { enterKeyPress, isEmpty } from '../../uikit/helper';
 import InputCheckBox from '../../uikit/InputCheckbox/InputCheckBox';
 import InputRadio from '../../uikit/InputRadio/InputRadio';
@@ -17,9 +17,7 @@ import { MAX_DISPLAYED_OPTIONS } from '../constValue';
 import { experienceOption, jobTypeData, myDataSkillList } from './mock';
 import styles1 from "./switch.module.css";
 import styles from './mydatabasefilter.module.css';
-import { MyDataFormProps } from './MyDataBaseScreen'; // eslint-disable-line
-
-
+import { MyDataFormProps } from './MyDataBaseScreen'; // eslint-disable-line 
 type Props = {
   formik: FormikProps<MyDataFormProps>;
   qualificationOption: {
@@ -30,8 +28,7 @@ type Props = {
     width: number;
   }[];
   hanldeRefresh: () => void;
-};
-
+}; 
 const MyDataBaseFilter = ({
   formik,
   qualificationOption,
@@ -57,15 +54,20 @@ const MyDataBaseFilter = ({
       onChange: () => void;
     }[]
   | undefined
->();
-
+>(); 
   const selectInputRef = useRef<any>();
   const myRef = useRef<any>();
   const dropDownRef = useRef(null);
-  const [showDropDown, setShowDropDown] = useState(false);
-
-  const filteredOptions = useMemo(() => {
-    if (!isSkills) {
+  const [showDropDown, setShowDropDown] = useState(false); 
+  const click=()=>{
+    setShowDropDown(!showDropDown)
+    dropDownRef.current.scroll({
+      top:0,
+      behavior:"smooth"
+    })
+}
+  const filteredOptions = useMemo(() => { 
+    if (!isSkills) { 
       return myDataSkillList;
     }
     const matchByStart = [];
@@ -86,8 +88,7 @@ const MyDataBaseFilter = ({
   const slicedOptions = useMemo(
     () => filteredOptions.slice(0, MAX_DISPLAYED_OPTIONS),
     [filteredOptions],
-  );
-
+  ); 
   useEffect(() => {
     if (isRelocate === true) {
       formik.setFieldValue('reLocateValue', '1');
@@ -95,23 +96,19 @@ const MyDataBaseFilter = ({
     if (isRelocate !== true) {
       formik.setFieldValue('reLocateValue', '0');
     }
-  }, [isRelocate]);
-
+  }, [isRelocate]); 
   useEffect(() => {
     if (isSearch !== '') setOut(true);
-  }, [isSearch]);
-
+  }, [isSearch]); 
   const handleLocation = () => {
     formik.setFieldValue('locationSearch', isSearch);
-  };
-
+  }; 
   const handleClickOutside = (event: { target: any }) => {
     if (myRef.current && !myRef.current.contains(event.target) && isOut) {
       handleLocation();
       setOut(false);
     }
   };
-
   useEffect(() => {
     if (typeof Window !== 'undefined') {
       document.addEventListener('click', handleClickOutside, true);
@@ -133,6 +130,7 @@ const MyDataBaseFilter = ({
       setjobname("Contract");
     }
   },[formik.values.jobType,formik.values.skillValue])
+
   // useEffect(() => {
   //   if (formik.values.jobType === "1") {
   //      setexperience("Active");
@@ -146,32 +144,22 @@ const MyDataBaseFilter = ({
   //     setdate("");
   //     setTitle("");
   //     setlocationdata("");
-  //   }
-
-
-    
+//   }
   //   setTitle(formik.values.jobTitle);
-    
   // }, [
-    
   //   formik.values.jobType,
-  //   formik.values.jobTitle,
-  
+ //   formik.values.jobTitle,
   // ]);
   useEffect(()=>{
     if(formik.values.locationSearch !==''){
       setlocation(formik.values.locationSearch);
     }
-   
   },[formik.values.locationSearch])
-
   useEffect(()=>{
     if(formik.values.skillValue.length !== 0){
       setskill(formik.values.skillValue.filter(name=>name.value).map(filter=>filter.value))
     }
-   
   },[formik.values.skillValue])
-
   useEffect(() => {
     if (formik.values.experience.value === ' ') {
       setexperience(" ");
@@ -183,40 +171,44 @@ const MyDataBaseFilter = ({
       setexperience(formik.values.experience.label);
     } else if (formik.values.experience.value=== "3-5") {
       setexperience(formik.values.experience.label);
-    } 
+    }
     else if (formik.values.experience.value=== "6-10") {
       setexperience(formik.values.experience.label);
     }  
     else if (formik.values.experience.value=== "10+") {
-      setexperience(formik.values.experience.label);
-    }   
+     setexperience(formik.values.experience.label);
+    }  
+
   }, [
         formik.values.experience.value,  
   ]);
-  
 // filterv refresh function
   const filterRefresh = () => {
-    
     hanldeRefresh();
     setSearch('');
     setRelocate(false);
+    
     formik.resetForm()
   };
 
+// const click=()=>{
+//   setShowDropDown(!showDropDown && ((prevIsOpen) => !prevIsOpen));
+//     if (showDropDown && dropDownRef.current) {
+//       dropDownRef.current.scrollTop = 0;
+//     }
+//   }
 
+  
   const closeexp = () => {
     setexperience('');
     formik.setFieldValue("experience","");
   }  
-
   const closequal = () => {
     setqual([]);
-    
       // const obj=qualificationOption.map(name=>name.checked===true).findIndex(name=>name.);
     //  qualificationOption[objIndex].checked = false;
      console.log("hello");
      };
-
      const closeQualification = (doc: {
       value: string;
       label: string;
@@ -230,32 +222,29 @@ const MyDataBaseFilter = ({
   setjobname('');
   formik.setFieldValue("jobType","");
   };
-  
+
   const locationsrh = () => {
     setlocation('');
     setSearch('')
     formik.setFieldValue("locationSearch","");
     };
-
     const skillval = (id) => {
       if(skill.length===1){
         setskill([]);
         formik.setFieldValue("skillValue","");
       }
-        console.log("id++++++++++++",id);
+       console.log("id++++++++++++",id);
         skill.splice(id,1) ;
         formik.values.skillValue=skill;
         setskill(formik.values.skillValue)
       console.log("new change",skill);
-     
-         
       };
-      
   useEffect(() => {
     setQualificationValue(
-      qualificationOption.filter((option) => option.checked),     
+      qualificationOption.filter((option) => option.checked),    
     );
   }, [qualificationOption]);
+
   useEffect(()=>{
     const ans=qualificationOption.filter(chek=>chek.checked !== false).map(name=>name.value);
     if(qualificationOption.length !== 0 && ans.length !==0){
@@ -264,10 +253,8 @@ const MyDataBaseFilter = ({
    console.log("ans",ans);
   },[qualificationOption])
 
-
     const closestatus1 = (id) => {
-      
-     const objIndex = qualificationOption.findIndex((obj,index)=> index === id); 
+     const objIndex = qualificationOption.findIndex((obj,index)=> index === id);
      qualificationOption[objIndex].checked = false
      console.log("index111111111",objIndex)
      console.log("new quali",qualificationOption)
@@ -284,22 +271,7 @@ const MyDataBaseFilter = ({
   // console.log("total",total,expe,job_type,locsrc,skillvul);
   console.log("skill",skill);
 
-  // {qualificationOption.map((val,int)=>(
-  //   <>
-  //   {val.checked===true?(
-  //     <>
-  //     <Text className={styles.quickfil}> {val.value}
-  //     <SvgIntomark
-  //     className={styles.stylesvg}
-  //     onClick={() => closestatus1(int)}
-  //   />
-  //   </Text>
-  //   </>
-  //     ) : (
-  //       " " )        
-  //   }
-  //   </>
-  //   ))}
+
   const RenderQuickFilter = (props: {
     doc?: { label: string; value: any };
     onClose: () => void;
@@ -314,45 +286,32 @@ const MyDataBaseFilter = ({
     // if (doc && (doc.value === 'any')) {
     //   return <Text className={styles.quickfil}>{doc.label}</Text>;
     // }
+
+
+
     return (
-      <>{doc.label !=="any"&&(
+      <>
+      {console.log("KKKKKKKKKKKKKKKKK", total)}
+      {doc.label !=="any"?(
       <Text className={styles.quickfil}>
       {doc.label}{" "}
       <SvgIntomark className={styles.stylesvg} onClick={onClose} />
             </Text>
-            )}
-             {doc.label ==="any" &&total&&(
-              <Text className={styles.quickfil}>
-              {"Any"}
-              
-                    </Text>
-                    )}
-     </>       
+            ):(
+              doc.label ==="any" &&(
+                <Text className={styles.quickfil}>
+                {"Any"}
+                      </Text>
+                      ) )
+                    }
+     </>      
     );
   };
 
-  // {formik.values.skillValue.length === 0||skill.length=== 0?(
-  //   null
-  // ): (
-  //   skill.map((skills,index) =>
-  //   <Text className={styles.quickfil} key={skills}>
-
-  //     {skills}{" "}
-  //     <SvgIntomark
-  //       className={styles.stylesvg}
-  //       onClick={() => skillval(index)}
-  //     />
-  //   </Text>
-  //   )
-  // )
-  // }
- 
- 
-  return (
+ return (
 <>
-
-
-<Text className={""} style={{ color: "#581845" }}>
+<div className={styles.quickfilters}>
+<Text size={13}className={""} style={{marginTop:"3px"}}>
         Quick Filters :
       </Text>
       {qualificationValue &&
@@ -362,6 +321,7 @@ const MyDataBaseFilter = ({
             doc={{ label: doc.label, value: doc.value }}
             onClose={() => closeQualification(doc)}
           />
+
         ))}
             {formik.values.experience.label ==="All"|| experience===''?(
               null
@@ -375,6 +335,7 @@ const MyDataBaseFilter = ({
             </Text>
             )
             }
+
             {formik.values.jobType ===''||jobname===''?(
               null
             ): (
@@ -401,10 +362,9 @@ const MyDataBaseFilter = ({
             }
             {formik.values.skillValue.length === 0||skill.length=== 0?(
               null
-            ): (
+            ) : (
               skill.map((skills,index) =>
               <Text className={styles.quickfil} key={skills}>
-
                 {skills}{" "}
                 <SvgIntomark
                   className={styles.stylesvg}
@@ -414,17 +374,26 @@ const MyDataBaseFilter = ({
               )
             )
             }
-
-
-    <div ref={dropDownRef} className={styles.drop_down} style={{ zIndex: 1}}>
+{isRelocate ?(
+  <Text className={styles.quickfil}>
+     {"Willing to Relocate"}{" "}
+     <SvgIntomark
+              className={styles.stylesvg}
+              onClick={() => setRelocate(true)}
+            />
+   </Text>
+): (
+null
+)
+}
+</div>
+    <div  ref={dropDownRef} className={styles.drop_down} style={{ zIndex: 1}}>
     <Flex
       row
       className={styles.drop_down_header}
-      onClick={() => {
-        setShowDropDown((value) => !value);
-      }}
     >
-      <Flex>
+      <Flex style={{width:'90%'}}
+      onClick={click} >
         <Text
           bold
           className={styles.filtername}
@@ -433,10 +402,10 @@ const MyDataBaseFilter = ({
           View Filter
         </Text>
       </Flex>
-    
-    
-      <Flex title={"Clear Filters"}>
+
+     <Flex title={"Clear Filters"}>
         <SvgRefresh
+        
           width={18}
           height={18}
           onClick={filterRefresh}
@@ -450,14 +419,13 @@ const MyDataBaseFilter = ({
       }`}
     >
       <Flex className={styles.mtstyle}>
-        
-      <Text color="black" bold className={styles.jobTextStyle}>
+      <Text color="theme" size={14} bold className={styles.jobTextStyle}>
       Job Type
     </Text>
     <Flex row center className={styles.filterstyle}  >
       {jobTypeData.map((jobList) => {
         return (
-          <Flex row key={jobList.value} width={jobList.width}>
+          <Flex row key={jobList.value} width={jobList.width} marginBottom="8px">
             <InputRadio
               label={jobList.value}
               checked={jobList.label === formik.values.jobType}
@@ -468,12 +436,13 @@ const MyDataBaseFilter = ({
       })}
     </Flex>
       </Flex>
-    
-      <Flex className={styles.mtstyle}>
+
+     <Flex className={styles.mtstyle}>
         <Flex className={styles.skillContainer} >
+        <Text color="theme" bold size={14} style={{marginBottom: "5px"}}>Experience</Text>
         <SelectTag
         labelBold
-        label="Experience"
+        // label="Experience"
         value={formik.values.experience}
         options={experienceOption}
         onChange={(option) => {
@@ -482,9 +451,10 @@ const MyDataBaseFilter = ({
       />      
         </Flex>
       </Flex>
-    
-      <Flex className={styles.mtstyle}>
-      <Text color="black" bold className={styles.qualificationTextStyle}>
+
+
+     <Flex className={styles.mtstyle}>
+      <Text color="theme" size={14} bold style={{marginBottom:"5px"}} className={styles.qualificationTextStyle}>
       Qualification
     </Text>
     <Flex row center wrap>
@@ -499,7 +469,7 @@ const MyDataBaseFilter = ({
             <InputCheckBox
               label={qualificationList.value}
               checked={qualificationList.checked}
-              onChange={qualificationList.onChange}
+            onChange={qualificationList.onChange}
             />
           </Flex>
         );
@@ -539,182 +509,33 @@ const MyDataBaseFilter = ({
             />
         </div>
       </Flex>
-      <div className={styles.mtstyle}> 
+      <div className={styles.mtstyle}>
       <Flex row >
-        <Flex>
-          <label className={styles1.toggleswitch} >
+        <Flex className={styles.switch}>
+          {/* <label className={styles1.toggleswitch} >
           <input type="checkbox" checked={isRelocate}
           onChange={() => setRelocate(!isRelocate)} />
            <span className={styles1.switch} />
-           </label>
+           </label> */}
+           <InputSwitch
+            onClick={() => setRelocate(!isRelocate)}
+            checked={isRelocate}
+           />
       </Flex>
-        <Flex style={{marginLeft:'10px'}}>
+        <Flex className={styles.toggletext}>
             Willing to Relocate
         </Flex>
       </Flex>
+
+     </div>
   
-      </div>
-    
-    
     </div>
     </div>
 </>
      );
 };
-
 export default MyDataBaseFilter;
 
-// <InputCheckBox
-//                 label="Show candidates willing to relocate"
-//                 checked={isRelocate}
-//                 onChange={() => setRelocate(!isRelocate)}
-//               />
-// {data !== "" ? (
-//   <Text className={styles.quickfil}>
-//     {data}{" "}
-//     <SvgIntomark className={styles.stylesvg} onClick={() => close()} />
-//   </Text>
-// ) : (
-//   " "
-// )}
-
-// {  date !== ""   ? (
-//   <Text className={styles.quickfil}>
-//     {date}{" "}
-//     <SvgIntomark
-//       className={styles.stylesvg}
-//       onClick={() => closedate()}
-//     />
-//   </Text>
-// ) : (
-//    " "
-//   // " "
-// )}
-// {Title !== "" ? (
-//   <Text className={styles.quickfil}>
-//     {Title}{" "}
-//     <SvgIntomark
-//       className={styles.stylesvg}
-//       onClick={() => closetitle()}
-//     />
-//   </Text>
-// ) : (
-//   ""
-// )}
-
-// {locationdata !== "" ? (
-//   <Text className={styles.quickfil}>
-//     {locationdata}{" "}
-//     <SvgIntomark
-//       className={styles.stylesvg}
-//       onClick={() => closelocationdata()}
-//     />
-//   </Text>
-// ) : (
-//   ""
-// )}
 
 
-
-// <Card className={styles.overAll}>
-// <Flex row center className={styles.filterStyle}>
-//   <Text bold size={16}>Filters</Text>
-//   <div
-//     title="Refresh Filters"
-//     className={styles.svgRefresh}
-//     onClick={filterRefresh}
-//     tabIndex={-1}
-//     role={'button'}
-//     onKeyPress={() => {}}
-//   >
-//     <SvgRefresh width={22} height={22} />
-//   </div>
-// </Flex>
-// <Flex
-//   columnFlex
-//   className={styles.filterContainer}
-//   maxHeight={window.innerHeight - 150}
-// >
-//   <Text color="black" bold className={styles.jobTextStyle}>
-//     Job Type
-//   </Text>
-//   <Flex row center>
-//     {jobTypeData.map((jobList) => {
-//       return (
-//         <Flex row key={jobList.value} width={jobList.width}>
-//           <InputRadio
-//             label={jobList.value}
-//             checked={jobList.label === formik.values.jobType}
-//             onClick={() => formik.setFieldValue('jobType', jobList.label)}
-//           />
-//         </Flex>
-//       );
-//     })}
-//   </Flex>
-//   <div className={styles.expContainer}>
-//     <SelectTag
-//       labelBold
-//       label="Experience"
-//       value={formik.values.experience}
-//       options={experienceOption}
-//       onChange={(option) => {
-//         formik.setFieldValue('experience', option);
-//       }}
-//     />
-//   </div>
-//   <Text color="black" bold className={styles.qualificationTextStyle}>
-//     Qualification
-//   </Text>
-//   <Flex row center wrap>
-//     {qualificationOption.map((qualificationList) => {
-//       return (
-//         <Flex
-//           row
-//           key={qualificationList.value}
-//           className={styles.qualificationRadioStyle}
-//           width={qualificationList.width}
-//         >
-//           <InputCheckBox
-//             label={qualificationList.value}
-//             checked={qualificationList.checked}
-//             onChange={qualificationList.onChange}
-//           />
-//         </Flex>
-//       );
-//     })}
-//   </Flex>
-//   <div className={styles.skillContainer}>
-//     <SelectTag
-//       label="Skills"
-//       labelBold
-//       ref={selectInputRef}
-//       isMulti
-//       options={slicedOptions}
-//       onInputChange={(value) => setSkills(value)}
-//       onChange={(option) => {
-//         formik.setFieldValue('skillValue', option);
-//       }}
-//       isSearchable
-//       isCreate
-//       value={formik.values.skillValue}
-//     />
-//   </div>
-//   <InputText
-//     ref={myRef}
-//     inputConatinerClass={styles.locantionStyle}
-//     label="Location"
-//     labelBold
-//     value={isSearch}
-//     onChange={(e) => setSearch(e.target.value)}
-//     onKeyPress={(e) => enterKeyPress(e, handleLocation)}
-//     placeholder="Enter candidate location"
-//   />
-//   <div className={styles.expContainer}>
-//     <InputCheckBox
-//       label="Show candidates willing to relocate"
-//       checked={isRelocate}
-//       onChange={() => setRelocate(!isRelocate)}
-//     />
-//   </div>
-// </Flex>
-// </Card>
+ 

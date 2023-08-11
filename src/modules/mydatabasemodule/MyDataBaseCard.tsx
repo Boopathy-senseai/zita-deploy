@@ -1,12 +1,14 @@
 /* eslint-disable */
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { FormikProps } from 'formik';
+import Loader from '../../components/Loader';
 import classNames from 'classnames/bind';
 import Card from '../../uikit/Card/Card';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import InputCheckBox from '../../uikit/InputCheckbox/InputCheckBox';
 import SvgView from '../../icons/SvgView';
+import SvgHeart from '../../icons/SvgHeart';
 import { getDateString, isEmpty } from '../../uikit/helper';
 import ProfileWithPercentage from '../common/ProfileWithPercentage';
 import CancelAndDeletePopup from '../common/CancelAndDeletePopup';
@@ -23,7 +25,9 @@ import { MyDataFormProps } from './MyDataBaseScreen';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store';
 import { myDataBaseDataMiddleWare } from './store/middleware/mydatabasemiddleware';
-
+import { MyDataBaseFavoriteMiddleWare } from './store/middleware/mydatabasemiddleware';
+import { color } from 'highcharts';
+import { red } from '@mui/material/colors';
 const cx = classNames.bind(styles);
 
 type Props = {
@@ -57,7 +61,7 @@ const MyDataBaseCard = ({
   tabKey,
   jobId,
   hanldeInvite,
-  isFav,
+  // isFav,
   isCheck,
   handleCheckBoxClick,
   isSortOptions,
@@ -69,7 +73,45 @@ const MyDataBaseCard = ({
   const [isProfileView, setProfileView] = useState(false);
   const [isNotes, setNotes] = useState(false);
   const [isShowMatch, setShowMatch] = useState(false);
-// inivite popup open
+  const [isFavLoader, setFavLoader] = useState(false);
+  const [isColor, setColor]= useState(false)
+  const [isFav, setFavourite] = useState(false);
+  
+  const handleFavAction = (can_id:number, jd_id:any) => {
+    setFavLoader(true);
+    setFavourite(!isFav)
+    
+    dispatch(MyDataBaseFavoriteMiddleWare({ can_id, jd_id }))
+    .then(() => { 
+        // if(res.payload.success===true){
+        //   setColor(false)
+        //   }else{}
+        //     setColor(true)
+        // if(addFavFilter === 'add'){
+
+          dispatch(
+            myDataBaseDataMiddleWare({
+              // jobTitle: jd_id,
+              // fav: addFavFilter,
+              applicant_only: filterFormik.values.applicantOnly,
+              jobTitle: filterFormik.values.jobTitle,
+              fav: addFavFilter,
+              experience: filterFormik.values.experience.value,
+              educationLevel: qaValue,
+              typeofJob: filterFormik.values.jobType,
+              location: filterFormik.values.locationSearch,
+              skill_match: skillsOptionsList,
+              relocate: filterFormik.values.reLocateValue,
+              candidate: filterFormik.values.searchValue,
+              userType: tabKey,
+              sort: isSortOptions.value,
+              page: isPage + 1,
+            }))
+        // }
+      });
+    }
+
+  // inivite popup open
   const handleInviteView = () => {
     setInvite(true);
   };
@@ -116,9 +158,11 @@ const MyDataBaseCard = ({
     setShowMatch(false);
     setProfileView(false);
   };
-
+  const sidebar=sessionStorage.getItem("EmpToggle");
+  const size=sidebar==="1"
   return (
     <>
+
     <Flex className={styles.cardwrap} >
       {isEmpty(dataList.candidate_id_id) && (
         <>
@@ -176,7 +220,7 @@ const MyDataBaseCard = ({
       {isEmpty(dataList.invite) && (
         <CancelAndDeletePopup
           open={isInvite}
-          title={`Invite will be sent as an email to ${dataList.first_name}. Are you sure to proceed?`}
+          title={`Invite will be sent as an email to ${dataList.first_name} ${dataList.last_name}. Are you sure to proceed?`}
           btnDelete={inviteSubmit}
           btnCancel={() => setInvite(false)}
           btnRight={YES}
@@ -221,20 +265,24 @@ const MyDataBaseCard = ({
                 index={index}
                 dataList={dataList}
               />
-
+              <Flex row >
               <Flex className={styles.nameFlex}>
-                <Flex row>
+                <Flex row style={{overflow: "hidden", width:"80%"}}>
                   <Text
                     bold
                     textStyle="ellipsis"
-                    title={dataList.first_name}
+                    // title= {dataList.first_name}
+                    title= 
+                    {!isEmpty(dataList.last_name)? `${dataList.first_name} ${dataList.last_name}` 
+                    : `${dataList.first_name}`}
+
                     onClick={handleProfileView}
                     color={isEmpty(dataList.applicant) ? 'link' : 'gray'}
                     className={cx({
                       pointerEvet: !isEmpty(dataList.applicant),
                     })}
                   >
-                    {dataList.first_name}
+                    {dataList.first_name} {dataList.last_name}
                   </Text>
                   <div
                     className={styles.svgView}
@@ -245,8 +293,8 @@ const MyDataBaseCard = ({
                     }
                   >
                     <SvgView
-                      height={18}
-                      width={18}
+                      height={15}
+                      width={15}
                       nonView={isEmpty(dataList.applicant_view)}
                     />
                   </div>
@@ -271,20 +319,47 @@ const MyDataBaseCard = ({
                   isSortOptions={isSortOptions}
                   isPage={isPage}
                 />
+                <Flex>
+                    <SkillContainer
+                    dataList={dataList}
+                    notesClick={() => setNotes(true)}
+                    showMatchClick={() => setShowMatch(true)}
+                  />
+                </Flex>
+                
               </Flex>
+              </Flex>              
             </Flex>
-            <SkillContainer
-              dataList={dataList}
-              notesClick={() => setNotes(true)}
-              showMatchClick={() => setShowMatch(true)}
-            />
-            <InviteContainer
-              inviteDisable={isEmpty(filterFormik.values.jobTitle)}
-              dataList={dataList}
-              jobId={jobId}
-              handleInviteView={handleInviteView}
-              handleApplicantView={handleApplicantView}
-            />
+            <Flex className={styles.cardsplit} style={{left: !size? "38%"  : "40%"}}></Flex>
+            <Flex className={styles.invitesplit} ></Flex>
+            <Flex className={styles.invitecontainer} style={{left: !size? "40%"  : "42%"}}>
+                <InviteContainer
+                  inviteDisable={isEmpty(filterFormik.values.jobTitle)}
+                  dataList={dataList}
+                  jobId={jobId}
+                  handleInviteView={handleInviteView}
+                  handleApplicantView={handleApplicantView}
+                />
+                </Flex>
+        {!isEmpty(filterFormik.values.jobTitle) && (
+        <div
+          role={'button'}
+          onKeyPress={() => {}}
+          onClick={()=> handleFavAction(dataList.id, filterFormik.values.jobTitle)}
+          className={styles.svgHeartaddtofavourites}
+          style={{left: !size? "38%"  : "41%"}}
+          title={(isEmpty(dataList.fav) ? 'Add to Favourites' : 'Remove From Favourites')}
+        >
+          {/* <SvgHeart height={15} width={15} filled= {!isEmpty(dataList.fav)}/> */}
+          {dataList.id === dataList.fav ?
+          (
+            <SvgHeart height={15} width={15} filled= {!isEmpty(dataList.fav)}/>
+          ) : (
+            <SvgHeart height={15} width={15} filled= {isFav}/>  
+          )}      
+         
+      </div>
+        )}
           </Flex>
         </Flex>
       </Card>

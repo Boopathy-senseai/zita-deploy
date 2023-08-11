@@ -1,5 +1,5 @@
 import { FormikProps } from 'formik';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import Flex from '../../uikit/Flex/Flex';
 import { getBlur, getFocus } from '../../uikit/helper';
 import Pangination from '../../uikit/Pagination/Pangination';
@@ -65,7 +65,7 @@ const MyDataBaseList = ({
   setPage,
   addFavFilter,
 }: Props) => {
-  const usersPerPage = 20;
+  const usersPerPage = 15;
   const pageCount = Math.ceil(totalCount / usersPerPage);
 // pagination function
   const handleSetPagination = (a: number) => {
@@ -75,8 +75,11 @@ const MyDataBaseList = ({
       getBlur(data[0].id.toString());
     }
   };
+  useEffect(()=>{
 
-  const getHeight = jobId === false ? 293 : 303;
+  },[])
+  // const getHeight = jobId === false ? 293 : 303;
+  const getHeight = jobId === false ? 271 : 303
   return (
     <div>
       <MyDataBaseBulkAction
@@ -101,10 +104,11 @@ const MyDataBaseList = ({
         style={{
           height: window.innerHeight - getHeight,
           overflowY: 'scroll',
-          paddingRight: 16,
-          paddingTop: 16,
+          paddingRight: 0,
+          paddingTop: 0,
           display: 'flex',
-         flexWrap: 'wrap',
+          flexWrap: 'wrap',
+          alignContent: 'flex-start',
         }}
       >
         {data && data.length === 0 && (
@@ -136,7 +140,7 @@ const MyDataBaseList = ({
               />
             );
           })}
-        {totalCount > 20 && (
+        {totalCount > 15 && (
           <Flex middle className={styles.pagination}>
             <Pangination
               maxPages={pageCount - 1}
@@ -146,6 +150,7 @@ const MyDataBaseList = ({
           </Flex>
         )}
       </div>
+      {console.log("daaaaaaataaa",data)}
     </div>
   );
 };
