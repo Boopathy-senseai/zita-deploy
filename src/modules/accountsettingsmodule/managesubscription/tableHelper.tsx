@@ -100,7 +100,7 @@ const PlanTable =  ( data : Props)  => {
             Number(data.data[0].subscription_changed_to) === -1 &&
             data.data[0].plan !== 1 && (
             
-                <Text  bold style={{color:"yellow"}}>Cancelled</Text>
+                <Text  bold style={{color:"blue"}}>Cancelled</Text>
             
             )}
           {data.data[0].current_status === true &&

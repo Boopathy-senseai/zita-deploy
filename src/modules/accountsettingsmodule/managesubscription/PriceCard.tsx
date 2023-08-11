@@ -306,47 +306,46 @@ return (
             </Flex>
           </Flex>
           {subscription === null ||
-          (subscription && subscription.plan_id_id === 1) ? (
-            <Flex center middle marginBottom={20} marginTop={20}>
-              <Button disabled={btnDisabled} onClick={formik.handleSubmit}>{btnTitle}</Button>
-            </Flex>
-          ) : (
-            <>
-              {totalUserManger > Number(formik.values.value) ? (
-                <Flex center middle marginBottom={20} marginTop={20}>
-                  <Button
-                    onClick={() => setInvite(true)}
-                    disabled={btnDisabled}
-                  >
-                    {btnTitle}
-                  </Button>
-                </Flex>
-              ) : (
-                <Flex center middle marginBottom={20} marginTop={20}>
-                  {btnDisabled ? (
-                    <Button disabled={btnDisabled}>{btnTitle}</Button>
-                  ) : (
-                    <>
-                      {headerTitle === 'BASIC' && downgrade === 1 ? (
-                        <Button
-                        style={subscription&&subscription.plan_id_id===planId &&btnDisabled ?({backgroundColor:'green'}):('')} 
-                          onClick={() => setChangePlan(true)}
-                          disabled={btnDisabled}
-                        >
-                          {btnTitle}
-                        </Button>
-                      ) : (
-                        <LinkWrapper
-                          // target={'_parent'}
-                          to={`/order_summary?key=${planId}&count=${formik.values.value}`}
-                        >
-                          <Button style={subscription&&subscription.plan_id_id===planId &&btnDisabled ?({backgroundColor:'green'}):('')} disabled={btnDisabled} >{btnTitle}</Button>
-                        </LinkWrapper>
-                      )}
-                    </>
-                  )}
-                </Flex>
-              )}
+            (subscription && subscription.plan_id_id === 1) ? (
+              <Flex center middle marginBottom={20} marginTop={20}>
+                <Button disabled={btnDisabled} onClick={formik.handleSubmit}>{btnTitle}</Button>
+              </Flex>
+            ) : (
+              <>
+                {totalUserManger > Number(formik.values.value) ? (
+                  <Flex center middle marginBottom={20} marginTop={20}>
+                    <Button
+                      onClick={() => setInvite(true)}
+                      disabled={btnDisabled}
+                    >
+                      {btnTitle}
+                    </Button>
+                  </Flex>
+                ) : (
+                  <Flex center middle marginBottom={20} marginTop={20}>
+                    {btnDisabled ? (
+                      <Button disabled={btnDisabled}>{btnTitle}</Button>
+                    ) : (
+                      <>
+                        {headerTitle === 'BASIC' && downgrade === 1 ? (
+                          <Button
+                            onClick={() => setChangePlan(true)}
+                            disabled={btnDisabled}
+                          >
+                            {btnTitle}
+                          </Button>
+                        ) : (
+                          <LinkWrapper
+                            // target={'_parent'}
+                            to={`/order_summary?key=${planId}&count=${formik.values.value}`}
+                          >
+                            <Button disabled={btnDisabled}>{btnTitle}</Button>
+                          </LinkWrapper>
+                        )}
+                      </>
+                    )}
+                  </Flex>
+                )}
             </>
           )}
         </Card>

@@ -188,7 +188,7 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
         subscription?.subscription_remains_days <= 0 && (
           <Flex columnFlex>
             <Flex middle row center className={styles.warningFlex}>
-              <SvgInfo fill={WARNING} />
+              <SvgInfo fill={'#2E6ADD'} />
               <Text
                 size={12}
                 bold
@@ -209,7 +209,7 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
         <Flex columnFlex>
           <Flex middle row center className={styles.warningFlex1}>
           <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
-            <Text size={12}   className={styles.warningText1}>
+            <Text size={13}   className={styles.warningText1}>
               {`Your free trial ends on ${getDateString(
                 subscription?.subscription_end_ts,
                 'll',
@@ -230,13 +230,13 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
         subscription.plan_id_id !== 1 &&
         Number(subscription.subscription_changed_to) !== -2 && (
           <Flex columnFlex>
-            <Flex middle row center className={styles.warningFlex}>
-              <SvgInfo fill={WARNING} height={16} width={16}/>
+            <Flex middle row center className={styles.warningFlex1}>
+              <SvgInfo fill={'#2E6ADD'} height={16} width={16}/>
               <Text
-                size={12}
-                bold
-                color="warning"
-                className={styles.warningText}
+                size={13}
+                
+              
+                className={styles.warningText1}
               >
                 {`You have cancelled  your subscription on  ${getDateString(
                   subscription.subscription_start_ts,
@@ -260,13 +260,13 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
         free_expired === 0 &&
         subscription.plan_id_id === 1 && (
           <Flex columnFlex>
-            <Flex middle row center className={styles.warningFlex}>
-              <SvgInfo fill={WARNING} height={16} width={16} />
+            <Flex middle row center className={styles.warningFlex1}>
+              <SvgInfo fill={'#2E6ADD'} height={16} width={16} />
               <Text
                 size={13}
                 
-                color="warning"
-                className={styles.warningText}
+                
+                className={styles.warningText1}
                 
               >
                 {`Your free trial expired. Please `}
@@ -284,12 +284,12 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
         Number(subscription.subscription_changed_to) === -2 &&
         subscription.plan_id_id !== 1 && (
           <Flex columnFlex>
-            <Flex middle row center className={styles.warningFlex}>
-              <SvgInfo fill={WARNING} height={16} width={16}/>
+            <Flex middle row center className={styles.warningFlex1}>
+              <SvgInfo fill={'#2E6ADD'} height={16} width={16}/>
               <Text
                 size={13}             
-                color="warning"
-                className={styles.warningText}
+              
+                className={styles.warningText1}
               >
                 {`Your subscription expired. Please `}
                 <Text size={13} bold color="link" onClick={handleFocus}>
