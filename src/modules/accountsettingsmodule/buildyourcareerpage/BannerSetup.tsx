@@ -40,7 +40,6 @@ const BannerSetup = ({
         <Flex flex={6}>
           <Flex className={styles.marginTop16}>
             <InputText
-             
               label="Heading Text"
               value={formik.values.bannerHeadingText}
               onChange={(e) => {
@@ -57,7 +56,7 @@ const BannerSetup = ({
           </Flex>
           <Flex className={styles.marginTop16}>
             <LabelWrapper label="Heading Font Size">
-              <Flex >
+              <Flex>
                 <SelectTag
                   id={'banner_setup____banerheading_size'}
                   options={fontSizeOptions}
@@ -82,7 +81,7 @@ const BannerSetup = ({
           </Flex>
           <Flex className={styles.marginTop16}>
             <LabelWrapper label="Subheading Font Size">
-              <Flex >
+              <Flex>
                 <SelectTag
                   id={'banner_setup____banertext_size'}
                   options={fontSizeOptions}
@@ -104,7 +103,7 @@ const BannerSetup = ({
             </LabelWrapper>
           </Flex>
         </Flex>
-        <Flex marginLeft={16} flex={6}>
+        <Flex marginLeft={16} flex={6} style={{ position: 'relative' }}>
           <Flex row center style={{ marginBottom: '2px' }}>
             <Text size={14} color="theme">
               Background Image
@@ -118,28 +117,22 @@ const BannerSetup = ({
               <SvgModuleicon />
             </label>
           </Flex>
-          <Flex flex={5} style={{ margintop: '-2vh' }}>
-            {openpopup === true ? (
-              <Card className={styles.cardfront}>
-                <Flex row center>
-                  <SvgModuleicon />{' '}
-                  <Text className={styles.moreinformation}>
-                    More Information
-                  </Text>{' '}
-                </Flex>
-                <Flex marginTop={5} className={styles.tooltipcontent}>
-                  <Text className={styles.gray_color}>
-                    Recommended image size :1920px X 1280px
-                  </Text>
-                  <Text className={styles.gray_color}>
-                    File size must be less than 2MB
-                  </Text>
-                </Flex>
-              </Card>
-            ) : (
-              ''
-            )}
-          </Flex>
+          {openpopup && (
+            <Card className={styles.cardfront}>
+              <Flex row center>
+                <SvgModuleicon />{' '}
+                <Text className={styles.moreinformation}>More Information</Text>{' '}
+              </Flex>
+              <Flex marginTop={5} className={styles.tooltipcontent}>
+                <Text className={styles.gray_color}>
+                  Recommended image size :1920px X 1280px
+                </Text>
+                <Text className={styles.gray_color}>
+                  File size must be less than 2MB
+                </Text>
+              </Flex>
+            </Card>
+          )}
 
           <ImageUpload
             setBtnDisable={setBtnDisable}

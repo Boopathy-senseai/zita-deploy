@@ -24,10 +24,10 @@
 }
 
 .cardfront{
-  position: fixed;
+  position: absolute;
   z-index: 10000;
   padding: 5px 10px 5px;
-  transform: translate(145px, -30px);
+  transform: translate(15px, 25px);
 }
 .moreinformation{
   color:#FCC203;

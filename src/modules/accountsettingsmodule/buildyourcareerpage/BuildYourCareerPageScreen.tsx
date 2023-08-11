@@ -476,167 +476,12 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
           height: 'calc(100% - 55px)',
           display: 'flex',
           flexDirection: 'row',
-          overflow: 'auto',
+          overflow: 'hidden',
           paddingBottom: '10px',
         }}
       >
         {isSubmitLoader && <Loader />}
-        <Flex columnFlex flex={1} className={styles.leftFlex}>
-          <ExpandTile
-            backgroundColor="#58184530"
-            activeColor="#000000"
-            title={<CareerTitle />}
-            show={tileState?.careersPage}
-            styles={{ border: "none", marginTop: "16px", boxShadow: "0 1px 4px 0 rgb(0 0 0 / 47%)"}}
-            contentStyles={{ padding: '10px' }}
-            onClick={() =>
-              setTileState({
-                ...tileState,
-                careersPage: !tileState.careersPage,
-              })
-            }
-          >
-            <div
-              onClick={handleUrlClick}
-              tabIndex={-1}
-              role="button"
-              onKeyDown={() => {}}
-            >
-              <CareersPageURL
-                formik={formik}
-                career_page={career_page}
-                isInput={isInput}
-                setInput={setInput}
-                setReload={() => {
-                  setReload(true);
-                  setBtnDisable(false);
-                }}
-                isUrlError={isUrlError}
-              />
-            </div>
-          </ExpandTile>
-          <ExpandTile
-            backgroundColor="#58184530"
-            activeColor="#000000"
-            title={<PageSetupTitle />}
-            show={tileState?.pageSetup}
-            styles={{ border: "none", marginTop: "16px", boxShadow: "0 1px 4px 0 rgb(0 0 0 / 47%)"}}
-            contentStyles={{ padding: '10px' }}
-            onClick={() =>
-              setTileState({
-                ...tileState,
-                pageSetup: !tileState.pageSetup,
-              })
-            }
-          >
-          <div
-            onClick={handlePageSetUpClick}
-            tabIndex={-1}
-            role="button"
-            onKeyDown={() => {}}
-          >
-            <PageSetup
-              formik={formik}
-              setReload={() => {
-                setReload(true);
-                setBtnDisable(false);
-              }}
-            />
-          </div>
-          </ExpandTile>
-          <ExpandTile
-            backgroundColor="#58184530"
-            activeColor="#000000"
-            title={<HeaderSetupTitle />}
-            show={tileState?.headerSetup}
-            styles={{ border: "none", marginTop: "16px", boxShadow: "0 1px 4px 0 rgb(0 0 0 / 47%)"}}
-            contentStyles={{ padding: '10px' }}
-            onClick={() =>
-              setTileState({
-                ...tileState,
-                headerSetup: !tileState.headerSetup,
-              })
-            }
-          >
-          <div
-            onClick={handleHeaderSetUp}
-            tabIndex={-1}
-            role="button"
-            onKeyDown={() => {}}
-          >
-            <HeaderSetup
-              formik={formik}
-              company_detail={company_detail}
-              setReload={() => {
-                setReload(true);
-                setBtnDisable(false);
-              }}
-            />
-          </div>
-          </ExpandTile>
-          <ExpandTile
-            backgroundColor="#58184530"
-            activeColor="#000000"
-            title={<BannerSetupTitle />}
-            show={tileState?.bannerSetup}
-            styles={{ border: "none", marginTop: "16px", boxShadow: "0 1px 4px 0 rgb(0 0 0 / 47%)"}}
-            contentStyles={{ padding: '10px' }}
-            onClick={() =>
-              setTileState({
-                ...tileState,
-                bannerSetup: !tileState.bannerSetup,
-              })
-            }
-          >
-          <div
-            onClick={handleBannerSetUp}
-            tabIndex={-1}
-            role="button"
-            onKeyDown={() => {}}
-          >
-            <BannerSetup
-              setBtnDisable={setBtnDisable}
-              formik={formik}
-              setFile={setFile}
-              imgUrl={imgUrl}
-              setReload={() => {
-                setReload(true);
-                setBtnDisable(false);
-              }}
-            />
-          </div>
-          </ExpandTile>
-          <ExpandTile
-            backgroundColor="#58184530"
-            activeColor="#000000"
-            title={<FooterSetupTitle />}
-            show={tileState?.buttonAndFooterSetup}
-            styles={{ border: "none", marginTop: "16px", boxShadow: "0 1px 4px 0 rgb(0 0 0 / 47%)"}}
-            contentStyles={{ padding: '10px' }}
-            onClick={() =>
-              setTileState({
-                ...tileState,
-                buttonAndFooterSetup: !tileState.buttonAndFooterSetup,
-              })
-            }
-          >
-          <div
-            onClick={handleFooterSetUp}
-            tabIndex={-1}
-            role="button"
-            onKeyDown={() => {}}
-          >
-            <FooterSetup
-              formik={formik}
-              setReload={() => {
-                setReload(true);
-                setBtnDisable(false);
-              }}
-            />
-          </div>
-          </ExpandTile>
-        </Flex>
-        <Flex columnFlex flex={1} className={styles.rightFlex}>
+        <Flex columnFlex width={"40%"} className={styles.leftFlex}>
           {isCareerImgClick && (
             <Card className={styles.careerPageCard}>
               <img
@@ -683,9 +528,186 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
             </Card>
           )}
         </Flex>
+        <Flex columnFlex width={"60%"}  className={styles.rightFlex}>
+          <div style={{ width: '100%', padding: '0 10px' }}>
+            <ExpandTile
+              backgroundColor="#58184530"
+              activeColor="#000000"
+              title={<CareerTitle />}
+              show={tileState?.careersPage}
+              styles={{
+                border: 'none',
+                marginTop: '16px',
+                boxShadow: '0 1px 4px 0 rgb(0 0 0 / 47%)',
+              }}
+              contentStyles={{ padding: '10px' }}
+              onClick={() =>
+                setTileState({
+                  ...tileState,
+                  careersPage: !tileState.careersPage,
+                })
+              }
+            >
+              <div
+                onClick={handleUrlClick}
+                tabIndex={-1}
+                role="button"
+                onKeyDown={() => {}}
+              >
+                <CareersPageURL
+                  formik={formik}
+                  career_page={career_page}
+                  isInput={isInput}
+                  setInput={setInput}
+                  setReload={() => {
+                    setReload(true);
+                    setBtnDisable(false);
+                  }}
+                  isUrlError={isUrlError}
+                />
+              </div>
+            </ExpandTile>
+            <ExpandTile
+              backgroundColor="#58184530"
+              activeColor="#000000"
+              title={<PageSetupTitle />}
+              show={tileState?.pageSetup}
+              styles={{
+                border: 'none',
+                marginTop: '16px',
+                boxShadow: '0 1px 4px 0 rgb(0 0 0 / 47%)',
+              }}
+              contentStyles={{ padding: '10px' }}
+              onClick={() =>
+                setTileState({
+                  ...tileState,
+                  pageSetup: !tileState.pageSetup,
+                })
+              }
+            >
+              <div
+                onClick={handlePageSetUpClick}
+                tabIndex={-1}
+                role="button"
+                onKeyDown={() => {}}
+              >
+                <PageSetup
+                  formik={formik}
+                  setReload={() => {
+                    setReload(true);
+                    setBtnDisable(false);
+                  }}
+                />
+              </div>
+            </ExpandTile>
+            <ExpandTile
+              backgroundColor="#58184530"
+              activeColor="#000000"
+              title={<HeaderSetupTitle />}
+              show={tileState?.headerSetup}
+              styles={{
+                border: 'none',
+                marginTop: '16px',
+                boxShadow: '0 1px 4px 0 rgb(0 0 0 / 47%)',
+              }}
+              contentStyles={{ padding: '10px' }}
+              onClick={() =>
+                setTileState({
+                  ...tileState,
+                  headerSetup: !tileState.headerSetup,
+                })
+              }
+            >
+              <div
+                onClick={handleHeaderSetUp}
+                tabIndex={-1}
+                role="button"
+                onKeyDown={() => {}}
+              >
+                <HeaderSetup
+                  formik={formik}
+                  company_detail={company_detail}
+                  setReload={() => {
+                    setReload(true);
+                    setBtnDisable(false);
+                  }}
+                />
+              </div>
+            </ExpandTile>
+            <ExpandTile
+              backgroundColor="#58184530"
+              activeColor="#000000"
+              title={<BannerSetupTitle />}
+              show={tileState?.bannerSetup}
+              styles={{
+                border: 'none',
+                marginTop: '16px',
+                boxShadow: '0 1px 4px 0 rgb(0 0 0 / 47%)',
+              }}
+              contentStyles={{ padding: '10px' }}
+              onClick={() =>
+                setTileState({
+                  ...tileState,
+                  bannerSetup: !tileState.bannerSetup,
+                })
+              }
+            >
+              <div
+                onClick={handleBannerSetUp}
+                tabIndex={-1}
+                role="button"
+                onKeyDown={() => {}}
+              >
+                <BannerSetup
+                  setBtnDisable={setBtnDisable}
+                  formik={formik}
+                  setFile={setFile}
+                  imgUrl={imgUrl}
+                  setReload={() => {
+                    setReload(true);
+                    setBtnDisable(false);
+                  }}
+                />
+              </div>
+            </ExpandTile>
+            <ExpandTile
+              backgroundColor="#58184530"
+              activeColor="#000000"
+              title={<FooterSetupTitle />}
+              show={tileState?.buttonAndFooterSetup}
+              styles={{
+                border: 'none',
+                marginTop: '16px',
+                boxShadow: '0 1px 4px 0 rgb(0 0 0 / 47%)',
+              }}
+              contentStyles={{ padding: '10px' }}
+              onClick={() =>
+                setTileState({
+                  ...tileState,
+                  buttonAndFooterSetup: !tileState.buttonAndFooterSetup,
+                })
+              }
+            >
+              <div
+                onClick={handleFooterSetUp}
+                tabIndex={-1}
+                role="button"
+                onKeyDown={() => {}}
+              >
+                <FooterSetup
+                  formik={formik}
+                  setReload={() => {
+                    setReload(true);
+                    setBtnDisable(false);
+                  }}
+                />
+              </div>
+            </ExpandTile>
+          </div>
+        </Flex>
       </Flex>
 
-      <Flex width={"50%"} row between className={styles.actions}>
+      <Flex row between className={styles.actions}>
         <Flex>
           <LinkWrapper to="/">
             <Button types="primary">Dashboard</Button>
@@ -723,7 +745,6 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
           </Button>
         </Flex>
       </Flex>
-      
     </>
   );
 };
