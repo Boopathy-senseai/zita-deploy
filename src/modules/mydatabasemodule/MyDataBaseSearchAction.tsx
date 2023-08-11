@@ -5,6 +5,8 @@ import SvgSearch from '../../icons/SvgSearch';
 import SvgLocation from '../../icons/SvgLocation';
 import Button from '../../uikit/Button/Button';
 import Flex from '../../uikit/Flex/Flex';
+import Totalcount from '../../globulization/TotalCount';
+import SvgInfinity from '../../icons/SvgInfinity';
 import SvgIntomark from '../../icons/Intomark';
 import { enterKeyPress } from '../../uikit/helper';
 import InputText from '../../uikit/InputText/InputText';
@@ -15,8 +17,6 @@ import { isEmpty } from '../../uikit/helper';
 import { MyDataFormProps } from './MyDataBaseScreen'; // eslint-disable-line
 import styles from './mydatabasesearchaction.module.css';
 import { JobTitleEntity } from './myDataBaseTypes';
-import Totalcount from '../../globulization/TotalCount';
-import SvgInfinity from '../../icons/SvgInfinity';
 
 
 type Props = {
