@@ -56,6 +56,7 @@ const PreviewTitle = ({
           <Flex>
             <Text
               bold
+              size={14}
               color="primary"
               style={{ paddingTop: 0 }}
             >
@@ -91,7 +92,7 @@ const PreviewTitle = ({
   ) : (
     <Flex className={styles.cardOverAll}>
       <Flex columnFlex>
-        <Text bold size={16} className={styles.title}>
+        <Text bold size={14} className={styles.title}>
           {jdDetails.job_title}
         </Text>
         <JdDetails
@@ -119,6 +120,7 @@ const PreviewTitle = ({
           <Flex>
             <Text
               bold
+              size={14}
               color="primary"
               style={{ paddingTop: 15 }}
             >

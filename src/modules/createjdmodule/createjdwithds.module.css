@@ -2,7 +2,7 @@
   /* padding: 40px; */
   overflow: scroll;
   /* padding-bottom: 110px; */
-  padding: 0px 20px 110px 0px;
+  padding: 0px 20px 40px 0px;
 }
 .cardOverAll {
   margin-top: 5px;
@@ -44,8 +44,8 @@
 }
 .stepThree {
   position: relative;
-  top: 42px;
-  left: 48px;
+  top: 46px;
+  left: 71px;
 }
 .step3Flex {
   position: absolute;

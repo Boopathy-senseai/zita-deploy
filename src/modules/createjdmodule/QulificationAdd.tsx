@@ -64,7 +64,7 @@ const QulificationAdd = ({
                   />
                 );
               })}
-            {qulificationLength < 5 && (
+            {qulificationLength < 4 ? (
               <Button
                 className={styles.addBtn}
                 types="link"
@@ -84,7 +84,22 @@ const QulificationAdd = ({
                   </Text>
                 </Flex>
               </Button>
-            )}
+               ):(
+                <Button
+                className={styles.addBtn}
+                types="link"
+                disabled={true}
+                >
+                <Flex row center>
+                  <div className={styles.svgadd} style={{ marginRight: 8 }}>
+                  <SvgAdd width={12} height={12} fill="#581854" />
+                  </div>
+                  <Text color="link" bold>
+                    Add Qualification
+                  </Text>
+                </Flex>
+                </Button>
+               )}
           </div>
         )}
       />

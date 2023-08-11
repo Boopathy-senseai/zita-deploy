@@ -50,12 +50,13 @@ export const customStyles = {
     return {
       ...defaultStyles,
       color: GARY_4,
-      fontSize: 12,
+      fontSize: 13,
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
     };
   },
+  
   menu: (provided: any) => ({
     ...provided,
     margin: 0,
@@ -72,7 +73,12 @@ export const customStyles = {
     scrollbarWidth: 'thin',
     padding: 0,
   }),
-};
+NoOptionsMessage: (provided: any)=> ({
+  ...provided,
+  fontSize: 13,
+}),
+}
+
 
 export const customStylesLine = {
   option: (provided: any) => ({
@@ -118,7 +124,7 @@ export const customStylesLine = {
     return {
       ...defaultStyles,
       color: GARY_4,
-      fontSize: 12,
+      fontSize: 13,
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
@@ -146,6 +152,10 @@ export const customStylesLine = {
     scrollbarWidth: 'thin',
     padding: 0,
   }),
+  NoOptionsMessage: (provided: any)=> ({
+    ...provided,
+    fontSize: 13,
+  }),
 };
 
 export const selectTagTheme = (
@@ -168,7 +178,7 @@ export const selectTagTheme = (
 export const customStylesMulti = {
   option: (provided: any) => ({
     ...provided,
-    fontSize: 14,
+    fontSize: 13,
   }),
   control: (provided: any, state: { isFocused: any }) => ({
     ...provided,
@@ -203,7 +213,7 @@ export const customStylesMulti = {
     return {
       ...defaultStyles,
       color: GARY_4,
-      fontSize: 12,
+      fontSize: 13,
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
@@ -224,6 +234,10 @@ export const customStylesMulti = {
     maxHeight: 200,
     scrollbarWidth: 'thin',
     padding: 0,
+  }),
+  NoOptionsMessage: (provided: any)=> ({
+    ...provided,
+    fontSize: 13,
   }),
 };
 
@@ -271,7 +285,7 @@ export const customStyletrue = {
     return {
       ...defaultStyles,
       color: GARY_4,
-      fontSize: 12,
+      fontSize: 13,
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
@@ -292,6 +306,10 @@ export const customStyletrue = {
     maxHeight: 200,
     scrollbarWidth: 'thin',
     padding: 0,
+  }),
+  NoOptionsMessage: (provided: any)=> ({
+    ...provided,
+    fontSize: 13,
   }),
 };
 
@@ -337,7 +355,7 @@ export const customStylechanges = {
     return {
       ...defaultStyles,
       color: GARY_4,
-      fontSize: 12,
+      fontSize: 13,
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
@@ -358,6 +376,10 @@ export const customStylechanges = {
     maxHeight: 200,
     scrollbarWidth: 'thin',
     padding: 0,
+  }),
+  NoOptionsMessage: (provided: any)=> ({
+    ...provided,
+    fontSize: 13,
   }),
 };
 
@@ -412,7 +434,7 @@ export const customStylechanges1 = {
     return {
       ...defaultStyles,
       color: GARY_4,
-      fontSize: 12,
+      fontSize: 13,
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
@@ -434,6 +456,10 @@ export const customStylechanges1 = {
     padding: 0,
     borderColor:PRIMARY,
   
+  }),
+  NoOptionsMessage: (provided: any)=> ({
+    ...provided,
+    fontSize: 13,
   }),
   hover: (provided: any) => ({
     color:PRIMARY,

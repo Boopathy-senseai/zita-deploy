@@ -46,3 +46,17 @@
 .innerFlex{
   position: relative;
 }
+.uploadjdfilebox{
+  margin-right: 8px;
+  border: 1px solid #333333;
+  padding: 5px;
+  margin-bottom: 8px;
+  border-radius: 3px;
+}
+
+.uploadjdfiletext{
+  width: 90px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

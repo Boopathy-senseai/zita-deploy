@@ -44,7 +44,7 @@ const SkillSaveModal = ({
         <Text align="center" className={styles.addText}>
           Please add experience (no. of years) for each skill
         </Text> */}
-        <Text size={16} color="primary" bold>
+        <Text size={14} color="primary" bold>
           Skill-based experience
         </Text>
         <Text className={styles.addText}>
@@ -72,7 +72,7 @@ const SkillSaveModal = ({
               {formik.values.data.dataBaseTags.map(
                 (dataBaseList: any, dataIndex: number) => {
                   if (
-                    Number(formik.values.data.dataBaseTags[dataIndex].exp) > 16
+                    Number(formik.values.data.dataBaseTags[dataIndex].exp) > 15
                   ) {
                     Toast('Maximum experience 15 years', 'LONG', 'error');
                     formik.setFieldValue(
@@ -128,7 +128,7 @@ const SkillSaveModal = ({
               {formik.values.data.toolsTags.map(
                 (dataBaseList: any, dataIndex: number) => {
                   if (
-                    Number(formik.values.data.toolsTags[dataIndex].exp) > 16
+                    Number(formik.values.data.toolsTags[dataIndex].exp) > 15
                   ) {
                     Toast('Maximum experience 15 years', 'LONG', 'error');
                     formik.setFieldValue(`data.toolsTags[${dataIndex}].exp`, 0);
@@ -178,7 +178,7 @@ const SkillSaveModal = ({
               {formik.values.data.programTags.map(
                 (dataBaseList: any, dataIndex: number) => {
                   if (
-                    Number(formik.values.data.programTags[dataIndex].exp) > 16
+                    Number(formik.values.data.programTags[dataIndex].exp) > 15
                   ) {
                     Toast('Maximum experience 15 years', 'LONG', 'error');
                     formik.setFieldValue(
@@ -231,7 +231,7 @@ const SkillSaveModal = ({
               {formik.values.data.platformsTags.map(
                 (dataBaseList: any, dataIndex: number) => {
                   if (
-                    Number(formik.values.data.platformsTags[dataIndex].exp) > 16
+                    Number(formik.values.data.platformsTags[dataIndex].exp) > 15
                   ) {
                     Toast('Maximum experience 15 years', 'LONG', 'error');
                     formik.setFieldValue(
@@ -284,7 +284,7 @@ const SkillSaveModal = ({
               {formik.values.data.othersTags.map(
                 (dataBaseList: any, dataIndex: number) => {
                   if (
-                    Number(formik.values.data.othersTags[dataIndex].exp) > 16
+                    Number(formik.values.data.othersTags[dataIndex].exp) > 15
                   ) {
                     Toast('Maximum experience 15 years', 'LONG', 'error');
                     formik.setFieldValue(
@@ -352,7 +352,7 @@ const SkillSaveModal = ({
           )}
           {!isMissSkill && (
             <Button onClick={handleSubmit} className={styles.saveBtn}>
-              Save Changes
+              Save
             </Button>
           )}
         </Flex>

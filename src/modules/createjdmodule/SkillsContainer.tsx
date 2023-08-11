@@ -497,7 +497,7 @@ const SkillsContainer = ({
           <Text color='primary' size={14} bold>{profileTitle}</Text>
           <LabelWrapper bold>
             {!isMissSkill && (
-              <Text color="primary" size={12}>
+              <Text color="primary" size={13}>
                 (Please drag and drop the skills tag into the technical skills
                 for adding)
               </Text>
@@ -507,7 +507,7 @@ const SkillsContainer = ({
         <Flex className={styles.rightTitleFlex}>
           <Text color='primary' size={14} bold>{profileTitleRight}</Text>
           <LabelWrapper>
-            <Text color="primary" size={12}>
+            <Text color="primary" size={13}>
               (You can add/type/copy-paste more skills in the below fields)
             </Text>
           </LabelWrapper>

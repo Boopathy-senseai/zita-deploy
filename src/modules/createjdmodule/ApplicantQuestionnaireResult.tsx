@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { theme } from 'highcharts';
 import SvgAngle from '../../icons/SvgAngle';
 import Button from '../../uikit/Button/Button';
 import Card from '../../uikit/Card/Card';
@@ -11,6 +12,7 @@ import styles from './applicantquestionnaireresult.module.css';
 import { CompanyDetail, Jd, QuestionnaireForJdEntity } from './createJdTypes';
 import EEOCompliance from './EEOCompliance';
 import { resultTitle } from './questionnaireTable';
+
 
 type Props = {
   data: QuestionnaireForJdEntity[];
@@ -28,8 +30,8 @@ const ApplicantQuestionnaireResult = ({
   return (
     <Card className={styles.cardOverAll}>
       <Flex columnFlex>
-        <Text bold size={16} color="primary">
-          Applicant Questionnaire:
+        <Text bold size={14} color="primary">
+          Added Applicant Questionnaire:
         </Text>
         <div>
           {data.length === 0 ? (
@@ -53,7 +55,7 @@ const ApplicantQuestionnaireResult = ({
               types="link"
               onClick={() => setCollapse(!isCollapse)}
             >
-              <SvgAngle up={isCollapse} width={16} height={16} fill={LINK} />
+              <SvgAngle up={isCollapse} width={16} height={16} fill= {"#581845"} />
             </Button>
           </Flex>
         )}

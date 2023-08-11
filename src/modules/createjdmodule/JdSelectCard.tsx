@@ -24,7 +24,7 @@ const JdSelectCard = ({
   return (
     <Card className={styles.cardOverAll}>
       <Flex columnFlex>
-        <Text bold color="black" className={styles.titleStyle}>
+        <Text size={14} bold color="black" className={styles.titleStyle}>
           {title}
         </Text>
         <Text className={styles.desText}>{des}</Text>

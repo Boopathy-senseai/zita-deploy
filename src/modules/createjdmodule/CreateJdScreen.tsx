@@ -64,8 +64,8 @@ const CreateJdScreen = () => {
       {feature === 0 && (
         <Flex middle columnFlex center>
           <Flex middle row center className={styles.warningFlex}>
-            <SvgInfo fill={WARNING} />
-            <Text size={13} bold color="warning" className={styles.warningText}>
+            <SvgInfo fill={'#2E6ADD'} />
+            <Text size={13} bold color='blue' className={styles.warningText}>
               {`You’ve reached the number of job postings for your current plan 
           but you can keep new job descriptions in Draft. Please `}
               <LinkWrapper
@@ -100,8 +100,8 @@ const CreateJdScreen = () => {
             <JdSelectCard
               title={'Data Science Jobs'}
               des={`Take your first step to create your data science and AI jobs with
-          customized fields and skills recommendation to hit the targeted
-          candidates for data science domain.`}
+          customized fields and skills recommendations to hit the targeted
+          candidates for the data science domain.`}
               buttonTitle={'Create Job'}
               exTitle="Ex: Data Analyst, ML Engineer, DevOps Engineer ..."
               path={jobCreateDs}
@@ -113,7 +113,7 @@ const CreateJdScreen = () => {
               title={'All Other Jobs'}
               des={`Take your first step to create your jobs for IT, NON-IT and other 
             domains with our customized form and make your hiring easier and
-             reach to the best candidates for your job.`}
+             reach the best candidates for your job.`}
               buttonTitle={'Create Job'}
               exTitle="Ex: Web Developer, Software Engineer, System Engineer, Accountant ..."
               path={jobCreateNonDs}

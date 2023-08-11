@@ -31,6 +31,7 @@ type Props = {
   onDirty: () => void;
   onPristine: () => void;
 };
+
 const CreateNewQuestion = ({
   values,
   setFieldValue,
@@ -49,7 +50,15 @@ const CreateNewQuestion = ({
     ) {
       onPristine();
     }
+
   }, [values]);
+  const handlequestioninput = () =>{
+    const errors: Partial<{ question: string}> = {};
+      if(isEmpty(values.question) || values.question.trim() === ''){
+      errors.question = '';
+    }
+    return errors
+  }
   return (
     <Flex className={styles.overAll}>
       <div className={styles.questionStyle}>
@@ -68,6 +77,7 @@ const CreateNewQuestion = ({
             Text length should not exceed 500 characters
           </Text>
         )}
+
       </div>
       <InputText
         className={styles.textArea}
@@ -111,6 +121,7 @@ const CreateNewQuestion = ({
           </div>
           <div className={styles.switch}>
             <InputSwitch
+              disabled={isEmpty(values.question)}
               label="Mark Question as Required"
               checked={values.required === '1'}
               onClick={() =>

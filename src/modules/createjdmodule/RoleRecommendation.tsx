@@ -50,6 +50,7 @@ console.log('setCancel',setCancel);
       style: {
         color: "#333",
         fontWeight: 'bold',
+        fontSize:14,
       },
     },
     plotOptions: {
@@ -113,6 +114,7 @@ console.log('setCancel',setCancel);
       style: {
         color: "#333",
         fontWeight: 'bold',
+        fontSize:14,
       },
     },
     plotOptions: {

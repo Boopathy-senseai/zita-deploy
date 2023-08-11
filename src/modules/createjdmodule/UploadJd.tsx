@@ -24,6 +24,11 @@ function UploadJd() {
     uploadFile(file);
     setmodal(false)
   };
+
+  const handlecancel = () => {
+    setmodal(false);
+    setFile([])
+  }
   // resume clear function
   const handleClear = () => setFile([]);
 
@@ -133,7 +138,7 @@ function UploadJd() {
                       className={styles.labelStyle}
                       htmlFor={'upload__file_upload'}
                     >
-                      <Text color="link">Browse Files</Text>
+                      <Text bold color="link">Browse Files</Text>
                     </label>
                   </Flex> 
                   <Text
@@ -147,7 +152,8 @@ function UploadJd() {
                 </Flex>
               ) : (
                 <Flex row center>
-                  <Text color="gray">{file.name}</Text>
+                  <Flex row className={styles.uploadjdfilebox}>
+                  <Text className={styles.uploadjdfiletext} color="gray">{file.name}</Text>
                   <div
                     tabIndex={-1}
                     role={'button'}
@@ -157,6 +163,7 @@ function UploadJd() {
                   >
                     <SvgRoundClose fill={GARY_4} width={16} height={16} />
                   </div>
+                  </Flex>
                 </Flex>
               )}
             </div>
@@ -173,7 +180,7 @@ function UploadJd() {
           </Flex>
           <Flex row style={{marginTop:'10px',justifyContent: 'flex-end'}}>
           <Button
-            onClick={()=>setmodal(false)}
+            onClick={handlecancel}
             types='close'
           >
             Cancel

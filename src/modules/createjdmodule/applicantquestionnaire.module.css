@@ -10,7 +10,7 @@
   margin-bottom: 20px;
 }
 .tabDiv {
-  padding: 10px 8px 8px 8px;
+  padding: 10px 0px 8px 0px;
 }
 .overAll {
   /* padding: 40px; */
@@ -27,7 +27,7 @@
   background-color: var(--color-gary-5, #cccccc);
   position: absolute;
   right: 0;
-  top:3px;
+  top:5px;
 }
 .step {
   position: relative;
@@ -47,8 +47,8 @@
 }
 .stepThree {
   position: relative;
-  top: 46px;
-  left: 30px;
+  top: 47px;
+  left: 46px;
 }
 .step3Flex {
   position: absolute;

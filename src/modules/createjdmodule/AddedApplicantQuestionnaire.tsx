@@ -27,7 +27,7 @@ const AddedApplicantQuestionnaire = ({
   return (
     <Flex className={styles.cardOverAll}>
       <Flex columnFlex>
-        <Text bold size={16} className={styles.applicantTitle}>
+        <Text bold size={14} className={styles.applicantTitle}>
           Added Applicant Questionnaire
         </Text>
         <Text>You can check the added/selected questions below</Text>
@@ -55,7 +55,7 @@ const AddedApplicantQuestionnaire = ({
         )}
 
         <Flex row center>
-          <LinkWrapper  to={routesPath.MY_JOB_POSTING}>
+          <LinkWrapper onClick={() => onPristine()}  to={routesPath.MY_JOB_POSTING}>
             <Button types="close">{CANCEL}</Button>
           </LinkWrapper>
 

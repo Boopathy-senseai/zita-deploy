@@ -71,7 +71,7 @@ const JobDescriptionTemplate = ({
         width={window.innerWidth / 1.35}
       >
         <Flex className={styles.title}>
-          <Text color="black" bold size={16}>
+          <Text color="black" bold size={14}>
             Job Description Template
           </Text>
         </Flex>

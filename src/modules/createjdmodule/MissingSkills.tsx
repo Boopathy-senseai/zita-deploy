@@ -101,7 +101,7 @@ const MissingSkills = ({
     <Modal open={open}>
       <Flex className={styles.overAll}>
         <Text
-          size={16}
+          size={14}
           color="primary"
           bold
           // align="center"
