@@ -680,7 +680,7 @@ const ProfileCard = () => {
                 >
                   <Button className={styles.buttonsize}>
                     <Flex row center className={styles.pointer} >
-                      <Text bold style={{ color: "white", marginLeft: 10 }} >
+                      <Text bold style={{ color: "white"}} >
                         Careers Page
                       </Text>
 

@@ -1,11 +1,13 @@
 .name{
-    color: rgb(88, 24, 69);
-    font-size: 14px;
+    /* color: rgb(88, 24, 69); */
+    color: #555555;
+    font-size: 13px;
     font-weight: 500;
 }
 .count{
-    color: rgb(88, 24, 69);
-    font-size: 14px;
+    /* color: rgb(88, 24, 69); */
+    color: #555555;
+    font-size: 13px; 
     font-weight: 600;
     padding-left: 4.5px;
     padding-top: 0.5px;

@@ -95,9 +95,9 @@ const TotalApplicant = ({
   return (
     <>
       <Flex row center between className={styles.overAll}>
-        <Text color="theme">
+        <Text>
           Total Applicants:{' '}
-          <Text bold color="theme">
+          <Text bold>
             {total}
           </Text>
         </Text>
