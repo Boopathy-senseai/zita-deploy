@@ -46,6 +46,7 @@ const MyDataBaseFilter = ({
   const [skill,setskill]=useState([])
   const [qual,setqual]=useState([])
   const [qual1,setqual1]=useState([])
+  const [isqualification, setqualification]=useState([])
   const [qualificationValue, setQualificationValue] = useState<
   | {
       value: string;
@@ -61,14 +62,12 @@ const MyDataBaseFilter = ({
   const [showDropDown, setShowDropDown] = useState(false); 
   const click=()=>{
     setShowDropDown(!showDropDown)
-    dropDownRef.current.scroll({
-      top:0,
-      behavior:"smooth"
-    })
 }
+
   const filteredOptions = useMemo(() => { 
     if (!isSkills) { 
       return myDataSkillList;
+      
     }
     const matchByStart = [];
     const matchByInclusion = [];
@@ -163,7 +162,6 @@ const MyDataBaseFilter = ({
   useEffect(() => {
     if (formik.values.experience.value === ' ') {
       setexperience(" ");
-      console.log("55555555555555555555555")
       setpresent(false);
     } else if (formik.values.experience.value === "0-1") {
       setexperience(formik.values.experience.label);
@@ -187,16 +185,9 @@ const MyDataBaseFilter = ({
     hanldeRefresh();
     setSearch('');
     setRelocate(false);
-    
     formik.resetForm()
   };
 
-// const click=()=>{
-//   setShowDropDown(!showDropDown && ((prevIsOpen) => !prevIsOpen));
-//     if (showDropDown && dropDownRef.current) {
-//       dropDownRef.current.scrollTop = 0;
-//     }
-//   }
 
   
   const closeexp = () => {
@@ -207,7 +198,6 @@ const MyDataBaseFilter = ({
     setqual([]);
       // const obj=qualificationOption.map(name=>name.checked===true).findIndex(name=>name.);
     //  qualificationOption[objIndex].checked = false;
-     console.log("hello");
      };
      const closeQualification = (doc: {
       value: string;
@@ -233,11 +223,9 @@ const MyDataBaseFilter = ({
         setskill([]);
         formik.setFieldValue("skillValue","");
       }
-       console.log("id++++++++++++",id);
         skill.splice(id,1) ;
         formik.values.skillValue=skill;
         setskill(formik.values.skillValue)
-      console.log("new change",skill);
       };
   useEffect(() => {
     setQualificationValue(
@@ -266,10 +254,6 @@ const MyDataBaseFilter = ({
   const skillvul=formik.values.skillValue.length===0;
   const reloc=formik.values.reLocateValue==="0";
   const total=expe&&job_type&&locsrc&&skillvul&&reloc;
-  console.log("qua",qualificationOption);
-  console.log("formik",formik.values);
-  // console.log("total",total,expe,job_type,locsrc,skillvul);
-  console.log("skill",skill);
 
 
   const RenderQuickFilter = (props: {
@@ -379,7 +363,7 @@ const MyDataBaseFilter = ({
      {"Willing to Relocate"}{" "}
      <SvgIntomark
               className={styles.stylesvg}
-              onClick={() => setRelocate(true)}
+              onClick={() => setRelocate(false)}
             />
    </Text>
 ): (
@@ -419,7 +403,7 @@ null
       }`}
     >
       <Flex className={styles.mtstyle}>
-      <Text color="theme" size={14} bold className={styles.jobTextStyle}>
+      <Text color="primary" size={14} bold className={styles.jobTextStyle}>
       Job Type
     </Text>
     <Flex row center className={styles.filterstyle}  >
@@ -439,7 +423,7 @@ null
 
      <Flex className={styles.mtstyle}>
         <Flex className={styles.skillContainer} >
-        <Text color="theme" bold size={14} style={{marginBottom: "5px"}}>Experience</Text>
+        <Text color="primary" bold size={14} style={{marginBottom: "5px"}}>Experience</Text>
         <SelectTag
         labelBold
         // label="Experience"
@@ -454,7 +438,7 @@ null
 
 
      <Flex className={styles.mtstyle}>
-      <Text color="theme" size={14} bold style={{marginBottom:"5px"}} className={styles.qualificationTextStyle}>
+      <Text color="primary" size={14} bold style={{marginBottom:"5px"}} className={styles.qualificationTextStyle}>
       Qualification
     </Text>
     <Flex row center wrap>
@@ -478,8 +462,11 @@ null
       </Flex>
       <Flex className={styles.mtstyle}   >
         <div className={styles.skillContainer}>
+        <Text color="primary" size={14} bold style={{marginBottom:"5px"}}>
+      Skills
+    </Text>
         <SelectTag
-                label="Skills"
+                // label="Skills"
                 labelBold
                 ref={selectInputRef}
                 isMulti
@@ -497,10 +484,13 @@ null
      
       <Flex className={styles.mtstyle}>
         <div>
+        <Text color="primary" size={14} bold style={{marginBottom:"5px"}}>
+      Location
+    </Text>
           <InputText
               ref={myRef}
               inputConatinerClass={styles.locantionStyle}
-              label="Location"
+              // label="Location"
               labelBold
               value={isSearch}
               onChange={(e) => setSearch(e.target.value)}

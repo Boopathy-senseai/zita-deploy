@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { minWidth } from '@mui/system';
 import SvgNotesOne from '../../icons/SvgNotesOne';
 import SvgShowallmatching from '../../icons/SvgShowallmatching';
 import Flex from '../../uikit/Flex/Flex';
@@ -24,7 +25,7 @@ return (
       <Text
         color="black_1"
         className={styles.skillTextStyle}
-        style={{marginTop: !size?  "0%" : "13%"}} 
+        style={{marginTop: !size?  "0%" : "13%" , minWidth: !size? "0%": "150%"}} 
         title={
           !isEmpty (dataList.skills) 
           ? `Skills: ${dataList.skills}`

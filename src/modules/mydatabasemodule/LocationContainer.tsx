@@ -268,7 +268,7 @@ const LocationContainer = ({
                 size={11}
                 color="black_1"
                 className={styles.locationtab}
-                style={{ maxWidth: '50%', width: "10pc" }}
+                style={{ maxWidth: '210%', width: "200px" }}
                 title= {`Location: ${dataList?.location}`}
               >
                 {notSpecified(dataList.location)}

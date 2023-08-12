@@ -13,13 +13,13 @@
 
 @media only screen and (min-width: 1366px) and (max-width:1920px) {
   .pagination{
-    margin: 1% 35%;
+    margin: 1% 39%;
   }
 }
 
 @media screen and (min-width: 1920px) {
   .pagination{
-    margin: 1% 38%;
+    margin: 1% 43%;
   }
 }
 

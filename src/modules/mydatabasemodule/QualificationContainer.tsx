@@ -318,7 +318,7 @@ const QualificationContainer = ({
                   Add Experience
                 </Text>
               ) : (
-                <div style={{width:'70px'}}>
+                <div style={{width:'70px', height:'22px'}}>
                 <Text
                   // textStyle="ellipsis"
                   size={11}

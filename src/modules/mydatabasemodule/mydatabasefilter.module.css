@@ -241,8 +241,8 @@ font-weight: 400;
 }
 .filterstyle{
   display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
+    /* flex-direction: column; */
+    flex-wrap: wrap;
     align-items: flex-start;
 }
  

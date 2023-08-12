@@ -67,6 +67,8 @@ const MyDataBaseList = ({
 }: Props) => {
   const usersPerPage = 15;
   const pageCount = Math.ceil(totalCount / usersPerPage);
+  const sidebar=sessionStorage.getItem("EmpToggle");
+const size=sidebar==="1"
 // pagination function
   const handleSetPagination = (a: number) => {
     setPage(a);
@@ -141,7 +143,7 @@ const MyDataBaseList = ({
             );
           })}
         {totalCount > 15 && (
-          <Flex middle className={styles.pagination}>
+          <Flex style= {{paddingLeft: !size? "10px": "35px"}}middle className={styles.pagination}>
             <Pangination
               maxPages={pageCount - 1}
               currentPage={isPage}

@@ -3,7 +3,7 @@
 }
 .marginTop {
   margin-top: 0;
-  width: fit-content;
+  /* width: fit-content; */
 }
 
 .inputOverAll {
@@ -45,8 +45,8 @@
 }
 .locationStyle {
   cursor: pointer;
-  max-width: fit-content;
-  width: 100px;
+  max-width: 210px;
+  /* width: 100px; */
 }
 .width85 {
   min-width: fit-content;
@@ -75,6 +75,7 @@
   .locationtab{
     white-space: nowrap;
     text-overflow: ellipsis;
+    overflow:hidden;
   }
 }
 

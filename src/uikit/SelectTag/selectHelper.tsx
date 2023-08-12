@@ -532,7 +532,7 @@ export const customStylechanges2 ={
     ...provided,
     margin: 0,
     borderColor:GARY_9,
-    color:"#581845"
+    // color:"#581845"
   }),
   menuList: (provided: any) => ({
     ...provided,

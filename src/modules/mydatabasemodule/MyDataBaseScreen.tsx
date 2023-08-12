@@ -169,7 +169,7 @@ const MyDataBaseScreen = () => {
   const qualificationOption = [
     {
       value: 'Bachelors',
-      label: 'Bachelor',
+      label: 'Bachelors',
       checked: isBachelors,
       onChange: handleBachelor,
       width: 110,
@@ -177,7 +177,7 @@ const MyDataBaseScreen = () => {
     },
     {
       value: 'Masters',
-      label: 'Master',
+      label: 'Masters',
       checked: isMasters,
       onChange: handleMaster,
       width: 80,
@@ -192,7 +192,7 @@ const MyDataBaseScreen = () => {
     },
     {
       value: 'Others',
-      label: 'Other',
+      label: 'Others',
       checked: isOther,
       onChange: handleOther,
       width: 80,
@@ -398,7 +398,7 @@ const MyDataBaseScreen = () => {
    </Flex>
     <Flex row className={styles.overAll}>
       {initalLoader && <Loader  />}
-      {dataLoader && <Loader  />}
+      {/* {dataLoader && <Loader  />} */}
       {isInviteLoader && <Loader />}
       {isDownloadLoader && <Loader />}
 
