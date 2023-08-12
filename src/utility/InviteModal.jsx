@@ -38,13 +38,13 @@ const InviteModal = (props) => {
       .trim()
       .required('This field is required')
       .matches(/^[aA-zZ\s]+$/, 'Enter a valid Name')
-      .min(2, 'Must be more then one character'),
+      .min(2, 'Must be more than one character'),
     last_name: yup
       .string()
       .trim()
       .required('This field is required')
       .matches(/^[aA-zZ\s]+$/, 'Enter a valid Name')
-      .min(2, 'Must be more then one character'),
+      .min(2, 'Must be more than one character'),
     email: yup
       .string()
       .required('This field is required')
@@ -60,7 +60,7 @@ const InviteModal = (props) => {
       .string()
       .required('This field is required')
       .matches(/^[a-zA-Z0-9_ ]*$/, 'Enter a valid department')
-      .min(2, 'Must be more then two character'),
+      .min(2, 'Must be more than two character'),
   });
 
   const {
@@ -295,7 +295,7 @@ const InviteModal = (props) => {
             <form onSubmit={handleSubmit(onSubmit)}>
             <Flex className={styles.muModalpadding}>
               <Flex row center between>
-                <Text bold size={16} color="theme">
+                <Text bold size={14} color="theme">
                   Invite New User
                 </Text>
 
@@ -432,7 +432,7 @@ const InviteModal = (props) => {
                 <div
                   id="RoleCheckbox"
                   className="col-12 d-none"
-                  style={{ marginTop: '30px' }}
+                  style={{ marginTop: '16px' }}
                 >
                   <div
                     className={

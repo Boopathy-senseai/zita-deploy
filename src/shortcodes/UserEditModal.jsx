@@ -55,9 +55,9 @@ class UserEditModal extends Component {
         CreatePostJob: false,
         ZitaMatchCandidate: true,
         Applicants: true,
-        BulkImportCandidates: false,
+        BulkImportCandidat+es: false,
         TalentSourcing: false,
-        MyDatabase: false,
+        MyDatabase: true,
         ManageAccountSettings: false,
         CreateManeUsers: false,
         Reports: true,
@@ -67,7 +67,7 @@ class UserEditModal extends Component {
       document.getElementById('Applicants').disabled = true;
       document.getElementById('BulkImportCandidates').disabled = false;
       document.getElementById('TalentSourcing').disabled = false;
-      document.getElementById('MyDatabase').disabled = false;
+      document.getElementById('MyDatabase').disabled = true;
       document.getElementById('ManageAccountSettings').disabled = false;
       document.getElementById('CreateManeUsers').disabled = false;
       document.getElementById('Reports').disabled = true;
@@ -255,7 +255,7 @@ class UserEditModal extends Component {
                               className="custom-control-label"
                               htmlFor="CreatePostJob"
                             >
-                              Create & Post Job
+                              Create and Post Job
                             </label>
                             
                           </div>
@@ -301,7 +301,7 @@ class UserEditModal extends Component {
                               className="custom-control-label"
                               htmlFor="BulkImportCandidates"
                             >
-                              Bulk Import Candidates
+                              Import Candidates
                             </label>
                           </div>
                           <div className="custom-control custom-checkbox">
@@ -333,7 +333,7 @@ class UserEditModal extends Component {
                               className="custom-control-label"
                               htmlFor="MyDatabase"
                             >
-                              My Database
+                             Database
                             </label>
                           </div>
                           <div className="custom-control custom-checkbox">
@@ -363,7 +363,7 @@ class UserEditModal extends Component {
                               className="custom-control-label"
                               htmlFor="CreateManeUsers"
                             >
-                              Create & Mane Users
+                              Create and Manage Users
                             </label>
                           </div>
                           <div className="custom-control custom-checkbox">

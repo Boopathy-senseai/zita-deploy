@@ -28,7 +28,7 @@ const ActivityTabData = (props) => {
                 <div className="col-12 mb-3">
                   <Text bold size={14}>
                     {item === '1'
-                      ? 'Jobs Creation and Posting'
+                      ? 'Job Creation and Postings'
                       : 'Candidates Sourcing'}
                   </Text>
                 </div>

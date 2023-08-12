@@ -123,7 +123,7 @@ function Activity() {
                         <div className={styles.activityProfile}>
                           <div className={styles.profileStatus}>
                             <Text
-                              size={16}
+                              size={14}
                               bold
                             >{`${usersData.first_name} ${usersData.last_name}`}</Text>
                             <button
@@ -152,7 +152,7 @@ function Activity() {
                           >
                             {usersData.group_name}
                           </button>  */}
-                            <Text>Status :{getStatusButton()}</Text>
+                            <Text>Status:{getStatusButton()}</Text>
                           </div>
                         </div>
                         {/* newly added div for profile end*/}

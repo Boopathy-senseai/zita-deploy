@@ -98,7 +98,7 @@ const SetPassword = () => {
       .then((res) => {
         console.log("res.data", res.data)
         if (res.data.status === true) {
-          alert("er")
+          // alert("er")
           setUserEmail(res.data.data.email);
         } else {
           localStorage.clear();
@@ -113,7 +113,7 @@ const SetPassword = () => {
         // return history.push('/login');
         // }
       });
-      alert("Check")
+      // alert("Check")
   }, [id]);
 
   const checkOne = !isEmpty(isPassword) && !checkUpperCase.test(isPassword);
@@ -179,7 +179,7 @@ const SetPassword = () => {
                       <InputText
                       actionLeft={() => (
                         <Button types="link" className={styles.Passicons}>
-                        <div style={{marginTop: '-30px'}}>
+                        <div style={{marginTop: '-30px', cursor:"default"}}>
                           <SvgEmail height={20} width={19} />
                         </div>
                         </Button>
@@ -201,7 +201,7 @@ const SetPassword = () => {
                         <InputText
                         actionLeft={() => (
                           <Button types="link" className={styles.Passicons}>
-                          <div style={{marginTop: '-35px'}}>
+                          <div style={{marginTop: '-35px', cursor:"default"}}>
                             <SvgLock height={20} width={19} />
                           </div>
                           </Button>
@@ -260,7 +260,7 @@ const SetPassword = () => {
                         <InputText
                         actionLeft={() => (
                           <Button types="link" className={styles.Passicons}>
-                          <div style={{marginTop: '-35px'}}>
+                          <div style={{marginTop: '-35px', cursor:"default"}}>
                             <SvgLock height={20} width={19} />
                           </div>
                           </Button>
