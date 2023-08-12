@@ -1,5 +1,5 @@
 import { FormikProps } from 'formik';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import SvgSearch from '../../icons/SvgSearch';
 import SvgLocation from '../../icons/SvgLocation';
@@ -29,9 +29,13 @@ type Props = {
 
 const MyDataBaseSearchAction = ({ jobTitle, formik,isSearchValue,setSearchValue ,closesearch}: Props) => {
   const selectInputRef = useRef<any>();
-
+  const [errorMessage, setErrorMessage] = useState('');
   const hanldeSearch = () => {
-    formik.setFieldValue('searchValue', isSearchValue);
+    if (isSearchValue.trim() === '') {
+      setErrorMessage('Search value cannot be empty or just spaces.');
+    } 
+    else{
+    formik.setFieldValue('searchValue', isSearchValue);}
   };
 
   const customFilter = (option: { label: string }, inputValue: string) => {
@@ -51,7 +55,14 @@ const MyDataBaseSearchAction = ({ jobTitle, formik,isSearchValue,setSearchValue 
         Number(option.id) === Number(formik.values.jobTitle),
     )
   : ''
-
+ const searchfunction=(event: { target: { value: any; }; })=>{
+   const inputValue = event.target.value;
+   if (inputValue.trim() !== '') {
+     setErrorMessage('');
+    }
+    setSearchValue(event.target.value);
+  
+ }
   const {
     candidate_available,
   } = useSelector(
@@ -65,7 +76,7 @@ const MyDataBaseSearchAction = ({ jobTitle, formik,isSearchValue,setSearchValue 
   return (
     <Flex row between marginBottom={15} className={styles.screenrow}>
     <Flex
-      row
+      
       style={{ position: 'relative', overFlowX: 'auto' }}
       className={styles.searchbox}
     >
@@ -113,8 +124,8 @@ const MyDataBaseSearchAction = ({ jobTitle, formik,isSearchValue,setSearchValue 
                       className={styles.boxstyle2}
                       placeholder="Search candidate by name or email"
                       value={isSearchValue}
-                      onChange={(event) => setSearchValue(event.target.value)}
-                     
+                      // onChange={(event) => setSearchValue(event.target.value)}
+                       onChange={(event)=>searchfunction(event)}
                       onKeyPress={(e) => enterKeyPress(e, hanldeSearch)}
                     />
 
@@ -144,9 +155,10 @@ const MyDataBaseSearchAction = ({ jobTitle, formik,isSearchValue,setSearchValue 
           </Flex>
 
         </Flex>
-
+        
       </Flex>
-
+      <Flex>
+        {errorMessage && <div><Text  className="error-message" style={{color:"#f94949"}}>{errorMessage}</Text></div>}</Flex>
     </Flex>
 
     <Flex row center className={styles.infiStyle}>

@@ -263,3 +263,6 @@
       right: 10px;
       top: 3px
     }
+    .error-message{
+      font-size: 13px;
+    }

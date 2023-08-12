@@ -153,6 +153,8 @@ console.log(locations,'kkkkkkkkkkkkkkkkkkk')
     });
   }, []);
 
+  
+
   useEffect(() => {
     if (!workflow_id) {
       setShowPipelinePopup(true);
@@ -359,7 +361,14 @@ console.log(locations,'kkkkkkkkkkkkkkkkkkk')
 
   // enter key submit api call
   const handleKeyPress = (event: { key: string }) => {
+
+    if (isSearch.trim() === '') {
+      setErrorMessage('Search value cannot be empty or just spaces.');
+    } 
+    else{
+    setErrorMessage("")
     if (event.key === 'Enter') {
+      
       dispatch(
         applicantPipeLineDataMiddleWare({
           jd_id: jdId,
@@ -378,7 +387,7 @@ console.log(locations,'kkkkkkkkkkkkkkkkkkk')
           location: formik.values.location || '',
         }),
       );
-    }
+    }}
   };
 
   // search api call function
@@ -843,13 +852,28 @@ console.log(locations,'kkkkkkkkkkkkkkkkkkk')
   };
 
   /// Search ------------------->
-
+  const [errorMessage, setErrorMessage] = useState('');
   const onSearchChange = (e: React.ChangeEvent<any>) => {
+    
     setSearch(e.target.value);
+   const inputValue = e.target.value;
+    if (inputValue.trim() !== '') {
+      setErrorMessage('');
+    }
+
+    // const inputValue = e.target.value;
+    // if (inputValue.trim() === '') {
+    //   setSearch("");
+    //   setErrorMessage('Search value cannot be empty or just spaces.');
+    // } else {
+    //   setSearch(inputValue);
+    //   setErrorMessage('');
+    // }
   };
 
   const onClearSearch = () => {
     setSearch('');
+    setErrorMessage('');
     dispatch(
       applicantPipeLineDataMiddleWare({
         jd_id: jdId,
@@ -871,9 +895,10 @@ console.log(locations,'kkkkkkkkkkkkkkkkkkk')
   };
 
   const onLocationChange = (val: any) => {
-    if (val !== '') {
-      return;
-    }
+    // if (val !== '') {
+    //   return;
+    // }
+    
     formik.handleChange('location')(val);
   };
 
@@ -1006,13 +1031,15 @@ console.log(locations,'kkkkkkkkkkkkkkkkkkk')
           {/* search bar and zita button */}
           <Flex row between marginBottom={15}>
             <Flex
-              row
+            
               style={{ position: 'relative', overFlowX: 'auto' }}
               className={styles.searchbox}
             >
               <Flex row className={styles.searchstyle}>
+
                 <Text className={styles.jobstext}>Applicants</Text>
                 <Flex row className={styles.searchboxoverall}>
+                {console.log("issearch",isSearch)}
                   <InputText
                     ref={myRef}
                     actionRight={() => (
@@ -1023,6 +1050,7 @@ console.log(locations,'kkkkkkkkkkkkkkkkkkk')
                         style={{ margin: 0 }}
                       ></label>
                     )}
+             
                     id="applicantpipelinefilters__search"
                     value={isSearch}
                     onChange={onSearchChange}
@@ -1068,7 +1096,10 @@ console.log(locations,'kkkkkkkkkkkkkkkkkkk')
                     <SvgSearch width={12} height={12} fill="#ffffff" />
                   </Flex>
                 </Flex>
+                
               </Flex>
+              <Flex>
+                {errorMessage && <div><Text  className="error-message" style={{color:"#f94949"}}>{errorMessage}</Text></div>}</Flex>
             </Flex>
             <Flex>
               {zita_match_count === 0 ? (

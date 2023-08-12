@@ -51,7 +51,7 @@
   border: none !important;
   border-radius: 0 !important;
   scroll-behavior: smooth;
-  width: 160px;
+  width: 165px;
   text-overflow: ellipsis;
 }
 .searchstyle {
@@ -102,4 +102,8 @@
 .filterFlex {
   /* margin-right: 5px; */
   margin-left: 10px;
+}
+.error-message{
+    font-size: 13px !important;
+
 }
