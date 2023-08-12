@@ -9,6 +9,7 @@ import CancelAndDeletePopup from '../common/CancelAndDeletePopup';
 import Toast from '../../uikit/Toast/Toast';
 import { AppDispatch, RootState } from '../../store';
 import {
+  CandidatejobidMatchMiddleWare,
   applicantAllMatchMiddleWare,
   applicantMatchMiddleWare,
   applicantNotesMiddleWare,
@@ -51,7 +52,7 @@ const ApplicantProfileModal = ({
   const [isNotesMeeting, setNotesMeeting]=useState(true)
  
   const dispatch: AppDispatch = useDispatch();
-
+console.log(candidateId,'fffffffffffffffffffffffffkkkkkkkkkkkkkjjjjjjjjjjjjjjjjjjj')
   // initial api call
   useEffect(() => {
     if (jobId !== '0') {
@@ -63,7 +64,7 @@ const ApplicantProfileModal = ({
         }),
       ).then((res) => {
         dispatch(
-          applicantMatchMiddleWare({
+          CandidatejobidMatchMiddleWare({
             jd_id: res.payload.jd_id,
             can_id: res.payload.can_id,
           }),
@@ -120,12 +121,14 @@ const ApplicantProfileModal = ({
     status_id,
     invite,
     source,
-    stages
+    stages,
+    matchLoader
   } = useSelector(
     ({
       applicantProfileInitalReducers,
       applicantMatchReducers,
       applicantStausReducers,
+      candidatejdmatchReducers
     }: RootState) => {
       return {
         candidate_details: applicantProfileInitalReducers.candidate_details,
@@ -135,7 +138,7 @@ const ApplicantProfileModal = ({
         match: applicantMatchReducers.match ? applicantMatchReducers.match : [],
         jd_id: applicantProfileInitalReducers.jd_id,
         can_id: applicantProfileInitalReducers.can_id,
-        matchLoader: applicantMatchReducers.isLoading,
+        matchLoader:candidatejdmatchReducers.isLoading,
         status_id: applicantProfileInitalReducers.status_id,
         invite: applicantStausReducers.invite,
         source: applicantProfileInitalReducers.source,
@@ -143,7 +146,7 @@ const ApplicantProfileModal = ({
       };
     },
   );
-  if (initialLoader || isNotesLoader || isNotesMeeting ) {
+  if (initialLoader || isNotesLoader || isNotesMeeting ||  matchLoader) {
     return (
       <Flex height={window.innerHeight - 60} center middle>
         <Loader withOutOverlay />
@@ -188,7 +191,7 @@ const ApplicantProfileModal = ({
   };
   return (
     <div>
-      {isInviteLoader && <Loader />}
+      {/* {isInviteLoader && <Loader />} */}
       {invite && invite.length === 0 && (
         <CancelAndDeletePopup
           title={`Invite will be sent as an email to ${
@@ -228,13 +231,11 @@ const ApplicantProfileModal = ({
               key={index + candiList.first_name}
               candiList={candiList}
               jdDetails={jd}
-              setjobtitle={setjobtitle}
-              // callback 
-              // personal={personalInfo}
+              setjobtitle={setjobtitle} 
+              applieddatecheck ={isTab && stages.length === 0 ?true:false}
               profile_match={profileMatch}
               nonMatch={checkMatch}
-              inviteCall={hanldeInvitePopUp}
-              // isInvite={status_id.length === 0}
+              inviteCall={hanldeInvitePopUp} 
               isResume
               withOutJD={isTab}
               source={source}

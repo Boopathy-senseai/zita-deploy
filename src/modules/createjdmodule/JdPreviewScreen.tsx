@@ -13,6 +13,7 @@ import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import { routesPath } from '../../routes/routesPath';
 import SvgCopy from '../../icons/SvgCopy';
 import { PRIMARY, SUCCESS } from '../../uikit/Colors/colors';
+import { jdMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import PreviewTitle from './PreviewTitle';
 import {
   dsOrNonDsGetdMiddleWare,
@@ -25,7 +26,6 @@ import {
 import styles from './jdpreviewscreen.module.css';
 import ApplicantQuestionnaireResult from './ApplicantQuestionnaireResult';
 import StandardJobPosting from './StandardJobPosting';
-
 type ParamsType = {
   jdId: string;
 };
@@ -108,7 +108,7 @@ const JdPreviewScreen = () => {
       dispatch(postJdMiddleWare({ jd_id: jdId })).then((res) => {
         if (res.payload.success) {
           setOpen(true);
-          dispatch(jdProfileMiddleWares({ jd_id: jdId })) 
+          dispatch(jdMatchMiddleWare({ jd_id:jdId})) 
         }
       });
     }}

@@ -41,7 +41,8 @@ import {
   applicantScoreMiddleWare,
   applicantStatusMiddleWare,
   applicantAllMatchMiddleWare,
-} from './store/middleware/applicantProfileMiddleware'; 
+  applicantMatchMiddleWare,
+} from './store/middleware/applicantProfileMiddleware';
 var querystring = require('querystring');
 const cx = classNames.bind(styles);
 
@@ -135,11 +136,12 @@ const ProfileNavBar = ({
     stages,
     interview,
     can_id,
+    invite,
     jd_id,
     total_exp,
     personalInfo,
     candidate_details,
-    overall_percentage
+    overall_percentage,
   } = useSelector(
     ({
       applicantStausReducers,
@@ -147,19 +149,19 @@ const ProfileNavBar = ({
       applicantAllMatchReducers,
       applicantMatchReducers,
       applicantProfileInitalReducers,
+      candidatejdmatchReducers,
     }: RootState) => {
       return {
         match:
           applicantAllMatchReducers.match !== undefined &&
           applicantAllMatchReducers.match,
-          overall_percentage:
-        typeof applicantMatchReducers.overall_percentage !== 'undefined' &&
-        applicantMatchReducers.overall_percentage,
+        overall_percentage:applicantMatchReducers.overall_percentage,
         candidate_details: applicantProfileInitalReducers.candidate_details,
         stages: applicantStausReducers?.stages,
         can_id: applicantProfileInitalReducers.can_id,
         total_exp: applicantProfileInitalReducers.total_exp,
         jd_id: applicantProfileInitalReducers?.jd_id,
+        invite: applicantStausReducers?.invite,
         interview:
           typeof applicantScoreReducers.interview !== 'undefined' &&
           applicantScoreReducers.interview.length === 0
@@ -227,7 +229,7 @@ const ProfileNavBar = ({
     },
   );
   useEffect(() => {
-    dispatch(applicantScoreMiddleWare({ jd_id, can_id }));
+    dispatch(applicantScoreMiddleWare({ jd_id, can_id })); 
   }, []);
   useEffect(() => {
     if (stages.length === 0) {
@@ -262,8 +264,8 @@ const ProfileNavBar = ({
         ? interview[interview.length - 1].rating
         : 0;
     setinterviewstatus(ratingValue);
-  }, [interview]); 
-  console.log(candidate_details ,'kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk')
+  }, [interview]);
+  console.log(candidate_details, 'kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk');
   const date = isEmpty(candidate_details[0].created_on)
     ? ''
     : candidate_details[0].created_on.slice(
@@ -290,11 +292,9 @@ const ProfileNavBar = ({
         ? `${total_exp[0].total_exp_month} Months`
         : `${total_exp[0].total_exp_month} Month`
       : '';
-console.log(match[0].invited,'match[0].invitedmatch[0].invitedmatch[0].invited')
   const handlefunct = () => {
-    setInvitePopUp(true)
-    setDate(match[0].invited)
-
+    setInvitePopUp(true);
+    setDate(match[0].invited);
   };
   const hanldeInviteClosePopUp = () => {
     setInvitePopUp(false);
@@ -306,14 +306,12 @@ console.log(match[0].invited,'match[0].invitedmatch[0].invitedmatch[0].invited')
       }`;
 
   const expGross =
-  notSpecified(personalInfo[0].exp_gross) !== 'Not Specified'
-    ? `${getSymbolFromCurrency(personalInfo[0].current_currency)} ${
-        personalInfo[0].exp_gross
-      } ${perAnnumExpGross}`
-    : notSpecified(personalInfo[0].exp_gross);
-  // function hanldeInvite(jd_id_id: any, candidate_id_id: any): void {
-  //   throw new Error('Function not implemented.');
-  // }
+    notSpecified(personalInfo[0].exp_gross) !== 'Not Specified'
+      ? `${getSymbolFromCurrency(personalInfo[0].current_currency)} ${
+          personalInfo[0].exp_gross
+        } ${perAnnumExpGross}`
+      : notSpecified(personalInfo[0].exp_gross);
+
   const hanldeInvite = (jdId: number, candId: number) => {
     hanldeInviteClosePopUp();
     // setInviteLoader(true);
@@ -339,71 +337,36 @@ console.log(match[0].invited,'match[0].invitedmatch[0].invitedmatch[0].invited')
         Toast(ERROR_MESSAGE, 'LONG', 'error');
       });
   };
-
   return (
     <>
-     {isDate === null&& (
-        <CancelAndDeletePopup 
-        width={'350px'}
-          title={
-            <Flex>
-            <Text>{`Invite will be sent as an email to ${
-            candidate_details && candidate_details[0].first_name
-          }`}</Text>
-        <Text>Are you sure to proceed?</Text></Flex>}
-          btnDelete={() => hanldeInvite(Number(jd_id), Number(can_id))}
-          btnCancel={hanldeInviteClosePopUp}
-          btnRight={YES}
-          open={isInvitePopUp}
-        />
-      )}
-      {!isEmpty(isDate) && (
-        <CancelAndDeletePopup
-          title={
-            <Flex className={styles.popTitle}>
-              <Text>{`The candidate ${
-                candidate_details && candidate_details[0].first_name
-              } has already been invited for this job on ${getDateString(
-                isDate,
-                'll',
-              )}.`}</Text>
-              <Text>Do you wish to invite again?</Text>
-            </Flex>
-          }
-          btnDelete={() => hanldeInvite(Number(jd_id), Number(can_id))}
-          btnCancel={hanldeInviteClosePopUp}
-          btnRight={YES}
-          open={isInvitePopUp}
-        />
-      )}
-      {isEmpty(match[0]?.invited) && (
+      {invite.length === 0 && (
         <CancelAndDeletePopup
           title={`Invite will be sent as an email to ${
             candidate_details && candidate_details[0].first_name
           }. Are you sure to proceed?`}
           btnDelete={() =>
-            hanldeInvite(match[0]?.jd_id_id, match[0]?.candidate_id_id)
+            hanldeInvite(Number(jd_id), match[0]?.candidate_id_id)
           }
           btnCancel={hanldeInviteClosePopUp}
           btnRight={YES}
           open={isInvitePopUp}
         />
       )}
-      {!isEmpty(match[0]?.invited) && (
+      {invite.length !== 0 && (
         <CancelAndDeletePopup
           title={
             <Flex className={styles.popTitle}>
               <Text>{`The candidate ${
                 candidate_details && candidate_details[0].first_name
               } has already been invited for this job on ${getDateString(
-                match[0].invited,
+                invite[invite.length - 1].created_at,
                 'll',
               )}.`}</Text>
               <Text>Do you wish to invite again?</Text>
             </Flex>
           }
           btnDelete={() =>
-            hanldeInvite(match[0]?.jd_id_id, match[0]?.candidate_id_id)
+            hanldeInvite(Number(jd_id), match[0]?.candidate_id_id)
           }
           btnCancel={hanldeInviteClosePopUp}
           btnRight={YES}
@@ -415,8 +378,8 @@ console.log(match[0].invited,'match[0].invitedmatch[0].invitedmatch[0].invited')
           <Flex row middle style={{ position: 'relative', marginTop: '20px' }}>
             <Flex className={styles.profile}>
               <Avatar
-              className={styles.profile}
-                 style={{fontSize:'26px',textTransform:'uppercase'}}
+                className={styles.profile}
+                style={{ fontSize: '26px', textTransform: 'uppercase' }}
                 avatar={
                   candiList.image && candiList.image !== 'default.jpg'
                     ? `${process.env.REACT_APP_HOME_URL}media/${candiList.image}`
@@ -427,15 +390,22 @@ console.log(match[0].invited,'match[0].invitedmatch[0].invitedmatch[0].invited')
                   lastName: candiList.last_name,
                 })}
               />
-              {jd_id !== null &&
-              <div className={cx({
-          countStyle1:(overall_percentage< 40),
-          countStyle2:(overall_percentage >= 40 && profile_match < 69),
-          countStyle3:(overall_percentage > 69  )})}>
-                <Text color="white" style={{ fontSize: 10, marginTop: ' 2px' }}>
-                  {overall_percentage} 
-                </Text>
-              </div>}
+              {jd_id !== null && (
+                <div
+                  className={cx({
+                    countStyle1: overall_percentage < 40,
+                    countStyle2: overall_percentage >= 40 && profile_match < 69,
+                    countStyle3: overall_percentage > 69,
+                  })}
+                >
+                  <Text
+                    color="white"
+                    style={{ fontSize: 10, marginTop: ' 2px' }}
+                  >
+                    {overall_percentage}
+                  </Text>
+                </div>
+              )}
               {/* {isEmpty(candiList.first_name) && (
                 <Text size={30} bold transform="uppercase">
                   NS
@@ -466,11 +436,11 @@ console.log(match[0].invited,'match[0].invitedmatch[0].invitedmatch[0].invited')
                 src={`${process.env.REACT_APP_HOME_URL}media/${candiList.image}`}
               />
             </Flex> */}
-          </Flex> 
-          {jd_id === undefined || jd_id === null || jd_id === '' ? (
+          </Flex>
+          {jd_id === undefined || jd_id === null || stages.length === 0 ? (
             ''
           ) : (
-            <Flex middle center style={{cursor:'default'}} >
+            <Flex middle center style={{ cursor: 'default' }}>
               <StarRatingComponent
                 className={styles.starstyle}
                 name="rate1"
@@ -561,18 +531,36 @@ console.log(match[0].invited,'match[0].invitedmatch[0].invitedmatch[0].invited')
               <Flex style={{ marginRight: '10px' }}>
                 <SvgLocation height={17} width={17} fill="#581845" />
               </Flex>
-              {console.log(personalInfo[0].city__name,'personalInfo[0].city__namepersonalInfo[0].city__name')}
-              {personalInfo[0].city__name === null || 
+              {console.log(
+                personalInfo[0].city__name,
+                'personalInfo[0].city__namepersonalInfo[0].city__name',
+              )}
+              {personalInfo[0].city__name === null ||
               personalInfo[0].city__name === '' ? (
                 <Flex style={{ fontsize: '13px' }}>Not Specified</Flex>
               ) : (
                 <Flex row>
-                 { personalInfo[0].city__name !== undefined && personalInfo[0].city__name !== null && 
-                <Flex style={{ fontsize: '13px' }}> { personalInfo[0].city__name},</Flex>}
- { personalInfo[0].state__name !== undefined && personalInfo[0].state__name !== null && 
-                <Flex style={{ fontsize: '13px' }}> { personalInfo[0].state__name},</Flex>}
-                { personalInfo[0].country__name !== undefined && personalInfo[0].country__name !== null && 
-                <Flex style={{ fontsize: '13px' }}> { personalInfo[0].country__name}</Flex>}
+                  {personalInfo[0].city__name !== undefined &&
+                    personalInfo[0].city__name !== null && (
+                      <Flex style={{ fontsize: '13px' }}>
+                        {' '}
+                        {personalInfo[0].city__name},
+                      </Flex>
+                    )}
+                  {personalInfo[0].state__name !== undefined &&
+                    personalInfo[0].state__name !== null && (
+                      <Flex style={{ fontsize: '13px' }}>
+                        {' '}
+                        {personalInfo[0].state__name},
+                      </Flex>
+                    )}
+                  {personalInfo[0].country__name !== undefined &&
+                    personalInfo[0].country__name !== null && (
+                      <Flex style={{ fontsize: '13px' }}>
+                        {' '}
+                        {personalInfo[0].country__name}
+                      </Flex>
+                    )}
                 </Flex>
               )}
             </Flex>
@@ -580,11 +568,19 @@ console.log(match[0].invited,'match[0].invitedmatch[0].invitedmatch[0].invited')
           {(candiList.linkedin_url !== null && candiList.linkedin_url !== '') ||
           (candiList.code_repo !== undefined && candiList.code_repo !== '') ? (
             <Flex row className={styles.headerpart1}>
-              <Flex className={styles.headingpart} marginTop={10} marginBottom={10}>
+              <Flex
+                className={styles.headingpart}
+                marginTop={10}
+                marginBottom={10}
+              >
                 Social media
               </Flex>
-              <Flex row center middle style={{marginTop: '6px',
-    marginLeft: '10px'}}>
+              <Flex
+                row
+                center
+                middle
+                style={{ marginTop: '6px', marginLeft: '10px' }}
+              >
                 {candiList.linkedin_url !== null &&
                   candiList.linkedin_url !== '' && (
                     <div
@@ -603,9 +599,9 @@ console.log(match[0].invited,'match[0].invitedmatch[0].invitedmatch[0].invited')
                         />
                       </a>
                     </div>
-                    )}  
-                     {candiList.code_repo !== undefined &&
-                  candiList.code_repo !== '' && ( 
+                  )}
+                {candiList.code_repo !== undefined &&
+                  candiList.code_repo !== '' && (
                     <div
                       className={styles.svgDownloadStyle}
                       style={{ marginBottom: 10 }}
@@ -618,16 +614,16 @@ console.log(match[0].invited,'match[0].invitedmatch[0].invitedmatch[0].invited')
                         />
                       </a>
                     </div>
-                    )} 
+                  )}
               </Flex>
             </Flex>
-           ) : (
+          ) : (
             ''
-          )} 
+          )}
         </Flex>
         <Flex
-          style={{ overflow: 'scroll', padding: '0px 0px 0px 8px'  }}
-         height={window.innerHeight - 320}
+          style={{ overflow: 'scroll', padding: '0px 0px 0px 8px' }}
+          height={window.innerHeight - 320}
         >
           <Flex>
             <Flex row flex={12}>
@@ -673,11 +669,10 @@ console.log(match[0].invited,'match[0].invitedmatch[0].invitedmatch[0].invited')
                 </Flex>
               )}
             </Flex>
-            {console.log(date,'ggggggggggggggggggggggggggggggggggggggggggggggggggg')}
-            <Flex row flex={12} style={{ paddingBottom: '10px' }}> 
+            <Flex row flex={12} style={{ paddingBottom: '10px' }}>
               <Flex flex={6}>
                 <Flex className={styles.headingpart} marginTop={10}>
-                Experience
+                  Experience
                 </Flex>
                 {total_exp === undefined || total_exp === null ? (
                   <Flex className={styles.changingtext}>
@@ -697,23 +692,45 @@ console.log(match[0].invited,'match[0].invitedmatch[0].invitedmatch[0].invited')
                   </Flex>
                 )}
               </Flex>
-              {!applieddatecheck && Number(jd_id) !== 0 &&
-              <Flex flex={6}>
-                <Flex className={styles.headingpart} marginTop={10}>
-                  Applied date
+              {!applieddatecheck && Number(jd_id) !== 0 ? (
+                <Flex flex={6}>
+                  <Flex className={styles.headingpart} marginTop={10}>
+                    Applied Date
+                  </Flex>
+                  {date === '' ? (
+                    <Flex className={styles.changingtext}>
+                      <Text className={styles.changingtext}>Not Specified</Text>
+                    </Flex>
+                  ) : (
+                    <Flex className={styles.changingtext} title={date}>
+                      <Text className={styles.changingtext}>{date}</Text>
+                    </Flex>
+                  )}
                 </Flex>
-                {date === '' ? (
-                  <Flex className={styles.changingtext}>
-                    <Text className={styles.changingtext}>Not Specified</Text>
+              ) : Number(jd_id) !== 0 ? (
+                <Flex flex={6}>
+                  <Flex className={styles.headingpart} marginTop={10}>
+                    Invite Date
                   </Flex>
-                ) : (
-                  <Flex className={styles.changingtext} title={date}>
-                    <Text className={styles.changingtext}>{date}</Text>
-                  </Flex>
-                )} 
-              </Flex>}
+                  {invite.length === 0 ? (
+                    <Flex className={styles.changingtext}>
+                      <Text className={styles.changingtext}>Not Specified</Text>
+                    </Flex>
+                  ) : (
+                    <Flex
+                      className={styles.changingtext}
+                      title={invite[invite.length - 1].created_at}
+                    >
+                      <Text className={styles.changingtext}>
+                        {invite[invite.length - 1].created_at}
+                      </Text>
+                    </Flex>
+                  )}
+                </Flex>
+              ) : (
+                ''
+              )}
             </Flex>
-
             <Flex row flex={12} style={{ borderTop: '1px solid #C3C3C3' }}>
               <Flex flex={6}>
                 <Flex className={styles.headingpart} marginTop={10}>
@@ -748,7 +765,10 @@ console.log(match[0].invited,'match[0].invitedmatch[0].invitedmatch[0].invited')
                     className={styles.changingtext}
                     title={personalInfo[0].type_of_job__label_name}
                   >
-                    <Text className={styles.changingtext} style={{textTransform:'capitalize'}}>
+                    <Text
+                      className={styles.changingtext}
+                      style={{ textTransform: 'capitalize' }}
+                    >
                       {personalInfo[0].type_of_job__label_name}
                     </Text>
                   </Flex>
@@ -777,7 +797,7 @@ console.log(match[0].invited,'match[0].invitedmatch[0].invitedmatch[0].invited')
               </Flex>
               <Flex flex={6}>
                 <Flex className={styles.headingpart} marginTop={10}>
-                Expected Salary
+                  Expected Salary
                 </Flex>
                 {candiList.exp_salary === undefined ||
                 candiList.exp_salary === null ||
@@ -790,11 +810,9 @@ console.log(match[0].invited,'match[0].invitedmatch[0].invitedmatch[0].invited')
                     className={styles.changingtext}
                     title={expGross.toString()}
                   >
-                    <Text className={styles.changingtext}>
-                      {expGross}
-                    </Text>
+                    <Text className={styles.changingtext}>{expGross}</Text>
                   </Flex>
-                )} 
+                )}
               </Flex>
             </Flex>
             <Flex style={{ paddingBottom: '10px' }}>
@@ -853,78 +871,86 @@ console.log(match[0].invited,'match[0].invitedmatch[0].invitedmatch[0].invited')
               )} */}
             {/* </>
               )} */}
-{console.log(stages[0],'stages[0]stages[0]stages[0]')}
-            { 
-            stages[0] === undefined ? (
+            {console.log(stages[0], 'stages[0]stages[0]stages[0]')}
+            {stages[0] === undefined ? (
               <>
-                {jd_id !== '' &&
-                  jd_id !== undefined &&
-                  (jd_id !== null && (
-                    <Flex center middle className={styles.borderstyles}>
-                      <Button onClick={() => handlefunct}>
-                        Invited to Apply
-                      </Button>{' '}
-                    </Flex>
-                  ))}
+                {jd_id !== '' && jd_id !== undefined && jd_id !== null && (
+                  <Flex center middle className={styles.borderstyles}>
+                    <Button onClick={() => setInvitePopUp(true)}>
+                      Invited to Apply
+                    </Button>{' '}
+                  </Flex>
+                )}
               </>
             ) : (
               <>
-              {jd_id !== null &&
-              <Flex className={styles.borderstyles} marginBottom={10}>
-                <Flex marginBottom={5}>
-                  <Text
-                    style={{ fontSize: 13, color: '#581845', fontWeight: 600 }}
-                  >
-                    Screening Status
-                  </Text>
-                </Flex>
-                <Flex
-                  row
-                  between
-                  style={{
-                    border: '1px solid #A5889C',
-                    padding: '10px',
-                    borderRadius: '5px',
-                  }}
-                >
-                  <Flex title="Applied">
-                    {checkingstatus === 'Applied' ? (
-                      <SvgRadioWithLine fill="#581845" />
-                    ) : (
-                      <SvgRadioWithOutOutLine fill="#581845" />
-                    )}
+                {jd_id !== null && (
+                  <Flex className={styles.borderstyles} marginBottom={10}>
+                    <Flex marginBottom={5}>
+                      <Text
+                        style={{
+                          fontSize: 13,
+                          color: '#581845',
+                          fontWeight: 600,
+                        }}
+                      >
+                        Screening Status
+                      </Text>
+                    </Flex>
+                    <Flex
+                      row
+                      between
+                      style={{
+                        border: '1px solid #A5889C',
+                        padding: '10px',
+                        borderRadius: '5px',
+                      }}
+                    >
+                      <Flex title="Applied">
+                        {checkingstatus === 'Applied' ? (
+                          <SvgRadioWithLine fill="#581845" />
+                        ) : (
+                          <SvgRadioWithOutOutLine fill="#581845" />
+                        )}
+                      </Flex>
+                      <Flex style={{ color: '#80C0D0' }} title="Shortlisted">
+                        {checkingstatus === 'Shortlisted' ? (
+                          <SvgRadioWithLine fill="#80C0D0" />
+                        ) : (
+                          <SvgRadioWithOutOutLine fill="#80C0D0" />
+                        )}
+                      </Flex>
+                      {console.log(
+                        checkingstatus,
+                        'checkingstatuscheckingstatuscheckingstatus',
+                      )}
+                      <Flex title="Under Assessment">
+                        {checkingstatus !== 'Applied' &&
+                        checkingstatus !== 'Shortlisted' &&
+                        checkingstatus !== 'Offered' &&
+                        checkingstatus !== 'Rejected' ? (
+                          <SvgRadioWithLine fill="#ffc203" />
+                        ) : (
+                          <SvgRadioWithOutOutLine fill="#ffc203" />
+                        )}
+                      </Flex>
+                      <Flex title="Offered">
+                        {checkingstatus === 'Offered' ? (
+                          <SvgRadioWithLine fill="#00BE4B" />
+                        ) : (
+                          <SvgRadioWithOutOutLine fill="#00BE4B" />
+                        )}
+                      </Flex>
+                      <Flex title="Rejected">
+                        {checkingstatus === 'Rejected' ? (
+                          <SvgRadioWithLine fill="#ED4857" />
+                        ) : (
+                          <SvgRadioWithOutOutLine fill="#ED4857" />
+                        )}
+                      </Flex>
+                    </Flex>
                   </Flex>
-                  <Flex style={{ color: '#80C0D0' }} title="Shortlisted">
-                    {checkingstatus === 'Shortlisted' ? (
-                      <SvgRadioWithLine fill="#80C0D0" />
-                    ) : (
-                      <SvgRadioWithOutOutLine fill="#80C0D0" />
-                    )}
-                  </Flex>
-                  {console.log(checkingstatus,'checkingstatuscheckingstatuscheckingstatus')}
-                  <Flex title="Under Assessment">
-                    { checkingstatus !==  "Applied" && checkingstatus !== "Shortlisted" && checkingstatus !=="Offered"  && checkingstatus !== 'Rejected'  ? (
-                       <SvgRadioWithLine fill="#ffc203" /> 
-                   ) : ( 
-                      <SvgRadioWithOutOutLine fill="#ffc203" />
-                     )} 
-                  </Flex>
-                  <Flex title="Offered">
-                    {checkingstatus === 'Offered' ? (
-                      <SvgRadioWithLine fill="#00BE4B" />
-                    ) : (
-                      <SvgRadioWithOutOutLine fill="#00BE4B" />
-                    )}
-                  </Flex>
-                  <Flex title="Rejected">
-                    {checkingstatus === 'Rejected' ? (
-                      <SvgRadioWithLine fill="#ED4857" />
-                    ) : (
-                      <SvgRadioWithOutOutLine fill="#ED4857" />
-                    )}
-                  </Flex>
-                </Flex>
-              </Flex>}
+                )}
               </>
             )}
           </Flex>

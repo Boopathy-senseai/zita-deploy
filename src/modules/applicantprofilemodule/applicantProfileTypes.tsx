@@ -270,6 +270,7 @@ export interface Match {
   success: boolean;
   matched_data: Data;
   overall_percentage:number;
+  location_percent:number;
   skills_percent:number;
   qualification_percent:number;
   match: MatchEntity[];
@@ -279,14 +280,17 @@ export interface Match {
 export interface overall {
    jd_skills:[]
   qualification:[]
+  jd_location:[]
 }
 export interface Data {
   matched_skills:[]
   matched_qualification:[]
+  matched_location:[]
 }
 export interface Datas { 
   not_matched_skills:[]
   not_matched_qualification:[]
+  not_matched_location:[]
 }
 export interface MatchEntity {
   id: number;
@@ -303,10 +307,12 @@ export interface MatchReducerState extends Match {
 }
 
 export interface ApplicantProfilePayload {
-  jd_id: number | string;
-  can_id: number | string;
+  jd_id?: number | string;
+  can_id?: number | string;
 }
-
+export interface candidatematchtypes {
+  can_id?: number | string;
+}
 export interface Notes {
   id: number;
   client_id_id: number;
@@ -473,7 +479,7 @@ export interface ScreenStatus {
   interviewed?: ShortlistedEntityOrInterviewedEntityOrSelectedEntity[];
   selected?: ShortlistedEntityOrInterviewedEntityOrSelectedEntity[];
   rejected?: ShortlistedEntityOrInterviewedEntityOrSelectedEntity[];
-  invite?: InviteEntity[];
+ invite ?:InviteEntity[];
 }
 export interface InviteEntity {
   candidate_id_id: number;
@@ -509,6 +515,7 @@ export interface ShortlistedEntityOrInterviewedEntityOrSelectedEntity {
 
 export interface ScreenStatusReducerState extends ScreenStatus {
   stages: any;
+  invite:any;
   isLoading: boolean;
   error: string;
 }

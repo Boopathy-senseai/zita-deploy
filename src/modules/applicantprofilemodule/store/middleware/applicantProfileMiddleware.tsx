@@ -13,6 +13,7 @@ import {
   APPLICANT_PROFILE_STATUS,
   SYNC_GOOGLE,
   SYNC_OUTLOOK,
+  JOB_MATCHING_API,
 } from '../../../../actions/actions';
 import {
   applicantMatchapi,
@@ -37,10 +38,16 @@ import {
   outlookSyncApi,
   outlookAdd,
   calbackurlApi,
+  candidatematch,
+  onlycandidateid,
+  onlyjobid,
+  Bothcandidateidjobid,
 } from '../../../../routes/apiRoutes';
 import {
   ApplicantProfilePayload,
   IApplicantStatus,
+  InviteEntity,
+  candidatematchtypes
 } from '../../applicantProfileTypes';
 import { stringifyParams } from '../../../../uikit/helper';
 
@@ -73,7 +80,63 @@ export const applicantMatchMiddleWare = createAsyncThunk(
     }
   },
 );
+export const CandidatejobidMatchMiddleWare = createAsyncThunk(
+  APPLICANT_PROFILE_MATCH,
+  async ({ jd_id, can_id }: ApplicantProfilePayload, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(Bothcandidateidjobid, {
+        params: { jd_id, can_id },
+      });
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+export const candidateMatchMiddleWare = createAsyncThunk(
+  APPLICANT_PROFILE_MATCH,
+  async ({can_id}:{can_id:string}, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(onlycandidateid, {
+        params: {can_id },
+      });
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+export const jdMatchMiddleWare = createAsyncThunk(
+  APPLICANT_PROFILE_MATCH,
+  async ({ jd_id}:{jd_id:string} , { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(onlyjobid, {
+        params: {jd_id},
+      });
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
 
+export const applicantcandidateMatchMiddleWare = createAsyncThunk(
+  JOB_MATCHING_API,
+  async ({ can_id }:candidatematchtypes, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(candidatematch, {
+        params: {can_id },
+      });
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
 export const applicantNotesMiddleWare = createAsyncThunk(
   APPLICANT_PROFILE_NOTES,
   async ({ can_id }: { can_id: number | string }, { rejectWithValue }) => {
@@ -223,7 +286,7 @@ export const calenderMiddleWare = createAsyncThunk(
 );
 
 export const applicantStatusMiddleWare = createAsyncThunk<
-  IApplicantStatus[],
+{ data: IApplicantStatus[]; invite: InviteEntity[] },
   { jd_id: string; can_id: string }
 >(
   APPLICANT_PROFILE_STATUS,
@@ -235,14 +298,44 @@ export const applicantStatusMiddleWare = createAsyncThunk<
       const { data } = await axios.get(applicantsStatusApi, {
         params: { jd_id, candi_id: can_id },
       });
-      return data.data as IApplicantStatus[];
+      console.log("?>>>>>><<<<<<<<",data)
+      const applicantStatusData: IApplicantStatus[] = data.data as IApplicantStatus[];
+
+      // Assuming the API response has an "invite" field for the invite value
+      const invite: InviteEntity[] = data.invite as InviteEntity[];
+      const list = {
+        applicantStatusData,invite
+      }
+      console.log("apppppppppppppppp",applicantStatusData,invite,"\n",list)
+
+      return { data: applicantStatusData, invite };
     } catch (error) {
       const typedError = error as Error;
       return rejectWithValue(typedError);
     }
   },
 );
-
+export const applicantInviteMiddleWare = createAsyncThunk<
+InviteEntity[],
+  { jd_id: string; can_id: string }
+>(
+  APPLICANT_PROFILE_STATUS,
+  async (
+    { jd_id, can_id }: { jd_id: string; can_id: string },
+    { rejectWithValue },
+  ) => {
+    try {
+      const { data } = await axios.get(applicantsStatusApi, {
+        params: { jd_id, candi_id: can_id },
+      });
+      console.log("????????????????",data.invite)
+      return data.invite as InviteEntity[];
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
 export const applicantFavoriteMiddleWare = createAsyncThunk(
   APPLICANT_PROFILE_FAVORITE,
   async (

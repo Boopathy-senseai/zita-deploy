@@ -41,6 +41,7 @@ export const BULK_UPLOADED_MATCH = 'bulk/matching_api';
 export const BULK_UPLOADED_QUS = 'bulk/questionnaire_bulk';
 
 // applicant profile view action
+export const  JOB_MATCHING_API = 'job_matching_api/job_matching_api';
 export const APPLICANT_PROFILE_INITIAL = 'applicant/applicant_profile_initial';
 export const APPLICANT_PROFILE_MATCH = 'applicant/applicant_profile_match';
 export const APPLICANT_PROFILE_NOTES = 'applicant/applicant_profile_notes';

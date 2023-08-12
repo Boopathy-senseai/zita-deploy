@@ -47,38 +47,60 @@ const MatchingAnalysisTab = () => {
     overallskill,
     isLoading,
     overallQualification,
-  } = useSelector(({ applicantMatchReducers }: RootState) => {
+    notmatchedlocation,
+    matchedlocation,
+    location,
+    location_percent
+  } = useSelector(({ applicantMatchReducers,candidatejdmatchReducers }: RootState) => {
     return {
-      isLoading: applicantMatchReducers.isLoading,
-      match: applicantMatchReducers.match ? applicantMatchReducers.match : [],
+      isLoading: candidatejdmatchReducers.isLoading,
+      match: candidatejdmatchReducers.match ? candidatejdmatchReducers.match : [],
       matchql:
-        typeof applicantMatchReducers.matched_data.matched_qualification !==
+        typeof candidatejdmatchReducers.matched_data.matched_qualification !==
           'undefined' &&
-        applicantMatchReducers.matched_data.matched_qualification,
+        candidatejdmatchReducers.matched_data.matched_qualification,
       data:
-        typeof applicantMatchReducers.matched_data.matched_skills !==
-          'undefined' && applicantMatchReducers.matched_data.matched_skills,
+        typeof candidatejdmatchReducers.matched_data.matched_skills !==
+          'undefined' && candidatejdmatchReducers.matched_data.matched_skills,
       overall_percentage:
-        typeof applicantMatchReducers.overall_percentage !== 'undefined' &&
-        applicantMatchReducers.overall_percentage,
+        typeof candidatejdmatchReducers.overall_percentage !== 'undefined' &&
+        candidatejdmatchReducers.overall_percentage,
       Notmatch:
-        typeof applicantMatchReducers.not_matched_data.not_matched_skills !==
+        typeof candidatejdmatchReducers.not_matched_data.not_matched_skills !==
           'undefined' &&
-        applicantMatchReducers.not_matched_data.not_matched_skills,
+        candidatejdmatchReducers.not_matched_data.not_matched_skills,
       Notmatchql:
-        typeof applicantMatchReducers.not_matched_data
+        typeof candidatejdmatchReducers.not_matched_data
           .not_matched_qualification !== 'undefined' &&
-        applicantMatchReducers.not_matched_data.not_matched_qualification,
-      qualification_percent: applicantMatchReducers.qualification_percent,
-      skills_percent: applicantMatchReducers.skills_percent,
+        candidatejdmatchReducers.not_matched_data.not_matched_qualification,
+      qualification_percent: candidatejdmatchReducers.qualification_percent,
+      skills_percent: candidatejdmatchReducers.skills_percent,
       overallskill:
-        typeof applicantMatchReducers.source.jd_skills !== 'undefined' &&
-        applicantMatchReducers.source.jd_skills,
+        typeof candidatejdmatchReducers.source.jd_skills !== 'undefined' &&
+        candidatejdmatchReducers.source.jd_skills,
       overallQualification:
-        typeof applicantMatchReducers.source.qualification !== 'undefined' &&
-        applicantMatchReducers.source.qualification,
+        typeof candidatejdmatchReducers.source.qualification !== 'undefined' &&
+        candidatejdmatchReducers.source.qualification,
+      matchedlocation:
+        typeof candidatejdmatchReducers.matched_data.matched_location !==
+          'undefined' && candidatejdmatchReducers.matched_data.matched_location,
+      notmatchedlocation:
+        typeof candidatejdmatchReducers.not_matched_data.not_matched_location !==
+          'undefined' &&
+        candidatejdmatchReducers.not_matched_data.not_matched_location,
+      location:
+        typeof candidatejdmatchReducers.source.jd_location !== 'undefined' &&
+        candidatejdmatchReducers.source.jd_location,
+        location_percent: typeof candidatejdmatchReducers.location_percent !== 'undefined' &&
+        candidatejdmatchReducers.location_percent,
     };
   });
+  console.log('llllllllllllllllllllllllllllocation',data
+  );
+  console.log('llllllllllllllllllllllllllllocation',overallQualification);
+  console.log('llllllllllllllllllllllllllllocation',notmatchedlocation);
+  console.log('llllllllllllllllllllllllllllocation', matchedlocation);
+  console.log('llllllllllllllllllllllllllllocation', location);
   const [isloadings, setisloading] = useState(false);
   useEffect(() => {
     if (isLoading === true) {
@@ -125,7 +147,7 @@ const MatchingAnalysisTab = () => {
                 <Flex flex={6} marginLeft={'50px'}>
                   <ProgressBar
                     verticalWidth={'100px'}
-                    roundProgressHeight={70}
+                    roundProgressHeight={80}
                     type="round"
                     percentage={profileMatch}
                   />
@@ -145,7 +167,7 @@ const MatchingAnalysisTab = () => {
                   </Flex>
                   <Flex
                     row
-                    marginTop={20}
+                    marginTop={10}
                     style={{ bottom: '1px solid #C3C3C3' }}
                   >
                     <Flex marginRight={20} style={{ fontSize: '13px' }}>
@@ -159,12 +181,29 @@ const MatchingAnalysisTab = () => {
                       />
                     </Flex>
                   </Flex>
+                  <Flex
+                    row
+                    between
+                    marginTop={10}
+                    style={{ bottom: '1px solid #C3C3C3' }}
+                  >
+                    <Flex marginRight={20} style={{ fontSize: '13px' }}>
+                    Location 
+                    </Flex>
+                    <Flex>
+                      <ProgressBar
+                        verticalWidth={'200px'}
+                        type="hr"
+                        percentage={location_percent}
+                      />
+                    </Flex>
+                  </Flex>
                 </Flex>
               </Flex>
             </Flex>
 
             <Flex
-              height={window.innerHeight - 275}
+              height={window.innerHeight - 295}
               style={{ overflow: 'scroll', display: 'flex' }}
             >
               {data && (
@@ -220,7 +259,7 @@ const MatchingAnalysisTab = () => {
                 </Flex>
               )}
               {data && (
-                <Flex flex={1} className={styles.mapListContainer}>
+                <Flex  className={styles.mapListContainer}>
                   {/* {data.map((list, listIndex) => { */}
 
                   <Flex
@@ -272,6 +311,64 @@ const MatchingAnalysisTab = () => {
                             </Flex>{' '}
                           </>
                         );
+                      })}
+                    </Flex>
+                  </Flex>
+                </Flex>
+              )}
+              {data && (
+                <Flex flex={1} className={styles.mapListContainer}>
+                  {/* {data.map((list, listIndex) => { */}
+
+                  <Flex
+                    // key={data}
+                    row
+                    center
+                    between
+                    className={styles.dataListStyle}
+                    // backgroundColor={colorCode[listIndex % colorCode.length]}
+                  >
+                    <Flex flex={3}>
+                      <Text className={styles.titleStyle}>Location</Text>
+                    </Flex>
+                    <Flex flex={2}>
+                      <Text bold style={{ fontSize: '13px' }}>
+                        {matchedlocation ? matchedlocation.length : 0}/
+                        {location ? location.length : 0}
+                      </Text>
+                    </Flex>
+                    <Flex flex={7}>
+                      {matchedlocation.map((list) => {
+                        return (
+                          <>
+                            <Flex className={styles.valueListStyle} row center>
+                              <div className={styles.svgStyle}>
+                                <SvgDone />
+                              </div>
+                              <Text
+                                style={{ color: '#333333', fontSize: '13px' }}
+                              >
+                                {list}{' '}
+                              </Text>
+                            </Flex>
+                          </>
+                         );
+                      })}
+                      {notmatchedlocation.map((list) => {
+                         return (
+                          <>
+                            <Flex className={styles.valueListStyle} row center>
+                              <Flex className={styles.svgStyle}>
+                                <SvgClose fill="#ED4857" />
+                              </Flex>
+                              <Text
+                                style={{ color: '#333333', fontSize: '13px' }}
+                              >
+                                {list}{' '}
+                              </Text>
+                            </Flex>{' '}
+                          </>
+                         );
                       })}
                     </Flex>
                   </Flex>

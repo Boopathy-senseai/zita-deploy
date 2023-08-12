@@ -84,7 +84,7 @@ const JobView = () => {
   const jobStatus: any = query.get('interested');
   const candiId: any = query.get('can_id');
   const applicationFocus: any = query.get('applicationFocus');
-
+console.log(candiId,'gggggggggggggggggggcndiiiiiii')
   const getLoginUserId =
     localStorage.getItem('loginUserId') !== null
       ? localStorage.getItem('loginUserId')
@@ -101,7 +101,7 @@ const JobView = () => {
       setPageLoader(false)
       if (!isEmpty(applicationFocus)) {
         var elmnt:any = document.getElementById('jobview___applicant_focus');
-        elmnt.scrollIntoView();
+        elmnt?.scrollIntoView();
       }
     });
   }, []);
@@ -346,6 +346,7 @@ const JobView = () => {
                           setSuccess={setSuccess}
                           additional_detail={additional_detail}
                           jd_form={jd_form}
+                          cand_id={candiId}
                           setLoader={setLoader}
                         />
                       </div>

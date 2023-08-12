@@ -18,6 +18,7 @@ import NotesTab from './NotesTab';
 import Notesmeet from './Notesmeeting';
 import Questionnaire from './Questionnaire';
 import ScreeningStatusTab from './ScreeningStatusTab';
+import InvitationStatusTab from './InvitationStatusTab';
 // import QualificationTab from './QualificationTab';
 
 /* eslint max-len: ["error", { "code": 2000 }] */
@@ -64,11 +65,11 @@ const ApplicantTabLeftTwo = ({ activeState }: typeof defaultProps) => {
           {/* <Tab title={'Questionnaire/Messages'}>
             <Questionnaire issingletab={false} />
           </Tab> */}
-          <Tab title={'Matching Analysis/All Matching Jobs'}>
+          <Tab title={'Matching Analysis'}>
             <MatchingAnalysisTab />
           </Tab>
-          <Tab title={'Screening Status'}>
-            <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab  />
+          <Tab title={'Invitation Status'}>
+            <InvitationStatusTab  />
           </Tab> 
         </Tabs>
       ) : (

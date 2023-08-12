@@ -28,6 +28,8 @@ import {
   messagesTemplatesMiddleWare,
   IntergratemailMiddleWare,
   outlookCallbackMiddleware,
+  applicantInviteMiddleWare,
+  CandidatejobidMatchMiddleWare,
 } from '../middleware/applicantProfileMiddleware';
 
 const applicantProfileInitialState: ApplicantProfileReducerState = {
@@ -305,20 +307,24 @@ const applicantMatchState: MatchReducerState = {
   overall_percentage: 0,
   skills_percent: 0,
   qualification_percent: 0,
+   location_percent: 0,
   error: '',
   success: false,
   matched_data: {
     matched_skills: [],
     matched_qualification: [],
+    matched_location: [],
   },
 
   not_matched_data: {
     not_matched_skills: [],
     not_matched_qualification: [],
+    not_matched_location: [],
   },
   source: {
     jd_skills: [],
     qualification: [],
+    jd_location:[]
   },
   match: [
     {
@@ -349,9 +355,75 @@ const applicantMatchReducer = createSlice({
       state.qualification_percent = action.payload.qualification_percent;
       state.skills_percent = action.payload.skills_percent;
       state.source = action.payload.source;
-      // state.data = action.payload.matched_data;
+      state.location_percent = action.payload.location_percent;
+      // state.data = action.payload.matched_data;location_percent
     });
     builder.addCase(applicantMatchMiddleWare.rejected, (state, action) => {
+      state.isLoading = false;
+      if (typeof action.payload === 'string') {
+        state.error = action.payload;
+      }
+    });
+  },
+});
+
+const candidatejobidMatchState: MatchReducerState = {
+  isLoading: false,
+  overall_percentage: 0,
+  skills_percent: 0,
+  qualification_percent: 0,
+   location_percent: 0,
+  error: '',
+  success: false,
+  matched_data: {
+    matched_skills: [],
+    matched_qualification: [],
+    matched_location: [],
+  },
+
+  not_matched_data: {
+    not_matched_skills: [],
+    not_matched_qualification: [],
+    not_matched_location: [],
+  },
+  source: {
+    jd_skills: [],
+    qualification: [],
+    jd_location:[]
+  },
+  match: [
+    {
+      id: 0,
+      candidate_id_id: 0,
+      jd_id_id: 0,
+      profile_match: 0,
+      created_at: '',
+    },
+  ],
+};
+
+const candidatejobidMatchReducer = createSlice({
+  name: 'applicant',
+  initialState:candidatejobidMatchState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(CandidatejobidMatchMiddleWare.pending, (state) => {
+      state.isLoading = true;
+      state.error = '';
+    });
+    builder.addCase(CandidatejobidMatchMiddleWare.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.match = action.payload?.match;
+      state.overall_percentage = action.payload.overall_percentage;
+      state.not_matched_data = action.payload.not_matched_data;
+      state.matched_data = action.payload.matched_data;
+      state.qualification_percent = action.payload.qualification_percent;
+      state.skills_percent = action.payload.skills_percent;
+      state.source = action.payload.source;
+      state.location_percent = action.payload.location_percent;
+      // state.data = action.payload.matched_data;location_percent
+    });
+    builder.addCase(CandidatejobidMatchMiddleWare.rejected, (state, action) => {
       state.isLoading = false;
       if (typeof action.payload === 'string') {
         state.error = action.payload;
@@ -614,7 +686,8 @@ const applicantStausReducer = createSlice({
     });
     builder.addCase(applicantStatusMiddleWare.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.stages = action.payload || [];
+      state.stages = action.payload.data;
+      state.invite = action.payload.invite;
       // state.applied = action.payload.applied;
       // state.interviewed = action.payload.interviewed;
       // state.invite = action.payload.invite;
@@ -630,7 +703,41 @@ const applicantStausReducer = createSlice({
     });
   },
 });
+const applicantInviteState: ScreenStatusReducerState = {
+  isLoading: false,
+  error: '',
+  applied: [],
+  stages: [],
+  interviewed: [],
+  invite: [],
+  selected: [],
+  shortlisted: [],
+  rejected: [],
+};
 
+const applicantInviteReducer = createSlice({
+  name: 'applicant',
+  initialState: applicantStatusState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(applicantInviteMiddleWare.pending, (state) => {
+      state.isLoading = true;
+      state.error = '';
+    });
+    builder.addCase(applicantInviteMiddleWare.fulfilled, (state, action) => {
+      console.log("stattttttttttttt",state,action)
+      state.isLoading = false; 
+      state.stages = action.payload || [];  // Set the data from the thunk response
+      state.invite = action.payload || []; 
+    });
+    builder.addCase(applicantInviteMiddleWare.rejected, (state, action) => {
+      state.isLoading = false;
+      if (typeof action.payload === 'string') {
+        state.error = action.payload;
+      }
+    });
+  },
+});
 const applicantFavState: ApplicantFavReducerState = {
   isLoading: false,
   error: '',
@@ -746,3 +853,5 @@ export const applicantIntegratemailReducers = applicantIntegratemailReducer.redu
 export const calenderReducers = calenderReducer.reducer;
 export const applicantStausReducers = applicantStausReducer.reducer;
 export const applicantFavReducers = applicantFavReducer.reducer;
+export const applicantInviteReducers =applicantInviteReducer.reducer
+export const candidatejdmatchReducers=candidatejobidMatchReducer.reducer

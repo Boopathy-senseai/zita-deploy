@@ -2,6 +2,7 @@ import { BLACK, SECONDARY } from '../../uikit/Colors/colors';
 import Tab from '../../uikit/Tabs/Tab';
 import Tabs from '../../uikit/Tabs/Tabs';
 import AllMatchTab from '../applicantprofilemodule/AllMatchTab';
+import InvitationStatusTab from '../applicantprofilemodule/InvitationStatusTab';
 import MatchingAnalysisTab from '../applicantprofilemodule/MatchingAnalysisTab';
 import NotesTab from '../applicantprofilemodule/NotesTab';
 import ScreeningStatusTab from '../applicantprofilemodule/ScreeningStatusTab';
@@ -44,7 +45,7 @@ const CandiDateTabsLeft = ({ activeState }: typeof defaultProps) => {
         <MatchingAnalysisTab />
       </Tab>
       <Tab title={'Invitation Status'}>
-        <ScreeningStatusTab title={SCREEN_CANDIDATE_STATUS_TITLE} issingletab={true} />
+      <InvitationStatusTab  />
       </Tab>
     </Tabs>
   );

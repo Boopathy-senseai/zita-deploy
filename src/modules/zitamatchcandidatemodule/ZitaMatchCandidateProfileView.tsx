@@ -108,17 +108,19 @@ const ZitaMatchCandidateProfileView = ({
     // eslint-disable-next-line
   }, []);
 
-  const { candidate_details, initialLoader, jd, match, jd_id, can_id, invite } =
+  const { candidate_details, initialLoader, jd, match, jd_id, can_id, invite, matchLoader } =
     useSelector(
       ({
         applicantProfileInitalReducers,
         applicantMatchReducers,
         applicantStausReducers,
+        candidatejdmatchReducers
       }: RootState) => {
         return {
           candidate_details: applicantProfileInitalReducers.candidate_details,
           initialLoader: applicantProfileInitalReducers.isLoading,
           jd: applicantProfileInitalReducers.jd,
+          matchLoader:candidatejdmatchReducers.isLoading,
           match: applicantMatchReducers.match
             ? applicantMatchReducers.match
             : [],
@@ -136,8 +138,7 @@ const ZitaMatchCandidateProfileView = ({
   const hanldeInviteClosePopUp = () => {
     setInvitePopUp(false);
   };
-  const hanldeInvite = () => {
-    alert('hi')
+  const hanldeInvite = () => { 
     hanldeInviteClosePopUp();
     setInviteLoader(true);
     const data = querystring.stringify({
@@ -163,9 +164,9 @@ const ZitaMatchCandidateProfileView = ({
       });
   };
 
-  const checkMatch = match && match.length === 0 ? true : false;
+  const checkMatch = match && match?.length === 0 ? true : false;
   const profileMatch = checkMatch ? 0 : match[0].profile_match;
-  if (initialLoader || isNotesLoader) {
+  if (initialLoader || isNotesLoader ||  matchLoader) {
     return (
       <Flex height={window.innerHeight - 60} center middle>
         <Loader withOutOverlay />

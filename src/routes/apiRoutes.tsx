@@ -40,7 +40,8 @@ export const bulkUploadSkills = (id: number) => {
 //   const url = `education_update_bulk/${id}/`;
 //   return url;
 // };
-
+//Matching with cand_id
+export const  candidatematch =`job_matching_api`;
 // Applicant Profile View API
 export const applicantProfileView = `applicants_profile_api`;
 export const applicantMatchapi = `matching_analysis`;
@@ -74,7 +75,10 @@ export const applicantStatusUpdateApi = (jd_id: string) => {
   const url = `update_status/${jd_id}`;
   return url;
 };
+// Matchig based on both jd and cand_id
 export const Zitamatching =`match_alg_api`;
+
+
 export const zitaMatchDataApi = `zita_match_data`;
 export const zitaMatchApi = `zita_match`;
 export const zitaMatchDownloadApi = `bulk_download`;
@@ -142,7 +146,14 @@ export const dsOrNotApi = (jdId?: string) => {
   const url = `dst_or_not/${jdId}`;
   return url;
 };
-export const matchingoverallApi = `matching_algorithm`
+//Matching Based on jd 
+export const matchingoverallApi = `matching_algorithm`;
+
+//Matching Based on candidate_id,jd_id and candidate_jd_id
+export const onlycandidateid =`match_canid`
+export const onlyjobid =`match_jdid`
+export const Bothcandidateidjobid =`match_canid_jdid`
+
 export const validateJobIdApi = `validate_job_id`;
 export const myjobpostapi = `my_job_posting`;
 export const myjobpostdataapi = `my_job_posting_data`;

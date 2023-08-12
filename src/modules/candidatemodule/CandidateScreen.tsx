@@ -11,6 +11,7 @@ import Text from '../../uikit/Text/Text';
 import Toast from '../../uikit/Toast/Toast';
 import ProfileNavBar from '../applicantprofilemodule/ProfileNavBar';
 import {
+  CandidatejobidMatchMiddleWare,
   applicantAllMatchMiddleWare,
   applicantMatchMiddleWare,
   applicantNotesMiddleWare,
@@ -63,7 +64,7 @@ const CandidateScreen = () => {
         applicantProfileInitialMiddleWare({ jd_id: jdId, can_id: candiId }),
       ).then((res) => {
         dispatch(
-          applicantMatchMiddleWare({
+          CandidatejobidMatchMiddleWare({
             jd_id: res.payload.jd_id,
             can_id: res.payload.can_id,
           }),
