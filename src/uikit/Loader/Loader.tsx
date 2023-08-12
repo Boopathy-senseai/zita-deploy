@@ -7,8 +7,9 @@ type Props = {
   size?: 'large' | 'medium' | 'small';
   withOutOverlay?: boolean;
   customsize?:boolean;
+  disableText?: boolean; 
 };
-const Loader = ({ size, withOutOverlay,customsize }: Props) => {
+const Loader = ({ size, withOutOverlay,customsize,disableText }: Props) => {
   return !withOutOverlay ? (
     <div className={styles.loaderConatiner}>
       <div className={cx('content')}>
@@ -29,7 +30,8 @@ const Loader = ({ size, withOutOverlay,customsize }: Props) => {
             <circle cx="8" cy="8" r="7" strokeWidth="2" />
           </svg>
          
-        </div> <div className={styles.loadertext}> Please wait....</div>
+        </div> 
+        {!disableText && <div className={styles.loadertext}>Please wait....</div>}
       </div>
     </div>
   ) : (

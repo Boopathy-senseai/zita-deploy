@@ -362,10 +362,10 @@ console.log(locations,'kkkkkkkkkkkkkkkkkkk')
   // enter key submit api call
   const handleKeyPress = (event: { key: string }) => {
 
-    if (isSearch.trim() === '') {
-      setErrorMessage('Search value cannot be empty or just spaces.');
-    } 
-    else{
+    // if (isSearch.trim() === '') {
+    //   setErrorMessage('Search value cannot be empty or just spaces.');
+    // } 
+    // else{
     setErrorMessage("")
     if (event.key === 'Enter') {
       
@@ -387,7 +387,8 @@ console.log(locations,'kkkkkkkkkkkkkkkkkkk')
           location: formik.values.location || '',
         }),
       );
-    }}
+    }
+  //}
   };
 
   // search api call function
@@ -856,10 +857,10 @@ console.log(locations,'kkkkkkkkkkkkkkkkkkk')
   const onSearchChange = (e: React.ChangeEvent<any>) => {
     
     setSearch(e.target.value);
-   const inputValue = e.target.value;
-    if (inputValue.trim() !== '') {
-      setErrorMessage('');
-    }
+  //  const inputValue = e.target.value;
+  //   if (inputValue.trim() !== '') {
+  //     setErrorMessage('');
+  //   }
 
     // const inputValue = e.target.value;
     // if (inputValue.trim() === '') {
@@ -1098,8 +1099,9 @@ console.log(locations,'kkkkkkkkkkkkkkkkkkk')
                 </Flex>
                 
               </Flex>
-              <Flex>
-                {errorMessage && <div><Text  className="error-message" style={{color:"#f94949"}}>{errorMessage}</Text></div>}</Flex>
+              {/* <Flex>
+                {errorMessage && <div><Text  className="error-message" style={{color:"#f94949"}}>{errorMessage}</Text></div>}
+                </Flex> */}
             </Flex>
             <Flex>
               {zita_match_count === 0 ? (

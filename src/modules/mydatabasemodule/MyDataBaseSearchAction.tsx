@@ -31,11 +31,12 @@ const MyDataBaseSearchAction = ({ jobTitle, formik,isSearchValue,setSearchValue 
   const selectInputRef = useRef<any>();
   const [errorMessage, setErrorMessage] = useState('');
   const hanldeSearch = () => {
-    if (isSearchValue.trim() === '') {
-      setErrorMessage('Search value cannot be empty or just spaces.');
-    } 
-    else{
-    formik.setFieldValue('searchValue', isSearchValue);}
+    // if (isSearchValue.trim() === '') {
+    //   setErrorMessage('Search value cannot be empty or just spaces.');
+    // } 
+    // else{
+    formik.setFieldValue('searchValue', isSearchValue);
+  // }
   };
 
   const customFilter = (option: { label: string }, inputValue: string) => {
@@ -56,10 +57,10 @@ const MyDataBaseSearchAction = ({ jobTitle, formik,isSearchValue,setSearchValue 
     )
   : ''
  const searchfunction=(event: { target: { value: any; }; })=>{
-   const inputValue = event.target.value;
-   if (inputValue.trim() !== '') {
-     setErrorMessage('');
-    }
+  //  const inputValue = event.target.value;
+  //  if (inputValue.trim() !== '') {
+  //    setErrorMessage('');
+  //   }
     setSearchValue(event.target.value);
   
  }
@@ -157,8 +158,9 @@ const MyDataBaseSearchAction = ({ jobTitle, formik,isSearchValue,setSearchValue 
         </Flex>
         
       </Flex>
-      <Flex>
-        {errorMessage && <div><Text  className="error-message" style={{color:"#f94949"}}>{errorMessage}</Text></div>}</Flex>
+      {/* <Flex>
+        {errorMessage && <div><Text  className="error-message" style={{color:"#f94949"}}>{errorMessage}</Text></div>}
+        </Flex> */}
     </Flex>
 
     <Flex row center className={styles.infiStyle}>

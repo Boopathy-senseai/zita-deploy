@@ -241,9 +241,9 @@ font-weight: 400;
 }
 .filterstyle{
   display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
 }
  
 .switch{

@@ -418,10 +418,10 @@ const MyDataBaseScreen = () => {
 
    </Flex>
     <Flex row className={styles.overAll}>
-      {initalLoader && <Loader  />}
-      {dataLoader && <Loader  />}
-      {isInviteLoader && <Loader />}
-      {isDownloadLoader && <Loader />}
+      {initalLoader && <Loader disableText/>}
+      {dataLoader && <Loader  disableText /> }
+      {isInviteLoader && <Loader disableText/>}
+      {isDownloadLoader && <Loader  disableText/>}
 
     
       <div className={cx('tabsContainer')}>

@@ -158,8 +158,12 @@ const ZitaMatchCandidate = () => {
   };
 
   const handleSearchSubmit = () => {
+    // if (isSearch.trim() === '') {
+    //   setErrorMessage('Search value cannot be empty or just spaces.');
+    // } 
+    // else{
+    setErrorMessage("")
     setIsCheck([]);
-    console.log("close",isSearch)
     dispatch(
       zitaMatchDataCandidateMiddleWare({
         jd_id: jdId,
@@ -179,6 +183,36 @@ const ZitaMatchCandidate = () => {
         page: isPage + 1,
       }),
     );
+  //}
+  };
+
+  const handleSearchSubmitlocation = () => {
+    // if (islocationsearch.trim() === '') {
+    //   setErrorMessage('Search value cannot be empty or just spaces.');
+    // } 
+    // else{
+    setErrorMessage("")
+    setIsCheck([]);
+    dispatch(
+      zitaMatchDataCandidateMiddleWare({
+        jd_id: jdId,
+        profile_match: isProfile,
+        fav: favAdd,
+        candidate: isSearch,
+        location:islocationsearch,
+        sort:isSortOptions.value,
+        work_experience: isExperience,
+        relocate: isRelocate ? '1' : '0',
+        invite: isCandiStatus,
+        profile_view: isProfile,
+        education_level: qaValue,
+        type_of_job: isJobType,
+        preferred_location: isLocation ? '1' : '0',
+        skill_match: skillsOptionsList,
+        page: isPage + 1,
+      }),
+    );
+  //}
   };
 
 console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
@@ -622,6 +656,8 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
       }),
     );
 
+  
+
     const handleKeyPress = (event: { key: string }) => {
       if (event.key === 'Enter') {
         dispatch(
@@ -653,6 +689,24 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
     }
     setProfileView(false);
   };
+
+  const [errorMessage, setErrorMessage] = useState('');
+  const onSearchChange = (e: React.ChangeEvent<any>) => {
+    
+    setSearch(e.target.value);
+  //  const inputValue = e.target.value;
+  //   if (inputValue.trim() !== '') {
+  //     setErrorMessage('');
+  //   }
+  };
+
+  const locationfunction=(event)=>{
+    setlocationsearch(event.target.value);
+    // const inputValue = event.target.value;
+    // if (inputValue.trim() !== '') {
+    //   setErrorMessage('');
+    // }
+  }
 
   return (
     // <Flex row className={styles.overAll}>
@@ -840,7 +894,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
       <Flex row between marginBottom={15}>
         <Flex>
           <Flex
-            row
+            
             style={{ position: 'relative', overFlowX: 'auto' }}
             className={styles.searchbox}
           >
@@ -852,7 +906,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
                   value={isSearch}
                   className={styles.boxstyle}
 
-                  onChange={(e) => setSearch(e.target.value)}
+                  onChange={(e) => onSearchChange(e)}
                   id="zitamatchfilters__search"
                   placeholder="Search by name or email"
                   actionRight={() => (
@@ -884,8 +938,8 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
               
               labelBold
               value={islocationsearch}
-              onChange={(e) => setlocationsearch(e.target.value)}
-              onKeyPress={(e) => enterKeyPress(e, handleSearchSubmit)}
+              onChange={(e) => locationfunction(e)}
+              onKeyPress={(e) => enterKeyPress(e, handleSearchSubmitlocation)}
               placeholder="Select candidate location"
               className={styles.boxstyle}
               
@@ -904,7 +958,11 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
 
               </Flex>
             </Flex>
+            {/* <Flex>
+            {errorMessage && <div><Text  className="error-message" style={{color:"#f94949"}}>{errorMessage}</Text></div>}
+            </Flex> */}
           </Flex>
+
         </Flex>
         <Flex>
           {applicants_count === 0 ? (
