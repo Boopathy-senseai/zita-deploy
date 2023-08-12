@@ -339,7 +339,7 @@ const ProfileNavBar = ({
   };
   return (
     <>
-      {invite.length === 0 && (
+      {invite?.length === 0 && (
         <CancelAndDeletePopup
           title={`Invite will be sent as an email to ${
             candidate_details && candidate_details[0].first_name
@@ -352,14 +352,14 @@ const ProfileNavBar = ({
           open={isInvitePopUp}
         />
       )}
-      {invite.length !== 0 && (
+      {invite?.length !== 0 && (
         <CancelAndDeletePopup
           title={
             <Flex className={styles.popTitle}>
               <Text>{`The candidate ${
                 candidate_details && candidate_details[0].first_name
               } has already been invited for this job on ${getDateString(
-                invite[invite.length - 1].created_at,
+                invite&& invite[invite?.length - 1].created_at,
                 'll',
               )}.`}</Text>
               <Text>Do you wish to invite again?</Text>
@@ -692,6 +692,7 @@ const ProfileNavBar = ({
                   </Flex>
                 )}
               </Flex>
+              {console.log(date,'dateeeeeeeeeeeeeeeeeeeeeeeeeeee')}
               {!applieddatecheck && Number(jd_id) !== 0 ? (
                 <Flex flex={6}>
                   <Flex className={styles.headingpart} marginTop={10}>
