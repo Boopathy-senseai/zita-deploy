@@ -29,6 +29,7 @@ import {
   getSlotterMiddleware,
 } from './store/middleware/eventmiddleware';
 import './DayPickerCustomStyles.css';
+import conflict from './json/conflict2.json';
 
 const slotter1 = (props) => {
   const { userpreview } = props;
@@ -56,6 +57,7 @@ const slotter1 = (props) => {
   const [isProfile, setProfile] = useState(null);
   const [confromflag, SetConfromFlag] = useState(false);
   const [endDate, setEndDate] = useState(new Date());
+
   // const [startFrom, setStartFrom] = useState(new Date());
   // const [endFrom, setEndFrom] = useState(new Date());
 
@@ -307,7 +309,7 @@ const slotter1 = (props) => {
 
   const timeDifference = targetTimezoneOffset - userTimezoneOffset;
 
-  // console.log("FFFFFFFFFFFFFFFFFOOOOOOOOOOOOOO",startFrom,endFrom)
+  console.log("conflictstststst",conflict)
 
 
   return (
@@ -422,6 +424,8 @@ const SlotterDate = (props) => {
   const [defaultMonth, setdefaultMonth] = useState('');
   const [startFrom, setStartFrom] = useState(new Date(2023,9-1,4));
   const [endFrom, setEndFrom] = useState(new Date(2023,11,4));
+
+
 
   useEffect(() => {
     mount();
@@ -656,6 +660,10 @@ const SlotterDate = (props) => {
   // };
 
   const onDateChange = (datetimes: any) => {
+
+    console.log("datetimesdatetimesdatetimes",datetimes)
+
+   
     const currentDate = new Date(datetimes);
 
     const isInSchedule = dateObjectsArray.some((d) => {
@@ -779,7 +787,7 @@ const SlotterDate = (props) => {
 
             const interval12 = `${startInterval12} - ${endInterval12}`;
             console.log("interval12interval12",interval12)
-            intervals12.push(interval12);
+          intervals12.push(interval12);
           }
         }else{
           const interval12 = `${startInterval12} - ${endInterval12}`;
@@ -791,19 +799,43 @@ const SlotterDate = (props) => {
     console.log("====================",intervals12)
     return intervals12;
   }
+  // function isHighlightedDay(day) {
+  //   console.log("daydaydaydaydaydayday",day,highlightday)
 
+  //   if(highlightday !== null){
+
+  //     const targetDate = highlightday; // Replace with your target date
+  //     return day.toDateString() === targetDate.toDateString();
+  //   }
+
+    
+
+
+  // }
+
+  const defaultHighlightedDay = new Date(2023, 9, 15);
   const modifiers = {
     selected: dateObjectsArray,
+    // highlighted: (day) => selectedDay && day.toDateString() === selectedDay.toDateString(),
+    // highlighted:(day) => date !== null && day?.toDateString() === date?.toDateString(),
+    // highlighted: isHighlightedDay,
+    
   };
-  const modifiersStyles = {
-    selected: {
-      backgroundColor: '#FFC203',
-      color: 'black',
-    },
 
-    container: {
-      height: '900px',
-      width: '900px',
+  const modifiersStyles = {
+    // selected: {
+    //   backgroundColor: '#FFC203',
+    //   color: 'black',
+    // },
+
+    // container: {
+    //   height: '900px',
+    //   width: '900px',
+    // },
+  
+    highlighted: {
+      backgroundColor: '#581848',
+      color: 'white',
     },
   };
 
@@ -837,7 +869,7 @@ const SlotterDate = (props) => {
 
   // const defaultMonth = new Date(2023,11,1);
 
-  console.log('selectedtimeselectedtimeselectedtime', selecttime);
+  console.log('selectedtimeselectedtimeselectedtime', date , "\n",new Date(2023, 9, 15));
 
   console.log(
     'selectedDaysselectedDaysselectedDaysselectedDays',
@@ -849,6 +881,7 @@ const SlotterDate = (props) => {
   );
 
   console.log("timezonetimezonetimezonetimezonetimezonetimezonetimezone",timezone)
+  console.log("modifiers.selectedmodifiers.selected",modifiers)
   return (
     <Flex height={'100%'}>
       <Flex row center className={styles.banner}>
@@ -952,18 +985,18 @@ const SlotterDate = (props) => {
                   <div style={{marginLeft : "90px"}}>
                   <DayPicker
                     // locale={enUS}
-                    mode="single"
+                    
                     styles={{
                       months: {
                         color: '#581845',
-                      },
-                      
-                    }}
+                        // cursor : 'not-allowed'
+                      }                      
+                    }}                
                     defaultMonth={dateObjectsArray[0]}
                     // onSelect={setDays}
                     // fromMonth={dateObjectsArray[0]}
                     // toMonth={dateObjectsArray[dateObjectsArray.length-1]}
-                    className="custom-daypicker"
+                    // className="custom-daypicker"
                     // fromDate={dateObjectsArray[0]}
                     // toDate={dateObjectsArray[dateObjectsArray.length-1]}
                     onDayClick={(e) => onDateChange(e)}

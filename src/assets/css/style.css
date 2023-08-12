@@ -1,3 +1,4 @@
+
 * {
   margin: 0;
   padding: 0;
@@ -854,13 +855,29 @@ input:-webkit-autofill:active {
   margin: 10px 0px 10px 0px !important;
 }
 .rdp-button:hover:not([disabled]):not(.rdp-day_selected) {
-  background-color: #d7c7d2 !important;
+  background-color: white !important;
+  cursor: default;
 }
 .rdp-button.rdp-day_selected {
   background-color: #d7c7d2 !important;
   color: #581845 !important;
   padding: 5px !important;
+}
 
+.rdp-button.rdp-day_selected:focus {
+  background-color: #581858 !important;
+  color: #fffcff !important;
+  padding: 5px !important;
+}
+.rdp-button.rdp-day_highlighted{
+  background-color: #17692e !important;
+  color: #fffcff !important;
+  padding: 5px !important;
+}
+
+.custom-highlighted {
+  background-color: black;
+  color: white;
 }
 
 .rdp-day_today:not(.rdp-day_outside) {
@@ -887,11 +904,19 @@ input:-webkit-autofill:active {
 .daterangepicker .drp-buttons .btn{
   text-transform: capitalize;
 }
-daterangepicker td.off, .daterangepicker td.off.in-range, .daterangepicker td.off.start-date, .daterangepicker td.off.end-date {
+.daterangepicker td.off, .daterangepicker td.off.in-range, .daterangepicker td.off.start-date, .daterangepicker td.off.end-date {
   background-color: #fff;
   border-color: transparent;
   color: #999;
 }
+.daterangepicker td{
+  cursor: pointer !important;
+}
+.daterangepicker th.month{
+  cursor: default !important;
+}
+
+
 /* .rdp-head_cell{
   padding-right: 20px;
 } */

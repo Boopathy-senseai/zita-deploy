@@ -1580,7 +1580,7 @@ const DayTimeSplit = (props) => {
               </Flex>
             )}
           }) : (
-              <Flex flex={1}>
+              <Flex flex={1} marginTop={6}>
                 <Text>Unavailable</Text>
               </Flex>
             )}
@@ -1790,7 +1790,7 @@ const DayTimeSplit = (props) => {
               </Flex>
             )}
           }) : (
-              <Flex flex={1}>
+              <Flex flex={1} marginTop={6}>
                 <Text>Unavailable</Text>
               </Flex>
             )}
@@ -1873,7 +1873,7 @@ const DayTimeSplit = (props) => {
           dateCheckboxChange(e, 'tuesday'),
         )}
         <Flex>
-          <Flex row center>
+          <Flex row center> 
             {tuesdaycheck === true ?
               tuesday.map((x,i) => {
                 if(i === 0){
@@ -1991,7 +1991,7 @@ const DayTimeSplit = (props) => {
               </Flex>
               )}
             }): (
-              <Flex flex={1}>
+              <Flex flex={1} marginTop={6}>
                 <Text>Unavailable</Text>
               </Flex>
             )}
@@ -2205,7 +2205,7 @@ const DayTimeSplit = (props) => {
               </Flex>
              )}
             }): (
-              <Flex flex={1}>
+              <Flex flex={1} marginTop={6}>
                 <Text>Unavailable</Text>
               </Flex>
             )}
@@ -2399,7 +2399,7 @@ const DayTimeSplit = (props) => {
               </Flex>
              )}
             }) : (
-              <Flex flex={1}>
+              <Flex flex={1} marginTop={6}>
                 <Text>Unavailable</Text>
               </Flex>
             )}
@@ -2606,7 +2606,7 @@ const DayTimeSplit = (props) => {
               </Flex>
              )}
             }) : (
-              <Flex flex={1}>
+              <Flex flex={1} marginTop={6}>
                 <Text>Unavailable</Text>
               </Flex>
             )}
@@ -2809,7 +2809,7 @@ const DayTimeSplit = (props) => {
               </Flex>
             )}
           }): (
-              <Flex flex={1}>
+              <Flex flex={1} marginTop={6}>
                 <Text>Unavailable</Text>
               </Flex>
             )}

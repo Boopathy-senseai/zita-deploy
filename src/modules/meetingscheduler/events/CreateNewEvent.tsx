@@ -1,3 +1,4 @@
+import ReactDOM from 'react-dom';
 import { useEffect, useState } from 'react';
 import { isEmptyArray, useField, useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
@@ -39,6 +40,7 @@ import Interviewer from './Interviewer';
 import DayTimeSplit from './DayTimeSplit';
 // import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-daterangepicker/daterangepicker.css';
+import ConfirmationDialog from './ConfirmDialogBox/ConfirmDialogBox';
 // eslint-disable-next-line import/order
 
 type CreateEvent = {
@@ -158,6 +160,9 @@ const CreateNewEvent = (props) => {
   const [thursdaycheck, setthursdaycheck] = useState(true);
   const [fridaycheck, setfridaycheck] = useState(true);
   const [saturdaycheck, setsaturdaycheck] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [messageDialog, setMessageDialog] = useState('');
+
 
 
   const [errMsg, seterrMsg] = useState(false);
@@ -447,23 +452,26 @@ const CreateNewEvent = (props) => {
   const GoogleCalendar = (label) => {
     if (interviewerData.length === 0) {
       if (google === false && label === 'Google Hangouts/Meet') {
-        const validate = window.confirm(
-          'Google Calendar not be Integrated, Select this option after the Integration',
-        );
-        if (validate) {
-          setIsOpen(false);
-          dispatch(googleCallApiMiddleware()).then((res) => {
-            window.open(res.payload.url);
-            dispatch(getScheduleMiddleWare(undefined))
-            // newWindow.onload = () => {
-            //   alert("newWindow")
-            // }
-          });
+        const message = "Google Calendar not be Integrated, Select this option after the Integration"
+        setMessageDialog(message)
+        setIsDialogOpen(true)
+        // const validate = window.confirm(
+        //   'Google Calendar not be Integrated, Select this option after the Integration',
+        // );
+        // if (validate) {
+        //   setIsOpen(false);
+        //   dispatch(googleCallApiMiddleware()).then((res) => {
+        //     window.open(res.payload.url);
+        //     dispatch(getScheduleMiddleWare(undefined))
+        //     // newWindow.onload = () => {
+        //     //   alert("newWindow")
+        //     // }
+        //   });
 
 
-        } else {
-          formik.values.event_type = '';
-        }
+        // } else {
+        //   formik.values.event_type = '';
+        // }
       } else {
         formik.setFieldValue('event_type', label);
       }
@@ -492,17 +500,20 @@ const CreateNewEvent = (props) => {
           filteredGoogleCalendars.length === 0 &&
           label === 'Google Hangouts/Meet'
         ) {
-          const validate = window.confirm(
-            'At least one interviewer must be integrated to the Google Calendar.Otherwise, the video conference will not be created',
-          );
-          if (validate) {
-            setIsOpen(false);
-            // dispatch(googleCallApiMiddleware()).then((res) => {
-            //   window.open(res.payload.url);
-            // });
-          } else {
-            formik.values.event_type = '';
-          }
+          const message = 'At least one interviewer must be integrated to the Google Calendar.Otherwise, the video conference will not be created';
+          setMessageDialog(message)
+          setIsDialogOpen(true)
+          // const validate = window.confirm(
+          //   'At least one interviewer must be integrated to the Google Calendar.Otherwise, the video conference will not be created',
+          // );
+          // if (validate) {
+          //   setIsOpen(false);
+          //   // dispatch(googleCallApiMiddleware()).then((res) => {
+          //   //   window.open(res.payload.url);
+          //   // });
+          // } else {
+          //   formik.values.event_type = '';
+          // }
         }else{
         
           formik.setFieldValue('event_type', label)
@@ -532,18 +543,9 @@ const CreateNewEvent = (props) => {
       }
     }
   };
-
-  const eventonChange = (label) => {
-    console.log('');
-    if (label === 'Microsoft Teams') {
-      if (label === 'Microsoft Teams' && outlook === true) {
-        formik.setFieldValue('event_type', label);
-      } else {
-        const validate = window.confirm(
-          'Zita Administrator needs to integrate the outlook calendar first',
-        );
-        if (validate) {
-          setIsOpen(false);
+  function handleConfirm(){
+    if(messageDialog === "Zita Administrator needs to integrate the outlook calendar first"){     
+         setIsOpen(false);
           dispatch(outlookCallApiMiddleware()).then((res) => {
             console.log('outlookintegration', res);
             if (res.payload.success === true) {
@@ -552,11 +554,81 @@ const CreateNewEvent = (props) => {
               dispatch(getScheduleMiddleWare(undefined))
             }
           });
-        } else {
-          console.log('((((((((((((((((((', formik.values.event_type);
+    }
+    if(messageDialog === 'Integrate the calendar first'){
+      setIsDialogOpen(false)
+      setIsOpen(false)
+    }
+    if(messageDialog === 'Google Calendar not be Integrated, Select this option after the Integration'){
+      // setIsDialogOpen(false)
+      // setIsOpen(false)
+         setIsOpen(false);
+          dispatch(googleCallApiMiddleware()).then((res) => {
+            window.open(res.payload.url);
+            dispatch(getScheduleMiddleWare(undefined))
+            // newWindow.onload = () => {
+            //   alert("newWindow")
+            // }
+          });
+    }
+    if(messageDialog === 'At least one interviewer must be integrated to the Google Calendar.Otherwise, the video conference will not be created'){
+      setIsDialogOpen(false)
+    }   
+    if(messageDialog === 'Select Atleast One Availble Day') {
+      setIsDialogOpen(false)
+    }
+
+  }
+
+  function handleCancel(){
+    if(messageDialog === "Zita Administrator needs to integrate the outlook calendar first"){ 
           formik.values.event_type = '';
-          formik.setFieldValue('event_type', '');
-        }
+          formik.setFieldValue('event_type', '');  
+          setIsDialogOpen(false) 
+    }
+    if(messageDialog === 'Integrate the calendar first'){
+      setIsDialogOpen(false)
+    }
+    if(messageDialog === 'Google Calendar not be Integrated, Select this option after the Integration'){
+      setIsDialogOpen(false)
+      formik.values.event_type = '';
+    }
+    if(messageDialog === 'At least one interviewer must be integrated to the Google Calendar.Otherwise, the video conference will not be created'){
+      formik.values.event_type = '';
+      setIsDialogOpen(false)
+    }
+
+  }
+
+  const eventonChange = (label) => {
+    console.log('');
+    // setIsDialogOpen(true)
+    if (label === 'Microsoft Teams') {
+      if (label === 'Microsoft Teams' && outlook === true) {
+        formik.setFieldValue('event_type', label);
+      } else {
+        const message = "Zita Administrator needs to integrate the outlook calendar first"
+        setMessageDialog(message)
+        setIsDialogOpen(true);
+
+        // const validate = window.confirm(
+        //   'Zita Administrator needs to integrate the outlook calendar first',
+        // );
+        // if (validate) {
+        //   setIsOpen(false);
+        //   dispatch(outlookCallApiMiddleware()).then((res) => {
+        //     console.log('outlookintegration', res);
+        //     if (res.payload.success === true) {
+        //       window.open(res.payload.authorization_url);
+        //       console.log('outlookcallApi', outlookCallApiMiddleware());
+        //       dispatch(getScheduleMiddleWare(undefined))
+        //     }
+        //   });
+        // } else {
+        //   console.log('((((((((((((((((((', formik.values.event_type);
+        //   formik.values.event_type = '';
+        //   formik.setFieldValue('event_type', '');
+        // }
       }
     }
     // if (label === 'Google Hangouts/Meet') {
@@ -571,10 +643,13 @@ const CreateNewEvent = (props) => {
     // }
     if (label === 'On-site Interview' || label === 'Phone Interview') {
       if (google === false && outlook === false) {
-        const validate = window.confirm('Integrate the calendar first');
-        if (validate) {
-          setIsOpen(false);
-        }
+        const messsage = "Integrate the calendar first"
+        setMessageDialog(messsage)
+        setIsDialogOpen(true)
+        // const validate = window.confirm('Integrate the calendar first');
+        // if (validate) {
+        //   setIsOpen(false);
+        // }
       } else {
         formik.setFieldValue('event_type', label);
       }
@@ -693,7 +768,10 @@ const CreateNewEvent = (props) => {
     const schedulearr = calculateSchedule();
     console.log('schedulearrschedulearrschedulearrschedulearr', schedulearr);
     if(sundaycheck === false && mondaycheck === false && tuesdaycheck === false && wednesdaycheck === false && thursdaycheck === false && fridaycheck === false && saturdaycheck  === false) {
-      alert('Select Atleast One Availble Day');
+      // alert('Select Atleast One Availble Day');/\
+      const message = "Select Atleast One Availble Day"
+      setMessageDialog(message)
+      setIsDialogOpen(true)
     }
     else if (isEmptyArray(schedulearr)) {
       const reschedule = DateBasedReschedule();
@@ -1020,7 +1098,7 @@ const CreateNewEvent = (props) => {
       //   onValid.saturday?.length !== saturday.length
       // ) {
       const validate = window.confirm(
-        'Do you want to leave this site? Changes you made may not be saved.',
+        'You have unsaved changes that will be lost, Are you sure to Proceed ?',
       );
       if (validate) {
         // HandleResetForm(formik.values);
@@ -1227,11 +1305,11 @@ const CreateNewEvent = (props) => {
     console.log("pickerpickerpicker",picker)
   console.log('@@@@@@######onSelectShow1111', onSelectShow);
 
-    // alert("picker")
     setDatePickerOpen(true);
+    // picker.drops =  null
+    // picker.alwaysShowCalendars = true
 
     if(onSelectShow.startDate !== null && onSelectShow.endDate !== null){
-      alert(":p")
       picker.startDate = moment(onSelectShow.startDate)
       picker.endDate = moment(onSelectShow.endDate)
     
@@ -1339,6 +1417,7 @@ const CreateNewEvent = (props) => {
                     
                   ></SelectTag>
 
+
                   <ErrorMessage
                     name={'event_type'}
                     errors={formik.errors}
@@ -1360,7 +1439,7 @@ const CreateNewEvent = (props) => {
                   required
                   placeholder="Add location"
                   value={formik.values.location}
-                  style={{ marginTop: '5px' }}
+                  style={{ marginTop: '5px',paddingLeft : '8px' }}
                   onChange={(e: any) => {
                     formik.setFieldValue('location', e.target.value);
                     // setButton(false);
@@ -1487,6 +1566,7 @@ const CreateNewEvent = (props) => {
                     
                     onHide={() => setDatePickerOpen(false)}
                   >
+                   
                     <input
                       type="dates"
                       className={`${styles.datePicker} ${styles.customInput}`}
@@ -1506,7 +1586,7 @@ const CreateNewEvent = (props) => {
                       // }}
                     />
                   </DateRangePicker>
-                  <Flex marginRight={5} style={{ cursor: 'pointer' }}>
+                  <Flex marginRight={5} style={{ cursor: 'default' }}>
                     <SvgCalendar width={16} height={16} />
                   </Flex>
                 </div>
@@ -1543,7 +1623,7 @@ const CreateNewEvent = (props) => {
                 }}
                 
               >
-                <Text color="theme"> {profilename}</Text>
+                <Text color="theme" title={profilename}> {profilename}</Text>
               </Button>
               
               {/* {interviewerData.slice(0, MAX_BUTTONS).map((name, index) => (
@@ -1750,10 +1830,11 @@ const CreateNewEvent = (props) => {
               textarea
               required
               style={{
-                border: '1px solid  #b3b3b3',
-                borderRadius: '4px',
+                // border: '1px solid  #b3b3b3',
+                // borderRadius: '4px',
                 // marginBottom: '10px',
                 width: '100%',
+                height : '100%',
                 marginTop: '5px',
                 paddingLeft : '8px'
               }}
@@ -1798,6 +1879,15 @@ const CreateNewEvent = (props) => {
             )}
           </Flex>
         </Flex>
+        {isDialogOpen && (
+        <Modal open={isDialogOpen}>
+        <ConfirmationDialog
+          message={messageDialog}
+          onConfirm={handleConfirm}
+          onCancel={handleCancel}
+        />
+        </Modal>
+      )}
       </Flex>
     </Flex>
   );

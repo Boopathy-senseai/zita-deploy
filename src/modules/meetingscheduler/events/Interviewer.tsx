@@ -3,8 +3,10 @@ import SvgSearch from '../../../icons/SvgSearch';
 import Button from '../../../uikit/Button/Button';
 import Flex from '../../../uikit/Flex/Flex';
 import InputCheckBox from '../../../uikit/InputCheckbox/InputCheckBox';
+import Modal from '../../../uikit/Modal/Modal';
 import InputText from '../../../uikit/InputText/InputText';
 import Text from '../../../uikit/Text/Text';
+import ConfirmationDialog from './ConfirmDialogBox/ConfirmDialogBox';
 import styles from './interviewer.module.css';
 
 const Interviewer = (props) => {
@@ -24,6 +26,8 @@ const Interviewer = (props) => {
   const [data, setData] = useState(teammembers);
   const [member, setmember] = useState([]);
   const [checkedData, setcheckedData] = useState(checkedItems);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [messageDialog, setMessageDialog] = useState('');
 
   useEffect(() => {
     if (interviewerData?.length > 0) {
@@ -39,6 +43,16 @@ const Interviewer = (props) => {
     // }
   }, []);
 
+  function handleConfirm(){
+    if(messageDialog === "Atleast One inteerview must be integrated to the Google Calendar"){
+      setIsDialogOpen(false)
+    }
+    
+  }
+  function handleCancel(){
+
+  }
+
   const handleCheckboxChange = (event, name, list) => {
     console.log('77777777777', list, formik);
     if (
@@ -46,7 +60,11 @@ const Interviewer = (props) => {
       list.google_calendar === null &&
       google === false
     ) {
-      alert('Atleast One inteerview must be integrated to the Google Calendar');
+      const message = "Atleast One inteerview must be integrated to the Google Calendar";
+      setMessageDialog(message)
+      setIsDialogOpen(true);
+
+      // alert('Atleast One inteerview must be integrated to the Google Calendar');
     }
     // if (formik.event_type !== 'Google Hangouts/Meet'){
     else {
@@ -228,6 +246,15 @@ const Interviewer = (props) => {
               </Button>
             )}
           </Flex>
+          {isDialogOpen && (
+        <Modal open={isDialogOpen}>
+        <ConfirmationDialog
+          message={messageDialog}
+          onConfirm={handleConfirm}
+          onCancel={handleCancel}
+        />
+        </Modal>
+      )}
         </Flex>
       </div>
     </>
