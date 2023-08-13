@@ -285,8 +285,7 @@ const NavigationSearch = ({ onButtonClick ,onbuttonchange}) => {
       </div>
 
      <InputSearch
-        // // eslint-disable-next-line jsx-a11y/no-autofocus
-        // autoFocus
+      
         style={styles.searchStyle}
         placeholder="Enter your search here..."
         options={duplicateElementa}
@@ -294,6 +293,7 @@ const NavigationSearch = ({ onButtonClick ,onbuttonchange}) => {
         name="value"
         onkeyPress={(event) => {
           if (event.key === 'Enter') {
+            {console.log("values",event.target.value)}
             searchNavigate(event.target.value);
             formik.setFieldValue('value', event.target.value);
           }
