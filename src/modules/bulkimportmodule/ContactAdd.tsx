@@ -74,9 +74,11 @@ const ContactAdd = ({
     event.preventDefault();
 
     if (
-      formik.values.name.length >= 7 &&
+      formik.values.name.length >= 7 ||
+      formik.values.name.length <= 15 &&
       numberFormat.test(formik.values.name)
     ) {
+      setError(false);
       setLoader(true);
       const data = querystring.stringify({
         pk: id,
@@ -188,6 +190,8 @@ const ContactAdd = ({
   // open input function
   const handleOpenInput = () => {
     setInput(true);
+    formik.resetForm();
+    setError(false);
   };
   // close input function
   const handleCloseInput = () => {
@@ -288,14 +292,7 @@ const ContactAdd = ({
             }}
             className={styles.svgContainer}
           >
-            {isError && (
-              <Text style={{
-                display: "flex",
-                alignSelf: 'flex-start'
-              }} size={10} color="error">
-                Enter valid contact
-              </Text>
-            )}
+            
             <div style={{ display: 'flex', flexDirection: 'row' }}>
               {isLoader ? (
                 <div className={styles.svgTick}>
@@ -329,6 +326,14 @@ const ContactAdd = ({
           </div>
         </div>
       )}
+      {isError && (
+              <Text style={{
+                display: "flex",
+                alignSelf: 'flex-start'
+              }} size={10} color="error">
+                Enter valid contact
+              </Text>
+            )}
     </div>
   );
 };

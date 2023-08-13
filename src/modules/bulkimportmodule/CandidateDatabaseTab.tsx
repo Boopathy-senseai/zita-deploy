@@ -323,7 +323,7 @@ const CandidateDatabaseTab = ({
   const value1=value>4;
   const isBulkLoaderprocess=localStorage.getItem('bulk_loader');
   return (
-    <Flex  style={{overflowY:'scroll',maxHeight:value1?'547px':'fit-content',paddingRight:'10px'}}>
+    <Flex  height={window.innerHeight-200}  className={styles.candidatedatabase}>
       <YesOrNoModal
         title={
           <Text style={{ width: 580, marginLeft: 12 }}>
@@ -490,7 +490,7 @@ const CandidateDatabaseTab = ({
                   style={{cursor: 'pointer'}}
                 >
                 <Totalcount
-                name="Completed Profiless"
+                name="Completed Profiles"
                 numbers={completed}
                 click
                 />
@@ -509,7 +509,7 @@ const CandidateDatabaseTab = ({
                   style={{cursor: 'pointer'}}
                 >
                 <Totalcount
-                name="Completed Profiless"
+                name="Completed Profiles"
                 numbers={completed}
                 click
                 />
@@ -526,7 +526,7 @@ const CandidateDatabaseTab = ({
                   style={{cursor: 'pointer'}}
                 >
                 <Totalcount
-                name="Incompleted Profiless"
+                name="Incomplete Profiles"
                 numbers={incompleted}
                 click={incompleted===0?false:true}
                 />
@@ -544,7 +544,7 @@ const CandidateDatabaseTab = ({
                   style={{cursor: 'pointer'}}
                 >
                 <Totalcount
-                name="Incompleted Profiless"
+                name="Incomplete Profiles"
                 numbers={incompleted}
                 click
                 />

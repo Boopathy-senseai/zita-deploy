@@ -1,3 +1,4 @@
+import SvgImportTick from '../../icons/SvgImportTick';
 import SvgRoundClose from '../../icons/SvgRoundClose';
 import SvgTick from '../../icons/SvgTick';
 import { ERROR, SUCCESS } from '../../uikit/Colors/colors';
@@ -26,13 +27,13 @@ const Status = ({ value,jdId }: Props) => {
     <Flex middle>
       {checkStatus ? (
         <div title={jdId=== undefined ? "Candidate profile sent for matching" : "Applicant profile sent for matching"}>
-          <SvgTick fill={SUCCESS} />
+          <SvgImportTick fill={SUCCESS} />
         </div>
       ) : (
         <div
           title={jdId=== undefined ?'Candidate profile is incomplete and not sent for matching': 'Applicant profile is incomplete and not sent for matching'}
         >
-          <SvgRoundClose fill={ERROR} height={16} width={16} />
+          <SvgRoundClose fill={ERROR} height={18} width={18} />
         </div>
       )}
     </Flex>

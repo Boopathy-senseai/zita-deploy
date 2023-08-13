@@ -215,6 +215,8 @@ const EmailAdd = ({
  // open input function
   const handleOpenInput = () => {
     setInput(true);
+    formik.resetForm();
+    setError(false);
   };
  // close input function
   const handleCloseInput = () => {
@@ -312,7 +314,7 @@ const EmailAdd = ({
               display: "flex",
               alignSelf: 'flex-start'
             }} size={10} color="error" align='left'>
-              Email already exists
+              Email already exist
             </Text>
           }
 

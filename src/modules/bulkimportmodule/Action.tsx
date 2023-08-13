@@ -287,20 +287,21 @@ const Action = ({
                  role={'button'}
                  onKeyPress={() => {}}
                  >
-                 View
+                View Profile
                 </div>
                 </Flex>
               </Dropdown.Item>
               <Dropdown.Item  
               >
                 <Flex row center className={styles.dropDownListStyle}>
-                <Fragment>
+                {/* <Fragment> */}
                 {!applicant && (
                   <>
                     {value.applicant !== null && (
                       <div
                         title="Candidate Applied for a Job."
                         className={cx('pointerEvent')}
+                        style={{fontSize:'13px'}}
                       >
                         Delete
                       </div>
@@ -311,6 +312,7 @@ const Action = ({
                         tabIndex={-1}
                         role={'button'}
                         onKeyPress={() => {}}
+                        style={{fontSize:'13px'}}
                       >
                       Delete
                       </div>
@@ -326,6 +328,7 @@ const Action = ({
                         tabIndex={-1}
                         role={'button'}
                         onKeyPress={() => {}}
+                        style={{fontSize:'13px'}}
                       >
                         Mail
                       </div>
@@ -336,7 +339,7 @@ const Action = ({
                             title="Login credentials not yet sent"
                             onClick={handleOpenEmail}
                            
-      
+                            style={{fontSize:'13px'}}
                             tabIndex={-1}
                             role={'button'}
                             onKeyPress={() => {}}
@@ -347,6 +350,7 @@ const Action = ({
                           <div
                             title="Add name and email to send the login credentials"
                             className={cx('pointerEvent')}
+                            style={{fontSize:'13px'}}
                           >
                            Mail
                           </div>
@@ -355,7 +359,7 @@ const Action = ({
                     )}
                   </>
                 )}
-              </Fragment>
+              {/* </Fragment> */}
 
                 </Flex>
               </Dropdown.Item>

@@ -18,6 +18,16 @@
 
     margin-top: 5px;margin-left: 20px;
 }
+.candidatedatabase{
+overflow-y:scroll !important;
+display:flex !important;
+padding-right:10px;
+}
+.Applicantdatabase{
+  overflow-y:scroll !important;
+display:flex !important;
+padding-right:10px;
+}
 .careerPage{
 margin-top: 7px;
     margin-left: 4px;
@@ -43,9 +53,7 @@ margin-top: 7px;
 .svgRefresh {
   cursor: pointer;
 }
-.des {
-  /* max-width: 575px; */
-}
+ 
 .inComplete {
   margin-right: 16px;
 }
