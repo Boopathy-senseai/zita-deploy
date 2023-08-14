@@ -53,7 +53,7 @@ const CareersPageURL = ({
                 <SvgHelp fill="#581845" height={16} width={16} />
               </Flex>
             </Flex> */}
-          <Flex row top className={styles.paddingTopFlex}>
+          <Flex row center className={styles.paddingTopFlex}>
             <div tabIndex={-1} className={styles.svgBox}>
               <SvgGlobal fill={PRIMARY} width={14} height={14} />
             </div>

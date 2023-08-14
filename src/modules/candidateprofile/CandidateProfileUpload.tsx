@@ -161,7 +161,7 @@ const CandidateProfileUpload = () => {
             <Text size={16} bold >
               Upload Your Resume or CV
             </Text>
-            <ul style={{marginLeft:"15px"}}>
+            <ul style={{marginLeft:"25px"}}>
               <li className={styles.uploadText}>
                 Once you upload resume / cv all the details will be extracted by
                 our algorithm.

@@ -259,12 +259,18 @@ const CareerNavBar = ({
                   )
                 }
               >
-                <Button className={styles.loginbtn} types='secondary' style={{
-                    fontSize: career_page_setting.header_font_size,
-                    fontFamily: career_page_setting.page_font,
-                    // margin: '10px',
-                    height: '100%',
-                  }}>Login / Sign Up</Button>
+                <Button
+                  className={styles.loginbtn}
+                  types="secondary"
+                  style={{
+                    // fontSize: career_page_setting.header_font_size,
+                    fontFamily: "'Roboto', sans-serif",
+                    //  margin: '10px',
+                     height: '100%',
+                  }}
+                >
+                  Login / Sign Up
+                </Button>
               </Flex>
 
               {/* <Button
@@ -279,10 +285,9 @@ const CareerNavBar = ({
               </Button> */}
               <Flex style={{ borderLeft: '1px solid #333' }}>
                 <Text
-                  
                   style={{
-                    fontSize: career_page_setting.header_font_size,
-                    fontFamily: career_page_setting.page_font,
+                    // fontSize: career_page_setting.header_font_size,
+                    // fontFamily: career_page_setting.page_font,
                     margin: '10px',
                     height: '100%',
                   }}

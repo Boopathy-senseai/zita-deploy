@@ -314,9 +314,9 @@ const JobView = () => {
                       <Flex marginTop={isMobile ? 4:0} row center ={!isMobile}>
                         <SvgBag fill={WHITE} height={20} width={20} />
                         <Text
-                          size={isTablet ? 14 : 20}
+                          size={isTablet ? 14 : 16}
                           color="white"
-                          style={{ marginLeft: 5 }}
+                          style={{ marginLeft: 5, textTransform:"capitalize" }}
                         >
                           {jd_form?.job_type__label_name}
                         </Text>

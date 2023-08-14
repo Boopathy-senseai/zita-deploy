@@ -67,5 +67,5 @@
   /* background-color: #fff; */
 }
 .loginbtn:hover{
-  background-color: #fff;
+  background-color: unset;
 }
