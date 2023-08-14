@@ -33,11 +33,12 @@ import Notification from './Notification';
 
 const cx = classNames.bind(styles);
 type Props = {
-update: () => void;};
-const NavBar = ({update}) => {
+  update: () => void;
+};
+const NavBar = ({ update }) => {
   const dispatch: AppDispatch = useDispatch();
   const [isLogOutLoader, setLogOutLoader] = useState(false);
-  const [isSearch, setSearch] = useState("");
+  const [isSearch, setSearch] = useState('');
   const [isOpen, setOpen] = useState(true);
 
   const { pathname } = useLocation();
@@ -60,9 +61,9 @@ const NavBar = ({update}) => {
     },
   );
 
-const passwordchange=()=>{
-update();
-}
+  const passwordchange = () => {
+    update();
+  };
   // logout function
   const handleLogout = () => {
     setLogOutLoader(true);
@@ -82,7 +83,13 @@ update();
     <>
       <div className={styles.overAll}>
         {isLogOutLoader && <Loader />}
-        <Flex row center between className={styles.nav} style={{height:'45px'}}>
+        <Flex
+          row
+          center
+          between
+          className={styles.nav}
+          style={{ height: '45px' }}
+        >
           <Flex row center>
             <SvgZitaLogo />
           </Flex>
@@ -155,12 +162,12 @@ update();
                                     pathname.includes('/account_setting'),
                                 })}
                               >
-                              <text style={{verticalAlign:'3px'}}>
-                                <SvgUser
-                                  fill={'#581845'}
-                                  height={20}
-                                  width={20}
-                                />
+                                <text style={{ verticalAlign: '3px' }}>
+                                  <SvgUser
+                                    fill={'#581845'}
+                                    height={20}
+                                    width={20}
+                                  />
                                 </text>
                                 <span
                                   style={{
@@ -180,13 +187,13 @@ update();
                                   pathname.includes('/account_setting'),
                               })}
                             >
-                            <text style={{verticalAlign:'3px'}}>
-                              <SvgUser
-                                fill={'#581845'}
-                                height={20}
-                                width={20}
-                              />
-                            </text>
+                              <text style={{ verticalAlign: '3px' }}>
+                                <SvgUser
+                                  fill={'#581845'}
+                                  height={20}
+                                  width={20}
+                                />
+                              </text>
                               <span
                                 style={{ color: '#581845', marginLeft: '15px' }}
                               >
@@ -209,13 +216,13 @@ update();
                                     pathname.includes('/account_setting'),
                                 })}
                               >
-                              <text style={{verticalAlign:'3px'}}>
-                                <SvgSetting
-                                  fill={'#581845'}
-                                  height={20}
-                                  width={20}
-                                />
-                              </text>
+                                <text style={{ verticalAlign: '3px' }}>
+                                  <SvgSetting
+                                    fill={'#581845'}
+                                    height={20}
+                                    width={20}
+                                  />
+                                </text>
                                 <span
                                   style={{
                                     color: '#581845',
@@ -234,13 +241,13 @@ update();
                                   pathname.includes('/account_setting'),
                               })}
                             >
-                            <text style={{verticalAlign:'3px'}}>
-                              <SvgSetting
-                                fill={'#581845'}
-                                height={20}
-                                width={20}
-                              />
-                            </text>
+                              <text style={{ verticalAlign: '3px' }}>
+                                <SvgSetting
+                                  fill={'#581845'}
+                                  height={20}
+                                  width={20}
+                                />
+                              </text>
                               <span
                                 style={{ color: '#581845', marginLeft: '15px' }}
                               >
@@ -251,10 +258,7 @@ update();
                         </Dropdown.Item>
                         <Dropdown.Item href="#">
                           {is_plan ? (
-                            <Flex
-                              onClick={passwordchange}
-                               
-                            >
+                            <Flex onClick={passwordchange}>
                               <div
                                 style={{ marginLeft: '-10px' }}
                                 title="Account Settings"
@@ -263,12 +267,12 @@ update();
                                     pathname.includes('/account_setting'),
                                 })}
                               >
-                              <text style={{verticalAlign:'3px'}}>
-                                <SvgLock
-                                  fill={'#581845'}
-                                  height={20}
-                                  width={20}
-                                />
+                                <text style={{ verticalAlign: '3px' }}>
+                                  <SvgLock
+                                    fill={'#581845'}
+                                    height={20}
+                                    width={20}
+                                  />
                                 </text>
 
                                 <span
@@ -279,7 +283,6 @@ update();
                                 >
                                   {/* < UserProfile /> */}
                                   Update Password
-                                  
                                 </span>
                               </div>
                             </Flex>
@@ -290,18 +293,26 @@ update();
                                 navFocusColor:
                                   pathname.includes('/account_setting'),
                               })}
-                              
                             >
-                            <text style={{verticalAlign:'3px',cursor:"pointer"}}>
-                              <SvgLock
-                                fill={'#581845'}
-                                height={20}
-                                width={20}
-                              />
+                              <text
+                                style={{
+                                  verticalAlign: '3px',
+                                  cursor: 'pointer',
+                                }}
+                              >
+                                <SvgLock
+                                  fill={'#581845'}
+                                  height={20}
+                                  width={20}
+                                />
                               </text>
 
                               <span
-                                style={{ color: '#581845', marginLeft: '15px',cursor:"pointer" }}
+                                style={{
+                                  color: '#581845',
+                                  marginLeft: '15px',
+                                  cursor: 'pointer',
+                                }}
                               >
                                 {/* < UserProfile /> */}
                                 Update Password
@@ -311,17 +322,35 @@ update();
                         </Dropdown.Item>
                         <Dropdown.Divider />
 
-                        <Flex style={{ color: '#FCC203', textAlign: 'center',fontSize:'14px' }}>
+                        <Flex
+                          style={{
+                            color: '#FCC203',
+                            textAlign: 'center',
+                            fontSize: '14px',
+                          }}
+                        >
                           You have logged in as
                         </Flex>
-                        {user && 
-                        <Flex style={{ color: '#581845', textAlign: 'center',paddingLeft:'15px',paddingRight:'15px' }}>
-                          {user.email}
+                        {user && (
+                          <Flex
+                            style={{
+                              color: '#581845',
+                              textAlign: 'center',
+                              paddingLeft: '15px',
+                              paddingRight: '15px',
+                            }}
+                          >
+                            {user.email}
+                          </Flex>
+                        )}
+                        <Flex center middle>
+                        <Button className={styles.logout} onClick={handleLogout}>Log out</Button>
+
                         </Flex>
-                        }
-                        <div
+
+                        {/* <div
                           style={{
-                            textAlign: 'center',
+                            // textAlign: 'center',
                             marginBottom: '10px',
                             marginTop: '10px',
                           }}
@@ -329,11 +358,11 @@ update();
                           <Button
                             className={styles.Signot}
                             onClick={handleLogout}
-                            style={{verticalAlign:'1px'}}
+                            // style={{verticalAlign:'1px'}}
                           >
                             Log out
                           </Button>
-                        </div>
+                        </div> */}
                       </Dropdown.Menu>
                     </Dropdown>
                   </>
@@ -371,13 +400,13 @@ update();
                                     pathname.includes('/account_setting'),
                                 })}
                               >
-                              <text style={{verticalAlign:'3px'}}>
-                                <SvgUser
-                                  fill={'#581845'}
-                                  height={20}
-                                  width={20}
-                                />
-                               </text> 
+                                <text style={{ verticalAlign: '3px' }}>
+                                  <SvgUser
+                                    fill={'#581845'}
+                                    height={20}
+                                    width={20}
+                                  />
+                                </text>
                                 <span
                                   style={{
                                     color: '#581845',
@@ -396,15 +425,15 @@ update();
                                   pathname.includes('/account_setting'),
                               })}
                             >
-                            <text style={{verticalAlign:'3px'}}>
-                              <SvgUser
-                                fill={'#581845'}
-                                height={20}
-                                width={20}
-                              />
-                            </text>
+                              <text style={{ verticalAlign: '3px' }}>
+                                <SvgUser
+                                  fill={'#581845'}
+                                  height={20}
+                                  width={20}
+                                />
+                              </text>
                               <span
-                                style={{ color: '#581845', marginLeft: '15px'}}
+                                style={{ color: '#581845', marginLeft: '15px' }}
                               >
                                 Profile
                               </span>
@@ -425,12 +454,12 @@ update();
                                     pathname.includes('/account_setting'),
                                 })}
                               >
-                              <text style={{verticalAlign:'3px'}}>
-                                <SvgSetting
-                                  fill={'#581845'}
-                                  height={20}
-                                  width={20}
-                                />
+                                <text style={{ verticalAlign: '3px' }}>
+                                  <SvgSetting
+                                    fill={'#581845'}
+                                    height={20}
+                                    width={20}
+                                  />
                                 </text>
                                 <span
                                   style={{
@@ -450,12 +479,12 @@ update();
                                   pathname.includes('/account_setting'),
                               })}
                             >
-                            <text style={{verticalAlign:'3px'}}>
-                              <SvgSetting
-                                fill={'#581845'}
-                                height={20}
-                                width={20}
-                              />
+                              <text style={{ verticalAlign: '3px' }}>
+                                <SvgSetting
+                                  fill={'#581845'}
+                                  height={20}
+                                  width={20}
+                                />
                               </text>
                               <span
                                 style={{ color: '#581845', marginLeft: '15px' }}
@@ -467,29 +496,30 @@ update();
                         </Dropdown.Item>
                         <Dropdown.Item href="#">
                           {is_plan ? (
-                            <Flex
-                              onClick={passwordchange}
-                              
-                            >
+                            <Flex onClick={passwordchange}>
                               <div
-                                style={{ marginLeft: '-10px',cursor:"pointer" }}
+                                style={{
+                                  marginLeft: '-10px',
+                                  cursor: 'pointer',
+                                }}
                                 className={cx('svgMargin', {
                                   navFocusColor:
                                     pathname.includes('/account_setting'),
                                 })}
                               >
-                              <text style={{verticalAlign:'3px'}}>
-                                <SvgLock
-                                  fill={'#581845'}
-                                  height={20}
-                                  width={20}
-                                />
+                                <text style={{ verticalAlign: '3px' }}>
+                                  <SvgLock
+                                    fill={'#581845'}
+                                    height={20}
+                                    width={20}
+                                  />
                                 </text>
 
                                 <span
                                   style={{
                                     color: '#581845',
-                                    marginLeft: '15px',cursor:"pointer"
+                                    marginLeft: '15px',
+                                    cursor: 'pointer',
                                   }}
                                 >
                                   Update Password
@@ -504,17 +534,25 @@ update();
                                   pathname.includes('/account_setting'),
                               })}
                             >
-                            <text style={{verticalAlign:'3px',cursor:"pointer"}}  >
-                              <SvgLock
-                                fill={'#581845'}
-                                height={20}
-                                width={20}
-                               
-                              />
-                            </text>
+                              <text
+                                style={{
+                                  verticalAlign: '3px',
+                                  cursor: 'pointer',
+                                }}
+                              >
+                                <SvgLock
+                                  fill={'#581845'}
+                                  height={20}
+                                  width={20}
+                                />
+                              </text>
 
                               <span
-                                style={{ color: '#581845', marginLeft: '15px',cursor:"pointer" }}
+                                style={{
+                                  color: '#581845',
+                                  marginLeft: '15px',
+                                  cursor: 'pointer',
+                                }}
                               >
                                 Update Password
                               </span>
@@ -523,26 +561,44 @@ update();
                         </Dropdown.Item>
                         <Dropdown.Divider />
 
-                        <Flex style={{ color: '#FCC203', textAlign: 'center',fontSize:'14px'  }}>
+                        <Flex
+                          style={{
+                            color: '#FCC203',
+                            textAlign: 'center',
+                            fontSize: '14px',
+                          }}
+                        >
                           You have logged in as
                         </Flex>
-                        {user !== undefined && 
-                     
-                        <Flex style={{ color: '#581845', textAlign: 'center',paddingLeft:'15px',paddingRight:'15px' }}>
-                          {user.email}
-                        </Flex>
-                           }
-                        <div
+                        {user !== undefined && (
+                          <Flex
+                            style={{
+                              color: '#581845',
+                              textAlign: 'center',
+                              paddingLeft: '15px',
+                              paddingRight: '15px',
+                            }}
+                          >
+                            {user.email}
+                          </Flex>
+                        )}
+                        <Flex
                           style={{
-                            textAlign: 'center',
+                            // textAlign: 'center',
                             marginBottom: '10px',
                             marginTop: '10px',
                           }}
                         >
-                        <LinkWrapper >
-                        <Button  className={styles.Signot} onClick={handleLogout} style={{verticalAlign:'1px'}} >Log out</Button>
-                      </LinkWrapper>
-                        </div>
+                          {/* <LinkWrapper > */}
+                          <Button
+                            className={styles.Signot}
+                            onClick={handleLogout}
+                            // style={{verticalAlign:'1px'}}
+                          >
+                            Log out
+                          </Button>
+                          {/* </LinkWrapper> */}
+                        </Flex>
                       </Dropdown.Menu>
                     </Dropdown>
                   </>

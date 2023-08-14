@@ -653,12 +653,11 @@ const ProfileCard = () => {
                 }
               >
                 <Button className={styles.buttonsizeauto} >
-                  <Flex row center className={styles.pointer} >
-                    <Text bold style={{ color: "white", marginLeft: 123 }} >
+                  {/* <Flex row center className={styles.pointer} > */}
+                    {/* <Text bold style={{ color: "white", marginLeft: 123 }} > */}
                       Careers Page
-                    </Text>
-
-                  </Flex>
+                    {/* </Text> */}
+                  {/* </Flex> */}
                 </Button>
               </LinkWrapper>
             </Flex>
@@ -666,7 +665,7 @@ const ProfileCard = () => {
             <Flex row>
               <Flex marginLeft={20} className={styles.pointer} marginTop={5}> {permission.includes('create_post') && (
                 <LinkWrapper to={jobSelect}>
-                  <Button style={{ marginBottom: 8 }} className={styles.buttonsize}>Post Job</Button>
+                  <Button className={styles.buttonsize}>Post Job</Button>
                 </LinkWrapper>
               )}</Flex>
               <Flex marginLeft={98} marginTop={5} marginRight={23}>
@@ -679,12 +678,12 @@ const ProfileCard = () => {
                   }
                 >
                   <Button className={styles.buttonsize}>
-                    <Flex row center className={styles.pointer} >
-                      <Text bold style={{ color: "white", marginLeft: 10 }} >
+                    {/* <Flex row center className={styles.pointer} > */}
+                      {/* <Text bold style={{ color: "white", marginLeft: 10 }} > */}
                         Careers Page
-                      </Text>
+                      {/* </Text> */}
 
-                    </Flex>
+                    {/* </Flex> */}
                   </Button>
                 </LinkWrapper>
               </Flex></Flex>)}

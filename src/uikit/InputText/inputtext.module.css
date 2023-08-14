@@ -1,7 +1,7 @@
 .inputCommonStyle {
   height: 30px ;
   border-radius: 4px;
-  border: 1px solid var(--color-gary-5, #cccccc);
+  border: 1px solid #D7C7D2;
   outline: none;
   font-size: 13px;
   background-color: var(--color-white, #ffffff);
@@ -11,7 +11,7 @@
   padding: 3px 12px 3px 2px;
 }
 .inputCommonStyle:hover {
-  border: 1px solid var(--color-gary-6, #b3b3b3);
+  border: 1px solid #58184570;
 }
 
 
@@ -21,7 +21,7 @@
 
 .inputCommonStyle::placeholder {
   font-size: 12px;
-  color: var(--color-gary-6, #b3b3b3);
+  color: var(--color-gary-6, #888888);
 }
 .noBorder {
   border: none;
@@ -36,7 +36,7 @@
   border-radius: 0px;
   padding: 0;
   border: none;
-  border-bottom: 1px solid var(--color-gary-6, #b3b3b3);
+  border-bottom: 1px solid var(--color-gary-6, #D7C7D2);
   background-color: var(--color-white, #ffffff);
   width: 100%;
   box-sizing: border-box !important;
@@ -45,7 +45,7 @@
 
 .lineInput:hover {
   border: none;
-  border-bottom: 1px solid var(--color-gary-6, #b3b3b3);
+  border-bottom: 1px solid var(--color-gary-6, #58184570);
   box-sizing: border-box !important;
 }
 

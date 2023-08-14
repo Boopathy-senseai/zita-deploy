@@ -114,8 +114,15 @@
     box-shadow: 'none' !important;
     
  }
- .Signot:hover {
+ /* .Signot:hover {
    box-shadow: none !important;
+ } */
+
+ .logout{
+  margin: 10px 0px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
  }
 
 .searchStyle {
