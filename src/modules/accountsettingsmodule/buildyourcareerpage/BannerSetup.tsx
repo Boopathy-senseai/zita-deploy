@@ -125,7 +125,7 @@ const BannerSetup = ({
               </Flex>
               <Flex marginTop={5} className={styles.tooltipcontent}>
                 <Text className={styles.gray_color}>
-                  Recommended image size :1920px X 1280px
+                  Recommended image size: 1920px X 1280px
                 </Text>
                 <Text className={styles.gray_color}>
                   File size must be less than 2MB
