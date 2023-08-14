@@ -11,8 +11,7 @@
   justify-content: center;
 }
 .avatarInitials {
-  height: 32px;
-  width: 32px;
+  height: 32px; 
   line-height: 32px;
   color: #581845;
   text-align: center;
@@ -21,4 +20,5 @@
   font-size: 16px;
   color: white;
   font-weight: bold;
+  text-transform: uppercase;
 }

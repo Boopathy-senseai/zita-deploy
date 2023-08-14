@@ -14,6 +14,7 @@ type Props = {
   btnDelete: (a?: any) => void;
   btnCancel: (a?: any) => void;
   open: boolean;
+  width?:string;
   btnLeft: string;
   btnRight: string;
   loader?: boolean;
@@ -24,6 +25,7 @@ const CancelAndDeletePopup = ({
   btnCancel,
   btnDelete,
   open,
+  width,
   btnLeft,
   btnRight,
   loader,

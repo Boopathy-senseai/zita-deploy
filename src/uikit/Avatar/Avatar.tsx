@@ -36,7 +36,7 @@ const Avatar: React.FC<AvatarProps> = ({
       className={clsx(className, styles.avatar, styles.avatarPlaceholder)}
       style={{ backgroundColor: stringToHslColor(initials, 30, 80), ...style }}
     >
-      <div className={styles.avatarInitials}>{initials}</div>
+      <div  style={style} className={styles.avatarInitials}>{initials}</div>
     </div>
   );
 };

@@ -71,7 +71,7 @@ const Table = ({
       {fixedScrollHeight ? (
         <div
           style={{
-            height: scrollHeight,
+            height: window.innerHeight - 280, overflow:'scroll'
           }}
           className={cx({ rowScroll: scrollHeight })}
         >
@@ -90,9 +90,8 @@ const Table = ({
       ) : (
         <div
           style={{
-            maxHeight: scrollHeight
-              ? window.innerHeight - scrollHeight
-              : '100%',
+            height: window.innerHeight - 280,
+            overflow:'scroll'
           }}
           className={cx({ rowScroll: scrollHeight })}
         >

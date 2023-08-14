@@ -1,3 +1,7 @@
 .titleTextStyle{
     padding: 0 8px;
+    border-right: 1px solid #666666;
+}
+.titleTextStyle1{
+    padding: 0 8px;
 }

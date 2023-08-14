@@ -30,6 +30,8 @@ const defaultTitleProps: DefaultTitleProps = {
 };
 
 const TitleColumns = ({ columns }: typeof defaultTitleProps) => {
+  const length=(columns.length)-1;
+  const value=columns[length].dataIndex;
   return (
     <>
       {columns.map((column) => {
@@ -43,13 +45,13 @@ const TitleColumns = ({ columns }: typeof defaultTitleProps) => {
             start
             flex={flex}
             key={column.dataIndex}
-            className={cx('titleTextStyle')}
+            className={value===column.dataIndex?cx('titleTextStyle1'):cx('titleTextStyle')}
             middle={center}
           >
             {renderTitle ? (
               renderTitle(column.title as string)
             ) : (
-              <Text size={14} bold color={'theme'}>
+              <Text  bold style={{color:'#666666',fontSize:'13px'}}>
                 {column.title as string}
               </Text>
             )}

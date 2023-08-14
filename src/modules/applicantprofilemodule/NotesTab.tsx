@@ -30,6 +30,7 @@ import Table from '../../uikit/Table/Table';
 import Text from '../../uikit/Text/Text';
 import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
 import Toast from '../../uikit/Toast/Toast';
+import CandidateMessageTab from '../candidatemodule/CandidateMessageTab';
 import {
   clientSecret,
   googleClientId,
@@ -62,6 +63,7 @@ import {
   applicantUserListMiddleWare,
   applicantUserListstateMiddleWare,
 } from './store/middleware/applicantProfileMiddleware';
+import MessageTab from './MessageTab';
 var querystring = require('querystring');
 
 const cx = classNames.bind(styles);
@@ -72,8 +74,13 @@ export type FormProps = {
 const initial: FormProps = {
   notes: '',
 };
-
-const NotesTab = () => {
+type Props = {
+  isMeeting?: boolean;
+  issingletab?: boolean;
+  candidatemessage?:boolean;
+  nomessagetab?:boolean;
+};
+const NotesTab = ({ isMeeting, issingletab,candidatemessage,nomessagetab }: Props) => {
   const [editorHtml, setEditorHtml] = useState<string>('');
   const editorRef = useRef<ReactQuill | null>(null);
   const [isCollapse, setCollapse] = useState(false);
@@ -169,6 +176,7 @@ const NotesTab = () => {
     // calenderEvent,
     // google,
     outlook,
+     message,
     name,
     calenderLoader,
   } = useSelector(
@@ -177,12 +185,14 @@ const NotesTab = () => {
       applicantProfileInitalReducers,
       calenderReducers,
       applicantUserlistReducer,
+      applicantMessageReducers
     }: RootState) => {
       return {
         candidate_details: applicantProfileInitalReducers.candidate_details,
         notes: applicantNotesReducers.notes,
         name: applicantUserlistReducer.data,
         can_id: applicantProfileInitalReducers.can_id,
+         message: applicantMessageReducers?.message,
         // calenderEvent: calenderReducers.event,
         // google: calenderReducers.google,
         outlook: calenderReducers.outlook,
@@ -196,7 +206,7 @@ const NotesTab = () => {
   const handleSubmit = (values: FormProps) => {
     const string = valueun;
     const final = [];
-    const list2 = [{ user: -1, value: 'Everyone' }]; 
+    const list2 = [{ user: -1, value: 'Everyone' }];
     if (name !== undefined) {
       const valu = [...list2, ...name];
       setList(valu);
@@ -284,6 +294,7 @@ const NotesTab = () => {
         })
         .then(() => {
           setIsLoad(false);
+          setButtonName('Add')
           setname1('');
           formik.values.notes = '';
           formik.resetForm();
@@ -305,8 +316,8 @@ const NotesTab = () => {
       setcheck(true);
       errors.notes = 'Enter valid notes.';
     } else if (
-      !mentionnotes.test(textNodes)  &&
-     mentionspecialcharacter.test(textNodes)
+      !mentionnotes.test(textNodes) &&
+      mentionspecialcharacter.test(textNodes)
     ) {
       setcheck(true);
       errors.notes = 'Notes length should not exceed 2000 characters.';
@@ -325,8 +336,11 @@ const NotesTab = () => {
     if (formik.values.notes) {
       setvalueun(formik.values.notes);
     }
-  }, [formik.values.notes]);
-
+   
+  }, [formik.values.notes ]);
+useEffect(() => {
+  formik.setFieldValue('notes', name1);
+},[])
   // add notes function
   const hanldeInputOpen = () => {
     setButtonName('Add');
@@ -460,26 +474,28 @@ const NotesTab = () => {
   }, [formik.values.notes]);
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(name1));
-  }, [name1]); 
-
+  }, [name1]);
   const handleSetting = () => {
     sessionStorage.setItem('superUserTab', '4');
     sessionStorage.setItem('superUserFalseTab', '3');
     history.push('/account_setting/settings');
   };
-
   const meetingMemo = useMemo(() => meetingTitle(), [myevents]);
   const checkCalendarOutlook = Array.isArray(outlook) && outlook.length !== 0;
-
   return (
     <Flex
-      columnFlex
+      row
+      flex={12}
       className={styles.overAll}
-      height={window.innerHeight - 230}
+      height={window.innerHeight - 120}
     >
-      <Flex flex={1} columnFlex>
-        {hideelement ? (
-          <Flex column className={styles.overall2} >
+      <Flex flex={6} columnFlex style={{ padding: '5px',overflow:'scroll' }}  height={window.innerHeight - 120}
+       >
+        <Text bold style={{ fontSize: '14px',marginTop:'13.5px',paddingLeft:16 }}>
+          Notes for Team Members
+        </Text>
+        {/* {hideelement ? (
+          <Flex column className={styles.overall2}>
             <Flex row className={styles.initialbutton}>
               <input
                 className={styles.initialbuttons}
@@ -493,121 +509,158 @@ const NotesTab = () => {
           </Flex>
         ) : (
           ''
-        )}
+        )} */}
 
-        {notes && notes.length === 0 && !isCollapse && (
-          <Flex columnFlex flex={1} middle center>
-            <SvgNotesyet />
-            <Text className={styles.nojoppostye}>Notes not created yet</Text>
+        <Flex className={styles.overall1}>
+          <Flex className={styles.textArea} >
+            <ReactQuill
+              ref={editorRef}
+              value={formik.values.notes}
+              className={styles.reactquillchange} 
+              onChange={formik.handleChange('notes')}
+              placeholder="Type @ to mention and notify your team members"
+            />
+            <ErrorMessage
+              touched={formik.touched}
+              errors={formik.errors}
+              name="notes"
+            />
           </Flex>
-        )}
-        {isCollapse && (
-          <Flex className={styles.overall1}>
-            <div className={styles.textArea}>
-              <ReactQuill
-                ref={editorRef}
-                value={formik.values.notes}
-                className={styles.reactquillchange}
-                onChange={formik.handleChange('notes')}
-                placeholder="Type @ to mention and notify your team members"
-              />
-              <ErrorMessage
-                touched={formik.touched}
-                errors={formik.errors}
-                name="notes"
-              />
-            </div>
-            <Flex row end>
-              <Button onClick={hanldeInputClose} types={'close'} width="100px">
-                {CANCEL}
-              </Button>
-              <Button
-                width="100px"
-                // disabled={isEmpty(formik.values.notes)}
-                onClick={formik.handleSubmit}
-                className={styles.saveBtn}
-              >
-                {buttonName}
-              </Button>
+          <Flex marginTop={2.5} row end>
+            <Button onClick={hanldeInputClose} types={'close'} width="100px">
+              {CANCEL}
+            </Button>
+            <Button
+              width="100px"
+              // disabled={isEmpty(formik.values.notes)}
+              onClick={formik.handleSubmit}
+              className={styles.saveBtn}
+            >
+              {buttonName}
+            </Button>
+          </Flex>
+          {notes && notes.length !== 0 && (
+            <Flex className={styles.middleline}></Flex>
+          )}
+        </Flex>
+        {notes && notes.length === 0 && 
+            <Flex columnFlex flex={1} middle center marginTop={'45px'}>
+              <SvgNotesyet fill='gray' />
+              <Text className={styles.nojoppostye} color='gray'>Notes not created yet</Text>
             </Flex>
-            {notes && notes.length !== 0 && (
-              <Flex className={styles.middleline}></Flex>
-            )}
-          </Flex>
-        )}
+          }
+
         <Flex
-          className={isstylechange === true ? styles.scllllar : styles.sclllar}
+          // height={window.innerHeight - 338}
+          style={{
+          //   overflow: 'scroll',
+             padding: ' 0px 16px 0px 16px',
+          //   display: 'flex',
+          }}
         >
           {notes &&
             notes
               .map((list, indexList) => {
                 return (
-                  <Flex
-                    key={list.notes + indexList}
-                    columnFlex
-                    className={styles.notesOverAll}
-                  >
-                    <Card className={styles.cardinnotes}>
-                      <Flex row className={styles.notestext}>
-                        <Flex row center>
-                          {isEmpty(list.emp_image) ||
-                          list.emp_image === 'default.jpg' ? (
-                            <div
-                              className={cx('profile')}
-                              style={{
-                                backgroundColor:
-                                  isColor[indexList % isColor.length],
+                  <>
+                    {list.notes !== '' && (
+                      <Flex
+                        key={list.notes + indexList}
+                        columnFlex
+                        className={styles.notesOverAll}
+                      > 
+                        <Card className={styles.cardinnotes}>
+                          <Flex row className={styles.notestext}>
+                            <Flex row center>
+                              {isEmpty(list.emp_image) ||
+                              list.emp_image === 'default.jpg' ? (
+                                <div
+                                  className={cx('profile')}
+                                  style={{
+                                    backgroundColor:
+                                      isColor[indexList % isColor.length],
+                                  }}
+                                >
+                                  <Text
+                                    color="white"
+                                    transform="uppercase"
+                                    className={styles.firstlastchar}
+                                  >
+                                    {!isEmpty(list.updated_by) &&
+                                      firstNameChar(list.updated_by)}
+                                  </Text>
+                                </div>
+                              ) : (
+                                <img
+                                  alt="profile"
+                                  style={{
+                                    borderRadius: '100%',
+                                    objectFit: 'cover',
+                                    marginRight: 8,
+                                    height: 40,
+                                    width: 40,
+                                  }}
+                                  src={mediaPath + list.emp_image}
+                                />
+                              )}
+                              <Text bold>{list.updated_by}</Text>
+                            </Flex>
+                            <Flex middle center row>
+                              <NotesDropDown
+                                notesList={list}
+                                handleDelete={handleDelete}
+                                handleOpenEdit={handleOpenEdit}
+                              />
+                            </Flex>
+                          </Flex>
+                          <Flex className={styles.noteListStyle} style={{ 
+                                flexWrap: 'wrap',
+                                overflow: ' hidden',
+                                textOverflow: 'clip',
+                              }}>
+                            <td
+                              className={styles.notesTextStyle}
+                              dangerouslySetInnerHTML={{
+                                __html: list.notes,
                               }}
-                            >
-                              <Text
-                                color="white"
-                                transform="uppercase"
-                                className={styles.firstlastchar}
-                              >
-                                {!isEmpty(list.updated_by) &&
-                                  firstNameChar(list.updated_by)}
-                              </Text>
-                            </div>
-                          ) : (
-                            <img
-                              alt="profile"
-                              height={30}
-                              width={30}
-                              style={{
-                                borderRadius: '100%',
-                                objectFit: 'cover',
-                                marginRight: 8,
-                                height: 40,
-                              }}
-                              src={mediaPath + list.emp_image}
                             />
-                          )}
-                          <Text bold>{list.updated_by}</Text>
-                        </Flex>
-                        <Flex middle center row>
-                          <NotesDropDown
-                            notesList={list}
-                            handleDelete={handleDelete}
-                            handleOpenEdit={handleOpenEdit}
-                          />
-                        </Flex>
+                          </Flex>
+                        </Card>
                       </Flex>
-                      <Flex className={styles.noteListStyle}>
-                        <td
-                          className={styles.notesTextStyle}
-                          dangerouslySetInnerHTML={{
-                            __html: list.notes,
-                          }}
-                        />
-                      </Flex>
-                    </Card>
-                  </Flex>
+                    )}
+                  </>
                 );
               })
               .reverse()}
         </Flex>
         {isLoad && <Loader />}
       </Flex>
+      
+      {nomessagetab ||candidatemessage ? (
+        <Flex
+          height={window.innerHeight - 115}
+          style={{
+            border: '0.3px solid #C3C3C3',
+            width: '0.3px',
+            margin: '15px 5px 10px 5px',
+            paddingTop: '10px',
+            paddingBottom: '10px',
+          }}
+        ></Flex>
+      ):''}
+       {nomessagetab 
+        &&
+        <Flex flex={6.4}>
+      
+          <MessageTab />
+        
+        </Flex>}
+        {candidatemessage &&
+        <Flex flex={6.4}>
+        <CandidateMessageTab />
+        </Flex>}
+         
+      
     </Flex>
   );
 };

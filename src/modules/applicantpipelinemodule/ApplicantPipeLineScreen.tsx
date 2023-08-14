@@ -976,7 +976,7 @@ console.log(locations,'kkkkkkkkkkkkkkkkkkk')
       )}
       <Flex row className={styles.overAll}>
         {applicantDataLoader || (favLoader && <Loader />)}
-        {pipeLineLoader && <Loader />}
+        {pipeLineLoader && <Loader />} 
         {getAppliedView === 'true' && (
           <ProfileView
             open={isApplicantView}

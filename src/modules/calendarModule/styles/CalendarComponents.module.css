@@ -29,7 +29,7 @@
 }
 
 .navButton {
-  background-color: var(--color-primary);
+  background-color: unset;
   border: none;
   outline: none;
   padding: 5px 10px;
@@ -60,9 +60,9 @@
   transform-origin: right center;
 }
 
-.navButton:hover {
+/* .navButton:hover {
   background-color: var(--color-primary-hover);
-}
+} */
 
 .navButton div {
   height: 75%;
@@ -137,7 +137,7 @@
 .toolbar {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  /* align-items: center; */
   margin-bottom: 12px;
 }
 
@@ -193,4 +193,13 @@
 .simpleTimesButtonWrapper button.active {
   color: rgb(255, 255, 255);
   background-color: var(--color-primary);
+}
+.coloreventstyle{
+  background-color: color ;
+  border-Left: 4px solid  ;
+  color: 'black';
+  height: '100%';
+  margin-Bottom: 0;
+  padding: '5px';
+  z-Index: 100;
 }

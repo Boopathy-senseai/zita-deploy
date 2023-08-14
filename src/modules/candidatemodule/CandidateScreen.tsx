@@ -11,6 +11,7 @@ import Text from '../../uikit/Text/Text';
 import Toast from '../../uikit/Toast/Toast';
 import ProfileNavBar from '../applicantprofilemodule/ProfileNavBar';
 import {
+  CandidatejobidMatchMiddleWare,
   applicantAllMatchMiddleWare,
   applicantMatchMiddleWare,
   applicantNotesMiddleWare,
@@ -20,6 +21,7 @@ import {
   messagesTemplatesMiddleWare,
 } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import CancelAndDeletePopup from '../common/CancelAndDeletePopup';
+import SvgJobselection from '../../icons/SvgJobselection';
 import { config, ERROR_MESSAGE, YES } from '../constValue';
 import { permissionMiddleWare } from '../Login/store/middleware/loginMiddleWare';
 import styles from './candidatescreen.module.css';
@@ -38,6 +40,7 @@ const CandidateScreen = () => {
   const history = useHistory();
   const [isInvitePopUp, setInvitePopUp] = useState(false);
   const [isInviteLoader, setInviteLoader] = useState(false);
+  const [jobtitle, setjobtitle] = useState<string>();
   const [isTab, setTab] = useState(false);
   const dispatch: AppDispatch = useDispatch();
   const [isTabValue, setTabValue] = useState(0);
@@ -52,7 +55,7 @@ const CandidateScreen = () => {
       setTabValue(3);
     }
   }, []);
-// initial api call
+  // initial api call
   useEffect(() => {
     dispatch(permissionMiddleWare());
     if (jdId !== '0' && candiId !== '0') {
@@ -61,7 +64,7 @@ const CandidateScreen = () => {
         applicantProfileInitialMiddleWare({ jd_id: jdId, can_id: candiId }),
       ).then((res) => {
         dispatch(
-          applicantMatchMiddleWare({
+          CandidatejobidMatchMiddleWare({
             jd_id: res.payload.jd_id,
             can_id: res.payload.can_id,
           }),
@@ -145,7 +148,7 @@ const CandidateScreen = () => {
   const hanldeInviteClosePopUp = () => {
     setInvitePopUp(false);
   };
-    // invite submit function
+  // invite submit function
   const hanldeInvite = () => {
     alert("alert2")
     hanldeInviteClosePopUp();
@@ -178,6 +181,28 @@ const CandidateScreen = () => {
 
   return (
     <Flex>
+      <Flex>
+        <Flex row center middle flex={1} className={styles.border}>
+          {/* <Flex
+              className={'pointer'}
+              style={{ cursor: 'pointer' }}
+              // onClick={cancel}
+            >
+              <SvgLeft fill={'#581845'} height={16} width={16} />
+            </Flex> */}
+            {console.log(jd_id,'jd_idjd_idjd_idjd_idjd_id')}
+          {  jd_id !== null &&
+            <Flex row>
+              <Flex marginTop={2}>
+                <SvgJobselection width={16} height={14} />
+              </Flex>
+              <Flex marginLeft={4}>
+                {jobtitle} - {jd_id}
+              </Flex>
+            </Flex>
+          }
+        </Flex>
+      </Flex>
       {initialLoader && <Loader />}
       {isInviteLoader && <Loader />}
 
@@ -211,39 +236,42 @@ const CandidateScreen = () => {
           open={isInvitePopUp}
         />
       )}
-
-      {candidate_details &&
-        candidate_details?.map((candiList, index) => {
-          return (
-            <ProfileNavBar
-              key={index + candiList.first_name}
-              candiList={candiList}
-              isInvite={isTab}
-              inviteCall={hanldeInvitePopUp}
-              nonMatch={checkMatch}
-              withOutJD={isTab}
-              profile_match={profileMatch}
-              jdDetails={jd}
-              isProfileName
-            />
-          );
-        })}
-      <Flex flex={1} row className={styles.tabContainer}>
-        {!isTab ? (
-          <Flex flex={12} className={styles.tabLeftFlex}>
-            <CandiDateTabsLeftOne />
-          </Flex>
-        ) : (
-          <Flex flex={6} className={styles.tabLeftFlex}>
-            <CandiDateTabsLeft activeState={isTabValue} />
-          </Flex>
-        )}
-
-        {isTab && (
-          <Flex flex={6} className={styles.tabRightFlex}>
-            <CandiDateTabsRight />
-          </Flex>
-        )}
+      <Flex row>
+        {candidate_details &&
+          candidate_details?.map((candiList, index) => {
+            return (
+              <Flex
+                key={''}
+                height={window.innerHeight}
+                style={{ boxShadow: '2px 2px 2px #D7C7D2', marginRight: '5px' }}
+              >
+                <ProfileNavBar
+                  key={index + candiList.first_name}
+                  candiList={candiList}
+                  isInvite={isTab}
+                  inviteCall={hanldeInvitePopUp}
+                  nonMatch={checkMatch}
+                  setjobtitle={setjobtitle}
+                  withOutJD={isTab}
+                  applieddatecheck ={true}
+                  profile_match={profileMatch}
+                  jdDetails={jd}
+                  isProfileName
+                />
+              </Flex>
+            );
+          })}
+        <Flex flex={1} row className={styles.tabContainer}>
+          {!isTab ? (
+            <Flex flex={12} className={styles.tabLeftFlex}>
+              <CandiDateTabsLeftOne />
+            </Flex>
+          ) : (
+            <Flex flex={6} className={styles.tabLeftFlex}>
+              <CandiDateTabsLeft activeState={isTabValue} />
+            </Flex>
+          )}
+        </Flex>
       </Flex>
     </Flex>
   );

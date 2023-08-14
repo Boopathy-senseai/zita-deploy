@@ -20,7 +20,7 @@ import CreateJdWithDs from './modules/createjdmodule/CreateJdWithDs';
 import CalendarScreen from './modules/calendarModule/CalendarScreen';
 import {
   accountSettingRoutes,
-  applicantPipeLineScreen,
+  applicantPipeLineScreen, 
   applicantProfileView,
   candidateApplyProfileView,
   candidateChangePassWord,
@@ -120,13 +120,15 @@ const App = () => {
       exact: true,
       noPermission: true,
       isNav: true,
-    },
+      isside:true
+    }, 
     {
       path: applicantProfileView,
       component: ApplicantProfileScreen,
       exact: true,
-      noPermission: true,
-      isNav: false,
+      noPermission:  true,
+      isNav:false,
+      isside:false 
     },
     {
       path: routesPath.MY_JOB_POSTING,
@@ -134,6 +136,7 @@ const App = () => {
       exact: true,
       noPermission: true,
       isNav: true,
+      isside:true
     },
     {
       path: candidateProfileView,
@@ -141,6 +144,7 @@ const App = () => {
       exact: true,
       noPermission: true,
       isNav: false,
+      isside:false
     },
     {
       path: accountSettingRoutes,
@@ -148,6 +152,7 @@ const App = () => {
       exact: true,
       noPermission: true,
       isNav: true,
+      isside:true
     },
     {
       path: applicantPipeLineScreen,
@@ -155,6 +160,7 @@ const App = () => {
       exact: true,
       noPermission: true,
       isNav: true,
+      isside:true
     },
     {
       path: zitaMatchScreen,
@@ -162,6 +168,7 @@ const App = () => {
       exact: true,
       noPermission: true,
       isNav: true,
+      isside:true
     },
 
     {
@@ -170,6 +177,7 @@ const App = () => {
       exact: true,
       noPermission: true,
       isNav: true,
+      isside:true
     },
     {
       path: routesPath.MY_JOB_POSTING,
@@ -177,6 +185,7 @@ const App = () => {
       exact: true,
       noPermission: true,
       isNav: true,
+      isside:true
     },
     {
       path: routesPath.TALENT_SOURCING,
@@ -184,6 +193,7 @@ const App = () => {
       exact: true,
       noPermission: Permission.includes('talent_sourcing'),
       isNav: true,
+      isside:true
     },
     {
       path: routesPath.BULK_IMPORT,
@@ -191,6 +201,7 @@ const App = () => {
       exact: true,
       noPermission: Permission.includes('bulkImport_candidates'),
       isNav: true,
+      isside:true
     },
     {
       path: reports,
@@ -198,6 +209,7 @@ const App = () => {
       exact: true,
       noPermission: Permission.includes('reports'),
       isNav: true,
+      isside:true
     },
     {
       path: sourcingPerformance,
@@ -205,6 +217,7 @@ const App = () => {
       exact: true,
       noPermission: Permission.includes('reports'),
       isNav: true,
+      isside:true
     },
     {
       path: applicantSource,
@@ -212,6 +225,7 @@ const App = () => {
       exact: true,
       noPermission: Permission.includes('reports'),
       isNav: true,
+      isside:true
     },
     {
       path: jobMetrics,
@@ -219,6 +233,7 @@ const App = () => {
       exact: true,
       noPermission: Permission.includes('reports'),
       isNav: true,
+      isside:true
     },
     {
       path: passivecandidate,
@@ -226,6 +241,7 @@ const App = () => {
       exact: true,
       noPermission: Permission.includes('reports'),
       isNav: true,
+      isside:true
     },
     {
       path: routesPath.MYDATABASE,
@@ -233,6 +249,7 @@ const App = () => {
       exact: true,
       noPermission: Permission.includes('my_database'),
       isNav: true,
+      isside:true
     },
     {
       path: jobSelect,
@@ -240,6 +257,7 @@ const App = () => {
       exact: true,
       noPermission: Permission.includes('create_post'),
       isNav: true,
+      isside:true
     },
     {
       path: jobCreateDs,
@@ -247,6 +265,7 @@ const App = () => {
       exact: true,
       noPermission: Permission.includes('create_post'),
       isNav: true,
+      isside:true
     },
     {
       path: jobCreateDsUpdate,
@@ -254,6 +273,7 @@ const App = () => {
       exact: true,
       noPermission: Permission.includes('create_post'),
       isNav: true,
+      isside:true
     },
     {
       path: jobCreateDsEdit,
@@ -261,6 +281,7 @@ const App = () => {
       exact: true,
       noPermission: Permission.includes('create_post'),
       isNav: true,
+      isside:true
     },
     {
       path: jobCreateNonDs,
@@ -268,6 +289,7 @@ const App = () => {
       exact: true,
       noPermission: Permission.includes('create_post'),
       isNav: true,
+      isside:true
     },
     {
       path: jobCreateNonDsUpdate,
@@ -275,6 +297,7 @@ const App = () => {
       exact: true,
       noPermission: Permission.includes('create_post'),
       isNav: true,
+      isside:true
     },
     {
       path: jobCreateNonDsEdit,
@@ -282,6 +305,7 @@ const App = () => {
       exact: true,
       noPermission: Permission.includes('create_post'),
       isNav: true,
+      isside:true
     },
     {
       path: jobQuestionnaire,
@@ -289,6 +313,7 @@ const App = () => {
       exact: true,
       noPermission: Permission.includes('create_post'),
       isNav: true,
+      isside:true
     },
     {
       path: jobPreview,
@@ -296,6 +321,7 @@ const App = () => {
       exact: true,
       noPermission: Permission.includes('create_post'),
       isNav: true,
+      isside:true
     },
     {
       path: orderSummaryRoute,
@@ -303,6 +329,7 @@ const App = () => {
       exact: true,
       noPermission: true,
       isNav: true,
+      isside:true
     },
     {
       path: calendarRoute,
@@ -310,6 +337,7 @@ const App = () => {
       exact: true,
       noPermission: true,
       isNav: true,
+      isside:true
     },
 
     { path: '/logout', component: Logout, exact: true, noPermission: true },
@@ -376,6 +404,7 @@ const App = () => {
                   path={route.path}
                   component={route.component}
                   notIsNav={route.isNav}
+                  isside={route.isside}
                 />
               ),
           )

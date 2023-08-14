@@ -17,6 +17,9 @@ import {
   applicantStausReducers,
   calenderReducers,
   messageTemplateReducers,
+  applicantIntegratemailReducers,
+  applicantInviteReducers,
+  candidatejdmatchReducers,
 } from '../modules/applicantprofilemodule/store/reducer/applicantProfileReducer';
 import {
   bulkImportReducers,
@@ -128,6 +131,7 @@ export const reducers = {
   bulkImportReducers,
   bulkUploadedCandidatesReducers,
   applicantProfileInitalReducers,
+  applicantIntegratemailReducers,
   applicantMatchReducers,
   applicantNotesReducers,
   applicantAllMatchReducers,
@@ -141,6 +145,8 @@ export const reducers = {
   applicantPipeLineReducers,
   applicantPipeLineDataReducers,
   applicantFavReducers,
+  applicantInviteReducers,
+  candidatejdmatchReducers,
   zitaMatchDataCandidateReducers,
   zitaMatchCandidateReducers,
   bulkImportQusGetReducers,

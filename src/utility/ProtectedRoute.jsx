@@ -14,7 +14,7 @@ import { Flex } from '../uikit';
 axios.defaults.headers.common['Authorization'] =
   'Token ' + localStorage.getItem('token');
 
-const ProtectedRoute = ({ notIsNav, component: Component, ...rest }) => {
+const ProtectedRoute = ({ isside, notIsNav, component: Component, ...rest }) => {
   const history = useHistory();
   const location = useLocation();
   const [sidebar, setSidebar] = useState(false);
@@ -70,7 +70,7 @@ const ProtectedRoute = ({ notIsNav, component: Component, ...rest }) => {
               }}
             >
               <div
-                className="container-fluid"
+                className={isside?'container-fluid':''}
                 style={{
                   position: 'relative',
                   display: 'flex',
@@ -90,8 +90,8 @@ const ProtectedRoute = ({ notIsNav, component: Component, ...rest }) => {
                     flexDirection: 'column',
                     height: '100%',
                     flex: 1,
-                    overflow: "auto",
-                    paddingTop: 62,
+                    overflow: "hidden",
+                    paddingTop:isside? 62:'',
                     // paddingBottom: 14,
                   }}
                 >
@@ -105,14 +105,16 @@ const ProtectedRoute = ({ notIsNav, component: Component, ...rest }) => {
                       overflow: "hidden",
                     }}
                   >
+                    {isside &&
+                      <div
+                        className={
+                          sidebar === false ? styles.model : styles.model1
+                        }
+                      >
+                        <Sidebar data={handlefunction} changes={unsavealert} />
+                      </div>}
                     <div
-                      className={
-                        sidebar === false ? styles.model : styles.model1
-                      }
-                    >
-                      <Sidebar data={handlefunction} changes={unsavealert} />
-                    </div>
-                    <div
+
                       style={{
                         position: 'relative',
                         display: 'flex',

@@ -7,9 +7,9 @@ import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { momentLocalizer } from 'react-big-calendar';
 import { useDispatch } from 'react-redux';
-import { SvgAddInterviewers } from '../../icons';
+import { SvgAddInterviewers, SvgCalendar } from '../../icons';
 import { AppDispatch } from '../../store';
-import { InputText, SelectTag } from '../../uikit';
+import { Flex, InputText, Modal, SelectTag, Text } from '../../uikit';
 import { getJdMiddleware } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import AddInterviewerSlider from './AddInterviewerSlider';
 import InterviewerIcon from './InterviewerIcon';
@@ -158,6 +158,12 @@ const MeetingSchedulingForm = ({
   };
 
   const handleContinue = () => {
+    if(localStorage.getItem('Applicantname') !== ''){
+      localStorage.setItem('Applicantsname',localStorage.getItem('Applicantname'))
+    }
+    localStorage.setItem('Applicantname','')
+    localStorage.setItem('Jdname','')
+    localStorage.setItem('jdid','')
     setMeetingForm((form) => {
       let jobError = !form.job.label ? true : false;
       let applicantError = !form.applicant.name ? true : false;
@@ -420,6 +426,7 @@ const MeetingSchedulingForm = ({
   const ApplicantView = (
     <div>
       <label className={styles.label}>Applicant *</label>
+      {console.log(cand_name,'cand_namecand_namecand_name')}
       {editEventDetails || cand_name ? (
         <div>
           <InputText
@@ -451,6 +458,8 @@ const MeetingSchedulingForm = ({
           options={applicants}
         />
       )}
+      {console.log(meetingForm.applicant.error,'meetingForm.applicant.error')}
+      {console.log(meetingForm.applicant ,'meetingForm.applicant.error')}
       {meetingForm.applicant.error && (
         <p className={styles.warn}>This field is required</p>
       )}
@@ -504,9 +513,10 @@ const MeetingSchedulingForm = ({
       <label className={styles.label}>Date *</label>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DesktopDatePicker
+          label={" "}
           value={meetingForm.date.value}
           onChange={handleChangeDate}
-          renderInput={(params) => <TextField {...params} />}
+          renderInput={(params) => <TextField {...params} style={{width:"auto !important"}}/>}
         />
       </LocalizationProvider>
       {meetingForm.date.error && (
@@ -521,6 +531,7 @@ const MeetingSchedulingForm = ({
       <div className={styles.timeInputWrapper}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <TimePicker
+            label={" "}
             value={meetingForm.startTime.value}
             onChange={handleStartTime}
             renderInput={(params) => <TextField {...params} />}
@@ -530,6 +541,7 @@ const MeetingSchedulingForm = ({
         <p className={styles.to}>to</p>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <TimePicker
+            label={" "}
             value={meetingForm.endTime.value}
             onChange={handleEndTime}
             renderInput={(params) => <TextField {...params} />}
@@ -730,29 +742,38 @@ const MeetingSchedulingForm = ({
 
       return (
         <div className={styles.duration}>
-          <p>Duration</p>
+          <p style={{marginBottom:"7px", color:"#581845"}}>Duration</p>
           <p>{formatTime(timeDifference)}</p>
         </div>
       );
     }
     return (
       <div className={styles.duration}>
-        <p>Duration</p>
+        <p style={{marginBottom:"7px", color:"#581845"}}>Duration</p>
         <p>00 : 00</p>
       </div>
     );
   };
 
-  const FormTitle = (
-    <>
-      <h4 className={styles.formTitle}>Schedule Meeting</h4>
-    </>
-  );
+  // const FormTitle = (
+  //   <Flex row center>
+  //     <SvgCalendar width={16} height={16}/>
+  //     <Text size={16} bold color="theme"  className={styles.formTitle}>
+  //       Schedule Meeting
+  //     </Text>
+  //   </Flex>
+  // );
 
   return (
-    <div className={styles.meetingForm}>
-      <>
-        {FormTitle}
+    <>
+      <Flex row center style={{ padding: '25px 0px 0px', margin:"0px 25px",borderBottom:"0.5px solid #581845" }}>
+        <SvgCalendar width={18} height={18} style={{marginBottom:"5px"}}/>
+        <Text size={16} bold color="theme" className={styles.formTitle} style={{marginBottom:"5px"}}>
+          Schedule Meeting
+        </Text>
+      </Flex>
+      <div className={styles.meetingForm}>
+        {/* {FormTitle} */}
         {ApplicantView}
         {JobTitleView}
         {DateView}
@@ -764,9 +785,9 @@ const MeetingSchedulingForm = ({
         {LocationView}
         {RemindarView}
         {NotesView}
-        {ActionButtonView}
-      </>
-    </div>
+      </div>
+      <Flex style={{padding:"0px 25px 25px 25px"}}>{ActionButtonView}</Flex>
+    </>
   );
 };
 

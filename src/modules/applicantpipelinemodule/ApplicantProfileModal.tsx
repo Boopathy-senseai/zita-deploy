@@ -9,6 +9,7 @@ import CancelAndDeletePopup from '../common/CancelAndDeletePopup';
 import Toast from '../../uikit/Toast/Toast';
 import { AppDispatch, RootState } from '../../store';
 import {
+  CandidatejobidMatchMiddleWare,
   applicantAllMatchMiddleWare,
   applicantMatchMiddleWare,
   applicantNotesMiddleWare,
@@ -35,21 +36,23 @@ type Props = {
   candidateId: string;
   inviteIconNone?: boolean;
   activeState?: number;
+  setjobtitle?:any;
 };
 const ApplicantProfileModal = ({
   jobId,
   candidateId,
   inviteIconNone,
   activeState,
+  setjobtitle,
 }: Props) => {
   const [isInvitePopUp, setInvitePopUp] = useState(false);
   const [isTab, setTab] = useState(false);
   const [isInviteLoader, setInviteLoader] = useState(false);
   const [isNotesLoader, setNotesLoader]=useState(true);
   const [isNotesMeeting, setNotesMeeting]=useState(true)
-
+ 
   const dispatch: AppDispatch = useDispatch();
-
+console.log(candidateId,'fffffffffffffffffffffffffkkkkkkkkkkkkkjjjjjjjjjjjjjjjjjjj')
   // initial api call
   useEffect(() => {
     if (jobId !== '0') {
@@ -61,7 +64,7 @@ const ApplicantProfileModal = ({
         }),
       ).then((res) => {
         dispatch(
-          applicantMatchMiddleWare({
+          CandidatejobidMatchMiddleWare({
             jd_id: res.payload.jd_id,
             can_id: res.payload.can_id,
           }),
@@ -110,6 +113,7 @@ const ApplicantProfileModal = ({
   const {
     candidate_details,
     initialLoader,
+    personalInfo,
     jd,
     match,
     jd_id,
@@ -117,27 +121,32 @@ const ApplicantProfileModal = ({
     status_id,
     invite,
     source,
+    stages,
+    matchLoader
   } = useSelector(
     ({
       applicantProfileInitalReducers,
       applicantMatchReducers,
       applicantStausReducers,
+      candidatejdmatchReducers
     }: RootState) => {
       return {
         candidate_details: applicantProfileInitalReducers.candidate_details,
+        personalInfo: applicantProfileInitalReducers.personalInfo,
         initialLoader: applicantProfileInitalReducers.isLoading,
         jd: applicantProfileInitalReducers.jd,
         match: applicantMatchReducers.match ? applicantMatchReducers.match : [],
         jd_id: applicantProfileInitalReducers.jd_id,
         can_id: applicantProfileInitalReducers.can_id,
-        matchLoader: applicantMatchReducers.isLoading,
+        matchLoader:candidatejdmatchReducers.isLoading,
         status_id: applicantProfileInitalReducers.status_id,
         invite: applicantStausReducers.invite,
         source: applicantProfileInitalReducers.source,
+        stages: applicantStausReducers?.stages,
       };
     },
   );
-  if (initialLoader || isNotesLoader || isNotesMeeting ) {
+  if (initialLoader || isNotesLoader || isNotesMeeting ||  matchLoader) {
     return (
       <Flex height={window.innerHeight - 60} center middle>
         <Loader withOutOverlay />
@@ -182,7 +191,7 @@ const ApplicantProfileModal = ({
   };
   return (
     <div>
-      {isInviteLoader && <Loader />}
+      {/* {isInviteLoader && <Loader />} */}
       {invite && invite.length === 0 && (
         <CancelAndDeletePopup
           title={`Invite will be sent as an email to ${
@@ -212,15 +221,18 @@ const ApplicantProfileModal = ({
           btnRight={YES}
           open={isInvitePopUp}
         />
-      )}
-
-      {candidate_details &&
-        candidate_details?.map((candiList, index) => {
+      )} 
+      <Flex row className={styles.tabContainer}>
+        <Flex height={window.innerHeight} style={{boxShadow: '2px 2px 2px #D7C7D2',marginRight: '5px'}}>
+        {candidate_details &&
+        candidate_details  ?.map((candiList, index) => {
           return (
             <ProfileNavBar
               key={index + candiList.first_name}
               candiList={candiList}
               jdDetails={jd}
+              setjobtitle={setjobtitle} 
+              applieddatecheck ={isTab && stages.length === 0 ?true:false}
               profile_match={profileMatch}
               nonMatch={checkMatch}
               inviteCall={hanldeInvitePopUp}
@@ -232,14 +244,14 @@ const ApplicantProfileModal = ({
             />
           );
         })}
-      <Flex flex={1} row className={styles.tabContainer}>
+        </Flex>
         {!isTab ? (
-          <Flex flex={12} className={styles.tabLeftFlex}>
+          <Flex flex={12} className={styles.tabLeftFlex} marginTop={10}>
             <ApplicantTabLeftOne activeState={activeState} />
           </Flex>
         ) : (
-          <Flex flex={7} className={styles.tabLeftFlex}>
-            {status_id.length === 0 ? (
+          <Flex flex={7} className={styles.tabLeftFlex} marginTop={10}>
+            {stages.length === 0 ? (
               <ApplicantTabLeftTwo activeState={activeState} />
             ) : (
               <ApplicantTabLeft activeState={activeState} />
@@ -247,7 +259,7 @@ const ApplicantProfileModal = ({
           </Flex>
         )}
 
-        {isTab && (
+        {/* {isTab && (
           <Flex flex={5} className={styles.tabRightFlex}>
             {status_id.length === 0 ? (
               <ApplicantTabRightOne />
@@ -255,7 +267,7 @@ const ApplicantProfileModal = ({
               <ApplicantTabRight />
             )}
           </Flex>
-        )}
+        )} */}
       </Flex>
     </div>
   );
