@@ -278,7 +278,13 @@ function UserTable(porps) {
     return (
       <>
         <Dropdown className="dropdownButton dropleft">
-          <Dropdown.Toggle variant="success" id="dropdown-basic">
+          <Dropdown.Toggle className="btnColor" variant="success" 
+          style={{
+              borderColor: '#ffffff00',
+              backgroundColor: 'unset',
+              boxShadow: 'none',
+            }} id="dropdown-basic"
+          >
             <SvgDotMenu height={17} />
           </Dropdown.Toggle>
 
@@ -325,7 +331,7 @@ function UserTable(porps) {
                     Contact Number
                   </Text>
                 </th>
-                <th scope="col">
+                <th scope="col" style={{width:"200px"}}>
                   <Text bold className={styles.titleuser} style={{color:"#555555"}}>
                     Department
                   </Text>
@@ -335,12 +341,12 @@ function UserTable(porps) {
                     Status
                   </Text>
                 </th>
-                <th scope="col">
+                <th scope="col" style={{minWidth:"120px"}}>
                   <Text bold className={styles.titleuser} style={{color:"#555555"}}>
                     Role
                   </Text>
                 </th>
-                <th scope="col">
+                <th scope="col" style={{minWidth:"120px"}}>
                   <Text bold className={styles.titleuser} style={{color:"#555555"}}>
                     Invited On
                   </Text>

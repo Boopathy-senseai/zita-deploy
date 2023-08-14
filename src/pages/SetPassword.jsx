@@ -40,6 +40,8 @@ const SetPassword = () => {
   const [isShowNewPass, setShowNewPass] = useState(false);
   const [isShowChangePass, setShowChnagePass] = useState(false);
 
+
+
   const myRef = useRef();
 
   ////////// Form Validation ////////////
@@ -92,7 +94,7 @@ const SetPassword = () => {
     };
     axios
       .patch('users/check-token', data, {
-        headers: { Authorization: '' },
+        headers: { Authorization: undefined },
       })
       
       .then((res) => {
@@ -202,14 +204,14 @@ const SetPassword = () => {
                         actionLeft={() => (
                           <Button types="link" className={styles.Passicons}>
                           <div style={{marginTop: '-35px', cursor:"default"}}>
-                            <SvgLock height={20} width={19} />
+                            <SvgLock height={19} width={19} />
                           </div>
                           </Button>
                         )}
                           ref={myRef}
                           className={styles.inputStyle}
                           placeholder="Password at least 8 characters"
-                          type={!isShowNewPass ? 'password' : 'text'}
+                          keyboardType={!isShowNewPass ? 'password' : 'text'}
                           {...register('password')}
                           name="password"
                           onChange={(e) => {
@@ -254,6 +256,7 @@ const SetPassword = () => {
                       </Flex>
                     )}
                   </div>
+
                   <div className={styles.marginTop}>
                     <LabelWrapper  required>
                       <div className={styles.inputPosition}>
@@ -261,13 +264,13 @@ const SetPassword = () => {
                         actionLeft={() => (
                           <Button types="link" className={styles.Passicons}>
                           <div style={{marginTop: '-35px', cursor:"default"}}>
-                            <SvgLock height={20} width={19} />
+                            <SvgLock height={19} width={19} />
                           </div>
                           </Button>
                         )}
                           className={styles.inputStyle}
                           placeholder="Confirm Your Password"tton
-                          type={!isShowChangePass ? 'password' : 'text'}
+                          keyboardType={!isShowChangePass ? 'password' : 'text'}
                           name="confirm_password"
                           {...register('confirm_password')}
                           onChange={(e) => {
@@ -298,9 +301,15 @@ const SetPassword = () => {
                       {errors.confirm_password?.message}
                     </Text>
                   </div>
+
                   <div className={styles.btnContainer}>
                     <Button
                     className={styles.login_button}
+                    style={{
+                      display:"flex",
+                      justifyContent:"center",
+                      alignItems:"center"
+                    }}
                     
                       disabled={
                         changeValid !== isValid ||
