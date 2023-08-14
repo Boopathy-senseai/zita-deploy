@@ -451,9 +451,10 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
       dispatch(urlVerificationMiddleWare({ url: formik.values.pagaeUrl })).then(
         (res) => {
           if (
-            res.payload.success === 1 &&
-            career_page &&
-            career_page.career_page_url !== formik.values.pagaeUrl
+            res.payload.success === 1 
+            // ||
+            // (career_page &&
+            //   career_page.career_page_url !== formik.values.pagaeUrl)
           ) {
             setUrlError(true);
           } else {
@@ -481,7 +482,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
         }}
       >
         {isSubmitLoader && <Loader />}
-        <Flex columnFlex width={"40%"} className={styles.leftFlex}>
+        <Flex columnFlex width={'40%'} className={styles.leftFlex}>
           {isCareerImgClick && (
             <Card className={styles.careerPageCard}>
               <img
@@ -528,7 +529,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
             </Card>
           )}
         </Flex>
-        <Flex columnFlex width={"60%"}  className={styles.rightFlex}>
+        <Flex columnFlex width={'60%'} className={styles.rightFlex}>
           <div style={{ width: '100%', padding: '0 10px' }}>
             <ExpandTile
               backgroundColor="#58184530"
