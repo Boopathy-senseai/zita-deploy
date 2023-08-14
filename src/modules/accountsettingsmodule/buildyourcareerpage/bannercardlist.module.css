@@ -4,9 +4,32 @@
 .cardPadding {
   padding: 16px;
   width: 100%;
+  min-height: 100px;
+}
+.cardPadding:hover {
+  padding: 16px;
+  width: 100%;
+  min-height: 100px;
 }
 .labelStyle {
   margin-left: 8px;
+  text-transform: capitalize;
+  max-width: 390px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.labelStyle1 {
+  max-width: 390px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.labelStyle2 {
+  max-width: 350px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .lineHeight {
   margin: 8px 0;
