@@ -663,12 +663,11 @@ const ZitaMatchDataCard = ({
               {!isEmpty(dataList.interested) &&
               dataList.interested === false ? (
                 <>
-                <div className={cx('svgInviteNone')}>
-                <SvgInvite width={36} height={36} color="theme" />
-              </div>
-                <Text color="gray" size={12}>
-                  You can’t send Invite
-                </Text></>
+               
+              {dataList.applicant===null &&
+               <SvgNotInterested></SvgNotInterested>}
+             
+                </>
               ) : (
                 <>
                   {!isEmpty(dataList.invite) && isEmpty(dataList.applicant) && (
@@ -685,14 +684,16 @@ const ZitaMatchDataCard = ({
                         >
                           <SvgInvite width={36} height={36} color="theme" /> 
                         </div>
+                        {dataList.interested===null &&
                     <Text color="gray" size={12} style={{paddingLeft:"5px",width:"65%"}}>
                       Last Invited{' '}
                       {dataList?.invite && getDateString(dataList.invite, 'll')}
-                    </Text></>
+                    </Text>}
+                    </>
                   )}
                 </>
               )}
-              
+              {console.log("dddddddddddddddddd",dataList)}
               {/* {!isEmpty(dataList.invite) && !isEmpty(dataList.applicant) && (
                 <Text color="gray" size={12}>
                   You can’t send Invite
@@ -704,29 +705,24 @@ const ZitaMatchDataCard = ({
                   {
                     dataList.interested ?(
                       <SvgInterested
-                      width={17}
-                      height={17}
-                      fill={SUCCESS }
                     />
                     ):(
-                      <SvgNotInterested></SvgNotInterested>
-                    
+                      // <SvgNotInterested></SvgNotInterested>
+                    ""
                     )
                   }
                  {
                   dataList.interested ?(
-                    <Text  style={{ marginLeft: 4,color:"#581845" }} size={12} >Interested</Text>
+                    <Text  style={{ marginLeft: 4,color:"#1976d2" }} size={12} >Interested</Text>
                   ):(
-                    <Text  style={{ marginLeft: 4,color:"#ff0000" }} size={12}>Not Interested</Text>
+                    <Text  style={{ marginLeft: 4,color:"#ff0000" }} size={12} title=' You can’t send Invite'>Not Interested</Text>
                   )
                  }
                  
                 </Flex>
                  )}  
 
-              
-
-
+              {console.log("datalist",dataList.applicant)}
               {!isEmpty(dataList.applicant) && (
                 <Flex row center>
                    <SvgAppliedIcon fill={SUCCESS} width={17} height={17} /> 

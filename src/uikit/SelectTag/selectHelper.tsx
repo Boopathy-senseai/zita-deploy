@@ -1,6 +1,7 @@
 import { relative } from 'path';
 import { Theme } from 'react-select';
 import {
+  BLACK,
   ERROR,
   GARY_1,
   GARY_4,
@@ -526,6 +527,7 @@ export const customStylechanges2 ={
     maxHeight: 200,
     scrollbarWidth: 'thin',
     padding: 0,
+    color:  BLACK,
     borderColor:PRIMARY,
   
   }),
