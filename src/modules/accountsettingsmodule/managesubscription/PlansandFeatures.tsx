@@ -147,7 +147,7 @@ const PlansandFeatures = ({
       <Flex  >
         <Flex row center between>
         <Flex  >
-            <Text size={16} bold>
+            <Text size={14} bold>
               Plans and Features
             </Text>
           </Flex>
@@ -171,7 +171,7 @@ const PlansandFeatures = ({
           <>
           <Flex row center className={styles.switchFlex} style={{display:'flex',justifyContent:'center'}} >
           <Text >Billed Monthly</Text>
-          <div style={{ margin: '0 8px' }}>
+          <div style={{ margin: '0px 5px 0px 10px' }}>
             <InputSwitch
             offFill={PRIMARY}
               checked={isPlan}

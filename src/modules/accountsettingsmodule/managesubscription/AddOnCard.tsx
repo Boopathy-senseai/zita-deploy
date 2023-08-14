@@ -9,6 +9,7 @@ import { SUCCESS } from '../../../uikit/Colors/colors';
 import ErrorMessage from '../../../uikit/ErrorMessage/ErrorMessage';
 import Flex from '../../../uikit/Flex/Flex';
 import SvgTick from '../../../icons/SvgTick';
+import SvgTickmanage from '../../../icons/SvgTickmanage';
 import InputText from '../../../uikit/InputText/InputText';
 import Loader from '../../../uikit/Loader/Loader';
 import Text from '../../../uikit/Text/Text';
@@ -95,7 +96,7 @@ const AddOnCard = () => {
           numbers={available}
           />
         </Flex>
-        <Text style={{ marginTop: 8, marginBottom: 20 }}>
+        <Text style={{  marginBottom: 20 }}>
           * You must have any of the premium plan to avail this candidate
           contact credits
         </Text>
@@ -154,21 +155,21 @@ const AddOnCard = () => {
 
           <Flex columnFlex marginTop={8} style={{marginLeft:'25px'}}>
               <Flex row style={{marginBottom:'5px'}}>
-              <SvgTick fill={SUCCESS} />
+              <SvgTickmanage fill={SUCCESS} />
               <Text style={{marginLeft:'10px'}} align="center">Unlock Candidate Contact</Text>
               </Flex>            
               <Flex row style={{marginBottom:'5px'}}>
-              <SvgTick fill={SUCCESS} />
+              <SvgTickmanage fill={SUCCESS} />
               <Text style={{marginLeft:'10px'}}align="center">Includes CV,Parsing & AI Matching</Text>
               </Flex>
               <Flex row style={{marginBottom:'5px'}}>
-              <SvgTick fill={SUCCESS} />
+              <SvgTickmanage fill={SUCCESS} />
               <Text style={{marginLeft:'10px'}}align="center">
               Complete Zita Profile View
                </Text>
               </Flex >           
               <Flex row style={{marginBottom:'5px'}}>
-              <SvgTick fill={SUCCESS} />
+              <SvgTickmanage fill={SUCCESS} />
               <Text style={{marginLeft:'10px'}}align="center">Candidate Portal</Text>
               </Flex>            
           </Flex>

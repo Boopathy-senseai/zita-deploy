@@ -241,7 +241,7 @@ return (
               ):(null)}
               
               {userPrice && <Text size={14} color="theme">&nbsp;/User -&nbsp;</Text>}
-              <Text align="center" size={14} color="theme">
+              <Text align="center" size={14} color="theme" style={{ marginBottom: 4 }}>
                 {days}
               </Text>
             </Flex>              

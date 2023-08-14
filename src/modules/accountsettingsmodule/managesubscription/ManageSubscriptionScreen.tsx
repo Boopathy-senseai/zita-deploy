@@ -165,7 +165,7 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
     <Flex className={styles.overAll}>
       <Flex row center between className={styles.titleStyle}>
         <Flex>
-          <Text size={16} bold>
+          <Text size={14} bold>
           Subscription
           </Text>
         </Flex>
@@ -173,7 +173,7 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
         {subscription &&
           subscription.is_active === true &&
           isEmpty(subscription.subscription_changed_to) ? (
-            <Button  onClick={() => setCancelOne(true)}  types='close'>
+            <Button  onClick={() => setCancelOne(true)}  types='secondary'>
               Cancel Subscription
             </Button>
           ) : (
