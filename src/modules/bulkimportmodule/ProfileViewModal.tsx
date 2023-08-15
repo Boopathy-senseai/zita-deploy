@@ -127,17 +127,17 @@ const ProfileViewModal = ({
       : `${emp_data.work_exp} Year`
     : '';
   const data = [
-    { title: 'Name:', value: notSpecified(emp_data?.first_name), right: 188 },
-    { title: 'Email:', value: notSpecified(emp_data?.email), right: 188 },
+    { title: 'Name:', value: notSpecified(emp_data?.first_name), right: 184 },
+    { title: 'Email:', value: notSpecified(emp_data?.email), right: 184 },
     {
       title: 'Contact Number:',
       value: emp_data?.contact,
-      right: 116,
+      right: 118,
     },
     {
       title: 'Location:',
       value: notSpecified(emp_data?.location),
-      right: 167,
+      right: 165,
     },
     // { title: 'Address:', value: notSpecified(address), right: 172 },
 
@@ -153,7 +153,7 @@ const ProfileViewModal = ({
     },
     {
       title: 'Skills:',
-      value: notSpecified(emp_data?.skills),
+      value: notSpecified(emp_data?.skills?.replace(/,/g, ', ')),
       right: 187,
     },
   ];
@@ -423,6 +423,7 @@ const ProfileViewModal = ({
                               style={{
                                 paddingRight: list.right,
                                 whiteSpace: 'nowrap',
+                                color:'#581845'
                               }}
                             >
                               {list.title}

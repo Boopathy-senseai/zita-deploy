@@ -38,9 +38,6 @@ import {
 import ParsingLoadingModal from './ParsingLoadingModal';
 import ProfileViewModal from './ProfileViewModal';
 
-
-
-
 type Tabs = 'total' | 'completed' | 'inCompleted';
 export type FormProps = {
   searchValue: string;
@@ -107,7 +104,7 @@ const ApplicantsTab = ({
     setCanId(id);
     setOpenProfile(true);
     setProfileView(false);
-     dispatch(uploadedProfileViewMiddleWare({ id })).then((res) => {
+    dispatch(uploadedProfileViewMiddleWare({ id })).then((res) => {
       setFile(res.payload.resume_file_path);
     });
   };
@@ -121,7 +118,7 @@ const ApplicantsTab = ({
     });
   };
   const handleSubmitWithJd = (values: FormProps) => {
-    console.log(values)
+    console.log(values);
     dispatch(
       bulkuploadedCandidatesMiddleWare({ search: searchValue, jd_id: isJdId }),
     )
@@ -205,7 +202,6 @@ const ApplicantsTab = ({
   const columns = useMemo(
     () =>
       applicantTable(
-        
         setFeaturesBalance,
         hanldeEditProfileView,
         searchValue,
@@ -327,20 +323,17 @@ const ApplicantsTab = ({
   };
 
   useEffect(() => {
-    if(searchValue === '' && isJdId !== '0'){
-      dispatch(bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: isJdId })).then(
-        () => {
-          getFocus('candidates__input');
-          setPageNumber(0);
-          getBlur('candidates__input');
-          setCandiTableLoader(false);
-        },
-      );
+    if (searchValue === '' && isJdId !== '0') {
+      dispatch(
+        bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: isJdId }),
+      ).then(() => {
+        getFocus('candidates__input');
+        setPageNumber(0);
+        getBlur('candidates__input');
+        setCandiTableLoader(false);
+      });
     }
   }, [searchValue]);
-
-
-
 
   // Table Refresh Function
   const hanldeSvgRefresh = (e: any) => {
@@ -419,9 +412,9 @@ const ApplicantsTab = ({
   useEffect(() => {
     setImport(localStorage.getItem('isImport'));
   });
-  
+
   const hanldeSvgRefreshOnUpdate = (e: any) => {
-    setOpenProfile(false)
+    setOpenProfile(false);
     setCandiTableLoader(true);
     formik.setFieldValue('searchValue', '');
     setTab('total');
@@ -440,12 +433,15 @@ const ApplicantsTab = ({
       formik.handleSubmit();
     }
   };
- const  isBulkLoaderprocess=localStorage.getItem('bulk_loader');
- const value=emp_pool.length;
-  const value1=value>4;
+  const isBulkLoaderprocess = localStorage.getItem('bulk_loader');
+  const value = emp_pool.length;
+  const value1 = value > 4;
   return (
-    <Flex style={{overflowY:'scroll',maxHeight:value1?'547px':'fit-content',paddingRight:'10px'}}>
-    {console.log("isJdId+++++",isJdId)}
+    <Flex
+      height={window.innerHeight - 200}
+      className={styles.Applicantdatabase}
+    >
+      {console.log('isJdId+++++', isJdId)}
       <YesOrNoModal
         title={
           <Text style={{ width: 580, marginLeft: 12 }}>
@@ -469,7 +465,7 @@ const ApplicantsTab = ({
           jdId={isJdId}
           hanldeProfileView={hanldeProfileView}
           // cancel={() => setOpenProfile(false)}
-          refreshOnUpdate={(e:any) => hanldeSvgRefreshOnUpdate(e)}
+          refreshOnUpdate={(e: any) => hanldeSvgRefreshOnUpdate(e)}
         />
       )}
 
@@ -519,12 +515,16 @@ const ApplicantsTab = ({
           </Text>
         }
       />
-      
-      
-      <Modal open={model} >
-      
-      <Flex style={{backgroundColor:'#ffffff',padding:'25px',height:'320px',width:'600px'}}>
-      
+
+      <Modal open={model}>
+        <Flex
+          style={{
+            backgroundColor: '#ffffff',
+            padding: '25px',
+            height: '320px',
+            width: '600px',
+          }}
+        >
           <ApplicantDatabase
             setmodel={setmodel}
             hanldeParsing={hanldeParsing}
@@ -534,85 +534,84 @@ const ApplicantsTab = ({
             setUpgrade={setUpgrade}
             candidatesLimit={features_balance}
           />
-      </Flex>
+        </Flex>
       </Modal>
 
       <Flex row between className={styles.inputConatinerApplicants}>
-      <Flex row>
-      <Text className={styles.importText}>Import applicants for</Text>
-      <Flex row  >
-      <div className={styles.skillContainer}>
-          <SelectTag
-            labelBold
-            options={jd_id}
-            noOptionsMessage={({}) => 'No active jobs'}
-            placeholder="Select a job to import applicants"
-            getOptionValue={(option: { id: number }) => `${option.id}`}
-            getOptionLabel={(option: { job_title: string }) => option.job_title}
-            onChange={(option) => {
-              setJdId(option.id.toString());
-              hanldeApplicant(option.id.toString());
-            }}
-            
-          />
-        </div>
-        <InputText
-        className={styles.inputWidth}
-        inputConatinerClass={styles.inputStyle}
-        placeholder={'Search applicants by name or email'}
-        value={searchValue}
-        onChange={searchHandleChange}
-        id={'applicant__input'}
-        actionRight={() => (
-          <label style={{ margin: 0 }}>
-            <SvgSearch />
-          </label>
-        )}
-        onKeyPress={handleKeyPress}
-      />
-      
-      <Button
-        id="applicant__buttonFind"
-        disabled={searchValue === '' ? true : false}
-        onClick={formik.handleSubmit}
-      >
-        Find Applicants
-      </Button>
+        <Flex row>
+          <Text className={styles.importText}>Import applicants for</Text>
+          <Flex row>
+            <div className={styles.skillContainer}>
+              <SelectTag
+                labelBold
+                options={jd_id}
+                noOptionsMessage={({}) => 'No active jobs'}
+                placeholder="Select a job to import applicants"
+                getOptionValue={(option: { id: number }) => `${option.id}`}
+                getOptionLabel={(option: { job_title: string }) =>
+                  option.job_title
+                }
+                onChange={(option) => {
+                  setJdId(option.id.toString());
+                  hanldeApplicant(option.id.toString());
+                }}
+              />
+            </div>
+            <InputText
+              className={styles.inputWidth}
+              inputConatinerClass={styles.inputStyle}
+              placeholder={'Search applicants by name or email'}
+              value={searchValue}
+              onChange={searchHandleChange}
+              id={'applicant__input'}
+              actionRight={() => (
+                <label style={{ margin: 0 }}>
+                  <SvgSearch />
+                </label>
+              )}
+              onKeyPress={handleKeyPress}
+            />
 
+            <Button
+              id="applicant__buttonFind"
+              disabled={searchValue === '' ? true : false}
+              onClick={formik.handleSubmit}
+            >
+              Find Applicants
+            </Button>
 
-      {isUrl.length > 0 && (
-        <Flex  >
-          <LinkWrapper
-            target={'_blank'}
-            to={`/${isUrl}/career_job_view/${isJob.id}/${isJob.job_title}`}
-          >
-            <Flex row>
-              <Button types='secondary' className={styles.viewText} style={{marginTop:'0px'}}>
-                View Job
-              </Button>
-              
-            </Flex>
-          </LinkWrapper>
-    </Flex>)}
-     
+            {isUrl.length > 0 && (
+              <Flex>
+                <LinkWrapper
+                  target={'_blank'}
+                  to={`/${isUrl}/career_job_view/${isJob.id}/${isJob.job_title}`}
+                >
+                  <Flex row>
+                    <Button
+                      types="secondary"
+                      className={styles.viewText}
+                      style={{ marginTop: '0px' }}
+                    >
+                      View Job
+                    </Button>
+                  </Flex>
+                </LinkWrapper>
+              </Flex>
+            )}
+          </Flex>
         </Flex>
-        </Flex>
-      
+
         {isBulkLoaderprocess === 'true' ? (
-          <Flex row  >
-          <Loader size="medium" withOutOverlay />
-          <Text color="gray" style={{ marginLeft: 16 }}>
-            Processing...
-          </Text>
-        </Flex>
-        ):(   
-        <Flex>
-        <Button
-        onClick={() => setmodel(true)}
-      >
-      Bulk Import
-      </Button> 
-        </Flex>
+          <Flex row>
+            <Loader size="medium" withOutOverlay />
+            <Text color="gray" style={{ marginLeft: 16 }}>
+              Processing...
+            </Text>
+          </Flex>
+        ) : (
+          <Flex>
+            <Button onClick={() => setmodel(true)}>Bulk Import</Button>
+          </Flex>
         )}
       </Flex>
 
@@ -620,18 +619,16 @@ const ApplicantsTab = ({
         <>
           <Flex row center className={styles.filterStyle}>
             <Flex row center className={styles.marginLeft}>
-
               {total_count === 0 ? (
                 <Text
                   bold={isTab === 'total'}
                   className={styles.linkSpaceDefault}
                 >
-                <Totalcount
-                name="Total Applicants"
-                numbers={total_count}
-                click={total_count===0?false:true}
-                />
-                  
+                  <Totalcount
+                    name="Total Applicants"
+                    numbers={total_count}
+                    click={total_count === 0 ? false : true}
+                  />
                 </Text>
               ) : (
                 <Text
@@ -643,30 +640,27 @@ const ApplicantsTab = ({
                   className={styles.linkSpace}
                   color={'link'}
                 >
-                <Totalcount
-                name="Total Applicants"
-                numbers={total_count}
-                click={total_count===0?false:true}
-                />
-                
+                  <Totalcount
+                    name="Total Applicants"
+                    numbers={total_count}
+                    click={total_count === 0 ? false : true}
+                  />
                 </Text>
               )}
             </Flex>
             {total_count !== 0 && (
               <>
                 <Flex row center className={styles.marginLeft}>
-                
                   {completed === 0 ? (
                     <Text
                       bold={isTab === 'completed'}
                       className={styles.linkSpaceDefault}
                     >
-                    <Totalcount
-                name="Completed Profiles"
-                numbers={completed}
-                click={completed===0?false:true}
-                />
-                      
+                      <Totalcount
+                        name="Completed Profiles"
+                        numbers={completed}
+                        click={completed === 0 ? false : true}
+                      />
                     </Text>
                   ) : (
                     <Text
@@ -677,29 +671,27 @@ const ApplicantsTab = ({
                       bold={isTab === 'completed'}
                       color={'link'}
                       className={styles.linkSpace}
-                    > 
-                     <Totalcount
-                    name="Completed Profiles"
-                    numbers={completed}
-                    click={completed===0?false:true}
-                    />
+                    >
+                      <Totalcount
+                        name="Completed Profiles"
+                        numbers={completed}
+                        click={completed === 0 ? false : true}
+                      />
                     </Text>
                   )}
                 </Flex>
 
                 <Flex row center className={styles.inComplete}>
-                  
                   {incompleted === 0 ? (
                     <Text
                       bold={isTab === 'inCompleted'}
                       className={styles.linkSpaceDefault}
                     >
-                    <Totalcount
-                    name=" Incomplete Profiles"
-                    numbers={incompleted}
-                    click={incompleted===0?false:true}
-                    />
-                      
+                      <Totalcount
+                        name=" Incomplete Profiles"
+                        numbers={incompleted}
+                        click={incompleted === 0 ? false : true}
+                      />
                     </Text>
                   ) : (
                     <Text
@@ -711,32 +703,32 @@ const ApplicantsTab = ({
                       bold={isTab === 'inCompleted'}
                       className={styles.linkSpace}
                     >
-                    <Totalcount
-                    name=" Incomplete Profiles"
-                    numbers={incompleted}
-                    click={incompleted===0?false:true}
-                    />
+                      <Totalcount
+                        name=" Incomplete Profiles"
+                        numbers={incompleted}
+                        click={incompleted === 0 ? false : true}
+                      />
                     </Text>
                   )}
                 </Flex>
               </>
             )}
-            {total_count> 0 &&(
+            {total_count > 0 && (
               <div
-              tabIndex={-1}
-              role={'button'}
-              onKeyPress={() => {}}
-              className={styles.svgRefresh}
-              onClick={(e) => {
-                hanldeSvgRefresh(e);
-              }}
-              title={'Refresh table'}
-            >
-              <SvgRefresh />
-            </div>
+                tabIndex={-1}
+                role={'button'}
+                onKeyPress={() => {}}
+                className={styles.svgRefresh}
+                onClick={(e) => {
+                  hanldeSvgRefresh(e);
+                }}
+                title={'Refresh table'}
+              >
+                <SvgRefresh />
+              </div>
             )}
-          
-            {emp_pool.length> 0  && (
+
+            {emp_pool.length > 0 && (
               <Flex className={styles.svgRefresh}>
                 <Button id="applicant__buttonFind" onClick={hanldeMatch}>
                   Match

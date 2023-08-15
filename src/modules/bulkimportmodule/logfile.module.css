@@ -1,5 +1,7 @@
 .overAll {
   margin-top: 16px;
+  overflow-y: scroll !important;
+  display: flex !important;
 }
 .logList {
   padding-bottom: 8px;
@@ -11,6 +13,6 @@
   white-space: -o-pre-wrap; /* Opera 7 */
   word-wrap: break-word; /* Internet Explorer 5.5+ */
   /* padding: 16px 30px; */
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 13px;
 }
