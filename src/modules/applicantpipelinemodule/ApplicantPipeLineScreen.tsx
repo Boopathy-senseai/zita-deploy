@@ -76,6 +76,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     new Map(),
   );
 
+  const [change,setchange]=useState(false);
   const favAdd = isTotalFav ? 'add' : '';
 
   const getAppliedView = localStorage.getItem('applied_view');
@@ -341,7 +342,9 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
 
   // filter api call
   useEffect(() => {
+    if(!change){
     getApplicanPipelineData();
+    }
   }, [
     isSkillOption,
     isBachelors,
@@ -354,6 +357,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     favLoader,
     isTotalFav,
     isSortApplicant,
+    change
     // updateLoader,
   ]);
 
@@ -405,6 +409,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
 
   // filter experience function
   const handleExperience = (selectedValue: string) => {
+    if(change===false){
     dispatch(
       applicantPipeLineDataMiddleWare({
         jd_id: jdId,
@@ -423,6 +428,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
         location: formik.values.location,
       }),
     );
+    }
   };
   // filter fav function
   const filterTotalFav = () => {
@@ -950,6 +956,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
 
   return (
     <>
+    {console.log("changeeeee",change)}
       {showPipelinePopup && showStagesPopup === null && (
         <PipelinePopup
           jd_id={parseInt(jdId)}
@@ -1085,6 +1092,8 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
             </Flex>
           </Flex>
           <ApplicantPipeLineFilter
+
+            setchange={setchange}
             isSkillOption={isSkillOption}
             isSkills={isSkills}
             isSearch={isSearch}

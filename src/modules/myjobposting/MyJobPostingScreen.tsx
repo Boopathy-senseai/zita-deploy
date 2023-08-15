@@ -55,6 +55,7 @@ const MyJobPostingScreen = () => {
   const dispatch: AppDispatch = useDispatch();
   const [isPage, setPage] = useState(0);
   const history = useHistory();
+  const [change,setchange]=useState(false)
 
   useEffect(() => {
     localStorage.setItem('freeCheck', 'true');
@@ -121,6 +122,7 @@ const MyJobPostingScreen = () => {
   };
 
   useEffect(() => {
+    
     dispatch(
       myJobPostingDataMiddleWare({
         jobTitle: formik.values.jobTitle,
@@ -131,11 +133,28 @@ const MyJobPostingScreen = () => {
         page: isPage + 1,
       }),
     );
-  }, [isPage, formik.values]);
+   
+  }, [isPage]);
+  useEffect(() => {
+  if(change===false)
+    dispatch(
+      myJobPostingDataMiddleWare({
+        jobTitle: formik.values.jobTitle,
+        jobId: formik.values.jobId,
+        postedOn: formik.values.postedOn.value,
+        jobType: formik.values.jobType,
+        location: formik.values.location,
+        page: isPage + 1,
+      }),
+    );
+    
+  }, [isPage,change,formik.values]);
+
 
   return (
     <Flex className={styles.overFlowContainer}>
       <div>
+      {console.log("###########33",change)}
         <Flex row className={styles.titleContainer}>
           {/* <SvgJobPost width={15.71} height={16} /> */}
           <Text
@@ -200,6 +219,7 @@ const MyJobPostingScreen = () => {
                   job_ids={job_ids}
                   job_title={job_title}
                   location_list={location_list}
+                  setchange={ setchange}
                 />
               </div>
 
