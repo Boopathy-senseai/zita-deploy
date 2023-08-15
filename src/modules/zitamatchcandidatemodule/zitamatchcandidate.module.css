@@ -118,7 +118,7 @@
   border: none !important;
   border-radius: 0 !important;
   scroll-behavior: smooth;
-  width: 100%;
+  width: 222px;
   text-overflow: ellipsis;
 }
 .searchstyle {

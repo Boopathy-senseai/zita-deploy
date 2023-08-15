@@ -854,7 +854,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
 
                   onChange={(e) => setSearch(e.target.value)}
                   id="zitamatchfilters__search"
-                  placeholder="Search by name or email"
+                  placeholder="Search candidate by name or email"
                   actionRight={() => (
                     <label
                       htmlFor={'zitamatchfilters__search'}

@@ -443,11 +443,18 @@ const ZitaMatchDataCard = ({
                   <Text
                     color={isEmpty(dataList.applicant) ? 'link' : 'gray'}
                     bold
-                    title={dataList.first_name}
+                    title= 
+                    {!isEmpty(dataList.last_name)? `${dataList.first_name} ${dataList.last_name}` 
+                    : `${dataList.first_name}`}
                     textStyle="ellipsis"
                     onClick={handleProfileView}
                   >
-                    {dataList.first_name}
+                  
+                    {
+                      dataList.last_name===null?(
+                        dataList.first_name
+                      ):(  <>{dataList.first_name} {dataList?.last_name}</>)
+                    }
                   </Text>
                   </Flex>
                   <Flex>
@@ -511,7 +518,7 @@ const ZitaMatchDataCard = ({
                       size={12}
                       style={{color:"#333333",maxWidth:"197px"}}
                       textStyle="ellipsis"
-                      title={`Location:${dataList.location}`}
+                      title={`Location: ${dataList.location}`}
                     >
                       {notSpecified(dataList.location)}
                     </Text>
@@ -530,7 +537,7 @@ const ZitaMatchDataCard = ({
                       {notSpecified(dataList.qualification)}
                     </Text>
                     ):(
-                      <Text textStyle="ellipsis" size={12}  style={{color:"#333333"}} title={`Qualification:${dataList.qualification}`}>
+                      <Text textStyle="ellipsis" size={12}  style={{color:"#333333"}} title={`Qualification: ${dataList.qualification}`}>
 
                   {notSpecified(dataList.qualification)}
                 </Text>
@@ -546,7 +553,7 @@ const ZitaMatchDataCard = ({
                     | {notSpecified(workYear(dataList.work_exp))}
                   </Text>
                   ):(
-                    <Text size={12}  style={{ marginLeft: 2 ,color:"#333333"}} title={`Experience:${workYear(dataList.work_exp)}`}>
+                    <Text size={12}  style={{ marginLeft: 2 ,color:"#333333"}} title={`Experience: ${workYear(dataList.work_exp)}`}>
                       | {notSpecified(workYear(dataList.work_exp))}
                     </Text>
                   )}
