@@ -166,6 +166,7 @@ const slotterState: slotterPageReducerState = {
   slotmembers: [],
   candidate_name: '',
   message: '',
+  can_id : 0,
 };
 
 const slotterReducer = createSlice({
@@ -184,6 +185,7 @@ const slotterReducer = createSlice({
       state.slotmembers = action.payload.slotmembers;
       state.candidate_name = action.payload.candidate_name;
       state.message = action.payload.message;
+      state.can_id = action.payload.can_id;
     });
 
     builder.addCase(getSlotterMiddleware.rejected, (state, action) => {

@@ -35,6 +35,9 @@ import {
   outlookSyncApi,
   outlookAdd,
   calbackurlApi,
+  googleconflicts,
+  outlookconflicts,
+  calendarconfiguration,
 } from '../../../../routes/apiRoutes';
 import {
   ApplicantProfilePayload,
@@ -505,6 +508,74 @@ export const getEventsMiddleware = createAsyncThunk(
       const { data } = await axios.get('get_event', {
         params: { cand_id: candId, jd_id: jdId },
       });
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+
+export const getGoogleConflictMiddleWare = createAsyncThunk(
+  'get_googleconflict',
+  async ({ event_id,startdate, enddate }: { 
+    event_id ?:any,
+    startdate? : any; 
+    enddate?: any
+   }, { rejectWithValue }) => {
+    try {
+      const url = `${googleconflicts}/?pk=${event_id}&startdate=${startdate}&enddate=${enddate}`
+      const config = { transformRequest: (_a, headers) => { delete headers.common.Authorization; } } 
+      const { data } = await axios.get(url,config);
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const getOutlookConflictMiddleWare = createAsyncThunk(
+  'get_outlookconflict',
+  async ({ event_id,startdate, enddate }: { 
+    event_id?:any,
+    startdate?: any; 
+    enddate?: any }, { rejectWithValue }) => {
+    try {
+      const url = `${outlookconflicts}/?pk=${event_id}&startdate=${startdate}&enddate=${enddate}`
+      const config = { transformRequest: (_a, headers) => { delete headers.common.Authorization; } } 
+      const { data } = await axios.get(url,config);
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const getCalendarConfigurationMiddleWare = createAsyncThunk(
+  'calendar_configurations',
+  async (configuration : string | undefined, { rejectWithValue }) => {
+    try {
+      const url = configuration ? `${calendarconfiguration}?configuration=${configuration}` : calendarconfiguration;
+      const { data } = await axios.get(url);
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+export const postCalendarConfigurationMiddleWare = createAsyncThunk(
+  'calendar_configurations',
+  async ({ formData }: any, { rejectWithValue }) => {
+    try {
+      // const url = `${calendarconfiguration}/?pk=${event_id}&startdate=${startdate}&enddate=${enddate}`
+      const { data } = await axios.post(
+        calendarconfiguration,
+        formData
+        );
       return data;
     } catch (error) {
       const typedError = error as Error;

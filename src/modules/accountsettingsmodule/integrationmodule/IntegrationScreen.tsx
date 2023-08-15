@@ -346,8 +346,11 @@ const IntegrationScreen = () => {
   console.log('conflictopen', conflictopen);
 
   function Configuration() {
-    alert('Configuration');
     setConflictopen(true);
+  }
+
+  function CloseConfiguration(){
+    setConflictopen(false)
   }
 
   return (
@@ -546,12 +549,16 @@ const IntegrationScreen = () => {
             )}
           </Flex>
           <Flex flex={9}></Flex>
+          {active ? (
+          <>         
           <Flex row end>
             <ActionsButton 
             Configuration={Configuration}
             connected ={connected}
             active ={active} />
           </Flex>
+          </>
+          ):('')}
         </Flex>
 
         {/* {connected === 1 && active === 1 && isGoogle === 0 && (
@@ -742,6 +749,7 @@ const IntegrationScreen = () => {
           <CalenderConfig
             isGoogle={isGoogle}
             email={'pugazhendhij@sense7ai.com'}
+            CloseConfiguration ={CloseConfiguration}
           />
         </Modal>
       ) : (
@@ -783,17 +791,18 @@ const ActionsButton: React.FC<ActionButtonProps> = ({
             borderColor: 'unset',
             backgroundColor: 'unset',
             boxShadow: 'none',
+            cursor : 'pointer'
           }}
           id="dropdown-basic"
           // onClick={BtnClick }
         >
-          <SvgDotMenu fill={'#black'} height={17} width={17} />
+          <SvgDotMenu fill={'#black'} height={14} width={14} />
         </Dropdown.Toggle>
         {/* { connected === 1 && active === 1 ? ( */}
         <Dropdown.Menu>
           <Dropdown.Item onClick={Configuration}>
             <Flex row center className={styles.pointer}>
-              <Text>Calendar Configurations</Text>
+              <Text style={{cursor : "pointer"}}>Calendar Configurations</Text>
             </Flex>
           </Dropdown.Item>
         </Dropdown.Menu>

@@ -22,14 +22,17 @@ import SvgZitaLogo from '../../../icons/SvgZitaLogo';
 import {
   googleAddEventMiddleware,
   outlookAddEventMiddleware,
+  getGoogleConflictMiddleWare,
+  getOutlookConflictMiddleWare,
 } from '../../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
+import { isEmpty } from '../../../uikit/helper';
 import styles from './slotter.module.css';
 import {
   getScheduleMiddleWare,
   getSlotterMiddleware,
 } from './store/middleware/eventmiddleware';
 import './DayPickerCustomStyles.css';
-import conflict from './json/conflict2.json';
+
 
 const slotter1 = (props) => {
   const { userpreview } = props;
@@ -53,6 +56,8 @@ const slotter1 = (props) => {
   const [startDate, setStartDate] = useState(new Date());
   const [dashboard, setDashboard] = useState(false);
   const [finalIntervals, setfinalIntervals] = useState([]);
+  const [conflicts, setConflicts] = useState(null);
+
   const [selectDate, setSelectDate] = useState('');
   const [isProfile, setProfile] = useState(null);
   const [confromflag, SetConfromFlag] = useState(false);
@@ -74,14 +79,28 @@ const slotter1 = (props) => {
       outlook: schedulerReducers.outlook,
     }));
 
-  const { slotterdata, slotmembers, candidate_name, Loading } = useSelector(
+  const { slotterdata, slotmembers, candidate_name, Loading,can_id } = useSelector(
     ({ slotterReducers }: RootState) => ({
       Loading: slotterReducers.isLoading,
       slotterdata: slotterReducers.slotterdata,
       slotmembers: slotterReducers.slotmembers,
       candidate_name: slotterReducers.candidate_name,
+      can_id : slotterReducers.can_id
     }),
   );
+
+  const { googleconflicts, outlookconflicts } = useSelector(
+    ({ googleConflictReducers,outlookConflictReducers }: RootState) => ({
+      googleconflicts: googleConflictReducers.events,
+      outlookconflicts: outlookConflictReducers.events
+    }),
+  );
+
+  console.log(
+    'googleconflictsgoogleconflicts',googleconflicts,"\n",outlookconflicts
+  )
+
+
   const candi_name = candidate_name ? candidate_name : 'candidate';
 
   console.log("GGGGGGGGGGGGGGGGGG",google,outlook)
@@ -123,6 +142,48 @@ const slotter1 = (props) => {
       }
     }
   }, [slotmembers, slotterdata]);
+
+  useEffect(()=> {
+    if (data.length > 0){
+      data.forEach(({ startdate, enddate }, index) => {
+        console.log("startdate", startdate, "enddate", enddate);
+    
+        if (google) {
+          // alert("G")
+          dispatch(getGoogleConflictMiddleWare({ event_id: event, startdate, enddate }));
+        }
+        if (outlook) {
+          // alert("O")
+          dispatch(getOutlookConflictMiddleWare({event_id: event, startdate, enddate }));
+        }
+      });
+    } 
+  },[data])
+
+  useEffect(()=> {
+    if ("date" in googleconflicts) {
+    } else {
+      // alert("googleconflicts");
+      setConflicts(googleconflicts);
+      // Handle the case when 'date' property is not present
+      // For example:
+      console.log("No 'date' property in googleconflicts");
+    }
+    // if (Object.keys(googleConflicts).length > 0) {
+    //   console.log('googleConflicts has properties');
+    // } else {
+    //   console.log('googleConflicts is empty');
+    if ("date" in outlookconflicts) {
+      
+    } else {
+      // alert("outlookconflicts");
+      setConflicts(outlookconflicts);
+      // Handle the case when 'date' property is not present
+      // For example:
+      console.log("No 'date' property in googleconflicts");
+    }
+
+  },[googleconflicts,outlookconflicts])
 
   function formatDate(inputDate) {
     const months = [
@@ -177,8 +238,10 @@ const slotter1 = (props) => {
       formData.append('pk', JSON.stringify(event));
       formData.append('title', list.event_name);
       formData.append('date', selecteddate);
+      formData.append('can_id',JSON.stringify(can_id));
       formData.append('time', selectedtime);
       formData.append('timezone', result);
+      
       console.log("googlegoogle",google,"\n",outlook)
 
       // if(google || outlook){
@@ -286,30 +349,6 @@ const slotter1 = (props) => {
     }
   };
 
-  const startTime = '9:00 AM';
-  const endTime = '12:00 PM';
-  const timezone = 'Pacific/Apia';
-
-  // Format start time and end time in the desired timezone
-  const formattedStartTime = moment(startTime, 'h:mm A')
-    .tz(timezone)
-    .format('h:mm A');
-  const formattedEndTime = moment(endTime, 'h:mm A')
-    .tz(timezone)
-    .format('h:mm A');
-
-  const userTimezone = 'Asia/Kolkata' + 5.3; // Replace with the user's timezone
-  const targetTimezone = ' Pacific/Apia' + 13.0; // Replace with the target timezone
-
-  const userDatetime = moment().tz(userTimezone);
-  const targetDatetime = moment().tz(targetTimezone);
-
-  const userTimezoneOffset = 5.5; // UTC offset for Asia/Kolkata is +5:30
-  const targetTimezoneOffset = 13.0; // UTC offset for Pacific/Apia is +13:00
-
-  const timeDifference = targetTimezoneOffset - userTimezoneOffset;
-
-  console.log("conflictstststst",conflict)
 
 
   return (
@@ -357,11 +396,13 @@ const slotter1 = (props) => {
               selectDate={selectDate}
               setSelectDate={setSelectDate}
               candidate_name={candi_name}
+              can_id = {can_id}
               InterviewText={InterviewText}
               isProfile={isProfile}
               timezones={timezones}
               availbles={availblity}
               formatDate={formatDate}
+              conflicts ={conflicts}
               // startFrom = {startFrom}
               // endFrom ={endFrom}
             />
@@ -399,10 +440,13 @@ const SlotterDate = (props) => {
     setfinalIntervals,
     setSelectDate,
     candidate_name,
+    can_id,
     InterviewText,
     timezones,
     availbles,
     isLoading,
+    conflicts,
+    selectDate,
   } = props;
   console.log('datetimedatetimeprops', props);
   console.log('candidate_namecandidate_namecandidate_name', candidate_name);
@@ -424,6 +468,10 @@ const SlotterDate = (props) => {
   const [defaultMonth, setdefaultMonth] = useState('');
   const [startFrom, setStartFrom] = useState(new Date(2023,9-1,4));
   const [endFrom, setEndFrom] = useState(new Date(2023,11,4));
+  const [highlightday, setHighlightDay] = useState(new Date());
+
+
+
 
 
 
@@ -545,61 +593,15 @@ const SlotterDate = (props) => {
     }
   };
 
-  // const schdulearray = (start, end, time) => {
-  //   const excludedWeekdays = [];
-  //   // const exclude = datetime
-
-  //   if (
-  //     !Object.prototype.hasOwnProperty.call(datetime, 'sunday') ||
-  //     datetime.sunday.length === 0
-  //   ) {
-  //     excludedWeekdays.push(0);
-  //   }
-  //   if (
-  //     !Object.prototype.hasOwnProperty.call(datetime, 'monday') ||
-  //     datetime.monday.length === 0
-  //   ) {
-  //     excludedWeekdays.push(1);
-  //   }
-  //   if (
-  //     !Object.prototype.hasOwnProperty.call(datetime, 'tuesday') ||
-  //     datetime.tuesday.length === 0
-  //   ) {
-  //     excludedWeekdays.push(2);
-  //   }
-  //   if (
-  //     !Object.prototype.hasOwnProperty.call(datetime, 'wednesday') ||
-  //     datetime.wednesday.length === 0
-  //   ) {
-  //     excludedWeekdays.push(3);
-  //   }
-  //   if (
-  //     !Object.prototype.hasOwnProperty.call(datetime, 'thursday') ||
-  //     datetime.thursday.length === 0
-  //   ) {
-  //     excludedWeekdays.push(4);
-  //   }
-  //   if (
-  //     !Object.prototype.hasOwnProperty.call(datetime, 'friday') ||
-  //     datetime.friday.length === 0
-  //   ) {
-  //     excludedWeekdays.push(5);
-  //   }
-  //   if (
-  //     !Object.prototype.hasOwnProperty.call(datetime, 'saturday') ||
-  //     datetime.saturday.length === 0
-  //   ) {
-  //     excludedWeekdays.push(6);
-  //   }
-  //   const schedule = calculateSchedule(start, excludedWeekdays, end, time);
-  //   setavailbility(schedule);
-  // };
+  
   const dateconvert = (formattedDate) => {
+    console.log("!@!@!#!!##!#!#!",formattedDate)
     const convertedDate = moment(formattedDate).format('DD/MM/YYYY');
     return convertedDate;
   };
   const AvailbleSlots = (datetimes) => {
     const check = dateconvert(datetimes);
+
     console.log("datetimesdatetimes*********",check)
     const filteredData = Object.fromEntries(
       Object.entries(useravailble).filter(([key, value]) => key === check),
@@ -630,42 +632,11 @@ const SlotterDate = (props) => {
     const formattedDate = momentObj.format('ddd MMM DD YYYY HH:mm:ss [GMT]ZZ');
     return formattedDate;
   };
-
-  // const calculateSchedule = (starDate, excludedWeekdays, enDate, tz) => {
-  //   if (tz !== null && tz !== undefined) {
-  //     const tzone = tz;
-  //     // moment.tz.setDefault(tzone);
-  //     const schedule = [];
-  //     const startdate = convertion(starDate);
-  //     const enddate = convertion(enDate);
-  //     let currentDate = moment.tz(startdate, tzone).startOf('day');
-  //     const lastDate = moment.tz(enddate, tzone).startOf('day');
-  //     while (currentDate.isSameOrBefore(lastDate)) {
-  //       const weekday = currentDate.weekday();
-  //       if (!excludedWeekdays.includes(weekday)) {
-  //         schedule.push(currentDate.toDate());
-  //       }
-  //       currentDate = currentDate.add(1, 'day');
-  //     }
-  //     return schedule;
-  //   }
-  // };
-
-  // const getTimeSlotsForDay = (dat, timezuone) => {
-  //   return [
-  //     { startTime: '9:00 AM', endTime: '10:00 AM' },
-  //     { startTime: '11:30 AM', endTime: '1:00 PM' },
-  //     { startTime: '2:30 PM', endTime: '4:00 PM' },
-  //   ];
-  // };
+ 
 
   const onDateChange = (datetimes: any) => {
-
-    console.log("datetimesdatetimesdatetimes",datetimes)
-
-   
+    console.log("datetimesdatetimesdatetimes",datetimes)   
     const currentDate = new Date(datetimes);
-
     const isInSchedule = dateObjectsArray.some((d) => {
       const scheduleDate = new Date(d);
       scheduleDate.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0 for comparison
@@ -673,8 +644,8 @@ const SlotterDate = (props) => {
       return scheduleDate.getTime() === currentDate.getTime();
     });
     console.log('$%^&*(O)P){', dateObjectsArray, isInSchedule);
-
     if (isInSchedule) {
+      // alert("PPP")
       AvailbleSlots(datetimes);
       const options = { weekday: 'long', day: '2-digit', month: 'long' };
       const formattedDate = datetimes.toLocaleDateString('en-US', options);
@@ -682,6 +653,8 @@ const SlotterDate = (props) => {
       setSelectTime('');
       setSelectDate(datetimes);
       setselectedDate1(datetimes);
+      // DisabledTime(datetimes)
+     
     } else {
       setDate(null);
       setfinalIntervals([]);
@@ -731,13 +704,77 @@ const SlotterDate = (props) => {
   // console.log(time12HrsFormat); // Output: "3:30 PM" (assuming the current time is 3:30 PM)
   
 
+  function isIntervalWithinRange(interval, range) {
+    const [startTime, endTime] = range.split(" to ");
+    const [intervalStartTime, intervalEndTime] = interval.split(" - ");
+    console.log("intervalStartTime",intervalStartTime,"\n","intervalEndTime",intervalEndTime,"\n","startTime",startTime,"\n","endTime",endTime)
+  
+    // return (
+    //   (intervalEndTime > startTime && intervalStartTime < endTime )  
+    //   // (intervalStartTime < startTime && intervalEndTime > endTime) || // Scenario 1
+    //   // (intervalStartTime >= startTime && intervalStartTime <= endTime) // Scenario 2
+    //   // (intervalStartTime < startTime > intervalEndTime)
+    //   // (intervalEndTime >= startTime && intervalEndTime <= endTime)
+    // );
+    // return (
+    //   (intervalEndTime > startTime && intervalStartTime < endTime) || // Original condition
+    //   (intervalStartTime >= startTime && intervalStartTime < endTime)  // Check if interval starts within range
+    //   // (intervalEndTime > startTime && intervalEndTime <= endTime) // Check if interval ends within range
+    // );
+    console.log(
+      "intervalStartTime", intervalStartTime, "\n",
+      "intervalEndTime", intervalEndTime, "\n",
+      "startTime", startTime, "\n",
+      "endTime", endTime
+    );
+  
+    // Check if the interval is entirely within the range
+    if (intervalStartTime >= startTime && intervalEndTime <= endTime) {
+      return true;
+    }
+    
+    // // Check if the interval starts within the range
+    // if (intervalStartTime >= startTime && intervalStartTime < endTime) {
+    //   return true;
+    // }
+    
+    // Check if the interval ends within the range
+    if (intervalEndTime > startTime && intervalEndTime <= endTime) {
+      return true;
+    }
+  }
+  
+  function getRemainingIntervalsWithinExcludedRanges(targetIntervals, excludedRanges) {
+    const remainingIntervals = [];
+  
+    for (const targetInterval of targetIntervals) {
+      let isExcluded = false;
+  
+      for (const excludedRange of excludedRanges) {
+        if (isIntervalWithinRange(targetInterval, excludedRange)) {
+          isExcluded = true; // Target interval is within an excluded range
+          break;
+        }
+      }
+  
+      if (!isExcluded) {
+        remainingIntervals.push(targetInterval); // Add the remaining interval
+      }
+    }
+  
+    return remainingIntervals;
+  }
+  
+
   function generateIntervals(timeBreaks, intervalMinutes,datetimes) {
     console.log('timeBreakstimeBreaks', timeBreaks, intervalMinutes,datetimes);
     const intervals12 = [];
+    const conflicttime = []
     // const intervals24 = [];
     for (const timeBreak of timeBreaks) {
       const { starttime, endtime } = timeBreak;
 
+      console.log("PPPPPP!PP!P!P!P!P!P!P!P!P!",starttime,endtime)
       const [startHour, startMinute] = parseTime(starttime);
       const [endHour, endMinute] = parseTime(endtime);
       let currentHour = startHour;
@@ -778,9 +815,14 @@ const SlotterDate = (props) => {
         const endInterval12 = `${formattedEndHour12}:${formattedEndMinute} ${endAmPm}`;
         const currentDate = dateconvert(new Date())
         const currenttime = new Date()
+
+        console.log("startInterval12startInterval12",startInterval12,"\n",endInterval12)
         console.log("currentDatecurrentDatecurrentDatecurrentDatecurrentDate",currentDate,datetimes)
         const time = getTimeIn12HrsFormat(currenttime);
         // time = getTimeIn12HrsFormat(time)
+
+       
+
         console.log("endInterval12endInterval12",endInterval12,time,"\n","currenttime",currenttime)
         if(currentDate.toString() === datetimes){
           if(time < endInterval12 && endInterval12 < '9:00'){
@@ -794,33 +836,66 @@ const SlotterDate = (props) => {
           console.log("interval12interval12",interval12)
           intervals12.push(interval12);
         }
+        
+      
+
+        // const filteredIntervals = intervals12.filter(interval => {
+        //   // Replace this condition with your specific logic to filter out intervals
+        //   return interval !== "11:30 am - 12:00 pm" && interval !== "06:15 pm - 07:00 pm";
+        // });
+        
+        console.log("filteredIntervalsfilteredIntervalsfilteredIntervals","filteredIntervals")
+        
       }
     }
-    console.log("====================",intervals12)
-    return intervals12;
+    const excludedRanges = conflicts
+    if (datetimes in excludedRanges) {
+      // alert("@#$%^&*(")
+      const eventsForSelectedDate = conflicts[datetimes];
+      console.log("eventsForSelectedDate",eventsForSelectedDate);
+      console.log("excludedRanges",excludedRanges,"\n",typeof excludedRanges[0])
+      const remainingIntervals = getRemainingIntervalsWithinExcludedRanges(intervals12, eventsForSelectedDate);
+      console.log("currentIntervalcurrentIntervalcurrentInterval",remainingIntervals,"\n",excludedRanges)
+      console.log("====================",remainingIntervals,"\n",eventsForSelectedDate,"\n")
+      return remainingIntervals;
+    } else {
+      console.log("No events for the selected date.",intervals12);
+      return intervals12;
+    }
+    // const excludedRanges = ["1:00 pm to 2:00 pm","9:30 am to 10:00 am","10:00 am to 10:30 am", "11:00 am to 11:30 am", "12:00 pm to 12:30 pm"];
+
+    // console.log("excludedRanges",excludedRanges,"\n",typeof excludedRanges[0])
+    // const remainingIntervals = getRemainingIntervalsWithinExcludedRanges(intervals12, excludedRanges);
+    // console.log("currentIntervalcurrentIntervalcurrentInterval",remainingIntervals,"\n",excludedRanges)
+    // console.log("====================",remainingIntervals)
+    // return remainingIntervals;
   }
-  // function isHighlightedDay(day) {
-  //   console.log("daydaydaydaydaydayday",day,highlightday)
+  function isHighlightedDay(day) {
+    console.log("daydaydaydaydaydayday",day,selectDate)
 
-  //   if(highlightday !== null){
-
-  //     const targetDate = highlightday; // Replace with your target date
-  //     return day.toDateString() === targetDate.toDateString();
-  //   }
+    if(!isEmpty(selectDate)){
+      const targetDate = selectDate; // Replace with your target date
+      return day.toDateString() === targetDate.toDateString();
+    }
 
     
 
 
-  // }
+  }
 
   const defaultHighlightedDay = new Date(2023, 9, 15);
   const modifiers = {
     selected: dateObjectsArray,
     // highlighted: (day) => selectedDay && day.toDateString() === selectedDay.toDateString(),
     // highlighted:(day) => date !== null && day?.toDateString() === date?.toDateString(),
-    // highlighted: isHighlightedDay,
+    highlighted: isHighlightedDay,
     
   };
+
+  function isIntervalWithinExcludedRange(interval, excludedRange) {
+    const [start, end] = excludedRange.split(" - ");
+    return interval > start && interval < end;
+  }
 
   const modifiersStyles = {
     // selected: {
@@ -881,7 +956,10 @@ const SlotterDate = (props) => {
   );
 
   console.log("timezonetimezonetimezonetimezonetimezonetimezonetimezone",timezone)
+  console.log("selectDate:::",selectDate)
   console.log("modifiers.selectedmodifiers.selected",modifiers)
+  console.log("conflictsconflicts@!@!@!@!@!@!@@!",conflicts,)
+
   return (
     <Flex height={'100%'}>
       <Flex row center className={styles.banner}>

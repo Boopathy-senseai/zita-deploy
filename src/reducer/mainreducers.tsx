@@ -17,6 +17,10 @@ import {
   applicantStausReducers,
   calenderReducers,
   messageTemplateReducers,
+  googleConflictReducers,
+  outlookConflictReducers,
+  calendarConfigurationReducers
+
 } from '../modules/applicantprofilemodule/store/reducer/applicantProfileReducer';
 import {
   bulkImportReducers,
@@ -202,4 +206,7 @@ export const reducers = {
   slotterReducers,
   timezoneReducers,
   scheduledEventsReducers,
+  googleConflictReducers,
+  outlookConflictReducers,
+  calendarConfigurationReducers
 };

@@ -284,3 +284,9 @@ export const jobViewCountApi = (jdId: string) => {
 /// Scheduled Events
 
 export const calendarScheduledEvents = 'calender_scheduled_events';
+
+//calendar 
+export const googleconflicts = 'google_conflict_event';
+export const outlookconflicts = 'outlook_conflict_event';
+export const calendarconfiguration = 'calendar_configuration/';
+

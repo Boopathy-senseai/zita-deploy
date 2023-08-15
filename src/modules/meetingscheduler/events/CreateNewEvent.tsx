@@ -864,8 +864,6 @@ const CreateNewEvent = (props) => {
         formik.setFieldValue('duration','')
         formik.setFieldValue('description','')
         // setTimeout(()=>resetformik(),1000);
-
-
         setIsOpen(false);
       }
 
@@ -1377,7 +1375,7 @@ const CreateNewEvent = (props) => {
             <Flex flex={1} marginRight={25}>
               <InputText
                 label="Event Name"
-                size={14}
+                size={13}
                 required
                 value={formik.values.event_name}
                 placeholder="Enter event name"
@@ -1435,7 +1433,7 @@ const CreateNewEvent = (props) => {
               <Flex flex={1}>
                 <InputText
                   label="Location"
-                  size={14}
+                  size={13}
                   required
                   placeholder="Add location"
                   value={formik.values.location}
@@ -1541,7 +1539,7 @@ const CreateNewEvent = (props) => {
             <Flex flex={1}>
               <LabelWrapper label="Within a date range" size={14} required>
                 <div className={styles.dateInput}>
-                  <DateRangePicker
+                  <DateRangePicker                    
                     initialSettings={initialSettings}
                     // onShowCalendar={selectedRange.startDate}
                     onApply={(event, picker) => onApplyChange(event, picker)}
@@ -1586,8 +1584,10 @@ const CreateNewEvent = (props) => {
                       // }}
                     />
                   </DateRangePicker>
-                  <Flex marginRight={5} style={{ cursor: 'default' }}>
-                    <SvgCalendar width={16} height={16} />
+                  <Flex marginRight={5} 
+                  style={{ cursor: 'default'}}                 
+                  >
+                  <SvgCalendar width={16} height={16} />
                   </Flex>
                 </div>
               </LabelWrapper>
@@ -1820,7 +1820,7 @@ const CreateNewEvent = (props) => {
           <div className={styles.line}></div>
           <Flex flex={1}>
             <InputText
-              size={14}
+              size={13}
               placeholder="Enter the details that your invitee should know about the event."
               value={formik.values.description}
               onChange={(e) => {

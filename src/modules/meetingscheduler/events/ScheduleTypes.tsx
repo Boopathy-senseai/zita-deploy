@@ -87,6 +87,7 @@ export interface schedulerPageReducerState {
     candidate_name : string;
     error: string;
     message : string;  
+    can_id : number;
   }
   
   export interface SlotterEntity{

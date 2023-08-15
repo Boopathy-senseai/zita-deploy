@@ -181,7 +181,7 @@ const DayTimeSplit = (props) => {
         const index1 = times.findIndex((obj) => obj.id === check.id);
         console.log("remainingObjectsremainingObjectsremainingObjects",filteredData,check,index1)
           if (index1 !== -1) {
-            const remainingObjects = times.slice(index1 + 1);
+            const remainingObjects = times.slice(index1 );
             console.log("remainingObjectsremainingObjectsremainingObjects",remainingObjects)
             if (text === "sunday"){
               setSunday(day)

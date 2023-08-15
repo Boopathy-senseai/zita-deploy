@@ -912,10 +912,19 @@ input:-webkit-autofill:active {
 .daterangepicker td{
   cursor: pointer !important;
 }
+.daterangepicker td.disabled{
+  cursor: not-allowed !important;
+}
 .daterangepicker th.month{
   cursor: default !important;
 }
 
+.daterangepicker td.disabled, .daterangepicker option.disabled {
+  color: #999;
+  cursor: not-allowed;
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
 
 /* .rdp-head_cell{
   padding-right: 20px;
