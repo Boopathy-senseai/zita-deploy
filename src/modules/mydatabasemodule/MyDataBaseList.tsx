@@ -152,7 +152,7 @@ const size=sidebar==="1"
           </Flex>
         )}
       </div>
-      {console.log("daaaaaaataaa",data)}
+
     </div>
   );
 };

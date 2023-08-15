@@ -76,6 +76,7 @@ const QualificationContainer = ({
   };
   const handleCloseInput = () => {
     setInput(false);
+    setLoader(false)
   };
 
   const handleClickOutside = (event: { target: any }) => {

@@ -168,8 +168,8 @@ const InviteContainer = ({
             <Flex row center
             className={styles.interestedrow}>
             <SvgInterested
-              width={22}
-              height={22}
+              width={18}
+              height={18}
               // fill={dataList.interested ? SUCCESS : ERROR}
             />
             <Text
@@ -193,6 +193,7 @@ const InviteContainer = ({
               )}
             </>
           )}
+          {console.log("0000000",dataList.applicant)}
           {!isEmpty(dataList.applicant) && (
             <Flex row center className={styles.applied}>
               <div className={styles.svgapplied}>

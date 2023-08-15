@@ -220,7 +220,11 @@ const MyDataBaseCard = ({
       {isEmpty(dataList.invite) && (
         <CancelAndDeletePopup
           open={isInvite}
-          title={`Invite will be sent as an email to ${dataList.first_name} ${dataList.last_name}. Are you sure to proceed?`}
+          title=
+            {isEmpty(dataList.last_name) 
+            ? `Invite will be sent as an email to ${dataList.first_name}. Are you sure to proceed?`
+            :  `Invite will be sent as an email to ${dataList.first_name} ${dataList.last_name}. Are you sure to proceed?`}
+          // title={`Invite will be sent as an email to ${dataList.first_name} ${dataList.last_name}. Are you sure to proceed?`}
           btnDelete={inviteSubmit}
           btnCancel={() => setInvite(false)}
           btnRight={YES}

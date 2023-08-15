@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
+import { lowerCase } from 'lodash';
 import { firstNameChar , isEmpty } from '../../uikit/helper';
 import Text from '../../uikit/Text/Text';
 import { colorCode } from '../constValue';
 import styles from './profilewithpercentage.module.css';
+
 const cx = classNames.bind(styles);
 
 type Props = {
@@ -29,10 +31,10 @@ const ProfileWithPercentage = ({ index, dataList, isPercentage }: Props) => {
         }}
       >
         {isEmpty(dataList.image) || dataList.image === 'default.jpg' ? (
-          <Text bold size={16} color="white" align="center">
-            {firstNameChar(dataList.first_name)}{dataList.last_name?.charAt(0)}
-            {/* {dataList.first_name.charAt(0)} */}
-            {/* {dataList.last_name?.charAt(0)} */}
+          <Text bold size={16} color="white" align="center" style={{textTransform:"uppercase"}}>
+            {firstNameChar(dataList.first_name)}{(dataList.last_name?.charAt(0))}
+            {/* {(dataList.first_name.charAt(0)).toUpperCase()}
+            {dataList.last_name?.charAt(0).toUpperCase()} */}
           </Text>
 
         ) : (

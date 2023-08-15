@@ -60,9 +60,10 @@ const MyDataBaseFilter = ({
   const myRef = useRef<any>();
   const dropDownRef = useRef(null);
   const [showDropDown, setShowDropDown] = useState(false); 
+  const [skildata,setskildata]=useState([])
   const click=()=>{
     setShowDropDown(!showDropDown)
-}
+  }
 
   const filteredOptions = useMemo(() => { 
     if (!isSkills) { 
@@ -84,6 +85,14 @@ const MyDataBaseFilter = ({
     }
     return [...matchByStart, ...matchByInclusion];
   }, [isSkills]);
+
+  const handleselectskill=(option: any) => {
+    formik.setFieldValue('skillValue', option);
+    setskildata(option)
+  }
+
+  const hiddenSkills =skill.slice(4, skill.length);
+
   const slicedOptions = useMemo(
     () => filteredOptions.slice(0, MAX_DISPLAYED_OPTIONS),
     [filteredOptions],
@@ -181,14 +190,14 @@ const MyDataBaseFilter = ({
         formik.values.experience.value,  
   ]);
 // filterv refresh function
+  
   const filterRefresh = () => {
     hanldeRefresh();
     setSearch('');
     setRelocate(false);
     formik.resetForm()
+    setSkills('')
   };
-
-
   
   const closeexp = () => {
     setexperience('');
@@ -218,14 +227,19 @@ const MyDataBaseFilter = ({
     setSearch('')
     formik.setFieldValue("locationSearch","");
     };
-    const skillval = (id) => {
-      if(skill.length===1){
-        setskill([]);
-        formik.setFieldValue("skillValue","");
-      }
-        skill.splice(id,1) ;
-        formik.values.skillValue=skill;
-        setskill(formik.values.skillValue)
+    const skillval = (id,val) => {
+
+      console.log("rrr",val)
+      var gremove = skildata.filter((obj) => obj.label !== val.label);
+
+      setskildata(gremove);
+      // if(skill.length===0){
+      //   setskill([]);
+      //   formik.setFieldValue("skillValue","");
+      // }
+      //   skill.splice(id,1) ;
+      //   formik.values.skillValue=skill;
+      //   setskill(formik.values.skillValue)
       };
   useEffect(() => {
     setQualificationValue(
@@ -238,14 +252,11 @@ const MyDataBaseFilter = ({
     if(qualificationOption.length !== 0 && ans.length !==0){
       setqual(ans);
     }
-   console.log("ans",ans);
   },[qualificationOption])
 
     const closestatus1 = (id) => {
      const objIndex = qualificationOption.findIndex((obj,index)=> index === id);
      qualificationOption[objIndex].checked = false
-     console.log("index111111111",objIndex)
-     console.log("new quali",qualificationOption)
      };
 
   const expe=formik.values.experience.label==="All";
@@ -275,7 +286,6 @@ const MyDataBaseFilter = ({
 
     return (
       <>
-      {console.log("KKKKKKKKKKKKKKKKK", total)}
       {doc.label !=="any"?(
       <Text className={styles.quickfil}>
       {doc.label}{" "}
@@ -292,12 +302,40 @@ const MyDataBaseFilter = ({
     );
   };
 
+  const closeSkillOption = (doc: { value: string; label: string }) => {
+    const newOptions = [...skill];
+
+    const indx = newOptions.indexOf(doc);
+    if (indx !== -1) {
+      newOptions.splice(indx, 1);
+      setSkills(newOptions);
+      return;
+    }
+  };
+  const isDefaultFilter = () => {
+    const qualification = (qualificationValue || []).filter(
+      (doc) => doc.value !== 'any',
+    );
+    const skills = skill || [];
+    if (
+      qualification?.length === 0 &&
+      skills?.length === 0
+    ) {
+      return true;
+    }
+    return false;
+  };
  return (
 <>
+<Flex row>
 <div className={styles.quickfilters}>
 <Text size={13}className={""} style={{marginTop:"3px"}}>
         Quick Filters :
       </Text>
+      {isDefaultFilter() ? (
+            <Text className={styles.quickfil}>{'All'}</Text>
+          ) : (
+            <Flex row wrap style={{display:"contents"}}>
       {qualificationValue &&
         qualificationValue.map((doc, index) => (
           <RenderQuickFilter
@@ -305,11 +343,10 @@ const MyDataBaseFilter = ({
             doc={{ label: doc.label, value: doc.value }}
             onClose={() => closeQualification(doc)}
           />
-
         ))}
             {formik.values.experience.label ==="All"|| experience===''?(
               null
-            ): (
+            ) : (
               <Text className={styles.quickfil}>
               {experience}{" "}
               <SvgIntomark
@@ -342,12 +379,93 @@ const MyDataBaseFilter = ({
                   onClick={() => locationsrh()}
                 />
               </Text>
+              
             )
             }
+              {/* {skill &&
+                showskills.map((doc, index) => (
+                  <RenderQuickFilter
+                    key={index}
+                    doc={{ label: doc.label, value: doc.value }}
+                    onClose={() => closeSkillOption(doc)}
+                  />
+                ))}
+              {hiddenSkills && hiddenSkills.length > 0 && (
+                <Text
+                  className={styles.quickfil}
+                >{`Skills : + ${hiddenSkills.length}`}</Text>
+              )} */}
+          {formik.values.skillValue.length === 0||skill.length=== 0?(
+              null
+            ) : (
+              skildata.slice(0,4).map((skills,index) =>(
+              <Text className={styles.quickfil} key={skills}>
+                {skills.label}{" "}
+                <SvgIntomark
+                  className={styles.stylesvg}
+                  onClick={() => skillval(index,skills)}
+                />
+              </Text>
+              )))
+              }
+              {hiddenSkills && hiddenSkills.length > 0 && (
+                <Text
+                  className={styles.quickfil}
+                >{`Skills : + ${hiddenSkills.length}`}</Text>
+              )}
+            </Flex>
+          )}
+      {/* {qualificationValue &&
+        qualificationValue.map((doc, index) => (
+          <RenderQuickFilter
+            key={index}
+            doc={{ label: doc.label, value: doc.value }}
+            onClose={() => closeQualification(doc)}
+          />
+        ))}
+            {formik.values.experience.label ==="All"|| experience===''?(
+              null
+            ) : (
+              <Text className={styles.quickfil}>
+              {experience}{" "}
+              <SvgIntomark
+                className={styles.stylesvg}
+                onClick={() => closeexp()}
+              />
+            </Text>
+            )
+            }
+
+            {formik.values.jobType ===''||jobname===''?(
+              null
+            ): (
+              <Text className={styles.quickfil}>
+                {jobname}{" "}
+                <SvgIntomark
+                  className={styles.stylesvg}
+                  onClick={() => closejob()}
+                />
+              </Text>
+            )
+            }
+            {formik.values.locationSearch ===''||location===''?(
+              null
+            ): (
+              <Text className={styles.quickfil}>
+                {location}{" "}
+                <SvgIntomark
+                  className={styles.stylesvg}
+                  onClick={() => locationsrh()}
+                />
+              </Text>
+              
+            )
+            }
+
             {formik.values.skillValue.length === 0||skill.length=== 0?(
               null
             ) : (
-              skill.map((skills,index) =>
+              showskills.map((skills,index) =>(
               <Text className={styles.quickfil} key={skills}>
                 {skills}{" "}
                 <SvgIntomark
@@ -355,9 +473,14 @@ const MyDataBaseFilter = ({
                   onClick={() => skillval(index)}
                 />
               </Text>
-              )
-            )
-            }
+              )))
+              }
+              {hiddenSkills && hiddenSkills.length > 0 && (
+                <Text
+                  className={styles.quickfil}
+                >{`Skills : + ${hiddenSkills.length}`}</Text>
+              )} */}
+            
 {isRelocate ?(
   <Text className={styles.quickfil}>
      {"Willing to Relocate"}{" "}
@@ -366,10 +489,12 @@ const MyDataBaseFilter = ({
               onClick={() => setRelocate(false)}
             />
    </Text>
-): (
+) : (
 null
 )
 }
+
+
 </div>
     <div  ref={dropDownRef} className={styles.drop_down} style={{ zIndex: 1}}>
     <Flex
@@ -461,6 +586,7 @@ null
     </Flex>
       </Flex>
       <Flex className={styles.mtstyle}   >
+        {console.log("akak",skildata)}
         <div className={styles.skillContainer}>
         <Text color="primary" size={14} bold style={{marginBottom:"5px"}}>
       Skills
@@ -472,13 +598,12 @@ null
                 isMulti
                 options={slicedOptions}
                 onInputChange={(value) => setSkills(value)}
-                onChange={(option) => {
-                  formik.setFieldValue('skillValue', option);
-                }}
+                onChange={handleselectskill}
                 isSearchable
                 isCreate
                 value={formik.values.skillValue}
               />
+              
             </div>
       </Flex>
      
@@ -512,15 +637,16 @@ null
             checked={isRelocate}
            />
       </Flex>
-        <Flex className={styles.toggletext}>
+        <Text color= "primary" bold className={styles.toggletext}>
             Willing to Relocate
-        </Flex>
+        </Text>
       </Flex>
 
      </div>
   
     </div>
     </div>
+    </Flex>
 </>
      );
 };
