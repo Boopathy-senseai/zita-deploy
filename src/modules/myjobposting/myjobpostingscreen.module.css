@@ -2,7 +2,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  overflow: auto;
+  /* overflow: auto; */
   width: "100%";
   height: 620px;
 }
@@ -15,7 +15,7 @@
   
   color: #666666;
   font-size: 12px;
-  /* overflow-y: scroll; */
+  overflow-y: scroll;
 }
  
 .triangle {
@@ -282,6 +282,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 40px;
 }
 .padding10 {
   padding: 3px;

@@ -26,20 +26,12 @@ const Reports = () => {
     }
   });
   return (
-    <div
-      style={{
-        position: "relative",
-        display: "flex",
-        flexDirection: "column",
-        height: "100%",
-        overflowY: 'auto',
-      }}
-    >
+    
       <Flex className={styles.overAll} >
         
         <Flex row className={styles.ribbon} between>
         <Flex marginTop={9} marginLeft={8} >
-          <Text size={18} bold color="theme" >
+          <Text size={16} bold color="theme" >
           Reports
           </Text>
 
@@ -50,7 +42,15 @@ const Reports = () => {
         </Flex>
 
         </Flex>
-
+        <div
+        style={{
+        position: "relative",
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+        overflowY: 'auto',
+      }}
+      >
         <Flex className={styles.marginTop}>
           <Text size={18} bold>
             Candidates
@@ -136,8 +136,9 @@ const Reports = () => {
           <Flex flex={4}> </Flex>
           <Flex flex={4}> </Flex>
         </Flex>
+        </div>
       </Flex>
-    </div>
+    
   );
 };
 
