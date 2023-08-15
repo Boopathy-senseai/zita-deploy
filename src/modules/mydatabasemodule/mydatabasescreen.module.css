@@ -64,7 +64,7 @@
 }
 .ribbon{
   background-color: #EEE8EC;
-  height: 45px;
+  height: 40px;
 }
 .triangle {
   width: 0px;
@@ -78,7 +78,7 @@
 }
 
 .titleContainer {
-  padding: 10px;
+  padding: 8px;
   background-color: #eee8ec;
   font-size: 12px;
   margin-bottom: 10px;
