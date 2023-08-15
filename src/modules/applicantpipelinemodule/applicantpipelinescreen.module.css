@@ -25,6 +25,7 @@
   justify-content: space-between;
   position: relative;
   padding-right: 40px;
+  height: 40px;
 }
 .triangle {
   width: 0;
