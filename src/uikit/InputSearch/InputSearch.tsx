@@ -39,7 +39,8 @@ type Props = {
   errorMessage?: string;
   error?: boolean;
   labelBold?: boolean;
-  onkeyPress?: any;
+
+  onkeyPress?: (a: any) => void;
   // onBlur?: (a: any) => void;
   style?: string;
   autoFocus?: boolean;

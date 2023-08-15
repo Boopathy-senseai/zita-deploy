@@ -9,6 +9,7 @@ import { routesPath } from '../../../routes/routesPath';
 import { RootState } from '../../../store';
 import { WHITE } from '../../../uikit/Colors/colors';
 import InputSearch from '../../../uikit/InputSearch/InputSearch';
+import InputSearchnav from '../../../uikit/InputSearch/inputsearchnav';
 import { searchOptions } from './mock';
 import styles from './navbar.module.css';
 
@@ -284,7 +285,7 @@ const NavigationSearch = ({ onButtonClick ,onbuttonchange}) => {
         <SvgSearch fill={'#581845'} />
       </div>
 
-     <InputSearch
+     <InputSearchnav
       
         style={styles.searchStyle}
         placeholder="Enter your search here..."
@@ -293,7 +294,7 @@ const NavigationSearch = ({ onButtonClick ,onbuttonchange}) => {
         name="value"
         onkeyPress={(event) => {
           if (event.key === 'Enter') {
-            {console.log("values",event.target.value)}
+           
             searchNavigate(event.target.value);
             formik.setFieldValue('value', event.target.value);
           }
