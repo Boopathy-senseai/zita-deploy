@@ -27,7 +27,7 @@ const MyJobPostingScreenStatus = ({ list }: Props) => {
         <ul className={styles.ulstyle1}>  
         {isEmpty(list.shortlisted) ? 
 
-         <li style={{color:"#FCC203",fontSize:20}} className={styles.shortlist}>
+         <li style={{color:"#FCC203",fontSize:14}} className={styles.shortlist}>
            {/* <LinkWrapper
               target={'_parent'}
               to={`/applicant_pipe_line/${list.id}`}
@@ -41,7 +41,7 @@ const MyJobPostingScreenStatus = ({ list }: Props) => {
 
           :
 
-           <li style={{color:"#FCC203",fontSize:20}} className={styles.shortlist} >
+           <li style={{color:"#FCC203",fontSize:14}} className={styles.shortlist} >
             <LinkWrapper
               target={'_parent'}
               to={`/applicant_pipe_line/${list.id}`}
@@ -61,7 +61,7 @@ const MyJobPostingScreenStatus = ({ list }: Props) => {
        <ul className={styles.ulstyle2}>
            {isEmpty(list.hired) ? 
 
-         <li style={{color:"#00BE4B",fontSize:20}}>
+         <li style={{color:"#00BE4B",fontSize:14}}>
            {/* <LinkWrapper
               target={'_parent'}
               to={`/applicant_pipe_line/${list.id}`}
@@ -78,7 +78,7 @@ const MyJobPostingScreenStatus = ({ list }: Props) => {
 
           : 
 
-           <li style={{color:"#00BE4B",fontSize:20}}   >
+           <li style={{color:"#00BE4B",fontSize:14}}   >
             <LinkWrapper
               target={'_parent'}
               to={`/applicant_pipe_line/${list.id}`}
@@ -98,7 +98,7 @@ const MyJobPostingScreenStatus = ({ list }: Props) => {
 <ul className={styles.ulstyle3}>
            {isEmpty(list.rejected) ? 
 
-         <li style={{color:"#FF0000",fontSize:20}}>
+         <li style={{color:"#FF0000",fontSize:14}}>
            {/* <LinkWrapper
               target={'_parent'}
               to={`/applicant_pipe_line/${list.id}`}
@@ -117,7 +117,7 @@ const MyJobPostingScreenStatus = ({ list }: Props) => {
 
           : 
 
-           <li  style={{color:"#FF0000",fontSize:20}}>
+           <li  style={{color:"#FF0000",fontSize:16}}>
             <LinkWrapper
               target={'_parent'}
               to={`/applicant_pipe_line/${list.id}`}

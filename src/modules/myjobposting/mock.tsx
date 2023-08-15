@@ -10,7 +10,7 @@ export const postedOn = [
 ];
 
 export const jobTypeData = [
-  { value: 'All', label: '',  width: 70,paddingleft:50},
+  { value: 'All', label: '',  width: 92,paddingleft:50},
   { value: 'Active', label: '1',  width: 92,paddingleft:50 },
   { value: 'Inactive', label: '4',  width: 92,paddingleft:50 },
   { value: 'Draft', label: '2,5,6', width: 92,paddingleft:50 },

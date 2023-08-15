@@ -1,5 +1,10 @@
 .totalTextStyle {
   margin-bottom: 20px;
+
+}
+.totalTextStyle1 {
+  margin-bottom: 20px;
+  font-size: 14px !important;
 }
 .cardPadding {
   padding: 16px;
