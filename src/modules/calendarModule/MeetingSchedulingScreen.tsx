@@ -75,11 +75,11 @@ const MeetingSchedulingScreen = ({
   );
   const [viewMeetingSummary, setViewMeetingSummary] = useState(false);
   const [currentUserLabel, setCurrentUserLabel] = useState<string>(null);
-  const [extraNotes, _] = useState(
-    'Hello Team,' +
-      '\r\n' +
-      'We would like to confirm your interview. Please find all the relevant details below.',
-  );
+  // const [extraNotes, _] = useState(
+  //   'Hello Team,' +
+  //     '\r\n' +
+  //     'We would like to confirm your interview. Please find all the relevant details below.',
+  // );
 
   const updateCurrentApplicantId = (applicantId: number) => {
     setCurrentApplicantId(applicantId);
@@ -231,7 +231,7 @@ const MeetingSchedulingScreen = ({
           editEventDetails={editEventDetails}
           handleCloseSchedulingForm={handleCloseSchedulingForm}
           currentApplicantId={currentApplicantId}
-          extraNotes={extraNotes}
+          // extraNotes={extraNotes}
           eventId={eventId}
           setIsTopLineLoading={setIsTopLineLoading}
         />

@@ -24,7 +24,7 @@ interface Props {
   editEventDetails?: EditEventDetails | null;
   username: string;
   eventId?: string | null;
-  extraNotes: string;
+  // extraNotes: string;
   currentApplicantId: number;
   setIsTopLineLoading: React.Dispatch<React.SetStateAction<boolean>>;
   nextEvent: () => void;
@@ -40,7 +40,7 @@ const MeetingSummary = ({
   username,
   nextEvent,
   eventId,
-  extraNotes,
+  // extraNotes,
   currentApplicantId,
   setIsTopLineLoading,
 }: Props) => {
@@ -87,7 +87,7 @@ const MeetingSummary = ({
           title: getMeetingTitle(),
           reminder: getReminder(),
           app_id: String(app_id),
-          extraNotes,
+          extraNotes: applicantGreeting,
           myJd: meetingForm.job.label,
           eventId,
           privateNotes: meetingForm.privateNotes,
@@ -142,7 +142,7 @@ const MeetingSummary = ({
         applicantId: currentApplicantId,
         myJd: job.label,
         reminder: getReminder(),
-        extraNotes,
+        extraNotes: applicantGreeting,
         eventType: eventType.value,
         curJd: job.value,
         timeZone: timeZone.value,
