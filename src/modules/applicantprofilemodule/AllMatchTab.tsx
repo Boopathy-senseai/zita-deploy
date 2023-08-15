@@ -36,9 +36,7 @@ const AllMatchTab = ({width, title, inviteMessage }: Props) => {
       </Text>
       {match && match.length === 0 && applicant && applicant.length === 0 && (
         <Flex center middle  height={window.innerHeight - 125} style={{display:"flex"}}>
-          
-            <SvgRoundTick height={18} width={18} />
-        
+            <SvgRoundTick height={18} width={18} fill='gray' />      
           This candidate is not a match for any jobs
         </Flex>
       )}

@@ -54,7 +54,7 @@ const InvitationStatusTab = () => {
         </Flex>
       ):<Flex flex={1} center middle style={{display:"flex"}}>
         <Flex className={styles.svgFlex}>
-            <SvgRoundTick height={18} width={18} />
+            <SvgRoundTick height={18} width={18} fill='gray' />
         </Flex>
         {/* <Svgchatmessage fill='gray' /> */}
       <Text color="gray">Not Invited Yet</Text>
