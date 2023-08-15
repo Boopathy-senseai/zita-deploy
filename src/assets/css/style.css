@@ -28,6 +28,11 @@ body {
   flex-direction: column;
 }
 
+::-webkit-scrollbar-thumb {
+  height: 4px;
+  width: 5px;
+}
+
 .admin-bc {
   background: #dfdfdf;
 }
