@@ -453,7 +453,7 @@ const ZitaMatchDataCard = ({
                     {
                       dataList.last_name===null?(
                         dataList.first_name
-                      ):(  <>{dataList.first_name} {dataList?.last_name}</>)
+                      ):( `${dataList.first_name} ${dataList?.last_name}`)
                     }
                   </Text>
                   </Flex>

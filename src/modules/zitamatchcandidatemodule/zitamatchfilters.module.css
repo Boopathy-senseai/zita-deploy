@@ -279,4 +279,9 @@
       top: 1px;
       position: relative;
       font-weight: bold;
+      color: #333333 !important;
+    }
+
+    .jobTextStyle{
+      color: #333333 !important;
     }

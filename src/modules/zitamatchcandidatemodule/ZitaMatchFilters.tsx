@@ -563,7 +563,7 @@ const ZitaMatchFilters = ({
                   /></Text>
               }
               {
-                profilevalue !== "" &&
+                profilevalue !== "Both" &&
                 <Text className={styles.quickfil}>{profilevalue}
                   <SvgIntomark
                     className={styles.stylesvg}
@@ -715,7 +715,7 @@ const ZitaMatchFilters = ({
               }`}
           >
             <Flex className={styles.mtstyle}>
-              <Text color="theme" bold className={styles.matchTextStyle}>
+              <Text  bold className={styles.matchTextStyle}>
                 Match Score
               </Text>
               <Flex row center wrap>
@@ -740,7 +740,7 @@ const ZitaMatchFilters = ({
 
             <Flex className={styles.mtstyle}>
               <div style={{ marginTop: 8, marginBottom: 16 }}>
-              <Text color="theme" bold className={styles.jobTextStyle} style={{marginBottom:"5px"}}>
+              <Text  bold className={styles.jobTextStyle} style={{marginBottom:"5px"}}>
               Experience
               </Text>
               <div style={{marginTop:"5px"}}>
@@ -761,7 +761,7 @@ const ZitaMatchFilters = ({
               </div></Flex>
 
             <Flex className={styles.mtstyle}>
-            <Text color="theme" bold className={styles.jobTextStyle} style={{marginBottom:"5px"}}>
+            <Text  bold className={styles.jobTextStyle} style={{marginBottom:"5px"}}>
                 Skills
               </Text>
               <SelectTag
@@ -778,7 +778,7 @@ const ZitaMatchFilters = ({
               /></Flex>
 
             <Flex className={styles.mtstyle}>
-              <Text color="theme" bold className={styles.jobTextStyle}>
+              <Text  bold className={styles.jobTextStyle}>
                 Job Type
               </Text>
               <Flex row center className={styles.wrap} marginTop={3}>
@@ -802,7 +802,7 @@ const ZitaMatchFilters = ({
 
 
             <Flex className={styles.mtstyle}>
-              <Text color="theme" bold className={styles.profileTextStyle}>
+              <Text  bold className={styles.profileTextStyle}>
                 Profile
               </Text>
               <Flex row center className={styles.wrap}>
@@ -825,7 +825,7 @@ const ZitaMatchFilters = ({
               </Flex></Flex>
 
             <Flex className={styles.mtstyle}>
-              <Text color="theme" bold className={styles.qualificationTextStyle}>
+              <Text  bold className={styles.qualificationTextStyle}>
                 Qualification
               </Text>
               <Flex row center className={styles.wrap}>
@@ -849,7 +849,7 @@ const ZitaMatchFilters = ({
 
 
             <Flex className={styles.mtstyle}>
-              <Text color="theme" bold className={styles.candidateTextStyle} >
+              <Text  bold className={styles.candidateTextStyle} >
                 Candidate Invite Status
               </Text>
               <Flex row center className={styles.wrap} marginTop={2}>
