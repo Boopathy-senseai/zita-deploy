@@ -81,6 +81,7 @@
   height: 75%;
   display: flex;
   margin-top: 10%;
+  flex-direction: column;
 }
 .ribbon{
   background-color: #EEE8EC;

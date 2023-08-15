@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
+import SvgRoundTick from '../../icons/SvgRoundTick';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import styles from './allmatchtab.module.css';
@@ -34,7 +35,10 @@ const AllMatchTab = ({width, title, inviteMessage }: Props) => {
         All Matching jobs
       </Text>
       {match && match.length === 0 && applicant && applicant.length === 0 && (
-        <Flex center middle  height={window.innerHeight - 125} >
+        <Flex center middle  height={window.innerHeight - 125} style={{display:"flex"}}>
+          
+            <SvgRoundTick height={18} width={18} />
+        
           This candidate is not a match for any jobs
         </Flex>
       )}
