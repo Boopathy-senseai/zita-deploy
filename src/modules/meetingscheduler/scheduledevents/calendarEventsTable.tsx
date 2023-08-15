@@ -1,7 +1,10 @@
 import { Dropdown } from 'react-bootstrap';
+import moment from 'moment';
 import { Flex, Text } from '../../../uikit';
 import {
   EVENT_FILTER_OPTION,
+  ICalendarEvent,
+  ICalendarEventTableItem,
   IEvent,
   IEventInterviewer,
   IEventTableItem,
@@ -24,15 +27,15 @@ export type MyJobFormProps = {
 };
 
 interface Props {
-  list: IEventTableItem[];
+  list: ICalendarEventTableItem[];
   pastEvents: boolean;
   deleteState: any;
   activeRadio: EVENT_FILTER_OPTION;
-  onJoin?: (doc: IEvent) => void;
-  onEdit?: (doc: IEvent) => void;
-  onDelete?: (doc: IEvent) => void;
+  onJoin?: (doc: ICalendarEvent) => void;
+  onEdit?: (doc: ICalendarEvent) => void;
+  onDelete?: (doc: ICalendarEvent) => void;
 }
-const EventSchedulerScreen: React.FC<Props> = (props) => {
+const CalendarEventsTable: React.FC<Props> = (props) => {
   const {
     pastEvents,
     list,
@@ -52,7 +55,10 @@ const EventSchedulerScreen: React.FC<Props> = (props) => {
           <InterviewerIcon name={doc.full_name} key={sIndex} index={sIndex} />
         ))}
         {hidden && hidden.length > 0 && (
-          <InterviewerIcon name={`+ ${hidden.length}`} title={hidden.map(doc => doc.full_name).toString()} />
+          <InterviewerIcon
+            name={`+ ${hidden.length}`}
+            title={hidden.map((doc) => doc.full_name).toString()}
+          />
         )}
       </Flex>
     );
@@ -74,15 +80,20 @@ const EventSchedulerScreen: React.FC<Props> = (props) => {
           }}
         >
           <Flex marginBottom={10}>
-            <SvgCalendar width={38} height={38} fill={'#888888'} stroke={'#888888'} />
+            <SvgCalendar
+              width={38}
+              height={38}
+              fill={'#888888'}
+              stroke={'#888888'}
+            />
           </Flex>
-          <Text style={{ color: '#888888'}}>{`No ${
+          <Text style={{ color: '#888888' }}>{`No ${
             activeRadio === EVENT_FILTER_OPTION.PAST_AND_UPCOMING
               ? pastEvents
                 ? 'past'
                 : 'upcoming'
               : ''
-          } events`}</Text>
+          } calendar events`}</Text>
         </Flex>
       );
     }
@@ -140,7 +151,8 @@ const EventSchedulerScreen: React.FC<Props> = (props) => {
                 <tr style={{ height: 50 }}>
                   <td className={styles.padchanges} style={{}}>
                     <Text className={styles.stBold}>
-                      {doc.event_id__event_name}
+                      {`${doc.event_type} with ${doc.applicant}`}
+                      {/*  TODO: Change into event title or name  */}
                     </Text>
                   </td>
                   <td className={styles.padchang}>
@@ -149,21 +161,22 @@ const EventSchedulerScreen: React.FC<Props> = (props) => {
                       top
                       //  className={styles.hellothere}
                     >
-                      <Text  className={styles.stBold}>{doc.date}</Text>
+                      <Text className={styles.stBold}>{moment(doc.s_time).format("DD/MM/YYYY")}</Text>
                     </Flex>
                   </td>
                   <td className={styles.padchanges}>
-                    <Text className={styles.stBold}>{doc.time}</Text>
+                    <Text className={styles.stBold}>{`${moment(doc.s_time).format("hh:mm A")} - ${moment(doc.e_time).format("hh:mm A")}`}</Text>
                   </td>
                   <td className={styles.padchanges}>
                     <Text className={styles.stBold}>
-                      {doc.event_id__duration}
+                      {`${moment(doc.e_time).diff( moment(doc.s_time), 'minutes')} minutes`}
+                      {/* /// TODO: calculate duration based on s_time & e_time */}
                     </Text>
                   </td>
 
                   <td className={styles.padchanges} style={{}}>
                     <Text className={styles.stBold}>
-                      {doc.event_id__event_type}
+                      {doc.event_type}
                     </Text>
                   </td>
                   <td className={styles.padchanges} style={{}}>
@@ -231,4 +244,4 @@ const EventSchedulerScreen: React.FC<Props> = (props) => {
   );
 };
 
-export default EventSchedulerScreen;
+export default CalendarEventsTable;

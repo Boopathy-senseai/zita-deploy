@@ -19,8 +19,12 @@ import { calendarRoute } from '../../../appRoutesPath';
 import {
   EVENT_FILTER_OPTION,
   EVENT_TYPE,
+  ICalendarEvent,
+  ICalendarEventTableItem,
   IEvent,
+  IEventData,
   IEventTableItem,
+  IEventTeamMember,
 } from '../types';
 import { TeamMemberType } from '../../calendarModule/types';
 import { getUsersByCompanyMiddleware } from '../../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
@@ -31,6 +35,7 @@ import {
   deleteEventMiddleWare,
   getEventsMiddleWare,
 } from './store/middleware/eventsmiddleware';
+import CalendarEventsTable from './calendarEventsTable';
 
 const ScheduledEventsPage = () => {
   const history = useHistory();
@@ -38,7 +43,7 @@ const ScheduledEventsPage = () => {
   const [event, setEvent] = useState([
     { title: '', start: '', end: '', web_url: '' },
   ]);
-  const [teamMembers, setTeamMembers] = useState<TeamMemberType[]>([]);
+  const [teamMembers, setTeamMembers] = useState<IEventTeamMember[]>([]);
   const [selectedPeople, setSelectedPeople] = useState<number[]>([]);
   const [filters, setFilters] = useState<{
     type: EVENT_TYPE;
@@ -50,7 +55,7 @@ const ScheduledEventsPage = () => {
     isPast: false,
   });
 
-  const [showDropDownMenu, setShowDropDownMenu] = useState<boolean>(true);
+  const [showDropDownMenu, setShowDropDownMenu] = useState<boolean>(false);
   const gotoCalander = () => {
     history.push(calendarRoute, { openScheduleEvent: true });
   };
@@ -62,9 +67,10 @@ const ScheduledEventsPage = () => {
     onSubmit: () => {},
   });
 
-  const { scheduleEventState } = useSelector(
-    ({ scheduledEventsReducers }: RootState) => ({
+  const { scheduleEventState, user } = useSelector(
+    ({ scheduledEventsReducers, userProfileReducers }: RootState) => ({
       scheduleEventState: scheduledEventsReducers,
+      user: userProfileReducers?.user,
     }),
   );
 
@@ -77,7 +83,7 @@ const ScheduledEventsPage = () => {
 
   const getTrue = (type: EVENT_FILTER_OPTION) => {
     if (type === EVENT_FILTER_OPTION.DATE) {
-      return 'Tru';
+      return 'False';
     }
     return 'True';
   };
@@ -86,13 +92,14 @@ const ScheduledEventsPage = () => {
     dispatch(getUsersByCompanyMiddleware())
       .then((res) => {
         setTeamMembers(
-          res.payload.users.map((user: TeamMemberType) => {
+          res.payload.users.map((doc: TeamMemberType) => {
             return {
-              userId: user.userId,
-              firstName: user.firstName,
-              lastName: user.lastName,
-              email: user.email,
-              calendarEmail: user.calendarEmail,
+              id: doc.userId,
+              user: doc.firstName,
+              user__first_name: doc.firstName,
+              user__last_name: doc.lastName,
+              full_name: `${doc.firstName} ${doc.lastName}`,
+              name_id: doc.userId,
             };
           }),
         );
@@ -104,9 +111,12 @@ const ScheduledEventsPage = () => {
     dispatch(
       getEventsMiddleWare({
         event: filters.type === EVENT_TYPE.MY_EVENTS ? 'True' : 'False',
-        data: getCurrentDate(filters.activeRadio),
+        date: getCurrentDate(filters.activeRadio),
+        other_user: selectedPeople.length !== 0 ? selectedPeople : undefined,
       }),
-    );
+    ).then((res) => {
+      setSelectedPeople(((res.payload as IEventData).teammembers || []).filter(doc => filters.type === EVENT_TYPE.MY_EVENTS ? doc.user === user.id : doc.user !== user.id).map(doc => doc.id))
+    });
   }, []);
 
   useEffect(() => {
@@ -116,19 +126,30 @@ const ScheduledEventsPage = () => {
           filters.type === EVENT_TYPE.MY_EVENTS
             ? getTrue(filters.activeRadio)
             : 'False',
-        data: getCurrentDate(filters.activeRadio),
+        date: getCurrentDate(filters.activeRadio),
+        other_user: selectedPeople.length !== 0 ? selectedPeople : undefined,
       }),
-    );
-  }, [filters.type, filters.activeRadio, filters.isPast]);
+    ).then((res) => {
+      setSelectedPeople(((res.payload as IEventData).teammembers || []).filter(doc => filters.type === EVENT_TYPE.MY_EVENTS ? doc.user === user.id : doc.user !== user.id).map(doc => doc.id))
+    });;
+  }, [
+    filters.type,
+    filters.activeRadio,
+    filters.isPast,
+    selectedPeople.toString(),
+  ]);
 
   const getEventsData = (value?: string) => {
     dispatch(
       getEventsMiddleWare({
         event: filters.type === EVENT_TYPE.MY_EVENTS ? 'True' : 'False',
-        data:
+        date:
           filters.activeRadio === EVENT_FILTER_OPTION.DATE ? value : undefined,
+        other_user: selectedPeople.length !== 0 ? selectedPeople : undefined,
       }),
-    );
+    ).then((res) => {
+      setSelectedPeople(((res.payload as IEventData).teammembers || []).filter(doc => filters.type === EVENT_TYPE.MY_EVENTS ? doc.user === user.id : doc.user !== user.id).map(doc => doc.id))
+    });;
   };
 
   const handleJoinEvent = (doc: IEvent) => {
@@ -146,8 +167,22 @@ const ScheduledEventsPage = () => {
     );
   };
 
+  const handleCalendarJoinEvent = (doc: ICalendarEvent) => {
+    history.push(calendarRoute, { openScheduleEvent: true });
+  };
+  const handleCalendarEditEvent = (doc: ICalendarEvent) => {
+    history.push(calendarRoute, { openScheduleEvent: true });
+  };
+  const handleCalendarDeleteEvent = (doc: ICalendarEvent) => {
+    // dispatch(
+    //   deleteEventMiddleWare({
+    //     eventid: doc.id,
+    //     event: filters.type === EVENT_TYPE.MY_EVENTS ? 'True' : 'False',
+    //   }),
+    // );
+  };
+
   const handlePeopleChange = (value: number) => {
-    
     setSelectedPeople((prev) => {
       const newArray = [...prev];
       const index = newArray.indexOf(value);
@@ -159,42 +194,113 @@ const ScheduledEventsPage = () => {
     });
   };
 
-  const eventsList = (): IEventTableItem[] => {
-    if (filters.isPast) {
-      return scheduleEventState?.pastEvent.map((doc) => {
+  const eventsList = (): {
+    events: IEventTableItem[];
+    calEvents: ICalendarEventTableItem[];
+  } => {
+    if (filters.activeRadio === EVENT_FILTER_OPTION.DATE) {
+      return {
+        events: scheduleEventState?.event.map((doc) => {
+          return {
+            ...doc,
+            interviewers: scheduleEventState?.interviewers.filter(
+              (s) => s.event_id === doc.event_id,
+            ),
+          };
+        }),
+        calEvents: scheduleEventState?.calevents_events.map((doc) => {
+          return {
+            ...doc,
+            interviewers: [],
+          };
+        }),
+      };
+    }
+    if (filters.activeRadio === EVENT_FILTER_OPTION.PAST_AND_UPCOMING) {
+      if (filters.isPast) {
         return {
-          ...doc,
-          interviewers: scheduleEventState?.interviewers.filter(
-            (s) => s.event_id === doc.event_id,
-          ),
+          events: scheduleEventState?.pastEvent.map((doc) => {
+            return {
+              ...doc,
+              interviewers: scheduleEventState?.interviewers.filter(
+                (s) => s.event_id === doc.event_id,
+              ),
+            };
+          }),
+          calEvents: scheduleEventState?.calevents_past_event.map((doc) => {
+            return {
+              ...doc,
+              interviewers: [],
+            };
+          }),
         };
-      });
+      }
+
+      return {
+        events: scheduleEventState?.upcomingEvent.map((doc) => {
+          return {
+            ...doc,
+            interviewers: scheduleEventState?.interviewers.filter(
+              (s) => s.event_id === doc.event_id,
+            ),
+          };
+        }),
+        calEvents: scheduleEventState?.calevents_upcoming_event.map((doc) => {
+          return {
+            ...doc,
+            interviewers: [],
+          };
+        }),
+      };
     }
 
-    return scheduleEventState?.upcomingEvent.map((doc) => {
-      return {
-        ...doc,
-        interviewers: scheduleEventState?.interviewers.filter(
-          (s) => s.event_id === doc.event_id,
-        ),
-      };
-    });
+    return {
+      events: [],
+      calEvents: [],
+    };
   };
 
   const renderTable = () => {
     if (scheduleEventState?.isLoading) {
       return <Loader />;
     }
+    const data = eventsList();
     return (
-      <Table
-        list={eventsList()}
-        pastEvents={filters.isPast}
-        activeRadio={filters.activeRadio}
-        deleteState={scheduleEventState?.deleteState}
-        onJoin={handleJoinEvent}
-        onEdit={handleEditEvent}
-        onDelete={handleDeleteEvent}
-      />
+      <Flex
+        column
+        flex={1}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100%',
+          height: '100%',
+          overflow: 'hidden',
+        }}
+      >
+        <TableWrapper title="Events">
+          <Table
+            list={data.events}
+            pastEvents={filters.isPast}
+            activeRadio={filters.activeRadio}
+            deleteState={scheduleEventState?.deleteState}
+            onJoin={handleJoinEvent}
+            onEdit={handleEditEvent}
+            onDelete={handleDeleteEvent}
+          />
+        </TableWrapper>
+
+        <TableWrapper title="Calendar Events">
+          <CalendarEventsTable
+            list={data.calEvents}
+            pastEvents={filters.isPast}
+            activeRadio={filters.activeRadio}
+            deleteState={scheduleEventState?.deleteState}
+            onJoin={handleCalendarJoinEvent}
+            onEdit={handleCalendarEditEvent}
+            onDelete={handleCalendarDeleteEvent}
+          />
+        </TableWrapper>
+      </Flex>
     );
   };
 
@@ -321,7 +427,8 @@ const ScheduledEventsPage = () => {
             handleDropDown={handleDropDown}
             onPeopleChange={handlePeopleChange}
             selectedPeople={selectedPeople}
-            teamMembers={teamMembers}
+            teamMembers={scheduleEventState.teammembers}
+            currentUser={user}
           />
 
           <Button className={styles.scheduleButton} onClick={gotoCalander}>
@@ -333,12 +440,51 @@ const ScheduledEventsPage = () => {
         style={{
           padding: '10px',
           height: 'calc(100% - 61px)',
-          overflow: 'auto',
+          overflow: 'hidden',
         }}
       >
         {renderTable()}
       </Flex>
     </>
+  );
+};
+
+interface TableWrapperProps {
+  title: string;
+  children: React.ReactNode;
+}
+const TableWrapper: React.FC<TableWrapperProps> = (props) => {
+  return (
+    <Flex
+      column
+      flex={1}
+      style={{
+        display: 'flex',
+        flex: 1,
+        flexDirection: 'column',
+        overflow: 'hidden',
+      }}
+    >
+      <Flex
+        row
+        center
+        style={{ padding: 10, backgroundColor: '#eee8ec', marginBottom: 10 }}
+      >
+        {props.title}
+      </Flex>
+      <Flex
+        column
+        style={{
+          height: 'calc(100% - 50px)',
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'auto',
+          padding: '0 10px',
+        }}
+      >
+        {props.children}
+      </Flex>
+    </Flex>
   );
 };
 export default ScheduledEventsPage;

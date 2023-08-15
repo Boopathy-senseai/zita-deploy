@@ -1,8 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import { Flex, InputSwitch, Text } from '../../../uikit';
 import SvgArrowDown from '../../../icons/SvgArrow';
-import { EVENT_TYPE } from '../types';
+import { EVENT_TYPE, IEventTeamMember } from '../types';
 import { TeamMemberType } from '../../calendarModule/types';
+import { UserEntity } from '../../accountsettingsmodule/userprofilemodule/UserProfileTypes';
 import styles from './eventsMenu.module.css';
 import PeopleCheckbox from './peopleCheckbox';
 
@@ -10,7 +11,8 @@ interface Props {
   showDropDownMenu: boolean;
   eventType: EVENT_TYPE;
   selectedPeople: any[];
-  teamMembers: TeamMemberType[];
+  teamMembers: IEventTeamMember[];
+  currentUser: UserEntity;
   onEventType: (v: EVENT_TYPE) => void;
   handleDropDown: () => void;
   onPeopleChange: (value: any) => void;
@@ -19,6 +21,7 @@ interface Props {
 
 const EventsMenu: React.FC<Props> = ({
   teamMembers,
+  currentUser,
   selectedPeople,
   showDropDownMenu,
   eventType,
@@ -31,12 +34,12 @@ const EventsMenu: React.FC<Props> = ({
     <div>
        <div style={{ marginTop: '10px' }}>
           <p style={{ margin: 0, marginTop: '10px' }}>People</p>
-          {teamMembers.map((member, index) => (
+          {teamMembers.filter(doc => doc.user !== currentUser?.id).map((member, index) => (
             <PeopleCheckbox
               key={index}
-              checked={selectedPeople.includes(member.userId)}
-              onClick={() => onPeopleChange(member.userId)}
-              label={`${member.firstName} ${member.lastName}`}
+              checked={selectedPeople.includes(member.id)}
+              onClick={() => onPeopleChange(member.id)}
+              label={member.full_name || `${member.user__first_name} ${member.user__last_name}`}
             />
           ))}
         </div>
@@ -48,12 +51,13 @@ const EventsMenu: React.FC<Props> = ({
       <div>
         <div style={{ marginTop: '10px' }}>
           <p style={{ margin: 0, marginTop: '10px' }}>People</p>
-          {teamMembers.map((member, index) => (
+          {teamMembers.filter(doc => doc.user === currentUser?.id).map((member, index) => (
             <PeopleCheckbox
               key={index}
-              checked={selectedPeople.includes(member.userId)}
-              onClick={() => onPeopleChange(member.userId)}
-              label={`${member.firstName} ${member.lastName}`}
+              checked={ true} /// selectedPeople.includes(member.id)
+              disabled={true}
+              onClick={() => onPeopleChange(member.id)}
+              label={member.full_name || `${member.user__first_name} ${member.user__last_name}`}
             />
           ))}
         </div>

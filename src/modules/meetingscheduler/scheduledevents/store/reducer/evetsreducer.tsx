@@ -1,13 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getEventsMiddleWare, deleteEventMiddleWare } from '../middleware/eventsmiddleware';
-import { IEvent, IEventInterviewer } from '../../../types';
+import {
+  getEventsMiddleWare,
+  deleteEventMiddleWare,
+} from '../middleware/eventsmiddleware';
+import { ICalendarEvent, IEvent, IEventInterviewer, IEventTeamMember } from '../../../types';
 
 interface State {
   isLoading: boolean;
   error: any;
+  event: IEvent[];
   pastEvent: IEvent[];
   upcomingEvent: IEvent[];
   interviewers: IEventInterviewer[];
+  teammembers: IEventTeamMember[];
+  calevents_events: ICalendarEvent[];
+  calevents_upcoming_event: ICalendarEvent[];
+  calevents_past_event: ICalendarEvent[];
   deleteState: {
     id: any;
     isLoading: boolean;
@@ -18,9 +26,14 @@ interface State {
 const initialState: State = {
   isLoading: false,
   error: '',
+  event: [],
   pastEvent: [],
   upcomingEvent: [],
   interviewers: [],
+  teammembers: [],
+  calevents_events: [],
+  calevents_upcoming_event: [],
+  calevents_past_event: [],
   deleteState: {
     id: null,
     isLoading: false,
@@ -39,9 +52,15 @@ const scheduledEventsReducer = createSlice({
     });
     builder.addCase(getEventsMiddleWare.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.pastEvent = action.payload.past_event;
-      state.upcomingEvent = action.payload.upcoming_event;
-      state.interviewers =  action.payload.interviewer;
+      state.pastEvent = action.payload.past_event || [];
+      state.upcomingEvent = action.payload.upcoming_event || [];
+      state.interviewers = action.payload.interviewer || [];
+      state.event = action.payload.event || [];
+      state.teammembers = action.payload.teammembers || [];
+      state.calevents_events = action.payload.calevents_events || [];
+      state.calevents_past_event = action.payload.calevents_past_event || [];
+      state.calevents_upcoming_event =
+        action.payload.calevents_upcoming_event || [];
     });
     builder.addCase(getEventsMiddleWare.rejected, (state, action) => {
       state.isLoading = false;

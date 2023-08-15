@@ -338,14 +338,19 @@
   margin-bottom: 182px;
 }
 
-.padchange {
+.hpadchange{
   padding: 0 !important;
   padding-bottom: 15px !important;
   padding-right: 15px !important;
 }
+.padchange {
+  padding: 0 !important;
+  /* padding-bottom: 15px !important; */
+  padding-right: 15px !important;
+}
 .padchanges {
   padding: 0 !important;
-  padding-bottom: 15px !important;
+  /* padding-bottom: 15px !important; */
   padding-right: 15px !important;
   vertical-align: baseline !important;
   padding-top: 7.5px !important;
