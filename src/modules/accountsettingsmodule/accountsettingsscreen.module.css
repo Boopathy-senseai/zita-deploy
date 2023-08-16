@@ -33,7 +33,7 @@
 }
 .borderStyle {
   /* padding: 0 20px; old changed for manage users */
-  padding: 0 20px;
+  padding: 0 20px 0 5px;
   /* border: 1px solid var(--color-gary-7, #dfdfdf);
   border-top: 2px solid var(--color-gary-7, #dfdfdf); */
   border-bottom-left-radius: 4px;
