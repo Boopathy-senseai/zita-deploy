@@ -65,14 +65,15 @@ const EventSchedulerScreen: React.FC<Props> = (props) => {
     return (
       <Flex row wrap>
         {show.map((doc, sIndex) => (
-          <InterviewerIcon name={doc.full_name} key={sIndex} index={sIndex} />
+          doc.full_name
+          // <InterviewerIcon name={doc.full_name} key={sIndex} index={sIndex} />
         ))}
-        {hidden && hidden.length > 0 && (
+        {/* {hidden && hidden.length > 0 && (
           <InterviewerIcon
             name={`+ ${hidden.length}`}
             title={hidden.map((doc) => doc.full_name).toString()}
           />
-        )}
+        )} */}
       </Flex>
     );
   };

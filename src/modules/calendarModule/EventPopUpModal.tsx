@@ -90,10 +90,10 @@ const EventPopUpModal = ({
       {openEventDeleteModal ? DeleteWarningPopUp : null}
       <div className={styles.content}>
         <div className={styles.profile}>
-          <img
+          {/* <img
             src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
             alt="candidate profile pic"
-          />
+          /> */}
           <div className={styles.title}>
             <Tooltip title={title} placement="top">
               <p className={styles.eventTitle}>{title}</p>
@@ -117,13 +117,13 @@ const EventPopUpModal = ({
           {attendees?.length > 0 ? (
             <div className={styles.infoText}>
               <p style={{ marginBottom: 3 }}>Interviewer&#40;s&#41;</p>
-              <div className={styles.emailContainer}>
+              <Flex row className={styles.emailContainer}>
                 {attendees.map(
                   (item: string, index: Key | null | undefined) => (
                     <Avatar
                       key={index}
                       initials={getUserInitials({ email: item })}
-                      style={{ width: 28, height: 28 }}
+                      style={{ width: 28, height: 28, marginRight:"5px" }}
                       textStyle={{ fontSize: 12}}
                     />
                     // <p className={styles.email} key={index}>
@@ -131,7 +131,7 @@ const EventPopUpModal = ({
                     // </p>
                   ),
                 )}
-              </div>
+              </Flex>
             </div>
           ) : null}
         </div>

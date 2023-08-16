@@ -259,9 +259,12 @@ const Calendar = () => {
   }, []);
 
   useEffect(() => {
-    if (locationState.openScheduleEvent === true) {
-      setOpenScheduleForm(true);
+   if (locationState !== undefined) {
+      if (locationState.openScheduleEvent === true) {
+        setOpenScheduleForm(true);
+      }
     }
+    
   }, []);
   const handleEventScheduleForm = () => {
     if (calendarProvider) handleGetEvents(calendarProvider);
