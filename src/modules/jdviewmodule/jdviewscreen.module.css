@@ -109,7 +109,7 @@
 }
 .ribbon{
   background-color: #EEE8EC;
-  height: 45px;
+  height: 40px;
 }
 .triangle {
 width: 0px; 
@@ -118,8 +118,8 @@ border-top: 22px solid transparent;
 border-right: 30px solid white; 
 border-bottom: 22px solid transparent;
 position: relative;
-top: 71; 
-right: 43; 
+top: 1px; 
+right: 0px; 
   }
   .padding{
     padding:0px ;
