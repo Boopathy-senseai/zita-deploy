@@ -563,7 +563,7 @@ const ZitaMatchFilters = ({
                   /></Text>
               }
               {
-                profilevalue !== "Both" &&
+                profilevalue !== "" && profilevalue!=="Both" &&
                 <Text className={styles.quickfil}>{profilevalue}
                   <SvgIntomark
                     className={styles.stylesvg}

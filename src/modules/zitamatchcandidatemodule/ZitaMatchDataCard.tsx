@@ -439,7 +439,7 @@ const ZitaMatchDataCard = ({
               </Flex>
               <Flex>
                 <Flex row>
-                  <Flex>
+                  <Flex marginTop={2}>
                   <Text
                     color={isEmpty(dataList.applicant) ? 'link' : 'gray'}
                     bold
