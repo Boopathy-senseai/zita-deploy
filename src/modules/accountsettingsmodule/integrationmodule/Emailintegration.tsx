@@ -96,6 +96,8 @@ const IntegrationScreen = () => {
     if (authResult && !authResult.error) {
       console.log('Sign-in successful');
       // setIsAuthorize(true);
+      //setAuthorizemail('google');
+      // localStorage.setItem('integrate', 'google');
       loadClient();
       profile();
     } else {
@@ -160,6 +162,7 @@ const IntegrationScreen = () => {
         console.log('res++++', res);
         setEmail(res.account.username);
         setAuthorizemail('outlook');
+        localStorage.setItem('integrate', 'outlook');
       })
       .catch((error) => {
         console.log('connection faild  error------', error);
@@ -281,7 +284,11 @@ const IntegrationScreen = () => {
                   borderTop: '1px solid #c3c3c3',
                 }}
               >
-                <Button className={styles.btn} onClick={() => outlookconfig()}>
+                <Button
+                  disabled={Authorizemail === 'google' ? true : false}
+                  className={styles.btn}
+                  onClick={() => outlookconfig()}
+                >
                   <Text color="theme">Connect With Outlook</Text>
                 </Button>
               </Flex>

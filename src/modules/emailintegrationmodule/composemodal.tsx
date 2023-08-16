@@ -153,7 +153,6 @@ const Newmessage = ({
   const replaymail = () => {
     if (integration === 'outlook') {
       if (replaymsg !== '') {
-        console.log('msg', replaymsg.body.content);
         var to = [];
         var converto = [];
         var a = {
@@ -168,11 +167,12 @@ const Newmessage = ({
         };
 
         to.push(a);
-        formik.setFieldValue('userMessage', replaymsg.body.content);
+        var sub = `Re: ${replaymsg.subject}`;
+        // formik.setFieldValue('userMessage', replaymsg.body.content);
         converto.push(mailconvert);
         setTosample(to);
         setTomail(converto);
-        setSubject(replaymsg.subject);
+        setSubject(sub);
       }
     }
     if (integration === 'google') {
@@ -195,8 +195,9 @@ const Newmessage = ({
           replyto();
         }
       }
+      var Gsub = `Re: ${subjects}`;
       formik.setFieldValue('userMessage', replaymsg.body);
-      setSubject(subjects);
+      setSubject(Gsub);
     }
   };
 
@@ -234,8 +235,23 @@ const Newmessage = ({
   const forward = () => {
     if (replaymsg !== '') {
       if (integration === 'outlook') {
-        setSubject(replaymsg.subject);
-        formik.setFieldValue('userMessage', replaymsg.body.content);
+        var sub = `Fw: ${replaymsg.subject}`;
+        setSubject(sub);
+        console.log('as', atfiles);
+        let files = [];
+
+        atfiles.map((val, int) => {
+          let fileInfo = {
+            type: val.contentType,
+            name: val.name,
+            contentBytes: val.contentBytes,
+            size: val.size,
+          };
+          files.push(fileInfo);
+          setFile(files);
+          setAttachfile(files);
+        });
+        // formik.setFieldValue('userMessage', replaymsg.body.content);
       }
 
       if (integration === 'google') {
@@ -255,10 +271,11 @@ const Newmessage = ({
 
           collect.push(fileInfo);
         });
+        var Gsub = `Fw: ${subjects}`;
         setFile(collect);
         setAttachfile(collect);
-        setSubject(subjects);
-        formik.setFieldValue('userMessage', replaymsg.body);
+        setSubject(Gsub);
+        // formik.setFieldValue('userMessage', replaymsg.body);
       }
     }
   };
@@ -268,7 +285,23 @@ const Newmessage = ({
       var to = [];
       var cc = [];
       var bcc = [];
+
       if (integration === 'outlook') {
+        var converto = [];
+        var a = {
+          value: replaymsg.from.emailAddress.address,
+          label: replaymsg.from.emailAddress.address,
+        };
+
+        to.push(a);
+        const mailconvert = {
+          emailAddress: {
+            address: replaymsg.from.emailAddress.address,
+          },
+        };
+        converto.push(...replaymsg.toRecipients);
+        converto.push(mailconvert);
+
         if (replaymsg.toRecipients.length !== 0) {
           replaymsg.toRecipients.map((val, int) => {
             to.push({
@@ -277,7 +310,6 @@ const Newmessage = ({
             });
           });
         }
-
         if (replaymsg.ccRecipients.length !== 0) {
           replaymsg.ccRecipients.map((val, int) => {
             console.log('m', val['emailAddress'].address);
@@ -295,22 +327,25 @@ const Newmessage = ({
             });
           });
         }
+
+        var sub = `Re: ${replaymsg.subject}`;
         formik.setFieldValue('userMessage', replaymsg.body.content);
         setTosample(to);
         setCcsample(cc);
         setBccsample(bcc);
-        setTomail(replaymsg.toRecipients);
+        setTomail(converto);
         setCcmail(replaymsg.ccRecipients);
         setBccmail(replaymsg.bccRecipients);
-        setSubject(replaymsg.subject);
-        formik.setFieldValue('userMessage', replaymsg.body.content);
+        setSubject(sub);
+        // formik.setFieldValue('userMessage', replaymsg.body.content);
       }
 
       if (integration === 'google') {
         const subjects = replaymsg.header.find(
           (header) => header.name === 'Subject',
         ).value;
-        setSubject(subjects);
+        var Gsub = `Re: ${subjects}`;
+        setSubject(Gsub);
         formik.setFieldValue('userMessage', replaymsg.body);
         const ToEmails = replaymsg.header
           .filter((header) => header.name === 'To')
@@ -424,7 +459,8 @@ const Newmessage = ({
       bccRecipients: bccmail,
       attachments: attachfile,
     },
-    saveToSentItems: true,
+
+    //saveToSentItems: true,
   };
 
   //Reply props//
@@ -461,6 +497,11 @@ const Newmessage = ({
     bccRecipients: bccmail,
     attachments: attachfile,
     saveToSentItems: true,
+  };
+
+  const replyData = {
+    comment: 'Thank you for your message! We appreciate your feedback.',
+    subject: 'subject',
   };
 
   const composeemail = async () => {
@@ -1438,6 +1479,8 @@ const Newmessage = ({
         clearstate={clearform}
         Emailprops={integration === 'google' ? GmailDraft : Emailprops}
         auth={integration}
+        Mail_action={Mail_action}
+        mail_id={replaymsg !== '' ? replaymsg.id : ''}
       />
     </div>
   );

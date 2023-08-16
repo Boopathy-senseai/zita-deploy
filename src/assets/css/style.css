@@ -772,7 +772,6 @@ input:-webkit-autofill:active {
   padding: 5px 10px !important;
 }
 
-
 /* tab-content */
 
 .tab-content {
@@ -789,4 +788,14 @@ input:-webkit-autofill:active {
   position: relative;
   overflow: auto !important;
   flex: 1;
+}
+
+/*compose Email reach text */
+
+.tox .tox-sidebar-wrap {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  -ms-flex-preferred-size: 0;
+  height: 350px;
 }

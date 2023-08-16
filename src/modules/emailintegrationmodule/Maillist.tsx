@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { AuthCodeMSALBrowserAuthenticationProvider } from '@microsoft/microsoft-graph-client/authProviders/authCodeMsalBrowser';
+import { InteractionType, PublicClientApplication } from '@azure/msal-browser';
+import { useMsal } from '@azure/msal-react';
 import { Flex, Card, CheckBox, Text, InputText } from '../../uikit';
 import SvgRefresh from '../../icons/SvgRefresh';
 import { getDateString } from '../../uikit/helper';
@@ -6,6 +10,16 @@ import SvgSearchGlass from '../../icons/SvgSearchGlass';
 import SvgRight from '../../icons/SvgRight';
 import SvgLeft from '../../icons/SvgLeft';
 import SvgNoEmail from '../../icons/SvgNoEmails';
+import config from '../../outlookmailConfig';
+import {
+  initGoogleAuth,
+  gmail_msg,
+  getmessages,
+  Gmail_Mails,
+  getsearchmail,
+  Gmail_search,
+} from '../../emailService';
+import Loader from '../../uikit/Loader/Loader';
 import styles from './maillist.module.css';
 
 type Props = {
@@ -25,10 +39,18 @@ type Props = {
   previous1: any;
   total: any;
   msglistcount: any;
-  searchicon: any;
+
   message: any;
   noEmails: boolean;
   integration: string;
+  pagetoken: any;
+  hasMore: any;
+  isLoading: any;
+  searchapi: boolean;
+  serchmessage: any;
+  savemail: any;
+  searchSection: string;
+  search: any;
 };
 const Maillist = ({
   messagelist,
@@ -47,18 +69,41 @@ const Maillist = ({
   previous1,
   total,
   msglistcount,
-  searchicon,
+
   message,
   noEmails,
   integration,
+  pagetoken,
+  hasMore,
+  isLoading,
+  searchapi,
+  serchmessage,
+  savemail,
+  searchSection,
+  search,
 }: Props) => {
+  const msal = useMsal();
+  const authProvider = new AuthCodeMSALBrowserAuthenticationProvider(
+    msal.instance as PublicClientApplication,
+    {
+      account: msal.instance.getActiveAccount()!,
+      scopes: config.scopes,
+
+      interactionType: InteractionType.Popup,
+    },
+  );
+
   const [messages, setmesage] = useState<any>();
+  const [splittoken, setsplittoken] = useState('');
+  const [load, setload] = useState(true);
+  const [token, settoken] = useState(null);
+  const [searchicon, setSearchicon] = useState(false);
 
   const getmessage = (get, id) => {
     if (message.id !== id) {
       if (integration === 'google') {
         getmessageid(id);
-      } else {
+      } else if (integration === 'outlook') {
         removemsg();
         setmesage(get);
         selectmessage(get);
@@ -66,6 +111,61 @@ const Maillist = ({
       }
     }
   };
+
+  const serch = async () => {
+    if (search !== '' && integration === 'outlook') {
+      await getsearchmail(
+        authProvider,
+        searchSection,
+        search.trim(),
+        range,
+        splittoken,
+      )
+        .then((res) => {
+          savemail(res.value);
+          console.log('dvfd', res.value);
+          setSearchicon(res.value.length === 0 ? true : false);
+          setsplittoken(res['@odata.nextLink'].split('skiptoken=')[1]);
+          if (!res['@odata.nextLink']) {
+            setload(false);
+          }
+        })
+        .catch((error) => {
+          setload(false);
+          // console.log('get junk mail', error);
+        });
+    } else if (search !== '' && integration === 'google') {
+      initGoogleAuth()
+        .then(() => {
+          Gmail_search(searchSection, search.trim(), range, token)
+            .then((res) => {
+              console.log('ress', res);
+              savemail(res.fullMessages);
+              settoken(res.token);
+              if (res.token === undefined) {
+                console.log('ad');
+                setload(false);
+                savemail([]);
+                // settoken(null);
+              }
+            })
+            .catch((error) => {
+              console.log('cvvccv');
+              savemail([]);
+              setload(false);
+            });
+        })
+        .catch((error) => {
+          setload(false);
+        });
+    }
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      process();
+    }, 50);
+  }, [sidebarroute, searchapi]);
 
   const showfolder = () => {
     if (integration === 'google') {
@@ -138,7 +238,7 @@ const Maillist = ({
   };
 
   const referesh = () => {
-    page();
+    process();
   };
 
   const handlemessage = (val) => {
@@ -218,7 +318,7 @@ const Maillist = ({
         if (To.length !== 0) {
           const ToEmails = data
             .filter((header) => header.name === 'To')
-            .map((header) => header.value);
+            .map((header, int) => header.value);
           return (
             <Flex row>
               <Text style={{ color: '#ED4857', marginRight: '5px' }}>
@@ -299,8 +399,28 @@ const Maillist = ({
     }
   };
 
+  const process = () => {
+    if (searchapi === true) {
+      serch();
+    } else {
+      page();
+    }
+  };
+
+  const scroll = () => {
+    if (searchapi === true) {
+      return load;
+    } else {
+      return messagelist.length % range === 0 && !isLoading;
+    }
+  };
+
   return (
-    <Flex style={{ margintop: '1px' }} className={styles.maillist}>
+    <Flex
+      style={{ margintop: '1px', overflowY: 'auto' }}
+      className={styles.maillist}
+      id="scrollableDiv"
+    >
       <Flex
         row
         between
@@ -311,49 +431,22 @@ const Maillist = ({
         <Flex style={{ padding: '6px' }}>{showfolder()}</Flex>
 
         <Flex row center>
-          {sidebarroute !== 0 && (
-            <>
-              {msglistcount !== 0 && (
-                <Flex row center>
-                  <Text color="theme">{`${previous1}-${previous} of ${total}`}</Text>
-                  <Flex
-                    title="previous"
-                    className={
-                      previous1 !== 1 ? styles.icons : styles.iconsDisabled
-                    }
-                    style={{ marginLeft: '5px' }}
-                  >
-                    <SvgLeft
-                      width={12}
-                      height={12}
-                      fill={previous1 !== 1 ? '#581845' : '#58184550'}
-                      onClick={previous1 !== 1 ? previousfun : undefined}
-                    />
-                  </Flex>
-                  <Flex
-                    title="Next"
-                    className={
-                      previous !== total ? styles.icons : styles.iconsDisabled
-                    }
-                  >
-                    <SvgRight
-                      width={12}
-                      height={12}
-                      fill={previous !== total ? '#581845' : '#58184550'}
-                      onClick={previous !== total ? nextfun : undefined}
-                    />
-                  </Flex>
-                </Flex>
-              )}
-            </>
-          )}
+          {sidebarroute !== 0 && <></>}
           <Flex title="Refresh" style={{ padding: '6px' }}>
             <SvgRefresh width={18} height={18} onClick={referesh} />
           </Flex>
         </Flex>
       </Flex>
 
-      <Flex className={styles.scroll}>
+      <InfiniteScroll
+        dataLength={messagelist.length}
+        next={process}
+        // hasMore={integration === 'google' ? pagetoken !== undefined : isLoading}
+        // hasMore={messagelist.length % range === 0 && !isLoading}
+        hasMore={scroll()}
+        loader={''}
+        scrollableTarget="scrollableDiv"
+      >
         {messagelist.length !== 0 ? (
           <>
             {messagelist.map((val, int) => (
@@ -428,7 +521,8 @@ const Maillist = ({
                         <Flex
                           style={{
                             marginLeft: val.isRead ? '20px' : '10px',
-                            width: '100%',
+
+                            width: '92%',
                             display: 'flex',
                           }}
                         >
@@ -478,7 +572,9 @@ const Maillist = ({
               <>
                 {searchicon === true ? (
                   <Flex className={styles.noEmail}>
-                    <SvgSearchGlass width={65} height={65} />
+                    <Flex style={{ justifyContent: 'center' }}>
+                      <SvgSearchGlass width={65} height={65} />
+                    </Flex>
                     <Text style={{ marginTop: '10px' }}>
                       We didn`t find anthing.
                     </Text>
@@ -500,7 +596,7 @@ const Maillist = ({
             )}
           </>
         )}
-      </Flex>
+      </InfiniteScroll>
     </Flex>
   );
 };

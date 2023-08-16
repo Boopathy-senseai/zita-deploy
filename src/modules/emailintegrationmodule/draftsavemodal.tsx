@@ -11,7 +11,11 @@ import SvgoutlookMail from '../../icons/SvgOutlookmail';
 import SvgVectorClose from '../../icons/SvgMailClose';
 import Button from '../../uikit/Button/Button';
 import config from '../../outlookmailConfig';
-import { draftmail, Gmail_Draft } from '../../emailService';
+import {
+  draftmail,
+  Gmail_Draft,
+  replay_all_forward_draft,
+} from '../../emailService';
 import styles from './draftsave.module.css';
 
 type Props = {
@@ -21,6 +25,8 @@ type Props = {
   clearstate: () => void;
   Emailprops: any;
   auth: any;
+  Mail_action: any;
+  mail_id: any;
 };
 
 const Modaldraft = ({
@@ -30,6 +36,8 @@ const Modaldraft = ({
   clearstate,
   Emailprops,
   auth,
+  Mail_action,
+  mail_id,
 }: Props) => {
   const msal = useMsal();
 
@@ -52,20 +60,51 @@ const Modaldraft = ({
     closeverify();
   };
 
+  const reply_forward_replyall = async () => {
+    const replyDatas = {
+      comment: Emailprops.message.body.content,
+      subject: Emailprops.message.subject, // Change the subject value here
+      attachments: Emailprops.message.attachments,
+      toRecipients: Emailprops.message.toRecipients,
+      ccRecipients: Emailprops.message.ccRecipients,
+      bccRecipients: Emailprops.message.bccRecipients,
+    };
+
+    await replay_all_forward_draft(
+      authProvider,
+      replyDatas,
+      mail_id,
+      'createReplyAll',
+    )
+      .then((res) => {
+        closeverify();
+        clearstate();
+        composemodel();
+        Toast('Draft saved successfully', 'LONG', 'success');
+      })
+      .catch((error) => {
+        console.log('draft not save ', error);
+      });
+  };
+
   const draftsave = async () => {
     if (auth === 'google') {
       Emailprops();
     } else if (auth === 'outlook') {
-      await draftmail(authProvider, Emailprops)
-        .then((res) => {
-          closeverify();
-          clearstate();
-          composemodel();
-          Toast('Draft saved successfully', 'LONG', 'success');
-        })
-        .catch((error) => {
-          console.log('draft not save ', error);
-        });
+      if (Mail_action === 'compose') {
+        await draftmail(authProvider, Emailprops)
+          .then((res) => {
+            closeverify();
+            clearstate();
+            composemodel();
+            Toast('Draft saved successfully', 'LONG', 'success');
+          })
+          .catch((error) => {
+            console.log('draft not save ', error);
+          });
+      } else {
+        reply_forward_replyall();
+      }
     }
   };
 

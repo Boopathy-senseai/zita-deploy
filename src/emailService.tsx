@@ -182,6 +182,7 @@ export async function mailreplay(
     ?.api(`/me/messages/${id}/reply`)
     .post(data);
   // console.log('-----replaymail-----', response);
+  return response;
 }
 
 export async function mailforward(
@@ -193,6 +194,7 @@ export async function mailforward(
     ?.api(`/me/messages/${id}/forward`)
     .post(data);
   //console.log('-----replaymail-----', response);
+  return response;
 }
 
 export async function mailreplayall(
@@ -203,38 +205,73 @@ export async function mailreplayall(
   var response: any = await graphClient
     ?.api(`/me/messages/${id}/replyAll`)
     .post(data);
+  return response;
   //console.log('-----replaymail-----', response);
+}
+
+export async function replay_all_forward_draft(
+  authProvider: AuthCodeMSALBrowserAuthenticationProvider,
+  data,
+  id,
+  reply_url,
+) {
+  var response: any = await graphClient
+    .api(`/me/messages/${id}/createReply`)
+    .post(data);
+  return response;
 }
 
 export async function getsearchmail(
   authProvider: AuthCodeMSALBrowserAuthenticationProvider,
   folder,
   serchdata,
-  previous,
   range,
+  token,
 ) {
+  console.log('----------');
+  console.log('tok', token);
   if (folder === 'All') {
-    var response1: any = await graphClient
-      ?.api(`/me/messages`)
-      .count(true)
-
-      .top(1000)
-      .query(`$search="${serchdata}"`)
-      .get();
-
-    console.log('-----allsearch-----', response1);
-    return response1;
+    if (token !== '') {
+      var response1: any = await graphClient
+        ?.api(`/me/messages`)
+        .count(true)
+        .query(`$search="${serchdata}"`)
+        .top(range)
+        .skipToken(token)
+        .get();
+      console.log('-----allsearch-----', response1);
+      return response1;
+    } else {
+      var response2: any = await graphClient
+        ?.api(`/me/messages`)
+        .count(true)
+        .query(`$search="${serchdata}"`)
+        .top(range)
+        .get();
+      return response2;
+    }
   } else {
-    var response: any = await graphClient
-      ?.api(`/me/mailFolders/${folder}/messages`)
-      .count(true)
+    if (token !== '') {
+      var response: any = await graphClient
+        ?.api(`/me/mailFolders/${folder}/messages`)
+        .count(true)
+        .query(`$search="${serchdata}"`)
+        .top(range)
+        .skipToken(token)
+        .get();
+      console.log('-----tokensearchmail-----', response);
+      return response;
+    } else {
+      var res: any = await graphClient
+        ?.api(`/me/mailFolders/${folder}/messages`)
+        .count(true)
+        .query(`$search="${serchdata}"`)
+        .top(range)
+        .get();
 
-      .top(1000)
-      .query(`$search="${serchdata}"`)
-      .get();
-
-    console.log('-----particularsearchmail-----', response);
-    return response;
+      console.log('-----particularsearchmail-----', res);
+      return res;
+    }
   }
 }
 
@@ -244,7 +281,6 @@ export async function getmessages(
   previous,
   range,
 ) {
-  console.log('previous', previous);
   var response: any = await graphClient
     ?.api(`/me/mailFolders/${folder}/messages`)
     .count(true)
@@ -291,7 +327,7 @@ export async function getusermail(
   const response = await graphClient
     .api(`/me/mailFolders/${'Inbox'}/messages`)
     .count(true)
-    .query(`$search="${searchdata}"`)
+    .query(`$search="${searchdata}",$count="${true}"`)
     .get();
 
   console.log('-----particularmail-----', response);
@@ -421,6 +457,7 @@ export async function gmail_send(base64EncodedEmail) {
 
 export async function Gmail_Mails(folder, pageToken, maxresult) {
   try {
+    console.log('ff', folder);
     const response = await gapi.client.gmail.users.messages.list({
       userId: 'me',
       labelIds: folder,
@@ -431,23 +468,34 @@ export async function Gmail_Mails(folder, pageToken, maxresult) {
     const { messages } = response.result;
     const token = response.result.nextPageToken;
 
-    if (messages && messages.length > 0) {
-      const messageIds = messages.map((message) => message.id);
-      var messageResponses = [];
+    // if (messages && messages.length > 0) {
+    //   const messageIds = messages.map((message) => message.id);
+    //   var messageResponses = [];
 
-      for (const messageId of messageIds) {
-        const messageResponse = await gapi.client.gmail.users.messages.get({
+    //   for (const messageId of messageIds) {
+    //     const messageResponse = await gapi.client.gmail.users.messages.get({
+    //       userId: 'me',
+    //       id: messageId,
+    //       format: 'metadata',
+    //       metadataHeaders: ['From', 'Subject', 'To', 'Date', 'X-GM-Labels'],
+    //     });
+
+    //     messageResponses.push(messageResponse.result);
+    //   }
+    // }
+    // console.log('totalres', messageResponses);
+
+    const fullMessages = await Promise.all(
+      messages.map(async (message) => {
+        const fullMessageResponse = await gapi.client.gmail.users.messages.get({
           userId: 'me',
-          id: messageId,
-          format: 'metadata',
-          metadataHeaders: ['From', 'Subject', 'To', 'Date', 'X-GM-Labels'],
+          id: message.id,
         });
+        return fullMessageResponse.result;
+      }),
+    );
 
-        messageResponses.push(messageResponse.result);
-      }
-    }
-    console.log('totalres', messageResponses);
-    return { messageResponses, token };
+    return { token, messages, fullMessages };
   } catch (error) {
     console.error('Error loading messages:', error);
   }
@@ -532,31 +580,36 @@ export const Gmail_MessageToBin = (messageId) => {
   });
 };
 
-export const Gmail_search = async (Folder, serchdata) => {
+export const Gmail_search = async (Folder, serchdata, maxresult, pageToken) => {
+  console.log('1', Folder);
+  console.log('2', serchdata);
+
   try {
     const query = `in:${Folder} ${serchdata}`;
     const response = await gapi.client.gmail.users.messages.list({
       userId: 'me',
       q: query,
+      maxResults: maxresult,
+      pageToken: pageToken,
     });
+    console.log('-------', response.result.nextPageToken);
 
     const { messages } = response.result;
+    const token = response.result.nextPageToken;
     if (messages && messages.length > 0) {
-      const messageIds = messages.map((message) => message.id);
-      var messageResponses = [];
+      const fullMessages = await Promise.all(
+        messages.map(async (message) => {
+          const fullMessageResponse =
+            await gapi.client.gmail.users.messages.get({
+              userId: 'me',
+              id: message.id,
+            });
+          return fullMessageResponse.result;
+        }),
+      );
 
-      for (const messageId of messageIds) {
-        const messageResponse = await gapi.client.gmail.users.messages.get({
-          userId: 'me',
-          id: messageId,
-          format: 'full',
-        });
-
-        messageResponses.push(messageResponse.result);
-      }
+      return { token, messages, fullMessages };
     }
-    console.log('-search-', messageResponses);
-    return messageResponses;
   } catch (error) {
     console.error('Error loading messages:', error);
   }
@@ -610,5 +663,43 @@ export const Gmail_profile = async () => {
   const profile = await gapi.client.gmail.users.getProfile({
     userId: 'me', // 'me' refers to the authenticated user
   });
+
   return profile;
+};
+
+export const gmail_msg = async (id) => {
+  const fullMessageResponse = await gapi.client.gmail.users.messages.get({
+    userId: 'me',
+    id: id,
+  });
+  console.log('fullMessageResponse', fullMessageResponse.result);
+  return fullMessageResponse.result;
+};
+
+export const move_to_spam = async (id, folder) => {
+  const responce = await gapi.client.gmail.users.messages.modify({
+    userId: 'me',
+    id: id,
+    resource: {
+      removeLabelIds: folder,
+      addLabelIds: ['SPAM'],
+    },
+  });
+  return responce;
+};
+
+export const gmail_permanent_Delete = async (messageId) => {
+  gapi.client.gmail.users.messages
+    .delete({
+      userId: 'me',
+      id: messageId,
+    })
+    .then((response) => {
+      return response;
+      console.log('Message permanently deleted:', response);
+    })
+    .catch((error) => {
+      return error;
+      console.error('Error deleting message:', error);
+    });
 };

@@ -11,6 +11,9 @@ import {
   Gmail_unread_messages,
   Gmail_read_messages,
   Gmail_MessageToBin,
+  getmail,
+  move_to_spam,
+  gmail_permanent_Delete,
 } from '../../emailService';
 import config from '../../outlookmailConfig';
 import { Flex, Card, Text } from '../../uikit';
@@ -32,46 +35,26 @@ type Props = {
   sidebarroute: number;
   composemodal: () => void;
   removemsg: () => void;
-  // archiveapi: () => void;
-  // inboxapi: () => void;
-  // senditemapi: () => void;
-  // deleteditemsapi: () => void;
-  // junkemailapi: () => void;
-  // draftapi: () => void;
   page: () => void;
   attachments: any;
-  // previousfun: () => void;
-  // nextfun: () => void;
-  // range: any;
-  // previous: any;
-  // previous1: any;
-  // total: any;
   msglistcount: any;
   integration: string;
   updateMailaction: (val: any) => void;
+  remove_message: (id: any) => void;
+  update_message: (id: any, val: boolean) => void;
 };
 const Inbox = ({
   message,
   sidebarroute,
   composemodal,
   removemsg,
-  // archiveapi,
-  // inboxapi,
-  // senditemapi,
-  // deleteditemsapi,
-  // junkemailapi,
-  // draftapi,
   page,
   attachments,
-  // previousfun,
-  // nextfun,
-  // range,
-  // previous,
-  // previous1,
-  // total,
+  remove_message,
   msglistcount,
   integration,
   updateMailaction,
+  update_message,
 }: Props) => {
   const msal = useMsal();
   const [view, setview] = useState(true);
@@ -107,10 +90,9 @@ const Inbox = ({
     const labelIds = message.labelIds || [];
     const isRead = !labelIds.includes('UNREAD');
     if (isRead === false && message !== '') {
-      alert('n');
       await Gmail_read_messages(message.id)
         .then((res) => {
-          Toast('read successfully', 'SHORT', 'success');
+          update_message(message.id, false);
         })
         .catch((error) => {});
     }
@@ -123,6 +105,7 @@ const Inbox = ({
       };
       await mailread(authProvider, message.id, readmessage)
         .then((res) => {
+          update_message(message.id, true);
           //page();
         })
         .catch((error) => {});
@@ -130,12 +113,24 @@ const Inbox = ({
   };
 
   const googleremove = async () => {
-    alert('google');
-    await Gmail_MessageToBin(message.id)
-      .then((res) => {
-        Toast('move trach successfully', 'SHORT', 'success');
-      })
-      .catch((error) => {});
+    if (sidebarroute === 5) {
+      await gmail_permanent_Delete(message.id)
+        .then((res) => {
+          console.log('cv', res);
+          removemsg();
+          Toast('Email removed permanently', 'SHORT', 'success');
+          remove_message(message.id);
+        })
+        .catch((error) => {});
+    } else {
+      await Gmail_MessageToBin(message.id)
+        .then((res) => {
+          removemsg();
+          Toast('Moved to bin folder email successfully', 'SHORT', 'success');
+          remove_message(message.id);
+        })
+        .catch((error) => {});
+    }
   };
 
   const remove = async () => {
@@ -146,7 +141,7 @@ const Inbox = ({
             removemsg();
             page();
             Toast('Email removed permanently', 'SHORT', 'success');
-
+            remove_message(message.id);
             // console.log('res---------', res);
           })
           .catch((error) => {
@@ -158,7 +153,7 @@ const Inbox = ({
             removemsg();
             page();
             Toast('Moved to delete email successfully', 'SHORT', 'success');
-
+            remove_message(message.id);
             // console.log('res---------', res);
           })
           .catch((error) => {
@@ -189,9 +184,9 @@ const Inbox = ({
       await movefolder(authProvider, message.id, 'archive')
         .then((res) => {
           removemsg();
-          page();
+          // page();
           Toast('Moved to archive email successfully', 'SHORT', 'success');
-
+          remove_message(message.id);
           // console.log('res---------', res);
         })
         .catch((error) => {
@@ -205,8 +200,9 @@ const Inbox = ({
       await movefolder(authProvider, message.id, 'junkemail')
         .then((res) => {
           removemsg();
-          page();
+          // page();
           Toast('Moved to junk email successfully', 'SHORT', 'success');
+          remove_message(message.id);
         })
         .catch((error) => {
           // console.log('connection failed inboxxxxxxx', error);
@@ -222,8 +218,9 @@ const Inbox = ({
       await mailread(authProvider, message.id, readmessage)
         .then((res) => {
           removemsg();
-          page();
+          // page();
           //  console.log('read------++---', res);
+          update_message(message.id, false);
         })
         .catch((error) => {
           // console.log('connection failed inboxxxxxxx', error);
@@ -279,7 +276,31 @@ const Inbox = ({
   const gmailunread = async (val: any) => {
     await Gmail_unread_messages(val.id)
       .then((res) => {
-        Toast('unread successfully', 'SHORT', 'success');
+        removemsg();
+        update_message(message.id, true);
+      })
+      .catch((error) => {});
+  };
+
+  const movespam = async (val: any) => {
+    alert('spam');
+    var Gfolder = '';
+    if (sidebarroute === 1) {
+      Gfolder = 'INBOX';
+    } else if (sidebarroute === 2) {
+      Gfolder = 'SENT';
+    } else if (sidebarroute === 3) {
+      Gfolder = 'DRAFT';
+    } else if (sidebarroute === 4) {
+      Gfolder = 'SPAM';
+    } else if (sidebarroute === 5) {
+      Gfolder = 'TRASH';
+    }
+    await move_to_spam(message.id, Gfolder)
+      .then((res) => {
+        removemsg();
+        Toast('Moved to spam folder successfully', 'SHORT', 'success');
+        remove_message(message.id);
       })
       .catch((error) => {});
   };
@@ -312,7 +333,7 @@ const Inbox = ({
 
             {integration === 'google' ? (
               <Flex
-                title="Delete"
+                title="Bin"
                 className={messageIcon ? styles.icons : styles.iconsDisabled}
                 // onClick={messageIcon ? remove : undefined}
               >
@@ -339,57 +360,52 @@ const Inbox = ({
                 />
               </Flex>
             )}
+            {sidebarroute !== 4 && (
+              <>
+                {integration === 'google' ? (
+                  <Flex
+                    title="Spam"
+                    className={
+                      messageIcon ? styles.icons : styles.iconsDisabled
+                    }
+                    onClick={messageIcon ? movespam : undefined}
+                  >
+                    <SvgJunk
+                      width={16}
+                      height={16}
+                      ß
+                      stroke={messageIcon ? '#581845' : '#58184550'}
+                    />
+                  </Flex>
+                ) : (
+                  ''
+                )}
+              </>
+            )}
 
             {sidebarroute !== 6 && (
-              <Flex
-                title="Junk"
-                className={messageIcon ? styles.icons : styles.iconsDisabled}
-                onClick={messageIcon ? junk : undefined}
-              >
-                <SvgJunk
-                  width={16}
-                  height={16}
-                  ß
-                  stroke={messageIcon ? '#581845' : '#58184550'}
-                />
-              </Flex>
+              <>
+                {integration !== 'google' ? (
+                  <Flex
+                    title="Junk"
+                    className={
+                      messageIcon ? styles.icons : styles.iconsDisabled
+                    }
+                    onClick={messageIcon ? junk : undefined}
+                  >
+                    <SvgJunk
+                      width={16}
+                      height={16}
+                      ß
+                      stroke={messageIcon ? '#581845' : '#58184550'}
+                    />
+                  </Flex>
+                ) : (
+                  ''
+                )}
+              </>
             )}
           </Flex>
-
-          {/* {sidebarroute !== 0 && (
-            <>
-              <Flex row>
-                <Text color="theme">{`${previous1}-${previous} of ${total}`}</Text>
-                <Flex
-                  title="previous"
-                  className={
-                    previous1 !== 1 ? styles.icons : styles.iconsDisabled
-                  }
-                  style={{ marginLeft: '5px' }}
-                >
-                  <SvgLeft
-                    width={12}
-                    height={12}
-                    fill={previous1 !== 1 ? '#581845' : '#58184550'}
-                    onClick={previous1 !== 1 ? Previousdata : undefined}
-                  />
-                </Flex>
-                <Flex
-                  title="Next"
-                  className={
-                    previous !== total ? styles.icons : styles.iconsDisabled
-                  }
-                >
-                  <SvgRight
-                    width={12}
-                    height={12}
-                    fill={previous !== total ? '#581845' : '#58184550'}
-                    onClick={previous !== total ? Nextdata : undefined}
-                  />
-                </Flex>
-              </Flex>
-            </>
-          )} */}
         </>
       );
     }

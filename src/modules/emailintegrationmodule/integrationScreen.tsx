@@ -44,8 +44,6 @@ import {
   Gmail_profile,
 } from '../../emailService';
 import config from '../../outlookmailConfig';
-import SvgRefresh from '../../icons/SvgRefresh';
-import SvgDownload from '../../icons/SvgDownload';
 import SvgArrowDown from '../../icons/SvgArrowDown';
 import Sidebar from './sidebar';
 import Newcompose from './composemodal';
@@ -58,7 +56,10 @@ const EmailScreen = () => {
   const dispatch: AppDispatch = useDispatch();
 
   const [model, setmodel] = useState(false);
-  const [integration, setintegration] = useState('google');
+  const [int, setint] = useState(localStorage.getItem('integrate'));
+  const [integration, setintegration] = useState(
+    localStorage.getItem('integrate'),
+  );
   const [messagelist, setmessagelist] = useState([]);
   const [message, setmesage] = useState<any>('');
   const [usermail, setUsermail] = useState('');
@@ -73,15 +74,23 @@ const EmailScreen = () => {
   const [previous, setPrevious] = useState(25);
   const [previous1, setPrevious1] = useState(1);
   const [skip, setSkip] = useState(0);
-  const [range, setRange] = useState(25);
+  const [range, setRange] = useState(10);
   const [total, setTotal] = useState<any>(0);
   const [del, setDel] = useState(0);
   const [searchDropdown, setSearchDropdown] = useState(false);
   const [searchSection, setSearchSection] = useState('All');
   const [searchFolder, setSearchFolder] = useState('All Folder');
   const [searchDropdownMenu, setsearchDropdownMenu] = useState([]);
-  const [searchicon, setSearchicon] = useState(true);
+
   const [Mailaction, setMailaction] = useState('compose');
+  const [hasMore, setHasMore] = useState(true);
+
+  const [searchapi, setsearchapi] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [splittoken, setsplittoken] = useState('');
+
   const authProvider = new AuthCodeMSALBrowserAuthenticationProvider(
     msal.instance as PublicClientApplication,
     {
@@ -101,7 +110,6 @@ const EmailScreen = () => {
   };
 
   const Send = async () => {
-    setLoader(true);
     await getsenditem(authProvider)
       .then((res) => {
         setmessagelist(res.value);
@@ -222,6 +230,7 @@ const EmailScreen = () => {
       onclick: () => Select('trash ', 'Trash '),
     },
   ];
+
   const particularmailget = async () => {
     await getusermail(authProvider)
       .then((res: any) => {})
@@ -241,6 +250,55 @@ const EmailScreen = () => {
         setLoader(false);
       })
       .catch((error) => {});
+  };
+
+  const remove_message = (id) => {
+    if (integration === 'google') {
+      var gremove = messagelist.filter((obj) => obj.id !== id);
+      setmessagelist(gremove);
+    } else if (integration === 'outlook') {
+      var remove = messagelist.filter((obj) => obj.id !== id);
+
+      setmessagelist(remove);
+    }
+  };
+
+  const update_message = (id, val) => {
+    if (integration === 'google') {
+      if (val === true) {
+        let newLabel = 'UNREAD';
+        setmessagelist((prevMessages) =>
+          prevMessages.map((item) =>
+            item.id === id
+              ? { ...item, labelIds: [...item.labelIds, newLabel] }
+              : item,
+          ),
+        );
+      }
+
+      if (val === false) {
+        let newLabel = 'UNREAD';
+        setmessagelist((prevMessages) =>
+          prevMessages.map((item) =>
+            item.id === id
+              ? {
+                  ...item,
+                  labelIds: item.labelIds.filter((label) => label !== newLabel),
+                }
+              : item,
+          ),
+        );
+      }
+      foldercount();
+    } else if (integration === 'outlook') {
+      let newName = val;
+      getfolder();
+      setmessagelist((prevMessages) =>
+        prevMessages.map((item) =>
+          item.id === id ? { ...item, isRead: newName } : item,
+        ),
+      );
+    }
   };
 
   const deleteditems = async () => {
@@ -269,6 +327,8 @@ const EmailScreen = () => {
       setSearchSection('All');
       setAttachments([]);
       setnextpagetoken(null);
+      setIsLoading(true);
+      setsearchapi(false);
     }
   };
 
@@ -285,72 +345,30 @@ const EmailScreen = () => {
   const searchinput = (e) => {
     setSearch(e.target.value);
   };
+
   const serchmessage = async (e: any) => {
     // e.preventDefault();
-    if (e.key === 'Enter') {
-      if (search !== '' && integration === 'outlook') {
-        setSearchicon(false);
-        setsideroute(0);
-        setPrevious(25);
-        setSkip(0);
-        setDel(0);
-        setPrevious1(1);
-        setmessagelist([]);
-        setmesage('');
-        setLoader(true);
-        setSearch(search.trim());
-        await getsearchmail(
-          authProvider,
-          searchSection,
-          search.trim(),
-          skip,
-          range,
-        )
-          .then((res) => {
-            setSearchicon(true);
-            // removemessage();
-            setmessagelist(res.value);
-            if (res['@odata.count'] < range) {
-              setPrevious(res['@odata.count']);
-            }
-            setTotal(res['@odata.count']);
-            setLoader(false);
-          })
-          .catch((error) => {
-            // console.log('get junk mail', error);
-          });
-      } else if (search !== '' && integration === 'google') {
-        setsideroute(0);
-        setPrevious(25);
-        setSkip(0);
-        setDel(0);
-        setPrevious1(1);
-        setmessagelist([]);
-        setmesage('');
-        setLoader(true);
-        setSearch(search.trim());
-        initGoogleAuth()
-          .then(() => {
-            Gmail_search(searchSection, search.trim())
-              .then((res) => {
-                setLoader(false);
 
-                // setMailfolders(res);
-                setmessagelist(res);
-              })
-              .catch((error) => {
-                setLoader(false);
-              });
-          })
-          .catch((error) => {
-            setLoader(false);
-          });
-      }
+    if (e && e.key === 'Enter') {
+      setLoader(true);
+      setsearchapi(true);
+
+      setsideroute(0);
+      setPrevious(25);
+      setSkip(0);
+      setDel(0);
+      setPrevious1(1);
+      setmessagelist([]);
+      setmesage('');
+      setSearch(search.trim());
+      setIsLoading(true);
     }
   };
 
   const page = async () => {
-    setLoader(true);
+    if (messagelist.length === 0) {
+      setLoader(true);
+    }
     if (integration === 'outlook') {
       var folder = '';
       if (sideroute === 1) {
@@ -366,18 +384,19 @@ const EmailScreen = () => {
       } else if (sideroute === 6) {
         folder = 'junkemail';
       }
-
+      setIsLoading(true);
       await getmessages(authProvider, folder, skip, range)
         .then((res) => {
-          //removemessage();
-          setmessagelist(res.value);
+          setmessagelist((prevMessages) => [...prevMessages, ...res.value]);
           setNoEmails(res.value.length === 0 ? true : false);
-          if (res['@odata.count'] < range) {
-            setPrevious(res['@odata.count']);
-          }
+          setSkip(skip + range);
+          setIsLoading(false);
           setTotal(res['@odata.count']);
           setLoader(false);
           getfolder();
+          if (!res['@odata.nextLink']) {
+            setnextpagetoken(undefined);
+          }
         })
         .catch((error) => {});
     } else if (integration === 'google') {
@@ -393,14 +412,19 @@ const EmailScreen = () => {
       } else if (sideroute === 5) {
         Gfolder = 'TRASH';
       }
+      setIsLoading(true);
       initGoogleAuth()
         .then(() => {
           Gmail_Mails(Gfolder, nextpagetoken, range)
             .then((res) => {
-              console.log('rem', res);
-              if (res.messageResponses !== undefined) {
-                setmessagelist(res.messageResponses);
+              //  console.log('rem', res);
+              if (res.fullMessages !== undefined) {
+                setmessagelist((prevMessages) => [
+                  ...prevMessages,
+                  ...res.fullMessages,
+                ]);
               }
+              setIsLoading(false);
               setnextpagetoken(res.token);
               setLoader(false);
             })
@@ -485,7 +509,7 @@ const EmailScreen = () => {
             .then((res) => {
               if (res.attachments.length === 0) {
                 setLoader(false);
-                console.log('xv', res);
+
                 var obj = {
                   id: msgid,
                   snippet: res.message.snippet,
@@ -555,16 +579,15 @@ const EmailScreen = () => {
     if (integration !== '') {
       if (integration === 'google') {
         if (sideroute !== 0) {
-          page();
           foldercount();
           gProfile();
         }
       } else if (integration === 'outlook') {
         if (sideroute !== 0) {
           getprofile();
-          page();
+
           getfolder();
-          particularmailget();
+          //particularmailget();
         }
       }
     }
@@ -603,6 +626,11 @@ const EmailScreen = () => {
       });
   };
 
+  const savemail = (val) => {
+    setmessagelist((prevMessages) => [...prevMessages, ...val]);
+    setLoader(false);
+  };
+
   const IntegrationMenuView = (
     <Flex
       center
@@ -629,10 +657,10 @@ const EmailScreen = () => {
   return (
     <>
       <Flex column className={styles.inboxContainer}>
-        {/* {console.log('asas', sideroute)} */}
+        {console.log('==1==', int)}
         {loader === true && <Loader />}
 
-        {integration !== '' ? (
+        {int !== null ? (
           <>
             <Flex row between className={styles.titleContainer}>
               <Text bold size={16} color="theme">
@@ -708,9 +736,6 @@ const EmailScreen = () => {
                   onFocus={() => {
                     setSearchDropdown(true);
                   }}
-                  // onBlur={() => {
-                  //   setSearchDropdown(false);
-                  // }}
                 />
               </Flex>
 
@@ -738,14 +763,6 @@ const EmailScreen = () => {
                 className={styles.containerColumn}
                 style={{ minWidth: 349, maxWidth: 349 }}
               >
-                {/* <Pagination
-              previousfun={Previousdata}
-              nextfun={Nextdata}
-              range={range}
-              previous={previous}
-              previous1={previous1}
-              total={total}
-            /> */}
                 <Maillist
                   messagelist={messagelist}
                   selectmessage={selectmessage}
@@ -763,10 +780,17 @@ const EmailScreen = () => {
                   previous1={previous1}
                   total={total}
                   msglistcount={messagelist.length}
-                  searchicon={searchicon}
                   message={message}
                   noEmails={noEmails}
                   integration={integration}
+                  pagetoken={nextpagetoken}
+                  hasMore={hasMore}
+                  isLoading={isLoading}
+                  searchapi={searchapi}
+                  serchmessage={serchmessage}
+                  savemail={savemail}
+                  searchSection={searchSection}
+                  search={search}
                 />
               </Flex>
               <Flex
@@ -779,23 +803,13 @@ const EmailScreen = () => {
                   sidebarroute={sideroute}
                   composemodal={modelupdate}
                   removemsg={removemessage}
-                  // archiveapi={archive}
-                  // inboxapi={getmails}
-                  //senditemapi={Send}
-                  //deleteditemsapi={deleteditems}
-                  // junkemailapi={junkemail}
-                  //draftapi={Draft}
                   page={page}
                   attachments={attachments}
-                  // previousfun={Previousdata}
-                  // nextfun={Nextdata}
-                  // range={range}
-                  // previous={previous}
-                  // previous1={previous1}
-                  // total={total}
                   msglistcount={messagelist.length}
                   integration={integration}
                   updateMailaction={updateMailaction}
+                  remove_message={remove_message}
+                  update_message={update_message}
                 />
               </Flex>
             </Flex>
@@ -816,8 +830,6 @@ const EmailScreen = () => {
           <>{IntegrationMenuView}</>
         )}
       </Flex>
-
-      {/* <UnauthenticatedTemplate></UnauthenticatedTemplate> */}
     </>
   );
 };
