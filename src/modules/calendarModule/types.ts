@@ -193,6 +193,7 @@ export interface ZitaEventSchedulerType {
   app_id?: string;
   eventId?: string;
   extraNotes: string;
+  interviewer_notes: string;
   myJd: string;
   privateNotes: string;
   eventType: string;

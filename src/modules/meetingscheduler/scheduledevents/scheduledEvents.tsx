@@ -23,6 +23,7 @@ import {
   ICalendarEventTableItem,
   IEvent,
   IEventData,
+  IEventOrganiser,
   IEventTableItem,
   IEventTeamMember,
 } from '../types';
@@ -120,7 +121,6 @@ const ScheduledEventsPage = () => {
       setSelectedPeople(((res.payload as IEventData).teammembers || []).filter(doc => filters.type === EVENT_TYPE.MY_EVENTS ? doc.user === user.id: doc.user !== user.id).map(doc => doc.user))
     });
   }, []);
-  console.log("hello",selectedPeople)
 
   useEffect(() => {
     dispatch(
@@ -211,12 +211,16 @@ const ScheduledEventsPage = () => {
             interviewers: scheduleEventState?.interviewers.filter(
               (s) => s.event_id === doc.event_id,
             ),
+            organisers: scheduleEventState.org_name,
           };
         }),
         calEvents: scheduleEventState?.calevents_events.map((doc) => {
           return {
             ...doc,
-            interviewers: [],
+            interviewers: scheduleEventState?.calevents_interviewer.filter(
+              (s) => s.event_id === doc.eventId,
+            ),
+            organisers: scheduleEventState.org_name,
           };
         }),
       };
@@ -230,12 +234,16 @@ const ScheduledEventsPage = () => {
               interviewers: scheduleEventState?.interviewers.filter(
                 (s) => s.event_id === doc.event_id,
               ),
+              organisers: scheduleEventState.org_name,
             };
           }),
           calEvents: scheduleEventState?.calevents_past_event.map((doc) => {
             return {
               ...doc,
-              interviewers: [],
+              interviewers: scheduleEventState?.calevents_interviewer.filter(
+                (s) => s.event_id === doc.eventId,
+              ),
+              organisers: scheduleEventState.org_name,
             };
           }),
         };
@@ -248,12 +256,16 @@ const ScheduledEventsPage = () => {
             interviewers: scheduleEventState?.interviewers.filter(
               (s) => s.event_id === doc.event_id,
             ),
+            organisers: scheduleEventState.org_name,
           };
         }),
         calEvents: scheduleEventState?.calevents_upcoming_event.map((doc) => {
           return {
             ...doc,
-            interviewers: [],
+            interviewers: scheduleEventState?.calevents_interviewer.filter(
+              (s) => s.event_id === doc.eventId,
+            ),
+            organisers: scheduleEventState.org_name,
           };
         }),
       };

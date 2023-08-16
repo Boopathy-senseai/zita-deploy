@@ -4,6 +4,7 @@ import {
   EVENT_FILTER_OPTION,
   IEvent,
   IEventInterviewer,
+  IEventOrganiser,
   IEventTableItem,
 } from '../types';
 import SvgDotMenu from '../../../icons/SvgDotMenu';
@@ -53,6 +54,24 @@ const EventSchedulerScreen: React.FC<Props> = (props) => {
         ))}
         {hidden && hidden.length > 0 && (
           <InterviewerIcon name={`+ ${hidden.length}`} title={hidden.map(doc => doc.full_name).toString()} />
+        )}
+      </Flex>
+    );
+  };
+
+  const renderOrganiser = (interviewrs: IEventOrganiser[]) => {
+    const show = interviewrs.slice(0, 4);
+    const hidden = interviewrs.slice(4, interviewrs.length);
+    return (
+      <Flex row wrap>
+        {show.map((doc, sIndex) => (
+          <InterviewerIcon name={doc.full_name} key={sIndex} index={sIndex} />
+        ))}
+        {hidden && hidden.length > 0 && (
+          <InterviewerIcon
+            name={`+ ${hidden.length}`}
+            title={hidden.map((doc) => doc.full_name).toString()}
+          />
         )}
       </Flex>
     );
@@ -171,7 +190,7 @@ const EventSchedulerScreen: React.FC<Props> = (props) => {
                   </td>
                   <td className={styles.padchanges} style={{}}>
                     <Text className={styles.stBold}>
-                      {'Organiser'}
+                      {renderOrganiser(doc.organisers)}
                       {/* backend  */}
                     </Text>
                   </td>

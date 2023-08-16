@@ -3,7 +3,14 @@ import {
   getEventsMiddleWare,
   deleteEventMiddleWare,
 } from '../middleware/eventsmiddleware';
-import { ICalendarEvent, IEvent, IEventInterviewer, IEventTeamMember } from '../../../types';
+import {
+  ICalendarEvent,
+  ICalendarEventInterviewer,
+  IEvent,
+  IEventInterviewer,
+  IEventOrganiser,
+  IEventTeamMember,
+} from '../../../types';
 
 interface State {
   isLoading: boolean;
@@ -16,6 +23,8 @@ interface State {
   calevents_events: ICalendarEvent[];
   calevents_upcoming_event: ICalendarEvent[];
   calevents_past_event: ICalendarEvent[];
+  org_name: IEventOrganiser[];
+  calevents_interviewer: ICalendarEventInterviewer[];
   deleteState: {
     id: any;
     isLoading: boolean;
@@ -34,6 +43,8 @@ const initialState: State = {
   calevents_events: [],
   calevents_upcoming_event: [],
   calevents_past_event: [],
+  org_name: [],
+  calevents_interviewer: [],
   deleteState: {
     id: null,
     isLoading: false,
@@ -61,6 +72,8 @@ const scheduledEventsReducer = createSlice({
       state.calevents_past_event = action.payload.calevents_past_event || [];
       state.calevents_upcoming_event =
         action.payload.calevents_upcoming_event || [];
+      state.org_name = action.payload.org_name || [];
+      state.calevents_interviewer = action.payload.calevents_interviewer || [];
     });
     builder.addCase(getEventsMiddleWare.rejected, (state, action) => {
       state.isLoading = false;

@@ -41,6 +41,14 @@ export interface IEventInterviewer {
   profile: string;
 }
 
+export interface ICalendarEventInterviewer {
+  id: number,
+  first_name: string,
+  last_name: string,
+  full_name: string,
+  event_id: string,
+}
+
 export interface IEventTeamMember {
   id: number;
   user: number;
@@ -48,6 +56,13 @@ export interface IEventTeamMember {
   user__last_name: string;
   full_name: string;
   name_id: number;
+}
+
+export interface IEventOrganiser {
+  id: number,
+  first_name: string,
+  last_name: string,
+  full_name: string,
 }
 
 export interface IEventData {
@@ -59,14 +74,18 @@ export interface IEventData {
   calevents_events: ICalendarEvent[];
   calevents_upcoming_event: ICalendarEvent[];
   calevents_past_event: ICalendarEvent[];
+  org_name: IEventOrganiser[];
+  calevents_interviewer: ICalendarEventInterviewer[];
 }
 
 export interface IEventTableItem extends IEvent {
   interviewers: IEventInterviewer[];
+  organisers: IEventOrganiser[];
 }
 
 export interface ICalendarEventTableItem extends ICalendarEvent {
-  interviewers: IEventInterviewer[];
+  interviewers: ICalendarEventInterviewer[];
+  organisers: IEventOrganiser[];
 }
 
 export enum EVENT_TYPE {

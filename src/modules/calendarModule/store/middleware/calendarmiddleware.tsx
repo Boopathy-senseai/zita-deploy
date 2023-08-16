@@ -70,6 +70,7 @@ export const updateEventMiddleware = createAsyncThunk(
       endTime,
       notes,
       location,
+      interviewer_notes,
     }: ZitaEventSchedulerType,
     { rejectWithValue },
   ) => {
@@ -94,6 +95,7 @@ export const updateEventMiddleware = createAsyncThunk(
             endTime,
             notes,
             location,
+            interviewer_notes,
           },
           { arrayFormat: 'comma' },
         ),

@@ -231,7 +231,7 @@ const MeetingSchedulingScreen = ({
           editEventDetails={editEventDetails}
           handleCloseSchedulingForm={handleCloseSchedulingForm}
           currentApplicantId={currentApplicantId}
-          extraNotes={extraNotes}
+          // extraNotes={extraNotes}
           eventId={eventId}
           setIsTopLineLoading={setIsTopLineLoading}
         />

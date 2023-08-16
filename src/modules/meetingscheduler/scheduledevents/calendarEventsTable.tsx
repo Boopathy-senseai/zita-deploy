@@ -4,9 +4,11 @@ import { Flex, Text } from '../../../uikit';
 import {
   EVENT_FILTER_OPTION,
   ICalendarEvent,
+  ICalendarEventInterviewer,
   ICalendarEventTableItem,
   IEvent,
   IEventInterviewer,
+  IEventOrganiser,
   IEventTableItem,
 } from '../types';
 import SvgDotMenu from '../../../icons/SvgDotMenu';
@@ -46,7 +48,7 @@ const CalendarEventsTable: React.FC<Props> = (props) => {
     onDelete,
   } = props;
 
-  const renderInterviewers = (interviewrs: IEventInterviewer[]) => {
+  const renderInterviewers = (interviewrs: ICalendarEventInterviewer[]) => {
     const show = interviewrs.slice(0, 4);
     const hidden = interviewrs.slice(4, interviewrs.length);
     return (
@@ -60,6 +62,27 @@ const CalendarEventsTable: React.FC<Props> = (props) => {
             title={hidden.map((doc) => doc.full_name).toString()}
           />
         )}
+      </Flex>
+    );
+  };
+
+  const renderOrganiser = (interviewrs: IEventOrganiser[]) => {
+    const show = interviewrs.slice(0, 4);
+    const hidden = interviewrs.slice(4, interviewrs.length);
+    return (
+      <Flex row wrap>
+        {show.map((doc, sIndex) => (
+          // <InterviewerIcon name={doc.full_name} key={sIndex} index={sIndex} />
+          doc.full_name
+        ))}
+        {/* {hidden && hidden.length > 0 && (
+          // <InterviewerIcon
+          //   name={`+ ${hidden.length}`}
+          //   title={hidden.map((doc) => doc.full_name).toString()}
+          // />
+          hidden.map((doc)=> doc.full_name)
+          
+        )} */}
       </Flex>
     );
   };
@@ -175,9 +198,6 @@ const CalendarEventsTable: React.FC<Props> = (props) => {
                   </td>
                   <td className={styles.padchanges}>
                     <Text className={styles.stBold}>
-                      
-                     {(moment(doc.e_time).diff(moment(doc.s_time)))/(60 * 60 * 1000)} 
-                     
                       {`${moment(doc.e_time).diff(
                         moment(doc.s_time),
                         'minutes',
@@ -194,7 +214,7 @@ const CalendarEventsTable: React.FC<Props> = (props) => {
                   </td>
                   <td className={styles.padchanges} style={{}}>
                     <Text className={styles.stBold}>
-                      {'Organiser'}
+                      {renderOrganiser(doc.organisers)}
                       {/* backend  */}
                     </Text>
                   </td>
