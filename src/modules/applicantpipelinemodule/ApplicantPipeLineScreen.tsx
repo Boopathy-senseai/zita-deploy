@@ -217,6 +217,7 @@ console.log(locations,'kkkkkkkkkkkkkkkkkkk')
       newCardSelection.set(task.id, { task, section, columnId }),
     );
     setCardSelection(newCardSelection);
+    
   };
   const handleColumnUnselect = (data: IStageColumn) => {
     const { section, columnId } = data;
@@ -447,6 +448,7 @@ console.log(locations,'kkkkkkkkkkkkkkkkkkk')
     setBachelors(false);
     setOther(false);
     setSearch('');
+    formik.handleChange('location')('');
     setMatchRadio('');
     setExperience('');
     setProfile('');

@@ -16,7 +16,7 @@
 }
 .profileImg {
   border-radius: 70px;
-  border-color:#581845;
+  border-color:#581845; 
   border-style: solid;
   display: block;
   align-items: center;
@@ -158,6 +158,7 @@ align-items: center; */
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap; 
+  font-size: 13px;
   width: 70px; 
 }
 

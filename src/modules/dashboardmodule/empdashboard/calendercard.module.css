@@ -39,13 +39,18 @@
   -webkit-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
   -moz-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%); */
 }
+.cardListStyle:hover {
+  box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55);
+  -webkit-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55);
+  -moz-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55);
+  transition: all 0.2s ease-out;  
+
+}
 .overAll:hover {
   box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55);
   -webkit-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55);
   -moz-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55);
-  /* background-color: #F0EBED;
-  opacity: 1; */
-  transition: all 0.2s ease-out; 
+  transition: all 0.2s ease-out;  
 
 }
 .borderRight {

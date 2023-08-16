@@ -8,7 +8,7 @@
   border-bottom: 1px solid var(--color-gary-7, #dfdfdf);
 }
 .matchRadioStyle {
-  width: 110px;
+  width: 108px;
   margin-bottom: 8px;
 }
 .matchTextStyle {
@@ -81,7 +81,7 @@
   padding: 5px 10px 5px 10px;
   background-color: #ffffff !important;
   cursor: pointer;
-  width: 260px;
+
   height: 30px;
   border: 1px solid #581845;
   border-radius: 11px;

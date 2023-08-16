@@ -878,10 +878,10 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
           candidateId={getCandiId}
         />
       )}
-      {zitaLoader && <Loader />}
-      {initalLoader && <Loader />}
-      {isDownloadLoader && <Loader />}
-      {isInviteLoader && <Loader />}
+      {zitaLoader && <Loader disableText/>}
+      {initalLoader && <Loader disableText />}
+      {isDownloadLoader && <Loader disableText />}
+      {isInviteLoader && <Loader disableText/>}
 
       <Flex row className={styles.titleContainer}>
         <Text bold size={16} color="theme">
