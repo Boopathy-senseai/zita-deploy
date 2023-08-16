@@ -161,23 +161,33 @@ const CalendarEventsTable: React.FC<Props> = (props) => {
                       top
                       //  className={styles.hellothere}
                     >
-                      <Text className={styles.stBold}>{moment(doc.s_time).format("DD/MM/YYYY")}</Text>
+                      <Text className={styles.stBold}>
+                        {moment(doc.s_time).format('DD/MM/YYYY')}
+                      </Text>
                     </Flex>
                   </td>
                   <td className={styles.padchanges}>
-                    <Text className={styles.stBold}>{`${moment(doc.s_time).format("hh:mm A")} - ${moment(doc.e_time).format("hh:mm A")}`}</Text>
+                    <Text className={styles.stBold}>{`${moment(
+                      doc.s_time,
+                    ).format('hh:mm A')} - ${moment(doc.e_time).format(
+                      'hh:mm A',
+                    )}`}</Text>
                   </td>
                   <td className={styles.padchanges}>
                     <Text className={styles.stBold}>
-                      {`${moment(doc.e_time).diff( moment(doc.s_time), 'minutes')} minutes`}
+                      
+                     {(moment(doc.e_time).diff(moment(doc.s_time)))/(60 * 60 * 1000)} 
+                     
+                      {`${moment(doc.e_time).diff(
+                        moment(doc.s_time),
+                        'minutes',
+                      )} minutes`}
                       {/* /// TODO: calculate duration based on s_time & e_time */}
                     </Text>
                   </td>
 
                   <td className={styles.padchanges} style={{}}>
-                    <Text className={styles.stBold}>
-                      {doc.event_type}
-                    </Text>
+                    <Text className={styles.stBold}>{doc.event_type}</Text>
                   </td>
                   <td className={styles.padchanges} style={{}}>
                     {renderInterviewers(doc.interviewers)}
@@ -188,7 +198,7 @@ const CalendarEventsTable: React.FC<Props> = (props) => {
                       {/* backend  */}
                     </Text>
                   </td>
-                 
+
                   <td className={styles.padchangesmiddle}>
                     {/* <Text className={styles.stBold}> */}
                     <Dropdown className="dropdownButton   dropleft">

@@ -74,7 +74,7 @@ const EventSchedulerScreen: React.FC<Props> = (props) => {
           }}
         >
           <Flex marginBottom={10}>
-            <SvgCalendar width={38} height={38} fill={'#888888'} stroke={'#888888'} />
+            <SvgCalendar width={16} height={16} fill={'#888888'} stroke={'#888888'} />
           </Flex>
           <Text style={{ color: '#888888'}}>{`No ${
             activeRadio === EVENT_FILTER_OPTION.PAST_AND_UPCOMING

@@ -117,9 +117,10 @@ const ScheduledEventsPage = () => {
         other_user: selectedPeople.length !== 0 ? selectedPeople : undefined,
       }),
     ).then((res) => {
-      setSelectedPeople(((res.payload as IEventData).teammembers || []).filter(doc => filters.type === EVENT_TYPE.MY_EVENTS ? doc.user === user.id : doc.user !== user.id).map(doc => doc.id))
+      setSelectedPeople(((res.payload as IEventData).teammembers || []).filter(doc => filters.type === EVENT_TYPE.MY_EVENTS ? doc.user === user.id: doc.user !== user.id).map(doc => doc.user))
     });
   }, []);
+  console.log("hello",selectedPeople)
 
   useEffect(() => {
     dispatch(
@@ -157,7 +158,7 @@ const ScheduledEventsPage = () => {
   };
 
   const handleJoinEvent = (doc: IEvent) => {
-    history.push(calendarRoute, { openScheduleEvent: true });
+    window.open(doc.join_url, "_blank");
   };
   const handleEditEvent = (doc: IEvent) => {
     history.push(calendarRoute, { openScheduleEvent: true });
@@ -281,7 +282,7 @@ const ScheduledEventsPage = () => {
           overflow: 'hidden',
         }}
       >
-        <TableWrapper title="Events">
+        <TableWrapper title=" Slotter Events">
           <Table
             list={data.events}
             pastEvents={filters.isPast}
@@ -477,7 +478,7 @@ const TableWrapper: React.FC<TableWrapperProps> = (props) => {
       <Flex
         row
         center
-        style={{ padding: 10, backgroundColor: '#eee8ec', marginBottom: 10 }}
+        style={{ padding: 10, backgroundColor: '#eee8ec', marginBottom: 10, color:"#581845" }}
       >
         {props.title}
       </Flex>

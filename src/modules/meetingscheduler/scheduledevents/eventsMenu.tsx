@@ -37,8 +37,8 @@ const EventsMenu: React.FC<Props> = ({
           {teamMembers.filter(doc => doc.user !== currentUser?.id).map((member, index) => (
             <PeopleCheckbox
               key={index}
-              checked={selectedPeople.includes(member.id)}
-              onClick={() => onPeopleChange(member.id)}
+              checked={selectedPeople.includes(member.user)}
+              onClick={() => onPeopleChange(member.user)}
               label={member.full_name || `${member.user__first_name} ${member.user__last_name}`}
             />
           ))}
