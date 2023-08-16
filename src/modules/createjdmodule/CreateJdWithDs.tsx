@@ -622,7 +622,7 @@ const CreateJdWithDs = () => {
                     values={values}
                     createJdLoader={createJdLoader}
                     setFieldValue={setFieldValue}
-                    profileTitle={'Recommended skills for given profile'}
+                    profileTitle={'Recommended skills for the given profile'}
                     profileTitleRight="Required Skills"
                     errors={errors}
                     touched={touched}
