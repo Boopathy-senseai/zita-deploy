@@ -88,6 +88,7 @@ const DashBoardScreen = () => {
       });
     });
     dispatch(companyPageInitalMiddleWare());
+
   }, []);
 
   const checkCalendarGoogle = Array.isArray(google);
@@ -104,7 +105,7 @@ const DashBoardScreen = () => {
     );
   };
   const getFreeValue = localStorage.getItem('freeCheck');
-  const flexHeight = jd_metrics.length !== 0 ? 70 : 60;
+  const flexHeight = jd_metrics.length !== 0 ? 70 : 60
   if (isLoader || isLoaderMsg || isCalLoader) {
     return <Loader />;
   }
@@ -159,6 +160,7 @@ const DashBoardScreen = () => {
     //           </Flex>
     //         </Flex>
 
+
     //           <Flex row>
     //             <Flex >
     //               <ProfileCard></ProfileCard>
@@ -191,6 +193,9 @@ const DashBoardScreen = () => {
 
     //       </Flex>
 
+
+
+
     //     </Flex>
     //   );
     // };
@@ -200,7 +205,7 @@ const DashBoardScreen = () => {
       
 
         <Flex marginTop={9} marginLeft={8} >
-          <Text size={16} bold color="theme" >
+          <Text size={18} bold color="theme" >
             Dashboard
           </Text>
 
@@ -233,22 +238,18 @@ const DashBoardScreen = () => {
                     {`Your free trial ends in ${plan.subscription_remains_days
                       } ${plan.subscription_remains_days === 1 ? 'day' : 'days'
                       }. Please `}
-                      <Text
-                        style={{ fontWeight: 600 }}
-                        color="link"
-                        onClick={manageUser}
-                      >
-                        upgrade{' '}
-                      </Text>
-                      to a paid plan to get uninterrupted access and enjoy more
-                      zita platform features along with your branded careers
-                      page.
+                    <Text size={12} bold color="link" onClick={manageUser}>
+                      upgrade{' '}
                     </Text>
-                  </Flex>
+                    to a paid plan to get uninterrupted access and enjoy more
+                    zita platform features along with your branded careers page.
+                  </Text>
                 </Flex>
-              )}
-          </div>
-        </Flex>
+              </Flex>
+            )}
+        </div>
+      </Flex >
+
 
         <Flex row >
           <Flex flex={5}>
@@ -260,7 +261,7 @@ const DashBoardScreen = () => {
                 <OverallJobActivities></OverallJobActivities>
               </Flex>
 
-              <Flex marginLeft={5} marginRight={5} marginTop={5} flex={15}>
+              <Flex  marginLeft={5} marginRight={5} marginTop={5} flex={15}>
                 <MessageCard></MessageCard>
               </Flex>
             </Flex>
@@ -279,8 +280,9 @@ const DashBoardScreen = () => {
         <Flex marginLeft={5} marginTop={5} marginRight={5} marginBottom={5}>
           <JobMetricsCard />
         </Flex>
-       
-    </Flex>
+
+      </Flex>
+</Flex>
   );
 };
 
