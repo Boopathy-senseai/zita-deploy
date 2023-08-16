@@ -1,3 +1,5 @@
+import SvgNoData from '../../../icons/SvgNoData';
+import SvgNotInterested from '../../../icons/SvgNotInterested';
 import Card from '../../../uikit/Card/Card';
 import Chart from '../../../uikit/Chart/Chart';
 import Flex from '../../../uikit/Flex/Flex';
@@ -101,7 +103,8 @@ const ApplicantsSourcingChannel = ({
       planId === 1 || jd_metrics.length === 0? (
         <Chart options={planId === 1 || jd_metrics.length === 0 ? optionsOne : options} />
       ) : (
-        <Flex flex={1} center middle>
+        <Flex flex={1} center middle style={{display:"flex"}}>
+          <SvgNoData width={15} style={{filter:"opacity(0.5)"}} />
           <Text color="gray">No Data Available</Text>
         </Flex>
       )}

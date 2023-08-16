@@ -1,6 +1,7 @@
 import Card from '../../../uikit/Card/Card';
 import Chart from '../../../uikit/Chart/Chart';
 import Flex from '../../../uikit/Flex/Flex';
+import SvgNoData from '../../../icons/SvgNoData';
 import Text from '../../../uikit/Text/Text';
 import { pieYValue } from '../../common/commonHelper';
 import styles from './applicantssourcingchannel.module.css';
@@ -122,7 +123,8 @@ const MyDatabaseChart = ({
           }
         />
       ) : (
-        <Flex flex={1} center middle>
+        <Flex flex={1} center middle style={{display:"flex"}}>
+         <SvgNoData width={15} style={{filter:"opacity(0.5)"}} />
           <Text color="gray">No Data Available</Text>
         </Flex>
       )}
