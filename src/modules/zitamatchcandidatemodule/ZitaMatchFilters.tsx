@@ -229,6 +229,7 @@ const ZitaMatchFilters = ({
   const four="> 60"
   const showSkills = isSkillOption.slice(0, 4);
   const hiddenSkills = isSkillOption.slice(4, isSkillOption.length);
+
   const closeSkillOption = (doc: { value: string; label: string }) => {
     const newOptions = [...isSkillOption];
     const indx = newOptions.indexOf(doc);
@@ -563,7 +564,7 @@ const ZitaMatchFilters = ({
                   /></Text>
               }
               {
-                profilevalue !== "Both" &&
+                profilevalue !== "" && profilevalue!=="Both" &&
                 <Text className={styles.quickfil}>{profilevalue}
                   <SvgIntomark
                     className={styles.stylesvg}
@@ -775,6 +776,8 @@ const ZitaMatchFilters = ({
                 onChange={(option) => {
                   setSkillOption(option);
                 }}
+             
+                value={isSkillOption}
               /></Flex>
 
             <Flex className={styles.mtstyle}>

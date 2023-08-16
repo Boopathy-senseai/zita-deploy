@@ -439,7 +439,7 @@ const ZitaMatchDataCard = ({
               </Flex>
               <Flex>
                 <Flex row>
-                  <Flex>
+                  <Flex marginTop={2}>
                   <Text
                     color={isEmpty(dataList.applicant) ? 'link' : 'gray'}
                     bold
@@ -508,7 +508,7 @@ const ZitaMatchDataCard = ({
                        size={12}
                        style={{color:"#333333",maxWidth:"197px"}}
                        textStyle="ellipsis"
-                       title={`Location:Not Specified`}
+                       title={`Location: Not Specified`}
                        
                      >
                        {notSpecified(dataList.location)}
@@ -532,7 +532,7 @@ const ZitaMatchDataCard = ({
                 <Flex row marginTop={2}>
                   <Flex>
                     {dataList.qualification===null ?(
-                      <Text textStyle="ellipsis" size={12}  style={{color:"#333333"}} title={`Qualification:Not Specified`}>
+                      <Text textStyle="ellipsis" size={12}  style={{color:"#333333"}} title={`Qualification: Not Specified`}>
 
                       {notSpecified(dataList.qualification)}
                     </Text>
@@ -549,7 +549,7 @@ const ZitaMatchDataCard = ({
                 </Flex>
                 <Flex>
                   {dataList.work_exp===null||undefined||""?(
-                    <Text size={12}  style={{ marginLeft: 2 ,color:"#333333"}} title={`Experience:Not Specified`}>
+                    <Text size={12}  style={{ marginLeft: 2 ,color:"#333333"}} title={`Experience: Not Specified`}>
                     | {notSpecified(workYear(dataList.work_exp))}
                   </Text>
                   ):(
@@ -568,7 +568,7 @@ const ZitaMatchDataCard = ({
                 <Text bold  size={12} textStyle="ellipsis"   style={{ maxWidth: '90%' ,color:"#333333"}}>
                   Skills:{' '}
                 </Text>
-                 {dataList.skills===null||undefined||""?(<Text  title={`Skills:Not Specified`}>
+                 {dataList.skills===null||undefined||""?(<Text  title={`Skills: Not Specified`}>
                   {notSpecified(lowerCase(dataList.skills.replace(/,/g, ', ')))}
                  </Text>):(<Text  title={`Skills: ${dataList.skills.replace(/,/g, ', ')}`}>
                   { notSpecified(lowerCase(dataList.skills.replace(/,/g, ', ')))}
@@ -733,7 +733,7 @@ const ZitaMatchDataCard = ({
               {!isEmpty(dataList.applicant) && (
                 <Flex row center>
                    <SvgAppliedIcon fill={SUCCESS} width={17} height={17} /> 
-                  <Link target={'_parent'} to={`/applicant_pipe_line/${jobId}`}>
+                  <Link target={'_blank'} to={`/applicant_pipe_line/${jobId}`}>
                     <Text
                       color="link"
                       bold

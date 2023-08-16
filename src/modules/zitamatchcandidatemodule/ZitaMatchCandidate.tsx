@@ -1002,7 +1002,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
         
           {total_applicants === 0 && (
             <Flex height={'100%'} flex={1} center middle>
-              <Text color="gray">No Candidates Found</Text>
+              <Text color="gray">No Candidate Found</Text>
             </Flex>
           )}
 
