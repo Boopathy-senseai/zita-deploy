@@ -460,7 +460,7 @@ const CalenderCard = ({
                     <Flex row center>
                       <Flex className={styles.borderRight} marginLeft={10}>
                         <Text bold style={{ color: '#581845' }}>{moment(list.start).format('dddd')}</Text>
-                        <Text size={12}>{getDateString(list.start, 'hh:mm A')}-{getDateString(list.end, 'hh:mm A')}</Text>
+                        <Text size={12}>{moment(list.start).format('hh:mm A')}-{moment(list.end).format('hh:mm A')}</Text>
                         <Text size={12}>( {hours}hour {minutes === 0 ? <Text> )</Text> : <Text size={12}>{minutes}minutes )</Text>}
                         </Text>
 
