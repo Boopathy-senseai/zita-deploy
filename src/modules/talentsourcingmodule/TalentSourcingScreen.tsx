@@ -9,12 +9,15 @@ import SingleButton from '../common/SingleButton';
 import Toast from '../../uikit/Toast/Toast';
 import { AppDispatch, RootState } from '../../store';
 import { ERROR_MESSAGE } from '../constValue';
+
+import { Text } from '../../uikit';
 import Title from '../common/Title';
 import Empty from '../common/Empty';
 import CancelAndDeletePopup from '../common/CancelAndDeletePopup';
+import TalentFilter from './TalentFilter';
 import TalentAction from './TalentAction';
 import TalentCardList from './TalentCardList';
-import TalentFilter from './TalentFilter';
+
 import NoCountModal from './NoCountModal';
 import styles from './talentsourcingscreen.module.css';
 import {
@@ -67,11 +70,16 @@ const TalentSourcingScreen = () => {
   const [isPdfLoader,setPdfLoader]=useState(false)
   const [isSubmitLoader,setSubmitLoader]=useState(false);
   const [isInitialLoader,setInitialLoader]=useState(true);
-
+  const [visible,setvisible]=useState(false);
+  const [show,setshow]=useState(false);
   const uselocation = useLocation();
   const history = useHistory();
+  const [apply, setapply] = useState(false);
+  const [change,setchange]=useState(false)
+  const [cardloader,setcardloader]=useState(false)
+  const [isCheck, setIsCheck] = useState<any>([]);
 
-  const usersPerPage = 10;
+  const usersPerPage = 15;
   const pagesVisited = pageNumber * usersPerPage;
   const length: any = isSearchData?.length;
   const pageCount = Math.ceil(length / usersPerPage);
@@ -79,11 +87,20 @@ const TalentSourcingScreen = () => {
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
     localStorage.setItem('freeCheck','true');
-    dispatch(talentSourcingMiddleWare()).then(() => {
+    dispatch(talentSourcingMiddleWare()).then(() => {      
       setInitalCheckBox(true);
       setInitialLoader(false)
     });
   }, []);
+
+  const update=(val)=>{
+setshow(val)
+  }
+//  const updatestate=(val)=>{
+//     setstore(val)
+//     setstore1(val)
+//       }
+    
 
   useEffect(() => {
     const getUrl = window.location.href;
@@ -265,6 +282,7 @@ const TalentSourcingScreen = () => {
   } = talentFilterHelper(getStoreSearchData, isExperience);
 
   useEffect(() => {
+   if(!change){
     filterCondition(
       setSearchData,
       isAny,
@@ -341,7 +359,7 @@ const TalentSourcingScreen = () => {
       searchOtherBachelorsMastersDoctorateRelocate,
       searchOtherBachelorsMastersDoctorateExperienceRelocate,
     );
-  }, [
+  }}, [
     isAny,
     isBachelors,
     isDoctorate,
@@ -405,6 +423,7 @@ const TalentSourcingScreen = () => {
 // open resume function
   const handleCandidateView = (hashKey: string) => {
     setPdfLoader(true)
+    setcardloader(true)
     dispatch(
       candidateViewMiddleWare({
         key: hashKey,
@@ -414,11 +433,13 @@ const TalentSourcingScreen = () => {
         if (response.payload.file) {
           setShowPdf(true);
         }
-          setPdfLoader(false)
+          setPdfLoader(false)    
+          setcardloader(false)
       })
       .catch(() => {
         Toast(ERROR_MESSAGE, 'LONG', 'error');
         setPdfLoader(false)
+        setcardloader(false)
       });
   };
 
@@ -434,6 +455,8 @@ const TalentSourcingScreen = () => {
   };
 
   const handleSetPage = (page: number) => {
+   setshow(false)
+   setIsCheck([])
     setPageNumber(page);
     getFocus();
   };
@@ -443,6 +466,86 @@ const TalentSourcingScreen = () => {
     sessionStorage.setItem('superUserTab', '2');
     history.push('/account_setting/settings?planFocus=focus')
   };
+
+  const updatechckbox=()=>{
+    filterCondition(
+      setSearchData,
+      isAny,
+      isRelocate,
+      isExperience,
+      isMasters,
+      isDoctorate,
+      isBachelors,
+      getStoreSearchData,
+      searchExperienceRelocate,
+      searchRelocate,
+      searchExperienceBachelorMasterDoctorate,
+      searchBachelorsMasterDoctorateRelocate,
+      searchExperienceBachelorMaster,
+      searchExperienceBachelorDoctorate,
+      searchExperienceDoctorateMaster,
+      searchThreeFilter,
+      searchBachelorDoctorateRelocate,
+      searchMasterDoctorateRelocate,
+      searchBachelorMasterRelocate,
+      searchExperienceBachelor,
+      searchExperienceMaster,
+      searchExperienceDoctorate,
+      searchBachelorsMastersFilter,
+      searchBachelorsDoctorateFilter,
+      searchDoctorateMastersFilter,
+      searchBachelorRelocate,
+      searchMasterRelocate,
+      searchDoctorateRelocate,
+      searchBachelorsFilter,
+      searchDoctorateFilter,
+      searchMastersFilter,
+      searchExperience,
+      searchBachelorExperienceRelocate,
+      searchDoctorateExperienceRelocate,
+      searchMastersExperienceRelocate,
+      searchBachelorsMasterExperienceRelocate,
+      searchBachelorDoctorateExperienceRelocate,
+      searchMastersDoctorateExperienceRelocate,
+      searchBachelorsMasterDoctorateExperienceRelocate,
+      searchUnselectCheckbox,
+      searchUnCheckExperience,
+      isOther,
+      searchOther,
+      searchOtherBachelor,
+      searchOtherMasters,
+      searchOtherDoctorate,
+      searchOtherBachelorsMasters,
+      searchOtherBachelorsDoctorate,
+      searchOtherMastersDoctorate,
+      searchOtherBachelorsMastersDoctorate,
+      searchOtherExperience,
+      searchOtherBachelorExperience,
+      searchOtherMastersExperience,
+      searchOtherDoctorateExperience,
+      searchOtherBachelorsMastersExperience,
+      searchOtherBachelorsDoctorateExperience,
+      searchOtherMastersDoctorateExperience,
+      searchOtherBachelorsMastersDoctorateExperience,
+      searchOtherRelocate,
+      searchOtherExperienceRelocate,
+      searchOtherBachelorRelocate,
+      searchOtherBachelorExperienceRelocate,
+      searchOtherMastersRelocate,
+      searchOtherMastersExperienceRelocate,
+      searchOtherDoctorateRelocate,
+      searchOtherDoctorateExperienceRelocate,
+      searchOtherBachelorsMastersRelocate,
+      searchOtherBachelorsMastersExperienceRelocate,
+      searchOtherBachelorsDoctorateRelocate,
+      searchOtherBachelorsDoctorateExperienceRelocate,
+      searchOtherMastersDoctorateReloacate,
+      searchOtherMastersDoctorateExperienceRelocate,
+      searchOtherBachelorsMastersDoctorateRelocate,
+      searchOtherBachelorsMastersDoctorateExperienceRelocate,
+    )
+
+  }
 
   useEffect(() => {
     setSearchData([]);
@@ -465,10 +568,39 @@ const TalentSourcingScreen = () => {
   if(isInitialLoader){
     return <Loader />
   }
+
+ 
+
+    console.log("isSearchData",isSearchData);
+    console.log("isFind",isFind);
+    console.log("iSubmitLoaders",isSubmitLoader);
+    console.log("isCheck+++++++++++++++++++++",isCheck,"showww",show);
+    
   return (
-    <Flex column className={styles.overAll}>
-      <Flex top row>
-        {(sourceLoader||isPdfLoader||searchLoader||stripeLoader||isCheckOutLoader) && <Loader />}
+    <>
+    {console.log("changeeee",change)}
+   {
+    isSubmitLoader&&
+    <Loader /> 
+   }
+    <Flex row className={styles.ribbon} between>
+          
+
+    <Flex marginTop={9} marginLeft={8} >
+      <Text size={18} bold color="theme" >
+      Talent Sourcing
+      </Text>
+
+    </Flex>
+    <Flex >
+
+      <div className={styles.triangle}></div>
+    </Flex>
+
+   </Flex>
+    <Flex row className={styles.overAll}>
+       
+        {(sourceLoader||isPdfLoader||searchLoader||stripeLoader||isCheckOutLoader) && isSubmitLoader}
         <CancelAndDeletePopup
           title={
             'Please subscribe to any of the premium plans to buy credits and unlock candidates'
@@ -496,7 +628,7 @@ const TalentSourcingScreen = () => {
         />
         <UnlockLoaderModal
           title={
-            'Unlocking the profile. Please wait until the process gets completed.'
+            'Unlocking the profiles. Please wait until the process gets completed.'
           }
           open={unLockLoader || bulkUnlockLoader}
         />
@@ -522,7 +654,8 @@ const TalentSourcingScreen = () => {
         />
 
         <NoCountModal
-          title={`Your candidate limit got exceed. Please change your plan to "PRO" to get unlimited candidate storage for your account.`}
+          title={`You don’t have enough contact credits to unlock`}
+          subtitle={`Do you wish to buy?`}
           btnLeftTitle={'Cancel'}
           btnRightTitle={'Buy'}
           open={isNoCount}
@@ -548,37 +681,18 @@ const TalentSourcingScreen = () => {
           open={isCredit}
           btnOnclick={() => setCredit(false)}
         />
-        <TalentFilter
-          isInitalCheckBox={isInitalCheckBox}
-          setOther={setOther}
-          isOther={isOther}
-          isBachelors={isBachelors}
-          isDoctorate={isDoctorate}
-          isMasters={isMasters}
-          isAny={isAny}
-          setBachelors={setBachelors}
-          setDoctorate={setDoctorate}
-          setMasters={setMasters}
-          setAny={setAny}
-          isRelocate={isRelocate}
-          setRelocate={setRelocate}
-          isExperience={isExperience}
-          setExperience={setExperience}
-          setInitialPage={setPageNumber}
-          handleRefresh={handleRefresh}
-        />
+        
         <Flex
           className={styles.titleContainer}
-          height={window.innerHeight - 71}
-          between
-          flex={1}
+        
+           
         >
-          <div style={{ width: window.innerWidth - 326 }}>
-            <Flex className={styles.padding}>
-              <Title title={'Talent Sourcing'} />
-            </Flex>
+          <div >
             <Flex className={styles.talentActionContainer}>
               <TalentAction
+              update={update}
+              val={show}
+                setIsCheck={setIsCheck}
                 setInitalCheckBox={setInitalCheckBox}
                 setFind={setFind}
                 setPageNumber={setPageNumber}
@@ -586,20 +700,58 @@ const TalentSourcingScreen = () => {
                 setSourceLimit={setSourceLimit}
                 location={location}
                 setSubmitLoader={setSubmitLoader}
+                setvisible={setvisible}
               />
             </Flex>
+                
+          { visible&& isSearchData !== null && (        
+          <div className={cx('filterOverAll')}>
+          <TalentFilter
+                  setchange={setchange}
+                  updatechckbox={updatechckbox}
+                  apply={apply}
+                  setapply={setapply}
+                  isInitalCheckBox={isInitalCheckBox}
+                  setOther={setOther}
+                  isOther={isOther}
+                  isBachelors={isBachelors}
+                  isDoctorate={isDoctorate}
+                  isMasters={isMasters}
+                  isAny={isAny}
+                  setBachelors={setBachelors}
+                  setDoctorate={setDoctorate}
+                  setMasters={setMasters}
+                  setAny={setAny}
+                  isRelocate={isRelocate}
+                  
+                  setRelocate={setRelocate}
+                  isExperience={isExperience}
+                  setExperience={setExperience}
+                  setInitialPage={setPageNumber}
+                  handleRefresh={handleRefresh}
+                />
+          </div> )}
+             
             {(isSearchData?.length === 0 && isFind && !isSubmitLoader) && (
               <div className={styles.emptyStyle}>
-                <Empty title="Please enter your search keywords in the search field to find the candidates" />
+                <Empty title="Please enter your search keywords in the required search field to find the candidates" />
               </div>
             )}
             {(isSearchData === null || isSearchData?.length === 0 && !isFind) && !isSubmitLoader && (
-                <div className={styles.emptyStyle}>
+                <div className={styles.emptyStyle} style={{marginRight:'3%'}}>
                   <Empty title="No Candidate Found" />
                 </div>
               )}
             {isSearchData?.length !== 0 && isSearchData !== null && isSubmitLoader !== true && (
+             
               <TalentCardList
+                handleSetPage={handleSetPage}
+                pageNumber={pageNumber}
+                isSubmitLoader={isSubmitLoader}
+                update={update}
+                val={show}
+                isCheck={isCheck}
+                setIsCheck={setIsCheck}
                 setCandiList={setCandiList}
                 setNoCount={setNoCount}
                 candi_list={isCandiList}
@@ -616,8 +768,7 @@ const TalentSourcingScreen = () => {
                 isMasters={isMasters}
                 isAny={isAny}
                 searchLoader={searchLoader}
-                pagesVisited={pagesVisited}
-                usersPerPage={usersPerPage}
+               
                 searchData={isSearchData}
                 handleUnlockSubmit={handleUnlockSubmit}
                 source_limit={isSourceLimit}
@@ -625,22 +776,21 @@ const TalentSourcingScreen = () => {
                 planID={planId}
                 setFree={setFree}
               />
+             
             )}
+            
           </div>
-          {isSearchData?.length !== 0 &&
-            pageCount - 1 !== 0 &&
-            isSearchData !== null && isSubmitLoader !== true && (
-              <div className={cx('paginationStyle')}>
-                <Pangination
-                  maxPages={pageCount - 1}
-                  currentPage={pageNumber}
-                  setCurrentPage={handleSetPage}
-                />
-              </div>
-            )}
+        
+            {
+              cardloader&&
+              <Loader /> 
+             }
+      
+          
         </Flex>
-      </Flex>
+       
     </Flex>
+    </>
   );
 };
 

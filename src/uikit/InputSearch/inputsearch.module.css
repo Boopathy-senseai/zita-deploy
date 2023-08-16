@@ -1,18 +1,16 @@
-.errorMessageStyle {
-  position: absolute;
-  bottom: -22px;
-}
+ 
 .search {
   border-radius: 4px;
   padding: 3px 12px 3px 12px;
   border: 1px solid var(--color-gary-5, #cccccc);
   outline: none;
-  font-size: 14px;
+  font-size: 13px;
   background-color: var(--color-white, #ffffff);
   width: 100%;
   box-sizing: border-box !important;
   font-family: "Roboto", sans-serif;
-  text-transform: capitalize;
+  height:30px
+  /* text-transform: capitalize; */
   
 }
 .search::placeholder{

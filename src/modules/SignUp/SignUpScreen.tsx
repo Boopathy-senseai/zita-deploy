@@ -42,9 +42,8 @@ import styles from './signupscreen.module.css';
 import { SignUpPayLoad } from './signupTypes';
 import {
   signUpMiddleWare,
- // userNameMiddleWare,
+  // userNameMiddleWare,
   signupGetMiddleWare,
-  
 } from './store/middleware/signupMiddleWare';
 //import VerificationSuccessfully from './VerificationSuccessfully';
 
@@ -82,7 +81,7 @@ const SignUpScreen = (props: any) => {
 
   const hanldeSubmit = (values: SignUpPayLoad) => {
     setLoader(true);
-    
+
     dispatch(
       signUpMiddleWare({
         email: values.email,
@@ -104,21 +103,21 @@ const SignUpScreen = (props: any) => {
         setshow(true);
         Toast('Verification email sent successfully');
       } else {
-       
-        formik.errors.password2 ="The password is too similar to the username.";
+        formik.errors.password2 =
+          'The password is too similar to the username.';
         setLoader(false);
-         setpassword(true)
-         
-         console.log('faild', res);
+        setpassword(true);
+
+        console.log('faild', res);
       }
     });
   };
 
   const handleValid = (values: SignUpPayLoad) => {
     const errors: Partial<SignUpPayLoad> = {};
-   
-    if (!isEmpty(values.email) && isEmailValid  ) {
-      errors.email = " ";
+
+    if (!isEmpty(values.email) && isEmailValid) {
+      errors.email = ' ';
     }
     if (!isEmpty(values.email) && !mailformat.test(values.email)) {
       errors.email = 'Please enter a valid email address.';
@@ -132,13 +131,12 @@ const SignUpScreen = (props: any) => {
     }
     if (isEmpty(values.email)) {
       errors.email = THIS_FIELD_REQUIRED;
-     
     }
     if (isEmpty(values.username)) {
-       errors.username = THIS_FIELD_REQUIRED;
-     }
+      errors.username = THIS_FIELD_REQUIRED;
+    }
 
-    if(values.terms_and_conditions === '0'){
+    if (values.terms_and_conditions === '0') {
       errors.terms_and_conditions = THIS_FIELD_REQUIRED;
     }
 
@@ -146,19 +144,19 @@ const SignUpScreen = (props: any) => {
       // setpasserror("The two password fields didn't match.");
       errors.password2 = ``;
     }
-  //   if(ispassword){
-  //   formik.errors.password2 = "The password is too similar to the username.";
-  //  }
+    //   if(ispassword){
+    //   formik.errors.password2 = "The password is too similar to the username.";
+    //  }
     if (!isEmpty(values.username) && usernameNumberCase.test(values.username)) {
       errors.username = ' ';
     }
     if (!isEmpty(values.username) && !nameRegex.test(values.username)) {
-      console.log("1");
+      console.log('1');
       errors.username = ' ';
     }
-  //  console.log(!nameRegex.test(values.username))
+    //  console.log(!nameRegex.test(values.username))
 
-    if (!isEmpty(formik.values.username)&& isUserNameValid ) {
+    if (!isEmpty(formik.values.username) && isUserNameValid) {
       errors.username = ``;
     }
 
@@ -189,7 +187,7 @@ const SignUpScreen = (props: any) => {
     ) {
       errors.password1 = '';
     }
-    
+
     return errors;
   };
   const SignupSchema = Yup.object().shape({
@@ -222,26 +220,20 @@ const SignUpScreen = (props: any) => {
     onSubmit: hanldeSubmit,
     validate: (value) => handleValid(value),
     validationSchema: SignupSchema,
-    
   });
 
   useEffect(() => {
-
-
-   
-    dispatch(signupGetMiddleWare({ email: formik.values.email })).then((res) => {
-      if (res.payload.success === true) {
-        setEmailValid(false);
-       
-      }
-      if (res.payload.success === false) {
-        setEmailValid(true);
-        // formik.errors.email = "This domain is already in use.";
-       
-      }
-  
-    });
-  
+    dispatch(signupGetMiddleWare({ email: formik.values.email })).then(
+      (res) => {
+        if (res.payload.success === true) {
+          setEmailValid(false);
+        }
+        if (res.payload.success === false) {
+          setEmailValid(true);
+          // formik.errors.email = "This domain is already in use.";
+        }
+      },
+    );
   }, [formik.values.email]);
 
   useEffect(() => {
@@ -251,7 +243,6 @@ const SignUpScreen = (props: any) => {
           setUserNameValid(false);
         }
         if (res.payload.success === false) {
-         
           setUserNameValid(true);
           // formik.errors.username="Username already exist."
         }
@@ -271,7 +262,6 @@ const SignUpScreen = (props: any) => {
   //     },
   //   );
   // }, [formik.values.password1]);
-
 
   //  useEffect(() => {
   //   const errors: Partial<SignUpPayLoad> = {};
@@ -308,9 +298,9 @@ const SignUpScreen = (props: any) => {
 
   const checkpwd = !checkOne && !checkTwo && !isCheckThre && !checkFour;
 
-  const hello=!isEmpty(formik.values.username)
-  
-    const isValid =
+  const hello = !isEmpty(formik.values.username);
+
+  const isValid =
     checkOne === false &&
     checkTwo === false &&
     isCheckThre === false &&
@@ -321,76 +311,92 @@ const SignUpScreen = (props: any) => {
   const Redirect = () => {
     props.history.push('/login');
   };
-  const handleChange1=()=>{
-    if(  formik.values.terms_and_conditions === '0')
-    {
-      formik.setFieldValue('terms_and_conditions', '1')
+  const handleChange1 = () => {
+    if (formik.values.terms_and_conditions === '0') {
+      formik.setFieldValue('terms_and_conditions', '1');
       // formik.errors.terms_and_conditions=" "
-      
+    } else {
+      formik.setFieldValue('terms_and_conditions', '0');
     }
-    else
-    {
-      formik.setFieldValue('terms_and_conditions', '0')
-      
+  };
+  const emtysp = space.test(formik.values.password1);
+
+  const handlefunction = () => {
+    if (
+      !isEmpty(formik.values.username) &&
+      usernameNumberCase.test(formik.values.username)
+    ) {
+      return (
+        <>
+          <div style={{ color: '#f94949', fontSize: '12px' }}>
+            username must not start with number.
+          </div>
+        </>
+      );
     }
-  }
-  const emtysp=space.test(formik.values.password1)
 
-const handlefunction=()=>{
-  if(!isEmpty(formik.values.username) && usernameNumberCase.test(formik.values.username)){
-    return <>
-     <div style={{color:"#f94949",fontSize:'12px'}}>username must not start with number.</div>
-     </>
-  }
+    if (
+      isUserNameValid === true &&
+      !isEmpty(formik.values.username) &&
+      nameRegex.test(formik.values.username)
+    ) {
+      return (
+        <>
+          <div style={{ color: '#f94949', fontSize: '12px' }}>
+            Username already exist.
+          </div>
+        </>
+      );
+    }
+    if (
+      !isEmpty(formik.values.username) &&
+      !nameRegex.test(formik.values.username)
+    ) {
+      return (
+        <>
+          <div style={{ color: '#f94949', fontSize: '12px' }}>
+            Username must be 4-16 including number.
+          </div>
+        </>
+      );
+    }
+    // if(isEmpty(formik.values.username)&& name) {
+    //   return <>
+    //    <div style={{color:"#f94949",fontSize:'12px'}}>This field is required.</div>
+    //    </>
 
-  if(isUserNameValid === true &&!isEmpty(formik.values.username) && nameRegex.test(formik.values.username)){
-    return <>
-     <div style={{color:"#f94949",fontSize:'12px'}}>Username already exist.</div>
-     </>
-  }
-  if(!isEmpty(formik.values.username) && !nameRegex.test(formik.values.username)){
-    return <>
-     <div style={{color:"#f94949",fontSize:'12px'}}>Username must be 4-16 including number.</div>
-     </>
-  }
-  // if(isEmpty(formik.values.username)&& name) {
-  //   return <>
-  //    <div style={{color:"#f94949",fontSize:'12px'}}>This field is required.</div>
-  //    </>
-    
-  //   // formik.errors.username=THIS_FIELD_REQUIRED;
-  // }
- 
- 
-}
-const handlefunction1=()=>{
+    //   // formik.errors.username=THIS_FIELD_REQUIRED;
+    // }
+  };
+  const handlefunction1 = () => {
+    if (isEmailValid === true && !isEmpty(formik.values.email)) {
+      return (
+        <>
+          <div style={{ color: '#f94949', fontSize: '12px' }}>
+          Email already exist.
+          </div>
+        </>
+      );
+    }
 
-  if(isEmailValid=== true &&!isEmpty(formik.values.email)  ){
-    return <>
-     <div style={{color:"#f94949",fontSize:'12px'}}>This domain is already in use.</div>
-     </>
-  }
-  
-  // if(isEmpty(formik.values.email)&& namevalid){
-  //   return <>
-  //    <div style={{color:"#f94949",fontSize:'12px'}}>This field is required.</div>
-  //    </>
-  // }
-}
-const handlefunction2=()=>{
-  if(!emtysp &&!isEmpty(formik.values.password1)  ){
-    // return <>
-    //  <div style={{color:"#f94949",fontSize:'12px'}}>Space is not a charecter.</div>
-    //  </>
-    formik.errors.password1 = "Space is not a character.";
-    
-  }
-}
-
+    // if(isEmpty(formik.values.email)&& namevalid){
+    //   return <>
+    //    <div style={{color:"#f94949",fontSize:'12px'}}>This field is required.</div>
+    //    </>
+    // }
+  };
+  const handlefunction2 = () => {
+    if (!emtysp && !isEmpty(formik.values.password1)) {
+      // return <>
+      //  <div style={{color:"#f94949",fontSize:'12px'}}>Space is not a charecter.</div>
+      //  </>
+      formik.errors.password1 = 'Space is not a character.';
+    }
+  };
 
   return (
     <>
-          {console.log(name,namevalid)}
+      {console.log(name, namevalid)}
       {isLoader && <Loader />}
       <Flex className={styles.row} height={window.innerHeight}>
         {/* {isVerification ? (
@@ -402,8 +408,9 @@ const handlefunction2=()=>{
               <Text size={20} className={styles.title}>
                 Hello, Welcome to Zita
               </Text>
-              <Text className={styles.text} style={{marginRight:'10px'}}>
-              Experience our AI-Powered recruitment ATS with enhanced features to streamline your hiring process.
+              <Text className={styles.text} style={{ marginRight: '10px' }}>
+                Experience our AI-Powered recruitment ATS with enhanced features
+                to streamline your hiring process.
               </Text>
 
               <Text size={14} className={styles.free_trail}>
@@ -506,10 +513,11 @@ const handlefunction2=()=>{
                   </div>
                   <div className="row">
                     <div className="col">
-                      <Flex className={styles.signup_col}>
+                      <Flex className={styles.signup_col }>
                         <InputText
                           label="Company Name"
                           labelColor={'theme'}
+                        
                           className={styles.signup_input}
                           required
                           value={formik.values.company_name}
@@ -523,8 +531,8 @@ const handlefunction2=()=>{
                       </Flex>
                     </div>
                     <div className="col">
-                      <Flex className={styles.signup_col} >
-                        <LabelWrapper label="Contact Number"  required >
+                      <Flex className={styles.signup_col}>
+                        <LabelWrapper label="Contact Number" required>
                           <PhoneInput
                             inputClass={styles.phoneInput}
                             dropdownClass={styles.dropDownStyle}
@@ -554,7 +562,6 @@ const handlefunction2=()=>{
                           onKeyPress={allowAlphaNumericSpace}
                           value={formik.values.username}
                           onChange={formik.handleChange('username')}
-      
                         />
                         {handlefunction()}
                         <ErrorMessage
@@ -562,7 +569,6 @@ const handlefunction2=()=>{
                           errors={formik.errors}
                           touched={formik.touched}
                         />
-                       
                       </Flex>
                     </div>
                     <div className="col">
@@ -572,16 +578,16 @@ const handlefunction2=()=>{
                           className={styles.signup_input}
                           label="Work Email"
                           required
+                          style={{fontSize:"14px"}}
                           value={formik.values.email}
                           onChange={formik.handleChange('email')}
                         />
                         {handlefunction1()}
                         <ErrorMessage
-                        name={'email'}
-                        errors={formik.errors}
-                        touched={formik.touched}
-                      />
-                       
+                          name={'email'}
+                          errors={formik.errors}
+                          touched={formik.touched}
+                        />
                       </Flex>
                     </div>
                   </div>
@@ -615,29 +621,34 @@ const handlefunction2=()=>{
                           touched={formik.touched}
                         />
                         {handlefunction2()}
-                        {!checkpwd&&!isEmpty(formik.values.password1)&& emtysp && isValid && (
-                          <Flex>
-                            <ErrorMessages
-                              message="password must contain at least one uppercase."
-                              error={
-                                !checkUpperCase.test(formik.values.password1)
-                              }
-                            />
-                            <ErrorMessages
-                              message="password must be between 8-12 characters."
-                              error={
-                                formik.values.password1.length < 8 ||
-                                formik.values.password1.length > 12
-                              }
-                            />
-                            <ErrorMessages
-                              message="password must contain at least one special character."
-                              error={
-                                !specialCharacter.test(formik.values.password1)
-                              }
-                            />
-                          </Flex>
-                        )}
+                        {!checkpwd &&
+                          !isEmpty(formik.values.password1) &&
+                          emtysp &&
+                          isValid && (
+                            <Flex>
+                              <ErrorMessages
+                                message="password must contain at least one uppercase."
+                                error={
+                                  !checkUpperCase.test(formik.values.password1)
+                                }
+                              />
+                              <ErrorMessages
+                                message="password must be between 8-12 characters."
+                                error={
+                                  formik.values.password1.length < 8 ||
+                                  formik.values.password1.length > 12
+                                }
+                              />
+                              <ErrorMessages
+                                message="password must contain at least one special character."
+                                error={
+                                  !specialCharacter.test(
+                                    formik.values.password1,
+                                  )
+                                }
+                              />
+                            </Flex>
+                          )}
                       </Flex>
                     </div>
                     <div className="col">
@@ -683,13 +694,13 @@ const handlefunction2=()=>{
                     </div>
                   </div>
                   <Flex middle>
+                    
                     <div className={styles.checkBoxStyle}>
                       <InputCheckBox
                         className={styles.check}
                         // disabled={!checkBoxDisable}
                         checked={formik.values.terms_and_conditions === '1'}
                         onChange={handleChange1}
-
                       />
                       <Text className={styles.terms_con}>
                         I agree to Zita{' '}
@@ -716,14 +727,14 @@ const handlefunction2=()=>{
                         </a>
                       </Text>
                     </div>
-                    <div style={{marginLeft:'10px'}}>
-                    <ErrorMessage
-                      name={'terms_and_conditions'}
-                      errors={formik.errors}
-                      touched={formik.touched}
-                    />    
-                    </div>            
-                   
+                    <div style={{ marginLeft: '-18px' }}>
+                      <ErrorMessage
+                        name={'terms_and_conditions'}
+                        errors={formik.errors}
+                        touched={formik.touched}
+                      />
+                    </div>
+
                     <Button
                       className={styles.login_button}
                       // disabled={formik.values.terms_and_conditions === '0'}
@@ -732,41 +743,64 @@ const handlefunction2=()=>{
                       Sign up
                     </Button>
                   </Flex>
-                
 
                   <Flex middle className={styles.account_link} row>
-                    Already have an account ?{' '}
-                    &nbsp;
-                    <u style={{textDecoration:'none'}}>
-                      <Link to="/login" style={{fontWeight:"bold"}}> Login </Link>
+                    Already have an account? &nbsp;
+                    <u style={{ textDecoration: 'none' }}>
+                      <Link to="/login" style={{ fontWeight: 'bold' }}>
+                        {' '}
+                        Login{' '}
+                      </Link>
                     </u>
                   </Flex>
                 </Flex>
               ) : (
                 <>
                   <Flex className={styles.successform_body}>
-                  <Flex >
-                    <Flex middle className={styles.text_margin} style={{marginTop:'115px'}}>
-                      <SvgVerificationEmailIcon fill={'#581845'} />
-                    </Flex>
-                    <Flex column-middle>
-                    <Text size={22} bold className={styles.verificationtext}>
-                      Verification email sent successfully
-                    </Text>
-                    <Text size={16} className={styles.messages} style={{justifyContent:'center',marginBottom:'135px'}}>
-                      Please click on the verification link sent to your email
-                      id to complete the registration. In case you are not able
-                      to find our mail, please check the spam folder.
-                    </Text>
-                    </Flex>
-                    <Flex middle>
-                      <Button
-                        style={{ marginTop: '-56px',position:'relative',bottom:'68px',borderRadius:'5px',marginBottom:'81px' }}
-                        onClick={() => Redirect()}
+                    <Flex>
+                      <Flex
+                        middle
+                        className={styles.text_margin}
+                        style={{ marginTop: '115px' }}
                       >
-                        OK
-                      </Button>
-                    </Flex>
+                        <SvgVerificationEmailIcon fill={'#581845'} />
+                      </Flex>
+                      <Flex column-middle>
+                        <Text
+                          size={22}
+                          bold
+                          className={styles.verificationtext}
+                        >
+                          Verification email sent successfully
+                        </Text>
+                        <Text
+                          size={16}
+                          className={styles.messages}
+                          style={{
+                            justifyContent: 'center',
+                            marginBottom: '135px',
+                          }}
+                        >
+                          Please click on the verification link sent to your
+                          email id to complete the registration. In case you are
+                          not able to find our mail, please check the spam
+                          folder.
+                        </Text>
+                      </Flex>
+                      <Flex middle>
+                        <Button
+                          style={{
+                            marginTop: '-56px',
+                            position: 'relative',
+                            bottom: '68px',
+                            borderRadius: '5px',
+                            marginBottom: '81px',
+                          }}
+                          onClick={() => Redirect()}
+                        >
+                          OK
+                        </Button>
+                      </Flex>
                     </Flex>
                   </Flex>
                 </>

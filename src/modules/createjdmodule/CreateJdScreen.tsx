@@ -47,11 +47,12 @@ const CreateJdScreen = () => {
 
   return (
     <Flex columnFlex>
-      {feature === 0 && (
+      {feature !== 0 && (
         <Flex middle columnFlex center>
           <Flex middle row center className={styles.warningFlex}>
-            <SvgInfo fill={WARNING} />
-            <Text size={12} bold color="warning" className={styles.warningText}>
+            <SvgInfo fill={'#2E6ADD'} className={styles.warninginfoo} />
+            <Text     style={{color:"#333333"}}  className={styles.warningText}>
+            <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px'}} bold >Heads Up!{' '}</Text>
               {`You’ve reached the number of job postings for your current plan 
           but you can keep new job descriptions in Draft. Please `}
               <LinkWrapper
@@ -61,7 +62,7 @@ const CreateJdScreen = () => {
                 }}
                 to="/account_setting/settings?planFocus=focus"
               >
-                <Text size={12} bold color="link">
+                <Text style={{fontSize:"13px"}} bold color="link">
                   upgrade{' '}
                 </Text>
               </LinkWrapper>
@@ -70,7 +71,7 @@ const CreateJdScreen = () => {
             </Text>
           </Flex>
         </Flex>
-      )}
+        )} 
       <Flex columnFlex>
         <Text
           className={styles.chooseText}

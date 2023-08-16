@@ -32,6 +32,7 @@ const InviteContainer = ({
     <Flex columnFlex center middle width={'25%'} height={71}>
       {inviteDisable ? (
         <>
+        <div style={{width:'2px',height:'10px',color:'black'}}></div>
           <div
             title="Invite to Apply"
             className={cx('inviteStyle', { inviteDisable })}

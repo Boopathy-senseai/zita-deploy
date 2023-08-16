@@ -67,7 +67,9 @@ Props) => {
                   keyboardType="email"
                   actionLeft={() => (
                     <Button types="link" className={styles.usericon}>
+                    <div style={{marginTop: '-15px'}}>
                       <SvgEmail height={15} width={17} fill={'none'} />
+                    </div>
                     </Button>
                   )}
                 />
@@ -83,11 +85,13 @@ Props) => {
                 <InputText
                   actionLeft={() => (
                     <Button types="link" className={styles.Passicon}>
+                    <div style={{marginTop: '-15px'}}>
                       <SvgLock height={20} width={19} />
+                    </div>
                     </Button>
                   )}
                   className={styles.input}
-                  placeholder="Password at least 8 characters"
+                  placeholder="Your Password"
                   required
                   value={formik.values.email}
                   onChange={formik.handleChange('email')}
@@ -98,7 +102,9 @@ Props) => {
                       className={styles.passwordicon}
                       onClick={handleShowPass}
                     >
+                    <div style={{marginTop: '-15px'}}>
                       <SvgView nonView={isShowPass} height={20} width={20} />
+                    </div>
                     </Button>
                   )}
                   onKeyPress={(e) => enterKeyPress(e, formik.handleSubmit)}
@@ -141,7 +147,7 @@ Props) => {
             <hr />
             <Flex middle>
               <Text className={styles.text_account}>
-                Don`t have an account ?{' '}
+                Don`t have an account?{' '}
                 <u style={{textDecoration:'none'}}>
                   <Link to="/recruiter/1" style={{fontWeight:"bold"}}>Sign up</Link>
                 </u>

@@ -76,12 +76,17 @@ const ContactCreditsModal = ({
 
   const totalAmount: string = disPlayValue.toString();
 
+//   <Flex end onClick={cancelBtnOnClick}>
+//   <SvgCloseSmall />
+// </Flex>
+
   return (
     <Modal open={open}>
       <Flex className={styles.overAll}>
-        <Flex end onClick={cancelBtnOnClick}>
-          <SvgCloseSmall />
-        </Flex>
+      <Flex end onClick={cancelBtnOnClick}>
+      <SvgCloseSmall />
+    </Flex>
+
         <Flex className={styles.overAllPadding}>
           <Text type="titleMedium" align="center">
             Contact Credits
@@ -121,8 +126,8 @@ const ContactCreditsModal = ({
         </Flex>
         <Flex row center middle className={styles.btnConatiner}>
           <Button
-            types="secondary"
-            className={styles.cancelBtn}
+          className={styles.btnCancelStyle}
+          types="close"
             onClick={cancelBtnOnClick}
           >
             Cancel

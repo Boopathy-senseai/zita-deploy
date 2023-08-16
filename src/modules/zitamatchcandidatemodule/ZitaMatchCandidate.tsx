@@ -543,7 +543,7 @@ const ZitaMatchCandidate = () => {
               <Button
                 disabled={true}
                 className={styles.btnStyle}
-                types="secondary"
+                types="primary"
                 onClick={handleApplicant}
               >
                 Applicants Pipeline
@@ -552,7 +552,7 @@ const ZitaMatchCandidate = () => {
               <Link to={`/applicant_pipe_line/${jd_id}`}>
                 <Button
                   className={styles.btnStyle}
-                  types="secondary"
+                  types="primary"
                   onClick={handleApplicant}
                 >
                   Applicants Pipeline
