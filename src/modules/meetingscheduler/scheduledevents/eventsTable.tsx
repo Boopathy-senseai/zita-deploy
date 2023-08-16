@@ -29,7 +29,7 @@ interface Props {
   deleteState: any;
   activeRadio: EVENT_FILTER_OPTION;
   onJoin?: (doc: IEvent) => void;
-  onEdit?: (doc: IEvent) => void;
+  // onEdit?: (doc: IEvent) => void;
   onDelete?: (doc: IEvent) => void;
 }
 const EventSchedulerScreen: React.FC<Props> = (props) => {
@@ -39,7 +39,7 @@ const EventSchedulerScreen: React.FC<Props> = (props) => {
     activeRadio,
     deleteState,
     onJoin,
-    onEdit,
+    // onEdit,
     onDelete,
   } = props;
 
@@ -201,11 +201,11 @@ const EventSchedulerScreen: React.FC<Props> = (props) => {
                           </Flex>
                         </Dropdown.Item>
 
-                        <Dropdown.Item onClick={() => onEdit(doc)}>
+                        {/* <Dropdown.Item onClick={() => onEdit(doc)}>
                           <Flex row center className={styles.dropDownListStyle}>
                             <Text style={{ marginLeft: 10 }}>Edit</Text>
                           </Flex>
-                        </Dropdown.Item>
+                        </Dropdown.Item> */}
                         <Dropdown.Item onClick={() => onDelete(doc)}>
                           <Flex row center className={styles.dropDownListStyle}>
                             <Text style={{ marginLeft: 10 }}>Delete</Text>

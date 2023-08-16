@@ -36,6 +36,7 @@ import {
   getEventsMiddleWare,
 } from './store/middleware/eventsmiddleware';
 import CalendarEventsTable from './calendarEventsTable';
+import EventDeletePopUpModal from './deleteEvent';
 
 const ScheduledEventsPage = () => {
   const history = useHistory();
@@ -43,6 +44,7 @@ const ScheduledEventsPage = () => {
   const [event, setEvent] = useState([
     { title: '', start: '', end: '', web_url: '' },
   ]);
+  const [deleteEvent, setDeleteEvent] = useState<{open: boolean, event: IEvent | ICalendarEvent} | null>(null);
   const [teamMembers, setTeamMembers] = useState<IEventTeamMember[]>([]);
   const [selectedPeople, setSelectedPeople] = useState<number[]>([]);
   const [filters, setFilters] = useState<{
@@ -63,7 +65,7 @@ const ScheduledEventsPage = () => {
     setShowDropDownMenu((state) => !state);
   };
   const formik = useFormik({
-    initialValues: { date: getDateString(new Date(), 'DD/MM/YYYY') },
+    initialValues: { date: new Date() },
     onSubmit: () => {},
   });
 
@@ -76,7 +78,7 @@ const ScheduledEventsPage = () => {
 
   const getCurrentDate = (type: EVENT_FILTER_OPTION) => {
     if (type === EVENT_FILTER_OPTION.DATE) {
-      return formik.values.date;
+      return getDateString(formik.values.date, 'DD/MM/YYYY');
     }
     return undefined;
   };
@@ -129,9 +131,10 @@ const ScheduledEventsPage = () => {
         date: getCurrentDate(filters.activeRadio),
         other_user: selectedPeople.length !== 0 ? selectedPeople : undefined,
       }),
-    ).then((res) => {
-      setSelectedPeople(((res.payload as IEventData).teammembers || []).filter(doc => filters.type === EVENT_TYPE.MY_EVENTS ? doc.user === user.id : doc.user !== user.id).map(doc => doc.id))
-    });;
+    )
+    // .then((res) => {
+    //   setSelectedPeople(((res.payload as IEventData).teammembers || []).filter(doc => filters.type === EVENT_TYPE.MY_EVENTS ? doc.user === user.id : doc.user !== user.id).map(doc => doc.id))
+    // });
   }, [
     filters.type,
     filters.activeRadio,
@@ -139,17 +142,18 @@ const ScheduledEventsPage = () => {
     selectedPeople.toString(),
   ]);
 
-  const getEventsData = (value?: string) => {
+  const getEventsData = (date?: Date) => {
     dispatch(
       getEventsMiddleWare({
         event: filters.type === EVENT_TYPE.MY_EVENTS ? 'True' : 'False',
         date:
-          filters.activeRadio === EVENT_FILTER_OPTION.DATE ? value : undefined,
+          filters.activeRadio === EVENT_FILTER_OPTION.DATE ? getDateString(date, 'DD/MM/YYYY') : undefined,
         other_user: selectedPeople.length !== 0 ? selectedPeople : undefined,
       }),
-    ).then((res) => {
-      setSelectedPeople(((res.payload as IEventData).teammembers || []).filter(doc => filters.type === EVENT_TYPE.MY_EVENTS ? doc.user === user.id : doc.user !== user.id).map(doc => doc.id))
-    });;
+    )
+    // .then((res) => {
+    //   setSelectedPeople(((res.payload as IEventData).teammembers || []).filter(doc => filters.type === EVENT_TYPE.MY_EVENTS ? doc.user === user.id : doc.user !== user.id).map(doc => doc.id))
+    // });
   };
 
   const handleJoinEvent = (doc: IEvent) => {
@@ -158,17 +162,17 @@ const ScheduledEventsPage = () => {
   const handleEditEvent = (doc: IEvent) => {
     history.push(calendarRoute, { openScheduleEvent: true });
   };
-  const handleDeleteEvent = (doc: IEvent) => {
+  const handleDeleteEvent = (id: any) => {
     dispatch(
       deleteEventMiddleWare({
-        eventid: doc.event_id,
+        eventid: id,
         event: filters.type === EVENT_TYPE.MY_EVENTS ? 'True' : 'False',
       }),
     );
   };
 
   const handleCalendarJoinEvent = (doc: ICalendarEvent) => {
-    history.push(calendarRoute, { openScheduleEvent: true });
+    window.open(doc.join_url, "_blank");
   };
   const handleCalendarEditEvent = (doc: ICalendarEvent) => {
     history.push(calendarRoute, { openScheduleEvent: true });
@@ -284,8 +288,8 @@ const ScheduledEventsPage = () => {
             activeRadio={filters.activeRadio}
             deleteState={scheduleEventState?.deleteState}
             onJoin={handleJoinEvent}
-            onEdit={handleEditEvent}
-            onDelete={handleDeleteEvent}
+            // onEdit={handleEditEvent}
+            onDelete={(doc) => setDeleteEvent({ open: true, event: doc})}
           />
         </TableWrapper>
 
@@ -297,7 +301,7 @@ const ScheduledEventsPage = () => {
             deleteState={scheduleEventState?.deleteState}
             onJoin={handleCalendarJoinEvent}
             onEdit={handleCalendarEditEvent}
-            onDelete={handleCalendarDeleteEvent}
+            onDelete={(doc) => setDeleteEvent({ open: true, event: doc})}
           />
         </TableWrapper>
       </Flex>
@@ -334,12 +338,11 @@ const ScheduledEventsPage = () => {
       <div style={{ position: 'relative', display: 'flex' }}>
         <DatePicker
           id="calendar___open"
-          dateFormat="DD/MM/YYYY"
-          value={formik.values.date}
+          dateFormat="dd/MM/yyyy"
+          selected={formik.values.date}
           onChange={(date) => {
-            const value = getDateString(date, 'DD/MM/YYYY');
-            formik.setFieldValue('date', value);
-            getEventsData(value);
+            formik.setFieldValue('date', date);
+            getEventsData(date);
             // dispatch(
             //   dashboardCalenderMiddleWare({
             //     date: getDateString(date, 'YYYY-MM-DD'),
@@ -378,6 +381,12 @@ const ScheduledEventsPage = () => {
 
   return (
     <>
+      {deleteEvent && <EventDeletePopUpModal
+        open={deleteEvent.open}
+        event={deleteEvent.event}
+        onClose={() => setDeleteEvent(null)}
+        onConfirm={handleDeleteEvent}
+      />}
       <Flex center between row className={styles.Container}>
         <Flex row center>
           <Flex marginRight={10}>

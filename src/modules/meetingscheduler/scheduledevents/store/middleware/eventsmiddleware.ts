@@ -15,7 +15,7 @@ export const getEventsMiddleWare = createAsyncThunk<IEventData, { event: any, da
       const { data } = await axios.get(
         `${calendarScheduledEvents}?${stringifyParams(payload)}`,
       );
-      await delay(3000);
+      // await delay(3000);
       // console.log(data);
       // return jsoonData as IEventData;
       return data as IEventData;

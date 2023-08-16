@@ -900,3 +900,12 @@ input:-webkit-autofill:active {
 /* ::-webkit-scrollbar-thumb:hover {
   background: $tableBorderColor;
 } */
+
+.react-datepicker__day--selected{
+  background-color: #581845 !important;
+}
+
+.react-datepicker__day.react-datepicker__day--keyboard-selected {
+  background: transparent !important;
+  color: black;
+}
