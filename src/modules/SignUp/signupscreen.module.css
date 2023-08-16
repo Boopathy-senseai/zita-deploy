@@ -49,9 +49,10 @@
 }
 
 .check {
-  position: absolute;
-  top: -14px;
-  right: 0px;
+  /* position: absolute;
+  top: -7px;
+  left: -10px; */
+  /* right: 0px; */
 }
 
 .phoneInput {

@@ -42,21 +42,42 @@
   /* font-weight: bold;
   top: 1px; */
   content: "";
-    position: absolute;
-    border-color: #581845;
-    border-style: solid;
-    border-width: 0px 1.5px 1.5px 0;
-    height: 10px;
-    top: -7px;
-    left: -10px;
-    margin-top: -12px;
-    transform: rotate(45deg);
-    width: 5px;
+  position: absolute;
+  border-color: #581845;
+  border-style: solid;
+  border-width: 0px 1.5px 1.5px 0;
+  height: 10px;
+  top: 9px;
+  left: 6px;
+  margin-top: -5px;
+  transform: rotate(45deg);
+  width: 5px;
+
+}
+.checkboxStyle > input:checked + .withOutLabel::before {
+  top: 6px;
 }
 
-.checkboxStyle > input:checked + .withOutLabel::before {
-  top: 0px;
+.checkboxStyle1 > input:checked + .checkBoxTick::before {
+  content: "";
+  position: absolute;
+  border-color: #581845;
+  border-style: solid;
+  border-width: 0px 1.5px 1.5px 0;
+  height: 10px;
+  top: -7px;
+  left: -10px;
+  margin-top: -5px;
+  transform: rotate(45deg);
+  width: 5px;
 }
+
+.checkboxStyle1 > input:checked + .withOutLabel::before {
+  top: -17px;
+  left:-10px;
+}
+
+
 .withLabel {
   top: 0px;
   margin-left: 8px;

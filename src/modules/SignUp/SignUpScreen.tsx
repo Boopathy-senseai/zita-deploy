@@ -683,14 +683,13 @@ const handlefunction2=()=>{
                     </div>
                   </div>
                   <Flex middle>
-                    <div className={styles.checkBoxStyle}>
+                    <div className={styles.checkBoxStyle} style={{display:"flex"}}>
                       <InputCheckBox
                         className={styles.check}
                         // disabled={!checkBoxDisable}
                         checked={formik.values.terms_and_conditions === '1'}
                         onChange={handleChange1}
-
-                      />
+                        />
                       <Text className={styles.terms_con}>
                         I agree to Zita{' '}
                         <a
