@@ -662,6 +662,7 @@ const ApplicantsTab = ({
             <Flex center middle height={100}>
               <Loader withOutOverlay size={'medium'} />
             </Flex>
+            
           ) : (
             <Tabel
               empty={
@@ -674,7 +675,7 @@ const ApplicantsTab = ({
               isLoader={isTableLoader}
             />
           )}
-
+          
           {!isCandiTableLoader && isPageTab > 10 && (
             <Flex middle className={styles.pagination}>
               <Pangination

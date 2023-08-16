@@ -3,12 +3,16 @@ import { Dispatch, SetStateAction } from 'react';
 import Flex from '../../uikit/Flex/Flex';
 import { getBlur, getFocus } from '../../uikit/helper';
 import Pangination from '../../uikit/Pagination/Pangination';
+import SvgNomessage from '../../icons/SvgNomessage';
+import SvgNotinterests from '../../icons/SvgNotinterests';
 import Text from '../../uikit/Text/Text';
 import MyDataBaseBulkAction from './MyDataBaseBulkAction'; // eslint-disable-line
 import MyDataBaseCard from './MyDataBaseCard'; // eslint-disable-line
 import { MyDataFormProps } from './MyDataBaseScreen'; // eslint-disable-line
 import { DataEntity } from './myDataBaseTypes';
 import styles from './mydatabaselist.module.css';
+
+
 
 type Props = {
   data: DataEntity[];
@@ -108,7 +112,8 @@ const MyDataBaseList = ({
         }}
       >
         {data && data.length === 0 && (
-          <Flex flex={1} center middle height={'100%'}>
+          <Flex flex={1} center middle height={'100%'} style={{display:"flex"}}>
+            <SvgNotinterests style={{marginBottom:"15px"}}/>
             <Text color="gray" style={{ position: 'relative', bottom: 16 }}>
               No candidate found
             </Text>
