@@ -95,12 +95,12 @@
 
 .buttonTypes-secondary:focus {
   border: 2px solid var(--color-primary, #581845);
-  background-color: rgb(88 24 69 / 20%);
+  /* background-color: rgb(88 24 69 / 20%); */
 }
 
 .buttonTypes-secondary:active {
   border: 2px solid var(--color-primary, #581845);
-  background-color: rgb(88 24 69 / 25%);
+  /* background-color: rgb(88 24 69 / 25%); */
 }
 
 /* tertiary button style */

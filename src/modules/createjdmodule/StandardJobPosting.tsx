@@ -73,7 +73,9 @@ const StandardJobPosting = ({
             />
             <div className={styles.checkBoxs}>
               <div style={{ opacity: 0.5, marginRight: 8 }}></div>
-              <Svgwhatjobs />
+
+              <Svgwhatjobs width={80} height={19}/>
+
             </div>
           </Flex>
         </Flex>
