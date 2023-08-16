@@ -347,6 +347,7 @@ const EditUserModal = (props) => {
           aria-labelledby="contained-modal-title-vcenter"
           centered
         >
+          <div className={styles.popUppad}>
           <Modal.Body>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Flex row center between>
@@ -482,7 +483,7 @@ const EditUserModal = (props) => {
                 <div
                   id="RoleCheckbox"
                   className="col-12 d-none"
-                  style={{ marginTop: '30px' }}
+                  style={{ marginTop: '16px' }}
                 >
                   <div
                     className={
@@ -493,10 +494,10 @@ const EditUserModal = (props) => {
                       <Loader size="small" withOutOverlay />
                     </Flex>
                   </div>
-                  <div className={displayRolesLoading ? 'card d-none' : 'card'}>
+                  <div className={displayRolesLoading ? 'card d-none' : 'card'} style={{border:"0px"}}>
                     <div
-                      className="card-body"
-                      style={{ paddingBottom: 8, paddingTop: 8 }}
+                      className={styles.cardBody}
+                      style={{ paddingBottom: 0, paddingTop: 0 }}
                     >
                       <Flex>
                         <Text bold>User Privileges</Text>
@@ -528,7 +529,7 @@ const EditUserModal = (props) => {
                     </div>
                   </div>
                 </div>
-                <div className="col-md-12 mt-4">
+                <div className="col-md-12" style={{marginTop:"16px"}}>
                   <Button type="submit" style={{ marginBottom: 16 }}>
                     Save
                   </Button>
@@ -536,6 +537,7 @@ const EditUserModal = (props) => {
               </div>
             </form>
           </Modal.Body>
+          </div>
         </Modal>
       </>
     )
