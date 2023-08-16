@@ -1,5 +1,5 @@
 .overAlll {
-  margin: 16px 4px;
+  margin: 0px 4px;
   padding-bottom: 20px;
 }
 .overAllContainer {
@@ -17,7 +17,7 @@
 }
 .ribbon{
   background-color: #EEE8EC;
-  height: 45px;
+  height: 40px;
 }
 .triangle {
 
@@ -33,9 +33,9 @@
     
   position: relative;
     
-  top: 71;
+  top: -1px;
     
-  right: 43;
+  right: 0;
   
     
     }
