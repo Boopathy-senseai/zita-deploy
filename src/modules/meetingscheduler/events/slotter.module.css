@@ -1,3 +1,5 @@
+
+
 .line {
   border: none;
   background: #c3c3c3;
@@ -69,6 +71,7 @@
   padding: 5px;
   font-size: 14px !important;
 }
+
 .button1:focus {
   width: 180px;
   margin: 10px 10px 10px 0px;
@@ -81,7 +84,7 @@
 }
 
 .select {
-  max-height: 200px;
+  max-height: 160px;
   overflow-y: scroll;
 }
 .confrompage {

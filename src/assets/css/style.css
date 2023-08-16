@@ -1,3 +1,4 @@
+
 * {
   margin: 0;
   padding: 0;
@@ -306,6 +307,10 @@ small {
 
 .toast.error {
   border: 1px solid #dc3545 !important;
+}
+
+.react-autosuggest__suggestion{
+  font-size: 13px !important;
 }
 
 /* //Container */
@@ -828,38 +833,62 @@ input:-webkit-autofill:active {
   margin-bottom: 5px !important;
 }
 .rdp-head_cell {
-  font-size: 14px !important;
-  color: #333 !important;
+  vertical-align: middle;
+  font-size: 0.75em;
+  font-weight: 700;
+  text-align: center;
+  height: 100%;
+  height: var(--rdp-cell-size);
+  padding: 20px;
+  text-transform: uppercase;
 }
 .rdp-caption_label {
   font-size: 14px !important;
   padding: 0 !important;
   color: #333 !important;
+  margin-bottom: 10px;
 }
 .rdp-cell {
   color: #333 !important;
 }
 .rdp {
-  margin: 0px 0px 10px 0px !important;
+  margin: 10px 0px 10px 0px !important;
 }
 .rdp-button:hover:not([disabled]):not(.rdp-day_selected) {
-  background-color: #d7c7d2 !important;
+  background-color: white !important;
+  cursor: default;
 }
 .rdp-button.rdp-day_selected {
   background-color: #d7c7d2 !important;
   color: #581845 !important;
   padding: 5px !important;
+}
 
+.rdp-button.rdp-day_selected:focus {
+  background-color: #581858 !important;
+  color: #fffcff !important;
+  padding: 5px !important;
+}
+.rdp-button.rdp-day_highlighted{
+  background-color: #17692e !important;
+  color: #fffcff !important;
+  padding: 5px !important;
+}
+
+.custom-highlighted {
+  background-color: black;
+  color: white;
 }
 
 .rdp-day_today:not(.rdp-day_outside) {
-  background-color: #581845 !important;
-  color: white !important;
-  font-weight: normal !important;
+  /* background-color: #581845 !important; */
+  color: black !important;
+  font-weight: bold !important;
 }
 
 .rdp-caption{
   margin-left: 15px;
+  margin-bottom: 10px;
 }
 .daterangepicker td.in-range{
  background-color: #d7c7d2 !important;
@@ -875,6 +904,20 @@ input:-webkit-autofill:active {
 .daterangepicker .drp-buttons .btn{
   text-transform: capitalize;
 }
+.daterangepicker td.off, .daterangepicker td.off.in-range, .daterangepicker td.off.start-date, .daterangepicker td.off.end-date {
+  background-color: #fff;
+  border-color: transparent;
+  color: #999;
+}
+.daterangepicker td{
+  cursor: pointer !important;
+}
+.daterangepicker td.disabled{
+  cursor: not-allowed !important;
+}
+.daterangepicker th.month{
+  cursor: default !important;
+}
 .react-datepicker__day--keyboard-selected:hover{
   background-color: #581845 !important;
 }
@@ -882,6 +925,16 @@ input:-webkit-autofill:active {
   background-color: #581845 !important;
 }
 
+.daterangepicker td.disabled, .daterangepicker option.disabled {
+  color: #999;
+  cursor: not-allowed;
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+
+/* .rdp-head_cell{
+  padding-right: 20px;
+} */
 /*--------- scroll bar styles---------*/
 
 /* width */

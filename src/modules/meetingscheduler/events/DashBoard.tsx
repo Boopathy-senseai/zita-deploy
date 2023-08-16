@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { Dropdown } from 'react-bootstrap';
-import SvgDotMenu from '../../../icons/SvgDotMenu';
 import { AppDispatch } from '../../../store';
 import Flex from '../../../uikit/Flex/Flex';
 import Text from '../../../uikit/Text/Text';
@@ -20,10 +18,12 @@ import SvgCopy from '../../../icons/SvgCopy';
 import LinkShare from './LinkShare';
 import styles from './dashBoard.module.css';
 import { getScheduleMiddleWare } from './store/middleware/eventmiddleware';
+import Interviewer from './Interviewer';
 
 const DashBoard = (props) => {
   const dispatch: AppDispatch = useDispatch();
   const {
+    isLoading,
     list,
     index,
     editdata,
@@ -44,8 +44,11 @@ const DashBoard = (props) => {
   const [share, SetShare] = useState(false);
   const [dataid, setdataid] = useState(null);
   const [openWindowId, setOpenWindowId] = useState(null);
+  // useEffect(() => {
+  //   dispatch(getScheduleMiddleWare(undefined));
+  // }, []);
 
-  useEffect(() => {}, [dataid, list]);
+
 
   const modifiedTimeString = (timeString) => {
     let value = '';
@@ -65,7 +68,7 @@ const DashBoard = (props) => {
   function copylink(id: any) {
     const eventid = id;
     const url = `${window.location.origin}/event_preview?uid=null&eventid=${eventid}`;
-    Toast('Linked Copied');
+    Toast('Link Copied');
     const tempInput = document.createElement('input');
     tempInput.style.position = 'fixed';
     tempInput.style.opacity = '0';
@@ -84,15 +87,21 @@ const DashBoard = (props) => {
   }
 
   const getInitials = (fullName) => {
-    const words = fullName.split(' ');
-    let initials = '';
-    for (let i = 0; i < words.length; i++) {
-      initials += words[i][0];
+    if (fullName !== null && fullName !== undefined && !isEmpty(fullName)){
+      const words = fullName.split(' ');
+      let initials = '';
+      for (let i = 0; i < words.length; i++) {
+        initials += words[i][0].toUpperCase();
+      }
+      return initials;
     }
-    return initials;
   };
 
+  // if (isLoading) {
+  //   return <Loader />;
+  // }
   const filteredData = interview.filter((item) => item.event_id === list.id);
+  const MAX_BUTTONS = 7;
   return (
     <>
       <Card className={styles.cardConatiner}>
@@ -107,23 +116,27 @@ const DashBoard = (props) => {
               >
                 {list.event_name}
               </Text>
-              <Button
+              <Flex
+                title={"copy"}
                 className={styles.copybutton}
                 onClick={() => copylink(list.id)}
               >
                 <SvgCopy fill="#FCC203" height={15} width={15} />
-              </Button>
+              </Flex>
             </Flex>
           </Flex>
           <ActionsButton data={list} onEdit={onEdit} />
         </Flex>
 
-        <Text>
+        <Text size={13}>
           {modifiedTimeString(list.duration)}, {list.event_type}
         </Text>
-        <Flex row>
-          {interview.map((data) => {
-            if (data.event_id === list.id) {
+        <Flex row className={styles.overflowbtn}>
+          {interview
+          .filter(data => data.event_id === list.id) // Filter based on event_id
+          .slice(0, 7)
+          .map((data) => {
+            if (data.event_id === list.id)  {
               const initials = getInitials(data.full_name);
               return (
                 <Flex className={styles.initials} key={data.id}>
@@ -132,26 +145,39 @@ const DashBoard = (props) => {
                   </Text>
                 </Flex>
               );
+              
             }
 
             return null;
           })}
+          {interview.filter(data => data.event_id === list.id).length > 7 && (
+    <Flex className={styles.initials}>
+      <Text size={12} className={styles.textinitials}>
+      {`+${interview.filter(data => data.event_id === list.id).length - MAX_BUTTONS}`}
+      </Text>
+    </Flex>
+  )}
+         
         </Flex>
 
         <div className={styles.line}></div>
 
         <Flex className={styles.rowGroup}>
+          <Flex title={'preview'}>
           <Button
             types="link"
             className={styles.previewbtn}
             onClick={() => PreviewOnClick(list.id)}
+            // t={"preview"}
           >
             <SvgShareIcon fill={'#581845'} height={17} width={17} />
           </Button>
+          </Flex>
           <Button
             types="secondary"
             className={styles.buttonshare}
             onClick={() => SetShare(true)}
+            textSize ={13}
           >
             Share
           </Button>
@@ -162,9 +188,6 @@ const DashBoard = (props) => {
           share={share}
           setShare={SetShare}
           list={list}
-          // title={'Team interview'}
-          // type={'Team interview'}
-          // duration={'30 Minutes'}
           sharelinkdata={response}
           details={details}
           sharedata={sharedata}
@@ -184,7 +207,6 @@ const ActionsButton = (props) => {
   console.log('propsprops', props);
 
   const onDuplicate = (id: number) => {
-    alert(id);
     console.log('propsprops', id);
     axios
       .get(`${eventSchedulerApi}?pk=${id}&duplicate=duplicate`)
@@ -249,19 +271,19 @@ const ActionsButton = (props) => {
 
           <Dropdown.Menu style={{ minWidth: '5rem' }}>
             <Dropdown.Item onClick={() => onEdit(data.id, data)}>
-              <Flex row center className={styles.dropDownListStyle}>
+              <Flex row center className={styles.pointer}>
                 <Text>Edit</Text>
               </Flex>
             </Dropdown.Item>
 
             <Dropdown.Item onClick={() => onDuplicate(data.id)}>
-              <Flex row center className={styles.dropDownListStyle}>
+              <Flex row center className={styles.pointer}>
                 <Text>Duplicate</Text>
               </Flex>
             </Dropdown.Item>
 
             <Dropdown.Item onClick={() => handleShow(data.id)}>
-              <Flex row center className={styles.dropDownListStyle}>
+              <Flex row center className={styles.pointer}>
                 <Text>Delete</Text>
               </Flex>
             </Dropdown.Item>
@@ -274,17 +296,24 @@ const ActionsButton = (props) => {
           btnCancel={() => onCancel()}
           title={
             <Flex className={styles.popUpFlex}>
-              <Text style={{ marginLeft: '10px' }}>
-                Users will be unable to schedule further meeting with deleted
+              <Flex column>
+                <Flex>
+              <Text size={14} style={{ marginLeft: '10px' }}>
+                Users will be unable to schedule further meetings with deleted
                 event types.
-                {/* <br/> */}
-                <Text style={{ marginLeft: '10px' }}>
-                  Meetings previously scheduled will not affected.
                 </Text>
-              </Text>
-              <Text style={{ marginLeft: '10px' }}>
+                </Flex>
+                <Flex marginLeft={10} >             
+                <Text size={14}>
+                  Meetings previously scheduled will not be affected.
+                </Text>             
+              </Flex>
+              </Flex>
+              <Flex >
+              <Text size={13} style={{ marginLeft: '10px', marginTop : '2px'}}>
                 Are you sure to proceed?
-              </Text>
+              </Text> 
+              </Flex>             
             </Flex>
           }
           btnDelete={onDelete}

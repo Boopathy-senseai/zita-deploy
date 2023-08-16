@@ -11,7 +11,7 @@ const SvgCloseSmall = ({ width, height, fill }: typeof defaultProps) => {
       xmlns="http://www.w3.org/2000/svg"
       width={width}
       height={height}
-      viewBox="0 0 16 16"
+      viewBox="0 0 18 18"
       style={{ cursor: 'pointer' }}
     >
       <path

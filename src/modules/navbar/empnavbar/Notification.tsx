@@ -35,6 +35,8 @@ const Notification = () => {
   const [isMessageTab, setMessageTab] = useState(5);
   useEffect(() => {
     axios.get(notificationApi).then((res) => {
+
+      console.log("ressssssssssssssssKKKKKKKKKK",res)
       setData(res.data);
     });
   }, []);
@@ -141,12 +143,13 @@ const Notification = () => {
                 </Flex>
                 <hr className={styles.line} />
                 <Flex columnFlex className={styles.scrollStyle}>
-                  {isData && isData.today && isData.today.length !== 0 && (
+                  {isData && isData.today && isData.today?.length !== 0 && (
                     <Flex columnFlex className={cx('borderBottom')}>
                       {isData &&
-                        isData.today.map(
+                        isData.today?.map(
                           (list: OthersEntity, index: number) => {
                             let getPath = '';
+                           
                             if (
                               list.description.toLowerCase() === 'bulkimport'
                             ) {
@@ -303,10 +306,10 @@ const Notification = () => {
                         )}
                     </Flex>
                   )}
-                  {isData && isData.yesterday && isData.yesterday.length !== 0 && (
+                  {isData && isData.yesterday && isData.yesterday?.length !== 0 && (
                     <Flex columnFlex className={cx('borderBottom')}>
                       {isData &&
-                        isData.yesterday.map(
+                        isData.yesterday?.map(
                           (list: OthersEntity, index: number) => {
                             let getPath = '';
                             if (
@@ -458,6 +461,7 @@ const Notification = () => {
                       {isData &&
                         isData.others.map(
                           (list: OthersEntity, index: number) => {
+                            console.log("listlistlistlistlistlistlistlist",list)
                             let getPath;
                             if (
                               list.description.toLowerCase() === 'bulkimport'

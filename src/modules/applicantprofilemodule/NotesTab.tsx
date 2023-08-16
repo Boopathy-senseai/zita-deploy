@@ -18,6 +18,7 @@ Quill.register('modules/mention', Mention);
 import { useHistory } from 'react-router-dom';
 import { Card } from '../../uikit';
 import SvgInfo from '../../icons/SvgInfo';
+
 import SvgNotes from '../../icons/SvgNotes';
 import SvgNotesyet from '../../icons/Svgnonotesyet';
 import SvgRefresh from '../../icons/SvgRefresh';

@@ -206,6 +206,11 @@ export const basicDetailApi = 'basic_detail/';
 export const emailValidationApi = `email_validation`;
 export const otpVerificationApi = `otp_verification`;
 export const profileEditApi = 'profile_edit';
+export const whatjobsApi = `what_jobs_posting/`;
+// export const whatjobsApi = (jdId?: string) => {
+//   const url = `what_jobs_posting/${jdId}`;
+//   return url;
+// };
 export const updatePersonalInfoApi = 'update_personal_info/';
 export const updateJobPreferenceApi = 'update_job_preference/';
 export const skillsUpdateApi = (empId: number) => {
@@ -279,3 +284,9 @@ export const jobViewCountApi = (jdId: string) => {
 /// Scheduled Events
 
 export const calendarScheduledEvents = 'calender_scheduled_events';
+
+//calendar 
+export const googleconflicts = 'google_conflict_event';
+export const outlookconflicts = 'outlook_conflict_event';
+export const calendarconfiguration = 'calendar_configuration/';
+

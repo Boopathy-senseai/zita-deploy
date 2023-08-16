@@ -9,8 +9,10 @@
   overflow: hidden;
 }
 .labelSvg {
-  position: absolute;
-  top: 43px;
+  position: relative;
+    top: 7px;
+    left: -5%;
+    margin-right: -8%;
 }
 .notes {
   margin-left: 16px;

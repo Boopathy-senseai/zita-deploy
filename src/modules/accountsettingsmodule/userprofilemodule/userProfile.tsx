@@ -238,11 +238,13 @@ const UserProfilepic = ({ value,update }: Props) => {
                         onClick={() => setShowOldPass(!isShowOldPass)}
                         className={styles.passwordicon}
                       >
+                      <Flex style={{marginBottom:'8px'}}>
                         <SvgView
                           nonView={isShowOldPass}
                           height={20}
                           width={20}
                         />
+                        </Flex>
                       </Button>
                     )}
                   />
@@ -283,11 +285,13 @@ const UserProfilepic = ({ value,update }: Props) => {
                         className={styles.passwordicon}
                         
                       >
-                        <SvgView
-                          nonView={isShowNewPass}
-                          height={20}
-                          width={20}
-                        />
+                      <Flex style={{marginBottom:'8px'}}>
+                      <SvgView
+                        nonView={isShowOldPass}
+                        height={20}
+                        width={20}
+                      />
+                      </Flex>
                       </Button>
                     )}
                   />
@@ -346,11 +350,13 @@ const UserProfilepic = ({ value,update }: Props) => {
                         onClick={() => setShowNewPass1(!isShowNewPass1)}
                         className={styles.passwordicon}
                       >
-                        <SvgView
-                          nonView={isShowNewPass1}
-                          height={20}
-                          width={20}
-                        />
+                      <Flex style={{marginBottom:'8px'}}>
+                      <SvgView
+                        nonView={isShowOldPass}
+                        height={20}
+                        width={20}
+                      />
+                      </Flex>
                       </Button>
                     )}
                   />

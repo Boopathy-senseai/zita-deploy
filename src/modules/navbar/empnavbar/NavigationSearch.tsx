@@ -105,6 +105,8 @@ const NavigationSearch = () => {
         );
       case 'talent sourcing':
         return history.push(routesPath.TALENT_SOURCING);
+      case 'meeting scheduler':
+          return history.push('/meeting_scheduler');
     }
   };
 
@@ -145,7 +147,7 @@ const NavigationSearch = () => {
       permission.includes('manage_account_settings') &&
       super_user === false
     ) {
-      optionsArray.push('Build Your Careers Page', 'Company Profile');
+      optionsArray.push('', 'Company Profile');
     }
   }, [searchOptions, plan_id, super_user, permission]);
   const toFindDuplicates = (arry: string[]) =>

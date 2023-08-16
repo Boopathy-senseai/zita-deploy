@@ -14,6 +14,7 @@
   border: none;
   background: none;
   margin-left: 10px;
+  cursor: pointer;
 }
 .align{
   /* margin-left: 20px; */
@@ -26,8 +27,39 @@
 .to{
   margin: 0px 15px;
 }
-.add{
+.noadd{
   border: none;
   background: none;
   margin-left: 10px;
+  /* cursor; */
+
+}
+.space{
+  margin-left: 5px;
+}
+
+.apply {
+  border: none;
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-left: 15px;
+}
+.apply:active,
+.apply:focus {
+  border: none;
+}
+.applybtn{
+  background: white !important;
+  margin-top: 6px;
+  margin-left: 3px;
+  align-content: center;
+}
+.copyalign{
+  margin-left: 15px;
+  margin-top: 5px;
+}
+.applybackground{
+  background-color: white !important;
+  /* color: #581845 ; */
+  transition: background-color 180.3s ease
 }

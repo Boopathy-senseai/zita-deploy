@@ -11,9 +11,9 @@ type Props = {
 const UnlockLoaderModal = ({ open, title }: Props) => {
   return (
     <Modal open={open}>
-      <Flex row center className={styles.overAll}>
-        <Loader size={'medium'} withOutOverlay />
-        <Text className={styles.textStyle}>{title}</Text>
+      <Flex row center className={styles.overAll}>  
+      <Loader size={'medium'} withOutOverlay />     
+      <Text className={styles.textStyle}>{title}</Text>      
       </Flex>
     </Modal>
   );

@@ -1,5 +1,6 @@
 import classNames from 'classnames/bind';
 import SvgDownload from '../../icons/SvgDownload';
+import Totalcount from '../../globulization/TotalCount';
 import SvgHeart from '../../icons/SvgHeart';
 import { GARY_4, PRIMARY } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
@@ -59,7 +60,8 @@ const ZitaAction = ({
         />
       </div>
 
-      <Text className={styles.totalText}>Total Candidates: {total}</Text>
+    
+     <Totalcount name="Total Candidates" numbers={total}/>
     </Flex>
   );
 };
