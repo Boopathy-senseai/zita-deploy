@@ -48,6 +48,12 @@ const CalendarEventsTable: React.FC<Props> = (props) => {
     onDelete,
   } = props;
 
+const showdate =(val)=>{
+const parsedDate = moment(val);
+const formattedDate = parsedDate.format('DD/MM/YYYY')
+return formattedDate
+  }
+
   const renderInterviewers = (interviewrs: ICalendarEventInterviewer[]) => {
     const show = interviewrs.slice(0, 4);
     const hidden = interviewrs.slice(4, interviewrs.length);
@@ -185,7 +191,8 @@ const CalendarEventsTable: React.FC<Props> = (props) => {
                       //  className={styles.hellothere}
                     >
                       <Text className={styles.stBold}>
-                        {moment(doc.s_time).format('DD/MM/YYYY')}
+                       {showdate(doc.s_time)}
+                       
                       </Text>
                     </Flex>
                   </td>
