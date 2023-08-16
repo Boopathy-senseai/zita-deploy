@@ -5,15 +5,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../store';
 import Button from '../../../uikit/Button/Button';
 import Card from '../../../uikit/Card/Card';
+import { SUCCESS } from '../../../uikit/Colors/colors';
 import ErrorMessage from '../../../uikit/ErrorMessage/ErrorMessage';
 import Flex from '../../../uikit/Flex/Flex';
+import SvgTick from '../../../icons/SvgTick';
+import SvgTickmanage from '../../../icons/SvgTickmanage';
 import InputText from '../../../uikit/InputText/InputText';
 import Loader from '../../../uikit/Loader/Loader';
 import Text from '../../../uikit/Text/Text';
 import Toast from '../../../uikit/Toast/Toast';
 import { ERROR_MESSAGE, onlyNumber } from '../../constValue';
 import { createCheckoutMiddleWare, stripeMiddleWare } from '../../talentsourcingmodule/store/middleware/talentSoucringMiddleware';
+import Totalcount from '../../../globulization/TotalCount';
 import styles from './addoncard.module.css';
+
+
 
 const AddOnCard = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -84,11 +90,13 @@ const AddOnCard = () => {
           <Text size={16} bold>
             Add-On
           </Text>
-          <Text size={16} bold>
-            Available Credits: {available}
-          </Text>
+         
+          <Totalcount
+          name='Available Credits'
+          numbers={available}
+          />
         </Flex>
-        <Text style={{ marginTop: 8, marginBottom: 20 }}>
+        <Text style={{  marginBottom: 20 }}>
           * You must have any of the premium plan to avail this candidate
           contact credits
         </Text>
@@ -99,66 +107,75 @@ const AddOnCard = () => {
           )}
           {subscription === null && <div className={styles.disabled} />}
 
-          <Flex middle center className={styles.headerStyle}>
-            <Text color="white" bold size={16} transform="uppercase">
-              {'Contact CREDITS'}
+          <Flex middle center className={styles.headerStyle} >
+            <Text color="white" bold size={16} >
+              {'Contact Credits'}
             </Text>
-          </Flex>
-          <Flex row middle>
-            <Text
-              align="center"
-              color="theme"
-              size={30}
-              bold
-              style={{ marginBottom: 4 }}
-            >
-              {'$2'}
+            <Text color="white" bold  >
+            {'$2/Contact Credits'}
             </Text>
-            <Text style={{ alignSelf: 'center' }}>/Contact Credits</Text>
-          </Flex>
-          <Flex columnFlex marginTop={8}>
-            <Text align="center">Unlock Candidate Contact, Includes CV,</Text>
-            <Text align="center">
-              Parsing & AI Matching, Complete Zita Profile View
-            </Text>
-            <Text align="center">Candidate Portal</Text>
           </Flex>
           <Flex
-            row
-            center
-            between
-            className={styles.inputBorder}
-          >
-            <Flex row center>
-              <Text bold style={{ marginRight: 8 }}>
-                Contacts:
-              </Text>
-              <div>
-                <InputText
-                  align="center"
-                  value={formik.values.value}
-                  onChange={(e) => {
-                    if (
-                      e.target.value === '' ||
-                      (onlyNumber.test(e.target.value) &&
-                        Number(e.target.value) >= 5)
-                    ) {
-                      formik.setFieldValue(`value`, e.target.value);
-                    }
-                  }}
-                  className={styles.inputStyle}
-                />
-                <ErrorMessage
-                  errors={formik.errors}
-                  touched={formik.touched}
-                  name="value"
-                />
-              </div>
-            </Flex>
-            <Text bold>Total: ${totalAmount}</Text>
+          row
+          center
+          between
+          style={{padding:'8px 25px'}}
+        >
+          <Flex row center>
+            <Text bold style={{ marginRight: 8 }}>
+              Contacts:
+            </Text>
+            <div style={{padding: '0 25px 0 0'}}>
+              <InputText
+                align="center"
+                value={formik.values.value}
+                onChange={(e) => {
+                  if (
+                    e.target.value === '' ||
+                    (onlyNumber.test(e.target.value)) 
+                  ) {
+                    formik.setFieldValue(`value`, e.target.value);
+                  }
+                }}
+                className={styles.inputStyle}
+              />
+              <ErrorMessage
+                errors={formik.errors}
+                touched={formik.touched}
+                name="value"
+              />
+            </div>
           </Flex>
-          <Flex middle marginBottom={24} marginTop={8}>
-            <Button disabled={(subscription && subscription.plan_id_id === 1) ||  subscription === null} onClick={formik.handleSubmit}>Buy Now</Button>
+          <div style={{width:'1px',backgroundColor:'#A5889C',height:'40px'}}></div>
+          <Flex>
+          <Text size={14}>Total</Text>
+          <Text color='theme' style={{justifyContent: 'center',display: 'flex'}}>${totalAmount}</Text>
+          </Flex>
+        </Flex>
+
+          <Flex columnFlex marginTop={8} style={{marginLeft:'25px'}}>
+              <Flex row style={{marginBottom:'5px'}}>
+              <SvgTickmanage fill={SUCCESS} />
+              <Text style={{marginLeft:'10px'}} align="center">Unlock Candidate Contact</Text>
+              </Flex>            
+              <Flex row style={{marginBottom:'5px'}}>
+              <SvgTickmanage fill={SUCCESS} />
+              <Text style={{marginLeft:'10px'}}align="center">Includes CV,Parsing & AI Matching</Text>
+              </Flex>
+              <Flex row style={{marginBottom:'5px'}}>
+              <SvgTickmanage fill={SUCCESS} />
+              <Text style={{marginLeft:'10px'}}align="center">
+              Complete Zita Profile View
+               </Text>
+              </Flex >           
+              <Flex row style={{marginBottom:'5px'}}>
+              <SvgTickmanage fill={SUCCESS} />
+              <Text style={{marginLeft:'10px'}}align="center">Candidate Portal</Text>
+              </Flex>            
+          </Flex>
+          
+          <Flex middle marginBottom={24} marginTop={15}>
+            <Button disabled={(subscription && subscription.plan_id_id === 1) ||  subscription === null || (Number(formik.values.value) < 5)} onClick={formik.handleSubmit}>Buy Now</Button>
           </Flex>
         </Card>
       </Card>

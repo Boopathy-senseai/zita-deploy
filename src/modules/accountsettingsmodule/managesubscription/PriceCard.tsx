@@ -5,6 +5,7 @@ import { isEmpty } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import SvgTickOne from '../../../icons/SvgTickOne';
+import SvgTick from '../../../icons/SvgTick';
 import { AppDispatch, RootState } from '../../../store';
 import Button from '../../../uikit/Button/Button';
 import Card from '../../../uikit/Card/Card';
@@ -13,6 +14,7 @@ import InputText from '../../../uikit/InputText/InputText';
 import LinkWrapper from '../../../uikit/Link/LinkWrapper';
 import Loader from '../../../uikit/Loader/Loader';
 import Text from '../../../uikit/Text/Text';
+import { SUCCESS } from '../../../uikit/Colors/colors';
 import CancelAndDeletePopup from '../../common/CancelAndDeletePopup';
 import SingleButton from '../../common/SingleButton';
 import { DELETE, onlyNumber } from '../../constValue';
@@ -20,6 +22,7 @@ import { stripeMiddleWare } from '../../talentsourcingmodule/store/middleware/ta
 import { Subscription } from './manageSubscriptionTypes';
 import styles from './pricecard.module.css';
 import { createCheckoutSubscriptionMiddleWare } from './store/managesubscriptionmiddleware';
+
 const cx = classNames.bind(styles);
 
 type Props = {
@@ -171,9 +174,11 @@ const PriceCard = ({
       setTotalUser(Number(formik.values.value));
     }
   }, [formik.values.value]);
+//  const cardDisplay=subscription.plan_id_id===3||subscription.plan_id_id===5||subscription.plan_id_id===1||subscription.plan_id_id===2||subscription.plan_id_id===4;
 
-  return (
+return (
     <>
+    {console.log("plan++++",planId,subscription)}
       {isLoader && <Loader />}
       <CancelAndDeletePopup
         title={
@@ -193,7 +198,7 @@ const PriceCard = ({
       <SingleButton
         btnTitle="OK"
         title={
-          <Flex marginLeft={16}>
+          <Flex >
             <Text>
               Please maintain the allowed 3 active jobs and 15,000 candidate
               storage for
@@ -207,28 +212,40 @@ const PriceCard = ({
 
       <div style={{ position: 'relative' }}>
         {disabled && <div className={styles.disabled} />}
-        <Card className={styles.overAll}>
-          <Flex middle center className={styles.headerStyle}>
-            <Text color="white" bold size={16}>
+        <Card className={ subscription&&subscription.plan_id_id===planId ?(styles.bgcolor):(styles.overAll)}>
+          <Flex style={{margin:'25px 30px 0px 30px',borderBottom:'2px solid #C3C3C3'}}>
+              <Flex row between>
+              <Text bold color="theme" size={18}>
               {headerTitle}
-            </Text>
-          </Flex>
-          <Flex row middle>
-            <Text
-              align="center"
-              color="theme"
-              size={30}
-              bold
-              style={{ marginBottom: 4 }}
-            >
-              {price}
-            </Text>
-            {userPrice && <Text style={{ alignSelf: 'center' }}>/user</Text>}
-          </Flex>
+              </Text>
+              <Flex>
+              {subscription&&subscription.plan_id_id===planId ?
+                (
+                  <SvgTick fill={SUCCESS} />
+                ):
+                ('')
 
-          <Text align="center" size={16} textStyle="italic">
-            {days}
-          </Text>
+              }
+              </Flex>
+              </Flex>
+            <Flex row style={{display:'flex',alignItems:'baseline'}}>
+              {price!=="FREE"?(
+                <Text              
+                color="theme"
+                size={16}
+                bold
+                style={{ marginBottom: 4 }}
+              >
+                {price}
+              </Text>
+              ):(null)}
+              
+              {userPrice && <Text size={14} color="theme">&nbsp;/User -&nbsp;</Text>}
+              <Text align="center" size={14} color="theme" style={{ marginBottom: 4 }}>
+                {days}
+              </Text>
+            </Flex>              
+          </Flex>
           <Flex columnFlex className={styles.priceList} marginTop={24}>
             {data.map((list, index) => (
               <Flex row center key={list.value + index} marginBottom={12}>
@@ -289,46 +306,46 @@ const PriceCard = ({
             </Flex>
           </Flex>
           {subscription === null ||
-          (subscription && subscription.plan_id_id === 1) ? (
-            <Flex center middle marginBottom={20} marginTop={20}>
-              <Button disabled={btnDisabled} onClick={formik.handleSubmit}>{btnTitle}</Button>
-            </Flex>
-          ) : (
-            <>
-              {totalUserManger > Number(formik.values.value) ? (
-                <Flex center middle marginBottom={20} marginTop={20}>
-                  <Button
-                    onClick={() => setInvite(true)}
-                    disabled={btnDisabled}
-                  >
-                    {btnTitle}
-                  </Button>
-                </Flex>
-              ) : (
-                <Flex center middle marginBottom={20} marginTop={20}>
-                  {btnDisabled ? (
-                    <Button disabled={btnDisabled}>{btnTitle}</Button>
-                  ) : (
-                    <>
-                      {headerTitle === 'BASIC' && downgrade === 1 ? (
-                        <Button
-                          onClick={() => setChangePlan(true)}
-                          disabled={btnDisabled}
-                        >
-                          {btnTitle}
-                        </Button>
-                      ) : (
-                        <LinkWrapper
-                          // target={'_parent'}
-                          to={`/order_summary?key=${planId}&count=${formik.values.value}`}
-                        >
-                          <Button disabled={btnDisabled}>{btnTitle}</Button>
-                        </LinkWrapper>
-                      )}
-                    </>
-                  )}
-                </Flex>
-              )}
+            (subscription && subscription.plan_id_id === 1) ? (
+              <Flex center middle marginBottom={20} marginTop={20}>
+                <Button disabled={btnDisabled} onClick={formik.handleSubmit}>{btnTitle}</Button>
+              </Flex>
+            ) : (
+              <>
+                {totalUserManger > Number(formik.values.value) ? (
+                  <Flex center middle marginBottom={20} marginTop={20}>
+                    <Button
+                      onClick={() => setInvite(true)}
+                      disabled={btnDisabled}
+                    >
+                      {btnTitle}
+                    </Button>
+                  </Flex>
+                ) : (
+                  <Flex center middle marginBottom={20} marginTop={20}>
+                    {btnDisabled ? (
+                      <Button disabled={btnDisabled}>{btnTitle}</Button>
+                    ) : (
+                      <>
+                        {headerTitle === 'BASIC' && downgrade === 1 ? (
+                          <Button
+                            onClick={() => setChangePlan(true)}
+                            disabled={btnDisabled}
+                          >
+                            {btnTitle}
+                          </Button>
+                        ) : (
+                          <LinkWrapper
+                            // target={'_parent'}
+                            to={`/order_summary?key=${planId}&count=${formik.values.value}`}
+                          >
+                            <Button disabled={btnDisabled}>{btnTitle}</Button>
+                          </LinkWrapper>
+                        )}
+                      </>
+                    )}
+                  </Flex>
+                )}
             </>
           )}
         </Card>
