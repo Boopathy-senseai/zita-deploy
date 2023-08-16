@@ -120,7 +120,7 @@ const SourcingPerformance = ({ role_base, dates_length, planId ,jd_metrics}: Pro
   };
   return (
     <Card className={styles.overAll}>
-      <Text bold size={16} style={{color:'#581845'}}>
+      <Text bold size={14} style={{color:'#581845'}}>
         Sourcing Performance
       </Text>
       {(Array.isArray(role_base) &&
@@ -130,7 +130,7 @@ const SourcingPerformance = ({ role_base, dates_length, planId ,jd_metrics}: Pro
         <Chart options={planId === 1 || jd_metrics.length === 0 ? optionsOne : options} />
       ) : (
         <Flex flex={1} center middle>
-          <Text color="gray">No Data Available</Text>
+          <Text color="gray" style={{fontSize:'13px'}}>No Data Available</Text>
         </Flex>
       )}
     </Card>

@@ -10,6 +10,7 @@ export interface JdView {
   recommended_role: string;
   profile?: Profile;
   dates: number;
+  questionnaire?:[];
   applicants_line?: ApplicantsLine[];
   job_view_line?: JobViewLine[];
   int_list: IntList;

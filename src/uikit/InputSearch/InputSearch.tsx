@@ -22,6 +22,7 @@ const defaultProps = {
   initialValue: '',
   disabled: false,
   onSubmit: null,
+  onclick,
 };
 
 type Props = {
@@ -31,13 +32,16 @@ type Props = {
   name?: string;
   placeholder?: string;
   initialValue?: string;
+  onClick?: (arg: any) => void;
   onKeyDown?: (arg: any) => void;
   label?: string;
   required?: boolean;
   errorMessage?: string;
   error?: boolean;
   labelBold?: boolean;
-  onkeyPress?: any;
+
+  onkeyPress?: (a: any) => void;
+  // onBlur?: (a: any) => void;
   style?: string;
   autoFocus?: boolean;
   inputRef?: any
@@ -50,6 +54,7 @@ const renderInputComponent = ({
   onSubmit,
   onBlur,
   onChange,
+  onClick,
   value,
   placeholder,
   disabled,
@@ -60,8 +65,6 @@ const renderInputComponent = ({
   onKeyPress,
   style,
   autoFocus,
-  
-  
 }: any) => {
   const getValue=value.includes(', usa')
 
@@ -81,11 +84,11 @@ console.log("GG0", ref?.current?.value)
       disabled={disabled}
       type={type}
       onKeyDown={onKeyDown}
+      onClick={onClick}
       onFocus={onFocus}
       className={cx('search', style, { errorBorder: error })}
       autoComplete={'off'}
       onKeyPress={onKeyPress}
-     
     />
   );
 };
@@ -100,6 +103,7 @@ const InputSearch = ({
   onKeyDown,
   onChange,
   onkeyPress,
+  onClick,
   label,
   required,
   errorMessage,
@@ -116,11 +120,11 @@ const InputSearch = ({
   const [currentvalue, setValue] = useState(initialValue);
   const [isErrorFocus, setErrorFocus] = useState(false);
   const [NoOptions, setNoOptions] = useState(false);
-  const [isNovalue ,setNovalue]=useState(false);
+  const [isNovalue, setNovalue] = useState(false);
   const lowerCasedCompanies =
     options &&
     options.map((company) => {
-      return company.toLowerCase();
+      return company;
     });
   useEffect(() => {
     setValue(initialValue);
@@ -134,13 +138,11 @@ const InputSearch = ({
     return (
       lowerCasedCompanies &&
       lowerCasedCompanies.filter((company) =>
-        company.includes(value.trim().toLowerCase()),
+        company.toLowerCase().includes(value.toLowerCase()),
       )
     );
   };
-
   const getSuggestionValue = (suggestion: any) => suggestion;
-
   const renderSuggestion = (
     suggestion:
       | boolean
@@ -149,13 +151,7 @@ const InputSearch = ({
       | ReactPortal
       | null
       | undefined,
-  ) => (
-    <div style={{ textTransform: 'capitalize' }}>
-      {typeof suggestion === 'string'
-        ? suggestion.replace(', usa', ', USA')
-        : suggestion}
-    </div>
-  );
+  ) => <div>{typeof suggestion === 'string' ? suggestion : suggestion}</div>;
 
   const onSuggestionSelected = (_event: any, { suggestion }: any) => {
     let requiredValue = '';
@@ -171,31 +167,31 @@ const InputSearch = ({
 
   const handleFocus = () => {
     setErrorFocus(true);
-    
   };
 
   const handleBlur = () => {
     setErrorFocus(false);
     setNoOptions(false);
   };
-
   const inputProps: any = {
     placeholder,
     value: currentvalue,
     onChange:onChange,
     disabled,
     id: name,
+    onClick: onclick,
     onkeydown: onKeyDown,
     error: error && isEmpty(currentvalue),
     onBlur: handleBlur,
     onFocus: handleFocus,
     onKeyPress: onkeyPress,
     style,
-    autoFocus,  
+    autoFocus,
   };
   const onSuggestionsFetchRequested = ({ value }: { value: string }) => {
     setValue(value);
     const requiredSuggestions: any = getSuggestions(value);
+
     setSuggestion(requiredSuggestions);
     if (
       requiredSuggestions &&
@@ -206,11 +202,11 @@ const InputSearch = ({
     } else {
       setNoOptions(false);
     }
-  }; 
+  };
   const onSuggestionsClearRequested = () => {
     setSuggestion([]);
   };
-   
+
   return (
     <div style={{ position: 'relative',fontSize:'13px' }}>
       <LabelWrapper label={label} required={required} bold={labelBold} >
@@ -238,14 +234,11 @@ const InputSearch = ({
       </LabelWrapper>
       {NoOptions && (
         <>
-        <div className={styles.noOptionsDivStyle}  
-         >
-          <Text color="gray">No search found</Text>
-        </div>
+          <div className={styles.noOptionsDivStyle}>
+            <Text color="gray">No search found</Text>
+          </div>
         </>
-      ) }
-      
-    
+      )}
     </div>
   );
 };
@@ -253,5 +246,3 @@ const InputSearch = ({
 InputSearch.defaultProps = defaultProps;
 
 export default InputSearch;
-
- 

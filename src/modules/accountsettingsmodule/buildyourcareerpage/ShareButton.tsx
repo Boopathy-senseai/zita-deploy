@@ -25,7 +25,7 @@ const SocialShareButton = ({ url, jd_form }: Props) => {
   return (
     <div className={styles.overAll}>
       <FacebookShareButton url={`${url}#.facebook`} quote={jd_form?.job_title}>
-        <FacebookIcon size={32} />
+        <FacebookIcon size={32} style={{borderRadius: "0 4px 0px 0px"}}/>
       </FacebookShareButton>
       <TwitterShareButton url={`${url}#.twitter`}>
         <TwitterIcon size={32} />
@@ -42,7 +42,7 @@ const SocialShareButton = ({ url, jd_form }: Props) => {
       </a>
       
       <WhatsappShareButton url={`${url}#.whatsapp`}>
-        <WhatsappIcon size={32} />
+        <WhatsappIcon size={32} style={{borderRadius: "0 0px 4px 0px"}}/>
       </WhatsappShareButton>
     </div>
   );

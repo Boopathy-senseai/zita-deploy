@@ -745,11 +745,13 @@ setshow(val)
             {isSearchData?.length !== 0 && isSearchData !== null && isSubmitLoader !== true && (
              
               <TalentCardList
-              
-                  update={update}
-                  val={show}
-                  isCheck={isCheck}
-                   setIsCheck={setIsCheck}
+                handleSetPage={handleSetPage}
+                pageNumber={pageNumber}
+                isSubmitLoader={isSubmitLoader}
+                update={update}
+                val={show}
+                isCheck={isCheck}
+                setIsCheck={setIsCheck}
                 setCandiList={setCandiList}
                 setNoCount={setNoCount}
                 candi_list={isCandiList}
@@ -766,8 +768,7 @@ setshow(val)
                 isMasters={isMasters}
                 isAny={isAny}
                 searchLoader={searchLoader}
-                pagesVisited={pagesVisited}
-                usersPerPage={usersPerPage}
+               
                 searchData={isSearchData}
                 handleUnlockSubmit={handleUnlockSubmit}
                 source_limit={isSourceLimit}
@@ -777,6 +778,7 @@ setshow(val)
               />
              
             )}
+            
           </div>
         
             {
@@ -784,17 +786,7 @@ setshow(val)
               <Loader /> 
              }
       
-          {isSearchData?.length !== 0 &&
-            pageCount - 1 !== 0 &&
-            isSearchData !== null && isSubmitLoader !== true && (
-              <div className={cx('paginationStyle')}>
-                <Pangination
-                  maxPages={pageCount - 1}
-                  currentPage={pageNumber}
-                  setCurrentPage={handleSetPage}
-                />
-              </div>
-            )}
+          
         </Flex>
        
     </Flex>
