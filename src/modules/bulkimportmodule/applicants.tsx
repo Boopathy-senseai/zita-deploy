@@ -750,8 +750,9 @@ const ApplicantsTab = ({
               </Flex>
             )}
           </Flex>
+          {/* <SvgSearch/> */}
           {isCandiTableLoader ? (
-            <Flex center middle height={100}>
+            <Flex center middle height={100}> 
               <Loader withOutOverlay size={'medium'} />
             </Flex>
           ) : (
@@ -769,7 +770,6 @@ const ApplicantsTab = ({
             </Flex>
             
           )}
-
           {!isCandiTableLoader && isPageTab > 10 && (
             <Flex middle className={styles.pagination}>
               <Pangination
