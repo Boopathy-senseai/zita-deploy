@@ -154,7 +154,7 @@ const ProfileViewModal = ({
     {
       title: 'Skills:',
       value: notSpecified(emp_data?.skills?.replace(/,/g, ', ')),
-      right: 187,
+      right: 184.5,
     },
   ];
   // formik validation
@@ -376,7 +376,7 @@ const ProfileViewModal = ({
                     marginBottom: 30,
                   }}
                 >
-                  <Flex className={styles.titleStyle}>
+                  <Flex className={styles.titleStyle} middle>
                     {/* <Text size={16} bold>
                       Personal Information
                     </Text> */}
@@ -418,8 +418,7 @@ const ProfileViewModal = ({
                             top
                             className={styles.insideFlex}
                           >
-                            <Text
-                              bold
+                            <Text 
                               style={{
                                 paddingRight: list.right,
                                 whiteSpace: 'nowrap',
@@ -703,7 +702,7 @@ const ProfileViewModal = ({
                   </Card>*/}
                   {jdId !== undefined && (
                     <Flex className={styles.titleStyle}>
-                      <Text size={16} bold>
+                      <Text size={14} bold>
                         Questionnaire
                       </Text>
                     </Flex>

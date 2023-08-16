@@ -210,11 +210,8 @@ const hanldeJobListform = () => {
 						in the pipeline for each job, the number of offered & rejected
 						candidates.
 					</Text>
-				</Flex>
-				<Text bold size={14} style={{marginLeft:'5px'}}>
-					Overall Job Metrics
-				</Text>
-				<Flex row className={styles.marginTop1} style={{marginLeft:'5px'}}>
+				</Flex> 
+				<Flex center row className={styles.marginTop1} style={{marginLeft:'5px'}}>
 					<Text  className={styles.selected}>
 						Filter By
 					</Text>
@@ -230,16 +227,22 @@ const hanldeJobListform = () => {
 						/>
 					</div>
 					<Button  onClick={hanldeJobListform} disabled={len_list===0}>Download Report</Button>
-				</Flex>
-				{job_list && job_list.length > 0 && (
-					<Flex >
-					
-					<Flex style={{marginLeft:'5px'}}>
+					{job_list && job_list.length > 0 &&  
+					<Flex style={{marginLeft:'15px'}} middle center>
 					<Totalcount 
 					name="Total Jobs Found "
 					numbers={len_list}
 				    />
-					</Flex>
+					</Flex>}
+				</Flex>
+				{job_list && job_list.length > 0 && (
+					<Flex > 
+					{/* <Flex style={{marginLeft:'5px'}}>
+					<Totalcount 
+					name="Total Jobs Found "
+					numbers={len_list}
+				    />
+					</Flex> */}
 										<input
                           className={styles.inputNone}
                           id="jobMetrics___input"
@@ -279,9 +282,11 @@ const hanldeJobListform = () => {
 
 				)}
 				{len_list === 0 && (
-				<Text className={styles.reportsJobMetrics}>
+					<Flex center middle height={window.innerHeight -200}>
+				<Text bold  color='gray'>
 					No Data Available
 				</Text>
+				</Flex>
 				)}
 			</Flex>
 
@@ -289,7 +294,7 @@ const hanldeJobListform = () => {
 				<Flex style={{marginLeft:'5px'}}>
 				<Card className={styles.cardOverAllApplicant} >
 					<Flex>
-					<Flex row between style={{marginTop:'16px'}}>
+					<Flex row between  >
 						<Flex style={{marginLeft:'3px'}}>
 						<Text bold size={14} >Detailed Metrics</Text>
 						<Text style={{marginTop:'0px',marginBottom:'10px'}} >
@@ -301,11 +306,11 @@ const hanldeJobListform = () => {
 						<Button onClick={hanldeJobIdform}> Download Report</Button>
 					</Flex>
 					
-						<Flex row>
+						<Flex row marginTop={5}>
 							<Flex flex={4} className={styles.chartStyle}>
 								<Flex row>
-									<Flex flex={6}>
-										<Text bold>Job Title</Text>
+									<Flex flex={6}  >
+										<Text color='theme' >Job Title</Text>
 									</Flex>
 									<Flex flex={6}>
 										<Text>{jobList&& jobList.job_title}</Text>
@@ -313,7 +318,7 @@ const hanldeJobListform = () => {
 								</Flex>
 								<Flex row>
 									<Flex flex={6}>
-										<Text bold>Job ID</Text>
+										<Text color='theme' >Job ID</Text>
 									</Flex>
 									<Flex flex={6}>
 										<Text>{jobList&& jobList.job_id}</Text>
@@ -321,7 +326,7 @@ const hanldeJobListform = () => {
 								</Flex>
 								<Flex row>
 									<Flex flex={6}>
-										<Text bold>Location</Text>
+										<Text color='theme' >Location</Text>
 									</Flex>
 									<Flex flex={6}>
 										<Text>
@@ -332,7 +337,7 @@ const hanldeJobListform = () => {
 								</Flex>
 								<Flex row>
 									<Flex flex={6}>
-										<Text bold>Posted On</Text>
+										<Text color='theme' >Posted On</Text>
 									</Flex>
 									<Flex flex={6}>
 										<Text>{jobList&& getDateString(jobList.job_posted_on, 'll')}</Text>
@@ -340,15 +345,18 @@ const hanldeJobListform = () => {
 								</Flex>
 								<Flex row>
 									<Flex flex={6}>
-										<Text bold>Status</Text>
+										<Text color='theme' >Status</Text>
 									</Flex>
 									<Flex flex={6}>
-										<Text>{jobList&& jobList.jd_status__value}</Text>
+										{console.log(jobList&& jobList.jd_status__value,'jobList&& jobList.jd_status__valuejobList&& jobList.jd_status__value')}
+										{jobList&& jobList.jd_status__value === 'Active'?
+										<Text color='success'>{jobList&& jobList.jd_status__value}</Text>
+										:<Text color='error'>{jobList&& jobList.jd_status__value}</Text>}
 									</Flex>
 								</Flex>
 								<Flex row>
 									<Flex flex={6}>
-										<Text bold>No of Vacancies</Text>
+										<Text color='theme' >No of Vacancies</Text>
 									</Flex>
 									<Flex flex={6}>
 										<Text>{jobList&& jobList.no_of_vacancies}</Text>
@@ -356,7 +364,7 @@ const hanldeJobListform = () => {
 								</Flex>
 								<Flex row>
 									<Flex flex={6}>
-										<Text bold>Zita Match</Text>
+										<Text color='theme' >Zita Match</Text>
 									</Flex>
 									<Flex flex={6}>
 										{jobList&& jobList.Zita_Match === null ? (
@@ -369,7 +377,7 @@ const hanldeJobListform = () => {
 
 								<Flex row>
 									<Flex flex={6}>
-										<Text bold>Invited to Apply</Text>
+										<Text color='theme' >Invited to Apply</Text>
 									</Flex>
 									<Flex flex={6}>
 										{jobList&& jobList.Invited_to_Apply === null ? (
@@ -381,7 +389,7 @@ const hanldeJobListform = () => {
 								</Flex>
 								<Flex row>
 									<Flex flex={6}>
-										<Text bold>Not Interested</Text>
+										<Text color='theme' >Not Interested</Text>
 									</Flex>
 									<Flex flex={6}>
 										{jobList&& jobList.Not_Interested === null ? (
@@ -393,7 +401,7 @@ const hanldeJobListform = () => {
 								</Flex>
 								<Flex row>
 									<Flex flex={6}>
-										<Text bold>Applicants</Text>
+										<Text color='theme' >Applicants</Text>
 									</Flex>
 									<Flex flex={6}>
 										{jobList&& jobList.Applicants === null ? (
@@ -405,7 +413,7 @@ const hanldeJobListform = () => {
 								</Flex>
 								<Flex row>
 									<Flex flex={6}>
-										<Text bold>Shortlisted</Text>
+										<Text color='theme' >Shortlisted</Text>
 									</Flex>
 									<Flex flex={6}>
 										{jobList&& jobList.Shortlisted === null ? (
@@ -417,7 +425,7 @@ const hanldeJobListform = () => {
 								</Flex>
 								<Flex row>
 									<Flex flex={6}>
-										<Text bold>Offered</Text>
+										<Text color='theme' >Offered</Text>
 									</Flex>
 									<Flex flex={6}>
 										{jobList&& jobList.Qualified === null ? (
@@ -429,7 +437,7 @@ const hanldeJobListform = () => {
 								</Flex>
 								<Flex row>
 									<Flex flex={6}>
-										<Text bold>Rejected</Text>
+										<Text color='theme' >Rejected</Text>
 									</Flex>
 									<Flex flex={6}>
 										{jobList&& jobList.Disqualified === null ? (
@@ -444,8 +452,8 @@ const hanldeJobListform = () => {
 							{(jobList&& jobList.Applicants !== null) || (jobList&& jobList.Zita_Match !== null) ||(jobList&& jobList.Invited_to_Apply !== null) ? (
 								<Chart options={Options}/>
 								):(
-								<Flex className={styles.noData}>
-											<Text bold>No Data Available</Text>
+								<Flex className={styles.noData} center middle height={window.innerHeight - 200}>
+											<Text bold color='gray'>No Data Available</Text>
 										</Flex>
 								)}
 							</Flex>
@@ -457,14 +465,14 @@ const hanldeJobListform = () => {
 			)}
 			{!isJd && len_list !== 0 && (
 <Card className={styles.cardOverAllApplicant}>
-			<Flex>
+			<Flex center middle height={window.innerHeight - 200}>
 			{len_list !== 0 && (
-	<Text className={styles.reportsJobMetrics}>
+	<Text bold color='gray'>
 		Click on the job from the table to view the report
 	</Text>
 			)}
 				{len_list === 0 && (
-	<Text className={styles.reportsJobMetrics}>
+	<Text bold color='gray'>
 		No Data Available
 	</Text>
 			)}

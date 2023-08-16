@@ -8,3 +8,6 @@
 }
 .svgExternal{
  font-size:13px;}
+ .custom-dropdown {
+  position: relative !important;
+}

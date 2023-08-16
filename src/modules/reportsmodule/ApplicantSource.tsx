@@ -197,8 +197,7 @@ const ApplicantReports = () => {
             </Text>
 
           </Flex>
-          <Flex >
-
+          <Flex > 
             <div className={styles.triangle}></div>
           </Flex>
 
@@ -210,7 +209,7 @@ const ApplicantReports = () => {
 						applicant sourcing from either one or multiple jobs together.
 					</Text>
 				</Flex>
-				<Flex row className={styles.marginTop}>
+				<Flex row className={styles.marginTop} center>
 					<Text className={styles.selected}>
 						Select Job
 					</Text>
@@ -251,12 +250,11 @@ const ApplicantReports = () => {
 									<Text bold size={14}>Shortlisted Rate</Text>{' '}
 									<Text style={{marginBottom:10}}>
 										Insights: Shortlisted rate from total applicants by source
-									</Text>
-									{shortlisted !== null ? (
+									</Text> {shortlisted && shortlisted !== null && shortlisted.length !== 0 ? (
 										<Chart options={chartOptions} />
 									) : (
-										<Flex className={styles.noData}>
-											<Text bold>No Data Available</Text>
+										<Flex className={styles.noData} height={window.innerHeight-200} center middle>
+											<Text bold color='gray'>No Data Available</Text>
 										</Flex>
 									)}
 								</Card>
@@ -264,8 +262,8 @@ const ApplicantReports = () => {
 						</Flex>
 					</Flex>
 				) : (
-					<Flex className={styles.noData}>
-						<Text bold>No Data Available</Text>
+					<Flex className={styles.noData} height={window.innerHeight -200} center middle>
+						<Text bold color='gray'>No Data Available</Text>
 					</Flex>
 				)}
 				{table && table.length > 0 &&  (

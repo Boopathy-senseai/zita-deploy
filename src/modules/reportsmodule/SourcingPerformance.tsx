@@ -257,7 +257,7 @@ const SourcingPerformanceReport = () => {
 				<Flex row className={styles.ribbon} between>
 					<Flex marginTop={9} marginLeft={8} >
 					<Text size={18} bold color="theme" >
-					Sourcing Performance Report
+					Sourcing Performance Report For Organic Applicants
 					</Text>
 
 					</Flex>

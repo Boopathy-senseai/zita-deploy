@@ -64,8 +64,10 @@ const PassiveCandidateReports = () => {
 			dispatch(
 				passiveCandidateDataMiddleWare({
 					duration: formik.values.duration,
-				}),
-			);
+				}) 
+			).then((res)=>{
+console.log(res,'192.168.3.253:8001192.168.3.253:8001192.168.3.253:8001192.168.3.253:8001192.168.3.253:8001')
+			})
 		}
 	}, [formik.values]);
 
@@ -77,6 +79,7 @@ const PassiveCandidateReports = () => {
 			}),
 		).then((res) => {
 			if (res.payload) {
+
 				saveAs(`${res.payload.file_path}`, `${res.payload.file_name}`);
 
 				dispatch(
@@ -111,7 +114,7 @@ const PassiveCandidateReports = () => {
 	const addOnUnlockedValue: any =
 		add_on_dict &&
 		add_on_dict.map((chart: any) => {
-			const result: any = chart['unlocked'] === null ? 0 : chart['unlocked'];
+			const result: any = chart['unlock'] === null ? 0 : chart['unlock'];
 			return result;
 		});
 	const addOndName: any =
@@ -123,7 +126,7 @@ const PassiveCandidateReports = () => {
 	const addOnAmountValue: any =
 		add_on_dict &&
 		add_on_dict.map((chart: any) => {
-			const result: any = Number(chart['count']) * 2;
+			const result: any = Number(chart['purchased_count']) * 2;
 			return result;
 		});
 	const chartOptions = {
@@ -138,7 +141,7 @@ const PassiveCandidateReports = () => {
 			categories: addOndName,
 
 			title: {
-				text: 'Sourced Date',
+				text: 'Duration',
 			},
 		},
 		yAxis: {

@@ -118,7 +118,7 @@ const Reports = () => {
           </Text>
           <Text>View all performance-related reports here</Text>
         </Flex>
-        <Flex row style={{paddingLeft:'5px'}}>
+        <Flex row style={{paddingLeft:'5px',    marginBottom:' 10px'}}>
           <Flex flex={4}>
             <LinkWrapper  to={`reports/sourcing-performance`}>
             <Card className={styles.cardOverAllReport}>
