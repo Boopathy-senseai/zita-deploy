@@ -169,6 +169,7 @@ export const meetingTitle = () => [
 
     render: (value: string, index) => {
       const history = useHistory();
+      console.log(index,'fffffffffffffffffffffdddddddddddddaaaaaaaaaaaaaaaaaaaaaaaa')
       const handleClick = () => {
         
         const phrase = index.title;

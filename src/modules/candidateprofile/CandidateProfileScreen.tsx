@@ -89,7 +89,7 @@ const CandidateProfileScreen = () => {
       user_info: candidateProfileEditReducers.user_info,
       career_page_setting: candidateProfileEditReducers.career_page_setting,
       applied_status:candidateProfileEditReducers.applied_status,
-      Qualification:candidateProfileEditReducers?.Qualification[0]?.qualification
+      Qualification:candidateProfileEditReducers?.Qualification !== undefined && candidateProfileEditReducers?.Qualification[0]?.qualification
     };
   });
 
