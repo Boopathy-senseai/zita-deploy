@@ -54,6 +54,23 @@ const formattedDate = parsedDate.format('DD/MM/YYYY')
 return formattedDate
   }
 
+  const calculateDuraton = (doc: ICalendarEventTableItem) => {
+    const totalMinutes = moment(doc.e_time).diff(moment(doc.s_time), 'minutes');
+    const hours = Math.floor(totalMinutes/60);
+    const minutes = totalMinutes % 60;
+    let result = '';
+
+    if (hours > 0) {
+      result = `${hours} hour${hours === 1 ? '' : 's'}`;
+    }
+
+    if(minutes > 0) {
+      result = `${result} ${minutes} minutes`;
+    }
+
+    return result;
+  };
+
   const renderInterviewers = (interviewrs: ICalendarEventInterviewer[]) => {
     const show = interviewrs.slice(0, 4);
     const hidden = interviewrs.slice(4, interviewrs.length);
@@ -77,10 +94,11 @@ return formattedDate
     const hidden = interviewrs.slice(4, interviewrs.length);
     return (
       <Flex row wrap>
-        {show.map((doc, sIndex) => (
-          // <InterviewerIcon name={doc.full_name} key={sIndex} index={sIndex} />
-          doc.full_name
-        ))}
+        {show.map(
+          (doc, sIndex) =>
+            // <InterviewerIcon name={doc.full_name} key={sIndex} index={sIndex} />
+            doc.full_name,
+        )}
         {/* {hidden && hidden.length > 0 && (
           // <InterviewerIcon
           //   name={`+ ${hidden.length}`}
@@ -205,10 +223,7 @@ return formattedDate
                   </td>
                   <td className={styles.padchanges}>
                     <Text className={styles.stBold}>
-                      {`${moment(doc.e_time).diff(
-                        moment(doc.s_time),
-                        'minutes',
-                      )} minutes`}
+                      {calculateDuraton(doc)}
                       {/* /// TODO: calculate duration based on s_time & e_time */}
                     </Text>
                   </td>

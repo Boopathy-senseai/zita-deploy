@@ -160,10 +160,11 @@ const ScheduledEventsPage = () => {
   const handleJoinEvent = (doc: IEvent) => {
     window.open(doc.join_url, "_blank");
   };
-  const handleEditEvent = (doc: IEvent) => {
-    history.push(calendarRoute, { openScheduleEvent: true });
-  };
+  // const handleEditEvent = (doc: IEvent) => {
+  //   history.push(calendarRoute, { openScheduleEvent: true });
+  // };
   const handleDeleteEvent = (id: any) => {
+    // setDeleteEvent(false)
     dispatch(
       deleteEventMiddleWare({
         eventid: id,
@@ -176,16 +177,16 @@ const ScheduledEventsPage = () => {
     window.open(doc.join_url, "_blank");
   };
   const handleCalendarEditEvent = (doc: ICalendarEvent) => {
-    history.push(calendarRoute, { openScheduleEvent: true });
+    history.push(calendarRoute, { eventId: doc.eventId });
   };
-  const handleCalendarDeleteEvent = (doc: ICalendarEvent) => {
-    // dispatch(
-    //   deleteEventMiddleWare({
-    //     eventid: doc.id,
-    //     event: filters.type === EVENT_TYPE.MY_EVENTS ? 'True' : 'False',
-    //   }),
-    // );
-  };
+  // const handleCalendarDeleteEvent = (doc: ICalendarEvent) => {
+  //   dispatch(
+  //     deleteEventMiddleWare({
+  //       eventid: doc.id,
+  //       event: filters.type === EVENT_TYPE.MY_EVENTS ? 'True' : 'False',
+  //     }),
+  //   );
+  // };
 
   const handlePeopleChange = (value: number) => {
     setSelectedPeople((prev) => {

@@ -50,6 +50,7 @@ const EmailTemplate: React.FC<Props> = (props) => {
     initialValues: {
       greeting: greetingText,
     },
+    enableReinitialize: true,
     validate: handleValid,
     onSubmit: (data) => {
       setEdit(!edit);

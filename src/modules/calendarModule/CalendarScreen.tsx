@@ -65,6 +65,7 @@ import MeetingSchedulingScreen from './MeetingSchedulingScreen';
 import CalendarScreenLoader from './CalendarScreenLoader';
 interface stateType {
   openScheduleEvent: boolean;
+  eventId: string;
 }
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -259,13 +260,15 @@ const Calendar = () => {
   }, []);
 
   useEffect(() => {
-   if (locationState !== undefined) {
-      if (locationState.openScheduleEvent === true) {
-        setOpenScheduleForm(true);
-      }
+    if (locationState && locationState?.openScheduleEvent === true) {
+      setOpenScheduleForm(true);
     }
-    
-  }, []);
+    if(locationState && locationState?.eventId){
+      const event = visibleEvents.filter(doc => doc.eventId === locationState?.eventId);
+      console.log(event);
+      if(event.length) handleOnSelectEvent(event[0]);
+    }
+  }, [JSON.stringify(locationState), visibleEvents.length]);
   const handleEventScheduleForm = () => {
     if (calendarProvider) handleGetEvents(calendarProvider);
     setIsEditEvent(false);

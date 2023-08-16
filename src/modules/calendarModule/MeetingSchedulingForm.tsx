@@ -790,14 +790,14 @@ const MeetingSchedulingForm = ({
 
       return (
         <div className={styles.duration}>
-          <p style={{ marginBottom: '7px', color: '#581845' }}>Duration</p>
+          <p style={{ marginBottom: '4px', color: '#581845' }}>Duration</p>
           <p>{formatTime(timeDifference)}</p>
         </div>
       );
     }
     return (
       <div className={styles.duration}>
-        <p style={{ marginBottom: '7px', color: '#581845' }}>Duration</p>
+        <p style={{ marginBottom: '4px', color: '#581845' }}>Duration</p>
         <p>00 : 00</p>
       </div>
     );
