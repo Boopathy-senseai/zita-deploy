@@ -11,10 +11,20 @@
 /* product route*/
 
 .model {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 100%;
+  overflow: hidden;
   width: 230px;
 }
 
 .model1 {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 100%;
+  overflow: hidden;
   width: 60px;
 }
 

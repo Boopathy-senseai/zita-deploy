@@ -832,3 +832,14 @@ input:-webkit-autofill:active {
 /* ::-webkit-scrollbar-thumb:hover {
   background: $tableBorderColor;
 } */
+.css-1d3z3hw-MuiOutlinedInput-notchedOutline{
+  top: 0 !important;
+}
+.css-i4bv87-MuiSvgIcon-root{
+  width: 20px !important;
+  height: 20px !important;
+}
+.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input{
+  font-size: 13px !important;
+  border: 2px solid red;
+}
