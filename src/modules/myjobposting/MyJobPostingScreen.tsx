@@ -148,7 +148,7 @@ const MyJobPostingScreen = () => {
           {/* <SvgJobPost width={15.71} height={16} /> */}
           <Text
             bold
-            size={18}
+            size={16}
             style={{ marginLeft: 8, color: '#581845' }}
             className={styles.postingcl}
           >
