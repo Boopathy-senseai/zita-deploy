@@ -18,6 +18,7 @@ import Modal from '../../uikit/Modal/Modal';
 import Text from '../../uikit/Text/Text';
 import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
 import { THIS_FIELD_REQUIRED } from '../constValue';
+import { candidateMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import useUnsavedChangesWarning from '../common/useUnsavedChangesWarning';
 import styles from './addandupdateworkexperienceedit.module.css';
 import { ExperiencesEntity, Obj } from './candidateProfileTypes';
@@ -102,6 +103,11 @@ const AddandUpdateWorkExperienceEdit = ({
         }),
       ).then((res) => {
         if (res.payload.success === true) {
+             dispatch(
+          candidateMatchMiddleWare({ 
+             can_id:res.payload?.can_id[0]?.id.toString(),
+          }),
+        )
           dispatch(profileEditMiddleWare({jd_id:localStorage.getItem('careerJobViewJobId')}));
           setReload(false);
           formik.resetForm();
@@ -126,6 +132,11 @@ const AddandUpdateWorkExperienceEdit = ({
         }),
       ).then((res) => {
         if (res.payload.success === true) {
+           // dispatch(
+        //   candidateMatchMiddleWare({ 
+        //      can_id:id.toString(),
+        //   }),
+        // )
           setReload(false);
           dispatch(profileEditMiddleWare({jd_id:localStorage.getItem('careerJobViewJobId')}));
           Toast('Experience added successfully');

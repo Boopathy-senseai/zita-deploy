@@ -31,7 +31,7 @@ import {
   syncOutlookApi,
   getGoogleEventsAPI,
   googleAddEvent,
-   Zitamatching,
+  //  Zitamatching,
   checkAuth,
   addOauth,
   intergrationmailApi,
@@ -70,7 +70,7 @@ export const applicantMatchMiddleWare = createAsyncThunk(
   APPLICANT_PROFILE_MATCH,
   async ({ jd_id, can_id }: ApplicantProfilePayload, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(Zitamatching, {
+      const { data } = await axios.get(Bothcandidateidjobid, {
         params: { jd_id, can_id },
       });
       return data;

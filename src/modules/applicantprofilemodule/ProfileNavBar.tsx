@@ -92,6 +92,7 @@ type Props = {
   inviteIconDisable?: boolean;
   inviteIconNone?: boolean;
   setjobtitle?: any;
+  availableity?:any;
 } & typeof defaultProps;
 
 const ProfileNavBar = ({
@@ -105,6 +106,7 @@ const ProfileNavBar = ({
   isResume,
   withOutJD,
   setjobtitle,
+  availableity,
   source,
   isProfileName,
   inviteIconDisable,
@@ -117,7 +119,7 @@ const ProfileNavBar = ({
   const [isInvitePopUp, setInvitePopUp] = useState(false);
   const [isDate, setDate] = useState('');
   if (jdDetails !== null && setjobtitle) {
-    const state = jdDetails.job_title;
+    const state = jdDetails.job_id;
     setjobtitle(state);
   }
 
@@ -138,6 +140,7 @@ const ProfileNavBar = ({
     can_id,
     invite,
     jd_id,
+    datas,
     total_exp,
     personalInfo,
     candidate_details,
@@ -149,16 +152,18 @@ const ProfileNavBar = ({
       applicantAllMatchReducers,
       applicantMatchReducers,
       applicantProfileInitalReducers,
+      zitaMatchDataCandidateReducers,
       candidatejdmatchReducers,
     }: RootState) => {
       return {
         match:
           applicantAllMatchReducers.match !== undefined &&
           applicantAllMatchReducers.match,
-        overall_percentage:applicantMatchReducers.overall_percentage,
+        overall_percentage: applicantMatchReducers.overall_percentage,
         candidate_details: applicantProfileInitalReducers.candidate_details,
         stages: applicantStausReducers?.stages,
         can_id: applicantProfileInitalReducers.can_id,
+        datas: zitaMatchDataCandidateReducers.data,
         total_exp: applicantProfileInitalReducers.total_exp,
         jd_id: applicantProfileInitalReducers?.jd_id,
         invite: applicantStausReducers?.invite,
@@ -227,9 +232,10 @@ const ProfileNavBar = ({
             ],
       };
     },
-  );
+  ); 
+  console.log(candidate_details[0].interested,'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj')
   useEffect(() => {
-    dispatch(applicantScoreMiddleWare({ jd_id, can_id })); 
+    dispatch(applicantScoreMiddleWare({ jd_id, can_id }));
   }, []);
   useEffect(() => {
     if (stages.length === 0) {
@@ -264,8 +270,7 @@ const ProfileNavBar = ({
         ? interview[interview.length - 1].rating
         : 0;
     setinterviewstatus(ratingValue);
-  }, [interview]);
-  console.log(candidate_details, 'kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk');
+  }, [interview]); 
   const date = isEmpty(candidate_details[0].created_on)
     ? ''
     : candidate_details[0].created_on.slice(
@@ -359,7 +364,7 @@ const ProfileNavBar = ({
               <Text>{`The candidate ${
                 candidate_details && candidate_details[0].first_name
               } has already been invited for this job on ${getDateString(
-                invite&& invite[invite?.length - 1].created_at,
+                invite && invite[invite?.length - 1].created_at,
                 'll',
               )}.`}</Text>
               <Text>Do you wish to invite again?</Text>
@@ -691,8 +696,7 @@ const ProfileNavBar = ({
                     </Text>
                   </Flex>
                 )}
-              </Flex>
-              {console.log(date,'dateeeeeeeeeeeeeeeeeeeeeeeeeeee')}
+              </Flex> 
               {!applieddatecheck && Number(jd_id) !== 0 ? (
                 <Flex flex={6}>
                   <Flex className={styles.headingpart} marginTop={10}>
@@ -703,19 +707,19 @@ const ProfileNavBar = ({
                       <Text className={styles.changingtext}>Not Specified</Text>
                     </Flex>
                   ) : (
-                    <Flex className={styles.changingtext} title={date}>
-                      <Text className={styles.changingtext}>{date}</Text>
+                    <Flex className={styles.changingtext} title={getDateString(date, 'll')}>
+                      <Text className={styles.changingtext}>{getDateString(date, 'll')}</Text>
                     </Flex>
                   )}
                 </Flex>
               ) : Number(jd_id) !== 0 ? (
                 <Flex flex={6}>
                   <Flex className={styles.headingpart} marginTop={10}>
-                    Invite Date
+                  Invited Date
                   </Flex>
                   {invite.length === 0 ? (
                     <Flex className={styles.changingtext}>
-                      <Text className={styles.changingtext}>Not Specified</Text>
+                      <Text className={styles.changingtext}>Not Invited Yet</Text>
                     </Flex>
                   ) : (
                     <Flex
@@ -723,7 +727,10 @@ const ProfileNavBar = ({
                       title={invite[invite.length - 1].created_at}
                     >
                       <Text className={styles.changingtext}>
-                        {invite[invite.length - 1].created_at}
+                      {getDateString(
+             invite &&
+             invite.length &&new Date(invite[invite.length - 1].created_at),
+              'll')}
                       </Text>
                     </Flex>
                   )}
@@ -732,7 +739,7 @@ const ProfileNavBar = ({
                 ''
               )}
             </Flex>
-            <Flex row flex={12} style={{ borderTop: '1px solid #C3C3C3' }}>
+           {!applieddatecheck && Number(jd_id) !== 0 &&<Flex row flex={12} style={{ borderTop: '1px solid #C3C3C3' }}>
               <Flex flex={6}>
                 <Flex className={styles.headingpart} marginTop={10}>
                   Willing to Relocate
@@ -775,27 +782,8 @@ const ProfileNavBar = ({
                   </Flex>
                 )}
               </Flex>
-            </Flex>
-            <Flex row flex={12} marginBottom={'10px'}>
-              <Flex flex={6}>
-                <Flex className={styles.headingpart} marginTop={10}>
-                  Availability Date
-                </Flex>
-                {candiList.industry_type__label_name === undefined ? (
-                  <Flex className={styles.changingtext}>
-                    <Text className={styles.changingtext}>Not Specified</Text>
-                  </Flex>
-                ) : (
-                  <Flex
-                    className={styles.changingtext}
-                    title={candiList.available_to_start__label_name}
-                  >
-                    <Text className={styles.changingtext}>
-                      {candiList.available_to_start__label_name}
-                    </Text>
-                  </Flex>
-                )}
-              </Flex>
+            </Flex>}
+            {!applieddatecheck && Number(jd_id) !== 0 && <Flex row flex={12} marginBottom={'10px'}>
               <Flex flex={6}>
                 <Flex className={styles.headingpart} marginTop={10}>
                   Expected Salary
@@ -815,8 +803,29 @@ const ProfileNavBar = ({
                   </Flex>
                 )}
               </Flex>
-            </Flex>
-            <Flex style={{ paddingBottom: '10px' }}>
+              {!applieddatecheck && !availableity &&
+              <Flex flex={6}>
+                <Flex className={styles.headingpart} marginTop={10}>
+                  Availability
+                </Flex>
+                {console.log(personalInfo[0].available_to_start__label_name,'personalInfo[0].available_to_start__label_namepersonalInfo[0].available_to_start__label_name')}
+                {personalInfo[0].available_to_start__label_name === null ? (
+                  <Flex className={styles.changingtext}>
+                    <Text className={styles.changingtext}>Not Specified</Text>
+                  </Flex>
+                ) : (
+                  <Flex
+                    className={styles.changingtext}
+                    title={personalInfo[0].available_to_start__label_name}
+                  >
+                    <Text className={styles.changingtext}>
+                      {personalInfo[0].available_to_start__label_name}
+                    </Text>
+                  </Flex>
+                )}
+              </Flex>}
+            </Flex>}
+            {!applieddatecheck && Number(jd_id) !== 0 &&<Flex style={{ paddingBottom: '10px' }}>
               <Flex className={styles.headingpart}>Industry Type</Flex>
               {personalInfo[0].industry_type__label_name === undefined ||
               personalInfo[0].industry_type__label_name === null ||
@@ -835,7 +844,7 @@ const ProfileNavBar = ({
                   </Text>
                 </Flex>
               )}
-            </Flex>
+            </Flex>}
 
             {/* {withOutJD && (
               <>
@@ -877,7 +886,9 @@ const ProfileNavBar = ({
               <>
                 {jd_id !== '' && jd_id !== undefined && jd_id !== null && (
                   <Flex center middle className={styles.borderstyles}>
-                    <Button onClick={() => setInvitePopUp(true)}>
+                    <Button onClick={() => setInvitePopUp(true)}
+                    disabled={candidate_details[0].interested === false}
+                    >
                       Invited to Apply
                     </Button>{' '}
                   </Flex>

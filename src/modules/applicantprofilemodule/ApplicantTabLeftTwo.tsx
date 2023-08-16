@@ -69,7 +69,7 @@ const ApplicantTabLeftTwo = ({ activeState }: typeof defaultProps) => {
             <MatchingAnalysisTab />
           </Tab>
           <Tab title={'Invitation Status'}>
-            <InvitationStatusTab  />
+            <ScreeningStatusTab title={'Invitation Status'} issingletab  />
           </Tab> 
         </Tabs>
       ) : (

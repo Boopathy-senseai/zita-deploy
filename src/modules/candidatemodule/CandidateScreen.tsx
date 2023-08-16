@@ -197,7 +197,7 @@ const CandidateScreen = () => {
                 <SvgJobselection width={16} height={14} />
               </Flex>
               <Flex marginLeft={4}>
-                {jobtitle} - {jd_id}
+              {jd.job_title} - {jd.job_id}
               </Flex>
             </Flex>
           }

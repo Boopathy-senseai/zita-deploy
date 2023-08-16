@@ -148,11 +148,11 @@ const MessageTab = () => {
   return (
     <div
       style={{
-        height: window.innerHeight,
+        height: window.innerHeight -100,
       }}
       className={styles.overAll}
     >
-      <Flex row center between style={{ padding: '16px 16px 0px 16px',}} >
+      <Flex row center start style={{ padding: '16px 16px 0px 16px',}} >
         <Flex  style={{
               fontSize: '14px',
               marginBottom: 5,  
@@ -165,14 +165,7 @@ const MessageTab = () => {
             Message to Applicant
           </Text>
         </Flex>
-        <Flex onClick={hanldeOpen}>
-          <Text className={'pointer'}  bold color='theme' style={{
-              fontSize: '14px',
-              marginBottom: 5,  
-            }}>
-            Use Templates
-          </Text>
-        </Flex>
+        
       </Flex>
 
       <Flex style={{ padding: '12.5px 16px 0px 16px' }}>
@@ -197,6 +190,14 @@ const MessageTab = () => {
         className={styles.btnContainer}
         style={{ padding: '0px 16px 0px ' }}
       >
+        <Flex center onClick={hanldeOpen}>
+          <Text className={'pointer'}  bold color='theme' style={{
+              fontSize: '14px',
+              
+            }}>
+            Use Templates
+          </Text>
+        </Flex>
         <Flex row>
           <Button
             onClick={handleCancel}
@@ -222,7 +223,7 @@ const MessageTab = () => {
         </Flex>
       </Flex>
       {messages === undefined || messages?.length === 0 ? (
-        <Flex columnFlex center middle style={{ paddingTop: 200 }}>
+        <Flex columnFlex center middle  flex={1}>
           <Svgchatmessage fill='gray' />
           <Text color="gray">No conversations to show</Text>
         </Flex>

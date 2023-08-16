@@ -834,7 +834,7 @@ input:-webkit-autofill:active {
 
   line-height: 44px;
 
-  font-size: 16px;
+  font-size: 13px;
 
   padding: 0 20px;
 
@@ -847,8 +847,8 @@ input:-webkit-autofill:active {
 
 .ql-mention-list-item.selected {
   background-color: #eee8ec;
-
   text-decoration: none;
+  font-size: 13px;
 }
 
 .mention {

@@ -36,14 +36,14 @@ type Props = {
   candidateId: string;
   inviteIconNone?: boolean;
   activeState?: number;
-  setjobtitle?:any;
+  setjobtitle?:any; 
 };
 const ApplicantProfileModal = ({
   jobId,
   candidateId,
   inviteIconNone,
   activeState,
-  setjobtitle,
+  setjobtitle, 
 }: Props) => {
   const [isInvitePopUp, setInvitePopUp] = useState(false);
   const [isTab, setTab] = useState(false);
@@ -55,7 +55,7 @@ const ApplicantProfileModal = ({
 console.log(candidateId,'fffffffffffffffffffffffffkkkkkkkkkkkkkjjjjjjjjjjjjjjjjjjj')
   // initial api call
   useEffect(() => {
-    if (jobId !== '0') {
+    if (jobId !== '0') { 
       setTab(true);
       dispatch(
         applicantProfileInitialMiddleWare({
@@ -120,6 +120,7 @@ console.log(candidateId,'fffffffffffffffffffffffffkkkkkkkkkkkkkjjjjjjjjjjjjjjjjj
     can_id,
     status_id,
     invite,
+    job_details,
     source,
     stages,
     matchLoader
@@ -128,7 +129,8 @@ console.log(candidateId,'fffffffffffffffffffffffffkkkkkkkkkkkkkjjjjjjjjjjjjjjjjj
       applicantProfileInitalReducers,
       applicantMatchReducers,
       applicantStausReducers,
-      candidatejdmatchReducers
+      candidatejdmatchReducers,
+      applicantPipeLineReducers
     }: RootState) => {
       return {
         candidate_details: applicantProfileInitalReducers.candidate_details,
@@ -137,6 +139,7 @@ console.log(candidateId,'fffffffffffffffffffffffffkkkkkkkkkkkkkjjjjjjjjjjjjjjjjj
         jd: applicantProfileInitalReducers.jd,
         match: applicantMatchReducers.match ? applicantMatchReducers.match : [],
         jd_id: applicantProfileInitalReducers.jd_id,
+        job_details: applicantPipeLineReducers.job_details,
         can_id: applicantProfileInitalReducers.can_id,
         matchLoader:candidatejdmatchReducers.isLoading,
         status_id: applicantProfileInitalReducers.status_id,
@@ -233,6 +236,7 @@ console.log(candidateId,'fffffffffffffffffffffffffkkkkkkkkkkkkkjjjjjjjjjjjjjjjjj
               jdDetails={jd}
               setjobtitle={setjobtitle} 
               applieddatecheck ={isTab && stages.length === 0 ?true:false}
+              availableity ={isTab && stages.length !== 0 ?false:true}
               profile_match={profileMatch}
               nonMatch={checkMatch}
               inviteCall={hanldeInvitePopUp} 

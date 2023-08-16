@@ -14,6 +14,7 @@ import Loader from '../../uikit/Loader/Loader';
 import Text from '../../uikit/Text/Text';
 import Toast from '../../uikit/Toast/Toast';
 import { config } from '../constValue';
+import { candidateMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { EmpPoolEntity } from './bulkImportTypes';
 import { bulkuploadedCandidatesMiddleWare } from './store/middleware/bulkImportMiddleware';
 import styles from './valueAddName.module.css';
@@ -84,6 +85,13 @@ const EmailAdd = ({
       axios
         .post(uploadedCandidatesApi, data, config)
         .then((response) => {
+          console.log(response,'llllllllllllllkkkkkkkkkkkjjjjjjjjjj')
+          if(response.data.first_name=== true){
+            dispatch(
+              candidateMatchMiddleWare({ 
+                can_id:id.toString(),
+              }),
+            )}
           if (tabKey === 'total') {
             if(jdId === undefined){
 

@@ -492,10 +492,10 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
           {active === 0 && (
             <Flex>
               <Flex center middle marginTop={100}>
-                <SvgMeetingicon />
+                <SvgMeetingicon fill='#979797' />
               </Flex>
               <Flex center middle marginTop={10}>
-                <Text style={{ fontSize: '13px' }}>
+                <Text style={{ fontSize: '13px' }} color='gray'>
                   Integrate your calendar with Zita to schedule meetings
                 </Text>
               </Flex>

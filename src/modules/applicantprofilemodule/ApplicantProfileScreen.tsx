@@ -124,16 +124,19 @@ const ApplicantProfileScreen = () => {
     matchLoader,
     notesLoader,
     status_id,
+    job_details,
     invite,
     stages,
     source,
     is_plan,
+    jd_d
   } = useSelector(
     ({
       applicantProfileInitalReducers,
       applicantMatchReducers,
       applicantNotesReducers,
       applicantStausReducers,
+      applicantPipeLineReducers,
       permissionReducers,
     }: RootState) => {
       return {
@@ -142,8 +145,10 @@ const ApplicantProfileScreen = () => {
         jd: applicantProfileInitalReducers.jd,
         match: applicantMatchReducers.match ? applicantMatchReducers.match : [],
         jd_id: applicantProfileInitalReducers.jd_id,
+        jd_d: applicantProfileInitalReducers.ApplicantEntity,
         can_id: applicantProfileInitalReducers.can_id,
         matchLoader: applicantMatchReducers.isLoading,
+        job_details: applicantPipeLineReducers.job_details,
         notesLoader: applicantNotesReducers.isLoading,
         status_id: applicantProfileInitalReducers.status_id,
         invite: applicantStausReducers.invite,
@@ -153,6 +158,7 @@ const ApplicantProfileScreen = () => {
       };
     },
   );
+  console.log(jd,' job_details job_details job_details')
   useEffect(() => {
     if (!is_plan) {
       sessionStorage.setItem('superUserTab', '2');
@@ -218,7 +224,7 @@ const ApplicantProfileScreen = () => {
                 <SvgJobselection width={16} height={14} />
               </Flex>
               <Flex marginLeft={4}>
-                     {jobtitle} - {jd_id}
+                     {jd.job_title} - {jd.job_id}
               </Flex> 
               </Flex>}
             </Flex>

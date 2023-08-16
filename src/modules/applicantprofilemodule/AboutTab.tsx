@@ -231,10 +231,10 @@ const AboutTab = () => {
     //   lable: 'Job Type:',
     //   value: notSpecified(personalInfo[0].type_of_job__label_name),
     // },
-    {
-      lable: 'Availability:',
-      value: notSpecified(personalInfo[0].available_to_start__label_name),
-    },
+    // {
+    //   lable: 'Availability:',
+    //   value: notSpecified(personalInfo[0].available_to_start__label_name),
+    // },
     {
       lable: 'Preferred Work Location:',
       value:
@@ -329,10 +329,7 @@ const AboutTab = () => {
             );
           })}
         </Flex> 
-        <Flex>
-          {console.log(techSkillSplit,'llllllllllllllllllllllllllllllllllllllllllllll')}
-          {console.log(techSkillSplit[0] !== "" ,'llllllllllllllllllllllllllllllllllllllllllllll')}
-          {techSkillSplit[0] !== "" && techSkillSplit.length > 0&& techSkillSplit[0] !== undefined ?(
+        <Flex> {techSkillSplit[0] !== "" && techSkillSplit.length > 0&& techSkillSplit[0] !== undefined ?(
             <>
               <Text bold className={styles.jobPreferenceStyle}>
                 Professional Skills

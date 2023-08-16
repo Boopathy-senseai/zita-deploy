@@ -52,7 +52,7 @@ const InvitationStatusTab = () => {
           </Text>
         </Flex>
       ):<Flex flex={1} center middle>
-      <Text color="gray">Not Invited Yet</Text>
+      <Text color="gray">Not Specified</Text>
     </Flex>}
     </Flex>
   );

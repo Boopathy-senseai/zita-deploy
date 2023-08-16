@@ -24,6 +24,7 @@ import {
 } from '../createjdmodule/createJdTypes';
 import useUnsavedChangesWarning from '../common/useUnsavedChangesWarning';
 import { locationMiddleWare } from '../createjdmodule/store/middleware/createjdmiddleware';
+import { candidateMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import styles from './myjobpreferenceedit.module.css';
 import {
   profileEditMiddleWare,
@@ -106,6 +107,11 @@ const MyJobPreferenceEdit = ({
 
     dispatch(updateJobPreferenceMiddleWare({ formData })).then((res) => {
       if (res.payload.success) {
+          dispatch(
+          candidateMatchMiddleWare({ 
+             can_id:res.payload?.can_id[0]?.id.toString(),
+          }),
+        )
         setReload(false);
         Toast('Job Preference updated successfully');
         dispatch(profileEditMiddleWare({jd_id:localStorage.getItem('careerJobViewJobId')}));

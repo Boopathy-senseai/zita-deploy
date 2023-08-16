@@ -590,7 +590,8 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
             taskId: removed.id,
             candidateId: removed.candidate_id_id,
           });
-        } else {
+        }
+         else {
           handleCardUpdate({
             stage_name: columns[destinationDropId].stage_name,
             taskId: removed.id,

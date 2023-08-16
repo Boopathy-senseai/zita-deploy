@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
@@ -10,6 +12,7 @@ import { GARY_3, LINK } from '../../uikit/Colors/colors';
 import SvgJobselection from '../../icons/SvgJobselection';
 import ZitaMatchCandidateProfileView from './ZitaMatchCandidateProfileView';
 import styles from './candidatedrawer.module.css';
+
 
 type Props = {
   open: boolean;
@@ -27,6 +30,17 @@ const ZitaMatchCandidateDrawer = ({
   activeState,
 }: Props) => {
   const [jobtitle, setjobtitle] = useState<string>();
+  const {
+    jd,
+  } = useSelector(
+    ({
+      applicantProfileInitalReducers,
+    }: RootState) => {
+      return {
+        jd: applicantProfileInitalReducers.jd
+      };
+    },
+  );
   return (
     <Drawer open={open}>
       <div className={styles.overAll}>
@@ -46,7 +60,7 @@ const ZitaMatchCandidateDrawer = ({
                 <SvgJobselection width={16} height={14} />
               </Flex>
               <Flex marginLeft={4}>
-                     {jobtitle} - {jobId}
+              {jd.job_title} - {jd.job_id}
               </Flex> 
               </Flex>}
           <LinkWrapper
