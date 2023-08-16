@@ -18,6 +18,8 @@ import { InputText } from '../../uikit';
 import { enterKeyPress } from '../../uikit/helper';
 import SvgSearch from '../../icons/SvgSearch';
 import SvgLocation from '../../icons/SvgLocation';
+import SvgNomessage from '../../icons/SvgNomessage';
+import SvgNoCandidate from '../../icons/SvgNoCandidate';
 import SvgIntomark from '../../icons/Intomark';
 import {
   applicantPipeLineDataMiddleWare,
@@ -39,6 +41,8 @@ import { SkillListEntity } from './zitaMatchCandidateTypes';
 import { sortOptions } from './mock';
 import ZitaMatchDataCard from './ZitaMatchDataCard';
 import ZitaMatchCandidateDrawer from './ZitaMatchCandidateDrawer';
+
+
 
 const cx = classNames.bind(styles);
 
@@ -1001,7 +1005,8 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
       >
         
           {total_applicants === 0 && (
-            <Flex height={'100%'} flex={1} center middle>
+            <Flex height={'100%'} flex={1} center middle style={{display:"flex"}}>
+              <SvgNoCandidate style={{filter:"opacity(0.6)"}}/>
               <Text color="gray">No Candidate Found</Text>
             </Flex>
           )}
