@@ -10,6 +10,7 @@ export interface IEvent {
   event_id__interviewer: string;
   startevent: string;
   candidate_name?: string;
+  join_url: string;
 }
 
 export interface ICalendarEvent {
