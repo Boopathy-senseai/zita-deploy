@@ -40,6 +40,7 @@ import { sortOptions } from './mock';
 import ZitaMatchDataCard from './ZitaMatchDataCard';
 import ZitaMatchCandidateDrawer from './ZitaMatchCandidateDrawer';
 
+
 const cx = classNames.bind(styles);
 
 var querystring = require('querystring');
@@ -158,6 +159,7 @@ const ZitaMatchCandidate = () => {
   };
 
   const handleSearchSubmit = () => {
+
     setIsCheck([]);
     console.log("close",isSearch)
     dispatch(
@@ -301,6 +303,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
   );
 
   const handleExperience = (selectedValue: string) => {
+    if(!change){
     setIsCheck([]);
     dispatch(
       zitaMatchDataCandidateMiddleWare({
@@ -320,7 +323,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
         skill_match: skillsOptionsList,
         page: isPage + 1,
       }),
-    );
+    );}
   };
 
   const handlesortby=(selectedValue: string)=>{
@@ -346,10 +349,14 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
   }
 
   const handleRelocate = () => {
+
     setRelocate(!isRelocate);
+    setchange(true);
   };
   const handleLocation = () => {
+    
     setLocation(!isLocation);
+    setchange(true)
   };
 
 
@@ -387,29 +394,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
       }),
     );
   }
-
-  const handleClick = (e: { target: { id: string; checked: boolean } }) => {
-    const { id, checked } = e.target;
-    setIsCheck([...isCheck, id]);
-    if (!checked) {
-      setIsCheck(isCheck.filter((item: any) => item !== id));
-    }
-  };
-
-  useEffect(() => {
-    if (isCheck && isCheck.length !== datas?.length) {
-      setIsCheckAll(false);
-    }
-  }, [isCheck]);
-
-  if (
-    isCheck.length === datas.length &&
-    isCheckAll === false &&
-    datas.length !== 0
-  ) {
-    setIsCheckAll(true);
-  }
-  useEffect(() => {
+  const datafun=()=>{
     dispatch(
       zitaMatchDataCandidateMiddleWare({
         jd_id: jdId,
@@ -430,6 +415,36 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
       }),
     );
     setIsCheck([]);
+  }
+
+  const handleClick = (e: { target: { id: string; checked: boolean } }) => {
+    const { id, checked } = e.target;
+    setIsCheck([...isCheck, id]);
+    if (!checked) {
+      setIsCheck(isCheck.filter((item: any) => item !== id));
+    }
+  };
+
+  useEffect(() => {
+    if (isCheck && isCheck.length !== datas?.length) {
+      setIsCheckAll(false);
+    }
+  }, [isCheck]);
+
+  const [change,setchange]=useState(false);
+  if (
+    isCheck.length === datas.length &&
+    isCheckAll === false &&
+    datas.length !== 0
+  ) {
+    setIsCheckAll(true);
+  }
+
+  useEffect(() => {
+    if(!change){
+    datafun()  
+   
+   }
   }, [
     isSkillOption,
     isBachelors,
@@ -447,6 +462,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
     favLoader,
     isInviteLoader,
     isPage,
+    change
   ]);
   // filter refesh function
   const hanldeRefresh = () => {
@@ -492,6 +508,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
   }
   const wrapperRef = useRef(null);
   const handleexpclear=()=>{
+    if(!change){
     setExperience('');
     dispatch(
       zitaMatchDataCandidateMiddleWare({
@@ -511,7 +528,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
         skill_match: skillsOptionsList,
         page: isPage + 1,
       }),
-    );
+    );}
   }
 
   const hanleprofileclear=()=>{
@@ -622,28 +639,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
       }),
     );
 
-    const handleKeyPress = (event: { key: string }) => {
-      if (event.key === 'Enter') {
-        dispatch(
-          zitaMatchDataCandidateMiddleWare({
-            jd_id: jdId,
-            profile_match: isProfile,
-            fav: favAdd,
-            candidate: isSearch,
-            location:islocationsearch,
-            work_experience: isExperience,
-            relocate: isRelocate ? '1' : '0',
-            invite: isCandiStatus,
-            profile_view: isProfile,
-            education_level: qaValue,
-            type_of_job: isJobType,
-            preferred_location: isLocation ? '1' : '0',
-            skill_match: skillsOptionsList,
-            page: isPage + 1,
-          }),
-        );
-      }
-    };
+
 
     if (query.has('candi_id')) {
       query.delete('candi_id');
@@ -929,8 +925,10 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
           )}
         </Flex>
       </Flex>
+      {console.log("sssssssssssssss",change)}
       <Flex>
         <ZitaMatchFilters
+        setchange={setchange}
         isSkillOption={isSkillOption}
         handleBachelor={handleBachelor}
         handleDoctorate={handleDoctorate}

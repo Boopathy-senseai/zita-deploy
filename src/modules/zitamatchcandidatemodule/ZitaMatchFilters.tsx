@@ -13,10 +13,11 @@ import SvgRefresh from '../../icons/SvgRefresh';
 import SvgIntomark from '../../icons/Intomark';
 import Card from '../../uikit/Card/Card';
 import InputText from '../../uikit/InputText/InputText';
+
 import InputRadio from '../../uikit/InputRadio/InputRadio';
 import SelectTag from '../../uikit/SelectTag/SelectTag';
 import InputCheckBox from '../../uikit/InputCheckbox/InputCheckBox';
-import { InputSwitch } from '../../uikit';
+import { Button, InputSwitch } from '../../uikit';
 import SvgSearch from '../../icons/SvgSearch';
 import { MAX_DISPLAYED_OPTIONS } from '../constValue';
 import { enterKeyPress } from '../../uikit/helper';
@@ -42,7 +43,7 @@ type Props = {
   setExperience: Dispatch<SetStateAction<string>>;
   setSkills: Dispatch<any>;
   setSkillOption: Dispatch<any>;
-
+  setchange?:any;
   isSkills: any;
   isJobType: string;
   setJobType: (arg: string) => void;
@@ -132,7 +133,8 @@ const ZitaMatchFilters = ({
   handleradiovclear,
   hanleprofileclear,
   handleexpclear,
-  isExperience
+  isExperience,
+  setchange
 }: Props) => {
   const selectInputRef = useRef<any>();
   const dropDownRef = useRef(null);
@@ -151,6 +153,19 @@ const ZitaMatchFilters = ({
   }, [isMatchRadio, isJobType, isProfile, isExperience]);
   console.log(isSkills, 'jjjoppk')
   console.log(profile, 'oppk')
+
+  const [applimatch,setapplimatch]=useState("");
+  const [appliexp,setappliexp]=useState("");
+  const [applijobtype,setapplijobtype]=useState("");
+  const [applieprofilevalue,setappliprofilevalue]=useState("");
+  const[appliecandidate,setapplicandidate]=useState("");
+  const [applieismaster,setapplieismaster]=useState(false);
+  const [applieisdoctorate,setapplieisdoctorate]=useState(false);
+  const [applieisbachelor,setapplieisbachelor]=useState(false);
+  const [applieisother,setapplieisother]=useState(false);
+  const [applieisany,setapplieisany]=useState(false);
+  const [applieisrelocate,setapplieisrelocate]=useState(false);
+  const [applieislocation,setapplieislocation]=useState(false);
 
   const myRef = useRef<any>();
   const [showDropDown, setShowDropDown] = useState(false);
@@ -181,21 +196,26 @@ const ZitaMatchFilters = ({
   const closematch = () => {
     handleradiovclear();
     setmatch("");
+    setapplimatch("");
   }
   const closeexp = () => {
     handleexpclear();
     setexperience("");
+    setappliexp("")
   }
   const closeprofile = () => {
     hanleprofileclear();
     setprofilevalue("");
+    setappliprofilevalue("");
   }
   const closejobtype = () => {
     hanlejobtypeclear();
     setjobtype("");
+    setapplijobtype("");
 
   }
   const closestatus = () => {
+    setapplicandidate("");
     setCandiStatus("");
   }
   useEffect(() => {
@@ -222,6 +242,16 @@ const ZitaMatchFilters = ({
       console.log(isSkillOption, 'matchjjjkkk;232')
     };
   });
+
+  const closerelocate=()=>{
+    handleRelocate();
+    setapplieisrelocate(false);
+  }
+
+  const closelocation=()=>{
+    handleLocation();
+    setapplieislocation(false);
+  }
   const sixty = "<= 60"
   const one = "> 90"
   const two = "> 80"
@@ -229,16 +259,23 @@ const ZitaMatchFilters = ({
   const four="> 60"
   const showSkills = isSkillOption.slice(0, 4);
   const hiddenSkills = isSkillOption.slice(4, isSkillOption.length);
+  const[skill,setskill]=useState<
+  { value: string; label: string } []
+>();
 
   const closeSkillOption = (doc: { value: string; label: string }) => {
     const newOptions = [...isSkillOption];
     const indx = newOptions.indexOf(doc);
     if (indx !== -1) {
+      setskill(newOptions);
+
       newOptions.splice(indx, 1);
       setSkillOption(newOptions);
       return;
     }
   };
+
+  
   const RenderQuickFilter = (props: {
     doc?: { label: string; value: any };
     onClose: () => void;
@@ -259,212 +296,36 @@ const ZitaMatchFilters = ({
       </Flex>
     );
   };
+  const transverdata=()=>{
+    setapplimatch(match);
+    setappliexp(getexperience);
+    setapplijobtype(jobtype);
+    setappliprofilevalue(profile);
+    setapplicandidate(isCandiStatus);
+    setapplieismaster(isMasters);
+    setapplieisdoctorate(isDoctorate);
+    setapplieisother(isOther);
+    setapplieisbachelor(isBachelors);
+    setapplieisany(isAny);
+    setapplieisrelocate(isRelocate);
+    setapplieislocation(isLocation);
+    setskill(isSkillOption);
+    setchange(false);
+  }
 
   return (
-    // <Card className={styles.cardConatiner}>
-    //   <Flex>
-    //     <Flex row center className={styles.filterStyle}>
-    //       <Text color="black" bold size={16}>
-    //         Filters
-    //       </Text>
-    //       <div title="Refresh Filters" className={styles.svgRefresh}>
-    //         <SvgRefresh
-    //           onClick={() => {
-    //             selectInputRef.current.clearValue();
-    //             hanldeRefresh();
-    //           }}
-    //           width={22}
-    //           height={22}
-    //         />
-    //       </div>
-    //     </Flex>
-    //     <Flex
-    //       columnFlex
-    //       className={styles.scrollStyle}
-    //       maxHeight={window.innerHeight - 150}
-    //     >
-    //       <InputText
-    //         ref={myRef}
-    //         value={isSearch}
-    //         onChange={(e) => setSearch(e.target.value)}
-    //         id="zitamatchfilters__search"
-    //         placeholder="Search candidates by name or email"
-    //         actionRight={() => (
-    //           <label
-    //             htmlFor={'zitamatchfilters__search'}
-    //             style={{ margin: 0 }}
-    //             onClick={handleSearchSubmit}
-    //             tabIndex={-1}
-    //             role={'button'} // eslint-disable-line
-    //             onKeyPress={() => {}}
-    //           >
-    //             <SvgSearch />
-    //           </label>
-    //         )}
-    //         onKeyPress={(e) => enterKeyPress(e, handleSearchSubmit)}
-    //       />
-    //       <Text color="black" bold className={styles.matchTextStyle}>
-    //         Match
-    //       </Text>
-    //       <Flex row center wrap>
-    //         {matchOptions.map((matchList) => {
-    //           return (
-    //             <Flex
-    //               row
-    //               key={matchList.value}
-    //               className={styles.matchRadioStyle}
-    //               width={matchList.width}
-    //             >
-    //               <InputRadio
-    //                 label={matchList.value}
-    //                 checked={matchList.label === isMatchRadio}
-    //                 onClick={() => hanldeMatch(matchList)}
-    //               />
-    //             </Flex>
-    //           );
-    //         })}
-    //       </Flex>
-    //       <div style={{ marginTop: 8, marginBottom: 16 }}>
-    //         <SelectTag
-    //           label="Experience"
-    //           labelBold
-    //           value={
-    //             experienceOption
-    //               ? experienceOption.find((option:any) => option.value === isExperience)
-    //               : ''
-    //           } 
-    //           options={experienceOption}
-    //           onChange={(option) => {
-    //             setExperience(option.value);
-    //             handleExperience(option.value);
-    //           }}
-    //         />
-    //       </div>
-
-    //       <SelectTag
-    //         isCreate
-    //         isSearchable
-    //         label="Skills"
-    //         labelBold
-    //         ref={selectInputRef}
-    //         isMulti
-    //         options={slicedOptions}
-    //         onInputChange={(value) => setSkills(value)}
-    //         onChange={(option) => {
-    //           setSkillOption(option);
-    //         }}
-    //       />
-    //       <Text color="black" bold className={styles.jobTextStyle}>
-    //         Job Type
-    //       </Text>
-    //       <Flex row center>
-    //         {jobTypeData.map((jobList) => {
-    //           return (
-    //             <Flex
-    //               row
-    //               key={jobList.value}
-    //               className={styles.jobTypeRadioStyle}
-    //               width={jobList.width}
-    //             >
-    //               <InputRadio
-    //                 label={jobList.value}
-    //                 checked={jobList.label === isJobType}
-    //                 onClick={() => setJobType(jobList.label)}
-    //               />
-    //             </Flex>
-    //           );
-    //         })}
-    //       </Flex>
-    //       <Text color="black" bold className={styles.profileTextStyle}>
-    //         Profile
-    //       </Text>
-    //       <Flex row center>
-    //         {profileData.map((profileList) => {
-    //           return (
-    //             <Flex
-    //               row
-    //               key={profileList.value}
-    //               className={styles.profileRadioStyle}
-    //               width={profileList.width}
-    //             >
-    //               <InputRadio
-    //                 label={profileList.value}
-    //                 checked={profileList.label === isProfile}
-    //                 onClick={() => hanldeProfile(profileList)}
-    //               />
-    //             </Flex>
-    //           );
-    //         })}
-    //       </Flex>
-    //       <Text color="black" bold className={styles.qualificationTextStyle}>
-    //         Qualification
-    //       </Text>
-    //       <Flex row center wrap>
-    //         {qualificationOption.map((qualificationList) => {
-    //           return (
-    //             <Flex
-    //               row
-    //               key={qualificationList.value}
-    //               className={styles.qualificationRadioStyle}
-    //               width={qualificationList.width}
-    //             >
-    //               <InputCheckBox
-    //                 label={qualificationList.value}
-    //                 checked={qualificationList.checked}
-    //                 onChange={qualificationList.onChange}
-    //               />
-    //             </Flex>
-    //           );
-    //         })}
-    //       </Flex>
-    //       <Text color="black" bold className={styles.candidateTextStyle}>
-    //         Candidate Invite Status
-    //       </Text>
-    //       <Flex row center>
-    //         {candidateInviteStatus.map((statusList) => {
-    //           return (
-    //             <Flex
-    //               row
-    //               key={statusList.value}
-    //               className={styles.profileRadioStyle}
-    //               width={statusList.width}
-    //             >
-    //               <InputRadio
-    //                 label={statusList.value}
-    //                 checked={statusList.label === isCandiStatus}
-    //                 onClick={() => setCandiStatus(statusList.label)}
-    //               />
-    //             </Flex>
-    //           );
-    //         })}
-    //       </Flex>
-    //       <div className={styles.relocateText}>
-    //         <InputCheckBox
-    //           label="Show candidates willing to relocate"
-    //           checked={isRelocate}
-    //           onClick={handleRelocate}
-    //         />
-    //       </div>
-    //       <InputCheckBox
-    //         label="Show candidates from job location"
-    //         checked={isLocation}
-    //         onClick={handleLocation}
-    //       />
-    //     </Flex>
-    //   </Flex>
-    // </Card>
     <Flex row style={{ justifyContent: 'space-between' }}>
       <Flex row wrap>
       <Text style={{ whiteSpace: 'nowrap', marginTop: '3px' }}>
             Quick Filters :
           </Text>
         {
-          match === "" && getexperience === "" && jobtype === "" && profile === "" && isCandiStatus === "" && isAny === true && isRelocate === false && isLocation === false && isSkillOption.length === 0 ? (
+          applimatch === "" && appliexp === "" && applijobtype === "" && applieprofilevalue === "" &&  appliecandidate === "" && applieisany === true && applieisrelocate === false && applieislocation === false && skill.length === 0 ? (
             <Text className={styles.quickfil}>All</Text>
           ) : (
             <>
 
-              {match === "0-60" &&
+              {applimatch === "0-60" &&
 
                 <Text className={styles.quickfil}>{sixty}
                   <SvgIntomark
@@ -473,7 +334,7 @@ const ZitaMatchFilters = ({
                     }
                   /></Text>
               }
-              {match === "91-100" &&
+              {applimatch === "91-100" &&
 
                 <Text className={styles.quickfil}>{one}
                   <SvgIntomark
@@ -482,7 +343,7 @@ const ZitaMatchFilters = ({
                     }
                   /></Text>
               }
-              {match === "81-100" &&
+              {applimatch === "81-100" &&
 
                 <Text className={styles.quickfil}>{two}
                   <SvgIntomark
@@ -491,7 +352,7 @@ const ZitaMatchFilters = ({
                     }
                   /></Text>
               }
-              {match === "71-100" &&
+              {applimatch === "71-100" &&
 
                 <Text className={styles.quickfil}>{three}
                   <SvgIntomark
@@ -500,7 +361,7 @@ const ZitaMatchFilters = ({
                     }
                   /></Text>
               }
-                {match === "61-100" &&
+                {applimatch === "61-100" &&
 
             <Text className={styles.quickfil}>{four}
           <SvgIntomark
@@ -510,7 +371,7 @@ const ZitaMatchFilters = ({
   /></Text>
 }
               {
-                 isExperience ==="10-30" &&
+                 appliexp ==="10-30" &&
                 <Text className={styles.quickfil}>10+ Years
                   <SvgIntomark
                     className={styles.stylesvg}
@@ -519,7 +380,7 @@ const ZitaMatchFilters = ({
                   /></Text>
               }
               {
-                 isExperience ==="0-1" &&
+                 appliexp ==="0-1" &&
                 <Text className={styles.quickfil}>1 Year
                   <SvgIntomark
                     className={styles.stylesvg}
@@ -528,7 +389,7 @@ const ZitaMatchFilters = ({
                   /></Text>
               }
                 {
-                 isExperience ==="1-2" &&
+                 appliexp ==="1-2" &&
                 <Text className={styles.quickfil}>1-2 Years
                   <SvgIntomark
                     className={styles.stylesvg}
@@ -537,7 +398,7 @@ const ZitaMatchFilters = ({
                   /></Text>
               }
                {
-                 isExperience ==="2-3" &&
+                 appliexp ==="2-3" &&
                 <Text className={styles.quickfil}>2-3 Years
                   <SvgIntomark
                     className={styles.stylesvg}
@@ -546,7 +407,7 @@ const ZitaMatchFilters = ({
                   /></Text>
               }
                {
-                 isExperience ==="3-5" &&
+                 appliexp ==="3-5" &&
                 <Text className={styles.quickfil}>3-5 Years
                   <SvgIntomark
                     className={styles.stylesvg}
@@ -555,7 +416,7 @@ const ZitaMatchFilters = ({
                   /></Text>
               }
                  {
-                 isExperience ==="6-10" &&
+                 appliexp ==="6-10" &&
                 <Text className={styles.quickfil}>6-10 Years
                   <SvgIntomark
                     className={styles.stylesvg}
@@ -564,7 +425,7 @@ const ZitaMatchFilters = ({
                   /></Text>
               }
               {
-                profilevalue !== "" && profilevalue!=="Both" &&
+                applieprofilevalue !== "" && applieprofilevalue!=="Both" &&
                 <Text className={styles.quickfil}>{profilevalue}
                   <SvgIntomark
                     className={styles.stylesvg}
@@ -574,7 +435,7 @@ const ZitaMatchFilters = ({
               }
 
               {
-                jobtype === "3" &&
+                applijobtype === "3" &&
                 <Text className={styles.quickfil}>Contract
                   <SvgIntomark
                     className={styles.stylesvg}
@@ -583,7 +444,7 @@ const ZitaMatchFilters = ({
                   /></Text>
               }
               {
-                jobtype === "6" &&
+                applijobtype === "6" &&
                 <Text className={styles.quickfil}>Permanent
                   <SvgIntomark
                     className={styles.stylesvg}
@@ -592,7 +453,7 @@ const ZitaMatchFilters = ({
                   /></Text>
               }
               {
-                isCandiStatus === "1" &&
+                appliecandidate === "1" &&
                 <Text className={styles.quickfil}>Invited
                   <SvgIntomark
                     className={styles.stylesvg}
@@ -601,7 +462,7 @@ const ZitaMatchFilters = ({
                   /></Text>
               }
               {
-                isCandiStatus === "0" &&
+                appliecandidate === "0" &&
                 <Text className={styles.quickfil}>Uninvited
                   <SvgIntomark
                     className={styles.stylesvg}
@@ -610,61 +471,61 @@ const ZitaMatchFilters = ({
                   /></Text>
               }
               {
-                isMasters === true &&
+                applieismaster === true &&
                 <Text className={styles.quickfil}>Masters
                   <SvgIntomark
                     className={styles.stylesvg}
-                    onClick={() => handleMaster()
+                    onClick={() => (handleMaster(),setapplieismaster(false))
                     }
                   /></Text>
               }
               {
-                isDoctorate === true &&
+                applieisdoctorate=== true &&
                 <Text className={styles.quickfil}>Doctorate
                   <SvgIntomark
                     className={styles.stylesvg}
-                    onClick={() => handleDoctorate()
+                    onClick={() => (handleDoctorate(),setapplieisdoctorate(false))
                     }
                   /></Text>
               }
               {
-                isBachelors === true &&
+                applieisbachelor === true &&
                 <Text className={styles.quickfil}>Bachelors
                   <SvgIntomark
                     className={styles.stylesvg}
-                    onClick={() => handleBachelor()
+                    onClick={() => (handleBachelor(),setapplieisbachelor(false))
                     }
                   /></Text>
               }
               {
-                isOther === true &&
+                applieisother === true &&
                 <Text className={styles.quickfil}>Others
                   <SvgIntomark
                     className={styles.stylesvg}
-                    onClick={() => handleOther()
+                    onClick={() => (handleOther(),setapplieisother(false))
                     }
                   /></Text>
               }
               {
-                isRelocate === true &&
+                applieisrelocate === true &&
                 <Text className={styles.quickfil}>Willing to relocate
                   <SvgIntomark
                     className={styles.stylesvg}
-                    onClick={() => handleRelocate()
+                    onClick={() => (closerelocate())
                     }
                   /></Text>
               }
               {
-                isLocation === true &&
+                applieislocation === true &&
                 <Text className={styles.quickfil}>Job Location
                   <SvgIntomark
                     className={styles.stylesvg}
-                    onClick={() => handleLocation()
+                    onClick={() => (closelocation())
                     }
                   /></Text>
               }
 
-              {isSkillOption &&
+              {skill &&
                 showSkills.map((doc, index) => (
                   <RenderQuickFilter
                     key={index}
@@ -731,7 +592,7 @@ const ZitaMatchFilters = ({
                       <InputRadio
                         label={matchList.value}
                         checked={matchList.label === isMatchRadio}
-                        onClick={() => hanldeMatch(matchList)}
+                        onClick={() =>( hanldeMatch(matchList),  setchange(true))}
                       />
                     </Flex>
                   );
@@ -756,11 +617,12 @@ const ZitaMatchFilters = ({
                   options={experienceOption}
                   onChange={(option) => {
                     setExperience(option.value);
+                    setchange(true);
                     handleExperience(option.value);
                   }}
                 /></div>
               </div></Flex>
-
+{console.log("skillarray",skill)}
             <Flex className={styles.mtstyle}>
             <Text  bold className={styles.jobTextStyle} style={{marginBottom:"5px"}}>
                 Skills
@@ -775,6 +637,7 @@ const ZitaMatchFilters = ({
                 onInputChange={(value) => setSkills(value)}
                 onChange={(option) => {
                   setSkillOption(option);
+                  setchange(true);
                 }}
              
                 value={isSkillOption}
@@ -796,7 +659,7 @@ const ZitaMatchFilters = ({
                       <InputRadio
                         label={jobList.value}
                         checked={jobList.label === isJobType}
-                        onClick={() => setJobType(jobList.label)}
+                        onClick={() => (setJobType(jobList.label),  setchange(true))}
                       />
                     </Flex>
                   );
@@ -820,7 +683,7 @@ const ZitaMatchFilters = ({
                       <InputRadio
                         label={profileList.value}
                         checked={profileList.label === isProfile}
-                        onClick={() => hanldeProfile(profileList)}
+                        onClick={() => (hanldeProfile(profileList),  setchange(true))}
                       />
                     </Flex>
                   );
@@ -844,6 +707,7 @@ const ZitaMatchFilters = ({
                         label={qualificationList.value}
                         checked={qualificationList.checked}
                         onChange={qualificationList.onChange}
+                        onClick={()=>setchange(true)}
                       />
                     </Flex>
                   );
@@ -867,7 +731,7 @@ const ZitaMatchFilters = ({
                       <InputRadio
                         label={statusList.value}
                         checked={statusList.label === isCandiStatus}
-                        onClick={() => setCandiStatus(statusList.label)}
+                        onClick={() =>(setCandiStatus(statusList.label),setchange(true))}
                       />
                     </Flex>
                   );
@@ -903,16 +767,19 @@ const ZitaMatchFilters = ({
               <Flex className={styles.switch}>
 
                 <InputSwitch
-                  onClick={handleLocation}
+                  onClick={handleLocation }
                   checked={isLocation}
                 />
               </Flex>
               <Flex className={styles.toggletext}>
                 Show candidates from job location
               </Flex>
-
+              
             </Flex>
-
+            <div style={{padding:'6px',display:'flex',justifyContent: 'center',alignItems:'center'}}>
+            <Flex>
+              <Button onClick={transverdata}>Apply</Button>
+            </Flex></div>
 
           </div>
         </div>

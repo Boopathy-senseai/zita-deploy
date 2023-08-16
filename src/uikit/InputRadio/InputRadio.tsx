@@ -18,7 +18,7 @@ const defaultProps: DefaultPropsTypes = {
 };
 
 type Props = {
-  onClick?: (args: any) => void;
+  onClick?: (a: any, b?: any) => void;
   onBlur?: (args: any) => void;
   checked?: boolean;
   label?: import('react').ReactNode;
