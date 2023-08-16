@@ -40,12 +40,14 @@ const CandidateProfileViewScreen = () => {
     personal_obj,
     projects,
     experiences,
+    candidate_details,
     user_info,
   } = useSelector(({ candidateProfileEditReducers }: RootState) => {
     return {
       isLoading: candidateProfileEditReducers.isLoading,
       obj: candidateProfileEditReducers.obj,
       additional_detail: candidateProfileEditReducers.additional_detail,
+      candidate_details:candidateProfileEditReducers.obj,
       personal: candidateProfileEditReducers.personal,
       personal_obj: candidateProfileEditReducers.personal_obj,
       projects: candidateProfileEditReducers.projects,
@@ -53,6 +55,7 @@ const CandidateProfileViewScreen = () => {
       user_info: candidateProfileEditReducers.user_info,
     };
   });
+  console.log(obj,'vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv')
   const checkBox =
     (obj && Array.isArray(obj?.skills) && obj?.skills?.length !== 0) ||
     (obj && Array.isArray(obj?.soft_skills) && obj?.soft_skills.length !== 0);
@@ -88,10 +91,12 @@ const CandidateProfileViewScreen = () => {
                 </Text>
               </>
             )}
+           { console.log(obj,'kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk')}
             <PersonalInformationCard
               isProfileView
               personal={personal}
               additional_detail={additional_detail}
+              obj={obj}
               personal_obj={personal_obj}
               isGetCountry={isGetCountry}
             />

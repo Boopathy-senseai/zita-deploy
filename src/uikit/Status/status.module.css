@@ -4,6 +4,7 @@
   border-radius: 20px;
   box-sizing: border-box;
   font-size: 13px;
+  border: 1px solid #A5889C;
 }
 .border-gray {
   border: 1px solid var(--color-gary-4, #979797);

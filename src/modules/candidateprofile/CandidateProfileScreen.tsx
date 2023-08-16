@@ -75,7 +75,8 @@ const CandidateProfileScreen = () => {
     experiences,
     user_info,
     career_page_setting,
-    applied_status
+    applied_status,
+    Qualification
   } = useSelector(({ candidateProfileEditReducers }: RootState) => {
     return {
       isLoading: candidateProfileEditReducers.isLoading,
@@ -87,7 +88,8 @@ const CandidateProfileScreen = () => {
       experiences: candidateProfileEditReducers.experiences,
       user_info: candidateProfileEditReducers.user_info,
       career_page_setting: candidateProfileEditReducers.career_page_setting,
-      applied_status:candidateProfileEditReducers.applied_status
+      applied_status:candidateProfileEditReducers.applied_status,
+      Qualification:candidateProfileEditReducers?.Qualification !== undefined && candidateProfileEditReducers?.Qualification[0]?.qualification
     };
   });
 
@@ -193,6 +195,8 @@ const CandidateProfileScreen = () => {
             <PersonalInformationCard
               personal={personal}
               additional_detail={additional_detail}
+              obj={ obj}
+              Qualification={Qualification}
               personal_obj={personal_obj}
               isGetCountry={isGetCountry}
             />

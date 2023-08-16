@@ -2,6 +2,15 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
+// import StarRatingComponent from 'react-star-rating-component';
+// import ReactHtmlParser, {
+//   processNodes,
+//   convertNodeToElement,
+//   htmlparser2,
+// } from 'react-html-parser';
+// import parse from 'html-react-parser';
+import classNames from 'classnames/bind';
+import ReactQuill from 'react-quill';
 import StarRatingComponent from 'react-star-rating-component';
 import ReactHtmlParser, {
   processNodes,
@@ -9,8 +18,8 @@ import ReactHtmlParser, {
   htmlparser2,
 } from 'react-html-parser';
 import parse from 'html-react-parser';
-import classNames from 'classnames/bind';
-import ReactQuill from 'react-quill';
+// import classNames from 'classnames/bind';
+// import ReactQuill from 'react-quill';
 import Loader from '../../uikit/Loader/Loader';
 import Button from '../../uikit/Button/Button';
 import Flex from '../../uikit/Flex/Flex';
@@ -269,6 +278,11 @@ const InterviewScorecardTab = () => {
       <Text style={{ padding: '0px 16px 0px 16px' }} bold>
         Comments/Feedback:
       </Text>
+      <Flex  height={window.innerHeight - 241}
+        style={{
+          overflow: 'scroll',
+          display: 'flex',
+        }}>
       <Flex
         className={styles.inputContainer}
         style={{ padding: '16px 16px 0px 16px' }}
@@ -277,7 +291,7 @@ const InterviewScorecardTab = () => {
           <input
             className={styles.initialbuttons}
             onClick={hanldeInputOpen}
-            placeholder="Add notes"
+            placeholder="Add Your comments here"
           />
         )}
         {!opencomment && (
@@ -315,12 +329,7 @@ const InterviewScorecardTab = () => {
         )}
       </Flex>
       <Flex
-        height={window.innerHeight - 320}
-        style={{
-          overflow: 'scroll',
-          padding: ' 0px 8px 10px 16px',
-          display: 'flex',
-        }}
+       style={{ padding: ' 0px 16px 10px 16px'}}
         marginTop={10}
       >
         {interview &&
@@ -346,7 +355,9 @@ const InterviewScorecardTab = () => {
                                 transform="uppercase"
                                 className={styles.firstlastchar}
                               >
-                              {`${!isEmpty(list.first_name) && firstNameChar(list.first_name)}${!isEmpty(list.last_name) &&firstNameChar(list.last_name)}`}
+                              { 
+                                `${list?.first_name?.charAt(0)}${list?.last_name?.charAt(0)}`
+                              } 
                               </Text>
                             </div>
                           ) : (
@@ -405,6 +416,7 @@ const InterviewScorecardTab = () => {
               </>
             );
           })}
+      </Flex>
       </Flex>
     </Flex>
   );

@@ -1,15 +1,12 @@
 import { BLACK, SECONDARY } from '../../uikit/Colors/colors';
 import Tab from '../../uikit/Tabs/Tab';
 import Tabs from '../../uikit/Tabs/Tabs';
-import AllMatchTab from '../applicantprofilemodule/AllMatchTab';
-import InvitationStatusTab from '../applicantprofilemodule/InvitationStatusTab';
+import AllMatchTab from '../applicantprofilemodule/AllMatchTab'; 
 import MatchingAnalysisTab from '../applicantprofilemodule/MatchingAnalysisTab';
 import NotesTab from '../applicantprofilemodule/NotesTab';
 import ScreeningStatusTab from '../applicantprofilemodule/ScreeningStatusTab';
 import { ALL_CANDI_MATCH_TITLE, SCREEN_CANDIDATE_STATUS_TITLE } from '../constValue';
-import CandidateAboutTab from './CandidateAboutTab';
-import CandidateMessageTab from './CandidateMessageTab';
-import CandiDateResumeTab from './CandiDateResumeTab';
+import CandidateAboutTab from './CandidateAboutTab'; 
 
 /* eslint max-len: ["error", { "code": 2000 }] */
 const defaultProps = {
@@ -45,7 +42,7 @@ const CandiDateTabsLeft = ({ activeState }: typeof defaultProps) => {
         <MatchingAnalysisTab />
       </Tab>
       <Tab title={'Invitation Status'}>
-      <InvitationStatusTab  />
+      <ScreeningStatusTab title={'Invitation Status'} issingletab   />
       </Tab>
     </Tabs>
   );

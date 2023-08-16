@@ -140,12 +140,12 @@ const CandidateMessageTab = () => {
   return (
     <Flex
       style={{
-        height: window.innerHeight - 120,
+        height: window.innerHeight -100,
       }}
       className={styles.overAll}
       flex={6.4}
     >
-      <Flex row center between style={{ padding: '16px 16px 0px 16px' }}>
+      <Flex row center start style={{ padding: '16px 16px 0px 16px' }}>
         <Flex
           style={{
             fontSize: '14px',
@@ -155,19 +155,7 @@ const CandidateMessageTab = () => {
           {' '}
           <Text bold>Message to Candidate:</Text>
         </Flex>
-        <Flex onClick={hanldeOpen}>
-          <Text
-            className={'pointer'}
-            bold
-            color="theme"
-            style={{
-              fontSize: '14px',
-              marginBottom: 5,
-            }}
-          >
-            Use Templates
-          </Text>
-        </Flex>
+        
       </Flex>
 
       <Flex style={{ padding: '12.5px 16px 0px 16px' }}>
@@ -192,6 +180,19 @@ const CandidateMessageTab = () => {
         marginTop={11}
         style={{ padding: '0px 16px 0px ' }}
       >
+        <Flex center onClick={hanldeOpen}>
+          <Text
+            className={'pointer'}
+            bold
+            color="theme"
+            style={{
+              fontSize: '14px',
+               
+            }}
+          >
+            Use Templates
+          </Text>
+        </Flex>
         <Flex row>
           <Button
             onClick={handleCancel}

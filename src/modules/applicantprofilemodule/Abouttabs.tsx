@@ -203,10 +203,10 @@ const AboutTab = () => {
   ];
 
   const aboutData1 = [
-    // {
-    //   lable: 'Job Type:',
-    //   value: notSpecified(personalInfo[0].type_of_job__label_name),
-    // },
+    {
+      lable: 'Job Type:',
+      value: notSpecified(personalInfo[0].type_of_job__label_name),
+    },
     {
       lable: 'Availability:',
       value: notSpecified(personalInfo[0].available_to_start__label_name),
@@ -218,10 +218,10 @@ const AboutTab = () => {
           ? 'Not Specified'
           : `${personalInfo[0].current_city__name}, ${personalInfo[0].current_state__name}, ${personalInfo[0].current_country__name}`,
     },
-    // {
-    //   lable: 'Willing to Relocate:',
-    //   value: relocate,
-    // },
+    {
+      lable: 'Willing to Relocate:',
+      value: relocate,
+    },
     {
       lable: 'Industry Type:',
       value: notSpecified(personalInfo[0].industry_type__label_name),
@@ -230,10 +230,10 @@ const AboutTab = () => {
       lable: 'Current Gross Salary:',
       value: currentGross,
     },
-    // {
-    //   lable: 'Expected Gross Salary:',
-    //   value: expGross,
-    // },
+    {
+      lable: 'Expected Gross Salary:',
+      value: expGross,
+    },
   ];
   const techSkillSplit =
     (skills && skills.length === 0) || skills[0].tech_skill === null
@@ -289,7 +289,7 @@ const AboutTab = () => {
         })}
         {techSkillSplit[0] !== "" && techSkillSplit.length > 0 && techSkillSplit[0] !== undefined  ? (
           <>
-            <Text bold className={styles.jobPreferenceStyles}>
+            <Text bold className={styles.jobPreferenceStyle}>
               Professional Skills
             </Text>
             <Flex row center wrap>

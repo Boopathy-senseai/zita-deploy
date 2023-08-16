@@ -33,10 +33,7 @@ const CancelAndDeletePopup = ({
   return (
     <Modal open={open}>
       {loader && <Loader />}
-      <Flex className={styles.overAll}>
-        {/* <Flex className={styles.svgClose} end onClick={btnCancel}>
-          <SvgCloseSmall />
-        </Flex> */}
+      <Flex className={styles.overAll} width={width}>
         <Flex row center className={styles.info}>
           {/* <SvgInfo /> */}
           {typeof title === 'string' ? (
@@ -48,7 +45,7 @@ const CancelAndDeletePopup = ({
         <Flex row end  className={styles.btnContainer}>
           <Button
             className={styles.btnCancelStyle}
-            types="close"
+            types="close" 
             onClick={btnCancel}
           >
             {btnLeft}

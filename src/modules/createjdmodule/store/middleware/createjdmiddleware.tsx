@@ -30,6 +30,7 @@ import {
   JD_TEMPLATE,
   JD_DUPLICATE,
   JD_PROFILES,
+  JD_WHATJOBS,
 } from '../../../../actions/actions';
 import {
   CreateJdPostPayload,

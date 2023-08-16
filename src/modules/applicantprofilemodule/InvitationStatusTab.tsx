@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import SvgRoundTick from '../../icons/SvgRoundTick';
 import SvgChatmessage from '../../icons/SvgChatmessage';
-import { AppDispatch, RootState } from '../../store';
+import {   AppDispatch, RootState } from '../../store';
 import Flex from '../../uikit/Flex/Flex';
 import { getDateString } from '../../uikit/helper';
 import Text from '../../uikit/Text/Text';
@@ -35,30 +35,8 @@ const InvitationStatusTab = () => {
     >
       <Text bold   className={styles.screenText}>
         Invitation Status 
-      </Text>{
-      console.log(invite,'plzzzzzzzzzzzzzzzzzzzzzhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhzzzzzzzz')}
-      {invite && invite.length !== 0 ? (
-        <Flex row center className={styles.statusListStyle}>
-          <Flex className={styles.svgFlex}>
-            <SvgRoundTick height={30} width={30} />
-          </Flex>
-          <Text className={styles.statusStyle}>
-            Invited on{' '}
-            {getDateString(
-             invite &&
-             invite.length &&
-                new Date(invite[invite.length - 1].created_at),
-              'll',
-            )}
-          </Text>
-        </Flex>
-      ):<Flex flex={1} center middle style={{display:"flex"}}>
-        <Flex className={styles.svgFlex}>
-            <SvgRoundTick height={18} width={18} fill='gray' />
-        </Flex>
-        {/* <Svgchatmessage fill='gray' /> */}
-      <Text color="gray">Not Invited Yet</Text>
-    </Flex>}
+      </Text>
+      
     </Flex>
   );
 };

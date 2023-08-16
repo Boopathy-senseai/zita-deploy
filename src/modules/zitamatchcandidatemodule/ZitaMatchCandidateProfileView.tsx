@@ -108,18 +108,20 @@ const ZitaMatchCandidateProfileView = ({
     // eslint-disable-next-line
   }, []);
 
-  const { candidate_details, initialLoader, jd, match, jd_id, can_id, invite, matchLoader } =
+  const { candidate_details, initialLoader, jd, match, jd_id, can_id, invite, matchLoader, job_details } =
     useSelector(
       ({
         applicantProfileInitalReducers,
         applicantMatchReducers,
         applicantStausReducers,
-        candidatejdmatchReducers
+        candidatejdmatchReducers,
+        applicantPipeLineReducers
       }: RootState) => {
         return {
           candidate_details: applicantProfileInitalReducers.candidate_details,
           initialLoader: applicantProfileInitalReducers.isLoading,
           jd: applicantProfileInitalReducers.jd,
+          job_details: applicantPipeLineReducers.job_details,
           matchLoader:candidatejdmatchReducers.isLoading,
           match: applicantMatchReducers.match
             ? applicantMatchReducers.match
@@ -129,8 +131,7 @@ const ZitaMatchCandidateProfileView = ({
           invite: applicantStausReducers.invite,
         };
       },
-    );
-
+    ); 
   const hanldeInvitePopUp = () => {
     setInvitePopUp(true);
   };

@@ -9,7 +9,7 @@ import InviteMatch from './InviteMatch';
 
 type Props = {
   title: string;
-  inviteMessage: string;
+  inviteMessage: string; 
   width?:string;
 };
 const AllMatchTab = ({width, title, inviteMessage }: Props) => {
@@ -30,16 +30,16 @@ const AllMatchTab = ({width, title, inviteMessage }: Props) => {
   );
 
   return (
-    <Flex   className={styles.overAll}>
-      <Text bold size={14}>
-        All Matching jobs
-      </Text>
-      {match && match.length === 0 && applicant && applicant.length === 0 && (
-        <Flex center middle  height={window.innerHeight - 125} style={{display:"flex"}}>
-            <SvgRoundTick height={18} width={18} fill='gray' />      
-          This candidate is not a match for any jobs
+  <Flex
+      columnFlex
+      height={window.innerHeight - 230}
+      className={styles.overAll}
+    >
+      {match && match.length === 0 && applicant && applicant.length === 0 ? (
+        <Flex flex={1} center middle>
+          <Text color="gray">This candidate is not a match for any jobs</Text>
         </Flex>
-      )}
+      ):''}
      {match && match.length !== 0 || applicant && applicant.length !== 0 ?
       <Flex
         row

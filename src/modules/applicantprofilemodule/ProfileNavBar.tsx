@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
-import { saveAs } from 'file-saver';
+import { saveAs } from 'file-saver'; 
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import getSymbolFromCurrency from 'currency-symbol-map';
@@ -92,6 +92,7 @@ type Props = {
   inviteIconDisable?: boolean;
   inviteIconNone?: boolean;
   setjobtitle?: any;
+  availableity?:any;
 } & typeof defaultProps;
 
 const ProfileNavBar = ({
@@ -105,6 +106,7 @@ const ProfileNavBar = ({
   isResume,
   withOutJD,
   setjobtitle,
+  availableity,
   source,
   isProfileName,
   inviteIconDisable,
@@ -118,6 +120,7 @@ const ProfileNavBar = ({
   const [isDate, setDate] = useState('');
   if (jdDetails !== null && setjobtitle) {
     const state = jdDetails.job_title;
+    // const state = jdDetails.job_id;
     setjobtitle(state);
   }
 
@@ -138,6 +141,7 @@ const ProfileNavBar = ({
     can_id,
     invite,
     jd_id,
+    datas,
     total_exp,
     personalInfo,
     candidate_details,
@@ -149,16 +153,18 @@ const ProfileNavBar = ({
       applicantAllMatchReducers,
       applicantMatchReducers,
       applicantProfileInitalReducers,
+      zitaMatchDataCandidateReducers,
       candidatejdmatchReducers,
     }: RootState) => {
       return {
         match:
           applicantAllMatchReducers.match !== undefined &&
           applicantAllMatchReducers.match,
-        overall_percentage:applicantMatchReducers.overall_percentage,
+        overall_percentage: applicantMatchReducers.overall_percentage,
         candidate_details: applicantProfileInitalReducers.candidate_details,
         stages: applicantStausReducers?.stages,
         can_id: applicantProfileInitalReducers.can_id,
+        datas: zitaMatchDataCandidateReducers.data,
         total_exp: applicantProfileInitalReducers.total_exp,
         jd_id: applicantProfileInitalReducers?.jd_id,
         invite: applicantStausReducers?.invite,
@@ -227,9 +233,10 @@ const ProfileNavBar = ({
             ],
       };
     },
-  );
+  ); 
+  console.log(candidate_details[0].interested,'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj')
   useEffect(() => {
-    dispatch(applicantScoreMiddleWare({ jd_id, can_id })); 
+    dispatch(applicantScoreMiddleWare({ jd_id, can_id }));
   }, []);
   useEffect(() => {
     if (stages.length === 0) {
@@ -264,8 +271,7 @@ const ProfileNavBar = ({
         ? interview[interview.length - 1].rating
         : 0;
     setinterviewstatus(ratingValue);
-  }, [interview]);
-  console.log(candidate_details, 'kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk');
+  }, [interview]); 
   const date = isEmpty(candidate_details[0].created_on)
     ? ''
     : candidate_details[0].created_on.slice(
@@ -359,7 +365,7 @@ const ProfileNavBar = ({
               <Text>{`The candidate ${
                 candidate_details && candidate_details[0].first_name
               } has already been invited for this job on ${getDateString(
-                invite&& invite[invite?.length - 1].created_at,
+                invite && invite[invite?.length - 1].created_at,
                 'll',
               )}.`}</Text>
               <Text>Do you wish to invite again?</Text>

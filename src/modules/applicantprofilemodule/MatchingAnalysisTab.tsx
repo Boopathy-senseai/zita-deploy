@@ -127,7 +127,7 @@ const MatchingAnalysisTab = () => {
           <>
             <Flex center>
               <Flex>
-                <Text size={14}>
+                <Text size={13}>
                   Overall matching score for this candidate with the job
                 </Text>
               </Flex>
@@ -147,7 +147,7 @@ const MatchingAnalysisTab = () => {
                 <Flex flex={6} marginLeft={'50px'}>
                   <ProgressBar
                     verticalWidth={'100px'}
-                    roundProgressHeight={80}
+                    roundProgressHeight={70}
                     type="round"
                     percentage={profileMatch}
                   />
@@ -167,7 +167,7 @@ const MatchingAnalysisTab = () => {
                   </Flex>
                   <Flex
                     row
-                    marginTop={10}
+                    marginTop={20}
                     style={{ bottom: '1px solid #C3C3C3' }}
                   >
                     <Flex marginRight={20} style={{ fontSize: '13px' }}>
@@ -181,7 +181,7 @@ const MatchingAnalysisTab = () => {
                       />
                     </Flex>
                   </Flex>
-                  <Flex
+                  {/* <Flex
                     row
                     between
                     marginTop={10}
@@ -197,7 +197,7 @@ const MatchingAnalysisTab = () => {
                         percentage={location_percent}
                       />
                     </Flex>
-                  </Flex>
+                  </Flex> */}
                 </Flex>
               </Flex>
             </Flex>
@@ -227,7 +227,8 @@ const MatchingAnalysisTab = () => {
                                 <SvgDone />
                               </div>
                               <Text
-                                style={{ color: '#333333', fontSize: '13px' }}
+                                style={{ color: '#333333', fontSize: '13px',textTransform: 'uppercase'
+                               }}
                               >
                                 {list}{' '}
                               </Text>
@@ -244,7 +245,7 @@ const MatchingAnalysisTab = () => {
                                   <SvgClose fill="#ED4857" />
                                 </Flex>
                                 <Text
-                                  style={{ color: '#333333', fontSize: '13px' }}
+                                  style={{ color: '#333333', fontSize: '13px',textTransform: 'uppercase' }}
                                 >
                                   {' '}
                                   {fix}
@@ -288,7 +289,7 @@ const MatchingAnalysisTab = () => {
                                 <SvgDone />
                               </div>
                               <Text
-                                style={{ color: '#333333', fontSize: '13px' }}
+                                style={{ color: '#333333', fontSize: '13px',textTransform: 'uppercase' }}
                               >
                                 {list}{' '}
                               </Text>
@@ -304,7 +305,7 @@ const MatchingAnalysisTab = () => {
                                 <SvgClose fill="#ED4857" />
                               </Flex>
                               <Text
-                                style={{ color: '#333333', fontSize: '13px' }}
+                                style={{ color: '#333333', fontSize: '13px',textTransform: 'uppercase' }}
                               >
                                 {list}{' '}
                               </Text>
@@ -316,9 +317,9 @@ const MatchingAnalysisTab = () => {
                   </Flex>
                 </Flex>
               )}
-              {data && (
+              {/* {data && (
                 <Flex flex={1} className={styles.mapListContainer}>
-                  {/* {data.map((list, listIndex) => { */}
+                  {/* {data.map((list, listIndex) => {  
 
                   <Flex
                     // key={data}
@@ -373,7 +374,7 @@ const MatchingAnalysisTab = () => {
                     </Flex>
                   </Flex>
                 </Flex>
-              )}
+              )} */}
             </Flex>
           </>
         )}

@@ -1,6 +1,6 @@
 import { useState,useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store';
 import SvgClose from '../../icons/SvgClose';
 import SvgNewTab from '../../icons/SvgNewTab';
 import SvgLeft from '../../icons/SvgLeft';
@@ -36,7 +36,18 @@ const ProfileView = ({
   inviteIconNone,
   activeState,
 }: Props) => {
-  const [jobtitle, setjobtitle] = useState<string>(); 
+  const [jobtitle, setjobtitle] = useState<string>();
+  const {
+    jd,
+  } = useSelector(
+    ({
+      applicantProfileInitalReducers,
+    }: RootState) => {
+      return {
+        jd: applicantProfileInitalReducers.jd
+      };
+    },
+  );
   return (
     <Drawer open={open}>
       <div className={styles.overAll}>
@@ -53,8 +64,9 @@ const ProfileView = ({
               <Flex marginTop={2}>
                 <SvgJobselection width={16} height={14} />
               </Flex>
+              {console.log(jd,"++++++++++++++++++++++++++++++++++++++")}
               <Flex marginLeft={4}>
-                {jobtitle} - {jobId}
+              {jd.job_title} - {jd.job_id}
               </Flex>
             </Flex>
           }
@@ -84,7 +96,7 @@ const ProfileView = ({
         >
           <ApplicantProfileModal
             setjobtitle={setjobtitle}
-            jobId={jobId}
+            jobId={jobId} 
             candidateId={candidateId}
             inviteIconNone={inviteIconNone}
             activeState={activeState}

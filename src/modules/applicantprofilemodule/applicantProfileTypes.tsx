@@ -149,6 +149,7 @@ export interface CourseEntity {
 }
 export interface CandidateDetailsEntity {
   
+  
   id: number;
   can_source_id: number;
   client_id_id: number;
@@ -165,6 +166,7 @@ export interface CandidateDetailsEntity {
   exp_salary?: string;
   job_title: string;
   candi_ref_id?: null;
+  interested?: boolean;
   skills: string;
   location: string;
   updated_on: string;
@@ -298,6 +300,7 @@ export interface MatchEntity {
   jd_id_id: number;
   profile_match: number;
   created_at: string;
+  
   // overall_percentage:number;
 }
 
@@ -319,7 +322,7 @@ export interface Notes {
   jd_id_id?: null;
   candidate_id_id: number;
   notes: string;
-  updated_by?: null;
+  updated_by?:string;
   date_created?: string;
   created_at: string;
   emp_image:string;
@@ -373,6 +376,7 @@ export interface MatchEntityOne {
   jd_title?: string;
   job_id?: string;
   invited?: any;
+  interested?: boolean;
 }
 
 export interface AllMatchReducerState extends AllMatch {

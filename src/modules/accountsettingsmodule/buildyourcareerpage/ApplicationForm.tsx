@@ -142,7 +142,7 @@ const ApplicationForm = ({
       applocationFormPostMiddleWare({
         id: jobId,
         user_id: getLoginUserId,
-        formData,
+        formData, 
       }),
     ).then((res) => { 
       if (res.payload.success) {

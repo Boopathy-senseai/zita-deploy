@@ -174,52 +174,7 @@ const MyJobPostingScreen = ({currentPage,setCurrentPage}:props) => {
                       <tr style={{ height: 50 }}>
                         <td className={styles.padchang}>
                           <Flex row top className={styles.hellothere}>
-                            {/* <LinkWrapper
-                              to={`/job_view/${list.id}`}
-                              className={styles.hovercol}
-                            >
-                              {list.job_title}
-                            </LinkWrapper>
-
-                            <Flex marginLeft={8}>
-                              {list.jd_status__label_name === 'Inactive' ? (
-                                <div
-                                  style={{ cursor: 'default', marginTop: 7.5 }}
-                                  className={styles.svcopy}
-                                >
-                                  <SvgCopy
-                                    width={11.33}
-                                    height={13.33}
-                                    // fill={'rgb(255 194 3/50%)'}
-                                    // fill={"#333333"}
-                                    fill={'rgb(51 51 51/50%)'}
-                                    // fill={"#F0EBED"}
-                                  />
-                                </div>
-                              ) : (
-                                <div
-                                  style={{ marginTop: 7.5 }}
-                                  role={'button'}
-                                  style={{ marginLeft: 8 ,marginTop:1}}
-                                  title="Copy the job posting URL from your careers page"
-                                  onClick={() =>
-                                    copyToClipboard(
-                                      `${domain}/${career_page_url}/career_job_view/${list.id}/${list.job_title}`,
-                                      'Link Copied',
-                                    )
-                                  }
-                                  onKeyDown={() => {}}
-                                >
-                                  <SvgCopy
-                                    width={11.33}
-                                    height={13.33}
-                                    fill={'#581845'}
-                                  />
-                                </div>
-                              )} */}
-                            {/* </Flex> */}
-                            {/* </div> */}
-                            {list.jd_status__label_name === 'Active' && (
+                          {list.jd_status__label_name === 'Active' && (
                               <Flex row top >
                                 <LinkWrapper
                                   to={`/job_view/${list.id}`}
@@ -232,19 +187,19 @@ const MyJobPostingScreen = ({currentPage,setCurrentPage}:props) => {
                                 <div
                                   tabIndex={0}
                                   role={'button'}
-                                  style={{ marginLeft: 8, marginTop: 1 }}
+                                  style={{ marginLeft: 8 ,marginTop:1}} 
                                   title="Copy the job posting URL from your careers page"
                                   onClick={() =>
                                     copyToClipboard(
-                                      `${domain}/${career_page_url}/career_job_view/${list.id}/${list.job_title}`,
+                                      `${domain}/${career_page_url}/career_job_view/${list.id}/${list.job_title}`, 
                                       'Link Copied',
                                     )
-                                  }
-                                  onKeyDown={() => { }}
+                                  } 
+                                  onKeyDown={() => {}}
                                 >
                                   <SvgCopy
                                     width={11.33}
-                                    height={13.33}
+                                    height={13.33} 
                                     fill={'#581845'}
                                   />
                                 </div>

@@ -270,6 +270,7 @@ const applicantProfileInitalReducer = createSlice({
       (state, action) => {
         state.isLoading = false;
         state.candidate_details = action.payload.candidate_details;
+        console.log(action.payload,'theaivameahhh')
         state.jd = action.payload.jd;
         state.total_exp = action.payload.total_exp;
         state.skills = action.payload.skills;

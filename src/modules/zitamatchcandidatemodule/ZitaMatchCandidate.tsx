@@ -17,8 +17,7 @@ import Toast from '../../uikit/Toast/Toast';
 import { InputText } from '../../uikit';
 import { enterKeyPress } from '../../uikit/helper';
 import SvgSearch from '../../icons/SvgSearch';
-import SvgLocation from '../../icons/SvgLocation';
-import SvgNomessage from '../../icons/SvgNomessage';
+import SvgLocation from '../../icons/SvgLocation'; 
 import SvgNoCandidate from '../../icons/SvgNoCandidate';
 import SvgIntomark from '../../icons/Intomark';
 import {

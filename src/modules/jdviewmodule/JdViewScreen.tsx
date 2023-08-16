@@ -222,13 +222,13 @@ const JdViewScreen = () => {
 
         <Flex row className={styles.mainpadding} >
           <Flex>
-            <Text size={14} bold color="theme" >
+            <Text size={16} bold color="theme" >
               Job Posting
             </Text></Flex>
           <Flex marginTop={6} marginLeft={7} marginRight={2}>
             <SvgRight fill={'#581845'} ></SvgRight></Flex>
           <Flex marginTop={1} marginLeft={3}>
-            <Text size={14} bold color="theme" >
+            <Text size={16} bold color="theme" >
               {jdDetails.job_title}</Text>
           </Flex>
 

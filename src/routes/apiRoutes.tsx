@@ -76,7 +76,7 @@ export const applicantStatusUpdateApi = (jd_id: string) => {
   return url;
 };
 // Matchig based on both jd and cand_id
-export const Zitamatching =`match_alg_api`;
+// export const Zitamatching =`match_alg_api`;
 
 
 export const zitaMatchDataApi = `zita_match_data`;

@@ -15,6 +15,7 @@ import Button from '../../uikit/Button/Button';
 import SelectTag from '../../uikit/SelectTag/SelectTag';
 import MenuLists from '../common/MenuList';
 import { THIS_FIELD_REQUIRED } from '../constValue';
+import { candidateMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import styles from './updateprofessionalskillsedit.module.css';
 import { Obj } from './candidateProfileTypes';
 import {
@@ -120,6 +121,12 @@ const UpdateProfessionalSkillsEdit = ({
       }),
     ).then((res) => {
       if (res.payload.success) {
+        dispatch(
+          candidateMatchMiddleWare({ 
+             can_id:res.payload?.can_id[0]?.id.toString(),
+          }),
+        )
+        console.log(res,'professional skilll')
         setReload(false);
         cancel();
         setLoader(false);

@@ -84,12 +84,13 @@ const MessageList = ({
                           {isEmpty(messageList.sender_image) ||
                           messageList.sender_image === 'default.jpg' ? (
                             <Text bold color="white" transform="uppercase" title= { 
-                              `${messageList.username}+' '+${messageList.last_name}`
+                              `${messageList.username} ${messageList.last_name}`
                             }>
-                              {firstNameChar(
-                                `${messageList.username} ${messageList.last_name}`
-                              )}
+                              { 
+                                `${messageList?.username?.charAt(0)}${messageList?.last_name?.charAt(0)}`
+                              }
                             </Text>
+                            // {console.log({firstNameChar(messageList.username)}, {firstNameChar(messageList.last_name)})}
                           ) : (
                             <img
                               alt="profile"

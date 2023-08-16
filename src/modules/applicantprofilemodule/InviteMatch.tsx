@@ -8,7 +8,7 @@ import { AppDispatch } from '../../store';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import SvgHeart from '../../icons/SvgHeart';
-import SvgInviter from '../../icons/SvgInviter';
+import SvgInviter from '../../icons/SvgInviter'; 
 import Loader from '../../uikit/Loader/Loader';
 import ProgressBar from '../../uikit/ProgressBar/ProgressBar';
 import { getDateString, isEmpty } from '../../uikit/helper';
@@ -209,24 +209,45 @@ const InviteMatch = ({
                 >{`Applied`}</Text>
               </Flex>
             ) : (
+              list.interested === false?
               <Flex
                 row
-                onClick={hanldeInvitePopUp}
+                // disabled={list.interested === false}
+                // onClick={hanldeInvitePopUp}
                 style={{ cursor: 'pointer' }}
               >
                 <SvgInviter />{' '}
                 <Text
                   style={{
                     marginLeft: '10px',
-                    cursor: 'pointer',
+                    cursor:'default',
                     fontSize: '13px',
+                    color:'rgb(88 24 69/50%)'
                   }}
                   bold
-                  color="theme"
+                  title={'Not Interested'}
                 >
                   Invite to apply
                 </Text>
-              </Flex>
+              </Flex>:
+              <Flex
+              row 
+              onClick={hanldeInvitePopUp}
+              style={{ cursor: 'pointer' }}
+            >
+              <SvgInviter />{' '}
+              <Text
+                style={{
+                  marginLeft: '10px',
+                  cursor: 'pointer',
+                  fontSize: '13px',
+                }}
+                bold
+                color="theme"
+              >
+                Invite to apply
+              </Text>
+            </Flex>
             )}
           </Flex>
         </Flex>
@@ -240,7 +261,7 @@ const InviteMatch = ({
               countStyle3: list.profile_match > 69,
             })}
           >
-            <Text color="white" style={{ fontSize: 16, marginTop: ' 2px' }}>
+            <Text color="white" style={{ fontSize: 14, marginTop: ' 2px' }}>
               {list.profile_match}%
             </Text>
           </div>

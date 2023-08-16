@@ -30,7 +30,7 @@ const Loader = ({ size, withOutOverlay,customsize }: Props) => {
           </svg>
          
         </div> 
-        {/* <div className={styles.loadertext}> Please wait....</div> */}
+        {/*   */}
       </div>
     </div>
   ) : (
