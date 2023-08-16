@@ -200,8 +200,8 @@ const JobDetails = ({
   };
 
   return (
-    <Card className={styles.overAll}>
-      <Text className={styles.jobTitle} bold>
+    <Flex className={styles.overAll}>
+      <Text size={14}className={styles.jobTitle} bold>
         Job Details
       </Text>
       <Flex flex={1} row top className={styles.containerOne}>
@@ -365,7 +365,7 @@ const JobDetails = ({
           />
           <ErrorMessage name={'city'} errors={errors} touched={touched} />
         </Flex>
-        <Flex flex={3} className={styles.showStyle}>
+        <Flex row flex={3} className={styles.showStyle}>
           <InputSwitch
             label="Remote Work Allowed"
             checked={values.remoteWork === '1'}
@@ -375,6 +375,7 @@ const JobDetails = ({
                 : setFieldValue('remoteWork', '0')
             }
           />
+          {/* <Text size={14} color="theme">Remote Work Allowed</Text> */}
         </Flex>
       </Flex>
       <Flex row top className={styles.containerOne}>
@@ -480,7 +481,7 @@ const JobDetails = ({
           />
       <ErrorMessage name={'currency'} errors={errors} touched={touched} />
         </Flex>
-        <Flex flex={3} className={styles.showStyle}>
+        <Flex row flex={3} className={styles.showStyle}>
           <InputSwitch
             disabled={isEmpty(values.minimumSalary)}
             label="Show Salary to Candidates"
@@ -491,6 +492,7 @@ const JobDetails = ({
                 : setFieldValue('showSalaryCandidates', '0')
             }
           />
+          {/* <Text size={14} color="theme">Show Salary to Candidates</Text> */}
         </Flex>
       </Flex>
       <QulificationAdd
@@ -498,9 +500,10 @@ const JobDetails = ({
         setFieldValue={setFieldValue}
         updateQualification={updateQualification}
       />
+      <Flex className={styles.split}></Flex>
       <Flex row center end className={styles.btnContainer}>
-        <LinkWrapper to={routesPath.MY_JOB_POSTING}>
-          <Button types="secondary">{CANCEL}</Button>
+        <LinkWrapper onClick={() => onPristine()} to={routesPath.MY_JOB_POSTING}>
+          <Button className={styles.cancelbtn} types="close">{CANCEL}</Button>
         </LinkWrapper>
 
         <Button
@@ -534,7 +537,7 @@ const JobDetails = ({
           Next
         </Button>
       </Flex>
-    </Card>
+    </Flex>
   );
 };
 

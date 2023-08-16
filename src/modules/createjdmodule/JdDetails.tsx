@@ -44,8 +44,6 @@ const JdDetails = ({ jdDetails, location, qualification }: Props) => {
   } else {
     salary = `${!isEmpty(jdDetails?.salary_curr_type__value) && jdDetails?.salary_curr_type__value.split('(')[0]} ${jdDetails.salary_min} - ${jdDetails.salary_max} Per Annum`;
   }
-
-  
   const jdData = [
     {
       title: 'Job Role:',
@@ -113,7 +111,7 @@ const JdDetails = ({ jdDetails, location, qualification }: Props) => {
                 key={list.title}
                 className={styles.listFlex}
               >
-                <Text bold color="theme">
+                <Text color="theme">
                   {list.title}
                 </Text>
                 {list.title === 'Qualification:' ? (

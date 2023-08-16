@@ -3,8 +3,9 @@
   margin-right: 24px;
 }
 .jobTitleFlex {
-  padding-bottom: 16px;
+  padding-bottom: 5px;
   border-bottom: 1px solid var(--color-gary-7, #dfdfdf);
+  justify-content: space-between;
 }
 .richTextContainer{
   margin-top: 20px;
@@ -15,4 +16,8 @@
   height: 0;
   background-color: transparent;
   border: none;
+}
+
+.reactquillchange{
+  height: 500;
 }

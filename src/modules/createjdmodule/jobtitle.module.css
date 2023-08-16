@@ -8,7 +8,7 @@
   position: relative;
 }
 .overAll {
-  margin-top: 20px;
+  margin-top: 15px;
 }
 .errorMessage {
   color: var(--color-error, #f94949);
@@ -24,4 +24,11 @@
   height: 0;
   background-color: transparent;
   border: none;
+}
+.jdlabels{
+  font-weight: bold;
+}
+
+.cancelbtn{
+  background-color: #888;
 }

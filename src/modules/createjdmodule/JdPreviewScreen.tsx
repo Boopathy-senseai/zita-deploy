@@ -20,6 +20,7 @@ import {
   postJdMiddleWare,
   questionnaireForJdMiddleWare,
   selectDsorNonDsMiddleWare,
+  whatjobsMiddleWare,
 } from './store/middleware/createjdmiddleware';
 import styles from './jdpreviewscreen.module.css';
 import ApplicantQuestionnaireResult from './ApplicantQuestionnaireResult';
@@ -32,6 +33,7 @@ type ParamsType = {
 const JdPreviewScreen = () => {
   const { jdId } = useParams<ParamsType>();
   const [isOpen, setOpen] = useState(false);
+  const [extarajobpost,setextarajobpost] = useState(1);
   const dispatch: AppDispatch = useDispatch();
   const history = useHistory();
 
@@ -83,16 +85,22 @@ const JdPreviewScreen = () => {
       };
     },
   );
-
   useEffect(() => {
     if (!is_plan) {
       sessionStorage.setItem('superUserTab', '2');
       history.push('/account_setting/settings');
     }
   });
-
+const whatjob =(values) =>{
+  setextarajobpost(values)
+ 
+}
   // publish form submit
+  
+  
   const hanldePulish = () => {
+    const formData = new FormData();
+  formData.append('jd_id', jdId )
     if (isEmpty(career_page_url)) {
       if (isEmpty(company_detail.no_of_emp)) {
         sessionStorage.setItem('superUserTab', '0');
@@ -100,7 +108,20 @@ const JdPreviewScreen = () => {
         sessionStorage.setItem('superUserTab', '1');
       }
       history.push('/account_setting/settings');
-    } else {
+    }
+    else if(extarajobpost === 0) {
+      dispatch(whatjobsMiddleWare({formData})); 
+      dispatch(postJdMiddleWare({ jd_id: jdId })).then((res) => {
+        if (res.payload.success) {
+          setOpen(true);
+        }
+      });
+    }
+   
+    else if (extarajobpost === 1) { 
+      alert(extarajobpost)
+      // dispatch(whatjobsMiddleWare({formData}))
+      alert('hi')
       dispatch(postJdMiddleWare({ jd_id: jdId })).then((res) => {
         if (res.payload.success) {
           setOpen(true);
@@ -115,6 +136,7 @@ const JdPreviewScreen = () => {
       className={styles.overAll}
       height={window.innerHeight - 71}
     >
+       { console.log(extarajobpost,'////////////////////////////////////////')}
       {postLoader && <Loader />}
       <Flex row center className={styles.step}>
         <StepProgressBar titleclassName={styles.stepOne} roundFill barFilled />
@@ -127,7 +149,7 @@ const JdPreviewScreen = () => {
         />
         <Flex columnFlex className={styles.step3Flex}>
           <div className={styles.round}>
-            <Text bold size={18} color={'white'}>
+            <Text bold size={16} color={'white'}>
               {3}
             </Text>
           </div>
@@ -140,19 +162,19 @@ const JdPreviewScreen = () => {
         <Flex columnFlex className={styles.modalOverAll}>
           <Flex row center middle>
             <div style={{ marginRight: 8 }}>
-              <SvgTick fill={SUCCESS} />
+              <SvgTick fill={SUCCESS} /> 
             </div>
-            <Text>You have successfully posted the job</Text>
             <div
               tabIndex={-1}
               role={'button'}
-              style={{ marginLeft: 8, cursor: 'pointer' }}
+              style={{ marginRight: 6, cursor: 'pointer' }}
               onClick={() => copyToClipboard(url, 'Link Copied')}
               onKeyDown={() => {}}
               title="Copy the job posting URL from your careers page"
             >
-              <SvgCopy fill={PRIMARY} width={16} height={16} />
+            <SvgCopy width={12} height={14} fill={'rgb(51 51 51/50%)'} /> 
             </div>
+            <Text>You have successfully posted the job</Text>
           </Flex>
           <Text align="center" style={{ marginTop: 8 }}>
             Please{' '}
@@ -184,7 +206,8 @@ const JdPreviewScreen = () => {
         jdId={jdId}
         hanldePulish={hanldePulish}
         ds_role={ds_role}
-        feature={feature}
+        feature={feature} 
+        whatjob={whatjob}
       />
     </Flex>
   );
