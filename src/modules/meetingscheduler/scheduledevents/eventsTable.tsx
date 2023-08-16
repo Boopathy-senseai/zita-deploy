@@ -191,7 +191,8 @@ const EventSchedulerScreen: React.FC<Props> = (props) => {
                   </td>
                   <td className={styles.padchanges} style={{}}>
                     <Text className={styles.stBold}>
-                      {renderOrganiser(doc.organisers)}
+                      {doc.event_id__interviewer}
+                      {/* {renderOrganiser(doc.organisers)} */}
                       {/* backend  */}
                     </Text>
                   </td>

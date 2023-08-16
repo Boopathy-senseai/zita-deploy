@@ -260,15 +260,16 @@ const Calendar = () => {
   }, []);
 
   useEffect(() => {
+    console.log(locationState, currentUserEvents);
     if (locationState && locationState?.openScheduleEvent === true) {
       setOpenScheduleForm(true);
     }
     if(locationState && locationState?.eventId){
-      const event = visibleEvents.filter(doc => doc.eventId === locationState?.eventId);
+      const event = currentUserEvents.filter(doc => doc.recurringEventId === locationState?.eventId);
       console.log(event);
       if(event.length) handleOnSelectEvent(event[0]);
     }
-  }, [JSON.stringify(locationState), visibleEvents.length]);
+  }, [JSON.stringify(locationState), currentUserEvents.length]);
   const handleEventScheduleForm = () => {
     if (calendarProvider) handleGetEvents(calendarProvider);
     setIsEditEvent(false);
@@ -306,6 +307,7 @@ const Calendar = () => {
         color: '#fcba03',
         organizer: event.organizer.email,
         syncedBy: userName,
+        recurringEventId: event?.recurringEventId,
       };
 
       if ('attendees' in event) {
@@ -333,6 +335,7 @@ const Calendar = () => {
       link: null,
       color: '#fcba03',
       syncedBy: userName,
+      recurringEventId: event.event_id,
     }));
   };
 

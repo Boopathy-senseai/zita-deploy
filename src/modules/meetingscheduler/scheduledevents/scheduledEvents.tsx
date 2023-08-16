@@ -164,7 +164,6 @@ const ScheduledEventsPage = () => {
   //   history.push(calendarRoute, { openScheduleEvent: true });
   // };
   const handleDeleteEvent = (id: any) => {
-    // setDeleteEvent(false)
     dispatch(
       deleteEventMiddleWare({
         eventid: id,
@@ -216,11 +215,10 @@ const ScheduledEventsPage = () => {
           };
         }),
         calEvents: scheduleEventState?.calevents_events.map((doc) => {
+          const emails = (doc.interviewers as string || "").split(',');
           return {
             ...doc,
-            interviewers: scheduleEventState?.calevents_interviewer.filter(
-              (s) => s.event_id === doc.eventId,
-            ),
+            interviewers: emails.map(em => scheduleEventState?.calevents_interviewer[em]),
             organisers: scheduleEventState.org_name,
           };
         }),
@@ -239,11 +237,10 @@ const ScheduledEventsPage = () => {
             };
           }),
           calEvents: scheduleEventState?.calevents_past_event.map((doc) => {
+            const emails = (doc.interviewers as string || "").split(',');
             return {
               ...doc,
-              interviewers: scheduleEventState?.calevents_interviewer.filter(
-                (s) => s.event_id === doc.eventId,
-              ),
+              interviewers:emails.map(em => scheduleEventState?.calevents_interviewer[em]),
               organisers: scheduleEventState.org_name,
             };
           }),
@@ -261,11 +258,10 @@ const ScheduledEventsPage = () => {
           };
         }),
         calEvents: scheduleEventState?.calevents_upcoming_event.map((doc) => {
+          const emails = (doc.interviewers as string || "").split(',');
           return {
             ...doc,
-            interviewers: scheduleEventState?.calevents_interviewer.filter(
-              (s) => s.event_id === doc.eventId,
-            ),
+            interviewers: emails.map(em => scheduleEventState?.calevents_interviewer[em]),
             organisers: scheduleEventState.org_name,
           };
         }),

@@ -42,11 +42,11 @@ export interface IEventInterviewer {
 }
 
 export interface ICalendarEventInterviewer {
-  id: number,
-  first_name: string,
-  last_name: string,
-  full_name: string,
-  event_id: string,
+  id: number;
+  first_name: string;
+  last_name: string;
+  full_name: string;
+  event_id: string;
 }
 
 export interface IEventTeamMember {
@@ -59,10 +59,10 @@ export interface IEventTeamMember {
 }
 
 export interface IEventOrganiser {
-  id: number,
-  first_name: string,
-  last_name: string,
-  full_name: string,
+  id: number;
+  first_name: string;
+  last_name: string;
+  full_name: string;
 }
 
 export interface IEventData {
@@ -75,7 +75,7 @@ export interface IEventData {
   calevents_upcoming_event: ICalendarEvent[];
   calevents_past_event: ICalendarEvent[];
   org_name: IEventOrganiser[];
-  calevents_interviewer: ICalendarEventInterviewer[];
+  calevents_interviewer: Array<{ [key: string]: string }>;
 }
 
 export interface IEventTableItem extends IEvent {
@@ -84,7 +84,7 @@ export interface IEventTableItem extends IEvent {
 }
 
 export interface ICalendarEventTableItem extends ICalendarEvent {
-  interviewers: ICalendarEventInterviewer[];
+  interviewers: string[];
   organisers: IEventOrganiser[];
 }
 

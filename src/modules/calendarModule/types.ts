@@ -119,6 +119,7 @@ export interface GoogleEventType {
   organizer: any;
   email: string;
   id: any;
+  recurringEventId: any;
   summary: any;
   hangoutLink: any;
   start: { dateTime: any };
@@ -233,6 +234,7 @@ export interface CalendarEventType {
   link?: string | null;
   color?: string | null;
   syncedBy?: string | null;
+  recurringEventId: string | null;
 }
 
 export interface GlobalZoneType {

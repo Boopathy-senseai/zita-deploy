@@ -48,12 +48,6 @@ const CalendarEventsTable: React.FC<Props> = (props) => {
     onDelete,
   } = props;
 
-const showdate =(val)=>{
-const parsedDate = moment(val);
-const formattedDate = parsedDate.format('DD/MM/YYYY')
-return formattedDate
-  }
-
   const calculateDuraton = (doc: ICalendarEventTableItem) => {
     const totalMinutes = moment(doc.e_time).diff(moment(doc.s_time), 'minutes');
     const hours = Math.floor(totalMinutes/60);
@@ -71,18 +65,18 @@ return formattedDate
     return result;
   };
 
-  const renderInterviewers = (interviewrs: ICalendarEventInterviewer[]) => {
+  const renderInterviewers = (interviewrs: string[]) => {
     const show = interviewrs.slice(0, 4);
     const hidden = interviewrs.slice(4, interviewrs.length);
     return (
       <Flex row wrap>
         {show.map((doc, sIndex) => (
-          <InterviewerIcon name={doc.full_name} key={sIndex} index={sIndex} />
+          <InterviewerIcon initials={doc ? doc.toUpperCase() : ""} name={doc} key={sIndex} index={sIndex} />
         ))}
         {hidden && hidden.length > 0 && (
           <InterviewerIcon
             name={`+ ${hidden.length}`}
-            title={hidden.map((doc) => doc.full_name).toString()}
+            title={hidden.toString()}
           />
         )}
       </Flex>
@@ -209,8 +203,7 @@ return formattedDate
                       //  className={styles.hellothere}
                     >
                       <Text className={styles.stBold}>
-                       {showdate(doc.s_time)}
-                       
+                        {moment(doc.s_time).format('DD/MM/YYYY')}
                       </Text>
                     </Flex>
                   </td>
