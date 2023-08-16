@@ -5,6 +5,7 @@ import { saveAs } from 'file-saver';
 import { AppDispatch, RootState } from '../../store';
 import Text from '../../uikit/Text/Text';
 import Flex from '../../uikit/Flex/Flex';
+import SvgNoDataIcon from '../../icons/SvgNoDataIcon';
 import Card from '../../uikit/Card/Card';
 import SelectTag from '../../uikit/SelectTag/SelectTag';
 import Button from '../../uikit/Button/Button';
@@ -407,6 +408,7 @@ const SourcingPerformanceReport = () => {
 								<Text bold style={{margin:'20px 0px 0px 10px'}}>Report Data</Text>
 								<Text  style={{margin:'5px 0px 5px 10px'}}>A comprehensive data table showcasing count about the job views and applicant conversion rate.</Text>
 								<Flex >
+								
 								<Table
 									columns={columns}
 									dataSource={table}
@@ -421,7 +423,8 @@ const SourcingPerformanceReport = () => {
 						</Flex>
 					</Flex>
 				) : (
-					<Flex className={styles.noData}>
+					<Flex className={styles.noData} style={{display:"flex"}}>
+						<SvgNoDataIcon style={{marginBottom:"10px", filter:"opacity(0.6)"}} width={15}/>
 						<Text bold>No Data Available</Text>
 					</Flex>
 				)}

@@ -40,11 +40,10 @@ Props) => {
   const handleShowPass = () => {
     setShowPass(!isShowPass);
   };
-
+  
   return (
     <>
       {console.log(handleForgotOpen, isError, isInactive, isEmpty, SvgEmail)}
-
       {console.log('error', formik.errors)}
       <Flex className={styles.row}>
         <Flex className={styles.splitrow_1}>
@@ -56,6 +55,7 @@ Props) => {
               Start with the fast and smart hiring process.
             </Text>
 
+           {/* Fields starts */}
             <Flex>
               <div>
                 <InputText
@@ -80,7 +80,7 @@ Props) => {
                   errors={formik.errors}
                 />
               </div>
-
+               {/* Password Starts */}
               <div>
                 <InputText
                   actionLeft={() => (
@@ -127,7 +127,10 @@ Props) => {
                   </Text>
                 )}
               </div>
+                {/* Password end */}
             </Flex>
+            {/* Fields starts */}
+
             <Flex end>
               <Button
                 types="link"
@@ -140,6 +143,11 @@ Props) => {
             <Button
               onClick={formik.handleSubmit}
               className={styles.login_button}
+              style={{
+                display:"flex",
+                justifyContent:"center",
+                alignItems:"center"
+              }}
             >
               Login
             </Button>
