@@ -3,8 +3,8 @@
   width: 50%;
 }
 .round {
-  height: 50px;
-  width: 50px;
+  height: 35px;
+  width: 35px;
   border-radius: 100%;
   align-items: center;
   justify-content: center;
@@ -12,7 +12,7 @@
   position: absolute;
 }
 .bar {
-  height: 10px;
+  height: 4px;
   width: 100%;
 }
 .roundeSelect {

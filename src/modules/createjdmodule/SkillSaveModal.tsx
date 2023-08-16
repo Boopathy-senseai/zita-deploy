@@ -38,22 +38,28 @@ const SkillSaveModal = ({
     <Modal open={open}>
       <Flex columnFlex className={styles.overAll}>
         {isLoader && <Loader />}
-        <Text align="center" color="theme" bold>
+        {/* <Text align="center" color="theme" bold>
           Skill-based experience
         </Text>
         <Text align="center" className={styles.addText}>
           Please add experience (no. of years) for each skill
+        </Text> */}
+        <Text size={14} color="primary" bold>
+          Skill-based experience
         </Text>
-        <Flex columnFlex>
+        <Text className={styles.addText}>
+          Please add experience (no. of years) for each skill
+        </Text>
+        <Flex columnFlex style= {{alignItems: "center"}}className={styles.skillstableoverall}>
           <Flex columnFlex className={styles.borderStyle}>
             <Flex row center between className={styles.headerStyle}>
               <Flex flex={5}>
-                <Text align="center" color="theme" bold>
+                <Text size={14} align="center" bold>
                   Skills
                 </Text>
               </Flex>
               <Flex flex={7} className={styles.inputBorder}>
-                <Text align="center" color="theme" bold>
+                <Text size={14} align="center" bold>
                   Skill-based experience (in years)
                 </Text>
               </Flex>
@@ -66,7 +72,7 @@ const SkillSaveModal = ({
               {formik.values.data.dataBaseTags.map(
                 (dataBaseList: any, dataIndex: number) => {
                   if (
-                    Number(formik.values.data.dataBaseTags[dataIndex].exp) > 16
+                    Number(formik.values.data.dataBaseTags[dataIndex].exp) > 15
                   ) {
                     Toast('Maximum experience 15 years', 'LONG', 'error');
                     formik.setFieldValue(
@@ -122,7 +128,7 @@ const SkillSaveModal = ({
               {formik.values.data.toolsTags.map(
                 (dataBaseList: any, dataIndex: number) => {
                   if (
-                    Number(formik.values.data.toolsTags[dataIndex].exp) > 16
+                    Number(formik.values.data.toolsTags[dataIndex].exp) > 15
                   ) {
                     Toast('Maximum experience 15 years', 'LONG', 'error');
                     formik.setFieldValue(`data.toolsTags[${dataIndex}].exp`, 0);
@@ -172,7 +178,7 @@ const SkillSaveModal = ({
               {formik.values.data.programTags.map(
                 (dataBaseList: any, dataIndex: number) => {
                   if (
-                    Number(formik.values.data.programTags[dataIndex].exp) > 16
+                    Number(formik.values.data.programTags[dataIndex].exp) > 15
                   ) {
                     Toast('Maximum experience 15 years', 'LONG', 'error');
                     formik.setFieldValue(
@@ -225,7 +231,7 @@ const SkillSaveModal = ({
               {formik.values.data.platformsTags.map(
                 (dataBaseList: any, dataIndex: number) => {
                   if (
-                    Number(formik.values.data.platformsTags[dataIndex].exp) > 16
+                    Number(formik.values.data.platformsTags[dataIndex].exp) > 15
                   ) {
                     Toast('Maximum experience 15 years', 'LONG', 'error');
                     formik.setFieldValue(
@@ -278,7 +284,7 @@ const SkillSaveModal = ({
               {formik.values.data.othersTags.map(
                 (dataBaseList: any, dataIndex: number) => {
                   if (
-                    Number(formik.values.data.othersTags[dataIndex].exp) > 16
+                    Number(formik.values.data.othersTags[dataIndex].exp) > 15
                   ) {
                     Toast('Maximum experience 15 years', 'LONG', 'error');
                     formik.setFieldValue(
@@ -333,11 +339,11 @@ const SkillSaveModal = ({
         </Flex>
         <Flex row center middle className={styles.btnContainer}>
           <Button
-            types="secondary"
+            types="close"
             onClick={handleClose}
             className={styles.closeBtn}
           >
-            Close
+            Cancel
           </Button>
           {isMissSkill && (
             <LinkWrapper target={'_parent'} to={`/jobs/questionnaire/${jd_id}`}>
@@ -346,7 +352,7 @@ const SkillSaveModal = ({
           )}
           {!isMissSkill && (
             <Button onClick={handleSubmit} className={styles.saveBtn}>
-              Save Changes
+              Save
             </Button>
           )}
         </Flex>

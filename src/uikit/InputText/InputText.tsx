@@ -32,7 +32,7 @@ type Props = {
   className?: string;
   color?: textColors;
   disabled?: boolean;
-  onChange?: (a: any) => void;
+  onChange?: (a: any, b?: any) => void;
   onPaste?: (a: any) => void;
   autoFocus?: boolean;
   maxLength?: number;

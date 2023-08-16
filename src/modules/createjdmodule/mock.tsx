@@ -27,7 +27,7 @@ export const jobRoleData = [
   { value: 2, label: 'Machine Learning Engineer' },
   { value: 3, label: 'Big Data Engineer' },
   { value: 4, label: 'Business Intelligence' },
-  { value: 5, label: 'Devops Engineer' },
+  { value: 5, label: 'DevOps Engineer' },
 ];
 
 export const questionFieldType = [

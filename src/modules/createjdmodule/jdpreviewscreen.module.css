@@ -1,6 +1,7 @@
 .overAll {
-  padding: 40px;
+  /* padding: 40px; */
   overflow-y: scroll;
+  padding: 0px 10px 0px 3px;
 }
 .modalOverAll {
   background-color: var(--color-white, #ffffff);
@@ -8,19 +9,20 @@
   padding: 20px;
 }
 .round {
-  height: 50px;
-  width: 50px;
+  height: 35px;
+  width: 35px;
   border-radius: 100%;
   align-items: center;
   justify-content: center;
   display: flex;
   background-color: var(--color-secondary, #ffc203);
   position: absolute;
-  right: 0;
+  right: -25px;
+  top: 4px
 }
 .step {
   position: relative;
-  margin: 0 200px;
+  margin: 0 400px;
   margin-bottom: 40px;
   margin-top: 24px;
 }
@@ -36,8 +38,8 @@
 }
 .stepThree {
   position: relative;
-  top: 53px;
-  left: 30px;
+  top: 46px;
+  left: 71px;
 }
 .step3Flex {
   position: absolute;

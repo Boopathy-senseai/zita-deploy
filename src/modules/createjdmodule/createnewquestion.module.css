@@ -1,16 +1,17 @@
 .overAll {
-  background-color: var(--color-gary-8, #fafafa);
+  /* background-color: var(--color-gary-8, #fafafa); */
   padding: 0 16px;
   padding-bottom: 16px;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
+  background-color: #F0EBED;
 }
 .textArea {
   height: 100px;
 }
 .switch {
   margin-left: 40px;
-  margin-top: 24px;
+  margin-top: 32px;
 }
 .selectTag {
   width: 300px;
@@ -52,4 +53,18 @@
 }
 .pointer {
   cursor: pointer;
+}
+.tab-pane {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: auto !important;
+  flex: 1;
+}
+.tab-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden !important;
+  flex: 1;
 }

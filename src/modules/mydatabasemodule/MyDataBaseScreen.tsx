@@ -74,6 +74,7 @@ const MyDataBaseScreen = () => {
   const [isDownloadLoader, setDownLoadLoader] = useState(false);
   const [isSortOptions, setSortOptions] = useState(sortOptions[0]);
   const [isSearchValue, setSearchValue] = useState<any>('');
+  const [change,setchange]=useState(false)
 
   const addFavFilter = isFav ? 'add' : '';
 
@@ -268,6 +269,7 @@ const MyDataBaseScreen = () => {
 
   useEffect(() => {
     setIsCheck([]);
+    if(change===false){
     dispatch(
       myDataBaseDataMiddleWare({
         jobTitle: formik.values.jobTitle,
@@ -285,6 +287,7 @@ const MyDataBaseScreen = () => {
         applicant_only: formik.values.applicantOnly,
       }),
     );
+    }
   }, [
     formik.values,
     isAny,
@@ -379,7 +382,8 @@ const MyDataBaseScreen = () => {
         });
     }
   };
-  console.log("dataaaaaaaa",datas)
+
+  console.log("changeeee+====",change)
   return (
     <>
     <Flex row className={styles.ribbon} between>
@@ -409,6 +413,7 @@ const MyDataBaseScreen = () => {
         isSearchValue={isSearchValue}/>
         <div className={cx('filterOverAll')}>
         <MyDataBaseFilter
+          setchange={setchange}
           formik={formik}
           qualificationOption={qualificationOption}
           hanldeRefresh={hanldeRefresh}
