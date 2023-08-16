@@ -13,7 +13,7 @@ import Collapse from '../../uikit/Collapse/Collapse';
 import { PRIMARY } from '../../uikit/Colors/colors';
 import SvgAngle from '../../icons/SvgAngle';
 import { LINK } from '../../uikit/Colors/colors';
-import {Table }from '../../uikit';
+import { Table } from '../../uikit';
 import QuestionTable from '../createjdmodule/QuestionTable';
 import { resultTitle } from '../createjdmodule/questionnaireTable';
 
@@ -73,13 +73,13 @@ const JdViewScreen = () => {
     jdview,
     company_detail,
     questionnaire,
-    
+
   } = useSelector(({ jdViewReducers, permissionReducers }: RootState) => {
     return {
       statusList: jdViewReducers.int_list,
       jdDetails: jdViewReducers.jd,
-      company_detail:jdViewReducers.company_detail,
-      questionnaire:jdViewReducers.questionnaire,
+      company_detail: jdViewReducers.company_detail,
+      questionnaire: jdViewReducers.questionnaire,
       skills: jdViewReducers.skills,
       qualification: jdViewReducers.qualification,
       location: jdViewReducers.location,
@@ -90,20 +90,20 @@ const JdViewScreen = () => {
       job_view_line: jdViewReducers.job_view_line,
       applicants_line: jdViewReducers.applicants_line,
       is_plan: permissionReducers.is_plan,
-      external:jdViewReducers.has_external_posting,
-      ext_jobs:jdViewReducers.ext_jobs,
+      external: jdViewReducers.has_external_posting,
+      ext_jobs: jdViewReducers.ext_jobs,
 
-      jdview:jdViewReducers,
+      jdview: jdViewReducers,
     };
   });
-  console.log(questionnaire,'kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk')
+  console.log(questionnaire, 'kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk')
   useEffect(() => {
     if (!is_plan) {
       sessionStorage.setItem('superUserTab', '2');
       history.push('/account_setting/settings');
     }
   });
-  const [session,setsession]=useState("");
+  const [session, setsession] = useState("");
   // setsession(company_detail.company_name);
   const handleDownload = () => {
     setloading(true);
@@ -124,9 +124,9 @@ const JdViewScreen = () => {
   };
   const hanldeInactiveDone = () => {
     setloading(true);
- 
+
     dispatch(jdInactiveMiddleWare({ jd_id: jdId })).then((res) => {
-     
+
       if (res.payload.success) {
         setOpen(false);
         Toast('Job inactivated successfully.', 'LONG', 'success');
@@ -170,9 +170,9 @@ const JdViewScreen = () => {
         color: '#333333',
         fontWeight: 'bold',
         fontSize: '16px',
-        marginBottom:"10px",
-        borderBottom:"1px solid black",
-        display:"none",
+        marginBottom: "10px",
+        borderBottom: "1px solid black",
+        display: "none",
 
       },
     },
@@ -209,55 +209,55 @@ const JdViewScreen = () => {
       },
     ],
   };
-  const session1=(sessionStorage.getItem("EmpToggle"))
-  const session2=session1==='1';
+  const session1 = (sessionStorage.getItem("EmpToggle"))
+  const session2 = session1 === '1';
   const columns = useMemo(() => resultTitle(), [questionnaire]);
   console.log("")
   //const [isCollapse, setCollapse] = useState(false);
- 
+
   return (
     <Flex>
-    <Flex row className={styles.ribbon} between>
-      
+      <Flex row className={styles.ribbon} between>
 
-    <Flex  row className={styles.mainpadding} >
-      <Flex>
-      <Text size={14} bold color="theme" >
-        Job Posting 
-      </Text></Flex>
-      <Flex  marginTop={6} marginLeft={7}  marginRight={2}>
-      <SvgRight fill={'#581845'} ></SvgRight></Flex>
-      <Flex  marginTop={1} marginLeft={3}>
-      <Text size={14} bold color="theme" >
-      {jdDetails.job_title}</Text>
+
+        <Flex row className={styles.mainpadding} >
+          <Flex>
+            <Text size={14} bold color="theme" >
+              Job Posting
+            </Text></Flex>
+          <Flex marginTop={6} marginLeft={7} marginRight={2}>
+            <SvgRight fill={'#581845'} ></SvgRight></Flex>
+          <Flex marginTop={1} marginLeft={3}>
+            <Text size={14} bold color="theme" >
+              {jdDetails.job_title}</Text>
+          </Flex>
+
+        </Flex>
+        <Flex >
+
+          <div className={styles.triangle}></div>
+        </Flex>
+
       </Flex>
 
-    </Flex>
-    <Flex >
+      <Flex
+        columnFlex
+        className={styles.cardOverAll}
+        height={615}
+      >
+        <Flex>
+          {(loader || isloading) && <Loader />}
+          <JdTitle
+            handleDownload={handleDownload}
+            jdDetails={jdDetails}
+            career_page_url={career_page_url}
+            hanldeInactive={hanldeInactive}
+            whatjob={ext_jobs}
+          />
 
-      <div className={styles.triangle}></div>
-    </Flex>
-  
-</Flex>
-
-    <Flex
-      columnFlex
-      className={styles.cardOverAll}
-      height={615}
-    >
-      <Flex>
-      {(loader || isloading) && <Loader />}
-      <JdTitle
-        handleDownload={handleDownload}
-        jdDetails={jdDetails}
-        career_page_url={career_page_url}
-        hanldeInactive={hanldeInactive}
-        whatjob={ext_jobs}
-      />
-
-      <Flex >
-        <Flex row between onClick={() => setCollapse(!isCollapse)}>
-          {/* <Text
+          <Flex >
+            <Flex row between onClick={() => setCollapse(!isCollapse)}>
+              {/* <Text
               bold
               color="theme"
               className={styles.font20}
@@ -265,146 +265,120 @@ const JdViewScreen = () => {
             >
               Job Metrics
             </Text> */}
-          <Flex className={styles.postion}>
-            {/* <SvgAngle width={15} height={15} up={isCollapse} /> */}
+              <Flex className={styles.postion}>
+                {/* <SvgAngle width={15} height={15} up={isCollapse} /> */}
+              </Flex>
+            </Flex>
           </Flex>
+          {/* {isCollapse && ( */}
+          <Flex row center className={styles.padding2}>
+            <Flex flex={9}>
+              <Card className={styles.chartStyle}>
+                {dates_len === 0 ? (
+                  <>
+                    <Text align="center"
+                      bold
+                      size={14}
+                      style={{ color: "#333333" }}
+                      className={styles.jdStatus}
+                    >Trend Line of Job Views and Applicants</Text>
+                    <Flex className={styles.center}>
+                      <Text bold className={styles.font10px} style={{ color: "#888888" }}>
+                        No Data Available
+                      </Text>
+                    </Flex>
+                  </>
+                ) : (
+                  <>
+                    <Text align="center"
+                      bold
+                      size={14}
+                      style={{ color: "#333333" }}
+                      className={styles.jdStatus}
+                    >Trend Line of Job Views and Applicants</Text>
+                    <Chart options={options} />
+                  </>
+                )}
+              </Card>
+            </Flex>
+            <Flex flex={3}>
+              <JdLog statusList={statusList} jdDetails={jdDetails} />
+            </Flex>
+          </Flex>
+          {/* )} */}
         </Flex>
-      </Flex>
-      {/* {isCollapse && ( */}
-      <Flex row center className={styles.padding2}>
-        <Flex flex={9}>
-          <Card className={styles.chartStyle}>
-            {dates_len === 0 ? (
-              <>
-                <Text align="center"
-                  bold
-                  size={14}
-                  style={{color:"#333333"}}
-                  className={styles.jdStatus}
-                >Trend Line of Job Views and Applicants</Text>
-                <Flex className={styles.center}>
-                  <Text bold className={styles.font10px} style={{ color: "#888888"}}>
-                    No Data Available
-                  </Text>
-                </Flex>
-              </>
-            ) : (
-              <>
-              <Text align="center"
-                  bold
-                  size={14}
-                  style={{color:"#333333"}}
-                  className={styles.jdStatus}
-                >Trend Line of Job Views and Applicants</Text>
-              <Chart options={options}  />
-              </>
-            )}
+
+        {/* {isCollapsedes && ( */}
+        <Flex className={styles.padding}>
+
+          <Flex row between className={styles.jobMetricsStyle} onClick={() => setCollapsedes(!isCollapsedes)}>
+
+            <Flex >
+              <Text
+                bold
+                style={{ color: "#333333" }}
+                size={14}
+              >
+                Job Details & Description
+              </Text>
+            </Flex>
+            <Flex >
+              <Button onClick={handleDownload} types='primary'>Download JD</Button>
+            </Flex>
+
+          </Flex>
+          <Flex className={styles.padding2}>
+            <PreviewTitle
+              jd_view
+              jdDetails={jdDetails}
+              profile={profile}
+              location={location}
+              qualification={qualification}
+              skills={skills}
+            />
+          </Flex>
+          {console.log("skill", jdview)}
+
+          <Card className={styles.cardOverAll}>
+            <Flex columnFlex>
+              <Text bold size={14} style={{ color: "#333333" }}>
+                Applicant Questionnaire
+              </Text>
+              <div className={styles.tableDiv}>
+                {
+                  questionnaire.length === 0 ? (
+                    <Text color="gray">No questions added for this job</Text>
+                  ) : (
+                    <Table
+                      empty={'No questions added for this job'}
+                      dataSource={questionnaire}
+                      columns={columns}
+                      border="overAll"
+                    />
+                  )}
+              </div>
+
+            </Flex>
           </Card>
-        </Flex>
-        <Flex flex={3}>
-          <JdLog statusList={statusList} jdDetails={jdDetails} />
-        </Flex>
-      </Flex>
-      {/* )} */}
-      </Flex>
 
-      {/* {isCollapsedes && ( */}
-      <Flex className={styles.padding}>
-        
-      <Flex row between className={styles.jobMetricsStyle} onClick={() => setCollapsedes(!isCollapsedes)}>
-
-<Flex >
-  <Text
-    bold
-    style={{color:"#333333"}}
-    size={14}
-  >
-    Job Details & Description
-  </Text>
-</Flex>
-<Flex >
-  <Button onClick={handleDownload} types='primary'>Download JD</Button>
-</Flex>
-
-</Flex>
-      <Flex className={styles.padding2}>
-        <PreviewTitle
-          jd_view
-          jdDetails={jdDetails}
-          profile={profile}
-          location={location}
-          qualification={qualification}
-          skills={skills}
-        />
-      </Flex>
-      {console.log("skill",jdview)}
-
-      <Card className={styles.cardOverAll}>
-      <Flex columnFlex>
-      <Text bold size={14} style={{color:"#333333"}}>
-          Applicant Questionnaire
-        </Text>
-        <div className={styles.tableDiv}>
-           {
-            questionnaire.length === 0 ? (
-            <Text color="gray">No questions added for this job</Text>
-          ) : (
-             <Table
-               empty={'No questions added for this job'}
-               dataSource={questionnaire}
-               columns={columns}
-               border="overAll"
-               
-             />
-   )} 
-          
-          
-        </div>
-{/*      
-              {jdDetails.is_eeo_comp === true && (
-          <Flex row center>
-            <Button types="link" onClick={() => setCollapse(!isCollapse)}>
-              EEO Compliance (USA)
-            </Button>
-            <Button
-              className={styles.svgAngle}
-              types="link"
-              onClick={() => setCollapse(!isCollapse)}
-            >
-              <SvgAngle up={isCollapse} width={16} height={16} fill={LINK} />
-            </Button>
-          </Flex>
-        )}
-                 
-               <Collapse isOpen={isCollapse}>
-          <EEOCompliance
-            handleCompliance={() => {}}
-            isCheck={false}
-            company_name={company_detail?.company_name}
-            isPreview
+          <CancelAndDeletePopup
+            title={
+              <Flex className={styles.popTitle}>
+                <Text>
+                  This will remove the job posting from both the external job board & careers page.
+                </Text>
+                <Text >Are you sure you want to Inactivate this job?</Text>
+              </Flex>
+            }
+            btnDelete={hanldeInactiveDone}
+            btnCancel={hanldeInactiveclose}
+            btnRight={YES}
+            open={isOpen}
+            loader={isloading}
           />
-        </Collapse>   */}
-      </Flex>
-      </Card>
-  
-      <CancelAndDeletePopup
-        title={
-          <Flex className={styles.popTitle}>
-            <Text>
-            This will remove the job posting from both the external job board & careers page.
-            </Text>
-            <Text >Are you sure you want to Inactivate this job?</Text>
-          </Flex>
-        }
-        btnDelete={hanldeInactiveDone}
-        btnCancel={hanldeInactiveclose}
-        btnRight={YES}
-        open={isOpen}
-        loader={isloading}
-      />
-</Flex>
+        </Flex>
 
-    </Flex>
+      </Flex>
     </Flex>
   );
 };
