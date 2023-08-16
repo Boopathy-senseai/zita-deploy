@@ -109,15 +109,23 @@
   cursor: pointer;
   margin-left: 10px;
 }
-.dropdown_toggle {
-  /* margin-top:25px; */
-  background-color: '#ffffff' !important;
-  border: '#ffffff' !important;
-  box-shadow: 'none' !important;
-}
-.Signot:hover {
-  box-shadow: none !important;
-}
+.dropdown_toggle{
+    /* margin-top:25px; */
+    background-color: '#ffffff' !important;
+    border: '#ffffff' !important;
+    box-shadow: 'none' !important;
+    
+ }
+ /* .Signot:hover {
+   box-shadow: none !important;
+ } */
+
+ .logout{
+  margin: 10px 0px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+ }
 
 .searchStyle {
   height: 27px;

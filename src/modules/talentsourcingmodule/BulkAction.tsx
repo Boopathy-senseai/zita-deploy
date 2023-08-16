@@ -191,7 +191,7 @@ console.log("map",value);
             onClick={handleUnlockSubmit}
           >
           <SvgLock fill={PRIMARY} height={16} width={16} />
-            <Text
+            <Text bold
               style={{ marginLeft: '10px' }}  
               color="theme"          
             >
@@ -209,7 +209,7 @@ console.log("map",value);
             onClick={handleDownloadSubmit}
           >
             <SvgDownload width={14} height={14} />
-            <Text style={{ marginLeft: '10px' }} color="theme">
+            <Text bold style={{ marginLeft: '10px' }} color="theme">
             Export Resumes
             </Text>
           </Flex>

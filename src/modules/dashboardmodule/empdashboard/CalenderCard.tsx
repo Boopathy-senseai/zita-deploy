@@ -335,24 +335,24 @@ const CalenderCard = ({
             <Flex row center >
 
               <Flex >
-                <Flex marginLeft={150}>
+                <Flex >
                   <Button
                     types="primary"
                     className={styles.syncBtn}
                     onClick={checkAuth}
 
                   >
-                    <Flex row >
-                      <Flex>
+                    <Flex row center>
+                      {/* <Flex> */}
                         <Text
                           bold
-                          size={12}
-                          style={{ cursor: 'pointer', color: "white", marginRight: 20, marginBottom: 1 }}
+                          size={14}
+                          style={{ cursor: 'pointer', color: "white" }}
                         >
                           Sync
                         </Text>
-                      </Flex>
-                      <Flex marginTop={2}>
+                      {/* </Flex> */}
+                      <Flex marginLeft={8}>
                         <SvgRefresh height={14} width={14} fill={WHITE} />
                       </Flex>
                     </Flex>

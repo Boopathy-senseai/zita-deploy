@@ -173,8 +173,8 @@ export const selectTagTheme = (
     primary25: 'rgb(88 24 69 / 15%)',
     primary: !isEmpty(errorMessage) && error ? ERROR : PRIMARY,
     primary50: 'rgb(88 24 69 / 30%)',
-    neutral20: !isEmpty(errorMessage) && error ? ERROR : GARY_5,
-    neutral30: !isEmpty(errorMessage) && error ? ERROR : GARY_6,
+    neutral20: !isEmpty(errorMessage) && error ? ERROR : "#D7C7D2",
+    neutral30: !isEmpty(errorMessage) && error ? ERROR : "#58184570",
   },
 });
 
@@ -403,7 +403,7 @@ export const customStylechanges1 ={
     boxShadow: state.isFocused ? null : null,
     backgroundColor:GARY_9,
     margin: '0px',
-    borderColor:GARY_9,
+    borderColor:"#ff20000",
     border: '0px',
   }),
   singleValue:() => ({

@@ -2,7 +2,7 @@
 .search {
   border-radius: 4px;
   padding: 3px 12px 3px 12px;
-  border: 1px solid var(--color-gary-5, #cccccc);
+  border: 1px solid  #D7C7D2;
   outline: none;
   font-size: 13px;
   background-color: var(--color-white, #ffffff);
@@ -17,7 +17,7 @@
   text-transform: inherit !important
 }
 .search:hover {
-  border: 1px solid var(--color-gary-6, #b3b3b3);
+  border: 1px solid #58184570;
 }
 .search:focus {
   border: 1px solid var(--color-primary, #581845);
@@ -43,7 +43,7 @@
 .noOptionsDivStyle{
   background-color: #fff;
   height: 36px;
-  border: 1px solid #ccc;
+  border: 1px solid #D7C7D2;
   position: absolute;
   width: 100%;
   border-radius: 4px;
