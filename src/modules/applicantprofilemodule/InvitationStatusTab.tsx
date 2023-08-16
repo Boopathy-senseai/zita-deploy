@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import SvgRoundTick from '../../icons/SvgRoundTick';
+import SvgChatmessage from '../../icons/SvgChatmessage';
 import { AppDispatch, RootState } from '../../store';
 import Flex from '../../uikit/Flex/Flex';
 import { getDateString } from '../../uikit/helper';
@@ -51,7 +52,11 @@ const InvitationStatusTab = () => {
             )}
           </Text>
         </Flex>
-      ):<Flex flex={1} center middle>
+      ):<Flex flex={1} center middle style={{display:"flex"}}>
+        <Flex className={styles.svgFlex}>
+            <SvgRoundTick height={18} width={18} fill='gray' />
+        </Flex>
+        {/* <Svgchatmessage fill='gray' /> */}
       <Text color="gray">Not Invited Yet</Text>
     </Flex>}
     </Flex>

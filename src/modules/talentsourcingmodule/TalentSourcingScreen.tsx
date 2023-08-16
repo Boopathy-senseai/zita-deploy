@@ -9,7 +9,7 @@ import SingleButton from '../common/SingleButton';
 import Toast from '../../uikit/Toast/Toast';
 import { AppDispatch, RootState } from '../../store';
 import { ERROR_MESSAGE } from '../constValue';
-
+import SvgUserSearch from '../../icons/SvgUserSearch';
 import { Text } from '../../uikit';
 import Title from '../common/Title';
 import Empty from '../common/Empty';
@@ -587,7 +587,7 @@ setshow(val)
           
 
     <Flex marginTop={9} marginLeft={8} >
-      <Text size={18} bold color="theme" >
+      <Text size={16} bold color="theme" >
       Talent Sourcing
       </Text>
 
@@ -683,10 +683,7 @@ setshow(val)
         />
         
         <Flex
-          className={styles.titleContainer}
-        
-           
-        >
+          className={styles.titleContainer}>
           <div >
             <Flex className={styles.talentActionContainer}>
               <TalentAction
@@ -734,6 +731,8 @@ setshow(val)
              
             {(isSearchData?.length === 0 && isFind && !isSubmitLoader) && (
               <div className={styles.emptyStyle}>
+                <div style={{marginBottom:"-80px"}}>
+                <SvgUserSearch width={18} height={18}/></div>
                 <Empty title="Please enter your search keywords in the required search field to find the candidates" />
               </div>
             )}
