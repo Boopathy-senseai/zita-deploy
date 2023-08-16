@@ -13,17 +13,24 @@
   /* margin: 24px 70px; */
   overflow: scroll; 
 }
+
+.cardOverAlls {
+  padding: 5px 10px 5px 5px;
+  /* margin: 24px 70px; */
+  overflow: scroll; 
+}
+
 .cardOverAll1 {
   padding: 5px 10px 5px 12px;
   /* margin: 24px 70px; */
  max-width: 1300px;
  margin: 10px 60px 50px 60px;
-  overflow: scroll;
-  background-color: var(--color-white, #ffffff);
-    border-radius: 4px;
-    box-sizing: border-box;
+ overflow: scroll;
+ background-color: var(--color-white, #ffffff);
+ border-radius: 4px;
+ box-sizing: border-box;
     /* -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36); */
-    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 47%);
+  box-shadow: 0 1px 4px 0 rgb(0 0 0 / 47%);
     -webkit-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 47%);
 
 }
@@ -118,19 +125,23 @@ border-top: 22px solid transparent;
 border-right: 30px solid white; 
 border-bottom: 22px solid transparent;
 position: relative;
-top: 71; 
-right: 43; 
+top: -1px; 
+right: 0px; 
   }
   .padding{
     padding:0px ;
     margin-top: 10px;
   }
   .mainpadding{
-    padding:12px;
+    padding:8px;
   }
   .cardOverAll {
-    padding: 16px;
+    padding: 10px 10px;
     margin: 20px 0;
+  }
+  .cardOverAlls {
+    padding: 10px 10px 10px 0px;
+    /* margin: 20px 0; */
   }
   .tableDiv {
     margin-top: 10px;

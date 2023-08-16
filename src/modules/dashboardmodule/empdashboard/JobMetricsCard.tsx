@@ -74,9 +74,11 @@ const JobMetricsCard = () => {
     <Flex className={styles.overAll}>
       {checkHide && (
         <div className={styles.hideStyle}>
-          {Number(plan.plan_id_id) === 1 ?<Flex>  <Text size={24} color="white" bold className={styles.noText}>
+          {Number(plan.plan_id_id) === 1 ?<Flex>  
+            <Text size={24} color="white" bold className={styles.noText}>
             Please subscribe to any of the paid plans to view the job metrics
           </Text></Flex>  :
+            
             <Text size={24} color="white" bold className={styles.noText}>
               No Data Available
             </Text>

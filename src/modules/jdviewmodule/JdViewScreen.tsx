@@ -11,6 +11,8 @@ import Toast from '../../uikit/Toast/Toast';
 import { Button } from '../../uikit';
 import Collapse from '../../uikit/Collapse/Collapse';
 import { PRIMARY } from '../../uikit/Colors/colors';
+import SvgNodata from '../../icons/SvgNoDataIcon';
+import SvgNoDataIcon from '../../icons/SvgNoDataIcon';
 import SvgAngle from '../../icons/SvgAngle';
 import { LINK } from '../../uikit/Colors/colors';
 import { Table } from '../../uikit';
@@ -38,6 +40,7 @@ import {
   jdDownloadMiddleWare,
   jdInactiveMiddleWare,
 } from './store/middleware/jdviewmiddleware';
+
 
 type ParamsType = {
   jdId: string;
@@ -222,13 +225,13 @@ const JdViewScreen = () => {
 
         <Flex row className={styles.mainpadding} >
           <Flex>
-            <Text size={14} bold color="theme" >
+            <Text size={16} bold color="theme" >
               Job Posting
             </Text></Flex>
           <Flex marginTop={6} marginLeft={7} marginRight={2}>
             <SvgRight fill={'#581845'} ></SvgRight></Flex>
           <Flex marginTop={1} marginLeft={3}>
-            <Text size={14} bold color="theme" >
+            <Text size={16} bold color="theme" >
               {jdDetails.job_title}</Text>
           </Flex>
 
@@ -242,7 +245,7 @@ const JdViewScreen = () => {
 
       <Flex
         columnFlex
-        className={styles.cardOverAll}
+        className={styles.cardOverAlls}
         height={615}
       >
         <Flex>
@@ -282,7 +285,8 @@ const JdViewScreen = () => {
                       style={{ color: "#333333" }}
                       className={styles.jdStatus}
                     >Trend Line of Job Views and Applicants</Text>
-                    <Flex className={styles.center}>
+                    <Flex className={styles.center} style={{display:"flex", alignItems:"center", filter: "opacity(0.6)" }}>
+                      <SvgNoDataIcon width={15} />
                       <Text bold className={styles.font10px} style={{ color: "#888888" }}>
                         No Data Available
                       </Text>

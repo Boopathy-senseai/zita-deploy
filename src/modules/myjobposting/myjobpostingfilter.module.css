@@ -118,7 +118,7 @@ font-weight: 400;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.47000000000000003);
   -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.47);
   scrollbar-width: thin;
-  
+  z-index: 1;
 }
 
 .show {

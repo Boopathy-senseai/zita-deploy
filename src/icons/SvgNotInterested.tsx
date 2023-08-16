@@ -9,6 +9,7 @@ const SvgNotInterested = ({ width, height, fill }: typeof defaultProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
+      data-name="Layer 1"
       width={width}
       height={height}
       viewBox="0 0 24 24"
