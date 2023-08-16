@@ -9,26 +9,31 @@
 .dataListStyle {
   padding: 8px 4px;
   box-sizing: border-box;
-  border-bottom: 1px solid var(--color-gary-7, #dfdfdf);
+  display: flex;
+  /* border-bottom: 1px solid var(--color-gary-7, #dfdfdf); */
+  align-items: flex-start;
 }
 .titleStyle {
   margin-left: 8px;
+  COLOR:#581845;
 }
 .valueStyle {
   margin-right: 8px;
 }
-.mapListContainer {
-  border: 1px;
-}
+/* .mapListContainer {
+  /* border: 1px; */
+/*} */
 .mapListContainer {
   box-sizing: border-box;
-  -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
+  /* margin-top: 20px; */
+  /* -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
   -moz-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
-  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
+  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36); */
 }
 .valueListStyle {
-  padding: 4px 0px;
+  padding: 0px 0px 8px 0px;
+  font-size: 13px;
 }
-.svgStyle{
+.svgStyle {
   margin-right: 12px;
 }

@@ -13,10 +13,12 @@ import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import { routesPath } from '../../routes/routesPath';
 import SvgCopy from '../../icons/SvgCopy';
 import { PRIMARY, SUCCESS } from '../../uikit/Colors/colors';
+import { jdMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import PreviewTitle from './PreviewTitle';
 import {
   dsOrNonDsGetdMiddleWare,
   jdPreviewMiddleWare,
+  jdProfileMiddleWares,
   postJdMiddleWare,
   questionnaireForJdMiddleWare,
   selectDsorNonDsMiddleWare,
@@ -25,7 +27,6 @@ import {
 import styles from './jdpreviewscreen.module.css';
 import ApplicantQuestionnaireResult from './ApplicantQuestionnaireResult';
 import StandardJobPosting from './StandardJobPosting';
-
 type ParamsType = {
   jdId: string;
 };
@@ -43,6 +44,7 @@ const JdPreviewScreen = () => {
     dispatch(questionnaireForJdMiddleWare({ jd_id: jdId }));
     dispatch(dsOrNonDsGetdMiddleWare({ jd_id: jdId }));
     dispatch(selectDsorNonDsMiddleWare());
+   
   }, []);
 
   const {
@@ -111,6 +113,7 @@ const whatjob =(values) =>{
       }
       history.push('/account_setting/settings');
     }
+
     else if(extarajobpost === 0) {
       dispatch(whatjobsMiddleWare({formData})); 
 
@@ -118,6 +121,7 @@ const whatjob =(values) =>{
 
         if (res.payload.success) {
           setOpen(true);
+          dispatch(jdMatchMiddleWare({ jd_id:jdId})) 
         }
       });
     }
@@ -127,6 +131,7 @@ const whatjob =(values) =>{
       dispatch(postJdMiddleWare({ jd_id: jdId })).then((res) => {
         if (res.payload.success) {
           setOpen(true);
+          dispatch(jdMatchMiddleWare({ jd_id:jdId})) 
         }
       });
     }

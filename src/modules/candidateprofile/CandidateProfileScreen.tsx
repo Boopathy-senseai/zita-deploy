@@ -30,6 +30,7 @@ import QualificationCard from './QualificationCard';
 import { profileEditMiddleWare } from './store/middleware/candidateprofilemiddleware';
 import VerifyEmail from './VerifyEmail';
 import WorkExperienceAddandCard from './WorkExperienceAddandCard';
+// import { applicantcandidateMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 
 type ParamsType = {
   empId: string;
@@ -102,6 +103,11 @@ const CandidateProfileScreen = () => {
   };
   // Qualification open popup function
   const handleQualificationEdit = (updateId: string) => {
+    // dispatch(
+    //   applicantcandidateMatchMiddleWare({ 
+    //     can_id:updateId,
+    //   }),
+    // )
     setQualificationEdit(true);
     setUpdateId(updateId);
   };

@@ -2,6 +2,7 @@ import { Navigate, ToolbarProps } from 'react-big-calendar';
 import LeftChevron from '../../../icons/LeftChevron';
 import RightChevron from '../../../icons/RightChevron';
 import styles from '../styles/CalendarComponents.module.css';
+import { Button } from '../../../uikit';
 import TimeLineButton from './TimeLineButton';
 
 const ToolBar = ({
@@ -16,7 +17,17 @@ const ToolBar = ({
     <>
       <div className={styles.toolbar}>
         <div className={styles.buttonContainer}>
-          <div className={styles.navButtonContainer}>
+          
+          <Button
+            types={'secondary'}
+            // className={styles.todayButton}
+            onClick={() => onNavigate(Navigate.TODAY)}
+          >
+            Today
+          </Button>
+          
+        </div>
+        <div className={styles.navButtonContainer}>
             <button
               className={`${styles.navButton} ${styles.left_button}`}
               onClick={() => onNavigate(Navigate.PREVIOUS)}
@@ -25,6 +36,9 @@ const ToolBar = ({
                 <LeftChevron />
               </div>
             </button>
+            <div className={styles.label}>
+          <p>{label}</p>
+        </div>
             <button
               className={`${styles.navButton} ${styles.right_button}`}
               onClick={() => onNavigate(Navigate.NEXT)}
@@ -34,16 +48,7 @@ const ToolBar = ({
               </div>
             </button>
           </div>
-          <button
-            className={styles.todayButton}
-            onClick={() => onNavigate(Navigate.TODAY)}
-          >
-            Today
-          </button>
-        </div>
-        <div className={styles.label}>
-          <p>{label}</p>
-        </div>
+        
         <TimeLineButton
           view={view}
           views={views}

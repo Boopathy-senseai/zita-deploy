@@ -66,6 +66,7 @@
   justify-content: space-between;
   position: relative;
   padding-right: 40px;
+  height: 40px;
 }
 .triangle {
   width: 0;
@@ -74,7 +75,7 @@
   border-right: 30px solid white;
   border-bottom: 22px solid transparent;
   position: absolute;
-  top: 0;
+  top: -1px;
   right: 0;
 }
 .searchstyle {
@@ -118,7 +119,7 @@
   border: none !important;
   border-radius: 0 !important;
   scroll-behavior: smooth;
-  width: 100%;
+  width: 222px;
   text-overflow: ellipsis;
 }
 .searchstyle {

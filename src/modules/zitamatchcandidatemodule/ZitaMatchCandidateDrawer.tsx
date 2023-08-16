@@ -1,10 +1,13 @@
+import { useEffect, useState } from 'react';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import Drawer from '../../uikit/Drawer/Drawer';
-import SvgClose from '../../icons/SvgClose';
+import SvgLeft from '../../icons/SvgLeft';
+import SvgshareIcon from '../../icons/SvgShareIconview';
 import SvgNewTab from '../../icons/SvgNewTab';
 import { GARY_3, LINK } from '../../uikit/Colors/colors';
+import SvgJobselection from '../../icons/SvgJobselection';
 import ZitaMatchCandidateProfileView from './ZitaMatchCandidateProfileView';
 import styles from './candidatedrawer.module.css';
 
@@ -23,6 +26,7 @@ const ZitaMatchCandidateDrawer = ({
   candidateId,
   activeState,
 }: Props) => {
+  const [jobtitle, setjobtitle] = useState<string>();
   return (
     <Drawer open={open}>
       <div className={styles.overAll}>
@@ -34,18 +38,24 @@ const ZitaMatchCandidateDrawer = ({
             role={'button'}
             onKeyPress={() => {}}
           >
-            <SvgClose fill={GARY_3} height={16} width={16} />
+             <SvgLeft fill={'#581845'} height={16} width={16} />
           </div>
+          { jobtitle !==  undefined &&
+            <Flex row>
+              <Flex marginTop={2}>
+                <SvgJobselection width={16} height={14} />
+              </Flex>
+              <Flex marginLeft={4}>
+                     {jobtitle} - {jobId}
+              </Flex> 
+              </Flex>}
           <LinkWrapper
             replace
             target={'_blank'}
             to={`/candidate_profile_view/${jobId}/${candidateId}`}
           >
-            <Flex row center className={'pointer'}>
-              <Text color="link" className={styles.openStyle}>
-                Open profile in a new window
-              </Text>
-              <SvgNewTab fill={LINK} width={20} height={20} />
+            <Flex row center className={'pointer'} style={{cursor:'pointer'}}>
+              <SvgshareIcon width={18} height={18} />
             </Flex>
           </LinkWrapper>
         </Flex>
@@ -58,6 +68,7 @@ const ZitaMatchCandidateDrawer = ({
         >
           <ZitaMatchCandidateProfileView
             jobId={jobId}
+            setjobtitle={setjobtitle}
             candidateId={candidateId}
             activeState={activeState}
           />
@@ -68,3 +79,4 @@ const ZitaMatchCandidateDrawer = ({
 };
 
 export default ZitaMatchCandidateDrawer;
+ 

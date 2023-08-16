@@ -90,6 +90,7 @@ const MeetingSummary = ({
           toast.success('Event Updated Successfully', {
             duration: 3500,
           });
+          localStorage.setItem('Applicantsname','')
           handleCloseSchedulingForm();
         })
         .catch((err) => {
@@ -141,8 +142,9 @@ const MeetingSummary = ({
       .then((res) => {
         handleCloseSchedulingForm();
         toast.success('Event Scheduled Successfully', {
-          duration: 3500,
+          duration: 3500, 
         });
+        localStorage.setItem('Applicantsname','')
       })
       .catch((err) => {
         console.error(err);
@@ -166,7 +168,7 @@ const MeetingSummary = ({
       <b>{meetingForm.startDateTime.toDateString()}</b> from{' '}
       <b>{formatTo12HrClock(meetingForm.startDateTime)}</b> to{' '}
       <b>{formatTo12HrClock(meetingForm.endDateTime)}</b> with{' '}
-      <b>{currentUserLabel}</b>
+      <b>{localStorage.getItem('Applicantsname') !==''?localStorage.getItem('Applicantsname'):currentUserLabel}</b>
     </p>
   );
 

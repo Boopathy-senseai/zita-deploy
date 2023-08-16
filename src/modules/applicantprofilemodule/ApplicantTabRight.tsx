@@ -11,13 +11,13 @@ const ApplicantTabRight = () => {
   return (
     <Tabs activeColor={BLACK} borderColor={SECONDARY} tabsWithBorder>
       <Tab title={'Questionnaire'}>
-        <Questionnaire />
+        <Questionnaire issingletab={false} />
       </Tab>
       <Tab title={'Matching Analysis'}>
         <MatchingAnalysisTab />
       </Tab>
       <Tab title={'Screening Status'}>
-        <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} />
+        <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab={false} />
       </Tab>
       <Tab title={'Scorecard'}>
         <InterviewScorecardTab />

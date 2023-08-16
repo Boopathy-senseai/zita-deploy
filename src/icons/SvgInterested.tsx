@@ -3,6 +3,7 @@ const defaultProps = {
   fill: '#581845',
   width: 24,
   height: 24,
+  
 };
 
 const SvgInterested = ({ width, height, fill }: typeof defaultProps) => {

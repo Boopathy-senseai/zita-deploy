@@ -337,14 +337,14 @@ const MyJobPostingScreen = ({currentPage,setCurrentPage}:props) => {
                                 <div
                                   tabIndex={0}
                                   role={'button'}
-                                  style={{ marginLeft: 8, marginTop: 1, cursor: 'default' }}
-                                > 
-                                  <SvgCopy width={11.33} 
-                                    height={13.33} 
-                                    fill={'rgb(88 24 69/30%)'} /> 
-                                </div> 
-                              </Flex> 
-                            )} 
+                                  style={{ marginLeft: 8,marginTop:1,cursor:'default'}}
+                                >
+                                  <SvgCopy  width={11.33}
+                                  height={13.33}
+                                  fill={'rgb(88 24 69/30%)'} />
+                                </div>
+                              </Flex>
+                            )}
                           </Flex>
                         </td>
                         <td

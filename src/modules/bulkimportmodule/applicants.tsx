@@ -37,7 +37,6 @@ import {
 } from './store/middleware/bulkImportMiddleware';
 import ParsingLoadingModal from './ParsingLoadingModal';
 import ProfileViewModal from './ProfileViewModal';
-
 type Tabs = 'total' | 'completed' | 'inCompleted';
 export type FormProps = {
   searchValue: string;
@@ -353,10 +352,15 @@ const ApplicantsTab = ({
   };
 
   const hanldeMatch = () => {
+
     setCandiTableLoader(true);
     const formData = new FormData();
     formData.append('jd_id', isJdId);
+<<<<<<< HEAD
     dispatch(bulkImportMatchMiddleWare({ isJdId })).then(() => {
+=======
+    dispatch(jdMatchMiddleWare({jd_id:isJdId})).then(() => {
+>>>>>>> origin/23Q1_Revamp_Zita-Match-candidates-Page
       dispatch(
         bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: isJdId }),
       ).then(() => {
@@ -485,7 +489,7 @@ const ApplicantsTab = ({
         open={isProfileView}
         cancel={() => setProfileView(false)}
         jobId={isJdId}
-        // bulkId={isCanId}
+        // bulkId={isCanId} 
         candidateId={isCanId.toString()}
         inviteIconNone={true}
         // hanldeEditProfileView={hanldeEditProfileView}

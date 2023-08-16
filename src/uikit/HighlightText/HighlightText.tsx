@@ -21,11 +21,11 @@ const getHighlightedText = (text: string, higlight: string) => {
   return parts.map((part, index) => (
     <React.Fragment key={index}>
       {part.toLowerCase() === higlight.toLowerCase() ? (
-        <Text size={14} style={{ backgroundColor: SECONDARY }} bold>
+        <Text style={{ backgroundColor: SECONDARY,fontSize:'13px' }} bold>
           {part}
         </Text>
       ) : (
-        <Text size={14}>{part}</Text>
+        <Text style={{fontSize:'13px'}}>{part}</Text>
       )}
     </React.Fragment>
   ));

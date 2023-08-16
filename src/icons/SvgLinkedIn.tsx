@@ -9,7 +9,7 @@ const SvgLinkedIn = ({ width, height, fill }: typeof defaultProps) => {
   return (
       <svg
     xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 48 48"
+    viewBox="0 3 48 48"
     width={width}
     height={height}
     

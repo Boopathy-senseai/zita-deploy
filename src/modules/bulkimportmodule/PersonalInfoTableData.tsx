@@ -18,6 +18,7 @@ import SelectTag from '../../uikit/SelectTag/SelectTag';
 import Text from '../../uikit/Text/Text';
 import { isEmpty, mailformat } from '../../uikit/helper';
 import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
+import { candidateMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import {
   // onlyNumber,
   letters,
@@ -124,6 +125,11 @@ Props) => {
     dispatch(bulkImportUpdatePersonalMiddleWare({ formData })).then(
       (res: any) => {
         if (res.payload.success) {
+          dispatch(
+            candidateMatchMiddleWare({ 
+              can_id:canId,
+            }),
+          )
           dispatch(uploadedProfileViewMiddleWare({ id: canId }));
           Toast('Personal Info updated successfully');
           setReload(false);

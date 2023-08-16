@@ -12,7 +12,7 @@
   height: 31px;
   border-right: 4px solid var(--color-primary, #581845);
   position: absolute;
-  bottom: -31px;
+  top: -31px;
   left: 13px;
 }
 .svgFlex {
@@ -20,4 +20,5 @@
 }
 .screenText {
   margin-bottom: 20px;
+  color: #333333;
 }

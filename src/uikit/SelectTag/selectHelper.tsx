@@ -560,6 +560,7 @@ export const customStylechanges2 ={
     maxHeight: 200,
     scrollbarWidth: 'thin',
     padding: 0,
+    color:  BLACK,
     borderColor:PRIMARY,
   
   }),

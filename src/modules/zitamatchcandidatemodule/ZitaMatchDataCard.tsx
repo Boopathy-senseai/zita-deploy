@@ -439,15 +439,22 @@ const ZitaMatchDataCard = ({
               </Flex>
               <Flex>
                 <Flex row>
-                  <Flex>
+                  <Flex marginTop={2}>
                   <Text
                     color={isEmpty(dataList.applicant) ? 'link' : 'gray'}
                     bold
-                    title={dataList.first_name}
+                    title= 
+                    {!isEmpty(dataList.last_name)? `${dataList.first_name} ${dataList.last_name}` 
+                    : `${dataList.first_name}`}
                     textStyle="ellipsis"
                     onClick={handleProfileView}
                   >
-                    {dataList.first_name}
+                  
+                    {
+                      dataList.last_name===null?(
+                        dataList.first_name
+                      ):( `${dataList.first_name} ${dataList?.last_name}`)
+                    }
                   </Text>
                   </Flex>
                   <Flex>
@@ -501,7 +508,7 @@ const ZitaMatchDataCard = ({
                        size={12}
                        style={{color:"#333333",maxWidth:"197px"}}
                        textStyle="ellipsis"
-                       title={`Location:Not Specified`}
+                       title={`Location: Not Specified`}
                        
                      >
                        {notSpecified(dataList.location)}
@@ -511,7 +518,7 @@ const ZitaMatchDataCard = ({
                       size={12}
                       style={{color:"#333333",maxWidth:"197px"}}
                       textStyle="ellipsis"
-                      title={`Location:${dataList.location}`}
+                      title={`Location: ${dataList.location}`}
                     >
                       {notSpecified(dataList.location)}
                     </Text>
@@ -525,12 +532,12 @@ const ZitaMatchDataCard = ({
                 <Flex row marginTop={2}>
                   <Flex>
                     {dataList.qualification===null ?(
-                      <Text textStyle="ellipsis" size={12}  style={{color:"#333333"}} title={`Qualification:Not Specified`}>
+                      <Text textStyle="ellipsis" size={12}  style={{color:"#333333"}} title={`Qualification: Not Specified`}>
 
                       {notSpecified(dataList.qualification)}
                     </Text>
                     ):(
-                      <Text textStyle="ellipsis" size={12}  style={{color:"#333333"}} title={`Qualification:${dataList.qualification}`}>
+                      <Text textStyle="ellipsis" size={12}  style={{color:"#333333"}} title={`Qualification: ${dataList.qualification}`}>
 
                   {notSpecified(dataList.qualification)}
                 </Text>
@@ -542,11 +549,11 @@ const ZitaMatchDataCard = ({
                 </Flex>
                 <Flex>
                   {dataList.work_exp===null||undefined||""?(
-                    <Text size={12}  style={{ marginLeft: 2 ,color:"#333333"}} title={`Experience:Not Specified`}>
+                    <Text size={12}  style={{ marginLeft: 2 ,color:"#333333"}} title={`Experience: Not Specified`}>
                     | {notSpecified(workYear(dataList.work_exp))}
                   </Text>
                   ):(
-                    <Text size={12}  style={{ marginLeft: 2 ,color:"#333333"}} title={`Experience:${workYear(dataList.work_exp)}`}>
+                    <Text size={12}  style={{ marginLeft: 2 ,color:"#333333"}} title={`Experience: ${workYear(dataList.work_exp)}`}>
                       | {notSpecified(workYear(dataList.work_exp))}
                     </Text>
                   )}
@@ -561,7 +568,7 @@ const ZitaMatchDataCard = ({
                 <Text bold  size={12} textStyle="ellipsis"   style={{ maxWidth: '90%' ,color:"#333333"}}>
                   Skills:{' '}
                 </Text>
-                 {dataList.skills===null||undefined||""?(<Text  title={`Skills:Not Specified`}>
+                 {dataList.skills===null||undefined||""?(<Text  title={`Skills: Not Specified`}>
                   {notSpecified(lowerCase(dataList.skills.replace(/,/g, ', ')))}
                  </Text>):(<Text  title={`Skills: ${dataList.skills.replace(/,/g, ', ')}`}>
                   { notSpecified(lowerCase(dataList.skills.replace(/,/g, ', ')))}
@@ -663,12 +670,11 @@ const ZitaMatchDataCard = ({
               {!isEmpty(dataList.interested) &&
               dataList.interested === false ? (
                 <>
-                <div className={cx('svgInviteNone')}>
-                <SvgInvite width={36} height={36} color="theme" />
-              </div>
-                <Text color="gray" size={12}>
-                  You can’t send Invite
-                </Text></>
+               
+              {dataList.applicant===null &&
+               <SvgNotInterested></SvgNotInterested>}
+             
+                </>
               ) : (
                 <>
                   {!isEmpty(dataList.invite) && isEmpty(dataList.applicant) && (
@@ -685,14 +691,16 @@ const ZitaMatchDataCard = ({
                         >
                           <SvgInvite width={36} height={36} color="theme" /> 
                         </div>
-                    <Text color="gray" size={12} style={{paddingLeft:"7px",width:"65%"}}>
+                        {dataList.interested===null &&
+                    <Text color="gray" size={12} style={{paddingLeft:"5px",width:"65%"}}>
                       Last Invited{' '}
                       {dataList?.invite && getDateString(dataList.invite, 'll')}
-                    </Text></>
+                    </Text>}
+                    </>
                   )}
                 </>
               )}
-              
+              {console.log("dddddddddddddddddd",dataList)}
               {/* {!isEmpty(dataList.invite) && !isEmpty(dataList.applicant) && (
                 <Text color="gray" size={12}>
                   You can’t send Invite
@@ -704,33 +712,28 @@ const ZitaMatchDataCard = ({
                   {
                     dataList.interested ?(
                       <SvgInterested
-                      width={17}
-                      height={17}
-                      fill={SUCCESS }
                     />
                     ):(
-                      <SvgNotInterested></SvgNotInterested>
-                    
+                      // <SvgNotInterested></SvgNotInterested>
+                    ""
                     )
                   }
                  {
                   dataList.interested ?(
-                    <Text  style={{ marginLeft: 4,color:"#581845" }} size={12} >Interested</Text>
+                    <Text  style={{ marginLeft: 4,color:"#1976d2" }} size={12} >Interested</Text>
                   ):(
-                    <Text  style={{ marginLeft: 4,color:"#ff0000" }} size={12}>Not Interested</Text>
+                    <Text  style={{ marginLeft: 4,color:"#ff0000" }} size={12} title=' You can’t send Invite'>Not Interested</Text>
                   )
                  }
                  
                 </Flex>
                  )}  
 
-              
-
-
+              {console.log("datalist",dataList.applicant)}
               {!isEmpty(dataList.applicant) && (
                 <Flex row center>
                    <SvgAppliedIcon fill={SUCCESS} width={17} height={17} /> 
-                  <Link target={'_parent'} to={`/applicant_pipe_line/${jobId}`}>
+                  <Link target={'_blank'} to={`/applicant_pipe_line/${jobId}`}>
                     <Text
                       color="link"
                       bold

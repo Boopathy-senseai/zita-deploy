@@ -14,6 +14,7 @@ import Loader from '../../uikit/Loader/Loader';
 import Text from '../../uikit/Text/Text';
 import Toast from '../../uikit/Toast/Toast';
 import { config } from '../constValue';
+import {applicantcandidateMatchMiddleWare, candidateMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { EmpPoolEntity } from './bulkImportTypes';
 import { bulkuploadedCandidatesMiddleWare } from './store/middleware/bulkImportMiddleware';
 import styles from './valueAddName.module.css';
@@ -77,10 +78,15 @@ const SkillsAdd = ({
       name: 'skills',
       value: formik.values.name,
     });
-
+    
     axios
       .post(uploadedCandidatesApi, data, config)
       .then(() => {
+        dispatch(
+          candidateMatchMiddleWare({ 
+            can_id:id.toString(),
+          }),
+        )
         if (tabKey === 'total') {
              if(jdId === undefined){
           dispatch(
@@ -90,7 +96,7 @@ const SkillsAdd = ({
               total: total_count,
             }),
           ).then(() => {
-            Toast('Skills updated successfully', 'LONG', 'success');
+            Toast('Skills updated successfully', 'LONG', 'success'); 
             setInput(false);
             setLoader(false);
           });
@@ -103,7 +109,7 @@ const SkillsAdd = ({
               total: total_count,
             }),
           ).then(() => {
-            Toast('Skills updated successfully', 'LONG', 'success');
+            Toast('Skills updated successfully', 'LONG', 'success'); 
             setInput(false);
             setLoader(false);
           });
@@ -118,7 +124,7 @@ const SkillsAdd = ({
               completed,
             }),
           ).then(() => {
-            Toast('Skills updated successfully', 'LONG', 'success');
+            Toast('Skills updated successfully', 'LONG', 'success'); 
             setInput(false);
             setLoader(false);
           });
@@ -131,7 +137,7 @@ const SkillsAdd = ({
               completed,
             }),
           ).then(() => {
-            Toast('Skills updated successfully', 'LONG', 'success');
+            Toast('Skills updated successfully', 'LONG', 'success'); 
             setInput(false);
             setLoader(false);
           });
@@ -146,7 +152,7 @@ const SkillsAdd = ({
               incompleted,
             }),
           ).then(() => {
-            Toast('Skills updated successfully', 'LONG', 'success');
+            Toast('Skills updated successfully', 'LONG', 'success'); 
             setInput(false);
             setLoader(false);
           });
@@ -159,7 +165,7 @@ const SkillsAdd = ({
               incompleted,
             }),
           ).then(() => {
-            Toast('Skills updated successfully', 'LONG', 'success');
+            Toast('Skills updated successfully', 'LONG', 'success'); 
             setInput(false);
             setLoader(false);
           });

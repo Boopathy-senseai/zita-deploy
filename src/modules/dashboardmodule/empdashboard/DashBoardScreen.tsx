@@ -251,7 +251,7 @@ const DashBoardScreen = () => {
       </Flex >
 
 
-        <Flex row >
+        <Flex row>
           <Flex flex={5}>
             <ProfileCard></ProfileCard>
           </Flex>

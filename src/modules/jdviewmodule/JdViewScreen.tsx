@@ -346,7 +346,7 @@ const JdViewScreen = () => {
               </Text>
               <div className={styles.tableDiv}>
                 {
-                  questionnaire.length === 0 ? (
+                  questionnaire?.length === 0 ? (
                     <Text color="gray">No questions added for this job</Text>
                   ) : (
                     <Table
