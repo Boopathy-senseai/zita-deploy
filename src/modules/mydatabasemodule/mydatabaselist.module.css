@@ -29,3 +29,12 @@
 .tabPaddingRightOne {
   padding-right: 6%;
 }
+
+.dataIcond{
+  display: flex;
+}
+
+.svgIcon{
+width: 15px;
+margin-bottom: 15px;
+}
