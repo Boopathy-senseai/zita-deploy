@@ -110,7 +110,7 @@ const TalentAction = ({
     // }
     // if ((((formik.values.location).length )<1)) {
     //    errors.location = "Space is not a character";
-    // }
+    // 
       return errors;
   };
   const SignupSchema = Yup.object().shape({
