@@ -570,10 +570,11 @@ const CandidateDatabaseTab = ({
         )}
       </Flex>
       { isCandiTableLoader? (
-        <Flex center middle height={100}>
-        <Loader withOutOverlay size={'medium'} />
+        <Flex center middle  >
+        <Loader   size={'medium'} />
       </Flex>
       ) : (
+        <Flex flex={1} style={{overflowX:'hidden'}}>
         <Tabel
           empty={
             isSearch === 1 ? 'No candidates imported yet' : 'No candidate found'
@@ -582,6 +583,7 @@ const CandidateDatabaseTab = ({
           columns={columns}
           isLoader={isTableLoader}
         />
+        </Flex>
       )}
 
       { !isCandiTableLoader&& isPageTab > 10 && (

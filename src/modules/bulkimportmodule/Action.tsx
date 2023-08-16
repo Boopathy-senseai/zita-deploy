@@ -259,7 +259,7 @@ const Action = ({
         <Loader withOutOverlay size="small" />
       ) : (
         <>
-        <Dropdown className="dropdownButton dropleft">
+        <Dropdown drop="down" className="dropdownButton dropleft" >
             <Dropdown.Toggle
               // onClick={handleOpenPopup}
               style={{

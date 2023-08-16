@@ -123,7 +123,7 @@ export const title = (
     title: 'Experience',
     dataIndex: 'work_exp',
     key: 'work_exp',
-    flex: 9,
+    flex: 10,
     render: (_a: any, value: EmpPoolEntity) => {
       return (
         <ExperienceAdd
@@ -316,7 +316,7 @@ export const applicantTable = (
     title: 'Qualification',
     dataIndex: 'qualification',
     key: 'qualification',
-    flex: 13,
+    flex: 11,
     render: (_a: any, value: EmpPoolEntity) => {
       return (
         <QualificationAdd
@@ -336,7 +336,7 @@ export const applicantTable = (
     title: 'Experience',
     dataIndex: 'work_exp',
     key: 'work_exp',
-    flex: 13,
+    flex: 10,
     render: (_a: any, value: EmpPoolEntity) => {
       return (
         <ExperienceAdd

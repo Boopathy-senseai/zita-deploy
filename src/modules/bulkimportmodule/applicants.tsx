@@ -98,6 +98,7 @@ const ApplicantsTab = ({
   const [isPageTab, setPageTab] = useState(total_count);
   const dispatch: AppDispatch = useDispatch();
   const [model, setmodel] = useState(false);
+  const [withoutjderror,setwithoutjderror] = useState(false);
 
   // Profile View Function
   const hanldeEditProfileView = (id: number) => {
@@ -428,6 +429,18 @@ const ApplicantsTab = ({
       },
     );
   };
+  const handleopenmodal =()=>{ 
+    if(Number(isJdId) !==0 ){
+    setmodel(true)}
+    if(Number(isJdId) ===0 ){ 
+    setwithoutjderror(true)
+    }
+  }
+  useEffect(()=>{
+    if(isJdId){
+      setwithoutjderror(false)
+    }
+  },[isJdId])
   const handleKeyPress = (event: { key: string }) => {
     if (event.key === 'Enter') {
       formik.handleSubmit();
@@ -440,8 +453,7 @@ const ApplicantsTab = ({
     <Flex
       height={window.innerHeight - 200}
       className={styles.Applicantdatabase}
-    >
-      {console.log('isJdId+++++', isJdId)}
+    > 
       <YesOrNoModal
         title={
           <Text style={{ width: 580, marginLeft: 12 }}>
@@ -539,9 +551,10 @@ const ApplicantsTab = ({
 
       <Flex row between className={styles.inputConatinerApplicants}>
         <Flex row>
-          <Text className={styles.importText}>Import applicants for</Text>
+          <Text className={styles.importText}>Import applicants for*</Text>
           <Flex row>
-            <div className={styles.skillContainer}>
+            <Flex>
+            <Flex className={styles.skillContainer}>
               <SelectTag
                 labelBold
                 options={jd_id}
@@ -556,7 +569,8 @@ const ApplicantsTab = ({
                   hanldeApplicant(option.id.toString());
                 }}
               />
-            </div>
+            </Flex>  {withoutjderror && <Text color='error'>Select a job to import applicants</Text>}
+            </Flex>
             <InputText
               className={styles.inputWidth}
               inputConatinerClass={styles.inputStyle}
@@ -610,7 +624,7 @@ const ApplicantsTab = ({
           </Flex>
         ) : (
           <Flex>
-            <Button onClick={() => setmodel(true)}>Bulk Import</Button>
+            <Button onClick={handleopenmodal}>Bulk Import</Button>
           </Flex>
         )}
       </Flex>
@@ -742,8 +756,8 @@ const ApplicantsTab = ({
               <Loader withOutOverlay size={'medium'} />
             </Flex>
           ) : (
-            
-            <Tabel
+            <Flex width={window.innerWidth- 250} flex={1} style={{overflowX:'hidden'}}>
+              <Tabel
               empty={
                 isSearch === 1
                   ? 'No applicants imported yet'
@@ -753,6 +767,8 @@ const ApplicantsTab = ({
               columns={columns}
               isLoader={isTableLoader}
             />
+            </Flex>
+            
           )}
           {!isCandiTableLoader && isPageTab > 10 && (
             <Flex middle className={styles.pagination}>
