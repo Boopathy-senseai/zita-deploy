@@ -40,6 +40,7 @@ const Pangination = ({ currentPage, setCurrentPage, maxPages }: Props) => {
         onClick={() => {
           setCurrentPage(number);
           window.scrollTo({top: 0})
+          
         }}
         tabIndex={-1}
         role={'button'}
@@ -74,7 +75,9 @@ const Pangination = ({ currentPage, setCurrentPage, maxPages }: Props) => {
   const disabledLast = currentPage === maxPages;
 
   const paginationRender = (
+
     <div className={styles.renderContainer} >
+
       <Text
         onClick={handleFirst}
         bold

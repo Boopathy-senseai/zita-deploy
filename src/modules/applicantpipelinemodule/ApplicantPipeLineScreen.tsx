@@ -141,7 +141,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
       };
     },
   );
-
+console.log(locations,'kkkkkkkkkkkkkkkkkkk')
   useEffect(() => {
     // dispatch(getKanbanStagesMiddleWare());
     dispatch(getKanbanStagesMiddleWare({ jd_id: parseInt(jdId) }));

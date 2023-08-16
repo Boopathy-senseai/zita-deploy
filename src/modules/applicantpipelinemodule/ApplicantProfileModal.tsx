@@ -117,6 +117,7 @@ const ApplicantProfileModal = ({
     status_id,
     invite,
     source,
+    stages
   } = useSelector(
     ({
       applicantProfileInitalReducers,
@@ -134,6 +135,7 @@ const ApplicantProfileModal = ({
         status_id: applicantProfileInitalReducers.status_id,
         invite: applicantStausReducers.invite,
         source: applicantProfileInitalReducers.source,
+        stages: applicantStausReducers?.stages,
       };
     },
   );
@@ -224,7 +226,7 @@ const ApplicantProfileModal = ({
               profile_match={profileMatch}
               nonMatch={checkMatch}
               inviteCall={hanldeInvitePopUp}
-              isInvite={status_id.length === 0}
+              // isInvite={status_id.length === 0}
               isResume
               withOutJD={isTab}
               source={source}
@@ -239,7 +241,7 @@ const ApplicantProfileModal = ({
           </Flex>
         ) : (
           <Flex flex={7} className={styles.tabLeftFlex}>
-            {status_id.length === 0 ? (
+            {stages.length === 0 ? (
               <ApplicantTabLeftTwo activeState={activeState} />
             ) : (
               <ApplicantTabLeft activeState={activeState} />
@@ -249,7 +251,7 @@ const ApplicantProfileModal = ({
 
         {isTab && (
           <Flex flex={5} className={styles.tabRightFlex}>
-            {status_id.length === 0 ? (
+            {stages.length === 0 ? (
               <ApplicantTabRightOne />
             ) : (
               <ApplicantTabRight />

@@ -28,7 +28,6 @@ type DefaultTitleProps = {
 const defaultTitleProps: DefaultTitleProps = {
   columns: [],
 };
-
 const TitleColumns = ({ columns }: typeof defaultTitleProps) => {
   const length=(columns.length)-1;
   const value=columns[length].dataIndex;
@@ -71,11 +70,14 @@ const TitleColumns = ({ columns }: typeof defaultTitleProps) => {
     </>
   );
 };
-
+ 
 // export default memo(
-//   TitleColumns,
-//   (prevProps: Props, nextProps: Props) =>
-//     prevProps.columns === nextProps.columns
-// );
 
+//   TitleColumns,
+
+//   (prevProps: Props, nextProps: Props) =>
+
+//     prevProps.columns === nextProps.columns
+
+// );
 export default TitleColumns;

@@ -32,7 +32,7 @@ type Props = {
   className?: string;
   color?: textColors;
   disabled?: boolean;
-  onChange?: (a: any) => void;
+  onChange?: (a: any, b?: any) => void;
   onPaste?: (a: any) => void;
   autoFocus?: boolean;
   maxLength?: number;
@@ -50,7 +50,7 @@ type Props = {
   inputConatinerClass?: string;
   value?: string;
   id?: string;
-  size?: 13 | 14 | 16 | 12;
+  size?: 11 | 12 | 13 | 14 | 16;
   lineInput?: boolean;
   actionRight?: Function;
   actionLeft?: Function;

@@ -434,6 +434,20 @@ const CreateJdWithDs = () => {
 
   return (
     <>
+      {/* <div>
+        <Flex row className={styles.titleContainer}>
+          <Text
+            bold
+            size={18}
+            style={{ marginLeft: 8, color: '#581845' }}
+            className={styles.postingcl}
+          >
+            Job Posting
+          </Text>
+          <div className={styles.triangle}></div>
+        </Flex>
+      </div> */}
+    
       <Flex
         columnFlex
         className={styles.overAll}
@@ -457,7 +471,7 @@ const CreateJdWithDs = () => {
           />
           <Flex columnFlex className={styles.step3Flex}>
             <div className={styles.round}>
-              <Text bold size={18} color={'black'}>
+              <Text bold size={16} color={'black'}>
                 {3}
               </Text>
             </div>
@@ -507,7 +521,7 @@ const CreateJdWithDs = () => {
           }) => (
             <>
               <Form>
-                <Card className={styles.cardOverAll}>
+                <Flex className={styles.cardOverAll}>
                   <JobDescriptionTemplate
                     // temTitle={temTitle}
                     jdTemplates={jdTemplates}
@@ -608,12 +622,12 @@ const CreateJdWithDs = () => {
                     values={values}
                     createJdLoader={createJdLoader}
                     setFieldValue={setFieldValue}
-                    profileTitle={'Recommended skills for given profile'}
+                    profileTitle={'Recommended skills for the given profile'}
                     profileTitleRight="Required Skills"
                     errors={errors}
                     touched={touched}
                   />
-                </Card>
+                </Flex>
                 <JobDetails
                   values={values}
                   handleChange={handleChange}

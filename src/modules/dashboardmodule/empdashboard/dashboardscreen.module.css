@@ -2,8 +2,10 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  overflow: auto;
+  overflow: auto !important;
   width: "100%";
+  height: 600px;
+  padding-right: 10px;
 }
 
 has context menu
@@ -35,7 +37,7 @@ has context menu
 }
 .ribbon{
   background-color: #EEE8EC;
-  height: 45px;
+  height: 40px;
 }
 /* .triangle{
   display:flex;
@@ -56,9 +58,12 @@ border-bottom: 22px solid transparent;
   
 position: relative;
   
-top: 71;
+top: -1px;
   
-right: 43;
+right: 0px;
 
   
   }
+  /* .scroll{
+    overflow-y: auto !important;
+  } */

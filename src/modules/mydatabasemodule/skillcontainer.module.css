@@ -1,20 +1,73 @@
 .skillFlex {
   position: relative;
+  bottom: 22px;
+  right: 30px;
 }
 .skillTextStyle {
   line-clamp: 2;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  margin-left: -18px;
+  width:100%;
+  margin-top :-15px;
 }
+
+@media only screen and (max-width: 1366px) {
+  .skillTextStyle{
+    width: 100%;
+  }
+}
+
+@media only screen and (min-width: 1366px) and (max-width:1920px) {
+  .skillTextStyle{
+    width: 120%;
+  }
+}
+
+@media screen and (min-width: 1920px) {
+  .skillTextStyle{
+    width: 139%;
+  }
+}
+
 .labelSvg {
   position: relative;
-    top: 7px;
+    top: 2px;
     left: -5%;
-    margin-right: -8%;
+    margin-right: -14%;
 }
 .notes {
-  margin-left: 16px;
+  margin-left: -8px;
   cursor: pointer;
+  font-size: 11px;
+}
+
+.showallmatching{
+  color: #581845;
+  font-size: 11px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 138px;
+  position: relative;
+  left: 50px;
+}
+
+@media only screen and (max-width: 1366px) {
+  .showallmatching{
+    left: 20px;
+  }
+}
+
+@media only screen and (max-width: 1366px) and (max-width:1920px) {
+  .showallmatching{
+    left: 20px;
+  }
+}
+
+@media screen and (min-width: 1920px) {
+  .showallmatching{
+    left: 20px;
+  }
 }

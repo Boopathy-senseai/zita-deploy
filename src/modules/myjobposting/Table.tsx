@@ -174,54 +174,31 @@ const MyJobPostingScreen = ({currentPage,setCurrentPage}:props) => {
                       <tr style={{ height: 50 }}>
                         <td className={styles.padchang}>
                           <Flex row top className={styles.hellothere}>
-                            {/* <LinkWrapper to={`/job_view/${list.id}`} className={styles.hovercol} >
-                            {list.job_title}
-                          </LinkWrapper> 
-                          <Flex marginLeft={8}marginTop={2} >
-                            {list.jd_status__label_name === "Inactive" ? (
-                              <div style={{cursor:"default" }} className={styles.svcopy} >
-                                <SvgCopy 
-                                  width={11.33}
-                                  height={13.33}
-                                  // fill={'rgb(255 194 3/50%)'} 
-                                  // fill={"#333333"}
-                                  fill={'rgb(51 51 51/50%)'}
-                                  // fill={"#F0EBED"}
-                                />
-                              </div>
-                            ) : (
-                              <div
-                              style={{marginTop:7.5}}
-                                role={"button"}
-                                className={styles.svgstyle}
-                                title="Copy the job posting URL from your careers page"
-                                onClick={() =>
-                                  copyToClipboard(
-                                    `${domain}/career_job_view/${career_page_url}/${list.id}/${list.job_title}`,
-                                    "Link Copied"
-                                  )
-                                }
-                              >
-                                <SvgCopy
-                                  width={11.33}
-                                  height={13.33}
-                                  fill={"#333333"}
-                                />
-                              </div>
-                            )} */} 
-                            {list.jd_status__label_name === 'Active' && (
-                              <Flex row top >
-                                <LinkWrapper
-                                  to={`/job_view/${list.id}`} 
-                                  className={styles.maxwidthjobtype}
-                                >
-                                  <Text color="link" bold title={list.job_title}   >
-                                    {list.job_title}
-                                  </Text>
-                                </LinkWrapper>
+                            {/* <LinkWrapper
+                              to={`/job_view/${list.id}`}
+                              className={styles.hovercol}
+                            >
+                              {list.job_title}
+                            </LinkWrapper>
 
+                            <Flex marginLeft={8}>
+                              {list.jd_status__label_name === 'Inactive' ? (
                                 <div
-                                  tabIndex={0}
+                                  style={{ cursor: 'default', marginTop: 7.5 }}
+                                  className={styles.svcopy}
+                                >
+                                  <SvgCopy
+                                    width={11.33}
+                                    height={13.33}
+                                    // fill={'rgb(255 194 3/50%)'}
+                                    // fill={"#333333"}
+                                    fill={'rgb(51 51 51/50%)'}
+                                    // fill={"#F0EBED"}
+                                  />
+                                </div>
+                              ) : (
+                                <div
+                                  style={{ marginTop: 7.5 }}
                                   role={'button'}
                                   style={{ marginLeft: 8 ,marginTop:1}}
                                   title="Copy the job posting URL from your careers page"
@@ -232,6 +209,38 @@ const MyJobPostingScreen = ({currentPage,setCurrentPage}:props) => {
                                     )
                                   }
                                   onKeyDown={() => {}}
+                                >
+                                  <SvgCopy
+                                    width={11.33}
+                                    height={13.33}
+                                    fill={'#581845'}
+                                  />
+                                </div>
+                              )} */}
+                            {/* </Flex> */}
+                            {/* </div> */}
+                            {list.jd_status__label_name === 'Active' && (
+                              <Flex row top >
+                                <LinkWrapper
+                                  to={`/job_view/${list.id}`}
+                                  className={styles.maxwidthjobtype}
+                                >
+                                  <Text color="link" bold title={list.job_title}   >
+                                    {list.job_title}
+                                  </Text>
+                                </LinkWrapper>
+                                <div
+                                  tabIndex={0}
+                                  role={'button'}
+                                  style={{ marginLeft: 8, marginTop: 1 }}
+                                  title="Copy the job posting URL from your careers page"
+                                  onClick={() =>
+                                    copyToClipboard(
+                                      `${domain}/${career_page_url}/career_job_view/${list.id}/${list.job_title}`,
+                                      'Link Copied',
+                                    )
+                                  }
+                                  onKeyDown={() => { }}
                                 >
                                   <SvgCopy
                                     width={11.33}
@@ -265,16 +274,14 @@ const MyJobPostingScreen = ({currentPage,setCurrentPage}:props) => {
                                 <div
                                   tabIndex={0}
                                   role={'button'}
-                                  style={{ marginLeft: 8,marginTop:1,cursor:'default'}}
+                                  style={{ marginLeft: 8, marginTop: 1, cursor: 'default' }}
                                 >
                                   <SvgCopy width={11.33}
-                                  height={13.33}
-                                  fill={'rgb(88 24 69/30%)'} />
-                                  
+                                    height={13.33}
+                                    fill={'rgb(88 24 69/30%)'} />
                                 </div>
                               </Flex>
                             )}
-
                             {list.jd_status__label_name === 'Inactive' && (
                               <Flex row top>
                                 <LinkWrapper
@@ -288,11 +295,11 @@ const MyJobPostingScreen = ({currentPage,setCurrentPage}:props) => {
                                 <div
                                   tabIndex={0}
                                   role={'button'}
-                                  style={{ marginLeft: 8,marginTop:1,cursor:'default'}}
+                                  style={{ marginLeft: 8, marginTop: 1, cursor: 'default' }}
                                 >
-                                  <SvgCopy  width={11.33}
-                                  height={13.33} 
-                                  fill={'rgb(88 24 69/30%)'}/>
+                                  <SvgCopy width={11.33}
+                                    height={13.33}
+                                    fill={'rgb(88 24 69/30%)'} />
                                 </div>
                               </Flex>
                             )}
@@ -309,11 +316,11 @@ const MyJobPostingScreen = ({currentPage,setCurrentPage}:props) => {
                                 <div
                                   tabIndex={0}
                                   role={'button'}
-                                  style={{ marginLeft: 8,marginTop:1,cursor:'default'}}
+                                  style={{ marginLeft: 8, marginTop: 1, cursor: 'default' }}
                                 >
-                                  <SvgCopy  width={11.33}
-                                  height={13.33} 
-                                  fill={'rgb(88 24 69/30%)'}/>
+                                  <SvgCopy width={11.33}
+                                    height={13.33}
+                                    fill={'rgb(88 24 69/30%)'} />
                                 </div>
                               </Flex>
                             )}
@@ -324,23 +331,20 @@ const MyJobPostingScreen = ({currentPage,setCurrentPage}:props) => {
                                   className={styles.maxwidthjobtype}
                                 >
                                   <Text color="link" bold title={list.job_title}  >
-                                    {list.job_title}
-                                  </Text>
-                                </LinkWrapper>{' '}
+                                    {list.job_title} 
+                                  </Text> 
+                                </LinkWrapper>{' '} 
                                 <div
                                   tabIndex={0}
                                   role={'button'}
-                                  style={{ marginLeft: 8,marginTop:1,cursor:'default'}}
-                                >
-                                  <SvgCopy  width={11.33}
-                                  height={13.33}
-                                  fill={'rgb(88 24 69/30%)'} />
-                                </div>
-                              </Flex>
-                            )}
-
-                            {/* </Flex> */}
-                            {/* </div> */}
+                                  style={{ marginLeft: 8, marginTop: 1, cursor: 'default' }}
+                                > 
+                                  <SvgCopy width={11.33} 
+                                    height={13.33} 
+                                    fill={'rgb(88 24 69/30%)'} /> 
+                                </div> 
+                              </Flex> 
+                            )} 
                           </Flex>
                         </td>
                         <td
@@ -527,8 +531,20 @@ const MyJobPostingScreen = ({currentPage,setCurrentPage}:props) => {
                           ) : (
                             ''
                           )}
-                          {list.jd_status__label_name === 'Preview' ||
-                          list.jd_status__label_name === 'Questionnaire' ? (
+                            {list.jd_status__label_name === 'Questionnaire' ? (
+                            <div
+                              style={{
+                                color: '#FCC203',
+                                fontWeight: 500,
+                                fontSize: 15,
+                              }}
+                            >
+                              {"Draft"}{' '}
+                            </div>
+                          ) : (
+                            ''
+                          )}
+                          {list.jd_status__label_name === 'Preview' ? (
                             <div
                               style={{
                                 color: '#FCC203',
