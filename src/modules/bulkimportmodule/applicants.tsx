@@ -356,11 +356,7 @@ const ApplicantsTab = ({
     setCandiTableLoader(true);
     const formData = new FormData();
     formData.append('jd_id', isJdId);
-<<<<<<< HEAD
     dispatch(bulkImportMatchMiddleWare({ isJdId })).then(() => {
-=======
-    dispatch(jdMatchMiddleWare({jd_id:isJdId})).then(() => {
->>>>>>> origin/23Q1_Revamp_Zita-Match-candidates-Page
       dispatch(
         bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: isJdId }),
       ).then(() => {
