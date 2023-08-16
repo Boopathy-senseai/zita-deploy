@@ -733,7 +733,7 @@ const ZitaMatchDataCard = ({
               {!isEmpty(dataList.applicant) && (
                 <Flex row center>
                    <SvgAppliedIcon fill={SUCCESS} width={17} height={17} /> 
-                  <Link target={'_parent'} to={`/applicant_pipe_line/${jobId}`}>
+                  <Link target={'_blank'} to={`/applicant_pipe_line/${jobId}`}>
                     <Text
                       color="link"
                       bold
