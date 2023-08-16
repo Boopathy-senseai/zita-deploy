@@ -21,12 +21,12 @@
 .candidatedatabase{
 overflow-y:scroll !important;
 display:flex !important;
-padding-right:10px;
+/* padding-right:10px; */
 }
 .Applicantdatabase{
   overflow-y:scroll !important;
 display:flex !important;
-padding-right:10px;
+/* padding-right:10px; */
 }
 .careerPage{
 margin-top: 7px;
