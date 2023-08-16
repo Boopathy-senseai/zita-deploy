@@ -462,6 +462,7 @@ const duplicateReducer = createSlice({
 const jdPreviewState: JdPreviewState = {
   isLoading: false,
   error: '',
+  ext_jobs: '',
   jd: {
     industry_type__label_name: '',
     is_ds_role: false,
@@ -481,7 +482,7 @@ const jdPreviewState: JdPreviewState = {
     min_exp: 0,
     max_exp: 0,
     is_eeo_comp: false,
-    salary_curr_type__value:''
+    salary_curr_type__value: ''
   },
   has_external_posting: false,
   career_page_url: '',
@@ -516,6 +517,7 @@ const jdPreviewState: JdPreviewState = {
   ],
   skills: [],
   company_detail: { company_name: '' },
+  link: ''
 };
 
 const jdPreviewReducer = createSlice({
@@ -537,6 +539,7 @@ const jdPreviewReducer = createSlice({
       state.skills = action.payload.skills;
       state.company_detail = action.payload.company_detail;
       state.career_page_url = action.payload.career_page_url;
+      state.link = action.payload.link;
     });
     builder.addCase(jdPreviewMiddleWare.rejected, (state, action) => {
       state.isLoading = false;

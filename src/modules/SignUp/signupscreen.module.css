@@ -141,6 +141,7 @@
   outline: none;
   border-bottom: thin solid #6a5e67;
   background: transparent;
+  
   border-radius: 0px;
 }
 
@@ -164,6 +165,7 @@
 .signup_col {
   margin-top: 10px;
   margin-right: 20px;
+  font-size: 14px;
   margin-left: 20px;
   margin-bottom: 20px;
 }
@@ -224,6 +226,10 @@
   text-align: center;
   margin-top: 45px;
   color: #581845;
+}
+
+.labelText{
+  font-size: 14px;
 }
 
 .messages {

@@ -376,7 +376,7 @@ export const editJdPostMiddleWare = createAsyncThunk(
 
 export const postJdMiddleWare = createAsyncThunk(
   'post_jd',
-  async ({ jd_id }: { jd_id: string }, { rejectWithValue }) => {
+  async ({ jd_id}: { jd_id: string}, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(postJdApi(jd_id));
       return data;

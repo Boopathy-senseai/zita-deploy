@@ -84,7 +84,7 @@ const CreateJdScreen = () => {
             </Text>
           </Flex>
         </Flex>
-      )}
+        )} 
       <Flex columnFlex>
         <Text
           className={styles.chooseText}
