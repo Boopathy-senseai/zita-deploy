@@ -1,7 +1,8 @@
 import axios from 'axios';
 import classNames from 'classnames/bind';
 import moment from 'moment';
-import { createRef, useEffect, useState } from 'react';
+import { createRef, useEffect, useState,useRef } from 'react';
+
 import { useDispatch } from 'react-redux';
 import SvgBell from '../../../icons/SvgBell';
 import SvgClose from '../../../icons/SvgClose';
@@ -32,13 +33,40 @@ const Notification = () => {
   const [isCandi, setCandi] = useState();
   const [isProfile, setProfile] = useState(false);
   const [modelopen, setmodelopen] = useState(false);
+  const [check,setcheck ] = useState(false);
   const [isMessageTab, setMessageTab] = useState(5);
+  const dropDownRef = useRef(null);
   useEffect(() => {
     axios.get(notificationApi).then((res) => {
       setData(res.data);
     });
   }, []);
   // notification api call
+
+    const closeDropDown = (e: any) => {
+
+    console.log("closeDropDown")
+
+     console.log({target: e.target, modelopen, dropDownRef})
+
+    if (
+
+      dropDownRef.current &&
+
+      modelopen &&
+
+      !dropDownRef.current.contains(e.target)
+
+    ) {
+
+      // console.log("SHOW FASLE")
+
+      setmodelopen(false);
+
+    }
+
+  };
+
   useEffect(() => {
     const interval = setInterval(() => {
       axios.get(notificationApi).then((res) => {
@@ -76,6 +104,8 @@ const Notification = () => {
         Toast('Notifications cleared successfully');
       });
     });
+    setcheck(true)
+    setmodelopen(false)
     setOpen(false);
   };
 
@@ -88,14 +118,27 @@ const Notification = () => {
     });
     setOpen(false);
   };
+const myfunction=()=>{ 
+ 
+  {
+  setOpen(true);}
+ 
+}
 
   const handleclose = () => {
     setOpen(false);
   };
 
+  // if(isOpen===false){
+  //   setmodelopen(false);
+  // }
+  
+
   return (
-    <>
-      <div ref={myRef} style={{ position: 'relative' }}>
+    
+    <Flex >
+      {console.log("open",isOpen)}
+      <div ref={myRef} style={{ position: 'relative' }} >
         <ProfileView
           open={isProfile}
           cancel={() => {
@@ -107,16 +150,17 @@ const Notification = () => {
           activeState={isMessageTab}
         />
         <div
-          title="Notifications"
           onClick={() => setOpen(!isOpen)}
           tabIndex={-1}
           onKeyDown={() => {}}
           role="button"
-          style={{ position: 'relative' }}
+          title="Notifications"
+          className={styles.hoverback}
+          style={{ position: 'relative', padding: ' 5px' }}
         >
           {isData && isData.total_unread !== 0 && (
             <div className={styles.countStyle}>
-              <Text color="white" style={{ fontSize: 8 }}>
+              <Text color="white" style={{ fontSize: 10, marginTop: '2px' }}>
                 {isData && isData.total_unread}
               </Text>
             </div>
@@ -132,7 +176,7 @@ const Notification = () => {
             {isData && isData.total !== 0 ? (
               <>
                 <Flex row center between className={styles.headerStyle}>
-                  <Text color="theme" style={{ fontSize: '18px' }} bold>
+                  <Text color="theme" style={{ fontSize: '14px' }} bold>
                     Notifications
                   </Text>
                   <Flex onClick={handleclose} style={{ cursor: 'pointer' }}>
@@ -157,16 +201,25 @@ const Notification = () => {
                                 <Flex key={index + list.id}>
                                   {index === 0 && (
                                     <Text
-                                      style={{ padding: '8px 16px' }}
-                                      size={12}
+                                      style={{
+                                        padding: '8px 16px 0px 16px',
+                                        fontWeight: 600,
+                                        fontSize: '13px',
+                                      }}
                                       bold
                                     >
-                                      Today
+                                      TODAY
                                     </Text>
                                   )}
                                   {list.description.toLowerCase() ===
                                   'bulkimport' ? (
                                     <>
+                                      {' '}
+                                      {index === 0 ? (
+                                        ''
+                                      ) : (
+                                        <hr className={styles.hr_line} />
+                                      )}
                                       <LinkWrapper
                                         to={getPath}
                                         onClick={() => {
@@ -184,14 +237,18 @@ const Notification = () => {
                                             className={styles.listStyle}
                                           >
                                             <Text
-                                              size={12}
-                                              style={{ maxWidth: '75%' }}
+                                              style={{
+                                                maxWidth: '72%',
+                                                fontSize: '13px',
+                                              }}
                                             >
                                               {list.verb}
                                             </Text>
                                             <Text
-                                              style={{ marginLeft: 16 }}
-                                              size={12}
+                                              style={{
+                                                marginLeft: 3,
+                                                fontSize: '13px',
+                                              }}
                                               color="gray"
                                             >
                                               {moment(list.timestamp).fromNow()}
@@ -202,11 +259,15 @@ const Notification = () => {
                                           )}
                                         </Flex>
                                       </LinkWrapper>
-                                      <hr className={styles.hr_line} />
                                     </>
                                   ) : list.description.toLowerCase() ===
                                     'candidatenotes' ? (
                                     <>
+                                      {index === 0 ? (
+                                        ''
+                                      ) : (
+                                        <hr className={styles.hr_line} />
+                                      )}
                                       <Flex
                                         onClick={() => {
                                           setCandi(list.target_object_id);
@@ -226,14 +287,18 @@ const Notification = () => {
                                             className={styles.listStyle}
                                           >
                                             <Text
-                                              size={12}
-                                              style={{ maxWidth: '75%' }}
+                                              style={{
+                                                maxWidth: '72%',
+                                                fontSize: '13px',
+                                              }}
                                             >
                                               {list.verb}
                                             </Text>
                                             <Text
-                                              style={{ marginLeft: 16 }}
-                                              size={12}
+                                              style={{
+                                                marginLeft: 3,
+                                                fontSize: '13px',
+                                              }}
                                               color="gray"
                                             >
                                               {moment(list.timestamp).fromNow()}
@@ -244,10 +309,15 @@ const Notification = () => {
                                           )}
                                         </Flex>
                                       </Flex>
-                                      <hr className={styles.hr_line} />
                                     </>
                                   ) : (
                                     <>
+                                      {index === 0 ? (
+                                        ''
+                                      ) : (
+                                        <hr className={styles.hr_line} />
+                                      )}
+
                                       <Flex
                                         onClick={() => {
                                           setJd(list.action_object_object_id);
@@ -275,14 +345,18 @@ const Notification = () => {
                                             className={styles.listStyle}
                                           >
                                             <Text
-                                              size={12}
-                                              style={{ maxWidth: '75%' }}
+                                              style={{
+                                                maxWidth: '72%',
+                                                fontSize: '13px',
+                                              }}
                                             >
                                               {list.verb}
                                             </Text>
                                             <Text
-                                              style={{ marginLeft: 16 }}
-                                              size={12}
+                                              style={{
+                                                marginLeft: 3,
+                                                fontSize: '13px',
+                                              }}
                                               color="gray"
                                             >
                                               {moment(list.timestamp).fromNow()}
@@ -293,7 +367,6 @@ const Notification = () => {
                                           )}
                                         </Flex>
                                       </Flex>
-                                      <hr className={styles.hr_line} />
                                     </>
                                   )}
                                 </Flex>
@@ -318,16 +391,25 @@ const Notification = () => {
                               <Flex key={index + list.id}>
                                 {index === 0 && (
                                   <Text
-                                    style={{ padding: '8px 16px' }}
-                                    size={12}
+                                    style={{
+                                      padding: '16px 16px 0px 16px',
+                                      fontWeight: 600,
+                                      fontSize: '13px',
+                                    }}
                                     bold
                                   >
-                                    Yesterday
+                                    YESTERDAY
                                   </Text>
                                 )}
                                 {list.description.toLowerCase() ===
                                 'bulkimport' ? (
                                   <>
+                                    {' '}
+                                    {index === 1 ? (
+                                      ''
+                                    ) : (
+                                      <hr className={styles.hr_line} />
+                                    )}
                                     <LinkWrapper
                                       to={getPath}
                                       onClick={() => {
@@ -342,30 +424,26 @@ const Notification = () => {
                                       >
                                         <Flex row className={styles.listStyle}>
                                           <Text
-                                            size={12}
-                                            style={{ maxWidth: '75%' }}
+                                            style={{
+                                              maxWidth: '295px',
+                                              fontSize: '13px',
+                                            }}
                                           >
                                             {list.verb}
                                           </Text>
-                                          <Text
-                                            style={{ marginLeft: 16 }}
-                                            size={12}
-                                            color="gray"
-                                          >
-                                            {moment(list.timestamp).fromNow()}
-                                          </Text>
                                         </Flex>
-                                        {list.unread && (
-                                          <div className={styles.readStyle} />
-                                        )}
                                       </Flex>
-                                    </LinkWrapper>
-                                    <hr className={styles.hr_line} />
+                                    </LinkWrapper>{' '}
                                   </>
                                 ) : list.description.toLowerCase() ===
                                   'candidatenotes' ? (
                                   <>
-                                    <Flex
+                                    {index === 0 ? (
+                                      ''
+                                    ) : (
+                                      <hr className={styles.hr_line} />
+                                    )}
+                                    < LinkWrapper
                                       onClick={() => {
                                         setCandi(list.target_object_id);
                                         setProfile(true);
@@ -381,27 +459,34 @@ const Notification = () => {
                                       >
                                         <Flex row className={styles.listStyle}>
                                           <Text
-                                            size={12}
-                                            style={{ maxWidth: '75%' }}
+                                            style={{
+                                              maxWidth: '72%',
+                                              fontSize: '13px',
+                                            }}
                                           >
                                             {list.verb}
                                           </Text>
                                           <Text
-                                            style={{ marginLeft: 16 }}
-                                            size={12}
+                                            style={{
+                                              marginLeft: 3,
+                                              fontSize: '13px',
+                                            }}
                                             color="gray"
                                           >
                                             {moment(list.timestamp).fromNow()}
                                           </Text>
                                         </Flex>
-                                        {list.unread && (
-                                          <div className={styles.readStyle} />
-                                        )}
                                       </Flex>
-                                    </Flex>
+                                    </LinkWrapper>{' '}
                                   </>
                                 ) : (
                                   <>
+                                    {' '}
+                                    {index === 0 ? (
+                                      ''
+                                    ) : (
+                                      <hr className={styles.hr_line} />
+                                    )}
                                     <Flex
                                       onClick={() => {
                                         setJd(list.action_object_object_id);
@@ -426,14 +511,18 @@ const Notification = () => {
                                       >
                                         <Flex row className={styles.listStyle}>
                                           <Text
-                                            size={12}
-                                            style={{ maxWidth: '75%' }}
+                                            style={{
+                                              maxWidth: '72%',
+                                              fontSize: '13px',
+                                            }}
                                           >
                                             {list.verb}
                                           </Text>
                                           <Text
-                                            style={{ marginLeft: 16 }}
-                                            size={12}
+                                            style={{
+                                              marginLeft:3,
+                                              fontSize: '13px',
+                                            }}
                                             color="gray"
                                           >
                                             {moment(list.timestamp).fromNow()}
@@ -443,7 +532,7 @@ const Notification = () => {
                                           <div className={styles.readStyle} />
                                         )}
                                       </Flex>
-                                    </Flex>
+                                    </Flex>{' '}
                                   </>
                                 )}
                               </Flex>
@@ -452,7 +541,7 @@ const Notification = () => {
                         )}
                     </Flex>
                   )}
-
+                  {console.log(isData.others.length, 'lengthvbb gegfvbgearfd')}
                   {isData && isData.others && isData.others.length !== 0 && (
                     <Flex columnFlex>
                       {isData &&
@@ -468,16 +557,25 @@ const Notification = () => {
                               <Flex key={index + list.id}>
                                 {index === 0 && (
                                   <Text
-                                    style={{ padding: '8px 16px' }}
-                                    size={12}
+                                    style={{
+                                      padding: '16px 16px 0px 16px',
+                                      fontWeight: 600,
+                                      fontSize: '13px',
+                                    }}
                                     bold
                                   >
-                                    Older
+                                    OLDER
                                   </Text>
                                 )}
                                 {list.description.toLowerCase() ===
                                 'bulkimport' ? (
                                   <>
+                                    {' '}
+                                    {index === 0 ? (
+                                      ''
+                                    ) : (
+                                      <hr className={styles.hr_line} />
+                                    )}
                                     <LinkWrapper
                                       to={getPath}
                                       onClick={() => {
@@ -492,14 +590,18 @@ const Notification = () => {
                                       >
                                         <Flex row className={styles.listStyle}>
                                           <Text
-                                            size={12}
-                                            style={{ maxWidth: '75%' }}
+                                            style={{
+                                              maxWidth: '72%',
+                                              fontSize: '13px',
+                                            }}
                                           >
                                             {list.verb}
                                           </Text>
                                           <Text
-                                            style={{ marginLeft: 16 }}
-                                            size={12}
+                                            style={{
+                                              marginLeft: 3,
+                                              fontSize: '13px',
+                                            }}
                                             color="gray"
                                           >
                                             {moment(list.timestamp).fromNow()}
@@ -509,14 +611,18 @@ const Notification = () => {
                                           <div className={styles.readStyle} />
                                         )}
                                       </Flex>
-                                    </LinkWrapper>
-                                    <hr className={styles.hr_line} />
+                                    </LinkWrapper>{' '}
                                   </>
                                 ) : list.description.toLowerCase() ===
                                   'candidatenotes' ? (
                                   <>
+                                    {index === 0 ? (
+                                      ''
+                                    ) : (
+                                      <hr className={styles.hr_line} />
+                                    )}
                                     <Flex
-                                      onClick={() => { 
+                                      onClick={() => {
                                         setCandi(list.target_object_id);
                                         setProfile(true);
                                         setMessageTab(1);
@@ -531,14 +637,18 @@ const Notification = () => {
                                       >
                                         <Flex row className={styles.listStyle}>
                                           <Text
-                                            size={12}
-                                            style={{ maxWidth: '75%' }}
+                                            style={{
+                                              maxWidth: '72%',
+                                              fontSize: '13px',
+                                            }}
                                           >
                                             {list.verb}
                                           </Text>
                                           <Text
-                                            style={{ marginLeft: 16 }}
-                                            size={12}
+                                            style={{
+                                              marginLeft: 3,
+                                              fontSize: '13px',
+                                            }}
                                             color="gray"
                                           >
                                             {moment(list.timestamp).fromNow()}
@@ -549,10 +659,15 @@ const Notification = () => {
                                         )}
                                       </Flex>
                                     </Flex>
-                                    <hr className={styles.hr_line} />
                                   </>
                                 ) : (
                                   <>
+                                    {' '}
+                                    {index === 0 ? (
+                                      ''
+                                    ) : (
+                                      <hr className={styles.hr_line} />
+                                    )}
                                     <Flex
                                       onClick={() => {
                                         setJd(list.action_object_object_id);
@@ -569,33 +684,40 @@ const Notification = () => {
                                         handleReadNotification(list.id);
                                       }}
                                     >
-                                      <Flex
-                                        row
-                                        center
-                                        between
-                                        className={styles.hoverStyle}
-                                      >
-                                        <Flex row className={styles.listStyle}>
-                                          <Text
-                                            size={12}
-                                            style={{ maxWidth: '75%' }}
-                                          >
-                                            {list.verb}
-                                          </Text>
-                                          <Text
-                                            style={{ marginLeft: 16 }}
-                                            size={12}
-                                            color="gray"
-                                          >
-                                            {moment(list.timestamp).fromNow()}
-                                          </Text>
+                                      <Flex row className={styles.hoverStyle}>
+                                        <Flex
+                                          row
+                                          between
+                                          className={styles.listStyle}
+                                        >
+                                          <Flex>
+                                            <Text
+                                              style={{
+                                                maxWidth: '72%',
+                                                fontSize: '13px',
+                                              }}
+                                            >
+                                              {list.verb}
+                                            </Text>
+                                          </Flex>
+                                          <Flex>
+                                            <Text
+                                              style={{
+                                                marginLeft: 3,
+                                                fontSize: '13px',
+                                                display: 'flex',
+                                              }}
+                                              color="gray"
+                                            >
+                                              {moment(list.timestamp).fromNow()}
+                                            </Text>
+                                          </Flex>
                                         </Flex>
                                         {list.unread && (
                                           <div className={styles.readStyle} />
                                         )}
                                       </Flex>
                                     </Flex>
-                                    <hr className={styles.hr_line} />
                                   </>
                                 )}
                               </Flex>
@@ -605,7 +727,7 @@ const Notification = () => {
                     </Flex>
                   )}
                 </Flex>
-                <hr className={styles.hr_line} />
+                <hr className={styles.hr_lineforbutton} />
                 <div>
                   <Button
                     className={styles.model_open}
@@ -618,7 +740,7 @@ const Notification = () => {
             ) : (
               <Flex>
                 <Flex row center between className={styles.headerStyle}>
-                  <Text color="theme" style={{ fontSize: '16px' }} bold>
+                  <Text color="theme" style={{ fontSize: '14px' }} bold>
                     Notifications
                   </Text>
                   <Flex onClick={handleclose} style={{ cursor: 'pointer' }}>
@@ -659,22 +781,23 @@ const Notification = () => {
         )}
       </div>
 
-      <Modal open={modelopen}>
-        <Flex className={styles.model}>
+<Flex ref={dropDownRef}  onClick={myfunction}>
+      <Modal open={modelopen}  data-bs-backdrop='static'  >
+        <Flex className={styles.model}  >
           <Flex className={styles.confirm_title}>
-            All the notification will be cleared
+            This action will clear all the notifications.
           </Flex>
-
-          <span className={styles.confirm_txt}>Are you sure?</span>
-          <Flex style={{ marginBottom: '20px' }}>
-            <span style={{ textAlign: 'center' }}>
+          <Flex className={styles.confirm_txt}>Are you sure to proceed?</Flex>
+          <Flex row end style={{ marginTop: '20px' }}>
+            <Flex>
               <Button
                 style={{ backgroundColor: '#888888', borderColor: '#888888' }}
                 onClick={() => setmodelopen(false)}
               >
                 Cancel
               </Button>
-
+            </Flex>
+            <Flex>
               <Button
                 className={styles.Btn_clear}
                 onClick={handleDelete}
@@ -682,11 +805,12 @@ const Notification = () => {
               >
                 Clear
               </Button>
-            </span>
+            </Flex>
           </Flex>
         </Flex>
       </Modal>
-    </>
+      </Flex>
+    </Flex>
   );
 };
 

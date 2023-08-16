@@ -51,7 +51,9 @@ const ProtectedRoute = ({ isside, notIsNav, component: Component, ...rest }) => 
       history.push(`${query.redirect}`);
     }
   }, [location.pathname]);
+ 
   return (
+    <>
     <Route
       {...rest}
       render={(props) => {
@@ -119,7 +121,8 @@ const ProtectedRoute = ({ isside, notIsNav, component: Component, ...rest }) => 
                         flexDirection: 'column',
                         flex: 1,
                         overflow: "hidden",
-                        height: "-webkit-fill-available"
+                        height: "-webkit-fill-available",
+                        paddingLeft:'10px'
                       }}
                     >
                       <Component {...rest} {...props} value={changeurlpopup} />
@@ -149,6 +152,8 @@ const ProtectedRoute = ({ isside, notIsNav, component: Component, ...rest }) => 
         }
       }}
     />
+    {console.log("1212",sidebar)}
+    </>
   );
 };
 

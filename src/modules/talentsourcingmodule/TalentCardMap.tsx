@@ -9,8 +9,14 @@ import Button from '../../uikit/Button/Button';
 import SvgLock from '../../icons/SvgLock';
 import { WHITE } from '../../uikit/Colors/colors';
 import SvgUnlock from '../../icons/SvgUnlock';
+import SvgDollar from '../../icons/Svgdollar1';
+// import SvgJobtitle from '../../icons/SvgJobtitle';
+import SvgQualification from '../../icons/qualification1';
+import SvgRelocate from '../../icons/Relocate1';
+import SvgSalary from '../../icons/Salary1';
 import InputCheckBox from '../../uikit/InputCheckbox/InputCheckBox';
 import { colorCode } from '../constValue';
+import SvgJobtitle from '../../icons/Jobtitle';
 import styles from './talentcardlist.module.css';
 import { DataEntity } from './talentSourcingTypes';
 
@@ -18,12 +24,13 @@ const cx = classNames.bind(styles);
 
 type Props = {
   talentList: DataEntity;
-  index: number;
+  index: any;
   handleUnlockSubmit: (arg: string) => void;
   handleClick: (e: { target: { id: string; checked: boolean } }) => void;
   isCheck: DataEntity;
   handleCandidateView: (hashKey: string) => void;
   candi_list?: string[];
+ 
 };
 
 const notSpecified = (value: string, reLocate?: string) => {
@@ -44,29 +51,51 @@ const TalentCardMap = ({
   isCheck,
   handleCandidateView,
   candi_list,
+
 }: Props) => {
-  const isTablet = useMediaQuery({ query: '(max-width: 1316px)' });
+  const isTablet = useMediaQuery({ query: '(max-width: 1250px)' });
   const isLarge = useMediaQuery({ query: '(min-width: 2560px)' });
 
   const [isColor, setColor] = useState<string[]>([]);
-
+  const [count,setcount]=useState(0)
+  const [list,setlist]=useState([])
   useEffect(() => {
     setColor(colorCode);
   }, []);
+
+  useEffect(() => {
+  sessionStorage.setItem("index", (index+1));
+  }, [index]);
+  // const handleloader=(val)=>{
+  //   setSubmitLoader();
+  //   handleCandidateView(val)
+  // }
+
+  // const handlepage=()=>{
+  //  setcount(index+1)
+  // }
   const checkVist = candi_list?.includes(talentList.id.toString())
     ? true
     : false;
-  const windowSize = isLarge
-    ? window.innerWidth / 3 - 130
-    : window.innerWidth / 2 - 186;
+  const sidebar=sessionStorage.getItem("EmpToggle");
+  const windowSize = sidebar ==='1'
+    ? window.innerWidth / 3.31
+    : window.innerWidth /3.76;
+    console.log("innerwidth ",window.innerWidth);
+    // console.log("innerwidth 1",window.innerWidth / 3 - 130);
+    // console.log("innerwidth 2",window.innerWidth / 2 - 186);
+    
+console.log("sidebar111",windowSize,sidebar)
   return (
     <div
       style={{
-        width: isTablet ? '100%' : windowSize,
+        width: isTablet ? '100%' : '31.39%',
+        borderRadius: '4px'
       }}
       className={styles.overAll}
     >
       <Card key={talentList.first_name + index} className={cx('cardConatiner')}>
+    
         <Flex row top>
           <InputCheckBox
             key={talentList.candidate_hash}
@@ -76,6 +105,7 @@ const TalentCardMap = ({
             checked={isCheck.includes(talentList.candidate_hash)}
             disabled={checkVist}
           />
+         
           <Flex row flex={1}>
             <Flex between row className={cx('profileOverAll')} flex={1}>
               <Flex flex={1}>
@@ -92,9 +122,7 @@ const TalentCardMap = ({
                   </div>
                   <Flex flex={1}>
                     <Flex row center>
-                      <Text bold style={{ marginRight: 2 }}>
-                        {'Name:'}
-                      </Text>
+  
                       <Text
                         bold
                         transform="capitalize"
@@ -103,34 +131,36 @@ const TalentCardMap = ({
                         onClick={() =>
                           handleCandidateView(talentList.candidate_hash)
                         }
+                        size={12}
                       >
-                        {talentList.first_name}
+                        {talentList.first_name} 
                       </Text>
                     </Flex>
                     {talentList.work_experience === 'not_set' ? (
                       <Flex
                         row
                         center
-                        title={`${talentList.hometown} | ${notSpecified(
-                          talentList.work_experience,
-                        )}`}
+                     
                         // wrap
                       >
                         <Text
-                          color="gray"
-                          size={12}
+                          color="primary"
+                          size={11}
                           className={styles.ellipsis}
+                          title={`Location: ${talentList.hometown}`}
                         >
                           {talentList.hometown}
                         </Text>
                         <Text
-                          color="gray"
-                          size={12}
+                          color="primary"
+                          size={11}
                           style={{ marginLeft: 1, marginRight: 2 }}
                         >
                           {' | '}
                         </Text>
-                        <Text color="gray" size={12}>{`${notSpecified(
+                        <Text color="primary" size={11}    title={`Experience: ${notSpecified(
+                          talentList.work_experience
+                        )}`}  >{`${notSpecified(
                           talentList.work_experience,
                         )}`}</Text>
                       </Flex>
@@ -141,25 +171,26 @@ const TalentCardMap = ({
                             // wrap
                             row
                             center
-                            title={`${talentList.hometown} | ${notSpecified(
-                              talentList.work_experience,
-                            )} Year`}
+                           
                           >
                             <Text
-                              color="gray"
-                              size={12}
+                              color="primary"
+                              size={11}
                               className={styles.ellipsis}
+                              title={`Location: ${talentList.hometown}`}
                             >
                               {talentList.hometown}
                             </Text>
                             <Text
-                              color="gray"
-                              size={12}
+                              color="primary"
+                              size={11}
                               style={{ marginLeft: 1, marginRight: 2 }}
                             >
                               {' | '}
                             </Text>
-                            <Text color="gray" size={12}>{`${notSpecified(
+                            <Text color="primary" size={12}  title={`Experience: ${notSpecified(
+                              talentList.work_experience,
+                            )} Year`} >{`${notSpecified(
                               talentList.work_experience,
                             )} Year`}</Text>
                           </Flex>
@@ -169,25 +200,24 @@ const TalentCardMap = ({
                             // wrap
                             row
                             center
-                            title={`${talentList.hometown} | ${notSpecified(
-                              talentList.work_experience,
-                            )} Years`}
+                            
                           >
                             <Text
-                              color="gray"
-                              size={12}
+                              color="primary"
+                              size={11}
                               className={styles.ellipsis}
+                              title={`Location: ${talentList.hometown}`}
                             >
                               {talentList.hometown}
                             </Text>
                             <Text
-                              color="gray"
-                              size={12}
+                              color="primary"
+                              size={11}
                               style={{ marginLeft: 1, marginRight: 2 }}
                             >
                               {' | '}
                             </Text>
-                            <Text color="gray" size={12}>{`${notSpecified(
+                            <Text color="primary" size={11} title={`Experience: ${notSpecified(talentList.work_experience)} Years`}>{`${notSpecified(
                               talentList.work_experience,
                             )} Years`}</Text>
                           </Flex>
@@ -195,88 +225,95 @@ const TalentCardMap = ({
                       </>
                     )}
 
-                    <Flex row center>
-                      <Text size={12} color="gray" style={{ marginRight: 2 }}>
+                    <Flex row center style={{marginBottom:'4px'}}>
+                      <Text size={11} color="primary" style={{ marginRight: 2 }}>
                         Last Active:
                       </Text>
-                      <Text size={12} color="gray">
+                      <Text bold size={11} color="primary">
                         {moment(talentList.updated_on).fromNow()}
                       </Text>
                     </Flex>
                   </Flex>
                 </Flex>
-
-                <Flex>
+                
+                <Flex style={{marginLeft:'-5px'}}>
                   <Flex row center className={cx('jobList')}>
-                    <Text bold style={{whiteSpace: 'nowrap',marginRight: 2 }}>
-                      Job Title:
-                    </Text>
+                  <Flex style={{marginRight:'1px'}}>
+                  <SvgJobtitle fill={'#581845'} width={10} height={10} />
+                  </Flex>
                     <Text
-                      title={notSpecified(talentList.desired_job_title)}
+                      title={`Job Title: ${notSpecified(talentList.desired_job_title)}`}
                       color="black_1"
+                      style={{marginLeft:'3px'}}
                       className={styles.jobTitle}
+                      size={11} 
                     >
                       {notSpecified(talentList.desired_job_title)}
                     </Text>
                   </Flex>
                   <Flex row center className={cx('jobList')}>
-                    <Text bold style={{ marginRight: 2 }}>
-                      Qualification:
-                    </Text>
-                    <Text color="black_1">
+                  <Flex style={{marginLeft:'-3px'}}>
+                  <SvgQualification fill={'#581845'} width={16} height={16} />
+                  </Flex>
+                    <Text color="black_1" style={{marginLeft:'3px'}}  title={`Qualification: ${notSpecified(talentList.education_level)}`} size={11} >
                       {notSpecified(talentList.education_level)}
                     </Text>
                   </Flex>
                 </Flex>
               </Flex>
 
-              <Flex width={220}>
-                <Button
-                  className={cx('unlockBtn', {
-                    btnUnlocked: checkVist,
-                    btnUnlock: !checkVist,
-                  })}
-                  onClick={() => handleUnlockSubmit(talentList.candidate_hash)}
-                  disabled={checkVist}
-                >
-                  <Flex row center>
-                    {!checkVist ? (
-                      <SvgLock fill={WHITE} width={12} height={12} />
-                    ) : (
-                      <SvgUnlock fill={WHITE} width={12} height={12} />
-                    )}
-                    <Text color={'white'} bold style={{ marginLeft: 4 }}>
-                      {checkVist ? 'Unlocked Contact' : 'Unlock Contact'}
-                    </Text>
-                  </Flex>
-                </Button>
+              <Flex width={0}>
+                                              
                 <Flex className={styles.relocateContainer}>
                   <Flex row center className={cx('jobList')}>
-                    <Text bold style={{ marginRight: 2 }}>
-                      Willing to Relocate:
-                    </Text>
+                  <Flex style={{marginRight:'3px'}}>
+                  <SvgRelocate fill={'#581845'} width={14} height={14} />
+                  </Flex>
                     {talentList.relocate === '1' ? (
-                      <Text color="black_1">Yes</Text>
+                      <Text color="black_1" title={' Willing to Relocate: Yes'}  size={11} >Yes</Text>
                     ) : (
-                      <Text color="black_1">
+                      <Text color="black_1" title={' Willing to Relocate: Not Specified'} size={11} >
                         {notSpecified(talentList.relocate, talentList.relocate)}
                       </Text>
                     )}
                   </Flex>
                   <Flex row center className={cx('jobList')}>
-                    <Text bold style={{ marginRight: 2 }}>
-                      Salary:
-                    </Text>
+                  <Flex style={{marginRight:'3px'}}>
+                  <SvgDollar fill={'#581845'} width={14} height={14} />
+                  </Flex>
                     {talentList.min_salary === 'Not Specified' &&
                     talentList.max_salary === 'Not Specified' ? (
-                      <Text color="black_1">{talentList.min_salary}</Text>
+                      <Text color="black_1" title={'Salary: Not Specified'} size={11}  className={styles.jobTitle1}>{talentList.min_salary}</Text>
                     ) : (
-                      <Text color="black_1">
+                      <Text color="black_1"  size={11}  title={` Salary: ${talentList.min_salary} - ${talentList.max_salary}`} className={styles.jobTitle1}>
                         ${talentList.min_salary} - ${talentList.max_salary}
                       </Text>
                     )}
                   </Flex>
                 </Flex>
+              </Flex>
+   
+              <div className={styles.line} style={{ marginRight: checkVist?'22px':'18px'}}></div>
+              <Flex style={{marginTop:'30px',marginRight: checkVist?'17px':'25px',marginLeft:checkVist?'0px':'10px'}} >
+              <Flex  width={'113%'} >
+              {!checkVist ? (
+                <Flex style={{marginLeft:'2px',cursor:checkVist ?'default':'pointer' }}
+                onClick={() => handleUnlockSubmit(talentList.candidate_hash)}
+                >
+                <SvgLock fill={'#581845'} width={24} height={24} />
+                </Flex>
+              ) : (
+                <div style={{marginLeft:'11px'}}
+                >
+                <SvgUnlock fill={'#581845'} width={24} height={24} />
+                </div>
+                
+              )}
+              <Text bold  size={11} title={checkVist ? 'Unlocked Contact' : 'Unlock Contact'}  style={{ marginLeft: '-5px', color:checkVist ?'black':'#581845',fontSize:'12px',cursor:checkVist ?'default':'pointer' }} 
+               onClick={() => handleUnlockSubmit(talentList.candidate_hash)}>
+                {checkVist ? 'Unlocked' : 'Unlock'}
+              </Text>
+            </Flex>
               </Flex>
             </Flex>
           </Flex>

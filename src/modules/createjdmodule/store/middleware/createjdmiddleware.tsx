@@ -16,6 +16,7 @@ import {
   questionnaireForJdApi,
   questionnaireSaveApi,
   questionnaireTemplateApi,
+  whatjobsApi,
   selectDsorNonDsApi,
   validateJobIdApi,
 } from '../../../../routes/apiRoutes';
@@ -29,6 +30,7 @@ import {
   JD_TEMPLATE,
   JD_DUPLICATE,
   JD_PROFILES,
+  JD_WHATJOBS,
 } from '../../../../actions/actions';
 import {
   CreateJdPostPayload,
@@ -390,7 +392,7 @@ export const editJdPostMiddleWare = createAsyncThunk(
 
 export const postJdMiddleWare = createAsyncThunk(
   'post_jd',
-  async ({ jd_id }: { jd_id: string }, { rejectWithValue }) => {
+  async ({ jd_id}: { jd_id: string}, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(postJdApi(jd_id));
       return data;
@@ -442,6 +444,34 @@ export const dsOrNotMiddleWare = createAsyncThunk(
     }
   },
 );
+export const whatjobsMiddleWare = createAsyncThunk('what_jobs_posting/',
+  async ({ formData }: any, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(
+        whatjobsApi,
+        formData 
+      );
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+// export const applicantUserListstateMiddleWare = createAsyncThunk(
+//   APPLICANT_PROFILE_LIST,
+//   async ({ formData }: any, { rejectWithValue }) => {
+//     try {
+//       const { data } = await axios.post(applicantUserlistApi,
+//         formData 
+//       )
+//       return data;
+//     } catch (error) {
+//       const typedError = error as Error;
+//       return rejectWithValue(typedError);
+//     }
+//   },
+// );
 
 export const dsOrNonDsGetdMiddleWare = createAsyncThunk(
   'ds_or_non_ds',

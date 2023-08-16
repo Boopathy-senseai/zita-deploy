@@ -14,6 +14,7 @@ import CandidateScreen from './modules/candidatemodule/CandidateScreen';
 import ApplicantPipeLineScreen from './modules/applicantpipelinemodule/ApplicantPipeLineScreen';
 import ZitaMatchCandidate from './modules/zitamatchcandidatemodule/ZitaMatchCandidate';
 import JdViewScreen from './modules/jdviewmodule/JdViewScreen';
+import VerificationSuccessfully from './modules/SignUp/VerificationSuccessfully';
 import MyDataBaseScreen from './modules/mydatabasemodule/MyDataBaseScreen';
 import CreateJdScreen from './modules/createjdmodule/CreateJdScreen';
 import CreateJdWithDs from './modules/createjdmodule/CreateJdWithDs';
@@ -76,6 +77,7 @@ import JobMetrics from './modules/reportsmodule/JobMetrics';
 import SourcingPerformance from './modules/reportsmodule/SourcingPerformance';
 import CheckSignUpActivate from './modules/SignUp/CheckSignUpActivate';
 import DashBoardScreen from './modules/dashboardmodule/empdashboard/DashBoardScreen';
+
 
 axios.defaults.baseURL = process.env.REACT_APP_API_ENDPOINT;
 
@@ -388,6 +390,7 @@ const App = () => {
           path={candidateProfileUpload}
           component={CandidateProfileUpload}
         />
+        <Route path="/activate" component={VerificationSuccessfully} />
         <Route path="/set-password/:id" component={SetPassword} />
         <Route path="/profile" component={Profile} />
         <Route path={'/check_activate'} component={CheckSignUpActivate} />

@@ -480,7 +480,6 @@ useEffect(() => {
     sessionStorage.setItem('superUserFalseTab', '3');
     history.push('/account_setting/settings');
   };
-  const words =  notes[0]?.updated_by?.split(' ')
   const meetingMemo = useMemo(() => meetingTitle(), [myevents]);
   const checkCalendarOutlook = Array.isArray(outlook) && outlook.length !== 0;
   return (
@@ -490,7 +489,7 @@ useEffect(() => {
       className={styles.overAll}
       height={window.innerHeight - 120}
     >
-      <Flex flex={6} columnFlex style={{ padding: '5px',overflow:'scroll' }}  height={window.innerHeight - 89.5}
+      <Flex flex={6} columnFlex style={{ padding: '5px',overflow:'scroll' }}  height={window.innerHeight - 120}
        >
         <Text bold style={{ fontSize: '14px',marginTop:'13.5px',paddingLeft:16 }}>
           Notes for Team Members
@@ -545,7 +544,7 @@ useEffect(() => {
           )}
         </Flex>
         {notes && notes.length === 0 && 
-            <Flex columnFlex flex={1} middle center  >
+            <Flex columnFlex flex={1} middle center marginTop={'45px'}>
               <SvgNotesyet fill='gray' />
               <Text className={styles.nojoppostye} color='gray'>Notes not created yet</Text>
             </Flex>
@@ -570,7 +569,7 @@ useEffect(() => {
                         columnFlex
                         className={styles.notesOverAll}
                       > 
-                        <Card className={styles.cardinnotes}> 
+                        <Card className={styles.cardinnotes}>
                           <Flex row className={styles.notestext}>
                             <Flex row center>
                               {isEmpty(list.emp_image) ||
@@ -586,9 +585,9 @@ useEffect(() => {
                                     color="white"
                                     transform="uppercase"
                                     className={styles.firstlastchar}
-                                  > 
+                                  >
                                     {!isEmpty(list.updated_by) &&
-                                    `${words[0][0]}${words[words.length - 1][0]}`}
+                                      firstNameChar(list.updated_by)}
                                   </Text>
                                 </div>
                               ) : (

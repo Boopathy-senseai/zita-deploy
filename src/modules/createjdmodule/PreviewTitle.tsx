@@ -31,13 +31,14 @@ const PreviewTitle = ({
   skills,
 }: Props) => {
   return jd_view ? (
-    <Flex>
+    <Flex >
       <Flex columnFlex>
         <JdDetails
           jdDetails={jdDetails}
           location={location}
           qualification={qualification}
         />
+        <Flex className={styles.cardOverAll}>
         {profile && jdDetails.is_ds_role === true ? (
           <RolesandResponsibilities jdDetails={jdDetails} profile={profile} />
         ) : (
@@ -45,16 +46,19 @@ const PreviewTitle = ({
             className={styles.des}
             dangerouslySetInnerHTML={{
               __html: jdDetails.richtext_job_description,
+            
             }}
+          
           />
         )}
-
+     
         {skills && (
           <Flex>
             <Text
               bold
-              color="theme"
-              style={{ paddingTop: 16 }}
+              
+              style={{ paddingTop: 16 ,color:"#333333"}}
+              className={styles.borderbottomline}
             >
               Required Skills
             </Text>
@@ -82,7 +86,7 @@ const PreviewTitle = ({
             </Flex>
           </Flex>
         )}
-      </Flex>
+      </Flex></Flex>
     </Flex>
   ) : (
     <Card className={styles.cardOverAll}>
@@ -108,13 +112,15 @@ const PreviewTitle = ({
 
         {skills && (
           <Flex>
+            <Flex  className={styles.borderbottomline}>
             <Text
-              bold
-              color="theme"
-              style={{ paddingTop: 16 }}
+            
+              
+              className={styles.requiredskil}
+          
             >
               Required Skills
-            </Text>
+            </Text></Flex>
             <Flex row center wrap className={styles.statusContainer}>
               {skills.map((skillList: any, index: number) => {
                 const exp =

@@ -1,7 +1,10 @@
+import { useState } from 'react';
 import SvgCheckBox from '../../icons/SvgCheckBox';
+import Svgwhatjobs from '../../icons/Svgwhatjobs';
 import { routesPath } from '../../routes/routesPath';
 import Button from '../../uikit/Button/Button';
 import Card from '../../uikit/Card/Card';
+import ExternalSwitch from '../../uikit/externalswitch/Externalswitch';
 import { PRIMARY } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
@@ -14,6 +17,7 @@ type Props = {
   hanldePulish: () => void;
   ds_role: boolean;
   feature: number;
+  whatjob: any;
 };
 
 const StandardJobPosting = ({
@@ -21,7 +25,19 @@ const StandardJobPosting = ({
   hanldePulish,
   ds_role,
   feature,
+  whatjob,
 }: Props) => {
+  const [extarajobpost, setextarajobpost] = useState('1');
+  
+  const extarajob = () => {
+    if (extarajobpost === '0') {
+      setextarajobpost('1');
+      whatjob(1);
+    } else {
+      setextarajobpost('0');
+      whatjob(0);
+    }
+  };
   const manageLocation = () => {
     sessionStorage.setItem('superUserTab', '2');
   };
@@ -34,16 +50,35 @@ const StandardJobPosting = ({
         <Text className={styles.defaultText}>
           Your job will be posted in the following site by default
         </Text>
-        <div className={styles.checkBox}>
+        <Flex>
+          <div className={styles.checkBox}>
+            <Flex row center>
+              <div style={{ opacity: 0.5, marginRight: 8 }}>
+                <SvgCheckBox fill={PRIMARY} />
+              </div>
+              <Text bold className={styles.textstyleinjobpost}>
+                Company Website Career Page
+              </Text>
+            </Flex>
+          </div>
+          <Text color="theme" bold>
+          Other Job Boards
+          </Text>
           <Flex row center>
-            <div style={{ opacity: 0.5, marginRight: 8 }}>
-              <SvgCheckBox fill={PRIMARY} />
+            <ExternalSwitch
+              checked={extarajobpost === '1'}
+              onClick={
+                () => extarajob()
+              }
+            />
+            <div className={styles.checkBoxs}>
+              <div style={{ opacity: 0.5, marginRight: 8 }}></div>
+
+              <Svgwhatjobs width={80} height={19}/>
+
             </div>
-            <Text bold color="theme">
-              Company Website Career Page
-            </Text>
           </Flex>
-        </div>
+        </Flex>
         <Flex row center between>
           <LinkWrapper target={'_parent'} to={`/jobs/questionnaire/${jdId}`}>
             <Button types="secondary">{BACK}</Button>
@@ -81,7 +116,9 @@ const StandardJobPosting = ({
                 <Button>Upgrade</Button>
               </LinkWrapper>
             ) : (
-              <Button onClick={hanldePulish}>Publish</Button>
+              <Button onClick={hanldePulish} id={extarajobpost}>
+                Publish
+              </Button>
             )}
           </Flex>
         </Flex>

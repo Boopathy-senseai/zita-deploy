@@ -7,6 +7,7 @@ import Loader from '../../uikit/Loader/Loader';
 import Text from '../../uikit/Text/Text';
 import { CountryEntity } from '../createjdmodule/createJdTypes';
 import { locationMiddleWare } from '../createjdmodule/store/middleware/createjdmiddleware';
+import { zitaPath } from '../constValue';
 import CandidateNavBar from './CandidateNavBar';
 import styles from './candidateprofilescreen.module.css';
 import CertificationsOrCourseCard from './CertificationsOrCourseCard';
@@ -170,9 +171,9 @@ const CandidateProfileViewScreen = () => {
           }}
           className={styles.footerStyle}
         >
-          <Text align="center" size={14}>
-            Powered by Zita.ai
-          </Text>
+          <Text bold color='theme' align="center" size={14} onClick={zitaPath}>
+                Powered by Zita.ai
+              </Text>
         </div>
       </Flex>
     </Flex>
