@@ -74,21 +74,18 @@ const TalentFilter = ({
     setAny(false);
     setchange(true)
     setInitialPage(0);
-    
   };
   const handleDoctorate = () => {
     setDoctorate(!isDoctorate);
     setAny(false);
     setchange(true)
     setInitialPage(0);
-
   };
   const handleMaster = () => {
     setMasters(!isMasters);
     setAny(false);
     setchange(true)
     setInitialPage(0);
-    
     };
   const handleOther = () => {
         setAny(false);

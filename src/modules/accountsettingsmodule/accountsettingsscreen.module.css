@@ -32,13 +32,15 @@
   margin-bottom: 24px;
 }
 .borderStyle {
-  padding: 0 20px;
-  border: 1px solid var(--color-gary-7, #dfdfdf);
-  border-top: 2px solid var(--color-gary-7, #dfdfdf);
+  /* padding: 0 20px; old changed for manage users */
+  padding: 0 20px 0 5px;
+  /* border: 1px solid var(--color-gary-7, #dfdfdf);
+  border-top: 2px solid var(--color-gary-7, #dfdfdf); */
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   margin-bottom: 20px;
+  /* min-height: 620px; */
 }
 .with80 {
   width: 80%;
@@ -100,14 +102,14 @@ pointer-events: none;
   border-right: 30px solid white;
   border-bottom: 22px solid transparent;
   /* position: relative; */
-  top: 0;
+  top: -1px;
   right: 0;
 }
 .overallhead {
   background-color: #eee8ec;
   display: flex;
   justify-content: space-between;
-  height: 45px;
+  height: 40px;
   /* margin-left: -10px; */
 }
 

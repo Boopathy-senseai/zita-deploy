@@ -6,6 +6,8 @@ import { AppDispatch, RootState } from '../../store';
 import Text from '../../uikit/Text/Text';
 import Flex from '../../uikit/Flex/Flex';
 import Card from '../../uikit/Card/Card';
+import SvgTick from '../../icons/SvgTick';
+import SvgNoDataIcon from '../../icons/SvgNoDataIcon';
 import SelectTag from '../../uikit/SelectTag/SelectTag';
 import Button from '../../uikit/Button/Button';
 import Chart from '../../uikit/Chart/Chart';
@@ -21,6 +23,7 @@ import {
 	applicantSourceDownloadMiddleWare,
 } from './store/middleware/reportsmiddleware';
 import styles from './reports.module.css';
+
 
 
 const ApplicantReports = () => {
@@ -190,7 +193,7 @@ const ApplicantReports = () => {
 			{isLoading && <Loader />}
 			<Card className={styles.cardOverAllApplicant}>
 				<Flex>
-					<Text bold size={18}>
+					<Text bold size={16}>
 						Applicants Sourcing Reports
 					</Text>
 					<Text style={{marginBottom:20}}>
@@ -245,6 +248,7 @@ const ApplicantReports = () => {
 										<Chart options={chartOptions} />
 									) : (
 										<Flex className={styles.noData}>
+											
 											<Text bold>No Data Available</Text>
 										</Flex>
 									)}
@@ -253,8 +257,9 @@ const ApplicantReports = () => {
 						</Flex>
 					</Flex>
 				) : (
-					<Flex className={styles.noData}>
-						<Text bold>No Data Available</Text>
+					<Flex className={styles.noData} style={{display:"flex"}}>
+						<SvgNoDataIcon style={{marginBottom:"10px", filter:"opacity(0.6)"}} width={15}/>
+						<Text bold color="gray">No Data Available</Text>
 					</Flex>
 				)}
 				{table && table.length > 0 &&  (

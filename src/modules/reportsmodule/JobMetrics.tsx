@@ -5,6 +5,7 @@ import { saveAs } from 'file-saver';
 import { AppDispatch, RootState } from '../../store';
 import Totalcount from '../../globulization/TotalCount';
 import Text from '../../uikit/Text/Text';
+import SvgNoDataIcon from '../../icons/SvgNoDataIcon';
 import Flex from '../../uikit/Flex/Flex';
 import Card from '../../uikit/Card/Card';
 import SelectTag from '../../uikit/SelectTag/SelectTag';
@@ -28,6 +29,7 @@ jobMetricsChartDownloadMiddleWare
 } from './store/middleware/reportsmiddleware';
 import { JobMetrics } from './mock';
 import styles from './reports.module.css';
+
 
 // const height = window.innerHeight - 150;
 const JobMetricsReports = () => {
@@ -280,7 +282,7 @@ const hanldeJobListform = () => {
 					<Flex>
 					<Flex row between className={styles.marginTop1}>
 						
-						<Text bold size={18} >Detailed Metrics</Text>
+						<Text bold size={16} >Detailed Metrics</Text>
 						<Button onClick={hanldeJobIdform}> Download Report</Button>
 					</Flex>
 						<Flex row>
@@ -426,7 +428,8 @@ const hanldeJobListform = () => {
 							{(jobList&& jobList.Applicants !== null) || (jobList&& jobList.Zita_Match !== null) ||(jobList&& jobList.Invited_to_Apply !== null) ? (
 								<Chart options={Options}/>
 								):(
-								<Flex className={styles.noData}>
+								<Flex className={styles.noData} style={{display:"flex"}} >
+									<SvgNoDataIcon style={{marginBottom:"10px", filter:"opacity(0.6)"}} width={15}/>
 											<Text bold>No Data Available</Text>
 										</Flex>
 								)}
