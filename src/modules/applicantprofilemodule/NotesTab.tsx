@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import { useFormik } from 'formik';
 import { useRef, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import ReactQuill, { Quill } from 'react-quill';
+//import ReactQuill, { Quill } from 'react-quill';
 // import { Outlet } from "react-router-dom";
 // import { Invoice } from "./Root.utils";
 // import ReactHtmlParser, {
@@ -13,8 +13,9 @@ import ReactQuill, { Quill } from 'react-quill';
 // } from 'react-html-parser';
 // import parse from 'html-react-parser';
 // import 'react-quill/dist/quill.snow.css';
-import Mention from 'quill-mention';
-Quill.register('modules/mention', Mention);
+
+//import Mention from 'quill-mention';
+//Quill.register('modules/mention', Mention);
 import { useHistory } from 'react-router-dom';
 import { Card } from '../../uikit';
 import SvgInfo from '../../icons/SvgInfo';
@@ -75,7 +76,7 @@ const initial: FormProps = {
 
 const NotesTab = () => {
   const [editorHtml, setEditorHtml] = useState<string>('');
-  const editorRef = useRef<ReactQuill | null>(null);
+  //const editorRef = useRef<ReactQuill | null>(null);
   const [isCollapse, setCollapse] = useState(false);
   const [isstylechange, setstylechange] = useState(false);
   const [isColor, setColor] = useState<string[]>([]);
@@ -420,25 +421,25 @@ const NotesTab = () => {
     });
   };
 
-  if (editorRef.current) {
-    const list2 = [{ user: -1, value: 'Everyone' }];
-    if (name !== undefined) {
-      const valu = [...list2, ...name];
-      const fgt = valu.map((e) => e.value);
-      const quill = editorRef.current.getEditor();
-      const mention = new Mention(quill, {
-        mentionDenotationChars: ['@'],
-        allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
-        source: (searchTerm: string, renderList: (values: any[]) => void) => {
-          const filteredMentions = valu.filter((m) =>
-            m.value.toLowerCase().includes(searchTerm.toLowerCase()),
-          );
-          renderList(filteredMentions);
-          // dispatch(applicantUserListMiddleWare());
-        },
-      });
-    }
-  }
+  // if (editorRef.current) {
+  //   const list2 = [{ user: -1, value: 'Everyone' }];
+  //   if (name !== undefined) {
+  //     const valu = [...list2, ...name];
+  //     const fgt = valu.map((e) => e.value);
+  //     const quill = editorRef.current.getEditor();
+  //     const mention = new Mention(quill, {
+  //       mentionDenotationChars: ['@'],
+  //       allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
+  //       source: (searchTerm: string, renderList: (values: any[]) => void) => {
+  //         const filteredMentions = valu.filter((m) =>
+  //           m.value.toLowerCase().includes(searchTerm.toLowerCase()),
+  //         );
+  //         renderList(filteredMentions);
+  //         // dispatch(applicantUserListMiddleWare());
+  //       },
+  //     });
+  //   }
+  // }
   const LOCAL_STORAGE_KEY = can_id;
   const [name1, setname1] = useState(
     JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || '',
@@ -504,13 +505,13 @@ const NotesTab = () => {
         {isCollapse && (
           <Flex className={styles.overall1}>
             <div className={styles.textArea}>
-              <ReactQuill
+              {/* <ReactQuill
                 ref={editorRef}
                 value={formik.values.notes}
                 className={styles.reactquillchange}
                 onChange={formik.handleChange('notes')}
                 placeholder="Type @ to mention and notify your team members"
-              />
+              /> */}
               <ErrorMessage
                 touched={formik.touched}
                 errors={formik.errors}
@@ -578,6 +579,7 @@ const NotesTab = () => {
                                 objectFit: 'cover',
                                 marginRight: 8,
                                 height: 40,
+                                width:40,
                               }}
                               src={mediaPath + list.emp_image}
                             />

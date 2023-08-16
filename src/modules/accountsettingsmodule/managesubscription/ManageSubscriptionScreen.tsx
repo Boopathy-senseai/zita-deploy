@@ -184,13 +184,13 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
       {subscription && subscription.plan_id_id === 1 && free_expired === 1 && (
         <Flex columnFlex>
           <Flex middle row center className={styles.warningFlex}>
-            <SvgInfo fill={WARNING} />
-            <Text size={12} bold color="warning" className={styles.warningText}>
+            <SvgInfo fill={'#2E6ADD'} />
+            <Text  style={{color:"#333333"}}   className={styles.warningText}>
               {`Your free trial ends on ${getDateString(
                 subscription?.subscription_end_ts,
                 'll',
               )}. Please `}
-              <Text size={12} bold color="link" onClick={handleFocus}>
+              <Text   bold color="link" style={{fontSize:"13px"}}  onClick={handleFocus}>
                 upgrade{' '}
               </Text>
               to a paid plan to get uninterrupted access and enjoy more zita
@@ -198,7 +198,7 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
             </Text>
           </Flex>
         </Flex>
-      )}
+    )} 
 
       {subscription &&
         subscription.is_active === true &&
@@ -207,11 +207,9 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
         Number(subscription.subscription_changed_to) !== -2 && (
           <Flex columnFlex>
             <Flex middle row center className={styles.warningFlex}>
-              <SvgInfo fill={WARNING} />
+              <SvgInfo fill={'#2E6ADD'} />
               <Text
-                size={12}
-                bold
-                color="warning"
+                style={{color:"#333333"}}  
                 className={styles.warningText}
               >
                 {`You have cancelled  your subscription on  ${getDateString(
@@ -222,7 +220,7 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
                     ? subscription.subscription_remains_days + ' day'
                     : subscription.subscription_remains_days + ' days'
                 } left to use the platform until your current subscription ends. Please click to `}
-                <Text onClick={hanldeRenew} size={12} bold color="link">
+                <Text onClick={hanldeRenew} style={{fontSize:"13px"}} bold color="link">
                   renew{' '}
                 </Text>
                 your subscription.

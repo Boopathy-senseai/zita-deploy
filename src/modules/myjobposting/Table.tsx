@@ -9,6 +9,7 @@ import { RootState } from '../../store';
 // import Flex from '../../uikit/Flex/Flex';
 // import MyJobsPostingData from './MyJobsPostingData';
 import Flex from '../../uikit/Flex/Flex';
+import { Pangination } from '../../uikit';
 import { getDateString, isEmpty } from '../../uikit/helper';
 
 import SvgMetrics from '../../icons/SvgMetrics';
@@ -47,7 +48,12 @@ export type MyJobFormProps = {
   jobType: string;
   location: string;
 };
-const MyJobPostingScreen = () => {
+type props={
+  currentPage?:any;
+  setCurrentPage?:any;
+  
+}
+const MyJobPostingScreen = ({currentPage,setCurrentPage}:props) => {
   const {
     location_list,
     job_ids,
@@ -55,7 +61,7 @@ const MyJobPostingScreen = () => {
     final_list,
     Jobs_List,
     // is_loadingone,
-    // len_list,
+     len_list,
     // is_loading,
     career_page_url,
     domain,
@@ -82,6 +88,7 @@ const MyJobPostingScreen = () => {
 
   type Props = {
     list: FinalListEntity;
+    
   };
   const MyJobsPostingCount = ({ list }: Props) => {
     const zita_match = isEmpty(list.zita_match) ? '0' : list.zita_match;
@@ -90,47 +97,49 @@ const MyJobPostingScreen = () => {
       : list.invite_to_apply;
     const applicant = isEmpty(list.applicants) ? '0' : list.applicants;
   };
-
+  const usersPerPage = 10;
+  const pageCount = Math.ceil(len_list / usersPerPage);
   return (
     <div>
       {/* <div  style={{height:320}}>
      <table className="table"> */}
-      <div className="table-responsisssve ">
-        <div>
+      <Flex className="table-responsisssve " style={{overflowY:'scroll'
+   }} height={window.innerHeight-220} >  
           <table className="table" style={{ paddingLeft: 'none' }}>
-            <thead>
+            <thead style={{ position: 'sticky',
+  top: 0,backgroundColor: 'white'}}>
               <tr>
-                <th className={styles.padchange}>
+                <th className={styles.padchange} >
                   <Text color="theme" bold className={styles.tabeboarder}>
                     Job Title
                   </Text>
                 </th>
-                <th className={styles.padchange}>
+                <th className={styles.padchange} style={{ width:'130px'}}>
                   <Text color="theme" bold className={styles.tabeboarder}>
                     Job ID
                   </Text>
                 </th>
-                <th className={styles.padchange}>
+                <th className={styles.padchange} style={{ width:'235px'}}>
                   <Text color="theme" bold className={styles.tabeboarder}>
                     Location
                   </Text>
                 </th>
-                <th className={styles.padchange}>
+                <th className={styles.padchange} style={{ width:'88px'}}>
                   <Text color="theme" bold className={styles.tabeboarder}>
                     Zita Match
                   </Text>
                 </th>
-                <th className={styles.padchange}>
+                <th className={styles.padchange} style={{ width:'124px'}}>
                   <Text color="theme" bold className={styles.tabeboarder}>
                     Invited to Apply
                   </Text>
                 </th>
-                <th className={styles.padchange}>
+                <th className={styles.padchange} style={{ width:'90px'}}>
                   <Text color="theme" bold className={styles.tabeboarder}>
                     Applicants
                   </Text>
                 </th>{' '}
-                <th className={styles.padchange}>
+                <th className={styles.padchange}style={{ width:'135px'}}>
                   <Text color="theme" bold className={styles.tabeboarder}>
                     Screening Status
                   </Text>
@@ -140,20 +149,20 @@ const MyJobPostingScreen = () => {
                   Metric
                 </Text>
               </th> */}
-                <th className={styles.padchange}>
+                <th className={styles.padchange} style={{width:'70px'}}>
                   <Text color="theme" bold className={styles.tabeboarder}>
                     Status
                   </Text>
                 </th>
-                <th className={styles.padchange}>
+                <th className={styles.padchange} style={{width:'100px'}}>
                   <Text color="theme" bold className={styles.tableboarder}>
                     Posted on
                   </Text>
                 </th>
               </tr>
-            </thead>
-
-            <tbody style={{ paddingTop: 20 }} className={styles.tablebody}>
+            </thead> 
+            <tbody style={{ paddingTop: 20 }}  className={styles.tablebody} >
+               
               {final_list &&
                 Jobs_List &&
                 location_list &&
@@ -191,19 +200,20 @@ const MyJobPostingScreen = () => {
                                 <div
                                   style={{ marginTop: 7.5 }}
                                   role={'button'}
-                                  className={styles.svgstyle}
+                                  style={{ marginLeft: 8 ,marginTop:1}}
                                   title="Copy the job posting URL from your careers page"
                                   onClick={() =>
                                     copyToClipboard(
-                                      `${domain}/career_job_view/${career_page_url}/${list.id}/${list.job_title}`,
+                                      `${domain}/${career_page_url}/career_job_view/${list.id}/${list.job_title}`,
                                       'Link Copied',
                                     )
                                   }
+                                  onKeyDown={() => {}}
                                 >
                                   <SvgCopy
                                     width={11.33}
                                     height={13.33}
-                                    fill={'#333333'}
+                                    fill={'#581845'}
                                   />
                                 </div>
                               )} */}
@@ -338,13 +348,13 @@ const MyJobPostingScreen = () => {
                           </Flex>
                         </td>
                         <td
-                          style={{ fontSize: 15, fontWeight: 400 }}
+                          style={{ fontSize: 13, fontWeight: 400 }}
                           className={styles.padchanges}
                         >
                           {list.job_id}
                         </td>
                         <td
-                          style={{ fontSize: 15, width: 200, fontWeight: 400 }}
+                          style={{ fontSize: 13, width: 200, fontWeight: 400 }}
                           className={styles.padchanges}
                         >
                           {list.location}
@@ -353,7 +363,7 @@ const MyJobPostingScreen = () => {
                         {list.jd_status__label_name === 'Inactive' ? (
                           <td
                             style={{
-                              fontSize: 15,
+                              fontSize: 13,
                             }}
                             className={styles.padchangesmiddle}
                           >
@@ -368,7 +378,7 @@ const MyJobPostingScreen = () => {
                         ) : (
                           <td
                             style={{
-                              fontSize: 15,
+                              fontSize: 13,
                             }}
                             className={styles.hovercolormiddle}
                           >
@@ -391,7 +401,7 @@ const MyJobPostingScreen = () => {
                         {list.jd_status__label_name === 'Inactive' ? (
                           <td
                             style={{
-                              fontSize: 15,
+                              fontSize: 13,
                             }}
                             className={styles.padchangesmiddle}
                           >
@@ -406,7 +416,7 @@ const MyJobPostingScreen = () => {
                         ) : (
                           <td
                             style={{
-                              fontSize: 15,
+                              fontSize: 13,
                             }}
                             className={styles.padchangesmiddle}
                           >
@@ -428,7 +438,7 @@ const MyJobPostingScreen = () => {
                         {list.jd_status__label_name === 'Inactive' ? (
                           <td
                             style={{
-                              fontSize: 15,
+                              fontSize: 13,
                             }}
                             className={styles.hovercolormiddle}
                           >
@@ -450,7 +460,7 @@ const MyJobPostingScreen = () => {
                         ) : (
                           <td
                             style={{
-                              fontSize: 15,
+                              fontSize: 13,
                             }}
                             className={styles.hovercolormiddle}
                           >
@@ -499,8 +509,8 @@ const MyJobPostingScreen = () => {
                             <div
                               style={{
                                 color: '#00BE4B',
-                                fontWeight: 500,
-                                fontSize: 15,
+                                fontWeight: 600,
+                                fontSize: 13,
                               }}
                             >
                               {list.jd_status__label_name}{' '}
@@ -512,8 +522,8 @@ const MyJobPostingScreen = () => {
                             <div
                               style={{
                                 color: '#FCC203',
-                                fontWeight: 500,
-                                fontSize: 15,
+                                fontWeight: 600,
+                                fontSize: 13,
                               }}
                             >
                               {list.jd_status__label_name}{' '}
@@ -538,8 +548,8 @@ const MyJobPostingScreen = () => {
                             <div
                               style={{
                                 color: '#FCC203',
-                                fontWeight: 500,
-                                fontSize: 15,
+                                fontWeight: 600,
+                                fontSize: 13,
                               }}
                             >
                               {'Draft'}{' '}
@@ -551,8 +561,8 @@ const MyJobPostingScreen = () => {
                             <div
                               style={{
                                 color: 'red',
-                                fontWeight: 500,
-                                fontSize: 15,
+                                fontWeight: 600,
+                                fontSize: 13,
                               }}
                             >
                               {list.jd_status__label_name}{' '}
@@ -562,7 +572,7 @@ const MyJobPostingScreen = () => {
                           )}
                         </td>
                         <td
-                          style={{ fontSize: 15 }}
+                          style={{ fontSize: 13 }}
                           className={styles.padchanges}
                         >
                           {getDateString(list.job_posted_on_date, 'll')}
@@ -572,9 +582,19 @@ const MyJobPostingScreen = () => {
                   );
                 })}
             </tbody>
-          </table>
-        </div>
-      </div>
+            {/* </Flex> */}
+          </table> 
+               {len_list > 10 && (
+              <Flex middle className={styles.pagination}>
+                <Pangination
+                  maxPages={pageCount - 1}
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                />
+              </Flex>
+            )}
+      </Flex>
+
     </div>
   );
 };

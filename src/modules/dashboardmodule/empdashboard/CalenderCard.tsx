@@ -94,13 +94,13 @@ const CalenderCard = ({
       
       dispatch(getGoogleEventsMiddleware({ tz })).then((res) => {
 
-        const data = res.payload.events;
-       
+        const data = res.payload.events;  
         
-        console.log("gmail  ", data);
-        
+        const filteredData =  data.filter((item) => getDateString(new Date(item.start.dateTime), 'MM/DD/YYYY') ===  formik.values.date);
+        console.log("filteredData  ", filteredData);
+        if(data !== undefined){
         setEvent(
-          data.map((items: { summary: any; start: { dateTime: any }; end: { dateTime: any }; hangoutLink: any }) => {
+          filteredData.map((items: { summary: any; start: { dateTime: any }; end: { dateTime: any }; hangoutLink: any }) => {
             //   if(items.start.dateTime!==null){
             //  if(getDateString(items.start.dateTime, 'MM/DD/YYYY') === formik.values.date){
               
@@ -114,7 +114,7 @@ const CalenderCard = ({
           // }}
          
           }),
-        );
+        );}
         
       });
     } else {
@@ -122,9 +122,12 @@ const CalenderCard = ({
 
       dispatch(syncOutlookMiddleWare()).then((res) => {
         const dataout = res.payload.events;
-        console.log("outlook", dataout);
+        console.log("errorf", dataout);
+        if(dataout !== undefined){
+          const filteredData =  res.payload.events.filter((item) => getDateString(item.start_time, 'MM/DD/YYYY') ===  formik.values.date);
         setEvent(
-          res.payload.events.map(
+          
+          filteredData.map(
             (items: {
               title: any;
               start_time: string | number | Date;
@@ -141,7 +144,7 @@ const CalenderCard = ({
             //}
             },
           ),
-        );
+        );}
       });
     }
   };
@@ -438,7 +441,7 @@ const CalenderCard = ({
               <Button>Integrate</Button>
             </LinkWrapper>
           </Flex>
-        ) : event.length > 1 ? (
+        ) : event.length >= 1 ? (
           event.map((list, index) => {
 
             if (

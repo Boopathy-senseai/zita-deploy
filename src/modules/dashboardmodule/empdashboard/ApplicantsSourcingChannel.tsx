@@ -94,7 +94,7 @@ const ApplicantsSourcingChannel = ({
 
   return (
     <Card className={styles.overAll}>
-      <Text bold size={16} style={{color:'#581845'}}>
+      <Text bold size={14} style={{color:'#581845'}}>
         Applicants Sourcing Channel
       </Text>
       {(Array.isArray(perc_dict) &&

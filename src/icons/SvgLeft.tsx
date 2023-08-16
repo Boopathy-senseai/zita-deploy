@@ -1,8 +1,8 @@
 /* eslint max-len: ["error", { "code": 2000 }] */
 const defaultProps = {
-  fill: '#424242',
-  width: 13,
-  height: 13,
+  fill: '#581845',
+  width: 11,
+  height: 11,
 };
 
 const SvgLeft = ({ width, height, fill }: typeof defaultProps) => {
@@ -12,7 +12,7 @@ const SvgLeft = ({ width, height, fill }: typeof defaultProps) => {
       xmlns="http://www.w3.org/2000/svg"
       width={width}
       height={height}
-      viewBox="0 0 24 24"
+      viewBox="0 0 18 24"
     >
       <path d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z" />
     </svg>

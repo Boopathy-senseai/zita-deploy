@@ -13,6 +13,7 @@ import Text from '../../uikit/Text/Text';
 import LoginPopUpModal from '../common/LoginPopUpModal';
 import { CountryEntity } from '../createjdmodule/createJdTypes';
 import { locationMiddleWare } from '../createjdmodule/store/middleware/createjdmiddleware';
+import { zitaPath } from '../constValue';
 import AddandUpdateQualificationEdit from './AddandUpdateQualificationEdit';
 import AddandUpdateWorkExperienceEdit from './AddandUpdateWorkExperienceEdit';
 import CandidateNavBar from './CandidateNavBar';
@@ -292,9 +293,9 @@ const CandidateProfileScreen = () => {
           }}
           className={styles.footerStyle}
         >
-          <Text align="center" size={14}>
-            Powered by Zita.ai
-          </Text>
+          <Text bold color='theme' align="center" size={14} onClick={zitaPath}>
+                Powered by Zita.ai
+              </Text>
         </div>
       </Flex>
     </Flex>

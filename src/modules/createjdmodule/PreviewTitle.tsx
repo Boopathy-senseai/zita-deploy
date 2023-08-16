@@ -31,7 +31,7 @@ const PreviewTitle = ({
   skills,
 }: Props) => {
   return jd_view ? (
-    <Flex>
+    <Flex >
       <Flex columnFlex>
         <JdDetails
           jdDetails={jdDetails}
@@ -48,7 +48,9 @@ const PreviewTitle = ({
             className={styles.des}
             dangerouslySetInnerHTML={{
               __html: jdDetails.richtext_job_description,
+            
             }}
+          
           />
           </>
         )}
@@ -118,6 +120,7 @@ const PreviewTitle = ({
 
         {skills && (
           <Flex>
+            <Flex  className={styles.borderbottomline}>
             <Text
               bold
               size={14}
@@ -125,7 +128,7 @@ const PreviewTitle = ({
               style={{ paddingTop: 15 }}
             >
               Required Skills
-            </Text>
+            </Text></Flex>
             <Flex row center wrap className={styles.statusContainer}>
               {skills.map((skillList: any, index: number) => {
                 const exp =
