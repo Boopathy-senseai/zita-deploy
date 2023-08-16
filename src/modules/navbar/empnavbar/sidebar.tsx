@@ -498,7 +498,10 @@ const Sidebar = ({ changes, data }: props) => {
             </>
           )}
 
-          {plan_id !== 1 && (
+           {/* {permission.includes('bulkImport_candidates') && (
+            <> */}
+          {/* {plan_id !== 1 && ( */}
+          {permission.includes('reports') && (
             <>
               {is_plan ? (changes?
               (<li title='Reports'

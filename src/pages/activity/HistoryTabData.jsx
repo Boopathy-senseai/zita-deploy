@@ -12,19 +12,19 @@ const resultTitle = () => [
     dataIndex: 'created_at',
     key: 'created_at',
     render: (a) => <Text size={12}>{getDateString(a, 'MMM D, YYYY')}</Text>,
-    flex: 1.5,
+    flex: 2.5,
   },
   {
     title: 'Action Taken',
     dataIndex: 'action_description',
     key: 'action_description',
-    flex: 1.5,
+    flex: 2.5,
   },
   {
     title: 'On',
     dataIndex: 'action_detail',
     key: 'action_detail',
-    flex: 9,
+    flex: 5,
   },
 ];
 
@@ -46,7 +46,7 @@ const HistoryTabData = (props) => {
 
   return (
     <Flex columnFlex className={styles.overAll}>
-      <Text bold className={styles.title}>
+      <Text className={styles.title}>
         List of actions taken by the user
       </Text>
       {activities && (

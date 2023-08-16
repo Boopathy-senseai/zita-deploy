@@ -85,8 +85,7 @@
 }
 .ribbon{
   background-color: #EEE8EC;
-  height: 45px;
-  overflow: hidden;
+  height: 40px;
 }
 .triangle {
 
@@ -102,9 +101,9 @@
     
   position: relative;
     
-  top: 71;
+  top: -1px;
     
-  right: 43;
+  right: 0px;
   
     
     }

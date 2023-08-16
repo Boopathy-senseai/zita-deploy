@@ -755,6 +755,7 @@ const ApplicantsTab = ({
             <Flex center middle height={100}> 
               <Loader withOutOverlay size={'medium'} />
             </Flex>
+            
           ) : (
             <Flex width={window.innerWidth- 250} flex={1} style={{overflowX:'hidden'}}>
               <Tabel

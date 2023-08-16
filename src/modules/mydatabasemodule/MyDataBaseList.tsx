@@ -3,6 +3,8 @@ import { Dispatch, SetStateAction, useEffect } from 'react';
 import Flex from '../../uikit/Flex/Flex';
 import { getBlur, getFocus } from '../../uikit/helper';
 import Pangination from '../../uikit/Pagination/Pangination';
+import SvgNomessage from '../../icons/SvgNomessage';
+import SvgNotinterests from '../../icons/SvgNotinterests';
 import Text from '../../uikit/Text/Text';
 import SvgAdd from '../../icons/SvgAdd';
 import SvgNotInterested from '../../icons/SvgNotInterested';
@@ -117,9 +119,8 @@ const size=sidebar==="1"
         }}
       >
         {data && data.length === 0 && (
-          <Flex className={styles.dataIcond} flex={1} center middle height={'100%'}>
-            <Flex className={styles.svgIcon}>
-            <SvgNotInterested fill={"555555"} width={15} /></Flex>
+          <Flex flex={1} center middle height={'100%'} style={{display:"flex"}}>
+            <SvgNotinterests style={{marginBottom:"15px"}}/>
             <Text color="gray" style={{ position: 'relative', bottom: 16 }}>
               No candidate found
             </Text>
