@@ -83,7 +83,7 @@ console.log('setCancel',setCancel);
             y: pieYValue(profile_value.business_intelligence),
           },
           {
-            name: 'Devops Engineer',
+            name: 'DevOps Engineer',
             y: pieYValue(profile_value.devops),
           },
           {

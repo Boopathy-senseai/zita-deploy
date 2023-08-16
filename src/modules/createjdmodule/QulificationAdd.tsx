@@ -76,7 +76,7 @@ const QulificationAdd = ({
                 )}
               >
                 <Flex row center>
-                  <div className={styles.svgadd} style={{ marginRight: 8 }}>
+                  <div className={styles.svgadd} style={{ marginRight: 8 , bottom:1}}>
                   <SvgAdd width={12} height={12} fill="#581854" />
                   </div>
                   <Text color="link" bold>

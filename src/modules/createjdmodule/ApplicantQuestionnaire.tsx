@@ -1,4 +1,4 @@
-import { Formik, FormikState } from 'formik';
+import { Formik, FormikState, FormikProps } from 'formik';
 import { SetStateAction, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
@@ -34,6 +34,7 @@ const initial: questionnaireProps = {
   required: '1',
   options: [],
 };
+
 type ParamsType = {
   jd_id: string;
 };
@@ -41,6 +42,7 @@ const ApplicantQuestionnaire = () => {
   const { jd_id } = useParams<ParamsType>();
   const history = useHistory();
   const [tabKey, setTabKey] = useState('0');
+  
   const { routerPrompt, onDirty, onPristine } = useUnsavedChangesWarning();
 
   const dispatch: AppDispatch = useDispatch();
@@ -220,6 +222,7 @@ const ApplicantQuestionnaire = () => {
                   handleSubmit,
                   isValid,
                   dirty,
+                  
                 }) => (
                   <CreateNewQuestion
                     values={values}
@@ -260,7 +263,7 @@ const ApplicantQuestionnaire = () => {
         tabledata={tabledata}
         jdId={jd_id}
         ds_role={ds_role}
-        onPristine={onPristine}
+        onPristine={onPristine}    
       />
       {routerPrompt}
     </Flex>

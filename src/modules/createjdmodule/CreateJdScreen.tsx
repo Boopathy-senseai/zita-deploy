@@ -89,7 +89,7 @@ const CreateJdScreen = () => {
         <Text
           className={styles.chooseText}
           align="center"
-          size={20}
+          size={14}
           bold
           color="black"
         >

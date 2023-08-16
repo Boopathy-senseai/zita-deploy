@@ -521,6 +521,19 @@ const MyJobPostingScreen = () => {
                           ) : (
                             ''
                           )}
+                            {list.jd_status__label_name === 'Questionnaire' ? (
+                            <div
+                              style={{
+                                color: '#FCC203',
+                                fontWeight: 500,
+                                fontSize: 15,
+                              }}
+                            >
+                              {"Draft"}{' '}
+                            </div>
+                          ) : (
+                            ''
+                          )}
                           {list.jd_status__label_name === 'Preview' ? (
                             <div
                               style={{

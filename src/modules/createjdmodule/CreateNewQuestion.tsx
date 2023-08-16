@@ -1,5 +1,6 @@
 import { ErrorMessage, FieldArray } from 'formik';
 import { ChangeEvent, FormEvent, useEffect } from 'react';
+import { useFormik } from 'formik';
 import Button from '../../uikit/Button/Button';
 import Flex from '../../uikit/Flex/Flex';
 import { isEmpty } from '../../uikit/helper';
@@ -7,6 +8,7 @@ import InputText from '../../uikit/InputText/InputText';
 import SelectTag from '../../uikit/SelectTag/SelectTag';
 import InputSwitch from '../../uikit/Switch/InputSwitch';
 import Text from '../../uikit/Text/Text';
+import { useForm } from '../../hooks/useForm';
 import CreateNewOption from './CreateNewOption';
 import styles from './createnewquestion.module.css';
 import { questionnaireProps } from './formikTypes';
@@ -32,6 +34,16 @@ type Props = {
   onPristine: () => void;
 };
 
+export type FormProps = {
+  question: string;
+};
+const handleQuestionInput = (values: { question: string }) => {
+  const errors: Partial<{ question: string }> = {};
+  if (isEmpty(values.question) || values?.question.trim() === '') {
+    errors.question = 'Enter a Valid Question';
+  }
+  return errors;
+};
 const CreateNewQuestion = ({
   values,
   setFieldValue,
@@ -52,32 +64,83 @@ const CreateNewQuestion = ({
     }
 
   }, [values]);
-  const handlequestioninput = () =>{
-    const errors: Partial<{ question: string}> = {};
-      if(isEmpty(values.question) || values.question.trim() === ''){
-      errors.question = '';
+
+  const toggleStage = () => {
+    formik.resetForm();
+  };
+
+
+  const initial: FormProps = {
+    question:values.question
+  };
+
+  const formik = useForm<{ question: string }>({
+    initialValues: initial,
+    validate: handleQuestionInput,
+    onSubmit: () => {
+      question:values.question.trim()
+    toggleStage();
     }
-    return errors
-  }
+  });
+
+  // const handleQuestionsSubmit = () => {
+  //   if (formik.values.question !== '') {
+  //       question:values.question.trim()
+  //       handleSubmit();
+  //     }};
+      const handleQuestionsSubmit = () => {
+        const trimmedQuestion = formik.values.question.trim();
+      
+        if (trimmedQuestion !== '') {
+          formik.setFieldValue('question', trimmedQuestion);
+          handleSubmit();
+        }
+      };
+  // const handlequestioninput = () => {
+  //   const handleQuestionInput = () => {
+  //     const errors: Partial<{ question: string }> = {};
+  //     if (isEmpty(values.question) || values?.question.trim() === '') {
+  //       errors.question = '';
+  //     }
+  //     return errors;
+  //   };
+  
+  // const initial: FormProps = {
+  //   question: values.question,
+  // };
+  // const formik = useForm<FormProps>({
+  //   initialValues: initial,
+  //   initialValidation: true,
+  //   validate: handleQuestionInput,
+  //   onSubmit: () => {
+  //     question:values.question.trim()
+  //   toggleStage();
+  //   }
+  // });
+
+  // const handleQuestionsSubmit = () => {
+  //   if (formik.values.question !== '') {
+  //     handleSubmit();
+  //   }}
+
   return (
     <Flex className={styles.overAll}>
       <div className={styles.questionStyle}>
         <InputText
           label="Question"
           required
-          value={values.question}
+          value={formik.values.question}
           onChange={(e) => {
             setFieldValue('question', e.target.value);
             onDirty();
           }}
+        
         />
-
         {!isEmpty(values.question) && values.question.length > 500 && (
           <Text color="error" size={12}>
             Text length should not exceed 500 characters
           </Text>
         )}
-
       </div>
       <InputText
         className={styles.textArea}
@@ -146,7 +209,7 @@ const CreateNewQuestion = ({
         />
       </div>
       <Flex columnFlex className={styles.btnContainer}>
-        <Button disabled={!(isValid && dirty)} onClick={handleSubmit}>
+        <Button disabled={!(isValid && dirty)} onClick={handleQuestionsSubmit}>
           Add
         </Button>
       </Flex>

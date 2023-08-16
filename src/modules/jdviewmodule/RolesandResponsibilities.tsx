@@ -1,5 +1,5 @@
 import Chart from '../../uikit/Chart/Chart';
-import { PRIMARY } from '../../uikit/Colors/colors';
+import { BLACK, PRIMARY } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
 import { Jd, Profile } from './jdViewTypes';
 import styles from './rolesandresponsibilities.module.css';
@@ -21,7 +21,7 @@ const RolesandResponsibilities = ({ jdDetails, profile }: Props) => {
     title: {
       text: 'Role Distribution',
       style: {
-        color: PRIMARY,
+        color: BLACK,
         fontWeight: 'bold',
         fontSize:14
       },
@@ -55,7 +55,7 @@ const RolesandResponsibilities = ({ jdDetails, profile }: Props) => {
             y: pieYValue(profile?.business_intelligence),
           },
           {
-            name: 'Devops Engineer',
+            name: 'DevOps Engineer',
             y: pieYValue(profile?.devops),
           },
           {

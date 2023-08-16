@@ -72,11 +72,8 @@ export const customStyles = {
     maxHeight: 200,
     scrollbarWidth: 'thin',
     padding: 0,
+    fontSize:13,
   }),
-NoOptionsMessage: (provided: any)=> ({
-  ...provided,
-  fontSize: 13,
-}),
 }
 
 
