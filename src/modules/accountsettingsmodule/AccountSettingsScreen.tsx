@@ -249,9 +249,9 @@ const AccountSettingsScreen = ({ value }: props) => {
       <>
         <Flex row center className={styles.overallhead}>
           <Flex row center>
-            <Flex center marginLeft={20}>
+            {/* <Flex center marginLeft={20}>
               <SvgSettings />
-            </Flex>
+            </Flex> */}
             <Flex>
               <Text
                 bold

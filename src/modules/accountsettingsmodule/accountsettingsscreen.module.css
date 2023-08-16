@@ -96,14 +96,14 @@ pointer-events: none;
   border-right: 30px solid white;
   border-bottom: 22px solid transparent;
   /* position: relative; */
-  top: 0;
+  top: -1px;
   right: 0;
 }
 .overallhead {
   background-color: #eee8ec;
   display: flex;
   justify-content: space-between;
-  height: 45px;
+  height: 40px;
   /* margin-left: -10px; */
 }
 
