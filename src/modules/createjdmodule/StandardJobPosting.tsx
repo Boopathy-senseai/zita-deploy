@@ -44,7 +44,7 @@ const StandardJobPosting = ({
   return (
     <Flex>
       <Flex columnFlex>
-        {/* <Flex className={styles.cardOverAll}> */}
+        <Card className={styles.cardOverAll}>
           <Text color="primary" bold>
             Standard Job Posting
           </Text>
@@ -62,7 +62,7 @@ const StandardJobPosting = ({
                 </Text>
               </Flex>
             </div>
-            <Text color="theme" bold>
+            <Text color="primary" bold>
               Other Job Boards
             </Text>
             <Flex row center>
@@ -78,6 +78,8 @@ const StandardJobPosting = ({
               </div>
             </Flex>
           </Flex>
+          </Card>
+          <Flex style={{height:15}}></Flex>
           <Flex row center between>
             <LinkWrapper target={'_parent'} to={`/jobs/questionnaire/${jdId}`}>
               <Button types="secondary">{BACK}</Button>
