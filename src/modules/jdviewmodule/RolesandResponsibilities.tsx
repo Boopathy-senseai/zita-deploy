@@ -55,7 +55,7 @@ const RolesandResponsibilities = ({ jdDetails, profile }: Props) => {
             y: pieYValue(profile?.business_intelligence),
           },
           {
-            name: 'Devops Engineer',
+            name: 'DevOps Engineer',
             y: pieYValue(profile?.devops),
           },
           {

@@ -6,6 +6,7 @@ import Button from '../../uikit/Button/Button';
 import Flex from '../../uikit/Flex/Flex';
 import InputText from '../../uikit/InputText/InputText';
 import Text from '../../uikit/Text/Text';
+import SvgAdd from '../../icons/SvgAdd';
 import styles from './createnewquestion.module.css';
 import { questionnaireProps } from './formikTypes';
 
@@ -69,10 +70,10 @@ const CreateNewOption = ({
               pointer: optionsLength !== 4,
             })}
           >
-            <div style={{ marginRight: 8 }}>
-              <SvgRoundAdd />
+            <div style={{ marginRight: 8, bottom: 1, position: "relative"}}>
+            <SvgAdd width={12} height={12} fill="#581854" />
             </div>
-            <Text color="info" bold>
+            <Text color="theme" bold>
               Add Options
             </Text>
           </Flex>

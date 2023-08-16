@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useState } from 'react';
 import { routesPath } from '../../routes/routesPath';
 import Button from '../../uikit/Button/Button';
 import Card from '../../uikit/Card/Card';
@@ -16,13 +17,17 @@ type Props = {
   jdId: string;
   ds_role: boolean;
   onPristine: () => void;
+  setDraftSave?: any;
 };
+
 const AddedApplicantQuestionnaire = ({
   tabledata,
   jdId,
   ds_role,
+  setDraftSave,
   onPristine,
 }: Props) => {
+
   const columns = useMemo(() => questionTitle(jdId), [tabledata]);
   return (
     <Flex className={styles.cardOverAll}>
@@ -55,16 +60,23 @@ const AddedApplicantQuestionnaire = ({
         )}
 
         <Flex row center>
-          <LinkWrapper onClick={() => onPristine()}  to={routesPath.MY_JOB_POSTING}>
+          <LinkWrapper 
+          
+          onClick = {setDraftSave}
+
+          to={routesPath.MY_JOB_POSTING}>
             <Button types="close">{CANCEL}</Button>
           </LinkWrapper>
 
           <LinkWrapper
-            onClick={() => onPristine()}
             
             to={routesPath.MY_JOB_POSTING}
           >
-            <Button types="secondary" className={styles.saveBtn}>
+            <Button 
+          onClick={() => {onPristine()
+            setDraftSave(true);
+          }}
+            types="secondary" className={styles.saveBtn}>
               Save as draft
             </Button>
           </LinkWrapper>
