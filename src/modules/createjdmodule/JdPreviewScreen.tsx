@@ -22,6 +22,7 @@ import {
   postJdMiddleWare,
   questionnaireForJdMiddleWare,
   selectDsorNonDsMiddleWare,
+  whatjobsMiddleWare,
 } from './store/middleware/createjdmiddleware';
 import styles from './jdpreviewscreen.module.css';
 import ApplicantQuestionnaireResult from './ApplicantQuestionnaireResult';
@@ -33,6 +34,7 @@ type ParamsType = {
 const JdPreviewScreen = () => {
   const { jdId } = useParams<ParamsType>();
   const [isOpen, setOpen] = useState(false);
+  const [extarajobpost,setextarajobpost] = useState(1);
   const dispatch: AppDispatch = useDispatch();
   const history = useHistory();
 
@@ -58,7 +60,7 @@ const JdPreviewScreen = () => {
     postLoader,
     feature,
     career_page_url,
-    is_plan,
+    is_plan, 
   } = useSelector(
     ({
       jdPreviewReducers,
@@ -84,7 +86,8 @@ const JdPreviewScreen = () => {
         is_plan: permissionReducers.is_plan,
       };
     },
-  );
+
+  ); 
 
   useEffect(() => {
     if (!is_plan) {
@@ -92,11 +95,16 @@ const JdPreviewScreen = () => {
       history.push('/account_setting/settings');
     }
   });
-
+const whatjob =(values) =>{
+  setextarajobpost(values)
+ 
+}
   // publish form submit
+  
+  
   const hanldePulish = () => {
-   
-      
+    const formData = new FormData();
+  formData.append('jd_id', jdId )
     if (isEmpty(career_page_url)) {
       if (isEmpty(company_detail.no_of_emp)) {
         sessionStorage.setItem('superUserTab', '0');
@@ -104,22 +112,38 @@ const JdPreviewScreen = () => {
         sessionStorage.setItem('superUserTab', '1');
       }
       history.push('/account_setting/settings');
-    } else {
+    }
+
+    else if(extarajobpost === 0) {
+      dispatch(whatjobsMiddleWare({formData})); 
+
+      dispatch(postJdMiddleWare({ jd_id: jdId})).then((res) => {
+
+        if (res.payload.success) {
+          setOpen(true);
+          dispatch(jdMatchMiddleWare({ jd_id:jdId})) 
+        }
+      });
+    }
+   
+    else if (extarajobpost === 1) { 
+
       dispatch(postJdMiddleWare({ jd_id: jdId })).then((res) => {
         if (res.payload.success) {
           setOpen(true);
           dispatch(jdMatchMiddleWare({ jd_id:jdId})) 
         }
       });
-    }}
-  
-  
+    }
+  };
+console.log("externaljob",extarajobpost)
   return (
     <Flex
       columnFlex
       className={styles.overAll}
       height={window.innerHeight - 71}
     >
+       { console.log(extarajobpost,'////////////////////////////////////////')}
       {postLoader && <Loader />}
       <Flex row center className={styles.step}>
         <StepProgressBar titleclassName={styles.stepOne} roundFill barFilled />
@@ -189,7 +213,8 @@ const JdPreviewScreen = () => {
         jdId={jdId}
         hanldePulish={hanldePulish}
         ds_role={ds_role}
-        feature={feature}
+        feature={feature} 
+        whatjob={whatjob}
       />
     </Flex>
   );

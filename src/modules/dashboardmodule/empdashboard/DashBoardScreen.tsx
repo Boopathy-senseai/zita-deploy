@@ -88,7 +88,6 @@ const DashBoardScreen = () => {
       });
     });
     dispatch(companyPageInitalMiddleWare());
-
   }, []);
 
   const checkCalendarGoogle = Array.isArray(google);
@@ -105,7 +104,7 @@ const DashBoardScreen = () => {
     );
   };
   const getFreeValue = localStorage.getItem('freeCheck');
-  const flexHeight = jd_metrics.length !== 0 ? 70 : 60
+  const flexHeight = jd_metrics.length !== 0 ? 70 : 60;
   if (isLoader || isLoaderMsg || isCalLoader) {
     return <Loader />;
   }
@@ -160,7 +159,6 @@ const DashBoardScreen = () => {
     //           </Flex>
     //         </Flex>
 
-
     //           <Flex row>
     //             <Flex >
     //               <ProfileCard></ProfileCard>
@@ -193,65 +191,60 @@ const DashBoardScreen = () => {
 
     //       </Flex>
 
-
-
-
     //     </Flex>
     //   );
     // };
-    <Flex className={styles.scroll}>
-
-    <Flex row className={styles.ribbon} between>
+    <Flex className={styles.overAll} height={window.innerHeight - flexHeight}>
       
-
-        <Flex marginTop={9} marginLeft={8} >
-          <Text size={18} bold color="theme" >
-            Dashboard
-          </Text>
-
+        <Flex row className={styles.ribbon} between>
+          <Flex marginTop={9} marginLeft={8}>
+            <Text size={16} bold color="theme">
+              Dashboard
+            </Text>
+          </Flex>
+          <Flex>
+            <div className={styles.triangle}></div>
+          </Flex>
         </Flex>
-        <Flex >
-
-          <div className={styles.triangle}></div>
-        </Flex>
-      
-    </Flex>
-    <Flex className={styles.overAll}  >
-    {console.log("dash==>",window.innerHeight,flexHeight )}
-      <Flex row center>
-
-        <div style={{ display: 'flex' ,marginBottom:"5px"}}>
-          {isEmpty(getFreeValue) &&
-            plan &&
-            plan.plan_id_id === 1 &&
-            plan.subscription_remains_days <= 7 && (
-              <Flex columnFlex>
-                <Flex middle row center className={styles.warningFlex}>
-                  <SvgInfo fill={WARNING} />
-                  <Text
-                    size={12}
-                    bold
-                    color="warning"
-                    className={styles.warningText}
-                  >
-                   
-                    {`Your free trial ends in ${plan.subscription_remains_days
-                      } ${plan.subscription_remains_days === 1 ? 'day' : 'days'
+        <Flex row center>
+          <div style={{ display: 'flex', marginBottom: '5px' }}>
+            {isEmpty(getFreeValue) &&
+              plan &&
+              plan.plan_id_id === 1 &&
+              plan.subscription_remains_days <= 7 && (
+                <Flex columnFlex marginTop={15}>
+                  <Flex middle row center className={styles.warningFlex}>
+                    <SvgInfo fill={'#2E6ADD'} />
+                    <Text size={12} bold className={styles.warningText}>
+                      <Text
+                        style={{ color: '#2E6ADD', marginRight: '3px' }}
+                        bold
+                      >
+                        Heads Up!{' '}
+                      </Text>
+                      {`Your free trial ends in ${
+                        plan.subscription_remains_days
+                      } ${
+                        plan.subscription_remains_days === 1 ? 'day' : 'days'
                       }. Please `}
-                    <Text size={12} bold color="link" onClick={manageUser}>
-                      upgrade{' '}
+                      <Text
+                        style={{ fontWeight: 600 }}
+                        color="link"
+                        onClick={manageUser}
+                      >
+                        upgrade{' '}
+                      </Text>
+                      to a paid plan to get uninterrupted access and enjoy more
+                      zita platform features along with your branded careers
+                      page.
                     </Text>
-                    to a paid plan to get uninterrupted access and enjoy more
-                    zita platform features along with your branded careers page.
-                  </Text>
+                  </Flex>
                 </Flex>
-              </Flex>
-            )}
-        </div>
-      </Flex >
+              )}
+          </div>
+        </Flex>
 
-
-        <Flex row >
+        <Flex row>
           <Flex flex={5}>
             <ProfileCard></ProfileCard>
           </Flex>
@@ -261,7 +254,7 @@ const DashBoardScreen = () => {
                 <OverallJobActivities></OverallJobActivities>
               </Flex>
 
-              <Flex  marginLeft={5} marginRight={5} marginTop={5} flex={15}>
+              <Flex marginLeft={5} marginRight={5} marginTop={5} flex={15}>
                 <MessageCard></MessageCard>
               </Flex>
             </Flex>
@@ -280,9 +273,8 @@ const DashBoardScreen = () => {
         <Flex marginLeft={5} marginTop={5} marginRight={5} marginBottom={5}>
           <JobMetricsCard />
         </Flex>
-
-      </Flex>
-</Flex>
+       
+    </Flex>
   );
 };
 

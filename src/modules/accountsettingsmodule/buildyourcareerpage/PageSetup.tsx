@@ -3,6 +3,7 @@ import Card from '../../../uikit/Card/Card';
 import Flex from '../../../uikit/Flex/Flex';
 import SelectTag from '../../../uikit/SelectTag/SelectTag';
 import Text from '../../../uikit/Text/Text';
+import { Button, LabelWrapper } from '../../../uikit';
 import { formikFormTypes } from './formikTypes';
 import { fontSizeOptions, fontStyle } from './mock';
 import styles from './pagesetup.module.css';
@@ -13,52 +14,74 @@ type Props = {
 };
 const PageSetup = ({ formik, setReload }: Props) => {
   return (
-    <Card className={styles.overAll}>
-      <Text color="theme" bold size={16}>
+    // <Card className={styles.overAll}>
+    <>
+      {/* <Text bold size={14}>
         Page Setup
-      </Text>
-      <Flex row top className={styles.flexContainer}>
+      </Text> */}
+      <Flex row top className={styles.c}>
         <Flex flex={6} className={styles.tagOne}>
-          <SelectTag
-            id={'page_setup____font_family'}
-            label="Page Font"
-            options={fontStyle}
-            value={
-              fontStyle
-                ? fontStyle.find(
-                    (option) => option.value === formik.values.pageFontStyle,
-                  )
-                : ''
-            }
-            onChange={(option) => {
-              setReload();
-              formik.setFieldValue('pageFontStyle', option.value);
-            }}
-          />
+          <LabelWrapper label="Font">
+            <div >
+              <SelectTag
+                id={'page_setup____font_family'}
+                // label=""
+                options={fontStyle}
+                value={
+                  fontStyle
+                    ? fontStyle.find(
+                        (option) =>
+                          option.value === formik.values.pageFontStyle,
+                      )
+                    : ''
+                }
+                onChange={(option) => {
+                  setReload();
+                  formik.setFieldValue('pageFontStyle', option.value);
+                }}
+              />
+            </div>
+          </LabelWrapper>
         </Flex>
         <Flex flex={6} className={styles.tagTwo}>
-          <SelectTag
-            id={'page_setup____font_size'}
-            label="Page Font Size"
-            options={fontSizeOptions}
-            value={
-              fontSizeOptions
-                ? fontSizeOptions.find(
-                    (option) =>
-                      Number(option.value) ===
-                      Number(formik.values.pageFontSize),
-                  )
-                : ''
-            }
-            onChange={(option) => {
-              setReload();
-              formik.setFieldValue('pageFontSize', Number(option.value));
-            }}
-          />
+          <LabelWrapper label="Font Size">
+            <div >
+              <SelectTag
+                id={'page_setup____font_size'}
+                // label="Page Font Size"
+                options={fontSizeOptions}
+                value={
+                  fontSizeOptions
+                    ? fontSizeOptions.find(
+                        (option) =>
+                          Number(option.value) ===
+                          Number(formik.values.pageFontSize),
+                      )
+                    : ''
+                }
+                onChange={(option) => {
+                  setReload();
+                  formik.setFieldValue('pageFontSize', Number(option.value));
+                }}
+              />
+            </div>
+          </LabelWrapper>
         </Flex>
+        {/* <Button onclick={}>
+          preview
+        </Button> */}
       </Flex>
-    </Card>
+    </>
+    // </Card>
   );
 };
+
+export function PageSetupTitle() {
+  return (
+    <Text bold size={14}>
+      Page Setup
+    </Text>
+  );
+}
 
 export default PageSetup;

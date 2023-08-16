@@ -109,7 +109,7 @@ const CandidateProfileUpload = () => {
   if (isImageLoader) {
     return <Loader />;
   }
-  
+
   return (
     <Flex
       columnFlex
@@ -147,45 +147,72 @@ const CandidateProfileUpload = () => {
             <Button>Login</Button>
           </LinkWrapper>
         </Flex>
-        <Flex center middle>
-          <Flex center columnFlex className={styles.cardOverAll}>
-            <Text size={28} bold align="center">
-              Upload Your Resume/CV
-            </Text>
-            <Text size={20} align="center" className={styles.uploadText}>
-              Your profile offers detailed information required for our
-              algorithm
-            </Text>
-            <input
-              type="file"
-              accept=".doc,.docx,.pdf,.txt"
-              onChange={handleOnChange}
-              className={styles.displayNone}
-              id="candidate_profile__file_upload"
-            />
-            <label
-              htmlFor="candidate_profile__file_upload"
-              style={{ margin: 0, cursor: 'pointer' }}
-              className={styles.btnStyle}
+        <Flex>
+          <Flex columnFlex className={styles.cardOverAll}>
+            <Text
+              color="theme"
+              bold
+              size={16}
+              align="center"
+              style={{ marginBottom: '10px' }}
             >
-              <Flex row center between>
-                <div style={{ cursor: 'pointer' }}>
-                  <SvgUpload fill={WHITE} height={18} width={18} />
-                </div>
-                <Text
-                  bold
-                  style={{ marginLeft: 4, cursor: 'pointer' }}
-                  color="white"
-                >
-                  Upload
-                </Text>
+              Lets start to apply for the role.
+            </Text>
+            <Text size={16} bold >
+              Upload Your Resume or CV
+            </Text>
+            <ul style={{marginLeft:"25px"}}>
+              <li className={styles.uploadText}>
+                Once you upload resume / cv all the details will be extracted by
+                our algorithm.
+              </li>
+              <li className={styles.uploadText}>
+                The extracted details will be auto populated in the up coming
+                respective forms.
+              </li>
+            </ul>
+            <Flex  center middle className={styles.uploadContainer}>
+              <Flex row>
+              <Text color='gray' style={{marginRight:"5px"}}>Click and upload your resume</Text>
+              <input
+                type="file"
+                accept=".doc,.docx,.pdf,.txt"
+                onChange={handleOnChange}
+                className={styles.displayNone}
+                id="candidate_profile__file_upload"
+              />
+              <label
+                htmlFor="candidate_profile__file_upload"
+                style={{ margin: 0, cursor: 'pointer' }}
+                className={styles.btnStyle}
+              >
+                <Flex row center between>
+                  {/* <div style={{ cursor: 'pointer' }}>
+                    <SvgUpload fill={"#581845"} height={18} width={18} />
+                  </div> */}
+                  <Text
+                    bold
+
+                    style={{ marginLeft: 2, cursor: 'pointer' }}
+                    color="theme"
+                  >
+                    Upload Resume
+                  </Text>
+                </Flex>
+              </label>
+
               </Flex>
-            </label>
-            {isMb && (
-              <Text color="error" size={12} style={{ marginTop: 4 }}>
-                {FILE_2MB}
-              </Text>
-            )}
+              
+              <Text color='gray' size={12} style={{marginTop:"5px"}}>
+              {`(Upload only.txt,.doc,.docx,.pdf formats upto 2MB)`}
+            </Text>
+              {isMb && (
+                <Text color="error" size={12} style={{ marginTop: 4 }}>
+                  {FILE_2MB}
+                </Text>
+              )}
+            </Flex>
+            
           </Flex>
         </Flex>
       </div>

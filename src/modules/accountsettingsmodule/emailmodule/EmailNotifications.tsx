@@ -6,8 +6,12 @@ import Flex from '../..//../uikit/Flex/Flex';
 import Card from '../..//../uikit/Card/Card';
 import InputSwitch from '../..//../uikit/Switch/InputSwitch';
 import SvgInfo from '../..//../icons/SvgInfo';
+import SvgModuleicon from '../../../icons/SvgModuleicon';
 import Loader from '../../../uikit/Loader/Loader';
+import ExternalSwitch from '../..//../uikit/externalswitch/Externalswitch';
 import styles from './email.module.css';
+
+
 import {
 	emailPreferenceMiddleWare,
 	emailPreferencePostMiddleWare,
@@ -25,6 +29,26 @@ const EmailNotifications = () => {
 	const [isstage6, setstage6] = useState(true);
 	const [isstage7, setstage7] = useState(true);
 	const [isstage8, setstage8] = useState(true);
+	// const []
+
+//     const [extarajobpost, setextarajobpost] = useState('1');
+//  const extarajob = () => {
+//     if (extarajobpost === '0') {
+//       setextarajobpost('1');  
+//     } else {
+//       setextarajobpost('0'); 
+//     } 
+//   };
+
+//   const [extarajob1post, setextarajob1post] = useState('1');
+//   const extarajob1 = () => {
+// 	 if (extarajob1post === '0') {
+// 	   setextarajob1post('1');  
+// 	 } else {
+// 	   setextarajob1post('0'); 
+// 	 } 
+//    };
+
 
 	useEffect(() => {
 		dispatch(emailPreferenceMiddleWare()).then(()=> {
@@ -179,7 +203,7 @@ if(isload){
 		<Card className={styles.cardOverAll}>
 			
 			<Flex>
-				<Text bold size={16}>
+				<Text bold size={14}>
 					Set your preferences for email notifications
 				</Text>
 				<Text>
@@ -190,12 +214,12 @@ if(isload){
 			<Flex row className={styles.marginTop}>
 				<Flex flex={3}> </Flex>
 				<Flex flex={6}>
-					<Text bold size={16}>
+					<Text bold size={14}>
 						Email Description
 					</Text>
 				</Flex>
 				<Flex flex={4}>
-					<Text bold size={16}>
+					<Text bold size={14}>
 						Email Status
 					</Text>
 				</Flex>
@@ -206,22 +230,29 @@ if(isload){
 						Create & Manage Account
 					</Text>
 				</Flex>
-				<Flex flex={6}>
+				<Flex flex={6} className={styles.ticon}>
 					<Text className={styles.content}>
 						We’ll send you emails during account creation, Reset passwords, etc.
 					</Text>
-					<Flex row>
-						<div style={{ marginTop: -1 }}>
-							<SvgInfo height={18} width={18} />
+					<Flex title={"These emails are mandatory, cannot be disabled."} row>
+						<div className={styles.tsicon}>
+							{/* <SvgInfo height={14} width={14} /> */}
+							<SvgModuleicon/>
 						</div>
-						<Text style={{ marginLeft: 10 }}>
+						{/* <Text style={{ marginLeft: 10 }}>
 							{' '}
 							These emails are mandatory, cannot be disabled.
-						</Text>
+						</Text> */}
 					</Flex>
 				</Flex>
 				<Flex flex={4}>
 					<div className={styles.content} style={{ marginLeft: 22 }}>
+					{/* <ExternalSwitch
+                     checked={extarajobpost === '0'}
+                     onClick={
+                     () => extarajob()
+                     }
+                     /> */}
 						<InputSwitch
 							label="On"
 							disabled
@@ -256,27 +287,48 @@ if(isload){
 					</Text>
 				</Flex>
 				<Flex flex={6}>
+					<Flex className={styles.ticon}>
 					<Text className={styles.content}>
 						We’ll send an email when a trial or plan is purchased or upgraded.
 					</Text>
+					<Flex row title={"These emails are mandatory, cannot be disabled."}>
+						<div className={styles.tsicon}>
+							{/* <SvgInfo height={14} width={14} /> */}
+							<SvgModuleicon/>
+						</div></Flex>
+					</Flex>
+
+					<Flex className={styles.ticon}>
 					<Text className={styles.content}>
 						We’ll remind you regarding the free trial and subscription expiry.
 					</Text>
+					<Flex row title={"These emails are mandatory, cannot be disabled."}>
+						<div className={styles.tsicon}>
+							{/* <SvgInfo height={14} width={14} /> */}
+							<SvgModuleicon/>
+						</div></Flex>
+					</Flex>
+
+                    <Flex className={styles.ticon}>
 					<Text className={styles.content}>
 						We’ll send an email when you cancel the subscription.
 					</Text>
-					<Flex row>
-						<div style={{ marginTop: -1 }}>
-							<SvgInfo height={18} width={18} />
-						</div>
-						<Text style={{ marginLeft: 10 }}>
-							{' '}
-							These emails are mandatory, cannot be disabled.
-						</Text>
-					</Flex>
+					<Flex row title={"These emails are mandatory, cannot be disabled."}>
+						<div className={styles.tsicon}>
+							{/* <SvgInfo height={14} width={14} /> */}
+							<SvgModuleicon/>
+						</div></Flex>
+				    </Flex>
 				</Flex>
 				<Flex flex={4}>
 					<div className={styles.content} style={{ marginLeft: 22 }}>
+					
+					{/* <ExternalSwitch
+                     checked={extarajobpost === '0'}
+                     onClick={
+                     () => extarajob()
+                     }
+                     /> */}
 						<InputSwitch
 							label={isstage1 ? 'On' : 'Off'}
 							checked={isstage1}
@@ -297,6 +349,12 @@ if(isload){
 						/>
 					</div>
 					<div className={styles.content} style={{ marginLeft: 22 }}>
+					{/* <ExternalSwitch
+                     checked={extarajobpost === '0'}
+                     onClick={
+                     () => extarajob()
+                     }
+                     /> */}
 						<InputSwitch
 							label={isstage2 ? 'On' : 'Off'}
 							checked={isstage2}
@@ -317,6 +375,12 @@ if(isload){
 						/>
 					</div>
 					<div className={styles.content} style={{ marginLeft: 22 }}>
+					{/* <ExternalSwitch
+                     checked={extarajobpost === '0'}
+                    //  onClick={
+                    //  () => extarajob()
+                    //  }
+                     /> */}
 						<InputSwitch
 							label={isstage3 ? 'On' : 'Off'}
 							checked={isstage3}
@@ -338,6 +402,8 @@ if(isload){
 					</div>
 				</Flex>
 			</Flex>
+
+
 			<Flex row>
 				<Flex flex={10}>
 					<div className={styles.Line6}></div>
@@ -350,22 +416,34 @@ if(isload){
 						Purchase Receipts
 					</Text>
 				</Flex>
-				<Flex flex={6}>
+				<Flex flex={6} className={styles.ticon}>
 					<Text className={styles.content}>
 						We’ll send you receipts during the Add-on purchase.
 					</Text>
-					<Flex row>
-						<div style={{ marginTop: -1 }}>
-							<SvgInfo height={18} width={18} />
+					<Flex row title= {"This email is mandatory, cannot be disabled."}>
+						<div className={styles.tsicon}>
+							{/* <SvgInfo height={14} width={14} /> */}
+							<SvgModuleicon/>
 						</div>
-						<Text style={{ marginLeft: 10 }}>
+
+						{/* old format css */}
+						{/* <div style={{ marginTop: -1 }}>
+							<SvgInfo height={18} width={18} />
+						</div> */} {/* old format css end */}
+						{/* <Text style={{ marginLeft: 10 }}>
 							{' '}
 							This email is mandatory, cannot be disabled.
-						</Text>
+						</Text> */}
 					</Flex>
 				</Flex>
 				<Flex flex={4}>
 					<div className={styles.content} style={{ marginLeft: 22 }}>
+					{/* <ExternalSwitch
+                     checked={extarajobpost === '0'}
+                     onClick={
+                     () => extarajob()
+                     }
+                     /> */}
 							<InputSwitch
 							label='On'
 							checked={true}
@@ -454,22 +532,31 @@ if(isload){
 					<Text className={styles.content}>
 						We’ll send a status email on the bulk candidate importing process.
 					</Text>
+					<Flex className={styles.ticon}>
 					<Text className={styles.content}>
 						We’ll send an email to the candidate when you invite them to apply
 						for a job.
 					</Text>
-					<Flex row>
-						<div style={{ marginTop: -1 }}>
-							<SvgInfo height={18} width={18} />
+					<Flex row title={"This email is mandatory, cannot be disabled."}>
+						<div className={styles.tsicon}>
+							{/* <SvgInfo height={14} width={14} /> */}
+							<SvgModuleicon/>
 						</div>
-						<Text style={{ marginLeft: 10 }}>
+						{/* <Text style={{ marginLeft: 10 }}>
 							{' '}
 							This email is mandatory, cannot be disabled.
-						</Text>
+						</Text> */}
+					</Flex>
 					</Flex>
 				</Flex>
 				<Flex flex={4}>
 					<div className={styles.content} style={{ marginLeft: 22 }}>
+					{/* <ExternalSwitch
+                     checked={extarajobpost === '0'}
+                     onClick={
+                     () => extarajob()
+                     }
+                     /> */}
 						<InputSwitch
 							label={isstage6 ? 'On' : 'Off'}
 							checked={isstage6}
@@ -489,6 +576,12 @@ if(isload){
 						/>
 					</div>
 					<div className={styles.content} style={{ marginLeft: 22 }}>
+					{/* <ExternalSwitch
+                     checked={extarajob1post === '0'}
+                     onClick={
+                     () => extarajob1()
+                     }
+                     /> */}
 						<InputSwitch
 							label={isstage7 ? 'On' : 'Off'}
 							checked={isstage7}
