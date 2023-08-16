@@ -84,7 +84,9 @@ const JdPreviewScreen = () => {
         is_plan: permissionReducers.is_plan,
       };
     },
+
   ); 
+
   useEffect(() => {
     if (!is_plan) {
       sessionStorage.setItem('superUserTab', '2');
@@ -111,7 +113,9 @@ const whatjob =(values) =>{
     }
     else if(extarajobpost === 0) {
       dispatch(whatjobsMiddleWare({formData})); 
+
       dispatch(postJdMiddleWare({ jd_id: jdId})).then((res) => {
+
         if (res.payload.success) {
           setOpen(true);
         }
@@ -119,6 +123,7 @@ const whatjob =(values) =>{
     }
    
     else if (extarajobpost === 1) { 
+
       dispatch(postJdMiddleWare({ jd_id: jdId })).then((res) => {
         if (res.payload.success) {
           setOpen(true);

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { saveAs } from 'file-saver';
 import { AppDispatch, RootState } from '../../store';
+import Totalcount from '../../globulization/TotalCount';
 import Text from '../../uikit/Text/Text';
 import Flex from '../../uikit/Flex/Flex';
 import Card from '../../uikit/Card/Card';
@@ -225,7 +226,10 @@ const hanldeJobListform = () => {
 					<Flex>
 					
 					
-							<Text bold  className={styles.reportData}> Total Jobs Found: {len_list}</Text>
+					<Totalcount 
+					name="Total Jobs Found "
+					numbers={len_list}
+				    />
 										<input
                           className={styles.inputNone}
                           id="jobMetrics___input"

@@ -83,7 +83,7 @@ const Pangination = ({ currentPage, setCurrentPage, maxPages }: Props) => {
           pointer: !disabledFirst,
         })}
         size={14}
-        color={disabledFirst ? 'gray' : 'black'}
+        color={disabledFirst ? 'gray' : 'theme'}
       >
         First
       </Text>
@@ -120,7 +120,7 @@ const Pangination = ({ currentPage, setCurrentPage, maxPages }: Props) => {
           notAllowd: disabledLast,
           pointer: !disabledLast,
         })}
-        color={disabledLast ? 'gray' : 'black'}
+        color={disabledLast ? 'gray' : 'theme'}
       >
         Last
       </Text>

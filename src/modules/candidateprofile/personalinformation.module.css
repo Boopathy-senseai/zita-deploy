@@ -1,6 +1,6 @@
 .overAll {
   background-color: var(--color-white, #ffffff);
-  padding: 20px;
+  padding: 25px;
   border-radius: 4px;
 }
 .phoneInput {
@@ -45,5 +45,5 @@
   margin-top: 20px;
 }
 .contactFlex{
-  margin-top: 40px;
+  margin-top: 20px;
 }

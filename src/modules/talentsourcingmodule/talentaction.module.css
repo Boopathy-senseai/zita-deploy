@@ -1,10 +1,17 @@
 .findBtn {
   margin-top: 16px;
+  border: 1px solid #581845;
 }
 .lastActiveStyle {
   margin-right: 16px;
   /* width: 190px; */
   width: 25%;
+}
+.filterOverAll {
+  /* padding-top: 20px; */
+  padding-right: 16px;
+  position: relative;
+  
 }
 .distanceStyle {
   /* width: 190px; */
@@ -26,13 +33,25 @@
   margin-bottom: 22px;
 }
 .rowContainer {
-  padding-bottom: 24px;
-  align-items: flex-end;
+  padding-bottom: 10px;
+  /* align-items: flex-end; */
+  padding-left: 8px;
+  justify-content: space-between;
+  padding-right: 16px;
 }
 .btnContainer {
-  /* width: 18%; */
-  margin-right: 20px;
+  width: 100%;
+  /* margin-right: 20px; */
+  /* align-items: center; */
+  margin-top: 6px;
 }
 .searchStyle{
   /* text-transform: capitalize; */
+}
+.react-autosuggest__suggestions-container--open{
+  font-size: 10px;
+}
+.react-autosuggest__suggestion{
+  color: red;
+  font-size: 10px !important;
 }

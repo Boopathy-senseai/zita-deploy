@@ -13,6 +13,7 @@
   /* height: 100vh; */
   position: fixed;
   display: grid;
+  text-align: center;
 }
 .loadertext{
   margin-left: 5px;
@@ -24,6 +25,8 @@
 .spinnerMedium {
   width: 24px;
   height: 24px;
+ 
+
 }
 .spinnerSmall {
   width: 20px;
@@ -98,4 +101,20 @@
 .contentOne{
   height: fit-content;
   color: #581845;
+  text-align: center;
+}
+.contentOne1{
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.18);
+  z-index: 99;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  width: 102%;
+  height: 100%;
+  position: absolute;
+  display: grid;
+  text-align: center;
 }

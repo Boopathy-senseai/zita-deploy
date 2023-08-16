@@ -1,5 +1,5 @@
 .cardConatiner {
-  padding: 8px;
+  padding: 5px;
 }
 .profile {
   width: 40px;
@@ -13,11 +13,11 @@
   top: 4px;
 }
 .profileContainer {
-  margin-bottom: 8px;
+  /* margin-bottom: 8px; */
   /* padding-right: 16px; */
 }
 .jobList {
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 .unlockBtn {
   position: relative;
@@ -35,37 +35,79 @@
 .overAll {
   margin-top: 16px;
   width: 100%;
-  margin-right: 8px;
-  margin-left: 8px;
+  margin-right: 16px;
+  margin-left: 7px;
 }
-.jobTitle {
+
+.jobTitle1{
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 112px;
+  max-width: 95px;
+}
+.line{
+    width: 1px;
+    height: 86px;
+    background-color: rgb(165, 136, 156);
+    margin-top: 7px;
+    /* z-index: 12; */
+   
 }
 .pointer {
   cursor: pointer;
 }
 .relocateContainer {
-  margin-top: 29px;
-  padding-top: 6px;
+  margin-top: 56px;
+  /* padding-top: 6px; */
+  margin-left: -116px;
 }
 
 .ellipsis {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 65px;
+}
+.jobTitle {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 83px;
 }
 
-@media (min-width: 1316px) and (max-width: 1400px) {
-  .ellipsis {
-    max-width: 40%;
-  }
-}
-
-@media (min-width: 1400px) and (max-width: 1500px) {
-  .ellipsis {
+@media screen and (min-width: 1450px) and (max-width: 1600px) {
+  .jobTitle {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     max-width: 45%;
   }
+  .ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
 }
+@media screen and (min-width: 1600px) and (max-width: 3000px) {
+  .jobTitle {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+  .ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+}
+.paginationStyle {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  /* padding-top: 10px; */
+}
+
+

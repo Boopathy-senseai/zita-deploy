@@ -215,6 +215,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
       newCardSelection.set(task.id, { task, section, columnId }),
     );
     setCardSelection(newCardSelection);
+    
   };
   const handleColumnUnselect = (data: IStageColumn) => {
     const { section, columnId } = data;
@@ -437,6 +438,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     setBachelors(false);
     setOther(false);
     setSearch('');
+    formik.handleChange('location')('');
     setMatchRadio('');
     setExperience('');
     setProfile('');
