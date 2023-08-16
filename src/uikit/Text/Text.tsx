@@ -9,6 +9,7 @@ export type textSize =
   | 12
   | 13
   | 14
+  | 15
   | 16
   | 18
   | 20

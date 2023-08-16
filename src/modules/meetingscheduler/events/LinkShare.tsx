@@ -126,6 +126,8 @@ const LinkShare = (props) => {
               width: '100%',
               marginBottom: '15px',
               marginTop: '5px',
+              paddingLeft:'8px',
+              paddingRight:'30px'
             }}
             onChange={(e) => {
               searchItems(e.target.value);

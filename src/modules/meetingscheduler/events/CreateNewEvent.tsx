@@ -452,7 +452,7 @@ const CreateNewEvent = (props) => {
   const GoogleCalendar = (label) => {
     if (interviewerData.length === 0) {
       if (google === false && label === 'Google Hangouts/Meet') {
-        const message = "Google Calendar not be Integrated, Select this option after the Integration"
+        const message = "At least one interviewer must have connected Google Calendar inside Zita. Otherwise, this event type will not be created."
         setMessageDialog(message)
         setIsDialogOpen(true)
         // const validate = window.confirm(
@@ -1836,14 +1836,18 @@ const CreateNewEvent = (props) => {
                 width: '100%',
                 height : '100%',
                 marginTop: '5px',
-                paddingLeft : '8px'
+                paddingLeft : '8px',
+                marginBottom:'10px'
               }}
             />
-            <ErrorMessage
+            <div 
+            style={{marginTop:'5px'}}
+            >
+            <ErrorMessage 
               name={'description'}
               errors={formik.errors}
               touched={formik.touched}
-            />
+            /></div>
           </Flex>
         </Flex>
         <Flex style={{ padding: '0px 25px' }}>

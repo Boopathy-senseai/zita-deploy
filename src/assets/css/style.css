@@ -925,7 +925,9 @@ input:-webkit-autofill:active {
   text-decoration: line-through;
   cursor: not-allowed;
 }
-
+.rdp-nav_button{
+  cursor:pointer !important;
+}
 /* .rdp-head_cell{
   padding-right: 20px;
 } */

@@ -19,6 +19,7 @@ import SvgGlobe from '../../../icons/SvgGlobe';
 import SvgInfo from '../../../icons/SvgInfo';
 import Loader from '../../../uikit/Loader/Loader';
 import SvgZitaLogo from '../../../icons/SvgZitaLogo';
+import { zitaPath } from '../../constValue';
 import {
   googleAddEventMiddleware,
   outlookAddEventMiddleware,
@@ -26,13 +27,13 @@ import {
   getOutlookConflictMiddleWare,
 } from '../../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { isEmpty } from '../../../uikit/helper';
+import LinkWrapper from '../../../uikit/Link/LinkWrapper';
 import styles from './slotter.module.css';
 import {
   getScheduleMiddleWare,
   getSlotterMiddleware,
 } from './store/middleware/eventmiddleware';
 import './DayPickerCustomStyles.css';
-
 
 const slotter1 = (props) => {
   const { userpreview } = props;
@@ -54,7 +55,7 @@ const slotter1 = (props) => {
   const [time, setTime] = useState([]);
   const [selecteddate1, setselectedDate1] = useState('');
   const [startDate, setStartDate] = useState(new Date());
-  const [dashboard, setDashboard] = useState(false);
+  const [dashboard, setDashboard] = useState(true);
   const [finalIntervals, setfinalIntervals] = useState([]);
   const [conflicts, setConflicts] = useState(null);
 
@@ -79,60 +80,61 @@ const slotter1 = (props) => {
       outlook: schedulerReducers.outlook,
     }));
 
-  const { slotterdata, slotmembers, candidate_name, Loading,can_id } = useSelector(
-    ({ slotterReducers }: RootState) => ({
+  const { slotterdata, slotmembers, candidate_name, Loading, can_id } =
+    useSelector(({ slotterReducers }: RootState) => ({
       Loading: slotterReducers.isLoading,
       slotterdata: slotterReducers.slotterdata,
       slotmembers: slotterReducers.slotmembers,
       candidate_name: slotterReducers.candidate_name,
-      can_id : slotterReducers.can_id
-    }),
-  );
+      can_id: slotterReducers.can_id,
+    }));
 
   const { googleconflicts, outlookconflicts } = useSelector(
-    ({ googleConflictReducers,outlookConflictReducers }: RootState) => ({
+    ({ googleConflictReducers, outlookConflictReducers }: RootState) => ({
       googleconflicts: googleConflictReducers.events,
-      outlookconflicts: outlookConflictReducers.events
+      outlookconflicts: outlookConflictReducers.events,
     }),
   );
 
   console.log(
-    'googleconflictsgoogleconflicts',googleconflicts,"\n",outlookconflicts
-  )
-
+    'googleconflictsgoogleconflicts',
+    googleconflicts,
+    '\n',
+    outlookconflicts,
+  );
 
   const candi_name = candidate_name ? candidate_name : 'candidate';
 
-  console.log("GGGGGGGGGGGGGGGGGG",google,outlook)
+  console.log('GGGGGGGGGGGGGGGGGG', google, outlook);
   useEffect(() => {
     const event_id = event;
     setloader(true);
     // dispatch(getAvailbleSlot(event));
-    axios.get(`${availbleslot}?pk=${event}`, {
-      headers: {
-        Authorization: undefined // Setting to undefined will remove the "Authorization" header
-      },
-      transformResponse: [(datalist) => {
-        const parsedData = JSON.parse(datalist);
-        return parsedData;
-      }]
-    })
-    // axios.get(`${availbleslot}?pk=${event}`).
-    .then((res: any) => {
-      console.log('resssss', res);
-      if (res.data !== null) {
-        const value = res.data.availbleslot;
-        setavailblity(value);
-      }
-    });
+    axios
+      .get(`${availbleslot}?pk=${event}`, {
+        headers: {
+          Authorization: undefined, // Setting to undefined will remove the "Authorization" header
+        },
+        transformResponse: [
+          (datalist) => {
+            const parsedData = JSON.parse(datalist);
+            return parsedData;
+          },
+        ],
+      })
+      // axios.get(`${availbleslot}?pk=${event}`).
+      .then((res: any) => {
+        console.log('resssss', res);
+        if (res.data !== null) {
+          const value = res.data.availbleslot;
+          setavailblity(value);
+        }
+      });
 
     if (userpreview === undefined && uid !== null) {
-       dispatch(getSlotterMiddleware({ uid, event_id }));
-      
+      dispatch(getSlotterMiddleware({ uid, event_id }));
     }
     dispatch(getScheduleMiddleWare(event));
-
-    
   }, []);
 
   useEffect(() => {
@@ -143,25 +145,37 @@ const slotter1 = (props) => {
     }
   }, [slotmembers, slotterdata]);
 
-  useEffect(()=> {
-    if (data.length > 0){
+  useEffect(() => {
+    if (data.length > 0) {
       data.forEach(({ startdate, enddate }, index) => {
-        console.log("startdate", startdate, "enddate", enddate);
-    
+        console.log('startdate', startdate, 'enddate', enddate);
+
         if (google) {
           // alert("G")
-          dispatch(getGoogleConflictMiddleWare({ event_id: event, startdate, enddate }));
+          dispatch(
+            getGoogleConflictMiddleWare({
+              event_id: event,
+              startdate,
+              enddate,
+            }),
+          );
         }
         if (outlook) {
           // alert("O")
-          dispatch(getOutlookConflictMiddleWare({event_id: event, startdate, enddate }));
+          dispatch(
+            getOutlookConflictMiddleWare({
+              event_id: event,
+              startdate,
+              enddate,
+            }),
+          );
         }
       });
-    } 
-  },[data])
+    }
+  }, [data]);
 
-  useEffect(()=> {
-    if ("date" in googleconflicts) {
+  useEffect(() => {
+    if ('date' in googleconflicts) {
     } else {
       // alert("googleconflicts");
       setConflicts(googleconflicts);
@@ -173,8 +187,7 @@ const slotter1 = (props) => {
     //   console.log('googleConflicts has properties');
     // } else {
     //   console.log('googleConflicts is empty');
-    if ("date" in outlookconflicts) {
-      
+    if ('date' in outlookconflicts) {
     } else {
       // alert("outlookconflicts");
       setConflicts(outlookconflicts);
@@ -182,8 +195,7 @@ const slotter1 = (props) => {
       // For example:
       console.log("No 'date' property in googleconflicts");
     }
-
-  },[googleconflicts,outlookconflicts])
+  }, [googleconflicts, outlookconflicts]);
 
   function formatDate(inputDate) {
     const months = [
@@ -222,8 +234,6 @@ const slotter1 = (props) => {
     return value;
   };
 
-  
-
   const CalendarIntegration = (list, selecteddate, selectedtime) => {
     console.log('listttttttttttttttt111111', list);
 
@@ -238,34 +248,34 @@ const slotter1 = (props) => {
       formData.append('pk', JSON.stringify(event));
       formData.append('title', list.event_name);
       formData.append('date', selecteddate);
-      formData.append('can_id',JSON.stringify(can_id));
+      formData.append('can_id', JSON.stringify(can_id));
       formData.append('time', selectedtime);
       formData.append('timezone', result);
-      
-      console.log("googlegoogle",google,"\n",outlook)
+
+      console.log('googlegoogle', google, '\n', outlook);
 
       // if(google || outlook){
-        if (google) {
-          // alert("Google")
-          // attendees.push({ email: google})
-          interviewer?.map((datalist, index) => {
-            if(datalist.google_calendar !==  null){
-              attendees.push({ email: datalist.google_calendar });
-            }
-          });
-          formData.append('attendees', JSON.stringify(attendees));
-          dispatch(googleAddEventMiddleware({ formData }));
-        }
-        if (outlook) {
-          // alert("outlook")
-          interviewer?.map((datalist) => {
-            if(datalist.outlook_calendar !== null){
-              attendees.push(datalist.outlook_calendar);
-            }
-          });
-          formData.append('attendees', JSON.stringify(attendees));
-          dispatch(outlookAddEventMiddleware({ formData }));
-        }
+      if (google) {
+        // alert("Google")
+        // attendees.push({ email: google})
+        interviewer?.map((datalist, index) => {
+          if (datalist.google_calendar !== null) {
+            attendees.push({ email: datalist.google_calendar });
+          }
+        });
+        formData.append('attendees', JSON.stringify(attendees));
+        dispatch(googleAddEventMiddleware({ formData }));
+      }
+      if (outlook) {
+        // alert("outlook")
+        interviewer?.map((datalist) => {
+          if (datalist.outlook_calendar !== null) {
+            attendees.push(datalist.outlook_calendar);
+          }
+        });
+        formData.append('attendees', JSON.stringify(attendees));
+        dispatch(outlookAddEventMiddleware({ formData }));
+      }
       // }
       console.log('??/////////////', attendees);
       // dispatch(googleAddEventMiddleware({ formData }));
@@ -283,15 +293,15 @@ const slotter1 = (props) => {
       dateconvert(selectDate),
     );
     var selectedtime = selecttime11;
-    console.log("%%^%^%^^^",uid,event_id)
-    if (uid !== null && event_id !== null && userpreview === undefined  ){
+    console.log('%%^%^%^^^', uid, event_id);
+    if (uid !== null && event_id !== null && userpreview === undefined) {
       // alert(uid)
-    dispatch(
-      getSlotterMiddleware({ uid, event_id, selecteddate, selectedtime }),
-    );
-    console.log('dadadataaatatatatatata', data);
-    CalendarIntegration(data[0], selecteddate, selectedtime);
-  }
+      dispatch(
+        getSlotterMiddleware({ uid, event_id, selecteddate, selectedtime }),
+      );
+      console.log('dadadataaatatatatatata', data);
+      CalendarIntegration(data[0], selecteddate, selectedtime);
+    }
   };
 
   const InterviewText = (inter) => {
@@ -309,19 +319,17 @@ const slotter1 = (props) => {
     }
   };
 
-
-
   const timezones = (str) => {
-    let timeszonesdisplay = ''
+    let timeszonesdisplay = '';
     const display = data.map((li: any) => {
-     timeszonesdisplay =  li.times_zone_display}
-      );
-    console.log("display!@#",data,display,timeszonesdisplay)
-    if(timeszonesdisplay !== ''){
+      timeszonesdisplay = li.times_zone_display;
+    });
+    console.log('display!@#', data, display, timeszonesdisplay);
+    if (timeszonesdisplay !== '') {
       // if (
-      //   timeszonesdisplay === 
+      //   timeszonesdisplay ===
       //     'Automatically detect and show the times in my invitees time zone'
-        
+
       // ) {
       //   const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
       //   alert("userTimezone"+userTimezone)
@@ -329,7 +337,7 @@ const slotter1 = (props) => {
       //   const userzone1 = `${userTimezone} (${offset})`;
       //   console.log("userzoneuserzoneuserzoneuserzone",userzone1)
       //   return userzone1;
-      // 
+      //
       if (
         timeszonesdisplay === 'Lock the timezone (best for in-person events)'
       ) {
@@ -339,17 +347,15 @@ const slotter1 = (props) => {
         const result = `${locationWithoutParentheses} (${timeOffset})`;
         // settimezone(locationWithoutParentheses)
         return result;
-      }else{
+      } else {
         const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         const offset = moment.tz(userTimezone).format('Z');
         const userzone1 = `${userTimezone} (${offset})`;
-        console.log("userzoneuserzoneuserzoneuserzone",userzone1)
+        console.log('userzoneuserzoneuserzoneuserzone', userzone1);
         return userzone1;
       }
     }
   };
-
-
 
   return (
     <Flex>
@@ -365,7 +371,7 @@ const slotter1 = (props) => {
               dashboard={data}
               isProfile={isProfile}
               timezones={timezones}
-              candidate_name ={candi_name}
+              candidate_name={candi_name}
             />
           </Flex>
         ) : confromflag === false && dashboard === false ? (
@@ -396,13 +402,13 @@ const slotter1 = (props) => {
               selectDate={selectDate}
               setSelectDate={setSelectDate}
               candidate_name={candi_name}
-              can_id = {can_id}
+              can_id={can_id}
               InterviewText={InterviewText}
               isProfile={isProfile}
               timezones={timezones}
               availbles={availblity}
               formatDate={formatDate}
-              conflicts ={conflicts}
+              conflicts={conflicts}
               // startFrom = {startFrom}
               // endFrom ={endFrom}
             />
@@ -466,14 +472,9 @@ const SlotterDate = (props) => {
   const [startOfMonth, setstartOfMonth] = useState(new Date());
   const [endOfMonth, setendOfMonth] = useState(new Date());
   const [defaultMonth, setdefaultMonth] = useState('');
-  const [startFrom, setStartFrom] = useState(new Date(2023,9-1,4));
-  const [endFrom, setEndFrom] = useState(new Date(2023,11,4));
+  const [startFrom, setStartFrom] = useState(new Date(2023, 9 - 1, 4));
+  const [endFrom, setEndFrom] = useState(new Date(2023, 11, 4));
   const [highlightday, setHighlightDay] = useState(new Date());
-
-
-
-
-
 
   useEffect(() => {
     mount();
@@ -482,51 +483,53 @@ const SlotterDate = (props) => {
     const endMonth = convertmonth(selectedRange.to);
     console.log('************', startMonth, endMonth);
     setendOfMonth(endMonth);
-  }, [response, timezone, availbles,]);
+  }, [response, timezone, availbles]);
 
-  const DateFormatShow = (dateString)=> {
-    console.log("dateStringdateStringdateStringdateStringdateString",dateString)
-    if( dateString !== "" && dateString !== undefined){
-
-      var parts = dateString.split("/");
-      var dateObject = new Date(parts[2], parts[1] - 1 , parts[0]);
-      console.log("KKKKKKKKKKKKKKKK",dateObject)
-      return dateObject
+  const DateFormatShow = (dateString) => {
+    console.log(
+      'dateStringdateStringdateStringdateStringdateString',
+      dateString,
+    );
+    if (dateString !== '' && dateString !== undefined) {
+      var parts = dateString.split('/');
+      var dateObject = new Date(parts[2], parts[1] - 1, parts[0]);
+      console.log('KKKKKKKKKKKKKKKK', dateObject);
+      return dateObject;
     }
-    return null
-  }
+    return null;
+  };
 
-  useEffect(()=> {
-    if(response.length > 0 && response !== undefined){
-      
-      response.map((start)=>{
-        if(start.startdate !== null  && start.enddate !== null){
+  useEffect(() => {
+    if (response.length > 0 && response !== undefined) {
+      response.map((start) => {
+        if (start.startdate !== null && start.enddate !== null) {
           // alert('&^&')
-          console.log("starkkkkkkkkkkkkkt",start)
-         
+          console.log('starkkkkkkkkkkkkkt', start);
 
-          const smonth = DateFormatShow(start.startdate)
-          const startmonth = smonth !== null ?  smonth : "Invalid Date";
+          const smonth = DateFormatShow(start.startdate);
+          const startmonth = smonth !== null ? smonth : 'Invalid Date';
 
-          if(startmonth !== "Invalid Date" ){
+          if (startmonth !== 'Invalid Date') {
             // alert(startmonth)
-            setStartFrom(startmonth)
+            setStartFrom(startmonth);
           }
-          const emonth = DateFormatShow(start.enddate)
-          const endmonth = emonth !== null ?  smonth : "Invalid Date";
-          if(endmonth !== "Invalid Date"  ){
+          const emonth = DateFormatShow(start.enddate);
+          const endmonth = emonth !== null ? smonth : 'Invalid Date';
+          if (endmonth !== 'Invalid Date') {
             // alert(endmonth)
 
-            setEndFrom(endmonth)
+            setEndFrom(endmonth);
           }
-          console.log("endmonthendmonthendmonthendmonth",endmonth,start.enddate)
-          console.log("FFFFFFFFFFFFFFFFFF",startFrom,endFrom)
+          console.log(
+            'endmonthendmonthendmonthendmonth',
+            endmonth,
+            start.enddate,
+          );
+          console.log('FFFFFFFFFFFFFFFFFF', startFrom, endFrom);
         }
-      })
+      });
     }
-
-  },[response])
-
+  }, [response]);
 
   const dateObject = availbles;
   const allDatesArray = Object.keys(dateObject);
@@ -593,16 +596,15 @@ const SlotterDate = (props) => {
     }
   };
 
-  
   const dateconvert = (formattedDate) => {
-    console.log("!@!@!#!!##!#!#!",formattedDate)
+    console.log('!@!@!#!!##!#!#!', formattedDate);
     const convertedDate = moment(formattedDate).format('DD/MM/YYYY');
     return convertedDate;
   };
   const AvailbleSlots = (datetimes) => {
     const check = dateconvert(datetimes);
 
-    console.log("datetimesdatetimes*********",check)
+    console.log('datetimesdatetimes*********', check);
     const filteredData = Object.fromEntries(
       Object.entries(useravailble).filter(([key, value]) => key === check),
     );
@@ -617,7 +619,11 @@ const SlotterDate = (props) => {
     const userTimeZone = 0;
     const adjustedDay = day === currentDay ? day : currentDay;
 
-    const timeslot = generateIntervals(filteredData[check], intervalSeconds,check);
+    const timeslot = generateIntervals(
+      filteredData[check],
+      intervalSeconds,
+      check,
+    );
     setfinalIntervals(timeslot);
   };
 
@@ -632,10 +638,9 @@ const SlotterDate = (props) => {
     const formattedDate = momentObj.format('ddd MMM DD YYYY HH:mm:ss [GMT]ZZ');
     return formattedDate;
   };
- 
 
   const onDateChange = (datetimes: any) => {
-    console.log("datetimesdatetimesdatetimes",datetimes)   
+    console.log('datetimesdatetimesdatetimes', datetimes);
     const currentDate = new Date(datetimes);
     const isInSchedule = dateObjectsArray.some((d) => {
       const scheduleDate = new Date(d);
@@ -654,7 +659,6 @@ const SlotterDate = (props) => {
       setSelectDate(datetimes);
       setselectedDate1(datetimes);
       // DisabledTime(datetimes)
-     
     } else {
       setDate(null);
       setfinalIntervals([]);
@@ -667,11 +671,11 @@ const SlotterDate = (props) => {
     if (select === false) {
       setSelect(true);
       setSelectTime(obj);
-    } 
+    }
     // else if (obj === selecttime) {
     //   setSelect(false);
     //   setSelectTime('');
-    // } 
+    // }
     else {
       setSelectTime(obj);
     }
@@ -688,29 +692,40 @@ const SlotterDate = (props) => {
   }
 
   function getTimeIn12HrsFormat(currentTime) {
-      // const date = new Date(currentTime);
-      let hours = currentTime.getHours();
-      let minutes = currentTime.getMinutes();
-      const ampm = hours >= 12 ? "pm" : "am";
-      hours = hours % 12 || 12;
-      minutes = minutes < 10 ? 0 : minutes;
-      const timeIn12HourFormat = `${hours}:${minutes} ${ampm}`;
-      return timeIn12HourFormat
+    // const date = new Date(currentTime);
+    let hours = currentTime.getHours();
+    let minutes = currentTime.getMinutes();
+    const ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12 || 12;
+    minutes = minutes < 10 ? 0 : minutes;
+    const timeIn12HourFormat = `${hours}:${minutes} ${ampm}`;
+    return timeIn12HourFormat;
   }
-  
+
   // Usage example:
   // const date = new Date();
   // const time12HrsFormat = getTimeIn12HrsFormat(date);
   // console.log(time12HrsFormat); // Output: "3:30 PM" (assuming the current time is 3:30 PM)
-  
 
   function isIntervalWithinRange(interval, range) {
-    const [startTime, endTime] = range.split(" to ");
-    const [intervalStartTime, intervalEndTime] = interval.split(" - ");
-    console.log("intervalStartTime",intervalStartTime,"\n","intervalEndTime",intervalEndTime,"\n","startTime",startTime,"\n","endTime",endTime)
-  
+    const [startTime, endTime] = range.split(' to ');
+    const [intervalStartTime, intervalEndTime] = interval.split(' - ');
+    console.log(
+      'intervalStartTime',
+      intervalStartTime,
+      '\n',
+      'intervalEndTime',
+      intervalEndTime,
+      '\n',
+      'startTime',
+      startTime,
+      '\n',
+      'endTime',
+      endTime,
+    );
+
     // return (
-    //   (intervalEndTime > startTime && intervalStartTime < endTime )  
+    //   (intervalEndTime > startTime && intervalStartTime < endTime )
     //   // (intervalStartTime < startTime && intervalEndTime > endTime) || // Scenario 1
     //   // (intervalStartTime >= startTime && intervalStartTime <= endTime) // Scenario 2
     //   // (intervalStartTime < startTime > intervalEndTime)
@@ -722,64 +737,79 @@ const SlotterDate = (props) => {
     //   // (intervalEndTime > startTime && intervalEndTime <= endTime) // Check if interval ends within range
     // );
     console.log(
-      "intervalStartTime", intervalStartTime, "\n",
-      "intervalEndTime", intervalEndTime, "\n",
-      "startTime", startTime, "\n",
-      "endTime", endTime
+      'intervalStartTime',
+      intervalStartTime,
+      '\n',
+      'intervalEndTime',
+      intervalEndTime,
+      '\n',
+      'startTime',
+      startTime,
+      '\n',
+      'endTime',
+      endTime,
     );
-  
+
     // Check if the interval is entirely within the range
     if (intervalStartTime >= startTime && intervalEndTime <= endTime) {
       return true;
     }
-    
+
     // // Check if the interval starts within the range
     // if (intervalStartTime >= startTime && intervalStartTime < endTime) {
     //   return true;
     // }
-    
+
     // Check if the interval ends within the range
     if (intervalEndTime > startTime && intervalEndTime <= endTime) {
       return true;
     }
   }
-  
-  function getRemainingIntervalsWithinExcludedRanges(targetIntervals, excludedRanges) {
+
+  function getRemainingIntervalsWithinExcludedRanges(
+    targetIntervals,
+    excludedRanges,
+  ) {
     const remainingIntervals = [];
-  
+
     for (const targetInterval of targetIntervals) {
       let isExcluded = false;
-  
+
       for (const excludedRange of excludedRanges) {
         if (isIntervalWithinRange(targetInterval, excludedRange)) {
           isExcluded = true; // Target interval is within an excluded range
           break;
         }
       }
-  
+
       if (!isExcluded) {
         remainingIntervals.push(targetInterval); // Add the remaining interval
       }
     }
-  
+
     return remainingIntervals;
   }
-  
 
-  function generateIntervals(timeBreaks, intervalMinutes,datetimes) {
-    console.log('timeBreakstimeBreaks', timeBreaks, intervalMinutes,datetimes);
+  function generateIntervals(timeBreaks, intervalMinutes, datetimes) {
+    console.log('timeBreakstimeBreaks', timeBreaks, intervalMinutes, datetimes);
     const intervals12 = [];
-    const conflicttime = []
+    const conflicttime = [];
     // const intervals24 = [];
     for (const timeBreak of timeBreaks) {
       const { starttime, endtime } = timeBreak;
 
-      console.log("PPPPPP!PP!P!P!P!P!P!P!P!P!",starttime,endtime)
+      console.log('PPPPPP!PP!P!P!P!P!P!P!P!P!', starttime, endtime);
       const [startHour, startMinute] = parseTime(starttime);
       const [endHour, endMinute] = parseTime(endtime);
       let currentHour = startHour;
       let currentMinute = startMinute;
-      console.log("startHourstartHour",startHour,"\n","endHourendHour",endHour)
+      console.log(
+        'startHourstartHour',
+        startHour,
+        '\n',
+        'endHourendHour',
+        endHour,
+      );
       while (
         currentHour < parseInt(endHour, 10) ||
         (currentHour === parseInt(endHour, 10) &&
@@ -796,7 +826,7 @@ const SlotterDate = (props) => {
 
         if (currentMinute >= 60) {
           currentHour++;
-        currentMinute -= 60;
+          currentMinute -= 60;
         }
 
         // Check if the current time exceeds the end time
@@ -813,53 +843,85 @@ const SlotterDate = (props) => {
         const formattedEndMinute = currentMinute.toString().padStart(2, '0');
         const endAmPm = currentHour < 12 && currentHour > 6 ? 'am' : 'pm';
         const endInterval12 = `${formattedEndHour12}:${formattedEndMinute} ${endAmPm}`;
-        const currentDate = dateconvert(new Date())
-        const currenttime = new Date()
+        const currentDate = dateconvert(new Date());
+        const currenttime = new Date();
 
-        console.log("startInterval12startInterval12",startInterval12,"\n",endInterval12)
-        console.log("currentDatecurrentDatecurrentDatecurrentDatecurrentDate",currentDate,datetimes)
+        console.log(
+          'startInterval12startInterval12',
+          startInterval12,
+          '\n',
+          endInterval12,
+        );
+        console.log(
+          'currentDatecurrentDatecurrentDatecurrentDatecurrentDate',
+          currentDate,
+          datetimes,
+        );
         const time = getTimeIn12HrsFormat(currenttime);
         // time = getTimeIn12HrsFormat(time)
 
-       
-
-        console.log("endInterval12endInterval12",endInterval12,time,"\n","currenttime",currenttime)
-        if(currentDate.toString() === datetimes){
-          if(time < endInterval12 && endInterval12 < '9:00'){
-
+        console.log(
+          'endInterval12endInterval12',
+          endInterval12,
+          time,
+          '\n',
+          'currenttime',
+          currenttime,
+        );
+        if (currentDate.toString() === datetimes) {
+          if (time < endInterval12 && endInterval12 < '9:00') {
             const interval12 = `${startInterval12} - ${endInterval12}`;
-            console.log("interval12interval12",interval12)
-          intervals12.push(interval12);
+            console.log('interval12interval12', interval12);
+            intervals12.push(interval12);
           }
-        }else{
+        } else {
           const interval12 = `${startInterval12} - ${endInterval12}`;
-          console.log("interval12interval12",interval12)
+          console.log('interval12interval12', interval12);
           intervals12.push(interval12);
         }
-        
-      
 
         // const filteredIntervals = intervals12.filter(interval => {
         //   // Replace this condition with your specific logic to filter out intervals
         //   return interval !== "11:30 am - 12:00 pm" && interval !== "06:15 pm - 07:00 pm";
         // });
-        
-        console.log("filteredIntervalsfilteredIntervalsfilteredIntervals","filteredIntervals")
-        
+
+        console.log(
+          'filteredIntervalsfilteredIntervalsfilteredIntervals',
+          'filteredIntervals',
+        );
       }
     }
-    const excludedRanges = conflicts
+    const excludedRanges = conflicts;
     if (datetimes in excludedRanges) {
       // alert("@#$%^&*(")
       const eventsForSelectedDate = conflicts[datetimes];
-      console.log("eventsForSelectedDate",eventsForSelectedDate);
-      console.log("excludedRanges",excludedRanges,"\n",typeof excludedRanges[0])
-      const remainingIntervals = getRemainingIntervalsWithinExcludedRanges(intervals12, eventsForSelectedDate);
-      console.log("currentIntervalcurrentIntervalcurrentInterval",remainingIntervals,"\n",excludedRanges)
-      console.log("====================",remainingIntervals,"\n",eventsForSelectedDate,"\n")
+      console.log('eventsForSelectedDate', eventsForSelectedDate);
+      console.log(
+        'excludedRanges',
+        excludedRanges,
+        '\n',
+        typeof excludedRanges[0],
+      );
+      const remainingIntervals = getRemainingIntervalsWithinExcludedRanges(
+        intervals12,
+        eventsForSelectedDate,
+      );
+      console.log(
+        'currentIntervalcurrentIntervalcurrentInterval',
+        remainingIntervals,
+        '\n',
+        excludedRanges,
+      );
+      console.log(
+        '====================',
+        remainingIntervals,
+        '\n',
+        eventsForSelectedDate,
+        '\n',
+      );
       return remainingIntervals;
     } else {
-      console.log("No events for the selected date.",intervals12);
+      console.log('No events for the selected date.', intervals12);
       return intervals12;
     }
     // const excludedRanges = ["1:00 pm to 2:00 pm","9:30 am to 10:00 am","10:00 am to 10:30 am", "11:00 am to 11:30 am", "12:00 pm to 12:30 pm"];
@@ -871,16 +933,12 @@ const SlotterDate = (props) => {
     // return remainingIntervals;
   }
   function isHighlightedDay(day) {
-    console.log("daydaydaydaydaydayday",day,selectDate)
+    console.log('daydaydaydaydaydayday', day, selectDate);
 
-    if(!isEmpty(selectDate)){
+    if (!isEmpty(selectDate)) {
       const targetDate = selectDate; // Replace with your target date
       return day.toDateString() === targetDate.toDateString();
     }
-
-    
-
-
   }
 
   const defaultHighlightedDay = new Date(2023, 9, 15);
@@ -889,11 +947,10 @@ const SlotterDate = (props) => {
     // highlighted: (day) => selectedDay && day.toDateString() === selectedDay.toDateString(),
     // highlighted:(day) => date !== null && day?.toDateString() === date?.toDateString(),
     highlighted: isHighlightedDay,
-    
   };
 
   function isIntervalWithinExcludedRange(interval, excludedRange) {
-    const [start, end] = excludedRange.split(" - ");
+    const [start, end] = excludedRange.split(' - ');
     return interval > start && interval < end;
   }
 
@@ -907,7 +964,7 @@ const SlotterDate = (props) => {
     //   height: '900px',
     //   width: '900px',
     // },
-  
+
     highlighted: {
       backgroundColor: '#581848',
       color: 'white',
@@ -944,27 +1001,54 @@ const SlotterDate = (props) => {
 
   // const defaultMonth = new Date(2023,11,1);
 
-  console.log('selectedtimeselectedtimeselectedtime', date , "\n",new Date(2023, 9, 15));
+  console.log(
+    'selectedtimeselectedtimeselectedtime',
+    date,
+    '\n',
+    new Date(2023, 9, 15),
+  );
 
   console.log(
     'selectedDaysselectedDaysselectedDaysselectedDays',
-    "startFrom",startFrom,"\n",
-    "endFrom",endFrom,"\n",    
-    defaultMonth,'\n',
-    startOfMonth,'\n',
-    endOfMonth,'\n'
+    'startFrom',
+    startFrom,
+    '\n',
+    'endFrom',
+    endFrom,
+    '\n',
+    defaultMonth,
+    '\n',
+    startOfMonth,
+    '\n',
+    endOfMonth,
+    '\n',
   );
 
-  console.log("timezonetimezonetimezonetimezonetimezonetimezonetimezone",timezone)
-  console.log("selectDate:::",selectDate)
-  console.log("modifiers.selectedmodifiers.selected",modifiers)
-  console.log("conflictsconflicts@!@!@!@!@!@!@@!",conflicts,)
+  console.log(
+    'timezonetimezonetimezonetimezonetimezonetimezonetimezone',
+    timezone,
+  );
+  console.log('selectDate:::', selectDate);
+  console.log('modifiers.selectedmodifiers.selected', modifiers);
+  console.log('conflictsconflicts@!@!@!@!@!@!@@!', conflicts);
 
   return (
     <Flex height={'100%'}>
       <Flex row center className={styles.banner}>
-        <SvgZitaLogo />
-        <Text bold color="theme" size={16}>
+        {console.log('data.company_logo', response[0].company_logo)}
+{response[0].company_logo !== null &&
+        <img
+          src={`${process.env.REACT_APP_HOME_URL}media/${response[0]?.company_logo}`}
+          alt="Company Logo"
+          style={{
+            width: '36px',
+            height: '36px',
+            borderRadius: '50%',
+            marginLeft: '5px',
+          }}
+        />}
+
+        <Text bold color="theme" size={16} style={{ marginLeft: '10px' }}>
           Interview Scheduling
         </Text>
       </Flex>
@@ -975,21 +1059,8 @@ const SlotterDate = (props) => {
               <Flex row>
                 <Flex flex={4} className={styles.leftside}>
                   <Flex row center>
-                    {console.log("data.company_logo",data.company_logo)}
-                    {data.company_logo !== '' ? (        
-                      // data.company_logo.includes("company_logo") ?
-                      // ( <img
-                      //   src={`${process.env.REACT_APP_HOME_URL}media/${data.company_logo}`}
-                      //   alt="Company Logo"
-                      //   style={{
-                      //     width: '36px',
-                      //     height: '36px',
-                      //     borderRadius: '50%',
-                      //   }}
-                      // />
-
-
-                      // ):(
+                    {console.log('data.company_logo', data.company_logo)}
+                    {/* {data.company_logo !== '' ? (  
                         <img
                         src={`${process.env.REACT_APP_HOME_URL}media/${data.company_logo}`}
                         alt="Company Logo"
@@ -1006,25 +1077,21 @@ const SlotterDate = (props) => {
                       
                     ) : (
                       ''
-                    )}
-                    {data.company_logo !== '' ? (
-                    <Text size={14} bold style={{ marginLeft: '5px' }}>
-                      {data.company_name}
-                    </Text>
-                    ) : (
-                      <Text size={14} bold style={{ marginLeft: '0px' }}>
-                      {data.company_name}
-                    </Text>
-                    )}
+                    )} */}
+                    
+                      <Text size={14} bold >
+                        {data.company_name}
+                      </Text>
+                    
                   </Flex>
                   <Flex marginBottom={10} marginTop={10}>
-                    <Text size={13}>Hi {candidate_name},</Text>
-                    <Text size={13}>
-                      {`you have been selected for an ${data.event_name} at 
+                    <Text size={14}>Hi {candidate_name},</Text>
+                    <Text size={14}>
+                      {`You have been selected for the ${data.event_name} at 
                    ${data.company_name}.`}
                     </Text>
-                    <Text size={13} style={{ marginTop: '5px' }}>
-                      Pick a time and date.
+                    <Text size={14} style={{ marginTop: '5px' }}>
+                      Please pick a date and time.
                     </Text>
                   </Flex>
 
@@ -1035,23 +1102,23 @@ const SlotterDate = (props) => {
                     </Text>
                   </Flex>
                   <Flex row center marginBottom={10}>
-                    <SvgClock width={14} height={14} fill={'#581845'} />
-                    <Text size={13} style={{ marginLeft: '5px' }}>
+                    <SvgClock width={16} height={16} fill={'#581845'} />
+                    <Text size={14} style={{ marginLeft: '5px' }}>
                       {data.duration}
                     </Text>
                   </Flex>
                   <Flex row center marginBottom={10}>
-                    <SvgGlobe width={14} height={14} fill={'#581845'} />
-                    <Text size={13} style={{ marginLeft: '5px' }}>
+                    <SvgGlobe width={16} height={16} fill={'#581845'} />
+                    <Text size={14} style={{ marginLeft: '5px' }}>
                       Time zone is {timezones(data.times_zone)}
                     </Text>
                   </Flex>
                   <Flex row start marginBottom={10}>
                     <Flex marginTop={3}>
-                      <SvgInfo width={14} height={14} fill={'#581845'} />
+                      <SvgInfo width={16} height={16} fill={'#581845'} />
                     </Flex>
 
-                    <Text size={13} style={{ marginLeft: '5px' }}>
+                    <Text size={14} style={{ marginLeft: '5px' }}>
                       This is an {InterviewText(data.event_type)}.Please come
                       prepared with the technical aspects of your work
                       experience along with your CV/Resume
@@ -1060,27 +1127,27 @@ const SlotterDate = (props) => {
                   {/* <div className={styles.line}></div> */}
                 </Flex>
                 <Flex flex={4} className={styles.rightside}>
-                  <div style={{marginLeft : "90px"}}>
-                  <DayPicker
-                    // locale={enUS}
-                    
-                    styles={{
-                      months: {
-                        color: '#581845',
-                        // cursor : 'not-allowed'
-                      }                      
-                    }}                
-                    defaultMonth={dateObjectsArray[0]}
-                    // onSelect={setDays}
-                    // fromMonth={dateObjectsArray[0]}
-                    // toMonth={dateObjectsArray[dateObjectsArray.length-1]}
-                    // className="custom-daypicker"
-                    // fromDate={dateObjectsArray[0]}
-                    // toDate={dateObjectsArray[dateObjectsArray.length-1]}
-                    onDayClick={(e) => onDateChange(e)}
-                    modifiers={modifiers}
-                    modifiersStyles={modifiersStyles}
-                  />
+                  <div style={{ marginLeft: '90px' }}>
+                    <DayPicker
+                      // locale={enUS}
+
+                      styles={{
+                        months: {
+                          color: '#581845',
+                          // cursor : 'not-allowed'
+                        },
+                      }}
+                      defaultMonth={dateObjectsArray[0]}
+                      // onSelect={setDays}
+                      // fromMonth={dateObjectsArray[0]}
+                      // toMonth={dateObjectsArray[dateObjectsArray.length-1]}
+                      // className="custom-daypicker"
+                      // fromDate={dateObjectsArray[0]}
+                      // toDate={dateObjectsArray[dateObjectsArray.length-1]}
+                      onDayClick={(e) => onDateChange(e)}
+                      modifiers={modifiers}
+                      modifiersStyles={modifiersStyles}
+                    />
                   </div>
                 </Flex>
               </Flex>
@@ -1104,7 +1171,7 @@ const SlotterDate = (props) => {
                   ''
                 )}
                 <Flex row wrap className={styles.select} marginTop={10}>
-                  {finalIntervals?.length > 0 && 
+                  {finalIntervals?.length > 0 &&
                     finalIntervals?.map((obj, index) => (
                       <button
                         className={styles.button1}
@@ -1115,7 +1182,7 @@ const SlotterDate = (props) => {
                       </button>
                     ))}
                 </Flex>
-               
+
                 {selecttime ? (
                   <Flex end className={styles.content} marginTop={20}>
                     <Button
@@ -1133,32 +1200,51 @@ const SlotterDate = (props) => {
           </Flex>
         ))}
       </Flex>
+      <Flex center bottom middle marginBottom={10} marginTop={10}>
+      <LinkWrapper target={'_blank'} to={'https://www.zita.ai/'}>
+        <Text
+          bold
+          style={{ cursor: 'pointer' }}
+          size={14}
+          color="theme"
+          // onClick={zitaPath}
+        >
+          Powered by Zita.ai
+        </Text></LinkWrapper>
+      </Flex>
     </Flex>
   );
 };
 const Conformpage = (props) => {
-  const {
-    selecttime,
-    date,
-    response,
-    InterviewText,
-    timezones,
-  } = props;
+  const { selecttime, date, response, InterviewText, timezones } = props;
 
   return (
+    <>
     <Flex className={styles.successTick}>
-      <SvgZitaLogo width={240} height={125} />
+      {response[0].company_logo !== null &&
+        <img
+          src={`${process.env.REACT_APP_HOME_URL}media/${response[0]?.company_logo}`}
+          alt="Company Logo"
+          style={{
+            width: '75px',
+            height: '75px',
+            borderRadius: '50%',
+            marginLeft: '7px',
+            marginBottom:'15px',
+            marginTop:'40px'
+          }}
+        />} 
       <Flex>
         {response?.map((list: any) => (
           <Flex className={styles.confrompage} key={list.id}>
             <Flex center className={styles.successTick} marginBottom={10}>
               <SvgCheck2Circle width={30} height={30} fill={'green'} />
               <Text size={16} bold style={{ marginTop: '10px' }}>
-                Your Interview has been Successfully Scheduled
+              Your interview has been scheduled successfully
               </Text>
             </Flex>
             <Flex row center marginTop={15}>
-              {list.company_logo ? (
+              {/* {list.company_logo ? (
                 <>
                   <img
                     src={`${process.env.REACT_APP_HOME_URL}media/${list.company_logo}`}
@@ -1172,16 +1258,12 @@ const Conformpage = (props) => {
                 </>
               ) : (
                 ''
-              )}
-               {list.company_logo !== '' ? (
-                    <Text size={14} bold style={{ marginLeft: '5px' }}>
-                      {list.company_name}
-                    </Text>
-                    ) : (
-                      <Text size={14} bold style={{ marginLeft: '0px' }}>
-                      {list.company_name}
-                    </Text>
-                    )}
+              )} */}
+               
+                <Text size={14} bold >
+                  {list.company_name}
+                </Text>
+              
             </Flex>
             <Text
               bold
@@ -1214,17 +1296,29 @@ const Conformpage = (props) => {
               </Flex>
 
               <Text size={13} style={{ marginLeft: '5px' }}>
-                This is an {InterviewText(list.event_type)}.Please come prepared with
-                the technical aspects of your work experience along with
+                This is an {InterviewText(list.event_type)}.Please come prepared
+                with the technical aspects of your work experience along with
                 CV/Resume
               </Text>
             </Flex>
-
-           
           </Flex>
         ))}
       </Flex>
     </Flex>
+      <Flex center bottom  middle marginBottom={10} marginTop={10}>
+    <LinkWrapper target={'_blank'} to={'https://www.zita.ai/'}>
+        <Text
+          bold
+          style={{ cursor: 'pointer',display:'flex' }}
+          size={14}
+          color="theme"
+          // onClick={zitaPath}
+        >
+          Powered by Zita.ai
+        </Text>
+        </LinkWrapper>
+      </Flex>
+    </>
   );
 };
 
@@ -1237,7 +1331,7 @@ const InterviewDashBoard = (props) => {
     timezones,
     Loading,
     isLoading,
-    candidate_name
+    candidate_name,
   } = props;
 
   useEffect(() => {});
@@ -1245,17 +1339,37 @@ const InterviewDashBoard = (props) => {
   const formatDateChange = (dateString) => {
     // const dateStr = '02/08/2023';
     const months = [
-      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
-  
-    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  
-    const [day, month, year] = dateString.split("/");
+
+    const daysOfWeek = [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+    ];
+
+    const [day, month, year] = dateString.split('/');
     const date = new Date(year, month - 1, day);
     const dayOfWeek = daysOfWeek[date.getDay()];
-    const formattedDate = `${dayOfWeek}, ${months[parseInt(month) - 1]} ${day}, ${year}`;
-  
+    const formattedDate = `${dayOfWeek}, ${
+      months[parseInt(month) - 1]
+    } ${day}, ${year}`;
+
     return formattedDate;
   };
 
@@ -1266,39 +1380,33 @@ const InterviewDashBoard = (props) => {
   //   return <Loader />;
   // }
 
-
-  console.log("slotterdataslotterdataslotterdataslotterdata",slotterdata)
+  console.log('slotterdataslotterdataslotterdataslotterdata', slotterdata);
   return (
+    <>
     <Flex className={styles.successTick}>
-      <SvgZitaLogo width={240} height={125} />
+    {dashboard[0].company_logo !== null &&
+        <img
+          src={`${process.env.REACT_APP_HOME_URL}media/${dashboard[0]?.company_logo}`}
+          alt="Company Logo"
+          style={{
+            width: '75px',
+            height: '75px',
+            borderRadius: '50%',
+            marginLeft: '7px',
+            marginBottom:'15px',
+            marginTop:'40px'
+          }}
+        />} 
       <Flex>
         {dashboard.map((list: any, index) => (
           <Flex key={index} className={styles.dashboard}>
             <Flex row center>
-              {list.company_logo ? (
-                <>
-                  <img
-                    src={`${process.env.REACT_APP_HOME_URL}media/${list.company_logo}`}
-                    alt="Company Logo"
-                    style={{
-                      width: '36px',
-                      height: '36px',
-                      borderRadius: '50%',
-                    }}
-                  />
-                </>
-              ) : (
-                ''
-              )}
-               {list.company_logo !== '' ? (
-                    <Text size={14} bold style={{ marginLeft: '5px' }}>
-                      {list.company_name}
-                    </Text>
-                    ) : (
-                      <Text size={14} bold style={{ marginLeft: '0px' }}>
-                      {list.company_name}
-                    </Text>
-                    )}
+              
+               
+                <Text size={14} bold >
+                  {list.company_name}
+                </Text>
+              
             </Flex>
             <Text
               bold
@@ -1332,8 +1440,8 @@ const InterviewDashBoard = (props) => {
               </Flex>
 
               <Text size={13} style={{ marginLeft: '5px' }}>
-                This is an {InterviewText(list.event_type)}.Please come prepared with
-                the technical aspects of your work experience along with
+                This is an {InterviewText(list.event_type)}.Please come prepared
+                with the technical aspects of your work experience along with
                 CV/Resume
               </Text>
             </Flex>
@@ -1348,7 +1456,8 @@ const InterviewDashBoard = (props) => {
                 <Text bold size={14} style={{ marginLeft: '5px' }}>
                   Candidate / Applicant
                 </Text>
-                <Text size={13}
+                <Text
+                  size={13}
                   style={{ marginLeft: '5px', textTransform: 'capitalize' }}
                 >
                   {candidate_name}
@@ -1365,7 +1474,8 @@ const InterviewDashBoard = (props) => {
                 <Text bold style={{ marginLeft: '5px' }}>
                   Interviewer(s)
                 </Text>
-                <Text size={13}
+                <Text
+                  size={13}
                   style={{ marginLeft: '5px', textTransform: 'capitalize' }}
                 >
                   {slotmembers.map((data) => data.full_name).join(', ')}
@@ -1375,8 +1485,21 @@ const InterviewDashBoard = (props) => {
           </Flex>
         ))}
       </Flex>
+      
     </Flex>
+    <Flex center bottom middle marginBottom={10} marginTop={10}>
+      <LinkWrapper target={'_blank'} to={'https://www.zita.ai/'}>
+        <Text
+          bold
+          style={{ cursor: 'pointer' }}
+          size={14}
+          color="theme"
+          // onClick={zitaPath}
+        >
+          Powered by Zita.ai
+        </Text></LinkWrapper>
+      </Flex>
+    </>
   );
 };
-
 export default slotter1;

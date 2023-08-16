@@ -14,7 +14,7 @@ import { isEmpty } from '../../../uikit/helper';
 import CancelAndDeletePopup from '../../common/CancelAndDeletePopup';
 import Button from '../../../uikit/Button/Button';
 import { eventSchedulerApi } from '../../../routes/apiRoutes';
-import SvgCopy from '../../../icons/SvgCopy';
+import SvgEventcopy from '../../../icons/SvgEventcopy';
 import LinkShare from './LinkShare';
 import styles from './dashBoard.module.css';
 import { getScheduleMiddleWare } from './store/middleware/eventmiddleware';
@@ -117,11 +117,11 @@ const DashBoard = (props) => {
                 {list.event_name}
               </Text>
               <Flex
-                title={"copy"}
+                title={"Copy Link"}
                 className={styles.copybutton}
                 onClick={() => copylink(list.id)}
               >
-                <SvgCopy fill="#FCC203" height={15} width={15} />
+                <SvgEventcopy fill="#581845" height={15} width={15} />
               </Flex>
             </Flex>
           </Flex>
@@ -214,7 +214,7 @@ const ActionsButton = (props) => {
         console.log('resres', res);
         if (res.data.message) {
           dispatch(getScheduleMiddleWare(undefined));
-          Toast('Duplicated successfully', 'LONG');
+          Toast('Event duplicated successfully', 'LONG');
           setdeleteBtnLoader(false);
         }
       })
@@ -247,7 +247,7 @@ const ActionsButton = (props) => {
         if (res.data !== null) {
           setDeleteModal(false);
           dispatch(getScheduleMiddleWare(undefined));
-          Toast('Event Deleted successfully', 'LONG');
+          Toast('Event deleted successfully', 'LONG');
           setdeleteBtnLoader(false);
         }
       });
@@ -266,7 +266,7 @@ const ActionsButton = (props) => {
             }}
             id="dropdown-basic"
           >
-            <SvgSetting fill={'#black'} height={17} width={17} />
+            <SvgSetting fill={'#581845'} height={17} width={17} />
           </Dropdown.Toggle>
 
           <Dropdown.Menu style={{ minWidth: '5rem' }}>
@@ -310,7 +310,7 @@ const ActionsButton = (props) => {
               </Flex>
               </Flex>
               <Flex >
-              <Text size={13} style={{ marginLeft: '10px', marginTop : '2px'}}>
+              <Text size={14} style={{ marginLeft: '10px', marginTop : '2px'}}>
                 Are you sure to proceed?
               </Text> 
               </Flex>             

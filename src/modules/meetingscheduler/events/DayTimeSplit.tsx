@@ -4,7 +4,7 @@ import { Dropdown } from 'react-bootstrap';
 import Flex from '../../../uikit/Flex/Flex';
 import Text from '../../../uikit/Text/Text';
 import { isEmpty } from '../../../uikit/helper';
-import SvgCopy from '../../../icons/SvgCopy';
+import SvgEventcopy from '../../../icons/SvgEventcopy';
 import SvgRoundAdd from '../../../icons/SvgRoundAdd';
 import Button from '../../../uikit/Button/Button';
 import SelectTag from '../../../uikit/SelectTag/SelectTag';
@@ -1641,8 +1641,8 @@ const DayTimeSplit = (props) => {
                                 className={styles.add}
                               >
                                 <SvgCross
-                                  width={16}
-                                  height={16}
+                                  width={12}
+                                  height={12}
                                   fill={'#581845'}
                                 />
                               </button>
@@ -1851,8 +1851,8 @@ const DayTimeSplit = (props) => {
                                 type="button"
                               >
                                 <SvgCross
-                                  width={16}
-                                  height={16}
+                                  width={12}
+                                  height={12}
                                   fill={'#581845'}
                                 />
                               </button>
@@ -2051,8 +2051,8 @@ const DayTimeSplit = (props) => {
                                 className={styles.add}
                               >
                                 <SvgCross
-                                  width={16}
-                                  height={16}
+                                  width={12}
+                                  height={12}
                                   fill={'#581845'}
                                 />
                               </button>
@@ -2265,8 +2265,8 @@ const DayTimeSplit = (props) => {
                                 className={styles.add}
                               >
                                 <SvgCross
-                                  width={16}
-                                  height={16}
+                                  width={12}
+                                  height={12}
                                   fill={'#581845'}
                                 />
                               </button>
@@ -2459,8 +2459,8 @@ const DayTimeSplit = (props) => {
                                 className={styles.add}
                               >
                                 <SvgCross
-                                  width={16}
-                                  height={16}
+                                  width={12}
+                                  height={12}
                                   fill={'#581845'}
                                 />
                               </button>
@@ -2666,8 +2666,8 @@ const DayTimeSplit = (props) => {
                                 className={styles.add}
                               >
                                 <SvgCross
-                                  width={16}
-                                  height={16}
+                                  width={12}
+                                  height={12}
                                   fill={'#581845'}
                                 />
                               </button>
@@ -2866,20 +2866,20 @@ const DayTimeSplit = (props) => {
                               ></SelectTag>
                             </div>
                           </Flex>
-                          <div>
+                          <Flex center>
                             {saturday.length !== 1 && (
                               <button
                                 onClick={() => RemoveClickForSaturday(i)}
                                 className={styles.add}
                               >
                                 <SvgCross
-                                  width={16}
-                                  height={16}
+                                  width={12}
+                                  height={12}
                                   fill={'#581845'}
                                 />
                               </button>
                             )}
-                          </div>
+                          </Flex>
                         </Flex>
                       </>
                     );
@@ -3291,6 +3291,7 @@ const CopyClipBoard = (props) => {
               backgroundColor: 'unset',
               boxShadow: 'none',
               border: 'none',
+              marginTop:'3px',
               // padding : "10px 10px"
               // marginLeft:"-7px"
               
@@ -3299,7 +3300,7 @@ const CopyClipBoard = (props) => {
             
             // id="dropdown-basic"
           >
-            <SvgCopy width={18} height={18} fill={'#581845'} />
+            <SvgEventcopy width={18} height={18} fill={'#581845'} />
 
           </Dropdown.Toggle>
           {copybtn ? (
@@ -3608,14 +3609,14 @@ const CopyClipBoard = (props) => {
               >
               
                 <Button
-                  // className={styles.apply}
+                types='primary'  
                   onClick={() => 
                     applyonclick(final, day, timeslot,name)
                     
                     }
                 >
                   Apply
-                </Button>
+                </Button> 
               </Dropdown.Item>
               </Flex>
 
