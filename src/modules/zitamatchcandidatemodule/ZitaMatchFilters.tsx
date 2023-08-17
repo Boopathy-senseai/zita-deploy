@@ -163,7 +163,7 @@ const ZitaMatchFilters = ({
   const [applieisdoctorate,setapplieisdoctorate]=useState(false);
   const [applieisbachelor,setapplieisbachelor]=useState(false);
   const [applieisother,setapplieisother]=useState(false);
-  const [applieisany,setapplieisany]=useState(false);
+  const [applieisany,setapplieisany]=useState(true);
   const [applieisrelocate,setapplieisrelocate]=useState(false);
   const [applieislocation,setapplieislocation]=useState(false);
 
@@ -267,10 +267,10 @@ const ZitaMatchFilters = ({
     const newOptions = [...isSkillOption];
     const indx = newOptions.indexOf(doc);
     if (indx !== -1) {
-      setskill(newOptions);
-
+      
       newOptions.splice(indx, 1);
       setSkillOption(newOptions);
+      setskill(newOptions);
       return;
     }
   };
@@ -315,12 +315,17 @@ const ZitaMatchFilters = ({
 
   return (
     <Flex row style={{ justifyContent: 'space-between' }}>
+
       <Flex row wrap>
       <Text style={{ whiteSpace: 'nowrap', marginTop: '3px' }}>
             Quick Filters :
           </Text>
         {
-          applimatch === "" && appliexp === "" && applijobtype === "" && applieprofilevalue === "" &&  appliecandidate === "" && applieisany === true && applieisrelocate === false && applieislocation === false && skill.length === 0 ? (
+         // applimatch === "" && appliexp === "" && applijobtype === "" && applieprofilevalue === "" &&  appliecandidate === "" && applieisany === true && applieisrelocate === false && applieislocation === false && skill.length === 0  
+          applimatch==="" && appliexp === "" && applijobtype === "" && applieprofilevalue === "" &&  appliecandidate === ""&& applieisrelocate === false && applieislocation === false && applieisany!==false
+   
+           ? (
+    
             <Text className={styles.quickfil}>All</Text>
           ) : (
             <>
