@@ -655,12 +655,12 @@ const ZitaMatchDataCard = ({
                 >
                   {!isEmpty(dataList.applicant)?(""):(
                     <Flex title='Invite to Apply' className={styles.pointer}>
-                    <SvgInvite width={36} height={36} color="theme" /> </Flex>
+                    <SvgInvite width={28} height={28} color="theme" /> </Flex>
                   )}
                   
                 </div>
               )}
-                <Text size={11} color="gray" >
+                <Text size={11} style={{color:"#333333"}} >
                   {!isEmpty(dataList.applicant)
                     ? ''
                     : 'Invite to Apply'}
@@ -672,7 +672,10 @@ const ZitaMatchDataCard = ({
                 <>
                
               {dataList.applicant===null &&
-               <SvgNotInterested></SvgNotInterested>}
+               <SvgNotInterested
+               width={20}
+               height={20}
+               ></SvgNotInterested>}
              
                 </>
               ) : (
@@ -689,7 +692,7 @@ const ZitaMatchDataCard = ({
                             svgInviteNone: !isEmpty(dataList.applicant),
                           })}
                         >
-                          <SvgInvite width={36} height={36} color="theme" /> 
+                          <SvgInvite width={28} height={28} color="theme" /> 
                         </div>
                         {dataList.interested===null &&
                     <Text color="gray" size={11} style={{paddingLeft:"5px",width:"65%"}}>
@@ -711,7 +714,9 @@ const ZitaMatchDataCard = ({
                 <Flex row center>
                   {
                     dataList.interested ?(
-                      <SvgInterested
+                      <SvgInterested 
+                      width={20}
+                      height={20}
                     />
                     ):(
                       // <SvgNotInterested></SvgNotInterested>
@@ -720,7 +725,7 @@ const ZitaMatchDataCard = ({
                   }
                  {
                   dataList.interested ?(
-                    <Text  style={{ marginLeft: 4,color:"#1976d2" }} size={13} >Interested</Text>
+                    <Text  style={{ color:"#1976d2" }} size={13} >Interested</Text>
                   ):(
                     <Text  style={{ marginLeft: 4,color:"#ff0000" }} size={13} title=' You can’t send Invite'>Not Interested</Text>
                   )
