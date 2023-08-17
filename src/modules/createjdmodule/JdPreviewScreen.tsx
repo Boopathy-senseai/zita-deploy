@@ -171,17 +171,18 @@ console.log("externaljob",extarajobpost)
             <div style={{ marginRight: 8 }}>
               <SvgTick fill={SUCCESS} /> 
             </div>
+            
+            <Text>You have successfully posted the job</Text>
             <div
               tabIndex={-1}
               role={'button'}
-              style={{ marginRight: 6, cursor: 'pointer' }}
+              style={{ marginLeft: 8, cursor: 'pointer' }}
               onClick={() => copyToClipboard(url, 'Link Copied')}
               onKeyDown={() => {}}
               title="Copy the job posting URL from your careers page"
             >
             <SvgCopy width={12} height={14} fill={'rgb(51 51 51/50%)'} /> 
             </div>
-            <Text>You have successfully posted the job</Text>
           </Flex>
           <Text align="center" style={{ marginTop: 8 }}>
             Please{' '}
