@@ -1,5 +1,7 @@
+import { relative } from 'path';
 import { Theme } from 'react-select';
 import {
+  BLACK,
   ERROR,
   GARY_1,
   GARY_4,
@@ -7,6 +9,7 @@ import {
   GARY_6,
   GARY_9,
   PRIMARY,
+  WHITE,
 } from '../Colors/colors';
 import { isEmpty } from '../helper';
 
@@ -14,6 +17,7 @@ export const customStyles = {
   option: (provided: any) => ({
     ...provided,
     fontSize: 13,
+    // color:GARY_1
   }),
   control: (provided: any, state: { isFocused: any }) => ({
     ...provided,
@@ -50,12 +54,13 @@ export const customStyles = {
     return {
       ...defaultStyles,
       color: GARY_4,
-      fontSize: 12,
+      fontSize: 13,
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
     };
   },
+  
   menu: (provided: any) => ({
     ...provided,
     margin: 0,
@@ -71,8 +76,12 @@ export const customStyles = {
     maxHeight: 200,
     scrollbarWidth: 'thin',
     padding: 0,
+    color:'BLACK',
+    fontSize:13,
   }),
-};
+  
+}
+
 
 export const customStylesLine = {
   option: (provided: any) => ({
@@ -118,7 +127,7 @@ export const customStylesLine = {
     return {
       ...defaultStyles,
       color: GARY_4,
-      fontSize: 12,
+      fontSize: 13,
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
@@ -146,6 +155,10 @@ export const customStylesLine = {
     scrollbarWidth: 'thin',
     padding: 0,
   }),
+  NoOptionsMessage: (provided: any)=> ({
+    ...provided,
+    fontSize: 13,
+  }),
 };
 
 export const selectTagTheme = (
@@ -160,15 +173,16 @@ export const selectTagTheme = (
     primary25: 'rgb(88 24 69 / 15%)',
     primary: !isEmpty(errorMessage) && error ? ERROR : PRIMARY,
     primary50: 'rgb(88 24 69 / 30%)',
-    neutral20: !isEmpty(errorMessage) && error ? ERROR : GARY_5,
-    neutral30: !isEmpty(errorMessage) && error ? ERROR : GARY_6,
+    neutral20: !isEmpty(errorMessage) && error ? ERROR : "#D7C7D2",
+    neutral30: !isEmpty(errorMessage) && error ? ERROR : "#58184570",
   },
 });
 
 export const customStylesMulti = {
   option: (provided: any) => ({
     ...provided,
-    fontSize: 14,
+    fontSize: 13,
+    color:BLACK,
   }),
   control: (provided: any, state: { isFocused: any }) => ({
     ...provided,
@@ -177,7 +191,7 @@ export const customStylesMulti = {
   }),
   valueContainer: (provided: any) => ({
     ...provided,
-    fontSize: 14,
+    fontSize: 13,
     color: GARY_1,
     height: 74,
     overflowY: 'scroll',
@@ -188,7 +202,7 @@ export const customStylesMulti = {
   input: (provided: any) => ({
     ...provided,
     margin: '0px',
-    fontSize: 14,
+    fontSize: 13,
     fontFamily: `'Roboto', sans-serif`,
     boxSizing: 'border-box',
   }),
@@ -203,7 +217,7 @@ export const customStylesMulti = {
     return {
       ...defaultStyles,
       color: GARY_4,
-      fontSize: 12,
+      fontSize: 13,
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
@@ -225,6 +239,10 @@ export const customStylesMulti = {
     scrollbarWidth: 'thin',
     padding: 0,
   }),
+  NoOptionsMessage: (provided: any)=> ({
+    ...provided,
+    fontSize: 13,
+  }),
 };
 
 
@@ -232,7 +250,7 @@ export const customStylesMulti = {
 export const customStyletrue = {
   option: (provided: any) => ({
     ...provided,
-    fontSize: 14,
+    fontSize: 13,
   }),
   control: (provided: any, state: { isFocused: any }) => ({
     ...provided,
@@ -242,17 +260,18 @@ export const customStyletrue = {
     boxShadow: state.isFocused ? null : null,
     boxSizing: 'border-box',
   }),
+  
   valueContainer: (provided: any) => ({
     ...provided,
     height: '30px',
     padding: '0 8px',
-    fontSize: 14,
+    fontSize: 13,
     color: GARY_1,
   }),
   input: (provided: any) => ({
     ...provided,
     margin: '0px',
-    fontSize: 14,
+    fontSize: 13,
     fontFamily: `'Roboto', sans-serif`,
     boxSizing: 'border-box',
     
@@ -271,7 +290,7 @@ export const customStyletrue = {
     return {
       ...defaultStyles,
       color: GARY_4,
-      fontSize: 12,
+      fontSize: 13,
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
@@ -292,6 +311,10 @@ export const customStyletrue = {
     maxHeight: 200,
     scrollbarWidth: 'thin',
     padding: 0,
+  }),
+  NoOptionsMessage: (provided: any)=> ({
+    ...provided,
+    fontSize: 13,
   }),
 };
 
@@ -309,6 +332,7 @@ export const customStylechanges = {
     boxShadow: state.isFocused ? null : null,
     boxSizing: 'border-box',
   }),
+
   valueContainer: (provided: any) => ({
     ...provided,
     height: '40px',
@@ -323,6 +347,7 @@ export const customStylechanges = {
     fontFamily: `'Roboto', sans-serif`,
     boxSizing: 'border-box',
   }),
+
   indicatorsContainer: (provided: any) => ({
     ...provided,
     height: '40px',
@@ -337,7 +362,7 @@ export const customStylechanges = {
     return {
       ...defaultStyles,
       color: GARY_4,
-      fontSize: 12,
+      fontSize: 13,
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
@@ -351,6 +376,7 @@ export const customStylechanges = {
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
     boxSizing: 'border-box',
+    
   }),
   menuList: (provided: any) => ({
     ...provided,
@@ -359,14 +385,16 @@ export const customStylechanges = {
     scrollbarWidth: 'thin',
     padding: 0,
   }),
+  NoOptionsMessage: (provided: any)=> ({
+    ...provided,
+    fontSize: 13,
+  }),
 };
 
-export const customStylechanges1 = {
+export const customStylechanges1 ={
   option: (provided: any) => ({
     ...provided,
     fontSize: 12,
-    backgroundColor:GARY_9,
-    border: '0px',
   }),
   control: (provided: any, state: { isFocused: any }) => ({
     ...provided,
@@ -375,8 +403,14 @@ export const customStylechanges1 = {
     boxShadow: state.isFocused ? null : null,
     backgroundColor:GARY_9,
     margin: '0px',
-    borderColor:GARY_9,
+    borderColor:"#ff20000",
     border: '0px',
+  }),
+  singleValue:() => ({
+    fontSize: "13px",
+    bottom: 19,
+    position: "relative",
+    color:BLACK
   }),
   valueContainer: (provided: any) => ({
     ...provided,
@@ -400,8 +434,7 @@ export const customStylechanges1 = {
     ...provided,
     height: '30px',
     cursor: 'pointer',
-    borderColor:GARY_9,
-    
+    borderColor:GARY_9,  
   }),
   clearIndicator: (provided: any) => ({
     ...provided,
@@ -412,7 +445,7 @@ export const customStylechanges1 = {
     return {
       ...defaultStyles,
       color: GARY_4,
-      fontSize: 12,
+      fontSize: 13,
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
@@ -424,7 +457,6 @@ export const customStylechanges1 = {
     ...provided,
     margin: 0,
     borderColor:GARY_9,
-    color:"violet"
   }),
   menuList: (provided: any) => ({
     ...provided,
@@ -433,7 +465,108 @@ export const customStylechanges1 = {
     scrollbarWidth: 'thin',
     padding: 0,
     borderColor:PRIMARY,
+  }),
+  hover: (provided: any) => ({
+    color:PRIMARY,
+    borderColor:PRIMARY,
+  }),
+  selected: (provided: any) => ({
+    color:PRIMARY,
+    borderColor:PRIMARY,
+  }),
+};
+
+export const customStylechanges2 ={
+  option: (provided: any) => ({
+    ...provided,
+    fontSize: 12,
+  }),
+  control: (provided: any, state: { isFocused: any }) => ({
+    ...provided,
+    minHeight: '30px',
+    height: '0px',
+    boxShadow: state.isFocused ? null : null,
+    margin: '0px',
+    borderColor:GARY_9,
+    border: '0px',
+  }),
+  valueContainer: (provided: any) => ({
+    ...provided,
+    height: '30px',
+    margin: '0px',
+    fontSize: 12,
+    boxColor:GARY_9,
+    backgroundColor:WHITE,
+    borderColor:GARY_9,
+    color:PRIMARY,
+    top: -1,
+    padding:"2px 4px",
+  }),
+  singleValue:() => ({
+    color: PRIMARY,
+    position: "relative",
+    bottom:15,
+    fontSize: 13,
+    fontWeight: "bold"
+  }),
+  input: (provided: any) => ({
+    ...provided,
+    margin: '0px',
+    fontSize: 12,
+    fontFamily: `'Roboto', sans-serif`,
+    borderColor:PRIMARY,
+    border: '0px',
+    top:5,
+    position: "relative",
+  }),
+  indicatorsContainer: (provided: any) => ({
+    ...provided,
+    height: '30px',
+    cursor: 'pointer',
+    borderColor:GARY_9,
+    position:"relative",
+    top:2,
+  }),
+  indicatorSeparator: (provided: any) => ({
+    ...provided,
+    backgroundColor:WHITE,
+  }),
+  clearIndicator: (provided: any) => ({
+    ...provided,
+    cursor: 'pointer',
+    borderColor:GARY_9,
+  }),
+  placeholder: (defaultStyles: any) => {
+    return {
+      ...defaultStyles,
+      color: GARY_4,
+      fontSize: 13,
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      borderColor:GARY_9,
+      border: '0px',
+    };
+  },
+  menu: (provided: any) => ({
+    ...provided,
+    margin: 0,
+    borderColor:GARY_9,
+    // color:"#581845"
+  }),
+  menuList: (provided: any) => ({
+    ...provided,
+    overflow: 'overlay',
+    maxHeight: 200,
+    scrollbarWidth: 'thin',
+    padding: 0,
+    color:  BLACK,
+    borderColor:PRIMARY,
   
+  }),
+  NoOptionsMessage: (provided: any)=> ({
+    ...provided,
+    fontSize: 13,
   }),
   hover: (provided: any) => ({
     color:PRIMARY,

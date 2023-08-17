@@ -17,7 +17,7 @@ const ToolBar = ({
     <>
       <div className={styles.toolbar}>
         <div className={styles.buttonContainer}>
-
+          
           <Button
             types={'secondary'}
             // className={styles.todayButton}
@@ -25,30 +25,30 @@ const ToolBar = ({
           >
             Today
           </Button>
-
+          
         </div>
         <div className={styles.navButtonContainer}>
-          <button
-            className={`${styles.navButton} ${styles.left_button}`}
-            onClick={() => onNavigate(Navigate.PREVIOUS)}
-          >
-            <div>
-              <LeftChevron />
-            </div>
-          </button>
-          <div className={styles.label}>
-            <p>{label}</p>
-          </div>
-          <button
-            className={`${styles.navButton} ${styles.right_button}`}
-            onClick={() => onNavigate(Navigate.NEXT)}
-          >
-            <div>
-              <RightChevron />
-            </div>
-          </button>
+            <button
+              className={`${styles.navButton} ${styles.left_button}`}
+              onClick={() => onNavigate(Navigate.PREVIOUS)}
+            >
+              <div>
+                <LeftChevron />
+              </div>
+            </button>
+            <div className={styles.label}>
+          <p>{label}</p>
         </div>
-
+            <button
+              className={`${styles.navButton} ${styles.right_button}`}
+              onClick={() => onNavigate(Navigate.NEXT)}
+            >
+              <div>
+                <RightChevron />
+              </div>
+            </button>
+          </div>
+        
         <TimeLineButton
           view={view}
           views={views}

@@ -27,6 +27,7 @@ import type {
   StatesEntity,
 } from '../createjdmodule/createJdTypes';
 import { locationMiddleWare } from '../createjdmodule/store/middleware/createjdmiddleware';
+import SvgInfo from '../../icons/SvgInfo';
 import { UserInfo } from './candidateProfileTypes';
 import { expYearOptions, monthOptions } from './mock';
 import styles from './personalinformation.module.css';
@@ -89,15 +90,14 @@ const PersonalInformation = ({
     });
   }, []);
 
-  // form validation 
+  // form validation
   const personalSchema = Yup.object().shape({
     firstName: Yup.string().required(THIS_FIELD_REQUIRED),
     lastName: Yup.string().required(THIS_FIELD_REQUIRED),
-    phone: Yup
-    .string()
-    .required('This field is required')
-    .max(15, 'Enter a valid contact number')
-    .min(10, 'Enter a valid contact number'),
+    phone: Yup.string()
+      .required('This field is required')
+      .max(15, 'Enter a valid contact number')
+      .min(10, 'Enter a valid contact number'),
     linkedIn: Yup.string().required(THIS_FIELD_REQUIRED),
     years: Yup.string().required(THIS_FIELD_REQUIRED),
     county: Yup.string().required(THIS_FIELD_REQUIRED),
@@ -204,7 +204,7 @@ const PersonalInformation = ({
     <Modal open={open}>
       {isLoader && <Loader />}
       <Flex className={styles.overAll}>
-        <Text align="center" bold size={20} className={styles.infoText}>
+        <Text color='theme' bold size={16} className={styles.infoText}>
           Personal Information
         </Text>
         <Flex row top>
@@ -269,13 +269,19 @@ const PersonalInformation = ({
           </Text>
         )}
         {isShowText && isError === false && !isEmpty(formik.values.email) && (
-          <Text align="center" color="info" className={styles.loginText}>
-            {`Your login details will be sent to the provided email id & system generated password for further login. If not please check your spam folder.`}
-          </Text>
+          <Flex row center className={styles.loginText}>
+            <SvgInfo fill="#fcc203" width={12} height={12} />
+            <Text
+              align="center"
+              style={{ color: '#fcc203', marginLeft: '5px' }}
+            >
+              {`Your login details will be sent to the provided email id & system generated password for further login. If not please check your spam folder.`}
+            </Text>
+          </Flex>
         )}
 
         <Flex row top className={styles.contactFlex}>
-          <Flex flex={4} width={284}>
+          <Flex>
             <LabelWrapper label="Contact Number" required>
               <PhoneInput
                 inputClass={styles.phoneInput}
@@ -295,7 +301,7 @@ const PersonalInformation = ({
               errors={formik.errors}
             />
           </Flex>
-          <Flex flex={4} width={284} marginLeft={16} marginRight={16}>
+          <Flex width={284} marginLeft={16} marginRight={16}>
             <InputText
               label="Linkedin URL"
               required
@@ -308,51 +314,49 @@ const PersonalInformation = ({
               errors={formik.errors}
             />
           </Flex>
-          <Flex row top flex={4} width={284} className={styles.totalExpFlex}>
-            <Flex flex={6} marginRight={16}>
-              <Text className={styles.totalExpText}>Total Experience</Text>
-              <SelectTag
-                options={expYearOptions}
-                label="Years"
-                required
-                value={
-                  expYearOptions
-                    ? expYearOptions.find(
-                        (option) => option.value === formik.values.years,
-                      )
-                    : ''
-                }
-                isSearchable
-                onChange={(options) =>
-                  formik.setFieldValue('years', options.value)
-                }
-              />
-              <ErrorMessage
-                name="years"
-                touched={formik.touched}
-                errors={formik.errors}
-              />
-            </Flex>
-            <Flex flex={6}>
-              <SelectTag
-                isSearchable
-                options={monthOptions}
-                label="Months"
-                onChange={(option) =>
-                  formik.setFieldValue('month', option.value)
-                }
-                value={
-                  monthOptions
-                    ? monthOptions.find(
-                        (option) => option.value === formik.values.month,
-                      )
-                    : ''
-                }
-              />
-            </Flex>
+        </Flex>
+        <Flex row top marginTop={20} className={styles.totalExpFlex}>
+          <Flex marginRight={16} width={284}>
+            {/* <Text className={styles.totalExpText}>Total Experience</Text> */}
+            <SelectTag
+              options={expYearOptions}
+              label="Total Experience Years"
+              required
+              value={
+                expYearOptions
+                  ? expYearOptions.find(
+                      (option) => option.value === formik.values.years,
+                    )
+                  : ''
+              }
+              isSearchable
+              onChange={(options) =>
+                formik.setFieldValue('years', options.value)
+              }
+            />
+            <ErrorMessage
+              name="years"
+              touched={formik.touched}
+              errors={formik.errors}
+            />
+          </Flex>
+          <Flex width={284}>
+            <SelectTag
+              isSearchable
+              options={monthOptions}
+              label="Months"
+              onChange={(option) => formik.setFieldValue('month', option.value)}
+              value={
+                monthOptions
+                  ? monthOptions.find(
+                      (option) => option.value === formik.values.month,
+                    )
+                  : ''
+              }
+            />
           </Flex>
         </Flex>
-        <Text align="center" bold size={20} className={styles.workText}>
+        <Text color='theme' bold size={16} className={styles.workText}>
           Preferred Work Location
         </Text>
         <Flex row top>
@@ -443,8 +447,12 @@ const PersonalInformation = ({
             )}
           </Flex>
         </Flex>
-        <Flex middle className={styles.saveBtn}>
-          <Button onClick={formik.handleSubmit}>
+        <Flex
+          end
+          className={styles.saveBtn}
+          style={{ borderTop: '1px solid #c3c3c3' }}
+        >
+          <Button onClick={formik.handleSubmit} style={{ marginTop: '10px' }}>
             {userInfo && userInfo.active ? 'Go to Messages' : 'Save'}
           </Button>
         </Flex>

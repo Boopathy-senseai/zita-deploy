@@ -27,6 +27,7 @@ moment.tz.setDefault(Intl.DateTimeFormat().resolvedOptions().timeZone);
 interface Props {
   username: string;
   cand_id?: number;
+  APPLY?:Boolean;
   cand_name?: string;
   cand_email?: string;
   jd_id?: number;
@@ -48,6 +49,7 @@ const MeetingSchedulingScreen = ({
   openScheduleForm,
   handleEventScheduleForm,
   teamMembers,
+  APPLY,
   editEventDetails,
   eventId,
   calendarProvider,
@@ -82,7 +84,10 @@ const MeetingSchedulingScreen = ({
   );
 
   const updateCurrentApplicantId = (applicantId: number) => {
-    setCurrentApplicantId(applicantId);
+    if(localStorage.getItem('jdid') !== '')
+    {setCurrentApplicantId(Number(localStorage.getItem('jdid')))}
+    else{
+    setCurrentApplicantId(applicantId);}
   };
 
   useEffect(() => {
@@ -129,7 +134,20 @@ const MeetingSchedulingScreen = ({
       });
     }
   }, [editEventDetails]);
-
+  useEffect(() => { 
+    if (APPLY) {
+      setMeetingForm((form) => {
+        return {
+          ...form,
+          applicant: {
+            ...form.applicant,
+            id:Number(localStorage.getItem('jdid')),
+            name:localStorage.getItem('Applicantname'),
+          },
+          job: { ...form.job, label:localStorage.getItem('Jdname') }, 
+    }
+    })}}, [APPLY]);
+ 
   useEffect(() => {
     // dispatch(getApplicantsMiddleware())
     //   .then((res: any) => {
@@ -181,63 +199,68 @@ const MeetingSchedulingScreen = ({
       'location',
       'interviewers',
     ].forEach((item) => localStorage.removeItem(item));
-
+    localStorage.setItem('Applicantname','')
+    localStorage.setItem('Jdname','')
+    localStorage.setItem('jdid','')
     setViewMeetingSummary(false);
     setMeetingForm(meetingFormInitialState);
     handleEventScheduleForm();
   };
 
   return (
-    <Modal
-      onClose={handleCloseSchedulingForm}
-      open={openScheduleForm}
-      closeModalOnOuterClick={false}
-    >
-      {/* <div> */}
-      {/* <CrossButton
+    <div>
+      <Modal
+        onClose={handleCloseSchedulingForm}
+        open={openScheduleForm}
+        closeModalOnOuterClick={false}
+      >
+        {/* <div> */}
+          {/* <CrossButton
             onClick={handleCloseSchedulingForm}
             size={'14px'}
             style={{ position: 'absolute', top: '12px', right: '12px' }}
           /> */}
-      {viewMeetingSummary === false ? (
-        <MeetingSchedulingForm
-          updateCurrentApplicantId={updateCurrentApplicantId}
-          applicants={applicants}
-          currentUser={currentUser}
-          currentUserEvents={currentUserEvents}
-          currentUserLabel={currentUserLabel}
-          setCurrentUserLabel={setCurrentUserLabel}
-          calendarProvider={calendarProvider}
-          handleCloseSchedulingForm={handleCloseSchedulingForm}
-          meetingForm={meetingForm}
-          setMeetingForm={setMeetingForm}
-          setViewMeetingSummary={setViewMeetingSummary}
-          teamMembers={teamMembers}
-          username={username}
-          cand_name={cand_name}
-          jd_name={jd_name}
-          editEventDetails={editEventDetails}
-          cand_email={cand_email}
-          cand_id={cand_id}
-          jd_id={jd_id}
-        />
-      ) : (
-        <MeetingSummary
-          currentUserLabel={currentUserLabel}
-          applicants={applicants}
-          meetingForm={meetingForm}
-          username={username}
-          nextEvent={nextEvent}
-          editEventDetails={editEventDetails}
-          handleCloseSchedulingForm={handleCloseSchedulingForm}
-          currentApplicantId={currentApplicantId}
-          extraNotes={extraNotes}
-          eventId={eventId}
-          setIsTopLineLoading={setIsTopLineLoading}
-        />
-      )}
-      {/* </div> */}
-    </Modal>
+          {viewMeetingSummary === false ? (
+            <MeetingSchedulingForm
+            
+              updateCurrentApplicantId={updateCurrentApplicantId}
+              applicants={applicants}
+              currentUser={currentUser}
+              currentUserEvents={currentUserEvents}
+              currentUserLabel={currentUserLabel}
+              setCurrentUserLabel={setCurrentUserLabel}
+              calendarProvider={calendarProvider}
+              handleCloseSchedulingForm={handleCloseSchedulingForm}
+              meetingForm={meetingForm}
+              setMeetingForm={setMeetingForm}
+              setViewMeetingSummary={setViewMeetingSummary}
+              teamMembers={teamMembers}
+              username={username}
+              cand_name={cand_name}
+              jd_name={jd_name}
+              editEventDetails={editEventDetails}
+              cand_email={cand_email}
+              cand_id={cand_id}
+              jd_id={jd_id}
+            />
+          ) : (
+            <MeetingSummary
+              currentUserLabel={currentUserLabel}
+              applicants={applicants}
+              meetingForm={meetingForm}
+              username={username}
+              nextEvent={nextEvent}
+              editEventDetails={editEventDetails}
+              handleCloseSchedulingForm={handleCloseSchedulingForm}
+              currentApplicantId={currentApplicantId}
+              extraNotes={extraNotes}
+              eventId={eventId}
+              setIsTopLineLoading={setIsTopLineLoading}
+            />
+          )}
+        {/* </div> */}
+      </Modal>
+    </div>
   );
 };
 

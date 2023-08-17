@@ -1,23 +1,25 @@
 .overAll {
   background-color: var(--color-white, #ffffff);
   border-radius: 4px;
+  padding: 25px;
 }
 .title {
-  height: 40px;
-  background-color: var(--color-primary, #581845);
+  /* height: 40px; */
+  /* background-color: var(--color-primary, #581845); */
   align-items: center;
   border-radius: 4px;
-  padding: 0 16px;
+  /* padding: 0 16px; */
 }
 .scrollStyle{
   overflow: scroll;
-  padding: 20px;
+  /* padding: 20px; */
 }
 .addBtn {
   margin: 0 16px;
 }
 .inputContainer {
-  padding: 16px;
+  /* padding: 16px; */
+  padding: 10px 0px 10px 0px;
 }
 .noContent {
   padding: 16px;
@@ -36,4 +38,9 @@
 }
 .error{
   position: absolute;
+}
+.totalsearchcount{
+  position: relative;
+  left: 20px;
+  top: 6px;
 }

@@ -1,6 +1,6 @@
 // eslint-disable-next-line
 import escapeRegExp from 'lodash/escapeRegExp';
-import { isEmpty } from '../../uikit/helper';
+import { isEmpty, notSpecified } from '../../uikit/helper';
 import { MAX_DISPLAYED_OPTIONS } from '../constValue';
 
 const filteredOptions = (isSkills: any, skillList: any) => {
@@ -80,12 +80,15 @@ export const workYear = (value?: string) =>
     ? value !== '0-1'
       ? value === '1'
         ? `${value.replace('year', '')} Year`
+        : value === 'Not Specified'
+        ? `${value?.replace('years', '').replace('Years', '')} `
         : value === '0-1 Year'
         ? '0-1 Year'
         : value === 'Less than 1 year'
         ? `0-1 Year`
         : `${value?.replace('years', '').replace('Years', '')} Years`
       : `0-1 Year`
+
     : '';
 
 export const pieYValue = (value?: string | any) => {

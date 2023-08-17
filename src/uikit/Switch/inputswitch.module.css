@@ -6,6 +6,8 @@
 }
 .labelStyle {
   margin-left: 6px;
+  font-size: 14px;
+  color: #581845
 }
 .pointer {
   cursor: pointer !important;

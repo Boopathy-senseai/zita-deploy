@@ -14,7 +14,7 @@ export const days = [
 
 
 // const durationFieldType = () => {
-  const durationField = []
+const durationField = []
 const totalMinutesIn12Hours = 12 * 60; // 12 hours * 60 minutes/hour
 const intervalMinutes = 15; // 15 minutes interval
 const intervals = Math.floor(totalMinutesIn12Hours / intervalMinutes);
@@ -35,14 +35,14 @@ console.log("durationFielddurationField",durationField)
 
 
 
-export const duration =[
-    {value: '1',label:"15 minutes"},
-    {value: '2',label:"30 minutes"},
-    {value: '3',label:"45 minutes"},
-    {value: '4',label:"1 hour"},
-  ]
+// export const duration =[
+//     {value: '1',label:"15 minutes"},
+//     {value: '2',label:"30 minutes"},
+//     {value: '3',label:"45 minutes"},
+//     {value: '4',label:"1 hour"},
+//   ]
 
-// export const duration = durationField
+export const duration = durationField
 
 
  const getTimezones = () => {

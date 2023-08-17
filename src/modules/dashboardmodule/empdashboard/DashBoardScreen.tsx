@@ -399,10 +399,7 @@ const DashBoardScreen = () => {
     //   );
 
     // };
-
     <Flex className={styles.scroll}>
-
- 
 
     <Flex row className={styles.ribbon} between>
 
@@ -497,12 +494,8 @@ const DashBoardScreen = () => {
             )}
 
         </div>
-
       </Flex >
 
- 
-
- 
 
         <Flex row >
 

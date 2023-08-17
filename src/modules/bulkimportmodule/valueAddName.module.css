@@ -9,8 +9,16 @@
   align-items: center;
   margin-top: 4px;
   position: absolute;
-  top: 16px;
+  top: 4px;
   right: 0;
+}
+.svgContainer1{
+  display: flex;
+  align-items: center;
+  /* margin-top: 4px; */
+  position: absolute;
+  top: 1px;
+  right: -7px;
 }
 .svgTick {
   margin-right: 4px;

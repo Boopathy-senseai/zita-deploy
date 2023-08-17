@@ -144,12 +144,12 @@ const CalendarTypeMenu = ({
   const MenuButtonView = () => (
     <button className={styles.dropDownBtn} onClick={handleDropDown}>
       <Flex row center noWrap>
-        <Text size={14} className={styles.container}>
+        <Text size={14}className={styles.container}>
           {currentCalendarType === CalendarType.MyCalendar
             ? 'My Calendar'
             : 'Team Calendar'}
         </Text>
-        <Flex marginTop={2} style={{ cursor: 'pointer' }}>
+        <Flex>
           <SvgArrowDown width={14} height={12} />
         </Flex>
       </Flex>

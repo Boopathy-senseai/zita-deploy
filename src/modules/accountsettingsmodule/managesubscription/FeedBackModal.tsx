@@ -50,10 +50,10 @@ const FeedBackModal = ({ open, cancel, onClick }: Props) => {
   return (
     <Modal open={open}>
       <Flex className={styles.overAll}>
-        <Flex row className={styles.infoFlex} marginBottom={24}>
-          <SvgInfo fill={BLACK} />
-          <Flex marginLeft={16}>
-            <Text style={{ marginBottom: 8 }} bold>
+        <Flex row className={styles.infoFlex} marginBottom={15}>
+         
+          <Flex >
+            <Text style={{ marginBottom: 8 }} size={14} bold>
               We would love to hear your feedback on Zita
             </Text>
             <Text>
@@ -93,7 +93,7 @@ const FeedBackModal = ({ open, cancel, onClick }: Props) => {
             </Flex>
           );
         })}
-        <Flex columnFlex center marginTop={8}>
+        <Flex columnFlex center marginTop={8} style={{display:'flex',alignItems:'flex-end'}}>
           <Flex row center>
             <Button
               onClick={cancel}

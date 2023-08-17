@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
+import SvgRoundTick from '../../icons/SvgRoundTick';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import styles from './allmatchtab.module.css';
@@ -8,10 +9,11 @@ import InviteMatch from './InviteMatch';
 
 type Props = {
   title: string;
-  inviteMessage: string;
+  inviteMessage: string; 
+  width?:string;
 };
-const AllMatchTab = ({ title, inviteMessage }: Props) => {
-  const { match, applicant, candidate_details,can_id } = useSelector(
+const AllMatchTab = ({width, title, inviteMessage }: Props) => {
+  const { match, applicant, candidate_details, can_id } = useSelector(
     ({
       applicantAllMatchReducers,
       applicantStausReducers,
@@ -28,7 +30,7 @@ const AllMatchTab = ({ title, inviteMessage }: Props) => {
   );
 
   return (
-    <Flex
+  <Flex
       columnFlex
       height={window.innerHeight - 230}
       className={styles.overAll}
@@ -37,12 +39,16 @@ const AllMatchTab = ({ title, inviteMessage }: Props) => {
         <Flex flex={1} center middle>
           <Text color="gray">This candidate is not a match for any jobs</Text>
         </Flex>
-      ) : (
-        <Text color="theme" bold>
-          {title}
-        </Text>
-      )}
-      <Flex row wrap className={styles.allMatchText}>
+      ):''}
+     {match && match.length !== 0 || applicant && applicant.length !== 0 ?
+      <Flex
+        row
+        wrap
+        width={width}
+        className={styles.allMatchText}
+        height={window.innerHeight - 155}
+        style={{ overflow: 'scroll',display:'flex',alignContent:'flex-start'}}
+      >
         {match &&
           match.map((list, index) => {
             return (
@@ -56,7 +62,7 @@ const AllMatchTab = ({ title, inviteMessage }: Props) => {
                 candidate_details={candidate_details}
               />
             );
-          })}
+          }).reverse()}
         {applicant &&
           applicant.map((list, index) => {
             return (
@@ -67,8 +73,8 @@ const AllMatchTab = ({ title, inviteMessage }: Props) => {
                 key={list.candidate_id_id + index}
               />
             );
-          })}
-      </Flex>
+          }).reverse()}
+      </Flex>:''}
     </Flex>
   );
 };

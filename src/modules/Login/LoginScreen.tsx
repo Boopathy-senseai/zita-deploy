@@ -1,8 +1,9 @@
 import { useFormik } from 'formik';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-//import { home } from '../../appRoutesPath';
+import { useLocation } from 'react-router-dom';
+import { home, homeRoute } from '../../appRoutesPath';
 //import SvgZitaLogo from '../../icons/SvgZitaLogo';
 import { AppDispatch, RootState } from '../../store';
 //import Button from '../../uikit/Button/Button';
@@ -37,16 +38,28 @@ const LoginScreen = () => {
   const [isForgotLoader, setForgotLoader] = useState(false);
   const [isError, setError] = useState(false);
   const [isInactive, setInactive] = useState(false);
+  const location = useLocation<any>();
 
-  // useEffect(() => {
-   
-  // }, [isError,isInactive]);
+  let nextUrl: any;
+
+  useEffect(()=>{
+    if(localStorage.getItem('token') !== null){
+      window.location.replace(`${window.location.origin + homeRoute}`);
+    }
+  },[])
+  if (typeof location.state !== 'undefined') {
+    nextUrl = location.state.from.pathname;
+  }
+
+ 
 
   const { isLoading } = useSelector(({ loginReducers }: RootState) => {
     return {
       isLoading: loginReducers.isLoading,
     };
   });
+
+ 
 
   const handleValidForgot = (values: forgotFormProps) => {
     const errors: Partial<forgotFormProps> = {};
@@ -94,7 +107,7 @@ const LoginScreen = () => {
     onSubmit: (forgotValues) => handleForgot(forgotValues),
     validate: handleValidForgot,
   });
-
+  const getApplyProfile = sessionStorage.getItem('applyWithCompanyProfile');
   const hanldeLogin = (values: loginFormProps) => {
     setError(false);
     setInactive(false);
@@ -105,10 +118,26 @@ const LoginScreen = () => {
       }),
     ).then((res) => {
       if (res.payload.token !== undefined) {
+        localStorage.setItem('loginUserCheck', res.payload.is_staff);
         localStorage.setItem('token', res.payload.token);
-        // history.push('/');
-        window.location.replace(`${window.location.origin + '/'}`);
-        // window.location.reload();
+        localStorage.setItem(
+          'loginUserId',
+          res.payload.is_staff ? '0' : res.payload.username,
+        );
+        if (res.payload.is_staff === false && getApplyProfile === 'true') {
+          window.location.replace(
+            `${
+              window.location.origin +
+              `/candidate_profile_edit/${res.payload.username}`
+            }`,
+          );
+        } else {
+          if (isEmpty(nextUrl)) {
+            window.location.replace(`${window.location.origin + homeRoute}`);
+          } else {
+            window.location.replace(`${window.location.origin + nextUrl}`);
+          }
+        }
       } else if (res.payload.inactive === true) {
         setInactive(true);
       } else {
@@ -116,6 +145,8 @@ const LoginScreen = () => {
       }
     });
   };
+
+ 
 
   const handleForgotOpen = () => {
     setForgot(true);

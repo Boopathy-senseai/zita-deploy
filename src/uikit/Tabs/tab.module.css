@@ -5,7 +5,7 @@
   /* border-bottom: 1px solid #dfdfdf; */
   box-sizing: border-box;
   position: relative;
-  top: -1px;
+  /* top: -1px; */
   flex-wrap: wrap;
 }
 
@@ -13,4 +13,7 @@
   border: 1px solid #dfdfdf;
   border-radius: 4px;
   /* margin-top: 4px; */
+}
+.childTopBorderStyle{
+  border-top: 1px solid #dfdfdf;
 }

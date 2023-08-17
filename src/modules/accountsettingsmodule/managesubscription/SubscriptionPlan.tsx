@@ -18,15 +18,16 @@ import {
 } from './store/managesubscriptionmiddleware';
 import SubscriptionCancelledModal from './SubscriptionCancelledModal';
 import styles from './subscriptionplan.module.css';
-import { planTable } from './tableHelper';
+import PlanTable from './tableHelper';
 
 type Props = {
   setRenew: () => void;
+  setCancelOne?:any;
+  isCancelOne?:any;
 };
-const SubscriptionPlan = ({ setRenew }: Props) => {
+const SubscriptionPlan = ({ setRenew,isCancelOne,setCancelOne }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const [isLoader, setLoader] = useState(false);
-  const [isCancelOne, setCancelOne] = useState(false);
   const [isCancelTwo, setCancelTwo] = useState(false);
   const [isCancelSuccess, setCancelSuccess] = useState(false);
   const { subscription, price, free_expired,base_price } = useSelector(
@@ -54,15 +55,15 @@ const SubscriptionPlan = ({ setRenew }: Props) => {
     },
   ];
 
-  const columns = useMemo(() => planTable(), [data]);
+  // const columns = useMemo(() => planTable(), [data]);
 
-  const handleInvoice = () => {
-    setLoader(true);
-    dispatch(billingPortalMiddleWare({})).then((res) => {
-      window.location.replace(res.payload.url);
-      setLoader(false);
-    });
-  };
+  // const handleInvoice = () => {
+  //   setLoader(true);
+  //   dispatch(billingPortalMiddleWare({})).then((res) => {
+  //     window.location.replace(res.payload.url);
+  //     setLoader(false);
+  //   });
+  // };
 
   // cancel button function
   const handleCancel = () => {
@@ -111,33 +112,7 @@ const SubscriptionPlan = ({ setRenew }: Props) => {
         }}
         subscription={subscription}
       />
-      <Card className={styles.overAll}>
-        {isLoader && <Loader />}
-        <Table columns={columns} dataSource={data} border="outline" />
-        {subscription && subscription.plan_id_id !== 1 && (
-          <Flex
-            className={styles.btnContainer}
-            marginLeft={16}
-            marginRight={24}
-            row
-            center
-            between
-          >
-            <Button onClick={handleInvoice}>Invoices & Payment Info</Button>
-            {subscription &&
-            subscription.is_active === true &&
-            isEmpty(subscription.subscription_changed_to) ? (
-              <Text  onClick={() => setCancelOne(true)} className={styles.subscriptionLink}>
-                Cancel Subscription
-              </Text>
-            ) : (
-              <Text  onClick={hanldeRenew}className={styles.subscriptionLink}>
-                Renew Subscription
-              </Text>
-            )}
-          </Flex>
-        )}
-      </Card>
+      <PlanTable data={data}/>
     </>
   );
 };

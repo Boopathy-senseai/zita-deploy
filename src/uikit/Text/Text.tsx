@@ -64,7 +64,8 @@ export type Props = {
   textStyle?: textStyle;
   title?: string;
   type?: 'titleLarge' | 'titleMedium' | 'titleSmall';
-  onClick?: () => void;
+  // onClick?: () => void;
+  onClick?: any;
   id?: string;
   tag: any;
   underLine?: boolean;

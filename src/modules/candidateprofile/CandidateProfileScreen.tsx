@@ -13,6 +13,7 @@ import Text from '../../uikit/Text/Text';
 import LoginPopUpModal from '../common/LoginPopUpModal';
 import { CountryEntity } from '../createjdmodule/createJdTypes';
 import { locationMiddleWare } from '../createjdmodule/store/middleware/createjdmiddleware';
+import { zitaPath } from '../constValue';
 import AddandUpdateQualificationEdit from './AddandUpdateQualificationEdit';
 import AddandUpdateWorkExperienceEdit from './AddandUpdateWorkExperienceEdit';
 import CandidateNavBar from './CandidateNavBar';
@@ -29,6 +30,7 @@ import QualificationCard from './QualificationCard';
 import { profileEditMiddleWare } from './store/middleware/candidateprofilemiddleware';
 import VerifyEmail from './VerifyEmail';
 import WorkExperienceAddandCard from './WorkExperienceAddandCard';
+// import { applicantcandidateMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 
 type ParamsType = {
   empId: string;
@@ -73,7 +75,8 @@ const CandidateProfileScreen = () => {
     experiences,
     user_info,
     career_page_setting,
-    applied_status
+    applied_status,
+    Qualification
   } = useSelector(({ candidateProfileEditReducers }: RootState) => {
     return {
       isLoading: candidateProfileEditReducers.isLoading,
@@ -85,7 +88,8 @@ const CandidateProfileScreen = () => {
       experiences: candidateProfileEditReducers.experiences,
       user_info: candidateProfileEditReducers.user_info,
       career_page_setting: candidateProfileEditReducers.career_page_setting,
-      applied_status:candidateProfileEditReducers.applied_status
+      applied_status:candidateProfileEditReducers.applied_status,
+      Qualification:candidateProfileEditReducers?.Qualification !== undefined && candidateProfileEditReducers?.Qualification[0]?.qualification
     };
   });
 
@@ -101,6 +105,11 @@ const CandidateProfileScreen = () => {
   };
   // Qualification open popup function
   const handleQualificationEdit = (updateId: string) => {
+    // dispatch(
+    //   applicantcandidateMatchMiddleWare({ 
+    //     can_id:updateId,
+    //   }),
+    // )
     setQualificationEdit(true);
     setUpdateId(updateId);
   };
@@ -186,6 +195,8 @@ const CandidateProfileScreen = () => {
             <PersonalInformationCard
               personal={personal}
               additional_detail={additional_detail}
+              obj={ obj}
+              Qualification={Qualification}
               personal_obj={personal_obj}
               isGetCountry={isGetCountry}
             />
@@ -292,9 +303,9 @@ const CandidateProfileScreen = () => {
           }}
           className={styles.footerStyle}
         >
-          <Text align="center" size={14}>
-            Powered by Zita.ai
-          </Text>
+          <Text bold color='theme' align="center" size={14} onClick={zitaPath}>
+                Powered by Zita.ai
+              </Text>
         </div>
       </Flex>
     </Flex>

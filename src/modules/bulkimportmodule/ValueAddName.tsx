@@ -17,6 +17,7 @@ import Loader from '../../uikit/Loader/Loader';
 import Text from '../../uikit/Text/Text';
 import Toast from '../../uikit/Toast/Toast';
 import { config } from '../constValue';
+import { candidateMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { EmpPoolEntity } from './bulkImportTypes';
 import { bulkuploadedCandidatesMiddleWare } from './store/middleware/bulkImportMiddleware';
 import styles from './valueAddName.module.css';
@@ -80,7 +81,14 @@ const ValueAddName = ({
       value: formik.values.name,
     });
 
-    axios.post(uploadedCandidatesApi, data, config).then(() => {
+    axios.post(uploadedCandidatesApi, data, config).then((res) => {
+      console.log(res,'resssssssssssssssssssssssssssssssssssss')
+    if(res.data.email === true){
+      dispatch(
+        candidateMatchMiddleWare({ 
+          can_id:id.toString(),
+        }),
+      )}
       if (tabKey === 'total') {
 
         if(jdId === undefined ){
@@ -269,7 +277,7 @@ const ValueAddName = ({
           {!isInput && (
             <Flex  >
               <Text
-                size={12}
+                size={13}
                 color="link"
                 textStyle="underline"
                 onClick={handleOpenInput}
@@ -285,7 +293,7 @@ const ValueAddName = ({
           {!isInput && (
             <div className={styles.textContainerName}>
               <Text
-                size={12}
+                size={13}
                 onClick={handleOpenInput}
                 className={styles.nameStyle}
                 style={{ marginRight: 18 }}
@@ -309,9 +317,10 @@ const ValueAddName = ({
             value={formik.values.name}
             onChange={formik.handleChange('name')}
             lineInput
-            size={12}
+            size={13}
             placeholder={'Required'}
             onKeyPress={(e) => handleKeyPress(e, value.id)}
+            style={{width:'67%'}}
           />
           <div className={styles.svgContainer}>
             {isLoader ? (

@@ -1,14 +1,19 @@
 import { FormikProps } from 'formik';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import Flex from '../../uikit/Flex/Flex';
 import { getBlur, getFocus } from '../../uikit/helper';
 import Pangination from '../../uikit/Pagination/Pangination';
+import SvgNomessage from '../../icons/SvgNomessage';
+import SvgNotinterests from '../../icons/SvgNotinterests';
 import Text from '../../uikit/Text/Text';
+import SvgAdd from '../../icons/SvgAdd';
+import SvgNotInterested from '../../icons/SvgNotInterested';
 import MyDataBaseBulkAction from './MyDataBaseBulkAction'; // eslint-disable-line
 import MyDataBaseCard from './MyDataBaseCard'; // eslint-disable-line
 import { MyDataFormProps } from './MyDataBaseScreen'; // eslint-disable-line
 import { DataEntity } from './myDataBaseTypes';
 import styles from './mydatabaselist.module.css';
+
 
 type Props = {
   data: DataEntity[];
@@ -65,8 +70,10 @@ const MyDataBaseList = ({
   setPage,
   addFavFilter,
 }: Props) => {
-  const usersPerPage = 20;
+  const usersPerPage = 15;
   const pageCount = Math.ceil(totalCount / usersPerPage);
+  const sidebar=sessionStorage.getItem("EmpToggle");
+const size=sidebar==="1"
 // pagination function
   const handleSetPagination = (a: number) => {
     setPage(a);
@@ -75,8 +82,11 @@ const MyDataBaseList = ({
       getBlur(data[0].id.toString());
     }
   };
+  useEffect(()=>{
 
-  const getHeight = jobId === false ? 293 : 303;
+  },[])
+  // const getHeight = jobId === false ? 293 : 303;
+  const getHeight = jobId === false ? 271 : 303
   return (
     <div>
       <MyDataBaseBulkAction
@@ -101,14 +111,16 @@ const MyDataBaseList = ({
         style={{
           height: window.innerHeight - getHeight,
           overflowY: 'scroll',
-          paddingRight: 16,
-          paddingTop: 16,
+          paddingRight: 0,
+          paddingTop: 0,
           display: 'flex',
-         flexWrap: 'wrap',
+          flexWrap: 'wrap',
+          alignContent: 'flex-start',
         }}
       >
         {data && data.length === 0 && (
-          <Flex flex={1} center middle height={'100%'}>
+          <Flex flex={1} center middle height={'100%'} style={{display:"flex"}}>
+            <SvgNotinterests style={{marginBottom:"15px"}}/>
             <Text color="gray" style={{ position: 'relative', bottom: 16 }}>
               No candidate found
             </Text>
@@ -136,8 +148,8 @@ const MyDataBaseList = ({
               />
             );
           })}
-        {totalCount > 20 && (
-          <Flex middle className={styles.pagination}>
+        {totalCount > 15 && (
+          <Flex style= {{paddingLeft: !size? "10px": "35px"}}middle className={styles.pagination}>
             <Pangination
               maxPages={pageCount - 1}
               currentPage={isPage}
@@ -146,6 +158,7 @@ const MyDataBaseList = ({
           </Flex>
         )}
       </div>
+
     </div>
   );
 };

@@ -9,7 +9,7 @@ type Props = {
 const ImportedOnAdd = ({ value }: Props) => {
   return (
     <Flex middle>
-      <Text size={12}>{getDateString(value, 'll')}</Text>
+      <Text size={13}>{getDateString(value, 'll')}</Text>
     </Flex>
   );
 };

@@ -318,7 +318,7 @@ export class ManageUsersTableData extends Component {
           <div className="home_content pt-4">
             <div className="row align-items-center">
               <div className="col">
-                <h4 className="mb-2">Manage Users</h4>
+                <h4 className="mb-2">Manage Users </h4>
                 <p className="text-muted test-sm">
                   you can invite your team members and manage your organization
                   as an admin.

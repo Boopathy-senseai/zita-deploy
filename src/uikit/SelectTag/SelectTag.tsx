@@ -21,7 +21,8 @@ import {
   selectTagTheme,
   customStylechanges,
   customStyletrue,
-  customStylechanges1
+  customStylechanges1,
+  customStylechanges2
 } from './selectHelper';
 import styles from './selecttag.module.css';
 
@@ -50,6 +51,7 @@ type Props = {
   components?: Partial<SelectComponents<any, boolean, GroupBase<any>>>;
   lineStyle?: boolean;
   stylechangess?:boolean;
+  stylechangess1?:boolean;
   linechange?:boolean;
   id?: string;
   isOptionSelected?: (option: any, selectValue: Options<any>) => boolean;
@@ -67,8 +69,7 @@ type Props = {
   menuIsOpen?: boolean;
   autoFocus?: boolean;
   inputId?: string;
-  stylechanges?:boolean;
-  
+  stylechanges?:boolean;  
 };
 
 const SelectTag = (
@@ -83,6 +84,7 @@ const SelectTag = (
     onChange,
     stylechanges,
     stylechangess,
+    stylechangess1,
     value,
     name,
     required,
@@ -125,11 +127,12 @@ const SelectTag = (
     else if(stylechangess){  
       setSelectStyle(customStylechanges1);
     }
-    
+    else if(stylechangess1){  
+      setSelectStyle(customStylechanges2);
+    }
      else if (!isMulti && !lineStyle) {
       setSelectStyle(customStyles);
     }
-   
    
   }, []);
 

@@ -647,6 +647,20 @@ const SlotterDate = (props) => {
   
     // ... rest of the function
   }
+
+  function parseIntervalString(intervalString) {
+    const regex = /(\d+)\s*hour[s]?\s*(\d+)\s*minute[s]?/;
+    const match = intervalString.match(regex);
+  
+    if (match) {
+      const hours = parseInt(match[1], 10);
+      const minutes = parseInt(match[2], 10);
+      return { hours, minutes };
+    }
+  
+    return { hours: 0, minutes: 0 };
+  }
+
   const AvailbleSlots = (datetimes) => {
     const check = dateconvert(datetimes);
 
@@ -660,25 +674,58 @@ const SlotterDate = (props) => {
     const day = datetimes.getDay();
 
   
-    // console.log("durationchangedurationchange",intervalMinutes)
-    
-    // const totalIntervalMinutes11 = response.reduce((totalMinutes, dur) => {
-      //   const matches = dur.duration.match(/(\d+)\s*hours?(\s*(\d+)\s*minutes?)?/i);
-      
-      //   if (matches) {
-        //     const hours = parseInt(matches[1] || 0, 10);
-        //     const minutes = parseInt(matches[3] || 0, 10);
-        //     const intervalMinutes3 = hours * 60 + minutes;
-        //     return totalMinutes + intervalMinutes3;
-        //   } else {
-          //     return totalMinutes; // Invalid duration format, skip this entry
-          //   }
-          // }, []);
-          
-          // console.log("totalIntervalMinutestotalIntervalMinutes",`${totalIntervalMinutes11}`)
-          
-          // const durationchange = convertDurationToInterval(intervalMinutes,'minutes')
-          // console.log("durationchangedurationchange",durationchange)
+  const intervalDurationHours = 3;
+  const intervalDurationMinutes = 45;
+  const startTime = new Date();
+  startTime.setHours(9, 0, 0, 0); // Set start time to 9:00 AM
+  const endTime = new Date();
+  endTime.setHours(18, 0, 0, 0); // Set end time to 6:00 PM
+
+  const intervals = [];
+  let currentTime = new Date(startTime);
+
+  // while (currentTime < endTime) {
+  //   const intervalEndTime = new Date(currentTime);
+  //   intervalEndTime.setHours(
+  //     intervalEndTime.getHours() + intervalDurationHours,
+  //     intervalEndTime.getMinutes() + intervalDurationMinutes
+  //   );
+  //   console.log("intervalEndTimeintervalEndTime",intervalEndTime)
+  //   intervals.push({
+  //     start: currentTime.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true }),
+  //     end: intervalEndTime.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true }),
+  //   });
+
+  //   currentTime = intervalEndTime;
+  // }
+
+    const intervals123 = response.map((dur) => {
+      const durationParts = dur.duration.split(' ');
+      let hours = 0;
+      let minutes = 0;
+      console.log("durationPartsdurationParts",durationParts)
+
+      if (durationParts.length === 2) {
+        alert(":")
+        if (durationParts[1] === 'minutes') {
+          minutes = parseInt(durationParts[0], 10);
+        }
+      } else if (durationParts.length === 4) {
+        if (durationParts[2] === 'minutes') {
+          hours = parseInt(durationParts[0], 10);
+          minutes = parseInt(durationParts[2], 10);
+        }
+      }
+      return { hours, minutes };
+    });
+
+    console.log("intervals123intervals123intervals123",intervals123[0])
+    const intervalString = response[0].duration;
+    const intervalDuration12 = parseIntervalString(intervalString);
+    console.log("intervalDuration12",intervalDuration12);
+
+    console.log("intervals><>>><<<<<<<<<<<<<<<<<",response[0].duration)
+
     const intervalMinutes = parseInt(response?.map((dur) => dur.duration));
     const intervalSeconds = intervalMinutes === 1 ? intervalMinutes * 60 : intervalMinutes;
     const dateformat = moment.tz(datetimes, timezone).toDate();
@@ -687,9 +734,10 @@ const SlotterDate = (props) => {
     const userTimeZone = 0;
     const adjustedDay = day === currentDay ? day : currentDay;
 
+    const intervalDuration = { hours: 1, minutes: 0}
     const timeslot = generateIntervals(
       filteredData[check],
-      intervalSeconds,
+      intervals123[0],
       check,
     );
     console.log("timeslottimeslot",timeslot)
@@ -886,13 +934,21 @@ const SlotterDate = (props) => {
           currentMinute <= parseInt(endMinute, 10) &&
           !(currentHour === 12 && currentMinute === 0 && startHour === 12))
       ) {
-        const formattedStartHour12 =
-          currentHour > 12 ? currentHour - 12 : currentHour;
+        // const formattedStartHour12 =
+        //   currentHour > 12 ? currentHour - 12 : currentHour;
+        // console.log("formattedStartHour12formattedStartHour12",formattedStartHour12,"\n",currentHour)
+        // const formattedStartMinute = currentMinute.toString().padStart(2, '0');
+        // const stAmPm = currentHour > 12 ? 'pm' : 'am';
+        // const startInterval12 = `${formattedStartHour12}:${formattedStartMinute} ${stAmPm}`;
+        const formattedStartHour12 = currentHour === 0 ? 12 : currentHour === 12 ? 12 : currentHour > 12 ? currentHour - 12 : currentHour;
+        console.log("formattedStartHour12formattedStartHour12", formattedStartHour12, "\n", currentHour);
         const formattedStartMinute = currentMinute.toString().padStart(2, '0');
-        const stAmPm = currentHour < 12 && currentHour > 6 ? 'am' : 'pm';
+        const stAmPm = currentHour >= 12 ? 'am' : 'pm';
         const startInterval12 = `${formattedStartHour12}:${formattedStartMinute} ${stAmPm}`;
 
-        currentMinute += intervalMinutes;
+
+        currentHour += intervalMinutes.hours;
+        currentMinute += intervalMinutes.minutes;
 
         if (currentMinute >= 60) {
           currentHour++;
@@ -908,10 +964,9 @@ const SlotterDate = (props) => {
           break; // Skip adding the extra interval
         }
 
-        const formattedEndHour12 =
-          currentHour > 12 ? currentHour - 12 : currentHour;
+        const formattedEndHour12 = currentHour === 0 ? 12 : currentHour === 12 ? 12 : currentHour > 12 ? currentHour - 12 : currentHour;
         const formattedEndMinute = currentMinute.toString().padStart(2, '0');
-        const endAmPm = currentHour < 12 && currentHour > 6 ? 'am' : 'pm';
+        const endAmPm = currentHour >= 12 ? 'am' : 'pm';
         const endInterval12 = `${formattedEndHour12}:${formattedEndMinute} ${endAmPm}`;
         const currentDate = dateconvert(new Date());
         const currenttime = new Date();
@@ -938,6 +993,9 @@ const SlotterDate = (props) => {
           'currenttime',
           currenttime,
         );
+        if (startInterval12 !== '12:15 am') {
+          intervals12.push(`${startInterval12} - ${endInterval12}`);
+        }
         if (currentDate.toString() === datetimes) {
           if (time < endInterval12 && endInterval12 < '9:00') {
             const interval12 = `${startInterval12} - ${endInterval12}`;
@@ -993,7 +1051,6 @@ const SlotterDate = (props) => {
         );
         return remainingIntervals;
       } else {
-        alert("??")
         console.log('No events for the selected date.', intervals12);
         return intervals12;
       }
@@ -1008,6 +1065,77 @@ const SlotterDate = (props) => {
     // console.log("====================",remainingIntervals)
     // return remainingIntervals;
   }
+  // function generateIntervals(timeBreaks, intervalMinutes, datetimes) {
+  //   console.log('timeBreakstimeBreaks', timeBreaks, intervalMinutes, datetimes);
+  //   const intervals12 = [];
+  //   const conflicttime = [];
+    
+  //   for (const timeBreak of timeBreaks) {
+  //     const { starttime, endtime } = timeBreak;
+  //     const [startHour, startMinute] = parseTime(starttime);
+  //     const [endHour, endMinute] = parseTime(endtime);
+  //     let currentHour = startHour;
+  //     let currentMinute = startMinute;
+  //     console.log(
+  //             'startHourstartHour',
+  //             startHour,
+  //             '\n',
+  //             'endHourendHour',
+  //             endHour,
+  //             "currentHour",
+  //             currentHour
+  //           );
+  
+  //     while (
+  //       (currentHour < parseInt(endHour, 10) ||
+  //       (currentHour === parseInt(endHour, 10) &&
+  //         currentMinute <= parseInt(endMinute, 10) &&
+  //         !(
+  //           (currentHour === 12 || currentHour === 0) &&
+  //           currentMinute === 0 &&
+  //           (startHour === 12 || startHour === 0)
+  //         ))
+  //       )
+        
+  //     ) {
+  //       const formattedStartHour12 = currentHour === 0 ? 12 : currentHour === 12 ? 12 : currentHour > 12 ? currentHour - 12 : currentHour;
+  //       const formattedStartMinute = currentMinute.toString().padStart(2, '0');
+  //       const stAmPm = currentHour >= 12 ? 'am' : 'pm';
+  //       const startInterval12 = `${formattedStartHour12}:${formattedStartMinute} ${stAmPm}`;
+  
+  //       currentHour += intervalMinutes.hours;
+  //       currentMinute += intervalMinutes.minutes;
+  
+  //       if (currentMinute >= 60) {
+  //         currentHour++;
+  //         currentMinute -= 60;
+  //       }
+  
+  //       // Check if the current time exceeds the end time
+  //       if (
+  //         currentHour > parseInt(endHour, 10) ||
+  //         (currentHour === parseInt(endHour, 10) &&
+  //           currentMinute > parseInt(endMinute, 10))
+  //       ) {
+  //         break; // Skip adding the extra interval
+  //       }
+  
+  //       const formattedEndHour12 = currentHour === 0 ? 12 : currentHour === 12 ? 12 : currentHour > 12 ? currentHour - 12 : currentHour;
+  //       const formattedEndMinute = currentMinute.toString().padStart(2, '0');
+  //       const endAmPm = currentHour >= 12 ? 'am' : 'pm';
+  //       const endInterval12 = `${formattedEndHour12}:${formattedEndMinute} ${endAmPm}`;
+        
+  //       // Exclude the interval from 12:15 AM to 11:45 AM
+  //       if (startInterval12 !== '12:00 am' && stAmPm === 'am' || endAmPm === 'pm') {
+  //         intervals12.push(`${startInterval12} - ${endInterval12}`);
+  //       }
+  //       console.log("wwweeweeewewewewewewewewe",intervals12)
+  //     }
+  //   }
+  
+  //   // Rest of your code...
+  // }
+  
   function isHighlightedDay(day) {
     console.log('daydaydaydaydaydayday', day, selectDate);
 
@@ -1371,7 +1499,7 @@ const Conformpage = (props) => {
             <Flex row center marginBottom={10}>
               <SvgCalendarEvent width={14} height={14} fill={'#581845'} />
               <Text size={13} style={{ marginLeft: '5px' }}>
-                {selecttime},{date}
+                {selecttime},  {date}
               </Text>
             </Flex>
             <Flex row center marginBottom={10}>
@@ -1516,7 +1644,7 @@ const InterviewDashBoard = (props) => {
             <Flex row center marginBottom={10}>
               <SvgCalendarEvent width={14} height={14} fill={'#581845'} />
               <Text size={13} style={{ marginLeft: '5px' }}>
-                {slotterdata.map((li) => li.time)} ,{' '}
+                {slotterdata.map((li) => li.time)}, {' '}
                 {slotterdata.map((li) => formatDateChange(li.date))}
               </Text>
             </Flex>

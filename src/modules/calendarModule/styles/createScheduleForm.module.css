@@ -96,10 +96,9 @@
   display: grid;
   grid-template-columns: [one] 1fr [two] 1fr [three];
   grid-template-rows: auto;
-  grid-gap: 20px 20px;
-  padding: 25px;
-  overflow: auto;
-  /* margin-top: 15px; */
+  grid-gap: 10px 20px;
+  padding: 0px 25px 25px 25px;
+  margin-top: 15px;
 }
 
 .timeInputWrapper {
@@ -162,9 +161,8 @@
 
 .actionButtonWrapper {
   /* grid-column: 1 / span 2; */
-  border-top: 1px solid #c3c3c3;
   display: flex;
-  justify-content: flex-end;
+  justify-self: flex-end;
   
 }
 
@@ -190,11 +188,6 @@
 .label {
   margin-bottom: 7px;
   color: #581845;
-}
-
-label > p {
-  margin: 0 !important;
-  padding: 0;
 }
 .cancelButton{
   margin-right: 8px;

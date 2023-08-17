@@ -11,9 +11,9 @@ const ApplicantTabRightOne = () => {
         <MatchingAnalysisTab />
       </Tab>
       <Tab title={'Invitation Status'}>
-        <ScreeningStatusTab title={'Invitation Status of the Candidate'} />
+        <ScreeningStatusTab title={'Invitation Status of the Candidate'} issingletab={false} />
       </Tab>
     </Tabs>
   );
 };
-export default ApplicantTabRightOne;
+ export default ApplicantTabRightOne;

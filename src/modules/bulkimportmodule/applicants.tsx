@@ -20,6 +20,8 @@ import ProfileView from '../applicantpipelinemodule/ProfileView';
 import { CANCEL, ERROR_MESSAGE } from '../constValue';
 import { LINK } from '../../uikit/Colors/colors';
 import YesOrNoModal from '../common/YesOrNoModal';
+import { jdMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
+import { jdProfileMiddleWares } from '../createjdmodule/store/middleware/createjdmiddleware';
 import styles from './candidatedatabasetab.module.css';
 import ApplicantDatabase from './applicantDatabase';
 import { applicantTable } from './uploadedCandidateTable';
@@ -34,7 +36,6 @@ import {
 } from './store/middleware/bulkImportMiddleware';
 import ParsingLoadingModal from './ParsingLoadingModal';
 import ProfileViewModal from './ProfileViewModal';
-
 type Tabs = 'total' | 'completed' | 'inCompleted';
 export type FormProps = {
   searchValue: string;
@@ -336,10 +337,11 @@ const ApplicantsTab = ({
   };
 
   const hanldeMatch = () => {
+
     setCandiTableLoader(true);
     const formData = new FormData();
     formData.append('jd_id', isJdId);
-    dispatch(bulkImportMatchMiddleWare({ formData })).then(() => {
+    dispatch(jdMatchMiddleWare({jd_id:isJdId})).then(() => {
       dispatch(
         bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: isJdId }),
       ).then(() => {
@@ -451,7 +453,7 @@ const ApplicantsTab = ({
         open={isProfileView}
         cancel={() => setProfileView(false)}
         jobId={isJdId}
-        // bulkId={isCanId}
+        // bulkId={isCanId} 
         candidateId={isCanId.toString()}
         inviteIconNone={true}
         // hanldeEditProfileView={hanldeEditProfileView}
@@ -662,6 +664,7 @@ const ApplicantsTab = ({
             <Flex center middle height={100}>
               <Loader withOutOverlay size={'medium'} />
             </Flex>
+            
           ) : (
             <Tabel
               empty={

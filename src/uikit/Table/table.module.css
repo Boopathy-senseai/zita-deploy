@@ -1,6 +1,5 @@
 .overAll-normal {
-  border: 1px solid var(--color-gary-7, #dfdfdf);
-  border-radius: 4px;
+
 }
 .overAll-outline {
   border: none;
@@ -14,7 +13,7 @@
   bottom: 50%;
 }
 .emptyText {
-  padding: 70px 0;
+  padding: 150px 0;
 }
 .overFlowLoader {
   position: relative;

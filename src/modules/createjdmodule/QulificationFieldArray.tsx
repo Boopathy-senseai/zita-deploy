@@ -2,7 +2,7 @@ import { ErrorMessage, FieldArrayRenderProps } from 'formik';
 import { memo, useEffect, useRef, useState } from 'react';
 import SvgTrash from '../../icons/SvgTrash';
 import Button from '../../uikit/Button/Button';
-import { GARY_4 } from '../../uikit/Colors/colors';
+import { GARY_4, PRIMARY } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
 import { isEmpty } from '../../uikit/helper';
 import InputText from '../../uikit/InputText/InputText';
@@ -268,7 +268,7 @@ const QualificationFieldArray = ({
           types="link"
           className={styles.svgTrash}
         >
-          <SvgTrash fill={GARY_4} />
+          <SvgTrash fill={PRIMARY} />
         </Button>
       )}
       <Flex flex={3}>

@@ -25,8 +25,10 @@
 }
 .cardOverAllApplicant {
   /*height:28rem;*/
+  margin-left: 7px;
   display: flex;
   margin-right: 1rem;
+  margin-bottom: 10px;
   margin-top: 1rem;
   padding: 1rem;
   flex-direction: column;
@@ -45,8 +47,8 @@
 .skillContainer{
   min-width: 18rem;
   max-width: 18rem;
-  margin-right: 1rem;
-  margin-left: 1rem;
+  margin-right: 15px;
+  margin-left: 7px;
 }
 .marginTop{
   margin-bottom: 0rem;
@@ -75,7 +77,6 @@
     text-align: center;
     /* margin: auto; */
     justify-content: center;
-    margin-top: 15%;
     font-weight: bold;
 }
 .matchRadioStyle{
@@ -93,8 +94,7 @@ margin-bottom: 8px;
 .border{
 border-right: 1px solid;
 }
-.noData{
-  min-height: 25rem;
+.noData{ 
     text-align: center;
     margin: auto;
     justify-content: center;
@@ -104,11 +104,10 @@ border-right: 1px solid;
 .pagination{
   margin-top: 1rem;
 }
-.selected{
-  margin-top: 5px;
-}
+ 
 .marginTop{
-  margin-top: 1rem;
+  margin-top: 20px;
+  margin-left: 6px;
 }
 .marginTop1{
   margin-top: 1rem;
@@ -117,7 +116,7 @@ border-right: 1px solid;
 .overAll {
   
   overflow: scroll;
-  padding: 10px 4px;
+  /* padding: 0px 4px; */
 
   margin-bottom: 10px;
 }
