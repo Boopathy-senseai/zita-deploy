@@ -8,7 +8,7 @@ import { AppDispatch } from '../../store';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import SvgHeart from '../../icons/SvgHeart';
-import SvgInviter from '../../icons/SvgInviter'; 
+import SvgInviter from '../../icons/SvgInviter';
 import Loader from '../../uikit/Loader/Loader';
 import ProgressBar from '../../uikit/ProgressBar/ProgressBar';
 import { getDateString, isEmpty } from '../../uikit/helper';

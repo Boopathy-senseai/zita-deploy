@@ -1,6 +1,5 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
-import SvgRoundTick from '../../icons/SvgRoundTick';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import styles from './allmatchtab.module.css';
@@ -9,7 +8,7 @@ import InviteMatch from './InviteMatch';
 
 type Props = {
   title: string;
-  inviteMessage: string; 
+  inviteMessage: string;
   width?:string;
 };
 const AllMatchTab = ({width, title, inviteMessage }: Props) => {
@@ -30,16 +29,15 @@ const AllMatchTab = ({width, title, inviteMessage }: Props) => {
   );
 
   return (
-  <Flex
-      columnFlex
-      height={window.innerHeight - 230}
-      className={styles.overAll}
-    >
-      {match && match.length === 0 && applicant && applicant.length === 0 ? (
-        <Flex flex={1} center middle>
-          <Text color="gray">This candidate is not a match for any jobs</Text>
+    <Flex   className={styles.overAll}>
+      <Text bold size={14}>
+        All Matching jobs
+      </Text>
+      {match && match.length === 0 && applicant && applicant.length === 0 && (
+        <Flex center middle  height={window.innerHeight - 125} >
+          This candidate is not a match for any jobs
         </Flex>
-      ):''}
+      )}
      {match && match.length !== 0 || applicant && applicant.length !== 0 ?
       <Flex
         row
