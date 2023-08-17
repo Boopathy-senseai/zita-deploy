@@ -695,9 +695,9 @@ const SignUpScreen = (props: any) => {
                   </div>
                   <Flex middle>
                     
-                    <div className={styles.checkBoxStyle}>
+                    <div className={styles.checkBoxStyle} style={{display:"flex"}}>
                       <InputCheckBox
-                        className={styles.check}
+                        className={styles.checks}
                         // disabled={!checkBoxDisable}
                         checked={formik.values.terms_and_conditions === '1'}
                         onChange={handleChange1}

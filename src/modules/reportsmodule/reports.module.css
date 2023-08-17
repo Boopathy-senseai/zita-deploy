@@ -151,7 +151,7 @@ border-right: 1px solid;
 }
 .ribbon{
   background-color: #EEE8EC;
-  height: 45px;
+  height: 40px;
 }
 .triangle {
 
@@ -167,9 +167,8 @@ border-right: 1px solid;
     
   position: relative;
     
-  top: 71;
-    
-  right: 43;
+  top: -1px;
+  right: 0;
   
     
     }

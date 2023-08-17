@@ -10,6 +10,7 @@ import Toast from '../../uikit/Toast/Toast';
 import { AppDispatch, RootState } from '../../store';
 import { ERROR_MESSAGE } from '../constValue';
 import SvgUserSearch from '../../icons/SvgUserSearch';
+import SvgSearch from '../../icons/SvgSearch';
 import { Text } from '../../uikit';
 import Title from '../common/Title';
 import Empty from '../common/Empty';
@@ -732,7 +733,7 @@ setshow(val)
             {(isSearchData?.length === 0 && isFind && !isSubmitLoader) && (
               <div className={styles.emptyStyle}>
                 <div style={{marginBottom:"-80px"}}>
-                <SvgUserSearch width={18} height={18}/></div>
+                <SvgSearch  width={18} height={18}/></div>
                 <Empty title="Please enter your search keywords in the required search field to find the candidates" />
               </div>
             )}

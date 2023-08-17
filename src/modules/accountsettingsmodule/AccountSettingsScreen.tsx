@@ -276,7 +276,7 @@ const AccountSettingsScreen = ({ value }: props) => {
               <Text
                 bold
                 size={16}
-                style={{ marginLeft: 8, color: '#581845' }}
+                style={{ marginLeft: 8, color: '#581845',padding:"10px 0px" }}
                 className={styles.postingcl}
               >
                 Account Settings
