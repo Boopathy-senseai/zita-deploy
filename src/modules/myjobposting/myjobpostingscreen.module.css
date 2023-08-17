@@ -435,7 +435,7 @@
   font-size: 13px;
 }
  .maxwidthjobtype{
-  max-width: 100px;
+  max-width: 250px;
   overflow: hidden;
   text-overflow: ellipsis; 
   white-space: nowrap;

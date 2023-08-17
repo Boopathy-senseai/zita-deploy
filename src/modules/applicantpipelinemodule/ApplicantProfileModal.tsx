@@ -129,12 +129,12 @@ console.log(candidateId,'fffffffffffffffffffffffffkkkkkkkkkkkkkjjjjjjjjjjjjjjjjj
       applicantProfileInitalReducers,
       applicantMatchReducers,
       applicantStausReducers,
-      candidatejdmatchReducers, 
+      candidatejdmatchReducers,
       applicantPipeLineReducers
     }: RootState) => {
       return {
         candidate_details: applicantProfileInitalReducers.candidate_details,
-        personalInfo: applicantProfileInitalReducers.personalInfo, 
+        personalInfo: applicantProfileInitalReducers.personalInfo,
         initialLoader: applicantProfileInitalReducers.isLoading,
         jd: applicantProfileInitalReducers.jd,
         match: applicantMatchReducers.match ? applicantMatchReducers.match : [],
@@ -145,11 +145,10 @@ console.log(candidateId,'fffffffffffffffffffffffffkkkkkkkkkkkkkjjjjjjjjjjjjjjjjj
         status_id: applicantProfileInitalReducers.status_id,
         invite: applicantStausReducers.invite,
         source: applicantProfileInitalReducers.source,
-        stages: applicantStausReducers?.stages, 
+        stages: applicantStausReducers?.stages,
       };
     },
   );
-  if (initialLoader || isNotesLoader || isNotesMeeting ||  matchLoader) {
   if (initialLoader || isNotesLoader || isNotesMeeting ||  matchLoader) {
     return (
       <Flex height={window.innerHeight - 60} center middle>
@@ -265,7 +264,7 @@ console.log(candidateId,'fffffffffffffffffffffffffkkkkkkkkkkkkkjjjjjjjjjjjjjjjjj
 
         {/* {isTab && (
           <Flex flex={5} className={styles.tabRightFlex}>
-            {stages.length === 0 ? (
+            {status_id.length === 0 ? (
               <ApplicantTabRightOne />
             ) : (
               <ApplicantTabRight />
@@ -275,6 +274,6 @@ console.log(candidateId,'fffffffffffffffffffffffffkkkkkkkkkkkkkjjjjjjjjjjjjjjjjj
       </Flex>
     </div>
   );
-}};
+};
 
 export default ApplicantProfileModal;
