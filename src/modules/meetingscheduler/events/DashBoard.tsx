@@ -102,6 +102,7 @@ const DashBoard = (props) => {
   // }
   const filteredData = interview.filter((item) => item.event_id === list.id);
   const MAX_BUTTONS = 7;
+  const words =  interview[0]?.full_name?.split(' ')
   return (
     <>
       <Card className={styles.cardConatiner}>
@@ -141,7 +142,8 @@ const DashBoard = (props) => {
               return (
                 <Flex className={styles.initials} key={data.id}>
                   <Text size={12} title={data.full_name} className={styles.textinitials}>
-                    {initials}
+                    {/* {initials} */}
+                    {`${words[0][0]}${words[words.length - 1][0]}`}
                   </Text>
                 </Flex>
               );

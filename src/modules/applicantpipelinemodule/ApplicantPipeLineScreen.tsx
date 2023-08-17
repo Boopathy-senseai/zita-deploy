@@ -161,7 +161,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
         getKanbanStagesMiddleWare({ jd_id: parseInt(jd_id), workflow_id }),
       );
     }
-  }, [workflow_id]);
+  }, []);
 
   useEffect(() => {
     if (!is_plan) {
@@ -591,6 +591,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
             candidateId: removed.candidate_id_id,
           });
         } else {
+          {console.log("**********!*!***!*!*!*!***!*!**!*!*!*!*")}
           handleCardUpdate({
             stage_name: columns[destinationDropId].stage_name,
             taskId: removed.id,
@@ -620,28 +621,31 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     taskId: number;
     candidateId: number;
   }) => {
-    dispatch(
-      kanbanUpdateMiddleWare({
-        jd_id: parseInt(jd_id),
-        candidate_id: [destination.candidateId],
-        stages: destination.stage_name,
-      }),
-    )
-      .then(() => {
-        getApplicanPipelineData();
-        // Toast(`Applicant ${destination.stage_name} successfully`);
-        Toast(`Applicant moved successfully`);
-      })
-      .catch(() => {
-        setNoLoader(true);
-        setTimeout(() => setNoLoader(false), 100);
-        Toast(ERROR_MESSAGE, 'LONG', 'error');
-      });
+    alert("2-handleCardUpdate")
+
+    // dispatch(
+    //   kanbanUpdateMiddleWare({
+    //     jd_id: parseInt(jd_id),
+    //     candidate_id: [destination.candidateId],
+    //     stages: destination.stage_name,
+    //   }),
+    // )
+    //   .then(() => {
+    //     getApplicanPipelineData();
+    //     // Toast(`Applicant ${destination.stage_name} successfully`);
+    //     Toast(`Applicant moved successfully`);
+    //   })
+    //   .catch(() => {
+    //     setNoLoader(true);
+    //     setTimeout(() => setNoLoader(false), 100);
+    //     Toast(ERROR_MESSAGE, 'LONG', 'error');
+    //   });
   };
 
   const hanldeAlertComplete = () => {
     const { taskId, candidateId, droppableId, type } = isAlert;
     if (type === 'single') {
+      alert("3-hanldeAlertComplete")
       dispatch(
         kanbanUpdateMiddleWare({
           jd_id: parseInt(jd_id),
@@ -783,7 +787,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     if (candidateIdList.length === 0) {
       return;
     }
-
+    alert("1-updateBulkKanbanStage")
     dispatch(
       kanbanUpdateMiddleWare({
         jd_id: parseInt(jd_id),

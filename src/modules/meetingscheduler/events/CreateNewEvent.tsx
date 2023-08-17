@@ -571,7 +571,7 @@ const CreateNewEvent = (props) => {
             // }
           });
     }
-    if(messageDialog === 'At least one interviewer must be integrated to the Google Calendar.Otherwise, the video conference will not be created'){
+    if(messageDialog === 'At least one interviewer must have connected Google Calendar inside Zita. Otherwise, this event type will not be created.'){
       setIsDialogOpen(false)
     }   
     if(messageDialog === 'Select Atleast One Availble Day') {
@@ -593,7 +593,7 @@ const CreateNewEvent = (props) => {
       setIsDialogOpen(false)
       formik.values.event_type = '';
     }
-    if(messageDialog === 'At least one interviewer must be integrated to the Google Calendar.Otherwise, the video conference will not be created'){
+    if(messageDialog === 'At least one interviewer must have connected Google Calendar inside Zita. Otherwise, this event type will not be created.'){
       formik.values.event_type = '';
       setIsDialogOpen(false)
     }
@@ -1263,7 +1263,7 @@ const CreateNewEvent = (props) => {
 
   function ErrMessage(timeslot) {
     console.log('&&&&&&&&&&&', timeslot);
-    if (timeslot.length === 0 && formik.values.duration === '') {
+    if (timeslot.length === 0) {
       seterrMsg(true);
       const error = 'Please select the duration';
       formik.setFieldError('duration', error); 

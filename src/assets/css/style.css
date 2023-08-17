@@ -289,6 +289,8 @@ small {
   border: 1px solid #17692e;
 }
 
+
+
 .toast.success svg {
   color: #17692e;
 }
@@ -859,16 +861,34 @@ input:-webkit-autofill:active {
   cursor: default;
 }
 .rdp-button.rdp-day_selected {
-  background-color: #d7c7d2 !important;
-  color: #581845 !important;
-  padding: 5px !important;
+  /* background-color: #d7c7d2 !important; */
+  /* color: #581845 !important; */
+  /* padding: 5px !important; */
 }
+.rdp-button.rdp-day_selected
+.DayPicker-Day--lastSelected {
+  background-color: black;
+  color: white;
+  color: #581845; 
+  /* font-weight: 54px; */ /* This is not a valid font-weight value */
+}
+/* 
+.rdp-button.rdp-day_selected,
+.rdp-day_selected:focus-visible,
+.rdp-day_selected:hover {
+  color: white;
+  opacity: 1;
+  color: #581845 !important; 
+  padding: 5px !important;
+  background-color: #d7c7d2 !important;
+} */
 
-.rdp-button.rdp-day_selected:focus {
+/* .rdp-button.rdp-day_selected:focus {
   background-color: #581858 !important;
   color: #fffcff !important;
   padding: 5px !important;
-}
+} */
+
 .rdp-button.rdp-day_highlighted{
   background-color: #17692e !important;
   color: #fffcff !important;

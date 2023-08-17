@@ -130,3 +130,9 @@
   justify-content: center;
   flex-direction: column;
 }
+.footerlogo{
+  font-weight: bold;
+  font: size 16px;
+  justify-content:  center;
+  margin-bottom: 90px;
+}

@@ -134,7 +134,7 @@ const hanldeJobListform = () => {
 			}),
 		).then((res) => {
 			if (res.payload) {
-				saveAs(`http://${res.payload.file_path}`, `${res.payload.file_name}`);
+				saveAs(`${res.payload.file_path}`, `${res.payload.file_name}`);
 
 				dispatch(
 					jobMetricsChartMiddleWare({

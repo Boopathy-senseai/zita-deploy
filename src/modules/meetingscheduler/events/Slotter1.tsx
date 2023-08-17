@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { DayPicker, DayPickerProps } from 'react-day-picker';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import moment, { duration } from 'moment';
 import { AppDispatch, RootState } from '../../../store';
@@ -35,6 +35,7 @@ import {
 } from './store/middleware/eventmiddleware';
 import './DayPickerCustomStyles.css';
 
+
 const slotter1 = (props) => {
   const { userpreview } = props;
   const location = useLocation();
@@ -55,7 +56,7 @@ const slotter1 = (props) => {
   const [time, setTime] = useState([]);
   const [selecteddate1, setselectedDate1] = useState('');
   const [startDate, setStartDate] = useState(new Date());
-  const [dashboard, setDashboard] = useState(true);
+  const [dashboard, setDashboard] = useState(false);
   const [finalIntervals, setfinalIntervals] = useState([]);
   const [conflicts, setConflicts] = useState(null);
 
@@ -357,6 +358,12 @@ const slotter1 = (props) => {
     }
   };
 
+  const FooterNavogation = () =>{
+    window.open("https://www.zita.ai/",'_blank')
+    // const url = `${window.location.origin}/event_preview?uid=null&eventid=${eventid}`;
+
+  }
+
   return (
     <Flex>
       <Flex height={'100%'} className={styles.element}>
@@ -372,6 +379,7 @@ const slotter1 = (props) => {
               isProfile={isProfile}
               timezones={timezones}
               candidate_name={candi_name}
+              FooterNavogation ={FooterNavogation}
             />
           </Flex>
         ) : confromflag === false && dashboard === false ? (
@@ -411,6 +419,8 @@ const slotter1 = (props) => {
               conflicts={conflicts}
               // startFrom = {startFrom}
               // endFrom ={endFrom}
+              FooterNavogation ={FooterNavogation}
+
             />
           </Flex>
         ) : confromflag === true ? (
@@ -423,9 +433,11 @@ const slotter1 = (props) => {
               InterviewText={InterviewText}
               isProfile={isProfile}
               timezones={timezones}
+              FooterNavogation ={FooterNavogation}
+
             />
           </Flex>
-        ) : null}
+        ) : null} 
       </Flex>
     </Flex>
   );
@@ -453,6 +465,7 @@ const SlotterDate = (props) => {
     isLoading,
     conflicts,
     selectDate,
+    FooterNavogation,
   } = props;
   console.log('datetimedatetimeprops', props);
   console.log('candidate_namecandidate_namecandidate_name', candidate_name);
@@ -474,7 +487,7 @@ const SlotterDate = (props) => {
   const [defaultMonth, setdefaultMonth] = useState('');
   const [startFrom, setStartFrom] = useState(new Date(2023, 9 - 1, 4));
   const [endFrom, setEndFrom] = useState(new Date(2023, 11, 4));
-  const [highlightday, setHighlightDay] = useState(new Date());
+  const [highlightday, setHighlightDay] = useState(null);
 
   useEffect(() => {
     mount();
@@ -601,18 +614,73 @@ const SlotterDate = (props) => {
     const convertedDate = moment(formattedDate).format('DD/MM/YYYY');
     return convertedDate;
   };
+
+  // function convertDurationToInterval(durationString, unit) {
+  //   alert(")")
+  //   const matches = durationString.match(/(\d+)\s*hours?(\s*(\d+)\s*minutes?)?/i);
+  
+  //   if (!matches) {
+  //     return null; // Invalid duration format
+  //   }
+  
+  //   const hours = parseInt(matches[1] || 0, 10);
+  //   const minutes = parseInt(matches[3] || 0, 10);
+  
+  //   if (unit === 'minutes') {
+  //     return hours * 60 + minutes; // Calculate interval in minutes
+  //   } else if (unit === 'seconds') {
+  //     return (hours * 60 + minutes) * 60; // Calculate interval in seconds
+  //   } else {
+  //     return null; // Invalid unit
+  //   }
+  // }
+  function convertDurationToInterval(durationString, unit) {
+    if (typeof durationString !== 'string') {
+      return null; // Invalid input, not a string
+    }
+  
+    const matches = durationString.match(/(\d+)\s*hours?(\s*(\d+)\s*minutes?)?/i);
+  
+    if (!matches) {
+      return null; // Invalid duration format
+    }
+  
+    // ... rest of the function
+  }
   const AvailbleSlots = (datetimes) => {
     const check = dateconvert(datetimes);
 
-    console.log('datetimesdatetimes*********', check);
+    setHighlightDay(datetimes)
+    console.log("datetimesdatetimes*********",check)
     const filteredData = Object.fromEntries(
-      Object.entries(useravailble).filter(([key, value]) => key === check),
+      Object.entries(useravailble).filter(([key, value]) => key.toString() === check),
     );
+    console.log("filterhwrehvehrfilterhwrehvehr",filteredData)
 
     const day = datetimes.getDay();
-    const intervalMinutes = parseInt(response.map((dur) => dur.duration));
-    const intervalSeconds =
-      intervalMinutes === 1 ? intervalMinutes * 60 : intervalMinutes;
+
+  
+    // console.log("durationchangedurationchange",intervalMinutes)
+    
+    // const totalIntervalMinutes11 = response.reduce((totalMinutes, dur) => {
+      //   const matches = dur.duration.match(/(\d+)\s*hours?(\s*(\d+)\s*minutes?)?/i);
+      
+      //   if (matches) {
+        //     const hours = parseInt(matches[1] || 0, 10);
+        //     const minutes = parseInt(matches[3] || 0, 10);
+        //     const intervalMinutes3 = hours * 60 + minutes;
+        //     return totalMinutes + intervalMinutes3;
+        //   } else {
+          //     return totalMinutes; // Invalid duration format, skip this entry
+          //   }
+          // }, []);
+          
+          // console.log("totalIntervalMinutestotalIntervalMinutes",`${totalIntervalMinutes11}`)
+          
+          // const durationchange = convertDurationToInterval(intervalMinutes,'minutes')
+          // console.log("durationchangedurationchange",durationchange)
+    const intervalMinutes = parseInt(response?.map((dur) => dur.duration));
+    const intervalSeconds = intervalMinutes === 1 ? intervalMinutes * 60 : intervalMinutes;
     const dateformat = moment.tz(datetimes, timezone).toDate();
     const currentDay = (datetimes.getDay() + 1) % 7; // Get the current day in UTC
     const selectedDay = currentDay;
@@ -624,6 +692,7 @@ const SlotterDate = (props) => {
       intervalSeconds,
       check,
     );
+    console.log("timeslottimeslot",timeslot)
     setfinalIntervals(timeslot);
   };
 
@@ -652,7 +721,7 @@ const SlotterDate = (props) => {
     if (isInSchedule) {
       // alert("PPP")
       AvailbleSlots(datetimes);
-      const options = { weekday: 'long', day: '2-digit', month: 'long' };
+      const options = { weekday: 'long', day: '2-digit', month: 'long',year: 'numeric' };
       const formattedDate = datetimes.toLocaleDateString('en-US', options);
       setDate(formattedDate);
       setSelectTime('');
@@ -663,6 +732,7 @@ const SlotterDate = (props) => {
       setDate(null);
       setfinalIntervals([]);
       setSelectTime('');
+      // setHighlightDay(null)
     }
   };
 
@@ -887,42 +957,48 @@ const SlotterDate = (props) => {
 
         console.log(
           'filteredIntervalsfilteredIntervalsfilteredIntervals',
-          'filteredIntervals',
+          'filteredIntervals', intervals12
         );
       }
     }
-    const excludedRanges = conflicts;
-    if (datetimes in excludedRanges) {
-      // alert("@#$%^&*(")
-      const eventsForSelectedDate = conflicts[datetimes];
-      console.log('eventsForSelectedDate', eventsForSelectedDate);
-      console.log(
-        'excludedRanges',
-        excludedRanges,
-        '\n',
-        typeof excludedRanges[0],
-      );
-      const remainingIntervals = getRemainingIntervalsWithinExcludedRanges(
-        intervals12,
-        eventsForSelectedDate,
-      );
-      console.log(
-        'currentIntervalcurrentIntervalcurrentInterval',
-        remainingIntervals,
-        '\n',
-        excludedRanges,
-      );
-      console.log(
-        '====================',
-        remainingIntervals,
-        '\n',
-        eventsForSelectedDate,
-        '\n',
-      );
-      return remainingIntervals;
-    } else {
-      console.log('No events for the selected date.', intervals12);
-      return intervals12;
+    if (conflicts !== null){
+      const excludedRanges = conflicts;
+      console.log("excludedRangesexcludedRangesexcludedRanges",excludedRanges)
+      if (datetimes in excludedRanges) {
+        // alert("@#$%^&*(")
+        const eventsForSelectedDate = conflicts[datetimes];
+        console.log('eventsForSelectedDate', eventsForSelectedDate);
+        console.log(
+          'excludedRanges',
+          excludedRanges,
+          '\n',
+          typeof excludedRanges[0],
+        );
+        const remainingIntervals = getRemainingIntervalsWithinExcludedRanges(
+          intervals12,
+          eventsForSelectedDate,
+        );
+        console.log(
+          'currentIntervalcurrentIntervalcurrentInterval',
+          remainingIntervals,
+          '\n',
+          excludedRanges,
+        );
+        console.log(
+          '====================',
+          remainingIntervals,
+          '\n',
+          eventsForSelectedDate,
+          '\n',
+        );
+        return remainingIntervals;
+      } else {
+        alert("??")
+        console.log('No events for the selected date.', intervals12);
+        return intervals12;
+      }
+    }else{
+      return intervals12
     }
     // const excludedRanges = ["1:00 pm to 2:00 pm","9:30 am to 10:00 am","10:00 am to 10:30 am", "11:00 am to 11:30 am", "12:00 pm to 12:30 pm"];
 
@@ -947,6 +1023,8 @@ const SlotterDate = (props) => {
     // highlighted: (day) => selectedDay && day.toDateString() === selectedDay.toDateString(),
     // highlighted:(day) => date !== null && day?.toDateString() === date?.toDateString(),
     highlighted: isHighlightedDay,
+    lastSelected: (day) => highlightday && day.toDateString() === highlightday.toDateString(),
+
   };
 
   function isIntervalWithinExcludedRange(interval, excludedRange) {
@@ -954,11 +1032,14 @@ const SlotterDate = (props) => {
     return interval > start && interval < end;
   }
 
+
+
+
   const modifiersStyles = {
-    // selected: {
-    //   backgroundColor: '#FFC203',
-    //   color: 'black',
-    // },
+    selected: {
+      backgroundColor: '#d7c7d2',
+      color: 'black',
+    },
 
     // container: {
     //   height: '900px',
@@ -969,9 +1050,14 @@ const SlotterDate = (props) => {
       backgroundColor: '#581848',
       color: 'white',
     },
+    lastSelected : {
+      backgroundColor: '#581848',
+      color: 'white',
+      // fontweight : '54px',
+    }
   };
 
-  console.log('dateObjectsArray::::::::', dateObjectsArray);
+  console.log('dateObjectsArray::::::::', selectDate);
   const WEEKDAYS_LONG = [
     'Dimanche',
     'Lundi',
@@ -1036,7 +1122,7 @@ const SlotterDate = (props) => {
     <Flex height={'100%'}>
       <Flex row center className={styles.banner}>
         {console.log('data.company_logo', response[0].company_logo)}
-{response[0].company_logo !== null &&
+{response[0].company_logo !== '' &&
         <img
           src={`${process.env.REACT_APP_HOME_URL}media/${response[0]?.company_logo}`}
           alt="Company Logo"
@@ -1118,10 +1204,11 @@ const SlotterDate = (props) => {
                       <SvgInfo width={16} height={16} fill={'#581845'} />
                     </Flex>
 
-                    <Text size={14} style={{ marginLeft: '5px' }}>
-                      This is an {InterviewText(data.event_type)}.Please come
+                    <Text size={13} style={{ marginLeft: '5px',marginTop: '0.5px'}}>
+                      {/* This is an {InterviewText(data.event_type)}.Please come
                       prepared with the technical aspects of your work
-                      experience along with your CV/Resume
+                      experience along with your CV/Resume */}
+                      {data.description}
                     </Text>
                   </Flex>
                   {/* <div className={styles.line}></div> */}
@@ -1200,28 +1287,33 @@ const SlotterDate = (props) => {
           </Flex>
         ))}
       </Flex>
-      <Flex center bottom middle marginBottom={10} marginTop={10}>
-      <LinkWrapper target={'_blank'} to={'https://www.zita.ai/'}>
+      <Flex center bottom middle marginBottom={10} marginTop={10} onClick={FooterNavogation}>
+      {/* <LinkWrapper target={'_blank'} to={'https://www.zita.ai/'}> */}
+
         <Text
           bold
           style={{ cursor: 'pointer' }}
           size={14}
           color="theme"
-          // onClick={zitaPath}
+          // onClick={zitaPath}\
+          
         >
           Powered by Zita.ai
-        </Text></LinkWrapper>
+        </Text>
+        {/* </LinkWrapper> */}
       </Flex>
     </Flex>
   );
 };
 const Conformpage = (props) => {
-  const { selecttime, date, response, InterviewText, timezones } = props;
+              const { selecttime, date, response, InterviewText, timezones,FooterNavogation } = props;
 
   return (
     <>
     <Flex className={styles.successTick}>
-      {response[0].company_logo !== null &&
+      {response[0].company_logo !== '' ?      (
+        <>
+    
         <img
           src={`${process.env.REACT_APP_HOME_URL}media/${response[0]?.company_logo}`}
           alt="Company Logo"
@@ -1233,8 +1325,12 @@ const Conformpage = (props) => {
             marginBottom:'15px',
             marginTop:'40px'
           }}
-        />} 
-      <Flex>
+        />
+            </>
+      ):(<Flex marginTop={30}>
+      </Flex>)
+        } 
+      <Flex marginTop={30}>
         {response?.map((list: any) => (
           <Flex className={styles.confrompage} key={list.id}>
             <Flex center className={styles.successTick} marginBottom={10}>
@@ -1296,17 +1392,18 @@ const Conformpage = (props) => {
               </Flex>
 
               <Text size={13} style={{ marginLeft: '5px' }}>
-                This is an {InterviewText(list.event_type)}.Please come prepared
+                {/* This is an {InterviewText(list.event_type)}.Please come prepared
                 with the technical aspects of your work experience along with
-                CV/Resume
+                CV/Resume */}
+                {list.description}
               </Text>
             </Flex>
           </Flex>
         ))}
       </Flex>
     </Flex>
-      <Flex center bottom  middle marginBottom={10} marginTop={10}>
-    <LinkWrapper target={'_blank'} to={'https://www.zita.ai/'}>
+      <Flex center bottom  middle marginBottom={10} marginTop={10} onClick={FooterNavogation}>
+    {/* <LinkWrapper target={'_blank'} to={'https://www.zita.ai/'}> */}
         <Text
           bold
           style={{ cursor: 'pointer',display:'flex' }}
@@ -1316,7 +1413,7 @@ const Conformpage = (props) => {
         >
           Powered by Zita.ai
         </Text>
-        </LinkWrapper>
+        {/* </LinkWrapper> */}
       </Flex>
     </>
   );
@@ -1332,6 +1429,7 @@ const InterviewDashBoard = (props) => {
     Loading,
     isLoading,
     candidate_name,
+    FooterNavogation
   } = props;
 
   useEffect(() => {});
@@ -1384,7 +1482,7 @@ const InterviewDashBoard = (props) => {
   return (
     <>
     <Flex className={styles.successTick}>
-    {dashboard[0].company_logo !== null &&
+    {dashboard[0].company_logo !== '' &&
         <img
           src={`${process.env.REACT_APP_HOME_URL}media/${dashboard[0]?.company_logo}`}
           alt="Company Logo"
@@ -1397,7 +1495,7 @@ const InterviewDashBoard = (props) => {
             marginTop:'40px'
           }}
         />} 
-      <Flex>
+      <Flex marginTop={30}>
         {dashboard.map((list: any, index) => (
           <Flex key={index} className={styles.dashboard}>
             <Flex row center>
@@ -1440,9 +1538,7 @@ const InterviewDashBoard = (props) => {
               </Flex>
 
               <Text size={13} style={{ marginLeft: '5px' }}>
-                This is an {InterviewText(list.event_type)}.Please come prepared
-                with the technical aspects of your work experience along with
-                CV/Resume
+              {list.description}
               </Text>
             </Flex>
             <div className={styles.line} style={{ margin: '20px 0px' }}></div>
@@ -1487,8 +1583,8 @@ const InterviewDashBoard = (props) => {
       </Flex>
       
     </Flex>
-    <Flex center bottom middle marginBottom={10} marginTop={10}>
-      <LinkWrapper target={'_blank'} to={'https://www.zita.ai/'}>
+    <Flex center bottom middle marginBottom={10} marginTop={10} onClick={FooterNavogation}>
+      {/* <LinkWrapper target={'_blank'} to={'https://www.zita.ai/'}> */}
         <Text
           bold
           style={{ cursor: 'pointer' }}
@@ -1497,7 +1593,8 @@ const InterviewDashBoard = (props) => {
           // onClick={zitaPath}
         >
           Powered by Zita.ai
-        </Text></LinkWrapper>
+        </Text>
+        {/* </LinkWrapper> */}
       </Flex>
     </>
   );
