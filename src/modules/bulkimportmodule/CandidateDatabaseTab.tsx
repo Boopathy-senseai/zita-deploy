@@ -574,7 +574,7 @@ const CandidateDatabaseTab = ({
         <Loader   size={'medium'} />
       </Flex>
       ) : (
-        <Flex flex={1} style={{overflowX:'hidden'}}>
+        <Flex flex={1} >
         <Tabel
           empty={
             isSearch === 1 ? 'No candidates imported yet' : 'No candidate found'

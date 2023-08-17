@@ -577,7 +577,7 @@ setshow(val)
     console.log("isCheck+++++++++++++++++++++",isCheck,"showww",show);
     
   return (
-    <>
+    <Flex style={{overflow:'hidden !important'}}>
     {console.log("changeeee",change)}
    {
     isSubmitLoader&&
@@ -789,7 +789,7 @@ setshow(val)
         </Flex>
        
     </Flex>
-    </>
+    </Flex>
   );
 };
 
