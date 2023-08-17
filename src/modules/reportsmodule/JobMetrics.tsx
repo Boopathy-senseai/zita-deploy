@@ -255,7 +255,7 @@ const hanldeJobListform = () => {
 								empty="No Data Available"
 								// scrollHeight={270}
 								border="normal"
-								fixedScrollHeight
+								
 								rowFocusIndex={isRowIndex}
 							/>
 					
