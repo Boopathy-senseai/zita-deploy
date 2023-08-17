@@ -17,7 +17,8 @@ import MessageTab from './MessageTab';
 import NotesTab from './NotesTab';
 import Notesmeet from './Notesmeeting';
 import Questionnaire from './Questionnaire';
-import ScreeningStatusTab from './ScreeningStatusTab'; 
+import ScreeningStatusTab from './ScreeningStatusTab';
+import InvitationStatusTab from './InvitationStatusTab';
 // import QualificationTab from './QualificationTab';
 
 /* eslint max-len: ["error", { "code": 2000 }] */
