@@ -513,12 +513,12 @@ const ProfileCard = () => {
             {weburl === null || weburl === 'https://' ? (
               <Flex row marginTop={7}>
                 <Flex marginRight={5} marginTop={1}>
-                  <SvgGlobe height={24} width={24} fill={BLACK} />
+                  <SvgGlobe height={18} width={18}  />
                 </Flex>
                 <Flex>
                   <LinkWrapper to={'/account_setting/settings'}>
                     <Text
-                      style={{ color: '#581845' ,fontSize:'13px',marginLeft:' 5px' }}
+                      style={{ color: '#581845' ,fontSize:'13px',marginLeft:' 10px' }}
                       bold
                     >
                       Add Website URL
@@ -529,7 +529,7 @@ const ProfileCard = () => {
             ) : (
               <Flex row>
                 <Flex marginRight={5} marginTop={2}>
-                  <SvgGlobe height={24} width={24} fill={BLACK} />
+                  <SvgGlobe height={18} width={18}  />
                 </Flex>
                 <Flex marginLeft={7}>
                   {' '}
@@ -552,7 +552,7 @@ const ProfileCard = () => {
            
           </Flex>
           
-          <Flex style={{cursor:'default'}} >
+          <Flex style={{cursor:'default'}} marginTop={7}>
             {mobile_no !== '' ? (
               <Flex row>
                 <Flex marginRight={5} marginTop={7}>
