@@ -577,12 +577,13 @@ setshow(val)
     console.log("isCheck+++++++++++++++++++++",isCheck,"showww",show);
     
   return (
-    <Flex style={{overflow:'hidden !important'}}>
+   <>
     {console.log("changeeee",change)}
    {
     isSubmitLoader&&
     <Loader /> 
    }
+   <Flex style={{overflow:'hidden !important'}}>
     <Flex row className={styles.ribbon} between>
           
 
@@ -790,6 +791,7 @@ setshow(val)
        
     </Flex>
     </Flex>
+    </>
   );
 };
 
