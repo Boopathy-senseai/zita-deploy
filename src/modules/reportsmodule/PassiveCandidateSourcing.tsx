@@ -237,7 +237,7 @@ console.log(res,'192.168.3.253:8001192.168.3.253:8001192.168.3.253:8001192.168.3
 				<Flex>
 				<Flex row className={styles.ribbon} between>
 				<Flex marginTop={9} marginLeft={8} >
-				<Text size={18} bold color="theme" >
+				<Text size={16} bold color="theme" >
 				Passive Candidate Sourcing Report
 				</Text>
 

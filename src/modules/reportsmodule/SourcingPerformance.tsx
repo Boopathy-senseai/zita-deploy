@@ -257,7 +257,7 @@ const SourcingPerformanceReport = () => {
 				<Flex>
 				<Flex row className={styles.ribbon} between>
 					<Flex marginTop={9} marginLeft={8} >
-					<Text size={18} bold color="theme" >
+					<Text size={16} bold color="theme" >
 					Sourcing Performance Report For Organic Applicants
 					</Text>
 
@@ -423,7 +423,7 @@ const SourcingPerformanceReport = () => {
 						</Flex>
 					</Flex>
 				) : (
-					<Flex className={styles.noData} style={{display:"flex"}}>
+					<Flex className={styles.noData} style={{display:"flex",marginTop:"150px"}}>
 						<SvgNoDataIcon style={{marginBottom:"10px", filter:"opacity(0.6)"}} width={15}/>
 						<Text bold>No Data Available</Text>
 					</Flex>
