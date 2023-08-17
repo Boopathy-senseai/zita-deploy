@@ -28,11 +28,11 @@ export const getEventsMiddleWare = createAsyncThunk<IEventData, { event: any, da
 
 export const deleteEventMiddleWare = createAsyncThunk<
   IEventData,
-  { eventid: any; event?: any }
+  { id: any; event?: any }
 >(EVENTS_DELETE, async (payload, { rejectWithValue, dispatch }) => {
   try {
     const { data } = await axios.delete(
-      `${calendarScheduledEvents}?eventid=${payload.eventid}`,
+      `${calendarScheduledEvents}?id=${payload.id}`,
     );
     // await delay(3000);
     if (payload.event) dispatch(getEventsMiddleWare({ event: payload.event }));

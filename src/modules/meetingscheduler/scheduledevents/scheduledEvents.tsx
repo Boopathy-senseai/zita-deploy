@@ -164,9 +164,10 @@ const ScheduledEventsPage = () => {
   //   history.push(calendarRoute, { openScheduleEvent: true });
   // };
   const handleDeleteEvent = (id: any) => {
-    dispatch(
+    setDeleteEvent(null)
+        dispatch(
       deleteEventMiddleWare({
-        eventid: id,
+        id: id,
         event: filters.type === EVENT_TYPE.MY_EVENTS ? 'True' : 'False',
       }),
     );
