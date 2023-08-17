@@ -89,10 +89,7 @@ const Table = ({
         </div>
       ) : (
         <div
-          style={{
-            height: window.innerHeight - 280,
-            overflow:'scroll'
-          }}
+         
           className={cx({ rowScroll: scrollHeight })}
         >
           {dataSource.map((item, index) => (
