@@ -280,6 +280,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 40px;
 }
 .padding10 {
   padding: 3px;
@@ -441,7 +442,7 @@
   white-space: nowrap;
 }
 .twobutton {
-  padding-right: 184px;
+  padding-right: 175px;
 }
 .ulstyle1 {
   margin-bottom: -0.25rem !important;
