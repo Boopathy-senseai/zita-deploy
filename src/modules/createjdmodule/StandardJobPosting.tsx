@@ -72,10 +72,10 @@ const StandardJobPosting = ({
                   () => extarajob()
                 }
               />
-              <div className={styles.checkBoxs}>
-                <div style={{ opacity: 0.5, marginRight: 8 }}></div>
-                <Svgwhatjobs />
-              </div>
+               <div className={styles.checkBoxs}>
+              <div style={{ opacity: 0.5, marginRight: 8 }}></div>
+              <Svgwhatjobs />
+            </div>
             </Flex>
           </Flex>
           </Card>

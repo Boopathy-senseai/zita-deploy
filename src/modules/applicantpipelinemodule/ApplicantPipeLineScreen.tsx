@@ -984,7 +984,7 @@ console.log(locations,'kkkkkkkkkkkkkkkkkkk')
           onNewPipeline={handleNewPipeline}
         />
       )}
-      <Flex row className={styles.overAll}>
+      <Flex row className={styles.overAll} style={{marginLeft:'12%'}}>
         {applicantDataLoader || (favLoader && <Loader />)}
         {pipeLineLoader && <Loader />} 
         {getAppliedView === 'true' && (

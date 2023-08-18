@@ -865,7 +865,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
                         <button
                           className={styles.crossIcon}
                           onClick={onClearSearch}
-                          style={{marginTop:"4px"}}
+                          
                         >
                           <SvgIntomark width={14} height={14} fill="#888888" />
                         </button>

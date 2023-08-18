@@ -5,7 +5,7 @@ import Flex from '../../uikit/Flex/Flex';
 import { getDateString } from '../../uikit/helper';
 import Text from '../../uikit/Text/Text';
 import styles from './screeningstatustab.module.css';
-import InterviewScorecardTab from './InterviewScorecardTab'; 
+import InterviewScorecardTab from './InterviewScorecardTab';
 
 type Props = {
   title: string;

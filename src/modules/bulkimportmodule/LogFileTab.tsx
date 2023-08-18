@@ -32,7 +32,7 @@ const LogFileTab = ({ getKey }: Props) => {
   });
 
   return (
-    <Flex className={styles.overAll} height={window.innerHeight - 200} style={{justifyContent:"center", alignItems:"center"}}>
+    <Flex className={styles.overAll} height={window.innerHeight - 200} >
       
         <SvgNoDataIcon width={15} style={{filter:"opacity(0.5)"}} />
       {isEmpty(txt_file) ? (

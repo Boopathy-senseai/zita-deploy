@@ -279,7 +279,9 @@ const IntegrationScreen = () => {
               <Text style={{ marginTop: '10px' }}>Connected as</Text>
               <Text color="theme" style={{ marginTop: '1px' }}>
                 {email} 
-              </Text>        
+              </Text>   
+               
+              <Flex className={styles.borderbottom}></Flex>    
               <Button
                 className={styles.btn}
                 onClick={() =>disconnectfun() }
@@ -307,8 +309,12 @@ const IntegrationScreen = () => {
               <Text style={{ marginTop: '10px' }}>
                 Connect your inbox with Outlook Calendar Service.
               </Text>
+              <Flex className={styles.borderbottom}>
+
+            </Flex>
+            
               {connected === 1 && active === 1 && isGoogle === 1?(
-                <Button className={styles.btn} onClick={() => handleOutlookRadio() } disabled>
+                <Button className={styles.btn} onClick={() => handleOutlookRadio() } >
                 <Text style={{color:"#581845"}} bold>Connect With Outlook</Text>
               </Button>
               ):(
@@ -353,10 +359,14 @@ const IntegrationScreen = () => {
              {/* {modelopen===false&&
                  Toast('Google calendar Integrated Successfully', 'MEDIUM')
                 } */}
+                 <Flex className={styles.borderbottom}>
+
+</Flex>
              <Button
                className={styles.btn}
                onClick={() =>disconnectfun() }
              >
+               
               
                <Text color="theme" bold>
                  <SvgEdit width={14} height={14} /> Edit Configuration
@@ -381,6 +391,9 @@ const IntegrationScreen = () => {
               <Text style={{ marginTop: '10px' }}>
                 Connect your inbox with Google calendar Service.
               </Text>
+              <Flex className={styles.borderbottom}>
+
+            </Flex>
               {connected === 1 && active === 1 && isGoogle === 0 ?(
                  <Button className={styles.btn} onClick={() => handleGoogleRadio()} disabled>
                  <Text style={{color:"#581845"}} bold>Connect With Google</Text>
@@ -464,7 +477,9 @@ const IntegrationScreen = () => {
 
           {connected === 1 && active === 1 && isGoogle === 1 ? (
             <Flex>
-              <Text color="theme" size={16} bold>
+              <Flex className={styles.borderbottom}>
+                </Flex>
+              <Text color="theme" size={16} bold >
                 {' '}
                 <SvgEdit width={14} height={14} /> Edit Configuration
               </Text>
@@ -476,7 +491,7 @@ const IntegrationScreen = () => {
                 <Card className={styles.outlookEmailcard}>
                   <Flex style={{ padding: '10px' }}>
                     <Flex>Connected as</Flex>
-                    <Flex>
+                    <Flex >
                       <Text color="theme">
                         {email} 
                       </Text>

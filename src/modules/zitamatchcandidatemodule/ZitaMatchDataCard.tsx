@@ -479,7 +479,7 @@ const ZitaMatchDataCard = ({
                   <Flex row center>
                     {dataList.location===null?(
                        <Text
-                       size={12}
+                       size={11}
                        style={{color:"#333333"}}
                        
                        title={`Location:Not Specified`}
@@ -488,7 +488,7 @@ const ZitaMatchDataCard = ({
                      </Text>
                     ):(
                       <Text
-                      size={12}
+                      size={11}
                       style={{color:"#333333"}}
                       
                       title={`Location:${dataList.location}`}
@@ -497,7 +497,7 @@ const ZitaMatchDataCard = ({
                     </Text>
                     )}
                   
-                    <Text size={12}  style={{ marginLeft: 2 ,color:"#333333"}} title='Not Specified'>
+                    <Text size={11}  style={{ marginLeft: 2 ,color:"#333333"}} title='Not Specified'>
                        {' Not Specified'}
                     </Text>
                   </Flex>
@@ -505,7 +505,7 @@ const ZitaMatchDataCard = ({
                   <Flex row center>
                      {dataList.location===null?(
                        <Text
-                       size={12}
+                       size={11}
                        style={{color:"#333333",maxWidth:"197px"}}
                        textStyle="ellipsis"
                        title={`Location: Not Specified`}
@@ -515,7 +515,7 @@ const ZitaMatchDataCard = ({
                      </Text>
                     ):(
                       <Text
-                      size={12}
+                      size={11}
                       style={{color:"#333333",maxWidth:"197px"}}
                       textStyle="ellipsis"
                       title={`Location: ${dataList.location}`}
@@ -532,12 +532,12 @@ const ZitaMatchDataCard = ({
                 <Flex row marginTop={2}>
                   <Flex>
                     {dataList.qualification===null ?(
-                      <Text textStyle="ellipsis" size={12}  style={{color:"#333333"}} title={`Qualification: Not Specified`}>
+                      <Text textStyle="ellipsis" size={11}  style={{color:"#333333"}} title={`Qualification: Not Specified`}>
 
                       {notSpecified(dataList.qualification)}
                     </Text>
                     ):(
-                      <Text textStyle="ellipsis" size={12}  style={{color:"#333333"}} title={`Qualification: ${dataList.qualification}`}>
+                      <Text textStyle="ellipsis" size={11}  style={{color:"#333333"}} title={`Qualification: ${dataList.qualification}`}>
 
                   {notSpecified(dataList.qualification)}
                 </Text>
@@ -549,11 +549,11 @@ const ZitaMatchDataCard = ({
                 </Flex>
                 <Flex>
                   {dataList.work_exp===null||undefined||""?(
-                    <Text size={12}  style={{ marginLeft: 2 ,color:"#333333"}} title={`Experience: Not Specified`}>
+                    <Text size={11}  style={{ marginLeft: 2 ,color:"#333333"}} title={`Experience: Not Specified`}>
                     | {notSpecified(workYear(dataList.work_exp))}
                   </Text>
                   ):(
-                    <Text size={12}  style={{ marginLeft: 2 ,color:"#333333"}} title={`Experience: ${workYear(dataList.work_exp)}`}>
+                    <Text size={11}  style={{ marginLeft: 2 ,color:"#333333"}} title={`Experience: ${workYear(dataList.work_exp)}`}>
                       | {notSpecified(workYear(dataList.work_exp))}
                     </Text>
                   )}
@@ -564,13 +564,13 @@ const ZitaMatchDataCard = ({
              </Flex>
              <Flex marginLeft={10}>
               <Flex marginTop={5} >
-              <Text size={12}  className={styles.skillStyle} textStyle="ellipsis"   style={{ maxWidth: '95%',color:"#333333" }}>
-                <Text bold  size={12} textStyle="ellipsis"   style={{ maxWidth: '90%' ,color:"#333333"}}>
+              <Text size={11}  className={styles.skillStyle} textStyle="ellipsis"   style={{ maxWidth: '95%',color:"#333333" }}>
+                <Text bold  size={11} textStyle="ellipsis"   style={{ maxWidth: '90%' ,color:"#333333"}}>
                   Skills:{' '}
                 </Text>
-                 {dataList.skills===null||undefined||""?(<Text  title={`Skills: Not Specified`}>
+                 {dataList.skills===null||undefined||""?(<Text size={11} title={`Skills: Not Specified`}>
                   {notSpecified(lowerCase(dataList.skills.replace(/,/g, ', ')))}
-                 </Text>):(<Text  title={`Skills: ${dataList.skills.replace(/,/g, ', ')}`}>
+                 </Text>):(<Text size={11} title={`Skills: ${dataList.skills.replace(/,/g, ', ')}`}>
                   { notSpecified(lowerCase(dataList.skills.replace(/,/g, ', ')))}
                  </Text>)
               }
@@ -583,7 +583,7 @@ const ZitaMatchDataCard = ({
                 onClick={handleNotesView}
               >
                 <SvgNotesOne height={14} width={14} />
-                <Text size={12} bold color={isEmpty(dataList.applicant) ? 'link' : 'gray'} style={{ marginLeft: 4 }}>
+                <Text size={11} bold color={isEmpty(dataList.applicant) ? 'link' : 'gray'} style={{ marginLeft: 4 }}>
                   Notes
                 </Text>
               </Flex>
@@ -655,12 +655,12 @@ const ZitaMatchDataCard = ({
                 >
                   {!isEmpty(dataList.applicant)?(""):(
                     <Flex title='Invite to Apply' className={styles.pointer}>
-                    <SvgInvite width={36} height={36} color="theme" /> </Flex>
+                    <SvgInvite width={28} height={28} color="theme" /> </Flex>
                   )}
                   
                 </div>
               )}
-                <Text size={12} color="gray" >
+                <Text size={11} style={{color:"#333333"}} >
                   {!isEmpty(dataList.applicant)
                     ? ''
                     : 'Invite to Apply'}
@@ -672,7 +672,10 @@ const ZitaMatchDataCard = ({
                 <>
                
               {dataList.applicant===null &&
-               <SvgNotInterested></SvgNotInterested>}
+               <SvgNotInterested
+               width={20}
+               height={20}
+               ></SvgNotInterested>}
              
                 </>
               ) : (
@@ -689,10 +692,10 @@ const ZitaMatchDataCard = ({
                             svgInviteNone: !isEmpty(dataList.applicant),
                           })}
                         >
-                          <SvgInvite width={36} height={36} color="theme" /> 
+                          <SvgInvite width={28} height={28} color="theme" /> 
                         </div>
                         {dataList.interested===null &&
-                    <Text color="gray" size={12} style={{paddingLeft:"5px",width:"65%"}}>
+                    <Text color="gray" size={11} style={{paddingLeft:"5px",width:"65%"}}>
                       Last Invited{' '}
                       {dataList?.invite && getDateString(dataList.invite, 'll')}
                     </Text>}
@@ -711,7 +714,9 @@ const ZitaMatchDataCard = ({
                 <Flex row center>
                   {
                     dataList.interested ?(
-                      <SvgInterested
+                      <SvgInterested 
+                      width={20}
+                      height={20}
                     />
                     ):(
                       // <SvgNotInterested></SvgNotInterested>
@@ -720,9 +725,9 @@ const ZitaMatchDataCard = ({
                   }
                  {
                   dataList.interested ?(
-                    <Text  style={{ marginLeft: 4,color:"#1976d2" }} size={12} >Interested</Text>
+                    <Text  style={{ color:"#1976d2" }} size={13} >Interested</Text>
                   ):(
-                    <Text  style={{ marginLeft: 4,color:"#ff0000" }} size={12} title=' You can’t send Invite'>Not Interested</Text>
+                    <Text  style={{ marginLeft: 4,color:"#ff0000" }} size={13} title=' You can’t send Invite'>Not Interested</Text>
                   )
                  }
                  

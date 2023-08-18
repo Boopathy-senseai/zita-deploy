@@ -266,7 +266,7 @@ position: absolute;
 
 .phoneInput {
   border: 1px solid  #D7C7D2 !important;
-  width: 90%     !important;
+  /* width: 90%     !important; */
   height: 30px !important;
   
 }

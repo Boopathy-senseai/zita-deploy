@@ -341,7 +341,7 @@
   padding-right: 15px !important;
   vertical-align: baseline !important;
   padding-top: 7.5px !important;
-  border-top: 1px solid #A5889C !important;
+  /* border-top: 1px solid #A5889C !important; */
 }
 .padchangesmiddle{ 
   vertical-align: baseline !important;
@@ -350,7 +350,7 @@
   padding-right: 45px !important;
   text-align: center;
   padding-top: 7.5px !important;
-  border-top: 1px solid #A5889C !important;
+  /* border-top: 1px solid #A5889C !important; */
 }
 .zeroorder{
   font-weight: 500;
@@ -366,7 +366,7 @@
   padding-right: 15px !important;
   vertical-align: baseline !important;
   padding-top: 7.5px !important;
-  border-top: 1px solid #A5889C !important;
+  /* border-top: 1px solid #A5889C !important; */
  
    
 }
@@ -408,7 +408,7 @@
   padding-right: 15px !important;
   padding-top: 7.5px !important;
   vertical-align: baseline !important;
-  border-top: 1px solid #A5889C !important;
+  /* border-top: 1px solid #A5889C !important; */
 }
 .hovercolormiddle{
   padding: 0 !important;
@@ -417,7 +417,7 @@
   text-align: center;
   padding-top: 7.5px !important;
   vertical-align: baseline !important;
-  border-top: 1px solid #A5889C !important;
+  /* border-top: 1px solid #A5889C !important; */
 }
 .hovercol{
   padding: 0 !important;
@@ -436,13 +436,13 @@
   font-size: 13px;
 }
  .maxwidthjobtype{
-  max-width: 100px;
+  max-width: 250px;
   overflow: hidden;
   text-overflow: ellipsis; 
   white-space: nowrap;
 }
 .twobutton {
-  padding-right: 184px;
+  padding-right: 175px;
 }
 .ulstyle1 {
   margin-bottom: -0.25rem !important;
