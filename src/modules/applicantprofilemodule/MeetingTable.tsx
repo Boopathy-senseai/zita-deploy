@@ -202,7 +202,9 @@ export const meetingTitle = () => [
           };
         },
       );
-      console.log(index, 'pppppppppppppppppppppppppppppppppppppppppppppppp');
+      const joiningUrl=()=>{
+        window.open(index.join_url,'_blank')
+      } 
       return (
         <Flex
           between
@@ -211,6 +213,7 @@ export const meetingTitle = () => [
           center
           middle
         >
+          {console.log(index.join_url,' join_url join_url join_url join_url join_url join_url')}
           <Dropdown className="dropdownButton dropleft">
             <Dropdown.Toggle
               // onClick={handleOpenPopup}
@@ -235,7 +238,7 @@ export const meetingTitle = () => [
               </Dropdown.Item>
 
               <Dropdown.Item
-              //  onClick={onCSVDownload}
+             onClick={joiningUrl}
               >
                 <Flex row center className={styles.dropDownListStyle}>
                   <Text style={{ cursor: 'pointer' }}>Join</Text>

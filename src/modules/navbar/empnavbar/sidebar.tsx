@@ -44,6 +44,7 @@ const Sidebar = ({ changes, data }: props) => {
   const { pathname } = useLocation();
   const history = useHistory();
   const changeurl = sessionStorage.getItem('changingurl');
+  const [checkplan,setcheckplan] = useState(false);
   const handleNavigate = (val) => {};
 
   useEffect(() => {
@@ -53,7 +54,7 @@ const Sidebar = ({ changes, data }: props) => {
         : sessionStorage.getItem('EmpToggle');
     setExpent(toggle);
   }, [Expent]);
-
+ 
   const handlecheck = (val) => {
     setExpent(val);
     data();
@@ -70,7 +71,11 @@ const Sidebar = ({ changes, data }: props) => {
     },
   );
   const accountPath = '/account_setting/settings';
-
+  useEffect(()=>{ 
+    if(plan_id !== 1 &&plan_id !== 0 ){
+   setcheckplan(true)}
+   
+ },[plan_id])
   const clearTab = () => {
     sessionStorage.removeItem('superUserTab');
     sessionStorage.removeItem('superUserFalseTab');
@@ -500,8 +505,8 @@ const Sidebar = ({ changes, data }: props) => {
 
            {/* {permission.includes('bulkImport_candidates') && (
             <> */}
-          {/* {plan_id !== 1 && ( */}
-          {permission.includes('reports') && (
+           { console.log(plan_id,'plan_idplan_idplan_idplan_idplan_idplan_id')}
+         {checkplan && (
             <>
               {is_plan ? (changes?
               (<li title='Reports'
@@ -576,8 +581,7 @@ const Sidebar = ({ changes, data }: props) => {
                 </li>
               )}
             </>
-          )}
-
+          )} 
           {permission.includes('talent_sourcing') && (
             <>
               {is_plan ? (changes?

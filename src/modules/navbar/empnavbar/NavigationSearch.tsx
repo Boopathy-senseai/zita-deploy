@@ -14,8 +14,8 @@ import { searchOptions } from './mock';
 import styles from './navbar.module.css';
 
 type Props = {
-  onButtonClick: () => void;
-  onbuttonchange:()=>void;
+  onButtonClick?: () => void;
+  onbuttonchange?:()=>void;
 };
 const NavigationSearch = ({ onButtonClick ,onbuttonchange}) => {
 

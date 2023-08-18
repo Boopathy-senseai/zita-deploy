@@ -121,7 +121,7 @@ const InviteMatch = ({
           title={
             <Flex>
             <Text>{`Invite will be sent as an email to ${
-            candidate_details && candidate_details[0].first_name
+            candidate_details && candidate_details[0].first_name} ${candidate_details && candidate_details[0].last_name
           }`}</Text>
         <Text>Are you sure to proceed?</Text></Flex>}
           btnDelete={() => hanldeInvite(list.jd_id_id, list.candidate_id_id)}
@@ -135,8 +135,8 @@ const InviteMatch = ({
           title={
             <Flex className={styles.popTitle}>
               <Text>{`The candidate ${
-                candidate_details && candidate_details[0].first_name
-              } has already been invited for this job on ${getDateString(
+            candidate_details && candidate_details[0].first_name} ${candidate_details && candidate_details[0].last_name
+          } has already been invited for this job on ${getDateString(
                 isDate,
                 'll',
               )}.`}</Text>

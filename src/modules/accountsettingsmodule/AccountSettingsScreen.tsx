@@ -318,7 +318,7 @@ const AccountSettingsScreen = ({ value }: props) => {
             <Tab title={'Profiles'} eventKey={'0'}>
                 <div
                 style={{
-                  height: window.innerHeight - 215,
+                  height: window.innerHeight - 155,
                   overflowY: 'scroll',
                 }}
               >
@@ -338,7 +338,7 @@ const AccountSettingsScreen = ({ value }: props) => {
                   jobs.
                 </Text>
               </Flex>
-            )}
+              )}  
 
            {tabKey === '1' &&
             company_detail &&
