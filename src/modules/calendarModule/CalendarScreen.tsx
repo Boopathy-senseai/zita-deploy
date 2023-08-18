@@ -65,7 +65,7 @@ import MeetingSchedulingScreen from './MeetingSchedulingScreen';
 import CalendarScreenLoader from './CalendarScreenLoader';
 interface stateType {
   openScheduleEvent: boolean;
-  eventId: string;
+  recurringEventId: string;
 }
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -82,7 +82,10 @@ const Calendar = () => {
   >([]);
   const [eventPopUpDetails, setEventPopUpDetails] =
     useState<EventPopUpDetails>();
-  const [selectedEvent, setSelectedEvent] = useState<{eventId: string | undefined; recurringEventId: string | undefined; }>({
+  const [selectedEvent, setSelectedEvent] = useState<{
+    eventId: string | undefined;
+    recurringEventId: string | undefined;
+  }>({
     eventId: undefined,
     recurringEventId: undefined,
   });
@@ -267,12 +270,142 @@ const Calendar = () => {
     if (locationState && locationState?.openScheduleEvent === true) {
       setOpenScheduleForm(true);
     }
-    if(locationState && locationState?.eventId){
-      const event = currentUserEvents.filter(doc => doc.recurringEventId === locationState?.eventId);
+    if (
+      locationState &&
+      locationState?.recurringEventId &&
+      currentUserEvents.length !== 0
+    ) {
+      const event = currentUserEvents.filter(
+        (doc) =>
+          doc.recurringEventId === locationState?.recurringEventId ||
+          doc.eventId === locationState?.recurringEventId,
+      );
       console.log(event);
-      if(event.length) handleOnSelectEvent(event[0]);
+      if (event.length !== 0) {
+        handleOpenEventForm(event[0]);
+      } else {
+        toast.error('Unable to find event', {
+          duration: 3500,
+        });
+      }
     }
   }, [JSON.stringify(locationState), currentUserEvents.length]);
+
+  const handleOpenEventForm = (event: CalendarEventType) => {
+    if ('eventId' in event) {
+      dispatch(
+        verifyEventMiddleware({
+          calendarProvider,
+          eventId: event.eventId,
+        }),
+      )
+        .then((res) => {
+          console.log(res.payload);
+          if (res.payload.data === true) {
+            setIsEventCanUpdate(true);
+            setEventPopUpDetails((prevEvent) => ({
+              ...prevEvent,
+              eventId: event.eventId,
+              syncedBy: null,
+              applicantId: res.payload.event[0]['cand_id'],
+              recurringEventId: event.recurringEventId,
+            }));
+            handleOpenEditForm({
+              ...eventPopUpDetails,
+              eventId: event.eventId,
+              syncedBy: null,
+              applicantId: res.payload.event[0]['cand_id'],
+              recurringEventId: event.recurringEventId,
+            });
+          } else {
+            setIsEventCanUpdate(false);
+            setEventPopUpDetails((prevEvent) => ({
+              ...prevEvent,
+              eventId: null,
+              syncedBy: event.syncedBy,
+              recurringEventId: null,
+            }));
+            toast.error('Event verification failed', {
+              duration: 3500,
+            });
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    } else {
+      setIsEventCanUpdate(false);
+      setEventPopUpDetails((prevEvent) => ({
+        ...prevEvent,
+        eventId: null,
+        syncedBy: event.syncedBy,
+        recurringEventId: null,
+      }));
+      toast.error('Unable to open event', {
+        duration: 3500,
+      });
+    }
+
+    setEventPopUpDetails((prevEvent) => {
+      const eventData = {
+        ...prevEvent,
+        title: event.title,
+        startDate: new Date(event.start),
+        endDate: new Date(event.end),
+        link: event.link,
+        organizer: event.organizer,
+        isZitaEvent: event.title.includes('Zita event'),
+        canEdit: event.userId === currentUser.id,
+      };
+
+      if ('attendees' in event) {
+        eventData['attendees'] = event.attendees;
+      }
+
+      return eventData;
+    });
+  };
+
+  const handleOpenEditForm = (e: EventPopUpDetails) => {
+    handleCloseEventPop();
+    setSelectedEvent({
+      eventId: e.eventId,
+      recurringEventId: e.recurringEventId,
+    });
+    if (calendarProvider === CALENDAR.Google) {
+      dispatch(googleEditEventMiddleware({ eventId: e.eventId }))
+        .then((res) => {
+          if (res.payload.data === true) {
+            setEditEventDetails(
+              res.payload.events.map((event: ZitaEventType) =>
+                getEditEventsDetails(event),
+              ),
+            );
+            setIsEditEvent(true);
+            setOpenScheduleForm(true);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    } else if (calendarProvider === CALENDAR.Outlook) {
+      dispatch(outlookEditEventMiddleware({ eventid: e.eventId }))
+        .then((res) => {
+          if (res.payload.data === true) {
+            setEditEventDetails(
+              res.payload.events.map((event: ZitaEventType) =>
+                getEditEventsDetails(event),
+              ),
+            );
+            setIsEditEvent(true);
+            setOpenScheduleForm(true);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  };
   const handleEventScheduleForm = () => {
     if (calendarProvider) handleGetEvents(calendarProvider);
     setIsEditEvent(false);
@@ -693,7 +826,10 @@ const Calendar = () => {
 
   const handleEditEvent = () => {
     handleCloseEventPop();
-    setSelectedEvent({eventId: eventPopUpDetails.eventId, recurringEventId: eventPopUpDetails.recurringEventId});
+    setSelectedEvent({
+      eventId: eventPopUpDetails.eventId,
+      recurringEventId: eventPopUpDetails.recurringEventId,
+    });
     if (calendarProvider === CALENDAR.Google) {
       dispatch(
         googleEditEventMiddleware({ eventId: eventPopUpDetails.eventId }),

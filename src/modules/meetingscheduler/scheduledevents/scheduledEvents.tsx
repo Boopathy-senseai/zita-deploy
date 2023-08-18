@@ -182,8 +182,8 @@ const ScheduledEventsPage = () => {
         id: id,
         event: filters.type === EVENT_TYPE.MY_EVENTS ? 'True' : 'False',
       }),
-    ).then(()=>{
-    setDeleteEvent(null);
+    ).then(() => {
+      setDeleteEvent(null);
     });
   };
 
@@ -191,7 +191,7 @@ const ScheduledEventsPage = () => {
     window.open(doc.join_url, '_blank');
   };
   const handleCalendarEditEvent = (doc: ICalendarEvent) => {
-    history.push(calendarRoute, { eventId: doc.eventId });
+    history.push(calendarRoute, { recurringEventId: doc.eventId });
   };
   // const handleCalendarDeleteEvent = (doc: ICalendarEvent) => {
   //   dispatch(

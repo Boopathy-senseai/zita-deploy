@@ -215,7 +215,7 @@ const EventSchedulerScreen: React.FC<Props> = (props) => {
                         {/* </Flex> */}
                       </Dropdown.Toggle>
 
-                      <Dropdown.Menu style={{ minWidth: '5rem' }}>
+                      <Dropdown.Menu style={{ minWidth: '5rem', minHeight:"75px" }}>
                         <Dropdown.Item onClick={() => onJoin(doc)}>
                           <Flex row center className={styles.dropDownListStyle}>
                             <Text style={{ marginLeft: 10 }}>Join</Text>
