@@ -121,16 +121,16 @@
   border-radius: 16px;
 }
 .quickfil {
-  border-style: solid;
-  border: 2px solid #a5889c;
-  cursor: pointer;
-  margin-left: 15px;
-  padding-left: 10.5px;
-  padding-top: 5px;
-  padding-bottom: 5.27px;
-  padding-right: 15px;
-  border-radius: 16px;
-  color: #581845;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 10px 2px 10px;
+  width: fit-content;
+  border: 1px solid #581845;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  font-size: 13px !important;
 }
 
 .quickfil2 {

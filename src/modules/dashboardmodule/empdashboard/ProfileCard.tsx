@@ -565,11 +565,11 @@ const ProfileCard = () => {
                 </Flex>
               </Flex>
             ) : (
-              <Flex row>
+              <Flex row center>
                 <Flex>
                   <SvgGlobe height={16} width={16} fill={'#581845'} />
                 </Flex>
-                <Flex>
+                <Flex marginLeft={7}>
                   {' '}
                   <a target={'_blank'} rel="noreferrer" href={weburl}>
                     <Text

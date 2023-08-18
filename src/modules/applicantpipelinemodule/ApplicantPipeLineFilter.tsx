@@ -24,7 +24,6 @@ import {
 } from './mock';
 import styles from './applicantpipelinefilter.module.css';
 
-
 export type ListValue = {
   value: string;
   label: string;
@@ -53,7 +52,7 @@ type Props = {
   handleSearch: () => void;
   isExperience: any;
   isSkillOption: Array<{ value: string; label: string }>;
-  setchange?:any;
+  setchange?: any;
 };
 
 const ApplicantPipeLineFilter = ({
@@ -103,33 +102,29 @@ const ApplicantPipeLineFilter = ({
   // const [isExp, setExp] = useState<any>(experienceOption[0]);
   const dropDownRef = useRef(null);
 
-  const [match1, setmatch1] =useState<
-  { label: string; value: any } | undefined
->();
-  const [profile1,setprofile1]=useState<
-  { label: string; value: any } | undefined
->();
-  const[experience1,setexperience1]=useState<
-  { label: string; value: any } | undefined
->();
-  const[qualification1,setqualification1]=useState<
-  | {
-      value: string;
-      label: string;
-      checked: boolean;
-      onChange: () => void;
-    }[]
-  | undefined
->();
-  const[skill1,setskill1]=useState<
-  { value: string; label: string } []
->();
-  const[hiddenskill1,sethiddenskill1]=useState<
-  { value: string; label: string } []
->();
-    const[showskill1,setshowskill1]=useState<
-    { value: string; label: string } []
+  const [match1, setmatch1] = useState<
+    { label: string; value: any } | undefined
   >();
+  const [profile1, setprofile1] = useState<
+    { label: string; value: any } | undefined
+  >();
+  const [experience1, setexperience1] = useState<
+    { label: string; value: any } | undefined
+  >();
+  const [qualification1, setqualification1] = useState<
+    | {
+        value: string;
+        label: string;
+        checked: boolean;
+        onChange: () => void;
+      }[]
+    | undefined
+  >();
+  const [skill1, setskill1] = useState<{ value: string; label: string }[]>();
+  const [hiddenskill1, sethiddenskill1] =
+    useState<{ value: string; label: string }[]>();
+  const [showskill1, setshowskill1] =
+    useState<{ value: string; label: string }[]>();
 
   const filteredOptions = useMemo(() => {
     if (!isSkills) {
@@ -171,7 +166,7 @@ const ApplicantPipeLineFilter = ({
       label: '',
     });
     setMatchValue(undefined);
-    setmatch1(undefined)
+    setmatch1(undefined);
   };
   const closeProfileValue = () => {
     hanldeProfile({
@@ -179,12 +174,12 @@ const ApplicantPipeLineFilter = ({
       label: '',
     });
     setProfileValue(undefined);
-    setprofile1(undefined)
+    setprofile1(undefined);
   };
   const closeExperience = () => {
     setExperience('');
     setExperienceValue(undefined);
-    setexperience1(undefined)
+    setexperience1(undefined);
   };
   const closeQualification = (doc: {
     value: string;
@@ -192,30 +187,26 @@ const ApplicantPipeLineFilter = ({
     checked: boolean;
     onChange: () => void;
   }) => {
-    
     doc.onChange();
-     
   };
-  const handlefunction=(doc)=>{
-    console.log("docccccccccccc",doc)
+  const handlefunction = (doc) => {
+    console.log('docccccccccccc', doc);
     const newOptions1 = [...qualificationValue];
     var gremove = qualification1.filter((obj) => obj.value !== doc.value);
     setqualification1(gremove);
 
     closeQualification(doc);
-
-  }
+  };
   const closeSkillOption = (doc: { value: string; label: string }) => {
     const newOptions = [...isSkillOption];
     const indx = newOptions.indexOf(doc);
     if (indx !== -1) {
       newOptions.splice(indx, 1);
       setSkillOption(newOptions);
-      setskill1(newOptions)
-      setshowskill1(newOptions)
-      if(showskill1.length<5)
-      {
-        sethiddenskill1(undefined)
+      setskill1(newOptions);
+      setshowskill1(newOptions);
+      if (showskill1.length < 5) {
+        sethiddenskill1(undefined);
       }
       return;
     }
@@ -225,11 +216,13 @@ const ApplicantPipeLineFilter = ({
       (doc) => doc.value !== 'any',
     );
     const skills = skill1 || [];
-    {console.log("logggggg",skills,qualification)}
+    {
+      console.log('logggggg', skills, qualification);
+    }
     if (
-      (match1?.value === '' || match1===undefined)&&
-      (profile1?.value === ''||profile1===undefined) &&
-      (experience1?.value === ''|| experience1===undefined) &&
+      (match1?.value === '' || match1 === undefined) &&
+      (profile1?.value === '' || profile1 === undefined) &&
+      (experience1?.value === '' || experience1 === undefined) &&
       qualification?.length === 0 &&
       skills?.length === 0
     ) {
@@ -302,9 +295,7 @@ const ApplicantPipeLineFilter = ({
     // }
     return (
       <Flex row noWrap center className={styles.quickfil}>
-        <Text style={{ marginRight: '10px' }}>
-          {doc.label}
-        </Text>
+        <Text style={{ marginRight: '10px' }}>{doc.label}</Text>
         <SvgIntomark onClick={onClose} style={{ cursor: 'pointer' }} />
       </Flex>
     );
@@ -313,56 +304,42 @@ const ApplicantPipeLineFilter = ({
   const hiddenSkills = isSkillOption.slice(4, isSkillOption.length);
   // const showSkills1 =skill1.slice(0, 4);
   // const hiddenSkills1 = skill1.slice(4,skill1.length);
-  const handlechange=()=>{
-    setShowDropDown(false)
+  const handlechange = () => {
+    setShowDropDown(false);
     setmatch1(matchValue);
     setprofile1(profileValue);
     setexperience1(experienceValue);
     setqualification1(qualificationValue);
     setskill1(isSkillOption);
     sethiddenskill1(hiddenSkills);
-    setshowskill1(showSkills)
-    setchange(false)
-  //     const showSkills1 =skill1.slice(0, 4);
-  // const hiddenSkills1 = skill1.slice(4,skill1.length);
-  }
+    setshowskill1(showSkills);
+    setchange(false);
+    //     const showSkills1 =skill1.slice(0, 4);
+    // const hiddenSkills1 = skill1.slice(4,skill1.length);
+  };
 
-  const handlefunction1=()=>{
-    setexperience1(undefined)
-    setskill1(undefined)
-    setqualification1(undefined)
-    setmatch1(undefined)
-    setprofile1(undefined)
-    sethiddenskill1(undefined)
-  }
+  const handlefunction1 = () => {
+    setexperience1(undefined);
+    setskill1(undefined);
+    setqualification1(undefined);
+    setmatch1(undefined);
+    setprofile1(undefined);
+    sethiddenskill1(undefined);
+  };
   return (
     <>
-      {console.log("isDefaultFilter",isDefaultFilter())}
-      {console.log("match",matchValue,match1)}
-      {console.log("profile",profileValue,profile1)}
-      {console.log("experience",experienceValue,experience1)}
-      {console.log("qualification",qualificationValue,qualification1)}
-      {console.log("skill",isSkillOption,hiddenSkills)}
-      {console.log("skill++",skill1,hiddenskill1)}
-      
       <Flex row style={{ justifyContent: 'space-between' }}>
         <Flex row className={styles.quickFilters}>
-          <Text style={{ whiteSpace: 'nowrap', marginTop: '3px' }}>
+        <Text size={13} style={{ whiteSpace: 'nowrap', marginTop: '3px' }}>
             Quick Filters :
           </Text>
-          {isDefaultFilter()?(
+          {isDefaultFilter() ? (
             <Text className={styles.quickfil}>{'All'}</Text>
           ) : (
             <Flex row wrap>
               <RenderQuickFilter doc={match1} onClose={closeMatchValue} />
-              <RenderQuickFilter
-                doc={profile1}
-                onClose={closeProfileValue}
-              />
-              <RenderQuickFilter
-                doc={experience1}
-                onClose={closeExperience}
-              />
+              <RenderQuickFilter doc={profile1} onClose={closeProfileValue} />
+              <RenderQuickFilter doc={experience1} onClose={closeExperience} />
               {qualification1 &&
                 qualification1.map((doc, index) => (
                   <RenderQuickFilter
@@ -389,31 +366,33 @@ const ApplicantPipeLineFilter = ({
         </Flex>
         <Flex>
           <div ref={dropDownRef} className={styles.drop_down}>
-            <Flex
-              row
-              
-              className={styles.drop_down_header}
-             
-            >
-              <Flex style={{paddingRight:"120px"}}>
-              <Text bold color="theme" size={14}  onClick={() => {
-                setShowDropDown((value) => !value);
-              }}>
-                View Filter
-              </Text></Flex>
-              <Flex>
-              <div title="Clear Filters" className={styles.svgRefresh}>
-                <SvgRefresh
-                  width={18}
-                  height={18}
-                  onClick={(e) => {
-                    selectInputRef.current.clearValue();
-                    hanldeRefresh();
-                    e.stopPropagation();
-                    handlefunction1();
+            <Flex row className={styles.drop_down_header}>
+              <Flex style={{ paddingRight: '120px' }}>
+                <Text
+                  bold
+                  color="theme"
+                  size={14}
+                  onClick={() => {
+                    setShowDropDown((value) => !value);
                   }}
-                />
-              </div></Flex>
+                >
+                  View Filter
+                </Text>
+              </Flex>
+              <Flex>
+                <div title="Clear Filters" className={styles.svgRefresh}>
+                  <SvgRefresh
+                    width={18}
+                    height={18}
+                    onClick={(e) => {
+                      selectInputRef.current.clearValue();
+                      hanldeRefresh();
+                      e.stopPropagation();
+                      handlefunction1();
+                    }}
+                  />
+                </div>
+              </Flex>
             </Flex>
             <div
               className={`${styles.drop_down_menus} ${
@@ -436,9 +415,9 @@ const ApplicantPipeLineFilter = ({
                         <InputRadio
                           label={matchList.label}
                           checked={matchList.value === isMatchRadio}
-                          onClick={() => (selectMatch(matchList),
-                          setchange(true))
-                        }
+                          onClick={() => (
+                            selectMatch(matchList), setchange(true)
+                          )}
                         />
                       </Flex>
                     );
@@ -461,8 +440,9 @@ const ApplicantPipeLineFilter = ({
                         <InputRadio
                           label={profileList.label}
                           checked={profileList.value === isProfile}
-                          onClick={() => (selectProfile(profileList),
-                          setchange(true))}
+                          onClick={() => (
+                            selectProfile(profileList), setchange(true)
+                          )}
                         />
                       </Flex>
                     );
@@ -512,7 +492,7 @@ const ApplicantPipeLineFilter = ({
                           label={qualificationList.label}
                           checked={qualificationList.checked}
                           onChange={qualificationList.onChange}
-                          onClick={()=>setchange(true)}
+                          onClick={() => setchange(true)}
                         />
                       </Flex>
                     );
@@ -538,14 +518,18 @@ const ApplicantPipeLineFilter = ({
                   value={isSkillOption}
                 />
               </Flex>
-              <div style={{padding:'6px',display:'flex',justifyContent: 'center',alignItems:'center'}}>
-              <Button
-              className={styles.buyBtn}
-              onClick={handlechange}
+              <div
+                style={{
+                  padding: '6px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
               >
-             Apply
-            </Button>
-            </div>
+                <Button className={styles.buyBtn} onClick={handlechange}>
+                  Apply
+                </Button>
+              </div>
             </div>
           </div>
         </Flex>
