@@ -85,21 +85,19 @@ const DashBoard = (props) => {
     const url = `/event_preview?uid=null&eventid=${eventid}`;
     window.open(url, '_blank');
   }
-
   const getInitials = (fullName) => {
-    if (fullName !== null && fullName !== undefined && !isEmpty(fullName)){
+    if (fullName !== null && fullName !== undefined && !isEmpty(fullName)) {
       const words = fullName.split(' ');
+      console.log("wordswords",words)
       let initials = '';
-      for (let i = 0; i < words.length; i++) {
-        initials += words[i][0].toUpperCase();
+      if (Array.isArray(words) && words.length >= 2) {
+        const firstInitial = words[0][0].toUpperCase();
+        const lastInitial = words[words.length - 1][0].toUpperCase();
+        return `${firstInitial}${lastInitial}`;
       }
-      return initials;
     }
   };
-
-  // if (isLoading) {
-  //   return <Loader />;
-  // }
+  
   const filteredData = interview.filter((item) => item.event_id === list.id);
   const MAX_BUTTONS = 7;
   const words =  interview[0]?.full_name?.split(' ')
@@ -142,8 +140,8 @@ const DashBoard = (props) => {
               return (
                 <Flex className={styles.initials} key={data.id}>
                   <Text size={12} title={data.full_name} className={styles.textinitials}>
-                    {/* {initials} */}
-                    {`${words[0][0]}${words[words.length - 1][0]}`}
+                    {initials}
+                    {/* {`${words[0][0]}${words[words.length - 1][0]}`} */}
                   </Text>
                 </Flex>
               );
