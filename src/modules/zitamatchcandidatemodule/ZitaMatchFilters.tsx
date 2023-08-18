@@ -163,9 +163,11 @@ const ZitaMatchFilters = ({
   const [applieisdoctorate,setapplieisdoctorate]=useState(false);
   const [applieisbachelor,setapplieisbachelor]=useState(false);
   const [applieisother,setapplieisother]=useState(false);
-  const [applieisany,setapplieisany]=useState(false);
+  const [applieisany,setapplieisany]=useState(true);
   const [applieisrelocate,setapplieisrelocate]=useState(false);
   const [applieislocation,setapplieislocation]=useState(false);
+
+
 
   const myRef = useRef<any>();
   const [showDropDown, setShowDropDown] = useState(false);
@@ -267,10 +269,10 @@ const ZitaMatchFilters = ({
     const newOptions = [...isSkillOption];
     const indx = newOptions.indexOf(doc);
     if (indx !== -1) {
-      setskill(newOptions);
-
+      
       newOptions.splice(indx, 1);
       setSkillOption(newOptions);
+      setskill(newOptions);
       return;
     }
   };
@@ -313,14 +315,30 @@ const ZitaMatchFilters = ({
     setchange(false);
   }
 
+  useEffect(() => {
+    if (
+      isBachelors === false &&
+      isDoctorate === false &&
+      isMasters === false &&
+      isOther === false
+    ) {
+      setapplieisany(true);
+    }
+  }, [isBachelors, isDoctorate, isMasters, isOther]);
+
   return (
     <Flex row style={{ justifyContent: 'space-between' }}>
+   {console.log("aaaaaaaaaaaaaaa",applieisany)}
       <Flex row wrap>
       <Text style={{ whiteSpace: 'nowrap', marginTop: '3px' }}>
             Quick Filters :
           </Text>
         {
-          applimatch === "" && appliexp === "" && applijobtype === "" && applieprofilevalue === "" &&  appliecandidate === "" && applieisany === true && applieisrelocate === false && applieislocation === false && skill.length === 0 ? (
+         // applimatch === "" && appliexp === "" && applijobtype === "" && applieprofilevalue === "" &&  appliecandidate === "" && applieisany === true && applieisrelocate === false && applieislocation === false && skill.length === 0  
+          applimatch==="" && appliexp === "" && applijobtype === "" && applieprofilevalue === "" &&  appliecandidate === ""&& applieisrelocate === false && applieislocation === false && applieisany===true
+   
+           ? (
+    
             <Text className={styles.quickfil}>All</Text>
           ) : (
             <>
@@ -754,7 +772,7 @@ const ZitaMatchFilters = ({
                 />
               </Flex>
               <Flex className={styles.toggletext} >
-                Show candidates willing to relocate
+               Willing to relocate
               </Flex>
             </Flex>
 
@@ -772,7 +790,7 @@ const ZitaMatchFilters = ({
                 />
               </Flex>
               <Flex className={styles.toggletext}>
-                Show candidates from job location
+                 From job location
               </Flex>
               
             </Flex>

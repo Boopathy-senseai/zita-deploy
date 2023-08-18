@@ -678,7 +678,7 @@ let jpgchange=jpg.toUpperCase();
             name="email"
           />
         </Flex>
-        <Flex  >
+        <Flex  style={{width:"333px"}}>
           <LabelWrapper label="Contact Number" required>
             <PhoneInput
             

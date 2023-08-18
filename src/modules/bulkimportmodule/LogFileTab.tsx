@@ -28,9 +28,9 @@ const LogFileTab = ({ getKey }: Props) => {
   });
 
   return (
-    <Flex className={styles.overAll} height={window.innerHeight - 200} style={{justifyContent:"center", alignItems:"center"}}>
+    <Flex className={styles.overAll} height={window.innerHeight - 200} >
       
-        <SvgRefresh/>
+       
       {isEmpty(txt_file) ? (
         <Text color="gray" align="center">
           No bulk import log available

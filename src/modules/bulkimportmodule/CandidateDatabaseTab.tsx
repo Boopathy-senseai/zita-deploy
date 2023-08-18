@@ -323,7 +323,7 @@ const CandidateDatabaseTab = ({
   const value1=value>4;
   const isBulkLoaderprocess=localStorage.getItem('bulk_loader');
   return (
-    <Flex  height={window.innerHeight-200}  className={styles.candidatedatabase}>
+    <Flex  height={window.innerHeight-180}  className={styles.candidatedatabase}>
       <YesOrNoModal
         title={
           <Text style={{ width: 580, marginLeft: 12 }}>
@@ -574,7 +574,7 @@ const CandidateDatabaseTab = ({
         <Loader   size={'medium'} />
       </Flex>
       ) : (
-        <Flex flex={1} style={{overflowX:'hidden'}}>
+        <Flex flex={1} >
         <Tabel
           empty={
             isSearch === 1 ? 'No candidates imported yet' : 'No candidate found'
