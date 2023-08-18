@@ -41,11 +41,11 @@ export const scheduleEventMiddleware = createAsyncThunk(
       endTime,
       notes,
       location,
+      interviewer_notes
     }: ZitaEventSchedulerType,
     { rejectWithValue },
   ) => {
     try {
-      console.log({ interviewer });
       const { data } = await axios.post('schedule_event/', {
         title,
         reminder,
@@ -61,6 +61,7 @@ export const scheduleEventMiddleware = createAsyncThunk(
         endTime,
         notes,
         location,
+        interviewer_notes,
       });
       return data;
     } catch (error) {
