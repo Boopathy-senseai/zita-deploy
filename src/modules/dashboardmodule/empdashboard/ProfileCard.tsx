@@ -19,6 +19,7 @@ import {
 import SvgCreditsavailable from '../../../icons/SvgCreditsavailable';
 import SvgCredits from '../../../icons/SvgCredits';
 import SvgLocationicon from '../../../icons/SvgLocationicon';
+import SvgMobilet from '../../../icons/SvgMobilet';
 import SvgMobile from '../../../icons/SvgMobile';
 import SvgGlobe from '../../../icons/SvgGlobe';
 
@@ -513,7 +514,7 @@ const ProfileCard = () => {
             {weburl === null || weburl === 'https://' ? (
               <Flex row marginTop={7}>
                 <Flex marginRight={5} marginTop={1}>
-                  <SvgGlobe height={18} width={18}  />
+                  <SvgGlobe height={18} width={18}   />
                 </Flex>
                 <Flex>
                   <LinkWrapper to={'/account_setting/settings'}>
@@ -529,9 +530,9 @@ const ProfileCard = () => {
             ) : (
               <Flex row>
                 <Flex marginRight={5} marginTop={2}>
-                  <SvgGlobe height={18} width={18}  />
+                  <SvgGlobe height={15} width={15}  fill={"#581845"} />
                 </Flex>
-                <Flex marginLeft={7}>
+                <Flex marginLeft={12}>
                   {' '}
                   <a target={'_blank'} rel="noreferrer" href={weburl}>
                     <Text
@@ -555,11 +556,11 @@ const ProfileCard = () => {
           <Flex style={{cursor:'default'}} marginTop={7}>
             {mobile_no !== '' ? (
               <Flex row>
-                <Flex marginRight={5} marginTop={7}>
-                  <SvgMobile height={20} width={20} fill={BLACK} />
+                <Flex marginRight={5} marginTop={6}>
+                  <SvgMobilet height={20} width={20} fill={"#581845"} />
                 </Flex>
-                <Flex marginLeft={9}>
-                  <Text style={{fontSize:'13px'}}>
+                <Flex marginLeft={7}>
+                  <Text style={{fontSize:'13px !important'}}>
                     <PhoneInput
                       value={mobile_no}
                       inputStyle={{ border: 'none', padding: 'inherit',height:'30px',cursor:'default' }}
@@ -583,9 +584,9 @@ const ProfileCard = () => {
             {address !== null ? (
               <Flex row marginTop={3} >
                 <Flex marginRight={1} >
-                  <SvgLocationicon height={25} width={25} fill={'#333333'} />
+                  <SvgLocationicon height={25} width={25} fill={"#581845"} />
                 </Flex>
-                <Flex marginLeft={7.5} style={{fontSize:'13px'}}>
+                <Flex marginLeft={7} style={{fontSize:'13px'}}>
                   {address}, {city}, {state}, {country}, {zipcode}
                 </Flex>
               </Flex>

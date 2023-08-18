@@ -111,12 +111,13 @@ const MyDataBaseSearchAction = ({ jobTitle, formik,isSearchValue,setSearchValue 
           </Flex>
 
           <InputText
-                      className={styles.boxstyle2}
+                      className={styles.boxstyle}
                       placeholder="Search candidate by name or email"
                       value={isSearchValue}
                       onChange={(event) => setSearchValue(event.target.value)}
                      
                       onKeyPress={(e) => enterKeyPress(e, hanldeSearch)}
+                      
                     />
 
 
