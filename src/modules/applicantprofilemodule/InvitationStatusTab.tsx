@@ -21,12 +21,6 @@ const InvitationStatusTab = () => {
         jd_id: applicantProfileInitalReducers?.jd_id,
     };
   }); 
-  useEffect(()=>{
-    // dispatch( applicantStatusMiddleWare({jd_id:jd_id,
-    //   can_id:can_id}))
-    console.log(invite,'plzzzzzzzzzzzzzzzzzzzzzzzzzzzzz')
-  },[])
- 
   return (
     <Flex
       columnFlex
