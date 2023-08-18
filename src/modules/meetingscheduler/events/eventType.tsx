@@ -19,15 +19,13 @@ const totalMinutesIn12Hours = 12 * 60; // 12 hours * 60 minutes/hour
 const intervalMinutes = 15; // 15 minutes interval
 const intervals = Math.floor(totalMinutesIn12Hours / intervalMinutes);
 
-// Generate additional duration intervals based on intervals
 for (let i = 1; i <= intervals; i++) {
   const hours = Math.floor((intervalMinutes * i) / 60);
   const minutes = (intervalMinutes * i) % 60;
   durationField.push({
     value: String(i + 4), // Start with value '4' to avoid conflicts
-    label: `${hours > 0 ? hours + ' hour' + (hours > 1 ? 's' : '') : ''} ${
-      minutes > 0 ? minutes + ' minutes' : ''
-    }`
+    label: `${hours > 0 ? hours + ' hour' + (hours > 1 ? 's' : '') : ''}${
+      hours > 0 && minutes > 0 ? ' ' : ''}${minutes > 0 ? minutes + ' minutes' : ''}`
   });
 }
 console.log("durationFielddurationField",durationField)

@@ -1,4 +1,4 @@
-import { Key, useState } from 'react';
+import { Key, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import toast from 'react-hot-toast';
 import { useFormik } from 'formik';
@@ -9,11 +9,16 @@ import RichText from '../common/RichText';
 import ExpandTile from '../../uikit/ExpandTile';
 import { CrossButton } from '../../uikit/v2';
 import {
+  getUpdateEventByIdMiddleWare,
   scheduleEventMiddleware,
   updateEventMiddleware,
 } from './store/middleware/calendarmiddleware';
 import styles from './styles/MeetingSummary.module.css';
-import { EditEventDetails, meetingFormProps, UserType } from './types';
+import {
+  EditEventDetails,
+  meetingFormProps,
+  UserType,
+} from './types';
 import { formatTo12HrClock } from './util';
 import EmailTemplate from './EmailTemplate';
 
@@ -24,7 +29,8 @@ interface Props {
   editEventDetails?: EditEventDetails | null;
   username: string;
   eventId?: string | null;
-  extraNotes: string;
+  recurringEventId?: string | null;
+  // extraNotes: string;
   currentApplicantId: number;
   setIsTopLineLoading: React.Dispatch<React.SetStateAction<boolean>>;
   nextEvent: () => void;
@@ -40,7 +46,8 @@ const MeetingSummary = ({
   username,
   nextEvent,
   eventId,
-  extraNotes,
+  recurringEventId,
+  // extraNotes,
   currentApplicantId,
   setIsTopLineLoading,
 }: Props) => {
@@ -52,12 +59,33 @@ const MeetingSummary = ({
     applicant: true,
     interviewer: false,
   });
-  const [applicantGreeting, setApplicantGreeting] = useState(`Hello ${
-    meetingForm?.applicant?.name || ''
-  }, 
-  We'd like to confirm your interview. Please find all the relevant details below.`);
-  const [interviewGreeting, setInterviewGreeting] = useState(`Hello Team,
-  We'd like to confirm your interview. Please find all the relevant details below.`);
+  const [greetings, setGreetings] = useState<{
+    applicant: string;
+    interviewer: string;
+  }>({
+    applicant: `Hello ${meetingForm?.applicant?.name || ''}, 
+    We'd like to confirm your interview. Please find all the relevant details below.`,
+    interviewer: `Hello Team,
+    We'd like to confirm your interview. Please find all the relevant details below.`,
+  });
+
+  useEffect(() => {
+    if (recurringEventId) {
+      dispatch(getUpdateEventByIdMiddleWare({ event_id: recurringEventId })).then(
+        (res) => {
+          if (res.payload) {
+            const array = res.payload as Array<{
+              [key: string]: string | null;
+            }>;
+            const applicant = array[0] ? array[0]['extra_notes'] : undefined;
+            const interviewer = array[1] ? array[1]['interviewer_notes'] : undefined;
+
+            setGreetings(prev => ({ applicant: applicant || prev.applicant, interviewer: interviewer || prev.interviewer }));
+          }
+        },
+      );
+    }
+  }, []);
 
   const getMeetingTitle = () => {
     return `${
@@ -87,9 +115,10 @@ const MeetingSummary = ({
           title: getMeetingTitle(),
           reminder: getReminder(),
           app_id: String(app_id),
-          extraNotes,
+          extraNotes: greetings.applicant,
+          interviewer_notes: greetings.interviewer,
           myJd: meetingForm.job.label,
-          eventId,
+          eventId: recurringEventId,
           privateNotes: meetingForm.privateNotes,
           eventType: meetingForm.eventType.value,
           edit_jd,
@@ -143,7 +172,8 @@ const MeetingSummary = ({
         applicantId: currentApplicantId,
         myJd: job.label,
         reminder: getReminder(),
-        extraNotes,
+        extraNotes: greetings.applicant,
+        interviewer_notes: greetings.interviewer,
         eventType: eventType.value,
         curJd: job.value,
         timeZone: timeZone.value,
@@ -204,7 +234,7 @@ const MeetingSummary = ({
         style={{ position: 'absolute', top: '12px', right: '15px' }}
         fill={'#333'}
       />
-      <div style={{padding:"25px"}}>
+      <div style={{ padding: '25px' }}>
         <Flex
           row
           center
@@ -237,7 +267,9 @@ const MeetingSummary = ({
           }}
         >
           <div className={styles.summary}>
-            <p className={styles.header} style={{marginTop:"5px"}}>Summary</p>
+            <p className={styles.header} style={{ marginTop: '5px' }}>
+              Summary
+            </p>
             <div className={styles.content}>{MeetingTitleView}</div>
           </div>
           <ExpandTile
@@ -252,12 +284,12 @@ const MeetingSummary = ({
             <EmailTemplate
               {...meetingForm}
               currentUserLabel={currentUserLabel}
-              greetingText={applicantGreeting}
+              greetingText={greetings.applicant}
               email={applicantEmail}
               interviewerData={meetingForm?.interviewer}
               onSave={(value) => {
                 /// save this text to some field
-                setApplicantGreeting(value);
+                setGreetings((prev) => ({ ...prev, applicant: value }));
               }}
               editGreeting={true}
             />
@@ -279,7 +311,7 @@ const MeetingSummary = ({
               <EmailTemplate
                 {...meetingForm}
                 currentUserLabel={currentUserLabel}
-                greetingText={interviewGreeting}
+                greetingText={greetings.interviewer}
                 email={meetingForm.interviewer.map((interview, index: Key) =>
                   interview.calendarEmail
                     ? interview.calendarEmail
@@ -289,13 +321,17 @@ const MeetingSummary = ({
                 applicantInfo={meetingForm.applicant}
                 onSave={(value) => {
                   /// save this text to some field
-                  setInterviewGreeting(value);
+                  setGreetings((prev) => ({ ...prev, interviewer: value }));
                 }}
+                editGreeting={true}
               />
             </ExpandTile>
           )}
         </Flex>
-        <div className={styles.actionButtonWrapper} style={{ borderTop: '1px solid #c3c3c3' }}>
+        <div
+          className={styles.actionButtonWrapper}
+          style={{ borderTop: '1px solid #c3c3c3' }}
+        >
           <Button
             onClick={nextEvent}
             className={styles.cancel}
