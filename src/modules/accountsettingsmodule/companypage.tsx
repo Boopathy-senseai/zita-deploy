@@ -678,7 +678,7 @@ let jpgchange=jpg.toUpperCase();
             name="email"
           />
         </Flex>
-        <Flex  style={{width:"333px"}}>
+        <Flex  >
           <LabelWrapper label="Contact Number" required>
             <PhoneInput
             
@@ -732,7 +732,7 @@ let jpgchange=jpg.toUpperCase();
         </Flex>
         <Flex >
           <LabelWrapper label="Industry Type" required>
-            <div className={styles.with80}>
+            <div className={styles.with80} style={{ marginTop: 5 }}>
               <SelectTag
                 id={'company_profile__industry_type'}
                 required
@@ -817,7 +817,7 @@ let jpgchange=jpg.toUpperCase();
 
         <Flex  >
           <LabelWrapper label="Country" required>
-            <div className={styles.with80}>
+            <div className={styles.with80} style={{ marginTop: 5 }}>
               <SelectTag
                 id={'company_profile__country'}
                 required
@@ -853,7 +853,7 @@ let jpgchange=jpg.toUpperCase();
         </Flex>
         <Flex  >
           <LabelWrapper label="State" required>
-            <div className={styles.with80}>
+            <div className={styles.with80} style={{ marginTop: 5 }}>
               <SelectTag
                 id={'company_profile__state'}
                 // inputId="jobdetails___state"
@@ -891,7 +891,7 @@ let jpgchange=jpg.toUpperCase();
       <Flex row className={styles.companyrow} flex={12}>
         <Flex  >
           <LabelWrapper label="City" required>
-            <div className={styles.with80} >
+            <div className={styles.with80} style={{ marginTop: 5 }}>
               <SelectTag
                 id={'company_profile__city'}
                 isSearchable
@@ -973,7 +973,7 @@ let jpgchange=jpg.toUpperCase();
                   row
                   center
                   flex={1}
-                  // style={{ marginTop: 5 }}
+                  style={{ marginTop: 5 }}
                 >
                   <label
                     htmlFor="company_profile___img"
@@ -989,7 +989,7 @@ let jpgchange=jpg.toUpperCase();
                       htmlFor="company_profile___img"
                       className={styles.btnStyle}
                     >
-                      Upload or drag a logo
+                      Upload a logo
                     </label>
                   </Flex>
                   <Flex
@@ -1074,7 +1074,7 @@ let jpgchange=jpg.toUpperCase();
                     row
                     center
                     flex={1}
-                    // style={{ marginTop: 5 }}
+                    style={{ marginTop: 5 }}
                   >
                     <label
                       htmlFor="company_profile___img"
@@ -1279,7 +1279,7 @@ let jpgchange=jpg.toUpperCase();
                       row
                       center
                       flex={1}
-                      // style={{ marginTop: 5 }}
+                      style={{ marginTop: 5 }}
                     >
                       <label
                         htmlFor="bannersetip_user__img"
@@ -1295,7 +1295,7 @@ let jpgchange=jpg.toUpperCase();
                           htmlFor="bannersetip_user__img"
                           className={styles.btnStyle}
                         >
-                         upload or drag a photo
+                         upload a photo
                         </label>
                       </Flex>
                       <Flex
@@ -1392,7 +1392,7 @@ let jpgchange=jpg.toUpperCase();
                         row
                         center
                         flex={1}
-                        // style={{ marginTop: 5 }}
+                        style={{ marginTop: 5 }}
                       >
                 <label
                           htmlFor="bannersetip_user__img"
