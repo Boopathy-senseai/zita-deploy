@@ -126,7 +126,7 @@ const MyJobsPostingFilter = ({
     } else if (formik.values.postedOn.value === "90") {
       setdate("Last 90 days");
     } else if (formik.values.postedOn.value === "365"){
-      setdate("Last Last year");
+      setdate("Last year");
     } else if(formik.values.postedOn.value === "") {
       setdate("");
       
