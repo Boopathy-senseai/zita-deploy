@@ -896,164 +896,166 @@ const SlotterDate = (props) => {
     return remainingIntervals;
   }
 
-  function generateIntervals(timeBreaks, intervalMinutes, datetimes) {
-    console.log('timeBreakstimeBreaks', timeBreaks, intervalMinutes, datetimes);
-    const intervals12 = [];
-    const conflicttime = [];
-    // const intervals24 = [];
-    for (const timeBreak of timeBreaks) {
-      const { starttime, endtime } = timeBreak;
+  // function generateIntervals(timeBreaks, intervalMinutes, datetimes) {
+  //   console.log('timeBreakstimeBreaks', timeBreaks, intervalMinutes, datetimes);
+  //   const intervals12 = [];
+  //   const conflicttime = [];
+  //   // const intervals24 = [];
+  //   for (const timeBreak of timeBreaks) {
+  //     const { starttime, endtime } = timeBreak;
+  //     console.log('PPPPPP!PP!P!P!P!P!P!P!P!P!', starttime, endtime);
+  //     const [startHour, startMinute] = parseTime(starttime);
+  //     const [endHour, endMinute] = parseTime(endtime);
+  //     let currentHour = startHour;
+  //     let currentMinute = startMinute;
+  //     console.log(
+  //       'startHourstartHour',
+  //       startHour,
+  //       '\n',
+  //       'endHourendHour',
+  //       endHour,
+  //     );
+  //     while (
+  //       currentHour < parseInt(endHour, 10) ||
+  //       (currentHour === parseInt(endHour, 10) &&
+  //         currentMinute <= parseInt(endMinute, 10) &&
+  //         !(currentHour === 12 && currentMinute === 0 && startHour === 12))
+  //     ) {
+  //       // const formattedStartHour12 =
+  //       //   currentHour > 12 ? currentHour - 12 : currentHour;
+  //       // console.log("formattedStartHour12formattedStartHour12",formattedStartHour12,"\n",currentHour)
+  //       // const formattedStartMinute = currentMinute.toString().padStart(2, '0');
+  //       // const stAmPm = currentHour > 12 ? 'pm' : 'am';
+  //       // const startInterval12 = `${formattedStartHour12}:${formattedStartMinute} ${stAmPm}`;
+  //       const formattedStartHour12 = currentHour === 0 ? 12 : currentHour === 12 ? 12 : currentHour > 12 ? currentHour - 12 : currentHour;
+  //       console.log("formattedStartHour12formattedStartHour12", formattedStartHour12, "\n", currentHour);
+  //       const formattedStartMinute = currentMinute.toString().padStart(2, '0');
+  //       const stAmPm = currentHour >= 12 ? 'pm' : 'am';
+  //       const startInterval12 = `${formattedStartHour12}:${formattedStartMinute} ${stAmPm}`;
 
-      console.log('PPPPPP!PP!P!P!P!P!P!P!P!P!', starttime, endtime);
-      const [startHour, startMinute] = parseTime(starttime);
-      const [endHour, endMinute] = parseTime(endtime);
-      let currentHour = startHour;
-      let currentMinute = startMinute;
-      console.log(
-        'startHourstartHour',
-        startHour,
-        '\n',
-        'endHourendHour',
-        endHour,
-      );
-      while (
-        currentHour < parseInt(endHour, 10) ||
-        (currentHour === parseInt(endHour, 10) &&
-          currentMinute <= parseInt(endMinute, 10) &&
-          !(currentHour === 12 && currentMinute === 0 && startHour === 12))
-      ) {
-        // const formattedStartHour12 =
-        //   currentHour > 12 ? currentHour - 12 : currentHour;
-        // console.log("formattedStartHour12formattedStartHour12",formattedStartHour12,"\n",currentHour)
-        // const formattedStartMinute = currentMinute.toString().padStart(2, '0');
-        // const stAmPm = currentHour > 12 ? 'pm' : 'am';
-        // const startInterval12 = `${formattedStartHour12}:${formattedStartMinute} ${stAmPm}`;
-        const formattedStartHour12 = currentHour === 0 ? 12 : currentHour === 12 ? 12 : currentHour > 12 ? currentHour - 12 : currentHour;
-        console.log("formattedStartHour12formattedStartHour12", formattedStartHour12, "\n", currentHour);
-        const formattedStartMinute = currentMinute.toString().padStart(2, '0');
-        const stAmPm = currentHour >= 12 ? 'pm' : 'am';
-        const startInterval12 = `${formattedStartHour12}:${formattedStartMinute} ${stAmPm}`;
+
+  //       currentHour += intervalMinutes.hours;
+  //       currentMinute += intervalMinutes.minutes;
+
+  //       if (currentMinute >= 60) {
+  //         currentHour++;
+  //         currentMinute -= 60;
+  //       }
+
+  //       // Check if the current time exceeds the end time
+  //       if (
+  //         currentHour > parseInt(endHour, 10) ||
+  //         (currentHour === parseInt(endHour, 10) &&
+  //           currentMinute > parseInt(endMinute, 10))
+  //       ) {
+  //         break; // Skip adding the extra interval
+  //       }
+
+  //       const formattedEndHour12 = currentHour === 0 ? 12 : currentHour === 12 ? 12 : currentHour > 12 ? currentHour - 12 : currentHour;
+  //       const formattedEndMinute = currentMinute.toString().padStart(2, '0');
+  //       const endAmPm = currentHour >= 12 ? 'pm' : 'am';
+
+  //       const endInterval12 = `${formattedEndHour12}:${formattedEndMinute} ${endAmPm}`;
+  //       const currentDate = dateconvert(new Date());
+  //       const currenttime = new Date();
+
+  //       console.log(
+  //         'startInterval12startInterval12',
+  //         startInterval12,
+  //         '\n',
+  //         endInterval12,
+  //       );
+  //       console.log(
+  //         'currentDatecurrentDatecurrentDatecurrentDatecurrentDate',
+  //         currentDate,
+  //         datetimes,
+  //       );
+  //       const time = getTimeIn12HrsFormat(currenttime);
+  //       // time = getTimeIn12HrsFormat(time)
+
+  //       console.log(
+  //         'endInterval12endInterval12',
+  //         endInterval12,
+  //         time,
+  //         '\n',
+  //         'currenttime',
+  //         currenttime,
+  //       );
+  //       if (startInterval12 !== '12:15 am') {
+  //         intervals12.push(`${startInterval12} - ${endInterval12}`);
+  //       }
+  //       if (currentDate.toString() === datetimes) {
+  //         if (time < endInterval12 && endInterval12 < '9:00') {
+  //           const interval12 = `${startInterval12} - ${endInterval12}`;
+  //           console.log('interval12interval12', interval12);
+  //           intervals12.push(interval12);
+  //         }
+  //       } else {
+  //         const interval12 = `${startInterval12} - ${endInterval12}`;
+  //         console.log('interval12interval12', interval12);
+  //         intervals12.push(interval12);
+  //       }
+
+  //       // const filteredIntervals = intervals12.filter(interval => {
+  //       //   // Replace this condition with your specific logic to filter out intervals
+  //       //   return interval !== "11:30 am - 12:00 pm" && interval !== "06:15 pm - 07:00 pm";
+  //       // });
+
+  //       console.log(
+  //         'filteredIntervalsfilteredIntervalsfilteredIntervals',
+  //         'filteredIntervals', intervals12
+  //       );
+  //     }
+  //   }
+  //   if (conflicts !== null){
+  //     const excludedRanges = conflicts;
+  //     console.log("excludedRangesexcludedRangesexcludedRanges",excludedRanges)
+  //     if (datetimes in excludedRanges) {
+  //       // alert("@#$%^&*(")
+  //       const eventsForSelectedDate = conflicts[datetimes];
+  //       console.log('eventsForSelectedDate', eventsForSelectedDate);
+  //       console.log(
+  //         'excludedRanges',
+  //         excludedRanges,
+  //         '\n',
+  //         typeof excludedRanges[0],
+  //       );
+  //       const remainingIntervals = getRemainingIntervalsWithinExcludedRanges(
+  //         intervals12,
+  //         eventsForSelectedDate,
+  //       );
+  //       console.log(
+  //         'currentIntervalcurrentIntervalcurrentInterval',
+  //         remainingIntervals,
+  //         '\n',
+  //         excludedRanges,
+  //       );
+  //       console.log(
+  //         '====================',
+  //         remainingIntervals,
+  //         '\n',
+  //         eventsForSelectedDate,
+  //         '\n',
+  //       );
+  //       return remainingIntervals;
+  //     } else {
+  //       console.log('No events for the selected date.', intervals12);
+  //       return intervals12;
+  //     }
+  //   }else{
+  //     return intervals12
+  //   }
+  //   // const excludedRanges = ["1:00 pm to 2:00 pm","9:30 am to 10:00 am","10:00 am to 10:30 am", "11:00 am to 11:30 am", "12:00 pm to 12:30 pm"];
+
+  //   // console.log("excludedRanges",excludedRanges,"\n",typeof excludedRanges[0])
+  //   // const remainingIntervals = getRemainingIntervalsWithinExcludedRanges(intervals12, excludedRanges);
+  //   // console.log("currentIntervalcurrentIntervalcurrentInterval",remainingIntervals,"\n",excludedRanges)
+  //   // console.log("====================",remainingIntervals)
+  //   // return remainingIntervals;
+  // }
 
 
-        currentHour += intervalMinutes.hours;
-        currentMinute += intervalMinutes.minutes;
-
-        if (currentMinute >= 60) {
-          currentHour++;
-          currentMinute -= 60;
-        }
-
-        // Check if the current time exceeds the end time
-        if (
-          currentHour > parseInt(endHour, 10) ||
-          (currentHour === parseInt(endHour, 10) &&
-            currentMinute > parseInt(endMinute, 10))
-        ) {
-          break; // Skip adding the extra interval
-        }
-
-        const formattedEndHour12 = currentHour === 0 ? 12 : currentHour === 12 ? 12 : currentHour > 12 ? currentHour - 12 : currentHour;
-        const formattedEndMinute = currentMinute.toString().padStart(2, '0');
-        const endAmPm = currentHour >= 12 ? 'pm' : 'am';
-
-        const endInterval12 = `${formattedEndHour12}:${formattedEndMinute} ${endAmPm}`;
-        const currentDate = dateconvert(new Date());
-        const currenttime = new Date();
-
-        console.log(
-          'startInterval12startInterval12',
-          startInterval12,
-          '\n',
-          endInterval12,
-        );
-        console.log(
-          'currentDatecurrentDatecurrentDatecurrentDatecurrentDate',
-          currentDate,
-          datetimes,
-        );
-        const time = getTimeIn12HrsFormat(currenttime);
-        // time = getTimeIn12HrsFormat(time)
-
-        console.log(
-          'endInterval12endInterval12',
-          endInterval12,
-          time,
-          '\n',
-          'currenttime',
-          currenttime,
-        );
-        if (startInterval12 !== '12:15 am') {
-          intervals12.push(`${startInterval12} - ${endInterval12}`);
-        }
-        if (currentDate.toString() === datetimes) {
-          if (time < endInterval12 && endInterval12 < '9:00') {
-            const interval12 = `${startInterval12} - ${endInterval12}`;
-            console.log('interval12interval12', interval12);
-            intervals12.push(interval12);
-          }
-        } else {
-          const interval12 = `${startInterval12} - ${endInterval12}`;
-          console.log('interval12interval12', interval12);
-          intervals12.push(interval12);
-        }
-
-        // const filteredIntervals = intervals12.filter(interval => {
-        //   // Replace this condition with your specific logic to filter out intervals
-        //   return interval !== "11:30 am - 12:00 pm" && interval !== "06:15 pm - 07:00 pm";
-        // });
-
-        console.log(
-          'filteredIntervalsfilteredIntervalsfilteredIntervals',
-          'filteredIntervals', intervals12
-        );
-      }
-    }
-    if (conflicts !== null){
-      const excludedRanges = conflicts;
-      console.log("excludedRangesexcludedRangesexcludedRanges",excludedRanges)
-      if (datetimes in excludedRanges) {
-        // alert("@#$%^&*(")
-        const eventsForSelectedDate = conflicts[datetimes];
-        console.log('eventsForSelectedDate', eventsForSelectedDate);
-        console.log(
-          'excludedRanges',
-          excludedRanges,
-          '\n',
-          typeof excludedRanges[0],
-        );
-        const remainingIntervals = getRemainingIntervalsWithinExcludedRanges(
-          intervals12,
-          eventsForSelectedDate,
-        );
-        console.log(
-          'currentIntervalcurrentIntervalcurrentInterval',
-          remainingIntervals,
-          '\n',
-          excludedRanges,
-        );
-        console.log(
-          '====================',
-          remainingIntervals,
-          '\n',
-          eventsForSelectedDate,
-          '\n',
-        );
-        return remainingIntervals;
-      } else {
-        console.log('No events for the selected date.', intervals12);
-        return intervals12;
-      }
-    }else{
-      return intervals12
-    }
-    // const excludedRanges = ["1:00 pm to 2:00 pm","9:30 am to 10:00 am","10:00 am to 10:30 am", "11:00 am to 11:30 am", "12:00 pm to 12:30 pm"];
-
-    // console.log("excludedRanges",excludedRanges,"\n",typeof excludedRanges[0])
-    // const remainingIntervals = getRemainingIntervalsWithinExcludedRanges(intervals12, excludedRanges);
-    // console.log("currentIntervalcurrentIntervalcurrentInterval",remainingIntervals,"\n",excludedRanges)
-    // console.log("====================",remainingIntervals)
-    // return remainingIntervals;
-  }
+  
   // function generateIntervals(timeBreaks, intervalMinutes, datetimes) {
   //   console.log('timeBreakstimeBreaks', timeBreaks, intervalMinutes, datetimes);
   //   const intervals12 = [];
@@ -1124,6 +1126,69 @@ const SlotterDate = (props) => {
   
   //   // Rest of your code...
   // }
+
+  function generateIntervals(timeBreaks, intervalMinutes, datetimes) {
+    const intervals12 = [];
+  
+    for (const timeBreak of timeBreaks) {
+      const { starttime, endtime } = timeBreak;
+      const [startHour, startMinute] = parseTime(starttime);
+      const [endHour, endMinute] = parseTime(endtime);
+      let currentHour = startHour;
+      let currentMinute = startMinute;
+  
+      while (
+        currentHour < parseInt(endHour, 10) ||
+        (currentHour === parseInt(endHour, 10) &&
+          currentMinute <= parseInt(endMinute, 10) &&
+          !(currentHour === 12 && currentMinute === 0 && startHour === 12))
+      ) {
+        const formattedStartHour12 = currentHour === 0 ? 12 : currentHour === 12 ? 12 : currentHour > 12 ? currentHour - 12 : currentHour;
+        const formattedStartMinute = currentMinute.toString().padStart(2, '0');
+        const stAmPm = currentHour >= 12 ? 'pm' : 'am';
+        const startInterval12 = `${formattedStartHour12}:${formattedStartMinute} ${stAmPm}`;
+  
+        currentHour += intervalMinutes.hours;
+        currentMinute += intervalMinutes.minutes;
+  
+        if (currentMinute >= 60) {
+          currentHour++;
+          currentMinute -= 60;
+        }
+  
+        const formattedEndHour12 = currentHour === 0 ? 12 : currentHour === 12 ? 12 : currentHour > 12 ? currentHour - 12 : currentHour;
+        const formattedEndMinute = currentMinute.toString().padStart(2, '0');
+        const endAmPm = currentHour >= 12 ? 'pm' : 'am';
+        const endInterval12 = `${formattedEndHour12}:${formattedEndMinute} ${endAmPm}`;
+  
+        const currentDate = dateconvert(new Date());
+        const currenttime = new Date();
+        const time = getTimeIn12HrsFormat(currenttime);
+  
+        if (startInterval12 !== '12:15 am' &&
+            (currentDate.toString() !== datetimes || (time < endInterval12 && endInterval12 < '9:00'))) {
+          intervals12.push(`${startInterval12} - ${endInterval12}`);
+        }
+      }
+    }
+  
+    if (conflicts !== null) {
+      const excludedRanges = conflicts[datetimes];
+      if (excludedRanges) {
+        const eventsForSelectedDate = conflicts[datetimes];
+        const remainingIntervals = getRemainingIntervalsWithinExcludedRanges(
+          intervals12,
+          eventsForSelectedDate
+        );
+        return remainingIntervals;
+      } else {
+        return intervals12;
+      }
+    } else {
+      return intervals12;
+    }
+  }
+  
   
   function isHighlightedDay(day) {
     console.log('daydaydaydaydaydayday', day, selectDate);
@@ -1155,7 +1220,7 @@ const SlotterDate = (props) => {
   const modifiersStyles = {
     selected: {
       backgroundColor: '#d7c7d2',
-      color: 'black',
+      color: 'black', 
     },
 
     // container: {
@@ -1481,7 +1546,7 @@ const Conformpage = (props) => {
             <Text
               bold
               size={14}
-              style={{ margin: '10px 0px', textTransform: 'capitalize' }}
+              style={{ margin: '10px 0px' }}
             >
               {list.event_name}
             </Text>
@@ -1498,7 +1563,7 @@ const Conformpage = (props) => {
               </Text>
             </Flex>
             <Flex row center marginBottom={10}>
-              <SvgGlobe width={14} height={14} fill={'#581845'} />
+              {/* <SvgGlobe width={14} height={14} fill={'#581845'} /> */}
               <Text size={13} style={{ marginLeft: '5px' }}>
                 Time zone is {timezones(list.times_zone)}
               </Text>

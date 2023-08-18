@@ -80,6 +80,7 @@ const Calendar = () => {
   const [currentUserEvents, setCurrentUserEvents] = useState<
     CalendarEventType[]
   >([]);
+  const [throughApplicant, setthroughApplicant] = useState(false);
   const [eventPopUpDetails, setEventPopUpDetails] =
     useState<EventPopUpDetails>();
   const [selectedEvent, setSelectedEvent] = useState<{
@@ -129,6 +130,9 @@ const Calendar = () => {
     momentLocalizer(moment),
   );
   const [showDropDownMenu, setShowDropDownMenu] = useState<boolean>(false);
+  const [isApplicantname, setASpplicantname] = useState<string>();
+  const [isJdname, setJdname] = useState<string>();
+  const [isjdid, setJdid] = useState<string>();
   const [myCalendarOptions, setMyCalendarOptions] = useState<CalendarOptions>({
     personalEvents: true,
     zitaEvents: true,
@@ -264,6 +268,170 @@ const Calendar = () => {
       }),
     );
   }, []);
+
+  useEffect(() => {
+    const meetingevent = localStorage.getItem('eventhandeler');
+    if (meetingevent === 'true') {
+      setOpenScheduleForm(true);
+      localStorage.setItem('eventhandeler', 'false');
+      handleCloseEventPop(); 
+      // setCurrentEventId(localStorage.getItem('eventhandelerid'));
+      console.log(localStorage.getItem('checkstatus'),'ggggggggggggggggggggggggggggffffffffffffffffffffffffffff')
+      if (localStorage.getItem('checkstatus') === CALENDAR.Google) {
+        dispatch(
+          googleEditEventMiddleware({
+            eventId: localStorage.getItem('eventhandelerid'),
+          }),
+         
+        )
+          .then((res) => {
+            console.log(localStorage.getItem('eventhandelerid'))
+            if (res.payload.data === true) {
+              setEditEventDetails(
+                res.payload.events.map((event: ZitaEventType) =>
+                  getEditEventsDetails(event),
+                ),
+              );
+              setIsEditEvent(true);
+              setOpenScheduleForm(true);
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      } else if (localStorage.getItem('checkstatus') === CALENDAR.Outlook) {
+        dispatch(
+          outlookEditEventMiddleware({
+            eventid: localStorage.getItem('eventhandelerid'),
+          }),
+        )
+          .then((res) => {
+            if (res.payload.data === true) {
+              setEditEventDetails(
+                res.payload.events.map((event: ZitaEventType) =>
+                  getEditEventsDetails(event),
+                ),
+              );
+              setIsEditEvent(true);
+              setOpenScheduleForm(true);
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
+    }
+  }, [openScheduleForm]);
+  useEffect(() => {
+    const schedulevent = localStorage.getItem('scheduleven');
+    if (schedulevent === 'true') {
+      setOpenScheduleForm(true);
+      localStorage.setItem('scheduleven', 'false');
+    }
+  }, []);
+  useEffect(() => {
+    const Applicantname = localStorage.getItem('Applicantname');
+    const jdname = localStorage.getItem('Jdname');
+    const jdid = localStorage.getItem('jdname');
+    if (Applicantname !== '') {
+      setASpplicantname(Applicantname);
+      setJdname(jdname);
+      setJdid(jdid);
+      setOpenScheduleForm(true);
+    }
+  }, [localStorage.getItem('Applicantname')]);
+
+  useEffect(()=>{
+    if (localStorage.getItem('Applicantname') !== '') {
+      const booleanValue = true
+      setthroughApplicant(booleanValue)
+    } else {
+      const booleanValue = false
+      setthroughApplicant(booleanValue)
+    }
+  },[localStorage.getItem('Applicantname')])
+
+  useEffect(() => {
+    const meetingevent = localStorage.getItem('eventhandeler');
+    if (meetingevent === 'true') {
+      setOpenScheduleForm(true);
+      localStorage.setItem('eventhandeler', 'false');
+      handleCloseEventPop();
+      // setCurrentEventId(localStorage.getItem('eventhandelerid'));
+      console.log(localStorage.getItem('checkstatus'),'ggggggggggggggggggggggggggggffffffffffffffffffffffffffff')
+      if (localStorage.getItem('checkstatus') === CALENDAR.Google) {
+        dispatch(
+          googleEditEventMiddleware({
+            eventId: localStorage.getItem('eventhandelerid'),
+          }),
+         
+        )
+          .then((res) => {
+            console.log(localStorage.getItem('eventhandelerid'))
+            if (res.payload.data === true) {
+              setEditEventDetails(
+                res.payload.events.map((event: ZitaEventType) =>
+                  getEditEventsDetails(event),
+                ),
+              );
+              setIsEditEvent(true);
+              setOpenScheduleForm(true);
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      } else if (localStorage.getItem('checkstatus') === CALENDAR.Outlook) {
+        dispatch(
+          outlookEditEventMiddleware({
+            eventid: localStorage.getItem('eventhandelerid'),
+          }),
+        )
+          .then((res) => {
+            if (res.payload.data === true) {
+              setEditEventDetails(
+                res.payload.events.map((event: ZitaEventType) =>
+                  getEditEventsDetails(event),
+                ),
+              );
+              setIsEditEvent(true);
+              setOpenScheduleForm(true);
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
+    }
+  }, [openScheduleForm]);
+  useEffect(() => {
+    const schedulevent = localStorage.getItem('scheduleven');
+    if (schedulevent === 'true') {
+      setOpenScheduleForm(true);
+      localStorage.setItem('scheduleven', 'false');
+    }
+  }, []);
+  useEffect(() => {
+    const Applicantname = localStorage.getItem('Applicantname');
+    const jdname = localStorage.getItem('Jdname');
+    const jdid = localStorage.getItem('jdname');
+    if (Applicantname !== '') {
+      setASpplicantname(Applicantname);
+      setJdname(jdname);
+      setJdid(jdid);
+      setOpenScheduleForm(true);
+    }
+  }, [localStorage.getItem('Applicantname')]);
+
+  useEffect(()=>{
+    if (localStorage.getItem('Applicantname') !== '') {
+      const booleanValue = true
+      setthroughApplicant(booleanValue)
+    } else {
+      const booleanValue = false
+      setthroughApplicant(booleanValue)
+    }
+  },[localStorage.getItem('Applicantname')])
 
   useEffect(() => {
     console.log(locationState, currentUserEvents);
@@ -407,6 +575,10 @@ const Calendar = () => {
     }
   };
   const handleEventScheduleForm = () => {
+    localStorage.setItem('Applicantname', '');
+    localStorage.setItem('jdname', '');
+    setASpplicantname('');
+    setJdname('');
     if (calendarProvider) handleGetEvents(calendarProvider);
     setIsEditEvent(false);
     setSlotRange(SlotRangeInitialState);
@@ -925,6 +1097,11 @@ const Calendar = () => {
             Calendar
           </Text>
           <div className={styles.triangle}> </div>
+          {/* <SvgCalendar width={30} height={30} /> */}
+          <Text bold size={16} color="theme">
+            Calendar
+          </Text>
+          <div className={styles.triangle}> </div>
         </div>
       </div>
       <Flex row between>
@@ -1050,6 +1227,11 @@ const Calendar = () => {
                 applicants={applicants}
                 currentUser={currentUser}
                 currentUserEvents={currentUserEvents}
+                // eventId={currentEventId}
+                cand_name={isApplicantname}
+                jd_name={isJdname}
+                jd_id={Number(isjdid)}
+                APPLY={throughApplicant}
                 calendarProvider={calendarProvider}
                 editEventDetails={isEditEvent ? editEventDetails[0] : null}
                 teamMembers={teamMembers}
@@ -1070,3 +1252,5 @@ const Calendar = () => {
 };
 
 export default Calendar;
+
+

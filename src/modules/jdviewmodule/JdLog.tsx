@@ -12,50 +12,61 @@ type Props = {
 };
 
 const JdLog = ({ statusList,jdDetails }: Props) => {
-  const statusArray = [
+  const statusandactive = [
     {
-      title: 'Status:',
+      title: 'Status',
       value: statusList.jd_status,
       url: '',
     },
     {
-      title: 'Active For:',
+      title: 'Active For',
       value: statusList.active_for,
       url: '',
-    },
+    },]
+  const statusArray = [
+    // {
+    //   title: 'Status:',
+    //   value: statusList.jd_status,
+    //   url: '',
+    // },
+    // {
+    //   title: 'Active For:',
+    //   value: statusList.active_for,
+    //   url: '',
+    // },
     {
-      title: 'Views:',
+      title: 'Views',
       value: statusList.views,
       url: '',
     },
     {
-      title: 'Zita Match:',
+      title: 'Zita Match',
       value: statusList.zita_match,
       url: '',
     },
     {
-      title: 'Invited to Apply:',
+      title: 'Invited to Apply',
       value: statusList.invite,
       url: '',
     },
     {
-      title: 'Applicants:',
+      title: 'Applicants',
       value: statusList.applicants,
       url: '',
     },
  {
-      title: 'Shortlisted:',
+      title: 'Shortlisted',
       value: statusList.shortlisted,
       url: '',
     },
 
     {
-      title: 'Offered:',
+      title: 'Offered',
       value: statusList.offered,
       url: '',
     },
     {
-      title: 'Rejected:',
+      title: 'Rejected',
       value: statusList.rejected,
       url: '',
     },
@@ -67,137 +78,234 @@ console.log('statusList',statusList);
         <Text
           align="center"
           bold
-          size={18}
+          size={16}
           color="theme"
           className={styles.jdStatus}
         >
           JD Status Log
         </Text>
-        <Flex columnFlex>
+        <Flex className={styles.paddingstatus}>
+        {statusandactive.map((list) => {
+          return (
+            <>
+           
+            {list.value === 0 ? (
+              <Flex row center className={styles.listFlex1}>
+                <Text color="theme" bold className={styles.titleStyle}>
+                  {list.title}
+                </Text>
+                <Text>{list.value}</Text>
+              </Flex>
+            ) : (
+              <Flex row center className={styles.listFlex1}>
+                {list.title === 'Status' && (
+                  <>
+                <Text color="theme" bold className={styles.titleStyle}>
+                  {list.title}
+                </Text>
+                {list.value ==="Active"&&
+                  <Text style={{color:"green"}} className={styles.fontweight} >{list.value}</Text> }   
+                  {list.value ==="Inactive"&&
+                  <Text style={{color:"red"}} className={styles.fontweight} >{list.value}</Text> }   
+                    {list.value ==="Draft"&&
+                  <Text style={{color:"yellow"}} className={styles.fontweight} >{list.value}</Text> }              
+                </>
+            )}  {list.title === 'Active For' && (
+            <>
+            { jdDetails.jd_status__label_name === 'Inactive' ?
+               <>
+                <Text color="theme" bold className={styles.titleStyle}>
+                  Posted On                    </Text>
+                   <Text style={{width:"100px",fontSize:"13px"}}>{getDateString(jdDetails.job_posted_on , 'll')}</Text>
+                </>
+                :
+                  <>
+                <Text color="theme" bold className={styles.titleStyle}>
+                  {list.title}
+                </Text>
+                   <Text  style={{width:"100px",fontSize:"13px"}}>{list.value}</Text>
+                </>
+            }
+            </>
+            )} 
+              </Flex>
+            )}
+          
+          </>
+          )
+             })}
+        </Flex>
+        <Flex className={styles.flexproperty}>
+
           {statusArray.map((list) => {
             return (
               <>
                 {list.value === 0 ? (
-                  <Flex row center className={styles.listFlex}>
+                  <Flex  row  className={styles.listFlex}>
+                       <Flex>
                     <Text color="theme" bold className={styles.titleStyle}>
                       {list.title}
-                    </Text>
-                    <Text>{list.value}</Text>
+                    </Text></Flex>
+                     <Flex className={styles.circleflexover}>
+                      <Text style={{fontSize:"13px"}}>{list.value}</Text>
+                      </Flex>
+                    
+                  
                   </Flex>
                 ) : (
-
-
-                  <Flex row center className={styles.listFlex}>
-                    {list.title === 'Status:' && (
+                  <Flex  center className={styles.listFlex}>
+                      {list.title === 'Views' && (
                       <>
+                      <Flex row between end className={styles.box}>
+                      
+                       <Flex>
                     <Text color="theme" bold className={styles.titleStyle}>
                       {list.title}
-                    </Text>
-                  
-                      <Text >{list.value}</Text>
-                   
+                    </Text></Flex>
+                    <Flex className={styles.circleflexover}>
+                       <Text style={{fontSize:"13px"}}>{list.value}</Text>
+                       </Flex>
+                    </Flex>
+                       
                     </>
-                )}  {list.title === 'Active For:' && (
-                <>
-                { jdDetails.jd_status__label_name === 'Inactive' ?
-                   <>
-                    <Text color="theme" bold className={styles.titleStyle}>
-                      Posted On                    </Text>
-                       <Text >{getDateString(jdDetails.job_posted_on , 'll')}</Text>
-                    </>
-                    :
-                      <>
-                    <Text color="theme" bold className={styles.titleStyle}>
-                      {list.title}
-                    </Text>
-                       <Text >{list.value}</Text>
-                    </>
-                }
-                </>
-                )}  {list.title === 'Views:' && (
-                      <>
-                    <Text color="theme" bold className={styles.titleStyle}>
-                      {list.title}
-                    </Text>
-                        <Text >{list.value}</Text>
-                    </>
-                )}  {list.title === 'Zita Match:' && (
+                )}  {list.title === 'Zita Match' && (
                 <>
                 { jdDetails.jd_status__label_name === 'Inactive' ?
                       <>
+                       <Flex  row between end className={styles.box}>
+                       <Flex>
                     <Text color="theme" bold className={styles.titleStyle}>
                       {list.title}
-                    </Text>
-                      <Text >{list.value}</Text>
+                    </Text></Flex>
+                       <Flex className={styles.circleflexover}>
+                      <Text style={{fontSize:"13px"}}>{list.value}</Text>
+                      </Flex>
+                    
+                    </Flex>
+                      
                     </>
                     :
                       <>
+                       <Flex row between end className={styles.box}>
+                       <Flex>
                     <Text color="theme" bold className={styles.titleStyle}>
                       {list.title}
                     </Text>
-                    <LinkWrapper to={`/zita_match_candidate/${jdDetails.id}`} target={'_parent'}>
-                      <Text color="link">{list.value}</Text>
-                    </LinkWrapper>
+                    </Flex>
+                        <Flex>
+                      <LinkWrapper to={`/zita_match_candidate/${jdDetails.id}`} target={'_parent'}>
+                      <Flex className={styles.circleflexover}>
+                      <Text color="link" bold style={{fontSize:"13px"}}>{list.value}</Text>
+                      </Flex>
+                    </LinkWrapper></Flex>
+                   
+                    </Flex>
                     </>
                   }
                   </>
-                )}{list.title === 'Invited to Apply:' && (
+                )}{list.title === 'Invited to Apply' && (
                       <>
                 { jdDetails.jd_status__label_name === 'Inactive' ?
                       <>
+                       <Flex row between end className={styles.box}>
+                       <Flex>
                     <Text color="theme" bold className={styles.titleStyle}>
                       {list.title}
                     </Text>
-                   
-                      <Text >{list.value}</Text>
+                    </Flex>
+                       <Flex className={styles.circleflexover}>
+                       <Text style={{fontSize:"13px"}} >{list.value}</Text>
+                       </Flex>
+                     
+                    </Flex>
+                                       
                   
                     </>
                     :
-                      <>
+                      <> <Flex row between end className={styles.box}>
+                        <Flex>
                     <Text color="theme" bold className={styles.titleStyle}>
                       {list.title}
                     </Text>
-                    <LinkWrapper to={`/zita_match_candidate/${jdDetails.id}`} target={'_parent'}>
-                      <Text color="link">{list.value}</Text>
-                    </LinkWrapper>
+                    </Flex>
+                        <Flex>
+                         <LinkWrapper to={`/zita_match_candidate/${jdDetails.id}`} target={'_parent'}>
+                         <Flex className={styles.circleflexover}>
+                      <Text color="link" bold style={{fontSize:"13px"}}>{list.value}</Text></Flex>
+                    </LinkWrapper></Flex>
+                    
+                    </Flex>
+                 
                     </>
                   }
                   </>
-                )}{list.title === 'Applicants:' && (
+                )}{list.title === 'Applicants' && (
                       <>
+                       <Flex row between end className={styles.box}>
+                       <Flex>
                     <Text color="theme" bold className={styles.titleStyle}>
                       {list.title}
-                    </Text>
+                    </Text></Flex>
+                        <Flex>
                        <LinkWrapper to={`/applicant_pipe_line/${jdDetails.id}`} target={'_parent'}>
-                      <Text color="link">{list.value}</Text>
-                    </LinkWrapper>
+                       <Flex className={styles.circleflexover}>
+                      <Text color="link" bold style={{fontSize:"13px"}}>{list.value}</Text></Flex>
+                    </LinkWrapper></Flex>
+                    
+                    </Flex>
+                      
                     </>
-                )}{list.title === 'Shortlisted:' && (
+                )}
+                {list.title === 'Shortlisted' && (
                       <>
+                       <Flex row between end className={styles.box}>
+                       <Flex>
                     <Text color="theme" bold className={styles.titleStyle}>
                       {list.title}
                     </Text>
+                    </Flex>
+                        <Flex>
+                      <LinkWrapper to={`/applicant_pipe_line/${jdDetails.id}`} target={'_parent'}>
+                      <Flex className={styles.circleflexover}>
+                      <Text color="link" bold style={{fontSize:"13px"}}>{list.value}</Text></Flex>
+                    </LinkWrapper></Flex>
+                   
+                    </Flex>
+                       
+                    </>
+                )}{list.title === 'Offered' && (
+                      <>
+                       <Flex  row between end className={styles.box}>
+                       <Flex>
+                    <Text color="theme" bold className={styles.titleStyle}>
+                      {list.title}
+                    </Text>
+                    </Flex>
+                        <Flex>
                        <LinkWrapper to={`/applicant_pipe_line/${jdDetails.id}`} target={'_parent'}>
-                      <Text color="link">{list.value}</Text>
-                    </LinkWrapper>
+                       <Flex className={styles.circleflexover}>
+                      <Text color="link" bold style={{fontSize:"13px"}}>{list.value}</Text></Flex>
+                    </LinkWrapper></Flex>
+                    
+                    </Flex>
+                   
                     </>
-                )}{list.title === 'Offered:' && (
+                )}{list.title === 'Rejected' && (
                       <>
+                       <Flex row between end  className={styles.box}>
+                       <Flex>
                     <Text color="theme" bold className={styles.titleStyle}>
                       {list.title}
                     </Text>
-                    <LinkWrapper to={`/applicant_pipe_line/${jdDetails.id}`} target={'_parent'}>
-                      <Text color="link">{list.value}</Text>
-                    </LinkWrapper>
-                    </>
-                )}{list.title === 'Rejected:' && (
-                      <>
-                    <Text color="theme" bold className={styles.titleStyle}>
-                      {list.title}
-                    </Text>
-                     <LinkWrapper to={`/applicant_pipe_line/${jdDetails.id}`} target={'_parent'}>
-                      <Text color="link">{list.value}</Text>
-                    </LinkWrapper>
+                    </Flex>
+                        <Flex>
+                       <LinkWrapper to={`/applicant_pipe_line/${jdDetails.id}`} target={'_parent'}>
+                        <Flex className={styles.circleflexover}>
+                      <Text color="link" bold style={{fontSize:"13px"}}>{list.value}</Text></Flex>
+                    </LinkWrapper></Flex>
+                   
+                    </Flex>
+                    
                     </>
                 )}
                   </Flex>

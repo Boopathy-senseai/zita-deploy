@@ -1,6 +1,7 @@
 import Card from '../../../uikit/Card/Card';
 import Chart from '../../../uikit/Chart/Chart';
 import Flex from '../../../uikit/Flex/Flex';
+import SvgNoData from '../../../icons/SvgNoData';
 import Text from '../../../uikit/Text/Text';
 import { pieYValue } from '../../common/commonHelper';
 import styles from './applicantssourcingchannel.module.css';
@@ -102,7 +103,7 @@ const ApplicantsPipeline = ({ pipeline, planId,jd_metrics }: Props) => {
   
   return (
     <Card className={styles.overAll}>
-      <Text bold size={16} style={{color:'#581845'}}>
+      <Text bold size={14} style={{color:'#581845'}}>
         Applicants Pipeline
       </Text>
       {isCheckOne || (planId === 1 || jd_metrics.length === 0) ? (
@@ -112,7 +113,8 @@ const ApplicantsPipeline = ({ pipeline, planId,jd_metrics }: Props) => {
           }
         />
       ) : (
-        <Flex flex={1} center middle>
+        <Flex flex={1} center middle style={{display:"flex"}}>
+          <SvgNoData width={15} style={{filter:"opacity(0.5)"}} />
           <Text color="gray">No Data Available</Text>
         </Flex>
       )}

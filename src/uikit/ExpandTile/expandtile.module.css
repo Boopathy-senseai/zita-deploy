@@ -19,6 +19,8 @@
   justify-content: space-between;
   padding: 5px 10px;
   background: #581845;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
   /* box-shadow: 0px 0.5px 1px 0px rgba($color: $pageHeaderBoderColor, $alpha: 1.0); */
   /* border: 0.1px solid $pageHeaderBoderColor; */
 }
@@ -73,7 +75,9 @@
 }
 
 .scrd-content {
-  display: flex;
+  /* display: flex; */
   height: -webkit-fill-available;
   background-color: #fff;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 }

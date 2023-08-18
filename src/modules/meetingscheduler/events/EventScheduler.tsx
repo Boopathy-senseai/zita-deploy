@@ -164,9 +164,10 @@ const EventScheduler = () => {
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
-        height: "100%",
+      
         padding: "10px",
       }}
+     
     >
       <Flex row between className={styles.initial} style={{width: "100%", marginBottom: 10}}>
         <Flex>
@@ -214,7 +215,7 @@ const EventScheduler = () => {
           )}
         </Flex>
 
-        <Flex className={styles.outline} height={'100%'}>
+        <Flex className={styles.outline}  height={window.innerHeight-185} style={{overflow:'scroll'}}>
           {response?.length > 0 ? (
             <Flex row wrap marginTop={'10px'}>
               {response &&

@@ -1,23 +1,25 @@
 .applicantTitle {
   border-bottom: 2px solid var(--color-gary-7, #dfdfdf);
-  padding-bottom: 16px;
+  /* padding-bottom: 16px; */
+  padding-bottom: 6px;
   margin-bottom: 8px;
 }
 .cardOverAll {
-  padding: 16px;
-  margin-top: 20px;
+  /* padding: 16px; */
+  margin-top: 6px;
   margin-bottom: 20px;
 }
 .tabDiv {
-  padding: 20px 8px 8px 8px;
+  padding: 10px 0px 8px 0px;
 }
 .overAll {
-  padding: 40px;
+  /* padding: 40px; */
   overflow: scroll;
+  padding: 0px 20px 0px 5px;
 }
 .round {
-  height: 50px;
-  width: 50px;
+  height: 35px;
+  width: 35px;
   border-radius: 100%;
   align-items: center;
   justify-content: center;
@@ -25,10 +27,11 @@
   background-color: var(--color-gary-5, #cccccc);
   position: absolute;
   right: 0;
+  top:5px;
 }
 .step {
   position: relative;
-  margin: 0 200px;
+  margin: 0 400px;
   margin-bottom: 36px;
   margin-top: 24px;
 }
@@ -44,8 +47,8 @@
 }
 .stepThree {
   position: relative;
-  top: 53px;
-  left: 30px;
+  top: 47px;
+  left: 46px;
 }
 .step3Flex {
   position: absolute;

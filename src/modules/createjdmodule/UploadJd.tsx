@@ -4,6 +4,7 @@ import SvgRoundClose from '../../icons/SvgRoundClose';
 import { AppDispatch } from '../../store';
 import Button from '../../uikit/Button/Button';
 import Card from '../../uikit/Card/Card';
+import { Modal } from '../../uikit';
 import { GARY_4 } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
@@ -11,15 +12,23 @@ import { fileAccept, FILE_2MB } from '../constValue';
 import { jdParserMiddleWare } from './store/middleware/createjdmiddleware';
 import styles from './uploadjd.module.css';
 
+
 function UploadJd() {
   const [file, setFile] = useState<any>([]);
   const [isMb, setMb] = useState(false);
+  const [modal,setmodal]= useState (false)
   const dispatch: AppDispatch = useDispatch();
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     uploadFile(file);
+    setmodal(false)
   };
+
+  const handlecancel = () => {
+    setmodal(false);
+    setFile([])
+  }
   // resume clear function
   const handleClear = () => setFile([]);
 
@@ -89,15 +98,22 @@ function UploadJd() {
   const checkSelectLength = file.length === 0 ? false : true;
 
   return (
-    <Flex>
-      <Text bold size={20} className={styles.title}>
+    <Flex row style={{justifyContent:"space-between", marginTop:"6px"}}>
+      <Flex>
+      {/* <Text bold size={14} className={styles.title}>
         Create Your Job
-      </Text>
+      </Text> */}
       <Text className={styles.desText}>
         Take up your first step in your hiring process with Zita
       </Text>
-      <Card className={styles.cardOverAll}>
-        <Flex row center>
+      </Flex>
+      <Flex>
+      <Button onClick={()=>setmodal(true)}>Upload JD</Button>
+      <Modal open={modal} >
+      <Flex style={{backgroundColor:'#ffffff',padding:'25px',height:'262px',width:'450px'}}>
+       
+        <Flex  center>
+        <Text bold size={14} style={{marginBottom: "16px"}}>Add Attachment</Text>
           <Flex columnFlex className={styles.innerFlex}>
             <div
               onDragOver={dragOver}
@@ -122,9 +138,9 @@ function UploadJd() {
                       className={styles.labelStyle}
                       htmlFor={'upload__file_upload'}
                     >
-                      <Text color="link">Browse Files</Text>
+                      <Text bold color="link">Browse Files</Text>
                     </label>
-                  </Flex>
+                  </Flex> 
                   <Text
                     size={12}
                     align="center"
@@ -136,7 +152,8 @@ function UploadJd() {
                 </Flex>
               ) : (
                 <Flex row center>
-                  <Text color="gray">{file.name}</Text>
+                  <Flex row className={styles.uploadjdfilebox}>
+                  <Text className={styles.uploadjdfiletext} color="gray">{file.name}</Text>
                   <div
                     tabIndex={-1}
                     role={'button'}
@@ -146,6 +163,7 @@ function UploadJd() {
                   >
                     <SvgRoundClose fill={GARY_4} width={16} height={16} />
                   </div>
+                  </Flex>
                 </Flex>
               )}
             </div>
@@ -160,6 +178,13 @@ function UploadJd() {
               </Text>
             )}
           </Flex>
+          <Flex row style={{marginTop:'10px',justifyContent: 'flex-end'}}>
+          <Button
+            onClick={handlecancel}
+            types='close'
+          >
+            Cancel
+          </Button>
           <Button
             disabled={!checkSelectLength}
             onClick={handleSubmit}
@@ -168,7 +193,10 @@ function UploadJd() {
             Upload JD
           </Button>
         </Flex>
-      </Card>
+        </Flex>
+      </Flex>
+      </Modal>
+      </Flex>
     </Flex>
   );
 }

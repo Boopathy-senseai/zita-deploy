@@ -32,17 +32,19 @@ type Props = {
   jobId: string | boolean;
   candidateId: string;
   activeState: number;
+  setjobtitle?:any;
 };
 
 const ZitaMatchCandidateProfileView = ({
   jobId,
   candidateId,
   activeState,
+  setjobtitle
 }: Props) => {
   const [isInvitePopUp, setInvitePopUp] = useState(false);
   const [isInviteLoader, setInviteLoader] = useState(false);
   const [isTab, setTab] = useState(false);
-  const [isNotesLoader, setNotesLoader]=useState(true)
+  const [isNotesLoader, setNotesLoader] = useState(true);
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -68,9 +70,11 @@ const ZitaMatchCandidateProfileView = ({
           }),
         );
         dispatch(messagesTemplatesMiddleWare());
-        dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id })).then(()=>{
-          setNotesLoader(false)
-        })
+        dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id })).then(
+          () => {
+            setNotesLoader(false);
+          },
+        );
         dispatch(applicantAllMatchMiddleWare({ can_id: res.payload.can_id }));
         dispatch(
           applicantScoreMiddleWare({
@@ -93,26 +97,32 @@ const ZitaMatchCandidateProfileView = ({
           can_id: candidateId,
         }),
       ).then((res) => {
-        dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id })).then(()=>{
-          setNotesLoader(false)
-        })
+        dispatch(applicantNotesMiddleWare({ can_id: res.payload.can_id })).then(
+          () => {
+            setNotesLoader(false);
+          },
+        );
         dispatch(applicantAllMatchMiddleWare({ can_id: res.payload.can_id }));
       });
     }
     // eslint-disable-next-line
   }, []);
 
-  const { candidate_details, initialLoader, jd, match, jd_id, can_id, invite } =
+  const { candidate_details, initialLoader, jd, match, jd_id, can_id, invite, matchLoader, job_details } =
     useSelector(
       ({
         applicantProfileInitalReducers,
         applicantMatchReducers,
         applicantStausReducers,
+        candidatejdmatchReducers,
+        applicantPipeLineReducers
       }: RootState) => {
         return {
           candidate_details: applicantProfileInitalReducers.candidate_details,
           initialLoader: applicantProfileInitalReducers.isLoading,
           jd: applicantProfileInitalReducers.jd,
+          job_details: applicantPipeLineReducers.job_details,
+          matchLoader:candidatejdmatchReducers.isLoading,
           match: applicantMatchReducers.match
             ? applicantMatchReducers.match
             : [],
@@ -121,8 +131,7 @@ const ZitaMatchCandidateProfileView = ({
           invite: applicantStausReducers.invite,
         };
       },
-    );
-
+    ); 
   const hanldeInvitePopUp = () => {
     setInvitePopUp(true);
   };
@@ -130,8 +139,9 @@ const ZitaMatchCandidateProfileView = ({
   const hanldeInviteClosePopUp = () => {
     setInvitePopUp(false);
   };
-  const hanldeInvite = () => {
+  const hanldeInvite = () => { 
     hanldeInviteClosePopUp();
+    alert("alert1")
     setInviteLoader(true);
     const data = querystring.stringify({
       jd_id,
@@ -156,9 +166,9 @@ const ZitaMatchCandidateProfileView = ({
       });
   };
 
-  const checkMatch = match && match.length === 0 ? true : false;
+  const checkMatch = match && match?.length === 0 ? true : false;
   const profileMatch = checkMatch ? 0 : match[0].profile_match;
-  if (initialLoader || isNotesLoader) {
+  if (initialLoader || isNotesLoader ||  matchLoader) {
     return (
       <Flex height={window.innerHeight - 60} center middle>
         <Loader withOutOverlay />
@@ -200,26 +210,30 @@ const ZitaMatchCandidateProfileView = ({
         />
       )}
 
-      {candidate_details &&
-        candidate_details?.map((candiList, index) => {
-          return (
-            <ProfileNavBar
-              key={index + candiList.first_name}
-              candiList={candiList}
-              isInvite={isTab}
-              inviteCall={hanldeInvitePopUp}
-              nonMatch={checkMatch}
-              withOutJD={isTab}
-              profile_match={profileMatch}
-              jdDetails={jd}
-              isProfileName
-            />
-          );
-        })}
       <Flex flex={1} row className={styles.tabContainer}>
+        {candidate_details &&
+          candidate_details?.map((candiList, index) => {
+            return (
+              <Flex key={''} height={window.innerHeight} style={{boxShadow: '2px 2px 2px #D7C7D2',marginRight: '5px'}}> 
+              <ProfileNavBar
+                key={index + candiList.first_name}
+                candiList={candiList}
+                isInvite={isTab}
+                inviteCall={hanldeInvitePopUp}
+                nonMatch={checkMatch}
+                applieddatecheck ={true}
+                setjobtitle={setjobtitle}
+                withOutJD={isTab}
+                profile_match={profileMatch}
+                jdDetails={jd}
+                isProfileName
+              />
+              </Flex>
+            );
+          })}
         {!isTab ? (
           <Flex flex={12} className={styles.tabLeftFlex}>
-            <CandiDateTabsLeftOne activeState={activeState} />
+            <CandiDateTabsLeftOne activeState={activeState}  />
           </Flex>
         ) : (
           <Flex flex={6} className={styles.tabLeftFlex}>
@@ -227,11 +241,11 @@ const ZitaMatchCandidateProfileView = ({
           </Flex>
         )}
 
-        {isTab && (
+        {/* {isTab && (
           <Flex flex={6} className={styles.tabRightFlex}>
             <CandiDateTabsRight />
           </Flex>
-        )}
+        )} */}
       </Flex>
     </Flex>
   );

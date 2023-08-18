@@ -1,6 +1,7 @@
 import { FieldArray } from 'formik';
 import { memo, useEffect, useMemo } from 'react';
 import SvgRoundAdd from '../../icons/SvgRoundAdd';
+import SvgAdd from '../../icons/SvgAdd';
 import Button from '../../uikit/Button/Button';
 import Flex from '../../uikit/Flex/Flex';
 import { isEmpty } from '../../uikit/helper';
@@ -63,7 +64,7 @@ const QulificationAdd = ({
                   />
                 );
               })}
-            {qulificationLength < 5 && (
+            {qulificationLength < 4 ? (
               <Button
                 className={styles.addBtn}
                 types="link"
@@ -75,15 +76,30 @@ const QulificationAdd = ({
                 )}
               >
                 <Flex row center>
-                  <div style={{ marginRight: 8 }}>
-                    <SvgRoundAdd />
+                  <div className={styles.svgadd} style={{ marginRight: 8 , bottom:1}}>
+                  <SvgAdd width={12} height={12} fill="#581854" />
                   </div>
                   <Text color="link" bold>
                     Add Qualification
                   </Text>
                 </Flex>
               </Button>
-            )}
+               ):(
+                <Button
+                className={styles.addBtn}
+                types="link"
+                disabled={true}
+                >
+                <Flex row center>
+                  <div className={styles.svgadd} style={{ marginRight: 8 }}>
+                  <SvgAdd width={12} height={12} fill="#581854" />
+                  </div>
+                  <Text color="link" bold>
+                    Add Qualification
+                  </Text>
+                </Flex>
+                </Button>
+               )}
           </div>
         )}
       />

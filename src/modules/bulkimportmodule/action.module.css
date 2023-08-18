@@ -4,5 +4,10 @@
 }
 .pointerEvent {
   opacity: 0.3;
-  padding: 0px 7px;
+  
+}
+.svgExternal{
+ font-size:13px;}
+ .custom-dropdown {
+  position: relative !important;
 }

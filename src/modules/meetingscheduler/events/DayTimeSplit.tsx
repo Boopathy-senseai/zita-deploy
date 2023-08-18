@@ -348,7 +348,6 @@ const DayTimeSplit = (props) => {
         }
       }
       if(dayoption &&  editModel.duration !== duration){
-        alert("333")
         const newdata = [...timeSlots];
       newdata.shift();  
       console.log('dayrrrrrrr', sunday);     
@@ -1402,7 +1401,7 @@ const DayTimeSplit = (props) => {
     }
     if (name === 'saturday') {
       setsaturdaycheck(checked);
-      setDay1(DayStart)
+      setDay7(DayStart)
     }
   };
   const dateheader = (name, value, onChange) => {

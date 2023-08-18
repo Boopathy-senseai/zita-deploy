@@ -1,22 +1,49 @@
 export const matchOptions = [
-  { value: '> 90%', label: '91-100', width: 110 },
-  { value: '> 80%', label: '81-100', width: 110 },
-  { value: '> 70%', label: '71-100', width: 70 },
-  { value: '> 60%', label: '61-100', width: 110 },
-  { value: '<= 60%', label: '0-60', width: 110 },
-  { value: 'Any', label: '', width: 70 },
+  { value: '> 90%', label: '91-100'},
+  { value: '> 80%', label: '81-100' },
+  { value: '> 70%', label: '71-100' },
+  { value: '> 60%', label: '61-100'},
+  { value: '<= 60%', label: '0-60' },
+  { value: 'Any', label: ''},
+];
+
+export const sortOptions = [
+  {
+    value: 'match',
+    label: 'Match Score',
+  },
+  {
+    value: 'name',
+    label: 'Candidate Name',
+  },
+  {
+    value: 'interested',
+    label: 'Those interested in this job',
+  },
+  {
+    value: 'not_interested',
+    label: 'Not Interested Candidates',
+  },
+  {
+    value: 'invited',
+    label: 'Invited to Apply',
+  },
+  {
+    value: 'not_invited',
+    label: 'Yet to be Invited to Apply',
+  },
 ];
 
 export const profileData = [
   { value: 'Viewed', label: '1', width: 110 },
   { value: 'Yet to View', label: '0', width: 110 },
-  { value: 'All', label: '', width: 70 },
+  { value: 'Both', label: '', width: 70 },
 ];
 
 export const candidateInviteStatus = [
   { value: 'Invited', label: '1', width: 110 },
   { value: 'Uninvited', label: '0', width: 110 },
-  { value: 'All', label: '', width: 70 },
+  { value: 'Both', label: '', width: 70 },
 ];
 
 export const jobTypeData = [

@@ -1,9 +1,9 @@
+import clsx from 'classnames';
 import SvgArrowDown from '../../icons/SvgArrow';
 import styles from './expandtile.module.css';
-
 interface Props {
   children: React.ReactNode;
-  title: string;
+  title: string | React.ReactNode;
   backgroundColor: string;
   activeColor: string;
   icon?: React.FunctionComponent<
@@ -12,16 +12,30 @@ interface Props {
     }
   >;
   show?: boolean;
+  className?: string;
+  btnClassName?: string;
+  contentClassName?: string;
+  styles?: React.CSSProperties;
+  btnStyles?: React.CSSProperties;
+  contentStyles?: React.CSSProperties;
   onClick?: () => void;
 }
 
 const ExpandTile = (props: Props) => {
-  const { show = true } = props;
+  const { show = true, className, btnClassName, btnStyles } = props;
   return (
-    <div className={styles['scrd-container']}>
+    <div
+      className={clsx(styles['scrd-container'], className)}
+      style={props.styles}
+    >
       <button
-        className={styles['scrd-header']}
-        style={{ backgroundColor: props.backgroundColor }}
+        className={clsx(styles['scrd-header'], btnClassName)}
+        style={{
+          ...btnStyles,
+          backgroundColor: props.backgroundColor,
+          borderBottomLeftRadius: !show ? '5px' : '0px',
+          borderBottomRightRadius: !show ? '5px' : '0px',
+        }}
         onClick={props.onClick}
       >
         <div className="srcd-title-holder">
@@ -35,12 +49,16 @@ const ExpandTile = (props: Props) => {
             </div>
           )}
           <div className={styles['scrd-path-name']}>
-            <span
-              className={styles['scrd-path-txt']}
-              style={{ color: props.activeColor }}
-            >
-              {props.title}
-            </span>
+            {typeof props.title === 'string' ? (
+              <span
+                className={styles['scrd-path-txt']}
+                style={{ color: props.activeColor }}
+              >
+                {props.title}
+              </span>
+            ) : (
+              props.title
+            )}
           </div>
         </div>
         <div
@@ -48,22 +66,21 @@ const ExpandTile = (props: Props) => {
           style={{ marginBottom: 11, marginRight: 0 }}
         >
           {!show ? (
-            <SvgArrowDown
-              width={'100%'}
-              height={'100%'}
-              fill={"#581845"}
-            />
+            <SvgArrowDown width={'100%'} height={'100%'} fill={'#581845'} />
           ) : (
             /// TODO: Find up arrow icon & replace here
-            <SvgArrowDown
-              width={'100%'}
-              height={'100%'}
-              fill={"#581845"}
-            />
+            <SvgArrowDown width={'100%'} height={'100%'} fill={'#581845'} />
           )}
         </div>
       </button>
-      {show && <div className={styles['scrd-content']}>{props.children}</div>}
+      {show && (
+        <div
+          className={clsx(styles['scrd-content'], props.contentClassName)}
+          style={props.contentStyles}
+        >
+          {props.children}
+        </div>
+      )}
     </div>
   );
 };

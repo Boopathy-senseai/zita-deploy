@@ -26,6 +26,9 @@ const locationState: CandidateProfileEditReducerState = {
       updated_at: '',
     },
   ],
+  Qualification:[{
+    qualification:''
+  }]
 };
 
 const candidateProfileEditReducer = createSlice({
@@ -42,6 +45,7 @@ const candidateProfileEditReducer = createSlice({
       state.obj = action.payload.obj;
       state.additional_detail = action.payload.additional_detail;
       state.personal = action.payload.personal;
+      state.Qualification = action.payload.Qualification;
       state.industry_type = action.payload.industry_type;
       state.user_info = action.payload.user_info;
       state.personal_obj = action.payload.email;

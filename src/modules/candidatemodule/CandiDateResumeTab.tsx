@@ -28,7 +28,7 @@ const CandiDateResumeTab = () => {
     <Flex
       columnFlex
       className={styles.overAll}
-      height={window.innerHeight - 201}
+      height={window.innerHeight -68}
     >
       <Text bold color="theme" className={cx('resumeStyleOne')}>
         Resume

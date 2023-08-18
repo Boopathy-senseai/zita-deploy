@@ -2,6 +2,8 @@
   padding: 20px;
   padding-bottom: 60px;
   margin-bottom: 60px;
+  margin-left: 3px;
+  margin-right: 3px;
 }
 .headerStyle {
   height: 52px;
@@ -11,7 +13,7 @@
   margin-bottom: 16px;
 }
 .contactCard {
-  width: 324px;
+  width: 270px;
   position: relative;
 }
 .inputStyle {

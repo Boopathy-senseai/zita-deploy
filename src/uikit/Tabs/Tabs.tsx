@@ -41,11 +41,13 @@ const Tabs: React.FC<Props> = ({
         <div className={styles.childBorderStyle}>
           {children && children[selectedTab] ? children[selectedTab] : ''}
         </div>
-      ) : children && children[selectedTab] ? (
+      ) : 
+      <div className={styles.childTopBorderStyle}>
+      {children && children[selectedTab] ? (
         children[selectedTab]
       ) : (
         ''
-      )}
+      )} </div>}
     </div>
   );
 };

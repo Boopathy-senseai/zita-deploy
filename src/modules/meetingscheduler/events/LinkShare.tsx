@@ -119,7 +119,7 @@ const LinkShare = (props) => {
           </Flex>
         </Flex>
         <Flex className={styles.line}></Flex>
-        <Text size={14}>Candidate/Applicants</Text>
+        <Text size={13}>Candidate/Applicants</Text>
         <Flex row width={300}>
           <InputText
             style={{

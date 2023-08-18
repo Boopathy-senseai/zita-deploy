@@ -1,5 +1,4 @@
-.overAll {
-  padding: 16px;
+.overAll { 
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -8,7 +7,17 @@
   margin: 0 16px;
 }
 .btnContainer {
-  margin-top: 16px;
+  margin-top: 8px;
+}
+.initialbutton{
+  width: 100%; 
+}
+.initialbuttons{
+  width: 100%;
+  padding-left: 10px;
+  border: 1px solid #D7C7D2 !important;
+  height: 40px;
+  border-radius: 3px;
 }
 .profile {
   width: 40px;
@@ -22,7 +31,7 @@
   background-color: var(--color-success, #34cc65);
 }
 .messageContainer {
-  border: 1px solid var(--color-gary-6, #b3b3b3);
+  /* border: 1px solid var(--color-gary-6, #b3b3b3); */
   border-radius: 4px;
   margin-top: 8px;
 }

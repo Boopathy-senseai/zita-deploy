@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { jobCreateDs, jobCreateNonDs } from '../../appRoutesPath';
+import SvgRight from '../../icons/SvgRight';
 import SvgInfo from '../../icons/SvgInfo';
 import { AppDispatch, RootState } from '../../store';
 import { WARNING } from '../../uikit/Colors/colors';
@@ -47,12 +48,34 @@ const CreateJdScreen = () => {
 
   return (
     <Flex columnFlex>
+      <div>
+        <Flex row className={styles.titleContainer}>
+          {/* <SvgJobPost width={15.71} height={16} /> */}
+          <Flex row>
+          <Text
+            bold
+            size={16}
+            style={{ marginLeft: 8, color: '#581845' }}
+            className={styles.postingcl}
+          >
+            Job Posting
+          </Text>
+          <Flex marginTop={6} marginLeft={7} marginRight={2}>
+            <SvgRight fill={'#581845'} ></SvgRight></Flex>
+          <Flex marginTop={1} marginLeft={3}>
+            <Text size={16} bold color="theme" >
+              Post Job</Text>
+          </Flex>
+          </Flex>
+          <div className={styles.triangle}></div>
+        </Flex>
+      </div>
       {feature === 0 && (
         <Flex middle columnFlex center>
           <Flex middle row center className={styles.warningFlex}>
-            <SvgInfo fill={WARNING} />
-            <Text size={12} bold color="warning" className={styles.warningText}>
-              {`You’ve reached the number of job postings for your current plan 
+            <SvgInfo fill={'#2E6ADD'} />
+            <Text size={13} bold color='primary' className={styles.warningText}>
+              {`Heads up`} {`You’ve reached the number of job postings for your current plan 
           but you can keep new job descriptions in Draft. Please `}
               <LinkWrapper
                 target={'_parent'}
@@ -61,7 +84,7 @@ const CreateJdScreen = () => {
                 }}
                 to="/account_setting/settings?planFocus=focus"
               >
-                <Text size={12} bold color="link">
+                <Text size={13} bold color="link">
                   upgrade{' '}
                 </Text>
               </LinkWrapper>
@@ -70,24 +93,24 @@ const CreateJdScreen = () => {
             </Text>
           </Flex>
         </Flex>
-      )}
+        )} 
       <Flex columnFlex>
         <Text
           className={styles.chooseText}
           align="center"
-          size={20}
+          size={16}
           bold
           color="black"
         >
           Choose your Job category
         </Text>
         <Flex row center middle>
-          <div className={styles.leftCard}>
+          <div className={styles.leftCard}> 
             <JdSelectCard
               title={'Data Science Jobs'}
               des={`Take your first step to create your data science and AI jobs with
-          customized fields and skills recommendation to hit the targeted
-          candidates for data science domain.`}
+          customized fields and skills recommendations to hit the targeted
+          candidates for the data science domain.`}
               buttonTitle={'Create Job'}
               exTitle="Ex: Data Analyst, ML Engineer, DevOps Engineer ..."
               path={jobCreateDs}
@@ -99,14 +122,14 @@ const CreateJdScreen = () => {
               title={'All Other Jobs'}
               des={`Take your first step to create your jobs for IT, NON-IT and other 
             domains with our customized form and make your hiring easier and
-             reach to the best candidates for your job.`}
+             reach the best candidates for your job.`}
               buttonTitle={'Create Job'}
               exTitle="Ex: Web Developer, Software Engineer, System Engineer, Accountant ..."
               path={jobCreateNonDs}
               onClick={() => {}}
             />
           </div>
-        </Flex>
+        </Flex>                   
       </Flex>
     </Flex>
   );

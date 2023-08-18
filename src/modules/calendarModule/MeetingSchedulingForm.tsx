@@ -159,6 +159,12 @@ const MeetingSchedulingForm = ({
   };
 
   const handleContinue = () => {
+    if(localStorage.getItem('Applicantname') !== ''){
+      localStorage.setItem('Applicantsname',localStorage.getItem('Applicantname'))
+    }
+    localStorage.setItem('Applicantname','')
+    localStorage.setItem('Jdname','')
+    localStorage.setItem('jdid','')
     setMeetingForm((form) => {
       let jobError = !form.job.label ? true : false;
       let applicantError = !form.applicant.name ? true : false;
@@ -426,6 +432,7 @@ const MeetingSchedulingForm = ({
   const ApplicantView = (
     <div>
       <label className={styles.label}>Applicant *</label>
+      {console.log(cand_name,'cand_namecand_namecand_name')}
       {editEventDetails || cand_name ? (
         <div>
           <InputText
@@ -457,6 +464,8 @@ const MeetingSchedulingForm = ({
           options={applicants}
         />
       )}
+      {console.log(meetingForm.applicant.error,'meetingForm.applicant.error')}
+      {console.log(meetingForm.applicant ,'meetingForm.applicant.error')}
       {meetingForm.applicant.error && (
         <p className={styles.warn}>This field is required</p>
       )}
@@ -510,6 +519,7 @@ const MeetingSchedulingForm = ({
       <label className={styles.label}>Date *</label>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DesktopDatePicker
+          label={" "}
           value={meetingForm.date.value}
           onChange={handleChangeDate}
           renderInput={(params) => (

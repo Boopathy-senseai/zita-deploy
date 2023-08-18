@@ -4,6 +4,7 @@ import classNames from 'classnames/bind';
 import { FormikProps, useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
+import { ErrorMessage } from '../../uikit';
 import { enterKeyPress, isEmpty, notSpecified } from '../../uikit/helper';
 import Text from '../../uikit/Text/Text';
 import Flex from '../../uikit/Flex/Flex';
@@ -20,6 +21,7 @@ import { workYear } from '../common/commonHelper';
 import { DataEntity } from './myDataBaseTypes';
 import { MyDataFormProps } from './MyDataBaseScreen';
 import { experienceOptionAdd } from './mock';
+import { useForm } from '../../hooks/useForm';
 import styles from './locationcontainer.module.css';
 import { myDataBaseDataMiddleWare } from './store/middleware/mydatabasemiddleware';
 
@@ -46,6 +48,8 @@ type Props = {
   isPage: number;
 };
 
+
+
 const LocationContainer = ({
   dataList,
   filterFormik,
@@ -65,20 +69,32 @@ const LocationContainer = ({
   const myRefLocation = createRef<any>();
   const myRefExperience = createRef<any>();
   const addFav = isFav ? 'add' : '';
-  const handleOpenLocationInput = () => {
+
+
+  // const handleOpenLocationInput = () => {
+  //     setLocationInput(true);  
+  // };
+  const handleOpenLocationInput = (values: { location: string }) => {
     setLocationInput(true);
+    const errors: Partial<{ location: string }> = {};
+    if (isEmpty(values.location) || values?.location.trim() === '') {
+      errors.location = '';
+    }
+    return errors;
   };
+  const toggleStage = () => {
+    setLocationInput(true);
+    formik.resetForm();
+  };
+
   const handleCloseLocationInput = () => {
     setLocationInput(false);
   };
 
-  const handleOpenExperienceInput = () => {
-    setExperienceInput(true);
-  };
   const handleCloseExperienceInput = () => {
     setExperienceInput(false);
   };
-
+  
   const handleClickOutside = (event: { target: any }) => {
     if (
       myRefLocation.current &&
@@ -127,11 +143,22 @@ const LocationContainer = ({
     experience: dataList.work_exp,
   };
 
-  const formik = useFormik({
+  const formik = useFormik<{ location: string }>({
     initialValues: initial,
-    onSubmit: () => {},
+    validate: handleOpenLocationInput,
+    onSubmit: (dataList) => {
+      location:dataList.location.trim()
+    toggleStage();
+    }
   });
-// Location from submit function
+
+  // const handleKeyPress = (event: { key: string }) => {
+  //   if (event.key === 'Enter') {
+  //     formik.handleSubmit();
+  //   }
+  // };
+
+  // Location from submit function
   const handleLocationSubmit = () => {
     if (formik.values.location !== '') {
       setLocationLoader(true);
@@ -176,7 +203,7 @@ const LocationContainer = ({
         });
     }
   };
-// Experience from submit function
+  // Experience from submit function
   const handleExperienceSubmit = (id: number, selectValue: string) => {
     setExperienceLoader(true);
     const data = querystring.stringify({
@@ -227,25 +254,24 @@ const LocationContainer = ({
           {dataList.work_exp === 'Not Specified' ? (
             <Text
               textStyle="ellipsis"
-              size={12}
-              color="gray"
+              size={11}
+              color="black_1"
               className={styles.marginTop}
+              title= {`Location: ${dataList?.location}`}
             >
-              {notSpecified(dataList.location)} | {'Not Specified'}
+              {notSpecified(dataList.location)}
             </Text>
           ) : (
             <Flex row center className={styles.marginTop}>
               <Text
-                textStyle="ellipsis"
-                size={12}
-                color="gray"
-                style={{ maxWidth: '50%' }}
-                title={dataList?.location}
+                // textStyle="ellipsis"
+                size={11}
+                color="black_1"
+                className={styles.locationtab}
+                style={{ maxWidth: '210%', width: "200px" }}
+                title= {`Location: ${dataList?.location}`}
               >
                 {notSpecified(dataList.location)}
-              </Text>
-              <Text size={12} color="gray" style={{ marginLeft: 2 }}>
-                | {notSpecified(workYear(dataList.work_exp))}
               </Text>
             </Flex>
           )}
@@ -258,7 +284,7 @@ const LocationContainer = ({
             <>
               {isEmpty(dataList.location) ? (
                 <Text
-                  size={12}
+                  size={11}
                   color="link"
                   textStyle="ellipsis"
                   underLine
@@ -266,12 +292,13 @@ const LocationContainer = ({
                 >
                   Add Location
                 </Text>
+
               ) : (
                 <Text
                   title={dataList.location}
                   textStyle="ellipsis"
-                  size={12}
-                  color="gray"
+                  size={11}
+                  color="primary"
                   onClick={handleOpenLocationInput}
                   underLine
                   className={styles.locationStyle}
@@ -285,29 +312,37 @@ const LocationContainer = ({
               <div ref={myRefLocation} className={styles.inputOverAll}>
                 <InputText
                   autoFocus
+                  className={styles.locationinput}
+                  name="location"
                   value={formik.values.location}
                   onChange={formik.handleChange('location')}
                   lineInput
-                  size={12}
-                  onKeyPress={(e) => enterKeyPress(e, handleLocationSubmit)}
+                  size={11}
+                  // onKeyPress={(e) => enterKeyPress(e, handleLocationSubmit)}
+                  // onKeyPress={handleKeyPress}
+                  onBlur={formik.handleBlur}
                 />
-                <div className={styles.svgContainer}>
+              <ErrorMessage
+                      touched={formik.touched}
+                      errors={formik.errors}
+                      name="location"
+                    />
+                {/* <div style={{ display: 'flex', flexDirection: 'row' }}>
                   {isLocationLoader ? (
-                    <div className={styles.svgTick}>
-                      <Loader withOutOverlay size={'small'} />
+                    <div>
+                      <div className={styles.locationloader}><Loader withOutOverlay size={'small'} /></div>
                     </div>
                   ) : (
                     <div
                       className={cx('svgTickMargin', {
-                        svgTickDisable: isEmpty(formik.values.location),
+                        svgTickDisable: !formik.isValid,
                         tickStyle: !isEmpty(formik.values.location),
                       })}
                       onClick={handleLocationSubmit}
                       tabIndex={-1}
                       role={'button'}
-                      onKeyPress={() => {}}
                     >
-                      <SvgTickBox className={styles.tickStyle} />
+                      <SvgTickBox />
                     </div>
                   )}
 
@@ -316,83 +351,42 @@ const LocationContainer = ({
                     onClick={handleCloseLocationInput}
                     tabIndex={-1}
                     role={'button'}
-                    onKeyPress={() => {}}
+                    onKeyPress={() => { }}
                   >
                     <SvgCloseBox className={styles.tickStyle} />
                   </div>
-                </div>
-              </div>
-            </>
-          )}
-
-          <Text size={12} color="gray" className={styles.slace}>
-            |
-          </Text>
-          {!isExperienceInput ? (
-            <>
-            <div style={{width:'35%'}}>
-              {isEmpty(dataList.work_exp) ? (
-                <Text
-                  underLine
-                  size={12}
-                  color="link"
-                  onClick={handleOpenExperienceInput}
-                  textStyle="ellipsis"
-                >
-                  Add Experience
-                </Text>
-              ) : (
-                <div style={{width:'70px'}}>
-                <Text
-                  // textStyle="ellipsis"
-                  size={12}
-                  color="gray"
-                  onClick={handleOpenExperienceInput}
-                  underLine
-                  className={'pointer'}
-                >
-                  {workYear(dataList.work_exp)}
-                </Text>
-                </div>
-              )}
-              
-              </div>
-            </>
-          ) : (
-            <div
-              ref={myRefExperience}
-              style={{ width: '50%' }}
-              className={cx('inputOverAll')}
-            >
-              <SelectTag
-                id={'experienceAdd__optional'}
-                placeholder={'Optional'}
-                options={experienceOptionAdd}
-                onChange={(option) => {
-                  formik.setFieldValue('name', option.value);
-                  handleExperienceSubmit(dataList.id, option.value);
-                }}
-                lineStyle
-              />
+                </div> */}
               <div className={styles.svgContainer}>
-                {isExperienceLoader && (
-                  <div className={styles.svgTick}>
-                    <Loader withOutOverlay size={'small'} />
-                  </div>
-                )}
-
+              {isLocationLoader ? (
+                <div className={styles.svgTick}>
+                  <Loader withOutOverlay size={'small'} />
+                </div>
+              ) : (
                 <div
-                 style={{marginTop: '-132%'}}
-                  className={styles.svgClose}
-                  onClick={handleCloseExperienceInput}
+                className={cx('svgTickMargin', {
+                  svgTickDisable: !formik.isValid,
+                  tickStyle: !isEmpty(formik.values.location),
+                  })}
+                  onClick={handleLocationSubmit}
                   tabIndex={-1}
                   role={'button'}
                   onKeyPress={() => {}}
                 >
-                  <SvgCloseBox className={styles.tickStyle} />
+                  <SvgTickBox />
                 </div>
+              )} 
+              <div
+                className={styles.svgClose}
+                tabIndex={-1}
+                onClick={handleCloseLocationInput}
+                role={'button'}
+                onKeyPress={() => {}}
+              >
+                <SvgCloseBox className={styles.tickStyle} />
               </div>
-            </div>
+              </div>
+              </div>
+            </>
           )}
         </Flex>
       )}

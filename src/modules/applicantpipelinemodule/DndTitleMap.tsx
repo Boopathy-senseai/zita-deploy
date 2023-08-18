@@ -45,7 +45,14 @@ const DndTitleMap = ({
       }
     };
   });
-
+const selectall=()=>{
+  onSelectAll(column);
+  setDropDown(false);
+}
+const unselectall=()=>{
+  onUnselectAll(column);
+  setDropDown(false);
+}
   // date sort function
   const hanldeDateSort = (indexValue: number) => {
     setSortApplicant(column.columnId, 'date');
@@ -97,40 +104,63 @@ const DndTitleMap = ({
         {isDropDown && (
           <Flex className={styles.dropDownFlex}>
             {!columnSelected ? (
+              <>
               <Text
-                onClick={() => onSelectAll(column)}
+                onClick={selectall}
                 className={styles.dropDate}
               >
                 {'Select All'}
               </Text>
+                  <Text
+                  onClick={() => hanldeDateSort(index)}
+                  className={styles.dropDate}
+                >
+                  {'Applied Date'}
+                </Text>
+                <Text
+                  onClick={() => hanldeMatchSort(index)}
+                  className={styles.dropMatch}
+                >
+                  {'Match Score'}
+                </Text>
+                <Text
+                  onClick={() => hanldeNameSort(index)}
+                  className={styles.dropName}
+                >
+                  {'Name'}
+                </Text>
+                </>
             ) : (
+              <>
               <Text
-                onClick={() => onUnselectAll(column)}
+                onClick={unselectall}
                 className={styles.dropDate}
               >
                 {'Unselect All'}
               </Text>
+                  <Text
+                  onClick={() => hanldeDateSort(index)}
+                  className={styles.dropDate}
+                >
+                  {'Applied Date'}
+                </Text>
+                <Text
+                  onClick={() => hanldeMatchSort(index)}
+                  className={styles.dropMatch}
+                >
+                  {'Match Score'}
+                </Text>
+                <Text
+                  onClick={() => hanldeNameSort(index)}
+                  className={styles.dropName}
+                >
+                  {'Name'}
+                </Text></>
             )}
-            <Text
-              onClick={() => hanldeDateSort(index)}
-              className={styles.dropDate}
-            >
-              {'Applied Date'}
-            </Text>
-            <Text
-              onClick={() => hanldeMatchSort(index)}
-              className={styles.dropMatch}
-            >
-              {'Match Score'}
-            </Text>
-            <Text
-              onClick={() => hanldeNameSort(index)}
-              className={styles.dropName}
-            >
-              {'Name'}
-            </Text>
+        
           </Flex>
         )}
+   
       </div>}
     </div>
   );

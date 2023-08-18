@@ -8,7 +8,6 @@ import InputSwitch from '../..//../uikit/Switch/InputSwitch';
 import SvgInfo from '../..//../icons/SvgInfo';
 import SvgModuleicon from '../../../icons/SvgModuleicon';
 import Loader from '../../../uikit/Loader/Loader';
-import ExternalSwitch from '../..//../uikit/externalswitch/Externalswitch';
 import styles from './email.module.css';
 
 

@@ -60,7 +60,7 @@ const JdTemplateList = ({
             role={'button'}
             onKeyPress={() => {}}
           >
-            <SvgAngle width={12} height={12} fill={GARY_4} up={isCollapse} />
+            <SvgAngle width={12} height={12} fill='#581845' up={isCollapse} />
           </div>
           <div
             className="pointer"
@@ -69,7 +69,7 @@ const JdTemplateList = ({
             role={'button'}
             onKeyPress={() => {}}
           >
-            <SvgAdd width={12} height={12} />
+            <SvgAdd width={12} height={12} fill='#581845' />
           </div>
         </Flex>
       </Flex>

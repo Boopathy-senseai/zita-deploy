@@ -2,6 +2,9 @@
   max-width: 590px;
   padding: 20px;
 }
+.cardOverAll:hover{
+  background-color: #eee8ec;
+}
 .titleStyle {
   margin-bottom: 16px;
 }

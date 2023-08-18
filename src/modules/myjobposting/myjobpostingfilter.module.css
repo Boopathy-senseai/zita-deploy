@@ -21,6 +21,9 @@
 }
 .matchRadioStyle {
   margin-bottom: 8px;
+  width: 150px;
+  display: flex;
+  word-wrap: break-word;
 }
 .qualificationRadioStyle {
   margin-bottom: 8px;
@@ -55,6 +58,11 @@ font-weight: 400;
     /*margin-bottom: 13px;*/
 /* } */
 
+.matchRadioStyling{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
 .filter_ali {
   float: right;
   position: relative;
@@ -69,7 +77,7 @@ font-weight: 400;
 .drop_down_header {
   padding: 10px;
   background-color: #ffff !important;
-  width: 230px;
+  /* width: 230px; */
   height: 30px;
   border: 1px solid #581845;
   border-radius: 11px;
@@ -102,13 +110,15 @@ font-weight: 400;
   position: absolute;
   background-color: var(--color-white, #fff);
   border-radius: 12px;
-  max-height:450px ;
+  max-height:375px ;
   overflow-y: scroll;
   width: 230px;
   display: none;
   box-sizing: border-box;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.47000000000000003);
   -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.47);
+  scrollbar-width: thin;
+  z-index: 1;
   
 }
 
@@ -150,7 +160,22 @@ font-weight: 400;
   border-radius: 16px;
   color: #581845;
 }
-
+.checkboxalign{
+  flex-wrap: wrap;
+  /* width: 230px; */
+}
+.quickfilonlyall {
+  border-style: solid;
+  border: 2px solid #a5889c;
+  cursor:default;
+  margin-left: 15px;
+  padding-left: 10.5px;
+  padding-top: 5px;
+  padding-bottom: 5.27px;
+  padding-right: 15px;
+  border-radius: 16px;
+  color: #581845;
+}
 .quickfil2 {
   font-style: normal;
   font-weight: 300;

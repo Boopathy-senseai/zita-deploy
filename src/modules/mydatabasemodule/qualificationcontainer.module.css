@@ -1,11 +1,95 @@
+.slace {
+  margin: 0px 2px 0px 2px;
+}
+
 .marginTop {
   margin-top: 2px;
+  min-width: 100%;
+}
+@media only screen and (max-width: 1366px) {
+  .marginTop {
+    min-width: 100%;
+  }
+}
+
+@media only screen and (min-width: 1366px) and (max-width:1920px) {
+  .marginTop {
+    min-width: 100%;
+  }
+}
+
+@media screen and (min-width: 1920px) {
+  .marginTop {
+    min-width: 1%;
+  }
+}
+
+.width85{
+  min-width:170px;
+  width: 100%;
+}
+.cardaqualification{
+  width: 70px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@media only screen and (max-width: 1366px) {
+  .cardaqualification{
+    width: 50px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}
+
+@media only screen and (min-width: 1366px) and (max-width:1920px) {
+  .cardaqualification{
+    width: fit-content;
+
+  }
+}
+
+@media screen and (min-width: 1920px) {
+  .cardaqualification{
+    width: fit-content;
+  }
+}
+
+.textworkexp{
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  margin-Left:1px;
+  width: 100px;
+}
+
+@media only screen and (max-width: 1366px) {
+  .textworkexp{
+    width: 100px;
+  }
+}
+
+@media only screen and (min-width: 1366px) and (max-width:1920px) {
+  .textworkexp{
+    width: 67px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media screen and (min-width: 1920px) {
+  .textworkexp{
+    width: fit-content;
+    white-space: nowrap;
+
+  }
 }
 
 .inputOverAll {
   display: inline-grid;
   position: relative;
-  width: 75%;
+  width: 50%;
 }
 .svgContainer {
   display: flex;
@@ -13,7 +97,7 @@
   margin-top: 4px;
   position: absolute;
   top: -4px;
-  right: -22px;
+  /* right: -22px; */
 }
 .svgTick {
   margin-right: 4px;
@@ -34,4 +118,20 @@
 }
 .svgClose {
   cursor: pointer;
+  left: 100px;
+  position: relative;
+}
+
+.experienceinput{
+  width: 11px;
+}
+
+.experienceloader{
+  left: 100px;
+  position: relative;  
+}
+
+.qualificationloader{
+  left: 100px;
+  position: relative;
 }

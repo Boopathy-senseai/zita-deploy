@@ -23,3 +23,4 @@ const RightChevron = () => {
 };
 
 export default RightChevron;
+
