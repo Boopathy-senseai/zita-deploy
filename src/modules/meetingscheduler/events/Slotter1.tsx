@@ -1488,7 +1488,7 @@ const SlotterDate = (props) => {
   );
 };
 const Conformpage = (props) => {
-              const { selecttime, date, response, InterviewText, timezones,FooterNavogation } = props;
+  const { selecttime, date, response, InterviewText, timezones,FooterNavogation } = props;
 
   return (
     <>
@@ -1546,7 +1546,7 @@ const Conformpage = (props) => {
             <Text
               bold
               size={14}
-              style={{ margin: '10px 0px' }}
+              style={{ margin: '10px 0px',  textTransform: 'capitalize' }}
             >
               {list.event_name}
             </Text>
@@ -1563,7 +1563,7 @@ const Conformpage = (props) => {
               </Text>
             </Flex>
             <Flex row center marginBottom={10}>
-              {/* <SvgGlobe width={14} height={14} fill={'#581845'} /> */}
+              <SvgGlobe width={14} height={14} fill={'#581845'} />
               <Text size={13} style={{ marginLeft: '5px' }}>
                 Time zone is {timezones(list.times_zone)}
               </Text>
