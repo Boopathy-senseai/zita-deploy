@@ -375,30 +375,6 @@ const ScheduledEventsPage = () => {
           onChange={(date) => {
             formik.setFieldValue('date', date);
             getEventsData(date);
-            // dispatch(
-            //   dashboardCalenderMiddleWare({
-            //     date: getDateString(date, 'YYYY-MM-DD'),
-            //   }),
-            // ).then((res) => {
-            //   const dataout = res.payload.events;
-            //   setEvent(
-            //     res.payload.events.map(
-            //       (items: {
-            //         title: any;
-            //         start_time: string | number | Date;
-            //         end_time: string | number | Date;
-            //         web_url: any;
-            //       }) => {
-            //         return {
-            //           title: items.title,
-            //           start: new Date(items.start_time),
-            //           end: new Date(items.end_time),
-            //           web_url: items.web_url,
-            //         };
-            //       },
-            //     ),
-            //   );
-            // });
           }}
           className={styles.datePicker}
         />
