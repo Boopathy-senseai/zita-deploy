@@ -207,34 +207,43 @@ const DashBoardScreen = () => {
       </Flex>
       <Flex className={styles.scroll}>
         <Flex className={styles.overAll}>
-          <Flex row center >
+          <Flex row center>
             <div style={{ display: 'flex', marginBottom: '5px' }}>
               {isEmpty(getFreeValue) &&
                 plan &&
                 plan.plan_id_id === 1 &&
                 plan.subscription_remains_days <= 7 && (
-                  <Flex columnFlex>
-                    <Flex middle row center className={styles.warningFlex}>
-                      <SvgInfo fill={WARNING} />
+                  <Flex row center className={styles.warningFlex}>
+                    {/* <Flex  row center > */}
+                    <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
+                    <Text
+                      style={{ color: '#333333' }}
+                      className={styles.warningText}
+                    >
                       <Text
-                        size={12}
+                        style={{
+                          color: '#2E6ADD',
+                          marginRight: '3px',
+                          fontSize: '13px',
+                        }}
                         bold
-                        color="warning"
-                        className={styles.warningText}
                       >
-                        {`Your free trial ends in ${
-                          plan.subscription_remains_days
-                        } ${
-                          plan.subscription_remains_days === 1 ? 'day' : 'days'
-                        }. Please `}
-                        <Text size={12} bold color="link" onClick={manageUser}>
-                          upgrade{' '}
-                        </Text>
-                        to a paid plan to get uninterrupted access and enjoy
-                        more zita platform features along with your branded
-                        careers page.
+                        Heads Up!{' '}
                       </Text>
-                    </Flex>
+                      {`Your free trial ends in ${
+                        plan.subscription_remains_days
+                      } ${
+                        plan.subscription_remains_days === 1 ? 'day' : 'days'
+                      }. Please `}
+                      <Text size={13} bold color="link" onClick={manageUser}>
+                        upgrade{' '}
+                      </Text>
+                      to a paid plan to get uninterrupted access and enjoy more
+                      zita platform features along with your branded careers
+                      page.
+                    </Text>
+
+                    {/* </Flex> */}
                   </Flex>
                 )}
             </div>
@@ -246,7 +255,7 @@ const DashBoardScreen = () => {
             </Flex>
             <Flex flex={12}>
               <Flex row>
-                <Flex marginLeft={5}  flex={5}>
+                <Flex marginLeft={5} flex={5}>
                   <OverallJobActivities></OverallJobActivities>
                 </Flex>
 

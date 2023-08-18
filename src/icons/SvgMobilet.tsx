@@ -5,6 +5,7 @@ const SvgMobilet = (props) => (
     width={16}
     height={16}
     fill="581845"
+    viewBox='0 0 16 16'
     {...props}
   >
     <path

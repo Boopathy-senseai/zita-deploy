@@ -225,7 +225,7 @@ const ProfileCard = () => {
   return (
     <Flex marginLeft={3}>
       <Card className={styles.profileCardMain}>
-        <Flex marginLeft={140} marginTop={15} center>
+        <Flex middle marginTop={15}>
           {logoPath === 'logo' ? (
             <Button>a</Button>
           ) : (
@@ -545,17 +545,17 @@ const ProfileCard = () => {
         <Flex marginLeft={20}>
           <Flex>
             {weburl === null || weburl === 'https://' ? (
-              <Flex row marginTop={7}>
-                <Flex marginRight={5} marginTop={1}>
-                  <SvgGlobe height={14} width={14}  fill={"#581845"} />
+              <Flex row center>
+                <Flex marginBottom={2}>
+                  <SvgGlobe height={16} width={16} fill={'#581845'} />
                 </Flex>
-                <Flex>
+                <Flex marginLeft={5}>
                   <LinkWrapper to={'/account_setting/settings'}>
                     <Text
                       style={{
                         color: '#581845',
                         fontSize: '13px',
-                        marginLeft: ' 10px',
+                        // marginLeft: ' 10px',
                       }}
                       bold
                     >
@@ -566,15 +566,15 @@ const ProfileCard = () => {
               </Flex>
             ) : (
               <Flex row>
-                <Flex marginRight={5} marginTop={2}>
-                  <SvgGlobe height={14} width={14}  fill={"#581845"} />
+                <Flex>
+                  <SvgGlobe height={16} width={16} fill={'#581845'} />
                 </Flex>
-                <Flex marginLeft={12}>
+                <Flex>
                   {' '}
                   <a target={'_blank'} rel="noreferrer" href={weburl}>
                     <Text
                       style={{
-                        marginBottom: '4px',
+                        // marginBottom: '4px',
                         color: '#581845',
                         fontWeight: 600,
                         fontSize: '13px',
@@ -591,12 +591,12 @@ const ProfileCard = () => {
 
           <Flex style={{ cursor: 'default' }} marginTop={7}>
             {mobile_no !== '' ? (
-              <Flex row>
-                <Flex marginRight={5} marginTop={6}>
-                  <SvgMobilet height={14} width={14} fill={"#581845"} />
+              <Flex row center>
+                <Flex>
+                  <SvgMobilet height={16} width={16} fill={'#581845'} />
                 </Flex>
-                <Flex marginLeft={7}>
-                  <Text style={{fontSize:'13px !important'}}>
+                <Flex marginLeft={5}>
+                  <Text style={{ fontSize: '13px !important' }}>
                     <PhoneInput
                       value={mobile_no}
                       inputStyle={{
@@ -604,7 +604,7 @@ const ProfileCard = () => {
                         padding: 'inherit',
                         height: '30px',
                         cursor: 'default',
-                        fontSize: "13px",
+                        fontSize: '13px',
                       }}
                       showDropdown={false}
                       defaultErrorMessage="false"
@@ -624,26 +624,26 @@ const ProfileCard = () => {
           </Flex>
           <Flex marginTop={3}>
             {address !== null ? (
-              <Flex row marginTop={3} >
-                <Flex marginRight={1} >
-                  <SvgLocationicon height={14} width={14} fill={"#581845"} />
+              <Flex row marginTop={3}>
+                <Flex marginRight={1}>
+                  <SvgLocationicon height={16} width={16} fill={'#581845'} />
                 </Flex>
-                <Flex marginLeft={7} style={{fontSize:'13px'}}>
+                <Flex marginLeft={5} style={{ fontSize: '13px' }}>
                   {address}, {city}, {state}, {country}, {zipcode}
                 </Flex>
               </Flex>
             ) : (
               <Flex row center marginTop={3}>
                 <Flex>
-                  <SvgLocationicon height={14} width={14} fill={'#581845'} />
+                  <SvgLocationicon height={16} width={16} fill={'#581845'} />
                 </Flex>
-                <Flex>
+                <Flex marginLeft={5}>
                   <LinkWrapper to={'/account_setting/settings'}>
                     <Text
                       style={{
                         color: '#581845',
                         fontSize: '13px',
-                        marginLeft: '9px',
+                        // marginLeft: '5px',
                       }}
                       bold
                     >

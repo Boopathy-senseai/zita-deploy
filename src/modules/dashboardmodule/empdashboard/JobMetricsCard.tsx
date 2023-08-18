@@ -136,7 +136,7 @@ const JobMetricsCard = () => {
         </Flex> */}
 
         {jd_metrics.length !== 0 && (
-          <Flex>
+          <Flex marginTop={5}>
             <Flex row>
               <Flex row center>
                 <Flex marginRight={5} marginTop={-5}>
