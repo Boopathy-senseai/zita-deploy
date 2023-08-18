@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { routesPath } from '../../routes/routesPath';
 import Button from '../../uikit/Button/Button';
 import Card from '../../uikit/Card/Card';
+import SvgActive from '../../icons/SvgActive';
 import Flex from '../../uikit/Flex/Flex';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import Table from '../../uikit/Table/Table';
@@ -11,6 +12,7 @@ import { CANCEL } from '../constValue';
 import styles from './addedapplicantquestionnaire.module.css';
 import { QuestionnaireForJdEntity } from './createJdTypes';
 import { questionTitle } from './questionnaireTable';
+
 
 type Props = {
   tabledata: QuestionnaireForJdEntity[];
@@ -37,6 +39,7 @@ const AddedApplicantQuestionnaire = ({
         </Text>
         <Text>You can check the added/selected questions below</Text>
         <div className={styles.tableDiv}>
+          
           <Table
             empty={'No Questionnaire Added'}
             dataSource={tabledata}

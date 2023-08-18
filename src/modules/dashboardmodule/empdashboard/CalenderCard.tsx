@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 import DatePicker from 'react-datepicker';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
+import SvgNoevent from '../../../icons/SvgNoevent';
 import SvgCalendar from '../../../icons/SvgCalendar';
 // import SvgNewTab from '../../../icons/SvgNewTab';
 import SvgRefresh from '../../../icons/SvgRefresh';
@@ -36,6 +37,7 @@ import styles from './calendercard.module.css';
 import { EventsEntity } from './DashBoardTypes';
 import { dashboardCalenderMiddleWare } from './store/dashboardmiddleware';
 import { outlookTimeZone } from './mock';
+
 
 
 const email = getGoogleEventsMiddleware;
@@ -485,6 +487,7 @@ const CalenderCard = ({
         ) : (
           <Flex flex={1} center middle columnFlex className={styles.noContent}>
             {console.log("cal_eventlength", event.length)}
+            <SvgNoevent fill={888888} width={18} height={18} style={{filter:"opacity(0.6)"}} />
             <Text color="gray"> No event scheduled</Text>
           </Flex>
         )

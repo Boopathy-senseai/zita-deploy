@@ -63,7 +63,7 @@
   border-right: 30px solid white;
   border-bottom: 22px solid transparent;
   position: absolute;
-  top: 0;
+  top: -2px;
   right: 0;
 }
 
@@ -95,16 +95,15 @@
 /* .nav .nav-tabs{
 pointer-events: none;
 } */
-.triangle {
+/* .triangle {
   width: 0;
   height: 0;
   border-top: 22px solid transparent;
   border-right: 30px solid white;
   border-bottom: 22px solid transparent;
-  /* position: relative; */
-  top: -1px;
+  top: -2px;
   right: 0;
-}
+} */
 .overallhead {
   background-color: #eee8ec;
   display: flex;

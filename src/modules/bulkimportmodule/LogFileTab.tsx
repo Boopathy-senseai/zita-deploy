@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FileX } from 'react-bootstrap-icons';
 import { AppDispatch, RootState } from '../../store';
+import SvgNoDataIcon from '../../icons/SvgNoDataIcon';
+import SvgNoData from '../../icons/SvgNoData';
 import SvgNomessage from '../../icons/SvgNomessage';
 import SvgRefresh from '../../icons/SvgRefresh';
 import Flex from '../../uikit/Flex/Flex';
@@ -9,6 +11,8 @@ import Text from '../../uikit/Text/Text';
 import { isEmpty } from '../../uikit/helper';
 import { bulkImportMiddleWare } from './store/middleware/bulkImportMiddleware';
 import styles from './logfile.module.css';
+
+
 
 
 type Props = {
@@ -30,7 +34,7 @@ const LogFileTab = ({ getKey }: Props) => {
   return (
     <Flex className={styles.overAll} height={window.innerHeight - 200} style={{justifyContent:"center", alignItems:"center"}}>
       
-        <SvgRefresh/>
+        <SvgNoDataIcon width={15} style={{filter:"opacity(0.5)"}} />
       {isEmpty(txt_file) ? (
         <Text color="gray" align="center">
           No bulk import log available
