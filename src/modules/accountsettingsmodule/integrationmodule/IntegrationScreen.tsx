@@ -239,8 +239,8 @@ const IntegrationScreen = () => {
 
   return (
     <Flex className={styles.overAll}>
-      {  console.log(tost,'ttttttttt')}
-      {console.log("outlookcallapimiddle::",outlookCallApiMiddleware)}
+      {/* {  console.log(tost,'ttttttttt')} */}
+      {/* {console.log("outlookcallapimiddle::",outlookCallApiMiddleware)} */}
       {isLoginLoader && <Loader />}
       <Flex columnFlex>
         <Text size={16} bold style={{ color: '#581845' }}>

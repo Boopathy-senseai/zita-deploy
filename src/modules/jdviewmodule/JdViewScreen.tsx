@@ -284,7 +284,7 @@ const JdViewScreen = () => {
                     >Trend Line of Job Views and Applicants</Text>
                     <Flex className={styles.center}>
                       <Text bold className={styles.font10px} style={{ color: "#888888" }}>
-                        No Data Available
+                        No data available
                       </Text>
                     </Flex>
                   </>

@@ -89,7 +89,7 @@ update();
 
           <Flex row center>
             <div className={cx('svgInputDiv')}>
-              <NavigationSearch />
+              <NavigationSearch onButtonClick={undefined} onbuttonchange={undefined} />
             </div>
 
             {!is_plan ? (

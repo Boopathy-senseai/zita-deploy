@@ -43,7 +43,8 @@ export type textColors =
   | 'warning'
   | 'yellow'
   | 'black2'
-  | 'disabled';
+  | 'disabled'
+  | 'placeholder';
 
 export type textTransform =
   | 'capitalize'

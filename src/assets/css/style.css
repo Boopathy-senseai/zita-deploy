@@ -665,6 +665,10 @@ input:disabled {
   left: 2px;
   font-size: 12px;
 }
+.react-tel-input .form-control { 
+  font-size: 13px !important;
+  color: #333;
+}
 
 .react-autosuggest__input:focus,
 .react-select__control--is-focused {

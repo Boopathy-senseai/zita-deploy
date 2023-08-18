@@ -257,7 +257,7 @@ const ApplicantReports = () => {
 										<Chart options={chartOptions} />
 									) : (
 										<Flex className={styles.noData} height={window.innerHeight-200} center middle>
-											<Text bold color='gray'>No Data Available</Text>
+											<Text bold color='placeholder'>No data available</Text>
 										</Flex>
 									)}
 								</Card>
@@ -267,7 +267,7 @@ const ApplicantReports = () => {
 				) : (
 					<Flex className={styles.noData} style={{display:"flex"}}>
 						<SvgNoDataIcon style={{marginBottom:"10px", filter:"opacity(0.6)"}} width={15}/>
-						<Text bold color="gray">No Data Available</Text>
+						<Text bold color="placeholder">No data available</Text>
 					</Flex>
 				)}
 				{table && table.length > 0 &&  (
@@ -280,7 +280,7 @@ const ApplicantReports = () => {
 							<Table
 								columns={columns}
 								dataSource={table}
-								empty="No Data Available"
+								empty="No data available"
 								scrollHeight={270}
 								border="normal"
 								fixedScrollHeight

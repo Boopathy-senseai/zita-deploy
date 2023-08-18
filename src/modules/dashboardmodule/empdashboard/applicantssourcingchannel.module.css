@@ -1,6 +1,7 @@
 .overAll {
   padding: 8px 16px;
-  height: 440px;
+  min-height: 377px;
+  width: 605px;
 }
 .overAll:hover{
   box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55);
