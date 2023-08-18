@@ -1402,6 +1402,7 @@ const DayTimeSplit = (props) => {
     }
     if (name === 'saturday') {
       setsaturdaycheck(checked);
+      setDay1(DayStart)
     }
   };
   const dateheader = (name, value, onChange) => {

@@ -705,24 +705,39 @@ const SlotterDate = (props) => {
       let minutes = 0;
       console.log("durationPartsdurationParts",durationParts)
 
+      // if (durationParts.length === 2) {
+      //   alert(":")
+      //   if (durationParts[1] === 'minutes') {
+      //     minutes = parseInt(durationParts[0], 10);
+      //   }
+      // } else if (durationParts.length === 4) {
+      //   alert("::::::")
+
+      //   if (durationParts[1] === 'hour' && durationParts[3] === 'minutes') {
+      //     hours = parseInt(durationParts[0], 10);
+      //     minutes = parseInt(durationParts[2], 10);
+      // }
+      // }
       if (durationParts.length === 2) {
-        alert(":")
         if (durationParts[1] === 'minutes') {
-          minutes = parseInt(durationParts[0], 10);
+            minutes = parseInt(durationParts[0], 10);
         }
-      } else if (durationParts.length === 4) {
-        if (durationParts[2] === 'minutes') {
-          hours = parseInt(durationParts[0], 10);
-          minutes = parseInt(durationParts[2], 10);
+    } else if (durationParts.length === 4) {
+        if (durationParts[1] === 'hour' || durationParts[1] === 'hours') {
+            hours = parseInt(durationParts[0], 10);
         }
-      }
+        
+        if (durationParts[3] === 'minutes') {
+            minutes = parseInt(durationParts[2], 10);
+        }
+    }
       return { hours, minutes };
     });
 
     console.log("intervals123intervals123intervals123",intervals123[0])
     const intervalString = response[0].duration;
     const intervalDuration12 = parseIntervalString(intervalString);
-    console.log("intervalDuration12",intervalDuration12);
+    console.log("intervalDuration12",intervals123);
 
     console.log("intervals><>>><<<<<<<<<<<<<<<<<",response[0].duration)
 
@@ -734,7 +749,7 @@ const SlotterDate = (props) => {
     const userTimeZone = 0;
     const adjustedDay = day === currentDay ? day : currentDay;
 
-    const intervalDuration = { hours: 1, minutes: 0}
+    const intervalDuration = { hours: 6, minutes: 45}
     const timeslot = generateIntervals(
       filteredData[check],
       intervals123[0],
@@ -943,7 +958,7 @@ const SlotterDate = (props) => {
         const formattedStartHour12 = currentHour === 0 ? 12 : currentHour === 12 ? 12 : currentHour > 12 ? currentHour - 12 : currentHour;
         console.log("formattedStartHour12formattedStartHour12", formattedStartHour12, "\n", currentHour);
         const formattedStartMinute = currentMinute.toString().padStart(2, '0');
-        const stAmPm = currentHour >= 12 ? 'am' : 'pm';
+        const stAmPm = currentHour >= 12 ? 'pm' : 'am';
         const startInterval12 = `${formattedStartHour12}:${formattedStartMinute} ${stAmPm}`;
 
 
@@ -966,7 +981,8 @@ const SlotterDate = (props) => {
 
         const formattedEndHour12 = currentHour === 0 ? 12 : currentHour === 12 ? 12 : currentHour > 12 ? currentHour - 12 : currentHour;
         const formattedEndMinute = currentMinute.toString().padStart(2, '0');
-        const endAmPm = currentHour >= 12 ? 'am' : 'pm';
+        const endAmPm = currentHour >= 12 ? 'pm' : 'am';
+
         const endInterval12 = `${formattedEndHour12}:${formattedEndMinute} ${endAmPm}`;
         const currentDate = dateconvert(new Date());
         const currenttime = new Date();
