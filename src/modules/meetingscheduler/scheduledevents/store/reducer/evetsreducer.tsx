@@ -87,7 +87,7 @@ const scheduledEventsReducer = createSlice({
     builder.addCase(deleteEventMiddleWare.pending, (state, action) => {
       state.deleteState.isLoading = true;
       state.deleteState.error = '';
-      state.deleteState.id = action.meta.arg.id;
+      state.deleteState.id = action.meta.arg.params.id || action.meta.arg.params.cal_id;
     });
     builder.addCase(deleteEventMiddleWare.fulfilled, (state, action) => {
       state.deleteState.isLoading = false;

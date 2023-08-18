@@ -11,7 +11,7 @@ import {
   Loader,
   Text,
 } from '../../../uikit';
-import { getDateString } from '../../../uikit/helper';
+import { getDateString, uniqueArray } from '../../../uikit/helper';
 import { AppDispatch, RootState } from '../../../store';
 import { dashboardCalenderMiddleWare } from '../../dashboardmodule/empdashboard/store/dashboardmiddleware';
 import { SvgCalendar } from '../../../icons';
@@ -48,6 +48,7 @@ const ScheduledEventsPage = () => {
   const [deleteEvent, setDeleteEvent] = useState<{
     open: boolean;
     event: IEvent | ICalendarEvent;
+    type: 'event' | 'calendar';
   } | null>(null);
   const [teamMembers, setTeamMembers] = useState<IEventTeamMember[]>([]);
   const [selectedPeople, setSelectedPeople] = useState<number[]>([]);
@@ -176,11 +177,18 @@ const ScheduledEventsPage = () => {
   // const handleEditEvent = (doc: IEvent) => {
   //   history.push(calendarRoute, { openScheduleEvent: true });
   // };
-  const handleDeleteEvent = (id: any) => {
+  const handleDeleteEvent = (doc: { id?: any; cal_id?: any }) => {
     dispatch(
       deleteEventMiddleWare({
-        id: id,
-        event: filters.type === EVENT_TYPE.MY_EVENTS ? 'True' : 'False',
+        params: doc,
+        props: {
+          event: filters.type === EVENT_TYPE.MY_EVENTS ? 'True' : 'False',
+          date:
+            filters.activeRadio === EVENT_FILTER_OPTION.DATE
+              ? getCurrentDate(filters.activeRadio)
+              : undefined,
+          other_user: selectedPeople.length !== 0 ? selectedPeople : undefined,
+        },
       }),
     ).then(() => {
       setDeleteEvent(null);
@@ -218,6 +226,7 @@ const ScheduledEventsPage = () => {
     events: IEventTableItem[];
     calEvents: ICalendarEventTableItem[];
   } => {
+    const organisers = uniqueArray(scheduleEventState.org_name);
     if (filters.activeRadio === EVENT_FILTER_OPTION.DATE) {
       return {
         events: scheduleEventState?.event.map((doc) => {
@@ -251,7 +260,7 @@ const ScheduledEventsPage = () => {
               interviewers: scheduleEventState?.interviewers.filter(
                 (s) => s.event_id === doc.event_id,
               ),
-              organisers: scheduleEventState.org_name,
+              organisers,
             };
           }),
           calEvents: scheduleEventState?.calevents_past_event.map((doc) => {
@@ -261,7 +270,7 @@ const ScheduledEventsPage = () => {
               interviewers: scheduleEventState?.calevents_interviewer.filter(
                 (s) => s.event_id === doc.eventId,
               ),
-              organisers: scheduleEventState.org_name,
+              organisers,
             };
           }),
         };
@@ -274,7 +283,7 @@ const ScheduledEventsPage = () => {
             interviewers: scheduleEventState?.interviewers.filter(
               (s) => s.event_id === doc.event_id,
             ),
-            organisers: scheduleEventState.org_name,
+            organisers,
           };
         }),
         calEvents: scheduleEventState?.calevents_upcoming_event.map((doc) => {
@@ -284,7 +293,7 @@ const ScheduledEventsPage = () => {
             interviewers: scheduleEventState?.calevents_interviewer.filter(
               (s) => s.event_id === doc.eventId,
             ),
-            organisers: scheduleEventState.org_name,
+            organisers,
           };
         }),
       };
@@ -321,7 +330,9 @@ const ScheduledEventsPage = () => {
             deleteState={scheduleEventState?.deleteState}
             onJoin={handleJoinEvent}
             // onEdit={handleEditEvent}
-            onDelete={(doc) => setDeleteEvent({ open: true, event: doc })}
+            onDelete={(doc) =>
+              setDeleteEvent({ open: true, event: doc, type: 'event' })
+            }
           />
         </TableWrapper>
 
@@ -333,7 +344,9 @@ const ScheduledEventsPage = () => {
             deleteState={scheduleEventState?.deleteState}
             onJoin={handleCalendarJoinEvent}
             onEdit={handleCalendarEditEvent}
-            onDelete={(doc) => setDeleteEvent({ open: true, event: doc })}
+            onDelete={(doc) =>
+              setDeleteEvent({ open: true, event: doc, type: 'calendar' })
+            }
           />
         </TableWrapper>
       </Flex>
@@ -391,8 +404,7 @@ const ScheduledEventsPage = () => {
     <>
       {deleteEvent && (
         <EventDeletePopUpModal
-          open={deleteEvent.open}
-          event={deleteEvent.event}
+          {...deleteEvent}
           onClose={() => setDeleteEvent(null)}
           onConfirm={handleDeleteEvent}
         />

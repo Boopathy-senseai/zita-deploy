@@ -11,6 +11,7 @@ export interface IEvent {
   startevent: string;
   candidate_name?: string;
   join_url: string;
+  event_id__emp_id: number;
 }
 
 export interface ICalendarEvent {

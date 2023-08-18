@@ -79,7 +79,7 @@ const CalendarEventsTable: React.FC<Props> = (props) => {
     return (
       <Flex row wrap>
         {show.map((doc, sIndex) => (
-          <InterviewerIcon name={doc.full_name} key={sIndex} index={sIndex} />
+          <InterviewerIcon name={`${doc.first_name} ${doc.last_name}` } key={sIndex} index={sIndex} />
         ))}
         {hidden && hidden.length > 0 && (
           <InterviewerIcon
