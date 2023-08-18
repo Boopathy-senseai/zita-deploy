@@ -235,6 +235,7 @@ const MeetingSchedulingScreen = ({
           currentApplicantId={currentApplicantId}
           // extraNotes={extraNotes}
           eventId={eventId}
+          recurringEventId={recurringEventId}
           setIsTopLineLoading={setIsTopLineLoading}
         />
       )}

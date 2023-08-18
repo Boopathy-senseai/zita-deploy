@@ -45,7 +45,10 @@ const ScheduledEventsPage = () => {
   const [event, setEvent] = useState([
     { title: '', start: '', end: '', web_url: '' },
   ]);
-  const [deleteEvent, setDeleteEvent] = useState<{open: boolean, event: IEvent | ICalendarEvent} | null>(null);
+  const [deleteEvent, setDeleteEvent] = useState<{
+    open: boolean;
+    event: IEvent | ICalendarEvent;
+  } | null>(null);
   const [teamMembers, setTeamMembers] = useState<IEventTeamMember[]>([]);
   const [selectedPeople, setSelectedPeople] = useState<number[]>([]);
   const [filters, setFilters] = useState<{
@@ -118,7 +121,15 @@ const ScheduledEventsPage = () => {
         other_user: selectedPeople.length !== 0 ? selectedPeople : undefined,
       }),
     ).then((res) => {
-      setSelectedPeople(((res.payload as IEventData).teammembers || []).filter(doc => filters.type === EVENT_TYPE.MY_EVENTS ? doc.user === user.id: doc.user !== user.id).map(doc => doc.user))
+      setSelectedPeople(
+        ((res.payload as IEventData).teammembers || [])
+          .filter((doc) =>
+            filters.type === EVENT_TYPE.MY_EVENTS
+              ? doc.user === user.id
+              : doc.user !== user.id,
+          )
+          .map((doc) => doc.user),
+      );
     });
   }, []);
 
@@ -132,7 +143,7 @@ const ScheduledEventsPage = () => {
         date: getCurrentDate(filters.activeRadio),
         other_user: selectedPeople.length !== 0 ? selectedPeople : undefined,
       }),
-    )
+    );
     // .then((res) => {
     //   setSelectedPeople(((res.payload as IEventData).teammembers || []).filter(doc => filters.type === EVENT_TYPE.MY_EVENTS ? doc.user === user.id : doc.user !== user.id).map(doc => doc.id))
     // });
@@ -148,33 +159,36 @@ const ScheduledEventsPage = () => {
       getEventsMiddleWare({
         event: filters.type === EVENT_TYPE.MY_EVENTS ? 'True' : 'False',
         date:
-          filters.activeRadio === EVENT_FILTER_OPTION.DATE ? getDateString(date, 'DD/MM/YYYY') : undefined,
+          filters.activeRadio === EVENT_FILTER_OPTION.DATE
+            ? getDateString(date, 'DD/MM/YYYY')
+            : undefined,
         other_user: selectedPeople.length !== 0 ? selectedPeople : undefined,
       }),
-    )
+    );
     // .then((res) => {
     //   setSelectedPeople(((res.payload as IEventData).teammembers || []).filter(doc => filters.type === EVENT_TYPE.MY_EVENTS ? doc.user === user.id : doc.user !== user.id).map(doc => doc.id))
     // });
   };
 
   const handleJoinEvent = (doc: IEvent) => {
-    window.open(doc.join_url, "_blank");
+    window.open(doc.join_url, '_blank');
   };
   // const handleEditEvent = (doc: IEvent) => {
   //   history.push(calendarRoute, { openScheduleEvent: true });
   // };
   const handleDeleteEvent = (id: any) => {
-    setDeleteEvent(null)
-        dispatch(
+    dispatch(
       deleteEventMiddleWare({
         id: id,
         event: filters.type === EVENT_TYPE.MY_EVENTS ? 'True' : 'False',
       }),
-    );
+    ).then(()=>{
+    setDeleteEvent(null);
+    });
   };
 
   const handleCalendarJoinEvent = (doc: ICalendarEvent) => {
-    window.open(doc.join_url, "_blank");
+    window.open(doc.join_url, '_blank');
   };
   const handleCalendarEditEvent = (doc: ICalendarEvent) => {
     history.push(calendarRoute, { eventId: doc.eventId });
@@ -216,10 +230,13 @@ const ScheduledEventsPage = () => {
           };
         }),
         calEvents: scheduleEventState?.calevents_events.map((doc) => {
-          const emails = (doc.interviewers as string || "").split(',');
+          // const emails = (doc.interviewers as string || "").split(',');
           return {
             ...doc,
-            interviewers: emails.map(em => scheduleEventState?.calevents_interviewer[em]),
+            interviewers: scheduleEventState?.calevents_interviewer.filter(
+              (s) => s.event_id === doc.eventId,
+            ),
+            // interviewers: emails.map(em => scheduleEventState?.calevents_interviewer[em]),
             organisers: scheduleEventState.org_name,
           };
         }),
@@ -238,10 +255,12 @@ const ScheduledEventsPage = () => {
             };
           }),
           calEvents: scheduleEventState?.calevents_past_event.map((doc) => {
-            const emails = (doc.interviewers as string || "").split(',');
+            // const emails = (doc.interviewers as string || "").split(',');
             return {
               ...doc,
-              interviewers:emails.map(em => scheduleEventState?.calevents_interviewer[em]),
+              interviewers: scheduleEventState?.calevents_interviewer.filter(
+                (s) => s.event_id === doc.eventId,
+              ),
               organisers: scheduleEventState.org_name,
             };
           }),
@@ -259,10 +278,12 @@ const ScheduledEventsPage = () => {
           };
         }),
         calEvents: scheduleEventState?.calevents_upcoming_event.map((doc) => {
-          const emails = (doc.interviewers as string || "").split(',');
+          // const emails = (doc.interviewers as string || "").split(',');
           return {
             ...doc,
-            interviewers: emails.map(em => scheduleEventState?.calevents_interviewer[em]),
+            interviewers: scheduleEventState?.calevents_interviewer.filter(
+              (s) => s.event_id === doc.eventId,
+            ),
             organisers: scheduleEventState.org_name,
           };
         }),
@@ -300,7 +321,7 @@ const ScheduledEventsPage = () => {
             deleteState={scheduleEventState?.deleteState}
             onJoin={handleJoinEvent}
             // onEdit={handleEditEvent}
-            onDelete={(doc) => setDeleteEvent({ open: true, event: doc})}
+            onDelete={(doc) => setDeleteEvent({ open: true, event: doc })}
           />
         </TableWrapper>
 
@@ -312,7 +333,7 @@ const ScheduledEventsPage = () => {
             deleteState={scheduleEventState?.deleteState}
             onJoin={handleCalendarJoinEvent}
             onEdit={handleCalendarEditEvent}
-            onDelete={(doc) => setDeleteEvent({ open: true, event: doc})}
+            onDelete={(doc) => setDeleteEvent({ open: true, event: doc })}
           />
         </TableWrapper>
       </Flex>
@@ -392,12 +413,14 @@ const ScheduledEventsPage = () => {
 
   return (
     <>
-      {deleteEvent && <EventDeletePopUpModal
-        open={deleteEvent.open}
-        event={deleteEvent.event}
-        onClose={() => setDeleteEvent(null)}
-        onConfirm={handleDeleteEvent}
-      />}
+      {deleteEvent && (
+        <EventDeletePopUpModal
+          open={deleteEvent.open}
+          event={deleteEvent.event}
+          onClose={() => setDeleteEvent(null)}
+          onConfirm={handleDeleteEvent}
+        />
+      )}
       <Flex center between row className={styles.Container}>
         <Flex row center>
           <Flex marginRight={10}>
@@ -488,7 +511,12 @@ const TableWrapper: React.FC<TableWrapperProps> = (props) => {
       <Flex
         row
         center
-        style={{ padding: 10, backgroundColor: '#eee8ec', marginBottom: 10, color:"#581845" }}
+        style={{
+          padding: 10,
+          backgroundColor: '#eee8ec',
+          marginBottom: 10,
+          color: '#581845',
+        }}
       >
         {props.title}
       </Flex>

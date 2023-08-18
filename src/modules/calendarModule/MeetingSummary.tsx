@@ -29,6 +29,7 @@ interface Props {
   editEventDetails?: EditEventDetails | null;
   username: string;
   eventId?: string | null;
+  recurringEventId?: string | null;
   // extraNotes: string;
   currentApplicantId: number;
   setIsTopLineLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -45,6 +46,7 @@ const MeetingSummary = ({
   username,
   nextEvent,
   eventId,
+  recurringEventId,
   // extraNotes,
   currentApplicantId,
   setIsTopLineLoading,
@@ -68,8 +70,8 @@ const MeetingSummary = ({
   });
 
   useEffect(() => {
-    if (eventId) {
-      dispatch(getUpdateEventByIdMiddleWare({ event_id: eventId })).then(
+    if (recurringEventId) {
+      dispatch(getUpdateEventByIdMiddleWare({ event_id: recurringEventId })).then(
         (res) => {
           if (res.payload) {
             const array = res.payload as Array<{
@@ -116,7 +118,7 @@ const MeetingSummary = ({
           extraNotes: greetings.applicant,
           interviewer_notes: greetings.interviewer,
           myJd: meetingForm.job.label,
-          eventId,
+          eventId: recurringEventId,
           privateNotes: meetingForm.privateNotes,
           eventType: meetingForm.eventType.value,
           edit_jd,

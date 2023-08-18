@@ -75,7 +75,7 @@ export interface IEventData {
   calevents_upcoming_event: ICalendarEvent[];
   calevents_past_event: ICalendarEvent[];
   org_name: IEventOrganiser[];
-  calevents_interviewer: Array<{ [key: string]: string }>;
+  calevents_interviewer: ICalendarEventInterviewer[]; /// Array<{ [key: string]: string }>;
 }
 
 export interface IEventTableItem extends IEvent {
@@ -84,7 +84,7 @@ export interface IEventTableItem extends IEvent {
 }
 
 export interface ICalendarEventTableItem extends ICalendarEvent {
-  interviewers: string[];
+  interviewers: ICalendarEventInterviewer[];
   organisers: IEventOrganiser[];
 }
 

@@ -18,8 +18,7 @@ const InterviewerIcon = ({ name, initials, index, title }: { name: string; index
     <Tooltip title={title || initials || name }>
       <p
         data-letters={
-          initials || (name ? name[0].toUpperCase() + name.split(' ')[1][0].toUpperCase() : '')
-        }
+          initials || (name ? (name[0] || '').toUpperCase() + (name.split(' ')[1][0] || '').toUpperCase() : '')        }
         style={{
           backgroundColor: colors[index !== undefined ? index + 1 : 0],
           borderRadius: '50%',

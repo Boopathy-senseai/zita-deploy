@@ -82,7 +82,10 @@ const Calendar = () => {
   >([]);
   const [eventPopUpDetails, setEventPopUpDetails] =
     useState<EventPopUpDetails>();
-  const [currentEventId, setCurrentEventId] = useState<string>();
+  const [selectedEvent, setSelectedEvent] = useState<{eventId: string | undefined; recurringEventId: string | undefined; }>({
+    eventId: undefined,
+    recurringEventId: undefined,
+  });
   const [teamMembers, setTeamMembers] = useState<TeamMemberType[]>([]);
   const [selectedTeamMembers, setSelectedTeamMembers] = useState<number[]>([0]);
   const [teamMemberEvents, setTeamMemberEvents] = useState<CalendarEventType[]>(
@@ -578,6 +581,7 @@ const Calendar = () => {
               eventId: event.eventId,
               syncedBy: null,
               applicantId: res.payload.event[0]['cand_id'],
+              recurringEventId: event.recurringEventId,
             }));
           } else {
             setIsEventCanUpdate(false);
@@ -585,6 +589,7 @@ const Calendar = () => {
               ...prevEvent,
               eventId: null,
               syncedBy: event.syncedBy,
+              recurringEventId: null,
             }));
           }
         })
@@ -597,6 +602,7 @@ const Calendar = () => {
         ...prevEvent,
         eventId: null,
         syncedBy: event.syncedBy,
+        recurringEventId: null,
       }));
     }
 
@@ -610,6 +616,7 @@ const Calendar = () => {
         organizer: event.organizer,
         isZitaEvent: event.title.includes('Zita event'),
         canEdit: event.userId === currentUser.id,
+
       };
 
       if ('attendees' in event) {
@@ -686,7 +693,7 @@ const Calendar = () => {
 
   const handleEditEvent = () => {
     handleCloseEventPop();
-    setCurrentEventId(eventPopUpDetails.eventId);
+    setSelectedEvent({eventId: eventPopUpDetails.eventId, recurringEventId: eventPopUpDetails.recurringEventId});
     if (calendarProvider === CALENDAR.Google) {
       dispatch(
         googleEditEventMiddleware({ eventId: eventPopUpDetails.eventId }),
@@ -907,7 +914,6 @@ const Calendar = () => {
                 applicants={applicants}
                 currentUser={currentUser}
                 currentUserEvents={currentUserEvents}
-                eventId={currentEventId}
                 calendarProvider={calendarProvider}
                 editEventDetails={isEditEvent ? editEventDetails[0] : null}
                 teamMembers={teamMembers}
@@ -915,6 +921,7 @@ const Calendar = () => {
                 handleEventScheduleForm={handleEventScheduleForm}
                 slotRange={slotRange}
                 setIsTopLineLoading={setIsTopLineLoading}
+                {...selectedEvent}
               />
             )}
           </div>

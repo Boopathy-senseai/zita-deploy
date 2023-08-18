@@ -218,6 +218,7 @@ export interface EventPopUpDetails {
   applicantId?: number | null;
   attendees?: null | string[];
   eventId: null | string;
+  recurringEventId: null | string;
   syncedBy: string | null;
   isZitaEvent: boolean;
   canEdit?: boolean;

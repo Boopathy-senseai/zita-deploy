@@ -24,7 +24,7 @@ interface State {
   calevents_upcoming_event: ICalendarEvent[];
   calevents_past_event: ICalendarEvent[];
   org_name: IEventOrganiser[];
-  calevents_interviewer: { [key: string]: string };
+  calevents_interviewer: ICalendarEventInterviewer[];  /// { [key: string]: string };
   deleteState: {
     id: any;
     isLoading: boolean;
@@ -44,7 +44,7 @@ const initialState: State = {
   calevents_upcoming_event: [],
   calevents_past_event: [],
   org_name: [],
-  calevents_interviewer: {},
+  calevents_interviewer: [],
   deleteState: {
     id: null,
     isLoading: false,
@@ -74,7 +74,8 @@ const scheduledEventsReducer = createSlice({
       state.calevents_upcoming_event =
         action.payload.calevents_upcoming_event || [];
       state.org_name = action.payload.org_name || [];
-      state.calevents_interviewer = (action.payload.calevents_interviewer && action.payload.calevents_interviewer.length !== 0) ? action.payload.calevents_interviewer.reduce((r, v) =>({...r, ...v}), {}) : {};
+      state.calevents_interviewer = action.payload.calevents_interviewer || [];
+      // state.calevents_interviewer = (action.payload.calevents_interviewer && action.payload.calevents_interviewer.length !== 0) ? action.payload.calevents_interviewer.reduce((r, v) =>({...r, ...v}), {}) : {};
     });
     builder.addCase(getEventsMiddleWare.rejected, (state, action) => {
       state.isLoading = false;
