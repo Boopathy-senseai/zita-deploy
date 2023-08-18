@@ -180,9 +180,9 @@ const JobMetricsCard = () => {
           </Flex>
         )}
 
-        <Flex marginTop={16}>
-          <Flex row marginBottom={16}>
-            <Flex flex={6} marginRight={8}>
+        <Flex marginTop={10}>
+          <Flex row marginBottom={10}>
+            <Flex flex={6} marginRight={10}>
               <ApplicantsSourcingChannel
                 perc_dict={perc_dict}
                 total_count={total_count}
@@ -190,7 +190,7 @@ const JobMetricsCard = () => {
                 jd_metrics={jd_metrics}
               />
             </Flex>
-            <Flex flex={6} marginLeft={8}>
+            <Flex flex={6} >
               <SourcingPerformance
                 role_base={role_base}
                 dates_length={dates_length}
@@ -200,14 +200,14 @@ const JobMetricsCard = () => {
             </Flex>
           </Flex>
           <Flex row>
-            <Flex flex={6} marginRight={8}>
+            <Flex flex={6} marginRight={10}>
               <ApplicantsPipeline
                 pipeline={pipeline}
                 planId={plan.plan_id_id}
                 jd_metrics={jd_metrics}
               />
             </Flex>
-            <Flex flex={6} marginLeft={8}>
+            <Flex flex={6} >
               <MyDatabaseChart
                 my_database={my_database}
                 zita_match={zita_match}
