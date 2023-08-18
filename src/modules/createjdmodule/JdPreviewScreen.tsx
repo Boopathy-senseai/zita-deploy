@@ -145,7 +145,7 @@ console.log("externaljob",extarajobpost)
     >
        { console.log(extarajobpost,'////////////////////////////////////////')}
       {postLoader && <Loader />}
-      <Flex row center className={styles.step}>
+      <Flex row center className={styles.step} >
         <StepProgressBar titleclassName={styles.stepOne} roundFill barFilled />
         <StepProgressBar
           title="Applicant Questionnaire"

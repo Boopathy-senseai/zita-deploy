@@ -220,12 +220,12 @@ const JdViewScreen = () => {
       <Flex row className={styles.ribbon} between>
 
 
-        <Flex row className={styles.mainpadding} >
+        <Flex row  className={styles.mainpadding} >
           <Flex>
             <Text size={16} bold color="theme" >
               Job Posting
             </Text></Flex>
-          <Flex marginTop={6} marginLeft={7} marginRight={2}>
+          <Flex marginTop={8} marginLeft={7} marginRight={2}>
             <SvgRight fill={'#581845'} ></SvgRight></Flex>
           <Flex marginTop={1} marginLeft={3}>
             <Text size={16} bold color="theme" >
@@ -340,7 +340,7 @@ const JdViewScreen = () => {
           {console.log("skill", jdview)}
 
           <Card className={styles.cardOverAll}>
-            <Flex columnFlex>
+            <Flex columnFlex marginTop={8}>
               <Text bold size={14} style={{ color: "#333333" }}>
                 Applicant Questionnaire
               </Text>

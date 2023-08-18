@@ -131,15 +131,15 @@ const JobMetricsCard = () => {
             <Flex row center>
               <Flex row center>
              
-                  <Flex  marginLeft={14} marginTop={3}>
-                  <SvgJobTitle width={16} height={16}/></Flex>
+                  <Flex  marginLeft={9} marginRight={4}>
+                  <SvgJobTitle width={12} height={12}/></Flex>
                 
                 <Text align='center' style={{fontSize:'13px'}} >
                   {job_details && job_details?.job_title} -{' '}
                   {job_details && job_details?.job_id}
                 </Text>
               </Flex>
-              <Flex row center marginLeft={16} marginRight={16}>
+              <Flex row center marginLeft={11} marginRight={16}>
             
                   {/* <SvgLocation width={16} height={16} fill={PRIMARY}></SvgLocation> */}
                   <SvgLocationjobpost  width={16} height={16}></SvgLocationjobpost>

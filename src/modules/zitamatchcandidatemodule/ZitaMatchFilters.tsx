@@ -313,6 +313,7 @@ const ZitaMatchFilters = ({
     setapplieislocation(isLocation);
     setskill(isSkillOption);
     setchange(false);
+    setShowDropDown((value) => !value);
   }
 
   useEffect(() => {
