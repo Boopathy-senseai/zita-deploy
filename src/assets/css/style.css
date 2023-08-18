@@ -406,7 +406,7 @@ small {
   font-weight: 600;
   border-top: 0px;
   padding-top: 0px;
-  border-bottom: 0.5px solid #a5889c;
+  border-bottom: 0.5px solid #555555;
   padding-bottom: 15px;
 }
 
@@ -571,7 +571,7 @@ input:disabled {
   transition: 0.2s ease all;
   top: -25px;
   left: 5px;
-  font-size: 14px;
+  font-size: 13px;
   color: #111111;
   font-weight: 600;
 }
@@ -582,7 +582,7 @@ input:disabled {
 }
 
 .form-group input {
-  font-size: 14px;
+  font-size: 13px;
   padding: 4px 12px 3px 12px;
   display: block;
   width: 100%;
@@ -644,7 +644,7 @@ input:disabled {
   font-family: inherit;
   background-color: transparent;
   width: 100%;
-  font-size: 14px;
+  font-size: 13px;
   border-radius: 0 !important;
   border: none;
   border-bottom: 1px solid #757575 !important;
@@ -801,7 +801,7 @@ input:-webkit-autofill:active {
   position: relative;
   display: flex;
   flex-direction: column;
-  overflow: hidden !important;
+  /* overflow: hidden !important; */
   flex: 1;
 }
 
@@ -809,7 +809,7 @@ input:-webkit-autofill:active {
   display: flex;
   flex-direction: column;
   position: relative;
-  overflow: auto !important;
+  /* overflow: auto !important; */
   flex: 1;
 }
 

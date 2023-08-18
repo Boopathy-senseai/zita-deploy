@@ -324,6 +324,8 @@ update();
                             textAlign: 'center',
                             marginBottom: '10px',
                             marginTop: '10px',
+                            display:"flex",
+                            justifyContent:"center"
                           }}
                         >
                           <Button
@@ -537,10 +539,12 @@ update();
                             textAlign: 'center',
                             marginBottom: '10px',
                             marginTop: '10px',
+                            display:"flex",
+                            justifyContent:"center"
                           }}
                         >
                         <LinkWrapper >
-                        <Button  className={styles.Signot} onClick={handleLogout} style={{verticalAlign:'1px'}} >Log out</Button>
+                        <Button  className={styles.Signot} onClick={handleLogout} style={{verticalAlign:'1px', display:'flex',justifyContent:'center', alignItems:'center'}} >Log out</Button>
                       </LinkWrapper>
                         </div>
                       </Dropdown.Menu>

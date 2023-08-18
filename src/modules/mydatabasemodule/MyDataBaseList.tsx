@@ -120,7 +120,7 @@ const size=sidebar==="1"
       >
         {data && data.length === 0 && (
           <Flex flex={1} center middle height={'100%'} style={{display:"flex"}}>
-            <SvgNotinterests style={{marginBottom:"15px"}}/>
+            <SvgNotinterests style={{marginBottom:"15px",filter:"opacity(0.5)"}}/>
             <Text color="gray" style={{ position: 'relative', bottom: 16 }}>
               No candidate found
             </Text>

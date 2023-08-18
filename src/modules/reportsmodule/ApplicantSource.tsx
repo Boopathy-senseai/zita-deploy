@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { saveAs } from 'file-saver';
+import { style } from '@mui/system';
 import { AppDispatch, RootState } from '../../store';
 import Text from '../../uikit/Text/Text';
 import Flex from '../../uikit/Flex/Flex';
@@ -26,13 +27,12 @@ import styles from './reports.module.css';
 
 
 
+
 const ApplicantReports = () => {
 	const dispatch: AppDispatch = useDispatch();
 
 	const [isJd, setJd] = useState<any>([]);
 	const [isChart, setChart] = useState(false);
-
-
 	type ApplicantReport = {
 		job_id: string;
 	};
@@ -60,7 +60,7 @@ const ApplicantReports = () => {
 
 	const formik = useFormik({
 		initialValues: initial,
-		onSubmit: () => {},
+		onSubmit: () => { },
 	});
 
 	useEffect(() => {
@@ -85,7 +85,7 @@ const ApplicantReports = () => {
 			if (res.payload) {
 				saveAs(`${res.payload.file_path}`, `${res.payload.file_name}`);
 
-			
+
 				Toast('Report downloaded successfully', 'LONG', 'success');
 			}
 		});
@@ -133,16 +133,16 @@ const ApplicantReports = () => {
 				fontWeight: 'bold',
 			},
 		},
-		  plotOptions: {
-      pie: {
-        dataLabels: {
-          enabled: true,
-          format: '{point.y}%',
-        },
-        colors: colorCode,
-        showInLegend: true,
-      },
-    },
+		plotOptions: {
+			pie: {
+				dataLabels: {
+					enabled: true,
+					format: '{point.y}%',
+				},
+				colors: colorCode,
+				showInLegend: true,
+			},
+		},
 		series: [
 			{
 				name: 'Roles',
@@ -169,7 +169,7 @@ const ApplicantReports = () => {
 			categories: shortlistedName,
 			title: {
 				text: 'Channels',
-				
+
 			},
 		},
 		yAxis: {
@@ -189,29 +189,28 @@ const ApplicantReports = () => {
 	// console.log(isChart, shortlisted);
 	const columns = useMemo(() => tableFun(), [table]);
 	return (
-		<Flex className={styles.overAll} height={window.innerHeight - 70}>
+		<Flex className={styles.overAll}>
 			{isLoading && <Loader />}
-			<Flex>
+			
 				<Flex>
-				<Flex row className={styles.ribbon} between>
-          <Flex marginTop={9} marginLeft={8} >
-            <Text size={16} bold color="theme" >
-            Applicants Sourcing Reports
-            </Text>
-
-          </Flex>
-          <Flex > 
-            <div className={styles.triangle}></div>
-          </Flex>
-
-        </Flex>
+					<Flex row className={styles.ribbon} between>
+						<Flex marginTop={9} marginLeft={8} >
+							<Text size={16} bold color="theme" >
+								Applicants Sourcing Reports
+							</Text>
+						</Flex>
+						<Flex >
+							<div className={styles.triangle}></div>
+						</Flex>
+					</Flex>
 					
-					<Text style={{margin:'10px 0px',paddingLeft:'5px'}}>
+				</Flex>
+				{/* <Flex className={styles.reportscroll}> */}
+				<Text style={{ margin: '10px 0px', paddingLeft: '5px' }}>
 						Get insights about applicants from sourcing platforms or job boards.
 						Each section/graph/chart will explain how they performed in
 						applicant sourcing from either one or multiple jobs together.
-					</Text>
-				</Flex>
+				</Text>
 				<Flex row className={styles.marginTop} center>
 					<Text className={styles.selected}>
 						Select Job
@@ -220,27 +219,27 @@ const ApplicantReports = () => {
 						<SelectTag
 							labelBold
 							value={
-						jobViewArray
-						? jobViewArray.find(
-							(option:any) =>
-								option.value ===
-								formik.values.job_id,
-							)
-						: ''
-					}
-									options={jobViewArray}
+								jobViewArray
+									? jobViewArray.find(
+										(option: any) =>
+											option.value ===
+											formik.values.job_id,
+									)
+									: ''
+							}
+							options={jobViewArray}
 							placeholder="Select"
 							onChange={(option) => {
 								formik.setFieldValue('job_id', option.value);
 							}}
 						/>
 					</div>
-					<Button onClick={hanldeSubmitform} disabled={table.length ===0}>
+					<Button onClick={hanldeSubmitform} disabled={table.length === 0}>
 						Download Report
 					</Button>
 				</Flex>
 				{piechart && piechart.length > 0 && isChart ? (
-					<Flex style={{paddingLeft:'5px'}}>
+					<Flex style={{ paddingLeft: '5px' }}>
 						<Flex row>
 							<Flex flex={6}>
 								<Card className={styles.cardOverAllChart}>
@@ -251,7 +250,7 @@ const ApplicantReports = () => {
 							<Flex flex={6}>
 								<Card className={styles.cardOverAllChart}>
 									<Text bold size={14}>Shortlisted Rate</Text>{' '}
-									<Text style={{marginBottom:10}}>
+									<Text style={{ marginBottom: 10 }}>
 										Insights: Shortlisted rate from total applicants by source
 									</Text> {shortlisted && shortlisted !== null && shortlisted.length !== 0 ? (
 										<Chart options={chartOptions} />
@@ -266,16 +265,16 @@ const ApplicantReports = () => {
 					</Flex>
 				) : (
 					<Flex className={styles.noData} style={{display:"flex"}}>
-						<SvgNoDataIcon style={{marginBottom:"10px", filter:"opacity(0.6)"}} width={15}/>
+						<SvgNoDataIcon style={{marginBottom:"2px", fill: "#888888"}} width={16} height={16}/>
 						<Text bold color="placeholder">No data available</Text>
 					</Flex>
 				)}
-				{table && table.length > 0 &&  (
-					<Flex style={{paddingTop:'15px'}}>
+				{table && table.length > 0 && (
+					<Flex style={{ paddingTop: '15px' }}>
 						<Flex>
-							<Text bold style={{ margin: '10px 0px 5px 10px'}} size={14}>Report Data</Text>
-							<Text style={{ margin: '0px 0px 5px 10px'}}>A comprehensive data table showcasing applicants count 
-							from sourcing platforms or job boards.
+							<Text bold style={{ margin: '10px 0px 5px 10px' }} size={14}>Report Data</Text>
+							<Text style={{ margin: '0px 0px 5px 10px' }}>A comprehensive data table showcasing applicants count
+								from sourcing platforms or job boards.
 							</Text>
 							<Table
 								columns={columns}
@@ -288,7 +287,7 @@ const ApplicantReports = () => {
 						</Flex>
 					</Flex>
 				)}
-			</Flex>
+			{/* </Flex> */}
 		</Flex>
 	);
 };

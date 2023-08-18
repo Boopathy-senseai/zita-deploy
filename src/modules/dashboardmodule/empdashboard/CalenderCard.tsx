@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 import DatePicker from 'react-datepicker';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
+import SvgNoevent from '../../../icons/SvgNoevent';
 import SvgCalendar from '../../../icons/SvgCalendar';
 // import SvgNewTab from '../../../icons/SvgNewTab';
 import SvgRefresh from '../../../icons/SvgRefresh';
