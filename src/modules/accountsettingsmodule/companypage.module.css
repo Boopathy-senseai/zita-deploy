@@ -270,9 +270,9 @@ position: absolute;
   height: 30px !important;
   
 }
-.phoneInputs{
-  margin-top: 5px;
-}
+/* .phoneInputs{
+  margin-top: 2px;
+} */
 .phoneInput:hover {
   border: 1px solid  #58184570 !important;
 }
@@ -457,7 +457,7 @@ height: 35px;
 }
 .inputheight{
  
-  margin-top: 5px;
+  /* margin-top: 5px; */
   margin-right: 20px;
   width: 300px;
   padding: 0px 8px;

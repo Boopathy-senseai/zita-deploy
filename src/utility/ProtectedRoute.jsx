@@ -120,7 +120,6 @@ const ProtectedRoute = ({ isside, notIsNav, component: Component, ...rest }) => 
                         display: 'flex',
                         flexDirection: 'column',
                         flex: 1,
-                        overflow: "auto",
                         height: "-webkit-fill-available",
                         paddingLeft:'10px'
                       }}

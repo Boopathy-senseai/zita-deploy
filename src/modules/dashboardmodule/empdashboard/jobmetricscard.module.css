@@ -16,7 +16,7 @@
   transition: all 0.2s ease-out; 
 }
 .overAll {
-  margin-bottom: 40px;
+  /* margin-bottom: 40px; */
   position: relative;
   
   /*box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);*/

@@ -38,7 +38,7 @@
   border-radius: 0px;
   padding: 0;
   border: none;
-  border-bottom: 1px solid var(--color-gary-6, #D7C7D2);
+  border-bottom: 1px solid  #D7C7D2;
   background-color: var(--color-white, #ffffff);
   width: 100%;
   height: 20px;
@@ -48,7 +48,7 @@
 
 .lineInput:hover {
   border: none;
-  border-bottom: 1px solid var(--color-gary-6, #58184570);
+  border-bottom: 1px solid  #58184570;
   box-sizing: border-box !important;
 }
 
@@ -80,7 +80,7 @@
   color: var(--color-gary-4, #979797);
 }
 .color-primary {
-  color: var(--color-gary-1, #1a1a1a);
+  color: var(--color-gary-2, #1a1a1a);
 }
 .color-info {
   color: var(--color-link, #1890ff);

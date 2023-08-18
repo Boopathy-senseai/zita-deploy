@@ -201,6 +201,7 @@ const JobDetails = ({
 
   return (
     <Flex className={styles.overAll}>
+      <Flex style={{overflow:"scroll", paddingBottom:25}}>
       <Text size={14}className={styles.jobTitle} bold>
         Job Details
       </Text>
@@ -500,7 +501,8 @@ const JobDetails = ({
         setFieldValue={setFieldValue}
         updateQualification={updateQualification}
       />
-      <Flex className={styles.split}></Flex>
+      </Flex>
+      <Flex>
       <Flex row center end className={styles.btnContainer}>
         <LinkWrapper onClick={() => onPristine()} to={routesPath.MY_JOB_POSTING}>
           <Button className={styles.cancelbtn} types="close">{CANCEL}</Button>
@@ -536,6 +538,7 @@ const JobDetails = ({
         >
           Next
         </Button>
+      </Flex>
       </Flex>
     </Flex>
   );

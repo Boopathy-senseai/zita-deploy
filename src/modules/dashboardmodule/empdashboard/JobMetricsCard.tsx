@@ -170,7 +170,7 @@ const JobMetricsCard = () => {
         }
 
 
-        <Flex marginTop={16} marginBottom={16}>
+        <Flex marginTop={16} >
           <Flex row marginBottom={16}>
             <Flex flex={6} marginRight={8}>
               <ApplicantsSourcingChannel

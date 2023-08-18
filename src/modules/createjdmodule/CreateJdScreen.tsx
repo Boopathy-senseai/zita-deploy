@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { jobCreateDs, jobCreateNonDs } from '../../appRoutesPath';
+import SvgRight from '../../icons/SvgRight';
 import SvgInfo from '../../icons/SvgInfo';
 import { AppDispatch, RootState } from '../../store';
 import { WARNING } from '../../uikit/Colors/colors';
@@ -50,14 +51,22 @@ const CreateJdScreen = () => {
       <div>
         <Flex row className={styles.titleContainer}>
           {/* <SvgJobPost width={15.71} height={16} /> */}
+          <Flex row>
           <Text
             bold
-            size={18}
+            size={16}
             style={{ marginLeft: 8, color: '#581845' }}
             className={styles.postingcl}
           >
             Job Posting
           </Text>
+          <Flex marginTop={6} marginLeft={7} marginRight={2}>
+            <SvgRight fill={'#581845'} ></SvgRight></Flex>
+          <Flex marginTop={1} marginLeft={3}>
+            <Text size={16} bold color="theme" >
+              Post Job</Text>
+          </Flex>
+          </Flex>
           <div className={styles.triangle}></div>
         </Flex>
       </div>
@@ -65,8 +74,8 @@ const CreateJdScreen = () => {
         <Flex middle columnFlex center>
           <Flex middle row center className={styles.warningFlex}>
             <SvgInfo fill={'#2E6ADD'} />
-            <Text size={13} bold color='blue' className={styles.warningText}>
-              {`You’ve reached the number of job postings for your current plan 
+            <Text size={13} bold color='primary' className={styles.warningText}>
+              {`Heads up`} {`You’ve reached the number of job postings for your current plan 
           but you can keep new job descriptions in Draft. Please `}
               <LinkWrapper
                 target={'_parent'}
@@ -89,7 +98,7 @@ const CreateJdScreen = () => {
         <Text
           className={styles.chooseText}
           align="center"
-          size={14}
+          size={16}
           bold
           color="black"
         >
