@@ -86,13 +86,7 @@ const InviteMatch = ({
       .then(() => {
         setInviteLoader(false);
         Toast(inviteMessage);
-        dispatch(applicantAllMatchMiddleWare({ can_id: candidateId }));
-        dispatch(
-          applicantStatusMiddleWare({
-            jd_id: jdId.toString(),
-            can_id: candId.toString(),
-          }),
-        );
+        dispatch(applicantAllMatchMiddleWare({ can_id: candidateId })); 
       })
       .catch(() => {
         setInviteLoader(false);
