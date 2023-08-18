@@ -245,10 +245,10 @@ const EventScheduler = () => {
           ) : (
             <Flex className={styles.noevent} marginTop={200} width={'100%'}>
               <Flex middle>
-              <SvgLink width={16} height={16} fill={'currentColor'} />
+              <SvgLink width={16} height={16} fill={'#979797'} />
               </Flex>
-              <Text size={13} align={'center'}> No scheduler links created yet.</Text>
-              <Text size={13} align={'center'}>
+              <Text size={13} align={'center'} color='gray'> No scheduler links created yet.</Text>
+              <Text size={13} align={'center'} color='gray'>
                 Scheduler links allow candidates to pick a date and time that
                 works for them.
               </Text>

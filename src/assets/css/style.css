@@ -854,14 +854,18 @@ input:-webkit-autofill:active {
 .rdp {
   margin: 10px 0px 10px 0px !important;
 }
+
 .rdp-button:hover:not([disabled]):not(.rdp-day_selected) {
   background-color: white !important;
   cursor: default;
 }
 .rdp-button.rdp-day_selected {
-  background-color: #d7c7d2 !important;
+  /* background-color: #d7c7d2 !important;
   color: #581845 !important;
-  padding: 5px !important;
+  padding: 5px !important; */
+}
+.rdp-button:not([disabled]){
+  cursor:pointer !important;
 }
 
 .rdp-button.rdp-day_selected:focus {
