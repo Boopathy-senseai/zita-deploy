@@ -298,7 +298,7 @@ const hanldeJobListform = () => {
 					<Flex>
 					<Flex row between  >
 						<Flex style={{marginLeft:'3px'}}>
-						<Text bold size={14} >Detailed Metrics</Text>
+						<Text bold size={14}>Detailed Metrics</Text>
 						<Text style={{marginTop:'0px',marginBottom:'10px'}} >
 						A comprehensive data table showcasing count about the candidates & applicants for selected job.
 						</Text>
@@ -456,7 +456,7 @@ const hanldeJobListform = () => {
 								):(
 								<Flex className={styles.noData} style={{display:"flex"}} >
 									<SvgNoDataIcon style={{marginBottom:"10px", filter:"opacity(0.6)"}} width={15}/>
-											<Text bold>No Data Available</Text>
+											<Text bold color='gray' >No Data Available</Text>
 										</Flex>
 								)}
 							</Flex>
