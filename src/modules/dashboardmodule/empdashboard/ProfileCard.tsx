@@ -531,7 +531,7 @@ const ProfileCard = () => {
                 <Flex marginRight={5} marginTop={2}>
                   <SvgGlobe height={18} width={18}  />
                 </Flex>
-                <Flex marginLeft={7}>
+                <Flex marginLeft={11}>
                   {' '}
                   <a target={'_blank'} rel="noreferrer" href={weburl}>
                     <Text
