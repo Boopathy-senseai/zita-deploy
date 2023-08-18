@@ -1,4 +1,5 @@
 import SvgCheckedCircle from '../../icons/SvgCheckedCircle';
+import { InputCheckBox } from '../../uikit';
 import style from './styles/SelectTeamMemberIcon.module.css';
 import { Colors } from './types';
 
@@ -20,21 +21,19 @@ const SelectTeamMemberCheckBox = ({
   return (
     <>
       <div className={style.checkboxContainer}>
-        <div
-          className={style.checkbox}
-          onClick={() => {
-            if (!disabled) onClick();
-          }}
-          role="button"
-        >
-          <SvgCheckedCircle checked={checked} />
+        <div className={style.checkbox}>
+          <InputCheckBox
+            checked={checked}
+            onChange={() => {
+              if (!disabled) onClick();
+            }}
+          />
         </div>
-        <p
-          className={style.label}
-          style={{ backgroundColor: color?.backgroundColor }}
-        >
-          {label}
-        </p>
+        <div
+          className={style.dot}
+          style={{ backgroundColor: color?.borderColor }}
+        ></div>
+        <span className={style.label}>{label}</span>
       </div>
     </>
   );

@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
-import { reports } from '../../../appRoutesPath';
+import { meetingScheduler, reports } from '../../../appRoutesPath';
 import SvgCalendar from '../../../icons/SvgDBCalandar';
 import SvgDashboard from '../../../icons/SvgDashboard';
 import SvgCollapse from '../../../icons/SvgCollapse';
@@ -26,6 +26,7 @@ import Text from '../../../uikit/Text/Text';
 import { userProfileMiddleWare } from '../../accountsettingsmodule/userprofilemodule/store/middleware/userprofilemiddleware';
 import { permissionMiddleWare } from '../../Login/store/middleware/loginMiddleWare';
 import { logOutMiddleWare } from '../store/middleware/navbarmiddleware';
+import SvgScheduler from '../../../icons/SvgScheduler';
 import styles from './notification.module.css';
 
 import NavigationSearch from './NavigationSearch';
@@ -577,7 +578,7 @@ const Sidebar = ({ changes, data }: props) => {
               )}
             </>
           )}
-
+      
           {permission.includes('talent_sourcing') && (
             <>
               {is_plan ? (changes?
@@ -644,6 +645,89 @@ const Sidebar = ({ changes, data }: props) => {
                       style={{ color: '#581845', marginRight: '10px' }}
                     >
                       Calendar
+                    </Text>
+                  </a>
+                </li>
+              )}
+            </>
+          )}
+          {permission.includes('talent_sourcing') && (
+            <>
+              {is_plan ? (
+                changes ? (
+                  <li
+                    className={
+                      pathname === meetingScheduler ? styles.select_row : ''
+                    }
+                  >
+                    <LinkWrapper
+                      className={styles.hoverview}
+                      onClick={clearTabs}
+                      to={is_plan ? meetingScheduler : accountPath}
+                    >
+                      <text style={{ marginLeft: '-2px' }}>
+                        <SvgScheduler height={20} width={22} />
+                      </text>
+                      <Text
+                        onClick={() => handleNavigate(8)}
+                        className={
+                          Expent === '0' ? styles.text : styles.classpan
+                        }
+                        color="primary"
+                        style={{ color: '#581845', marginRight: '10px' }}
+                      >
+                        Meeting Scheduler
+                      </Text>
+                    </LinkWrapper>
+                  </li>
+                ) : (
+                  <li
+                    className={
+                      pathname === meetingScheduler ? styles.select_row : ''
+                    }
+                  >
+                    <LinkWrapper
+                      className={styles.hoverview}
+                      onClick={clearTab}
+                      to={is_plan ? meetingScheduler : accountPath}
+                    >
+                      <text style={{ marginLeft: '-2px' }}>
+                        <SvgScheduler height={20} width={20} />
+                      </text>
+                      <Text
+                        onClick={() => handleNavigate(8)}
+                        className={
+                          Expent === '0' ? styles.text : styles.classpan
+                        }
+                        color="primary"
+                        style={{ color: '#581845', marginRight: '10px' }}
+                      >
+                         Meeting Scheduler
+                      </Text>
+                    </LinkWrapper>
+                  </li>
+                )
+              ) : (
+                <li
+                  className={pathname === meetingScheduler ? styles.select_row : ''}
+                >
+                  <a
+                    className={styles.hoverview}
+                    href={' '}
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                  >
+                    <text style={{ marginLeft: '-2px' }}>
+                      <SvgScheduler height={20} width={22} />
+                    </text>
+                    <Text
+                      onClick={() => handleNavigate(8)}
+                      className={Expent === '0' ? styles.text : styles.classpan}
+                      color="primary"
+                      style={{ color: '#581845', marginRight: '10px' }}
+                    >
+                       Meeting Scheduler
                     </Text>
                   </a>
                 </li>

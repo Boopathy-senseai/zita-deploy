@@ -56,6 +56,7 @@ const InputCheckBox = ({
           color={color}
           bold={lableBold}
           className={cx('checkBoxTick', 'withLabel')}
+          size ={13}
         >
           {label}
         </Text>
