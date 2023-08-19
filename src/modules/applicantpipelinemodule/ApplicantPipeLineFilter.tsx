@@ -422,7 +422,7 @@ const ApplicantPipeLineFilter = ({
             >
               {/* match */}
               <Flex className={styles.mtstyle}>
-                <Text color="theme" bold className={styles.matchTextStyle}>
+                <Text  bold className={styles.matchTextStyle}>
                   Match
                 </Text>
                 <Flex row center wrap>
@@ -447,7 +447,7 @@ const ApplicantPipeLineFilter = ({
               </Flex>
               {/* profile */}
               <Flex className={styles.mtstyle}>
-                <Text color="theme" bold className={styles.profileTextStyle}>
+                <Text  bold className={styles.profileTextStyle}>
                   Profile
                 </Text>
                 <Flex row center wrap>
@@ -471,7 +471,7 @@ const ApplicantPipeLineFilter = ({
               </Flex>
               {/* exp */}
               <Flex className={styles.mtstyle}>
-                <Text color="theme" bold className={styles.profileTextStyle}>
+                <Text  bold className={styles.profileTextStyle}>
                   Experience
                 </Text>
                 <SelectTag
@@ -494,7 +494,6 @@ const ApplicantPipeLineFilter = ({
               {/* qualification */}
               <Flex className={styles.mtstyle}>
                 <Text
-                  color="theme"
                   bold
                   className={styles.qualificationTextStyle}
                 >
@@ -521,7 +520,7 @@ const ApplicantPipeLineFilter = ({
               </Flex>
               {/* skills */}
               <Flex className={styles.mtstyle}>
-                <Text color="theme" bold className={styles.profileTextStyle}>
+                <Text  bold className={styles.profileTextStyle}>
                   Skills
                 </Text>
                 <SelectTag

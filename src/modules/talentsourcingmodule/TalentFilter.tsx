@@ -158,7 +158,7 @@ const TalentFilter = ({
   }
   const close=()=>{
     setExperience(experienceOptions[0])
-    setnewexperience(experienceOptions[0])
+    setnewexperience(null)
     setchange(false)
   }
    const handlechange=()=>{
@@ -186,12 +186,13 @@ const TalentFilter = ({
   return (
    <>
    {console.log("Experience",newexperience)}
+ 
      <Text className={""} style={{ color: "#581845" }}>
         Quick Filters :
       </Text>
-      {  !NewBachelors1 && !NewDoctorate1 && !Newmaster1 && !Newothers1 ?(
+      {  !NewBachelors1 && !NewDoctorate1 && !Newmaster1 && !Newothers1 &&!newrelocate&&!newexperience ?(
        <Text className={styles.quickfil} style={{cursor:'default'}}>
-        {"Any"}
+        {"All"}
       </Text>
       ): (
         null
@@ -312,7 +313,8 @@ null
     >
     
       <Flex className={styles.mtstyle}>
-      <SelectTag
+      <Text type="titleSmall" bold style={{marginBottom:'2px'}} >Experience</Text>
+              <SelectTag
                 id={'talentfilter__experienceId'}
                 defaultValue={{
                   value: isExperience.value,
@@ -328,7 +330,6 @@ null
                 }
                 labelBold
                 options={experienceOptions}
-                label={'Experience'}
                 onChange={(value) => (setExperience(value),
                   setchange(true))
                  }
@@ -339,7 +340,7 @@ null
 
       <Flex className={styles.mtstyle}>
         <Flex className={styles.skillContainer} >
-        <Text type="titleSmall" bold style={{color:'#581845',marginBottom:'2px'}} >Qualification</Text>
+        <Text type="titleSmall" bold style={{marginBottom:'2px'}} >Qualification</Text>
         <Flex row top className={cx('checkBoxContainer')}>
           <Flex className={cx('checkBoxContainerOne')}>
             <div className={cx('checkBoxOne')}>
@@ -395,9 +396,9 @@ null
         disabled={isInitalCheckBox}
         />
       </Flex>
-        <Flex style={{marginLeft:'5px',color:'#581845',fontSize:'14px',fontWeight:'bold'}}>
+        <Text style={{marginLeft:'5px'}}>
             Willing to Relocate
-        </Flex>
+      </Text>
       </Flex>
   
       </div>

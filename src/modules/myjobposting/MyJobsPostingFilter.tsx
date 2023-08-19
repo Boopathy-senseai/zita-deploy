@@ -259,110 +259,40 @@ const MyJobsPostingFilter = ({
    }
 
   // const MyDataBaseSearchAction = ({ jobTitle, formik,isSearchValue,setSearchValue }: Props) => {
-  //   const selectInputRef = useRef<any>();
-  //   const hanldeSearch = () => {
-  //   formik.setFieldValue('searchValue', isSearchValue);
-  //   };
-
-  // useEffect(() => {
-  //     const onScroll = () => setOffset(window.pageYOffset);
-  //     // clean up code
-  //     window.removeEventListener('scroll', onScroll);
-  //     window.addEventListener('scroll', onScroll, { passive: true });
-  //     return () => window.removeEventListener('scroll', onScroll);
-  // }, []);
+    const isDefaultFilter = () => {
+   
+  
+      if (
+        location === "" &&
+        jobid1=== "" &&
+        jobtitle===""  &&
+        jobposted1 ==="" &&
+        (jobstatus1==="All"||jobstatus1==="")
+  
+      ) {
+        return true;
+      }
+      return false;
+    };
 
  
 
   return (
     <>
       {console.log("++fomik+++",formik.values)}
+      {console.log("sDefaultFilter()",isDefaultFilter())}
       {console.log("location",location)}
       {console.log("jobid1",jobid1)}
       {console.log("jobtitle",jobtitle)}
       {console.log("jobposted1",jobposted1)}
       {console.log("jobstatus1",jobstatus1)}
-
-      <Text className={""} style={{ color: "#581845" }}>
+      
+      <Text className={""} >
         Quick Filters :
       </Text>
-      {location === "" &&
-      jobid1=== "" &&
-      jobtitle===""  &&
-      jobposted1 ==="" &&
-      jobstatus1==="" ? (
-        <Text className={styles.quickfil}> All</Text>
-      
-      ) : location === "" &&
-           jobid1=== "" &&
-      jobtitle===""  &&
-      jobposted1 ==="" &&jobstatus1 === "All" ? (
-      //   setdata(""),
-      // setdate(""),
-      // setTitle(""),
-      // setlocationdata("")
-      <Text className={styles.quickfil}> All</Text>
-        ):(
-        <Text className={styles.quickfil}>
-          {" "}
-          {jobstatus1}
-          <SvgIntomark
-            className={styles.stylesvg}
-            onClick={() => closestatus()}
-          />
-        </Text>
-      )}
-
-      {/* {data.length > 0?(done === "All" ? (
-      
-      ""
-      ) : (
-        <Text className={styles.quickfil}>
-          {" "}
-          {done}
-          <SvgIntomark
-            className={styles.stylesvg}
-            onClick={() => closestatus()}
-          />
-        </Text>
-      )):("")} */}
-      {/* {done == "All" ? (
-        <Text className={styles.quickfil}> {done}</Text>
-      ) : (
-        <Text className={styles.quickfil}>
-          {" "}
-          {done}
-          <SvgIntomark
-            className={styles.stylesvg}
-            onClick={() => closestatus()}
-          />
-        </Text>
-      )} */}
-
-      {jobid1 !== "" ? (
-        <Text className={styles.quickfil}>
-          {data}{" "}
-          <SvgIntomark className={styles.stylesvg} onClick={() => close()} />
-        </Text>
-      ) : (
-        " "
-      )}
-
-      {  jobposted1 !== ""   ? (
-        <Text className={styles.quickfil}>
-          {date}{" "}
-          <SvgIntomark
-            className={styles.stylesvg}
-            onClick={() => closedate()}
-          />
-        </Text>
-      ) : (
-         " "
-        // " "
-      )}
       {jobtitle !== "" ? (
         <Text className={styles.quickfil}>
-          {Title}{" "}
+          {jobtitle}{" "}
           <SvgIntomark
             className={styles.stylesvg}
             onClick={() => closetitle()}
@@ -372,9 +302,46 @@ const MyJobsPostingFilter = ({
         ""
       )}
 
+   
+
+      {jobid1 !== "" ? (
+        <Text className={styles.quickfil}>
+          {jobid1}{" "}
+          <SvgIntomark className={styles.stylesvg} onClick={() => close()} />
+        </Text>
+      ) : (
+        " "
+      )}
+       {isDefaultFilter() ? (
+        <Text className={styles.quickfil}>All</Text>
+      ) :(
+          jobstatus1 !== 'All'&& jobstatus1  !==""?(<Text className={styles.quickfil}>
+          {" "}
+          {jobstatus1}
+          <SvgIntomark
+            className={styles.stylesvg}
+            onClick={() => closestatus()}
+          />
+        </Text>):("")
+      )}
+
+      {  jobposted1 !== ""   ? (
+        <Text className={styles.quickfil}>
+          {jobposted1}{" "}
+          <SvgIntomark
+            className={styles.stylesvg}
+            onClick={() => closedate()}
+          />
+        </Text>
+      ) : (
+         " "
+        // " "
+      )}
+     
+
       {location !== "" ? (
         <Text className={styles.quickfil}>
-          {locationdata}{" "}
+          {location}{" "}
           <SvgIntomark
             className={styles.stylesvg}
             onClick={() => closelocationdata()}
@@ -383,6 +350,7 @@ const MyJobsPostingFilter = ({
       ) : (
         ""
       )}
+   
 
       <div ref={dropDownRef} className={styles.drop_down}>
         <Flex

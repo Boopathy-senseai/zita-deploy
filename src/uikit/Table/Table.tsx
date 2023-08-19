@@ -73,6 +73,11 @@ const Table = ({
           // style={{
           //   height: window.innerHeight - 280, overflow:'scroll'
           // }}
+          style={{
+          
+          maxHeight: window.innerHeight-370,
+          overflowY: "auto",
+          overflowX: "hidden"}}
           className={cx({ rowScroll: scrollHeight })}
         >
           {dataSource.map((item, index) => (
@@ -88,7 +93,9 @@ const Table = ({
           ))}
         </div>
       ) : (
-        <div
+        <div  style={{maxHeight: window.innerHeight-370,
+          overflowY: "auto",
+          overflowX: "hidden"}}
          
           className={cx({ rowScroll: scrollHeight })}
         >
