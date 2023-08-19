@@ -54,14 +54,14 @@ const AboutTab = () => {
   ];
 
   const aboutData1 = [
-    // {
-    //   lable: 'Job Type:',
-    //   value: notSpecified(candidate_details[0].job_title),
-    // },
-    // {
-    //   lable: 'Willing to Relocate:',
-    //   value: relocate,
-    // },
+    {
+      lable: 'Job Type:',
+      value: notSpecified(candidate_details[0].job_title),
+    },
+    {
+      lable: 'Willing to Relocate:',
+      value: relocate,
+    },
     {
       lable: 'Expected Gross Salary:',
       value:
