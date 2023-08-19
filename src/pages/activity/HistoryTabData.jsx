@@ -2,9 +2,12 @@ import axios from 'axios';
 import { useEffect, useMemo, useState } from 'react';
 import Flex from '../../uikit/Flex/Flex';
 import { getDateString } from '../../uikit/helper';
+import SvgHistory from '../../icons/SvgHistory';
+import SvgNoDataIcon from '../../icons/SvgNoDataIcon';
 import Table from '../../uikit/Table/Table';
 import Text from '../../uikit/Text/Text';
 import styles from './historytabdata.module.css';
+
 
 const resultTitle = () => [
   {

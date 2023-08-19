@@ -80,7 +80,7 @@ const StandardJobPosting = ({
           </Flex>
           </Card>
           <Flex style={{height:15}}></Flex>
-          <Flex row center between>
+          <Flex row center between className={styles.btnContainer}>
             <LinkWrapper target={'_parent'} to={`/jobs/questionnaire/${jdId}`}>
               <Button types="secondary">{BACK}</Button>
             </LinkWrapper>

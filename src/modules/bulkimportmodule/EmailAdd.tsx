@@ -205,7 +205,7 @@ const EmailAdd = ({
         .catch(() => {
           setLoader(false);
           Toast(
-            'Email udated request failed. Please try again',
+            'Email updated request failed. Please try again',
             'SHORT',
             'error',
           );

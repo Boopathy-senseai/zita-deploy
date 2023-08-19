@@ -11,9 +11,8 @@ import {
   Loader,
   Text,
 } from '../../../uikit';
-import { getDateString } from '../../../uikit/helper';
+import { getDateString, uniqueArray } from '../../../uikit/helper';
 import { AppDispatch, RootState } from '../../../store';
-import { dashboardCalenderMiddleWare } from '../../dashboardmodule/empdashboard/store/dashboardmiddleware';
 import { SvgCalendar } from '../../../icons';
 import { calendarRoute } from '../../../appRoutesPath';
 import {
@@ -29,15 +28,14 @@ import {
 } from '../types';
 import { TeamMemberType } from '../../calendarModule/types';
 import { getUsersByCompanyMiddleware } from '../../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
-import Table from './eventsTable';
-import styles from './scheduledEvents.module.css';
-import EventsMenu from './eventsMenu';
+import EventsMenu from '../components/eventsMenu';
+import EventDeletePopUpModal from '../components/deleteEvent';
 import {
   deleteEventMiddleWare,
   getEventsMiddleWare,
 } from './store/middleware/eventsmiddleware';
-import CalendarEventsTable from './calendarEventsTable';
-import EventDeletePopUpModal from './deleteEvent';
+import Table from './eventsTable';
+import styles from './scheduledEvents.module.css';
 
 const ScheduledEventsPage = () => {
   const history = useHistory();
@@ -48,6 +46,7 @@ const ScheduledEventsPage = () => {
   const [deleteEvent, setDeleteEvent] = useState<{
     open: boolean;
     event: IEvent | ICalendarEvent;
+    type: 'event' | 'calendar';
   } | null>(null);
   const [teamMembers, setTeamMembers] = useState<IEventTeamMember[]>([]);
   const [selectedPeople, setSelectedPeople] = useState<number[]>([]);
@@ -179,8 +178,15 @@ const ScheduledEventsPage = () => {
   const handleDeleteEvent = (id: any) => {
     dispatch(
       deleteEventMiddleWare({
-        id: id,
-        event: filters.type === EVENT_TYPE.MY_EVENTS ? 'True' : 'False',
+        params: { id },
+        props: {
+          event: filters.type === EVENT_TYPE.MY_EVENTS ? 'True' : 'False',
+          date:
+            filters.activeRadio === EVENT_FILTER_OPTION.DATE
+              ? getCurrentDate(filters.activeRadio)
+              : undefined,
+          other_user: selectedPeople.length !== 0 ? selectedPeople : undefined,
+        },
       }),
     ).then(() => {
       setDeleteEvent(null);
@@ -214,138 +220,72 @@ const ScheduledEventsPage = () => {
     });
   };
 
-  const eventsList = (): {
-    events: IEventTableItem[];
-    calEvents: ICalendarEventTableItem[];
-  } => {
+  const eventsList = (): IEventTableItem[] => {
+    const organisers = uniqueArray(scheduleEventState.org_name);
     if (filters.activeRadio === EVENT_FILTER_OPTION.DATE) {
-      return {
-        events: scheduleEventState?.event.map((doc) => {
-          return {
-            ...doc,
-            interviewers: scheduleEventState?.interviewers.filter(
-              (s) => s.event_id === doc.event_id,
-            ),
-            organisers: scheduleEventState.org_name,
-          };
-        }),
-        calEvents: scheduleEventState?.calevents_events.map((doc) => {
-          // const emails = (doc.interviewers as string || "").split(',');
-          return {
-            ...doc,
-            interviewers: scheduleEventState?.calevents_interviewer.filter(
-              (s) => s.event_id === doc.eventId,
-            ),
-            // interviewers: emails.map(em => scheduleEventState?.calevents_interviewer[em]),
-            organisers: scheduleEventState.org_name,
-          };
-        }),
-      };
+      return scheduleEventState?.event.map((doc) => {
+        return {
+          ...doc,
+          interviewers: scheduleEventState?.interviewers.filter(
+            (s) => s.event_id === doc.event_id,
+          ),
+          organisers: scheduleEventState.org_name,
+        };
+      });
     }
     if (filters.activeRadio === EVENT_FILTER_OPTION.PAST_AND_UPCOMING) {
       if (filters.isPast) {
-        return {
-          events: scheduleEventState?.pastEvent.map((doc) => {
-            return {
-              ...doc,
-              interviewers: scheduleEventState?.interviewers.filter(
-                (s) => s.event_id === doc.event_id,
-              ),
-              organisers: scheduleEventState.org_name,
-            };
-          }),
-          calEvents: scheduleEventState?.calevents_past_event.map((doc) => {
-            // const emails = (doc.interviewers as string || "").split(',');
-            return {
-              ...doc,
-              interviewers: scheduleEventState?.calevents_interviewer.filter(
-                (s) => s.event_id === doc.eventId,
-              ),
-              organisers: scheduleEventState.org_name,
-            };
-          }),
-        };
-      }
-
-      return {
-        events: scheduleEventState?.upcomingEvent.map((doc) => {
+        return scheduleEventState?.pastEvent.map((doc) => {
           return {
             ...doc,
             interviewers: scheduleEventState?.interviewers.filter(
               (s) => s.event_id === doc.event_id,
             ),
-            organisers: scheduleEventState.org_name,
+            organisers,
           };
-        }),
-        calEvents: scheduleEventState?.calevents_upcoming_event.map((doc) => {
-          // const emails = (doc.interviewers as string || "").split(',');
-          return {
-            ...doc,
-            interviewers: scheduleEventState?.calevents_interviewer.filter(
-              (s) => s.event_id === doc.eventId,
-            ),
-            organisers: scheduleEventState.org_name,
-          };
-        }),
-      };
+        });
+      }
+
+      return scheduleEventState?.upcomingEvent.map((doc) => {
+        return {
+          ...doc,
+          interviewers: scheduleEventState?.interviewers.filter(
+            (s) => s.event_id === doc.event_id,
+          ),
+          organisers,
+        };
+      });
     }
 
-    return {
-      events: [],
-      calEvents: [],
-    };
+    return [];
   };
 
   const renderTable = () => {
     if (scheduleEventState?.isLoading) {
       return <Loader />;
     }
-    const data = eventsList();
-    return (
-      <Flex
-        column
-        flex={1}
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          width: '100%',
-          height: '100%',
-          overflow: 'hidden',
-        }}
-      >
-        <TableWrapper title=" Slotter Events">
-          <Table
-            list={data.events}
-            pastEvents={filters.isPast}
-            activeRadio={filters.activeRadio}
-            deleteState={scheduleEventState?.deleteState}
-            onJoin={handleJoinEvent}
-            // onEdit={handleEditEvent}
-            onDelete={(doc) => setDeleteEvent({ open: true, event: doc })}
-          />
-        </TableWrapper>
 
-        <TableWrapper title="Calendar Events">
-          <CalendarEventsTable
-            list={data.calEvents}
-            pastEvents={filters.isPast}
-            activeRadio={filters.activeRadio}
-            deleteState={scheduleEventState?.deleteState}
-            onJoin={handleCalendarJoinEvent}
-            onEdit={handleCalendarEditEvent}
-            onDelete={(doc) => setDeleteEvent({ open: true, event: doc })}
-          />
-        </TableWrapper>
-      </Flex>
+    return (
+        <Table
+          list={eventsList()}
+          pastEvents={filters.isPast}
+          activeRadio={filters.activeRadio}
+          deleteState={scheduleEventState?.deleteState}
+          onJoin={handleJoinEvent}
+          // onEdit={handleEditEvent}
+          onDelete={(doc) =>
+            setDeleteEvent({ open: true, event: doc, type: 'event' })
+          }
+        />
     );
   };
 
   const pastUpcoming = (
     <Flex row center>
       <Text
-        size={14}
+        size={13}
         className={styles.textStyles}
-        style={{ marginRight: '10px' }}
+        style={{ marginRight: '5px' }}
       >
         Upcoming Events
       </Text>
@@ -356,9 +296,9 @@ const ScheduledEventsPage = () => {
         }
       />
       <Text
-        size={14}
+        size={13}
         className={styles.textStyles}
-        style={{ marginLeft: '10px' }}
+        style={{ marginLeft: '5px' }}
       >
         Past Events
       </Text>
@@ -366,7 +306,7 @@ const ScheduledEventsPage = () => {
   );
 
   const eventDate = (
-    <Flex marginLeft={10}>
+    <Flex marginLeft={5}>
       <div style={{ position: 'relative', display: 'flex' }}>
         <DatePicker
           id="calendar___open"
@@ -375,30 +315,6 @@ const ScheduledEventsPage = () => {
           onChange={(date) => {
             formik.setFieldValue('date', date);
             getEventsData(date);
-            // dispatch(
-            //   dashboardCalenderMiddleWare({
-            //     date: getDateString(date, 'YYYY-MM-DD'),
-            //   }),
-            // ).then((res) => {
-            //   const dataout = res.payload.events;
-            //   setEvent(
-            //     res.payload.events.map(
-            //       (items: {
-            //         title: any;
-            //         start_time: string | number | Date;
-            //         end_time: string | number | Date;
-            //         web_url: any;
-            //       }) => {
-            //         return {
-            //           title: items.title,
-            //           start: new Date(items.start_time),
-            //           end: new Date(items.end_time),
-            //           web_url: items.web_url,
-            //         };
-            //       },
-            //     ),
-            //   );
-            // });
           }}
           className={styles.datePicker}
         />
@@ -415,8 +331,7 @@ const ScheduledEventsPage = () => {
     <>
       {deleteEvent && (
         <EventDeletePopUpModal
-          open={deleteEvent.open}
-          event={deleteEvent.event}
+          {...deleteEvent}
           onClose={() => setDeleteEvent(null)}
           onConfirm={handleDeleteEvent}
         />
@@ -483,7 +398,7 @@ const ScheduledEventsPage = () => {
         style={{
           padding: '10px',
           height: 'calc(100% - 61px)',
-          overflow: 'hidden',
+          overflow: 'auto',
         }}
       >
         {renderTable()}
@@ -492,47 +407,4 @@ const ScheduledEventsPage = () => {
   );
 };
 
-interface TableWrapperProps {
-  title: string;
-  children: React.ReactNode;
-}
-const TableWrapper: React.FC<TableWrapperProps> = (props) => {
-  return (
-    <Flex
-      column
-      flex={1}
-      style={{
-        display: 'flex',
-        flex: 1,
-        flexDirection: 'column',
-        overflow: 'hidden',
-      }}
-    >
-      <Flex
-        row
-        center
-        style={{
-          padding: 10,
-          backgroundColor: '#eee8ec',
-          marginBottom: 10,
-          color: '#581845',
-        }}
-      >
-        {props.title}
-      </Flex>
-      <Flex
-        column
-        style={{
-          height: 'calc(100% - 50px)',
-          display: 'flex',
-          flexDirection: 'column',
-          overflow: 'auto',
-          padding: '0 10px',
-        }}
-      >
-        {props.children}
-      </Flex>
-    </Flex>
-  );
-};
 export default ScheduledEventsPage;

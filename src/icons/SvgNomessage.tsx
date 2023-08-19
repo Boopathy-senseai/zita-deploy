@@ -4,6 +4,7 @@ const SvgNomessage = (props) => (
     width={29}
     height={20}
     fill="none"
+    viewBox="0 0 29 20"
     {...props}
   >
     <path

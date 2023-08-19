@@ -129,22 +129,22 @@ border-right: 30px solid white;
 border-bottom: 22px solid transparent;
   
 position: relative;
-  
-top: -1px;
-  
-right: 0px;
 
-  
+top: -1px; 
+right: 0px; 
+
   }
   .padding{
     padding:0px ;
     margin-top: 10px;
   }
   .mainpadding{
-        padding: 9px 5px 5px 5px;
+
+    padding: 8px;
   }
   .cardOverAll {
-    padding:0px 16px 16px 16px;
+    padding: 0 16px 10px 0;
+
     margin: 20px 0;
   }
   .tableDiv {
@@ -157,3 +157,13 @@ right: 0px;
   .fontweight{
     font-weight: 100 !important;
   }
+
+  .card1 {
+    background-color: var(--color-white, #ffffff);
+    border-radius: 4px;
+    box-sizing: border-box;
+    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 47%);
+    -webkit-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 47%);
+    padding: 16px;
+    margin: 16px 0 20px;
+}

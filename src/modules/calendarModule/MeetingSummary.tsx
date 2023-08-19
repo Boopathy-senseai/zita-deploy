@@ -16,6 +16,7 @@ import {
 import styles from './styles/MeetingSummary.module.css';
 import {
   EditEventDetails,
+  IEventNotes,
   meetingFormProps,
   UserType,
 } from './types';
@@ -74,12 +75,15 @@ const MeetingSummary = ({
       dispatch(getUpdateEventByIdMiddleWare({ event_id: recurringEventId })).then(
         (res) => {
           if (res.payload) {
-            const array = res.payload as Array<{
-              [key: string]: string | null;
-            }>;
-            const applicant = array[0] ? array[0]['extra_notes'] : undefined;
-            const interviewer = array[1] ? array[1]['interviewer_notes'] : undefined;
-
+            // const array = res.payload as Array<{
+            //   [key: string]: string | null;
+            // }>;
+            // console.log(array['interviewer_notes'])
+            const obj = res.payload  as IEventNotes;
+            // const applicant = array[0] ? array[0]['extra_notes'] : undefined;
+            // const interviewer = array[1] ? array[1]['interviewer_notes'] : undefined;
+            const applicant = obj.extra_notes || undefined;
+            const interviewer = obj.interview_notes || undefined;
             setGreetings(prev => ({ applicant: applicant || prev.applicant, interviewer: interviewer || prev.interviewer }));
           }
         },
@@ -128,6 +132,7 @@ const MeetingSummary = ({
             email: member.email,
             calendarEmail: member.calendarEmail,
           })),
+          // interviewer: meetingForm.interviewer.map(doc => doc.userId),
           startTime: meetingForm.startDateTime,
           endTime: meetingForm.endDateTime,
           notes: meetingForm.notes,
@@ -181,6 +186,7 @@ const MeetingSummary = ({
           email: member.email,
           calendarEmail: member.calendarEmail,
         })),
+        // interviewer: interviewer.map(doc => doc.userId),
         startTime: startDateTime,
         endTime: endDateTime,
         location: location.value,

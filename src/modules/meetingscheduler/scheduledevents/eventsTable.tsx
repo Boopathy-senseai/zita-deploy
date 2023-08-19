@@ -107,7 +107,7 @@ const EventSchedulerScreen: React.FC<Props> = (props) => {
       );
     }
     return (
-      <table className="table" style={{ paddingLeft: 'none' }}>
+      <table className="table" style={{ paddingLeft: 'none', height: 'fit-content' }}>
         <thead>
           <tr>
             <th className={styles.hpadchange}>

@@ -583,10 +583,7 @@ const CandidateDatabaseTab = ({
           columns={columns}
           isLoader={isTableLoader}
         />
-        </Flex>
-      )}
-
-      { !isCandiTableLoader&& isPageTab > 10 && (
+           { !isCandiTableLoader&& isPageTab > 10 && (
         <Flex middle className={styles.pagination}>
           <Pangination
             maxPages={pageCount - 1}
@@ -595,6 +592,10 @@ const CandidateDatabaseTab = ({
           />
         </Flex>
       )}
+        </Flex>
+      )}
+
+   
     </Flex>
   );
 };

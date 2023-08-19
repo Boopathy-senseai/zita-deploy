@@ -22,7 +22,7 @@
 }
 
 .inputCommonStyle::placeholder {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--color-gary-6, #888888);
 }
 .noBorder {
@@ -137,6 +137,6 @@
 .actionRightStyle {
   margin: 0;
   right: 8px;
-  top: 4px;
+  top: -2px;
   position: absolute;
 }
