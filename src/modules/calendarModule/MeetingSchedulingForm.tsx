@@ -525,7 +525,7 @@ const MeetingSchedulingForm = ({
 
   const TimingView = (
     <div>
-      <label className={styles.label}>Time *</label>
+      <label className={styles.label} >Time *</label>
       <div className={styles.timeInputWrapper}>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
