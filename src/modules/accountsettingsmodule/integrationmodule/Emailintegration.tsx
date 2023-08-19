@@ -1,9 +1,6 @@
 // import axios from 'axios';
 import { useEffect, useState } from 'react';
-import {
-  useDispatch,
-  // useSelector
-} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { gapi } from 'gapi-script';
 import {
   AuthenticatedTemplate,
@@ -14,6 +11,15 @@ import {
 
 import { PublicClientApplication, EventType } from '@azure/msal-browser';
 //import { loginRequest, msalConfig } from '../../../outlookmailConfig';
+import {
+  outlook_integrate,
+  integrate_mail,
+  outlook_remove,
+  getEmail,
+  gmail_integrate,
+  google_remove,
+} from '../../emailintegrationmodule/store/middleware/emailIntegrationMiddleWare';
+
 import Modal from '../../../uikit/Modal/Modal';
 
 import SvgGmail from '../../../icons/SvgGmailNew';
@@ -25,164 +31,145 @@ import SvgEdit from '../../../icons/SvgEdit';
 import SvgTick from '../../../icons/SvgTickNew';
 import {
   AppDispatch,
+  RootState,
   //  RootState
 } from '../../../store';
-import { Button, Card, Flex, Text } from '../../../uikit';
+import { Button, Card, Flex, Text, Toast } from '../../../uikit';
 import styles from './emailintegration.module.css';
 
-const IntegrationScreen = () => {
+type props = {
+  loaderupdate: (val: any) => void;
+};
+
+const IntegrationScreen = ({ loaderupdate }: props) => {
   const dispatch: AppDispatch = useDispatch();
 
   const { instance } = useMsal();
 
   const [email, setEmail] = useState<string>('');
-  const [isAuthorizegoogle, setIsAuthorizegoogle] = useState(false);
   const [Authorizemail, setAuthorizemail] = useState('');
   const [modelopen, setmodelopen] = useState(false);
   const [Edit, setEdit] = useState('');
   const [isAuthorize, setIsAuthorize] = useState(false);
   const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    function start() {
-      gapi.client.init({
-        clientId: process.env.REACT_APP_CLIENT_ID,
-        scope: 'email',
-      });
-    }
 
-    gapi.load('client:auth2', start);
-  }, []);
-  useEffect(() => {
-    setLoading(true);
+  const [gbutton, setgbutton] = useState(0);
+  const [outbutton, setoutbutton] = useState(0);
 
-    const initialGoogleConnection = async () => {
-      await gapi.load('client:auth2', {
-        callback: () => {
-          // Handle gapi.client initialization.
-          gapi.client.setApiKey(process.env.REACT_APP_API_KEY);
-          gapi.auth.authorize(
-            {
-              client_id: process.env.REACT_APP_CLIENT_ID,
-              scope: process.env.REACT_APP_SCOPES,
-              immediate: true,
-            },
-            handleAuthResult,
-          );
-        },
-        onerror: function () {
-          // Handle loading error.
-          console.log('gapi.client failed to load!');
-        },
-        timeout: 5000, // 5 seconds.
-        ontimeout: function () {
-          // Handle timeout.
-          console.log('gapi.client could not load in a timely manner!');
-        },
-      });
+  const integrate = useSelector(({ useremail }: RootState) => {
+    return {
+      email: useremail.email,
     };
+  });
 
-    try {
-      initialGoogleConnection();
-    } catch (error) {
-      console.log('error: ', error);
-    }
-
-    setLoading(false);
-    // eslint-disable-next-line
-  }, []);
-
-  const handleAuthResult = (authResult) => {
-    console.log(authResult);
-    if (authResult && !authResult.error) {
-      console.log('Sign-in successful');
-      // setIsAuthorize(true);
-      //setAuthorizemail('google');
-      // localStorage.setItem('integrate', 'google');
-      loadClient();
-      profile();
-    } else {
-      console.error('handleAuthResult...');
-      console.error(authResult);
-    }
-    setLoading(false);
+  const checkAuth = () => {
+    dispatch(getEmail()).then((res) => {
+      console.log('res', res);
+      if (res.payload.email !== null && res.payload.account !== null) {
+        if (res.payload.account === 'outlook') {
+          setAuthorizemail('outlook');
+          setgbutton(1);
+          setoutbutton(1);
+        } else if (res.payload.account === 'google') {
+          setAuthorizemail('google');
+          setoutbutton(1);
+          setgbutton(1);
+        }
+      } else {
+        setEmail('');
+        setAuthorizemail('');
+        setgbutton(0);
+        setoutbutton(0);
+      }
+    });
   };
+
+  useEffect(() => {
+    checkAuth();
+  }, [Authorizemail, outbutton, gbutton]);
+  useEffect(() => {
+    checkAuth();
+  }, []);
 
   const handleAuthClick = () => {
-    setLoading(true);
-    return gapi.auth.authorize(
-      {
-        client_id: process.env.REACT_APP_CLIENT_ID,
-        scope: process.env.REACT_APP_SCOPES,
-        immediate: false,
-      },
-      handleAuthResult,
-    );
+    loaderupdate(true);
+    dispatch(gmail_integrate()).then((res) => {
+      console.log('res', res);
+      // window.open(res.payload.url);
+      setgbutton(1);
+      setoutbutton(1);
+      window.location.href = res.payload.url;
+      checkAuth();
+      loaderupdate(false);
+      // Toast(' Google Mail Integrated Successfully', 'MEDIUM');
+    });
   };
 
-  const loadClient = () => {
-    return gapi.client.load('gmail', 'v1').then(
-      (res) => {
-        console.log('gapi client loaded for API', res);
-        setIsAuthorize(true);
-        // getMessages();
-      },
-      (err) => {
-        console.error('Error loading window.gapi client for API', err);
-      },
-    );
-  };
-
-  const profile = () => {
-    const userprofile = gapi.auth2.getAuthInstance().currentUser.get();
-    console.log('dfdfdf', userprofile.wt.cu);
-    setEmail(userprofile.wt.cu);
-    setIsAuthorizegoogle(true);
-  };
   const EditMail = (Eval: string) => {
     setmodelopen(!modelopen);
     setEdit(Eval);
   };
 
   const disconnect = () => {
-    setmodelopen(!modelopen);
-    console.log('im work 1');
-    setIsAuthorizegoogle(false);
-    console.log('disconnect', gapi.auth2.getAuthInstance().disconnect());
+    loaderupdate(true);
+    dispatch(google_remove())
+      .then((res) => {
+        if (res.payload.delete === true) {
+          setmodelopen(false);
+          setEmail('');
+          setAuthorizemail('');
+          setgbutton(0);
+          setoutbutton(0);
+          loaderupdate(false);
+        }
+      })
+      .catch((error) => {
+        console.log('error');
+        loaderupdate(false);
+      });
   };
 
   //////outlook /////
 
   const outlookconfig = async () => {
-    await instance
-      .loginPopup({
-        scopes: ['openid', 'profile', 'User.Read', 'Mail.Read'],
-      })
+    loaderupdate(true);
+    dispatch(outlook_integrate())
       .then((res) => {
-        console.log('res---------', res.account);
-        console.log('res++++', res);
-        setEmail(res.account.username);
-        setAuthorizemail('outlook');
-        localStorage.setItem('integrate', 'outlook');
+        if (res.payload.success === true) {
+          //Toast('Outlook Mail Integrated Successfully', 'MEDIUM');
+          // checkAuth();
+          // window.open(res.payload.authorization_url);
+          setoutbutton(1);
+          setgbutton(1);
+
+          window.location.href = res.payload.authorization_url;
+          checkAuth();
+          loaderupdate(false);
+        }
       })
       .catch((error) => {
-        console.log('connection faild  error------', error);
+        console.log('error');
+        loaderupdate(false);
       });
-
-    //console.log('asasas', value);
-    //setEmail(value.account.username);
-
-    // instance .loginRedirect(loginRequest) .catch((error) => {
-    //   console.log('error', error)});
   };
 
   const outlookdisconnect = async () => {
-    // alert('logout');
-    instance
-      .logoutPopup({
-        mainWindowRedirectUri: 'http://localhost:3000/account_setting/settings', // redirects the top level app after logout
-        account: instance.getActiveAccount(),
+    loaderupdate(true);
+    dispatch(outlook_remove())
+      .then((res) => {
+        if (res.payload.delete === true) {
+          setmodelopen(false);
+          setEmail('');
+          setAuthorizemail('');
+          setgbutton(0);
+          setoutbutton(0);
+          loaderupdate(false);
+        }
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log('error', error);
+        loaderupdate(false);
+      });
   };
 
   const ChangeoutlookMail = async () => {
@@ -199,8 +186,10 @@ const IntegrationScreen = () => {
 
   return (
     <>
-      {console.log('isAuthorizegoogle', isAuthorizegoogle)}
-      {console.log('email', email)}
+      {/* {console.log('email', integrate.email)}
+      {console.log('au', Authorizemail)}
+      {console.log('ob', outbutton)}
+      {console.log('gb', gbutton)} */}
       <Text color="theme" size={16} bold>
         Email Integrations
       </Text>
@@ -210,7 +199,7 @@ const IntegrationScreen = () => {
       </Text>
       <Flex row style={{ marginTop: '10px' }}>
         <Flex flex={3} height={'unset'} minWidth={200} marginRight={20}>
-          <AuthenticatedTemplate>
+          {Authorizemail === 'outlook' && email !== null && outbutton === 1 ? (
             <Card className={styles.cardStruture}>
               <Flex end style={{ position: 'absolute', right: '10px' }}>
                 <SvgTick />
@@ -230,7 +219,7 @@ const IntegrationScreen = () => {
 
               <Text style={{ marginTop: '10px' }}>Connected as</Text>
               <Text color="theme" style={{ marginTop: '1px' }}>
-                {email}
+                {integrate.email}
               </Text>
               <Flex
                 marginTop={10}
@@ -247,16 +236,17 @@ const IntegrationScreen = () => {
                 >
                   <Flex row center className={styles.editButton}>
                     <SvgEdit width={14} height={14} />
-                    <Text color="theme" style={{ marginLeft: '5px' }}>
+                    <Text
+                      color="theme"
+                      style={{ marginLeft: '5px', cursor: 'pointer' }}
+                    >
                       Edit Configuration
                     </Text>
                   </Flex>
                 </Button>
               </Flex>
             </Card>
-          </AuthenticatedTemplate>
-
-          <UnauthenticatedTemplate>
+          ) : (
             <Card className={styles.cardStruture}>
               <Flex row start className={styles.cardHeader}>
                 <SvgoutlookMail />
@@ -285,57 +275,20 @@ const IntegrationScreen = () => {
                 }}
               >
                 <Button
-                  disabled={Authorizemail === 'google' ? true : false}
                   className={styles.btn}
+                  disabled={outbutton === 1 ? true : false}
                   onClick={() => outlookconfig()}
                 >
                   <Text color="theme">Connect With Outlook</Text>
                 </Button>
               </Flex>
             </Card>
-          </UnauthenticatedTemplate>
+          )}
         </Flex>
         <Flex flex={3}>
-          {isAuthorizegoogle === false ? (
-            <>
-              <Card className={styles.cardStruture}>
-                <Flex row start className={styles.cardHeader}>
-                  <SvgGmail />
-
-                  <Text
-                    color="theme"
-                    bold
-                    size={16}
-                    style={{ marginLeft: '10px' }}
-                  >
-                    Google Mail
-                  </Text>
-                </Flex>
-
-                <Text style={{ marginTop: '10px' }}>
-                  Connect your inbox with Google Mail Service.
-                </Text>
-                <Flex
-                  column
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    width: '100%',
-                    marginTop: 10,
-                    borderTop: '1px solid #c3c3c3',
-                  }}
-                >
-                  <Button
-                    disabled={Authorizemail === 'outlook' ? true : false}
-                    className={styles.btn}
-                    onClick={() => handleAuthClick()}
-                  >
-                    <Text color="theme">Connect with Gmail</Text>
-                  </Button>
-                </Flex>
-              </Card>
-            </>
-          ) : (
+          {Authorizemail === 'google' &&
+          integrate.email !== null &&
+          gbutton === 1 ? (
             <Card className={styles.cardStruture}>
               <Flex end style={{ position: 'absolute', right: '10px' }}>
                 <SvgTick />
@@ -355,29 +308,9 @@ const IntegrationScreen = () => {
 
               <Text style={{ marginTop: '10px' }}>Connected as</Text>
               <Text color="theme" style={{ marginTop: '1px' }}>
-                {email}
+                {integrate.email}
               </Text>
-              {/* <Flex
-                marginTop={10}
-                style={{
-                  borderTop: '1px solid #c3c3c3',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  width: '100%',
-                }}
-              >
-                <Button
-                  className={styles.btn}
-                  onClick={() => EditMail('outlook')}
-                >
-                  <Flex row center className={styles.editButton}>
-                    <SvgEdit width={14} height={14} />
-                    <Text color="theme" style={{ marginLeft: '5px' }}>
-                      Edit Configuration
-                    </Text>
-                  </Flex>
-                </Button>
-              </Flex> */}
+
               <Flex
                 marginTop={10}
                 style={{
@@ -393,10 +326,50 @@ const IntegrationScreen = () => {
                 >
                   <Flex row center className={styles.editButton}>
                     <SvgEdit width={14} height={14} />
-                    <Text color="theme" style={{ marginLeft: '5px' }}>
+                    <Text
+                      color="theme"
+                      style={{ marginLeft: '5px', cursor: 'pointer' }}
+                    >
                       Edit Configuration
                     </Text>
                   </Flex>
+                </Button>
+              </Flex>
+            </Card>
+          ) : (
+            <Card className={styles.cardStruture}>
+              <Flex row start className={styles.cardHeader}>
+                <SvgGmail />
+
+                <Text
+                  color="theme"
+                  bold
+                  size={16}
+                  style={{ marginLeft: '10px' }}
+                >
+                  Google Mail
+                </Text>
+              </Flex>
+
+              <Text style={{ marginTop: '10px' }}>
+                Connect your inbox with Google Mail Service.
+              </Text>
+              <Flex
+                column
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: '100%',
+                  marginTop: 10,
+                  borderTop: '1px solid #c3c3c3',
+                }}
+              >
+                <Button
+                  disabled={gbutton === 1 ? true : false}
+                  className={styles.btn}
+                  onClick={() => handleAuthClick()}
+                >
+                  <Text color="theme">Connect with Gmail</Text>
                 </Button>
               </Flex>
             </Card>
@@ -405,6 +378,7 @@ const IntegrationScreen = () => {
 
         <Flex flex={8}></Flex>
       </Flex>
+
       <hr />
 
       <Modal open={modelopen}>
@@ -437,7 +411,7 @@ const IntegrationScreen = () => {
                   <Flex style={{ padding: '10px' }}>
                     <Flex>Connected as</Flex>
                     <Flex>
-                      <Text color="theme">{email}</Text>
+                      <Text color="theme">{integrate.email}</Text>
                     </Flex>
                   </Flex>
                 </Card>
@@ -486,7 +460,7 @@ const IntegrationScreen = () => {
                   <Flex style={{ padding: '10px' }}>
                     <Flex>Connected as</Flex>
                     <Flex>
-                      <Text color="theme">{email}</Text>
+                      <Text color="theme">{integrate.email}</Text>
                     </Flex>
                   </Flex>
                 </Card>

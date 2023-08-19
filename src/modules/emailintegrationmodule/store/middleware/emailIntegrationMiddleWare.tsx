@@ -8,15 +8,22 @@ import {
   GET_EMAIL,
   OUTLOOK_USER_PROFILE,
   OUTLOOK_EMAIL_GET,
+  INTEGRATE_MAIL,
+  OUTLOOk_MAIL_REMOVE,
+  OUTLOOk_MAIL_INTEGRATE,
+  GOOGLE_MAIL_INTEGRATE,
+  GOOGLE_MAIL_REMOVE,
 } from '../../../../actions/actions';
 import {
   maillist,
-  outlookProfile,
+  outlookProfile_remove,
   getoutlookmaillist,
+  IntegrateMail,
+  outlookmailIntegrate,
+  google_mail_integrate,
+  google_mail_remove,
 } from '../../../../routes/apiRoutes';
 import config from '../../../../outlookmailConfig';
-
-console.log('00000000000');
 
 let graphClient = undefined;
 
@@ -30,16 +37,12 @@ export const getEmail = createAsyncThunk(GET_EMAIL, async () => {
   }
 });
 
-export const outlookUserProfile = createAsyncThunk(
-  OUTLOOK_USER_PROFILE,
+export const outlook_integrate_remove = createAsyncThunk(
+  OUTLOOk_MAIL_REMOVE,
   async () => {
     try {
-      const user = await graphClient!
-        .api(outlookProfile)
-        // Only retrieve the specific fields needed
-        // .select('displayName,mail,mailboxSettings,userPrincipalName')
-        .get();
-      return user;
+      const { data } = await axios.delete(outlookProfile_remove, {});
+      return data;
     } catch (error) {
       const typedError = error as Error;
       return typedError;
@@ -63,3 +66,62 @@ export const outlookMailFolder = createAsyncThunk(
     }
   },
 );
+
+export const integrate_mail = createAsyncThunk(INTEGRATE_MAIL, async () => {
+  try {
+    const { data } = await axios.get(IntegrateMail, {});
+    return data;
+  } catch (error) {
+    const typedError = error as Error;
+    return typedError;
+  }
+});
+
+export const outlook_integrate = createAsyncThunk(
+  OUTLOOk_MAIL_INTEGRATE,
+  async () => {
+    try {
+      const { data } = await axios.get(outlookmailIntegrate, {});
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return typedError;
+    }
+  },
+);
+
+export const outlook_remove = createAsyncThunk(
+  OUTLOOk_MAIL_REMOVE,
+  async () => {
+    try {
+      const { data } = await axios.delete(outlookProfile_remove, {});
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return typedError;
+    }
+  },
+);
+
+export const gmail_integrate = createAsyncThunk(
+  GOOGLE_MAIL_INTEGRATE,
+  async () => {
+    try {
+      const { data } = await axios.get(google_mail_integrate, {});
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return typedError;
+    }
+  },
+);
+
+export const google_remove = createAsyncThunk(GOOGLE_MAIL_REMOVE, async () => {
+  try {
+    const { data } = await axios.delete(google_mail_remove, {});
+    return data;
+  } catch (error) {
+    const typedError = error as Error;
+    return typedError;
+  }
+});

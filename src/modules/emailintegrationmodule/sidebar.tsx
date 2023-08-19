@@ -14,6 +14,7 @@ import SvgSend from '../../icons/SvgSend';
 import SvgTrash from '../../icons/SvgTrash';
 import SvgDraft from '../../icons/SvgMailDraft';
 import SvgArchive from '../../icons/SvgArchive';
+import SvgSpam from '../../icons/SvgSpam';
 import SvgJunk from '../../icons/SvgJunk';
 import styles from './sidebar.module.css';
 
@@ -212,9 +213,9 @@ const Sidebar = ({
                 className={styles.hoverview}
                 title="Spam"
               >
-                <SvgArchive
-                  width={16}
-                  height={16}
+                <SvgSpam
+                  width={19}
+                  height={19}
                   fill={sidebarroute === 4 ? '#581845' : '#333333'}
                 />
                 {/* <Text

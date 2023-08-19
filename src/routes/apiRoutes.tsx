@@ -45,7 +45,7 @@ export const bulkUploadSkills = (id: number) => {
 export const applicantProfileView = `applicants_profile_api`;
 export const applicantMatchapi = `matching_analysis`;
 export const applicantNotesApi = `candidate_notes`;
-export const applicantUserlistApi=`mention_notification_candidate_notes`;
+export const applicantUserlistApi = `mention_notification_candidate_notes`;
 export const calenderEventApi = `calender_event`;
 export const showAllMatch = `show_all_match`;
 export const applicantMessagesApi = `messages`;
@@ -163,14 +163,12 @@ export const emailValidRequest = (email: string, domain?: string) => {
   return url;
 };
 export const signupRecruiterApi = `${process.env.REACT_APP_API_ENDPOINT}signup_recruiter/`;
-export const signupRecruiterGetApi = (email: string,username:string) => {
+export const signupRecruiterGetApi = (email: string, username: string) => {
   const url = `${process.env.REACT_APP_API_ENDPOINT}signup_recruiter/?email=${email} &username=${username} `;
-  // const url =  payload ? `${process.env.REACT_APP_API_ENDPOINT}signup_recruiter/?username=${username}` : 
+  // const url =  payload ? `${process.env.REACT_APP_API_ENDPOINT}signup_recruiter/?username=${username}` :
   // `${process.env.REACT_APP_API_ENDPOINT}signup_recruiter/?email=${email}`;
   return url;
 };
-
-
 
 export const emailActiveApi = (userId: string, confirmationToken: string) => {
   const url = `${process.env.REACT_APP_API_ENDPOINT}email_activate/?userid=${userId}&confirmation_token=${confirmationToken}`;
@@ -277,6 +275,16 @@ export const jobViewCountApi = (jdId: string) => {
 
 export const maillist = `email_label`;
 
-export const outlookProfile = `/me`;
+export const IntegrateMail = ``;
+
+export const outlookmailIntegrate = `outlook_mail_api`;
+
+//export const outlookmailIntegrate = `outlook_mail_api`;
+
+export const outlookProfile_remove = `delete_outlook_mail`;
 
 export const getoutlookmaillist = `/me/mailFolders/Inbox/messages`;
+
+export const google_mail_integrate = `google_mail_api`;
+
+export const google_mail_remove = 'delete_google_mail';

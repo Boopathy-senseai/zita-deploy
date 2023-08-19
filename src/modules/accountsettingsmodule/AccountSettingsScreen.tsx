@@ -19,14 +19,16 @@ import {
   outlookCallbackMiddleware,
   googleCallbackMiddleware,
 } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
+import { getEmail } from '../emailintegrationmodule/store/middleware/emailIntegrationMiddleWare';
 import CompanyPage from './companypage';
- //import UserProfile from './userprofilemodule/userProfile';
+//import UserProfile from './userprofilemodule/userProfile';
 import styles from './accountsettingsscreen.module.css';
 import BuildYourCareerPageScreen from './buildyourcareerpage/BuildYourCareerPageScreen';
 import EmailNotification from './emailmodule/EmailNotifications';
 import IntegrationScreen from './integrationmodule/IntegrationScreen';
 import ManageSubscriptionScreen from './managesubscription/ManageSubscriptionScreen';
 import TemplatesPage from './templatesmodule/templatesPage';
+
 // import { dispatch } from 'react-hot-toast/dist/core/store';
 
 const height = window.innerHeight - 212;
@@ -71,7 +73,7 @@ const AccountSettingsScreen = ({ value }: props) => {
   const [isReloadCompany, setReloadCompany] = useState(false);
   const [isReloadProfile, setReloadProfile] = useState(false);
   const [changeurl, setchangeurl] = useState(false);
-
+  const [load, setload] = useState(false);
   useEffect(() => {
     if (!isEmpty(tab)) {
       sessionStorage.setItem('superUserTab', tab);
@@ -109,14 +111,18 @@ const AccountSettingsScreen = ({ value }: props) => {
      */
 
     localStorage.setItem('freeCheck', 'true');
-    console.log(window.location.href);
+    console.log('urlll--', window.location.href);
     var url = new URL(window.location.href);
+
     if (url.searchParams.get('scope')) {
       // Google
       const code = url.searchParams.get('code');
       dispatch(googleCallbackMiddleware({ codeUrl: code })).then((res) => {
-        console.log(res);
-        window.close();
+        console.log('---', res);
+        // window.close();
+        history.push('/account_setting/settings');
+        dispatch(getEmail());
+        // window.location.reload();
       });
     } else if (url.searchParams.get('session_state')) {
       // Outlook
@@ -125,10 +131,17 @@ const AccountSettingsScreen = ({ value }: props) => {
         state: url.searchParams.get('state'),
         session_state: url.searchParams.get('session_state'),
       };
+      // setload(true);
       dispatch(outlookCallbackMiddleware(access_urls))
         .then((res) => {
-          console.log(res);
-          window.close();
+          // var name = JSON.stringify(res.payload);
+          //localStorage.setItem('mail', name);
+          //window.close();
+          // dispatch(getEmail());
+          history.push('/account_setting/settings');
+          dispatch(getEmail());
+          // window.location.reload();
+          // window.location.href = '/account_setting/settings';
         })
         .catch((err) => {
           console.log('error', err);

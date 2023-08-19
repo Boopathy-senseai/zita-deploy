@@ -14,11 +14,13 @@ import {
   getmail,
   move_to_spam,
   gmail_permanent_Delete,
+  outlooktoken,
 } from '../../emailService';
 import config from '../../outlookmailConfig';
 import { Flex, Card, Text } from '../../uikit';
 import SvgArchive from '../../icons/SvgArchive';
 import { SvgEdit, SvgTrash } from '../../icons';
+import SvgSpam from '../../icons/SvgSpam';
 import SvgJunk from '../../icons/SvgJunk';
 import SvgReply from '../../icons/SvgReply';
 import SvgReplyall from '../../icons/SvgReplyall';
@@ -39,6 +41,7 @@ type Props = {
   attachments: any;
   msglistcount: any;
   integration: string;
+  emailcollection: any;
   updateMailaction: (val: any) => void;
   remove_message: (id: any) => void;
   update_message: (id: any, val: boolean) => void;
@@ -52,6 +55,7 @@ const Inbox = ({
   attachments,
   remove_message,
   msglistcount,
+  emailcollection,
   integration,
   updateMailaction,
   update_message,
@@ -79,12 +83,13 @@ const Inbox = ({
   };
 
   useEffect(() => {
+    console.log('integration', integration);
     if (integration === 'google') {
       readmessages();
     } else if (integration === 'outlook') {
       updatereadmessage();
     }
-  }, [message]);
+  }, [message, integration]);
 
   const readmessages = async () => {
     const labelIds = message.labelIds || [];
@@ -103,12 +108,14 @@ const Inbox = ({
       var readmessage = {
         IsRead: true,
       };
-      await mailread(authProvider, message.id, readmessage)
-        .then((res) => {
-          update_message(message.id, true);
-          //page();
-        })
-        .catch((error) => {});
+      outlooktoken(emailcollection.token).then(async () => {
+        await mailread(message.id, readmessage)
+          .then((res) => {
+            update_message(message.id, true);
+            //page();
+          })
+          .catch((error) => {});
+      });
     }
   };
 
@@ -215,7 +222,7 @@ const Inbox = ({
       var readmessage = {
         IsRead: false,
       };
-      await mailread(authProvider, message.id, readmessage)
+      await mailread(message.id, readmessage)
         .then((res) => {
           removemsg();
           // page();
@@ -283,7 +290,6 @@ const Inbox = ({
   };
 
   const movespam = async (val: any) => {
-    alert('spam');
     var Gfolder = '';
     if (sidebarroute === 1) {
       Gfolder = 'INBOX';
@@ -370,11 +376,11 @@ const Inbox = ({
                     }
                     onClick={messageIcon ? movespam : undefined}
                   >
-                    <SvgJunk
-                      width={16}
-                      height={16}
+                    <SvgSpam
+                      width={18}
+                      height={18}
                       ß
-                      stroke={messageIcon ? '#581845' : '#58184550'}
+                      fill={messageIcon ? '#581845' : '#58184550'}
                     />
                   </Flex>
                 ) : (

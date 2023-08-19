@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import {
   Client,
   GraphRequestOptions,
@@ -8,24 +9,24 @@ import { AuthCodeMSALBrowserAuthenticationProvider } from '@microsoft/microsoft-
 // import { User } from 'microsoft-graph';
 import { gapi } from 'gapi-script';
 import { Base64 } from 'js-base64';
+import axios from 'axios';
+//let graphClient = '';
 let graphClient: Client | undefined = undefined;
 
-function ensureClient(authProvider: AuthCodeMSALBrowserAuthenticationProvider) {
-  if (!graphClient) {
-    graphClient = Client.initWithMiddleware({
-      authProvider: authProvider,
-    });
-  }
-  // console.log(graphClient);
+export async function outlooktoken(token: any) {
+  graphClient = Client.init({
+    authProvider: (done) => {
+      done(null, token);
+    },
+  });
   return graphClient;
 }
 
-export async function getUser(
-  authProvider: AuthCodeMSALBrowserAuthenticationProvider,
-) {
-  ensureClient(authProvider);
+export async function getUser() {
+  //ensureClient(authProvider);
 
   // Return the /me API endpoint result as a User object
+
   const user = await graphClient!
     .api('/me')
     // Only retrieve the specific fields needed
@@ -40,8 +41,6 @@ export async function getmail(
   previous,
   range,
 ) {
-  console.log('1', previous);
-  console.log('2', range);
   var response: any = await graphClient
     ?.api('/me/mailFolders/Inbox/messages')
     .count(true)
@@ -49,7 +48,7 @@ export async function getmail(
     .top(range)
     .get();
 
-  console.log('-----Inboxmessage-----', response['@odata.count']);
+  //console.log('-----Inboxmessage-----', response['@odata.count']);
   return response;
 }
 
@@ -162,13 +161,9 @@ export async function getjunkemail(
   return response;
 }
 
-export async function mailread(
-  authProvider: AuthCodeMSALBrowserAuthenticationProvider,
-  id,
-  read,
-) {
+export async function mailread(id, read) {
   //console.log('read', read);
-  var response: any = await graphClient?.api(`/me/messages/${id}`).update(read);
+  var response: any = await graphClient.api(`/me/messages/${id}`).update(read);
   //console.log('-----mailread-----', response);
   return response;
 }
@@ -228,8 +223,6 @@ export async function getsearchmail(
   range,
   token,
 ) {
-  console.log('----------');
-  console.log('tok', token);
   if (folder === 'All') {
     if (token !== '') {
       var response1: any = await graphClient
@@ -239,7 +232,7 @@ export async function getsearchmail(
         .top(range)
         .skipToken(token)
         .get();
-      console.log('-----allsearch-----', response1);
+      // console.log('-----allsearch-----', response1);
       return response1;
     } else {
       var response2: any = await graphClient
@@ -259,7 +252,7 @@ export async function getsearchmail(
         .top(range)
         .skipToken(token)
         .get();
-      console.log('-----tokensearchmail-----', response);
+
       return response;
     } else {
       var res: any = await graphClient
@@ -269,7 +262,6 @@ export async function getsearchmail(
         .top(range)
         .get();
 
-      console.log('-----particularsearchmail-----', res);
       return res;
     }
   }
@@ -287,7 +279,7 @@ export async function getmessages(
     .skip(previous)
     .top(range)
     .get();
-  console.log('-----folder-----', folder, response);
+
   return response;
 }
 
@@ -330,7 +322,6 @@ export async function getusermail(
     .query(`$search="${searchdata}",$count="${true}"`)
     .get();
 
-  console.log('-----particularmail-----', response);
   return response;
 }
 
@@ -343,7 +334,7 @@ export async function getselectedmsg(
     // .select('attachments,toRecipients')
     .top(25)
     .get();
-  console.log('----- selectmsg-----', response);
+
   return response;
 }
 
@@ -354,7 +345,7 @@ export async function getattachments(
   var response: any = await graphClient
     ?.api(`/me/messages/${id}/attachments`)
     .get();
-  console.log('-----attachment-----', response);
+
   return response;
 }
 
@@ -366,7 +357,7 @@ export async function dowloadattachments(
   var response: any = await graphClient
     ?.api(`/me/messages/${id}/attachments/${val}`)
     .get();
-  console.log('-----attachment-----', response);
+
   return response;
 }
 
@@ -381,9 +372,15 @@ export async function getmailfolders(
   return response;
 }
 
-/////// Gmail /////////
+////
+//////////<----------------------------- Gmail Api---------------------------------->/////////////
+/////
 
-export async function gmail_Account_Profile() {
+export async function gmail_Account_Profile(token) {
+  gapi.auth.setToken({
+    access_token: token,
+  });
+
   await gapi.auth2
     .getAuthInstance()
     .currentUser.get()
@@ -395,8 +392,12 @@ export async function gmail_Account_Profile() {
     });
 }
 
-export const initGoogleAuth = () => {
-  return new Promise<void>((resolve, reject) => {
+export const initGoogleAuth = async (token) => {
+  // console.log('--------------------', token);
+  // await gapi.auth.setToken({
+  //   access_token: token,
+  // });
+  return new Promise<void>(async (resolve, reject) => {
     gapi.load('client:auth2', () => {
       gapi.client
         .init({
@@ -417,16 +418,13 @@ export const initGoogleAuth = () => {
   });
 };
 
-export function handleGoogleAuth() {
-  initGoogleAuth()
-    .then(() => {
-      // console.log('Google API client initialized');
-      // After successful initialization and authentication, fetch inbox messages
-    })
-    .catch((error) => {
-      console.error('Failed to initialize Google API client:', error);
-    });
-}
+// export function handleGoogleAuth() {
+//   initGoogleAuth()
+//     .then(() => {})
+//     .catch((error) => {
+//       console.error('Failed to initialize Google API client:', error);
+//     });
+// }
 
 export async function gmail_Inbox() {
   var response: any = await gapi.client.gmail.users.messages.list({
@@ -455,9 +453,11 @@ export async function gmail_send(base64EncodedEmail) {
   return res;
 }
 
-export async function Gmail_Mails(folder, pageToken, maxresult) {
+export async function Gmail_Mails(folder, pageToken, maxresult, tokens) {
+  gapi.auth.setToken({
+    access_token: tokens,
+  });
   try {
-    console.log('ff', folder);
     const response = await gapi.client.gmail.users.messages.list({
       userId: 'me',
       labelIds: folder,
@@ -467,23 +467,6 @@ export async function Gmail_Mails(folder, pageToken, maxresult) {
 
     const { messages } = response.result;
     const token = response.result.nextPageToken;
-
-    // if (messages && messages.length > 0) {
-    //   const messageIds = messages.map((message) => message.id);
-    //   var messageResponses = [];
-
-    //   for (const messageId of messageIds) {
-    //     const messageResponse = await gapi.client.gmail.users.messages.get({
-    //       userId: 'me',
-    //       id: messageId,
-    //       format: 'metadata',
-    //       metadataHeaders: ['From', 'Subject', 'To', 'Date', 'X-GM-Labels'],
-    //     });
-
-    //     messageResponses.push(messageResponse.result);
-    //   }
-    // }
-    // console.log('totalres', messageResponses);
 
     const fullMessages = await Promise.all(
       messages.map(async (message) => {
@@ -509,7 +492,7 @@ export async function Selected_message(id) {
       format: 'full',
     });
     const message = response.result;
-    console.log('full message', message);
+
     const attachments = [];
     const parts = message.payload.parts || [];
     parts.forEach((part) => {
@@ -525,7 +508,7 @@ export async function Selected_message(id) {
 
     // Extract the body of the message
     var body = getMessageBody(message.payload);
-    console.log('as', attachments);
+
     return { attachments, body, message };
   } catch (error) {
     console.error('Error loading message body:', error);
@@ -535,7 +518,6 @@ export async function Selected_message(id) {
 const getMessageBody = (mes) => {
   const encodedBody =
     typeof mes.parts === 'undefined' ? mes.body.data : getHTMLPart(mes.parts);
-
   return Base64.decode(encodedBody);
 };
 
@@ -560,7 +542,7 @@ export const Gmail_read_messages = async (messageId) => {
       removeLabelIds: ['UNREAD'],
     },
   });
-  console.log('sdsd', response);
+
   return response;
 };
 
@@ -581,9 +563,6 @@ export const Gmail_MessageToBin = (messageId) => {
 };
 
 export const Gmail_search = async (Folder, serchdata, maxresult, pageToken) => {
-  console.log('1', Folder);
-  console.log('2', serchdata);
-
   try {
     const query = `in:${Folder} ${serchdata}`;
     const response = await gapi.client.gmail.users.messages.list({
@@ -592,7 +571,6 @@ export const Gmail_search = async (Folder, serchdata, maxresult, pageToken) => {
       maxResults: maxresult,
       pageToken: pageToken,
     });
-    console.log('-------', response.result.nextPageToken);
 
     const { messages } = response.result;
     const token = response.result.nextPageToken;
@@ -622,7 +600,6 @@ export const Gmail_Draft = async (draft) => {
       resource: draft,
     })
     .then((response) => {
-      console.log('Draft saved successfully.', response);
       // You can perform additional actions here after the draft is saved
     })
     .catch((error) => {
@@ -672,7 +649,7 @@ export const gmail_msg = async (id) => {
     userId: 'me',
     id: id,
   });
-  console.log('fullMessageResponse', fullMessageResponse.result);
+
   return fullMessageResponse.result;
 };
 
@@ -696,10 +673,8 @@ export const gmail_permanent_Delete = async (messageId) => {
     })
     .then((response) => {
       return response;
-      console.log('Message permanently deleted:', response);
     })
     .catch((error) => {
       return error;
-      console.error('Error deleting message:', error);
     });
 };

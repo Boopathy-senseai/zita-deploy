@@ -51,6 +51,7 @@ type Props = {
   savemail: any;
   searchSection: string;
   search: any;
+  emailcollection: any;
 };
 const Maillist = ({
   messagelist,
@@ -81,6 +82,7 @@ const Maillist = ({
   savemail,
   searchSection,
   search,
+  emailcollection,
 }: Props) => {
   const msal = useMsal();
   const authProvider = new AuthCodeMSALBrowserAuthenticationProvider(
@@ -135,7 +137,7 @@ const Maillist = ({
           // console.log('get junk mail', error);
         });
     } else if (search !== '' && integration === 'google') {
-      initGoogleAuth()
+      initGoogleAuth(emailcollection.token)
         .then(() => {
           Gmail_search(searchSection, search.trim(), range, token)
             .then((res) => {
@@ -164,8 +166,8 @@ const Maillist = ({
   useEffect(() => {
     setTimeout(() => {
       process();
-    }, 50);
-  }, [sidebarroute, searchapi]);
+    }, 500);
+  }, [sidebarroute, searchapi, integration]);
 
   const showfolder = () => {
     if (integration === 'google') {
@@ -416,11 +418,7 @@ const Maillist = ({
   };
 
   return (
-    <Flex
-      style={{ margintop: '1px', overflowY: 'auto' }}
-      className={styles.maillist}
-      id="scrollableDiv"
-    >
+    <Flex style={{ margintop: '1px' }} className={styles.maillist}>
       <Flex
         row
         between
@@ -437,69 +435,21 @@ const Maillist = ({
           </Flex>
         </Flex>
       </Flex>
-
-      <InfiniteScroll
-        dataLength={messagelist.length}
-        next={process}
-        // hasMore={integration === 'google' ? pagetoken !== undefined : isLoading}
-        // hasMore={messagelist.length % range === 0 && !isLoading}
-        hasMore={scroll()}
-        loader={''}
-        scrollableTarget="scrollableDiv"
-      >
-        {messagelist.length !== 0 ? (
-          <>
-            {messagelist.map((val, int) => (
-              <>
-                {integration === 'google' ? (
-                  <Card
-                    key={int}
-                    className={
-                      messages === undefined
-                        ? styles.cardStyles
-                        : messages.id === val.id
-                        ? styles.seletmsg
-                        : styles.cardStyles
-                    }
-                    onClick={() => getmessage(val, val.id)}
-                  >
-                    <Flex row start className={styles.mailCard}>
-                      {notification(val)}
-
-                      <Flex
-                        style={{
-                          marginLeft: val.isRead ? '20px' : '10px',
-                          width: 'calc(100% - 20px)',
-                          display: 'flex',
-                        }}
-                      >
-                        <Flex
-                          column
-                          start
-                          between
-                          style={{ display: 'flex', flexDirection: 'column' }}
-                        >
-                          <Flex row between>
-                            <Text className={styles.textHeadingStyle}>
-                              {getfrom(val.payload.headers, val)}
-                            </Text>
-                            <Text size={12}>{date(val.payload.headers)}</Text>
-                          </Flex>
-
-                          <Text size={14} className={styles.textHeadingStyle}>
-                            {getsubject(val.payload.headers)}
-                          </Text>
-                        </Flex>
-                        <Flex>
-                          <Text className={styles.textStyle} size={12}>
-                            {val.snippet}
-                          </Text>
-                        </Flex>
-                      </Flex>
-                    </Flex>
-                  </Card>
-                ) : (
-                  <>
+      <Flex style={{ overflowY: 'auto' }} id="scrollableDiv">
+        <InfiniteScroll
+          dataLength={messagelist.length}
+          next={process}
+          // hasMore={integration === 'google' ? pagetoken !== undefined : isLoading}
+          // hasMore={messagelist.length % range === 0 && !isLoading}
+          hasMore={scroll()}
+          loader={''}
+          scrollableTarget="scrollableDiv"
+        >
+          {messagelist.length !== 0 ? (
+            <>
+              {messagelist.map((val, int) => (
+                <>
+                  {integration === 'google' ? (
                     <Card
                       key={int}
                       className={
@@ -512,91 +462,141 @@ const Maillist = ({
                       onClick={() => getmessage(val, val.id)}
                     >
                       <Flex row start className={styles.mailCard}>
-                        {val.isRead !== true ? (
-                          <Flex className={styles.notification_dot}></Flex>
-                        ) : (
-                          ''
-                        )}
+                        {notification(val)}
 
                         <Flex
                           style={{
                             marginLeft: val.isRead ? '20px' : '10px',
-
-                            width: '92%',
+                            width: 'calc(100% - 20px)',
                             display: 'flex',
                           }}
                         >
                           <Flex
-                            row
+                            column
+                            start
                             between
-                            style={{
-                              display: 'flex',
-                              flexDirection: 'row',
-                              justifyContent: 'space-between',
-                              width: '100%',
-                            }}
+                            style={{ display: 'flex', flexDirection: 'column' }}
                           >
-                            <Text
-                              className={styles.textHeadingStyle}
-                              style={{ maxWidth: '70%' }}
-                            >
-                              {handlemessage(val)}
-                            </Text>
-                            <Text size={12}>
-                              {getDateString(val.sentDateTime, 'DD/MM/YY')}
+                            <Flex row between>
+                              <Text className={styles.textHeadingStyle}>
+                                {getfrom(val.payload.headers, val)}
+                              </Text>
+                              <Text size={12}>{date(val.payload.headers)}</Text>
+                            </Flex>
+
+                            <Text size={14} className={styles.textHeadingStyle}>
+                              {getsubject(val.payload.headers)}
                             </Text>
                           </Flex>
-
-                          <Text size={14} className={styles.textHeadingStyle}>
-                            {val.subject !== '' ? val.subject : '(no subject)'}
-                          </Text>
-
                           <Flex>
                             <Text className={styles.textStyle} size={12}>
-                              {val.bodyPreview !== ''
-                                ? val.bodyPreview
-                                : 'This message has no content'}
+                              {val.snippet}
                             </Text>
                           </Flex>
                         </Flex>
                       </Flex>
                     </Card>
-                  </>
-                )}
-              </>
-            ))}
-          </>
-        ) : (
-          <>
-            {sideroute === 0 ? (
-              <>
-                {searchicon === true ? (
-                  <Flex className={styles.noEmail}>
-                    <Flex style={{ justifyContent: 'center' }}>
-                      <SvgSearchGlass width={65} height={65} />
+                  ) : (
+                    <>
+                      <Card
+                        key={int}
+                        className={
+                          messages === undefined
+                            ? styles.cardStyles
+                            : messages.id === val.id
+                            ? styles.seletmsg
+                            : styles.cardStyles
+                        }
+                        onClick={() => getmessage(val, val.id)}
+                      >
+                        <Flex row start className={styles.mailCard}>
+                          {val.isRead !== true ? (
+                            <Flex className={styles.notification_dot}></Flex>
+                          ) : (
+                            ''
+                          )}
+
+                          <Flex
+                            style={{
+                              marginLeft: val.isRead ? '20px' : '10px',
+
+                              width: '92%',
+                              display: 'flex',
+                            }}
+                          >
+                            <Flex
+                              row
+                              between
+                              style={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                maxWidth: '300px',
+                              }}
+                            >
+                              <Text
+                                className={styles.textHeadingStyle}
+                                style={{ maxWidth: '70%' }}
+                              >
+                                {handlemessage(val)}
+                              </Text>
+                              <Text size={12}>
+                                {getDateString(val.sentDateTime, 'DD/MM/YY')}
+                              </Text>
+                            </Flex>
+
+                            <Text size={14} className={styles.textHeadingStyle}>
+                              {val.subject !== ''
+                                ? val.subject
+                                : '(no subject)'}
+                            </Text>
+
+                            <Flex>
+                              <Text className={styles.textStyle} size={12}>
+                                {val.bodyPreview !== ''
+                                  ? val.bodyPreview
+                                  : 'This message has no content'}
+                              </Text>
+                            </Flex>
+                          </Flex>
+                        </Flex>
+                      </Card>
+                    </>
+                  )}
+                </>
+              ))}
+            </>
+          ) : (
+            <>
+              {sideroute === 0 ? (
+                <>
+                  {searchicon === true ? (
+                    <Flex className={styles.noEmail}>
+                      <Flex style={{ justifyContent: 'center' }}>
+                        <SvgSearchGlass width={65} height={65} />
+                      </Flex>
+                      <Text style={{ marginTop: '10px' }}>
+                        We didn`t find anthing.
+                      </Text>
+                      <Text color="gray">Try a different keyword.</Text>
                     </Flex>
-                    <Text style={{ marginTop: '10px' }}>
-                      We didn`t find anthing.
-                    </Text>
-                    <Text color="gray">Try a different keyword.</Text>
-                  </Flex>
-                ) : (
-                  ''
-                )}
-              </>
-            ) : (
-              <>
-                {noEmails && (
-                  <Flex className={styles.noEmail}>
-                    <SvgNoEmail />
-                    <Text>No emails yet.</Text>
-                  </Flex>
-                )}
-              </>
-            )}
-          </>
-        )}
-      </InfiniteScroll>
+                  ) : (
+                    ''
+                  )}
+                </>
+              ) : (
+                <>
+                  {noEmails && (
+                    <Flex className={styles.noEmail}>
+                      <SvgNoEmail />
+                      <Text>No emails yet.</Text>
+                    </Flex>
+                  )}
+                </>
+              )}
+            </>
+          )}
+        </InfiniteScroll>
+      </Flex>
     </Flex>
   );
 };

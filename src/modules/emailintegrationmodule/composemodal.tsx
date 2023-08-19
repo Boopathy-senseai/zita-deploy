@@ -14,7 +14,7 @@ import { AppDispatch, RootState } from '../../store';
 import MessageTemplate from '../../modules/applicantprofilemodule/MessageTemplate';
 import {
   getEmail,
-  outlookUserProfile,
+  //outlookUserProfile,
 } from '../emailintegrationmodule/store/middleware/emailIntegrationMiddleWare';
 import {
   applicantMessagesMiddleWare,
@@ -132,6 +132,9 @@ const Newmessage = ({
   const emailcollection = useSelector(({ useremail }: RootState) => {
     return {
       emailcollection: useremail.mails,
+      email: useremail.email,
+      integration: useremail.account,
+      token: useremail.token,
     };
   });
 
@@ -850,7 +853,7 @@ const Newmessage = ({
     const base64EncodedEmail1 = btoa(email);
 
     setloader(true);
-    initGoogleAuth()
+    initGoogleAuth(emailcollection.token)
       .then(() => {
         gmail_send(base64EncodedEmail1)
           .then((res) => {
@@ -911,7 +914,7 @@ const Newmessage = ({
     };
 
     setloader(true);
-    initGoogleAuth()
+    initGoogleAuth(emailcollection.token)
       .then(() => {
         Gmail_Draft(drafts)
           .then((res) => {
@@ -990,7 +993,7 @@ const Newmessage = ({
     const email = emailss.join('');
 
     const rawMessage = btoa(email);
-    initGoogleAuth()
+    initGoogleAuth(emailcollection.token)
       .then(async () => {
         await Gmail_Reply_forward(rawMessage)
           .then((res) => {
@@ -1011,7 +1014,6 @@ const Newmessage = ({
   return (
     <div>
       {/* <div style={{ position: 'absolute', bottom: '0px', right: '0px' }}> */}
-      {console.log('zc', tomail)}
 
       <Modal open={data}>
         {loader === true && <Loader />}
@@ -1117,7 +1119,7 @@ const Newmessage = ({
                 >
                   <Text>From </Text>
                   <Text size={12} className={styles.fromstyle}>
-                    {mail}
+                    {emailcollection.email}
                   </Text>
                 </Flex>
                 <Flex
