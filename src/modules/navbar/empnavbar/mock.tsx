@@ -38,4 +38,5 @@ export const searchOptions = [
   // 'Company Profile',
   'Support',
   'Help',
+  'Meeting Scheduler'
 ];

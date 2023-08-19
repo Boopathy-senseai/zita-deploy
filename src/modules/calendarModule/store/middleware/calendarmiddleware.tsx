@@ -1,7 +1,27 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { ZitaEventSchedulerType } from '../../types';
+import { stringifyParams } from '../../../../uikit/helper';
 var querystring = require('qs');
+
+export const getUpdateEventByIdMiddleWare = createAsyncThunk<
+Array<{
+  [key: string]: string | null;
+}>,
+  { event_id: string }
+>('schedule_event_by_id', async (payload, { rejectWithValue }) => {
+  try {
+    const { data } = await axios.get(
+      `update_event/?${stringifyParams(payload)}`,
+    );
+    return data as Array<{
+      [key: string]: string | null;
+    }>;
+  } catch (error) {
+    const typedError = error as Error;
+    return rejectWithValue(typedError);
+  }
+});
 
 export const scheduleEventMiddleware = createAsyncThunk(
   'schedule_event',
@@ -70,6 +90,7 @@ export const updateEventMiddleware = createAsyncThunk(
       endTime,
       notes,
       location,
+      interviewer_notes,
     }: ZitaEventSchedulerType,
     { rejectWithValue },
   ) => {
@@ -94,6 +115,7 @@ export const updateEventMiddleware = createAsyncThunk(
             endTime,
             notes,
             location,
+            interviewer_notes,
           },
           { arrayFormat: 'comma' },
         ),

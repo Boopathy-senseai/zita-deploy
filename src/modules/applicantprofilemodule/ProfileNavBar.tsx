@@ -531,7 +531,7 @@ const ProfileNavBar = ({
                 <Flex>{candiList.contact}</Flex>
               )}
             </Flex>
-
+{console.log(personalInfo[0].city__name,'personalInfo[0].city__namepersonalInfo[0].city__namepersonalInfo[0].city__namepersonalInfo[0].city__namepersonalInfo[0].city__namemanojjjjjj')}
             <Flex row style={{ marginTop: '5px', marginBottom: '10px' }}>
               <Flex style={{ marginRight: '10px' }}>
                 <SvgLocation height={17} width={17} fill="#581845" />

@@ -6,6 +6,7 @@ interface Props {
   variant?: 'red-button' | 'simple-gray';
   style?: React.CSSProperties;
   size?: string | number;
+  fill? : string;
 }
 
 const CrossButton = ({
@@ -13,6 +14,7 @@ const CrossButton = ({
   variant = 'simple-gray',
   style,
   size = '24px',
+  fill,
 }: Props) => {
   if (variant === 'red-button') {
     return (
@@ -36,7 +38,7 @@ const CrossButton = ({
         className={styles.svgWrapper}
         onClick={() => (onClick ? onClick() : null)}
       >
-        <SvgClose width={'100%'} height={'100%'} />
+        <SvgClose width={size} height={size} fill={fill} />
       </button>
     </>
   );

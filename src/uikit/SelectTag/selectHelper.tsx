@@ -4,6 +4,7 @@ import {
   BLACK,
   ERROR,
   GARY_1,
+  GARY_2,
   GARY_4,
   GARY_5,
   GARY_6,
@@ -31,7 +32,7 @@ export const customStyles = {
     height: '30px',
     padding: '0 8px',
     fontSize: 13,
-    color: GARY_1,
+    color: GARY_2,
   }),
   input: (provided: any) => ({
     ...provided,
@@ -192,7 +193,7 @@ export const customStylesMulti = {
   valueContainer: (provided: any) => ({
     ...provided,
     fontSize: 13,
-    color: GARY_1,
+    color: GARY_2,
     height: 74,
     overflowY: 'scroll',
     scrollbarWidth: 'thin',
@@ -338,7 +339,7 @@ export const customStylechanges = {
     height: '40px',
     padding: '0 8px',
     fontSize: 13,
-    color: GARY_1,
+    color: GARY_2,
   }),
   input: (provided: any) => ({
     ...provided,

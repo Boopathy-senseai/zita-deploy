@@ -678,7 +678,7 @@ let jpgchange=jpg.toUpperCase();
             name="email"
           />
         </Flex>
-        <Flex  style={{width:"333px"}}>
+        <Flex  >
           <LabelWrapper label="Contact Number" required>
             <PhoneInput
             
@@ -989,7 +989,7 @@ let jpgchange=jpg.toUpperCase();
                       htmlFor="company_profile___img"
                       className={styles.btnStyle}
                     >
-                      Upload or drag a logo
+                      Upload a logo
                     </label>
                   </Flex>
                   <Flex
@@ -1295,7 +1295,7 @@ let jpgchange=jpg.toUpperCase();
                           htmlFor="bannersetip_user__img"
                           className={styles.btnStyle}
                         >
-                         upload or drag a photo
+                         upload a photo
                         </label>
                       </Flex>
                       <Flex

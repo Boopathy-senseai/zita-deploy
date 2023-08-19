@@ -47,9 +47,18 @@
 }
 
 .svgWrapper {
-  outline: none;
-  border: none;
+  all: unset;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   background-color: transparent;
-  padding: 0;
+  padding: 5px;
+  border-radius: 100%;
   margin: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.svgWrapper:hover {
+  background-color: #D7C7D2;
+  border-radius: 50%;
 }

@@ -31,7 +31,7 @@ const ScreeningStatusTab = ({ title, issingletab }: Props) => {
       >
         {stages && stages.length === 0 &&invite && invite.length === 0  ? (
           <Flex flex={1} center middle>
-            <Text color="gray">Not Specified</Text>
+            <Text color="gray">Not Invited Yet</Text>
           </Flex>
         ) : (
           <Text bold color="theme" className={styles.screenText}>

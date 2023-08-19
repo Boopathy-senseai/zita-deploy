@@ -1,8 +1,8 @@
 /* eslint max-len: ["error", { "code": 2000 }] */
 const defaultProps = {
   fill: '#424242',
-  width: 24,
-  height: 24,
+  width: 18,
+  height: 18,
 };
 
 const SvgCloseSmall = ({ width, height, fill }: typeof defaultProps) => {
@@ -11,7 +11,7 @@ const SvgCloseSmall = ({ width, height, fill }: typeof defaultProps) => {
       xmlns="http://www.w3.org/2000/svg"
       width={width}
       height={height}
-      viewBox="0 0 24 24"
+      viewBox="0 0 18 18"
       style={{ cursor: 'pointer' }}
     >
       <path

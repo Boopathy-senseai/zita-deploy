@@ -90,6 +90,7 @@ export interface meetingFormProps {
     error: boolean;
   };
   notes: string | null;
+  privateNotes: string | null;
   eventType: {
     value: EventMeetingType | null;
     error: boolean;
@@ -118,6 +119,7 @@ export interface GoogleEventType {
   organizer: any;
   email: string;
   id: any;
+  recurringEventId: any;
   summary: any;
   hangoutLink: any;
   start: { dateTime: any };
@@ -192,6 +194,7 @@ export interface ZitaEventSchedulerType {
   app_id?: string;
   eventId?: string;
   extraNotes: string;
+  interviewer_notes: string;
   myJd: string;
   privateNotes: string;
   eventType: string;
@@ -215,6 +218,7 @@ export interface EventPopUpDetails {
   applicantId?: number | null;
   attendees?: null | string[];
   eventId: null | string;
+  recurringEventId: null | string;
   syncedBy: string | null;
   isZitaEvent: boolean;
   canEdit?: boolean;
@@ -231,6 +235,7 @@ export interface CalendarEventType {
   link?: string | null;
   color?: string | null;
   syncedBy?: string | null;
+  recurringEventId: string | null;
 }
 
 export interface GlobalZoneType {
