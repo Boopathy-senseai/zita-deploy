@@ -127,34 +127,34 @@ const ProfileViewModal = ({
       : `${emp_data.work_exp} Year`
     : '';
   const data = [
-    { title: 'Name:', value: notSpecified(emp_data?.first_name), right: 184 },
-    { title: 'Email:', value: notSpecified(emp_data?.email), right: 184 },
+    { title: 'Name:', value: notSpecified(emp_data?.first_name), right: 130 },
+    { title: 'Email:', value: notSpecified(emp_data?.email), right: 130 },
     {
       title: 'Contact Number:',
       value: emp_data?.contact,
-      right: 118,
+      right: 68,
     },
     {
       title: 'Location:',
       value: notSpecified(emp_data?.location),
-      right: 165,
+      right: 114,
     },
     // { title: 'Address:', value: notSpecified(address), right: 172 },
 
     {
       title: 'Experience:',
       value: notSpecified(workYear),
-      right: 150,
+      right: 98,
     },
     {
       title: 'Qualification:',
       value: notSpecified(emp_data?.qualification),
-      right: 140,
+      right: 92,
     },
     {
       title: 'Skills:',
       value: notSpecified(emp_data?.skills?.replace(/,/g, ', ')),
-      right: 184.5,
+      right: 133.5,
     },
   ];
   // formik validation

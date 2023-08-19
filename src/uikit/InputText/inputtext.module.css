@@ -22,7 +22,7 @@
 }
 
 .inputCommonStyle::placeholder {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--color-gary-6, #888888);
 }
 .noBorder {

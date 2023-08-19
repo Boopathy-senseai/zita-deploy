@@ -939,15 +939,15 @@ const ProfileNavBar = ({
                       <Flex title="Under Assessment">
                         {checkingstatus !== 'Applied' &&
                         checkingstatus !== 'Shortlisted' &&
-                        checkingstatus !== 'Offered' &&
+                        checkingstatus !== 'Hired' &&
                         checkingstatus !== 'Rejected' ? (
                           <SvgRadioWithLine fill="#ffc203" />
                         ) : (
                           <SvgRadioWithOutOutLine fill="#ffc203" />
                         )}
                       </Flex>
-                      <Flex title="Offered">
-                        {checkingstatus === 'Offered' ? (
+                      <Flex title="Hired">
+                        {checkingstatus === 'Hired' ? (
                           <SvgRadioWithLine fill="#00BE4B" />
                         ) : (
                           <SvgRadioWithOutOutLine fill="#00BE4B" />

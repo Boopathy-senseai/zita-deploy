@@ -283,7 +283,7 @@ const MyJobsPostingFilter = ({
       {console.log("jobposted1",jobposted1)}
       {console.log("jobstatus1",jobstatus1)}
 
-      <Text className={""} style={{ color: "#581845" }}>
+      <Text className={""} style={{ color: "#1a1a1a" }}>
         Quick Filters :
       </Text>
       {location === "" &&

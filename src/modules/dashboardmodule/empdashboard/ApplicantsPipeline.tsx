@@ -79,7 +79,7 @@ const ApplicantsPipeline = ({ pipeline, planId,jd_metrics }: Props) => {
         'Views',
         'Applicants',
         'Shortlisted',
-        'Offered',
+        'Hired',
         'Rejected',
       ],
     },
