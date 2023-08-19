@@ -93,7 +93,7 @@
     "react-helmet": "^6.1.0",
     "react-helmet-async": "^1.0.7",
     "react-hook-form": "^7.11.1",
-    "react-hot-toast": "^2.1.1",
+    "react-hot-toast": "^2.4.1",
     "react-html-parser": "^2.0.2",
     "react-meta-tags": "^1.0.1",
     "react-multi-select-component": "^4.2.9",
