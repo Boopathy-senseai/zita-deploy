@@ -218,6 +218,7 @@ export const convertJsonToForm = (json: { [key: string]: any }) => {
 export function stringifyParams(
   json: { [key: string]: any } | { [key: number]: any },
 ) {
+  Object.keys(json).forEach(key => json[key] === undefined ? delete json[key] : {});
   return Object.keys(json).reduce((res, key) => {
     if (res === '') {
       // console.log(res);

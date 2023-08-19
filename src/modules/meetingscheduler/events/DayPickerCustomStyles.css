@@ -1,0 +1,15 @@
+.custom-daypicker {
+    font-size: 20px;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* Adjust the number of columns as needed */
+    grid-row-gap: 9px; /* Adjust the row gap size as needed */
+    grid-column-gap: 10px;
+    /* Add other custom styles as needed */
+  }
+
+  
+  
+  
+  
+  
+  
