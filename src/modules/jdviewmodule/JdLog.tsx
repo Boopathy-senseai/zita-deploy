@@ -61,7 +61,7 @@ const JdLog = ({ statusList,jdDetails }: Props) => {
     },
 
     {
-      title: 'Offered',
+      title: 'Hired',
       value: statusList.offered,
       url: '',
     },
@@ -273,7 +273,7 @@ console.log('statusList',statusList);
                     </Flex>
                        
                     </>
-                )}{list.title === 'Offered' && (
+                )}{list.title === 'Hired' && (
                       <>
                        <Flex  row between end className={styles.box}>
                        <Flex>

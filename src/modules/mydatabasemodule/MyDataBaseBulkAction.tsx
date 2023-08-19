@@ -162,14 +162,13 @@ const MyDataBaseBulkAction = ({
       <Text className={styles.sortText}>Sort By:</Text>
           <div className={styles.selectTagStyle}>
             <SelectTag
-              stylechangess1
+              stylechangess1 
               id="mydatabasebulkaction__sort"
               value={isSortOptions}
               options={sortOptions}
               onChange={(options) => {
                 setSortOptions(options);
               }}
-              isSearchable
             />
           </div>
           <Flex width={5}></Flex>
