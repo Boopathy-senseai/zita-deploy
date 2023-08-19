@@ -8,6 +8,7 @@ import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import Table from '../../uikit/Table/Table';
 import Text from '../../uikit/Text/Text';
 import { CANCEL } from '../constValue';
+import Tabel from '../../uikit/Table/Table';
 import styles from './addedapplicantquestionnaire.module.css';
 import { QuestionnaireForJdEntity } from './createJdTypes';
 import { questionTitle } from './questionnaireTable';
@@ -37,7 +38,7 @@ const AddedApplicantQuestionnaire = ({
         </Text>
         <Text>You can check the added/selected questions below</Text>
         <div className={styles.tableDiv}>
-          <Table
+          <Tabel
             empty={'No Questionnaire Added'}
             dataSource={tabledata}
             columns={columns}

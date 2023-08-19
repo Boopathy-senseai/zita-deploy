@@ -141,7 +141,7 @@ console.log("externaljob",extarajobpost)
     <Flex
       columnFlex
       className={styles.overAll}
-      height={window.innerHeight - 71}
+      height={window.innerHeight - 111}
     >
        { console.log(extarajobpost,'////////////////////////////////////////')}
       {postLoader && <Loader />}
