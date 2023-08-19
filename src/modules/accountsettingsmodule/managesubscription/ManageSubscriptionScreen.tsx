@@ -162,7 +162,7 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
     return <Loader />;
   }
   return (
-    <Flex className={styles.overAll}>
+    <Flex className={styles.overAll} style={{overflowY:'scroll',maxHeight:window.innerHeight-100,paddingRight:'10px'}}>
       <Flex row center between className={styles.titleStyle}>
         <Flex>
           <Text size={14} bold>
@@ -171,15 +171,18 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
         </Flex>
         <Flex row>
         {subscription &&
-          subscription.is_active === true &&
+          subscription.is_active === true &&subscription.plan_id_id !== 1&&
           isEmpty(subscription.subscription_changed_to) ? (
             <Button  onClick={() => setCancelOne(true)}  types='secondary'>
               Cancel Subscription
             </Button>
           ) : (
-            <Button  onClick={hanldeRenew} types='primary' >
+            (subscription && subscription.plan_id_id !== 1 )?(
+              <Button  onClick={hanldeRenew} types='primary' >
               Renew Subscription
             </Button>
+            ):('')
+            
           )}
           <Button onClick={handleInvoice} style={{marginLeft:'15px'}}>Invoices & Payment Info</Button>        
         </Flex>

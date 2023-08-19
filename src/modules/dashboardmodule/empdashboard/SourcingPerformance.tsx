@@ -121,7 +121,7 @@ const SourcingPerformance = ({ role_base, dates_length, planId ,jd_metrics}: Pro
   };
   return (
     <Card className={styles.overAll}>
-      <Text bold size={14} style={{color:'#581845'}}>
+      <Text bold size={14}>
         Sourcing Performance
       </Text>
       {(Array.isArray(role_base) &&
@@ -131,8 +131,8 @@ const SourcingPerformance = ({ role_base, dates_length, planId ,jd_metrics}: Pro
         <Chart options={planId === 1 || jd_metrics.length === 0 ? optionsOne : options} />
       ) : (
         <Flex flex={1} center middle style={{display:"flex"}}>
-          <SvgNoData width={15} style={{filter:"opacity(0.5)"}} />
-          <Text color="gray">No Data Available</Text>
+          <SvgNoData width={16} height={16} fill={"#888888"}/>
+          <Text size={13} style={{marginTop:"2px"}} color="placeholder">No data available</Text>
         </Flex>
       )}
     </Card>

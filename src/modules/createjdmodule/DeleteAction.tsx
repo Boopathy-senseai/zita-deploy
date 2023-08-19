@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import SvgTrash from '../../icons/SvgTrash';
 import { questionnaireForJdApi } from '../../routes/apiRoutes';
 import { AppDispatch } from '../../store';
-import { GARY_4 } from '../../uikit/Colors/colors';
+import { GARY_4, PRIMARY } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
 import { questionnaireForJdMiddleWare } from './store/middleware/createjdmiddleware';
 
@@ -21,9 +21,9 @@ const DeleteAction = ({ value, jdId }: Props) => {
     });
   };
   return (
-    <Flex middle onClick={handleDelete}>
-      <div style={{ cursor: 'pointer' }}>
-        <SvgTrash fill={GARY_4} width={18} height={18} />
+    <Flex onClick={handleDelete}>
+      <div style={{ cursor: 'pointer' , paddingLeft:12}}>
+        <SvgTrash fill={PRIMARY} width={18} height={18} />
       </div>
     </Flex>
   );

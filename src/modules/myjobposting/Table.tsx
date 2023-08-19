@@ -103,7 +103,7 @@ const MyJobPostingScreen = ({currentPage,setCurrentPage}:props) => {
     <div>
       {/* <div  style={{height:320}}>
      <table className="table"> */}
-      <Flex className="table-responsisssve " style={{overflowY:'scroll'
+      <Flex className="table-responsisssve " style={{overflowY:'scroll',display:'flex'
    }} height={window.innerHeight-220} >  
           <table className="table" style={{ paddingLeft: 'none' }}>
             <thead style={{ position: 'sticky',

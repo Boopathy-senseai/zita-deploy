@@ -2,7 +2,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  overflow: auto;
+  /* overflow: auto; */
   height:100%;
   width: "100%";
 }
@@ -239,6 +239,8 @@
   color: #581845;
   /* margin-top: 5px; */
   /* line-height: 22px; */
+  top:2px;
+  position: relative;
 }
 .fontScreens {
   font-size: 13px;
@@ -261,6 +263,8 @@
   font-size: 13px;
   font-weight: 500;
   color: #581845;
+  top:2px;
+  position: relative;
 }
 .cardOverAll {
   padding: 8px 8px 8px 8px;
@@ -317,8 +321,9 @@
 }
  
 .style2 {
-  margin-left: 15px;
-  position: absolute;
+  /* padding-right: 5px; */
+  margin-left: 8px;
+  /* position: absolute; */
   /* width: 153px;
   height: 35px; */
 }
@@ -377,16 +382,16 @@
   border-right: 0.5px solid #555555;
   display: flex;
   /* padding:0; */
-  color: #333333;
+  color: #666666;
   font-style: normal;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 13px;
 }
 .tableboarder {
-  color: #333333;
+  color: #666666;
   font-style: normal;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 13px;
 }
 .hellothere {
   font-size: 12px;
@@ -441,9 +446,9 @@
   text-overflow: ellipsis; 
   white-space: nowrap;
 }
-.twobutton {
+/* .twobutton {
   padding-right: 175px;
-}
+} */
 .ulstyle1 {
   margin-bottom: -0.25rem !important;
   margin-left: 16.5px;

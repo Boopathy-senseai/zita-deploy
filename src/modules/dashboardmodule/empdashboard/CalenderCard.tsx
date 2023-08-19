@@ -71,16 +71,16 @@ const CalenderCard = ({
   const getOutLookTime: any = 'Asia/Kolkata';
   // outlook && outlook[0].timeZone;
 
-  // useEffect(() => {
-  //   if (checkCalendar) {
-  //     localStorage.setItem(
-  //       'timeZone',
-  //       checkCalendarOutlook ? getOutLookTime : google[0].timeZone,
-  //     );
-  //   }
-  // }, [outlook, google, checkCalendarOutlook, checkCalendar]);
+  useEffect(() => {
+    if (checkCalendar) {
+      localStorage.setItem(
+        'timeZone',
+        checkCalendarOutlook ? getOutLookTime : google[0].timeZone,
+      );
+    }
+  }, [outlook, google, checkCalendarOutlook, checkCalendar]);
 
-
+  
   const [isGoogle, setIsGoogle] = useState(0);
   const [active, setActive] = useState(0);
   const [event, setEvent] = useState([{ title: '', start: '', end: '', web_url: '' }]);
@@ -91,54 +91,60 @@ const CalenderCard = ({
   const getEventHandler = (account: string) => {
     if (account === 'google') {
       console.log('google');
-
+      
       dispatch(getGoogleEventsMiddleware({ tz })).then((res) => {
 
-        const data = res.payload.events;
-
-        const filteredData = data.filter((item) => getDateString(new Date(item.start.dateTime), 'MM/DD/YYYY') === formik.values.date);
+        const data = res.payload.events;  
+        
+        const filteredData =  data.filter((item) => getDateString(new Date(item.start.dateTime), 'MM/DD/YYYY') ===  formik.values.date);
         console.log("filteredData  ", filteredData);
-        if (data !== undefined) {
-          setEvent(
-            filteredData.map((items: { summary: any; start: { dateTime: any }; end: { dateTime: any }; hangoutLink: any }) => {
-              return {
-                title: items.summary,
-                start: new Date(items.start.dateTime),
-                end: new Date(items.end.dateTime),
-                web_url: items.hangoutLink,
-              };
-            }),
-          );
-        }
-
+        if(data !== undefined){
+        setEvent(
+          filteredData.map((items: { summary: any; start: { dateTime: any }; end: { dateTime: any }; hangoutLink: any }) => {
+            //   if(items.start.dateTime!==null){
+            //  if(getDateString(items.start.dateTime, 'MM/DD/YYYY') === formik.values.date){
+              
+            return {
+               
+              title: items.summary,
+              start: new Date(items.start.dateTime),
+              end: new Date(items.end.dateTime),
+              web_url: items.hangoutLink,
+            };
+          // }}
+         
+          }),
+        );}
+        
       });
     } else {
+      
+
       dispatch(syncOutlookMiddleWare()).then((res) => {
         const dataout = res.payload.events;
         console.log("errorf", dataout);
-        if (dataout !== undefined) {
-          const filteredData = res.payload.events.filter((item) => getDateString(item.start_time, 'MM/DD/YYYY') === formik.values.date);
-
-          setEvent(
-            filteredData.map(
-              (items: {
-                title: any;
-                start_time: string | number | Date;
-                end_time: string | number | Date;
-                web_url: any;
-              }) => {
-                // if(getDateString(items.start_time, 'MM/DD/YYYY') === formik.values.date){
-                return {
-                  title: items.title,
-                  start: new Date(items.start_time),
-                  end: new Date(items.end_time),
-                  web_url: items.web_url,
-                };
-                //}
-              },
-            ),
-          );
-        }
+        if(dataout !== undefined){
+          const filteredData =  res.payload.events.filter((item) => getDateString(item.start_time, 'MM/DD/YYYY') ===  formik.values.date);
+        setEvent(
+          
+          filteredData.map(
+            (items: {
+              title: any;
+              start_time: string | number | Date;
+              end_time: string | number | Date;
+              web_url: any;
+            }) => {
+              // if(getDateString(items.start_time, 'MM/DD/YYYY') === formik.values.date){
+              return {
+                title: items.title,
+                start: new Date(items.start_time),
+                end: new Date(items.end_time),
+                web_url: items.web_url,
+              };
+            //}
+            },
+          ),
+        );}
       });
     }
   };
@@ -172,13 +178,81 @@ const CalenderCard = ({
     checkAuth();
   }, []);
   const getOut: any = localStorage.getItem('timeZone');
+  console.log(typeof setCalLoad, events);
+  console.log(event);
+  // const hanldeRefresh = () => {
+  //   setCalLoad(true);
+  //   dispatch(calenderTokenGetMiddleWare()).then((res) => {
+  //     console.log(res)
+  //     if (!isEmpty(res.payload.google)) {
+  //       console.log(res.payload.google[0].accessToken);
+  //       axios
+  //         .request({
+  //           method: 'post',
+  //           url: 'https://oauth2.googleapis.com/token',
+  //           headers: { 'content-type': 'application/x-www-form-urlencoded' },
+  //           params: {
+  //             client_id:googleClientId,
+  //             client_secret: clientSecret,
+  //             refresh_token: res.payload.google[0].accessToken,
+  //             grant_type: 'refresh_token',
+  //           },
+  //         })
+  //         .then((refresh) => {
+  //           console.log("refersh",refresh);
+  //           dispatch(
+  //             calenderTokenMiddleWare({
+  //               calendar: 'google',
+  //               info: {
+  //                 accessToken: refresh.data.access_token,
+  //                 email: res.payload.google[0].email,
+  //                 timeZone:getOut
+  //               },
+  //             }),
+  //           );
+  //         })
+  //         .then(() => {
+  //           dispatch(syncGoogleMiddleWare()).then(() => {
+  //             dispatch(
+  //               dashboardCalenderMiddleWare({
+  //                 date: getDateString(new Date(), 'YYYY-MM-DD'),
+  //               }),
+  //             ).then(() => {
+  //               formik.setFieldValue(
+  //                 'date',
+  //                 getDateString(new Date(), 'MM/DD/YYYY'),
+  //               );
+  //               setCalLoad(false);
+  //             });
+  //           });
+  //         })
+  //         .catch(() => {
+  //           setCalLoad(false);
+  //         });
+  //     }
 
-
-  {console.log("event", event)}
-  {console.log("eventlength:", event.length)}
+  //     if (!isEmpty(res.payload.outlook)) {
+  //       dispatch(syncOutlookMiddleWare()).then(() => {
+  //         dispatch(
+  //           dashboardCalenderMiddleWare({
+  //             date: getDateString(new Date(), 'YYYY-MM-DD'),
+  //           }),
+  //         ).then(() => {
+  //           formik.setFieldValue(
+  //             'date',
+  //             getDateString(new Date(), 'MM/DD/YYYY'),
+  //           );
+  //           setCalLoad(false);
+  //         });
+  //       });
+  //     }
+  //   });
+  // };
+  // const [date,setDate] = useState(getDateString(new Date(), 'MM/DD/YYYY'));
+  console.log(event, isGoogle);
   return (
     <Card className={styles.overAll}>
-     
+      {console.log("event", event)}
       <Flex row between className={styles.msgText}>
         <Flex row>
           <Flex>
@@ -193,11 +267,66 @@ const CalenderCard = ({
                   ? outlookTimeZone[getOut]
                   : localStorage.getItem('timeZone')
                 }
+
+
+
               </Text>
             </Flex>}
 
         </Flex>
 
+        {/* <Flex row >
+          <Flex>
+            <Button
+              types="tertiary"
+              className={styles.syncBtn}
+              onClick={checkAuth}
+
+            >
+              <Flex row center marginTop={5} >
+                <Flex>
+                  <Text
+                
+                    bold
+                    size={12}
+                    style={{ cursor: 'pointer', color: "white"}}
+                  >
+                    Sync        <SvgRefresh height={14} width={14} fill={WHITE} />
+                  </Text>
+                </Flex> */}
+        {/* <Flex marginTop={3} >
+                  <SvgRefresh height={14} width={14} fill={WHITE} />
+                </Flex> */}
+        {/* </Flex>
+            </Button>
+          </Flex>
+          <Flex marginLeft={10}>
+            <div style={{ position: 'relative', display: 'flex' }}>
+
+              <DatePicker
+                id="calendar___open"
+                value={formik.values.date}
+                onChange={(date) => {
+                  formik.setFieldValue('date', getDateString(date, 'MM/DD/YYYY'));
+                  // calender api call
+                  // setDate(getDateString(date, 'MM/DD/YYYY'))
+                  dispatch(
+                    dashboardCalenderMiddleWare({
+                      date: getDateString(date, 'YYYY-MM-DD'),
+                    }),
+                  );
+                }}
+                className={styles.datePicker}
+              />
+              <div style={{ position: 'absolute', left: 7, top: 3 }}>
+                <label htmlFor="calendar___open">
+                  <SvgCalendar width={16} height={16} />
+                </label>
+              </div>
+            </div>
+          </Flex>
+
+        </Flex> */}
         {active === 1 && (
           <Flex
             row
@@ -215,13 +344,13 @@ const CalenderCard = ({
                   >
                     <Flex row center>
                       {/* <Flex> */}
-                      <Text
-                        bold
-                        size={14}
-                        style={{ cursor: 'pointer', color: "white" }}
-                      >
-                        Sync
-                      </Text>
+                        <Text
+                          bold
+                          size={14}
+                          style={{ cursor: 'pointer', color: "white" }}
+                        >
+                          Sync
+                        </Text>
                       {/* </Flex> */}
                       <Flex marginLeft={8}>
                         <SvgRefresh height={14} width={14} fill={WHITE} />
@@ -245,6 +374,8 @@ const CalenderCard = ({
                       value={formik.values.date}
                       onChange={(date) => {
                         formik.setFieldValue('date', getDateString(date, 'MM/DD/YYYY'));
+                        // calender api call
+                        // setDate(getDateString(date, 'MM/DD/YYYY'))
                         dispatch(
                           dashboardCalenderMiddleWare({
                             date: getDateString(date, 'YYYY-MM-DD'),
@@ -277,7 +408,7 @@ const CalenderCard = ({
                     />
                     <div style={{ position: 'absolute', left: 7, top: 3 }}>
                       <label htmlFor="calendar___open">
-                        <SvgCalendar width={16} height={16} />
+                        <SvgCalendar width={16} height={16}/>
                       </label>
                     </div>
                   </div>
@@ -315,7 +446,7 @@ const CalenderCard = ({
 
             if (
               getDateString(list.start, 'MM/DD/YYYY') === formik.values.date) {
-
+              
               console.log("title", list.title);
               const startTime = moment(list.start);
               const endTime = moment(list.end);
@@ -339,7 +470,7 @@ const CalenderCard = ({
                       </Flex>
                       <Text bold style={{ color: "#581845" }}>{list.title}</Text>
 
-                  
+                      {console.log("eventlength:", event.length)}
                     </Flex>
                     <Flex marginRight={8}>
                       <Button onClick={() => window.open(list.web_url)} >
@@ -358,6 +489,10 @@ const CalenderCard = ({
           </Flex>
         )
         }
+        {/* (show===false)&&
+        {
+          <Flex flex={1} center middle columnFlex className={styles.noContent}>{setshow(!show)} <Text color="gray"> No event scheduled</Text></Flex>
+        } */}
       </Flex>
     </Card>
   );

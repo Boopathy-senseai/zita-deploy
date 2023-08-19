@@ -106,7 +106,10 @@ export interface meetingFormProps {
   };
   interviewer: TeamMemberType[];
 }
-
+export interface IEventNotes{
+  extra_notes: string | null;
+  interview_notes: string | null
+}
 export interface ApplicantTypes {
   email: string;
   userId: number;

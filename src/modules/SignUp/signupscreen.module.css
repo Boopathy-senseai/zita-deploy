@@ -149,6 +149,7 @@
   background: transparent;
   
   border-radius: 0px;
+  padding: 3px 12px 3px 0px;
 }
 
 .signup_input:focus {

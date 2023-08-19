@@ -475,7 +475,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
       <Flex
         row
         style={{
-          height: 'calc(100% - 55px)',
+          height: '100%',
           display: 'flex',
           flexDirection: 'row',
           overflow: 'hidden',

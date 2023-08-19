@@ -47,16 +47,18 @@ const CalendarEventsTable: React.FC<Props> = (props) => {
     onEdit,
     onDelete,
   } = props;
-  const showdate =(val)=>{
-    const date = val.split('T')
+  const showdate = (val) => {
+    if(val !== undefined){
+      const date = val.split('T');
     const parsedDate = moment(date[0]);
-    const formattedDate = parsedDate.format('DD/MM/YYYY')
-    return formattedDate
-      }
+    const formattedDate = parsedDate.format('DD/MM/YYYY');
+    return formattedDate;
+    }
+  };
 
   const calculateDuraton = (doc: ICalendarEventTableItem) => {
     const totalMinutes = moment(doc.e_time).diff(moment(doc.s_time), 'minutes');
-    const hours = Math.floor(totalMinutes/60);
+    const hours = Math.floor(totalMinutes / 60);
     const minutes = totalMinutes % 60;
     let result = '';
 
@@ -64,7 +66,7 @@ const CalendarEventsTable: React.FC<Props> = (props) => {
       result = `${hours} hour${hours === 1 ? '' : 's'}`;
     }
 
-    if(minutes > 0) {
+    if (minutes > 0) {
       result = `${result} ${minutes} minutes`;
     }
 
@@ -77,10 +79,13 @@ const CalendarEventsTable: React.FC<Props> = (props) => {
     return (
       <Flex row wrap>
         {show.map((doc, sIndex) => (
-          <InterviewerIcon name={doc.full_name} key={sIndex} index={sIndex} />
+          <InterviewerIcon name={`${doc.first_name} ${doc.last_name}` } key={sIndex} index={sIndex} />
         ))}
         {hidden && hidden.length > 0 && (
-          <InterviewerIcon name={`+ ${hidden.length}`} title={hidden.map(doc => doc.full_name).toString()} />
+          <InterviewerIcon
+            name={`+ ${hidden.length}`}
+            title={hidden.map((doc) => doc.full_name).toString()}
+          />
         )}
       </Flex>
     );

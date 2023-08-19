@@ -165,3 +165,6 @@ export const SLOTTER_FORM_DETAILS = 'events/slotter';
 
 export const EVENTS_LIST = 'events/list';
 export const EVENTS_DELETE = 'events/delete';
+
+export const CALENDAR_EVENTS_LIST = 'calendar-events/list';
+export const CALENDAR_EVENTS_DELETE = 'calendar-events/delete';
