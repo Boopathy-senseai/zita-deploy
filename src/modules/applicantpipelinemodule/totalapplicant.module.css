@@ -107,6 +107,12 @@
   cursor: pointer;
 }
 
+.btnStyle:focus{
+  background-color: #eee8ec;
+  border: #eee8ec;
+}
+
+
 .svgTick {
   margin-right: 4px;
   cursor: pointer;
@@ -130,7 +136,7 @@
   padding: 5px 20px 5px 20px;
   border-radius: 11px;
   height: 30px;
-  width: 400px;
+  width: 430px;
 }
 .bulkButton {
   margin-left: 20px;

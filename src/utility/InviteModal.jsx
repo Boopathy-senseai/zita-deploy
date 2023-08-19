@@ -290,8 +290,8 @@ const InviteModal = (props) => {
           size={props.size}
           aria-labelledby="contained-modal-title-vcenter"
           centered 
-        >
-          <Modal.Body>
+            >
+          <Modal.Body >
             <form onSubmit={handleSubmit(onSubmit)}>
             <Flex className={styles.muModalpadding}>
               <Flex row center between>
@@ -303,6 +303,7 @@ const InviteModal = (props) => {
                   <SvgClose fill={'#979797'} height={14} width={14} />
                 </Button> */}
               </Flex>
+              <div className={styles.verticalLine}> </div>
               <div className="row">
                 <div className="col-12">
                   {props.clearData === false ? displayMessage() : ''}
@@ -477,25 +478,22 @@ const InviteModal = (props) => {
                     </div>
                   </div>
                 </div>
+                
                 <div className="col-md-12 mt-4" style={{ marginBottom: 16 }}>
+                <div className={styles.verticalLine}> </div>
                   <Flex row center style={{gap: 10, justifyContent: "end"}}>
-                    <Button types="close" onClick={onCloseModal}
-                    >
+                    <Button types="close" onClick={onCloseModal}>
                       Close
                     </Button>
 
                     {/* <Button types="close" onClick={onCloseModal}>
                   <SvgClose fill={'#979797'} height={14} width={14} />
                 </Button> */}
-                    
-
-
-
+                  
                     <Button
                       disabled={!checkValue || isEmailValid}
                       type="submit"
-                      style={{ marginRight: 16 }}
-                    >
+                      style={{ marginRight: 16 }}>
                      Invite
                     </Button>
                     {props.inviteBtnLoader && (
@@ -506,7 +504,9 @@ const InviteModal = (props) => {
               </div>
               </Flex>
             </form>
+            
           </Modal.Body>
+
         </Modal>
       </>
     )

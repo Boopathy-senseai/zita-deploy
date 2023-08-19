@@ -591,7 +591,7 @@ const MyJobsPostingFilter = ({
               />
             </div>
           </Flex>
-          <div style={{padding:'6px',display:'flex',justifyContent: 'center',alignItems:'center'}}>
+          <div style={{padding:'6px',display:'flex',justifyContent: 'center',alignItems:'center', marginBottom:"5px"}}>
           <Button
           className={styles.buyBtn}
           onClick={handlechange}

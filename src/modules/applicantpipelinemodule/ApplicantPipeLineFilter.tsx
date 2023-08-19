@@ -391,14 +391,13 @@ const ApplicantPipeLineFilter = ({
           <div ref={dropDownRef} className={styles.drop_down}>
             <Flex
               row
-              
               className={styles.drop_down_header}
-             
+              style={{alignItems:"center"}}
             >
-              <Flex style={{paddingRight:"120px"}}>
+              <Flex style={{cursor:"pointer"}}>
               <Text bold color="theme" size={14}  onClick={() => {
                 setShowDropDown((value) => !value);
-              }}>
+              }} style={{width:"max-content", paddingRight:"120px"}}>
                 View Filter
               </Text></Flex>
               <Flex>

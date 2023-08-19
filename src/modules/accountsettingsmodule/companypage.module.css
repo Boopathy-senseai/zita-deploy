@@ -221,6 +221,9 @@ position: absolute;
    color: #581845;
    font-weight: 700;
    height: 15px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
 }
 .tooltipcontent{
   margin-top: 5px;
