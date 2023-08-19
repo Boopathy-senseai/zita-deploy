@@ -48,6 +48,7 @@ export interface ICalendarEventInterviewer {
   last_name: string;
   full_name: string;
   event_id: string;
+  email: string;
 }
 
 export interface IEventTeamMember {

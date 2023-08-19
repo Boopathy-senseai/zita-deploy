@@ -28,7 +28,7 @@ export const getEventsMiddleWare = createAsyncThunk<IEventData, { event: any, da
 
 export const deleteEventMiddleWare = createAsyncThunk<
   IEventData,
-  { params: {id?: any, cal_id?: any,}, props?:{ event: any, date?: string, other_user?: number[],  } }
+  { params: {id: any }, props?:{ event: any, date?: string, other_user?: number[],  } }
 >(EVENTS_DELETE, async (payload, { rejectWithValue, dispatch }) => {
   try {
     const { data } = await axios.delete(

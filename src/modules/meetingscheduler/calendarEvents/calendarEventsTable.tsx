@@ -1,7 +1,11 @@
 import { Dropdown } from 'react-bootstrap';
+import moment from 'moment';
 import { Flex, Text } from '../../../uikit';
 import {
   EVENT_FILTER_OPTION,
+  ICalendarEvent,
+  ICalendarEventInterviewer,
+  ICalendarEventTableItem,
   IEvent,
   IEventInterviewer,
   IEventOrganiser,
@@ -10,6 +14,7 @@ import {
 import SvgDotMenu from '../../../icons/SvgDotMenu';
 import InterviewerIcon from '../../calendarModule/InterviewerIcon';
 import SvgCalendar from '../../../icons/SvgCalendar';
+import { JOIN_EVENTS } from '../utils';
 import styles from './eventsTable.module.css';
 
 export interface DateEntity {
@@ -25,26 +30,53 @@ export type MyJobFormProps = {
 };
 
 interface Props {
-  list: IEventTableItem[];
+  list: ICalendarEventTableItem[];
   pastEvents: boolean;
   deleteState: any;
   activeRadio: EVENT_FILTER_OPTION;
-  onJoin?: (doc: IEvent) => void;
-  // onEdit?: (doc: IEvent) => void;
-  onDelete?: (doc: IEvent) => void;
+  onJoin?: (doc: ICalendarEvent) => void;
+  onEdit?: (doc: ICalendarEvent) => void;
+  onDelete?: (doc: ICalendarEvent) => void;
 }
-const EventSchedulerScreen: React.FC<Props> = (props) => {
+const CalendarEventsTable: React.FC<Props> = (props) => {
   const {
     pastEvents,
     list,
     activeRadio,
     deleteState,
     onJoin,
-    // onEdit,
+    onEdit,
     onDelete,
   } = props;
 
-  const renderInterviewers = (interviewrs: IEventInterviewer[]) => {
+  
+  const showdate = (val) => {
+    if(val !== undefined){
+      const date = val.split('T');
+    const parsedDate = moment(date[0]);
+    const formattedDate = parsedDate.format('DD/MM/YYYY');
+    return formattedDate;
+    }
+  };
+
+  const calculateDuraton = (doc: ICalendarEventTableItem) => {
+    const totalMinutes = moment(doc.e_time).diff(moment(doc.s_time), 'minutes');
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    let result = '';
+
+    if (hours > 0) {
+      result = `${hours} hour${hours === 1 ? '' : 's'}`;
+    }
+
+    if (minutes > 0) {
+      result = `${result} ${minutes} minutes`;
+    }
+
+    return result;
+  };
+
+  const renderInterviewers = (interviewrs: ICalendarEventInterviewer[]) => {
     const show = interviewrs.slice(0, 4);
     const hidden = interviewrs.slice(4, interviewrs.length);
     return (
@@ -53,7 +85,10 @@ const EventSchedulerScreen: React.FC<Props> = (props) => {
           <InterviewerIcon name={doc.full_name} key={sIndex} index={sIndex} />
         ))}
         {hidden && hidden.length > 0 && (
-          <InterviewerIcon name={`+ ${hidden.length}`} title={hidden.map(doc => doc.full_name).toString()} />
+          <InterviewerIcon
+            name={`+ ${hidden.length}`}
+            title={hidden.map((doc) => doc.full_name).toString()}
+          />
         )}
       </Flex>
     );
@@ -64,15 +99,18 @@ const EventSchedulerScreen: React.FC<Props> = (props) => {
     const hidden = interviewrs.slice(4, interviewrs.length);
     return (
       <Flex row wrap>
-        {show.map((doc, sIndex) => (
-          doc.full_name
-          // <InterviewerIcon name={doc.full_name} key={sIndex} index={sIndex} />
-        ))}
+        {show.map(
+          (doc, sIndex) =>
+            // <InterviewerIcon name={doc.full_name} key={sIndex} index={sIndex} />
+            doc.full_name,
+        )}
         {/* {hidden && hidden.length > 0 && (
-          <InterviewerIcon
-            name={`+ ${hidden.length}`}
-            title={hidden.map((doc) => doc.full_name).toString()}
-          />
+          // <InterviewerIcon
+          //   name={`+ ${hidden.length}`}
+          //   title={hidden.map((doc) => doc.full_name).toString()}
+          // />
+          hidden.map((doc)=> doc.full_name)
+          
         )} */}
       </Flex>
     );
@@ -94,15 +132,20 @@ const EventSchedulerScreen: React.FC<Props> = (props) => {
           }}
         >
           <Flex marginBottom={10}>
-            <SvgCalendar width={16} height={16} fill={'#888888'} stroke={'#888888'} />
+            <SvgCalendar
+              width={38}
+              height={38}
+              fill={'#888888'}
+              stroke={'#888888'}
+            />
           </Flex>
-          <Text style={{ color: '#888888'}}>{`No ${
+          <Text style={{ color: '#888888' }}>{`No ${
             activeRadio === EVENT_FILTER_OPTION.PAST_AND_UPCOMING
               ? pastEvents
                 ? 'past'
                 : 'upcoming'
               : ''
-          } events`}</Text>
+          } calendar events`}</Text>
         </Flex>
       );
     }
@@ -160,7 +203,8 @@ const EventSchedulerScreen: React.FC<Props> = (props) => {
                 <tr style={{ height: 50 }}>
                   <td className={styles.padchanges} style={{}}>
                     <Text className={styles.stBold}>
-                      {doc.event_id__event_name}
+                      {`${doc.event_type} with ${doc.applicant}`}
+                      {/*  TODO: Change into event title or name  */}
                     </Text>
                   </td>
                   <td className={styles.padchang}>
@@ -169,34 +213,39 @@ const EventSchedulerScreen: React.FC<Props> = (props) => {
                       top
                       //  className={styles.hellothere}
                     >
-                      <Text  className={styles.stBold}>{doc.date}</Text>
+                      <Text className={styles.stBold}>
+                        {/* {moment(doc.s_time).format('DD/MM/YYYY')} */}
+                        {showdate(doc.s_time)}
+                      </Text>
                     </Flex>
                   </td>
                   <td className={styles.padchanges}>
-                    <Text className={styles.stBold}>{doc.time}</Text>
+                    <Text className={styles.stBold}>{`${moment(
+                      doc.s_time,
+                    ).format('hh:mm A')} - ${moment(doc.e_time).format(
+                      'hh:mm A',
+                    )}`}</Text>
                   </td>
                   <td className={styles.padchanges}>
                     <Text className={styles.stBold}>
-                      {doc.event_id__duration}
+                      {calculateDuraton(doc)}
+                      {/* /// TODO: calculate duration based on s_time & e_time */}
                     </Text>
                   </td>
 
                   <td className={styles.padchanges} style={{}}>
-                    <Text className={styles.stBold}>
-                      {doc.event_id__event_type}
-                    </Text>
+                    <Text className={styles.stBold}>{doc.event_type}</Text>
                   </td>
                   <td className={styles.padchanges} style={{}}>
                     {renderInterviewers(doc.interviewers)}
                   </td>
                   <td className={styles.padchanges} style={{}}>
                     <Text className={styles.stBold}>
-                      {doc.event_id__interviewer}
-                      {/* {renderOrganiser(doc.organisers)} */}
+                      {renderOrganiser(doc.organisers)}
                       {/* backend  */}
                     </Text>
                   </td>
-                 
+
                   <td className={styles.padchangesmiddle}>
                     {/* <Text className={styles.stBold}> */}
                     <Dropdown className="dropdownButton   dropleft">
@@ -215,18 +264,18 @@ const EventSchedulerScreen: React.FC<Props> = (props) => {
                         {/* </Flex> */}
                       </Dropdown.Toggle>
 
-                      <Dropdown.Menu style={{ minWidth: '5rem', minHeight:"75px" }}>
-                        <Dropdown.Item onClick={() => onJoin(doc)}>
+                      <Dropdown.Menu style={{ minWidth: '5rem' }}>
+                      {JOIN_EVENTS.includes(doc.event_type) && <Dropdown.Item onClick={() => onJoin(doc)}>
                           <Flex row center className={styles.dropDownListStyle}>
                             <Text style={{ marginLeft: 10 }}>Join</Text>
                           </Flex>
-                        </Dropdown.Item>
+                        </Dropdown.Item>}
 
-                        {/* <Dropdown.Item onClick={() => onEdit(doc)}>
+                        <Dropdown.Item onClick={() => onEdit(doc)}>
                           <Flex row center className={styles.dropDownListStyle}>
                             <Text style={{ marginLeft: 10 }}>Edit</Text>
                           </Flex>
-                        </Dropdown.Item> */}
+                        </Dropdown.Item>
                         <Dropdown.Item onClick={() => onDelete(doc)}>
                           <Flex row center className={styles.dropDownListStyle}>
                             <Text style={{ marginLeft: 10 }}>Delete</Text>
@@ -252,4 +301,4 @@ const EventSchedulerScreen: React.FC<Props> = (props) => {
   );
 };
 
-export default EventSchedulerScreen;
+export default CalendarEventsTable;
