@@ -366,32 +366,33 @@ const ApplicantPipeLineFilter = ({
         </Flex>
         <Flex>
           <div ref={dropDownRef} className={styles.drop_down}>
-            <Flex row className={styles.drop_down_header}>
-              <Flex style={{ paddingRight: '120px' }}>
-                <Text
-                  bold
-                  color="theme"
-                  size={14}
-                  onClick={() => {
-                    setShowDropDown((value) => !value);
-                  }}
-                >
-                  View Filter
-                </Text>
-              </Flex>
+
+            <Flex
+              row
+              
+              className={styles.drop_down_header}
+             
+            >
+              
+              <Text bold color="theme" size={14}  onClick={() => {
+                setShowDropDown((value) => !value);
+              }}>
+                View Filter
+              </Text>
               <Flex>
-                <div title="Clear Filters" className={styles.svgRefresh}>
-                  <SvgRefresh
-                    width={18}
-                    height={18}
-                    onClick={(e) => {
-                      selectInputRef.current.clearValue();
-                      hanldeRefresh();
-                      e.stopPropagation();
-                      handlefunction1();
-                    }}
-                  />
-                </div>
+              <div title="Clear Filters" className={styles.svgRefresh}>
+                <SvgRefresh
+                  width={18}
+                  height={18}
+                  onClick={(e) => {
+                    selectInputRef.current.clearValue();
+                    hanldeRefresh();
+                    e.stopPropagation();
+                    handlefunction1();
+                  }}
+                />
+              </div>
+
               </Flex>
             </Flex>
             <div

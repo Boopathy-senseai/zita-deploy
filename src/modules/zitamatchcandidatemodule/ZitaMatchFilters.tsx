@@ -301,14 +301,21 @@ const ZitaMatchFilters = ({
     setapplieislocation(isLocation);
     setskill(isSkillOption);
     setchange(false);
-  };
+
+    setShowDropDown((value) => !value);
+  }
+
 
   useEffect(() => {
     if (
-      isBachelors === false &&
-      isDoctorate === false &&
-      isMasters === false &&
-      isOther === false
+      // isBachelors === false &&
+      // isDoctorate === false &&
+      // isMasters === false &&
+      // isOther === false
+      applieisbachelor===false &&
+      applieisdoctorate===false&&
+      applieismaster===false&&
+      applieisother===false
     ) {
       setapplieisany(true);
     }

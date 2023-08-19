@@ -569,7 +569,7 @@ const ProfileCard = () => {
                 <Flex>
                   <SvgGlobe height={16} width={16} fill={'#581845'} />
                 </Flex>
-                <Flex marginLeft={7}>
+                <Flex marginLeft={11}>
                   {' '}
                   <a target={'_blank'} rel="noreferrer" href={weburl}>
                     <Text

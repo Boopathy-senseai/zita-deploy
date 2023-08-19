@@ -602,6 +602,7 @@ useEffect(() => {
                                 flexWrap: 'wrap',
                                 overflow: ' hidden',
                                 textOverflow: 'clip',
+                                fontSize:13
                               }}>
                             <td
                               className={styles.notesTextStyle}

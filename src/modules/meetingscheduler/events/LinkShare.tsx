@@ -135,7 +135,7 @@ const LinkShare = (props) => {
             placeholder="Search candidate or applicant by the name"
             inputConatinerClass={styles.inputContainer}
             actionRight={() => (
-              <label htmlFor={'candidate/applicant found'} style={{ margin: 0 }}>
+              <label htmlFor={'candidate/applicant found'} style={{ margin: 0, marginTop : '6px' }}>
                 <SvgSearch />
               </label>
             )}

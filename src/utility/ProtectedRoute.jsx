@@ -102,6 +102,7 @@ const ProtectedRoute = ({
                       // paddingBottom: 14,
                     }}
                   >
+
                     <div
                       style={{
                         position: 'relative',
@@ -110,7 +111,7 @@ const ProtectedRoute = ({
                         width: '100%',
                         height: '100%',
                         overflow: 'hidden',
-                      }}
+
                     >
                       {isside && (
                         <div

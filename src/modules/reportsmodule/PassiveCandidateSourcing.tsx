@@ -258,8 +258,10 @@ console.log(res,'192.168.3.253:8001192.168.3.253:8001192.168.3.253:8001192.168.3
 						candidate sourcing.
 					</Text>
 				</Flex>
-				<Flex row className={styles.marginTop} style={{display:"flex", alignItems:"center", }}>
-					<Text  className={styles.selected}>
+
+				<Flex row className={styles.marginTop}>
+					<Text  className={styles.selected} style={{marginTop:"5px"}}>
+
 						Duration
 					</Text>
 					<div className={styles.skillContainer}>

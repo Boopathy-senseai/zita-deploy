@@ -153,6 +153,7 @@ const JobMetricsCard = () => {
                 <SvgLocationjobpost width={13} height={13}></SvgLocationjobpost>
 
                 <Text size={13} style={{ marginRight: '5px' }}>
+
                   {job_details && job_details?.city},{' '}
                   {job_details && job_details?.state},{' '}
                   {job_details && job_details?.country}

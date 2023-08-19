@@ -129,7 +129,7 @@ const ApplicantProfileScreen = () => {
     stages,
     source,
     is_plan,
-    jd_d
+    jd_d,
   } = useSelector(
     ({
       applicantProfileInitalReducers,
@@ -158,7 +158,7 @@ const ApplicantProfileScreen = () => {
       };
     },
   );
-  console.log(jd,' job_details job_details job_details')
+  console.log(jd, ' job_details job_details job_details');
   useEffect(() => {
     if (!is_plan) {
       sessionStorage.setItem('superUserTab', '2');
@@ -210,24 +210,25 @@ const ApplicantProfileScreen = () => {
   return (
     <Flex>
       <Flex>
-         <Flex row center  middle flex={1} className={styles.border}>
-            {/* <Flex
+        <Flex row center middle flex={1} className={styles.border}>
+          {/* <Flex
               className={'pointer'}
               style={{ cursor: 'pointer' }}
               // onClick={cancel}
             >
               <SvgLeft fill={'#581845'} height={16} width={16} />
-            </Flex> */}   
-            { jobtitle !==  undefined &&
+            </Flex> */}
+          {jobtitle !== undefined && (
             <Flex row>
               <Flex marginTop={2}>
                 <SvgJobselection width={16} height={14} />
               </Flex>
               <Flex marginLeft={4}>
-                     {jd.job_title} - {jd.job_id}
-              </Flex> 
-              </Flex>}
+                {jd.job_title} - {jd.job_id}
+              </Flex>
             </Flex>
+          )}
+        </Flex>
       </Flex>
       <Flex row className={styles.overAll}>
         {(initialLoader || matchLoader || notesLoader || isInviteLoader) && (
@@ -268,21 +269,26 @@ const ApplicantProfileScreen = () => {
         {candidate_details &&
           candidate_details?.map((candiList, index) => {
             return (
-              <Flex key={''} height={window.innerHeight} style={{boxShadow: '2px 2px 2px #D7C7D2',marginRight: '5px'}}>
-              <ProfileNavBar
-                key={index + candiList.first_name}
-                candiList={candiList}
-                setjobtitle={ setjobtitle}
-                jdDetails={jd}
-                profile_match={profileMatch}
-                nonMatch={checkMatch}
-                inviteCall={hanldeInvitePopUp}
-                // isInvite={status_id.length === 0}
-                isResume
-                withOutJD={isTab}
-                source={source}
-              />
-
+              <Flex
+                key={''}
+                height={window.innerHeight}
+                style={{ boxShadow: '2px 2px 2px #D7C7D2', marginRight: '5px' }}
+              >
+                <ProfileNavBar
+                  key={index + candiList.first_name}
+                  candiList={candiList}
+                  setjobtitle={setjobtitle}
+                  jdDetails={jd}
+                  profile_match={profileMatch}
+                  nonMatch={checkMatch}
+                  applieddatecheck ={isTab && stages.length === 0 ?true:false}
+                  availableity ={isTab && stages.length !== 0 ?false:true}
+                  inviteCall={hanldeInvitePopUp}
+                  // isInvite={status_id.length === 0}
+                  isResume
+                  withOutJD={isTab}
+                  source={source}
+                />
               </Flex>
             );
           })}
@@ -299,7 +305,7 @@ const ApplicantProfileScreen = () => {
                 <ApplicantTabLeft activeState={isTabValue} />
               )}
             </Flex>
-          )} 
+          )}
         </Flex>
       </Flex>
     </Flex>

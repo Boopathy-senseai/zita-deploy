@@ -145,7 +145,7 @@ const ZitaAction = ({
                 setSortOptions(options);
                 handlesortby(options.value);
               }}
-              isSearchable
+      
             />
           </div>
           </Flex>
