@@ -318,10 +318,14 @@ const ZitaMatchFilters = ({
 
   useEffect(() => {
     if (
-      isBachelors === false &&
-      isDoctorate === false &&
-      isMasters === false &&
-      isOther === false
+      // isBachelors === false &&
+      // isDoctorate === false &&
+      // isMasters === false &&
+      // isOther === false
+      applieisbachelor===false &&
+      applieisdoctorate===false&&
+      applieismaster===false&&
+      applieisother===false
     ) {
       setapplieisany(true);
     }

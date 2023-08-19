@@ -256,7 +256,7 @@ console.log(res,'192.168.3.253:8001192.168.3.253:8001192.168.3.253:8001192.168.3
 					</Text>
 				</Flex>
 				<Flex row className={styles.marginTop}>
-					<Text  className={styles.selected}>
+					<Text  className={styles.selected} style={{marginTop:"5px"}}>
 						Duration
 					</Text>
 					<div className={styles.skillContainer}>

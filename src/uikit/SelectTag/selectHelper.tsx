@@ -493,7 +493,7 @@ export const customStylechanges2 ={
   }),
   valueContainer: (provided: any) => ({
     ...provided,
-    height: '30px',
+    height: '23px',
     margin: '0px',
     fontSize: 12,
     boxColor:GARY_9,

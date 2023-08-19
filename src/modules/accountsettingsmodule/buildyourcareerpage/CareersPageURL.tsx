@@ -53,9 +53,9 @@ const CareersPageURL = ({
                 <SvgHelp fill="#581845" height={16} width={16} />
               </Flex>
             </Flex> */}
-          <Flex row center className={styles.paddingTopFlex}>
-            <div tabIndex={-1} className={styles.svgBox}>
-              <SvgGlobal fill={PRIMARY} width={14} height={14} />
+          <Flex row start className={styles.paddingTopFlex}>
+            <div tabIndex={-1} className={styles.svgBox} style={{marginTop:"-1.5px"}}>
+              <SvgGlobal fill={PRIMARY} width={14} height={14}  />
             </div>
             {isInput ? (
               <Flex row center marginBottom={7}>
@@ -85,6 +85,7 @@ const CareersPageURL = ({
                       errors={formik.errors}
                     />
                   </div>
+                  {console.log("sssssss",isUrlError)}
                   {isUrlError && (
                     <Text className={styles.errorMsg} size={12} color="error">
                       This URL already exist

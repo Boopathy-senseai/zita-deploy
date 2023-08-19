@@ -316,7 +316,7 @@ const JdViewScreen = () => {
             <Flex >
               <Text
                 bold
-                style={{ color: "#333333" }}
+                style={{ color: "#333333" ,paddingTop:"6px"}}
                 size={14}
               >
                 Job Details & Description

@@ -181,7 +181,7 @@ console.log("externaljob",extarajobpost)
               onKeyDown={() => {}}
               title="Copy the job posting URL from your careers page"
             >
-            <SvgCopy width={12} height={14} fill={'rgb(51 51 51/50%)'} /> 
+            <SvgCopy width={12} height={14} fill={'#581845'} /> 
             </div>
           </Flex>
           <Text align="center" style={{ marginTop: 8 }}>
