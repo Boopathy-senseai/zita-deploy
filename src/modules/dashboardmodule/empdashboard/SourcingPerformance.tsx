@@ -1,5 +1,6 @@
 import Card from '../../../uikit/Card/Card';
 import Chart from '../../../uikit/Chart/Chart';
+import SvgNoData from '../../../icons/SvgNoData';
 import Flex from '../../../uikit/Flex/Flex';
 import Text from '../../../uikit/Text/Text';
 import styles from './applicantssourcingchannel.module.css';
@@ -120,7 +121,7 @@ const SourcingPerformance = ({ role_base, dates_length, planId ,jd_metrics}: Pro
   };
   return (
     <Card className={styles.overAll}>
-      <Text bold size={16} style={{color:'#581845'}}>
+      <Text bold size={14} style={{color:'#581845'}}>
         Sourcing Performance
       </Text>
       {(Array.isArray(role_base) &&
@@ -129,7 +130,8 @@ const SourcingPerformance = ({ role_base, dates_length, planId ,jd_metrics}: Pro
       planId === 1  || jd_metrics.length === 0  ? (
         <Chart options={planId === 1 || jd_metrics.length === 0 ? optionsOne : options} />
       ) : (
-        <Flex flex={1} center middle>
+        <Flex flex={1} center middle style={{display:"flex"}}>
+          <SvgNoData width={15} style={{filter:"opacity(0.5)"}} />
           <Text color="gray">No Data Available</Text>
         </Flex>
       )}

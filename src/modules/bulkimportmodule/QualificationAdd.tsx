@@ -13,10 +13,12 @@ import SelectTag from '../../uikit/SelectTag/SelectTag';
 import Text from '../../uikit/Text/Text';
 import Toast from '../../uikit/Toast/Toast';
 import { config } from '../constValue';
+import { applicantcandidateMatchMiddleWare,candidateMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { qualificationOption } from './bulkImportScreenMock';
 import { EmpPoolEntity } from './bulkImportTypes';
 import { bulkuploadedCandidatesMiddleWare } from './store/middleware/bulkImportMiddleware';
 import styles from './valueAddName.module.css';
+
 
 const cx = classNames.bind(styles);
 var querystring = require('querystring');
@@ -80,6 +82,11 @@ const QualificationAdd = ({
     axios
       .post(uploadedCandidatesApi, data, config)
       .then(() => {
+        dispatch(
+          candidateMatchMiddleWare({ 
+            can_id:id.toString(),
+          }),
+        )
         if (tabKey === 'total') {
            if(jdId === undefined){
           dispatch(
@@ -88,7 +95,7 @@ const QualificationAdd = ({
               page: pageNumber + 1,
               total: total_count,
             }),
-          ).then(() => {
+          ).then(() => { 
             Toast('Qualification updated successfully', 'LONG', 'success');
             setInput(false);
             setLoader(false);
@@ -101,7 +108,7 @@ const QualificationAdd = ({
               page: pageNumber + 1,
               total: total_count,
             }),
-          ).then(() => {
+          ).then(() => { 
             Toast('Qualification updated successfully', 'LONG', 'success');
             setInput(false);
             setLoader(false);
@@ -116,7 +123,7 @@ const QualificationAdd = ({
               page: pageNumber + 1,
               completed,
             }),
-          ).then(() => {
+          ).then(() => { 
             Toast('Qualification updated successfully', 'LONG', 'success');
             setInput(false);
             setLoader(false);
@@ -129,7 +136,7 @@ const QualificationAdd = ({
               page: pageNumber + 1,
               completed,
             }),
-          ).then(() => {
+          ).then(() => { 
             Toast('Qualification updated successfully', 'LONG', 'success');
             setInput(false);
             setLoader(false);
@@ -144,7 +151,7 @@ const QualificationAdd = ({
               page: pageNumber + 1,
               incompleted,
             }),
-          ).then(() => {
+          ).then(() => { 
             Toast('Qualification updated successfully', 'LONG', 'success');
             setInput(false);
             setLoader(false);
@@ -157,7 +164,7 @@ const QualificationAdd = ({
               page: pageNumber + 1,
               incompleted,
             }),
-          ).then(() => {
+          ).then(() => { 
             Toast('Qualification updated successfully', 'LONG', 'success');
             setInput(false);
             setLoader(false);
@@ -203,15 +210,16 @@ const QualificationAdd = ({
   });
 
   return (
-    <div className={styles.overAll}>
+    <div className={styles.overAll} style={{width:'90%'}}>
       {isEmpty(formik.values.name) ? (
         <>
           {!isInput && (
             <Text
-              size={12}
+              size={13}
               color="link"
               textStyle="underline"
               onClick={handleOpenInput}
+              style={{width:'100%'}}
             >
               Add Qualification
             </Text>
@@ -222,7 +230,7 @@ const QualificationAdd = ({
           {!isInput && (
             <div className={styles.textContainer}>
               <Text
-                size={12}
+                size={13}
                 onClick={handleOpenInput}
                 className={styles.nameStyle}
               >
@@ -236,7 +244,7 @@ const QualificationAdd = ({
         </>
       )}
       {isInput && (
-        <div ref={myRef} className={`width100,${cx('inputOverAll')}`}>
+        <div ref={myRef} className={`width73,${cx('inputOverAll')}` } style={{width:'85px'}}>
           <SelectTag
             id={'qualificationAdd__optional'}
             placeholder={'Optional'}
@@ -247,7 +255,7 @@ const QualificationAdd = ({
             }}
             lineStyle
           />
-          <div className={styles.svgContainer}>
+          <div className={styles.svgContainer1}>
             {isLoader && (
               <div className={styles.svgTick}>
                 <Loader withOutOverlay size={'small'} />

@@ -1,9 +1,10 @@
 .labelContainer {
-  margin-right: 16px;
+  margin-right: 20px;
 }
 .valueText {
-  margin-left: 2px;
-  min-width: 61%;
+  margin-left: 5px;
+  /* min-width: 61%; */
+  font-weight: 400;
 }
 .overAll {
   padding: 8px 16px;

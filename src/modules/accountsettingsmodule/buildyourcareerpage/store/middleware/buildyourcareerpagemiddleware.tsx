@@ -108,7 +108,7 @@ export const careerJobViewMiddleWare = createAsyncThunk(
 export const applocationFormPostMiddleWare = createAsyncThunk(
   'application_form_post',
   async (
-    { id, formData, user_id }: { id: string; formData: any; user_id: any },
+    { id, formData, user_id }: { id?: string; formData: any; user_id: any },
     { rejectWithValue },
   ) => {
     try {

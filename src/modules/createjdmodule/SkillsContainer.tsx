@@ -494,9 +494,10 @@ const SkillsContainer = ({
       />
       <Flex row className={styles.titleContainer}>
         <Flex className={styles.leftTitleFlex}>
-          <LabelWrapper label={profileTitle} bold>
+          <Text color='primary' size={14} bold>{profileTitle}</Text>
+          <LabelWrapper bold>
             {!isMissSkill && (
-              <Text color="gray" size={12}>
+              <Text color="primary" size={13}>
                 (Please drag and drop the skills tag into the technical skills
                 for adding)
               </Text>
@@ -504,8 +505,9 @@ const SkillsContainer = ({
           </LabelWrapper>
         </Flex>
         <Flex className={styles.rightTitleFlex}>
-          <LabelWrapper label={profileTitleRight} required bold>
-            <Text color="gray" size={12}>
+          <Text color='primary' size={14} bold>{profileTitleRight}</Text>
+          <LabelWrapper>
+            <Text color="primary" size={13}>
               (You can add/type/copy-paste more skills in the below fields)
             </Text>
           </LabelWrapper>
@@ -516,20 +518,22 @@ const SkillsContainer = ({
         height={missPop ? window.innerHeight - 400 : '100%'}
       >
         {/* {console.log('formik.values.data', formik.values.data)} */}
+        <Text color="primary" size={14} style={{marginBottom:"6px"}}>{'Database:'}</Text>
         <CrossAreaTagEditer
           inputId={1}
-          label={'Database:'}
+          // label={'Database:'}
           labelBold
           columns={dataBasecolumns}
           setColumns={setDataBaseColumns}
           duplicate={formik.values.data}
           onDirty={onDirty}
         />
+          <Text color="primary" size={14} style={{marginBottom:"10px", marginTop:"13px"}}>{'Tools/Frameworks:'}</Text>
         <div className={styles.tagTop}>
           <CrossAreaTagEditer
             tagColor="yellow"
             inputId={2}
-            label={'Tools/Frameworks:'}
+            // label={'Tools/Frameworks:'}
             labelBold
             columns={toolsColumns}
             setColumns={setToolsColumns}
@@ -537,11 +541,12 @@ const SkillsContainer = ({
             onDirty={onDirty}
           />
         </div>
+        <Text color="primary" size={14} style={{marginBottom:"10px", marginTop:"13px"}}>{'Programming Languages:'}</Text>
         <div className={styles.tagTop}>
           <CrossAreaTagEditer
             tagColor="red"
             inputId={3}
-            label={'Programming Languages:'}
+            // label={'Programming Languages:'}
             labelBold
             columns={progarmColumns}
             setColumns={setprogarmColumns}
@@ -549,11 +554,12 @@ const SkillsContainer = ({
             onDirty={onDirty}
           />
         </div>
+        <Text color="primary" size={14} style={{marginBottom:"10px", marginTop:"13px"}}>{'Platforms:'}</Text>
         <div className={styles.tagTop}>
           <CrossAreaTagEditer
             tagColor="green"
             inputId={4}
-            label={'Platforms:'}
+            // label={'Platforms:'}
             labelBold
             setColumns={setPlatColumns}
             columns={platColumns}
@@ -561,11 +567,12 @@ const SkillsContainer = ({
             onDirty={onDirty}
           />
         </div>
+        <Text color="primary" size={14} style={{marginBottom:"10px", marginTop:"13px"}}>{'Other Skills:'}</Text>
         <div className={styles.tagTop} style={{ position: 'relative' }}>
           <CrossAreaTagEditer
             tagColor="theme"
             inputId={5}
-            label={'Other Skills:'}
+            // label={'Other Skills:'}
             labelBold
             setColumns={setOtherColumns}
             columns={otherColumns}

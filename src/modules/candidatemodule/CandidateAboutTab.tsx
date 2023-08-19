@@ -4,14 +4,18 @@ import Flex from '../../uikit/Flex/Flex';
 import { isEmpty, lowerCase, notSpecified } from '../../uikit/helper';
 import Status from '../../uikit/Status/Status';
 import Text from '../../uikit/Text/Text';
+import Tab from '../../uikit/Tabs/Tab';
+import Questionnaire from '../applicantprofilemodule/Questionnaire';
 import { workYear } from '../common/commonHelper';
+import CandiDateResumeTab from './CandiDateResumeTab';
 import styles from './candidateabouttab.module.css';
 
 const AboutTab = () => {
-  const { candidate_details } = useSelector(
+  const { candidate_details, questionnaire } = useSelector(
     ({ applicantProfileInitalReducers }: RootState) => {
       return {
         candidate_details: applicantProfileInitalReducers.candidate_details,
+        questionnaire: applicantProfileInitalReducers.questionnaire,
       };
     },
   );
@@ -50,14 +54,14 @@ const AboutTab = () => {
   ];
 
   const aboutData1 = [
-    {
-      lable: 'Job Type:',
-      value: notSpecified(candidate_details[0].job_title),
-    },
-    {
-      lable: 'Willing to Relocate:',
-      value: relocate,
-    },
+    // {
+    //   lable: 'Job Type:',
+    //   value: notSpecified(candidate_details[0].job_title),
+    // },
+    // {
+    //   lable: 'Willing to Relocate:',
+    //   value: relocate,
+    // },
     {
       lable: 'Expected Gross Salary:',
       value:
@@ -71,57 +75,81 @@ const AboutTab = () => {
     ? []
     : candidate_details[0].skills.replace(',,', ',').split(',');
   return (
-    <Flex
-      columnFlex
-      className={styles.overAll}
-      height={window.innerHeight - 230}
-    >
-      <Text color="theme" bold className={styles.aboutCandidateStyle}>
-        About Candidate:
-      </Text>
-      {aboutData.map((list) => {
-        return (
-          <Flex key={list.lable} row center className={styles.flexLineHeight}>
-            <Text bold className={styles.lableWidth}>
-              {list.lable}
+    <Flex row flex={12}>
+      <Flex
+      flex={6}
+        columnFlex
+        className={styles.overAll}
+         height={window.innerHeight - 120}
+      > 
+        <Text bold className={styles.jobPreferenceStyle}>
+          Job Preference
+        </Text>
+        {aboutData1.map((list) => {
+          return (
+            <Flex key={list.lable} row center className={styles.flexLineHeight}>
+              <Text
+                style={{ fontSize: '13px' }}
+                color="theme" 
+                className={styles.lableWidth}
+              >
+                {list.lable}
+              </Text>
+              <Text style={{ fontSize: '13px' }}>{list.value}</Text>
+            </Flex>
+          );
+        })}
+       { console.log(skillSplit,'skillSplitskillSplit')}
+        {  skillSplit[0] !== ""&& skillSplit.length > 0 && skillSplit[0] !== undefined  ? (
+          <>
+            <Text bold className={styles.jobPreferenceStyles}>
+              Professional Skills
             </Text>
-            <Text>{list.value}</Text>
-          </Flex>
-        );
-      })}
-      <Text color="theme" bold className={styles.jobPreferenceStyle}>
-        Job Preference:
-      </Text>
-      {aboutData1.map((list) => {
-        return (
-          <Flex key={list.lable} row center className={styles.flexLineHeight}>
-            <Text bold className={styles.lableWidth}>
-              {list.lable}
-            </Text>
-            <Text>{list.value}</Text>
-          </Flex>
-        );
-      })}
-      {skillSplit.length !== 0 && (
-        <>
-          <Text color="theme" bold className={styles.jobPreferenceStyle}>
-            Professional Skills:
-          </Text>
-          <Flex row center wrap>
-            {skillSplit &&
-              skillSplit.map((skilsList, index) => {
-                return (
-                  skilsList !== ' ' && (
-                    <Flex key={skilsList + index} className={styles.skillStyle}>
-                      <Status label={lowerCase(skilsList)} />
-                    </Flex>
-                  )
-                );
-              })}
-          </Flex>
-        </>
-      )}
-
+            <Flex row center wrap>
+              {skillSplit &&
+                skillSplit.map((skilsList, index) => {
+                  return (
+                    skilsList !== ' ' && (
+                      <Flex
+                        key={skilsList + index}
+                        className={styles.skillStyle}
+                      >
+                        <Status label={lowerCase(skilsList)} />
+                      </Flex>
+                    )
+                  );
+                })}
+            </Flex>
+          </>
+        ):''}
+        <Flex>
+          {questionnaire && questionnaire.length !== 0 && (
+            <>
+              <Text bold className={styles.softSkillStyle}>
+                Applicant questionnaire
+              </Text>
+              <Flex>
+                <Questionnaire issingletab={false} />
+              </Flex>
+            </>
+          )}
+        </Flex>
+      </Flex>
+      <Flex
+        height={window.innerHeight - 105}
+        style={{
+          border: '1px solid #C3C3C3',
+          width: '1px',
+          margin: '15px 5px 10px 5px',
+          paddingTop: '10px',
+          paddingBottom:'10px'
+        }}
+      ></Flex>
+      <Flex flex={6.4}>
+        <Tab title="Resume">
+          <CandiDateResumeTab />
+        </Tab>
+      </Flex>
     </Flex>
   );
 };

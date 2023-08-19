@@ -1,7 +1,7 @@
 import { useSelector,useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import PhoneInput from 'react-phone-input-2';
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import { jobSelect } from '../../../appRoutesPath';
 import SvgCompany from '../../../icons/SvgCompany';
 import SvgNewTab from '../../../icons/SvgNewTab';
@@ -35,8 +35,6 @@ import { mediaPath } from '../../constValue';
 import styles from './profilecard.module.css';
 import { CountryEntity, StateEntity, CityEntity } from './Companytype';
 
-
-
 const ProfileCard = () => {
   const dispatch: AppDispatch = useDispatch();
   const {
@@ -62,39 +60,42 @@ const ProfileCard = () => {
     stateid,
     countryid,
     countryidfin,
-
-
-  } = useSelector(({ dashboardEmpReducers, permissionReducers, companyPageReducers, locationReducers }: RootState) => {
-    return {
-      company: companyPageReducers,
-      countryidfin: locationReducers.country,
-      weburl: companyPageReducers.company_detail.company_website,
-      datafin: companyPageReducers,
-      address: companyPageReducers.company_detail.address,
-      zipcode: companyPageReducers.company_detail.zipcode,
-      data3: permissionReducers,
-      data2: dashboardEmpReducers,
-      mobile_no: companyPageReducers.company_detail.contact,
-      company_name: dashboardEmpReducers.company_name,
-      logo: dashboardEmpReducers.logo,
-      user_info: dashboardEmpReducers.user_info,
-      plan: dashboardEmpReducers.plan,
-      job_count: dashboardEmpReducers.job_count,
-      candidate_count: dashboardEmpReducers.candidate_count,
-      contact_count: dashboardEmpReducers.contact_count,
-      career_page_url: dashboardEmpReducers.career_page_url,
-      status: dashboardEmpReducers.plan.is_active,
-      permission: permissionReducers.Permission,
-      super_user: permissionReducers.super_user,
-      stateid: companyPageReducers.company_detail.state_id,
-      cityid: companyPageReducers.company_detail.city_id,
-      countryid: companyPageReducers.company_detail.country_id,
-    };
-  });
-
+  } = useSelector(
+    ({
+      dashboardEmpReducers,
+      permissionReducers,
+      companyPageReducers,
+      locationReducers,
+    }: RootState) => {
+      return {
+        company: companyPageReducers,
+        countryidfin: locationReducers.country,
+        weburl: companyPageReducers.company_detail.company_website,
+        datafin: companyPageReducers,
+        address: companyPageReducers.company_detail.address,
+        zipcode: companyPageReducers.company_detail.zipcode,
+        data3: permissionReducers,
+        data2: dashboardEmpReducers,
+        mobile_no: companyPageReducers.company_detail.contact,
+        company_name: dashboardEmpReducers.company_name,
+        logo: dashboardEmpReducers.logo,
+        user_info: dashboardEmpReducers.user_info,
+        plan: dashboardEmpReducers.plan,
+        job_count: dashboardEmpReducers.job_count,
+        candidate_count: dashboardEmpReducers.candidate_count,
+        contact_count: dashboardEmpReducers.contact_count,
+        career_page_url: dashboardEmpReducers.career_page_url,
+        status: dashboardEmpReducers.plan.is_active,
+        permission: permissionReducers.Permission,
+        super_user: permissionReducers.super_user,
+        stateid: companyPageReducers.company_detail.state_id,
+        cityid: companyPageReducers.company_detail.city_id,
+        countryid: companyPageReducers.company_detail.country_id,
+      };
+    },
+  );
 
   const logoPath = isEmpty(logo) ? 'logo.png' : logo;
-
 
   const clearTab = () => {
     sessionStorage.removeItem('superUserTab');
@@ -104,7 +105,6 @@ const ProfileCard = () => {
   const [isGetCountry, setCountry] = useState<CountryEntity[]>([]);
   const [getState, setState] = useState<StateEntity[]>([]);
   const [getCity, setCity] = useState<CityEntity[]>([]);
-
 
   //   useEffect(() => {
   //     if (company!==null) {
@@ -138,52 +138,59 @@ const ProfileCard = () => {
   }, [countryid]);
   useEffect(() => {
     if (!isEmpty(stateid)) {
-      dispatch(
-        locationCityMiddleWare({ state: stateid.toString() }),
-      ).then((res) => {
-        if (res.payload.city && res.payload.city.length !== 0) {
-          setCity(res.payload.city);
-        }
-      });
+      dispatch(locationCityMiddleWare({ state: stateid.toString() })).then(
+        (res) => {
+          if (res.payload.city && res.payload.city.length !== 0) {
+            setCity(res.payload.city);
+          }
+        },
+      );
     }
   }, [stateid]);
 
-  const [state, setstate] = useState("");
-  const [city, setcity] = useState("");
-  const [country, setcountry] = useState("");
+  const [state, setstate] = useState('');
+  const [city, setcity] = useState('');
+  const [country, setcountry] = useState('');
   useEffect(() => {
-    if (getCity.length !== 0 && isGetCountry.length !== 0 && getState.length !== 0) {
-      cityhand()
-      statehand()
-      countryhand()
+    if (
+      getCity.length !== 0 &&
+      isGetCountry.length !== 0 &&
+      getState.length !== 0
+    ) {
+      cityhand();
+      statehand();
+      countryhand();
     }
-
   }, [getCity, getState, isGetCountry]);
 
   function cityhand() {
     if (getCity.length !== 0) {
       {
-          if(cityid!==null){
-        { setcity(getCity.find((option) => (option.id) === (cityid)).name) }}
+        if (cityid !== null) {
+          {
+            setcity(getCity.find((option) => option.id === cityid).name);
+          }
+        }
       }
     }
   }
   function countryhand() {
     if (isGetCountry.length !== 0) {
-      console.log("arraycoun", isGetCountry)
-      if(countryid!==null)
-      { setcountry(isGetCountry.find((option) => (option.id) === countryid).name) }
-    }
-    else {
-      console.log("else check")
+      console.log('arraycoun', isGetCountry);
+      if (countryid !== null) {
+        setcountry(isGetCountry.find((option) => option.id === countryid).name);
+      }
+    } else {
+      console.log('else check');
     }
   }
 
   function statehand() {
     if (getState.length !== 0) {
-      console.log("notempty", getState.length)
-      if(stateid!==null)
-      { setstate(getState.find((option) => (option.id) === (stateid)).name) }
+      console.log('notempty', getState.length);
+      if (stateid !== null) {
+        setstate(getState.find((option) => option.id === stateid).name);
+      }
     }
   }
 
@@ -201,15 +208,14 @@ const ProfileCard = () => {
   //     console.log("valuecheak",selectedCity);
   //     const selectedCountry = company?.country?.[0];
 
-
   //     setcity(selectedCity?.name || "");
   //     setcountry(selectedCountry?.name || "");
   //   }
   // }
 
   {
-    console.log("filterstate::", getState)
-    console.log("countryid", countryid)
+    console.log('filterstate::', getState);
+    console.log('countryid', countryid);
     //   const filtered = getCity.filter(obj => {
     //   return obj.id === cityid;
     // });
@@ -218,53 +224,48 @@ const ProfileCard = () => {
     //console.log("statename",getState.find((option) => (option.id) === (stateid)).name)}
   }
   return (
-
-
-
-
     <Flex marginLeft={5} marginTop={10}>
-      {console.log("countryfin", isGetCountry)}
+      {console.log('countryfin', isGetCountry)}
       <Card className={styles.profileCardMain}>
         <Flex marginLeft={140} marginTop={15} center>
-
-          {logoPath === 'logo' ? <Button>a</Button> : <img
-            style={{ objectFit: 'contain' }}
-
-            alt="LOGO HERE"
-
-            src={mediaPath + logoPath}
-            className={styles.profileImg}
-          />}
+          {logoPath === 'logo' ? (
+            <Button>a</Button>
+          ) : (
+            <img 
+              style={{ objectFit: 'cover' }}
+              alt="LOGO HERE"
+              src={mediaPath + logoPath}
+              className={styles.profileImg}
+            />
+          )}
         </Flex>
         <Flex marginTop={12}>
-
-          <Text bold align="center" size={16} className={styles.companyColor} >
+          <Text bold align="center" size={14} className={styles.companyColor}>
             {company_name}
           </Text>
 
-
-          <Text style={{ marginBottom: 7 }} align="center">
+          <Text style={{ marginBottom: 7,fontSize:'13px' }} align="center">
             {user_info.email}
           </Text>
-          <Text align="center" bold>
-            Last Login on :{' '}
-            {getDateString(user_info?.last_login, 'll hh:mm A')}
-            {console.log("userinfo", user_info.last_login)}
+          <Text align="center" bold style={{fontSize:'13px'}}>
+            Last Login on: {getDateString(user_info?.last_login, 'll hh:mm A')}
+            {console.log('userinfo', user_info.last_login)}
           </Text>
-
         </Flex>
 
-        <Flex marginLeft={20} marginRight={20} className={styles.line} marginBottom={5} marginTop={15}>
+        <Flex
+          marginLeft={20}
+          marginRight={20}
+          className={styles.line}
+          marginBottom={5}
+          marginTop={15}
+        ></Flex>
 
-        </Flex>
-
-
-        {console.log("dashboardempreducer", data2)}
-        {console.log("permissionreducer", data3)
-        }
+        {console.log('dashboardempreducer', data2)}
+        {console.log('permissionreducer', data3)}
         <Flex row>
           <Flex>
-            <Flex >
+            <Flex>
               {/* <Flex marginLeft={20}>
 
                 <Flex marginTop={5} ><SvgSubscription height={30} width={30} >
@@ -273,22 +274,20 @@ const ProfileCard = () => {
 
               </Flex> */}
               <Flex marginTop={10} marginLeft={18}>
-                <Text style={{ marginLeft: 2, fontWeight: 550 }} bold >
+                <Text style={{ marginLeft: 2, fontWeight: 550,fontSize:'14px' }} bold>
                   Subscription
                 </Text>
               </Flex>
             </Flex>
 
-
-            <Flex marginLeft={20} >
-
-
+            <Flex marginLeft={20}>
               <Flex>
-                <Text style={{ marginTop: 5 }}>Plan:
+                <Text style={{ marginTop: 5,fontSize:'13px'}}>
+                  Plan:
                   {plan.plan_id_id === 1 ? (
-                    <Text style={{ marginBottom: 2 }}>Free Trial</Text>
+                    <Text style={{ marginBottom: 2,fontSize:'13px',marginLeft:3 }}>Free Trial</Text>
                   ) : (
-                    <Text style={{ marginBottom: 2 }}>
+                    <Text style={{ marginBottom: 2,fontSize:'13px',marginLeft:3 }}>
                       {' '}
                       {plan.plan_id_id === 2 || plan.plan_id_id === 3
                         ? 'Basic'
@@ -297,84 +296,82 @@ const ProfileCard = () => {
                         ? '(Monthly)'
                         : '(Annual)'}
                     </Text>
-                  )}</Text>
-                {console.log("status", status)}
-                <Text style={{ marginTop: 5 }}>Status: {
-                  status === false ? (<Text style={{ color: "#FF0000" }}>Expired</Text>) : (<Text style={{ color: "#00BE4B" }}>Active</Text>)
-                }
+                  )}
                 </Text>
-                <Text style={{ marginTop: 5, whiteSpace: "nowrap" }}>
+                {console.log('status', status)}
+                <Text style={{ marginTop: 5 ,fontSize:'13px'}}>
+                  Status:{' '}
+                  {status === false ? (
+                    <Text style={{ color: '#FF0000',fontWeight:600,fontSize:'13px' }}>Expired</Text>
+                  ) : (
+                    <Text style={{ color: '#00BE4B',fontWeight:600,fontSize:'13px' }}>Active</Text>
+                  )}
+                </Text>
+                <Text style={{ marginTop: 5, whiteSpace: 'nowrap',fontSize:'13px' }}>
                   Renewal: {getDateString(plan.subscription_valid_till, 'll')}
                 </Text>
-
               </Flex>
-
-
             </Flex>
           </Flex>
 
-
-
           <Flex marginLeft={87}>
             <Flex row>
-
-
               {/* <Flex marginLeft={5} marginTop={5}>
                 <SvgCredits />
 
               </Flex> */}
-              <Flex marginTop={10} >
-                <Text style={{ fontWeight: 550 }} bold>
+              <Flex marginTop={10}>
+                <Text style={{ fontWeight: 550 ,fontSize:'14px'}} bold>
                   Credits Availability
-                </Text></Flex>
+                </Text>
+              </Flex>
             </Flex>
             <Flex row>
               <Flex>
-                <Text style={{ marginTop: 5 }}>
-                  Contact Credits:
-                </Text >
+                <Text style={{ marginTop: 5,fontSize:'13px'}}>Contact Credits:</Text>
               </Flex>
 
-              <Flex marginLeft={5} marginTop={5}>
-                <Text style={{ color: 'black' }} className={styles.textoverflow}>{contact_count}
+              <Flex marginLeft={3} marginTop={5}>
+                <Text
+                  style={{ color: 'black',fontSize:'13px' }}
+                  className={styles.textoverflow}
+                >
+                  {contact_count}
                 </Text>
               </Flex>
-
             </Flex>
-            {console.log("error", getState)}
+            {console.log('error', getState)}
             <Flex row>
-              <Flex marginTop={5}>
-                <Text >
-                  Job:
-                </Text >
+              <Flex marginTop={5} >
+                <Text style={{fontSize:'13px'}}>Job:</Text>
               </Flex>
               {/* {console.log("filtercity::",getCity.find((option) => (option.id) === (cityid)).name)} */}
-              <Flex marginLeft={5} marginTop={5}>
-                <Text style={{ color: 'black' }} className={styles.textoverflow1}>{unlimitedHelper(job_count)}
+              <Flex marginLeft={3} marginTop={5}>
+                <Text
+                  style={{ color: 'black' ,fontSize:'13px'}}
+                  className={styles.textoverflow1}
+                >
+                  {unlimitedHelper(job_count)}
                 </Text>
               </Flex>
-
             </Flex>
 
             <Flex row>
-              <Flex marginTop={5}>
-                <Text >
-                  Candidates:
-                </Text >
+              <Flex marginTop={5} >
+                <Text style={{fontSize:'13px'}}>Candidates:</Text>
               </Flex>
 
-              <Flex marginLeft={5} marginTop={5}>
-                <Text style={{ color: 'black' }} className={styles.textoverflow1}>{unlimitedHelper(candidate_count)}
+              <Flex marginLeft={3} marginTop={5}>
+                <Text
+                  style={{ color: 'black',fontSize:'13px' }}
+                  className={styles.textoverflow1}
+                >
+                  {unlimitedHelper(candidate_count)}
                 </Text>
               </Flex>
-
             </Flex>
-
-
           </Flex>
         </Flex>
-
-
 
         {/* <Flex row marginTop={10}>
           <Flex row marginLeft={20}>
@@ -466,7 +463,6 @@ const ProfileCard = () => {
               </Text>
             </Flex> */}
 
-
         {/* </Flex>
 
           <Flex marginLeft={60}>
@@ -504,138 +500,125 @@ const ProfileCard = () => {
 
         </Flex> */}
 
-
-        <Flex marginLeft={20} marginRight={20} className={styles.line} marginBottom={10} marginTop={15}>
-
-        </Flex>
+        <Flex
+          marginLeft={20}
+          marginRight={20}
+          className={styles.line}
+          marginBottom={10}
+          marginTop={15}
+        ></Flex>
         <Flex marginLeft={20}>
-
-          {/*                  
-                 {user_info.email !==null ?  <Text>{user_info.email}</Text>:""}
-                 {mobile_no !== "" ? <Text>{mobile_no}</Text>:""}
-                {address !=="" ? <Text>{address}</Text>:""} */}
-          <Flex marginTop={5}>
-            {mobile_no !== "" ? <Flex row ><Flex marginRight={5} marginTop={8}><SvgMobile height={20} width={20} fill={BLACK} /></Flex>
-              <Flex marginLeft={9}><Text>
-                <PhoneInput value={mobile_no}
-                  inputStyle={{ border: "none", padding: "inherit" }}
-                  showDropdown={false}
-                  defaultErrorMessage='false'
-                  disableDropdown={true}
-                  disableSearchIcon={true}
-                  country={null}
-                  disabled={true}
-                  buttonStyle={{ display: "none" }}
-                  dropdownStyle={{ display: "none" }}
-
-
-
-                />
-              </Text></Flex></Flex> : ""}
-          </Flex>
-          <Flex marginTop={10}>
-
-            {console.log("company", company)}
-{/* 
-            {weburl !== null  ? 
-            <Flex row> 
-            
-             <Flex marginRight={5}><SvgGlobe height={20} width={20} fill={BLACK} /></Flex>
-              <Flex marginLeft={9}><Text style={{ marginBottom: "4px", textDecoration: "underline" }} >{weburl}</Text></Flex>
-            </Flex> :
+        <Flex marginTop={5}>
+            {console.log('company', company)} 
+            {weburl === null || weburl === 'https://' ? (
               <Flex row marginTop={7}>
-                <Flex marginRight={5} >
-                  <SvgGlobe height={30} width={30} fill={BLACK} />
+                <Flex marginRight={5} marginTop={1}>
+                  <SvgGlobe height={18} width={18}  />
                 </Flex>
-                <Flex >
-                  <LinkWrapper
-                    // onClick={clearTab}
-                    to={'/account_setting/settings'}
-                  >
-                    <Text style={{ color: "#581845", textDecoration: "underline" }} bold>
+                <Flex>
+                  <LinkWrapper to={'/account_setting/settings'}>
+                    <Text
+                      style={{ color: '#581845' ,fontSize:'13px',marginLeft:' 10px' }}
+                      bold
+                    >
                       Add Website URL
                     </Text>
                   </LinkWrapper>
                 </Flex>
               </Flex>
-              } */}
-
-              {
-                 (weburl===null || weburl==="https://") ?
-                    
-                 <Flex row marginTop={7}>
-                <Flex marginRight={5} >
-                  <SvgGlobe height={30} width={30} fill={BLACK} />
+            ) : (
+              <Flex row>
+                <Flex marginRight={5} marginTop={2}>
+                  <SvgGlobe height={18} width={18}  />
                 </Flex>
-                <Flex >
-                  <LinkWrapper
-                    // onClick={clearTab}
-                    to={'/account_setting/settings'}
-                  >
-                    <Text style={{ color: "#581845", textDecoration: "underline" }} bold>
-                      Add Website URL
+                <Flex marginLeft={7}>
+                  {' '}
+                  <a target={'_blank'} rel="noreferrer" href={weburl}>
+                    <Text
+                      style={{
+                        marginBottom: '4px',
+                        color: '#581845',
+                        fontWeight: 600
+                        ,fontSize:'13px'
+                      }}
+                      tag={undefined}
+                    >
+                      {weburl}
                     </Text>
-                  </LinkWrapper>
+                  </a>
                 </Flex>
-              </Flex>:
-              
-                  
-              <Flex row> 
-            
-              <Flex marginRight={5}><SvgGlobe height={20} width={20} fill={BLACK} /></Flex>
-               <Flex marginLeft={9}><Text style={{ marginBottom: "4px", textDecoration: "underline" }} >{weburl}</Text></Flex>
-             </Flex>
-              
-                
-                 
-              }
-              {/* {
-                (weburl!==null)&&
-                <Flex row> 
-            
-                <Flex marginRight={5}><SvgGlobe height={20} width={20} fill={BLACK} /></Flex>
-                 <Flex marginLeft={9}><Text style={{ marginBottom: "4px", textDecoration: "underline" }} >{weburl}</Text></Flex>
-               </Flex>
-              } */}
-            </Flex>
-          <Flex marginTop={16}>
-
-
-            {address !== null ? <Flex row><Flex marginRight={1} ><SvgLocationicon height={30} width={30} fill={BLACK} /></Flex>
-              <Flex marginLeft={4}>{address}
-                ,{city},{state},{country}
-                ,{zipcode}
-
-              </Flex></Flex> :
-              <Flex row >
-                <Flex marginRight={5}>
-                  <SvgLocationicon height={30} width={30} fill={BLACK} />
+              </Flex>
+            )}
+           
+          </Flex>
+          
+          <Flex style={{cursor:'default'}} marginTop={7}>
+            {mobile_no !== '' ? (
+              <Flex row>
+                <Flex marginRight={5} marginTop={7}>
+                  <SvgMobile height={20} width={20} fill={BLACK} />
                 </Flex>
+                <Flex marginLeft={9}>
+                  <Text style={{fontSize:'13px'}}>
+                    <PhoneInput
+                      value={mobile_no}
+                      inputStyle={{ border: 'none', padding: 'inherit',height:'30px',cursor:'default' }}
+                      showDropdown={false}
+                      defaultErrorMessage="false"
+                      disableDropdown={true}
+                      disableSearchIcon={true}
+                      country={null}
+                      disabled={true}
+                      buttonStyle={{ display: 'none' }}
+                      dropdownStyle={{ display: 'none' }}
+                    />
+                  </Text>
+                </Flex>
+              </Flex>
+            ) : (
+              ''
+            )}
+          </Flex>
+          <Flex marginTop={3}>
+            {address !== null ? (
+              <Flex row marginTop={3} >
+                <Flex marginRight={1} >
+                  <SvgLocationicon height={25} width={25} fill={'#333333'} />
+                </Flex>
+                <Flex marginLeft={7.5} style={{fontSize:'13px'}}>
+                  {address}, {city}, {state}, {country}, {zipcode}
+                </Flex>
+              </Flex>
+            ) : (
+              <Flex row   marginTop={3} >
                 <Flex >
-
-
-                  <LinkWrapper
-                    // onClick={clearTab}
+                  <SvgLocationicon height={25} width={25} fill={'#333333'} />
+                </Flex>
+                <Flex>
+                  <LinkWrapper 
                     to={'/account_setting/settings'}
                   >
-                    <Text style={{ color: "#581845", textDecoration: "underline" }} bold>
+                    <Text
+                      style={{ color: '#581845',fontSize:'13px',marginLeft:"9px" }}
+                      bold
+                    >
                       Add Company Address
                     </Text>
                   </LinkWrapper>
                 </Flex>
               </Flex>
-            }
+            )}
           </Flex>
-          {/* <Text>{user_info.email}</Text>
-                   <Text>{mobile_no}</Text>
-                   <Text>{address}</Text> */}
-
         </Flex>
 
-        <Flex marginLeft={20} marginRight={20} className={styles.line} marginTop={10} marginBottom={10}>
-
-        </Flex>
-        <Flex row between >
+        <Flex
+          marginLeft={20}
+          marginRight={20}
+          className={styles.line}
+          marginTop={10}
+          marginBottom={10}
+        ></Flex>
+        <Flex row between>
           {/* <Flex marginLeft={23} className={styles.pointer} marginTop={5}> {permission.includes('create_post') && (
             <LinkWrapper to={jobSelect}>
               <Button style={{ marginBottom: 8 }} className={styles.buttonsize}>Post Job</Button>
@@ -653,12 +636,11 @@ const ProfileCard = () => {
                 }
               >
                 <Button className={styles.buttonsizeauto} >
-                  <Flex row center className={styles.pointer} >
-                    <Text bold style={{ color: "white", marginLeft: 123 }} >
+                  {/* <Flex row center className={styles.pointer} > */}
+                    {/* <Text bold style={{ color: "white", marginLeft: 123 }} > */}
                       Careers Page
-                    </Text>
-
-                  </Flex>
+                    {/* </Text> */}
+                  {/* </Flex> */}
                 </Button>
               </LinkWrapper>
             </Flex>
@@ -666,7 +648,7 @@ const ProfileCard = () => {
             <Flex row>
               <Flex marginLeft={20} className={styles.pointer} marginTop={5}> {permission.includes('create_post') && (
                 <LinkWrapper to={jobSelect}>
-                  <Button style={{ marginBottom: 8 }} className={styles.buttonsize}>Post Job</Button>
+                  <Button className={styles.buttonsize}>Post Job</Button>
                 </LinkWrapper>
               )}</Flex>
               <Flex marginLeft={98} marginTop={5} marginRight={23}>
@@ -679,27 +661,20 @@ const ProfileCard = () => {
                   }
                 >
                   <Button className={styles.buttonsize}>
-                    <Flex row center className={styles.pointer} >
-                      <Text bold style={{ color: "white", marginLeft: 10 }} >
+                    {/* <Flex row center className={styles.pointer} > */}
+                      {/* <Text bold style={{ color: "white", marginLeft: 10 }} > */}
                         Careers Page
-                      </Text>
+                      {/* </Text> */}
 
-                    </Flex>
+                    {/* </Flex> */}
                   </Button>
                 </LinkWrapper>
-              </Flex></Flex>)}
-
+              </Flex>
+            </Flex>
+          )}
         </Flex>
-
-      </Card >
-    </Flex >
-
-
-
-
-
-
-
+      </Card>
+    </Flex>
   );
 };
 

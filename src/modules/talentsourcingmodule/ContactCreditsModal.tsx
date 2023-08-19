@@ -3,6 +3,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { useDispatch } from 'react-redux';
 import SvgCloseSmall from '../../icons/SvgCloseSmall';
 import SvgTick from '../../icons/SvgTick';
+import SvgTickmanage from '../../icons/SvgTickmanage';
 import Button from '../../uikit/Button/Button';
 import { SECONDARY } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
@@ -102,7 +103,7 @@ const ContactCreditsModal = ({
                 center
                 key={list.name + index}
               >
-                <SvgTick fill={SECONDARY} />
+                <SvgTickmanage />
                 <Text className={styles.listNameStyle}>{list.name}</Text>
               </Flex>
             );

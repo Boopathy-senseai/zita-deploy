@@ -15,6 +15,7 @@ import Text from '../../uikit/Text/Text';
 import Toast from '../../uikit/Toast/Toast';
 import useUnsavedChangesWarning from '../common/useUnsavedChangesWarning';
 import { THIS_FIELD_REQUIRED } from '../constValue';
+import { candidateMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { qualificationData } from '../createjdmodule/mock';
 import styles from './addandupdatequalificationedit.module.css';
 import { Obj } from './candidateProfileTypes';
@@ -87,6 +88,12 @@ const AddandUpdateQualificationEdit = ({
         }),
       ).then((res) => {
         if (res.payload.success) {
+          console.log(res,'fffffffffffffffffbbbbbbbbbbbbbbbbbbbnnnnnnnnnnnnnnnnnnn')
+           dispatch(
+          candidateMatchMiddleWare({ 
+             can_id:res.payload?.can_id[0]?.id.toString(),
+          }),
+        )
           dispatch(profileEditMiddleWare({jd_id:localStorage.getItem('careerJobViewJobId')}));
           Toast('Qualifications updated successfully');
           cancel();
@@ -111,6 +118,11 @@ const AddandUpdateQualificationEdit = ({
         }),
       ).then((res) => {
         if (res.payload.success) {
+              dispatch(
+          candidateMatchMiddleWare({ 
+             can_id:res.payload?.can_id.toString(),
+          }),
+        )
           setReload(false);
           dispatch(profileEditMiddleWare({jd_id:localStorage.getItem('careerJobViewJobId')}));
           Toast('Qualifications added successfully');

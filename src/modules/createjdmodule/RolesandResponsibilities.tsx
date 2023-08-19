@@ -1,5 +1,7 @@
+import { spawn } from 'child_process';
+import * as Yup from 'yup';
 import Chart from '../../uikit/Chart/Chart';
-import { PRIMARY } from '../../uikit/Colors/colors';
+import { BLACK, PRIMARY } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
 import { pieYValue } from '../common/commonHelper';
 import { colorCode } from '../constValue';
@@ -19,8 +21,9 @@ const RolesandResponsibilities = ({ jdDetails, profile }: Props) => {
     title: {
       text: 'Role Distribution',
       style: {
-        color: PRIMARY,
+        color: BLACK,
         fontWeight: 'bold',
+        fontSize:14
       },
     },
     plotOptions: {
@@ -53,7 +56,7 @@ const RolesandResponsibilities = ({ jdDetails, profile }: Props) => {
             y: pieYValue(profile.business_intelligence),
           },
           {
-            name: 'Devops Engineer',
+            name: 'DevOps Engineer',
             y: pieYValue(profile.devops),
           },
           {
@@ -71,9 +74,10 @@ const RolesandResponsibilities = ({ jdDetails, profile }: Props) => {
         <td
           className={styles.des}
           dangerouslySetInnerHTML={{
-            __html: jdDetails.richtext_job_description,
+            __html:jdDetails.richtext_job_description,
           }}
         />
+        {console.log("htmldata:",jdDetails.richtext_job_description)}
       </Flex>
       <Flex flex={4}>
         <Chart options={options} />

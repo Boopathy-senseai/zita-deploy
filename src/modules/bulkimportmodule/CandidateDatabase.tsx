@@ -18,6 +18,7 @@ type MyProps = {
   setUpgrade: (arg: boolean) => void;
   candidatesLimit: number;
   isjdId?: number;
+  setmodel?:any;
 };
 
 type MyState = {
@@ -26,10 +27,12 @@ type MyState = {
   bulkDelete: boolean;
   setListName: any[];
   isMb: boolean;
+  setmodel?:any;
 };
 
 class CandidateDatabase extends Component<MyProps, MyState> {
   fileUploaderRef: any;
+
 
   constructor(props: any) {
     super(props);
@@ -208,6 +211,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
 
     // Bulk Submit Function
     const hanldeBulkSubmit = () => {
+      this.props.setmodel(false);
       if (
         this.props.candidatesLimit !== null &&
         this.props.candidatesLimit < this.state.files.length
@@ -223,6 +227,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
             this.setState({ isMb: false });
           })
           .catch(() => {});
+          
       }
     };
 
@@ -245,7 +250,10 @@ class CandidateDatabase extends Component<MyProps, MyState> {
     console.log(checkSelectLength500, checkSelectLength);
     return (
       <>
-      <Flex row center className={styles.overAlll}>
+      <Flex  center>
+      <Text bold color='theme' size={14}>
+      Add Attachment 
+      </Text>
         <CancelAndDeletePopup
           title={'Are you sure want to delete the files?'}
           btnCancel={() => this.setState({ bulkDelete: false })}
@@ -255,6 +263,8 @@ class CandidateDatabase extends Component<MyProps, MyState> {
           }}
           open={this.state.bulkDelete}
         />
+        <Flex column>
+        <Flex>
         <div
           onDragOver={dragOver}
           onDragEnter={dragEnter}
@@ -282,7 +292,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
 
             {checkSelectLength ? (
               <Flex columnFlex>
-                <Flex row center wrap>
+                <Flex row  wrap>
                   {unique.length !== 0 &&
                     unique.map((list: any, index: number) => {
                       return (
@@ -292,7 +302,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
                           center
                           className={styles.listStyle}
                         >
-                          <Text size={12} color={'gray'}>
+                          <Text size={12} color={'primary'} style={{width:'90px'}}>
                             {index + 1}.{list.name.substring(0, 10) + '...'}
                           </Text>
                           <div
@@ -333,7 +343,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
                     className={styles.labelStyle}
                     htmlFor={'candidate__file_upload'}
                   >
-                    <Text color="link">Browse Files</Text>
+                    <Text color="link" bold>Browse Files</Text>
                   </label>
                 </Flex>
                 <Text
@@ -357,18 +367,40 @@ class CandidateDatabase extends Component<MyProps, MyState> {
               </Flex>
             )}
           </Flex>
-        </div>
-        <Flex row center className={styles.btnContainer}>
+         </div>
+        </Flex>
+        
           {this.props.isBulkLoader === 'true' ? (
-            <Flex row center className={styles.loaderStyle}>
+            <Flex row between className={styles.loaderStyle} >
+            <Flex row  >
               <Loader size="medium" withOutOverlay />
-              <Text color="gray" style={{ marginLeft: 16 }}>
+              <Text color="gray" style={{ marginLeft: 16 ,marginTop:'3px'}}>
                 Processing...
               </Text>
             </Flex>
+        </Flex>
           ) : (
             <Fragment>
-            
+            <Flex row between  >
+            <Flex className={styles.btnContainer1} style={{justifyContent:'none'}}>
+                {checkSelectLength && (
+                  <Button
+                    onClick={() => this.setState({ bulkDelete: true })}
+                    types='secondary'
+                    
+                  >
+                    Clear All
+                  </Button>
+                )}
+            </Flex>
+            <Flex row className={styles.btnContainer}>
+                <Button
+                types="close"
+                  onClick={() => this.props.setmodel(false)}
+                >
+                Cancel
+                </Button>
+                  
                 <Button
                   disabled={!checkSelectLength || !checkSelectLength500}
                   className={styles.btnStyle}
@@ -376,18 +408,12 @@ class CandidateDatabase extends Component<MyProps, MyState> {
                 >
                   Bulk Import
                 </Button>
-        
-              {checkSelectLength && (
-                <Text
-                  onClick={() => this.setState({ bulkDelete: true })}
-                  className={styles.clearStyle}
-                  color={'link'}
-                >
-                  Clear All
-                </Text>
-              )}
+                
+            </Flex>
+            </Flex>
             </Fragment>
           )}
+        
         </Flex>
       </Flex>
        {(checkSelectLength && !checkSelectLength500) && (

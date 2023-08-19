@@ -18,6 +18,7 @@ import SelectTag from '../../uikit/SelectTag/SelectTag';
 import Text from '../../uikit/Text/Text';
 import { isEmpty, mailformat } from '../../uikit/helper';
 import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
+import { candidateMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import {
   // onlyNumber,
   letters,
@@ -124,6 +125,11 @@ Props) => {
     dispatch(bulkImportUpdatePersonalMiddleWare({ formData })).then(
       (res: any) => {
         if (res.payload.success) {
+          dispatch(
+            candidateMatchMiddleWare({ 
+              can_id:canId,
+            }),
+          )
           dispatch(uploadedProfileViewMiddleWare({ id: canId }));
           Toast('Personal Info updated successfully');
           setReload(false);
@@ -257,15 +263,7 @@ Props) => {
 
       {isLoader && <Loader />}
       <Flex className={styles.overAll}>
-        <div
-          className={styles.svgClose}
-          onClick={onCloseModal}
-          tabIndex={-1}
-          role="button"
-          onKeyDown={() => {}}
-        >
-          <SvgCloseSmall />
-        </div>
+        
         <Text
           align="center"
           size={16}
@@ -288,10 +286,11 @@ Props) => {
                 required
                 value={formik.values.firstname}
                 onChange={(e) => {
-                  if (e.target.value === '' || letters.test(e.target.value)) {
+                  console.log("valueee",e.target.value)
+                  
                     formik.setFieldValue(`firstname`, e.target.value);
                     setReload(true);
-                  }
+                  
                 }}
               />
               <ErrorMessage
@@ -454,8 +453,9 @@ Props) => {
           </Flex>
         </Flex>
 
-        <Flex end className={styles.updateButton}>
-          <Button onClick={formik.handleSubmit}>Update</Button>
+        <Flex end className={styles.updateButton} row>
+          <Button  onClick={onCloseModal} types='close'>Cancel</Button>
+          <Button onClick={formik.handleSubmit} style={{marginLeft:'20px'}}>Update</Button>
         </Flex>
       </Flex>
     </Flex>

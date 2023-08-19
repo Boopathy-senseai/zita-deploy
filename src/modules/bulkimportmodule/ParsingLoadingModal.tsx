@@ -14,6 +14,7 @@ type Props = {
   title: string;
   loader?: boolean;
   info?: boolean;
+  css?:boolean;
 };
 
 const ParsingLoadingModal = ({
@@ -23,6 +24,7 @@ const ParsingLoadingModal = ({
   des,
   loader,
   info,
+  css,
 }: Props) => {
   return (
     <Modal open={open}>
@@ -30,8 +32,8 @@ const ParsingLoadingModal = ({
         <Flex column>
           <Flex row center>
             {loader && <Loader withOutOverlay size={'small'} />}
-            {info && <SvgInfo />}
-            <Text className={styles.flexConatiner} type="titleMedium">
+           
+            <Text className={css?null:styles.flexConatiner} type="titleMedium">
               {title}
             </Text>
           </Flex>

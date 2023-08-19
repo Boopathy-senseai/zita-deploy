@@ -10,8 +10,6 @@ import SelectTag from '../../uikit/SelectTag/SelectTag';
 import Toast from '../../uikit/Toast/Toast';
 import InputSearch from '../../uikit/InputSearch/InputSearch';
 import Button from '../../uikit/Button/Button';
-import { isEmpty} from '../../uikit/helper';
-import { space} from '../constValue';
 import { AppDispatch } from '../../store';
 import { ERROR_MESSAGE, THIS_FIELD_REQUIRED } from '../constValue';
 import styles from './talentaction.module.css';
@@ -112,7 +110,7 @@ const TalentAction = ({
     // }
     // if ((((formik.values.location).length )<1)) {
     //    errors.location = "Space is not a character";
-    // }
+    // 
       return errors;
   };
   const SignupSchema = Yup.object().shape({

@@ -6,7 +6,7 @@ type Porps = {
 };
 const Chart = ({ options }: Porps) => (
   <div>
-    <HighchartsReact highcharts={Highcharts} options={options} />
+    <HighchartsReact highcharts={Highcharts} options={options}    containerProps={{ style: { height: "340px" } }}/>
   </div>
 );
 

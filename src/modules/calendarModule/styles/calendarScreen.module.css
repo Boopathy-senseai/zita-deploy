@@ -20,6 +20,8 @@
 .dropDownBtn {
   max-width: 160px;
   height: 30px;
+  max-width: 160px;
+  height: 30px;
   outline: none;
   border-radius: 6px;
   border: 0;
@@ -27,7 +29,11 @@
   justify-content: center;
   align-items: center;
   padding: 0px 10px;
+  align-items: center;
+  padding: 0px 10px;
   margin: 0;
+  background-color: unset;
+  border: 1px solid #c3c3c3;
   background-color: unset;
   border: 1px solid #c3c3c3;
 }
@@ -39,6 +45,7 @@
   justify-content: center;
   align-items: center;
   margin-right: 10px;
+  margin-right: 10px;
 }
 
 /* .dropDownBtn div {
@@ -46,6 +53,7 @@
   height: 18px;
   align-self: center;
 } */
+
 
 .dropDownCard {
   display: none;

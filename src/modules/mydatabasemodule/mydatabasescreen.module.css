@@ -1,6 +1,6 @@
 .filterOverAll {
   /* padding-top: 20px; */
-  padding-right: 16px;
+  /* padding-right: 16px; */
   position: relative;
   
 }
@@ -22,14 +22,15 @@
   align-items: center;
 }
 .tabsContainer {
-  padding-top: 15px;
+  padding-top: 10px;
   width: 100%;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
 }
 
 .tabsStyle {
-  margin-top: 15px;
+  margin-top: 50px;
   position: relative;
+  bottom: 50px;
 }
 .infiStyle {
   position: absolute;
@@ -40,10 +41,10 @@
   margin-left: 4px;
 }
 
-.overAll {
+/* .overAll {
   margin: auto;
   max-width: 1300px;
-}
+} */
 
 @media screen and (min-width: 1280px) and (max-width: 1350px) {
   .overAll {
@@ -63,25 +64,27 @@
 }
 .ribbon{
   background-color: #EEE8EC;
-  height: 45px;
+  height: 40px;
 }
 .triangle {
-
   width: 0px;
-    
   height: 0px;
-    
   border-top: 22px solid transparent;
-    
   border-right: 30px solid white;
-    
   border-bottom: 22px solid transparent;
-    
   position: relative;
-    
-  top: 71;
-    
-  right: 43;
-  
-    
-    }
+  top: -1px;
+  right: 0px;
+}
+
+.titleContainer {
+  padding: 8px;
+  background-color: #eee8ec;
+  font-size: 12px;
+  margin-bottom: 10px;
+  display: flex;
+  color: #581845;
+  justify-content: space-between;
+  position: relative;
+  padding-right: 40px;
+}

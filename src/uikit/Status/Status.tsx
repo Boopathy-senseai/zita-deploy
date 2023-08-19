@@ -6,7 +6,7 @@ import styles from './status.module.css';
 const cx = classNames.bind(styles);
 
 // Status Types
-export type statusColor = 'black' | 'gray' | 'success' | 'error' | 'yellow';
+export type statusColor = 'black' | 'gray' | 'success' | 'error' | 'yellow' ;
 
 type Props = {
   color?: statusColor;
@@ -39,7 +39,7 @@ const Status = (props: Props) => {
 
 /* eslint max-len: ["error", { "code": 2000 }] */
 const defaultProps = {
-  color: 'black',
+  color:'black',
 };
 
 Status.defaultProps = defaultProps;

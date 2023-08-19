@@ -8,14 +8,22 @@ import Text from '../../uikit/Text/Text';
 import Toast from '../../uikit/Toast/Toast';
 import Button from '../../uikit/Button/Button';
 import { getBlur, getFocus, isEmpty } from '../../uikit/helper';
+import { ErrorMessage } from '../../uikit';
+import Svgchatmessage from '../../icons/SvgChatmessage';
 import SvgChat from '../../icons/SvgChat';
 import { AppDispatch, RootState } from '../../store';
 import Loader from '../../uikit/Loader/Loader';
 import MessageTopBar from '../applicantprofilemodule/MessageTopBar';
 import MessageTemplate from '../applicantprofilemodule/MessageTemplate';
+// import NotesTab from '../applicantprofilemodule/NotesTab';
 import MessageList from '../applicantprofilemodule/MessagesList';
 import styles from '../applicantprofilemodule/messagetab.module.css';
-import { CANCEL, ERROR_MESSAGE } from '../constValue';
+import {
+  CANCEL,
+  ERROR_MESSAGE,
+  mentionnotes,
+  mentionspecialcharacter,
+} from '../constValue';
 import { Message } from './candidateTypes';
 import { candidateMessageMiddleWare } from './store/middleware/candidateMiddleWare';
 
@@ -45,18 +53,17 @@ const CandidateMessageTab = () => {
         };
       },
     );
-
   useEffect(() => {
     dispatch(candidateMessageMiddleWare({ can_id, jd_id }));
   }, [can_id, jd_id]);
 
-    // loop 5 sec once candidateMessageMiddleWare api and message api
-    useEffect(() => {
-      const interval = setInterval(() => {
-        dispatch(candidateMessageMiddleWare({ can_id, jd_id }));
-      }, 5000);
-      return () => clearInterval(interval);
-    }, []);
+  // loop 5 sec once candidateMessageMiddleWare api and message api
+  useEffect(() => {
+    const interval = setInterval(() => {
+      dispatch(candidateMessageMiddleWare({ can_id, jd_id }));
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     setMessage(message);
@@ -78,6 +85,7 @@ const CandidateMessageTab = () => {
         setPostLoader(false);
         dispatch(candidateMessageMiddleWare({ can_id, jd_id }));
         formik.setFieldValue('userMessage', '');
+        formik.resetForm();
         getBlur(`message_list_date_${messages.length - 1}`);
       })
       .catch(() => {
@@ -85,16 +93,39 @@ const CandidateMessageTab = () => {
         Toast(ERROR_MESSAGE, 'LONG', 'error');
       });
   };
-
+  type notes = {
+    userMessage: string;
+  };
+  const parser = new DOMParser();
+  const handlemessage = (values: notes) => {
+    const errors: Partial<notes> = {};
+    const doc = parser.parseFromString(formik.values.userMessage, 'text/html');
+    const textNodes = doc.querySelectorAll('body')[0].textContent;
+    const texttrim = textNodes.trim();
+    if (texttrim === '') {
+      errors.userMessage = '';
+    }
+    if (isEmpty(textNodes)) {
+      errors.userMessage = 'Enter valid Messages.';
+    } else if (
+      !mentionnotes.test(texttrim) &&
+      mentionspecialcharacter.test(textNodes)
+    ) {
+      errors.userMessage = 'Message length should not exceed 2000 characters.';
+    }
+    return errors;
+  };
   const formik = useFormik({
     initialValues: {
       userMessage: '',
     },
     onSubmit: hanldeSubmit,
+    validate: handlemessage,
   });
 
   const handleCancel = () => {
     formik.setFieldValue('userMessage', '');
+    formik.resetForm();
   };
 
   const client_id_id = candidate_details[0].client_id_id
@@ -107,56 +138,95 @@ const CandidateMessageTab = () => {
     setUseTemplate(true);
   };
   return (
-    <div
+    <Flex
       style={{
-        height: window.innerHeight - 230,
+        height: window.innerHeight -100,
       }}
       className={styles.overAll}
+      flex={6.4}
     >
-      <Text color="theme" bold>
-        Message to Candidate:
-      </Text>
-      <MessageTopBar formik={formik} />
-      <MessageTemplate
-        open={useTemplate}
-        formik={formik}
-        messageTemplate={messageTemplate}
-        hanldeClose={hanldeClose}
-      />
-
-      <Flex row center end className={styles.btnContainer}>
-        <Text
-          className={'pointer'}
-          bold
-          color="theme"
-          textStyle="underline"
-          onClick={hanldeOpen}
+      <Flex row center start style={{ padding: '16px 16px 0px 16px' }}>
+        <Flex
+          style={{
+            fontSize: '14px',
+            marginBottom: 5,
+          }}
         >
-          Use Templates
-        </Text>
-        <Button
-          onClick={handleCancel}
-          className={styles.cancelBtn}
-          types="secondary"
-        >
-          {CANCEL}
-        </Button>
-        <Button
-          disabled={isEmpty(formik.values.userMessage)}
-          onClick={formik.handleSubmit}
-        >
-          Send
-        </Button>
-        {isPostLoader && (
-          <div style={{ marginLeft: 8 }}>
-            <Loader size="small" withOutOverlay />
-          </div>
-        )}
+          {' '}
+          <Text bold>Message to Candidate:</Text>
+        </Flex>
+        
       </Flex>
+
+      <Flex style={{ padding: '12.5px 16px 0px 16px' }}>
+        <MessageTopBar formik={formik} />
+        <ErrorMessage
+          touched={formik.touched}
+          errors={formik.errors}
+          name="userMessage"
+        />
+        <MessageTemplate
+          open={useTemplate}
+          formik={formik}
+          messageTemplate={messageTemplate}
+          hanldeClose={hanldeClose}
+        />
+      </Flex>
+      <Flex
+        row
+        center
+        end
+        className={styles.btnContainer}
+        marginTop={11}
+        style={{ padding: '0px 16px 0px ' }}
+      >
+        <Flex center onClick={hanldeOpen}>
+          <Text
+            className={'pointer'}
+            bold
+            color="theme"
+            style={{
+              fontSize: '14px',
+               
+            }}
+          >
+            Use Templates
+          </Text>
+        </Flex>
+        <Flex row>
+          <Button
+            onClick={handleCancel}
+            className={styles.cancelBtn}
+            types="close"
+          >
+            {CANCEL}
+          </Button>
+          {isPostLoader ? (
+            <Flex center middle style={{ width: '70px' }}>
+              <Loader size="small" withOutOverlay />
+            </Flex>
+          ) : (
+            <Button
+              width={'70px'}
+              // disabled={isEmpty(formik.values.userMessage)}
+              onClick={formik.handleSubmit}
+              types="primary"
+            >
+              Send
+            </Button>
+          )}
+        </Flex>
+        {/* {isPostLoader && (
+            <div style={{ marginLeft: 8 }}>
+              <Loader size="small" withOutOverlay />
+            </div>
+          )} */}
+      </Flex>
+
       {messages.length === 0 ? (
         <Flex flex={1} columnFlex center middle>
-          <SvgChat />
-          <Text style={{ paddingTop: 20 }} color="gray">
+          <Svgchatmessage fill='gray' />
+          <Text style={{ paddingTop: 10 }} color="gray">
             No conversations to show
           </Text>
         </Flex>
@@ -172,7 +242,7 @@ const CandidateMessageTab = () => {
           />
         </Flex>
       )}
-    </div>
+    </Flex>
   );
 };
 export default CandidateMessageTab;

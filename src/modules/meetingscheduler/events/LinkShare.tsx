@@ -119,13 +119,15 @@ const LinkShare = (props) => {
           </Flex>
         </Flex>
         <Flex className={styles.line}></Flex>
-        <Text size={14}>Candidate/Applicants</Text>
+        <Text size={13}>Candidate/Applicants</Text>
         <Flex row width={300}>
           <InputText
             style={{
               width: '100%',
               marginBottom: '15px',
               marginTop: '5px',
+              paddingLeft:'8px',
+              paddingRight:'30px'
             }}
             onChange={(e) => {
               searchItems(e.target.value);
@@ -133,7 +135,7 @@ const LinkShare = (props) => {
             placeholder="Search candidate or applicant by the name"
             inputConatinerClass={styles.inputContainer}
             actionRight={() => (
-              <label htmlFor={'candidate/applicant found'} style={{ margin: 0 }}>
+              <label htmlFor={'candidate/applicant found'} style={{ margin: 0, marginTop : '6px' }}>
                 <SvgSearch />
               </label>
             )}

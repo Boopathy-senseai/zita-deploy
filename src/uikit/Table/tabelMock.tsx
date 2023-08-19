@@ -10,7 +10,7 @@ export const TABLE_COLUMN_DATA = [
     key: 'email',
   },
   {
-    title: 'Contact Number',
+    title: 'Contact ',
     dataIndex: 'contact',
     key: 'contact',
   },
@@ -34,11 +34,7 @@ export const TABLE_COLUMN_DATA = [
     dataIndex: 'skills',
     key: 'skills',
   },
-  {
-    title: 'Imported On',
-    dataIndex: 'created_at',
-    key: 'created_at',
-  },
+
   // {
   //   title: "Updated On",
   //   dataIndex: "updated_by",

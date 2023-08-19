@@ -20,6 +20,7 @@ import Flex from '../../uikit/Flex/Flex';
 import Card from '../../uikit/Card/Card';
 import CancelAndDeletePopup from '../common/CancelAndDeletePopup';
 import Text from '../../uikit/Text/Text';
+import { Modal } from '../../uikit';
 import PersonalInformationEdit from './PersonalInfoTableData';
 // import { THIS_FIELD_REQUIRED } from './../constValue';
 // import AddandUpdateWorkExperienceEdit from './ExpAdd';
@@ -36,6 +37,7 @@ import {
 } from './store/middleware/bulkImportMiddleware';
 // import { applocationFormPostMiddleWare } from './../accountsettingsmodule/buildyourcareerpage/store/middleware/buildyourcareerpagemiddleware';
 import styles from './profileviewmodal.module.css';
+
 
 const inital: applicationFormikForms = {
   qualification: '',
@@ -125,17 +127,17 @@ const ProfileViewModal = ({
       : `${emp_data.work_exp} Year`
     : '';
   const data = [
-    { title: 'Name:', value: notSpecified(emp_data?.first_name), right: 188 },
-    { title: 'Email:', value: notSpecified(emp_data?.email), right: 188 },
+    { title: 'Name:', value: notSpecified(emp_data?.first_name), right: 184 },
+    { title: 'Email:', value: notSpecified(emp_data?.email), right: 184 },
     {
       title: 'Contact Number:',
       value: emp_data?.contact,
-      right: 116,
+      right: 118,
     },
     {
       title: 'Location:',
       value: notSpecified(emp_data?.location),
-      right: 167,
+      right: 165,
     },
     // { title: 'Address:', value: notSpecified(address), right: 172 },
 
@@ -151,8 +153,8 @@ const ProfileViewModal = ({
     },
     {
       title: 'Skills:',
-      value: notSpecified(emp_data?.skills),
-      right: 187,
+      value: notSpecified(emp_data?.skills?.replace(/,/g, ', ')),
+      right: 184.5,
     },
   ];
   // formik validation
@@ -374,7 +376,7 @@ const ProfileViewModal = ({
                     marginBottom: 30,
                   }}
                 >
-                  <Flex className={styles.titleStyle}>
+                  <Flex className={styles.titleStyle} middle>
                     {/* <Text size={16} bold>
                       Personal Information
                     </Text> */}
@@ -385,8 +387,8 @@ const ProfileViewModal = ({
                     />
                   </Flex>
                   <Card className={styles.cardOverAll}>
-                    {isProfileView && (
-                      <Flex>
+                  <Modal open={isProfileView} >
+                      <Flex style={{backgroundColor:'#ffffff',padding:'25px',height:'496px',width:'650px'}}>
                         <PersonalInformationEdit
                           cancel={() => setProfileView(false)}
                           skills_list={skills_list}
@@ -395,9 +397,8 @@ const ProfileViewModal = ({
                           displayHandler={() => setDisplay(false)}
                         />
                       </Flex>
-                    )
-                  }
-                    {!isProfileView && (
+                  </Modal>
+                    
                       <>
                         <div
                           className={styles.svgEdit}
@@ -417,11 +418,11 @@ const ProfileViewModal = ({
                             top
                             className={styles.insideFlex}
                           >
-                            <Text
-                              bold
+                            <Text 
                               style={{
                                 paddingRight: list.right,
                                 whiteSpace: 'nowrap',
+                                color:'#581845'
                               }}
                             >
                               {list.title}
@@ -447,7 +448,7 @@ const ProfileViewModal = ({
                         ))}
                         </div>
                       </>
-                    )}
+                  
                   </Card>
                   {/* <Flex className={styles.titleStyle}>
                     <Text size={16} bold>
@@ -701,7 +702,7 @@ const ProfileViewModal = ({
                   </Card>*/}
                   {jdId !== undefined && (
                     <Flex className={styles.titleStyle}>
-                      <Text size={16} bold>
+                      <Text size={14} bold>
                         Questionnaire
                       </Text>
                     </Flex>

@@ -240,7 +240,7 @@ const CreateJdWithNonDs = () => {
             touched,
           }) => (
             <Form>
-              <Card className={styles.cardOverAll}>
+              <Flex className={styles.cardOverAll}>
                 <JobDescriptionTemplate
                   jdTemplates={jdTemplates}
                   open={isTemp}
@@ -272,7 +272,7 @@ const CreateJdWithNonDs = () => {
                   job_description={job_description}
                   onDirty={onDirty}
                 />
-              </Card>
+              </Flex>
               <JobDetails
                 values={values}
                 handleChange={handleChange}

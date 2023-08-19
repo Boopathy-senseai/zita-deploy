@@ -4,7 +4,7 @@ import { Dropdown } from 'react-bootstrap';
 import Flex from '../../../uikit/Flex/Flex';
 import Text from '../../../uikit/Text/Text';
 import { isEmpty } from '../../../uikit/helper';
-import SvgCopy from '../../../icons/SvgCopy';
+import SvgEventcopy from '../../../icons/SvgEventcopy';
 import SvgRoundAdd from '../../../icons/SvgRoundAdd';
 import Button from '../../../uikit/Button/Button';
 import SelectTag from '../../../uikit/SelectTag/SelectTag';
@@ -64,6 +64,7 @@ const DayTimeSplit = (props) => {
   const [day5, setDay5] = useState([]);
   const [day6, setDay6] = useState([]);
   const [day7, setDay7] = useState([]);
+  const [DayStart, setDayStart] = useState([]);
   const [final, setfinal] = useState([]);
   const [copybtn, setcopybtn] = useState(false);
   const [copyOpen, setcopyOpen] = useState(false);
@@ -80,7 +81,6 @@ const DayTimeSplit = (props) => {
   useEffect(() => {
     // changeDuartion()
     TimeSlots(days);
-    const ScheduleData = { sunday };
     if(editModel !== null){
       setdayoption(true);
     }
@@ -141,8 +141,8 @@ const DayTimeSplit = (props) => {
     }
 
   }, [
-    mondaycheck,
     sundaycheck,
+    mondaycheck,
     tuesdaycheck,
     wednesdaycheck,
     thursdaycheck,
@@ -229,10 +229,11 @@ const DayTimeSplit = (props) => {
     // changeDuartion()
     const timeSlots = [];
     const startTime = new Date();
-    startTime.setHours(9, 0, 0); // Set start time to 9:00 AM
+    startTime.setHours(0, 0, 0); // Set start time to 9:00 AM
     const endTime = new Date();
-    endTime.setHours(18, 0, 0); // Set end time to 6:00 PM
-    const timeIncrement = parseInt(duration); // in minutes
+    endTime.setHours(23, 45, 0); // Set end time to 6:00 PM
+    const defaulMin = "15 Minutes"
+    const timeIncrement = parseInt(defaulMin); // in minutes
 
     let currentTime = startTime;
     let index = 0;
@@ -305,18 +306,22 @@ const DayTimeSplit = (props) => {
     //   // // setDay6(newdata);
     //   // // setDay7(newdata);
     // }
-    if (days === 'Calendar Days' && timeSlots.length > 1 && dayoption === false || changeCount === 1 )  {
+    console.log("timeSlotstimeSlotstimeSlots",timeSlots)
+    if (days === 'Calendar Days' && timeSlots.length > 1 && dayoption === false)  {
+
       // alert("if:")
       const newdata = [...timeSlots];
       newdata.shift();  
       console.log('dayrrrrrrr', sunday);     
-        setDay1(newdata);
-        setDay2(newdata);
-        setDay3(newdata);
-        setDay4(newdata);
-        setDay5(newdata);
-        setDay6(newdata);
-        setDay7(newdata);
+      setDay2(newdata);
+      setDay1(newdata);
+      setDay3(newdata);
+      setDay4(newdata);
+      setDay5(newdata);
+      setDay6(newdata);
+      setDay7(newdata);
+      setDayStart(newdata)
+        
       
     }
 
@@ -478,10 +483,17 @@ const DayTimeSplit = (props) => {
     const updatedSunday = [...sunday];
    
     if (text === 'starttime') {
-      if(label !== "6:00 PM"){ 
+      if(label !== "11:45 PM"){ 
         
         if(updatedSunday[index].endtime !== ''){
          
+          if (sunday[0].endtime !== ''){
+            const values = DayStart
+            const selectedIndex = values.indexOf(e);
+            const elementsAfterIndex = values.slice(selectedIndex + 1);
+            setDay1(elementsAfterIndex);
+            
+          }
           updatedSunday[index].endtime = '';
           // const elementsAfterIndex = updatedSunday.slice(0,index + 1);  
           // console.log(".....>>>>>>>>>>>>>>>>",elementsAfterIndex)  
@@ -490,6 +502,7 @@ const DayTimeSplit = (props) => {
           });      
           console.log("filteredElementsfilteredElementsfilteredElementsfilteredElements",filteredElements)
           setSunday(filteredElements);
+          
         // updatedSunday[index].starttime= label;
 
         // }else{
@@ -500,9 +513,8 @@ const DayTimeSplit = (props) => {
         if(updatedSunday[index-1]?.endtime !== ''){
           updatedSunday[index].starttime= label;
         }
-
         if(updatedSunday[0].endtime === ''){
-          updatedSunday[0].endtime = "6:00 PM"
+          // updatedSunday[0].endtime = "6:00 PM"
         }
       }
     }
@@ -546,10 +558,10 @@ const DayTimeSplit = (props) => {
     const selectedIndex = values.indexOf(e);
     console.log("valuesvaluesvaluesvaluesvalues",values,"\n",selectedIndex)
 
-    if (selectedIndex !== -1 && updatedSunday[index].starttime !== '' && label !== "6:00 PM") {
-      
+    if (selectedIndex !== -1 && updatedSunday[index].starttime !== '' && label !== "6:00 PM") {      
       console.log("elementsAfterIndexelementsAfterIndex")
-      if (text=== 'starttime'){
+      if (text === 'starttime'){
+
         const elementsAfterIndex = values.slice(selectedIndex + 1);
         setDay1(elementsAfterIndex);
       }else{
@@ -558,6 +570,7 @@ const DayTimeSplit = (props) => {
       }
       // setDay1(elementsAfterIndex);
     }else if (updatedSunday[index].endtime === "6:00 PM"){
+
       
       const elementsAfterIndex = values.slice(selectedIndex + 1);
       setDay1(elementsAfterIndex);
@@ -565,7 +578,7 @@ const DayTimeSplit = (props) => {
   };
 
   const handleAddClickForSunday = () => {
-    if (sunday[0].endtime !== '6:00 PM' && day1.length > 1) {
+    if (day1.length > 1) {
       setSunday([...sunday, { starttime: '', endtime: '' }]);
     }
   };
@@ -634,8 +647,15 @@ const DayTimeSplit = (props) => {
     const { id, label } = e;
     const updatedMonday = [...monday];
     if (text === 'starttime') {
-      if(label !== "6:00 PM"){   
+      if(label !== "11:45 PM"){   
         if(updatedMonday[index].endtime !== ''){
+          if (monday[0].endtime !== ''){
+            const values = DayStart
+            const selectedIndex = values.indexOf(e);
+            const elementsAfterIndex = values.slice(selectedIndex + 1);
+            setDay2(elementsAfterIndex);
+            
+          }
           updatedMonday[index].endtime = '';
           // const elementsAfterIndex = updatedSunday.slice(0,index + 1);  
           // console.log(".....>>>>>>>>>>>>>>>>",elementsAfterIndex)  
@@ -650,7 +670,7 @@ const DayTimeSplit = (props) => {
         }
 
         if(updatedMonday[0].endtime === ''){
-          updatedMonday[0].endtime = "6:00 PM"
+          // updatedMonday[0].endtime = "6:00 PM"
         }
       }
     } else if (text === 'endtime') {
@@ -710,7 +730,7 @@ const DayTimeSplit = (props) => {
   };
 
   const handleAddClickForMonday = () => {
-    if (monday[0].endtime !== '6:00 PM' && day2.length > 1) {
+    if (day2.length > 1) {
       setMonday([...monday, { starttime: '', endtime: '' }]);
     }
   };
@@ -757,8 +777,14 @@ const DayTimeSplit = (props) => {
     const { id, label } = e;
     const updatedTuesday = [...tuesday];
     if (text === 'starttime') {
-      if(label !== "6:00 PM"){       
+      if(label !== "11:45 PM"){       
         if(updatedTuesday[index].endtime !== ''){
+          if (tuesday[0].endtime !== ''){
+            const values = DayStart
+            const selectedIndex = values.indexOf(e);
+            const elementsAfterIndex = values.slice(selectedIndex + 1);
+            setDay3(elementsAfterIndex);            
+          }
           updatedTuesday[index].endtime = '';
           // const elementsAfterIndex = updatedSunday.slice(0,index + 1);  
           // console.log(".....>>>>>>>>>>>>>>>>",elementsAfterIndex)  
@@ -773,7 +799,7 @@ const DayTimeSplit = (props) => {
         }
 
         if(updatedTuesday[0].endtime === ''){
-          updatedTuesday[0].endtime = "6:00 PM"
+          // updatedTuesday[0].endtime = "6:00 PM"
         }
       }
     } else if (text === 'endtime') {
@@ -823,7 +849,7 @@ const DayTimeSplit = (props) => {
   };
 
   const handleAddClickForTuesday = () => {
-    if (tuesday[0].endtime !== '6:00 PM' && day3.length > 1) {
+    if (day3.length > 1) {
       setTuesday([...tuesday, { starttime: '', endtime: '' }]);
     }
   };
@@ -864,15 +890,21 @@ const DayTimeSplit = (props) => {
     list.splice(index, 1);
     setTuesday(list);
   };
-  // useEffect(()=>{
-  // },[tuesday])
+
 
   const handleInputChangeForWednesday = (e, index, text) => {
     const { id, label } = e;
     const updatedWednesday = [...wednesday];
     if (text === 'starttime') {
-      if(label !== "6:00 PM"){        
+      if(label !== "11:45 PM"){        
         if(updatedWednesday[index].endtime !== ''){
+          if (wednesday[0].endtime !== ''){
+            const values = DayStart
+            const selectedIndex = values.indexOf(e);
+            const elementsAfterIndex = values.slice(selectedIndex + 1);
+            setDay4(elementsAfterIndex);
+            
+          }
           updatedWednesday[index].endtime = '';
           // const elementsAfterIndex = updatedSunday.slice(0,index + 1);  
           // console.log(".....>>>>>>>>>>>>>>>>",elementsAfterIndex)  
@@ -887,7 +919,7 @@ const DayTimeSplit = (props) => {
         }
               
         if(updatedWednesday[0].endtime === ''){
-          updatedWednesday[0].endtime = "6:00 PM"
+          // updatedWednesday[0].endtime = "6:00 PM"
         }
       }
     } else if (text === 'endtime') {
@@ -938,7 +970,7 @@ const DayTimeSplit = (props) => {
   };
 
   const handleAddClickForWednesday = () => {
-    if (wednesday[0].endtime !== '6:00 PM' && day4.length > 1) {
+    if (day4.length > 1) {
       setWednesday([...wednesday, { starttime: '', endtime: '' }]);
     }
   };
@@ -985,8 +1017,15 @@ const DayTimeSplit = (props) => {
     const { id, label } = e;
     const updatedThursday = [...thursday];
     if (text === 'starttime') {
-      if(label !== "6:00 PM"){    
+      if(label !== "11:45 PM"){    
         if(updatedThursday[index].endtime !== ''){
+          if (thursday[0].endtime !== ''){
+            const values = DayStart
+            const selectedIndex = values.indexOf(e);
+            const elementsAfterIndex = values.slice(selectedIndex + 1);
+            setDay5(elementsAfterIndex);
+            
+          }
           updatedThursday[index].endtime = '';
           // const elementsAfterIndex = updatedSunday.slice(0,index + 1);  
           // console.log(".....>>>>>>>>>>>>>>>>",elementsAfterIndex)  
@@ -1001,7 +1040,7 @@ const DayTimeSplit = (props) => {
         }
              
         if(updatedThursday[0].endtime === ''){
-          updatedThursday[0].endtime = "6:00 PM"
+          // updatedThursday[0].endtime = "6:00 PM"
         }
       }
     } else if (text === 'endtime') {
@@ -1051,7 +1090,7 @@ const DayTimeSplit = (props) => {
   };
 
   const handleAddClickForThursday = () => {
-    if (thursday[0].endtime !== '6:00 PM' && day5.length > 1) {
+    if (day5.length > 1) {
       setThursday([...thursday, { starttime: '', endtime: '' }]);
     }
   };
@@ -1097,8 +1136,16 @@ const DayTimeSplit = (props) => {
     const { id, label } = e;
     const updatedFriday = [...friday];
     if (text === 'starttime') {
-      if(label !== "6:00 PM"){      
+      if(label !== "11:45 PM"){    
+          
         if(updatedFriday[index].endtime !== ''){
+          if (friday[0].endtime !== ''){
+            const values = DayStart
+            const selectedIndex = values.indexOf(e);
+            const elementsAfterIndex = values.slice(selectedIndex + 1);
+            setDay6(elementsAfterIndex);
+            
+          }
           updatedFriday[index].endtime = '';
           // const elementsAfterIndex = updatedSunday.slice(0,index + 1);  
           // console.log(".....>>>>>>>>>>>>>>>>",elementsAfterIndex)  
@@ -1114,7 +1161,7 @@ const DayTimeSplit = (props) => {
                 
         
         if(updatedFriday[0].endtime === ''){
-          updatedFriday[0].endtime = "6:00 PM"
+          // updatedFriday[0].endtime = "6:00 PM"
         }
       }
     } else if (text === 'endtime') {
@@ -1164,7 +1211,7 @@ const DayTimeSplit = (props) => {
   };
 
   const handleAddClickForFriday = () => {
-    if (friday[0].endtime !== '6:00 PM' && day6.length > 1) {
+    if (day6.length > 1) {
       setFriday([...friday, { starttime: '', endtime: '' }]);
     }
   };
@@ -1212,8 +1259,15 @@ const DayTimeSplit = (props) => {
     const updatedSaturday = [...saturday];
     console.log("GGGGGGGEEEETTTTETETETTE",e,index,text,updatedSaturday)
     if (text === 'starttime') {
-      if(label !== "6:00 PM"){   
+      if(label !== "11:45 PM"){   
         if(updatedSaturday[index].endtime !== ''){
+          if (saturday[0].endtime !== ''){
+            const values = DayStart
+            const selectedIndex = values.indexOf(e);
+            const elementsAfterIndex = values.slice(selectedIndex + 1);
+            setDay7(elementsAfterIndex);
+            
+          }
           updatedSaturday[index].endtime = '';
           // const elementsAfterIndex = updatedSunday.slice(0,index + 1);  
           // console.log(".....>>>>>>>>>>>>>>>>",elementsAfterIndex)  
@@ -1227,7 +1281,7 @@ const DayTimeSplit = (props) => {
           updatedSaturday[index].starttime = label;
         }
         if(updatedSaturday[0].endtime === ''){
-          updatedSaturday[0].endtime = "6:00 PM"
+          // updatedSaturday[0].endtime = "6:00 PM"
         }
       }
     } else if (text === 'endtime') {
@@ -1278,7 +1332,7 @@ const DayTimeSplit = (props) => {
   };
 
   const handleAddClickForSaturday = () => {
-    if (saturday[0].endtime !== '6:00 PM' && day7.length > 1) {
+    if (day7.length > 1) {
       setSaturday([...saturday, { starttime: '', endtime: '' }]);
     }
   };
@@ -1325,8 +1379,10 @@ const DayTimeSplit = (props) => {
 
   const dateCheckboxChange = (event, name) => {
     const { value, checked } = event.target;
+    console.log("namename",name)
     if (name === 'sunday') {
       setsundaycheck(checked);
+      setDay1(DayStart)
     }
     if (name === 'monday') {
       setmondaycheck(checked);
@@ -1345,6 +1401,7 @@ const DayTimeSplit = (props) => {
     }
     if (name === 'saturday') {
       setsaturdaycheck(checked);
+      setDay7(DayStart)
     }
   };
   const dateheader = (name, value, onChange) => {
@@ -1469,11 +1526,11 @@ const DayTimeSplit = (props) => {
               <Flex row center flex={1} key={i}>
                 <Flex row center className={styles.align}>
                   <div
-                    onFocus={() => ErrMessage(day1)}
+                    onFocus={() => ErrMessage(DayStart)}
                     className={styles.selectTag}
                   >
                     <SelectTag
-                      options={day1}
+                      options={DayStart}
                       placeholder={'Time'}
                       name="starttime"
                       defaultValue={{
@@ -1500,7 +1557,7 @@ const DayTimeSplit = (props) => {
                   </div>
 
                   <div className={styles.selectTag}
-                  onFocus={() => ErrMessage(day1)}>
+                  onFocus={() => ErrMessage(DayStart)}>
                     <SelectTag
                       options={day1}
                       placeholder={'Time'}
@@ -1522,7 +1579,7 @@ const DayTimeSplit = (props) => {
                     ></SelectTag>
                   </div>
                 </Flex>
-                {day1.length > 0 ? (
+                {day1.length > 0  ? (
                   <button
                     className={styles.add}
                     type="button"
@@ -1641,8 +1698,8 @@ const DayTimeSplit = (props) => {
                                 className={styles.add}
                               >
                                 <SvgCross
-                                  width={16}
-                                  height={16}
+                                  width={12}
+                                  height={12}
                                   fill={'#581845'}
                                 />
                               </button>
@@ -1675,9 +1732,9 @@ const DayTimeSplit = (props) => {
               return(
               <Flex row center flex={1} >
                 <Flex row className={styles.align}>
-                  <div className={styles.selectTag} onFocus={() => ErrMessage(day2)} >
+                  <div className={styles.selectTag} onFocus={() => ErrMessage(DayStart)} >
                     <SelectTag
-                      options={day2}
+                      options={DayStart}
                       placeholder={'Time'}
                       name="starttime"
                       defaultValue={{
@@ -1851,8 +1908,8 @@ const DayTimeSplit = (props) => {
                                 type="button"
                               >
                                 <SvgCross
-                                  width={16}
-                                  height={16}
+                                  width={12}
+                                  height={12}
                                   fill={'#581845'}
                                 />
                               </button>
@@ -1885,9 +1942,9 @@ const DayTimeSplit = (props) => {
                 style={{ marginBottom: tuesday.length > 1 ? '10px' : '0px' }}
               >
                 <Flex row className={styles.align}>
-                  <div className={styles.selectTag} onFocus={() => ErrMessage(day3)}>
+                  <div className={styles.selectTag} onFocus={() => ErrMessage(DayStart)}>
                     <SelectTag
-                      options={day3}
+                      options={DayStart}
                       placeholder={'Time'}
                       defaultValue={{
                         value: '0',
@@ -2051,8 +2108,8 @@ const DayTimeSplit = (props) => {
                                 className={styles.add}
                               >
                                 <SvgCross
-                                  width={16}
-                                  height={16}
+                                  width={12}
+                                  height={12}
                                   fill={'#581845'}
                                 />
                               </button>
@@ -2084,9 +2141,9 @@ const DayTimeSplit = (props) => {
                 style={{ marginBottom: wednesday.length > 1 ? '10px' : '0px' }}
               >
                 <Flex row>
-                  <div className={styles.selectTag} onFocus={() => ErrMessage(day4)}>
+                  <div className={styles.selectTag} onFocus={() => ErrMessage(DayStart)}>
                     <SelectTag
-                      options={day4}
+                      options={DayStart}
                       placeholder={'Time'}
                       defaultValue={{
                         value: '0',
@@ -2265,8 +2322,8 @@ const DayTimeSplit = (props) => {
                                 className={styles.add}
                               >
                                 <SvgCross
-                                  width={16}
-                                  height={16}
+                                  width={12}
+                                  height={12}
                                   fill={'#581845'}
                                 />
                               </button>
@@ -2298,9 +2355,9 @@ const DayTimeSplit = (props) => {
                 style={{ marginBottom: thursday.length > 1 ? '10px' : '0px' }}
               >
                 <Flex row className={styles.align}>
-                  <div className={styles.selectTag} onFocus={() => ErrMessage(day5)}>
+                  <div className={styles.selectTag} onFocus={() => ErrMessage(DayStart)}>
                     <SelectTag
-                      options={day5}
+                      options={DayStart}
                       placeholder={'Time'}
                       defaultValue={{
                         value: '0',
@@ -2459,8 +2516,8 @@ const DayTimeSplit = (props) => {
                                 className={styles.add}
                               >
                                 <SvgCross
-                                  width={16}
-                                  height={16}
+                                  width={12}
+                                  height={12}
                                   fill={'#581845'}
                                 />
                               </button>
@@ -2492,9 +2549,9 @@ const DayTimeSplit = (props) => {
                 style={{ marginBottom: friday.length > 1 ? '10px' : '0px' }}
               >
                 <Flex row className={styles.align}>
-                  <div className={styles.selectTag} onFocus={() => ErrMessage(day6)}>
+                  <div className={styles.selectTag} onFocus={() => ErrMessage(DayStart)}>
                     <SelectTag
-                      options={day6}
+                      options={DayStart}
                       placeholder={'Time'}
                       defaultValue={{
                         value: '0',
@@ -2666,8 +2723,8 @@ const DayTimeSplit = (props) => {
                                 className={styles.add}
                               >
                                 <SvgCross
-                                  width={16}
-                                  height={16}
+                                  width={12}
+                                  height={12}
                                   fill={'#581845'}
                                 />
                               </button>
@@ -2700,9 +2757,9 @@ const DayTimeSplit = (props) => {
                 style={{ marginBottom: saturday.length > 1 ? '10px' : '0px' }}
               >
                 <Flex row className={styles.align}>
-                  <div className={styles.selectTag} onFocus={() => ErrMessage(day7)}>
+                  <div className={styles.selectTag} onFocus={() => ErrMessage(DayStart)}>
                     <SelectTag
-                      options={day7}
+                      options={DayStart}
                       placeholder={'Time'}
                       defaultValue={{
                         value: '0',
@@ -2866,20 +2923,20 @@ const DayTimeSplit = (props) => {
                               ></SelectTag>
                             </div>
                           </Flex>
-                          <div>
+                          <Flex center>
                             {saturday.length !== 1 && (
                               <button
                                 onClick={() => RemoveClickForSaturday(i)}
                                 className={styles.add}
                               >
                                 <SvgCross
-                                  width={16}
-                                  height={16}
+                                  width={12}
+                                  height={12}
                                   fill={'#581845'}
                                 />
                               </button>
                             )}
-                          </div>
+                          </Flex>
                         </Flex>
                       </>
                     );
@@ -3291,6 +3348,7 @@ const CopyClipBoard = (props) => {
               backgroundColor: 'unset',
               boxShadow: 'none',
               border: 'none',
+              marginTop:'3px',
               // padding : "10px 10px"
               // marginLeft:"-7px"
               
@@ -3299,7 +3357,7 @@ const CopyClipBoard = (props) => {
             
             // id="dropdown-basic"
           >
-            <SvgCopy width={18} height={18} fill={'#581845'} />
+            <SvgEventcopy width={18} height={18} fill={'#581845'} />
 
           </Dropdown.Toggle>
           {copybtn ? (
@@ -3608,14 +3666,14 @@ const CopyClipBoard = (props) => {
               >
               
                 <Button
-                  // className={styles.apply}
+                types='primary'  
                   onClick={() => 
                     applyonclick(final, day, timeslot,name)
                     
                     }
                 >
                   Apply
-                </Button>
+                </Button> 
               </Dropdown.Item>
               </Flex>
 

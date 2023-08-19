@@ -1,5 +1,5 @@
 .overAll {
-  padding: 8px 8px 16px 24px;
+  padding: 25px;
   background-color: var(--color-white, #ffffff);
   border-radius: 4px;
 }
@@ -7,8 +7,8 @@
   margin-top: 16px;
 }
 .title {
-  padding-right: 16px;
-  margin-top: 8px;
+  /* padding-right: 16px;
+  margin-top: 8px; */
 }
 .titleText {
   padding-left: 8px;

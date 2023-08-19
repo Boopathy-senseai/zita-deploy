@@ -8,6 +8,7 @@ import { AppDispatch } from '../../store';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import SvgHeart from '../../icons/SvgHeart';
+import SvgInviter from '../../icons/SvgInviter';
 import Loader from '../../uikit/Loader/Loader';
 import ProgressBar from '../../uikit/ProgressBar/ProgressBar';
 import { getDateString, isEmpty } from '../../uikit/helper';
@@ -50,7 +51,7 @@ const InviteMatch = ({
   const [isInvitePopUp, setInvitePopUp] = useState(false);
   const [isFavLoader, setFavLoader] = useState(false);
   const [isInviteLoader, setInviteLoader] = useState(false);
-  const [isDate,setDate]=useState('')
+  const [isDate, setDate] = useState('');
   const hanldeFavAction = (can_id: number, jd_id: number) => {
     setFavLoader(true);
     dispatch(applicantFavoriteMiddleWare({ can_id, jd_id }))
@@ -65,14 +66,14 @@ const InviteMatch = ({
   // invite popup open function
   const hanldeInvitePopUp = () => {
     setInvitePopUp(true);
-    setDate(list.invited)
+    setDate(list.invited);
   };
 
-// invite popup close function
+  // invite popup close function
   const hanldeInviteClosePopUp = () => {
     setInvitePopUp(false);
   };
-// invite api call function
+  // invite api call function
   const hanldeInvite = (jdId: number, candId: number) => {
     hanldeInviteClosePopUp();
     setInviteLoader(true);
@@ -85,26 +86,19 @@ const InviteMatch = ({
       .then(() => {
         setInviteLoader(false);
         Toast(inviteMessage);
-        dispatch(applicantAllMatchMiddleWare({ can_id:candidateId }));
-         dispatch(
-          applicantStatusMiddleWare({
-            jd_id: jdId.toString(),
-          can_id: candId.toString(),
-          }),
-        );
-
+        dispatch(applicantAllMatchMiddleWare({ can_id: candidateId })); 
       })
       .catch(() => {
         setInviteLoader(false);
         Toast(ERROR_MESSAGE, 'LONG', 'error');
-      })
+      });
   };
 
   const checkMatch = useMemo(
     () =>
       match && match.length === 1 && applicant && applicant.length === 0
-        ? '50%'
-        : '50%',
+        ? '48%'
+        : '48%',
     [],
   );
 
@@ -122,10 +116,14 @@ const InviteMatch = ({
     <>
       {isInviteLoader && <Loader />}
       {isEmpty(isDate) && (
-        <CancelAndDeletePopup
-          title={`Invite will be sent as an email to ${
-            candidate_details && candidate_details[0].first_name
-          }. Are you sure to proceed?`}
+        <CancelAndDeletePopup 
+        width={'350px'}
+          title={
+            <Flex>
+            <Text>{`Invite will be sent as an email to ${
+            candidate_details && candidate_details[0].first_name} ${candidate_details && candidate_details[0].last_name
+          }`}</Text>
+        <Text>Are you sure to proceed?</Text></Flex>}
           btnDelete={() => hanldeInvite(list.jd_id_id, list.candidate_id_id)}
           btnCancel={hanldeInviteClosePopUp}
           btnRight={YES}
@@ -137,8 +135,8 @@ const InviteMatch = ({
           title={
             <Flex className={styles.popTitle}>
               <Text>{`The candidate ${
-                candidate_details && candidate_details[0].first_name
-              } has already been invited for this job on ${getDateString(
+            candidate_details && candidate_details[0].first_name} ${candidate_details && candidate_details[0].last_name
+          } has already been invited for this job on ${getDateString(
                 isDate,
                 'll',
               )}.`}</Text>
@@ -154,26 +152,115 @@ const InviteMatch = ({
       <Flex
         width={checkMatch}
         className={cx('listOverAllCommon', 'listOverAll')}
-        columnFlex
+        row
+        between
+        style={{
+          border: '1px solid #A5889C',
+          borderRadius: '10px',
+          padding: '8px',
+          display: 'flex',
+    // alignItems:' center'
+        }}
+        marginRight={'10px'}
       >
-        <Flex width={checkMatchLabel} row center className={styles.jobTitle}>
-          <Text
-            style={{ whiteSpace: 'nowrap' }}
-            title={matchTitle}
-            textStyle="ellipsis"
+        <Flex  className={styles.jobTitle}>
+          <Flex
+            row
+            style={{
+              whiteSpace: 'nowrap',
+              textOverflow: 'ellipsis',
+              overflow: ' hidden',
+              maxWidth: '170px',
+            }}
           >
-            {matchTitle}
+            <Text
+              style={{
+                whiteSpace: 'nowrap',
+                textOverflow: 'ellipsis',
+                overflow: ' hidden',
+                maxWidth: '170px',
+                fontSize: '13px',
+              }}
+              title={matchTitle}
+              textStyle="ellipsis"
+            >
+              {matchTitle}
+            </Text>
+          </Flex> 
+          <Text className={styles.whiteSpace} style={{ fontSize: '13px' }}>
+            {' '}
+            {list.job_id}
           </Text>
-          <Text className={styles.whiteSpace}>(Job ID: {list.job_id})</Text>
-          {!isEmpty(list.applicant) && (
-            <Flex row center>
-              <Text style={{ margin: '0 2px' }}>-</Text>
-              <Text bold color="success">{` Applied`}</Text>
+          <Flex marginTop={5}>
+            {console.log(list.applicant,'list.applicantlist.applicant')}
+            {!isEmpty(list.applicant) ? (
+              <Flex row center>
+                <Text style={{ fontSize: '13px' }}>Status :</Text>
+                <Text
+                  bold
+                  color="success"
+                  style={{ marginLeft: '3px', fontSize: '13px' }}
+                >{`Applied`}</Text>
+              </Flex>
+            ) : (
+              list.interested === false?
+              <Flex
+                row
+                // disabled={list.interested === false}
+                // onClick={hanldeInvitePopUp}
+                style={{ cursor: 'pointer' }}
+              >
+                <SvgInviter />{' '}
+                <Text
+                  style={{
+                    marginLeft: '10px',
+                    cursor:'default',
+                    fontSize: '13px',
+                    color:'rgb(88 24 69/50%)'
+                  }}
+                  bold
+                  title={'Not Interested'}
+                >
+                  Invite to apply
+                </Text>
+              </Flex>:
+              <Flex
+              row 
+              onClick={hanldeInvitePopUp}
+              style={{ cursor: 'pointer' }}
+            >
+              <SvgInviter />{' '}
+              <Text
+                style={{
+                  marginLeft: '10px',
+                  cursor: 'pointer',
+                  fontSize: '13px',
+                }}
+                bold
+                color="theme"
+              >
+                Invite to apply
+              </Text>
             </Flex>
-          )}
+            )}
+          </Flex>
         </Flex>
-        <Flex row center width={checkMatchLabel}>
-          <ProgressBar type="hr" percentage={list.profile_match} />
+        <Flex row end>
+          <Flex middle marginTop ={'15px'}>
+          <div
+          
+            className={cx({
+              countStyle1: list.profile_match < 40,
+              countStyle2: list.profile_match >= 40 && list.profile_match < 69,
+              countStyle3: list.profile_match > 69,
+            })}
+          >
+            <Text color="white" style={{ fontSize: 14, marginTop: ' 2px' }}>
+              {list.profile_match}%
+            </Text>
+          </div>
+          </Flex>
+          <Flex>
           <div
             className={styles.favDiv}
             title={
@@ -190,7 +277,8 @@ const InviteMatch = ({
               <SvgHeart height={20} width={20} filled={!isEmpty(list.fav)} />
             )}
           </div>
-          <div
+          </Flex>
+          {/* <div
             className={cx({
               svgInvite: isEmpty(list.applicant),
               svgInviteOne: !isEmpty(list.applicant),
@@ -201,8 +289,8 @@ const InviteMatch = ({
             onKeyPress={() => {}}
             title="Invite to Apply"
           >
-            <SvgInvite />
-          </div>
+            <SvgInviter />
+          </div> */}
         </Flex>
       </Flex>
     </>

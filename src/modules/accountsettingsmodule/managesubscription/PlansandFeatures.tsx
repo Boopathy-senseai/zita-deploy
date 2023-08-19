@@ -144,34 +144,43 @@ const PlansandFeatures = ({
 
   return (
     <Card className={styles.overAll} id='plans_and_features__plan'>
-      <Flex >
+      <Flex  >
         <Flex row center between>
-          <Text size={16} bold>
-            Plans and Features
-          </Text>
-          <div
-            tabIndex={-1}
-            role="button"
-            onKeyDown={() => {}}
-            onClick={() => setPriceShow(!isShowPrice)}
-          >
-            <SvgAngle fill={GARY_4} height={16} width={16} up={isShowPrice} />
-          </div>
+        <Flex  >
+            <Text size={14} bold>
+              Plans and Features
+            </Text>
+          </Flex>
+          <Flex>
+          
+                  <div
+                  style={{marginLeft:'5px'}}
+                tabIndex={-1}
+                role="button"
+                onKeyDown={() => {}}
+                onClick={() => setPriceShow(!isShowPrice)}
+                >
+                <SvgAngle fill={GARY_4} height={16} width={16} up={isShowPrice} />
+              </div>
+            </Flex>
+          
         </Flex>
+        
+        
         {isShowPrice && (
           <>
-            <Flex row center className={styles.switchFlex}>
-              <Text >Billed Monthly</Text>
-              <div style={{ margin: '0 8px' }}>
-                <InputSwitch
-                offFill={PRIMARY}
-                  checked={isPlan}
-                  onClick={() => setPlan(!isPlan)}
-                />
-              </div>
-              <Text >Billed Annually</Text>
-            </Flex>
-            <Flex columnFlex>
+          <Flex row center className={styles.switchFlex} style={{display:'flex',justifyContent:'center'}} >
+          <Text >Billed Monthly</Text>
+          <div style={{ margin: '0px 5px 0px 10px' }}>
+            <InputSwitch
+            offFill={PRIMARY}
+              checked={isPlan}
+              onClick={() => setPlan(!isPlan)}
+            />
+          </div>
+           <Text >Billed Annually</Text>
+          </Flex>
+            <Flex columnFlex style={{display:'flex',alignItems:'center'}}>
               <Flex row>
                 <PriceCard
                   setTab={setTab}
@@ -180,7 +189,7 @@ const PlansandFeatures = ({
                   setTotalUser={setTotalUser}
                   btnTitle={freePlanBtn}
                   data={freeData}
-                  headerTitle="TRY OUT"
+                  headerTitle="FREE"
                   price="FREE"
                   days="14 Days Trial"
                   disabled={subscription && subscription.plan_id_id !== 1}
@@ -195,7 +204,7 @@ const PlansandFeatures = ({
                   btnDisabled
                   inputNone
                 />
-                <div style={{ margin: '0 24px' }}>
+                <div style={{ margin: '0 10px' }}>
                   <PriceCard
                     subscription={subscription}
                     downgrade={downgrade}
@@ -207,7 +216,7 @@ const PlansandFeatures = ({
                     btnTitle={basicPlanBtn}
                     data={basicData}
                     headerTitle="BASIC"
-                    price={isPlan ? '$25' : '$35'}
+                    price={isPlan ? '$ 25' : '$ 35'}
                     userPrice
                     days="Per Month"
                     btnDisabled={
@@ -231,7 +240,7 @@ const PlansandFeatures = ({
                   btnTitle={proPlanBtn}
                   data={proData}
                   headerTitle="PRO"
-                  price={isPlan ? '$55' : '$65'}
+                  price={isPlan ? '$ 55' : '$ 65'}
                   days="Per Month"
                   userPrice
                   btnDisabled={proPlanBtn === 'Current Plan' || cancelPlanCheck}
@@ -246,7 +255,7 @@ const PlansandFeatures = ({
               <Button
                 onClick={() => setCompare(!isCompare)}
                 types="link"
-                style={{ margin: '20px 0' }}
+                style={{ margin: '25px 0' }}
               >
                 <Flex row center>
                   {isCompare ?
@@ -255,7 +264,7 @@ const PlansandFeatures = ({
 
                   }
 
-                  <Text  color='link'>
+                  <Text  color='link' bold>
                     Detailed Features Comparison
                   </Text>
                 </Flex>

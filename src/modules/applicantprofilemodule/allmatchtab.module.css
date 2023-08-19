@@ -2,11 +2,11 @@
   margin-bottom: 4px;
 }
 .overAll {
-  padding: 16px 0 16px 20px;
-  overflow: scroll;
+  padding: 12px 0 16px  7px;
+  /* margin-top: 15px; */
 }
 .allMatchText {
-  margin-top: 30px;
+  margin-top: 15px;
 }
 .listOverAllCommon {
   margin-bottom: 16px;
@@ -29,4 +29,40 @@
 }
 .popTitle {
   margin-left: 8px;
+}
+.countStyle2 { 
+  background-color: #EEAC17;
+  /* border: 0.1px solid #A5889C; */
+  border-radius: 100%;
+  z-index: 11;
+  display: flex;
+  height: 40px;
+  width: 40px;
+  justify-content: center;
+  align-items: center;
+
+}
+.countStyle1 { 
+  background-color: #FF0000;
+  /* border: 0.1px solid #A5889C; */
+  border-radius: 100%;
+  z-index: 11;
+  display: flex;
+  height: 40px;
+  width: 40px;
+  justify-content: center;
+  align-items: center;
+
+}
+.countStyle3 { 
+  background-color: #00BE4B;
+  /* border: 0.1px solid #A5889C; */
+  border-radius: 100%;
+  z-index: 11;
+  display: flex;
+  height: 40px;
+  width: 40px;
+  justify-content: center;
+  align-items: center;
+
 }
