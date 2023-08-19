@@ -33,12 +33,9 @@ const MessageCard = () => {
   );
 
   const unique: MessageEntity[] = [];
-    message.map((x) =>
-      unique.filter((a: any) => a.jd === x.jd).length > 0
-        ? null
-        : unique.push(x),
-    );
-
+  message.map((x) =>
+    unique.filter((a: any) => a.jd === x.jd).length > 0 ? null : unique.push(x),
+  );
 
   return (
     <Card className={styles.overAll}>
@@ -61,43 +58,40 @@ const MessageCard = () => {
         jobId={isJd}
         candidateId={isCandi}
       />
-      <Flex row center className={styles.msgText} between>
-        
-        <Text bold size={14} color="theme" style={{ marginRight: 16 }}>
-        Unread Messages
-        </Text> 
-        <Flex>
-        <div style={{ position: 'relative' }}>
-          {message_count !== 0 && (
-            <div className={styles.countStyle}>
-              <Text color="white" style={{ fontSize: 10,marginTop:2 }}>
-                {message_count}
-              </Text>
-            </div>
-          )}
-        </div>
-      <SvgMessageIcon width={22} height={22} /></Flex>
+      <Flex row center between className={styles.msgText} >
+        <Text bold size={14} style={{ marginBottom: '2px' }}>
+          Unread Messages
+        </Text>
+        <Flex marginBottom={6} marginRight={6}>
+          <div style={{ position: 'relative' }}>
+            {message_count !== 0 && (
+              <div className={styles.countStyle}>
+                <Text color="white" style={{ fontSize: 10 }}>
+                  {message_count}
+                </Text>
+              </div>
+            )}
+          </div>
+          {/* <SvgMessageIcon width={16} height={16} stroke={'#581845'} /> */}
+        </Flex>
       </Flex>
-      <Flex marginLeft={5} marginRight={5} className={styles.line} >
-
-      </Flex>
+      <Flex marginLeft={5} marginRight={5} className={styles.line}></Flex>
 
       <Flex columnFlex className={styles.scrollStyle}>
         {message.length === 0 ? (
           <Flex columnFlex flex={1} center middle className={styles.noContent}>
-           
-            <SvgNomessage/>
-            
-            
-            <Text color="gray" style={{fontSize:13}}>No Messages Received</Text>
+            <SvgNomessage width={20} height={20} fill={'#888888'} />
+            <Text color="placeholder" style={{ fontSize: 13 }}>
+              No messages received
+            </Text>
           </Flex>
         ) : (
-          
-          unique && unique
+          unique &&
+          unique
             .map((list, index) => (
-              <Flex className={styles.borderbottom}
+              <Flex
+                className={styles.borderbottom}
                 key={list.first_name + index}
-                
               >
                 <Flex row between>
                   <Flex row>
@@ -109,7 +103,12 @@ const MessageCard = () => {
                     />
                     <Flex>
                       {list.can_source === 'applicant' ? (
-                        <Text style={{color:'#581845',marginLeft:7,fontSize:'13px'}}
+                        <Text
+                          style={{
+                            color: '#581845',
+                            marginLeft: 7,
+                            fontSize: '13px',
+                          }}
                           onClick={() => {
                             setJd(list.jd_id_id);
                             setCandi(list.can_id);
@@ -129,21 +128,38 @@ const MessageCard = () => {
                           }}
                           color="link"
                           bold
-                          style={{color:'#581845',marginLeft:7,fontSize:'13px'}}
+                          style={{
+                            color: '#581845',
+                            marginLeft: 7,
+                            fontSize: '13px',
+                          }}
                         >
                           {list.first_name} {list.last_name}
                         </Text>
                       )}
 
-                      <Text style={{ marginLeft:7,fontSize:'13px'}} className={styles.messagesizereducer}>{list.message}</Text>
+                      <Text
+                        style={{ marginLeft: 7, fontSize: '13px' }}
+                        className={styles.messagesizereducer}
+                      >
+                        {list.message}
+                      </Text>
                     </Flex>
                   </Flex>
                   {/* <Text>{moment(list.date_created).fromNow()}</Text> */}
-                  {list.is_read ===false?(<Flex>
-                    <Flex><Text style={{fontSize:'13px',color:'#666666'}}>{moment(list.date_created).fromNow()}</Text></Flex>
-                    
-                  </Flex>):(<Text style={{fontSize:'13px',color:'#666666'}}>{moment(list.date_created).fromNow()}</Text>)}
-                  
+                  {list.is_read === false ? (
+                    <Flex>
+                      <Flex>
+                        <Text style={{ fontSize: '13px', color: '#666666' }}>
+                          {moment(list.date_created).fromNow()}
+                        </Text>
+                      </Flex>
+                    </Flex>
+                  ) : (
+                    <Text style={{ fontSize: '13px', color: '#666666' }}>
+                      {moment(list.date_created).fromNow()}
+                    </Text>
+                  )}
                 </Flex>
               </Flex>
             ))

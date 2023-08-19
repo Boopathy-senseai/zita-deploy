@@ -1,6 +1,6 @@
 import * as React from 'react';
 const defaultProps = {
-  fill: '',
+  fill: 'none',
   width: 22,
   height: 22,
 };
@@ -11,7 +11,7 @@ const SvgLocationicon = ({ width, height, fill }: typeof defaultProps) => (
     width={width}
     height={height}
     fill="none"
-    viewBox="2 1 22 22" 
+    viewBox="0 0 12 16" 
     
   >
     <path

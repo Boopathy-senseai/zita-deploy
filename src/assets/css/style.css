@@ -569,7 +569,7 @@ input:disabled {
   transition: 0.2s ease all;
   top: -25px;
   left: 5px;
-  font-size: 14px;
+  font-size: 13px;
   color: #111111;
   font-weight: 600;
 }
@@ -580,7 +580,7 @@ input:disabled {
 }
 
 .form-group input {
-  font-size: 14px;
+  font-size: 13px;
   padding: 4px 12px 3px 12px;
   display: block;
   width: 100%;
@@ -642,7 +642,7 @@ input:disabled {
   font-family: inherit;
   background-color: transparent;
   width: 100%;
-  font-size: 14px;
+  font-size: 13px;
   border-radius: 0 !important;
   border: none;
   border-bottom: 1px solid #757575 !important;
@@ -662,6 +662,10 @@ input:disabled {
 .react-select__single-value {
   left: 2px;
   font-size: 12px;
+}
+.react-tel-input .form-control { 
+  font-size: 13px !important;
+  color: #333;
 }
 
 .react-autosuggest__input:focus,
