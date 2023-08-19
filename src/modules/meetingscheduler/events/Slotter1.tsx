@@ -892,7 +892,7 @@ const SlotterDate = (props) => {
         remainingIntervals.push(targetInterval); // Add the remaining interval
       }
     }
-
+    console.log("remainingIntervalsremainingIntervals",remainingIntervals)
     return remainingIntervals;
   }
 
@@ -1155,6 +1155,13 @@ const SlotterDate = (props) => {
           currentHour++;
           currentMinute -= 60;
         }
+        if (
+                  currentHour > parseInt(endHour, 10) ||
+                  (currentHour === parseInt(endHour, 10) &&
+                    currentMinute > parseInt(endMinute, 10))
+                ) {
+                  break; // Skip adding the extra interval
+                }
   
         const formattedEndHour12 = currentHour === 0 ? 12 : currentHour === 12 ? 12 : currentHour > 12 ? currentHour - 12 : currentHour;
         const formattedEndMinute = currentMinute.toString().padStart(2, '0');
@@ -1176,6 +1183,7 @@ const SlotterDate = (props) => {
       const excludedRanges = conflicts[datetimes];
       if (excludedRanges) {
         const eventsForSelectedDate = conflicts[datetimes];
+        console.log("eventsForSelectedDateeventsForSelectedDate",eventsForSelectedDate)
         const remainingIntervals = getRemainingIntervalsWithinExcludedRanges(
           intervals12,
           eventsForSelectedDate
