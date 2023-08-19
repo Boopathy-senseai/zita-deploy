@@ -1,0 +1,50 @@
+.close {
+  border: none;
+  background: none;
+  margin-left: 400px;
+}
+.overall {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 4px;
+}
+.model{
+  overflow: scroll;
+  background-color: #fff;
+  padding: 4px;
+  width: 452px;
+  max-height: 166px;
+  border-radius: 4px;
+}
+.selectmembers {
+  width: 450px;
+  margin: 10px 0px;
+}
+.checkbox {
+  margin: 0px 5px 0px 0px;
+}
+.cancel {
+  margin-right: 8px;
+  background-color: #888888;
+  border: none;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+.cancel:active,
+.cancel:focus {
+  background-color: #888888;
+  border: none;
+}
+.update {
+  border: none;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+.update:active,
+.update:focus {
+  border: none;
+}
+
+.nodata{
+  padding: 10px;
+}

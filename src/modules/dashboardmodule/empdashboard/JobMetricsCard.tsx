@@ -131,8 +131,8 @@ const JobMetricsCard = () => {
             <Flex row center>
               <Flex row center>
              
-                  <Flex  marginLeft={9} marginRight={4}>
-                  <SvgJobTitle width={12} height={12}/></Flex>
+                  <Flex  marginLeft={14} marginRight={5}>
+                  <SvgJobTitle width={11} height={11}/></Flex>
                 
                 <Text align='center' style={{fontSize:'13px'}} >
                   {job_details && job_details?.job_title} -{' '}

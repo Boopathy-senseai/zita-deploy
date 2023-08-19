@@ -206,6 +206,7 @@ const UserProfilepic = ({ value, update }: Props) => {
                     inputConatinerClass={styles.with80}
                     value={formikPassword.values.oldpassword}
                     className={styles.inputheight}
+                    autoComplete={'off'} 
                     onChange={(e) => {
                       formikPassword.setFieldValue(
                         'oldpassword',

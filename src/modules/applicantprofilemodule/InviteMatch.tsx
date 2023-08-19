@@ -86,7 +86,7 @@ const InviteMatch = ({
       .then(() => {
         setInviteLoader(false);
         Toast(inviteMessage);
-        dispatch(applicantAllMatchMiddleWare({ can_id: candidateId })); 
+        dispatch(applicantAllMatchMiddleWare({ can_id: candidateId }));
       })
       .catch(() => {
         setInviteLoader(false);
@@ -111,19 +111,21 @@ const InviteMatch = ({
   );
 
   const matchTitle = `${list.jd_title}`;
-
+  // const zeroCount = list.every(value => value === 0).length;
   return (
     <>
       {isInviteLoader && <Loader />}
       {isEmpty(isDate) && (
-        <CancelAndDeletePopup 
-        width={'350px'}
+        <CancelAndDeletePopup
+          width={'350px'}
           title={
             <Flex>
-            <Text>{`Invite will be sent as an email to ${
-            candidate_details && candidate_details[0].first_name
-          }`}</Text>
-        <Text>Are you sure to proceed?</Text></Flex>}
+              <Text>{`Invite will be sent as an email to ${
+                candidate_details && candidate_details[0].first_name
+              } ${candidate_details && candidate_details[0].last_name}`}</Text>
+              <Text>Are you sure to proceed?</Text>
+            </Flex>
+          }
           btnDelete={() => hanldeInvite(list.jd_id_id, list.candidate_id_id)}
           btnCancel={hanldeInviteClosePopUp}
           btnRight={YES}
@@ -136,6 +138,8 @@ const InviteMatch = ({
             <Flex className={styles.popTitle}>
               <Text>{`The candidate ${
                 candidate_details && candidate_details[0].first_name
+              } ${
+                candidate_details && candidate_details[0].last_name
               } has already been invited for this job on ${getDateString(
                 isDate,
                 'll',
@@ -149,7 +153,7 @@ const InviteMatch = ({
           open={isInvitePopUp}
         />
       )}
-      <Flex
+      { list.profile_match !==0 &&<Flex
         width={checkMatch}
         className={cx('listOverAllCommon', 'listOverAll')}
         row
@@ -159,11 +163,11 @@ const InviteMatch = ({
           borderRadius: '10px',
           padding: '8px',
           display: 'flex',
-    // alignItems:' center'
+          // alignItems:' center'
         }}
         marginRight={'10px'}
       >
-        <Flex  className={styles.jobTitle}>
+        <Flex className={styles.jobTitle}>
           <Flex
             row
             style={{
@@ -186,13 +190,17 @@ const InviteMatch = ({
             >
               {matchTitle}
             </Text>
-          </Flex> 
+          </Flex>
+          {console.log(
+            list.interested,
+            'list.interestedlist.interestedlist.interested',
+          )}
           <Text className={styles.whiteSpace} style={{ fontSize: '13px' }}>
             {' '}
             {list.job_id}
           </Text>
           <Flex marginTop={5}>
-            {console.log(list.applicant,'list.applicantlist.applicant')}
+            {console.log(list.applicant, 'list.applicantlist.applicant')}
             {!isEmpty(list.applicant) ? (
               <Flex row center>
                 <Text style={{ fontSize: '13px' }}>Status :</Text>
@@ -202,8 +210,7 @@ const InviteMatch = ({
                   style={{ marginLeft: '3px', fontSize: '13px' }}
                 >{`Applied`}</Text>
               </Flex>
-            ) : (
-              list.interested === false?
+            ) : list.interested === false ? (
               <Flex
                 row
                 // disabled={list.interested === false}
@@ -214,69 +221,74 @@ const InviteMatch = ({
                 <Text
                   style={{
                     marginLeft: '10px',
-                    cursor:'default',
+                    cursor: 'default',
                     fontSize: '13px',
-                    color:'rgb(88 24 69/50%)'
+                    color: 'rgb(88 24 69/50%)',
                   }}
                   bold
-                  title={'Not Interested'}
+                  title={`You can't send invite`}
                 >
                   Invite to apply
                 </Text>
-              </Flex>:
+              </Flex>
+            ) : (
               <Flex
-              row 
-              onClick={hanldeInvitePopUp}
-              style={{ cursor: 'pointer' }}
-            >
-              <SvgInviter />{' '}
-              <Text
-                style={{
-                  marginLeft: '10px',
-                  cursor: 'pointer',
-                  fontSize: '13px',
-                }}
-                bold
-                color="theme"
+                row
+                onClick={hanldeInvitePopUp}
+                style={{ cursor: 'pointer' }}
               >
-                Invite to apply
-              </Text>
-            </Flex>
+                <SvgInviter />{' '}
+                <Text
+                  style={{
+                    marginLeft: '10px',
+                    cursor: 'pointer',
+                    fontSize: '13px',
+                  }}
+                  bold
+                  color="theme"
+                >
+                  Invite to apply
+                </Text>
+              </Flex>
             )}
           </Flex>
         </Flex>
         <Flex row end>
-          <Flex middle marginTop ={'15px'}>
-          <div
-          
-            className={cx({
-              countStyle1: list.profile_match < 40,
-              countStyle2: list.profile_match >= 40 && list.profile_match < 69,
-              countStyle3: list.profile_match > 69,
-            })}
-          >
-            <Text color="white" style={{ fontSize: 14, marginTop: ' 2px' }}>
-              {list.profile_match}%
-            </Text>
-          </div>
+          <Flex middle marginTop={'15px'}>
+            <div
+              className={cx({
+                countStyle1: list.profile_match < 40,
+                countStyle2:
+                  list.profile_match >= 40 && list.profile_match < 69,
+                countStyle3: list.profile_match > 69,
+              })}
+            >
+              <Text color="white" style={{ fontSize: 14, marginTop: ' 2px' }}>
+                {list.profile_match}%
+              </Text>
+            </div>
           </Flex>
           <Flex>
-          <div
-            className={styles.favDiv}
-            title={
-              isEmpty(list.fav) ? 'Add to Favourites' : 'Remove from Favourites'
-            }
-            onClick={() => hanldeFavAction(list.candidate_id_id, list.jd_id_id)}
-            tabIndex={-1}
-            role={'button'}
-            onKeyPress={() => {}}
-          >
-            {isFavLoader ? (
-              <Loader withOutOverlay size="small" />
-            ) : (
-              <SvgHeart height={20} width={20} filled={!isEmpty(list.fav)} />
-            )}
-          </div>
+            <div
+              className={styles.favDiv}
+              title={
+                isEmpty(list.fav)
+                  ? 'Add to Favourites'
+                  : 'Remove from Favourites'
+              }
+              onClick={() =>
+                hanldeFavAction(list.candidate_id_id, list.jd_id_id)
+              }
+              tabIndex={-1}
+              role={'button'}
+              onKeyPress={() => {}}
+            >
+              {isFavLoader ? (
+                <Loader withOutOverlay size="small" />
+              ) : (
+                <SvgHeart height={20} width={20} filled={!isEmpty(list.fav)} />
+              )}
+            </div>
           </Flex>
           {/* <div
             className={cx({
@@ -292,7 +304,11 @@ const InviteMatch = ({
             <SvgInviter />
           </div> */}
         </Flex>
-      </Flex>
+      </Flex>}
+      {/* {list.profile_match ===0 &&
+      <Flex center middle flex={1} >
+         This candidate is not a match for any jobs
+        </Flex>} */}
     </>
   );
 };

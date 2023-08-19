@@ -18,6 +18,7 @@ Quill.register('modules/mention', Mention);
 import { useHistory } from 'react-router-dom';
 import { Card } from '../../uikit';
 import SvgInfo from '../../icons/SvgInfo';
+
 import SvgNotes from '../../icons/SvgNotes';
 import SvgNotesyet from '../../icons/Svgnonotesyet';
 import SvgRefresh from '../../icons/SvgRefresh';
@@ -494,24 +495,7 @@ useEffect(() => {
        >
         <Text bold style={{ fontSize: '14px',marginTop:'13.5px',paddingLeft:16 }}>
           Notes for Team Members
-        </Text>
-        {/* {hideelement ? (
-          <Flex column className={styles.overall2}>
-            <Flex row className={styles.initialbutton}>
-              <input
-                className={styles.initialbuttons}
-                onClick={hanldeInputOpen}
-                placeholder="Add notes"
-              />
-            </Flex>
-            {notes && notes.length !== 0 && (
-              <Flex className={styles.middleline}></Flex>
-            )}
-          </Flex>
-        ) : (
-          ''
-        )} */}
-
+        </Text> 
         <Flex className={styles.overall1}>
           <Flex className={styles.textArea} >
             <ReactQuill

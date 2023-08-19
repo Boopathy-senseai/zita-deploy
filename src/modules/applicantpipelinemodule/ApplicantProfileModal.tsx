@@ -264,7 +264,7 @@ console.log(candidateId,'fffffffffffffffffffffffffkkkkkkkkkkkkkjjjjjjjjjjjjjjjjj
 
         {/* {isTab && (
           <Flex flex={5} className={styles.tabRightFlex}>
-            {status_id.length === 0 ? (
+            {status_id?.length === 0 ? (
               <ApplicantTabRightOne />
             ) : (
               <ApplicantTabRight />

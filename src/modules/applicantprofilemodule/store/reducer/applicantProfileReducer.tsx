@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { string } from 'prop-types';
+import { act } from 'react-dom/test-utils';
 import {
   AllMatchReducerState,
   ApplicantFavReducerState,
@@ -13,6 +14,9 @@ import {
   ScreenStatusReducerState,
   MentionReducerState,
   Intergratemailstate,
+  GoogleConflictState,
+  OutlookConflictState,
+  CalendarConfigurationState,
 } from '../../applicantProfileTypes';
 import {
   applicantAllMatchMiddleWare,
@@ -30,6 +34,9 @@ import {
   outlookCallbackMiddleware,
   applicantInviteMiddleWare,
   CandidatejobidMatchMiddleWare,
+  getGoogleConflictMiddleWare,
+  getOutlookConflictMiddleWare,
+  getCalendarConfigurationMiddleWare,
 } from '../middleware/applicantProfileMiddleware';
 
 const applicantProfileInitialState: ApplicantProfileReducerState = {
@@ -807,7 +814,7 @@ const applicantScoreReducer = createSlice({
   },
 });
 const IntegratemailState: Intergratemailstate = {
-  isLoading: false,
+  isLoading: false, 
   error: '',
   email:[
     {
@@ -817,10 +824,9 @@ const IntegratemailState: Intergratemailstate = {
   mail:'',
 };
 
-
 const applicantIntegratemailReducer = createSlice({
   name: 'applicant',
-  initialState: IntegratemailState ,
+  initialState: IntegratemailState , 
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(IntergratemailMiddleWare.pending, (state) => {
@@ -841,8 +847,114 @@ const applicantIntegratemailReducer = createSlice({
   },
 });
 
-export const applicantProfileInitalReducers =
-  applicantProfileInitalReducer.reducer;
+// calendar conflicts reducer
+const googleConflictState: GoogleConflictState = {
+  isLoading: false,
+  error: '',
+  events : {
+    date : []
+  }
+};
+
+const googleConflictReducer = createSlice({
+  name: 'googleConflicts',
+  initialState: googleConflictState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(getGoogleConflictMiddleWare.pending, (state) => {
+      state.isLoading = true;
+      state.error = '';
+    });
+    builder.addCase(getGoogleConflictMiddleWare.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.events = action.payload.events;
+    });
+    builder.addCase(getGoogleConflictMiddleWare.rejected, (state, action) => {
+      state.isLoading = false;
+      if (typeof action.payload === 'string') {
+        state.error = action.payload;
+      }
+    });
+  },
+});
+
+const outlookConflictState: OutlookConflictState = {
+  isLoading: false,
+  error: '',
+  events : {
+    date : []
+  }
+};
+
+const outlookConflictReducer = createSlice({
+  name: 'outlookConlicts',
+  initialState: outlookConflictState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(getOutlookConflictMiddleWare.pending, (state) => {
+      state.isLoading = true;
+      state.error = '';
+    });
+    builder.addCase(getOutlookConflictMiddleWare.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.events = action.payload.events;
+    });
+    builder.addCase(getOutlookConflictMiddleWare.rejected, (state, action) => {
+      state.isLoading = false;
+      if (typeof action.payload === 'string') {
+        state.error = action.payload;
+      }
+    });
+  },
+});
+
+// calendar configuration reducer
+const calendaConfigurtaionState: CalendarConfigurationState = {
+  isLoading: false,
+  error: '',
+  configuration :'',
+  data : [
+    {
+    id : 0,
+    client_id_id: 0,
+    showas: '',
+    calendar: true,
+    addtocalendar: true,
+    is_active:true,
+    created_at: '',
+    isdeleted: true,
+    ischecked: true,
+    configuration: ''
+  }
+]
+};
+
+const calendarConfigurationReducer = createSlice({
+  name: 'calendarConfigurations',
+  initialState: calendaConfigurtaionState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(getCalendarConfigurationMiddleWare.pending, (state) => {
+      state.isLoading = true;
+      state.error = '';
+    });
+    builder.addCase(getCalendarConfigurationMiddleWare.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.data = action.payload.data;
+      state.configuration = action.payload.configuration;
+    });
+    builder.addCase(getCalendarConfigurationMiddleWare.rejected, (state, action) => {
+      state.isLoading = false;
+      if (typeof action.payload === 'string') {
+        state.error = action.payload;
+      }
+    });
+  },
+});
+
+
+
+export const applicantProfileInitalReducers = applicantProfileInitalReducer.reducer;
 export const applicantMatchReducers = applicantMatchReducer.reducer;
 export const applicantNotesReducers = applicantNotesReducer.reducer;
 export const applicantUserlistReducer = applicantUserListReducer.reducer;
@@ -854,5 +966,8 @@ export const applicantIntegratemailReducers = applicantIntegratemailReducer.redu
 export const calenderReducers = calenderReducer.reducer;
 export const applicantStausReducers = applicantStausReducer.reducer;
 export const applicantFavReducers = applicantFavReducer.reducer;
+export const googleConflictReducers = googleConflictReducer.reducer;
+export const outlookConflictReducers = outlookConflictReducer.reducer;
+export const calendarConfigurationReducers = calendarConfigurationReducer.reducer;
 export const applicantInviteReducers =applicantInviteReducer.reducer
 export const candidatejdmatchReducers=candidatejobidMatchReducer.reducer
