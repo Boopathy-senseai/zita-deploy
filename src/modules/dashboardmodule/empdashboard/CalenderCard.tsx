@@ -409,7 +409,7 @@ const CalenderCard = ({
                      style={{ position: 'absolute', right:8, top:3}}
                     >
                       <label htmlFor="calendar___open">
-                        <SvgCalendar width={16} height={16} />
+                        <SvgCalendar width={16} height={16}/>
                       </label>
                     </div>
                   </Flex>

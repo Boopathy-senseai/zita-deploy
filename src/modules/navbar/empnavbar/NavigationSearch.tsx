@@ -1,9 +1,8 @@
-
 import { useFormik } from 'formik';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { jobSelect, reports,homeRoute} from '../../../appRoutesPath';
+import { jobSelect, reports, homeRoute } from '../../../appRoutesPath';
 import SvgSearch from '../../../icons/SvgSearch';
 import { routesPath } from '../../../routes/routesPath';
 import { RootState } from '../../../store';
@@ -15,14 +14,13 @@ import styles from './navbar.module.css';
 
 type Props = {
   onButtonClick: () => void;
-  onbuttonchange:()=>void;
+  onbuttonchange: () => void;
 };
-const NavigationSearch = ({ onButtonClick ,onbuttonchange}) => {
-
+const NavigationSearch = ({ onButtonClick, onbuttonchange }) => {
   const history = useHistory();
   const formik = useFormik({
     initialValues: { value: '' },
-    onSubmit: () => { },
+    onSubmit: () => {},
   });
   const { permission, super_user, plan_id } = useSelector(
     ({ permissionReducers }: RootState) => {
@@ -33,7 +31,6 @@ const NavigationSearch = ({ onButtonClick ,onbuttonchange}) => {
       };
     },
   );
-
 
   // search redirection condition
   const searchNavigate = (value: string) => {
@@ -55,93 +52,91 @@ const NavigationSearch = ({ onButtonClick ,onbuttonchange}) => {
           history.push('/account_setting/settings?tab=3')
         );
       case 'user profile':
-        return(
-          
+        return (
           super_user === true &&
-          history.push('/account_setting/settings?tab=0'),
-          permission.includes('manage_account_settings') 
-        )
+            history.push('/account_setting/settings?tab=0'),
+          permission.includes('manage_account_settings')
+        );
       case 'password change':
         onButtonClick();
         break;
-        // return (
-        //   super_user === true &&
-        //   history.push('/account_setting/settings?tab=6'),
-        //   permission.includes('manage_account_settings') 
-          
-        //   &&
-        //   super_user === false &&
-        //   history.push('/account_setting/settings?tab=4'),
-        //   !permission.includes('manage_account_settings') &&
-        //   super_user === false &&
-        //   history.push('/account_setting/settings?tab=1')
-        // );
+      // return (
+      //   super_user === true &&
+      //   history.push('/account_setting/settings?tab=6'),
+      //   permission.includes('manage_account_settings')
 
-       
+      //   &&
+      //   super_user === false &&
+      //   history.push('/account_setting/settings?tab=4'),
+      //   !permission.includes('manage_account_settings') &&
+      //   super_user === false &&
+      //   history.push('/account_setting/settings?tab=1')
+      // );
+
       case 'profile update':
-        history.push('/account_setting/settings?tab=0')
+        history.push('/account_setting/settings?tab=0');
         break;
-        // return (
-        //   super_user === true &&
-        //   history.push('/account_setting/settings?tab=0'),
-        //   permission.includes('manage_account_settings') &&
-        //   super_user === false &&
-        //   history.push('/account_setting/settings?tab=4'),
-        //   !permission.includes('manage_account_settings') &&
-        //   super_user === false &&
-        //   history.push('/account_setting/settings?tab=1')
-        // );
+      // return (
+      //   super_user === true &&
+      //   history.push('/account_setting/settings?tab=0'),
+      //   permission.includes('manage_account_settings') &&
+      //   super_user === false &&
+      //   history.push('/account_setting/settings?tab=4'),
+      //   !permission.includes('manage_account_settings') &&
+      //   super_user === false &&
+      //   history.push('/account_setting/settings?tab=1')
+      // );
 
-        case 'calendar':
-          return history.push('/calendar');
-  
+      case 'calendar':
+        return history.push('/calendar');
+
       case 'calendar integrations':
         return (
           super_user === true &&
-          history.push('/account_setting/settings?tab=4'),
+            history.push('/account_setting/settings?tab=4'),
           permission.includes('manage_account_settings') &&
-          super_user === false &&
-          history.push('/account_setting/settings?tab=3'),
+            super_user === false &&
+            history.push('/account_setting/settings?tab=3'),
           !permission.includes('manage_account_settings') &&
-          super_user === false &&
-          history.push('/account_setting/settings?tab=0')
+            super_user === false &&
+            history.push('/account_setting/settings?tab=0')
         );
-        case 'integrations':
-          return  history.push('/account_setting/settings?tab=4');
-        case 'email':
-        case  'inbox':
-          case 'email integration':
-            return (
-              super_user === true &&
-              history.push('/account_setting/settings?tab=4'),
-              permission.includes('manage_account_settings') &&
-              super_user === false &&
-              history.push('/account_setting/settings?tab=3'),
-              !permission.includes('manage_account_settings') &&
-              super_user === false &&
-              history.push('/account_setting/settings?tab=0')
-            );
-            case 'mail integration':
-              return (
-                super_user === true &&
-                history.push('/account_setting/settings?tab=4'),
-                permission.includes('manage_account_settings') &&
-                super_user === false &&
-                history.push('/account_setting/settings?tab=3'),
-                !permission.includes('manage_account_settings') &&
-                super_user === false &&
-                history.push('/account_setting/settings?tab=0')
-              );
+      case 'integrations':
+        return history.push('/account_setting/settings?tab=4');
+      case 'email':
+      case 'inbox':
+      case 'email integration':
+        return (
+          super_user === true &&
+            history.push('/account_setting/settings?tab=4'),
+          permission.includes('manage_account_settings') &&
+            super_user === false &&
+            history.push('/account_setting/settings?tab=3'),
+          !permission.includes('manage_account_settings') &&
+            super_user === false &&
+            history.push('/account_setting/settings?tab=0')
+        );
+      case 'mail integration':
+        return (
+          super_user === true &&
+            history.push('/account_setting/settings?tab=4'),
+          permission.includes('manage_account_settings') &&
+            super_user === false &&
+            history.push('/account_setting/settings?tab=3'),
+          !permission.includes('manage_account_settings') &&
+            super_user === false &&
+            history.push('/account_setting/settings?tab=0')
+        );
 
       case 'build your careers page':
         return history.push('/account_setting/settings?tab=1');
-           case 'careers page':
+      case 'careers page':
         return history.push('/account_setting/settings?tab=1');
       case 'company profile':
         return history.push('/account_setting/settings?tab=0');
       case 'manage subscription':
         return history.push('/account_setting/settings?tab=2');
-  
+
       case 'contact credits':
         return history.push('/account_setting/settings?tab=2');
       case 'billing':
@@ -156,31 +151,31 @@ const NavigationSearch = ({ onButtonClick ,onbuttonchange}) => {
         return history.push(routesPath.MYDATABASE);
       case 'invite candidates':
         return history.push(routesPath.MYDATABASE);
-        case 'match candidate':
-          return history.push(routesPath.MYDATABASE);
+      case 'match candidate':
+        return history.push(routesPath.MYDATABASE);
       case 'post jobs':
         return history.push(jobSelect);
       case 'create job':
         return history.push(jobSelect);
       case 'reports':
         return history.push(reports);
-        
+
       case 'bulk import candidates':
         return history.push(routesPath.BULK_IMPORT);
       case 'upload candidates':
         return history.push(routesPath.BULK_IMPORT);
-        case 'applicants importing':
-          return history.push(routesPath.BULK_IMPORT);
-          case 'upload applicants':
-            return history.push(routesPath.BULK_IMPORT);
-            case 'Bulk import':
-              return history.push(routesPath.BULK_IMPORT);
-              case 'Bulk upload':
-                return history.push(routesPath.BULK_IMPORT);
-                case 'resume upload':
-                  return history.push(routesPath.BULK_IMPORT);
-                  case 'resume importing':
-                    return history.push(routesPath.BULK_IMPORT);
+      case 'applicants importing':
+        return history.push(routesPath.BULK_IMPORT);
+      case 'upload applicants':
+        return history.push(routesPath.BULK_IMPORT);
+      case 'Bulk import':
+        return history.push(routesPath.BULK_IMPORT);
+      case 'Bulk upload':
+        return history.push(routesPath.BULK_IMPORT);
+      case 'resume upload':
+        return history.push(routesPath.BULK_IMPORT);
+      case 'resume importing':
+        return history.push(routesPath.BULK_IMPORT);
 
       case 'support':
       case 'help':
@@ -189,11 +184,11 @@ const NavigationSearch = ({ onButtonClick ,onbuttonchange}) => {
         );
       case 'talent sourcing':
         return history.push(routesPath.TALENT_SOURCING);
-    
-    case 'source candidates':
+
+      case 'source candidates':
         return history.push(routesPath.TALENT_SOURCING);
-    
-    case 'sourcing':
+
+      case 'sourcing':
         return history.push(routesPath.TALENT_SOURCING);
     }
   };
@@ -219,38 +214,34 @@ const NavigationSearch = ({ onButtonClick ,onbuttonchange}) => {
         'Manage Users',
       );
     }
-  optionsArray.push(
-     'My Job Postings',
+    optionsArray.push(
+      'My Job Postings',
+      'Careers Page',
+      'integrations',
+      ' Zita Match Candidates',
+      'Applicants Pipeline',
+      'Calendar',
 
-     'Careers Page',
+      'Email',
+      'Inbox',
+      'Email Integration',
+      'Mail Integration',
 
-    'integrations',
+      'Match Candidate',
 
-   ' Zita Match Candidates',
-   'Applicants Pipeline',
-  'Calendar',
+      'Source Candidates',
+      'Sourcing',
 
-  'Email',
-  'Inbox',
-   'Email Integration',
-   'Mail Integration',
+      'Candidates Importing',
 
-  'Match Candidate',
+      'Applicants Importing',
+      'Upload Applicants',
+      'Bulk Import',
+      'Bulk Upload',
+      'Resume Upload',
+      'Resume Importing',
+    );
 
-  'Source Candidates',
-  'Sourcing',
-
- 'Candidates Importing',
-
-  'Applicants Importing',
-  'Upload Applicants',
-  'Bulk Import',
-  'Bulk Upload',
-  'Resume Upload',
-  'Resume Importing',
-  )
-
-  
     if (permission.includes('my_database')) {
       optionsArray.push('Database', 'Candidates', 'Invite Candidates');
     }
@@ -275,18 +266,14 @@ const NavigationSearch = ({ onButtonClick ,onbuttonchange}) => {
   const duplicateElementa = toFindDuplicates(optionsArray);
   // console.log('duplicateElementa',duplicateElementa);
 
-
- 
   return (
-    
-    <div style={{ position: 'relative',width:'195px' }}>
-      {console.log("history",history)}
+    <div style={{ position: 'relative', width: '195px' }}>
+      {console.log('history', history)}
       <div style={{ position: 'absolute', zIndex: 11, top: 3, left: 10 }}>
         <SvgSearch fill={'#581845'} />
       </div>
 
-     <InputSearchnav
-      
+      <InputSearchnav
         style={styles.searchStyle}
         placeholder="Enter your search here..."
         options={duplicateElementa}
@@ -294,7 +281,6 @@ const NavigationSearch = ({ onButtonClick ,onbuttonchange}) => {
         name="value"
         onkeyPress={(event) => {
           if (event.key === 'Enter') {
-           
             searchNavigate(event.target.value);
             formik.setFieldValue('value', event.target.value);
           }
@@ -302,7 +288,6 @@ const NavigationSearch = ({ onButtonClick ,onbuttonchange}) => {
       />
     </div>
   );
-
 };
 
 export default NavigationSearch;

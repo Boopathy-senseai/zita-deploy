@@ -1,0 +1,52 @@
+ /* styles/ConfirmationDialog.css  */
+
+.confirmation-dialog {
+    border: 1px solid #ccc;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+
+  }
+  
+  .message {
+    margin-bottom: 10px;
+    font-size: 13px;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  } 
+  .container {
+    height: fit-content;
+    padding: 15px;
+    background-color: white;
+    border-radius: 4px;    
+    width:400px;
+  }
+  .button {
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
+  }
+  .button:active,
+  .button:focus {
+  border: none;
+  }
+  .cancel {
+    margin-right: 8px;
+    background-color: #888888;
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
+  }
+
+  .cancel:active,
+  .cancel:focus {
+    background-color: #888888;
+    border: none;
+  }
+  

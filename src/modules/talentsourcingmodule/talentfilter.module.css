@@ -59,6 +59,12 @@
   align-items: center;
  
 }
+.quickfilters{
+  width: 99%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
 /* #typePrompt:hover  */
 .hoverbo.hover {
   display: block;
@@ -68,18 +74,6 @@
   display: none;
 }
 .drop_down_menus {
-  /* background-color: rgb(142, 142, 245);
-  margin:0px;
-  border-radius: 23px;
-  display: none;
-  position: absolute;
-  background-color: white;
-  border-style: solid;
-  border-color: #581845;
-  padding: 10px;
-  width: 235px;
-  height: 425px; */
-
   background-color: #fff;
   position: absolute;
   background-color: var(--color-white, #fff);

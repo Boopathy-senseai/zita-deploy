@@ -47,7 +47,7 @@ const MessageCard = () => {
         jobId={isJd}
         candidateId={isCandi}
         inviteIconNone
-        activeState={5}
+        activeState={1}
       />
       <ZitaMatchCandidateDrawer
         activeState={5}

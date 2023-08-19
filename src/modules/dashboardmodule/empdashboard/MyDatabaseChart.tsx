@@ -109,8 +109,8 @@ const MyDatabaseChart = ({
   };
   return (
     <Card className={styles.overAll}>
-      <Text bold size={14} >
-        My Database
+      <Text bold size={14} style={{color:'#581845'}}>
+        Database
       </Text>
       {(Array.isArray(my_database) &&
         my_database.length !== 0 &&

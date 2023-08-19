@@ -102,22 +102,23 @@ const MyJobsPostingFilter = ({
       setdata(formik.values.jobId);
     }
 
-    if (formik.values.postedOn.value === '1') {
-      setdate('Last 24 hours');
-    } else if (formik.values.postedOn.value === '3') {
-      setdate('Last 3 days');
-    } else if (formik.values.postedOn.value === '7') {
-      setdate('Last 7 days');
-    } else if (formik.values.postedOn.value === '14') {
-      setdate('Last 14 days');
-    } else if (formik.values.postedOn.value === '30') {
-      setdate('Last 30 days');
-    } else if (formik.values.postedOn.value === '90') {
-      setdate('Last 90 days');
-    } else if (formik.values.postedOn.value === '365') {
-      setdate('Last Last year');
-    } else if (formik.values.postedOn.value === '') {
-      setdate('');
+    if (formik.values.postedOn.value === "1") {
+      setdate("Last 24 hours");
+    } else if (formik.values.postedOn.value === "3") {
+      setdate("Last 3 days");
+    } else if (formik.values.postedOn.value === "7") {
+      setdate("Last 7 days");
+    } else if (formik.values.postedOn.value === "14") {
+      setdate("Last 14 days");
+    } else if (formik.values.postedOn.value === "30") {
+      setdate("Last 30 days");
+    } else if (formik.values.postedOn.value === "90") {
+      setdate("Last 90 days");
+    } else if (formik.values.postedOn.value === "365"){
+      setdate("Last year");
+    } else if(formik.values.postedOn.value === "") {
+      setdate("");
+      
     }
 
     setTitle(formik.values.jobTitle);
@@ -189,88 +190,103 @@ const MyJobsPostingFilter = ({
   const handlechange3 = (event) => {
     formik.setFieldValue('location', event.target.value);
     setchange(true);
-  };
+   }
+
+  // const MyDataBaseSearchAction = ({ jobTitle, formik,isSearchValue,setSearchValue }: Props) => {
+    const isDefaultFilter = () => {
+   
+  
+      if (
+        location === "" &&
+        jobid1=== "" &&
+        jobtitle===""  &&
+        jobposted1 ==="" &&
+        (jobstatus1==="All"||jobstatus1==="")
+  
+      ) {
+        return true;
+      }
+      return false;
+    };
+
+ 
+
   return (
-    <Flex row between>
-      <Flex row wrap>
-      <Text size={13} style={{ whiteSpace: 'nowrap', marginTop: '3px' }}>
-            Quick Filters :
-          </Text>
-        {location === '' &&
-        jobid1 === '' &&
-        jobtitle === '' &&
-        jobposted1 === '' &&
-        jobstatus1 === '' ? (
-          <Text className={styles.quickfil}> All</Text>
-        ) : location === '' &&
-          jobid1 === '' &&
-          jobtitle === '' &&
-          jobposted1 === '' &&
-          jobstatus1 === 'All' ? (
-          <Text className={styles.quickfil}> {'All'}</Text>
-        ) : (
-          <Flex className={styles.quickfil}>
-            <Text>
-              {' '}
-              {jobstatus1}
-              <SvgIntomark
-                className={styles.stylesvg}
-                onClick={() => closestatus()}
-              />
-            </Text>
-          </Flex>
-        )}
+    <>
+      {console.log("++fomik+++",formik.values)}
+      {console.log("sDefaultFilter()",isDefaultFilter())}
+      {console.log("location",location)}
+      {console.log("jobid1",jobid1)}
+      {console.log("jobtitle",jobtitle)}
+      {console.log("jobposted1",jobposted1)}
+      {console.log("jobstatus1",jobstatus1)}
 
-        {jobid1 !== '' ? (
-          <Flex row noWrap center className={styles.quickfil}>
-            <Text>
-              {data}{' '}
-              <SvgIntomark
-                className={styles.stylesvg}
-                onClick={() => close()}
-              />
-            </Text>
-          </Flex>
-        ) : (
-          ' '
-        )}
+      
+      <Text className={""} >
 
-        {jobposted1 !== '' ? (
-          <Text className={styles.quickfil}>
-            {date}{' '}
-            <SvgIntomark
-              className={styles.stylesvg}
-              onClick={() => closedate()}
-            />
-          </Text>
-        ) : (
-          ' '
-          // " "
-        )}
-        {jobtitle !== '' ? (
-          <Text className={styles.quickfil}>
-            {Title}{' '}
-            <SvgIntomark
-              className={styles.stylesvg}
-              onClick={() => closetitle()}
-            />
-          </Text>
-        ) : (
-          ''
-        )}
+        Quick Filters :
+      </Text>
+      {jobtitle !== "" ? (
+        <Text className={styles.quickfil}>
+          {jobtitle}{" "}
+          <SvgIntomark
+            className={styles.stylesvg}
+            onClick={() => closetitle()}
+          />
+        </Text>
+      ) : (
+        ""
+      )}
 
-        {location !== '' ? (
-          <Text className={styles.quickfil}>
-            {locationdata}{' '}
-            <SvgIntomark
-              className={styles.stylesvg}
-              onClick={() => closelocationdata()}
-            />
-          </Text>
-        ) : (
-          ''
-        )}
-      </Flex>
+   
+
+      {jobid1 !== "" ? (
+        <Text className={styles.quickfil}>
+          {jobid1}{" "}
+          <SvgIntomark className={styles.stylesvg} onClick={() => close()} />
+        </Text>
+      ) : (
+        " "
+      )}
+       {isDefaultFilter() ? (
+        <Text className={styles.quickfil}>All</Text>
+      ) :(
+          jobstatus1 !== 'All'&& jobstatus1  !==""?(<Text className={styles.quickfil}>
+          {" "}
+          {jobstatus1}
+          <SvgIntomark
+            className={styles.stylesvg}
+            onClick={() => closestatus()}
+          />
+        </Text>):("")
+      )}
+
+      {  jobposted1 !== ""   ? (
+        <Text className={styles.quickfil}>
+          {jobposted1}{" "}
+          <SvgIntomark
+            className={styles.stylesvg}
+            onClick={() => closedate()}
+          />
+        </Text>
+      ) : (
+         " "
+        // " "
+      )}
+     
+
+      {location !== "" ? (
+        <Text className={styles.quickfil}>
+          {location}{" "}
+          <SvgIntomark
+            className={styles.stylesvg}
+            onClick={() => closelocationdata()}
+          />
+        </Text>
+      ) : (
+        ""
+      )}
+   
 
       <div ref={dropDownRef} className={styles.drop_down}>
         <Flex row className={styles.drop_down_header}>

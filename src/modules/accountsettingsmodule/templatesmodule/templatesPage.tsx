@@ -181,7 +181,7 @@ const TemplatesPage = () => {
           )}
 
           {isSubmitLoader && <Loader />}
-          <Flex column className={styles.overflowContainer}>
+          <Flex column className={styles.overflowContainer} style={{padding:"0px 10px"}}>
             <Flex row between className={styles.titleBar}>
               <Flex
                 row

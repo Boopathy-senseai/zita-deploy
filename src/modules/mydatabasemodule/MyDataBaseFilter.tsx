@@ -333,17 +333,16 @@ const MyDataBaseFilter = ({
 
     return (
       <>
-        {doc.label !== 'any' ? (
-          <Text className={styles.quickfil}>
-            {doc.label}{' '}
-            <SvgIntomark className={styles.stylesvg} onClick={onClose} />
-          </Text>
-        ) : (
-          doc.label === 'any' && (
-            <Text className={styles.quickfil}>{'Any'}</Text>
-          )
-        )}
-      </>
+     {  console.log("doccccc",doc)}
+      {doc.label !=="any"?(
+      <Text className={styles.quickfil}>
+      {doc.label}{" "}
+      <SvgIntomark className={styles.stylesvg} onClick={onClose} />
+            </Text>
+            ):(
+              setnewqual(null) )
+                    }
+     </>      
     );
   };
 
@@ -372,91 +371,81 @@ const MyDataBaseFilter = ({
   const isDefaultFilter = () => {
     const skills = newskill || [];
     const qualification = newqual || [];
-
     if (
-      qualification?.length === 0 &&
-      skills?.length === 0 &&
-      newjobname === '' &&
-      newexperience === '' &&
-      newlocation === '' &&
-      newrelocate !== true
+      (qualification?.length === 0 ) &&
+      skills?.length === 0&&
+      newjobname===''&&
+      newexperience===''&&
+      newlocation===''&&
+      newrelocate!==true
+
     ) {
       return true;
     }
     return false;
   };
-  return (
-    <>
-      <Flex row>
-        <div className={styles.quickfilters}>
-          <Text size={13} style={{ whiteSpace: 'nowrap', marginTop: '3px' }}>
-            Quick Filters :
-          </Text>
-          {isDefaultFilter() ? (
+ return (
+<>
+
+<Flex row>
+{console.log("newwwww",newjobname,isDefaultFilter(),newqual)}
+{console.log("olddddd",jobname)}
+<div className={styles.quickfilters}>
+<Text size={13}className={""} style={{marginTop:"3px"}}>
+        Quick Filters :
+      </Text>
+      {newjobname===''?(
+              null
+            ): (
+              <Text className={styles.quickfil}>
+                {newjobname}{" "}
+                <SvgIntomark
+                  className={styles.stylesvg}
+                  onClick={() => closejob()}
+                />
+              </Text>
+            )
+            }
+  
+            { newexperience===''?(
+              null
+            ) : (
+              <Text className={styles.quickfil}>
+              {newexperience}{" "}
+              <SvgIntomark
+                className={styles.stylesvg}
+                onClick={() => closeexp()}
+              />
+            </Text>
+            )
+            }
+            {isDefaultFilter() ? (
             <Text className={styles.quickfil}>{'All'}</Text>
           ) : (
-            <Flex row wrap style={{ display: 'contents' }}>
-              {newqual &&
-                newqual.map((doc, index) => (
-                  <RenderQuickFilter
-                    key={index}
-                    doc={{ label: doc.label, value: doc.value }}
-                    onClose={() => handlefunction(doc)}
-                  />
-                ))}
-              {formik.values.experience.label === 'All' ||
-              newexperience === '' ? null : (
-                <Text className={styles.quickfil}>
-                  {newexperience}{' '}
-                  <SvgIntomark
-                    className={styles.stylesvg}
-                    onClick={() => closeexp()}
-                  />
-                </Text>
-              )}
-
-              {newjobname === '' ? null : (
-                <Text className={styles.quickfil}>
-                  {newjobname}{' '}
-                  <SvgIntomark
-                    className={styles.stylesvg}
-                    onClick={() => closejob()}
-                  />
-                </Text>
-              )}
-              {newlocation === '' ? null : (
-                <Text className={styles.quickfil}>
-                  {newlocation}{' '}
-                  <SvgIntomark
-                    className={styles.stylesvg}
-                    onClick={() => locationsrh()}
-                  />
-                </Text>
-              )}
-              {/* {skill &&
-                showskills.map((doc, index) => (
-                  <RenderQuickFilter
-                    key={index}
-                    doc={{ label: doc.label, value: doc.value }}
-                    onClose={() => closeSkillOption(doc)}
-                  />
-                ))}
-              {hiddenSkills && hiddenSkills.length > 0 && (
-                <Text
-                  className={styles.quickfil}
-                >{`Skills : + ${hiddenSkills.length}`}</Text>
-              )} */}
-              {newskill.length === 0
-                ? null
-                : skildata.slice(0, 4).map((skills, index) => (
-                    <Text className={styles.quickfil} key={skills}>
-                      {skills.label}{' '}
-                      <SvgIntomark
-                        className={styles.stylesvg}
-                        onClick={() => skillval(index, skills)}
-                      />
-                    </Text>
-                  ))}
+            <Flex row wrap style={{display:"contents"}}>
+      {newqual &&
+        newqual.map((doc, index) => (
+        
+          <RenderQuickFilter
+            key={index}
+            doc={{ label: doc.label, value: doc.value }}
+            onClose={() => handlefunction(doc)}
+          />
+        ))}
+        
+        {newskill.length=== 0?(
+              null
+            ) : (
+              skildata.slice(0,4).map((skills,index) =>(
+              <Text className={styles.quickfil} key={skills}>
+                {skills.label}{" "}
+                <SvgIntomark
+                  className={styles.stylesvg}
+                  onClick={() => skillval(index,skills)}
+                />
+              </Text>
+              )))
+              }
               {hiddenskills1 && hiddenskills1.length > 0 && (
                 <Text
                   className={styles.quickfil}
@@ -464,7 +453,22 @@ const MyDataBaseFilter = ({
               )}
             </Flex>
           )}
-          {/* {qualificationValue &&
+            
+            {newlocation===''?(
+              null
+            ): (
+              <Text className={styles.quickfil}>
+                {newlocation}{" "}
+                <SvgIntomark
+                  className={styles.stylesvg}
+                  onClick={() => locationsrh()}
+                />
+              </Text>
+              
+            )
+            }
+        
+      {/* {qualificationValue &&
         qualificationValue.map((doc, index) => (
           <RenderQuickFilter
             key={index}
@@ -529,75 +533,72 @@ const MyDataBaseFilter = ({
                   className={styles.quickfil}
                 >{`Skills : + ${hiddenSkills.length}`}</Text>
               )} */}
+            
+{newrelocate ?(
+  <Text className={styles.quickfil}>
+     {"Willing to Relocate"}{" "}
+     <SvgIntomark
+              className={styles.stylesvg}
+              onClick={closerelocate}
+            />
+   </Text>
+) : (
+null
+)
+}
 
-          {newrelocate ? (
-            <Text className={styles.quickfil}>
-              {'Willing to Relocate'}{' '}
-              <SvgIntomark
-                className={styles.stylesvg}
-                onClick={closerelocate}
-              />
-            </Text>
-          ) : null}
-        </div>
-        <div
-          ref={dropDownRef}
-          className={styles.drop_down}
-          style={{ zIndex: 1 }}
+
+</div>
+    <div  ref={dropDownRef} className={styles.drop_down} style={{ zIndex: 1}}>
+    <Flex
+      row
+      className={(styles.drop_down_header)}
+    >
+      <Flex style={{width:'90%'}}
+      onClick={click} >
+        <Text
+          bold
+          className={styles.filtername}
+          style={{ cursor: "Pointer",paddingTop:7,fontSize:14 }}
         >
-          <Flex row className={styles.drop_down_header}>
-            <Flex style={{ width: '90%' }} onClick={click}>
-              <Text
-                bold
-                className={styles.filtername}
-                style={{ cursor: 'Pointer', paddingTop: 7, fontSize: 14 }}
-              >
-                View Filter
-              </Text>
-            </Flex>
+          View Filter
+        </Text>
+      </Flex>
 
-            <Flex title={'Clear Filters'}>
-              <SvgRefresh
-                width={18}
-                height={18}
-                onClick={filterRefresh}
-                className={styles.filtersvg}
-              />
-            </Flex>
+      <Flex title={"Clear Filters"}>
+        <SvgRefresh
+        
+          width={18}
+          height={18}
+          onClick={filterRefresh}
+          className={styles.filtersvg}
+        />
+      </Flex>
+    </Flex>
+    <div
+      className={`${styles.drop_down_menus} ${
+        showDropDown ? styles.show : ""
+      }`}
+    >
+      <Flex className={styles.mtstyle}>
+      <Text color="primary" size={14} bold className={styles.jobTextStyle}>
+      Job Type
+    </Text>
+    <Flex row center className={styles.filterstyle}  >
+      {jobTypeData.map((jobList) => {
+        return (
+          <Flex row key={jobList.value} width={jobList.width} marginBottom="8px">
+            <InputRadio
+              label={jobList.value}
+              checked={jobList.label === formik.values.jobType}
+              onClick={()=>handlejoblist(jobList.label)}
+            
+            />
           </Flex>
-          <div
-            className={`${styles.drop_down_menus} ${
-              showDropDown ? styles.show : ''
-            }`}
-          >
-            <Flex className={styles.mtstyle}>
-              <Text
-                color="primary"
-                size={14}
-                bold
-                className={styles.jobTextStyle}
-              >
-                Job Type
-              </Text>
-              <Flex row center className={styles.filterstyle}>
-                {jobTypeData.map((jobList) => {
-                  return (
-                    <Flex
-                      row
-                      key={jobList.value}
-                      width={jobList.width}
-                      marginBottom="8px"
-                    >
-                      <InputRadio
-                        label={jobList.value}
-                        checked={jobList.label === formik.values.jobType}
-                        onClick={() => handlejoblist(jobList.label)}
-                      />
-                    </Flex>
-                  );
-                })}
-              </Flex>
-            </Flex>
+        );
+      })}
+    </Flex>
+      </Flex>
 
             <Flex className={styles.mtstyle}>
               <Flex className={styles.skillContainer}>
@@ -708,29 +709,29 @@ const MyDataBaseFilter = ({
           onChange={() => setRelocate(!isRelocate)} />
            <span className={styles1.switch} />
            </label> */}
-                  <InputSwitch onClick={handlerelocate1} checked={isRelocate} />
-                </Flex>
-                <Text color="primary" bold className={styles.toggletext}>
-                  Willing to Relocate
-                </Text>
-              </Flex>
-            </div>
-            <div
-              style={{
-                padding: '6px',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <Button className={styles.buyBtn} onClick={handlechange}>
-                Apply
-              </Button>
-            </div>
-          </div>
-        </div>
+           <InputSwitch
+            onClick={handlerelocate1}
+            checked={isRelocate}
+           />
       </Flex>
-    </>
-  );
+        <Text color= "primary"  className={styles.toggletext}>
+            Willing to Relocate
+        </Text>
+      </Flex>
+     </div>
+     <div style={{padding:'6px',display:'flex',justifyContent: 'center',alignItems:'center'}}>
+     <Button
+     className={styles.buyBtn}
+     onClick={handlechange}
+   >
+    Apply
+   </Button>
+   </div>
+  
+    </div>
+    </div>
+    </Flex>
+</>
+     );
 };
 export default MyDataBaseFilter;

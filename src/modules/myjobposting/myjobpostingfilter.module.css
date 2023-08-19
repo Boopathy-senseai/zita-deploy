@@ -110,7 +110,7 @@ font-weight: 400;
   position: absolute;
   background-color: var(--color-white, #fff);
   border-radius: 12px;
-  max-height:375px ;
+  max-height:530px ;
   overflow-y: scroll;
   width: 230px;
   display: none;
@@ -178,15 +178,7 @@ font-weight: 400;
   border-radius: 16px;
   color: #581845;
 }
-.quickfil2 {
-  font-style: normal;
-  font-weight: 300;
-  font-size: 15px;
-  line-height: 14px;
-  display: flex;
-  align-items: center;
-  color: #581845;
-}
+
 .stylesvg {
   margin-left: 10px;
 }

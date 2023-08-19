@@ -1,3 +1,4 @@
+
 * {
   margin: 0;
   padding: 0;
@@ -28,9 +29,6 @@ body {
   flex-direction: column;
 }
 
-.admin-bc {
-  /* background: #dfdfdf; */
-}
 
 img {
   max-width: 100%;
@@ -483,7 +481,7 @@ small {
   cursor: pointer;
   padding: 8px 15px;
   transition: all 0.3s;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  /* border-bottom: 1px solid rgba(0, 0, 0, 0.04); */
 }
 .dropdown-item:hover {
   background-color: rgb(88 24 69 / 15%) !important;
@@ -779,6 +777,9 @@ input:-webkit-autofill:active {
 /* Input fields */
 .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
   padding: 5px 10px !important;
+  height: 20px !important;
+  font-size: 14px !important;
+  color: #333 !important;
 }
 
 /* tab-content */
@@ -2276,4 +2277,126 @@ cardHo:hover{
   border: 1px solid #ccc;
   border-radius: 0px 0px 4px 4px;
 }
+.rdp-nav_button {
+  cursor: pointer !important;
+}
 
+.rdp-day {
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: var(--rdp-cell-size);
+  max-width: var(--rdp-cell-size);
+  height: var(--rdp-cell-size);
+  margin: 5px  !important;
+  border: 2px solid transparent;
+  border-radius: 100%;
+  /* cursor : default !important; */
+} 
+
+.rdp-head_cell {
+  vertical-align: middle;
+  font-size: 0.75em;
+  font-weight: 700;
+  text-align: center;
+  height: 100%;
+  height: var(--rdp-cell-size);
+  padding: 20px;
+  text-transform: uppercase;
+}
+.rdp-caption_label {
+  font-size: 14px !important;
+  padding: 0 !important;
+  color: #333 !important;
+  margin-bottom: 10px;
+}
+.rdp-cell {
+  color: #333 !important;
+}
+.rdp {
+  margin: 10px 0px 10px 0px !important;
+}
+.rdp-button:hover:not([disabled]):not(.rdp-day_selected) {
+  background-color: white !important;
+  cursor: default;
+}
+.rdp-button.rdp-day_selected {
+  /* background-color: #d7c7d2 !important; */
+  /* color: #581845 !important; */
+  /* padding: 5px !important; */
+}
+.rdp-button.rdp-day_selected
+.DayPicker-Day--lastSelected {
+  background-color: black;
+  color: white;
+  color: #581845; 
+  /* font-weight: 54px; */ /* This is not a valid font-weight value */
+}
+/* 
+.rdp-button.rdp-day_selected,
+.rdp-day_selected:focus-visible,
+.rdp-day_selected:hover {
+  color: white;
+  opacity: 1;
+  color: #581845 !important; 
+  padding: 5px !important;
+  background-color: #d7c7d2 !important;
+} */
+
+/* .rdp-button.rdp-day_selected:focus {
+  background-color: #581858 !important;
+  color: #fffcff !important;
+  padding: 5px !important;
+} */
+
+.rdp-button.rdp-day_highlighted{
+  background-color: #17692e !important;
+  color: #fffcff !important;
+  padding: 5px !important;
+}
+
+.custom-highlighted {
+  background-color: black;
+  color: white;
+}
+
+.rdp-day_today:not(.rdp-day_outside) {
+  /* background-color: #581845 !important; */
+  color: black;
+}
+
+.rdp-caption{
+  margin-left: 15px;
+  margin-bottom: 10px;
+}
+
+.daterangepicker td.in-range{
+  background-color: #d7c7d2 !important;
+ }
+ .daterangepicker td.active{
+   background-color: #581845 !important;
+ }
+ .cancelBtn.btn.btn-sm.btn-default{
+   background-color: #888888;
+   color: #fff;
+   /* text-transform: capitalize; */
+ }
+ .daterangepicker .drp-buttons .btn{
+   text-transform: capitalize;
+ }
+ .daterangepicker td.off, .daterangepicker td.off.in-range, .daterangepicker td.off.start-date, .daterangepicker td.off.end-date {
+   background-color: #fff;
+   border-color: transparent;
+   color: #999;
+ }
+ .daterangepicker td{
+   cursor: pointer !important;
+ }
+ .daterangepicker td.disabled{
+   cursor: not-allowed !important;
+ }
+ .daterangepicker th.month{
+   cursor: default !important;
+ }

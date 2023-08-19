@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import toast, { Toaster } from 'react-hot-toast';
 
 import moment from 'moment';
+import { useLocation } from 'react-router-dom';
 import { Flex, Text, Button, LinkWrapper, SelectTag } from '../../uikit';
 import { SvgCalendar } from '../../icons';
 import { AppDispatch } from '../../store';
@@ -55,13 +56,22 @@ import {
 } from './util';
 import EventPopUpModal from './EventPopUpModal';
 import { setColor } from './colors';
-import ToolBar from './calendar-components/ToolBar';
+//import ToolBar from './calendar-components/ToolBar';
+import SimpleToolBar from './calendar-components/SimpleToolBar';
+
 import ColorEvent from './calendar-components/ColorEvent';
 import WeekHeader from './calendar-components/WeekHeader';
 import MeetingSchedulingScreen from './MeetingSchedulingScreen';
 import CalendarScreenLoader from './CalendarScreenLoader';
+interface stateType {
+  openScheduleEvent: boolean;
+  recurringEventId: string;
+}
+
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 const Calendar = () => {
+  const { state: locationState } = useLocation<stateType>();
   const dispatch: AppDispatch = useDispatch();
   const [currentUser, setCurrentUser] = useState<UserInfo>({
     id: null,
@@ -73,7 +83,13 @@ const Calendar = () => {
   const [throughApplicant, setthroughApplicant] = useState(false);
   const [eventPopUpDetails, setEventPopUpDetails] =
     useState<EventPopUpDetails>();
-  const [currentEventId, setCurrentEventId] = useState<string>();
+  const [selectedEvent, setSelectedEvent] = useState<{
+    eventId: string | undefined;
+    recurringEventId: string | undefined;
+  }>({
+    eventId: undefined,
+    recurringEventId: undefined,
+  });
   const [teamMembers, setTeamMembers] = useState<TeamMemberType[]>([]);
   const [selectedTeamMembers, setSelectedTeamMembers] = useState<number[]>([0]);
   const [teamMemberEvents, setTeamMemberEvents] = useState<CalendarEventType[]>(
@@ -258,8 +274,8 @@ const Calendar = () => {
     if (meetingevent === 'true') {
       setOpenScheduleForm(true);
       localStorage.setItem('eventhandeler', 'false');
-      handleCloseEventPop();
-      setCurrentEventId(localStorage.getItem('eventhandelerid'));
+      handleCloseEventPop(); 
+      // setCurrentEventId(localStorage.getItem('eventhandelerid'));
       console.log(localStorage.getItem('checkstatus'),'ggggggggggggggggggggggggggggffffffffffffffffffffffffffff')
       if (localStorage.getItem('checkstatus') === CALENDAR.Google) {
         dispatch(
@@ -335,6 +351,229 @@ const Calendar = () => {
     }
   },[localStorage.getItem('Applicantname')])
 
+  useEffect(() => {
+    const meetingevent = localStorage.getItem('eventhandeler');
+    if (meetingevent === 'true') {
+      setOpenScheduleForm(true);
+      localStorage.setItem('eventhandeler', 'false');
+      handleCloseEventPop();
+      // setCurrentEventId(localStorage.getItem('eventhandelerid'));
+      console.log(localStorage.getItem('checkstatus'),'ggggggggggggggggggggggggggggffffffffffffffffffffffffffff')
+      if (localStorage.getItem('checkstatus') === CALENDAR.Google) {
+        dispatch(
+          googleEditEventMiddleware({
+            eventId: localStorage.getItem('eventhandelerid'),
+          }),
+         
+        )
+          .then((res) => {
+            console.log(localStorage.getItem('eventhandelerid'))
+            if (res.payload.data === true) {
+              setEditEventDetails(
+                res.payload.events.map((event: ZitaEventType) =>
+                  getEditEventsDetails(event),
+                ),
+              );
+              setIsEditEvent(true);
+              setOpenScheduleForm(true);
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      } else if (localStorage.getItem('checkstatus') === CALENDAR.Outlook) {
+        dispatch(
+          outlookEditEventMiddleware({
+            eventid: localStorage.getItem('eventhandelerid'),
+          }),
+        )
+          .then((res) => {
+            if (res.payload.data === true) {
+              setEditEventDetails(
+                res.payload.events.map((event: ZitaEventType) =>
+                  getEditEventsDetails(event),
+                ),
+              );
+              setIsEditEvent(true);
+              setOpenScheduleForm(true);
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
+    }
+  }, [openScheduleForm]);
+  useEffect(() => {
+    const schedulevent = localStorage.getItem('scheduleven');
+    if (schedulevent === 'true') {
+      setOpenScheduleForm(true);
+      localStorage.setItem('scheduleven', 'false');
+    }
+  }, []);
+  useEffect(() => {
+    const Applicantname = localStorage.getItem('Applicantname');
+    const jdname = localStorage.getItem('Jdname');
+    const jdid = localStorage.getItem('jdname');
+    if (Applicantname !== '') {
+      setASpplicantname(Applicantname);
+      setJdname(jdname);
+      setJdid(jdid);
+      setOpenScheduleForm(true);
+    }
+  }, [localStorage.getItem('Applicantname')]);
+
+  useEffect(()=>{
+    if (localStorage.getItem('Applicantname') !== '') {
+      const booleanValue = true
+      setthroughApplicant(booleanValue)
+    } else {
+      const booleanValue = false
+      setthroughApplicant(booleanValue)
+    }
+  },[localStorage.getItem('Applicantname')])
+
+  useEffect(() => {
+    console.log(locationState, currentUserEvents);
+    if (locationState && locationState?.openScheduleEvent === true) {
+      setOpenScheduleForm(true);
+    }
+    if (
+      locationState &&
+      locationState?.recurringEventId &&
+      currentUserEvents.length !== 0
+    ) {
+      const event = currentUserEvents.filter(
+        (doc) =>
+          doc.recurringEventId === locationState?.recurringEventId ||
+          doc.eventId === locationState?.recurringEventId,
+      );
+      console.log(event);
+      if (event.length !== 0) {
+        handleOpenEventForm(event[0]);
+      } else {
+        toast.error('Unable to find event', {
+          duration: 3500,
+        });
+      }
+    }
+  }, [JSON.stringify(locationState), currentUserEvents.length]);
+
+  const handleOpenEventForm = (event: CalendarEventType) => {
+    if ('eventId' in event) {
+      dispatch(
+        verifyEventMiddleware({
+          calendarProvider,
+          eventId: event.eventId,
+        }),
+      )
+        .then((res) => {
+          console.log(res.payload);
+          if (res.payload.data === true) {
+            setIsEventCanUpdate(true);
+            setEventPopUpDetails((prevEvent) => ({
+              ...prevEvent,
+              eventId: event.eventId,
+              syncedBy: null,
+              applicantId: res.payload.event[0]['cand_id'],
+              recurringEventId: event.recurringEventId,
+            }));
+            handleOpenEditForm({
+              ...eventPopUpDetails,
+              eventId: event.eventId,
+              syncedBy: null,
+              applicantId: res.payload.event[0]['cand_id'],
+              recurringEventId: event.recurringEventId,
+            });
+          } else {
+            setIsEventCanUpdate(false);
+            setEventPopUpDetails((prevEvent) => ({
+              ...prevEvent,
+              eventId: null,
+              syncedBy: event.syncedBy,
+              recurringEventId: null,
+            }));
+            toast.error('Event verification failed', {
+              duration: 3500,
+            });
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    } else {
+      setIsEventCanUpdate(false);
+      setEventPopUpDetails((prevEvent) => ({
+        ...prevEvent,
+        eventId: null,
+        syncedBy: event.syncedBy,
+        recurringEventId: null,
+      }));
+      toast.error('Unable to open event', {
+        duration: 3500,
+      });
+    }
+
+    setEventPopUpDetails((prevEvent) => {
+      const eventData = {
+        ...prevEvent,
+        title: event.title,
+        startDate: new Date(event.start),
+        endDate: new Date(event.end),
+        link: event.link,
+        organizer: event.organizer,
+        isZitaEvent: event.title.includes('Zita event'),
+        canEdit: event.userId === currentUser.id,
+      };
+
+      if ('attendees' in event) {
+        eventData['attendees'] = event.attendees;
+      }
+
+      return eventData;
+    });
+  };
+
+  const handleOpenEditForm = (e: EventPopUpDetails) => {
+    handleCloseEventPop();
+    setSelectedEvent({
+      eventId: e.eventId,
+      recurringEventId: e.recurringEventId,
+    });
+    if (calendarProvider === CALENDAR.Google) {
+      dispatch(googleEditEventMiddleware({ eventId: e.eventId }))
+        .then((res) => {
+          if (res.payload.data === true) {
+            setEditEventDetails(
+              res.payload.events.map((event: ZitaEventType) =>
+                getEditEventsDetails(event),
+              ),
+            );
+            setIsEditEvent(true);
+            setOpenScheduleForm(true);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    } else if (calendarProvider === CALENDAR.Outlook) {
+      dispatch(outlookEditEventMiddleware({ eventid: e.eventId }))
+        .then((res) => {
+          if (res.payload.data === true) {
+            setEditEventDetails(
+              res.payload.events.map((event: ZitaEventType) =>
+                getEditEventsDetails(event),
+              ),
+            );
+            setIsEditEvent(true);
+            setOpenScheduleForm(true);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  };
   const handleEventScheduleForm = () => {
     localStorage.setItem('Applicantname', '');
     localStorage.setItem('jdname', '');
@@ -376,6 +615,7 @@ const Calendar = () => {
         color: '#fcba03',
         organizer: event.organizer.email,
         syncedBy: userName,
+        recurringEventId: event?.recurringEventId,
       };
 
       if ('attendees' in event) {
@@ -403,6 +643,7 @@ const Calendar = () => {
       link: null,
       color: '#fcba03',
       syncedBy: userName,
+      recurringEventId: event.event_id,
     }));
   };
 
@@ -609,6 +850,9 @@ const Calendar = () => {
                 (event) => event.eventId !== eventPopUpDetails.eventId,
               ),
             );
+            toast.success('Event cancelled successfully', {
+              duration: 3500,
+            });
           } else {
             toast.error('Failed to Delete Event', {
               duration: 3500,
@@ -642,6 +886,7 @@ const Calendar = () => {
               eventId: event.eventId,
               syncedBy: null,
               applicantId: res.payload.event[0]['cand_id'],
+              recurringEventId: event.recurringEventId,
             }));
           } else {
             setIsEventCanUpdate(false);
@@ -649,6 +894,7 @@ const Calendar = () => {
               ...prevEvent,
               eventId: null,
               syncedBy: event.syncedBy,
+              recurringEventId: null,
             }));
           }
         })
@@ -661,6 +907,7 @@ const Calendar = () => {
         ...prevEvent,
         eventId: null,
         syncedBy: event.syncedBy,
+        recurringEventId: null,
       }));
     }
 
@@ -674,6 +921,7 @@ const Calendar = () => {
         organizer: event.organizer,
         isZitaEvent: event.title.includes('Zita event'),
         canEdit: event.userId === currentUser.id,
+
       };
 
       if ('attendees' in event) {
@@ -750,7 +998,10 @@ const Calendar = () => {
 
   const handleEditEvent = () => {
     handleCloseEventPop();
-    setCurrentEventId(eventPopUpDetails.eventId);
+    setSelectedEvent({
+      eventId: eventPopUpDetails.eventId,
+      recurringEventId: eventPopUpDetails.recurringEventId,
+    });
     if (calendarProvider === CALENDAR.Google) {
       dispatch(
         googleEditEventMiddleware({ eventId: eventPopUpDetails.eventId }),
@@ -846,6 +1097,11 @@ const Calendar = () => {
             Calendar
           </Text>
           <div className={styles.triangle}> </div>
+          {/* <SvgCalendar width={30} height={30} /> */}
+          <Text bold size={16} color="theme">
+            Calendar
+          </Text>
+          <div className={styles.triangle}> </div>
         </div>
       </div>
       <Flex row between>
@@ -853,7 +1109,7 @@ const Calendar = () => {
         <Flex className={styles.calendarInputs}>
           <Flex row center marginRight={15}>
             <Text size={14} color="theme">
-              Time Zone:
+              Time zone:
             </Text>
             {TimeZoneView}
           </Flex>
@@ -897,12 +1153,28 @@ const Calendar = () => {
   }
 
   return (
-    <div>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden',
+        paddingBottom: 15,
+      }}
+    >
       <Toaster position="top-right" reverseOrder={false} />
       <TopLineLoader show={isTopLineLoading} />
-      <div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100%',
+          height: '-webkit-fill-available',
+        }}
+      >
         {isCalendarIntegrated ? (
-          <div>
+          <div className={styles.calenderContent}>
             {CalendarHeaderView}
             {teamMemberEvents && (
               <>
@@ -912,7 +1184,7 @@ const Calendar = () => {
                     events={visibleEvents}
                     dayLayoutAlgorithm={'no-overlap'}
                     defaultView={'work_week'}
-                    views={['day', 'month', 'work_week', 'week']}
+                    views={['day', 'work_week', 'week', 'month']}
                     onSelectSlot={(slotInfo) => {
                       handleOnSelectSlot(slotInfo);
                     }}
@@ -925,7 +1197,7 @@ const Calendar = () => {
                       eventTimeRangeFormat: () => '',
                     }}
                     components={{
-                      toolbar: ToolBar,
+                      toolbar: SimpleToolBar,
                       event: ColorEvent,
                       week: {
                         header: WeekHeader,
@@ -955,7 +1227,7 @@ const Calendar = () => {
                 applicants={applicants}
                 currentUser={currentUser}
                 currentUserEvents={currentUserEvents}
-                eventId={currentEventId}
+                // eventId={currentEventId}
                 cand_name={isApplicantname}
                 jd_name={isJdname}
                 jd_id={Number(isjdid)}
@@ -967,6 +1239,7 @@ const Calendar = () => {
                 handleEventScheduleForm={handleEventScheduleForm}
                 slotRange={slotRange}
                 setIsTopLineLoading={setIsTopLineLoading}
+                {...selectedEvent}
               />
             )}
           </div>
@@ -979,3 +1252,5 @@ const Calendar = () => {
 };
 
 export default Calendar;
+
+

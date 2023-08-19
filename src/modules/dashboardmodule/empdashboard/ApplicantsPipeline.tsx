@@ -75,7 +75,13 @@ const ApplicantsPipeline = ({ pipeline, planId, jd_metrics }: Props) => {
       },
     },
     xAxis: {
-      categories: ['Views', 'Applicants', 'Shortlisted', 'Offered', 'Rejected'],
+      categories: [
+        'Views',
+        'Applicants',
+        'Shortlisted',
+        'Hired',
+        'Rejected',
+      ],
     },
     yAxis: {
       title: {

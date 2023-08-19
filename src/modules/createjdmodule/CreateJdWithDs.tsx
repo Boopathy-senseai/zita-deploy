@@ -451,7 +451,7 @@ const CreateJdWithDs = () => {
       <Flex
         columnFlex
         className={styles.overAll}
-        height={window.innerHeight - 72}
+        height={window.innerHeight - 112}
       >
         {(jdDuplicateLoader || createJdPostLoader) && <Loader />}
         <JdParserLoader
