@@ -450,10 +450,12 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
     if (!isEmpty(formik.values.pagaeUrl) && isInput) {
       dispatch(urlVerificationMiddleWare({ url: formik.values.pagaeUrl })).then(
         (res) => {
+          console.log("ssssssss",res.payload.success)
           if (
-            res.payload.success === 1 &&
-            career_page &&
-            career_page.career_page_url !== formik.values.pagaeUrl
+          
+            res.payload.success === 1 
+            // career_page &&
+            // career_page.career_page_url !== formik.values.pagaeUrl
           ) {
             setUrlError(true);
           } else {

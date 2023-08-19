@@ -212,6 +212,7 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
         <Flex columnFlex>
           <Flex middle row center className={styles.warningFlex1}>
           <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
+          <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px',marginLeft:"7px"}} bold >Heads Up!{' '}</Text>
             <Text size={13}   className={styles.warningText1}>
               {`Your free trial ends on ${getDateString(
                 subscription?.subscription_end_ts,

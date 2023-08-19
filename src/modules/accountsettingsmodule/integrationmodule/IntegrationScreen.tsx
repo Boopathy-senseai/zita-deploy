@@ -259,7 +259,7 @@ const IntegrationScreen = () => {
       {console.log("outlookcallapimiddle::",outlookCallApiMiddleware)}
       {isLoginLoader && <Loader />}
       <Flex columnFlex>
-        <Text size={16} bold style={{ color: '#581845' }}>
+        <Text size={14} bold >
           Calendar Integration
         </Text>
         <Text>Integrate your calendar with zita to schedule your meetings</Text>
@@ -283,9 +283,9 @@ const IntegrationScreen = () => {
                  localStorage.removeItem('integrationSuccess')
                }
                 <Text
-                  color="theme"
+                  
                   bold
-                  size={16}
+                  size={14}
                   style={{ marginLeft: '10px' }}
                 >
                   Outlook Mail
@@ -313,9 +313,9 @@ const IntegrationScreen = () => {
                 <SvgOutlookcalendar></SvgOutlookcalendar>
                {/* {  Toast('Outlook google Integrated Successfully', 'MEDIUM')   } */}
                 <Text
-                  color="theme"
+                  
                   bold
-                  size={16}
+                  size={14}
                   style={{ marginLeft: '10px' }}
                 >
                   Outlook Mail
@@ -395,9 +395,9 @@ const IntegrationScreen = () => {
                 <SvgGooglecalendar></SvgGooglecalendar>
              
                 <Text
-                  color="theme"
+                  
                   bold
-                  size={16}
+                  size={14}
                   style={{ marginLeft: '10px' }}
                 >
                   Google Calendar

@@ -78,21 +78,22 @@
 }
 
 .drop_down_header {
-  padding: 5px 10px 5px 10px;
+  padding: 4px 10px 5px 10px;
   background-color: #ffffff !important;
   cursor: pointer;
-
+  width: 260px;
   height: 30px;
   border: 1px solid #581845;
   border-radius: 11px;
   justify-content: space-between;
   position: relative;
 }
+
 .drop_down_menus {
   background-color: #fff;
   position: absolute;
   background-color: var(--color-white, #fff);
-  border-radius: 0 0 10px 10px;
+  border-radius: 10px;
   width: 100%;
   z-index: 12;
   display: none;
@@ -131,3 +132,8 @@
    margin-bottom: 15px;
   
   }
+  /* .viewfilter{
+  cursor: pointer;
+  padding-right: 120px;
+  width: 100%;
+  } */

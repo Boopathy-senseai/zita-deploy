@@ -224,7 +224,7 @@ const Sidebar = ({ changes, data }: props) => {
                   color="primary"
                   style={{ color: '#581845', marginRight: '10px' }} 
                 >
-                  Job Postings
+                  Job Posting
                 </Text>
               </LinkWrapper>
             </li>)

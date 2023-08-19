@@ -139,7 +139,7 @@ const JobMetricsCard = () => {
                   {job_details && job_details?.job_id}
                 </Text>
               </Flex>
-              <Flex row center marginLeft={16} marginRight={16}>
+              <Flex row center marginLeft={11} marginRight={16}>
             
                   {/* <SvgLocation width={16} height={16} fill={PRIMARY}></SvgLocation> */}
                   <SvgLocationjobpost  width={16} height={16}></SvgLocationjobpost>
