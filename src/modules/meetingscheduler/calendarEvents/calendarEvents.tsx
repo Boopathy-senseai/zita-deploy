@@ -13,6 +13,7 @@ import {
 } from '../../../uikit';
 import { getDateString, uniqueArray } from '../../../uikit/helper';
 import { AppDispatch, RootState } from '../../../store';
+import { dashboardCalenderMiddleWare } from '../../dashboardmodule/empdashboard/store/dashboardmiddleware';
 import { SvgCalendar } from '../../../icons';
 import { calendarRoute } from '../../../appRoutesPath';
 import {
@@ -30,14 +31,15 @@ import { TeamMemberType } from '../../calendarModule/types';
 import { getUsersByCompanyMiddleware } from '../../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import EventsMenu from '../components/eventsMenu';
 import EventDeletePopUpModal from '../components/deleteEvent';
+import TableWrapper from '../components/tableWrapper';
 import {
-  deleteEventMiddleWare,
-  getEventsMiddleWare,
+  deleteCalendarEventMiddleWare,
+  getCalendarEventsMiddleWare,
 } from './store/middleware/eventsmiddleware';
-import Table from './eventsTable';
-import styles from './scheduledEvents.module.css';
+import styles from './calendarEvents.module.css';
+import CalendarEventsTable from './calendarEventsTable';
 
-const ScheduledEventsPage = () => {
+const CalendarEventsPage = () => {
   const history = useHistory();
   const dispatch: AppDispatch = useDispatch();
   const [event, setEvent] = useState([
@@ -73,8 +75,8 @@ const ScheduledEventsPage = () => {
   });
 
   const { scheduleEventState, user } = useSelector(
-    ({ scheduledEventsReducers, userProfileReducers }: RootState) => ({
-      scheduleEventState: scheduledEventsReducers,
+    ({ calendarEventsReducers, userProfileReducers }: RootState) => ({
+      scheduleEventState: calendarEventsReducers,
       user: userProfileReducers?.user,
     }),
   );
@@ -114,7 +116,7 @@ const ScheduledEventsPage = () => {
       });
 
     dispatch(
-      getEventsMiddleWare({
+      getCalendarEventsMiddleWare({
         event: filters.type === EVENT_TYPE.MY_EVENTS ? 'True' : 'False',
         date: getCurrentDate(filters.activeRadio),
         other_user: selectedPeople.length !== 0 ? selectedPeople : undefined,
@@ -134,7 +136,7 @@ const ScheduledEventsPage = () => {
 
   useEffect(() => {
     dispatch(
-      getEventsMiddleWare({
+      getCalendarEventsMiddleWare({
         event:
           filters.type === EVENT_TYPE.MY_EVENTS
             ? getTrue(filters.activeRadio)
@@ -155,7 +157,7 @@ const ScheduledEventsPage = () => {
 
   const getEventsData = (date?: Date) => {
     dispatch(
-      getEventsMiddleWare({
+      getCalendarEventsMiddleWare({
         event: filters.type === EVENT_TYPE.MY_EVENTS ? 'True' : 'False',
         date:
           filters.activeRadio === EVENT_FILTER_OPTION.DATE
@@ -177,8 +179,8 @@ const ScheduledEventsPage = () => {
   // };
   const handleDeleteEvent = (id: any) => {
     dispatch(
-      deleteEventMiddleWare({
-        params: { id },
+      deleteCalendarEventMiddleWare({
+        params: { cal_id: id },
         props: {
           event: filters.type === EVENT_TYPE.MY_EVENTS ? 'True' : 'False',
           date:
@@ -220,37 +222,44 @@ const ScheduledEventsPage = () => {
     });
   };
 
-  const eventsList = (): IEventTableItem[] => {
+  const eventsList = (): ICalendarEventTableItem[] => {
     const organisers = uniqueArray(scheduleEventState.org_name);
     if (filters.activeRadio === EVENT_FILTER_OPTION.DATE) {
-      return scheduleEventState?.event.map((doc) => {
+      return scheduleEventState?.calevents_events.map((doc) => {
+        const emails = ((doc.email as string) || '').split(',');
+        console.log(emails);
         return {
           ...doc,
-          interviewers: scheduleEventState?.interviewers.filter(
-            (s) => s.event_id === doc.event_id,
+          email: scheduleEventState?.calevents_interviewer.filter((s) =>
+            emails.includes(s.email),
           ),
+          // interviewers: emails.map(em => scheduleEventState?.calevents_interviewer[em]),
           organisers: scheduleEventState.org_name,
         };
       });
     }
     if (filters.activeRadio === EVENT_FILTER_OPTION.PAST_AND_UPCOMING) {
       if (filters.isPast) {
-        return scheduleEventState?.pastEvent.map((doc) => {
+        return scheduleEventState?.calevents_past_event.map((doc) => {
+          const emails = ((doc.email as string) || '').split(',');
+          console.log(emails);
           return {
             ...doc,
-            interviewers: scheduleEventState?.interviewers.filter(
-              (s) => s.event_id === doc.event_id,
+            email: scheduleEventState?.calevents_interviewer.filter(
+              (s) => emails.includes(s.email || ''),
             ),
             organisers,
           };
         });
       }
 
-      return scheduleEventState?.upcomingEvent.map((doc) => {
+      return scheduleEventState?.calevents_upcoming_event.map((doc) => {
+        const emails = ((doc.email as string) || '').split(',');
+        console.log(emails);
         return {
           ...doc,
-          interviewers: scheduleEventState?.interviewers.filter(
-            (s) => s.event_id === doc.event_id,
+          email: scheduleEventState?.calevents_interviewer.filter((s) =>
+            emails.includes(s.email || ''),
           ),
           organisers,
         };
@@ -259,33 +268,32 @@ const ScheduledEventsPage = () => {
 
     return [];
   };
-
+console.log(eventsList,"hello")
   const renderTable = () => {
     if (scheduleEventState?.isLoading) {
       return <Loader />;
     }
-
     return (
-        <Table
-          list={eventsList()}
-          pastEvents={filters.isPast}
-          activeRadio={filters.activeRadio}
-          deleteState={scheduleEventState?.deleteState}
-          onJoin={handleJoinEvent}
-          // onEdit={handleEditEvent}
-          onDelete={(doc) =>
-            setDeleteEvent({ open: true, event: doc, type: 'event' })
-          }
-        />
+      <CalendarEventsTable
+        list={eventsList()}
+        pastEvents={filters.isPast}
+        activeRadio={filters.activeRadio}
+        deleteState={scheduleEventState?.deleteState}
+        onJoin={handleCalendarJoinEvent}
+        onEdit={handleCalendarEditEvent}
+        onDelete={(doc) =>
+          setDeleteEvent({ open: true, event: doc, type: 'calendar' })
+        }
+      />
     );
   };
 
   const pastUpcoming = (
     <Flex row center>
       <Text
-        size={13}
+        size={14}
         className={styles.textStyles}
-        style={{ marginRight: '5px' }}
+        style={{ marginRight: '10px' }}
       >
         Upcoming Events
       </Text>
@@ -296,9 +304,9 @@ const ScheduledEventsPage = () => {
         }
       />
       <Text
-        size={13}
+        size={14}
         className={styles.textStyles}
-        style={{ marginLeft: '5px' }}
+        style={{ marginLeft: '10px' }}
       >
         Past Events
       </Text>
@@ -306,7 +314,7 @@ const ScheduledEventsPage = () => {
   );
 
   const eventDate = (
-    <Flex marginLeft={5}>
+    <Flex marginLeft={10}>
       <div style={{ position: 'relative', display: 'flex' }}>
         <DatePicker
           id="calendar___open"
@@ -407,4 +415,4 @@ const ScheduledEventsPage = () => {
   );
 };
 
-export default ScheduledEventsPage;
+export default CalendarEventsPage;

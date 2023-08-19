@@ -28,14 +28,14 @@ export const getEventsMiddleWare = createAsyncThunk<IEventData, { event: any, da
 
 export const deleteEventMiddleWare = createAsyncThunk<
   IEventData,
-  { id: any; event?: any }
+  { params: {id: any }, props?:{ event: any, date?: string, other_user?: number[],  } }
 >(EVENTS_DELETE, async (payload, { rejectWithValue, dispatch }) => {
   try {
     const { data } = await axios.delete(
-      `${calendarScheduledEvents}?id=${payload.id}`,
+      `${calendarScheduledEvents}?${stringifyParams(payload.params)}`,
     );
     // await delay(3000);
-    if (payload.event) dispatch(getEventsMiddleWare({ event: payload.event }));
+    if (payload.props) dispatch(getEventsMiddleWare({ ...payload.props }));
     return data as IEventData;
   } catch (error) {
     const typedError = error as Error;

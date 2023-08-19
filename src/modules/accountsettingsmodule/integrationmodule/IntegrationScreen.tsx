@@ -552,18 +552,19 @@ const IntegrationScreen = () => {
         </Flex>
       </Modal>
 
-      {connected === 1 && active === 1 ? (
+
+
+    {connected === 1 && active === 1 ? (
         <Modal open={conflictopen} onClose={close}>
           <CalenderConfig
             isGoogle={isGoogle}
-            email={'pugazhendhij@sense7ai.com'}
+            email={email}
             CloseConfiguration ={CloseConfiguration}
           />
         </Modal>
       ) : (
         ''
       )}
-
       {/* <Flex className={styles.borderbottom} marginTop={30}>
 
     </Flex> */}

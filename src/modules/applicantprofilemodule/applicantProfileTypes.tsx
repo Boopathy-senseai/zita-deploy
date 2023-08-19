@@ -442,8 +442,7 @@ export interface MessageTemplateReducerState {
 }
 
 export interface Calender {
-  google?: GoogleEntity[];
-  
+  google?: GoogleEntity[];  
   event?: EventEntity[];
   outlook?: GoogleEntity[];
 }

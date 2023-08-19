@@ -14,6 +14,7 @@ import {
 import SvgDotMenu from '../../../icons/SvgDotMenu';
 import InterviewerIcon from '../../calendarModule/InterviewerIcon';
 import SvgCalendar from '../../../icons/SvgCalendar';
+import { JOIN_EVENTS } from '../utils';
 import styles from './eventsTable.module.css';
 
 export interface DateEntity {
@@ -47,6 +48,8 @@ const CalendarEventsTable: React.FC<Props> = (props) => {
     onEdit,
     onDelete,
   } = props;
+
+  
   const showdate = (val) => {
     if(val !== undefined){
       const date = val.split('T');
@@ -79,7 +82,7 @@ const CalendarEventsTable: React.FC<Props> = (props) => {
     return (
       <Flex row wrap>
         {show.map((doc, sIndex) => (
-          <InterviewerIcon name={`${doc.first_name} ${doc.last_name}` } key={sIndex} index={sIndex} />
+          <InterviewerIcon name={doc.full_name} key={sIndex} index={sIndex} />
         ))}
         {hidden && hidden.length > 0 && (
           <InterviewerIcon
@@ -147,7 +150,7 @@ const CalendarEventsTable: React.FC<Props> = (props) => {
       );
     }
     return (
-      <table className="table" style={{ paddingLeft: 'none' }}>
+      <table className="table" style={{ paddingLeft: 'none', height: 'fit-content' }}>
         <thead>
           <tr>
             <th className={styles.hpadchange}>
@@ -234,7 +237,7 @@ const CalendarEventsTable: React.FC<Props> = (props) => {
                     <Text className={styles.stBold}>{doc.event_type}</Text>
                   </td>
                   <td className={styles.padchanges} style={{}}>
-                    {renderInterviewers(doc.interviewers)}
+                    {renderInterviewers(doc.email)}
                   </td>
                   <td className={styles.padchanges} style={{}}>
                     <Text className={styles.stBold}>
@@ -262,11 +265,11 @@ const CalendarEventsTable: React.FC<Props> = (props) => {
                       </Dropdown.Toggle>
 
                       <Dropdown.Menu style={{ minWidth: '5rem' }}>
-                        <Dropdown.Item onClick={() => onJoin(doc)}>
+                      {JOIN_EVENTS.includes(doc.event_type) && <Dropdown.Item onClick={() => onJoin(doc)}>
                           <Flex row center className={styles.dropDownListStyle}>
                             <Text style={{ marginLeft: 10 }}>Join</Text>
                           </Flex>
-                        </Dropdown.Item>
+                        </Dropdown.Item>}
 
                         <Dropdown.Item onClick={() => onEdit(doc)}>
                           <Flex row center className={styles.dropDownListStyle}>

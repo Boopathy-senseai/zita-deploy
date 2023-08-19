@@ -8,7 +8,7 @@ interface Props {
   event: IEvent | ICalendarEvent;
   type: "event" | "calendar";
   onClose: () => void;
-  onConfirm: (doc:{id?: any, cal_id?: any}) => void;
+  onConfirm: (id: any) => void;
 }
 
 const EventDeletePopUpModal = ({ onConfirm, event, type, onClose, open }: Props) => {
@@ -29,10 +29,7 @@ const EventDeletePopUpModal = ({ onConfirm, event, type, onClose, open }: Props)
             No, Thanks
           </button>
           <button 
-            onClick={() => {
-                if(type === "event") onConfirm({id:event.id});
-                if(type === "calendar") onConfirm({cal_id:event.id});
-            }} 
+            onClick={() => onConfirm(event.id)} 
             className={styles.deleteButton}
           >
             Cancel Meeting

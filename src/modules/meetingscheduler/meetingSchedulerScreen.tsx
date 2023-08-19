@@ -17,6 +17,7 @@ import SvgScheduler from '../../icons/SvgScheduler';
 import styles from './meetingSchedulerScreen.module.css';
 import ScheduledEventsPage from './scheduledevents/scheduledEvents';
 import EventScheduler from './events/EventScheduler';
+import CalendarEventsPage from './calendarEvents/calendarEvents';
 
 type ParamsType = {
   itemId: string;
@@ -125,8 +126,11 @@ const MeetingSchedulerScreen = ({ value }: props) => {
               <Tab title={'Events Schedular'} eventKey={'0'}>
                 {tabKey === '0' && <EventScheduler />}
               </Tab>
-              <Tab title={'Scheduled Events'} eventKey={'1'}>
+              <Tab title={'Slotter Events'} eventKey={'1'}>
                 {tabKey === '1' && <ScheduledEventsPage />}
+              </Tab>
+              <Tab title={'Calendar Events'} eventKey={'2'}>
+                {tabKey === '2' && <CalendarEventsPage />}
               </Tab>
             </Tabs>
           </Flex>
