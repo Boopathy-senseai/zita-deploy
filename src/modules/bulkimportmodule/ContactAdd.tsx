@@ -18,6 +18,7 @@ import { EmpPoolEntity } from './bulkImportTypes';
 import styles from './valueAddName.module.css';
 import { bulkuploadedCandidatesMiddleWare } from './store/middleware/bulkImportMiddleware';
 
+
 const cx = classNames.bind(styles);
 
 var querystring = require('querystring');
@@ -235,6 +236,15 @@ const ContactAdd = ({
     }
   }, [formik.values.name]);
 
+  const numberchange=(e:any)=>{
+    const newValue = e.target.value;
+    // Apply your validation rules
+    if (/^\d{0,15}$/.test(newValue)) {
+    formik.setFieldValue("name",newValue)
+    }
+
+  }
+
   return (
     <div className={styles.overAll}>
       {isEmpty(formik.values.name) ? (
@@ -273,8 +283,9 @@ const ContactAdd = ({
           <InputText
             // eslint-disable-next-line
             autoFocus
+          
             value={formik.values.name}
-            onChange={formik.handleChange('name')}
+            onChange={(e)=>numberchange(e)}
             lineInput
             size={13}
             placeholder={'Optional'}

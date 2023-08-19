@@ -14,10 +14,8 @@
   border-bottom: 1px solid var(--color-gary-7, #dfdfdf);
 }
 .jobTextStyle {
-  
-   color: #581845;
   font-Weight: 600; 
-  font-Size: 14px;
+  font-Size: 13px;
 }
 .matchRadioStyle {
   margin-bottom: 8px;
@@ -110,7 +108,7 @@ font-weight: 400;
   position: absolute;
   background-color: var(--color-white, #fff);
   border-radius: 12px;
-  max-height:375px ;
+  max-height:530px ;
   overflow-y: scroll;
   width: 230px;
   display: none;
@@ -149,16 +147,33 @@ font-weight: 400;
   border-radius: 16px;
 }
 .quickfil {
-  border-style: solid;
-  border: 2px solid #a5889c;
-  cursor: pointer;
+  border-radius: 20px;
+  align-items: center;
+  padding: 2px 10px 2px 10px;
+  width: fit-content;
+  border: 1px solid #581845;
   margin-left: 15px;
-  padding-left: 10.5px;
-  padding-top: 5px;
-  padding-bottom: 5.27px;
-  padding-right: 15px;
-  border-radius: 16px;
-  color: #1a1a1a;
+
+  margin-bottom: 10px;
+  /* color: #581845; */
+  font-size: 13px;
+}
+.quickfilters{
+  width: 99%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.quickfil2 {
+  font-style: normal;
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 14px;
+  display: flex;
+  align-items: center;
+  color: #581845;
+
 }
 .checkboxalign{
   flex-wrap: wrap;
@@ -176,15 +191,7 @@ font-weight: 400;
   border-radius: 16px;
   color: #581845;
 }
-.quickfil2 {
-  font-style: normal;
-  font-weight: 300;
-  font-size: 15px;
-  line-height: 14px;
-  display: flex;
-  align-items: center;
-  color: #581845;
-}
+
 .stylesvg {
   margin-left: 10px;
 }

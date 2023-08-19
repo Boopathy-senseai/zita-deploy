@@ -336,17 +336,14 @@ const MyDataBaseFilter = ({
 
     return (
       <>
+     {  console.log("doccccc",doc)}
       {doc.label !=="any"?(
       <Text className={styles.quickfil}>
       {doc.label}{" "}
       <SvgIntomark className={styles.stylesvg} onClick={onClose} />
             </Text>
             ):(
-              doc.label ==="any"  &&(
-                <Text className={styles.quickfil}>
-                {"Any"}
-                      </Text>
-                      ) )
+              setnewqual(null) )
                     }
      </>      
     );
@@ -378,9 +375,8 @@ const MyDataBaseFilter = ({
    
     const skills = newskill || [];
     const qualification = newqual || [];
-
     if (
-      qualification?.length === 0 &&
+      (qualification?.length === 0 ) &&
       skills?.length === 0&&
       newjobname===''&&
       newexperience===''&&
@@ -396,38 +392,13 @@ const MyDataBaseFilter = ({
 <>
 
 <Flex row>
-{console.log("newwwww",newrelocate)}
-{console.log("olddddd",isRelocate)}
+{console.log("newwwww",newjobname,isDefaultFilter(),newqual)}
+{console.log("olddddd",jobname)}
 <div className={styles.quickfilters}>
 <Text size={13}className={""} style={{marginTop:"3px"}}>
         Quick Filters :
       </Text>
-      {isDefaultFilter() ? (
-            <Text className={styles.quickfil}>{'All'}</Text>
-          ) : (
-            <Flex row wrap style={{display:"contents"}}>
-      {newqual &&
-        newqual.map((doc, index) => (
-          <RenderQuickFilter
-            key={index}
-            doc={{ label: doc.label, value: doc.value }}
-            onClose={() => handlefunction(doc)}
-          />
-        ))}
-            {formik.values.experience.label ==="All"|| newexperience===''?(
-              null
-            ) : (
-              <Text className={styles.quickfil}>
-              {newexperience}{" "}
-              <SvgIntomark
-                className={styles.stylesvg}
-                onClick={() => closeexp()}
-              />
-            </Text>
-            )
-            }
-
-            {newjobname===''?(
+      {newjobname===''?(
               null
             ): (
               <Text className={styles.quickfil}>
@@ -439,33 +410,34 @@ const MyDataBaseFilter = ({
               </Text>
             )
             }
-            {newlocation===''?(
+  
+            { newexperience===''?(
               null
-            ): (
+            ) : (
               <Text className={styles.quickfil}>
-                {newlocation}{" "}
-                <SvgIntomark
-                  className={styles.stylesvg}
-                  onClick={() => locationsrh()}
-                />
-              </Text>
-              
+              {newexperience}{" "}
+              <SvgIntomark
+                className={styles.stylesvg}
+                onClick={() => closeexp()}
+              />
+            </Text>
             )
             }
-              {/* {skill &&
-                showskills.map((doc, index) => (
-                  <RenderQuickFilter
-                    key={index}
-                    doc={{ label: doc.label, value: doc.value }}
-                    onClose={() => closeSkillOption(doc)}
-                  />
-                ))}
-              {hiddenSkills && hiddenSkills.length > 0 && (
-                <Text
-                  className={styles.quickfil}
-                >{`Skills : + ${hiddenSkills.length}`}</Text>
-              )} */}
-          {newskill.length=== 0?(
+            {isDefaultFilter() ? (
+            <Text className={styles.quickfil}>{'All'}</Text>
+          ) : (
+            <Flex row wrap style={{display:"contents"}}>
+      {newqual &&
+        newqual.map((doc, index) => (
+        
+          <RenderQuickFilter
+            key={index}
+            doc={{ label: doc.label, value: doc.value }}
+            onClose={() => handlefunction(doc)}
+          />
+        ))}
+        
+        {newskill.length=== 0?(
               null
             ) : (
               skildata.slice(0,4).map((skills,index) =>(
@@ -485,6 +457,21 @@ const MyDataBaseFilter = ({
               )}
             </Flex>
           )}
+            
+            {newlocation===''?(
+              null
+            ): (
+              <Text className={styles.quickfil}>
+                {newlocation}{" "}
+                <SvgIntomark
+                  className={styles.stylesvg}
+                  onClick={() => locationsrh()}
+                />
+              </Text>
+              
+            )
+            }
+        
       {/* {qualificationValue &&
         qualificationValue.map((doc, index) => (
           <RenderQuickFilter
@@ -569,7 +556,7 @@ null
     <div  ref={dropDownRef} className={styles.drop_down} style={{ zIndex: 1}}>
     <Flex
       row
-      className={styles.drop_down_header}
+      className={(styles.drop_down_header)}
     >
       <Flex style={{width:'90%'}}
       onClick={click} >
@@ -582,7 +569,7 @@ null
         </Text>
       </Flex>
 
-     <Flex title={"Clear Filters"}>
+      <Flex title={"Clear Filters"}>
         <SvgRefresh
         
           width={18}
@@ -710,7 +697,7 @@ null
             checked={isRelocate}
            />
       </Flex>
-        <Text color= "primary" bold className={styles.toggletext}>
+        <Text color= "primary"  className={styles.toggletext}>
             Willing to Relocate
         </Text>
       </Flex>
