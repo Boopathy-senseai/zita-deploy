@@ -113,15 +113,14 @@ const ProtectedRoute = ({ isside, notIsNav, component: Component, ...rest }) => 
                       >
                         <Sidebar data={handlefunction} changes={unsavealert} />
                       </div>}
-                    <div
-
+                    <div 
                       style={{
                         position: 'relative',
                         display: 'flex',
                         flexDirection: 'column',
                         flex: 1,
                         height: "-webkit-fill-available",
-                        paddingLeft:'10px'
+                        paddingLeft:isside?10:0,
                       }}
                     >
                       <Component {...rest} {...props} value={changeurlpopup} />

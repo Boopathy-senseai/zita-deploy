@@ -255,7 +255,7 @@ const CandidateScreen = () => {
                   applieddatecheck ={true}
                   profile_match={profileMatch}
                   jdDetails={jd}
-                  isProfileName
+                  isProfileName 
                 />
               </Flex>
             );
