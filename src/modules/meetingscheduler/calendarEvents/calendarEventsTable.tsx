@@ -237,7 +237,7 @@ const CalendarEventsTable: React.FC<Props> = (props) => {
                     <Text className={styles.stBold}>{doc.event_type}</Text>
                   </td>
                   <td className={styles.padchanges} style={{}}>
-                    {renderInterviewers(doc.interviewers)}
+                    {renderInterviewers(doc.email)}
                   </td>
                   <td className={styles.padchanges} style={{}}>
                     <Text className={styles.stBold}>

@@ -32,6 +32,7 @@ export interface ICalendarEvent {
   org_id: string;
   join_url: string;
   extra_notes: string | null;
+  email: any;
 }
 
 export interface IEventInterviewer {

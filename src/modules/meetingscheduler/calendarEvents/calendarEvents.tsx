@@ -226,11 +226,12 @@ const CalendarEventsPage = () => {
     const organisers = uniqueArray(scheduleEventState.org_name);
     if (filters.activeRadio === EVENT_FILTER_OPTION.DATE) {
       return scheduleEventState?.calevents_events.map((doc) => {
-        // const emails = (doc.interviewers as string || "").split(',');
+        const emails = ((doc.email as string) || '').split(',');
+        console.log(emails);
         return {
           ...doc,
-          interviewers: scheduleEventState?.calevents_interviewer.filter(
-            (s) => (doc.interviewers as string || "").split(',').includes(s.email || ""),
+          email: scheduleEventState?.calevents_interviewer.filter((s) =>
+            emails.includes(s.email),
           ),
           // interviewers: emails.map(em => scheduleEventState?.calevents_interviewer[em]),
           organisers: scheduleEventState.org_name,
@@ -240,11 +241,12 @@ const CalendarEventsPage = () => {
     if (filters.activeRadio === EVENT_FILTER_OPTION.PAST_AND_UPCOMING) {
       if (filters.isPast) {
         return scheduleEventState?.calevents_past_event.map((doc) => {
-          // const emails = (doc.interviewers as string || "").split(',');
+          const emails = ((doc.email as string) || '').split(',');
+          console.log(emails);
           return {
             ...doc,
-            interviewers: scheduleEventState?.calevents_interviewer.filter(
-              (s) => (doc.interviewers as string || "").split(',').includes(s.email || ""),
+            email: scheduleEventState?.calevents_interviewer.filter(
+              (s) => emails.includes(s.email || ''),
             ),
             organisers,
           };
@@ -252,11 +254,12 @@ const CalendarEventsPage = () => {
       }
 
       return scheduleEventState?.calevents_upcoming_event.map((doc) => {
-        // const emails = (doc.interviewers as string || "").split(',');
+        const emails = ((doc.email as string) || '').split(',');
+        console.log(emails);
         return {
           ...doc,
-          interviewers: scheduleEventState?.calevents_interviewer.filter(
-            (s) => s.event_id === doc.eventId,
+          email: scheduleEventState?.calevents_interviewer.filter((s) =>
+            emails.includes(s.email || ''),
           ),
           organisers,
         };
@@ -265,7 +268,7 @@ const CalendarEventsPage = () => {
 
     return [];
   };
-
+console.log(eventsList,"hello")
   const renderTable = () => {
     if (scheduleEventState?.isLoading) {
       return <Loader />;
@@ -288,9 +291,9 @@ const CalendarEventsPage = () => {
   const pastUpcoming = (
     <Flex row center>
       <Text
-        size={13}
+        size={14}
         className={styles.textStyles}
-        style={{ marginRight: '5px' }}
+        style={{ marginRight: '10px' }}
       >
         Upcoming Events
       </Text>
@@ -301,9 +304,9 @@ const CalendarEventsPage = () => {
         }
       />
       <Text
-        size={13}
+        size={14}
         className={styles.textStyles}
-        style={{ marginLeft: '5px' }}
+        style={{ marginLeft: '10px' }}
       >
         Past Events
       </Text>
@@ -311,7 +314,7 @@ const CalendarEventsPage = () => {
   );
 
   const eventDate = (
-    <Flex marginLeft={5}>
+    <Flex marginLeft={10}>
       <div style={{ position: 'relative', display: 'flex' }}>
         <DatePicker
           id="calendar___open"
