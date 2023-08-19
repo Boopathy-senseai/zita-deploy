@@ -721,10 +721,25 @@ const SlotterDate = (props) => {
     const selectedDay = currentDay;
     const userTimeZone = 0;
     const adjustedDay = day === currentDay ? day : currentDay;
-
     const intervalDuration = { hours: 6, minutes: 45}
+
+    
+    const updatedDates = filteredData[check].map(date1 => {
+      let { starttime, endtime } = date1;
+      
+      // Convert '12:15 am', '12:45 am', '12:30 am' format to '00:15 am'
+      if (starttime.includes('12:') && (starttime.includes('12:15') || starttime.includes('12:45') || starttime.includes('12:30'))) {
+        starttime = starttime.replace('12:', '00:');
+      }
+      if (endtime.includes('12:') && (endtime.includes('12:15') || endtime.includes('12:45') || endtime.includes('12:30'))) {
+        endtime = endtime.replace('12:', '00:');
+      }
+      
+      return { starttime, endtime, /* other properties if any */ };
+    });
+    console.log("updatedDates",updatedDates)
     const timeslot = generateIntervals(
-      filteredData[check],
+      updatedDates,
       intervals123[0],
       check,
     );
@@ -732,12 +747,7 @@ const SlotterDate = (props) => {
     setfinalIntervals(timeslot);
   };
 
-  // const conversion = (data: any) => {
-  //   return data?.map((obj) => {
-  //     const { day, ...rest } = obj; // Destructure the "day" property
-  //     return rest; // Return the object without the "day" property
-  //   });
-  // };
+
   const convertion = (dateStr) => {
     const momentObj = moment(dateStr, 'DD/MM/YYYY');
     const formattedDate = momentObj.format('ddd MMM DD YYYY HH:mm:ss [GMT]ZZ');
@@ -877,21 +887,16 @@ const SlotterDate = (props) => {
     excludedRanges,
   ) {
     const remainingIntervals = [];
-
     for (const targetInterval of targetIntervals) {
       let isExcluded = false;
-
       for (const excludedRange of excludedRanges) {
         if (isIntervalWithinRange(targetInterval, excludedRange)) {
           isExcluded = true; // Target interval is within an excluded range
           break;
-        }
-      }
-
+        }}
       if (!isExcluded) {
         remainingIntervals.push(targetInterval); // Add the remaining interval
-      }
-    }
+      }}
     console.log("remainingIntervalsremainingIntervals",remainingIntervals)
     return remainingIntervals;
   }
@@ -1131,7 +1136,14 @@ const SlotterDate = (props) => {
     const intervals12 = [];
   
     for (const timeBreak of timeBreaks) {
-      const { starttime, endtime } = timeBreak;
+      let { starttime, endtime } = timeBreak;
+      console.log("starttimestarttime",starttime,endtime)
+      if (starttime.includes('12:')) {
+        starttime = starttime.replace('12:', '00:');
+      }
+      if (endtime.includes('12:')) {
+        endtime = endtime.replace('12:', '00:');
+      }
       const [startHour, startMinute] = parseTime(starttime);
       const [endHour, endMinute] = parseTime(endtime);
       let currentHour = startHour;
