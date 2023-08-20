@@ -1084,6 +1084,7 @@ const Calendar = () => {
         isSearchable={true}
         defaultValue={{ label: currentTimeZone, value: currentTimeZone }}
         onChange={(option) => handleChangeTimeZone(option.value)}
+        fontSize={13}
       />
     </div>
   );
@@ -1108,14 +1109,14 @@ const Calendar = () => {
         {' '}
         <Flex className={styles.calendarInputs}>
           <Flex row center marginRight={15}>
-            <Text size={14} color="theme">
+            <Text size={13} color="theme">
               Time zone:
             </Text>
             {TimeZoneView}
           </Flex>
 
           <Flex row center>
-            <Text size={14} color="theme">
+            <Text size={13} color="theme">
               Calendar View:
             </Text>
             <CalendarTypeMenu

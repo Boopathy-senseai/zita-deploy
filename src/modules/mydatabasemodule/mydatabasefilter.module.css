@@ -165,7 +165,7 @@ font-weight: 400;
   position: absolute;
   background-color: var(--color-white, #fff);
   border-radius: 12px ;
-  max-height:580px ;
+  max-height:480px ;
   overflow-y: scroll;
   width: 100%;
   display: none;

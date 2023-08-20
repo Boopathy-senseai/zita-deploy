@@ -338,6 +338,8 @@ update();
                             textAlign: 'center',
                             marginBottom: '10px',
                             marginTop: '10px',
+                            display: 'flex',
+                            justifyContent: 'center'
                           }}
                         >
                           <Button
