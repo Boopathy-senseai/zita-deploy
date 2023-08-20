@@ -126,8 +126,10 @@ setshow(val)
         talentSourcingsessionIdMiddleWare({
           session_id,
         }),
+      
       )
         .then((response) => {
+          history.push('/talent_sourcing');
           setSourceLimit(response.payload.source_limit);
           if (queryParams.has('session_id')) {
             queryParams.delete('session_id');

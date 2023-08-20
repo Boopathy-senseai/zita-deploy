@@ -9,6 +9,7 @@ import Card from '../../uikit/Card/Card';
 import SelectTag from '../../uikit/SelectTag/SelectTag';
 import Button from '../../uikit/Button/Button';
 import Chart from '../../uikit/Chart/Chart';
+import SvgNoDataIcon from '../../icons/SvgNoDataIcon';
 // import { pieYValue } from '../common/commonHelper';
 // import { PRIMARY } from '../../uikit/Colors/colors';
 import Table from '../../uikit/Table/Table';
@@ -24,6 +25,7 @@ import {
 } from './store/middleware/reportsmiddleware';
 import { Duration } from './mock';
 import styles from './reports.module.css';
+
 
 // const height = window.innerHeight - 150;
 const PassiveCandidateReports = () => {
@@ -302,14 +304,17 @@ console.log(res,'192.168.3.253:8001192.168.3.253:8001192.168.3.253:8001192.168.3
 						</Flex>
 					</Flex>
 				) : (
-					<Flex className={styles.noData}>
-						<Text bold>No Data Available</Text>
+					<Flex className={styles.noData1}>
+						<Flex style={{justifyContent:'center',marginBotto:'2px'}}>
+						<SvgNoDataIcon width={16} height={16} fill={'#888'}/>
+						</Flex>
+						<Text  style={{color:'#888'}}>No Data Available</Text>
 					</Flex>
 				)}
 				{add_on_dict && add_on_dict.length > 0 && isChart && (
 					<Flex style={{marginLeft:'5px'}}>
 						
-							<Text bold style={{ margin: '20px 0px 5px 10px'}} size={14}>
+							<Text bold style={{ margin: '20px 0px 5px 10px'}} size={13} >
 								Report Data
 							</Text>
 							<Text  style={{ margin: '0px 0px 10px 10px'}}>

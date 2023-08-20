@@ -256,19 +256,31 @@ const ApplicantReports = () => {
 									</Text> {shortlisted && shortlisted !== null && shortlisted.length !== 0 ? (
 										<Chart options={chartOptions} />
 									) : (
-										<Flex className={styles.noData} height={window.innerHeight-200} center middle>
-											<Text bold color='gray'>No Data Available</Text>
+								
+										
+											<Flex center middle className={styles.noData}>
+												<Flex style={{justifyContent:'center',marginBotto:'2px'}}>
+												<SvgNoDataIcon width={16} height={16} fill={'#888'}/>
+											</Flex>
+											<Text color='gray'>
+												No Data Available
+											</Text>
 										</Flex>
+									
 									)}
 								</Card>
 							</Flex>
 						</Flex>
 					</Flex>
 				) : (
-					<Flex className={styles.noData} style={{display:"flex"}}>
-						<SvgNoDataIcon style={{marginBottom:"10px", filter:"opacity(0.6)"}} width={15}/>
-						<Text bold color="gray">No Data Available</Text>
-					</Flex>
+					<Flex center middle className={styles.noData1}>
+					<Flex style={{justifyContent:'center',marginBotto:'2px'}}>
+					<SvgNoDataIcon width={16} height={16} fill={'#888'}/>
+				</Flex>
+				<Text color='gray'>
+					No Data Available
+				</Text>
+			</Flex>
 				)}
 				{table && table.length > 0 &&  (
 					<Flex style={{paddingTop:'15px'}}>

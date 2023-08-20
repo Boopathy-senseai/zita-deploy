@@ -217,6 +217,7 @@ const MyDataBaseFilter = ({
     setnewskill([])
     setnewrelocate(false)
     sethiddenskill1([])
+    setskill([])
   };
   
 
@@ -392,7 +393,7 @@ const MyDataBaseFilter = ({
 <>
 
 <Flex row>
-{console.log("newwwww",newjobname,isDefaultFilter(),newqual)}
+{console.log("newwwww",newjobname,isDefaultFilter(),newqual,qualificationValue,newskill)}
 {console.log("olddddd",jobname)}
 <div className={styles.quickfilters}>
 <Text size={13}className={""} style={{marginTop:"3px"}}>

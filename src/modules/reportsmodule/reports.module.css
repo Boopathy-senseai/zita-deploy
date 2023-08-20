@@ -98,8 +98,17 @@ border-right: 1px solid;
     text-align: center;
     margin: auto;
     justify-content: center;
-    /* margin-top: 15%; */
+    /* margin-top: 18%; */
     align-items: center;
+    color: #888;
+}
+.noData1{ 
+  text-align: center;
+  margin: auto;
+  justify-content: center;
+  margin-top: 18%;
+  align-items: center;
+  color: #888;
 }
 .pagination{
   margin-top: 1rem;
@@ -113,11 +122,9 @@ border-right: 1px solid;
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
-.overAll {
-  
+.overAll { 
   overflow: scroll;
   /* padding: 0px 4px; */
-
   margin-bottom: 10px;
 }
 .img{
