@@ -6,6 +6,7 @@ import { AppDispatch, RootState } from '../../store';
 import Text from '../../uikit/Text/Text';
 import Flex from '../../uikit/Flex/Flex';
 import Card from '../../uikit/Card/Card';
+import SvgNoData from '../../icons/SvgNoData';
 import SelectTag from '../../uikit/SelectTag/SelectTag';
 import Button from '../../uikit/Button/Button';
 import Chart from '../../uikit/Chart/Chart';
@@ -24,6 +25,8 @@ import {
 } from './store/middleware/reportsmiddleware';
 import { Duration } from './mock';
 import styles from './reports.module.css';
+
+
 
 // const height = window.innerHeight - 150;
 const PassiveCandidateReports = () => {
@@ -255,8 +258,10 @@ console.log(res,'192.168.3.253:8001192.168.3.253:8001192.168.3.253:8001192.168.3
 						candidate sourcing.
 					</Text>
 				</Flex>
+
 				<Flex row className={styles.marginTop}>
-					<Text  className={styles.selected}>
+					<Text  className={styles.selected} style={{marginTop:"5px"}}>
+
 						Duration
 					</Text>
 					<div className={styles.skillContainer}>
@@ -302,8 +307,9 @@ console.log(res,'192.168.3.253:8001192.168.3.253:8001192.168.3.253:8001192.168.3
 						</Flex>
 					</Flex>
 				) : (
-					<Flex className={styles.noData}>
-						<Text bold>No Data Available</Text>
+					<Flex className={styles.noData} style={{display:"flex",alignItems:"center"}}>
+						<SvgNoData width={15} style={{filter:"opacity(0.5)"}} />
+						<Text bold color='gray'>No Data Available</Text>
 					</Flex>
 				)}
 				{add_on_dict && add_on_dict.length > 0 && isChart && (

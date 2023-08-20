@@ -162,7 +162,7 @@ const hanldeJobListform = () => {
       },
     },
     xAxis: {
-     categories: ['Zita Match', 'Invited to Apply', 'Not Interested', 'Applicants', 'Shortlisted', 'Offered', 'Rejected',]
+     categories: ['Zita Match', 'Invited to Apply', 'Not Interested', 'Applicants', 'Shortlisted', 'Hired', 'Rejected',]
     },
     yAxis: {
       title: {
@@ -209,7 +209,7 @@ const hanldeJobListform = () => {
 					<Text style={{margin:'10px 0px 10px 5px'}}>
 						Analyse your jobs together/individually. The reports go a long way
 						in providing useful data such as the number of views and candidates
-						in the pipeline for each job, the number of offered & rejected
+						in the pipeline for each job, the number of hired & rejected
 						candidates.
 					</Text>
 				</Flex> 
@@ -252,7 +252,7 @@ const hanldeJobListform = () => {
 							<Table
 								columns={columns}
 								dataSource={job_list}
-								empty="No Data Available"
+								empty="No data available"
 								// scrollHeight={270}
 								border="normal"
 								
@@ -286,7 +286,7 @@ const hanldeJobListform = () => {
 				{len_list === 0 && (
 					<Flex center middle height={window.innerHeight -200}>
 				<Text bold  color='gray'>
-					No Data Available
+					No data available
 				</Text>
 				</Flex>
 				)}
@@ -298,7 +298,7 @@ const hanldeJobListform = () => {
 					<Flex>
 					<Flex row between  >
 						<Flex style={{marginLeft:'3px'}}>
-						<Text bold size={14} >Detailed Metrics</Text>
+						<Text bold size={14}>Detailed Metrics</Text>
 						<Text style={{marginTop:'0px',marginBottom:'10px'}} >
 						A comprehensive data table showcasing count about the candidates & applicants for selected job.
 						</Text>
@@ -427,7 +427,7 @@ const hanldeJobListform = () => {
 								</Flex>
 								<Flex row>
 									<Flex flex={6}>
-										<Text color='theme' >Offered</Text>
+										<Text color='theme' >Hired</Text>
 									</Flex>
 									<Flex flex={6}>
 										{jobList&& jobList.Qualified === null ? (
@@ -456,7 +456,7 @@ const hanldeJobListform = () => {
 								):(
 								<Flex className={styles.noData} style={{display:"flex"}} >
 									<SvgNoDataIcon style={{marginBottom:"10px", filter:"opacity(0.6)"}} width={15}/>
-											<Text bold>No Data Available</Text>
+											<Text bold color='placeholder'>No data available</Text>
 										</Flex>
 								)}
 							</Flex>
@@ -475,8 +475,8 @@ const hanldeJobListform = () => {
 	</Text>
 			)}
 				{len_list === 0 && (
-	<Text bold color='gray'>
-		No Data Available
+	<Text bold color='placeholder'>
+		No data available
 	</Text>
 			)}
 </Flex>

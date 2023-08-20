@@ -224,7 +224,7 @@ const Sidebar = ({ changes, data }: props) => {
                   color="primary"
                   style={{ color: '#581845', marginRight: '10px' }} 
                 >
-                  Job Postings
+                  Job Posting
                 </Text>
               </LinkWrapper>
             </li>)
@@ -506,11 +506,11 @@ const Sidebar = ({ changes, data }: props) => {
 
            {/* {permission.includes('bulkImport_candidates') && (
             <> */}
-           { console.log(plan_id,'plan_idplan_idplan_idplan_idplan_idplan_id')}
-         {checkplan && (
+           { console.log(plan_id,is_plan,'plan_idplan_idplan_idplan_idplan_idplan_id')}
+         {/* {checkplan && ( */}
             <>
               {is_plan ? (changes?
-              (<li title='Reports'
+              (<li title= {plan_id === 1? 'Please subscribe to any of the paid plans to view the job metrics': 'Reports'}
                 className={
                   pathname.includes('/reports') ? styles.select_row : ''
                 }
@@ -518,7 +518,7 @@ const Sidebar = ({ changes, data }: props) => {
                 <LinkWrapper
                   className={styles.hoverview}
                   onClick={clearTabs}
-                  to={is_plan ? reports : accountPath}
+                  to={plan_id === 1 ?"/" :plan_id !== 1 && is_plan ?reports : accountPath}
                 >
                   <SvgReport fill={'none'} />
                   <Text
@@ -530,7 +530,7 @@ const Sidebar = ({ changes, data }: props) => {
                      Reports
                   </Text>
                 </LinkWrapper>
-              </li>):(<li title='Reports'
+              </li>):(<li title=  {plan_id === 1? 'Please subscribe to any of the paid plans to view the job metrics': 'Reports'}
                   className={
                     pathname.includes('/reports') ? styles.select_row : '' 
                   }
@@ -538,7 +538,7 @@ const Sidebar = ({ changes, data }: props) => {
                   <LinkWrapper
                     className={styles.hoverview}
                     onClick={clearTab}
-                    to={is_plan ? reports : accountPath}
+                    to={plan_id === 1 ?"/" :plan_id !== 1 && is_plan ?reports : accountPath}
                   >
                     <SvgReport fill={'none'} />
                     <Text
@@ -582,7 +582,7 @@ const Sidebar = ({ changes, data }: props) => {
                 </li>
               )}
             </>
-          )}
+          {/* )} */}
       
           {permission.includes('talent_sourcing') && (
             <>

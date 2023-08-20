@@ -52,7 +52,7 @@ export const tableFun = () => [
     },
   },
   {
-    title: 'Offered',
+    title: 'Hired',
     dataIndex: 'hired',
     key: 'hired',
     render: (hired: string) => {
@@ -360,7 +360,7 @@ export const jobMetrics = (
     },
   },
   {
-    title: 'Offered',
+    title: 'Hired',
     dataIndex: 'hired',
     align: 'center',
     key: 'hired',
