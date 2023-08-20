@@ -93,7 +93,7 @@ const EventSchedulerScreen: React.FC<Props> = (props) => {
             height: '100%',
           }}
         >
-          <Flex marginBottom={10}>
+          <Flex marginBottom={2}>
             <SvgCalendar width={16} height={16} fill={'#888888'} stroke={'#888888'} />
           </Flex>
           <Text style={{ color: '#888888'}}>{`No ${

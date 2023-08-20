@@ -85,9 +85,9 @@ const MeetingSchedulerScreen = ({ value }: props) => {
       <Flex column height={'100%'} style={{display:"flex", paddingBottom: 10}}>
         <Flex row center className={styles.overallhead}>
           <Flex row center>
-            <Flex center marginLeft={20}>
+            {/* <Flex center marginLeft={20}>
               <SvgScheduler />
-            </Flex>
+            </Flex> */}
             <Flex>
               <Text
                 bold
