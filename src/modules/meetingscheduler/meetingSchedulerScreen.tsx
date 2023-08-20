@@ -92,8 +92,8 @@ const MeetingSchedulerScreen = ({ value }: props) => {
               <Text
                 bold
                 size={16}
-                style={{ marginLeft: 8, color: '#581845' }}
-                className={styles.postingcl}
+                style={{ marginLeft: 8, color: '#581845' ,paddingTop:"9px",}}
+                className={styles.ribbon}
               >
                 Meeting Scheduler
               </Text>
