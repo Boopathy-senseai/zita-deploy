@@ -201,12 +201,19 @@ const AboutTab = () => {
       value: getFresher ? 'Fresher' : `${totalYear} ${totalMonths}`,
     },
   ];
-
+  let Authorized;
+  if (
+    isEmpty(personalInfo[0].current1_country) &&
+    isEmpty(personalInfo[0].current2_country) &&
+    isEmpty(personalInfo[0].current3_country)
+  ) {
+    Authorized = 'Not Specified';
+  }
   const aboutData1 = [
-    {
-      lable: 'Job Type:',
-      value: notSpecified(personalInfo[0].type_of_job__label_name),
-    },
+    // {
+    //   lable: 'Job Type:',
+    //   value: notSpecified(personalInfo[0].type_of_job__label_name),
+    // },
     {
       lable: 'Availability:',
       value: notSpecified(personalInfo[0].available_to_start__label_name),
@@ -218,21 +225,24 @@ const AboutTab = () => {
           ? 'Not Specified'
           : `${personalInfo[0].current_city__name}, ${personalInfo[0].current_state__name}, ${personalInfo[0].current_country__name}`,
     },
-    {
-      lable: 'Willing to Relocate:',
-      value: relocate,
-    },
-    {
-      lable: 'Industry Type:',
-      value: notSpecified(personalInfo[0].industry_type__label_name),
-    },
+    // {
+    //   lable: 'Willing to Relocate:',
+    //   value: relocate,
+    // },
+    // {
+    //   lable: 'Industry Type:',
+    //   value: notSpecified(personalInfo[0].industry_type__label_name),
+    // },
     {
       lable: 'Current Gross Salary:',
       value: currentGross,
     },
     {
-      lable: 'Expected Gross Salary:',
-      value: expGross,
+      lable: 'Countries Authorized to Work:',
+      value:
+        Authorized === 'Not Specified'
+          ? 'Not Specified'
+          : `${personalInfo[0].current1_country}, ${personalInfo[0].current2_country}, ${personalInfo[0].current3_country}`,
     },
   ];
   const techSkillSplit =
