@@ -226,7 +226,9 @@ const MeetingSummary = ({
       <b>{meetingForm.startDateTime.toDateString()}</b> from{' '}
       <b>{formatTo12HrClock(meetingForm.startDateTime)}</b> to{' '}
       <b>{formatTo12HrClock(meetingForm.endDateTime)}</b> with{' '}
-      <b>{localStorage.getItem('Applicantsname') !==''?localStorage.getItem('Applicantsname'):currentUserLabel}</b>
+      {/* <b>{currentUserLabel}</b> */}
+
+      <b>{(localStorage.getItem('Applicantsname') !=='' && localStorage.getItem('Applicantsname') !== null) ?localStorage.getItem('Applicantsname'):currentUserLabel}</b>
     </p>
   );
 
@@ -251,7 +253,7 @@ const MeetingSummary = ({
             borderBottom: '0.5px solid #581845',
           }}
         >
-          <SvgCalendar width={18} height={18} style={{ marginBottom: '5px' }} />
+          <SvgCalendar width={16} height={16} style={{ marginBottom: '5px' }} />
           <Text
             size={14}
             bold
@@ -273,14 +275,14 @@ const MeetingSummary = ({
           }}
         >
           <div className={styles.summary}>
-            <p className={styles.header} style={{ marginTop: '5px' }}>
+            <p className={styles.header} style={{ marginTop: '5px', fontWeight:"bold" }}>
               Summary
             </p>
             <div className={styles.content}>{MeetingTitleView}</div>
           </div>
           <ExpandTile
             backgroundColor="#58184530"
-            activeColor="#000000"
+            activeColor="#333333"
             title={'Email notification to Applicant'}
             show={tileState?.applicant}
             onClick={() =>

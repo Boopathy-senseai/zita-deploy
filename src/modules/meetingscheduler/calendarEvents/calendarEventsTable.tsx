@@ -131,10 +131,10 @@ const CalendarEventsTable: React.FC<Props> = (props) => {
             height: '100%',
           }}
         >
-          <Flex marginBottom={10}>
+          <Flex marginBottom={2}>
             <SvgCalendar
-              width={38}
-              height={38}
+              width={16}
+              height={16}
               fill={'#888888'}
               stroke={'#888888'}
             />

@@ -58,6 +58,7 @@ export interface Events {
   link: string;
   color: string;
   synced?: string;
+  email: string
 }
 
 export interface meetingFormProps {
@@ -150,6 +151,7 @@ export interface ZitaEventType {
   location: string;
   notes: string;
   private_notes: string;
+  email: string
 }
 
 export interface EditEventDetails {
@@ -225,6 +227,7 @@ export interface EventPopUpDetails {
   syncedBy: string | null;
   isZitaEvent: boolean;
   canEdit?: boolean;
+  email?: null | string[];
 }
 
 export interface CalendarEventType {

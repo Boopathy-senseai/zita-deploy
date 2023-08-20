@@ -30,6 +30,7 @@ interface Props {
   eventPopUpDetails: EventPopUpDetails;
 }
 
+
 const EventPopUpModal = ({
   showEventPopUpModal,
   handleCloseEventPopUpModal,
@@ -51,8 +52,9 @@ const EventPopUpModal = ({
     syncedBy,
     title,
     canEdit,
+    email,
   } = eventPopUpDetails;
-
+  console.log(eventPopUpDetails);
   const DeleteWarningPopUp = (
     <Modal
       open={openEventDeleteModal}
@@ -114,7 +116,8 @@ const EventPopUpModal = ({
 
         <div className={styles.info}>
           <SvgInterviewers size={16} />
-          {attendees?.length > 0 ? (
+          {console.log(attendees)}
+          {attendees && attendees?.length > 0 ? (
             <div className={styles.infoText}>
               <p style={{ marginBottom: 3 }}>Interviewer&#40;s&#41;</p>
               <Flex row className={styles.emailContainer}>
@@ -205,7 +208,7 @@ const EventPopUpModal = ({
         {title}
       </Text>
       <div className={styles.info}>
-        <SvgInterviewCalendar size={16} />
+        <SvgInterviewCalendar size={14} />
         <div className={styles.infoText}>
           <Text style={{ marginBottom: 3 }}>
             {startDate.toString().slice(0, 15)}
@@ -216,14 +219,14 @@ const EventPopUpModal = ({
         </div>
       </div>
       <div className={styles.info}>
-        <SvgCalendar1 size={16} />
+        <SvgCalendar1 size={14} />
         <div className={styles.infoText}>
           <Text style={{ marginBottom: 3 }}>Calendar</Text>
           <Text>Synced by {syncedBy}</Text>
         </div>
       </div>
       <div className={styles.info}>
-        <SvgPrivate size={16} />
+        <SvgPrivate size={14} />
         <div className={styles.infoText} style={{ alignItems: 'center' }}>
           <Text style={{ marginBottom: 3 }}>Private Event</Text>
         </div>
