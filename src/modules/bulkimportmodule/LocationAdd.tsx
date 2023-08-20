@@ -74,13 +74,13 @@ const LocationAdd = ({
 
   // from submit function
   const handleCellSubmit = (event: any, id: number) => {
-    alert("1")
+ 
     event.preventDefault();
     setLoader(true);
 
     var datas = formik.values.name.trim()
     if(datas.length !== 0){
-      alert("er")
+    
      const data = querystring.stringify({
       pk: id,
       name: 'location',

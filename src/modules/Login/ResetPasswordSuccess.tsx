@@ -11,13 +11,13 @@ const ResetPasswordSuccess = () => {
         <Flex middle center>
           <SvgResetPasswordIcon fill={PRIMARY} />
         </Flex>
-        <Text size={20} bold align="center" style={{ margin: '8px 0' }}>
+        <Text size={18} bold align="center" style={{ margin: '8px 0' }}>
           Reset your password
         </Text>
-        <Text align="center"size={16}>
+        <Text align="center"size={14}>
           A link to reset your password has been sent to your registered email.
         </Text>
-        <Text align="center"size={16}>
+        <Text align="center"size={14}>
           Please check your spam folder if you haven’t received it in 3-5
           minutes.
         </Text>

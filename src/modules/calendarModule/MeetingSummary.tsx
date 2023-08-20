@@ -253,7 +253,7 @@ const MeetingSummary = ({
         >
           <SvgCalendar width={18} height={18} style={{ marginBottom: '5px' }} />
           <Text
-            size={16}
+            size={14}
             bold
             color="theme"
             className={styles.formTitle}
