@@ -145,6 +145,38 @@ const Calendar = () => {
       zitaEvents: true,
     });
 
+  // console.log('openScheduleForm', openScheduleForm);
+
+  useEffect(() => {
+    console.log(locationState);
+    if (
+      locationState &&
+      locationState?.openScheduleEvent &&
+      locationState?.openScheduleEvent === true
+    ) {
+      setOpenScheduleForm(locationState?.openScheduleEvent);
+    }
+    if (
+      locationState &&
+      locationState?.recurringEventId &&
+      locationState?.recurringEventId &&
+      currentUserEvents.length !== 0
+    ) {
+      const event = currentUserEvents.filter(
+        (doc) =>
+          doc.recurringEventId === locationState?.recurringEventId ||
+          doc.eventId === locationState?.recurringEventId,
+      );
+      if (event.length !== 0) {
+        handleOpenEventForm(event[0]);
+      } else {
+        toast.error('Unable to find event', {
+          duration: 3500,
+        });
+      }
+    }
+  }, [JSON.stringify(locationState), currentUserEvents.length]);
+
   useEffect(() => {
     if (currentUser.id) {
       setColor(currentUser.id);
@@ -271,103 +303,24 @@ const Calendar = () => {
 
   useEffect(() => {
     const meetingevent = localStorage.getItem('eventhandeler');
-    if (meetingevent === 'true') {
-      setOpenScheduleForm(true);
-      localStorage.setItem('eventhandeler', 'false');
-      handleCloseEventPop(); 
-      // setCurrentEventId(localStorage.getItem('eventhandelerid'));
-      console.log(localStorage.getItem('checkstatus'),'ggggggggggggggggggggggggggggffffffffffffffffffffffffffff')
-      if (localStorage.getItem('checkstatus') === CALENDAR.Google) {
-        dispatch(
-          googleEditEventMiddleware({
-            eventId: localStorage.getItem('eventhandelerid'),
-          }),
-         
-        )
-          .then((res) => {
-            console.log(localStorage.getItem('eventhandelerid'))
-            if (res.payload.data === true) {
-              setEditEventDetails(
-                res.payload.events.map((event: ZitaEventType) =>
-                  getEditEventsDetails(event),
-                ),
-              );
-              setIsEditEvent(true);
-              setOpenScheduleForm(true);
-            }
-          })
-          .catch((err) => {
-            console.error(err);
-          });
-      } else if (localStorage.getItem('checkstatus') === CALENDAR.Outlook) {
-        dispatch(
-          outlookEditEventMiddleware({
-            eventid: localStorage.getItem('eventhandelerid'),
-          }),
-        )
-          .then((res) => {
-            if (res.payload.data === true) {
-              setEditEventDetails(
-                res.payload.events.map((event: ZitaEventType) =>
-                  getEditEventsDetails(event),
-                ),
-              );
-              setIsEditEvent(true);
-              setOpenScheduleForm(true);
-            }
-          })
-          .catch((err) => {
-            console.error(err);
-          });
-      }
-    }
-  }, [openScheduleForm]);
-  useEffect(() => {
-    const schedulevent = localStorage.getItem('scheduleven');
-    if (schedulevent === 'true') {
-      setOpenScheduleForm(true);
-      localStorage.setItem('scheduleven', 'false');
-    }
-  }, []);
-  useEffect(() => {
-    const Applicantname = localStorage.getItem('Applicantname');
-    const jdname = localStorage.getItem('Jdname');
-    const jdid = localStorage.getItem('jdname');
-    if (Applicantname !== '') {
-      setASpplicantname(Applicantname);
-      setJdname(jdname);
-      setJdid(jdid);
-      setOpenScheduleForm(true);
-    }
-  }, [localStorage.getItem('Applicantname')]);
-
-  useEffect(()=>{
-    if (localStorage.getItem('Applicantname') !== '') {
-      const booleanValue = true
-      setthroughApplicant(booleanValue)
-    } else {
-      const booleanValue = false
-      setthroughApplicant(booleanValue)
-    }
-  },[localStorage.getItem('Applicantname')])
-
-  useEffect(() => {
-    const meetingevent = localStorage.getItem('eventhandeler');
+    // console.log('meetingevent', meetingevent);
     if (meetingevent === 'true') {
       setOpenScheduleForm(true);
       localStorage.setItem('eventhandeler', 'false');
       handleCloseEventPop();
       // setCurrentEventId(localStorage.getItem('eventhandelerid'));
-      console.log(localStorage.getItem('checkstatus'),'ggggggggggggggggggggggggggggffffffffffffffffffffffffffff')
+      // console.log(
+      //   localStorage.getItem('checkstatus'),
+      //   'ggggggggggggggggggggggggggggffffffffffffffffffffffffffff',
+      // );
       if (localStorage.getItem('checkstatus') === CALENDAR.Google) {
         dispatch(
           googleEditEventMiddleware({
             eventId: localStorage.getItem('eventhandelerid'),
           }),
-         
         )
           .then((res) => {
-            console.log(localStorage.getItem('eventhandelerid'))
+            // console.log(localStorage.getItem('eventhandelerid'));
             if (res.payload.data === true) {
               setEditEventDetails(
                 res.payload.events.map((event: ZitaEventType) =>
@@ -403,19 +356,97 @@ const Calendar = () => {
           });
       }
     }
-  }, [openScheduleForm]);
+
+    return () => {
+      localStorage.removeItem('eventhandeler');
+    };
+  }, []);
+
+  // useEffect(() => {
+  //   const meetingevent = localStorage.getItem('eventhandeler');
+  //   if (meetingevent === 'true') {
+  //     setOpenScheduleForm(true);
+  //     localStorage.setItem('eventhandeler', 'false');
+  //     handleCloseEventPop();
+  //     // setCurrentEventId(localStorage.getItem('eventhandelerid'));
+  //     // console.log(
+  //     //   localStorage.getItem('checkstatus'),
+  //     //   'ggggggggggggggggggggggggggggffffffffffffffffffffffffffff',
+  //     // );
+  //     if (localStorage.getItem('checkstatus') === CALENDAR.Google) {
+  //       dispatch(
+  //         googleEditEventMiddleware({
+  //           eventId: localStorage.getItem('eventhandelerid'),
+  //         }),
+  //       )
+  //         .then((res) => {
+  //           // console.log(localStorage.getItem('eventhandelerid'));
+  //           if (res.payload.data === true) {
+  //             setEditEventDetails(
+  //               res.payload.events.map((event: ZitaEventType) =>
+  //                 getEditEventsDetails(event),
+  //               ),
+  //             );
+  //             setIsEditEvent(true);
+  //             setOpenScheduleForm(true);
+  //           }
+  //         })
+  //         .catch((err) => {
+  //           console.error(err);
+  //         });
+  //     } else if (localStorage.getItem('checkstatus') === CALENDAR.Outlook) {
+  //       dispatch(
+  //         outlookEditEventMiddleware({
+  //           eventid: localStorage.getItem('eventhandelerid'),
+  //         }),
+  //       )
+  //         .then((res) => {
+  //           if (res.payload.data === true) {
+  //             setEditEventDetails(
+  //               res.payload.events.map((event: ZitaEventType) =>
+  //                 getEditEventsDetails(event),
+  //               ),
+  //             );
+  //             setIsEditEvent(true);
+  //             setOpenScheduleForm(true);
+  //           }
+  //         })
+  //         .catch((err) => {
+  //           console.error(err);
+  //         });
+  //     }
+  //   }
+  // }, [openScheduleForm]);
+
   useEffect(() => {
     const schedulevent = localStorage.getItem('scheduleven');
+    // console.log('schedulevent', schedulevent);
     if (schedulevent === 'true') {
       setOpenScheduleForm(true);
       localStorage.setItem('scheduleven', 'false');
     }
+
+    return () => {
+      localStorage.removeItem('scheduleven');
+    };
   }, []);
+
+  // useEffect(() => {
+  //   const schedulevent = localStorage.getItem('scheduleven');
+  //   if (schedulevent === 'true') {
+  //     setOpenScheduleForm(true);
+  //     localStorage.setItem('scheduleven', 'false');
+  //   }
+  // }, []);
+
   useEffect(() => {
     const Applicantname = localStorage.getItem('Applicantname');
     const jdname = localStorage.getItem('Jdname');
     const jdid = localStorage.getItem('jdname');
-    if (Applicantname !== '') {
+    // console.log('Applicantname', Applicantname);
+    // console.log('jdname', jdname);
+    // console.log('jdid', jdid);
+    if (Applicantname && Applicantname !== '') {
       setASpplicantname(Applicantname);
       setJdname(jdname);
       setJdid(jdid);
@@ -423,41 +454,37 @@ const Calendar = () => {
     }
   }, [localStorage.getItem('Applicantname')]);
 
-  useEffect(()=>{
-    if (localStorage.getItem('Applicantname') !== '') {
-      const booleanValue = true
-      setthroughApplicant(booleanValue)
-    } else {
-      const booleanValue = false
-      setthroughApplicant(booleanValue)
-    }
-  },[localStorage.getItem('Applicantname')])
+  // useEffect(() => {
+  //   const Applicantname = localStorage.getItem('Applicantname');
+  //   const jdname = localStorage.getItem('Jdname');
+  //   const jdid = localStorage.getItem('jdname');
+  //   if (Applicantname !== '') {
+  //     setASpplicantname(Applicantname);
+  //     setJdname(jdname);
+  //     setJdid(jdid);
+  //     setOpenScheduleForm(true);
+  //   }
+  // }, [localStorage.getItem('Applicantname')]);
 
   useEffect(() => {
-    console.log(locationState, currentUserEvents);
-    if (locationState && locationState?.openScheduleEvent === true) {
-      setOpenScheduleForm(true);
+    if (localStorage.getItem('Applicantname') !== '') {
+      const booleanValue = true;
+      setthroughApplicant(booleanValue);
+    } else {
+      const booleanValue = false;
+      setthroughApplicant(booleanValue);
     }
-    if (
-      locationState &&
-      locationState?.recurringEventId &&
-      currentUserEvents.length !== 0
-    ) {
-      const event = currentUserEvents.filter(
-        (doc) =>
-          doc.recurringEventId === locationState?.recurringEventId ||
-          doc.eventId === locationState?.recurringEventId,
-      );
-      console.log(event);
-      if (event.length !== 0) {
-        handleOpenEventForm(event[0]);
-      } else {
-        toast.error('Unable to find event', {
-          duration: 3500,
-        });
-      }
-    }
-  }, [JSON.stringify(locationState), currentUserEvents.length]);
+  }, [localStorage.getItem('Applicantname')]);
+
+  // useEffect(() => {
+  //   if (localStorage.getItem('Applicantname') !== '') {
+  //     const booleanValue = true;
+  //     setthroughApplicant(booleanValue);
+  //   } else {
+  //     const booleanValue = false;
+  //     setthroughApplicant(booleanValue);
+  //   }
+  // }, [localStorage.getItem('Applicantname')]);
 
   const handleOpenEventForm = (event: CalendarEventType) => {
     if ('eventId' in event) {
@@ -468,7 +495,7 @@ const Calendar = () => {
         }),
       )
         .then((res) => {
-          console.log(res.payload);
+          // console.log(res.payload);
           if (res.payload.data === true) {
             setIsEventCanUpdate(true);
             setEventPopUpDetails((prevEvent) => ({
@@ -921,7 +948,6 @@ const Calendar = () => {
         organizer: event.organizer,
         isZitaEvent: event.title.includes('Zita event'),
         canEdit: event.userId === currentUser.id,
-
       };
 
       if ('attendees' in event) {
@@ -1252,5 +1278,3 @@ const Calendar = () => {
 };
 
 export default Calendar;
-
-

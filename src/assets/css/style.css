@@ -777,8 +777,8 @@ input:-webkit-autofill:active {
 /* Input fields */
 .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
   padding: 5px 10px !important;
-  height: 20px !important;
-  font-size: 14px !important;
+  /* height: 20px !important; */
+  font-size: 13px !important;
   color: #333 !important;
 }
 
@@ -813,12 +813,19 @@ input:-webkit-autofill:active {
   /* overflow: auto !important; */
   flex: 1;
 }
+.MuiOutlinedInput-notchedOutline {
+  border-color: #cccccc !important;
+}
+/* .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(0, 0, 0, 0.23) !important;
+} */
 
 ul {
   margin-bottom: 1rem ! important;
   list-style-type: disc ! important;
 }
-cardHo:hover{
+
+.cardHo:hover{
   background-color: #EDE6EB;
   box-shadow: 1px 1px 1px #EDE6EB;
   border-left: 5px solid #581845;
@@ -2323,9 +2330,9 @@ cardHo:hover{
   cursor: default;
 }
 .rdp-button.rdp-day_selected {
-  /* background-color: #d7c7d2 !important; */
-  /* color: #581845 !important; */
-  /* padding: 5px !important; */
+  background-color: #d7c7d2 !important;
+   color: #581845 !important; 
+   padding: 5px !important;
 }
 .rdp-button.rdp-day_selected
 .DayPicker-Day--lastSelected {
@@ -2334,7 +2341,7 @@ cardHo:hover{
   color: #581845; 
   /* font-weight: 54px; */ /* This is not a valid font-weight value */
 }
-/* 
+
 .rdp-button.rdp-day_selected,
 .rdp-day_selected:focus-visible,
 .rdp-day_selected:hover {
@@ -2343,13 +2350,13 @@ cardHo:hover{
   color: #581845 !important; 
   padding: 5px !important;
   background-color: #d7c7d2 !important;
-} */
+}
 
-/* .rdp-button.rdp-day_selected:focus {
+ .rdp-button.rdp-day_selected:focus {
   background-color: #581858 !important;
   color: #fffcff !important;
   padding: 5px !important;
-} */
+}
 
 .rdp-button.rdp-day_highlighted{
   background-color: #17692e !important;
@@ -2362,8 +2369,11 @@ cardHo:hover{
   color: white;
 }
 
+.css-i4bv87-MuiSvgIcon-root{
+  font-size: 20px !important;
+  color: #581845 !important;
+}
 .rdp-day_today:not(.rdp-day_outside) {
-  /* background-color: #581845 !important; */
   color: black;
 }
 

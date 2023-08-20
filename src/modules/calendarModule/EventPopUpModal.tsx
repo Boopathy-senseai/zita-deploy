@@ -205,7 +205,7 @@ const EventPopUpModal = ({
         {title}
       </Text>
       <div className={styles.info}>
-        <SvgInterviewCalendar size={16} />
+        <SvgInterviewCalendar size={14} />
         <div className={styles.infoText}>
           <Text style={{ marginBottom: 3 }}>
             {startDate.toString().slice(0, 15)}
@@ -216,14 +216,14 @@ const EventPopUpModal = ({
         </div>
       </div>
       <div className={styles.info}>
-        <SvgCalendar1 size={16} />
+        <SvgCalendar1 size={14} />
         <div className={styles.infoText}>
           <Text style={{ marginBottom: 3 }}>Calendar</Text>
           <Text>Synced by {syncedBy}</Text>
         </div>
       </div>
       <div className={styles.info}>
-        <SvgPrivate size={16} />
+        <SvgPrivate size={14} />
         <div className={styles.infoText} style={{ alignItems: 'center' }}>
           <Text style={{ marginBottom: 3 }}>Private Event</Text>
         </div>
