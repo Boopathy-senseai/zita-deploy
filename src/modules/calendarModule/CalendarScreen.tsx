@@ -659,6 +659,7 @@ const Calendar = () => {
     userId: number,
     userName: string,
   ): CalendarEventType[] => {
+    console.log(events,"jan")
     return events.map((event) => ({
       userId,
       title: event.title,
@@ -1152,7 +1153,7 @@ const Calendar = () => {
               currentCalendarType={currentCalendarType}
               handleCalendarType={handleCalendarType}
               selectedTeamMembers={selectedTeamMembers}
-              teamMembers={teamMembers.filter(doc=>doc.calendarEmail && doc.calendarEmail !== "")}
+              teamMembers={teamMembers.filter(doc=>doc.calendarEmail &&doc.calendarEmail !== "")}
               showDropDownMenu={showDropDownMenu}
               handleDropDown={handleDropDown}
               myCalendarOptions={myCalendarOptions}
