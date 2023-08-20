@@ -331,7 +331,7 @@ update();
                           <Button
                             className={styles.Signot}
                             onClick={handleLogout}
-                            style={{verticalAlign:'1px'}}
+                            style={{verticalAlign:'1px', display:'flex',justifyContent:'center', alignItems:'center'}}
                           >
                             Log out
                           </Button>

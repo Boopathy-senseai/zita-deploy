@@ -627,7 +627,8 @@ const ProfileCard = () => {
           )}</Flex> */}
 
           {permission.includes('create_post') === false ? (
-            <Flex marginLeft={20} marginTop={10}>
+            // <Flex marginLeft={20} marginTop={10}>
+            <Flex>
               <LinkWrapper
                 target={isEmpty(career_page_url) ? '_parent' : '_blank'}
                 to={
@@ -636,7 +637,7 @@ const ProfileCard = () => {
                     : `/${career_page_url}/careers`
                 }
               >
-                <Button className={styles.buttonsizeauto} >
+                <Button className={styles.buttonsizeauto}  style={{margin:"10px 12px 0 12px"}}>
                   {/* <Flex row center className={styles.pointer} > */}
                     {/* <Text bold style={{ color: "white", marginLeft: 123 }} > */}
                       Careers Page
