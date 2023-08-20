@@ -1,10 +1,58 @@
 .overAll {
-  background-color: var(--color-primary, #581845);
-  padding: 8px;
+  /* background-color: var(--color-primary, #581845); */
+  /* padding: 8px; */
   margin-bottom: 44px;
+  width: 270px;
   position: relative;
+  /* box-shadow: 3px 0 5px -2px rgba(238, 232, 236, 1); */
+  /* color: #333333; */
 }
-.curser{
+.countStyle1 {
+  position: absolute;
+  right: 83px;
+  /* top: 1px; */
+  top: -3px;
+  background-color: #ED4857;
+  /* border: 0.1px solid #a5889c; */
+  border-radius: 100%;
+  z-index: 11;
+  display: flex;
+  height: 27px;
+  width: 27px;
+  justify-content: center;
+  align-items: center;
+} 
+.countStyle2{
+  position: absolute;
+  right: 80px;
+  /* top: 1px; */
+  top: -6px;
+  background-color:  #EEAC17;
+  /* border: 0.1px solid #a5889c; */
+  border-radius: 100%;
+  z-index: 11;
+  display: flex;
+  height: 27px;
+  width: 27px;
+  justify-content: center;
+  align-items: center;
+}
+.countStyle3{
+  position: absolute;
+  right: 80px;
+  /* top: 1px; */
+  top: -6px;
+  background-color: #00BE4B;
+  /* border: 0.1px solid #a5889c; */
+  border-radius: 100%;
+  z-index: 11;
+  display: flex;
+  height: 27px;
+  width: 27px;
+  justify-content: center;
+  align-items: center;
+}
+.curser {
   cursor: pointer;
 }
 .useNameStyle {
@@ -22,7 +70,7 @@
 .marginBottom {
   margin-bottom: 8px;
 }
-.fontLabelStyle{
+.fontLabelStyle {
   margin-bottom: 8px;
   width: 150px;
   white-space: nowrap;
@@ -37,7 +85,6 @@
   margin-left: 156px;
 }
 .barStyle {
-  margin-left: 16px;
   position: relative;
 }
 .matchStyle {
@@ -45,7 +92,6 @@
   top: 3px;
 }
 .svgDownloadStyle {
-  margin-left: 16px;
   cursor: pointer;
 }
 .nonMatch {
@@ -59,8 +105,8 @@
 }
 .imageStyle {
   border-radius: 100%;
-  height: 130px;
-  width: 130px;
+  height: 70px;
+  width: 70px;
   border-radius: 100%;
   margin-right: 16px;
   position: absolute;
@@ -79,28 +125,72 @@
   position: relative;
   top: 5px;
 }
-.inviteIconNone{
+.inviteIconNone {
   display: none !important;
 }
-
+ 
 .profile {
-  width: 130px;
-  height: 130px;
+  width: 70px;
+  height: 70px;
+  border-radius: 100%; 
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+.profileimg {
+  width: 70px;
+  height: 70px;
   border-radius: 100%;
   align-items: center;
   justify-content: center;
   display: flex;
-  position: relative;
-  margin-right: 16px;
-  position: absolute;
+  /* position: relative;
+  margin-right: 16px; */
+  /* position: absolute; */
   top: 12px;
   left: 16px;
-  background-image: linear-gradient(
+  /* background-image: linear-gradient(
     to right top,
     #581845,
     #982a4e,
     #d04e46,
     #f3832f,
     #fcc203
-  );
+  ); */
+}
+.headerpart {
+  font-size: 13px;
+  border-bottom: 1px solid #c3c3c3;
+   padding:0px 8px 0px 8px;
+}
+.headerpart1 {
+  font-size: 13px;
+  border-bottom: 1px solid #c3c3c3;
+}
+.headingpart {
+  font-size: 13px;
+  color: #581845;
+  font-weight: 400;
+}
+.changingtext {
+  font-size: 13px;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis; 
+  white-space: nowrap;
+}
+.changingtexts {
+  font-size: 13px;
+  white-space: 'nowrap';
+  text-overflow: 'ellipsis';
+  overflow: ' hidden';
+  max-width: '200px';
+}
+.borderstyles {
+  border-top: 1px solid #c3c3c3;
+  padding-top: 10px;
+}
+.starstyle i {
+  font-size: 20px;
+  cursor: default;
 }

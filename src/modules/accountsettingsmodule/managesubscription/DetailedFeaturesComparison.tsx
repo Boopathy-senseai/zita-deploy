@@ -7,7 +7,7 @@ import styles from './detailedfeaturescomparison.module.css';
 
 const DetailedFeaturesComparison = () => {
   return (
-    <Flex columnFlex width={770} marginBottom={20}>
+    <Flex columnFlex width={'76%'} marginBottom={20}>
       <Flex row center className={styles.titleFlex}>
         <Flex flex={6}>
           <div />
@@ -117,7 +117,7 @@ const DetailedFeaturesComparison = () => {
           <Text>External Posting</Text>
         </Flex>
         <Flex columnFlex center flex={2}>
-          <SvgRoundClose fill={ERROR} height={22} width={22} />
+          <SvgRoundClose fill={ERROR} height={16} width={16} />
         </Flex>
         <Flex columnFlex center flex={2}>
           <SvgTick fill={SUCCESS} />
@@ -296,6 +296,34 @@ const DetailedFeaturesComparison = () => {
           <SvgTick fill={SUCCESS} />
         </Flex>
       </Flex>
+       <Flex row center className={styles.borderBottom}>
+        <Flex flex={6}>
+          <Text>In-Built Email Integration</Text>
+        </Flex>
+        <Flex columnFlex center flex={2}>
+          <SvgTick fill={SUCCESS} />
+        </Flex>
+        <Flex columnFlex center flex={2}>
+          <SvgTick fill={SUCCESS} />
+        </Flex>
+        <Flex columnFlex center flex={2}>
+          <SvgTick fill={SUCCESS} />
+        </Flex>
+      </Flex>
+      <Flex row center className={styles.borderBottom}>
+      <Flex flex={6}>
+        <Text>In-Built Interview Scheduler</Text>
+      </Flex>
+      <Flex columnFlex center flex={2}>
+        <SvgTick fill={SUCCESS} />
+      </Flex>
+      <Flex columnFlex center flex={2}>
+        <SvgTick fill={SUCCESS} />
+      </Flex>
+      <Flex columnFlex center flex={2}>
+        <SvgTick fill={SUCCESS} />
+      </Flex>
+    </Flex>
       <Flex row center className={styles.borderNone}>
         <Flex flex={6}>
           <Text>Email Notification</Text>
@@ -334,7 +362,7 @@ const DetailedFeaturesComparison = () => {
           <Text>Sourcing Report</Text>
         </Flex>
         <Flex columnFlex center flex={2}>
-          <SvgRoundClose fill={ERROR} height={22} width={22} />
+          <SvgRoundClose fill={ERROR} height={16} width={16} />
         </Flex>
         <Flex columnFlex center flex={2}>
           <SvgTick fill={SUCCESS} />
@@ -348,7 +376,7 @@ const DetailedFeaturesComparison = () => {
           <Text>Sourcing Performance Report</Text>
         </Flex>
         <Flex columnFlex center flex={2}>
-          <SvgRoundClose fill={ERROR} height={22} width={22} />
+          <SvgRoundClose fill={ERROR} height={16} width={16} />
         </Flex>
         <Flex columnFlex center flex={2}>
           <SvgTick fill={SUCCESS} />
@@ -362,7 +390,7 @@ const DetailedFeaturesComparison = () => {
           <Text>Passive Candidate Sourcing Report</Text>
         </Flex>
         <Flex columnFlex center flex={2}>
-          <SvgRoundClose fill={ERROR} height={22} width={22} />
+          <SvgRoundClose fill={ERROR} height={16} width={16} />
         </Flex>
         <Flex columnFlex center flex={2}>
           <SvgTick fill={SUCCESS} />
@@ -376,7 +404,7 @@ const DetailedFeaturesComparison = () => {
           <Text>Job Metrics Report</Text>
         </Flex>
         <Flex columnFlex center flex={2}>
-          <SvgRoundClose fill={ERROR} height={22} width={22} />
+          <SvgRoundClose fill={ERROR} height={16} width={16} />
         </Flex>
         <Flex columnFlex center flex={2}>
           <SvgTick fill={SUCCESS} />

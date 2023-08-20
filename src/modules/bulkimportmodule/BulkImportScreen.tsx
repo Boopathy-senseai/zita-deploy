@@ -169,14 +169,13 @@ const BulkImportScreen = () => {
     {console.log("hello" ,unlimitedHelper(isFeaturesBalance))}
     <div
       className={styles.overAllContainer}
-      style={{ height: window.innerHeight - 86 }}
     >
       <Flex className={styles.overAlll}>
         {bulkInitalLoader && <Loader />}
 
         <Flex row className={styles.ribbon} between>
           <Flex marginTop={9} marginLeft={8} >
-            <Text size={18} bold color="theme" >
+            <Text size={16} bold color="theme" >
              Import Candidates
             </Text>
 
@@ -188,7 +187,7 @@ const BulkImportScreen = () => {
 
         </Flex>
         
-        <p>Import the resumes and create your own database to match candidates with the posted jobs. You can Import up to 500 resumes at a time.</p>
+        <p style={{color:'#333333',marginLeft:'9px',marginBottom:'0px',padding:'10px 0px',fontSize:'13px'}}>Import the resumes and create your own database to match candidates with the posted jobs. You can Import up to 500 resumes at a time.</p>
          
         <Flex className={styles.tabFlex}>
         <Flex className={styles.candidatesText}>

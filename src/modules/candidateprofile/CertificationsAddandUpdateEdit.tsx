@@ -14,6 +14,7 @@ import Text from '../../uikit/Text/Text';
 import Toast from '../../uikit/Toast/Toast';
 import useUnsavedChangesWarning from '../common/useUnsavedChangesWarning';
 import { numberAndSpaceCheck, THIS_FIELD_REQUIRED } from '../constValue';
+import { candidateMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { Obj } from './candidateProfileTypes';
 import styles from './certificationsaddandupdateedit.module.css';
 import {
@@ -73,6 +74,11 @@ const CertificationsAddandUpdateEdit = ({
         }),
       ).then((res) => {
         if (res.payload.success) {
+            dispatch(
+          candidateMatchMiddleWare({ 
+             can_id:res.payload?.can_id[0]?.id.toString(),
+          }),
+        )
           setReload(false)
           dispatch(profileEditMiddleWare({jd_id:localStorage.getItem('careerJobViewJobId')}));
           Toast('Certification updated successfully');
@@ -95,6 +101,11 @@ const CertificationsAddandUpdateEdit = ({
         }),
       ).then((res) => {
         if (res.payload.success) {
+          dispatch(
+            candidateMatchMiddleWare({ 
+               can_id:res.payload?.can_id.toString(),
+            }),
+          )
           setReload(false)
           formik.resetForm();
           dispatch(profileEditMiddleWare({jd_id:localStorage.getItem('careerJobViewJobId')}));

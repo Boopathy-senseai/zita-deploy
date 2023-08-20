@@ -36,19 +36,12 @@ const defaultTitleProps: DefaultTitleProps = {
   columns: [],
 
 };
-
- 
-
 const TitleColumns = ({ columns }: typeof defaultTitleProps) => {
-
   const length=(columns.length)-1;
-
   const value=columns[length].dataIndex;
-
   return (
 
     <>
-
     {console.log("rowwww",columns,length,value)}
       {columns.map((column) => {
         const { renderFilter, renderTitle, ...columnRestData } = column;
@@ -64,16 +57,17 @@ const TitleColumns = ({ columns }: typeof defaultTitleProps) => {
             style={{borderRight:'none !important'}}
             key={column.dataIndex}
             className={value===column.dataIndex?cx('titleTextStyle1'):cx('titleTextStyle')}
-            middle={center}           
-          >
+            middle={center}
             
+          >
           {console.log("laast indexxxx",renderTitle,column.dataIndex)}
+        
             {renderTitle ? (
               <Text style={{color:'#555555'}}>
-              renderTitle(column.title as string)
+              {renderTitle(column.title as string)}
               </Text>
             ) : (
-              <Text size={13} bold color={'theme'} style={{color:'#555555'}}>
+              <Text  bold style={{color:'#666666',fontSize:'13px'}}>
                 {column.title as string}
               </Text>
             )}
@@ -86,9 +80,7 @@ const TitleColumns = ({ columns }: typeof defaultTitleProps) => {
     </>
   );
 };
-
  
-
 // export default memo(
 
 //   TitleColumns,
@@ -98,7 +90,4 @@ const TitleColumns = ({ columns }: typeof defaultTitleProps) => {
 //     prevProps.columns === nextProps.columns
 
 // );
-
- 
-
 export default TitleColumns;

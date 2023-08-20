@@ -385,8 +385,10 @@ export interface SkillsEntity {
   experience: string;
 }
 export interface JdPreviewState extends JdPreview {
+  ext_jobs: any;
   isLoading: boolean;
   error: string;
+  link:string;
 }
 
 export interface valiDateJdState {

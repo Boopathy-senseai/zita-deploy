@@ -74,6 +74,7 @@ const MyDataBaseScreen = () => {
   const [isDownloadLoader, setDownLoadLoader] = useState(false);
   const [isSortOptions, setSortOptions] = useState(sortOptions[0]);
   const [isSearchValue, setSearchValue] = useState<any>('');
+  const [change,setchange]=useState(false)
 
   const addFavFilter = isFav ? 'add' : '';
 
@@ -88,6 +89,8 @@ const MyDataBaseScreen = () => {
     localStorage.setItem('freeCheck','true');
     dispatch(myDataBaseInitalMiddleWare());
   }, []);
+
+
 
   const {
     initalLoader,
@@ -167,34 +170,36 @@ const MyDataBaseScreen = () => {
   const qualificationOption = [
     {
       value: 'Bachelors',
-      label: 'Bachelor',
+      label: 'Bachelors',
       checked: isBachelors,
       onChange: handleBachelor,
       width: 110,
+      padding:10,
     },
     {
       value: 'Masters',
-      label: 'Master',
+      label: 'Masters',
       checked: isMasters,
       onChange: handleMaster,
-      width: 110,
+      width: 80,
+      margin:8,
     },
     {
       value: 'Doctorate',
       label: 'Doctorate',
       checked: isDoctorate,
       onChange: handleDoctorate,
-      width: 87,
-    },
-    {
-      value: 'Others',
-      label: 'Other',
-      checked: isOther,
-      onChange: handleOther,
       width: 110,
     },
     {
-      value: 'Any',
+      value: 'Others',
+      label: 'Others',
+      checked: isOther,
+      onChange: handleOther,
+      width: 80,
+    },
+    {
+      value: 'Any Qualification',
       label: 'any',
       width: 110,
       checked: isAny,
@@ -264,6 +269,7 @@ const MyDataBaseScreen = () => {
 
   useEffect(() => {
     setIsCheck([]);
+    if(change===false){
     dispatch(
       myDataBaseDataMiddleWare({
         jobTitle: formik.values.jobTitle,
@@ -281,6 +287,7 @@ const MyDataBaseScreen = () => {
         applicant_only: formik.values.applicantOnly,
       }),
     );
+    }
   }, [
     formik.values,
     isAny,
@@ -292,6 +299,7 @@ const MyDataBaseScreen = () => {
     isFav,
     isSortOptions,
     isPage,
+    change
   ]);
 
   // filter refresh function
@@ -342,8 +350,11 @@ const MyDataBaseScreen = () => {
   };
 // fav filter function
   const handleFav = () => {
-    setFav(!isFav);
+    setFav(!isFav)
   };
+  useEffect(()=>{
+
+  },[])
 // resume download function
   const hanldeDownload = () => {
     if (isCheck.length !== 0) {
@@ -372,27 +383,27 @@ const MyDataBaseScreen = () => {
         });
     }
   };
-  console.log("dataaaaaaaa",datas)
+
+  console.log("changeeee+====",change)
   return (
     <>
     <Flex row className={styles.ribbon} between>
           
 
-    <Flex marginTop={9} marginLeft={8} >
-      <Text size={18} bold color="theme" >
-      My Database
+    <Flex className={styles.titleContainer}  >
+      <Text size={16} bold color="theme" >
+      Database
       </Text>
 
     </Flex>
     <Flex >
-
       <div className={styles.triangle}></div>
     </Flex>
 
    </Flex>
     <Flex row className={styles.overAll}>
-      {initalLoader && <Loader />}
-      {dataLoader && <Loader />}
+      {initalLoader && <Loader  />}
+      {/* {dataLoader && <Loader  />} */}
       {isInviteLoader && <Loader />}
       {isDownloadLoader && <Loader />}
 
@@ -403,26 +414,13 @@ const MyDataBaseScreen = () => {
         isSearchValue={isSearchValue}/>
         <div className={cx('filterOverAll')}>
         <MyDataBaseFilter
+          setchange={setchange}
           formik={formik}
           qualificationOption={qualificationOption}
           hanldeRefresh={hanldeRefresh}
         />
       </div> 
         <div className={styles.tabsStyle}>
-          <Flex row center className={styles.infiStyle}>
-            <Totalcount
-            name="Candidates Limit"
-            numbers={candidate_available}
-            />
-            {isEmpty(candidate_available) && (
-              <div
-                className={styles.svgInfy}
-                title="Unlimited Candidate Storage"
-              >
-                <SvgInfinity />
-              </div>
-            )}
-          </Flex>
           <MyDataBaseTabs
             totalCount={totalCount}
             data={datas}

@@ -1,7 +1,23 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { ZitaEventSchedulerType } from '../../types';
+import { IEventNotes, ZitaEventSchedulerType } from '../../types';
+import { stringifyParams } from '../../../../uikit/helper';
 var querystring = require('qs');
+
+export const getUpdateEventByIdMiddleWare = createAsyncThunk<
+  IEventNotes,
+  { event_id: string }
+>('schedule_event_by_id', async (payload, { rejectWithValue }) => {
+  try {
+    const { data } = await axios.get(
+      `update_event/?${stringifyParams(payload)}`,
+    );
+    return data as IEventNotes;
+  } catch (error) {
+    const typedError = error as Error;
+    return rejectWithValue(typedError);
+  }
+});
 
 export const scheduleEventMiddleware = createAsyncThunk(
   'schedule_event',
@@ -21,11 +37,11 @@ export const scheduleEventMiddleware = createAsyncThunk(
       endTime,
       notes,
       location,
+      interviewer_notes,
     }: ZitaEventSchedulerType,
     { rejectWithValue },
   ) => {
     try {
-      console.log({ interviewer });
       const { data } = await axios.post('schedule_event/', {
         title,
         reminder,
@@ -41,6 +57,7 @@ export const scheduleEventMiddleware = createAsyncThunk(
         endTime,
         notes,
         location,
+        interviewer_notes,
       });
       return data;
     } catch (error) {
@@ -70,33 +87,35 @@ export const updateEventMiddleware = createAsyncThunk(
       endTime,
       notes,
       location,
+      interviewer_notes,
     }: ZitaEventSchedulerType,
     { rejectWithValue },
   ) => {
     try {
       const { data } = await axios.post(
         'update_event/',
-        querystring.stringify(
-          {
-            title,
-            reminder,
-            app_id,
-            extraNotes,
-            myJd,
-            eventId,
-            privateNotes,
-            eventType,
-            edit_jd,
-            curJd,
-            timeZone,
-            interviewer,
-            startTime,
-            endTime,
-            notes,
-            location,
-          },
-          { arrayFormat: 'comma' },
-        ),
+        // querystring.stringify(
+        {
+          title,
+          reminder,
+          app_id,
+          extraNotes,
+          myJd,
+          eventId,
+          privateNotes,
+          eventType,
+          edit_jd,
+          curJd,
+          timeZone,
+          interviewer,
+          startTime,
+          endTime,
+          notes,
+          location,
+          interviewer_notes,
+        },
+        // { arrayFormat: '' },
+        // ),
       );
       return data;
     } catch (error) {

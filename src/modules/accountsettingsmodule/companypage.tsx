@@ -30,6 +30,7 @@ import {
   mediaPath,
   specialCharacter,
   ENTER_VALID_URL,
+  space,
 } from '../../modules/constValue';
 import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
 import Button from '../../uikit/Button/Button';
@@ -62,7 +63,6 @@ import { CountryEntity, StateEntity, CityEntity } from './CompanyPageTypes';
 import {
   userProfileMiddleWare,
   userProfilePostMiddleWare,
-  
 } from './userprofilemodule/store/middleware/userprofilemiddleware';
 // import SvgPicupload from '../../icons/SvgPicupload';
 
@@ -95,28 +95,38 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
   const [isPassButton, setPassButton] = useState(true);
   const [isButton, setButton] = useState(true);
   const [isMb, setMb] = useState(false);
+  const [iserrorMb, seterrorMb] = useState(false);
   const [modelopen, setmodelopen] = useState(false);
   const [openpopup, setopenpopup] = useState(false);
   const [openpopuptwo, setopenpopuptwo] = useState(false);
-  const [imgtype,setimgtype] = useState(false);
-  const [imgtypes,setimgtypes] = useState(false);
+  const [imgtype, setimgtype] = useState(false);
+  const [imgtypes, setimgtypes] = useState(false);
   const [imgsetup, setImgsetup] = useState(false);
   const [imgsetups, setImgsetups] = useState(false);
-  const[imgchange,setImgchange] = useState("");
+  const [imgchange, setImgchange] = useState('');
   const history = useHistory();
 
   useEffect(() => {
-    dispatch(userProfileMiddleWare()) 
+    dispatch(userProfileMiddleWare());
   }, []);
   useEffect(() => {
     dispatch(companyPageInitalMiddleWare());
     dispatch(locationMiddleWare({}));
   }, []);
 
-  
-
-  const { countryid, isLoading,user, company_detail,profile,build_career_page } =
-    useSelector(({ companyPageReducers, locationReducers, userProfileReducers }: RootState) => ({
+  const {
+    countryid,
+    isLoading,
+    user,
+    company_detail,
+    profile,
+    build_career_page,
+  } = useSelector(
+    ({
+      companyPageReducers,
+      locationReducers,
+      userProfileReducers,
+    }: RootState) => ({
       countryid: locationReducers.country,
       isLoading: companyPageReducers.isLoading,
       profile: userProfileReducers.profile,
@@ -124,7 +134,8 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
       user: userProfileReducers.user,
       company_detail: companyPageReducers.company_detail,
       build_career_page: companyPageReducers.build_career_page,
-    }));
+    }),
+  );
   const initial: CompanyPage = {
     company_name: '',
     company_website: '',
@@ -137,6 +148,7 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
     state_id: '',
     city_id: '',
     zipcode: '',
+    zipcod: '',
     logo: '',
     logos: '',
     firstname: '',
@@ -168,6 +180,7 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
     state_id: string;
     city_id: string;
     zipcode: string;
+    zipcod: string;
     logo: string;
     logos: string;
     firstname: string;
@@ -175,10 +188,8 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
     username: string;
     profilepicture: string;
   };
-  
 
-  const handleChangeImag = (e: any) => {
-    
+  const handleChangeImage = (e: any) => {
     e.preventDefault();
     var fileExt = e.target.value;
     fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
@@ -189,7 +200,7 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
           ' types.',
       );
     } else if (e.target.files && e.target.files[0].size / 1024 / 1024 > 2) {
-      setMb(true);
+      seterrorMb(true);
     } else {
       let reader = new FileReader();
       reader.onloadend = () => {
@@ -200,7 +211,7 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
       };
       formik.setFieldValue('logo', e.target.files[0]);
       reader.readAsDataURL(e.target.files[0]);
-      setMb(false);
+      seterrorMb(false);
       setReload(true);
     }
   };
@@ -226,7 +237,7 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
           imagePreviewUrl: reader.result,
         });
       };
-      
+
       reader.readAsDataURL(e.target.files[0]);
       setMb(false);
       setReload(true);
@@ -234,18 +245,17 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
       // onDirty();
     }
   };
-  
- 
-  const handleCompanyPageValid = (values: CompanyPage) => { 
+
+  const handleCompanyPageValid = (values: CompanyPage) => {
     const errors: Partial<CompanyPage> = {};
-  
-    if (isEmpty(values.firstname)) {
+
+    if (isEmpty(values.firstname.trim())) {
       errors.firstname = THIS_FIELD_REQUIRED;
     }
-    if (isEmpty(values.lastname)) {
-      errors.lastname =THIS_FIELD_REQUIRED;
+    if (isEmpty(values.lastname.trim())) {
+      errors.lastname = THIS_FIELD_REQUIRED;
     }
-    
+
     if (!isEmpty(values.contact) && values.contact.length > 12) {
       errors.contact = 'Contact Number must consist of less than 12 characters';
     }
@@ -262,7 +272,8 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
     if (isEmpty(values.no_of_emp)) {
       errors.no_of_emp = THIS_FIELD_REQUIRED;
     }
-    if (isEmpty(values.address)) {
+
+    if (isEmpty(values.address) || isEmpty(values.address.trim())) {
       errors.address = THIS_FIELD_REQUIRED;
     }
 
@@ -278,9 +289,6 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
     if (isEmpty(values.state_id)) {
       errors.state_id = THIS_FIELD_REQUIRED;
     }
-    if (isEmpty(values.zipcode)) {
-      errors.zipcode = THIS_FIELD_REQUIRED;
-    }
     if (isEmpty(values.company_website)) {
       errors.company_website = THIS_FIELD_REQUIRED;
     }
@@ -289,7 +297,7 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
       isValidURL(values.company_website) === false &&
       values.company_website !== 'https://'
     ) {
-      errors.company_website = THIS_FIELD_REQUIRED;
+      errors.company_website = '';
     }
     if (isEmpty(values.city_id)) {
       errors.city_id = THIS_FIELD_REQUIRED;
@@ -297,7 +305,9 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
     if (!isEmpty(values.zipcode) && values.zipcode.length > 6) {
       errors.zipcode = ' ';
     }
-
+    if (!isEmpty(values.zipcode) && values.zipcode.length < 4) {
+      errors.zipcode = '';
+    }
     if (!isEmpty(values.no_of_emp) && Number(values.no_of_emp) > 1000) {
       errors.no_of_emp = '';
     }
@@ -307,17 +317,18 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
     if (isEmpty(values.zipcode)) {
       errors.zipcode = THIS_FIELD_REQUIRED;
     }
-    if ((values.company_website.length === 5)) {
+    if (!emtysp) {
+      errors.zipcod = 'Space is not a character';
+    }
+    if (values.company_website.length === 5) {
       errors.zipcode = THIS_FIELD_REQUIRED;
     }
-    if (isEmpty(values.zipcode)) {
-      errors.zipcode = THIS_FIELD_REQUIRED;
-    }
+    // if (isEmpty(values.zipcode.trim())) {
+    //   errors.zipcode = THIS_FIELD_REQUIRED;
+    // }
     if (isEmpty(values.contact)) {
       errors.contact = THIS_FIELD_REQUIRED;
     }
-     
-
     return errors;
   };
   const handlePasswordValid = (values: Password) => {
@@ -338,14 +349,13 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
 
     return errors;
   };
-  
 
   const formik = useFormik({
     initialValues: initial,
     onSubmit: (values) => hanldeSubmitform(values),
     validate: handleCompanyPageValid,
   });
-  
+
   useEffect(() => {
     if (countryid && countryid.length !== 0) {
       setCountry(countryid);
@@ -411,7 +421,6 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
       formik.setFieldValue('city_id', company_detail.city_id);
       formik.setFieldValue('zipcode', company_detail.zipcode);
       formik.setFieldValue('logo', company_detail.logo);
-      
     }
   }, [company_detail]);
   useEffect(() => {
@@ -423,55 +432,56 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
   }, [user]);
   const logoUrls = profile && profile !== 'default.jpg' ? profile : '';
 
-
+  console.log();
   useEffect(() => {
-     if(profile){
-      setlogos(profile);
-     } 
+    if (profile && profile !== 'default.jpg') {
+      const userlogo = profile.substring(profile.lastIndexOf('/') + 1);
+      setlogos(userlogo);
+    }
   }, [logoUrls]);
-  
+
   const logoUrl =
     company_detail && company_detail.logo && company_detail.logo
       ? company_detail.logo
       : '';
   useEffect(() => {
-    setlogo(logoUrl);
+    const companylogo = logoUrl.substring(logoUrl.lastIndexOf('/') + 1);
+    setlogo(companylogo);
   }, [logoUrl]);
 
-  
   const imgUrls =
-    fileurls.file === undefined ? `${mediaPath + logoUrls}` : fileurls.file.name;
+    fileurls.file === undefined
+      ? `${mediaPath + logoUrls}`
+      : fileurls.file.name;
   const imgUrl =
     fileurl.file === undefined ? `${mediaPath + islogo}` : fileurl.file.name;
   const errorMsg = `The two password fields didn't match.`;
 
- const  hanldeSubmitform = (values: CompanyPage) => {
+  const hanldeSubmitform = (values: CompanyPage) => {
+    seterrorMb(false);
+    setMb(false);
     setload(true);
     const formProfile = new FormData();
     const formData = new FormData();
-     
 
     if (fileurl.file !== undefined) {
-      formData.append('logo', fileurl.file) 
+      formData.append('logo', fileurl.file);
     } else if (islogo.length === 0) {
-      formData.append('logo',"");
+      formData.append('logo', '');
     }
 
-
-
-  
     if (fileurls.file !== undefined) {
-      formProfile.append('image',fileurls.file);
-        } else if (logos.length === 0) {
-          formProfile.append('image_null', logos);
-         
-        }   
+      formProfile.append('image', fileurls.file);
+    } else if (logos.length === 0) {
+      formProfile.append('image_null', logos);
+    }
     formProfile.append('first_name', values.firstname);
     formProfile.append('last_name', values.lastname);
-   formProfile .append('username', values.username);    
+    formProfile.append('username', values.username);
     formData.append('company_name', values.company_name);
     formData.append('company_website', values.company_website);
     formData.append('contact', values.contact);
+    // console.log("contact",values.contact);
     formData.append('industry_type', values.industry_type_id);
     formData.append('no_of_emp', values.no_of_emp);
     formData.append('address', values.address);
@@ -480,34 +490,37 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
     formData.append('city', values.city_id);
     formData.append('zipcode', values.zipcode);
     formData.append('email', values.email);
+
     dispatch(
       userProfilePostMiddleWare({
-        formData:formProfile
-       }),
-     ).then(() => {
-            dispatch(userProfileMiddleWare());
-            dispatch(
-              companyPagePostMiddleWare({
-                
-                formData,
-              }),
-            )  .then((res: any) => {  if (res.payload.data.success) 
-              {
-                setReload(false);
-                setload(false);
-                Toast('Details saved successfully', 'LONG', 'success');
-                if (build_career_page === false) {
-                  setKey('1');
-                }
-            }}) ;
-            
-           
-          })
-    
-   
-  };
-   
+        formData: formProfile,
+      }),
+    ).then(() => {
+      dispatch(userProfileMiddleWare());
+      dispatch(
+        companyPagePostMiddleWare({
+          formData,
+        }),
+      ).then((res: any) => {
+        if (res.payload.data.success) {
+          setReload(false);
+          setload(false);
+          console.log('res', res);
+          Toast('Details saved successfully', 'LONG', 'success');
+          dispatch(companyPageInitalMiddleWare());
+          dispatch(userProfileMiddleWare());
+          dispatch(userProfileMiddleWare());
 
+          if (build_career_page === false) {
+            setKey('1');
+          }
+        }
+      });
+    });
+  };
+
+  const emtysp = space.test(formik.values.zipcode);
+  const emtysps = space.test(formik.values.address);
 
   const hanldePasswordSubmitform = (values: Password) => {
     setload(true);
@@ -515,12 +528,9 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
     formData.append('old_password', values.oldpassword);
     formData.append('new_password1', values.newpassword1);
     formData.append('new_password2', values.newpassword2);
-
-     
   };
-  
-    //     // onPristine();
-  
+
+  //     // onPristine();
 
   const formikPassword = useFormik({
     initialValues: initialPassword,
@@ -558,73 +568,68 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
     ref.current.value = '';
     setlogo('');
     setButton(false);
-    setFileurl("");
-setImgchange("")
+    setFileurl('');
+    setImgchange('');
     setShow(false);
-    
   };
   const resets = () => {
     ref.current.value = '';
-    setFileurls("");
+    setFileurls('');
     setlogos('');
     // setButton(false);
   };
- 
 
   const redirectHome = () => {
     history.push('/');
-  }; 
-  const redirectbuiltcarrer = () =>{
-    history.push('/')
-  }
-   var jpg=imgUrl.slice(-3)
-  var jps=logoUrl.slice(-3)
-  
- let jpgs= jps.toUpperCase(); 
-let jpgchange=jpg.toUpperCase(); 
+    seterrorMb(false);
+    setMb(false);
+  };
+  const redirectbuiltcarrer = () => {
+    history.push('/');
+  };
+  var jpg = imgUrl.slice(-3);
+  var jps = logoUrl.slice(-3);
 
-   useEffect(()=>{
-    if( jpgchange ==="JPG" || jpgs ===  "JPG" ){     
-      setimgtype(true) 
-    } 
-    else if(  jpgchange === "PEG" ||  jpgs  === "PEG"
-    ){
-      setimgtype(true) 
-    } 
-    else{
-      setimgtype(false) 
-    }  
-   },[logoUrl,imgUrl])
+  let jpgs = jps.toUpperCase();
+  let jpgchange = jpg.toUpperCase();
 
-   var jpg1=imgUrls.slice(-3)
-   var jps1=logoUrls.slice(-3)
-   
-  let jpgs1= jps1.toUpperCase(); 
- let jpgchange1=jpg1.toUpperCase(); 
- 
-    useEffect(()=>{
-     if( jpgchange1 ==="JPG" || jpgs1 ===  "JPG" ){     
-       setimgtypes(true) 
-     } 
-     else if(  jpgchange1 === "PEG" ||  jpgs1  === "PEG"
-     ){
-       setimgtypes(true) 
-     } 
-     else{
-       setimgtypes(false) 
-     }  
-    },[logoUrls,imgUrls])
+  useEffect(() => {
+    if (jpgchange === 'JPG' || jpgs === 'JPG') {
+      setimgtype(true);
+    } else if (jpgchange === 'PEG' || jpgs === 'PEG') {
+      setimgtype(true);
+    } else {
+      setimgtype(false);
+    }
+  }, [logoUrl, imgUrl]);
+
+  var jpg1 = imgUrls.slice(-3);
+  var jps1 = logoUrls.slice(-3);
+
+  let jpgs1 = jps1.toUpperCase();
+  let jpgchange1 = jpg1.toUpperCase();
+
+  useEffect(() => {
+    if (jpgchange1 === 'JPG' || jpgs1 === 'JPG') {
+      setimgtypes(true);
+    } else if (jpgchange1 === 'PEG' || jpgs1 === 'PEG') {
+      setimgtypes(true);
+    } else {
+      setimgtypes(false);
+    }
+  }, [logoUrls, imgUrls]);
+  console.log(emtysp, 'cxvznmg,.h/hglkfujyhtgrfd');
   return (
     <Flex className={styles.overAll}>
-      <Flex row className={styles.companyuserheading}>
+      {/* <Flex row className={styles.companyuserheading}>
         <Flex>
           <SvgCompanyprofile></SvgCompanyprofile>
         </Flex>
         <Flex className={styles.profilehead}>Company Profile</Flex>
-      </Flex>
+      </Flex> */}
       {(isLoading || isload) && <Loader />}
       <Flex row className={styles.companyrow}>
-        <Flex flex={4}>
+        <Flex>
           <InputText
             label="Company Name"
             inputConatinerClass={styles.with80}
@@ -634,13 +639,14 @@ let jpgchange=jpg.toUpperCase();
             value={formik.values.company_name}
             onChange={formik.handleChange('company_name')}
           />
+
           <ErrorMessage
             touched={formik.touched}
             errors={formik.errors}
             name="company_name"
           />
         </Flex>
-        <Flex flex={4}>
+        <Flex>
           <InputText
             inputConatinerClass={styles.with80}
             label="Work Email"
@@ -656,7 +662,7 @@ let jpgchange=jpg.toUpperCase();
             name="email"
           />
         </Flex>
-        <Flex flex={4}>
+        <Flex>
           <LabelWrapper label="Contact Number" required>
             <PhoneInput
               containerClass={styles.phoneInputs}
@@ -664,8 +670,9 @@ let jpgchange=jpg.toUpperCase();
               dropdownClass={styles.dropDownStyle}
               country={'us'}
               value={formik.values.contact}
-              //onChange={handleOnChange}
+              onChange={formik.handleChange('contact')}
             />
+            {console.log('contact', formik.values.contact)}
           </LabelWrapper>
           <ErrorMessage
             touched={formik.touched}
@@ -675,7 +682,7 @@ let jpgchange=jpg.toUpperCase();
         </Flex>
       </Flex>
       <Flex row className={styles.companyrow}>
-        <Flex flex={4}>
+        <Flex>
           <InputText
             inputConatinerClass={styles.with80}
             label="Company Website URL"
@@ -705,7 +712,7 @@ let jpgchange=jpg.toUpperCase();
             name="company_website"
           />
         </Flex>
-        <Flex flex={4}>
+        <Flex>
           <LabelWrapper label="Industry Type" required>
             <div className={styles.with80} style={{ marginTop: 5 }}>
               <SelectTag
@@ -736,7 +743,7 @@ let jpgchange=jpg.toUpperCase();
             </div>
           </LabelWrapper>
         </Flex>
-        <Flex flex={4}>
+        <Flex>
           <InputText
             inputConatinerClass={styles.with80}
             label="No of Employees"
@@ -771,9 +778,9 @@ let jpgchange=jpg.toUpperCase();
       </Flex>
 
       <Flex row className={styles.companyrow}>
-        <Flex flex={4}>
+        <Flex>
           <InputText
-            inputConatinerClass={styles.width90}
+            inputConatinerClass={styles.width80}
             label="Street Address"
             required
             className={styles.inputheight}
@@ -790,7 +797,7 @@ let jpgchange=jpg.toUpperCase();
           />
         </Flex>
 
-        <Flex flex={4}>
+        <Flex>
           <LabelWrapper label="Country" required>
             <div className={styles.with80} style={{ marginTop: 5 }}>
               <SelectTag
@@ -826,7 +833,7 @@ let jpgchange=jpg.toUpperCase();
             </div>
           </LabelWrapper>
         </Flex>
-        <Flex flex={4}>
+        <Flex>
           <LabelWrapper label="State" required>
             <div className={styles.with80} style={{ marginTop: 5 }}>
               <SelectTag
@@ -864,7 +871,7 @@ let jpgchange=jpg.toUpperCase();
         </Flex>
       </Flex>
       <Flex row className={styles.companyrow} flex={12}>
-        <Flex flex={4}>
+        <Flex>
           <LabelWrapper label="City" required>
             <div className={styles.with80} style={{ marginTop: 5 }}>
               <SelectTag
@@ -898,7 +905,7 @@ let jpgchange=jpg.toUpperCase();
             </div>
           </LabelWrapper>
         </Flex>
-        <Flex flex={4}>
+        <Flex>
           <InputText
             inputConatinerClass={styles.with80}
             label="Zip Code"
@@ -910,21 +917,41 @@ let jpgchange=jpg.toUpperCase();
               setReload(true);
             }}
           />
-          {!isEmpty(formik.values.zipcode) && formik.values.zipcode.length > 6 && (
+          {console.log(emtysp, 'manoj')}
+          {emtysp &&
+          !isEmpty(formik.values.zipcode) &&
+          formik.values.zipcode.length > 6 ? (
             <Text size={12} color="error">
-              Zipcode must consist of less than 6 characters
+              Zip Code should not exceed 6 characters
             </Text>
+          ) : (
+            ''
           )}
-          {!isEmpty(formik.values.zipcode) && formik.values.zipcode.length < 4 && (
+          {emtysp &&
+          !isEmpty(formik.values.zipcode) &&
+          formik.values.zipcode.trim().length < 4 ? (
             <Text size={12} color="error">
-              Zipcode must consist of more than 4 characters
+              Zip Code should have atleast 4 characters
             </Text>
+          ) : (
+            ''
           )}
-          <ErrorMessage
-            touched={formik.touched}
-            errors={formik.errors}
-            name="zipcode"
-          />
+          {!emtysp ? (
+            <Text size={12} color="error">
+              Space is not a character
+            </Text>
+          ) : (
+            ''
+          )}
+          {emtysp ? (
+            <ErrorMessage
+              touched={formik.touched}
+              errors={formik.errors}
+              name="zipcode"
+            />
+          ) : (
+            ''
+          )}
         </Flex>
         <Flex flex={4}></Flex>
       </Flex>
@@ -932,10 +959,10 @@ let jpgchange=jpg.toUpperCase();
       <Flex row className={styles.companyrow9}>
         {/* <Flex   className={styles.companyrow1}> */}
 
-        {fileurl.length === 0 && islogo.length === 0   ? (
+        {fileurl.length === 0 && islogo.length === 0 ? (
           <Flex row flex={12}>
-            <Flex flex={4}>
-              <LabelWrapper label="Company Logo" >
+            <Flex>
+              <LabelWrapper label="Company Logo">
                 <Flex
                   height={'30px'}
                   className={styles.imgStyle}
@@ -958,15 +985,15 @@ let jpgchange=jpg.toUpperCase();
                       htmlFor="company_profile___img"
                       className={styles.btnStyle}
                     >
-                      Upload or drag a logo
+                      Upload a logo
                     </label>
                   </Flex>
+
                   <Flex
                     // className={styles.openpopup3  }
                     // columnFlex
                     center
                     middle
-
                     flex={1}
                     // onMouseEnter={() => setShow(true)}
                   >
@@ -980,14 +1007,18 @@ let jpgchange=jpg.toUpperCase();
                   </Flex>
                 </Flex>
               </LabelWrapper>
+              {iserrorMb && (
+                <Text size={12} color="error">
+                  {FILE_2MB}
+                </Text>
+              )}
             </Flex>
+
             <ErrorMessage
               touched={formik.touched}
               errors={formik.errors}
               name="Company Logo"
             />
-
-          
             <Flex flex={5} style={{ margintop: '-2vh' }}>
               {openpopup === true ? (
                 <Card className={styles.cardfront1}>
@@ -997,23 +1028,23 @@ let jpgchange=jpg.toUpperCase();
                       More Information
                     </Text>{' '}
                   </Flex>
-                  <Flex  className={styles.tooltipcontent}>
+                  <Flex className={styles.tooltipcontent}>
                     <Text className={styles.gray_color}>
-                      Dimension :{' '}
+                      Dimension:{' '}
                       <Text className={styles.gray_color}>
                         {' '}
-                        Square :120px X 120px, Rectangle :500px X 230px
+                        Square: 120px X 120px, Rectangle: 500px X 230px
                       </Text>
                     </Text>
                     {/* <Text >
                 Square: 120px * 120px, Rectangle: 500px * 230px
               </Text> */}
                     <Text className={styles.gray_color}>
-                      File size must be less than 2MB
+                      File size should not exceed 2MB.
                     </Text>
-                    <Text style={{ marginTop: 5 }}>
+                    <Text style={{ marginTop: 5, fontSize: '13px' }}>
                       Note:
-                      <Text>
+                      <Text style={{ marginLeft: 3, fontSize: '13px' }}>
                         This logo will be used in your career page created by
                         zita.
                       </Text>
@@ -1026,19 +1057,18 @@ let jpgchange=jpg.toUpperCase();
             </Flex>
             <Flex flex={3}></Flex>
             <input
-          id="company_profile___img"
-          type="file"
-          onChange={handleChangeImag}
-          accept="image/*"
-          className={styles.fileStyle}
-        />
+              id="company_profile___img"
+              type="file"
+              onChange={handleChangeImage}
+              accept="image/*"
+              className={styles.fileStyle}
+            />
           </Flex>
-          
         ) : (
           <Flex column flex={12}>
             <Flex row flex={12}>
-              <Flex flex={4}>
-                <LabelWrapper label="Company Logo"  >
+              <Flex>
+                <LabelWrapper label="Company Logo">
                   <Flex
                     height={'30px'}
                     className={styles.imgStyle}
@@ -1052,22 +1082,21 @@ let jpgchange=jpg.toUpperCase();
                       className={styles.btnStyle}
                     >
                       <Flex className={styles.openpopup1}>
-                        <div  >
-                        {' '}
-                        {imgtype === true?( <img
-                            src={ Jpg
-                            }
-                            className={styles.pngsize}
-                            alt="logo"
-                          />):( <img
-                            src={  Png 
-                            }
-                            className={styles.pngsize}
-                            alt="logo"
-                          />)}
-                        
-                         
-                       
+                        <div>
+                          {' '}
+                          {imgtype === true ? (
+                            <img
+                              src={Jpg}
+                              className={styles.pngsize}
+                              alt="logo"
+                            />
+                          ) : (
+                            <img
+                              src={Png}
+                              className={styles.pngsize}
+                              alt="logo"
+                            />
+                          )}
                         </div>
                       </Flex>
                     </label>
@@ -1079,16 +1108,19 @@ let jpgchange=jpg.toUpperCase();
                         className={styles.companyprofileimg}
                       >
                         {' '}
-                        {fileurl.length === 0 ?(  <Text className={styles.urlimagefile} title={islogo} >
-                          {islogo}
-                        </Text> ):(<Text className={styles.urlimagefile} title={imgUrl} >
-                          {imgUrl}
-                        </Text>)}
-                      
-                        
+                        {fileurl.length === 0 ? (
+                          <Text className={styles.urlimagefile} title={islogo}>
+                            {islogo}
+                          </Text>
+                        ) : (
+                          <Text className={styles.urlimagefile} title={imgUrl}>
+                            {imgUrl}
+                          </Text>
+                        )}
                       </label>
                     </Flex>
-                    <Flex 
+
+                    <Flex
                       className={styles.changeStyle111}
                       center
                       middle
@@ -1101,16 +1133,18 @@ let jpgchange=jpg.toUpperCase();
                       <SvgCloseSmal />
                     </Flex>
                   </Flex>
-                  
                 </LabelWrapper>
+                {iserrorMb && (
+                  <Text size={12} color="error">
+                    {FILE_2MB}
+                  </Text>
+                )}
               </Flex>
               <Flex flex={4}></Flex>
               <Flex flex={4}></Flex>
-
-             
             </Flex>
             <Flex row flex={12} className={styles.merginghover}>
-              <Flex flex={4}>
+              <Flex>
                 {isShows && (
                   <Flex center middle className={styles.changeimgfile1}>
                     <label
@@ -1131,23 +1165,17 @@ let jpgchange=jpg.toUpperCase();
             </Flex>
           </Flex>
         )}
-        {isMb && (
-          <Text size={12} color="error">
-            {FILE_2MB}
-          </Text>
-        )}
-        <input
-          id="company_profile___img"
-          type="file"
-          onChange={handleChangeImag}
-          accept="image/*"
-          className={styles.fileStyle}
-        />
-
-      
+        <Flex row>
+          <input
+            id="company_profile___img"
+            type="file"
+            onChange={handleChangeImage}
+            accept="image/*"
+            className={styles.fileStyle}
+          />{' '}
+        </Flex>
       </Flex>
-       
-      
+
       {/* <Flex marginTop={"-10px"}><ErrorMessage
             touched={formik.touched}
             errors={formik.errors}
@@ -1157,7 +1185,7 @@ let jpgchange=jpg.toUpperCase();
       <Flex>
         {(isLoading || isload) && <Loader />}
         <Flex className={styles.margintopline}></Flex>
-        <Flex row center>
+        {/* <Flex row center>
           <Flex center>
             <SvgUserdetail />
           </Flex>
@@ -1166,55 +1194,11 @@ let jpgchange=jpg.toUpperCase();
             User Profile
             </Text>
           </Flex>
-        </Flex>
+        </Flex> */}
 
-       
         <Flex className={styles.companyrow}>
           <Flex row flex={12}>
-            <Flex flex={4}>
-              <div>
-                {' '}
-                <InputText
-                  inputConatinerClass={styles.with80}
-                  label="First Name"
-                  required
-                  value={formik.values.firstname}
-                  className={styles.inputheight}
-                  onChange={(e) => {
-                    formik.setFieldValue('firstname', e.target.value);
-                    setButton(false);
-                    // onDirty();
-                   
-                  }}
-                />
-                <ErrorMessage
-                  touched={formik.touched}
-                  errors={formik.errors}
-                  name="firstname"
-                />
-              </div>
-            </Flex>
-            <Flex flex={4}>
-              <InputText
-                inputConatinerClass={styles.with80}
-                label="Last Name"
-                required
-                value={formik.values.lastname}
-                className={styles.inputheight}
-                onChange={(e) => {
-                  formik.setFieldValue('lastname', e.target.value);
-                  setButton(false);
-                  // onDirty();
-                  
-                }}
-              />
-              <ErrorMessage
-                touched={formik.touched}
-                errors={formik.errors}
-                name="lastname"
-              />
-            </Flex>
-            <Flex flex={4}>
+            <Flex>
               <InputText
                 inputConatinerClass={styles.with80}
                 label="User Name"
@@ -1230,19 +1214,56 @@ let jpgchange=jpg.toUpperCase();
                 name="username"
               />
             </Flex>
+            <Flex>
+              <div>
+                {' '}
+                <InputText
+                  inputConatinerClass={styles.with80}
+                  label="First Name"
+                  required
+                  value={formik.values.firstname}
+                  className={styles.inputheight}
+                  onChange={(e) => {
+                    formik.setFieldValue('firstname', e.target.value);
+                    setButton(false);
+                    // onDirty();
+                  }}
+                />
+                <ErrorMessage
+                  touched={formik.touched}
+                  errors={formik.errors}
+                  name="firstname"
+                />
+              </div>
+            </Flex>
+            <Flex>
+              <InputText
+                inputConatinerClass={styles.with80}
+                label="Last Name"
+                required
+                value={formik.values.lastname}
+                className={styles.inputheight}
+                onChange={(e) => {
+                  formik.setFieldValue('lastname', e.target.value);
+                  setButton(false);
+                  // onDirty();
+                }}
+              />
+              <ErrorMessage
+                touched={formik.touched}
+                errors={formik.errors}
+                name="lastname"
+              />
+            </Flex>
           </Flex>
-         
         </Flex>
-
 
         <Flex>
           <Flex columnFlex>
-            {fileurls.length === 0 && logos.length === 0 ?(
-            
+            {fileurls.length === 0 && logos.length === 0 ? (
               <Flex row flex={12}>
-                
-                <Flex flex={4}>
-                  <LabelWrapper label="Profile Picture"  >
+                <Flex>
+                  <LabelWrapper label="Profile Picture">
                     <Flex
                       height={'30px'}
                       className={styles.imgStylebanner}
@@ -1265,7 +1286,7 @@ let jpgchange=jpg.toUpperCase();
                           htmlFor="bannersetip_user__img"
                           className={styles.btnStyle}
                         >
-                         upload or drag a photo
+                          upload a photo
                         </label>
                       </Flex>
                       <Flex
@@ -1333,15 +1354,15 @@ let jpgchange=jpg.toUpperCase();
                         </Text>{' '}
                       </Flex>
                       <Flex className={styles.tooltipcontent}>
-                        <Text className={styles.gray_color11}>
-                          Dimension :{' '}
+                        <Text className={styles.gray_color}>
+                          Dimension:{' '}
                           <Text className={styles.gray_color}>
                             {' '}
-                            Square :120px X 120px, Rectangle :500px X 230px
+                            Square: 120px X 120px, Rectangle: 500px X 230px
                           </Text>
                         </Text>
                         <Text className={styles.gray_color}>
-                          File size must be less than 2MB
+                          File size should not exceed 2MB.
                         </Text>
                       </Flex>
                     </Card>
@@ -1354,8 +1375,8 @@ let jpgchange=jpg.toUpperCase();
             ) : (
               <Flex>
                 <Flex row flex={12}>
-                  <Flex flex={4}>
-                    <LabelWrapper label="Profile Picture" >
+                  <Flex>
+                    <LabelWrapper label="Profile Picture">
                       <Flex
                         height={'30px'}
                         className={styles.imgStylebanner}
@@ -1364,7 +1385,7 @@ let jpgchange=jpg.toUpperCase();
                         flex={1}
                         style={{ marginTop: 5 }}
                       >
-                <label
+                        <label
                           htmlFor="bannersetip_user__img"
                           className={styles.btnStyle}
                           onMouseEnter={() => setShow(true)}
@@ -1373,18 +1394,20 @@ let jpgchange=jpg.toUpperCase();
                           <Flex className={styles.openpopup1}>
                             {' '}
                             <div>
-                            {imgtypes === true?( <img
-                            src={ Jpg
-                            }
-                            className={styles.pngsize}
-                            alt="logo"
-                          />):( <img
-                            src={  Png 
-                            }
-                            className={styles.pngsize}
-                            alt="logo"
-                          />)}
-                          </div>
+                              {imgtypes === true ? (
+                                <img
+                                  src={Jpg}
+                                  className={styles.pngsize}
+                                  alt="logo"
+                                />
+                              ) : (
+                                <img
+                                  src={Png}
+                                  className={styles.pngsize}
+                                  alt="logo"
+                                />
+                              )}
+                            </div>
                           </Flex>
                         </label>
                         <Flex center className={styles.openpopup2} flex={6}>
@@ -1393,14 +1416,23 @@ let jpgchange=jpg.toUpperCase();
                             className={styles.urlimagefile1}
                             onMouseEnter={() => setShow(true)}
                             onMouseLeave={() => setShow(false)}
-                            
                           >
                             {' '}
-                            {fileurls.length === 0 ?(<Text className={styles.urlimagefile1} title={logos}>
-                               {logos} 
-                            </Text>): (<Text className={styles.urlimagefile1} title={imgUrls}>
-                               {imgUrls} 
-                            </Text>)}
+                            {fileurls.length === 0 ? (
+                              <Text
+                                className={styles.urlimagefile1}
+                                title={logos}
+                              >
+                                {logos}
+                              </Text>
+                            ) : (
+                              <Text
+                                className={styles.urlimagefile1}
+                                title={imgUrls}
+                              >
+                                {imgUrls}
+                              </Text>
+                            )}
                           </label>
                         </Flex>
                         <Flex
@@ -1409,10 +1441,9 @@ let jpgchange=jpg.toUpperCase();
                           center
                           middle
                           className={styles.changeStyle111}
-                         
                           flex={1}
                           onClick={resets}
-                          title="Remove Logo"
+                          title="Remove Profile Picture"
                           // onClick={() => cancelselect()}
                           // onMouseEnter={() => setShow(true)}
                         >
@@ -1422,10 +1453,10 @@ let jpgchange=jpg.toUpperCase();
                     </LabelWrapper>
                   </Flex>
                   <Flex flex={4}></Flex>
-                  <Flex flex={4}></Flex>                 
+                  <Flex flex={4}></Flex>
                 </Flex>
                 <Flex row flex={12} className={styles.merginghover}>
-                  <Flex flex={4}>
+                  <Flex>
                     {isShow && (
                       <Flex center middle className={styles.changeimgfile}>
                         <label
@@ -1435,7 +1466,7 @@ let jpgchange=jpg.toUpperCase();
                           className={styles.merginghover1}
                         >
                           <Flex middle center className={styles.changelogo}>
-                            Change Logo
+                            Change Profile Picture
                           </Flex>
                         </label>
                       </Flex>
@@ -1460,17 +1491,14 @@ let jpgchange=jpg.toUpperCase();
               className={styles.fileStyle}
             />
           </Flex>
-           
         </Flex>
-        
+
         <Flex className={styles.bottomline}></Flex>
 
         <Flex className={styles.savecontinuebutton} end>
           {' '}
           {company_detail && company_detail.no_of_emp === null ? (
-            <Button onClick={formik.handleSubmit} >
-              Save & Continue
-            </Button>
+            <Button onClick={formik.handleSubmit}>Save & Continue</Button>
           ) : (
             <Flex row>
               <Button
@@ -1481,14 +1509,14 @@ let jpgchange=jpg.toUpperCase();
                 Cancel
               </Button>
               <div>
-              <Button
-                onClick={formik.handleSubmit}
-                
-                // disabled={!formik.isValid}
-                className={styles.cancelsave}
-              >
-                Save
-              </Button></div>
+                <Button
+                  onClick={formik.handleSubmit}
+                  // disabled={!formik.isValid}
+                  className={styles.cancelsave}
+                >
+                  Save
+                </Button>
+              </div>
             </Flex>
           )}
         </Flex>

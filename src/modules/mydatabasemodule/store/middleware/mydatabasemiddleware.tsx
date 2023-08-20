@@ -3,10 +3,12 @@ import axios from 'axios';
 import {
   MY_DATABASE_DATA,
   MY_DATABASE_INITIAL,
+  MY_DATABASE_PROFILE_FAVORITE
 } from '../../../../actions/actions';
 import {
   myDataBaseDataApi,
   myDataBaseInitalApi,
+  favouriteApi
 } from '../../../../routes/apiRoutes';
 import { paramsSerializer } from '../../../../utility/helpers';
 import { MyDataBasePayload } from '../../myDataBaseTypes';
@@ -16,6 +18,24 @@ export const myDataBaseInitalMiddleWare = createAsyncThunk(
   async (_a, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(myDataBaseInitalApi);
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const MyDataBaseFavoriteMiddleWare = createAsyncThunk(
+  MY_DATABASE_PROFILE_FAVORITE,
+  async (
+    { jd_id, can_id }: { jd_id: number | string; can_id: number | string },
+    { rejectWithValue },
+  ) => {
+    try {
+      const { data } = await axios.get(favouriteApi, {
+        params: { jd_id, can_id },
+      });
       return data;
     } catch (error) {
       const typedError = error as Error;

@@ -1,11 +1,12 @@
 .checkBox {
-  padding: 20px 24px;
+  padding: 12px 0px;
 }
 .flexOverAll {
   background-color: var(--color-gary-8, #fafafa);
   padding: 16px;
   border-radius: 4px;
   border: 1px solid var(--color-gary-7, #dfdfdf);
+  background-color: #F0EBED;
 }
 .radioTitle {
   margin-top: 16px;

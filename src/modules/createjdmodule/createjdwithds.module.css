@@ -1,11 +1,12 @@
 .overAll {
-  padding: 40px;
+  /* padding: 40px; */
   overflow: scroll;
-  padding-bottom: 110px;
+  /* padding-bottom: 110px; */
+  padding: 0px 20px 0px 0px;
 }
 .cardOverAll {
-  margin-top: 20px;
-  padding: 16px 24px;
+  margin-top: 5px;
+  /* padding: 16px 24px; */
 }
 
 .skillDiv {
@@ -13,39 +14,62 @@
 }
 
 .round {
-  height: 50px;
-  width: 50px;
+  height: 35px;
+  width: 35px;
   border-radius: 100%;
   align-items: center;
   justify-content: center;
   display: flex;
   background-color: var(--color-gary-5, #cccccc);
   position: absolute;
-  right: 0;
+  right: -25px;
+  top: 5px;
 }
 .step {
   position: relative;
-  margin: 0 200px;
+  margin: 0 400px;
   margin-bottom: 36px;
-  margin-top: 24px;
+  margin-top: 28px;
 }
 .stepOne {
   position: relative;
-  left: -23px;
+  left: -30px;
   top: 22px;
 }
+
 .stepTwo {
   position: relative;
-  right: 51px;
+  right: 57px;
   top: 22px;
 }
 .stepThree {
   position: relative;
-  top: 53px;
-  left: 30px;
+  top: 46px;
+  left: 71px;
 }
 .step3Flex {
   position: absolute;
   right: 0;
   top: -20px;
+}
+.triangle {
+  width: 0;
+  height: 0;
+  border-top: 22px solid transparent;
+  border-right: 30px solid white;
+  border-bottom: 22px solid transparent;
+  position: relative;
+  top: 0;
+  right: 0;
+}
+
+.titleContainer {
+  /* padding: 10px; */
+  background-color: #eee8ec;
+  font-size: 12px;
+  margin:none;
+  margin-bottom: 3px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

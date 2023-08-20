@@ -14,9 +14,12 @@ import Loader from '../../uikit/Loader/Loader';
 import Text from '../../uikit/Text/Text';
 import Toast from '../../uikit/Toast/Toast';
 import { config } from '../constValue';
+import { applicantcandidateMatchMiddleWare, candidateMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { EmpPoolEntity } from './bulkImportTypes';
 import { bulkuploadedCandidatesMiddleWare } from './store/middleware/bulkImportMiddleware';
 import styles from './valueAddName.module.css';
+
+
 
 const cx = classNames.bind(styles);
 
@@ -49,6 +52,7 @@ const LocationAdd = ({
 }: Props) => {
   const [isInput, setInput] = useState(false);
   const [isLoader, setLoader] = useState(false);
+  const [hasBeenModified, setHasBeenModified] = useState(false);
   const myRef = createRef<any>();
   const dispatch: AppDispatch = useDispatch();
 
@@ -70,17 +74,27 @@ const LocationAdd = ({
 
   // from submit function
   const handleCellSubmit = (event: any, id: number) => {
+    alert("1")
     event.preventDefault();
     setLoader(true);
-    const data = querystring.stringify({
+
+    var datas = formik.values.name.trim()
+    if(datas.length !== 0){
+      alert("er")
+     const data = querystring.stringify({
       pk: id,
       name: 'location',
-      value: formik.values.name,
+      value: formik.values.name.trim(),
     });
 
     axios
       .post(uploadedCandidatesApi, data, config)
       .then(() => {
+        dispatch(
+          candidateMatchMiddleWare({ 
+            can_id: id.toString(),
+          }),
+        )
         if (tabKey === 'total') {
            if(jdId === undefined){
           dispatch(
@@ -174,6 +188,9 @@ const LocationAdd = ({
         );
         setLoader(false);
       });
+    }else{
+      formik.setFieldValue("name",datas)
+    }
   };
 
   // open input function
@@ -210,13 +227,26 @@ const LocationAdd = ({
     }
   };
 
+  const handleInputChange = (e) => {
+    const newValue = e.target.value;
+
+    if (!hasBeenModified && newValue.trim() === '') {
+      return; // Don't update the input if it's just an initial space
+    }
+
+    formik.setFieldValue("name",newValue)
+    setHasBeenModified(true);
+  };
+
+ 
+
   return (
     <div className={styles.overAll}>
       {isEmpty(formik.values.name) ? (
         <>
           {!isInput && (
             <Text
-              size={12}
+              size={13}
               color="link"
               textStyle="underline"
               onClick={handleOpenInput}
@@ -230,7 +260,7 @@ const LocationAdd = ({
           {!isInput && (
             <div className={styles.textContainer}>
               <Text
-                size={12}
+                size={13}
                 onClick={handleOpenInput}
                 className={styles.nameStyle}
               >
@@ -250,22 +280,23 @@ const LocationAdd = ({
             // eslint-disable-next-line
             autoFocus
             value={formik.values.name}
-            onChange={formik.handleChange('name')}
+            onChange={(e)=>handleInputChange(e)}
             lineInput
-            size={12}
+            size={13}
             placeholder={'Optional'}
             onKeyPress={(e) => handleKeyPress(e, value.id)}
+            style={{width:'67%'}}
           />
           <div className={styles.svgContainer}>
             {isLoader ? (
-              <div className={styles.svgTick}>
+              <div className={styles.svgTick}> 
                 <Loader withOutOverlay size={'small'} />
               </div>
             ) : (
               <div
                 className={cx('svgTickMargin', {
-                  svgTickDisable: isEmpty(formik.values.name),
-                  tickStyle: !isEmpty(formik.values.name),
+                  svgTickDisable: isEmpty(formik.values.name.trim()),
+                  tickStyle: !isEmpty(formik.values.name.trim()),
                 })}
                 onClick={(e) => handleCellSubmit(e, value.id)}
                 tabIndex={-1}

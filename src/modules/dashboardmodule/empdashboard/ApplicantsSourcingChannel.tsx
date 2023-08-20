@@ -1,3 +1,5 @@
+import SvgNoData from '../../../icons/SvgNoData';
+import SvgNotInterested from '../../../icons/SvgNotInterested';
 import Card from '../../../uikit/Card/Card';
 import Chart from '../../../uikit/Chart/Chart';
 import Flex from '../../../uikit/Flex/Flex';
@@ -92,7 +94,7 @@ const ApplicantsSourcingChannel = ({
 
   return (
     <Card className={styles.overAll}>
-      <Text bold size={16} style={{color:'#581845'}}>
+      <Text bold size={14} >
         Applicants Sourcing Channel
       </Text>
       {(Array.isArray(perc_dict) &&
@@ -101,8 +103,9 @@ const ApplicantsSourcingChannel = ({
       planId === 1 || jd_metrics.length === 0? (
         <Chart options={planId === 1 || jd_metrics.length === 0 ? optionsOne : options} />
       ) : (
-        <Flex flex={1} center middle>
-          <Text color="gray">No Data Available</Text>
+        <Flex flex={1} center middle style={{display:"flex"}}>
+          <SvgNoData width={16} height={16} fill={"#888"} />
+          <Text style={{marginTop:"2px"}} color="placeholder">No data available</Text>
         </Flex>
       )}
     </Card>

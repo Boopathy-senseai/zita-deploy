@@ -1,6 +1,6 @@
 .tabContainer {
   margin-top: 16px;
-  margin: 0 16px;
+  margin: 0 5px;
   display: flex;
 }
 .tabLeftFlex {
@@ -11,4 +11,11 @@
 }
 .popTitle{
   margin-left: 8px;
+}
+.border {
+  padding: 8px 24px; 
+  height: 45px;
+  border-bottom: 1px solid  #ffffff;
+  background-color: #EEE8EC;
+  box-shadow: 3px 0 5px -2px rgba(238, 232, 236, 1);
 }

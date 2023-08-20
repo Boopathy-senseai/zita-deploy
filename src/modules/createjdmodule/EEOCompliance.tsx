@@ -29,7 +29,7 @@ type RadioProps = {
 const QustionRadio = ({ data, title }: RadioProps) => {
   return (
     <Flex>
-      <Text bold className={styles.radioTitle}>
+      <Text size={14} bold className={styles.radioTitle}>
         {title}
       </Text>
       {data.map((list, index) => {
@@ -80,7 +80,7 @@ const EEOCompliance = ({
         )}
       </div>
       <Flex columnFlex className={styles.flexOverAll}>
-        <Text bold>
+        <Text size={14} bold>
           Equal Employment Opportunity (EEO) Information for the U.S.
           (Completion is voluntary for Applicants)
         </Text>

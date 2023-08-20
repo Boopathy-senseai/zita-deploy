@@ -36,9 +36,9 @@
 }
 
 .menus {
-  width: 300px;
-  background-color: var(--color-primary);
-  padding: 0px 2px;
+  width: 330px;
+  background-color: #eee8ec;
+  padding: 5px;
 }
 
 .inputSearchWrapper {
@@ -49,12 +49,12 @@
   width: 100%;
   padding: 0px 6px;
   margin-top: 12px;
-  height: calc(100% - 18px);
+  height: calc(100% - 45px);
 }
 
 .inputSearch {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: white;
   outline: none;
-  border: none;
-  color: white;
+  border: 1px solid #c3c3c3;
+  color: #333333;
 }

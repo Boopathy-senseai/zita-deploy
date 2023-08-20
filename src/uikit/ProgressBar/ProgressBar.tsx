@@ -1,4 +1,5 @@
 import { CSSProperties } from 'react';
+import classNames from 'classnames/bind';
 import Text from '../Text/Text';
 import styles from './progressbar.module.css';
 
@@ -8,7 +9,7 @@ const defaultProps = {
   verticalWidth: '100%',
   roundProgressHeight: 100,
 };
-
+const cx = classNames.bind(styles);
 type Props = {
   percentage: number;
   type?: 'hr' | 'round';
@@ -31,13 +32,13 @@ const ProgressBar = ({
     `;
 
   const diameter = Math.PI * 2 * radius;
-  const progressStyle: CSSProperties = {
-    stroke: '#ff9f00',
+  const progressStyle: CSSProperties = { 
     strokeLinecap: 'round',
     strokeDasharray: `${diameter}px ${diameter}px`,
     strokeDashoffset: `${((100 - percentage) / 100) * diameter}px`,
   };
 
+  
   return type === 'round' ? (
     <svg
       className={styles.CircularProgressbar}
@@ -52,11 +53,16 @@ const ProgressBar = ({
         style={{
           stroke: '#d6d6d6',
         }}
+       
       />
 
       <path
         d={pathDescription}
         strokeWidth={strokeWidth}
+        className={cx({
+          countStyle1:(verticalPercentage< 40),
+          countStyle2:(verticalPercentage >= 40 && verticalPercentage < 69),
+          countStyle3:(verticalPercentage > 69  )})}
         fillOpacity={0}
         style={progressStyle}
       />

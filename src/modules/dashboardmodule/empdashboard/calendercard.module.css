@@ -1,6 +1,6 @@
 .msgText {
   border-bottom: 0.5px solid #581845;
-  padding: 4px 2px;
+  padding: 5px 2px;
   margin-left: 8px;
   margin-right: 8px;
  
@@ -16,10 +16,12 @@
   height: 30px !important;
   box-sizing: border-box;
   padding-left: 12px;
-  width: 80%;
+  /* width: 80%; */
   padding: 10px;
-  text-align: end;
-  max-width: 145px;
+  /* text-align: end; */
+  /* max-width: 145px; */
+  left: 10px;
+  right: 5px;
 }
 .datePicker:hover {
   border: 1px solid var(--color-gary-6, #b3b3b3) !important;
@@ -40,12 +42,17 @@
   -moz-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
 }
 .cardListStyle:hover {
-  /* box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55);
+  box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55);
   -webkit-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55);
-  -moz-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55); */
-  background-color: #F0EBED;
-  opacity: 1;
-  transition: all 0.2s ease-out; 
+  -moz-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55);
+  transition: all 0.2s ease-out;  
+
+}
+.overAll:hover {
+  box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55);
+  -webkit-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55);
+  -moz-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55);
+  transition: all 0.2s ease-out;  
 
 }
 .borderRight {
@@ -83,9 +90,9 @@
 .overAll{
   width:auto;
   height:285px;
-  margin-left: 10px;
+  margin-left: 5px;
   margin-top: 5px;
-  margin-right: 8px;
+  margin-right: 5px;
 
 }
 .line{

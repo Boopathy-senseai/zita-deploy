@@ -16,11 +16,12 @@ import {
   nameRegex,
   THIS_FIELD_REQUIRED,
 } from '../../constValue';
-import BannerSetup from './BannerSetup';
-import CareersPageURL from './CareersPageURL';
-import FooterSetup from './FooterSetup';
-import HeaderSetup from './HeaderSetup';
-import PageSetup from './PageSetup';
+import ExpandTile from '../../../uikit/ExpandTile';
+import BannerSetup, { BannerSetupTitle } from './BannerSetup';
+import CareersPageURL, { CareerTitle } from './CareersPageURL';
+import FooterSetup, { FooterSetupTitle } from './FooterSetup';
+import HeaderSetup, { HeaderSetupTitle } from './HeaderSetup';
+import PageSetup, { PageSetupTitle } from './PageSetup';
 import styles from './buildyourcareerpageScreen.module.css';
 import { formikFormTypes } from './formikTypes';
 import {
@@ -48,18 +49,18 @@ const initial: formikFormTypes = {
   menu3: '',
   menu3Url: 'https://',
   bannerHeadingText: '',
-  bannerHeadingFontSize: '14',
+  bannerHeadingFontSize: '20',
   bannerTextFontSize: '14',
   bannerText: '',
-  btnColor: { hex: '#f26522' },
+  btnColor: { hex: '#581845' },
   footerColor: { hex: '#fffff' },
   aboutText: '',
 };
 
-  // formik validation
-  const validationSchema = Yup.object().shape({
-    pagaeUrl: Yup.string().required(THIS_FIELD_REQUIRED),
-  });
+// formik validation
+const validationSchema = Yup.object().shape({
+  pagaeUrl: Yup.string().required(THIS_FIELD_REQUIRED),
+});
 
 const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
   const dispatch: AppDispatch = useDispatch();
@@ -72,6 +73,19 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
   const [isSubmitLoader, setSubmitLoader] = useState(false);
   const [isBtnDisable, setBtnDisable] = useState(true);
   const [isUrlError, setUrlError] = useState(false);
+  const [tileState, setTileState] = useState<{
+    careersPage: boolean;
+    pageSetup: boolean;
+    headerSetup: boolean;
+    bannerSetup: boolean;
+    buttonAndFooterSetup: boolean;
+  }>({
+    careersPage: true,
+    pageSetup: false,
+    headerSetup: false,
+    bannerSetup: false,
+    buttonAndFooterSetup: false,
+  });
 
   // initial api call
   useEffect(() => {
@@ -87,7 +101,6 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
     });
   }, []);
 
-
   const { isLoading, career_page, company_detail } = useSelector(
     ({ buildCareerPageReducers }: RootState) => {
       return {
@@ -98,8 +111,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
     },
   );
 
-
-    // formik submit
+  // formik submit
   const handleSubmit = (values: formikFormTypes) => {
     setReload(false);
     setSubmitLoader(true);
@@ -153,8 +165,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
     });
   };
 
-
-// formik validation
+  // formik validation
   const handleValid = (values: formikFormTypes) => {
     const errors: Partial<formikFormTypes> = {};
     if (!isEmpty(values.pagaeUrl) && !nameRegex.test(values.pagaeUrl)) {
@@ -319,7 +330,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
         career_page.header_font_size.toString(),
       );
     } else {
-      formik.setFieldValue('headerFontSize', '16');
+      formik.setFieldValue('headerFontSize', '14');
     }
 
     if (career_page && !isEmpty(career_page.header_color)) {
@@ -366,7 +377,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
         career_page.banner_heading_size.toString(),
       );
     } else {
-      formik.setFieldValue('bannerHeadingFontSize', '14');
+      formik.setFieldValue('bannerHeadingFontSize', '20');
     }
 
     if (career_page && !isEmpty(career_page.banner_font_size)) {
@@ -381,7 +392,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
     if (career_page && !isEmpty(career_page.button_color)) {
       formik.setFieldValue('btnColor.hex', career_page.button_color);
     } else {
-      formik.setFieldValue('btnColor.hex', '#f26522');
+      formik.setFieldValue('btnColor.hex', '#581845');
     }
 
     if (career_page && !isEmpty(career_page.footer_color)) {
@@ -407,7 +418,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
     setBannerSetUpImgClick(false);
     setFooterSetUpImgClick(false);
   };
- // set header setup imgage
+  // set header setup imgage
   const handleHeaderSetUp = () => {
     setHeaderSetUpImgClick(true);
     setCareerImgClick(false);
@@ -415,7 +426,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
     setBannerSetUpImgClick(false);
     setFooterSetUpImgClick(false);
   };
- // set banner setup imgage
+  // set banner setup imgage
   const handleBannerSetUp = () => {
     setBannerSetUpImgClick(true);
     setHeaderSetUpImgClick(false);
@@ -423,7 +434,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
     setPageSetUpImgClick(false);
     setFooterSetUpImgClick(false);
   };
- // set footer setup imgage
+  // set footer setup imgage
   const handleFooterSetUp = () => {
     setFooterSetUpImgClick(true);
     setBannerSetUpImgClick(false);
@@ -434,12 +445,18 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
 
   const previewUrl = career_page && career_page.career_page_url;
 
-  // url api call for validation 
+  // url api call for validation
   useEffect(() => {
     if (!isEmpty(formik.values.pagaeUrl) && isInput) {
       dispatch(urlVerificationMiddleWare({ url: formik.values.pagaeUrl })).then(
         (res) => {
-          if (res.payload.success === 1 && career_page && career_page.career_page_url !== formik.values.pagaeUrl) {
+          console.log("ssssssss",res.payload.success)
+          if (
+          
+            res.payload.success === 1 
+            // career_page &&
+            // career_page.career_page_url !== formik.values.pagaeUrl
+          ) {
             setUrlError(true);
           } else {
             setUrlError(false);
@@ -449,106 +466,258 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
     }
   }, [formik.values.pagaeUrl]);
 
-  // console.log('isUrlError',isUrlError);
-  
   if (isLoading) {
     return <Loader />;
   }
 
   return (
-    <Flex row>
-      {isSubmitLoader && <Loader />}
-      <Flex columnFlex flex={6} className={styles.leftFlex}>
-        <div
-          onClick={handleUrlClick}
-          tabIndex={-1}
-          role="button"
-          onKeyDown={() => {}}
-        >
-          <CareersPageURL
-            formik={formik}
-            career_page={career_page}
-            isInput={isInput}
-            setInput={setInput}
-            setReload={() => {
-              setReload(true);
-              setBtnDisable(false);
-            }}
-            isUrlError={isUrlError}
-          />
-        </div>
-        <div
-          onClick={handlePageSetUpClick}
-          tabIndex={-1}
-          role="button"
-          onKeyDown={() => {}}
-        >
-          <PageSetup
-            formik={formik}
-            setReload={() => {
-              setReload(true);
-              setBtnDisable(false);
-            }}
-          />
-        </div>
-        <div
-          onClick={handleHeaderSetUp}
-          tabIndex={-1}
-          role="button"
-          onKeyDown={() => {}}
-        >
-          <HeaderSetup
-            formik={formik}
-            company_detail={company_detail}
-            setReload={() => {
-              setReload(true);
-              setBtnDisable(false);
-            }}
-          />
-        </div>
-        <div
-          onClick={handleBannerSetUp}
-          tabIndex={-1}
-          role="button"
-          onKeyDown={() => {}}
-        >
-          <BannerSetup
-          setBtnDisable={setBtnDisable}
-            formik={formik}
-            setFile={setFile}
-            imgUrl={imgUrl}
-            setReload={() => {
-              setReload(true);
-              setBtnDisable(false);
-            }}
-          />
-        </div>
-        <div
-          onClick={handleFooterSetUp}
-          tabIndex={-1}
-          role="button"
-          onKeyDown={() => {}}
-        >
-          <FooterSetup
-            formik={formik}
-            setReload={() => {
-              setReload(true);
-              setBtnDisable(false);
-            }}
-          />
-        </div>
-        <Flex row center className={styles.marginTop16}>
-          <Button onClick={()=>{
-                if (!isEmpty(formik.errors.pagaeUrl) || isEmpty(formik.errors.pagaeUrl)) {
-                  getFocus('CareersPageURL___urlInput');                  
-                }
-            formik.handleSubmit();
-        
-            }} disabled={isBtnDisable}>
-            Save
-          </Button>
+    <>
+      <Flex
+        row
+        style={{
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'row',
+          overflow: 'hidden',
+          paddingBottom: '10px',
+        }}
+      >
+        {isSubmitLoader && <Loader />}
+        <Flex columnFlex width={"40%"} className={styles.leftFlex}>
+          {isCareerImgClick && (
+            <Card className={styles.careerPageCard}>
+              <img
+                style={{ width: '100%' }}
+                src={`${process.env.REACT_APP_HOME_URL}static/career_page/Career%20_Page_URL.png`}
+                alt="Career Page URL"
+              />
+            </Card>
+          )}
+          {isPageSetUpImgClick && (
+            <Card className={styles.pageCard}>
+              <img
+                style={{ width: '100%' }}
+                src={`${process.env.REACT_APP_HOME_URL}static/career_page/Page_Setup.png`}
+                alt="Page Setup"
+              />
+            </Card>
+          )}
+          {isHeaderSetUpImgClick && (
+            <Card className={styles.headerCard}>
+              <img
+                style={{ width: '100%' }}
+                src={`${process.env.REACT_APP_HOME_URL}static/career_page/Header_Setup.png`}
+                alt="Header Setup"
+              />
+            </Card>
+          )}
+          {isBannerSetUpImgClick && (
+            <Card className={styles.bannerCard}>
+              <img
+                style={{ width: '100%' }}
+                src={`${process.env.REACT_APP_HOME_URL}static/career_page/Banner_Setup.png`}
+                alt="Banner Setup"
+              />
+            </Card>
+          )}
+          {isFooterSetUpImgClick && (
+            <Card className={styles.footerCard}>
+              <img
+                style={{ width: '100%' }}
+                src={`${process.env.REACT_APP_HOME_URL}static/career_page/Footer_Setup.png`}
+                alt="Footer Setup"
+              />
+            </Card>
+          )}
+        </Flex>
+        <Flex columnFlex width={"60%"}  className={styles.rightFlex}>
+          <div style={{ width: '100%', padding: '0 10px' }}>
+            <ExpandTile
+              backgroundColor="#58184530"
+              activeColor="#000000"
+              title={<CareerTitle />}
+              show={tileState?.careersPage}
+              styles={{
+                border: 'none',
+                marginTop: '16px',
+                boxShadow: '0 1px 4px 0 rgb(0 0 0 / 47%)',
+              }}
+              contentStyles={{ padding: '10px' }}
+              onClick={() =>
+                setTileState({
+                  ...tileState,
+                  careersPage: !tileState.careersPage,
+                })
+              }
+            >
+              <div
+                onClick={handleUrlClick}
+                tabIndex={-1}
+                role="button"
+                onKeyDown={() => {}}
+              >
+                <CareersPageURL
+                  formik={formik}
+                  career_page={career_page}
+                  isInput={isInput}
+                  setInput={setInput}
+                  setReload={() => {
+                    setReload(true);
+                    setBtnDisable(false);
+                  }}
+                  isUrlError={isUrlError}
+                />
+              </div>
+            </ExpandTile>
+            <ExpandTile
+              backgroundColor="#58184530"
+              activeColor="#000000"
+              title={<PageSetupTitle />}
+              show={tileState?.pageSetup}
+              styles={{
+                border: 'none',
+                marginTop: '16px',
+                boxShadow: '0 1px 4px 0 rgb(0 0 0 / 47%)',
+              }}
+              contentStyles={{ padding: '10px' }}
+              onClick={() =>
+                setTileState({
+                  ...tileState,
+                  pageSetup: !tileState.pageSetup,
+                })
+              }
+            >
+              <div
+                onClick={handlePageSetUpClick}
+                tabIndex={-1}
+                role="button"
+                onKeyDown={() => {}}
+              >
+                <PageSetup
+                  formik={formik}
+                  setReload={() => {
+                    setReload(true);
+                    setBtnDisable(false);
+                  }}
+                />
+              </div>
+            </ExpandTile>
+            <ExpandTile
+              backgroundColor="#58184530"
+              activeColor="#000000"
+              title={<HeaderSetupTitle />}
+              show={tileState?.headerSetup}
+              styles={{
+                border: 'none',
+                marginTop: '16px',
+                boxShadow: '0 1px 4px 0 rgb(0 0 0 / 47%)',
+              }}
+              contentStyles={{ padding: '10px' }}
+              onClick={() =>
+                setTileState({
+                  ...tileState,
+                  headerSetup: !tileState.headerSetup,
+                })
+              }
+            >
+              <div
+                onClick={handleHeaderSetUp}
+                tabIndex={-1}
+                role="button"
+                onKeyDown={() => {}}
+              >
+                <HeaderSetup
+                  formik={formik}
+                  company_detail={company_detail}
+                  setReload={() => {
+                    setReload(true);
+                    setBtnDisable(false);
+                  }}
+                />
+              </div>
+            </ExpandTile>
+            <ExpandTile
+              backgroundColor="#58184530"
+              activeColor="#000000"
+              title={<BannerSetupTitle />}
+              show={tileState?.bannerSetup}
+              styles={{
+                border: 'none',
+                marginTop: '16px',
+                boxShadow: '0 1px 4px 0 rgb(0 0 0 / 47%)',
+              }}
+              contentStyles={{ padding: '10px' }}
+              onClick={() =>
+                setTileState({
+                  ...tileState,
+                  bannerSetup: !tileState.bannerSetup,
+                })
+              }
+            >
+              <div
+                onClick={handleBannerSetUp}
+                tabIndex={-1}
+                role="button"
+                onKeyDown={() => {}}
+              >
+                <BannerSetup
+                  setBtnDisable={setBtnDisable}
+                  formik={formik}
+                  setFile={setFile}
+                  imgUrl={imgUrl}
+                  setReload={() => {
+                    setReload(true);
+                    setBtnDisable(false);
+                  }}
+                />
+              </div>
+            </ExpandTile>
+            <ExpandTile
+              backgroundColor="#58184530"
+              activeColor="#000000"
+              title={<FooterSetupTitle />}
+              show={tileState?.buttonAndFooterSetup}
+              styles={{
+                border: 'none',
+                marginTop: '16px',
+                boxShadow: '0 1px 4px 0 rgb(0 0 0 / 47%)',
+              }}
+              contentStyles={{ padding: '10px' }}
+              onClick={() =>
+                setTileState({
+                  ...tileState,
+                  buttonAndFooterSetup: !tileState.buttonAndFooterSetup,
+                })
+              }
+            >
+              <div
+                onClick={handleFooterSetUp}
+                tabIndex={-1}
+                role="button"
+                onKeyDown={() => {}}
+              >
+                <FooterSetup
+                  formik={formik}
+                  setReload={() => {
+                    setReload(true);
+                    setBtnDisable(false);
+                  }}
+                />
+              </div>
+            </ExpandTile>
+          </div>
+        </Flex>
+      </Flex>
+
+      <Flex row between className={styles.actions}>
+        <Flex>
+          <LinkWrapper to="/">
+            <Button types="primary">Dashboard</Button>
+          </LinkWrapper>
+        </Flex>
+        <Flex row>
           {isEmpty(previewUrl) ? (
-            <Button className={styles.previewBtn} disabled>
+            <Button types="secondary" className={styles.previewBtn} disabled>
               Preview
             </Button>
           ) : (
@@ -557,62 +726,28 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
               replace
               to={`/${previewUrl}/careers`}
             >
-              <Button className={styles.previewBtn}>Preview</Button>
+              <Button types="secondary" className={styles.previewBtn}>
+                Preview
+              </Button>
             </LinkWrapper>
           )}
-          <LinkWrapper to="/">
-            <Button types="primary">My Dashboard</Button>
-          </LinkWrapper>
+          <Button
+            onClick={() => {
+              if (
+                !isEmpty(formik.errors.pagaeUrl) ||
+                isEmpty(formik.errors.pagaeUrl)
+              ) {
+                getFocus('CareersPageURL___urlInput');
+              }
+              formik.handleSubmit();
+            }}
+            disabled={isBtnDisable}
+          >
+            Save
+          </Button>
         </Flex>
       </Flex>
-      <Flex columnFlex flex={6} className={styles.rightFlex}>
-        {isCareerImgClick && (
-          <Card className={styles.careerPageCard}>
-            <img
-              style={{ width: '100%' }}
-              src={`${process.env.REACT_APP_HOME_URL}static/career_page/Career%20_Page_URL.png`}
-              alt="Career Page URL"
-            />
-          </Card>
-        )}
-        {isPageSetUpImgClick && (
-          <Card className={styles.pageCard}>
-            <img
-              style={{ width: '100%' }}
-              src={`${process.env.REACT_APP_HOME_URL}static/career_page/Page_Setup.png`}
-              alt="Page Setup"
-            />
-          </Card>
-        )}
-        {isHeaderSetUpImgClick && (
-          <Card className={styles.headerCard}>
-            <img
-              style={{ width: '100%' }}
-              src={`${process.env.REACT_APP_HOME_URL}static/career_page/Header_Setup.png`}
-              alt="Header Setup"
-            />
-          </Card>
-        )}
-        {isBannerSetUpImgClick && (
-          <Card className={styles.bannerCard}>
-            <img
-              style={{ width: '100%' }}
-              src={`${process.env.REACT_APP_HOME_URL}static/career_page/Banner_Setup.png`}
-              alt="Banner Setup"
-            />
-          </Card>
-        )}
-        {isFooterSetUpImgClick && (
-          <Card className={styles.footerCard}>
-            <img
-              style={{ width: '100%' }}
-              src={`${process.env.REACT_APP_HOME_URL}static/career_page/Footer_Setup.png`}
-              alt="Footer Setup"
-            />
-          </Card>
-        )}
-      </Flex>
-    </Flex>
+    </>
   );
 };
 

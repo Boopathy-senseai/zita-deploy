@@ -11,17 +11,19 @@ const cx = classNames.bind(styles);
 type Props = {
     name: string;
     numbers: any;
+    click?:boolean;
   };
 
 const Totalcount =({
     name,
     numbers,
+    click,
   }: Props)=>{
 return(
     <>
         <Flex  row >
-        <Flex className={cx('name')}> {name}:</Flex>
-        <Flex className={cx('count')}>{numbers}</Flex> 
+        <Flex className={cx('name')} style={{fontWeight:click?'bold':null,cursor:click?'pointer':null}}> {name}:</Flex>
+        <Flex className={cx('count')} style={{cursor:click?'pointer':null}}>{numbers}</Flex> 
         </Flex>
     </>
  );

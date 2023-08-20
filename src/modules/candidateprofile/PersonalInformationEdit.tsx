@@ -25,13 +25,15 @@ import {
   THIS_FIELD_REQUIRED,
   zipCodeRegx,
 } from '../constValue';
+import { qualificationData } from '../createjdmodule/mock';
 import { locationMiddleWare } from '../createjdmodule/store/middleware/createjdmiddleware';
+import { candidateMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import {
   CountryEntity,
   StatesEntity,
   CityEntity,
 } from '../createjdmodule/createJdTypes';
-import { AdditionalDetailEntity, Personal } from './candidateProfileTypes';
+import { AdditionalDetailEntity, Obj, Personal } from './candidateProfileTypes';
 import styles from './personalinformationedit.module.css';
 import {
   birthYearOptions,
@@ -40,6 +42,7 @@ import {
   monthOptions,
 } from './mock';
 import {
+  educationUpdateApiMiddleWare,
   profileEditMiddleWare,
   updatePersonalInfoMiddleWare,
 } from './store/middleware/candidateprofilemiddleware';
@@ -52,8 +55,10 @@ type Props = {
   cancel: () => void;
   personal?: Personal;
   personal_obj?: Personal;
+  obj?:Obj;
   additional_detail?: AdditionalDetailEntity;
   isGetCountry: CountryEntity[];
+  Qualification?:string;
 };
 
 type personalUpdateForms = {
@@ -72,6 +77,7 @@ type personalUpdateForms = {
   objective: string;
   linkedInUrl: string;
   gitUrl: string;
+  qualification:string;
 };
 
 const PersonalInformationEdit = ({
@@ -80,6 +86,8 @@ const PersonalInformationEdit = ({
   personal,
   additional_detail,
   personal_obj,
+  obj,
+  Qualification,
   isGetCountry,
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
@@ -103,6 +111,7 @@ const PersonalInformationEdit = ({
     objective: '',
     linkedInUrl: '',
     gitUrl: '',
+    qualification:''
   };
 
   // form validation
@@ -144,9 +153,13 @@ const PersonalInformationEdit = ({
     if (isEmpty(values.city)) {
       errors.city = THIS_FIELD_REQUIRED;
     }
+    if (isEmpty(values.qualification)) {
+      errors.qualification = THIS_FIELD_REQUIRED;
+    }
     return errors;
   };
-
+console.log(  additional_detail
+  ,'vaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
   // form submit
   const handleSubmit = (values: personalUpdateForms) => {
     setLoader(true);
@@ -166,10 +179,20 @@ const PersonalInformationEdit = ({
     formData.append('code_repo', values.gitUrl);
     formData.append('total_exp_year', values.years);
     formData.append('total_exp_month', values.month);
+    formData.append('Qualification', values.qualification);
     dispatch(updatePersonalInfoMiddleWare({ formData })).then((res) => {
       if (res.payload.success) {
+        dispatch(
+          candidateMatchMiddleWare({ 
+             can_id:res.payload?.can_id[0]?.id.toString(),
+          }),
+        )
         Toast('Personal Info updated successfully');
-        dispatch(profileEditMiddleWare({jd_id:localStorage.getItem('careerJobViewJobId')}));
+        dispatch(
+          profileEditMiddleWare({
+            jd_id: localStorage.getItem('careerJobViewJobId'),
+          }),
+        );
         setReload(false);
         setLoader(false);
         cancel();
@@ -211,7 +234,7 @@ const PersonalInformationEdit = ({
       );
     }
   }, [formik.values.state]);
-
+console.log(personal,'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj')
   // free fill initial value
   useEffect(() => {
     if (personal) {
@@ -260,6 +283,9 @@ const PersonalInformationEdit = ({
       if (!isEmpty(personal.code_repo)) {
         formik.setFieldValue('gitUrl', personal?.code_repo);
       }
+      if (!isEmpty(Qualification)) {
+        formik.setFieldValue('qualification',Qualification);
+      }
     }
   }, [personal, open]);
 
@@ -287,7 +313,7 @@ const PersonalInformationEdit = ({
       onPristine();
     }
   }, [isReload]);
-
+  const numberCheck = /^[0-9\-\ ]+$/;
   return (
     <Modal open={open}>
       {routerPrompt}
@@ -594,64 +620,90 @@ const PersonalInformationEdit = ({
               />
             </Flex>
           </Flex>
-          <Text>Total Experience</Text>
-          <Flex columnFlex>
-            <Flex flex={4} width={inputWidth}>
-              <Flex row top>
-                <Flex flex={6} marginRight={marginRight}>
-                  <SelectTag
-                    isSearchable
-                    label="Years"
-                    required
-                    options={expYearOptions}
-                    onChange={(option) => {
-                      formik.setFieldValue('years', option.value);
-                      setReload(true);
-                    }}
-                    value={
-                      expYearOptions
-                        ? expYearOptions.find(
-                            (option) =>
-                              Number(option.value) ===
-                              Number(formik.values.years),
-                          )
-                        : ''
-                    }
-                  />
-                  <ErrorMessage
-                    name="years"
-                    touched={formik.touched}
-                    errors={formik.errors}
-                  />
-                </Flex>
-                <Flex flex={6}>
-                  <SelectTag
-                    isSearchable
-                    options={monthOptions}
-                    label="Months"
-                    onChange={(option) => {
-                      formik.setFieldValue('month', option.value);
-
-                      setReload(true);
-                    }}
-                    value={
-                      monthOptions
-                        ? monthOptions.find(
-                            (option) =>
-                              Number(option.value) ===
-                              Number(formik.values.month),
-                          )
-                        : ''
-                    }
-                  />
-                </Flex>
+          <Flex row center top>
+            <Flex >
+              <div style={{ width: '320px' }}>
+                <SelectTag
+                  label="Qualification"
+                  required
+                  options={qualificationData}
+                  value={
+                    qualificationData
+                      ? qualificationData.find(
+                          (option) => option.value === formik.values.qualification,
+                        )
+                      : ''
+                  }
+                  onChange={(option) => {
+                    setReload(true);
+                    formik.setFieldValue('qualification', option.value);
+                  }}
+                />
+                <ErrorMessage
+                name="qualification"
+                touched={formik.touched}
+                errors={formik.errors}
+              />
+              </div>
+            </Flex>
+            <Flex  width={inputWidth}>
+              {/* <Flex row top> */}
+              <Flex flex={4}    marginLeft={marginLeft}
+              >
+                <div style={{width:'320px'}}>
+                <SelectTag
+                  isSearchable
+                  label="Experience in Years"
+                  required
+                  options={expYearOptions}
+                  onChange={(option) => {
+                    formik.setFieldValue('years', option.value);
+                    setReload(true);
+                  }}
+                  value={
+                    expYearOptions
+                      ? expYearOptions.find(
+                          (option) =>
+                            Number(option.value) ===
+                            Number(formik.values.years),
+                        )
+                      : ''
+                  }
+                /></div>
+                <ErrorMessage
+                  name="years"
+                  touched={formik.touched}
+                  errors={formik.errors}
+                />
               </Flex>
+              {/* </Flex> */}
             </Flex>
-            <Flex flex={4}>
-              <></>
-            </Flex>
-            <Flex flex={4}>
-              <></>
+            <Flex flex={4} end>
+              <div style={{width:'320px'}}>
+              <SelectTag
+                isSearchable
+                options={monthOptions}
+                label="Experience in Months"
+                onChange={(option) => {
+                  formik.setFieldValue('month', option.value);
+
+                  setReload(true);
+                }}
+                value={
+                  monthOptions
+                    ? monthOptions.find(
+                        (option) =>
+                          Number(option.value) === Number(formik.values.month),
+                      )
+                    : ''
+                }
+              />
+              </div>
+              <ErrorMessage
+                name="years"
+                touched={formik.touched}
+                errors={formik.errors}
+              />
             </Flex>
           </Flex>
           <Flex className={styles.objectiveInput}>

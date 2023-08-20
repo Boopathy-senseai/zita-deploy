@@ -2,6 +2,9 @@
 .text-10 {
   font-size: 10px;
 }
+.text-11 {
+  font-size: 11px;
+}
 .text-12 {
   font-size: 12px;
 }
@@ -133,8 +136,7 @@
   /* font-size: 0px; */
 }
 .textColor-theme {
-  color: var(--color-primary, #581845);
-  /* color: var(--color-white, #ffffff); */
+  color:#581845;
 }
 
 .textColor-warning {
@@ -169,7 +171,9 @@
 .textColor-disabled{
   color:  #ab8ba2;
 }
-
+.textColor-placeholder{
+  color: #888888;
+}
 .type-titleLarge {
   font-size: 20px;
   font-weight: bold;

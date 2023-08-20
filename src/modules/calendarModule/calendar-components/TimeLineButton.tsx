@@ -42,12 +42,12 @@ const TimeLineButton = ({ view, views, messages, onView }: Props) => {
       activeButtonRef.current &&
       currentViewRef.current
     ) {
-      let leftPosition = timeSelectorRef.current.offsetLeft;
+      let leftPosition = timeSelectorRef.current.getBoundingClientRect();
       let geometry = currentViewRef.current.getBoundingClientRect();
 
       updateActiveButton(
         geometry,
-        leftPosition,
+        leftPosition?.left,
         currentViewRef.current.textContent,
       );
     }
@@ -56,12 +56,12 @@ const TimeLineButton = ({ view, views, messages, onView }: Props) => {
   const handleActiveButton = useCallback(
     (event: React.MouseEvent<HTMLElement>, name: View) => {
       if (timeSelectorRef.current && activeButtonRef.current) {
-        let leftPosition = timeSelectorRef.current.offsetLeft;
+        let leftPosition = timeSelectorRef.current.getBoundingClientRect();
         let geometry = event.currentTarget.getBoundingClientRect();
 
         updateActiveButton(
           geometry,
-          leftPosition,
+          leftPosition?.left,
           event.currentTarget.textContent,
         );
       }
@@ -73,12 +73,12 @@ const TimeLineButton = ({ view, views, messages, onView }: Props) => {
 
   useEffect(() => {
     if (timeSelectorRef.current && currentViewRef.current) {
-      let leftPosition = timeSelectorRef.current.offsetLeft;
+      let leftPosition = timeSelectorRef.current.getBoundingClientRect();
       let geometry = currentViewRef.current.getBoundingClientRect();
-
+      
       updateActiveButton(
         geometry,
-        leftPosition,
+        leftPosition?.left,
         currentViewRef.current.textContent,
       );
     }

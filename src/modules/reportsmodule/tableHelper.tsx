@@ -52,7 +52,7 @@ export const tableFun = () => [
     },
   },
   {
-    title: 'Offered',
+    title: 'Hired',
     dataIndex: 'hired',
     key: 'hired',
     render: (hired: string) => {
@@ -86,8 +86,8 @@ export const passiveCandidate = () => [
   },
   {
     title: 'Contact Credits',
-    dataIndex: 'count',
-    key: 'count',
+    dataIndex: 'purchased_count',
+    key: 'purchased_count',
     render: (total: string) => {
       // console.log(total);
       return !isEmpty(total) ? (
@@ -99,9 +99,9 @@ export const passiveCandidate = () => [
   },
   {
     title: 'Amount Spent',
-    dataIndex: 'count',
+    dataIndex: 'purchased_count',
     // align: 'center',
-    key: 'count',
+    key: 'purchased_count',
     render: (count: string) => {
       // console.log(applicant);
       return !isEmpty(count) ? (
@@ -113,8 +113,8 @@ export const passiveCandidate = () => [
   },
   {
     title: 'Unlocked',
-    dataIndex: 'unlocked',
-    key: 'unlocked',
+    dataIndex: 'unlock',
+    key: 'unlock',
     render: (shortlisted: string) => {
       // console.log(shortlisted);
       return !isEmpty(shortlisted) ? (
@@ -360,7 +360,7 @@ export const jobMetrics = (
     },
   },
   {
-    title: 'Offered',
+    title: 'Hired',
     dataIndex: 'hired',
     align: 'center',
     key: 'hired',

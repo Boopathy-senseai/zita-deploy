@@ -41,6 +41,7 @@ export const BULK_UPLOADED_MATCH = 'bulk/matching_api';
 export const BULK_UPLOADED_QUS = 'bulk/questionnaire_bulk';
 
 // applicant profile view action
+export const  JOB_MATCHING_API = 'job_matching_api/job_matching_api';
 export const APPLICANT_PROFILE_INITIAL = 'applicant/applicant_profile_initial';
 export const APPLICANT_PROFILE_MATCH = 'applicant/applicant_profile_match';
 export const APPLICANT_PROFILE_NOTES = 'applicant/applicant_profile_notes';
@@ -83,6 +84,7 @@ export const ZITA_MATCH_DATA_CANDIDATE = 'zita/zita_match_data_candidate';
 // My DataBase
 export const MY_DATABASE_INITIAL = 'mydatabase/mydatabase_inital';
 export const MY_DATABASE_DATA = 'mydatabase/mydatabase_data';
+export const MY_DATABASE_PROFILE_FAVORITE = 'mydatabase/mydatabase_profile_favorite';
 
 // Jd View
 export const JD_VIEW = 'jdview/jd_view';
@@ -95,9 +97,11 @@ export const JD_TEMPLATES = 'createjd/jd_templates';
 export const JD_CREATE = 'createjd/create_jd';
 export const JD_LOCATION = 'createjd/location';
 export const JD_PROFILE = 'createjd/jd_profile';
+export const JD_PROFILES = 'createjd/matching_algorithm';
 export const JD_QUESTIONNAIRE = 'createjd/jd_questionnaire_for_jd';
 export const JD_TEMPLATE = 'createjd/jd_template';
 export const JD_DUPLICATE = 'createjd/jd_duplicate';
+export const JD_WHATJOBS ='createjd/what_jobs_posting/'
 
 // my_job_posting
 
@@ -153,3 +157,14 @@ export const UPDATE_PIPELINE_STAGE = 'account/pipeline_stage_update';
 export const UPDATE_COLOUR_PALLATE = 'account/colour_pallate_update';
 export const PIPELINE_SUGGESTIONS = 'account/pipeline_suggestions';
 export const PIPELINE_STAGES_REORDER = 'account/pipeline_stages_reorder';
+
+
+// [Meeting Scheduler ] --> events
+export const EVENT_SCHEDULER_FORM_DETAILS = 'events/events';
+export const SLOTTER_FORM_DETAILS = 'events/slotter';
+
+export const EVENTS_LIST = 'events/list';
+export const EVENTS_DELETE = 'events/delete';
+
+export const CALENDAR_EVENTS_LIST = 'calendar-events/list';
+export const CALENDAR_EVENTS_DELETE = 'calendar-events/delete';

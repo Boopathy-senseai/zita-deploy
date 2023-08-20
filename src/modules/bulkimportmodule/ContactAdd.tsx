@@ -18,6 +18,7 @@ import { EmpPoolEntity } from './bulkImportTypes';
 import styles from './valueAddName.module.css';
 import { bulkuploadedCandidatesMiddleWare } from './store/middleware/bulkImportMiddleware';
 
+
 const cx = classNames.bind(styles);
 
 var querystring = require('querystring');
@@ -74,9 +75,11 @@ const ContactAdd = ({
     event.preventDefault();
 
     if (
-      formik.values.name.length >= 7 &&
+      formik.values.name.length >= 7 ||
+      formik.values.name.length <= 15 &&
       numberFormat.test(formik.values.name)
     ) {
+      setError(false);
       setLoader(true);
       const data = querystring.stringify({
         pk: id,
@@ -188,6 +191,8 @@ const ContactAdd = ({
   // open input function
   const handleOpenInput = () => {
     setInput(true);
+    formik.resetForm();
+    setError(false);
   };
   // close input function
   const handleCloseInput = () => {
@@ -231,13 +236,22 @@ const ContactAdd = ({
     }
   }, [formik.values.name]);
 
+  const numberchange=(e:any)=>{
+    const newValue = e.target.value;
+    // Apply your validation rules
+    if (/^\d{0,15}$/.test(newValue)) {
+    formik.setFieldValue("name",newValue)
+    }
+
+  }
+
   return (
     <div className={styles.overAll}>
       {isEmpty(formik.values.name) ? (
         <>
           {!isInput && (
             <Text
-              size={12}
+              size={13}
               color="link"
               textStyle="underline"
               onClick={handleOpenInput}
@@ -251,7 +265,7 @@ const ContactAdd = ({
           {!isInput && (
             <div className={styles.textContainer}>
               <Text
-                size={12}
+                size={13}
                 onClick={handleOpenInput}
                 className={styles.nameStyle}
               >
@@ -269,13 +283,15 @@ const ContactAdd = ({
           <InputText
             // eslint-disable-next-line
             autoFocus
+          
             value={formik.values.name}
-            onChange={formik.handleChange('name')}
+            onChange={(e)=>numberchange(e)}
             lineInput
-            size={12}
+            size={13}
             placeholder={'Optional'}
             onKeyPress={(e) => handleKeyPress(e, value.id)}
             id="contactAdd__contactId"
+            style={{width:'66%'}}
           />
 
           <div
@@ -287,14 +303,7 @@ const ContactAdd = ({
             }}
             className={styles.svgContainer}
           >
-            {isError && (
-              <Text style={{
-                display: "flex",
-                alignSelf: 'flex-start'
-              }} size={10} color="error">
-                Enter valid contact
-              </Text>
-            )}
+            
             <div style={{ display: 'flex', flexDirection: 'row' }}>
               {isLoader ? (
                 <div className={styles.svgTick}>
@@ -328,6 +337,14 @@ const ContactAdd = ({
           </div>
         </div>
       )}
+      {isError && (
+              <Text style={{
+                display: "flex",
+                alignSelf: 'flex-start'
+              }} size={10} color="error">
+                Enter valid contact
+              </Text>
+            )}
     </div>
   );
 };

@@ -14,7 +14,7 @@ export const bulkImportUpdatePersonalApi = 'update_personal_info_bulk/';
 export const uploadedCandidatesApi = 'uploaded_candidates/';
 export const bulkUploadEducationEdit = 'education_bulk/';
 export const bulkUploadQus = 'questionnaire_bulk/';
-export const bulkUploadMatch = 'matching_api_bulk/';
+export const bulkUploadMatch = 'matching_algorithm';
 export const bulkUploadExpAdd = 'experiences_bulk/';
 export const uploadedCandiDelete = (id: number) => {
   const url = `delete_candidate/${id}`;
@@ -40,12 +40,13 @@ export const bulkUploadSkills = (id: number) => {
 //   const url = `education_update_bulk/${id}/`;
 //   return url;
 // };
-
+//Matching with cand_id
+export const  candidatematch =`job_matching_api`;
 // Applicant Profile View API
 export const applicantProfileView = `applicants_profile_api`;
 export const applicantMatchapi = `matching_analysis`;
 export const applicantNotesApi = `candidate_notes`;
-export const applicantUserlistApi=`mention_notification_candidate_notes`;
+export const applicantUserlistApi = `mention_notification_candidate_notes`;
 export const calenderEventApi = `calender_event`;
 export const showAllMatch = `show_all_match`;
 export const applicantMessagesApi = `messages`;
@@ -74,8 +75,12 @@ export const applicantStatusUpdateApi = (jd_id: string) => {
   const url = `update_status/${jd_id}`;
   return url;
 };
+// Matchig based on both jd and cand_id
+// export const Zitamatching =`match_alg_api`;
+
+
 export const zitaMatchDataApi = `zita_match_data`;
-export const zitaMatchApi = `zita_match`;
+export const  zitaMatchApi= `zita_match`;
 export const zitaMatchDownloadApi = `bulk_download`;
 export const myDataBaseInitalApi = 'my_database';
 export const myDataBaseDataApi = `my_database_data`;
@@ -141,6 +146,14 @@ export const dsOrNotApi = (jdId?: string) => {
   const url = `dst_or_not/${jdId}`;
   return url;
 };
+//Matching Based on jd 
+export const matchingoverallApi = `matching_algorithm`;
+
+//Matching Based on candidate_id,jd_id and candidate_jd_id
+export const onlycandidateid =`match_canid`
+export const onlyjobid =`match_jdid`
+export const Bothcandidateidjobid =`match_canid_jdid`
+
 export const validateJobIdApi = `validate_job_id`;
 export const myjobpostapi = `my_job_posting`;
 export const myjobpostdataapi = `my_job_posting_data`;
@@ -154,6 +167,8 @@ export const kanbanPipelineView = `kanban_pipeline_view`;
 export const kanbanUpdation = `kanban_updation`;
 export const downloadBulkExport = `download_bulk_export`;
 
+// export const scheduledEvents = `calender_scheduled_events`;
+
 // Login Api
 export const authApi = `${process.env.REACT_APP_API_ENDPOINT}login_api/`;
 export const userApi = `users`;
@@ -163,14 +178,12 @@ export const emailValidRequest = (email: string, domain?: string) => {
   return url;
 };
 export const signupRecruiterApi = `${process.env.REACT_APP_API_ENDPOINT}signup_recruiter/`;
-export const signupRecruiterGetApi = (email: string,username:string) => {
+export const signupRecruiterGetApi = (email: string, username: string) => {
   const url = `${process.env.REACT_APP_API_ENDPOINT}signup_recruiter/?email=${email} &username=${username} `;
-  // const url =  payload ? `${process.env.REACT_APP_API_ENDPOINT}signup_recruiter/?username=${username}` : 
+  // const url =  payload ? `${process.env.REACT_APP_API_ENDPOINT}signup_recruiter/?username=${username}` :
   // `${process.env.REACT_APP_API_ENDPOINT}signup_recruiter/?email=${email}`;
   return url;
 };
-
-
 
 export const emailActiveApi = (userId: string, confirmationToken: string) => {
   const url = `${process.env.REACT_APP_API_ENDPOINT}email_activate/?userid=${userId}&confirmation_token=${confirmationToken}`;
@@ -188,6 +201,7 @@ export const googleSyncApi = `google_cal_api`;
 export const calbackurlGoogleApi = `google_sync_api`;
 export const outlookSyncApi = `outlook_cal_api`;
 export const calbackurlApi = `calback_url`;
+export const intergrationmailApi =`mail_integrate`;
 export const passwordChangeApi = `password_change`;
 export const buildCareerPageApi = 'build_career_page';
 export const emailPreferenceApi = 'email_preference';
@@ -206,6 +220,11 @@ export const basicDetailApi = 'basic_detail/';
 export const emailValidationApi = `email_validation`;
 export const otpVerificationApi = `otp_verification`;
 export const profileEditApi = 'profile_edit';
+export const whatjobsApi = `what_jobs_posting/`;
+// export const whatjobsApi = (jdId?: string) => {
+//   const url = `what_jobs_posting/${jdId}`;
+//   return url;
+// };
 export const updatePersonalInfoApi = 'update_personal_info/';
 export const updateJobPreferenceApi = 'update_job_preference/';
 export const skillsUpdateApi = (empId: number) => {
@@ -267,8 +286,21 @@ export const sourcingPerformanceDownloadApi = 'sourcing_performance_download';
 export const dashboardCalenderApi = 'dashboard_calender';
 export const notificationApi = 'notification';
 export const urlValidApi = `url_verification`;
+export const eventSchedulerApi = 'scheduler_dashboard';
+export const slotterApi = 'slotter_interview';
+export const availbleslot = 'slotter_availble';
 
 export const jobViewCountApi = (jdId: string) => {
   const url = `job_view_count_fun/${jdId}`;
   return url;
 };
+
+/// Scheduled Events
+
+export const calendarScheduledEvents = 'calender_scheduled_events';
+
+//calendar 
+export const googleconflicts = 'google_conflict_event';
+export const outlookconflicts = 'outlook_conflict_event';
+export const calendarconfiguration = 'calendar_configuration/';
+

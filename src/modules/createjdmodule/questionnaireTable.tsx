@@ -13,15 +13,15 @@ export const questionTitle = (jdId: string) => [
     title: 'S.No',
     dataIndex: 'arul',
     key: 'arul',
-    align: 'center',
+    // align: 'center',
     render: (_a: number, _b: any, index: number) => {
       return (
-        <Text align="center" size={12}>
+        <Text style={{paddingLeft:12}} size={12}>
           {index + 1}
         </Text>
       );
     },
-    flex: 2,
+    flex: 0.5,
   },
   {
     title: 'Questions',
@@ -35,36 +35,36 @@ export const questionTitle = (jdId: string) => [
     key: 'field_type_id',
     render: (field: number) => {
       return (
-        <Text size={12} style={{ lineHeight: 3 }}>
+        <Text size={13} style={{ lineHeight: 3 }}>
           {fieldTypeHelper(field)}
         </Text>
       );
     },
-    flex: 2,
+    flex: 1,
   },
   {
     title: 'Is Required',
     dataIndex: 'is_required',
     key: 'is_required',
-    align: 'center',
+    // align: 'center',
     render: (value: boolean) => {
       return (
-        <Flex middle>
-          <Text size={12}>{value === true ? 'Yes' : 'No'}</Text>
+        <Flex>
+          <Text size={13}>{value === true ? 'Yes' : 'No'}</Text>
         </Flex>
       );
     },
-    flex: 2,
+    flex: 1,
   },
   {
     title: 'Delete',
     dataIndex: 'id',
     key: 'id',
-    align: 'center',
+    // align: 'center',
     render: (value: number) => {
       return <DeleteAction value={value} jdId={jdId} />;
     },
-    flex: 2,
+    flex: 1,
   },
 ];
 
@@ -81,7 +81,7 @@ export const templateTitle = (
     key: 'id',
     render: (_a: number, _b: any, index: number) => {
       return (
-        <Text align="center" size={12}>
+        <Text align="center" size={13}>
           {index + 1}
         </Text>
       );
@@ -101,7 +101,7 @@ export const templateTitle = (
     key: 'field_type_id',
     render: (field: number) => {
       return (
-        <Text size={12} style={{ lineHeight: 3 }}>
+        <Text size={13} style={{ lineHeight: 3 }}>
           {fieldTypeHelper(field)}
         </Text>
       );
@@ -141,10 +141,10 @@ export const resultTitle = () => [
     title: 'Questions',
     renderTitle: (_a: string) => (
       <Flex row center>
-        <Text color="theme" bold style={{ paddingLeft: 16 }}>
+        <Text color="primary" bold style={{ borderRight:"1px solid #b3b3b3", width: 70 }}>
           S.No
         </Text>
-        <Text color="theme" bold style={{ paddingLeft: 40 }}>
+        <Text color="primary" bold style={{ paddingLeft: 8 }}>
           Questions
         </Text>
       </Flex>

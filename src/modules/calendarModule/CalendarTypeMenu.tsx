@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { SvgDownArrow } from '../../icons';
-import { InputSwitch } from '../../uikit';
+import { Flex, InputSwitch, Text } from '../../uikit';
+import SvgArrowDown from '../../icons/SvgArrow';
 import { CalendarOptions, CalendarType, Colors, TeamMemberType } from './types';
 import styles from './styles/calendarScreen.module.css';
 import SelectTeamMemberCheckBox from './SelectTeamMemberIcon';
@@ -63,7 +64,8 @@ const CalendarTypeMenu = ({
           />
         </div>
       </div>
-      <div style={{ marginTop: '14px' }}>
+      <div style={{ marginTop: '10px', borderTop:"1px solid #c3c3c3"}}>
+        <p style={{ margin: 0, marginTop:"10px"}}>Team</p>
         {teamMembers.map((member, index) =>
           member.calendarEmail ? (
             <SelectTeamMemberCheckBox
@@ -141,14 +143,16 @@ const CalendarTypeMenu = ({
 
   const MenuButtonView = () => (
     <button className={styles.dropDownBtn} onClick={handleDropDown}>
-      <p>
-        {currentCalendarType === CalendarType.MyCalendar
-          ? 'My Calendar'
-          : 'Team Calendar'}
-      </p>
-      <div>
-        <SvgDownArrow />
-      </div>
+      <Flex row center noWrap>
+        <Text size={14} className={styles.container}>
+          {currentCalendarType === CalendarType.MyCalendar
+            ? 'My Calendar'
+            : 'Team Calendar'}
+        </Text>
+        <Flex marginTop={2} style={{ cursor: 'pointer' }}>
+          <SvgArrowDown width={14} height={12} />
+        </Flex>
+      </Flex>
     </button>
   );
 

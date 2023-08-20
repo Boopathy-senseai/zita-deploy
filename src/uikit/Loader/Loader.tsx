@@ -29,7 +29,8 @@ const Loader = ({ size, withOutOverlay,customsize }: Props) => {
             <circle cx="8" cy="8" r="7" strokeWidth="2" />
           </svg>
          
-        </div> <div className={styles.loadertext}> Please wait....</div>
+        </div> 
+        {/*   */}
       </div>
     </div>
   ) : (

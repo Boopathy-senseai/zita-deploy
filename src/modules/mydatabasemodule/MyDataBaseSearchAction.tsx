@@ -1,13 +1,18 @@
 import { FormikProps } from 'formik';
 import { useRef } from 'react';
+import { useSelector } from 'react-redux';
 import SvgSearch from '../../icons/SvgSearch';
 import SvgLocation from '../../icons/SvgLocation';
 import Button from '../../uikit/Button/Button';
 import Flex from '../../uikit/Flex/Flex';
+import SvgInfinity from '../../icons/SvgInfinity';
+import Totalcount from '../../globulization/TotalCount';
 import { enterKeyPress } from '../../uikit/helper';
 import InputText from '../../uikit/InputText/InputText';
 import SelectTag from '../../uikit/SelectTag/SelectTag';
 import Text from '../../uikit/Text/Text';
+import { RootState } from '../../store';
+import { isEmpty } from '../../uikit/helper';
 import { MyDataFormProps } from './MyDataBaseScreen'; // eslint-disable-line
 import styles from './mydatabasesearchaction.module.css';
 import { JobTitleEntity } from './myDataBaseTypes';
@@ -19,6 +24,9 @@ type Props = {
   isSearchValue:any;
   setSearchValue:any
 };
+
+const sidebar=sessionStorage.getItem("EmpToggle");
+const size=sidebar==="1"
 
 const MyDataBaseSearchAction = ({ jobTitle, formik,isSearchValue,setSearchValue }: Props) => {
   const selectInputRef = useRef<any>();
@@ -44,16 +52,26 @@ const MyDataBaseSearchAction = ({ jobTitle, formik,isSearchValue,setSearchValue 
         Number(option.id) === Number(formik.values.jobTitle),
     )
   : ''
+
+  const {
+    candidate_available,
+  } = useSelector(
+    ({ myDataBaseInitalReducers }: RootState) => {
+      return {
+        candidate_available: myDataBaseInitalReducers.candidate_available,
+      };
+    },
+  );
   const myRef=useRef<any>();
   return (
-    <Flex row between marginBottom={15}>
+    <Flex row between marginBottom={15} className={styles.screenrow}>
     <Flex
       row
       style={{ position: 'relative', overFlowX: 'auto' }}
       className={styles.searchbox}
     >
       <Flex row className={styles.searchstyle}>
-        <Text className={styles.jobstext}>Applicants</Text>
+        <Text className={styles.jobstext}>Job Title</Text>
         <Flex row className={styles.searchboxoverall}>
            <Flex className={styles.boxstyle} >
                     <SelectTag
@@ -99,6 +117,7 @@ const MyDataBaseSearchAction = ({ jobTitle, formik,isSearchValue,setSearchValue 
                       onChange={(event) => setSearchValue(event.target.value)}
                      
                       onKeyPress={(e) => enterKeyPress(e, hanldeSearch)}
+                      
                     />
 
 
@@ -108,8 +127,9 @@ const MyDataBaseSearchAction = ({ jobTitle, formik,isSearchValue,setSearchValue 
           <Button
                       types="link"
                       onClick={hanldeSearch}
+                      onKeyDown={() => {}}
                     >
-                    <div style={{marginTop: '-15px'}}>
+                    <div style={{marginTop: '-20px'}}>
                       <SvgSearch width={12} height={12} fill="#ffffff" />
                     </div>
                     </Button>
@@ -124,6 +144,20 @@ const MyDataBaseSearchAction = ({ jobTitle, formik,isSearchValue,setSearchValue 
 
     </Flex>
 
+    <Flex row center className={styles.infiStyle}>
+                      <Totalcount
+                          name="Candidates Limit"
+                          numbers={candidate_available}
+                      />
+                        {isEmpty(candidate_available) && (
+                        <div
+                          className={styles.svgInfy}
+                          title="Unlimited Candidate Storage"
+                        >
+                        <SvgInfinity />
+                        </div>
+                       )}
+                        </Flex>
     </Flex>
   );
 };
