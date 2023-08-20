@@ -179,10 +179,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between; */
-  padding: 10px;
+  padding: 9px;
   background-color: #eee8ec;
   font-size: 12px;
-  margin-bottom: 10px;
+ 
   display: flex;
   color: #581845;
   justify-content: space-between;

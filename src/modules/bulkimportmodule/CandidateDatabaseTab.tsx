@@ -416,7 +416,7 @@ const CandidateDatabaseTab = ({
           onChange={searchHandleChange}
           id={'candidates__input'}
           actionRight={() => (
-            <label style={{ margin: 0 }}>
+            <label style={{ margin: 0,marginTop:"6px" }}>
               <SvgSearch />
             </label>
           )}

@@ -1131,7 +1131,7 @@ const Calendar = () => {
 
   const CalendarHeaderView = (
     <>
-      <div className={styles.headerMenu}>
+      
         <div className={styles.calendarLogo}>
           {/* <SvgCalendar width={30} height={30} /> */}
           <Text bold size={16} color="theme">
@@ -1144,7 +1144,7 @@ const Calendar = () => {
           </Text> */}
           {/* <div className={styles.triangle}> </div> */}
         </div>
-      </div>
+
       <Flex row between>
         {' '}
         <Flex className={styles.calendarInputs}>
@@ -1179,7 +1179,7 @@ const Calendar = () => {
             />
           </Flex>
         </Flex>
-        <Flex>
+        <Flex marginTop={10}>
           <Button
             className={styles.scheduleButton}
             onClick={handleEventScheduleForm}
