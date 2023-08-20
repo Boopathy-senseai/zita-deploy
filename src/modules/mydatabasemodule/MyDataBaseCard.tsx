@@ -197,8 +197,9 @@ const MyDataBaseCard = ({
               candidateId={dataList.id.toString()}
               inviteIconNone={jobId === false ? true : false}
             />
+           { console.log(jobId,'hhhhhhhhhhhhhhhhjjjjjjjjjjjjjfffffffffffff')}
             <ProfileView
-              activeState={jobId === false ? 4 : 4}
+              activeState={jobId === false ? 1 : 1}
               open={isNotes}
               cancel={handleClose}
               jobId={checkWithJd}
@@ -206,7 +207,7 @@ const MyDataBaseCard = ({
               inviteIconNone={jobId === false ? true : false}
             />
             <ProfileView
-              activeState={jobId === false ? 5 : 6}
+              activeState={jobId === false ? 3 : 3}
               open={isShowMatch}
               cancel={handleClose}
               jobId={checkWithJd}

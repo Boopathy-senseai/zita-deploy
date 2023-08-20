@@ -289,7 +289,7 @@ const LocationAdd = ({
           />
           <div className={styles.svgContainer}>
             {isLoader ? (
-              <div className={styles.svgTick}>
+              <div className={styles.svgTick}> 
                 <Loader withOutOverlay size={'small'} />
               </div>
             ) : (

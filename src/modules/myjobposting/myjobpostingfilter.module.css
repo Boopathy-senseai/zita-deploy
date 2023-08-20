@@ -153,6 +153,7 @@ font-weight: 400;
   width: fit-content;
   border: 1px solid #581845;
   margin-left: 15px;
+
   margin-bottom: 10px;
   /* color: #581845; */
   font-size: 13px;
@@ -172,6 +173,7 @@ font-weight: 400;
   display: flex;
   align-items: center;
   color: #581845;
+
 }
 .checkboxalign{
   flex-wrap: wrap;

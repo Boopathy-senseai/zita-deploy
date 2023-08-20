@@ -162,7 +162,7 @@ const hanldeJobListform = () => {
       },
     },
     xAxis: {
-     categories: ['Zita Match', 'Invited to Apply', 'Not Interested', 'Applicants', 'Shortlisted', 'Offered', 'Rejected',]
+     categories: ['Zita Match', 'Invited to Apply', 'Not Interested', 'Applicants', 'Shortlisted', 'Hired', 'Rejected',]
     },
     yAxis: {
       title: {
@@ -209,7 +209,7 @@ const hanldeJobListform = () => {
 					<Text style={{margin:'10px 0px 10px 5px'}}>
 						Analyse your jobs together/individually. The reports go a long way
 						in providing useful data such as the number of views and candidates
-						in the pipeline for each job, the number of offered & rejected
+						in the pipeline for each job, the number of hired & rejected
 						candidates.
 					</Text>
 				</Flex> 
@@ -430,7 +430,7 @@ const hanldeJobListform = () => {
 								</Flex>
 								<Flex row>
 									<Flex flex={6}>
-										<Text color='theme' >Offered</Text>
+										<Text color='theme' >Hired</Text>
 									</Flex>
 									<Flex flex={6}>
 										{jobList&& jobList.Qualified === null ? (

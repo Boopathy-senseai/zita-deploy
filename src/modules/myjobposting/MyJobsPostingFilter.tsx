@@ -286,8 +286,10 @@ const MyJobsPostingFilter = ({
       {console.log("jobtitle",jobtitle)}
       {console.log("jobposted1",jobposted1)}
       {console.log("jobstatus1",jobstatus1)}
+
       
       <Text className={""} >
+
         Quick Filters :
       </Text>
       {jobtitle !== "" ? (
