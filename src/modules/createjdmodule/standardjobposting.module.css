@@ -39,3 +39,12 @@
   font-weight: 700;
 font-size: 15px;
 }
+.btnContainer{
+  position: absolute;
+  bottom: 10px;
+  right: 0;
+  left: 2px;
+  /* border-top: 1px solid #dfdfdf; */
+  padding: 5px;
+  background-color: #ffffff;
+}

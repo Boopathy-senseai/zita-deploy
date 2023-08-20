@@ -20,6 +20,10 @@ import {
   applicantIntegratemailReducers,
   applicantInviteReducers,
   candidatejdmatchReducers,
+  googleConflictReducers,
+  outlookConflictReducers,
+  calendarConfigurationReducers
+
 } from '../modules/applicantprofilemodule/store/reducer/applicantProfileReducer';
 import {
   bulkImportReducers,
@@ -114,6 +118,9 @@ import { notificationReducers } from '../modules/navbar/empnavbar/store/notifica
 
 import { templatePageReducers } from '../modules/accountsettingsmodule/templatesmodule/store/reducer/templatesreducer';
 import { pipelinePageReducers } from '../modules/accountsettingsmodule/templatesmodule/store/reducer/pipelinereducer';
+import { schedulerReducers, slotterReducers, timezoneReducers } from '../modules/meetingscheduler/events/store/reducer/eventreducer';
+import { scheduledEventsReducers } from '../modules/meetingscheduler/scheduledevents/store/reducer/evetsreducer';
+import { calendarEventsReducers } from '../modules/meetingscheduler/calendarEvents/store/reducer/evetsreducer';
 
 export const reducers = {
   talentSourcingReducers,
@@ -202,4 +209,12 @@ export const reducers = {
   pipelinePageReducers,
   kanbanStagesReducers,
   applicantPipelineDownloadReducers,
+  schedulerReducers,
+  slotterReducers,
+  timezoneReducers,
+  scheduledEventsReducers,
+  calendarEventsReducers,
+  googleConflictReducers,
+  outlookConflictReducers,
+  calendarConfigurationReducers
 };

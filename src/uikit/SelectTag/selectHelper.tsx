@@ -4,6 +4,7 @@ import {
   BLACK,
   ERROR,
   GARY_1,
+  GARY_2,
   GARY_4,
   GARY_5,
   GARY_6,
@@ -31,7 +32,7 @@ export const customStyles = {
     height: '30px',
     padding: '0 8px',
     fontSize: 13,
-    color: GARY_1,
+    color: GARY_2,
   }),
   input: (provided: any) => ({
     ...provided,
@@ -127,7 +128,7 @@ export const customStylesLine = {
     return {
       ...defaultStyles,
       color: GARY_4,
-      fontSize: 13,
+      fontSize: 11,
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
@@ -173,8 +174,8 @@ export const selectTagTheme = (
     primary25: 'rgb(88 24 69 / 15%)',
     primary: !isEmpty(errorMessage) && error ? ERROR : PRIMARY,
     primary50: 'rgb(88 24 69 / 30%)',
-    neutral20: !isEmpty(errorMessage) && error ? ERROR : "#D7C7D2",
-    neutral30: !isEmpty(errorMessage) && error ? ERROR : "#58184570",
+    neutral20: !isEmpty(errorMessage) && error ? ERROR : GARY_5,
+    neutral30: !isEmpty(errorMessage) && error ? ERROR : GARY_6,
   },
 });
 
@@ -192,7 +193,7 @@ export const customStylesMulti = {
   valueContainer: (provided: any) => ({
     ...provided,
     fontSize: 13,
-    color: GARY_1,
+    color: GARY_2,
     height: 74,
     overflowY: 'scroll',
     scrollbarWidth: 'thin',
@@ -338,7 +339,7 @@ export const customStylechanges = {
     height: '40px',
     padding: '0 8px',
     fontSize: 13,
-    color: GARY_1,
+    color: GARY_2,
   }),
   input: (provided: any) => ({
     ...provided,
@@ -394,7 +395,7 @@ export const customStylechanges = {
 export const customStylechanges1 ={
   option: (provided: any) => ({
     ...provided,
-    fontSize: 12,
+    fontSize: 13,
   }),
   control: (provided: any, state: { isFocused: any }) => ({
     ...provided,
@@ -403,7 +404,7 @@ export const customStylechanges1 ={
     boxShadow: state.isFocused ? null : null,
     backgroundColor:GARY_9,
     margin: '0px',
-    borderColor:"#ff20000",
+    borderColor:GARY_9,
     border: '0px',
   }),
   singleValue:() => ({
@@ -466,6 +467,10 @@ export const customStylechanges1 ={
     padding: 0,
     borderColor:PRIMARY,
   }),
+  NooptionsMessage: (provided: any)=> ({
+    ...provided,
+    fontSize: 13,
+  }),
   hover: (provided: any) => ({
     color:PRIMARY,
     borderColor:PRIMARY,
@@ -492,7 +497,7 @@ export const customStylechanges2 ={
   }),
   valueContainer: (provided: any) => ({
     ...provided,
-    height: '30px',
+    height: '23px',
     margin: '0px',
     fontSize: 12,
     boxColor:GARY_9,
@@ -560,9 +565,7 @@ export const customStylechanges2 ={
     maxHeight: 200,
     scrollbarWidth: 'thin',
     padding: 0,
-    color:  BLACK,
-    borderColor:PRIMARY,
-  
+    borderColor:PRIMARY,  
   }),
   NoOptionsMessage: (provided: any)=> ({
     ...provided,

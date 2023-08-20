@@ -68,7 +68,6 @@ export const StageCard: React.FC<StageCardProps> = (props) => {
     isTrim: false,
     validate: handleJobPipeline,
     onSubmit: (form) => {
-      console.log(form);
       onEdit({ ...form, stage_name: form.stage_name.trim() });
       // formik.handleChange('stage_name')(form.stage_name.trim());
       setEdit(!edit);

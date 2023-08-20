@@ -7,6 +7,7 @@ import Collapse from '../../uikit/Collapse/Collapse';
 import { LINK } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
 import Table from '../../uikit/Table/Table';
+import Tabel from '../../uikit/Table/Table';
 import Text from '../../uikit/Text/Text';
 import styles from './applicantquestionnaireresult.module.css';
 import { CompanyDetail, Jd, QuestionnaireForJdEntity } from './createJdTypes';
@@ -37,7 +38,7 @@ const ApplicantQuestionnaireResult = ({
           {data.length === 0 ? (
             <Text color="gray">No questions added for this job</Text>
           ) : (
-            <Table
+            <Tabel
               empty={'No questions added for this job'}
               dataSource={data}
               columns={columns}

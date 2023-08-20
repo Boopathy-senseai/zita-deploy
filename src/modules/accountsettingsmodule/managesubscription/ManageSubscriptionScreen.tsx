@@ -162,7 +162,7 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
     return <Loader />;
   }
   return (
-    <Flex className={styles.overAll}>
+    <Flex className={styles.overAll} style={{overflowY:'scroll',maxHeight:window.innerHeight-100,paddingRight:'10px'}}>
       <Flex row center between className={styles.titleStyle}>
         <Flex>
           <Text size={14} bold>
@@ -171,15 +171,18 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
         </Flex>
         <Flex row>
         {subscription &&
-          subscription.is_active === true &&
+          subscription.is_active === true &&subscription.plan_id_id !== 1&&
           isEmpty(subscription.subscription_changed_to) ? (
             <Button  onClick={() => setCancelOne(true)}  types='secondary'>
               Cancel Subscription
             </Button>
           ) : (
-            <Button  onClick={hanldeRenew} types='primary' >
+            (subscription && subscription.plan_id_id !== 1 )?(
+              <Button  onClick={hanldeRenew} types='primary' >
               Renew Subscription
             </Button>
+            ):('')
+            
           )}
           <Button onClick={handleInvoice} style={{marginLeft:'15px'}}>Invoices & Payment Info</Button>        
         </Flex>
@@ -209,6 +212,7 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
         <Flex columnFlex>
           <Flex middle row center className={styles.warningFlex1}>
           <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
+          <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px',marginLeft:"7px"}} bold >Heads Up!{' '}</Text>
             <Text size={13}   className={styles.warningText1}>
               {`Your free trial ends on ${getDateString(
                 subscription?.subscription_end_ts,

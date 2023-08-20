@@ -192,12 +192,14 @@ const ZitaMatchDataCard = ({
           open={isInvite}
           title={
             <Flex className={styles.popTitle}>
-              <Text>{`The candidate ${
-                dataList.first_name
-              } has already been invited for this job on ${getDateString(
-                dataList.invite,
-                'll',
-              )}.`}</Text>
+              <Text>{`The candidate ${!isEmpty(dataList.last_name) ? `${dataList.first_name} ${dataList.last_name} `: `${dataList.first_name}`} has already been invited for this job on ${getDateString(
+
+dataList.invite,
+
+'ll',
+
+)}.`}
+              </Text>
               <Text>Do you wish to invite again?</Text>
             </Flex>
           }

@@ -131,7 +131,7 @@ console.log("sidebar111",windowSize,sidebar)
                         onClick={() =>
                           handleCandidateView(talentList.candidate_hash)
                         }
-                        size={12}
+                        size={13}
                       >
                         {talentList.first_name} 
                       </Text>

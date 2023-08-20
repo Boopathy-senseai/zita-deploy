@@ -111,25 +111,40 @@
   background-color: #EEE8EC;
   height: 40px;
 }
+/* .triangle{
+  display:flex;
+  justify-self: flex-end;
+
+} */
 .triangle {
-width: 0px; 
-height: 0px; 
-border-top: 22px solid transparent; 
-border-right: 30px solid white; 
+
+width: 0px;
+  
+height: 0px;
+  
+border-top: 22px solid transparent;
+  
+border-right: 30px solid white;
+  
 border-bottom: 22px solid transparent;
+  
 position: relative;
+
 top: -1px; 
 right: 0px; 
+
   }
   .padding{
     padding:0px ;
     margin-top: 10px;
   }
   .mainpadding{
+
     padding: 8px;
   }
   .cardOverAll {
     padding: 0 16px 10px 0;
+
     margin: 20px 0;
   }
   .tableDiv {

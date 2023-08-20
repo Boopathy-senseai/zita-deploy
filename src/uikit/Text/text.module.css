@@ -171,7 +171,9 @@
 .textColor-disabled{
   color:  #ab8ba2;
 }
-
+.textColor-placeholder{
+  color: #888888;
+}
 .type-titleLarge {
   font-size: 20px;
   font-weight: bold;

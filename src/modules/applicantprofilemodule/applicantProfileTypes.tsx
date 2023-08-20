@@ -442,8 +442,7 @@ export interface MessageTemplateReducerState {
 }
 
 export interface Calender {
-  google?: GoogleEntity[];
-  
+  google?: GoogleEntity[];  
   event?: EventEntity[];
   outlook?: GoogleEntity[];
 }
@@ -540,4 +539,41 @@ export interface IApplicantStatus {
   client_id: number;
   created_on: string;
   updated_by: string;
+}
+
+
+export interface GoogleConflictState{
+  isLoading : boolean;
+  error : string;
+  events : ConflictsEvents
+}
+export interface OutlookConflictState{
+  isLoading : boolean;
+  error : string;
+  events : ConflictsEvents
+}
+
+export interface ConflictsEvents{
+  date : []
+}
+
+export interface CalendarConfigurationState{
+  isLoading : boolean;
+  error : string;
+  configuration : string;
+  data : Configuration[];
+
+}
+
+export interface Configuration{
+  id : number;
+  client_id_id: number;
+  showas: string;
+  calendar: boolean;
+  addtocalendar: boolean;
+  is_active: boolean;
+  created_at: string;
+  isdeleted: boolean;
+  ischecked: boolean
+  configuration: string;
 }

@@ -48,7 +48,7 @@ export function useStages<
   } as T;
   const defaultStageNames = [
     { name: 'Shortlisted', color: '#80C0D0' },
-    { name: 'Offered', color: '#00BE4B' },
+    { name: 'Hired', color: '#00BE4B' },
     { name: 'Rejected', color: '#ED4857' },
   ];
   useEffect(() => {

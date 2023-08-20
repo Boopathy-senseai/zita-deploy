@@ -38,10 +38,7 @@
   background-color: hsla(0, 0%, 100%, 0.1);
 }
 
-.svgUserStyle {
-  padding: 8px 2px;
-  border-radius: 4px;
-}
+
 
 .profileStyle {
   padding: 8px 12px;
@@ -71,14 +68,14 @@
 } */
 
 /* new rewamp css */
-
+ 
 .overAll {
   background-color: #ffffff;
   padding: 2px 0px;
   -webkit-box-shadow: 1px 2px 1px 1px #d7c7d2;
   -moz-box-shadow: 1px 2px 1px 1px #d7c7d2;
   box-shadow: 1px 1px 1px 1px #d7c7d2;
-  position: fixed;
+  position: fixed; 
   top: 0;
   width: 100%;
   z-index: 12;
@@ -92,6 +89,7 @@
   height: 'auto' !important;
   width: 'auto' !important;
   margin-top: '6px' !important;
+  padding: 10px;
   right: 15px !important;
 }
 .svgMargin {
@@ -100,8 +98,14 @@
   border-radius: 8px;
   cursor: pointer;
 }
+.svgMargins {
+  margin-right: -15px;
+  padding: 3px 10px 3px 0px;
+  border-radius: 8px;
+  cursor: pointer;
+}
 /* .svgMargin:hover{
-  background-color: #D7C7D2;
+  background-color: #D7C7D2;padding: '3px 10px 3px 0px';
   border-radius: 100%;
   padding:2px ;
 } */

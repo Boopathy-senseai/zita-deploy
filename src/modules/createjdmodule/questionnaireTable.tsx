@@ -21,7 +21,7 @@ export const questionTitle = (jdId: string) => [
         </Text>
       );
     },
-    flex: 2,
+    flex: 0.5,
   },
   {
     title: 'Questions',
@@ -40,7 +40,7 @@ export const questionTitle = (jdId: string) => [
         </Text>
       );
     },
-    flex: 2,
+    flex: 1,
   },
   {
     title: 'Is Required',
@@ -49,12 +49,12 @@ export const questionTitle = (jdId: string) => [
     align: 'left',
     render: (value: boolean) => {
       return (
-        <Flex middle>
+        <Flex>
           <Text size={13}>{value === true ? 'Yes' : 'No'}</Text>
         </Flex>
       );
     },
-    flex: 2,
+    flex: 1,
   },
   {
     title: 'Delete',
@@ -64,7 +64,7 @@ export const questionTitle = (jdId: string) => [
     render: (value: number) => {
       return <DeleteAction value={value} jdId={jdId} />;
     },
-    flex: 2,
+    flex: 1,
   },
 ];
 
@@ -141,10 +141,10 @@ export const resultTitle = () => [
     title: 'Questions',
     renderTitle: (_a: string) => (
       <Flex row center>
-        <Text color="primary" bold style={{ paddingLeft: 16, borderRight:"1px solid #b3b3b3", width: 70 }}>
+        <Text color="primary" bold style={{ borderRight:"1px solid #b3b3b3", width: 70 }}>
           S.No
         </Text>
-        <Text color="primary" bold style={{ paddingLeft: 18 }}>
+        <Text color="primary" bold style={{ paddingLeft: 8 }}>
           Questions
         </Text>
       </Flex>

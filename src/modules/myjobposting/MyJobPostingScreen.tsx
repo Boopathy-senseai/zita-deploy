@@ -177,13 +177,13 @@ const MyJobPostingScreen = () => {
       {Jobs_List === 2 && (
         <Flex  >
           <div className={cx('tabsContainer')}>
-            <Flex row className={styles.searchbox}>
+            <Flex row between className={styles.searchbox}>
               <Totalcount 
                 name="Total Jobs Found "
                 numbers={len_list}
               />
           
-              <Flex row className={styles.twobutton}>
+              <Flex row className={styles.twobutton} marginRight={10}>
                 {' '}
                 {Permission.includes('create_post') && (
                   <LinkWrapper target={'_parent'} to={jobSelect}>
@@ -192,7 +192,6 @@ const MyJobPostingScreen = () => {
                     </Button>
                   </LinkWrapper>
                 )}
-                {console.log(career_page_url,'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff')}
                 <LinkWrapper
                   target={'_blank'}
                   to={`${career_page_url}/careers`}

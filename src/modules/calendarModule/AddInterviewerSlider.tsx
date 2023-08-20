@@ -27,6 +27,7 @@ import { getColor } from './colors';
 import { formatEventTitle } from './util';
 import SimpleToolBar from './calendar-components/SimpleToolBar';
 import ColorEvent from './calendar-components/ColorEvent';
+import WeekHeader from './calendar-components/WeekHeader';
 // import WeekHeader from './calendar-components/WeekHeader';
 
 let localizer = momentLocalizer(moment);
@@ -228,7 +229,7 @@ const AddInterviewersUI = ({
         <div className={styles.addInterviewer}>
           <div className={styles.menus}>{InterviewerDropDown}</div>
           <div className={styles.calendar}>
-            {/* {currentUserEvents && (
+            {currentUserEvents && (
               <BigCalendar
                 localizer={localizer}
                 events={teamMemberEvents}
@@ -253,7 +254,7 @@ const AddInterviewersUI = ({
                   },
                 }}
               />
-            )} */}
+            )}
           </div>
         </div>
       </div>

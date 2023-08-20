@@ -20,6 +20,8 @@
 .dropDownBtn {
   max-width: 160px;
   height: 30px;
+  max-width: 160px;
+  height: 30px;
   outline: none;
   border-radius: 6px;
   border: 0;
@@ -27,17 +29,22 @@
   justify-content: center;
   align-items: center;
   padding: 0px 10px;
+  align-items: center;
+  padding: 0px 10px;
   margin: 0;
+  background-color: unset;
+  border: 1px solid #c3c3c3;
   background-color: unset;
   border: 1px solid #c3c3c3;
 }
 
-.container{
+.container {
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-right: 10px;
   margin-right: 10px;
 }
 
@@ -46,6 +53,7 @@
   height: 18px;
   align-self: center;
 } */
+
 
 .dropDownCard {
   display: none;
@@ -207,10 +215,12 @@
 }
 
 .calendar {
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  height: calc(100% - 125px) !important;
   padding: 0px 2px;
   margin-top: 12px;
-  height: calc(100vh - 130px);
 }
 
 .scheduleButton {
@@ -222,3 +232,16 @@
   font-weight: normal;
   letter-spacing: 1px;
 }
+
+.calenderContent {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.calendar > .rbc-time-view {
+  height: 62% !important;
+}
+
+

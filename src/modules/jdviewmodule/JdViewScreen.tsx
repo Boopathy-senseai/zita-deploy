@@ -16,7 +16,7 @@ import { LINK } from '../../uikit/Colors/colors';
 import { Table } from '../../uikit';
 import QuestionTable from '../createjdmodule/QuestionTable';
 import { resultTitle } from '../createjdmodule/questionnaireTable';
-import SvgNoDataIcon from '../../icons/SvgNoDataIcon';
+
 import Svgwhatjobs from '../../icons/Svgwhatjobs';
 import SvgRight from '../../icons/SvgRight';
 import Loader from '../../uikit/Loader/Loader';
@@ -38,7 +38,6 @@ import {
   jdDownloadMiddleWare,
   jdInactiveMiddleWare,
 } from './store/middleware/jdviewmiddleware';
-
 
 type ParamsType = {
   jdId: string;
@@ -221,12 +220,12 @@ const JdViewScreen = () => {
       <Flex row className={styles.ribbon} between>
 
 
-        <Flex row className={styles.mainpadding} >
+        <Flex row  className={styles.mainpadding} >
           <Flex>
             <Text size={16} bold color="theme" >
               Job Posting
             </Text></Flex>
-          <Flex marginTop={6} marginLeft={7} marginRight={2}>
+          <Flex marginTop={8} marginLeft={7} marginRight={2}>
             <SvgRight fill={'#581845'} ></SvgRight></Flex>
           <Flex marginTop={1} marginLeft={3}>
             <Text size={16} bold color="theme" >
@@ -283,8 +282,7 @@ const JdViewScreen = () => {
                       style={{ color: "#333333" }}
                       className={styles.jdStatus}
                     >Trend Line of Job Views and Applicants</Text>
-                    <Flex className={styles.center} style={{display:"flex", alignItems:"center"}}>
-                      <SvgNoDataIcon width={15} style={{filter:"opacity(0.5)"}} />
+                    <Flex className={styles.center}>
                       <Text bold className={styles.font10px} style={{ color: "#888888" }}>
                         No Data Available
                       </Text>
@@ -318,7 +316,7 @@ const JdViewScreen = () => {
             <Flex >
               <Text
                 bold
-                style={{ color: "#333333" }}
+                style={{ color: "#333333" ,paddingTop:"6px"}}
                 size={14}
               >
                 Job Details & Description
@@ -341,8 +339,8 @@ const JdViewScreen = () => {
           </Flex>
           {console.log("skill", jdview)}
 
-          <Flex className={styles.card1} >
-            <Flex columnFlex>
+          <Card className={styles.cardOverAll}>
+            <Flex columnFlex marginTop={8}>
               <Text bold size={14} style={{ color: "#333333" }}>
                 Applicant Questionnaire
               </Text>
@@ -361,7 +359,7 @@ const JdViewScreen = () => {
               </div>
 
             </Flex>
-          </Flex>
+          </Card>
 
           <CancelAndDeletePopup
             title={
