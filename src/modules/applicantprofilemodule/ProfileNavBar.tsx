@@ -694,7 +694,7 @@ const ProfileNavBar = ({
                   </Flex>
                 )}
               </Flex> 
-              {!applieddatecheck && Number(jd_id) !== 0 ? (
+              {applieddatecheck && Number(jd_id) !== 0 ? (
                 <Flex flex={6}>
                   <Flex className={styles.headingpart} marginTop={10}>
                     Applied Date
@@ -736,7 +736,7 @@ const ProfileNavBar = ({
                 ''
               )}
             </Flex>
-           {!applieddatecheck && Number(jd_id) !== 0 &&<Flex row flex={12} style={{ borderTop: '1px solid #C3C3C3' }}>
+           {applieddatecheck && Number(jd_id) !== 0 &&<Flex row flex={12} style={{ borderTop: '1px solid #C3C3C3' }}>
               <Flex flex={6}>
                 <Flex className={styles.headingpart} marginTop={10}>
                   Willing to Relocate
@@ -780,7 +780,7 @@ const ProfileNavBar = ({
                 )}
               </Flex>
             </Flex>}
-            {!applieddatecheck && Number(jd_id) !== 0 && <Flex row flex={12} marginBottom={'10px'}>
+            {applieddatecheck && Number(jd_id) !== 0 && <Flex row flex={12} marginBottom={'10px'}>
               <Flex flex={6}>
                 <Flex className={styles.headingpart} marginTop={10}>
                   Expected Salary
@@ -800,7 +800,7 @@ const ProfileNavBar = ({
                   </Flex>
                 )}
               </Flex>
-              {!applieddatecheck && !availableity &&
+              {applieddatecheck && !availableity &&
               <Flex flex={6}>
                 <Flex className={styles.headingpart} marginTop={10}>
                   Availability
@@ -822,7 +822,7 @@ const ProfileNavBar = ({
                 )}
               </Flex>}
             </Flex>}
-            {!applieddatecheck && Number(jd_id) !== 0 &&<Flex style={{ paddingBottom: '10px' }}>
+            {applieddatecheck && Number(jd_id) !== 0 &&<Flex style={{ paddingBottom: '10px' }}>
               <Flex className={styles.headingpart}>Industry Type</Flex>
               {personalInfo[0].industry_type__label_name === undefined ||
               personalInfo[0].industry_type__label_name === null ||

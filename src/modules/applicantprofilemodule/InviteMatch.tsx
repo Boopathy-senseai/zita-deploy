@@ -37,6 +37,7 @@ type Props = {
   applicant?: ApplicantEntity[];
   candidate_details: CandidateDetailsEntity[];
   inviteMessage: string;
+  match_percentage?:number;
 };
 
 const InviteMatch = ({
@@ -45,6 +46,7 @@ const InviteMatch = ({
   candidateId,
   applicant,
   candidate_details,
+  match_percentage,
   inviteMessage,
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
@@ -111,7 +113,9 @@ const InviteMatch = ({
   );
 
   const matchTitle = `${list.jd_title}`;
-  // const zeroCount = list.every(value => value === 0).length;
+  console.log(list,'fffffffffffffffffggggggggggggggggghhhhhhhhhhhhhhhhhhhhhhhhlist')
+//  const zeroCount =(match_percentage => match_percentage === 0).length;
+const profileMatchCount = match.filter(item => item.profile_match === 0).length;
   return (
     <>
       {isInviteLoader && <Loader />}
@@ -305,10 +309,8 @@ const InviteMatch = ({
           </div> */}
         </Flex>
       </Flex>}
-      {/* {list.profile_match ===0 &&
-      <Flex center middle flex={1} >
-         This candidate is not a match for any jobs
-        </Flex>} */}
+      {console.log(profileMatchCount,'profileMatchCountprofileMatchCountprofileMatchCountprofileMatchCount',match.length )}
+      
     </>
   );
 };
