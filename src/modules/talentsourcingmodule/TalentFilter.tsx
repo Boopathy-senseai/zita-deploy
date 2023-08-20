@@ -4,13 +4,13 @@ import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import Card from '../../uikit/Card/Card';
 import { Button } from '../../uikit';
-import InputSwitch from '../../uikit/Switch/InputSwitch'
+import InputSwitch from '../../uikit/Switch/InputSwitch';
 import InputCheckBox from '../../uikit/InputCheckbox/InputCheckBox';
 import SelectTag from '../../uikit/SelectTag/SelectTag';
 import SvgRefresh from '../../icons/SvgRefresh';
 import SvgIntomark from '../../icons/Intomark';
 import styles from './talentfilter.module.css';
-import styles1 from "./../mydatabasemodule/switch.module.css"
+import styles1 from './../mydatabasemodule/switch.module.css';
 import { experienceOptions } from './mock';
 
 
@@ -42,9 +42,9 @@ type Props = {
   isOther: boolean;
   setOther: (arg: boolean) => void;
   isInitalCheckBox: boolean;
-  handleRefresh:()=>void
-  updatechckbox:any;
-  setchange?:any;
+  handleRefresh: () => void;
+  updatechckbox: any;
+  setchange?: any;
 };
 const TalentFilter = ({
   isBachelors,
@@ -66,13 +66,13 @@ const TalentFilter = ({
   setapply,
   isInitalCheckBox,
   updatechckbox,
-  setchange,  
-  handleRefresh
+  setchange,
+  handleRefresh,
 }: Props) => {
   const handleBachelor = () => {
     setBachelors(!isBachelors);
     setAny(false);
-    setchange(true)
+    setchange(true);
     setInitialPage(0);
   };
   const handleDoctorate = () => {
@@ -86,7 +86,7 @@ const TalentFilter = ({
     setAny(false);
     setchange(true)
     setInitialPage(0);
-    };
+  };
   const handleOther = () => {
         setAny(false);
     setOther(!isOther);

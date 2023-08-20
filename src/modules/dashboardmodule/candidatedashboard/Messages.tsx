@@ -87,9 +87,9 @@ const Messages = ({
       <Card className={styles.overAll}>
         {showEmptyMessgae ? (
           <Flex columnFlex center middle height={661}>
-            <SvgChat />
-            <Text style={{ paddingTop: 20 }} color="gray" align="center">
-              No Messages Received
+            <SvgChat width={16} height={16} fill='#888888'/>
+            <Text size={13} style={{ paddingTop: 20, color: "#888888" }}  align="center">
+              No messages received
             </Text>
           </Flex>
         ) : (

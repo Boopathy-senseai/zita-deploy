@@ -6,6 +6,7 @@ import { AppDispatch, RootState } from '../../store';
 import Text from '../../uikit/Text/Text';
 import Flex from '../../uikit/Flex/Flex';
 import Card from '../../uikit/Card/Card';
+import SvgNoData from '../../icons/SvgNoData';
 import SelectTag from '../../uikit/SelectTag/SelectTag';
 import Button from '../../uikit/Button/Button';
 import Chart from '../../uikit/Chart/Chart';
@@ -257,8 +258,10 @@ console.log(res,'192.168.3.253:8001192.168.3.253:8001192.168.3.253:8001192.168.3
 						candidate sourcing.
 					</Text>
 				</Flex>
+
 				<Flex row className={styles.marginTop}>
-					<Text  className={styles.selected}>
+					<Text  className={styles.selected} style={{marginTop:"5px"}}>
+
 						Duration
 					</Text>
 					<div className={styles.skillContainer}>

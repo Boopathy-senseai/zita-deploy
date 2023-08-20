@@ -252,7 +252,7 @@ const hanldeJobListform = () => {
 							<Table
 								columns={columns}
 								dataSource={job_list}
-								empty="No Data Available"
+								empty="No data available"
 								// scrollHeight={270}
 								border="normal"
 								
@@ -301,7 +301,7 @@ const hanldeJobListform = () => {
 					<Flex>
 					<Flex row between  >
 						<Flex style={{marginLeft:'3px'}}>
-						<Text bold size={14} >Detailed Metrics</Text>
+						<Text bold size={14}>Detailed Metrics</Text>
 						<Text style={{marginTop:'0px',marginBottom:'10px'}} >
 						A comprehensive data table showcasing count about the candidates & applicants for selected job.
 						</Text>

@@ -238,21 +238,23 @@ const ProfileNavBar = ({
     dispatch(applicantScoreMiddleWare({ jd_id, can_id }));
   }, []);
   useEffect(() => {
+    console.log(stages,',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,')
+    if(stages.length >=1){
+    const stage_name  = stages[stages.length - 1].stage_id__stage_name
+      setcheckingstatus(stage_name);
+     }
     if (stages.length === 0) {
       setcheckingstatus('');
     }
-    if (stages.length === 1) {
-      setcheckingstatus(stages[0].stage_id__stage_name);
-    }
-    if (stages.length === 2) {
-      setcheckingstatus(stages[1].stage_id__stage_name);
-    }
-    if (stages.length === 3) {
-      setcheckingstatus(stages[2].stage_id__stage_name);
-    }
-    if (stages.length === 4) {
-      setcheckingstatus(stages[3].stage_id__stage_name);
-    }
+    // if (stages.length === 2) {
+    //   setcheckingstatus(stage_name);
+    // }
+    // if (stages.length === 3) {
+    //   setcheckingstatus(stage_name);
+    // }
+    // if (stages.length === 4) {
+    //   setcheckingstatus(stages[3].stage_id__stage_name);
+    // }
   }, [stages]);
   const linkedin_url =
     candiList.linkedin_url !== null && candiList.linkedin_url !== ''
@@ -536,36 +538,32 @@ const ProfileNavBar = ({
               <Flex style={{ marginRight: '10px' }}>
                 <SvgLocation height={17} width={17} fill="#581845" />
               </Flex>
-              {console.log(
-                personalInfo[0].city__name,
-                'personalInfo[0].city__namepersonalInfo[0].city__name',
-              )}
-              {personalInfo[0].city__name === null ||
-              personalInfo[0].city__name === '' ? (
+              {candidate_details[0].location === null ||
+              candidate_details[0].location === '' ? (
                 <Flex style={{ fontsize: '13px' }}>Not Specified</Flex>
               ) : (
                 <Flex row>
-                  {personalInfo[0].city__name !== undefined &&
-                    personalInfo[0].city__name !== null && (
+                  {candidate_details[0].location !== undefined &&
+                    candidate_details[0].location !== null && (
                       <Flex style={{ fontsize: '13px' }}>
                         {' '}
-                        {personalInfo[0].city__name},
+                        {candidate_details[0].location},
                       </Flex>
                     )}
-                  {personalInfo[0].state__name !== undefined &&
+                  {/* {personalInfo[0].state__name !== undefined &&
                     personalInfo[0].state__name !== null && (
                       <Flex style={{ fontsize: '13px' }}>
                         {' '}
                         {personalInfo[0].state__name},
                       </Flex>
-                    )}
-                  {personalInfo[0].country__name !== undefined &&
+                    )} */}
+                  {/* {personalInfo[0].country__name !== undefined &&
                     personalInfo[0].country__name !== null && (
                       <Flex style={{ fontsize: '13px' }}>
                         {' '}
                         {personalInfo[0].country__name}
                       </Flex>
-                    )}
+                    )} */}
                 </Flex>
               )}
             </Flex>
@@ -697,7 +695,7 @@ const ProfileNavBar = ({
                   </Flex>
                 )}
               </Flex> 
-              {!applieddatecheck && Number(jd_id) !== 0 ? (
+              { !applieddatecheck&& Number(jd_id) !== 0 ? (
                 <Flex flex={6}>
                   <Flex className={styles.headingpart} marginTop={10}>
                     Applied Date
@@ -739,7 +737,7 @@ const ProfileNavBar = ({
                 ''
               )}
             </Flex>
-           {!applieddatecheck && Number(jd_id) !== 0 &&<Flex row flex={12} style={{ borderTop: '1px solid #C3C3C3' }}>
+           {Number(jd_id) !== 0 &&<Flex row flex={12} style={{ borderTop: '1px solid #C3C3C3' }}>
               <Flex flex={6}>
                 <Flex className={styles.headingpart} marginTop={10}>
                   Willing to Relocate
@@ -783,7 +781,7 @@ const ProfileNavBar = ({
                 )}
               </Flex>
             </Flex>}
-            {!applieddatecheck && Number(jd_id) !== 0 && <Flex row flex={12} marginBottom={'10px'}>
+            { Number(jd_id) !== 0 && <Flex row flex={12} marginBottom={'10px'}>
               <Flex flex={6}>
                 <Flex className={styles.headingpart} marginTop={10}>
                   Expected Salary
@@ -803,7 +801,7 @@ const ProfileNavBar = ({
                   </Flex>
                 )}
               </Flex>
-              {!applieddatecheck && !availableity &&
+              { !availableity &&
               <Flex flex={6}>
                 <Flex className={styles.headingpart} marginTop={10}>
                   Availability
@@ -825,7 +823,7 @@ const ProfileNavBar = ({
                 )}
               </Flex>}
             </Flex>}
-            {!applieddatecheck && Number(jd_id) !== 0 &&<Flex style={{ paddingBottom: '10px' }}>
+            { Number(jd_id) !== 0 &&<Flex style={{ paddingBottom: '10px' }}>
               <Flex className={styles.headingpart}>Industry Type</Flex>
               {personalInfo[0].industry_type__label_name === undefined ||
               personalInfo[0].industry_type__label_name === null ||

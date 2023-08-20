@@ -6,10 +6,7 @@ import SvgInfo from '../../../icons/SvgInfo';
 import { AppDispatch, RootState } from '../../../store';
 import { WARNING } from '../../../uikit/Colors/colors';
 import Flex from '../../../uikit/Flex/Flex';
-import {
-  getDateString,
-  isEmpty,
-} from '../../../uikit/helper';
+import { getDateString, isEmpty } from '../../../uikit/helper';
 import Loader from '../../../uikit/Loader/Loader';
 import Text from '../../../uikit/Text/Text';
 import { Button } from '../../../uikit';
@@ -28,8 +25,6 @@ import {
   renewSubscriptionMiddleWare,
 } from './store/managesubscriptionmiddleware';
 import SubscriptionPlan from './SubscriptionPlan';
-
-
 
 type Props = {
   setTab: (a: string) => void;
@@ -58,41 +53,44 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
     if (!isEmpty(session_id)) {
       setLoader(true);
       dispatch(backendProcessMiddleWare({ session_id })).then(() => {
-        dispatch(manageSubscriptionMiddleWare()).then(() => {
-          if (query.has('session_id')) {
-            query.delete('session_id');
-            history.replace({
-              search: query.toString(),
-            });
-          }
-          setLoader(false);
-        }).then(()=>{
-          dispatch(permissionMiddleWare());
-        })
+        dispatch(manageSubscriptionMiddleWare())
+          .then(() => {
+            if (query.has('session_id')) {
+              query.delete('session_id');
+              history.replace({
+                search: query.toString(),
+              });
+            }
+            setLoader(false);
+          })
+          .then(() => {
+            dispatch(permissionMiddleWare());
+          });
       });
     }
     if (!isEmpty(session)) {
       setLoader(true);
 
       dispatch(creditsPurchaseMiddleWare({ session })).then(() => {
-        dispatch(manageSubscriptionMiddleWare()).then(() => {
-          if (query.has('session')) {
-            query.delete('session');
-            history.replace({
-              search: query.toString(),
-            });
-          }
-          setLoader(false);
-        }).then(()=>{
-          dispatch(permissionMiddleWare());
-
-        })
+        dispatch(manageSubscriptionMiddleWare())
+          .then(() => {
+            if (query.has('session')) {
+              query.delete('session');
+              history.replace({
+                search: query.toString(),
+              });
+            }
+            setLoader(false);
+          })
+          .then(() => {
+            dispatch(permissionMiddleWare());
+          });
       });
     }
   }, []);
-  useEffect(()=>{
+  useEffect(() => {
     if (!isEmpty(planFocus)) {
-      var elmnt:any = document.getElementById('plans_and_features__plan');
+      var elmnt: any = document.getElementById('plans_and_features__plan');
       elmnt.scrollIntoView();
       if (query.has('planFocus')) {
         query.delete('planFocus');
@@ -101,7 +99,7 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
         });
       }
     }
-  })
+  });
 
   // url based show popup
   useEffect(() => {
@@ -155,36 +153,45 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
 
   // plan card function
   const handleFocus = () => {
-    var elmnt:any = document.getElementById('plans_and_features__plan');
+    var elmnt: any = document.getElementById('plans_and_features__plan');
     elmnt.scrollIntoView();
   };
   if (isLoader) {
     return <Loader />;
   }
   return (
-    <Flex className={styles.overAll} style={{overflowY:'scroll',maxHeight:window.innerHeight-100,paddingRight:'10px'}}>
+    <Flex
+      className={styles.overAll}
+      style={{
+        overflowY: 'scroll',
+        maxHeight: window.innerHeight - 100,
+        paddingRight: '10px',
+      }}
+    >
       <Flex row center between className={styles.titleStyle}>
         <Flex>
           <Text size={14} bold>
-          Subscription
+            Subscription
           </Text>
         </Flex>
         <Flex row>
-        {subscription &&
-          subscription.is_active === true &&subscription.plan_id_id !== 1&&
+          {subscription &&
+          subscription.is_active === true &&
+          subscription.plan_id_id !== 1 &&
           isEmpty(subscription.subscription_changed_to) ? (
-            <Button  onClick={() => setCancelOne(true)}  types='secondary'>
+            <Button onClick={() => setCancelOne(true)} types="secondary">
               Cancel Subscription
             </Button>
-          ) : (
-            (subscription && subscription.plan_id_id !== 1 )?(
-              <Button  onClick={hanldeRenew} types='primary' >
+          ) : subscription && subscription.plan_id_id !== 1 ? (
+            <Button onClick={hanldeRenew} types="primary">
               Renew Subscription
             </Button>
-            ):('')
-            
+          ) : (
+            ''
           )}
-          <Button onClick={handleInvoice} style={{marginLeft:'15px'}}>Invoices & Payment Info</Button>        
+          <Button onClick={handleInvoice} style={{ marginLeft: '15px' }}>
+            Invoices & Payment Info
+          </Button>
         </Flex>
       </Flex>
       {/*{subscription && subscription?.plan_id_id === 1 &&
@@ -211,8 +218,19 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
       {subscription && subscription.plan_id_id === 1 && free_expired === 1 && (
         <Flex columnFlex>
           <Flex middle row center className={styles.warningFlex1}>
-          <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
-            <Text size={13}   className={styles.warningText1}>
+            <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
+            <Text
+              style={{
+                color: '#2E6ADD',
+                marginRight: '3px',
+                fontSize: '13px',
+                marginLeft: '7px',
+              }}
+              bold
+            >
+              Heads Up!{' '}
+            </Text>
+            <Text size={13} className={styles.warningText1}>
               {`Your free trial ends on ${getDateString(
                 subscription?.subscription_end_ts,
                 'll',
@@ -225,7 +243,7 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
             </Text>
           </Flex>
         </Flex>
-    )} 
+      )}
 
       {subscription &&
         subscription.is_active === true &&
@@ -234,22 +252,32 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
         Number(subscription.subscription_changed_to) !== -2 && (
           <Flex columnFlex>
             <Flex middle row center className={styles.warningFlex1}>
-              <SvgInfo fill={'#2E6ADD'} height={16} width={16}/>
-              <Text
-                size={13}
-                
-              
-                className={styles.warningText1}
-              >
+              <SvgInfo fill={'#2E6ADD'} height={16} width={16} />
+              <Text size={13} className={styles.warningText1}>
+                <Text
+                  style={{
+                    color: '#2E6ADD',
+                    marginRight: '3px',
+                    fontSize: '13px',
+                  }}
+                  bold
+                >
+                  Heads Up!{' '}
+                </Text>
                 {`You have cancelled  your subscription on  ${getDateString(
-                  subscription.subscription_start_ts,
+                  subscription.subscription_changed_date,
                   'll',
                 )}. You have ${
                   subscription.subscription_remains_days === 1
                     ? subscription.subscription_remains_days + ' day'
                     : subscription.subscription_remains_days + ' days'
                 } left to use the platform until your current subscription ends. Please click to `}
-                <Text onClick={hanldeRenew} style={{fontSize:"13px"}} bold color="link">
+                <Text
+                  onClick={hanldeRenew}
+                  style={{ fontSize: '13px' }}
+                  bold
+                  color="link"
+                >
                   renew{' '}
                 </Text>
                 your subscription.
@@ -265,13 +293,7 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
           <Flex columnFlex>
             <Flex middle row center className={styles.warningFlex1}>
               <SvgInfo fill={'#2E6ADD'} height={16} width={16} />
-              <Text
-                size={13}
-                
-                
-                className={styles.warningText1}
-                
-              >
+              <Text size={13} className={styles.warningText1}>
                 {`Your free trial expired. Please `}
                 <Text size={13} bold color="link" onClick={handleFocus}>
                   upgrade{' '}
@@ -288,12 +310,8 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
         subscription.plan_id_id !== 1 && (
           <Flex columnFlex>
             <Flex middle row center className={styles.warningFlex1}>
-              <SvgInfo fill={'#2E6ADD'} height={16} width={16}/>
-              <Text
-                size={13}             
-              
-                className={styles.warningText1}
-              >
+              <SvgInfo fill={'#2E6ADD'} height={16} width={16} />
+              <Text size={13} className={styles.warningText1}>
                 {`Your subscription expired. Please `}
                 <Text size={13} bold color="link" onClick={handleFocus}>
                   renew{' '}
@@ -336,13 +354,13 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
         }}
         svgTick
       />
-        <SingleButton
-          btnTitle="OK"
-          title={'Subscription renewed successfully.'}
-          open={isRenew}
-          btnOnclick={() => setRenew(false)}
-          svgTick
-        />
+      <SingleButton
+        btnTitle="OK"
+        title={'Subscription renewed successfully.'}
+        open={isRenew}
+        btnOnclick={() => setRenew(false)}
+        svgTick
+      />
 
       <SingleButton
         btnTitle="OK"
@@ -365,10 +383,10 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
         svgTick
       />
       {subscription !== null && (
-        <SubscriptionPlan 
-        setCancelOne={setCancelOne}
-        isCancelOne={isCancelOne}
-        setRenew={() => setRenew(true)} 
+        <SubscriptionPlan
+          setCancelOne={setCancelOne}
+          isCancelOne={isCancelOne}
+          setRenew={() => setRenew(true)}
         />
       )}
       <PlansandFeatures

@@ -28,13 +28,13 @@ import {
 } from '../../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { isEmpty } from '../../../uikit/helper';
 import LinkWrapper from '../../../uikit/Link/LinkWrapper';
+import SvgInactive from '../../../icons/SvgInactive';
 import styles from './slotter.module.css';
 import {
   getScheduleMiddleWare,
   getSlotterMiddleware,
 } from './store/middleware/eventmiddleware';
 import './DayPickerCustomStyles.css';
-
 
 const slotter1 = (props) => {
   const { userpreview } = props;
@@ -176,7 +176,7 @@ const slotter1 = (props) => {
   }, [data]);
 
   useEffect(() => {
-    if ('date' in googleconflicts) {
+    if (googleconflicts === null) {
     } else {
       // alert("googleconflicts");
       setConflicts(googleconflicts);
@@ -188,7 +188,7 @@ const slotter1 = (props) => {
     //   console.log('googleConflicts has properties');
     // } else {
     //   console.log('googleConflicts is empty');
-    if ('date' in outlookconflicts) {
+    if (outlookconflicts === null) {
     } else {
       // alert("outlookconflicts");
       setConflicts(outlookconflicts);
@@ -358,11 +358,10 @@ const slotter1 = (props) => {
     }
   };
 
-  const FooterNavogation = () =>{
-    window.open("https://www.zita.ai/",'_blank')
+  const FooterNavogation = () => {
+    window.open('https://www.zita.ai/', '_blank');
     // const url = `${window.location.origin}/event_preview?uid=null&eventid=${eventid}`;
-
-  }
+  };
 
   return (
     <Flex>
@@ -379,7 +378,7 @@ const slotter1 = (props) => {
               isProfile={isProfile}
               timezones={timezones}
               candidate_name={candi_name}
-              FooterNavogation ={FooterNavogation}
+              FooterNavogation={FooterNavogation}
             />
           </Flex>
         ) : confromflag === false && dashboard === false ? (
@@ -419,8 +418,7 @@ const slotter1 = (props) => {
               conflicts={conflicts}
               // startFrom = {startFrom}
               // endFrom ={endFrom}
-              FooterNavogation ={FooterNavogation}
-
+              FooterNavogation={FooterNavogation}
             />
           </Flex>
         ) : confromflag === true ? (
@@ -433,11 +431,10 @@ const slotter1 = (props) => {
               InterviewText={InterviewText}
               isProfile={isProfile}
               timezones={timezones}
-              FooterNavogation ={FooterNavogation}
-
+              FooterNavogation={FooterNavogation}
             />
           </Flex>
-        ) : null} 
+        ) : null}
       </Flex>
     </Flex>
   );
@@ -618,14 +615,14 @@ const SlotterDate = (props) => {
   // function convertDurationToInterval(durationString, unit) {
   //   alert(")")
   //   const matches = durationString.match(/(\d+)\s*hours?(\s*(\d+)\s*minutes?)?/i);
-  
+
   //   if (!matches) {
   //     return null; // Invalid duration format
   //   }
-  
+
   //   const hours = parseInt(matches[1] || 0, 10);
   //   const minutes = parseInt(matches[3] || 0, 10);
-  
+
   //   if (unit === 'minutes') {
   //     return hours * 60 + minutes; // Calculate interval in minutes
   //   } else if (unit === 'seconds') {
@@ -638,106 +635,123 @@ const SlotterDate = (props) => {
     if (typeof durationString !== 'string') {
       return null; // Invalid input, not a string
     }
-  
-    const matches = durationString.match(/(\d+)\s*hours?(\s*(\d+)\s*minutes?)?/i);
-  
+
+    const matches = durationString.match(
+      /(\d+)\s*hours?(\s*(\d+)\s*minutes?)?/i,
+    );
+
     if (!matches) {
       return null; // Invalid duration format
     }
-  
+
     // ... rest of the function
   }
 
   function parseIntervalString(intervalString) {
     const regex = /(\d+)\s*hour[s]?\s*(\d+)\s*minute[s]?/;
     const match = intervalString.match(regex);
-  
+
     if (match) {
       const hours = parseInt(match[1], 10);
       const minutes = parseInt(match[2], 10);
       return { hours, minutes };
     }
-  
+
     return { hours: 0, minutes: 0 };
   }
 
   const AvailbleSlots = (datetimes) => {
     const check = dateconvert(datetimes);
 
-    setHighlightDay(datetimes)
-    console.log("datetimesdatetimes*********",check)
+    setHighlightDay(datetimes);
+    console.log('datetimesdatetimes*********', check);
     const filteredData = Object.fromEntries(
-      Object.entries(useravailble).filter(([key, value]) => key.toString() === check),
+      Object.entries(useravailble).filter(
+        ([key, value]) => key.toString() === check,
+      ),
     );
-    console.log("filterhwrehvehrfilterhwrehvehr",filteredData)
+    console.log('filterhwrehvehrfilterhwrehvehr', filteredData);
 
     const day = datetimes.getDay();
 
-  
-  const intervalDurationHours = 3;
-  const intervalDurationMinutes = 45;
-  const startTime = new Date();
-  startTime.setHours(9, 0, 0, 0); // Set start time to 9:00 AM
-  const endTime = new Date();
-  endTime.setHours(18, 0, 0, 0); // Set end time to 6:00 PM
+    const intervalDurationHours = 3;
+    const intervalDurationMinutes = 45;
+    const startTime = new Date();
+    startTime.setHours(9, 0, 0, 0); // Set start time to 9:00 AM
+    const endTime = new Date();
+    endTime.setHours(18, 0, 0, 0); // Set end time to 6:00 PM
 
-  const intervals = [];
-  let currentTime = new Date(startTime);
+    const intervals = [];
+    let currentTime = new Date(startTime);
 
-  const intervals123 = response.map((dur) => {
-    const durationParts = dur.duration.split(' ');
-    let hours = 0;
-    let minutes = 0;
-    console.log("durationPartsdurationParts",durationParts)
+    const intervals123 = response.map((dur) => {
+      const durationParts = dur.duration.split(' ');
+      let hours = 0;
+      let minutes = 0;
+      console.log('durationPartsdurationParts', durationParts);
 
-    
-    if (durationParts.length === 2) {
-      if (durationParts[1] === 'minutes') {
+      if (durationParts.length === 2) {
+        if (durationParts[1] === 'minutes') {
           minutes = parseInt(durationParts[0], 10);
-      }
-  } else if (durationParts.length === 4) {
-      if (durationParts[1] === 'hour' || durationParts[1] === 'hours') {
+        }
+      } else if (durationParts.length === 4) {
+        if (durationParts[1] === 'hour' || durationParts[1] === 'hours') {
           hours = parseInt(durationParts[0], 10);
-      }
-      
-      if (durationParts[3] === 'minutes') {
-          minutes = parseInt(durationParts[2], 10);
-      }
-  }
-    return { hours, minutes };
-  });
+        }
 
-    console.log("intervals123intervals123intervals123",intervals123[0])
+        if (durationParts[3] === 'minutes') {
+          minutes = parseInt(durationParts[2], 10);
+        }
+      }
+      return { hours, minutes };
+    });
+
+    console.log('intervals123intervals123intervals123', intervals123[0]);
     const intervalString = response[0].duration;
     const intervalDuration12 = parseIntervalString(intervalString);
-    console.log("intervalDuration12",intervals123);
+    console.log('intervalDuration12', intervals123);
 
-    console.log("intervals><>>><<<<<<<<<<<<<<<<<",response[0].duration)
+    console.log('intervals><>>><<<<<<<<<<<<<<<<<', response[0].duration);
 
     const intervalMinutes = parseInt(response?.map((dur) => dur.duration));
-    const intervalSeconds = intervalMinutes === 1 ? intervalMinutes * 60 : intervalMinutes;
+    const intervalSeconds =
+      intervalMinutes === 1 ? intervalMinutes * 60 : intervalMinutes;
     const dateformat = moment.tz(datetimes, timezone).toDate();
     const currentDay = (datetimes.getDay() + 1) % 7; // Get the current day in UTC
     const selectedDay = currentDay;
     const userTimeZone = 0;
     const adjustedDay = day === currentDay ? day : currentDay;
+    const intervalDuration = { hours: 6, minutes: 45 };
 
-    const intervalDuration = { hours: 6, minutes: 45}
-    const timeslot = generateIntervals(
-      filteredData[check],
-      intervals123[0],
-      check,
-    );
-    console.log("timeslottimeslot",timeslot)
+    const updatedDates = filteredData[check].map((date1) => {
+      let { starttime, endtime } = date1;
+
+      // Convert '12:15 am', '12:45 am', '12:30 am' format to '00:15 am'
+      if (
+        starttime.includes('12:') &&
+        (starttime.includes('12:15') ||
+          starttime.includes('12:45') ||
+          starttime.includes('12:30'))
+      ) {
+        starttime = starttime.replace('12:', '00:');
+      }
+      if (
+        endtime.includes('12:') &&
+        (endtime.includes('12:15') ||
+          endtime.includes('12:45') ||
+          endtime.includes('12:30'))
+      ) {
+        endtime = endtime.replace('12:', '00:');
+      }
+
+      return { starttime, endtime /* other properties if any */ };
+    });
+    console.log('updatedDates', updatedDates);
+    const timeslot = generateIntervals(updatedDates, intervals123[0], check);
+    console.log('timeslottimeslot', timeslot);
     setfinalIntervals(timeslot);
   };
 
-  // const conversion = (data: any) => {
-  //   return data?.map((obj) => {
-  //     const { day, ...rest } = obj; // Destructure the "day" property
-  //     return rest; // Return the object without the "day" property
-  //   });
-  // };
   const convertion = (dateStr) => {
     const momentObj = moment(dateStr, 'DD/MM/YYYY');
     const formattedDate = momentObj.format('ddd MMM DD YYYY HH:mm:ss [GMT]ZZ');
@@ -757,7 +771,12 @@ const SlotterDate = (props) => {
     if (isInSchedule) {
       // alert("PPP")
       AvailbleSlots(datetimes);
-      const options = { weekday: 'long', day: '2-digit', month: 'short', year: 'numeric' };
+      const options = {
+        weekday: 'long',
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+      };
       const formattedDate = datetimes.toLocaleDateString('en-US', options);
       setDate(formattedDate);
       setSelectTime('');
@@ -877,22 +896,19 @@ const SlotterDate = (props) => {
     excludedRanges,
   ) {
     const remainingIntervals = [];
-
     for (const targetInterval of targetIntervals) {
       let isExcluded = false;
-
       for (const excludedRange of excludedRanges) {
         if (isIntervalWithinRange(targetInterval, excludedRange)) {
           isExcluded = true; // Target interval is within an excluded range
           break;
         }
       }
-
       if (!isExcluded) {
         remainingIntervals.push(targetInterval); // Add the remaining interval
       }
     }
-
+    console.log('remainingIntervalsremainingIntervals', remainingIntervals);
     return remainingIntervals;
   }
 
@@ -932,7 +948,6 @@ const SlotterDate = (props) => {
   //       const formattedStartMinute = currentMinute.toString().padStart(2, '0');
   //       const stAmPm = currentHour >= 12 ? 'pm' : 'am';
   //       const startInterval12 = `${formattedStartHour12}:${formattedStartMinute} ${stAmPm}`;
-
 
   //       currentHour += intervalMinutes.hours;
   //       currentMinute += intervalMinutes.minutes;
@@ -1054,13 +1069,11 @@ const SlotterDate = (props) => {
   //   // return remainingIntervals;
   // }
 
-
-  
   // function generateIntervals(timeBreaks, intervalMinutes, datetimes) {
   //   console.log('timeBreakstimeBreaks', timeBreaks, intervalMinutes, datetimes);
   //   const intervals12 = [];
   //   const conflicttime = [];
-    
+
   //   for (const timeBreak of timeBreaks) {
   //     const { starttime, endtime } = timeBreak;
   //     const [startHour, startMinute] = parseTime(starttime);
@@ -1076,7 +1089,7 @@ const SlotterDate = (props) => {
   //             "currentHour",
   //             currentHour
   //           );
-  
+
   //     while (
   //       (currentHour < parseInt(endHour, 10) ||
   //       (currentHour === parseInt(endHour, 10) &&
@@ -1087,21 +1100,21 @@ const SlotterDate = (props) => {
   //           (startHour === 12 || startHour === 0)
   //         ))
   //       )
-        
+
   //     ) {
   //       const formattedStartHour12 = currentHour === 0 ? 12 : currentHour === 12 ? 12 : currentHour > 12 ? currentHour - 12 : currentHour;
   //       const formattedStartMinute = currentMinute.toString().padStart(2, '0');
   //       const stAmPm = currentHour >= 12 ? 'am' : 'pm';
   //       const startInterval12 = `${formattedStartHour12}:${formattedStartMinute} ${stAmPm}`;
-  
+
   //       currentHour += intervalMinutes.hours;
   //       currentMinute += intervalMinutes.minutes;
-  
+
   //       if (currentMinute >= 60) {
   //         currentHour++;
   //         currentMinute -= 60;
   //       }
-  
+
   //       // Check if the current time exceeds the end time
   //       if (
   //         currentHour > parseInt(endHour, 10) ||
@@ -1110,12 +1123,12 @@ const SlotterDate = (props) => {
   //       ) {
   //         break; // Skip adding the extra interval
   //       }
-  
+
   //       const formattedEndHour12 = currentHour === 0 ? 12 : currentHour === 12 ? 12 : currentHour > 12 ? currentHour - 12 : currentHour;
   //       const formattedEndMinute = currentMinute.toString().padStart(2, '0');
   //       const endAmPm = currentHour >= 12 ? 'am' : 'pm';
   //       const endInterval12 = `${formattedEndHour12}:${formattedEndMinute} ${endAmPm}`;
-        
+
   //       // Exclude the interval from 12:15 AM to 11:45 AM
   //       if (startInterval12 !== '12:00 am' && stAmPm === 'am' || endAmPm === 'pm') {
   //         intervals12.push(`${startInterval12} - ${endInterval12}`);
@@ -1123,62 +1136,97 @@ const SlotterDate = (props) => {
   //       console.log("wwweeweeewewewewewewewewe",intervals12)
   //     }
   //   }
-  
+
   //   // Rest of your code...
   // }
 
   function generateIntervals(timeBreaks, intervalMinutes, datetimes) {
     const intervals12 = [];
-  
+
     for (const timeBreak of timeBreaks) {
-      const { starttime, endtime } = timeBreak;
+      let { starttime, endtime } = timeBreak;
+      console.log('starttimestarttime', starttime, endtime);
+      if (starttime.includes('12:')) {
+        starttime = starttime.replace('12:', '00:');
+      }
+      if (endtime.includes('12:')) {
+        endtime = endtime.replace('12:', '00:');
+      }
       const [startHour, startMinute] = parseTime(starttime);
       const [endHour, endMinute] = parseTime(endtime);
       let currentHour = startHour;
       let currentMinute = startMinute;
-  
+
       while (
         currentHour < parseInt(endHour, 10) ||
         (currentHour === parseInt(endHour, 10) &&
           currentMinute <= parseInt(endMinute, 10) &&
           !(currentHour === 12 && currentMinute === 0 && startHour === 12))
       ) {
-        const formattedStartHour12 = currentHour === 0 ? 12 : currentHour === 12 ? 12 : currentHour > 12 ? currentHour - 12 : currentHour;
+        const formattedStartHour12 =
+          currentHour === 0
+            ? 12
+            : currentHour === 12
+            ? 12
+            : currentHour > 12
+            ? currentHour - 12
+            : currentHour;
         const formattedStartMinute = currentMinute.toString().padStart(2, '0');
         const stAmPm = currentHour >= 12 ? 'pm' : 'am';
         const startInterval12 = `${formattedStartHour12}:${formattedStartMinute} ${stAmPm}`;
-  
+
         currentHour += intervalMinutes.hours;
         currentMinute += intervalMinutes.minutes;
-  
+
         if (currentMinute >= 60) {
           currentHour++;
           currentMinute -= 60;
         }
-  
-        const formattedEndHour12 = currentHour === 0 ? 12 : currentHour === 12 ? 12 : currentHour > 12 ? currentHour - 12 : currentHour;
+        if (
+          currentHour > parseInt(endHour, 10) ||
+          (currentHour === parseInt(endHour, 10) &&
+            currentMinute > parseInt(endMinute, 10))
+        ) {
+          break; // Skip adding the extra interval
+        }
+
+        const formattedEndHour12 =
+          currentHour === 0
+            ? 12
+            : currentHour === 12
+            ? 12
+            : currentHour > 12
+            ? currentHour - 12
+            : currentHour;
         const formattedEndMinute = currentMinute.toString().padStart(2, '0');
         const endAmPm = currentHour >= 12 ? 'pm' : 'am';
         const endInterval12 = `${formattedEndHour12}:${formattedEndMinute} ${endAmPm}`;
-  
+
         const currentDate = dateconvert(new Date());
         const currenttime = new Date();
         const time = getTimeIn12HrsFormat(currenttime);
-  
-        if (startInterval12 !== '12:15 am' &&
-            (currentDate.toString() !== datetimes || (time < endInterval12 && endInterval12 < '9:00'))) {
+
+        if (
+          startInterval12 !== '12:15 am' &&
+          (currentDate.toString() !== datetimes ||
+            (time < endInterval12 && endInterval12 < '9:00'))
+        ) {
           intervals12.push(`${startInterval12} - ${endInterval12}`);
         }
       }
     }
-  
+
     if (conflicts !== null) {
       const excludedRanges = conflicts[datetimes];
       if (excludedRanges) {
         const eventsForSelectedDate = conflicts[datetimes];
+        console.log(
+          'eventsForSelectedDateeventsForSelectedDate',
+          eventsForSelectedDate,
+        );
         const remainingIntervals = getRemainingIntervalsWithinExcludedRanges(
           intervals12,
-          eventsForSelectedDate
+          eventsForSelectedDate,
         );
         return remainingIntervals;
       } else {
@@ -1188,8 +1236,7 @@ const SlotterDate = (props) => {
       return intervals12;
     }
   }
-  
-  
+
   function isHighlightedDay(day) {
     console.log('daydaydaydaydaydayday', day, selectDate);
 
@@ -1205,8 +1252,8 @@ const SlotterDate = (props) => {
     // highlighted: (day) => selectedDay && day.toDateString() === selectedDay.toDateString(),
     // highlighted:(day) => date !== null && day?.toDateString() === date?.toDateString(),
     highlighted: isHighlightedDay,
-    lastSelected: (day) => highlightday && day.toDateString() === highlightday.toDateString(),
-
+    lastSelected: (day) =>
+      highlightday && day.toDateString() === highlightday.toDateString(),
   };
 
   function isIntervalWithinExcludedRange(interval, excludedRange) {
@@ -1214,13 +1261,10 @@ const SlotterDate = (props) => {
     return interval > start && interval < end;
   }
 
-
-
-
   const modifiersStyles = {
     selected: {
       backgroundColor: '#d7c7d2',
-      color: 'black', 
+      color: 'black',
     },
 
     // container: {
@@ -1232,11 +1276,11 @@ const SlotterDate = (props) => {
       backgroundColor: '#581848',
       color: 'white',
     },
-    lastSelected : {
+    lastSelected: {
       backgroundColor: '#581848',
       color: 'white',
       // fontweight : '54px',
-    }
+    },
   };
 
   console.log('dateObjectsArray::::::::', selectDate);
@@ -1297,38 +1341,41 @@ const SlotterDate = (props) => {
     timezone,
   );
   console.log('selectDate:::', selectDate);
-  console.log('modifiers.selectedmodifiers.selected', modifiers);
+  console.log('modifiers.selectedmodifiers.selected', response);
   console.log('conflictsconflicts@!@!@!@!@!@!@@!', conflicts);
 
   return (
-    <Flex height={'100%'} style={{overflow  : 'auto'}}>
-      <Flex row center className={styles.banner}>
-        {console.log('data.company_logo', response[0].company_logo)}
-{response[0].company_logo !== '' &&
-        <img
-          src={`${process.env.REACT_APP_HOME_URL}media/${response[0]?.company_logo}`}
-          alt="Company Logo"
-          style={{
-            width: '36px',
-            height: '36px',
-            borderRadius: '50%',
-            marginLeft: '5px',
-          }}
-        />}
+    <Flex height={'100%'} style={{ overflow: 'auto' }}>
+      {response?.length > 0 ? (
+        <>
+          <Flex row center className={styles.banner}>
+            {console.log('data.company_logo', response[0].company_logo)}
+            {response[0].company_logo !== '' && (
+              <img
+                src={`${process.env.REACT_APP_HOME_URL}media/${response[0]?.company_logo}`}
+                alt="Company Logo"
+                style={{
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '50%',
+                  marginLeft: '5px',
+                }}
+              />
+            )}
 
-        <Text bold color="theme" size={16} style={{ marginLeft: '10px' }}>
-          Interview Scheduling
-        </Text>
-      </Flex>
-      <Flex height={'100%'} className={styles.slotcontainer}>
-        {response?.map((data, item) => (
-          <Flex key={item} className={styles.slotter}>
-            <Flex>
-              <Flex row>
-                <Flex flex={4} className={styles.leftside}>
-                  <Flex row center>
-                    {console.log('data.company_logo', data.company_logo)}
-                    {/* {data.company_logo !== '' ? (  
+            <Text bold color="theme" size={16} style={{ marginLeft: '10px' }}>
+              Interview Scheduling
+            </Text>
+          </Flex>
+          <Flex height={'100%'} className={styles.slotcontainer}>
+            {response?.map((data, item) => (
+              <Flex key={item} className={styles.slotter}>
+                <Flex>
+                  <Flex row>
+                    <Flex flex={4} className={styles.leftside}>
+                      <Flex row center>
+                        {console.log('data.company_logo', data.company_logo)}
+                        {/* {data.company_logo !== '' ? (  
                         <img
                         src={`${process.env.REACT_APP_HOME_URL}media/${data.company_logo}`}
                         alt="Company Logo"
@@ -1346,183 +1393,203 @@ const SlotterDate = (props) => {
                     ) : (
                       ''
                     )} */}
-                    
-                      <Text size={14} bold >
-                        {data.company_name}
-                      </Text>
-                    
-                  </Flex>
-                  <Flex marginBottom={10} marginTop={10}>
-                    <Text size={14}>Hi {candidate_name},</Text>
-                    <Text size={14}>
-                      {`You have been selected for the ${data.event_name} at 
+
+                        <Text size={14} bold>
+                          {data.company_name}
+                        </Text>
+                      </Flex>
+                      <Flex marginBottom={10} marginTop={10}>
+                        <Text size={14}>Hi {candidate_name},</Text>
+                        <Text size={14}>
+                          {`You have been selected for the ${data.event_name} at 
                    ${data.company_name}.`}
-                    </Text>
-                    <Text size={14} style={{ marginTop: '5px' }}>
-                      Please pick a date and time.
-                    </Text>
-                  </Flex>
+                        </Text>
+                        <Text size={14} style={{ marginTop: '5px' }}>
+                          Please pick a date and time.
+                        </Text>
+                      </Flex>
 
-                  <div className={styles.line}></div>
-                  <Flex marginBottom={10}>
-                    <Text bold size={14}>
-                      {data.event_name}
-                    </Text>
-                  </Flex>
-                  <Flex row center marginBottom={10}>
-                    <SvgClock width={16} height={16} fill={'#581845'} />
-                    <Text size={14} style={{ marginLeft: '5px' }}>
-                      {data.duration}
-                    </Text>
-                  </Flex>
-                  <Flex row center marginBottom={10}>
-                    <SvgGlobe width={16} height={16} fill={'#581845'} />
-                    <Text size={14} style={{ marginLeft: '5px' }}>
-                      Time zone is {timezones(data.times_zone)}
-                    </Text>
-                  </Flex>
-                  <Flex row start marginBottom={10}>
-                    <Flex marginTop={3}>
-                      <SvgInfo width={16} height={16} fill={'#581845'} />
-                    </Flex>
+                      <div className={styles.line}></div>
+                      <Flex marginBottom={10}>
+                        <Text bold size={14}>
+                          {data.event_name}
+                        </Text>
+                      </Flex>
+                      <Flex row center marginBottom={10}>
+                        <SvgClock width={16} height={16} fill={'#581845'} />
+                        <Text size={14} style={{ marginLeft: '5px' }}>
+                          {data.duration}
+                        </Text>
+                      </Flex>
+                      <Flex row center marginBottom={10}>
+                        <SvgGlobe width={16} height={16} fill={'#581845'} />
+                        <Text size={14} style={{ marginLeft: '5px' }}>
+                          Time zone is {timezones(data.times_zone)}
+                        </Text>
+                      </Flex>
+                      <Flex row start marginBottom={10}>
+                        <Flex marginTop={3}>
+                          <SvgInfo width={16} height={16} fill={'#581845'} />
+                        </Flex>
 
-                    <Text size={13} style={{ marginLeft: '5px',marginTop: '0.5px'}}>
-                      {/* This is an {InterviewText(data.event_type)}.Please come
+                        <Text
+                          size={13}
+                          style={{ marginLeft: '5px', marginTop: '2px' }}
+                        >
+                          {/* This is an {InterviewText(data.event_type)}.Please come
                       prepared with the technical aspects of your work
                       experience along with your CV/Resume */}
-                      {data.description}
-                    </Text>
+                          {data.description}
+                        </Text>
+                      </Flex>
+                      {/* <div className={styles.line}></div> */}
+                    </Flex>
+                    <Flex flex={4} className={styles.rightside}>
+                      <div style={{ marginLeft: '90px' }}>
+                        <DayPicker
+                          // locale={enUS}
+
+                          styles={{
+                            months: {
+                              color: '#581845',
+                              // cursor : 'not-allowed'
+                            },
+                          }}
+                          defaultMonth={dateObjectsArray[0]}
+                          // onSelect={setDays}
+                          // fromMonth={dateObjectsArray[0]}
+                          // toMonth={dateObjectsArray[dateObjectsArray.length-1]}
+                          // className="custom-daypicker"
+                          // fromDate={dateObjectsArray[0]}
+                          // toDate={dateObjectsArray[dateObjectsArray.length-1]}
+                          onDayClick={(e) => onDateChange(e)}
+                          modifiers={modifiers}
+                          modifiersStyles={modifiersStyles}
+                        />
+                      </div>
+                    </Flex>
                   </Flex>
-                  {/* <div className={styles.line}></div> */}
-                </Flex>
-                <Flex flex={4} className={styles.rightside}>
-                  <div style={{ marginLeft: '90px' }}>
-                    <DayPicker
-                      // locale={enUS}
 
-                      styles={{
-                        months: {
-                          color: '#581845',
-                          // cursor : 'not-allowed'
-                        },
-                      }}
-                      defaultMonth={dateObjectsArray[0]}
-                      // onSelect={setDays}
-                      // fromMonth={dateObjectsArray[0]}
-                      // toMonth={dateObjectsArray[dateObjectsArray.length-1]}
-                      // className="custom-daypicker"
-                      // fromDate={dateObjectsArray[0]}
-                      // toDate={dateObjectsArray[dateObjectsArray.length-1]}
-                      onDayClick={(e) => onDateChange(e)}
-                      modifiers={modifiers}
-                      modifiersStyles={modifiersStyles}
-                    />
-                  </div>
-                </Flex>
-              </Flex>
-
-              <Flex>
-                {date ? (
-                  <div
-                    className={styles.line}
-                    style={{ margin: '10px 0px' }}
-                  ></div>
-                ) : (
-                  ''
-                )}
-              </Flex>
-              <Flex>
-                {date ? (
-                  <Text size={13} bold>
-                    Availability for {date}
-                  </Text>
-                ) : (
-                  ''
-                )}
-                <Flex row wrap className={styles.select} marginTop={10}>
-                  {finalIntervals?.length > 0 &&
-                    finalIntervals?.map((obj, index) => (
-                      <button
-                        className={styles.button1}
-                        key={index}
-                        onClick={() => selectbutton(obj)}
-                      >
-                        {obj}
-                      </button>
-                    ))}
-                </Flex>
-
-                {selecttime ? (
-                  <Flex end className={styles.content} marginTop={20}>
-                    <Button
-                      style={{ marginTop: '20px' }}
-                      onClick={() => onSubmit(date, selecttime)}
-                    >
-                      Schedule
-                    </Button>
+                  <Flex>
+                    {date ? (
+                      <div
+                        className={styles.line}
+                        style={{ margin: '10px 0px' }}
+                      ></div>
+                    ) : (
+                      ''
+                    )}
                   </Flex>
-                ) : (
-                  ''
-                )}
+                  <Flex>
+                    {date ? (
+                      <Text size={13} bold>
+                        Availability for {date}
+                      </Text>
+                    ) : (
+                      ''
+                    )}
+                    <Flex row wrap className={styles.select} marginTop={10}>
+                      {finalIntervals?.length > 0 &&
+                        finalIntervals?.map((obj, index) => (
+                          <button
+                            className={styles.button1}
+                            key={index}
+                            onClick={() => selectbutton(obj)}
+                          >
+                            {obj}
+                          </button>
+                        ))}
+                    </Flex>
+
+                    {selecttime ? (
+                      <Flex end className={styles.content} marginTop={20}>
+                        <Button
+                          style={{ marginTop: '20px' }}
+                          onClick={() => onSubmit(date, selecttime)}
+                        >
+                          Schedule
+                        </Button>
+                      </Flex>
+                    ) : (
+                      ''
+                    )}
+                  </Flex>
+                </Flex>
               </Flex>
+            ))}
+          </Flex>
+          <Flex
+            center
+            bottom
+            middle
+            marginBottom={10}
+            marginTop={10}
+            onClick={FooterNavogation}
+          >
+            <Text bold style={{ cursor: 'pointer' }} size={14} color="theme">
+              Powered by Zita.ai
+            </Text>
+          </Flex>
+        </>
+      ) : (
+        <>
+          <Flex row className={styles.unavailble}>
+            <Flex>
+              <SvgInactive width={21} height={21} />
+            </Flex>
+            <Flex marginTop={2}>
+              <Text style={{ color: '#581848', marginLeft: '5px' }}>
+                This slotter is no longer available to schedule
+              </Text>
             </Flex>
           </Flex>
-        ))}
-      </Flex>
-      <Flex center bottom middle marginBottom={10} marginTop={10} onClick={FooterNavogation}>
-      {/* <LinkWrapper target={'_blank'} to={'https://www.zita.ai/'}> */}
-
-        <Text
-          bold
-          style={{ cursor: 'pointer' }}
-          size={14}
-          color="theme"
-          // onClick={zitaPath}\
-          
-        >
-          Powered by Zita.ai
-        </Text>
-        {/* </LinkWrapper> */}
-      </Flex>
+        </>
+      )}
     </Flex>
   );
 };
 const Conformpage = (props) => {
-  const { selecttime, date, response, InterviewText, timezones,FooterNavogation } = props;
+  const {
+    selecttime,
+    date,
+    response,
+    InterviewText,
+    timezones,
+    FooterNavogation,
+  } = props;
 
   return (
     <>
-    <Flex className={styles.successTick}>
-      {response[0].company_logo !== '' ?      (
-        <>
-    
-        <img
-          src={`${process.env.REACT_APP_HOME_URL}media/${response[0]?.company_logo}`}
-          alt="Company Logo"
-          style={{
-            width: '75px',
-            height: '75px',
-            borderRadius: '50%',
-            marginLeft: '7px',
-            marginBottom:'15px',
-            marginTop:'40px'
-          }}
-        />
-            </>
-      ):(<Flex marginTop={30}>
-      </Flex>)
-        } 
-      <Flex marginTop={30}>
-        {response?.map((list: any) => (
-          <Flex className={styles.confrompage} key={list.id}>
-            <Flex center className={styles.successTick} marginBottom={10}>
-              <SvgCheck2Circle width={30} height={30} fill={'green'} />
-              <Text size={16} bold style={{ marginTop: '10px' }}>
-              Your interview has been scheduled successfully
-              </Text>
-            </Flex>
-            <Flex row center marginTop={15}>
-              {/* {list.company_logo ? (
+      <Flex className={styles.successTick}>
+        {response[0].company_logo !== '' ? (
+          <>
+            <img
+              src={`${process.env.REACT_APP_HOME_URL}media/${response[0]?.company_logo}`}
+              alt="Company Logo"
+              style={{
+                width: '75px',
+                height: '75px',
+                borderRadius: '50%',
+                marginLeft: '7px',
+                marginBottom: '15px',
+                marginTop: '40px',
+              }}
+            />
+          </>
+        ) : (
+          <Flex marginTop={30}></Flex>
+        )}
+        <Flex marginTop={30}>
+          {response?.map((list: any) => (
+            <Flex className={styles.confrompage} key={list.id}>
+              <Flex center className={styles.successTick} marginBottom={10}>
+                <SvgCheck2Circle width={30} height={30} fill={'green'} />
+                <Text size={16} bold style={{ marginTop: '10px' }}>
+                  Your interview has been scheduled successfully
+                </Text>
+              </Flex>
+              <Flex row center marginTop={15}>
+                {/* {list.company_logo ? (
                 <>
                   <img
                     src={`${process.env.REACT_APP_HOME_URL}media/${list.company_logo}`}
@@ -1537,58 +1604,71 @@ const Conformpage = (props) => {
               ) : (
                 ''
               )} */}
-               
-                <Text size={14} bold >
+
+                <Text size={14} bold>
                   {list.company_name}
                 </Text>
-              
-            </Flex>
-            <Text
-              bold
-              size={14}
-              style={{ margin: '10px 0px',  textTransform: 'capitalize' }}
-            >
-              {list.event_name}
-            </Text>
-            <Flex row center marginBottom={10}>
-              <SvgCalendarEvent width={14} height={14} fill={'#581845'} />
-              <Text size={13} style={{ marginLeft: '5px' }}>
-                {selecttime},  {date}
-              </Text>
-            </Flex>
-            <Flex row center marginBottom={10}>
-              <SvgClock width={14} height={14} fill={'#581845'} />
-              <Text size={13} style={{ marginLeft: '5px' }}>
-                {list.duration}
-              </Text>
-            </Flex>
-            <Flex row center marginBottom={10}>
-              <SvgGlobe width={14} height={14} fill={'#581845'} />
-              <Text size={13} style={{ marginLeft: '5px' }}>
-                Time zone is {timezones(list.times_zone)}
-              </Text>
-            </Flex>
-            <Flex row marginBottom={10}>
-              <Flex marginTop={3}>
-                <SvgInfo width={14} height={14} fill={'#581845'} />
               </Flex>
+              <Text
+                bold
+                size={14}
+                style={{ margin: '10px 0px', textTransform: 'capitalize' }}
+              >
+                {list.event_name}
+              </Text>
+              <Flex row center marginBottom={10}>
+                <SvgCalendarEvent width={14} height={14} fill={'#581845'} />
+                <Text size={13} style={{ marginLeft: '5px' }}>
+                  {selecttime}, {date}
+                </Text>
+              </Flex>
+              <Flex row center marginBottom={10}>
+                <SvgClock width={14} height={14} fill={'#581845'} />
+                <Text size={13} style={{ marginLeft: '5px' }}>
+                  {list.duration}
+                </Text>
+              </Flex>
+              <Flex row center marginBottom={10}>
+                <SvgGlobe width={14} height={14} fill={'#581845'} />
+                <Text size={13} style={{ marginLeft: '5px' }}>
+                  Time zone is {timezones(list.times_zone)}
+                </Text>
+              </Flex>
+              <Flex row marginBottom={10}>
+                <Flex marginTop={3}>
+                  <SvgInfo width={14} height={14} fill={'#581845'} />
+                </Flex>
 
-              <Text size={13} style={{ marginLeft: '5px', textAlign : 'justify' }}>
-                {/* This is an {InterviewText(list.event_type)}.Please come prepared
+                <Text
+                  size={13}
+                  style={{
+                    marginLeft: '5px',
+                    textAlign: 'justify',
+                    marginTop: '1px',
+                  }}
+                >
+                  {/* This is an {InterviewText(list.event_type)}.Please come prepared
                 with the technical aspects of your work experience along with
                 CV/Resume */}
-                {list.description}
-              </Text>
+                  {list.description}
+                </Text>
+              </Flex>
             </Flex>
-          </Flex>
-        ))}
+          ))}
+        </Flex>
       </Flex>
-    </Flex>
-      <Flex center bottom  middle marginBottom={10} marginTop={10} onClick={FooterNavogation}>
-    {/* <LinkWrapper target={'_blank'} to={'https://www.zita.ai/'}> */}
+      <Flex
+        center
+        bottom
+        middle
+        marginBottom={10}
+        marginTop={10}
+        onClick={FooterNavogation}
+      >
+        {/* <LinkWrapper target={'_blank'} to={'https://www.zita.ai/'}> */}
         <Text
           bold
-          style={{ cursor: 'pointer',display:'flex' }}
+          style={{ cursor: 'pointer', display: 'flex' }}
           size={14}
           color="theme"
           // onClick={zitaPath}
@@ -1611,7 +1691,7 @@ const InterviewDashBoard = (props) => {
     Loading,
     isLoading,
     candidate_name,
-    FooterNavogation
+    FooterNavogation,
   } = props;
 
   useEffect(() => {});
@@ -1663,114 +1743,125 @@ const InterviewDashBoard = (props) => {
   console.log('slotterdataslotterdataslotterdataslotterdata', slotterdata);
   return (
     <>
-    <Flex className={styles.successTick}>
-    {dashboard[0].company_logo !== '' &&
-        <img
-          src={`${process.env.REACT_APP_HOME_URL}media/${dashboard[0]?.company_logo}`}
-          alt="Company Logo"
-          style={{
-            width: '75px',
-            height: '75px',
-            borderRadius: '50%',
-            marginLeft: '7px',
-            marginBottom:'15px',
-            marginTop:'40px'
-          }}
-        />} 
-      <Flex marginTop={30}>
-        {dashboard.map((list: any, index) => (
-          <Flex key={index} className={styles.dashboard}>
-            <Flex row center>
-              
-               
-                <Text size={14} bold >
+      <Flex className={styles.successTick}>
+        {dashboard[0].company_logo !== '' && (
+          <img
+            src={`${process.env.REACT_APP_HOME_URL}media/${dashboard[0]?.company_logo}`}
+            alt="Company Logo"
+            style={{
+              width: '75px',
+              height: '75px',
+              borderRadius: '50%',
+              marginLeft: '7px',
+              marginBottom: '15px',
+              marginTop: '40px',
+            }}
+          />
+        )}
+        <Flex marginTop={30}>
+          {dashboard.map((list: any, index) => (
+            <Flex key={index} className={styles.dashboard}>
+              <Flex row center>
+                <Text size={14} bold>
                   {list.company_name}
                 </Text>
-              
-            </Flex>
-            <Text
-              bold
-              size={13}
-              style={{ margin: '10px 0px', textTransform: 'capitalize' }}
-            >
-              {list.event_name}
-            </Text>
-            <Flex row center marginBottom={10}>
-              <SvgCalendarEvent width={14} height={14} fill={'#581845'} />
-              <Text size={13} style={{ marginLeft: '5px' }}>
-                {slotterdata.map((li) => li.time)}, {' '}
-                {slotterdata.map((li) => formatDateChange(li.date))}
+              </Flex>
+              <Text
+                bold
+                size={13}
+                style={{ margin: '10px 0px', textTransform: 'capitalize' }}
+              >
+                {list.event_name}
               </Text>
-            </Flex>
-            <Flex row center marginBottom={10}>
-              <SvgClock width={14} height={14} fill={'#581845'} />
-              <Text size={13} style={{ marginLeft: '5px' }}>
-                {list.duration}
-              </Text>
-            </Flex>
-            <Flex row center marginBottom={10}>
-              <SvgGlobe width={14} height={14} fill={'#581845'} />
-              <Text style={{ marginLeft: '5px' }} size={13}>
-                Time zone is {timezones(list.times_zone)}
-              </Text>
-            </Flex>
-           
-            <Flex row marginBottom={10}>
-              <Flex marginTop={3}>
-                <SvgInfo width={14} height={14} fill={'#581845'} />
+              <Flex row center marginBottom={10}>
+                <SvgCalendarEvent width={14} height={14} fill={'#581845'} />
+                <Text size={13} style={{ marginLeft: '5px' }}>
+                  {slotterdata.map((li) => li.time)},{' '}
+                  {slotterdata.map((li) => formatDateChange(li.date))}
+                </Text>
+              </Flex>
+              <Flex row center marginBottom={10}>
+                <SvgClock width={14} height={14} fill={'#581845'} />
+                <Text size={13} style={{ marginLeft: '5px' }}>
+                  {list.duration}
+                </Text>
+              </Flex>
+              <Flex row center marginBottom={10}>
+                <SvgGlobe width={14} height={14} fill={'#581845'} />
+                <Text style={{ marginLeft: '5px' }} size={13}>
+                  Time zone is {timezones(list.times_zone)}
+                </Text>
               </Flex>
 
-              <Text size={13} style={{ marginLeft: '5px', textAlign : 'justify' }}>
-                {/* This is an {InterviewText(list.event_type)}.Please come prepared
+              <Flex row marginBottom={10}>
+                <Flex marginTop={3}>
+                  <SvgInfo width={14} height={14} fill={'#581845'} />
+                </Flex>
+
+                <Text
+                  size={13}
+                  style={{
+                    marginLeft: '5px',
+                    textAlign: 'justify',
+                    marginTop: '1px',
+                  }}
+                >
+                  {/* This is an {InterviewText(list.event_type)}.Please come prepared
                 with the technical aspects of your work experience along with
                 CV/Resume */}
-                {list.description}
-              </Text>
+                  {list.description}
+                </Text>
+              </Flex>
+              <div className={styles.line} style={{ margin: '20px 0px' }}></div>
+
+              <Flex row marginBottom={10}>
+                <Flex marginTop={3}>
+                  <SvgPersonFill width={14} height={14} fill={'#581845'} />
+                </Flex>
+
+                <Flex>
+                  <Text bold size={14} style={{ marginLeft: '5px' }}>
+                    Candidate / Applicant
+                  </Text>
+                  <Text
+                    size={13}
+                    style={{ marginLeft: '5px', textTransform: 'capitalize' }}
+                  >
+                    {candidate_name}
+                  </Text>
+                </Flex>
+              </Flex>
+
+              <Flex row>
+                <Flex marginTop={3}>
+                  <SvgPeopleFill width={14} height={14} fill={'#581845'} />
+                </Flex>
+
+                <Flex>
+                  <Text bold style={{ marginLeft: '5px' }}>
+                    Interviewer(s)
+                  </Text>
+                  <Text
+                    size={13}
+                    style={{ marginLeft: '5px', textTransform: 'capitalize' }}
+                  >
+                    {slotmembers.map((data) => data.full_name).join(', ')}
+                  </Text>
+                </Flex>
+              </Flex>
             </Flex>
-            <div className={styles.line} style={{ margin: '20px 0px' }}></div>
-
-            <Flex row marginBottom={10}>
-              <Flex marginTop={3}>
-                <SvgPersonFill width={14} height={14} fill={'#581845'} />
-              </Flex>
-
-              <Flex>
-                <Text bold size={14} style={{ marginLeft: '5px' }}>
-                  Candidate / Applicant
-                </Text>
-                <Text
-                  size={13}
-                  style={{ marginLeft: '5px', textTransform: 'capitalize' }}
-                >
-                  {candidate_name}
-                </Text>
-              </Flex>
-            </Flex>
-
-            <Flex row>
-              <Flex marginTop={3}>
-                <SvgPeopleFill width={14} height={14} fill={'#581845'} />
-              </Flex>
-
-              <Flex>
-                <Text bold style={{ marginLeft: '5px' }}>
-                  Interviewer(s)
-                </Text>
-                <Text
-                  size={13}
-                  style={{ marginLeft: '5px', textTransform: 'capitalize' }}
-                >
-                  {slotmembers.map((data) => data.full_name).join(', ')}
-                </Text>
-              </Flex>
-            </Flex>
-          </Flex>
-        ))}
+          ))}
+        </Flex>
       </Flex>
-      
-    </Flex>
-    <Flex center bottom middle marginBottom={10} marginTop={10} onClick={FooterNavogation}>
-      {/* <LinkWrapper target={'_blank'} to={'https://www.zita.ai/'}> */}
+      <Flex
+        center
+        bottom
+        middle
+        marginBottom={10}
+        marginTop={10}
+        onClick={FooterNavogation}
+      >
+        {/* <LinkWrapper target={'_blank'} to={'https://www.zita.ai/'}> */}
         <Text
           bold
           style={{ cursor: 'pointer' }}

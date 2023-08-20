@@ -4,8 +4,8 @@ import SvgArrowDown from '../../../icons/SvgArrow';
 import { EVENT_TYPE, IEventTeamMember } from '../types';
 import { TeamMemberType } from '../../calendarModule/types';
 import { UserEntity } from '../../accountsettingsmodule/userprofilemodule/UserProfileTypes';
-import styles from './eventsMenu.module.css';
 import PeopleCheckbox from './peopleCheckbox';
+import styles from './eventsMenu.module.css';
 
 interface Props {
   showDropDownMenu: boolean;
@@ -33,7 +33,7 @@ const EventsMenu: React.FC<Props> = ({
   const TeameventsOptions = () => (
     <div>
        <div style={{ marginTop: '10px' }}>
-          <p style={{ margin: 0, marginTop: '10px' }}>People</p>
+          <p style={{ margin: 0, marginTop: '10px', fontSize:"13px" }}>People</p>
           {teamMembers.filter(doc => doc.user !== currentUser?.id).map((member, index) => (
             <PeopleCheckbox
               key={index}
@@ -50,7 +50,7 @@ const EventsMenu: React.FC<Props> = ({
     return (
       <div>
         <div style={{ marginTop: '10px' }}>
-          <p style={{ margin: 0, marginTop: '10px' }}>People</p>
+          <p style={{ margin: 0, marginTop: '10px', fontSize:"13px" }}>People</p>
           {teamMembers.filter(doc => doc.user === currentUser?.id).map((member, index) => (
             <PeopleCheckbox
               key={index}

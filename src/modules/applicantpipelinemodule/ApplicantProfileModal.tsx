@@ -82,9 +82,12 @@ console.log(candidateId,'fffffffffffffffffffffffffkkkkkkkkkkkkkjjjjjjjjjjjjjjjjj
           }),
         );
         dispatch(messagesTemplatesMiddleWare());
-        dispatch(calenderMiddleWare({ can_id: res.payload.can_id })).then(()=>[
-          setNotesMeeting(false)
-        ])
+        dispatch(calenderMiddleWare({ can_id: res.payload.can_id })).then((res1)=>{
+          console.log("reeeeesssssss:",res1)
+          if (res1.payload.even !== null){
+            setNotesMeeting(false)
+          }
+      })
         dispatch(
           applicantStatusMiddleWare({
             jd_id: res.payload.jd_id,
@@ -103,9 +106,9 @@ console.log(candidateId,'fffffffffffffffffffffffffkkkkkkkkkkkkkjjjjjjjjjjjjjjjjj
         }
         )
         dispatch(applicantAllMatchMiddleWare({ can_id: res.payload.can_id }));
-        dispatch(calenderMiddleWare({ can_id: res.payload.can_id })).then(()=>[
+        dispatch(calenderMiddleWare({ can_id: res.payload.can_id })).then(()=>{
           setNotesMeeting(false)
-        ])
+      })
       });
     }
   }, []);
@@ -149,10 +152,10 @@ console.log(candidateId,'fffffffffffffffffffffffffkkkkkkkkkkkkkjjjjjjjjjjjjjjjjj
       };
     },
   );
-  if (initialLoader || isNotesLoader || isNotesMeeting ||  matchLoader) {
+  if (initialLoader  ||  matchLoader) {
     return (
       <Flex height={window.innerHeight - 60} center middle>
-        <Loader withOutOverlay />
+        <Loader  />
       </Flex>
     );
   }

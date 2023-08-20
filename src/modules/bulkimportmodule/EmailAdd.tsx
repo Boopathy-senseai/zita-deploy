@@ -209,7 +209,15 @@ const EmailAdd = ({
             'SHORT',
             'error',
           );
-        });
+        }).then(()=>{
+          dispatch(
+            bulkuploadedCandidatesMiddleWare({
+              search: searchValue, 
+              jd_id:jdId,
+              page: pageNumber + 1,
+            }),
+          )
+        })
     } else {
       setError(true);
     }

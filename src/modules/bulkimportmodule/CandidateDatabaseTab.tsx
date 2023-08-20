@@ -293,7 +293,9 @@ const CandidateDatabaseTab = ({
       setImport(localStorage.setItem('bulk_loader', 'false'));
       localStorage.setItem('isImport', 'true');
       setParse(false);
-    });
+    }).then(()=>{
+      dispatch(bulkuploadedCandidatesMiddleWare({ page: 1 }))
+    })
   };
 
   const manageUser = () => {
@@ -416,7 +418,7 @@ const CandidateDatabaseTab = ({
           onChange={searchHandleChange}
           id={'candidates__input'}
           actionRight={() => (
-            <label style={{ margin: 0 }}>
+            <label style={{ margin: 0,marginTop:"6px" }}>
               <SvgSearch />
             </label>
           )}

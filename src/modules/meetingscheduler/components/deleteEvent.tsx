@@ -6,11 +6,12 @@ import styles from './deleteEvent.module.css';
 interface Props {
   open: boolean;
   event: IEvent | ICalendarEvent;
+  type: "event" | "calendar";
   onClose: () => void;
   onConfirm: (id: any) => void;
 }
 
-const EventDeletePopUpModal = ({ onConfirm, event, onClose, open }: Props) => {
+const EventDeletePopUpModal = ({ onConfirm, event, type, onClose, open }: Props) => {
   return (
     <Modal open={open} onClose={onClose}>
       <div className={styles.deleteWarningPopUp}>
@@ -27,7 +28,10 @@ const EventDeletePopUpModal = ({ onConfirm, event, onClose, open }: Props) => {
           <button style={{ marginRight: 10 }} onClick={onClose}>
             No, Thanks
           </button>
-          <button onClick={() => onConfirm(event.id)} className={styles.deleteButton}>
+          <button 
+            onClick={() => onConfirm(event.id)} 
+            className={styles.deleteButton}
+          >
             Cancel Meeting
           </button>
         </div>

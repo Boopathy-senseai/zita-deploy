@@ -11,6 +11,8 @@ export interface IEvent {
   startevent: string;
   candidate_name?: string;
   join_url: string;
+  event_id__emp_id: number;
+
 }
 
 export interface ICalendarEvent {
@@ -31,6 +33,7 @@ export interface ICalendarEvent {
   org_id: string;
   join_url: string;
   extra_notes: string | null;
+  email: any;
 }
 
 export interface IEventInterviewer {
@@ -47,6 +50,7 @@ export interface ICalendarEventInterviewer {
   last_name: string;
   full_name: string;
   event_id: string;
+  email: string;
 }
 
 export interface IEventTeamMember {
