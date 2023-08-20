@@ -206,15 +206,16 @@ const MyDataBaseFilter = ({
     hanldeRefresh();
     setSearch('');
     setRelocate(false);
-    formik.resetForm();
-    setSkills('');
-    setnewjobname('');
-    setnewexperience('');
-    setnewqual([]);
-    setnewlocation('');
-    setnewskill([]);
-    setnewrelocate(false);
-    sethiddenskill1([]);
+    formik.resetForm()
+    setSkills('')
+    setnewjobname('')
+    setnewexperience('')
+    setnewqual([])
+    setnewlocation('')
+    setnewskill([])
+    setnewrelocate(false)
+    sethiddenskill1([])
+    setskill([])
   };
 
   // close function
@@ -388,7 +389,7 @@ const MyDataBaseFilter = ({
 <>
 
 <Flex row>
-{console.log("newwwww",newjobname,isDefaultFilter(),newqual)}
+{console.log("newwwww",newjobname,isDefaultFilter(),newqual,qualificationValue,newskill)}
 {console.log("olddddd",jobname)}
 <div className={styles.quickfilters}>
 <Text size={13}className={""} style={{marginTop:"3px"}}>
