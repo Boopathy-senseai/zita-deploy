@@ -772,15 +772,28 @@ input:-webkit-autofill:active {
 .rbc-header .rbc-button-link {
   width: 100%;
 }
+.rbc-event {
+  border-radius: 2px !important;
+}
+
+.rbc-event-label {
+  display: none !important;
+}
+.rbc-events-container {
+  margin: 0 !important;
+}
+
+.rbc-time-header-cell {
+  height: 100%;
+}
+
+.rbc-header .rbc-button-link {
+  width: 100%;
+}
 
 /* MUI OVERRIDE */
 /* Input fields */
-.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
-  padding: 5px 10px !important;
-  /* height: 20px !important; */
-  font-size: 13px !important;
-  color: #333 !important;
-}
+
 
 /* tab-content */
 
@@ -823,6 +836,10 @@ input:-webkit-autofill:active {
 ul {
   margin-bottom: 1rem ! important;
   list-style-type: disc ! important;
+}
+.css-hdw1oc{
+  display: none !important;
+  /* height: 20px !important; */
 }
 
 .cardHo:hover{
@@ -2410,3 +2427,48 @@ ul {
  .daterangepicker th.month{
    cursor: default !important;
  }
+ .legend{
+  display: none;
+}
+.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
+  padding: 4px 10px !important;
+  height: 1.7em !important;
+  font-size: 13px !important;
+  color: #333 !important;
+  border-width: 1px !important;
+}
+.css-1d3z3hw-MuiOutlinedInput-notchedOutline{
+  border-color: #D7C7D2 !important;
+}
+.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline{
+  border-color: #58184570 !important;
+}
+
+.css-9vzr9t-control{
+  border-color: #D7C7D2 !important ;
+}
+.css-9vzr9t-control:hover{
+  border-color: #58184570 !important ;
+}
+.createScheduleForm_duration__3Jplh p:nth-of-type(even){
+  border-color: #D7C7D2 !important ;
+}
+.createScheduleForm_duration__3Jplh p:nth-of-type(even):hover{
+  border-color: #58184570 !important ;
+}
+
+/* .daterangepicker td.disabled, .daterangepicker option.disabled {
+  color: #999;
+  cursor: not-allowed;
+  text-decoration: line-through;
+  cursor: not-allowed;
+} */
+
+/* .react-datepicker__day--selected{
+  background-color: #581845 !important;
+}
+
+.react-datepicker__day.react-datepicker__day--keyboard-selected {
+  background: transparent !important;
+  color: black;
+} */

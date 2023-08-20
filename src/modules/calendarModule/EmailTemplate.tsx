@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import { SvgEdit } from '../../icons';
-import { Button, ErrorMessage, InputText } from '../../uikit';
+import { Button, ErrorMessage, Flex, InputText } from '../../uikit';
 import { isEmpty } from '../../uikit/helper';
 import { THIS_FIELD_REQUIRED } from '../constValue';
 import styles from './styles/MeetingSummary.module.css';
@@ -69,7 +69,7 @@ const EmailTemplate: React.FC<Props> = (props) => {
   return (
     <div className={styles.emailContainer}>
       <div className={styles.emails}>
-        <p>To &nbsp;</p>
+        <p style={{ fontSize: '13px' }}>To &nbsp;</p>
         <div>
           {typeof email === 'string' && (
             <div className={styles.email}>{email}</div>
@@ -88,15 +88,18 @@ const EmailTemplate: React.FC<Props> = (props) => {
           className={styles.boxView}
           style={{ borderBottom: '1px solid #cccccc' }}
         >
-          <div className={styles.editIcon} style={{display:"flex", justifyContent:"flex-end"}}>
-          {!edit && (
-                  <Button types="link" onClick={() => setEdit(!edit)}>
-                    <SvgEdit width={14} height={14} />
-                  </Button>
-                )}
+          <div
+            className={styles.editIcon}
+            style={{ display: 'flex', justifyContent: 'flex-end' }}
+          >
+            {!edit && (
+              <Button types="link" onClick={() => setEdit(!edit)}>
+                <SvgEdit width={12} height={12} />
+              </Button>
+            )}
           </div>
           {!edit && <pre className={styles.pre}>{formik?.values.greeting}</pre>}
-          
+
           {edit && (
             <>
               <InputText
@@ -116,7 +119,6 @@ const EmailTemplate: React.FC<Props> = (props) => {
           {editGreeting && (
             <div className={styles.actionBtns}>
               <div className={styles.editIcon}>
-                
                 {edit && (
                   <Button types="primary" onClick={formik.submitForm}>
                     {'Save'}
@@ -128,14 +130,14 @@ const EmailTemplate: React.FC<Props> = (props) => {
           <div className={styles.details}>
             {MeetingTitleView}
             <div>
-              { notes && 
+              {notes && (
                 <div>
-                <p className={styles.personHeader}>Notes</p>
-                <p>{notes}</p>
-                <br />
-              </div>
-}
-             
+                  <p className={styles.personHeader}>Notes</p>
+                  <p>{notes}</p>
+                  <br />
+                </div>
+              )}
+
               {/* <div>
                     <p className={styles.personHeader}>Applicant</p>
                     <p>{rest.applicant.name}</p>
@@ -144,11 +146,14 @@ const EmailTemplate: React.FC<Props> = (props) => {
                 <div>
                   <p className={styles.personHeader}>Interviewers</p>
                   <div className={styles.interviewers}>
-                    {interviewerData.map((user, index) => (
-                      <p
-                        key={index}
-                      >{` ${user.firstName} ${user.lastName}, `}</p>
-                    ))}
+                    <Flex row>
+                    {interviewerData.length !== 0 ? (<>`${currentUserLabel},` </>): (<>{currentUserLabel}</>)}
+                      {interviewerData.map((user, index) => (
+                        <p
+                          key={index}
+                        >{` ${user.firstName} ${user.lastName}, `}</p>
+                      ))}
+                    </Flex>
                   </div>
                 </div>
               )}

@@ -51,8 +51,9 @@ const EventPopUpModal = ({
     syncedBy,
     title,
     canEdit,
+    email,
   } = eventPopUpDetails;
-
+  console.log(attendees,"attend", endDate)
   const DeleteWarningPopUp = (
     <Modal
       open={openEventDeleteModal}

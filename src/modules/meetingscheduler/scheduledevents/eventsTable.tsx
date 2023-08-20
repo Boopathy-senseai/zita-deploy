@@ -10,7 +10,9 @@ import {
 import SvgDotMenu from '../../../icons/SvgDotMenu';
 import InterviewerIcon from '../../calendarModule/InterviewerIcon';
 import SvgCalendar from '../../../icons/SvgCalendar';
+import { JOIN_EVENTS } from '../utils';
 import styles from './eventsTable.module.css';
+
 
 export interface DateEntity {
   label: string;
@@ -215,12 +217,14 @@ const EventSchedulerScreen: React.FC<Props> = (props) => {
                         {/* </Flex> */}
                       </Dropdown.Toggle>
 
-                      <Dropdown.Menu style={{ minWidth: '5rem', minHeight:"75px" }}>
-                        <Dropdown.Item onClick={() => onJoin(doc)}>
+                      <Dropdown.Menu style={{ minWidth: '5rem' }}>
+                      {JOIN_EVENTS.includes(doc.event_id__event_type) && <Dropdown.Item onClick={() => onJoin(doc)}>
+
+                        {/* <Dropdown.Item onClick={() => onJoin(doc)}> */}
                           <Flex row center className={styles.dropDownListStyle}>
                             <Text style={{ marginLeft: 10 }}>Join</Text>
                           </Flex>
-                        </Dropdown.Item>
+                        </Dropdown.Item>}
 
                         {/* <Dropdown.Item onClick={() => onEdit(doc)}>
                           <Flex row center className={styles.dropDownListStyle}>

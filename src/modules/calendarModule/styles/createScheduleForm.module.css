@@ -105,6 +105,7 @@
 .timeInputWrapper {
   display: flex;
   align-items: flex-start;
+  height: 20px !important;
 }
 
 .timeInputWrapper .to {

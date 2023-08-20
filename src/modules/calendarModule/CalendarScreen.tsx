@@ -1152,7 +1152,7 @@ const Calendar = () => {
               currentCalendarType={currentCalendarType}
               handleCalendarType={handleCalendarType}
               selectedTeamMembers={selectedTeamMembers}
-              teamMembers={teamMembers}
+              teamMembers={teamMembers.filter(doc=>doc.calendarEmail && doc.calendarEmail !== "")}
               showDropDownMenu={showDropDownMenu}
               handleDropDown={handleDropDown}
               myCalendarOptions={myCalendarOptions}
