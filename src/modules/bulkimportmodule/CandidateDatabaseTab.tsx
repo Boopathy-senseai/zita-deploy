@@ -293,7 +293,9 @@ const CandidateDatabaseTab = ({
       setImport(localStorage.setItem('bulk_loader', 'false'));
       localStorage.setItem('isImport', 'true');
       setParse(false);
-    });
+    }).then(()=>{
+      dispatch(bulkuploadedCandidatesMiddleWare({ page: 1 }))
+    })
   };
 
   const manageUser = () => {

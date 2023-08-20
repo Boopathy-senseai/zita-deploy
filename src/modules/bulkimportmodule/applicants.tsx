@@ -23,6 +23,7 @@ import { CANCEL, ERROR_MESSAGE } from '../constValue';
 import { LINK } from '../../uikit/Colors/colors';
 import YesOrNoModal from '../common/YesOrNoModal';
 import Totalcount from '../../globulization/TotalCount';
+import { jdMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import styles from './candidatedatabasetab.module.css';
 import ApplicantDatabase from './applicantDatabase';
 import { applicantTable } from './uploadedCandidateTable';
@@ -356,7 +357,7 @@ const ApplicantsTab = ({
     setCandiTableLoader(true);
     const formData = new FormData();
     formData.append('jd_id', isJdId);
-    dispatch(bulkImportMatchMiddleWare({ isJdId })).then(() => {
+    dispatch(jdMatchMiddleWare({ jd_id:isJdId })).then(() => { 
       dispatch(
         bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: isJdId }),
       ).then(() => {
@@ -373,6 +374,7 @@ const ApplicantsTab = ({
         bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: isJdId }),
       ).then(() => {
         setPageNumber(0);
+        dispatch(jdMatchMiddleWare({ jd_id:isJdId }))
       });
       dispatch(bulkImportMiddleWare()).then((res) => {
         setFeaturesBalance(res.payload.features_balance);
@@ -380,7 +382,9 @@ const ApplicantsTab = ({
       setImport(localStorage.setItem('bulk_loader', 'false'));
       localStorage.setItem('isImport', 'true');
       setParse(false);
-    });
+    }).then(()=>{
+      dispatch(jdMatchMiddleWare({ jd_id:isJdId }))
+    })
   };
 
   // Bulk Upload Parsing Function

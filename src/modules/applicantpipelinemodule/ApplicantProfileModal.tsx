@@ -152,10 +152,10 @@ console.log(candidateId,'fffffffffffffffffffffffffkkkkkkkkkkkkkjjjjjjjjjjjjjjjjj
       };
     },
   );
-  if (initialLoader || isNotesLoader || isNotesMeeting ||  matchLoader) {
+  if (initialLoader  ||  matchLoader) {
     return (
       <Flex height={window.innerHeight - 60} center middle>
-        <Loader withOutOverlay />
+        <Loader  />
       </Flex>
     );
   }
