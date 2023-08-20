@@ -228,7 +228,15 @@ const ValueAddName = ({
             });
         }
       }
-    });
+    }).then(()=>{
+      dispatch(
+        bulkuploadedCandidatesMiddleWare({
+          search: searchValue, 
+          jd_id:jdId,
+          page: pageNumber + 1,
+        }),
+      )
+    })
   };
   // open input function
   const handleOpenInput = () => {
