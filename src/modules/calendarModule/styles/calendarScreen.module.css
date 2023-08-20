@@ -169,8 +169,8 @@
   flex-direction: row;
   justify-content: space-between;
   height: 50px;
-  padding: 0px 10px;
-  margin: 7px 0px;
+  /* padding: 0px 10px; */
+  /* margin: 7px 0px; */
 }
 
 .calendarLogo {

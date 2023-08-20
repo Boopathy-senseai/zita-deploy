@@ -1098,10 +1098,10 @@ const Calendar = () => {
           </Text>
           <div className={styles.triangle}> </div>
           {/* <SvgCalendar width={30} height={30} /> */}
-          <Text bold size={16} color="theme">
+          {/* <Text bold size={16} color="theme">
             Calendar
-          </Text>
-          <div className={styles.triangle}> </div>
+          </Text> */}
+          {/* <div className={styles.triangle}> </div> */}
         </div>
       </div>
       <Flex row between>
