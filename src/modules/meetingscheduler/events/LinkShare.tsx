@@ -96,6 +96,7 @@ const LinkShare = (props) => {
         });
     }
   };
+  const MAX_BUTTON_TEXT_WIDTH = 85;
 
   return (
     <>
@@ -169,10 +170,11 @@ const LinkShare = (props) => {
                   ) }
                  
                 </Flex>
-                <Flex style={{ marginLeft: '10px' }}>
-                  <Text size={13}>
-                    {name.full_name}({name.type})
-                  </Text>
+                <Flex style={{ marginLeft: '10px'}}>
+                  <Flex row >
+                  <Text size={13} className={styles.textOverflow} title={name.full_name}> {name.full_name}</Text>
+                  <Text size={13}>({name.type})</Text>
+                  </Flex>
                 </Flex>
                 </Flex>
               </Flex>
