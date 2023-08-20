@@ -397,7 +397,7 @@ const ScheduledEventsPage = () => {
       <Flex
         style={{
           padding: '10px',
-          height: 'calc(100% - 61px)',
+          height: 'calc(100% - 150px)',
           overflow: 'auto',
         }}
       >

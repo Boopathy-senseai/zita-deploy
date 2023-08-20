@@ -261,14 +261,14 @@ const CalenderCard = ({
       <Flex row between className={styles.msgText}>
         <Flex row center>
           <Flex >
-            <Text bold size={14} style={{ marginRight: 5 }}>
+            <Text bold size={14} style={{ marginRight: 5 ,marginTop:"4px"}}>
               Calendar
             </Text>
           </Flex>
           {active === 1 && (
             // <Flex >
               <Text color="gray" size={12}>
-                (Timezone){outlookTimeZone[getOut]}
+                {outlookTimeZone[getOut]}
                 {checkCalendarOutlook
                   ? outlookTimeZone[getOut]
                   : localStorage.getItem('timeZone')}
@@ -406,9 +406,9 @@ const CalenderCard = ({
                       className={styles.datePicker}
                     />
                     <div 
-                     style={{ position: 'absolute', right:8, top:3}}
+                     style={{ position: 'absolute', right:8, top:3 }}
                     >
-                      <label htmlFor="calendar___open">
+                      <label htmlFor="calendar___open" className={styles.cursor}>
                         <SvgCalendar width={16} height={16}/>
                       </label>
                     </div>
@@ -466,12 +466,16 @@ const CalenderCard = ({
                           {getDateString(list.end, 'hh:mm A')}
                         </Text>
                         <Text size={12}>
-                          ( {hours}hour{' '}
-                          {minutes === 0 ? (
-                            <Text> )</Text>
-                          ) : (
-                            <Text size={12}>{minutes}minutes )</Text>
-                          )}
+                          {
+                            hours!==0 && minutes!==0 ?(
+                              <Text size={12}>{`(${hours}hour ${minutes}minutes)`}</Text>
+                            ):(
+                              
+                               minutes===0?(<Text>{`(${hours}hour)`}</Text>):(<Text>{`(${minutes}minutes)`}</Text>)
+                              
+                              
+                            )
+                          }
                         </Text>
                       </Flex>
                       <Text bold style={{ color: '#581845' }}>

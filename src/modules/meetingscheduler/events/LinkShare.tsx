@@ -96,6 +96,7 @@ const LinkShare = (props) => {
         });
     }
   };
+  const MAX_BUTTON_TEXT_WIDTH = 85;
 
   return (
     <>
@@ -135,7 +136,7 @@ const LinkShare = (props) => {
             placeholder="Search candidate or applicant by the name"
             inputConatinerClass={styles.inputContainer}
             actionRight={() => (
-              <label htmlFor={'candidate/applicant found'} style={{ margin: 0, marginTop : '6px' }}>
+              <label htmlFor={'candidate/applicant found'} style={{ margin: 0, marginTop : '10px' }}>
                 <SvgSearch />
               </label>
             )}
@@ -169,10 +170,11 @@ const LinkShare = (props) => {
                   ) }
                  
                 </Flex>
-                <Flex style={{ marginLeft: '10px' }}>
-                  <Text size={13}>
-                    {name.full_name}({name.type})
-                  </Text>
+                <Flex style={{ marginLeft: '10px'}}>
+                  <Flex row >
+                  <Text size={13} className={styles.textOverflow} title={name.full_name}> {name.full_name}</Text>
+                  <Text size={13}>({name.type})</Text>
+                  </Flex>
                 </Flex>
                 </Flex>
               </Flex>

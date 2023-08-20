@@ -583,7 +583,7 @@ const ApplicantsTab = ({
               onChange={searchHandleChange}
               id={'applicant__input'}
               actionRight={() => (
-                <label style={{ margin: 0 }}>
+                <label style={{ margin: 0,marginTop:"6px" }}>
                   <SvgSearch />
                 </label>
               )}

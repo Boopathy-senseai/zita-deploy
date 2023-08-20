@@ -291,7 +291,7 @@ console.log(eventsList,"hello")
   const pastUpcoming = (
     <Flex row center>
       <Text
-        size={14}
+        size={13}
         className={styles.textStyles}
         style={{ marginRight: '10px' }}
       >
@@ -304,7 +304,7 @@ console.log(eventsList,"hello")
         }
       />
       <Text
-        size={14}
+        size={13}
         className={styles.textStyles}
         style={{ marginLeft: '10px' }}
       >
@@ -405,7 +405,7 @@ console.log(eventsList,"hello")
       <Flex
         style={{
           padding: '10px',
-          height: 'calc(100% - 61px)',
+          height: 'calc(100% - 150px)',
           overflow: 'auto',
         }}
       >
