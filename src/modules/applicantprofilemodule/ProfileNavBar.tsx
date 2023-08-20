@@ -238,7 +238,8 @@ const ProfileNavBar = ({
     dispatch(applicantScoreMiddleWare({ jd_id, can_id }));
   }, []);
   useEffect(() => {
-    if(stages.length >1){
+    console.log(stages,',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,')
+    if(stages.length >=1){
     const stage_name  = stages[stages.length - 1].stage_id__stage_name
       setcheckingstatus(stage_name);
      }
@@ -694,7 +695,7 @@ const ProfileNavBar = ({
                   </Flex>
                 )}
               </Flex> 
-              {applieddatecheck && Number(jd_id) !== 0 ? (
+              { !applieddatecheck&& Number(jd_id) !== 0 ? (
                 <Flex flex={6}>
                   <Flex className={styles.headingpart} marginTop={10}>
                     Applied Date
@@ -736,7 +737,7 @@ const ProfileNavBar = ({
                 ''
               )}
             </Flex>
-           {applieddatecheck && Number(jd_id) !== 0 &&<Flex row flex={12} style={{ borderTop: '1px solid #C3C3C3' }}>
+           {Number(jd_id) !== 0 &&<Flex row flex={12} style={{ borderTop: '1px solid #C3C3C3' }}>
               <Flex flex={6}>
                 <Flex className={styles.headingpart} marginTop={10}>
                   Willing to Relocate
@@ -780,7 +781,7 @@ const ProfileNavBar = ({
                 )}
               </Flex>
             </Flex>}
-            {applieddatecheck && Number(jd_id) !== 0 && <Flex row flex={12} marginBottom={'10px'}>
+            { Number(jd_id) !== 0 && <Flex row flex={12} marginBottom={'10px'}>
               <Flex flex={6}>
                 <Flex className={styles.headingpart} marginTop={10}>
                   Expected Salary
@@ -800,7 +801,7 @@ const ProfileNavBar = ({
                   </Flex>
                 )}
               </Flex>
-              {applieddatecheck && !availableity &&
+              { !availableity &&
               <Flex flex={6}>
                 <Flex className={styles.headingpart} marginTop={10}>
                   Availability
@@ -822,7 +823,7 @@ const ProfileNavBar = ({
                 )}
               </Flex>}
             </Flex>}
-            {applieddatecheck && Number(jd_id) !== 0 &&<Flex style={{ paddingBottom: '10px' }}>
+            { Number(jd_id) !== 0 &&<Flex style={{ paddingBottom: '10px' }}>
               <Flex className={styles.headingpart}>Industry Type</Flex>
               {personalInfo[0].industry_type__label_name === undefined ||
               personalInfo[0].industry_type__label_name === null ||
