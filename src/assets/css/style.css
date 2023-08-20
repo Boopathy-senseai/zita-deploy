@@ -2456,6 +2456,10 @@ ul {
 .createScheduleForm_duration__3Jplh p:nth-of-type(even):hover{
   border-color: #58184570 !important ;
 }
+.css-hkb84n-MenuList{
+  overflow-y: scroll !important;
+  overflow-x: hidden !important;
+}
 
 /* .daterangepicker td.disabled, .daterangepicker option.disabled {
   color: #999;

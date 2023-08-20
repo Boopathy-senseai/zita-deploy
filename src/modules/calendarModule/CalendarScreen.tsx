@@ -487,6 +487,9 @@ const Calendar = () => {
   // }, [localStorage.getItem('Applicantname')]);
 
   const handleOpenEventForm = (event: CalendarEventType) => {
+    let eventData = {
+      ...getEventPopupDetails(eventPopUpDetails, event),
+    };
     if ('eventId' in event) {
       dispatch(
         verifyEventMiddleware({
@@ -498,27 +501,34 @@ const Calendar = () => {
           // console.log(res.payload);
           if (res.payload.data === true) {
             setIsEventCanUpdate(true);
-            setEventPopUpDetails((prevEvent) => ({
-              ...prevEvent,
+            setEventPopUpDetails({
+              ...eventData,
               eventId: event.eventId,
               syncedBy: null,
               applicantId: res.payload.event[0]['cand_id'],
               recurringEventId: event.recurringEventId,
-            }));
+              attendees: res.payload.event[0]['email']
+                ? ((res.payload.event[0]['email'] as string) || '').split(',')
+                : [],
+            });
             handleOpenEditForm({
-              ...eventPopUpDetails,
+              ...eventData,
               eventId: event.eventId,
               syncedBy: null,
               applicantId: res.payload.event[0]['cand_id'],
               recurringEventId: event.recurringEventId,
+              attendees: res.payload.event[0]['email']
+                ? ((res.payload.event[0]['email'] as string) || '').split(',')
+                : [],
             });
           } else {
             setIsEventCanUpdate(false);
             setEventPopUpDetails((prevEvent) => ({
-              ...prevEvent,
+              ...eventData,
               eventId: null,
               syncedBy: event.syncedBy,
               recurringEventId: null,
+              attendees: event.attendees || [],
             }));
             toast.error('Event verification failed', {
               duration: 3500,
@@ -531,34 +541,16 @@ const Calendar = () => {
     } else {
       setIsEventCanUpdate(false);
       setEventPopUpDetails((prevEvent) => ({
-        ...prevEvent,
+        ...eventData,
         eventId: null,
         syncedBy: event.syncedBy,
         recurringEventId: null,
+        attendees: event.attendees || [],
       }));
       toast.error('Unable to open event', {
         duration: 3500,
       });
     }
-
-    setEventPopUpDetails((prevEvent) => {
-      const eventData = {
-        ...prevEvent,
-        title: event.title,
-        startDate: new Date(event.start),
-        endDate: new Date(event.end),
-        link: event.link,
-        organizer: event.organizer,
-        isZitaEvent: event.title.includes('Zita event'),
-        canEdit: event.userId === currentUser.id,
-      };
-
-      if ('attendees' in event) {
-        eventData['attendees'] = event.attendees;
-      }
-
-      return eventData;
-    });
   };
 
   const handleOpenEditForm = (e: EventPopUpDetails) => {
@@ -659,7 +651,6 @@ const Calendar = () => {
     userId: number,
     userName: string,
   ): CalendarEventType[] => {
-    console.log(events,"jan")
     return events.map((event) => ({
       userId,
       title: event.title,
@@ -898,7 +889,30 @@ const Calendar = () => {
     setOpenEventDeleteModal(false);
   };
 
+  function getEventPopupDetails(
+    prevEvent: EventPopUpDetails,
+    event: CalendarEventType,
+  ) {
+    return {
+      ...prevEvent,
+      title: event.title,
+      startDate: new Date(event.start),
+      endDate: new Date(event.end),
+      link: event.link,
+      organizer: event.organizer,
+      isZitaEvent: event.title.includes('Zita event'),
+      canEdit: event.userId === currentUser.id,
+      eventId: event.eventId,
+      syncedBy: null,
+      recurringEventId: event.recurringEventId,
+      attendees: event.attendees || [],
+    };
+  }
+
   const handleOnSelectEvent = (event: CalendarEventType) => {
+    let eventData = {
+      ...getEventPopupDetails(eventPopUpDetails, event),
+    };
     if ('eventId' in event) {
       dispatch(
         verifyEventMiddleware({
@@ -909,21 +923,30 @@ const Calendar = () => {
         .then((res) => {
           if (res.payload.data === true) {
             setIsEventCanUpdate(true);
-            setEventPopUpDetails((prevEvent) => ({
-              ...prevEvent,
+
+            eventData = {
+              ...eventData,
               eventId: event.eventId,
               syncedBy: null,
               applicantId: res.payload.event[0]['cand_id'],
               recurringEventId: event.recurringEventId,
-            }));
+              attendees: res.payload.event[0]['email']
+                ? ((res.payload.event[0]['email'] as string) || '').split(',')
+                : [],
+            };
+            setEventPopUpDetails(eventData);
+            setShowEventPopUpModal(true);
           } else {
             setIsEventCanUpdate(false);
-            setEventPopUpDetails((prevEvent) => ({
-              ...prevEvent,
+            eventData = {
+              ...eventData,
               eventId: null,
               syncedBy: event.syncedBy,
               recurringEventId: null,
-            }));
+              attendees: event.attendees || [],
+            };
+            setEventPopUpDetails(eventData);
+            setShowEventPopUpModal(true);
           }
         })
         .catch((err) => {
@@ -931,34 +954,25 @@ const Calendar = () => {
         });
     } else {
       setIsEventCanUpdate(false);
-      setEventPopUpDetails((prevEvent) => ({
-        ...prevEvent,
+      eventData = {
+        ...eventData,
         eventId: null,
         syncedBy: event.syncedBy,
         recurringEventId: null,
-      }));
+        attendees: event.attendees || [],
+      };
+      setEventPopUpDetails(eventData);
+      setShowEventPopUpModal(true);
+      // setEventPopUpDetails((prevEvent) => ({
+      //   ...getEventPopupDetails(prevEvent, event),
+      //   eventId: null,
+      //   syncedBy: event.syncedBy,
+      //   recurringEventId: null,
+      //   attendees: event.attendees || [],
+      // }));
     }
 
-    setEventPopUpDetails((prevEvent) => {
-      const eventData = {
-        ...prevEvent,
-        title: event.title,
-        startDate: new Date(event.start),
-        endDate: new Date(event.end),
-        link: event.link,
-        organizer: event.organizer,
-        isZitaEvent: event.title.includes('Zita event'),
-        canEdit: event.userId === currentUser.id,
-      };
-
-      if ('attendees' in event) {
-        eventData['attendees'] = event.attendees;
-      }
-
-      return eventData;
-    });
-
-    setShowEventPopUpModal(true);
+    // setEventPopUpDetails(eventData);
   };
 
   const handleMyCalendarOptions = (options: CalendarOptions) => {
@@ -1153,7 +1167,9 @@ const Calendar = () => {
               currentCalendarType={currentCalendarType}
               handleCalendarType={handleCalendarType}
               selectedTeamMembers={selectedTeamMembers}
-              teamMembers={teamMembers.filter(doc=>doc.calendarEmail &&doc.calendarEmail !== "")}
+              teamMembers={teamMembers.filter(
+                (doc) => doc.calendarEmail && doc.calendarEmail !== '',
+              )}
               showDropDownMenu={showDropDownMenu}
               handleDropDown={handleDropDown}
               myCalendarOptions={myCalendarOptions}

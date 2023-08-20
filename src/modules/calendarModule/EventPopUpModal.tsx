@@ -30,6 +30,7 @@ interface Props {
   eventPopUpDetails: EventPopUpDetails;
 }
 
+
 const EventPopUpModal = ({
   showEventPopUpModal,
   handleCloseEventPopUpModal,
@@ -53,7 +54,7 @@ const EventPopUpModal = ({
     canEdit,
     email,
   } = eventPopUpDetails;
-  console.log(attendees,"attend", endDate)
+  console.log(eventPopUpDetails);
   const DeleteWarningPopUp = (
     <Modal
       open={openEventDeleteModal}
@@ -115,7 +116,8 @@ const EventPopUpModal = ({
 
         <div className={styles.info}>
           <SvgInterviewers size={16} />
-          {attendees?.length > 0 ? (
+          {console.log(attendees)}
+          {attendees && attendees?.length > 0 ? (
             <div className={styles.infoText}>
               <p style={{ marginBottom: 3 }}>Interviewer&#40;s&#41;</p>
               <Flex row className={styles.emailContainer}>
