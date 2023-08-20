@@ -75,18 +75,118 @@ const LocationAdd = ({
 
   // from submit function
   const handleCellSubmit = (event: any, id: number) => {
-    alert('1');
     event.preventDefault();
     setLoader(true);
 
     var datas = formik.values.name.trim();
     if (datas.length !== 0) {
-      alert('er');
       const data = querystring.stringify({
         pk: id,
         name: 'location',
         value: formik.values.name.trim(),
       });
+
+      axios
+        .post(uploadedCandidatesApi, data, config)
+        .then(() => {
+          dispatch(
+            candidateMatchMiddleWare({
+              can_id: id.toString(),
+            }),
+          );
+          if (tabKey === 'total') {
+            if (jdId === undefined) {
+              dispatch(
+                bulkuploadedCandidatesMiddleWare({
+                  search: searchValue,
+                  page: pageNumber + 1,
+                  total: total_count,
+                }),
+              ).then(() => {
+                Toast('Location updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              });
+            } else {
+              dispatch(
+                bulkuploadedCandidatesMiddleWare({
+                  search: searchValue,
+                  jd_id: jdId,
+                  page: pageNumber + 1,
+                  total: total_count,
+                }),
+              ).then(() => {
+                Toast('Location updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              });
+            }
+          }
+          if (tabKey === 'completed') {
+            if (jdId === undefined) {
+              dispatch(
+                bulkuploadedCandidatesMiddleWare({
+                  search: searchValue,
+                  page: pageNumber + 1,
+                  completed,
+                }),
+              ).then(() => {
+                Toast('Location updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              });
+            } else {
+              dispatch(
+                bulkuploadedCandidatesMiddleWare({
+                  search: searchValue,
+                  jd_id: jdId,
+                  page: pageNumber + 1,
+                  completed,
+                }),
+              ).then(() => {
+                Toast('Location updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              });
+            }
+          }
+          if (tabKey === 'inCompleted') {
+            if (jdId === undefined) {
+              dispatch(
+                bulkuploadedCandidatesMiddleWare({
+                  search: searchValue,
+                  page: pageNumber + 1,
+                  incompleted,
+                }),
+              ).then(() => {
+                Toast('Location updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              });
+            } else {
+              dispatch(
+                bulkuploadedCandidatesMiddleWare({
+                  search: searchValue,
+                  jd_id: jdId,
+                  page: pageNumber + 1,
+                  incompleted,
+                }),
+              ).then(() => {
+                Toast('Location updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              });
+            }
+          }
+        })
+        .catch(() => {
+          Toast(
+            'Location updated request failed. Please try again',
+            'SHORT',
+            'error',
+          );
+          setLoader(false);
+        });
 
       axios
         .post(uploadedCandidatesApi, data, config)

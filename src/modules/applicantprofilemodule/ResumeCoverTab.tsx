@@ -51,7 +51,7 @@ const ResumeCoverTab = () => {
   return (
     <> 
           {isEmpty(cover_letter[0].cover_letter) ? (
-            <Flex flex={1} center middle height={window.innerHeight-200}> 
+            <Flex flex={1} center middle height={window.innerHeight-200} style={{color:'#979797'}}> 
               {notSpecified(cover_letter && cover_letter[0].cover_letter)} 
             </Flex>
           ) : (

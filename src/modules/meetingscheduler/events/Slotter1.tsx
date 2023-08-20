@@ -28,6 +28,7 @@ import {
 } from '../../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { isEmpty } from '../../../uikit/helper';
 import LinkWrapper from '../../../uikit/Link/LinkWrapper';
+import SvgInactive from '../../../icons/SvgInactive';
 import styles from './slotter.module.css';
 import {
   getScheduleMiddleWare,
@@ -1340,39 +1341,41 @@ const SlotterDate = (props) => {
     timezone,
   );
   console.log('selectDate:::', selectDate);
-  console.log('modifiers.selectedmodifiers.selected', modifiers);
+  console.log('modifiers.selectedmodifiers.selected', response);
   console.log('conflictsconflicts@!@!@!@!@!@!@@!', conflicts);
 
   return (
     <Flex height={'100%'} style={{ overflow: 'auto' }}>
-      <Flex row center className={styles.banner}>
-        {console.log('data.company_logo', response[0].company_logo)}
-        {response[0].company_logo !== '' && (
-          <img
-            src={`${process.env.REACT_APP_HOME_URL}media/${response[0]?.company_logo}`}
-            alt="Company Logo"
-            style={{
-              width: '36px',
-              height: '36px',
-              borderRadius: '50%',
-              marginLeft: '5px',
-            }}
-          />
-        )}
+      {response?.length > 0 ? (
+        <>
+          <Flex row center className={styles.banner}>
+            {console.log('data.company_logo', response[0].company_logo)}
+            {response[0].company_logo !== '' && (
+              <img
+                src={`${process.env.REACT_APP_HOME_URL}media/${response[0]?.company_logo}`}
+                alt="Company Logo"
+                style={{
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '50%',
+                  marginLeft: '5px',
+                }}
+              />
+            )}
 
-        <Text bold color="theme" size={16} style={{ marginLeft: '10px' }}>
-          Interview Scheduling
-        </Text>
-      </Flex>
-      <Flex height={'100%'} className={styles.slotcontainer}>
-        {response?.map((data, item) => (
-          <Flex key={item} className={styles.slotter}>
-            <Flex>
-              <Flex row>
-                <Flex flex={4} className={styles.leftside}>
-                  <Flex row center>
-                    {console.log('data.company_logo', data.company_logo)}
-                    {/* {data.company_logo !== '' ? (  
+            <Text bold color="theme" size={16} style={{ marginLeft: '10px' }}>
+              Interview Scheduling
+            </Text>
+          </Flex>
+          <Flex height={'100%'} className={styles.slotcontainer}>
+            {response?.map((data, item) => (
+              <Flex key={item} className={styles.slotter}>
+                <Flex>
+                  <Flex row>
+                    <Flex flex={4} className={styles.leftside}>
+                      <Flex row center>
+                        {console.log('data.company_logo', data.company_logo)}
+                        {/* {data.company_logo !== '' ? (  
                         <img
                         src={`${process.env.REACT_APP_HOME_URL}media/${data.company_logo}`}
                         alt="Company Logo"
@@ -1391,151 +1394,157 @@ const SlotterDate = (props) => {
                       ''
                     )} */}
 
-                    <Text size={14} bold>
-                      {data.company_name}
-                    </Text>
-                  </Flex>
-                  <Flex marginBottom={10} marginTop={10}>
-                    <Text size={14}>Hi {candidate_name},</Text>
-                    <Text size={14}>
-                      {`You have been selected for the ${data.event_name} at 
+                        <Text size={14} bold>
+                          {data.company_name}
+                        </Text>
+                      </Flex>
+                      <Flex marginBottom={10} marginTop={10}>
+                        <Text size={14}>Hi {candidate_name},</Text>
+                        <Text size={14}>
+                          {`You have been selected for the ${data.event_name} at 
                    ${data.company_name}.`}
-                    </Text>
-                    <Text size={14} style={{ marginTop: '5px' }}>
-                      Please pick a date and time.
-                    </Text>
-                  </Flex>
+                        </Text>
+                        <Text size={14} style={{ marginTop: '5px' }}>
+                          Please pick a date and time.
+                        </Text>
+                      </Flex>
 
-                  <div className={styles.line}></div>
-                  <Flex marginBottom={10}>
-                    <Text bold size={14}>
-                      {data.event_name}
-                    </Text>
-                  </Flex>
-                  <Flex row center marginBottom={10}>
-                    <SvgClock width={16} height={16} fill={'#581845'} />
-                    <Text size={14} style={{ marginLeft: '5px' }}>
-                      {data.duration}
-                    </Text>
-                  </Flex>
-                  <Flex row center marginBottom={10}>
-                    <SvgGlobe width={16} height={16} fill={'#581845'} />
-                    <Text size={14} style={{ marginLeft: '5px' }}>
-                      Time zone is {timezones(data.times_zone)}
-                    </Text>
-                  </Flex>
-                  <Flex row start marginBottom={10}>
-                    <Flex marginTop={3}>
-                      <SvgInfo width={16} height={16} fill={'#581845'} />
-                    </Flex>
+                      <div className={styles.line}></div>
+                      <Flex marginBottom={10}>
+                        <Text bold size={14}>
+                          {data.event_name}
+                        </Text>
+                      </Flex>
+                      <Flex row center marginBottom={10}>
+                        <SvgClock width={16} height={16} fill={'#581845'} />
+                        <Text size={14} style={{ marginLeft: '5px' }}>
+                          {data.duration}
+                        </Text>
+                      </Flex>
+                      <Flex row center marginBottom={10}>
+                        <SvgGlobe width={16} height={16} fill={'#581845'} />
+                        <Text size={14} style={{ marginLeft: '5px' }}>
+                          Time zone is {timezones(data.times_zone)}
+                        </Text>
+                      </Flex>
+                      <Flex row start marginBottom={10}>
+                        <Flex marginTop={3}>
+                          <SvgInfo width={16} height={16} fill={'#581845'} />
+                        </Flex>
 
-                    <Text
-                      size={13}
-                      style={{ marginLeft: '5px', marginTop: '0.5px' }}
-                    >
-                      {/* This is an {InterviewText(data.event_type)}.Please come
+                        <Text
+                          size={13}
+                          style={{ marginLeft: '5px', marginTop: '2px' }}
+                        >
+                          {/* This is an {InterviewText(data.event_type)}.Please come
                       prepared with the technical aspects of your work
                       experience along with your CV/Resume */}
-                      {data.description}
-                    </Text>
+                          {data.description}
+                        </Text>
+                      </Flex>
+                      {/* <div className={styles.line}></div> */}
+                    </Flex>
+                    <Flex flex={4} className={styles.rightside}>
+                      <div style={{ marginLeft: '90px' }}>
+                        <DayPicker
+                          // locale={enUS}
+
+                          styles={{
+                            months: {
+                              color: '#581845',
+                              // cursor : 'not-allowed'
+                            },
+                          }}
+                          defaultMonth={dateObjectsArray[0]}
+                          // onSelect={setDays}
+                          // fromMonth={dateObjectsArray[0]}
+                          // toMonth={dateObjectsArray[dateObjectsArray.length-1]}
+                          // className="custom-daypicker"
+                          // fromDate={dateObjectsArray[0]}
+                          // toDate={dateObjectsArray[dateObjectsArray.length-1]}
+                          onDayClick={(e) => onDateChange(e)}
+                          modifiers={modifiers}
+                          modifiersStyles={modifiersStyles}
+                        />
+                      </div>
+                    </Flex>
                   </Flex>
-                  {/* <div className={styles.line}></div> */}
-                </Flex>
-                <Flex flex={4} className={styles.rightside}>
-                  <div style={{ marginLeft: '90px' }}>
-                    <DayPicker
-                      // locale={enUS}
 
-                      styles={{
-                        months: {
-                          color: '#581845',
-                          // cursor : 'not-allowed'
-                        },
-                      }}
-                      defaultMonth={dateObjectsArray[0]}
-                      // onSelect={setDays}
-                      // fromMonth={dateObjectsArray[0]}
-                      // toMonth={dateObjectsArray[dateObjectsArray.length-1]}
-                      // className="custom-daypicker"
-                      // fromDate={dateObjectsArray[0]}
-                      // toDate={dateObjectsArray[dateObjectsArray.length-1]}
-                      onDayClick={(e) => onDateChange(e)}
-                      modifiers={modifiers}
-                      modifiersStyles={modifiersStyles}
-                    />
-                  </div>
-                </Flex>
-              </Flex>
-
-              <Flex>
-                {date ? (
-                  <div
-                    className={styles.line}
-                    style={{ margin: '10px 0px' }}
-                  ></div>
-                ) : (
-                  ''
-                )}
-              </Flex>
-              <Flex>
-                {date ? (
-                  <Text size={13} bold>
-                    Availability for {date}
-                  </Text>
-                ) : (
-                  ''
-                )}
-                <Flex row wrap className={styles.select} marginTop={10}>
-                  {finalIntervals?.length > 0 &&
-                    finalIntervals?.map((obj, index) => (
-                      <button
-                        className={styles.button1}
-                        key={index}
-                        onClick={() => selectbutton(obj)}
-                      >
-                        {obj}
-                      </button>
-                    ))}
-                </Flex>
-
-                {selecttime ? (
-                  <Flex end className={styles.content} marginTop={20}>
-                    <Button
-                      style={{ marginTop: '20px' }}
-                      onClick={() => onSubmit(date, selecttime)}
-                    >
-                      Schedule
-                    </Button>
+                  <Flex>
+                    {date ? (
+                      <div
+                        className={styles.line}
+                        style={{ margin: '10px 0px' }}
+                      ></div>
+                    ) : (
+                      ''
+                    )}
                   </Flex>
-                ) : (
-                  ''
-                )}
+                  <Flex>
+                    {date ? (
+                      <Text size={13} bold>
+                        Availability for {date}
+                      </Text>
+                    ) : (
+                      ''
+                    )}
+                    <Flex row wrap className={styles.select} marginTop={10}>
+                      {finalIntervals?.length > 0 &&
+                        finalIntervals?.map((obj, index) => (
+                          <button
+                            className={styles.button1}
+                            key={index}
+                            onClick={() => selectbutton(obj)}
+                          >
+                            {obj}
+                          </button>
+                        ))}
+                    </Flex>
+
+                    {selecttime ? (
+                      <Flex end className={styles.content} marginTop={20}>
+                        <Button
+                          style={{ marginTop: '20px' }}
+                          onClick={() => onSubmit(date, selecttime)}
+                        >
+                          Schedule
+                        </Button>
+                      </Flex>
+                    ) : (
+                      ''
+                    )}
+                  </Flex>
+                </Flex>
               </Flex>
+            ))}
+          </Flex>
+          <Flex
+            center
+            bottom
+            middle
+            marginBottom={10}
+            marginTop={10}
+            onClick={FooterNavogation}
+          >
+            <Text bold style={{ cursor: 'pointer' }} size={14} color="theme">
+              Powered by Zita.ai
+            </Text>
+          </Flex>
+        </>
+      ) : (
+        <>
+          <Flex row className={styles.unavailble}>
+            <Flex>
+              <SvgInactive width={21} height={21} />
+            </Flex>
+            <Flex marginTop={2}>
+              <Text style={{ color: '#581848', marginLeft: '5px' }}>
+                This slotter is no longer available to schedule
+              </Text>
             </Flex>
           </Flex>
-        ))}
-      </Flex>
-      <Flex
-        center
-        bottom
-        middle
-        marginBottom={10}
-        marginTop={10}
-        onClick={FooterNavogation}
-      >
-        {/* <LinkWrapper target={'_blank'} to={'https://www.zita.ai/'}> */}
-
-        <Text
-          bold
-          style={{ cursor: 'pointer' }}
-          size={14}
-          color="theme"
-          // onClick={zitaPath}\
-        >
-          Powered by Zita.ai
-        </Text>
-        {/* </LinkWrapper> */}
-      </Flex>
+        </>
+      )}
     </Flex>
   );
 };
@@ -1632,7 +1641,11 @@ const Conformpage = (props) => {
 
                 <Text
                   size={13}
-                  style={{ marginLeft: '5px', textAlign: 'justify' }}
+                  style={{
+                    marginLeft: '5px',
+                    textAlign: 'justify',
+                    marginTop: '1px',
+                  }}
                 >
                   {/* This is an {InterviewText(list.event_type)}.Please come prepared
                 with the technical aspects of your work experience along with
@@ -1787,7 +1800,11 @@ const InterviewDashBoard = (props) => {
 
                 <Text
                   size={13}
-                  style={{ marginLeft: '5px', textAlign: 'justify' }}
+                  style={{
+                    marginLeft: '5px',
+                    textAlign: 'justify',
+                    marginTop: '1px',
+                  }}
                 >
                   {/* This is an {InterviewText(list.event_type)}.Please come prepared
                 with the technical aspects of your work experience along with

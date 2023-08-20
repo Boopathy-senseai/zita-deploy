@@ -201,7 +201,7 @@ const MeetingSchedulingScreen = ({
       'location',
       'interviewers',
     ].forEach((item) => localStorage.removeItem(item));
-    localStorage.setItem('Applicantname','')
+    localStorage.setItem('Applicantsname','')
     localStorage.setItem('Jdname','')
     localStorage.setItem('jdid','')
     setViewMeetingSummary(false);

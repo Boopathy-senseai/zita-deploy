@@ -52,7 +52,7 @@ const ExpandTile = (props: Props) => {
             {typeof props.title === 'string' ? (
               <span
                 className={styles['scrd-path-txt']}
-                style={{ color: props.activeColor }}
+                style={{ color: props.activeColor , fontSize:"13px"}}
               >
                 {props.title}
               </span>

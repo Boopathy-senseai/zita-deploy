@@ -102,7 +102,7 @@ Props) => {
                       </Flex>
                       <Flex>
                         <Text className={styles.Backtextchange}> */}
-                           Ok
+                           OK
                            {/* </Text>
                       </Flex> */}
                    

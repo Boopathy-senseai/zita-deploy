@@ -98,8 +98,14 @@
   border-radius: 8px;
   cursor: pointer;
 }
+.svgMargins {
+  margin-right: -15px;
+  padding: 3px 10px 3px 0px;
+  border-radius: 8px;
+  cursor: pointer;
+}
 /* .svgMargin:hover{
-  background-color: #D7C7D2;
+  background-color: #D7C7D2;padding: '3px 10px 3px 0px';
   border-radius: 100%;
   padding:2px ;
 } */
