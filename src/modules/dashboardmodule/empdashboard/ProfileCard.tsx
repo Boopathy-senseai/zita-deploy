@@ -670,8 +670,35 @@ const ProfileCard = () => {
             </LinkWrapper>
           )}</Flex> */}
 
-          {permission.includes('create_post') === false ? (
-            // <Flex marginLeft={20} marginTop={10}>
+        {permission.includes('create_post') === false ? (
+          <Flex marginLeft={20}>
+            <LinkWrapper
+              target={isEmpty(career_page_url) ? '_parent' : '_blank'}
+              to={
+                isEmpty(career_page_url)
+                  ? `/account_setting/settings?tab=1`
+                  : `/${career_page_url}/careers`
+              }
+            >
+              <Button className={styles.buttonsizeauto}>
+                {/* <Flex row center className={styles.pointer} > */}
+                {/* <Text bold style={{ color: "white", marginLeft: 123 }} > */}
+                Careers Page
+                {/* </Text> */}
+                {/* </Flex> */}
+              </Button>
+            </LinkWrapper>
+          </Flex>
+        ) : (
+          <Flex row between style={{ padding: '0 20px' }}>
+            <Flex className={styles.pointer}>
+              {' '}
+              {permission.includes('create_post') && (
+                <LinkWrapper to={jobSelect}>
+                  <Button className={styles.buttonsize}>Post Job</Button>
+                </LinkWrapper>
+              )}
+            </Flex>
             <Flex>
               <LinkWrapper
                 target={isEmpty(career_page_url) ? '_parent' : '_blank'}
@@ -681,7 +708,7 @@ const ProfileCard = () => {
                     : `/${career_page_url}/careers`
                 }
               >
-                <Button className={styles.buttonsizeauto}  style={{margin:"10px 12px 0 12px"}}>
+                <Button className={styles.buttonsize}>
                   {/* <Flex row center className={styles.pointer} > */}
                   {/* <Text bold style={{ color: "white", marginLeft: 10 }} > */}
                   Careers Page
