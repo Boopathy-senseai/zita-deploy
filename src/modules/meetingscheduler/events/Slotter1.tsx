@@ -176,7 +176,7 @@ const slotter1 = (props) => {
   }, [data]);
 
   useEffect(() => {
-    if ('date' in googleconflicts) {
+    if (googleconflicts === null) {
     } else {
       // alert("googleconflicts");
       setConflicts(googleconflicts);
@@ -188,7 +188,7 @@ const slotter1 = (props) => {
     //   console.log('googleConflicts has properties');
     // } else {
     //   console.log('googleConflicts is empty');
-    if ('date' in outlookconflicts) {
+    if (outlookconflicts === null) {
     } else {
       // alert("outlookconflicts");
       setConflicts(outlookconflicts);
@@ -1332,8 +1332,7 @@ const SlotterDate = (props) => {
             width: '36px',
             height: '36px',
             borderRadius: '50%',
-            marginLeft: '5px',
-          }}
+            marginLeft: '5px',          }}
         />}
 
         <Text bold color="theme" size={16} style={{ marginLeft: '10px' }}>
@@ -1406,7 +1405,7 @@ const SlotterDate = (props) => {
                       <SvgInfo width={16} height={16} fill={'#581845'} />
                     </Flex>
 
-                    <Text size={13} style={{ marginLeft: '5px',marginTop: '0.5px'}}>
+                    <Text size={13} style={{ marginLeft: '5px',marginTop: '3px'}}>
                       {/* This is an {InterviewText(data.event_type)}.Please come
                       prepared with the technical aspects of your work
                       experience along with your CV/Resume */}
@@ -1593,7 +1592,7 @@ const Conformpage = (props) => {
                 <SvgInfo width={14} height={14} fill={'#581845'} />
               </Flex>
 
-              <Text size={13} style={{ marginLeft: '5px', textAlign : 'justify' }}>
+              <Text size={13} style={{ marginLeft: '5px', textAlign : 'justify' ,marginTop: '1px' }}>
                 {/* This is an {InterviewText(list.event_type)}.Please come prepared
                 with the technical aspects of your work experience along with
                 CV/Resume */}
@@ -1740,7 +1739,7 @@ const InterviewDashBoard = (props) => {
                 <SvgInfo width={14} height={14} fill={'#581845'} />
               </Flex>
 
-              <Text size={13} style={{ marginLeft: '5px', textAlign : 'justify' }}>
+              <Text size={13} style={{ marginLeft: '5px', textAlign : 'justify' ,marginTop: '1px'}}>
                 {/* This is an {InterviewText(list.event_type)}.Please come prepared
                 with the technical aspects of your work experience along with
                 CV/Resume */}
