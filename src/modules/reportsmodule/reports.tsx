@@ -48,7 +48,7 @@ const Reports = () => {
         </Flex>
 
         </Flex>
-        <Flex className={styles.reportscroll}>
+        <Flex className={styles.reportscroll} height={window.innerHeight-120}>
         <Flex className={styles.marginTop}>
           <Text size={14} bold>
             Candidates
