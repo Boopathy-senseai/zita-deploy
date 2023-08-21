@@ -9,7 +9,7 @@ type Props = {
 };
 const RequiredSwitch = ({ value, formik, index }: Props) => {
   return (
-    <Flex middle>
+    <Flex style={{paddingLeft:"12px"}}>
       <InputSwitch
         checked={value}
         onClick={() =>

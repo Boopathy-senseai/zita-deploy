@@ -300,6 +300,8 @@ const Action = ({
                     {value.applicant !== null && (
                       <div
                         title="Candidate Applied for a Job."
+                        role={'button'}
+                        // onClick={handleOpenModal}
                         className={cx('pointerEvent')}
                         style={{fontSize:'13px'}}
                       >

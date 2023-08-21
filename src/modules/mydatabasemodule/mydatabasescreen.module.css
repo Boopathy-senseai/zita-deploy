@@ -28,9 +28,9 @@
 }
 
 .tabsStyle {
-  margin-top: 50px;
+  /* margin-top: 50px; */
   position: relative;
-  bottom: 50px;
+  /* bottom: 50px; */
 }
 .infiStyle {
   position: absolute;

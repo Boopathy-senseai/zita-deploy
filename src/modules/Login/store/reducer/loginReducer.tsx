@@ -123,6 +123,7 @@ const permissionReducer = createSlice({
       state.error = '';
     });
     builder.addCase(permissionMiddleWare.fulfilled, (state, action) => {
+      console.log("asss",action.payload)
       state.isLoading = false;
       state.Permission = action.payload.Permission;
       state.super_user = action.payload.super_user;

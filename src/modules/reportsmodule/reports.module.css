@@ -35,7 +35,7 @@
   /*align-items: center;*/
   /*justify-content: center;*/
 }.cardOverAllChart {
-  height:25rem;
+  height:26rem;
   display: flex;
   margin-right: 1rem;
   margin-top: 1rem;
@@ -98,23 +98,32 @@ border-right: 1px solid;
     text-align: center;
     margin: auto;
     justify-content: center;
-    /* margin-top: 15%; */
+    /* margin-top: 18%; */
     align-items: center;
+    color: #888;
+}
+.noData1{ 
+  text-align: center;
+  margin: auto;
+  justify-content: center;
+  margin-top: 18%;
+  align-items: center;
+  color: #888;
 }
 .pagination{
   margin-top: 1rem;
 }
  
 .marginTop{
-  margin-top: 20px;
-  margin-left: 6px;
+  margin-top: 10px;
+  /* margin-left: 6px; */
 }
 .marginTop1{
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
-.overAll {
-  /* overflow: scroll; */
+.overAll { 
+  overflow: scroll;
   /* padding: 0px 4px; */
   margin-bottom: 10px;
 }

@@ -17,8 +17,13 @@
   left: 2px;
   /* border-top: 1px solid #dfdfdf; */
   padding: 5px;
+  margin-left: 9px;
   background-color: #ffffff;
 }
 .saveBtn {
   margin: 0 16px;
+}
+.leftAlign{
+  display: flex;
+  justify-content: left;
 }

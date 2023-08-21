@@ -1005,7 +1005,7 @@ console.log(locations,'kkkkkkkkkkkkkkkkkkk')
         <Flex
           columnFlex
           className={styles.dndBoardContainer}
-          // width={window.innerWidth - 260}
+          width={window.innerWidth - 220}
         >
           <Flex row className={styles.titleContainer}>
             <Text bold size={16} color="theme">

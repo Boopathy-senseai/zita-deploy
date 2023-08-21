@@ -137,8 +137,9 @@ const MyJobPostingScreen = () => {
         location: formik.values.location,
         page: isPage + 1,
       }),
-    );
-   
+    ).then((res: any) => {
+      setIsLoad(false)
+    });
   }, [isPage]);
   useEffect(() => {
   if(change===false)
@@ -196,7 +197,7 @@ const MyJobPostingScreen = () => {
                   target={'_blank'}
                   to={`${career_page_url}/careers`}
                 >
-                  <Button className={styles.style2} types="primary">
+                  <Button className={styles.style2} types="primary" >
                   View Careers Page
                   </Button>
                 </LinkWrapper>

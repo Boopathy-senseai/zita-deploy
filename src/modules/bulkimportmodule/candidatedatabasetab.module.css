@@ -19,7 +19,7 @@
     margin-top: 5px;margin-left: 20px;
 }
 .candidatedatabase{
-/*overflow-y:scroll !important;*/
+overflow-y:scroll !important;
 display:flex !important;
 padding-right:10px;
 }
