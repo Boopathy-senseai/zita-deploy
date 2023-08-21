@@ -358,7 +358,7 @@ const MyJobPostingScreen = ({ currentPage, setCurrentPage }: props) => {
                           {isEmpty(list.zita_match) ? (
                             <Text className={styles.zeroorder}>0</Text>
                           ) : (
-                            <Text className={styles.numberorder}>
+                            <Text >
                               {list.zita_match}
                             </Text>
                           )}
@@ -470,7 +470,9 @@ const MyJobPostingScreen = ({ currentPage, setCurrentPage }: props) => {
                       )}
 
                       <td className={styles.padchanges} style={{}}>
+                        <div style={{position:"relative", bottom:3}}>
                         <MyJobPostingScreenStatus list={list} />
+                        </div>
                       </td>
                       {/* <td>
                         {list.jd_status__label_name === "Active" ? (
@@ -523,8 +525,8 @@ const MyJobPostingScreen = ({ currentPage, setCurrentPage }: props) => {
                           <div
                             style={{
                               color: '#FCC203',
-                              fontWeight: 500,
-                              fontSize: 15,
+                              fontWeight: 600,
+                              fontSize: 13,
                             }}
                           >
                             {'Draft'}{' '}

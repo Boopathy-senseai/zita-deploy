@@ -583,7 +583,7 @@ null
       }`}
     >
       <Flex className={styles.mtstyle}>
-      <Text color="primary" size={14} bold className={styles.jobTextStyle}>
+      <Text color="primary" size={13} bold className={styles.jobTextStyle}>
       Job Type
     </Text>
     <Flex row center className={styles.filterstyle}  >
@@ -607,7 +607,7 @@ null
                 <Text
                   color="primary"
                   bold
-                  size={14}
+                  size={13}
                   style={{ marginBottom: '5px' }}
                 >
                   Experience
@@ -628,7 +628,7 @@ null
             <Flex className={styles.mtstyle}>
               <Text
                 color="primary"
-                size={14}
+                size={13}
                 bold
                 style={{ marginBottom: '5px' }}
                 className={styles.qualificationTextStyle}
@@ -660,7 +660,7 @@ null
               <div className={styles.skillContainer}>
                 <Text
                   color="primary"
-                  size={14}
+                  size={13}
                   bold
                   style={{ marginBottom: '5px' }}
                 >
@@ -685,7 +685,7 @@ null
               <div>
                 <Text
                   color="primary"
-                  size={14}
+                  size={13}
                   bold
                   style={{ marginBottom: '5px' }}
                 >

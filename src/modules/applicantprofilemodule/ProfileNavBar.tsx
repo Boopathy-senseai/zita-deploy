@@ -91,7 +91,7 @@ type Props = {
   isProfileName?: boolean;
   inviteIconDisable?: boolean;
   inviteIconNone?: boolean;
-  setjobtitle?: any;
+  setjobtitle?: any; 
   availableity?: any;
 } & typeof defaultProps;
 
@@ -289,7 +289,10 @@ const ProfileNavBar = ({
     total_exp[0].total_exp_year === 0
       ? true
       : false;
-       console.log(candidate_details[0].work_exp,'total_exp[0].total_exp_yeartotal_exp[0].total_exp_year')
+  console.log(
+    candidate_details[0].work_exp,
+    'total_exp[0].total_exp_yeartotal_exp[0].total_exp_year',
+  );
   const totalYear =
     total_exp && total_exp[0].total_exp_year !== 0
       ? total_exp && total_exp[0].total_exp_year > 1
@@ -536,9 +539,8 @@ const ProfileNavBar = ({
               ) : (
                 <Flex>{candiList.contact}</Flex>
               )}
-            </Flex> 
-                       <Flex row style={{ marginTop: '5px', marginBottom: '10px' }}>
-
+            </Flex>
+            <Flex row style={{ marginTop: '5px', marginBottom: '10px' }}>
               <Flex style={{ marginRight: '10px' }}>
                 <SvgLocation height={17} width={17} fill="#581845" />
               </Flex>
@@ -681,29 +683,36 @@ const ProfileNavBar = ({
                 <Flex className={styles.headingpart} marginTop={10}>
                   Experience
                 </Flex>
-                {candidate_details[0].work_exp === null || candidate_details[0].work_exp === ''?
-                total_exp === undefined || total_exp === null ? 
-                  <Flex className={styles.changingtext}>
-                    <Text className={styles.changingtext}>Not Specified</Text>
-                  </Flex>
-                : 
+                {candidate_details[0].candidate_id_id !== null ? (
+                  total_exp === undefined || total_exp === null ? (
+                    <Flex className={styles.changingtext}>
+                      <Text className={styles.changingtext}>Not Specified</Text>
+                    </Flex>
+                  ) : (
+                    <Flex
+                      className={styles.changingtext}
+                      title={
+                        getFresher ? 'Fresher' : `${totalYear} ${totalMonths}`
+                      }
+                    >
+                      <Text className={styles.changingtext}>
+                        {' '}
+                        {getFresher ? 'Fresher' : `${totalYear} ${totalMonths}`}
+                      </Text>
+                    </Flex>
+                  )
+                ) : (
                   <Flex
                     className={styles.changingtext}
-                    title={
-                      getFresher ? 'Fresher' : `${totalYear} ${totalMonths}`
-                    }
+                    title={candidate_details[0].work_exp}
                   >
                     <Text className={styles.changingtext}>
-                      {' '}
-                      {getFresher ? 'Fresher' : `${totalYear} ${totalMonths}`}
+                      {candidate_details[0].work_exp}
                     </Text>
                   </Flex>
-                :(<Flex className={styles.changingtext} title={candidate_details[0].work_exp}>
-                  <Text className={styles.changingtext}>{candidate_details[0].work_exp}</Text>
-                </Flex>)}
-              </Flex> 
-              { !applieddatecheck&& Number(jd_id) !== 0 ? (
-
+                )}
+              </Flex>
+              {!applieddatecheck && Number(jd_id) !== 0 ? (
                 <Flex flex={6}>
                   <Flex className={styles.headingpart} marginTop={10}>
                     Applied Date
@@ -754,83 +763,14 @@ const ProfileNavBar = ({
                 ''
               )}
             </Flex>
-            {Number(jd_id) !== 0 && (
-              <Flex row flex={12} style={{ borderTop: '1px solid #C3C3C3' }}>
-                <Flex flex={6}>
-                  <Flex className={styles.headingpart} marginTop={10}>
-                    Willing to Relocate
-                  </Flex>
-                  {personalInfo[0].relocate === null ||
-                  personalInfo[0].relocate === undefined ? (
-                    <Flex className={styles.changingtext}>
-                      <Text className={styles.changingtext}>Not Specified</Text>
-                    </Flex>
-                  ) : (
-                    <Flex
-                      className={styles.changingtext}
-                      title={personalInfo[0].relocate === true ? 'Yes' : 'No'}
-                    >
-                      {personalInfo[0].relocate === true ? 'Yes' : 'No'}
-                    </Flex>
-                  )}
-                </Flex>
-                <Flex flex={6}>
-                  <Flex className={styles.headingpart} marginTop={10}>
-                    Job Type
-                  </Flex>
-                  {personalInfo[0].type_of_job__label_name === undefined ||
-                  personalInfo[0].type_of_job__label_name === null ||
-                  personalInfo[0].type_of_job__label_name === '' ? (
-                    <Flex className={styles.changingtext}>
-                      <Text className={styles.changingtext}>Not Specified</Text>
-                    </Flex>
-                  ) : (
-                    <Flex
-                      className={styles.changingtext}
-                      title={personalInfo[0].type_of_job__label_name}
-                    >
-                      <Text
-                        className={styles.changingtext}
-                        style={{ textTransform: 'capitalize' }}
-                      >
-                        {personalInfo[0].type_of_job__label_name}
-                      </Text>
-                    </Flex>
-                  )}
-                </Flex>
-              </Flex>
-            )}
-            {Number(jd_id) !== 0 && (
-              <Flex row flex={12} marginBottom={'10px'}>
-                <Flex flex={6}>
-                  <Flex className={styles.headingpart} marginTop={10}>
-                    Expected Salary
-                  </Flex>
-                  {candiList.exp_salary === undefined ||
-                  candiList.exp_salary === null ||
-                  candiList.exp_salary === '' ? (
-                    <Flex className={styles.changingtext}>
-                      <Text className={styles.changingtext}>Not Specified</Text>
-                    </Flex>
-                  ) : (
-                    <Flex
-                      className={styles.changingtext}
-                      title={expGross.toString()}
-                    >
-                      <Text className={styles.changingtext}>{expGross}</Text>
-                    </Flex>
-                  )}
-                </Flex>
-                {!availableity && (
+            {candidate_details[0].candidate_id_id !== null   ? (
+                <Flex row flex={12} style={{ borderTop: '1px solid #C3C3C3' }}>
                   <Flex flex={6}>
                     <Flex className={styles.headingpart} marginTop={10}>
-                      Availability
+                      Willing to Relocate
                     </Flex>
-                    {console.log(
-                      personalInfo[0].available_to_start__label_name,
-                      'personalInfo[0].available_to_start__label_namepersonalInfo[0].available_to_start__label_name',
-                    )}
-                    {personalInfo[0].available_to_start__label_name === null ? (
+                    {personalInfo[0].relocate === null ||
+                    personalInfo[0].relocate === undefined ? (
                       <Flex className={styles.changingtext}>
                         <Text className={styles.changingtext}>
                           Not Specified
@@ -839,39 +779,119 @@ const ProfileNavBar = ({
                     ) : (
                       <Flex
                         className={styles.changingtext}
-                        title={personalInfo[0].available_to_start__label_name}
+                        title={personalInfo[0].relocate === true ? 'Yes' : 'No'}
                       >
+                        {personalInfo[0].relocate === true ? 'Yes' : 'No'}
+                      </Flex>
+                    )}
+                  </Flex>
+                  <Flex flex={6}>
+                    <Flex className={styles.headingpart} marginTop={10}>
+                      Job Type
+                    </Flex>
+                    {personalInfo[0].type_of_job__label_name === undefined ||
+                    personalInfo[0].type_of_job__label_name === null ||
+                    personalInfo[0].type_of_job__label_name === '' ? (
+                      <Flex className={styles.changingtext}>
                         <Text className={styles.changingtext}>
-                          {personalInfo[0].available_to_start__label_name}
+                          Not Specified
+                        </Text>
+                      </Flex>
+                    ) : (
+                      <Flex
+                        className={styles.changingtext}
+                        title={personalInfo[0].type_of_job__label_name}
+                      >
+                        <Text
+                          className={styles.changingtext}
+                          style={{ textTransform: 'capitalize' }}
+                        >
+                          {personalInfo[0].type_of_job__label_name}
                         </Text>
                       </Flex>
                     )}
                   </Flex>
-                )}
-              </Flex>
-            )}
-            {Number(jd_id) !== 0 && (
-              <Flex style={{ paddingBottom: '10px' }}>
-                <Flex className={styles.headingpart}>Industry Type</Flex>
-                {personalInfo[0].industry_type__label_name === undefined ||
-                personalInfo[0].industry_type__label_name === null ||
-                personalInfo[0].industry_type__label_name === '' ? (
-                  <Flex>
-                    {' '}
-                    <Text className={styles.changingtext}>Not Specified</Text>
+                </Flex>
+              ):''}
+            {candidate_details[0].candidate_id_id !== null  ? (
+                <Flex row flex={12} marginBottom={'10px'}>
+                  <Flex flex={6}>
+                    <Flex className={styles.headingpart} marginTop={10}>
+                      Expected Salary
+                    </Flex>
+                    {candiList.exp_salary === undefined ||
+                    candiList.exp_salary === null ||
+                    candiList.exp_salary === '' ? (
+                      <Flex className={styles.changingtext}>
+                        <Text className={styles.changingtext}>
+                          Not Specified
+                        </Text>
+                      </Flex>
+                    ) : (
+                      <Flex
+                        className={styles.changingtext}
+                        title={expGross.toString()}
+                      >
+                        <Text className={styles.changingtext}>{expGross}</Text>
+                      </Flex>
+                    )}
                   </Flex>
-                ) : (
-                  <Flex
-                    className={styles.changingtexts}
-                    title={personalInfo[0].industry_type__label_name}
-                  >
-                    <Text className={styles.changingtext}>
-                      {personalInfo[0].industry_type__label_name}
-                    </Text>
-                  </Flex>
-                )}
-              </Flex>
+                  {!availableity && (
+                    <Flex flex={6}>
+                      <Flex className={styles.headingpart} marginTop={10}>
+                        Availability
+                      </Flex>
+                      {console.log(
+                        personalInfo[0].available_to_start__label_name,
+                        'personalInfo[0].available_to_start__label_namepersonalInfo[0].available_to_start__label_name',
+                      )}
+                      {personalInfo[0].available_to_start__label_name ===
+                      null ? (
+                        <Flex className={styles.changingtext}>
+                          <Text className={styles.changingtext}>
+                            Not Specified
+                          </Text>
+                        </Flex>
+                      ) : (
+                        <Flex
+                          className={styles.changingtext}
+                          title={personalInfo[0].available_to_start__label_name}
+                        >
+                          <Text className={styles.changingtext}>
+                            {personalInfo[0].available_to_start__label_name}
+                          </Text>
+                        </Flex>
+                      )}
+                    </Flex>
+                  )}
+                </Flex>
+              ):''}
+            {console.log(
+              candidate_details[0].candidate_id_id,
+              'aaaaaaaaaaaaaaaaaaaaaqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq',
             )}
+            {candidate_details[0].candidate_id_id !== null ? (
+                <Flex style={{ paddingBottom: '10px' }}>
+                  <Flex className={styles.headingpart}>Industry Type</Flex>
+                  {personalInfo[0].industry_type__label_name === undefined ||
+                  personalInfo[0].industry_type__label_name === null ||
+                  personalInfo[0].industry_type__label_name === '' ? (
+                    <Flex>
+                      {' '}
+                      <Text className={styles.changingtext}>Not Specified</Text>
+                    </Flex>
+                  ) : (
+                    <Flex
+                      className={styles.changingtexts}
+                      title={personalInfo[0].industry_type__label_name}
+                    >
+                      <Text className={styles.changingtext}>
+                        {personalInfo[0].industry_type__label_name}
+                      </Text>
+                    </Flex>
+                  )}
+                </Flex>
+              ):''}
 
             {/* {withOutJD && (
               <>

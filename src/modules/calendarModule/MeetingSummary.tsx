@@ -295,7 +295,7 @@ const MeetingSummary = ({
               {...meetingForm}
               currentUserLabel={currentUserLabel}
               greetingText={greetings.applicant}
-              email={applicantEmail}
+              email={applicantEmail?applicantEmail:localStorage.getItem('emailnote')}
               interviewerData={meetingForm?.interviewer}
               onSave={(value) => {
                 /// save this text to some field

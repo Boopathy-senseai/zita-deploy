@@ -308,8 +308,7 @@ const Calendar = () => {
       setOpenScheduleForm(true);
       localStorage.setItem('eventhandeler', 'false');
       handleCloseEventPop();
-      setCurrentEventId(localStorage.getItem('eventhandelerid'));
-      console.log(localStorage.getItem('checkstatus'),'ggggggggggggggggggggggggggggffffffffffffffffffffffffffff')
+      setCurrentEventId(localStorage.getItem('eventhandelerid')); 
       if (localStorage.getItem('checkstatus') === CALENDAR.Google) {
         dispatch(
           googleEditEventMiddleware({
@@ -1047,8 +1046,7 @@ const Calendar = () => {
         options={globalZones}
         isSearchable={true}
         defaultValue={{ label: currentTimeZone, value: currentTimeZone }}
-        onChange={(option) => handleChangeTimeZone(option.value)}
-        fontSize={13}
+        onChange={(option) => handleChangeTimeZone(option.value)} 
         
       />
     </div>

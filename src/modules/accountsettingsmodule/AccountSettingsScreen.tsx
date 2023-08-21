@@ -200,6 +200,8 @@ const AccountSettingsScreen = ({ value }: props) => {
     },
   );
 
+  {console.log("permissionsssssss",Permission)}
+
   const { routerPrompt, onDirty, onPristine } = useUnsavedChangesWarning();
   // var oldURL = window.location.href;
   // if(window.location.href !== oldURL){
@@ -387,6 +389,7 @@ const AccountSettingsScreen = ({ value }: props) => {
         </Flex>
                 {tabKey === '0' && (
                   <CompanyPage
+                  
                     setKey={setKey}
                     setReload={setReloadCompany}
                     setReloadProfile={setReloadProfile}
@@ -488,9 +491,13 @@ const AccountSettingsScreen = ({ value }: props) => {
                 <Tab title={'Integrations'} eventKey={'4'}>
                   {tabKey === '4' && <IntegrationScreen />}
                 </Tab>
-                <Tab title={'Templates'} eventKey={'7'}>
-                  {tabKey === '7' && <TemplatesPage />}
-                </Tab>
+                {Permission.includes('manage_account_settings')?(
+                   <Tab title={'Templates'} eventKey={'7'}>
+                   {tabKey === '7' && <TemplatesPage />}
+                 </Tab>
+                ):("")}
+               
+
                 <Tab title={'Email Notifications'} eventKey={'5'}>
                   <EmailNotification />
                 </Tab>

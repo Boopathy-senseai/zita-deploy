@@ -250,7 +250,8 @@
   font-weight: 700;
   padding-left: 5px;
   /* line-height: 16px; */
-
+  top:2px;
+  position: relative;
   color: #581845;
   /* margin-top: 5px; */
   /* line-height: 22px; */
@@ -260,6 +261,8 @@
   font-size: 13px;
   font-weight: 700;
   color: #581845;
+  top:2px;
+  position: relative;
 }
 .styletexts {
   font-size: 13px;
