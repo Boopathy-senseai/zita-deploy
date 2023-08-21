@@ -74,6 +74,7 @@
 .warn {
   color: red;
   margin-bottom: 0px;
+  font-size: 12px;
 }
 
 .date {
@@ -205,6 +206,7 @@
 .label {
   margin-bottom: 4px;
   color: #581845;
+  font-size: 13px;
 }
 
 label > p {
@@ -218,8 +220,9 @@ label > p {
   border-radius: 5px;
   margin-top: 20px;
   color: #ffffff;
-
+  font-size: 13px;
 }
+
 .cancelButton:active,
 .cancelButton:focus {
   background-color: #888888;
@@ -229,6 +232,7 @@ label > p {
   border: none;
   border-radius: 5px;
   margin-top: 20px;
+  font-size: 13px;
 }
 .continueButton:active,
 .continueButton:focus {

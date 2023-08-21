@@ -2458,8 +2458,12 @@ ul {
 .css-hkb84n-MenuList{
   overflow-y: scroll !important;
   overflow-x: hidden !important;
+  
 }
 
+.rbc-month-view{
+  z-index: 0;
+}
 /* .daterangepicker td.disabled, .daterangepicker option.disabled {
   color: #999;
   cursor: not-allowed;

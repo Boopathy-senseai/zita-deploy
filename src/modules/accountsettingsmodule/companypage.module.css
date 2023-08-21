@@ -563,7 +563,7 @@ max-width: 135px;
 /* .fileStyle {
   display: none;
 } */
-.cardfront {
+/* .cardfront {
   z-index: 10000;
   margin-top: -10.2vh;
   margin-left: -1.5vh;
@@ -571,7 +571,18 @@ max-width: 135px;
   margin-left: 20px;
   max-width: 425px;
 position: absolute;
+} */
+
+.cardfront {
+  z-index: 10000;
+  /* margin-top: -12vh; */
+  margin-left: -1.5vh;
+  padding: 5px 10px 5px;
+  margin-left: 20px;
+  max-width: 425px;
+position: relative;
 }
+
 .cardfront1 {
   z-index: 10000;
   padding: 5px 10px 5px;

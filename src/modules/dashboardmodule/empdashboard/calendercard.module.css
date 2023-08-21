@@ -78,7 +78,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   grid-gap: 0px 10px;
-  align-content: flex-start;
+  /* align-content: flex-start; */
 }
 .noContent {
   align-self: center;
