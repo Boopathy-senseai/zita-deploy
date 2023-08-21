@@ -13,6 +13,7 @@ import Flex from '../../../uikit/Flex/Flex';
 import Text from '../../../uikit/Text/Text';
 import ProfileView from '../../applicantpipelinemodule/ProfileView';
 import { mediaPath } from '../../constValue';
+import Avatar from '../../../uikit/Avatar/Avatar';
 import ZitaMatchCandidateDrawer from '../../zitamatchcandidatemodule/ZitaMatchCandidateDrawer';
 import { MessageEntity } from './DashBoardTypes';
 import styles from './messagecard.module.css';
@@ -95,12 +96,18 @@ const MessageCard = () => {
               >
                 <Flex row between>
                   <Flex row>
-                    <img
+                    {/* <img
                       style={{ objectFit: 'cover' }}
                       src={mediaPath + list.profile_pic}
                       alt="profile"
                       className={styles.profileStyle}
-                    />
+                    /> */}
+                    <Avatar
+               className={styles.profileStyle}
+                style={{ fontSize:'14px', textTransform:'uppercase' }}
+                initials= {`${list.first_name[0]}${list.last_name[0]
+                }`} 
+              />
                     <Flex>
                       {list.can_source === 'applicant' ? (
                         <Text

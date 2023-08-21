@@ -49,6 +49,7 @@
 }
 .commentTextStyle {
   padding: 8px 8px 8px 0px;
+  font-size: 13px;
   flex-wrap: wrap;
   overflow: hidden;
   text-overflow: clip;

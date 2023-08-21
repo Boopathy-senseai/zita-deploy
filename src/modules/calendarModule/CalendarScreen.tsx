@@ -308,8 +308,7 @@ const Calendar = () => {
       setOpenScheduleForm(true);
       localStorage.setItem('eventhandeler', 'false');
       handleCloseEventPop();
-      setCurrentEventId(localStorage.getItem('eventhandelerid'));
-      console.log(localStorage.getItem('checkstatus'),'ggggggggggggggggggggggggggggffffffffffffffffffffffffffff')
+      setCurrentEventId(localStorage.getItem('eventhandelerid')); 
       if (localStorage.getItem('checkstatus') === CALENDAR.Google) {
         dispatch(
           googleEditEventMiddleware({
