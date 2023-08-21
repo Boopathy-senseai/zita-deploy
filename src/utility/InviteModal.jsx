@@ -149,6 +149,7 @@ const InviteModal = (props) => {
       })
       .catch((err) => {
         console.log(err);
+        setdisplayRolesLoading(false);
       });
   };
 
