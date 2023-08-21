@@ -1085,6 +1085,7 @@ const Calendar = () => {
         defaultValue={{ label: currentTimeZone, value: currentTimeZone }}
         onChange={(option) => handleChangeTimeZone(option.value)}
         fontSize={13}
+        
       />
     </div>
   );
@@ -1121,7 +1122,7 @@ const Calendar = () => {
             </Text>
             <CalendarTypeMenu
               style={{
-                margin: '0px 10px',
+                margin: '0px 10px', fontSize: '13px'
               }}
               handleTeamMemberEvents={handleTeamMemberEvents}
               currentCalendarType={currentCalendarType}

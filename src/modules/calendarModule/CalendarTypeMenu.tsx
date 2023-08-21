@@ -170,7 +170,7 @@ const CalendarTypeMenu = ({
           <CalendarTypeOptions />
           <div
             style={{
-              padding: '5px 8px',
+              padding: '15px 8px 0px',
             }}
           >
             {currentCalendarType === CalendarType.TeamCalendar ? (
