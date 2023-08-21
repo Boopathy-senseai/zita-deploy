@@ -818,7 +818,7 @@ ul {
   margin-bottom: 1rem ! important;
   list-style-type: disc ! important;
 }
-cardHo:hover{
+.cardHo:hover{
   background-color: #EDE6EB;
   box-shadow: 1px 1px 1px #EDE6EB;
   border-left: 5px solid #581845;
@@ -826,7 +826,7 @@ cardHo:hover{
 
 .cardHo{
   border: 1px solid #EDE6EB;
-  width: 135px;
+  width: 145px;
   box-shadow: 2px 2px 5px 1px #EDE6EB;
 }
 
