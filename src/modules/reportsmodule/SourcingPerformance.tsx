@@ -278,7 +278,7 @@ const SourcingPerformanceReport = () => {
 
 				<Flex row className={styles.marginTop}>
 					<Flex flex={6}>  
-  						<Flex row  style={{marginTop: '10px'}}>
+  						<Flex row  style={{marginTop: '10px', display:"flex", alignItems:"center"}}>
 							<Text  className={styles.selected}>
 								Select Job
 							</Text>

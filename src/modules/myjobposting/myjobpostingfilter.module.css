@@ -110,8 +110,8 @@ font-weight: 400;
   position: absolute;
   background-color: var(--color-white, #fff);
   border-radius: 12px;
-  max-height:530px ;
-  overflow-y: scroll;
+  max-height:520px ;
+  overflow-y: auto;
   width: 230px;
   display: none;
   box-sizing: border-box;
@@ -137,7 +137,7 @@ font-weight: 400;
 .mtstyle {
   color: #581845 !important;
   border-top: 1px solid #dee2e6;
-  padding: 15px;
+  padding: 12px;
   
 }
  

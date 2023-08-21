@@ -22,3 +22,7 @@
 .saveBtn {
   margin: 0 16px;
 }
+.leftAlign{
+  display: flex;
+  justify-content: left;
+}

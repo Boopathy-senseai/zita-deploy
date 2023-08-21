@@ -9,6 +9,8 @@ import SingleButton from '../common/SingleButton';
 import Toast from '../../uikit/Toast/Toast';
 import { AppDispatch, RootState } from '../../store';
 import { ERROR_MESSAGE } from '../constValue';
+import SvgJobapplication from '../../icons/SvgJobapplication';
+import SvgNotinterests from '../../icons/SvgNotinterests';
 import SvgUserSearch from '../../icons/SvgUserSearch';
 import SvgSearch from '../../icons/SvgSearch';
 import { Text } from '../../uikit';
@@ -36,6 +38,7 @@ import ContactCreditsModal from './ContactCreditsModal';
 import UnlockLoaderModal from './UnlockLoaderModal';
 import CandidateSuccessModal from './CandidateSuccessModal';
 import { DataEntity } from './talentSourcingTypes';
+
 
 const cx = classNames.bind(styles);
 
@@ -741,8 +744,10 @@ setshow(val)
               </div>
             )}
             {(isSearchData === null || isSearchData?.length === 0 && !isFind) && !isSubmitLoader && (
-                <div className={styles.emptyStyle} style={{marginRight:'3%'}}>
-                  <Empty title="No Candidate Found" />
+                <div className={styles.emptyStyle} style={{display:"flex", justifyContent:"center"}}>
+                  <SvgNotinterests width={18} height={18} style={{filter:"opacity(0.5)"}} />
+                  <div>
+                  <Empty title="No Candidate Found" /></div>
                 </div>
               )}
             {isSearchData?.length !== 0 && isSearchData !== null && isSubmitLoader !== true && (

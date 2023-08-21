@@ -33,6 +33,7 @@ const Reports = () => {
         flexDirection: "column",
         height: "100%",
         // overflowY: 'auto',
+        
       }}
     >
       <Flex className={styles.overAll} >

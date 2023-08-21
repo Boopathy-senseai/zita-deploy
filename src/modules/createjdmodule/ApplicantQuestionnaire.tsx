@@ -237,7 +237,7 @@ const ApplicantQuestionnaire = () => {
                 )}
               </Formik>
             </Tab>
-            <Tab title={'Choose From Templates'} eventKey={'1'}>
+            <Tab title={'Choose From Templates'} eventKey={'1'} style={{justifyContent:"left"}} >
               <ChooseFromTemplates
                 template={template}
                 jdId={jd_id}
@@ -246,6 +246,7 @@ const ApplicantQuestionnaire = () => {
                 tabledataisLoading={tabledataisLoading}
                 onDirty={onDirty}
                 onPristine={onPristine}
+                
               />
             </Tab>
             <Tab title={'EEO Compliance (USA)'} eventKey={'2'}>
