@@ -1147,9 +1147,9 @@ const Calendar = () => {
           {/* <div className={styles.triangle}> </div> */}
         </div>
 
-      <Flex row between>
+      <Flex row between >
         {' '}
-        <Flex className={styles.calendarInputs}>
+        <Flex className={styles.calendarInputs} marginTop={10}>
           <Flex row center marginRight={15}>
             <Text size={13} color="theme">
               Time zone:

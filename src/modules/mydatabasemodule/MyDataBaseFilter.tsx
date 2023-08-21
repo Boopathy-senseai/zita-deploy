@@ -142,8 +142,8 @@ const MyDataBaseFilter = ({
     };
   });
   useEffect(() => {
-    if (formik.values.jobType === ' ') {
-      setjobname('Any');
+    if (formik.values.jobType === '') {
+      setjobname('');
     } else if (formik.values.jobType === '6') {
       setjobname('Permanent');
     } else if (formik.values.jobType === '3') {
@@ -720,7 +720,7 @@ null
         </Text>
       </Flex>
      </div>
-     <div style={{padding:'6px',display:'flex',justifyContent: 'center',alignItems:'center'}}>
+     <div className={styles.filterContainer} >
      <Button
      className={styles.buyBtn}
      onClick={handlechange}

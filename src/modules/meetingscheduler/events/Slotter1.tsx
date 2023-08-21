@@ -694,6 +694,11 @@ const SlotterDate = (props) => {
         if (durationParts[1] === 'minutes') {
           minutes = parseInt(durationParts[0], 10);
         }
+        if (durationParts[1] === 'hour' || durationParts[1] === 'hours') {
+
+          hours = parseInt(durationParts[0], 10);
+
+        }
       } else if (durationParts.length === 4) {
         if (durationParts[1] === 'hour' || durationParts[1] === 'hours') {
           hours = parseInt(durationParts[0], 10);

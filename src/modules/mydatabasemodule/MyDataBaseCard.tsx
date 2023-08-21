@@ -166,14 +166,14 @@ const MyDataBaseCard = ({
         {isEmpty(dataList.candidate_id_id) && (
           <>
             <ZitaMatchCandidateDrawer
-              activeState={jobId === false ? 2 : 2}
+              activeState={jobId === false ? 1 : 1}
               open={isNotes}
               cancel={handleClose}
               jobId={checkWithJd}
               candidateId={dataList.id.toString()}
             />
             <ZitaMatchCandidateDrawer
-              activeState={jobId === false ? 3 : 4}
+              activeState={jobId === false ? 2 : 3}
               open={isShowMatch}
               cancel={handleClose}
               jobId={checkWithJd}

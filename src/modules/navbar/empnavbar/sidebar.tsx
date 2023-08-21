@@ -619,7 +619,7 @@ const Sidebar = ({ changes, data }: props) => {
                     onClick={clearTab}
                     to={
                       plan_id === 1
-                        ? '/'
+                        ? '#'
                         : plan_id !== 1 && is_plan
                         ? reports
                         : accountPath
@@ -690,7 +690,7 @@ const Sidebar = ({ changes, data }: props) => {
                       to={is_plan ? routesPath.CALENDAR : accountPath}
                     >
                       <text style={{ marginLeft: '-2px' }}>
-                        <SvgCalendar height={22} width={22} />
+                        <SvgCalendar height={18} width={18} />
                       </text>
                       <Text
                         onClick={() => handleNavigate(7)}
@@ -717,7 +717,7 @@ const Sidebar = ({ changes, data }: props) => {
                       to={is_plan ? routesPath.CALENDAR : accountPath}
                     >
                       <text style={{ marginLeft: '-2px' }}>
-                        <SvgCalendar height={22} width={22} />
+                        <SvgCalendar height={18} width={18} />
                       </text>
                       <Text
                         onClick={() => handleNavigate(7)}
@@ -745,7 +745,7 @@ const Sidebar = ({ changes, data }: props) => {
                     }}
                   >
                     <text style={{ marginLeft: '-2px' }}>
-                      <SvgCalendar height={22} width={22} />
+                      <SvgCalendar height={18} width={18} />
                     </text>
                     <Text
                       onClick={() => handleNavigate(7)}
@@ -775,7 +775,7 @@ const Sidebar = ({ changes, data }: props) => {
                       to={is_plan ? meetingScheduler : accountPath}
                     >
                       <text style={{ marginLeft: '-2px' }}>
-                        <SvgScheduler height={20} width={22} />
+                        <SvgScheduler height={16} width={18}  opacity={0.7}/>
                       </text>
                       <Text
                         onClick={() => handleNavigate(8)}
@@ -801,7 +801,7 @@ const Sidebar = ({ changes, data }: props) => {
                       to={is_plan ? meetingScheduler : accountPath}
                     >
                       <text style={{ marginLeft: '-2px' }}>
-                        <SvgScheduler height={20} width={20} />
+                        <SvgScheduler height={16} width={18}  opacity={0.7}/>
                       </text>
                       <Text
                         onClick={() => handleNavigate(8)}
@@ -830,7 +830,7 @@ const Sidebar = ({ changes, data }: props) => {
                     }}
                   >
                     <text style={{ marginLeft: '-2px' }}>
-                      <SvgScheduler height={20} width={22} />
+                      <SvgScheduler height={16} width={18} opacity={0.7}/>
                     </text>
                     <Text
                       onClick={() => handleNavigate(8)}

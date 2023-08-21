@@ -260,19 +260,19 @@ const CalenderCard = ({
     <Card className={styles.overAll}>
       <Flex row between className={styles.msgText}>
         <Flex row center>
-          <Flex >
-            <Text bold size={14} style={{ marginRight: 5 ,marginTop:"4px"}}>
+          <Flex>
+            <Text bold size={14} style={{ marginRight: 5, marginTop: '4px' }}>
               Calendar
             </Text>
           </Flex>
           {active === 1 && (
             // <Flex >
-              <Text color="gray" size={12}>
-                {outlookTimeZone[getOut]}
-                {checkCalendarOutlook
-                  ? outlookTimeZone[getOut]
-                  : localStorage.getItem('timeZone')}
-              </Text>
+            <Text color="gray" size={12}>
+              {outlookTimeZone[getOut]}
+              {checkCalendarOutlook
+                ? outlookTimeZone[getOut]
+                : localStorage.getItem('timeZone')}
+            </Text>
             // </Flex>
           )}
         </Flex>
@@ -331,90 +331,88 @@ const CalenderCard = ({
         </Flex> */}
         {active === 1 && (
           // <Flex row>
-            <Flex row center>
+          <Flex row center>
+            <Flex>
               <Flex>
-                <Flex>
-                  <Button
-                    types="primary"
-                    className={styles.syncBtn}
-                    onClick={checkAuth}
-                  >
-                    <Flex row center>
-                      {/* <Flex> */}
-                      <Text
-                        bold
-                        size={14}
-                        style={{ cursor: 'pointer', color: 'white' }}
-                      >
-                        Sync
-                      </Text>
-                      {/* </Flex> */}
-                      <Flex marginLeft={8}>
-                        <SvgRefresh height={14} width={14} fill={WHITE} />
-                      </Flex>
-                    </Flex>
-                  </Button>
-                  {isCalLoad && (
-                    <div style={{ marginLeft: 16 }}>
-                      <Loader withOutOverlay size={'medium'} />
-                    </div>
-                  )}
-                </Flex>
-              </Flex>
-              <Flex marginLeft={10} width={"80%"}>
-                {/* <Flex> */}
-                  <Flex row style={{ position: 'relative', display: 'flex' }}>
-                    <DatePicker
-                      id="calendar___open"
-                      dateFormat="DD/MM/YYYY"
-                      value={formik.values.date}
-                      onChange={(date) => {
-                        formik.setFieldValue(
-                          'date',
-                          getDateString(date, 'MM/DD/YYYY'),
-                        );
-                        // calender api call
-                        // setDate(getDateString(date, 'MM/DD/YYYY'))
-                        dispatch(
-                          dashboardCalenderMiddleWare({
-                            date: getDateString(date, 'YYYY-MM-DD'),
-                          }),
-                        ).then((res) => {
-                          const dataout = res.payload.events;
-                          setEvent(
-                            res.payload.events.map(
-                              (items: {
-                                title: any;
-                                start_time: string | number | Date;
-                                end_time: string | number | Date;
-                                web_url: any;
-                              }) => {
-                                return {
-                                  title: items.title,
-                                  start: new Date(items.start_time),
-                                  end: new Date(items.end_time),
-                                  web_url: items.web_url,
-                                };
-                              },
-                            ),
-                          );
-                        });
-
-                        {
-                        }
-                      }}
-                      className={styles.datePicker}
-                    />
-                    <div 
-                     style={{ position: 'absolute', right:8, top:3 }}
+                <Button
+                  types="primary"
+                  className={styles.syncBtn}
+                  onClick={checkAuth}
+                >
+                  <Flex row center>
+                    {/* <Flex> */}
+                    <Text
+                      bold
+                      size={14}
+                      style={{ cursor: 'pointer', color: 'white' }}
                     >
-                      <label htmlFor="calendar___open" className={styles.cursor}>
-                        <SvgCalendar width={16} height={16}/>
-                      </label>
-                    </div>
+                      Sync
+                    </Text>
+                    {/* </Flex> */}
+                    <Flex marginLeft={8}>
+                      <SvgRefresh height={14} width={14} fill={WHITE} />
+                    </Flex>
                   </Flex>
-                {/* </Flex> */}
+                </Button>
+                {isCalLoad && (
+                  <div style={{ marginLeft: 16 }}>
+                    <Loader withOutOverlay size={'medium'} />
+                  </div>
+                )}
               </Flex>
+            </Flex>
+            <Flex marginLeft={10} width={'80%'}>
+              {/* <Flex> */}
+              <Flex row style={{ position: 'relative', display: 'flex' }}>
+                <DatePicker
+                  id="calendar___open"
+                  dateFormat="DD/MM/YYYY"
+                  value={formik.values.date}
+                  onChange={(date) => {
+                    formik.setFieldValue(
+                      'date',
+                      getDateString(date, 'MM/DD/YYYY'),
+                    );
+                    // calender api call
+                    // setDate(getDateString(date, 'MM/DD/YYYY'))
+                    dispatch(
+                      dashboardCalenderMiddleWare({
+                        date: getDateString(date, 'YYYY-MM-DD'),
+                      }),
+                    ).then((res) => {
+                      const dataout = res.payload.events;
+                      setEvent(
+                        res.payload.events.map(
+                          (items: {
+                            title: any;
+                            start_time: string | number | Date;
+                            end_time: string | number | Date;
+                            web_url: any;
+                          }) => {
+                            return {
+                              title: items.title,
+                              start: new Date(items.start_time),
+                              end: new Date(items.end_time),
+                              web_url: items.web_url,
+                            };
+                          },
+                        ),
+                      );
+                    });
+
+                    {
+                    }
+                  }}
+                  className={styles.datePicker}
+                />
+                <div style={{ position: 'absolute', right: 8, top: 3 }}>
+                  <label htmlFor="calendar___open" className={styles.cursor}>
+                    <SvgCalendar width={16} height={16} />
+                  </label>
+                </div>
+              </Flex>
+              {/* </Flex> */}
+            </Flex>
             {/* </Flex> */}
           </Flex>
         )}
@@ -456,34 +454,27 @@ const CalenderCard = ({
               return (
                 <Card key={list.title + index} className={styles.cardListStyle}>
                   <Flex row between center>
-                    <Flex row center>
-                      <Flex className={styles.borderRight} marginLeft={10}>
-                        <Text bold style={{ color: '#581845' }}>
-                          {moment(list.start).format('dddd')}
-                        </Text>
-                        <Text size={12}>
-                          {getDateString(list.start, 'hh:mm A')}-
-                          {getDateString(list.end, 'hh:mm A')}
-                        </Text>
-                        <Text size={12}>
-                          {
-                            hours!==0 && minutes!==0 ?(
-                              <Text size={12}>{`(${hours}hour ${minutes}minutes)`}</Text>
-                            ):(
-                              
-                               minutes===0?(<Text>{`(${hours}hour)`}</Text>):(<Text>{`(${minutes}minutes)`}</Text>)
-                              
-                              
-                            )
-                          }
-                        </Text>
-                      </Flex>
-                      <Text bold style={{ color: '#581845' }}>
-                        {list.title}
+                    {/* <Flex row center> */}
+                    <Flex className={styles.borderRight} marginLeft={10} marginRight={10}>
+                      <Text bold>{moment(list.start).format('dddd')}</Text>
+                      <Text size={12}>
+                        {getDateString(list.start, 'hh:mm A')}-
+                        {getDateString(list.end, 'hh:mm A')}
                       </Text>
-
-                      {console.log('eventlength:', event.length)}
+                      <Text size={12}>
+                        {hours !== 0 && minutes !== 0 ? (
+                          <Text
+                            size={12}
+                          >{`(${hours}hour ${minutes}minutes)`}</Text>
+                        ) : minutes === 0 ? (
+                          <Text>{`(${hours}hour)`}</Text>
+                        ) : (
+                          <Text>{`(${minutes}minutes)`}</Text>
+                        )}
+                      </Text>
                     </Flex>
+                    <Text style={{ color: '#581845' , minWidth:"50%", lineHeight:"1rem", overflow:"hidden", height:"30px"}}>{list.title}</Text>
+                    {/* </Flex> */}
                     <Flex marginRight={8}>
                       <Button onClick={() => window.open(list.web_url)}>
                         Join

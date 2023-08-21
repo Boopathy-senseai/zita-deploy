@@ -799,12 +799,13 @@ const ZitaMatchFilters = ({
               <Flex className={styles.toggletext}>From job location</Flex>
             </Flex>
             <div
-              style={{
-                padding: '6px',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
+              // style={{
+              //   padding: '6px',
+              //   display: 'flex',
+              //   justifyContent: 'center',
+              //   alignItems: 'center',
+              // }}
+              className={styles.zitaFilterContainer}
             >
               <Flex>
                 <Button onClick={transverdata}>Apply</Button>
