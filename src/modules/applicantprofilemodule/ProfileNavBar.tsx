@@ -91,8 +91,7 @@ type Props = {
   isProfileName?: boolean;
   inviteIconDisable?: boolean;
   inviteIconNone?: boolean;
-  setjobtitle?: any;
-  availableity?: any;
+  setjobtitle?: any; 
   availableity?: any;
 } & typeof defaultProps;
 

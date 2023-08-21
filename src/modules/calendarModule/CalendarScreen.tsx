@@ -1046,8 +1046,7 @@ const Calendar = () => {
         options={globalZones}
         isSearchable={true}
         defaultValue={{ label: currentTimeZone, value: currentTimeZone }}
-        onChange={(option) => handleChangeTimeZone(option.value)}
-        fontSize={13}
+        onChange={(option) => handleChangeTimeZone(option.value)} 
         
       />
     </div>
