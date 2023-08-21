@@ -555,11 +555,12 @@ max-width: 135px;
 } */
 .cardfront {
   z-index: 10000;
-  margin-top: -0.2vh;
+  margin-top: -10.2vh;
   margin-left: -1.5vh;
   padding: 5px 10px 5px;
   margin-left: 20px;
   max-width: 425px;
+position: absolute;
 }
 .cardfront1 {
   z-index: 10000;

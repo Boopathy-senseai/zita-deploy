@@ -9,7 +9,7 @@
   align-items: center;
   margin-top: 0px;
   position: absolute;
-  top: 0px;
+  top: -1px;
   right: 0;
   left:85px;
 }
