@@ -289,6 +289,7 @@ const ProfileNavBar = ({
     total_exp[0].total_exp_year === 0
       ? true
       : false;
+       console.log(candidate_details[0].work_exp,'total_exp[0].total_exp_yeartotal_exp[0].total_exp_year')
   const totalYear =
     total_exp && total_exp[0].total_exp_year !== 0
       ? total_exp && total_exp[0].total_exp_year > 1
@@ -535,12 +536,9 @@ const ProfileNavBar = ({
               ) : (
                 <Flex>{candiList.contact}</Flex>
               )}
-            </Flex>
-            {console.log(
-              personalInfo[0].city__name,
-              'personalInfo[0].city__namepersonalInfo[0].city__namepersonalInfo[0].city__namepersonalInfo[0].city__namepersonalInfo[0].city__namemanojjjjjj',
-            )}
-            <Flex row style={{ marginTop: '5px', marginBottom: '10px' }}>
+            </Flex> 
+                       <Flex row style={{ marginTop: '5px', marginBottom: '10px' }}>
+
               <Flex style={{ marginRight: '10px' }}>
                 <SvgLocation height={17} width={17} fill="#581845" />
               </Flex>
@@ -683,11 +681,12 @@ const ProfileNavBar = ({
                 <Flex className={styles.headingpart} marginTop={10}>
                   Experience
                 </Flex>
-                {total_exp === undefined || total_exp === null ? (
+                {candidate_details[0].work_exp === null || candidate_details[0].work_exp === ''?
+                total_exp === undefined || total_exp === null ? 
                   <Flex className={styles.changingtext}>
                     <Text className={styles.changingtext}>Not Specified</Text>
                   </Flex>
-                ) : (
+                : 
                   <Flex
                     className={styles.changingtext}
                     title={
@@ -699,9 +698,12 @@ const ProfileNavBar = ({
                       {getFresher ? 'Fresher' : `${totalYear} ${totalMonths}`}
                     </Text>
                   </Flex>
-                )}
-              </Flex>
-              {!applieddatecheck && Number(jd_id) !== 0 ? (
+                :(<Flex className={styles.changingtext} title={candidate_details[0].work_exp}>
+                  <Text className={styles.changingtext}>{candidate_details[0].work_exp}</Text>
+                </Flex>)}
+              </Flex> 
+              { !applieddatecheck&& Number(jd_id) !== 0 ? (
+
                 <Flex flex={6}>
                   <Flex className={styles.headingpart} marginTop={10}>
                     Applied Date

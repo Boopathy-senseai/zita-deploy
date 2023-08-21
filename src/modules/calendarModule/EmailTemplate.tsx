@@ -63,7 +63,7 @@ const EmailTemplate: React.FC<Props> = (props) => {
       {rest.eventType.value} on <b>{rest.startDateTime.toDateString()}</b> from{' '}
       <b>{formatTo12HrClock(rest.startDateTime)}</b> to{' '}
       <b>{formatTo12HrClock(rest.endDateTime)}</b> with{' '}
-      <b>{currentUserLabel}</b>
+      <b>{(localStorage.getItem('Applicantsname') !=='' && localStorage.getItem('Applicantsname') !== null) ?localStorage.getItem('Applicantsname'):currentUserLabel}</b>
     </p>
   );
   return (

@@ -1363,14 +1363,18 @@ const SlotterDate = (props) => {
                   width: '36px',
                   height: '36px',
                   borderRadius: '50%',
-                  marginLeft: '5px',
+                  marginLeft: '43px',
                 }}
               />
             )}
-
+{response[0].company_logo !== '' &&
             <Text bold color="theme" size={16} style={{ marginLeft: '10px' }}>
               Interview Scheduling
-            </Text>
+            </Text>}
+            {response[0].company_logo === '' &&
+            <Text bold color="theme" size={16} style={{ marginLeft: '48px' }}>
+              Interview Scheduling
+            </Text>}
           </Flex>
           <Flex height={'100%'} className={styles.slotcontainer}>
             {response?.map((data, item) => (
@@ -1399,12 +1403,13 @@ const SlotterDate = (props) => {
                       ''
                     )} */}
 
-                        <Text size={14} bold>
+                        <Text size={16} bold>
                           {data.company_name}
                         </Text>
                       </Flex>
-                      <Flex marginBottom={10} marginTop={10}>
+                      <Flex marginBottom={10} marginTop={14}>
                         <Text size={14}>Hi {candidate_name},</Text>
+                        <br/>
                         <Text size={14}>
                           {`You have been selected for the ${data.event_name} at 
                    ${data.company_name}.`}
@@ -1438,7 +1443,7 @@ const SlotterDate = (props) => {
                         </Flex>
 
                         <Text
-                          size={13}
+                          size={14}
                           style={{ marginLeft: '5px', marginTop: '2px' }}
                         >
                           {/* This is an {InterviewText(data.event_type)}.Please come

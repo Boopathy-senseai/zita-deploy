@@ -156,7 +156,7 @@ const Interviewer = (props) => {
                 searchItems(e.target.value);
               }}
               actionRight={() => (
-                <label htmlFor={'members search'} style={{ margin: 6,marginTop : '9px' }}>
+                <label htmlFor={'members search'} style={{ margin: 6,paddingTop : '9px' }}>
                   <SvgSearch />
                 </label>
               )}

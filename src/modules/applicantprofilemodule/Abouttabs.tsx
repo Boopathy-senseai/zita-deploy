@@ -299,7 +299,7 @@ const AboutTab = () => {
         })}
         {techSkillSplit[0] !== "" && techSkillSplit.length > 0 && techSkillSplit[0] !== undefined  ? (
           <>
-            <Text bold className={styles.jobPreferenceStyle}>
+            <Text bold className={styles.jobPreferenceStyleproffesional}>
               Professional Skills
             </Text>
             <Flex row center wrap>
