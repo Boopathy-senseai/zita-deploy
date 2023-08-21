@@ -628,7 +628,7 @@ const ProfileCard = () => {
                 <Flex marginRight={1}>
                   <SvgLocationicon height={16} width={16} fill={'#581845'} />
                 </Flex>
-                <Flex marginLeft={5} style={{ fontSize: '13px' }}>
+                <Flex marginLeft={5} className={styles.address} title={`${address},${city},${state},${country},${zipcode}`}>
                   {address}, {city}, {state}, {country}, {zipcode}
                 </Flex>
               </Flex>

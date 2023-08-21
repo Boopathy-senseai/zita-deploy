@@ -173,7 +173,7 @@ const TotalApplicant = ({
                 color="theme"
                 title={'Favourite Applicants'}
               >
-                Favouritesd
+                Favourites
               </Text>
             </Flex>
           </Button>
