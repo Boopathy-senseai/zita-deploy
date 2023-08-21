@@ -772,15 +772,28 @@ input:-webkit-autofill:active {
 .rbc-header .rbc-button-link {
   width: 100%;
 }
+.rbc-event {
+  border-radius: 2px !important;
+}
+
+.rbc-event-label {
+  display: none !important;
+}
+.rbc-events-container {
+  margin: 0 !important;
+}
+
+.rbc-time-header-cell {
+  height: 100%;
+}
+
+.rbc-header .rbc-button-link {
+  width: 100%;
+}
 
 /* MUI OVERRIDE */
 /* Input fields */
-.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
-  padding: 5px 10px !important;
-  height: 20px !important;
-  font-size: 14px !important;
-  color: #333 !important;
-}
+
 
 /* tab-content */
 
@@ -793,8 +806,7 @@ input:-webkit-autofill:active {
 }
 
 .ql-mention-list-container {
-  width: 270px;
-
+  width: 170px;
   border: 1px solid #f0f0f0;
 }
 
@@ -813,12 +825,23 @@ input:-webkit-autofill:active {
   /* overflow: auto !important; */
   flex: 1;
 }
+.MuiOutlinedInput-notchedOutline {
+  border-color: #cccccc !important;
+}
+/* .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(0, 0, 0, 0.23) !important;
+} */
 
 ul {
   margin-bottom: 1rem ! important;
   list-style-type: disc ! important;
 }
-cardHo:hover{
+.css-hdw1oc{
+  display: none !important;
+  /* height: 20px !important; */
+}
+
+.cardHo:hover{
   background-color: #EDE6EB;
   box-shadow: 1px 1px 1px #EDE6EB;
   border-left: 5px solid #581845;
@@ -826,7 +849,7 @@ cardHo:hover{
 
 .cardHo{
   border: 1px solid #EDE6EB;
-  width: 135px;
+  width: 145px;
   box-shadow: 2px 2px 5px 1px #EDE6EB;
 }
 
@@ -2323,9 +2346,9 @@ cardHo:hover{
   cursor: default;
 }
 .rdp-button.rdp-day_selected {
-  /* background-color: #d7c7d2 !important; */
-  /* color: #581845 !important; */
-  /* padding: 5px !important; */
+  background-color: #d7c7d2 !important;
+   color: #581845 !important; 
+   padding: 5px !important;
 }
 .rdp-button.rdp-day_selected
 .DayPicker-Day--lastSelected {
@@ -2334,7 +2357,7 @@ cardHo:hover{
   color: #581845; 
   /* font-weight: 54px; */ /* This is not a valid font-weight value */
 }
-/* 
+
 .rdp-button.rdp-day_selected,
 .rdp-day_selected:focus-visible,
 .rdp-day_selected:hover {
@@ -2343,13 +2366,13 @@ cardHo:hover{
   color: #581845 !important; 
   padding: 5px !important;
   background-color: #d7c7d2 !important;
-} */
+}
 
-/* .rdp-button.rdp-day_selected:focus {
+ .rdp-button.rdp-day_selected:focus {
   background-color: #581858 !important;
   color: #fffcff !important;
   padding: 5px !important;
-} */
+}
 
 .rdp-button.rdp-day_highlighted{
   background-color: #17692e !important;
@@ -2362,8 +2385,11 @@ cardHo:hover{
   color: white;
 }
 
+.css-i4bv87-MuiSvgIcon-root{
+  font-size: 20px !important;
+  color: #581845 !important;
+}
 .rdp-day_today:not(.rdp-day_outside) {
-  /* background-color: #581845 !important; */
   color: black;
 }
 
@@ -2400,3 +2426,52 @@ cardHo:hover{
  .daterangepicker th.month{
    cursor: default !important;
  }
+ .legend{
+  display: none;
+}
+.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
+  padding: 4px 10px !important;
+  height: 1.7em !important;
+  font-size: 13px !important;
+  color: #333 !important;
+  border-width: 1px !important;
+}
+.css-1d3z3hw-MuiOutlinedInput-notchedOutline{
+  border-color: #D7C7D2 !important;
+}
+.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline{
+  border-color: #58184570 !important;
+}
+
+.css-9vzr9t-control{
+  border-color: #D7C7D2 !important ;
+}
+.css-9vzr9t-control:hover{
+  border-color: #58184570 !important ;
+}
+.createScheduleForm_duration__3Jplh p:nth-of-type(even){
+  border-color: #D7C7D2 !important ;
+}
+.createScheduleForm_duration__3Jplh p:nth-of-type(even):hover{
+  border-color: #58184570 !important ;
+}
+.css-hkb84n-MenuList{
+  overflow-y: scroll !important;
+  overflow-x: hidden !important;
+}
+
+/* .daterangepicker td.disabled, .daterangepicker option.disabled {
+  color: #999;
+  cursor: not-allowed;
+  text-decoration: line-through;
+  cursor: not-allowed;
+} */
+
+/* .react-datepicker__day--selected{
+  background-color: #581845 !important;
+}
+
+.react-datepicker__day.react-datepicker__day--keyboard-selected {
+  background: transparent !important;
+  color: black;
+} */

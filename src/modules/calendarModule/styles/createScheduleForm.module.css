@@ -87,8 +87,8 @@
 }
 
 .meetingForm {
-  /* background-color: white; */
-  max-height: 549px;
+  background-color: white;
+  max-height: 550px;
   height: 100%;
   border-radius: 4px;
   width: 700px;
@@ -105,6 +105,7 @@
 .timeInputWrapper {
   display: flex;
   align-items: flex-start;
+  height: 20px !important;
 }
 
 .timeInputWrapper .to {

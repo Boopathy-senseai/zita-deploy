@@ -7,8 +7,8 @@ const ColorEvent = ({ event }: any) => {
   return (
     <div
       style={{
-        // backgroundColor: color.backgroundColor,
-        // borderLeft: `4px solid ${color.borderColor}`,
+        backgroundColor: color.backgroundColor,
+        borderLeft: `4px solid ${color.borderColor}`,
         color: 'black',
         height: '100%',
         marginBottom: 0,

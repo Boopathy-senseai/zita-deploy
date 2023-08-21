@@ -284,9 +284,12 @@ const hanldeJobListform = () => {
 
 				)}
 				{len_list === 0 && (
-					<Flex center middle height={window.innerHeight -200}>
-				<Text bold  color='gray'>
-					No data available
+					<Flex center middle className={styles.noData1}>
+						<Flex style={{justifyContent:'center',marginBotto:'2px'}}>
+						<SvgNoDataIcon width={16} height={16} fill={'#888'}/>
+						</Flex>
+				<Text  color='gray'>
+					No Data Available
 				</Text>
 				</Flex>
 				)}
@@ -454,9 +457,11 @@ const hanldeJobListform = () => {
 							{(jobList&& jobList.Applicants !== null) || (jobList&& jobList.Zita_Match !== null) ||(jobList&& jobList.Invited_to_Apply !== null) ? (
 								<Chart options={Options}/>
 								):(
-								<Flex className={styles.noData} style={{display:"flex"}} >
-									<SvgNoDataIcon style={{marginBottom:"10px", filter:"opacity(0.6)"}} width={15}/>
-											<Text bold color='placeholder'>No data available</Text>
+								<Flex className={styles.noData}  >
+											<Flex style={{justifyContent:'center',marginBotto:'2px'}}>
+											<SvgNoDataIcon width={16} height={16} fill={'#888'}/>
+											</Flex>
+											<Text >No Data Available</Text>
 										</Flex>
 								)}
 							</Flex>
@@ -475,9 +480,14 @@ const hanldeJobListform = () => {
 	</Text>
 			)}
 				{len_list === 0 && (
-	<Text bold color='placeholder'>
-		No data available
-	</Text>
+					<>
+					<Flex style={{justifyContent:'center',marginBotto:'2px'}}>
+					<SvgNoDataIcon width={16} height={16} fill={'#888'}/>
+					</Flex>
+					<Text  color='gray'>
+						No Data Available
+					</Text>
+	            </>
 			)}
 </Flex>
 </Card>

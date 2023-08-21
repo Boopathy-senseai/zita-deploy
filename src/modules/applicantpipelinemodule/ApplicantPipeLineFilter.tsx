@@ -369,9 +369,7 @@ const ApplicantPipeLineFilter = ({
 
             <Flex
               row
-              
               className={styles.drop_down_header}
-             
             >
               
               <Text bold color="theme" size={14}  onClick={() => {

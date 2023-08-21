@@ -36,10 +36,8 @@ const ActivityTabData = (props) => {
                   return (
                     <div key={data.name} className="col-12 col-md-2 mb-4 pb-1">
                       <div className="card cardHo">
-                        <div
-                          className="card-body px-1 text-center"
-                          style={{ paddingTop: 8, paddingBottom: 8 }}
-                        >
+                        <div className="card-body px-1 text-center"
+                             style={{ paddingTop: 8, paddingBottom: 8 }}>
                           <Flex columnFlex>
                             <Text color="theme">{data.name}</Text>
                             <Text style={{ paddingTop: 4 }} bold>

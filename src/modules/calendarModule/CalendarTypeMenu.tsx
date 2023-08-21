@@ -64,8 +64,8 @@ const CalendarTypeMenu = ({
           />
         </div>
       </div>
-      <div style={{ marginTop: '10px', borderTop:"1px solid #c3c3c3"}}>
-        <p style={{ margin: 0, marginTop:"10px"}}>Team</p>
+      {teamMembers.length !== 0 && <div style={{ marginTop: '10px', borderTop:"1px solid #c3c3c3"}}>
+       <p style={{ margin: 0, marginTop:"10px"}}>Team</p>
         {teamMembers.map((member, index) =>
           member.calendarEmail ? (
             <SelectTeamMemberCheckBox
@@ -77,7 +77,8 @@ const CalendarTypeMenu = ({
             />
           ) : null,
         )}
-      </div>
+      </div>}
+      
     </div>
   );
 
@@ -170,7 +171,7 @@ const CalendarTypeMenu = ({
           <CalendarTypeOptions />
           <div
             style={{
-              padding: '5px 8px',
+              padding: '15px 8px 0px',
             }}
           >
             {currentCalendarType === CalendarType.TeamCalendar ? (

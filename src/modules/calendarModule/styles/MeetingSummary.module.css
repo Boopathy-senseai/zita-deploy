@@ -27,7 +27,7 @@
 }
 
 .meetingSummary .summary .header {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .meetingSummary .summary {
@@ -39,6 +39,7 @@
   background-color: rgba(0, 0, 0, 0.07);
   margin: 5px 0px;
   border-radius: 5px;
+  font-size: 13px !important;
 }
 
 .summary {
@@ -79,6 +80,7 @@
   border-left: 1px solid #cccccc;
   border-right: 1px solid #cccccc;
   padding: 5px 10px;
+  font-size: 13px !important;
 }
 
 .emails > p {
@@ -101,6 +103,7 @@
   padding: 1px 10px;
   border-radius: 100px;
   margin: 0px 5px 0px 0px;
+  font-size: 13px;
 }
 
 .emailContainer .email {
@@ -110,6 +113,7 @@
   padding: 1px 10px;
   border-radius: 100px;
   margin: 0px 5px 0px 0px;
+  font-size: 13px !important;
 }
 
 .actionButtonWrapper {
@@ -165,7 +169,7 @@
 
 .personHeader {
   font-weight: bold;
-  font-size: 14px;
+  font-size: 13px;
 }
 .cancel {
   margin-right: 8px;

@@ -581,11 +581,11 @@ const MeetingSchedulingForm = ({
       </div></Flex>
       <Flex>
       {meetingForm.startTime.errorMessage==="Start time must be less then end time" && <>
-            <p className={styles.warn}  style={{marginTop:"3px"}}>{meetingForm.startTime.errorMessage}</p></>
+            <p className={styles.warn}  style={{marginTop:"12px"}}>{meetingForm.startTime.errorMessage}</p></>
           }
           {meetingForm.endTime.errorMessage==='End time must be greated than start time' && 
           <>
-            <p className={styles.warn} style={{marginTop:"3px"}}>{meetingForm.endTime.errorMessage}</p></>
+            <p className={styles.warn} style={{marginTop:"12px"}}>{meetingForm.endTime.errorMessage}</p></>
           }
       </Flex>
       </Flex>

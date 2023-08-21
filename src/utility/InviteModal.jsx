@@ -290,11 +290,11 @@ const InviteModal = (props) => {
           size={props.size}
           aria-labelledby="contained-modal-title-vcenter"
           centered 
-        >
-          <Modal.Body>
+            >
+          <Modal.Body >
             <form onSubmit={handleSubmit(onSubmit)}>
-            <Flex className={styles.muModalpadding}>
-              <Flex row center between>
+            <Flex className={styles.muModalpadding}> 
+              <Flex row center between style={{padding: "0px 25px"}}>
                 <Text bold size={14} color="theme">
                   Invite New User
                 </Text>
@@ -303,7 +303,9 @@ const InviteModal = (props) => {
                   <SvgClose fill={'#979797'} height={14} width={14} />
                 </Button> */}
               </Flex>
-              <div className="row">
+              <div className={styles.verticalLine}> </div>
+              {/* <div className="row"> */}
+              <Flex className={styles.row}>
                 <div className="col-12">
                   {props.clearData === false ? displayMessage() : ''}
                 </div>
@@ -464,12 +466,15 @@ const InviteModal = (props) => {
                             id={'div' + value.codename}
                             style={{ paddingBottom: 8 }}
                           >
+                            {console.log('66666666666666666',value.codename)}
+                            {console.log('77777777777777777',value.id)}
+                            {console.log('88888888888888888',value.name)}
                             <InputCheckBox
                               name={value.codename}
                               id={value.codename}
                               value={value.id}
                               label={value.name}
-                              className="custom-control-inputs"
+                              className="custom-control-inputs" 
                             />
                           </div>
                         ))}
@@ -477,25 +482,22 @@ const InviteModal = (props) => {
                     </div>
                   </div>
                 </div>
-                <div className="col-md-12 mt-4" style={{ marginBottom: 16 }}>
+                
+                <div className="col-md-12 mt-4" style={{ marginBottom: 16, paddingRight: 0  }}>
+                <div className={styles.verticalLine}> </div>
                   <Flex row center style={{gap: 10, justifyContent: "end"}}>
-                    <Button types="close" onClick={onCloseModal}
-                    >
+                    <Button types="close" onClick={onCloseModal}>
                       Close
                     </Button>
 
                     {/* <Button types="close" onClick={onCloseModal}>
                   <SvgClose fill={'#979797'} height={14} width={14} />
                 </Button> */}
-                    
-
-
-
+                  
                     <Button
                       disabled={!checkValue || isEmailValid}
                       type="submit"
-                      style={{ marginRight: 16 }}
-                    >
+                      style={{ marginRight: 16 }}>
                      Invite
                     </Button>
                     {props.inviteBtnLoader && (
@@ -503,10 +505,12 @@ const InviteModal = (props) => {
                     )}
                   </Flex>
                 </div>
-              </div>
+              </Flex>
               </Flex>
             </form>
+            
           </Modal.Body>
+
         </Modal>
       </>
     )

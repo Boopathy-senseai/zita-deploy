@@ -179,7 +179,15 @@ const QualificationAdd = ({
           'error',
         );
         setLoader(false);
-      });
+      }).then(()=>{ 
+        setTimeout(() =>  dispatch(
+          bulkuploadedCandidatesMiddleWare({
+            search: searchValue, 
+            jd_id:jdId,
+            page: pageNumber ,
+          })
+        ), 1000);  
+      }) 
   };
 // close input function
   const handleOpenInput = () => {

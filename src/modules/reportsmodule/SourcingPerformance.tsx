@@ -278,7 +278,7 @@ const SourcingPerformanceReport = () => {
 
 				<Flex row className={styles.marginTop}>
 					<Flex flex={6}>  
-  						<Flex row  style={{marginTop: '10px'}}>
+  						<Flex row  style={{marginTop: '10px', display:"flex", alignItems:"center"}}>
 							<Text  className={styles.selected}>
 								Select Job
 							</Text>
@@ -423,9 +423,11 @@ const SourcingPerformanceReport = () => {
 						</Flex>
 					</Flex>
 				) : (
-					<Flex className={styles.noData} style={{display:"flex",marginTop:"150px"}}>
-						<SvgNoDataIcon style={{marginBottom:"10px", filter:"opacity(0.6)"}} width={15}/>
-						<Text bold color='placeholder'>No data Available</Text>
+					<Flex className={styles.noData1} >
+						<Flex style={{justifyContent:'center',marginBotto:'2px'}}>
+						<SvgNoDataIcon width={16} height={16} fill={'#888'}/>
+						</Flex>
+						<Text  style={{color:'#888'}}>No Data Available</Text>
 					</Flex>
 				)}
 			</Flex>

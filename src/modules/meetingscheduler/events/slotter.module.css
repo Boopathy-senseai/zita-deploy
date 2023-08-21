@@ -139,3 +139,11 @@
   justify-content:  center;
   margin-bottom: 90px;
 }
+
+.unavailble {
+  /* justify-content:  center; */
+  font-size: 14px;
+  /* margin-left: 1px; */
+  margin-top: 340px;
+  margin-left: 570px;
+}

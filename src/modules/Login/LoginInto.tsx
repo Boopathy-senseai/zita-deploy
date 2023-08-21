@@ -102,7 +102,7 @@ Props) => {
                       className={styles.passwordicon}
                       onClick={handleShowPass}
                     >
-                    <div style={{marginTop: '2px'}}>
+                    <div style={{marginTop: '-2px'}}>
                       <SvgView nonView={isShowPass} height={20} width={20} />
                     </div>
                     </Button>
