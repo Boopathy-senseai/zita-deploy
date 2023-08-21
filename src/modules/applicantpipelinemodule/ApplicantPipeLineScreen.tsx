@@ -880,9 +880,9 @@ console.log(locations,'kkkkkkkkkkkkkkkkkkk')
   };
 
   const onLocationChange = (val: any) => {
-    if (val !== '') {
-      return;
-    }
+    // if (val !== '') {
+    //   return;
+    // }
     formik.handleChange('location')(val);
   };
 

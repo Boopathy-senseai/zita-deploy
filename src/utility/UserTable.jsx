@@ -248,7 +248,7 @@ function UserTable(porps) {
       return (
         <>
           <Dropdown.Item onClick={() => handleResend(rowId)}>
-            <Cursor className="mr-2" /> Resend Invite
+            <Cursor className="mr-2" /> <Text size={13}>Resend Invite</Text> 
           </Dropdown.Item>
           <Dropdown.Item onClick={() => handleShow(rowId)}>
             <Flex row center className={styles.dropDownListStyle}>

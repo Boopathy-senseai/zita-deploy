@@ -81,11 +81,11 @@ const InviteContainer = ({
               <SvgInvite width={28} height={28} color="theme" />
             </div>
           )}
-          {!isEmpty(dataList.applicant) &&
+          {/* {!isEmpty(dataList.applicant) &&
                     <div>
-                      {/* <SvgInvite width={28} height={28} color="theme" /> */}
+                      <SvgInvite width={28} height={28} color="theme" />
                     </div>
-          }
+          } */}
           {isEmpty(dataList.invite) ? (
             <Text 
               color="black_1" size={11} 
@@ -193,7 +193,6 @@ const InviteContainer = ({
               )}
             </>
           )}
-          {console.log("0000000",dataList.applicant)}
           {!isEmpty(dataList.applicant) && (
             <Flex row center className={styles.applied}>
               <div className={styles.svgapplied}>

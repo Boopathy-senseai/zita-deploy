@@ -555,7 +555,7 @@ const CreateNewEvent = (props) => {
             }
           });
     }
-    if(messageDialog === 'Integrate the calendar first'){
+    if(messageDialog === 'Integrate your calendar with zita application to create events'){
       setIsDialogOpen(false)
       setIsOpen(false)
     }
@@ -586,7 +586,7 @@ const CreateNewEvent = (props) => {
           formik.setFieldValue('event_type', '');  
           setIsDialogOpen(false) 
     }
-    if(messageDialog === 'Integrate the calendar first'){
+    if(messageDialog === 'Integrate your calendar with zita application to create events'){
       setIsDialogOpen(false)
     }
     if(messageDialog === 'Google Calendar not be Integrated, Select this option after the Integration'){
@@ -643,7 +643,7 @@ const CreateNewEvent = (props) => {
     // }
     if (label === 'On-site Interview' || label === 'Phone Interview') {
       if (google === false && outlook === false) {
-        const messsage = "Integrate the calendar first"
+        const messsage = "Integrate your calendar with zita application to create events"
         setMessageDialog(messsage)
         setIsDialogOpen(true)
         // const validate = window.confirm('Integrate the calendar first');
@@ -653,6 +653,7 @@ const CreateNewEvent = (props) => {
       } else {
         formik.setFieldValue('event_type', label);
       }
+
     }
     if (label === 'Google Hangouts/Meet') {
       GoogleCalendar(label);
