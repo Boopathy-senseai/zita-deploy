@@ -71,19 +71,19 @@ Props) => {
                   </Flex>
 
                   <Flex middle center className={styles.text_margin}>
-                    <Text size={20} className={styles.text} bold>
+                    <Text size={18} className={styles.text} bold>
                       Reset your password
                     </Text>
                   </Flex>
                   <Flex className={styles.text_margin}>
-                    <Text size={18} className={styles.error_content}>
+                    <Text size={14} className={styles.error_content}>
                       <ul style={{ marginLeft: '50px' }}>
                         <li
                           style={{
                             listStyleType: 'none',
                             textAlign: 'center',
                             marginLeft: '-48px',
-                            fontSize: '16px',
+                            fontSize: '14px',
                           }}
                         >
                           A link to reset your password has been sent to your
@@ -102,7 +102,7 @@ Props) => {
                       </Flex>
                       <Flex>
                         <Text className={styles.Backtextchange}> */}
-                           Ok
+                           OK
                            {/* </Text>
                       </Flex> */}
                    

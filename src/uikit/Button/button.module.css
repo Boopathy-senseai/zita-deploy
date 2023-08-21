@@ -13,7 +13,7 @@
 
 /* primary button style */
 .buttonTypes-primary {
-  border: 2px solid var(--color-primary, #581845);
+  /* border: 2px solid var(--color-primary, #581845); */
   background-color: var(--color-primary, #581845);
   transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
   border-radius: 5px;
@@ -27,7 +27,7 @@
 }
 
 .buttonTypes-primary:focus {
-  border: 2px solid var(--color-primary, #581845);
+  /* border: 2px solid var(--color-primary, #581845); */
   background-color: var(--color-primary, #581845);
   box-shadow: none;
 }

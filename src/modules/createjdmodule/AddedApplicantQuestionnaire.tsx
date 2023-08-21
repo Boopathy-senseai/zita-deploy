@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { routesPath } from '../../routes/routesPath';
 import Button from '../../uikit/Button/Button';
 import Card from '../../uikit/Card/Card';
+import SvgActive from '../../icons/SvgActive';
 import Flex from '../../uikit/Flex/Flex';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import Table from '../../uikit/Table/Table';
@@ -12,6 +13,7 @@ import Tabel from '../../uikit/Table/Table';
 import styles from './addedapplicantquestionnaire.module.css';
 import { QuestionnaireForJdEntity } from './createJdTypes';
 import { questionTitle } from './questionnaireTable';
+
 
 type Props = {
   tabledata: QuestionnaireForJdEntity[];

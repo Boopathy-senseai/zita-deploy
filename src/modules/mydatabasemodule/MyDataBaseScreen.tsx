@@ -299,6 +299,7 @@ const MyDataBaseScreen = () => {
     isFav,
     isSortOptions,
     isPage,
+    change
   ]);
 
   // filter refresh function

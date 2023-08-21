@@ -520,6 +520,7 @@ export const googleCallbackMiddleware = createAsyncThunk(
     }
   },
 );
+
 export const eventsApplicantsMiddleware = createAsyncThunk(
   'user_events',
   async ({ can_id }: { can_id: string }, { rejectWithValue }) => {
@@ -691,6 +692,7 @@ export const getCalendarConfigurationMiddleWare = createAsyncThunk(
     }
   },
 );
+
 export const postCalendarConfigurationMiddleWare = createAsyncThunk(
   'calendar_configurations',
   async ({ formData }: any, { rejectWithValue }) => {

@@ -515,7 +515,7 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
             </Flex>
           )}
           {active !== 0 && myevents.length !== 0 && (
-            <Flex style={{ margin:' 0 -8px'}}>
+            <Flex style={{ margin:' 0 -8px'}} flex={1}>
               <Table
                 border={'outline'}
                 columns={meetingMemo}

@@ -184,10 +184,8 @@ Props) => {
 
   
   return (
-    <Flex  style={{width:'100%',  overflowY: 'scroll',height: !stylevalue?'fit-content':window.innerHeight - 240,padding: '0 0 8px 0',alignContent:'flex-start' }}>
-     {console.log("index value",window.innerHeight,stylevalue)}
-     <Flex wrap row>
-        <BulkAction
+    <>
+    <BulkAction
           // setUnlockLoader={setUnlockLoader}
           setCandiList={setCandiList}
           setNoCount={setNoCount}
@@ -206,6 +204,10 @@ Props) => {
           planID={planID}
           setIsCheck={setIsCheck}
         />
+    <Flex  style={{width:'100%',  overflowY: 'scroll',height: !stylevalue?'fit-content':window.innerHeight - 240,padding: '0 0 8px 0',alignContent:'flex-start' }}>
+     {console.log("index value",window.innerHeight,stylevalue)}
+     <Flex wrap row>
+        
         {searchData &&
           searchData
             .slice(pagesVisited, pagesVisited + usersPerPage)
@@ -240,6 +242,7 @@ Props) => {
    
         </Flex>
     </Flex>
+    </>
   );
 };
 

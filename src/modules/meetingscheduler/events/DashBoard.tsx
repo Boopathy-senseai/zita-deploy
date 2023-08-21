@@ -163,7 +163,7 @@ const DashBoard = (props) => {
         <div className={styles.line}></div>
 
         <Flex className={styles.rowGroup}>
-          <Flex title={'preview'}>
+          <Flex title={'preview'} marginBottom={6}>
           <Button
             types="link"
             className={styles.previewbtn}

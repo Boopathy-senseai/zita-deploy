@@ -779,14 +779,14 @@ const SignUpScreen = (props: any) => {
                       </Flex>
                       <Flex column-middle>
                         <Text
-                          size={22}
+                          size={18}
                           bold
                           className={styles.verificationtext}
                         >
                           Verification email sent successfully
                         </Text>
                         <Text
-                          size={16}
+                          size={14}
                           className={styles.messages}
                           style={{
                             justifyContent: 'center',

@@ -11,7 +11,7 @@ import Drawer from '../../uikit/Drawer/Drawer';
 import Flex from '../../uikit/Flex/Flex';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import Text from '../../uikit/Text/Text';
-import { Loader } from '../../uikit';
+// import { Loader } from '../../uikit';
 import { applicantMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import ApplicantProfileModal from './ApplicantProfileModal';
 import styles from './profileview.module.css';
@@ -59,14 +59,14 @@ const ProfileView = ({
           >
             <SvgLeft fill={'#581845'} height={16} width={16} />
           </Flex> 
-           {jobtitle !==  undefined && 
+           {jd &&jd.job_id !== '' && jd.job_title !== ''&&
             <Flex row>
               <Flex marginTop={2}>
                 <SvgJobselection width={16} height={14} />
               </Flex>
               {console.log(jd,"++++++++++++++++++++++++++++++++++++++")}
               <Flex marginLeft={4}>
-              {jd.job_title} - {jd.job_id}
+              {jd?.job_title} - {jd?.job_id}
               </Flex>
             </Flex>
           }

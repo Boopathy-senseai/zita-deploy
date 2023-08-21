@@ -255,11 +255,11 @@ const IntegrationScreen = () => {
 
   return (
     <Flex className={styles.overAll}>
-      {  console.log(tost,'ttttttttt')}
-      {console.log("outlookcallapimiddle::",outlookCallApiMiddleware)}
+      {/* {  console.log(tost,'ttttttttt')} */}
+      {/* {console.log("outlookcallapimiddle::",outlookCallApiMiddleware)} */}
       {isLoginLoader && <Loader />}
       <Flex columnFlex>
-        <Text size={16} bold style={{ color: '#581845' }}>
+        <Text size={14} bold >
           Calendar Integration
         </Text>
         <Text>Integrate your calendar with zita to schedule your meetings</Text>
@@ -283,9 +283,9 @@ const IntegrationScreen = () => {
                  localStorage.removeItem('integrationSuccess')
                }
                 <Text
-                  color="theme"
+                  
                   bold
-                  size={16}
+                  size={14}
                   style={{ marginLeft: '10px' }}
                 >
                   Outlook Mail
@@ -313,9 +313,9 @@ const IntegrationScreen = () => {
                 <SvgOutlookcalendar></SvgOutlookcalendar>
                {/* {  Toast('Outlook google Integrated Successfully', 'MEDIUM')   } */}
                 <Text
-                  color="theme"
+                  
                   bold
-                  size={16}
+                  size={14}
                   style={{ marginLeft: '10px' }}
                 >
                   Outlook Mail
@@ -395,9 +395,9 @@ const IntegrationScreen = () => {
                 <SvgGooglecalendar></SvgGooglecalendar>
              
                 <Text
-                  color="theme"
+                  
                   bold
-                  size={16}
+                  size={14}
                   style={{ marginLeft: '10px' }}
                 >
                   Google Calendar
@@ -552,18 +552,19 @@ const IntegrationScreen = () => {
         </Flex>
       </Modal>
 
-      {connected === 1 && active === 1 ? (
+
+
+    {connected === 1 && active === 1 ? (
         <Modal open={conflictopen} onClose={close}>
           <CalenderConfig
             isGoogle={isGoogle}
-            email={'pugazhendhij@sense7ai.com'}
+            email={email}
             CloseConfiguration ={CloseConfiguration}
           />
         </Modal>
       ) : (
         ''
       )}
-
       {/* <Flex className={styles.borderbottom} marginTop={30}>
 
     </Flex> */}

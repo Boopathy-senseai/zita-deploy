@@ -4,13 +4,13 @@ import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import Card from '../../uikit/Card/Card';
 import { Button } from '../../uikit';
-import InputSwitch from '../../uikit/Switch/InputSwitch'
+import InputSwitch from '../../uikit/Switch/InputSwitch';
 import InputCheckBox from '../../uikit/InputCheckbox/InputCheckBox';
 import SelectTag from '../../uikit/SelectTag/SelectTag';
 import SvgRefresh from '../../icons/SvgRefresh';
 import SvgIntomark from '../../icons/Intomark';
 import styles from './talentfilter.module.css';
-import styles1 from "./../mydatabasemodule/switch.module.css"
+import styles1 from './../mydatabasemodule/switch.module.css';
 import { experienceOptions } from './mock';
 
 
@@ -42,9 +42,9 @@ type Props = {
   isOther: boolean;
   setOther: (arg: boolean) => void;
   isInitalCheckBox: boolean;
-  handleRefresh:()=>void
-  updatechckbox:any;
-  setchange?:any;
+  handleRefresh: () => void;
+  updatechckbox: any;
+  setchange?: any;
 };
 const TalentFilter = ({
   isBachelors,
@@ -66,13 +66,13 @@ const TalentFilter = ({
   setapply,
   isInitalCheckBox,
   updatechckbox,
-  setchange,  
-  handleRefresh
+  setchange,
+  handleRefresh,
 }: Props) => {
   const handleBachelor = () => {
     setBachelors(!isBachelors);
     setAny(false);
-    setchange(true)
+    setchange(true);
     setInitialPage(0);
   };
   const handleDoctorate = () => {
@@ -86,7 +86,7 @@ const TalentFilter = ({
     setAny(false);
     setchange(true)
     setInitialPage(0);
-    };
+  };
   const handleOther = () => {
         setAny(false);
     setOther(!isOther);
@@ -158,7 +158,7 @@ const TalentFilter = ({
   }
   const close=()=>{
     setExperience(experienceOptions[0])
-    setnewexperience(experienceOptions[0])
+    setnewexperience(null)
     setchange(false)
   }
    const handlechange=()=>{
@@ -184,14 +184,15 @@ const TalentFilter = ({
    
 
   return (
-   <>
+   <Flex row between>
    {console.log("Experience",newexperience)}
-     <Text className={""} style={{ color: "#581845" }}>
+    <Flex row>
+     <Text className={""} style={{marginTop:'3px'}} >
         Quick Filters :
       </Text>
-      {  !NewBachelors1 && !NewDoctorate1 && !Newmaster1 && !Newothers1 ?(
+      {  !NewBachelors1 && !NewDoctorate1 && !Newmaster1 && !Newothers1 &&!newrelocate&&!newexperience ?(
        <Text className={styles.quickfil} style={{cursor:'default'}}>
-        {"Any"}
+        {"All"}
       </Text>
       ): (
         null
@@ -273,7 +274,7 @@ const TalentFilter = ({
 null
 )
 }
-
+</Flex>
 
 
 
@@ -312,7 +313,8 @@ null
     >
     
       <Flex className={styles.mtstyle}>
-      <SelectTag
+      <Text type="titleSmall" bold style={{marginBottom:'2px'}} >Experience</Text>
+              <SelectTag
                 id={'talentfilter__experienceId'}
                 defaultValue={{
                   value: isExperience.value,
@@ -328,7 +330,6 @@ null
                 }
                 labelBold
                 options={experienceOptions}
-                label={'Experience'}
                 onChange={(value) => (setExperience(value),
                   setchange(true))
                  }
@@ -339,7 +340,7 @@ null
 
       <Flex className={styles.mtstyle}>
         <Flex className={styles.skillContainer} >
-        <Text type="titleSmall" bold style={{color:'#581845',marginBottom:'2px'}} >Qualification</Text>
+        <Text type="titleSmall" bold style={{marginBottom:'2px'}} >Qualification</Text>
         <Flex row top className={cx('checkBoxContainer')}>
           <Flex className={cx('checkBoxContainerOne')}>
             <div className={cx('checkBoxOne')}>
@@ -395,9 +396,9 @@ null
         disabled={isInitalCheckBox}
         />
       </Flex>
-        <Flex style={{marginLeft:'5px',color:'#581845',fontSize:'14px',fontWeight:'bold'}}>
+        <Text style={{marginLeft:'5px'}}>
             Willing to Relocate
-        </Flex>
+      </Text>
       </Flex>
   
       </div>
@@ -414,7 +415,7 @@ null
     
     </div>
     </div>
-</>
+</Flex>
      );
 };
 

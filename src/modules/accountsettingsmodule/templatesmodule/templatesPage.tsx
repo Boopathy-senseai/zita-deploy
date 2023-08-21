@@ -144,22 +144,22 @@ const TemplatesPage = () => {
               />
             </Flex>
             <Flex flex={2} height={'unset'} minWidth={200} marginRight={20}>
-              <TemplateCard
+              {/* <TemplateCard
                 icon={<SvgMessages height={16} width={16} />}
                 title={'Message Templates'}
                 subTitle={'Design and send the custom message'}
                 btnName={'Manage Templates'}
                 onClick={() => {}}
-              />
+              /> */}
             </Flex>
             <Flex flex={2} height={'unset'} minWidth={200} marginRight={20}>
-              <TemplateCard
+              {/* <TemplateCard
                 icon={<SvgMessage height={16} width={16} fill="#333333" />}
                 title={'Email Templates'}
                 subTitle={'Easily Create, Analyse and send your Emails'}
                 btnName={'Manage Templates'}
                 onClick={() => {}}
-              />
+              /> */}
             </Flex>
             <Flex flex={4}></Flex>
           </Flex>
@@ -206,7 +206,7 @@ const TemplatesPage = () => {
               <Button onClick={() => selectPipeline()}>
                 <Flex row center className={styles.pointer}>
                   <SvgAdd height={10} width={10} fill="#FFFFFF" />
-                  <Text color="white" size={16} style={{ marginLeft: '10px' }}>
+                  <Text bold color="white" size={13} style={{ marginLeft: '10px' }}>
                     Add Pipeline
                   </Text>
                 </Flex>

@@ -14,6 +14,7 @@ import {
 import SvgDotMenu from '../../../icons/SvgDotMenu';
 import InterviewerIcon from '../../calendarModule/InterviewerIcon';
 import SvgCalendar from '../../../icons/SvgCalendar';
+import { JOIN_EVENTS } from '../utils';
 import styles from './eventsTable.module.css';
 
 export interface DateEntity {
@@ -47,16 +48,20 @@ const CalendarEventsTable: React.FC<Props> = (props) => {
     onEdit,
     onDelete,
   } = props;
-  const showdate =(val)=>{
-    const date = val.split('T')
+
+  
+  const showdate = (val) => {
+    if(val !== undefined){
+      const date = val.split('T');
     const parsedDate = moment(date[0]);
-    const formattedDate = parsedDate.format('DD/MM/YYYY')
-    return formattedDate
-      }
+    const formattedDate = parsedDate.format('DD/MM/YYYY');
+    return formattedDate;
+    }
+  };
 
   const calculateDuraton = (doc: ICalendarEventTableItem) => {
     const totalMinutes = moment(doc.e_time).diff(moment(doc.s_time), 'minutes');
-    const hours = Math.floor(totalMinutes/60);
+    const hours = Math.floor(totalMinutes / 60);
     const minutes = totalMinutes % 60;
     let result = '';
 
@@ -64,7 +69,7 @@ const CalendarEventsTable: React.FC<Props> = (props) => {
       result = `${hours} hour${hours === 1 ? '' : 's'}`;
     }
 
-    if(minutes > 0) {
+    if (minutes > 0) {
       result = `${result} ${minutes} minutes`;
     }
 
@@ -80,7 +85,10 @@ const CalendarEventsTable: React.FC<Props> = (props) => {
           <InterviewerIcon name={doc.full_name} key={sIndex} index={sIndex} />
         ))}
         {hidden && hidden.length > 0 && (
-          <InterviewerIcon name={`+ ${hidden.length}`} title={hidden.map(doc => doc.full_name).toString()} />
+          <InterviewerIcon
+            name={`+ ${hidden.length}`}
+            title={hidden.map((doc) => doc.full_name).toString()}
+          />
         )}
       </Flex>
     );
@@ -123,10 +131,10 @@ const CalendarEventsTable: React.FC<Props> = (props) => {
             height: '100%',
           }}
         >
-          <Flex marginBottom={10}>
+          <Flex marginBottom={2}>
             <SvgCalendar
-              width={38}
-              height={38}
+              width={16}
+              height={16}
               fill={'#888888'}
               stroke={'#888888'}
             />
@@ -142,7 +150,7 @@ const CalendarEventsTable: React.FC<Props> = (props) => {
       );
     }
     return (
-      <table className="table" style={{ paddingLeft: 'none' }}>
+      <table className="table" style={{ paddingLeft: 'none', height: 'fit-content' }}>
         <thead>
           <tr>
             <th className={styles.hpadchange}>
@@ -229,7 +237,7 @@ const CalendarEventsTable: React.FC<Props> = (props) => {
                     <Text className={styles.stBold}>{doc.event_type}</Text>
                   </td>
                   <td className={styles.padchanges} style={{}}>
-                    {renderInterviewers(doc.interviewers)}
+                    {renderInterviewers(doc.email)}
                   </td>
                   <td className={styles.padchanges} style={{}}>
                     <Text className={styles.stBold}>
@@ -257,11 +265,11 @@ const CalendarEventsTable: React.FC<Props> = (props) => {
                       </Dropdown.Toggle>
 
                       <Dropdown.Menu style={{ minWidth: '5rem' }}>
-                        <Dropdown.Item onClick={() => onJoin(doc)}>
+                      {JOIN_EVENTS.includes(doc.event_type) && <Dropdown.Item onClick={() => onJoin(doc)}>
                           <Flex row center className={styles.dropDownListStyle}>
                             <Text style={{ marginLeft: 10 }}>Join</Text>
                           </Flex>
-                        </Dropdown.Item>
+                        </Dropdown.Item>}
 
                         <Dropdown.Item onClick={() => onEdit(doc)}>
                           <Flex row center className={styles.dropDownListStyle}>

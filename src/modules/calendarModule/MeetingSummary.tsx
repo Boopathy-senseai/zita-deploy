@@ -16,6 +16,7 @@ import {
 import styles from './styles/MeetingSummary.module.css';
 import {
   EditEventDetails,
+  IEventNotes,
   meetingFormProps,
   UserType,
 } from './types';
@@ -74,12 +75,15 @@ const MeetingSummary = ({
       dispatch(getUpdateEventByIdMiddleWare({ event_id: recurringEventId })).then(
         (res) => {
           if (res.payload) {
-            const array = res.payload as Array<{
-              [key: string]: string | null;
-            }>;
-            const applicant = array[0] ? array[0]['extra_notes'] : undefined;
-            const interviewer = array[1] ? array[1]['interviewer_notes'] : undefined;
-
+            // const array = res.payload as Array<{
+            //   [key: string]: string | null;
+            // }>;
+            // console.log(array['interviewer_notes'])
+            const obj = res.payload  as IEventNotes;
+            // const applicant = array[0] ? array[0]['extra_notes'] : undefined;
+            // const interviewer = array[1] ? array[1]['interviewer_notes'] : undefined;
+            const applicant = obj.extra_notes || undefined;
+            const interviewer = obj.interview_notes || undefined;
             setGreetings(prev => ({ applicant: applicant || prev.applicant, interviewer: interviewer || prev.interviewer }));
           }
         },
@@ -128,6 +132,7 @@ const MeetingSummary = ({
             email: member.email,
             calendarEmail: member.calendarEmail,
           })),
+          // interviewer: meetingForm.interviewer.map(doc => doc.userId),
           startTime: meetingForm.startDateTime,
           endTime: meetingForm.endDateTime,
           notes: meetingForm.notes,
@@ -181,6 +186,7 @@ const MeetingSummary = ({
           email: member.email,
           calendarEmail: member.calendarEmail,
         })),
+        // interviewer: interviewer.map(doc => doc.userId),
         startTime: startDateTime,
         endTime: endDateTime,
         location: location.value,
@@ -220,7 +226,9 @@ const MeetingSummary = ({
       <b>{meetingForm.startDateTime.toDateString()}</b> from{' '}
       <b>{formatTo12HrClock(meetingForm.startDateTime)}</b> to{' '}
       <b>{formatTo12HrClock(meetingForm.endDateTime)}</b> with{' '}
-      <b>{localStorage.getItem('Applicantsname') !==''?localStorage.getItem('Applicantsname'):currentUserLabel}</b>
+      {/* <b>{currentUserLabel}</b> */}
+
+      <b>{(localStorage.getItem('Applicantsname') !=='' && localStorage.getItem('Applicantsname') !== null) ?localStorage.getItem('Applicantsname'):currentUserLabel}</b>
     </p>
   );
 
@@ -245,9 +253,9 @@ const MeetingSummary = ({
             borderBottom: '0.5px solid #581845',
           }}
         >
-          <SvgCalendar width={18} height={18} style={{ marginBottom: '5px' }} />
+          <SvgCalendar width={16} height={16} style={{ marginBottom: '5px' }} />
           <Text
-            size={16}
+            size={14}
             bold
             color="theme"
             className={styles.formTitle}
@@ -267,14 +275,14 @@ const MeetingSummary = ({
           }}
         >
           <div className={styles.summary}>
-            <p className={styles.header} style={{ marginTop: '5px' }}>
+            <p className={styles.header} style={{ marginTop: '5px', fontWeight:"bold" }}>
               Summary
             </p>
             <div className={styles.content}>{MeetingTitleView}</div>
           </div>
           <ExpandTile
             backgroundColor="#58184530"
-            activeColor="#000000"
+            activeColor="#333333"
             title={'Email notification to Applicant'}
             show={tileState?.applicant}
             onClick={() =>
