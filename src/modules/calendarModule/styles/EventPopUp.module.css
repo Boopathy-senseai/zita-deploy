@@ -85,10 +85,10 @@
 }
 
 .eventPopUp .title {
-  font-size: 16px;
+  font-size: 14px !important;
   /* margin-left: 10px; */
-  color: var(--color-primary);
-  font-weight: 500;
+   /* color: var(--color-primary); */
+  font-weight: bold;
   /* margin-bottom: 20px; */
   text-transform: capitalize;
 }
@@ -118,7 +118,7 @@
 }
 
 .profile .title p:last-child {
-  font-size: 16px;
+  font-size: 13px;
 }
 
 .deleteWarningPopUp {
@@ -161,9 +161,14 @@
 
 .eventTitle {
   display: inline-block;
-  width: 300px;
+  width: 355px;
+  font-size: 13px !important;
+  margin-bottom: 10px !important;
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+}
+.EventPopUp_title__3Q_HC p:last-child{
+  font-weight: bold !important;
 }

@@ -250,190 +250,194 @@ const SourcingPerformanceReport = () => {
     });
   };
   const columns = useMemo(() => sourcingPerformance(), [table]);
-  return (<>
-  <Flex row className={styles.ribbon} between>
-            <Flex marginTop={9} marginLeft={8}>
-              <Text size={16} bold color="theme">
-                Sourcing Performance Report For Organic Applicants
-              </Text>
-            </Flex>
-            <Flex>
-              <div className={styles.triangle}></div>
-            </Flex>
-          </Flex>
-    <Flex className={styles.overAll} height={window.innerHeight - 70}>
-      {(isLoading || isLoadingData) && <Loader />}
-      <Flex>
-        <Flex>
-          
-
-          <Text style={{ marginTop: '10px', marginLeft: '5px' }}>
-            Gives insights on JD traffic in a specified duration of time. It
-            will display the view count of JD on the company’s careers page and
-            applicants with time-stamped.
+  return (
+    <>
+      <Flex row className={styles.ribbon} between>
+        <Flex marginTop={9} marginLeft={8}>
+          <Text size={16} bold color="theme">
+            Sourcing Performance Report For Organic Applicants
           </Text>
         </Flex>
-
-        <Flex row className={styles.marginTop}>
-          <Flex flex={6}>
-            <Flex row style={{ marginTop: '10px' }}>
-              <Text className={styles.selected}>Select Job</Text>
-              <div className={styles.skillContainer}>
-                <SelectTag
-                  labelBold
-                  value={
-                    jobViewArray
-                      ? jobViewArray.find(
-                          (option: any) =>
-                            Number(option.value) === Number(formik.values.job),
-                        )
-                      : ''
-                  }
-                  options={jobViewArray}
-                  placeholder="Select"
-                  onChange={(option) => {
-                    formik.setFieldValue('job', option.value);
-                  }}
-                />
-              </div>
-              <Button
-                disabled={table && table.length === 0}
-                onClick={hanldeSubmitform}
-              >
-                Download Report
-              </Button>
-            </Flex>
-            <div className={styles.radioAlign}>
-              <Flex row wrap center>
-                {DurationType.map((duration) => {
-                  return (
-                    <Flex
-                      row
-                      key={duration.value}
-                      className={styles.matchRadioStyle}
-                    >
-                      <InputRadio
-                        label={duration.value}
-                        checked={duration.label === formik.values.duration}
-                        onClick={() =>
-                          formik.setFieldValue('duration', duration.label)
-                        }
-                      />
-                    </Flex>
-                  );
-                })}
-              </Flex>
-            </div>
-          </Flex>
-          <Flex flex={6}>
-            <Card className={styles.cardOverAllApplicant}>
-              <Flex row>
-                <Flex flex={4} className={styles.border}>
-                  <Text bold align={'center'}>
-                    Total Job Views
-                  </Text>
-                  {total_count && total_count.count__sum === null ? (
-                    <Text bold align={'center'} className={styles.countStyle}>
-                      0
-                    </Text>
-                  ) : (
-                    <Text bold align={'center'} className={styles.countStyle}>
-                      {total_count && total_count.count__sum}
-                    </Text>
-                  )}
-                </Flex>
-                <Flex flex={4} className={styles.border}>
-                  <Text bold align={'center'}>
-                    Total Applicants
-                  </Text>
-                  {applicants && applicants === null ? (
-                    <Text bold align={'center'} className={styles.countStyle}>
-                      {applicants && applicants && applicants}
-                    </Text>
-                  ) : (
-                    <Text bold align={'center'} className={styles.countStyle}>
-                      {applicants && applicants}
-                    </Text>
-                  )}
-                </Flex>
-                <Flex flex={4}>
-                  <Text bold align={'center'}>
-                    Percentage of Conversion
-                  </Text>
-                  {(total_count && total_count.count__sum === null) ||
-                  (total_count && total_count.count__sum === 0) ? (
-                    <Text bold align={'center'} className={styles.countStyle}>
-                      0%
-                    </Text>
-                  ) : (
-                    <Text bold align={'center'} className={styles.countStyle}>
-                      {Math.round(
-                        (applicants && applicants / total_count.count__sum) *
-                          100,
-                      )}
-                      %
-                    </Text>
-                  )}
-                </Flex>
-              </Flex>
-            </Card>
-          </Flex>
+        <Flex>
+          <div className={styles.triangle}></div>
         </Flex>
-        {table && table.length > 0 ? (
-          <Flex style={{ paddingLeft: '5px' }}>
-            <Flex row>
-              <Flex flex={6}>
-                <Card className={styles.cardOverAllChart}>
-                  <Text bold>Job Views & Applicants</Text>
-                  <Chart options={options} />
-                </Card>
-              </Flex>
-              <Flex flex={6}>
-                <Card className={styles.cardOverAllChart}>
-                  <Text bold>
-                    Percentage Conversion from Job Views to Applicants
-                  </Text>{' '}
-                  <Text style={{ marginBottom: 5 }}>
-                    Insights: Conversion rate of Job views into Applicants
-                  </Text>
-                  <Chart options={optionsLine} />
-                </Card>
-              </Flex>
-            </Flex>
-            <Flex>
-              <Flex>
-                <Text bold style={{ margin: '20px 0px 0px 10px' }}>
-                  Report Data
+      </Flex>
+      <Flex className={styles.overAll} height={window.innerHeight - 70}>
+        {(isLoading || isLoadingData) && <Loader />}
+        <Flex>
+          <Flex>
+            <Text style={{ marginTop: '10px', marginLeft: '5px' }}>
+              Gives insights on JD traffic in a specified duration of time. It
+              will display the view count of JD on the company’s careers page
+              and applicants with time-stamped.
+            </Text>
+          </Flex>
+
+          <Flex row className={styles.marginTop}>
+            <Flex flex={6}>
+              <Flex row style={{ marginTop: '10px' }}>
+                <Text
+                  className={styles.selected}
+                  style={{ display: 'flex', alignItems: 'center' }}
+                >
+                  Select Job
                 </Text>
-                <Text style={{ margin: '5px 0px 5px 10px' }}>
-                  A comprehensive data table showcasing count about the job
-                  views and applicant conversion rate.
-                </Text>
-                <Flex>
-                  <Table
-                    columns={columns}
-                    dataSource={table}
-                    empty="No Data Available"
-                    scrollHeight={270}
-                    border="normal"
-                    fixedScrollHeight
+                <div className={styles.skillContainer}>
+                  <SelectTag
+                    labelBold
+                    value={
+                      jobViewArray
+                        ? jobViewArray.find(
+                            (option: any) =>
+                              Number(option.value) ===
+                              Number(formik.values.job),
+                          )
+                        : ''
+                    }
+                    options={jobViewArray}
+                    placeholder="Select"
+                    onChange={(option) => {
+                      formik.setFieldValue('job', option.value);
+                    }}
                   />
+                </div>
+                <Button
+                  disabled={table && table.length === 0}
+                  onClick={hanldeSubmitform}
+                >
+                  Download Report
+                </Button>
+              </Flex>
+              <div className={styles.radioAlign}>
+                <Flex row wrap center>
+                  {DurationType.map((duration) => {
+                    return (
+                      <Flex
+                        row
+                        key={duration.value}
+                        className={styles.matchRadioStyle}
+                      >
+                        <InputRadio
+                          label={duration.value}
+                          checked={duration.label === formik.values.duration}
+                          onClick={() =>
+                            formik.setFieldValue('duration', duration.label)
+                          }
+                        />
+                      </Flex>
+                    );
+                  })}
+                </Flex>
+              </div>
+            </Flex>
+            <Flex flex={6}>
+              <Card className={styles.cardOverAllApplicant}>
+                <Flex row>
+                  <Flex flex={4} className={styles.border}>
+                    <Text bold align={'center'}>
+                      Total Job Views
+                    </Text>
+                    {total_count && total_count.count__sum === null ? (
+                      <Text bold align={'center'} className={styles.countStyle}>
+                        0
+                      </Text>
+                    ) : (
+                      <Text bold align={'center'} className={styles.countStyle}>
+                        {total_count && total_count.count__sum}
+                      </Text>
+                    )}
+                  </Flex>
+                  <Flex flex={4} className={styles.border}>
+                    <Text bold align={'center'}>
+                      Total Applicants
+                    </Text>
+                    {applicants && applicants === null ? (
+                      <Text bold align={'center'} className={styles.countStyle}>
+                        {applicants && applicants && applicants}
+                      </Text>
+                    ) : (
+                      <Text bold align={'center'} className={styles.countStyle}>
+                        {applicants && applicants}
+                      </Text>
+                    )}
+                  </Flex>
+                  <Flex flex={4}>
+                    <Text bold align={'center'}>
+                      Percentage of Conversion
+                    </Text>
+                    {(total_count && total_count.count__sum === null) ||
+                    (total_count && total_count.count__sum === 0) ? (
+                      <Text bold align={'center'} className={styles.countStyle}>
+                        0%
+                      </Text>
+                    ) : (
+                      <Text bold align={'center'} className={styles.countStyle}>
+                        {Math.round(
+                          (applicants && applicants / total_count.count__sum) *
+                            100,
+                        )}
+                        %
+                      </Text>
+                    )}
+                  </Flex>
+                </Flex>
+              </Card>
+            </Flex>
+          </Flex>
+          {table && table.length > 0 ? (
+            <Flex style={{ paddingLeft: '5px' }}>
+              <Flex row>
+                <Flex flex={6}>
+                  <Card className={styles.cardOverAllChart}>
+                    <Text bold>Job Views & Applicants</Text>
+                    <Chart options={options} />
+                  </Card>
+                </Flex>
+                <Flex flex={6}>
+                  <Card className={styles.cardOverAllChart}>
+                    <Text bold>
+                      Percentage Conversion from Job Views to Applicants
+                    </Text>{' '}
+                    <Text style={{ marginBottom: 5 }}>
+                      Insights: Conversion rate of Job views into Applicants
+                    </Text>
+                    <Chart options={optionsLine} />
+                  </Card>
+                </Flex>
+              </Flex>
+              <Flex>
+                <Flex>
+                  <Text bold style={{ margin: '20px 0px 0px 10px' }}>
+                    Report Data
+                  </Text>
+                  <Text style={{ margin: '5px 0px 5px 10px' }}>
+                    A comprehensive data table showcasing count about the job
+                    views and applicant conversion rate.
+                  </Text>
+                  <Flex>
+                    <Table
+                      columns={columns}
+                      dataSource={table}
+                      empty="No Data Available"
+                      scrollHeight={270}
+                      border="normal"
+                      fixedScrollHeight
+                    />
+                  </Flex>
                 </Flex>
               </Flex>
             </Flex>
-          </Flex>
-        ) : (
-          <Flex className={styles.noData1}>
-            <Flex style={{ justifyContent: 'center', marginBotto: '2px' }}>
-              <SvgNoDataIcon width={16} height={16} fill={'#888'} />
+          ) : (
+            <Flex className={styles.noData1}>
+              <Flex style={{ justifyContent: 'center', marginBotto: '2px' }}>
+                <SvgNoDataIcon width={16} height={16} fill={'#888'} />
+              </Flex>
+              <Text style={{ color: '#888' }}>No Data Available</Text>
             </Flex>
-            <Text style={{ color: '#888' }}>No Data Available</Text>
-          </Flex>
-        )}
+          )}
+        </Flex>
       </Flex>
-    </Flex>
-  </>
-    
+    </>
   );
 };
 

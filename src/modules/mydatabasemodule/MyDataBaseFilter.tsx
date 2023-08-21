@@ -210,6 +210,7 @@ const MyDataBaseFilter = ({
     setSkills('')
     setnewjobname('')
     setnewexperience('')
+    setexperience('')
     setnewqual([])
     setnewlocation('')
     setnewskill([])
