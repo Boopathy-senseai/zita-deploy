@@ -16,6 +16,7 @@ import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import Loader from '../../uikit/Loader/Loader';
 import Text from '../../uikit/Text/Text';
 import { mediaPath } from '../constValue';
+import Avatar from '../../uikit/Avatar/Avatar';
 import styles from './candidatenavbar.module.css';
 import { Obj, ProjectsEntityOne, UserInfo } from './candidateProfileTypes';
 import { downloadProfileMiddleWare } from './store/middleware/candidateprofilemiddleware';
@@ -57,20 +58,27 @@ const CandidateNavBar = ({
     (obj && Array.isArray(obj?.skills) && obj?.skills?.length !== 0) ||
     (obj && Array.isArray(obj?.soft_skills) && obj?.soft_skills.length !== 0);
 
-    const handleFocus=(id:string)=>{
-      var elmnt:any = document.getElementById(id);
-      elmnt.scrollIntoView();
-    }
+  const handleFocus = (id: string) => {
+    var elmnt: any = document.getElementById(id);
+    elmnt.scrollIntoView();
+  };
   return (
     <Flex className={styles.overAll}>
       {isLoader && <Loader />}
       <Flex row>
-        <img
+        {/* <img
           style={{objectFit: 'cover'}}
           className={styles.profile}
           src={mediaPath + obj?.profile_url}
           alt="Profile"
-        />
+        /> */}
+        <Avatar
+                className={styles.profile}
+                style={{ fontSize:'40px', textTransform:'uppercase' }}
+                initials= {`${obj?.full_name[0][0]}${
+                  obj?.full_name[obj?.full_name.length - 1][0]
+                }`} 
+              />
         <Flex columnFlex flex={1} between>
           <Flex row center>
             <Text
@@ -119,21 +127,22 @@ const CandidateNavBar = ({
                 <div style={{ marginRight: 4 }}>
                   <SvgPhone height={16} width={16} />
                 </div>
-                
-                  {!isEmpty(obj?.phone_no) &&  obj?.phone_no.toString() !== 'Not Specified' ? (
-                    <div className={styles.phoneHide}>
-                      <PhoneInput
-                        inputClass={styles.phoneInput}
-                        dropdownClass={styles.dropDownStyle}
-                        value={obj?.phone_no?.toString()}
-                        // placeholder='Not Specified'
-                      />
-                    </div>
-                  ) : (
-                    <Text style={{marginRight:16}} color="white" bold>
-                      {notSpecified(obj?.phone_no)}
-                    </Text>
-                  )}
+
+                {!isEmpty(obj?.phone_no) &&
+                obj?.phone_no.toString() !== 'Not Specified' ? (
+                  <div className={styles.phoneHide}>
+                    <PhoneInput
+                      inputClass={styles.phoneInput}
+                      dropdownClass={styles.dropDownStyle}
+                      value={obj?.phone_no?.toString()}
+                      // placeholder='Not Specified'
+                    />
+                  </div>
+                ) : (
+                  <Text style={{ marginRight: 16 }} color="white" bold>
+                    {notSpecified(obj?.phone_no)}
+                  </Text>
+                )}
               </Flex>
               <Flex row center>
                 <SvgMail height={16} width={16} />
@@ -144,7 +153,7 @@ const CandidateNavBar = ({
             </Flex>
             <Flex row center>
               <Text
-                onClick={()=>handleFocus('candidate_profile_screen___about')}
+                onClick={() => handleFocus('candidate_profile_screen___about')}
                 color="white"
                 bold
                 style={{ marginRight: 30, cursor: 'pointer' }}
@@ -153,7 +162,9 @@ const CandidateNavBar = ({
               </Text>
               {checkBox && isProfileView && (
                 <Text
-                  onClick={() => handleFocus('candidate_profile_screen___skill')}
+                  onClick={() =>
+                    handleFocus('candidate_profile_screen___skill')
+                  }
                   color="white"
                   bold
                   style={{ marginRight: 30, cursor: 'pointer' }}
@@ -163,7 +174,9 @@ const CandidateNavBar = ({
               )}
               {!isProfileView && (
                 <Text
-                  onClick={() => handleFocus('candidate_profile_screen___skill')}
+                  onClick={() =>
+                    handleFocus('candidate_profile_screen___skill')
+                  }
                   color="white"
                   bold
                   style={{ marginRight: 30, cursor: 'pointer' }}
@@ -225,18 +238,20 @@ const CandidateNavBar = ({
                   Work Experience
                 </Text>
               )}
-              {Array.isArray(projects) && projects.length !== 0 && isProfileView && (
-                <Text
-                  onClick={() =>
-                    handleFocus('candidate_profile_screen___projects')
-                  }
-                  color="white"
-                  bold
-                  style={{ cursor: 'pointer' }}
-                >
-                  Projects
-                </Text>
-              )}
+              {Array.isArray(projects) &&
+                projects.length !== 0 &&
+                isProfileView && (
+                  <Text
+                    onClick={() =>
+                      handleFocus('candidate_profile_screen___projects')
+                    }
+                    color="white"
+                    bold
+                    style={{ cursor: 'pointer' }}
+                  >
+                    Projects
+                  </Text>
+                )}
               {!isProfileView && (
                 <Text
                   onClick={() =>

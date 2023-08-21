@@ -1602,7 +1602,7 @@ const CreateNewEvent = (props) => {
           </Flex>
           <div className={styles.line}></div>
           <Flex row center marginBottom={10}>
-            <Text size={14} color="theme" className={styles.text1}>
+            <Text size={13} color="theme" className={styles.text1}>
               Interviewers
             </Text>
             <Text size={12} color="theme" style={{ marginLeft: '5px' }}>
