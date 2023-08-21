@@ -671,7 +671,7 @@ const ProfileCard = () => {
           )}</Flex> */}
 
         {permission.includes('create_post') === false ? (
-          <Flex marginLeft={20}>
+          <Flex marginLeft={12} marginRight={12} marginTop={12} marginBottom={12}>
             <LinkWrapper
               target={isEmpty(career_page_url) ? '_parent' : '_blank'}
               to={

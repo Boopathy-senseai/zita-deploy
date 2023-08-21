@@ -266,69 +266,75 @@ const MyJobsPostingFilter = ({
   return (
     <Flex row style={{ justifyContent: 'space-between' }}>
       <Flex row className={styles.quickFilters}>
-        <Text size={13} style={{ whiteSpace: 'nowrap', marginTop: '3px' }}>
-          Quick Filters :
+      <Text size={13} style={{ whiteSpace: 'nowrap', marginTop: '3px' }}>
+        Quick Filters :
+      </Text>
+      {jobtitle !== '' ? (
+        <Text className={styles.quickfil}>
+          {jobtitle}{' '}
+          <SvgIntomark
+            className={styles.stylesvg}
+            onClick={() => closetitle()}
+            style={{cursor:"pointer"}}
+          />
         </Text>
-        {jobtitle !== '' ? (
-          <Text className={styles.quickfil}>
-            {jobtitle}{' '}
-            <SvgIntomark
-              className={styles.stylesvg}
-              onClick={() => closetitle()}
-            />
-          </Text>
-        ) : (
-          ''
-        )}
+      ) : (
+        ''
+      )}
 
-        {jobid1 !== '' ? (
-          <Text className={styles.quickfil}>
-            {jobid1}{' '}
-            <SvgIntomark className={styles.stylesvg} onClick={() => close()} />
-          </Text>
-        ) : (
-          ' '
-        )}
-        {isDefaultFilter() ? (
-          <Text className={styles.quickfil}>All</Text>
-        ) : jobstatus1 !== 'All' && jobstatus1 !== '' ? (
-          <Text className={styles.quickfil}>
-            {' '}
-            {jobstatus1}
-            <SvgIntomark
-              className={styles.stylesvg}
-              onClick={() => closestatus()}
-            />
-          </Text>
-        ) : (
-          ''
-        )}
+      {jobid1 !== '' ? (
+        <Text className={styles.quickfil}>
+          {jobid1}{' '}
+          <SvgIntomark className={styles.stylesvg} onClick={() => close()} style={{cursor:"pointer"}}/>
+        </Text>
+      ) : (
+        ' '
+      )}
+      {isDefaultFilter() ? (
+        <Text className={styles.quickfil}>All</Text>
+      ) : jobstatus1 !== 'All' && jobstatus1 !== '' ? (
+        <Text className={styles.quickfil}>
+          {' '}
+          {jobstatus1}
+          <SvgIntomark
+            className={styles.stylesvg}
+            onClick={() => closestatus()}
+            style={{cursor:"pointer"}}
+          />
+        </Text>
+      ) : (
+        ''
+      )}
 
-        {jobposted1 !== '' ? (
-          <Text className={styles.quickfil}>
-            {jobposted1}{' '}
-            <SvgIntomark
-              className={styles.stylesvg}
-              onClick={() => closedate()}
-            />
-          </Text>
-        ) : (
-          ' '
-          // " "
-        )}
+      {jobposted1 !== '' ? (
+        <Text className={styles.quickfil}>
+          {jobposted1}{' '}
+          <SvgIntomark
+            className={styles.stylesvg}
+            onClick={() => closedate()}
+            style={{cursor:"pointer"}}
+          />
+        </Text>
+      ) : (
+        ' '
+        // " "
+      )}
 
-        {location !== '' ? (
-          <Text className={styles.quickfil}>
-            {location}{' '}
-            <SvgIntomark
-              className={styles.stylesvg}
-              onClick={() => closelocationdata()}
-            />
-          </Text>
-        ) : (
-          ''
-        )}
+      {location !== '' ? (
+        <Text className={styles.quickfil}>
+          {location}{' '}
+          <SvgIntomark
+            className={styles.stylesvg}
+            onClick={() => closelocationdata()}
+            style={{cursor:"pointer"}}
+          />
+        </Text>
+      ) : (
+        ''
+      )}
+
       </Flex>
+     
 
       <Flex>
         <div ref={dropDownRef} className={styles.drop_down}>
@@ -337,7 +343,6 @@ const MyJobsPostingFilter = ({
               onClick={() => {
                 setShowDropDown((value) => !value);
               }}
-              style={{cursor:"pointer"}}
             >
               <Text
                 bold
@@ -482,14 +487,13 @@ const MyJobsPostingFilter = ({
                 />
               </div>
             </Flex>
-            <div
-              // style={{
-              //   padding: '6px',
-              //   display: 'flex',
-              //   justifyContent: 'center',
-              //   alignItems: 'center',
-              // }}
-              className={styles.filterContainers}
+            <div className={styles.filterContainers}
+            // style={{
+            //   padding: '6px',
+            //   display: 'flex',
+            //   justifyContent: 'center',
+            //   alignItems: 'center',
+            // }}
             >
               <Button className={styles.buyBtn} onClick={handlechange}>
                 Apply

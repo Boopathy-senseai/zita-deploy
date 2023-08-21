@@ -196,7 +196,7 @@ const MyJobPostingScreen = () => {
                   target={'_blank'}
                   to={`${career_page_url}/careers`}
                 >
-                  <Button className={styles.style2} types="primary">
+                  <Button className={styles.style2} types="primary" >
                   View Careers Page
                   </Button>
                 </LinkWrapper>

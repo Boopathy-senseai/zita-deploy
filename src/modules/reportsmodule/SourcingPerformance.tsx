@@ -250,9 +250,8 @@ const SourcingPerformanceReport = () => {
     });
   };
   const columns = useMemo(() => sourcingPerformance(), [table]);
-  return (
-	<>
-	<Flex row className={styles.ribbon} between>
+  return (<>
+  <Flex row className={styles.ribbon} between>
             <Flex marginTop={9} marginLeft={8}>
               <Text size={16} bold color="theme">
                 Sourcing Performance Report For Organic Applicants
@@ -433,7 +432,8 @@ const SourcingPerformanceReport = () => {
         )}
       </Flex>
     </Flex>
-	</>
+  </>
+    
   );
 };
 

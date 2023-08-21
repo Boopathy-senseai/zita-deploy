@@ -244,7 +244,7 @@ console.log("sidebar111",windowSize,sidebar)
                     <Text
                       title={`Job Title: ${notSpecified(talentList.desired_job_title)}`}
                       color="black_1"
-                      style={{marginLeft:'3px'}}
+                      style={{marginLeft:'3px', marginTop:'4px'}}
                       className={styles.jobTitle}
                       size={11} 
                     >
@@ -270,9 +270,9 @@ console.log("sidebar111",windowSize,sidebar)
                   <SvgRelocate fill={'#581845'} width={14} height={14} />
                   </Flex>
                     {talentList.relocate === '1' ? (
-                      <Text color="black_1" title={' Willing to Relocate: Yes'}  size={11} >Yes</Text>
+                      <Text color="black_1" title={' Willing to Relocate: Yes'}  size={11} style={{marginTop:'3px'}}>Yes</Text>
                     ) : (
-                      <Text color="black_1" title={' Willing to Relocate: Not Specified'} size={11} >
+                      <Text color="black_1" style={{marginTop:'3px'}} title={' Willing to Relocate: Not Specified'} size={11} >
                         {notSpecified(talentList.relocate, talentList.relocate)}
                       </Text>
                     )}
@@ -283,9 +283,9 @@ console.log("sidebar111",windowSize,sidebar)
                   </Flex>
                     {talentList.min_salary === 'Not Specified' &&
                     talentList.max_salary === 'Not Specified' ? (
-                      <Text color="black_1" title={'Salary: Not Specified'} size={11}  className={styles.jobTitle1}>{talentList.min_salary}</Text>
+                      <Text color="black_1" title={'Salary: Not Specified'} size={11}  className={styles.jobTitle1} >{talentList.min_salary} </Text>
                     ) : (
-                      <Text color="black_1"  size={11}  title={` Salary: ${talentList.min_salary} - ${talentList.max_salary}`} className={styles.jobTitle1}>
+                      <Text color="black_1"  size={11}  title={` Salary: ${talentList.min_salary} - ${talentList.max_salary}`} className={styles.jobTitle1} >
                         ${talentList.min_salary} - ${talentList.max_salary}
                       </Text>
                     )}
@@ -297,7 +297,7 @@ console.log("sidebar111",windowSize,sidebar)
               <Flex style={{marginTop:'30px',marginRight: checkVist?'17px':'25px',marginLeft:checkVist?'0px':'10px'}} >
               <Flex  width={'113%'} >
               {!checkVist ? (
-                <Flex style={{marginLeft:'2px',cursor:checkVist ?'default':'pointer' }}
+                <Flex style={{marginLeft:'1px',cursor:checkVist ?'default':'pointer' }}
                 onClick={() => handleUnlockSubmit(talentList.candidate_hash)}
                 >
                 <SvgLock fill={'#581845'} width={24} height={24} />
@@ -305,11 +305,12 @@ console.log("sidebar111",windowSize,sidebar)
               ) : (
                 <div style={{marginLeft:'11px'}}
                 >
-                <SvgUnlock fill={'#581845'} width={24} height={24} />
+                <SvgUnlock fill={'#7ad47e'} width={24} height={24} />
                 </div>
                 
               )}
-              <Text bold  size={11} title={checkVist ? 'Unlocked Contact' : 'Unlock Contact'}  style={{ marginLeft: '-5px', color:checkVist ?'black':'#581845',fontSize:'12px',cursor:checkVist ?'default':'pointer' }} 
+              <Text bold  size={11} title={checkVist ? 'Unlocked Contact' : 'Unlock Contact'} 
+               style={{ marginLeft: '-5px', color:checkVist ?'black':'#581845',fontSize:'12px',cursor:checkVist ?'default':'pointer' }} 
                onClick={() => handleUnlockSubmit(talentList.candidate_hash)}>
                 {checkVist ? 'Unlocked' : 'Unlock'}
               </Text>

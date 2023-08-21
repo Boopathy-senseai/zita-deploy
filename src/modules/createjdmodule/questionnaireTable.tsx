@@ -13,10 +13,10 @@ export const questionTitle = (jdId: string) => [
     title: 'S.No',
     dataIndex: 'arul',
     key: 'arul',
-    // align: 'center',
+    align: 'left',
     render: (_a: number, _b: any, index: number) => {
       return (
-        <Text style={{paddingLeft:12}} size={12}>
+        <Text align="left" size={12}>
           {index + 1}
         </Text>
       );
@@ -46,7 +46,7 @@ export const questionTitle = (jdId: string) => [
     title: 'Is Required',
     dataIndex: 'is_required',
     key: 'is_required',
-    // align: 'center',
+    align: 'left',
     render: (value: boolean) => {
       return (
         <Flex>
@@ -60,7 +60,7 @@ export const questionTitle = (jdId: string) => [
     title: 'Delete',
     dataIndex: 'id',
     key: 'id',
-    // align: 'center',
+    align: 'left',
     render: (value: number) => {
       return <DeleteAction value={value} jdId={jdId} />;
     },
@@ -81,12 +81,12 @@ export const templateTitle = (
     key: 'id',
     render: (_a: number, _b: any, index: number) => {
       return (
-        <Text align="center" size={13}>
+        <Text align="left" size={13}>
           {index + 1}
         </Text>
       );
     },
-    align: 'center',
+    align: 'left',
     flex: 2,
   },
   {
@@ -112,7 +112,7 @@ export const templateTitle = (
     title: 'Is Required',
     dataIndex: 'is_required',
     key: 'is_required',
-    align: 'center',
+    align: 'left',
     render: (value: boolean, _a: any, index: number) => {
       return <RequiredSwitch value={value} formik={formik} index={index} />;
     },
@@ -122,7 +122,7 @@ export const templateTitle = (
     title: 'Select',
     dataIndex: 'select',
     key: 'select',
-    align: 'center',
+    align: 'left',
     render: (_a: any, value: TemplateEntity) => {
       return (
         <QuestionSelect
