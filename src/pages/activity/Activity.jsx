@@ -6,6 +6,7 @@ import SvgMail from '../../icons/SvgMail';
 import SvgHouse from '../../icons/SvgHouse';
 import SvgPhone from '../../icons/SvgPhone';
 import SvgHeart from '../../icons/SvgHeart';
+import Button from '../../uikit/Button/Button';
 import SvgOverview from '../../icons/SvgOverview';
 import SvgHistory from '../../icons/SvgHistory';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
@@ -108,9 +109,9 @@ function Activity() {
                   Activity Log
                 </Text>
                 <LinkWrapper to="/account_setting/settings">
-                  <Text color="link" bold size={13} className={styles.secondaryBtn}>
-                    Back to Manage Users
-                  </Text>
+                <Button types="secondary">Back to Manage Users</Button>
+                  {/* <Text color="link" bold size={13} className={styles.secondaryBtn}> 
+                  </Text> */}
                 </LinkWrapper>
               </div>
               <div className={styles.activitylogs}>
@@ -139,7 +140,7 @@ function Activity() {
                               {usersData.group_name}
                             </button>
                           </div>
-                          <div className="col-auto" style={{ padding: 0, paddingTop: "10px", paddingBottom: "15px" }}>
+                          <div className="col-auto" style={{ padding: 0, paddingTop: "5px", paddingBottom: "10px" }}>
                             {/* <button
                             style={{
                               borderRadius: 15,

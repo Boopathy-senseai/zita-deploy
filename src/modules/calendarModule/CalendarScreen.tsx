@@ -1047,6 +1047,8 @@ const Calendar = () => {
         isSearchable={true}
         defaultValue={{ label: currentTimeZone, value: currentTimeZone }}
         onChange={(option) => handleChangeTimeZone(option.value)}
+        fontSize={13}
+        
       />
     </div>
   );
@@ -1067,23 +1069,23 @@ const Calendar = () => {
           {/* <div className={styles.triangle}> </div> */}
         </div>
 
-      <Flex row between>
+      <Flex row between >
         {' '}
-        <Flex className={styles.calendarInputs}>
+        <Flex className={styles.calendarInputs} marginTop={10}>
           <Flex row center marginRight={15}>
-            <Text size={14} color="theme">
+            <Text size={13} color="theme">
               Time zone:
             </Text>
             {TimeZoneView}
           </Flex>
 
           <Flex row center>
-            <Text size={14} color="theme">
+            <Text size={13} color="theme">
               Calendar View:
             </Text>
             <CalendarTypeMenu
               style={{
-                margin: '0px 10px',
+                margin: '0px 10px', fontSize: '13px'
               }}
               handleTeamMemberEvents={handleTeamMemberEvents}
               currentCalendarType={currentCalendarType}

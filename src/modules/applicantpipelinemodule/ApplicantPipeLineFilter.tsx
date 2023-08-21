@@ -330,7 +330,7 @@ const ApplicantPipeLineFilter = ({
     <>
       <Flex row style={{ justifyContent: 'space-between' }}>
         <Flex row className={styles.quickFilters}>
-        <Text size={13} style={{ whiteSpace: 'nowrap', marginTop: '3px' }}>
+          <Text size={13} style={{ whiteSpace: 'nowrap', marginTop: '3px' }}>
             Quick Filters :
           </Text>
           {isDefaultFilter() ? (
@@ -366,33 +366,32 @@ const ApplicantPipeLineFilter = ({
         </Flex>
         <Flex>
           <div ref={dropDownRef} className={styles.drop_down}>
+            <Flex row className={styles.drop_down_header}>
+              <Flex
+                onClick={() => {
+                  setShowDropDown((value) => !value);
+                }}
+                width={"90%"}
+                style={{cursor:"pointer"}}
+              >
+                <Text bold color="theme" size={14}>
+                  View Filter
+                </Text>
+              </Flex>
 
-            <Flex
-              row
-              
-              className={styles.drop_down_header}
-             
-            >
-              
-              <Text bold color="theme" size={14}  onClick={() => {
-                setShowDropDown((value) => !value);
-              }}>
-                View Filter
-              </Text>
               <Flex>
-              <div title="Clear Filters" className={styles.svgRefresh}>
-                <SvgRefresh
-                  width={18}
-                  height={18}
-                  onClick={(e) => {
-                    selectInputRef.current.clearValue();
-                    hanldeRefresh();
-                    e.stopPropagation();
-                    handlefunction1();
-                  }}
-                />
-              </div>
-
+                <div title="Clear Filters" className={styles.svgRefresh}>
+                  <SvgRefresh
+                    width={18}
+                    height={18}
+                    onClick={(e) => {
+                      selectInputRef.current.clearValue();
+                      hanldeRefresh();
+                      e.stopPropagation();
+                      handlefunction1();
+                    }}
+                  />
+                </div>
               </Flex>
             </Flex>
             <div
@@ -402,7 +401,7 @@ const ApplicantPipeLineFilter = ({
             >
               {/* match */}
               <Flex className={styles.mtstyle}>
-                <Text  bold className={styles.matchTextStyle}>
+                <Text bold className={styles.matchTextStyle}>
                   Match
                 </Text>
                 <Flex row center wrap>
@@ -427,7 +426,7 @@ const ApplicantPipeLineFilter = ({
               </Flex>
               {/* profile */}
               <Flex className={styles.mtstyle}>
-                <Text  bold className={styles.profileTextStyle}>
+                <Text bold className={styles.profileTextStyle}>
                   Profile
                 </Text>
                 <Flex row center wrap>
@@ -452,7 +451,7 @@ const ApplicantPipeLineFilter = ({
               </Flex>
               {/* exp */}
               <Flex className={styles.mtstyle}>
-                <Text  bold className={styles.profileTextStyle}>
+                <Text bold className={styles.profileTextStyle}>
                   Experience
                 </Text>
                 <SelectTag
@@ -474,10 +473,7 @@ const ApplicantPipeLineFilter = ({
               </Flex>
               {/* qualification */}
               <Flex className={styles.mtstyle}>
-                <Text
-                  bold
-                  className={styles.qualificationTextStyle}
-                >
+                <Text bold className={styles.qualificationTextStyle}>
                   Qualification
                 </Text>
                 <Flex row center wrap>
@@ -501,7 +497,7 @@ const ApplicantPipeLineFilter = ({
               </Flex>
               {/* skills */}
               <Flex className={styles.mtstyle}>
-                <Text  bold className={styles.profileTextStyle}>
+                <Text bold className={styles.profileTextStyle}>
                   Skills
                 </Text>
                 <SelectTag
@@ -519,12 +515,13 @@ const ApplicantPipeLineFilter = ({
                 />
               </Flex>
               <div
-                style={{
-                  padding: '6px',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
+                className={styles.appFilterContainer}
+                // style={{
+                //   padding: '6px',
+                //   display: 'flex',
+                //   justifyContent: 'center',
+                //   alignItems: 'center',
+                // }}
               >
                 <Button className={styles.buyBtn} onClick={handlechange}>
                   Apply

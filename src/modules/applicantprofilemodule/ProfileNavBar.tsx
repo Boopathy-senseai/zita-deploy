@@ -93,6 +93,7 @@ type Props = {
   inviteIconNone?: boolean;
   setjobtitle?: any;
   availableity?: any;
+  availableity?: any;
 } & typeof defaultProps;
 
 const ProfileNavBar = ({
@@ -987,7 +988,7 @@ const ProfileNavBar = ({
                       <Flex title="Under Assessment">
                         {checkingstatus !== 'Applied' &&
                         checkingstatus !== 'Shortlisted' &&
-                        checkingstatus !== 'Hired' &&
+                        checkingstatus !== 'Offered' &&
                         checkingstatus !== 'Rejected' ? (
                           <SvgRadioWithLine fill="#ffc203" />
                         ) : (
@@ -995,7 +996,7 @@ const ProfileNavBar = ({
                         )}
                       </Flex>
                       <Flex title="Hired">
-                        {checkingstatus === 'Hired' ? (
+                        {checkingstatus === 'Offered' ? (
                           <SvgRadioWithLine fill="#00BE4B" />
                         ) : (
                           <SvgRadioWithOutOutLine fill="#00BE4B" />

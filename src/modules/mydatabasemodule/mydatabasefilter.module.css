@@ -87,7 +87,7 @@ font-weight: 400;
  
   padding: 10px;
   background-color: #ffff !important;
-  width: 260px;
+  width: 230px;
   height: 30px;
   border: 1px solid #581845;
   border-radius: 11px;
@@ -165,7 +165,7 @@ font-weight: 400;
   position: absolute;
   background-color: var(--color-white, #fff);
   border-radius: 12px ;
-  max-height:580px ;
+  max-height:480px ;
   overflow-y: scroll;
   width: 100%;
   display: none;
@@ -274,4 +274,13 @@ font-weight: 400;
 
 .jobTextStyle {
   margin-bottom: 5px;
+}
+.filterContainer{
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 0;
+  position: sticky;
+  background-color: #fff;
 }

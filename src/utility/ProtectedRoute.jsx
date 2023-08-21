@@ -132,7 +132,7 @@ const ProtectedRoute = ({
                           flexDirection: 'column',
                           flex: 1,
                           height: '-webkit-fill-available',
-                          paddingLeft:isside?20:0,
+                          paddingLeft:isside?10:0,
                           overflow : applicantpipelineUrl ? "auto" : "hidden",
                         }}
                       >

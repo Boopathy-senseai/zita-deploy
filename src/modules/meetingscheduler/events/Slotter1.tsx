@@ -36,7 +36,6 @@ import {
 } from './store/middleware/eventmiddleware';
 import './DayPickerCustomStyles.css';
 
-
 const slotter1 = (props) => {
   const { userpreview } = props;
   const location = useLocation();
@@ -359,11 +358,10 @@ const slotter1 = (props) => {
     }
   };
 
-  const FooterNavogation = () =>{
-    window.open("https://www.zita.ai/",'_blank')
+  const FooterNavogation = () => {
+    window.open('https://www.zita.ai/', '_blank');
     // const url = `${window.location.origin}/event_preview?uid=null&eventid=${eventid}`;
-
-  }
+  };
 
   return (
     <Flex>
@@ -380,7 +378,7 @@ const slotter1 = (props) => {
               isProfile={isProfile}
               timezones={timezones}
               candidate_name={candi_name}
-              FooterNavogation ={FooterNavogation}
+              FooterNavogation={FooterNavogation}
             />
           </Flex>
         ) : confromflag === false && dashboard === false ? (
@@ -420,8 +418,7 @@ const slotter1 = (props) => {
               conflicts={conflicts}
               // startFrom = {startFrom}
               // endFrom ={endFrom}
-              FooterNavogation ={FooterNavogation}
-
+              FooterNavogation={FooterNavogation}
             />
           </Flex>
         ) : confromflag === true ? (
@@ -434,11 +431,10 @@ const slotter1 = (props) => {
               InterviewText={InterviewText}
               isProfile={isProfile}
               timezones={timezones}
-              FooterNavogation ={FooterNavogation}
-
+              FooterNavogation={FooterNavogation}
             />
           </Flex>
-        ) : null} 
+        ) : null}
       </Flex>
     </Flex>
   );
@@ -619,14 +615,14 @@ const SlotterDate = (props) => {
   // function convertDurationToInterval(durationString, unit) {
   //   alert(")")
   //   const matches = durationString.match(/(\d+)\s*hours?(\s*(\d+)\s*minutes?)?/i);
-  
+
   //   if (!matches) {
   //     return null; // Invalid duration format
   //   }
-  
+
   //   const hours = parseInt(matches[1] || 0, 10);
   //   const minutes = parseInt(matches[3] || 0, 10);
-  
+
   //   if (unit === 'minutes') {
   //     return hours * 60 + minutes; // Calculate interval in minutes
   //   } else if (unit === 'seconds') {
@@ -654,13 +650,13 @@ const SlotterDate = (props) => {
   function parseIntervalString(intervalString) {
     const regex = /(\d+)\s*hour[s]?\s*(\d+)\s*minute[s]?/;
     const match = intervalString.match(regex);
-  
+
     if (match) {
       const hours = parseInt(match[1], 10);
       const minutes = parseInt(match[2], 10);
       return { hours, minutes };
     }
-  
+
     return { hours: 0, minutes: 0 };
   }
 
@@ -697,6 +693,11 @@ const SlotterDate = (props) => {
       if (durationParts.length === 2) {
         if (durationParts[1] === 'minutes') {
           minutes = parseInt(durationParts[0], 10);
+        }
+        if (durationParts[1] === 'hour' || durationParts[1] === 'hours') {
+
+          hours = parseInt(durationParts[0], 10);
+
         }
       } else if (durationParts.length === 4) {
         if (durationParts[1] === 'hour' || durationParts[1] === 'hours') {
@@ -906,11 +907,13 @@ const SlotterDate = (props) => {
         if (isIntervalWithinRange(targetInterval, excludedRange)) {
           isExcluded = true; // Target interval is within an excluded range
           break;
-        }}
+        }
+      }
       if (!isExcluded) {
         remainingIntervals.push(targetInterval); // Add the remaining interval
-      }}
-    console.log("remainingIntervalsremainingIntervals",remainingIntervals)
+      }
+    }
+    console.log('remainingIntervalsremainingIntervals', remainingIntervals);
     return remainingIntervals;
   }
 
@@ -1071,13 +1074,11 @@ const SlotterDate = (props) => {
   //   // return remainingIntervals;
   // }
 
-
-  
   // function generateIntervals(timeBreaks, intervalMinutes, datetimes) {
   //   console.log('timeBreakstimeBreaks', timeBreaks, intervalMinutes, datetimes);
   //   const intervals12 = [];
   //   const conflicttime = [];
-    
+
   //   for (const timeBreak of timeBreaks) {
   //     const { starttime, endtime } = timeBreak;
   //     const [startHour, startMinute] = parseTime(starttime);
@@ -1093,7 +1094,7 @@ const SlotterDate = (props) => {
   //             "currentHour",
   //             currentHour
   //           );
-  
+
   //     while (
   //       (currentHour < parseInt(endHour, 10) ||
   //       (currentHour === parseInt(endHour, 10) &&
@@ -1104,21 +1105,21 @@ const SlotterDate = (props) => {
   //           (startHour === 12 || startHour === 0)
   //         ))
   //       )
-        
+
   //     ) {
   //       const formattedStartHour12 = currentHour === 0 ? 12 : currentHour === 12 ? 12 : currentHour > 12 ? currentHour - 12 : currentHour;
   //       const formattedStartMinute = currentMinute.toString().padStart(2, '0');
   //       const stAmPm = currentHour >= 12 ? 'am' : 'pm';
   //       const startInterval12 = `${formattedStartHour12}:${formattedStartMinute} ${stAmPm}`;
-  
+
   //       currentHour += intervalMinutes.hours;
   //       currentMinute += intervalMinutes.minutes;
-  
+
   //       if (currentMinute >= 60) {
   //         currentHour++;
   //         currentMinute -= 60;
   //       }
-  
+
   //       // Check if the current time exceeds the end time
   //       if (
   //         currentHour > parseInt(endHour, 10) ||
@@ -1127,12 +1128,12 @@ const SlotterDate = (props) => {
   //       ) {
   //         break; // Skip adding the extra interval
   //       }
-  
+
   //       const formattedEndHour12 = currentHour === 0 ? 12 : currentHour === 12 ? 12 : currentHour > 12 ? currentHour - 12 : currentHour;
   //       const formattedEndMinute = currentMinute.toString().padStart(2, '0');
   //       const endAmPm = currentHour >= 12 ? 'am' : 'pm';
   //       const endInterval12 = `${formattedEndHour12}:${formattedEndMinute} ${endAmPm}`;
-        
+
   //       // Exclude the interval from 12:15 AM to 11:45 AM
   //       if (startInterval12 !== '12:00 am' && stAmPm === 'am' || endAmPm === 'pm') {
   //         intervals12.push(`${startInterval12} - ${endInterval12}`);
@@ -1140,16 +1141,16 @@ const SlotterDate = (props) => {
   //       console.log("wwweeweeewewewewewewewewe",intervals12)
   //     }
   //   }
-  
+
   //   // Rest of your code...
   // }
 
   function generateIntervals(timeBreaks, intervalMinutes, datetimes) {
     const intervals12 = [];
-  
+
     for (const timeBreak of timeBreaks) {
       let { starttime, endtime } = timeBreak;
-      console.log("starttimestarttime",starttime,endtime)
+      console.log('starttimestarttime', starttime, endtime);
       if (starttime.includes('12:')) {
         starttime = starttime.replace('12:', '00:');
       }
@@ -1160,7 +1161,7 @@ const SlotterDate = (props) => {
       const [endHour, endMinute] = parseTime(endtime);
       let currentHour = startHour;
       let currentMinute = startMinute;
-  
+
       while (
         currentHour < parseInt(endHour, 10) ||
         (currentHour === parseInt(endHour, 10) &&
@@ -1544,10 +1545,12 @@ const SlotterDate = (props) => {
         <>
           <Flex row className={styles.unavailble}>
             <Flex>
-          <SvgInactive width={21} height={21} />
-          </Flex>
-          <Flex marginTop={2}>
-            <Text style={{ color : '#581848' , marginLeft:'5px'}} >This slotter is no longer available to schedule</Text>
+              <SvgInactive width={21} height={21} />
+            </Flex>
+            <Flex marginTop={2}>
+              <Text style={{ color: '#581848', marginLeft: '5px' }}>
+                This slotter is no longer available to schedule
+              </Text>
             </Flex>
           </Flex>
         </>

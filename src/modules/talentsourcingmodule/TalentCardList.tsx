@@ -227,11 +227,11 @@ Props) => {
               );
           })}
      </Flex>
-        <Flex style={{paddingTop:'10px'}}>
+        <Flex marginBottom={10} style={{paddingTop:'10px'}}>
           {searchData?.length !== 0 &&
             pageCount - 1 !== 0 &&
             searchData !== null && isSubmitLoader !== true && (
-              <div style={{alignItems:'center',justifyContent:'center',display:'flex'}}>
+              <div style={{alignItems:'center',justifyContent:'center',display:'flex', marginBottom:"10px"}}>
                 <Pangination
                   maxPages={pageCount - 1}
                   currentPage={pageNumber}

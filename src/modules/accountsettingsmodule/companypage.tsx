@@ -1300,8 +1300,8 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
                       >
                         <label
                           onMouseEnter={() => setopenpopuptwo(true)}
-                          onMouseLeave={() => setopenpopuptwo(false)}
-                          className={styles.changeStyle11}
+                          // onMouseLeave={() => setopenpopuptwo(false)}
+                          className={styles.changeStyle11} 
                         >
                           <SvgModuleicon />
                         </label>

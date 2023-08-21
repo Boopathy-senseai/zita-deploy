@@ -59,7 +59,9 @@ const DragList = ({
                 role={'button'}
                 onKeyPress={() => {}}
               >
+                <div style={{position:"relative", bottom:2, right:4}}>
                 <SvgCloseSmall width={18} height={18} />
+                </div>
               </div>
             )}
           </div>

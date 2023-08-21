@@ -109,8 +109,9 @@ const size=sidebar==="1"
 
       <div
         style={{
-          height: window.innerHeight - getHeight,
+          height: window.innerHeight - 260,
           overflowY: 'scroll',
+          overflowX:"hidden",
           paddingRight: 0,
           paddingTop: 0,
           display: 'flex',
