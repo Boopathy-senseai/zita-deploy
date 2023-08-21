@@ -161,7 +161,6 @@ const ZitaMatchCandidate = () => {
   };
 
   const handleSearchSubmit = () => {
-
     setIsCheck([]);
     console.log("close",isSearch)
     dispatch(
@@ -358,6 +357,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
   const handleLocation = () => {
     
     setLocation(!isLocation);
+    
     setchange(true)
   };
 
@@ -468,6 +468,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
   ]);
   // filter refesh function
   const hanldeRefresh = () => {
+ 
     setDoctorate(false);
     setMasters(false);
     setAny(true);
@@ -486,7 +487,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
     dispatch(
       zitaMatchDataCandidateMiddleWare({
         jd_id: jdId,
-        profile_match: isMatchRadio,
+        profile_match: "",
         fav: favAdd,
         candidate: '',
         location:"",
@@ -941,6 +942,8 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
         isDoctorate={isDoctorate}
         isMasters={isMasters}
         isOther={isOther}
+        setLocation={setLocation}
+        setRelocate={setRelocate}
           setSearch={setSearch}
           isSearch={isSearch}
           isAny={isAny}
