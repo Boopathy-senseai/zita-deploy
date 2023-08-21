@@ -95,6 +95,7 @@ const Calendar = () => {
   const [teamMemberEvents, setTeamMemberEvents] = useState<CalendarEventType[]>(
     [],
   );
+  const [currentEventId, setCurrentEventId] = useState<string>();
   const [visibleEvents, setVisibleEvents] = useState<CalendarEventType[]>([]);
   const [openScheduleForm, setOpenScheduleForm] = useState<boolean>(false);
   const [isCalendarIntegrated, setIsCalendarIntegrated] =
@@ -303,21 +304,18 @@ const Calendar = () => {
 
   useEffect(() => {
     const meetingevent = localStorage.getItem('eventhandeler');
-    // console.log('meetingevent', meetingevent);
     if (meetingevent === 'true') {
       setOpenScheduleForm(true);
       localStorage.setItem('eventhandeler', 'false');
       handleCloseEventPop();
-      // setCurrentEventId(localStorage.getItem('eventhandelerid'));
-      // console.log(
-      //   localStorage.getItem('checkstatus'),
-      //   'ggggggggggggggggggggggggggggffffffffffffffffffffffffffff',
-      // );
+      setCurrentEventId(localStorage.getItem('eventhandelerid'));
+      console.log(localStorage.getItem('checkstatus'),'ggggggggggggggggggggggggggggffffffffffffffffffffffffffff')
       if (localStorage.getItem('checkstatus') === CALENDAR.Google) {
         dispatch(
           googleEditEventMiddleware({
             eventId: localStorage.getItem('eventhandelerid'),
           }),
+         
         )
           .then((res) => {
             // console.log(localStorage.getItem('eventhandelerid'));
@@ -356,89 +354,14 @@ const Calendar = () => {
           });
       }
     }
-
-    return () => {
-      localStorage.removeItem('eventhandeler');
-    };
-  }, []);
-
-  // useEffect(() => {
-  //   const meetingevent = localStorage.getItem('eventhandeler');
-  //   if (meetingevent === 'true') {
-  //     setOpenScheduleForm(true);
-  //     localStorage.setItem('eventhandeler', 'false');
-  //     handleCloseEventPop();
-  //     // setCurrentEventId(localStorage.getItem('eventhandelerid'));
-  //     // console.log(
-  //     //   localStorage.getItem('checkstatus'),
-  //     //   'ggggggggggggggggggggggggggggffffffffffffffffffffffffffff',
-  //     // );
-  //     if (localStorage.getItem('checkstatus') === CALENDAR.Google) {
-  //       dispatch(
-  //         googleEditEventMiddleware({
-  //           eventId: localStorage.getItem('eventhandelerid'),
-  //         }),
-  //       )
-  //         .then((res) => {
-  //           // console.log(localStorage.getItem('eventhandelerid'));
-  //           if (res.payload.data === true) {
-  //             setEditEventDetails(
-  //               res.payload.events.map((event: ZitaEventType) =>
-  //                 getEditEventsDetails(event),
-  //               ),
-  //             );
-  //             setIsEditEvent(true);
-  //             setOpenScheduleForm(true);
-  //           }
-  //         })
-  //         .catch((err) => {
-  //           console.error(err);
-  //         });
-  //     } else if (localStorage.getItem('checkstatus') === CALENDAR.Outlook) {
-  //       dispatch(
-  //         outlookEditEventMiddleware({
-  //           eventid: localStorage.getItem('eventhandelerid'),
-  //         }),
-  //       )
-  //         .then((res) => {
-  //           if (res.payload.data === true) {
-  //             setEditEventDetails(
-  //               res.payload.events.map((event: ZitaEventType) =>
-  //                 getEditEventsDetails(event),
-  //               ),
-  //             );
-  //             setIsEditEvent(true);
-  //             setOpenScheduleForm(true);
-  //           }
-  //         })
-  //         .catch((err) => {
-  //           console.error(err);
-  //         });
-  //     }
-  //   }
-  // }, [openScheduleForm]);
-
+  }, [openScheduleForm]);
   useEffect(() => {
     const schedulevent = localStorage.getItem('scheduleven');
-    // console.log('schedulevent', schedulevent);
     if (schedulevent === 'true') {
       setOpenScheduleForm(true);
       localStorage.setItem('scheduleven', 'false');
     }
-
-    return () => {
-      localStorage.removeItem('scheduleven');
-    };
-  }, []);
-
-  // useEffect(() => {
-  //   const schedulevent = localStorage.getItem('scheduleven');
-  //   if (schedulevent === 'true') {
-  //     setOpenScheduleForm(true);
-  //     localStorage.setItem('scheduleven', 'false');
-  //   }
-  // }, []);
-
+  }, []); 
   useEffect(() => {
     const Applicantname = localStorage.getItem('Applicantname');
     const jdname = localStorage.getItem('Jdname');
@@ -476,16 +399,16 @@ const Calendar = () => {
     }
   }, [localStorage.getItem('Applicantname')]);
 
-  // useEffect(() => {
-  //   if (localStorage.getItem('Applicantname') !== '') {
-  //     const booleanValue = true;
-  //     setthroughApplicant(booleanValue);
-  //   } else {
-  //     const booleanValue = false;
-  //     setthroughApplicant(booleanValue);
-  //   }
-  // }, [localStorage.getItem('Applicantname')]);
-
+  const handleEventScheduleForm = () => {
+    localStorage.setItem('Applicantname', '');
+    localStorage.setItem('jdname', '');
+    setASpplicantname('');
+    setJdname('');
+    if (calendarProvider) handleGetEvents(calendarProvider);
+    setIsEditEvent(false);
+    setSlotRange(SlotRangeInitialState);
+    setOpenScheduleForm((prevState) => !prevState);
+  };
   const handleOpenEventForm = (event: CalendarEventType) => {
     let eventData = {
       ...getEventPopupDetails(eventPopUpDetails, event),
@@ -593,16 +516,16 @@ const Calendar = () => {
         });
     }
   };
-  const handleEventScheduleForm = () => {
-    localStorage.setItem('Applicantname', '');
-    localStorage.setItem('jdname', '');
-    setASpplicantname('');
-    setJdname('');
-    if (calendarProvider) handleGetEvents(calendarProvider);
-    setIsEditEvent(false);
-    setSlotRange(SlotRangeInitialState);
-    setOpenScheduleForm((prevState) => !prevState);
-  };
+  // const handleEventScheduleForm = () => {
+  //   localStorage.setItem('Applicantname', '');
+  //   localStorage.setItem('jdname', '');
+  //   setASpplicantname('');
+  //   setJdname('');
+  //   if (calendarProvider) handleGetEvents(calendarProvider);
+  //   setIsEditEvent(false);
+  //   setSlotRange(SlotRangeInitialState);
+  //   setOpenScheduleForm((prevState) => !prevState);
+  // };
 
   const getUserNameFromResponse = (user: {
     user__first_name: string;
@@ -1264,13 +1187,15 @@ const Calendar = () => {
                 )}
               </>
             )}
+            {console.log(currentEventId,'111111111currentEventIdcurrentEventIdcurrentEventIdcurrentEventIdcurrentEventId')}
+            {console.log("adadadad",openScheduleForm)}
             {openScheduleForm && (
               <MeetingSchedulingScreen
                 username={currentUser.name}
                 applicants={applicants}
                 currentUser={currentUser}
                 currentUserEvents={currentUserEvents}
-                // eventId={currentEventId}
+                EventId={currentEventId}
                 cand_name={isApplicantname}
                 jd_name={isJdname}
                 jd_id={Number(isjdid)}

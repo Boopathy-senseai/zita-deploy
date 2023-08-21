@@ -29,7 +29,7 @@ interface Props {
   currentUserLabel: string;
   editEventDetails?: EditEventDetails | null;
   username: string;
-  eventId?: string | null;
+  EventId?:any;
   recurringEventId?: string | null;
   // extraNotes: string;
   currentApplicantId: number;
@@ -46,7 +46,7 @@ const MeetingSummary = ({
   editEventDetails,
   username,
   nextEvent,
-  eventId,
+  EventId,
   recurringEventId,
   // extraNotes,
   currentApplicantId,
@@ -98,7 +98,8 @@ const MeetingSummary = ({
       meetingForm.startDateTime,
     )} to ${formatTo12HrClock(
       meetingForm.endDateTime,
-    )} with ${currentUserLabel}`;
+    )} with 
+    ${(localStorage.getItem('Applicantsname') !=='' && localStorage.getItem('Applicantsname') !== null) ?localStorage.getItem('Applicantsname'):currentUserLabel}`
   };
 
   const getReminder = () => {
@@ -122,7 +123,7 @@ const MeetingSummary = ({
           extraNotes: greetings.applicant,
           interviewer_notes: greetings.interviewer,
           myJd: meetingForm.job.label,
-          eventId: recurringEventId,
+          eventId:EventId !==''?EventId:recurringEventId,
           privateNotes: meetingForm.privateNotes,
           eventType: meetingForm.eventType.value,
           edit_jd,
@@ -174,8 +175,9 @@ const MeetingSummary = ({
     dispatch(
       scheduleEventMiddleware({
         title: getMeetingTitle(),
-        applicantId: currentApplicantId,
+        applicantId:(Number(localStorage.getItem('can_id'))),
         myJd: job.label,
+        // (localStorage.getItem('jd_id')),  
         reminder: getReminder(),
         extraNotes: greetings.applicant,
         interviewer_notes: greetings.interviewer,

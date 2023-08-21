@@ -370,7 +370,9 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
     window.open(calendarRoute);
     localStorage.setItem('Applicantname',candidate_details[0].first_name+' '+candidate_details[0].last_name)
     localStorage.setItem('Jdname',jd)
-    localStorage.setItem('jdid',can_id) 
+    localStorage.setItem('can_id',can_id) 
+    localStorage.setItem('jd_id',jd_id)
+
   } 
   const now = new Date();
   const utcOffsetMinutes = now.getTimezoneOffset();
