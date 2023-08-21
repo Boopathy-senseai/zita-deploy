@@ -86,10 +86,7 @@ const MeetingSchedulingScreen = ({
   // );
 
   const updateCurrentApplicantId = (applicantId: number) => {
-    if(localStorage.getItem('can_id') !== '')
-    {setCurrentApplicantId(Number(localStorage.getItem('jdid')))}
-    else{
-    setCurrentApplicantId(applicantId);}
+    setCurrentApplicantId(applicantId);
   };
 
   useEffect(() => {

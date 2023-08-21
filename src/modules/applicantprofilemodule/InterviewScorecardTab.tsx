@@ -17,7 +17,7 @@ import ReactHtmlParser, {
   convertNodeToElement,
   htmlparser2,
 } from 'react-html-parser';
-import parse from 'html-react-parser';
+// import parse from 'html-react-parser';
 // import classNames from 'classnames/bind';
 // import ReactQuill from 'react-quill';
 import Loader from '../../uikit/Loader/Loader';
@@ -402,6 +402,7 @@ const InterviewScorecardTab = () => {
                                 flexWrap: 'wrap',
                                 overflow: ' hidden',
                                 textOverflow: 'clip',
+                                fontSize:'13px'
                               }}>
                       <td
                         className={styles.commentTextStyle}

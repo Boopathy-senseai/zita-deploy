@@ -175,7 +175,7 @@ const MeetingSummary = ({
     dispatch(
       scheduleEventMiddleware({
         title: getMeetingTitle(),
-        applicantId:(Number(localStorage.getItem('can_id'))),
+        applicantId: currentApplicantId?currentApplicantId:(Number(localStorage.getItem('can_id'))),
         myJd: job.label,
         // (localStorage.getItem('jd_id')),  
         reminder: getReminder(),
@@ -295,7 +295,7 @@ const MeetingSummary = ({
               {...meetingForm}
               currentUserLabel={currentUserLabel}
               greetingText={greetings.applicant}
-              email={applicantEmail}
+              email={applicantEmail?applicantEmail:localStorage.getItem('emailnote')}
               interviewerData={meetingForm?.interviewer}
               onSave={(value) => {
                 /// save this text to some field
