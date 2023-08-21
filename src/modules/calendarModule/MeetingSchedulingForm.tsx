@@ -308,7 +308,7 @@ const MeetingSchedulingForm = ({
         startTime: {
           ...form.startTime,
           value: null,
-          errorMessage: 'start time must be less then end time',
+          errorMessage: 'Start time must be less then end time',
         },
       }));
     } else {
@@ -340,7 +340,7 @@ const MeetingSchedulingForm = ({
         endTime: {
           ...form.endTime,
           value,
-          errorMessage: 'end time must be greated than start time',
+          errorMessage: 'End time must be greated than start time',
         },
       }));
     } else {
@@ -548,7 +548,9 @@ const MeetingSchedulingForm = ({
               className={styles.timeInput}
             />
           </LocalizationProvider>
-       
+          {meetingForm.startTime.errorMessage!=="Start time must be less then end time" && <>
+            <p className={styles.warn}  style={{marginTop:"3px"}}>{meetingForm.startTime.errorMessage}</p></>
+          }
         </div>
         <p
           className={styles.to}
@@ -571,18 +573,20 @@ const MeetingSchedulingForm = ({
               renderInput={(params) => <TextField {...params} />}
             />
           </LocalizationProvider>
-          {/* {meetingForm.endTime.errorMessage && (
-            <p className={styles.warn}>{meetingForm.endTime.errorMessage}</p>
-          )} */}
+          {meetingForm.endTime.errorMessage!=='End time must be greated than start time' && 
+          <>
+            <p className={styles.warn}  style={{marginTop:"3px"}}>{meetingForm.endTime.errorMessage}</p></>
+          }
         </div>
       </div></Flex>
       <Flex>
-      {meetingForm.startTime.errorMessage && (
-            <p className={styles.warn}>{meetingForm.startTime.errorMessage}</p>
-          )}
-          {meetingForm.endTime.errorMessage && (
-            <p className={styles.warn}>{meetingForm.endTime.errorMessage}</p>
-          )}
+      {meetingForm.startTime.errorMessage==="Start time must be less then end time" && <>
+            <p className={styles.warn}  style={{marginTop:"12px"}}>{meetingForm.startTime.errorMessage}</p></>
+          }
+          {meetingForm.endTime.errorMessage==='End time must be greated than start time' && 
+          <>
+            <p className={styles.warn} style={{marginTop:"12px"}}>{meetingForm.endTime.errorMessage}</p></>
+          }
       </Flex>
       </Flex>
     </div>

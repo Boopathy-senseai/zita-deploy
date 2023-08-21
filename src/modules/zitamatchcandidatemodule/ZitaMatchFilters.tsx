@@ -60,6 +60,8 @@ type Props = {
 
   setCandiStatus: (arg: string) => void;
   isRelocate: boolean;
+  setRelocate:any;
+  setLocation:any;
   handleRelocate: () => void;
   isLocation: boolean;
   isOther: boolean;
@@ -132,6 +134,8 @@ const ZitaMatchFilters = ({
   handleexpclear,
   isExperience,
   setchange,
+  setLocation,
+  setRelocate
 }: Props) => {
   const selectInputRef = useRef<any>();
   const dropDownRef = useRef(null);
@@ -240,13 +244,14 @@ const ZitaMatchFilters = ({
   });
 
   const closerelocate = () => {
-    handleRelocate();
     setapplieisrelocate(false);
+    setRelocate(false);
   };
 
   const closelocation = () => {
-    handleLocation();
     setapplieislocation(false);
+    setLocation(false);
+   // handleLocation();
   };
   const sixty = '<= 60';
   const one = '> 90';
@@ -255,7 +260,7 @@ const ZitaMatchFilters = ({
   const four = '> 60';
   const showSkills = isSkillOption.slice(0, 4);
   const hiddenSkills = isSkillOption.slice(4, isSkillOption.length);
-  const [skill, setskill] = useState<{ value: string; label: string }[]>();
+  const [skill, setskill] = useState<{ value: string; label: string }[]>([]);
 
   const closeSkillOption = (doc: { value: string; label: string }) => {
     const newOptions = [...isSkillOption];
@@ -300,18 +305,29 @@ const ZitaMatchFilters = ({
     setapplieisrelocate(isRelocate);
     setapplieislocation(isLocation);
     setskill(isSkillOption);
-    setchange(false);
-
     setShowDropDown((value) => !value);
+    setchange(false);
+  }
+  const clearall=()=>{
+    
+    setapplimatch("");
+    setappliexp("");
+    setapplijobtype("");
+    setappliprofilevalue("");
+    setapplicandidate("");
+    setapplieismaster(false);
+    setapplieisdoctorate(false);
+    setapplieisother(false);
+    setapplieisbachelor(false);
+    setapplieisany(true);
+    setapplieisrelocate(false);
+    setapplieislocation(false);
+    setskill([]);
   }
 
 
   useEffect(() => {
     if (
-      // isBachelors === false &&
-      // isDoctorate === false &&
-      // isMasters === false &&
-      // isOther === false
       applieisbachelor===false &&
       applieisdoctorate===false&&
       applieismaster===false&&
@@ -323,6 +339,7 @@ const ZitaMatchFilters = ({
 
   return (
     <Flex row style={{ justifyContent: 'space-between' }}>
+      {console.log("aaaaaaaaa",skill)}
       <Flex row wrap>
       <Text size={13} style={{ whiteSpace: 'nowrap', marginTop: '3px' }}>
             Quick Filters :
@@ -336,7 +353,12 @@ const ZitaMatchFilters = ({
           appliecandidate === '' &&
           applieisrelocate === false &&
           applieislocation === false &&
-          applieisany === true ? (
+          applieisany === true&&
+          skill.length===0
+          
+          ?
+          (
+            
             <Text className={styles.quickfil}>All</Text>
           ) : (
             <>
@@ -580,6 +602,7 @@ const ZitaMatchFilters = ({
                 height={18}
                 onClick={(e) => {
                   selectInputRef.current.clearValue();
+                  clearall();
                   hanldeRefresh();
                   e.stopPropagation();
                 }}
