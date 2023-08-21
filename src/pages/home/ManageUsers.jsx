@@ -168,7 +168,7 @@ const ManageUsers = ({ setKey }) => {
                 Buy New Users
               </Button>
               <div style={{position:'absolute',whiteSpace:'nowrap',bottom: -28}}>
-              {Number(plan_id) === 1 &&<Text><Text color='link' onClick={manage}>Upgrade Plan</Text> to buy more users. </Text>}
+              {Number(plan_id) === 1 &&<Text><Text color='link' bold onClick={manage}>Upgrade Plan</Text> to buy more users. </Text>}
               </div>
             </div>
             <div className="col-auto">
