@@ -34,7 +34,7 @@ const AddedApplicantQuestionnaire = ({
   const columns = useMemo(() => questionTitle(jdId), [tabledata]);
   return (
     <Flex className={styles.cardOverAll}>
-      <Flex columnFlex>
+      <Flex columnFlex style={{justifyContent:'left'}}>
         <Text bold size={14} className={styles.applicantTitle}>
           Added Applicant Questionnaire
         </Text>

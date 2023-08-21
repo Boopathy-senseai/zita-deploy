@@ -275,6 +275,7 @@ const MyJobsPostingFilter = ({
           <SvgIntomark
             className={styles.stylesvg}
             onClick={() => closetitle()}
+            style={{cursor:"pointer"}}
           />
         </Text>
       ) : (
@@ -284,7 +285,7 @@ const MyJobsPostingFilter = ({
       {jobid1 !== '' ? (
         <Text className={styles.quickfil}>
           {jobid1}{' '}
-          <SvgIntomark className={styles.stylesvg} onClick={() => close()} />
+          <SvgIntomark className={styles.stylesvg} onClick={() => close()} style={{cursor:"pointer"}}/>
         </Text>
       ) : (
         ' '
@@ -298,6 +299,7 @@ const MyJobsPostingFilter = ({
           <SvgIntomark
             className={styles.stylesvg}
             onClick={() => closestatus()}
+            style={{cursor:"pointer"}}
           />
         </Text>
       ) : (
@@ -310,6 +312,7 @@ const MyJobsPostingFilter = ({
           <SvgIntomark
             className={styles.stylesvg}
             onClick={() => closedate()}
+            style={{cursor:"pointer"}}
           />
         </Text>
       ) : (
@@ -323,6 +326,7 @@ const MyJobsPostingFilter = ({
           <SvgIntomark
             className={styles.stylesvg}
             onClick={() => closelocationdata()}
+            style={{cursor:"pointer"}}
           />
         </Text>
       ) : (
@@ -483,13 +487,13 @@ const MyJobsPostingFilter = ({
                 />
               </div>
             </Flex>
-            <div
-              style={{
-                padding: '6px',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
+            <div className={styles.filterContainers}
+            // style={{
+            //   padding: '6px',
+            //   display: 'flex',
+            //   justifyContent: 'center',
+            //   alignItems: 'center',
+            // }}
             >
               <Button className={styles.buyBtn} onClick={handlechange}>
                 Apply

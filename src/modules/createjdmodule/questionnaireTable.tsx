@@ -13,15 +13,15 @@ export const questionTitle = (jdId: string) => [
     title: 'S.No',
     dataIndex: 'arul',
     key: 'arul',
-    // align: 'center',
+    align: 'left',
     render: (_a: number, _b: any, index: number) => {
       return (
-        <Text style={{paddingLeft:12}} size={12}>
+        <Text align="left" size={12}>
           {index + 1}
         </Text>
       );
     },
-    flex: 0.5,
+    flex: 0.59,
   },
   {
     title: 'Questions',
@@ -46,7 +46,7 @@ export const questionTitle = (jdId: string) => [
     title: 'Is Required',
     dataIndex: 'is_required',
     key: 'is_required',
-    // align: 'center',
+    align: 'left',
     render: (value: boolean) => {
       return (
         <Flex>
@@ -60,7 +60,7 @@ export const questionTitle = (jdId: string) => [
     title: 'Delete',
     dataIndex: 'id',
     key: 'id',
-    // align: 'center',
+    align: 'left',
     render: (value: number) => {
       return <DeleteAction value={value} jdId={jdId} />;
     },
@@ -81,13 +81,13 @@ export const templateTitle = (
     key: 'id',
     render: (_a: number, _b: any, index: number) => {
       return (
-        <Text size={13} style={{paddingLeft:"12px"}}>
+        <Text align="left" size={13}>
           {index + 1}
         </Text>
       );
     },
-    // align: 'center',
-    flex: 0.69,
+    align: 'left',
+    flex: 2,
   },
   {
     title: 'Questions',
@@ -112,7 +112,7 @@ export const templateTitle = (
     title: 'Is Required',
     dataIndex: 'is_required',
     key: 'is_required',
-    // align: 'center',
+    align: 'left',
     render: (value: boolean, _a: any, index: number) => {
       return <RequiredSwitch value={value} formik={formik} index={index} />;
     },
@@ -122,7 +122,7 @@ export const templateTitle = (
     title: 'Select',
     dataIndex: 'select',
     key: 'select',
-    // align: 'center',
+    align: 'left',
     render: (_a: any, value: TemplateEntity) => {
       return (
         <QuestionSelect
@@ -141,10 +141,10 @@ export const resultTitle = () => [
     title: 'Questions',
     renderTitle: (_a: string) => (
       <Flex row center>
-        <Text bold style={{ borderRight:"1px solid #b3b3b3", width: 70, color: "rgb(102, 102, 102)" }}>
+        <Text color="gray" bold style={{ borderRight:"1px solid #b3b3b3", width: 70 }}>
           S.No
         </Text>
-        <Text color="primary" bold style={{ paddingLeft: 8, color: "rgb(102, 102, 102)" }}>
+        <Text color="gray" bold style={{ paddingLeft: 8 }}>
           Questions
         </Text>
       </Flex>

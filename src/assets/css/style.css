@@ -849,7 +849,7 @@ ul {
 
 .cardHo{
   border: 1px solid #EDE6EB;
-  width: 135px;
+  width: 145px;
   box-shadow: 2px 2px 5px 1px #EDE6EB;
 }
 
@@ -2345,18 +2345,18 @@ ul {
   background-color: white !important;
   cursor: default;
 }
-.rdp-button.rdp-day_selected {
+/* .rdp-button.rdp-day_selected {
   background-color: #d7c7d2 !important;
    color: #581845 !important; 
    padding: 5px !important;
-}
-.rdp-button.rdp-day_selected
+} */
+/* .rdp-button.rdp-day_selected
 .DayPicker-Day--lastSelected {
   background-color: black;
   color: white;
   color: #581845; 
   /* font-weight: 54px; */ /* This is not a valid font-weight value */
-}
+/* } */ */
 
 .rdp-button.rdp-day_selected,
 .rdp-day_selected:focus-visible,

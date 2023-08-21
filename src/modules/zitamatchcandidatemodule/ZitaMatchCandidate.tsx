@@ -843,7 +843,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
             className={styles.searchbox}
           >
             <Flex row className={styles.searchstyle}>
-              <Text className={styles.jobstext} style={{fontSize:"14px"}}>Candidates</Text>
+              <Text className={styles.jobstext} style={{fontSize:"13px"}}>Candidates</Text>
               <Flex row className={styles.searchboxoverall}>
                 <InputText
                   ref={myRef}
@@ -912,6 +912,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
               className={styles.btnStyle}
               types="primary"
               onClick={handleApplicant}
+              style={{marginRight:"10px"}}
             >
               Applicants Pipeline
             </Button>
@@ -921,6 +922,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
                 className={styles.btnStyle}
                 types="primary"
                 onClick={handleApplicant}
+                style={{marginRight:"10px"}}
               >
                 Applicants Pipeline
               </Button>

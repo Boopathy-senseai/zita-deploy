@@ -140,7 +140,7 @@ function Activity() {
                               {usersData.group_name}
                             </button>
                           </div>
-                          <div className="col-auto" style={{ padding: 0, paddingTop: "10px", paddingBottom: "15px" }}>
+                          <div className="col-auto" style={{ padding: 0, paddingTop: "5px", paddingBottom: "10px" }}>
                             {/* <button
                             style={{
                               borderRadius: 15,
