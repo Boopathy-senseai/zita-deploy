@@ -21,7 +21,7 @@ export const questionTitle = (jdId: string) => [
         </Text>
       );
     },
-    flex: 0.5,
+    flex: 0.59,
   },
   {
     title: 'Questions',
@@ -141,10 +141,10 @@ export const resultTitle = () => [
     title: 'Questions',
     renderTitle: (_a: string) => (
       <Flex row center>
-        <Text color="primary" bold style={{ borderRight:"1px solid #b3b3b3", width: 70 }}>
+        <Text color="gray" bold style={{ borderRight:"1px solid #b3b3b3", width: 70 }}>
           S.No
         </Text>
-        <Text color="primary" bold style={{ paddingLeft: 8 }}>
+        <Text color="gray" bold style={{ paddingLeft: 8 }}>
           Questions
         </Text>
       </Flex>

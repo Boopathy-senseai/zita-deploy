@@ -137,8 +137,9 @@ const MyJobPostingScreen = () => {
         location: formik.values.location,
         page: isPage + 1,
       }),
-    );
-   
+    ).then((res: any) => {
+      setIsLoad(false)
+    });
   }, [isPage]);
   useEffect(() => {
   if(change===false)

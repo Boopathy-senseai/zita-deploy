@@ -11,7 +11,7 @@ type Props = {
 };
 const QuestionSelect = ({ value, handleCheckBoxClick, isCheck }: Props) => {
   return (
-    <Flex middle>
+    <Flex style={{paddingLeft:"12px"}}>
       <InputCheckBox
         checked={isCheck.includes(value.id.toString())}
         key={value.id.toString()}
