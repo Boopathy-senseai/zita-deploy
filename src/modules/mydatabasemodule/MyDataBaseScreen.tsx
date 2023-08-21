@@ -412,7 +412,7 @@ const MyDataBaseScreen = () => {
         <MyDataBaseSearchAction jobTitle={job_title} formik={formik} 
         setSearchValue={setSearchValue} 
         isSearchValue={isSearchValue}/>
-        <div className={cx('filterOverAll')}>
+        <div className={cx('filterOverAll')} style={{paddingRight:"10px"}}>
         <MyDataBaseFilter
           setchange={setchange}
           formik={formik}

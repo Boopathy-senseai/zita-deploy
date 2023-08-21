@@ -110,7 +110,7 @@ font-weight: 400;
   position: absolute;
   background-color: var(--color-white, #fff);
   border-radius: 12px;
-  max-height:530px ;
+  max-height:480px ;
   overflow-y: scroll;
   width: 230px;
   display: none;
@@ -118,7 +118,7 @@ font-weight: 400;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.47000000000000003);
   -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.47);
   scrollbar-width: thin;
-  z-index: 1;
+  z-index: 100;
   
 }
 
@@ -196,6 +196,14 @@ font-weight: 400;
 .selectoptions{ 
  margin-top: 5px;
 }
- 
+.filterContainers{
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 0;
+  position: sticky;
+  background-color: #fff;
+}
 
  

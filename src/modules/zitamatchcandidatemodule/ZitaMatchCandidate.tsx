@@ -912,6 +912,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
               className={styles.btnStyle}
               types="primary"
               onClick={handleApplicant}
+              style={{marginRight:"10px"}}
             >
               Applicants Pipeline
             </Button>
@@ -921,6 +922,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
                 className={styles.btnStyle}
                 types="primary"
                 onClick={handleApplicant}
+                style={{marginRight:"10px"}}
               >
                 Applicants Pipeline
               </Button>
