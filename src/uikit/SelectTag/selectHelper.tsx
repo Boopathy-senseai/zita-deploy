@@ -80,7 +80,10 @@ export const customStyles = {
     color:'BLACK',
     fontSize:13,
   }),
-  
+  NoOptionsMessage: (provided: any)=> ({
+    ...provided,
+    fontSize: 13,
+  }),
 }
 
 
@@ -386,7 +389,7 @@ export const customStylechanges = {
     scrollbarWidth: 'thin',
     padding: 0,
   }),
-  NoOptionsMessage: (provided: any)=> ({
+    NoOptionsMessage: (provided: any)=> ({
     ...provided,
     fontSize: 13,
   }),
@@ -426,7 +429,7 @@ export const customStylechanges1 ={
   input: (provided: any) => ({
     ...provided,
     margin: '0px',
-    fontSize: 12,
+    fontSize: 13,
     fontFamily: `'Roboto', sans-serif`,
     borderColor:PRIMARY,
     border: '0px',
@@ -467,7 +470,7 @@ export const customStylechanges1 ={
     padding: 0,
     borderColor:PRIMARY,
   }),
-  NooptionsMessage: (provided: any)=> ({
+  NoOptionsMessage: (provided: any)=> ({
     ...provided,
     fontSize: 13,
   }),

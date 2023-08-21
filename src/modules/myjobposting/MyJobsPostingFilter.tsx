@@ -293,15 +293,16 @@ const MyJobsPostingFilter = ({
       jobstatus1==="" ? (
         <Text className={styles.quickfil}> All</Text>
       
-      ) : location === "" &&
-           jobid1=== "" &&
-      jobtitle===""  &&
-      jobposted1 ==="" &&jobstatus1 === "All" ? (
-      //   setdata(""),
-      // setdate(""),
-      // setTitle(""),
-      // setlocationdata("")
-      <Text className={styles.quickfil}> All</Text>
+      // ) : 
+      // location === "" &&
+      //      jobid1=== "" &&
+      // jobtitle===""  &&
+      // jobposted1 ==="" &&jobstatus1 === "All" ? (
+      // //   setdata(""),
+      // // setdate(""),
+      // // setTitle(""),
+      // // setlocationdata("")
+      // <Text className={styles.quickfil}> All</Text>
         ):(
         <Text className={styles.quickfil}>
           {" "}
@@ -474,11 +475,11 @@ const MyJobsPostingFilter = ({
             <div className={styles.skillContainer}>
               <Text className={styles.jobTextStyle} >Job Status</Text>
               <Flex marginTop={5} className={styles.matchRadioStyling}  >
-                {jobTypeData.map((jobList) => {
+                {jobTypeData.map((jobList,index) => {
                   return (
                     <Flex
-                      
-                      key={jobList.value}
+                    
+                      key={index}
                       width={jobList.width}
                       className={styles.matchRadioStyle}
                     >

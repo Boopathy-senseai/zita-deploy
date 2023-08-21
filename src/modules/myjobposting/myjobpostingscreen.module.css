@@ -105,6 +105,7 @@
   justify-content: space-between;
   position: relative;
   width: 100%;
+  height:30px;
 }
 /* .inputsearch_search {
   text-transform: none !important;
@@ -362,7 +363,8 @@
 }
 .numberorder{
   font-weight: 700;
-  font-size: 15px;
+  font-size: 13px;
+  color: #581845;
 }
 .padchang{
   padding: 0 !important;

@@ -74,9 +74,9 @@ const AddedApplicantQuestionnaire = ({
             to={routesPath.MY_JOB_POSTING}
           >
             <Button 
-          onClick={() => {onPristine()
-            setDraftSave(true);
-          }}
+          // onClick={() => {onPristine()
+          //   setDraftSave(true);
+          // }}
             types="secondary" className={styles.saveBtn}>
               Save as draft
             </Button>

@@ -2396,3 +2396,8 @@ cardHo:hover{
  .daterangepicker th.month{
    cursor: default !important;
  }
+
+
+.NooptionsMessage{
+  font-size: 13px;
+}

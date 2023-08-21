@@ -503,7 +503,7 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
             </Flex>
           )}
           {active !== 0 && myevents.length === 0 && (
-            <Flex flex={1} center middle>
+            <Flex className={styles.nomeeting} center middle>
               <Flex center middle marginTop={100}>
                 <SvgMeetingicon />
               </Flex>

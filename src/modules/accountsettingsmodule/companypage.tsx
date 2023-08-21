@@ -1309,8 +1309,8 @@ let jpgchange=jpg.toUpperCase();
                       >
                         <label
                           onMouseEnter={() => setopenpopuptwo(true)}
-                          onMouseLeave={() => setopenpopuptwo(false)}
-                          className={styles.changeStyle11}
+                          // onMouseLeave={() => setopenpopuptwo(false)}
+                          className={styles.changeStyle11} 
                         >
                           <SvgModuleicon />
                         </label>

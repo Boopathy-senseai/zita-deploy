@@ -196,8 +196,8 @@ const TemplatesPage = () => {
                 <Text
                   color="theme"
                   bold
-                  size={16}
-                  style={{ marginLeft: '10px' }}
+                  size={14}
+                  style={{ marginLeft: '10px', marginTop: "4px" }}
                 >
                   Job Pipeline
                 </Text>
