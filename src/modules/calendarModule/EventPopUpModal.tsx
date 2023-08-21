@@ -98,7 +98,7 @@ const EventPopUpModal = ({
           /> */}
           <div className={styles.title}>
             <Tooltip title={title} placement="top">
-              <p className={styles.eventTitle}>{title}</p>
+              <p style={{fontWeight:"bold"}} className={styles.eventTitle}>{title}</p>
             </Tooltip>
             {/* <p>Gowtham Frontend Developer</p> */}
           </div>
@@ -149,7 +149,7 @@ const EventPopUpModal = ({
         </div>
       </div>
 
-      {isEventCanUpdate && <hr style={{ margin: '0 0 10px 0', padding: 0 }} />}
+      {isEventCanUpdate && <hr style={{ margin: '10px 0 10px 0', padding: 0 }} />}
       <div
         style={{
           display: 'flex',
@@ -179,13 +179,13 @@ const EventPopUpModal = ({
                   navigator.clipboard.writeText(link);
                 }}
               >
-                <SvgCopy fill="#581845" width={14} height={14} />
+                <SvgCopy fill="#581845" width={16} height={16} />
               </button>
             </Tooltip>
           ) : null}
           {isEventCanUpdate && canEdit ? (
             <button className={styles.icon} title='Edit' onClick={() => handleEditEvent()}>
-              <SvgEdit width={14} height={14} />
+              <SvgEdit width={16} height={16} />
             </button>
           ) : null}
           {canEdit ? (
@@ -194,7 +194,7 @@ const EventPopUpModal = ({
               title='Delete'
               onClick={() => setOpenEventDeleteModal(true)}
             >
-              <SvgTrash width={14} height={14} />
+              <SvgTrash width={18} height={18} />
             </button>
           ) : null}
         </div>
@@ -204,7 +204,7 @@ const EventPopUpModal = ({
 
   const PrivateEvent = (
     <div className={styles.content}>
-      <Text size={16} className={styles.title}>
+      <Text size={13} className={styles.title}>
         {title}
       </Text>
       <div className={styles.info}>

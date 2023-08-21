@@ -175,7 +175,7 @@ const MeetingSummary = ({
     dispatch(
       scheduleEventMiddleware({
         title: getMeetingTitle(),
-        applicantId: currentApplicantId?currentApplicantId:(Number(localStorage.getItem('can_id'))),
+        applicantId:currentApplicantId?currentApplicantId:(Number(localStorage.getItem('can_id'))),
         myJd: job.label,
         // (localStorage.getItem('jd_id')),  
         reminder: getReminder(),

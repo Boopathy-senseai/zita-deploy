@@ -2460,7 +2460,9 @@ ul {
   overflow-x: hidden !important;
   
 }
-
+.css-92nr1f-MuiButtonBase-root-MuiIconButton-root, .css-1s220mh-MuiButtonBase-root-MuiIconButton-root, .css-12ha4i7, .css-7lip4c{
+  background-color: #581845 !important;
+}
 .rbc-month-view{
   z-index: 0;
 }

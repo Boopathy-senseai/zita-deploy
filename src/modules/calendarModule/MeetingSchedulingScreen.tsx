@@ -86,7 +86,9 @@ const MeetingSchedulingScreen = ({
   // );
 
   const updateCurrentApplicantId = (applicantId: number) => {
+
     setCurrentApplicantId(applicantId);
+
   };
 
   useEffect(() => {

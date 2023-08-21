@@ -31,6 +31,7 @@ export interface ICalendarEvent {
   jd_id: string;
   cand_id: string;
   org_id: string;
+  org_name: string;
   join_url: string;
   extra_notes: string | null;
   email: any;

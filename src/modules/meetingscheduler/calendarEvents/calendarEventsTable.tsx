@@ -241,8 +241,8 @@ const CalendarEventsTable: React.FC<Props> = (props) => {
                   </td>
                   <td className={styles.padchanges} style={{}}>
                     <Text className={styles.stBold}>
-                      {renderOrganiser(doc.organisers)}
-                      {/* backend  */}
+                      {/* {renderOrganiser(doc.organisers)} */}
+                      {doc.org_name}
                     </Text>
                   </td>
 
