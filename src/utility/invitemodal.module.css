@@ -26,22 +26,5 @@
 
 
 .muModalpadding{
-  /* padding: 1rem; */
-  background-color: #fff;
-  padding: 25px 5px;
-  overflow: hidden;
-  z-index: 2;
-  border-radius: 4px;
-  position: relative;
-}
-.row{
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  margin-right: 0px !important;
-  margin-left: 0px !important;
-  max-height: 480px;
-  min-width: 638px;
-  overflow-y: auto;
-  padding: 0px 25px;
+  padding: 1rem;
 }

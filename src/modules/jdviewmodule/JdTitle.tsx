@@ -19,6 +19,7 @@ type Props = {
   career_page_url: string;
   whatjob: any[];
   super_user: boolean;
+  permission:any[]
 };
 const JdTitle = ({
   handleDownload,
@@ -27,9 +28,15 @@ const JdTitle = ({
   jdDetails,
   career_page_url,
   super_user,
+  permission
 }: Props) => {
+  
+  const permissions = permission.includes('create_post')
   return (
     <Flex>
+      {console.log("permissssss",permission.includes('create_post'))}
+ 
+
       {/* <Flex row className={styles.ribbon} between>
           
 
@@ -57,7 +64,9 @@ const JdTitle = ({
           <Text size={14} bold color="theme" style={{ marginRight: 15 }}>
             {jdDetails.job_title}
           </Text>
-          {super_user === true ? (
+          {permissions === true ? (
+
+
             <>
               {jdDetails.is_ds_role === true ? (
                 <div className={styles.svgMargin} title="Duplicate Job">

@@ -74,6 +74,7 @@ const JdViewScreen = () => {
     company_detail,
     questionnaire,
     super_user,
+    permission
   } = useSelector(({ jdViewReducers, permissionReducers }: RootState) => {
     return {
       statusList: jdViewReducers.int_list,
@@ -94,6 +95,7 @@ const JdViewScreen = () => {
       ext_jobs: jdViewReducers.ext_jobs,
       super_user: permissionReducers.super_user,
       jdview: jdViewReducers,
+      permission:permissionReducers.Permission
     };
   });
   console.log(questionnaire, 'kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk');
@@ -245,6 +247,7 @@ const JdViewScreen = () => {
             hanldeInactive={hanldeInactive}
             whatjob={ext_jobs}
             super_user={super_user}
+            permission={permission}
           />
 
           <Flex>

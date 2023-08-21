@@ -291,10 +291,10 @@ const InviteModal = (props) => {
           aria-labelledby="contained-modal-title-vcenter"
           centered 
         >
-          <Modal.Body padding = {0}>
+          <Modal.Body>
             <form onSubmit={handleSubmit(onSubmit)}>
             <Flex className={styles.muModalpadding}> 
-              <Flex row center between style={{padding: "0px 25px"}}>
+              <Flex row center between>
                 <Text bold size={14} color="theme">
                   Invite New User
                 </Text>
@@ -303,7 +303,7 @@ const InviteModal = (props) => {
                   <SvgClose fill={'#979797'} height={14} width={14} />
                 </Button> */}
               </Flex>
-              <Flex className={styles.row}>
+              <div className="row">
                 <div className="col-12">
                   {props.clearData === false ? displayMessage() : ''}
                 </div>
@@ -506,7 +506,7 @@ const InviteModal = (props) => {
                     )}
                   </Flex>
                 </div>
-              </Flex>
+              </div>
               </Flex>
             </form>
           </Modal.Body>
