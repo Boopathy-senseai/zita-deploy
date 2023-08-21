@@ -184,10 +184,10 @@ const TalentFilter = ({
    
 
   return (
-   <>
+   <Flex row between>
    {console.log("Experience",newexperience)}
- 
-     <Text className={""} style={{ color: "#581845" }}>
+    <Flex row>
+     <Text className={""} style={{marginTop:'3px'}} >
         Quick Filters :
       </Text>
       {  !NewBachelors1 && !NewDoctorate1 && !Newmaster1 && !Newothers1 &&!newrelocate&&!newexperience ?(
@@ -274,7 +274,7 @@ const TalentFilter = ({
 null
 )
 }
-
+</Flex>
 
 
 
@@ -415,7 +415,7 @@ null
     
     </div>
     </div>
-</>
+</Flex>
      );
 };
 

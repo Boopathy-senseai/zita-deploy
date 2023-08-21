@@ -171,8 +171,8 @@
   flex-direction: row;
   justify-content: space-between;
   height: 50px;
-  padding: 0px 10px;
-  margin: 7px 0px;
+  /* padding: 0px 10px; */
+  /* margin: 7px 0px; */
 }
 
 .calendarLogo {
@@ -181,10 +181,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between; */
-  padding: 10px;
+  padding: 9px;
   background-color: #eee8ec;
   font-size: 12px;
-  margin-bottom: 10px;
+ 
   display: flex;
   color: #581845;
   justify-content: space-between;
@@ -212,7 +212,7 @@
 .calendarInputs {
   display: flex;
   flex-direction: row;
-  padding: 10px;
+  /* padding: 10px; */
   justify-content: flex-end;
 }
 

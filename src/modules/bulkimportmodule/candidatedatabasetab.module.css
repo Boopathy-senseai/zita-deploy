@@ -19,7 +19,7 @@
     margin-top: 5px;margin-left: 20px;
 }
 .candidatedatabase{
-/*overflow-y:scroll !important;*/
+overflow-y:scroll !important;
 display:flex !important;
 padding-right:10px;
 }
@@ -58,7 +58,7 @@ margin-top: 7px;
   margin-right: 16px;
 }
 .inputWidth {
-  min-width: 245px;
+  min-width: 253px;
 }
 .importText {
   margin-right: 6px;
