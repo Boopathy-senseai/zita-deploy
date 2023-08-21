@@ -60,8 +60,8 @@ type Props = {
 
   setCandiStatus: (arg: string) => void;
   isRelocate: boolean;
-  setRelocate:boolean;
-  setLocation:boolean;
+  setRelocate:any;
+  setLocation:any;
   handleRelocate: () => void;
   isLocation: boolean;
   isOther: boolean;
