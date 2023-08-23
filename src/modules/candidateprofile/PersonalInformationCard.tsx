@@ -7,7 +7,7 @@ import Flex from '../../uikit/Flex/Flex';
 import { isEmpty, notSpecified } from '../../uikit/helper';
 import Text from '../../uikit/Text/Text';
 import { CountryEntity } from '../createjdmodule/createJdTypes';
-import { AdditionalDetailEntity, Personal } from './candidateProfileTypes';
+import { AdditionalDetailEntity, Obj, Personal } from './candidateProfileTypes';
 import MyJobPreferenceCard from './MyJobPreferenceCard';
 import styles from './personalinformationcard.module.css';
 import PersonalInformationEdit from './PersonalInformationEdit';
@@ -16,18 +16,21 @@ type Props = {
   personal?: Personal;
   additional_detail?: AdditionalDetailEntity;
   personal_obj?: Personal;
+  obj?:Obj;
+  Qualification?:string;
   isGetCountry: CountryEntity[];
   isProfileView?: boolean;
 };
 const PersonalInformationCard = ({
   personal,
   additional_detail,
+  obj,
+  Qualification,
   personal_obj,
   isGetCountry,
   isProfileView,
 }: Props) => {
-  const [isPersonalEdit, setPersonalEdit] = useState(false);
-
+  const [isPersonalEdit, setPersonalEdit] = useState(false); 
   const address =
     !isEmpty(personal?.city__name) &&
     !isEmpty(personal?.state__name) &&
@@ -87,7 +90,12 @@ const PersonalInformationCard = ({
         isEmpty(expYears) && isEmpty(expMonth)
           ? 'Not Specified'
           : `${expYears} ${expMonth}`,
-      right: 118,
+      right: 117,
+    },
+    {
+      title: 'Qualification:',
+      value: notSpecified(Qualification),
+      right: 144,
     },
   ];
   const handleOpenPersonalEdit = () => {
@@ -100,7 +108,9 @@ const PersonalInformationCard = ({
           open={isPersonalEdit}
           cancel={() => setPersonalEdit(false)}
           personal={personal}
+          Qualification={Qualification}
           additional_detail={additional_detail}
+          obj={obj}
           personal_obj={personal_obj}
           isGetCountry={isGetCountry}
         />

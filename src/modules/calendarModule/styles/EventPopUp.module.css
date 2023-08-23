@@ -1,7 +1,17 @@
 .eventPopUp {
-  padding: 20px 10px 10px 10px;
-  min-width: 400px;
+  padding: 25px;
+  min-width: 450px;
 }
+
+.content {
+  display: flex;
+  flex-direction: column;
+  /* margin-top: 10px; */
+}
+/* 
+.content > div {
+  margin-bottom: 10px;
+} */
 
 .eventPopUp p {
   margin: 0;
@@ -9,24 +19,34 @@
 
 .eventPopUp .info {
   display: flex;
-  margin: 10px;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  margin: 10px 0px 0px 0px;
+  font-size: 13px !important;
+  /* margin: 10px; */
   align-items: flex-start;
 }
 
 .eventPopUp .infoText {
-  margin: -2px 0px 0px 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: -2px 0px 0px 10px;
 }
 
 .eventPopUp .icon {
   background-color: transparent;
   border: none;
   border-radius: 5px;
-  padding: 5px;
+  /* padding: 5px; */
   margin-left: 5px;
+  width: 30px;
+  height: 30px;
 }
 
 .eventPopUp .icon:hover {
-  background-color: var(--color-primary-light-hover);
+  background-color: #D7C7D2;
+  border-radius: 50%;
 }
 
 .eventPopUp .icon:active {
@@ -35,13 +55,13 @@
   transition: 500ms ease-in-out;
 }
 
-.eventPopUp .email {
-  background-color: rgba(0, 0, 0, 0.1);
-  letter-spacing: 1.5px;
-  padding: 2px 10px;
-  border-radius: 100px;
-  margin: 4px 6px;
-}
+/* .eventPopUp .email { */
+  /* background-color: rgba(0, 0, 0, 0.1); */
+  /* letter-spacing: 1.5px; */
+  /* padding: 2px 10px; */
+  /* border-radius: 100px; */
+  /* margin: 4px 6px; */
+/* } */
 
 .eventPopUp .emailContainer {
   width: 100%;
@@ -65,16 +85,18 @@
 }
 
 .eventPopUp .title {
-  font-size: 20px;
-  margin-left: 10px;
-  color: var(--color-primary);
-  font-weight: 500;
+  font-size: 14px !important;
+  /* margin-left: 10px; */
+   /* color: var(--color-primary); */
+  font-weight: bold;
+  /* margin-bottom: 20px; */
+  text-transform: capitalize;
 }
 
 .profile {
-  padding: 5px 10px;
+  /* padding: 5px 10px; */
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .profile img {
@@ -86,7 +108,7 @@
 }
 
 .profile .title {
-  margin-left: 10px;
+  /* margin-left: 10px; */
   color: black;
 }
 
@@ -96,7 +118,7 @@
 }
 
 .profile .title p:last-child {
-  font-size: 16px;
+  font-size: 13px;
 }
 
 .deleteWarningPopUp {
@@ -114,8 +136,9 @@
 
 .actionButtonWrapper {
   display: flex;
+  flex-direction: row;
   margin-top: 15px;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 
 .actionButtonWrapper button {
@@ -138,8 +161,14 @@
 
 .eventTitle {
   display: inline-block;
-  width: 300px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  width: 355px;
+  font-size: 13px !important;
+  margin-bottom: 10px !important;
   overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+.EventPopUp_title__3Q_HC p:last-child{
+  font-weight: bold !important;
 }

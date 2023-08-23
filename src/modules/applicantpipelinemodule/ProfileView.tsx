@@ -1,17 +1,27 @@
+import { useState,useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store';
 import SvgClose from '../../icons/SvgClose';
 import SvgNewTab from '../../icons/SvgNewTab';
+import SvgLeft from '../../icons/SvgLeft';
+import SvgshareIcon from '../../icons/SvgShareIconview';
+import SvgJobselection from '../../icons/SvgJobselection';
 import { GARY_3, LINK } from '../../uikit/Colors/colors';
 import Drawer from '../../uikit/Drawer/Drawer';
 import Flex from '../../uikit/Flex/Flex';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import Text from '../../uikit/Text/Text';
+// import { Loader } from '../../uikit';
+import { applicantMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import ApplicantProfileModal from './ApplicantProfileModal';
 import styles from './profileview.module.css';
+
 
 type Props = {
   open: boolean;
   cancel: () => void;
   jobId: string;
+  // jobtitle: string;
   candidateId: any;
   inviteIconNone?: boolean;
   activeState?: number;
@@ -21,48 +31,72 @@ const ProfileView = ({
   cancel,
   open,
   jobId,
+  // jobtitle,
   candidateId,
   inviteIconNone,
   activeState,
 }: Props) => {
+  const [jobtitle, setjobtitle] = useState<string>();
+  const {
+    jd,
+  } = useSelector(
+    ({
+      applicantProfileInitalReducers,
+    }: RootState) => {
+      return {
+        jd: applicantProfileInitalReducers.jd
+      };
+    },
+  );
   return (
     <Drawer open={open}>
       <div className={styles.overAll}>
         <Flex row center between flex={1} className={styles.border}>
-          <div
-            tabIndex={-1}
-            role={'button'}
-            onKeyPress={() => {}}
+          <Flex
             className={'pointer'}
+            style={{ cursor: 'pointer' }}
             onClick={cancel}
           >
-            <SvgClose fill={GARY_3} height={16} width={16} />
-          </div>
-      
+            <SvgLeft fill={'#581845'} height={16} width={16} />
+          </Flex> 
+           {jd &&jd.job_id !== '' && jd.job_title !== ''&&
+            <Flex row>
+              <Flex marginTop={2}>
+                <SvgJobselection width={16} height={14} />
+              </Flex>
+              {console.log(jd,"++++++++++++++++++++++++++++++++++++++")}
+              <Flex marginLeft={4}>
+              {jd?.job_title} - {jd?.job_id}
+              </Flex>
+            </Flex>
+          }
           <LinkWrapper
             target={'_blank'}
             to={`/applicant_profile_view/${jobId}/${candidateId}`}
           >
-            <Flex row center className={'pointer'}>
-              <Text color="link" className={styles.openStyle}>
+            <Flex
+              row
+              center
+              className={'pointer'}
+              style={{ cursor: 'pointer' }}
+              marginTop={1}
+            >
+              {/* <Text color="link" className={styles.openStyle}>
                 Open profile in a new window
-              </Text>
-              <SvgNewTab fill={LINK} width={20} height={20} />
+              </Text> */}
+              <SvgshareIcon width={18} height={18} />
             </Flex>
           </LinkWrapper>
-
-          
-                    
-         
         </Flex>
-
+        {/* <div className={styles.middle}></div> */}
         <div
           style={{
             paddingBottom: 16,
           }}
         >
           <ApplicantProfileModal
-            jobId={jobId}
+            setjobtitle={setjobtitle}
+            jobId={jobId} 
             candidateId={candidateId}
             inviteIconNone={inviteIconNone}
             activeState={activeState}
@@ -73,3 +107,4 @@ const ProfileView = ({
   );
 };
 export default ProfileView;
+ 

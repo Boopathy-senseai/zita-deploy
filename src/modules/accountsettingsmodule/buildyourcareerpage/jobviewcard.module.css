@@ -1,9 +1,11 @@
 .overAll {
-  padding: 40px;
+  padding: 25px;
 }
-/* .jobDetails {
-  padding-right: 60px;
-} */
+.jobDetail{
+  padding: 10px 15px;
+  box-shadow: 0 1px 4px 0 rgb(0 0 0 / 47%);
+  border-radius: 5px;
+}
 .btnContainer {
   align-items: end;
 }
@@ -11,8 +13,7 @@
   line-height: 3;
 }
 .jobDes {
-  /* margin-top: 10px; */
-  margin-bottom: 16px;
+  margin-bottom: 5px;
 }
 .statusList {
   margin-right: 8px;
@@ -26,7 +27,7 @@
 }
 
 .listFlex {
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 .valueStyle{
   margin-left: 4px;

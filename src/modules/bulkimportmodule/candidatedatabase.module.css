@@ -1,19 +1,24 @@
 .boxBorder {
-  border: 1px solid #979797;
+  border: 1px solid #333333;
   border-style: dashed;
   border-radius: 4px;
   padding: 16px;
-  height: 150px;
+  height: 200px;
   overflow: overlay;
+  margin-top: 10px;
+
+
 }
 .boxBorderNone {
-  border: 1px solid #979797;
+  border: 1px solid #333333;
   border-style: dashed;
   border-radius: 4px;
   padding: 16px;
   background: #dfdfdf;
-  height: 150px;
+  height: 200px;
   overflow: overlay;
+  margin-top: 10px;
+
 }
 @-moz-document url-prefix('') {
   .boxBorder {
@@ -23,15 +28,29 @@
   }
 }
 .btnContainer {
-  width: 35%;
+  /* width: 35%; */
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+.btnContainer1{
+  /* width: 35%; */
+ 
+  margin-top: 10px;
 }
 .btnStyle {
-  max-width: 130px;
-  margin-left: 50px;
-  margin-right: 16px;
+  /* max-width: 130px; */
+  margin-left: 20px;
+  /* margin-right: 16px; */
 }
 .loaderStyle {
-  margin-left: 50px;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+  /* margin-left: 50px; */
+  /* display: flex;
+  justify-content: flex-end;
+  margin-top: 10px; */
 }
 .uploadStyle {
   width: 100%;
@@ -42,6 +61,10 @@
 
 .listStyle {
   margin-right: 8px;
+  border: 1px solid #333333;
+  padding: 5px;
+  margin-bottom: 8px;
+  border-radius: 3px;
 }
 .svgClose {
   margin-left: 6px;

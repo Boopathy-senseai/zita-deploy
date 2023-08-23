@@ -40,6 +40,7 @@ const Pangination = ({ currentPage, setCurrentPage, maxPages }: Props) => {
         onClick={() => {
           setCurrentPage(number);
           window.scrollTo({top: 0})
+          
         }}
         tabIndex={-1}
         role={'button'}
@@ -74,7 +75,9 @@ const Pangination = ({ currentPage, setCurrentPage, maxPages }: Props) => {
   const disabledLast = currentPage === maxPages;
 
   const paginationRender = (
-    <div className={styles.renderContainer}>
+
+    <div className={styles.renderContainer} >
+
       <Text
         onClick={handleFirst}
         bold
@@ -83,7 +86,7 @@ const Pangination = ({ currentPage, setCurrentPage, maxPages }: Props) => {
           pointer: !disabledFirst,
         })}
         size={14}
-        color={disabledFirst ? 'gray' : 'black'}
+        color={disabledFirst ? 'gray' : 'theme'}
       >
         First
       </Text>
@@ -120,7 +123,7 @@ const Pangination = ({ currentPage, setCurrentPage, maxPages }: Props) => {
           notAllowd: disabledLast,
           pointer: !disabledLast,
         })}
-        color={disabledLast ? 'gray' : 'black'}
+        color={disabledLast ? 'gray' : 'theme'}
       >
         Last
       </Text>

@@ -29,7 +29,7 @@ const MessageTemplate = ({
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<MessageTemplates[]>([]);
   const handleChange = (e: { target: { value: SetStateAction<string> } }) => {
-    setSearchTerm(e.target.value);
+    setSearchTerm(e.target.value); 
   };
 
   useEffect(() => {
@@ -38,26 +38,66 @@ const MessageTemplate = ({
         tempList.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         tempList.templates.toLowerCase().includes(searchTerm.toLowerCase()),
     );
+
     setSearchResults(results);
   }, [searchTerm, messageTemplate]);
 
   return (
     <Modal open={open}>
       <Flex columnFlex className={styles.overAll}>
-        <Text bold color="theme" className={styles.insertStyles}>
-          Insert Templates
+        <Text bold className={styles.insertStyles}>
+          Insert Message Template
         </Text>
-        <InputText
+        <Flex row center>
+          <InputText
+            id="messsageTemplate_search_id"
+            placeholder="Search by template name..."
+            className={styles.inputchanges}
+            value={searchTerm}
+            onChange={handleChange}
+            // actionRight={() => (
+            //   <label htmlFor={'messsageTemplate_search_id'} style={{ margin: 0,right:0 }}>
+            //     <SvgSearch />
+            //   </label>
+            // )}
+          />
+
+          <Flex
+            style={{ position: 'absolute' }}
+            marginTop={1.5}
+            middle
+            center
+            marginLeft={5}
+          >
+            <SvgSearch />
+          </Flex>
+          <Flex
+            middle
+            center
+            row
+            marginLeft={15}
+            className={styles.totalcountchanges}
+            style={{ color:'#581845',fontsize:'13px' }}
+          >
+            <Flex>
+              Total Search Count :
+            </Flex>
+            <Flex>
+              {searchResults.length}
+            </Flex>
+          </Flex>
+        </Flex>
+        {/* <InputText
           id="messsageTemplate_search_id"
           placeholder="Search by template name"
           value={searchTerm}
           onChange={handleChange}
           actionRight={() => (
-            <label htmlFor={'messsageTemplate_search_id'} style={{ margin: 0 }}>
+            <label htmlFor={'messsageTemplate_search_id'} style={{ margin: 0,left:8 }}>
               <SvgSearch />
             </label>
           )}
-        />
+        /> */}
         <Flex columnFlex className={cx('scrollStyle')}>
           {searchResults && searchResults.length !== 0 ? (
             searchResults.map((list, index) => {
@@ -82,9 +122,9 @@ const MessageTemplate = ({
             </Flex>
           )}
         </Flex>
-        <Flex columnFlex row center end>
+        <Flex columnFlex row center end marginTop={15}>
           <Button
-            types="secondary"
+            types="close"
             onClick={() => {
               hanldeClose();
               setSearchTerm('');

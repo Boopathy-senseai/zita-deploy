@@ -3,7 +3,7 @@ const defaultProps = {
   // fill: '#979797',
   fill: '#581845',
   width: 22,
-  height: 22,
+  height: 27,
 };
 
 const SvgEdit = ({ width, height, fill }: typeof defaultProps) => {

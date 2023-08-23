@@ -14,13 +14,16 @@
   -moz-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
   box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
   margin-left: 20px;
+  font-size: 40px;
   margin-right: 16px;
   z-index: 11;
 }
 .phoneFlex {
   padding-top: 10px;
 }
-
+.firstlastchar {
+  font-size: 44px;
+}
 .phoneInput {
   border: none !important;
   padding: 0 !important;

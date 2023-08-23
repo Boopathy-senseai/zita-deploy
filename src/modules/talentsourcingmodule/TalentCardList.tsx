@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
+import _ from 'lodash';
 import Flex from '../../uikit/Flex/Flex';
+import { Pangination } from '../../uikit';
 import BulkAction from './BulkAction';
 import TalentCardMap from './TalentCardMap';
 import { DataEntity } from './talentSourcingTypes';
+
 
 type experienceOptionsType = {
   value: string;
@@ -11,8 +14,7 @@ type experienceOptionsType = {
 
 type Props = {
   searchData?: DataEntity[];
-  pagesVisited: number;
-  usersPerPage: number;
+
   handleUnlockSubmit: (arg: string) => void;
   searchLoader: boolean;
   isBachelors: boolean;
@@ -34,13 +36,19 @@ type Props = {
   setCandiList: (arg: string[]) => void;
   setFree: (arg: boolean) => void;
   planID?: number;
+  update:any;
+  val:any;
+  isCheck:any;
+  setIsCheck:any;
+  isSubmitLoader?:any;
+  pageNumber?:any;
+  handleSetPage?:any;
   // setUnlockLoader: (arg: boolean) => void;
 };
 
 const TalentCardList = ({
   searchData,
-  pagesVisited,
-  usersPerPage,
+ 
   handleUnlockSubmit,
   searchLoader,
   isBachelors,
@@ -62,13 +70,31 @@ const TalentCardList = ({
   setCandiList,
   setFree,
   planID,
+  update,
+  val,
+  isCheck,
+  setIsCheck,
+  isSubmitLoader,
+  pageNumber,
+  handleSetPage,
 }: // setUnlockLoader,
 Props) => {
   const [isCheckAll, setIsCheckAll] = useState(false);
-  const [isCheck, setIsCheck] = useState<any>([]);
+  const [count, setcount] = useState(0);
+  const [stylevalue,setstylevalue]=useState(false);
+
+  const usersPerPage = 15;
+  const pagesVisited = pageNumber * usersPerPage;
+  const length: any = searchData?.length;
+  const pageCount = Math.ceil(length / usersPerPage);
+ 
+  // const [isCheck, setIsCheck] = useState<any>([]);
+  // const checkArray = isCheckArray.length === 0 ? false : true;
 // select box function
   const handleSelectAll = () => {
     setIsCheckAll(!isCheckAll);
+    update(!val)
+     console.log("#########",isCheckAll)
     setIsCheck(
       searchData &&
         searchData
@@ -78,8 +104,15 @@ Props) => {
         ),
     );
     if (isCheckAll) {
+      console.log("_---------",isCheckAll)
       setIsCheck([]);
+      setIsCheckAll(false);
+      update(false)
+
+
     }
+   
+
   };
 
   const handleClick = (e: { target: { id: string; checked: boolean } }) => {
@@ -90,69 +123,128 @@ Props) => {
     }
   };
 
-  useEffect(() => {
-    if (isCheck && isCheck.length !== searchData?.length) {
-      setIsCheckAll(false);
-    }
-    // eslint-disable-next-line
-  }, [isCheck]);
+  
+
 
   useEffect(() => {
-    setIsCheckAll(false);
-    setIsCheck([]);
-  }, [
-    searchLoader,
-    isAny,
-    isBachelors,
-    isMasters,
-    isDoctorate,
-    isRelocate,
-    isExperience,
-  ]);
+    const valIndex=sessionStorage.getItem("index");
+    console.log("type offffffffffff",typeof(isCheck.length),typeof(valIndex))
+    const ans=(isCheck.length.toString()===valIndex);
+    console.log("number page",valIndex,isCheckAll,isCheck.length,ans)
+    const styleval= Number(valIndex)>9
+    console.log("stylevalllllllll",Number(valIndex),styleval)
+    setstylevalue(styleval)
+
+    if (isCheckAll && isCheck.length.toString() !== valIndex) {
+      setIsCheckAll(false);
+      update(false) 
+    }
+  }, [isCheck,stylevalue]);
+
+  // useEffect(() => {
+  //   setIsCheckAll(false);
+  //   setIsCheck([]);
+  // }, [
+  //   searchLoader,
+  //   isAny,
+  //   isBachelors,
+  //   isMasters,
+  //   isDoctorate,
+  //   isRelocate,
+  //   isExperience,
+  // ]);
 
   if (isCheck.length === searchData?.length && isCheckAll === false) {
     setIsCheckAll(true);
+    update(true)
   }
+  const handleChange=(int:any)=>{
+    console.log("index",int)
+    // setcount(int+1)
+  }
+  console.log("userpage",isCheck.length);
+
+  console.log("number ++++_____====",searchData)
+
+//  const mapfuction=()=>{
+//     if(searchData){
+//       searchData
+//           .slice(pagesVisited, pagesVisited + usersPerPage)
+//           .map((dataList, index) => {
+          
+//             return (
+//               <>
+//            {console.log("index update value",index)}
+//            <p>{index}</p>
+//               </>
+//             )})
+//     }
+         
+//   }
+
+  
   return (
-    <Flex wrap row>
-      <BulkAction
-        // setUnlockLoader={setUnlockLoader}
-        setCandiList={setCandiList}
-        setNoCount={setNoCount}
-        setNoLimit={setNoLimit}
-        setNoPermission={setNoPermission}
-        setSuccess={setSuccess}
-        setCandidatesLimit={setCandidatesLimit}
-        isCandidatesLimit={isCandidatesLimit}
-        source_limit={source_limit}
-        setSourceLimit={setSourceLimit}
-        handleSelectAll={handleSelectAll}
-        isCheckAll={isCheckAll}
-        searchResult={searchData?.length}
-        isCheckArray={isCheck}
-        setFree={setFree}
-        planID={planID}
-        setIsCheck={setIsCheck}
-      />
-      {searchData &&
-        searchData
-          .slice(pagesVisited, pagesVisited + usersPerPage)
-          .map((dataList, index) => {
-            return (
-              <TalentCardMap
-                candi_list={candi_list}
-                handleCandidateView={handleCandidateView}
-                isCheck={isCheck}
-                handleClick={handleClick}
-                key={dataList.first_name + index}
-                talentList={dataList}
-                index={index}
-                handleUnlockSubmit={handleUnlockSubmit}
-              />
-            );
+    <>
+    <BulkAction
+          // setUnlockLoader={setUnlockLoader}
+          setCandiList={setCandiList}
+          setNoCount={setNoCount}
+          setNoLimit={setNoLimit}
+          setNoPermission={setNoPermission}
+          setSuccess={setSuccess}
+          setCandidatesLimit={setCandidatesLimit}
+          isCandidatesLimit={isCandidatesLimit}
+          source_limit={source_limit}
+          setSourceLimit={setSourceLimit}
+          handleSelectAll={handleSelectAll}
+          isCheckAll={val}
+          searchResult={searchData?.length}
+          isCheckArray={isCheck}
+          setFree={setFree}
+          planID={planID}
+          setIsCheck={setIsCheck}
+        />
+    <Flex  style={{width:'100%',  overflowY: 'scroll',height: !stylevalue?'fit-content':window.innerHeight - 240,padding: '0 0 8px 0',alignContent:'flex-start' }}>
+     {console.log("index value",window.innerHeight,stylevalue)}
+     <Flex wrap row>
+        
+        {searchData &&
+          searchData
+            .slice(pagesVisited, pagesVisited + usersPerPage)
+            .map((dataList, index) => {
+              return (
+                <TalentCardMap
+            
+                  candi_list={candi_list}
+                  handleCandidateView={handleCandidateView}
+                  isCheck={isCheck}
+                  handleClick={handleClick}
+                  key={dataList.first_name + index}
+                  talentList={dataList}
+                  index={index}
+                  handleUnlockSubmit={handleUnlockSubmit}
+                />
+              );
           })}
+     </Flex>
+        <Flex marginBottom={10} style={{paddingTop:'10px'}}>
+          {searchData?.length !== 0 &&
+            pageCount - 1 !== 0 &&
+            searchData !== null && isSubmitLoader !== true && (
+              <div style={{alignItems:'center',justifyContent:'center',display:'flex', marginBottom:"10px"}}>
+                <Pangination
+                  maxPages={pageCount - 1}
+                  currentPage={pageNumber}
+                  setCurrentPage={handleSetPage}
+                />
+              </div>
+            )}
+   
+        </Flex>
     </Flex>
+    </>
   );
 };
 
 export default TalentCardList;
+// { mapfuction() }

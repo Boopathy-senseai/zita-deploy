@@ -14,6 +14,7 @@ import Loader from '../../uikit/Loader/Loader';
 import Text from '../../uikit/Text/Text';
 import Toast from '../../uikit/Toast/Toast';
 import { config } from '../constValue';
+import { candidateMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { EmpPoolEntity } from './bulkImportTypes';
 import { bulkuploadedCandidatesMiddleWare } from './store/middleware/bulkImportMiddleware';
 import styles from './valueAddName.module.css';
@@ -84,6 +85,13 @@ const EmailAdd = ({
       axios
         .post(uploadedCandidatesApi, data, config)
         .then((response) => {
+          console.log(response,'llllllllllllllkkkkkkkkkkkjjjjjjjjjj')
+          if(response.data.first_name=== true){
+            dispatch(
+              candidateMatchMiddleWare({ 
+                can_id:id.toString(),
+              }),
+            )}
           if (tabKey === 'total') {
             if(jdId === undefined){
 
@@ -197,11 +205,19 @@ const EmailAdd = ({
         .catch(() => {
           setLoader(false);
           Toast(
-            'Email udated request failed. Please try again',
+            'Email updated request failed. Please try again',
             'SHORT',
             'error',
           );
-        });
+        }).then(()=>{
+          dispatch(
+            bulkuploadedCandidatesMiddleWare({
+              search: searchValue, 
+              jd_id:jdId,
+              page: pageNumber + 1,
+            }),
+          )
+        })
     } else {
       setError(true);
     }
@@ -215,6 +231,8 @@ const EmailAdd = ({
  // open input function
   const handleOpenInput = () => {
     setInput(true);
+    formik.resetForm();
+    setError(false);
   };
  // close input function
   const handleCloseInput = () => {
@@ -257,7 +275,7 @@ const EmailAdd = ({
         <>
           {!isInput && (
             <Text
-              size={12}
+              size={13}
               color="link"
               textStyle="underline"
               onClick={handleOpenInput}
@@ -271,7 +289,7 @@ const EmailAdd = ({
           {!isInput && (
             <div className={styles.textContainer}>
               <Text
-                size={12}
+                size={13}
                 onClick={handleOpenInput}
                 className={styles.nameStyle}
               >
@@ -294,9 +312,27 @@ const EmailAdd = ({
             value={formik.values.mail}
             onChange={formik.handleChange('mail')}
             lineInput
-            size={12}
+            size={13}
             onKeyPress={(e) => handleKeyPress(e, value.id)}
+            style={{width:'67%'}}
           />
+          {isError && (
+            <Text style={{
+              display: "flex",
+              alignSelf: 'flex-start'
+            }} size={10} color="error" align='left'>
+              Enter valid email
+            </Text>
+          )}
+          {
+            !isEmpty(formik.values.mail) && isEmailId &&
+            <Text  style={{
+              display: "flex",
+              alignSelf: 'flex-start'
+            }} size={10} color="error" align='left'>
+              Email already exist
+            </Text>
+          }
 
           <div
             className={styles.svgContainer}
@@ -307,23 +343,7 @@ const EmailAdd = ({
               zIndex: 11
             }}
           >
-            {isError && (
-              <Text style={{
-                display: "flex",
-                alignSelf: 'flex-start'
-              }} size={10} color="error" align='left'>
-                Enter valid email
-              </Text>
-            )}
-            {
-              !isEmpty(formik.values.mail) && isEmailId &&
-              <Text  style={{
-                display: "flex",
-                alignSelf: 'flex-start'
-              }} size={10} color="error" align='left'>
-                Email already exists
-              </Text>
-            }
+           
             <div style={{ display: 'flex', flexDirection: 'row' }}>
               {isLoader ? (
                 <div className={styles.svgTick}>

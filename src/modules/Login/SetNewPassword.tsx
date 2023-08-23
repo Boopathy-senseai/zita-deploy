@@ -102,30 +102,35 @@ const SetNewPassword = ({
           <Flex className={styles.center_aligh}>
             {isSuccess && (
               <>
-              <Flex middle className={styles.logo}>
+              <Flex middle className={styles.passwordlocktick}>
               <SvgLocktick width={24} height={24} />
               </Flex>
+              <Flex>
                 <Text
                   bold
-                  size={22}
+                  size={18}
                   align="center"
                   color="theme"
-                  style={{ marginTop:'20px' }}
+                  style={{ marginTop:'10px', left: "16%", position: "relative" }}
                 >
                   Password Changed!
                 </Text>
+                </Flex>
 
-                <Flex center row middle>
-                  <Text color="theme" style={{ marginRight: '-111px',marginTop:'20px' }}>
-                  Your password has been changed successfully. Please login with your new password
+                <Flex middle>
+                  <Text size={14} color="theme" style={{ marginRight: '-134px',marginTop:'10px' }}>
+                  Your password has been changed successfully.
+                  Please login with your new password
                   </Text>
+                  <Flex>
                   <Button
-                  style={{right:'43%',bottom:'-46px'}}
+                  style={{left:'62%'}}
                   className={styles.button}
                   onClick={() => window.location.replace('/')}
                 >
                   Login
                 </Button>
+                </Flex>
                 </Flex>
               </>
             )}
@@ -147,7 +152,9 @@ const SetNewPassword = ({
                   <InputText
                     actionLeft={() => (
                       <Button types="link" className={styles.usericon} style={{position:'absolute',top:'25px'}}>
-                        <SvgLock height={15} width={15} />
+                      <div style={{marginTop: '-1px'}}>  
+                      <SvgLock height={20} width={19} />
+                      </div>
                       </Button>
                     )}
                     className={styles.input}
@@ -162,11 +169,13 @@ const SetNewPassword = ({
                         className={styles.passwordicon}
                         onClick={() => setShowNewPass(!isShowNewPass)}
                       >
+                      <div style={{marginTop: '-15px'}}>
                         <SvgView
                           nonView={isShowNewPass}
                           height={20}
                           width={20}
                         />
+                        </div>
                       </Button>
                     )}
                   />
@@ -195,7 +204,9 @@ const SetNewPassword = ({
                   <InputText
                     actionLeft={() => (
                       <Button types="link" className={styles.usericon} style={{position:'absolute',top:'25px'}}>
-                        <SvgLock height={15} width={15} />
+                      <div style={{marginTop: '-1px'}}>
+                      <SvgLock height={19} width={20} />
+                      </div>
                       </Button>
                     )}
                     className={styles.input}
@@ -210,11 +221,13 @@ const SetNewPassword = ({
                         className={styles.passwordicon}
                         onClick={() => setShowChnagePass(!isShowChangePass)}
                       >
+                      <div style={{marginTop: '-15px'}}>
                         <SvgView
                           nonView={isShowChangePass}
                           height={20}
                           width={20}
                         />
+                      </div>
                       </Button>
                     )}
                   />

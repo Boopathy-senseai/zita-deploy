@@ -17,6 +17,7 @@ import { getDateString } from '../uikit/helper';
 import EditUserModal from './EditUserModal';
 import styles from './usertable.module.css';
 
+
 function UserTable(porps) {
   const usersData = porps.usersData; // eslint-disable-line
   const [deleteModal, setDeleteModal] = useState(false);
@@ -189,33 +190,33 @@ function UserTable(porps) {
   const getStatusButton = (status) => {
     if (status === 1) {
       return (
-        <button
-          style={{ pointerEvents: 'none', textTransform: 'capitalize' }}
+        <Flex
+          style={{ pointerEvents: 'none', textTransform: 'capitalize', fontWeight:'bold' }}
           size={'small'}
           className="status-btn-success"
         >
           Active
-        </button>
+        </Flex>
       );
     } else if (status === 0) {
       return (
-        <button
-          style={{ pointerEvents: 'none', textTransform: 'capitalize' }}
+        <Flex
+          style={{ pointerEvents: 'none', textTransform: 'capitalize', fontWeight:'bold' }}
           size={'small'}
           className="status-btn-warning"
         >
           Pending
-        </button>
+        </Flex>
       );
     } else {
       return (
-        <button
-          style={{ pointerEvents: 'none', textTransform: 'capitalize' }}
+        <Flex
+          style={{ pointerEvents: 'none', textTransform: 'capitalize', fontWeight:'bold' }}
           size={'small'}
           className="status-btn-inactive"
         >
           Inactive
-        </button>
+        </Flex>
       );
     }
   };
@@ -247,7 +248,7 @@ function UserTable(porps) {
       return (
         <>
           <Dropdown.Item onClick={() => handleResend(rowId)}>
-            <Cursor className="mr-2" /> Resend Invite
+            <Cursor className="mr-2" /> <Text size={13}>Resend Invite</Text> 
           </Dropdown.Item>
           <Dropdown.Item onClick={() => handleShow(rowId)}>
             <Flex row center className={styles.dropDownListStyle}>
@@ -277,7 +278,13 @@ function UserTable(porps) {
     return (
       <>
         <Dropdown className="dropdownButton dropleft">
-          <Dropdown.Toggle variant="success" id="dropdown-basic">
+          <Dropdown.Toggle className="btnColor" variant="success" 
+          style={{
+              borderColor: '#ffffff00',
+              backgroundColor: 'unset',
+              boxShadow: 'none',
+            }} id="dropdown-basic"
+          >
             <SvgDotMenu height={17} />
           </Dropdown.Toggle>
 
@@ -310,42 +317,42 @@ function UserTable(porps) {
             <thead>
               <tr>
                 <th scope="col">
-                  <Text color="theme" bold>
+                  <Text bold className={styles.titleuser} style={{color:"#555555"}}>
                     User Name
                   </Text>
                 </th>
                 <th scope="col">
-                  <Text color="theme" bold>
+                  <Text bold className={styles.titleuser} style={{color:"#555555"}}>
                     Email
                   </Text>
                 </th>
                 <th scope="col">
-                  <Text color="theme" bold>
+                  <Text bold className={styles.titleuser} style={{color:"#555555"}}>
                     Contact Number
                   </Text>
                 </th>
-                <th scope="col">
-                  <Text color="theme" bold>
+                <th scope="col" style={{width:"200px"}}>
+                  <Text bold className={styles.titleuser} style={{color:"#555555"}}>
                     Department
                   </Text>
                 </th>
                 <th scope="col" style={{ textAlign: 'center' }}>
-                  <Text color="theme" bold align="center">
+                  <Text bold align="center" className={styles.titleuser} style={{color:"#555555"}}>
                     Status
                   </Text>
                 </th>
-                <th scope="col">
-                  <Text color="theme" bold>
+                <th scope="col" style={{minWidth:"120px"}}>
+                  <Text bold className={styles.titleuser} style={{color:"#555555"}}>
                     Role
                   </Text>
                 </th>
-                <th scope="col">
-                  <Text color="theme" bold>
+                <th scope="col" style={{minWidth:"120px"}}>
+                  <Text bold className={styles.titleuser} style={{color:"#555555"}}>
                     Invited On
                   </Text>
                 </th>
                 <th className="text-center" scope="col">
-                  <Text color="theme" bold>
+                  <Text bold style={{color:"#555555"}}>
                     Actions
                   </Text>
                 </th>
@@ -358,8 +365,9 @@ function UserTable(porps) {
                   return (
                     <tr key={i} className="admin-bc">
                       <td>
+                        {/* {console.log("++++++++",item.first_name)} */}
                         <Link to={'/account_setting/' + item.id}>
-                          <Text color="info">
+                          <Text color="theme" bold >
                             {item.first_name} {item.last_name}
                           </Text>
                         </Link>
@@ -377,17 +385,18 @@ function UserTable(porps) {
                       <td>
                         <Text>Admin</Text>
                       </td>
-                      <td style={{ textAlign: 'center' }}>
-                        <button
+                      <td style={{ textAlign: 'center'}}>
+                        <Flex
                           style={{
                             pointerEvents: 'none',
                             textTransform: 'capitalize',
+                            fontWeight:'bold'
                           }}
                           size={'small'}
                           className="status-btn-success"
                         >
                           Active
-                        </button>
+                        </Flex>
                       </td>
                       <td>
                         <Text>Super Admin</Text>
@@ -403,7 +412,7 @@ function UserTable(porps) {
                     <tr key={i}>
                       <td>
                         <Link to={'/account_setting/' + item.id}>
-                          <Text color="info">
+                          <Text color="theme" bold>
                             {item.first_name} {item.last_name}
                           </Text>
                         </Link>

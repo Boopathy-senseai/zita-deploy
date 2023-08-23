@@ -125,7 +125,7 @@ const TotalApplicant = ({
                     height={12}
                     fill={moveDisabled ? '#AB8BA2' : undefined}
                   />
-                  <Text
+                  <Text bold
                     style={{ marginLeft: '10px' }}
                     color={moveDisabled ? 'disabled' : 'theme'}
                   >
@@ -143,8 +143,8 @@ const TotalApplicant = ({
                   onClick={onExport}
                 >
                   <SvgDownload width={14} height={14} />
-                  <Text style={{ marginLeft: '10px' }} color="theme">
-                    Export
+                  <Text bold style={{ marginLeft: '10px' }} color="theme">
+                    Export Resumes
                   </Text>
                 </Flex>
               </Flex>
@@ -197,7 +197,7 @@ const TotalApplicant = ({
             <Dropdown.Menu style={{ minWidth: '5rem' }}>
               <Dropdown.Item onClick={handleOpenPopup}>
                 <Flex row center className={styles.dropDownListStyle}>
-                  <SvgEditStages height={16} width={16} fill="#333333"/>
+                  <SvgEditStages height={16} width={16} fill="#333333" />
                   <Text style={{ marginLeft: 10 }}>Edit Stages</Text>
                 </Flex>
               </Dropdown.Item>

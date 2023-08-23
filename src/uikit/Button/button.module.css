@@ -6,13 +6,14 @@
   border: none;
   border-radius: 4px;
   background-color: transparent;
-  padding: 3px 12px 2px 12px;
+  padding: 3px 12px 3px 12px;
   width: fit-content;
+  height: 30px;
 }
 
 /* primary button style */
 .buttonTypes-primary {
-  border: 2px solid var(--color-primary, #581845);
+  /* border: 2px solid var(--color-primary, #581845); */
   background-color: var(--color-primary, #581845);
   transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
   border-radius: 5px;
@@ -26,7 +27,7 @@
 }
 
 .buttonTypes-primary:focus {
-  border: 2px solid var(--color-primary, #581845);
+  /* border: 2px solid var(--color-primary, #581845); */
   background-color: var(--color-primary, #581845);
   box-shadow: none;
 }
@@ -84,6 +85,8 @@
 .buttonTypes-secondary {
   background-color: var(--color-white, #ffffff);
   border: 2px solid var(--color-primary, #581845);
+  /* background-color: #DCD1D9;
+  border: 2px solid #DCD1D9; */
 }
 
 .buttonTypes-secondary:hover {
@@ -92,12 +95,12 @@
 
 .buttonTypes-secondary:focus {
   border: 2px solid var(--color-primary, #581845);
-  background-color: rgb(88 24 69 / 20%);
+  /* background-color: rgb(88 24 69 / 20%); */
 }
 
 .buttonTypes-secondary:active {
   border: 2px solid var(--color-primary, #581845);
-  background-color: rgb(88 24 69 / 25%);
+  /* background-color: rgb(88 24 69 / 25%); */
 }
 
 /* tertiary button style */
@@ -162,3 +165,5 @@
   opacity: 0.3;
   pointer-events: none;
 }
+
+

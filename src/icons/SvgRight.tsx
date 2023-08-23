@@ -1,8 +1,8 @@
 /* eslint max-len: ["error", { "code": 2000 }] */
 const defaultProps = {
-  fill: '#424242',
-  width: 13,
-  height: 13,
+  fill: '#581845',
+  width: 10,
+  height: 10,
   onClick: () => {},
 };
 

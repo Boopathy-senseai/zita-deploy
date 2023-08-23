@@ -219,6 +219,7 @@ export const convertJsonToForm = (json: { [key: string]: any }) => {
 export function stringifyParams(
   json: { [key: string]: any } | { [key: number]: any },
 ) {
+  Object.keys(json).forEach(key => json[key] === undefined ? delete json[key] : {});
   return Object.keys(json).reduce((res, key) => {
     if (res === '') {
       // console.log(res);
@@ -247,3 +248,12 @@ export function workExperience(year: number, months?: number) {
   }
   return 'Fresher';
 }
+
+export const uniqueArray = (arr: any[]) => {
+  return arr.filter((value, index) => {
+    const _value = JSON.stringify(value);
+    return index === arr.findIndex(obj => {
+      return JSON.stringify(obj) === _value;
+    });
+  });
+};

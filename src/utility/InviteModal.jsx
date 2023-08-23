@@ -38,13 +38,13 @@ const InviteModal = (props) => {
       .trim()
       .required('This field is required')
       .matches(/^[aA-zZ\s]+$/, 'Enter a valid Name')
-      .min(2, 'Must be more then one character'),
+      .min(2, 'Must be more than one character'),
     last_name: yup
       .string()
       .trim()
       .required('This field is required')
       .matches(/^[aA-zZ\s]+$/, 'Enter a valid Name')
-      .min(2, 'Must be more then one character'),
+      .min(2, 'Must be more than one character'),
     email: yup
       .string()
       .required('This field is required')
@@ -60,7 +60,7 @@ const InviteModal = (props) => {
       .string()
       .required('This field is required')
       .matches(/^[a-zA-Z0-9_ ]*$/, 'Enter a valid department')
-      .min(2, 'Must be more then two character'),
+      .min(2, 'Must be more than two character'),
   });
 
   const {
@@ -149,6 +149,7 @@ const InviteModal = (props) => {
       })
       .catch((err) => {
         console.log(err);
+        setdisplayRolesLoading(false);
       });
   };
 
@@ -289,19 +290,22 @@ const InviteModal = (props) => {
           onHide={onCloseModal}
           size={props.size}
           aria-labelledby="contained-modal-title-vcenter"
-          centered
+          centered 
         >
           <Modal.Body>
             <form onSubmit={handleSubmit(onSubmit)}>
+            <Flex className={styles.muModalpadding}> 
               <Flex row center between>
-                <Text bold size={16} color="theme">
+                <Text bold size={14} color="theme">
                   Invite New User
                 </Text>
 
-                <Button types="link" onClick={onCloseModal}>
+                {/* <Button types="link" onClick={onCloseModal}>
                   <SvgClose fill={'#979797'} height={14} width={14} />
-                </Button>
+                </Button> */}
               </Flex>
+              <div className={styles.verticalLine}> </div>
+              {/* <div className="row"> */}
               <div className="row">
                 <div className="col-12">
                   {props.clearData === false ? displayMessage() : ''}
@@ -431,7 +435,7 @@ const InviteModal = (props) => {
                 <div
                   id="RoleCheckbox"
                   className="col-12 d-none"
-                  style={{ marginTop: '30px' }}
+                  style={{ marginTop: '16px' }}
                 >
                   <div
                     className={
@@ -442,10 +446,10 @@ const InviteModal = (props) => {
                       <Loader size="small" withOutOverlay />
                     </Flex>
                   </div>
-                  <div className={displayRolesLoading ? 'card d-none' : 'card'}>
+                  <div className={displayRolesLoading ? 'card d-none' : 'card'} style={{ border: 0 }} >
                     <div
                       className="card-body"
-                      style={{ paddingBottom: 8, paddingTop: 8 }}
+                      style={{ padding: 0 }}
                     >
                       <Flex columnFlex>
                         <Text bold>User Privileges</Text>
@@ -463,12 +467,15 @@ const InviteModal = (props) => {
                             id={'div' + value.codename}
                             style={{ paddingBottom: 8 }}
                           >
+                            {console.log('66666666666666666',value.codename)}
+                            {console.log('77777777777777777',value.id)}
+                            {console.log('88888888888888888',value.name)}
                             <InputCheckBox
                               name={value.codename}
                               id={value.codename}
                               value={value.id}
                               label={value.name}
-                              className="custom-control-inputs"
+                              className="custom-control-inputs" 
                             />
                           </div>
                         ))}
@@ -476,14 +483,23 @@ const InviteModal = (props) => {
                     </div>
                   </div>
                 </div>
-                <div className="col-md-12 mt-4" style={{ marginBottom: 16 }}>
-                  <Flex row center>
+                
+                <div className="col-md-12 mt-4" style={{ marginBottom: 16, paddingRight: 0  }}>
+                <div className={styles.verticalLine}> </div>
+                  <Flex row center style={{gap: 10, justifyContent: "end"}}>
+                    <Button types="close" onClick={onCloseModal}>
+                      Close
+                    </Button>
+
+                    {/* <Button types="close" onClick={onCloseModal}>
+                  <SvgClose fill={'#979797'} height={14} width={14} />
+                </Button> */}
+                  
                     <Button
                       disabled={!checkValue || isEmailValid}
                       type="submit"
-                      style={{ marginRight: 16 }}
-                    >
-                      Send Invite
+                      style={{ marginRight: 16 }}>
+                     Invite
                     </Button>
                     {props.inviteBtnLoader && (
                       <Loader size="small" withOutOverlay />
@@ -491,8 +507,11 @@ const InviteModal = (props) => {
                   </Flex>
                 </div>
               </div>
+              </Flex>
             </form>
+            
           </Modal.Body>
+
         </Modal>
       </>
     )

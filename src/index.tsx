@@ -45,13 +45,13 @@ if (accounts && accounts.length > 0) {
 const rootElement = document.getElementById('root');
 
 render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Provider store={store}>
       <MsalProvider instance={msalInstance}>
         <App />
       </MsalProvider>
-    </Provider>
-  </React.StrictMode>,
+    </Provider>,
+  // </React.StrictMode>,
   rootElement,
 );
 

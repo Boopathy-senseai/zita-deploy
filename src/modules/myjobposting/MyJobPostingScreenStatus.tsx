@@ -27,7 +27,7 @@ const MyJobPostingScreenStatus = ({ list }: Props) => {
         <ul className={styles.ulstyle1}>  
         {isEmpty(list.shortlisted) ? 
 
-         <li style={{color:"#FCC203",fontSize:20}} className={styles.shortlist}>
+         <li style={{color:"#FCC203",fontSize:14}} className={styles.shortlist}>
            {/* <LinkWrapper
               target={'_parent'}
               to={`/applicant_pipe_line/${list.id}`}
@@ -41,7 +41,7 @@ const MyJobPostingScreenStatus = ({ list }: Props) => {
 
           :
 
-           <li style={{color:"#FCC203",fontSize:20}} className={styles.shortlist} >
+           <li style={{color:"#FCC203",fontSize:14}} className={styles.shortlist} >
             <LinkWrapper
               target={'_parent'}
               to={`/applicant_pipe_line/${list.id}`}
@@ -61,7 +61,7 @@ const MyJobPostingScreenStatus = ({ list }: Props) => {
        <ul className={styles.ulstyle2}>
            {isEmpty(list.hired) ? 
 
-         <li style={{color:"#00BE4B",fontSize:20}}>
+         <li style={{color:"#00BE4B",fontSize:14,marginTop:-2}}>
            {/* <LinkWrapper
               target={'_parent'}
               to={`/applicant_pipe_line/${list.id}`}
@@ -71,14 +71,14 @@ const MyJobPostingScreenStatus = ({ list }: Props) => {
               </Text>
               
         
-            <Text className={styles.fontScreen} style={{color:"#581845",width:8,height:8}}>Offered</Text>
+            <Text className={styles.fontScreen} style={{color:"#581845",width:8,height:8}}>Hired</Text>
             {/* </LinkWrapper> */}
 
           </li> 
 
           : 
 
-           <li style={{color:"#00BE4B",fontSize:20}}   >
+           <li style={{color:"#00BE4B",fontSize:14,marginTop:-2}}   >
             <LinkWrapper
               target={'_parent'}
               to={`/applicant_pipe_line/${list.id}`}
@@ -87,7 +87,7 @@ const MyJobPostingScreenStatus = ({ list }: Props) => {
                 {selected}
               </Text>
               <Text className={styles.fontScreens} style={{color:"#581845",width:8,height:8}}
-            >Offered</Text>
+            >Hired</Text>
             </LinkWrapper>
            
           </li>
@@ -98,7 +98,7 @@ const MyJobPostingScreenStatus = ({ list }: Props) => {
 <ul className={styles.ulstyle3}>
            {isEmpty(list.rejected) ? 
 
-         <li style={{color:"#FF0000",fontSize:20}}>
+         <li style={{color:"#FF0000",fontSize:14}}>
            {/* <LinkWrapper
               target={'_parent'}
               to={`/applicant_pipe_line/${list.id}`}
@@ -117,7 +117,7 @@ const MyJobPostingScreenStatus = ({ list }: Props) => {
 
           : 
 
-           <li  style={{color:"#FF0000",fontSize:20}}>
+           <li  style={{color:"#FF0000",fontSize:16}}>
             <LinkWrapper
               target={'_parent'}
               to={`/applicant_pipe_line/${list.id}`}

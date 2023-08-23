@@ -40,11 +40,10 @@ Props) => {
   const handleShowPass = () => {
     setShowPass(!isShowPass);
   };
-
+  
   return (
     <>
       {console.log(handleForgotOpen, isError, isInactive, isEmpty, SvgEmail)}
-
       {console.log('error', formik.errors)}
       <Flex className={styles.row}>
         <Flex className={styles.splitrow_1}>
@@ -56,6 +55,7 @@ Props) => {
               Start with the fast and smart hiring process.
             </Text>
 
+           {/* Fields starts */}
             <Flex>
               <div>
                 <InputText
@@ -67,7 +67,9 @@ Props) => {
                   keyboardType="email"
                   actionLeft={() => (
                     <Button types="link" className={styles.usericon}>
+                    <div style={{marginTop: '-15px'}}>
                       <SvgEmail height={15} width={17} fill={'none'} />
+                    </div>
                     </Button>
                   )}
                 />
@@ -78,16 +80,18 @@ Props) => {
                   errors={formik.errors}
                 />
               </div>
-
+               {/* Password Starts */}
               <div>
                 <InputText
                   actionLeft={() => (
                     <Button types="link" className={styles.Passicon}>
+                    <div style={{marginTop: '-15px'}}>
                       <SvgLock height={20} width={19} />
+                    </div>
                     </Button>
                   )}
                   className={styles.input}
-                  placeholder="Password at least 8 characters"
+                  placeholder="Your Password"
                   required
                   value={formik.values.email}
                   onChange={formik.handleChange('email')}
@@ -98,7 +102,9 @@ Props) => {
                       className={styles.passwordicon}
                       onClick={handleShowPass}
                     >
+                    <div style={{marginTop: '-2px'}}>
                       <SvgView nonView={isShowPass} height={20} width={20} />
+                    </div>
                     </Button>
                   )}
                   onKeyPress={(e) => enterKeyPress(e, formik.handleSubmit)}
@@ -121,7 +127,10 @@ Props) => {
                   </Text>
                 )}
               </div>
+                {/* Password end */}
             </Flex>
+            {/* Fields starts */}
+
             <Flex end>
               <Button
                 types="link"
@@ -134,6 +143,11 @@ Props) => {
             <Button
               onClick={formik.handleSubmit}
               className={styles.login_button}
+              style={{
+                display:"flex",
+                justifyContent:"center",
+                alignItems:"center"
+              }}
             >
               Login
             </Button>
@@ -141,7 +155,7 @@ Props) => {
             <hr />
             <Flex middle>
               <Text className={styles.text_account}>
-                Don`t have an account ?{' '}
+                Don`t have an account?{' '}
                 <u style={{textDecoration:'none'}}>
                   <Link to="/recruiter/1" style={{fontWeight:"bold"}}>Sign up</Link>
                 </u>

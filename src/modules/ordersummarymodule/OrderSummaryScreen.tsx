@@ -449,8 +449,8 @@ const OrderSummaryScreen = () => {
             </Flex>
           )}
 
-          <Flex row top marginTop={20} marginBottom={30}>
-            <div>
+          <Flex row top marginTop={20} marginBottom={30} style={{borderBottom:'1px solid #ccc',borderTop:'1px solid #ccc',padding:'10px 0'}}>
+            <div style={{width:'250px'}}>
               <InputText
                 value={formik.values.value}
                 onChange={formik.handleChange('value')}
@@ -488,9 +488,10 @@ const OrderSummaryScreen = () => {
               </Button>
             )}
           </Flex>
-          <Flex columnFlex center marginBottom={10}>
+          <Flex columnFlex center marginBottom={10} style={{display:'flex',alignItems:'flex-end'}}>
             <Flex row center>
               <Button
+               types='secondary'
                 onClick={handleUpdatePaymentInfo}
                 style={{ marginRight: 16 }}
               >

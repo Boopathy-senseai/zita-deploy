@@ -1,6 +1,9 @@
 .overAll {
   padding: 20px;
   margin-bottom: 16px;
+  /* margin: 13px; */
+  margin-left: 3px;
+  margin-right: 3px;
 }
 .switchFlex {
   margin-top: 8px;

@@ -17,6 +17,7 @@ import Loader from '../../uikit/Loader/Loader';
 import Text from '../../uikit/Text/Text';
 import Toast from '../../uikit/Toast/Toast';
 import { config } from '../constValue';
+import { candidateMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { EmpPoolEntity } from './bulkImportTypes';
 import { bulkuploadedCandidatesMiddleWare } from './store/middleware/bulkImportMiddleware';
 import styles from './valueAddName.module.css';
@@ -80,170 +81,180 @@ const ValueAddName = ({
       value: formik.values.name,
     });
 
-    axios.post(uploadedCandidatesApi, data, config).then(() => {
-      if (tabKey === 'total') {
-
-        if(jdId === undefined ){
-
+    axios.post(uploadedCandidatesApi, data, config).then((res) => {
+      console.log(res, 'resssssssssssssssssssssssssssssssssssss');
+      if (res.data.email === true) {
         dispatch(
-
-          bulkuploadedCandidatesMiddleWare({
-            search: searchValue,
-            total: total_count,
-            page: pageNumber + 1,
+          candidateMatchMiddleWare({
+            can_id: id.toString(),
           }),
-        )
-          .then(() => {
-            Toast('Name updated successfully', 'LONG', 'success');
-            setLoader(false);
-            setInput(false);
-          })
-          .catch(() => {
-            Toast(
-              'Name updated request failed. Please try again',
-              'SHORT',
-              'error',
-            );
-            setLoader(false);
-          });
-        }else{
-             dispatch(
-
-          bulkuploadedCandidatesMiddleWare({
-            search: searchValue,
-            total: total_count,
-            jd_id: jdId,
-            page: pageNumber + 1,
-          }),
-        )
-          .then(() => {
-            Toast('Name updated successfully', 'LONG', 'success');
-            setLoader(false);
-            setInput(false);
-          })
-          .catch(() => {
-            Toast(
-              'Name updated request failed. Please try again',
-              'SHORT',
-              'error',
-            );
-            setLoader(false);
-          });
+        );
+      }
+      if (tabKey === 'total') {
+        if (jdId === undefined) {
+          dispatch(
+            bulkuploadedCandidatesMiddleWare({
+              search: searchValue,
+              total: total_count,
+              page: pageNumber + 1,
+            }),
+          )
+            .then(() => {
+              Toast('Name updated successfully', 'LONG', 'success');
+              setLoader(false);
+              setInput(false);
+            })
+            .catch(() => {
+              Toast(
+                'Name updated request failed. Please try again',
+                'SHORT',
+                'error',
+              );
+              setLoader(false);
+            });
+        } else {
+          dispatch(
+            bulkuploadedCandidatesMiddleWare({
+              search: searchValue,
+              total: total_count,
+              jd_id: jdId,
+              page: pageNumber + 1,
+            }),
+          )
+            .then(() => {
+              Toast('Name updated successfully', 'LONG', 'success');
+              setLoader(false);
+              setInput(false);
+            })
+            .catch(() => {
+              Toast(
+                'Name updated request failed. Please try again',
+                'SHORT',
+                'error',
+              );
+              setLoader(false);
+            });
         }
       }
       if (tabKey === 'completed') {
-        if(jdId === undefined ){
-        dispatch(
-          bulkuploadedCandidatesMiddleWare({
-            search: searchValue,
-            completed,
-            page: pageNumber + 1,
-          }),
-        )
-          .then(() => {
-            Toast('Name updated successfully', 'LONG', 'success');
-            setInput(false);
-            setInput(false);
-          })
-          .catch(() => {
-            Toast(
-              'Name updated request failed. Please try again',
-              'SHORT',
-              'error',
-            );
-            setLoader(false);
-          });
-          }else{
-              dispatch(
-          bulkuploadedCandidatesMiddleWare({
-            search: searchValue,
-            completed,
-            jd_id:jdId,
-            page: pageNumber + 1,
-          }),
-        )
-          .then(() => {
-            Toast('Name updated successfully', 'LONG', 'success');
-            setInput(false);
-            setInput(false);
-          })
-          .catch(() => {
-            Toast(
-              'Name updated request failed. Please try again',
-              'SHORT',
-              'error',
-            );
-            setLoader(false);
-          });
-
-          }
+        if (jdId === undefined) {
+          dispatch(
+            bulkuploadedCandidatesMiddleWare({
+              search: searchValue,
+              completed,
+              page: pageNumber + 1,
+            }),
+          )
+            .then(() => {
+              Toast('Name updated successfully', 'LONG', 'success');
+              setInput(false);
+              setInput(false);
+            })
+            .catch(() => {
+              Toast(
+                'Name updated request failed. Please try again',
+                'SHORT',
+                'error',
+              );
+              setLoader(false);
+            });
+        } else {
+          dispatch(
+            bulkuploadedCandidatesMiddleWare({
+              search: searchValue,
+              completed,
+              jd_id: jdId,
+              page: pageNumber + 1,
+            }),
+          )
+            .then(() => {
+              Toast('Name updated successfully', 'LONG', 'success');
+              setInput(false);
+              setInput(false);
+            })
+            .catch(() => {
+              Toast(
+                'Name updated request failed. Please try again',
+                'SHORT',
+                'error',
+              );
+              setLoader(false);
+            });
+        }
       }
       if (tabKey === 'inCompleted') {
-  if(jdId === undefined ){
-        dispatch(
-          bulkuploadedCandidatesMiddleWare({
-            search: searchValue,
-            incompleted,
-            page: pageNumber + 1,
-          }),
-        )
-          .then(() => {
-            Toast('Name updated successfully', 'LONG', 'success');
-            setLoader(false);
-            setInput(false);
-          })
-          .catch(() => {
-            Toast(
-              'Name updated request failed. Please try again',
-              'SHORT',
-              'error',
-            );
-            setLoader(false);
-          });
-        }else{
+        if (jdId === undefined) {
           dispatch(
-          bulkuploadedCandidatesMiddleWare({
-            search: searchValue,
-            incompleted,
-            jd_id:jdId,
-            page: pageNumber + 1,
-          }),
-        )
-          .then(() => {
-            Toast('Name updated successfully', 'LONG', 'success');
-            setLoader(false);
-            setInput(false);
-          })
-          .catch(() => {
-            Toast(
-              'Name updated request failed. Please try again',
-              'SHORT',
-              'error',
-            );
-            setLoader(false);
-          });
+            bulkuploadedCandidatesMiddleWare({
+              search: searchValue,
+              incompleted,
+              page: pageNumber + 1,
+            }),
+          )
+            .then(() => {
+              Toast('Name updated successfully', 'LONG', 'success');
+              setLoader(false);
+              setInput(false);
+            })
+            .catch(() => {
+              Toast(
+                'Name updated request failed. Please try again',
+                'SHORT',
+                'error',
+              );
+              setLoader(false);
+            });
+        } else {
+          dispatch(
+            bulkuploadedCandidatesMiddleWare({
+              search: searchValue,
+              incompleted,
+              jd_id: jdId,
+              page: pageNumber + 1,
+            }),
+          )
+            .then(() => {
+              Toast('Name updated successfully', 'LONG', 'success');
+              setLoader(false);
+              setInput(false);
+            })
+            .catch(() => {
+              Toast(
+                'Name updated request failed. Please try again',
+                'SHORT',
+                'error',
+              );
+              setLoader(false);
+            });
         }
-
       }
-    });
+    }).then(()=>{
+      dispatch(
+        bulkuploadedCandidatesMiddleWare({
+          search: searchValue, 
+          jd_id:jdId,
+          page: pageNumber + 1,
+        }),
+      )
+    })
   };
-// open input function
+  // open input function
   const handleOpenInput = () => {
     setInput(true);
   };
-// close input function
+  // close input function
   const handleCloseInput = () => {
     setInput(false);
     formik.setFieldValue('name', value.first_name);
   };
-// outside close input function
+  // outside close input function
   const handleClickOutside = (event: { target: any }) => {
     if (myRef.current && !myRef.current.contains(event.target)) {
       formik.setFieldValue('name', value.first_name);
       setInput(false);
     }
   };
-// outside close input function
+  // outside close input function
   useEffect(() => {
     if (typeof Window !== 'undefined') {
       document.addEventListener('click', handleClickOutside, true);
@@ -256,7 +267,7 @@ const ValueAddName = ({
       }
     };
   });
-// enter key submit function
+  // enter key submit function
   const handleKeyPress = (event: { key: string }, id: number) => {
     if (event.key === 'Enter' && formik.values.name !== '') {
       handleCellSubmit(event, id);
@@ -267,16 +278,15 @@ const ValueAddName = ({
       {isEmpty(formik.values.name) ? (
         <>
           {!isInput && (
-            <Flex  >
+            <Flex>
               <Text
-                size={12}
+                size={13}
                 color="link"
                 textStyle="underline"
                 onClick={handleOpenInput}
               >
                 Add Name
               </Text>
-            
             </Flex>
           )}
         </>
@@ -285,7 +295,7 @@ const ValueAddName = ({
           {!isInput && (
             <div className={styles.textContainerName}>
               <Text
-                size={12}
+                size={13}
                 onClick={handleOpenInput}
                 className={styles.nameStyle}
                 style={{ marginRight: 18 }}
@@ -295,7 +305,7 @@ const ValueAddName = ({
               <div className={styles.svgEditName}>
                 <SvgEdit height={14} width={14} />
               </div>
-                   </div>
+            </div>
           )}
         </>
       )}
@@ -309,9 +319,10 @@ const ValueAddName = ({
             value={formik.values.name}
             onChange={formik.handleChange('name')}
             lineInput
-            size={12}
+            size={13}
             placeholder={'Required'}
             onKeyPress={(e) => handleKeyPress(e, value.id)}
+            style={{ width: '67%' }}
           />
           <div className={styles.svgContainer}>
             {isLoader ? (
@@ -321,8 +332,8 @@ const ValueAddName = ({
             ) : (
               <div
                 className={cx('svgTickMargin', {
-                  svgTickDisable: isEmpty(formik.values.name),
-                  tickStyle: !isEmpty(formik.values.name),
+                  svgTickDisable: isEmpty(formik.values.name.trim()),
+                  tickStyle: !isEmpty(formik.values.name.trim()),
                 })}
                 onClick={(e) => handleCellSubmit(e, value.id)}
                 tabIndex={-1}

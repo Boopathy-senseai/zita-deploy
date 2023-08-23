@@ -76,6 +76,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     new Map(),
   );
 
+  const [change,setchange]=useState(false);
   const favAdd = isTotalFav ? 'add' : '';
 
   const getAppliedView = localStorage.getItem('applied_view');
@@ -140,7 +141,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
       };
     },
   );
-
+console.log(locations,'kkkkkkkkkkkkkkkkkkk')
   useEffect(() => {
     // dispatch(getKanbanStagesMiddleWare());
     dispatch(getKanbanStagesMiddleWare({ jd_id: parseInt(jdId) }));
@@ -215,6 +216,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
       newCardSelection.set(task.id, { task, section, columnId }),
     );
     setCardSelection(newCardSelection);
+    
   };
   const handleColumnUnselect = (data: IStageColumn) => {
     const { section, columnId } = data;
@@ -341,7 +343,9 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
 
   // filter api call
   useEffect(() => {
+    if(!change){
     getApplicanPipelineData();
+    }
   }, [
     isSkillOption,
     isBachelors,
@@ -354,6 +358,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     favLoader,
     isTotalFav,
     isSortApplicant,
+    change
     // updateLoader,
   ]);
 
@@ -405,6 +410,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
 
   // filter experience function
   const handleExperience = (selectedValue: string) => {
+    if(change===false){
     dispatch(
       applicantPipeLineDataMiddleWare({
         jd_id: jdId,
@@ -423,6 +429,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
         location: formik.values.location,
       }),
     );
+    }
   };
   // filter fav function
   const filterTotalFav = () => {
@@ -437,6 +444,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     setBachelors(false);
     setOther(false);
     setSearch('');
+    formik.handleChange('location')('');
     setMatchRadio('');
     setExperience('');
     setProfile('');
@@ -590,7 +598,8 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
             taskId: removed.id,
             candidateId: removed.candidate_id_id,
           });
-        } else {
+        }
+         else {
           handleCardUpdate({
             stage_name: columns[destinationDropId].stage_name,
             taskId: removed.id,
@@ -871,9 +880,9 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
   };
 
   const onLocationChange = (val: any) => {
-    if (val !== '') {
-      return;
-    }
+    // if (val !== '') {
+    //   return;
+    // }
     formik.handleChange('location')(val);
   };
 
@@ -950,6 +959,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
 
   return (
     <>
+    {console.log("changeeeee",change)}
       {showPipelinePopup && showStagesPopup === null && (
         <PipelinePopup
           jd_id={parseInt(jdId)}
@@ -974,9 +984,10 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
           onNewPipeline={handleNewPipeline}
         />
       )}
+      {/* <Flex row className={styles.overAll} style={{marginLeft:'12%'}}> */}
       <Flex row className={styles.overAll}>
         {applicantDataLoader || (favLoader && <Loader />)}
-        {pipeLineLoader && <Loader />}
+        {pipeLineLoader && <Loader />} 
         {getAppliedView === 'true' && (
           <ProfileView
             open={isApplicantView}
@@ -994,7 +1005,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
         <Flex
           columnFlex
           className={styles.dndBoardContainer}
-          // width={window.innerWidth - 260}
+          width={window.innerWidth - 220}
         >
           <Flex row className={styles.titleContainer}>
             <Text bold size={16} color="theme">
@@ -1085,6 +1096,8 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
             </Flex>
           </Flex>
           <ApplicantPipeLineFilter
+
+            setchange={setchange}
             isSkillOption={isSkillOption}
             isSkills={isSkills}
             isSearch={isSearch}

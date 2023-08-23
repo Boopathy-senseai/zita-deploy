@@ -140,12 +140,8 @@
   }
 
   .react-autosuggest__suggestions-container--open {
-    display: block;
-
-    margin-top: -1px;
-
+    display: block; 
     position: absolute;
-    top: 29px;
     width: 100%;
     border: 1px solid var(--color-gary-5, #cccccc);
     background-color: var(--color-white, #ffffff);
@@ -193,6 +189,7 @@
   .react-autosuggest__suggestions-list {
     max-height: 200px;
     overflow: overlay;
+    margin-bottom: 0rem ! important;
   }
 
   .pointer {
@@ -204,12 +201,12 @@
   }
 
   ::-moz-selection {
-    background-color: #2196f3;
+    background-color: #2196f3 !important;
     color: #fff;
   }
 
   ::selection {
-    background-color: #2196f3;
+    background-color: #2196f3 !important;
     color: #fff;
   }
 

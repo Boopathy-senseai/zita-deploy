@@ -6,6 +6,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
+import Totalcount from '../../globulization/TotalCount';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import { getDateString, isEmpty } from '../../uikit/helper';
@@ -73,6 +74,7 @@ const MyDataBaseScreen = () => {
   const [isDownloadLoader, setDownLoadLoader] = useState(false);
   const [isSortOptions, setSortOptions] = useState(sortOptions[0]);
   const [isSearchValue, setSearchValue] = useState<any>('');
+  const [change,setchange]=useState(false)
 
   const addFavFilter = isFav ? 'add' : '';
 
@@ -87,6 +89,8 @@ const MyDataBaseScreen = () => {
     localStorage.setItem('freeCheck','true');
     dispatch(myDataBaseInitalMiddleWare());
   }, []);
+
+
 
   const {
     initalLoader,
@@ -166,34 +170,36 @@ const MyDataBaseScreen = () => {
   const qualificationOption = [
     {
       value: 'Bachelors',
-      label: 'Bachelor',
+      label: 'Bachelors',
       checked: isBachelors,
       onChange: handleBachelor,
       width: 110,
+      padding:10,
     },
     {
       value: 'Masters',
-      label: 'Master',
+      label: 'Masters',
       checked: isMasters,
       onChange: handleMaster,
-      width: 110,
+      width: 80,
+      margin:8,
     },
     {
       value: 'Doctorate',
       label: 'Doctorate',
       checked: isDoctorate,
       onChange: handleDoctorate,
-      width: 87,
-    },
-    {
-      value: 'Others',
-      label: 'Other',
-      checked: isOther,
-      onChange: handleOther,
       width: 110,
     },
     {
-      value: 'Any',
+      value: 'Others',
+      label: 'Others',
+      checked: isOther,
+      onChange: handleOther,
+      width: 80,
+    },
+    {
+      value: 'Any Qualification',
       label: 'any',
       width: 110,
       checked: isAny,
@@ -263,6 +269,7 @@ const MyDataBaseScreen = () => {
 
   useEffect(() => {
     setIsCheck([]);
+    if(change===false){
     dispatch(
       myDataBaseDataMiddleWare({
         jobTitle: formik.values.jobTitle,
@@ -280,6 +287,7 @@ const MyDataBaseScreen = () => {
         applicant_only: formik.values.applicantOnly,
       }),
     );
+    }
   }, [
     formik.values,
     isAny,
@@ -291,6 +299,7 @@ const MyDataBaseScreen = () => {
     isFav,
     isSortOptions,
     isPage,
+    change
   ]);
 
   // filter refresh function
@@ -341,8 +350,11 @@ const MyDataBaseScreen = () => {
   };
 // fav filter function
   const handleFav = () => {
-    setFav(!isFav);
+    setFav(!isFav)
   };
+  useEffect(()=>{
+
+  },[])
 // resume download function
   const hanldeDownload = () => {
     if (isCheck.length !== 0) {
@@ -372,36 +384,43 @@ const MyDataBaseScreen = () => {
     }
   };
 
+  console.log("changeeee+====",change)
   return (
+    <>
+    <Flex row className={styles.ribbon} between>
+          
+
+    <Flex className={styles.titleContainer}  >
+      <Text size={16} bold color="theme" >
+      Database
+      </Text>
+
+    </Flex>
+    <Flex >
+      <div className={styles.triangle}></div>
+    </Flex>
+
+   </Flex>
     <Flex row className={styles.overAll}>
-      {initalLoader && <Loader />}
-      {dataLoader && <Loader />}
+      {initalLoader && <Loader  />}
+      {/* {dataLoader && <Loader  />} */}
       {isInviteLoader && <Loader />}
       {isDownloadLoader && <Loader />}
 
-      <div className={cx('filterOverAll')}>
-        <MyDataBaseFilter
-          formik={formik}
-          qualificationOption={qualificationOption}
-          hanldeRefresh={hanldeRefresh}
-        />
-      </div>
+    
       <div className={cx('tabsContainer')}>
         <MyDataBaseSearchAction jobTitle={job_title} formik={formik} 
         setSearchValue={setSearchValue} 
         isSearchValue={isSearchValue}/>
+        <div className={cx('filterOverAll')} style={{paddingRight:"10px"}}>
+        <MyDataBaseFilter
+          setchange={setchange}
+          formik={formik}
+          qualificationOption={qualificationOption}
+          hanldeRefresh={hanldeRefresh}
+        />
+      </div> 
         <div className={styles.tabsStyle}>
-          <Flex row center className={styles.infiStyle}>
-            <Text bold>Candidates Limit:{candidate_available}</Text>
-            {isEmpty(candidate_available) && (
-              <div
-                className={styles.svgInfy}
-                title="Unlimited Candidate Storage"
-              >
-                <SvgInfinity />
-              </div>
-            )}
-          </Flex>
           <MyDataBaseTabs
             totalCount={totalCount}
             data={datas}
@@ -428,7 +447,169 @@ const MyDataBaseScreen = () => {
         </div>
       </div>
     </Flex>
+    </>
   );
 };
 
 export default MyDataBaseScreen;
+
+
+// <div ref={dropDownRef} className={styles.drop_down}>
+// <Flex
+//   row
+//   className={styles.drop_down_header}
+//   onClick={() => {
+//     setShowDropDown((value) => !value);
+//   }}
+// >
+//   <Flex>
+//     <Text
+//       bold
+//       className={styles.filtername}
+//       style={{ cursor: "Pointer",paddingTop:7,fontSize:14 }}
+//     >
+//       View Filter
+//     </Text>
+//   </Flex>
+
+
+//   <Flex title={"Clear Filters"}>
+//     <SvgRefresh
+//       width={18}
+//       height={18}
+//       onClick={pageReload}
+//       className={styles.filtersvg}
+//     />
+//   </Flex>
+// </Flex>
+// <div
+//   className={`${styles.drop_down_menus} ${
+//     showDropDown ? styles.show : ""
+//   }`}
+// >
+//   <Flex className={styles.mtstyle}>
+//     {/* <div className={styles.skillContainer}> */}
+//     <Text className={styles.jobTextStyle}>Job ID</Text>
+    
+//     <InputSearch
+//       style={styles.boxstyle}
+//       initialValue={formik.values.jobId}
+//       options={job_ids}
+//       placeholder="Enter a job id"
+//       // labelBold
+//       setFieldValue={formik.setFieldValue}
+//       inputRef={inputRef}
+//       name="jobId"
+//       // // eslint-disable-next-line jsx-a11y/no-autofocus
+//       // autoFocus
+//       onkeyPress={(event) => {
+//         if (event.key === "Enter") {
+//           formik.setFieldValue("jobId", event.target.value);
+//         }
+//       }} 
+//     /> 
+//     {console.log(formik.values.jobId)}
+//   </Flex>
+
+//   <Flex className={styles.mtstyle}>
+//     <div className={styles.skillContainer}>
+//       <Text className={styles.jobTextStyle} >Job Status</Text>
+//       <Flex marginTop={5}>
+//         {jobTypeData.map((jobList) => {
+//           return (
+//             <Flex
+//               row
+//               key={jobList.value}
+//               width={jobList.width}
+//               className={styles.matchRadioStyle}
+//             >
+//               <InputCheckBox
+//                 className={styles.checkbox}
+//                 label={jobList.value}
+//                 checked={jobList.label === formik.values.jobType}
+//                 onClick={() =>
+//                   formik.setFieldValue("jobType", jobList.label)
+//                 }
+//               />
+//             </Flex>
+//           );
+//         })}
+//       </Flex>
+//     </div>
+//   </Flex>
+  
+//   <Flex className={styles.mtstyle}>
+//     <div className={styles.inputmargin}>
+//       <Text className={styles.jobTextStyle}>Job posted on</Text>
+//       <div   className={styles.selectoptions} >
+     
+//       <SelectTag
+//       linechange 
+//        value={ 
+//           postedOn
+//             ?  postedOn.find(
+//               (option) =>
+//                 option.value === formik.values.postedOn.value
+//             )
+//             :  ' '
+//         }  
+//         options={postedOn}                
+//         onChange={(options) => {
+          
+//         formik.setFieldValue("postedOn",options)
+//         }} 
+//       />
+//       </div>
+//     </div>
+//   </Flex>
+//   <Flex className={styles.mtstyle}   >
+//     <div  >
+//       <Text className={styles.jobTextStyle}>Job Title</Text>
+      
+//       <Flex className={styles.hoverbox}>
+//       <InputSearch
+//         initialValue={formik.values.jobTitle}
+//         setFieldValue={formik.setFieldValue}
+        
+//         options={job_title}
+//         placeholder="Enter a job title"
+       
+//         style={styles.boxstyle}
+//         name="jobTitle"
+        
+//         onkeyPress={(event) => {
+//           if (event.key === "Enter") {
+//             formik.setFieldValue("jobTitle", event.target.value);
+            
+//           }
+//         }} /> 
+     
+      
+      
+//       </Flex>
+     
+//     </div>
+//   </Flex>
+ 
+//   <Flex className={styles.mtstyle}>
+//     <div>
+//       <Text className={styles.jobTextStyle}>Location</Text>
+//       <InputSearch 
+//         initialValue={formik.values.location}
+//         placeholder="Enter job location"
+//         options={location_list}
+//         setFieldValue={formik.setFieldValue}
+//         name="location" 
+//         style={styles.boxstyle}
+//         onkeyPress={(event) => {
+//           if (event.key === "Enter") {
+//             formik.setFieldValue("location", event.target.value);
+//           }
+//         }}
+//       />
+//     </div>
+//   </Flex>
+
+
+// </div>
+// </div>

@@ -37,8 +37,8 @@ const MessageTemplateList = ({
   return (
     <Flex className={styles.listOverAll}>
       <Flex row center between>
-        <Text bold className={styles.listHeadingStyle}>
-          <HighlightText value={list.name} higlight={searchTerm} />
+        <Text bold className={styles.listHeadingStyle} style={{fontSize:'14px'}}>
+          <HighlightText value={list.name} className={styles.listHeadingStyles} higlight={searchTerm} />
         </Text>
         <Flex row center>
           <div
@@ -62,19 +62,19 @@ const MessageTemplateList = ({
           </div>
         </Flex>
       </Flex>
-      {!isCollapse ? (
+      {!isCollapse ? (  
         <HighlightText
-          className={cx({ trimStyle: !isCollapse })}
+        className={cx({ trimStyle: !isCollapse })}
           value={list.templates}
           higlight={searchTerm}
-        />
+        /> 
       ) : (
         <HighlightText
+        className={styles.preStyle}
           tag="pre"
-          className={styles.preStyle}
           value={list.templates}
           higlight={searchTerm}
-        />
+        /> 
       )}
     </Flex>
   );

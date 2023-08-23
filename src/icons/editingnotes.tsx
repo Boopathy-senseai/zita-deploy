@@ -5,7 +5,7 @@ const defaultProps = {
   height: 22,
 };
 const Svgeditingnotes = ({ width, height, fill }: typeof defaultProps) => (
-    <svg width="12" height="12" viewBox="0 0 12 12"   xmlns="http://www.w3.org/2000/svg">
+    <svg width="12" height="15" viewBox="0 1 12 12"   xmlns="http://www.w3.org/2000/svg">
 <path d="M11.8744 2.47768L9.40876 0.118157C9.36931 0.0802585 9.32257 0.0503137 9.27118 0.0300392C9.21979 
 0.00976462 9.1648 -0.000439186 9.10935 1.449e-05C9.05389 0.000468166 8.99908 0.0115716 8.94805
  0.032684C8.89702 0.0537964 8.85076 0.0844982 8.81196 0.123037L7.42383 1.49505L10.4913 4.43012L11.8795

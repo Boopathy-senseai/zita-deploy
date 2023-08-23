@@ -1,6 +1,6 @@
 import Tooltip from '@mui/material/Tooltip/Tooltip';
 
-const InterviewerIcon = ({ name, index }: { name: string; index?: number }) => {
+const InterviewerIcon = ({ name, initials, index, title }: { name: string; index?: number, initials?: string, title?: string }) => {
   const colors = [
     '#58BE4C',
     '#468FD0',
@@ -15,16 +15,16 @@ const InterviewerIcon = ({ name, index }: { name: string; index?: number }) => {
   ];
 
   return (
-    <Tooltip title={name}>
+    <Tooltip title={title || initials || name }>
       <p
         data-letters={
-          name[0].toUpperCase() + name.split(' ')[1][0].toUpperCase()
-        }
+          initials || (name ? (name[0] || '').toUpperCase() + (name.split(' ')[1][0] || '').toUpperCase() : '')        }
         style={{
           backgroundColor: colors[index !== undefined ? index + 1 : 0],
           borderRadius: '50%',
           height: '1%',
           marginRight: '1%',
+          marginLeft:"5px"
         }}
       />
     </Tooltip>

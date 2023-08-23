@@ -32,26 +32,36 @@ const Reports = () => {
         display: "flex",
         flexDirection: "column",
         height: "100%",
-        overflowY: 'auto',
+        // overflowY: 'auto',
+        
       }}
     >
       <Flex className={styles.overAll} >
-        <Text size={20} bold className={styles.pageTitle}>
+        
+        <Flex row className={styles.ribbon} between>
+        <Flex marginTop={9} marginLeft={8} >
+          <Text size={16} bold color="theme" >
           Reports
-        </Text>
+          </Text>
+        </Flex>
+        <Flex >
+          <div className={styles.triangle}></div>
+        </Flex>
 
+        </Flex>
+        <Flex className={styles.reportscroll} height={window.innerHeight-120}>
         <Flex className={styles.marginTop}>
-          <Text size={18} bold>
+          <Text size={14} bold>
             Candidates
           </Text>
           <Text>View all candidate-related reports here</Text>
         </Flex>
-        <Flex row>
+        <Flex row style={{paddingLeft:'5px'}}>
           <Flex flex={4}>
             <LinkWrapper  to={`reports/applicant-source`}>
                        <Card className={styles.cardOverAllReport}>
               <img src={report2} alt="Logo" className={styles.img} />
-              <Text size={18} bold >
+              <Text size={14} bold >
                 Applicants Sourcing Report{' '}
               </Text>
               <Text className={styles.textStyle}>
@@ -65,7 +75,7 @@ const Reports = () => {
             <LinkWrapper  to={`reports/passive-candidate`}>
             <Card className={styles.cardOverAllReport}>
               <img src={report1} alt="Logo" className={styles.img} />
-              <Text size={18} bold >
+              <Text size={14} bold >
                 Passive Candidate Sourcing Report
               </Text>
               <Text className={styles.textStyle}>
@@ -78,17 +88,17 @@ const Reports = () => {
           <Flex flex={4}> </Flex>
         </Flex>
         <Flex className={styles.marginTop}>
-          <Text size={18} bold>
+          <Text size={14} bold>
             Jobs
           </Text>
           <Text>View all job-related reports here</Text>
         </Flex>
-        <Flex row>
+        <Flex row style={{paddingLeft:'5px'}}>
           <Flex flex={4}>
             <LinkWrapper  to={`reports/job-metrics`}>
             <Card className={styles.cardOverAllReport}>
               <img src={report1} alt="Logo" className={styles.img} />
-              <Text size={18} bold >
+              <Text size={14} bold >
                 Job Metrics{' '}
               </Text>
               <Text className={styles.textStyle}>
@@ -102,17 +112,17 @@ const Reports = () => {
           <Flex flex={4}> </Flex>
         </Flex>
         <Flex className={styles.marginTop}>
-          <Text size={18} bold>
+          <Text size={14} bold>
             Performance Report
           </Text>
           <Text>View all performance-related reports here</Text>
         </Flex>
-        <Flex row>
+        <Flex row style={{paddingLeft:'5px',    marginBottom:' 10px'}}>
           <Flex flex={4}>
             <LinkWrapper  to={`reports/sourcing-performance`}>
             <Card className={styles.cardOverAllReport}>
               <img src={report1} alt="Logo"  />
-              <Text size={18} bold>
+              <Text size={14} bold>
                 Sourcing Performance Report{' '}
               </Text>
               <Text className={styles.textStyle}>
@@ -124,6 +134,7 @@ const Reports = () => {
           </Flex>
           <Flex flex={4}> </Flex>
           <Flex flex={4}> </Flex>
+        </Flex>
         </Flex>
       </Flex>
     </div>

@@ -14,6 +14,7 @@ import SelectTag from '../../../uikit/SelectTag/SelectTag';
 import Text from '../../../uikit/Text/Text';
 import { genderOptions } from '../../candidateprofile/mock';
 import { mediaPath, THIS_FIELD_REQUIRED } from '../../constValue';
+import { applicantMatchMiddleWare, candidateMatchMiddleWare } from '../../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import {
   disabilitiesData,
   q2Data,
@@ -70,6 +71,7 @@ type Props = {
   additional_detail?: any;
   jd_form?: JdForm;
   setLoader: (a: boolean) => void;
+  cand_id?: any;
 };
 
 const ApplicationForm = ({
@@ -79,6 +81,7 @@ const ApplicationForm = ({
   setSuccess,
   additional_detail,
   jd_form,
+  cand_id,
   setLoader,
 }: Props) => {
   const [isFocus,setFocus]=useState(true)
@@ -108,7 +111,7 @@ const ApplicationForm = ({
       : '0';
 
   // formik submit 
-  const handleSubmit = (values: applicationFormikForms) => {
+  const handleSubmit = (values: applicationFormikForms) => { 
     setLoader(true);
     const raceFilter =
       values.map && values.map.filter((a: any) => a.result !== '');
@@ -139,10 +142,16 @@ const ApplicationForm = ({
       applocationFormPostMiddleWare({
         id: jobId,
         user_id: getLoginUserId,
-        formData,
+        formData, 
       }),
-    ).then((res) => {
+    ).then((res) => { 
       if (res.payload.success) {
+        dispatch(
+          candidateMatchMiddleWare({
+        //  jd_id:jobId,
+         can_id:res.payload.candidate_id[0].id,
+          }),
+        )
         setSuccess(true);
         setLoader(false);
       }
@@ -533,7 +542,7 @@ const ApplicationForm = ({
         <Flex end>
           <Button
             onClick={() => {
-              setFocus(true);
+              setFocus(true); 
               formik.handleSubmit();
               errorFocus();
             }}

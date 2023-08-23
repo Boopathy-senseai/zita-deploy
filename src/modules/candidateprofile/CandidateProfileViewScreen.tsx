@@ -7,6 +7,7 @@ import Loader from '../../uikit/Loader/Loader';
 import Text from '../../uikit/Text/Text';
 import { CountryEntity } from '../createjdmodule/createJdTypes';
 import { locationMiddleWare } from '../createjdmodule/store/middleware/createjdmiddleware';
+import { zitaPath } from '../constValue';
 import CandidateNavBar from './CandidateNavBar';
 import styles from './candidateprofilescreen.module.css';
 import CertificationsOrCourseCard from './CertificationsOrCourseCard';
@@ -39,12 +40,14 @@ const CandidateProfileViewScreen = () => {
     personal_obj,
     projects,
     experiences,
+    candidate_details,
     user_info,
   } = useSelector(({ candidateProfileEditReducers }: RootState) => {
     return {
       isLoading: candidateProfileEditReducers.isLoading,
       obj: candidateProfileEditReducers.obj,
       additional_detail: candidateProfileEditReducers.additional_detail,
+      candidate_details:candidateProfileEditReducers.obj,
       personal: candidateProfileEditReducers.personal,
       personal_obj: candidateProfileEditReducers.personal_obj,
       projects: candidateProfileEditReducers.projects,
@@ -52,6 +55,7 @@ const CandidateProfileViewScreen = () => {
       user_info: candidateProfileEditReducers.user_info,
     };
   });
+  console.log(obj,'vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv')
   const checkBox =
     (obj && Array.isArray(obj?.skills) && obj?.skills?.length !== 0) ||
     (obj && Array.isArray(obj?.soft_skills) && obj?.soft_skills.length !== 0);
@@ -87,10 +91,12 @@ const CandidateProfileViewScreen = () => {
                 </Text>
               </>
             )}
+           { console.log(obj,'kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk')}
             <PersonalInformationCard
               isProfileView
               personal={personal}
               additional_detail={additional_detail}
+              obj={obj}
               personal_obj={personal_obj}
               isGetCountry={isGetCountry}
             />
@@ -165,9 +171,9 @@ const CandidateProfileViewScreen = () => {
           }}
           className={styles.footerStyle}
         >
-          <Text align="center" size={14}>
-            Powered by Zita.ai
-          </Text>
+          <Text bold color='theme' align="center" size={14} onClick={zitaPath}>
+                Powered by Zita.ai
+              </Text>
         </div>
       </Flex>
     </Flex>

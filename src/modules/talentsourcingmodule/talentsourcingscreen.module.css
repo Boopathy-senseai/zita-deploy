@@ -1,12 +1,12 @@
 .titleContainer {
   /* padding: 24px 24px; */
-  padding-top: 24px;
-  padding-bottom: 24px;
-  padding-left: 8px;
-  padding-right: 8px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  /* padding-left: 8px;
+  padding-right: 8px; */
   margin-left: 16;
-  width: 100%;
-  overflow-y: scroll;
+  width:135%;
+  /* overflow-y: scroll; */
   /* display: block; */
   scrollbar-color: #7f7f7f white; /* thumb and track color */
   scrollbar-width: thin;
@@ -14,11 +14,58 @@
 .padding {
   padding-left: 8px;
 }
-.overAll {
-  padding-left: 24px;
+.filterOverAll {
+  padding-top: 10px;
+  /* padding-bottom: 10px; */
+  padding-right: 16px;
+  position: relative;
+  padding-left: 12px;
+  
 }
+
+
+.overAll {
+  /* padding-right: 16px; */
+  position: relative;
+  width: 100%;
+}
+@media screen and (min-width: 1280px) and (max-width: 1350px) {
+  .overAll {
+    padding: 0px 5px !important;
+  }
+}
+@media screen and (min-width: 960px) and (max-width: 1280px) {
+  .overAll {
+    padding: 0px 3px !important;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .overAll {
+    padding: 0 16px;
+  }
+}
+
+/* comment */
+
+/* @media screen and (min-width: 1300px) and (max-width: 1350px) {
+  .card {
+ font-size: 12;
+}
+@media screen and (min-width: 960px) and (max-width: 1280px) {
+  .card {
+    font-size: 13;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .card {
+    font-size: 11;
+  }
+} */
+
 .talentActionContainer {
-  padding-left: 8px;
+  /* padding-left: 8px; */
   /* padding-right: 24px; */
 }
 
@@ -26,11 +73,28 @@
   align-items: center;
   justify-content: center;
   display: flex;
-  padding-top: 30px;
+  /* padding-top: 10px; */
 }
 .emptyStyle{
   align-items: center;
   justify-content: center;
-  height: 75%;
+  height: 50%;
   display: flex;
+  margin-top: 17%;
+  flex-direction: column;
 }
+.ribbon{
+  background-color: #EEE8EC;
+  height: 40px;
+}
+.triangle {
+  width: 0px;   
+  height: 0px;   
+  border-top: 22px solid transparent;  
+  border-right: 30px solid white;  
+  border-bottom: 22px solid transparent; 
+  position: relative;  
+  top: -1px;  
+  right: 0px;  
+    }
+    

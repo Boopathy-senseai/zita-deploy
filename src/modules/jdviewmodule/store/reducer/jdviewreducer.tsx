@@ -56,6 +56,8 @@ const jdViewState: jdViewReducerState = {
   },
   applicants_line: [],
   job_view_line: [],
+  ext_jobs:[],
+  questionnaire:[]
 };
 
 const jdViewReducer = createSlice({
@@ -79,6 +81,7 @@ const jdViewReducer = createSlice({
       state.location = action.payload.location;
       state.dates = action.payload.dates;
       state.profile = action.payload.profile;
+      state.questionnaire = action.payload.questionnaire;
       state.qualification = action.payload.qualification;
       state.recommended_role = action.payload.recommended_role;
       state.applicants_line = action.payload.applicants_line;

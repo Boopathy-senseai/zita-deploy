@@ -62,7 +62,7 @@ const VerifyEmail = ({ open, cancel, close }: Props) => {
   });
 
   const getMail = localStorage.getItem('companyMailId');
-// form submit
+  // form submit
   const handleSubmit = (values: { otp: string }) => {
     setLoader(true);
     dispatch(
@@ -70,7 +70,11 @@ const VerifyEmail = ({ open, cancel, close }: Props) => {
     ).then((res) => {
       if (res.payload.success) {
         close();
-        dispatch(profileEditMiddleWare({jd_id:localStorage.getItem('careerJobViewJobId')}));
+        dispatch(
+          profileEditMiddleWare({
+            jd_id: localStorage.getItem('careerJobViewJobId'),
+          }),
+        );
         setLoader(false);
         setValidOtp(false);
       } else if (res.payload.success === 0) {
@@ -88,7 +92,7 @@ const VerifyEmail = ({ open, cancel, close }: Props) => {
 
   const checkTimer = minutes === 0 && seconds === 0;
   const resendOtp = checkTimer ? 'link' : 'gray';
-// resend otp function
+  // resend otp function
   const handleResend = () => {
     if (checkTimer) {
       formik.resetForm();
@@ -111,8 +115,8 @@ const VerifyEmail = ({ open, cancel, close }: Props) => {
   return (
     <Modal open={open}>
       {loader && <Loader />}
-      <Flex columnFlex middle center className={styles.overAll}>
-        <Text size={20} bold>
+      <Flex columnFlex className={styles.overAll}>
+        <Text size={16} bold color="theme">
           Verify Email
         </Text>
         <Text className={styles.gmailText}>
@@ -139,27 +143,31 @@ const VerifyEmail = ({ open, cancel, close }: Props) => {
             </Text>
           )}
         </div>
-        <Button
-          onClick={formik.handleSubmit}
-          disabled={formik.values.otp.length === 8 ? false : true}
-          style={{ marginTop: 16 }}
-        >
-          Verify
-        </Button>
-        <Text className={styles.timeStyle}>
-          0{minutes} : {9 >= Number(seconds) ? `0${seconds}` : seconds}
-        </Text>
-        <Text className={styles.otpResend}>
+        <Flex middle center>
+          <Button
+            onClick={formik.handleSubmit}
+            disabled={formik.values.otp.length === 8 ? false : true}
+            style={{ marginTop: 16, alignItems: 'center', display: 'flex' }}
+          >
+            Verify
+          </Button>
+          <Text align="center" className={styles.timeStyle}>
+            0{minutes} : {9 >= Number(seconds) ? `0${seconds}` : seconds}
+          </Text>
+        </Flex>
+
+        <Text align="center" className={styles.otpResend}>
           {`Didn't receive OTP?`}{' '}
-          <Text color={resendOtp} onClick={handleResend}>
+          <Text color="theme" bold onClick={handleResend}>
             Resend OTP
           </Text>{' '}
-          or
         </Text>
-        <Text>
+
+        <Text align="center" style={{marginBottom:"5px"}}>or</Text>
+        <Text align='center'>
           Send OTP to new email ID{' '}
-          <Text
-            color="link"
+          <Text bold
+            color="theme"
             onClick={() => {
               cancel();
               formik.resetForm();

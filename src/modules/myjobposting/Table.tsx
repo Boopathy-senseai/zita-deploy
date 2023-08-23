@@ -9,6 +9,7 @@ import { RootState } from '../../store';
 // import Flex from '../../uikit/Flex/Flex';
 // import MyJobsPostingData from './MyJobsPostingData';
 import Flex from '../../uikit/Flex/Flex';
+import { Pangination } from '../../uikit';
 import { getDateString, isEmpty } from '../../uikit/helper';
 
 import SvgMetrics from '../../icons/SvgMetrics';
@@ -47,7 +48,11 @@ export type MyJobFormProps = {
   jobType: string;
   location: string;
 };
-const MyJobPostingScreen = () => {
+type props = {
+  currentPage?: any;
+  setCurrentPage?: any;
+};
+const MyJobPostingScreen = ({ currentPage, setCurrentPage }: props) => {
   const {
     location_list,
     job_ids,
@@ -55,7 +60,7 @@ const MyJobPostingScreen = () => {
     final_list,
     Jobs_List,
     // is_loadingone,
-    // len_list,
+    len_list,
     // is_loading,
     career_page_url,
     domain,
@@ -90,265 +95,386 @@ const MyJobPostingScreen = () => {
       : list.invite_to_apply;
     const applicant = isEmpty(list.applicants) ? '0' : list.applicants;
   };
-
+  const usersPerPage = 10;
+  const pageCount = Math.ceil(len_list / usersPerPage);
   return (
     <div>
       {/* <div  style={{height:320}}>
      <table className="table"> */}
-      <div className="table-responsisssve ">
-        <div>
-          <table className="table" style={{ paddingLeft: 'none' }}>
-            <thead>
-              <tr>
-                <th className={styles.padchange}>
-                  <Text color="theme" bold className={styles.tabeboarder}>
-                    Job Title
-                  </Text>
-                </th>
-                <th className={styles.padchange}>
-                  <Text color="theme" bold className={styles.tabeboarder}>
-                    Job ID
-                  </Text>
-                </th>
-                <th className={styles.padchange}>
-                  <Text color="theme" bold className={styles.tabeboarder}>
-                    Location
-                  </Text>
-                </th>
-                <th className={styles.padchange}>
-                  <Text color="theme" bold className={styles.tabeboarder}>
-                    Zita Match
-                  </Text>
-                </th>
-                <th className={styles.padchange}>
-                  <Text color="theme" bold className={styles.tabeboarder}>
-                    Invited to Apply
-                  </Text>
-                </th>
-                <th className={styles.padchange}>
-                  <Text color="theme" bold className={styles.tabeboarder}>
-                    Applicants
-                  </Text>
-                </th>{' '}
-                <th className={styles.padchange}>
-                  <Text color="theme" bold className={styles.tabeboarder}>
-                    Screening Status
-                  </Text>
-                </th>
-                {/* <th className="text-center" scope="col">
+      <Flex
+        className="table-responsisssve "
+        style={{ overflowY: 'scroll', display: 'flex' }}
+        height={window.innerHeight - 220}
+      >
+        <table className="table" style={{ paddingLeft: 'none' }}>
+          <thead
+            style={{ position: 'sticky', top: 0, backgroundColor: 'white', zIndex:2 }}
+          >
+            <tr>
+              <th className={styles.padchange}>
+                <Text color="theme" bold className={styles.tabeboarder}>
+                  Job Title
+                </Text>
+              </th>
+              <th className={styles.padchange} style={{ width: '130px' }}>
+                <Text color="theme" bold className={styles.tabeboarder}>
+                  Job ID
+                </Text>
+              </th>
+              <th className={styles.padchange} style={{ width: '235px' }}>
+                <Text color="theme" bold className={styles.tabeboarder}>
+                  Location
+                </Text>
+              </th>
+              <th className={styles.padchange} style={{ width: '88px' }}>
+                <Text color="theme" bold className={styles.tabeboarder}>
+                  Zita Match
+                </Text>
+              </th>
+              <th className={styles.padchange} style={{ width: '124px' }}>
+                <Text color="theme" bold className={styles.tabeboarder}>
+                  Invited to Apply
+                </Text>
+              </th>
+              <th className={styles.padchange} style={{ width: '90px' }}>
+                <Text color="theme" bold className={styles.tabeboarder}>
+                  Applicants
+                </Text>
+              </th>{' '}
+              <th className={styles.padchange} style={{ width: '135px' }}>
+                <Text color="theme" bold className={styles.tabeboarder}>
+                  Screening Status
+                </Text>
+              </th>
+              {/* <th className="text-center" scope="col">
                 <Text color="theme" bold className={styles.tabeboarder}>
                   Metric
                 </Text>
               </th> */}
-                <th className={styles.padchange}>
-                  <Text color="theme" bold className={styles.tabeboarder}>
-                    Status
-                  </Text>
-                </th>
-                <th className={styles.padchange}>
-                  <Text color="theme" bold className={styles.tableboarder}>
-                    Posted on
-                  </Text>
-                </th>
-              </tr>
-            </thead>
-
-            <tbody style={{ paddingTop: 20 }} className={styles.tablebody}>
-              {final_list &&
-                Jobs_List &&
-                location_list &&
-                job_ids &&
-                job_title &&
-                final_list.map((list) => {
-                  return (
-                    <>
-                      <tr style={{ height: 50 }}>
-                        <td className={styles.padchang}>
-                          <Flex row top className={styles.hellothere}>
-                            <LinkWrapper
-                              to={`/job_view/${list.id}`}
-                              className={styles.hovercol}
-                            >
-                              {list.job_title}
-                            </LinkWrapper>
-
-                            <Flex marginLeft={8}>
-                              {list.jd_status__label_name === 'Inactive' ? (
-                                <div
-                                  style={{ cursor: 'default', marginTop: 7.5 }}
-                                  className={styles.svcopy}
-                                >
-                                  <SvgCopy
-                                    width={11.33}
-                                    height={13.33}
-                                    // fill={'rgb(255 194 3/50%)'}
-                                    // fill={"#333333"}
-                                    fill={'rgb(51 51 51/50%)'}
-                                    // fill={"#F0EBED"}
-                                  />
-                                </div>
-                              ) : (
-                                <div
-                                  style={{ marginTop: 7.5 }}
-                                  role={'button'}
-                                  className={styles.svgstyle}
-                                  title="Copy the job posting URL from your careers page"
-                                  onClick={() =>
-                                    copyToClipboard(
-                                      `${domain}/career_job_view/${career_page_url}/${list.id}/${list.job_title}`,
-                                      'Link Copied',
-                                    )
-                                  }
-                                >
-                                  <SvgCopy
-                                    width={11.33}
-                                    height={13.33}
-                                    fill={'#333333'}
-                                  />
-                                </div>
-                              )}
+              <th className={styles.padchange} style={{ width: '70px' }}>
+                <Text color="theme" bold className={styles.tabeboarder}>
+                  Status
+                </Text>
+              </th>
+              <th className={styles.padchange} style={{ width: '100px' }}>
+                <Text color="theme" bold className={styles.tableboarder}>
+                  Posted on
+                </Text>
+              </th>
+            </tr>
+          </thead>
+          <tbody style={{ paddingTop: 20 }} className={styles.tablebody}>
+            {final_list &&
+              Jobs_List &&
+              location_list &&
+              job_ids &&
+              job_title &&
+              final_list.map((list) => {
+                return (
+                  <>
+                    <tr style={{ height: 50 }}>
+                      <td className={styles.padchang}>
+                        <Flex row top className={styles.hellothere}>
+                          {list.jd_status__label_name === 'Active' && (
+                            <Flex row top>
+                              <LinkWrapper
+                                to={`/job_view/${list.id}`}
+                                className={styles.maxwidthjobtype}
+                              >
+                                <Text color="link" bold title={list.job_title}>
+                                  {list.job_title}
+                                </Text>
+                              </LinkWrapper>
+                              <div
+                                tabIndex={0}
+                                role={'button'}
+                                style={{ marginLeft: 8, marginTop: 1 }}
+                                title="Copy the job posting URL from your careers page"
+                                onClick={() =>
+                                  copyToClipboard(
+                                    `${domain}/${career_page_url}/career_job_view/${list.id}/${list.job_title}`,
+                                    'Link Copied',
+                                  )
+                                }
+                                onKeyDown={() => {}}
+                              >
+                                <SvgCopy
+                                  width={11.33}
+                                  height={13.33}
+                                  fill={'#581845'}
+                                />
+                              </div>
                             </Flex>
-                            {/* </div> */}
-                          </Flex>
-                        </td>
-                        <td
-                          style={{ fontSize: 15, fontWeight: 400 }}
-                          className={styles.padchanges}
-                        >
-                          {list.job_id}
-                        </td>
-                        <td
-                          style={{ fontSize: 15, width: 200, fontWeight: 400 }}
-                          className={styles.padchanges}
-                        >
-                          {list.location}
-                        </td>
+                          )}
+                          {list.jd_status__label_name === 'Draft' && (
+                            <Flex row top>
+                              {list.is_ds_role !== true ? (
+                                <LinkWrapper
+                                  to={`/jobs/create_non_ds_edit/${list.id}`}
+                                  className={styles.maxwidthjobtype}
+                                >
+                                  <Text
+                                    color="link"
+                                    bold
+                                    title={list.job_title}
+                                  >
+                                    {list.job_title}
+                                  </Text>
+                                </LinkWrapper>
+                              ) : (
+                                <LinkWrapper
+                                  to={`/jobs/create_ds_edit/${list.id}`}
+                                  className={styles.maxwidthjobtype}
+                                >
+                                  <Text
+                                    color="link"
+                                    bold
+                                    title={list.job_title}
+                                  >
+                                    {list.job_title}
+                                  </Text>
+                                </LinkWrapper>
+                              )}
+                              <div
+                                tabIndex={0}
+                                role={'button'}
+                                style={{
+                                  marginLeft: 8,
+                                  marginTop: 1,
+                                  cursor: 'default',
+                                }}
+                              >
+                                <SvgCopy
+                                  width={11.33}
+                                  height={13.33}
+                                  fill={'rgb(88 24 69/30%)'}
+                                />
+                              </div>
+                            </Flex>
+                          )}
+                          {list.jd_status__label_name === 'Inactive' && (
+                            <Flex row top>
+                              <LinkWrapper
+                                to={`/job_view/${list.id}`}
+                                className={styles.maxwidthjobtype}
+                              >
+                                <Text color="link" bold title={list.job_title}>
+                                  {list.job_title}
+                                </Text>
+                              </LinkWrapper>{' '}
+                              <div
+                                tabIndex={0}
+                                role={'button'}
+                                style={{
+                                  marginLeft: 8,
+                                  marginTop: 1,
+                                  cursor: 'default',
+                                }}
+                              >
+                                <SvgCopy
+                                  width={11.33}
+                                  height={13.33}
+                                  fill={'rgb(88 24 69/30%)'}
+                                />
+                              </div>
+                            </Flex>
+                          )}
+                          {list.jd_status__label_name === 'Questionnaire' && (
+                            <Flex row top>
+                              <LinkWrapper
+                                to={`/jobs/questionnaire/${list.id}`}
+                                className={styles.maxwidthjobtype}
+                              >
+                                <Text color="link" bold title={list.job_title}>
+                                  {list.job_title}
+                                </Text>
+                              </LinkWrapper>{' '}
+                              <div
+                                tabIndex={0}
+                                role={'button'}
+                                style={{
+                                  marginLeft: 8,
+                                  marginTop: 1,
+                                  cursor: 'default',
+                                }}
+                              >
+                                <SvgCopy
+                                  width={11.33}
+                                  height={13.33}
+                                  fill={'rgb(88 24 69/30%)'}
+                                />
+                              </div>
+                            </Flex>
+                          )}
+                          {list.jd_status__label_name === 'Preview' && (
+                            <Flex row top>
+                              <LinkWrapper
+                                to={`/jobs/preview/${list.id}`}
+                                className={styles.maxwidthjobtype}
+                              >
+                                <Text color="link" bold title={list.job_title}>
+                                  {list.job_title}
+                                </Text>
+                              </LinkWrapper>{' '}
+                              <div
+                                tabIndex={0}
+                                role={'button'}
+                                style={{
+                                  marginLeft: 8,
+                                  marginTop: 1,
+                                  cursor: 'default',
+                                }}
+                              >
+                                <SvgCopy
+                                  width={11.33}
+                                  height={13.33}
+                                  fill={'rgb(88 24 69/30%)'}
+                                />
+                              </div>
+                            </Flex>
+                          )}
+                        </Flex>
+                      </td>
+                      <td
+                        style={{ fontSize: 13, fontWeight: 400 }}
+                        className={styles.padchanges}
+                      >
+                        {list.job_id}
+                      </td>
+                      <td
+                        style={{ fontSize: 13, width: 200, fontWeight: 400 }}
+                        className={styles.padchanges}
+                      >
+                        {list.location}
+                      </td>
 
-                        {list.jd_status__label_name === 'Inactive' ? (
-                          <td
-                            style={{
-                              fontSize: 15,
-                            }}
-                            className={styles.padchangesmiddle}
-                          >
-                            {isEmpty(list.zita_match) ? (
-                              <Text className={styles.zeroorder}>0</Text>
-                            ) : (
-                              <Text className={styles.numberorder}>
+                      {list.jd_status__label_name === 'Inactive' ? (
+                        <td
+                          style={{
+                            fontSize: 13,
+                          }}
+                          className={styles.padchangesmiddle}
+                        >
+                          {isEmpty(list.zita_match) ? (
+                            <Text className={styles.zeroorder}>0</Text>
+                          ) : (
+                            <Text >
+                              {list.zita_match}
+                            </Text>
+                          )}
+                        </td>
+                      ) : (
+                        <td
+                          style={{
+                            fontSize: 13,
+                          }}
+                          className={styles.hovercolormiddle}
+                        >
+                          {isEmpty(list.zita_match) ? (
+                            <Text className={styles.zeroorder}>0</Text>
+                          ) : (
+                            <Text className={styles.numberorder}>
+                              {' '}
+                              <LinkWrapper
+                                target={'_parent'}
+                                to={`/zita_match_candidate/${list.id}`}
+                                className={styles.zitamatch}
+                              >
                                 {list.zita_match}
-                              </Text>
-                            )}
-                          </td>
-                        ) : (
-                          <td
-                            style={{
-                              fontSize: 15,
-                            }}
-                            className={styles.hovercolormiddle}
-                          >
-                            {isEmpty(list.zita_match) ? (
-                              <Text className={styles.zeroorder}>0</Text>
-                            ) : (
-                              <Text className={styles.numberorder}>
-                                {' '}
-                                <LinkWrapper
-                                  target={'_parent'}
-                                  to={`/zita_match_candidate/${list.id}`}
-                                  className={styles.zitamatch}
-                                >
-                                  {list.zita_match}
-                                </LinkWrapper>
-                              </Text>
-                            )}
-                          </td>
-                        )}
-                        {list.jd_status__label_name === 'Inactive' ? (
-                          <td
-                            style={{
-                              fontSize: 15,
-                            }}
-                            className={styles.padchangesmiddle}
-                          >
-                            {isEmpty(list.invite_to_apply) ? (
-                              <Text className={styles.zeroorder}>0</Text>
-                            ) : (
-                              <Text className={styles.numberorder}>
-                                {list.invite_to_apply}
-                              </Text>
-                            )}
-                          </td>
-                        ) : (
-                          <td
-                            style={{
-                              fontSize: 15,
-                            }}
-                            className={styles.padchangesmiddle}
-                          >
-                            {isEmpty(list.invite_to_apply) ? (
-                              <Text className={styles.zeroorder}>0</Text>
-                            ) : (
-                              <Text className={styles.numberorder}>
-                                <LinkWrapper
-                                  target={'_parent'}
-                                  to={`/zita_match_candidate/${list.id}`}
-                                  className={styles.zitamatch}
-                                >
-                                  {list.invite_to_apply}
-                                </LinkWrapper>
-                              </Text>
-                            )}
-                          </td>
-                        )}
-                        {list.jd_status__label_name === 'Inactive' ? (
-                          <td
-                            style={{
-                              fontSize: 15,
-                            }}
-                            className={styles.hovercolormiddle}
-                          >
-                            {isEmpty(list.applicants) ? (
-                              <Text className={styles.zeroorder}>0</Text>
-                            ) : (
-                              <Text className={styles.numberorder}>
-                                {' '}
-                                <LinkWrapper
-                                  target={'_parent'}
-                                  to={`/applicant_pipe_line/${list.id}`}
-                                  className={styles.zitamatch}
-                                >
-                                  {list.applicants}
-                                </LinkWrapper>
-                              </Text>
-                            )}
-                          </td>
-                        ) : (
-                          <td
-                            style={{
-                              fontSize: 15,
-                            }}
-                            className={styles.hovercolormiddle}
-                          >
-                            {isEmpty(list.applicants) ? (
-                              <Text className={styles.zeroorder}>0</Text>
-                            ) : (
-                              <Text className={styles.numberorder}>
-                                {' '}
-                                <LinkWrapper
-                                  target={'_parent'}
-                                  to={`/applicant_pipe_line/${list.id}`}
-                                  className={styles.zitamatch}
-                                >
-                                  {list.applicants}
-                                </LinkWrapper>
-                              </Text>
-                            )}
-                          </td>
-                        )}
-
-                        <td className={styles.padchanges} style={{}}>
-                          <MyJobPostingScreenStatus list={list} />
+                              </LinkWrapper>
+                            </Text>
+                          )}
                         </td>
-                        {/* <td>
+                      )}
+                      {list.jd_status__label_name === 'Inactive' ? (
+                        <td
+                          style={{
+                            fontSize: 13,
+                          }}
+                          className={styles.padchangesmiddle}
+                        >
+                          {isEmpty(list.invite_to_apply) ? (
+                            <Text className={styles.zeroorder}>0</Text>
+                          ) : (
+                            <Text className={styles.numberorder}>
+                              {list.invite_to_apply}
+                            </Text>
+                          )}
+                        </td>
+                      ) : (
+                        <td
+                          style={{
+                            fontSize: 13,
+                          }}
+                          className={styles.padchangesmiddle}
+                        >
+                          {isEmpty(list.invite_to_apply) ? (
+                            <Text className={styles.zeroorder}>0</Text>
+                          ) : (
+                            <Text className={styles.numberorder}>
+                              <LinkWrapper
+                                target={'_parent'}
+                                to={`/zita_match_candidate/${list.id}`}
+                                className={styles.zitamatch}
+                              >
+                                {list.invite_to_apply}
+                              </LinkWrapper>
+                            </Text>
+                          )}
+                        </td>
+                      )}
+                      {list.jd_status__label_name === 'Inactive' ? (
+                        <td
+                          style={{
+                            fontSize: 13,
+                          }}
+                          className={styles.hovercolormiddle}
+                        >
+                          {isEmpty(list.applicants) ? (
+                            <Text className={styles.zeroorder}>0</Text>
+                          ) : (
+                            <Text className={styles.numberorder}>
+                              {' '}
+                              <LinkWrapper
+                                target={'_parent'}
+                                to={`/applicant_pipe_line/${list.id}`}
+                                className={styles.zitamatch}
+                              >
+                                {list.applicants}
+                              </LinkWrapper>
+                            </Text>
+                          )}
+                        </td>
+                      ) : (
+                        <td
+                          style={{
+                            fontSize: 13,
+                          }}
+                          className={styles.hovercolormiddle}
+                        >
+                          {isEmpty(list.applicants) ? (
+                            <Text className={styles.zeroorder}>0</Text>
+                          ) : (
+                            <Text className={styles.numberorder}>
+                              {' '}
+                              <LinkWrapper
+                                target={'_parent'}
+                                to={`/applicant_pipe_line/${list.id}`}
+                                className={styles.zitamatch}
+                              >
+                                {list.applicants}
+                              </LinkWrapper>
+                            </Text>
+                          )}
+                        </td>
+                      )}
+
+                      <td className={styles.padchanges} style={{}}>
+                        <div style={{position:"relative", bottom:3}}>
+                        <MyJobPostingScreenStatus list={list} />
+                        </div>
+                      </td>
+                      {/* <td>
                         {list.jd_status__label_name === "Active" ? (
                           <LinkWrapper to={`/job_view/${list.id}`}>
                             <SvgMetrics
@@ -368,74 +494,96 @@ const MyJobPostingScreen = () => {
                         )}
                       </td> */}
 
-                        <td className={styles.padchanges}>
-                          {list.jd_status__label_name === 'Active' ? (
-                            <div
-                              style={{
-                                color: '#00BE4B',
-                                fontWeight: 500,
-                                fontSize: 15,
-                              }}
-                            >
-                              {list.jd_status__label_name}{' '}
-                            </div>
-                          ) : (
-                            ''
-                          )}
-                          {list.jd_status__label_name === 'Draft' ? (
-                            <div
-                              style={{
-                                color: '#FCC203',
-                                fontWeight: 500,
-                                fontSize: 15,
-                              }}
-                            >
-                              {list.jd_status__label_name}{' '}
-                            </div>
-                          ) : (
-                            ''
-                          )}
-                          {list.jd_status__label_name === 'Preview' ? (
-                            <div
-                              style={{
-                                color: '#FCC203',
-                                fontWeight: 500,
-                                fontSize: 15,
-                              }}
-                            >
-                              {'Draft'}{' '}
-                            </div>
-                          ) : (
-                            ''
-                          )}
-                          {list.jd_status__label_name === 'Inactive' ? (
-                            <div
-                              style={{
-                                color: 'red',
-                                fontWeight: 500,
-                                fontSize: 15,
-                              }}
-                            >
-                              {list.jd_status__label_name}{' '}
-                            </div>
-                          ) : (
-                            ''
-                          )}
-                        </td>
-                        <td
-                          style={{ fontSize: 15 }}
-                          className={styles.padchanges}
-                        >
-                          {getDateString(list.job_posted_on_date, 'll')}
-                        </td>
-                      </tr>
-                    </>
-                  );
-                })}
-            </tbody>
-          </table>
-        </div>
-      </div>
+                      <td className={styles.padchanges}>
+                        {list.jd_status__label_name === 'Active' ? (
+                          <div
+                            style={{
+                              color: '#00BE4B',
+                              fontWeight: 600,
+                              fontSize: 13,
+                            }}
+                          >
+                            {list.jd_status__label_name}{' '}
+                          </div>
+                        ) : (
+                          ''
+                        )}
+                        {list.jd_status__label_name === 'Draft' ? (
+                          <div
+                            style={{
+                              color: '#FCC203',
+                              fontWeight: 600,
+                              fontSize: 13,
+                            }}
+                          >
+                            {list.jd_status__label_name}{' '}
+                          </div>
+                        ) : (
+                          ''
+                        )}
+                        {list.jd_status__label_name === 'Questionnaire' ? (
+                          <div
+                            style={{
+                              color: '#FCC203',
+                              fontWeight: 600,
+                              fontSize: 13,
+                            }}
+                          >
+                            {'Draft'}{' '}
+                          </div>
+                        ) : (
+                          ''
+                        )}
+                        {list.jd_status__label_name === 'Preview' ? (
+                          <div
+                            style={{
+                              color: '#FCC203',
+                              fontWeight: 600,
+                              fontSize: 13,
+                            }}
+                          >
+                            {'Draft'}{' '}
+                          </div>
+                        ) : (
+                          ''
+                        )}
+                        {list.jd_status__label_name === 'Inactive' ? (
+                          <div
+                            style={{
+                              color: 'red',
+                              fontWeight: 600,
+                              fontSize: 13,
+                            }}
+                          >
+                            {list.jd_status__label_name}{' '}
+                          </div>
+                        ) : (
+                          ''
+                        )}
+                      </td>
+                      <td
+                        style={{ fontSize: 13 }}
+                        className={styles.padchanges}
+                      >
+                        {getDateString(list.job_posted_on_date, 'll')}
+                      </td>
+                    </tr>
+                  </>
+                );
+              })}
+          </tbody>
+          {/* </Flex> */}
+        </table>
+        {len_list > 10 && (
+          <Flex middle className={styles.pagination}>
+            <Pangination
+              maxPages={pageCount - 1}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
+          </Flex>
+        )}
+      </Flex>
     </div>
   );
 };

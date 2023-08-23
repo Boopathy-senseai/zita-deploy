@@ -2,9 +2,12 @@ import axios from 'axios';
 import { useEffect, useMemo, useState } from 'react';
 import Flex from '../../uikit/Flex/Flex';
 import { getDateString } from '../../uikit/helper';
+import SvgHistory from '../../icons/SvgHistory';
+import SvgNoDataIcon from '../../icons/SvgNoDataIcon';
 import Table from '../../uikit/Table/Table';
 import Text from '../../uikit/Text/Text';
 import styles from './historytabdata.module.css';
+
 
 const resultTitle = () => [
   {
@@ -12,19 +15,19 @@ const resultTitle = () => [
     dataIndex: 'created_at',
     key: 'created_at',
     render: (a) => <Text size={12}>{getDateString(a, 'MMM D, YYYY')}</Text>,
-    flex: 1.5,
+    flex: 2.5,
   },
   {
     title: 'Action Taken',
     dataIndex: 'action_description',
     key: 'action_description',
-    flex: 1.5,
+    flex: 2.5,
   },
   {
     title: 'On',
     dataIndex: 'action_detail',
     key: 'action_detail',
-    flex: 9,
+    flex: 5,
   },
 ];
 
@@ -46,7 +49,7 @@ const HistoryTabData = (props) => {
 
   return (
     <Flex columnFlex className={styles.overAll}>
-      <Text bold className={styles.title}>
+      <Text className={styles.title}>
         List of actions taken by the user
       </Text>
       {activities && (

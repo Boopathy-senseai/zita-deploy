@@ -1,6 +1,7 @@
 import Card from '../../../uikit/Card/Card';
 import Chart from '../../../uikit/Chart/Chart';
 import Flex from '../../../uikit/Flex/Flex';
+import SvgNoData from '../../../icons/SvgNoData';
 import Text from '../../../uikit/Text/Text';
 import { pieYValue } from '../../common/commonHelper';
 import styles from './applicantssourcingchannel.module.css';
@@ -12,7 +13,7 @@ type Props = {
   jd_metrics: JdMetricsEntity[];
 };
 
-const ApplicantsPipeline = ({ pipeline, planId,jd_metrics }: Props) => {
+const ApplicantsPipeline = ({ pipeline, planId, jd_metrics }: Props) => {
   const viewCheck = pipeline && pipeline[0].Views;
   const pipeLineName: any =
     pipeline &&
@@ -78,7 +79,7 @@ const ApplicantsPipeline = ({ pipeline, planId,jd_metrics }: Props) => {
         'Views',
         'Applicants',
         'Shortlisted',
-        'Offered',
+        'Hired',
         'Rejected',
       ],
     },
@@ -96,24 +97,29 @@ const ApplicantsPipeline = ({ pipeline, planId,jd_metrics }: Props) => {
       },
     ],
   };
-  const isCheckOne=(Array.isArray(pipeline) &&
-  pipeline.length !== 0 &&
-  viewCheck !== null)
-  
+  const isCheckOne =
+    Array.isArray(pipeline) && pipeline.length !== 0 && viewCheck !== null;
+
   return (
     <Card className={styles.overAll}>
-      <Text bold size={16} style={{color:'#581845'}}>
+      <Text bold size={14} style={{marginBottom:"10"}}>
         Applicants Pipeline
       </Text>
-      {isCheckOne || (planId === 1 || jd_metrics.length === 0) ? (
-        <Chart
-          options={
-            planId === 1 || jd_metrics.length === 0 ? optionsOne : options
-          }
-        />
-      ) : (
+
+      {isCheckOne || planId === 1 || jd_metrics.length === 0 ? (
         <Flex flex={1} center middle>
-          <Text color="gray">No Data Available</Text>
+          <Chart
+            options={
+              planId === 1 || jd_metrics.length === 0 ? optionsOne : options
+            }
+          />
+        </Flex>
+      ) : (
+        <Flex flex={1} center middle style={{ display: 'flex' }}>
+          <SvgNoData width={16} height={16} fill={'#888888'} />
+          <Text style={{ marginTop: '2px' }} color="placeholder">
+            No data available
+          </Text>
         </Flex>
       )}
     </Card>

@@ -14,6 +14,10 @@ import Loader from '../../uikit/Loader/Loader';
 import Text from '../../uikit/Text/Text';
 import Toast from '../../uikit/Toast/Toast';
 import { config } from '../constValue';
+import {
+  applicantcandidateMatchMiddleWare,
+  candidateMatchMiddleWare,
+} from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { EmpPoolEntity } from './bulkImportTypes';
 import { bulkuploadedCandidatesMiddleWare } from './store/middleware/bulkImportMiddleware';
 import styles from './valueAddName.module.css';
@@ -75,95 +79,100 @@ const SkillsAdd = ({
     const data = querystring.stringify({
       pk: id,
       name: 'skills',
-      value: formik.values.name,
+      value: formik.values.name.trim(),
     });
 
     axios
       .post(uploadedCandidatesApi, data, config)
       .then(() => {
+        dispatch(
+          candidateMatchMiddleWare({
+            can_id: id.toString(),
+          }),
+        );
         if (tabKey === 'total') {
-             if(jdId === undefined){
-          dispatch(
-            bulkuploadedCandidatesMiddleWare({
-              search: searchValue,
-              page: pageNumber + 1,
-              total: total_count,
-            }),
-          ).then(() => {
-            Toast('Skills updated successfully', 'LONG', 'success');
-            setInput(false);
-            setLoader(false);
-          });
-        }else{
-          dispatch(
-            bulkuploadedCandidatesMiddleWare({
-              search: searchValue,
-              jd_id: jdId,
-              page: pageNumber + 1,
-              total: total_count,
-            }),
-          ).then(() => {
-            Toast('Skills updated successfully', 'LONG', 'success');
-            setInput(false);
-            setLoader(false);
-          });
-        }
+          if (jdId === undefined) {
+            dispatch(
+              bulkuploadedCandidatesMiddleWare({
+                search: searchValue,
+                page: pageNumber + 1,
+                total: total_count,
+              }),
+            ).then(() => {
+              Toast('Skills updated successfully', 'LONG', 'success');
+              setInput(false);
+              setLoader(false);
+            });
+          } else {
+            dispatch(
+              bulkuploadedCandidatesMiddleWare({
+                search: searchValue,
+                jd_id: jdId,
+                page: pageNumber + 1,
+                total: total_count,
+              }),
+            ).then(() => {
+              Toast('Skills updated successfully', 'LONG', 'success');
+              setInput(false);
+              setLoader(false);
+            });
+          }
         }
         if (tabKey === 'completed') {
-             if(jdId === undefined){
-          dispatch(
-            bulkuploadedCandidatesMiddleWare({
-              search: searchValue,
-              page: pageNumber + 1,
-              completed,
-            }),
-          ).then(() => {
-            Toast('Skills updated successfully', 'LONG', 'success');
-            setInput(false);
-            setLoader(false);
-          });
-        }else{
-          dispatch(
-            bulkuploadedCandidatesMiddleWare({
-              search: searchValue,
-              jd_id:jdId,
-              page: pageNumber + 1,
-              completed,
-            }),
-          ).then(() => {
-            Toast('Skills updated successfully', 'LONG', 'success');
-            setInput(false);
-            setLoader(false);
-          });
-        }
+          if (jdId === undefined) {
+            dispatch(
+              bulkuploadedCandidatesMiddleWare({
+                search: searchValue,
+                page: pageNumber + 1,
+                completed,
+              }),
+            ).then(() => {
+              Toast('Skills updated successfully', 'LONG', 'success');
+              setInput(false);
+              setLoader(false);
+            });
+          } else {
+            dispatch(
+              bulkuploadedCandidatesMiddleWare({
+                search: searchValue,
+                jd_id: jdId,
+                page: pageNumber + 1,
+                completed,
+              }),
+            ).then(() => {
+              Toast('Skills updated successfully', 'LONG', 'success');
+              setInput(false);
+              setLoader(false);
+            });
+          }
         }
         if (tabKey === 'inCompleted') {
-           if(jdId === undefined){
-          dispatch(
-            bulkuploadedCandidatesMiddleWare({
-              search: searchValue,
-              page: pageNumber + 1,
-              incompleted,
-            }),
-          ).then(() => {
-            Toast('Skills updated successfully', 'LONG', 'success');
-            setInput(false);
-            setLoader(false);
-          });
-        }else{
-           dispatch(
-            bulkuploadedCandidatesMiddleWare({
-              search: searchValue,
-              jd_id: jdId,
-              page: pageNumber + 1,
-              incompleted,
-            }),
-          ).then(() => {
-            Toast('Skills updated successfully', 'LONG', 'success');
-            setInput(false);
-            setLoader(false);
-          });
-        }
+          if (jdId === undefined) {
+            dispatch(
+              bulkuploadedCandidatesMiddleWare({
+                search: searchValue,
+                page: pageNumber + 1,
+                incompleted,
+              }),
+            ).then(() => {
+              Toast('Skills updated successfully', 'LONG', 'success');
+              setInput(false);
+              setLoader(false);
+            });
+          } else {
+            dispatch(
+              bulkuploadedCandidatesMiddleWare({
+                search: searchValue,
+                jd_id: jdId,
+                page: pageNumber + 1,
+                incompleted,
+              }),
+            ).then(() => {
+              Toast('Skills updated successfully', 'LONG', 'success');
+              setInput(false);
+              setLoader(false);
+            });
+          }
         }
       })
       .catch(() => {
@@ -173,8 +182,17 @@ const SkillsAdd = ({
           'error',
         );
         setLoader(false);
-      });
-  };
+      }) 
+        .then(()=>{ 
+          setTimeout(() =>  dispatch(
+            bulkuploadedCandidatesMiddleWare({
+              search: searchValue, 
+              jd_id:jdId,
+              page: pageNumber ,
+            })
+          ), 1000);  
+        }) 
+  }
 
   // open input function
   const handleOpenInput = () => {
@@ -183,14 +201,15 @@ const SkillsAdd = ({
   // close input function
   const handleCloseInput = () => {
     setInput(false);
+    formik.resetForm();
   };
-// outside close input function
+  // outside close input function
   const handleClickOutside = (event: { target: any }) => {
     if (myRef.current && !myRef.current.contains(event.target)) {
       setInput(false);
     }
   };
-// outside close input function
+  // outside close input function
   useEffect(() => {
     if (typeof Window !== 'undefined') {
       document.addEventListener('click', handleClickOutside, true);
@@ -203,7 +222,7 @@ const SkillsAdd = ({
       }
     };
   });
-// enter key contact submit function
+  // enter key contact submit function
   const handleKeyPress = (event: { key: string }, id: number) => {
     if (event.key === 'Enter' && formik.values.name !== '') {
       handleCellSubmit(event, id);
@@ -216,7 +235,7 @@ const SkillsAdd = ({
         <>
           {!isInput && (
             <Text
-              size={12}
+              size={13}
               color="link"
               textStyle="underline"
               onClick={handleOpenInput}
@@ -230,7 +249,7 @@ const SkillsAdd = ({
           {!isInput && (
             <div className={styles.textContainer}>
               <Text
-                size={12}
+                size={13}
                 onClick={handleOpenInput}
                 className={styles.nameStyle}
               >
@@ -255,8 +274,9 @@ const SkillsAdd = ({
             value={formik.values.name}
             onChange={formik.handleChange('name')}
             lineInput
-            size={12}
+            size={13}
             onKeyPress={(e) => handleKeyPress(e, value.id)}
+            style={{ width: '64%' }}
           />
           <div className={styles.svgContainer}>
             {isLoader ? (
@@ -266,8 +286,8 @@ const SkillsAdd = ({
             ) : (
               <div
                 className={cx('svgTickMargin', {
-                  svgTickDisable: isEmpty(formik.values.name),
-                  tickStyle: !isEmpty(formik.values.name),
+                  svgTickDisable: isEmpty(formik.values.name.trim()),
+                  tickStyle: !isEmpty(formik.values.name.trim()),
                 })}
                 onClick={(e) => handleCellSubmit(e, value.id)}
                 tabIndex={-1}

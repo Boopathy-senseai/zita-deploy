@@ -16,6 +16,7 @@ import Text from '../../uikit/Text/Text';
 import Toast from '../../uikit/Toast/Toast';
 import useUnsavedChangesWarning from '../common/useUnsavedChangesWarning';
 import { THIS_FIELD_REQUIRED } from '../constValue';
+import { candidateMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { Obj, ProjectsEntityOne } from './candidateProfileTypes';
 import styles from './projectsaddandupdateedit.module.css';
 import {
@@ -95,7 +96,7 @@ const ProjectsAddandUpdateEdit = ({
       ? [{ value: 0, label: 'Others' }]
       : [...filterOrgOptions, { value: 0, label: 'Others' }];
 
-      // form submit
+  // form submit
   const handleSubmit = (values: projectFormikForms) => {
     if (isUpdate) {
       dispatch(
@@ -115,8 +116,17 @@ const ProjectsAddandUpdateEdit = ({
         }),
       ).then((res) => {
         if (res.payload.success) {
+          dispatch(
+            candidateMatchMiddleWare({
+               can_id:res.payload?.can_id[0]?.id.toString(),
+            }),
+          )
           setReload(false);
-          dispatch(profileEditMiddleWare({jd_id:localStorage.getItem('careerJobViewJobId')}));
+          dispatch(
+            profileEditMiddleWare({
+              jd_id: localStorage.getItem('careerJobViewJobId'),
+            }),
+          );
           Toast('Project updated successfully');
           cancel();
           formik.resetForm();
@@ -141,8 +151,17 @@ const ProjectsAddandUpdateEdit = ({
         }),
       ).then((res) => {
         if (res.payload.success) {
+          dispatch(
+            candidateMatchMiddleWare({
+               can_id:res.payload?.can_id[0]?.id.toString(),
+            }),
+          )
           setReload(false);
-          dispatch(profileEditMiddleWare({jd_id:localStorage.getItem('careerJobViewJobId')}));
+          dispatch(
+            profileEditMiddleWare({
+              jd_id: localStorage.getItem('careerJobViewJobId'),
+            }),
+          );
           Toast('Project added successfully');
           cancel();
           formik.resetForm();
@@ -158,7 +177,7 @@ const ProjectsAddandUpdateEdit = ({
     onSubmit: handleSubmit,
     validationSchema: projectSchema,
   });
-// free fill initial value
+  // free fill initial value
   useEffect(() => {
     if (
       isUpdate &&
@@ -215,7 +234,7 @@ const ProjectsAddandUpdateEdit = ({
       }
     }
   }, [obj, open]);
-// poppup close function
+  // poppup close function
   const onCloseModal = () => {
     if (
       isReload &&

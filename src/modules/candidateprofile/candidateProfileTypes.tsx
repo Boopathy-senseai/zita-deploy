@@ -4,6 +4,7 @@ export interface CandidateProfileEdit {
   personal?: Personal;
   industry_type?: string;
   jd_id?: any;
+  Qualification?:Qualification[];
   user_info?: UserInfo;
   email?: number;
   till_date?: number;
@@ -27,6 +28,9 @@ export interface ExperiencesEntity {
   from_exp: string;
   to_exp?: string | null;
   is_present: boolean;
+}
+export interface Qualification {
+   qualification?:string;
 }
 
 export interface ProjectsEntityOne {
@@ -186,6 +190,7 @@ export interface Personal {
   city__name: string;
   state__name: string;
   country__name: string;
+  Qualification?:string;
 }
 export interface UserInfo {
   user_info_id: number;

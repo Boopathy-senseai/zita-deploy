@@ -18,6 +18,7 @@ type MyProps = {
   setUpgrade: (arg: boolean) => void;
   candidatesLimit: number;
   isjdId?: number;
+  setmodel?: any;
 };
 
 type MyState = {
@@ -26,6 +27,7 @@ type MyState = {
   bulkDelete: boolean;
   setListName: any[];
   isMb: boolean;
+  setmodel?: any;
 };
 
 class CandidateDatabase extends Component<MyProps, MyState> {
@@ -76,8 +78,14 @@ class CandidateDatabase extends Component<MyProps, MyState> {
 
     // file upload function
     const fileUpload = (e: any) => {
-      const fileName = [...e.target.files].map((list) => list.name);
-      const fileSize = [...e.target.files].map((list) => list.size);
+      const newSelectedFiles = Array.from(this.fileUploaderRef.current.files);
+      console.log('zx', newSelectedFiles);
+      const fileName = [...this.fileUploaderRef.current.files].map(
+        (list) => list.name,
+      );
+      const fileSize = [...this.fileUploaderRef.current.files].map(
+        (list) => list.size,
+      );
 
       const filterFileName = fileName.filter(
         (item) =>
@@ -86,7 +94,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
           !item.includes('.txt'),
       );
 
-      const filterFileNameOne = [...e.target.files].filter(
+      const filterFileNameOne = [...this.fileUploaderRef.current.files].filter(
         (item) =>
           (item.name.includes('.doc') && item.size / 1024 / 1024 < 2) ||
           (item.name.includes('.pdf') && item.size / 1024 / 1024 < 2) ||
@@ -203,11 +211,16 @@ class CandidateDatabase extends Component<MyProps, MyState> {
       formData.append(`file`, unique[i]);
     }
 
+    const resetFileInput = () => {
+      this.fileUploaderRef.current.value = null;
+    };
+
     // Clear Function
     const handleClear = () => this.setState({ files: [] });
 
     // Bulk Submit Function
     const hanldeBulkSubmit = () => {
+      this.props.setmodel(false);
       if (
         this.props.candidatesLimit !== null &&
         this.props.candidatesLimit < this.state.files.length
@@ -245,159 +258,192 @@ class CandidateDatabase extends Component<MyProps, MyState> {
     console.log(checkSelectLength500, checkSelectLength);
     return (
       <>
-      <Flex row center className={styles.overAlll}>
-        <CancelAndDeletePopup
-          title={'Are you sure want to delete the files?'}
-          btnCancel={() => this.setState({ bulkDelete: false })}
-          btnDelete={() => {
-            handleClear();
-            this.setState({ bulkDelete: false });
-          }}
-          open={this.state.bulkDelete}
-        />
-        <div
-          onDragOver={dragOver}
-          onDragEnter={dragEnter}
-          onDragLeave={dragLeave}
-          onDrop={fileDrop}
-          className={styles.dragOver}
-        >
-          <Flex
-            center
-            middle={!checkSelectLength}
-            className={
-              this.props.isjdId !== 0 ? styles.boxBorder : styles.boxBorderNone
-            }
-          >
-            <input
-              type="file"
-              multiple
-              id="candidate__file_upload"
-              ref={this.fileUploaderRef}
-              onChange={fileUpload}
-              disabled={this.props.isjdId === 0}
-              className={styles.displayNone}
-              accept=".doc,.docx,.pdf,.txt"
-            />
+        <Flex center>
+          <Text bold color="theme" size={14}>
+            Add Attachment
+          </Text>
+          <CancelAndDeletePopup
+            title={'Are you sure want to delete the files?'}
+            btnCancel={() => this.setState({ bulkDelete: false })}
+            btnDelete={() => {
+              handleClear();
+              this.setState({ bulkDelete: false });
+            }}
+            open={this.state.bulkDelete}
+          />
+          <Flex column>
+            <Flex>
+              <div
+                onDragOver={dragOver}
+                onDragEnter={dragEnter}
+                onDragLeave={dragLeave}
+                onDrop={fileDrop}
+                className={styles.dragOver}
+              >
+                <Flex
+                  center
+                  middle={!checkSelectLength}
+                  className={
+                    this.props.isjdId !== 0
+                      ? styles.boxBorder
+                      : styles.boxBorderNone
+                  }
+                >
+                  <input
+                    type="file"
+                    multiple
+                    id="candidate__file_upload"
+                    ref={this.fileUploaderRef}
+                    onChange={fileUpload}
+                    disabled={this.props.isjdId === 0}
+                    className={styles.displayNone}
+                    onClick={resetFileInput}
+                    accept=".doc,.docx,.pdf,.txt"
+                  />
 
-            {checkSelectLength ? (
-              <Flex columnFlex>
-                <Flex row center wrap>
-                  {unique.length !== 0 &&
-                    unique.map((list: any, index: number) => {
-                      return (
-                        <Flex
-                          key={list.name + index}
-                          row
-                          center
-                          className={styles.listStyle}
-                        >
-                          <Text size={12} color={'gray'}>
-                            {index + 1}.{list.name.substring(0, 10) + '...'}
-                          </Text>
-                          <div
-                            tabIndex={-1}
-                            role={'button'}
-                            onKeyPress={() => {}}
-                            className={styles.svgClose}
-                            onClick={() => this.Delete(list.name)}
+                  {checkSelectLength ? (
+                    <Flex columnFlex>
+                      <Flex row wrap>
+                        {unique.length !== 0 &&
+                          unique.map((list: any, index: number) => {
+                            return (
+                              <Flex
+                                key={list.name + index}
+                                row
+                                center
+                                className={styles.listStyle}
+                              >
+                                <Text
+                                  size={12}
+                                  color={'primary'}
+                                  style={{ width: '90px' }}
+                                >
+                                  {index + 1}.
+                                  {list.name.substring(0, 10) + '...'}
+                                </Text>
+                                <div
+                                  tabIndex={-1}
+                                  role={'button'}
+                                  onKeyPress={() => {}}
+                                  className={styles.svgClose}
+                                  onClick={() => this.Delete(list.name)}
+                                >
+                                  <SvgRoundClose
+                                    fill={GARY_4}
+                                    width={15}
+                                    height={15}
+                                  />
+                                </div>
+                              </Flex>
+                            );
+                          })}
+                      </Flex>
+                      <Flex>
+                        {this.state.isMb && (
+                          <Text
+                            align="center"
+                            size={12}
+                            color="error"
+                            style={{ marginTop: 4 }}
                           >
-                            <SvgRoundClose
-                              fill={GARY_4}
-                              width={15}
-                              height={15}
-                            />
-                          </div>
-                        </Flex>
-                      );
-                    })}
-                </Flex>
-                <Flex>
-                  {this.state.isMb && (
-                    <Text
-                      align="center"
-                      size={12}
-                      color="error"
-                      style={{ marginTop: 4 }}
-                    >
-                      {FILE_2MB}
-                    </Text>
+                            {FILE_2MB}
+                          </Text>
+                        )}
+                      </Flex>
+                    </Flex>
+                  ) : (
+                    <Flex>
+                      <Flex row center middle>
+                        <Text color="gray">
+                          {'Drag & Drop Resumes Here or'}
+                        </Text>
+                        <label
+                          className={styles.labelStyle}
+                          htmlFor={'candidate__file_upload'}
+                        >
+                          <Text color="link" bold>
+                            Browse Files
+                          </Text>
+                        </label>
+                      </Flex>
+                      <Text
+                        size={12}
+                        align="center"
+                        color="gray"
+                        className={styles.uploadStyle}
+                      >
+                        (Upload only.txt,.doc,.docx,.pdf formats)
+                      </Text>
+                      {this.state.isMb && (
+                        <Text
+                          align="center"
+                          size={12}
+                          color="error"
+                          style={{ marginTop: 4 }}
+                        >
+                          {FILE_2MB}
+                        </Text>
+                      )}
+                    </Flex>
                   )}
+                </Flex>
+              </div>
+            </Flex>
+
+            {this.props.isBulkLoader === 'true' ? (
+              <Flex row between className={styles.loaderStyle}>
+                <Flex row>
+                  <Loader size="medium" withOutOverlay />
+                  <Text
+                    color="gray"
+                    style={{ marginLeft: 16, marginTop: '3px' }}
+                  >
+                    Processing...
+                  </Text>
                 </Flex>
               </Flex>
             ) : (
-              <Flex>
-                <Flex row center middle>
-                  <Text color="gray">{'Drag & Drop Resumes Here or'}</Text>
-                  <label
-                    className={styles.labelStyle}
-                    htmlFor={'candidate__file_upload'}
+              <Fragment>
+                <Flex row between>
+                  <Flex
+                    className={styles.btnContainer1}
+                    style={{ justifyContent: 'none' }}
                   >
-                    <Text color="link">Browse Files</Text>
-                  </label>
+                    {checkSelectLength && (
+                      <Button
+                        onClick={() => this.setState({ bulkDelete: true })}
+                        types="secondary"
+                      >
+                        Clear All
+                      </Button>
+                    )}
+                  </Flex>
+                  <Flex row className={styles.btnContainer}>
+                    <Button
+                      types="close"
+                      onClick={() => this.props.setmodel(false)}
+                    >
+                      Cancel
+                    </Button>
+
+                    <Button
+                      disabled={!checkSelectLength || !checkSelectLength500}
+                      className={styles.btnStyle}
+                      onClick={hanldeBulkSubmit}
+                    >
+                      Bulk Import
+                    </Button>
+                  </Flex>
                 </Flex>
-                <Text
-                  size={12}
-                  align="center"
-                  color="gray"
-                  className={styles.uploadStyle}
-                >
-                  (Upload only.txt,.doc,.docx,.pdf formats)
-                </Text>
-                {this.state.isMb && (
-                  <Text
-                    align="center"
-                    size={12}
-                    color="error"
-                    style={{ marginTop: 4 }}
-                  >
-                    {FILE_2MB}
-                  </Text>
-                )}
-              </Flex>
+              </Fragment>
             )}
           </Flex>
-        </div>
-        <Flex row center className={styles.btnContainer}>
-          {this.props.isBulkLoader === 'true' ? (
-            <Flex row center className={styles.loaderStyle}>
-              <Loader size="medium" withOutOverlay />
-              <Text color="gray" style={{ marginLeft: 16 }}>
-                Processing...
-              </Text>
-            </Flex>
-          ) : (
-            <Fragment>
-            
-                <Button
-                  disabled={!checkSelectLength || !checkSelectLength500}
-                  className={styles.btnStyle}
-                  onClick={hanldeBulkSubmit}
-                >
-                  Bulk Import
-                </Button>
-        
-              {checkSelectLength && (
-                <Text
-                  onClick={() => this.setState({ bulkDelete: true })}
-                  className={styles.clearStyle}
-                  color={'link'}
-                >
-                  Clear All
-                </Text>
-              )}
-            </Fragment>
-          )}
         </Flex>
-      </Flex>
-       {(checkSelectLength && !checkSelectLength500) && (
-      <Text
-                  size={12}
-                  style={{ color: 'red', paddingTop: 4 }}
-                >
-                  You can import only up to 500 resumes at a time.
-                </Text>
-                )}
+        {checkSelectLength && !checkSelectLength500 && (
+          <Text size={12} style={{ color: 'red', paddingTop: 4 }}>
+            You can import only up to 500 resumes at a time.
+          </Text>
+        )}
       </>
     );
   }

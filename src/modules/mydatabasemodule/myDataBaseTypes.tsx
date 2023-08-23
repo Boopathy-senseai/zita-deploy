@@ -57,6 +57,8 @@ export interface DataEntity {
   interested: boolean;
   applicant: string;
   invite: string;
+  jd_id_id:number;
+  fav: number;
 }
 
 export interface MyDataBaseDataReducerState extends MyDataBaseData {

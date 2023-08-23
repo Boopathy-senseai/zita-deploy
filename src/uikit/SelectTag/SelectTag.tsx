@@ -19,9 +19,10 @@ import {
   customStylesLine,
   customStylesMulti,
   selectTagTheme,
-  CustomStyle,
   customStylechanges,
-  customStyletrue
+  customStyletrue,
+  customStylechanges1,
+  customStylechanges2,
 } from './selectHelper';
 import styles from './selecttag.module.css';
 
@@ -31,13 +32,6 @@ export type list = {
   [key: string]: any;
 };
 
-// const CustomStyle = {
-//   option: (base, state) => ({
-//     ...base,
-//     backgroundColor: state.isSelected ? 'red' : 'green',
-//   }),
-// };
-
 type Props = {
   options: list[];
   isClearable?: boolean;
@@ -45,9 +39,7 @@ type Props = {
   isSearchable?: boolean;
   isLoading?: boolean;
   placeholder?: string;
-  isMail?: boolean;
   isMulti?: boolean;
-  className?: string;
   onChange?: (a: any, b?: any) => void;
   value?: string | number | any;
   name?: string;
@@ -58,7 +50,9 @@ type Props = {
   defaultValue?: { label: string; value: string | number | any };
   components?: Partial<SelectComponents<any, boolean, GroupBase<any>>>;
   lineStyle?: boolean;
-  linechange?:boolean;
+  stylechangess?: boolean;
+  stylechangess1?: boolean;
+  linechange?: boolean;
   id?: string;
   isOptionSelected?: (option: any, selectValue: Options<any>) => boolean;
   onInputChange?: (newValue: string, actionMeta: InputActionMeta) => void;
@@ -75,7 +69,7 @@ type Props = {
   menuIsOpen?: boolean;
   autoFocus?: boolean;
   inputId?: string;
-  stylechanges?:boolean;
+  stylechanges?: boolean;
 };
 
 const SelectTag = (
@@ -86,11 +80,11 @@ const SelectTag = (
     isDisabled,
     isSearchable = false,
     placeholder,
-    isMail,
     isMulti,
     onChange,
-    className,
     stylechanges,
+    stylechangess,
+    stylechangess1,
     value,
     name,
     required,
@@ -119,24 +113,21 @@ const SelectTag = (
 ) => {
   const [isSelectStyle, setSelectStyle] = useState(customStyles);
   useEffect(() => {
-    console.log('weee', isMail);
-
     if (isMulti) {
       setSelectStyle(customStylesMulti);
-    } 
-    else if (stylechanges && !isMulti&& !lineStyle && linechange){
+    } else if (stylechanges && !isMulti && !lineStyle && linechange) {
       setSelectStyle(customStylechanges);
-    }
-    else if (lineStyle) {
+    } else if (lineStyle) {
       setSelectStyle(customStylesLine);
-    }else if(linechange && !isMulti && !lineStyle ){  
+    } else if (linechange && !isMulti && !lineStyle) {
       setSelectStyle(customStyletrue);
-    }
-    
-     else if (!isMulti && !lineStyle) {
+    } else if (stylechangess) {
+      setSelectStyle(customStylechanges1);
+    } else if (stylechangess1) {
+      setSelectStyle(customStylechanges2);
+    } else if (!isMulti && !lineStyle) {
       setSelectStyle(customStyles);
     }
-   
   }, []);
 
   return (
@@ -151,7 +142,6 @@ const SelectTag = (
             id={id}
             defaultValue={defaultValue}
             value={value}
-            
             name={name}
             isLoading={isLoading}
             isDisabled={isDisabled}
@@ -171,18 +161,15 @@ const SelectTag = (
             getOptionValue={getOptionValue}
             noOptionsMessage={noOptionsMessage}
             menuIsOpen={menuIsOpen}
-           
           />
         ) : (
           <Select
             inputId={inputId}
             ref={ref}
             id={id}
-
             defaultValue={defaultValue}
             value={value}
             name={name}
-            className={className}
             isLoading={isLoading}
             isDisabled={isDisabled}
             isSearchable={isSearchable}
@@ -191,7 +178,7 @@ const SelectTag = (
             placeholder={placeholder}
             isMulti={isMulti}
             onChange={onChange}
-            styles={CustomStyle}
+            styles={isSelectStyle}
             theme={(theme) => selectTagTheme(theme, error, errorMessage)}
             components={components}
             isOptionSelected={isOptionSelected}

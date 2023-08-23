@@ -1,12 +1,20 @@
-const SvgDot = (props) => (
+const defaultProps = {
+  fill: '#581845',
+  width: 14,
+  height: 14,
+};
+
+const SvgDot = ({ width, height, fill }: typeof defaultProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width={7}
-    height={8}
-    fill="none"
-    {...props}
+    width={width}
+    height={height}
+    fill={fill}
+    viewBox="0 0 14 14"
   >
-    <circle cx={3.5} cy={4.462} r={3.5} fill="#333" />
+    <circle cx={5} cy={5} r={5} fill={fill} />
   </svg>
 );
+SvgDot.defaultProps = defaultProps;
+
 export default SvgDot;

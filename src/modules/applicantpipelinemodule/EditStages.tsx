@@ -124,7 +124,7 @@ const EditStagesModal: React.FC<Props> = (props) => {
             <SvgEditStages fill="#581845" />
           </Flex>
           <Text
-            size={16}
+            size={14}
             style={{ marginLeft: '10px', marginBottom: '5px' }}
             bold
             color="theme"
@@ -229,7 +229,7 @@ const EditStagesModal: React.FC<Props> = (props) => {
           </Flex>
         </Flex>
 
-        <Flex row end marginTop={20} className={styles.borderLine}>
+        <Flex row end marginTop={10} className={styles.borderLine}>
           <Button
             className={styles.cancel}
             types={'primary'}

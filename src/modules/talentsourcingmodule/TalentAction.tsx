@@ -1,6 +1,7 @@
 import { useFormik } from 'formik';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction,useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import * as Yup from 'yup';
 import classNames from 'classnames/bind';
 import Flex from '../../uikit/Flex/Flex';
 import { lowerCase } from '../../uikit/helper';
@@ -25,6 +26,10 @@ type Props = {
   setFind: (arg: boolean) => void;
   setInitalCheckBox: (arg: boolean) => void;
   setSubmitLoader:any
+  setvisible:any
+  setIsCheck?:any
+  val:any
+  update:any
 };
 
 type FormProps = {
@@ -50,12 +55,18 @@ const TalentAction = ({
   setPageNumber,
   setFind,
   setInitalCheckBox,
-  setSubmitLoader
+  setSubmitLoader,
+  setvisible,
+  setIsCheck,
+  val,
+  update
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
-
+  const [error,seterror]=useState(0)
   // form filter submit
   const handleSubmit = (values: FormProps) => {
+    
+    setvisible(true)
     setSubmitLoader(true)
     dispatch(
       talentSourcingSearchMiddleWare({
@@ -79,30 +90,72 @@ const TalentAction = ({
         Toast(ERROR_MESSAGE, 'LONG', 'error');
         setSubmitLoader(false)
       });
+      setIsCheck([])
+      update(false)
   };
 
   const handleValidation = (values: FormProps) => {
-    const errors: Partial<errorType> = {};
-    if (values.location === '') {
-      errors.location = THIS_FIELD_REQUIRED;
-    }
+    const errors: Partial<errorType> = {};    
+    // if (values.location === '') {
+    //   errors.location = THIS_FIELD_REQUIRED;
+    // }
 
-    if (values.keywords === '') {
-      errors.keywords = THIS_FIELD_REQUIRED;
-    }
-    return errors;
+    // if (values.keywords === '') {
+    //   errors.keywords = THIS_FIELD_REQUIRED;
+    // }
+    
+    // if ((((formik.values.keywords).trim().length )<1)) {
+    //   console.log("consoleeee11111",typeof((formik.values.keywords).trim().length))
+    //    errors.keywords = "Space is not a character";
+    // }
+    // if ((((formik.values.location).length )<1)) {
+    //    errors.location = "Space is not a character";
+    // 
+      return errors;
   };
+  const SignupSchema = Yup.object().shape({
+    keywords: Yup.string()
+    .trim('Space is not a character')
+    .min(1, 'Space is not a character')
+    .max(512, 'The contact name cannot exceed 512 char')
+    .required(THIS_FIELD_REQUIRED),
+    location: Yup.string()
+    .trim('Space is not a character')
+    .min(1, 'Space is not a character')
+    .max(512, 'The contact name cannot exceed 512 char')
+    .required(THIS_FIELD_REQUIRED),
+  });
+  const formikRef = useRef();
 
   const formik = useFormik({
+    innerRef: formikRef,
     initialValues: initial,
     validate: handleValidation,
+    validationSchema: SignupSchema,
     onSubmit: handleSubmit,
     enableReinitialize: true,
+    validateOnBlur: true,
+    validateOnChange: true,
   });
+  useEffect(() => {
+    
+    seterror((formik.values.keywords).trim().length);
+   console.log("errorrrrr",error)
+}, [formik.values.keywords]);
+
+  const handleInputChange=(event)=>{
+    console.log("keyyyyyy",event.target.value);
+    formik.setFieldValue("location", event.target.value);
+   
+  }
+
+
 
   return (
+<>
+{console.log("formik.values",formik.values,(formik.values.keywords).trim().length)}
     <Flex row between bottom className={cx('rowContainer')}>
-      <Flex row bottom flex={1}>
+      <Flex row  width={'89%'} >
         <InputText
           id={'talentaction__keywords'}
           label={'Job Title'}
@@ -114,9 +167,10 @@ const TalentAction = ({
           errorMessage={formik.errors.keywords}
           error={formik.touched.keywords}
         />
+      
         <div className={cx('cityStyle')}>
           <InputSearch
-            placeholder="e.g. City/State"
+            placeholder="e.g. City or State"
             options={location}
             setFieldValue={formik.setFieldValue}
             name="location"
@@ -125,8 +179,11 @@ const TalentAction = ({
             errorMessage={formik.errors.location}
             error={formik.touched.location}
             initialValue={lowerCase(formik.values.location)}
-            style={styles.searchStyle}
+            style={styles.searchStyle}  
+            onChange={handleInputChange}   
           />
+       
+        
         </div>
         <SelectTag
           id={'talentaction__distanceId'}
@@ -149,8 +206,11 @@ const TalentAction = ({
             formik.setFieldValue('lastActive', option.value)
           }
         />
-      </Flex>
-      <div className={styles.btnContainer}>
+        
+        
+    </Flex>
+    <Flex>
+    <div className={styles.btnContainer}>
         <Button
           disabled={!(formik.isValid && formik.dirty)}
           className={cx('findBtn')}
@@ -160,7 +220,25 @@ const TalentAction = ({
         </Button>
       </div>
     </Flex>
+      </Flex>
+      
+
+    </>
   );
 };
 
 export default TalentAction;
+
+ // const valid=!isEmpty(formik.values.location)&& !isEmpty(formik.values.keywords);
+  
+  // const handlefuction=()=>{
+  //   console.log("formik errorrrrrrrr",formik.isValid,formik.dirty,valid)
+  //   if (isEmpty(formik.values.location)&&(formik.isValid &&formik.dirty)){
+  //     console.log("i am here+++++++++++++++++++++++++++++++++++++++++++++++++",formik.isValid,formik.dirty)
+  //      return <>
+       
+  //    <div style={{color:"#f94949",fontSize:'12px'}}>This field is required</div>
+  //    </>
+     
+  //   }
+  // }

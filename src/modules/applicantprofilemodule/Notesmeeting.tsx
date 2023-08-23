@@ -4,12 +4,15 @@ import { useFormik } from 'formik';
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import moment from 'moment';
+import { calendarRoute } from '../../appRoutesPath';
 import SvgInfo from '../../icons/SvgInfo';
 import SvgNotes from '../../icons/SvgNotes';
 import SvgRefresh from '../../icons/SvgRefresh';
+import SvgMeetingicon from '../../icons/SvgMeetingicon';
 import { AppDispatch, RootState } from '../../store';
 import Button from '../../uikit/Button/Button';
-import { BLACK } from '../../uikit/Colors/colors';
+import { BLACK, WHITE } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
 import { firstNameChar, isEmpty } from '../../uikit/helper';
 import Table from '../../uikit/Table/Table';
@@ -37,6 +40,7 @@ import {
   syncOutlookMiddleWare,
   checkAuthMiddleware,
   eventsApplicantsMiddleware,
+  IntergratemailMiddleWare,
 } from './store/middleware/applicantProfileMiddleware';
 var querystring = require('querystring');
 
@@ -51,8 +55,9 @@ const initial: FormProps = {
 
 type Props = {
   isMeeting?: boolean;
+  eventchang?: boolean;
 };
-const Notesmeet = ({ isMeeting }: Props) => {
+const Notesmeet = ({ isMeeting, eventchang }: Props) => {
   const [isCollapse, setCollapse] = useState(false);
   const [isColor, setColor] = useState<string[]>([]);
   const [buttonName, setButtonName] = useState('Add');
@@ -62,13 +67,14 @@ const Notesmeet = ({ isMeeting }: Props) => {
   const [isGoogle, setIsGoogle] = useState(2);
   const [isLoad, setIsLoad] = useState(true);
   const [myevents, setMyevents] = useState<any[]>([]);
-  const history = useHistory();
-
+  const history = useHistory(); 
+  useEffect(() => {
+    dispatch(IntergratemailMiddleWare());
+  }, []);
   const checkAuth = () => {
-     
     dispatch(checkAuthMiddleware())
-      .then((res) => { 
-        if (res.payload.status === true) { 
+      .then((res) => {
+        if (res.payload.status === true) {
           if (res.payload.account === 'google') {
             setIsGoogle(1);
           } else {
@@ -77,18 +83,28 @@ const Notesmeet = ({ isMeeting }: Props) => {
           setActive(1);
           setIsLoad(false);
           dispatch(eventsApplicantsMiddleware({ can_id }))
-            .then((response) => { 
+            .then((response) => {
               if (response.payload.status === true) {
                 setMyevents(
-                  response.payload.data.map((items: any) => {
+                  response.payload.data.map((items: any, index) => {
+                    const Time = Math.floor(items.duration/60)  
+
+                    console.log(items,'plzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz')
                     return {
                       title: items.event_type + ' ' + items.applicant,
                       organizer: response.payload.user,
                       date: items.s_time,
-                      time:
-                        items.s_time.slice(12, 16) +
-                        ' - ' +
-                        items.e_time.slice(12, 16),
+                      time: `${moment(items.s_time.slice(11, 16), [
+                        'HH.mm',
+                      ]).format('hh:mm a')}  - ${moment(
+                        items.e_time.slice(11, 16),
+                        ['HH.mm'],
+                      ).format('hh:mm a')}`,
+                      web_url: items.eventId,
+                      data: mail,
+                      join_url:items.join_url,
+                      index: index,
+                     Time: Time,
                     };
                   }),
                 );
@@ -129,7 +145,11 @@ const Notesmeet = ({ isMeeting }: Props) => {
     notes,
     can_id,
     // calenderEvent,
-    // google,
+    email,
+    mail,
+    jd_id,
+    jd,
+    google,
     outlook,
     calenderLoader,
   } = useSelector(
@@ -137,18 +157,34 @@ const Notesmeet = ({ isMeeting }: Props) => {
       applicantNotesReducers,
       applicantProfileInitalReducers,
       calenderReducers,
+      applicantIntegratemailReducers,
     }: RootState) => {
       return {
         candidate_details: applicantProfileInitalReducers.candidate_details,
         notes: applicantNotesReducers.notes,
         can_id: applicantProfileInitalReducers.can_id,
         // calenderEvent: calenderReducers.event,
-        // google: calenderReducers.google,
+        google: calenderReducers.google,
         outlook: calenderReducers.outlook,
+        jd:applicantProfileInitalReducers.jd?.job_title,
+        jd_id: applicantProfileInitalReducers.jd_id,
         calenderLoader: calenderReducers.isLoading,
+        email:
+          applicantIntegratemailReducers.email !== undefined ?
+          applicantIntegratemailReducers.email[0]?.email:'',
+        mail: applicantIntegratemailReducers?.mail,
       };
     },
-  );
+  ); 
+  const [utcDate, setUTCDate] = useState(new Date());
+  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setUTCDate(new Date());
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
   // notes submit function
   const handleSubmit = (values: FormProps) => {
     const data = querystring.stringify({
@@ -179,7 +215,7 @@ const Notesmeet = ({ isMeeting }: Props) => {
         }
       });
     }
-  }; 
+  };
   const formik = useFormik({
     initialValues: initial,
     onSubmit: handleSubmit,
@@ -220,45 +256,92 @@ const Notesmeet = ({ isMeeting }: Props) => {
 
   // refresh calendar function
   const hanldeRefresh = () => {
-    dispatch(calenderTokenGetMiddleWare()).then((res) => {
-      if (!isEmpty(res.payload.google)) {
-        axios
-          .request({
-            method: 'post',
-            url: 'https://oauth2.googleapis.com/token',
-            headers: { 'content-type': 'application/x-www-form-urlencoded' },
-            params: {
-              client_id: googleClientId,
-              client_secret: clientSecret,
-              refresh_token: res.payload.google[0].accessToken,
-              grant_type: 'refresh_token',
-            },
-          })
-          .then((refresh) => {
-            dispatch(
-              calenderTokenMiddleWare({
-                calendar: 'google',
-                info: {
-                  accessToken: refresh.data.access_token,
-                  email: res.payload.google[0].email,
-                  timeZone: getOut,
-                },
-              }),
-            );
-          })
-          .then(() => {
-            dispatch(syncGoogleMiddleWare()).then(() => {
-              dispatch(calenderMiddleWare({ can_id }));
+    dispatch(checkAuthMiddleware())
+      .then((res) => {
+        if (res.payload.status === true) {
+          if (res.payload.account === 'google') {
+            setIsGoogle(1);
+          } else {
+            setIsGoogle(0);
+          }
+          setActive(1);
+          setIsLoad(false);
+          dispatch(eventsApplicantsMiddleware({ can_id }))
+            .then((response) => {
+              // if (response.payload.status === true) {
+                setMyevents(
+                  response.payload.data.map((items: any, index) => {
+                    const Time = Math.floor(items.duration/60)  
+                    return {
+                      title: items.event_type + ' ' + items.applicant,
+                      organizer: response.payload.user,
+                      date: items.s_time,
+                      time: `${moment(items.s_time.slice(11, 16), [
+                        'HH.mm',
+                      ]).format('hh:mm a')}  - ${moment(
+                        items.e_time.slice(11, 16),
+                        ['HH.mm'],
+                      ).format('hh:mm a')}`,
+                      web_url: items.eventId,
+                      data: mail,
+                      index: index,
+                     Time: Time,
+                    };
+                  })
+                )
+              // }
+            })
+            .catch((error) => {
+              console.log(error);
             });
-          });
-      }
+        } else {
+          setActive(0);
+          setIsLoad(false);
+        }
+      })
+      .catch(() => {
+        console.log('Error');
+      }); 
+    // dispatch(calenderTokenGetMiddleWare()).then((res) => {
+    //   if (!isEmpty(res.payload.google)) {
+    //     axios
+    //       .request({
+    //         method: 'post',
+    //         url: 'https://oauth2.googleapis.com/token',
+    //         headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    //         params: {
+    //           client_id: googleClientId,
+    //           client_secret: clientSecret,
+    //           refresh_token: res.payload.google[0].accessToken,
+    //           grant_type: 'refresh_token',
+    //         },
+    //       })
+    //       .then((refresh) => {
+    //         dispatch(
+    //           calenderTokenMiddleWare({
+    //             calendar: 'google',
+    //             info: {
+    //               accessToken: refresh.data.access_token,
+    //               email: res.payload.google[0].email,
+    //               timeZone: getOut,
+    //             },
+    //           }),
+    //         );
+    //       })
+    //       .then(() => {
+    //         dispatch(syncGoogleMiddleWare()).then(() => {
+    //           dispatch(calenderMiddleWare({ can_id }));
+    //         });
+    //       });
+    //   }
 
-      if (!isEmpty(res.payload.outlook)) {
-        dispatch(syncOutlookMiddleWare()).then(() => {
-          dispatch(calenderMiddleWare({ can_id }));
-        });
-      }
-    });
+    //   if (!isEmpty(res.payload.outlook)) {
+    //     dispatch(syncOutlookMiddleWare()).then(() => {
+    //       dispatch(calenderMiddleWare({ can_id }));
+          
+    //     });
+    //   }
+    // });
   };
   const handleSetting = () => {
     sessionStorage.setItem('superUserTab', '4');
@@ -267,98 +350,184 @@ const Notesmeet = ({ isMeeting }: Props) => {
   };
 
   const meetingMemo = useMemo(() => meetingTitle(), [myevents]);
-  const checkCalendarOutlook = Array.isArray(outlook) && outlook.length !== 0;
-  // const checkCalendarGoogle = Array.isArray(google);
 
-  // const getOutLookTime: any = checkCalendarOutlook && outlook.length !==0 && outlook[0].timeZone;
-  // const getGoogleTime: any = checkCalendarGoogle && google.length !==0 && google[0].timeZone;
+  const currentDate = new Date(); // This gives you the current date and time in the user's local time zone.
+  const currentUtcDate = new Date(
+    Date.UTC(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDate(),
+      currentDate.getHours(),
+      currentDate.getMinutes(),
+      currentDate.getSeconds(),
+    ),
+  );
+  const utcOptions = { timeZone: 'UTC' };
+  const formattedUtcTime = currentUtcDate.toLocaleString('en-US', utcOptions);
+  const offsetInMinutes = new Date().getTimezoneOffset();
+  const schedulehandleClick = () => {
+    
+    window.open(calendarRoute);
+    localStorage.setItem('Applicantname',`${candidate_details[0].first_name} ${candidate_details[0].last_name !==''&&candidate_details[0].last_name!== null?candidate_details[0].last_name:''}`)
+    localStorage.setItem('Jdname',jd)
+    localStorage.setItem('can_id',can_id) 
+    localStorage.setItem('jd_id',jd_id)
+    localStorage.setItem('emailnote',candidate_details[0].email) 
 
-  // const checkCalendar =
-  //   checkCalendarGoogle === true || checkCalendarOutlook === true
-  //     ? true
-  //     : false;
-
-  // useEffect(() => {
-  //   if (checkCalendar) {
-  //     localStorage.setItem(
-  //       'timeZone',
-  //       checkCalendarOutlook
-  //         ? getOutLookTime
-  //         : getGoogleTime,
-  //     );
-  //   }
-  // }, [outlook, google, checkCalendarOutlook,checkCalendar]);
-
+  } 
+  const now = new Date();
+  const utcOffsetMinutes = now.getTimezoneOffset();
+  const hours = Math.floor(Math.abs(utcOffsetMinutes) / 60);
+  const minutes = Math.abs(utcOffsetMinutes) % 60;
+  const utcOffsetString = `UTC ${utcOffsetMinutes >= 0 ? '-' : '+'}${hours}:${minutes.toString().padStart(2, '0')}`;
   return (
     <Flex
       columnFlex
       className={styles.overAll}
-      height={window.innerHeight - 230}
-    >
+      height={window.innerHeight - 120}
+    > 
       {isMeeting && (
-        <Flex columnFlex>
-          <Flex row center>
-            <Text color="theme" bold className={styles.meetingFlex}>
-              Meeting Detail:
-            </Text>
-            {active === 0 ? (
-              <Flex row center className={styles.syncedWidth}>
-                (<SvgInfo className={styles.svgInfo} height={14} width={14} />
-                <Text>
-                  Integrate your calendar with Zita to schedule meetings)
+        <Flex flex={6} columnFlex style={{ padding: '5px' }}>
+          <Flex row between center marginTop={25} className={styles.borderbellow}>
+            <Flex>
+              <Flex>
+                <Text color="theme" bold className={styles.meetingFlex}>
+                  Details
                 </Text>
+              </Flex>
+              <Flex >
+                {isGoogle === 1 && (
+                  <Flex>
+                    <Flex row>
+                      <Flex className={styles.syncedWidth}>
+                        <Text color="theme" style={{ fontSize: '13px' }}>
+                          Synced with:
+                        </Text>
+                      </Flex>
+                      <Flex marginLeft={5}>
+                        <Text>{email}</Text>
+                      </Flex>
+                    </Flex>
+                    <Flex row>
+                      <Flex className={styles.syncedWidth}>
+                        <Text
+                          color="theme"
+                          style={{ fontSize: '13px', marginRight: '15px' }}
+                        >
+                          Time zone:
+                        </Text>
+                      </Flex>
+                      <Flex>{utcOffsetString}</Flex>
+                    </Flex>
+                  </Flex>
+                )}
+                {isGoogle === 0 && (
+                  <Flex>
+                    <Flex row>
+                      <Flex className={styles.syncedWidth}>
+                        <Text color="theme" style={{ fontSize: '13px' }}>
+                          Synced with:
+                        </Text>
+                      </Flex>
+                      <Flex marginLeft={5}>
+                        {' '}
+                        <Text style={{ fontSize: '13px' }}>{email}</Text>{' '}
+                      </Flex>
+                    </Flex>
+                    <Flex row>
+                      <Flex className={styles.syncedWidth}>
+                        <Text
+                          color="theme"
+                          style={{ fontSize: '13px', marginRight: '5px' }}
+                        >
+                          Time zone:
+                        </Text>
+                      </Flex>
+                      <Flex style={{ fontSize: '13px' }}>{utcOffsetString}</Flex>
+                    </Flex>
+                  </Flex>
+                )}
+              </Flex>
+            </Flex>
+            {active === 0 ? (
+              <Flex row center middle className={styles.syncedWidth}>
                 <Button
-                  types="tertiary"
+                  types="primary"
                   className={styles.settingBtn}
                   onClick={handleSetting}
                 >
-                  Settings
+                  Integrate
                 </Button>
               </Flex>
             ) : (
-              <>
-                {isGoogle === 1 && (
-                  <Text className={styles.syncedWidth}>
-                    (Synced with gmail)
-                  </Text>
-                )}
-
-                {isGoogle === 0 && (
-                  <Text className={styles.syncedWidth}>
-                    (Synced with outlook)
-                  </Text>
-                )}
-                <Flex row center>
-                  <Button
-                    types="tertiary"
-                    className={styles.syncBtn}
-                    onClick={hanldeRefresh}
-                  >
-                    <Flex row center>
-                      <SvgRefresh height={14} width={14} fill={BLACK} />
-                      <Text
-                        bold
-                        size={12}
-                        style={{ marginLeft: 4, cursor: 'pointer' }}
-                      >
-                        Sync
-                      </Text>
-                    </Flex>
-                  </Button>
-                  <Text style={{ marginLeft: 8 }} color="gray" size={12}>
-                    Timezone:{' '}
-                    {checkCalendarOutlook ? outlookTimeZone[getOut] : getOut}
-                  </Text>
+              <Flex row end center middle>
+                <Flex end marginRight={10} height={30}>
+                <Button
+                
+                  types="secondary"
+                  className={styles.syncBtn}
+                  onClick={hanldeRefresh}
+                >
+                  <Flex row center>
+                    <Text
+                      bold
+                      style={{
+                        marginRight: 4,
+                        marginLeft: 4,
+                        cursor: 'pointer',
+                        color: '#333333',
+                      }}
+                    >
+                      Sync
+                    </Text>
+                    <SvgRefresh height={14} width={14} fill={'#333333'} />
+                  </Flex>
+                </Button>
                 </Flex>
-              </>
+                <Flex height={30} >
+                  <Button  onClick={schedulehandleClick}  types="primary">
+                  Schedule event
+                  </Button>
+                  </Flex>
+              </Flex>
             )}
           </Flex>
-          <Table
-            columns={meetingMemo}
-            dataSource={myevents}
-            empty="No meetings scheduled yet"
-            isLoader={calenderLoader}
-          />
+
+          {active === 0 && (
+            <Flex>
+              <Flex center middle marginTop={100}>
+                <SvgMeetingicon fill='#979797' />
+              </Flex>
+              <Flex center middle marginTop={10}>
+                <Text style={{ fontSize: '13px' }} color='gray'>
+                  Integrate your calendar with Zita to schedule meetings
+                </Text>
+              </Flex>
+            </Flex>
+          )}
+          {active !== 0 && myevents.length === 0 && (
+            <Flex className={styles.nomeeting} center middle>
+              <Flex center middle marginTop={100}>
+                <SvgMeetingicon />
+              </Flex>
+              <Flex center middle marginTop={10}>
+                <Text style={{ fontSize: '13px' }}>
+                  Meetings not yet scheduled
+                </Text>
+              </Flex>
+            </Flex>
+          )}
+          {active !== 0 && myevents.length !== 0 && (
+            <Flex style={{ margin:' 0 -8px'}} flex={1}>
+              <Table
+                border={'outline'}
+                columns={meetingMemo}
+                dataSource={myevents}
+                empty="No meetings scheduled yet"
+                isLoader={calenderLoader}
+              />
+            </Flex>
+          )}
         </Flex>
       )}
     </Flex>

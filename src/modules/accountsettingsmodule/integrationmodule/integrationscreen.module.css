@@ -80,6 +80,7 @@
 
 .cardStruture {
   max-height: 200px;
+  width: 240px;
   margin-right: 20px;
   padding: 15px 10px 0 10px;
   display: flex;
@@ -89,6 +90,7 @@
 .selectCard {
   position: relative;
   max-height: 200px;
+  width: 240px;
   margin-right: 20px;
   padding: 15px 10px 0 10px;
   display: flex;
@@ -109,10 +111,13 @@
   color: #581845;
   border: none;
   width: 100%;
-  margin-top: 20px;
-  border-top: 1px solid #c3c3c3; /*change css */
+  
+  /*change css */
   border-radius: unset;
-  padding: 10px 0;
+  padding: 18px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .btn:active,
@@ -138,7 +143,10 @@
 .outlookEmailcard {
   margin-left: 20px;
 }
-
+.popfix{
+  display: flex;
+  justify-content: space-between;
+}
 .disconnectbtn {
   margin-left: 10px;
   border: 1px solid #ed4857;
@@ -163,7 +171,9 @@
   justify-content: flex-start;
   margin-top: 20px;
 }
-
+.linefix{
+   width:100% !important;
+}
 .model {
   background-color: #ffffff !important;
   border-radius: 10px !important;
@@ -172,5 +182,11 @@
 }
 .borderbottom{
   border-bottom: 1px solid rgb(195, 195, 195, 1);
+  width: 100%;
+  margin-top: 15px;
+}
+
+.bordertop{
+  border-top: 1px solid rgb(195, 195, 195, 1);
 
 }

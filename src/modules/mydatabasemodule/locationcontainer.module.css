@@ -1,21 +1,24 @@
 .slace {
-  margin: 0 2px;
+  margin: 0 2px 0px 2px;
 }
 .marginTop {
-  margin-top: 2px;
+  margin-top: 0;
+  /* width: fit-content; */
 }
 
 .inputOverAll {
-  display: inline-grid;
+  display: flex;
   position: relative;
+  width: 100px;
+  margin-right:-35px;
 }
 .svgContainer {
   display: flex;
-  align-items: center;
-  margin-top: 4px;
+  flex-direction: row;
   position: absolute;
-  top: 16px;
-  right: 0;
+  /* top: 23px;
+  right: -93px; */
+  left: 126px;
 }
 .svgTick {
   margin-right: 4px;
@@ -25,6 +28,8 @@
   margin-right: 4px;
   cursor: pointer;
   z-index: 11;
+  /* margin-top: -62%; */
+  margin-left: 0%;
 }
 .svgTickDisable {
   pointer-events: none;
@@ -36,12 +41,64 @@
 }
 .svgClose {
   cursor: pointer;
-  z-index: 11;
+
 }
 .locationStyle {
   cursor: pointer;
-  max-width: 50%;
+  max-width: 210px;
+  /* width: 100px; */
 }
 .width85 {
-  min-width: 70%;
+  min-width: fit-content;
+  width: 100%;
+}
+
+.textworkexp{
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-Left:-8px;
+  width:100%;
+}
+.locationtab{
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+@media only screen and (max-width: 1366px) {
+  .locationtab{
+    overflow: hidden;
+  }
+}
+
+@media only screen and (min-width: 1366px) and (max-width:1920px) {
+  .locationtab{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow:hidden;
+  }
+}
+
+@media screen and (min-width: 1920px) {
+  .locationtab{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+.locationloader{
+  position: relative;
+  bottom: 26px
+}
+
+.locationinput{
+  border-radius: 0px;
+  padding: 0;
+  border: none;
+  border-bottom: 1px solid var(--color-gary-6, #b3b3b3);
+  background-color: var(--color-white, #ffffff);
+  width: 120%;
+  height: 20px;
+  box-sizing: border-box !important;
+  font-family: 'Roboto', sans-serif;
 }

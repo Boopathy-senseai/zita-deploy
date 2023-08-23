@@ -5,6 +5,7 @@ import styles from './text.module.css';
 const cx = classNames.bind(styles);
 export type textSize =
   | 10
+  | 11
   | 12
   | 13
   | 14
@@ -42,7 +43,8 @@ export type textColors =
   | 'warning'
   | 'yellow'
   | 'black2'
-  | 'disabled';
+  | 'disabled'
+  | 'placeholder';
 
 export type textTransform =
   | 'capitalize'
@@ -62,7 +64,8 @@ export type Props = {
   textStyle?: textStyle;
   title?: string;
   type?: 'titleLarge' | 'titleMedium' | 'titleSmall';
-  onClick?: () => void;
+  // onClick?: () => void;
+  onClick?: any;
   id?: string;
   tag: any;
   underLine?: boolean;
@@ -113,7 +116,7 @@ const Text = ({
 
 /* eslint max-len: ["error", { "code": 2000 }] */
 const defaultProps = {
-  size: 14,
+  size: 13,
   color: 'primary',
   tag: 'span',
 };

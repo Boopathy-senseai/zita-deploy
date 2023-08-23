@@ -1,6 +1,6 @@
 .overAll-normal {
-  border: 1px solid var(--color-gary-7, #dfdfdf);
-  border-radius: 4px;
+  /* border: 1px solid var(--color-gary-7, #dfdfdf);
+  border-radius: 4px; */
 }
 .overAll-outline {
   border: none;

@@ -2,16 +2,14 @@ import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
-import { reports } from '../../../appRoutesPath';
+import { meetingScheduler, reports } from '../../../appRoutesPath';
 import SvgCalendar from '../../../icons/SvgDBCalandar';
 import SvgDashboard from '../../../icons/SvgDashboard';
-import useUnsavedChangesWarning from '../../common/useUnsavedChangesWarning';
 import SvgExpand from '../../../icons/SvgExpant';
 import SvgJobPost from '../../../icons/SvgJobPost';
 import SvgSetting from '../../../icons/SvgSetting';
 import SvgUserSearch from '../../../icons/SvgUserSearch';
 import SvgImport from '../../../icons/SvgImport';
-import SvgMailbox from '../../../icons/SvgMailbox';
 import { LEAVE_THIS_SITE } from '../../constValue';
 import SvgReport from '../../../icons/SvgReport';
 import Button from '../../../uikit/Button/Button';
@@ -27,6 +25,7 @@ import Text from '../../../uikit/Text/Text';
 import { userProfileMiddleWare } from '../../accountsettingsmodule/userprofilemodule/store/middleware/userprofilemiddleware';
 import { permissionMiddleWare } from '../../Login/store/middleware/loginMiddleWare';
 import { logOutMiddleWare } from '../store/middleware/navbarmiddleware';
+import SvgScheduler from '../../../icons/SvgScheduler';
 import SvgCollapse from '../../../icons/Svgcollapse';
 import styles from './notification.module.css';
 
@@ -46,6 +45,7 @@ const Sidebar = ({ changes, data }: props) => {
   const { pathname } = useLocation();
   const history = useHistory();
   const changeurl = sessionStorage.getItem('changingurl');
+  const [checkplan, setcheckplan] = useState(false);
   const handleNavigate = (val) => {};
 
   useEffect(() => {
@@ -72,7 +72,11 @@ const Sidebar = ({ changes, data }: props) => {
     },
   );
   const accountPath = '/account_setting/settings';
-
+  useEffect(() => {
+    if (plan_id !== 1 && plan_id !== 0) {
+      setcheckplan(true);
+    }
+  }, [plan_id]);
   const clearTab = () => {
     sessionStorage.removeItem('superUserTab');
     sessionStorage.removeItem('superUserFalseTab');
@@ -92,7 +96,7 @@ const Sidebar = ({ changes, data }: props) => {
   };
   return (
     <>
-      
+      {console.log('*******', Expent)}
       <div
         className={Expent === '0' ? styles.sidebar : styles.sidebarmini}
         style={{ marginTop: '50px' }}
@@ -100,7 +104,10 @@ const Sidebar = ({ changes, data }: props) => {
         <ul>
           {is_plan ? (
             changes ? (
-              <li className={pathname === '/' ? styles.select_row : ''}>
+              <li
+                title="Dashboard"
+                className={pathname === '/' ? styles.select_row : ''}
+              >
                 <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
                   <text style={{ verticalAlign: 'middle', marginLeft: '-6px' }}>
                     <SvgDashboard height={28} width={28} />
@@ -116,7 +123,10 @@ const Sidebar = ({ changes, data }: props) => {
                 </LinkWrapper>
               </li>
             ) : (
-              <li className={pathname === '/' ? styles.select_row : ''}>
+              <li
+                title="Dashboard"
+                className={pathname === '/' ? styles.select_row : ''}
+              >
                 <LinkWrapper
                   className={styles.hoverview}
                   onClick={clearTab}
@@ -138,7 +148,10 @@ const Sidebar = ({ changes, data }: props) => {
               </li>
             )
           ) : (
-            <li className={pathname === '/' ? styles.select_row : ''}>
+            <li
+              title="Dashboard"
+              className={pathname === '/' ? styles.select_row : ''}
+            >
               <a
                 className={styles.hoverview}
                 href={' '}
@@ -164,6 +177,7 @@ const Sidebar = ({ changes, data }: props) => {
           {is_plan ? (
             changes ? (
               <li
+                title="Job Postings"
                 className={
                   pathname === '/job_list' ||
                   pathname.includes('/jobs') ||
@@ -194,6 +208,7 @@ const Sidebar = ({ changes, data }: props) => {
               </li>
             ) : (
               <li
+                title="Job Postings"
                 className={
                   pathname === '/job_list' ||
                   pathname.includes('/jobs') ||
@@ -218,13 +233,14 @@ const Sidebar = ({ changes, data }: props) => {
                     color="primary"
                     style={{ color: '#581845', marginRight: '10px' }}
                   >
-                    Job Postings
+                    Job Posting
                   </Text>
                 </LinkWrapper>
               </li>
             )
           ) : (
             <li
+              title="Job Postings"
               className={
                 pathname === '/job_list' ||
                 pathname.includes('/jobs') ||
@@ -262,6 +278,7 @@ const Sidebar = ({ changes, data }: props) => {
               {is_plan ? (
                 changes ? (
                   <li
+                    title="Database"
                     className={
                       pathname === '/mydatabase' ? styles.select_row : ''
                     }
@@ -292,6 +309,7 @@ const Sidebar = ({ changes, data }: props) => {
                   </li>
                 ) : (
                   <li
+                    title="Database"
                     className={
                       pathname === '/mydatabase' ? styles.select_row : ''
                     }
@@ -323,6 +341,7 @@ const Sidebar = ({ changes, data }: props) => {
                 )
               ) : (
                 <li
+                  title="Database"
                   className={
                     pathname === '/mydatabase' ? styles.select_row : ''
                   }
@@ -360,6 +379,7 @@ const Sidebar = ({ changes, data }: props) => {
               {is_plan ? (
                 changes ? (
                   <li
+                    title="Talent Sourcing"
                     className={
                       pathname === '/talent_sourcing' ? styles.select_row : ''
                     }
@@ -390,6 +410,7 @@ const Sidebar = ({ changes, data }: props) => {
                   </li>
                 ) : (
                   <li
+                    title="Talent Sourcing"
                     className={
                       pathname === '/talent_sourcing' ? styles.select_row : ''
                     }
@@ -421,6 +442,7 @@ const Sidebar = ({ changes, data }: props) => {
                 )
               ) : (
                 <li
+                  title="Talent Sourcing"
                   className={
                     pathname === '/talent_sourcing' ? styles.select_row : ''
                   }
@@ -454,6 +476,7 @@ const Sidebar = ({ changes, data }: props) => {
               {is_plan ? (
                 changes ? (
                   <li
+                    title="Import Candidates"
                     className={
                       pathname === '/bulk_import' ? styles.select_row : ''
                     }
@@ -479,6 +502,7 @@ const Sidebar = ({ changes, data }: props) => {
                   </li>
                 ) : (
                   <li
+                    title="Import Candidates"
                     className={
                       pathname === '/bulk_import' ? styles.select_row : ''
                     }
@@ -505,6 +529,7 @@ const Sidebar = ({ changes, data }: props) => {
                 )
               ) : (
                 <li
+                  title="Import Candidates"
                   className={
                     pathname === '/bulk_import' ? styles.select_row : ''
                   }
@@ -531,78 +556,37 @@ const Sidebar = ({ changes, data }: props) => {
             </>
           )}
 
-          {plan_id !== 1 && (
-            <>
-              {is_plan ? (
-                changes ? (
-                  <li
-                    className={
-                      pathname.includes('/reports') ? styles.select_row : ''
-                    }
-                  >
-                    <LinkWrapper
-                      className={styles.hoverview}
-                      onClick={clearTabs}
-                      to={is_plan ? reports : accountPath}
-                    >
-                      <SvgReport fill={'none'} />
-                      <Text
-                        onClick={() => handleNavigate(6)}
-                        className={
-                          Expent === '0' ? styles.text : styles.classpan
-                        }
-                        color="primary"
-                        style={{
-                          color: '#581845',
-                          marginRight: '10px',
-                          marginLeft: '20px',
-                        }}
-                      >
-                        Reports
-                      </Text>
-                    </LinkWrapper>
-                  </li>
-                ) : (
-                  <li
-                    className={
-                      pathname.includes('/reports') ? styles.select_row : ''
-                    }
-                  >
-                    <LinkWrapper
-                      className={styles.hoverview}
-                      onClick={clearTab}
-                      to={is_plan ? reports : accountPath}
-                    >
-                      <SvgReport fill={'none'} />
-                      <Text
-                        onClick={() => handleNavigate(6)}
-                        className={
-                          Expent === '0' ? styles.text : styles.classpan
-                        }
-                        color="primary"
-                        style={{
-                          color: '#581845',
-                          marginRight: '10px',
-                          marginLeft: '20px',
-                        }}
-                      >
-                        Reports
-                      </Text>
-                    </LinkWrapper>
-                  </li>
-                )
-              ) : (
+          {/* {permission.includes('bulkImport_candidates') && (
+            <> */}
+          {console.log(
+            plan_id,
+            is_plan,
+            'plan_idplan_idplan_idplan_idplan_idplan_id',
+          )}
+          {/* {checkplan && ( */}
+          <>
+            {is_plan ? (
+              changes ? (
                 <li
+                  title={
+                    plan_id === 1
+                      ? 'Please subscribe to any of the paid plans to view the job metrics'
+                      : 'Reports'
+                  }
                   className={
                     pathname.includes('/reports') ? styles.select_row : ''
                   }
                 >
-                  <a
+                  <LinkWrapper
                     className={styles.hoverview}
-                    href={' '}
-                    onClick={(e) => {
-                      e.preventDefault();
-                    }}
+                    onClick={clearTabs}
+                    to={
+                      plan_id === 1
+                        ? '/'
+                        : plan_id !== 1 && is_plan
+                        ? reports
+                        : accountPath
+                    }
                   >
                     <SvgReport fill={'none'} />
                     <Text
@@ -617,11 +601,78 @@ const Sidebar = ({ changes, data }: props) => {
                     >
                       Reports
                     </Text>
-                  </a>
+                  </LinkWrapper>
                 </li>
-              )}
-            </>
-          )}
+              ) : (
+                <li
+                  title={
+                    plan_id === 1
+                      ? 'Please subscribe to any of the paid plans to view the job metrics'
+                      : 'Reports'
+                  }
+                  className={
+                    pathname.includes('/reports') ? styles.select_row : ''
+                  }
+                >
+                  <LinkWrapper
+                    className={styles.hoverview}
+                    onClick={clearTab}
+                    to={
+                      plan_id === 1
+                        ? '#'
+                        : plan_id !== 1 && is_plan
+                        ? reports
+                        : accountPath
+                    }
+                  >
+                    <SvgReport fill={'none'} />
+                    <Text
+                      onClick={() => handleNavigate(6)}
+                      className={Expent === '0' ? styles.text : styles.classpan}
+                      color="primary"
+                      style={{
+                        color: '#581845',
+                        marginRight: '10px',
+                        marginLeft: '20px',
+                      }}
+                    >
+                      Reports
+                    </Text>
+                  </LinkWrapper>
+                </li>
+              )
+            ) : (
+              <li
+                title="Reports"
+                className={
+                  pathname.includes('/reports') ? styles.select_row : ''
+                }
+              >
+                <a
+                  className={styles.hoverview}
+                  href={' '}
+                  onClick={(e) => {
+                    e.preventDefault();
+                  }}
+                >
+                  <SvgReport fill={'none'} />
+                  <Text
+                    onClick={() => handleNavigate(6)}
+                    className={Expent === '0' ? styles.text : styles.classpan}
+                    color="primary"
+                    style={{
+                      color: '#581845',
+                      marginRight: '10px',
+                      marginLeft: '20px',
+                    }}
+                  >
+                    Reports
+                  </Text>
+                </a>
+              </li>
+            )}
+          </>
+          {/* )} */}
 
           {permission.includes('talent_sourcing') && (
             <>
@@ -631,6 +682,7 @@ const Sidebar = ({ changes, data }: props) => {
                     className={
                       pathname === '/calendar' ? styles.select_row : ''
                     }
+                    title="Calendar"
                   >
                     <LinkWrapper
                       className={styles.hoverview}
@@ -638,7 +690,7 @@ const Sidebar = ({ changes, data }: props) => {
                       to={is_plan ? routesPath.CALENDAR : accountPath}
                     >
                       <text style={{ marginLeft: '-2px' }}>
-                        <SvgCalendar height={22} width={22} />
+                        <SvgCalendar height={18} width={18} />
                       </text>
                       <Text
                         onClick={() => handleNavigate(7)}
@@ -657,6 +709,7 @@ const Sidebar = ({ changes, data }: props) => {
                     className={
                       pathname === '/calendar' ? styles.select_row : ''
                     }
+                    title="Calendar"
                   >
                     <LinkWrapper
                       className={styles.hoverview}
@@ -664,7 +717,7 @@ const Sidebar = ({ changes, data }: props) => {
                       to={is_plan ? routesPath.CALENDAR : accountPath}
                     >
                       <text style={{ marginLeft: '-2px' }}>
-                        <SvgCalendar height={22} width={22} />
+                        <SvgCalendar height={18} width={18} />
                       </text>
                       <Text
                         onClick={() => handleNavigate(7)}
@@ -682,6 +735,7 @@ const Sidebar = ({ changes, data }: props) => {
               ) : (
                 <li
                   className={pathname === '/calendar' ? styles.select_row : ''}
+                  title="Calendar"
                 >
                   <a
                     className={styles.hoverview}
@@ -691,7 +745,7 @@ const Sidebar = ({ changes, data }: props) => {
                     }}
                   >
                     <text style={{ marginLeft: '-2px' }}>
-                      <SvgCalendar height={22} width={22} />
+                      <SvgCalendar height={18} width={18} />
                     </text>
                     <Text
                       onClick={() => handleNavigate(7)}
@@ -712,59 +766,61 @@ const Sidebar = ({ changes, data }: props) => {
                 changes ? (
                   <li
                     className={
-                      pathname === '/mail' ? styles.select_row : ''
+                      pathname === meetingScheduler ? styles.select_row : ''
                     }
                   >
                     <LinkWrapper
                       className={styles.hoverview}
                       onClick={clearTabs}
-                      to={is_plan ? routesPath.MAIL : accountPath}
+                      to={is_plan ? meetingScheduler : accountPath}
                     >
                       <text style={{ marginLeft: '-2px' }}>
-                        <SvgMailbox height={16} width={16} />
+                        <SvgScheduler height={16} width={18} opacity={0.7} />
                       </text>
                       <Text
-                        onClick={() => handleNavigate(7)}
+                        onClick={() => handleNavigate(8)}
                         className={
                           Expent === '0' ? styles.text : styles.classpan
                         }
                         color="primary"
                         style={{ color: '#581845', marginRight: '10px' }}
                       >
-                        Mailbox
+                        Meeting Scheduler
                       </Text>
                     </LinkWrapper>
                   </li>
                 ) : (
                   <li
                     className={
-                      pathname === '/mail' ? styles.select_row : ''
+                      pathname === meetingScheduler ? styles.select_row : ''
                     }
                   >
                     <LinkWrapper
                       className={styles.hoverview}
                       onClick={clearTab}
-                      to={is_plan ? routesPath.MAIL : accountPath}
+                      to={is_plan ? meetingScheduler : accountPath}
                     >
                       <text style={{ marginLeft: '-2px' }}>
-                        <SvgMailbox height={16} width={16} />
+                        <SvgScheduler height={16} width={18} opacity={0.7} />
                       </text>
                       <Text
-                        onClick={() => handleNavigate(7)}
+                        onClick={() => handleNavigate(8)}
                         className={
                           Expent === '0' ? styles.text : styles.classpan
                         }
                         color="primary"
                         style={{ color: '#581845', marginRight: '10px' }}
                       >
-                        Mailbox
+                        Meeting Scheduler
                       </Text>
                     </LinkWrapper>
                   </li>
                 )
               ) : (
                 <li
-                  className={pathname === '/mail' ? styles.select_row : ''}
+                  className={
+                    pathname === meetingScheduler ? styles.select_row : ''
+                  }
                 >
                   <a
                     className={styles.hoverview}
@@ -774,15 +830,15 @@ const Sidebar = ({ changes, data }: props) => {
                     }}
                   >
                     <text style={{ marginLeft: '-2px' }}>
-                      <SvgMailbox height={16} width={16} />
+                      <SvgScheduler height={16} width={18} opacity={0.7} />
                     </text>
                     <Text
-                      onClick={() => handleNavigate(7)}
+                      onClick={() => handleNavigate(8)}
                       className={Expent === '0' ? styles.text : styles.classpan}
                       color="primary"
                       style={{ color: '#581845', marginRight: '10px' }}
                     >
-                      Mailbox
+                      Meeting Scheduler
                     </Text>
                   </a>
                 </li>
@@ -794,12 +850,15 @@ const Sidebar = ({ changes, data }: props) => {
         <ul className={styles.setting}>
           {is_plan ? (
             <li
-              style={{
-                height: '35px',
-                width: '145px',
-                position: 'relative',
-                bottom: '25px',
-              }}
+              className={
+                Expent === '0' ? styles.sidebarexpand : styles.sidebarmin
+              }
+              // style={{
+              //   height: '35px',
+              //   width: '145px',
+              //   position: 'relative',
+              //   bottom: '25px',
+              // }}
             >
               <LinkWrapper onClick={clearTab} to={'/account_setting/settings'}>
                 <SvgSetting fill={'#581845'} height={20} width={20} />
@@ -840,14 +899,13 @@ const Sidebar = ({ changes, data }: props) => {
                     height: '19px',
                     width: '19px',
                     position: 'relative',
-                    bottom: '45px',
-                    left: '25px',
+                    bottom: '51px',
                   }}
                   types="link"
                   className={styles.collapse}
                   onClick={() => handlecheck('1')}
                 >
-                  <SvgCollapse height={19} width={18} />
+                  <SvgCollapse height={16} width={16} />
                 </Button>
               </div>
             ) : (
@@ -856,7 +914,7 @@ const Sidebar = ({ changes, data }: props) => {
                 types="link"
                 onClick={() => handlecheck('0')}
               >
-                <SvgExpand width={19} height={18} />
+                <SvgExpand height={16} width={16} />
               </Button>
             )}
           </li>

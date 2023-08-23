@@ -58,6 +58,7 @@ export interface Events {
   link: string;
   color: string;
   synced?: string;
+  email: string
 }
 
 export interface meetingFormProps {
@@ -90,6 +91,7 @@ export interface meetingFormProps {
     error: boolean;
   };
   notes: string | null;
+  privateNotes: string | null;
   eventType: {
     value: EventMeetingType | null;
     error: boolean;
@@ -105,7 +107,10 @@ export interface meetingFormProps {
   };
   interviewer: TeamMemberType[];
 }
-
+export interface IEventNotes{
+  extra_notes: string | null;
+  interview_notes: string | null
+}
 export interface ApplicantTypes {
   email: string;
   userId: number;
@@ -118,6 +123,7 @@ export interface GoogleEventType {
   organizer: any;
   email: string;
   id: any;
+  recurringEventId: any;
   summary: any;
   hangoutLink: any;
   start: { dateTime: any };
@@ -145,6 +151,7 @@ export interface ZitaEventType {
   location: string;
   notes: string;
   private_notes: string;
+  email: string
 }
 
 export interface EditEventDetails {
@@ -192,6 +199,7 @@ export interface ZitaEventSchedulerType {
   app_id?: string;
   eventId?: string;
   extraNotes: string;
+  interviewer_notes: string;
   myJd: string;
   privateNotes: string;
   eventType: string;
@@ -215,9 +223,11 @@ export interface EventPopUpDetails {
   applicantId?: number | null;
   attendees?: null | string[];
   eventId: null | string;
+  recurringEventId: null | string;
   syncedBy: string | null;
   isZitaEvent: boolean;
   canEdit?: boolean;
+  email?: null | string[];
 }
 
 export interface CalendarEventType {
@@ -231,6 +241,7 @@ export interface CalendarEventType {
   link?: string | null;
   color?: string | null;
   syncedBy?: string | null;
+  recurringEventId: string | null;
 }
 
 export interface GlobalZoneType {

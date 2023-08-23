@@ -6,13 +6,21 @@
   margin-top: 16px;
 }
 .addBtn {
-  margin-top: 30px;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 .svgTrash {
   position: relative;
-  top: 26px;
+  top: 20px;
 }
 .errorMessage {
   color: var(--color-error, #f94949);
   font-size: 12px;
+}
+
+.svgadd{
+  margin-right: 8px;
+  bottom: 1px;
+  position: relative;
+  cursor: pointer;
 }

@@ -13,10 +13,11 @@ import {
   APPLICANT_PROFILE_STATUS,
   SYNC_GOOGLE,
   SYNC_OUTLOOK,
+  JOB_MATCHING_API,
 } from '../../../../actions/actions';
 import {
   applicantMatchapi,
-  applicantMessagesApi,
+  applicantMessagesApi, 
   applicantNotesApi,
   applicantProfileView,
   applicantsStatusApi,
@@ -30,15 +31,26 @@ import {
   syncOutlookApi,
   getGoogleEventsAPI,
   googleAddEvent,
+  //  Zitamatching,
   checkAuth,
   addOauth,
+  intergrationmailApi,
   outlookSyncApi,
   outlookAdd,
   calbackurlApi,
+  candidatematch,
+  onlycandidateid,
+  onlyjobid,
+  Bothcandidateidjobid,
+  googleconflicts,
+  outlookconflicts,
+  calendarconfiguration,
 } from '../../../../routes/apiRoutes';
 import {
   ApplicantProfilePayload,
   IApplicantStatus,
+  InviteEntity,
+  candidatematchtypes
 } from '../../applicantProfileTypes';
 import { stringifyParams } from '../../../../uikit/helper';
 
@@ -61,7 +73,7 @@ export const applicantMatchMiddleWare = createAsyncThunk(
   APPLICANT_PROFILE_MATCH,
   async ({ jd_id, can_id }: ApplicantProfilePayload, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(applicantMatchapi, {
+      const { data } = await axios.get(Bothcandidateidjobid, {
         params: { jd_id, can_id },
       });
       return data;
@@ -71,7 +83,63 @@ export const applicantMatchMiddleWare = createAsyncThunk(
     }
   },
 );
+export const CandidatejobidMatchMiddleWare = createAsyncThunk(
+  APPLICANT_PROFILE_MATCH,
+  async ({ jd_id, can_id }: ApplicantProfilePayload, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(Bothcandidateidjobid, {
+        params: { jd_id, can_id },
+      });
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+export const candidateMatchMiddleWare = createAsyncThunk(
+  APPLICANT_PROFILE_MATCH,
+  async ({can_id}:{can_id:string}, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(onlycandidateid, {
+        params: {can_id },
+      });
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+export const jdMatchMiddleWare = createAsyncThunk(
+  APPLICANT_PROFILE_MATCH,
+  async ({ jd_id}:{jd_id:string} , { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(onlyjobid, {
+        params: {jd_id},
+      });
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
 
+export const applicantcandidateMatchMiddleWare = createAsyncThunk(
+  JOB_MATCHING_API,
+  async ({ can_id }:candidatematchtypes, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(candidatematch, {
+        params: {can_id },
+      });
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
 export const applicantNotesMiddleWare = createAsyncThunk(
   APPLICANT_PROFILE_NOTES,
   async ({ can_id }: { can_id: number | string }, { rejectWithValue }) => {
@@ -91,6 +159,18 @@ export const applicantUserListMiddleWare = createAsyncThunk(
   async (_a, { rejectWithValue }) => {
     try {
       const { data } = await axios.get( applicantUserlistApi)
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+export const IntergratemailMiddleWare = createAsyncThunk(
+  APPLICANT_PROFILE_LIST,
+  async (_a, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(intergrationmailApi)
       return data;
     } catch (error) {
       const typedError = error as Error;
@@ -162,6 +242,23 @@ export const applicantScoreMiddleWare = createAsyncThunk(
     }
   },
 );
+export const applicantScoreMiddleWares = createAsyncThunk(
+  APPLICANT_PROFILE_INTERVIEW_SCORECARD,
+  async (
+    { jd_id, can_id,rating,comments}: { jd_id: string; can_id: string ,rating:number,comments:any},
+    { rejectWithValue },
+  ) => {
+    try {
+      const { data } = await axios.get(InterviewScorecardApi, {
+        params: { jd_id, can_id,rating,comments},
+      });
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
 
 export const messagesTemplatesMiddleWare = createAsyncThunk(
   APPLICANT_PROFILE_CALENDER,
@@ -192,7 +289,7 @@ export const calenderMiddleWare = createAsyncThunk(
 );
 
 export const applicantStatusMiddleWare = createAsyncThunk<
-  IApplicantStatus[],
+{ data: IApplicantStatus[]; invite: InviteEntity[] },
   { jd_id: string; can_id: string }
 >(
   APPLICANT_PROFILE_STATUS,
@@ -204,14 +301,44 @@ export const applicantStatusMiddleWare = createAsyncThunk<
       const { data } = await axios.get(applicantsStatusApi, {
         params: { jd_id, candi_id: can_id },
       });
-      return data.data as IApplicantStatus[];
+      console.log("?>>>>>><<<<<<<<",data)
+      const applicantStatusData: IApplicantStatus[] = data.data as IApplicantStatus[];
+
+      // Assuming the API response has an "invite" field for the invite value
+      const invite: InviteEntity[] = data.invite as InviteEntity[];
+      const list = {
+        applicantStatusData,invite
+      }
+      console.log("apppppppppppppppp",applicantStatusData,invite,"\n",list)
+
+      return { data: applicantStatusData, invite };
     } catch (error) {
       const typedError = error as Error;
       return rejectWithValue(typedError);
     }
   },
 );
-
+export const applicantInviteMiddleWare = createAsyncThunk<
+InviteEntity[],
+  { jd_id: string; can_id: string }
+>(
+  APPLICANT_PROFILE_STATUS,
+  async (
+    { jd_id, can_id }: { jd_id: string; can_id: string },
+    { rejectWithValue },
+  ) => {
+    try {
+      const { data } = await axios.get(applicantsStatusApi, {
+        params: { jd_id, candi_id: can_id },
+      });
+      console.log("????????????????",data.invite)
+      return data.invite as InviteEntity[];
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
 export const applicantFavoriteMiddleWare = createAsyncThunk(
   APPLICANT_PROFILE_FAVORITE,
   async (
@@ -272,9 +399,14 @@ export const getGoogleEventsMiddleware = createAsyncThunk(
 
 export const googleAddEventMiddleware = createAsyncThunk(
   'google_add_event',
-  async (_a, { rejectWithValue }) => {
+  async ({ formData} : any, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(googleAddEvent);
+      const config = { transformRequest: (_a, headers) => { delete headers.common.Authorization; } } 
+      const { data } = await axios.post(googleAddEvent,formData,{
+        headers :{
+          Authorization: undefined, 
+        }
+      });
       return data;
     } catch (error) {
       const typedError = error as Error;
@@ -311,9 +443,13 @@ export const addOauthMiddleware = createAsyncThunk(
 
 export const outlookAddEventMiddleware = createAsyncThunk(
   'outlook_auth',
-  async (_a, { rejectWithValue }) => {
+  async ({ formData }: any, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(outlookAdd);
+      const { data } = await axios.post(outlookAdd,formData,{
+        headers :{
+          Authorization: undefined, 
+        }
+      });
       return data;
     } catch (error) {
       const typedError = error as Error;
@@ -332,7 +468,7 @@ export const outlookCallApiMiddleware = createAsyncThunk(
       return rejectWithValue(typedError);
     }
   },
-);
+); 
 export const googleCallApiMiddleware = createAsyncThunk(
   'google_auth',
   async (_a, { rejectWithValue }) => {
@@ -384,6 +520,7 @@ export const googleCallbackMiddleware = createAsyncThunk(
     }
   },
 );
+
 export const eventsApplicantsMiddleware = createAsyncThunk(
   'user_events',
   async ({ can_id }: { can_id: string }, { rejectWithValue }) => {
@@ -496,6 +633,75 @@ export const getEventsMiddleware = createAsyncThunk(
       const { data } = await axios.get('get_event', {
         params: { cand_id: candId, jd_id: jdId },
       });
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+
+export const getGoogleConflictMiddleWare = createAsyncThunk(
+  'get_googleconflict',
+  async ({ event_id,startdate, enddate }: { 
+    event_id ?:any,
+    startdate? : any; 
+    enddate?: any
+   }, { rejectWithValue }) => {
+    try {
+      const url = `${googleconflicts}/?pk=${event_id}&startdate=${startdate}&enddate=${enddate}`
+      const config = { transformRequest: (_a, headers) => { delete headers.common.Authorization; } } 
+      const { data } = await axios.get(url,config);
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const getOutlookConflictMiddleWare = createAsyncThunk(
+  'get_outlookconflict',
+  async ({ event_id,startdate, enddate }: { 
+    event_id?:any,
+    startdate?: any; 
+    enddate?: any }, { rejectWithValue }) => {
+    try {
+      const url = `${outlookconflicts}/?pk=${event_id}&startdate=${startdate}&enddate=${enddate}`
+      const config = { transformRequest: (_a, headers) => { delete headers.common.Authorization; } } 
+      const { data } = await axios.get(url,config);
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const getCalendarConfigurationMiddleWare = createAsyncThunk(
+  'calendar_configurations',
+  async (configuration : string | undefined, { rejectWithValue }) => {
+    try {
+      const url = configuration ? `${calendarconfiguration}?configuration=${configuration}` : calendarconfiguration;
+      const { data } = await axios.get(url);
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const postCalendarConfigurationMiddleWare = createAsyncThunk(
+  'calendar_configurations',
+  async ({ formData }: any, { rejectWithValue }) => {
+    try {
+      // const url = `${calendarconfiguration}/?pk=${event_id}&startdate=${startdate}&enddate=${enddate}`
+      const { data } = await axios.post(
+        calendarconfiguration,
+        formData
+        );
       return data;
     } catch (error) {
       const typedError = error as Error;

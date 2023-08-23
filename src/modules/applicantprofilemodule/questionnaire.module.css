@@ -1,12 +1,14 @@
 .overAll {
   overflow: scroll;
-  padding: 16px;
+  /* padding: 16px; */
 }
-.qustionStyle {
-  margin-top: 20px;
-  margin-bottom: 8px;
-}
+/* .qustionStyle {
+  /* margin-top: 20px; */
+  /* margin-bottom: 8px; */
+/* } */ 
 .resStyle {
-  margin-top: 8px;
+  /* margin-top: 8px; */
   line-break: anywhere;
+  margin-bottom: 8px;
+  margin-left: 10px;
 }

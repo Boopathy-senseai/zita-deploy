@@ -10,9 +10,10 @@ import {
   SvgEdit,
   SvgCopy,
 } from '../../icons';
-import { Text } from '../../uikit';
+import { Flex, Text } from '../../uikit';
 import { CrossButton, Modal } from '../../uikit/v2';
 import SvgInfo from '../../icons/SvgInfo';
+import Avatar, { getUserInitials } from '../../uikit/Avatar';
 import { formatTo12HrClock, getEventHasMeeting } from './util';
 import styles from './styles/EventPopUp.module.css';
 import { EventPopUpDetails } from './types';
@@ -28,6 +29,7 @@ interface Props {
   isEventCanUpdate: boolean;
   eventPopUpDetails: EventPopUpDetails;
 }
+
 
 const EventPopUpModal = ({
   showEventPopUpModal,
@@ -50,8 +52,9 @@ const EventPopUpModal = ({
     syncedBy,
     title,
     canEdit,
+    email,
   } = eventPopUpDetails;
-
+  console.log(eventPopUpDetails);
   const DeleteWarningPopUp = (
     <Modal
       open={openEventDeleteModal}
@@ -59,15 +62,18 @@ const EventPopUpModal = ({
     >
       <div className={styles.deleteWarningPopUp}>
         <div className={styles.warningMessage}>
-          <SvgInfo />
-          <p>
+          {/* <SvgInfo /> */}
+          <Text size={14}>
             Meeting will be canceled and notified to the attendees.
             <br />
             Are you sure to proceed further?
-          </p>
+          </Text>
         </div>
 
         <div className={styles.actionButtonWrapper}>
+          <button style={{ marginRight: 10 }} onClick={() => setOpenEventDeleteModal(false)}>
+            No, Thanks
+          </button>
           <button
             onClick={() => {
               handleRemoveEvent(setOpenEventDeleteModal);
@@ -75,9 +81,6 @@ const EventPopUpModal = ({
             className={styles.deleteButton}
           >
             Cancel Meeting
-          </button>
-          <button onClick={() => setOpenEventDeleteModal(false)}>
-            No, Thanks
           </button>
         </div>
       </div>
@@ -87,55 +90,66 @@ const EventPopUpModal = ({
   const ZitaEvent = (
     <>
       {openEventDeleteModal ? DeleteWarningPopUp : null}
-      <div className={styles.profile}>
-        <img
-          src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-          alt="candidate profile pic"
-        />
-        <div className={styles.title}>
-          <Tooltip title={title} placement="top">
-            <p className={styles.eventTitle}>{title}</p>
-          </Tooltip>
-          <p>Gowtham Frontend Developer</p>
-        </div>
-      </div>
-      <div className={styles.info}>
-        <SvgInterviewCalendar size={20} />
-        <div className={styles.infoText}>
-          <Text>{startDate.toDateString()}</Text>
-          <br />
-          <Text>{`${formatTo12HrClock(startDate)} to ${formatTo12HrClock(
-            endDate,
-          )}`}</Text>
-        </div>
-      </div>
-
-      <div className={styles.info}>
-        <SvgInterviewers size={20} />
-        {attendees?.length > 0 ? (
-          <div className={styles.infoText}>
-            <p>Interviewer&#40;s&#41;</p>
-            <div className={styles.emailContainer}>
-              {attendees.map((items: string, index: Key | null | undefined) => (
-                <p className={styles.email} key={index}>
-                  {items}
-                </p>
-              ))}
-            </div>
+      <div className={styles.content}>
+        <div className={styles.profile}>
+          {/* <img
+            src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            alt="candidate profile pic"
+          /> */}
+          <div className={styles.title}>
+            <Tooltip title={title} placement="top">
+              <p style={{fontWeight:"bold"}} className={styles.eventTitle}>{title}</p>
+            </Tooltip>
+            {/* <p>Gowtham Frontend Developer</p> */}
           </div>
-        ) : null}
-      </div>
+        </div>
+        <div className={styles.info}>
+          <SvgInterviewCalendar size={16} />
+          <div className={styles.infoText}>
+            <Text style={{ marginBottom: 3 }}>{startDate.toDateString()}</Text>
+            {/* <br /> */}
+            <Text>{`${formatTo12HrClock(startDate)} - ${formatTo12HrClock(
+              endDate,
+            )}`}</Text>
+          </div>
+        </div>
 
-      <div className={styles.info}>
-        <SvgOrganizer size={20} />
-        <div className={styles.infoText}>
-          <Text>Organizer</Text>
-          <br />
-          <Text className={styles.email}>{organizer}</Text>
+        <div className={styles.info}>
+          <SvgInterviewers size={16} />
+          {console.log(attendees)}
+          {attendees && attendees?.length > 0 ? (
+            <div className={styles.infoText}>
+              <p style={{ marginBottom: 3 }}>Interviewer&#40;s&#41;</p>
+              <Flex row className={styles.emailContainer}>
+                {attendees.map(
+                  (item: string, index: Key | null | undefined) => (
+                    <Avatar
+                      key={index}
+                      initials={getUserInitials({ email: item })}
+                      style={{ width: 28, height: 28, marginRight:"5px" }}
+                      textStyle={{ fontSize: 12}}
+                    />
+                    // <p className={styles.email} key={index}>
+                    //   {items}
+                    // </p>
+                  ),
+                )}
+              </Flex>
+            </div>
+          ) : null}
+        </div>
+
+        <div className={styles.info}>
+          <SvgOrganizer size={16} />
+          <div className={styles.infoText}>
+            <Text style={{ marginBottom: 3 }}>Organizer</Text>
+            {/* <br /> */}
+            <Text className={styles.email}>{organizer}</Text>
+          </div>
         </div>
       </div>
 
-      {isEventCanUpdate && <hr></hr>}
+      {isEventCanUpdate && <hr style={{ margin: '10px 0 10px 0', padding: 0 }} />}
       <div
         style={{
           display: 'flex',
@@ -165,21 +179,22 @@ const EventPopUpModal = ({
                   navigator.clipboard.writeText(link);
                 }}
               >
-                <SvgCopy fill="#581845" width={18} height={18} />
+                <SvgCopy fill="#581845" width={16} height={16} />
               </button>
             </Tooltip>
           ) : null}
           {isEventCanUpdate && canEdit ? (
-            <button className={styles.icon} onClick={() => handleEditEvent()}>
-              <SvgEdit />
+            <button className={styles.icon} title='Edit' onClick={() => handleEditEvent()}>
+              <SvgEdit width={16} height={16} />
             </button>
           ) : null}
           {canEdit ? (
             <button
               className={styles.icon}
+              title='Delete'
               onClick={() => setOpenEventDeleteModal(true)}
             >
-              <SvgTrash />
+              <SvgTrash width={18} height={18} />
             </button>
           ) : null}
         </div>
@@ -188,33 +203,35 @@ const EventPopUpModal = ({
   );
 
   const PrivateEvent = (
-    <>
-      <p className={styles.title}>{title}</p>
+    <div className={styles.content}>
+      <Text size={13} className={styles.title}>
+        {title}
+      </Text>
       <div className={styles.info}>
-        <SvgInterviewCalendar size={20} />
+        <SvgInterviewCalendar size={14} />
         <div className={styles.infoText}>
-          <Text>{startDate.toString().slice(0, 15)}</Text>
-          <br />
-          <Text>{`${formatTo12HrClock(startDate)} to ${formatTo12HrClock(
+          <Text style={{ marginBottom: 3 }}>
+            {startDate.toString().slice(0, 15)}
+          </Text>
+          <Text>{`${formatTo12HrClock(startDate)} - ${formatTo12HrClock(
             endDate,
           )}`}</Text>
         </div>
       </div>
       <div className={styles.info}>
-        <SvgCalendar1 size={20} />
+        <SvgCalendar1 size={14} />
         <div className={styles.infoText}>
-          <Text>Calendar</Text>
-          <br />
+          <Text style={{ marginBottom: 3 }}>Calendar</Text>
           <Text>Synced by {syncedBy}</Text>
         </div>
       </div>
       <div className={styles.info}>
-        <SvgPrivate size={20} />
+        <SvgPrivate size={14} />
         <div className={styles.infoText} style={{ alignItems: 'center' }}>
-          <Text>Private Event</Text>
+          <Text style={{ marginBottom: 3 }}>Private Event</Text>
         </div>
       </div>
-    </>
+    </div>
   );
 
   return (
@@ -223,8 +240,9 @@ const EventPopUpModal = ({
         <div className={styles.eventPopUp}>
           <CrossButton
             onClick={handleCloseEventPopUpModal}
-            size={'14px'}
-            style={{ position: 'absolute', top: '12px', right: '12px' }}
+            size={10}
+            style={{ position: 'absolute', top: '12px', right: '15px', display: "flex", justifyContent: "center" }}
+            fill={'#333'}
           />
           {isZitaEvent ? ZitaEvent : PrivateEvent}
         </div>

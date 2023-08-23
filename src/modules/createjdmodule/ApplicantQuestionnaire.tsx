@@ -1,4 +1,4 @@
-import { Formik, FormikState } from 'formik';
+import { Formik, FormikState, FormikProps } from 'formik';
 import { SetStateAction, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
@@ -34,6 +34,7 @@ const initial: questionnaireProps = {
   required: '1',
   options: [],
 };
+
 type ParamsType = {
   jd_id: string;
 };
@@ -41,6 +42,7 @@ const ApplicantQuestionnaire = () => {
   const { jd_id } = useParams<ParamsType>();
   const history = useHistory();
   const [tabKey, setTabKey] = useState('0');
+  
   const { routerPrompt, onDirty, onPristine } = useUnsavedChangesWarning();
 
   const dispatch: AppDispatch = useDispatch();
@@ -165,7 +167,7 @@ const ApplicantQuestionnaire = () => {
   };
 
   return (
-    <Flex className={styles.overAll} height={window.innerHeight - 70}>
+    <Flex className={styles.overAll} height={window.innerHeight - 114}>
       <Flex row center className={styles.step}>
         <StepProgressBar titleclassName={styles.stepOne} roundFill barFilled />
         <StepProgressBar
@@ -185,10 +187,10 @@ const ApplicantQuestionnaire = () => {
           </Text>
         </Flex>
       </Flex>
-      <Card className={styles.cardOverAll}>
-        <Text size={16} bold className={styles.applicantTitle}>
+      <Flex className={styles.cardOverAll}>
+        {/* <Text size={16} bold className={styles.applicantTitle}>
           Applicant Questionnaire
-        </Text>
+        </Text> */}
         <Text>
           Add your own pre-screening questions or choose from our library for
           applicants to answer while applying for the job.
@@ -220,6 +222,7 @@ const ApplicantQuestionnaire = () => {
                   handleSubmit,
                   isValid,
                   dirty,
+                  
                 }) => (
                   <CreateNewQuestion
                     values={values}
@@ -234,7 +237,7 @@ const ApplicantQuestionnaire = () => {
                 )}
               </Formik>
             </Tab>
-            <Tab title={'Choose From Templates'} eventKey={'1'}>
+            <Tab title={'Choose From Templates'} eventKey={'1'} style={{justifyContent:"left"}} >
               <ChooseFromTemplates
                 template={template}
                 jdId={jd_id}
@@ -243,6 +246,7 @@ const ApplicantQuestionnaire = () => {
                 tabledataisLoading={tabledataisLoading}
                 onDirty={onDirty}
                 onPristine={onPristine}
+                
               />
             </Tab>
             <Tab title={'EEO Compliance (USA)'} eventKey={'2'}>
@@ -255,12 +259,12 @@ const ApplicantQuestionnaire = () => {
             </Tab>
           </Tabs>
         </div>
-      </Card>
+      </Flex>
       <AddedApplicantQuestionnaire
         tabledata={tabledata}
         jdId={jd_id}
         ds_role={ds_role}
-        onPristine={onPristine}
+        onPristine={onPristine}    
       />
       {routerPrompt}
     </Flex>

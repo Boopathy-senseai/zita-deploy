@@ -227,7 +227,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
       Toast('Changes saved successfully', 'LONG');
     });
   };
- 
+
   /// skip stages
   if (isLoading) {
     return <Loader />;
@@ -241,7 +241,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
           flexDirection: 'column',
           position: 'relative',
           height: '100%',
-          overflow: 'hidden',
+          // overflow: 'hidden',
         }}
       >
         <Flex column className={styles.bottomBorder}>
@@ -273,16 +273,16 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
               flexDirection: 'row',
               position: 'relative',
               flex: 1,
-              overflow: 'hidden',
+              // overflow: 'hidden',
               boxShadow: '0px 0px 2px 0px rgba(0, 0, 0, 0.36)',
-              padding: 28,
+              // padding: 28,
+              padding: '20px 28px 28px 28px',
               margin: '0 1px',
               borderRadius: 10,
             }}
           >
             <Flex
               flex={4}
-              style={{ height: "-webkit-fill-available"}}
               className={`${styles.columnGroup} ${styles.borderRightLine}`}
             >
               <Flex column start marginBottom={20}>
@@ -297,8 +297,9 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
                 column
                 style={{
                   overflowY: 'auto',
-                  maxHeight: '370px',
+                  maxHeight: '300px',
                   padding: '2px 2px',
+                  // marginBottom: "50px"
                 }}
               >
                 <StageCard
@@ -319,7 +320,6 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
             </Flex>
             <Flex
               flex={4}
-              style={{ height: "-webkit-fill-available"}}
               className={`${styles.columnGroup} ${styles.paddingLeft}`}
             >
               <Flex column start marginBottom={20}>

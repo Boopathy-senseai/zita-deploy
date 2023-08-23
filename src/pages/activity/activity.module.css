@@ -2,5 +2,105 @@
   margin-top: 16px;
 }
 .svgTextStyle {
-  margin-left: 8px;
+  margin-left: 12px;
+  white-space: nowrap;
+  width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+.svgTextStyle:hover {
+overflow: visible;
+white-space: wrap;
+}
+.cardHeadback{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+.activityProfile {
+  display: flex;
+  /* flex-direction: column; */
+  align-items: flex-start;
+  border-bottom: 1px solid #0a297175;
+  margin-bottom: 5px;
+  flex-wrap: wrap;
+}
+
+.activityDetails{
+  display: flex;
+}
+
+.detailsEmail{
+  display: flex;
+  flex-direction: column;
+  margin-top: -3px;
+}
+
+.overviewHistory{
+  border: 1px solid rgba(0,0,0,.125);
+  margin: 15px;
+  padding: 16px;
+  width: 100%;
+  border-radius: 5px;
+}
+
+.activitylogs{
+  display: flex;
+}
+
+.cardTab{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: 0.25rem;
+  }
+
+  .overviewBox{
+    background-color: #b3a6a6;
+    color: #fff;
+    padding: 7px 25px 7px 20px;
+    border: 0;
+    line-height: 22px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+  }
+
+
+  .profileStatus{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.textIcon{
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.secondaryBtn{
+  background-color: #DCD1D9;
+  border: 2px solid #DCD1D9;
+  padding: 6px;
+  border-radius: 5px;
+}
+
+/* cardHo:hover{
+  background-color: #EDE6EB;
+  box-shadow: 1px 1px 1px #EDE6EB;
+  border-left: 5px solid #581845;
+}
+
+.cardHo{
+  border: 1px solid #EDE6EB;
+  width: 135px;
+  box-shadow: 2px 2px 5px 1px #EDE6EB;
+} */

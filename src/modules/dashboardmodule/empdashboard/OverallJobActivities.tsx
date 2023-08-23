@@ -34,43 +34,54 @@ const OverallJobActivities = () => {
     { title: 'Invited to Apply', vallue: invite_to_apply },
     { title: 'New Applicants', vallue: applicants },
     { title: 'Shortlisted', vallue: shortlisted },
-    { title: 'Offered', vallue: selected },
+    { title: 'Hired', vallue: selected },
     { title: 'Rejected', vallue: rejected },
   ];
   return (
-
     <Flex>
       <Card className={styles.jobActivityCard}>
         <Flex className={styles.overall}>
-        <Text bold size={16}  className={styles.borderBottom} color='theme' >
-          Overall Job Activities
-        </Text>
-        
-
+          <Text bold size={14} className={styles.borderBottom}>
+            Overall Job Activities
+          </Text>
         </Flex>
-      
-        <Flex  className={styles.paddindelement}>
-        <table>
-          
-          {data.map((list, index) => {
-            return (
-            <tr style={{marginLeft: "10px"}} key={list.title}>
-              
-             <td><Flex marginLeft={30}><Text style={{marginTop:3}} >{list.title}</Text></Flex></td>
-                
-                <td style={{marginBottom: "4px"}}>
-                {/* <Flex>
+
+        <Flex className={styles.paddindelement}>
+          <table>
+            {data.map((list, index) => {
+              return (
+                <tr style={{ marginLeft: '10px' }} key={list.title}>
+                  <td>
+                    <Flex marginLeft={30}>
+                      <Text style={{ marginTop: 3, fontSize: '13px' }}>
+                        {list.title}
+                      </Text>
+                    </Flex>
+                  </td>
+
+                  <td style={{ marginBottom: '4px' }}>
+                    {/* <Flex>
                   <Button style={{ backgroundColor: "#EEE8EC", marginBottom: "10px" }} className={styles.buttondisable}>
                     <Text className={styles.valueStyle} style={{ color: "#581845" }} bold>{list.vallue}</Text>
                     </Button></Flex> */}
-                    <Flex className={styles.circleflexover} marginBottom={5} marginTop={6} marginRight={30}>
-                    <Text className={styles.valueStyle} style={{ color: "#581845" }} bold >{list.vallue}</Text>
+                    <Flex
+                      className={styles.circleflexover}
+                      marginBottom={5}
+                      marginTop={6}
+                      marginRight={30}
+                    >
+                      <Text
+                        className={styles.valueStyle}
+                        style={{ color: '#581845', fontSize: '13px' }}
+                        bold
+                      >
+                        {list.vallue}
+                      </Text>
                     </Flex>
-                    </td>
-              
-           </tr>
-            );
-          })}
+                  </td>
+                </tr>
+              );
+            })}
           </table>
         </Flex>
       </Card>

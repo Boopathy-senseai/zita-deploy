@@ -6,11 +6,9 @@ type Props = {
 };
 const MessageTopBar = ({ formik }: Props) => {
   return (
-    <InputText
-      // eslint-disable-next-line jsx-a11y/no-autofocus
-      autoFocus
-      id={'message_top_bar'}
-      textarea
+    <InputText 
+      id={'message_top_bar'} 
+      textarea 
       className={styles.textInput}
       value={formik.values.userMessage}
       onChange={formik.handleChange('userMessage')}

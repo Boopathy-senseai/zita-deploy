@@ -31,7 +31,7 @@ const StepProgressBar = ({
             roundeNonSelect: !roundFill,
           })}
         >
-          <Text bold size={18} color={roundFill ? 'white' : 'black'}>
+          <Text bold size={16} color={roundFill ? 'white' : 'black'}>
             {stepIndex}
           </Text>
         </div>

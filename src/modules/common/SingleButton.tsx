@@ -27,15 +27,9 @@ const SingleButton = ({
   return (
     <Modal open={open}>
       <Flex className={styles.overAll}>
-        <Flex end onClick={btnOnclick}>
-          <SvgCloseSmall />
-        </Flex>
+        
         <Flex row center className={styles.title}>
-          {svgTick ? (
-            <SvgTick fill={SUCCESS} />
-          ) : (
-            <SvgInfo height={22} width={22} />
-          )}
+          
           {typeof title === 'string' ? (
             <Text className={styles.titleText}>{title}</Text>
           ) : (

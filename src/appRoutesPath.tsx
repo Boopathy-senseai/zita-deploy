@@ -25,7 +25,7 @@ export const jobQuestionnaire = `${routesPath.JOBS}/questionnaire/:jd_id`;
 export const jobPreview = `${routesPath.JOBS}/preview/:jdId`;
 
 // profile view
-export const applicantProfileView = '/applicant_profile_view/:jdId/:candiId';
+export const applicantProfileView = '/applicant_profile_view/:jdId/:candiId'; 
 export const zitaMatchScreen = '/zita_match_candidate/:jdId';
 export const candidateProfileView = '/candidate_profile_view/:jdId/:candiId';
 export const applicantPipeLineScreen = '/applicant_pipe_line/:jdId';
@@ -47,3 +47,6 @@ export const applicantSource = `${routesPath.REPORTS}/applicant-source`;
 export const passivecandidate = `${routesPath.REPORTS}/passive-candidate`;
 export const jobMetrics = `${routesPath.REPORTS}/job-metrics`;
 export const sourcingPerformance = `${routesPath.REPORTS}/sourcing-performance`;
+
+// meeting scheduler
+export const meetingScheduler = `/meeting_scheduler`;

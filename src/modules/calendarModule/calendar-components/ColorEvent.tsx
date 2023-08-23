@@ -1,5 +1,6 @@
 import { getColor } from '../colors';
 import { formatEventTitle } from '../util';
+import styles from '../styles/CalendarComponents.module.css';
 
 const ColorEvent = ({ event }: any) => {
   let color = getColor(event.userId);

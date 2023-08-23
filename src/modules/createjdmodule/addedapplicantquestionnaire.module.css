@@ -1,9 +1,9 @@
-.cardOverAll {
+/* .cardOverAll {
   padding: 16px;
-}
+} */
 .applicantTitle {
   border-bottom: 2px solid var(--color-gary-7, #dfdfdf);
-  padding-bottom: 16px;
+  padding-bottom: 8px;
   margin-bottom: 8px;
 }
 .tableDiv {
@@ -11,7 +11,19 @@
 }
 .btnContainer {
   margin-top: 20px;
+  position: absolute;
+  bottom: 10px;
+  right: 0;
+  left: 2px;
+  /* border-top: 1px solid #dfdfdf; */
+  padding: 5px;
+  margin-left: 9px;
+  background-color: #ffffff;
 }
 .saveBtn {
   margin: 0 16px;
+}
+.leftAlign{
+  display: flex;
+  justify-content: left;
 }

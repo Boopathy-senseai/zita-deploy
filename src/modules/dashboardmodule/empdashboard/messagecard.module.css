@@ -1,24 +1,23 @@
 .msgText {
-
   border-bottom: 0.5px solid #581845;
   padding: 4px 2px;
-  
   margin-left: 10px;
   margin-right: 10px;
 }
 .profileStyle {
-  height: 40px;
-  width: 40px;
+  height: 32px;
+  width: 32px;
   border-radius: 100%;
   box-sizing: border-box;
   -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
   -moz-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
   box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.36);
-   margin-bottom: 10px;
+  /* margin-bottom: 10px; */
+   margin-top: 4px; 
+  font-size: 14px;
   align-items: center;
   position: relative;
   background-color: #fff;
-  
 }
 /* .overAll{
   box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
@@ -33,7 +32,7 @@
   -moz-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%); */
   margin-bottom: 1px solid #581845;
 }
-.mesgListCard:hover {
+.overAll:hover {
   box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.55);
   -webkit-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.55);
   -moz-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.55);
@@ -43,7 +42,7 @@
 .scrollStyle {
   overflow-y: scroll;
   height: 450px;
-  padding: 16px;
+  padding: 5px 16px;
 }
 .noContent {
   align-self: center;
@@ -56,15 +55,15 @@
   border-radius: 100%;
   z-index: 0;
   display: flex;
-  height: 14px;
-  width: 14px;
+  height: 18px;
+  width: 18px;
   justify-content: center;
   align-items: center;
 }
-.overAll{
+.overAll {
   width: auto;
   height: 295px;
-  margin-top: 5px;
+  /* margin-top: 5px; */
   margin-right: 5 px;
 }
 /* .line{
@@ -72,21 +71,21 @@
  
 
 } */
-.borderbottom{
-  border-bottom: 1px solid #C3C3C3;
+.borderbottom {
+  border-bottom: 1px solid #c3c3c3;
   margin-top: 5px;
   margin-bottom: 5px;
 }
 
-.messagesizereducer{
+.messagesizereducer {
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap; 
-  /* width: 655px;  */
+  white-space: nowrap;
+  width: 380px;
 }
 .readStyle {
-   width: 8px;
-   height: 8px;
-   background-color: #581845 !important;
-   border-radius: 100%;
-  }
+  width: 8px;
+  height: 8px;
+  background-color: #581845 !important;
+  border-radius: 100%;
+}
