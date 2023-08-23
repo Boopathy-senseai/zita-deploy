@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import { Editor } from '@tinymce/tinymce-react';
 import Select from 'react-select';
@@ -91,6 +91,7 @@ const Newmessage = ({
   const [attachfile, setAttachfile] = useState([]);
   const [templatemodel, settemplatemodel] = useState(false);
   const [loader, setloader] = useState(false);
+  const fileInputRef = useRef(null);
 
   const [Email, setEMail] = useState([
     { value: 'sridharc@sense7ai.com', label: 'sridharc@sense7ai.com' },
@@ -153,6 +154,10 @@ const Newmessage = ({
 
   const [messagebody, setMessagebody] = useState('');
 
+  const removeref = () => {
+    fileInputRef.current.value = null;
+  };
+
   const replaymail = () => {
     if (integration === 'outlook') {
       if (replaymsg !== '') {
@@ -199,7 +204,7 @@ const Newmessage = ({
         }
       }
       var Gsub = `Re: ${subjects}`;
-      formik.setFieldValue('userMessage', replaymsg.body);
+      // formik.setFieldValue('userMessage', replaymsg.body);
       setSubject(Gsub);
     }
   };
@@ -332,7 +337,7 @@ const Newmessage = ({
         }
 
         var sub = `Re: ${replaymsg.subject}`;
-        formik.setFieldValue('userMessage', replaymsg.body.content);
+        // formik.setFieldValue('userMessage', replaymsg.body.content);
         setTosample(to);
         setCcsample(cc);
         setBccsample(bcc);
@@ -349,7 +354,7 @@ const Newmessage = ({
         ).value;
         var Gsub = `Re: ${subjects}`;
         setSubject(Gsub);
-        formik.setFieldValue('userMessage', replaymsg.body);
+        //formik.setFieldValue('userMessage', replaymsg.body);
         const ToEmails = replaymsg.header
           .filter((header) => header.name === 'To')
           .map((header) => header.value);
@@ -583,7 +588,7 @@ const Newmessage = ({
   const outlookreplay = async () => {
     await mailreplay(authProvider, replaymsg.id, outlook_replay_props)
       .then((res) => {
-        Toast('message send successfully', 'LONG', 'success');
+        Toast('Message send successfully', 'LONG', 'success');
         clearform();
       })
       .catch((error) => {});
@@ -592,7 +597,7 @@ const Newmessage = ({
   const outlookforward = async () => {
     await mailforward(authProvider, replaymsg.id, outlook_forward_props)
       .then((res) => {
-        Toast('message send successfully', 'LONG', 'success');
+        Toast('Message send successfully', 'LONG', 'success');
         clearform();
       })
       .catch((error) => {});
@@ -601,7 +606,7 @@ const Newmessage = ({
   const outlookreplayall = async () => {
     await mailreplayall(authProvider, replaymsg.id, replyAll_props)
       .then((res) => {
-        Toast('message send successfully', 'LONG', 'success');
+        Toast('Message send successfully', 'LONG', 'success');
         clearform();
       })
       .catch((error) => {});
@@ -617,19 +622,21 @@ const Newmessage = ({
     setBccsample([]);
     setTosample([]);
     setFile([]);
+    setfaildfile([]);
     formik.resetForm();
     onClose();
     setstyle(0);
     setopenCc(false);
     setopenBcc(false);
     updateMailaction('compose');
+    setloader(false);
   };
 
   const selectfile = (e: any) => {
-    const filterFileGreter = [...e.target.files].filter(
+    const filterFileGreter = [...fileInputRef.current.files].filter(
       (item) => item.size > 10000000,
     );
-    const filterFileles = [...e.target.files].filter(
+    const filterFileles = [...fileInputRef.current.files].filter(
       (item) => item.size < 10000000,
     );
 
@@ -997,7 +1004,7 @@ const Newmessage = ({
       .then(async () => {
         await Gmail_Reply_forward(rawMessage)
           .then((res) => {
-            Toast('message send successfully', 'LONG', 'success');
+            Toast('Message send successfully', 'LONG', 'success');
             clearform();
           })
           .catch((error) => {
@@ -1277,6 +1284,7 @@ const Newmessage = ({
                     style={{ margin: '10px 5px' }}
                     className={styles.filesContainer}
                   >
+                    {console.log('fileeee', file)}
                     {file.length !== 0 &&
                       file.map((list, index) => (
                         <Flex
@@ -1426,11 +1434,13 @@ const Newmessage = ({
                       <label style={{ cursor: 'pointer', marginTop: '5px' }}>
                         <Upload width="19px" height="19px" fill="#581845" />
                         <input
+                          ref={fileInputRef}
                           type="file"
                           style={{ display: 'none' }}
                           multiple
                           //onChange={selectfile}
                           onChange={(files) => selectfile(files)}
+                          onClick={removeref}
                           accept=".doc,.docx,.pdf,.txt,.svg,.png,.jpeg,.jpg"
                         />
                       </label>

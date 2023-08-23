@@ -120,9 +120,10 @@ const AccountSettingsScreen = ({ value }: props) => {
       dispatch(googleCallbackMiddleware({ codeUrl: code })).then((res) => {
         console.log('---', res);
         // window.close();
+
         history.push('/account_setting/settings');
         dispatch(getEmail());
-        // window.location.reload();
+        window.location.reload();
       });
     } else if (url.searchParams.get('session_state')) {
       // Outlook

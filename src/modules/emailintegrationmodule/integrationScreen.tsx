@@ -121,7 +121,7 @@ const EmailScreen = () => {
     ) {
       outlooktoken(emailcollection.token);
     }
-  }, [emailcollection]);
+  }, [emailcollection, sideroute]);
 
   const updateMailaction = (val) => {
     setMailaction(val);

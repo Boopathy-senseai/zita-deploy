@@ -18,6 +18,7 @@ import {
   Gmail_Mails,
   getsearchmail,
   Gmail_search,
+  outlooktoken,
 } from '../../emailService';
 import Loader from '../../uikit/Loader/Loader';
 import styles from './maillist.module.css';
@@ -105,6 +106,8 @@ const Maillist = ({
     if (message.id !== id) {
       if (integration === 'google') {
         getmessageid(id);
+        removemsg();
+        setmesage(get);
       } else if (integration === 'outlook') {
         removemsg();
         setmesage(get);
@@ -116,7 +119,7 @@ const Maillist = ({
 
   const serch = async () => {
     if (search !== '' && integration === 'outlook') {
-      await getsearchmail(
+      getsearchmail(
         authProvider,
         searchSection,
         search.trim(),
@@ -172,15 +175,35 @@ const Maillist = ({
   const showfolder = () => {
     if (integration === 'google') {
       if (sideroute === 1) {
-        return <Text bold>{`Inbox (${gmailunread})`}</Text>;
+        return (
+          <Text bold>
+            {gmailunread === 0 ? 'Inbox' : `Inbox (${gmailunread})`}
+          </Text>
+        );
       } else if (sideroute === 2) {
-        return <Text bold>{`Sent (${gmailunread})`}</Text>;
+        return (
+          <Text bold>
+            {gmailunread === 0 ? 'Sent' : `Sent (${gmailunread})`}
+          </Text>
+        );
       } else if (sideroute === 3) {
-        return <Text bold>{`Draft (${gmailunread})`}</Text>;
+        return (
+          <Text bold>
+            {gmailunread === 0 ? 'Draft' : `Draft (${gmailunread})`}
+          </Text>
+        );
       } else if (sideroute === 4) {
-        return <Text bold>{`Spam (${gmailunread})`}</Text>;
+        return (
+          <Text bold>
+            {gmailunread === 0 ? 'Spam' : `Spam (${gmailunread})`}
+          </Text>
+        );
       } else if (sideroute === 5) {
-        return <Text bold>{`Trash (${gmailunread})`}</Text>;
+        return (
+          <Text bold>
+            {gmailunread === 0 ? 'Trash' : `Trash (${gmailunread})`}
+          </Text>
+        );
       }
     } else if (integration === 'outlook') {
       if (mailfolders.length !== 0) {
@@ -391,6 +414,8 @@ const Maillist = ({
           <Flex className={styles.notification_dot}></Flex>
         </>
       );
+    } else {
+      return <> </>;
     }
   };
 
@@ -430,12 +455,15 @@ const Maillist = ({
 
         <Flex row center>
           {sidebarroute !== 0 && <></>}
-          <Flex title="Refresh" style={{ padding: '6px' }}>
+          {/* <Flex title="Refresh" style={{ padding: '6px' }}>
             <SvgRefresh width={18} height={18} onClick={referesh} />
-          </Flex>
+          </Flex> */}
         </Flex>
       </Flex>
-      <Flex style={{ overflowY: 'auto' }} id="scrollableDiv">
+      <Flex
+        style={{ overflowY: 'auto', overflowX: 'hidden' }}
+        id="scrollableDiv"
+      >
         <InfiniteScroll
           dataLength={messagelist.length}
           next={process}
@@ -466,28 +494,37 @@ const Maillist = ({
 
                         <Flex
                           style={{
-                            marginLeft: val.isRead ? '20px' : '10px',
-                            width: 'calc(100% - 20px)',
+                            marginLeft:
+                              val &&
+                              typeof val === 'string' &&
+                              val.includes('UNREAD')
+                                ? '10px'
+                                : '10px',
+                            width: '92%',
                             display: 'flex',
                           }}
                         >
                           <Flex
-                            column
-                            start
+                            row
                             between
-                            style={{ display: 'flex', flexDirection: 'column' }}
+                            style={{
+                              display: 'flex',
+                              flexDirection: 'row',
+                              maxWidth: '300px',
+                            }}
                           >
-                            <Flex row between>
-                              <Text className={styles.textHeadingStyle}>
-                                {getfrom(val.payload.headers, val)}
-                              </Text>
-                              <Text size={12}>{date(val.payload.headers)}</Text>
-                            </Flex>
-
-                            <Text size={14} className={styles.textHeadingStyle}>
-                              {getsubject(val.payload.headers)}
+                            <Text
+                              className={styles.textHeadingStyle}
+                              style={{ maxWidth: '70%' }}
+                            >
+                              {getfrom(val.payload.headers, val)}
                             </Text>
+                            <Text size={12}>{date(val.payload.headers)}</Text>
                           </Flex>
+
+                          <Text size={14} className={styles.textHeadingStyle}>
+                            {getsubject(val.payload.headers)}
+                          </Text>
                           <Flex>
                             <Text className={styles.textStyle} size={12}>
                               {val.snippet}
