@@ -1730,7 +1730,7 @@ const DayTimeSplit = (props) => {
             monday.map((x,i) => {
               if(i === 0){
               return(
-              <Flex row center flex={1} >
+              <Flex row center flex={1} key= {i} >
                 <Flex row className={styles.align}>
                   <div className={styles.selectTag} onFocus={() => ErrMessage(DayStart)} >
                     <SelectTag
@@ -1939,6 +1939,7 @@ const DayTimeSplit = (props) => {
                 row
                 center
                 flex={1}
+                key= {i}
                 style={{ marginBottom: tuesday.length > 1 ? '10px' : '0px' }}
               >
                 <Flex row className={styles.align}>
@@ -2138,6 +2139,7 @@ const DayTimeSplit = (props) => {
                 row
                 center
                 flex={1}
+                key= {i}
                 style={{ marginBottom: wednesday.length > 1 ? '10px' : '0px' }}
               >
                 <Flex row>
@@ -2352,6 +2354,7 @@ const DayTimeSplit = (props) => {
                 row
                 center
                 flex={1}
+                key= {i}
                 style={{ marginBottom: thursday.length > 1 ? '10px' : '0px' }}
               >
                 <Flex row className={styles.align}>
@@ -2546,6 +2549,7 @@ const DayTimeSplit = (props) => {
                 row
                 center
                 flex={1}
+                key= {i}
                 style={{ marginBottom: friday.length > 1 ? '10px' : '0px' }}
               >
                 <Flex row className={styles.align}>
@@ -2754,6 +2758,7 @@ const DayTimeSplit = (props) => {
                 row
                 center
                 flex={1}
+                key= {i}
                 style={{ marginBottom: saturday.length > 1 ? '10px' : '0px' }}
               >
                 <Flex row className={styles.align}>

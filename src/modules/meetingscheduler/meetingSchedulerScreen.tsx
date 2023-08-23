@@ -17,6 +17,7 @@ import SvgScheduler from '../../icons/SvgScheduler';
 import styles from './meetingSchedulerScreen.module.css';
 import ScheduledEventsPage from './scheduledevents/scheduledEvents';
 import EventScheduler from './events/EventScheduler';
+import CalendarEventsPage from './calendarEvents/calendarEvents';
 
 type ParamsType = {
   itemId: string;
@@ -84,15 +85,15 @@ const MeetingSchedulerScreen = ({ value }: props) => {
       <Flex column height={'100%'} style={{display:"flex", paddingBottom: 10}}>
         <Flex row center className={styles.overallhead}>
           <Flex row center>
-            <Flex center marginLeft={20}>
+            {/* <Flex center marginLeft={20}>
               <SvgScheduler />
-            </Flex>
+            </Flex> */}
             <Flex>
               <Text
                 bold
                 size={16}
-                style={{ marginLeft: 8, color: '#581845' }}
-                className={styles.postingcl}
+                style={{ marginLeft: 8, color: '#581845' ,paddingTop:"9px",}}
+                className={styles.ribbon}
               >
                 Meeting Scheduler
               </Text>
@@ -125,8 +126,11 @@ const MeetingSchedulerScreen = ({ value }: props) => {
               <Tab title={'Events Schedular'} eventKey={'0'}>
                 {tabKey === '0' && <EventScheduler />}
               </Tab>
-              <Tab title={'Scheduled Events'} eventKey={'1'}>
+              <Tab title={'Slotter Events'} eventKey={'1'}>
                 {tabKey === '1' && <ScheduledEventsPage />}
+              </Tab>
+              <Tab title={'Calendar Events'} eventKey={'2'}>
+                {tabKey === '2' && <CalendarEventsPage />}
               </Tab>
             </Tabs>
           </Flex>

@@ -308,7 +308,7 @@ const MeetingSchedulingForm = ({
         startTime: {
           ...form.startTime,
           value: null,
-          errorMessage: 'start time must be less then end time',
+          errorMessage: 'Start time must be less then end time',
         },
       }));
     } else {
@@ -340,7 +340,7 @@ const MeetingSchedulingForm = ({
         endTime: {
           ...form.endTime,
           value,
-          errorMessage: 'end time must be greated than start time',
+          errorMessage: 'End time must be greated than start time',
         },
       }));
     } else {
@@ -458,10 +458,10 @@ const MeetingSchedulingForm = ({
           placeholder="Select Applicant"
           isSearchable={true}
           labelBold
+          options={applicants}
           onChange={(option) =>
             handleSelectApplicant(option.value, option.label, option.email)
           }
-          options={applicants}
         />
       )}
       {console.log(meetingForm.applicant.error,'meetingForm.applicant.error')}
@@ -523,7 +523,7 @@ const MeetingSchedulingForm = ({
           value={meetingForm.date.value}
           onChange={handleChangeDate}
           renderInput={(params) => (
-            <TextField {...params} style={{ width: 'auto !important' }} />
+            <TextField {...params} style={{ width: 'auto !important'}} />
           )}
         />
       </LocalizationProvider>
@@ -535,7 +535,9 @@ const MeetingSchedulingForm = ({
 
   const TimingView = (
     <div>
-      <label className={styles.label}>Time *</label>
+      <label className={styles.label} >Time *</label>
+      <Flex >
+        <Flex>
       <div className={styles.timeInputWrapper}>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -546,9 +548,9 @@ const MeetingSchedulingForm = ({
               className={styles.timeInput}
             />
           </LocalizationProvider>
-          {meetingForm.startTime.errorMessage && (
-            <p className={styles.warn}>{meetingForm.startTime.errorMessage}</p>
-          )}
+          {meetingForm.startTime.errorMessage!=="Start time must be less then end time" && <>
+            <p className={styles.warn}  style={{marginTop:"3px"}}>{meetingForm.startTime.errorMessage}</p></>
+          }
         </div>
         <p
           className={styles.to}
@@ -556,12 +558,13 @@ const MeetingSchedulingForm = ({
             marginBottom:
               meetingForm.startTime.errorMessage ||
               meetingForm.endTime.errorMessage
-                ? '20px'
+                ? '10px'
                 : 0,
           }}
         >
           to
         </p>
+      
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <TimePicker
@@ -570,11 +573,22 @@ const MeetingSchedulingForm = ({
               renderInput={(params) => <TextField {...params} />}
             />
           </LocalizationProvider>
-          {meetingForm.endTime.errorMessage && (
-            <p className={styles.warn}>{meetingForm.endTime.errorMessage}</p>
-          )}
+          {meetingForm.endTime.errorMessage!=='End time must be greated than start time' && 
+          <>
+            <p className={styles.warn}  style={{marginTop:"3px"}}>{meetingForm.endTime.errorMessage}</p></>
+          }
         </div>
-      </div>
+      </div></Flex>
+      <Flex>
+      {meetingForm.startTime.errorMessage==="Start time must be less then end time" && <>
+            <p className={styles.warn}  style={{marginTop:"12px"}}>{meetingForm.startTime.errorMessage}</p></>
+          }
+          {meetingForm.endTime.errorMessage==='End time must be greated than start time' && 
+          <>
+            <p className={styles.warn} style={{marginTop:"12px"}}>{meetingForm.endTime.errorMessage}</p></>
+          }
+      </Flex>
+      </Flex>
     </div>
   );
 
@@ -850,7 +864,7 @@ const MeetingSchedulingForm = ({
           className={styles.formTitle}
           style={{ marginBottom: '5px' }}
         >
-          Schedule Meeting
+          Schedule Events
         </Text>
       </Flex>
       <div className={styles.meetingForm}>

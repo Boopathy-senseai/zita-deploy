@@ -87,8 +87,8 @@
 }
 
 .meetingForm {
-  background-color: white;
-  max-height: 549px;
+  /* background-color: white; */
+  max-height: 550px;
   height: 100%;
   border-radius: 4px;
   width: 700px;
@@ -97,7 +97,7 @@
   grid-template-columns: [one] 1fr [two] 1fr [three];
   grid-template-rows: auto;
   grid-gap: 20px 20px;
-  padding: 25px;
+  padding: 15px 25px;
   overflow: auto;
   /* margin-top: 15px; */
 }
@@ -105,6 +105,7 @@
 .timeInputWrapper {
   display: flex;
   align-items: flex-start;
+  height: 20px !important;
 }
 
 .timeInputWrapper .to {

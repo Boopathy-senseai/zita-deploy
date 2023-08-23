@@ -110,7 +110,7 @@ const MyDatabaseChart = ({
   return (
     <Card className={styles.overAll}>
       <Text bold size={14} style={{color:'#581845'}}>
-        My Database
+        Database
       </Text>
       {(Array.isArray(my_database) &&
         my_database.length !== 0 &&
@@ -124,8 +124,8 @@ const MyDatabaseChart = ({
         />
       ) : (
         <Flex flex={1} center middle style={{display:"flex"}}>
-         <SvgNoData width={15} style={{filter:"opacity(0.5)"}} />
-          <Text color="gray">No Data Available</Text>
+         <SvgNoData width={16} height={16} fill={"#888888"}/>
+          <Text style={{marginTop:"2px"}} size={13} color="placeholder">No data available</Text>
         </Flex>
       )}
     </Card>

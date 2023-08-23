@@ -85,9 +85,9 @@ const ScreeningStatusTab = ({ title, issingletab }: Props) => {
                   {doc.is_interested === null
                     ? 'Invited'
                     : '' || doc.is_interested === true
-                    ? 'Intrested'
+                    ? 'Candidate responded as "Interested"'
                     : '' || doc.is_interested === false
-                    ? 'Not Intrested'
+                    ? 'Candidate responded as "Not Interested"'
                     : ''}{' '}
                   on {getDateString(doc && doc.created_at, 'll')}
                 </Text>

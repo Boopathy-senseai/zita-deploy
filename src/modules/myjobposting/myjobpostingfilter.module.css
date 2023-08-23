@@ -15,9 +15,9 @@
 }
 .jobTextStyle {
   
-   color: #581845;
-  font-Weight: 600; 
-  font-Size: 14px;
+   /* color: #581845; */
+  font-Weight: bold; 
+  font-Size: 13px;
 }
 .matchRadioStyle {
   margin-bottom: 8px;
@@ -110,7 +110,7 @@ font-weight: 400;
   position: absolute;
   background-color: var(--color-white, #fff);
   border-radius: 12px;
-  max-height:375px ;
+  max-height:480px ;
   overflow-y: scroll;
   width: 230px;
   display: none;
@@ -118,7 +118,7 @@ font-weight: 400;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.47000000000000003);
   -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.47);
   scrollbar-width: thin;
-  z-index: 1;
+  z-index: 100;
   
 }
 
@@ -137,7 +137,7 @@ font-weight: 400;
 .mtstyle {
   color: #581845 !important;
   border-top: 1px solid #dee2e6;
-  padding: 15px;
+  padding: 12px;
   
 }
  
@@ -149,17 +149,19 @@ font-weight: 400;
   border-radius: 16px;
 }
 .quickfil {
-  border-style: solid;
-  border: 2px solid #a5889c;
-  cursor: pointer;
-  margin-left: 15px;
-  padding-left: 10.5px;
-  padding-top: 5px;
-  padding-bottom: 5.27px;
-  padding-right: 15px;
-  border-radius: 16px;
-  color: #581845;
-}
+  
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 10px 2px 10px;
+  width: fit-content;
+  border: 1px solid #581845;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  font-size: 13px !important;
+ 
+ }
 .checkboxalign{
   flex-wrap: wrap;
   /* width: 230px; */
@@ -176,15 +178,7 @@ font-weight: 400;
   border-radius: 16px;
   color: #581845;
 }
-.quickfil2 {
-  font-style: normal;
-  font-weight: 300;
-  font-size: 15px;
-  line-height: 14px;
-  display: flex;
-  align-items: center;
-  color: #581845;
-}
+
 .stylesvg {
   margin-left: 10px;
 }
@@ -202,6 +196,14 @@ font-weight: 400;
 .selectoptions{ 
  margin-top: 5px;
 }
- 
+.filterContainers{
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 0;
+  position: sticky;
+  background-color: #fff;
+}
 
  

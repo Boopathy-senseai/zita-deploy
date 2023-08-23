@@ -205,11 +205,19 @@ const EmailAdd = ({
         .catch(() => {
           setLoader(false);
           Toast(
-            'Email udated request failed. Please try again',
+            'Email updated request failed. Please try again',
             'SHORT',
             'error',
           );
-        });
+        }).then(()=>{
+          dispatch(
+            bulkuploadedCandidatesMiddleWare({
+              search: searchValue, 
+              jd_id:jdId,
+              page: pageNumber + 1,
+            }),
+          )
+        })
     } else {
       setError(true);
     }

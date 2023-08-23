@@ -167,7 +167,7 @@ const ApplicantQuestionnaire = () => {
   };
 
   return (
-    <Flex className={styles.overAll} height={window.innerHeight - 70}>
+    <Flex className={styles.overAll} height={window.innerHeight - 114}>
       <Flex row center className={styles.step}>
         <StepProgressBar titleclassName={styles.stepOne} roundFill barFilled />
         <StepProgressBar
@@ -237,7 +237,7 @@ const ApplicantQuestionnaire = () => {
                 )}
               </Formik>
             </Tab>
-            <Tab title={'Choose From Templates'} eventKey={'1'}>
+            <Tab title={'Choose From Templates'} eventKey={'1'} style={{justifyContent:"left"}} >
               <ChooseFromTemplates
                 template={template}
                 jdId={jd_id}
@@ -246,6 +246,7 @@ const ApplicantQuestionnaire = () => {
                 tabledataisLoading={tabledataisLoading}
                 onDirty={onDirty}
                 onPristine={onPristine}
+                
               />
             </Tab>
             <Tab title={'EEO Compliance (USA)'} eventKey={'2'}>

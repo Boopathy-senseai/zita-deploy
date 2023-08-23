@@ -14,7 +14,12 @@ import { Flex } from '../uikit';
 axios.defaults.headers.common['Authorization'] =
   'Token ' + localStorage.getItem('token');
 
-const ProtectedRoute = ({ isside, notIsNav, component: Component, ...rest }) => {
+const ProtectedRoute = ({
+  isside,
+  notIsNav,
+  component: Component,
+  ...rest
+}) => {
   const history = useHistory();
   const location = useLocation();
   const [sidebar, setSidebar] = useState(false);
@@ -51,107 +56,118 @@ const ProtectedRoute = ({ isside, notIsNav, component: Component, ...rest }) => 
       history.push(`${query.redirect}`);
     }
   }, [location.pathname]);
- 
+  const url = window.location.href;
+  const applicantpipelineUrl = url.includes('applicant_pipe_line');
+  // console.log(applicantpipelineUrl);
   return (
     <>
-    <Route
-      {...rest}
-      render={(props) => {
-        if (localStorage.getItem('token') !== null) {
-          return (
-            <div
-              style={{
-                position: 'relative',
-                display: 'flex',
-                flexDirection: 'column',
-                width: '100%',
-                height: '100%',
-                overflow: "hidden",
-              }}
-            >
+      <Route
+        {...rest}
+        render={(props) => {
+          if (localStorage.getItem('token') !== null) {
+            return (
               <div
-                className={isside?'container-fluid':''}
                 style={{
                   position: 'relative',
                   display: 'flex',
                   flexDirection: 'column',
                   width: '100%',
                   height: '100%',
-                  overflow: "hidden",
+                  overflow: 'hidden',
                 }}
               >
-                <div class="row">
-                  {notIsNav && <NavBar update={updatepassword} />}
-                </div>
                 <div
+                  className={isside ? 'container-fluid' : ''}
                   style={{
                     position: 'relative',
                     display: 'flex',
                     flexDirection: 'column',
+                    width: '100%',
                     height: '100%',
-                    flex: 1,
-                    overflow: "hidden",
-                    paddingTop:isside? 62:'',
-                    // paddingBottom: 14,
+                    overflow: 'hidden',
                   }}
                 >
+                  <div class="row">
+                    {notIsNav && <NavBar update={updatepassword} />}
+                  </div>
                   <div
                     style={{
                       position: 'relative',
                       display: 'flex',
-                      flexDirection: 'row',
-                      width: '100%',
+                      flexDirection: 'column',
                       height: '100%',
-                      overflow: "hidden",
+                      flex: 1,
+                      overflow: 'hidden',
+                      paddingTop: isside ? 62 : '',
+                      // paddingBottom: 14,
                     }}
                   >
-                    {isside &&
-                      <div
-                        className={
-                          sidebar === false ? styles.model : styles.model1
-                        }
-                      >
-                        <Sidebar data={handlefunction} changes={unsavealert} />
-                      </div>}
-                    <div
 
+                    <div
                       style={{
                         position: 'relative',
                         display: 'flex',
-                        flexDirection: 'column',
-                        flex: 1,
-                        height: "-webkit-fill-available",
-                        paddingLeft:'10px'
-                      }}
+                        flexDirection: 'row',
+                        width: '100%',
+                        height: '100%',
+                        overflow: 'hidden'}}
+
                     >
-                      <Component {...rest} {...props} value={changeurlpopup} />
-                      <div>
-                        <UserProfile
-                          value={passwordupdate}
-                          update={updatepassword}
+                      {isside && (
+                        <div
+                          className={
+                            sidebar === false ? styles.model : styles.model1
+                          }
+                        >
+                          <Sidebar
+                            data={handlefunction}
+                            changes={unsavealert}
+                          />
+                        </div>
+                      )}
+                      <div
+                        style={{
+                          position: 'relative',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          flex: 1,
+                          height: '-webkit-fill-available',
+                          paddingLeft:isside?10:0,
+                          overflow : applicantpipelineUrl ? "auto" : "hidden",
+                        }}
+                      >
+                        <Component
+                          {...rest}
+                          {...props}
+                          value={changeurlpopup}
                         />
+                        <div>
+                          <UserProfile
+                            value={passwordupdate}
+                            update={updatepassword}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          );
-        } else {
-          return (
-            <Redirect
-              to={{
-                pathname: `/login/?next=${props.location.pathname}`,
-                state: {
-                  from: props.location,
-                },
-              }}
-            />
-          );
-        }
-      }}
-    />
-    {console.log("1212",sidebar)}
+            );
+          } else {
+            return (
+              <Redirect
+                to={{
+                  pathname: `/login/?next=${props.location.pathname}`,
+                  state: {
+                    from: props.location,
+                  },
+                }}
+              />
+            );
+          }
+        }}
+      />
+      {console.log('1212', sidebar)}
     </>
   );
 };

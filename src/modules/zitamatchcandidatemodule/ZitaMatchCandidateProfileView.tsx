@@ -177,7 +177,7 @@ const ZitaMatchCandidateProfileView = ({
   }
   return (
     <Flex>
-      {isInviteLoader && <Loader />}
+      {/* {isInviteLoader && <Loader />} */}
 
       {invite && invite.length === 0 && (
         <CancelAndDeletePopup

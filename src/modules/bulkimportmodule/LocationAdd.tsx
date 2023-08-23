@@ -14,7 +14,10 @@ import Loader from '../../uikit/Loader/Loader';
 import Text from '../../uikit/Text/Text';
 import Toast from '../../uikit/Toast/Toast';
 import { config } from '../constValue';
-import { applicantcandidateMatchMiddleWare, candidateMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
+import {
+  applicantcandidateMatchMiddleWare,
+  candidateMatchMiddleWare,
+} from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { EmpPoolEntity } from './bulkImportTypes';
 import { bulkuploadedCandidatesMiddleWare } from './store/middleware/bulkImportMiddleware';
 import styles from './valueAddName.module.css';
@@ -50,6 +53,7 @@ const LocationAdd = ({
 }: Props) => {
   const [isInput, setInput] = useState(false);
   const [isLoader, setLoader] = useState(false);
+  const [hasBeenModified, setHasBeenModified] = useState(false);
   const myRef = createRef<any>();
   const dispatch: AppDispatch = useDispatch();
 
@@ -73,113 +77,221 @@ const LocationAdd = ({
   const handleCellSubmit = (event: any, id: number) => {
     event.preventDefault();
     setLoader(true);
-    const data = querystring.stringify({
-      pk: id,
-      name: 'location',
-      value: formik.values.name,
-    });
 
-    axios
-      .post(uploadedCandidatesApi, data, config)
-      .then(() => {
-        dispatch(
-          candidateMatchMiddleWare({ 
-            can_id: id.toString(),
-          }),
-        )
-        if (tabKey === 'total') {
-           if(jdId === undefined){
-          dispatch(
-            bulkuploadedCandidatesMiddleWare({
-              search: searchValue,
-              page: pageNumber + 1,
-              total:total_count
-            }),
-          ).then(() => {
-            Toast('Location updated successfully', 'LONG', 'success');
-            setInput(false);
-            setLoader(false);
-          });
-        }else{
-              dispatch(
-            bulkuploadedCandidatesMiddleWare({
-              search: searchValue,
-              jd_id:jdId,
-              page: pageNumber + 1,
-              total:total_count
-            }),
-          ).then(() => {
-            Toast('Location updated successfully', 'LONG', 'success');
-            setInput(false);
-            setLoader(false);
-          });
-        }
-        }
-        if (tabKey === 'completed') {
-          if(jdId === undefined){
-          dispatch(
-            bulkuploadedCandidatesMiddleWare({
-              search: searchValue,
-              page: pageNumber + 1,
-              completed,
-            }),
-          ).then(() => {
-            Toast('Location updated successfully', 'LONG', 'success');
-            setInput(false);
-            setLoader(false);
-          });
-        }else{
-           dispatch(
-            bulkuploadedCandidatesMiddleWare({
-              search: searchValue,
-              jd_id:jdId,
-              page: pageNumber + 1,
-              completed,
-            }),
-          ).then(() => {
-            Toast('Location updated successfully', 'LONG', 'success');
-            setInput(false);
-            setLoader(false);
-          });
-        }
-        }
-        if (tabKey === 'inCompleted') {
-          if(jdId === undefined){
-          dispatch(
-            bulkuploadedCandidatesMiddleWare({
-              search: searchValue,
-              page: pageNumber + 1,
-              incompleted,
-            }),
-          ).then(() => {
-            Toast('Location updated successfully', 'LONG', 'success');
-            setInput(false);
-            setLoader(false);
-          });
-        }else{
-          dispatch(
-            bulkuploadedCandidatesMiddleWare({
-              search: searchValue,
-              jd_id:jdId,
-              page: pageNumber + 1,
-              incompleted,
-            }),
-          ).then(() => {
-            Toast('Location updated successfully', 'LONG', 'success');
-            setInput(false);
-            setLoader(false);
-          });
-        }
-        }
-      })
-      .catch(() => {
-        Toast(
-          'Location updated request failed. Please try again',
-          'SHORT',
-          'error',
-        );
-        setLoader(false);
+    var datas = formik.values.name.trim();
+    if (datas.length !== 0) {
+      const data = querystring.stringify({
+        pk: id,
+        name: 'location',
+        value: formik.values.name.trim(),
       });
+
+      axios
+        .post(uploadedCandidatesApi, data, config)
+        .then(() => {
+          dispatch(
+            candidateMatchMiddleWare({
+              can_id: id.toString(),
+            }),
+          );
+          if (tabKey === 'total') {
+            if (jdId === undefined) {
+              dispatch(
+                bulkuploadedCandidatesMiddleWare({
+                  search: searchValue,
+                  page: pageNumber + 1,
+                  total: total_count,
+                }),
+              ).then(() => {
+                Toast('Location updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              });
+            } else {
+              dispatch(
+                bulkuploadedCandidatesMiddleWare({
+                  search: searchValue,
+                  jd_id: jdId,
+                  page: pageNumber + 1,
+                  total: total_count,
+                }),
+              ).then(() => {
+                Toast('Location updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              });
+            }
+          }
+          if (tabKey === 'completed') {
+            if (jdId === undefined) {
+              dispatch(
+                bulkuploadedCandidatesMiddleWare({
+                  search: searchValue,
+                  page: pageNumber + 1,
+                  completed,
+                }),
+              ).then(() => {
+                Toast('Location updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              });
+            } else {
+              dispatch(
+                bulkuploadedCandidatesMiddleWare({
+                  search: searchValue,
+                  jd_id: jdId,
+                  page: pageNumber + 1,
+                  completed,
+                }),
+              ).then(() => {
+                Toast('Location updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              });
+            }
+          }
+          if (tabKey === 'inCompleted') {
+            if (jdId === undefined) {
+              dispatch(
+                bulkuploadedCandidatesMiddleWare({
+                  search: searchValue,
+                  page: pageNumber + 1,
+                  incompleted,
+                }),
+              ).then(() => {
+                Toast('Location updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              });
+            } else {
+              dispatch(
+                bulkuploadedCandidatesMiddleWare({
+                  search: searchValue,
+                  jd_id: jdId,
+                  page: pageNumber + 1,
+                  incompleted,
+                }),
+              ).then(() => {
+                Toast('Location updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              });
+            }
+          }
+        })
+        .catch(() => {
+          Toast(
+            'Location updated request failed. Please try again',
+            'SHORT',
+            'error',
+          );
+          setLoader(false);
+        });
+
+      axios
+        .post(uploadedCandidatesApi, data, config)
+        .then(() => {
+          dispatch(
+            candidateMatchMiddleWare({
+              can_id: id.toString(),
+            }),
+          );
+          if (tabKey === 'total') {
+            if (jdId === undefined) {
+              dispatch(
+                bulkuploadedCandidatesMiddleWare({
+                  search: searchValue,
+                  page: pageNumber + 1,
+                  total: total_count,
+                }),
+              ).then(() => {
+                Toast('Location updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              });
+            } else {
+              dispatch(
+                bulkuploadedCandidatesMiddleWare({
+                  search: searchValue,
+                  jd_id: jdId,
+                  page: pageNumber + 1,
+                  total: total_count,
+                }),
+              ).then(() => {
+                Toast('Location updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              });
+            }
+          }
+          if (tabKey === 'completed') {
+            if (jdId === undefined) {
+              dispatch(
+                bulkuploadedCandidatesMiddleWare({
+                  search: searchValue,
+                  page: pageNumber + 1,
+                  completed,
+                }),
+              ).then(() => {
+                Toast('Location updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              });
+            } else {
+              dispatch(
+                bulkuploadedCandidatesMiddleWare({
+                  search: searchValue,
+                  jd_id: jdId,
+                  page: pageNumber + 1,
+                  completed,
+                }),
+              ).then(() => {
+                Toast('Location updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              });
+            }
+          }
+          if (tabKey === 'inCompleted') {
+            if (jdId === undefined) {
+              dispatch(
+                bulkuploadedCandidatesMiddleWare({
+                  search: searchValue,
+                  page: pageNumber + 1,
+                  incompleted,
+                }),
+              ).then(() => {
+                Toast('Location updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              });
+            } else {
+              dispatch(
+                bulkuploadedCandidatesMiddleWare({
+                  search: searchValue,
+                  jd_id: jdId,
+                  page: pageNumber + 1,
+                  incompleted,
+                }),
+              ).then(() => {
+                Toast('Location updated successfully', 'LONG', 'success');
+                setInput(false);
+                setLoader(false);
+              });
+            }
+          }
+        })
+        .catch(() => {
+          Toast(
+            'Location updated request failed. Please try again',
+            'SHORT',
+            'error',
+          );
+          setLoader(false);
+        });
+    } else {
+      formik.setFieldValue('name', datas);
+    }
   };
 
   // open input function
@@ -189,14 +301,15 @@ const LocationAdd = ({
   // close input function
   const handleCloseInput = () => {
     setInput(false);
+    formik.resetForm();
   };
-// outside close input function
+  // outside close input function
   const handleClickOutside = (event: { target: any }) => {
     if (myRef.current && !myRef.current.contains(event.target)) {
       setInput(false);
     }
   };
-// outside close input function
+  // outside close input function
   useEffect(() => {
     if (typeof Window !== 'undefined') {
       document.addEventListener('click', handleClickOutside, true);
@@ -209,11 +322,22 @@ const LocationAdd = ({
       }
     };
   });
-// enter key contact submit function
+  // enter key contact submit function
   const handleKeyPress = (event: { key: string }, id: number) => {
     if (event.key === 'Enter' && formik.values.name !== '') {
       handleCellSubmit(event, id);
     }
+  };
+
+  const handleInputChange = (e) => {
+    const newValue = e.target.value;
+
+    if (!hasBeenModified && newValue.trim() === '') {
+      return; // Don't update the input if it's just an initial space
+    }
+
+    formik.setFieldValue('name', newValue);
+    setHasBeenModified(true);
   };
 
   return (
@@ -256,12 +380,12 @@ const LocationAdd = ({
             // eslint-disable-next-line
             autoFocus
             value={formik.values.name}
-            onChange={formik.handleChange('name')}
+            onChange={(e) => handleInputChange(e)}
             lineInput
             size={13}
             placeholder={'Optional'}
             onKeyPress={(e) => handleKeyPress(e, value.id)}
-            style={{width:'67%'}}
+            style={{ width: '67%' }}
           />
           <div className={styles.svgContainer}>
             {isLoader ? (
@@ -271,8 +395,8 @@ const LocationAdd = ({
             ) : (
               <div
                 className={cx('svgTickMargin', {
-                  svgTickDisable: isEmpty(formik.values.name),
-                  tickStyle: !isEmpty(formik.values.name),
+                  svgTickDisable: isEmpty(formik.values.name.trim()),
+                  tickStyle: !isEmpty(formik.values.name.trim()),
                 })}
                 onClick={(e) => handleCellSubmit(e, value.id)}
                 tabIndex={-1}

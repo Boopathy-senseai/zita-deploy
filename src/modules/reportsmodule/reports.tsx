@@ -32,7 +32,8 @@ const Reports = () => {
         display: "flex",
         flexDirection: "column",
         height: "100%",
-        overflowY: 'auto',
+        // overflowY: 'auto',
+        
       }}
     >
       <Flex className={styles.overAll} >
@@ -42,15 +43,13 @@ const Reports = () => {
           <Text size={16} bold color="theme" >
           Reports
           </Text>
-
         </Flex>
         <Flex >
-
           <div className={styles.triangle}></div>
         </Flex>
 
         </Flex>
-
+        <Flex className={styles.reportscroll} height={window.innerHeight-120}>
         <Flex className={styles.marginTop}>
           <Text size={14} bold>
             Candidates
@@ -135,6 +134,7 @@ const Reports = () => {
           </Flex>
           <Flex flex={4}> </Flex>
           <Flex flex={4}> </Flex>
+        </Flex>
         </Flex>
       </Flex>
     </div>

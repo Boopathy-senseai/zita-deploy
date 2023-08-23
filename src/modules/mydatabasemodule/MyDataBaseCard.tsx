@@ -166,14 +166,14 @@ const MyDataBaseCard = ({
         {isEmpty(dataList.candidate_id_id) && (
           <>
             <ZitaMatchCandidateDrawer
-              activeState={jobId === false ? 2 : 2}
+              activeState={jobId === false ? 1 : 1}
               open={isNotes}
               cancel={handleClose}
               jobId={checkWithJd}
               candidateId={dataList.id.toString()}
             />
             <ZitaMatchCandidateDrawer
-              activeState={jobId === false ? 3 : 4}
+              activeState={jobId === false ? 2 : 3}
               open={isShowMatch}
               cancel={handleClose}
               jobId={checkWithJd}
@@ -197,8 +197,9 @@ const MyDataBaseCard = ({
               candidateId={dataList.id.toString()}
               inviteIconNone={jobId === false ? true : false}
             />
+           { console.log(jobId,'hhhhhhhhhhhhhhhhjjjjjjjjjjjjjfffffffffffff')}
             <ProfileView
-              activeState={jobId === false ? 4 : 4}
+              activeState={jobId === false ? 1 : 1}
               open={isNotes}
               cancel={handleClose}
               jobId={checkWithJd}
@@ -206,7 +207,7 @@ const MyDataBaseCard = ({
               inviteIconNone={jobId === false ? true : false}
             />
             <ProfileView
-              activeState={jobId === false ? 5 : 6}
+              activeState={jobId === false ? 3 : 3}
               open={isShowMatch}
               cancel={handleClose}
               jobId={checkWithJd}
@@ -236,9 +237,7 @@ const MyDataBaseCard = ({
             open={isInvite}
             title={
               <Flex className={styles.popTitle}>
-                <Text>{`The candidate ${
-                  dataList.first_name
-                } has already been invited for this job on ${getDateString(
+                <Text>{`The candidate ${!isEmpty(dataList.last_name) ? `${dataList.first_name} ${dataList.last_name} `: `${dataList.first_name}`} has already been invited for this job on ${getDateString(
                   dataList.invite,
                   'll',
                 )}.`}</Text>
@@ -289,6 +288,7 @@ const MyDataBaseCard = ({
                       >
                         {dataList.first_name} {dataList.last_name}
                       </Text>
+                      {console.log("lklkllklkklk",(dataList.applicant_view))}
                       <div
                         className={styles.svgView}
                         title={
@@ -297,6 +297,7 @@ const MyDataBaseCard = ({
                             : 'Profile Viewed'
                         }
                       >
+                        
                         <SvgView
                           height={15}
                           width={15}
@@ -366,7 +367,6 @@ const MyDataBaseCard = ({
                       : 'Remove From Favourites'
                   }
                 >
-                  {/* <SvgHeart height={15} width={15} filled= {!isEmpty(dataList.fav)}/> */}
                   {dataList.id === dataList.fav ? (
                     <SvgHeart
                       height={15}

@@ -109,8 +109,9 @@ const size=sidebar==="1"
 
       <div
         style={{
-          height: window.innerHeight - getHeight,
+          height: window.innerHeight - 260,
           overflowY: 'scroll',
+          overflowX:"hidden",
           paddingRight: 0,
           paddingTop: 0,
           display: 'flex',
@@ -120,7 +121,7 @@ const size=sidebar==="1"
       >
         {data && data.length === 0 && (
           <Flex flex={1} center middle height={'100%'} style={{display:"flex"}}>
-            <SvgNotinterests style={{marginBottom:"15px"}}/>
+            <SvgNotinterests style={{marginBottom:"15px",filter:"opacity(0.5)"}}/>
             <Text color="gray" style={{ position: 'relative', bottom: 16 }}>
               No candidate found
             </Text>

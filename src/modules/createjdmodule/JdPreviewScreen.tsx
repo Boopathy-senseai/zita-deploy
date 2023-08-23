@@ -141,11 +141,11 @@ console.log("externaljob",extarajobpost)
     <Flex
       columnFlex
       className={styles.overAll}
-      height={window.innerHeight - 71}
+      height={window.innerHeight - 111}
     >
        { console.log(extarajobpost,'////////////////////////////////////////')}
       {postLoader && <Loader />}
-      <Flex row center className={styles.step}>
+      <Flex row center className={styles.step} >
         <StepProgressBar titleclassName={styles.stepOne} roundFill barFilled />
         <StepProgressBar
           title="Applicant Questionnaire"
@@ -181,7 +181,7 @@ console.log("externaljob",extarajobpost)
               onKeyDown={() => {}}
               title="Copy the job posting URL from your careers page"
             >
-            <SvgCopy width={12} height={14} fill={'rgb(51 51 51/50%)'} /> 
+            <SvgCopy width={12} height={14} fill={'#581845'} /> 
             </div>
           </Flex>
           <Text align="center" style={{ marginTop: 8 }}>

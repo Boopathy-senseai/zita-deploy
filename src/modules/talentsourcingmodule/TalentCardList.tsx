@@ -184,10 +184,8 @@ Props) => {
 
   
   return (
-    <Flex  style={{width:'100%',  overflowY: 'scroll',height: !stylevalue?'fit-content':window.innerHeight - 240,padding: '0 0 8px 0',alignContent:'flex-start' }}>
-     {console.log("index value",window.innerHeight,stylevalue)}
-     <Flex wrap row>
-        <BulkAction
+    <>
+    <BulkAction
           // setUnlockLoader={setUnlockLoader}
           setCandiList={setCandiList}
           setNoCount={setNoCount}
@@ -206,6 +204,10 @@ Props) => {
           planID={planID}
           setIsCheck={setIsCheck}
         />
+    <Flex  style={{width:'100%',  overflowY: 'scroll',height: !stylevalue?'fit-content':window.innerHeight - 240,padding: '0 0 8px 0',alignContent:'flex-start' }}>
+     {console.log("index value",window.innerHeight,stylevalue)}
+     <Flex wrap row>
+        
         {searchData &&
           searchData
             .slice(pagesVisited, pagesVisited + usersPerPage)
@@ -225,11 +227,11 @@ Props) => {
               );
           })}
      </Flex>
-        <Flex style={{paddingTop:'10px'}}>
+        <Flex marginBottom={10} style={{paddingTop:'10px'}}>
           {searchData?.length !== 0 &&
             pageCount - 1 !== 0 &&
             searchData !== null && isSubmitLoader !== true && (
-              <div style={{alignItems:'center',justifyContent:'center',display:'flex'}}>
+              <div style={{alignItems:'center',justifyContent:'center',display:'flex', marginBottom:"10px"}}>
                 <Pangination
                   maxPages={pageCount - 1}
                   currentPage={pageNumber}
@@ -240,6 +242,7 @@ Props) => {
    
         </Flex>
     </Flex>
+    </>
   );
 };
 

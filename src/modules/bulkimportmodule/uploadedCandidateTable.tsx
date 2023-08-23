@@ -85,7 +85,7 @@ export const title = (
     title: 'Location',
     dataIndex: 'location',
     key: 'location',
-    flex: 12,
+    flex: 11,
     render: (_a: any, value: EmpPoolEntity) => {
       return (
         <LocationAdd
@@ -104,7 +104,7 @@ export const title = (
     title: 'Qualification',
     dataIndex: 'qualification',
     key: 'qualification',
-    flex:10,
+    flex:12,
     render: (_a: any, value: EmpPoolEntity) => {
       return (
         <QualificationAdd
@@ -123,7 +123,7 @@ export const title = (
     title: 'Experience',
     dataIndex: 'work_exp',
     key: 'work_exp',
-    flex: 10,
+    flex: 12,
     render: (_a: any, value: EmpPoolEntity) => {
       return (
         <ExperienceAdd
@@ -142,7 +142,7 @@ export const title = (
     title: 'Skills',
     dataIndex: 'skills',
     key: 'skills',
-    flex: 17,
+    flex: 14,
     render: (_a: any, value: EmpPoolEntity) => {
       return (
         <SkillsAdd
@@ -259,7 +259,7 @@ export const applicantTable = (
     title: 'Contact',
     dataIndex: 'contact',
     key: 'contact',
-    flex: 12,
+    flex: 11,
     render: (_a: any, value: EmpPoolEntity) => {
       return (
         <ContactAdd
@@ -279,7 +279,7 @@ export const applicantTable = (
     title: 'Match',
     dataIndex: 'match',
     key: 'match',
-    flex: 8,
+    flex: 7,
     render: (value: number) => {
       return (
         <>
@@ -316,7 +316,7 @@ export const applicantTable = (
     title: 'Qualification',
     dataIndex: 'qualification',
     key: 'qualification',
-    flex: 11,
+    flex: 13,
     render: (_a: any, value: EmpPoolEntity) => {
       return (
         <QualificationAdd
@@ -336,7 +336,7 @@ export const applicantTable = (
     title: 'Experience',
     dataIndex: 'work_exp',
     key: 'work_exp',
-    flex: 10,
+    flex: 13,
     render: (_a: any, value: EmpPoolEntity) => {
       return (
         <ExperienceAdd
@@ -356,7 +356,7 @@ export const applicantTable = (
     title: 'Skills',
     dataIndex: 'skills',
     key: 'skills',
-    flex: 14,
+    flex: 12,
     render: (_a: any, value: EmpPoolEntity) => {
       return (
         <SkillsAdd

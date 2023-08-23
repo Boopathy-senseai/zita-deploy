@@ -22,7 +22,7 @@ const QuestionTable = ({ value, index }: Props) => {
   const dropDownFilter = dropDown.filter((x) => !isEmpty(x.value));
   return (
     <Flex row top>
-      <Text style={{ width: 90, paddingLeft: 26, paddingTop: 2 }}>
+      <Text style={{ width: 90, paddingLeft: 12, paddingTop: 2 }}>
         {index + 1}
       </Text>
       <Flex width={'90%'}>

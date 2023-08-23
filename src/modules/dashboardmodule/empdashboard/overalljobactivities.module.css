@@ -5,26 +5,26 @@
   /*-moz-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);*/
 }
 .jobActivityCard:hover {
-  box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55);
-  -webkit-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55);
-  -moz-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55);
-  transition: all 0.2s ease-out; 
+  box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.55);
+  -webkit-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.55);
+  -moz-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.55);
+  transition: all 0.2s ease-out;
 }
 .overall {
   border-bottom: 0.5px solid #581845;
-  margin-left: 5px;
-  margin-right: 5px;
-  
-}
-.borderBottom {
- font-size: 14px;
-  padding: 4px 35px;
-}
-.jobActivityCard{
-  width: max-content;
   margin-left: 10px;
   margin-right: 10px;
-  margin-top: 5px;
+}
+.borderBottom {
+  font-size: 14px;
+  padding: 5px 35px;
+  margin-bottom: 5;
+}
+.jobActivityCard {
+  width: max-content;
+  margin-left: 5px;
+  margin-right: 5px;
+  /* margin-top: 5px; */
   height: 295px;
 }
 .cardStyle {
@@ -34,46 +34,40 @@
 }
 .listFlex {
   margin-bottom: 16px;
-
 }
-.valueStyle{
+.valueStyle {
   margin-left: 2px;
 }
-.buttondisable{
+.buttondisable {
   cursor: none;
   pointer-events: none;
   border-style: none;
- width:auto;
- height: 30px;
-
+  width: auto;
+  height: 30px;
 }
-.buttonflex{
-  background-color: #EEE8EC;
+.buttonflex {
+  background-color: #eee8ec;
   border-radius: 20px;
-  width:auto;
-  height:30px;
-
+  width: auto;
+  height: 30px;
 }
 /* .paddindelement{
   padding: 5px;
 } */
-.line{
-  border:0.5px solid #581845;
+.line {
+  border: 0.5px solid #581845;
 }
-.circleflexover{
+.circleflexover {
   height: 26px;
-  line-height: 26px;  
-  width: auto;  
+  line-height: 26px;
+  width: auto;
   font-size: 1em;
-  
+
   border-radius: 20%;
-  background-color: #EEE8EC;
+  background-color: #eee8ec;
   text-align: center;
-  max-width: 200px; 
+  max-width: 200px;
   white-space: nowrap;
-  overflow: hidden; 
-  text-overflow: ellipsis; 
-
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-
-

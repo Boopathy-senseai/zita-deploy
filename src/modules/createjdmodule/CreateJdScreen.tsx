@@ -72,11 +72,19 @@ const CreateJdScreen = () => {
       </div>
       {feature === 0 && (
         <Flex middle columnFlex center>
-          <Flex middle row center className={styles.warningFlex}>
-            <SvgInfo fill={'#2E6ADD'} />
-            <Text size={13} bold color='primary' className={styles.warningText}>
-              {`Heads up`} {`You’ve reached the number of job postings for your current plan 
-          but you can keep new job descriptions in Draft. Please `}
+          {/* <Flex middle row center className={styles.warningFlex}>
+            <SvgInfo fill={'#2E6ADD'} /> */}
+            <Flex row center className={styles.warningFlex}>
+              <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
+              <Text
+                style={{color:"#333333"}}
+                className={styles.warningText}
+              >
+            <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px'}} bold >Heads Up!{' '}</Text>
+            You’ve reached the number of job postings for your current plan 
+          but you can keep new job descriptions in Draft. Please 
+              
+
               <LinkWrapper
                 target={'_parent'}
                 onClick={() => {
@@ -85,14 +93,13 @@ const CreateJdScreen = () => {
                 to="/account_setting/settings?planFocus=focus"
               >
                 <Text size={13} bold color="link">
-                  upgrade{' '}
+                  {` `}upgrade {' '}
                 </Text>
               </LinkWrapper>
-              plan or inactivate at least one existing active job to publish a
-              new job
+              plan or inactivate at least one existing active job to publish a new job
             </Text>
+            </Flex>
           </Flex>
-        </Flex>
         )} 
       <Flex columnFlex>
         <Text

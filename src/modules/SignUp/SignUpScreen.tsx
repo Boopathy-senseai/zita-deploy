@@ -408,7 +408,7 @@ const SignUpScreen = (props: any) => {
               <Text size={20} className={styles.title}>
                 Hello, Welcome to Zita
               </Text>
-              <Text className={styles.text} style={{ marginRight: '10px' }}>
+              <Text size={14} className={styles.text} style={{ marginRight: '10px' }}>
                 Experience our AI-Powered recruitment ATS with enhanced features
                 to streamline your hiring process.
               </Text>
@@ -462,6 +462,18 @@ const SignUpScreen = (props: any) => {
                   <div className="col">
                     <ul>
                       <li>Reports & Analysis</li>
+                    </ul>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col">
+                    <ul>
+                      <li>Inbuilt Interview Management </li>
+                    </ul>
+                  </div>
+                  <div className="col">
+                    <ul>
+                      <li>Inbuilt Email Communication</li>
                     </ul>
                   </div>
                 </div>
@@ -767,14 +779,14 @@ const SignUpScreen = (props: any) => {
                       </Flex>
                       <Flex column-middle>
                         <Text
-                          size={22}
+                          size={18}
                           bold
                           className={styles.verificationtext}
                         >
                           Verification email sent successfully
                         </Text>
                         <Text
-                          size={16}
+                          size={14}
                           className={styles.messages}
                           style={{
                             justifyContent: 'center',

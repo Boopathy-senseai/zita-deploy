@@ -368,9 +368,12 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
   const schedulehandleClick = () => {
     
     window.open(calendarRoute);
-    localStorage.setItem('Applicantname',candidate_details[0].first_name+' '+candidate_details[0].last_name)
+    localStorage.setItem('Applicantname',`${candidate_details[0].first_name} ${candidate_details[0].last_name !==''&&candidate_details[0].last_name!== null?candidate_details[0].last_name:''}`)
     localStorage.setItem('Jdname',jd)
-    localStorage.setItem('jdid',can_id) 
+    localStorage.setItem('can_id',can_id) 
+    localStorage.setItem('jd_id',jd_id)
+    localStorage.setItem('emailnote',candidate_details[0].email) 
+
   } 
   const now = new Date();
   const utcOffsetMinutes = now.getTimezoneOffset();
@@ -503,7 +506,7 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
             </Flex>
           )}
           {active !== 0 && myevents.length === 0 && (
-            <Flex>
+            <Flex className={styles.nomeeting} center middle>
               <Flex center middle marginTop={100}>
                 <SvgMeetingicon />
               </Flex>
@@ -515,7 +518,7 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
             </Flex>
           )}
           {active !== 0 && myevents.length !== 0 && (
-            <Flex style={{ margin:' 0 -8px'}}>
+            <Flex style={{ margin:' 0 -8px'}} flex={1}>
               <Table
                 border={'outline'}
                 columns={meetingMemo}

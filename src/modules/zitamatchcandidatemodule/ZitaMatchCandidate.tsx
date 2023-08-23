@@ -161,7 +161,6 @@ const ZitaMatchCandidate = () => {
   };
 
   const handleSearchSubmit = () => {
-
     setIsCheck([]);
     console.log("close",isSearch)
     dispatch(
@@ -358,6 +357,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
   const handleLocation = () => {
     
     setLocation(!isLocation);
+    
     setchange(true)
   };
 
@@ -468,6 +468,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
   ]);
   // filter refesh function
   const hanldeRefresh = () => {
+ 
     setDoctorate(false);
     setMasters(false);
     setAny(true);
@@ -486,7 +487,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
     dispatch(
       zitaMatchDataCandidateMiddleWare({
         jd_id: jdId,
-        profile_match: isMatchRadio,
+        profile_match: "",
         fav: favAdd,
         candidate: '',
         location:"",
@@ -843,7 +844,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
             className={styles.searchbox}
           >
             <Flex row className={styles.searchstyle}>
-              <Text className={styles.jobstext} style={{fontSize:"14px"}}>Candidates</Text>
+              <Text className={styles.jobstext} style={{fontSize:"13px"}}>Candidates</Text>
               <Flex row className={styles.searchboxoverall}>
                 <InputText
                   ref={myRef}
@@ -912,6 +913,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
               className={styles.btnStyle}
               types="primary"
               onClick={handleApplicant}
+              style={{marginRight:"10px"}}
             >
               Applicants Pipeline
             </Button>
@@ -921,6 +923,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
                 className={styles.btnStyle}
                 types="primary"
                 onClick={handleApplicant}
+                style={{marginRight:"10px"}}
               >
                 Applicants Pipeline
               </Button>
@@ -941,6 +944,8 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
         isDoctorate={isDoctorate}
         isMasters={isMasters}
         isOther={isOther}
+        setLocation={setLocation}
+        setRelocate={setRelocate}
           setSearch={setSearch}
           isSearch={isSearch}
           isAny={isAny}

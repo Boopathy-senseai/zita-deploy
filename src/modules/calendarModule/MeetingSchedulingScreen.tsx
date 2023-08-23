@@ -32,7 +32,7 @@ interface Props {
   cand_email?: string;
   jd_id?: number;
   jd_name?: string;
-  eventId?: string | null;
+  EventId?:any;
   recurringEventId?: string | null;
   openScheduleForm: boolean;
   teamMembers: TeamMemberType[];
@@ -52,7 +52,7 @@ const MeetingSchedulingScreen = ({
   teamMembers,
   APPLY,
   editEventDetails,
-  eventId,
+  EventId,
   recurringEventId,
   calendarProvider,
   cand_name,
@@ -86,10 +86,7 @@ const MeetingSchedulingScreen = ({
   // );
 
   const updateCurrentApplicantId = (applicantId: number) => {
-    if(localStorage.getItem('jdid') !== '')
-    {setCurrentApplicantId(Number(localStorage.getItem('jdid')))}
-    else{
-    setCurrentApplicantId(applicantId);}
+    setCurrentApplicantId(applicantId);
   };
 
   useEffect(() => {
@@ -201,7 +198,7 @@ const MeetingSchedulingScreen = ({
       'location',
       'interviewers',
     ].forEach((item) => localStorage.removeItem(item));
-    localStorage.setItem('Applicantname','')
+    localStorage.setItem('Applicantsname','')
     localStorage.setItem('Jdname','')
     localStorage.setItem('jdid','')
     setViewMeetingSummary(false);
@@ -254,7 +251,7 @@ const MeetingSchedulingScreen = ({
           handleCloseSchedulingForm={handleCloseSchedulingForm}
           currentApplicantId={currentApplicantId}
           // extraNotes={extraNotes}
-          eventId={eventId}
+          EventId={EventId}
           recurringEventId={recurringEventId}
           setIsTopLineLoading={setIsTopLineLoading}
         />

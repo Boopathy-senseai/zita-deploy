@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FileX } from 'react-bootstrap-icons';
 import { AppDispatch, RootState } from '../../store';
+import SvgNoDataIcon from '../../icons/SvgNoDataIcon';
+import SvgNoData from '../../icons/SvgNoData';
 import SvgNomessage from '../../icons/SvgNomessage';
 import SvgRefresh from '../../icons/SvgRefresh';
 import Flex from '../../uikit/Flex/Flex';
@@ -9,7 +11,6 @@ import Text from '../../uikit/Text/Text';
 import { isEmpty } from '../../uikit/helper';
 import { bulkImportMiddleWare } from './store/middleware/bulkImportMiddleware';
 import styles from './logfile.module.css';
-
 
 type Props = {
   getKey: string;
@@ -28,15 +29,18 @@ const LogFileTab = ({ getKey }: Props) => {
   });
 
   return (
-    <Flex className={styles.overAll} height={window.innerHeight - 200} >
-      
-       
+    <Flex className={styles.overAll} height={window.innerHeight - 200}>
       {isEmpty(txt_file) ? (
-        <Text color="gray" align="center">
-          No bulk import log available
-        </Text> 
+        <Flex style={{ marginTop: '12%' }}>
+          <Flex style={{ justifyContent: 'center', marginBotto: '2px' }}>
+            <SvgNoDataIcon width={16} height={16} fill={'#888'} />
+          </Flex>
+
+          <Text color="gray" align="center">
+            No bulk import log available
+          </Text>
+        </Flex>
       ) : (
-        
         <>
           {txt_file?.map((list, index, row) => {
             const over = list.match('Overall Files Uploaded Log:')
@@ -51,7 +55,7 @@ const LogFileTab = ({ getKey }: Props) => {
             const themecolor1 = list.includes('Successful') ? true : false;
             const themecolor2 = list.includes('Failed') ? true : false;
             const theme = themecolor || themecolor1 || themecolor2;
-           
+
             return (
               <Flex key={list + index} className={styles.logList}>
                 <pre
