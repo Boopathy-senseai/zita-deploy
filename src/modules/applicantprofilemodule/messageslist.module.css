@@ -4,7 +4,7 @@
 }
 .newMessage {
   display: flex;
-  padding: 12px;
+  padding: 12px 12px 0px 12px;
   max-width: 90%;
   flex-direction: row;
 }
@@ -78,6 +78,7 @@
 }
 .overall {
   overflow: scroll;
+  padding-bottom: 10px;
 }
 .inputDateStyle {
   background-color: #fff;
