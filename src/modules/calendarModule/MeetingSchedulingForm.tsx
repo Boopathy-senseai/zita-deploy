@@ -431,7 +431,7 @@ const MeetingSchedulingForm = ({
 
   const ApplicantView = (
     <div>
-      <label className={styles.label}>Applicant *</label>
+      <label className={styles.label}>Applicant*</label>
       {console.log(cand_name,'cand_namecand_namecand_name')}
       {editEventDetails || cand_name ? (
         <div>
@@ -554,7 +554,7 @@ const MeetingSchedulingForm = ({
         </div>
         <p
           className={styles.to}
-          style={{
+          style={{ fontSize:"13px",
             marginBottom:
               meetingForm.startTime.errorMessage ||
               meetingForm.endTime.errorMessage
@@ -742,8 +742,8 @@ const MeetingSchedulingForm = ({
           marginBottom: '7px',
         }}
       >
-        <p style={{ color: '#581845' }}>Notes</p>
-        <p>Visible to candidates</p>
+        <p style={{ color: '#581845', fontSize:"13px" }}>Notes</p>
+        <p style={{fontSize:"13px"}}>Visible to candidates</p>
       </label>
       <InputText
         value={meetingForm.notes}
@@ -765,7 +765,7 @@ const MeetingSchedulingForm = ({
           marginBottom: '7px',
         }}
       >
-        <p style={{ color: '#581845' }}>Private Notes</p>
+        <p style={{ color: '#581845', fontSize:"13px" }}>Private Notes</p>
       </label>
       <InputText
         value={meetingForm.privateNotes}
@@ -814,15 +814,15 @@ const MeetingSchedulingForm = ({
 
       return (
         <div className={styles.duration}>
-          <p style={{ marginBottom: '4px', color: '#581845' }}>Duration</p>
+          <p style={{ marginBottom: '4px', color: '#581845', fontSize:"13px" }}>Duration</p>
           <p>{formatTime(timeDifference)}</p>
         </div>
       );
     }
     return (
       <div className={styles.duration}>
-        <p style={{ marginBottom: '4px', color: '#581845' }}>Duration</p>
-        <p>00 : 00</p>
+        <p style={{ marginBottom: '4px', color: '#581845', fontSize:"13px" }}>Duration</p>
+        <p style={{fontSize:"13px"}}>00 : 00</p>
       </div>
     );
   };
@@ -858,7 +858,7 @@ const MeetingSchedulingForm = ({
       >
         <SvgCalendar width={18} height={18} style={{ marginBottom: '5px' }} />
         <Text
-          size={16}
+          size={14}
           bold
           color="theme"
           className={styles.formTitle}

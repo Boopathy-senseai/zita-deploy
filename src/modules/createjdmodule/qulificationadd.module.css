@@ -11,7 +11,7 @@
 }
 .svgTrash {
   position: relative;
-  top: 26px;
+  top: 20px;
 }
 .errorMessage {
   color: var(--color-error, #f94949);
