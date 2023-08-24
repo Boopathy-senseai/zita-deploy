@@ -341,6 +341,7 @@ const SlotterDate = ({
   isLoading,
   conflicts,
   selectDate,
+  timezones,
   onSubmit,
   setSelectTime,
   setSelect,
@@ -348,57 +349,19 @@ const SlotterDate = ({
   setselectedDate,
   setfinalIntervals,
   setSelectDate,
-  timezones,
   FooterNavogation,
 }:SlotterProps) => { 
   const [selectedRange, setSelectedRange] = useState({
     from: null,
     to: null,
   });
-  const dispatch: AppDispatch = useDispatch();
   const [useravailble, setuseravailble] = useState([]);
   const [timezone, settimezone] = useState('');
-  const [startOfMonth, setstartOfMonth] = useState(new Date());
-  const [endOfMonth, setendOfMonth] = useState(new Date());
-  const [startFrom, setStartFrom] = useState(new Date(2023, 9 - 1, 4));
-  const [endFrom, setEndFrom] = useState(new Date(2023, 11, 4));
   const [highlightday, setHighlightDay] = useState(null);
 
   useEffect(() => {
     mount();
-    const startMonth = convertmonth(selectedRange.from);
-    setstartOfMonth(startMonth);
-    const endMonth = convertmonth(selectedRange.to);
-    setendOfMonth(endMonth);
   }, [response, timezone, availbles]);
-
-  const DateFormatShow = (dateString) => {
-    if (dateString !== '' && dateString !== undefined) {
-      var parts = dateString.split('/');
-      var dateObject = new Date(parts[2], parts[1] - 1, parts[0]);
-      return dateObject;
-    }
-    return null;
-  };
-
-  useEffect(() => {
-    if (response.length > 0 && response !== undefined) {
-      response.map((start) => {
-        if (start.startdate !== null && start.enddate !== null) {
-          const smonth = DateFormatShow(start.startdate);
-          const startmonth = smonth !== null ? smonth : 'Invalid Date';
-          if (startmonth !== 'Invalid Date') {
-            setStartFrom(startmonth);
-          }
-          const emonth = DateFormatShow(start.enddate);
-          const endmonth = emonth !== null ? smonth : 'Invalid Date';
-          if (endmonth !== 'Invalid Date') {
-            setEndFrom(endmonth);
-          }
-        }
-      });
-    }
-  }, [response]);
 
   const dateObject = availbles;
   const allDatesArray = Object.keys(dateObject);
@@ -447,31 +410,10 @@ const SlotterDate = ({
     }
   };
 
-  const convertmonth = (selectMonth: any) => {
-    if (selectMonth) {
-      const [dayFrom, monthFrom, yearFrom] = selectMonth.split('/').map(Number);
-      const dateFrom = new Date(yearFrom, monthFrom - 1, dayFrom);
-      return dateFrom;
-    }
-  };
-
   const dateconvert = (formattedDate) => {
     const convertedDate = moment(formattedDate).format('DD/MM/YYYY');
     return convertedDate;
   };
-
-  function convertDurationToInterval(durationString, unit) {
-    if (typeof durationString !== 'string') {
-      return null; 
-    }
-    const matches = durationString.match(
-      /(\d+)\s*hours?(\s*(\d+)\s*minutes?)?/i,
-    );
-
-    if (!matches) {
-      return null; 
-    }
-  }
 
   const AvailbleSlots = (datetimes) => {
     const check = dateconvert(datetimes);
@@ -620,9 +562,10 @@ const SlotterDate = ({
     for (const targetInterval of targetIntervals) {
       let isExcluded = false;
       for (const excludedRange of excludedRanges) {
+       {console.log("isIntervalWithinRange",isIntervalWithinRange(targetInterval, excludedRange))}
         if (isIntervalWithinRange(targetInterval, excludedRange)) {
           isExcluded = true; 
-          break;
+          // break;
         }
       }
       if (!isExcluded) {
@@ -633,7 +576,6 @@ const SlotterDate = ({
   }
   function generateIntervals(timeBreaks, intervalMinutes, datetimes) {
     const intervals12 = [];
-
     for (const timeBreak of timeBreaks) {
       let { starttime, endtime } = timeBreak;
       if (starttime.includes('12:')) {
@@ -771,7 +713,7 @@ const SlotterDate = ({
                 }}
               />
             )}
-{response[0].company_logo !== '' &&
+        {response[0].company_logo !== '' &&
             <Text bold color="theme" size={16} style={{ marginLeft: '10px' }}>
               Interview Scheduling
             </Text>}
