@@ -16,7 +16,7 @@ import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 // import Card from '../../uikit/Card/Card';
 import Loader from '../../uikit/Loader/Loader';
-import Button from '../../uikit/Button/Button'; 
+import Button from '../../uikit/Button/Button';
 import { getBlur, getFocus, copyToClipboard } from '../../uikit/helper';
 import Pangination from '../../uikit/Pagination/Pangination';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
@@ -56,14 +56,14 @@ const MyJobPostingScreen = () => {
   const [isPage, setPage] = useState(0);
   const [isLoad, setIsLoad] = useState(true);
   const history = useHistory();
-  const [change,setchange]=useState(false)
+  const [change, setchange] = useState(false);
 
   useEffect(() => {
-    setIsLoad(true)
+    setIsLoad(true);
     localStorage.setItem('freeCheck', 'true');
-    dispatch(myJobPostingInitalMiddleWare()).then((res)=>
-     { setIsLoad(false)}
-    )
+    dispatch(myJobPostingInitalMiddleWare()).then((res) => {
+      setIsLoad(false);
+    });
   }, []);
 
   const {
@@ -114,7 +114,9 @@ const MyJobPostingScreen = () => {
     onSubmit: () => {},
   });
 
-  {console.log(len_list,'len_listlen_listlen_listlen_list')}
+  {
+    console.log(len_list, 'len_listlen_listlen_listlen_list');
+  }
   const usersPerPage = 10;
   const pageCount = Math.ceil(len_list / usersPerPage);
 
@@ -127,7 +129,7 @@ const MyJobPostingScreen = () => {
   };
 
   useEffect(() => {
-    setIsLoad(true)
+    setIsLoad(true);
     dispatch(
       myJobPostingDataMiddleWare({
         jobTitle: formik.values.jobTitle,
@@ -138,29 +140,27 @@ const MyJobPostingScreen = () => {
         page: isPage + 1,
       }),
     ).then((res: any) => {
-      setIsLoad(false)
+      setIsLoad(false);
     });
   }, [isPage]);
   useEffect(() => {
-  if(change===false)
-    dispatch(
-      myJobPostingDataMiddleWare({
-        jobTitle: formik.values.jobTitle,
-        jobId: formik.values.jobId,
-        postedOn: formik.values.postedOn.value,
-        jobType: formik.values.jobType,
-        location: formik.values.location,
-        page: isPage + 1,
-      }),
-    );
-    
-  }, [isPage,change,formik.values]);
-
+    if (change === false)
+      dispatch(
+        myJobPostingDataMiddleWare({
+          jobTitle: formik.values.jobTitle,
+          jobId: formik.values.jobId,
+          postedOn: formik.values.postedOn.value,
+          jobType: formik.values.jobType,
+          location: formik.values.location,
+          page: isPage + 1,
+        }),
+      );
+  }, [isPage, change, formik.values]);
 
   return (
     <Flex className={styles.overFlowContainer}>
       <div>
-      {console.log("###########33",change)}
+        {console.log('###########33', change)}
         <Flex row className={styles.titleContainer}>
           {/* <SvgJobPost width={15.71} height={16} /> */}
           <Text
@@ -176,14 +176,11 @@ const MyJobPostingScreen = () => {
       </div>
       {/* {(is_loading || is_loadingone) && <Loader />} */}
       {Jobs_List === 2 && (
-        <Flex  >
+        <Flex>
           <div className={cx('tabsContainer')}>
             <Flex row between className={styles.searchbox}>
-              <Totalcount 
-                name="Total Jobs Found "
-                numbers={len_list}
-              />
-          
+              <Totalcount name="Total Jobs Found " numbers={len_list} />
+
               <Flex row className={styles.twobutton} marginRight={10}>
                 {' '}
                 {Permission.includes('create_post') && (
@@ -197,8 +194,8 @@ const MyJobPostingScreen = () => {
                   target={'_blank'}
                   to={`${career_page_url}/careers`}
                 >
-                  <Button className={styles.style2} types="primary" >
-                  View Careers Page
+                  <Button className={styles.style2} types="primary">
+                    View Careers Page
                   </Button>
                 </LinkWrapper>
               </Flex>
@@ -225,15 +222,15 @@ const MyJobPostingScreen = () => {
                   job_ids={job_ids}
                   job_title={job_title}
                   location_list={location_list}
-                  setchange={ setchange}
+                  setchange={setchange}
                 />
               </div>
 
               <Flex>
                 <Table
-                currentPage={isPage}
-                setCurrentPage={handleSetPagination}
-                  />
+                  currentPage={isPage}
+                  setCurrentPage={handleSetPagination}
+                />
 
                 {len_list === 0 && (
                   <Flex
@@ -257,7 +254,6 @@ const MyJobPostingScreen = () => {
                 )}
               </Flex>
             </Flex>
-          
           </div>
         </Flex>
       )}
@@ -300,5 +296,4 @@ const MyJobPostingScreen = () => {
     </Flex>
   );
 };
-;
-export default MyJobPostingScreen; 
+export default MyJobPostingScreen;

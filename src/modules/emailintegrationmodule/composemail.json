@@ -1,0 +1,18 @@
+ {
+    "message": {
+      "subject": "",
+      "body": {
+        "contentType": "Text",
+        "content": "verification send mail "
+      },
+        "toRecipients": [],
+        "ccRecipients": [],
+        "bccRecipients": [],
+        "attachments": []
+        
+     },
+    "saveToSentItems": false
+  }
+
+
+ 

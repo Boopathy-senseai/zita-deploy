@@ -61,7 +61,7 @@ export const customStyles = {
       textOverflow: 'ellipsis',
     };
   },
-  
+
   menu: (provided: any) => ({
     ...provided,
     margin: 0,
@@ -77,15 +77,14 @@ export const customStyles = {
     maxHeight: 200,
     scrollbarWidth: 'thin',
     padding: 0,
-    color:'BLACK',
-    fontSize:13,
+    color: 'BLACK',
+    fontSize: 13,
   }),
-  NoOptionsMessage: (provided: any)=> ({
+  NoOptionsMessage: (provided: any) => ({
     ...provided,
     fontSize: 13,
   }),
-}
-
+};
 
 export const customStylesLine = {
   option: (provided: any) => ({
@@ -159,7 +158,7 @@ export const customStylesLine = {
     scrollbarWidth: 'thin',
     padding: 0,
   }),
-  NoOptionsMessage: (provided: any)=> ({
+  NoOptionsMessage: (provided: any) => ({
     ...provided,
     fontSize: 13,
   }),
@@ -186,7 +185,7 @@ export const customStylesMulti = {
   option: (provided: any) => ({
     ...provided,
     fontSize: 13,
-    color:BLACK,
+    color: BLACK,
   }),
   control: (provided: any, state: { isFocused: any }) => ({
     ...provided,
@@ -243,13 +242,11 @@ export const customStylesMulti = {
     scrollbarWidth: 'thin',
     padding: 0,
   }),
-  NoOptionsMessage: (provided: any)=> ({
+  NoOptionsMessage: (provided: any) => ({
     ...provided,
     fontSize: 13,
   }),
 };
-
-
 
 export const customStyletrue = {
   option: (provided: any) => ({
@@ -260,11 +257,11 @@ export const customStyletrue = {
     ...provided,
     minHeight: '30px',
     height: '30px',
-   
+
     boxShadow: state.isFocused ? null : null,
     boxSizing: 'border-box',
   }),
-  
+
   valueContainer: (provided: any) => ({
     ...provided,
     height: '30px',
@@ -278,7 +275,6 @@ export const customStyletrue = {
     fontSize: 13,
     fontFamily: `'Roboto', sans-serif`,
     boxSizing: 'border-box',
-    
   }),
   indicatorsContainer: (provided: any) => ({
     ...provided,
@@ -316,12 +312,11 @@ export const customStyletrue = {
     scrollbarWidth: 'thin',
     padding: 0,
   }),
-  NoOptionsMessage: (provided: any)=> ({
+  NoOptionsMessage: (provided: any) => ({
     ...provided,
     fontSize: 13,
   }),
 };
-
 
 export const customStylechanges = {
   option: (provided: any) => ({
@@ -332,7 +327,7 @@ export const customStylechanges = {
     ...provided,
     minHeight: '40px',
     height: '40px',
-   
+
     boxShadow: state.isFocused ? null : null,
     boxSizing: 'border-box',
   }),
@@ -380,7 +375,6 @@ export const customStylechanges = {
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
     boxSizing: 'border-box',
-    
   }),
   menuList: (provided: any) => ({
     ...provided,
@@ -389,13 +383,13 @@ export const customStylechanges = {
     scrollbarWidth: 'thin',
     padding: 0,
   }),
-    NoOptionsMessage: (provided: any)=> ({
+  NoOptionsMessage: (provided: any) => ({
     ...provided,
     fontSize: 13,
   }),
 };
 
-export const customStylechanges1 ={
+export const customStylechanges1 = {
   option: (provided: any) => ({
     ...provided,
     fontSize: 13,
@@ -405,45 +399,45 @@ export const customStylechanges1 ={
     minHeight: '30px',
     height: '30px',
     boxShadow: state.isFocused ? null : null,
-    backgroundColor:GARY_9,
+    backgroundColor: GARY_9,
     margin: '0px',
-    borderColor:GARY_9,
+    borderColor: GARY_9,
     border: '0px',
   }),
-  singleValue:() => ({
-    fontSize: "13px",
+  singleValue: () => ({
+    fontSize: '13px',
     bottom: 19,
-    position: "relative",
-    color:BLACK
+    position: 'relative',
+    color: BLACK,
   }),
   valueContainer: (provided: any) => ({
     ...provided,
     height: '30px',
     margin: '0px',
     fontSize: 12,
-    boxColor:GARY_9,
-    backgroundColor:GARY_9,
-    borderColor:GARY_9,
-    color:PRIMARY,
+    boxColor: GARY_9,
+    backgroundColor: GARY_9,
+    borderColor: GARY_9,
+    color: PRIMARY,
   }),
   input: (provided: any) => ({
     ...provided,
     margin: '0px',
     fontSize: 13,
     fontFamily: `'Roboto', sans-serif`,
-    borderColor:PRIMARY,
+    borderColor: PRIMARY,
     border: '0px',
   }),
   indicatorsContainer: (provided: any) => ({
     ...provided,
     height: '30px',
     cursor: 'pointer',
-    borderColor:GARY_9,  
+    borderColor: GARY_9,
   }),
   clearIndicator: (provided: any) => ({
     ...provided,
     cursor: 'pointer',
-    borderColor:GARY_9,
+    borderColor: GARY_9,
   }),
   placeholder: (defaultStyles: any) => {
     return {
@@ -453,14 +447,14 @@ export const customStylechanges1 ={
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
-      borderColor:GARY_9,
+      borderColor: GARY_9,
       border: '0px',
     };
   },
   menu: (provided: any) => ({
     ...provided,
     margin: 0,
-    borderColor:GARY_9,
+    borderColor: GARY_9,
   }),
   menuList: (provided: any) => ({
     ...provided,
@@ -468,23 +462,23 @@ export const customStylechanges1 ={
     maxHeight: 200,
     scrollbarWidth: 'thin',
     padding: 0,
-    borderColor:PRIMARY,
+    borderColor: PRIMARY,
   }),
-  NoOptionsMessage: (provided: any)=> ({
+  NoOptionsMessage: (provided: any) => ({
     ...provided,
     fontSize: 13,
   }),
   hover: (provided: any) => ({
-    color:PRIMARY,
-    borderColor:PRIMARY,
+    color: PRIMARY,
+    borderColor: PRIMARY,
   }),
   selected: (provided: any) => ({
-    color:PRIMARY,
-    borderColor:PRIMARY,
+    color: PRIMARY,
+    borderColor: PRIMARY,
   }),
 };
 
-export const customStylechanges2 ={
+export const customStylechanges2 = {
   option: (provided: any) => ({
     ...provided,
     fontSize: 12,
@@ -495,7 +489,7 @@ export const customStylechanges2 ={
     height: '0px',
     boxShadow: state.isFocused ? null : null,
     margin: '0px',
-    borderColor:GARY_9,
+    borderColor: GARY_9,
     border: '0px',
   }),
   valueContainer: (provided: any) => ({
@@ -503,46 +497,46 @@ export const customStylechanges2 ={
     height: '23px',
     margin: '0px',
     fontSize: 12,
-    boxColor:GARY_9,
-    backgroundColor:WHITE,
-    borderColor:GARY_9,
-    color:PRIMARY,
-    top: -1,
-    padding:"2px 4px",
-  }),
-  singleValue:() => ({
+    boxColor: GARY_9,
+    backgroundColor: WHITE,
+    borderColor: GARY_9,
     color: PRIMARY,
-    position: "relative",
-    bottom:15,
+    top: -1,
+    padding: '2px 4px',
+  }),
+  singleValue: () => ({
+    color: PRIMARY,
+    position: 'relative',
+    bottom: 15,
     fontSize: 13,
-    fontWeight: "bold"
+    fontWeight: 'bold',
   }),
   input: (provided: any) => ({
     ...provided,
     margin: '0px',
     fontSize: 12,
     fontFamily: `'Roboto', sans-serif`,
-    borderColor:PRIMARY,
+    borderColor: PRIMARY,
     border: '0px',
-    top:5,
-    position: "relative",
+    top: 5,
+    position: 'relative',
   }),
   indicatorsContainer: (provided: any) => ({
     ...provided,
     height: '30px',
     cursor: 'pointer',
-    borderColor:GARY_9,
-    position:"relative",
-    top:2,
+    borderColor: GARY_9,
+    position: 'relative',
+    top: 2,
   }),
   indicatorSeparator: (provided: any) => ({
     ...provided,
-    backgroundColor:WHITE,
+    backgroundColor: WHITE,
   }),
   clearIndicator: (provided: any) => ({
     ...provided,
     cursor: 'pointer',
-    borderColor:GARY_9,
+    borderColor: GARY_9,
   }),
   placeholder: (defaultStyles: any) => {
     return {
@@ -552,14 +546,14 @@ export const customStylechanges2 ={
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
-      borderColor:GARY_9,
+      borderColor: GARY_9,
       border: '0px',
     };
   },
   menu: (provided: any) => ({
     ...provided,
     margin: 0,
-    borderColor:GARY_9,
+    borderColor: GARY_9,
     // color:"#581845"
   }),
   menuList: (provided: any) => ({
@@ -568,23 +562,23 @@ export const customStylechanges2 ={
     maxHeight: 200,
     scrollbarWidth: 'thin',
     padding: 0,
-    borderColor:PRIMARY,  
+    borderColor: PRIMARY,
   }),
-  NoOptionsMessage: (provided: any)=> ({
+  NoOptionsMessage: (provided: any) => ({
     ...provided,
     fontSize: 13,
   }),
   hover: (provided: any) => ({
-    color:PRIMARY,
-    borderColor:PRIMARY,
+    color: PRIMARY,
+    borderColor: PRIMARY,
   }),
   selected: (provided: any) => ({
-    color:"green",
-    borderColor:PRIMARY,
-    backgroundColor:PRIMARY,
+    color: 'green',
+    borderColor: PRIMARY,
+    backgroundColor: PRIMARY,
   }),
   focus: (provided: any) => ({
-    color:PRIMARY,
-    borderColor:GARY_9,
+    color: PRIMARY,
+    borderColor: GARY_9,
   }),
 };
