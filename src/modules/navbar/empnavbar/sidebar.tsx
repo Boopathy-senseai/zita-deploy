@@ -725,7 +725,7 @@ const Sidebar = ({ changes, data }: props) => {
                           Expent === '0' ? styles.text : styles.classpan
                         }
                         color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
+                        style={{ color: '#581845', marginRight: '10px',  marginLeft: '20px' }}
                       >
                         Calendar
                       </Text>
@@ -751,7 +751,7 @@ const Sidebar = ({ changes, data }: props) => {
                       onClick={() => handleNavigate(7)}
                       className={Expent === '0' ? styles.text : styles.classpan}
                       color="primary"
-                      style={{ color: '#581845', marginRight: '10px' }}
+                      style={{ color: '#581845', marginRight: '10px',  marginLeft: '20px' }}
                     >
                       Calendar
                     </Text>
@@ -783,7 +783,7 @@ const Sidebar = ({ changes, data }: props) => {
                           Expent === '0' ? styles.text : styles.classpan
                         }
                         color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
+                        style={{ color: '#581845', marginRight: '10px',  marginLeft: '20px' }}
                       >
                         Meeting Scheduler
                       </Text>
@@ -809,7 +809,7 @@ const Sidebar = ({ changes, data }: props) => {
                           Expent === '0' ? styles.text : styles.classpan
                         }
                         color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
+                        style={{ color: '#581845', marginRight: '10px',  marginLeft: '20px' }}
                       >
                         Meeting Scheduler
                       </Text>
@@ -836,7 +836,7 @@ const Sidebar = ({ changes, data }: props) => {
                       onClick={() => handleNavigate(8)}
                       className={Expent === '0' ? styles.text : styles.classpan}
                       color="primary"
-                      style={{ color: '#581845', marginRight: '10px' }}
+                      style={{ color: '#581845', marginRight: '10px',  marginLeft: '20px' }}
                     >
                       Meeting Scheduler
                     </Text>
