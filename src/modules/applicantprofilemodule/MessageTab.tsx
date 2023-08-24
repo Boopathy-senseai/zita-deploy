@@ -238,6 +238,7 @@ const MessageTab = () => {
           flex={1}
           className={cx({ messageContainer: messages?.length !== 0 })}
         >
+          {console.log('1st', message[0])}
           <MessageList
             client_id_id={client_id_id}
             messages={messages}

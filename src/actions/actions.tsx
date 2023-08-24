@@ -3,7 +3,7 @@ export const API_AUTH_login = 'auth/auth_login';
 export const PASSWORD_RESET = 'auth/password_reset_request';
 export const PASSWORD_RESET_VALID = 'auth/password_reset_request_valid';
 export const SIGNUP_RECRUITER = 'auth/signup_recruiter';
-export const SIGN_GETRECRUITER='auth/signup_getrecruiter';
+export const SIGN_GETRECRUITER = 'auth/signup_getrecruiter';
 export const PASSWORD_SET = 'auth/password_set_request';
 export const API_USER = 'user/user';
 export const PERMISSION = 'user/permission';
@@ -45,7 +45,7 @@ export const  JOB_MATCHING_API = 'job_matching_api/job_matching_api';
 export const APPLICANT_PROFILE_INITIAL = 'applicant/applicant_profile_initial';
 export const APPLICANT_PROFILE_MATCH = 'applicant/applicant_profile_match';
 export const APPLICANT_PROFILE_NOTES = 'applicant/applicant_profile_notes';
-export const APPLICANT_PROFILE_LIST='applicant/applicant_profile_list';
+export const APPLICANT_PROFILE_LIST = 'applicant/applicant_profile_list';
 export const APPLICANT_PROFILE_ALLMATCH =
   'applicant/applicant_profile_all_match';
 export const APPLICANT_PROFILE_MESSAGE = 'applicant/applicant_message';
@@ -141,6 +141,24 @@ export const CANDIDATE_PROFILE_EMAIL_VALIDATE =
   'candidate/candidate_profile_email_validate';
 export const CANDIDATE_PROFILE_OTP_VALIDATE =
   'candidate/candidate_profile_otp_validate';
+
+//email integration
+
+export const GET_EMAIL = 'email_label';
+
+export const OUTLOOK_USER_PROFILE = 'outlook/me';
+
+export const INTEGRATE_MAIL = '';
+
+export const OUTLOOk_MAIL_REMOVE = 'delete_outlook_mail';
+
+export const OUTLOOk_MAIL_INTEGRATE = 'outlook_mail_api';
+
+export const GOOGLE_MAIL_INTEGRATE = 'google_mail_api';
+
+export const GOOGLE_MAIL_REMOVE = 'delete_google_mail';
+
+export const OUTLOOK_EMAIL_GET = '/me/mailFolders/Inbox/messages';
 
 // [Account Settings] --> Templates
 export const GET_TEMPLATE_DATA = 'account/template_data';

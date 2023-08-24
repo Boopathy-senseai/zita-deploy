@@ -22,6 +22,7 @@ import {
   googleCallbackMiddleware,
   IntergratemailMiddleWare,
 } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
+import { getEmail } from '../emailintegrationmodule/store/middleware/emailIntegrationMiddleWare';
 import Toast from '../../uikit/Toast/Toast';
 import CompanyPage from './companypage';
 //import UserProfile from './userprofilemodule/userProfile';
@@ -77,24 +78,7 @@ const AccountSettingsScreen = ({ value }: props) => {
   const [isReloadCompany, setReloadCompany] = useState(false);
   const [isReloadProfile, setReloadProfile] = useState(false);
   const [changeurl, setchangeurl] = useState(false);
-
-/* new use effect start */
-
-// useEffect(() => {
-//   const queryParams = new URLSearchParams(location.search)
-  
-//   if (queryParams.has('error')) {
-    
-//     queryParams.delete('error')
-//     history.replace({
-//       search: queryParams.toString(),
-//     })
-//   }
-// }, [])
-
-/* new use effect end */
-
-
+  const [load, setload] = useState(false);
   useEffect(() => {
     if (!isEmpty(tab)) {
       sessionStorage.setItem('superUserTab', tab);
@@ -134,8 +118,9 @@ const AccountSettingsScreen = ({ value }: props) => {
      */
 
     localStorage.setItem('freeCheck', 'true');
-    console.log(window.location.href);
+    console.log('urlll--', window.location.href);
     var url = new URL(window.location.href);
+
     if (url.searchParams.get('scope')) {
       // Google
       const code = url.searchParams.get('code');
@@ -158,6 +143,7 @@ const AccountSettingsScreen = ({ value }: props) => {
         state: url.searchParams.get('state'),
         session_state: url.searchParams.get('session_state'),
       };
+      // setload(true);
       dispatch(outlookCallbackMiddleware(access_urls))
         .then((res) => {
           console.log(res,'responce') ;    

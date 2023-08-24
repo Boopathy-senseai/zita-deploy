@@ -1,16 +1,18 @@
 /* eslint max-len: ["error", { "code": 2000 }] */
 const defaultProps = {
-  fill: '#581845',
-  width: 11,
-  height: 11,
+  fill: '#424242',
+  width: 13,
+  height: 13,
+  onClick: () => {},
 };
 
-const SvgLeft = ({ width, height, fill }: typeof defaultProps) => {
+const SvgLeft = ({ width, height, fill, onClick }: typeof defaultProps) => {
   return (
     <svg
       fill={fill}
       xmlns="http://www.w3.org/2000/svg"
       width={width}
+      onClick={onClick}
       height={height}
       viewBox="0 0 18 24"
     >

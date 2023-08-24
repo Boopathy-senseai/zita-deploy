@@ -227,7 +227,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
       Toast('Changes saved successfully', 'LONG');
     });
   };
- 
+
   /// skip stages
   if (isLoading) {
     return <Loader />;
@@ -276,7 +276,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
               // overflow: 'hidden',
               boxShadow: '0px 0px 2px 0px rgba(0, 0, 0, 0.36)',
               // padding: 28,
-              padding: "20px 28px 28px 28px",
+              padding: '20px 28px 28px 28px',
               margin: '0 1px',
               borderRadius: 10,
             }}
