@@ -933,12 +933,6 @@ console.log(locations,'kkkkkkkkkkkkkkkkkkk')
     }
   };
 
-  /// Download ------------>
-
-  // useEffect(() => {
-  //   if(downloadState.isLoading === false && )
-
-  // },[downloadState])
 
   const handleBulkDownload = () => {
     const candidate_id = getSelectedCandidateList();
@@ -959,7 +953,6 @@ console.log(locations,'kkkkkkkkkkkkkkkkkkk')
 
   return (
     <>
-    {console.log("changeeeee",change)}
       {showPipelinePopup && showStagesPopup === null && (
         <PipelinePopup
           jd_id={parseInt(jdId)}
@@ -1005,7 +998,7 @@ console.log(locations,'kkkkkkkkkkkkkkkkkkk')
         <Flex
           columnFlex
           className={styles.dndBoardContainer}
-          width={window.innerWidth - 220}
+          // width={window.innerWidth - 220}
         >
           <Flex row className={styles.titleContainer}>
             <Text bold size={16} color="theme">

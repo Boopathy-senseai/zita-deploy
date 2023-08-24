@@ -185,7 +185,7 @@ const TemplatesPage = () => {
             <Flex row between className={styles.titleBar}>
               <Flex
                 row
-                start
+                center
                 className={styles.title}
                 onClick={() => {
                   setTemplate(0);
@@ -197,7 +197,7 @@ const TemplatesPage = () => {
                   color="theme"
                   bold
                   size={14}
-                  style={{ marginLeft: '10px', marginTop: "4px" }}
+                  style={{ marginLeft: '5px' }}
                 >
                   Job Pipeline
                 </Text>

@@ -2391,6 +2391,9 @@ ul {
   margin-left: 15px;
   margin-bottom: 10px;
 }
+.rbc-event-content{
+  font-size: 13px !important;
+}
 
 .daterangepicker td.in-range {
   background-color: #d7c7d2 !important;

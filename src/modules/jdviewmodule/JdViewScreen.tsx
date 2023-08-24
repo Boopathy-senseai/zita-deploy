@@ -286,7 +286,7 @@ const JdViewScreen = () => {
                         className={styles.font10px}
                         style={{ color: '#888888' }}
                       >
-                        No Data Available
+                        No data available
                       </Text>
                     </Flex>
                   </>

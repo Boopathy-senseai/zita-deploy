@@ -35,11 +35,15 @@ export const formatEventTitle = (
   showTime = true,
 ): string => {
   if (event.title.includes('Zita event')) {
+    console.log(event.title)
     let time = new RegExp(
       /[0-9]+:[0-9]+ (am|pm) to [0-9]+:[0-9]+ (am|pm)/,
     ).exec(event.title);
+    console.log(time ,"1")
     let interview = new RegExp(/[a-zA-Z ]+ interview/).exec(event.title);
+    console.log(interview, "2")
     let withWhom = new RegExp(/with [a-zA-Z]+/).exec(event.title);
+    console.log(withWhom, "3")
 
     if (time && interview && withWhom) {
       if (showTime) {
@@ -48,7 +52,7 @@ export const formatEventTitle = (
       return `${interview[0]} ${withWhom[0]}`;
     }
   }
-
+  // console.log(event.title)
   return event.title;
 };
 

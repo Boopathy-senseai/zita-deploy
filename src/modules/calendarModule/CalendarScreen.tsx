@@ -194,6 +194,7 @@ const Calendar = () => {
       ) {
         setVisibleEvents(() => {
           return currentUserEvents.filter((event) => {
+            console.log(event, '12');
             if (!event.title?.includes('Zita event')) return event;
           });
         });
@@ -203,6 +204,7 @@ const Calendar = () => {
       ) {
         setVisibleEvents(() => {
           return currentUserEvents.filter((event) => {
+            console.log(event, '12');
             if (event.title?.includes('Zita event')) return event;
           });
         });
@@ -221,6 +223,7 @@ const Calendar = () => {
       ) {
         setVisibleEvents(() => {
           return teamMemberEvents.filter((event) => {
+            console.log(event, '12');
             if (!event.title?.includes('Zita event')) return event;
           });
         });
@@ -230,6 +233,7 @@ const Calendar = () => {
       ) {
         setVisibleEvents(() => {
           return teamMemberEvents.filter((event) => {
+            console.log(event, '12');
             if (event.title?.includes('Zita event')) return event;
           });
         });
@@ -308,13 +312,12 @@ const Calendar = () => {
       setOpenScheduleForm(true);
       localStorage.setItem('eventhandeler', 'false');
       handleCloseEventPop();
-      setCurrentEventId(localStorage.getItem('eventhandelerid')); 
+      setCurrentEventId(localStorage.getItem('eventhandelerid'));
       if (localStorage.getItem('checkstatus') === CALENDAR.Google) {
         dispatch(
           googleEditEventMiddleware({
             eventId: localStorage.getItem('eventhandelerid'),
           }),
-         
         )
           .then((res) => {
             // console.log(localStorage.getItem('eventhandelerid'));
@@ -360,7 +363,7 @@ const Calendar = () => {
       setOpenScheduleForm(true);
       localStorage.setItem('scheduleven', 'false');
     }
-  }, []); 
+  }, []);
   useEffect(() => {
     const Applicantname = localStorage.getItem('Applicantname');
     const jdname = localStorage.getItem('Jdname');
@@ -1046,29 +1049,27 @@ const Calendar = () => {
         options={globalZones}
         isSearchable={true}
         defaultValue={{ label: currentTimeZone, value: currentTimeZone }}
-        onChange={(option) => handleChangeTimeZone(option.value)} 
-        
+        onChange={(option) => handleChangeTimeZone(option.value)}
       />
     </div>
   );
 
   const CalendarHeaderView = (
     <>
-      
-        <div className={styles.calendarLogo}>
-          {/* <SvgCalendar width={30} height={30} /> */}
-          <Text bold size={16} color="theme">
-            Calendar
-          </Text>
-          <div className={styles.triangle}> </div>
-          {/* <SvgCalendar width={30} height={30} /> */}
-          {/* <Text bold size={16} color="theme">
+      <div className={styles.calendarLogo}>
+        {/* <SvgCalendar width={30} height={30} /> */}
+        <Text bold size={16} color="theme">
+          Calendar
+        </Text>
+        <div className={styles.triangle}> </div>
+        {/* <SvgCalendar width={30} height={30} /> */}
+        {/* <Text bold size={16} color="theme">
             Calendar
           </Text> */}
-          {/* <div className={styles.triangle}> </div> */}
-        </div>
+        {/* <div className={styles.triangle}> </div> */}
+      </div>
 
-      <Flex row between >
+      <Flex row between>
         {' '}
         <Flex className={styles.calendarInputs} marginTop={10}>
           <Flex row center marginRight={15}>
@@ -1084,7 +1085,8 @@ const Calendar = () => {
             </Text>
             <CalendarTypeMenu
               style={{
-                margin: '0px 10px', fontSize: '13px'
+                margin: '0px 10px',
+                fontSize: '13px',
               }}
               handleTeamMemberEvents={handleTeamMemberEvents}
               currentCalendarType={currentCalendarType}
@@ -1139,6 +1141,7 @@ const Calendar = () => {
           height: '-webkit-fill-available',
         }}
       >
+        {console.log(formatEventTitle)}
         {isCalendarIntegrated ? (
           <div className={styles.calenderContent}>
             {CalendarHeaderView}
@@ -1187,8 +1190,11 @@ const Calendar = () => {
                 )}
               </>
             )}
-            {console.log(currentEventId,'111111111currentEventIdcurrentEventIdcurrentEventIdcurrentEventIdcurrentEventId')}
-            {console.log("adadadad",openScheduleForm)}
+            {console.log(
+              currentEventId,
+              '111111111currentEventIdcurrentEventIdcurrentEventIdcurrentEventIdcurrentEventId',
+            )}
+            {console.log('adadadad', openScheduleForm)}
             {openScheduleForm && (
               <MeetingSchedulingScreen
                 username={currentUser.name}
@@ -1196,6 +1202,7 @@ const Calendar = () => {
                 currentUser={currentUser}
                 currentUserEvents={currentUserEvents}
                 EventId={currentEventId}
+                eventId={currentEventId}
                 cand_name={isApplicantname}
                 jd_name={isJdname}
                 jd_id={Number(isjdid)}

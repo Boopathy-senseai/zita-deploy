@@ -24,4 +24,6 @@
 .textArea {
   height: 90px;
 }
-
+.svgSquare{
+  top: -1px !important;
+}

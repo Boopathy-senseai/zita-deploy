@@ -33,6 +33,7 @@ interface Props {
   jd_id?: number;
   jd_name?: string;
   EventId?:any;
+  eventId?: any;
   recurringEventId?: string | null;
   openScheduleForm: boolean;
   teamMembers: TeamMemberType[];
@@ -53,6 +54,7 @@ const MeetingSchedulingScreen = ({
   APPLY,
   editEventDetails,
   EventId,
+  eventId,
   recurringEventId,
   calendarProvider,
   cand_name,
@@ -254,6 +256,7 @@ const MeetingSchedulingScreen = ({
           currentApplicantId={currentApplicantId}
           // extraNotes={extraNotes}
           EventId={EventId}
+          eventId={eventId}
           recurringEventId={recurringEventId}
           setIsTopLineLoading={setIsTopLineLoading}
         />
