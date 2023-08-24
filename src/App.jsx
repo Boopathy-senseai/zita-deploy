@@ -52,7 +52,8 @@ import {
   jobMetrics,
   zitaMatchScreen,
   calendarRoute,
-  meetingScheduler,
+  inbox,
+  meetingScheduler, 
 } from './appRoutesPath';
 import CreateJdWithNonDs from './modules/createjdmodule/CreateJdWithNonDs';
 import MyJobPostingScreen from './modules/myjobposting/MyJobPostingScreen';
@@ -77,6 +78,7 @@ import PassiveCandidateSourcing from './modules/reportsmodule/PassiveCandidateSo
 import JobMetrics from './modules/reportsmodule/JobMetrics';
 import SourcingPerformance from './modules/reportsmodule/SourcingPerformance';
 import DashBoardScreen from './modules/dashboardmodule/empdashboard/DashBoardScreen';
+import Inbox from './modules/emailintegrationmodule/integrationScreen';
 import CheckSignUpActivate from './modules/SignUp/CheckSignUpActivate';
 
 import MeetingSchedulerScreen from './modules/meetingscheduler/meetingSchedulerScreen';
@@ -342,9 +344,9 @@ const App = () => {
       exact: true,
       noPermission: true,
       isNav: true,
-      isside:true 
+       isside:true,
     },
-    {
+        {
       path: meetingScheduler,
       component: MeetingSchedulerScreen,
       exact: true,
@@ -353,6 +355,15 @@ const App = () => {
       isside:true
     },
      
+
+     {
+      path: inbox,
+      component: Inbox,
+      exact: true,
+      noPermission: true,
+      isNav: true,
+       isside:true
+    },
 
     { path: '/logout', component: Logout, exact: true, noPermission: true },
   ];
@@ -405,6 +416,8 @@ const App = () => {
         <Route path="/set-password/:id" component={SetPassword} />
         <Route path="/profile" component={Profile} />
         <Route path={'/check_activate'} component={CheckSignUpActivate} />
+
+        {/* <Route path="/mail/*" component={Inbox}/> */}
         {/* <Route path={''} component={NotFound} /> */}
         {/* <Route path="/calendar" component={Calendar} /> */}
         <Route path="/slotter" component={Slotter}/>

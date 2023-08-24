@@ -1,4 +1,3 @@
-// import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
@@ -39,15 +38,15 @@ import {
   googleCallApiMiddleware,
   IntergratemailMiddleWare,
 } from '../../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
+
+import { getEmail } from '../../emailintegrationmodule/store/middleware/emailIntegrationMiddleWare';
+
+import Email from './Emailintegration';
+
 import styles from './integrationscreen.module.css';
+
 // import MicrosoftLogin from './microSoftLogin/MicrosoftLogin';
 import {
-  // calenderTokenMiddleWare,
-  // googleEventMiddleWare,
-  // msEventMiddleWare,
-  // calenderTokenDeleteMiddleWare,
-  // calenderTokenGetMiddleWare,
-  // msEventMiddleWareMe,
   deleteOutlookMiddleware,
   deleteGoogleMiddleware,
 } from './store/middleware/integrationmiddleware';
@@ -58,19 +57,12 @@ import CalenderConfig from './calendarconfigurations/calendarconfig';
 // import { GoogleLogin } from './googleLogin/index';
 // var querystring = require('qs');
 
-// export const googleApiKey ='AIzaSyBeAuGhg-6jpECITaxW9BTZ_z9BXCqCMao';
 export const googleApiKey = 'AIzaSyC4DoRmvUsYtcQWa2PkMzjEbf1BQpAnlok';
 
 export const googleClientId =
-  // '115674732054-lja2hasnk5k080pgrm8l7qko6uej1gr2.apps.googleusercontent.com';
   '836461204453-ukhhuh2fku1j0n0rep5cp1ops5mt1hei.apps.googleusercontent.com';
 
-
 export const clientSecret = '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';
-// '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';
-// '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';
-
-// const msClientId = '63177925-c246-4962-8277-eab973bbf0fb';
 
 const IntegrationScreen = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -240,6 +232,10 @@ const IntegrationScreen = () => {
   }, []);
   
 
+  const loaderupdate = (val) => {
+    setLoginLoader(val);
+  };
+
   function outlookconfig(): void {
     throw new Error('Function not implemented.');
   }
@@ -257,6 +253,7 @@ const IntegrationScreen = () => {
     <Flex className={styles.overAll}>
       {/* {  console.log(tost,'ttttttttt')} */}
       {/* {console.log("outlookcallapimiddle::",outlookCallApiMiddleware)} */}
+      <Email loaderupdate={loaderupdate} />
       {isLoginLoader && <Loader />}
       <Flex columnFlex>
         <Text size={14} bold >

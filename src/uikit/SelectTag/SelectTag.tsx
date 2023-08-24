@@ -22,7 +22,7 @@ import {
   customStylechanges,
   customStyletrue,
   customStylechanges1,
-  customStylechanges2
+  customStylechanges2,
 } from './selectHelper';
 import styles from './selecttag.module.css';
 
@@ -50,9 +50,9 @@ type Props = {
   defaultValue?: { label: string; value: string | number | any };
   components?: Partial<SelectComponents<any, boolean, GroupBase<any>>>;
   lineStyle?: boolean;
-  stylechangess?:boolean;
-  stylechangess1?:boolean;
-  linechange?:boolean;
+  stylechangess?: boolean;
+  stylechangess1?: boolean;
+  linechange?: boolean;
   id?: string;
   isOptionSelected?: (option: any, selectValue: Options<any>) => boolean;
   onInputChange?: (newValue: string, actionMeta: InputActionMeta) => void;
@@ -69,7 +69,7 @@ type Props = {
   menuIsOpen?: boolean;
   autoFocus?: boolean;
   inputId?: string;
-  stylechanges?:boolean;  
+  stylechanges?: boolean;
 };
 
 const SelectTag = (
@@ -115,25 +115,19 @@ const SelectTag = (
   useEffect(() => {
     if (isMulti) {
       setSelectStyle(customStylesMulti);
-    } 
-    else if (stylechanges && !isMulti&& !lineStyle && linechange){
+    } else if (stylechanges && !isMulti && !lineStyle && linechange) {
       setSelectStyle(customStylechanges);
-    }
-    else if (lineStyle) {
+    } else if (lineStyle) {
       setSelectStyle(customStylesLine);
-    }else if(linechange && !isMulti && !lineStyle ){  
+    } else if (linechange && !isMulti && !lineStyle) {
       setSelectStyle(customStyletrue);
-    }
-    else if(stylechangess){  
+    } else if (stylechangess) {
       setSelectStyle(customStylechanges1);
-    }
-    else if(stylechangess1){  
+    } else if (stylechangess1) {
       setSelectStyle(customStylechanges2);
-    }
-     else if (!isMulti && !lineStyle) {
+    } else if (!isMulti && !lineStyle) {
       setSelectStyle(customStyles);
     }
-   
   }, []);
 
   return (
@@ -148,7 +142,6 @@ const SelectTag = (
             id={id}
             defaultValue={defaultValue}
             value={value}
-            
             name={name}
             isLoading={isLoading}
             isDisabled={isDisabled}
@@ -168,14 +161,12 @@ const SelectTag = (
             getOptionValue={getOptionValue}
             noOptionsMessage={noOptionsMessage}
             menuIsOpen={menuIsOpen}
-           
           />
         ) : (
           <Select
             inputId={inputId}
             ref={ref}
             id={id}
-
             defaultValue={defaultValue}
             value={value}
             name={name}

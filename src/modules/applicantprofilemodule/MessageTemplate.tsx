@@ -40,7 +40,8 @@ const MessageTemplate = ({
     );
 
     setSearchResults(results);
-  }, [searchTerm]);
+  }, [searchTerm, messageTemplate]);
+
   return (
     <Modal open={open}>
       <Flex columnFlex className={styles.overAll}>

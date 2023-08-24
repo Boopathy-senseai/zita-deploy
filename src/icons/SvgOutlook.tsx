@@ -2,6 +2,7 @@
 const defaultProps = {
   width: 24,
   height: 24,
+  className: '',
 };
 
 const SvgOutlook = ({ width, height }: typeof defaultProps) => {
