@@ -194,3 +194,11 @@
   font-size: 20px;
   cursor: default;
 }
+.starratingoverall ul li{
+  font-size:24px !important;
+  cursor: default !important;
+}
+.starratingoverall ul{
+margin-top: -26px;
+margin-bottom: 20px;
+}
