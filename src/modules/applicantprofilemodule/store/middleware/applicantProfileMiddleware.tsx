@@ -53,6 +53,7 @@ import {
   candidatematchtypes
 } from '../../applicantProfileTypes';
 import { stringifyParams } from '../../../../uikit/helper';
+import { IntegrateEntity } from '../../../applicantpipelinemodule/applicantPipeLineTypes';
 
 export const applicantProfileInitialMiddleWare = createAsyncThunk(
   APPLICANT_PROFILE_INITIAL,
@@ -415,12 +416,12 @@ export const googleAddEventMiddleware = createAsyncThunk(
   },
 );
 
-export const checkAuthMiddleware = createAsyncThunk(
+export const checkAuthMiddleware = createAsyncThunk<any,void>(
   'check_auth',
   async (_a, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(checkAuth);
-      return data;
+      return data as IntegrateEntity;
     } catch (error) {
       const typedError = error as Error;
       return rejectWithValue(typedError);

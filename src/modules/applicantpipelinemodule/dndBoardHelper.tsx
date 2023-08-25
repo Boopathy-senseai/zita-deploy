@@ -34,10 +34,21 @@ export const onDragEnd = (
   }
 };
 
-export const handleDownload = (file: string, filename?: string) => {
+export const handleDownload = (
+  file: string,
+  filename?: string,
+  type?: string,
+) => {
+  // console.log(file,filename,"------")
   if (file) {
-    saveAs(`${process.env.REACT_APP_HOME_URL}media/${file}`, `${filename || file}`);
-    Toast('yo downloaded successfully', 'LONG', 'success');
+    saveAs(
+      `${process.env.REACT_APP_HOME_URL}media/${file}`,
+      `${filename || file}`,
+    );
+    if (type === 'csvdownload') {
+      Toast('CSV downloaded successfully', 'LONG', 'success');
+    } else {
+      Toast('Resume downloaded successfully', 'LONG', 'success');
+    }
   }
 };
-

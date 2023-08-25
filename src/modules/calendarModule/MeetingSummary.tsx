@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 // import toast from 'react-hot-toast';
 import { useFormik } from 'formik';
 import { AppDispatch } from '../../store';
-import { InputText, Button, Flex, SelectTag, Text, Toast } from '../../uikit';
+import { InputText, Button, Flex, SelectTag, Text, Toast, Loader } from '../../uikit';
 import { SvgCalendar, SvgCalendar1, SvgEdit } from '../../icons';
 import RichText from '../common/RichText';
 import ExpandTile from '../../uikit/ExpandTile';
@@ -56,6 +56,7 @@ const MeetingSummary = ({
   setIsTopLineLoading,
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
+  const [isloading, setIsloading] = useState(false);
   const [tileState, setTileState] = useState<{
     applicant: boolean;
     interviewer: boolean;
@@ -119,6 +120,7 @@ const MeetingSummary = ({
   };
 
   const handleUpdateEvent = () => {
+    
     if (editEventDetails) {
       let edit_jd = editEventDetails.jobRole.value;
       let app_id = editEventDetails.applicant.id;
@@ -254,6 +256,8 @@ const MeetingSummary = ({
   );
 
   return (
+    <>
+    {/* {isloading && <Loader/>} */}
     <div
       style={{ display: 'flex', flexDirection: 'column', position: 'relative' }}
     >
@@ -394,6 +398,8 @@ const MeetingSummary = ({
         </div>
       </div>
     </div>
+    </>
+    
   );
 };
 

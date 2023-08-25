@@ -10,7 +10,15 @@ import toast, { Toaster } from 'react-hot-toast';
 
 import moment from 'moment';
 import { useLocation } from 'react-router-dom';
-import { Flex, Text, Button, LinkWrapper, SelectTag } from '../../uikit';
+import {
+  Flex,
+  Text,
+  Button,
+  LinkWrapper,
+  SelectTag,
+  Loader,
+  Toast,
+} from '../../uikit';
 import { SvgCalendar } from '../../icons';
 import { AppDispatch } from '../../store';
 import {
@@ -22,6 +30,8 @@ import {
   getApplicantsMiddleware,
 } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { TopLineLoader } from '../../uikit/v2/Loader';
+import { IntegrateEntity } from '../applicantpipelinemodule/applicantPipeLineTypes';
+import ColorEvent from './calendar-components/ColorEvent';
 import {
   CALENDAR,
   CalendarType,
@@ -58,8 +68,6 @@ import EventPopUpModal from './EventPopUpModal';
 import { setColor } from './colors';
 //import ToolBar from './calendar-components/ToolBar';
 import SimpleToolBar from './calendar-components/SimpleToolBar';
-
-import ColorEvent from './calendar-components/ColorEvent';
 import WeekHeader from './calendar-components/WeekHeader';
 import MeetingSchedulingScreen from './MeetingSchedulingScreen';
 import CalendarScreenLoader from './CalendarScreenLoader';
@@ -67,11 +75,11 @@ interface stateType {
   openScheduleEvent: boolean;
   recurringEventId: string;
 }
-
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 const Calendar = () => {
-  const { state: locationState } = useLocation<stateType>();
+  const { state: locationState, search } = useLocation<stateType>();
+  const param = new URLSearchParams(search);
   const dispatch: AppDispatch = useDispatch();
   const [currentUser, setCurrentUser] = useState<UserInfo>({
     id: null,
@@ -149,13 +157,9 @@ const Calendar = () => {
   // console.log('openScheduleForm', openScheduleForm);
 
   useEffect(() => {
-    console.log(locationState);
-    if (
-      locationState &&
-      locationState?.openScheduleEvent &&
-      locationState?.openScheduleEvent === true
-    ) {
-      setOpenScheduleForm(locationState?.openScheduleEvent);
+    const action = param.get('action');
+    if (param && action && action === 'open-scheduler-form') {
+      setOpenScheduleForm(true);
     }
     if (
       locationState &&
@@ -640,15 +644,16 @@ const Calendar = () => {
   const authenticateCalendarProvider = () => {
     dispatch(checkAuthMiddleware())
       .then((res) => {
-        if (res.payload.status === true) {
-          if (res.payload.account === 'google') {
+        const payload = res.payload as IntegrateEntity;
+        if (payload.status === true) {
+          if (payload.account === 'google') {
             setCalendarProvider(CALENDAR.Google);
             handleGetEvents(CALENDAR.Google);
           } else {
             setCalendarProvider(CALENDAR.Outlook);
             handleGetEvents(CALENDAR.Outlook);
           }
-          localStorage.setItem('userId', res.payload.user);
+          localStorage.setItem('userId', payload.user);
           setIsCalendarIntegrated(true);
         } else {
           setIsCalendarIntegrated(false);
@@ -761,21 +766,24 @@ const Calendar = () => {
                 (event) => event.eventId !== eventPopUpDetails?.eventId,
               ),
             );
-            toast.success('Event cancelled successfully', {
-              duration: 3500,
-            });
+            // toast.success('Event cancelled successfully', {
+            //   duration: 3500,
+            // });
+            Toast('Event cancelled successfully', 'LONG', 'success');
           } else {
-            toast.error('Failed to Delete Event', {
-              duration: 3500,
-            });
+            // toast.error('Failed to Delete Event', {
+            //   duration: 3500,
+            // });
+            Toast('Failed to Delete Event', 'LONG', 'error');
           }
         })
         .catch((err: any) => {
           console.error({ delete: err });
           setOpenEventDeleteModal(false);
-          toast.error('Failed to Delete Event', {
-            duration: 3500,
-          });
+          // toast.error('Failed to Delete Event', {
+          //   duration: 3500,
+          // });
+          Toast('Failed to Delete Event', 'LONG', 'error');
         });
     } else {
       dispatch(
@@ -794,20 +802,24 @@ const Calendar = () => {
                 (event) => event.eventId !== eventPopUpDetails.eventId,
               ),
             );
-            toast.success('Event cancelled successfully', {
-              duration: 3500,
-            });
+            // toast.success('Event cancelled successfully', {
+            //   duration: 3500,
+            // });
+            Toast('Event cancelled successfully', 'LONG', 'success');
           } else {
-            toast.error('Failed to Delete Event', {
-              duration: 3500,
-            });
+            // toast.error('Failed to Delete Event', {
+            //   duration: 3500,
+            // });
+            Toast('Failed to Delete Event', 'LONG', 'error');
           }
         })
         .catch((err: any) => {
           console.error(err);
-          toast.error('Failed to Delete Event', {
-            duration: 3500,
-          });
+          // toast.error('Failed to Delete Event', {
+          //   duration: 3500,
+          // });
+          Toast('Failed to Delete Event', 'LONG', 'error');
+
           setOpenEventDeleteModal(false);
         });
     }
@@ -1117,7 +1129,7 @@ const Calendar = () => {
   );
 
   if (isLoading) {
-    return <CalendarScreenLoader />;
+    return <Loader />;
   }
 
   return (
@@ -1132,7 +1144,8 @@ const Calendar = () => {
       }}
     >
       <Toaster position="top-right" reverseOrder={false} />
-      <TopLineLoader show={isTopLineLoading} />
+      {/* <TopLineLoader show={isTopLineLoading} /> */}
+
       <div
         style={{
           display: 'flex',
@@ -1141,7 +1154,6 @@ const Calendar = () => {
           height: '-webkit-fill-available',
         }}
       >
-        {console.log(formatEventTitle)}
         {isCalendarIntegrated ? (
           <div className={styles.calenderContent}>
             {CalendarHeaderView}
@@ -1190,11 +1202,7 @@ const Calendar = () => {
                 )}
               </>
             )}
-            {console.log(
-              currentEventId,
-              '111111111currentEventIdcurrentEventIdcurrentEventIdcurrentEventIdcurrentEventId',
-            )}
-            {console.log('adadadad', openScheduleForm)}
+
             {openScheduleForm && (
               <MeetingSchedulingScreen
                 username={currentUser.name}
@@ -1203,9 +1211,9 @@ const Calendar = () => {
                 currentUserEvents={currentUserEvents}
                 EventId={currentEventId}
                 eventId={currentEventId}
-                cand_name={isApplicantname}
-                jd_name={isJdname}
-                jd_id={Number(isjdid)}
+                cand_name={param.get('name') || isApplicantname}
+                jd_name={param.get('jobTitle') || isJdname}
+                jd_id={Number(param.get('id')) || Number(isjdid)}
                 APPLY={throughApplicant}
                 calendarProvider={calendarProvider}
                 editEventDetails={isEditEvent ? editEventDetails[0] : null}
@@ -1222,6 +1230,21 @@ const Calendar = () => {
           IntegrationMenuView
         )}
       </div>
+
+      {isTopLineLoading && (
+        <Flex
+          style={{
+            position: ' fixed',
+            top: 0,
+            bottom: 0,
+            right: 0,
+            left: 0,
+            zIndex: 100000000,
+          }}
+        >
+          <Loader />
+        </Flex>
+      )}
     </div>
   );
 };

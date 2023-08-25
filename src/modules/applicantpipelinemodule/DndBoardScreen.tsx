@@ -23,11 +23,6 @@ import { columnOrder } from './initialData';
 import { applicantUpdateStatusMiddleWare } from './store/middleware/applicantpipelinemiddleware';
 
 type Props = {
-  // applicant: ApplicantEntity[];
-  // shortlisted: ShortlistedEntityOrRejectedEntity[];
-  // selected: InterviewedEntityOrSelectedEntity[];
-  // rejected: ShortlistedEntityOrRejectedEntity[];
-  // interviewed: InterviewedEntityOrSelectedEntity[];
   columns: IStageColumn[];
   jd_id: string;
   outlook?: GoogleEntity[];
@@ -35,10 +30,6 @@ type Props = {
   job_details: JobDetailsEntity;
   onDragStart?: (start: { source: { droppableId: string } }) => void;
   onDragEnd?: (result: DropResult) => void;
-  // hanldeSortList?: () => void;
-  // hanldeInterview?: () => void;
-  // hanldeOffered?: () => void;
-  // hanldeReject?: () => void;
   isAlert: {
     type: 'bulk' | 'single';
     source: string;

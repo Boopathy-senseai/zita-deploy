@@ -27,12 +27,12 @@ moment.tz.setDefault(Intl.DateTimeFormat().resolvedOptions().timeZone);
 interface Props {
   username: string;
   cand_id?: number;
-  APPLY?:Boolean;
+  APPLY?: Boolean;
   cand_name?: string;
   cand_email?: string;
   jd_id?: number;
   jd_name?: string;
-  EventId?:any;
+  EventId?: any;
   eventId?: any;
   recurringEventId?: string | null;
   openScheduleForm: boolean;
@@ -43,6 +43,7 @@ interface Props {
   slotRange?: SlotRangeType;
   applicants?: UserType[];
   currentUser?: UserInfo;
+  params?: URLSearchParams;
   setIsTopLineLoading?: React.Dispatch<React.SetStateAction<boolean>>;
   handleEventScheduleForm: () => void;
 }
@@ -68,6 +69,7 @@ const MeetingSchedulingScreen = ({
   setIsTopLineLoading,
   applicants,
   currentUser,
+  params,
 }: Props) => {
   const [showPopup, setShowPopup] = useState(false);
   const dispatch: AppDispatch = useDispatch();
@@ -88,9 +90,7 @@ const MeetingSchedulingScreen = ({
   // );
 
   const updateCurrentApplicantId = (applicantId: number) => {
-
     setCurrentApplicantId(applicantId);
-
   };
 
   useEffect(() => {
@@ -137,20 +137,21 @@ const MeetingSchedulingScreen = ({
       });
     }
   }, [editEventDetails]);
-  useEffect(() => { 
+  useEffect(() => {
     if (APPLY) {
       setMeetingForm((form) => {
         return {
           ...form,
           applicant: {
             ...form.applicant,
-            id:Number(localStorage.getItem('jdid')),
-            name:localStorage.getItem('Applicantname'),
+            id: Number(localStorage.getItem('jdid')),
+            name: localStorage.getItem('Applicantname'),
           },
-          job: { ...form.job, label:localStorage.getItem('Jdname') }, 
+          job: { ...form.job, label: localStorage.getItem('Jdname') },
+        };
+      });
     }
-    })}}, [APPLY]);
- 
+  }, [APPLY]);
   useEffect(() => {
     // dispatch(getApplicantsMiddleware())
     //   .then((res: any) => {
@@ -202,9 +203,9 @@ const MeetingSchedulingScreen = ({
       'location',
       'interviewers',
     ].forEach((item) => localStorage.removeItem(item));
-    localStorage.setItem('Applicantsname','')
-    localStorage.setItem('Jdname','')
-    localStorage.setItem('jdid','')
+    localStorage.setItem('Applicantsname', '');
+    localStorage.setItem('Jdname', '');
+    localStorage.setItem('jdid', '');
     setViewMeetingSummary(false);
     setMeetingForm(meetingFormInitialState);
     handleEventScheduleForm();
@@ -216,12 +217,6 @@ const MeetingSchedulingScreen = ({
       open={openScheduleForm}
       closeModalOnOuterClick={false}
     >
-      {/* <div> */}
-      {/* <CrossButton
-            onClick={handleCloseSchedulingForm}
-            size={'14px'}
-            style={{ position: 'absolute', top: '12px', right: '12px' }}
-          /> */}
       {viewMeetingSummary === false ? (
         <MeetingSchedulingForm
           updateCurrentApplicantId={updateCurrentApplicantId}
