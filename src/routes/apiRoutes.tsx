@@ -295,6 +295,23 @@ export const jobViewCountApi = (jdId: string) => {
   return url;
 };
 
+//outlook integration
+
+export const maillist = `email_label`;
+
+export const IntegrateMail = ``;
+
+export const outlookmailIntegrate = `outlook_mail_api`;
+
+//export const outlookmailIntegrate = `outlook_mail_api`;
+
+export const outlookProfile_remove = `delete_outlook_mail`;
+
+export const getoutlookmaillist = `/me/mailFolders/Inbox/messages`;
+
+export const google_mail_integrate = `google_mail_api`;
+
+export const google_mail_remove = 'delete_google_mail';
 /// Scheduled Events
 
 export const calendarScheduledEvents = 'calender_scheduled_events';

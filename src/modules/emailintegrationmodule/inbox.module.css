@@ -1,0 +1,9 @@
+.cardhover {
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+.cardhover:hover {
+  border: 1px solid #581845;
+  cursor: pointer !important;
+}

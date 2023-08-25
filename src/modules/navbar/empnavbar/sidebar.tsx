@@ -5,7 +5,6 @@ import { useLocation, useHistory } from 'react-router-dom';
 import { meetingScheduler, reports } from '../../../appRoutesPath';
 import SvgCalendar from '../../../icons/SvgDBCalandar';
 import SvgDashboard from '../../../icons/SvgDashboard';
-import SvgCollapse from '../../../icons/SvgCollapse';
 import SvgExpand from '../../../icons/SvgExpant';
 import SvgJobPost from '../../../icons/SvgJobPost';
 import SvgSetting from '../../../icons/SvgSetting';
@@ -27,6 +26,8 @@ import { userProfileMiddleWare } from '../../accountsettingsmodule/userprofilemo
 import { permissionMiddleWare } from '../../Login/store/middleware/loginMiddleWare';
 import { logOutMiddleWare } from '../store/middleware/navbarmiddleware';
 import SvgScheduler from '../../../icons/SvgScheduler';
+import SvgCollapse from '../../../icons/Svgcollapse';
+import SvgMailbox from '../../../icons/SvgMailbox';
 import styles from './notification.module.css';
 
 import NavigationSearch from './NavigationSearch';
@@ -673,6 +674,72 @@ const Sidebar = ({ changes, data }: props) => {
             )}
           </>
           {/* )} */}
+          {is_plan ? (
+            changes ? (
+              <li className={pathname === '/mail' ? styles.select_row : ''}>
+                <LinkWrapper
+                  className={styles.hoverview}
+                  onClick={clearTabs}
+                  to={is_plan ? routesPath.MAIL : accountPath}
+                >
+                  <text style={{ marginLeft: '-2px' }}>
+                    <SvgMailbox height={16} width={16} />
+                  </text>
+
+                  <Text
+                    onClick={() => handleNavigate(7)}
+                    className={Expent === '0' ? styles.text : styles.classpan}
+                    color="primary"
+                    style={{ color: '#581845', marginRight: '10px' }}
+                  >
+                    Mailbox
+                  </Text>
+                </LinkWrapper>
+              </li>
+            ) : (
+              <li className={pathname === '/mail' ? styles.select_row : ''}>
+                <LinkWrapper
+                  className={styles.hoverview}
+                  onClick={clearTabs}
+                  to={is_plan ? routesPath.MAIL : accountPath}
+                >
+                  <text style={{ marginLeft: '-2px' }}>
+                    <SvgMailbox height={16} width={16} />
+                  </text>
+
+                  <Text
+                    onClick={() => handleNavigate(7)}
+                    className={Expent === '0' ? styles.text : styles.classpan}
+                    color="primary"
+                    style={{ color: '#581845', marginRight: '10px' }}
+                  >
+                    Mailbox
+                  </Text>
+                </LinkWrapper>
+              </li>
+            )
+          ) : (
+            <li className={pathname === '/mail' ? styles.select_row : ''}>
+              <LinkWrapper
+                className={styles.hoverview}
+                onClick={clearTabs}
+                to={is_plan ? routesPath.MAIL : accountPath}
+              >
+                <text style={{ marginLeft: '-2px' }}>
+                  <SvgMailbox height={16} width={16} />
+                </text>
+
+                <Text
+                  onClick={() => handleNavigate(7)}
+                  className={Expent === '0' ? styles.text : styles.classpan}
+                  color="primary"
+                  style={{ color: '#581845', marginRight: '10px' }}
+                >
+                  Mailbox
+                </Text>
+              </LinkWrapper>
+            </li>
+          )}
 
           {permission.includes('talent_sourcing') && (
             <>
@@ -775,7 +842,7 @@ const Sidebar = ({ changes, data }: props) => {
                       to={is_plan ? meetingScheduler : accountPath}
                     >
                       <text style={{ marginLeft: '-2px' }}>
-                        <SvgScheduler height={16} width={18}  opacity={0.7}/>
+                        <SvgScheduler height={16} width={18} opacity={0.7} />
                       </text>
                       <Text
                         onClick={() => handleNavigate(8)}
@@ -801,7 +868,7 @@ const Sidebar = ({ changes, data }: props) => {
                       to={is_plan ? meetingScheduler : accountPath}
                     >
                       <text style={{ marginLeft: '-2px' }}>
-                        <SvgScheduler height={16} width={18}  opacity={0.7}/>
+                        <SvgScheduler height={16} width={18} opacity={0.7} />
                       </text>
                       <Text
                         onClick={() => handleNavigate(8)}
@@ -830,7 +897,7 @@ const Sidebar = ({ changes, data }: props) => {
                     }}
                   >
                     <text style={{ marginLeft: '-2px' }}>
-                      <SvgScheduler height={16} width={18} opacity={0.7}/>
+                      <SvgScheduler height={16} width={18} opacity={0.7} />
                     </text>
                     <Text
                       onClick={() => handleNavigate(8)}

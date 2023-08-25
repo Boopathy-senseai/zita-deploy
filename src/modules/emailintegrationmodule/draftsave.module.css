@@ -1,0 +1,25 @@
+.draftmodal {
+  background-color: var(--color-white, #ffffff);
+  width: 470px;
+  padding: 25px;
+  border-radius: 4px;
+}
+.insertStyles {
+  margin-bottom: 5px;
+}
+.cancel {
+  margin-right: 8px;
+  background-color: #888888;
+  border: 2px solid #888888;
+  border-radius: 5px;
+}
+.cancel:active,
+.cancel:focus {
+  background-color: #888888;
+  border: none;
+}
+
+.content {
+  margin-top: 10px;
+  text-align: center;
+}
