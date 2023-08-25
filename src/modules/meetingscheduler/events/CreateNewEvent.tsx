@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { isEmptyArray, useField, useFormik } from 'formik';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import moment from 'moment-timezone';
+import { Link } from 'react-router-dom';
 import DateRangePicker, { Props } from 'react-bootstrap-daterangepicker';
 import Modal from '../../../uikit/Modal/Modal';
 import Flex from '../../../uikit/Flex/Flex';
@@ -23,6 +25,7 @@ import {
   googleCallApiMiddleware,
   outlookCallApiMiddleware,
 } from '../../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
+import SvgCross from '../../../icons/SvgCross';
 import {
   eventType,
   duration,
@@ -38,9 +41,8 @@ import Interviewer from './Interviewer';
 import DayTimeSplit from './DayTimeSplit';
 import 'bootstrap-daterangepicker/daterangepicker.css';
 import ConfirmationDialog from './ConfirmDialogBox/ConfirmDialogBox';
-import {
-  DataEntity,
-} from './ScheduleTypes';
+import { DataEntity } from './ScheduleTypes';
+import IntegrationPopup from './ConfirmDialogBox/IntegrationPopup';
 
 type CreateEvent = {
   event_name: string;
@@ -103,11 +105,11 @@ const CreateNewEvent = ({
   setIsOpen,
   HandleButton,
 }: CreateNewEventProps) => {
+  const history = useHistory();
   const dispatch: AppDispatch = useDispatch();
   const [interviewer, setInterviewer] = useState(false);
   const [interviewerData, setinterviewerData] = useState([]);
   const [edit_id, setedit_id] = useState(0);
-  const [include, setinclude] = useState(false);
   const [loading, setloading] = useState(false);
   const [saveButton, setsaveButton] = useState(false);
 
@@ -149,7 +151,6 @@ const CreateNewEvent = ({
     { starttime: '9:00 AM', endtime: '6:00 PM' },
   ]);
   const [checkedItems, setCheckedItems] = useState([]);
-  const [render, setrender] = useState(Date.now());
   const [sundaycheck, setsundaycheck] = useState(false);
   const [mondaycheck, setmondaycheck] = useState(true);
   const [tuesdaycheck, settuesdaycheck] = useState(true);
@@ -162,6 +163,10 @@ const CreateNewEvent = ({
   const [errMsg, seterrMsg] = useState(false);
   const [userzone, setuserzone] = useState('');
   const [changeCount, setChangeCount] = useState(0);
+  const [integration, setintegration] = useState(false);
+  const [integrationPage, setintegrationPage] = useState(false);
+  const [showerrMsg, setShowErrMsg] = useState(false);
+
   const { user } = useSelector(({ userProfileReducers }: RootState) => ({
     isLoading: userProfileReducers.isLoading,
     user: userProfileReducers.user,
@@ -188,6 +193,12 @@ const CreateNewEvent = ({
     }
     Timeszones();
   }, [duration, datetime, userzone]);
+
+  useEffect(() => {
+    if (google === false && outlook === false) {
+      setintegration(true);
+    }
+  }, []);
 
   useEffect(() => {
     if (sundaycheck === false) {
@@ -397,6 +408,27 @@ const CreateNewEvent = ({
       formik.values.description = '';
       errors.description = THIS_FIELD_REQUIRED;
     }
+
+    const days = [
+      { day: 'Sunday', array: sunday },
+      { day: 'Monday', array: monday },
+      { day: 'Tuesday', array: tuesday },
+      { day: 'Wednesday', array: wednesday },
+      { day: 'Thursday', array: thursday },
+      { day: 'Friday', array: friday },
+      { day: 'Saturday', array: saturday },
+    ];
+
+    const hasEmptyValues = days.some(({ array }) =>
+      array.some(
+        (item) => item.starttime.trim() === '' || item.endtime.trim() === '',
+      ),
+    );
+    if (hasEmptyValues) {
+      setShowErrMsg(true);
+    } else {
+      setShowErrMsg(false);
+    }
     return errors;
   };
 
@@ -588,115 +620,143 @@ const CreateNewEvent = ({
     }
   };
 
-  const handleSubmitForm = (values: CreateEvent) => {
-    const schedulearr = calculateSchedule();
-    if (
-      sundaycheck === false &&
-      mondaycheck === false &&
-      tuesdaycheck === false &&
-      wednesdaycheck === false &&
-      thursdaycheck === false &&
-      fridaycheck === false &&
-      saturdaycheck === false
-    ) {
-      const message = 'Select Atleast One Availble Day';
-      setMessageDialog(message);
-      setIsDialogOpen(true);
-    } else if (isEmptyArray(schedulearr)) {
-      const reschedule = DateBasedReschedule();
-    } else if (
-      sundaycheck ||
-      mondaycheck ||
-      tuesdaycheck ||
-      wednesdaycheck ||
-      thursdaycheck ||
-      fridaycheck ||
-      saturdaycheck
-    ) {
-      const userid = [];
-      userid.push(user.id.toString());
-      const mergedArray =
-        checkedItems.length === 0 ? userid : [...userid, ...checkedItems];
-      const formData = new FormData();
-      if (edit_id > 0) {
-        formData.append('pk', JSON.stringify(edit_id));
-      }
-      formData.append('event_name', values.event_name.trim());
-      formData.append('event_type', values.event_type);
-      formData.append('location', values.location.trim());
-      formData.append('days', values.days);
-      formData.append('startdate', values.startdate);
-      formData.append('enddate', values.enddate);
-      formData.append('duration', values.duration);
-      formData.append('timezone', values.timezone);
-      formData.append('interviewer', JSON.stringify(mergedArray));
-      formData.append('times_zone_display', values.timezonedisplay);
-      formData.append('description', values.description.trim());
-      if (sundaycheck === true) {
-        const filteredTimeSlots = sunday.filter(
-          (slot) => slot.starttime !== '' && slot.endtime !== '',
-        );
-        formData.append('sunday', JSON.stringify(filteredTimeSlots));
-      }
-      if (mondaycheck === true) {
-        const filteredTimeSlots = monday.filter(
-          (slot) => slot.starttime !== '' && slot.endtime !== '',
-        );
-        formData.append('monday', JSON.stringify(filteredTimeSlots));
-      }
-      if (tuesdaycheck === true) {
-        const filteredTimeSlots = tuesday.filter(
-          (slot) => slot.starttime !== '' && slot.endtime !== '',
-        );
-        formData.append('tuesday', JSON.stringify(filteredTimeSlots));
-      }
-      if (wednesdaycheck === true) {
-        const filteredTimeSlots = wednesday.filter(
-          (slot) => slot.starttime !== '' && slot.endtime !== '',
-        );
-        formData.append('wednesday', JSON.stringify(filteredTimeSlots));
-      }
-      if (thursdaycheck === true) {
-        const filteredTimeSlots = thursday.filter(
-          (slot) => slot.starttime !== '' && slot.endtime !== '',
-        );
-        formData.append('thursday', JSON.stringify(filteredTimeSlots));
-      }
-      if (fridaycheck === true) {
-        const filteredTimeSlots = friday.filter(
-          (slot) => slot.starttime !== '' && slot.endtime !== '',
-        );
-        formData.append('friday', JSON.stringify(filteredTimeSlots));
-      }
-      if (saturdaycheck === true) {
-        const filteredTimeSlots = saturday.filter(
-          (slot) => slot.starttime !== '' && slot.endtime !== '',
-        );
-        formData.append('saturday', JSON.stringify(filteredTimeSlots));
-      }
+  useEffect(() => {
+    const days = [
+      { day: 'Sunday', array: sunday },
+      { day: 'Monday', array: monday },
+      { day: 'Tuesday', array: tuesday },
+      { day: 'Wednesday', array: wednesday },
+      { day: 'Thursday', array: thursday },
+      { day: 'Friday', array: friday },
+      { day: 'Saturday', array: saturday },
+    ];
 
-      formData.append('slot', JSON.stringify(schedulearr));
-      if (formik.dirty === false) {
-        resetformik();
-        formik.initialValues = null;
-        formik.values = null;
-        setIsOpen(false);
+    const hasEmptyValues = days.some(({ array }) =>
+      array.some(
+        (item) => item.starttime.trim() === '' || item.endtime.trim() === '',
+      ),
+    );
+    if (hasEmptyValues) {
+      setShowErrMsg(true);
+    } else {
+      setShowErrMsg(false);
+    }
+  }, [showerrMsg]);
+
+  const handleSubmitForm = (values: CreateEvent) => {
+    // setShowErrMsg(true)
+
+    if (showerrMsg === false) {
+      const schedulearr = calculateSchedule();
+      if (
+        sundaycheck === false &&
+        mondaycheck === false &&
+        tuesdaycheck === false &&
+        wednesdaycheck === false &&
+        thursdaycheck === false &&
+        fridaycheck === false &&
+        saturdaycheck === false
+      ) {
+        const message = 'Select Atleast One Availble Day';
+        setMessageDialog(message);
+        setIsDialogOpen(true);
+      } else if (isEmptyArray(schedulearr)) {
+        const reschedule = DateBasedReschedule();
+      } else if (
+        sundaycheck ||
+        mondaycheck ||
+        tuesdaycheck ||
+        wednesdaycheck ||
+        thursdaycheck ||
+        fridaycheck ||
+        saturdaycheck
+      ) {
+        const userid = [];
+        userid.push(user.id.toString());
+        const mergedArray =
+          checkedItems.length === 0 ? userid : [...userid, ...checkedItems];
+        const formData = new FormData();
+        if (edit_id > 0) {
+          formData.append('pk', JSON.stringify(edit_id));
+        }
+        formData.append('event_name', values.event_name.trim());
+        formData.append('event_type', values.event_type);
+        formData.append('location', values.location.trim());
+        formData.append('days', values.days);
+        formData.append('startdate', values.startdate);
+        formData.append('enddate', values.enddate);
+        formData.append('duration', values.duration);
+        formData.append('timezone', values.timezone);
+        formData.append('interviewer', JSON.stringify(mergedArray));
+        formData.append('times_zone_display', values.timezonedisplay);
+        formData.append('description', values.description.trim());
+        if (sundaycheck === true) {
+          const filteredTimeSlots = sunday.filter(
+            (slot) => slot.starttime !== '' && slot.endtime !== '',
+          );
+          formData.append('sunday', JSON.stringify(filteredTimeSlots));
+        }
+        if (mondaycheck === true) {
+          const filteredTimeSlots = monday.filter(
+            (slot) => slot.starttime !== '' && slot.endtime !== '',
+          );
+          formData.append('monday', JSON.stringify(filteredTimeSlots));
+        }
+        if (tuesdaycheck === true) {
+          const filteredTimeSlots = tuesday.filter(
+            (slot) => slot.starttime !== '' && slot.endtime !== '',
+          );
+          formData.append('tuesday', JSON.stringify(filteredTimeSlots));
+        }
+        if (wednesdaycheck === true) {
+          const filteredTimeSlots = wednesday.filter(
+            (slot) => slot.starttime !== '' && slot.endtime !== '',
+          );
+          formData.append('wednesday', JSON.stringify(filteredTimeSlots));
+        }
+        if (thursdaycheck === true) {
+          const filteredTimeSlots = thursday.filter(
+            (slot) => slot.starttime !== '' && slot.endtime !== '',
+          );
+          formData.append('thursday', JSON.stringify(filteredTimeSlots));
+        }
+        if (fridaycheck === true) {
+          const filteredTimeSlots = friday.filter(
+            (slot) => slot.starttime !== '' && slot.endtime !== '',
+          );
+          formData.append('friday', JSON.stringify(filteredTimeSlots));
+        }
+        if (saturdaycheck === true) {
+          const filteredTimeSlots = saturday.filter(
+            (slot) => slot.starttime !== '' && slot.endtime !== '',
+          );
+          formData.append('saturday', JSON.stringify(filteredTimeSlots));
+        }
+
+        formData.append('slot', JSON.stringify(schedulearr));
+        if (formik.dirty === false) {
+          resetformik();
+          formik.initialValues = null;
+          formik.values = null;
+          setIsOpen(false);
+        }
+        if (formik.dirty === true) {
+          resetformik();
+          formik.initialValues = null;
+          formik.values = null;
+          formik.setFieldValue('event_name', '');
+          formik.setFieldValue('event_type', '');
+          formik.setFieldValue('duration', '');
+          formik.setFieldValue('description', '');
+          setIsOpen(false);
+          setShowErrMsg(false);
+        }
+        dispatch(postScheduleMiddleWare({ formData })).then((res) => {
+          const ToastMessage = formData.has('pk');
+          dispatch(getScheduleMiddleWare(undefined));
+          HandleButton(ToastMessage);
+        });
       }
-      if (formik.dirty === true) {
-        resetformik();
-        formik.initialValues = null;
-        formik.values = null;
-        formik.setFieldValue('event_name', '');
-        formik.setFieldValue('event_type', '');
-        formik.setFieldValue('duration', '');
-        formik.setFieldValue('description', '');
-        setIsOpen(false);
-      }
-      dispatch(postScheduleMiddleWare({ formData })).then((res) => {
-        const ToastMessage = formData.has('pk');
-        dispatch(getScheduleMiddleWare(undefined));
-        HandleButton(ToastMessage);
-      });
     }
   };
 
@@ -841,6 +901,7 @@ const CreateNewEvent = ({
   };
 
   function onclose() {
+    setShowErrMsg(false);
     if (formik.dirty === true) {
       const validate = window.confirm(
         'You have unsaved changes that will be lost, Are you sure to Proceed ?',
@@ -855,6 +916,7 @@ const CreateNewEvent = ({
     }
   }
   function oneditClose() {
+    setShowErrMsg(false);
     if (onValid !== null && formik.dirty === true) {
       const validate = window.confirm(
         'You have unsaved changes that will be lost, Are you sure to Proceed ?',
@@ -898,7 +960,7 @@ const CreateNewEvent = ({
     minDate: currentMonthStart,
   };
 
-  useEffect(() => {}, [formik.values.event_type]);
+  // useEffect(() => {}, [formik.values.event_type]);
 
   function ErrMessage(timeslot) {
     if (timeslot.length === 0) {
@@ -932,10 +994,30 @@ const CreateNewEvent = ({
     setDatePickerOpen(false);
     setDurationOpen(false);
   }
-  useEffect(() => {}, [onSelectShow]);
+
+  function onIntegration() {
+    setintegrationPage(true);
+  }
+
+  function PopupCancel() {
+    setIsOpen(false);
+  }
+
+  function removeInterviewer(id){
+    interviewerData.splice(id, 1);   
+    checkedItems.splice(id, 1)
+    setCheckedItems([...checkedItems])
+    console.log("checkedItemscheckedItems",checkedItems)  
+
+
+    setinterviewerData([...interviewerData]);
+  }
 
   const MAX_BUTTONS = 3;
   const MAX_BUTTON_TEXT_WIDTH = 85;
+
+
+  console.log("interviewerDatainterviewerData",interviewerData)
 
   return (
     <Flex>
@@ -1004,8 +1086,6 @@ const CreateNewEvent = ({
                   />
                 </Flex>
               </LabelWrapper>
-
-              {/* </div> */}
             </Flex>
           </Flex>
 
@@ -1158,30 +1238,35 @@ const CreateNewEvent = ({
               </Button>
 
               {interviewerData.slice(0, MAX_BUTTONS).map((name, index) => (
-                <Button
-                  key={index}
-                  style={{
-                    border: '1px solid #ccc',
-                    borderBottom: 'none',
-                    borderRadius: '2px 2px 0px 0px',
-                    padding: '5px',
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    maxWidth: MAX_BUTTON_TEXT_WIDTH + 'px',
-                    cursor: 'default',
-                  }}
-                  types="secondary"
-                >
-                  <Text
-                    title={name}
-                    color="theme"
-                    className={styles.interviewertxt}
+                <Flex key={index} row>
+                  <Button
+                    key={index}
+                    style={{
+                      border: '1px solid #ccc',
+                      borderBottom: 'none',
+                      borderRadius: '2px 2px 0px 0px',
+                      padding: '5px',
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      maxWidth: MAX_BUTTON_TEXT_WIDTH + 'px',
+                      cursor: 'default',
+                    }}
+                    types="secondary"
                   >
-                    {' '}
-                    {name}
-                  </Text>
-                </Button>
+                    <Text
+                      title={name}
+                      color="theme"
+                      className={styles.interviewertxt}
+                    >
+                      {' '}
+                      {name}
+                    </Text>
+                  </Button>
+                  <Flex style={{position:"relative"}} marginLeft={-20} onClick={() =>removeInterviewer(index)} >
+                    <SvgCross width={10} height={10} fill={'#581845'} />
+                  </Flex>
+                </Flex>
               ))}
               {interviewerData.length > MAX_BUTTONS && (
                 <Button
@@ -1277,6 +1362,8 @@ const CreateNewEvent = ({
                 editModel={editModel}
                 onValid={onValid}
                 changeCount={changeCount}
+                showerrMsg={showerrMsg}
+                setShowErrMsg={setShowErrMsg}
               />
             </Flex>
           </div>
@@ -1385,6 +1472,15 @@ const CreateNewEvent = ({
               message={messageDialog}
               onConfirm={handleConfirm}
               onCancel={handleCancel}
+            />
+          </Modal>
+        )}
+        {google === false && outlook === false && (
+          <Modal open={integration}>
+            <IntegrationPopup
+              message={messageDialog}
+              onConfirm={onIntegration}
+              onCancel={PopupCancel}
             />
           </Modal>
         )}

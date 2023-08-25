@@ -16,6 +16,8 @@ type Props = {
   editModel: any;
   onValid: any;
   changeCount: number;
+  showerrMsg: boolean;
+  setShowErrMsg: (boolean) => void;
   sunday: any;
   monday: any;
   tuesday: any;
@@ -23,7 +25,6 @@ type Props = {
   thursday: any;
   friday: any;
   saturday: any;
-  sundaycheck: boolean;
   setSunday: ([]) => void;
   setMonday: ([]) => void;
   setTuesday: ([]) => void;
@@ -31,6 +32,7 @@ type Props = {
   setThursday: ([]) => void;
   setFriday: ([]) => void;
   setSaturday: ([]) => void;
+  sundaycheck: boolean;
   mondaycheck: boolean;
   tuesdaycheck: boolean;
   wednesdaycheck: boolean;
@@ -53,6 +55,8 @@ const DayTimeSplit = ({
   editModel,
   onValid,
   changeCount,
+  showerrMsg,
+  setShowErrMsg,
   sunday,
   monday,
   tuesday,
@@ -208,8 +212,8 @@ const DayTimeSplit = ({
     let currentTime = startTime;
     let index = 0;
     while (currentTime <= endTime) {
-      const hour = currentTime.getHours() % 12 || 12; 
-      const minute = currentTime.getMinutes().toString().padStart(2, '0'); 
+      const hour = currentTime.getHours() % 12 || 12;
+      const minute = currentTime.getMinutes().toString().padStart(2, '0');
       const ampm = currentTime.getHours() >= 12 ? 'PM' : 'AM';
       const timeSlot = {
         id: index,
@@ -1114,7 +1118,6 @@ const DayTimeSplit = ({
     );
   };
 
-
   function copybtnClose() {
     setcopybtn(false);
     setopenIndex(0);
@@ -1189,7 +1192,7 @@ const DayTimeSplit = ({
       duration,
     );
   }
-
+  const errormessage = 'This field is required';
   return (
     <Flex>
       <Flex row center>
@@ -1206,125 +1209,141 @@ const DayTimeSplit = ({
               {sundaycheck === true ? (
                 sunday.map((x, i) => {
                   if (i === 0) {
+                    const hasEmptyTime = x.endtime === '';
+
                     return (
-                      <Flex row center flex={1} key={i}>
-                        <Flex row center className={styles.align}>
-                          <div
-                            onFocus={() => ErrMessage(DayStart)}
-                            className={styles.selectTag}
-                          >
-                            <SelectTag
-                              options={DayStart}
-                              placeholder={'Time'}
-                              name="starttime"
-                              defaultValue={{
-                                value: '0',
-                                label: '9:00 AM',
-                              }}
-                              value={
-                                x.starttime !== ''
-                                  ? time.find(
-                                      (option) => option.label === x.starttime,
-                                    )
-                                  : ''
-                              }
-                              onChange={(e) =>
-                                handleInputChangeForSunday(e, 0, 'starttime')
-                              }
-                            ></SelectTag>
-                          </div>
-                          <div className={styles.to}>
-                            <Text size={14} className={styles.txt}>
-                              To
-                            </Text>
-                          </div>
+                      <>
+                      <Flex>
+                        <Flex row center flex={1} key={i}>
+                          <Flex row center className={styles.align}>
+                            <div
+                              onFocus={() => ErrMessage(DayStart)}
+                              className={styles.selectTag}
+                            >
+                              <SelectTag
+                                options={DayStart}
+                                placeholder={'Time'}
+                                name="starttime"
+                                defaultValue={{
+                                  value: '0',
+                                  label: '9:00 AM',
+                                }}
+                                value={
+                                  x.starttime !== ''
+                                    ? time.find(
+                                        (option) =>
+                                          option.label === x.starttime,
+                                      )
+                                    : ''
+                                }
+                                onChange={(e) =>
+                                  handleInputChangeForSunday(e, 0, 'starttime')
+                                }
+                              ></SelectTag>
+                            </div>
+                            <div className={styles.to}>
+                              <Text size={14} className={styles.txt}>
+                                To
+                              </Text>
+                            </div>
 
-                          <div
-                            className={styles.selectTag}
-                            onFocus={() => ErrMessage(DayStart)}
-                          >
-                            <SelectTag
-                              options={day1}
-                              placeholder={'Time'}
-                              name="endtime"
-                              defaultValue={{
-                                value: '0',
-                                label: '6:00 PM',
-                              }}
-                              value={
-                                x.endtime !== ''
-                                  ? time.find(
-                                      (option) => option.label === x.endtime,
-                                    )
-                                  : ''
-                              }
-                              onChange={(e) =>
-                                handleInputChangeForSunday(e, 0, 'endtime')
-                              }
-                            ></SelectTag>
-                          </div>
+                            <div
+                              className={styles.selectTag}
+                              onFocus={() => ErrMessage(DayStart)}
+                            >
+                              <SelectTag
+                                options={day1}
+                                placeholder={'Time'}
+                                name="endtime"
+                                defaultValue={{
+                                  value: '0',
+                                  label: '6:00 PM',
+                                }}
+                                value={
+                                  x.endtime !== ''
+                                    ? time.find(
+                                        (option) => option.label === x.endtime,
+                                      )
+                                    : ''
+                                }
+                                onChange={(e) =>
+                                  handleInputChangeForSunday(e, 0, 'endtime')
+                                }
+                              ></SelectTag>
+                            </div>
+                          </Flex>
+                          {day1.length > 0 ? (
+                            <button
+                              className={styles.add}
+                              type="button"
+                              onClick={handleAddClickForSunday}
+                            >
+                              <SvgRoundAdd
+                                width={18}
+                                height={18}
+                                fill={'#581845'}
+                              />
+                            </button>
+                          ) : (
+                            <button
+                              className={styles.noadd}
+                              type="button"
+                              disabled={true}
+                            >
+                              <SvgRoundAdd
+                                width={18}
+                                height={18}
+                                fill={'#581845'}
+                              />
+                            </button>
+                          )}
+                          <CopyClipBoard
+                            index={1}
+                            name="sunday"
+                            day={sunday}
+                            setCopy={SetCopy}
+                            SetCopyId={SetCopyId}
+                            setSunday={setSunday}
+                            setMonday={setMonday}
+                            setTuesday={setTuesday}
+                            setWednesday={setWednesday}
+                            setThursday={setThursday}
+                            setFriday={setFriday}
+                            setSaturday={setSaturday}
+                            timeslot={day1}
+                            setDay1={setDay1}
+                            setDay2={setDay2}
+                            setDay3={setDay3}
+                            setDay4={setDay4}
+                            setDay5={setDay5}
+                            setDay6={setDay6}
+                            setDay7={setDay7}
+                            sundaycheck={sundaycheck}
+                            mondaycheck={mondaycheck}
+                            tuesdaycheck={tuesdaycheck}
+                            wednesdaycheck={wednesdaycheck}
+                            thursdaycheck={thursdaycheck}
+                            fridaycheck={fridaycheck}
+                            saturdaycheck={saturdaycheck}
+                            copybtn={true}
+                            copybtnClose={copybtnClose}
+                          />
                         </Flex>
-                        {day1.length > 0 ? (
-                          <button
-                            className={styles.add}
-                            type="button"
-                            onClick={handleAddClickForSunday}
-                          >
-                            <SvgRoundAdd
-                              width={18}
-                              height={18}
-                              fill={'#581845'}
-                            />
-                          </button>
-                        ) : (
-                          <button
-                            className={styles.noadd}
-                            type="button"
-                            disabled={true}
-                          >
-                            <SvgRoundAdd
-                              width={18}
-                              height={18}
-                              fill={'#581845'}
-                            />
-                          </button>
-                        )}
-
-                        {/* <Flex onClick={() => setcopybtn(true)}> */}
-                        <CopyClipBoard
-                          index={1}
-                          name="sunday"
-                          day={sunday}
-                          setCopy={SetCopy}
-                          SetCopyId={SetCopyId}
-                          setSunday={setSunday}
-                          setMonday={setMonday}
-                          setTuesday={setTuesday}
-                          setWednesday={setWednesday}
-                          setThursday={setThursday}
-                          setFriday={setFriday}
-                          setSaturday={setSaturday}
-                          timeslot={day1}
-                          setDay1={setDay1}
-                          setDay2={setDay2}
-                          setDay3={setDay3}
-                          setDay4={setDay4}
-                          setDay5={setDay5}
-                          setDay6={setDay6}
-                          setDay7={setDay7}
-                          sundaycheck={sundaycheck}
-                          mondaycheck={mondaycheck}
-                          tuesdaycheck={tuesdaycheck}
-                          wednesdaycheck={wednesdaycheck}
-                          thursdaycheck={thursdaycheck}
-                          fridaycheck={fridaycheck}
-                          saturdaycheck={saturdaycheck}
-                          copybtn={true}
-                          copybtnClose={copybtnClose}
-                        />
-                      </Flex>
+                        <Flex row center marginLeft={170}>
+                          {hasEmptyTime && showerrMsg && (
+                            <div className={styles.errorMsg}>
+                              {errormessage}
+                            </div>
+                          )}
+                        </Flex>
+                        </Flex>
+                      
+                      </>
+                      
                     );
+
                   }
+                  
                 })
               ) : (
                 <Flex flex={1} marginTop={6}>
@@ -1336,6 +1355,8 @@ const DayTimeSplit = ({
               {sunday.length > 1
                 ? sunday.map((x, i) => {
                     if (i > 0) {
+                      const hasEmptyTime =
+                        x.starttime === '' && x.endtime === '';
                       return (
                         <>
                           <Flex row center style={{ marginBottom: '10px' }}>
@@ -1401,6 +1422,13 @@ const DayTimeSplit = ({
                               )}
                             </div>
                           </Flex>
+                          <Flex row>
+                            {hasEmptyTime && showerrMsg && (
+                              <div className={styles.errorMsg}>
+                                {errormessage}
+                              </div>
+                            )}
+                          </Flex>
                         </>
                       );
                     }
@@ -1424,7 +1452,12 @@ const DayTimeSplit = ({
             {mondaycheck === true ? (
               monday.map((x, i) => {
                 if (i === 0) {
+                  const hasEmptyTime = x.endtime === '';
                   return (
+                    <>
+                    
+
+                    <Flex>
                     <Flex row center flex={1} key={i}>
                       <Flex row className={styles.align}>
                         <div
@@ -1507,7 +1540,7 @@ const DayTimeSplit = ({
                           </button>
                         )}
                       </div>
-    
+
                       <CopyClipBoard
                         index={2}
                         name="monday"
@@ -1540,6 +1573,15 @@ const DayTimeSplit = ({
                         copybtnClose={copybtnClose}
                       />
                     </Flex>
+                     <Flex row center marginLeft={170}>
+                     {hasEmptyTime && showerrMsg && (
+                       <div className={styles.errorMsg}>
+                         {errormessage}
+                       </div>
+                     )}
+                   </Flex>
+                   </Flex>
+                   </>
                   );
                 }
               })
@@ -1553,6 +1595,7 @@ const DayTimeSplit = ({
             {monday.length > 1 && monday
               ? monday.map((x, i) => {
                   if (i > 0) {
+                    const hasEmptyTime = x.starttime === '' && x.endtime === '';
                     return (
                       <>
                         <Flex row center style={{ marginBottom: '10px' }}>
@@ -1613,6 +1656,13 @@ const DayTimeSplit = ({
                             )}
                           </div>
                         </Flex>
+                        <Flex row>
+                          {hasEmptyTime && showerrMsg && (
+                            <div className={styles.errorMsg}>
+                              {errormessage}
+                            </div>
+                          )}
+                        </Flex>
                       </>
                     );
                   }
@@ -1631,7 +1681,10 @@ const DayTimeSplit = ({
             {tuesdaycheck === true ? (
               tuesday.map((x, i) => {
                 if (i === 0) {
+                  const hasEmptyTime = x.endtime === '';
                   return (
+                    <>
+                    <Flex>
                     <Flex
                       row
                       center
@@ -1754,6 +1807,15 @@ const DayTimeSplit = ({
                         copybtnClose={copybtnClose}
                       />
                     </Flex>
+                    <Flex row center marginLeft={170}>
+                    {hasEmptyTime && showerrMsg && (
+                      <div className={styles.errorMsg}>
+                        {errormessage}
+                      </div>
+                    )}
+                  </Flex>
+                  </Flex>
+                  </>
                   );
                 }
               })
@@ -1767,6 +1829,7 @@ const DayTimeSplit = ({
             {tuesday.length > 1
               ? tuesday.map((x, i) => {
                   if (i > 0) {
+                    const hasEmptyTime = x.starttime === '' && x.endtime === '';
                     return (
                       <>
                         <Flex row style={{ marginBottom: '10px' }}>
@@ -1826,6 +1889,13 @@ const DayTimeSplit = ({
                             )}
                           </div>
                         </Flex>
+                        <Flex row>
+                          {hasEmptyTime && showerrMsg && (
+                            <div className={styles.errorMsg}>
+                              {errormessage}
+                            </div>
+                          )}
+                        </Flex>
                       </>
                     );
                   }
@@ -1844,7 +1914,10 @@ const DayTimeSplit = ({
             {wednesdaycheck === true ? (
               wednesday.map((x, i) => {
                 if (i === 0) {
+                  const hasEmptyTime = x.endtime === '';
                   return (
+                    <>      
+                    <Flex>    
                     <Flex
                       row
                       center
@@ -1967,7 +2040,17 @@ const DayTimeSplit = ({
                         copybtnClose={copybtnClose}
                       />
                     </Flex>
+                     <Flex row center marginLeft={170}>
+                     {hasEmptyTime && showerrMsg && (
+                       <div className={styles.errorMsg}>
+                         {errormessage}
+                       </div>
+                     )}
+                   </Flex>
+                   </Flex>          
+                   </>
                   );
+
                 }
               })
             ) : (
@@ -1980,6 +2063,7 @@ const DayTimeSplit = ({
             {wednesday.length > 1
               ? wednesday.map((x, i) => {
                   if (i > 0) {
+                    const hasEmptyTime = x.starttime === '' && x.endtime === '';
                     return (
                       <>
                         <Flex row style={{ marginBottom: '10px' }}>
@@ -2043,6 +2127,13 @@ const DayTimeSplit = ({
                             )}
                           </div>
                         </Flex>
+                        <Flex row>
+                          {hasEmptyTime && showerrMsg && (
+                            <div className={styles.errorMsg}>
+                              {errormessage}
+                            </div>
+                          )}
+                        </Flex>
                       </>
                     );
                   }
@@ -2061,7 +2152,10 @@ const DayTimeSplit = ({
             {thursdaycheck === true ? (
               thursday.map((x, i) => {
                 if (i === 0) {
+                  const hasEmptyTime = x.endtime === '';
                   return (
+                    <>
+                    <Flex>          
                     <Flex
                       row
                       center
@@ -2184,6 +2278,15 @@ const DayTimeSplit = ({
                         copybtnClose={copybtnClose}
                       />
                     </Flex>
+                     <Flex row center marginLeft={170}>
+                     {hasEmptyTime && showerrMsg && (
+                       <div className={styles.errorMsg}>
+                         {errormessage}
+                       </div>
+                     )}
+                   </Flex>
+                   </Flex>          
+                   </>
                   );
                 }
               })
@@ -2197,6 +2300,7 @@ const DayTimeSplit = ({
             {thursday.length > 1
               ? thursday.map((x, i) => {
                   if (i > 0) {
+                    const hasEmptyTime = x.starttime === '' && x.endtime === '';
                     return (
                       <>
                         <Flex row style={{ marginBottom: '10px' }}>
@@ -2260,6 +2364,13 @@ const DayTimeSplit = ({
                             )}
                           </div>
                         </Flex>
+                        <Flex row>
+                          {hasEmptyTime && showerrMsg && (
+                            <div className={styles.errorMsg}>
+                              {errormessage}
+                            </div>
+                          )}
+                        </Flex>
                       </>
                     );
                   }
@@ -2278,7 +2389,10 @@ const DayTimeSplit = ({
             {fridaycheck === true ? (
               friday.map((x, i) => {
                 if (i === 0) {
+                  const hasEmptyTime = x.endtime === '';
                   return (
+                    <>     
+                    <Flex>                        
                     <Flex
                       row
                       center
@@ -2401,6 +2515,15 @@ const DayTimeSplit = ({
                         copybtnClose={copybtnClose}
                       />
                     </Flex>
+                     <Flex row center marginLeft={170}>
+                     {hasEmptyTime && showerrMsg && (
+                       <div className={styles.errorMsg}>
+                         {errormessage}
+                       </div>
+                     )}
+                   </Flex>
+                   </Flex>          
+                   </>
                   );
                 }
               })
@@ -2414,6 +2537,7 @@ const DayTimeSplit = ({
             {friday.length > 1
               ? friday.map((x, i) => {
                   if (i > 0) {
+                    const hasEmptyTime = x.starttime === '' && x.endtime === '';
                     return (
                       <>
                         <Flex row style={{ marginBottom: '10px' }}>
@@ -2472,7 +2596,16 @@ const DayTimeSplit = ({
                               </button>
                             )}
                           </div>
+                          
                         </Flex>
+                        <Flex row>
+                          {hasEmptyTime && showerrMsg && (
+                            <div className={styles.errorMsg}>
+                              {errormessage}
+                            </div>
+                          )}
+                        </Flex>
+                        
                       </>
                     );
                   }
@@ -2491,7 +2624,11 @@ const DayTimeSplit = ({
             {saturdaycheck === true ? (
               saturday.map((x, i) => {
                 if (i === 0) {
+                  const hasEmptyTime = x.endtime === '';
                   return (
+                    <>
+                    <Flex>          
+                   
                     <Flex
                       row
                       center
@@ -2614,6 +2751,15 @@ const DayTimeSplit = ({
                         copybtnClose={copybtnClose}
                       />
                     </Flex>
+                     <Flex row center marginLeft={170}>
+                     {hasEmptyTime && showerrMsg && (
+                       <div className={styles.errorMsg}>
+                         {errormessage}
+                       </div>
+                     )}
+                   </Flex>
+                   </Flex>          
+                   </>
                   );
                 }
               })
@@ -2627,6 +2773,7 @@ const DayTimeSplit = ({
             {saturday.length > 1
               ? saturday.map((x, i) => {
                   if (i > 0) {
+                    const hasEmptyTime = x.starttime === '' && x.endtime === '';
                     return (
                       <>
                         <Flex row style={{ marginBottom: '10px' }}>
@@ -2689,6 +2836,13 @@ const DayTimeSplit = ({
                               </button>
                             )}
                           </Flex>
+                        </Flex>
+                        <Flex row>
+                          {hasEmptyTime && showerrMsg && (
+                            <div className={styles.errorMsg}>
+                              {errormessage}
+                            </div>
+                          )}
                         </Flex>
                       </>
                     );

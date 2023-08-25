@@ -562,7 +562,6 @@ const SlotterDate = ({
     for (const targetInterval of targetIntervals) {
       let isExcluded = false;
       for (const excludedRange of excludedRanges) {
-       {console.log("isIntervalWithinRange",isIntervalWithinRange(targetInterval, excludedRange))}
         if (isIntervalWithinRange(targetInterval, excludedRange)) {
           isExcluded = true; 
           // break;
@@ -655,7 +654,7 @@ const SlotterDate = ({
         const remainingIntervals = getRemainingIntervalsWithinExcludedRanges(
           intervals12,
           eventsForSelectedDate,
-        );
+          );
         return remainingIntervals;
       } else {
         return intervals12;
@@ -770,7 +769,7 @@ const SlotterDate = ({
 
                         <Text
                           size={14}
-                          style={{ marginLeft: '5px', marginTop: '2px' }}
+                          style={{ marginLeft: '5px', marginTop: '2px', maxHeight : "150px", overflow : "scroll" }}
                         >
                           {data.description}
                         </Text>
@@ -961,6 +960,7 @@ return (
                     marginLeft: '5px',
                     textAlign: 'justify',
                     marginTop: '1px',
+                    maxHeight : "150px", overflow : "scroll"
                   }}
                 >
                   {list.description}
@@ -1118,6 +1118,7 @@ const InterviewDashBoard = ({
                     marginLeft: '5px',
                     textAlign: 'justify',
                     marginTop: '1px',
+                    maxHeight : "150px", overflow : "scroll"
                   }}
                 >
                   {list.description}
