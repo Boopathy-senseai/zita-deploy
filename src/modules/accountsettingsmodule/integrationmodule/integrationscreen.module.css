@@ -133,6 +133,10 @@
   padding: 25px;
   border-radius: 4px;
 }
+.okButton{
+  justify-self: flex-end;
+  margin-top: 20px;
+}
 .editmodal {
   background-color: var(--color-white, #ffffff);
   width: 500px;

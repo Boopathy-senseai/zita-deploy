@@ -3,7 +3,15 @@ import { useDispatch } from 'react-redux';
 // import toast from 'react-hot-toast';
 import { useFormik } from 'formik';
 import { AppDispatch } from '../../store';
-import { InputText, Button, Flex, SelectTag, Text, Toast, Loader } from '../../uikit';
+import {
+  InputText,
+  Button,
+  Flex,
+  SelectTag,
+  Text,
+  Toast,
+  Loader,
+} from '../../uikit';
 import { SvgCalendar, SvgCalendar1, SvgEdit } from '../../icons';
 import RichText from '../common/RichText';
 import ExpandTile from '../../uikit/ExpandTile';
@@ -120,12 +128,11 @@ const MeetingSummary = ({
   };
 
   const handleUpdateEvent = () => {
-    
     if (editEventDetails) {
       let edit_jd = editEventDetails.jobRole.value;
       let app_id = editEventDetails.applicant.id;
-
-      setIsTopLineLoading(true);
+      setIsloading(true);
+      // setIsTopLineLoading(true);
       dispatch(
         updateEventMiddleware({
           title: getMeetingTitle(),
@@ -183,8 +190,8 @@ const MeetingSummary = ({
       interviewer,
       notes,
     } = meetingForm;
-
-    setIsTopLineLoading(true);
+     setIsloading(true);
+    // setIsTopLineLoading(true);
     dispatch(
       scheduleEventMiddleware({
         title: getMeetingTitle(),
@@ -257,149 +264,162 @@ const MeetingSummary = ({
 
   return (
     <>
-    {/* {isloading && <Loader/>} */}
-    <div
-      style={{ display: 'flex', flexDirection: 'column', position: 'relative' }}
-    >
-      <CrossButton
-        onClick={handleCloseSchedulingForm}
-        size={10}
-        style={{ position: 'absolute', top: '12px', right: '15px' }}
-        fill={'#333'}
-      />
-      <div style={{ padding: '25px' }}>
-        <Flex
-          row
-          center
-          style={{
-            position: 'relative',
-            borderBottom: '0.5px solid #581845',
-          }}
-        >
-          <Flex marginBottom={5}>
-            <SvgCalendar1 size={14} fill="#333" />
-          </Flex>
-
-          <Text
-            size={14}
-            bold
-            // color="theme"
-            className={styles.formTitle}
-            style={{ marginBottom: '5px' }}
+      {/* {isloading && <Loader/>} */}
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          position: 'relative',
+        }}
+      >
+        <CrossButton
+          onClick={handleCloseSchedulingForm}
+          size={10}
+          style={{ position: 'absolute', top: '12px', right: '15px' }}
+          fill={'#333'}
+        />
+        <div style={{ padding: '25px' }}>
+          <Flex
+            row
+            center
+            style={{
+              position: 'relative',
+              borderBottom: '0.5px solid #581845',
+            }}
           >
-            Meeting Notification Summary
-          </Text>
-        </Flex>
-        <Flex
-          className={styles.meetingSummary}
-          column
-          style={{
-            paddingBottom: 10,
-            // borderBottom: '1px solid #cccccc',
-            overflow: 'auto',
-            // maxHeight: '90vh',
-          }}
-        >
-          <div className={styles.summary}>
-            <p
-              className={styles.header}
-              style={{ marginTop: '5px', fontWeight: 'bold' }}
+            <Flex marginBottom={5}>
+              <SvgCalendar1 size={14} fill="#333" />
+            </Flex>
+
+            <Text
+              size={14}
+              bold
+              // color="theme"
+              className={styles.formTitle}
+              style={{ marginBottom: '5px' }}
             >
-              Summary
-            </p>
-            <div className={styles.content}>{MeetingTitleView}</div>
-          </div>
-          <ExpandTile
-            backgroundColor="#58184530"
-            activeColor="#333333"
-            title={'Email notification to Applicant'}
-            show={tileState?.applicant}
-            onClick={() =>
-              setTileState({ ...tileState, applicant: !tileState.applicant })
-            }
+              Meeting Notification Summary
+            </Text>
+          </Flex>
+          <Flex
+            className={styles.meetingSummary}
+            column
+            style={{
+              paddingBottom: 10,
+              // borderBottom: '1px solid #cccccc',
+              overflow: 'auto',
+              // maxHeight: '90vh',
+            }}
           >
-            <EmailTemplate
-              {...meetingForm}
-              currentUserLabel={currentUserLabel}
-              greetingText={greetings.applicant}
-              email={
-                applicantEmail
-                  ? applicantEmail
-                  : localStorage.getItem('emailnote')
-              }
-              interviewerData={meetingForm?.interviewer}
-              onSave={(value) => {
-                /// save this text to some field
-                setGreetings((prev) => ({ ...prev, applicant: value }));
-              }}
-              editGreeting={true}
-            />
-          </ExpandTile>
-
-          {meetingForm.interviewer.length !== 0 && (
+            <div className={styles.summary}>
+              <p
+                className={styles.header}
+                style={{ marginTop: '5px', fontWeight: 'bold' }}
+              >
+                Summary
+              </p>
+              <div className={styles.content}>{MeetingTitleView}</div>
+            </div>
             <ExpandTile
               backgroundColor="#58184530"
-              activeColor="#000000"
-              title={'Email notification to interviewer'}
-              show={tileState?.interviewer}
+              activeColor="#333333"
+              title={'Email notification to Applicant'}
+              show={tileState?.applicant}
               onClick={() =>
-                setTileState({
-                  ...tileState,
-                  interviewer: !tileState.interviewer,
-                })
+                setTileState({ ...tileState, applicant: !tileState.applicant })
               }
             >
               <EmailTemplate
                 {...meetingForm}
                 currentUserLabel={currentUserLabel}
-                greetingText={greetings.interviewer}
-                email={meetingForm.interviewer.map((interview, index: Key) =>
-                  interview.calendarEmail
-                    ? interview.calendarEmail
-                    : interview.email,
-                )}
-                notes={meetingForm.privateNotes}
-                applicantInfo={meetingForm.applicant}
+                greetingText={greetings.applicant}
+                email={
+                  applicantEmail
+                    ? applicantEmail
+                    : localStorage.getItem('emailnote')
+                }
+                interviewerData={meetingForm?.interviewer}
                 onSave={(value) => {
                   /// save this text to some field
-                  setGreetings((prev) => ({ ...prev, interviewer: value }));
+                  setGreetings((prev) => ({ ...prev, applicant: value }));
                 }}
                 editGreeting={true}
               />
             </ExpandTile>
-          )}
-        </Flex>
-        <div
-          className={styles.actionButtonWrapper}
-          style={{ borderTop: '1px solid #c3c3c3' }}
-        >
-          <Button
-            onClick={nextEvent}
-            className={styles.cancel}
-            types={'primary'}
+
+            {meetingForm.interviewer.length !== 0 && (
+              <ExpandTile
+                backgroundColor="#58184530"
+                activeColor="#000000"
+                title={'Email notification to interviewer'}
+                show={tileState?.interviewer}
+                onClick={() =>
+                  setTileState({
+                    ...tileState,
+                    interviewer: !tileState.interviewer,
+                  })
+                }
+              >
+                <EmailTemplate
+                  {...meetingForm}
+                  currentUserLabel={currentUserLabel}
+                  greetingText={greetings.interviewer}
+                  email={meetingForm.interviewer.map((interview, index: Key) =>
+                    interview.calendarEmail
+                      ? interview.calendarEmail
+                      : interview.email,
+                  )}
+                  notes={meetingForm.privateNotes}
+                  applicantInfo={meetingForm.applicant}
+                  onSave={(value) => {
+                    /// save this text to some field
+                    setGreetings((prev) => ({ ...prev, interviewer: value }));
+                  }}
+                  editGreeting={true}
+                />
+              </ExpandTile>
+            )}
+          </Flex>
+          <div
+            className={styles.actionButtonWrapper}
+            style={{ borderTop: '1px solid #c3c3c3' }}
           >
-            Back
-          </Button>
-          {editEventDetails ? (
             <Button
-              onClick={handleUpdateEvent}
-              className={styles.continueButton}
+              onClick={nextEvent}
+              className={styles.cancel}
+              types={'primary'}
             >
-              Update Invite
+              Back
             </Button>
-          ) : (
-            <Button
-              onClick={handleScheduleEvent}
-              className={styles.continueButton}
-            >
-              Send Invite
-            </Button>
-          )}
+            {editEventDetails ? (
+              isloading ? (
+                <Flex middle center style={{ width: '70px' }} marginTop={20}>
+                  <Loader size="small" withOutOverlay />
+                </Flex>
+              ) : (
+                <Button
+                  onClick={handleUpdateEvent}
+                  className={styles.continueButton}
+                >
+                  Update Invite
+                </Button>
+              )
+            ) : isloading ? (
+              <Flex middle center style={{ width: '70px' }} marginTop={20}>
+                <Loader size="small" withOutOverlay />
+              </Flex>
+            ) : (
+              <Button
+                onClick={handleScheduleEvent}
+                className={styles.continueButton}
+              >
+                Send Invite
+              </Button>
+            )}
+          </div>
         </div>
       </div>
-    </div>
     </>
-    
   );
 };
 

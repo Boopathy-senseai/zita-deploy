@@ -131,7 +131,7 @@ const TemplatesPage = () => {
       <>
         {isLoading && <Loader />}
         <Flex className={styles.overflowContainer}>
-          <Flex row marginTop={'20px'}>
+          <Flex row marginTop={'10px'} marginLeft={'16px'}>
             <Flex flex={2} height={'unset'} minWidth={200} marginRight={20}>
               <TemplateCard
                 icon={<SvgJobPipeline height={16} width={16} fill="#333333" />}

@@ -768,6 +768,7 @@ input:-webkit-autofill:active {
 
 .rbc-header .rbc-button-link {
   width: 100%;
+  color: #333;
 }
 .rbc-event {
   border-radius: 2px !important;
@@ -786,6 +787,13 @@ input:-webkit-autofill:active {
 
 .rbc-header .rbc-button-link {
   width: 100%;
+}
+.rbc-agenda-time-cell{
+  border: 1px solid #ddd;
+}
+.rbc-agenda-view table.rbc-agenda-table, .rbc-label, .rbc-agenda-event-cell{
+  color: #333 !important;
+  font-size: 13px !important;
 }
 
 /* MUI OVERRIDE */
@@ -2393,6 +2401,10 @@ ul {
 }
 .rbc-event-content{
   font-size: 13px !important;
+  color: #333 !important;
+}
+.rbc-show-more{
+  color: #581845 !important;
 }
 
 .daterangepicker td.in-range {

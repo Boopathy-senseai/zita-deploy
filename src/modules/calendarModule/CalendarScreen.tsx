@@ -1132,6 +1132,10 @@ const Calendar = () => {
     return <Loader />;
   }
 
+  // const allViews = Object.keys(BigCalendar.Views).map(
+  //   (k) => BigCalendar.Views[k],
+  // );
+
   return (
     <div
       style={{
@@ -1140,7 +1144,7 @@ const Calendar = () => {
         width: '100%',
         height: '100%',
         overflow: 'hidden',
-        paddingBottom: 15,
+        // paddingBottom: 15,
       }}
     >
       <Toaster position="top-right" reverseOrder={false} />
@@ -1165,7 +1169,10 @@ const Calendar = () => {
                     events={visibleEvents}
                     dayLayoutAlgorithm={'no-overlap'}
                     defaultView={'work_week'}
-                    views={['day', 'work_week', 'week', 'month']}
+                    views={['day', 'work_week', 'week', 'month', 'agenda']}
+                    onShowMore={(events, date) =>
+                      useState({ showModal: true, events })
+                    }
                     onSelectSlot={(slotInfo) => {
                       handleOnSelectSlot(slotInfo);
                     }}

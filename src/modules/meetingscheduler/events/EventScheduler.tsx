@@ -169,7 +169,7 @@ const EventScheduler = () => {
       }}
      
     >
-      <Flex row between className={styles.initial} style={{width: "100%", marginBottom: 10}}>
+      <Flex row between className={styles.initial} style={{width: "100%", marginLeft:"6px"}}>
         <Flex>
           {/* <Text color="theme" bold size={16}>
               Events

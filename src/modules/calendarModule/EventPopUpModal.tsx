@@ -62,10 +62,10 @@ const EventPopUpModal = ({
       <div className={styles.deleteWarningPopUp}>
         {/* <div className={styles.warningMessage}> */}
         <Flex flex={6} center>
-          <Text color="black2" size={14} className={styles.insertStyles}>
+          <Text color="black2" size={13} className={styles.insertStyles}>
             Meeting will be canceled and notified to the attendees.
           </Text>
-          <Text color="black2" size={14} className={styles.insertStyles}>
+          <Text color="black2" size={13} className={styles.insertStyles}>
             Are you sure to proceed further?
           </Text>
         </Flex>

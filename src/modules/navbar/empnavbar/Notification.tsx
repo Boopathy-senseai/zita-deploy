@@ -182,7 +182,7 @@ const myfunction=()=>{
                     Notifications
                   </Text>
                   <Flex onClick={handleclose} style={{ cursor: 'pointer' }}>
-                    <SvgClose width={10} height={10} />
+                    <SvgClose width={10} height={10} fill={'#888888'}/>
                   </Flex>
                 </Flex>
                 <hr className={styles.line} />
@@ -748,7 +748,7 @@ const myfunction=()=>{
                     Notifications
                   </Text>
                   <Flex onClick={handleclose} style={{ cursor: 'pointer' }}>
-                    <SvgClose width={10} height={10} />
+                    <SvgClose width={10} height={10} fill={'#888888'}/>
                   </Flex>
                 </Flex>
                 <hr className={styles.line} />

@@ -721,7 +721,7 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
        </Flex>
        <Flex>
          <LabelWrapper label="Industry Type" required>
-           <div className={styles.with80} style={{ marginTop: 5 }}>
+           <div className={styles.with80} >
              <SelectTag
                id={'company_profile__industry_type'}
                required
@@ -806,7 +806,7 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
 
        <Flex>
          <LabelWrapper label="Country" required>
-           <div className={styles.with80} style={{ marginTop: 5 }}>
+           <div className={styles.with80} >
              <SelectTag
                id={'company_profile__country'}
                required
@@ -842,7 +842,7 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
        </Flex>
        <Flex>
          <LabelWrapper label="State" required>
-           <div className={styles.with80} style={{ marginTop: 5 }}>
+           <div className={styles.with80} >
              <SelectTag
                id={'company_profile__state'}
                // inputId="jobdetails___state"
@@ -880,7 +880,7 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
      <Flex row className={styles.companyrow} flex={12}>
        <Flex>
          <LabelWrapper label="City" required>
-           <div className={styles.with80} style={{ marginTop: 5 }}>
+           <div className={styles.with80} >
              <SelectTag
                id={'company_profile__city'}
                isSearchable
@@ -976,7 +976,7 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
                  row
                  center
                  flex={1}
-                 style={{ marginTop: 5 }}
+                //  style={{ marginTop: 5 }}
                >
                  <label
                    htmlFor="company_profile___img"
@@ -1082,7 +1082,7 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
                    row
                    center
                    flex={1}
-                   style={{ marginTop: 5 }}
+                  //  style={{ marginTop: 5 }}
                  >
                    <label
                      htmlFor="company_profile___img"
@@ -1282,7 +1282,7 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
                       row
                       center
                       flex={1}
-                      style={{ marginTop: 5 }}
+                      // style={{ marginTop: 5 }}
                     >
                       <label
                         htmlFor="bannersetip_user__img"
@@ -1395,7 +1395,7 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
                         row
                         center
                         flex={1}
-                        style={{ marginTop: 5 }}
+                        // style={{ marginTop: 5 }}
                       >
                         <label
                           htmlFor="bannersetip_user__img"

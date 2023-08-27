@@ -36,7 +36,7 @@ const PlansandFeatures = ({
   const [isTotalUserBasic, setTotalUserBasic] = useState(0);
   const [isTotalUserPro, setTotalUserPro] = useState(0);
   const history = useHistory();
-  const [isCount,setCount]=useState({count:'',key:''})
+  const [isCount, setCount] = useState({ count: '', key: '' });
   const [isDefalutPlan, setDefaultPlan] = useState(false);
 
   const useQuery = () => {
@@ -63,10 +63,9 @@ const PlansandFeatures = ({
   useEffect(() => {
     if (subscription) setTotalUser(subscription?.no_of_users);
     if (subscription) setTotalUserBasic(subscription?.no_of_users);
-
   }, [subscription]);
 
-  // plan id based button condition check 
+  // plan id based button condition check
   useEffect(() => {
     if (subscription && subscription.plan_id_id === 1) {
       setFreePlan('Current Plan');
@@ -122,7 +121,14 @@ const PlansandFeatures = ({
     } else {
       setProPlan('Choose Plan');
     }
-  }, [subscription, isTotalUser, isPlan, isDefalutPlan,isTotalUserPro,isTotalUserBasic]);
+  }, [
+    subscription,
+    isTotalUser,
+    isPlan,
+    isDefalutPlan,
+    isTotalUserPro,
+    isTotalUserBasic,
+  ]);
 
   useEffect(() => {
     if (
@@ -143,44 +149,46 @@ const PlansandFeatures = ({
     Number(subscription.subscription_changed_to) === -1;
 
   return (
-    <Card className={styles.overAll} id='plans_and_features__plan'>
-      <Flex  >
+    <Card className={styles.overAll} id="plans_and_features__plan">
+      <Flex>
         <Flex row center between>
-        <Flex  >
+          <Flex>
             <Text size={14} bold>
               Plans and Features
             </Text>
           </Flex>
           <Flex>
-          
-                  <div
-                  style={{marginLeft:'5px'}}
-                tabIndex={-1}
-                role="button"
-                onKeyDown={() => {}}
-                onClick={() => setPriceShow(!isShowPrice)}
-                >
-                <SvgAngle fill={GARY_4} height={16} width={16} up={isShowPrice} />
-              </div>
-            </Flex>
-          
+            <div
+              style={{ marginLeft: '5px' }}
+              tabIndex={-1}
+              role="button"
+              onKeyDown={() => {}}
+              onClick={() => setPriceShow(!isShowPrice)}
+            >
+              <SvgAngle fill={"#581845"} height={16} width={16} up={isShowPrice} />
+            </div>
+          </Flex>
         </Flex>
-        
-        
+
         {isShowPrice && (
           <>
-          <Flex row center className={styles.switchFlex} style={{display:'flex',justifyContent:'center'}} >
-          <Text >Billed Monthly</Text>
-          <div style={{ margin: '0px 5px 0px 10px' }}>
-            <InputSwitch
-            offFill={PRIMARY}
-              checked={isPlan}
-              onClick={() => setPlan(!isPlan)}
-            />
-          </div>
-           <Text >Billed Annually</Text>
-          </Flex>
-            <Flex columnFlex style={{display:'flex',alignItems:'center'}}>
+            <Flex
+              row
+              center
+              className={styles.switchFlex}
+              style={{ display: 'flex', justifyContent: 'center' }}
+            >
+              <Text>Billed Monthly</Text>
+              <div style={{ margin: '0px 5px 0px 10px' }}>
+                <InputSwitch
+                  offFill={PRIMARY}
+                  checked={isPlan}
+                  onClick={() => setPlan(!isPlan)}
+                />
+              </div>
+              <Text>Billed Annually</Text>
+            </Flex>
+            <Flex columnFlex style={{ display: 'flex', alignItems: 'center' }}>
               <Flex row>
                 <PriceCard
                   setTab={setTab}
@@ -224,7 +232,11 @@ const PlansandFeatures = ({
                     }
                     basicTotalUser={
                       subscription && subscription.plan_id_id !== 1
-                        ? (Number(isCount.key) === 3 ||Number(isCount.key) === 2) && !isEmpty(isCount.count) ? Number(isCount.count):subscription?.no_of_users
+                        ? (Number(isCount.key) === 3 ||
+                            Number(isCount.key) === 2) &&
+                          !isEmpty(isCount.count)
+                          ? Number(isCount.count)
+                          : subscription?.no_of_users
                         : 0
                     }
                     planId={isPlan ? 3 : 2}
@@ -246,8 +258,12 @@ const PlansandFeatures = ({
                   btnDisabled={proPlanBtn === 'Current Plan' || cancelPlanCheck}
                   basicTotalUser={
                     subscription && subscription.plan_id_id !== 1
-                    ? (Number(isCount.key) === 5 ||Number(isCount.key) === 4) && !isEmpty(isCount.count) ? Number(isCount.count):subscription?.no_of_users
-                    : 0
+                      ? (Number(isCount.key) === 5 ||
+                          Number(isCount.key) === 4) &&
+                        !isEmpty(isCount.count)
+                        ? Number(isCount.count)
+                        : subscription?.no_of_users
+                      : 0
                   }
                   planId={isPlan ? 5 : 4}
                 />
@@ -257,14 +273,22 @@ const PlansandFeatures = ({
                 types="link"
                 style={{ margin: '25px 0' }}
               >
-                <Flex row center>
-                  {isCompare ?
-                    <Text bold color='link' style={{ marginRight: 2, position: 'relative', top: -1 }}>-</Text> :
-                    <Text bold color='link' style={{ marginRight: 2 }}>+</Text>
+                <Flex row >
+                  {isCompare ? (
+                    <Text
+                      bold
+                      color="link"
+                      style={{ marginRight: 2, position: 'relative', top: -1 }}
+                    >
+                      -
+                    </Text>
+                  ) : (
+                    <Text bold color="link" style={{ marginRight: 5 }}>
+                      +
+                    </Text>
+                  )}
 
-                  }
-
-                  <Text  color='link' bold>
+                  <Text color="link" bold size={14}>
                     Detailed Features Comparison
                   </Text>
                 </Flex>

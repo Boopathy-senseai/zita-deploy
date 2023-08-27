@@ -408,7 +408,7 @@ console.log(eventsList,"hello")
       </Flex>
       <Flex
         style={{
-          padding: '10px',
+          padding: '10px 16px',
           height: 'calc(100% - 150px)',
           overflow: 'auto',
         }}

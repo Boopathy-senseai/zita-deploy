@@ -391,7 +391,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
             <SvgClose
               width={12}
               height={12}
-              fill={'581845'}
+              fill={'#888888'}
               cursor={'pointer'}
             />
           </Flex>

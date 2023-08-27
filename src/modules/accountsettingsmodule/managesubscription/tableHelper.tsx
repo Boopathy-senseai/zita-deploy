@@ -22,9 +22,8 @@ type Props = {
 const sidebar=sessionStorage.getItem("EmpToggle");
 const sidebar1=sidebar==='1';
 const PlanTable =  ( data : Props)  => {
-  console.log("++++++++++++",data.data[0].current_status,data.data[0])
   return (
-    <Flex row style={{paddingBottom: '15px',paddingLeft: '5px'}} between>
+    <Flex marginTop={15} row style={{marginBottom: '15px',paddingLeft: '6px'}} between>
       <Flex center className={styles.boxshadow}>
       <Text style={{color:"#581845"}} >Subscription Plan</Text>
       <Text className={styles.textstyle}>

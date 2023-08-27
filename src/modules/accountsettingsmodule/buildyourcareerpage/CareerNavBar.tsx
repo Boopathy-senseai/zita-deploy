@@ -107,7 +107,7 @@ const CareerNavBar = ({
             onClick={() => setOpen(false)}
             className={styles.svgClose}
           >
-            <SvgCloseSmall fill="#979797" />
+            <SvgCloseSmall fill="#888888" />
           </div>
           <Flex columnFlex>
             {!isEmpty(career_page_setting.menu_1) && (

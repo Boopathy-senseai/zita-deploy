@@ -539,7 +539,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
               show={tileState?.careersPage}
               styles={{
                 border: 'none',
-                marginTop: '16px',
+                marginTop: '10px',
                 boxShadow: '0 1px 4px 0 rgb(0 0 0 / 47%)',
               }}
               contentStyles={{ padding: '10px' }}
@@ -576,7 +576,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
               show={tileState?.pageSetup}
               styles={{
                 border: 'none',
-                marginTop: '16px',
+                marginTop: '10px',
                 boxShadow: '0 1px 4px 0 rgb(0 0 0 / 47%)',
               }}
               contentStyles={{ padding: '10px' }}
@@ -609,7 +609,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
               show={tileState?.headerSetup}
               styles={{
                 border: 'none',
-                marginTop: '16px',
+                marginTop: '10px',
                 boxShadow: '0 1px 4px 0 rgb(0 0 0 / 47%)',
               }}
               contentStyles={{ padding: '10px' }}
@@ -643,7 +643,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
               show={tileState?.bannerSetup}
               styles={{
                 border: 'none',
-                marginTop: '16px',
+                marginTop: '10px',
                 boxShadow: '0 1px 4px 0 rgb(0 0 0 / 47%)',
               }}
               contentStyles={{ padding: '10px' }}
@@ -679,7 +679,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
               show={tileState?.buttonAndFooterSetup}
               styles={{
                 border: 'none',
-                marginTop: '16px',
+                marginTop: '10px',
                 boxShadow: '0 1px 4px 0 rgb(0 0 0 / 47%)',
               }}
               contentStyles={{ padding: '10px' }}
