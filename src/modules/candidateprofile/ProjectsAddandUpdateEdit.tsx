@@ -275,7 +275,7 @@ const ProjectsAddandUpdateEdit = ({
         >
           <SvgCloseSmall />
         </div>
-        <Text align="center" bold size={16} className={styles.title}>
+        <Text align="center" bold size={14} className={styles.title}>
           {isUpdate ? 'Update' : 'Add'} Project
         </Text>
         <Flex row top>

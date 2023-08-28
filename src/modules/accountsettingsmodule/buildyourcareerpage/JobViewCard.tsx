@@ -155,12 +155,13 @@ const JobViewCard = ({
               {login_user ? (
                 <Flex
                   // flex={isMobile ? 1 : 4}
-                  columnFlex
+                  
                   className={styles.btnContainer}
                 >
                   {applied_status !== 0 && (
-                    <div style={{ marginBottom: 20, marginRight: 34 }}>
-                      <Status label={'Applied'} color="success" />
+                    // <div style={{ marginBottom: 20, marginRight: 34 }}>
+                    <div style={{fontWeight:"bold"}}>
+                      <Status label={'Applied'} color="success"/>
                     </div>
                   )}
                   <LinkWrapper to={`/`}>
