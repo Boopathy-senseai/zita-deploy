@@ -1358,7 +1358,7 @@ const CreateNewEvent = (props) => {
       <Flex className={styles.createnewlink}>
         <Flex style={{ padding: '0px 25px' }}>
           <Flex className={styles.title}>
-            <Text color="theme" bold size={14} style={{ marginBottom: '5px' }}>
+            <Text  bold size={14} style={{ marginBottom: '5px' }}>
               Create Event
             </Text>
           </Flex>
@@ -1729,6 +1729,7 @@ const CreateNewEvent = (props) => {
           )}
 
           <div className={styles.daytimesplit}>
+          <Flex title={"New intervals"} row>
             <Flex row style={{ border: '1px solid #c3c3c3', padding: '10px' }}>
               <DayTimeSplit
                 key={render}
@@ -1773,6 +1774,7 @@ const CreateNewEvent = (props) => {
                 setChangeCount = {setChangeCount}
               
               />
+            </Flex>
             </Flex>
           </div>
           <ErrorMessage

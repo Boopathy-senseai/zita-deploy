@@ -1594,6 +1594,7 @@ const DayTimeSplit = (props) => {
                 )}
               
                   {/* <Flex onClick={() => setcopybtn(true)}> */}
+                  <Flex title={"Copy Timings"} row>
                   <CopyClipBoard
                     index={1}
                     name="sunday"
@@ -1631,6 +1632,7 @@ const DayTimeSplit = (props) => {
                     setfinal ={setfinal}
                     // onApplyButtonClick ={onApplyButtonClick}
                   />
+                  </Flex>
                   {/* </Flex> */}
                 {/* )}
                 </div> */}
@@ -1805,6 +1807,7 @@ const DayTimeSplit = (props) => {
                     <SvgCopy width={18} height={18} fill="#FFC203" />
                   </button>
                   {copyid === 2 ? ( */}
+                  <Flex title={"Copy timings"} row>
                 <CopyClipBoard
                       key={2}
                       copy={copy}
@@ -1844,6 +1847,7 @@ const DayTimeSplit = (props) => {
                     ''
                   )}
                 </div> */}
+                </Flex>
               </Flex>
             )}
           }) : (
@@ -2010,6 +2014,7 @@ const DayTimeSplit = (props) => {
                     </button>
                   )}
                 </div>
+                <Flex title={"Copy timings"} row>
                 <CopyClipBoard
                       key={3}
                       copy={copy}
@@ -2045,7 +2050,7 @@ const DayTimeSplit = (props) => {
                       setcopybtn ={setcopybtn}
                       copybtnClose ={copybtnClose}
                     />
-              
+                     </Flex>
               </Flex>
               )}
             }): (
@@ -2222,6 +2227,7 @@ const DayTimeSplit = (props) => {
                     <SvgCopy width={18} height={18} fill="#FFC203" />
                   </button>
                   {copyid === 4 ? ( */}
+                  <Flex title={"Copy timings"} row>
                 <CopyClipBoard
                       key={4}
                       copy={copy}
@@ -2261,6 +2267,7 @@ const DayTimeSplit = (props) => {
                     ''
                   )}
                 </div> */}
+                </Flex>
               </Flex>
              )}
             }): (
@@ -2421,7 +2428,8 @@ const DayTimeSplit = (props) => {
                       <SvgRoundAdd width={18} height={18} fill={'#581845'} />
                     </button>
                   )}
-                </div>              
+                </div>        
+                <Flex title={"Copy timings"} row>      
                 <CopyClipBoard
                       key={5}
                       copy={copy}
@@ -2455,7 +2463,8 @@ const DayTimeSplit = (props) => {
                       copybtn ={copybtn}
                       setcopybtn ={setcopybtn}
                       copybtnClose ={copybtnClose}
-                    />                
+                    /> 
+                  </Flex>               
               </Flex>
              )}
             }) : (
@@ -2627,6 +2636,7 @@ const DayTimeSplit = (props) => {
                     <SvgCopy width={18} height={18} fill="#FFC203" />
                   </button>
                   {copyid === 6 && ( */}
+                  <Flex title={"Copy timings"} row>
                 <CopyClipBoard
                       key={6}
                       copy={copy}
@@ -2664,6 +2674,7 @@ const DayTimeSplit = (props) => {
                     />
                 {/* )}
                 </div> */}
+                </Flex>
               </Flex>
              )}
             }) : (
@@ -2831,6 +2842,7 @@ const DayTimeSplit = (props) => {
                     </button>
                   )}
                 </div>
+                <Flex title={"Copy Timings"} row>
                 <CopyClipBoard
                       key={7}
                       copy={copy}
@@ -2867,6 +2879,7 @@ const DayTimeSplit = (props) => {
                       setcopybtn ={setcopybtn}
                       copybtnClose ={copybtnClose}
                     />
+                  </Flex>
                
               </Flex>
             )}

@@ -190,7 +190,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
       {console.log('au', Authorizemail)}
       {console.log('ob', outbutton)}
       {console.log('gb', gbutton)} */}
-      <Text color="theme" size={16} bold>
+      <Text size={14} bold>
         Email Integrations
       </Text>
       <Text>
@@ -210,7 +210,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
                 <Text
                   color="theme"
                   bold
-                  size={16}
+                  size={14}
                   style={{ marginLeft: '10px' }}
                 >
                   Outlook Mail
@@ -252,9 +252,9 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
                 <SvgoutlookMail />
 
                 <Text
-                  color="theme"
+                  // color="theme"
                   bold
-                  size={16}
+                  size={14}
                   style={{ marginLeft: '10px' }}
                 >
                   Outlook Mail
@@ -278,8 +278,9 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
                   className={styles.btn}
                   disabled={outbutton === 1 ? true : false}
                   onClick={() => outlookconfig()}
+                  style={{display:"flex", justifyContent:"center", alignItems:"center"}}
                 >
-                  <Text color="theme">Connect With Outlook</Text>
+                  <Text color="theme" bold>Connect With Outlook</Text>
                 </Button>
               </Flex>
             </Card>
@@ -299,7 +300,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
                 <Text
                   color="theme"
                   bold
-                  size={16}
+                  size={14}
                   style={{ marginLeft: '10px' }}
                 >
                   Outlook Mail
@@ -342,9 +343,9 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
                 <SvgGmail />
 
                 <Text
-                  color="theme"
+                  // color="theme"
                   bold
-                  size={16}
+                  size={14}
                   style={{ marginLeft: '10px' }}
                 >
                   Google Mail
@@ -368,8 +369,9 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
                   disabled={gbutton === 1 ? true : false}
                   className={styles.btn}
                   onClick={() => handleAuthClick()}
+                  style={{display:"flex", justifyContent:"center", alignItems:"center"}}
                 >
-                  <Text color="theme">Connect with Gmail</Text>
+                  <Text color="theme" bold>Connect with Gmail</Text>
                 </Button>
               </Flex>
             </Card>
@@ -398,7 +400,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
 
           {Edit === 'outlook' ? (
             <Flex>
-              <Text color="theme" size={16} bold>
+              <Text color="theme" size={14} bold>
                 {' '}
                 Edit Configuration
               </Text>
@@ -447,7 +449,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
 
           {Edit === 'gmail' ? (
             <Flex>
-              <Text color="theme" size={16} bold>
+              <Text color="theme" size={14} bold>
                 {' '}
                 Edit Configuration
               </Text>

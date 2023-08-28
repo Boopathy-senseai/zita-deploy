@@ -32,6 +32,12 @@ width:180px;
   display: flex;
 }
 
+.titleuserA{
+  padding: 5px 0;
+  border: 0;
+  display: flex;
+}
+
 .btnColor{
     /* border-color: unset; */
     background-color: unset;
