@@ -41,7 +41,7 @@ export const BULK_UPLOADED_MATCH = 'bulk/matching_api';
 export const BULK_UPLOADED_QUS = 'bulk/questionnaire_bulk';
 
 // applicant profile view action
-export const  JOB_MATCHING_API = 'job_matching_api/job_matching_api';
+export const JOB_MATCHING_API = 'job_matching_api/job_matching_api';
 export const APPLICANT_PROFILE_INITIAL = 'applicant/applicant_profile_initial';
 export const APPLICANT_PROFILE_MATCH = 'applicant/applicant_profile_match';
 export const APPLICANT_PROFILE_NOTES = 'applicant/applicant_profile_notes';
@@ -84,7 +84,8 @@ export const ZITA_MATCH_DATA_CANDIDATE = 'zita/zita_match_data_candidate';
 // My DataBase
 export const MY_DATABASE_INITIAL = 'mydatabase/mydatabase_inital';
 export const MY_DATABASE_DATA = 'mydatabase/mydatabase_data';
-export const MY_DATABASE_PROFILE_FAVORITE = 'mydatabase/mydatabase_profile_favorite';
+export const MY_DATABASE_PROFILE_FAVORITE =
+  'mydatabase/mydatabase_profile_favorite';
 
 // Jd View
 export const JD_VIEW = 'jdview/jd_view';
@@ -101,7 +102,7 @@ export const JD_PROFILES = 'createjd/matching_algorithm';
 export const JD_QUESTIONNAIRE = 'createjd/jd_questionnaire_for_jd';
 export const JD_TEMPLATE = 'createjd/jd_template';
 export const JD_DUPLICATE = 'createjd/jd_duplicate';
-export const JD_WHATJOBS ='createjd/what_jobs_posting/'
+export const JD_WHATJOBS = 'createjd/what_jobs_posting/';
 
 // my_job_posting
 
@@ -158,6 +159,10 @@ export const GOOGLE_MAIL_INTEGRATE = 'google_mail_api';
 
 export const GOOGLE_MAIL_REMOVE = 'delete_google_mail';
 
+export const GOOGLE_CALL_BACK_URL = 'google_callbackurl';
+
+export const OUTLOOK_CALL_BACK_URL = 'Outlook_call_back_url';
+
 export const OUTLOOK_EMAIL_GET = '/me/mailFolders/Inbox/messages';
 
 // [Account Settings] --> Templates
@@ -175,7 +180,6 @@ export const UPDATE_PIPELINE_STAGE = 'account/pipeline_stage_update';
 export const UPDATE_COLOUR_PALLATE = 'account/colour_pallate_update';
 export const PIPELINE_SUGGESTIONS = 'account/pipeline_suggestions';
 export const PIPELINE_STAGES_REORDER = 'account/pipeline_stages_reorder';
-
 
 // [Meeting Scheduler ] --> events
 export const EVENT_SCHEDULER_FORM_DETAILS = 'events/events';

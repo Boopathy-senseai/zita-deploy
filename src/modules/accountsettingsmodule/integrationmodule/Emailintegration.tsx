@@ -92,17 +92,23 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
   }, []);
 
   const handleAuthClick = () => {
-    loaderupdate(true);
-    dispatch(gmail_integrate()).then((res) => {
-      console.log('res', res);
-      // window.open(res.payload.url);
-      setgbutton(1);
-      setoutbutton(1);
-      window.location.href = res.payload.url;
-      checkAuth();
-      loaderupdate(false);
-      // Toast(' Google Mail Integrated Successfully', 'MEDIUM');
-    });
+    // loaderupdate(true);
+
+    dispatch(gmail_integrate())
+      .then((res) => {
+        localStorage.setItem('integrate', 'Mail');
+        console.log('res++++++++++=', res);
+        // window.open(res.payload.url);
+        setgbutton(1);
+        setoutbutton(1);
+        window.location.href = res.payload.url;
+        checkAuth();
+        loaderupdate(false);
+        // Toast(' Google Mail Integrated Successfully', 'MEDIUM');
+      })
+      .catch((error) => {
+        console.log('errror!!!!!!!!!!', error);
+      });
   };
 
   const EditMail = (Eval: string) => {
@@ -124,7 +130,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
         }
       })
       .catch((error) => {
-        console.log('error');
+        //  console.log('error');
         loaderupdate(false);
       });
   };
@@ -136,6 +142,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
     dispatch(outlook_integrate())
       .then((res) => {
         if (res.payload.success === true) {
+          localStorage.setItem('integrate', 'Mail');
           //Toast('Outlook Mail Integrated Successfully', 'MEDIUM');
           // checkAuth();
           // window.open(res.payload.authorization_url);
@@ -148,7 +155,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
         }
       })
       .catch((error) => {
-        console.log('error');
+        //  console.log('error');
         loaderupdate(false);
       });
   };
@@ -167,7 +174,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
         }
       })
       .catch((error) => {
-        console.log('error', error);
+        //console.log('error', error);
         loaderupdate(false);
       });
   };
@@ -180,7 +187,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
         account: instance.getActiveAccount(),
       })
       .catch((error) => console.log(error));
-    console.log('sd', value);
+    // console.log('sd', value);
     //setEmail(value.account.username);
   };
 
