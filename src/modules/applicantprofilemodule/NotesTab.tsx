@@ -78,10 +78,15 @@ const initial: FormProps = {
 type Props = {
   isMeeting?: boolean;
   issingletab?: boolean;
-  candidatemessage?:boolean;
-  nomessagetab?:boolean;
+  candidatemessage?: boolean;
+  nomessagetab?: boolean;
 };
-const NotesTab = ({ isMeeting, issingletab,candidatemessage,nomessagetab }: Props) => {
+const NotesTab = ({
+  isMeeting,
+  issingletab,
+  candidatemessage,
+  nomessagetab,
+}: Props) => {
   const [editorHtml, setEditorHtml] = useState<string>('');
   const editorRef = useRef<ReactQuill | null>(null);
   const [isCollapse, setCollapse] = useState(false);
@@ -174,10 +179,11 @@ const NotesTab = ({ isMeeting, issingletab,candidatemessage,nomessagetab }: Prop
     candidate_details,
     notes,
     can_id,
+    jd_id,
     // calenderEvent,
     // google,
     outlook,
-     message,
+    message,
     name,
     calenderLoader,
   } = useSelector(
@@ -186,14 +192,15 @@ const NotesTab = ({ isMeeting, issingletab,candidatemessage,nomessagetab }: Prop
       applicantProfileInitalReducers,
       calenderReducers,
       applicantUserlistReducer,
-      applicantMessageReducers
+      applicantMessageReducers,
     }: RootState) => {
       return {
         candidate_details: applicantProfileInitalReducers.candidate_details,
         notes: applicantNotesReducers.notes,
         name: applicantUserlistReducer.data,
         can_id: applicantProfileInitalReducers.can_id,
-         message: applicantMessageReducers?.message,
+        jd_id: applicantProfileInitalReducers?.jd_id,
+        message: applicantMessageReducers?.message,
         // calenderEvent: calenderReducers.event,
         // google: calenderReducers.google,
         outlook: calenderReducers.outlook,
@@ -242,9 +249,13 @@ const NotesTab = ({ isMeeting, issingletab,candidatemessage,nomessagetab }: Prop
     formData.append('candidate_id', can_id);
     if (buttonName === 'Add') {
       if (final.length !== 0) {
+        const doc = parser.parseFromString(values.notes, 'text/html');
+        const textNodes = doc.querySelectorAll('body')[0].textContent; 
         const applicantnames = candidate_details.map((e) => e.first_name);
         const test = ' has added a note to ' + applicantnames + '’s profile.';
         formData.append('notes', test);
+        formData.append('body', textNodes);
+        formData.append('jd_id',jd_id);
       }
       setupdate(false);
       setIsLoad(true);
@@ -274,9 +285,13 @@ const NotesTab = ({ isMeeting, issingletab,candidatemessage,nomessagetab }: Prop
 
     if (buttonName === 'Update') {
       if (final.length !== 0) {
+        const doc = parser.parseFromString(values.notes, 'text/html');
+        const textNodes = doc.querySelectorAll('body')[0].textContent;
         const applicantnames = candidate_details.map((e) => e.first_name);
         const test = ' has updated a note to ' + applicantnames + '’s profile.';
         formData.append('notes', test);
+        formData.append('body', textNodes);
+        formData.append('jd_id',jd_id);
       }
       setupdate(true);
       setIsLoad(true);
@@ -295,7 +310,7 @@ const NotesTab = ({ isMeeting, issingletab,candidatemessage,nomessagetab }: Prop
         })
         .then(() => {
           setIsLoad(false);
-          setButtonName('Add')
+          setButtonName('Add');
           setname1('');
           formik.values.notes = '';
           formik.resetForm();
@@ -337,11 +352,10 @@ const NotesTab = ({ isMeeting, issingletab,candidatemessage,nomessagetab }: Prop
     if (formik.values.notes) {
       setvalueun(formik.values.notes);
     }
-   
-  }, [formik.values.notes ]);
-useEffect(() => {
-  formik.setFieldValue('notes', name1);
-},[])
+  }, [formik.values.notes]);
+  useEffect(() => {
+    formik.setFieldValue('notes', name1);
+  }, []);
   // add notes function
   const hanldeInputOpen = () => {
     setButtonName('Add');
@@ -481,7 +495,7 @@ useEffect(() => {
     sessionStorage.setItem('superUserFalseTab', '3');
     history.push('/account_setting/settings');
   };
-  const words =  notes[0]?.updated_by?.split(' ')
+  const words = notes[0]?.updated_by?.split(' ');
   const meetingMemo = useMemo(() => meetingTitle(), [myevents]);
   const checkCalendarOutlook = Array.isArray(outlook) && outlook.length !== 0;
   return (
@@ -491,17 +505,24 @@ useEffect(() => {
       className={styles.overAll}
       height={window.innerHeight - 120}
     >
-      <Flex flex={6} columnFlex style={{ padding: '5px',overflow:'scroll' }}  height={window.innerHeight - 89.5}
-       >
-        <Text bold style={{ fontSize: '14px',marginTop:'13.5px',paddingLeft:16 }}>
+      <Flex
+        flex={6}
+        columnFlex
+        style={{ padding: '5px', overflow: 'scroll' }}
+        height={window.innerHeight - 89.5}
+      >
+        <Text
+          bold
+          style={{ fontSize: '14px', marginTop: '13.5px', paddingLeft: 16 }}
+        >
           Notes for Team Members
-        </Text> 
+        </Text>
         <Flex className={styles.overall1}>
-          <Flex className={styles.textArea} >
+          <Flex className={styles.textArea}>
             <ReactQuill
               ref={editorRef}
               value={formik.values.notes}
-              className={styles.reactquillchange} 
+              className={styles.reactquillchange}
               onChange={formik.handleChange('notes')}
               placeholder="Type @ to mention and notify your team members"
             />
@@ -528,19 +549,21 @@ useEffect(() => {
             <Flex className={styles.middleline}></Flex>
           )}
         </Flex>
-        {notes && notes.length === 0 && 
-            <Flex columnFlex flex={1} middle center  >
-              <SvgNotesyet fill='gray' />
-              <Text className={styles.nojoppostye} color='gray'>Notes not created yet</Text>
-            </Flex>
-          }
+        {notes && notes.length === 0 && (
+          <Flex columnFlex flex={1} middle center>
+            <SvgNotesyet fill="gray" />
+            <Text className={styles.nojoppostye} color="gray">
+              Notes not created yet
+            </Text>
+          </Flex>
+        )}
 
         <Flex
           // height={window.innerHeight - 338}
           style={{
-          //   overflow: 'scroll',
-             padding: ' 0px 16px 0px 16px',
-          //   display: 'flex',
+            //   overflow: 'scroll',
+            padding: ' 0px 16px 0px 16px',
+            //   display: 'flex',
           }}
         >
           {notes &&
@@ -553,8 +576,8 @@ useEffect(() => {
                         key={list.notes + indexList}
                         columnFlex
                         className={styles.notesOverAll}
-                      > 
-                        <Card className={styles.cardinnotes}> 
+                      >
+                        <Card className={styles.cardinnotes}>
                           <Flex row className={styles.notestext}>
                             <Flex row center>
                               {isEmpty(list.emp_image) ||
@@ -570,9 +593,11 @@ useEffect(() => {
                                     color="white"
                                     transform="uppercase"
                                     className={styles.firstlastchar}
-                                  > 
+                                  >
                                     {!isEmpty(list.updated_by) &&
-                                    `${words[0][0]}${words[words.length - 1][0]}`}
+                                      `${words[0][0]}${
+                                        words[words.length - 1][0]
+                                      }`}
                                   </Text>
                                 </div>
                               ) : (
@@ -598,12 +623,15 @@ useEffect(() => {
                               />
                             </Flex>
                           </Flex>
-                          <Flex className={styles.noteListStyle} style={{ 
-                                flexWrap: 'wrap',
-                                overflow: ' hidden',
-                                textOverflow: 'clip',
-                                fontSize:13
-                              }}>
+                          <Flex
+                            className={styles.noteListStyle}
+                            style={{
+                              flexWrap: 'wrap',
+                              overflow: ' hidden',
+                              textOverflow: 'clip',
+                              fontSize: 13,
+                            }}
+                          >
                             <td
                               className={styles.notesTextStyle}
                               dangerouslySetInnerHTML={{
@@ -621,8 +649,8 @@ useEffect(() => {
         </Flex>
         {isLoad && <Loader />}
       </Flex>
-      
-      {nomessagetab ||candidatemessage ? (
+
+      {nomessagetab || candidatemessage ? (
         <Flex
           height={window.innerHeight - 115}
           style={{
@@ -633,20 +661,19 @@ useEffect(() => {
             paddingBottom: '10px',
           }}
         ></Flex>
-      ):''}
-       {nomessagetab 
-        &&
+      ) : (
+        ''
+      )}
+      {nomessagetab && (
         <Flex flex={6.4}>
-      
           <MessageTab />
-        
-        </Flex>}
-        {candidatemessage &&
+        </Flex>
+      )}
+      {candidatemessage && (
         <Flex flex={6.4}>
-        <CandidateMessageTab />
-        </Flex>}
-         
-      
+          <CandidateMessageTab />
+        </Flex>
+      )}
     </Flex>
   );
 };

@@ -78,6 +78,7 @@
 }
 .overall {
   overflow: scroll;
+  padding-bottom: 10px;
 }
 .inputDateStyle {
   background-color: #fff;
