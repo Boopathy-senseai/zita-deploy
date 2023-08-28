@@ -6,6 +6,7 @@ import axios from 'axios';
 import getSymbolFromCurrency from 'currency-symbol-map';
 import StarRatingComponent from 'react-star-rating-component';
 import StarsRating from 'react-star-rate';
+import PhoneInput from 'react-phone-input-2';
 import { inviteToApplyApi } from '../../routes/apiRoutes';
 import { AppDispatch, RootState } from '../../store';
 import { ERROR_MESSAGE, YES, config } from '../constValue';
@@ -535,7 +536,13 @@ const ProfileNavBar = ({
               candiList.contact === '' ? (
                 <Flex style={{ paddingLeft: '2.2px' }}>Not Specified</Flex>
               ) : (
-                <Flex>{candiList.contact}</Flex>
+                <Flex className={styles.phoneHide}>
+                   <PhoneInput
+                      inputClass={styles.phoneInput}
+                      dropdownClass={styles.dropDownStyle}
+                      value={candiList.contact}
+                      // placeholder='Not Specified'
+                    /></Flex>
               )}
             </Flex>
             <Flex row style={{ marginTop: '5px', marginBottom: '10px' }}>
@@ -543,17 +550,16 @@ const ProfileNavBar = ({
                 <SvgLocation height={17} width={17} fill="#581845" />
               </Flex>
               {candidate_details[0].location === null ||
-              candidate_details[0].location === '' ? (
+              candidate_details[0].location === ''&& personalInfo[0].country__name === null ? (
                 <Flex style={{ fontsize: '13px' }}>Not Specified</Flex>
               ) : (
                 <Flex row>
-                  {candidate_details[0].location !== undefined &&
-                    candidate_details[0].location !== null && (
-                      <Flex style={{ fontsize: '13px' }}>
-                        {' '}
+                    {candidate_details[0].candidate_id_id !== null ?
+                  `${personalInfo[0].country__name},${personalInfo[0].state__name},${personalInfo[0].city__name}`: 
+                      <Flex style={{ fontsize: '13px' }}> 
                         {candidate_details[0].location}
                       </Flex>
-                    )}
+                    }
                   {/* {personalInfo[0].state__name !== undefined &&
                     personalInfo[0].state__name !== null && (
                       <Flex style={{ fontsize: '13px' }}>

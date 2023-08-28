@@ -3,6 +3,7 @@ import Tab from '../../uikit/Tabs/Tab';
 import Tabs from '../../uikit/Tabs/Tabs';
 import AllMatchTab from '../applicantprofilemodule/AllMatchTab';
 import NotesTab from '../applicantprofilemodule/NotesTab';
+import EmailScreen from '../emailintegrationmodule/integrationScreen';
 import { ALL_CANDI_MATCH_TITLE } from '../constValue';
 import CandidateAboutTab from './CandidateAboutTab';
 import CandiDateResumeTab from './CandiDateResumeTab';
@@ -36,6 +37,9 @@ const CandiDateTabsLeftOne = ({ activeState }: typeof defaultProps) => {
           inviteMessage={'Candidate Invited successfully'}
         />
       </Tab>
+      <Tab title={'Mailbox'}>
+            <EmailScreen/>
+          </Tab>
     </Tabs>
   );
 };

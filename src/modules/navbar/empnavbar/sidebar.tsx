@@ -559,12 +559,7 @@ const Sidebar = ({ changes, data }: props) => {
 
           {/* {permission.includes('bulkImport_candidates') && (
             <> */}
-          {console.log(
-            plan_id,
-            is_plan,
-            'plan_idplan_idplan_idplan_idplan_idplan_id',
-          )}
-          {/* {checkplan && ( */}
+
           <>
             {is_plan ? (
               changes ? (
@@ -674,9 +669,10 @@ const Sidebar = ({ changes, data }: props) => {
             )}
           </>
           {/* )} */}
+          <>
           {is_plan ? (
             changes ? (
-              <li className={pathname === '/mail' ? styles.select_row : ''}>
+              <li title='Mailbox' className={pathname === '/mail' ? styles.select_row : ''}>
                 <LinkWrapper
                   className={styles.hoverview}
                   onClick={clearTabs}
@@ -697,12 +693,41 @@ const Sidebar = ({ changes, data }: props) => {
                 </LinkWrapper>
               </li>
             ) : (
-              <li className={pathname === '/mail' ? styles.select_row : ''}>
+              <li title='Mailbox' className={pathname === '/mail' ? styles.select_row : ''}>
                 <LinkWrapper
+                  className={styles.hoverview}
+                  onClick={clearTab}
+                  to={is_plan ? routesPath.MAIL : accountPath}
+                >
+                  <text style={{ marginLeft: '-2px' }}>
+                    <SvgMailbox height={16} width={16} />
+                  </text>
+
+                    <Text
+                      onClick={() => handleNavigate(7)}
+                      className={Expent === '0' ? styles.text : styles.classpan}
+                      color="primary"
+                      style={{ color: '#581845', marginRight: '10px' }}
+                    >
+                      Mailbox
+                    </Text>
+                  </LinkWrapper>
+                </li>
+              )
+            ) : (
+              <li title='Mailbox' className={pathname === '/mail' ? styles.select_row : ''}>
+                {/* <LinkWrapper
                   className={styles.hoverview}
                   onClick={clearTabs}
                   to={is_plan ? routesPath.MAIL : accountPath}
-                >
+                > */}
+                   <a
+                    className={styles.hoverview}
+                    href={' '}
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                  > 
                   <text style={{ marginLeft: '-2px' }}>
                     <SvgMailbox height={16} width={16} />
                   </text>
@@ -715,32 +740,11 @@ const Sidebar = ({ changes, data }: props) => {
                   >
                     Mailbox
                   </Text>
-                </LinkWrapper>
+                  </a>
+                {/* </LinkWrapper> */}
               </li>
-            )
-          ) : (
-            <li className={pathname === '/mail' ? styles.select_row : ''}>
-              <LinkWrapper
-                className={styles.hoverview}
-                onClick={clearTabs}
-                to={is_plan ? routesPath.MAIL : accountPath}
-              >
-                <text style={{ marginLeft: '-2px' }}>
-                  <SvgMailbox height={16} width={16} />
-                </text>
-
-                <Text
-                  onClick={() => handleNavigate(7)}
-                  className={Expent === '0' ? styles.text : styles.classpan}
-                  color="primary"
-                  style={{ color: '#581845', marginRight: '10px' }}
-                >
-                  Mailbox
-                </Text>
-              </LinkWrapper>
-            </li>
-          )}
-
+            )}
+          </>
           {permission.includes('talent_sourcing') && (
             <>
               {is_plan ? (
