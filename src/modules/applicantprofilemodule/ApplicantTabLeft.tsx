@@ -6,7 +6,7 @@ import Tabs from '../../uikit/Tabs/Tabs';
 import { ALL_APPLICANT_MATCH_TITLE } from '../constValue';
 import { SCREEN_APPLICANT_STATUS_TITLE } from '../constValue';
 import ApplicantTabRight from '../applicantprofilemodule/ApplicantTabRight';
-
+import EmailScreen from '../emailintegrationmodule/integrationScreen';
 import AboutTab from './AboutTab';
 import AllMatchTab from './AllMatchTab';
 // import ExperienceTab from './ExperienceTab';
@@ -64,6 +64,10 @@ const ApplicantTabLeft = ({ activeState }: typeof defaultProps) => {
           <Tab title={'Matching Analysis'}>
             <MatchingAnalysisTab />
           </Tab>
+          <Tab title={'Mailbox'}>
+            <EmailScreen/>
+          </Tab>
+          
           <Tab title={'Screening Status'}>
             <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab  />
           </Tab> 
@@ -88,6 +92,9 @@ const ApplicantTabLeft = ({ activeState }: typeof defaultProps) => {
           </Tab> */}
           <Tab title={'Matching Analysis'}>
             <MatchingAnalysisTab />
+          </Tab>
+          <Tab title={'Mailbox'}>
+            <EmailScreen/>
           </Tab>
           <Tab title={'Screening Status/Scorecard'}>
             <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab={false} />

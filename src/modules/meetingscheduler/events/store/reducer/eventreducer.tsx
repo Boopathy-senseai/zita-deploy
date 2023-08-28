@@ -119,8 +119,8 @@ const schedulerState: schedulerPageReducerState = {
     ],
   },
   suceess: '',
-  google: '',
-  outlook: '',
+  google: false,
+  outlook: false,
 
 
 };

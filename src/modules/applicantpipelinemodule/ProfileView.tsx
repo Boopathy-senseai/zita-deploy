@@ -63,8 +63,7 @@ const ProfileView = ({
             <Flex row>
               <Flex marginTop={2}>
                 <SvgJobselection width={16} height={14} />
-              </Flex>
-              {console.log(jd,"++++++++++++++++++++++++++++++++++++++")}
+              </Flex> 
               <Flex marginLeft={4}>
               {jd?.job_title} - {jd?.job_id}
               </Flex>
