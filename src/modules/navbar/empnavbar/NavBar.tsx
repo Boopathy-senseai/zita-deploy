@@ -86,6 +86,7 @@ update();
   };
   return (
     <>
+    {console.log("user",user)}
       <div className={styles.overAll}>
         {isLogOutLoader && <Loader />}
         <Flex row center between className={styles.nav} style={{height:'45px'}}>
@@ -142,12 +143,13 @@ update();
                           backgroundColor: '#ffffff',
                           border: '#ffffff',
                           boxShadow: 'none',
+                          
                         }}
                       >
                         <SvgUser fill={'#581845'} height={28} width={30} />
                       </Dropdown.Toggle>
                       <Dropdown.Menu className={styles.dropdown_item}>
-                        <Dropdown.Item href="#" style={{padding:'0px 10px'}}>
+                        <Dropdown.Item href="#" style={{padding:'0px 10px',width:'180px'}}>
                           {is_plan ? (
                             <LinkWrapper
                               onClick={clearTab}
@@ -329,7 +331,8 @@ update();
                         </Flex>
                         {user && 
                         <Flex style={{ color: '#581845', textAlign: 'center',paddingLeft:'15px',paddingRight:'15px',
-                        fontSize:'14px' }}>
+                        fontSize:'13px' }}>
+                          <Text bold style={{ color: '#581845', textAlign: 'center',paddingLeft:'15px',paddingRight:'15px',fontSize: '13px' }}>{user.first_name} </Text>
                           {user.email}
                         </Flex>
                         }
@@ -547,7 +550,8 @@ update();
                         </Flex>
                         {user !== undefined && 
                      
-                        <Flex style={{ color: '#581845', textAlign: 'center',paddingLeft:'15px',paddingRight:'15px',fontSize: '14px' }}>
+                        <Flex style={{ color: '#581845', textAlign: 'center',paddingLeft:'15px',paddingRight:'15px',fontSize: '13px' }}>
+                          <Text bold style={{ color: '#581845', textAlign: 'center',paddingLeft:'15px',paddingRight:'15px',fontSize: '13px' }}>{user.first_name} </Text>
                           {user.email}
                         </Flex>
                            }
