@@ -64,7 +64,8 @@ const EmailScreen = () => {
   const [message, setmesage] = useState<any>('');
   const [usermail, setUsermail] = useState('');
   const [sideroute, setsideroute] = useState(1);
-  const [loader, setLoader] = useState(true);
+  //chage loader state check //
+  const [loader, setLoader] = useState(false);
   const [search, setSearch] = useState('');
   const [attachments, setAttachments] = useState([]);
   const [mailfolders, setMailfolders] = useState('');
@@ -89,7 +90,7 @@ const EmailScreen = () => {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const [splittoken, setsplittoken] = useState('');
+  const [newmsg, setnewmsg] = useState('');
 
   const authProvider = new AuthCodeMSALBrowserAuthenticationProvider(
     msal.instance as PublicClientApplication,
@@ -159,7 +160,7 @@ const EmailScreen = () => {
         setUsermail(res.mail);
       })
       .catch((error) => {
-        console.log('error', error);
+        // console.log('error', error);
       });
   };
   const getmails = async () => {
@@ -423,7 +424,7 @@ const EmailScreen = () => {
           }
         })
         .catch((error) => {
-          console.log('goole----errr', error);
+          //console.log('goole----errr', error);
         });
     } else if (emailcollection.integration === 'google') {
       var Gfolder = '';
@@ -536,7 +537,7 @@ const EmailScreen = () => {
             .then((res) => {
               if (res.attachments.length === 0) {
                 setLoader(false);
-
+                setnewmsg(res.message);
                 var obj = {
                   id: msgid,
                   snippet: res.message.snippet,
@@ -593,11 +594,11 @@ const EmailScreen = () => {
   const gProfile = async () => {
     await Gmail_profile()
       .then((res) => {
-        console.log('res====>', res);
+        // console.log('res====>', res);
         setUsermail(res.result.emailAddress);
       })
       .catch((err) => {
-        console.log('error');
+        // console.log('error');
       });
   };
 
@@ -613,7 +614,7 @@ const EmailScreen = () => {
         }
       } else if (emailcollection.integration === 'outlook') {
         if (sideroute !== 0) {
-          console.log('getProfile');
+          // console.log('getProfile');
           getprofile();
 
           getfolder();
@@ -641,12 +642,12 @@ const EmailScreen = () => {
     await initGoogleAuth(emailcollection.token).then(() => {
       Gmail_Folder_Total_count(Gfolder)
         .then((res) => {
-          console.log('res', res);
+          //console.log('res', res);
           setgmailunread(res.result.messagesUnread);
           setTotal(res.result.messagesTotal);
         })
         .catch((err) => {
-          console.log('foldererror', err);
+          // console.log('foldererror', err);
         });
     });
   };
@@ -682,7 +683,6 @@ const EmailScreen = () => {
   return (
     <>
       <Flex column className={styles.inboxContainer}>
-        {console.log('==emailcollection==', loader, emailcollection.loading)}
         {loader === true && <Loader />}
         {/* {loader === true && emailcollection.loading === false && <Loader />} */}
         {emailcollection.integration !== null ? (
@@ -851,6 +851,9 @@ const EmailScreen = () => {
               updateMailaction={updateMailaction}
               atfiles={attachments}
               sidebarroute={sideroute}
+              removemsg={removemessage}
+              remove_message={remove_message}
+              newmsg={newmsg}
             />
           </>
         ) : (

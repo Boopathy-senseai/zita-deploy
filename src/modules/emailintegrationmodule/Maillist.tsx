@@ -204,6 +204,8 @@ const Maillist = ({
             {gmailunread === 0 ? 'Trash' : `Trash (${gmailunread})`}
           </Text>
         );
+      } else if (sideroute === 0) {
+        return <Text bold>Search Results</Text>;
       }
     } else if (integration === 'outlook') {
       if (mailfolders.length !== 0) {
@@ -451,7 +453,7 @@ const Maillist = ({
           borderBottom: '1px solid #c3c3c3',
         }}
       >
-        <Flex style={{ padding: '6px' }}>{showfolder()}</Flex>
+        <Flex style={{ padding: '8px' }}>{showfolder()}</Flex>
 
         <Flex row center>
           {sidebarroute !== 0 && <></>}

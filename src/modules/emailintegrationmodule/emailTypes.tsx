@@ -53,3 +53,15 @@ export interface gmailremoveacc {
   error: string;
   data: {};
 }
+
+export interface googleauth {
+  isLoading: boolean;
+  error: string;
+  data: {};
+}
+
+export interface outlookauth {
+  isLoading: boolean;
+  error: string;
+  data: {};
+}
