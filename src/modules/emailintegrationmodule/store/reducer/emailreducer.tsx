@@ -8,6 +8,8 @@ import {
   outlookremove,
   gmailintegrate,
   gmailremoveacc,
+  googleauth,
+  outlookauth,
 } from '../../emailTypes';
 import {
   getEmail,
@@ -17,6 +19,8 @@ import {
   outlook_remove,
   gmail_integrate,
   google_remove,
+  Google_Auth,
+  Outlook_Auth,
 } from '../middleware/emailIntegrationMiddleWare';
 
 const emailState: UserEmail = {
@@ -67,6 +71,17 @@ const gmaillog: outlookremove = {
 };
 
 const gmailremovelog: outlookremove = {
+  isLoading: false,
+  error: '',
+  data: '',
+};
+
+const googleAuth: googleauth = {
+  isLoading: false,
+  error: '',
+  data: '',
+};
+const outlookAuth: outlookauth = {
   isLoading: false,
   error: '',
   data: '',
@@ -268,6 +283,54 @@ const google_mail_remove = createSlice({
   },
 });
 
+const google_auth = createSlice({
+  name: 'googleAuth',
+  initialState: googleAuth,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(Google_Auth.pending, (state) => {
+      state.isLoading = true;
+      state.error = '';
+    });
+    builder.addCase(Google_Auth.fulfilled, (state, action) => {
+      console.log('gmailre', action);
+      state.isLoading = false;
+      state.data = action.payload;
+    });
+    builder.addCase(Google_Auth.rejected, (state, action) => {
+      console.log('gamilre', action);
+      state.isLoading = false;
+      if (typeof action.payload === 'string') {
+        state.error = action.payload;
+      }
+    });
+  },
+});
+
+const outlook_auth = createSlice({
+  name: 'outlookAuth',
+  initialState: outlookAuth,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(Outlook_Auth.pending, (state) => {
+      state.isLoading = true;
+      state.error = '';
+    });
+    builder.addCase(Outlook_Auth.fulfilled, (state, action) => {
+      console.log('gmailre', action);
+      state.isLoading = false;
+      state.data = action.payload;
+    });
+    builder.addCase(Outlook_Auth.rejected, (state, action) => {
+      console.log('gamilre', action);
+      state.isLoading = false;
+      if (typeof action.payload === 'string') {
+        state.error = action.payload;
+      }
+    });
+  },
+});
+
 export const useremail = getuseremail.reducer;
 export const outlookprofile = outlookuserprofile.reducer;
 export const getmailfolders = getmailfolder.reducer;
@@ -276,3 +339,6 @@ export const outlook_integration = outlook_integrates.reducer;
 export const outlook_mail_removeacc = outlook_removeaccout.reducer;
 export const google_mail_integration = google_mail_integrate.reducer;
 export const google_mail_removeacc = google_mail_remove.reducer;
+
+export const Google_auth = google_auth.reducer;
+export const Outlook_auth = outlook_auth.reducer;

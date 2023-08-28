@@ -26,13 +26,13 @@ import Button from '../../uikit/Button/Button';
 import Modal from '../../uikit/Modal/Modal';
 import Flex from '../../uikit/Flex/Flex';
 import Toast from '../../uikit/Toast/Toast';
-import Loader from '../../uikit/Loader/Loader';
+
 import SvgVectorexpand from '../../icons/SvgMailExpand';
 import SvgVectorMinimise from '../../icons/SvgMailMinimise';
 import Upload from '../../icons/SvgAttach';
 import Temadd from '../../icons/SvgFileplus';
 import SvgVectorClose from '../../icons/SvgMailClose';
-
+import Loader from '../../uikit/Loader/Loader';
 //import SelectTag from '../../uikit/SelectTag/SelectTag';
 import config from '../../outlookmailConfig';
 import RichText from '../common/RichText';
@@ -47,6 +47,9 @@ import {
   mailreplayall,
   Gmail_Reply_forward,
   Gmail_profile,
+  deletemail,
+  gmail_permanent_Delete,
+  gmail_draft_update,
 } from '../../emailService';
 import InputText from '../../uikit/InputText/InputText';
 import SvgCollapse from '../../icons/Svgcollapse';
@@ -67,6 +70,9 @@ type Props = {
   updateMailaction: (val: any) => void;
   atfiles: any;
   sidebarroute: any;
+  remove_message: (id: any) => void;
+  removemsg: () => void;
+  newmsg: any;
 };
 
 const Newmessage = ({
@@ -79,6 +85,9 @@ const Newmessage = ({
   updateMailaction,
   atfiles,
   sidebarroute,
+  remove_message,
+  removemsg,
+  newmsg,
 }: Props) => {
   const msal = useMsal();
   const dispatch: AppDispatch = useDispatch();
@@ -245,7 +254,7 @@ const Newmessage = ({
       if (integration === 'outlook') {
         var sub = `Fw: ${replaymsg.subject}`;
         setSubject(sub);
-        console.log('as', atfiles);
+
         let files = [];
 
         atfiles.map((val, int) => {
@@ -279,9 +288,10 @@ const Newmessage = ({
 
           collect.push(fileInfo);
         });
+
         var Gsub = `Fw: ${subjects}`;
         setFile(collect);
-        setAttachfile(collect);
+        setAttachfile(atfiles);
         setSubject(Gsub);
         // formik.setFieldValue('userMessage', replaymsg.body);
       }
@@ -320,7 +330,6 @@ const Newmessage = ({
         }
         if (replaymsg.ccRecipients.length !== 0) {
           replaymsg.ccRecipients.map((val, int) => {
-            console.log('m', val['emailAddress'].address);
             cc.push({
               value: val['emailAddress'].address,
               label: val['emailAddress'].address,
@@ -408,8 +417,126 @@ const Newmessage = ({
       forward();
     } else if (Mail_action === 'replyall') {
       replyall();
+    } else if (Mail_action === 'draft') {
+      Draft_Compose();
     }
   }, [Mail_action, replaymsg]);
+
+  // Draft Re-Compose//
+  const Draft_Compose = () => {
+    var to = [];
+    var cc = [];
+    var bcc = [];
+    if (integration === 'outlook') {
+      if (replaymsg.toRecipients.length !== 0) {
+        replaymsg.toRecipients.map((val, int) => {
+          to.push({
+            value: val['emailAddress'].address,
+            label: val['emailAddress'].address,
+          });
+        });
+      }
+      if (replaymsg.ccRecipients.length !== 0) {
+        replaymsg.ccRecipients.map((val, int) => {
+          cc.push({
+            value: val['emailAddress'].address,
+            label: val['emailAddress'].address,
+          });
+        });
+      }
+      if (replaymsg.bccRecipients.length !== 0) {
+        replaymsg.bccRecipients.map((val, int) => {
+          bcc.push({
+            value: val['emailAddress'].address,
+            label: val['emailAddress'].address,
+          });
+        });
+      }
+
+      let files = [];
+
+      atfiles.map((val, int) => {
+        let fileInfo = {
+          type: val.contentType,
+          name: val.name,
+          contentBytes: val.contentBytes,
+          size: val.size,
+        };
+        files.push(fileInfo);
+      });
+
+      formik.setFieldValue('userMessage', replaymsg.body.content);
+      setTosample(to);
+      setCcsample(cc);
+      setBccsample(bcc);
+      setTomail(replaymsg.toRecipients);
+      setCcmail(replaymsg.ccRecipients);
+      setBccmail(replaymsg.bccRecipients);
+      setSubject(replaymsg.subject);
+      setFile(files);
+      setAttachfile(atfiles);
+    }
+
+    if (integration === 'google') {
+      const ToEmails = replaymsg.header
+        .filter((header) => header.name === 'To')
+        .map((header) => header.value);
+
+      const CcEmails = replaymsg.header
+        .filter((header) => header.name === 'Cc')
+        .map((header) => header.value);
+
+      const BccEmails = replaymsg.header
+        .filter((header) => header.name === 'Bcc')
+        .map((header) => header.value);
+      if (ToEmails.length !== 0) {
+        const ToArray = ToEmails[0].split(', ');
+        const ToObjectsArray = ToArray.map((email, index) => {
+          return { value: email, label: email };
+        });
+        setTosample(ToObjectsArray);
+        setTomail(ToArray);
+      }
+      if (CcEmails.length !== 0) {
+        const CcArray = CcEmails[0].split(', ');
+        const CcObjectsArray = CcArray.map((email, index) => {
+          return { value: email, label: email };
+        });
+        setCcmail(CcArray);
+        setCcsample(CcObjectsArray);
+      }
+
+      if (BccEmails.length !== 0) {
+        const BccArray = BccEmails[0].split(', ');
+        const BccObjectsArray = BccArray.map((email, index) => {
+          return { value: email, label: email };
+        });
+        setBccmail(BccArray);
+        setBccsample(BccObjectsArray);
+      }
+      const subjects = replaymsg.header.find(
+        (header) => header.name === 'Subject',
+      ).value;
+
+      let collect = [];
+
+      atfiles.map((val, int) => {
+        let fileInfo = {
+          type: val.contentType,
+          name: val.name,
+          contentBytes: val.contentBytes,
+          size: val.size,
+        };
+
+        collect.push(fileInfo);
+      });
+
+      setFile(collect);
+      setAttachfile(atfiles);
+      setSubject(subjects);
+      formik.setFieldValue('userMessage', replaymsg.body);
+    }
+  };
 
   //modal close function //
   const handleClose = () => {
@@ -515,7 +642,7 @@ const Newmessage = ({
   const composeemail = async () => {
     setloader(true);
     if (integration === 'google') {
-      if (Mail_action === 'compose') {
+      if (Mail_action === 'compose' || Mail_action === 'draft') {
         gmail_compose();
       } else if (Mail_action === 'reply') {
         gmai_action();
@@ -525,16 +652,19 @@ const Newmessage = ({
         gmai_action();
       }
     } else if (integration === 'outlook') {
-      if (Mail_action === 'compose') {
+      if (Mail_action === 'compose' || Mail_action === 'draft') {
         await composemail(authProvider, Emailprops)
           .then((res) => {
             setloader(false);
             Toast('Message send successfully', 'LONG', 'success');
+            delete_draft();
             clearform();
             onClose();
             setstyle(0);
           })
-          .catch((error) => {});
+          .catch((error) => {
+            // console.log('compose =====', error);
+          });
       } else if (Mail_action === 'reply') {
         outlookreplay();
       } else if (Mail_action === 'forward') {
@@ -544,6 +674,31 @@ const Newmessage = ({
       }
     }
   };
+
+  const delete_draft = async () => {
+    if (Mail_action === 'draft') {
+      if (integration === 'outlook') {
+        await deletemail(authProvider, replaymsg.id)
+          .then((res) => {
+            removemsg();
+            remove_message(replaymsg.id);
+          })
+          .catch((error) => {
+            // console.log('connection failed inboxxxxxxx', error);
+          });
+      } else if (integration === 'google') {
+        await gmail_permanent_Delete(replaymsg.id)
+          .then((res) => {
+            removemsg();
+            remove_message(replaymsg.id);
+          })
+          .catch((error) => {
+            // console.log('error', error);
+          });
+      }
+    }
+  };
+
   const dailougeActions = (
     <Flex row end marginTop={20} className={styles.borderLine}>
       <Button
@@ -866,6 +1021,7 @@ const Newmessage = ({
           .then((res) => {
             setloader(false);
             Toast('Message send successfully', 'SHORT', 'success');
+            delete_draft();
             clearform();
             onClose();
             setstyle(0);
@@ -881,7 +1037,7 @@ const Newmessage = ({
       });
   };
 
-  const GmailDraft = () => {
+  const draft_props = () => {
     const toEmails = tomail.join(', ');
     const toCC = ccmail.join(', ');
     const toBCC = bccmail.join(', ');
@@ -919,32 +1075,78 @@ const Newmessage = ({
         raw: rawMessage,
       },
     };
+    return drafts;
+  };
 
-    setloader(true);
-    initGoogleAuth(emailcollection.token)
-      .then(() => {
-        Gmail_Draft(drafts)
-          .then((res) => {
-            setloader(false);
-            Toast('Draft save successfully', 'SHORT', 'success');
-            clearform();
-            closeverify();
-            onClose();
-            setstyle(0);
-          })
-          .catch((error) => {
-            Toast('Draft not save ', 'SHORT', 'error');
-            setloader(false);
-            closeverify();
-            onClose();
-          });
-      })
-      .catch((error) => {
-        Toast('Draft not save', 'SHORT', 'error');
-        setloader(false);
-        closeverify();
-        onClose();
-      });
+  const GmailDraft = () => {
+    if (Mail_action === 'draft') {
+      alert('fff');
+      // const toEmails = tomail.join(', ');
+      // const toCC = ccmail.join(', ');
+      // const toBCC = bccmail.join(', ');
+      // const updatedMessage = {
+      //   ...newmsg,
+      //   subject: 'my new subjectjack',
+      // };
+
+      // const rawMessage = btoa(updatedMessage);
+      // const drafts = {
+      //   message: {
+      //     raw: rawMessage,
+      //   },
+      // };
+      setloader(true);
+      initGoogleAuth(emailcollection.token)
+        .then(() => {
+          gmail_draft_update(replaymsg.id, draft_props())
+            .then((res) => {
+              setloader(false);
+              Toast('Draft save successfully', 'SHORT', 'success');
+              clearform();
+              closeverify();
+              onClose();
+              setstyle(0);
+            })
+            .catch((error) => {
+              Toast('Draft not save ', 'SHORT', 'error');
+              setloader(false);
+              closeverify();
+              onClose();
+            });
+        })
+        .catch((error) => {
+          Toast('Draft not save', 'SHORT', 'error');
+          setloader(false);
+          closeverify();
+          onClose();
+        });
+    } else {
+      setloader(true);
+      initGoogleAuth(emailcollection.token)
+        .then(() => {
+          Gmail_Draft(draft_props())
+            .then((res) => {
+              setloader(false);
+              Toast('Draft save successfully', 'SHORT', 'success');
+              clearform();
+              closeverify();
+              onClose();
+              setstyle(0);
+            })
+            .catch((error) => {
+              Toast('Draft not save ', 'SHORT', 'error');
+              setloader(false);
+              closeverify();
+              onClose();
+            });
+        })
+        .catch((error) => {
+          Toast('Draft not save', 'SHORT', 'error');
+          setloader(false);
+          closeverify();
+          onClose();
+        });
+    }
   };
 
   const gmai_action = async () => {
@@ -1021,7 +1223,7 @@ const Newmessage = ({
   return (
     <div>
       {/* <div style={{ position: 'absolute', bottom: '0px', right: '0px' }}> */}
-
+      {console.log('newwww', newmsg)}
       <Modal open={data}>
         {loader === true && <Loader />}
         <div
@@ -1284,7 +1486,6 @@ const Newmessage = ({
                     style={{ margin: '10px 5px' }}
                     className={styles.filesContainer}
                   >
-                    {console.log('fileeee', file)}
                     {file.length !== 0 &&
                       file.map((list, index) => (
                         <Flex

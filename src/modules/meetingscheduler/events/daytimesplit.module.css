@@ -63,3 +63,9 @@
   /* color: #581845 ; */
   transition: background-color 180.3s ease
 }
+
+.errorMsg{
+  font-size: 12px;
+  color: red;
+
+}

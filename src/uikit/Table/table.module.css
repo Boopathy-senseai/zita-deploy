@@ -20,7 +20,8 @@
   position: relative;
 }
 .rowScroll {
-  overflow: auto;
+  overflow-y: scroll;
+  height: 150px;
 }
 .emptyTextOne {
   position: relative;

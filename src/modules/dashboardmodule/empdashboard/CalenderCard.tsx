@@ -419,10 +419,12 @@ const CalenderCard = ({
       </Flex>
       <Flex
         columnFlex
-        className={cx('scrollStyle', {
-          scrollStyleOne: checkCalendar,
-          scrollStyleTwo: !checkCalendar,
-        })}
+        // className={cx('scrollStyle', {
+        //   scrollStyleOne: checkCalendar,
+        //   scrollStyleTwo: !checkCalendar,
+        // })}
+        className={active ===0||event.length===0?styles.scrollStyleOne:styles.scrollStyleTwo}
+        
       >
         {active === 0 ? (
           <Flex center flex={1} middle columnFlex className={styles.noContent}>

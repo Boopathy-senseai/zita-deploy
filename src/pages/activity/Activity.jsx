@@ -133,6 +133,7 @@ function Activity() {
                                 pointerEvents: 'none',
                                 height: 28,
                                 textTransform: 'capitalize',
+                                marginLeft:"-1px"
                               }}
                               size={'small'}
                               className="status-btn-admin"

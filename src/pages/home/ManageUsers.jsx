@@ -148,7 +148,7 @@ const ManageUsers = ({ setKey }) => {
   return (
     <>
       {showToast !== null ? <Toaster content={showToast} type="success" /> : ''}
-      <div className="row align-items-center py-4">
+      <div className="row align-items-center py-2">
         <div className="col">
           <Text>
             You can invite your team members and manage your organization as an

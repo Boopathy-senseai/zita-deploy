@@ -82,7 +82,7 @@ import Inbox from './modules/emailintegrationmodule/integrationScreen';
 import CheckSignUpActivate from './modules/SignUp/CheckSignUpActivate';
 
 import MeetingSchedulerScreen from './modules/meetingscheduler/meetingSchedulerScreen';
-import Slotter1 from './modules/meetingscheduler/events/Slotter1';
+import Slotter from './modules/meetingscheduler/events/Slotter';
 import PreviewTabs from './modules/meetingscheduler/events/PreviewTab';
 
 axios.defaults.baseURL = process.env.REACT_APP_API_ENDPOINT;
@@ -420,7 +420,7 @@ const App = () => {
         {/* <Route path="/mail/*" component={Inbox}/> */}
         {/* <Route path={''} component={NotFound} /> */}
         {/* <Route path="/calendar" component={Calendar} /> */}
-        <Route path="/slotter" component={Slotter1}/>
+        <Route path="/slotter" component={Slotter}/>
         <Route path="/event_preview" component={PreviewTabs}/>
         {localStorage.getItem('loginUserCheck') === 'true' ||
         localStorage.getItem('loginUserCheck') === null
