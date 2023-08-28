@@ -100,7 +100,7 @@ const Sidebar = ({ changes, data }: props) => {
       {console.log('*******', Expent)}
       <div
         className={Expent === '0' ? styles.sidebar : styles.sidebarmini}
-        style={{ marginTop: '50px' }}
+        style={{ marginTop: '50px', display:"flex", flexWrap:"wrap", alignContent:"space-between" }}
       >
         <ul>
           {is_plan ? (
