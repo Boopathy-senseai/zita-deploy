@@ -86,7 +86,7 @@ const Messages = ({
     <LabelWrapper size={16} bold label={jobTitleCheck}>
       <Card className={styles.overAll}>
         {showEmptyMessgae ? (
-          <Flex columnFlex center middle height={661}>
+          <Flex columnFlex center middle height={412}>
             <SvgChat width={16} height={16} fill='#888888'/>
             <Text size={13} style={{ paddingTop: 20, color: "#888888" }}  align="center">
               No messages received
@@ -97,14 +97,14 @@ const Messages = ({
             {messages.length === 0 ? (
               <>
                 {isEmpty(jd_id) ? (
-                  <Flex columnFlex center middle height={661}>
+                  <Flex columnFlex center middle height={412}>
                     <Text color="gray" align="center">
                       Click on the message icon to view the respective job
                       conversation
                     </Text>
                   </Flex>
                 ) : (
-                  <Flex columnFlex center middle height={661}>
+                  <Flex columnFlex center middle height={412}>
                     <SvgChat />
                     <Text
                       style={{ paddingTop: 20 }}

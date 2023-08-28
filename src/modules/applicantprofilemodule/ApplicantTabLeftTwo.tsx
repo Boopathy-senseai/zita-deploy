@@ -8,6 +8,7 @@ import {
   ALL_APPLICANT_MATCH_TITLE,
   SCREEN_APPLICANT_STATUS_TITLE,
 } from '../constValue';
+import EmailScreen from '../emailintegrationmodule/integrationScreen';
 import AboutTab from './Abouttabs';
 import AllMatchTab from './AllMatchTab';
 import InterviewScorecardTab from './InterviewScorecardTab';
@@ -68,6 +69,9 @@ const ApplicantTabLeftTwo = ({ activeState }: typeof defaultProps) => {
           <Tab title={'Matching Analysis'}>
             <MatchingAnalysisTab />
           </Tab>
+          <Tab title={'Mailbox'}>
+            <EmailScreen/>
+          </Tab>
           <Tab title={'Invitation Status'}>
             <ScreeningStatusTab title={'Invitation Status'} issingletab  />
           </Tab> 
@@ -110,6 +114,9 @@ const ApplicantTabLeftTwo = ({ activeState }: typeof defaultProps) => {
           </Tab> */}
           <Tab title={'Matching Analysis'}>
             <MatchingAnalysisTab />
+          </Tab>
+          <Tab title={'Mailbox'}>
+            <EmailScreen/>
           </Tab>
           <Tab title={'Screening Status/Scorecard'}>
             <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab={false} />

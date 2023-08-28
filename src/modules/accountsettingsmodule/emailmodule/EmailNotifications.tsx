@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { shadow } from 'pdfjs-dist';
 import { AppDispatch, RootState } from '../../../store';
 import Text from '../..//../uikit/Text/Text';
 import Flex from '../..//../uikit/Flex/Flex';
@@ -9,12 +10,11 @@ import SvgInfo from '../..//../icons/SvgInfo';
 import SvgModuleicon from '../../../icons/SvgModuleicon';
 import Loader from '../../../uikit/Loader/Loader';
 import styles from './email.module.css';
-
-
 import {
 	emailPreferenceMiddleWare,
 	emailPreferencePostMiddleWare,
 } from './store/middleware/emailnotificationmiddleware';
+
 
 const EmailNotifications = () => {
 	const dispatch: AppDispatch = useDispatch();
@@ -199,7 +199,7 @@ if(isload){
 	return <Loader />
 }
 	return (
-		<Card className={styles.cardOverAll}>
+		<Flex className={styles.cardOverAll}>
 			
 			<Flex>
 				<Text bold size={14}>
@@ -602,7 +602,7 @@ if(isload){
 					</div>
 				</Flex>
 			</Flex>
-		</Card>
+		</Flex>
 	);
 };
 

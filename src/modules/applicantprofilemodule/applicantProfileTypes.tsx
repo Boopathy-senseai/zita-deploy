@@ -21,10 +21,10 @@ export interface ApplicantProfile {
   personalInfo: PersonalInfoEntity[];
   source: string;
 }
-export interface mention{
-  recruiter_id:number;
-  recruiter_id__username:string;
-  company_name:string;
+export interface mention {
+  recruiter_id: number;
+  recruiter_id__username: string;
+  company_name: string;
 }
 export interface QuestionnaireEntity {
   answer: string;
@@ -148,8 +148,6 @@ export interface CourseEntity {
   updated_at: string;
 }
 export interface CandidateDetailsEntity {
-  
-  
   id: number;
   can_source_id: number;
   client_id_id: number;
@@ -172,13 +170,13 @@ export interface CandidateDetailsEntity {
   updated_on: string;
   created_at: string;
   updated_by: string;
-  code_repo:string;
+  code_repo: string;
   image: string;
   file: string;
   type_of_job__label_name: string;
   available_to_start__label_name: string;
   industry_type__label_name: string;
-  created_on:string,
+  created_on: string;
 }
 
 export interface SkillsEntity {
@@ -271,28 +269,28 @@ export interface ApplicantProfileReducerState extends ApplicantProfile {
 export interface Match {
   success: boolean;
   matched_data: Data;
-  overall_percentage:number;
-  location_percent:number;
-  skills_percent:number;
-  qualification_percent:number;
+  overall_percentage: number;
+  location_percent: number;
+  skills_percent: number;
+  qualification_percent: number;
   match: MatchEntity[];
-  not_matched_data: Datas,
-  source:overall;
+  not_matched_data: Datas;
+  source: overall;
 }
 export interface overall {
-   jd_skills:[]
-  qualification:[]
-  jd_location:[]
+  jd_skills: [];
+  qualification: [];
+  jd_location: [];
 }
 export interface Data {
-  matched_skills:[]
-  matched_qualification:[]
-  matched_location:[]
+  matched_skills: [];
+  matched_qualification: [];
+  matched_location: [];
 }
-export interface Datas { 
-  not_matched_skills:[]
-  not_matched_qualification:[]
-  not_matched_location:[]
+export interface Datas {
+  not_matched_skills: [];
+  not_matched_qualification: [];
+  not_matched_location: [];
 }
 export interface MatchEntity {
   id: number;
@@ -300,7 +298,7 @@ export interface MatchEntity {
   jd_id_id: number;
   profile_match: number;
   created_at: string;
-  
+
   // overall_percentage:number;
 }
 
@@ -322,10 +320,10 @@ export interface Notes {
   jd_id_id?: null;
   candidate_id_id: number;
   notes: string;
-  updated_by?:string;
+  updated_by?: string;
   date_created?: string;
   created_at: string;
-  emp_image:string;
+  emp_image: string;
   user: number;
 }
 
@@ -339,12 +337,11 @@ export interface NotesReducerState {
 export interface MentionReducerState {
   isLoading: boolean;
   error: string;
-  data:[
+  data: [
     {
-     user:number,
-     value:string,
-     
-   }
+      user: number;
+      value: string;
+    },
   ];
 }
 export interface AllMatch {
@@ -402,17 +399,27 @@ export interface MessageReducerState {
 
 export interface InterviewScorecard {
   interview: InterviewEntity[];
+  overall:number;
+  user:number;
 }
 export interface InterviewEntity {
   id: number;
   candidate_id_id: number;
   jd_id_id: number;
   rating: number;
-  first_name:  string,
-  last_name: string,
-  img_name:string,
+  first_name: string;
+  last_name: string;
+  img_name: string;
   comments: string;
   created_at: string;
+  rating1: number;
+  rating2: number;
+  rating3: number;
+  rating4: number;
+  rating5: number;
+  overall_percentage: number;
+  user_id:number;
+ 
 }
 
 export interface InterviewScorecardReducerState extends InterviewScorecard {
@@ -422,11 +429,11 @@ export interface InterviewScorecardReducerState extends InterviewScorecard {
 export interface Intergratemailstate {
   isLoading: boolean;
   error: string;
-  mail:string;
-  email:IntergrateEntity[];
+  mail: string;
+  email: IntergrateEntity[];
 }
 export interface IntergrateEntity {
-   email:string;
+  email: string;
 }
 export interface MessageTemplates {
   created_on: string;
@@ -442,7 +449,7 @@ export interface MessageTemplateReducerState {
 }
 
 export interface Calender {
-  google?: GoogleEntity[];  
+  google?: GoogleEntity[];
   event?: EventEntity[];
   outlook?: GoogleEntity[];
 }
@@ -482,7 +489,7 @@ export interface ScreenStatus {
   interviewed?: ShortlistedEntityOrInterviewedEntityOrSelectedEntity[];
   selected?: ShortlistedEntityOrInterviewedEntityOrSelectedEntity[];
   rejected?: ShortlistedEntityOrInterviewedEntityOrSelectedEntity[];
- invite ?:InviteEntity[];
+  invite?: InviteEntity[];
 }
 export interface InviteEntity {
   candidate_id_id: number;
@@ -518,7 +525,7 @@ export interface ShortlistedEntityOrInterviewedEntityOrSelectedEntity {
 
 export interface ScreenStatusReducerState extends ScreenStatus {
   stages: any;
-  invite:any;
+  invite: any;
   isLoading: boolean;
   error: string;
 }
@@ -541,32 +548,30 @@ export interface IApplicantStatus {
   updated_by: string;
 }
 
-
-export interface GoogleConflictState{
-  isLoading : boolean;
-  error : string;
-  events : ConflictsEvents
+export interface GoogleConflictState {
+  isLoading: boolean;
+  error: string;
+  events: ConflictsEvents;
 }
-export interface OutlookConflictState{
-  isLoading : boolean;
-  error : string;
-  events : ConflictsEvents
-}
-
-export interface ConflictsEvents{
-  date : []
+export interface OutlookConflictState {
+  isLoading: boolean;
+  error: string;
+  events: ConflictsEvents;
 }
 
-export interface CalendarConfigurationState{
-  isLoading : boolean;
-  error : string;
-  configuration : string;
-  data : Configuration[];
-
+export interface ConflictsEvents {
+  date: [];
 }
 
-export interface Configuration{
-  id : number;
+export interface CalendarConfigurationState {
+  isLoading: boolean;
+  error: string;
+  configuration: string;
+  data: Configuration[];
+}
+
+export interface Configuration {
+  id: number;
   client_id_id: number;
   showas: string;
   calendar: boolean;
@@ -574,6 +579,6 @@ export interface Configuration{
   is_active: boolean;
   created_at: string;
   isdeleted: boolean;
-  ischecked: boolean
+  ischecked: boolean;
   configuration: string;
 }

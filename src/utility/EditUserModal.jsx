@@ -351,13 +351,16 @@ const EditUserModal = (props) => {
           <Modal.Body>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Flex row center between>
-                <Text bold size={16} color="theme">
+                <Text bold size={14}>
                   Edit User
                 </Text>
                 <Button types="link" onClick={onCloseModal}>
                   <SvgClose fill={'#979797'} height={14} width={14} />
                 </Button>
               </Flex>
+
+              <div className={styles.verticalLine}> </div>
+
               <div className="row">
                 <div className="col-12">
                   {props.clearData === false ? displayMessage() : ''}
@@ -530,6 +533,7 @@ const EditUserModal = (props) => {
                   </div>
                 </div>
                 <div className="col-md-12" style={{marginTop:"16px"}}>
+                <div className={styles.verticalLine2}> </div>
                   <Button type="submit" style={{ marginBottom: 16 }}>
                     Save
                   </Button>

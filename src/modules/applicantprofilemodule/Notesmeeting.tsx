@@ -511,7 +511,7 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
                 <SvgMeetingicon />
               </Flex>
               <Flex center middle marginTop={10}>
-                <Text style={{ fontSize: '13px' }}>
+                <Text style={{ fontSize: '13px',color:'#979797' }} color='gray'>
                   Meetings not yet scheduled
                 </Text>
               </Flex>

@@ -629,7 +629,7 @@ setshow(val)
         />
         <UnlockLoaderModal
           title={
-            'Downloading resumes... This might take a few minutes to process the files.'
+            'Exporting resumes... This might take a few minutes to process the files.'
           }
           open={bulkDownloadLoader}
         />

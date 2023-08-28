@@ -14,64 +14,46 @@ import SvgSearch from '../../../icons/SvgSearch';
 import Loader from '../../../uikit/Loader/Loader';
 import styles from './linkshare.module.css';
 import { getScheduleMiddleWare } from './store/middleware/eventmiddleware';
+import { DataEntity, ShareEntity } from './ScheduleTypes';
 
-const LinkShare = (props) => {
-  const dispatch: AppDispatch = useDispatch();
-  const {
-    setShare,
-    sharelinkdata,
-    details,
-    sharedata,
-  } = props;
-  const [checkedItems, setCheckedItems] = useState(sharedata);
+type Props = {
+  sharelinkdata ?: ShareEntity[];
+  details ?: DataEntity;
+  setShare :  (boolean) => void;
+}
+
+const LinkShare = ({
+  sharelinkdata,
+  details,
+  setShare,
+}:Props) => {
+  const dispatch: AppDispatch = useDispatch(); 
+  const [checkedItems, setCheckedItems] = useState([]);
   const [data, setData] = useState(sharelinkdata);
   const [loader, setLoader] = useState(false);
-
-  console.log('setshare', setShare);
-  console.log('checkedItems', checkedItems);
-  console.log('details', details);
-
   const handleCheckboxChange = (event) => {
-    console.log('eventeventevent', event.target);
     const { value, checked } = event.target;
-    console.log('checkedItems...........', value, 'checked', checked);
     if (checked) {
       setCheckedItems((prevItems) => [...prevItems, value]);
-      // setinterviewerData(checkedItems)
     } else {
       setCheckedItems((prevItems) =>
         prevItems.filter((item) => item !== value),
       );
     }
-
   };
 
 
-  console.log('checkedItems............', checkedItems, typeof checkedItems);
-
   function searchItems(searchquery) {
-    console.log('query', searchquery);
-
     const items = sharelinkdata;
-    console.log('itemms', items);
-    const query = searchquery.trim() 
-    console.log("searchquery///////",searchquery,searchquery.length,"\n","query",query,query.length)
     const lowercaseQuery = searchquery.toLowerCase();
-    console.log('searchquerylowercaseQuery', lowercaseQuery);
-
     const filteredItems = items.filter((item) =>
       item.full_name.toLowerCase().includes(lowercaseQuery.toString()),
     );
-    console.log('searchqueryfilteredItemsfilteredItems', filteredItems);
     if (filteredItems.length > 0) {
       setData(filteredItems);
     } else {
       setData([]);
     }
-  //   setCheckedItems((prevItems) => 
-  //   prevItems.filter((item) => filteredItems.some((fItem) => fItem.candidate_id === item)),
-  // );
-  console.log("~~~~~~~~~~~~~~",checkedItems)
     return filteredItems;
   }
 
@@ -91,17 +73,11 @@ const LinkShare = (props) => {
           setLoader(false);
           setShare(false);
         })
-        .catch((err) => {
-          console.log(err);
-        });
     }
   };
-  const MAX_BUTTON_TEXT_WIDTH = 85;
 
   return (
     <>
-      {console.log('checkedItemscheckedItemsfilteredItems', data)}
-      {console.log('checkedItemscheckedItems', checkedItems)}
       {loader && <Loader />}
       <div className={styles.sharelink}>
         <Flex row between center>
@@ -162,8 +138,7 @@ const LinkShare = (props) => {
                   ):(
                     <>
                     <InputCheckBox                   
-                    value={name.id}
-                    // checked ={name.candidate_id ? true : false}
+                    value={name.id}                
                     onChange={handleCheckboxChange}
                   />
                   </>
@@ -199,9 +174,7 @@ const LinkShare = (props) => {
 
           <>
           <Button
-            // types="primary"
             className={styles.share}
-            // style={{ marignRight: '20px' }}
             onClick={() => onbuttonclick(details.id)}
           >
             Share Link
@@ -209,10 +182,8 @@ const LinkShare = (props) => {
           </>
           ):(
             <>
-          <Button
-            // types="primary"
-            className={styles.share}
-            // style={{ marignRight: '20px' }}            
+          <Button          
+            className={styles.share}    
             disabled
           >
             Share Link

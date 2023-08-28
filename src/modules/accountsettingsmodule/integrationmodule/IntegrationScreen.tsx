@@ -421,7 +421,7 @@ const IntegrationScreen = () => {
         <Flex className={styles.editmodal}>
           <Flex
             end
-            style={{ marginRight: '15px' }}
+            style={{ marginRight: '15px', marginBottom: '-14px', zIndex: '1' }}
             onClick={() => setmodelopen(!modelopen)}
           >
             <SvgClose width={12} height={12} fill={'581845'} />
@@ -429,7 +429,7 @@ const IntegrationScreen = () => {
 
           {connected === 1 && active === 1 && isGoogle === 0 ? (
             <Flex>
-              <Text color="theme" size={16} bold>
+              <Text color="theme" size={14} bold>
                 {' '}
                 <SvgEdit width={14} height={14} /> Edit Configuration
               </Text>
@@ -478,11 +478,13 @@ const IntegrationScreen = () => {
 
           {connected === 1 && active === 1 && isGoogle === 1 ? (
             <Flex>
-              <Flex className={styles.borderbottom}></Flex>
-              <Text color="theme" size={16} bold>
+              {/* <Flex className={styles.borderbottom}>
+              </Flex> */}
+              <Text size={14} bold style={{ marginTop: '-5px' }}>
                 {' '}
                 <SvgEdit width={14} height={14} /> Edit Configuration
               </Text>
+              <Flex className={styles.borderbottom}></Flex>
               <Text>
                 You have connected your Email with Google Mail Service.
               </Text>
@@ -574,16 +576,24 @@ const ActionsButton: React.FC<ActionButtonProps> = ({
           id="dropdown-basic"
           // onClick={BtnClick }
         >
-          <SvgDotMenu fill={'#black'} height={14} width={14} />
+          <Button onClick={Configuration}>
+            <Flex row center className={styles.pointer}>
+              <Text bold style={{ cursor: 'pointer', color: '#fff' }}>
+                Calendar Configurations
+              </Text>
+            </Flex>
+          </Button>
+
+          {/* <SvgDotMenu fill={'#black'} height={14} width={14} /> */}
         </Dropdown.Toggle>
         {/* { connected === 1 && active === 1 ? ( */}
-        <Dropdown.Menu>
+        {/* <Dropdown.Menu>
           <Dropdown.Item onClick={Configuration}>
             <Flex row center className={styles.pointer}>
               <Text style={{ cursor: 'pointer' }}>Calendar Configurations</Text>
             </Flex>
           </Dropdown.Item>
-        </Dropdown.Menu>
+        </Dropdown.Menu> */}
       </Dropdown>
     </Flex>
   );

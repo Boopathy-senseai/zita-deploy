@@ -569,12 +569,12 @@ const AccountSettingsScreen = ({ value }: props) => {
                         ? styles.borderStyle
                         : styles.overFlow
                     }
-                    style={{
-                      height:
-                        itemId === 'settings'
-                          ? height
-                          : window.innerHeight - 192,
-                    }}
+                    // style={{
+                    //   height:
+                    //     itemId === 'settings'
+                    //       ? height
+                    //       : window.innerHeight - 192,
+                    // }}
                   >
                     {tabKey === '3' && itemId === 'settings' && (
                       <ManageUsers setKey={setKey} />
