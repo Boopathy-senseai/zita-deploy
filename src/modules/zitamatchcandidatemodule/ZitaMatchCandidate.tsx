@@ -484,6 +484,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
     setCandiStatus('')
     setRelocate(false)
     setLocation(false)
+    setSortOptions({value: 'match',label: 'Match Score'})
     dispatch(
       zitaMatchDataCandidateMiddleWare({
         jd_id: jdId,
@@ -491,7 +492,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
         fav: favAdd,
         candidate: '',
         location:"",
-        sort:isSortOptions.value,
+        sort:"match",
         work_experience: '',
         relocate: '0',
         invite: isCandiStatus,

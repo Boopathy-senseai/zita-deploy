@@ -11,7 +11,7 @@ const SvgLocationicon = ({ width, height, fill }: typeof defaultProps) => (
     width={width}
     height={height}
     fill="none"
-    viewBox="0 0 12 16" 
+    viewBox="0 0 16 16" 
     
   >
     <path
