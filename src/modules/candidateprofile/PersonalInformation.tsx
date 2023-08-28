@@ -289,10 +289,13 @@ const PersonalInformation = ({
                 country={'us'}
                 value={formik.values.phone}
                 onChange={(phone, _data: any, _event, _formattedValue) => {
-                  // console.log('phone', phone.slice(data.dialCode.length));
+                  const countryCode = _data.dialCode;
+                  console.log('Country code:', "+",countryCode," "+ phone);
+
                   // setPhoneValidate(phone.slice(data.dialCode.length));
                   formik.setFieldValue('phone', phone);
                 }}
+              
               />
             </LabelWrapper>
             <ErrorMessage
