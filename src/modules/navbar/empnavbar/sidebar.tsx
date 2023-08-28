@@ -16,7 +16,7 @@ import Button from '../../../uikit/Button/Button';
 import SvgDb from '../../../icons/SvgDb';
 import { routesPath } from '../../../routes/routesPath';
 import { AppDispatch, RootState } from '../../../store';
-import { WHITE } from '../../../uikit/Colors/colors';
+import { PRIMARY, WHITE } from '../../../uikit/Colors/colors';
 import Flex from '../../../uikit/Flex/Flex';
 import { isEmpty } from '../../../uikit/helper';
 import LinkWrapper from '../../../uikit/Link/LinkWrapper';
@@ -569,14 +569,16 @@ const Sidebar = ({ changes, data }: props) => {
             {is_plan ? (
               changes ? (
                 <li
+                style={plan_id === 1?({cursor:'not-allowed !important'}):(null)}
                   title={
                     plan_id === 1
                       ? 'Please subscribe to any of the paid plans to view the job metrics'
                       : 'Reports'
                   }
                   className={
-                    pathname.includes('/reports') ? styles.select_row : ''
+                    pathname.includes('/reports')&& plan_id===1 ? styles.select_row : plan_id===1?styles.select_item:""
                   }
+                  
                 >
                   <LinkWrapper
                     className={styles.hoverview}
@@ -597,7 +599,7 @@ const Sidebar = ({ changes, data }: props) => {
                       style={{
                         color: '#581845',
                         marginRight: '10px',
-                        marginLeft: '20px',
+                        marginLeft: '18px' 
                       }}
                     >
                       Reports
@@ -611,12 +613,14 @@ const Sidebar = ({ changes, data }: props) => {
                       ? 'Please subscribe to any of the paid plans to view the job metrics'
                       : 'Reports'
                   }
+                  style={plan_id === 1?({cursor:'not-allowed !important'}):(null)}
                   className={
                     pathname.includes('/reports') ? styles.select_row : ''
                   }
+                 
                 >
                   <LinkWrapper
-                    className={styles.hoverview}
+                    className={plan_id===1?styles.selectitem:styles.hoverview}
                     onClick={clearTab}
                     to={
                       plan_id === 1
@@ -625,7 +629,9 @@ const Sidebar = ({ changes, data }: props) => {
                         ? reports
                         : accountPath
                     }
+                    
                   >
+                
                     <SvgReport fill={'none'} />
                     <Text
                       onClick={() => handleNavigate(6)}
@@ -634,7 +640,7 @@ const Sidebar = ({ changes, data }: props) => {
                       style={{
                         color: '#581845',
                         marginRight: '10px',
-                        marginLeft: '20px',
+                        marginLeft: '18px' 
                       }}
                     >
                       Reports
@@ -646,12 +652,15 @@ const Sidebar = ({ changes, data }: props) => {
               <li
                 title="Reports"
                 className={
-                  pathname.includes('/reports') ? styles.select_row : ''
+                  pathname.includes('/reports') ? styles.select_row : styles.select_item
                 }
+                style={{cursor:'not-allowed'}}
               >
+               
                 <a
                   className={styles.hoverview}
                   href={' '}
+                  style={{cursor:'not-allowed'}}
                   onClick={(e) => {
                     e.preventDefault();
                   }}
@@ -664,7 +673,8 @@ const Sidebar = ({ changes, data }: props) => {
                     style={{
                       color: '#581845',
                       marginRight: '10px',
-                      marginLeft: '20px',
+                      marginLeft: '18px', 
+                      cursor:'not-allowed'
                     }}
                   >
                     Reports
@@ -683,14 +693,14 @@ const Sidebar = ({ changes, data }: props) => {
                   to={is_plan ? routesPath.MAIL : accountPath}
                 >
                   <text style={{ marginLeft: '-2px' }}>
-                    <SvgMailbox height={16} width={16} />
+                    <SvgMailbox height={17} width={19} />
                   </text>
 
                   <Text
                     onClick={() => handleNavigate(7)}
                     className={Expent === '0' ? styles.text : styles.classpan}
                     color="primary"
-                    style={{ color: '#581845', marginRight: '10px' }}
+                    style={{ color: '#581845', marginRight: '10px',  marginLeft: '17px'  }}
                   >
                     Mailbox
                   </Text>
@@ -704,14 +714,14 @@ const Sidebar = ({ changes, data }: props) => {
                   to={is_plan ? routesPath.MAIL : accountPath}
                 >
                   <text style={{ marginLeft: '-2px' }}>
-                    <SvgMailbox height={16} width={16} />
+                    <SvgMailbox height={17} width={19}  />
                   </text>
 
                   <Text
                     onClick={() => handleNavigate(7)}
                     className={Expent === '0' ? styles.text : styles.classpan}
                     color="primary"
-                    style={{ color: '#581845', marginRight: '10px' }}
+                    style={{ color: '#581845', marginRight: '10px', marginLeft: '17px'  }}
                   >
                     Mailbox
                   </Text>
@@ -726,14 +736,14 @@ const Sidebar = ({ changes, data }: props) => {
                 to={is_plan ? routesPath.MAIL : accountPath}
               >
                 <text style={{ marginLeft: '-2px' }}>
-                  <SvgMailbox height={16} width={16} />
+                  <SvgMailbox height={17} width={19}  />
                 </text>
 
                 <Text
                   onClick={() => handleNavigate(7)}
                   className={Expent === '0' ? styles.text : styles.classpan}
                   color="primary"
-                  style={{ color: '#581845', marginRight: '10px' }}
+                  style={{ color: '#581845', marginRight: '10px', marginLeft: '17px'  }}
                 >
                   Mailbox
                 </Text>
@@ -757,7 +767,7 @@ const Sidebar = ({ changes, data }: props) => {
                       to={is_plan ? routesPath.CALENDAR : accountPath}
                     >
                       <text style={{ marginLeft: '-2px' }}>
-                        <SvgCalendar height={18} width={18} />
+                        <SvgCalendar height={20} width={20} />
                       </text>
                       <Text
                         onClick={() => handleNavigate(7)}
@@ -765,7 +775,7 @@ const Sidebar = ({ changes, data }: props) => {
                           Expent === '0' ? styles.text : styles.classpan
                         }
                         color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
+                        style={{ color: '#581845', marginRight: '10px', marginLeft: '17px' }}
                       >
                         Calendar
                       </Text>
@@ -784,7 +794,7 @@ const Sidebar = ({ changes, data }: props) => {
                       to={is_plan ? routesPath.CALENDAR : accountPath}
                     >
                       <text style={{ marginLeft: '-2px' }}>
-                        <SvgCalendar height={18} width={18} />
+                        <SvgCalendar height={20} width={20} />
                       </text>
                       <Text
                         onClick={() => handleNavigate(7)}
@@ -792,7 +802,7 @@ const Sidebar = ({ changes, data }: props) => {
                           Expent === '0' ? styles.text : styles.classpan
                         }
                         color="primary"
-                        style={{ color: '#581845', marginRight: '10px',  marginLeft: '20px' }}
+                        style={{ color: '#581845', marginRight: '10px',   marginLeft: '17px' }}
                       >
                         Calendar
                       </Text>
@@ -812,13 +822,13 @@ const Sidebar = ({ changes, data }: props) => {
                     }}
                   >
                     <text style={{ marginLeft: '-2px' }}>
-                      <SvgCalendar height={18} width={18} />
+                      <SvgCalendar height={20} width={20} />
                     </text>
                     <Text
                       onClick={() => handleNavigate(7)}
                       className={Expent === '0' ? styles.text : styles.classpan}
                       color="primary"
-                      style={{ color: '#581845', marginRight: '10px',  marginLeft: '20px' }}
+                      style={{ color: '#581845', marginRight: '10px',  marginLeft: '17px' }}
                     >
                       Calendar
                     </Text>
@@ -842,7 +852,7 @@ const Sidebar = ({ changes, data }: props) => {
                       to={is_plan ? meetingScheduler : accountPath}
                     >
                       <text style={{ marginLeft: '-2px' }}>
-                        <SvgScheduler height={16} width={18} opacity={0.7} />
+                        <SvgScheduler height={17} width={19}    />
                       </text>
                       <Text
                         onClick={() => handleNavigate(8)}
@@ -850,7 +860,7 @@ const Sidebar = ({ changes, data }: props) => {
                           Expent === '0' ? styles.text : styles.classpan
                         }
                         color="primary"
-                        style={{ color: '#581845', marginRight: '10px',  marginLeft: '20px' }}
+                        style={{ color: '#581845', marginRight: '10px',  marginLeft: '17px' }}
                       >
                         Meeting Scheduler
                       </Text>
@@ -868,7 +878,7 @@ const Sidebar = ({ changes, data }: props) => {
                       to={is_plan ? meetingScheduler : accountPath}
                     >
                       <text style={{ marginLeft: '-2px' }}>
-                        <SvgScheduler height={16} width={18} opacity={0.7} />
+                        <SvgScheduler height={17} width={19}       />
                       </text>
                       <Text
                         onClick={() => handleNavigate(8)}
@@ -876,7 +886,7 @@ const Sidebar = ({ changes, data }: props) => {
                           Expent === '0' ? styles.text : styles.classpan
                         }
                         color="primary"
-                        style={{ color: '#581845', marginRight: '10px',  marginLeft: '20px' }}
+                        style={{ color: '#581845', marginRight: '10px',  marginLeft: '17px'  }}
                       >
                         Meeting Scheduler
                       </Text>
@@ -897,13 +907,13 @@ const Sidebar = ({ changes, data }: props) => {
                     }}
                   >
                     <text style={{ marginLeft: '-2px' }}>
-                      <SvgScheduler height={16} width={18} opacity={0.7} />
+                      <SvgScheduler height={17} width={19}   />
                     </text>
                     <Text
                       onClick={() => handleNavigate(8)}
                       className={Expent === '0' ? styles.text : styles.classpan}
                       color="primary"
-                      style={{ color: '#581845', marginRight: '10px',  marginLeft: '20px' }}
+                      style={{ color: '#581845', marginRight: '10px',  marginLeft: '17px' }}
                     >
                       Meeting Scheduler
                     </Text>
@@ -913,8 +923,9 @@ const Sidebar = ({ changes, data }: props) => {
             </>
           )}
         </ul>
+        
 
-        <ul className={styles.setting}>
+        <ul className={styles.setting} >
           {is_plan ? (
             <li
               className={
