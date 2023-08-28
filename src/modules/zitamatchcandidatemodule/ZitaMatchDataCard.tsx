@@ -674,15 +674,19 @@ dataList.invite,
                 <>
                
               {dataList.applicant===null &&
-               <SvgNotInterested
-               width={20}
-               height={20}
-               ></SvgNotInterested>}
+              //  <SvgNotInterested
+              //  width={20}
+              //  height={20}
+              //  ></SvgNotInterested>
+              ""
+            }
              
                 </>
               ) : (
                 <>
-                  {!isEmpty(dataList.invite) && isEmpty(dataList.applicant) && (
+                  {!isEmpty(dataList.invite) && isEmpty(dataList.applicant) && isEmpty(dataList.not_interested)&&(
+                    <>
+                    {dataList.interested===null &&
                     <>
                           <div
                           tabIndex={-1}
@@ -696,11 +700,10 @@ dataList.invite,
                         >
                           <SvgInvite width={28} height={28} color="theme" /> 
                         </div>
-                        {dataList.interested===null &&
                     <Text color="gray" size={11} style={{paddingLeft:"5px",width:"65%"}}>
                       Last Invited{' '}
                       {dataList?.invite && getDateString(dataList.invite, 'll')}
-                    </Text>}
+                    </Text></>}
                     </>
                   )}
                 </>
@@ -712,7 +715,8 @@ dataList.invite,
                 </Text>
               )} */}
 
-              {!isEmpty(dataList.interested) && isEmpty(dataList.applicant) && (
+              {/* {!isEmpty(dataList.interested) && isEmpty(dataList.applicant) && (
+                
                 <Flex row center>
                   {
                     dataList.interested ?(
@@ -729,15 +733,16 @@ dataList.invite,
                   dataList.interested ?(
                     <Text  style={{ color:"#1976d2" }} size={13} >Interested</Text>
                   ):(
-                    <Text  style={{ marginLeft: 4,color:"#ff0000" }} size={13} title=' You can’t send Invite'>Not Interested</Text>
+                    // 
+                    ""
                   )
                  }
                  
                 </Flex>
-                 )}  
+                 )}   */}
+                 
 
-              {console.log("datalist",dataList.applicant)}
-              {!isEmpty(dataList.applicant) && (
+              {(dataList.applicant!==null)?(
                 <Flex row center>
                    <SvgAppliedIcon fill={SUCCESS} width={17} height={17} /> 
                   <Link target={'_blank'} to={`/applicant_pipe_line/${jobId}`}>
@@ -754,7 +759,38 @@ dataList.invite,
                     <SvgHelp width={16} height={16} fill={GARY_4} />
                   </div>
                 </Flex>
+              ):(
+                (dataList.interested!==null) ?(
+                  <Flex center className={styles.flexproperty}>
+                     <div
+                          tabIndex={-1}
+                          role={'button'}
+                          onKeyPress={() => {}}
+                          onClick={handleInviteView}
+                          className={cx({
+                            svgInvitePointer: isEmpty(dataList.applicant),
+                            svgInviteNone: !isEmpty(dataList.applicant),
+                          })}
+                        >
+                          <SvgInvite width={28} height={28} color="theme" /> 
+                        </div>
+                        <Flex row>
+                    <SvgInterested 
+                      width={20}
+                      height={20}
+                    />
+                        <Text  style={{ color:"#1976d2" }} size={13} >Interested</Text></Flex>
+                    </Flex>
+                ):(
+                   (dataList.not_interested===false)&&
+                  <Flex className={styles.flexproperty}>
+                     <SvgNotInterested></SvgNotInterested>
+                     <Text  style={{ marginLeft: 4,color:"#ff0000" }} size={13} title=' You can’t send Invite'>Not Interested</Text>
+                
+                    </Flex>
+                )
               )}
+
             </Flex>
              </Flex>
 
