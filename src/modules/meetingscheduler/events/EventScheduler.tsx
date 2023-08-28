@@ -14,62 +14,15 @@ import CreateNewEvent from './CreateNewEvent';
 import styles from './eventscheduler.module.css';
 import { getScheduleMiddleWare } from './store/middleware/eventmiddleware';
 
-type CreateEvent = {
-  event_name: string;
-  event_type: string;
-  location: string;
-  dateRange: string;
-  days: string;
-  startdate: string;
-  enddate: string;
-  duration: string;
-  timezone: string;
-  interviewer: string;
-  schedule: string;
-  sunday: [];
-  timezonedisplay: string;
-  description: string;
-  // availbletimebook: string;
-  isactive: boolean;
-  isdeleted: boolean;
-  updatedby: string;
-};
-
-const initial: CreateEvent = {
-  event_name: '',
-  event_type: '',
-  location: '',
-  dateRange: '0',
-  days: 'Calendar Days',
-  startdate: '',
-  enddate: '',
-  duration: '',
-  timezone: '',
-  interviewer: '',
-  schedule: '',
-  sunday: [],
-  timezonedisplay:
-    'Automatically detect and show the times in my invitees time zone',
-  description: '',
-  // availbletimebook : '',
-  isactive: true,
-  isdeleted: false,
-  updatedby: '',
-};
 
 const EventScheduler = () => {
   const dispatch: AppDispatch = useDispatch();
   const [isopen, setIsOpen] = useState(false);
-  const [editid, setEditId] = useState(0);
   const [editlist, setEditList] = useState();
-
-  const [setting, SetSetting] = useState(false);
   const [isLoader, setisLoader] = useState(false);
-  const [sharedata, setsharedata] = useState([]);
   const [schedule, setschedule] = useState([]);
   const [editmembers, seteditmembers] = useState([]);
   const [reset, setreset] = useState(false);
-  const [open, setopen] = useState(0);
   
   const {
     data,
@@ -93,9 +46,6 @@ const EventScheduler = () => {
     outlook: schedulerReducers.outlook,
   }));
 
-
-
-  console.log("isLoading",isLoading)
   useEffect(() => {
     dispatch(getScheduleMiddleWare(undefined))
   }, []);
@@ -105,35 +55,10 @@ const EventScheduler = () => {
       setIsOpen(true);
       setreset(false)
       setEditList(datalist);
-      // dispatch(getScheduleMiddleWare(id)).then((res) => {
-      //   dispatch(getScheduleMiddleWare(undefined));
-      // });
-      // axios
-      // .get(`${eventSchedulerApi}?pk=${id}`)
-      // .then((res) => {
-      //   console.log('resresresresresres', res);
-      //   if (res.data) {
-      //     let scheduledata = res.data.datetime
-      //     let interviewdata = res.data.interviewer
-      //     setschedule(scheduledata)
-      //     seteditmembers(interviewdata)
-      //     console.log('scheduleschedule', schedule,interviewdata);
-      //     // dispatch(getScheduleMiddleWare(undefined));
-      //   }
-      // })
-      // .catch((err) => {
-      //   console.log(err);
-      // });
     }
   }
 
   function HandleResetForm(formik){
-    // alert("HandleResetForm")
-    // formik.resetForm();
-    console.log("HandleResetFormHandleResetForm",formik)
-    // resetformik();
-    // formik.initialValues = null;
-    // formik.values = null;
   }
 
 
@@ -146,7 +71,6 @@ const EventScheduler = () => {
       }
 
   }
-  const response = data;
   const CreateEvent = () => {
     setIsOpen(true);
     setreset(true)
@@ -157,23 +81,18 @@ const EventScheduler = () => {
   if (isLoading) {
     return <Loader />;
   }
-  console.log("scheduleschedulescheduleschedule",schedule,editmembers)
   return (
     <Flex
       style={{
         display: 'flex',
         flexDirection: 'column',
-        width: '100%',
-      
+        width: '100%',      
         padding: "10px",
       }}
      
     >
       <Flex row between className={styles.initial} style={{width: "100%", marginBottom: 10}}>
         <Flex>
-          {/* <Text color="theme" bold size={16}>
-              Events
-            </Text> */}
           <Text size={13}>
             Share your availability with candidates and schedule events
           </Text>
@@ -194,20 +113,15 @@ const EventScheduler = () => {
           {isopen ? (
             <Modal open={isopen} onClose={close}>
               <CreateNewEvent
-                isopen={isopen}
                 setIsOpen={setIsOpen}
                 editModel={editlist}
-                seteditModel = {setEditList}
                 datetime={datetime}
-                setEditList={setEditList}
                 teammembers={addmembers}
-                intern={interviewer}
-                setisLoader={setisLoader}
-                schedule={schedule}
                 google={google}
-                outlook={outlook}    
+                outlook={outlook}  
+                reset = {reset}
                 HandleButton ={HandleButton}  
-                HandleResetForm={HandleResetForm}
+
               />
             </Modal>
           ) : (
@@ -216,28 +130,17 @@ const EventScheduler = () => {
         </Flex>
 
         <Flex className={styles.outline}  height={window.innerHeight-185} style={{overflow:'scroll'}}>
-          {response?.length > 0 ? (
+          {data?.length > 0 ? (
             <Flex row wrap marginTop={'10px'}>
-              {response &&
-                response?.map((list, index) => {
+              {data &&
+                data?.map((list, index) => {
                   return (
                     <Flex key={index}>
-                      <DashBoard
-                        isLoading ={isLoading}
+                      <DashBoard                       
                         list={list}
-                        index={index}
-                        editdata={editdata}
-                        editid={editid}
-                        setEditId={setEditId}
-                        response={shareLink}
-                        details={list}
-                        interview={interviewer}
-                        setting={setting}
-                        SetSetting={SetSetting}
-                        sharedata={sharedata}
-                        setsharedata={setsharedata}
-                        setisLoader={setisLoader}
-                        opens={open}
+                        editdata={editdata}                       
+                        response={shareLink}                      
+                        interview={interviewer}                        
                       />
                     </Flex>
                   );

@@ -67,13 +67,13 @@ const MessageCard = () => {
           <div style={{ position: 'relative' }}>
             {message_count !== 0 && (
               <div className={styles.countStyle}>
-                <Text color="white" style={{ fontSize: 10 }}>
+                <Text color="white" style={{ fontSize: 9 }}>
                   {message_count}
                 </Text>
               </div>
             )}
           </div>
-          {/* <SvgMessageIcon width={16} height={16} stroke={'#581845'} /> */}
+          <SvgMessageIcon width={16} height={16} stroke={'#581845'} />
         </Flex>
       </Flex>
       <Flex marginLeft={5} marginRight={5} className={styles.line}></Flex>
@@ -94,7 +94,7 @@ const MessageCard = () => {
                 className={styles.borderbottom}
                 key={list.first_name + index}
               >
-                <Flex row between>
+                <Flex row between >
                   <Flex row>
                     {/* <img
                       style={{ objectFit: 'cover' }}

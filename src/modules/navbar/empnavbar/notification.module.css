@@ -179,6 +179,20 @@
   border-left: 6px solid #581845 !important;
   /* transition: width 0.3s ease; */
 }
+.selectitem.hoverview {
+  border-radius: 5px 5px 5px 5px;
+  color: #581845;
+  background-color: #eee8ec;
+  border-left: 6px solid #581845 !important;
+  cursor: not-allowed;
+}
+.selectitem {
+  border-radius: 5px 5px 5px 5px;
+  color: #581845;
+  background-color: #eee8ec;
+  border-left: 6px solid #581845 !important;
+  cursor: not-allowed;
+}
 
 .sidebar .hoverview:hover {
   border-radius: 5px 5px 5px 5px;
@@ -279,4 +293,15 @@ font-family: 'Courier New', Courier, monospace;
 
 .backgroundcollapse:hover {
   background-color: #eee8ec;
+}
+.fixedlist {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f0f0f0; /* Add your preferred background color */
+  padding: 10px;
+  margin: 0;
+  list-style: none;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2); /* Add a shadow if desired */
 }

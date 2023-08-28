@@ -1,75 +1,43 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import SvgSearch from '../../../icons/SvgSearch';
 import Button from '../../../uikit/Button/Button';
 import Flex from '../../../uikit/Flex/Flex';
 import InputCheckBox from '../../../uikit/InputCheckbox/InputCheckBox';
-import Modal from '../../../uikit/Modal/Modal';
 import InputText from '../../../uikit/InputText/InputText';
 import Text from '../../../uikit/Text/Text';
-import ConfirmationDialog from './ConfirmDialogBox/ConfirmDialogBox';
 import styles from './interviewer.module.css';
+import { InterviewEntity, MemberEntity } from './ScheduleTypes';
 
-const Interviewer = (props) => {
-  const {
-    interviewerData,
-    setinterviewerData,
-    setInterviewer,
-    interviewer,
-    formik,
-    teammembers,
-    checkedItems,
-    setCheckedItems,
-    google,
-  } = props;
+type Props = {
+  checkedItems ?: number[];
+  interviewerData ?: string[];
+  teammembers? : MemberEntity[];
+  setCheckedItems : (checkedItems) => void;
+  setInterviewer : (boolean) => void;  
+  setinterviewerData : (checkedItems) => void;
+}
 
-  console.log('00000000000000000000000000', props.checkedItems);
+const Interviewer = ({
+  checkedItems,
+  interviewerData,
+  teammembers,
+  setCheckedItems,
+  setInterviewer,
+  setinterviewerData  
+}:Props) => {
   const [data, setData] = useState(teammembers);
   const [member, setmember] = useState([]);
   const [checkedData, setcheckedData] = useState(checkedItems);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [messageDialog, setMessageDialog] = useState('');
 
   useEffect(() => {
     if (interviewerData?.length > 0) {
-      // setcheckedData()
-      console.log(
-        'interviewerDatainterviewerDatainterviewerDatainterviewerData',
-        interviewerData,
-      );
       setmember(interviewerData);
     }
-    // if(checkedItems.length > 0 && checkedData.length === 0){
-    //   setcheckedData(checkedItems)
-    // }
   }, []);
 
-  function handleConfirm(){
-    if(messageDialog === "Atleast One inteerview must be integrated to the Google Calendar"){
-      setIsDialogOpen(false)
-    }
-    
-  }
-  function handleCancel(){
-
-  }
 
   const handleCheckboxChange = (event, name, list) => {
-    console.log('77777777777', list, formik);
-    if (
-      formik.event_type === 'Google Hangouts/Meet' &&
-      list.google_calendar === null &&
-      google === false
-    ) {
-      const message = "Atleast One inteerview must be integrated to the Google Calendar";
-      setMessageDialog(message)
-      setIsDialogOpen(true);
-
-      // alert('Atleast One inteerview must be integrated to the Google Calendar');
-    }
-    // if (formik.event_type !== 'Google Hangouts/Meet'){
-    else {
       const { value, checked } = event.target;
-      console.log('listtttttttttt', list, name, '\n', value, checkedData);
       if (checked) {
         setcheckedData((prevItems) => [...prevItems, value]);
         member.push(name);
@@ -81,19 +49,14 @@ const Interviewer = (props) => {
           prevItems.filter((item) => item !== value),
         );
         const index = member.findIndex((nam) => nam === name);
-        console.log('indexindexindexindex', index);
         if (index !== -1) {
           member.splice(index, 1);
         }
         const remove = checkedData.find((nam) => nam === value);
-        console.log('indexindexindexindexindexindex', remove);
         if (remove !== -1) {
           checkedData.splice(remove, 1);
         }
-        console.log('indexindexindexindexindexindexcheckedItems', checkedData);
-        // setinterviewerData(member)
       }
-    }
   };
 
   function searchItems(query) {
@@ -102,7 +65,6 @@ const Interviewer = (props) => {
     const filteredItems = items.filter((item) =>
       item.full_name.toLowerCase().includes(lowercaseQuery),
     );
-    console.log('_+_+_++++_+_++_+_++_+_', filteredItems);
     if (filteredItems.length > 0) {
       setData(filteredItems);
     } else {
@@ -112,7 +74,6 @@ const Interviewer = (props) => {
   }
 
   const addmembers = () => {
-    if (member.length > 0) {
       const namelist = [];
       teammembers
         .filter((teammember) => member.includes(teammember.full_name))
@@ -124,20 +85,12 @@ const Interviewer = (props) => {
       setinterviewerData(member);
       setInterviewer(false);
       setCheckedItems(checkedData);
-    } else {
-    }
   };
 
   function oncancel() {
     setInterviewer(false);
     setCheckedItems(checkedItems);
   }
-
-  console.log('interviewerDatainterviewerData.........', interviewerData);
-  console.log('datatatatatatattat', data);
-
-  console.log('checkediTEmSssssssss', checkedData);
-
   return (
     <>
       <div className={styles.overall}>
@@ -151,7 +104,6 @@ const Interviewer = (props) => {
             <InputText
               className={styles.selectmembers}
               placeholder="Select team members"
-              // value={member?.length > 0 ? member.join(', ') : ''}
               onChange={(e) => {
                 searchItems(e.target.value);
               }}
@@ -168,11 +120,7 @@ const Interviewer = (props) => {
                 <Flex marginTop={10}>
                   {data.map((name, index) => (
                     <Flex row center key={index} marginBottom={10}>
-                      <Flex className={styles.checkbox}>
-                        {console.log(
-                          'interviewerDatainterviewerData',
-                          name.full_name,
-                        )}
+                      <Flex className={styles.checkbox}>                        
                         {checkedData.includes(name.user.toString()) ? (
                           <InputCheckBox
                             value={name.user}
@@ -225,7 +173,6 @@ const Interviewer = (props) => {
             >
               Cancel
             </Button>
-            {checkedData.length > 0 ? (
               <Button
                 style={{ marginTop: '20px', marginLeft: '8px' }}
                 className={styles.update}
@@ -233,28 +180,8 @@ const Interviewer = (props) => {
                 onClick={addmembers}
               >
                 Add
-              </Button>
-            ) : (
-              <Button
-                style={{ marginTop: '20px', marginLeft: '8px' }}
-                className={styles.update}
-                types="primary"
-                onClick={addmembers}
-                disabled
-              >
-                Add
-              </Button>
-            )}
+              </Button>            
           </Flex>
-          {isDialogOpen && (
-        <Modal open={isDialogOpen}>
-        <ConfirmationDialog
-          message={messageDialog}
-          onConfirm={handleConfirm}
-          onCancel={handleCancel}
-        />
-        </Modal>
-      )}
         </Flex>
       </div>
     </>
