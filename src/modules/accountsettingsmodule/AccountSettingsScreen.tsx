@@ -115,7 +115,6 @@ const AccountSettingsScreen = ({ value }: props) => {
      */
 
     localStorage.setItem('freeCheck', 'true');
-    console.log('urlll--', window.location.href);
     var url = new URL(window.location.href);
 
     if (url.searchParams.get('scope')) {
@@ -190,7 +189,6 @@ const AccountSettingsScreen = ({ value }: props) => {
       // sessionStorage.setItem('superUserFalseTab', tabKeyOne);
     }
   }, [tabKey, isTest, tabKeyOne]);
-  // console.log('sessionStorage.getItem',sessionStorage.getItem('superUserTab'));
   useEffect(() => {
     if (isReloadCompany && window.confirm(LEAVE_THIS_SITE)) {
       setReloadCompany(false);
@@ -836,7 +834,7 @@ const AccountSettingsScreen = ({ value }: props) => {
                     {tabKeyOne === '3' && <IntegrationScreen />}
                   </Tab>
                   <Tab title={'Templates'} eventKey={'4'}>
-                    {tabKey === '4' && <TemplatesPage />}
+                    {tabKeyOne === '4' && <TemplatesPage />}
                   </Tab>
                   {/* <Tab title={'User Profile'} eventKey={'4'}>
                 <div
@@ -996,8 +994,11 @@ const AccountSettingsScreen = ({ value }: props) => {
                       />
                     </div>
                   </Tab>
-                  <Tab title={'Integrations'} eventKey={'0'}>
-                    {tabKeyTwo === '0' && <IntegrationScreen />}
+                  <Tab title={'Integrations'} eventKey={'1'}>
+                    {tabKeyTwo === '1' && <IntegrationScreen />}
+                  </Tab>
+                  <Tab title="Templates" eventKey="2">
+                    {tabKeyTwo === '2' && <TemplatesPage />}
                   </Tab>
 
                   {/* <Tab title={'User Profile'} eventKey={'1'}>

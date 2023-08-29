@@ -125,7 +125,6 @@ const TemplatesPage = () => {
   const handleDefault = (data: PipelineData) => {
     dispatch(updatejobPipelineMiddleWare(data));
   };
-
   if (template === 0) {
     return (
       <>

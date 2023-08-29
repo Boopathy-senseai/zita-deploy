@@ -42,6 +42,7 @@ const initial: formikFormTypes = {
   pageFontSize: '14',
   headerFontSize: '14',
   headerColor: { hex: '#fffff' },
+  fontColor: { hex: '#333333' },
   menu1: '',
   menu1Url: 'https://',
   menu2: '',
@@ -123,6 +124,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
 
     formData.append('header_font_size', values.headerFontSize);
     formData.append('header_color', values.headerColor.hex);
+    formData.append('font_color',values.fontColor.hex);
     formData.append('menu_1', values.menu1);
     if (values.menu1Url !== 'https://') {
       formData.append('menu_1_url', values.menu1Url);
@@ -183,6 +185,15 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
     }
     if (isEmpty(values.headerColor.hex)) {
       errors.headerColor = { hex: THIS_FIELD_REQUIRED };
+    }
+    if (
+      !isEmpty(values.fontColor.hex) &&
+      values.fontColor.hex.length > 20
+    ) {
+      errors.fontColor = { hex: '' };
+    }
+    if (isEmpty(values.fontColor.hex)) {
+      errors.fontColor = { hex: THIS_FIELD_REQUIRED };
     }
     if (!isEmpty(values.menu1) && values.menu1.length > 50) {
       errors.menu1 = '';
@@ -338,6 +349,11 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
     } else {
       formik.setFieldValue('headerColor.hex', '#ffffff');
     }
+    if (career_page && !isEmpty(career_page.font_color)) {
+      formik.setFieldValue('fontColor.hex', career_page.font_color);
+    } else {
+      formik.setFieldValue('fontColor.hex', '#333333');
+    }
 
     if (career_page) {
       formik.setFieldValue('menu1', career_page.menu_1);
@@ -450,10 +466,8 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
     if (!isEmpty(formik.values.pagaeUrl) && isInput) {
       dispatch(urlVerificationMiddleWare({ url: formik.values.pagaeUrl })).then(
         (res) => {
-          console.log("ssssssss",res.payload.success)
           if (
-          
-            res.payload.success === 1 
+            res.payload.success === 1
             // career_page &&
             // career_page.career_page_url !== formik.values.pagaeUrl
           ) {
@@ -483,7 +497,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
         }}
       >
         {isSubmitLoader && <Loader />}
-        <Flex columnFlex width={"40%"} className={styles.leftFlex}>
+        <Flex columnFlex width={'40%'} className={styles.leftFlex}>
           {isCareerImgClick && (
             <Card className={styles.careerPageCard}>
               <img
@@ -530,7 +544,7 @@ const BuildYourCareerPageScreen = ({ isInput, setInput, setReload }: Props) => {
             </Card>
           )}
         </Flex>
-        <Flex columnFlex width={"60%"}  className={styles.rightFlex}>
+        <Flex columnFlex width={'60%'} className={styles.rightFlex}>
           <div style={{ width: '100%', padding: '0 10px' }}>
             <ExpandTile
               backgroundColor="#58184530"

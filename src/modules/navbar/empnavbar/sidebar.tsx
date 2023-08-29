@@ -97,7 +97,6 @@ const Sidebar = ({ changes, data }: props) => {
   };
   return (
     <>
-      {console.log('*******', Expent)}
       <div
         className={Expent === '0' ? styles.sidebar : styles.sidebarmini}
         style={{ marginTop: '50px' }}
@@ -559,11 +558,7 @@ const Sidebar = ({ changes, data }: props) => {
 
           {/* {permission.includes('bulkImport_candidates') && (
             <> */}
-          {console.log(
-            plan_id,
-            is_plan,
-            'plan_idplan_idplan_idplan_idplan_idplan_id',
-          )}
+
           {/* {checkplan && ( */}
           <>
             {is_plan ? (

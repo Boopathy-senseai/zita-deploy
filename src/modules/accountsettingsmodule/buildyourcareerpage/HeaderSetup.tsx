@@ -32,12 +32,14 @@ type Props = {
 
 const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
   const [isColorOpen, setColorOpen] = useState(false);
+  const [isFontColorOpen, setFontColorOpen] = useState(false);
   const myRef = createRef<any>();
 
   // mouse outside click to close color picker
   const handleClickOutside = (event: { target: any }) => {
     if (myRef.current && !myRef.current.contains(event.target)) {
       setColorOpen(false);
+      setFontColorOpen(false)
     }
   };
 
@@ -90,36 +92,36 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
         </Flex>
         <Flex flex={6} className={styles.colorInput} ref={myRef} marginLeft={8}>
           <InputText
-            value={formik.values.headerColor.hex}
+            value={formik.values.fontColor.hex}
             label="Font Color"
             required
-            onChange={formik.handleChange('headerColor.hex')}
+            onChange={formik.handleChange('fontColor.hex')}
             actionRight={() => (
               <Flex marginTop={-2.5}>
-                <Button types="link" onClick={() => setColorOpen(!isColorOpen)}>
-                  <SvgSquare fill={formik.values.headerColor.hex} />
+                <Button types="link" onClick={() => setFontColorOpen(!isFontColorOpen)}>
+                  <SvgSquare fill={formik.values.fontColor.hex} />
                 </Button>
               </Flex>
             )}
           />
-          {isColorOpen && (
+          {isFontColorOpen && (
             <div className={styles.colorPicker}>
               <ColorPicker
-                colors={formik.values.headerColor}
+                colors={formik.values.fontColor}
                 onChange={(e: { hex: string }) => {
-                  formik.setFieldValue('headerColor.hex', e.hex);
+                  formik.setFieldValue('fontColor.hex', e.hex);
                   setReload();
                 }}
               />
             </div>
           )}
-          {!isEmpty(formik.values.headerColor.hex) &&
-            formik.values.headerColor.hex.length > 20 && (
+          {!isEmpty(formik.values.fontColor.hex) &&
+            formik.values.fontColor.hex.length > 20 && (
               <Text size={12} color="error">
                 {JOB_TITLE_LIMIT_20}
               </Text>
             )}
-          {isEmpty(formik.values.headerColor.hex) && (
+          {isEmpty(formik.values.fontColor.hex) && (
             <Text size={12} color="error">
               {THIS_FIELD_REQUIRED}
             </Text>
@@ -286,7 +288,7 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
             )}
           />
           {isColorOpen && (
-            <div className={styles.colorPicker}>
+            <div className={styles.headerColorPicker}>
               <ColorPicker
                 colors={formik.values.headerColor}
                 onChange={(e: { hex: string }) => {

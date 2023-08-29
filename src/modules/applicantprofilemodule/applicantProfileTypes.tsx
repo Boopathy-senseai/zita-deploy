@@ -424,6 +424,7 @@ export interface Intergratemailstate {
   error: string;
   mail:string;
   email:IntergrateEntity[];
+  events: boolean;
 }
 export interface IntergrateEntity {
    email:string;

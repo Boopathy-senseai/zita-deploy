@@ -191,7 +191,6 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
     profilepicture: string;
   };
 
-  {console.log("====================",permission)}
 
   const handleChangeImage = (e: any) => {
     e.preventDefault();
@@ -436,7 +435,6 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
   }, [user]);
   const logoUrls = profile && profile !== 'default.jpg' ? profile : '';
 
-  console.log();
   useEffect(() => {
     if (profile && profile !== 'default.jpg') {
       const userlogo = profile.substring(profile.lastIndexOf('/') + 1);
@@ -485,7 +483,6 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
     formData.append('company_name', values.company_name);
     formData.append('company_website', values.company_website);
     formData.append('contact', values.contact);
-    // console.log("contact",values.contact);
     formData.append('industry_type', values.industry_type_id);
     formData.append('no_of_emp', values.no_of_emp);
     formData.append('address', values.address);
@@ -509,7 +506,6 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
         if (res.payload.data.success) {
           setReload(false);
           setload(false);
-          console.log('res', res);
           Toast('Details saved successfully', 'LONG', 'success');
           dispatch(companyPageInitalMiddleWare());
           dispatch(userProfileMiddleWare());
@@ -622,7 +618,6 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
       setimgtypes(false);
     }
   }, [logoUrls, imgUrls]);
-  console.log(emtysp, 'cxvznmg,.h/hglkfujyhtgrfd');
   return (
     <Flex className={styles.overAll}>
       {/* <Flex row className={styles.companyuserheading}>
@@ -679,7 +674,6 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
              value={formik.values.contact}
              onChange={formik.handleChange('contact')}
            />
-           {console.log('contact', formik.values.contact)}
          </LabelWrapper>
          <ErrorMessage
            touched={formik.touched}
@@ -924,7 +918,6 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
              setReload(true);
            }}
          />
-         {console.log(emtysp, 'manoj')}
          {emtysp &&
          !isEmpty(formik.values.zipcode) &&
          formik.values.zipcode.length > 6 ? (

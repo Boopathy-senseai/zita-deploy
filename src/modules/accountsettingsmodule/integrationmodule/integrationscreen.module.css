@@ -153,7 +153,10 @@
 }
 .disconnectbtn {
   margin-left: 10px;
-  border: 1px solid #ed4857;
+  border: 2px solid #ed4857;
+}
+.disconnectbtn:focus {
+  border: 2px solid #ed4857 !important;
 }
 
 /* .disconnectbtn .button_buttonTypes-secondary__3QSSJ:hover {

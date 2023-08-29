@@ -277,7 +277,6 @@ const applicantProfileInitalReducer = createSlice({
       (state, action) => {
         state.isLoading = false;
         state.candidate_details = action.payload.candidate_details;
-        console.log(action.payload,'theaivameahhh')
         state.jd = action.payload.jd;
         state.total_exp = action.payload.total_exp;
         state.skills = action.payload.skills;
@@ -733,7 +732,6 @@ const applicantInviteReducer = createSlice({
       state.error = '';
     });
     builder.addCase(applicantInviteMiddleWare.fulfilled, (state, action) => {
-      console.log("stattttttttttttt",state,action)
       state.isLoading = false; 
       state.stages = action.payload || [];  // Set the data from the thunk response
       state.invite = action.payload || []; 
@@ -822,6 +820,7 @@ const IntegratemailState: Intergratemailstate = {
     }
   ],
   mail:'',
+  events:false,
 };
 
 const applicantIntegratemailReducer = createSlice({
@@ -837,6 +836,7 @@ const applicantIntegratemailReducer = createSlice({
       state.isLoading = false;
       state.email = action.payload.email;
       state.mail = action.payload.mail; 
+      state.events = action.payload.events
     });
     builder.addCase(IntergratemailMiddleWare.rejected, (state, action) => {
       state.isLoading = false;

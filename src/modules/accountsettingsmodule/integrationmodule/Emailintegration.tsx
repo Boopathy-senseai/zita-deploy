@@ -64,7 +64,6 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
 
   const checkAuth = () => {
     dispatch(getEmail()).then((res) => {
-      console.log('res', res);
       if (res.payload.email !== null && res.payload.account !== null) {
         if (res.payload.account === 'outlook') {
           setAuthorizemail('outlook');
@@ -94,7 +93,6 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
   const handleAuthClick = () => {
     loaderupdate(true);
     dispatch(gmail_integrate()).then((res) => {
-      console.log('res', res);
       // window.open(res.payload.url);
       setgbutton(1);
       setoutbutton(1);
@@ -124,7 +122,6 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
         }
       })
       .catch((error) => {
-        console.log('error');
         loaderupdate(false);
       });
   };
@@ -148,7 +145,6 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
         }
       })
       .catch((error) => {
-        console.log('error');
         loaderupdate(false);
       });
   };
