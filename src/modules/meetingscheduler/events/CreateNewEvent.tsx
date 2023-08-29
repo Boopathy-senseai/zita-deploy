@@ -1326,8 +1326,8 @@ const CreateNewEvent = ({
           )}
 
           <div className={styles.daytimesplit}>
-          <Flex title={"New intervals"} row>
-            <Flex row style={{ border: '1px solid #c3c3c3', padding: '10px' }}>
+          <Flex row>
+            <Flex row style={{ border: '1px solid #c3c3c3', padding: '10px 70px 10px 10px' }}>
               <DayTimeSplit
                 duration={durationField}
                 days={dayField}

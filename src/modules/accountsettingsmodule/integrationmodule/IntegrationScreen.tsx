@@ -39,7 +39,7 @@ import {
 } from '../../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 
 import { getEmail } from '../../emailintegrationmodule/store/middleware/emailIntegrationMiddleWare';
-
+import { GARY_1, GARY_4 } from '../../../uikit/Colors/colors';
 import Email from './Emailintegration';
 
 import styles from './integrationscreen.module.css';
@@ -287,12 +287,16 @@ const IntegrationScreen = () => {
 
                 <Flex className={styles.borderbottom}></Flex>
                 <Button className={styles.btn} onClick={() => disconnectfun()}>
-                  <Text color="theme" bold>
-                    <SvgEdit width={14} height={14} /> Edit Configuration
-                  </Text>
+                  <Flex row center style={{ cursor: "pointer" }} >
+                    <SvgEdit width={12} height={12} fill='#581845' />
+                    <Text color="theme" bold style={{ marginLeft: "5px" }}>
+                      Edit Configuration
+                    </Text>
+                  </Flex>
                 </Button>
               </Card>
             ) : (
+              // Calendar Integration outlook mail out box
               <Card className={styles.cardStruture}>
                 <Flex row start className={styles.cardHeader}>
                   <SvgOutlookcalendar></SvgOutlookcalendar>
@@ -347,9 +351,9 @@ const IntegrationScreen = () => {
                   <SvgGooglecalendar></SvgGooglecalendar>
 
                   <Text
-                    color="theme"
+                    // color="theme"
                     bold
-                    size={16}
+                    size={14}
                     style={{ marginLeft: '10px' }}
                   >
                     Google Calendar
@@ -364,11 +368,15 @@ const IntegrationScreen = () => {
                 {/* {modelopen===false&&
                  Toast('Google calendar Integrated Successfully', 'MEDIUM')
                 } */}
+                {/* google calendar outview box edit*/}
                 <Flex className={styles.borderbottom}></Flex>
                 <Button className={styles.btn} onClick={() => disconnectfun()}>
-                  <Text color="theme" bold>
-                    <SvgEdit width={14} height={14} /> Edit Configuration
-                  </Text>
+                  <Flex row center style={{ cursor: "pointer" }}>
+                    <SvgEdit width={12} height={12} fill={'#581845'} />
+                    <Text color="theme" bold style={{ marginLeft: "5px" }}>
+                      Edit Configuration
+                    </Text>
+                  </Flex>
                 </Button>
               </Card>
             ) : (
@@ -427,29 +435,33 @@ const IntegrationScreen = () => {
 
       <Modal open={modelopen}>
         <Flex className={styles.editmodal}>
-          {/* {!disconnectopen && ( */}
-            <Flex end onClick={() => setmodelopen(!modelopen)}>
-              <SvgClose width={10} height={10} fill={'#888888'} />
-            </Flex>
-          {/* )} */}
+          {/* <Flex end onClick={() => setmodelopen(!modelopen)}>
+            <SvgClose width={10} height={10} fill={'#888888'} />
+          </Flex> */}
           {connected === 1 && active === 1 && isGoogle === 0 ? (
             <>
               {disconnectopen === true ? (
                 <Flex>
-                  <Text size={13} style={{marginTop:"5px"}}>
+                  <Text size={13} style={{ marginTop: "5px" }}>
                     If you disconnect, your slotters will be inactivated and
                     candidate will not be able to pick slots for the interviews.
                   </Text>
                 </Flex>
               ) : (
                 <Flex>
-                  <Flex row center>
-                    <SvgEdit fill={'#333333'} width={13} height={13} />
+                  <Flex row center between>
+                    <Flex row center>
+                    <SvgEdit fill={'#333333'} width={12} height={12} />
                     <Text size={14} bold style={{ marginLeft: '5px' }}>
                       Edit Configuration
                     </Text>
+                    </Flex>
+                    <Flex end onClick={() => setmodelopen(!modelopen)}>
+                      <SvgClose width={10} height={10} fill={'#888888'} />
+                    </Flex>
                   </Flex>
-                  <Text size={13} style={{ marginTop: '5px' }}>
+                  <div className={styles.borderbottom1}> </div>
+                  <Text size={13}>
                     You have connected your Email with Outlook Mail Service.
                   </Text>
                   <Flex row start className={styles.modelheadder}>
@@ -514,7 +526,7 @@ const IntegrationScreen = () => {
             <>
               {disconnectopen === true ? (
                 <Flex>
-                  <Text size={13} style={{marginTop:"5px"}}>
+                  <Text size={13} style={{ marginTop: "5px" }}>
                     If you disconnect, your slotters will be inactivated and
                     candidate will not be able to pick slots for the interviews.
                   </Text>
@@ -522,13 +534,19 @@ const IntegrationScreen = () => {
               ) : (
                 <Flex>
                   {/* <Flex className={styles.borderbottom}></Flex> */}
-                  <Flex row center>
-                    <SvgEdit fill={'#333333'} width={13} height={13} />
+                  <Flex row center between>
+                    <Flex row center>
+                    <SvgEdit fill={'#333333'} width={12} height={12} />
                     <Text size={14} bold style={{ marginLeft: '5px' }}>
                       Edit Configuration
                     </Text>
+                    </Flex>
+                    <Flex end onClick={() => setmodelopen(!modelopen)}>
+                      <SvgClose width={10} height={10} fill={'#888888'} />
+                    </Flex>
                   </Flex>
-                  <Text size={13} style={{ marginTop: '5px' }}>
+                  <div className={styles.borderbottom1}></div>
+                  <Text size={13}>
                     You have connected your Email with Google Mail Service.
                   </Text>
                   <Flex row start className={styles.modelheadder}>
@@ -632,7 +650,7 @@ const ActionsButton: React.FC<ActionButtonProps> = ({
             cursor: 'pointer',
           }}
           id="dropdown-basic"
-          // onClick={BtnClick }
+        // onClick={BtnClick }
         >
           <Button onClick={Configuration}>
             <Flex row center className={styles.pointer}>
