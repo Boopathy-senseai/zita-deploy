@@ -1,5 +1,6 @@
 import classNames from 'classnames/bind';
 import SvgInterestedOne from '../../../icons/SvgInterestedOne';
+import SvgInterested from '../../../icons/SvgInterested';
 import SvgMessage from '../../../icons/SvgMessage';
 import SvgNotInterested from '../../../icons/SvgNotInterested';
 import { GARY_4, LINK, PRIMARY } from '../../../uikit/Colors/colors';
@@ -14,6 +15,7 @@ import {
   Setting,
 } from './candidateDashBoardTypes';
 import styles from './appliedjobstable.module.css';
+
 
 const cx = classNames.bind(styles);
 
@@ -45,10 +47,11 @@ const Actions = ({ value, setting }: ActionProps) => {
           >
             <div
               title="Interested"
-              style={{ margin: '0 16px', padding: 4 ,position:'relative',top:-6}}
+              style={{ margin: '0 16px', padding: 4 ,position:'relative',top:0}}
               className={cx({ svgSelectStyle: value.is_interested === true })}
             >
-              <SvgInterestedOne fill={PRIMARY} />
+              {/* <SvgInterestedOne fill={PRIMARY} /> */}
+              <SvgInterested fill={PRIMARY} />
             </div>
           </LinkWrapper>
           <LinkWrapper
@@ -71,8 +74,8 @@ const Actions = ({ value, setting }: ActionProps) => {
           <div title="Apply" style={{ padding: 4 ,position:'relative',top:-2}}>
             <SvgAppliedIcon fill={GARY_4} height={25} width={24} />
           </div>
-          <div title="Interested" style={{ margin: '0 16px', padding: 4 ,position:'relative',top:-6}}>
-            <SvgInterestedOne fill={GARY_4} />
+          <div title="Interested" style={{ margin: '0 16px', padding: 4 ,position:'relative',top:0}}>
+            <SvgInterested fill={GARY_4} />
           </div>
 
           <div style={{ padding: 4 }} title="Not Interested">
@@ -90,8 +93,8 @@ const Actions = ({ value, setting }: ActionProps) => {
       >
         <SvgAppliedIcon fill={GARY_4} height={25} width={24} />
       </div>
-      <div title="Interested" style={{ margin: '0 16px', padding: 4,position:'relative',top:-6 }}>
-        <SvgInterestedOne fill={GARY_4} />
+      <div title="Interested" style={{ margin: '0 16px', padding: 4,position:'relative',top:0 }}>
+        <SvgInterested fill={GARY_4} />
       </div>
       <div title="Not Interested" style={{ padding: 4 }}>
         <SvgNotInterested fill={GARY_4} />
@@ -119,7 +122,7 @@ const MessageAction = (
             </Text>
           </div>
         )}
-        <SvgMessage fill={GARY_4} />
+        <SvgMessage fill={PRIMARY} />
       </div>
     </Flex>
   ) : (
@@ -140,7 +143,7 @@ const MessageAction = (
             </Text>
           </div>
         )}
-        <SvgMessage fill={LINK} />
+        <SvgMessage fill={PRIMARY} />
       </div>
     </Flex>
   );
