@@ -76,7 +76,7 @@ const CandidateNavBar = ({
                 className={styles.profile}
                 style={{ fontSize:'40px', textTransform:'uppercase' }}
                 initials= {`${obj?.full_name[0][0]}${
-                  obj?.full_name[obj?.full_name.length - 1][0]
+                  obj?.full_name?.split(' ').pop()?.[0]
                 }`} 
               />
         <Flex columnFlex flex={1} between>

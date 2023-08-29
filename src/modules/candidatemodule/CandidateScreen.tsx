@@ -55,6 +55,13 @@ const CandidateScreen = () => {
       setTabValue(3);
     }
   }, []);
+  // useEffect(()=>{
+    const url = window.location.href;
+    const applicantpipelineUrl = url.includes('/?2'); 
+    if(applicantpipelineUrl){
+      setTabValue(1)
+    }
+  // },[])
   // initial api call
   useEffect(() => {
     dispatch(permissionMiddleWare());
@@ -139,7 +146,7 @@ const CandidateScreen = () => {
       history.push('/account_setting/settings');
     }
   });
-
+  
   // open invite popup function
   const hanldeInvitePopUp = () => {
     setInvitePopUp(true);
@@ -263,7 +270,7 @@ const CandidateScreen = () => {
         <Flex flex={1} row className={styles.tabContainer}>
           {!isTab ? (
             <Flex flex={12} className={styles.tabLeftFlex}>
-              <CandiDateTabsLeftOne />
+              <CandiDateTabsLeftOne activeState={isTabValue}/>
             </Flex>
           ) : (
             <Flex flex={6} className={styles.tabLeftFlex}>

@@ -90,7 +90,8 @@ const JobTitle = ({
             onDirty();
           }}
         />
-        <ErrorMessage name="jobTitle" touched={touched} errors={errors} />
+        {isEmpty(values.jobTitle) &&
+        <ErrorMessage name="jobTitle" touched={touched} errors={errors} />}
         {!isEmpty(values.jobTitle) && values.jobTitle.length > 50 && (
           <Text color="error" size={12}>
             {JOB_TITLE_LIMIT}
@@ -118,7 +119,8 @@ const JobTitle = ({
               onDirty();
             }}
           />
-          <ErrorMessage name="jobRole" touched={touched} errors={errors} />
+          {isEmpty(values.jobRole) &&
+          <ErrorMessage name="jobRole" touched={touched} errors={errors} />}
         </Flex>
       )}
 
