@@ -43,8 +43,9 @@ import Maillist from './Maillist';
 
 type Props = {
   isprofileview?: boolean;
+  can_id?:any;
 };
-const EmailScreen = ({ isprofileview }: Props) => {
+const EmailScreen = ({ isprofileview,can_id }: Props) => {
   const msal = useMsal();
   const dispatch: AppDispatch = useDispatch();
 
