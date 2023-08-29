@@ -57,7 +57,7 @@ const ApplicantTabLeftOne = ({ activeState }: typeof defaultProps) => {
             <AllMatchTab title={''} inviteMessage={''} width={'50%'} />
           </Tab>
           <Tab title={'Mailbox'}>
-            <EmailScreen/>
+            <EmailScreen isprofileview={true}/>
           </Tab>
           {/* <Tab title={'Screening Status'}>
             <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab/>
@@ -88,7 +88,7 @@ const ApplicantTabLeftOne = ({ activeState }: typeof defaultProps) => {
             <MatchingAnalysisTab />
           </Tab>
           <Tab title={'Mailbox'}>
-            <EmailScreen/>
+            <EmailScreen isprofileview={true}/>
           </Tab>
           <Tab title={'Screening Status/Scorecard'}>
             <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab={false} />

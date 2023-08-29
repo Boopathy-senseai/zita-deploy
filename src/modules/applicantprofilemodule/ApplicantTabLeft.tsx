@@ -65,7 +65,7 @@ const ApplicantTabLeft = ({ activeState }: typeof defaultProps) => {
             <MatchingAnalysisTab />
           </Tab>
           <Tab title={'Mailbox'}>
-            <EmailScreen/>
+            <EmailScreen isprofileview={true}/>
           </Tab>
           
           <Tab title={'Screening Status'}>
@@ -94,7 +94,7 @@ const ApplicantTabLeft = ({ activeState }: typeof defaultProps) => {
             <MatchingAnalysisTab />
           </Tab>
           <Tab title={'Mailbox'}>
-            <EmailScreen/>
+            <EmailScreen isprofileview={true}/>
           </Tab>
           <Tab title={'Screening Status/Scorecard'}>
             <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab={false} />

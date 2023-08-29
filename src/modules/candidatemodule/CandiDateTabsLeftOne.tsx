@@ -38,7 +38,7 @@ const CandiDateTabsLeftOne = ({ activeState }: typeof defaultProps) => {
         />
       </Tab>
       <Tab title={'Mailbox'}>
-            <EmailScreen/>
+            <EmailScreen isprofileview={true}/>
           </Tab>
     </Tabs>
   );
