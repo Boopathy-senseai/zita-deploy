@@ -558,18 +558,8 @@ const ProfileNavBar = ({
               candidate_details[0].location === '' ? (
                 <Flex style={{ fontsize: '13px' }}>Not Specified</Flex>
               ) : (
-                <Flex row>
-                  {source === 'Imported Applicants' ? (
-                    <Flex style={{ fontsize: '13px' }}>
-                      {candidate_details[0].location}
-                    </Flex>
-                  ) : personalInfo[0].country__name === null &&
-                    personalInfo[0].state__name === null &&
-                    personalInfo[0].city__name === null ? (
-                    <Flex style={{ fontsize: '13px' }}>Not Specified</Flex>
-                  ) : (
-                    `${personalInfo[0].city__name},${personalInfo[0].state__name},${personalInfo[0].country__name}`
-                  )}
+                <Flex style={{ fontsize: '13px' }}>
+                  {candidate_details[0].location}
                 </Flex>
               )}
             </Flex>
