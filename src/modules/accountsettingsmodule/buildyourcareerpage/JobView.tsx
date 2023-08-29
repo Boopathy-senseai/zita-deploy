@@ -46,6 +46,8 @@ const JobView = () => {
   const getJobViewLocal: any = localStorage.getItem('jobViewCount');
   const isTablet = useMediaQuery({ query: '(max-width: 770px)' });
   const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
+  const url = window.location.href;
+  const currentsource = url.includes('whatjobs');
 
 // job view count api call
   useEffect(() => {
@@ -76,6 +78,13 @@ const JobView = () => {
         );
         localStorage.setItem('jobViewCount','Career Page');
         cookies.set('jobViewCount', 'Career Page');
+      }else if(window.location.hash.includes('.whatjobs')){
+        alert();
+        dispatch(
+          jobViewCountMiddleWare({ source: 'whatjobs', jdId: jobId }),
+        );
+        localStorage.setItem('jobViewCount','whatjobs');
+        cookies.set('jobViewCount', 'whatjobs');
       }
     }
   }, []);
