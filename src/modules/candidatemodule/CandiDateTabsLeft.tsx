@@ -1,3 +1,5 @@
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 import { BLACK, SECONDARY } from '../../uikit/Colors/colors';
 import Tab from '../../uikit/Tabs/Tab';
 import Tabs from '../../uikit/Tabs/Tabs';
@@ -18,6 +20,13 @@ const defaultProps = {
 };
 
 const CandiDateTabsLeft = ({ activeState }: typeof defaultProps) => {
+  const { can_id } = useSelector(
+    ({ applicantProfileInitalReducers }: RootState) => {
+      return {
+        can_id: applicantProfileInitalReducers.can_id
+      };
+    },
+  );
   return (
     <Tabs
       activeColor={'#581845'}
@@ -46,7 +55,7 @@ const CandiDateTabsLeft = ({ activeState }: typeof defaultProps) => {
         <MatchingAnalysisTab />
       </Tab>
       <Tab title={'Mailbox'}>
-            <EmailScreen/>
+            <EmailScreen isprofileview={true} can_id={can_id}/>
           </Tab>
       <Tab title={'Invitation Status'}>
       <ScreeningStatusTab title={'Invitation Status'} issingletab   />
