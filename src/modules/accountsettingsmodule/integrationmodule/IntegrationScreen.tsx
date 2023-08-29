@@ -42,7 +42,7 @@ import {
 } from '../../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 
 import { getEmail } from '../../emailintegrationmodule/store/middleware/emailIntegrationMiddleWare';
-
+import { GARY_1, GARY_4 } from '../../../uikit/Colors/colors';
 import Email from './Emailintegration';
 
 import styles from './integrationscreen.module.css';
@@ -53,6 +53,7 @@ import {
   deleteGoogleMiddleware,
 } from './store/middleware/integrationmiddleware';
 import CalenderConfig from './calendarconfigurations/calendarconfig';
+
 
 // import { GoogleLogin } from './googleLogin/index';
 // var querystring = require('qs');
@@ -280,12 +281,16 @@ const IntegrationScreen = () => {
 
                 <Flex className={styles.borderbottom}></Flex>
                 <Button className={styles.btn} onClick={() => disconnectfun()}>
-                  <Text color="theme" bold>
-                    <SvgEdit width={14} height={14} /> Edit Configuration
-                  </Text>
+                  <Flex style={{ display: "flex", alignItems: "center", gap: "5px", flexDirection: "row", cursor: "pointer" }}>
+                    <SvgEdit width={12} height={12} />
+                    <Text color="theme" bold>
+                      Edit Configuration
+                    </Text>
+                  </Flex>
                 </Button>
               </Card>
             ) : (
+              // Calendar Integration outlook mail out box
               <Card className={styles.cardStruture}>
                 <Flex row start className={styles.cardHeader}>
                   <SvgOutlookcalendar></SvgOutlookcalendar>
@@ -339,9 +344,9 @@ const IntegrationScreen = () => {
                   <SvgGooglecalendar></SvgGooglecalendar>
 
                   <Text
-                    color="theme"
+                    // color="theme"
                     bold
-                    size={16}
+                    size={14}
                     style={{ marginLeft: '10px' }}
                   >
                     Google Calendar
@@ -356,11 +361,15 @@ const IntegrationScreen = () => {
                 {/* {modelopen===false&&
                  Toast('Google calendar Integrated Successfully', 'MEDIUM')
                 } */}
+                {/* google calendar outview box edit*/}
                 <Flex className={styles.borderbottom}></Flex>
                 <Button className={styles.btn} onClick={() => disconnectfun()}>
-                  <Text color="theme" bold>
-                    <SvgEdit width={14} height={14} /> Edit Configuration
-                  </Text>
+                  <Flex style={{ display: "flex", alignItems: "center", flexDirection: "row", gap: "5px", cursor: "pointer" }}>
+                    <SvgEdit width={12} height={12} />
+                    <Text color="theme" bold>
+                      Edit Configuration
+                    </Text>
+                  </Flex>
                 </Button>
               </Card>
             ) : (
@@ -419,20 +428,28 @@ const IntegrationScreen = () => {
 
       <Modal open={modelopen}>
         <Flex className={styles.editmodal}>
-          <Flex
-            end
-            style={{ marginRight: '15px', marginBottom: '-14px', zIndex: '1' }}
-            onClick={() => setmodelopen(!modelopen)}
-          >
-            <SvgClose width={12} height={12} fill={'581845'} />
-          </Flex>
+
 
           {connected === 1 && active === 1 && isGoogle === 0 ? (
             <Flex>
-              <Text color="theme" size={14} bold>
-                {' '}
-                <SvgEdit width={14} height={14} /> Edit Configuration
-              </Text>
+              <Flex style={{display: "flex", alignItems: "center", justifyContent:"space-between", flexDirection: "row"}}>
+              <Flex style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "5px" }}>
+                <SvgEdit width={12} height={12} fill={GARY_1} />
+                <Text size={14} bold>
+                  {' '}
+                  Edit Configuration
+                </Text>
+              </Flex>
+              <Flex
+                end
+                style={{ marginRight: '15px', zIndex: '1' }}
+                onClick={() => setmodelopen(!modelopen)}
+              >
+                <SvgClose width={12} height={12} fill={'581845'} />
+              </Flex>
+              </Flex>
+              <div className={styles.borderbottom1}></div>
+
               <Text>
                 You have connected your Email with Outlook Mail Service.
               </Text>
@@ -477,14 +494,29 @@ const IntegrationScreen = () => {
           )}
 
           {connected === 1 && active === 1 && isGoogle === 1 ? (
+
+            // google calendar inside edit 
             <Flex>
               {/* <Flex className={styles.borderbottom}>
               </Flex> */}
-              <Text size={14} bold style={{ marginTop: '-5px' }}>
-                {' '}
-                <SvgEdit width={14} height={14} /> Edit Configuration
-              </Text>
-              <Flex className={styles.borderbottom}></Flex>
+              <Flex style={{display: "flex", alignItems: "center", justifyContent:"space-between", flexDirection: "row"}}>
+              <div style={{ display: "flex", gap: "5px" }}>
+                <SvgEdit width={12} height={12} fill={GARY_1} />
+                <Text size={14} bold style={{ marginTop: '-5px' }}>
+                  {' '}
+                  Edit Configuration
+                </Text>
+              </div>
+              <Flex
+                end
+                style={{ marginRight: '15px', zIndex: '1' }}
+                onClick={() => setmodelopen(!modelopen)}
+              >
+                <SvgClose width={12} height={12} fill={'581845'} />
+              </Flex>
+              </Flex>
+
+              <Flex className={styles.borderbottom1}></Flex>
               <Text>
                 You have connected your Email with Google Mail Service.
               </Text>
@@ -574,7 +606,7 @@ const ActionsButton: React.FC<ActionButtonProps> = ({
             cursor: 'pointer',
           }}
           id="dropdown-basic"
-          // onClick={BtnClick }
+        // onClick={BtnClick }
         >
           <Button onClick={Configuration}>
             <Flex row center className={styles.pointer}>
