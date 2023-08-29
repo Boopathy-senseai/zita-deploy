@@ -140,11 +140,12 @@ const JobDetails = ({
       setFieldValue('maximumSalary', jd_output.salary_max);
     }
     if (
-      !isEmpty(jd_output.salary_curr_type_id) && jd_output.salary_curr_type_id !== 0
+      !isEmpty(jd_output.salary_curr_type_id) &&
+      jd_output.salary_curr_type_id !== 0
     ) {
       setFieldValue('currency', jd_output.salary_curr_type_id.toString());
-    } else{
-      setFieldValue('currency', '240'); 
+    } else {
+      setFieldValue('currency', '240');
     }
     setFieldValue(
       'showSalaryCandidates',
@@ -172,7 +173,10 @@ const JobDetails = ({
       getFocus('jobtitle__jobrole');
     } else if (!isEmpty(errors.jobId)) {
       getFocus('jobtitle__jobId');
-    } else if (!isEmpty(errors.jobDescription) || !isEmpty(values.jobDescription) && values.jobDescription.length < 201) {
+    } else if (
+      !isEmpty(errors.jobDescription) ||
+      (!isEmpty(values.jobDescription) && values.jobDescription.length < 201)
+    ) {
       getFocus('jobtitledescription___richtext');
     } else if (!isEmpty(errors.nonDsSkill)) {
       getFocus('nondsSkill__nonSkill');
@@ -202,343 +206,391 @@ const JobDetails = ({
   return (
     <Flex className={styles.overAll}>
       <Flex style={{overflow:"scroll"}}>
-      <Text size={14}className={styles.jobTitle} bold>
-        Job Details
-      </Text>
-      <Flex flex={1} row top className={styles.containerOne}>
-        <Flex flex={3} className={styles.margin16}>
-          <SelectTag
-            inputId="jobdetails___jobtype"
-            options={jobTypeData}
-            label="Job Type"
-            required
-            value={
-              jobTypeData
-                ? jobTypeData.find((option) => option.value === values.jobType)
-                : ''
-            }
-            onChange={(option) => {
-              setFieldValue('jobType', option.value);
-              onDirty();
-            }}
-          />
-          <ErrorMessage name={'jobType'} errors={errors} touched={touched} />
-        </Flex>
-        <Flex flex={3} className={styles.margin16}>
-          <InputText
-            id="jobdetails___minimumExperience"
-            name="minimumExperience"
-            label="Minimum Experience"
-            required
-            value={values.minimumExperience}
-            onChange={(event) => {
-              handleChange('minimumExperience')(
-                event.target.value.replace(/\D/g, ''),
-              );
-              onDirty();
-            }}
-          />
-          <ErrorMessage
-            name={'minimumExperience'}
-            errors={errors}
-            touched={touched}
-          />
-          {Number(values.minimumExperience) < 0 && (
-            <Text size={12} color="error">
-              {ENTER_GREATER_0}
-            </Text>
-          )}
-        </Flex>
-        <Flex flex={3} className={styles.margin16}>
-          <InputText
-            id="jobdetails___maximumExperience"
-            name="maximumExperience"
-            label="Maximum Experience"
-            value={values.maximumExperience}
-            onChange={(event) => {
-              handleChange('maximumExperience')(
-                event.target.value.replace(/\D/g, ''),
-              );
-              onDirty();
-            }}
-          />
-          <ErrorMessage
-            name={'maximumExperience'}
-            errors={errors}
-            touched={touched}
-          />
-          {!isEmpty(values.maximumExperience) &&
-            Number(values.maximumExperience) <=
-              Number(values.minimumExperience) && (
-              <Text size={12} color="error">
-                {MIN_MAX_EXP}
-              </Text>
-            )}
-        </Flex>
-        <Flex flex={3} className={styles.postion}>
-          <InputText
-            id="jobdetails___vacancies"
-            name="vacancies"
-            label="No. of Vacancies"
-            required
-            value={values.vacancies}
-            onChange={(event) => {
-              handleChange('vacancies')(event.target.value.replace(/\D/g, ''));
-              onDirty();
-            }}
-          />
-          <ErrorMessage name={'vacancies'} errors={errors} touched={touched} />
-        </Flex>
-      </Flex>
-      <Flex row top className={styles.containerOne}>
-        <Flex flex={3} className={styles.margin16}>
-          <SelectTag
-            isSearchable
-            inputId="jobdetails___country"
-            options={getCountry}
-            label="Country"
-            required
-            value={
-              getCountry
-                ? getCountry.find(
-                    (option) => option.id === Number(values.country),
-                  )
-                : ''
-            }
-            onChange={(option) => {
-              setFieldValue('country', option.id);
-              setFieldValue('city', '');
-              setFieldValue('state', '');
-              onDirty();
-            }}
-            getOptionValue={(option: { id: number }) => `${option.id}`}
-            getOptionLabel={(option: { name: string }) => option.name}
-          />
+          <Text size={14} className={styles.jobTitle} bold>
+            Job Details
+          </Text>
+          <Flex flex={1} row top className={styles.containerOne}>
+            <Flex flex={3} className={styles.margin16}>
+              <SelectTag
+                inputId="jobdetails___jobtype"
+                options={jobTypeData}
+                label="Job Type"
+                required
+                value={
+                  jobTypeData
+                    ? jobTypeData.find(
+                        (option) => option.value === values.jobType,
+                      )
+                    : ''
+                }
+                onChange={(option) => {
+                  setFieldValue('jobType', option.value);
+                  onDirty();
+                }}
+              />
+              {isEmpty(values.jobType) && (
+                <ErrorMessage
+                  name={'jobType'}
+                  errors={errors}
+                  touched={touched}
+                />
+              )}
+            </Flex>
+            <Flex flex={3} className={styles.margin16}>
+              <InputText
+                id="jobdetails___minimumExperience"
+                name="minimumExperience"
+                label="Minimum Experience"
+                required
+                value={values.minimumExperience}
+                onChange={(event) => {
+                  handleChange('minimumExperience')(
+                    event.target.value.replace(/\D/g, ''),
+                  );
+                  onDirty();
+                }}
+              />
+              {isEmpty(values.minimumExperience) && (
+                <ErrorMessage
+                  name={'minimumExperience'}
+                  errors={errors}
+                  touched={touched}
+                />
+              )}
+              {Number(values.minimumExperience) < 0 && (
+                <Text size={12} color="error">
+                  {ENTER_GREATER_0}
+                </Text>
+              )}
+            </Flex>
+            <Flex flex={3} className={styles.margin16}>
+              <InputText
+                id="jobdetails___maximumExperience"
+                name="maximumExperience"
+                label="Maximum Experience"
+                value={values.maximumExperience}
+                onChange={(event) => {
+                  handleChange('maximumExperience')(
+                    event.target.value.replace(/\D/g, ''),
+                  );
+                  onDirty();
+                }}
+              />
+              {isEmpty(values.maximumExperience) && (
+                <ErrorMessage
+                  name={'maximumExperience'}
+                  errors={errors}
+                  touched={touched}
+                />
+              )}
+              {!isEmpty(values.maximumExperience) &&
+                Number(values.maximumExperience) <=
+                  Number(values.minimumExperience) && (
+                  <Text size={12} color="error">
+                    {MIN_MAX_EXP}
+                  </Text>
+                )}
+            </Flex>
+            <Flex flex={3} className={styles.postion}>
+              <InputText
+                id="jobdetails___vacancies"
+                name="vacancies"
+                label="No. of Vacancies"
+                required
+                value={values.vacancies}
+                onChange={(event) => {
+                  handleChange('vacancies')(
+                    event.target.value.replace(/\D/g, ''),
+                  );
+                  onDirty();
+                }}
+              />
+              {isEmpty(values.vacancies) && (
+                <ErrorMessage
+                  name={'vacancies'}
+                  errors={errors}
+                  touched={touched}
+                />
+              )}
+            </Flex>
+          </Flex>
+          <Flex row top className={styles.containerOne}>
+            <Flex flex={3} className={styles.margin16}>
+              <SelectTag
+                isSearchable
+                inputId="jobdetails___country"
+                options={getCountry}
+                label="Country"
+                required
+                value={
+                  getCountry
+                    ? getCountry.find(
+                        (option) => option.id === Number(values.country),
+                      )
+                    : ''
+                }
+                onChange={(option) => {
+                  setFieldValue('country', option.id);
+                  setFieldValue('city', '');
+                  setFieldValue('state', '');
+                  onDirty();
+                }}
+                getOptionValue={(option: { id: number }) => `${option.id}`}
+                getOptionLabel={(option: { name: string }) => option.name}
+              />
+              {isEmpty(values.country) && (
+                <ErrorMessage
+                  name={'country'}
+                  errors={errors}
+                  touched={touched}
+                />
+              )}
+            </Flex>
+            <Flex flex={3} className={styles.margin16}>
+              <SelectTag
+                inputId="jobdetails___state"
+                isSearchable
+                options={getState}
+                label="State"
+                required
+                getOptionValue={(option: { id: number }) => `${option.id}`}
+                getOptionLabel={(option: { name: string }) => option.name}
+                value={
+                  !isEmpty(values.state)
+                    ? getState
+                      ? getState.find(
+                          (option) => option.id === Number(values.state),
+                        )
+                      : ''
+                    : ''
+                }
+                onChange={(option) => {
+                  setFieldValue('state', option.id);
+                  setFieldValue('city', '');
+                  onDirty();
+                }}
+              />
+              {isEmpty(values.state) && (
+                <ErrorMessage
+                  name={'state'}
+                  errors={errors}
+                  touched={touched}
+                />
+              )}
+            </Flex>
+            <Flex flex={3} className={styles.margin16}>
+              <SelectTag
+                inputId="jobdetails___city"
+                isSearchable
+                options={getCity}
+                label="City"
+                required
+                getOptionValue={(option: { id: number }) => `${option.id}`}
+                getOptionLabel={(option: { name: string }) => option.name}
+                value={
+                  !isEmpty(values.city)
+                    ? getCity
+                      ? getCity.find(
+                          (option) => option.id === Number(values.city),
+                        )
+                      : ''
+                    : ''
+                }
+                onChange={(option) => {
+                  setFieldValue('city', option.id);
+                  onDirty();
+                }}
+              />
+              {isEmpty(values.city) && (
+                <ErrorMessage name={'city'} errors={errors} touched={touched} />
+              )}
+            </Flex>
+            <Flex row flex={3} className={styles.showStyle}>
+              <InputSwitch
+                label="Remote Work Allowed"
+                checked={values.remoteWork === '1'}
+                onClick={() =>
+                  values.remoteWork === '0'
+                    ? setFieldValue('remoteWork', '1')
+                    : setFieldValue('remoteWork', '0')
+                }
+              />
+              {/* <Text size={14} color="theme">Remote Work Allowed</Text> */}
+            </Flex>
+          </Flex>
+          <Flex row top className={styles.containerOne}>
+            <Flex flex={3} className={styles.margin16}>
+              <InputText
+                id="jobdetails___minimumSalary"
+                label={`Minimum Salary (${perAnnum})`}
+                onChange={(event) => {
+                  handleChange('minimumSalary')(
+                    event.target.value.replace(/\D/g, ''),
+                  );
+                  onDirty();
+                }}
+                value={values.minimumSalary}
+              />
+              {Number(values.jobType) === 3 &&
+                !isEmpty(values.minimumSalary) &&
+                Number(values.minimumSalary) < 10 && (
+                  <Text size={12} color="error">
+                    {ENTER_GREATER_10}
+                  </Text>
+                )}
+              {Number(values.jobType) !== 3 &&
+                !isEmpty(values.minimumSalary) &&
+                Number(values.minimumSalary) < 1000 && (
+                  <Text size={12} color="error">
+                    {ENTER_GREATER_1000}
+                  </Text>
+                )}
+              {!isEmpty(values.minimumSalary) &&
+                !isEmpty(values.maximumSalary) &&
+                Number(values.minimumSalary) >=
+                  Number(values.maximumSalary) && (
+                  <Text size={12} color="error">
+                    {LESS_THAN_MAX}
+                  </Text>
+                )}
+              {isEmpty(values.minimumSalary) && !isEmpty(values.maximumSalary) && (
+                <Text size={12} color="error">
+                  {THIS_FIELD_REQUIRED}
+                </Text>
+              )}
+            </Flex>
+            <Flex flex={3} className={styles.margin16}>
+              <InputText
+                id="jobdetails___maximumSalary"
+                name="maximumSalary"
+                label={`Maximum Salary (${perAnnum})`}
+                onChange={(event) => {
+                  handleChange('maximumSalary')(
+                    event.target.value.replace(/\D/g, ''),
+                  );
+                  onDirty();
+                }}
+                value={values.maximumSalary}
+              />
 
-          <ErrorMessage name={'country'} errors={errors} touched={touched} />
-        </Flex>
-        <Flex flex={3} className={styles.margin16}>
-          <SelectTag
-            inputId="jobdetails___state"
-            isSearchable
-            options={getState}
-            label="State"
-            required
-            getOptionValue={(option: { id: number }) => `${option.id}`}
-            getOptionLabel={(option: { name: string }) => option.name}
-            value={
-              !isEmpty(values.state)
-                ? getState
-                  ? getState.find(
-                      (option) => option.id === Number(values.state),
-                    )
-                  : ''
-                : ''
-            }
-            onChange={(option) => {
-              setFieldValue('state', option.id);
-              setFieldValue('city', '');
-              onDirty();
-            }}
-          />
-          <ErrorMessage name={'state'} errors={errors} touched={touched} />
-        </Flex>
-        <Flex flex={3} className={styles.margin16}>
-          <SelectTag
-            inputId="jobdetails___city"
-            isSearchable
-            options={getCity}
-            label="City"
-            required
-            getOptionValue={(option: { id: number }) => `${option.id}`}
-            getOptionLabel={(option: { name: string }) => option.name}
-            value={
-              !isEmpty(values.city)
-                ? getCity
-                  ? getCity.find((option) => option.id === Number(values.city))
-                  : ''
-                : ''
-            }
-            onChange={(option) => {
-              setFieldValue('city', option.id);
-              onDirty();
-            }}
-          />
-          <ErrorMessage name={'city'} errors={errors} touched={touched} />
-        </Flex>
-        <Flex row flex={3} className={styles.showStyle}>
-          <InputSwitch
-            label="Remote Work Allowed"
-            checked={values.remoteWork === '1'}
-            onClick={() =>
-              values.remoteWork === '0'
-                ? setFieldValue('remoteWork', '1')
-                : setFieldValue('remoteWork', '0')
-            }
-          />
-          {/* <Text size={14} color="theme">Remote Work Allowed</Text> */}
-        </Flex>
-      </Flex>
-      <Flex row top className={styles.containerOne}>
-        <Flex flex={3} className={styles.margin16}>
-          <InputText
-            id="jobdetails___minimumSalary"
-            label={`Minimum Salary (${perAnnum})`}
-            onChange={(event) => {
-              handleChange('minimumSalary')(
-                event.target.value.replace(/\D/g, ''),
-              );
-              onDirty();
-            }}
-            value={values.minimumSalary}
-          />
-          {Number(values.jobType) === 3 &&
-            !isEmpty(values.minimumSalary) &&
-            Number(values.minimumSalary) < 10 && (
-              <Text size={12} color="error">
-                {ENTER_GREATER_10}
-              </Text>
-            )}
-          {Number(values.jobType) !== 3 &&
-            !isEmpty(values.minimumSalary) &&
-            Number(values.minimumSalary) < 1000 && (
-              <Text size={12} color="error">
-                {ENTER_GREATER_1000}
-              </Text>
-            )}
-          {!isEmpty(values.minimumSalary) &&
-            !isEmpty(values.maximumSalary) &&
-            Number(values.minimumSalary) >= Number(values.maximumSalary) && (
-              <Text size={12} color="error">
-                {LESS_THAN_MAX}
-              </Text>
-            )}
-          {isEmpty(values.minimumSalary) && !isEmpty(values.maximumSalary) && (
-            <Text size={12} color="error">
-              {THIS_FIELD_REQUIRED}
-            </Text>
-          )}
-        </Flex>
-        <Flex flex={3} className={styles.margin16}>
-          <InputText
-            id="jobdetails___maximumSalary"
-            name="maximumSalary"
-            label={`Maximum Salary (${perAnnum})`}
-            onChange={(event) => {
-              handleChange('maximumSalary')(
-                event.target.value.replace(/\D/g, ''),
-              );
-              onDirty();
-            }}
-            value={values.maximumSalary}
-          />
+              {Number(values.jobType) === 3 &&
+                !isEmpty(values.maximumSalary) &&
+                Number(values.maximumSalary) > 1000 && (
+                  <Text size={12} color="error">
+                    {ENTER_LESS_1000}
+                  </Text>
+                )}
 
-          {Number(values.jobType) === 3 &&
-            !isEmpty(values.maximumSalary) &&
-            Number(values.maximumSalary) > 1000 && (
-              <Text size={12} color="error">
-                {ENTER_LESS_1000}
-              </Text>
-            )}
-
-          {Number(values.jobType) !== 3 &&
-            !isEmpty(values.maximumSalary) &&
-            Number(values.maximumSalary) > 9000000 && (
-              <Text size={12} color="error">
-                {ENTER_LESS_9000000}
-              </Text>
-            )}
-          {!isEmpty(values.minimumSalary) &&
-            !isEmpty(values.maximumSalary) &&
-            Number(values.minimumSalary) >= Number(values.maximumSalary) && (
-              <Text size={12} color="error">
-                {GREATER_THAN_MIN}
-              </Text>
-            )}
-          {!isEmpty(values.minimumSalary) && isEmpty(values.maximumSalary) && (
-            <Text size={12} color="error">
-              {THIS_FIELD_REQUIRED}
-            </Text>
-          )}
-        </Flex>
-        <Flex flex={3} className={styles.margin16}>
-          <SelectTag
-            options={currencyData}
-            label="Currency"
-            required
-            isSearchable
-            value={
-              currencyData
-                ? currencyData.find(
-                    (option) =>
-                      Number(option.value) === Number(values.currency),
-                  )
-                : ''
-            }
-            onChange={(option) => {
-              setFieldValue('currency', option.value);
-              onDirty();
-            }}
+              {Number(values.jobType) !== 3 &&
+                !isEmpty(values.maximumSalary) &&
+                Number(values.maximumSalary) > 9000000 && (
+                  <Text size={12} color="error">
+                    {ENTER_LESS_9000000}
+                  </Text>
+                )}
+              {!isEmpty(values.minimumSalary) &&
+                !isEmpty(values.maximumSalary) &&
+                Number(values.minimumSalary) >=
+                  Number(values.maximumSalary) && (
+                  <Text size={12} color="error">
+                    {GREATER_THAN_MIN}
+                  </Text>
+                )}
+              {!isEmpty(values.minimumSalary) && isEmpty(values.maximumSalary) && (
+                <Text size={12} color="error">
+                  {THIS_FIELD_REQUIRED}
+                </Text>
+              )}
+            </Flex>
+            <Flex flex={3} className={styles.margin16}>
+              <SelectTag
+                options={currencyData}
+                label="Currency"
+                required
+                isSearchable
+                value={
+                  currencyData
+                    ? currencyData.find(
+                        (option) =>
+                          Number(option.value) === Number(values.currency),
+                      )
+                    : ''
+                }
+                onChange={(option) => {
+                  setFieldValue('currency', option.value);
+                  onDirty();
+                }}
+              />
+              {isEmpty(values.currency) && (
+                <ErrorMessage
+                  name={'currency'}
+                  errors={errors}
+                  touched={touched}
+                />
+              )}
+            </Flex>
+            <Flex row flex={3} className={styles.showStyle}>
+              <InputSwitch
+                disabled={isEmpty(values.minimumSalary)}
+                label="Show Salary to Candidates"
+                checked={values.showSalaryCandidates === '1'}
+                onClick={() =>
+                  values.showSalaryCandidates === '0'
+                    ? setFieldValue('showSalaryCandidates', '1')
+                    : setFieldValue('showSalaryCandidates', '0')
+                }
+              />
+              {/* <Text size={14} color="theme">Show Salary to Candidates</Text> */}
+            </Flex>
+          </Flex>
+          <QulificationAdd
+            values={values}
+            setFieldValue={setFieldValue}
+            updateQualification={updateQualification}
           />
-      <ErrorMessage name={'currency'} errors={errors} touched={touched} />
         </Flex>
-        <Flex row flex={3} className={styles.showStyle}>
-          <InputSwitch
-            disabled={isEmpty(values.minimumSalary)}
-            label="Show Salary to Candidates"
-            checked={values.showSalaryCandidates === '1'}
-            onClick={() =>
-              values.showSalaryCandidates === '0'
-                ? setFieldValue('showSalaryCandidates', '1')
-                : setFieldValue('showSalaryCandidates', '0')
-            }
-          />
-          {/* <Text size={14} color="theme">Show Salary to Candidates</Text> */}
-        </Flex>
-      </Flex>
-      <QulificationAdd
-        values={values}
-        setFieldValue={setFieldValue}
-        updateQualification={updateQualification}
-      />
-      </Flex>
       <Flex>
-      <Flex row center end className={styles.btnContainer}>
-        <LinkWrapper onClick={() => onPristine()} to={routesPath.MY_JOB_POSTING}>
-          <Button className={styles.cancelbtn} types="close">{CANCEL}</Button>
-        </LinkWrapper>
+        <Flex row center end className={styles.btnContainer}>
+          <LinkWrapper
+            onClick={() => onPristine()}
+            to={routesPath.MY_JOB_POSTING}
+          >
+            <Button className={styles.cancelbtn} types="close">
+              {CANCEL}
+            </Button>
+          </LinkWrapper>
 
-        <Button
-          onClick={() => {
-            setDraftSave(true);
-            setDrftLoader(false);
-            onPristine();
-            setVacancies(false);
-            hanldeErrorFocus();
-            setTimeout(() => {
-              handleSubmit();
-            }, 200);
-          }}
-          types="secondary"
-          className={styles.draftBtn}
-        >
-          Save as draft
-        </Button>
-        <Button
-          onClick={() => {
-            onPristine();
-            setDraftSave(false);
-            setVacancies(true);
-            hanldeErrorFocus();
-            setTimeout(() => {
-              handleSubmit();
-            }, 200);
-            setDrftLoader(true);
-          }}
-        >
-          Next
-        </Button>
-      </Flex>
+          <Button
+            onClick={() => {
+              setDraftSave(true);
+              setDrftLoader(false);
+              onPristine();
+              setVacancies(false);
+              hanldeErrorFocus();
+              setTimeout(() => {
+                handleSubmit();
+              }, 200);
+            }}
+            types="secondary"
+            className={styles.draftBtn}
+          >
+            Save as draft
+          </Button>
+          <Button
+            onClick={() => {
+              onPristine();
+              setDraftSave(false);
+              setVacancies(true);
+              hanldeErrorFocus();
+              setTimeout(() => {
+                handleSubmit();
+              }, 200);
+              setDrftLoader(true);
+            }}
+          >
+            Next
+          </Button>
+        </Flex>
       </Flex>
     </Flex>
   );
