@@ -1,17 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { AuthCodeMSALBrowserAuthenticationProvider } from '@microsoft/microsoft-graph-client/authProviders/authCodeMsalBrowser';
 import { InteractionType, PublicClientApplication } from '@azure/msal-browser';
-import { Client } from '@microsoft/microsoft-graph-client';
-import {
-  useMsal,
-  AuthenticatedTemplate,
-  UnauthenticatedTemplate,
-} from '@azure/msal-react';
-import { gapi } from 'gapi-script';
+
+import { useMsal } from '@azure/msal-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dropdown } from 'react-bootstrap';
-import { Base64 } from 'js-base64';
 import { AppDispatch, RootState } from '../../store';
 import Loader from '../../uikit/Loader/Loader';
 import {
@@ -29,20 +22,15 @@ import {
   getarchivemsg,
   getdeleteditems,
   getjunkemail,
-  getsearchmail,
   getmessages,
-  getusermail,
   getselectedmsg,
   getattachments,
   getmailfolders,
-  gmail_Account_Profile,
   Gmail_Mails,
   initGoogleAuth,
   Selected_message,
-  Gmail_search,
   Gmail_Attachment,
   Gmail_Folder_Total_count,
-  Gmail_profile,
   outlooktoken,
 } from '../../emailService';
 import config from '../../outlookmailConfig';
@@ -58,8 +46,7 @@ const EmailScreen = () => {
   const dispatch: AppDispatch = useDispatch();
 
   const [model, setmodel] = useState(false);
-  const [int, setint] = useState('outlook');
-  const [integration, setintegration] = useState('outlook');
+
   const [messagelist, setmessagelist] = useState([]);
   const [message, setmesage] = useState<any>('');
   const [usermail, setUsermail] = useState('');
@@ -121,6 +108,8 @@ const EmailScreen = () => {
       emailcollection.integration !== ''
     ) {
       outlooktoken(emailcollection.token);
+    } else {
+      setLoader(false);
     }
   }, [emailcollection, sideroute]);
 
@@ -253,12 +242,6 @@ const EmailScreen = () => {
     },
   ];
 
-  const particularmailget = async () => {
-    await getusermail(authProvider)
-      .then((res: any) => {})
-      .catch((error) => {});
-  };
-
   const inboxmail = () => {
     getmails();
   };
@@ -377,7 +360,6 @@ const EmailScreen = () => {
     if (e && e.key === 'Enter') {
       setLoader(true);
       setsearchapi(true);
-
       setsideroute(0);
       setPrevious(25);
       setSkip(0);
@@ -465,38 +447,6 @@ const EmailScreen = () => {
     }
   };
 
-  const Nextdata = () => {
-    // eslint-disable-next-line @typescript-eslint/no-shadow
-    var a = previous + range;
-
-    if (a > total) {
-      setDel(total - previous);
-      setPrevious(previous + (total - previous));
-      // setSkip(previous + 1);
-      setSkip(previous);
-      setPrevious1(previous + 1);
-    } else if (previous < total) {
-      setPrevious(previous + range);
-      // setSkip(previous + 1);
-      setSkip(previous);
-      setPrevious1(previous + 1);
-    }
-  };
-
-  const Previousdata = () => {
-    if (del === 0) {
-      if (previous !== 0 && range !== previous) {
-        setPrevious(previous - range);
-        setSkip(previous - (range + range) + 1);
-        setPrevious1(previous - (range + range) + 1);
-      }
-    } else {
-      setPrevious(previous - del);
-      setSkip(previous1 - range);
-      setPrevious1(previous1 - range);
-      setDel(0);
-    }
-  };
   const get_attach = async (id, attach, res) => {
     let getfile = [];
 
@@ -591,17 +541,6 @@ const EmailScreen = () => {
       .catch((error) => {});
   };
 
-  const gProfile = async () => {
-    await Gmail_profile()
-      .then((res) => {
-        // console.log('res====>', res);
-        setUsermail(res.result.emailAddress);
-      })
-      .catch((err) => {
-        // console.log('error');
-      });
-  };
-
   useEffect(() => {
     if (
       emailcollection.integration !== null &&
@@ -610,7 +549,6 @@ const EmailScreen = () => {
       if (emailcollection.integration === 'google') {
         if (sideroute !== 0) {
           foldercount();
-          // gProfile();
         }
       } else if (emailcollection.integration === 'outlook') {
         if (sideroute !== 0) {
@@ -618,8 +556,6 @@ const EmailScreen = () => {
           getprofile();
 
           getfolder();
-
-          //particularmailget();
         }
       }
     }
@@ -683,9 +619,11 @@ const EmailScreen = () => {
   return (
     <>
       <Flex column className={styles.inboxContainer}>
+        {console.log('vxvccv', emailcollection)}
         {loader === true && <Loader />}
         {/* {loader === true && emailcollection.loading === false && <Loader />} */}
-        {emailcollection.integration !== null ? (
+        {emailcollection.integration !== null &&
+        emailcollection.integration !== '' ? (
           <>
             <Flex row between className={styles.titleContainer}>
               <Text bold size={16} color="theme">
@@ -798,21 +736,12 @@ const EmailScreen = () => {
                   gmailunread={gmailunread}
                   page={page}
                   sidebarroute={sideroute}
-                  previousfun={Previousdata}
-                  nextfun={Nextdata}
                   range={range}
-                  previous={previous}
-                  previous1={previous1}
-                  total={total}
-                  msglistcount={messagelist.length}
                   message={message}
                   noEmails={noEmails}
                   integration={emailcollection.integration}
-                  pagetoken={nextpagetoken}
-                  hasMore={hasMore}
                   isLoading={isLoading}
                   searchapi={searchapi}
-                  serchmessage={serchmessage}
                   savemail={savemail}
                   searchSection={searchSection}
                   search={search}

@@ -32,12 +32,14 @@ type Props = {
 
 const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
   const [isColorOpen, setColorOpen] = useState(false);
+  const [isFontColorOpen, setFontColorOpen] = useState(false);
   const myRef = createRef<any>();
 
   // mouse outside click to close color picker
   const handleClickOutside = (event: { target: any }) => {
     if (myRef.current && !myRef.current.contains(event.target)) {
       setColorOpen(false);
+      setFontColorOpen(false)
     }
   };
 
@@ -68,7 +70,7 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
       <Flex row top className={styles.marginTop16}>
         <Flex flex={6} className={styles.tagOne}>
           <LabelWrapper label="Font Size">
-            <div >
+            <div>
               <SelectTag
                 id={'header_setup____headerheading_size'}
                 options={fontSizeOptions}
@@ -88,48 +90,48 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
             </div>
           </LabelWrapper>
         </Flex>
-        <div className={styles.colorInput} ref={myRef}>
+        <Flex flex={6} className={styles.colorInput} ref={myRef} marginLeft={8}>
           <InputText
-            value={formik.values.headerColor.hex}
-            label="Header Color"
+            value={formik.values.fontColor.hex}
+            label="Font Color"
             required
-           
-            onChange={formik.handleChange('headerColor.hex')}
+            onChange={formik.handleChange('fontColor.hex')}
             actionRight={() => (
-              <Button types="link" onClick={() => setColorOpen(!isColorOpen)}>
-                <SvgSquare fill={formik.values.headerColor.hex} />
-              </Button>
+              <Flex marginTop={-2.5}>
+                <Button types="link" onClick={() => setFontColorOpen(!isFontColorOpen)}>
+                  <SvgSquare fill={formik.values.fontColor.hex} />
+                </Button>
+              </Flex>
             )}
           />
-          {isColorOpen && (
+          {isFontColorOpen && (
             <div className={styles.colorPicker}>
               <ColorPicker
-                colors={formik.values.headerColor}
+                colors={formik.values.fontColor}
                 onChange={(e: { hex: string }) => {
-                  formik.setFieldValue('headerColor.hex', e.hex);
+                  formik.setFieldValue('fontColor.hex', e.hex);
                   setReload();
                 }}
               />
             </div>
           )}
-          {!isEmpty(formik.values.headerColor.hex) &&
-            formik.values.headerColor.hex.length > 20 && (
+          {!isEmpty(formik.values.fontColor.hex) &&
+            formik.values.fontColor.hex.length > 20 && (
               <Text size={12} color="error">
                 {JOB_TITLE_LIMIT_20}
               </Text>
             )}
-          {isEmpty(formik.values.headerColor.hex) && (
+          {isEmpty(formik.values.fontColor.hex) && (
             <Text size={12} color="error">
               {THIS_FIELD_REQUIRED}
             </Text>
           )}
-        </div>
+        </Flex>
       </Flex>
       <Flex row top className={styles.marginTop16}>
         <Flex flex={6} className={styles.tagOne}>
           <InputText
             label="Menu 1"
-           
             value={formik.values.menu1}
             onChange={(e) => {
               setReload();
@@ -178,7 +180,6 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
         <Flex flex={6} className={styles.tagOne}>
           <InputText
             label="Menu 2"
-           
             value={formik.values.menu2}
             onChange={(e) => {
               setReload();
@@ -202,7 +203,6 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
         <Flex flex={6} className={styles.tagTwo}>
           <InputText
             label="Menu 2 URL"
-           
             value={formik.values.menu2Url}
             onChange={(e) => {
               setReload();
@@ -229,7 +229,6 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
         <Flex flex={6} className={styles.tagOne}>
           <InputText
             label="Menu 3"
-          
             value={formik.values.menu3}
             onChange={(e) => {
               setReload();
@@ -252,7 +251,6 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
         <Flex flex={6} className={styles.tagTwo}>
           <InputText
             label="Menu 3 URL"
-           
             value={formik.values.menu3Url}
             onChange={(e) => {
               setReload();
@@ -274,19 +272,64 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
             )}
         </Flex>
       </Flex>
-      <Flex  center className={styles.marginTop16}>
-      <Text size={14} color='theme' style={{marginBottom:"2px"}}>
+      <Flex row top className={styles.marginTop16}>
+        <Flex flex={6} marginRight={8} className={styles.colorInput} ref={myRef} >
+          <InputText
+            value={formik.values.headerColor.hex}
+            label="Header Color"
+            required
+            onChange={formik.handleChange('headerColor.hex')}
+            actionRight={() => (
+              <Flex marginTop={-2.5}>
+                <Button types="link" onClick={() => setColorOpen(!isColorOpen)}>
+                  <SvgSquare fill={formik.values.headerColor.hex} />
+                </Button>
+              </Flex>
+            )}
+          />
+          {isColorOpen && (
+            <div className={styles.headerColorPicker}>
+              <ColorPicker
+                colors={formik.values.headerColor}
+                onChange={(e: { hex: string }) => {
+                  formik.setFieldValue('headerColor.hex', e.hex);
+                  setReload();
+                }}
+              />
+            </div>
+          )}
+          {!isEmpty(formik.values.headerColor.hex) &&
+            formik.values.headerColor.hex.length > 20 && (
+              <Text size={12} color="error">
+                {JOB_TITLE_LIMIT_20}
+              </Text>
+            )}
+          {isEmpty(formik.values.headerColor.hex) && (
+            <Text size={12} color="error">
+              {THIS_FIELD_REQUIRED}
+            </Text>
+          )}
+        </Flex>
+        
+        <Flex flex={6} marginLeft={8}>
+        <Text size={14} color="theme" style={{ marginBottom: '2px' }}>
           {company_detail && !isEmpty(company_detail.logo)
             ? 'Company Logo'
             : 'Add logo in your company profile'}
         </Text>
+        <Flex>
         <img
           style={{ objectFit: 'contain' }}
           className={styles.imgStyle}
           src={mediaPath + logo}
           alt="logo"
         />
+
+        </Flex>
         
+        </Flex>
+        
+       
       </Flex>
     </>
     // </Card>

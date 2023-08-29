@@ -355,7 +355,7 @@ const EditUserModal = (props) => {
                   Edit User
                 </Text>
                 <Button types="link" onClick={onCloseModal}>
-                  <SvgClose fill={'#979797'} height={14} width={14} />
+                  <SvgClose fill={'#888888'} height={14} width={14} />
                 </Button>
               </Flex>
 

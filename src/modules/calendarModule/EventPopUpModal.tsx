@@ -30,7 +30,6 @@ interface Props {
   eventPopUpDetails: EventPopUpDetails;
 }
 
-
 const EventPopUpModal = ({
   showEventPopUpModal,
   handleCloseEventPopUpModal,
@@ -61,17 +60,27 @@ const EventPopUpModal = ({
       onClose={() => setOpenEventDeleteModal(false)}
     >
       <div className={styles.deleteWarningPopUp}>
-        <div className={styles.warningMessage}>
-          {/* <SvgInfo /> */}
-          <Text size={14}>
+        {/* <div className={styles.warningMessage}> */}
+        <Flex flex={6} center>
+          <Text color="black2" size={13} className={styles.insertStyles}>
             Meeting will be canceled and notified to the attendees.
-            <br />
+          </Text>
+          <Text color="black2" size={13} className={styles.insertStyles}>
             Are you sure to proceed further?
           </Text>
-        </div>
+        </Flex>
+        {/* <SvgInfo /> */}
 
-        <div className={styles.actionButtonWrapper}>
-          <button style={{ marginRight: 10 }} onClick={() => setOpenEventDeleteModal(false)}>
+        {/* </div> */}
+
+        <div
+          className={styles.actionButtonWrapper}
+          style={{ marginTop: '20px' }}
+        >
+          <button
+            style={{ marginRight: 8 }}
+            onClick={() => setOpenEventDeleteModal(false)}
+          >
             No, Thanks
           </button>
           <button
@@ -97,8 +106,10 @@ const EventPopUpModal = ({
             alt="candidate profile pic"
           /> */}
           <div className={styles.title}>
-            <Tooltip title={title} placement="top">
-              <p style={{fontWeight:"bold"}} className={styles.eventTitle}>{title}</p>
+            <Tooltip title={title} placement="bottom-start">
+              <p style={{ fontWeight: 'bold' }} className={styles.eventTitle}>
+                {title}
+              </p>
             </Tooltip>
             {/* <p>Gowtham Frontend Developer</p> */}
           </div>
@@ -116,7 +127,7 @@ const EventPopUpModal = ({
 
         <div className={styles.info}>
           <SvgInterviewers size={16} />
-          {console.log(attendees)}
+
           {attendees && attendees?.length > 0 ? (
             <div className={styles.infoText}>
               <p style={{ marginBottom: 3 }}>Interviewer&#40;s&#41;</p>
@@ -126,8 +137,8 @@ const EventPopUpModal = ({
                     <Avatar
                       key={index}
                       initials={getUserInitials({ email: item })}
-                      style={{ width: 28, height: 28, marginRight:"5px" }}
-                      textStyle={{ fontSize: 12}}
+                      style={{ width: 28, height: 28, marginRight: '5px' }}
+                      textStyle={{ fontSize: 12 }}
                     />
                     // <p className={styles.email} key={index}>
                     //   {items}
@@ -149,7 +160,9 @@ const EventPopUpModal = ({
         </div>
       </div>
 
-      {isEventCanUpdate && <hr style={{ margin: '10px 0 10px 0', padding: 0 }} />}
+      {isEventCanUpdate && (
+        <hr style={{ margin: '10px 0 10px 0', padding: 0 }} />
+      )}
       <div
         style={{
           display: 'flex',
@@ -184,17 +197,21 @@ const EventPopUpModal = ({
             </Tooltip>
           ) : null}
           {isEventCanUpdate && canEdit ? (
-            <button className={styles.icon} title='Edit' onClick={() => handleEditEvent()}>
+            <button
+              className={styles.icon}
+              title="Edit"
+              onClick={() => handleEditEvent()}
+            >
               <SvgEdit width={16} height={16} />
             </button>
           ) : null}
           {canEdit ? (
             <button
               className={styles.icon}
-              title='Delete'
+              title="Delete"
               onClick={() => setOpenEventDeleteModal(true)}
             >
-              <SvgTrash width={18} height={18} />
+              <SvgTrash width={16} height={16} fill="#581845" />
             </button>
           ) : null}
         </div>
@@ -204,9 +221,17 @@ const EventPopUpModal = ({
 
   const PrivateEvent = (
     <div className={styles.content}>
-      <Text size={13} className={styles.title}>
-        {title}
-      </Text>
+      {/* <Tooltip title={title} placement="bottom-start">
+              <p style={{ fontWeight: 'bold' }} className={styles.eventTitle}>
+                {title}
+              </p>
+            </Tooltip> */}
+      <Tooltip title={title} placement="bottom-start">
+        <p style={{fontWeight: 'bold'}} className={styles.title}>
+          {title}
+        </p>
+      </Tooltip>
+
       <div className={styles.info}>
         <SvgInterviewCalendar size={14} />
         <div className={styles.infoText}>
@@ -241,7 +266,13 @@ const EventPopUpModal = ({
           <CrossButton
             onClick={handleCloseEventPopUpModal}
             size={10}
-            style={{ position: 'absolute', top: '12px', right: '15px', display: "flex", justifyContent: "center" }}
+            style={{
+              position: 'absolute',
+              top: '12px',
+              right: '15px',
+              display: 'flex',
+              justifyContent: 'center',
+            }}
             fill={'#333'}
           />
           {isZitaEvent ? ZitaEvent : PrivateEvent}

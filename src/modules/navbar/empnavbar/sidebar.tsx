@@ -97,7 +97,6 @@ const Sidebar = ({ changes, data }: props) => {
   };
   return (
     <>
-      {console.log('*******', Expent)}
       <div
         className={Expent === '0' ? styles.sidebar : styles.sidebarmini}
         style={{ marginTop: '50px', display:"flex", flexWrap:"wrap", alignContent:"space-between" }}
@@ -560,6 +559,7 @@ const Sidebar = ({ changes, data }: props) => {
           {/* {permission.includes('bulkImport_candidates') && (
             <> */}
 
+          {/* {checkplan && ( */}
           <>
             {is_plan ? (
               changes ? (
@@ -682,7 +682,10 @@ const Sidebar = ({ changes, data }: props) => {
           <>
           {is_plan ? (
             changes ? (
-              <li title='Mailbox' className={pathname === '/mail' ? styles.select_row : ''}>
+              <li
+                title="MailBox"
+                className={pathname === '/mail' ? styles.select_row : ''}
+              >
                 <LinkWrapper
                   className={styles.hoverview}
                   onClick={clearTabs}
@@ -846,6 +849,7 @@ const Sidebar = ({ changes, data }: props) => {
               {is_plan ? (
                 changes ? (
                   <li
+                    title=" Meeting Scheduler"
                     className={
                       pathname === meetingScheduler ? styles.select_row : ''
                     }
@@ -872,6 +876,7 @@ const Sidebar = ({ changes, data }: props) => {
                   </li>
                 ) : (
                   <li
+                    title=" Meeting Scheduler"
                     className={
                       pathname === meetingScheduler ? styles.select_row : ''
                     }
@@ -899,6 +904,7 @@ const Sidebar = ({ changes, data }: props) => {
                 )
               ) : (
                 <li
+                  title=" Meeting Scheduler"
                   className={
                     pathname === meetingScheduler ? styles.select_row : ''
                   }
@@ -932,6 +938,7 @@ const Sidebar = ({ changes, data }: props) => {
         <ul className={styles.setting} >
           {is_plan ? (
             <li
+              title="Settings"
               className={
                 Expent === '0' ? styles.sidebarexpand : styles.sidebarmin
               }
@@ -975,7 +982,7 @@ const Sidebar = ({ changes, data }: props) => {
           )}
           <li>
             {Expent === '0' ? (
-              <div style={{}}>
+              <Flex  title='Collapse sidebar'>
                 <Button
                   style={{
                     height: '19px',
@@ -989,15 +996,19 @@ const Sidebar = ({ changes, data }: props) => {
                 >
                   <SvgCollapse height={16} width={16} />
                 </Button>
-              </div>
+              </Flex>
             ) : (
-              <Button
+              <Flex title='Expand Sidebar'>
+                <Button
                 className={styles.Expend}
                 types="link"
                 onClick={() => handlecheck('0')}
               >
                 <SvgExpand height={16} width={16} />
               </Button>
+
+              </Flex>
+              
             )}
           </li>
         </ul>

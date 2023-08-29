@@ -418,7 +418,7 @@ const SourcingPerformanceReport = () => {
                     <Table
                       columns={columns}
                       dataSource={table}
-                      empty="No Data Available"
+                      empty="No data available"
                       scrollHeight={270}
                       border="normal"
                       fixedScrollHeight
@@ -432,7 +432,7 @@ const SourcingPerformanceReport = () => {
               <Flex style={{ justifyContent: 'center', marginBotto: '2px' }}>
                 <SvgNoDataIcon width={16} height={16} fill={'#888'} />
               </Flex>
-              <Text style={{ color: '#888' }}>No Data Available</Text>
+              <Text style={{ color: '#888' }}>No data available</Text>
             </Flex>
           )}
         </Flex>

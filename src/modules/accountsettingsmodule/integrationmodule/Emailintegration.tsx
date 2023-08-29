@@ -64,8 +64,8 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
 
   const checkAuth = () => {
     dispatch(getEmail()).then((res) => {
-      console.log('res', res);
       if (res.payload.email !== null && res.payload.account !== null) {
+        loaderupdate(false);
         if (res.payload.account === 'outlook') {
           setAuthorizemail('outlook');
           setgbutton(1);
@@ -76,6 +76,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
           setgbutton(1);
         }
       } else {
+        loaderupdate(false);
         setEmail('');
         setAuthorizemail('');
         setgbutton(0);
@@ -85,11 +86,12 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
   };
 
   useEffect(() => {
+    loaderupdate(true);
     checkAuth();
   }, [Authorizemail, outbutton, gbutton]);
-  useEffect(() => {
-    checkAuth();
-  }, []);
+  // useEffect(() => {
+  //   checkAuth();
+  // }, []);
 
   const handleAuthClick = () => {
     // loaderupdate(true);
@@ -130,7 +132,6 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
         }
       })
       .catch((error) => {
-        //  console.log('error');
         loaderupdate(false);
       });
   };
@@ -155,7 +156,6 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
         }
       })
       .catch((error) => {
-        //  console.log('error');
         loaderupdate(false);
       });
   };
@@ -285,9 +285,15 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
                   className={styles.btn}
                   disabled={outbutton === 1 ? true : false}
                   onClick={() => outlookconfig()}
-                  style={{display:"flex", justifyContent:"center", alignItems:"center"}}
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
                 >
-                  <Text color="theme" bold>Connect With Outlook</Text>
+                  <Text color="theme" bold>
+                    Connect With Outlook
+                  </Text>
                 </Button>
               </Flex>
             </Card>
@@ -376,9 +382,15 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
                   disabled={gbutton === 1 ? true : false}
                   className={styles.btn}
                   onClick={() => handleAuthClick()}
-                  style={{display:"flex", justifyContent:"center", alignItems:"center"}}
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
                 >
-                  <Text color="theme" bold>Connect with Gmail</Text>
+                  <Text color="theme" bold>
+                    Connect with Gmail
+                  </Text>
                 </Button>
               </Flex>
             </Card>
@@ -400,7 +412,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
             <SvgClose
               width={12}
               height={12}
-              fill={'581845'}
+              fill={'#888888'}
               cursor={'pointer'}
             />
           </Flex>

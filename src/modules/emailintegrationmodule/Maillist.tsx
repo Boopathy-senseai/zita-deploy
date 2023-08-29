@@ -33,22 +33,14 @@ type Props = {
   page: any;
   gmailunread: any;
   sidebarroute: any;
-  previousfun: () => void;
-  nextfun: () => void;
   range: any;
-  previous: any;
-  previous1: any;
-  total: any;
-  msglistcount: any;
-
   message: any;
   noEmails: boolean;
   integration: string;
-  pagetoken: any;
-  hasMore: any;
+
   isLoading: any;
   searchapi: boolean;
-  serchmessage: any;
+
   savemail: any;
   searchSection: string;
   search: any;
@@ -64,22 +56,12 @@ const Maillist = ({
   page,
   gmailunread,
   sidebarroute,
-  previousfun,
-  nextfun,
   range,
-  previous,
-  previous1,
-  total,
-  msglistcount,
-
   message,
   noEmails,
   integration,
-  pagetoken,
-  hasMore,
   isLoading,
   searchapi,
-  serchmessage,
   savemail,
   searchSection,
   search,
@@ -457,9 +439,9 @@ const Maillist = ({
 
         <Flex row center>
           {sidebarroute !== 0 && <></>}
-          {/* <Flex title="Refresh" style={{ padding: '6px' }}>
-            <SvgRefresh width={18} height={18} onClick={referesh} />
-          </Flex> */}
+          <Flex title="Refresh" style={{ padding: '6px' }}>
+            {/* <SvgRefresh width={18} height={18} onClick={referesh} /> */}
+          </Flex>
         </Flex>
       </Flex>
       <Flex

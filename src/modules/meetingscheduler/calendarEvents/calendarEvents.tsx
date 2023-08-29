@@ -64,7 +64,11 @@ const CalendarEventsPage = () => {
 
   const [showDropDownMenu, setShowDropDownMenu] = useState<boolean>(false);
   const gotoCalander = () => {
-    history.push(calendarRoute, { openScheduleEvent: true });
+    // history.push(calendarRoute, { openScheduleEvent: true });
+    const params = new URLSearchParams();
+    params.append('action', 'open-scheduler-form');
+    const url = `${calendarRoute}?${params}`;
+    window.open(url);
   };
   const handleDropDown = () => {
     setShowDropDownMenu((state) => !state);
@@ -404,7 +408,7 @@ console.log(eventsList,"hello")
       </Flex>
       <Flex
         style={{
-          padding: '10px',
+          padding: '10px 16px',
           height: 'calc(100% - 150px)',
           overflow: 'auto',
         }}
