@@ -737,18 +737,17 @@ setshow(val)
           </div> )}
              
             {(isSearchData?.length === 0 && isFind && !isSubmitLoader) && (
-              <div className={styles.emptyStyle}>
-                <div style={{marginBottom:"-80px"}}>
-                <SvgSearch  width={18} height={18}/></div>
-                <Empty title="Please enter your search keywords in the required search field to find the candidates" />
-              </div>
+              <Flex center middle  height={window.innerHeight -238} className={styles.emptyStyle}> 
+                <SvgSearch  width={18} height={18}/> 
+                <Text style={{color:'#979797'}}>Please enter your search keywords in the required search field to find the candidates</Text>
+              </Flex>
             )}
             {(isSearchData === null || isSearchData?.length === 0 && !isFind) && !isSubmitLoader && (
-                <div className={styles.emptyStyle} style={{display:"flex", justifyContent:"center"}}>
+                <Flex className={styles.emptyStyle} center middle height={window.innerHeight -238} style={{display:"flex", justifyContent:"center"}}>
                   <SvgNotinterests width={18} height={18} style={{filter:"opacity(0.5)"}} />
                   <div>
                   <Empty title="No Candidate Found" /></div>
-                </div>
+                </Flex>
               )}
             {isSearchData?.length !== 0 && isSearchData !== null && isSubmitLoader !== true && (
              

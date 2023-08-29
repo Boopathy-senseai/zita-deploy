@@ -201,8 +201,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
         Email Integrations
       </Text>
       <Text>
-        Choose which email address you want to use when sending emails from
-        Recruitee
+      Integrate and choose which email address you want to use when sending emails from Zita
       </Text>
       <Flex row style={{ marginTop: '10px' }}>
         <Flex flex={3} height={'unset'} minWidth={200} marginRight={20}>

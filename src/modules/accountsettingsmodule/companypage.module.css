@@ -386,12 +386,12 @@ max-width: 135px;
 .innerFlex {
   position: relative;
 }
-.cancel {
+ {
   /* margin-right:8px;
  width: 100px;
   */
 }
-/* .overAll {
+/*.cancel .overAll {
   
   overflow: scroll; */
 /* padding: 0 36px; */
