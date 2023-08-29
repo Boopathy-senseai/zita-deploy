@@ -50,10 +50,6 @@ import {
 } from './store/middleware/integrationmiddleware';
 import CalenderConfig from './calendarconfigurations/calendarconfig';
 
-
-// import { GoogleLogin } from './googleLogin/index';
-// var querystring = require('qs');
-
 export const googleApiKey = 'AIzaSyC4DoRmvUsYtcQWa2PkMzjEbf1BQpAnlok';
 
 export const googleClientId =
@@ -291,9 +287,9 @@ const IntegrationScreen = () => {
 
                 <Flex className={styles.borderbottom}></Flex>
                 <Button className={styles.btn} onClick={() => disconnectfun()}>
-                  <Flex style={{ display: "flex", alignItems: "center", gap: "5px", flexDirection: "row", cursor: "pointer" }}>
-                    <SvgEdit width={12} height={12} />
-                    <Text color="theme" bold>
+                  <Flex row center style={{ cursor: "pointer" }} >
+                    <SvgEdit width={12} height={12} fill='#581845' />
+                    <Text color="theme" bold style={{ marginLeft: "5px" }}>
                       Edit Configuration
                     </Text>
                   </Flex>
@@ -375,9 +371,9 @@ const IntegrationScreen = () => {
                 {/* google calendar outview box edit*/}
                 <Flex className={styles.borderbottom}></Flex>
                 <Button className={styles.btn} onClick={() => disconnectfun()}>
-                  <Flex style={{ display: "flex", alignItems: "center", flexDirection: "row", gap: "5px", cursor: "pointer" }}>
-                    <SvgEdit width={12} height={12} />
-                    <Text color="theme" bold>
+                  <Flex row center style={{ cursor: "pointer" }}>
+                    <SvgEdit width={12} height={12} fill={'#581845'} />
+                    <Text color="theme" bold style={{ marginLeft: "5px" }}>
                       Edit Configuration
                     </Text>
                   </Flex>
@@ -439,124 +435,162 @@ const IntegrationScreen = () => {
 
       <Modal open={modelopen}>
         <Flex className={styles.editmodal}>
-
-
+          {/* <Flex end onClick={() => setmodelopen(!modelopen)}>
+            <SvgClose width={10} height={10} fill={'#888888'} />
+          </Flex> */}
           {connected === 1 && active === 1 && isGoogle === 0 ? (
-            <Flex>
-              <Flex style={{display: "flex", alignItems: "center", justifyContent:"space-between", flexDirection: "row"}}>
-              <Flex style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "5px" }}>
-                <SvgEdit width={12} height={12} fill={GARY_1} />
-                <Text size={14} bold>
-                  {' '}
-                  Edit Configuration
-                </Text>
-              </Flex>
-              <Flex
-                end
-                style={{ marginRight: '15px', zIndex: '1' }}
-                onClick={() => setmodelopen(!modelopen)}
-              >
-                <SvgClose width={12} height={12} fill={'581845'} />
-              </Flex>
-              </Flex>
-              <div className={styles.borderbottom1}></div>
-
-              <Text>
-                You have connected your Email with Outlook Mail Service.
-              </Text>
-              <Flex row start className={styles.modelheadder}>
-                <SvgOutlookcalendar></SvgOutlookcalendar>
-                <Card className={styles.outlookEmailcard}>
-                  <Flex style={{ padding: '10px' }}>
-                    <Flex>Connected as</Flex>
-                    <Flex>
-                      <Text color="theme">{email}</Text>
+            <>
+              {disconnectopen === true ? (
+                <Flex>
+                  <Text size={13} style={{ marginTop: "5px" }}>
+                    If you disconnect, your slotters will be inactivated and
+                    candidate will not be able to pick slots for the interviews.
+                  </Text>
+                </Flex>
+              ) : (
+                <Flex>
+                  <Flex row center between>
+                    <Flex row center>
+                    <SvgEdit fill={'#333333'} width={12} height={12} />
+                    <Text size={14} bold style={{ marginLeft: '5px' }}>
+                      Edit Configuration
+                    </Text>
+                    </Flex>
+                    <Flex end onClick={() => setmodelopen(!modelopen)}>
+                      <SvgClose width={10} height={10} fill={'#888888'} />
                     </Flex>
                   </Flex>
-                </Card>
-              </Flex>
-              <Flex style={{ marginTop: '20px', color: '#581845' }}>
-                Would you Like to do any of the following Actions?
-              </Flex>
-              <hr />
-              <Flex style={{ marginRight: '15px' }} end>
-                <span>
-                  <Button
-                    onClick={() => msAuthHandler()}
+                  <div className={styles.borderbottom1}> </div>
+                  <Text size={13}>
+                    You have connected your Email with Outlook Mail Service.
+                  </Text>
+                  <Flex row start className={styles.modelheadder}>
+                    <SvgOutlookcalendar></SvgOutlookcalendar>
+                    <Card className={styles.outlookEmailcard}>
+                      <Flex style={{ padding: '10px' }}>
+                        <Flex>Connected as</Flex>
+                        <Flex>
+                          <Text color="theme">{email}</Text>
+                        </Flex>
+                      </Flex>
+                    </Card>
+                  </Flex>
+                  <Flex style={{ marginTop: '20px' }}>
+                    Would you Like to do any of the following actions?
+                  </Flex>
+                  <Flex
                     style={{
-                      paddingRight: '24px',
-                      paddingLeft: '24px',
+                      borderBottom: '1px solid #c3c3c3',
+                      margin: '20px 0px',
                     }}
-                  >
-                    Change
-                  </Button>
+                  ></Flex>
+                </Flex>
+              )}
+              <Flex>
+                {disconnectopen === true ? (
                   <Button
-                    className={styles.disconnectbtn}
-                    types="secondary"
-                    onClick={() => handleDisconnectOutlook()}
+                    className={styles.okButton}
+                    onClick={() => handleDisconnectCheck()}
                   >
-                    Disconnect
+                    OK
                   </Button>
-                </span>
+                ) : (
+                  <Flex end>
+                    <span>
+                      <Button
+                        onClick={() => msAuthHandler()}
+                        style={{
+                          paddingRight: '24px',
+                          paddingLeft: '24px',
+                        }}
+                      >
+                        Change
+                      </Button>
+                      <Button
+                        className={styles.disconnectbtn}
+                        types="secondary"
+                        onClick={() => handleDisconnectOutlook()}
+                      >
+                        Disconnect
+                      </Button>
+                    </span>
+                  </Flex>
+                )}
               </Flex>
-            </Flex>
+            </>
           ) : (
             ''
           )}
 
           {connected === 1 && active === 1 && isGoogle === 1 ? (
-              <>
-            // google calendar inside edit 
-            <Flex>
-              {/* <Flex className={styles.borderbottom}>
-              </Flex> */}
-              <Flex style={{display: "flex", alignItems: "center", justifyContent:"space-between", flexDirection: "row"}}>
-              <div style={{ display: "flex", gap: "5px" }}>
-                <SvgEdit width={12} height={12} fill={GARY_1} />
-                <Text size={14} bold style={{ marginTop: '-5px' }}>
-                  {' '}
-                  Edit Configuration
-                </Text>
-              </div>
-              <Flex
-                end
-                style={{ marginRight: '15px', zIndex: '1' }}
-                onClick={() => setmodelopen(!modelopen)}
-              >
-                <SvgClose width={12} height={12} fill={'581845'} />
-              </Flex>
-              </Flex>
-
-              <Flex className={styles.borderbottom1}></Flex>
-              <Text>
-                You have connected your Email with Google Mail Service.
-              </Text>
-              <Flex row start className={styles.modelheadder}>
-                <SvgGooglecalendar></SvgGooglecalendar>
-                <Card className={styles.outlookEmailcard}>
-                  <Flex style={{ padding: '10px' }}>
-                    <Flex>Connected as</Flex>
-                    <Flex>
-                      <Text color="theme">{email}</Text>
+            <>
+              {disconnectopen === true ? (
+                <Flex>
+                  <Text size={13} style={{ marginTop: "5px" }}>
+                    If you disconnect, your slotters will be inactivated and
+                    candidate will not be able to pick slots for the interviews.
+                  </Text>
+                </Flex>
+              ) : (
+                <Flex>
+                  {/* <Flex className={styles.borderbottom}></Flex> */}
+                  <Flex row center between>
+                    <Flex row center>
+                    <SvgEdit fill={'#333333'} width={12} height={12} />
+                    <Text size={14} bold style={{ marginLeft: '5px' }}>
+                      Edit Configuration
+                    </Text>
+                    </Flex>
+                    <Flex end onClick={() => setmodelopen(!modelopen)}>
+                      <SvgClose width={10} height={10} fill={'#888888'} />
                     </Flex>
                   </Flex>
-                </Card>
-              </Flex>
-              <Flex style={{ marginTop: '20px', color: '#581845' }}>
-                Would you Like to do any of the following Actions?
-              </Flex>
-              <hr />
-              <Flex style={{ marginRight: '15px' }} end>
-                <span>
-                  <Button
-                    onClick={() => googleAuthHandler()}
+                  <div className={styles.borderbottom1}></div>
+                  <Text size={13}>
+                    You have connected your Email with Google Mail Service.
+                  </Text>
+                  <Flex row start className={styles.modelheadder}>
+                    <SvgGooglecalendar></SvgGooglecalendar>
+                    <Card className={styles.outlookEmailcard}>
+                      <Flex style={{ padding: '10px' }}>
+                        <Flex>Connected as</Flex>
+                        <Flex>
+                          <Text color="theme">{email}</Text>
+                        </Flex>
+                      </Flex>
+                    </Card>
+                  </Flex>
+                  <Flex style={{ marginTop: '20px' }}>
+                    Would you Like to do any of the following actions?
+                  </Flex>
+                  <Flex
                     style={{
-                      paddingRight: '24px',
-                      paddingLeft: '24px',
+                      borderBottom: '1px solid #c3c3c3',
+                      margin: '20px 0px',
                     }}
+                  ></Flex>
+                </Flex>
+              )}
+              <Flex>
+                {disconnectopen === true ? (
+                  <Button
+                    className={styles.okButton}
+                    onClick={() => handleDisconnectCheck()}
                   >
-                    Change
+                    OK
                   </Button>
+                ) : (
+                  <Flex end>
+                    <span>
+                      <Button
+                        onClick={() => googleAuthHandler()}
+                        style={{
+                          paddingRight: '24px',
+                          paddingLeft: '24px',
+                        }}
+                      >
+                        Change
+                      </Button>
 
                       <Button
                         className={styles.disconnectbtn}

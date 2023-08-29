@@ -423,9 +423,9 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
                   onClick={() => setmodelopen(!modelopen)}
                 >
                   <SvgClose
-                    width={12}
-                    height={12}
-                    fill={'581845'}
+                    width={10}
+                    height={10}
+                    fill={'#888888'}
                     cursor={'pointer'}
                   />
                 </Flex>
@@ -492,9 +492,9 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
                   onClick={() => setmodelopen(!modelopen)}
                 >
                   <SvgClose
-                    width={12}
-                    height={12}
-                    fill={'581845'}
+                    width={10}
+                    height={10}
+                    fill={'#888888'}
                     cursor={'pointer'}
                   />
                 </Flex>
