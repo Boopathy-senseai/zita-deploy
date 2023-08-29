@@ -3062,7 +3062,7 @@ const CopyClipBoard = ({
 
   return (
     <>
-      <Flex>
+      <Flex title={"copy timings"}>
         <Dropdown onClick={() => onCopyClick()}>
           <Dropdown.Toggle
             style={{
