@@ -89,6 +89,7 @@ const MyDataBaseBulkAction = ({
 
   return (
     <Flex row between center className={styles.overAll}>
+{/* Total Count */}
       <Flex row center className={styles.totalcandidatescheckbox}>
         <InputCheckBox
           checked={isCheckAll}
@@ -105,13 +106,8 @@ const MyDataBaseBulkAction = ({
           numbers={totalCount}
         />
           </Flex>
-          {/* <Text className={styles.totalCount}>
-          {totalCount}
-          </Text> */}
         </div>
-          
-
-          
+  
         {!isEmpty(filterFormik.values.jobTitle) && (
         <Flex row center>
           {tabKey === '3' && (
@@ -123,8 +119,9 @@ const MyDataBaseBulkAction = ({
           )}
         </Flex>
       )}
-              <Flex>
-          
+      </Flex>
+{/* Download Resumes */}
+          <Flex>
           {chklen && (
                 <Flex row center className={styles.bulktab}>
                 <Flex row center className={styles.bulkSelection}>
@@ -154,7 +151,7 @@ const MyDataBaseBulkAction = ({
               </Flex>
             )}
             </Flex>
-      </Flex>
+{/* Sort by & Favourite */}
       <Flex>
         <Flex className={styles.favandsort}>
         {!isEmpty(filterFormik.values.jobTitle) && (
@@ -192,7 +189,7 @@ const MyDataBaseBulkAction = ({
           </Flex>
         )}
       </Flex>
-    </Flex>
+    </Flex> 
     </Flex>    
   );
 };

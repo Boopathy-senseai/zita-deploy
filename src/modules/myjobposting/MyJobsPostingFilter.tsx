@@ -350,7 +350,7 @@ const MyJobsPostingFilter = ({
                 style={{
                   cursor: 'Pointer',
                   paddingTop: 7,
-                  fontSize: 14,
+                  fontSize: 13,
                   paddingRight: '120px',
                 }}
               >

@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { Modal } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
+import { useFormik } from 'formik';
+import PhoneInput from 'react-phone-input-2';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -14,9 +16,11 @@ import Loader from '../uikit/Loader/Loader';
 import Flex from '../uikit/Flex/Flex';
 import InputCheckBox from '../uikit/InputCheckbox/InputCheckBox';
 import { isEmpty } from '../uikit/helper';
+import { ErrorMessage } from '../uikit';
 import { emailMiddleWare } from '../modules/Login/store/middleware/loginMiddleWare';
 import styles from './invitemodal.module.css';
 import Autocomplete from './Autocomplete';
+
 
 const InviteModal = (props) => {
   const dispatch = useDispatch();
@@ -197,6 +201,12 @@ const InviteModal = (props) => {
     }
   }, [props, props.clearData, touchedFields]);
 
+
+
+  
+
+
+
   ////////// Display Error Message ////////////
   const displayMessage = () => {
     if (props.message !== undefined) {
@@ -296,7 +306,7 @@ const InviteModal = (props) => {
             <form onSubmit={handleSubmit(onSubmit)}>
             <Flex className={styles.muModalpadding}> 
               <Flex row center between>
-                <Text bold size={14} color="theme">
+                <Text bold size={14}>
                   Invite New User
                 </Text>
 
@@ -379,6 +389,24 @@ const InviteModal = (props) => {
                     <Text size={12} color="error">
                       {errors.contact?.message}
                     </Text>
+                    {/* <LabelWrapper label="Contact Number" required>
+                        <PhoneInput
+                        containerClass={styles.phoneInputs}
+                        inputClass={styles.phoneInput}
+                        dropdownClass={styles.dropDownStyle}
+                        country={'us'}
+                        value={formik.values.contact}
+                        onChange={formik.handleChange('contact')}
+                        {...register('contact')}
+                        />
+                         {console.log('contact', formik.values.contact)}
+                        </LabelWrapper>
+                        <ErrorMessage
+                         touched={formik.touched}
+                         errors={formik.errors}
+                         name="contact"
+                         /> */}
+                    
                   </div>
                 </div>
                 <div
@@ -484,9 +512,9 @@ const InviteModal = (props) => {
                   </div>
                 </div>
                 
-                <div className="col-md-12 mt-4" style={{ marginBottom: 16, paddingRight: 0  }}>
-                <div className={styles.verticalLine}> </div>
-                  <Flex row center style={{gap: 10, justifyContent: "end"}}>
+                <div className="col-md-12 mt-2" style={{ marginBottom: 16, paddingRight: 0  }}>
+                <div className={styles.verticalLine} style={{ marginRight: 15}}> </div>
+                  <Flex row center style={{gap: 10, justifyContent: "end", paddingTop:"10px"}}>
                     <Button types="close" onClick={onCloseModal}>
                       Close
                     </Button>

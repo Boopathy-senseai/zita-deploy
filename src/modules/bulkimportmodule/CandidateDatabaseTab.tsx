@@ -325,7 +325,7 @@ const CandidateDatabaseTab = ({
   const value1=value>4;
   const isBulkLoaderprocess=localStorage.getItem('bulk_loader');
   return (
-    <Flex  height={window.innerHeight-180}  className={styles.candidatedatabase}>
+    <Flex className={styles.candidatedatabase}>
       <YesOrNoModal
         title={
           <Text style={{ width: 580, marginLeft: 12 }}>
@@ -584,16 +584,13 @@ const CandidateDatabaseTab = ({
           dataSource={emp_pool}
           columns={columns}
           isLoader={isTableLoader}
+          pageCount={pageCount}
+          pageNumber={pageNumber}
+          handleSetPagination={handleSetPagination}
+          isCandiTableLoader={isCandiTableLoader}
+          isPageTab ={isPageTab}
         />
-           { !isCandiTableLoader&& isPageTab > 10 && (
-        <Flex middle className={styles.pagination}>
-          <Pangination
-            maxPages={pageCount - 1}
-            currentPage={pageNumber}
-            setCurrentPage={handleSetPagination}
-          />
-        </Flex>
-      )}
+          
         </Flex>
       )}
 

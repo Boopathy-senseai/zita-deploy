@@ -182,7 +182,7 @@ const myfunction=()=>{
                     Notifications
                   </Text>
                   <Flex onClick={handleclose} style={{ cursor: 'pointer' }}>
-                    <SvgClose width={10} height={10} />
+                    <SvgClose width={10} height={10} fill={'#888888'}/>
                   </Flex>
                 </Flex>
                 <hr className={styles.line} />
@@ -241,7 +241,7 @@ const myfunction=()=>{
                                           >
                                             <Text
                                               style={{
-                                                maxWidth: '72%',
+                                                maxWidth: '100%',
                                                 fontSize: '13px',
                                               }}
                                             >
@@ -291,7 +291,7 @@ const myfunction=()=>{
                                           >
                                             <Text
                                               style={{
-                                                maxWidth: '72%',
+                                                maxWidth: '100%',
                                                 fontSize: '13px',
                                               }}
                                             >
@@ -349,7 +349,7 @@ const myfunction=()=>{
                                           >
                                             <Text
                                               style={{
-                                                maxWidth: '72%',
+                                                maxWidth: '100%',
                                                 fontSize: '13px',
                                               }}
                                             >
@@ -463,7 +463,7 @@ const myfunction=()=>{
                                         <Flex row className={styles.listStyle}>
                                           <Text
                                             style={{
-                                              maxWidth: '72%',
+                                              maxWidth: '100%',
                                               fontSize: '13px',
                                             }}
                                           >
@@ -515,7 +515,7 @@ const myfunction=()=>{
                                         <Flex row className={styles.listStyle}>
                                           <Text
                                             style={{
-                                              maxWidth: '72%',
+                                              maxWidth: '100%',
                                               fontSize: '13px',
                                             }}
                                           >
@@ -595,7 +595,7 @@ const myfunction=()=>{
                                         <Flex row className={styles.listStyle}>
                                           <Text
                                             style={{
-                                              maxWidth: '72%',
+                                              maxWidth: '100%',
                                               fontSize: '13px',
                                             }}
                                           >
@@ -642,7 +642,7 @@ const myfunction=()=>{
                                         <Flex row className={styles.listStyle}>
                                           <Text
                                             style={{
-                                              maxWidth: '72%',
+                                              maxWidth: '100%',
                                               fontSize: '13px',
                                             }}
                                           >
@@ -697,14 +697,14 @@ const myfunction=()=>{
                                           <Flex>
                                             <Text
                                               style={{
-                                                maxWidth: '72%',
+                                                maxWidth: '100%',
                                                 fontSize: '13px',
                                               }}
                                             >
                                               {list.verb}
                                             </Text>
                                           </Flex>
-                                          <Flex>
+                                          <Flex style={{width:'20%'}}>
                                             <Text
                                               style={{
                                                 marginLeft: 3,
@@ -748,7 +748,7 @@ const myfunction=()=>{
                     Notifications
                   </Text>
                   <Flex onClick={handleclose} style={{ cursor: 'pointer' }}>
-                    <SvgClose width={10} height={10} />
+                    <SvgClose width={10} height={10} fill={'#888888'}/>
                   </Flex>
                 </Flex>
                 <hr className={styles.line} />

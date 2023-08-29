@@ -18,6 +18,7 @@ import {
   kanbanUpdateMiddleWare,
   updateKanbanStagesMiddleware,
 } from '../middleware/applicantpipelinemiddleware';
+import { checkAuthMiddleware } from '../../../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 
 const applicantPipeLineState: ApplicantPipeLineReducerState = {
   isLoading: false,
@@ -76,6 +77,7 @@ const applicantPipeLineDataState: ApplicantDataReducerState = {
   google: [],
   outlook: [],
   total_applicant: 0,
+  checkauth: null,
 };
 
 const getApplicants = (payload: any) => {
@@ -132,6 +134,10 @@ const applicantPipeLineDataReducer = createSlice({
         }
       },
     );
+
+    builder.addCase(checkAuthMiddleware.fulfilled,(state, action) =>{
+      state.checkauth = action.payload;
+    },);
   },
 });
 

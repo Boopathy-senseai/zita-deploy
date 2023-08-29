@@ -18,8 +18,8 @@ export const PRIMARY = '#581845';
 export const SECONDARY = '#ffc203';
 export const LINK = '#1890ff';
 export const LINK_1 = '#18adf0';
-export const SUCCESS = '#34cc65';
-export const WARNING = '#ffb142';
+export const SUCCESS = '#00BE4B';
+export const WARNING = '#ED4857';
 
 // export const SUNRAY = '#d6ab58';
 // export const AERO = '#6cb4dc';

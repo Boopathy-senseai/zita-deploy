@@ -48,7 +48,6 @@ export const formatEventTitle = (
       return `${interview[0]} ${withWhom[0]}`;
     }
   }
-
   return event.title;
 };
 

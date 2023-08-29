@@ -567,7 +567,7 @@ const ZitaMatchFilters = ({
               )}
 
               {skill &&
-                showSkills.map((doc, index) => (
+                skill.map((doc, index) => (
                   <RenderQuickFilter
                     key={index}
                     doc={{ label: doc.label, value: doc.value }}
@@ -593,7 +593,7 @@ const ZitaMatchFilters = ({
               setShowDropDown((value) => !value);
             }}
           >
-            <Text bold color="theme" size={14}>
+            <Text bold color="theme" size={13}>
               View Filter
             </Text>
             <div title="Clear Filters" className={styles.svgRefresh}>

@@ -68,6 +68,11 @@ export interface GoogleEntity {
   json_path: string;
   created_at: string;
 }
+export interface IntegrateEntity {
+  account:string;
+  status:boolean;
+  user:any;
+}
 export interface ApplicantEntity {
   id: number;
   jd_id_id: number;
@@ -144,6 +149,7 @@ export interface ApplicantDataReducerState extends ApplicantData {
   error: string;
   applicants: { [key: number]: ApplicantEntity[] };
   locations: string[];
+  checkauth: IntegrateEntity | null;
 }
 
 export interface ApplicantFilter {
