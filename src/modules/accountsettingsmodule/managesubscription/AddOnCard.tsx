@@ -87,7 +87,7 @@ const AddOnCard = () => {
       {isLoader && <Loader />}
       <Card className={styles.overAll}>
         <Flex row center between>
-          <Text size={16} bold>
+          <Text size={14} bold>
             Add-On
           </Text>
          
@@ -108,7 +108,7 @@ const AddOnCard = () => {
           {subscription === null && <div className={styles.disabled} />}
 
           <Flex middle center className={styles.headerStyle} >
-            <Text color="white" bold size={16} >
+            <Text color="white" bold size={14} >
               {'Contact Credits'}
             </Text>
             <Text color="white" bold  >

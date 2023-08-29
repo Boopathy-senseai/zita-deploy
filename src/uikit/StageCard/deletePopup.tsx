@@ -21,10 +21,10 @@ const DeletePopup = ({
   return (
     <Modal open={openDeletePopup}>
       <Flex flex={6} column center className={styles.overAll}>
-        <Text  color="black2" size={14} className={styles.insertStyles}>
+        <Text  color="black2" size={13} className={styles.insertStyles}>
           This action will delete the stage from your pipeline.
         </Text>
-        <Text color="black2" size={14}className={styles.insertStyles}>
+        <Text color="black2" size={13}className={styles.insertStyles}>
           Are you sure to proceed?
         </Text>
 

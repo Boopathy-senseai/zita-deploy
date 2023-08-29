@@ -165,7 +165,8 @@ const ManageSubscriptionScreen = ({ setTab }: Props) => {
       style={{
         overflowY: 'scroll',
         maxHeight: window.innerHeight - 100,
-        paddingRight: '10px',
+        padding:"10px 10px"
+        
       }}
     >
       <Flex row center between className={styles.titleStyle}>

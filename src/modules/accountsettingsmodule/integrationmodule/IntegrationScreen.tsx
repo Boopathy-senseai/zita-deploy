@@ -30,9 +30,6 @@ import {
   Text,
   Toast,
 } from '../../../uikit';
-// import { isEmpty } from '../../../uikit/helper';
-// import Toast from '../../../uikit/Toast/Toast';
-// import { config } from '../../constValue';
 import {
   // addOauthMiddleware,
   outlookCallApiMiddleware,
@@ -47,15 +44,11 @@ import Email from './Emailintegration';
 
 import styles from './integrationscreen.module.css';
 
-// import MicrosoftLogin from './microSoftLogin/MicrosoftLogin';
 import {
   deleteOutlookMiddleware,
   deleteGoogleMiddleware,
 } from './store/middleware/integrationmiddleware';
 import CalenderConfig from './calendarconfigurations/calendarconfig';
-
-// import { GoogleLogin } from './googleLogin/index';
-// var querystring = require('qs');
 
 export const googleApiKey = 'AIzaSyC4DoRmvUsYtcQWa2PkMzjEbf1BQpAnlok';
 
@@ -71,12 +64,12 @@ const IntegrationScreen = () => {
   // const [isChange, setChange] = useState(false);
   const [isLoginLoader, setLoginLoader] = useState(false);
   const [modelopen, setmodelopen] = useState(false);
+  const [disconnectopen, setDisconnectopen] = useState(false);
   const [conflictopen, setConflictopen] = useState(false);
 
-  console.log(setMail);
   const history = useHistory();
   const windowFeatures = 'left=100,top=100,width=320,height=320';
-  const { email } = useSelector(
+  const { email, events } = useSelector(
     ({ applicantIntegratemailReducers }: RootState) => {
       return {
         email:
@@ -84,6 +77,7 @@ const IntegrationScreen = () => {
             ? applicantIntegratemailReducers.email[0]?.email
             : '',
         mail: applicantIntegratemailReducers?.mail,
+        events: applicantIntegratemailReducers?.events,
       };
     },
   );
@@ -96,32 +90,21 @@ const IntegrationScreen = () => {
       .then((res) => {
         setLoginLoader(false);
         localStorage.setItem('integrate', 'calender');
-        console.log('googlecallApi,', res);
-        // setConnected(1);
-        // setIsGoogle(1);
-        // setActive(1);
         window.location.href = res.payload.url;
-        // Toast('Google Calender Integrated Successfully', 'MEDIUM')  ;
       })
       .catch((err) => {
         console.log(err);
       });
   };
   const integrationSuccess = localStorage.getItem('integrationSuccess');
-
   const msAuthHandler = () => {
     setLoginLoader(true);
 
     dispatch(outlookCallApiMiddleware())
       .then((res) => {
-        console.log('outlookintegration', res);
         if (res.payload.success === true) {
           localStorage.setItem('integrate', 'calender');
           setLoginLoader(false);
-          // setConnected(1);
-          // setIsGoogle(0);
-          // setActive(1);
-          //  Toast('Outlook calendar Integrated Successfully', 'MEDIUM');
           window.location.href = res.payload.authorization_url;
         }
       })
@@ -164,8 +147,23 @@ const IntegrationScreen = () => {
 
   // google disconnect button function
   const handleDisconnectGoogle = () => {
+    if (events === true) {
+      setDisconnectopen(true);
+    } else {
+      dispatch(deleteGoogleMiddleware()).then((res) => {
+        if (res.payload.delete === true) {
+          setActive(0);
+          setIsGoogle(2);
+          setConnected(0);
+        }
+        setmodelopen(!modelopen);
+
+        Toast('Google calendar Disconnected Successfully', 'SHORT', 'error');
+      });
+    }
+  };
+  const handleDisconnectGoogleCheck = () => {
     dispatch(deleteGoogleMiddleware()).then((res) => {
-      console.log(res);
       if (res.payload.delete === true) {
         setActive(0);
         setIsGoogle(2);
@@ -179,8 +177,24 @@ const IntegrationScreen = () => {
 
   // outlook disconnect button function
   const handleDisconnectOutlook = () => {
+    if (events === true) {
+      setDisconnectopen(true);
+    } else {
+      dispatch(deleteOutlookMiddleware()).then((res) => {
+        if (res.payload.delete === true) {
+          setActive(0);
+          setIsGoogle(2);
+          setConnected(0);
+        }
+        setmodelopen(!modelopen);
+
+        Toast('Outlook calendar Disconnected Successfully', 'SHORT', 'error');
+      });
+    }
+  };
+  const handleDisconnectCheck = () => {
+    // setDisconnectopen(false);
     dispatch(deleteOutlookMiddleware()).then((res) => {
-      console.log(res);
       if (res.payload.delete === true) {
         setActive(0);
         setIsGoogle(2);
@@ -200,13 +214,10 @@ const IntegrationScreen = () => {
     dispatch(checkAuthMiddleware())
       .then((res) => {
         if (res.payload.status === true) {
-          console.log(res.payload);
           if (res.payload.account === 'google') {
-            console.log('inside if');
             setIsGoogle(1);
             setConnected(1);
           } else {
-            console.log('inside else');
             setIsGoogle(0);
             setConnected(1);
           }
@@ -231,8 +242,6 @@ const IntegrationScreen = () => {
   function outlookconfig(): void {
     throw new Error('Function not implemented.');
   }
-  console.log('conflictopen', conflictopen);
-
   function Configuration() {
     setConflictopen(true);
   }
@@ -243,8 +252,6 @@ const IntegrationScreen = () => {
 
   return (
     <Flex className={styles.overAll}>
-      {/* {  console.log(tost,'ttttttttt')} */}
-      {/* {console.log("outlookcallapimiddle::",outlookCallApiMiddleware)} */}
       <Email loaderupdate={loaderupdate} />
       {isLoginLoader && <Loader />}
       <Flex columnFlex>
@@ -304,6 +311,7 @@ const IntegrationScreen = () => {
                   <Button
                     className={styles.btn}
                     onClick={() => handleOutlookRadio()}
+                    disabled
                   >
                     <Text style={{ color: '#581845' }} bold>
                       Connect With Outlook
@@ -419,112 +427,165 @@ const IntegrationScreen = () => {
 
       <Modal open={modelopen}>
         <Flex className={styles.editmodal}>
-          <Flex
-            end
-            style={{ marginRight: '15px', marginBottom: '-14px', zIndex: '1' }}
-            onClick={() => setmodelopen(!modelopen)}
-          >
-            <SvgClose width={12} height={12} fill={'581845'} />
-          </Flex>
-
-          {connected === 1 && active === 1 && isGoogle === 0 ? (
-            <Flex>
-              <Text color="theme" size={14} bold>
-                {' '}
-                <SvgEdit width={14} height={14} /> Edit Configuration
-              </Text>
-              <Text>
-                You have connected your Email with Outlook Mail Service.
-              </Text>
-              <Flex row start className={styles.modelheadder}>
-                <SvgOutlookcalendar></SvgOutlookcalendar>
-                <Card className={styles.outlookEmailcard}>
-                  <Flex style={{ padding: '10px' }}>
-                    <Flex>Connected as</Flex>
-                    <Flex>
-                      <Text color="theme">{email}</Text>
-                    </Flex>
-                  </Flex>
-                </Card>
-              </Flex>
-              <Flex style={{ marginTop: '20px', color: '#581845' }}>
-                Would you Like to do any of the following Actions?
-              </Flex>
-              <hr />
-              <Flex style={{ marginRight: '15px' }} end>
-                <span>
-                  <Button
-                    onClick={() => msAuthHandler()}
-                    style={{
-                      paddingRight: '24px',
-                      paddingLeft: '24px',
-                    }}
-                  >
-                    Change
-                  </Button>
-                  <Button
-                    className={styles.disconnectbtn}
-                    types="secondary"
-                    onClick={() => handleDisconnectOutlook()}
-                  >
-                    Disconnect
-                  </Button>
-                </span>
-              </Flex>
+          {/* {!disconnectopen && ( */}
+            <Flex end onClick={() => setmodelopen(!modelopen)}>
+              <SvgClose width={10} height={10} fill={'#888888'} />
             </Flex>
+          {/* )} */}
+          {connected === 1 && active === 1 && isGoogle === 0 ? (
+            <>
+              {disconnectopen === true ? (
+                <Flex>
+                  <Text size={13} style={{marginTop:"5px"}}>
+                    If you disconnect, your slotters will be inactivated and
+                    candidate will not be able to pick slots for the interviews.
+                  </Text>
+                </Flex>
+              ) : (
+                <Flex>
+                  <Flex row center>
+                    <SvgEdit fill={'#333333'} width={13} height={13} />
+                    <Text size={14} bold style={{ marginLeft: '5px' }}>
+                      Edit Configuration
+                    </Text>
+                  </Flex>
+                  <Text size={13} style={{ marginTop: '5px' }}>
+                    You have connected your Email with Outlook Mail Service.
+                  </Text>
+                  <Flex row start className={styles.modelheadder}>
+                    <SvgOutlookcalendar></SvgOutlookcalendar>
+                    <Card className={styles.outlookEmailcard}>
+                      <Flex style={{ padding: '10px' }}>
+                        <Flex>Connected as</Flex>
+                        <Flex>
+                          <Text color="theme">{email}</Text>
+                        </Flex>
+                      </Flex>
+                    </Card>
+                  </Flex>
+                  <Flex style={{ marginTop: '20px' }}>
+                    Would you Like to do any of the following actions?
+                  </Flex>
+                  <Flex
+                    style={{
+                      borderBottom: '1px solid #c3c3c3',
+                      margin: '20px 0px',
+                    }}
+                  ></Flex>
+                </Flex>
+              )}
+              <Flex>
+                {disconnectopen === true ? (
+                  <Button
+                    className={styles.okButton}
+                    onClick={() => handleDisconnectCheck()}
+                  >
+                    OK
+                  </Button>
+                ) : (
+                  <Flex end>
+                    <span>
+                      <Button
+                        onClick={() => msAuthHandler()}
+                        style={{
+                          paddingRight: '24px',
+                          paddingLeft: '24px',
+                        }}
+                      >
+                        Change
+                      </Button>
+                      <Button
+                        className={styles.disconnectbtn}
+                        types="secondary"
+                        onClick={() => handleDisconnectOutlook()}
+                      >
+                        Disconnect
+                      </Button>
+                    </span>
+                  </Flex>
+                )}
+              </Flex>
+            </>
           ) : (
             ''
           )}
 
           {connected === 1 && active === 1 && isGoogle === 1 ? (
-            <Flex>
-              {/* <Flex className={styles.borderbottom}>
-              </Flex> */}
-              <Text size={14} bold style={{ marginTop: '-5px' }}>
-                {' '}
-                <SvgEdit width={14} height={14} /> Edit Configuration
-              </Text>
-              <Flex className={styles.borderbottom}></Flex>
-              <Text>
-                You have connected your Email with Google Mail Service.
-              </Text>
-              <Flex row start className={styles.modelheadder}>
-                <SvgGooglecalendar></SvgGooglecalendar>
-                <Card className={styles.outlookEmailcard}>
-                  <Flex style={{ padding: '10px' }}>
-                    <Flex>Connected as</Flex>
-                    <Flex>
-                      <Text color="theme">{email}</Text>
-                    </Flex>
+            <>
+              {disconnectopen === true ? (
+                <Flex>
+                  <Text size={13} style={{marginTop:"5px"}}>
+                    If you disconnect, your slotters will be inactivated and
+                    candidate will not be able to pick slots for the interviews.
+                  </Text>
+                </Flex>
+              ) : (
+                <Flex>
+                  {/* <Flex className={styles.borderbottom}></Flex> */}
+                  <Flex row center>
+                    <SvgEdit fill={'#333333'} width={13} height={13} />
+                    <Text size={14} bold style={{ marginLeft: '5px' }}>
+                      Edit Configuration
+                    </Text>
                   </Flex>
-                </Card>
-              </Flex>
-              <Flex style={{ marginTop: '20px', color: '#581845' }}>
-                Would you Like to do any of the following Actions?
-              </Flex>
-              <hr />
-              <Flex style={{ marginRight: '15px' }} end>
-                <span>
-                  <Button
-                    onClick={() => googleAuthHandler()}
+                  <Text size={13} style={{ marginTop: '5px' }}>
+                    You have connected your Email with Google Mail Service.
+                  </Text>
+                  <Flex row start className={styles.modelheadder}>
+                    <SvgGooglecalendar></SvgGooglecalendar>
+                    <Card className={styles.outlookEmailcard}>
+                      <Flex style={{ padding: '10px' }}>
+                        <Flex>Connected as</Flex>
+                        <Flex>
+                          <Text color="theme">{email}</Text>
+                        </Flex>
+                      </Flex>
+                    </Card>
+                  </Flex>
+                  <Flex style={{ marginTop: '20px' }}>
+                    Would you Like to do any of the following actions?
+                  </Flex>
+                  <Flex
                     style={{
-                      paddingRight: '24px',
-                      paddingLeft: '24px',
+                      borderBottom: '1px solid #c3c3c3',
+                      margin: '20px 0px',
                     }}
-                  >
-                    Change
-                  </Button>
-
+                  ></Flex>
+                </Flex>
+              )}
+              <Flex>
+                {disconnectopen === true ? (
                   <Button
-                    className={styles.disconnectbtn}
-                    types="secondary"
-                    onClick={() => handleDisconnectGoogle()}
+                    className={styles.okButton}
+                    onClick={() => handleDisconnectCheck()}
                   >
-                    Disconnect
+                    OK
                   </Button>
-                </span>
+                ) : (
+                  <Flex end>
+                    <span>
+                      <Button
+                        onClick={() => googleAuthHandler()}
+                        style={{
+                          paddingRight: '24px',
+                          paddingLeft: '24px',
+                        }}
+                      >
+                        Change
+                      </Button>
+
+                      <Button
+                        className={styles.disconnectbtn}
+                        types="secondary"
+                        onClick={() => handleDisconnectGoogle()}
+                      >
+                        Disconnect
+                      </Button>
+                    </span>
+                  </Flex>
+                )}
               </Flex>
-            </Flex>
+            </>
           ) : (
             ''
           )}
@@ -542,9 +603,6 @@ const IntegrationScreen = () => {
       ) : (
         ''
       )}
-      {/* <Flex className={styles.borderbottom} marginTop={30}>
-
-    </Flex> */}
     </Flex>
   );
 };

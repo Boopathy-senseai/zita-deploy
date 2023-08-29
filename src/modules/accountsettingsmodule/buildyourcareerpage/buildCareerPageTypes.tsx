@@ -12,6 +12,7 @@ export interface CareerPageEntityEntity {
   page_font: string;
   header_font_size: number;
   header_color: string;
+  font_color: string;
   menu_1: string;
   menu_1_url: string;
   menu_2: string;
@@ -213,6 +214,7 @@ export interface CareerPageSetting {
   page_font: string;
   header_font_size: number;
   header_color: string;
+  font_color: string;
   menu_1: string;
   menu_1_url: string;
   menu_2: string;

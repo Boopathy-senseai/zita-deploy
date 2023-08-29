@@ -64,7 +64,6 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
 
   const checkAuth = () => {
     dispatch(getEmail()).then((res) => {
-      console.log('res', res);
       if (res.payload.email !== null && res.payload.account !== null) {
         loaderupdate(false);
         if (res.payload.account === 'outlook') {
@@ -133,7 +132,6 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
         }
       })
       .catch((error) => {
-        //  console.log('error');
         loaderupdate(false);
       });
   };
@@ -158,7 +156,6 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
         }
       })
       .catch((error) => {
-        //  console.log('error');
         loaderupdate(false);
       });
   };
@@ -415,7 +412,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
             <SvgClose
               width={12}
               height={12}
-              fill={'581845'}
+              fill={'#888888'}
               cursor={'pointer'}
             />
           </Flex>

@@ -464,8 +464,6 @@ const MeetingSchedulingForm = ({
           }
         />
       )}
-      {console.log(meetingForm.applicant.error,'meetingForm.applicant.error')}
-      {console.log(meetingForm.applicant ,'meetingForm.applicant.error')}
       {meetingForm.applicant.error && (
         <p className={styles.warn}>This field is required</p>
       )}
