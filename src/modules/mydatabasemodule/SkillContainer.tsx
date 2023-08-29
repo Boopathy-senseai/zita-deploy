@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { minWidth } from '@mui/system';
+import classNames from 'classnames/bind';
 import SvgNotesOne from '../../icons/SvgNotesOne';
 import SvgShowallmatching from '../../icons/SvgShowallmatching';
 import Flex from '../../uikit/Flex/Flex';
@@ -9,6 +10,7 @@ import { notSpecified, lowerCase, isEmpty } from '../../uikit/helper';
 import LabelWithSvg from '../common/LabelWithSvg';
 import { DataEntity } from './myDataBaseTypes';
 import styles from './skillcontainer.module.css';
+const cx = classNames.bind(styles);
 
 type Props = {
   dataList: DataEntity;
@@ -27,9 +29,9 @@ return (
         className={styles.skillTextStyle}
         style={{marginTop: !size?  "0%" : "13%" , minWidth: !size? "0%": "150%"}} 
         title={
-          !isEmpty (dataList.skills) 
-          ? `Skills: ${dataList.skills}`
-          : `Skills: ${notSpecified(lowerCase(dataList.skills.replace(/,/g, ', ')))}`
+          isEmpty (dataList.skills) 
+          ? `Skills: ${notSpecified(lowerCase(dataList.skills.replace(/,/g, ', ')))}`
+          : `Skills: ${(lowerCase(dataList.skills.replace(/,/g, ', ')))}`
         }
         size={11}
       >
@@ -56,10 +58,16 @@ return (
 
         </Flex>       
         <Flex
-          onClick={showMatchClick}
+          onClick={isEmpty(dataList.applicant) ? showMatchClick : null}
           className={styles.showallmatching}
+          style={{ cursor: isEmpty(dataList.applicant) ? 'pointer' : 'default' }}
           >
-          Show All Matching Jobs
+          <Text
+            color={isEmpty(dataList.applicant) ? 'link' : 'gray'}
+            size={11}
+            >
+              Show All Matching Jobs
+              </Text> 
           </Flex>
       </Flex>
     </Flex>

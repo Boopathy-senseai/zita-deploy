@@ -325,7 +325,7 @@ const ProfileViewModal = ({
             role={'button'}
             onKeyPress={() => {}}
           >
-            <SvgClose fill={GARY_3} />
+            <SvgClose fill={'#888888'} />
           </div>
           <Flex onClick={() => hanldeProfileView(Number(canId))}>
             

@@ -27,12 +27,11 @@
   margin-left: 4px;
 }
 .cardOverAll {
- padding: 20px;
- /*margin-top: 1rem;*/
- margin-right: 0.5rem;
-    margin-left: 1px;
-    margin-bottom: 2rem;
-
+  padding: 10px 16px;
+  /*margin-top: 1rem;*/
+  margin-right: 0.5rem;
+  margin-left: 1px;
+  margin-bottom: 2rem;
 }
 .heading{
    margin-top: 1rem;

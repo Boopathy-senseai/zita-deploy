@@ -78,10 +78,12 @@
   flex-direction: row;
   flex-wrap: wrap;
   grid-gap: 0px 10px;
-  /* align-content: flex-start; */
+  padding-left: 5px;
+  align-content: flex-start;
 }
 .noContent {
   align-self: center;
+   
 }
 .syncBtn {
   background-color: #581845;

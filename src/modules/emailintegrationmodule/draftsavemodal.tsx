@@ -15,7 +15,9 @@ import {
   draftmail,
   Gmail_Draft,
   replay_all_forward_draft,
+  draftupdate,
 } from '../../emailService';
+import Loader from '../../uikit/Loader/Loader';
 import styles from './draftsave.module.css';
 
 type Props = {
@@ -40,6 +42,7 @@ const Modaldraft = ({
   mail_id,
 }: Props) => {
   const msal = useMsal();
+  const [loader, setloader] = useState(false);
 
   const authProvider = new AuthCodeMSALBrowserAuthenticationProvider(
     msal.instance as PublicClientApplication,
@@ -77,23 +80,49 @@ const Modaldraft = ({
       'createReplyAll',
     )
       .then((res) => {
+        setloader(false);
         closeverify();
         clearstate();
         composemodel();
         Toast('Draft saved successfully', 'LONG', 'success');
       })
       .catch((error) => {
+        setloader(false);
         console.log('draft not save ', error);
       });
   };
 
   const draftsave = async () => {
+    closeverify();
     if (auth === 'google') {
       Emailprops();
     } else if (auth === 'outlook') {
+      setloader(true);
+
       if (Mail_action === 'compose') {
         await draftmail(authProvider, Emailprops)
           .then((res) => {
+            setloader(false);
+            closeverify();
+            clearstate();
+            composemodel();
+            Toast('Draft saved successfully', 'LONG', 'success');
+          })
+          .catch((error) => {
+            setloader(false);
+            console.log('draft not save ', error);
+          });
+      } else if (
+        Mail_action === 'compose' ||
+        Mail_action === 'reply' ||
+        Mail_action === 'replyall'
+      ) {
+        reply_forward_replyall();
+      } else if (Mail_action === 'draft') {
+        console.log('Emailprops', mail_id, Emailprops);
+        await draftupdate(authProvider, mail_id, Emailprops.message)
+          .then((res) => {
+            setloader(false);
             closeverify();
             clearstate();
             composemodel();
@@ -102,14 +131,13 @@ const Modaldraft = ({
           .catch((error) => {
             console.log('draft not save ', error);
           });
-      } else {
-        reply_forward_replyall();
       }
     }
   };
 
   return (
     <div>
+      {loader === true && <Loader />}
       <Modal open={verifiymodel}>
         <Flex flex={6} column center className={styles.draftmodal}>
           <Text size={14} className={styles.insertStyles}>

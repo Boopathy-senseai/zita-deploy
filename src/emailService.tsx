@@ -103,6 +103,7 @@ export async function deletemail(
     })
     .catch((error) => {
       //   console.log('--errorDEl--', error);
+      return error;
     });
   // console.log('-----sendmailresponce-----', response);
   // return response;
@@ -369,6 +370,15 @@ export async function getmailfolders(
     .select('id,displayName,totalItemCount,unreadItemCount')
     .get();
   //console.log('-----getmailfolder-----', response);
+  return response;
+}
+
+export async function draftupdate(
+  authProvider: AuthCodeMSALBrowserAuthenticationProvider,
+  id,
+  data,
+) {
+  var response: any = await graphClient?.api(`/me/messages/${id}`).update(data);
   return response;
 }
 
@@ -675,6 +685,25 @@ export const gmail_permanent_Delete = async (messageId) => {
       return response;
     })
     .catch((error) => {
+      return error;
+    });
+};
+
+export const gmail_draft_update = async (id, messagebody) => {
+  console.log('draftId', id);
+  console.log('updatedMessage', messagebody);
+  gapi.client.gmail.users.drafts
+    .update({
+      userId: 'me',
+      id: id,
+      resource: messagebody,
+    })
+    .then((res) => {
+      console.log('Updated Draft:', res);
+      return res;
+    })
+    .catch((error) => {
+      console.log('error:', error);
       return error;
     });
 };

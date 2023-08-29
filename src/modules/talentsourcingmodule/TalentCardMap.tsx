@@ -6,6 +6,7 @@ import Card from '../../uikit/Card/Card';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import Button from '../../uikit/Button/Button';
+import SvgUnlockedGreen from '../../icons/SvgUnlockedGreen';
 import SvgLock from '../../icons/SvgLock';
 import { WHITE } from '../../uikit/Colors/colors';
 import SvgUnlock from '../../icons/SvgUnlock';
@@ -19,6 +20,7 @@ import { colorCode } from '../constValue';
 import SvgJobtitle from '../../icons/Jobtitle';
 import styles from './talentcardlist.module.css';
 import { DataEntity } from './talentSourcingTypes';
+
 
 const cx = classNames.bind(styles);
 
@@ -305,7 +307,8 @@ console.log("sidebar111",windowSize,sidebar)
               ) : (
                 <div style={{marginLeft:'11px'}}
                 >
-                <SvgUnlock fill={'#7ad47e'} width={24} height={24} />
+                {/* <SvgUnlock fill={'#7ad47e'} width={24} height={24} /> */}
+                <SvgUnlockedGreen viewBox="0 0 24 24" width={21} height={21} />
                 </div>
                 
               )}

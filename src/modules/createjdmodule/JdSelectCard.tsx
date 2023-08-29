@@ -30,7 +30,7 @@ const JdSelectCard = ({
         <Text className={styles.desText}>{des}</Text>
         <Text className={styles.exStyle}>{exTitle} </Text>
         <Flex middle style={{justifyContent:"end"}}>
-          <LinkWrapper target={'_parent'} to={path} onClick={onClick}>
+          <LinkWrapper to={path} onClick={onClick}>
             <Flex className={styles.createjobbutton}><Button>{buttonTitle}</Button></Flex>
           </LinkWrapper>
         </Flex>

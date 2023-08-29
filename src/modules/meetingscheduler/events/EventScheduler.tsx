@@ -91,7 +91,7 @@ const EventScheduler = () => {
       }}
      
     >
-      <Flex row between className={styles.initial} style={{width: "100%", marginBottom: 10}}>
+      <Flex row between className={styles.initial} style={{width: "100%", marginLeft:"6px"}}>
         <Flex>
           <Text size={13}>
             Share your availability with candidates and schedule events
