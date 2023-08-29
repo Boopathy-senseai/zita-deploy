@@ -157,12 +157,10 @@ const AccountSettingsScreen = ({ value }: props) => {
       if (user === 'Mail') {
         dispatch(Outlook_Auth(access_urls))
           .then((res) => {
-            //  console.log('+++++++++++++++++', res);
-            //console.log(res, 'responce');
             dispatch(getEmail());
             history.push('/account_setting/settings');
             // localStorage.setItem('integrationSuccess', 'true');
-            window.location.reload();
+            //window.location.reload();
           })
           .catch((err) => {
             // console.log('error', err);
@@ -170,7 +168,7 @@ const AccountSettingsScreen = ({ value }: props) => {
       } else {
         dispatch(outlookCallbackMiddleware(access_urls))
           .then((res) => {
-            // console.log(res, 'responce');
+            console.log(res, 'responceaaaaa');
             dispatch(IntergratemailMiddleWare());
             history.push('/account_setting/settings');
             localStorage.setItem('integrationSuccess', 'true');
