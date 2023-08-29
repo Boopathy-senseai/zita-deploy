@@ -25,12 +25,14 @@ type Props = {
   obj?: Obj;
   isProfileView?: boolean;
   user_info?: UserInfo;
+  personal_obj?:any;
   projects: ProjectsEntityOne[];
 };
 
 const CandidateNavBar = ({
   obj,
   isProfileView,
+  personal_obj,
   user_info,
   projects,
 }: Props) => {
@@ -40,7 +42,7 @@ const CandidateNavBar = ({
     setLoader(true);
     dispatch(
       downloadProfileMiddleWare({
-        can_id: user_info?.application_id_id.toString(),
+        can_id:personal_obj?.application_id?.toString(),
       }),
     ).then((res) => {
       if (res.payload.file_path) {
