@@ -88,6 +88,9 @@
 .svgnointerested{
   display: none;
 }
+.nolastinvitetext{
+  display: none;
+}
 .svgnoticon{
   left: 3px;
   position: relative;

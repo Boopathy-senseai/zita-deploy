@@ -133,6 +133,10 @@
   padding: 25px;
   border-radius: 4px;
 }
+.okButton{
+  justify-self: flex-end;
+  margin-top: 20px;
+}
 .editmodal {
   background-color: var(--color-white, #ffffff);
   width: 500px;
@@ -149,7 +153,10 @@
 }
 .disconnectbtn {
   margin-left: 10px;
-  border: 1px solid #ed4857;
+  border: 2px solid #ed4857;
+}
+.disconnectbtn:focus {
+  border: 2px solid #ed4857 !important;
 }
 
 /* .disconnectbtn .button_buttonTypes-secondary__3QSSJ:hover {
@@ -180,7 +187,15 @@
   height: 200px !important;
   width: 400px !important;
 }
+
 .borderbottom{
+  border-bottom: 1px solid rgb(195, 195, 195, 1);
+  width: 100%;
+  margin-top: 10px;
+  /* margin-bottom: 5px; */
+}
+
+.borderbottom1{
   border-bottom: 1px solid rgb(195, 195, 195, 1);
   width: 100%;
   margin-top: 10px;

@@ -107,8 +107,7 @@ const MyJobPostingScreen = ({ currentPage, setCurrentPage }: props) => {
         height={window.innerHeight - 220}
       >
         <table className="table" style={{ paddingLeft: 'none' }}>
-          <thead
-            style={{ position: 'sticky', top: 0, backgroundColor: 'white', zIndex:2 }}
+          <thead className={styles.stickyheader} 
           >
             <tr>
               <th className={styles.padchange}>

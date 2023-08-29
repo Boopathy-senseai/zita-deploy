@@ -42,7 +42,7 @@ const MovePipelinePopup = ({
             <SvgMove />
           </Flex>
           <Text
-            size={16}
+            size={14}
             style={{ marginLeft: '10px', marginBottom: '5px' }}
             bold
             color="theme"

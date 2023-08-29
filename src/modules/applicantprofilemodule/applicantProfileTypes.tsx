@@ -429,8 +429,9 @@ export interface InterviewScorecardReducerState extends InterviewScorecard {
 export interface Intergratemailstate {
   isLoading: boolean;
   error: string;
-  mail: string;
-  email: IntergrateEntity[];
+  mail:string;
+  email:IntergrateEntity[];
+  events: boolean;
 }
 export interface IntergrateEntity {
   email: string;

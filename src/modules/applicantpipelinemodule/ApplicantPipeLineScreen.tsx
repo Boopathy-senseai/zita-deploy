@@ -19,6 +19,7 @@ import InputText from '../../uikit/InputText/InputText';
 import { myJobPostingDataMiddleWare } from '../myjobposting/store/middleware/myjobpostingmiddleware';
 import { ERROR_MESSAGE } from '../constValue';
 import SvgIntomark from '../../icons/SvgCancel';
+import { checkAuthMiddleware } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import PipelinePopup from './pipelinepopup';
 import {
   applicantPipeLineDataMiddleWare,
@@ -123,9 +124,6 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
         stages: kanbanStagesReducers.stages,
         locations: applicantPipeLineDataReducers.locations,
         showStagesPopup: kanbanStagesReducers.selectPipeline,
-
-        // Test: applicantPipeLineDataReducers.shortlisted,
-
         applicantDataLoader: applicantPipeLineDataReducers.isLoading,
         favLoader: applicantFavReducers.isLoading,
         favSuccess: applicantFavReducers.success,
@@ -143,6 +141,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
   );
 console.log(locations,'kkkkkkkkkkkkkkkkkkk')
   useEffect(() => {
+    dispatch(checkAuthMiddleware());
     // dispatch(getKanbanStagesMiddleWare());
     dispatch(getKanbanStagesMiddleWare({ jd_id: parseInt(jdId) }));
     dispatch(applicantPipeLineMiddleWare({ jd_id: jdId })).then(() => {
@@ -933,12 +932,6 @@ console.log(locations,'kkkkkkkkkkkkkkkkkkk')
     }
   };
 
-  /// Download ------------>
-
-  // useEffect(() => {
-  //   if(downloadState.isLoading === false && )
-
-  // },[downloadState])
 
   const handleBulkDownload = () => {
     const candidate_id = getSelectedCandidateList();
@@ -959,7 +952,6 @@ console.log(locations,'kkkkkkkkkkkkkkkkkkk')
 
   return (
     <>
-    {console.log("changeeeee",change)}
       {showPipelinePopup && showStagesPopup === null && (
         <PipelinePopup
           jd_id={parseInt(jdId)}
@@ -1005,7 +997,7 @@ console.log(locations,'kkkkkkkkkkkkkkkkkkk')
         <Flex
           columnFlex
           className={styles.dndBoardContainer}
-          width={window.innerWidth - 220}
+          // width={window.innerWidth - 220}
         >
           <Flex row className={styles.titleContainer}>
             <Text bold size={16} color="theme">

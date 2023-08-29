@@ -187,10 +187,6 @@
   cursor: not-allowed;
 }
 .selectitem {
-  border-radius: 5px 5px 5px 5px;
-  color: #581845;
-  background-color: #eee8ec;
-  border-left: 6px solid #581845 !important;
   cursor: not-allowed;
 }
 

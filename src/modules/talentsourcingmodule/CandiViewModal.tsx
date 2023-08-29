@@ -32,7 +32,7 @@ const CandiViewModal = ({ open, filePath, cancel }: Props) => {
             role={'button'}
             onKeyPress={() => { }}
           >
-            <SvgClose fill={GARY_3} />
+            <SvgClose fill={'#888888'} />
           </div>
           <Flex row center className={'pointer'}>
             <Text

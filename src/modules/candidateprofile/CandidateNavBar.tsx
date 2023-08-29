@@ -4,12 +4,13 @@ import { saveAs } from 'file-saver';
 import PhoneInput from 'react-phone-input-2';
 import Toast from '../../uikit/Toast/Toast';
 import SvgBoxEdit from '../../icons/SvgBoxEdit';
+import SvgDashboardw from '../../icons/SvgDashboardw';
 import SvgDashboard from '../../icons/SvgDashboard';
 import SvgDownload from '../../icons/SvgDownload';
 import SvgMail from '../../icons/SvgMail';
 import SvgPhone from '../../icons/SvgPhone';
 import { AppDispatch } from '../../store';
-import { SECONDARY } from '../../uikit/Colors/colors';
+import { GARY_4, SECONDARY } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
 import { isEmpty, notSpecified } from '../../uikit/helper';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
@@ -25,12 +26,14 @@ type Props = {
   obj?: Obj;
   isProfileView?: boolean;
   user_info?: UserInfo;
+  personal_obj?:any;
   projects: ProjectsEntityOne[];
 };
 
 const CandidateNavBar = ({
   obj,
   isProfileView,
+  personal_obj,
   user_info,
   projects,
 }: Props) => {
@@ -40,7 +43,7 @@ const CandidateNavBar = ({
     setLoader(true);
     dispatch(
       downloadProfileMiddleWare({
-        can_id: user_info?.application_id_id.toString(),
+        can_id:personal_obj?.application_id?.toString(),
       }),
     ).then((res) => {
       if (res.payload.file_path) {
@@ -76,8 +79,13 @@ const CandidateNavBar = ({
                 className={styles.profile}
                 style={{ fontSize:'40px', textTransform:'uppercase' }}
                 initials= {`${obj?.full_name[0][0]}${
-                  obj?.full_name[obj?.full_name.length - 1][0]
+                  obj?.full_name?.split(' ').pop()?.[0]
                 }`} 
+                avatar={
+                  obj?.profile_url && obj?.profile_url !== 'default.jpg'
+                    ? `${process.env.REACT_APP_HOME_URL}media/${obj?.profile_url}`
+                    : undefined
+                }
               />
         <Flex columnFlex flex={1} between>
           <Flex row center>
@@ -116,7 +124,7 @@ const CandidateNavBar = ({
 
             <LinkWrapper to="/">
               <div title="Back to Dashboard">
-                <SvgDashboard height={20} width={20} />
+                <SvgDashboardw height={20} width={20}/>
               </div>
             </LinkWrapper>
           </Flex>

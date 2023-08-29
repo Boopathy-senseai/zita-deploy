@@ -258,7 +258,7 @@ const ApplicantReports = () => {
                       >
                         <SvgNoDataIcon width={16} height={16} fill={'#888'} />
                       </Flex>
-                      <Text color="gray">No Data Available</Text>
+                      <Text color="gray">No data available</Text>
                     </Flex>
                   )}
                 </Card>
@@ -276,7 +276,7 @@ const ApplicantReports = () => {
             <Flex style={{ justifyContent: 'center', marginBotto: '2px' }}>
               <SvgNoDataIcon width={16} height={16} fill={'#888'} />
             </Flex>
-            <Text color="gray">No Data Available</Text>
+            <Text color="gray">No data available</Text>
           </Flex>
         )}
         {table && table.length > 0 && (

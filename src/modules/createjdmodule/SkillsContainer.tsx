@@ -518,7 +518,7 @@ const SkillsContainer = ({
         height={missPop ? window.innerHeight - 400 : '100%'}
       >
         {/* {console.log('formik.values.data', formik.values.data)} */}
-        <Text color="primary" size={14} style={{marginBottom:"6px"}}>{'Database:'}</Text>
+        <Text color="theme" size={14} style={{marginBottom:"6px"}}>{'Database:'}</Text>
         <CrossAreaTagEditer
           inputId={1}
           // label={'Database:'}
@@ -528,7 +528,7 @@ const SkillsContainer = ({
           duplicate={formik.values.data}
           onDirty={onDirty}
         />
-          <Text color="primary" size={14} style={{marginBottom:"10px", marginTop:"13px"}}>{'Tools/Frameworks:'}</Text>
+          <Text color="theme" size={14} style={{marginBottom:"10px", marginTop:"13px"}}>{'Tools/Frameworks:'}</Text>
         <div className={styles.tagTop}>
           <CrossAreaTagEditer
             tagColor="yellow"
@@ -541,7 +541,7 @@ const SkillsContainer = ({
             onDirty={onDirty}
           />
         </div>
-        <Text color="primary" size={14} style={{marginBottom:"10px", marginTop:"13px"}}>{'Programming Languages:'}</Text>
+        <Text color="theme" size={14} style={{marginBottom:"10px", marginTop:"13px"}}>{'Programming Languages:'}</Text>
         <div className={styles.tagTop}>
           <CrossAreaTagEditer
             tagColor="red"
@@ -554,7 +554,7 @@ const SkillsContainer = ({
             onDirty={onDirty}
           />
         </div>
-        <Text color="primary" size={14} style={{marginBottom:"10px", marginTop:"13px"}}>{'Platforms:'}</Text>
+        <Text color="theme" size={14} style={{marginBottom:"10px", marginTop:"13px"}}>{'Platforms:'}</Text>
         <div className={styles.tagTop}>
           <CrossAreaTagEditer
             tagColor="green"
@@ -567,7 +567,7 @@ const SkillsContainer = ({
             onDirty={onDirty}
           />
         </div>
-        <Text color="primary" size={14} style={{marginBottom:"10px", marginTop:"13px"}}>{'Other Skills:'}</Text>
+        <Text color="theme" size={14} style={{marginBottom:"10px", marginTop:"13px"}}>{'Other Skills:'}</Text>
         <div className={styles.tagTop} style={{ position: 'relative' }}>
           <CrossAreaTagEditer
             tagColor="theme"

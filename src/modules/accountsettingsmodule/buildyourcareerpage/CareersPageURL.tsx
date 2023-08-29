@@ -85,7 +85,6 @@ const CareersPageURL = ({
                       errors={formik.errors}
                     />
                   </div>
-                  {console.log("sssssss",isUrlError)}
                   {isUrlError && (
                     <Text className={styles.errorMsg} size={12} color="error">
                       This URL already exist

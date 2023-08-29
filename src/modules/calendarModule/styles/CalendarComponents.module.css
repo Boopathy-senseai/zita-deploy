@@ -163,7 +163,7 @@
   padding: 5px 20px;
   cursor: pointer;
   letter-spacing: 1px;
-  font-size: 0.8rem;
+  font-size: 13px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -180,7 +180,7 @@
   cursor: pointer;
   transition: 100ms;
   letter-spacing: 1px;
-  font-size: 0.8rem;
+  font-size: 13px;
   transition: color 300ms;
   user-select: none;
   white-space: nowrap;

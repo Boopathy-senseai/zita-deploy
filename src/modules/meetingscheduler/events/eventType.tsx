@@ -28,7 +28,6 @@ for (let i = 1; i <= intervals; i++) {
       hours > 0 && minutes > 0 ? ' ' : ''}${minutes > 0 ? minutes + ' minutes' : ''}`
   });
 }
-console.log("durationFielddurationField",durationField)
 // }
 
 

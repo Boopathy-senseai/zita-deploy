@@ -256,7 +256,7 @@ const MyJobPreferenceEdit = ({
         >
           <SvgCloseSmall />
         </div>
-        <Text align="center" className={styles.title} bold size={16}>
+        <Text align="center" className={styles.title} bold size={14}>
           Update My Job Preference
         </Text>
         <Flex row top>
@@ -384,7 +384,7 @@ const MyJobPreferenceEdit = ({
             />
           </Flex>
         </Flex>
-        <Text className={styles.title} bold size={20}>
+        <Text className={styles.title} bold size={14}>
           Preferred Work Location
         </Text>
         <Flex row top className={styles.stateFlex}>
