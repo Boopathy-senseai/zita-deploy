@@ -47,7 +47,7 @@ type Props = {
   setTab: (a: string) => void;
   downgrade?: number;
   subscription?: Subscription;
-  inputNone?:boolean
+  inputNone?: boolean;
 };
 
 const PriceCard = ({
@@ -70,7 +70,7 @@ const PriceCard = ({
   setTab,
   downgrade,
   subscription,
-  inputNone
+  inputNone,
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const [isInvite, setInvite] = useState(false);
@@ -139,7 +139,7 @@ const PriceCard = ({
     formik.setFieldValue('value', getValue);
   };
 
-    // count Decrement condition
+  // count Decrement condition
   const handleDecrement = () => {
     const getValue = Number(formik.values.value) - 1;
     if (getValue >= 1) {
@@ -174,11 +174,10 @@ const PriceCard = ({
       setTotalUser(Number(formik.values.value));
     }
   }, [formik.values.value]);
-//  const cardDisplay=subscription.plan_id_id===3||subscription.plan_id_id===5||subscription.plan_id_id===1||subscription.plan_id_id===2||subscription.plan_id_id===4;
+  //  const cardDisplay=subscription.plan_id_id===3||subscription.plan_id_id===5||subscription.plan_id_id===1||subscription.plan_id_id===2||subscription.plan_id_id===4;
 
-return (
+  return (
     <>
-    {console.log("plan++++",planId,subscription)}
       {isLoader && <Loader />}
       <CancelAndDeletePopup
         title={
@@ -198,7 +197,7 @@ return (
       <SingleButton
         btnTitle="OK"
         title={
-          <Flex >
+          <Flex>
             <Text>
               Please maintain the allowed 3 active jobs and 15,000 candidate
               storage for
@@ -212,39 +211,52 @@ return (
 
       <div style={{ position: 'relative' }}>
         {disabled && <div className={styles.disabled} />}
-        <Card className={ subscription&&subscription.plan_id_id===planId ?(styles.bgcolor):(styles.overAll)}>
-          <Flex style={{margin:'25px 30px 0px 30px',borderBottom:'2px solid #C3C3C3'}}>
-              <Flex row between>
+        <Card
+          className={
+            subscription && subscription.plan_id_id === planId
+              ? styles.bgcolor
+              : styles.overAll
+          }
+        >
+          <Flex
+            style={{
+              margin: '25px 30px 0px 30px',
+              borderBottom: '2px solid #C3C3C3',
+            }}
+          >
+            <Flex row between center>
               <Text bold color="theme" size={18}>
-              {headerTitle}
+                {headerTitle}
               </Text>
               <Flex>
-              {subscription&&subscription.plan_id_id===planId ?
-                (
+                {subscription && subscription.plan_id_id === planId ? (
                   <SvgTick fill={SUCCESS} />
-                ):
-                ('')
+                ) : (
+                  ''
+                )}
+              </Flex>
+            </Flex>
+            <Flex row style={{ display: 'flex', alignItems: 'baseline' }}>
+              {price !== 'FREE' ? (
+                <Text color="theme" size={16} bold style={{ marginBottom: 4 }}>
+                  {price}
+                </Text>
+              ) : null}
 
-              }
-              </Flex>
-              </Flex>
-            <Flex row style={{display:'flex',alignItems:'baseline'}}>
-              {price!=="FREE"?(
-                <Text              
+              {userPrice && (
+                <Text size={14} color="theme">
+                  &nbsp;/User -&nbsp;
+                </Text>
+              )}
+              <Text
+                align="center"
+                size={14}
                 color="theme"
-                size={16}
-                bold
                 style={{ marginBottom: 4 }}
               >
-                {price}
-              </Text>
-              ):(null)}
-              
-              {userPrice && <Text size={14} color="theme">&nbsp;/User -&nbsp;</Text>}
-              <Text align="center" size={14} color="theme" style={{ marginBottom: 4 }}>
                 {days}
               </Text>
-            </Flex>              
+            </Flex>
           </Flex>
           <Flex columnFlex className={styles.priceList} marginTop={24}>
             {data.map((list, index) => (
@@ -265,7 +277,7 @@ return (
             <Text bold style={{ marginRight: 16 }}>
               Total Users:
             </Text>
-            <Flex row center className={cx({pointerNone:inputNone})}>
+            <Flex row center className={cx({ pointerNone: inputNone })}>
               <div
                 onClick={handleDecrement}
                 tabIndex={-1}
@@ -306,46 +318,48 @@ return (
             </Flex>
           </Flex>
           {subscription === null ||
-            (subscription && subscription.plan_id_id === 1) ? (
-              <Flex center middle marginBottom={20} marginTop={20}>
-                <Button disabled={btnDisabled} onClick={formik.handleSubmit}>{btnTitle}</Button>
-              </Flex>
-            ) : (
-              <>
-                {totalUserManger > Number(formik.values.value) ? (
-                  <Flex center middle marginBottom={20} marginTop={20}>
-                    <Button
-                      onClick={() => setInvite(true)}
-                      disabled={btnDisabled}
-                    >
-                      {btnTitle}
-                    </Button>
-                  </Flex>
-                ) : (
-                  <Flex center middle marginBottom={20} marginTop={20}>
-                    {btnDisabled ? (
-                      <Button disabled={btnDisabled}>{btnTitle}</Button>
-                    ) : (
-                      <>
-                        {headerTitle === 'BASIC' && downgrade === 1 ? (
-                          <Button
-                            onClick={() => setChangePlan(true)}
-                            disabled={btnDisabled}
-                          >
-                            {btnTitle}
-                          </Button>
-                        ) : (
-                          <LinkWrapper
-                            // target={'_parent'}
-                            to={`/order_summary?key=${planId}&count=${formik.values.value}`}
-                          >
-                            <Button disabled={btnDisabled}>{btnTitle}</Button>
-                          </LinkWrapper>
-                        )}
-                      </>
-                    )}
-                  </Flex>
-                )}
+          (subscription && subscription.plan_id_id === 1) ? (
+            <Flex center middle marginBottom={20} marginTop={20}>
+              <Button disabled={btnDisabled} onClick={formik.handleSubmit}>
+                {btnTitle}
+              </Button>
+            </Flex>
+          ) : (
+            <>
+              {totalUserManger > Number(formik.values.value) ? (
+                <Flex center middle marginBottom={20} marginTop={20}>
+                  <Button
+                    onClick={() => setInvite(true)}
+                    disabled={btnDisabled}
+                  >
+                    {btnTitle}
+                  </Button>
+                </Flex>
+              ) : (
+                <Flex center middle marginBottom={20} marginTop={20}>
+                  {btnDisabled ? (
+                    <Button disabled={btnDisabled}>{btnTitle}</Button>
+                  ) : (
+                    <>
+                      {headerTitle === 'BASIC' && downgrade === 1 ? (
+                        <Button
+                          onClick={() => setChangePlan(true)}
+                          disabled={btnDisabled}
+                        >
+                          {btnTitle}
+                        </Button>
+                      ) : (
+                        <LinkWrapper
+                          // target={'_parent'}
+                          to={`/order_summary?key=${planId}&count=${formik.values.value}`}
+                        >
+                          <Button disabled={btnDisabled}>{btnTitle}</Button>
+                        </LinkWrapper>
+                      )}
+                    </>
+                  )}
+                </Flex>
+              )}
             </>
           )}
         </Card>

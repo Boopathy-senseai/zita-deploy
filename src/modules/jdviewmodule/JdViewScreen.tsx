@@ -287,7 +287,7 @@ const JdViewScreen = () => {
                         className={styles.font10px}
                         style={{ color: '#888888' }}
                       >
-                        No Data Available
+                        No data available
                       </Text>
                     </Flex> */}
                      <Flex flex={1} center middle style={{display:"flex"}}>
@@ -353,7 +353,7 @@ const JdViewScreen = () => {
           </Flex>
           {console.log('skill', jdview)}
 
-          <Card className={styles.cardOverAll}>
+          <Card className={styles.cardappquest}>
             <Flex columnFlex marginTop={8}>
               <Text bold size={14} style={{ color: '#333333',paddingLeft:"16px" }}>
                 Applicant Questionnaire

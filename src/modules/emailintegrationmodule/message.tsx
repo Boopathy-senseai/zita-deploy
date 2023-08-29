@@ -37,6 +37,7 @@ type Props = {
   sidebarroute: number;
   composemodal: () => void;
   removemsg: () => void;
+  isprofileview?:boolean;
   page: () => void;
   attachments: any;
   msglistcount: any;
@@ -51,6 +52,7 @@ const Inbox = ({
   sidebarroute,
   composemodal,
   removemsg,
+  isprofileview,
   page,
   attachments,
   remove_message,
@@ -805,7 +807,7 @@ const Inbox = ({
       </Flex>
       {msglistcount !== 0 ? (
         <>
-          <Flex className={styles.bodyContainer}>{renderBody()}</Flex>
+          <Flex className={isprofileview?styles.bodyContainers:styles.bodyContainer} height={isprofileview?window.innerHeight -130:''}>{renderBody()}</Flex>
         </>
       ) : (
         ''

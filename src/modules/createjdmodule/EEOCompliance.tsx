@@ -113,26 +113,29 @@ const EEOCompliance = ({
         {isPreview && (
           <>
             <div className={styles.selectTagStyle} style={{ marginTop: 16 }}>
+              <Text size={13} color="primary" bold> Q1. Gender</Text>
               <SelectTag
                 value={''}
                 options={q1Data}
-                label="Q1. Gender:"
-                labelBold
+                // label="Q1. Gender:"
+                // labelBold
               />
             </div>
             <div className={styles.selectTagStyle}>
+            <Text size={13} color="primary" bold>Q2. Are you Hispanic/Latino?</Text>
               <SelectTag
                 options={q2Data}
-                label="Q2. Are you Hispanic/Latino?"
-                labelBold
+                // label="Q2. Are you Hispanic/Latino?"
+                // labelBold
                 value={''}
               />
             </div>
             <div className={styles.selectTagStyle}>
+            <Text size={13} color="primary" bold>Q3. Please identify your race:</Text>
               <SelectTag
                 options={q3Data}
-                label="Q3. Please identify your race:"
-                labelBold
+                // label="Q3. Please identify your race:"
+                // labelBold
                 value={''}
               />
             </div>
@@ -162,11 +165,12 @@ const EEOCompliance = ({
         )}
         {isPreview && (
           <div className={styles.selectTagStyle} style={{ marginTop: 16 }}>
+            <Text size={13} color="primary" bold>Q4. Veteran Status</Text>
             <SelectTag
               value={''}
               options={q4Data}
-              label="Q4. Veteran Status"
-              labelBold
+              // label="Q4. Veteran Status"
+              // labelBold
             />
           </div>
         )}
@@ -217,11 +221,12 @@ const EEOCompliance = ({
         })}
         {isPreview && (
           <div className={styles.selectTagStyle} style={{ marginTop: 16 }}>
+            <Text size={13} color="primary" bold>Q1. Disability Status:</Text>
             <SelectTag
               value={''}
               options={q5Data}
-              label="Q1. Disability Status:"
-              labelBold
+              // label="Q1. Disability Status:"
+              // labelBold
             />
           </div>
         )}

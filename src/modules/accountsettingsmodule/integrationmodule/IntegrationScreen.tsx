@@ -30,9 +30,6 @@ import {
   Text,
   Toast,
 } from '../../../uikit';
-// import { isEmpty } from '../../../uikit/helper';
-// import Toast from '../../../uikit/Toast/Toast';
-// import { config } from '../../constValue';
 import {
   // addOauthMiddleware,
   outlookCallApiMiddleware,
@@ -47,7 +44,6 @@ import Email from './Emailintegration';
 
 import styles from './integrationscreen.module.css';
 
-// import MicrosoftLogin from './microSoftLogin/MicrosoftLogin';
 import {
   deleteOutlookMiddleware,
   deleteGoogleMiddleware,
@@ -72,12 +68,12 @@ const IntegrationScreen = () => {
   // const [isChange, setChange] = useState(false);
   const [isLoginLoader, setLoginLoader] = useState(false);
   const [modelopen, setmodelopen] = useState(false);
+  const [disconnectopen, setDisconnectopen] = useState(false);
   const [conflictopen, setConflictopen] = useState(false);
 
-  console.log(setMail);
   const history = useHistory();
   const windowFeatures = 'left=100,top=100,width=320,height=320';
-  const { email } = useSelector(
+  const { email, events } = useSelector(
     ({ applicantIntegratemailReducers }: RootState) => {
       return {
         email:
@@ -85,6 +81,7 @@ const IntegrationScreen = () => {
             ? applicantIntegratemailReducers.email[0]?.email
             : '',
         mail: applicantIntegratemailReducers?.mail,
+        events: applicantIntegratemailReducers?.events,
       };
     },
   );
@@ -97,32 +94,21 @@ const IntegrationScreen = () => {
       .then((res) => {
         setLoginLoader(false);
         localStorage.setItem('integrate', 'calender');
-        console.log('googlecallApi,', res);
-        // setConnected(1);
-        // setIsGoogle(1);
-        // setActive(1);
         window.location.href = res.payload.url;
-        // Toast('Google Calender Integrated Successfully', 'MEDIUM')  ;
       })
       .catch((err) => {
         console.log(err);
       });
   };
   const integrationSuccess = localStorage.getItem('integrationSuccess');
-
   const msAuthHandler = () => {
     setLoginLoader(true);
 
     dispatch(outlookCallApiMiddleware())
       .then((res) => {
-        console.log('outlookintegration', res);
         if (res.payload.success === true) {
           localStorage.setItem('integrate', 'calender');
           setLoginLoader(false);
-          // setConnected(1);
-          // setIsGoogle(0);
-          // setActive(1);
-          //  Toast('Outlook calendar Integrated Successfully', 'MEDIUM');
           window.location.href = res.payload.authorization_url;
         }
       })
@@ -165,8 +151,23 @@ const IntegrationScreen = () => {
 
   // google disconnect button function
   const handleDisconnectGoogle = () => {
+    if (events === true) {
+      setDisconnectopen(true);
+    } else {
+      dispatch(deleteGoogleMiddleware()).then((res) => {
+        if (res.payload.delete === true) {
+          setActive(0);
+          setIsGoogle(2);
+          setConnected(0);
+        }
+        setmodelopen(!modelopen);
+
+        Toast('Google calendar Disconnected Successfully', 'SHORT', 'error');
+      });
+    }
+  };
+  const handleDisconnectGoogleCheck = () => {
     dispatch(deleteGoogleMiddleware()).then((res) => {
-      console.log(res);
       if (res.payload.delete === true) {
         setActive(0);
         setIsGoogle(2);
@@ -180,8 +181,24 @@ const IntegrationScreen = () => {
 
   // outlook disconnect button function
   const handleDisconnectOutlook = () => {
+    if (events === true) {
+      setDisconnectopen(true);
+    } else {
+      dispatch(deleteOutlookMiddleware()).then((res) => {
+        if (res.payload.delete === true) {
+          setActive(0);
+          setIsGoogle(2);
+          setConnected(0);
+        }
+        setmodelopen(!modelopen);
+
+        Toast('Outlook calendar Disconnected Successfully', 'SHORT', 'error');
+      });
+    }
+  };
+  const handleDisconnectCheck = () => {
+    // setDisconnectopen(false);
     dispatch(deleteOutlookMiddleware()).then((res) => {
-      console.log(res);
       if (res.payload.delete === true) {
         setActive(0);
         setIsGoogle(2);
@@ -201,13 +218,10 @@ const IntegrationScreen = () => {
     dispatch(checkAuthMiddleware())
       .then((res) => {
         if (res.payload.status === true) {
-          console.log(res.payload);
           if (res.payload.account === 'google') {
-            console.log('inside if');
             setIsGoogle(1);
             setConnected(1);
           } else {
-            console.log('inside else');
             setIsGoogle(0);
             setConnected(1);
           }
@@ -232,8 +246,6 @@ const IntegrationScreen = () => {
   function outlookconfig(): void {
     throw new Error('Function not implemented.');
   }
-  console.log('conflictopen', conflictopen);
-
   function Configuration() {
     setConflictopen(true);
   }
@@ -244,8 +256,6 @@ const IntegrationScreen = () => {
 
   return (
     <Flex className={styles.overAll}>
-      {/* {  console.log(tost,'ttttttttt')} */}
-      {/* {console.log("outlookcallapimiddle::",outlookCallApiMiddleware)} */}
       <Email loaderupdate={loaderupdate} />
       {isLoginLoader && <Loader />}
       <Flex columnFlex>
@@ -309,6 +319,7 @@ const IntegrationScreen = () => {
                   <Button
                     className={styles.btn}
                     onClick={() => handleOutlookRadio()}
+                    disabled
                   >
                     <Text style={{ color: '#581845' }} bold>
                       Connect With Outlook
@@ -547,16 +558,18 @@ const IntegrationScreen = () => {
                     Change
                   </Button>
 
-                  <Button
-                    className={styles.disconnectbtn}
-                    types="secondary"
-                    onClick={() => handleDisconnectGoogle()}
-                  >
-                    Disconnect
-                  </Button>
-                </span>
+                      <Button
+                        className={styles.disconnectbtn}
+                        types="secondary"
+                        onClick={() => handleDisconnectGoogle()}
+                      >
+                        Disconnect
+                      </Button>
+                    </span>
+                  </Flex>
+                )}
               </Flex>
-            </Flex>
+            </>
           ) : (
             ''
           )}
@@ -574,9 +587,6 @@ const IntegrationScreen = () => {
       ) : (
         ''
       )}
-      {/* <Flex className={styles.borderbottom} marginTop={30}>
-
-    </Flex> */}
     </Flex>
   );
 };
