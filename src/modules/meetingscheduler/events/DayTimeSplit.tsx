@@ -1273,6 +1273,7 @@ const DayTimeSplit = ({
                             </div>
                           </Flex>
                           {day1.length > 0 ? (
+                             <Flex title={"New intervals"}>
                             <button
                               className={styles.add}
                               type="button"
@@ -1284,7 +1285,9 @@ const DayTimeSplit = ({
                                 fill={'#581845'}
                               />
                             </button>
+                            </Flex>
                           ) : (
+                           
                             <button
                               className={styles.noadd}
                               type="button"
@@ -1296,6 +1299,7 @@ const DayTimeSplit = ({
                                 fill={'#581845'}
                               />
                             </button>
+                          
                           )}
                           <CopyClipBoard
                             index={1}
@@ -1515,6 +1519,8 @@ const DayTimeSplit = ({
                       </Flex>
                       <div>
                         {day2.length > 0 ? (
+                            <Flex title={"New intervals"}>
+
                           <button
                             className={styles.add}
                             type="button"
@@ -1526,6 +1532,7 @@ const DayTimeSplit = ({
                               fill={'#581845'}
                             />
                           </button>
+                          </Flex>
                         ) : (
                           <button
                             className={styles.noadd}
@@ -1750,6 +1757,7 @@ const DayTimeSplit = ({
                       </Flex>
                       <div>
                         {day3.length > 0 ? (
+                            <Flex title={"New intervals"}>
                           <button
                             className={styles.add}
                             type="button"
@@ -1761,6 +1769,7 @@ const DayTimeSplit = ({
                               fill={'#581845'}
                             />
                           </button>
+                          </Flex>
                         ) : (
                           <button
                             className={styles.noadd}
@@ -1983,6 +1992,8 @@ const DayTimeSplit = ({
                       </Flex>
                       <div>
                         {day4.length > 0 ? (
+                            <Flex title={"New intervals"}>
+
                           <button
                             className={styles.add}
                             type="button"
@@ -1994,6 +2005,7 @@ const DayTimeSplit = ({
                               fill={'#581845'}
                             />
                           </button>
+                          </Flex>
                         ) : (
                           <button
                             className={styles.noadd}
@@ -2221,6 +2233,8 @@ const DayTimeSplit = ({
                       </Flex>
                       <div>
                         {day5.length > 0 ? (
+                            <Flex title={"New intervals"}>
+
                           <button
                             className={styles.add}
                             type="button"
@@ -2232,6 +2246,7 @@ const DayTimeSplit = ({
                               fill={'#581845'}
                             />
                           </button>
+                          </Flex>
                         ) : (
                           <button
                             className={styles.noadd}
@@ -2458,6 +2473,8 @@ const DayTimeSplit = ({
                       </Flex>
                       <div>
                         {day6.length > 0 ? (
+                            <Flex title={"New intervals"}>
+
                           <button
                             className={styles.add}
                             type="button"
@@ -2469,6 +2486,7 @@ const DayTimeSplit = ({
                               fill={'#581845'}
                             />
                           </button>
+                          </Flex>
                         ) : (
                           <button
                             className={styles.noadd}
@@ -2694,6 +2712,8 @@ const DayTimeSplit = ({
                       </Flex>
                       <div>
                         {day7.length > 0 ? (
+                            <Flex title={"New intervals"}>
+
                           <button
                             className={styles.add}
                             type="button"
@@ -2705,6 +2725,7 @@ const DayTimeSplit = ({
                               fill={'#581845'}
                             />
                           </button>
+                          </Flex>
                         ) : (
                           <button
                             className={styles.noadd}
@@ -3062,7 +3083,7 @@ const CopyClipBoard = ({
 
   return (
     <>
-      <Flex>
+      <Flex title={'Copy timings'}>
         <Dropdown onClick={() => onCopyClick()}>
           <Dropdown.Toggle
             style={{
