@@ -505,7 +505,7 @@ const IntegrationScreen = () => {
           )}
 
           {connected === 1 && active === 1 && isGoogle === 1 ? (
-
+              <>
             // google calendar inside edit 
             <Flex>
               {/* <Flex className={styles.borderbottom}>
