@@ -65,6 +65,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
   const checkAuth = () => {
     dispatch(getEmail()).then((res) => {
       if (res.payload.email !== null && res.payload.account !== null) {
+        loaderupdate(false);
         if (res.payload.account === 'outlook') {
           setAuthorizemail('outlook');
           setgbutton(1);
@@ -75,6 +76,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
           setgbutton(1);
         }
       } else {
+        loaderupdate(false);
         setEmail('');
         setAuthorizemail('');
         setgbutton(0);
@@ -84,23 +86,31 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
   };
 
   useEffect(() => {
+    loaderupdate(true);
     checkAuth();
   }, [Authorizemail, outbutton, gbutton]);
-  useEffect(() => {
-    checkAuth();
-  }, []);
+  // useEffect(() => {
+  //   checkAuth();
+  // }, []);
 
   const handleAuthClick = () => {
-    loaderupdate(true);
-    dispatch(gmail_integrate()).then((res) => {
-      // window.open(res.payload.url);
-      setgbutton(1);
-      setoutbutton(1);
-      window.location.href = res.payload.url;
-      checkAuth();
-      loaderupdate(false);
-      // Toast(' Google Mail Integrated Successfully', 'MEDIUM');
-    });
+    // loaderupdate(true);
+
+    dispatch(gmail_integrate())
+      .then((res) => {
+        localStorage.setItem('integrate', 'Mail');
+        console.log('res++++++++++=', res);
+        // window.open(res.payload.url);
+        setgbutton(1);
+        setoutbutton(1);
+        window.location.href = res.payload.url;
+        checkAuth();
+        loaderupdate(false);
+        // Toast(' Google Mail Integrated Successfully', 'MEDIUM');
+      })
+      .catch((error) => {
+        console.log('errror!!!!!!!!!!', error);
+      });
   };
 
   const EditMail = (Eval: string) => {
@@ -133,6 +143,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
     dispatch(outlook_integrate())
       .then((res) => {
         if (res.payload.success === true) {
+          localStorage.setItem('integrate', 'Mail');
           //Toast('Outlook Mail Integrated Successfully', 'MEDIUM');
           // checkAuth();
           // window.open(res.payload.authorization_url);
@@ -163,7 +174,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
         }
       })
       .catch((error) => {
-        console.log('error', error);
+        //console.log('error', error);
         loaderupdate(false);
       });
   };
@@ -176,7 +187,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
         account: instance.getActiveAccount(),
       })
       .catch((error) => console.log(error));
-    console.log('sd', value);
+    // console.log('sd', value);
     //setEmail(value.account.username);
   };
 
@@ -186,7 +197,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
       {console.log('au', Authorizemail)}
       {console.log('ob', outbutton)}
       {console.log('gb', gbutton)} */}
-      <Text color="theme" size={16} bold>
+      <Text size={14} bold>
         Email Integrations
       </Text>
       <Text>
@@ -206,7 +217,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
                 <Text
                   color="theme"
                   bold
-                  size={16}
+                  size={14}
                   style={{ marginLeft: '10px' }}
                 >
                   Outlook Mail
@@ -248,9 +259,9 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
                 <SvgoutlookMail />
 
                 <Text
-                  color="theme"
+                  // color="theme"
                   bold
-                  size={16}
+                  size={14}
                   style={{ marginLeft: '10px' }}
                 >
                   Outlook Mail
@@ -274,8 +285,15 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
                   className={styles.btn}
                   disabled={outbutton === 1 ? true : false}
                   onClick={() => outlookconfig()}
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
                 >
-                  <Text color="theme">Connect With Outlook</Text>
+                  <Text color="theme" bold>
+                    Connect With Outlook
+                  </Text>
                 </Button>
               </Flex>
             </Card>
@@ -295,7 +313,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
                 <Text
                   color="theme"
                   bold
-                  size={16}
+                  size={14}
                   style={{ marginLeft: '10px' }}
                 >
                   Outlook Mail
@@ -338,9 +356,9 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
                 <SvgGmail />
 
                 <Text
-                  color="theme"
+                  // color="theme"
                   bold
-                  size={16}
+                  size={14}
                   style={{ marginLeft: '10px' }}
                 >
                   Google Mail
@@ -364,8 +382,15 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
                   disabled={gbutton === 1 ? true : false}
                   className={styles.btn}
                   onClick={() => handleAuthClick()}
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
                 >
-                  <Text color="theme">Connect with Gmail</Text>
+                  <Text color="theme" bold>
+                    Connect with Gmail
+                  </Text>
                 </Button>
               </Flex>
             </Card>
@@ -394,7 +419,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
 
           {Edit === 'outlook' ? (
             <Flex>
-              <Text color="theme" size={16} bold>
+              <Text color="theme" size={14} bold>
                 {' '}
                 Edit Configuration
               </Text>
@@ -443,7 +468,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
 
           {Edit === 'gmail' ? (
             <Flex>
-              <Text color="theme" size={16} bold>
+              <Text color="theme" size={14} bold>
                 {' '}
                 Edit Configuration
               </Text>

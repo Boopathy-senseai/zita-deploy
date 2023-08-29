@@ -16,6 +16,7 @@ import { LINK } from '../../uikit/Colors/colors';
 import { Table } from '../../uikit';
 import QuestionTable from '../createjdmodule/QuestionTable';
 import { resultTitle } from '../createjdmodule/questionnaireTable';
+import SvgNoData from '../../icons/SvgNoData';
 
 import Svgwhatjobs from '../../icons/Svgwhatjobs';
 import SvgRight from '../../icons/SvgRight';
@@ -280,7 +281,7 @@ const JdViewScreen = () => {
                     >
                       Trend Line of Job Views and Applicants
                     </Text>
-                    <Flex className={styles.center}>
+                    {/* <Flex className={styles.center}>
                       <Text
                         bold
                         className={styles.font10px}
@@ -288,7 +289,11 @@ const JdViewScreen = () => {
                       >
                         No data available
                       </Text>
-                    </Flex>
+                    </Flex> */}
+                     <Flex flex={1} center middle style={{display:"flex"}}>
+          <SvgNoData width={16} height={16} fill={"#888"} />
+          <Text style={{marginTop:"2px"}} color="placeholder">No data available</Text>
+            </Flex>
                   </>
                 ) : (
                   <>
@@ -350,12 +355,12 @@ const JdViewScreen = () => {
 
           <Card className={styles.cardOverAll}>
             <Flex columnFlex marginTop={8}>
-              <Text bold size={14} style={{ color: '#333333' }}>
+              <Text bold size={14} style={{ color: '#333333',paddingLeft:"16px" }}>
                 Applicant Questionnaire
               </Text>
               <div className={styles.tableDiv}>
                 {questionnaire?.length === 0 ? (
-                  <Text color="gray">No questions added for this job</Text>
+                  <Text color="gray" className={styles.questionary}>No questions added for this job</Text>
                 ) : (
                   <Table
                     empty={'No questions added for this job'}

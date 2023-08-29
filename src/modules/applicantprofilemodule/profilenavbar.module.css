@@ -194,3 +194,27 @@
   font-size: 20px;
   cursor: default;
 }
+.starratingoverall ul li{
+  font-size:24px !important;
+  cursor: default !important;
+}
+.starratingoverall ul{
+margin-top: -26px;
+margin-bottom: 20px;
+}
+.phoneInput {
+  border: none !important;
+  padding: 0 !important;
+  height: fit-content !important;
+  color: #212529 !important;
+  font-size: 14px !important;
+  background-color: transparent !important;
+  width: fit-content !important;
+}
+.phoneHide {
+  pointer-events: none;
+  max-width: 155px;
+}
+.phoneHide div div {
+  display: none;
+}

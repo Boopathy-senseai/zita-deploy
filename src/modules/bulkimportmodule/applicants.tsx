@@ -455,7 +455,7 @@ const ApplicantsTab = ({
   const value1 = value > 4;
   return (
     <Flex
-      height={window.innerHeight - 200}
+     
       className={styles.Applicantdatabase}
     > 
       <YesOrNoModal
@@ -770,19 +770,16 @@ const ApplicantsTab = ({
               dataSource={emp_pool}
               columns={columns}
               isLoader={isTableLoader}
+              pageCount={pageCount}
+              pageNumber={pageNumber}
+              handleSetPagination={handleSetPagination}
+              isCandiTableLoader={isCandiTableLoader}
+              isPageTab ={isPageTab}
             />
             </Flex>
             
           )}
-          {!isCandiTableLoader && isPageTab > 10 && (
-            <Flex middle className={styles.pagination}>
-              <Pangination
-                maxPages={pageCount - 1}
-                currentPage={pageNumber}
-                setCurrentPage={handleSetPagination}
-              />
-            </Flex>
-          )}
+          
         </>
       ) : (
         <Flex center middle height={100}>

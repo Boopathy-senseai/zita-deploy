@@ -28,3 +28,8 @@
 .muModalpadding{
   padding: 1rem;
 }
+
+.verticalLine{
+  border-bottom: 0.5px solid #581845;
+  padding: 5px 0px;
+}

@@ -87,7 +87,7 @@ const InviteMatch = ({
       .post(inviteToApplyApi, data, config)
       .then(() => {
         setInviteLoader(false);
-        Toast(inviteMessage);
+        Toast('Candidate invited successfully');
         dispatch(applicantAllMatchMiddleWare({ can_id: candidateId }));
       })
       .catch(() => {

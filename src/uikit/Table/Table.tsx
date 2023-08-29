@@ -3,9 +3,11 @@ import Loader from '../Loader/Loader';
 import { isEmpty } from '../helper';
 import Text from '../Text/Text';
 import Flex from '../Flex/Flex';
+import Pangination from '../Pagination/Pangination';
 import Rows, { ColumnItem } from './Rows';
 import TableTitle from './TableTitle';
 import styles from './table.module.css';
+
 
 const cx = classNames.bind(styles);
 
@@ -27,7 +29,12 @@ type Props = {
   emptyHeight?: number;
   fixedScrollHeight?: boolean;
   rowFocusIndex?: number;
-} & typeof defaultProps;
+  pageCount?:any;
+  pageNumber?:any;
+  handleSetPagination?:any;
+  isCandiTableLoader?:any;
+  isPageTab ?:any;
+  } & typeof defaultProps;
 
 const Table = ({
   dataSource,
@@ -39,6 +46,11 @@ const Table = ({
   emptyHeight,
   fixedScrollHeight,
   rowFocusIndex,
+  pageCount,
+  pageNumber,
+  handleSetPagination,
+  isCandiTableLoader,
+  isPageTab ,
 }: Props) => {
   if (columns.length === 0) {
     return null;
@@ -70,7 +82,6 @@ const Table = ({
       </Flex>
       {fixedScrollHeight ? (
         <div
-          
           className={cx({ rowScroll: scrollHeight })}
         >
           {dataSource.map((item, index) => (
@@ -87,7 +98,7 @@ const Table = ({
         </div>
       ) : (
         <div  
-         
+        style={{overflow:'scroll',maxHeight:window.innerHeight-300}}
           className={cx({ rowScroll: scrollHeight })}
         >
           {dataSource.map((item, index) => (
@@ -101,6 +112,15 @@ const Table = ({
               rowFocusIndex={rowFocusIndex}
             />
           ))}
+          {!isCandiTableLoader && isPageTab > 10 && (
+            <Flex middle className={styles.pagination}>
+              <Pangination
+                maxPages={pageCount - 1}
+                currentPage={pageNumber}
+                setCurrentPage={handleSetPagination}
+              />
+            </Flex>
+          )}
         </div>
       )}
     </Flex>

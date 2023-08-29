@@ -226,20 +226,20 @@ function UserTable(porps) {
         <>
           <Dropdown.Item onClick={() => handleEditModal(rowId)}>
             <Flex row center className={styles.dropDownListStyle}>
-              <SvgBoxEdit fill={GARY_2} height={16} width={16} />
-              <Text style={{ marginLeft: 16 }}>Edit</Text>
+              {/* <SvgBoxEdit fill={GARY_2} height={16} width={16} /> */}
+              <Text style={{ marginLeft: 5 }}>Edit</Text>
             </Flex>
           </Dropdown.Item>
           <Dropdown.Item onClick={() => handleInactivate(rowId)}>
             <Flex row center className={styles.dropDownListStyle}>
-              <SvgBlock fill={GARY_2} height={16} width={16} />
-              <Text style={{ marginLeft: 16 }}>Inactivate</Text>
+              {/* <SvgBlock fill={GARY_2} height={16} width={16} /> */}
+              <Text style={{ marginLeft: 5 }}>Inactivate</Text>
             </Flex>
           </Dropdown.Item>
           <Dropdown.Item onClick={() => handleShow(rowId)}>
             <Flex row center className={styles.dropDownListStyle}>
-              <SvgTrash fill={GARY_2} height={16} width={18} />
-              <Text style={{ marginLeft: 16 }}>Delete</Text>
+              {/* <SvgTrash fill={GARY_2} height={16} width={18} /> */}
+              <Text style={{ marginLeft: 5 }}>Delete</Text>
             </Flex>
           </Dropdown.Item>
         </>
@@ -248,12 +248,13 @@ function UserTable(porps) {
       return (
         <>
           <Dropdown.Item onClick={() => handleResend(rowId)}>
-            <Cursor className="mr-2" /> <Text size={13}>Resend Invite</Text> 
+            {/* <Cursor className="mr-2" />  */}
+            <Text size={13} style={{ marginLeft: 5 }}>Resend Invite</Text> 
           </Dropdown.Item>
           <Dropdown.Item onClick={() => handleShow(rowId)}>
             <Flex row center className={styles.dropDownListStyle}>
-              <SvgTrash fill={GARY_2} height={16} width={18} />
-              <Text style={{ marginLeft: 16 }}>Delete</Text>
+              {/* <SvgTrash fill={GARY_2} height={16} width={18} /> */}
+              <Text style={{ marginLeft: 5 }}>Delete</Text>
             </Flex>
           </Dropdown.Item>
         </>
@@ -262,12 +263,13 @@ function UserTable(porps) {
       return (
         <>
           <Dropdown.Item onClick={() => handleActivate(rowId)}>
-            <PatchCheckFill className="mr-2" /> Activate
+            {/* <PatchCheckFill className="mr-2" />  */}
+            <Text style={{ marginLeft: 5 }}>Activate</Text>
           </Dropdown.Item>
           <Dropdown.Item onClick={() => handleShow(rowId)}>
             <Flex row center className={styles.dropDownListStyle}>
-              <SvgTrash fill={GARY_2} height={16} width={18} />
-              <Text style={{ marginLeft: 16 }}>Delete</Text>
+              {/* <SvgTrash fill={GARY_2} height={16} width={18} /> */}
+              <Text style={{ marginLeft: 5 }}>Delete</Text>
             </Flex>
           </Dropdown.Item>
         </>
@@ -312,47 +314,47 @@ function UserTable(porps) {
   return (
     <>
      {usersData.length !== undefined ? (
-        <div className="table-responsisssve table_min_height">
+        <div className="table-responsisssve table_min_height" style={{overflowY:"scroll", height:"480px"}}>
           <table className="table table-hover mb-0">
-            <thead>
+            <thead style={{position:"sticky", top:"0", backgroundColor:"#fff", boxShadow:"0px 0px 0px 1px #efefef", zIndex:"1"}}>
               <tr>
-                <th scope="col">
+                <th scope="col" style={{width:"200px", paddingLeft:"10px", paddingRight:"0px"}}>
                   <Text bold className={styles.titleuser} style={{color:"#555555"}}>
                     User Name
                   </Text>
                 </th>
-                <th scope="col">
+                <th scope="col" style={{paddingLeft:"10px", paddingRight:"0px"}}>
                   <Text bold className={styles.titleuser} style={{color:"#555555"}}>
                     Email
                   </Text>
                 </th>
-                <th scope="col">
+                <th scope="col" style={{paddingLeft:"10px", paddingRight:"0px"}}>
                   <Text bold className={styles.titleuser} style={{color:"#555555"}}>
                     Contact Number
                   </Text>
                 </th>
-                <th scope="col" style={{width:"200px"}}>
+                <th scope="col" style={{width:"200px", paddingLeft:"10px", paddingRight:"0px"}}>
                   <Text bold className={styles.titleuser} style={{color:"#555555"}}>
                     Department
                   </Text>
                 </th>
-                <th scope="col" style={{ textAlign: 'center' }}>
+                <th scope="col" style={{ textAlign: 'center', paddingLeft:"10px", paddingRight:"0px" }}>
                   <Text bold align="center" className={styles.titleuser} style={{color:"#555555"}}>
                     Status
                   </Text>
                 </th>
-                <th scope="col" style={{minWidth:"120px"}}>
+                <th scope="col" style={{minWidth:"120px", paddingLeft:"10px", paddingRight:"0px"}}>
                   <Text bold className={styles.titleuser} style={{color:"#555555"}}>
                     Role
                   </Text>
                 </th>
-                <th scope="col" style={{minWidth:"120px"}}>
+                <th scope="col" style={{minWidth:"120px", paddingLeft:"10px", paddingRight:"0px"}}>
                   <Text bold className={styles.titleuser} style={{color:"#555555"}}>
                     Invited On
                   </Text>
                 </th>
-                <th className="text-center" scope="col">
-                  <Text bold style={{color:"#555555"}}>
+                <th className="text-center" scope="col" style={{paddingLeft:"10px", paddingRight:"0px"}}>
+                  <Text bold className={styles.titleuserA} style={{color:"#555555"}}>
                     Actions
                   </Text>
                 </th>

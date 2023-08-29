@@ -784,10 +784,18 @@ const interviewScorecardState: InterviewScorecardReducerState = {
       created_at: '',
       first_name: '',
       last_name: '',
-      img_name:''
-
+      img_name:'',
+      rating1:0,
+      rating2:0,
+      rating3:0,
+      rating4:0,
+      rating5:0,
+      overall_percentage:0,
+      user_id:0, 
     },
   ],
+  overall:0,
+  user:0,
 };
 
 const applicantScoreReducer = createSlice({
@@ -801,7 +809,9 @@ const applicantScoreReducer = createSlice({
     });
     builder.addCase(applicantScoreMiddleWare.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.interview = action.payload?.interview; 
+      state.interview = action.payload?.interview;
+      state.overall = action.payload?.overall;
+      state.user = action.payload?.user; 
     });
     builder.addCase(applicantScoreMiddleWare.rejected, (state, action) => {
       state.isLoading = false;

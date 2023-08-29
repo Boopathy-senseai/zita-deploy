@@ -89,6 +89,7 @@ const IntegrationScreen = () => {
     dispatch(googleCallApiMiddleware())
       .then((res) => {
         setLoginLoader(false);
+        localStorage.setItem('integrate', 'calender');
         window.location.href = res.payload.url;
       })
       .catch((err) => {
@@ -102,6 +103,7 @@ const IntegrationScreen = () => {
     dispatch(outlookCallApiMiddleware())
       .then((res) => {
         if (res.payload.success === true) {
+          localStorage.setItem('integrate', 'calender');
           setLoginLoader(false);
           window.location.href = res.payload.authorization_url;
         }
@@ -632,16 +634,24 @@ const ActionsButton: React.FC<ActionButtonProps> = ({
           id="dropdown-basic"
           // onClick={BtnClick }
         >
-          <SvgDotMenu fill={'#black'} height={14} width={14} />
+          <Button onClick={Configuration}>
+            <Flex row center className={styles.pointer}>
+              <Text bold style={{ cursor: 'pointer', color: '#fff' }}>
+                Calendar Configurations
+              </Text>
+            </Flex>
+          </Button>
+
+          {/* <SvgDotMenu fill={'#black'} height={14} width={14} /> */}
         </Dropdown.Toggle>
         {/* { connected === 1 && active === 1 ? ( */}
-        <Dropdown.Menu>
+        {/* <Dropdown.Menu>
           <Dropdown.Item onClick={Configuration}>
             <Flex row center className={styles.pointer}>
               <Text style={{ cursor: 'pointer' }}>Calendar Configurations</Text>
             </Flex>
           </Dropdown.Item>
-        </Dropdown.Menu>
+        </Dropdown.Menu> */}
       </Dropdown>
     </Flex>
   );

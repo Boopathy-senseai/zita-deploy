@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import toast from 'react-hot-toast';
+//import toast from 'react-hot-toast';
 import Activity from '../../pages/activity/Activity';
 import ManageUsers from '../../pages/home/ManageUsers';
 import { RootState, AppDispatch } from '../../store';
@@ -22,7 +22,12 @@ import {
   googleCallbackMiddleware,
   IntergratemailMiddleWare,
 } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
-import { getEmail } from '../emailintegrationmodule/store/middleware/emailIntegrationMiddleWare';
+
+import {
+  getEmail,
+  Google_Auth,
+  Outlook_Auth,
+} from '../emailintegrationmodule/store/middleware/emailIntegrationMiddleWare';
 import Toast from '../../uikit/Toast/Toast';
 import CompanyPage from './companypage';
 //import UserProfile from './userprofilemodule/userProfile';
@@ -120,31 +125,59 @@ const AccountSettingsScreen = ({ value }: props) => {
     if (url.searchParams.get('scope')) {
       // Google
       const code = url.searchParams.get('code');
+      var username = localStorage.getItem('integrate');
 
-      dispatch(googleCallbackMiddleware({ codeUrl: code })).then((res) => {
-        dispatch(IntergratemailMiddleWare());
-        history.push('/account_setting/settings');
-        localStorage.setItem('integrationSuccess', 'true');
-        window.location.reload();
-      });
+      if (username === 'Mail') {
+        dispatch(Google_Auth({ codeUrl: code })).then((res) => {
+          dispatch(getEmail());
+          history.push('/account_setting/settings');
+          // localStorage.setItem('integrationSuccess', 'true');
+          // window.location.reload();
+        });
+      } else {
+        dispatch(googleCallbackMiddleware({ codeUrl: code })).then((res) => {
+          dispatch(IntergratemailMiddleWare());
+          history.push('/account_setting/settings');
+          localStorage.setItem('integrationSuccess', 'true');
+          window.location.reload();
+        });
+      }
     } else if (url.searchParams.get('session_state')) {
       // Outlook
+      var user = localStorage.getItem('integrate');
+
       const access_urls = {
         code: url.searchParams.get('code'),
         state: url.searchParams.get('state'),
         session_state: url.searchParams.get('session_state'),
       };
       // setload(true);
-      dispatch(outlookCallbackMiddleware(access_urls))
-        .then((res) => {
-          dispatch(IntergratemailMiddleWare());
-          history.push('/account_setting/settings');
-          localStorage.setItem('integrationSuccess', 'true');
-          window.location.reload();
-        })
-        .catch((err) => {
-          console.log('error', err);
-        });
+
+      if (user === 'Mail') {
+        dispatch(Outlook_Auth(access_urls))
+          .then((res) => {
+            dispatch(getEmail());
+            history.push('/account_setting/settings');
+            // localStorage.setItem('integrationSuccess', 'true');
+            //window.location.reload();
+          })
+          .catch((err) => {
+            // console.log('error', err);
+          });
+      } else {
+        dispatch(outlookCallbackMiddleware(access_urls))
+          .then((res) => {
+            console.log(res, 'responceaaaaa');
+            dispatch(IntergratemailMiddleWare());
+            history.push('/account_setting/settings');
+            localStorage.setItem('integrationSuccess', 'true');
+            window.location.reload();
+            //  Toast('Outlook calendar Integrated Successfully', 'MEDIUM');
+          })
+          .catch((err) => {
+            //  console.log('error', err);
+          });
+      }
     }
   }, []);
 
@@ -177,7 +210,6 @@ const AccountSettingsScreen = ({ value }: props) => {
   const { routerPrompt, onDirty, onPristine } = useUnsavedChangesWarning();
   // var oldURL = window.location.href;
   // if(window.location.href !== oldURL){
-  //   alert("url changed!");
 
   useEffect(() => {
     if (isReloadCareer && window.confirm(LEAVE_THIS_SITE)) {

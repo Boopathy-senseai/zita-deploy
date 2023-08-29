@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Flex from '../../../uikit/Flex/Flex';
-import Slotter1 from './Slotter1';
+import Slotter1 from './Slotter';
 
 const PreviewTab = () => {
   const [userpreview, setuserPreview] = useState(true);

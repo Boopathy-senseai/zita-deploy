@@ -8,8 +8,8 @@ export interface schedulerPageReducerState {
     addmembers ?: MemberEntity[] ;
     datetime ?: Datetime;
     suceess : string;
-    google : string;
-    outlook : string;
+    google : boolean;
+    outlook : boolean;
     error: string;    
   }
   
@@ -17,14 +17,14 @@ export interface schedulerPageReducerState {
     id: number,
     emp_id_id: number,
     company_id: number,
-    event_name: string,
-    event_type:string,
-    location:string ,
-    daterange:string ,
+    event_name ?: string | any,
+    event_type ?: string | any,
+    location:string | any,
+    daterange:string,
     days: string,
     startdate: string,
     enddate: string,
-    duration: string,
+    duration: string | null,
     times_zone: string,
     interviewer: string,
     times_zone_display: string,
@@ -36,7 +36,7 @@ export interface schedulerPageReducerState {
     ischecked: boolean,
   }
   export interface InterviewEntity{
-    id: number,
+    id: number | any,
     event_id: number,
     name_id: number,
     full_name: string;
@@ -46,19 +46,19 @@ export interface schedulerPageReducerState {
   }
 
   export interface ShareEntity{
-    id: number,
-    candidate_id__application_id: number,
-    email: string,
-    type: string,
-    full_name: string
+    id: number | any,
+    candidate_id__application_id: number | any,
+    email: string | null,
+    type: string | null,
+    full_name: string | null;
   }
 
   export interface MemberEntity{
-    id: number,
-    user: number,
-    user__first_name: string,
-    user__last_name: string,
-    full_name: string
+    id: number | any,
+    user: number | any,
+    user__first_name: string | any,
+    user__last_name: string | any,
+    full_name: string | any,
   }
 
   export interface Datetime{

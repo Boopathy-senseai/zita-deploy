@@ -444,7 +444,7 @@ const Inbox = ({
               fill={messageIcon ? '#581845' : '#58184550'}
             />
           </Flex> */}
-          <Flex
+          {/* <Flex
             title="Edit Message"
             className={styles.iconsDisabled}
             // style={{ cursor: 'pointer' }}
@@ -455,7 +455,7 @@ const Inbox = ({
               height={16}
               fill={messageIcon ? '#581845' : '#58184550'}
             />
-          </Flex>
+          </Flex> */}
         </Flex>
       </>
     );
@@ -516,10 +516,56 @@ const Inbox = ({
     </Flex>
   );
 
+  const drafticon = (val) => {
+    var get = val.labelIds.includes('DRAFT');
+
+    if (get === true) {
+      return (
+        <>
+          <Flex
+            title="Edit Message"
+            className={styles.iconsDisabled}
+            // style={{ cursor: 'pointer' }}
+            onClick={() => mail('draft')}
+          >
+            <SvgEdit width={16} height={16} />
+          </Flex>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <Flex
+            title="Reply"
+            className={styles.icons}
+            onClick={() => mail('reply')}
+          >
+            <SvgReply width={16} height={16} />
+          </Flex>
+          <Flex
+            title="ReplyAll"
+            className={styles.icons}
+            onClick={() => mail('replyall')}
+          >
+            <SvgReplyall width={16} height={16} />
+          </Flex>
+          <Flex
+            title="Forward"
+            className={styles.icons}
+            onClick={() => mail('forward')}
+          >
+            <SvgForward width={16} height={16} />
+          </Flex>
+        </>
+      );
+    }
+  };
+
   const renderBody = () => {
     if (message !== '') {
       return (
         <>
+          {console.log('message', message)}
           {integration === 'google' ? (
             <>
               <Flex
@@ -562,33 +608,15 @@ const Inbox = ({
                       </Text>
 
                       <Flex row marginRight={10}>
-                        <Flex
-                          title="Reply"
-                          className={styles.icons}
-                          onClick={() => mail('reply')}
-                        >
-                          <SvgReply width={16} height={16} />
-                        </Flex>
-                        <Flex
-                          title="ReplyAll"
-                          className={styles.icons}
-                          onClick={() => mail('replyall')}
-                        >
-                          <SvgReplyall width={16} height={16} />
-                        </Flex>
-                        <Flex
-                          title="Forward"
-                          className={styles.icons}
-                          onClick={() => mail('forward')}
-                        >
-                          <SvgForward width={16} height={16} />
-                        </Flex>
-                        <Flex
-                          title="Mark as unread"
-                          className={styles.icons}
-                          onClick={() => gmailunread(message)}
-                        >
-                          <SvgRead width={16} height={16} />
+                        {drafticon(message)}
+                        <Flex>
+                          <Flex
+                            title="Mark as unread"
+                            className={styles.icons}
+                            onClick={() => gmailunread(message)}
+                          >
+                            <SvgRead width={16} height={16} />
+                          </Flex>
                         </Flex>
                       </Flex>
                     </Flex>
@@ -692,7 +720,14 @@ const Inbox = ({
                             </Flex>
                           </>
                         ) : (
-                          ''
+                          <Flex
+                            title="Edit Message"
+                            className={styles.iconsDisabled}
+                            // style={{ cursor: 'pointer' }}
+                            onClick={() => mail('draft')}
+                          >
+                            <SvgEdit width={16} height={16} />
+                          </Flex>
                         )}
 
                         <Flex
