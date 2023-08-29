@@ -10,7 +10,15 @@ import toast, { Toaster } from 'react-hot-toast';
 
 import moment from 'moment';
 import { useLocation } from 'react-router-dom';
-import { Flex, Text, Button, LinkWrapper, SelectTag } from '../../uikit';
+import {
+  Flex,
+  Text,
+  Button,
+  LinkWrapper,
+  SelectTag,
+  Loader,
+  Toast,
+} from '../../uikit';
 import { SvgCalendar } from '../../icons';
 import { AppDispatch } from '../../store';
 import {
@@ -22,6 +30,8 @@ import {
   getApplicantsMiddleware,
 } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { TopLineLoader } from '../../uikit/v2/Loader';
+import { IntegrateEntity } from '../applicantpipelinemodule/applicantPipeLineTypes';
+import ColorEvent from './calendar-components/ColorEvent';
 import {
   CALENDAR,
   CalendarType,
@@ -58,8 +68,6 @@ import EventPopUpModal from './EventPopUpModal';
 import { setColor } from './colors';
 //import ToolBar from './calendar-components/ToolBar';
 import SimpleToolBar from './calendar-components/SimpleToolBar';
-
-import ColorEvent from './calendar-components/ColorEvent';
 import WeekHeader from './calendar-components/WeekHeader';
 import MeetingSchedulingScreen from './MeetingSchedulingScreen';
 import CalendarScreenLoader from './CalendarScreenLoader';
@@ -67,11 +75,11 @@ interface stateType {
   openScheduleEvent: boolean;
   recurringEventId: string;
 }
-
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 const Calendar = () => {
-  const { state: locationState } = useLocation<stateType>();
+  const { state: locationState, search } = useLocation<stateType>();
+  const param = new URLSearchParams(search);
   const dispatch: AppDispatch = useDispatch();
   const [currentUser, setCurrentUser] = useState<UserInfo>({
     id: null,
@@ -149,13 +157,9 @@ const Calendar = () => {
   // console.log('openScheduleForm', openScheduleForm);
 
   useEffect(() => {
-    console.log(locationState);
-    if (
-      locationState &&
-      locationState?.openScheduleEvent &&
-      locationState?.openScheduleEvent === true
-    ) {
-      setOpenScheduleForm(locationState?.openScheduleEvent);
+    const action = param.get('action');
+    if (param && action && action === 'open-scheduler-form') {
+      setOpenScheduleForm(true);
     }
     if (
       locationState &&
@@ -194,6 +198,7 @@ const Calendar = () => {
       ) {
         setVisibleEvents(() => {
           return currentUserEvents.filter((event) => {
+            console.log(event, '12');
             if (!event.title?.includes('Zita event')) return event;
           });
         });
@@ -203,6 +208,7 @@ const Calendar = () => {
       ) {
         setVisibleEvents(() => {
           return currentUserEvents.filter((event) => {
+            console.log(event, '12');
             if (event.title?.includes('Zita event')) return event;
           });
         });
@@ -221,6 +227,7 @@ const Calendar = () => {
       ) {
         setVisibleEvents(() => {
           return teamMemberEvents.filter((event) => {
+            console.log(event, '12');
             if (!event.title?.includes('Zita event')) return event;
           });
         });
@@ -230,6 +237,7 @@ const Calendar = () => {
       ) {
         setVisibleEvents(() => {
           return teamMemberEvents.filter((event) => {
+            console.log(event, '12');
             if (event.title?.includes('Zita event')) return event;
           });
         });
@@ -308,13 +316,12 @@ const Calendar = () => {
       setOpenScheduleForm(true);
       localStorage.setItem('eventhandeler', 'false');
       handleCloseEventPop();
-      setCurrentEventId(localStorage.getItem('eventhandelerid')); 
+      setCurrentEventId(localStorage.getItem('eventhandelerid'));
       if (localStorage.getItem('checkstatus') === CALENDAR.Google) {
         dispatch(
           googleEditEventMiddleware({
             eventId: localStorage.getItem('eventhandelerid'),
           }),
-         
         )
           .then((res) => {
             // console.log(localStorage.getItem('eventhandelerid'));
@@ -360,7 +367,7 @@ const Calendar = () => {
       setOpenScheduleForm(true);
       localStorage.setItem('scheduleven', 'false');
     }
-  }, []); 
+  }, []);
   useEffect(() => {
     const Applicantname = localStorage.getItem('Applicantname');
     const jdname = localStorage.getItem('Jdname');
@@ -637,15 +644,16 @@ const Calendar = () => {
   const authenticateCalendarProvider = () => {
     dispatch(checkAuthMiddleware())
       .then((res) => {
-        if (res.payload.status === true) {
-          if (res.payload.account === 'google') {
+        const payload = res.payload as IntegrateEntity;
+        if (payload.status === true) {
+          if (payload.account === 'google') {
             setCalendarProvider(CALENDAR.Google);
             handleGetEvents(CALENDAR.Google);
           } else {
             setCalendarProvider(CALENDAR.Outlook);
             handleGetEvents(CALENDAR.Outlook);
           }
-          localStorage.setItem('userId', res.payload.user);
+          localStorage.setItem('userId', payload.user);
           setIsCalendarIntegrated(true);
         } else {
           setIsCalendarIntegrated(false);
@@ -758,21 +766,24 @@ const Calendar = () => {
                 (event) => event.eventId !== eventPopUpDetails?.eventId,
               ),
             );
-            toast.success('Event cancelled successfully', {
-              duration: 3500,
-            });
+            // toast.success('Event cancelled successfully', {
+            //   duration: 3500,
+            // });
+            Toast('Event cancelled successfully', 'LONG', 'success');
           } else {
-            toast.error('Failed to Delete Event', {
-              duration: 3500,
-            });
+            // toast.error('Failed to Delete Event', {
+            //   duration: 3500,
+            // });
+            Toast('Failed to Delete Event', 'LONG', 'error');
           }
         })
         .catch((err: any) => {
           console.error({ delete: err });
           setOpenEventDeleteModal(false);
-          toast.error('Failed to Delete Event', {
-            duration: 3500,
-          });
+          // toast.error('Failed to Delete Event', {
+          //   duration: 3500,
+          // });
+          Toast('Failed to Delete Event', 'LONG', 'error');
         });
     } else {
       dispatch(
@@ -791,20 +802,24 @@ const Calendar = () => {
                 (event) => event.eventId !== eventPopUpDetails.eventId,
               ),
             );
-            toast.success('Event cancelled successfully', {
-              duration: 3500,
-            });
+            // toast.success('Event cancelled successfully', {
+            //   duration: 3500,
+            // });
+            Toast('Event cancelled successfully', 'LONG', 'success');
           } else {
-            toast.error('Failed to Delete Event', {
-              duration: 3500,
-            });
+            // toast.error('Failed to Delete Event', {
+            //   duration: 3500,
+            // });
+            Toast('Failed to Delete Event', 'LONG', 'error');
           }
         })
         .catch((err: any) => {
           console.error(err);
-          toast.error('Failed to Delete Event', {
-            duration: 3500,
-          });
+          // toast.error('Failed to Delete Event', {
+          //   duration: 3500,
+          // });
+          Toast('Failed to Delete Event', 'LONG', 'error');
+
           setOpenEventDeleteModal(false);
         });
     }
@@ -1046,29 +1061,27 @@ const Calendar = () => {
         options={globalZones}
         isSearchable={true}
         defaultValue={{ label: currentTimeZone, value: currentTimeZone }}
-        onChange={(option) => handleChangeTimeZone(option.value)} 
-        
+        onChange={(option) => handleChangeTimeZone(option.value)}
       />
     </div>
   );
 
   const CalendarHeaderView = (
     <>
-      
-        <div className={styles.calendarLogo}>
-          {/* <SvgCalendar width={30} height={30} /> */}
-          <Text bold size={16} color="theme">
-            Calendar
-          </Text>
-          <div className={styles.triangle}> </div>
-          {/* <SvgCalendar width={30} height={30} /> */}
-          {/* <Text bold size={16} color="theme">
+      <div className={styles.calendarLogo}>
+        {/* <SvgCalendar width={30} height={30} /> */}
+        <Text bold size={16} color="theme">
+          Calendar
+        </Text>
+        <div className={styles.triangle}> </div>
+        {/* <SvgCalendar width={30} height={30} /> */}
+        {/* <Text bold size={16} color="theme">
             Calendar
           </Text> */}
-          {/* <div className={styles.triangle}> </div> */}
-        </div>
+        {/* <div className={styles.triangle}> </div> */}
+      </div>
 
-      <Flex row between >
+      <Flex row between>
         {' '}
         <Flex className={styles.calendarInputs} marginTop={10}>
           <Flex row center marginRight={15}>
@@ -1084,7 +1097,8 @@ const Calendar = () => {
             </Text>
             <CalendarTypeMenu
               style={{
-                margin: '0px 10px', fontSize: '13px'
+                margin: '0px 10px',
+                fontSize: '13px',
               }}
               handleTeamMemberEvents={handleTeamMemberEvents}
               currentCalendarType={currentCalendarType}
@@ -1115,8 +1129,12 @@ const Calendar = () => {
   );
 
   if (isLoading) {
-    return <CalendarScreenLoader />;
+    return <Loader />;
   }
+
+  // const allViews = Object.keys(BigCalendar.Views).map(
+  //   (k) => BigCalendar.Views[k],
+  // );
 
   return (
     <div
@@ -1126,11 +1144,12 @@ const Calendar = () => {
         width: '100%',
         height: '100%',
         overflow: 'hidden',
-        paddingBottom: 15,
+        // paddingBottom: 15,
       }}
     >
       <Toaster position="top-right" reverseOrder={false} />
-      <TopLineLoader show={isTopLineLoading} />
+      {/* <TopLineLoader show={isTopLineLoading} /> */}
+
       <div
         style={{
           display: 'flex',
@@ -1150,7 +1169,10 @@ const Calendar = () => {
                     events={visibleEvents}
                     dayLayoutAlgorithm={'no-overlap'}
                     defaultView={'work_week'}
-                    views={['day', 'work_week', 'week', 'month']}
+                    views={['day', 'work_week', 'week', 'month', 'agenda']}
+                    onShowMore={(events, date) =>
+                      useState({ showModal: true, events })
+                    }
                     onSelectSlot={(slotInfo) => {
                       handleOnSelectSlot(slotInfo);
                     }}
@@ -1187,8 +1209,7 @@ const Calendar = () => {
                 )}
               </>
             )}
-            {console.log(currentEventId,'111111111currentEventIdcurrentEventIdcurrentEventIdcurrentEventIdcurrentEventId')}
-            {console.log("adadadad",openScheduleForm)}
+
             {openScheduleForm && (
               <MeetingSchedulingScreen
                 username={currentUser.name}
@@ -1196,9 +1217,10 @@ const Calendar = () => {
                 currentUser={currentUser}
                 currentUserEvents={currentUserEvents}
                 EventId={currentEventId}
-                cand_name={isApplicantname}
-                jd_name={isJdname}
-                jd_id={Number(isjdid)}
+                eventId={currentEventId}
+                cand_name={param.get('name') || isApplicantname}
+                jd_name={param.get('jobTitle') || isJdname}
+                jd_id={Number(param.get('id')) || Number(isjdid)}
                 APPLY={throughApplicant}
                 calendarProvider={calendarProvider}
                 editEventDetails={isEditEvent ? editEventDetails[0] : null}
@@ -1215,6 +1237,21 @@ const Calendar = () => {
           IntegrationMenuView
         )}
       </div>
+
+      {isTopLineLoading && (
+        <Flex
+          style={{
+            position: ' fixed',
+            top: 0,
+            bottom: 0,
+            right: 0,
+            left: 0,
+            zIndex: 100000000,
+          }}
+        >
+          <Loader />
+        </Flex>
+      )}
     </div>
   );
 };

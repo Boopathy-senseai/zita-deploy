@@ -154,7 +154,12 @@ const MessageCard = () => {
                       style={{ fontSize: '14px', textTransform: 'uppercase' }}
                       initials={`${list?.first_name&&list?.first_name[0]}${list?.last_name && list?.last_name[0]
                         }`}
-                    />
+                      avatar={
+                  list?.profile_pic && list?.profile_pic !== 'default.jpg'
+                    ? `${process.env.REACT_APP_HOME_URL}media/${list?.profile_pic}`
+                    : undefined
+                }
+              />
                     <Flex>
                       {list.can_source === 'applicant' ? (
                         <Text

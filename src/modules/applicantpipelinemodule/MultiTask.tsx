@@ -1,20 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import SvgCalendar from '../../icons/SvgCalendar';
 import SvgDownload from '../../icons/SvgDownload';
 import SvgView from '../../icons/SvgView';
-import { AppDispatch } from '../../store';
+import { AppDispatch, RootState } from '../../store';
 import Button from '../../uikit/Button/Button';
-// import Modal from '../../uikit/Modal/Modal';
 import Card from '../../uikit/Card/Card';
-// import SvgOrganizer from '../../icons/SvgOrganizer';
-// import SvgInterviewCalendar from '../../icons/SvgInterviewCalendar';
-// import SvgInterviewers from '../../icons/SvgInterviewers';
-import {
-  // GARY_4,
-  PRIMARY,
-} from '../../uikit/Colors/colors';
+import { PRIMARY } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
 import { getDateString, isEmpty, workExperience } from '../../uikit/helper';
 import Text from '../../uikit/Text/Text';
@@ -29,7 +23,6 @@ import {
   applicantFavoriteMiddleWare,
 } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import MeetingSchedulingScreen from '../calendarModule/MeetingSchedulingScreen';
-// import SvgCloseSmall from '../../icons/SvgCloseSmall';
 import {
   CALENDAR,
   EditEventDetails,
@@ -39,10 +32,12 @@ import {
 import { getEditEventsDetails } from '../calendarModule/util';
 import SvgHeart from '../../icons/SvgHearts';
 import Avatar, { getUserInitials } from '../../uikit/Avatar';
+import { calendarRoute } from '../../appRoutesPath';
 import {
   ApplicantEntity,
   GoogleEntity,
   ICardSelectionData,
+  IntegrateEntity,
   JobDetailsEntity,
   KANBAN_COLUMN_WIDTH,
 } from './applicantPipeLineTypes';
@@ -76,6 +71,7 @@ const MultiTask = ({
   isSelected,
   onRefresh,
 }: Props) => {
+  const history = useHistory();
   const { section, columnId, stage_name } = column;
   const [isCalender, setCalender] = useState('popup');
   const [isProfileView, setProfileView] = useState(false);
@@ -94,11 +90,6 @@ const MultiTask = ({
       setCalender('google');
     }
   }, [google, outlook]);
-
-  // const calenderTitle =
-  //   isCalender === 'popup'
-  //     ? 'Integrate your calendar to schedule meetings'
-  //     : 'Schedule Meetings';
 
   // let link: string;
   // if (isCalender === 'outlook') {
@@ -141,77 +132,110 @@ const MultiTask = ({
         console.log(err);
       });
   };
+  const { checkauth } = useSelector(
+    ({ applicantPipeLineDataReducers }: RootState) => {
+      return {
+        checkauth: applicantPipeLineDataReducers.checkauth,
+        // job_details: applicantPipeLineReducers.job_details
+      };
+    },
+  );
+  const calenderTitle =
+    checkauth && checkauth.status !== true
+      ? 'Integrate your calendar to schedule meetings'
+      : 'Schedule Meetings';
 
-  const scheduleEventHandler = () => {
-    setIsLoad(true);
-    dispatch(checkAuthMiddleware())
-      .then((res) => {
-        if (res.payload.status === true) {
-          if (res.payload.account === 'google') {
-            setIsGoogle(1);
-          } else {
-            setIsGoogle(0);
-          }
-          getEventHandler(res.payload.account);
-        } else {
-          console.log('error');
-          setActive(0);
-        }
-      })
-      .then(() => {
-        dispatch(getUsersByCompanyMiddleware()).then((res) => {
-          setUsers(
-            res.payload.users.map(
-              (items: {
-                email: string;
-                first_name: string;
-                last_name: string;
-                user_id: number;
-              }) => {
-                return {
-                  email: items.email,
-                  firstName: items.first_name,
-                  lastName: items.last_name,
-                  userId: items.user_id,
-                };
-              },
-            ),
-          );
-        });
-      })
-      .then(() => {
-        // let candId = task.candidate_id_id
-        // let jdId = task.jd_id_id
-        // dispatch(getEventsMiddleware({candId,jdId})).then((res) => {
-        //   console.log(res)
-        //   if(res.payload.data === true){
-        //     let stime = new Date(res.payload.event[0].s_time).toLocaleTimeString('en',
-        //     { timeStyle: 'short', hour12: false, timeZone: 'UTC' });
-        //     let etime = new Date(res.payload.event[0].e_time).toLocaleTimeString('en',
-        //     { timeStyle: 'short', hour12: false, timeZone: 'UTC' });
-        //     setValue([
-        //       {
-        //         'applicant':res.payload.event[0].applicant,
-        //         'sDate':res.payload.event[0].s_time,
-        //         'sTime':stime,
-        //         'eTime':etime,
-        //         'event':res.payload.event[0].event_type,
-        //         'interviewers':res.payload.event[0].interviewers.split(",")
-        //       }
-        //     ])
-        //     setIsLoad(false);
-        //     setCard(true);
-        //   }
-        //   else{
-        //     setIsLoad(false);
-        //     openForm();
-        //   }
-        // }).catch(() => {
-        //   setIsLoad(false);
-        // })
-        editEventHandler();
-      });
+  const identifyCalendarNav = (doc: ApplicantEntity) => {
+    if (checkauth && checkauth.status === true) {
+      const params = new URLSearchParams();
+      params.append('action', 'open-scheduler-form');
+      params.append('id', `${doc.id}`);
+      params.append('jobId', `${doc.jd_id_id}`);
+      params.append('name', doc.name);
+      params.append('jobTitle', job_details.job_title)
+      const url = `${calendarRoute}?${params}`;
+      window.open(url);
+    } else {
+      sessionStorage.setItem('superUserTab', '4');
+      sessionStorage.setItem('superUserFalseTab', '3');
+      history.push('/account_setting/settings');
+    }
   };
+
+  // const scheduleEventHandler = () => {
+  //   setIsLoad(true);
+  //   const params = new URLSearchParams();
+  //   params.append('action', 'open-scheduler-form');
+  //   const url = `${calendarRoute}?${params}`;
+  //   window.open(url);
+  //   dispatch(checkAuthMiddleware())
+  //     .then((res) => {
+  //       const payload = res.payload as IntegrateEntity;
+  //       if (payload.status === true) {
+  //         if (payload.account === 'google') {
+  //           setIsGoogle(1);
+  //         } else {
+  //           setIsGoogle(0);
+  //         }
+  //         getEventHandler(payload.account);
+  //       } else {
+  //         // setActive(0);
+  //       }
+  //     })
+  //     .then(() => {
+  //       dispatch(getUsersByCompanyMiddleware()).then((res) => {
+  //         setUsers(
+  //           res.payload.users.map(
+  //             (items: {
+  //               email: string;
+  //               first_name: string;
+  //               last_name: string;
+  //               user_id: number;
+  //             }) => {
+  //               return {
+  //                 email: items.email,
+  //                 firstName: items.first_name,
+  //                 lastName: items.last_name,
+  //                 userId: items.user_id,
+  //               };
+  //             },
+  //           ),
+  //         );
+  //       });
+  //     })
+  //     .then(() => {
+  //       // let candId = task.candidate_id_id
+  //       // let jdId = task.jd_id_id
+  //       // dispatch(getEventsMiddleware({candId,jdId})).then((res) => {
+  //       //   console.log(res)
+  //       //   if(res.payload.data === true){
+  //       //     let stime = new Date(res.payload.event[0].s_time).toLocaleTimeString('en',
+  //       //     { timeStyle: 'short', hour12: false, timeZone: 'UTC' });
+  //       //     let etime = new Date(res.payload.event[0].e_time).toLocaleTimeString('en',
+  //       //     { timeStyle: 'short', hour12: false, timeZone: 'UTC' });
+  //       //     setValue([
+  //       //       {
+  //       //         'applicant':res.payload.event[0].applicant,
+  //       //         'sDate':res.payload.event[0].s_time,
+  //       //         'sTime':stime,
+  //       //         'eTime':etime,
+  //       //         'event':res.payload.event[0].event_type,
+  //       //         'interviewers':res.payload.event[0].interviewers.split(",")
+  //       //       }
+  //       //     ])
+  //       //     setIsLoad(false);
+  //       //     setCard(true);
+  //       //   }
+  //       //   else{
+  //       //     setIsLoad(false);
+  //       //     openForm();
+  //       //   }
+  //       // }).catch(() => {
+  //       //   setIsLoad(false);
+  //       // })
+  //       editEventHandler();
+  //     });
+  // };
   // const [value,setValue] = useState<any[]>([]);
   // const [card,setCard] = useState(false);
   const [isGoogle, setIsGoogle] = useState(2);
@@ -330,9 +354,6 @@ const MultiTask = ({
   useEffect(() => {
     setIsLoad(false);
   }, []);
-  // const cardHandler = () => {
-  //   setCard(false);
-  // }
 
   const hanldeFavAction = (can_id: number, jd_id: number) => {
     dispatch(applicantFavoriteMiddleWare({ can_id, jd_id }));
@@ -349,7 +370,7 @@ const MultiTask = ({
               currentUserEvents={myevents}
               cand_email={task.email}
               editEventDetails={editDetails}
-              eventId={eventId}
+              EventId={eventId}
               cand_id={task.candidate_id_id}
               jd_id={task.jd_id_id}
               cand_name={task.name}
@@ -359,6 +380,7 @@ const MultiTask = ({
               teamMembers={users}
               openScheduleForm={open}
               handleEventScheduleForm={openForm}
+            
             />
           ) : (
             <MeetingSchedulingScreen
@@ -665,20 +687,10 @@ const MultiTask = ({
                       />
                     </div>
                     {columnId !== 0 && stage_name !== 'Rejected' && (
-                      // <a
-                      //   rel="noopener noreferrer"
-                      //   title={calenderTitle}
-                      //   className={
-                      //     isCalender === 'popup'
-                      //       ? styles.svgCalnStyle
-                      //       : styles.svgDownloadStyle
-                      //   }
-                      //   href={link}
-                      //   target={'_blank'}
-                      // >
                       <Flex
-                        onClick={scheduleEventHandler}
+                        onClick={() => identifyCalendarNav(task)}
                         style={{ cursor: 'pointer' }}
+                        title={calenderTitle}
                       >
                         <SvgCalendar fill={PRIMARY} width={16} height={16} />
                       </Flex>

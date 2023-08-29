@@ -13,6 +13,8 @@ import {
   OUTLOOk_MAIL_INTEGRATE,
   GOOGLE_MAIL_INTEGRATE,
   GOOGLE_MAIL_REMOVE,
+  GOOGLE_CALL_BACK_URL,
+  OUTLOOK_CALL_BACK_URL,
 } from '../../../../actions/actions';
 import {
   maillist,
@@ -22,6 +24,8 @@ import {
   outlookmailIntegrate,
   google_mail_integrate,
   google_mail_remove,
+  google_callback,
+  outlook_callback,
 } from '../../../../routes/apiRoutes';
 import config from '../../../../outlookmailConfig';
 
@@ -125,3 +129,44 @@ export const google_remove = createAsyncThunk(GOOGLE_MAIL_REMOVE, async () => {
     return typedError;
   }
 });
+
+export const Google_Auth = createAsyncThunk(
+  GOOGLE_CALL_BACK_URL,
+  async ({ codeUrl }: { codeUrl: string | null }, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(google_callback, {
+        params: { accessToken: codeUrl },
+      });
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return typedError;
+    }
+  },
+);
+
+export const Outlook_Auth = createAsyncThunk(
+  OUTLOOK_CALL_BACK_URL,
+  async (
+    {
+      code,
+      state,
+      session_state,
+    }: {
+      code: string | null;
+      state: string | null;
+      session_state: string | null;
+    },
+    { rejectWithValue },
+  ) => {
+    try {
+      const { data } = await axios.get(outlook_callback, {
+        params: { code, state, session_state },
+      });
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return typedError;
+    }
+  },
+);

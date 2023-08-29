@@ -8,6 +8,7 @@ export type formikFormTypes = {
   pageFontSize: string;
   headerFontSize: string;
   headerColor: color;
+  fontColor: color;
   menu1: string;
   menu1Url: string;
   menu2: string;

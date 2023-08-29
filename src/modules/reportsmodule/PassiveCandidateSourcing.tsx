@@ -316,7 +316,7 @@ const PassiveCandidateReports = () => {
             <Flex style={{ justifyContent: 'center', marginBotto: '2px' }}>
               <SvgNoDataIcon width={16} height={16} fill={'#888'} />
             </Flex>
-            <Text style={{ color: '#888' }}>No Data Available</Text>
+            <Text style={{ color: '#888' }}>No data available</Text>
           </Flex>
         )}
         {add_on_dict && add_on_dict.length > 0 && isChart && (
@@ -332,7 +332,7 @@ const PassiveCandidateReports = () => {
             <Table
               columns={columns}
               dataSource={add_on_dict}
-              empty="No Data Available"
+              empty="No data available"
               scrollHeight={270}
               border="normal"
               fixedScrollHeight

@@ -65,12 +65,16 @@ const FooterSetup = ({ formik, setReload }: Props) => {
             label="Button Color"
             required
             actionRight={() => (
-              <Button
+              <Flex marginTop={-2.5}>
+                <Button
                 types="link"
                 onClick={() => setBtnColorOpen(!isBtnColorOpen)}
               >
                 <SvgSquare fill={formik.values.btnColor.hex} />
               </Button>
+
+              </Flex>
+              
             )}
             onChange={(e) => {
               setReload();
@@ -111,13 +115,17 @@ const FooterSetup = ({ formik, setReload }: Props) => {
             value={formik.values.footerColor.hex}
             label="Footer Color"
             actionRight={() => (
-              <Button
+              <Flex marginTop={-2.5}>
+                <Button
                 types="link"
                 onClick={() => setHeaderColorOpen(!isHeaderColorOpen)}
                 className={styles.svgSquare}
               >
                 <SvgSquare fill={formik.values.footerColor.hex} />
               </Button>
+
+              </Flex>
+              
             )}
           />
           {isHeaderColorOpen && (

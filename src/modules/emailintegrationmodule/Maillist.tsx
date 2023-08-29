@@ -33,22 +33,14 @@ type Props = {
   page: any;
   gmailunread: any;
   sidebarroute: any;
-  previousfun: () => void;
-  nextfun: () => void;
   range: any;
-  previous: any;
-  previous1: any;
-  total: any;
-  msglistcount: any;
-
   message: any;
   noEmails: boolean;
   integration: string;
-  pagetoken: any;
-  hasMore: any;
+
   isLoading: any;
   searchapi: boolean;
-  serchmessage: any;
+  isprofileview?:boolean;
   savemail: any;
   searchSection: string;
   search: any;
@@ -64,22 +56,13 @@ const Maillist = ({
   page,
   gmailunread,
   sidebarroute,
-  previousfun,
-  nextfun,
   range,
-  previous,
-  previous1,
-  total,
-  msglistcount,
-
   message,
+  isprofileview,
   noEmails,
   integration,
-  pagetoken,
-  hasMore,
   isLoading,
   searchapi,
-  serchmessage,
   savemail,
   searchSection,
   search,
@@ -204,6 +187,8 @@ const Maillist = ({
             {gmailunread === 0 ? 'Trash' : `Trash (${gmailunread})`}
           </Text>
         );
+      } else if (sideroute === 0) {
+        return <Text bold>Search Results</Text>;
       }
     } else if (integration === 'outlook') {
       if (mailfolders.length !== 0) {
@@ -443,7 +428,7 @@ const Maillist = ({
   };
 
   return (
-    <Flex style={{ margintop: '1px' }} className={styles.maillist}>
+    <Flex style={{ margintop: '1px' }} className={styles.maillist} height={isprofileview?window.innerHeight - 95:window.innerHeight - 115}>
       <Flex
         row
         between
@@ -451,13 +436,13 @@ const Maillist = ({
           borderBottom: '1px solid #c3c3c3',
         }}
       >
-        <Flex style={{ padding: '6px' }}>{showfolder()}</Flex>
+        <Flex style={{ padding: '8px' }}>{showfolder()}</Flex>
 
         <Flex row center>
           {sidebarroute !== 0 && <></>}
-          {/* <Flex title="Refresh" style={{ padding: '6px' }}>
-            <SvgRefresh width={18} height={18} onClick={referesh} />
-          </Flex> */}
+          <Flex title="Refresh" style={{ padding: '6px' }}>
+            {/* <SvgRefresh width={18} height={18} onClick={referesh} /> */}
+          </Flex>
         </Flex>
       </Flex>
       <Flex

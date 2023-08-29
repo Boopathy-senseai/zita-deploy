@@ -144,7 +144,7 @@
   top: 0;
   left: 0;
   background-color: #ffffff;
-  overflow-x: hidden;
+  overflow: hidden;
   padding-top: 16px;
   box-shadow: 1px 2px 2px #d7c7d2;
   border-top-right-radius: 0px;
@@ -187,10 +187,6 @@
   cursor: not-allowed;
 }
 .selectitem {
-  border-radius: 5px 5px 5px 5px;
-  color: #581845;
-  background-color: #eee8ec;
-  border-left: 6px solid #581845 !important;
   cursor: not-allowed;
 }
 
@@ -241,10 +237,9 @@
 }
 
 .sidebar .setting {
-  position: absolute;
-  bottom: 0;
-
-  
+  /* position: absolute;
+  bottom: 0; */
+  margin-top: 20px;
 }
 
 .sidebarmini .setting {

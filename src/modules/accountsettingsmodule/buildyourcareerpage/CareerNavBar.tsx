@@ -36,7 +36,7 @@ const CareerNavBar = ({
   const menuStyle = {
     fontSize: career_page_setting.header_font_size,
     fontFamily: career_page_setting.page_font,
-    // color: career_page_setting.header_color,
+    color: career_page_setting.font_color,
     cursor: 'pointer',
     // backgroundColor: career_page_setting.button_color,
   };
@@ -107,7 +107,7 @@ const CareerNavBar = ({
             onClick={() => setOpen(false)}
             className={styles.svgClose}
           >
-            <SvgCloseSmall fill="#979797" />
+            <SvgCloseSmall fill="#888888" />
           </div>
           <Flex columnFlex>
             {!isEmpty(career_page_setting.menu_1) && (
@@ -263,13 +263,18 @@ const CareerNavBar = ({
                   className={styles.loginbtn}
                   types="secondary"
                   style={{
-                    // fontSize: career_page_setting.header_font_size,
                     fontFamily: "'Roboto', sans-serif",
-                    //  margin: '10px',
-                     height: '100%',
+                    // color: career_page_setting.font_color ,
+                    height: '100%',
+                    border:"2px solid",
+                    borderColor: career_page_setting.font_color,
+                    background:"none"
                   }}
                 >
+                  <Text bold style={{color: career_page_setting.font_color ,}}>
                   Login / Sign Up
+                  </Text>
+                  
                 </Button>
               </Flex>
 
@@ -283,11 +288,17 @@ const CareerNavBar = ({
               >
                 Sign Up
               </Button> */}
-              <Flex style={{ borderLeft: '1px solid #333' }}>
+              <Flex
+                style={{
+                  borderLeft: '1px solid',
+                  borderColor: career_page_setting.font_color,
+                }}
+              >
                 <Text
                   style={{
                     // fontSize: career_page_setting.header_font_size,
                     // fontFamily: career_page_setting.page_font,
+                    color: career_page_setting.font_color,
                     margin: '10px',
                     height: '100%',
                   }}

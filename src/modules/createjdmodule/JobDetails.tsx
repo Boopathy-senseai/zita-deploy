@@ -140,11 +140,12 @@ const JobDetails = ({
       setFieldValue('maximumSalary', jd_output.salary_max);
     }
     if (
-      !isEmpty(jd_output.salary_curr_type_id) && jd_output.salary_curr_type_id !== 0
+      !isEmpty(jd_output.salary_curr_type_id) &&
+      jd_output.salary_curr_type_id !== 0
     ) {
       setFieldValue('currency', jd_output.salary_curr_type_id.toString());
-    } else{
-      setFieldValue('currency', '240'); 
+    } else {
+      setFieldValue('currency', '240');
     }
     setFieldValue(
       'showSalaryCandidates',
@@ -201,7 +202,7 @@ const JobDetails = ({
 
   return (
     <Flex className={styles.overAll}>
-      <Flex style={{overflow:"scroll"}}>
+      <Flex >
       <Text size={14}className={styles.jobTitle} bold>
         Job Details
       </Text>
@@ -433,112 +434,124 @@ const JobDetails = ({
             value={values.maximumSalary}
           />
 
-          {Number(values.jobType) === 3 &&
-            !isEmpty(values.maximumSalary) &&
-            Number(values.maximumSalary) > 1000 && (
-              <Text size={12} color="error">
-                {ENTER_LESS_1000}
-              </Text>
-            )}
+              {Number(values.jobType) === 3 &&
+                !isEmpty(values.maximumSalary) &&
+                Number(values.maximumSalary) > 1000 && (
+                  <Text size={12} color="error">
+                    {ENTER_LESS_1000}
+                  </Text>
+                )}
 
-          {Number(values.jobType) !== 3 &&
-            !isEmpty(values.maximumSalary) &&
-            Number(values.maximumSalary) > 9000000 && (
-              <Text size={12} color="error">
-                {ENTER_LESS_9000000}
-              </Text>
-            )}
-          {!isEmpty(values.minimumSalary) &&
-            !isEmpty(values.maximumSalary) &&
-            Number(values.minimumSalary) >= Number(values.maximumSalary) && (
-              <Text size={12} color="error">
-                {GREATER_THAN_MIN}
-              </Text>
-            )}
-          {!isEmpty(values.minimumSalary) && isEmpty(values.maximumSalary) && (
-            <Text size={12} color="error">
-              {THIS_FIELD_REQUIRED}
-            </Text>
-          )}
-        </Flex>
-        <Flex flex={3} className={styles.margin16}>
-          <SelectTag
-            options={currencyData}
-            label="Currency"
-            required
-            isSearchable
-            value={
-              currencyData
-                ? currencyData.find(
-                    (option) =>
-                      Number(option.value) === Number(values.currency),
-                  )
-                : ''
-            }
-            onChange={(option) => {
-              setFieldValue('currency', option.value);
-              onDirty();
-            }}
+              {Number(values.jobType) !== 3 &&
+                !isEmpty(values.maximumSalary) &&
+                Number(values.maximumSalary) > 9000000 && (
+                  <Text size={12} color="error">
+                    {ENTER_LESS_9000000}
+                  </Text>
+                )}
+              {!isEmpty(values.minimumSalary) &&
+                !isEmpty(values.maximumSalary) &&
+                Number(values.minimumSalary) >=
+                  Number(values.maximumSalary) && (
+                  <Text size={12} color="error">
+                    {GREATER_THAN_MIN}
+                  </Text>
+                )}
+              {!isEmpty(values.minimumSalary) && isEmpty(values.maximumSalary) && (
+                <Text size={12} color="error">
+                  {THIS_FIELD_REQUIRED}
+                </Text>
+              )}
+            </Flex>
+            <Flex flex={3} className={styles.margin16}>
+              <SelectTag
+                options={currencyData}
+                label="Currency"
+                required
+                isSearchable
+                value={
+                  currencyData
+                    ? currencyData.find(
+                        (option) =>
+                          Number(option.value) === Number(values.currency),
+                      )
+                    : ''
+                }
+                onChange={(option) => {
+                  setFieldValue('currency', option.value);
+                  onDirty();
+                }}
+              />
+              {isEmpty(values.currency) && (
+                <ErrorMessage
+                  name={'currency'}
+                  errors={errors}
+                  touched={touched}
+                />
+              )}
+            </Flex>
+            <Flex row flex={3} className={styles.showStyle}>
+              <InputSwitch
+                disabled={isEmpty(values.minimumSalary)}
+                label="Show Salary to Candidates"
+                checked={values.showSalaryCandidates === '1'}
+                onClick={() =>
+                  values.showSalaryCandidates === '0'
+                    ? setFieldValue('showSalaryCandidates', '1')
+                    : setFieldValue('showSalaryCandidates', '0')
+                }
+              />
+              {/* <Text size={14} color="theme">Show Salary to Candidates</Text> */}
+            </Flex>
+          </Flex>
+          <QulificationAdd
+            values={values}
+            setFieldValue={setFieldValue}
+            updateQualification={updateQualification}
           />
-      <ErrorMessage name={'currency'} errors={errors} touched={touched} />
         </Flex>
-        <Flex row flex={3} className={styles.showStyle}>
-          <InputSwitch
-            disabled={isEmpty(values.minimumSalary)}
-            label="Show Salary to Candidates"
-            checked={values.showSalaryCandidates === '1'}
-            onClick={() =>
-              values.showSalaryCandidates === '0'
-                ? setFieldValue('showSalaryCandidates', '1')
-                : setFieldValue('showSalaryCandidates', '0')
-            }
-          />
-          {/* <Text size={14} color="theme">Show Salary to Candidates</Text> */}
-        </Flex>
-      </Flex>
-      <QulificationAdd
-        values={values}
-        setFieldValue={setFieldValue}
-        updateQualification={updateQualification}
-      />
-      </Flex>
       <Flex>
-      <Flex row center end className={styles.btnContainer}>
-        <LinkWrapper onClick={() => onPristine()} to={routesPath.MY_JOB_POSTING}>
-          <Button className={styles.cancelbtn} types="close">{CANCEL}</Button>
-        </LinkWrapper>
+        <Flex row center end className={styles.btnContainer}>
+          <LinkWrapper
+            onClick={() => onPristine()}
+            to={routesPath.MY_JOB_POSTING}
+          >
+            <Button className={styles.cancelbtn} types="close">
+              {CANCEL}
+            </Button>
+          </LinkWrapper>
 
-        <Button
-          onClick={() => {
-            setDraftSave(true);
-            setDrftLoader(false);
-            onPristine();
-            setVacancies(false);
-            hanldeErrorFocus();
-            setTimeout(() => {
-              handleSubmit();
-            }, 200);
-          }}
-          types="secondary"
-          className={styles.draftBtn}
-        >
-          Save as draft
-        </Button>
-        <Button
-          onClick={() => {
-            onPristine();
-            setDraftSave(false);
-            setVacancies(true);
-            hanldeErrorFocus();
-            setTimeout(() => {
-              handleSubmit();
-            }, 200);
-            setDrftLoader(true);
-          }}
-        >
-          Next
-        </Button>
-      </Flex>
+          <Button
+            onClick={() => {
+              setDraftSave(true);
+              setDrftLoader(false);
+              onPristine();
+              setVacancies(false);
+              hanldeErrorFocus();
+              setTimeout(() => {
+                handleSubmit();
+              }, 200);
+            }}
+            types="secondary"
+            className={styles.draftBtn}
+          >
+            Save as draft
+          </Button>
+          <Button
+            onClick={() => {
+              onPristine();
+              setDraftSave(false);
+              setVacancies(true);
+              hanldeErrorFocus();
+              setTimeout(() => {
+                handleSubmit();
+              }, 200);
+              setDrftLoader(true);
+            }}
+          >
+            Next
+          </Button>
+        </Flex>
       </Flex>
     </Flex>
   );

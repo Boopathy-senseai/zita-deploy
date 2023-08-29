@@ -51,7 +51,8 @@
   border: none !important;
   border-radius: 0 !important;
   scroll-behavior: smooth;
-  width: 160px;
+  width: 170px;
+  font-size: 13px !important;
   text-overflow: ellipsis;
 }
 .searchstyle {

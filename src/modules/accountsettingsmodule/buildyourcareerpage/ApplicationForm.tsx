@@ -252,7 +252,6 @@ const ApplicationForm = ({
   // error message focus function
   const errorFocus = () => {
     if (!isEmpty(formik.errors.qualification)) {
-      console.log('erorrr');
       getFocus('applicationform___qualification');
     } else if (!isEmpty(formik.errors.aboutUs)) {
       getFocus('applicationform___about_as');

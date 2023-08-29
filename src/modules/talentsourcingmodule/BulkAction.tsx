@@ -187,10 +187,11 @@ console.log("map",value);
               paddingLeft: '5px',
               borderLeft: '1px solid #581845',
               cursor: 'pointer',
+              alignItems:"center"
             }}
             onClick={handleUnlockSubmit}
           >
-          <SvgLock fill={PRIMARY} height={16} width={16} />
+          <SvgLock fill={PRIMARY} height={15} width={15} />
             <Text bold
               style={{ marginLeft: '10px' }}  
               color="theme"          

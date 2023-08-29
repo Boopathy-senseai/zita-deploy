@@ -61,7 +61,13 @@ const ApplicantProfileScreen = () => {
       setTabValue(5);
     }
   }, []);
-
+  useEffect(()=>{
+  const url = window.location.href;
+  const applicantpipelineUrl = url.includes('/?2'); 
+  if(applicantpipelineUrl){ 
+    setTabValue(1)
+  }
+},[])
   // initial api call
   useEffect(() => {
     dispatch(permissionMiddleWare());
@@ -295,7 +301,7 @@ const ApplicantProfileScreen = () => {
         <Flex flex={1} row className={styles.tabContainer}>
           {!isTab ? (
             <Flex flex={12} className={styles.tabLeftFlex}>
-              <ApplicantTabLeftOne />
+              <ApplicantTabLeftOne activeState={isTabValue} />
             </Flex>
           ) : (
             <Flex flex={7} className={styles.tabLeftFlex}>
