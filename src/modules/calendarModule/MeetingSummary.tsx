@@ -1,10 +1,18 @@
 import { Key, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import toast from 'react-hot-toast';
+// import toast from 'react-hot-toast';
 import { useFormik } from 'formik';
 import { AppDispatch } from '../../store';
-import { InputText, Button, Flex, SelectTag, Text } from '../../uikit';
-import { SvgCalendar, SvgEdit } from '../../icons';
+import {
+  InputText,
+  Button,
+  Flex,
+  SelectTag,
+  Text,
+  Toast,
+  Loader,
+} from '../../uikit';
+import { SvgCalendar, SvgCalendar1, SvgEdit } from '../../icons';
 import RichText from '../common/RichText';
 import ExpandTile from '../../uikit/ExpandTile';
 import { CrossButton } from '../../uikit/v2';
@@ -22,6 +30,7 @@ import {
 } from './types';
 import { formatTo12HrClock } from './util';
 import EmailTemplate from './EmailTemplate';
+// import { Toast } from 'react-bootstrap';
 
 interface Props {
   meetingForm: meetingFormProps;
@@ -29,7 +38,8 @@ interface Props {
   currentUserLabel: string;
   editEventDetails?: EditEventDetails | null;
   username: string;
-  EventId?:any;
+  EventId?: any;
+  eventId?: any;
   recurringEventId?: string | null;
   // extraNotes: string;
   currentApplicantId: number;
@@ -47,12 +57,14 @@ const MeetingSummary = ({
   username,
   nextEvent,
   EventId,
+  eventId,
   recurringEventId,
   // extraNotes,
   currentApplicantId,
   setIsTopLineLoading,
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
+  const [isloading, setIsloading] = useState(false);
   const [tileState, setTileState] = useState<{
     applicant: boolean;
     interviewer: boolean;
@@ -72,22 +84,25 @@ const MeetingSummary = ({
 
   useEffect(() => {
     if (recurringEventId) {
-      dispatch(getUpdateEventByIdMiddleWare({ event_id: recurringEventId })).then(
-        (res) => {
-          if (res.payload) {
-            // const array = res.payload as Array<{
-            //   [key: string]: string | null;
-            // }>;
-            // console.log(array['interviewer_notes'])
-            const obj = res.payload  as IEventNotes;
-            // const applicant = array[0] ? array[0]['extra_notes'] : undefined;
-            // const interviewer = array[1] ? array[1]['interviewer_notes'] : undefined;
-            const applicant = obj.extra_notes || undefined;
-            const interviewer = obj.interview_notes || undefined;
-            setGreetings(prev => ({ applicant: applicant || prev.applicant, interviewer: interviewer || prev.interviewer }));
-          }
-        },
-      );
+      dispatch(
+        getUpdateEventByIdMiddleWare({ event_id: recurringEventId }),
+      ).then((res) => {
+        if (res.payload) {
+          // const array = res.payload as Array<{
+          //   [key: string]: string | null;
+          // }>;
+          // console.log(array['interviewer_notes'])
+          const obj = res.payload as IEventNotes;
+          // const applicant = array[0] ? array[0]['extra_notes'] : undefined;
+          // const interviewer = array[1] ? array[1]['interviewer_notes'] : undefined;
+          const applicant = obj.extra_notes || undefined;
+          const interviewer = obj.interview_notes || undefined;
+          setGreetings((prev) => ({
+            applicant: applicant || prev.applicant,
+            interviewer: interviewer || prev.interviewer,
+          }));
+        }
+      });
     }
   }, []);
 
@@ -96,10 +111,13 @@ const MeetingSummary = ({
       meetingForm.eventType.value
     } on ${meetingForm.startDateTime.toDateString()} from ${formatTo12HrClock(
       meetingForm.startDateTime,
-    )} to ${formatTo12HrClock(
-      meetingForm.endDateTime,
-    )} with 
-    ${(localStorage.getItem('Applicantsname') !=='' && localStorage.getItem('Applicantsname') !== null) ?localStorage.getItem('Applicantsname'):currentUserLabel}`
+    )} to ${formatTo12HrClock(meetingForm.endDateTime)} with 
+    ${
+      localStorage.getItem('Applicantsname') !== '' &&
+      localStorage.getItem('Applicantsname') !== null
+        ? localStorage.getItem('Applicantsname')
+        : currentUserLabel
+    }`;
   };
 
   const getReminder = () => {
@@ -113,8 +131,8 @@ const MeetingSummary = ({
     if (editEventDetails) {
       let edit_jd = editEventDetails.jobRole.value;
       let app_id = editEventDetails.applicant.id;
-
-      setIsTopLineLoading(true);
+      setIsloading(true);
+      // setIsTopLineLoading(true);
       dispatch(
         updateEventMiddleware({
           title: getMeetingTitle(),
@@ -123,7 +141,7 @@ const MeetingSummary = ({
           extraNotes: greetings.applicant,
           interviewer_notes: greetings.interviewer,
           myJd: meetingForm.job.label,
-          eventId:EventId !==''?EventId:recurringEventId,
+          eventId: eventId !== '' ? eventId : recurringEventId,
           privateNotes: meetingForm.privateNotes,
           eventType: meetingForm.eventType.value,
           edit_jd,
@@ -141,16 +159,18 @@ const MeetingSummary = ({
         }),
       )
         .then((res) => {
-          toast.success('Event Updated Successfully', {
-            duration: 3500,
-          });
-          localStorage.setItem('Applicantsname','')
+          // toast.success('Event Updated Successfully', {
+          //   duration: 3500,
+          // });
+          localStorage.setItem('Applicantsname', '');
           handleCloseSchedulingForm();
+          Toast(`Event Updated Successfully`, 'LONG', 'success');
         })
         .catch((err) => {
-          toast.error('Failed to Update Event', {
-            duration: 3500,
-          });
+          // toast.error('Failed to Update Event', {
+          //   duration: 3500,
+          // });
+          Toast('Failed to Update Event');
           console.error(err);
         })
         .finally(() => {
@@ -170,14 +190,16 @@ const MeetingSummary = ({
       interviewer,
       notes,
     } = meetingForm;
-
-    setIsTopLineLoading(true);
+     setIsloading(true);
+    // setIsTopLineLoading(true);
     dispatch(
       scheduleEventMiddleware({
         title: getMeetingTitle(),
-        applicantId: currentApplicantId?currentApplicantId:(Number(localStorage.getItem('can_id'))),
+        applicantId: currentApplicantId
+          ? currentApplicantId
+          : Number(localStorage.getItem('can_id')),
         myJd: job.label,
-        // (localStorage.getItem('jd_id')),  
+        // (localStorage.getItem('jd_id')),
         reminder: getReminder(),
         extraNotes: greetings.applicant,
         interviewer_notes: greetings.interviewer,
@@ -198,16 +220,18 @@ const MeetingSummary = ({
     )
       .then((res) => {
         handleCloseSchedulingForm();
-        toast.success('Event Scheduled Successfully', {
-          duration: 3500, 
-        });
-        localStorage.setItem('Applicantsname','')
+        // toast.success('Event Scheduled Successfully', {
+        //   duration: 3500,
+        // });
+        localStorage.setItem('Applicantsname', '');
+        Toast(`Event Scheduled Successfully`, 'LONG', 'success');
       })
       .catch((err) => {
         console.error(err);
-        toast.error('Failed to Schedule Event', {
-          duration: 3500,
-        });
+        // toast.error('Failed to Schedule Event', {
+        //   duration: 3500,
+        // });
+        Toast(`Failed to Schedule Event`, 'LONG', 'success');
       })
       .finally(() => {
         setIsTopLineLoading(false);
@@ -229,144 +253,173 @@ const MeetingSummary = ({
       <b>{formatTo12HrClock(meetingForm.startDateTime)}</b> to{' '}
       <b>{formatTo12HrClock(meetingForm.endDateTime)}</b> with{' '}
       {/* <b>{currentUserLabel}</b> */}
-
-      <b>{(localStorage.getItem('Applicantsname') !=='' && localStorage.getItem('Applicantsname') !== null) ?localStorage.getItem('Applicantsname'):currentUserLabel}</b>
+      <b>
+        {localStorage.getItem('Applicantsname') !== '' &&
+        localStorage.getItem('Applicantsname') !== null
+          ? localStorage.getItem('Applicantsname')
+          : currentUserLabel}
+      </b>
     </p>
   );
 
   return (
-    <div
-      style={{ display: 'flex', flexDirection: 'column', position: 'relative' }}
-    >
-      <CrossButton
-        onClick={handleCloseSchedulingForm}
-        size={10}
-        style={{ position: 'absolute', top: '12px', right: '15px' }}
-        fill={'#333'}
-      />
-      <div style={{ padding: '25px' }}>
-        <Flex
-          row
-          center
-          style={{
-            position: 'relative',
-            // padding: '25px 0px 0px',
-            // margin: '0px 25px',
-            borderBottom: '0.5px solid #581845',
-          }}
-        >
-          <SvgCalendar width={16} height={16} style={{ marginBottom: '5px' }} />
-          <Text
-            size={14}
-            bold
-            color="theme"
-            className={styles.formTitle}
-            style={{ marginBottom: '5px' }}
+    <>
+      {/* {isloading && <Loader/>} */}
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          position: 'relative',
+        }}
+      >
+        <CrossButton
+          onClick={handleCloseSchedulingForm}
+          size={10}
+          style={{ position: 'absolute', top: '12px', right: '15px' }}
+          fill={'#333'}
+        />
+        <div style={{ padding: '25px' }}>
+          <Flex
+            row
+            center
+            style={{
+              position: 'relative',
+              borderBottom: '0.5px solid #581845',
+            }}
           >
-            Meeting Notification Summary
-          </Text>
-        </Flex>
-        <Flex
-          className={styles.meetingSummary}
-          column
-          style={{
-            paddingBottom: 10,
-            // borderBottom: '1px solid #cccccc',
-            overflow: 'auto',
-            // maxHeight: '90vh',
-          }}
-        >
-          <div className={styles.summary}>
-            <p className={styles.header} style={{ marginTop: '5px', fontWeight:"bold" }}>
-              Summary
-            </p>
-            <div className={styles.content}>{MeetingTitleView}</div>
-          </div>
-          <ExpandTile
-            backgroundColor="#58184530"
-            activeColor="#333333"
-            title={'Email notification to Applicant'}
-            show={tileState?.applicant}
-            onClick={() =>
-              setTileState({ ...tileState, applicant: !tileState.applicant })
-            }
-          >
-            <EmailTemplate
-              {...meetingForm}
-              currentUserLabel={currentUserLabel}
-              greetingText={greetings.applicant}
-              email={applicantEmail?applicantEmail:localStorage.getItem('emailnote')}
-              interviewerData={meetingForm?.interviewer}
-              onSave={(value) => {
-                /// save this text to some field
-                setGreetings((prev) => ({ ...prev, applicant: value }));
-              }}
-              editGreeting={true}
-            />
-          </ExpandTile>
+            <Flex marginBottom={5}>
+              <SvgCalendar1 size={14} fill="#333" />
+            </Flex>
 
-          {meetingForm.interviewer.length !== 0 && (
+            <Text
+              size={14}
+              bold
+              // color="theme"
+              className={styles.formTitle}
+              style={{ marginBottom: '5px' }}
+            >
+              Meeting Notification Summary
+            </Text>
+          </Flex>
+          <Flex
+            className={styles.meetingSummary}
+            column
+            style={{
+              paddingBottom: 10,
+              // borderBottom: '1px solid #cccccc',
+              overflow: 'auto',
+              // maxHeight: '90vh',
+            }}
+          >
+            <div className={styles.summary}>
+              <p
+                className={styles.header}
+                style={{ marginTop: '5px', fontWeight: 'bold' }}
+              >
+                Summary
+              </p>
+              <div className={styles.content}>{MeetingTitleView}</div>
+            </div>
             <ExpandTile
               backgroundColor="#58184530"
-              activeColor="#000000"
-              title={'Email notification to interviewer'}
-              show={tileState?.interviewer}
+              activeColor="#333333"
+              title={'Email notification to Applicant'}
+              show={tileState?.applicant}
               onClick={() =>
-                setTileState({
-                  ...tileState,
-                  interviewer: !tileState.interviewer,
-                })
+                setTileState({ ...tileState, applicant: !tileState.applicant })
               }
             >
               <EmailTemplate
                 {...meetingForm}
                 currentUserLabel={currentUserLabel}
-                greetingText={greetings.interviewer}
-                email={meetingForm.interviewer.map((interview, index: Key) =>
-                  interview.calendarEmail
-                    ? interview.calendarEmail
-                    : interview.email,
-                )}
-                notes={meetingForm.privateNotes}
-                applicantInfo={meetingForm.applicant}
+                greetingText={greetings.applicant}
+                email={
+                  applicantEmail
+                    ? applicantEmail
+                    : localStorage.getItem('emailnote')
+                }
+                interviewerData={meetingForm?.interviewer}
                 onSave={(value) => {
                   /// save this text to some field
-                  setGreetings((prev) => ({ ...prev, interviewer: value }));
+                  setGreetings((prev) => ({ ...prev, applicant: value }));
                 }}
                 editGreeting={true}
               />
             </ExpandTile>
-          )}
-        </Flex>
-        <div
-          className={styles.actionButtonWrapper}
-          style={{ borderTop: '1px solid #c3c3c3' }}
-        >
-          <Button
-            onClick={nextEvent}
-            className={styles.cancel}
-            types={'primary'}
+
+            {meetingForm.interviewer.length !== 0 && (
+              <ExpandTile
+                backgroundColor="#58184530"
+                activeColor="#000000"
+                title={'Email notification to interviewer'}
+                show={tileState?.interviewer}
+                onClick={() =>
+                  setTileState({
+                    ...tileState,
+                    interviewer: !tileState.interviewer,
+                  })
+                }
+              >
+                <EmailTemplate
+                  {...meetingForm}
+                  currentUserLabel={currentUserLabel}
+                  greetingText={greetings.interviewer}
+                  email={meetingForm.interviewer.map((interview, index: Key) =>
+                    interview.calendarEmail
+                      ? interview.calendarEmail
+                      : interview.email,
+                  )}
+                  notes={meetingForm.privateNotes}
+                  applicantInfo={meetingForm.applicant}
+                  onSave={(value) => {
+                    /// save this text to some field
+                    setGreetings((prev) => ({ ...prev, interviewer: value }));
+                  }}
+                  editGreeting={true}
+                />
+              </ExpandTile>
+            )}
+          </Flex>
+          <div
+            className={styles.actionButtonWrapper}
+            style={{ borderTop: '1px solid #c3c3c3' }}
           >
-            Back
-          </Button>
-          {editEventDetails ? (
             <Button
-              onClick={handleUpdateEvent}
-              className={styles.continueButton}
+              onClick={nextEvent}
+              className={styles.cancel}
+              types={'primary'}
             >
-              Update Invite
+              Back
             </Button>
-          ) : (
-            <Button
-              onClick={handleScheduleEvent}
-              className={styles.continueButton}
-            >
-              Send Invite
-            </Button>
-          )}
+            {editEventDetails ? (
+              isloading ? (
+                <Flex middle center style={{ width: '70px' }} marginTop={20}>
+                  <Loader size="small" withOutOverlay />
+                </Flex>
+              ) : (
+                <Button
+                  onClick={handleUpdateEvent}
+                  className={styles.continueButton}
+                >
+                  Update Invite
+                </Button>
+              )
+            ) : isloading ? (
+              <Flex middle center style={{ width: '70px' }} marginTop={20}>
+                <Loader size="small" withOutOverlay />
+              </Flex>
+            ) : (
+              <Button
+                onClick={handleScheduleEvent}
+                className={styles.continueButton}
+              >
+                Send Invite
+              </Button>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

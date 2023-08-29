@@ -21,6 +21,7 @@
   top: -2px;
   right: -9px;
 }
+
 .svgTick {
   margin-right: 4px;
   cursor: pointer;
@@ -35,6 +36,10 @@
 .textContainer {
   position: relative;
   width: fit-content;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .svgEdit {
   display: none;

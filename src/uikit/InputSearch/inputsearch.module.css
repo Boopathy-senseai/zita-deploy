@@ -23,8 +23,8 @@
   border: 1px solid var(--color-primary, #581845);
 }
 .search::placeholder {
-  font-size: 12px;
-  color: var(--color-gary-6, #b3b3b3);
+  font-size: 13px;
+  color: var(--color-gary-6, #888888);
 }
 
 .errorBorder {

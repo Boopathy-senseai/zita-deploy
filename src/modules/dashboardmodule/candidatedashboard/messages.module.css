@@ -2,6 +2,7 @@
   padding: 16px;
   padding-top: 0px !important;
   margin-top: 8px;
+  overflow-y: scroll;
 }
 
 .messageContainer {

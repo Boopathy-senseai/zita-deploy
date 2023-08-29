@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import toast from 'react-hot-toast';
+//import toast from 'react-hot-toast';
 import Activity from '../../pages/activity/Activity';
 import ManageUsers from '../../pages/home/ManageUsers';
 import { RootState, AppDispatch } from '../../store';
@@ -22,6 +22,12 @@ import {
   googleCallbackMiddleware,
   IntergratemailMiddleWare,
 } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
+
+import {
+  getEmail,
+  Google_Auth,
+  Outlook_Auth,
+} from '../emailintegrationmodule/store/middleware/emailIntegrationMiddleWare';
 import Toast from '../../uikit/Toast/Toast';
 import CompanyPage from './companypage';
 //import UserProfile from './userprofilemodule/userProfile';
@@ -33,7 +39,6 @@ import ManageSubscriptionScreen from './managesubscription/ManageSubscriptionScr
 import TemplatesPage from './templatesmodule/templatesPage';
 
 // import { dispatch } from 'react-hot-toast/dist/core/store';
-
 
 const height = window.innerHeight - 212;
 
@@ -77,24 +82,7 @@ const AccountSettingsScreen = ({ value }: props) => {
   const [isReloadCompany, setReloadCompany] = useState(false);
   const [isReloadProfile, setReloadProfile] = useState(false);
   const [changeurl, setchangeurl] = useState(false);
-
-/* new use effect start */
-
-// useEffect(() => {
-//   const queryParams = new URLSearchParams(location.search)
-  
-//   if (queryParams.has('error')) {
-    
-//     queryParams.delete('error')
-//     history.replace({
-//       search: queryParams.toString(),
-//     })
-//   }
-// }, [])
-
-/* new use effect end */
-
-
+  const [load, setload] = useState(false);
   useEffect(() => {
     if (!isEmpty(tab)) {
       sessionStorage.setItem('superUserTab', tab);
@@ -122,8 +110,6 @@ const AccountSettingsScreen = ({ value }: props) => {
     };
   }, [isReloadCompany]);
 
-
-
   useEffect(() => {
     /**
      *
@@ -134,43 +120,64 @@ const AccountSettingsScreen = ({ value }: props) => {
      */
 
     localStorage.setItem('freeCheck', 'true');
-    console.log(window.location.href);
     var url = new URL(window.location.href);
+
     if (url.searchParams.get('scope')) {
       // Google
       const code = url.searchParams.get('code');
+      var username = localStorage.getItem('integrate');
 
-   
-
-      dispatch(googleCallbackMiddleware({ codeUrl: code })).then((res) => { 
-
-        dispatch(IntergratemailMiddleWare());
-        history.push('/account_setting/settings'); 
-        localStorage.setItem('integrationSuccess', 'true');
-        window.location.reload();  
-
-       
-      });
+      if (username === 'Mail') {
+        dispatch(Google_Auth({ codeUrl: code })).then((res) => {
+          dispatch(getEmail());
+          history.push('/account_setting/settings');
+          // localStorage.setItem('integrationSuccess', 'true');
+          // window.location.reload();
+        });
+      } else {
+        dispatch(googleCallbackMiddleware({ codeUrl: code })).then((res) => {
+          dispatch(IntergratemailMiddleWare());
+          history.push('/account_setting/settings');
+          localStorage.setItem('integrationSuccess', 'true');
+          window.location.reload();
+        });
+      }
     } else if (url.searchParams.get('session_state')) {
       // Outlook
+      var user = localStorage.getItem('integrate');
+
       const access_urls = {
         code: url.searchParams.get('code'),
         state: url.searchParams.get('state'),
         session_state: url.searchParams.get('session_state'),
       };
-      dispatch(outlookCallbackMiddleware(access_urls))
-        .then((res) => {
-          console.log(res,'responce') ;    
-          dispatch(IntergratemailMiddleWare()); 
-          history.push('/account_setting/settings'); 
-          localStorage.setItem('integrationSuccess', 'true');
-          window.location.reload();  
- 
-         //  Toast('Outlook calendar Integrated Successfully', 'MEDIUM');     
-        })
-        .catch((err) => {
-          console.log('error', err);
-        });
+      // setload(true);
+
+      if (user === 'Mail') {
+        dispatch(Outlook_Auth(access_urls))
+          .then((res) => {
+            dispatch(getEmail());
+            history.push('/account_setting/settings');
+            // localStorage.setItem('integrationSuccess', 'true');
+            //window.location.reload();
+          })
+          .catch((err) => {
+            // console.log('error', err);
+          });
+      } else {
+        dispatch(outlookCallbackMiddleware(access_urls))
+          .then((res) => {
+            console.log(res, 'responceaaaaa');
+            dispatch(IntergratemailMiddleWare());
+            history.push('/account_setting/settings');
+            localStorage.setItem('integrationSuccess', 'true');
+            window.location.reload();
+            //  Toast('Outlook calendar Integrated Successfully', 'MEDIUM');
+          })
+          .catch((err) => {
+            //  console.log('error', err);
+          });
+      }
     }
   }, []);
 
@@ -203,7 +210,6 @@ const AccountSettingsScreen = ({ value }: props) => {
   const { routerPrompt, onDirty, onPristine } = useUnsavedChangesWarning();
   // var oldURL = window.location.href;
   // if(window.location.href !== oldURL){
-  //   alert("url changed!");
 
   useEffect(() => {
     if (isReloadCareer && window.confirm(LEAVE_THIS_SITE)) {
@@ -215,7 +221,6 @@ const AccountSettingsScreen = ({ value }: props) => {
       // sessionStorage.setItem('superUserFalseTab', tabKeyOne);
     }
   }, [tabKey, isTest, tabKeyOne]);
-  // console.log('sessionStorage.getItem',sessionStorage.getItem('superUserTab'));
   useEffect(() => {
     if (isReloadCompany && window.confirm(LEAVE_THIS_SITE)) {
       setReloadCompany(false);
@@ -276,7 +281,7 @@ const AccountSettingsScreen = ({ value }: props) => {
               <Text
                 bold
                 size={16}
-                style={{ marginLeft: 8, color: '#581845',padding:"10px 0px" }}
+                style={{ marginLeft: 8, color: '#581845', padding: '10px 0px' }}
                 className={styles.postingcl}
               >
                 Account Settings
@@ -315,150 +320,234 @@ const AccountSettingsScreen = ({ value }: props) => {
                   }
                 }}
               >
-            <Tab title={'Profiles'} eventKey={'0'}>
-                <div
-                style={{
-                  height: window.innerHeight - 155,
-                  overflowY: 'scroll',
-                }}
-              >
-         <Flex center> 
-          
-            {tabKey === '0' &&
-            company_detail &&
-            company_detail.no_of_emp === null && (
-              <Flex row center className={styles.warningFlex}>
-                <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
-                <Text 
-                 style={{color:"#333333"}}
-                  className={styles.warningText}
-                >
-                   <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px'}} bold >Heads Up!{' '}</Text>
-                  Please complete your company profile and careers page to post
-                  jobs.
-                </Text>
-              </Flex>
-              )}  
+                <Tab title={'Profiles'} eventKey={'0'}>
+                  <div
+                    style={{
+                      height: window.innerHeight - 155,
+                      overflowY: 'scroll',
+                    }}
+                  >
+                    <Flex center>
+                      {tabKey === '0' &&
+                        company_detail &&
+                        company_detail.no_of_emp === null && (
+                          <Flex row center className={styles.warningFlex}>
+                            <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
+                            <Text
+                              style={{ color: '#333333' }}
+                              className={styles.warningText}
+                            >
+                              <Text
+                                style={{
+                                  color: '#2E6ADD',
+                                  marginRight: '3px',
+                                  fontSize: '13px',
+                                }}
+                                bold
+                              >
+                                Heads Up!{' '}
+                              </Text>
+                              Please complete your company profile and careers
+                              page to post jobs.
+                            </Text>
+                          </Flex>
+                        )}
 
-           {tabKey === '1' &&
-            company_detail &&
-            company_detail.no_of_emp === null?(tabKey === '1' && career_page_exists_build === false && (
-            <Flex row center className={styles.warningFlex}>
-              <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
-                <Text 
-                 style={{color:"#333333"}}
-                  className={styles.warningText}
-                >
-                   <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px'}} bold >Heads Up!{' '}</Text>
+                      {tabKey === '1' &&
+                      company_detail &&
+                      company_detail.no_of_emp === null
+                        ? tabKey === '1' &&
+                          career_page_exists_build === false && (
+                            <Flex row center className={styles.warningFlex}>
+                              <SvgInfo
+                                height={16}
+                                width={16}
+                                fill={'#2E6ADD'}
+                              />
+                              <Text
+                                style={{ color: '#333333' }}
+                                className={styles.warningText}
+                              >
+                                <Text
+                                  style={{
+                                    color: '#2E6ADD',
+                                    marginRight: '3px',
+                                    fontSize: '13px',
+                                  }}
+                                  bold
+                                >
+                                  Heads Up!{' '}
+                                </Text>
+                                Please complete your company profile and careers
+                                page to post jobs.
+                              </Text>
+                            </Flex>
+                          )
+                        : tabKey === '1' &&
+                          career_page_exists_build === false && (
+                            <Flex row center className={styles.warningFlex}>
+                              <SvgInfo
+                                height={16}
+                                width={16}
+                                fill={'#2E6ADD'}
+                              />
+                              <Text
+                                style={{ color: '#333333' }}
+                                className={styles.warningText}
+                              >
+                                <Text
+                                  style={{
+                                    color: '#2E6ADD',
+                                    marginRight: '3px',
+                                    fontSize: '13px',
+                                  }}
+                                  bold
+                                >
+                                  Heads Up!{' '}
+                                </Text>
+                                Please complete your careers page to post jobs.
+                              </Text>
+                            </Flex>
+                          )}
 
-              Please complete your company profile and careers page to post
-                  jobs.
-              </Text>
-            </Flex>
-         ) ):(tabKey === '1' && career_page_exists_build === false && (
-          <Flex row center className={styles.warningFlex}>
-          <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
-              <Text 
-                 style={{color:"#333333"}}
-                  className={styles.warningText}
-                >
-                   <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px'}} bold >Heads Up!{' '}</Text>
-              Please complete your careers page to post jobs.
-              </Text>
-            </Flex>))}
-
-          {isInput &&
-            isLoadingCareer === false &&
-            tabKey === '1' &&
-            career_page_exists_build === true && (
-              <Flex row center className={styles.warningFlex}>
-                 <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
-              <Text 
-                 style={{color:"#333333"}}
-                  className={styles.warningText}
-                >
-                   <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px'}} bold >Heads Up!{' '}</Text>
-                  Changing your careers page URL will change the URL for all
-                  jobs in your careers page. Note to change the jobs URL in your
-                  company’s careers page if connected.
-                </Text>
-              </Flex>
-            )}
-        </Flex>
-                {tabKey === '0' && (
-                  <CompanyPage
-                    setKey={setKey}
-                    setReload={setReloadCompany}
-                    setReloadProfile={setReloadProfile}
-                  />
-                )}
-              </div>
-            
+                      {isInput &&
+                        isLoadingCareer === false &&
+                        tabKey === '1' &&
+                        career_page_exists_build === true && (
+                          <Flex row center className={styles.warningFlex}>
+                            <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
+                            <Text
+                              style={{ color: '#333333' }}
+                              className={styles.warningText}
+                            >
+                              <Text
+                                style={{
+                                  color: '#2E6ADD',
+                                  marginRight: '3px',
+                                  fontSize: '13px',
+                                }}
+                                bold
+                              >
+                                Heads Up!{' '}
+                              </Text>
+                              Changing your careers page URL will change the URL
+                              for all jobs in your careers page. Note to change
+                              the jobs URL in your company’s careers page if
+                              connected.
+                            </Text>
+                          </Flex>
+                        )}
+                    </Flex>
+                    {tabKey === '0' && (
+                      <CompanyPage
+                        setKey={setKey}
+                        setReload={setReloadCompany}
+                        setReloadProfile={setReloadProfile}
+                      />
+                    )}
+                  </div>
                 </Tab>
                 <Tab title={'Build Your Careers Page'} eventKey={'1'}>
-                <div
-                style={{
-                  height: window.innerHeight - 192,
-                  overflowY: 'scroll',
-                }}
-              >
-                <Flex center>
-          
+                  <div
+                    style={{
+                      height: window.innerHeight - 192,
+                      overflowY: 'scroll',
+                    }}
+                  >
+                    <Flex center>
+                      {tabKey === '1' &&
+                      company_detail &&
+                      company_detail.no_of_emp === null
+                        ? tabKey === '1' &&
+                          career_page_exists_build === false && (
+                            <Flex row center className={styles.warningFlex}>
+                              <SvgInfo
+                                height={16}
+                                width={16}
+                                fill={'#2E6ADD'}
+                              />
+                              <Text
+                                style={{ color: '#333333' }}
+                                className={styles.warningText}
+                              >
+                                <Text
+                                  style={{
+                                    color: '#2E6ADD',
+                                    marginRight: '3px',
+                                    fontSize: '13px',
+                                  }}
+                                  bold
+                                >
+                                  Heads Up!{' '}
+                                </Text>
+                                Please complete your company profile and careers
+                                page to post jobs.
+                              </Text>
+                            </Flex>
+                          )
+                        : tabKey === '1' &&
+                          career_page_exists_build === false && (
+                            <Flex row center className={styles.warningFlex}>
+                              <SvgInfo
+                                height={16}
+                                width={16}
+                                fill={'#2E6ADD'}
+                              />
+                              <Text
+                                style={{ color: '#333333' }}
+                                className={styles.warningText}
+                              >
+                                <Text
+                                  style={{
+                                    color: '#2E6ADD',
+                                    marginRight: '3px',
+                                    fontSize: '13px',
+                                  }}
+                                  bold
+                                >
+                                  Heads Up!{' '}
+                                </Text>
+                                Please complete your careers page to post jobs.
+                              </Text>
+                            </Flex>
+                          )}
 
-         {tabKey === '1' &&
-            company_detail &&
-            company_detail.no_of_emp === null?(tabKey === '1' && career_page_exists_build === false && (
-            <Flex row center className={styles.warningFlex}>
-              <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
-              <Text 
-               style={{color:"#333333"}} 
-                className={styles.warningText}
-              >
-                   <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px'}} bold >Heads Up!{' '}</Text>
-
-              Please complete your company profile and careers page to post
-                  jobs.
-              </Text>
-            </Flex>
-         ) ):(tabKey === '1' && career_page_exists_build === false && (
-            <Flex row center className={styles.warningFlex}>
-              <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
-              <Text 
-                style={{color:"#333333"}} 
-                className={styles.warningText}
-              >
-                   <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px'}} bold >Heads Up!{' '}</Text>
-
-              Please complete your careers page to post jobs.
-              </Text>
-            </Flex>))}
-
-          {isInput &&
-            isLoadingCareer === false &&
-            tabKey === '1' &&
-            career_page_exists_build === true && (
-              <Flex row center className={styles.warningFlex}>
-                <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
-                <Text
-                 style={{color:"#333333"}} 
-                  className={styles.warningText}
-                >
-                   <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px'}} bold >Heads Up!{' '}</Text>
-                  Changing your careers page URL will change the URL for all
-                  jobs in your careers page. Note to change the jobs URL in your
-                  company’s careers page if connected.
-                </Text>
-              </Flex>
-            )}
-        </Flex>
-                {tabKey === '1' && (
-                  <BuildYourCareerPageScreen
-                    isInput={isInput}
-                    setInput={setInput}
-                    setReload={setReloadCareer}
-                  />
-                )}
-              </div>
+                      {isInput &&
+                        isLoadingCareer === false &&
+                        tabKey === '1' &&
+                        career_page_exists_build === true && (
+                          <Flex row center className={styles.warningFlex}>
+                            <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
+                            <Text
+                              style={{ color: '#333333' }}
+                              className={styles.warningText}
+                            >
+                              <Text
+                                style={{
+                                  color: '#2E6ADD',
+                                  marginRight: '3px',
+                                  fontSize: '13px',
+                                }}
+                                bold
+                              >
+                                Heads Up!{' '}
+                              </Text>
+                              Changing your careers page URL will change the URL
+                              for all jobs in your careers page. Note to change
+                              the jobs URL in your company’s careers page if
+                              connected.
+                            </Text>
+                          </Flex>
+                        )}
+                    </Flex>
+                    {tabKey === '1' && (
+                      <BuildYourCareerPageScreen
+                        isInput={isInput}
+                        setInput={setInput}
+                        setReload={setReloadCareer}
+                      />
+                    )}
+                  </div>
                 </Tab>
                 <Tab title={'Manage Subscription'} eventKey={'2'}>
                   {tabKey === '2' && (
@@ -466,7 +555,7 @@ const AccountSettingsScreen = ({ value }: props) => {
                   )}
                 </Tab>
                 <Tab title={'Manage Users'} eventKey={'3'}>
-                  <div
+                  {/* <div
                     className={
                       itemId === 'settings'
                         ? styles.borderStyle
@@ -478,19 +567,22 @@ const AccountSettingsScreen = ({ value }: props) => {
                           ? height
                           : window.innerHeight - 192,
                     }}
-                  >
-                    {tabKey === '3' && itemId === 'settings' && (
-                      <ManageUsers setKey={setKey} />
-                    )}
-                    {tabKey === '3' && itemId !== 'settings' && <Activity />}
-                  </div>
+                  > */}
+                  {tabKey === '3' && itemId === 'settings' && (
+                    <ManageUsers setKey={setKey} />
+                  )}
+                  {tabKey === '3' && itemId !== 'settings' && <Activity />}
+                  {/* </div> */}
                 </Tab>
                 <Tab title={'Integrations'} eventKey={'4'}>
                   {tabKey === '4' && <IntegrationScreen />}
                 </Tab>
+                {/* {Permission.includes('manage_account_settings')?( */}
                 <Tab title={'Templates'} eventKey={'7'}>
                   {tabKey === '7' && <TemplatesPage />}
                 </Tab>
+                {/* ):("")} */}
+
                 <Tab title={'Email Notifications'} eventKey={'5'}>
                   <EmailNotification />
                 </Tab>
@@ -506,167 +598,262 @@ const AccountSettingsScreen = ({ value }: props) => {
                 )}
               </div>
             </Tab> */}
-                  </Tabs>
-                )}
+              </Tabs>
+            )}
 
-                {Permission.includes('manage_account_settings') &&
-                  super_user === false && (
-                    <Tabs
-                      id={!is_plan ? 'account__settings' : 'setting'}
-                      activeKey={tabKeyOne}
-                      onSelect={(keys: any) => {
-                        if (is_plan) {
-                          setTest(!isTest);
-                          sessionStorage.setItem('superUserTab', keys);
-                          if (
-                        
+            {Permission.includes('manage_account_settings') &&
+              super_user === false && (
+                <Tabs
+                  id={!is_plan ? 'account__settings' : 'setting'}
+                  activeKey={tabKeyOne}
+                  onSelect={(keys: any) => {
+                    if (is_plan) {
+                      setTest(!isTest);
+                      sessionStorage.setItem('superUserTab', keys);
+                      if (
                         !isReloadCompany &&
-                       
                         !isReloadCareer &&
-                       
                         !isReloadProfile
-                      
                       ) {
-                            setKeyOne(keys);
-                          }
-                        }
+                        setKeyOne(keys);
+                      }
+                    }
+                  }}
+                >
+                  <Tab title={'Profiles'} eventKey={'0'}>
+                    <div
+                      style={{
+                        height: window.innerHeight - 215,
+                        overflowY: 'scroll',
                       }}
                     >
-                      <Tab title={'Profiles'} eventKey={'0'}>
-                      <div
-                style={{
-                  height: window.innerHeight - 215,
-                  overflowY: 'scroll',
-                }}
-              >
-         <Flex center> 
-          
-            {tabKey === '0' &&
-            company_detail &&
-            company_detail.no_of_emp === null && (
-              <Flex row center className={styles.warningFlex}>
-                <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
-                <Text 
-                 style={{color:"#333333"}}
-                  className={styles.warningText}
-                >
-                   <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px'}} bold >Heads Up!{' '}</Text>
-                  Please complete your company profile and careers page to post
-                  jobs.
-                </Text>
-              </Flex>
-            )}
+                      <Flex center>
+                        {tabKey === '0' &&
+                          company_detail &&
+                          company_detail.no_of_emp === null && (
+                            <Flex row center className={styles.warningFlex}>
+                              <SvgInfo
+                                height={16}
+                                width={16}
+                                fill={'#2E6ADD'}
+                              />
+                              <Text
+                                style={{ color: '#333333' }}
+                                className={styles.warningText}
+                              >
+                                <Text
+                                  style={{
+                                    color: '#2E6ADD',
+                                    marginRight: '3px',
+                                    fontSize: '13px',
+                                  }}
+                                  bold
+                                >
+                                  Heads Up!{' '}
+                                </Text>
+                                Please complete your company profile and careers
+                                page to post jobs.
+                              </Text>
+                            </Flex>
+                          )}
 
-           {tabKey === '1' &&
-            company_detail &&
-            company_detail.no_of_emp === null?(tabKey === '1' && career_page_exists_build === false && (
-            <Flex row center className={styles.warningFlex}>
-              <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
-                <Text 
-                 style={{color:"#333333"}}
-                  className={styles.warningText}
-                >
-                   <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px'}} bold >Heads Up!{' '}</Text>
+                        {tabKey === '1' &&
+                        company_detail &&
+                        company_detail.no_of_emp === null
+                          ? tabKey === '1' &&
+                            career_page_exists_build === false && (
+                              <Flex row center className={styles.warningFlex}>
+                                <SvgInfo
+                                  height={16}
+                                  width={16}
+                                  fill={'#2E6ADD'}
+                                />
+                                <Text
+                                  style={{ color: '#333333' }}
+                                  className={styles.warningText}
+                                >
+                                  <Text
+                                    style={{
+                                      color: '#2E6ADD',
+                                      marginRight: '3px',
+                                      fontSize: '13px',
+                                    }}
+                                    bold
+                                  >
+                                    Heads Up!{' '}
+                                  </Text>
+                                  Please complete your company profile and
+                                  careers page to post jobs.
+                                </Text>
+                              </Flex>
+                            )
+                          : tabKey === '1' &&
+                            career_page_exists_build === false && (
+                              <Flex row center className={styles.warningFlex}>
+                                <SvgInfo
+                                  height={16}
+                                  width={16}
+                                  fill={'#2E6ADD'}
+                                />
+                                <Text
+                                  style={{ color: '#333333' }}
+                                  className={styles.warningText}
+                                >
+                                  <Text
+                                    style={{
+                                      color: '#2E6ADD',
+                                      marginRight: '3px',
+                                      fontSize: '13px',
+                                    }}
+                                    bold
+                                  >
+                                    Heads Up!{' '}
+                                  </Text>
+                                  Please complete your careers page to post
+                                  jobs.
+                                </Text>
+                              </Flex>
+                            )}
 
-              Please complete your company profile and careers page to post
-                  jobs.
-              </Text>
-            </Flex>
-         ) ):(tabKey === '1' && career_page_exists_build === false && (
-          <Flex row center className={styles.warningFlex}>
-          <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
-              <Text 
-                 style={{color:"#333333"}}
-                  className={styles.warningText}
-                >
-                   <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px'}} bold >Heads Up!{' '}</Text>
-              Please complete your careers page to post jobs.
-              </Text>
-            </Flex>))}
-
-          {isInput &&
-            isLoadingCareer === false &&
-            tabKey === '1' &&
-            career_page_exists_build === true && (
-              <Flex row center className={styles.warningFlex}>
-                 <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
-              <Text 
-                 style={{color:"#333333"}}
-                  className={styles.warningText}
-                >
-                   <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px'}} bold >Heads Up!{' '}</Text>
-                  Changing your careers page URL will change the URL for all
-                  jobs in your careers page. Note to change the jobs URL in your
-                  company’s careers page if connected.
-                </Text>
-              </Flex>
-            )}
-        </Flex>  
-                          <CompanyPage
-                            setKey={setKey}
-                            setReload={setReloadCompany}
-                            setReloadProfile={setReloadProfile}
-                          />
-                        </div>
-                      </Tab>
+                        {isInput &&
+                          isLoadingCareer === false &&
+                          tabKey === '1' &&
+                          career_page_exists_build === true && (
+                            <Flex row center className={styles.warningFlex}>
+                              <SvgInfo
+                                height={16}
+                                width={16}
+                                fill={'#2E6ADD'}
+                              />
+                              <Text
+                                style={{ color: '#333333' }}
+                                className={styles.warningText}
+                              >
+                                <Text
+                                  style={{
+                                    color: '#2E6ADD',
+                                    marginRight: '3px',
+                                    fontSize: '13px',
+                                  }}
+                                  bold
+                                >
+                                  Heads Up!{' '}
+                                </Text>
+                                Changing your careers page URL will change the
+                                URL for all jobs in your careers page. Note to
+                                change the jobs URL in your company’s careers
+                                page if connected.
+                              </Text>
+                            </Flex>
+                          )}
+                      </Flex>
+                      <CompanyPage
+                        setKey={setKey}
+                        setReload={setReloadCompany}
+                        setReloadProfile={setReloadProfile}
+                      />
+                    </div>
+                  </Tab>
 
                   <Tab title={'Build Your Careers Page'} eventKey={'1'}>
-                  <div
-                style={{
-                  height: window.innerHeight - 192,
-                  overflowY: 'scroll',
-                }}
-              >
-                <Flex center>
-          
+                    <div
+                      style={{
+                        height: window.innerHeight - 192,
+                        overflowY: 'scroll',
+                      }}
+                    >
+                      <Flex center>
+                        {tabKey === '1' &&
+                        company_detail &&
+                        company_detail.no_of_emp === null
+                          ? tabKey === '1' &&
+                            career_page_exists_build === false && (
+                              <Flex row center className={styles.warningFlex}>
+                                <SvgInfo
+                                  height={16}
+                                  width={16}
+                                  fill={'#2E6ADD'}
+                                />
+                                <Text
+                                  style={{ color: '#333333' }}
+                                  className={styles.warningText}
+                                >
+                                  <Text
+                                    style={{
+                                      color: '#2E6ADD',
+                                      marginRight: '3px',
+                                      fontSize: '13px',
+                                    }}
+                                    bold
+                                  >
+                                    Heads Up!{' '}
+                                  </Text>
+                                  Please complete your company profile and
+                                  careers page to post jobs.
+                                </Text>
+                              </Flex>
+                            )
+                          : tabKey === '1' &&
+                            career_page_exists_build === false && (
+                              <Flex row center className={styles.warningFlex}>
+                                <SvgInfo
+                                  height={16}
+                                  width={16}
+                                  fill={'#2E6ADD'}
+                                />
+                                <Text
+                                  style={{ color: '#333333' }}
+                                  className={styles.warningText}
+                                >
+                                  <Text
+                                    style={{
+                                      color: '#2E6ADD',
+                                      marginRight: '3px',
+                                      fontSize: '13px',
+                                    }}
+                                    bold
+                                  >
+                                    Heads Up!{' '}
+                                  </Text>
+                                  Please complete your careers page to post
+                                  jobs.
+                                </Text>
+                              </Flex>
+                            )}
 
-         {tabKey === '1' &&
-            company_detail &&
-            company_detail.no_of_emp === null?(tabKey === '1' && career_page_exists_build === false && (
-            <Flex row center className={styles.warningFlex}>
-              <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
-              <Text 
-               style={{color:"#333333"}} 
-                className={styles.warningText}
-              >
-                   <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px'}} bold >Heads Up!{' '}</Text>
+                        {isInput &&
+                          isLoadingCareer === false &&
+                          tabKey === '1' &&
+                          career_page_exists_build === true && (
+                            <Flex row center className={styles.warningFlex}>
+                              <SvgInfo
+                                height={16}
+                                width={16}
+                                fill={'#2E6ADD'}
+                              />
+                              <Text
+                                style={{ color: '#333333' }}
+                                className={styles.warningText}
+                              >
+                                <Text
+                                  style={{
+                                    color: '#2E6ADD',
+                                    marginRight: '3px',
+                                    fontSize: '13px',
+                                  }}
+                                  bold
+                                >
+                                  Heads Up!{' '}
+                                </Text>
+                                Changing your careers page URL will change the
+                                URL for all jobs in your careers page. Note to
+                                change the jobs URL in your company’s careers
+                                page if connected.
+                              </Text>
+                            </Flex>
+                          )}
+                      </Flex>
 
-              Please complete your company profile and careers page to post
-                  jobs.
-              </Text>
-            </Flex>
-         ) ):(tabKey === '1' && career_page_exists_build === false && (
-            <Flex row center className={styles.warningFlex}>
-              <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
-              <Text 
-                style={{color:"#333333"}} 
-                className={styles.warningText}
-              >
-                   <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px'}} bold >Heads Up!{' '}</Text>
-
-              Please complete your careers page to post jobs.
-              </Text>
-            </Flex>))}
-
-          {isInput &&
-            isLoadingCareer === false &&
-            tabKey === '1' &&
-            career_page_exists_build === true && (
-              <Flex row center className={styles.warningFlex}>
-                <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
-                <Text
-                 style={{color:"#333333"}} 
-                  className={styles.warningText}
-                >
-                   <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px'}} bold >Heads Up!{' '}</Text>
-                  Changing your careers page URL will change the URL for all
-                  jobs in your careers page. Note to change the jobs URL in your
-                  company’s careers page if connected.
-                </Text>
-              </Flex>
-            )}
-        </Flex>
-                
                       <BuildYourCareerPageScreen
                         isInput={isInput}
                         setInput={setInput}
@@ -677,6 +864,9 @@ const AccountSettingsScreen = ({ value }: props) => {
 
                   <Tab title={'Integrations'} eventKey={'3'}>
                     {tabKeyOne === '3' && <IntegrationScreen />}
+                  </Tab>
+                  <Tab title={'Templates'} eventKey={'4'}>
+                    {tabKeyOne === '4' && <TemplatesPage />}
                   </Tab>
                   {/* <Tab title={'User Profile'} eventKey={'4'}>
                 <div
@@ -702,8 +892,145 @@ const AccountSettingsScreen = ({ value }: props) => {
                     sessionStorage.setItem('superUserTabTwo', keys);
                   }}
                 >
-                  <Tab title={'Integrations'} eventKey={'0'}>
-                    {tabKeyTwo === '0' && <IntegrationScreen />}
+                  <Tab title={'Profiles'} eventKey={'0'}>
+                    <div
+                      style={{
+                        height: window.innerHeight - 215,
+                        overflowY: 'scroll',
+                      }}
+                    >
+                      <Flex center>
+                        {tabKey === '0' &&
+                          company_detail &&
+                          company_detail.no_of_emp === null && (
+                            <Flex row center className={styles.warningFlex}>
+                              <SvgInfo
+                                height={16}
+                                width={16}
+                                fill={'#2E6ADD'}
+                              />
+                              <Text
+                                style={{ color: '#333333' }}
+                                className={styles.warningText}
+                              >
+                                <Text
+                                  style={{
+                                    color: '#2E6ADD',
+                                    marginRight: '3px',
+                                    fontSize: '13px',
+                                  }}
+                                  bold
+                                >
+                                  Heads Up!{' '}
+                                </Text>
+                                Please complete your company profile and careers
+                                page to post jobs.
+                              </Text>
+                            </Flex>
+                          )}
+
+                        {tabKey === '1' &&
+                        company_detail &&
+                        company_detail.no_of_emp === null
+                          ? tabKey === '1' &&
+                            career_page_exists_build === false && (
+                              <Flex row center className={styles.warningFlex}>
+                                <SvgInfo
+                                  height={16}
+                                  width={16}
+                                  fill={'#2E6ADD'}
+                                />
+                                <Text
+                                  style={{ color: '#333333' }}
+                                  className={styles.warningText}
+                                >
+                                  <Text
+                                    style={{
+                                      color: '#2E6ADD',
+                                      marginRight: '3px',
+                                      fontSize: '13px',
+                                    }}
+                                    bold
+                                  >
+                                    Heads Up!{' '}
+                                  </Text>
+                                  Please complete your company profile and
+                                  careers page to post jobs.
+                                </Text>
+                              </Flex>
+                            )
+                          : tabKey === '1' &&
+                            career_page_exists_build === false && (
+                              <Flex row center className={styles.warningFlex}>
+                                <SvgInfo
+                                  height={16}
+                                  width={16}
+                                  fill={'#2E6ADD'}
+                                />
+                                <Text
+                                  style={{ color: '#333333' }}
+                                  className={styles.warningText}
+                                >
+                                  <Text
+                                    style={{
+                                      color: '#2E6ADD',
+                                      marginRight: '3px',
+                                      fontSize: '13px',
+                                    }}
+                                    bold
+                                  >
+                                    Heads Up!{' '}
+                                  </Text>
+                                  Please complete your careers page to post
+                                  jobs.
+                                </Text>
+                              </Flex>
+                            )}
+
+                        {isInput &&
+                          isLoadingCareer === false &&
+                          tabKey === '1' &&
+                          career_page_exists_build === true && (
+                            <Flex row center className={styles.warningFlex}>
+                              <SvgInfo
+                                height={16}
+                                width={16}
+                                fill={'#2E6ADD'}
+                              />
+                              <Text
+                                style={{ color: '#333333' }}
+                                className={styles.warningText}
+                              >
+                                <Text
+                                  style={{
+                                    color: '#2E6ADD',
+                                    marginRight: '3px',
+                                    fontSize: '13px',
+                                  }}
+                                  bold
+                                >
+                                  Heads Up!{' '}
+                                </Text>
+                                Changing your careers page URL will change the
+                                URL for all jobs in your careers page. Note to
+                                change the jobs URL in your company’s careers
+                                page if connected.
+                              </Text>
+                            </Flex>
+                          )}
+                      </Flex>
+                      <CompanyPage
+                        setKey={setKey}
+                        setReload={setReloadCompany}
+                        setReloadProfile={setReloadProfile}
+                      />
+                    </div>
+                  </Tab>
+                  <Tab title={'Integrations'} eventKey={'1'}>
+                    {tabKeyTwo === '1' && <IntegrationScreen />}
+                  </Tab>
+                  <Tab title="Templates" eventKey="2">
+                    {tabKeyTwo === '2' && <TemplatesPage />}
                   </Tab>
 
                   {/* <Tab title={'User Profile'} eventKey={'1'}>

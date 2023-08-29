@@ -121,6 +121,7 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
     company_detail,
     profile,
     build_career_page,
+    permission
   } = useSelector(
     ({
       companyPageReducers,
@@ -134,6 +135,7 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
       user: userProfileReducers.user,
       company_detail: companyPageReducers.company_detail,
       build_career_page: companyPageReducers.build_career_page,
+      permission:companyPageReducers.permission
     }),
   );
   const initial: CompanyPage = {
@@ -188,6 +190,7 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
     username: string;
     profilepicture: string;
   };
+
 
   const handleChangeImage = (e: any) => {
     e.preventDefault();
@@ -432,7 +435,6 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
   }, [user]);
   const logoUrls = profile && profile !== 'default.jpg' ? profile : '';
 
-  console.log();
   useEffect(() => {
     if (profile && profile !== 'default.jpg') {
       const userlogo = profile.substring(profile.lastIndexOf('/') + 1);
@@ -481,7 +483,6 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
     formData.append('company_name', values.company_name);
     formData.append('company_website', values.company_website);
     formData.append('contact', values.contact);
-    // console.log("contact",values.contact);
     formData.append('industry_type', values.industry_type_id);
     formData.append('no_of_emp', values.no_of_emp);
     formData.append('address', values.address);
@@ -505,7 +506,6 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
         if (res.payload.data.success) {
           setReload(false);
           setload(false);
-          console.log('res', res);
           Toast('Details saved successfully', 'LONG', 'success');
           dispatch(companyPageInitalMiddleWare());
           dispatch(userProfileMiddleWare());
@@ -618,7 +618,6 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
       setimgtypes(false);
     }
   }, [logoUrls, imgUrls]);
-  console.log(emtysp, 'cxvznmg,.h/hglkfujyhtgrfd');
   return (
     <Flex className={styles.overAll}>
       {/* <Flex row className={styles.companyuserheading}>
@@ -628,553 +627,559 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
         <Flex className={styles.profilehead}>Company Profile</Flex>
       </Flex> */}
       {(isLoading || isload) && <Loader />}
-      <Flex row className={styles.companyrow}>
-        <Flex>
-          <InputText
-            label="Company Name"
-            inputConatinerClass={styles.with80}
-            required
-            disabled
-            className={styles.inputheight}
-            value={formik.values.company_name}
-            onChange={formik.handleChange('company_name')}
-          />
+ 
+      {permission.includes('manage_account_settings')?(
+  <>
+       <Flex row className={styles.companyrow}>
+       <Flex>
+         <InputText
+           label="Company Name"
+           inputConatinerClass={styles.with80}
+           required
+           disabled
+           className={styles.inputheight}
+           value={formik.values.company_name}
+           onChange={formik.handleChange('company_name')}
+         />
 
-          <ErrorMessage
-            touched={formik.touched}
-            errors={formik.errors}
-            name="company_name"
-          />
-        </Flex>
-        <Flex>
-          <InputText
-            inputConatinerClass={styles.with80}
-            label="Work Email"
-            required
-            disabled
-            className={styles.inputheight}
-            value={formik.values.email}
-            onChange={formik.handleChange('email')}
-          />
-          <ErrorMessage
-            touched={formik.touched}
-            errors={formik.errors}
-            name="email"
-          />
-        </Flex>
-        <Flex>
-          <LabelWrapper label="Contact Number" required>
-            <PhoneInput
-              containerClass={styles.phoneInputs}
-              inputClass={styles.phoneInput}
-              dropdownClass={styles.dropDownStyle}
-              country={'us'}
-              value={formik.values.contact}
-              onChange={formik.handleChange('contact')}
-            />
-            {console.log('contact', formik.values.contact)}
-          </LabelWrapper>
-          <ErrorMessage
-            touched={formik.touched}
-            errors={formik.errors}
-            name="contact"
-          />
-        </Flex>
-      </Flex>
-      <Flex row className={styles.companyrow}>
-        <Flex>
-          <InputText
-            inputConatinerClass={styles.with80}
-            label="Company Website URL"
-            required
-            className={styles.inputheight}
-            value={formik.values.company_website}
-            onChange={(e) => {
-              formik.setFieldValue('company_website', e.target.value);
-              setReload(true);
-            }}
-          />
-          {!isEmpty(formik.values.company_website) &&
-            isValidURL(formik.values.company_website) === false &&
-            formik.values.company_website !== 'https://' && (
-              <Text size={12} color="error">
-                {ENTER_VALID_URL}
-              </Text>
-            )}
-          {/* {isEmpty(formik.values.company_website) && (
-            <Text size={12} color="error">
-              {THIS_FIELD_REQUIRED}
-            </Text>
-          )}*/}
-          <ErrorMessage
-            touched={formik.touched}
-            errors={formik.errors}
-            name="company_website"
-          />
-        </Flex>
-        <Flex>
-          <LabelWrapper label="Industry Type" required>
-            <div className={styles.with80} style={{ marginTop: 5 }}>
-              <SelectTag
-                id={'company_profile__industry_type'}
-                required
-                linechange
-                options={industryType}
-                value={
-                  industryType
-                    ? industryType.find(
-                        (option) =>
-                          Number(option.value) ===
-                          Number(formik.values.industry_type_id),
-                      )
-                    : ''
-                }
-                placeholder="Select"
-                onChange={(option) => {
-                  formik.setFieldValue('industry_type_id', option.value);
-                  setReload(true);
-                }}
-              />
-              <ErrorMessage
-                touched={formik.touched}
-                errors={formik.errors}
-                name="industry_type_id"
-              />
-            </div>
-          </LabelWrapper>
-        </Flex>
-        <Flex>
-          <InputText
-            inputConatinerClass={styles.with80}
-            label="No of Employees"
-            required
-            className={styles.inputheight}
-            onChange={(event) => {
-              formik.handleChange('no_of_emp')(
-                event.target.value.replace(/\D/g, ''),
-              );
-              setReload(true);
-            }}
-            value={formik.values.no_of_emp}
-          />
-          {!isEmpty(formik.values.no_of_emp) &&
-            Number(formik.values.no_of_emp) > 1000 && (
-              <Text size={12} color="error">
-                No of Employees must consist of less than 1000 characters
-              </Text>
-            )}
-          {!isEmpty(formik.values.no_of_emp) &&
-            Number(formik.values.no_of_emp) === 0 && (
-              <Text size={12} color="error">
-                No of Employees must consist of more than 0 characters
-              </Text>
-            )}
-          <ErrorMessage
-            touched={formik.touched}
-            errors={formik.errors}
-            name="no_of_emp"
-          />
-        </Flex>
-      </Flex>
+         <ErrorMessage
+           touched={formik.touched}
+           errors={formik.errors}
+           name="company_name"
+         />
+       </Flex>
+       <Flex>
+         <InputText
+           inputConatinerClass={styles.with80}
+           label="Work Email"
+           required
+           disabled
+           className={styles.inputheight}
+           value={formik.values.email}
+           onChange={formik.handleChange('email')}
+         />
+         <ErrorMessage
+           touched={formik.touched}
+           errors={formik.errors}
+           name="email"
+         />
+       </Flex>
+       <Flex>
+         <LabelWrapper label="Contact Number" required>
+           <PhoneInput
+             containerClass={styles.phoneInputs}
+             inputClass={styles.phoneInput}
+             dropdownClass={styles.dropDownStyle}
+             country={'us'}
+             value={formik.values.contact}
+             onChange={formik.handleChange('contact')}
+           />
+         </LabelWrapper>
+         <ErrorMessage
+           touched={formik.touched}
+           errors={formik.errors}
+           name="contact"
+         />
+       </Flex>
+     </Flex>
+     <Flex row className={styles.companyrow}>
+       <Flex>
+         <InputText
+           inputConatinerClass={styles.with80}
+           label="Company Website URL"
+           required
+           className={styles.inputheight}
+           value={formik.values.company_website}
+           onChange={(e) => {
+             formik.setFieldValue('company_website', e.target.value);
+             setReload(true);
+           }}
+         />
+         {!isEmpty(formik.values.company_website) &&
+           isValidURL(formik.values.company_website) === false &&
+           formik.values.company_website !== 'https://' && (
+             <Text size={12} color="error">
+               {ENTER_VALID_URL}
+             </Text>
+           )}
+         {/* {isEmpty(formik.values.company_website) && (
+           <Text size={12} color="error">
+             {THIS_FIELD_REQUIRED}
+           </Text>
+         )}*/}
+         <ErrorMessage
+           touched={formik.touched}
+           errors={formik.errors}
+           name="company_website"
+         />
+       </Flex>
+       <Flex>
+         <LabelWrapper label="Industry Type" required>
+           <div className={styles.with80} >
+             <SelectTag
+               id={'company_profile__industry_type'}
+               required
+               linechange
+               options={industryType}
+               value={
+                 industryType
+                   ? industryType.find(
+                       (option) =>
+                         Number(option.value) ===
+                         Number(formik.values.industry_type_id),
+                     )
+                   : ''
+               }
+               placeholder="Select"
+               onChange={(option) => {
+                 formik.setFieldValue('industry_type_id', option.value);
+                 setReload(true);
+               }}
+             />
+             <ErrorMessage
+               touched={formik.touched}
+               errors={formik.errors}
+               name="industry_type_id"
+             />
+           </div>
+         </LabelWrapper>
+       </Flex>
+       <Flex>
+         <InputText
+           inputConatinerClass={styles.with80}
+           label="No of Employees"
+           required
+           className={styles.inputheight}
+           onChange={(event) => {
+             formik.handleChange('no_of_emp')(
+               event.target.value.replace(/\D/g, ''),
+             );
+             setReload(true);
+           }}
+           value={formik.values.no_of_emp}
+         />
+         {!isEmpty(formik.values.no_of_emp) &&
+           Number(formik.values.no_of_emp) > 1000 && (
+             <Text size={12} color="error">
+               No of Employees must consist of less than 1000 characters
+             </Text>
+           )}
+         {!isEmpty(formik.values.no_of_emp) &&
+           Number(formik.values.no_of_emp) === 0 && (
+             <Text size={12} color="error">
+               No of Employees must consist of more than 0 characters
+             </Text>
+           )}
+         <ErrorMessage
+           touched={formik.touched}
+           errors={formik.errors}
+           name="no_of_emp"
+         />
+       </Flex>
+     </Flex>
 
-      <Flex row className={styles.companyrow}>
-        <Flex>
-          <InputText
-            inputConatinerClass={styles.width80}
-            label="Street Address"
-            required
-            className={styles.inputheight}
-            value={formik.values.address}
-            onChange={(e) => {
-              formik.setFieldValue('address', e.target.value);
-              setReload(true);
-            }}
-          />
-          <ErrorMessage
-            touched={formik.touched}
-            errors={formik.errors}
-            name="address"
-          />
-        </Flex>
+     <Flex row className={styles.companyrow}>
+       <Flex>
+         <InputText
+           inputConatinerClass={styles.width80}
+           label="Street Address"
+           required
+           className={styles.inputheight}
+           value={formik.values.address}
+           onChange={(e) => {
+             formik.setFieldValue('address', e.target.value);
+             setReload(true);
+           }}
+         />
+         <ErrorMessage
+           touched={formik.touched}
+           errors={formik.errors}
+           name="address"
+         />
+       </Flex>
 
-        <Flex>
-          <LabelWrapper label="Country" required>
-            <div className={styles.with80} style={{ marginTop: 5 }}>
-              <SelectTag
-                id={'company_profile__country'}
-                required
-                linechange
-                isSearchable
-                options={isGetCountry}
-                placeholder="Select"
-                getOptionValue={(option: { id: number }) => `${option.id}`}
-                getOptionLabel={(option: { name: string }) => option.name}
-                value={
-                  isGetCountry
-                    ? isGetCountry.find(
-                        (option) =>
-                          Number(option.id) ===
-                          Number(formik.values.country_id),
-                      )
-                    : ''
-                }
-                onChange={(option) => {
-                  formik.setFieldValue('country_id', option.id);
-                  formik.setFieldValue('state_id', '');
-                  formik.setFieldValue('city_id', '');
-                  setReload(true);
-                }}
-              />
-              <ErrorMessage
-                touched={formik.touched}
-                errors={formik.errors}
-                name="country_id"
-              />
-            </div>
-          </LabelWrapper>
-        </Flex>
-        <Flex>
-          <LabelWrapper label="State" required>
-            <div className={styles.with80} style={{ marginTop: 5 }}>
-              <SelectTag
-                id={'company_profile__state'}
-                // inputId="jobdetails___state"
-                isSearchable
-                options={getState}
-                required
-                linechange
-                getOptionValue={(option: { id: number }) => `${option.id}`}
-                getOptionLabel={(option: { name: string }) => option.name}
-                value={
-                  !isEmpty(formik.values.state_id)
-                    ? getState
-                      ? getState.find(
-                          (option) =>
-                            option.id === Number(formik.values.state_id),
-                        )
-                      : ''
-                    : ''
-                }
-                onChange={(option) => {
-                  formik.setFieldValue('state_id', option.id);
-                  formik.setFieldValue('city_id', '');
-                  setReload(true);
-                }}
-              />
-              <ErrorMessage
-                touched={formik.touched}
-                errors={formik.errors}
-                name="state_id"
-              />
-            </div>
-          </LabelWrapper>
-        </Flex>
-      </Flex>
-      <Flex row className={styles.companyrow} flex={12}>
-        <Flex>
-          <LabelWrapper label="City" required>
-            <div className={styles.with80} style={{ marginTop: 5 }}>
-              <SelectTag
-                id={'company_profile__city'}
-                isSearchable
-                options={getCity}
-                required
-                linechange
-                getOptionValue={(option: { id: number }) => `${option.id}`}
-                getOptionLabel={(option: { name: string }) => option.name}
-                value={
-                  !isEmpty(formik.values.city_id)
-                    ? getCity
-                      ? getCity.find(
-                          (option) =>
-                            option.id === Number(formik.values.city_id),
-                        )
-                      : ''
-                    : ''
-                }
-                onChange={(option) => {
-                  formik.setFieldValue('city_id', option.id);
-                  setReload(true);
-                }}
-              />
-              <ErrorMessage
-                touched={formik.touched}
-                errors={formik.errors}
-                name="city_id"
-              />
-            </div>
-          </LabelWrapper>
-        </Flex>
-        <Flex>
-          <InputText
-            inputConatinerClass={styles.with80}
-            label="Zip Code"
-            required
-            className={styles.inputheight}
-            value={formik.values.zipcode}
-            onChange={(e) => {
-              formik.setFieldValue('zipcode', e.target.value);
-              setReload(true);
-            }}
-          />
-          {console.log(emtysp, 'manoj')}
-          {emtysp &&
-          !isEmpty(formik.values.zipcode) &&
-          formik.values.zipcode.length > 6 ? (
-            <Text size={12} color="error">
-              Zip Code should not exceed 6 characters
-            </Text>
-          ) : (
-            ''
-          )}
-          {emtysp &&
-          !isEmpty(formik.values.zipcode) &&
-          formik.values.zipcode.trim().length < 4 ? (
-            <Text size={12} color="error">
-              Zip Code should have atleast 4 characters
-            </Text>
-          ) : (
-            ''
-          )}
-          {!emtysp ? (
-            <Text size={12} color="error">
-              Space is not a character
-            </Text>
-          ) : (
-            ''
-          )}
-          {emtysp ? (
-            <ErrorMessage
-              touched={formik.touched}
-              errors={formik.errors}
-              name="zipcode"
-            />
-          ) : (
-            ''
-          )}
-        </Flex>
-        <Flex flex={4}></Flex>
-      </Flex>
+       <Flex>
+         <LabelWrapper label="Country" required>
+           <div className={styles.with80} >
+             <SelectTag
+               id={'company_profile__country'}
+               required
+               linechange
+               isSearchable
+               options={isGetCountry}
+               placeholder="Select"
+               getOptionValue={(option: { id: number }) => `${option.id}`}
+               getOptionLabel={(option: { name: string }) => option.name}
+               value={
+                 isGetCountry
+                   ? isGetCountry.find(
+                       (option) =>
+                         Number(option.id) ===
+                         Number(formik.values.country_id),
+                     )
+                   : ''
+               }
+               onChange={(option) => {
+                 formik.setFieldValue('country_id', option.id);
+                 formik.setFieldValue('state_id', '');
+                 formik.setFieldValue('city_id', '');
+                 setReload(true);
+               }}
+             />
+             <ErrorMessage
+               touched={formik.touched}
+               errors={formik.errors}
+               name="country_id"
+             />
+           </div>
+         </LabelWrapper>
+       </Flex>
+       <Flex>
+         <LabelWrapper label="State" required>
+           <div className={styles.with80} >
+             <SelectTag
+               id={'company_profile__state'}
+               // inputId="jobdetails___state"
+               isSearchable
+               options={getState}
+               required
+               linechange
+               getOptionValue={(option: { id: number }) => `${option.id}`}
+               getOptionLabel={(option: { name: string }) => option.name}
+               value={
+                 !isEmpty(formik.values.state_id)
+                   ? getState
+                     ? getState.find(
+                         (option) =>
+                           option.id === Number(formik.values.state_id),
+                       )
+                     : ''
+                   : ''
+               }
+               onChange={(option) => {
+                 formik.setFieldValue('state_id', option.id);
+                 formik.setFieldValue('city_id', '');
+                 setReload(true);
+               }}
+             />
+             <ErrorMessage
+               touched={formik.touched}
+               errors={formik.errors}
+               name="state_id"
+             />
+           </div>
+         </LabelWrapper>
+       </Flex>
+     </Flex>
+     <Flex row className={styles.companyrow} flex={12}>
+       <Flex>
+         <LabelWrapper label="City" required>
+           <div className={styles.with80} >
+             <SelectTag
+               id={'company_profile__city'}
+               isSearchable
+               options={getCity}
+               required
+               linechange
+               getOptionValue={(option: { id: number }) => `${option.id}`}
+               getOptionLabel={(option: { name: string }) => option.name}
+               value={
+                 !isEmpty(formik.values.city_id)
+                   ? getCity
+                     ? getCity.find(
+                         (option) =>
+                           option.id === Number(formik.values.city_id),
+                       )
+                     : ''
+                   : ''
+               }
+               onChange={(option) => {
+                 formik.setFieldValue('city_id', option.id);
+                 setReload(true);
+               }}
+             />
+             <ErrorMessage
+               touched={formik.touched}
+               errors={formik.errors}
+               name="city_id"
+             />
+           </div>
+         </LabelWrapper>
+       </Flex>
+       <Flex>
+         <InputText
+           inputConatinerClass={styles.with80}
+           label="Zip Code"
+           required
+           className={styles.inputheight}
+           value={formik.values.zipcode}
+           onChange={(e) => {
+             formik.setFieldValue('zipcode', e.target.value);
+             setReload(true);
+           }}
+         />
+         {emtysp &&
+         !isEmpty(formik.values.zipcode) &&
+         formik.values.zipcode.length > 6 ? (
+           <Text size={12} color="error">
+             Zip Code should not exceed 6 characters
+           </Text>
+         ) : (
+           ''
+         )}
+         {emtysp &&
+         !isEmpty(formik.values.zipcode) &&
+         formik.values.zipcode.trim().length < 4 ? (
+           <Text size={12} color="error">
+             Zip Code should have atleast 4 characters
+           </Text>
+         ) : (
+           ''
+         )}
+         {!emtysp ? (
+           <Text size={12} color="error">
+             Space is not a character
+           </Text>
+         ) : (
+           ''
+         )}
+         {emtysp ? (
+           <ErrorMessage
+             touched={formik.touched}
+             errors={formik.errors}
+             name="zipcode"
+           />
+         ) : (
+           ''
+         )}
+       </Flex>
+       <Flex flex={4}></Flex>
+     </Flex>
 
-      <Flex row className={styles.companyrow9}>
-        {/* <Flex   className={styles.companyrow1}> */}
+     <Flex row className={styles.companyrow9}>
+       {/* <Flex   className={styles.companyrow1}> */}
 
-        {fileurl.length === 0 && islogo.length === 0 ? (
-          <Flex row flex={12}>
-            <Flex>
-              <LabelWrapper label="Company Logo">
-                <Flex
-                  height={'30px'}
-                  className={styles.imgStyle}
-                  row
-                  center
-                  flex={1}
-                  style={{ marginTop: 5 }}
-                >
-                  <label
-                    htmlFor="company_profile___img"
-                    className={styles.btnStyle}
-                  >
-                    <Flex className={styles.openpopup1}>
-                      {' '}
-                      <SvgPicupload />
-                    </Flex>
-                  </label>
-                  <Flex center className={styles.openpopup2} flex={11}>
-                    <label
-                      htmlFor="company_profile___img"
-                      className={styles.btnStyle}
-                    >
-                      Upload a logo
-                    </label>
-                  </Flex>
+       {fileurl.length === 0 && islogo.length === 0 ? (
+         <Flex row flex={12}>
+           <Flex>
+             <LabelWrapper label="Company Logo">
+               <Flex
+                 height={'30px'}
+                 className={styles.imgStyle}
+                 row
+                 center
+                 flex={1}
+                //  style={{ marginTop: 5 }}
+               >
+                 <label
+                   htmlFor="company_profile___img"
+                   className={styles.btnStyle}
+                 >
+                   <Flex className={styles.openpopup1}>
+                     {' '}
+                     <SvgPicupload />
+                   </Flex>
+                 </label>
+                 <Flex center className={styles.openpopup2} flex={11}>
+                   <label
+                     htmlFor="company_profile___img"
+                     className={styles.btnStyle}
+                   >
+                     Upload a logo
+                   </label>
+                 </Flex>
 
-                  <Flex
-                    // className={styles.openpopup3  }
-                    // columnFlex
-                    center
-                    middle
-                    flex={1}
-                    // onMouseEnter={() => setShow(true)}
-                  >
-                    <label
-                      onMouseEnter={() => setopenpopup(true)}
-                      onMouseLeave={() => setopenpopup(false)}
-                      className={styles.changeStyle11}
-                    >
-                      <SvgModuleicon />
-                    </label>
-                  </Flex>
-                </Flex>
-              </LabelWrapper>
-              {iserrorMb && (
-                <Text size={12} color="error">
-                  {FILE_2MB}
-                </Text>
-              )}
-            </Flex>
+                 <Flex
+                   // className={styles.openpopup3  }
+                   // columnFlex
+                   center
+                   middle
+                   flex={1}
+                   // onMouseEnter={() => setShow(true)}
+                 >
+                   <label
+                     onMouseEnter={() => setopenpopup(true)}
+                     onMouseLeave={() => setopenpopup(false)}
+                     className={styles.changeStyle11}
+                   >
+                     <SvgModuleicon />
+                   </label>
+                 </Flex>
+               </Flex>
+             </LabelWrapper>
+             {iserrorMb && (
+               <Text size={12} color="error">
+                 {FILE_2MB}
+               </Text>
+             )}
+           </Flex>
 
-            <ErrorMessage
-              touched={formik.touched}
-              errors={formik.errors}
-              name="Company Logo"
-            />
-            <Flex flex={5} style={{ margintop: '-2vh' }}>
-              {openpopup === true ? (
-                <Card className={styles.cardfront1}>
-                  <Flex row center>
-                    <SvgModuleicon />{' '}
-                    <Text className={styles.moreinformation}>
-                      More Information
-                    </Text>{' '}
-                  </Flex>
-                  <Flex className={styles.tooltipcontent}>
-                    <Text className={styles.gray_color}>
-                      Dimension:{' '}
-                      <Text className={styles.gray_color}>
-                        {' '}
-                        Square: 120px X 120px, Rectangle: 500px X 230px
-                      </Text>
-                    </Text>
-                    {/* <Text >
-                Square: 120px * 120px, Rectangle: 500px * 230px
-              </Text> */}
-                    <Text className={styles.gray_color}>
-                      File size should not exceed 2MB.
-                    </Text>
-                    <Text style={{ marginTop: 5, fontSize: '13px' }}>
-                      Note:
-                      <Text style={{ marginLeft: 3, fontSize: '13px' }}>
-                        This logo will be used in your career page created by
-                        zita.
-                      </Text>
-                    </Text>
-                  </Flex>
-                </Card>
-              ) : (
-                ''
-              )}
-            </Flex>
-            <Flex flex={3}></Flex>
-            <input
-              id="company_profile___img"
-              type="file"
-              onChange={handleChangeImage}
-              accept="image/*"
-              className={styles.fileStyle}
-            />
-          </Flex>
-        ) : (
-          <Flex column flex={12}>
-            <Flex row flex={12}>
-              <Flex>
-                <LabelWrapper label="Company Logo">
-                  <Flex
-                    height={'30px'}
-                    className={styles.imgStyle}
-                    row
-                    center
-                    flex={1}
-                    style={{ marginTop: 5 }}
-                  >
-                    <label
-                      htmlFor="company_profile___img"
-                      className={styles.btnStyle}
-                    >
-                      <Flex className={styles.openpopup1}>
-                        <div>
-                          {' '}
-                          {imgtype === true ? (
-                            <img
-                              src={Jpg}
-                              className={styles.pngsize}
-                              alt="logo"
-                            />
-                          ) : (
-                            <img
-                              src={Png}
-                              className={styles.pngsize}
-                              alt="logo"
-                            />
-                          )}
-                        </div>
-                      </Flex>
-                    </label>
-                    <Flex className={styles.openpopup2} flex={6}>
-                      <label
-                        htmlFor="company_profile___img"
-                        onMouseEnter={() => setShows(true)}
-                        onMouseLeave={() => setShows(false)}
-                        className={styles.companyprofileimg}
-                      >
-                        {' '}
-                        {fileurl.length === 0 ? (
-                          <Text className={styles.urlimagefile} title={islogo}>
-                            {islogo}
-                          </Text>
-                        ) : (
-                          <Text className={styles.urlimagefile} title={imgUrl}>
-                            {imgUrl}
-                          </Text>
-                        )}
-                      </label>
-                    </Flex>
+           <ErrorMessage
+             touched={formik.touched}
+             errors={formik.errors}
+             name="Company Logo"
+           />
+           <Flex flex={5} style={{ margintop: '-2vh' }}>
+             {openpopup === true ? (
+               <Card className={styles.cardfront1}>
+                 <Flex row center>
+                   <SvgModuleicon />{' '}
+                   <Text className={styles.moreinformation}>
+                     More Information
+                   </Text>{' '}
+                 </Flex>
+                 <Flex className={styles.tooltipcontent}>
+                   <Text className={styles.gray_color}>
+                     Dimension:{' '}
+                     <Text className={styles.gray_color}>
+                       {' '}
+                       Square: 120px X 120px, Rectangle: 500px X 230px
+                     </Text>
+                   </Text>
+                   {/* <Text >
+               Square: 120px * 120px, Rectangle: 500px * 230px
+             </Text> */}
+                   <Text className={styles.gray_color}>
+                     File size should not exceed 2MB.
+                   </Text>
+                   <Text style={{ marginTop: 5, fontSize: '13px' }}>
+                     Note:
+                     <Text style={{ marginLeft: 3, fontSize: '13px' }}>
+                       This logo will be used in your career page created by
+                       zita.
+                     </Text>
+                   </Text>
+                 </Flex>
+               </Card>
+             ) : (
+               ''
+             )}
+           </Flex>
+           <Flex flex={3}></Flex>
+           <input
+             id="company_profile___img"
+             type="file"
+             onChange={handleChangeImage}
+             accept="image/*"
+             className={styles.fileStyle}
+           />
+         </Flex>
+       ) : (
+         <Flex column flex={12}>
+           <Flex row flex={12}>
+             <Flex>
+               <LabelWrapper label="Company Logo">
+                 <Flex
+                   height={'30px'}
+                   className={styles.imgStyle}
+                   row
+                   center
+                   flex={1}
+                  //  style={{ marginTop: 5 }}
+                 >
+                   <label
+                     htmlFor="company_profile___img"
+                     className={styles.btnStyle}
+                   >
+                     <Flex className={styles.openpopup1}>
+                       <div>
+                         {' '}
+                         {imgtype === true ? (
+                           <img
+                             src={Jpg}
+                             className={styles.pngsize}
+                             alt="logo"
+                           />
+                         ) : (
+                           <img
+                             src={Png}
+                             className={styles.pngsize}
+                             alt="logo"
+                           />
+                         )}
+                       </div>
+                     </Flex>
+                   </label>
+                   <Flex className={styles.openpopup2} flex={6}>
+                     <label
+                       htmlFor="company_profile___img"
+                       onMouseEnter={() => setShows(true)}
+                       onMouseLeave={() => setShows(false)}
+                       className={styles.companyprofileimg}
+                     >
+                       {' '}
+                       {fileurl.length === 0 ? (
+                         <Text className={styles.urlimagefile} title={islogo}>
+                           {islogo}
+                         </Text>
+                       ) : (
+                         <Text className={styles.urlimagefile} title={imgUrl}>
+                           {imgUrl}
+                         </Text>
+                       )}
+                     </label>
+                   </Flex>
 
-                    <Flex
-                      className={styles.changeStyle111}
-                      center
-                      middle
-                      flex={1}
-                      onClick={reset}
-                      title="Remove Logo"
-                      // onClick={() => cancelselect()}
-                      // onMouseEnter={() => setShow(true)}
-                    >
-                      <SvgCloseSmal />
-                    </Flex>
-                  </Flex>
-                </LabelWrapper>
-                {iserrorMb && (
-                  <Text size={12} color="error">
-                    {FILE_2MB}
-                  </Text>
-                )}
-              </Flex>
-              <Flex flex={4}></Flex>
-              <Flex flex={4}></Flex>
-            </Flex>
-            <Flex row flex={12} className={styles.merginghover}>
-              <Flex>
-                {isShows && (
-                  <Flex center middle className={styles.changeimgfile1}>
-                    <label
-                      htmlFor="company_profile___img"
-                      onMouseEnter={() => setShows(true)}
-                      onMouseLeave={() => setShows(false)}
-                      className={styles.merginghover1}
-                    >
-                      <Flex middle center className={styles.changelogo}>
-                        Change Logo
-                      </Flex>
-                    </label>
-                  </Flex>
-                )}
-              </Flex>
-              <Flex flex={4}></Flex>
-              <Flex flex={4}></Flex>
-            </Flex>
-          </Flex>
-        )}
-        <Flex row>
-          <input
-            id="company_profile___img"
-            type="file"
-            onChange={handleChangeImage}
-            accept="image/*"
-            className={styles.fileStyle}
-          />{' '}
-        </Flex>
-      </Flex>
+                   <Flex
+                     className={styles.changeStyle111}
+                     center
+                     middle
+                     flex={1}
+                     onClick={reset}
+                     title="Remove Logo"
+                     // onClick={() => cancelselect()}
+                     // onMouseEnter={() => setShow(true)}
+                   >
+                     <SvgCloseSmal />
+                   </Flex>
+                 </Flex>
+               </LabelWrapper>
+               {iserrorMb && (
+                 <Text size={12} color="error">
+                   {FILE_2MB}
+                 </Text>
+               )}
+             </Flex>
+             <Flex flex={4}></Flex>
+             <Flex flex={4}></Flex>
+           </Flex>
+           <Flex row flex={12} className={styles.merginghover}>
+             <Flex>
+               {isShows && (
+                 <Flex center middle className={styles.changeimgfile1}>
+                   <label
+                     htmlFor="company_profile___img"
+                     onMouseEnter={() => setShows(true)}
+                     onMouseLeave={() => setShows(false)}
+                     className={styles.merginghover1}
+                   >
+                     <Flex middle center className={styles.changelogo}>
+                       Change Logo
+                     </Flex>
+                   </label>
+                 </Flex>
+               )}
+             </Flex>
+             <Flex flex={4}></Flex>
+             <Flex flex={4}></Flex>
+           </Flex>
+         </Flex>
+       )}
+       <Flex row>
+         <input
+           id="company_profile___img"
+           type="file"
+           onChange={handleChangeImage}
+           accept="image/*"
+           className={styles.fileStyle}
+         />{' '}
+       </Flex>
+     </Flex>
+     <Flex className={styles.margintopline}></Flex>
+     </>
+     
+ ):("")}
+ 
 
       {/* <Flex marginTop={"-10px"}><ErrorMessage
             touched={formik.touched}
@@ -1184,7 +1189,7 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
           /></Flex> */}
       <Flex>
         {(isLoading || isload) && <Loader />}
-        <Flex className={styles.margintopline}></Flex>
+       
         {/* <Flex row center>
           <Flex center>
             <SvgUserdetail />
@@ -1270,7 +1275,7 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
                       row
                       center
                       flex={1}
-                      style={{ marginTop: 5 }}
+                      // style={{ marginTop: 5 }}
                     >
                       <label
                         htmlFor="bannersetip_user__img"
@@ -1300,7 +1305,7 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
                       >
                         <label
                           onMouseEnter={() => setopenpopuptwo(true)}
-                          // onMouseLeave={() => setopenpopuptwo(false)}
+                          onMouseLeave={() => setopenpopuptwo(false)}
                           className={styles.changeStyle11} 
                         >
                           <SvgModuleicon />
@@ -1383,7 +1388,7 @@ const CompanyPage = ({ setKey, setReload, setReloadProfile }: Props) => {
                         row
                         center
                         flex={1}
-                        style={{ marginTop: 5 }}
+                        // style={{ marginTop: 5 }}
                       >
                         <label
                           htmlFor="bannersetip_user__img"

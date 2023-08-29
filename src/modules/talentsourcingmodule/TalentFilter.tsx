@@ -176,10 +176,11 @@ const TalentFilter = ({
     setRelocate(!isRelocate);
     setchange(true);
   };
+  const experience1 =
+    (newexperience && newexperience.value === 'all') || newexperience === null;
 
   return (
     <Flex row between>
-      {console.log('Experience', newexperience)}
       <Flex row>
         <Text className={''} style={{ marginTop: '3px' }}>
           Quick Filters :
@@ -189,7 +190,7 @@ const TalentFilter = ({
         !Newmaster1 &&
         !Newothers1 &&
         !newrelocate &&
-        !newexperience ? (
+        experience1 ? (
           <Text className={styles.quickfil} style={{ cursor: 'default' }}>
             {'All'}
           </Text>

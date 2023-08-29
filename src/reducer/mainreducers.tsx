@@ -116,6 +116,10 @@ import { integrationReducers } from '../modules/accountsettingsmodule/integratio
 import { dashboardReducers } from '../modules/dashboardmodule/candidatedashboard/store/reducer/candidatedashboardreducer';
 import { notificationReducers } from '../modules/navbar/empnavbar/store/notificationreducer';
 
+import {
+  useremail,
+  getmailfolders,
+} from '../modules/emailintegrationmodule/store/reducer/emailreducer';
 import { templatePageReducers } from '../modules/accountsettingsmodule/templatesmodule/store/reducer/templatesreducer';
 import { pipelinePageReducers } from '../modules/accountsettingsmodule/templatesmodule/store/reducer/pipelinereducer';
 import { schedulerReducers, slotterReducers, timezoneReducers } from '../modules/meetingscheduler/events/store/reducer/eventreducer';
@@ -205,6 +209,8 @@ export const reducers = {
   notificationReducers,
   sourcingPerformanceReducers,
   sourcingPerformanceDataReducers,
+  useremail,
+  getmailfolders,
   templatePageReducers,
   pipelinePageReducers,
   kanbanStagesReducers,

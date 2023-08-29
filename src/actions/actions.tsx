@@ -3,7 +3,7 @@ export const API_AUTH_login = 'auth/auth_login';
 export const PASSWORD_RESET = 'auth/password_reset_request';
 export const PASSWORD_RESET_VALID = 'auth/password_reset_request_valid';
 export const SIGNUP_RECRUITER = 'auth/signup_recruiter';
-export const SIGN_GETRECRUITER='auth/signup_getrecruiter';
+export const SIGN_GETRECRUITER = 'auth/signup_getrecruiter';
 export const PASSWORD_SET = 'auth/password_set_request';
 export const API_USER = 'user/user';
 export const PERMISSION = 'user/permission';
@@ -41,11 +41,11 @@ export const BULK_UPLOADED_MATCH = 'bulk/matching_api';
 export const BULK_UPLOADED_QUS = 'bulk/questionnaire_bulk';
 
 // applicant profile view action
-export const  JOB_MATCHING_API = 'job_matching_api/job_matching_api';
+export const JOB_MATCHING_API = 'job_matching_api/job_matching_api';
 export const APPLICANT_PROFILE_INITIAL = 'applicant/applicant_profile_initial';
 export const APPLICANT_PROFILE_MATCH = 'applicant/applicant_profile_match';
 export const APPLICANT_PROFILE_NOTES = 'applicant/applicant_profile_notes';
-export const APPLICANT_PROFILE_LIST='applicant/applicant_profile_list';
+export const APPLICANT_PROFILE_LIST = 'applicant/applicant_profile_list';
 export const APPLICANT_PROFILE_ALLMATCH =
   'applicant/applicant_profile_all_match';
 export const APPLICANT_PROFILE_MESSAGE = 'applicant/applicant_message';
@@ -84,7 +84,8 @@ export const ZITA_MATCH_DATA_CANDIDATE = 'zita/zita_match_data_candidate';
 // My DataBase
 export const MY_DATABASE_INITIAL = 'mydatabase/mydatabase_inital';
 export const MY_DATABASE_DATA = 'mydatabase/mydatabase_data';
-export const MY_DATABASE_PROFILE_FAVORITE = 'mydatabase/mydatabase_profile_favorite';
+export const MY_DATABASE_PROFILE_FAVORITE =
+  'mydatabase/mydatabase_profile_favorite';
 
 // Jd View
 export const JD_VIEW = 'jdview/jd_view';
@@ -101,7 +102,7 @@ export const JD_PROFILES = 'createjd/matching_algorithm';
 export const JD_QUESTIONNAIRE = 'createjd/jd_questionnaire_for_jd';
 export const JD_TEMPLATE = 'createjd/jd_template';
 export const JD_DUPLICATE = 'createjd/jd_duplicate';
-export const JD_WHATJOBS ='createjd/what_jobs_posting/'
+export const JD_WHATJOBS = 'createjd/what_jobs_posting/';
 
 // my_job_posting
 
@@ -142,6 +143,28 @@ export const CANDIDATE_PROFILE_EMAIL_VALIDATE =
 export const CANDIDATE_PROFILE_OTP_VALIDATE =
   'candidate/candidate_profile_otp_validate';
 
+//email integration
+
+export const GET_EMAIL = 'email_label';
+
+export const OUTLOOK_USER_PROFILE = 'outlook/me';
+
+export const INTEGRATE_MAIL = '';
+
+export const OUTLOOk_MAIL_REMOVE = 'delete_outlook_mail';
+
+export const OUTLOOk_MAIL_INTEGRATE = 'outlook_mail_api';
+
+export const GOOGLE_MAIL_INTEGRATE = 'google_mail_api';
+
+export const GOOGLE_MAIL_REMOVE = 'delete_google_mail';
+
+export const GOOGLE_CALL_BACK_URL = 'google_callbackurl';
+
+export const OUTLOOK_CALL_BACK_URL = 'Outlook_call_back_url';
+
+export const OUTLOOK_EMAIL_GET = '/me/mailFolders/Inbox/messages';
+
 // [Account Settings] --> Templates
 export const GET_TEMPLATE_DATA = 'account/template_data';
 export const CREATE_TEMPLATE_DATA = 'account/template_data_create';
@@ -157,7 +180,6 @@ export const UPDATE_PIPELINE_STAGE = 'account/pipeline_stage_update';
 export const UPDATE_COLOUR_PALLATE = 'account/colour_pallate_update';
 export const PIPELINE_SUGGESTIONS = 'account/pipeline_suggestions';
 export const PIPELINE_STAGES_REORDER = 'account/pipeline_stages_reorder';
-
 
 // [Meeting Scheduler ] --> events
 export const EVENT_SCHEDULER_FORM_DETAILS = 'events/events';

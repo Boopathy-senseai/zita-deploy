@@ -277,7 +277,6 @@ const applicantProfileInitalReducer = createSlice({
       (state, action) => {
         state.isLoading = false;
         state.candidate_details = action.payload.candidate_details;
-        console.log(action.payload,'theaivameahhh')
         state.jd = action.payload.jd;
         state.total_exp = action.payload.total_exp;
         state.skills = action.payload.skills;
@@ -733,7 +732,6 @@ const applicantInviteReducer = createSlice({
       state.error = '';
     });
     builder.addCase(applicantInviteMiddleWare.fulfilled, (state, action) => {
-      console.log("stattttttttttttt",state,action)
       state.isLoading = false; 
       state.stages = action.payload || [];  // Set the data from the thunk response
       state.invite = action.payload || []; 
@@ -786,10 +784,18 @@ const interviewScorecardState: InterviewScorecardReducerState = {
       created_at: '',
       first_name: '',
       last_name: '',
-      img_name:''
-
+      img_name:'',
+      rating1:0,
+      rating2:0,
+      rating3:0,
+      rating4:0,
+      rating5:0,
+      overall_percentage:0,
+      user_id:0, 
     },
   ],
+  overall:0,
+  user:0,
 };
 
 const applicantScoreReducer = createSlice({
@@ -803,7 +809,9 @@ const applicantScoreReducer = createSlice({
     });
     builder.addCase(applicantScoreMiddleWare.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.interview = action.payload?.interview; 
+      state.interview = action.payload?.interview;
+      state.overall = action.payload?.overall;
+      state.user = action.payload?.user; 
     });
     builder.addCase(applicantScoreMiddleWare.rejected, (state, action) => {
       state.isLoading = false;
@@ -822,6 +830,7 @@ const IntegratemailState: Intergratemailstate = {
     }
   ],
   mail:'',
+  events:false,
 };
 
 const applicantIntegratemailReducer = createSlice({
@@ -837,6 +846,7 @@ const applicantIntegratemailReducer = createSlice({
       state.isLoading = false;
       state.email = action.payload.email;
       state.mail = action.payload.mail; 
+      state.events = action.payload.events
     });
     builder.addCase(IntergratemailMiddleWare.rejected, (state, action) => {
       state.isLoading = false;

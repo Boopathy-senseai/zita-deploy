@@ -84,7 +84,6 @@ const JobView = () => {
   const jobStatus: any = query.get('interested');
   const candiId: any = query.get('can_id');
   const applicationFocus: any = query.get('applicationFocus');
-console.log(candiId,'gggggggggggggggggggcndiiiiiii')
   const getLoginUserId =
     localStorage.getItem('loginUserId') !== null
       ? localStorage.getItem('loginUserId')

@@ -114,3 +114,7 @@
 .pointer{
   cursor: pointer;
 }
+.flexproperty{
+  display: flex;
+  align-items:center;
+}

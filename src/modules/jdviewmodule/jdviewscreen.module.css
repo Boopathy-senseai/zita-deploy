@@ -164,8 +164,7 @@ right: 0px;
   }
   .cardOverAll {
     padding: 0 16px 10px 0;
-
-    margin: 20px 0;
+    margin: 20px 0px 0px 2px;
   }
   .tableDiv {
     margin-top: 10px;
@@ -186,4 +185,10 @@ right: 0px;
     -webkit-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 47%);
     padding: 16px;
     margin: 16px 0 20px;
+}
+
+.questionary{
+  display: flex;
+  justify-content: center;
+  text-align: center;
 }

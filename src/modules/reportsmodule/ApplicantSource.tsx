@@ -184,121 +184,125 @@ const ApplicantReports = () => {
   // console.log(isChart, shortlisted);
   const columns = useMemo(() => tableFun(), [table]);
   return (
-	<>
-	<Flex row className={styles.ribbon} between>
-          <Flex marginTop={9} marginLeft={8}>
-            <Text size={16} bold color="theme">
-              Applicants Sourcing Reports
-            </Text>
-          </Flex>
-          <Flex>
-            <div className={styles.triangle}></div>
-          </Flex>
+    <>
+      <Flex row className={styles.ribbon} between>
+        <Flex marginTop={9} marginLeft={8}>
+          <Text size={16} bold color="theme">
+            Applicants Sourcing Reports
+          </Text>
         </Flex>
-    <Flex className={styles.overAll}>
-      {isLoading && <Loader />}
+        <Flex>
+          <div className={styles.triangle}></div>
+        </Flex>
+      </Flex>
+      <Flex className={styles.overAll}>
+        {isLoading && <Loader />}
 
-      <Flex>
-        
-      </Flex>
-      {/* <Flex className={styles.reportscroll}> */}
-      <Text style={{ margin: '10px 0px', paddingLeft: '5px' }}>
-        Get insights about applicants from sourcing platforms or job boards.
-        Each section/graph/chart will explain how they performed in applicant
-        sourcing from either one or multiple jobs together.
-      </Text>
-      <Flex row className={styles.marginTop} center>
-        <Text className={styles.selected}>Select Job</Text>
-        <div className={styles.skillContainer}>
-          <SelectTag
-            labelBold
-            value={
-              jobViewArray
-                ? jobViewArray.find(
-                    (option: any) => option.value === formik.values.job_id,
-                  )
-                : ''
-            }
-            options={jobViewArray}
-            placeholder="Select"
-            onChange={(option) => {
-              formik.setFieldValue('job_id', option.value);
-            }}
-          />
-        </div>
-        <Button onClick={hanldeSubmitform} disabled={table.length === 0}>
-          Download Report
-        </Button>
-      </Flex>
-      {piechart && piechart.length > 0 && isChart ? (
-        <Flex style={{ paddingLeft: '5px' }}>
-          <Flex row>
-            <Flex flex={6}>
-              <Card className={styles.cardOverAllChart}>
-                <Text bold size={14}>
-                  Applicants by Source
-                </Text>
-                <Chart options={options} />
-              </Card>
-            </Flex>
-            <Flex flex={6}>
-              <Card className={styles.cardOverAllChart}>
-                <Text bold size={14}>
-                  Shortlisted Rate
-                </Text>{' '}
-                <Text style={{ marginBottom: 10 }}>
-                  Insights: Shortlisted rate from total applicants by source
-                </Text>{' '}
-                {shortlisted &&
-                shortlisted !== null &&
-                shortlisted.length !== 0 ? (
-                  <Chart options={chartOptions} />
-                ) : (
-                  <Flex center middle className={styles.noData}>
-                    <Flex
-                      style={{ justifyContent: 'center', marginBotto: '2px' }}
-                    >
-                      <SvgNoDataIcon width={16} height={16} fill={'#888'} />
-                    </Flex>
-                    <Text color="gray">No Data Available</Text>
-                  </Flex>
-                )}
-              </Card>
-            </Flex>
-          </Flex>
-        </Flex>
-      ) : (
-        <Flex center middle className={styles.noData1}>
-          <Flex style={{ justifyContent: 'center', marginBotto: '2px' }}>
-            <SvgNoDataIcon width={16} height={16} fill={'#888'} />
-          </Flex>
-          <Text color="gray">No Data Available</Text>
-        </Flex>
-      )}
-      {table && table.length > 0 && (
-        <Flex style={{ paddingTop: '15px' }}>
-          <Flex>
-            <Text bold style={{ margin: '10px 0px 5px 10px' }} size={14}>
-              Report Data
-            </Text>
-            <Text style={{ margin: '0px 0px 5px 10px' }}>
-              A comprehensive data table showcasing applicants count from
-              sourcing platforms or job boards.
-            </Text>
-            <Table
-              columns={columns}
-              dataSource={table}
-              empty="No data available"
-              scrollHeight={270}
-              border="normal"
-              fixedScrollHeight
+        <Flex></Flex>
+        {/* <Flex className={styles.reportscroll}> */}
+        <Text style={{ margin: '10px 0px', paddingLeft: '5px' }}>
+          Get insights about applicants from sourcing platforms or job boards.
+          Each section/graph/chart will explain how they performed in applicant
+          sourcing from either one or multiple jobs together.
+        </Text>
+        <Flex row className={styles.marginTop} center>
+          <Text className={styles.selected}>Select Job</Text>
+          <div className={styles.skillContainer}>
+            <SelectTag
+              labelBold
+              value={
+                jobViewArray
+                  ? jobViewArray.find(
+                      (option: any) => option.value === formik.values.job_id,
+                    )
+                  : ''
+              }
+              options={jobViewArray}
+              placeholder="Select"
+              onChange={(option) => {
+                formik.setFieldValue('job_id', option.value);
+              }}
             />
-          </Flex>
+          </div>
+          <Button onClick={hanldeSubmitform} disabled={table.length === 0}>
+            Download Report
+          </Button>
         </Flex>
-      )}
-      {/* </Flex> */}
-    </Flex>
-	</>
+        {piechart && piechart.length > 0 && isChart ? (
+          <Flex style={{ paddingLeft: '5px' }}>
+            <Flex row>
+              <Flex flex={6}>
+                <Card className={styles.cardOverAllChart}>
+                  <Text bold size={14}>
+                    Applicants by Source
+                  </Text>
+                  <Chart options={options} />
+                </Card>
+              </Flex>
+              <Flex flex={6}>
+                <Card className={styles.cardOverAllChart}>
+                  <Text bold size={14}>
+                    Shortlisted Rate
+                  </Text>{' '}
+                  <Text style={{ marginBottom: 10 }}>
+                    Insights: Shortlisted rate from total applicants by source
+                  </Text>{' '}
+                  {shortlisted &&
+                  shortlisted !== null &&
+                  shortlisted.length !== 0 ? (
+                    <Chart options={chartOptions} />
+                  ) : (
+                    <Flex center middle className={styles.noData}>
+                      <Flex
+                        style={{ justifyContent: 'center', marginBotto: '2px' }}
+                      >
+                        <SvgNoDataIcon width={16} height={16} fill={'#888'} />
+                      </Flex>
+                      <Text color="gray">No data available</Text>
+                    </Flex>
+                  )}
+                </Card>
+              </Flex>
+            </Flex>
+          </Flex>
+        ) : (
+          <Flex
+            center
+            middle
+            className={styles.noData}
+            style={{ marginTop: '10%', marginBottom: '10%' }}
+          >
+            {' '}
+            <Flex style={{ justifyContent: 'center', marginBotto: '2px' }}>
+              <SvgNoDataIcon width={16} height={16} fill={'#888'} />
+            </Flex>
+            <Text color="gray">No data available</Text>
+          </Flex>
+        )}
+        {table && table.length > 0 && (
+          <Flex style={{ paddingTop: '15px' }}>
+            <Flex>
+              <Text bold style={{ margin: '10px 0px 5px 10px' }} size={14}>
+                Report Data
+              </Text>
+              <Text style={{ margin: '0px 0px 5px 10px' }}>
+                A comprehensive data table showcasing applicants count from
+                sourcing platforms or job boards.
+              </Text>
+              <Table
+                columns={columns}
+                dataSource={table}
+                empty="No data available"
+                scrollHeight={270}
+                border="normal"
+                fixedScrollHeight
+              />
+            </Flex>
+          </Flex>
+        )}
+        {/* </Flex> */}
+      </Flex>
+    </>
   );
 };
 

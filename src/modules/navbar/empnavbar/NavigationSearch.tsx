@@ -264,11 +264,9 @@ const NavigationSearch = ({ onButtonClick, onbuttonchange }) => {
   const toFindDuplicates = (arry: string[]) =>
     arry.filter((item, index) => arry.indexOf(item) === index);
   const duplicateElementa = toFindDuplicates(optionsArray);
-  // console.log('duplicateElementa',duplicateElementa);
 
   return (
     <div style={{ position: 'relative', width: '195px' }}>
-      {console.log('history', history)}
       <div style={{ position: 'absolute', zIndex: 11, top: 3, left: 10 }}>
         <SvgSearch fill={'#581845'} />
       </div>

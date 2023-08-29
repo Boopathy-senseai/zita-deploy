@@ -549,7 +549,7 @@ const ProfileCard = () => {
                 <Flex marginBottom={2}>
                   <SvgGlobe height={16} width={16} fill={'#581845'} />
                 </Flex>
-                <Flex marginLeft={5}>
+                <Flex marginLeft={7}>
                   <LinkWrapper to={'/account_setting/settings'}>
                     <Text
                       style={{
@@ -569,7 +569,7 @@ const ProfileCard = () => {
                 <Flex>
                   <SvgGlobe height={16} width={16} fill={'#581845'} />
                 </Flex>
-                <Flex marginLeft={11}>
+                <Flex marginLeft={8}>
                   {' '}
                   <a target={'_blank'} rel="noreferrer" href={weburl}>
                     <Text
@@ -628,7 +628,7 @@ const ProfileCard = () => {
                 <Flex marginRight={1}>
                   <SvgLocationicon height={16} width={16} fill={'#581845'} />
                 </Flex>
-                <Flex marginLeft={5} style={{ fontSize: '13px' }}>
+                <Flex marginLeft={5} className={styles.address} title={`${address},${city},${state},${country},${zipcode}`}>
                   {address}, {city}, {state}, {country}, {zipcode}
                 </Flex>
               </Flex>

@@ -5,8 +5,9 @@ import AllMatchTab from '../applicantprofilemodule/AllMatchTab';
 import InvitationStatusTab from '../applicantprofilemodule/InvitationStatusTab';
 import MatchingAnalysisTab from '../applicantprofilemodule/MatchingAnalysisTab';
 import NotesTab from '../applicantprofilemodule/NotesTab';
-import ScreeningStatusTab from '../applicantprofilemodule/ScreeningStatusTab';
 import { ALL_CANDI_MATCH_TITLE, SCREEN_CANDIDATE_STATUS_TITLE } from '../constValue';
+import EmailScreen from '../emailintegrationmodule/integrationScreen';
+import ScreeningStatusTab from '../applicantprofilemodule/ScreeningStatusTab';
 import CandidateAboutTab from './CandidateAboutTab';
 import CandidateMessageTab from './CandidateMessageTab';
 import CandiDateResumeTab from './CandiDateResumeTab';
@@ -26,12 +27,12 @@ const CandiDateTabsLeft = ({ activeState }: typeof defaultProps) => {
       <Tab title="About">
         <CandidateAboutTab />
       </Tab>
-      {/* <Tab title={'Resume'}>
-        <CandiDateResumeTab />
-      </Tab> */}
       <Tab title={'Communications'} >
         <NotesTab candidatemessage={true} />
       </Tab>
+      {/* <Tab title={'Resume'}>
+        <CandiDateResumeTab />
+      </Tab> */}
       {/* <Tab title={'Messages'}>
         <CandidateMessageTab />
       </Tab> */}
@@ -44,6 +45,9 @@ const CandiDateTabsLeft = ({ activeState }: typeof defaultProps) => {
       <Tab title={'Matching Analysis'}>
         <MatchingAnalysisTab />
       </Tab>
+      <Tab title={'Mailbox'}>
+            <EmailScreen/>
+          </Tab>
       <Tab title={'Invitation Status'}>
       <ScreeningStatusTab title={'Invitation Status'} issingletab   />
       </Tab>

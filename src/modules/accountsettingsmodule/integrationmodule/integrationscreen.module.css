@@ -5,12 +5,14 @@
 .outlookFlex {
   margin-right: 16px;
 }
+
+
 .radioContainer {
   margin-top: 20px;
   margin-bottom: 10px;
 }
 .overAll {
-  padding: 20px;
+  padding: 10px 16px;
 }
 
 .googleBtn button {
@@ -75,9 +77,10 @@
 .dashboardFlex{
   margin-top: 16px;
 }
+
 .cardStruture {
   max-height: 200px;
-  width: 240px;
+  width: 274px;
   margin-right: 20px;
   padding: 15px 10px 0 10px;
   display: flex;
@@ -87,7 +90,7 @@
 .selectCard {
   position: relative;
   max-height: 200px;
-  width: 240px;
+  width: 274px;
   margin-right: 20px;
   padding: 15px 10px 0 10px;
   display: flex;
@@ -130,6 +133,10 @@
   padding: 25px;
   border-radius: 4px;
 }
+.okButton{
+  justify-self: flex-end;
+  margin-top: 20px;
+}
 .editmodal {
   background-color: var(--color-white, #ffffff);
   width: 500px;
@@ -146,7 +153,10 @@
 }
 .disconnectbtn {
   margin-left: 10px;
-  border: 1px solid #ed4857;
+  border: 2px solid #ed4857;
+}
+.disconnectbtn:focus {
+  border: 2px solid #ed4857 !important;
 }
 
 /* .disconnectbtn .button_buttonTypes-secondary__3QSSJ:hover {
@@ -180,7 +190,8 @@
 .borderbottom{
   border-bottom: 1px solid rgb(195, 195, 195, 1);
   width: 100%;
-  margin-top: 15px;
+  margin-top: 10px;
+  margin-bottom: 5px;
 }
 
 .bordertop{

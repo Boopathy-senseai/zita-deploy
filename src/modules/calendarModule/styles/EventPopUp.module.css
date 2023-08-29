@@ -85,10 +85,10 @@
 }
 
 .eventPopUp .title {
-  font-size: 16px;
+  font-size: 13px !important;
   /* margin-left: 10px; */
-  color: var(--color-primary);
-  font-weight: 500;
+   /* color: var(--color-primary); */
+  font-weight: bold;
   /* margin-bottom: 20px; */
   text-transform: capitalize;
 }
@@ -118,11 +118,18 @@
 }
 
 .profile .title p:last-child {
-  font-size: 16px;
+  font-size: 13px;
 }
 
 .deleteWarningPopUp {
-  padding: 18px 24px;
+  /* padding: 25px; */
+  background-color: var(--color-white, #ffffff);
+    width: 390px;
+    padding: 25px;
+    border-radius: 4px;
+}
+.insertStyles {
+  margin-bottom: 5px;
 }
 
 .warningMessage {
@@ -137,7 +144,7 @@
 .actionButtonWrapper {
   display: flex;
   flex-direction: row;
-  margin-top: 15px;
+  /* margin-top: 15px; */
   justify-content: flex-end;
 }
 
@@ -161,9 +168,14 @@
 
 .eventTitle {
   display: inline-block;
-  width: 300px;
+  width: 355px;
+  font-size: 13px !important;
+  margin-bottom: 10px !important;
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+}
+.EventPopUp_title__3Q_HC p:last-child{
+  font-weight: bold !important;
 }

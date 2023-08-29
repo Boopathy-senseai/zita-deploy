@@ -3,14 +3,16 @@ const defaultProps = {
   fill: '#581845',
   width: 10,
   height: 10,
+  onClick: () => {},
 };
 
-const SvgRight = ({ width, height, fill }: typeof defaultProps) => {
+const SvgRight = ({ width, height, fill, onClick }: typeof defaultProps) => {
   return (
     <svg
       fill={fill}
       xmlns="http://www.w3.org/2000/svg"
       width={width}
+      onClick={onClick}
       height={height}
       viewBox="0 0 24 24"
     >
