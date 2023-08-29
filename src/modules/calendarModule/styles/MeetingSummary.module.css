@@ -115,6 +115,9 @@
   margin: 0px 5px 0px 0px;
   font-size: 13px !important;
 }
+.email{
+  margin-bottom: 5px !important;
+}
 
 .actionButtonWrapper {
   margin-top: 10px;

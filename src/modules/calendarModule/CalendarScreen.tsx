@@ -1039,7 +1039,7 @@ const Calendar = () => {
   const IntegrationMenuView = (
     <div>
       <Flex center flex={1} middle columnFlex className={styles.noContent}>
-        <Text color="gray" style={{ marginBottom: 16 }}>
+        <Text color="placeholder" style={{ marginBottom: 16 }}>
           Integrate your calendar with zita application to schedule your
           meetings
         </Text>

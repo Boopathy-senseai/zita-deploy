@@ -365,9 +365,9 @@ const MeetingSummary = ({
                   currentUserLabel={currentUserLabel}
                   greetingText={greetings.interviewer}
                   email={meetingForm.interviewer.map((interview, index: Key) =>
-                    interview.calendarEmail
-                      ? interview.calendarEmail
-                      : interview.email,
+                    interview.email
+                      ? interview.email
+                      : interview.calendarEmail,
                   )}
                   notes={meetingForm.privateNotes}
                   applicantInfo={meetingForm.applicant}
