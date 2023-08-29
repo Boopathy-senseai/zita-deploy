@@ -12,6 +12,7 @@ import { Base64 } from 'js-base64';
 import axios from 'axios';
 //let graphClient = '';
 let graphClient: Client | undefined = undefined;
+let Email: any = [];
 
 export async function outlooktoken(token: any) {
   graphClient = Client.init({
@@ -22,11 +23,20 @@ export async function outlooktoken(token: any) {
   return graphClient;
 }
 
+export async function filtermail(mail: any) {
+  const emailValues = mail.map((item) => item.value);
+  // const emailList = ['manojr@sense7ai.com', 'jananirangesh@sense7ai.com'];
+  Email = emailValues
+    .map(
+      (email) => `from:${email} OR to:${email} OR cc:${email} OR bcc:${email}`,
+    )
+    .join(' OR ');
+  return Email;
+}
+
 export async function getUser() {
   //ensureClient(authProvider);
-
   // Return the /me API endpoint result as a User object
-
   const user = await graphClient!
     .api('/me')
     // Only retrieve the specific fields needed
@@ -228,18 +238,17 @@ export async function getsearchmail(
     if (token !== '') {
       var response1: any = await graphClient
         ?.api(`/me/messages`)
-        .count(true)
-        .query(`$search="${serchdata}"`)
+        .search(`${serchdata}"`)
         .top(range)
         .skipToken(token)
         .get();
       // console.log('-----allsearch-----', response1);
+
       return response1;
     } else {
       var response2: any = await graphClient
         ?.api(`/me/messages`)
-        .count(true)
-        .query(`$search="${serchdata}"`)
+        .search(`"${Email}" AND "${serchdata}"`)
         .top(range)
         .get();
       return response2;
@@ -248,8 +257,8 @@ export async function getsearchmail(
     if (token !== '') {
       var response: any = await graphClient
         ?.api(`/me/mailFolders/${folder}/messages`)
-        .count(true)
-        .query(`$search="${serchdata}"`)
+
+        .query(`$search="${Email}" AND "${serchdata}"`)
         .top(range)
         .skipToken(token)
         .get();
@@ -258,8 +267,8 @@ export async function getsearchmail(
     } else {
       var res: any = await graphClient
         ?.api(`/me/mailFolders/${folder}/messages`)
-        .count(true)
-        .query(`$search="${serchdata}"`)
+
+        .query(`$search="${Email}" AND "${serchdata}"`)
         .top(range)
         .get();
 
@@ -271,44 +280,32 @@ export async function getsearchmail(
 export async function getmessages(
   authProvider: AuthCodeMSALBrowserAuthenticationProvider,
   folder,
-  previous,
+  token,
   range,
 ) {
-  var response: any = await graphClient
-    ?.api(`/me/mailFolders/${folder}/messages`)
-    .count(true)
-    .skip(previous)
-    .top(range)
-    .get();
-
-  return response;
+  if (token === '') {
+    const response = await graphClient
+      .api(`/me/mailFolders/${folder}/messages`)
+      .count(true)
+      .query(`$search="${Email}"`)
+      .top(range)
+      .get();
+    return response;
+  } else {
+    const response = await graphClient
+      .api(`/me/mailFolders/${folder}/messages`)
+      .count(true)
+      .query(`$search="${Email}"`)
+      .top(range)
+      .skipToken(token)
+      .get();
+    return response;
+  }
 }
 
 export async function getusermail(
   authProvider: AuthCodeMSALBrowserAuthenticationProvider,
 ) {
-  // const emailList = ["'manojr@sense7ai.com'", "'jananirangesh@sense7ai.com'"];
-  // const searchQueries = emailList
-  //   .map((email) => `from/emailAddress/address eq ${email}`)
-  //   .join(' or ');
-
-  // const response = await graphClient
-  //   .api(`/me/mailFolders/${'Inbox'}/messages`)
-  //   .filter(searchQueries)
-  //   .top(1000)
-  //   .skip(10)
-  //   .count(true)
-  //   .get();
-
-  // const emailList = ['manojr@sense7ai.com', 'jananirangesh@sense7ai.com'];
-  // const emailFilters = emailList.map((email) => `from:${email} `).join(' OR ');
-
-  // const response = await graphClient
-  //   .api('/me/messages')
-  //   .query(emailFilters)
-  //   .top(1000)
-  //   .get();
-
   const emailList = ['manojr@sense7ai.com', 'jananirangesh@sense7ai.com'];
 
   const searchdata = emailList
@@ -320,8 +317,11 @@ export async function getusermail(
   const response = await graphClient
     .api(`/me/mailFolders/${'Inbox'}/messages`)
     .count(true)
-    .query(`$search="${searchdata}",$count="${true}"`)
+    .query(`$search="${searchdata}"`)
+    .top(15)
     .get();
+
+  console.log('---zvzvzvzvzv---', response);
 
   return response;
 }

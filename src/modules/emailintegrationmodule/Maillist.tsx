@@ -37,14 +37,14 @@ type Props = {
   message: any;
   noEmails: boolean;
   integration: string;
-
   isLoading: any;
   searchapi: boolean;
-
   savemail: any;
   searchSection: string;
   search: any;
   emailcollection: any;
+  tokenupdate: any;
+  tokens: any;
 };
 const Maillist = ({
   messagelist,
@@ -66,6 +66,8 @@ const Maillist = ({
   searchSection,
   search,
   emailcollection,
+  tokenupdate,
+  tokens,
 }: Props) => {
   const msal = useMsal();
   const authProvider = new AuthCodeMSALBrowserAuthenticationProvider(
@@ -101,18 +103,12 @@ const Maillist = ({
 
   const serch = async () => {
     if (search !== '' && integration === 'outlook') {
-      getsearchmail(
-        authProvider,
-        searchSection,
-        search.trim(),
-        range,
-        splittoken,
-      )
+      getsearchmail(authProvider, searchSection, search.trim(), range, tokens)
         .then((res) => {
           savemail(res.value);
-          console.log('dvfd', res.value);
           setSearchicon(res.value.length === 0 ? true : false);
-          setsplittoken(res['@odata.nextLink'].split('skiptoken=')[1]);
+          // setsplittoken(res['@odata.nextLink'].split('skiptoken=')[1]);
+          tokenupdate(res['@odata.nextLink'].split('skiptoken=')[1]);
           if (!res['@odata.nextLink']) {
             setload(false);
           }
@@ -192,53 +188,17 @@ const Maillist = ({
     } else if (integration === 'outlook') {
       if (mailfolders.length !== 0) {
         if (sideroute === 1) {
-          return (
-            <Text bold>
-              {mailfolders[4].unreadItemCount !== 0
-                ? `Inbox (${mailfolders[4].unreadItemCount})`
-                : 'Inbox'}
-            </Text>
-          );
+          return <Text bold>Inbox</Text>;
         } else if (sideroute === 2) {
-          return (
-            <Text bold>
-              {mailfolders[7].unreadItemCount !== 0
-                ? `Sent Items (${mailfolders[7].unreadItemCount})`
-                : 'Sent Items'}
-            </Text>
-          );
+          return <Text bold>Sent Items</Text>;
         } else if (sideroute === 3) {
-          return (
-            <Text bold>
-              {mailfolders[3].unreadItemCount !== 0
-                ? `Drafts (${mailfolders[3].unreadItemCount})`
-                : 'Drafts'}
-            </Text>
-          );
+          return <Text bold>Drafts</Text>;
         } else if (sideroute === 4) {
-          return (
-            <Text bold>
-              {mailfolders[0].unreadItemCount !== 0
-                ? `Archive (${mailfolders[0].unreadItemCount})`
-                : 'Archive'}
-            </Text>
-          );
+          return <Text bold>Archive</Text>;
         } else if (sideroute === 5) {
-          return (
-            <Text bold>
-              {mailfolders[2].unreadItemCount !== 0
-                ? ` Deleted Items (${mailfolders[2].unreadItemCount})`
-                : ' Deleted Items'}
-            </Text>
-          );
+          return <Text bold>Deleted Items</Text>;
         } else if (sideroute === 6) {
-          return (
-            <Text bold>
-              {mailfolders[5].unreadItemCount !== 0
-                ? ` Junk Email (${mailfolders[5].unreadItemCount})`
-                : ' Junk Email'}
-            </Text>
-          );
+          return <Text bold>Junk Email</Text>;
         } else if (sideroute === 0) {
           return <Text bold>Search Results</Text>;
         }

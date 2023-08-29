@@ -1223,7 +1223,7 @@ const Newmessage = ({
   return (
     <div>
       {/* <div style={{ position: 'absolute', bottom: '0px', right: '0px' }}> */}
-      {console.log('newwww', newmsg)}
+
       <Modal open={data}>
         {loader === true && <Loader />}
         <div

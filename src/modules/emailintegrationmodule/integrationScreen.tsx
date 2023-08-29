@@ -32,6 +32,8 @@ import {
   Gmail_Attachment,
   Gmail_Folder_Total_count,
   outlooktoken,
+  filtermail,
+  getusermail,
 } from '../../emailService';
 import config from '../../outlookmailConfig';
 import SvgArrowDown from '../../icons/SvgArrowDown';
@@ -79,6 +81,8 @@ const EmailScreen = () => {
 
   const [newmsg, setnewmsg] = useState('');
 
+  const [splittoken, setsplittoken] = useState('');
+
   const authProvider = new AuthCodeMSALBrowserAuthenticationProvider(
     msal.instance as PublicClientApplication,
     {
@@ -92,6 +96,7 @@ const EmailScreen = () => {
   const emailcollection = useSelector(({ useremail }: RootState) => {
     return {
       email: useremail.email,
+      maillist: useremail.mails,
       integration: useremail.account,
       loading: useremail.isLoading,
       token: useremail.token,
@@ -108,6 +113,7 @@ const EmailScreen = () => {
       emailcollection.integration !== ''
     ) {
       outlooktoken(emailcollection.token);
+      filtermail(emailcollection.maillist);
     } else {
       setLoader(false);
     }
@@ -176,6 +182,7 @@ const EmailScreen = () => {
   const Select = (val, folder) => {
     setSearchSection(val);
     setSearchFolder(folder);
+    setsplittoken('');
   };
 
   useEffect(() => {
@@ -337,6 +344,7 @@ const EmailScreen = () => {
       setnextpagetoken(null);
       setIsLoading(true);
       setsearchapi(false);
+      setsplittoken('');
     }
   };
 
@@ -352,6 +360,7 @@ const EmailScreen = () => {
   };
   const searchinput = (e) => {
     setSearch(e.target.value);
+    setsplittoken('');
   };
 
   const serchmessage = async (e: any) => {
@@ -369,6 +378,7 @@ const EmailScreen = () => {
       setmesage('');
       setSearch(search.trim());
       setIsLoading(true);
+      setsplittoken('');
     }
   };
 
@@ -392,18 +402,18 @@ const EmailScreen = () => {
         folder = 'junkemail';
       }
       setIsLoading(true);
-      await getmessages(authProvider, folder, skip, range)
+      getusermail(authProvider);
+      await getmessages(authProvider, folder, splittoken, range)
         .then((res) => {
+          setLoader(false);
           setmessagelist((prevMessages) => [...prevMessages, ...res.value]);
           setNoEmails(res.value.length === 0 ? true : false);
-          setSkip(skip + range);
-          setIsLoading(false);
-          setTotal(res['@odata.count']);
-          setLoader(false);
+          setsplittoken(res['@odata.nextLink'].split('skiptoken=')[1]);
           getfolder();
           if (!res['@odata.nextLink']) {
             setnextpagetoken(undefined);
           }
+          setIsLoading(false);
         })
         .catch((error) => {
           //console.log('goole----errr', error);
@@ -512,7 +522,7 @@ const EmailScreen = () => {
       setLoader(true);
       await getselectedmsg(authProvider, msgid)
         .then((res) => {
-          page();
+          //page();
           if (res.hasAttachments === true) {
             attachment(res.id);
           } else {
@@ -593,6 +603,10 @@ const EmailScreen = () => {
     setLoader(false);
   };
 
+  const tokenupdate = (val) => {
+    setsplittoken(val);
+  };
+
   const IntegrationMenuView = (
     <Flex
       center
@@ -619,7 +633,6 @@ const EmailScreen = () => {
   return (
     <>
       <Flex column className={styles.inboxContainer}>
-        {console.log('vxvccv', emailcollection)}
         {loader === true && <Loader />}
         {/* {loader === true && emailcollection.loading === false && <Loader />} */}
         {emailcollection.integration !== null &&
@@ -682,7 +695,7 @@ const EmailScreen = () => {
 
                 <InputText
                   actionRight={() => (
-                    <Flex style={{ marginTop: '3px' }}>
+                    <Flex style={{ marginTop: '6px' }}>
                       <SvgSearch />
                     </Flex>
                   )}
@@ -746,6 +759,8 @@ const EmailScreen = () => {
                   searchSection={searchSection}
                   search={search}
                   emailcollection={emailcollection}
+                  tokenupdate={tokenupdate}
+                  tokens={splittoken}
                 />
               </Flex>
               <Flex
