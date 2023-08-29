@@ -154,8 +154,6 @@ const Calendar = () => {
       zitaEvents: true,
     });
 
-  // console.log('openScheduleForm', openScheduleForm);
-
   useEffect(() => {
     const action = param.get('action');
     if (param && action && action === 'open-scheduler-form') {
@@ -198,7 +196,6 @@ const Calendar = () => {
       ) {
         setVisibleEvents(() => {
           return currentUserEvents.filter((event) => {
-            console.log(event, '12');
             if (!event.title?.includes('Zita event')) return event;
           });
         });
@@ -208,7 +205,6 @@ const Calendar = () => {
       ) {
         setVisibleEvents(() => {
           return currentUserEvents.filter((event) => {
-            console.log(event, '12');
             if (event.title?.includes('Zita event')) return event;
           });
         });
@@ -227,7 +223,6 @@ const Calendar = () => {
       ) {
         setVisibleEvents(() => {
           return teamMemberEvents.filter((event) => {
-            console.log(event, '12');
             if (!event.title?.includes('Zita event')) return event;
           });
         });
@@ -237,7 +232,6 @@ const Calendar = () => {
       ) {
         setVisibleEvents(() => {
           return teamMemberEvents.filter((event) => {
-            console.log(event, '12');
             if (event.title?.includes('Zita event')) return event;
           });
         });
@@ -324,7 +318,6 @@ const Calendar = () => {
           }),
         )
           .then((res) => {
-            // console.log(localStorage.getItem('eventhandelerid'));
             if (res.payload.data === true) {
               setEditEventDetails(
                 res.payload.events.map((event: ZitaEventType) =>
@@ -372,9 +365,6 @@ const Calendar = () => {
     const Applicantname = localStorage.getItem('Applicantname');
     const jdname = localStorage.getItem('Jdname');
     const jdid = localStorage.getItem('jdname');
-    // console.log('Applicantname', Applicantname);
-    // console.log('jdname', jdname);
-    // console.log('jdid', jdid);
     if (Applicantname && Applicantname !== '') {
       setASpplicantname(Applicantname);
       setJdname(jdname);
@@ -427,7 +417,6 @@ const Calendar = () => {
         }),
       )
         .then((res) => {
-          // console.log(res.payload);
           if (res.payload.data === true) {
             setIsEventCanUpdate(true);
             setEventPopUpDetails({
@@ -436,8 +425,11 @@ const Calendar = () => {
               syncedBy: null,
               applicantId: res.payload.event[0]['cand_id'],
               recurringEventId: event.recurringEventId,
-              attendees: res.payload.event[0]['email']
-                ? ((res.payload.event[0]['email'] as string) || '').split(',')
+              // attendees: res.payload.event[0]['email']
+              //   ? ((res.payload.event[0]['email'] as string) || '').split(',')
+              //   : [],
+              attendees: res.payload.name
+                ? res.payload.name.map((doc) => doc.full_name)
                 : [],
             });
             handleOpenEditForm({
@@ -446,15 +438,18 @@ const Calendar = () => {
               syncedBy: null,
               applicantId: res.payload.event[0]['cand_id'],
               recurringEventId: event.recurringEventId,
-              attendees: res.payload.event[0]['email']
-                ? ((res.payload.event[0]['email'] as string) || '').split(',')
+              // attendees: res.payload.event[0]['email']
+              //   ? ((res.payload.event[0]['email'] as string) || '').split(',')
+              //   : [],
+              attendees: res.payload.name
+                ? res.payload.name.map((doc) => doc.full_name)
                 : [],
             });
           } else {
             setIsEventCanUpdate(false);
             setEventPopUpDetails((prevEvent) => ({
               ...eventData,
-              eventId: null,
+              eventId: event.eventId,
               syncedBy: event.syncedBy,
               recurringEventId: null,
               attendees: event.attendees || [],
@@ -471,7 +466,7 @@ const Calendar = () => {
       setIsEventCanUpdate(false);
       setEventPopUpDetails((prevEvent) => ({
         ...eventData,
-        eventId: null,
+        eventId: event.eventId,
         syncedBy: event.syncedBy,
         recurringEventId: null,
         attendees: event.attendees || [],
@@ -619,30 +614,29 @@ const Calendar = () => {
       });
     } else {
       dispatch(syncOutlookMiddleWare())
-      .then((res) => {
-        const events = extractOutlookEvents(
-          res.payload.events,
-          res.payload.userId,
-          res.payload.user[0].user__first_name,
-        );
-        
-        setCurrentUser(() => {
-          return {
-            name: getUserNameFromResponse(res.payload.user[0]),
-            id: res.payload.userId,
-          };
-        });
+        .then((res) => {
+          const events = extractOutlookEvents(
+            res.payload.events,
+            res.payload.userId,
+            res.payload.user[0].user__first_name,
+          );
 
-        setCurrentUserEvents(events);
-        if (teamMemberEvents.length <= 0) {
-          setTeamMemberEvents(events);
-        }
-        setIsLoading(false);
-      })
-      .catch((err: Error) => {
-        console.error(err);
-        console.log("helello")
-      });
+          setCurrentUser(() => {
+            return {
+              name: getUserNameFromResponse(res.payload.user[0]),
+              id: res.payload.userId,
+            };
+          });
+
+          setCurrentUserEvents(events);
+          if (teamMemberEvents.length <= 0) {
+            setTeamMemberEvents(events);
+          }
+          setIsLoading(false);
+        })
+        .catch((err: Error) => {
+          console.error(err);
+        });
     }
   };
 
@@ -783,7 +777,6 @@ const Calendar = () => {
           }
         })
         .catch((err: any) => {
-          console.error({ delete: err });
           setOpenEventDeleteModal(false);
           // toast.error('Failed to Delete Event', {
           //   duration: 3500,
@@ -863,6 +856,7 @@ const Calendar = () => {
         }),
       )
         .then((res) => {
+          console.log("res-----payload--", res.payload)
           if (res.payload.data === true) {
             setIsEventCanUpdate(true);
 
@@ -872,8 +866,11 @@ const Calendar = () => {
               syncedBy: null,
               applicantId: res.payload.event[0]['cand_id'],
               recurringEventId: event.recurringEventId,
-              attendees: res.payload.event[0]['email']
-                ? ((res.payload.event[0]['email'] as string) || '').split(',')
+              // attendees: res.payload.event[0]['email']
+              //   ? ((res.payload.event[0]['email'] as string) || '').split(',')
+              //   : [],
+              attendees: res.payload.name
+                ? res.payload.name.map((doc) => doc.full_name)
                 : [],
             };
             setEventPopUpDetails(eventData);
@@ -882,7 +879,7 @@ const Calendar = () => {
             setIsEventCanUpdate(false);
             eventData = {
               ...eventData,
-              eventId: null,
+              eventId: event.eventId,
               syncedBy: event.syncedBy,
               recurringEventId: null,
               attendees: event.attendees || [],
@@ -898,7 +895,7 @@ const Calendar = () => {
       setIsEventCanUpdate(false);
       eventData = {
         ...eventData,
-        eventId: null,
+        eventId: event.eventId,
         syncedBy: event.syncedBy,
         recurringEventId: null,
         attendees: event.attendees || [],
