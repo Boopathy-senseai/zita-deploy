@@ -2,6 +2,13 @@
   padding: 16px;
   margin: 15px 0;
 }
+.cardOverAll:hover{
+  box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55);
+  -webkit-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55);
+  -moz-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.55);
+  transition: all 0.2s ease-out;
+}
+
 .tableDiv {
   margin-top: 20px;
   margin-bottom: 20px;

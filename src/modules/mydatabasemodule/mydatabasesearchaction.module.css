@@ -113,6 +113,18 @@
     }
     
     .boxstyle {
+      text-transform: none !important;
+      background-color: #f7f7f7;
+      height: 30px;
+      border: none !important;
+      border-radius: 0 !important;
+      scroll-behavior: smooth;
+      /* width: 270px; */
+      width: 300px;
+      text-overflow: ellipsis;
+    }
+
+    .boxstyle1 {
     
       text-transform: none !important;
     
@@ -128,7 +140,7 @@
     
       /* width: 270px; */
 
-      width: 300px;
+      width: 240px;
     
       text-overflow: ellipsis;
     
@@ -257,4 +269,13 @@
       position: relative;
       right: 3px;
       top: 3px
+    }
+
+    .crossIcon {
+      all: unset;
+      cursor: pointer;
+      padding-top: 5px;
+      bottom: 38px;
+      right: 28px;
+      position: relative;
     }

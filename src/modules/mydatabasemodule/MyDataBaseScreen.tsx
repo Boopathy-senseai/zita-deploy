@@ -312,6 +312,27 @@ const MyDataBaseScreen = () => {
     formik.resetForm()
     setSearchValue('')
   };
+// To Clear Search Bar
+  const handleSearchClose = () => {
+    setSearchValue("");
+    dispatch(
+      myDataBaseDataMiddleWare({
+        jobTitle: formik.values.jobTitle,
+        fav: addFavFilter,
+        experience: formik.values.experience.value,
+        educationLevel: qaValue,
+        typeofJob: formik.values.jobType,
+        location: formik.values.locationSearch,
+        skill_match: skillsOptionsList,
+        relocate: formik.values.reLocateValue,
+        candidate: "",
+        userType: tabKey,
+        sort: isSortOptions.value,
+        page: isPage + 1,
+        applicant_only: formik.values.applicantOnly,
+      }),
+    );
+  }
 // invite function
   const hanldeInvite = (can_id: number) => {
     setInviteLoader(true);
@@ -411,7 +432,8 @@ const MyDataBaseScreen = () => {
       <div className={cx('tabsContainer')}>
         <MyDataBaseSearchAction jobTitle={job_title} formik={formik} 
         setSearchValue={setSearchValue} 
-        isSearchValue={isSearchValue}/>
+        isSearchValue={isSearchValue}
+        handleSearchClose={handleSearchClose}/>
         <div className={cx('filterOverAll')} style={{paddingRight:"10px"}}>
         <MyDataBaseFilter
           setchange={setchange}

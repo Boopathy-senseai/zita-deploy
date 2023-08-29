@@ -55,6 +55,7 @@ export interface DataEntity {
   image: string;
   match: string;
   interested: boolean;
+  not_interested:boolean;
   applicant: string;
   invite: string;
   jd_id_id:number;
