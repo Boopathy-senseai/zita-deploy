@@ -70,6 +70,7 @@ const CandidateProfileViewScreen = () => {
       <CandidateNavBar
         obj={obj}
         isProfileView
+        personal_obj={personal_obj}
         user_info={user_info}
         projects={projects}
       />

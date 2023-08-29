@@ -40,7 +40,7 @@ type Props = {
 
   isLoading: any;
   searchapi: boolean;
-
+  isprofileview?:boolean;
   savemail: any;
   searchSection: string;
   search: any;
@@ -58,6 +58,7 @@ const Maillist = ({
   sidebarroute,
   range,
   message,
+  isprofileview,
   noEmails,
   integration,
   isLoading,
@@ -427,7 +428,7 @@ const Maillist = ({
   };
 
   return (
-    <Flex style={{ margintop: '1px' }} className={styles.maillist}>
+    <Flex style={{ margintop: '1px' }} className={styles.maillist} height={isprofileview?window.innerHeight - 95:window.innerHeight - 115}>
       <Flex
         row
         between

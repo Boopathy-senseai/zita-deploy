@@ -241,9 +241,6 @@ const MyDataBaseFilter = ({
   };
 
   const handlefunction = (doc) => {
-    {
-      console.log('loggggggggggggg', doc);
-    }
     var gremove = newqual.filter((obj) => obj.label !== doc.label);
     setnewqual(gremove);
     closeQualification(doc);
@@ -270,7 +267,6 @@ const MyDataBaseFilter = ({
     setchange(false);
   };
   const skillval = (id, val) => {
-    console.log('rrr', val);
     var gremove = skildata.filter((obj) => obj.label !== val.label);
     setskildata(gremove);
     setnewskill(gremove);
@@ -335,7 +331,6 @@ const MyDataBaseFilter = ({
 
     return (
       <>
-     {  console.log("doccccc",doc)}
       {doc.label !=="any"?(
       <Text className={styles.quickfil}>
       {doc.label}{" "}
@@ -358,7 +353,6 @@ const MyDataBaseFilter = ({
     setnewrelocate(isRelocate);
     sethiddenskill1(hiddenSkills);
     setchange(false);
-    console.log('5555555555555');
   };
   const handlerelocate = () => {
     setRelocate(!isRelocate);
@@ -390,8 +384,7 @@ const MyDataBaseFilter = ({
 <>
 
 <Flex row>
-{console.log("newwwww",newjobname,isDefaultFilter(),newqual,qualificationValue,newskill)}
-{console.log("olddddd",jobname)}
+
 <div className={styles.quickfilters}>
 <Text size={13}className={""} style={{marginTop:"3px"}}>
         Quick Filters :
@@ -561,7 +554,7 @@ null
         <Text
           bold
           className={styles.filtername}
-          style={{ cursor: "Pointer",paddingTop:7,fontSize:14 }}
+          style={{ cursor: "Pointer",paddingTop:7,fontSize:13 }}
         >
           View Filter
         </Text>
@@ -656,7 +649,6 @@ null
               </Flex>
             </Flex>
             <Flex className={styles.mtstyle}>
-              {console.log('akak', skildata)}
               <div className={styles.skillContainer}>
                 <Text
                   color="primary"

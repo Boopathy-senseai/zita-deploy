@@ -183,7 +183,7 @@ const CreateJdWithNonDs = () => {
       <Flex
         columnFlex
         className={styles.overAll}
-        height={window.innerHeight - 72}
+        height={window.innerHeight - 112} 
       >
         {(createJdLoader || jdDuplicateLoader) && <Loader />}
         <JdParserLoader
