@@ -634,13 +634,6 @@ const ActionsButton: React.FC<ActionButtonProps> = ({
           id="dropdown-basic"
           // onClick={BtnClick }
         >
-          <Button onClick={Configuration}>
-            <Flex row center className={styles.pointer}>
-              <Text bold style={{ cursor: 'pointer', color: '#fff' }}>
-                Calendar Configurations
-              </Text>
-            </Flex>
-          </Button>
 
           {/* <SvgDotMenu fill={'#black'} height={14} width={14} /> */}
         </Dropdown.Toggle>
