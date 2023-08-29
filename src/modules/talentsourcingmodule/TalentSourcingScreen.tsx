@@ -739,7 +739,7 @@ setshow(val)
             {(isSearchData?.length === 0 && isFind && !isSubmitLoader) && (
               <div className={styles.emptyStyle}>
                 <div style={{marginBottom:"-80px"}}>
-                <SvgSearch  width={18} height={18}/></div>
+                <SvgSearch  width={18} height={18} fill = {'#888888'}/></div>
                 <Empty title="Please enter your search keywords in the required search field to find the candidates" />
               </div>
             )}

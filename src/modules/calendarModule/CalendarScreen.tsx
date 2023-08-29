@@ -618,13 +618,14 @@ const Calendar = () => {
         setIsLoading(false);
       });
     } else {
-      dispatch(syncOutlookMiddleWare()).then((res) => {
+      dispatch(syncOutlookMiddleWare())
+      .then((res) => {
         const events = extractOutlookEvents(
           res.payload.events,
           res.payload.userId,
           res.payload.user[0].user__first_name,
         );
-
+        
         setCurrentUser(() => {
           return {
             name: getUserNameFromResponse(res.payload.user[0]),
@@ -637,6 +638,10 @@ const Calendar = () => {
           setTeamMemberEvents(events);
         }
         setIsLoading(false);
+      })
+      .catch((err: Error) => {
+        console.error(err);
+        console.log("helello")
       });
     }
   };
