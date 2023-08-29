@@ -306,7 +306,7 @@ const QualificationContainer = ({
                 </Text>
                 {!isExperienceInput ? (
             <>
-            <div style={{width:'fit-content' , bottom: 1, position: "relative"}}>
+            <div style={{width:'fit-content' ,height:23, position: "relative"}}>
               {isEmpty(dataList.work_exp) ? (
                 <Text
                   underLine
@@ -319,7 +319,7 @@ const QualificationContainer = ({
                   Add Experience
                 </Text>
               ) : (
-                <div style={{width:'70px', height:'22px'}}>
+                <div style={{width:'70px', height:'23px'}}>
                 <Text
                   // textStyle="ellipsis"
                   size={11}

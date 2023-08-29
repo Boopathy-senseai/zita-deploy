@@ -39,3 +39,18 @@
 .showStyle {
   margin-top: 26px;
 }
+/* Assuming this is the dropdown container */
+.dropdown-container {
+  position: relative;
+}
+
+/* Style the dropdown */
+.dropdown {
+  /* Your existing styles for the dropdown */
+}
+
+/* Increase padding bottom when dropdown is active */
+.dropdown.active {
+  padding-bottom: 150px; /* Adjust this value as needed */
+  overflow-y: auto; /* Show scrollbar if content exceeds the height */
+}
