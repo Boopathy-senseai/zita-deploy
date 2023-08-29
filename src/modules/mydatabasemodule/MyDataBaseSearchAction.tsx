@@ -3,6 +3,7 @@ import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import SvgSearch from '../../icons/SvgSearch';
 import SvgLocation from '../../icons/SvgLocation';
+import SvgIntomark from '../../icons/SvgCancel';
 import Button from '../../uikit/Button/Button';
 import Flex from '../../uikit/Flex/Flex';
 import SvgInfinity from '../../icons/SvgInfinity';
@@ -22,18 +23,20 @@ type Props = {
   jobTitle: JobTitleEntity[];
   formik: FormikProps<MyDataFormProps>;
   isSearchValue:any;
-  setSearchValue:any
+  setSearchValue:any;
+  handleSearchClose: () => void;
 };
 
 const sidebar=sessionStorage.getItem("EmpToggle");
 const size=sidebar==="1"
 
-const MyDataBaseSearchAction = ({ jobTitle, formik,isSearchValue,setSearchValue }: Props) => {
+const MyDataBaseSearchAction = ({ jobTitle, formik,isSearchValue,setSearchValue, handleSearchClose }: Props) => {
   const selectInputRef = useRef<any>();
 
   const hanldeSearch = () => {
     formik.setFieldValue('searchValue', isSearchValue);
-  };
+  }
+
 
   const customFilter = (option: { label: string }, inputValue: string) => {
     const result = option.label
@@ -111,7 +114,7 @@ const MyDataBaseSearchAction = ({ jobTitle, formik,isSearchValue,setSearchValue 
           </Flex>
 
           <InputText
-                      className={styles.boxstyle}
+                      className={styles.boxstyle1}
                       placeholder="Search candidate by name or email"
                       value={isSearchValue}
                       onChange={(event) => setSearchValue(event.target.value)}
@@ -133,7 +136,15 @@ const MyDataBaseSearchAction = ({ jobTitle, formik,isSearchValue,setSearchValue 
                       <SvgSearch width={12} height={12} fill="#ffffff" />
                     </div>
                     </Button>
-
+                    {isSearchValue.trim() !== '' && (
+                        <button
+                          className={styles.crossIcon}
+                          onClick={handleSearchClose}
+                          
+                        >
+                          <SvgIntomark width={14} height={14} fill="#888888" />
+                        </button>
+                      )}
             
 
           </Flex>

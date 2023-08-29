@@ -201,7 +201,9 @@ const JobDetails = ({
 
   return (
     <Flex className={styles.overAll}>
-      <Flex style={{overflow:"scroll"}}>
+      <Flex
+      //  style={{paddingBottom: "120px"}}
+       >
       <Text size={14}className={styles.jobTitle} bold>
         Job Details
       </Text>

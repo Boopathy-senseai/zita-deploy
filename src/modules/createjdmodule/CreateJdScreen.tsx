@@ -60,7 +60,7 @@ const CreateJdScreen = () => {
           >
             Job Posting
           </Text>
-          <Flex marginTop={6} marginLeft={7} marginRight={2}>
+          <Flex marginTop={7} marginLeft={7} marginRight={2}>
             <SvgRight fill={'#581845'} ></SvgRight></Flex>
           <Flex marginTop={1} marginLeft={3}>
             <Text size={16} bold color="theme" >
@@ -75,7 +75,7 @@ const CreateJdScreen = () => {
           {/* <Flex middle row center className={styles.warningFlex}>
             <SvgInfo fill={'#2E6ADD'} /> */}
             <Flex row center className={styles.warningFlex}>
-              <SvgInfo height={16} width={16} fill={'#2E6ADD'} />
+              <Flex style={{position:"relative", bottom: "10px"}}><SvgInfo height={16} width={16} fill={'#2E6ADD'} /></Flex>
               <Text
                 style={{color:"#333333"}}
                 className={styles.warningText}

@@ -28,6 +28,7 @@ import SvgLocation from '../../icons/SvgLocation';
 // import SvgExternal from '../../icons/SvgExternal';
 import { AppDispatch, RootState } from '../../store';
 import SvgSearch from '../../icons/SvgSearch';
+import useUnsavedChangesWarning from '../common/useUnsavedChangesWarning';
 import { jobTypeData, postedOn } from './mock';
 import {
   myJobPostingInitalMiddleWare,
@@ -56,7 +57,9 @@ const MyJobPostingScreen = () => {
   const [isPage, setPage] = useState(0);
   const [isLoad, setIsLoad] = useState(true);
   const history = useHistory();
-  const [change,setchange]=useState(false)
+  const [change,setchange]=useState(false);
+  const { onDirty, onPristine, routerPrompt } = useUnsavedChangesWarning();
+  const [isReload, setReload] = useState(false);
 
   useEffect(() => {
     setIsLoad(true)
@@ -156,6 +159,13 @@ const MyJobPostingScreen = () => {
     
   }, [isPage,change,formik.values]);
 
+  useEffect(() => {
+    if (isReload) {
+      setReload(false);
+    } else if (!isReload) {
+      onPristine();
+    }
+  }, [isReload]);
 
   return (
     <Flex className={styles.overFlowContainer}>
@@ -187,7 +197,7 @@ const MyJobPostingScreen = () => {
               <Flex row className={styles.twobutton} marginRight={10}>
                 {' '}
                 {Permission.includes('create_post') && (
-                  <LinkWrapper target={'_parent'} to={jobSelect}>
+                  <LinkWrapper to={jobSelect}>
                     <Button className={styles.style1} types="primary">
                       Post Job
                     </Button>
@@ -278,7 +288,7 @@ const MyJobPostingScreen = () => {
               </Text>
             </Flex>
             <Flex center className={styles.postyet4}>
-              <LinkWrapper target={'_parent'} to={jobSelect}>
+              <LinkWrapper to={jobSelect}>
                 <Button className={styles.btnStyle} types="primary">
                   Post Job
                 </Button>{' '}

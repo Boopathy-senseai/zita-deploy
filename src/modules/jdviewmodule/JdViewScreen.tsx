@@ -348,7 +348,7 @@ const JdViewScreen = () => {
           </Flex>
           {console.log('skill', jdview)}
 
-          <Card className={styles.cardOverAll}>
+          <Card className={styles.cardappquest}>
             <Flex columnFlex marginTop={8}>
               <Text bold size={14} style={{ color: '#333333' }}>
                 Applicant Questionnaire

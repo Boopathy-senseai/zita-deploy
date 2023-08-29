@@ -19,6 +19,7 @@ import {
 } from '../../modules/accountsettingsmodule/templatesmodule/store/middleware/templatesmiddleware';
 
 import SvgFavourites from '../../icons/SvgFavourties';
+import SvgHeart from '../../icons/SvgHeart';
 import SvgMove from '../../icons/SvgMove';
 import SvgDownload from '../../icons/SvgDownload';
 import SvgCsvDownload from '../../icons/SvgCsvDownload';
@@ -167,13 +168,13 @@ const TotalApplicant = ({
             onClick={filterTotalFav}
           >
             <Flex row center style={{ cursor: 'pointer' }}>
-              <SvgFavourites filled={isTotalFav} />
-              <Text
+              <SvgHeart width={13} height={12} filled={isTotalFav} />
+              <Text 
                 style={{ marginLeft: '5px' }}
                 color="theme"
                 title={'Favourite Applicants'}
               >
-                Favouritesd
+                Favourites
               </Text>
             </Flex>
           </Button>

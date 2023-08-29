@@ -57,10 +57,10 @@ const InviteContainer = ({
         </>
       ) : (
         <>
-          {!isEmpty(dataList.interested) && dataList.interested === false ? (
+          {dataList.not_interested === false ? (
             <div 
             className={cx({
-              svgnointerested: !isEmpty(dataList.interested)
+              svgnointerested: dataList.not_interested === false,
             })}
             title="Invite to Apply">
               <SvgInvite width={28} height={28} color="theme" />
@@ -73,7 +73,6 @@ const InviteContainer = ({
               onClick={handleInviteView}
               className={cx({
                 svgInvitePointer: isEmpty(dataList.applicant),
-                // svgInviteNone: !isEmpty(dataList.applicant),
                 svgInviteapplied: !isEmpty(dataList.applicant)
               })}
               title="Invite to Apply"
@@ -81,11 +80,9 @@ const InviteContainer = ({
               <SvgInvite width={28} height={28} color="theme" />
             </div>
           )}
-          {!isEmpty(dataList.applicant) &&
-                    <div>
-                      {/* <SvgInvite width={28} height={28} color="theme" /> */}
-                    </div>
-          }
+
+
+
           {isEmpty(dataList.invite) ? (
             <Text 
               color="black_1" size={11} 
@@ -106,18 +103,27 @@ const InviteContainer = ({
             </Text>
           ) : (
             <>
-              {!isEmpty(dataList.invite) && isEmpty(dataList.applicant) && (
+              {!isEmpty(dataList.invite) && isEmpty(dataList.not_interested) && (
                 <Flex className={styles.lastinviteset}>
                 <Text 
-                color="gray" size={11} className={styles.lastinvitetext}>
+                color="gray" size={11}
+                className={cx({
+                  nolastinvitetext: !isEmpty(dataList.applicant),
+                  lastinvitetext: isEmpty(dataList.applicant)
+                })}
+                >
                   Last Invited 
                 </Text>
-                <Text color="gray" size={11} >
+                <Text 
+                  className={cx({
+                  nolastinvitetext: !isEmpty(dataList.applicant),
+                  lastinvitetext: isEmpty(dataList.applicant)
+                })} color="gray" size={11} >
                 {' '}{dataList?.invite && getDateString(dataList.invite, 'll')}
                 </Text>
                 </Flex>
               )}
-          {!isEmpty(dataList.interested) && dataList.interested === true ? (
+          {!isEmpty(dataList.interested) && dataList.interested === true && (
             <Flex>
                <Text 
                 color="gray" size={11} className={styles.lastinvitetext}>
@@ -127,74 +133,10 @@ const InviteContainer = ({
                   {' '}{dataList?.invite && getDateString(dataList.invite, 'll')}
                   </Text>
             </Flex>
-          ):(
-            <div></div>
           )}
-            </>
+        </>
           )}
-
-{/* {!isEmpty(dataList.invite) && !isEmpty(dataList.applicant) && (
-            <Text color="gray" size={12}>
-              You can’t send Invite
-            </Text>
-          )} */}
-
-          {/* {!isEmpty(dataList.interested) && isEmpty(dataList.applicant) && (
-            <Flex row center>
-              <SvgInterested
-                width={22}
-                height={22}
-                fill={dataList.interested ? ERROR : SUCCESS}
-              />
-              <Text color="gray" style={{ marginLeft: 4 }}>
-                {dataList.interested ? 'Interested' : 'Not Interested'}
-              </Text>
-            </Flex>
-          )} */}
-
-            {/* {!isEmpty(dataList.interested) && isEmpty(dataList.applicant) && (
-            <Flex row center>
-              <SvgNotInterested
-                width={22}
-                height={22}
-              />
-              <Text color="gray" style={{ marginLeft: 4 }}>
-                {dataList.interested ? 'Not Interested' : ''}
-              </Text>
-            </Flex>
-          )} */}
-
-          {!isEmpty(dataList.interested) && dataList.interested === true ? (
-            <Flex row center
-            className={styles.interestedrow}>
-            <SvgInterested
-              width={18}
-              height={18}
-              // fill={dataList.interested ? SUCCESS : ERROR}
-            />
-            <Text
-              title={`Last Invited: ${dataList?.invite && getDateString(dataList.invite, 'll')}`}
-              className={styles.interestedtext}>
-              Interested
-            </Text>
-          </Flex>
-          ) : (
-            <>
-            {!isEmpty(dataList.interested) && isEmpty(dataList.applicant) && (
-            <Flex row center title='You can’t send Invite' className={styles.notinterested}>
-              <Flex className={styles.svgnoticon}>
-                <SvgNotInterested width={20} height={20}/>
-                </Flex>
-            <Text
-              className={styles.notinterestedtext}>
-              {!dataList.interested ? 'Not Interested' : ''}
-            </Text>
-          </Flex>
-              )}
-            </>
-          )}
-          {console.log("0000000",dataList.applicant)}
-          {!isEmpty(dataList.applicant) && (
+          {!isEmpty(dataList.applicant) ? (
             <Flex row center className={styles.applied}>
               <div className={styles.svgapplied}>
                 <SvgAppliedIcon fill={SUCCESS} width={17} height={17} />
@@ -216,7 +158,34 @@ const InviteContainer = ({
                 <SvgHelp width={16} height={16} fill={GARY_4} />
               </div>
             </Flex>
-          )}
+          ):(
+            dataList.interested === true ? (
+              <Flex row center
+              className={styles.interestedrow}>
+              <SvgInterested
+                width={18}
+                height={18}
+              />
+              <Text
+                title={`Last Invited: ${dataList?.invite && getDateString(dataList.invite, 'll')}`}
+                className={styles.interestedtext}>
+                Interested
+              </Text>
+            </Flex>
+            
+          ) : (dataList.not_interested === false && (
+              <Flex row center title='You can’t send Invite' className={styles.notinterested}>
+                <Flex className={styles.svgnoticon}>
+                  <SvgNotInterested width={20} height={20}/>
+                  </Flex>
+              <Text
+                className={styles.notinterestedtext}>
+                {!dataList.interested ? 'Not Interested' : ''}
+              </Text>
+              </Flex>
+                )
+
+          ))}
         </>
       )}
     </Flex>

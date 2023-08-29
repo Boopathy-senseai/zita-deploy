@@ -523,8 +523,8 @@ const MyJobPostingScreen = ({ currentPage, setCurrentPage }: props) => {
                           <div
                             style={{
                               color: '#FCC203',
-                              fontWeight: 500,
-                              fontSize: 15,
+                              fontWeight: 600,
+                              fontSize: 13,
                             }}
                           >
                             {'Draft'}{' '}

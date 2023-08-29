@@ -4,7 +4,7 @@
 .sortText {
   /* margin: 0 8px; */
   position: relative;
-  top: 7.3px;
+  top: 7.4px;
   font-size: 13px;
   color: rgb(88, 24, 69);
 }
@@ -63,13 +63,13 @@
   width: fit-content;
   white-space: nowrap;
   position: relative;
-  left:62%
+  /* left:62% */
 }
 
 
 @media only screen and (min-width: 1366px) and (max-width:1920px) {
   .bulkSelection{
-    left: 84%;
+    right: 30%;
   }
 }
 
