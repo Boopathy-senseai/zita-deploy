@@ -79,3 +79,6 @@
   list-style:decimal !important;
   margin-left: 30px;
 }
+.bulletpoint p{
+   font-size: 13px !important;
+}

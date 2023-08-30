@@ -323,18 +323,18 @@ const Maillist = ({
           // return <>{'Draft' + del.substring(2)}</>;
           return (
             <Flex row>
-              <Text style={{ color: '#ED4857', marginRight: '5px' }}>
+              <Text style={{ color: '#ED4857', marginRight: '5px' }} size={13}>
                 Draft{' '}
               </Text>
-              <Text>{del.substring(2)}</Text>
+              <Text size={13}>{del.substring(2)}</Text>
             </Flex>
           );
         }
         // return <>{'Draft (No Recipients)'}</>;
         return (
           <Flex row>
-            <Text style={{ color: '#ED4857', marginRight: '5px' }}>Draft </Text>
-            <Text>{`(No Recipients)`}</Text>
+            <Text style={{ color: '#ED4857', marginRight: '5px' }} size={13}>Draft </Text>
+            <Text size={13}>{`(No Recipients)`}</Text>
           </Flex>
         );
       }
@@ -393,19 +393,19 @@ const Maillist = ({
             .map((header, int) => header.value);
           return (
             <Flex row>
-              <Text style={{ color: '#ED4857', marginRight: '5px' }}>
+              <Text style={{ color: '#ED4857', marginRight: '5px' }} size={13}>
                 Draft{' '}
               </Text>
-              <Text>{ToEmails[0]}</Text>
+              <Text size={13}>{ToEmails[0]}</Text>
             </Flex>
           );
         } else {
           return (
             <Flex row>
-              <Text style={{ color: '#ED4857', marginRight: '5px' }}>
+              <Text style={{ color: '#ED4857', marginRight: '5px' }} size={13}>
                 Draft{' '}
               </Text>
-              <Text>{`(No Recipients)`}</Text>
+              <Text size={13}>{`(No Recipients)`}</Text>
             </Flex>
           );
         }
@@ -421,10 +421,10 @@ const Maillist = ({
             return (
               <>
                 <Flex row>
-                  <Text style={{ color: '#ED4857', marginRight: '5px' }}>
+                  <Text size={13} style={{ color: '#ED4857', marginRight: '5px' }}>
                     Draft{' '}
                   </Text>
-                  <Text>{From}</Text>
+                  <Text size={13}>{From}</Text>
                 </Flex>
               </>
             );
@@ -571,17 +571,19 @@ const Maillist = ({
                             <Text
                               className={styles.textHeadingStyle}
                               style={{ maxWidth: '70%' }}
+                              bold
+                              size={13}
                             >
                               {getfrom(val.payload.headers, val)}
                             </Text>
-                            <Text size={12}>{date(val.payload.headers)}</Text>
+                            <Text size={13}>{date(val.payload.headers)}</Text>
                           </Flex>
 
-                          <Text size={14} className={styles.textHeadingStyle}>
+                          <Text size={13} className={styles.textHeadingStyle}>
                             {getsubject(val.payload.headers)}
                           </Text>
                           <Flex>
-                            <Text className={styles.textStyle} size={12}>
+                            <Text className={styles.textStyle} size={13}>
                               {val.snippet}
                             </Text>
                           </Flex>
@@ -628,22 +630,24 @@ const Maillist = ({
                               <Text
                                 className={styles.textHeadingStyle}
                                 style={{ maxWidth: '70%' }}
+                                size={13}
+                                bold
                               >
                                 {handlemessage(val)}
                               </Text>
-                              <Text size={12}>
+                              <Text size={13}>
                                 {getDateString(val.sentDateTime, 'DD/MM/YY')}
                               </Text>
                             </Flex>
 
-                            <Text size={14} className={styles.textHeadingStyle}>
+                            <Text size={13} className={styles.textHeadingStyle}>
                               {val.subject !== ''
                                 ? val.subject
                                 : '(no subject)'}
                             </Text>
 
                             <Flex>
-                              <Text className={styles.textStyle} size={12}>
+                              <Text className={styles.textStyle} size={13}>
                                 {val.bodyPreview !== ''
                                   ? val.bodyPreview
                                   : 'This message has no content'}

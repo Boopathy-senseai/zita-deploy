@@ -84,7 +84,7 @@ const Table = ({
       </Flex>
       {fixedScrollHeight ? (
         <div
-          className={cx({ rowScroll: scrollHeight })}
+          
         >
           {dataSource.map((item, index) => (
             <Rows
@@ -100,7 +100,7 @@ const Table = ({
         </div>
       ) : (
         <Flex  
-        style={{overflow:'scroll',display:'flex',height:test?(''):window.innerHeight-300}}
+        style={{overflow:test?(''):'scroll',display:'flex',height:test?(''):window.innerHeight-300}}
  
           className={cx({ rowScroll: scrollHeight })}
         >
