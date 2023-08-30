@@ -101,7 +101,7 @@ const MyDataBaseCard = ({
           location: filterFormik.values.locationSearch,
           skill_match: skillsOptionsList,
           relocate: filterFormik.values.reLocateValue,
-          candidate: filterFormik.values.searchValue,
+          candidate: "",
           userType: tabKey,
           sort: isSortOptions.value,
           page: isPage + 1,
@@ -147,7 +147,7 @@ const MyDataBaseCard = ({
         location: filterFormik.values.locationSearch,
         skill_match: skillsOptionsList,
         relocate: filterFormik.values.reLocateValue,
-        candidate: filterFormik.values.searchValue,
+        candidate: "",
         userType: tabKey,
         sort: isSortOptions.value,
         page: isPage + 1,
@@ -197,7 +197,6 @@ const MyDataBaseCard = ({
               candidateId={dataList.id.toString()}
               inviteIconNone={jobId === false ? true : false}
             />
-           { console.log(jobId,'hhhhhhhhhhhhhhhhjjjjjjjjjjjjjfffffffffffff')}
             <ProfileView
               activeState={jobId === false ? 1 : 1}
               open={isNotes}
@@ -288,7 +287,6 @@ const MyDataBaseCard = ({
                       >
                         {dataList.first_name} {dataList.last_name}
                       </Text>
-                      {console.log("lklkllklkklk",(dataList.applicant_view))}
                       <div
                         className={styles.svgView}
                         title={

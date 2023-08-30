@@ -206,7 +206,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
       <Flex row style={{ marginTop: '10px' }}>
         <Flex flex={3} height={'unset'} minWidth={200} marginRight={20}>
           {Authorizemail === 'outlook' && email !== null && outbutton === 1 ? (
-            <Card className={styles.cardStruture}>
+            <Card className={Authorizemail === 'outlook' && email !== null && outbutton === 1?styles.cardStrutureborder:styles.cardStruture }>
               <Flex end style={{ position: 'absolute', right: '10px' }}>
                 <SvgTick />
               </Flex>
@@ -299,7 +299,9 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
           {Authorizemail === 'google' &&
             integrate.email !== null &&
             gbutton === 1 ? (
-            <Card className={styles.cardStruture}>
+            <Card className={Authorizemail === 'google' &&
+            integrate.email !== null &&
+            gbutton === 1 ?styles.cardStrutureborder:styles.cardStruture}>
               <Flex end style={{ position: 'absolute', right: '10px' }}>
                 <SvgTick />
               </Flex>
