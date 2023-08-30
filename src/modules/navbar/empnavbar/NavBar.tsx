@@ -189,7 +189,7 @@ const NavBar = ({ update }) => {
                                   style={{
                                     color: '#581845',
                                     marginLeft: '15px',
-                                    fontSize: '14px',
+                                    fontSize: '13px',
                                   }}
                                 >
                                   Profile
@@ -220,7 +220,7 @@ const NavBar = ({ update }) => {
                                 style={{
                                   color: '#581845',
                                   marginLeft: '15px',
-                                  fontSize: '14px',
+                                  fontSize: '13px',
                                 }}
                               >
                                 Profile
@@ -256,7 +256,7 @@ const NavBar = ({ update }) => {
                                   style={{
                                     color: '#581845',
                                     marginLeft: '15px',
-                                    fontSize: '14px',
+                                    fontSize: '13px',
                                   }}
                                 >
                                   Settings
@@ -282,7 +282,7 @@ const NavBar = ({ update }) => {
                                 style={{
                                   color: '#581845',
                                   marginLeft: '15px',
-                                  fontSize: '14px',
+                                  fontSize: '13px',
                                 }}
                               >
                                 Settings
@@ -316,7 +316,7 @@ const NavBar = ({ update }) => {
                                   style={{
                                     color: '#581845',
                                     marginLeft: '15px',
-                                    fontSize: '14px',
+                                    fontSize: '13px',
                                   }}
                                 >
                                   {/* < UserProfile /> */}
@@ -350,7 +350,7 @@ const NavBar = ({ update }) => {
                                   color: '#581845',
                                   marginLeft: '15px',
                                   cursor: 'pointer',
-                                  fontSize: '14px',
+                                  fontSize: '13px',
                                 }}
                               >
                                 {/* < UserProfile /> */}
@@ -365,7 +365,7 @@ const NavBar = ({ update }) => {
                           style={{
                             color: '#FCC203',
                             textAlign: 'center',
-                            fontSize: '14px',
+                            fontSize: '13px',
                           }}
                         >
                           You have logged in as
@@ -469,7 +469,7 @@ const NavBar = ({ update }) => {
                                   style={{
                                     color: '#581845',
                                     marginLeft: '15px',
-                                    fontSize: '14px',
+                                    fontSize: '13px',
                                   }}
                                 >
                                   Profile
@@ -495,7 +495,7 @@ const NavBar = ({ update }) => {
                                 style={{
                                   color: '#581845',
                                   marginLeft: '15px',
-                                  fontSize: '14px',
+                                  fontSize: '13px',
                                 }}
                               >
                                 Profile
@@ -531,7 +531,7 @@ const NavBar = ({ update }) => {
                                   style={{
                                     color: '#581845',
                                     marginLeft: '15px',
-                                    fontSize: '14px',
+                                    fontSize: '13px',
                                   }}
                                 >
                                   Settings
@@ -557,7 +557,7 @@ const NavBar = ({ update }) => {
                                 style={{
                                   color: '#581845',
                                   marginLeft: '15px',
-                                  fontSize: '14px',
+                                  fontSize: '13px',
                                 }}
                               >
                                 Settings
@@ -593,7 +593,7 @@ const NavBar = ({ update }) => {
                                     color: '#581845',
                                     marginLeft: '15px',
                                     cursor: 'pointer',
-                                    fontSize: '14px',
+                                    fontSize: '13px',
                                   }}
                                 >
                                   Change Password
@@ -626,7 +626,7 @@ const NavBar = ({ update }) => {
                                   color: '#581845',
                                   marginLeft: '15px',
                                   cursor: 'pointer',
-                                  fontSize: '14px',
+                                  fontSize: '13px',
                                 }}
                               >
                                 Change Password
@@ -640,7 +640,7 @@ const NavBar = ({ update }) => {
                           style={{
                             color: '#FCC203',
                             textAlign: 'center',
-                            fontSize: '14px',
+                            fontSize: '13px',
                           }}
                         >
                           You have logged in as

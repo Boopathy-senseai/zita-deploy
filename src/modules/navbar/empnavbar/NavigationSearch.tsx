@@ -105,6 +105,8 @@ const NavigationSearch = ({ onButtonClick, onbuttonchange }) => {
         return history.push('/account_setting/settings?tab=4');
       case 'email':
         return history.push('/mail')
+      case 'meeting scheduler':
+        return history.push('/meeting_scheduler')
       case 'inbox':
         return history.push('/mail')
       case 'email integration':
@@ -237,7 +239,7 @@ const NavigationSearch = ({ onButtonClick, onbuttonchange }) => {
 
       'Source Candidates',
       'Sourcing',
-
+     
       'Candidates Importing',
 
       'Applicants Importing',
