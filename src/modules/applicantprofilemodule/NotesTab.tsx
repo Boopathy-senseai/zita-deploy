@@ -241,12 +241,16 @@ const NotesTab = ({
       formData.append('otheruserid', testing);
       formData.append('notes', '');
     }
-
+    
     const data = querystring.stringify({
       pk: can_id,
-      notes: values.notes,
+      notes: values.notes, 
     });
+    const notesbody = parser.parseFromString(values.notes, 'text/html');
+    const textNode = notesbody.querySelectorAll('body')[0].textContent;
+    formData.append('body', textNode);
     formData.append('candidate_id', can_id);
+    formData.append('jd_id',jd_id?jd_id:'0');
     if (buttonName === 'Add') {
       if (final.length !== 0) {
         const doc = parser.parseFromString(values.notes, 'text/html');
@@ -276,10 +280,12 @@ const NotesTab = ({
           formik.resetForm();
         });
     }
-
+    const notesbodys = parser.parseFromString(values.notes, 'text/html');
+    const textNod = notesbodys.querySelectorAll('body')[0].textContent;
     const dataOne = querystring.stringify({
       pk: getId,
       notes: values.notes,
+      body:textNod,
       update: 'update',
     });
 

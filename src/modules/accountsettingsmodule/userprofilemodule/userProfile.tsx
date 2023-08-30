@@ -283,7 +283,7 @@ const UserProfilepic = ({ value, update }: Props) => {
                   {!isEmpty(formikPassword.values.newpassword1) && isValid && (
                     <Flex columnFlex>
                       <ErrorMessages
-                        message="password must contain at least one uppercase."
+                        message="Password must contain at least one uppercase."
                         error={
                           !checkUpperCase.test(
                             formikPassword.values.newpassword1,
@@ -291,14 +291,14 @@ const UserProfilepic = ({ value, update }: Props) => {
                         }
                       />
                       <ErrorMessages
-                        message="password must be between 8-12 characters."
+                        message="Password must be between 8-12 characters."
                         error={
                           formikPassword.values.newpassword1.length < 8 ||
                           formikPassword.values.newpassword1.length > 12
                         }
                       />
                       <ErrorMessages
-                        message="password must contain at least one special character."
+                        message="Password must contain at least one special character."
                         error={
                           !specialCharacter.test(
                             formikPassword.values.newpassword1,

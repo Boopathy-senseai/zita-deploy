@@ -140,7 +140,7 @@ const InputSearchnav = ({
       | null
       | undefined,
   ) => (
-    <div style={{ textTransform: 'capitalize' }}>
+    <div style={{ textTransform: 'capitalize' , fontSize: '13px'}}>
       {typeof suggestion === 'string'
         ? suggestion.replace(', usa', ', USA')
         : suggestion}

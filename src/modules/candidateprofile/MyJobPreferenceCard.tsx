@@ -44,7 +44,7 @@ const MyJobPreferenceCard = ({
       value: isEmpty(personal?.current_city__name)
         ? notSpecified(personal?.current_city__name)
         : `${personal?.current_city__name}, ${personal?.current_state__name}, ${personal?.current_country__name}`,
-      right: 75,
+      right: 71,
     },
     {
       title: 'Willing to Relocate:',
@@ -68,7 +68,7 @@ const MyJobPreferenceCard = ({
       value: isEmpty(personal?.exp_gross)
         ? notSpecified(personal?.exp_gross)
         : `${getSymbolFromCurrency(currentCurrency)} ${personal?.exp_gross}`,
-      right: 85,
+      right: 86,
     },
   ];
   const handleOpenMyjobEdit = () => {

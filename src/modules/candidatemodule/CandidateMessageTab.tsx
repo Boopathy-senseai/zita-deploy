@@ -180,7 +180,7 @@ const CandidateMessageTab = () => {
         marginTop={11}
         style={{ padding: '0px 16px 0px ' }}
       >
-        <Flex center onClick={hanldeOpen}>
+        {/* <Flex center onClick={hanldeOpen}>
           <Text
             className={'pointer'}
             bold
@@ -192,7 +192,7 @@ const CandidateMessageTab = () => {
           >
             Use Templates
           </Text>
-        </Flex>
+        </Flex> */}
         <Flex row>
           <Button
             onClick={handleCancel}

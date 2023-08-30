@@ -151,7 +151,7 @@ const ManageUsers = ({ setKey }) => {
       <div
         className="row align-items-center"
         style={{
-          margin: '10px 8px 10px 16px',
+          margin: '10px 8px 25px 16px',
           justifyContent: 'space-between',
         }}
       >
