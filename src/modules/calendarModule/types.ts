@@ -85,6 +85,7 @@ export interface meetingFormProps {
   location: {
     isHave: boolean;
     value: string | null;
+    error: boolean
   };
   timeZone: {
     value: string;
