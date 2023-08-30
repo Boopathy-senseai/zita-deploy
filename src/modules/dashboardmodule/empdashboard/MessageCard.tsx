@@ -91,10 +91,10 @@ const MessageCard = () => {
         candidateId={isCandi}
       />
       <Flex row center between className={styles.msgText} >
-        <Text bold size={14} style={{ marginBottom: '2px' }}>
+        <Text bold size={14} >
           Unread Messages
         </Text>
-        <Flex marginBottom={6} marginRight={6}>
+        <Flex  marginRight={4}>
           <div style={{ position: 'relative' }}>
             {message_count !== 0 && (
               <div className={styles.countStyle}>

@@ -110,7 +110,7 @@ const CalenderConfig = ({ isGoogle, email,CloseConfiguration }: CalenderConfigPr
           </Flex>
           <Flex marginLeft={15}>
             <Flex>
-              <Text  size={14} bold color="theme" style={{ cursor : 'default'}}>
+              <Text  size={14} bold  style={{ cursor : 'default' ,color:'#333333'}}>
                 Check for Conflicts
               </Text>
               <Text size={13} style={{ cursor : 'default'}}>
