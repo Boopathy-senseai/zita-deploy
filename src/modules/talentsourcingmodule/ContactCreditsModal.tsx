@@ -84,8 +84,10 @@ const ContactCreditsModal = ({
   return (
     <Modal open={open}>
       <Flex className={styles.overAll}>
-      <Flex end onClick={cancelBtnOnClick}>
-      <SvgCloseSmall />
+      <Flex center end onClick={cancelBtnOnClick} >
+        <Flex className={styles.hovercross}>
+      <SvgCloseSmall  />
+      </Flex>
     </Flex>
 
         <Flex className={styles.overAllPadding}>

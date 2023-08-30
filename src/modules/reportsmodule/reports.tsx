@@ -36,9 +36,7 @@ const Reports = () => {
         
       }}
     >
-      <Flex className={styles.overAll} >
-        
-        <Flex row className={styles.ribbon} between>
+      <Flex row className={styles.ribbon} between>
         <Flex marginTop={9} marginLeft={8} >
           <Text size={16} bold color="theme" >
           Reports
@@ -47,9 +45,13 @@ const Reports = () => {
         <Flex >
           <div className={styles.triangle}></div>
         </Flex>
-
         </Flex>
-        <Flex className={styles.reportscroll} height={window.innerHeight-120}>
+      <Flex className={styles.overAll}  >
+        
+        
+
+        
+        <Flex className={styles.reportscroll} height={window.innerHeight-110}>
         <Flex className={styles.marginTop}>
           <Text size={14} bold>
             Candidates
@@ -117,7 +119,7 @@ const Reports = () => {
           </Text>
           <Text>View all performance-related reports here</Text>
         </Flex>
-        <Flex row style={{paddingLeft:'5px',    marginBottom:' 10px'}}>
+        <Flex row style={{paddingLeft:'5px',    marginBottom:' 10px',paddingBottom:'5px'}}>
           <Flex flex={4}>
             <LinkWrapper  to={`reports/sourcing-performance`}>
             <Card className={styles.cardOverAllReport}>
