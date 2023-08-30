@@ -187,7 +187,7 @@ const CertificationsAddandUpdateEdit = ({
         >
           <SvgCloseSmall />
         </div>
-        <Text align="center" bold size={16} className={styles.title}>
+        <Text align="center" bold size={14} className={styles.title}>
           {isUpdate ? 'Update' : 'Add'} Certifications/Course
         </Text>
         <Flex row top className={styles.flexConatiner}>

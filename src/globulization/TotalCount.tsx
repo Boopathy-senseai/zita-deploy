@@ -22,8 +22,8 @@ const Totalcount =({
 return(
     <>
         <Flex  row >
-        <Flex className={cx('name')} style={{fontWeight:click?'bold':null,cursor:click?'pointer':null}}> {name}:</Flex>
-        <Flex className={cx('count')} style={{cursor:click?'pointer':null}}>{numbers}</Flex> 
+        <Flex className={cx('name')} style={{fontWeight:click?'bold':null,cursor:click?'pointer':null,color:click?'#581845':null}}> {name}:</Flex>
+        <Flex className={cx('count')} style={{cursor:click?'pointer':null,color:click?'#581845':null}}>{numbers}</Flex> 
         </Flex>
     </>
  );

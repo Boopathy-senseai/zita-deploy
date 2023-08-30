@@ -142,7 +142,7 @@ export const title = (
     title: 'Skills',
     dataIndex: 'skills',
     key: 'skills',
-    flex: 14,
+    flex: 15,
     render: (_a: any, value: EmpPoolEntity) => {
       return (
         <SkillsAdd
@@ -181,7 +181,7 @@ export const title = (
     title: 'Action',
     dataIndex: 'action',
     key: 'action',
-    flex: 4,
+    flex: 3,
     render: (_a: any, value: EmpPoolEntity) => {
       return (
         <Action

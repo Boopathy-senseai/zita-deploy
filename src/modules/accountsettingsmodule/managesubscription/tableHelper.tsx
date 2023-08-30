@@ -72,7 +72,7 @@ const PlanTable =  ( data : Props)  => {
       </Text>
       </Flex>
       <Flex center className={styles.boxshadow}>
-      <Text style={{color:"#581845"}}>Next Billing Date</Text>
+      <Text style={{color:"#581845"}}>Plan Status</Text>
       <Text className={styles.textstyle}>
       
           {data.data[0].current_status === true &&

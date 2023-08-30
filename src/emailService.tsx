@@ -225,7 +225,7 @@ export async function getsearchmail(
   token,
 ) {
   if (folder === 'All') {
-    if (token !== '') {
+    if (token !== null) {
       var response1: any = await graphClient
         ?.api(`/me/messages`)
         .count(true)
@@ -245,7 +245,7 @@ export async function getsearchmail(
       return response2;
     }
   } else {
-    if (token !== '') {
+    if (token !== null) {
       var response: any = await graphClient
         ?.api(`/me/mailFolders/${folder}/messages`)
         .count(true)

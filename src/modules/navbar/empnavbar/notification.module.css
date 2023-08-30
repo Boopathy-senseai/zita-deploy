@@ -123,14 +123,14 @@
 .confirm_txt {
   /* z-index: -1; */
   text-align: left;
-  font-size: 14px;
+  font-size: 13px;
   color: #333333;
 }
 
 .confirm_title {
   color: #333333;
   text-align: left;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 /*sidebar*/
@@ -166,6 +166,8 @@
 
 .text {
   margin-left: 12px;
+  position: relative;
+    bottom: 1px;
 }
 
 .classpan {
@@ -187,6 +189,7 @@
   cursor: not-allowed;
 }
 .selectitem {
+ 
   cursor: not-allowed;
 }
 

@@ -2481,6 +2481,10 @@ ul {
 .rbc-month-view {
   z-index: 0;
 }
+.css-2ujp1m, .css-118whkv{
+  border-color: #581845 !important;
+  background-color: unset !important;
+}
 /* .daterangepicker td.disabled, .daterangepicker option.disabled {
   color: #999;
   cursor: not-allowed;

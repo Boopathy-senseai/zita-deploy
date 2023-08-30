@@ -213,7 +213,7 @@ const AddandUpdateQualificationEdit = ({
         >
           <SvgCloseSmall />
         </div>
-        <Text size={16} bold align="center" className={styles.title}>
+        <Text size={14} bold align="center" className={styles.title}>
           {isUpdate ? 'Update Qualification' : 'Add Qualification'}
         </Text>
         <Flex row top>

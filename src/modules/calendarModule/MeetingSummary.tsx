@@ -192,6 +192,9 @@ const MeetingSummary = ({
     } = meetingForm;
      setIsloading(true);
     // setIsTopLineLoading(true);
+    console.log("startDateTimestartDateTimestartDateTime",startDateTime)
+    console.log("endDateTimeendDateTimeendDateTimeendDateTim",endDateTime)
+
     dispatch(
       scheduleEventMiddleware({
         title: getMeetingTitle(),
@@ -301,13 +304,15 @@ const MeetingSummary = ({
               Meeting Notification Summary
             </Text>
           </Flex>
+          <Flex style={{overflowY:"scroll", maxHeight:"550px"}}>
           <Flex
             className={styles.meetingSummary}
             column
             style={{
               paddingBottom: 10,
+              marginRight:"10px",
               // borderBottom: '1px solid #cccccc',
-              overflow: 'auto',
+               // overflow: 'auto',
               // maxHeight: '90vh',
             }}
           >
@@ -323,7 +328,7 @@ const MeetingSummary = ({
             <ExpandTile
               backgroundColor="#58184530"
               activeColor="#333333"
-              title={'Email notification to Applicant'}
+              title={'Email notification to applicant'}
               show={tileState?.applicant}
               onClick={() =>
                 setTileState({ ...tileState, applicant: !tileState.applicant })
@@ -348,7 +353,7 @@ const MeetingSummary = ({
             </ExpandTile>
 
             {meetingForm.interviewer.length !== 0 && (
-              <ExpandTile
+              <ExpandTile 
                 backgroundColor="#58184530"
                 activeColor="#000000"
                 title={'Email notification to interviewer'}
@@ -365,9 +370,9 @@ const MeetingSummary = ({
                   currentUserLabel={currentUserLabel}
                   greetingText={greetings.interviewer}
                   email={meetingForm.interviewer.map((interview, index: Key) =>
-                    interview.calendarEmail
-                      ? interview.calendarEmail
-                      : interview.email,
+                    interview.email
+                      ? interview.email
+                      : interview.calendarEmail,
                   )}
                   notes={meetingForm.privateNotes}
                   applicantInfo={meetingForm.applicant}
@@ -417,6 +422,10 @@ const MeetingSummary = ({
               </Button>
             )}
           </div>
+
+
+          </Flex>
+          
         </div>
       </div>
     </>

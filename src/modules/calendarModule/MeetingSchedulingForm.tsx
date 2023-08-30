@@ -854,11 +854,11 @@ const MeetingSchedulingForm = ({
           borderBottom: '0.5px solid #581845',
         }}
       >
-        <SvgCalendar width={18} height={18} style={{ marginBottom: '5px' }} />
+        <SvgCalendar width={18} height={18} style={{ marginBottom: '5px' }} fill={"#333"} stroke={"#333"}/>
         <Text
           size={14}
           bold
-          color="theme"
+          // color="theme"
           className={styles.formTitle}
           style={{ marginBottom: '5px' }}
         >

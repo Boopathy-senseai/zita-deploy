@@ -26,6 +26,9 @@ import {
   outlookCallApiMiddleware,
 } from '../../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import SvgCross from '../../../icons/SvgCross';
+import SvgCloseBox from '../../../icons/SvgCloseBox';
+import SvgClose from '../../../icons/SvgClose';
+
 import {
   eventType,
   duration,
@@ -1003,12 +1006,11 @@ const CreateNewEvent = ({
     setIsOpen(false);
   }
 
-  function removeInterviewer(id){
-    interviewerData.splice(id, 1);   
-    checkedItems.splice(id, 1)
-    setCheckedItems([...checkedItems])
-    console.log("checkedItemscheckedItems",checkedItems)  
-
+  function removeInterviewer(id) {
+    interviewerData.splice(id, 1);
+    checkedItems.splice(id, 1);
+    setCheckedItems([...checkedItems]);
+    console.log('checkedItemscheckedItems', checkedItems);
 
     setinterviewerData([...interviewerData]);
   }
@@ -1016,8 +1018,7 @@ const CreateNewEvent = ({
   const MAX_BUTTONS = 3;
   const MAX_BUTTON_TEXT_WIDTH = 85;
 
-
-  console.log("interviewerDatainterviewerData",interviewerData)
+  console.log('interviewerDatainterviewerData', interviewerData);
 
   return (
     <Flex>
@@ -1025,7 +1026,7 @@ const CreateNewEvent = ({
       <Flex className={styles.createnewlink}>
         <Flex style={{ padding: '0px 25px' }}>
           <Flex className={styles.title}>
-            <Text  bold size={14} style={{ marginBottom: '5px' }}>
+            <Text bold size={14} style={{ marginBottom: '5px' }}>
               Create Event
             </Text>
           </Flex>
@@ -1217,7 +1218,9 @@ const CreateNewEvent = ({
             <Text size={12} color="theme" style={{ marginLeft: '5px' }}>
               (choose your date for interviews)
             </Text>
+            
           </Flex>
+
 
           <Flex row between center>
             <Flex row className={styles.overflowbtn}>
@@ -1238,21 +1241,9 @@ const CreateNewEvent = ({
               </Button>
 
               {interviewerData.slice(0, MAX_BUTTONS).map((name, index) => (
-                <Flex key={index} row>
-                  <Button
+                <Flex key={index} row center top className={styles.interviewerText}>
+                  <Flex
                     key={index}
-                    style={{
-                      border: '1px solid #ccc',
-                      borderBottom: 'none',
-                      borderRadius: '2px 2px 0px 0px',
-                      padding: '5px',
-                      whiteSpace: 'nowrap',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      maxWidth: MAX_BUTTON_TEXT_WIDTH + 'px',
-                      cursor: 'default',
-                    }}
-                    types="secondary"
                   >
                     <Text
                       title={name}
@@ -1262,12 +1253,22 @@ const CreateNewEvent = ({
                       {' '}
                       {name}
                     </Text>
-                  </Button>
-                  <Flex style={{position:"relative"}} marginLeft={-20} onClick={() =>removeInterviewer(index)} >
-                    <SvgCross width={10} height={10} fill={'#581845'} />
+                  </Flex>
+                  <Flex  row
+                    style={{ position: 'relative', borderRadius:"100%", padding:"3px"}}
+                    // marginLeft={-20}
+                    marginTop={2}
+                    backgroundColor={"#58184540"}
+                    
+                    
+                    onClick={() => removeInterviewer(index)}
+                  >
+                    <SvgClose height={9} width={8} fill={"#581845"}/>
                   </Flex>
                 </Flex>
               ))}
+
+
               {interviewerData.length > MAX_BUTTONS && (
                 <Button
                   style={{
@@ -1326,47 +1327,53 @@ const CreateNewEvent = ({
           )}
 
           <div className={styles.daytimesplit}>
-          <Flex title={"New intervals"} row>
-            <Flex row style={{ border: '1px solid #c3c3c3', padding: '10px' }}>
-              <DayTimeSplit
-                duration={durationField}
-                days={dayField}
-                sunday={sunday}
-                monday={monday}
-                tuesday={tuesday}
-                wednesday={wednesday}
-                thursday={thursday}
-                friday={friday}
-                saturday={saturday}
-                setSunday={setSunday}
-                setMonday={setMonday}
-                setTuesday={setTuesday}
-                setWednesday={setWednesday}
-                setThursday={setThursday}
-                setFriday={setFriday}
-                setSaturday={setSaturday}
-                sundaycheck={sundaycheck}
-                mondaycheck={mondaycheck}
-                tuesdaycheck={tuesdaycheck}
-                wednesdaycheck={wednesdaycheck}
-                thursdaycheck={thursdaycheck}
-                fridaycheck={fridaycheck}
-                saturdaycheck={saturdaycheck}
-                setsundaycheck={setsundaycheck}
-                setmondaycheck={setmondaycheck}
-                settuesdaycheck={settuesdaycheck}
-                setwednesdaycheck={setwednesdaycheck}
-                setthursdaycheck={setthursdaycheck}
-                setfridaycheck={setfridaycheck}
-                setsaturdaycheck={setsaturdaycheck}
-                ErrMessage={ErrMessage}
-                editModel={editModel}
-                onValid={onValid}
-                changeCount={changeCount}
-                showerrMsg={showerrMsg}
-                setShowErrMsg={setShowErrMsg}
-              />
-            </Flex>
+            <Flex row>
+              <Flex
+                row
+                style={{
+                  border: '1px solid #c3c3c3',
+                  padding: '10px 70px 10px 10px',
+                }}
+              >
+                <DayTimeSplit
+                  duration={durationField}
+                  days={dayField}
+                  sunday={sunday}
+                  monday={monday}
+                  tuesday={tuesday}
+                  wednesday={wednesday}
+                  thursday={thursday}
+                  friday={friday}
+                  saturday={saturday}
+                  setSunday={setSunday}
+                  setMonday={setMonday}
+                  setTuesday={setTuesday}
+                  setWednesday={setWednesday}
+                  setThursday={setThursday}
+                  setFriday={setFriday}
+                  setSaturday={setSaturday}
+                  sundaycheck={sundaycheck}
+                  mondaycheck={mondaycheck}
+                  tuesdaycheck={tuesdaycheck}
+                  wednesdaycheck={wednesdaycheck}
+                  thursdaycheck={thursdaycheck}
+                  fridaycheck={fridaycheck}
+                  saturdaycheck={saturdaycheck}
+                  setsundaycheck={setsundaycheck}
+                  setmondaycheck={setmondaycheck}
+                  settuesdaycheck={settuesdaycheck}
+                  setwednesdaycheck={setwednesdaycheck}
+                  setthursdaycheck={setthursdaycheck}
+                  setfridaycheck={setfridaycheck}
+                  setsaturdaycheck={setsaturdaycheck}
+                  ErrMessage={ErrMessage}
+                  editModel={editModel}
+                  onValid={onValid}
+                  changeCount={changeCount}
+                  showerrMsg={showerrMsg}
+                  setShowErrMsg={setShowErrMsg}
+                />
+              </Flex>
             </Flex>
           </div>
           <ErrorMessage

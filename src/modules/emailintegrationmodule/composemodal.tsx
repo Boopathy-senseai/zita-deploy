@@ -322,26 +322,34 @@ const Newmessage = ({
 
         if (replaymsg.toRecipients.length !== 0) {
           replaymsg.toRecipients.map((val, int) => {
-            to.push({
-              value: val['emailAddress'].address,
-              label: val['emailAddress'].address,
-            });
+            if (emailcollection.email !== val['emailAddress'].address) {
+              to.push({
+                value: val['emailAddress'].address,
+                label: val['emailAddress'].address,
+              });
+            }
           });
         }
         if (replaymsg.ccRecipients.length !== 0) {
+          setopenCc(true);
           replaymsg.ccRecipients.map((val, int) => {
-            cc.push({
-              value: val['emailAddress'].address,
-              label: val['emailAddress'].address,
-            });
+            if (emailcollection.email !== val['emailAddress'].address) {
+              cc.push({
+                value: val['emailAddress'].address,
+                label: val['emailAddress'].address,
+              });
+            }
           });
         }
         if (replaymsg.bccRecipients.length !== 0) {
+          setopenBcc(true);
           replaymsg.bccRecipients.map((val, int) => {
-            bcc.push({
-              value: val['emailAddress'].address,
-              label: val['emailAddress'].address,
-            });
+            if (emailcollection.email !== val['emailAddress'].address) {
+              bcc.push({
+                value: val['emailAddress'].address,
+                label: val['emailAddress'].address,
+              });
+            }
           });
         }
 
@@ -656,7 +664,7 @@ const Newmessage = ({
         await composemail(authProvider, Emailprops)
           .then((res) => {
             setloader(false);
-            Toast('Message send successfully', 'LONG', 'success');
+            Toast('Email sent successfully', 'LONG', 'success');
             delete_draft();
             clearform();
             onClose();
@@ -723,7 +731,7 @@ const Newmessage = ({
   //Email compose function //
   const sendmail = async () => {
     if (tomail.length === 0) {
-      setmessage('Email must have at least one recipient.');
+      setmessage('Email must have at least one recepient');
       setVerifymodel({ open: true });
     } else if (subject.length === 0) {
       setmessage(
@@ -1249,7 +1257,7 @@ const Newmessage = ({
               <Text color="white">New Email </Text>
               <Flex row center between className={styles.optionMenu}>
                 <Flex
-                  title={style === 1 ? 'Minimize' : 'Maximize'}
+                  title={style === 2 ? 'Maximize' : 'Minimize'}
                   style={{
                     marginRight: '15px',
                     cursor: 'pointer',
@@ -1616,61 +1624,63 @@ const Newmessage = ({
                 </Flex>
               </Flex>
               <Flex row between center className={styles.action}>
-                <Flex row center>
-                  <Button
-                    onClick={() => sendmail()}
-                    style={{ marginRight: '10px' }}
-                  >
-                    Send
-                  </Button>
-                  <Flex
-                    style={{ cursor: 'pointer', marginRight: '10px' }}
-                    // onClick={handleModel}
-                  >
-                    <Flex
-                      center
-                      style={{ cursor: 'pointer' }}
-                      title="Attach Files"
+                <Flex row between center className={styles.bottomline}>
+                  <Flex row center>
+                    <Button
+                      onClick={() => sendmail()}
+                      style={{ marginRight: '10px' }}
                     >
-                      <label style={{ cursor: 'pointer', marginTop: '5px' }}>
-                        <Upload width="19px" height="19px" fill="#581845" />
-                        <input
-                          ref={fileInputRef}
-                          type="file"
-                          style={{ display: 'none' }}
-                          multiple
-                          //onChange={selectfile}
-                          onChange={(files) => selectfile(files)}
-                          onClick={removeref}
-                          accept=".doc,.docx,.pdf,.txt,.svg,.png,.jpeg,.jpg"
-                        />
-                      </label>
+                      Send
+                    </Button>
+                    <Flex
+                      style={{ cursor: 'pointer', marginRight: '10px' }}
+                      // onClick={handleModel}
+                    >
+                      <Flex
+                        center
+                        style={{ cursor: 'pointer' }}
+                        title="Attach Files"
+                      >
+                        <label style={{ cursor: 'pointer', marginTop: '5px' }}>
+                          <Upload width="19px" height="19px" fill="#581845" />
+                          <input
+                            ref={fileInputRef}
+                            type="file"
+                            style={{ display: 'none' }}
+                            multiple
+                            //onChange={selectfile}
+                            onChange={(files) => selectfile(files)}
+                            onClick={removeref}
+                            accept=".doc,.docx,.pdf,.txt,.svg,.png,.jpeg,.jpg"
+                          />
+                        </label>
+                      </Flex>
                     </Flex>
-                  </Flex>
-                  <Flex
-                    style={{ cursor: 'pointer' }}
-                    onClick={handleModel}
-                    title="Insert Templates"
-                  >
-                    <Temadd width="16px" height="16px" />
-                  </Flex>
+                    <Flex
+                      style={{ cursor: 'pointer' }}
+                      onClick={handleModel}
+                      title="Insert Templates"
+                    >
+                      <Temadd width="16px" height="16px" />
+                    </Flex>
 
-                  {/* </Button> */}
-                  {/* <Flex style={{ margin: '0px 10px 0px 10px' }}>
+                    {/* </Button> */}
+                    {/* <Flex style={{ margin: '0px 10px 0px 10px' }}>
                     <Flex style={{ cursor: 'pointer' }}>
                       <Upload />
                       
                     </label>
                   </Flex> */}
-                </Flex>
+                  </Flex>
 
-                <Flex marginRight={2}>
-                  <SvgTrash
-                    width={14}
-                    height={14}
-                    fill="#581845"
-                    onClick={handleClose}
-                  />
+                  <Flex marginRight={2}>
+                    <SvgTrash
+                      width={14}
+                      height={14}
+                      fill="#581845"
+                      onClick={handleClose}
+                    />
+                  </Flex>
                 </Flex>
               </Flex>
             </Flex>

@@ -58,8 +58,9 @@ export function getUserInitials(user?: {
   firstName?: string;
   lastName?: string;
   email?: string;
+  fullName?: string;
 }) {
-  const { firstName, lastName, email } = user;
+  const { firstName, lastName, email, fullName } = user;
   if (firstName && lastName) {
     return firstName[0] + lastName[0];
   }
@@ -71,6 +72,10 @@ export function getUserInitials(user?: {
   }
   if (email) {
     return email.slice(0, 2);
+  }
+  if (fullName) {
+    const arr = fullName.split(' ');
+    return (arr[0] ? arr[0][0] : '') + (arr[1] ? arr[1][0] : '');
   }
   return '';
 }

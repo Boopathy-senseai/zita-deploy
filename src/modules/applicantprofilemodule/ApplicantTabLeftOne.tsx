@@ -26,11 +26,12 @@ const defaultProps = {
 };
 
 const ApplicantTabLeftOne = ({ activeState }: typeof defaultProps) => {
-  const { status_id ,stages} = useSelector(
+  const { status_id ,stages,can_id} = useSelector(
     ({ applicantProfileInitalReducers,applicantStausReducers }: RootState) => {
       return {
         status_id: applicantProfileInitalReducers.status_id,
         stages: applicantStausReducers?.stages,
+        can_id: applicantProfileInitalReducers.can_id
       };
     },
   );
@@ -57,7 +58,7 @@ const ApplicantTabLeftOne = ({ activeState }: typeof defaultProps) => {
             <AllMatchTab title={''} inviteMessage={''} width={'50%'} />
           </Tab>
           <Tab title={'Mailbox'}>
-            <EmailScreen/>
+            <EmailScreen isprofileview={true} can_id={can_id}/>
           </Tab>
           {/* <Tab title={'Screening Status'}>
             <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab/>
@@ -88,7 +89,7 @@ const ApplicantTabLeftOne = ({ activeState }: typeof defaultProps) => {
             <MatchingAnalysisTab />
           </Tab>
           <Tab title={'Mailbox'}>
-            <EmailScreen/>
+            <EmailScreen isprofileview={true}/>
           </Tab>
           <Tab title={'Screening Status/Scorecard'}>
             <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab={false} />

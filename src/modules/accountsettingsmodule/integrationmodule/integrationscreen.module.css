@@ -187,10 +187,18 @@
   height: 200px !important;
   width: 400px !important;
 }
+
 .borderbottom{
-  border-bottom: 1px solid rgb(195, 195, 195, 1);
+  border-bottom: 0.5px solid #581845;
   width: 100%;
-  margin-top: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.borderbottom1{
+  border-bottom: 1px solid #c3c3c3;
+  width: 100%;
+  margin-top: 5px;
   margin-bottom: 5px;
 }
 

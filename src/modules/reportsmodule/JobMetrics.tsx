@@ -290,7 +290,7 @@ const JobMetricsReports = () => {
             <Flex style={{ justifyContent: 'center', marginBotto: '2px' }}>
               <SvgNoDataIcon width={16} height={16} fill={'#888'} />
             </Flex>
-            <Text color="gray">No data available</Text>
+            <Text color="placeholder">No data available</Text>
           </Flex>
         )}
       </Flex>
@@ -479,7 +479,7 @@ const JobMetricsReports = () => {
                       >
                         <SvgNoDataIcon width={16} height={16} fill={'#888'} />
                       </Flex>
-                      <Text>No data available</Text>
+                      <Text size={13} color='placeholder'>No data available</Text>
                     </Flex>
                   )}
                 </Flex>
@@ -501,7 +501,7 @@ const JobMetricsReports = () => {
                 <Flex style={{ justifyContent: 'center', marginBotto: '2px' }}>
                   <SvgNoDataIcon width={16} height={16} fill={'#888'} />
                 </Flex>
-                <Text color="gray">No Data Available</Text>
+                <Text size={13} color="placeholder">No data available</Text>
               </>
             )}
           </Flex>

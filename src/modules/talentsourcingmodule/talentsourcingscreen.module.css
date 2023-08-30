@@ -77,10 +77,8 @@
 }
 .emptyStyle{
   align-items: center;
-  justify-content: center;
-  height: 50%;
-  display: flex;
-  margin-top: 17%;
+  justify-content: center; 
+  display: flex; 
   flex-direction: column;
 }
 .ribbon{
