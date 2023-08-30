@@ -169,7 +169,7 @@ const SetNewPassword = ({
                         className={styles.passwordicon}
                         onClick={() => setShowNewPass(!isShowNewPass)}
                       >
-                      <div style={{marginTop: '-15px'}}>
+                      <div style={{marginTop: '-4px'}}>
                         <SvgView
                           nonView={isShowNewPass}
                           height={20}
@@ -221,7 +221,7 @@ const SetNewPassword = ({
                         className={styles.passwordicon}
                         onClick={() => setShowChnagePass(!isShowChangePass)}
                       >
-                      <div style={{marginTop: '-15px'}}>
+                      <div style={{marginTop: '-4px'}}>
                         <SvgView
                           nonView={isShowChangePass}
                           height={20}
@@ -261,14 +261,14 @@ const SetNewPassword = ({
                 <Text align="center" color="theme" size={14}>
                   Your password reset link has already been used or expired.
                 </Text>
-              <div style={{marginLeft:'40%'}}>
+              <Text align="center">
               <Button
               className={styles.button}
               onClick={() => window.location.replace('/')}
             >
               Login
             </Button>
-              </div>
+              </Text>
               </Flex>
             )}
           </Flex>

@@ -60,7 +60,7 @@ const PersonalInformationCard = ({
     {
       title: 'Contact Number:',
       value: personal?.contact_no,
-      right: 116,
+      right: 121,
     },
     { title: 'Email:', value: notSpecified(personal?.email), right: 188 },
     {
@@ -82,7 +82,7 @@ const PersonalInformationCard = ({
     {
       title: 'Your Personal Code Repository:',
       value: notSpecified(personal?.code_repo),
-      right: 18,
+      right: 29,
     },
     {
       title: 'Total Experience:',
@@ -90,12 +90,12 @@ const PersonalInformationCard = ({
         isEmpty(expYears) && isEmpty(expMonth)
           ? 'Not Specified'
           : `${expYears} ${expMonth}`,
-      right: 117,
+      right: 122,
     },
     {
       title: 'Qualification:',
       value: notSpecified(Qualification),
-      right: 144,
+      right: 146,
     },
   ];
   const handleOpenPersonalEdit = () => {

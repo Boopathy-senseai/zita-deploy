@@ -44,31 +44,31 @@ const MyJobPreferenceCard = ({
       value: isEmpty(personal?.current_city__name)
         ? notSpecified(personal?.current_city__name)
         : `${personal?.current_city__name}, ${personal?.current_state__name}, ${personal?.current_country__name}`,
-      right: 64,
+      right: 71,
     },
     {
       title: 'Willing to Relocate:',
       value: personal?.relocate ? 'Yes' : 'No',
-      right: 103,
+      right: 107,
     },
     {
       title: 'Industry Type:',
       value: notSpecified(personal?.industry_type__label_name),
-      right: 137,
+      right: 140,
     },
     {
       title: 'Current Gross Salary:',
       value: isEmpty(personal?.curr_gross)
         ? notSpecified(personal?.curr_gross)
         : `${getSymbolFromCurrency(currentCurrency)} ${personal?.curr_gross}`,
-      right: 88,
+      right: 95,
     },
     {
       title: 'Expected Gross Salary:',
       value: isEmpty(personal?.exp_gross)
         ? notSpecified(personal?.exp_gross)
         : `${getSymbolFromCurrency(currentCurrency)} ${personal?.exp_gross}`,
-      right: 76,
+      right: 86,
     },
   ];
   const handleOpenMyjobEdit = () => {
