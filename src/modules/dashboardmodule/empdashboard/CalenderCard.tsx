@@ -423,8 +423,11 @@ const CalenderCard = ({
         //   scrollStyleOne: checkCalendar,
         //   scrollStyleTwo: !checkCalendar,
         // })}
-        className={active ===0||event.length===0?styles.scrollStyleOne:styles.scrollStyleTwo}
-        
+        className={
+          active === 0 || event.length === 0
+            ? styles.scrollStyleOne
+            : styles.scrollStyleTwo
+        }
       >
         {active === 0 ? (
           <Flex center flex={1} middle columnFlex className={styles.noContent}>
@@ -457,7 +460,11 @@ const CalenderCard = ({
                 <Card key={list.title + index} className={styles.cardListStyle}>
                   <Flex row between center>
                     {/* <Flex row center> */}
-                    <Flex className={styles.borderRight} marginLeft={10} marginRight={10}>
+                    <Flex
+                      className={styles.borderRight}
+                      marginLeft={10}
+                      marginRight={10}
+                    >
                       <Text bold>{moment(list.start).format('dddd')}</Text>
                       <Text size={12}>
                         {getDateString(list.start, 'hh:mm A')}-
@@ -475,7 +482,17 @@ const CalenderCard = ({
                         )}
                       </Text>
                     </Flex>
-                    <Text style={{ color: '#581845' , minWidth:"50%", lineHeight:"1rem", overflow:"hidden", height:"30px"}}>{list.title}</Text>
+                    <Text
+                      style={{
+                        color: '#581845',
+                        minWidth: '50%',
+                        lineHeight: '1rem',
+                        overflow: 'hidden',
+                        height: '30px',
+                      }}
+                    >
+                      {list.title}
+                    </Text>
                     {/* </Flex> */}
                     <Flex marginRight={8}>
                       <Button onClick={() => window.open(list.web_url)}>
@@ -490,8 +507,16 @@ const CalenderCard = ({
           })
         ) : (
           <Flex flex={1} center middle columnFlex className={styles.noContent}>
-            {console.log('cal_eventlength', event.length)}
-            <Text color="gray"> No event scheduled</Text>
+            <SvgCalendar
+              width={16}
+              height={16}
+              fill={'#888888'}
+              stroke={'#888888'}
+            />
+            <Text color="placeholder" style={{ marginTop: '2px' }}>
+              {' '}
+              No event scheduled
+            </Text>
           </Flex>
         )}
         {/* (show===false)&&

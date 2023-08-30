@@ -12,13 +12,14 @@ import SelectTag from '../uikit/SelectTag/SelectTag';
 import Loader from '../uikit/Loader/Loader';
 import Flex from '../uikit/Flex/Flex';
 import Text from '../uikit/Text/Text';
-import SvgClose from '../icons/SvgClose';
+// import SvgClose from '../icons/SvgClose';
 import Button from '../uikit/Button/Button';
 import InputCheckBox from '../uikit/InputCheckbox/InputCheckBox';
+import { SvgEdit } from '../icons';
 
 const EditUserModal = (props) => {
   const [displayRoles, setDisplayRoles] = useState([]);
-  const [displayRolesLoading, setdisplayRolesLoading] = useState(true);
+  const [displayRolesLoading, setdisplayRolesLoading] = useState(false);
   const [displayDepartments, setDisplayDepartments] = useState([]);
   const [displayPermissions, setdisplayPermissions] = useState([]);
   const [suggestions, setSuggestions] = useState('');
@@ -114,7 +115,7 @@ const EditUserModal = (props) => {
   const handleRoleSelect = (data) => {
     props.setReload(true);
     clearErrors('role');
-    setdisplayRolesLoading(true);
+    // setdisplayRolesLoading(true);
     GetAllPermissions();
     let RoleId = data;
     setValue('role', RoleId.value);
@@ -317,7 +318,6 @@ const EditUserModal = (props) => {
     }
   }, [getRolename, isDefaultContactValue, isDefaultDepartValue]);
 
-
   const handleClickOutside = (event) => {
     if (myRef.current && !myRef.current.contains(event.target)) {
       setAutoDropDown(false);
@@ -348,199 +348,215 @@ const EditUserModal = (props) => {
           centered
         >
           <div className={styles.popUppad}>
-          <Modal.Body>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <Flex row center between>
-                <Text bold size={14}>
-                  Edit User
-                </Text>
-                <Button types="link" onClick={onCloseModal}>
-                  <SvgClose fill={'#888888'} height={14} width={14} />
-                </Button>
-              </Flex>
+            <Modal.Body>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <Flex row center >
+                  <SvgEdit width={13} height={ 13} fill={"#333"}/>
+                  <Text bold size={14} style={{marginLeft:"5px"}} color='black2'>
+                    Edit User
+                  </Text>
+                  {/* <Button types="link" onClick={onCloseModal}>
+                  <SvgClose fill={'#888888'} height={10} width={10} />
+                </Button> */}
+                </Flex>
 
-              <div className={styles.verticalLine}> </div>
+                <div className={styles.verticalLine}> </div>
 
-              <div className="row">
-                <div className="col-12">
-                  {props.clearData === false ? displayMessage() : ''}
-                </div>
-                <div className="col-md-6">
-                  <div className={styles.marginTop}>
-                    <LabelWrapper label="First Name" required>
-                      <input
-                        className={styles.inputStyle}
-                        placeholder="Enter user's first name"
-                        name="first_name"
-                        type="text"
-                        {...register('first_name')}
-                        disabled
-                      />
-                    </LabelWrapper>
+                <div className="row">
+                  <div className="col-12">
+                    {props.clearData === false ? displayMessage() : ''}
                   </div>
-                </div>
-                <div className="col-md-6">
-                  <div className={styles.marginTop}>
-                    <LabelWrapper label="Last Name" required>
-                      <input
-                        className={styles.inputStyle}
-                        placeholder="Enter user's last name"
-                        type="text"
-                        name="last_name"
-                        {...register('last_name')}
-                        disabled
-                      />
-                    </LabelWrapper>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className={styles.marginTop}>
-                    <LabelWrapper label="Email ID" required>
-                      <input
-                        className={styles.inputStyle}
-                        placeholder="Enter user's active email id"
-                        type="text"
-                        name="email"
-                        {...register('email')}
-                        disabled
-                      />
-                    </LabelWrapper>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className={styles.marginTop}>
-                    <LabelWrapper label="Contact Number" required>
-                      <input
-                        className={styles.inputStyle}
-                        placeholder="Enter user's active contact number"
-                        name="contact"
-                        {...register('contact')}
-                        onChange={(e) => {
-                          props.setReload(true);
-                          setDefaultContactValue(e.target.value);
-                          setValue('contact', e.target.value);
-                        }}
-                      />
-                    </LabelWrapper>
-                    <Text color="error" size={12}>
-                      {errors.contact?.message}
-                    </Text>
-                  </div>
-                </div>
-                <div
-                  className="col-md-6"
-                  ref={myRef}
-                  onFocus={() => setAutoDropDown(true)}
-                >
-                  <div className={styles.marginTop}>
-                    <LabelWrapper label="Department" required>
-                      <input
-                        className={styles.inputStyle}
-                        placeholder="Enter user's department of work"
-                        name="department"
-                        {...register('department')}
-                        onChange={onDepartmentSearch}
-                        type="text"
-                        value={suggestions}
-                        autoComplete={'off'}
-                      />
-                    </LabelWrapper>
-                    {isAutoDropDown && (
-                      <div className="renderSuggestions">
-                        <Autocomplete
-                          getValue={selectedDepartvalue}
-                          parentCallback={handleCallback}
-                          options={displayDepartments}
+                  <div className="col-md-6">
+                    <div className={styles.marginTop}>
+                      <LabelWrapper label="First Name" required>
+                        <input
+                          className={styles.inputStyle}
+                          placeholder="Enter user's first name"
+                          name="first_name"
+                          type="text"
+                          {...register('first_name')}
+                          disabled
                         />
-                      </div>
-                    )}
-
-                    <Text color="error" size={12}>
-                      {errors.department?.message}
-                    </Text>
+                      </LabelWrapper>
+                    </div>
                   </div>
-                </div>
-                <div className="col-md-6">
-                  <div className={styles.marginTop}>
-                    <SelectTag
-                      options={displayRoles}
-                      className="react-select-container"
-                      classNamePrefix="react-select"
-                      name="role"
-                      inputId="role"
-                      placeholder="Select a role"
-                      defaultValue={
-                        displayRoles[
-                          props.show ? props.userData.user[0].group_id - 1 : ''
-                        ]
-                      }
-                      onChange={handleRoleSelect}
-                      label="Role"
-                      required
-                    />
-                    <Text color="error" size={12}>
-                      {errors.role?.message}
-                    </Text>
+                  <div className="col-md-6">
+                    <div className={styles.marginTop}>
+                      <LabelWrapper label="Last Name" required>
+                        <input
+                          className={styles.inputStyle}
+                          placeholder="Enter user's last name"
+                          type="text"
+                          name="last_name"
+                          {...register('last_name')}
+                          disabled
+                        />
+                      </LabelWrapper>
+                    </div>
                   </div>
-                </div>
-                <div
-                  id="RoleCheckbox"
-                  className="col-12 d-none"
-                  style={{ marginTop: '16px' }}
-                >
+                  <div className="col-md-6">
+                    <div className={styles.marginTop}>
+                      <LabelWrapper label="Email ID" required>
+                        <input
+                          className={styles.inputStyle}
+                          placeholder="Enter user's active email id"
+                          type="text"
+                          name="email"
+                          {...register('email')}
+                          disabled
+                        />
+                      </LabelWrapper>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className={styles.marginTop}>
+                      <LabelWrapper label="Contact Number" required>
+                        <input
+                          className={styles.inputStyle}
+                          placeholder="Enter user's active contact number"
+                          name="contact"
+                          {...register('contact')}
+                          onChange={(e) => {
+                            props.setReload(true);
+                            setDefaultContactValue(e.target.value);
+                            setValue('contact', e.target.value);
+                          }}
+                        />
+                      </LabelWrapper>
+                      <Text color="error" size={12}>
+                        {errors.contact?.message}
+                      </Text>
+                    </div>
+                  </div>
                   <div
-                    className={
-                      displayRolesLoading ? 'card p-4' : 'card p-4 d-none'
-                    }
+                    className="col-md-6"
+                    ref={myRef}
+                    onFocus={() => setAutoDropDown(true)}
                   >
-                    <Flex center middle>
-                      <Loader size="small" withOutOverlay />
-                    </Flex>
-                  </div>
-                  <div className={displayRolesLoading ? 'card d-none' : 'card'} style={{border:"0px"}}>
-                    <div
-                      className={styles.cardBody}
-                      style={{ paddingBottom: 0, paddingTop: 0 }}
-                    >
-                      <Flex>
-                        <Text bold>User Privileges</Text>
-                        <Text>
-                          You cannot remove the default access of the user, but
-                          you can grant more features
-                        </Text>
-                      </Flex>
+                    <div className={styles.marginTop}>
+                      <LabelWrapper label="Department" required>
+                        <input
+                          className={styles.inputStyle}
+                          placeholder="Enter user's department of work"
+                          name="department"
+                          {...register('department')}
+                          onChange={onDepartmentSearch}
+                          type="text"
+                          value={suggestions}
+                          autoComplete={'off'}
+                        />
+                      </LabelWrapper>
+                      {isAutoDropDown && (
+                        <div className="renderSuggestions">
+                          <Autocomplete
+                            getValue={selectedDepartvalue}
+                            parentCallback={handleCallback}
+                            options={displayDepartments}
+                          />
+                        </div>
+                      )}
 
-                      <div className="row mt-3">
-                        {displayPermissions.map((value) => (
-                          <div
-                            key={value.id}
-                            className="col-md-6"
-                            id={'div' + value.codename}
-                            style={{ paddingBottom: 8 }}
-                          >
-                            <InputCheckBox
-                              name={value.codename}
-                              id={value.codename}
-                              value={value.id}
-                              label={value.name}
-                              className="custom-control-inputs"
-                              onChange={() => props.setReload(true)}
-                            />
-                          </div>
-                        ))}
+                      <Text color="error" size={12}>
+                        {errors.department?.message}
+                      </Text>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className={styles.marginTop}>
+                      <SelectTag
+                        options={displayRoles}
+                        className="react-select-container"
+                        classNamePrefix="react-select"
+                        name="role"
+                        inputId="role"
+                        placeholder="Select a role"
+                        defaultValue={
+                          displayRoles[
+                            props.show
+                              ? props.userData.user[0].group_id - 1
+                              : ''
+                          ]
+                        }
+                        onChange={handleRoleSelect}
+                        label="Role"
+                        required
+                      />
+                      <Text color="error" size={12}>
+                        {errors.role?.message}
+                      </Text>
+                    </div>
+                  </div>
+                  <div
+                    id="RoleCheckbox"
+                    className="col-12 d-none"
+                    style={{ marginTop: '16px' }}
+                  >
+                    <div
+                      className={
+                        displayRolesLoading ? 'card p-4' : 'card p-4 d-none'
+                      }
+                    >
+                      <Flex center middle>
+                        <Loader size="small" withOutOverlay />
+                      </Flex>
+                    </div>
+                    {console.log(displayRolesLoading, 'hellol')}
+                    <div
+                      className={displayRolesLoading ? 'card d-none' : 'card'}
+                      style={{ border: '0px' }}
+                    >
+                      <div
+                        className={styles.cardBody}
+                        style={{ paddingBottom: 0, paddingTop: 0 }}
+                      >
+                        <Flex>
+                          <Text bold>User Privileges</Text>
+                          <Text>
+                            You cannot remove the default access of the user,
+                            but you can grant more features
+                          </Text>
+                        </Flex>
+
+                        <div className="row mt-3">
+                          {displayPermissions.map((value) => (
+                            <div
+                              key={value.id}
+                              className="col-md-6"
+                              id={'div' + value.codename}
+                              style={{ paddingBottom: 8 }}
+                            >
+                              <InputCheckBox
+                                name={value.codename}
+                                id={value.codename}
+                                value={value.id}
+                                label={value.name}
+                                className="custom-control-inputs"
+                                onChange={() => props.setReload(true)}
+                              />
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>
+                  <div className="col-md-12" style={{ marginTop: '16px' }}>
+                    <div className={styles.verticalLine2}> </div>
+                    <Flex row end marginTop={15}>
+                      <Button
+                        onClick={onCloseModal}
+                        className={styles.cancelBtn}
+                      >
+                      
+                        Cancel
+                      </Button>
+                      <Button type="submit" style={{ marginLeft: '8px' }}>
+                        Save
+                      </Button>
+                    </Flex>
+                  </div>
                 </div>
-                <div className="col-md-12" style={{marginTop:"16px"}}>
-                <div className={styles.verticalLine2}> </div>
-                  <Button type="submit" style={{ marginBottom: 16 }}>
-                    Save
-                  </Button>
-                </div>
-              </div>
-            </form>
-          </Modal.Body>
+              </form>
+            </Modal.Body>
           </div>
         </Modal>
       </>

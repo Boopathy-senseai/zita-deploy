@@ -6,7 +6,7 @@ type Props = {
 const Empty = ({ title }: Props) => {
   return (
     <Flex center middle flex={1}>
-      <Text color="gray">{title}</Text>
+      <Text color="placeholder">{title}</Text>
     </Flex>
   );
 };

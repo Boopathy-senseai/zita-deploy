@@ -18,9 +18,9 @@ import InputCheckBox from '../uikit/InputCheckbox/InputCheckBox';
 import { isEmpty } from '../uikit/helper';
 import { ErrorMessage } from '../uikit';
 import { emailMiddleWare } from '../modules/Login/store/middleware/loginMiddleWare';
+import SvgMail from '../icons/SvgMail';
 import styles from './invitemodal.module.css';
 import Autocomplete from './Autocomplete';
-
 
 const InviteModal = (props) => {
   const dispatch = useDispatch();
@@ -201,12 +201,6 @@ const InviteModal = (props) => {
     }
   }, [props, props.clearData, touchedFields]);
 
-
-
-  
-
-
-
   ////////// Display Error Message ////////////
   const displayMessage = () => {
     if (props.message !== undefined) {
@@ -300,96 +294,101 @@ const InviteModal = (props) => {
           onHide={onCloseModal}
           size={props.size}
           aria-labelledby="contained-modal-title-vcenter"
-          centered 
+          centered
         >
           <Modal.Body>
             <form onSubmit={handleSubmit(onSubmit)}>
-            <Flex className={styles.muModalpadding}> 
-              <Flex row center between>
-                <Text bold size={14}>
-                  Invite New User
-                </Text>
+              <Flex className={styles.muModalpadding}>
+                <Flex row center>
+                  <SvgMail width={13} height={13} fill="#333333" />
+                  <Text
+                    bold
+                    size={14}
+                    style={{ color: '#333333', margin: '5px 0px 5px 10px' }}
+                  >
+                    Invite New User
+                  </Text>
 
-                {/* <Button types="link" onClick={onCloseModal}>
+                  {/* <Button types="link" onClick={onCloseModal}>
                   <SvgClose fill={'#979797'} height={14} width={14} />
                 </Button> */}
-              </Flex>
-              <div className={styles.verticalLine}> </div>
-              {/* <div className="row"> */}
-              <div className="row">
-                <div className="col-12">
-                  {props.clearData === false ? displayMessage() : ''}
-                </div>
-                <div className="col-md-6">
-                  <div className={styles.marginTop}>
-                    <LabelWrapper label="First Name" required>
-                      <input
-                        className={styles.inputStyle}
-                        placeholder="Enter user's first name"
-                        name="first_name"
-                        type="text"
-                        {...register('first_name')}
-                      />
-                    </LabelWrapper>
-                    <Text size={12} color="error">
-                      {errors.first_name?.message}
-                    </Text>
+                </Flex>
+                <div className={styles.verticalLine}> </div>
+                {/* <div className="row"> */}
+                <div className="row">
+                  <div className="col-12">
+                    {props.clearData === false ? displayMessage() : ''}
                   </div>
-                </div>
-                <div className="col-md-6">
-                  <div className={styles.marginTop}>
-                    <LabelWrapper label="Last Name" required>
-                      <input
-                        className={styles.inputStyle}
-                        placeholder="Enter user's last name"
-                        type="text"
-                        name="last_name"
-                        {...register('last_name')}
-                      />
-                    </LabelWrapper>
-                    <Text size={12} color="error">
-                      {errors.last_name?.message}
-                    </Text>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className={styles.marginTop}>
-                    <LabelWrapper label="Email" required>
-                      <input
-                        className={styles.inputStyle}
-                        placeholder="Enter user's active email id"
-                        type="text"
-                        name="email"
-                        {...register('email')}
-                        onChange={(e) => {
-                          setMail(e.target.value);
-                        }}
-                      />
-                    </LabelWrapper>
-                    <Text size={12} color="error">
-                      {errors.email?.message}
-                    </Text>
-                    {!isEmpty(isGetMail) && isEmailValid && (
+                  <div className="col-md-6">
+                    <div className={styles.marginTop}>
+                      <LabelWrapper label="First Name" required>
+                        <input
+                          className={styles.inputStyle}
+                          placeholder="Enter user's first name"
+                          name="first_name"
+                          type="text"
+                          {...register('first_name')}
+                        />
+                      </LabelWrapper>
                       <Text size={12} color="error">
-                        This email id already exist
+                        {errors.first_name?.message}
                       </Text>
-                    )}
+                    </div>
                   </div>
-                </div>
-                <div className="col-md-6">
-                  <div className={styles.marginTop}>
-                    <LabelWrapper label="Contact Number" required>
-                      <input
-                        className={styles.inputStyle}
-                        placeholder="Enter user's active contact number"
-                        name="contact"
-                        {...register('contact')}
-                      />
-                    </LabelWrapper>
-                    <Text size={12} color="error">
-                      {errors.contact?.message}
-                    </Text>
-                    {/* <LabelWrapper label="Contact Number" required>
+                  <div className="col-md-6">
+                    <div className={styles.marginTop}>
+                      <LabelWrapper label="Last Name" required>
+                        <input
+                          className={styles.inputStyle}
+                          placeholder="Enter user's last name"
+                          type="text"
+                          name="last_name"
+                          {...register('last_name')}
+                        />
+                      </LabelWrapper>
+                      <Text size={12} color="error">
+                        {errors.last_name?.message}
+                      </Text>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className={styles.marginTop}>
+                      <LabelWrapper label="Email" required>
+                        <input
+                          className={styles.inputStyle}
+                          placeholder="Enter user's active email id"
+                          type="text"
+                          name="email"
+                          {...register('email')}
+                          onChange={(e) => {
+                            setMail(e.target.value);
+                          }}
+                        />
+                      </LabelWrapper>
+                      <Text size={12} color="error">
+                        {errors.email?.message}
+                      </Text>
+                      {!isEmpty(isGetMail) && isEmailValid && (
+                        <Text size={12} color="error">
+                          This email id already exist
+                        </Text>
+                      )}
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className={styles.marginTop}>
+                      <LabelWrapper label="Contact Number" required>
+                        <input
+                          className={styles.inputStyle}
+                          placeholder="Enter user's active contact number"
+                          name="contact"
+                          {...register('contact')}
+                        />
+                      </LabelWrapper>
+                      <Text size={12} color="error">
+                        {errors.contact?.message}
+                      </Text>
+                      {/* <LabelWrapper label="Contact Number" required>
                         <PhoneInput
                         containerClass={styles.phoneInputs}
                         inputClass={styles.phoneInput}
@@ -406,140 +405,149 @@ const InviteModal = (props) => {
                          errors={formik.errors}
                          name="contact"
                          /> */}
-                    
+                    </div>
                   </div>
-                </div>
-                <div
-                  className="col-md-6"
-                  ref={myRef}
-                  onFocus={() => setAutoDropDown(true)}
-                >
                   <div
-                    className={styles.marginTop}
+                    className="col-md-6"
+                    ref={myRef}
+                    onFocus={() => setAutoDropDown(true)}
                   >
-                    <LabelWrapper label="Department" required>
-                      <input
-                        className={styles.inputStyle}
-                        placeholder="Enter user's department of work"
-                        name="department"
-                        {...register('department')}
-                        onChange={onDepartmentSearch}
-                        type="text"
-                        value={suggestions}
-                        autoComplete={'off'}
-                      />
-                    </LabelWrapper>
-                    {isAutoDropDown && (
-                      <div className="renderSuggestions">
-                        <Autocomplete
-                          getValue={selectedDepartvalue}
-                          parentCallback={handleCallback}
-                          options={displayDepartments}
+                    <div className={styles.marginTop}>
+                      <LabelWrapper label="Department" required>
+                        <input
+                          className={styles.inputStyle}
+                          placeholder="Enter user's department of work"
+                          name="department"
+                          {...register('department')}
+                          onChange={onDepartmentSearch}
+                          type="text"
+                          value={suggestions}
+                          autoComplete={'off'}
                         />
-                      </div>
-                    )}
+                      </LabelWrapper>
+                      {isAutoDropDown && (
+                        <div className="renderSuggestions">
+                          <Autocomplete
+                            getValue={selectedDepartvalue}
+                            parentCallback={handleCallback}
+                            options={displayDepartments}
+                          />
+                        </div>
+                      )}
 
-                    <Text size={12} color="error">
-                      {errors.department?.message}
-                    </Text>
+                      <Text size={12} color="error">
+                        {errors.department?.message}
+                      </Text>
+                    </div>
                   </div>
-                </div>
-                <div className="col-md-6">
-                  <div className={styles.marginTop}>
-                    <SelectTag
-                      inputId="role"
-                      options={displayRoles}
-                      onChange={handleRoleSelect}
-                      placeholder="Select a role"
-                      label="Role"
-                      required
-                      name="role"
-                    />
-                    <Text size={12} color="error">
-                      {errors.role?.message}
-                    </Text>
+                  <div className="col-md-6">
+                    <div className={styles.marginTop}>
+                      <SelectTag
+                        inputId="role"
+                        options={displayRoles}
+                        onChange={handleRoleSelect}
+                        placeholder="Select a role"
+                        label="Role"
+                        required
+                        name="role"
+                      />
+                      <Text size={12} color="error">
+                        {errors.role?.message}
+                      </Text>
+                    </div>
                   </div>
-                </div>
-                <div
-                  id="RoleCheckbox"
-                  className="col-12 d-none"
-                  style={{ marginTop: '16px' }}
-                >
                   <div
-                    className={
-                      displayRolesLoading ? 'card p-4' : 'card p-4 d-none'
-                    }
+                    id="RoleCheckbox"
+                    className="col-12 d-none"
+                    style={{ marginTop: '16px' }}
                   >
-                    <Flex center middle>
-                      <Loader size="small" withOutOverlay />
-                    </Flex>
-                  </div>
-                  <div className={displayRolesLoading ? 'card d-none' : 'card'} style={{ border: 0 }} >
                     <div
-                      className="card-body"
-                      style={{ padding: 0 }}
+                      className={
+                        displayRolesLoading ? 'card p-4' : 'card p-4 d-none'
+                      }
                     >
-                      <Flex columnFlex>
-                        <Text bold>User Privileges</Text>
-                        <Text>
-                          You cannot remove the default access of the user, but
-                          you can grant more features
-                        </Text>
+                      <Flex center middle>
+                        <Loader size="small" withOutOverlay />
                       </Flex>
+                    </div>
+                    <div
+                      className={displayRolesLoading ? 'card d-none' : 'card'}
+                      style={{ border: 0 }}
+                    >
+                      <div className="card-body" style={{ padding: 0 }}>
+                        <Flex columnFlex>
+                          <Text bold>User Privileges</Text>
+                          <Text>
+                            You cannot remove the default access of the user,
+                            but you can grant more features
+                          </Text>
+                        </Flex>
 
-                      <div className="row mt-3">
-                        {displayPermissions.map((value) => (
-                          <div
-                            key={value.id}
-                            className="col-md-6"
-                            id={'div' + value.codename}
-                            style={{ paddingBottom: 8 }}
-                          >
-                            {console.log('66666666666666666',value.codename)}
-                            {console.log('77777777777777777',value.id)}
-                            {console.log('88888888888888888',value.name)}
-                            <InputCheckBox
-                              name={value.codename}
-                              id={value.codename}
-                              value={value.id}
-                              label={value.name}
-                              className="custom-control-inputs" 
-                            />
-                          </div>
-                        ))}
+                        <div className="row mt-3">
+                          {displayPermissions.map((value) => (
+                            <div
+                              key={value.id}
+                              className="col-md-6"
+                              id={'div' + value.codename}
+                              style={{ paddingBottom: 8 }}
+                            >
+                              <InputCheckBox
+                                name={value.codename}
+                                id={value.codename}
+                                value={value.id}
+                                label={value.name}
+                                className="custom-control-inputs"
+                              />
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                
-                <div className="col-md-12 mt-2" style={{ marginBottom: 16, paddingRight: 0  }}>
-                <div className={styles.verticalLine} style={{ marginRight: 15}}> </div>
-                  <Flex row center style={{gap: 10, justifyContent: "end", paddingTop:"10px"}}>
-                    <Button types="close" onClick={onCloseModal}>
-                      Close
-                    </Button>
 
-                    {/* <Button types="close" onClick={onCloseModal}>
+                  <div
+                    className="col-md-12 mt-2"
+                    style={{ marginBottom: 16, paddingRight: 0 }}
+                  >
+                    <div
+                      className={styles.verticalLineBottom}
+                      style={{ marginRight: 15, marginTop:"15px" }}
+                    >
+                      {' '}
+                    </div>
+                    <Flex
+                      row
+                      center
+                      style={{
+                        gap: 10,
+                        justifyContent: 'end',
+                        paddingTop: '15px',
+                      }}
+                    >
+                      <Button types="close" onClick={onCloseModal}>
+                        Close
+                      </Button>
+
+                      {/* <Button types="close" onClick={onCloseModal}>
                   <SvgClose fill={'#979797'} height={14} width={14} />
                 </Button> */}
-                  
-                    <Button
-                      disabled={!checkValue || isEmailValid}
-                      type="submit"
-                      style={{ marginRight: 16 }}>
-                     Invite
-                    </Button>
-                    {props.inviteBtnLoader && (
-                      <Loader size="small" withOutOverlay />
-                    )}
-                  </Flex>
+
+                      <Button
+                        disabled={!checkValue || isEmailValid}
+                        type="submit"
+                        style={{ marginRight: 16 }}
+                      >
+                        Invite
+                      </Button>
+                      {props.inviteBtnLoader && (
+                        <Loader size="small" withOutOverlay />
+                      )}
+                    </Flex>
+                  </div>
                 </div>
-              </div>
               </Flex>
             </form>
-            
           </Modal.Body>
-
         </Modal>
       </>
     )
