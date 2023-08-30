@@ -98,6 +98,16 @@
   border-radius: 8px;
   cursor: pointer;
 }
+.svgMargin1 {
+  margin-right: -15px;
+  padding: 3px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.svgMargin1:hover {
+  /* background-color: #d7c7d2;
+  border-radius: 100%; */
+}
 .svgMargins {
   margin-right: -15px;
   padding: 3px 10px 3px 0px;

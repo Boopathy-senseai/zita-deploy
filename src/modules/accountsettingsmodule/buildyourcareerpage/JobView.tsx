@@ -72,14 +72,13 @@ const JobView = () => {
         dispatch(jobViewCountMiddleWare({ source: 'Twitter', jdId: jobId }));
         cookies.set('jobViewCount', 'Twitter');
         localStorage.setItem('jobViewCount','Twitter');
-      } else if(!window.location.hash.includes('.whatsapp') && !window.location.pathname.includes('.gmailView') && !window.location.hash.includes('.facebook') && !window.location.hash.includes('.linkedin')&& !window.location.hash.includes('.twitter')) {
+      } else if(!window.location.hash.includes('.whatsapp') && !window.location.pathname.includes('.gmailView') && !window.location.hash.includes('.facebook') && !window.location.hash.includes('.linkedin')&& !window.location.hash.includes('.twitter')&&!window.location.hash.includes('whatjobs')) {
         dispatch(
           jobViewCountMiddleWare({ source: 'Career Page', jdId: jobId }),
         );
         localStorage.setItem('jobViewCount','Career Page');
         cookies.set('jobViewCount', 'Career Page');
-      }else if(window.location.hash.includes('.whatjobs')){
-        alert();
+      }else if(window.location.hash.includes('whatjobs')){
         dispatch(
           jobViewCountMiddleWare({ source: 'whatjobs', jdId: jobId }),
         );

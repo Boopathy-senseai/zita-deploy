@@ -166,6 +166,8 @@
 
 .text {
   margin-left: 12px;
+  position: relative;
+    bottom: 1px;
 }
 
 .classpan {

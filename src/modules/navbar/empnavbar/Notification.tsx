@@ -704,18 +704,19 @@ const myfunction=()=>{
                                               {list.verb}
                                             </Text>
                                           </Flex>
-                                          <Flex style={{width:'20%'}}>
+                                          
                                             <Text
                                               style={{
                                                 marginLeft: 3,
                                                 fontSize: '13px',
                                                 display: 'flex',
+                                                width:'20%'
                                               }}
                                               color="gray"
                                             >
                                               {moment(list.timestamp).fromNow()}
                                             </Text>
-                                          </Flex>
+                                          
                                         </Flex>
                                         {list.unread && (
                                           <div className={styles.readStyle} />

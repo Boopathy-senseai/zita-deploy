@@ -100,7 +100,7 @@ update();
             </div>
 
             {!is_plan ? (
-              <div title="Contact Support" className={cx('svgMargin')}>
+              <div title="Contact Support" className={cx('svgMargin1')}>
                 <SvgHelp fill={'#581845'} height={22} width={22} />
               </div>
             ) : (
@@ -109,7 +109,7 @@ update();
                 target={'_blank'}
                 href={'https://share.hsforms.com/1WPpWRzsQT6CyEVAQuDP6wg49hg8'}
               >
-                <div title="Contact Support" className={cx('svgMargin')}>
+                <div title="Contact Support" className={cx('svgMargin1')}>
                   <SvgHelp fill={'#581845'} height={22} width={22} />
                 </div>
               </a>
