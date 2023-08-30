@@ -186,6 +186,13 @@
   overflow: ' hidden';
   max-width: '200px';
 }
+.changingtexttype{
+  font-size: 13px;
+  max-width: 235px;
+  overflow: hidden;
+  text-overflow: ellipsis; 
+  white-space: nowrap;
+}
 .borderstyles {
   border-top: 1px solid #c3c3c3;
   padding-top: 10px;

@@ -196,14 +196,14 @@ const MessageTab = () => {
         className={styles.btnContainer}
         style={{ padding: '0px 16px 0px ' }}
       >
-        <Flex center onClick={hanldeOpen}>
+        {/* <Flex center onClick={hanldeOpen}>
           <Text className={'pointer'}  bold color='theme' style={{
               fontSize: '14px',
               
             }}>
             Use Templates
           </Text>
-        </Flex>
+        </Flex> */}
         <Flex row>
           <Button
             onClick={handleCancel}
