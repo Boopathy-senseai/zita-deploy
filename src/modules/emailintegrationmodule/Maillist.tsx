@@ -40,7 +40,7 @@ type Props = {
 
   isLoading: any;
   searchapi: boolean;
-  isprofileview?:boolean;
+  isprofileview?: boolean;
   savemail: any;
   searchSection: string;
   search: any;
@@ -127,7 +127,7 @@ const Maillist = ({
     } else if (search !== '' && integration === 'google') {
       initGoogleAuth(emailcollection.token)
         .then(() => {
-         Gmail_search(searchSection, search.trim(), range, tokens)
+          Gmail_search(searchSection, search.trim(), range, tokens)
             .then((res) => {
               console.log('ress', res);
               savemail(res.fullMessages, res.token);
@@ -161,7 +161,6 @@ const Maillist = ({
   useEffect(() => {
     if (enterKey) {
       settoken(null);
-      //  console.log('===enter', enterKey);
       setTimeout(() => {
         process();
       }, 500);
@@ -260,9 +259,58 @@ const Maillist = ({
     }
   };
 
+  const serchreferesh = () => {
+    if (search !== '' && integration === 'outlook') {
+      getsearchmail(authProvider, searchSection, search.trim(), range, null)
+        .then((res) => {
+          setSearchicon(res.value.length === 0 ? true : false);
+          // setsplittoken(res['@odata.nextLink'].split('skiptoken=')[1]);
+          if (!res['@odata.nextLink']) {
+            setload(false);
+            savemail(res.value, null);
+          } else {
+            setload(true);
+            savemail(res.value, res['@odata.nextLink'].split('skiptoken=')[1]);
+          }
+        })
+        .catch((error) => {
+          setload(false);
+          console.log('errorsearch', error);
+        });
+    } else if (search !== '' && integration === 'google') {
+      initGoogleAuth(emailcollection.token)
+        .then(() => {
+          Gmail_search(searchSection, search.trim(), range, null)
+            .then((res) => {
+              console.log('ress', res);
+              savemail(res.fullMessages, res.token);
+              //settoken(res.token);
+              if (res.token === undefined) {
+                setload(false);
+                savemail([]);
+                // settoken(null);
+              }
+            })
+            .catch((error) => {
+              savemail([]);
+              setload(false);
+            });
+        })
+        .catch((error) => {
+          setload(false);
+        });
+    }
+  };
+
   const referesh = () => {
-   setmesage('');
-   refresh();
+    setmesage('');
+
+    if (sidebarroute !== 0) {
+      refresh();
+    } else {
+      refresh();
+      serchreferesh();
+    }
   };
 
   const handlemessage = (val) => {
@@ -442,13 +490,20 @@ const Maillist = ({
   };
 
   return (
-    <Flex style={{ margintop: '1px' }} className={styles.maillist} height={isprofileview?window.innerHeight - 95:window.innerHeight - 115}>
+    <Flex
+      style={{ margintop: '1px' }}
+      className={styles.maillist}
+      height={
+        isprofileview ? window.innerHeight - 95 : window.innerHeight - 115
+      }
+    >
+      {console.log('select===', messages)}
       <Flex
         row
         between
         style={{
           borderBottom: '1px solid #c3c3c3',
-          height:'35px'
+          height: '35px',
         }}
       >
         <Flex style={{ padding: '8px' }}>{showfolder()}</Flex>
@@ -624,8 +679,12 @@ const Maillist = ({
                 <>
                   {noEmails && (
                     <Flex center middle className={styles.noEmail}>
-                      <Flex center middle marginBottom={-40} marginLeft={11}><SvgNoEmail /></Flex> 
-                      <Text style={{color:'#979797'}}>No emails to view.</Text>
+                      <Flex center middle marginBottom={-40} marginLeft={11}>
+                        <SvgNoEmail />
+                      </Flex>
+                      <Text style={{ color: '#979797' }}>
+                        No emails to view.
+                      </Text>
                     </Flex>
                   )}
                 </>
