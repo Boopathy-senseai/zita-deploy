@@ -19,20 +19,14 @@ const VerificationModel = ({ data, message, close }: Props) => {
     <div>
       <Modal open={data.open}>
         <Flex flex={6} column center className={styles.overAll}>
-          <Flex>
-            <Flex marginBottom={5} row center>
-              {/* <SvgCross width={14} height={14}/> */}
-              <Text bold size={14} style={{ color: 'red' }}>
-                Error
-              </Text>
-            </Flex>
-            <Text size={14} color="black" className={styles.insertStyles}>
+          <Flex> 
+            <Text size={13} color="black" className={styles.insertStyles}>
               {message}
             </Text>
           </Flex>
 
           {!data.actions ? (
-            <Flex row end marginTop={20} className={styles.borderLine}>
+            <Flex row end marginTop={10} className={styles.borderLine}>
               <Button types={'primary'} onClick={handleClose}>
                 OK
               </Button>

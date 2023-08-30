@@ -11,6 +11,7 @@
 }
 .titleContainer {
   padding: 10px;
+  height: 40px;
   background-color: #eee8ec;
   font-size: 12px;
   /* margin-bottom: 10px; */
@@ -80,9 +81,9 @@
 .triangle {
   width: 0;
   height: 0;
-  border-top: 22px solid transparent;
+  border-top: 20px solid transparent;
   border-right: 30px solid white;
-  border-bottom: 22px solid transparent;
+  border-bottom: 20px solid transparent;
   position: absolute;
   top: 0;
   right: 0;

@@ -1,6 +1,6 @@
 .overAll {
     background-color: var(--color-white, #ffffff);
-    width: 370px;
+    width: 320px;
     padding: 25px;
     border-radius: 4px;
   }
@@ -9,10 +9,6 @@
     overflow: scroll;
     min-height: 300px;
   }
-  .insertStyles {
-    margin-bottom: 5px;
-  }
-  
   .newBtn {
       background-color: #fff;
       border-color: #a5889c;
