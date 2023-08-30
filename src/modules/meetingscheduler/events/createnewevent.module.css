@@ -131,3 +131,14 @@ cursor: default;
 .pointer{
   cursor: pointer;
 }
+.interviewerText{
+  border: 1px solid #ccc;
+  border-bottom: none;
+  border-radius: 2px 2px 0px 0px;
+  padding: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 85px;
+  cursor: default;
+}

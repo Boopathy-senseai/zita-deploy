@@ -1241,21 +1241,21 @@ const CreateNewEvent = ({
               </Button>
 
               {interviewerData.slice(0, MAX_BUTTONS).map((name, index) => (
-                <Flex key={index} row>
-                  <Button
+                <Flex key={index} row center top className={styles.interviewerText}>
+                  <Flex
                     key={index}
-                    style={{
-                      border: '1px solid #ccc',
-                      borderBottom: 'none',
-                      borderRadius: '2px 2px 0px 0px',
-                      padding: '5px',
-                      whiteSpace: 'nowrap',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      maxWidth: MAX_BUTTON_TEXT_WIDTH + 'px',
-                      cursor: 'default',
-                    }}
-                    types="secondary"
+                    // style={{
+                    //   border: '1px solid #ccc',
+                    //   borderBottom: 'none',
+                    //   borderRadius: '2px 2px 0px 0px',
+                    //   padding: '5px',
+                    //   whiteSpace: 'nowrap',
+                    //   overflow: 'hidden',
+                    //   textOverflow: 'ellipsis',
+                    //   maxWidth: MAX_BUTTON_TEXT_WIDTH + 'px',
+                    //   cursor: 'default',
+                    // }}
+                    // // types="secondary"
                   >
                     <Text
                       title={name}
@@ -1265,16 +1265,17 @@ const CreateNewEvent = ({
                       {' '}
                       {name}
                     </Text>
-                  </Button>
+                  </Flex>
                   <Flex  row
-                    style={{ position: 'relative', borderRadius:"100%", padding:"2px" }}
-                    marginLeft={-20}
+                    style={{ position: 'relative', borderRadius:"100%", padding:"3px"}}
+                    // marginLeft={-20}
+                    marginTop={2}
                     backgroundColor={"#58184540"}
                     
                     
                     onClick={() => removeInterviewer(index)}
                   >
-                    <SvgClose height={8} width={8} fill={"#581845"}/>
+                    <SvgClose height={9} width={8} fill={"#581845"}/>
                   </Flex>
                 </Flex>
               ))}
