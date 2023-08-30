@@ -28,6 +28,7 @@ interface Props {
   handleEditEvent: () => void;
   isEventCanUpdate: boolean;
   eventPopUpDetails: EventPopUpDetails;
+  copyMeeting: (eventId: string) => void;
 }
 
 const EventPopUpModal = ({
@@ -37,6 +38,7 @@ const EventPopUpModal = ({
   handleRemoveEvent,
   isEventCanUpdate,
   joinMeeting,
+  copyMeeting,
   eventPopUpDetails,
 }: Props) => {
   const [openEventDeleteModal, setOpenEventDeleteModal] = useState(false);
@@ -138,6 +140,7 @@ const EventPopUpModal = ({
                       initials={getUserInitials({ fullName: item })}
                       style={{ width: 28, height: 28, marginRight: '5px' }}
                       textStyle={{ fontSize: 12 }}
+                      title={item}
                     />
                     // <p className={styles.email} key={index}>
                     //   {items}
@@ -188,7 +191,8 @@ const EventPopUpModal = ({
               <button
                 className={`${styles.icon} ${styles.popover}`}
                 onClick={() => {
-                  navigator.clipboard.writeText(link);
+                  // navigator.clipboard.writeText(link);
+                  copyMeeting(eventId);
                 }}
               >
                 <SvgCopy fill="#581845" width={16} height={16} />
