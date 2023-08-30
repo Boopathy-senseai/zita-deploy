@@ -11,7 +11,7 @@
   z-index: 1;
   margin-right: 10px;
 }
-.width100{
+.width100 {
   width: 100%;
 }
 .modelmiddle {
@@ -77,13 +77,12 @@
   display: flex;
   justify-content: space-between;
 }
-.attachfile{
+.attachfile {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  
 }
-.filesContainer{
+.filesContainer {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto;
@@ -98,11 +97,7 @@
 .buttoninsert:hover {
   background-color: 'white';
 }
-.action{
-  position: absolute;
-  left: 0;
-  right: 0;
-  padding: 0px 10px 10px 10px;
+.action {
   background-color: white;
   bottom: 0px;
 }
@@ -123,4 +118,14 @@
 .iconsDisabled {
   padding: 4px;
   margin-left: 5px;
+}
+.bottomline {
+  border-top: 0.5px solid #c3c3c3;
+  position: absolute;
+  /* padding: 0px 10px 10px 10px; */
+  padding-top: 5px;
+  padding-bottom: 33px;
+  left: 0;
+  right: 0;
+  margin: 0px 10px 10px 10px;
 }

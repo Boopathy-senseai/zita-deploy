@@ -329,10 +329,10 @@ console.log(personal,'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
         >
           <SvgCloseSmall />
         </div>
-        <Text align="center" size={16} bold className={styles.title}>
+        <Text align="center" size={14} bold className={styles.title}>
           Update Personal Information
         </Text>
-        <Flex columnFlex className={styles.scrollStyle}>
+        <Flex columnFlex className={styles.scrollStyle} style={{padding:"0px 8px"}}>
           <Flex row center top>
             <Flex flex={4} width={inputWidth}>
               <InputText
@@ -725,7 +725,7 @@ console.log(personal,'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
           </Flex>
         </Flex>
 
-        <Flex end>
+        <Flex end style={{padding:"10px"}}>
           <Button onClick={formik.handleSubmit}>Update</Button>
         </Flex>
       </Flex>

@@ -258,7 +258,7 @@ const ApplicantReports = () => {
                       >
                         <SvgNoDataIcon width={16} height={16} fill={'#888'} />
                       </Flex>
-                      <Text color="gray">No data available</Text>
+                      <Text color="placeholder">No data available</Text>
                     </Flex>
                   )}
                 </Card>

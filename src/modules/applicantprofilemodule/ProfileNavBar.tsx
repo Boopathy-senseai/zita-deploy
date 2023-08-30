@@ -27,6 +27,7 @@ import { SECONDARY } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
 import { Button, LinkWrapper } from '../../uikit';
 import { InputCheckBox, InputRadio } from '../../uikit';
+import { workYear } from '../common/commonHelper';
 import { getDateString, isEmpty, notSpecified } from '../../uikit/helper';
 import ProgressBar from '../../uikit/ProgressBar/ProgressBar';
 import Text from '../../uikit/Text/Text';
@@ -236,18 +237,18 @@ const ProfileNavBar = ({
             ],
       };
     },
-  ); 
+  );
   useEffect(() => {
     dispatch(applicantScoreMiddleWare({ jd_id, can_id }));
   }, []);
-  useEffect(() => { 
+  useEffect(() => {
     if (stages.length >= 1) {
       const stage_name = stages[stages.length - 1].stage_id__stage_name;
       setcheckingstatus(stage_name);
     }
     if (stages.length === 0) {
       setcheckingstatus('');
-    } 
+    }
   }, [stages]);
   const linkedin_url =
     candiList.linkedin_url !== null && candiList.linkedin_url !== ''
@@ -444,11 +445,15 @@ const ProfileNavBar = ({
           {jd_id === undefined || jd_id === null || stages.length === 0 ? (
             ''
           ) : (
-            <Flex middle center style={{ cursor: 'default' }} height={25} marginTop={5} className={styles.starratingoverall}>
-              <StarsRating
-                        value={overall} 
-                        count={5}
-                      />
+            <Flex
+              middle
+              center
+              style={{ cursor: 'default' }}
+              height={25}
+              marginTop={5}
+              className={styles.starratingoverall}
+            >
+              <StarsRating value={overall} disabled count={5} />
             </Flex>
           )}
 
@@ -537,12 +542,13 @@ const ProfileNavBar = ({
                 <Flex style={{ paddingLeft: '2.2px' }}>Not Specified</Flex>
               ) : (
                 <Flex className={styles.phoneHide}>
-                   <PhoneInput
-                      inputClass={styles.phoneInput}
-                      dropdownClass={styles.dropDownStyle}
-                      value={candiList.contact}
-                      // placeholder='Not Specified'
-                    /></Flex>
+                  <PhoneInput
+                    inputClass={styles.phoneInput}
+                    dropdownClass={styles.dropDownStyle}
+                    value={candiList.contact}
+                    // placeholder='Not Specified'
+                  />
+                </Flex>
               )}
             </Flex>
             <Flex row style={{ marginTop: '5px', marginBottom: '10px' }}>
@@ -550,30 +556,11 @@ const ProfileNavBar = ({
                 <SvgLocation height={17} width={17} fill="#581845" />
               </Flex>
               {candidate_details[0].location === null ||
-              candidate_details[0].location === ''&& personalInfo[0].country__name === null ? (
+              candidate_details[0].location === '' ? (
                 <Flex style={{ fontsize: '13px' }}>Not Specified</Flex>
               ) : (
-                <Flex row>
-                    {candidate_details[0].candidate_id_id !== null ?
-                  `${personalInfo[0].country__name},${personalInfo[0].state__name},${personalInfo[0].city__name}`: 
-                      <Flex style={{ fontsize: '13px' }}> 
-                        {candidate_details[0].location}
-                      </Flex>
-                    }
-                  {/* {personalInfo[0].state__name !== undefined &&
-                    personalInfo[0].state__name !== null && (
-                      <Flex style={{ fontsize: '13px' }}>
-                        {' '}
-                        {personalInfo[0].state__name},
-                      </Flex>
-                    )} */}
-                  {/* {personalInfo[0].country__name !== undefined &&
-                    personalInfo[0].country__name !== null && (
-                      <Flex style={{ fontsize: '13px' }}>
-                        {' '}
-                        {personalInfo[0].country__name}
-                      </Flex>
-                    )} */}
+                <Flex style={{ fontsize: '13px' }}>
+                  {candidate_details[0].location}
                 </Flex>
               )}
             </Flex>
@@ -682,38 +669,37 @@ const ProfileNavBar = ({
                 </Flex>
               )}
             </Flex>
+            {console.log(candidate_details[0]?.work_exp,'candidate_details[0]?.work_expcandidate_details[0]?.work_expcandidate_details[0]?.work_exp')}
             <Flex row flex={12} style={{ paddingBottom: '10px' }}>
               <Flex flex={6}>
                 <Flex className={styles.headingpart} marginTop={10}>
                   Experience
                 </Flex>
-                {candidate_details[0].candidate_id_id !== null ? (
-                  total_exp === undefined || total_exp === null ? (
-                    <Flex className={styles.changingtext}>
-                      <Text className={styles.changingtext}>Not Specified</Text>
-                    </Flex>
-                  ) : (
-                    <Flex
-                      className={styles.changingtext}
-                      title={
-                        getFresher ? 'Fresher' : `${totalYear} ${totalMonths}`
-                      }
-                    >
-                      <Text className={styles.changingtext}>
-                        {' '}
-                        {getFresher ? 'Fresher' : `${totalYear} ${totalMonths}`}
-                      </Text>
-                    </Flex>
-                  )
+                {candidate_details[0]?.work_exp === null || undefined || '' ? (
+                  <Text className={styles.changingtext} title={`Not Specified`}>
+                    {notSpecified(workYear(candidate_details[0]?.work_exp))}
+                  </Text>
                 ) : (
-                  <Flex
+                  <Text
                     className={styles.changingtext}
-                    title={candidate_details[0].work_exp}
+                    title={`${candidate_details &&candidate_details[0]?.work_exp !== null && workYear(candidate_details[0]?.work_exp)} ${
+                      total_exp&& total_exp[0]?.total_exp_month !== 0 &&
+                      total_exp[0]?.total_exp_month !== null? total_exp[0]?.total_exp_month:''
+                    } ${
+                      total_exp&&total_exp[0]?.total_exp_month !== 0 &&
+                      total_exp[0]?.total_exp_month !== null?
+                      'Months':''
+                    }`}
                   >
-                    <Text className={styles.changingtext}>
-                      {candidate_details[0].work_exp}
-                    </Text>
-                  </Flex>
+                    {`${notSpecified(workYear(candidate_details[0]?.work_exp))} ${
+                    total_exp&& total_exp[0]?.total_exp_month !== 0 &&
+                     total_exp[0]?.total_exp_month !== null? total_exp[0]?.total_exp_month:''
+                    } ${
+                      total_exp&& total_exp[0]?.total_exp_month !== 0 &&
+                      total_exp[0]?.total_exp_month !== null?
+                      'Months':''
+                    }`}
+                  </Text>
                 )}
               </Flex>
               {!applieddatecheck && Number(jd_id) !== 0 ? (
@@ -866,11 +852,7 @@ const ProfileNavBar = ({
               </Flex>
             ) : (
               ''
-            )}
-            {console.log(
-              candidate_details[0].candidate_id_id,
-              'aaaaaaaaaaaaaaaaaaaaaqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq',
-            )}
+            )} 
             {candidate_details[0].candidate_id_id !== null ? (
               <Flex style={{ paddingBottom: '10px' }}>
                 <Flex className={styles.headingpart}>Industry Type</Flex>
@@ -886,7 +868,7 @@ const ProfileNavBar = ({
                     className={styles.changingtexts}
                     title={personalInfo[0].industry_type__label_name}
                   >
-                    <Text className={styles.changingtext}>
+                    <Text className={styles.changingtexttype}>
                       {personalInfo[0].industry_type__label_name}
                     </Text>
                   </Flex>

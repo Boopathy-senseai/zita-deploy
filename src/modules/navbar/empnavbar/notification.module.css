@@ -123,14 +123,14 @@
 .confirm_txt {
   /* z-index: -1; */
   text-align: left;
-  font-size: 14px;
+  font-size: 13px;
   color: #333333;
 }
 
 .confirm_title {
   color: #333333;
   text-align: left;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 /*sidebar*/

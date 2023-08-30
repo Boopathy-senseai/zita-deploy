@@ -41,7 +41,11 @@ import styles from './integration.module.css';
 import Message from './message';
 import Maillist from './Maillist';
 
-const EmailScreen = () => {
+type Props = {
+  isprofileview?: boolean;
+  can_id?:any;
+};
+const EmailScreen = ({ isprofileview,can_id }: Props) => {
   const msal = useMsal();
   const dispatch: AppDispatch = useDispatch();
 
@@ -623,88 +627,90 @@ const EmailScreen = () => {
         {loader === true && <Loader />}
         {/* {loader === true && emailcollection.loading === false && <Loader />} */}
         {emailcollection.integration !== null &&
-        emailcollection.integration !== '' ? (
+        emailcollection.integration !== ''&& 
           <>
-            <Flex row between className={styles.titleContainer}>
-              <Text bold size={16} color="theme">
-                Mailbox
-              </Text>
-              <Flex row>
-                {searchDropdown && (
-                  <Dropdown className="dropdown toggle">
-                    {
-                      <Dropdown.Toggle
-                        style={{
-                          borderColor: '#A5889C',
-                          backgroundColor: 'unset',
-                          boxShadow: 'none',
-                          padding: '0px',
-                        }}
-                        className={styles.Toggle}
-                        // id="dropdown-basic"
-                      >
-                        <Flex row noWrap center style={{ padding: '5px' }}>
-                          <Text
-                            size={12}
-                            color="theme"
-                            style={{
-                              marginRight: '10px',
-                              textTransform: 'capitalize',
-                            }}
-                          >
-                            {' '}
-                            {searchFolder}
-                          </Text>
-                          <SvgArrowDown width={11} height={11} />
-                        </Flex>
-                      </Dropdown.Toggle>
-                    }
-
-                    {
-                      <Dropdown.Menu style={{ minWidth: '5rem' }}>
-                        {searchDropdownMenu.map((doc, index) => (
-                          <Dropdown.Item key={index} onClick={doc.onclick}>
-                            <Flex
-                              row
-                              center
-                              className={styles.dropDownListStyle}
+            {!isprofileview && (
+              <Flex row between center  className={styles.titleContainer}>
+                <Text bold size={16} color="theme">
+                  Mailbox
+                </Text>
+                <Flex row>
+                  {searchDropdown && (
+                    <Dropdown className="dropdown toggle">
+                      {
+                        <Dropdown.Toggle
+                          style={{
+                            borderColor: '#A5889C',
+                            backgroundColor: 'unset',
+                            boxShadow: 'none',
+                            padding: '0px',
+                          }}
+                          className={styles.Toggle}
+                          // id="dropdown-basic"
+                        >
+                          <Flex row noWrap center style={{ padding: '5px' }}>
+                            <Text
+                              size={12}
+                              color="theme"
+                              style={{
+                                marginRight: '10px',
+                                textTransform: 'capitalize',
+                              }}
                             >
-                              <Text style={{ cursor: 'pointer' }}>
-                                {doc.name}
-                              </Text>
-                            </Flex>
-                          </Dropdown.Item>
-                        ))}
-                      </Dropdown.Menu>
-                    }
-                  </Dropdown>
-                )}
+                              {' '}
+                              {searchFolder}
+                            </Text>
+                            <SvgArrowDown width={11} height={11} />
+                          </Flex>
+                        </Dropdown.Toggle>
+                      }
 
-                <InputText
-                  actionRight={() => (
-                    <Flex style={{ marginTop: '3px' }}>
-                      <SvgSearch />
-                    </Flex>
+                      {
+                        <Dropdown.Menu style={{ minWidth: '5rem' }}>
+                          {searchDropdownMenu.map((doc, index) => (
+                            <Dropdown.Item key={index} onClick={doc.onclick}>
+                              <Flex
+                                row
+                                center
+                                className={styles.dropDownListStyle}
+                              >
+                                <Text style={{ cursor: 'pointer' }}>
+                                  {doc.name}
+                                </Text>
+                              </Flex>
+                            </Dropdown.Item>
+                          ))}
+                        </Dropdown.Menu>
+                      }
+                    </Dropdown>
                   )}
-                  placeholder="Search by email subject or body"
-                  className={styles.inputSearch}
-                  onKeyPress={(e) => serchmessage(e)}
-                  onChange={(e) => searchinput(e)}
-                  style={
-                    searchDropdown
-                      ? { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }
-                      : { borderRadius: '4px' }
-                  }
-                  value={search}
-                  onFocus={() => {
-                    setSearchDropdown(true);
-                  }}
-                />
-              </Flex>
 
-              <Flex></Flex>
-              <div className={styles.triangle}> </div>
-            </Flex>
+                  <InputText
+                    actionRight={() => (
+                      <Flex style={{ marginTop: '6px' }}>
+                        <SvgSearch />
+                      </Flex>
+                    )}
+                    placeholder="Search by email subject or body"
+                    className={styles.inputSearch}
+                    onKeyPress={(e) => serchmessage(e)}
+                    onChange={(e) => searchinput(e)}
+                    style={
+                      searchDropdown
+                        ? { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }
+                        : { borderRadius: '4px' }
+                    }
+                    value={search}
+                    onFocus={() => {
+                      setSearchDropdown(true);
+                    }}
+                  />
+                </Flex>
+
+                <Flex></Flex>
+                <div className={styles.triangle}> </div>
+              </Flex>
+            )}
             <Flex row className={styles.container}>
               <Flex className={styles.containerColumn} marginTop={1}>
                 <Sidebar
@@ -731,6 +737,7 @@ const EmailScreen = () => {
                   selectmessage={selectmessage}
                   getmessageid={getmessageid}
                   sideroute={sideroute}
+                  isprofileview={isprofileview}
                   mailfolders={mailfolders}
                   removemsg={removemessage}
                   gmailunread={gmailunread}
@@ -751,6 +758,7 @@ const EmailScreen = () => {
               <Flex
                 marginTop={1}
                 marginRight={1}
+                style={{width: '-moz-available'}}
                 className={styles.containerColumn1}
               >
                 <Message
@@ -758,7 +766,9 @@ const EmailScreen = () => {
                   sidebarroute={sideroute}
                   composemodal={modelupdate}
                   removemsg={removemessage}
+                  isprofileview={isprofileview}
                   page={page}
+                  noEmails={noEmails}
                   emailcollection={emailcollection}
                   attachments={attachments}
                   msglistcount={messagelist.length}
@@ -784,10 +794,11 @@ const EmailScreen = () => {
               remove_message={remove_message}
               newmsg={newmsg}
             />
-          </>
-        ) : (
-          <>{IntegrationMenuView}</>
-        )}
+          </>}
+          {console.log(emailcollection.integration ,'emailcollection.integration === null')}
+   {emailcollection.integration === null  &&
+          <>{IntegrationMenuView}</>}
+        
       </Flex>
     </>
   );

@@ -590,7 +590,7 @@ const SignUpScreen = (props: any) => {
                           className={styles.signup_input}
                           label="Work Email"
                           required
-                          style={{fontSize:"14px"}}
+                          style={{fontSize:"13px"}}
                           value={formik.values.email}
                           onChange={formik.handleChange('email')}
                         />

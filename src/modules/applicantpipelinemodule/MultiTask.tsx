@@ -10,7 +10,12 @@ import Button from '../../uikit/Button/Button';
 import Card from '../../uikit/Card/Card';
 import { PRIMARY } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
-import { getDateString, isEmpty, workExperience } from '../../uikit/helper';
+import {
+  getDateString,
+  isEmpty,
+  notSpecified,
+  workExperience,
+} from '../../uikit/helper';
 import Text from '../../uikit/Text/Text';
 import Loader from '../../uikit/Loader/Loader';
 import { ADD_FAV, dndBoardId, REMOVE_FAV } from '../constValue';
@@ -33,6 +38,7 @@ import { getEditEventsDetails } from '../calendarModule/util';
 import SvgHeart from '../../icons/SvgHearts';
 import Avatar, { getUserInitials } from '../../uikit/Avatar';
 import { calendarRoute } from '../../appRoutesPath';
+import { workYear } from '../common/commonHelper';
 import {
   ApplicantEntity,
   GoogleEntity,
@@ -152,7 +158,7 @@ const MultiTask = ({
       params.append('id', `${doc.id}`);
       params.append('jobId', `${doc.jd_id_id}`);
       params.append('name', doc.name);
-      params.append('jobTitle', job_details.job_title)
+      params.append('jobTitle', job_details.job_title);
       const url = `${calendarRoute}?${params}`;
       window.open(url);
     } else {
@@ -380,7 +386,6 @@ const MultiTask = ({
               teamMembers={users}
               openScheduleForm={open}
               handleEventScheduleForm={openForm}
-            
             />
           ) : (
             <MeetingSchedulingScreen
@@ -577,18 +582,54 @@ const MultiTask = ({
                       )}
                     </Flex>
                     <Flex row center style={{ cursor: 'pointer' }}>
-                      <Text
-                        size={12}
-                        color="black2"
-                        textStyle="ellipsis"
-                        title={workExp}
-                        style={{ maxWidth: '50%', marginRight: 2 }}
-                      >
-                        {workExp}
-                      </Text>
-                      {task.qualification && workExp && (
-                        <Text color="black2"> | </Text>
+                      {task.total_exp === null || undefined || '' ? (
+                        <Text
+                          size={12}
+                          color="black2"
+                          textStyle="ellipsis"
+                          title={'Not Specified'}
+                          style={{
+                            maxWidth: task.qualification ? '50%' : '80%',
+                            marginRight: 2,
+                          }}
+                        >
+                          {notSpecified(workYear(task.total_exp))}
+                        </Text>
+                      ) : (
+                        <Text
+                          size={12}
+                          color="black2"
+                          textStyle="ellipsis"
+                          title={`${workYear(task.total_exp)} ${
+                            task&&task?.work_exp_mon !== 0 &&
+                            task?.work_exp_mon !== null
+                              ? task?.work_exp_mon
+                              : ''
+                          } ${
+                            task&&task?.work_exp_mon !== 0 &&
+                            task?.work_exp_mon !== null
+                              ? 'Months'
+                              : ''
+                          }`}
+                          style={{
+                            maxWidth: task.qualification ? '50%' : '80%',
+                            marginRight: 2,
+                          }}
+                        > 
+                          {`${notSpecified(workYear(task.total_exp))} ${
+                             task&&task?.work_exp_mon !== 0 &&
+                            task?.work_exp_mon !== null
+                              ? task?.work_exp_mon
+                              : ''
+                          } ${
+                            task&& task?.work_exp_mon !== 0 &&
+                            task?.work_exp_mon !== null
+                              ? 'Months'
+                              : ''
+                          }`}
+                        </Text>
                       )}
+                      {task.qualification && <Text color="black2"> | </Text>}
                       <Text
                         size={12}
                         color="black2"

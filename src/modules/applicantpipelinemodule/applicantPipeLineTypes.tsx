@@ -93,6 +93,7 @@ export interface ApplicantEntity {
   location: string;
   viewed: string;
   work_exp: number;
+  total_exp:string;
   work_exp_mon: number;
   match?: number | null;
   image: string;

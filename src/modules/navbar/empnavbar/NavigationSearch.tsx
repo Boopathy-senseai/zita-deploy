@@ -104,7 +104,9 @@ const NavigationSearch = ({ onButtonClick, onbuttonchange }) => {
       case 'integrations':
         return history.push('/account_setting/settings?tab=4');
       case 'email':
+        return history.push('/mail')
       case 'inbox':
+        return history.push('/mail')
       case 'email integration':
         return (
           super_user === true &&
@@ -156,7 +158,11 @@ const NavigationSearch = ({ onButtonClick, onbuttonchange }) => {
       case 'post jobs':
         return history.push(jobSelect);
       case 'create job':
-        return history.push(jobSelect);
+        return history.push(jobSelect);  
+      case 'my job postings':
+        return history.push('/job_list');
+      case 'zita match candidates':
+         return history.push('/job_list');
       case 'reports':
         return history.push(reports);
 
@@ -168,9 +174,9 @@ const NavigationSearch = ({ onButtonClick, onbuttonchange }) => {
         return history.push(routesPath.BULK_IMPORT);
       case 'upload applicants':
         return history.push(routesPath.BULK_IMPORT);
-      case 'Bulk import':
+      case 'bulk import':
         return history.push(routesPath.BULK_IMPORT);
-      case 'Bulk upload':
+      case 'bulk upload':
         return history.push(routesPath.BULK_IMPORT);
       case 'resume upload':
         return history.push(routesPath.BULK_IMPORT);
@@ -218,7 +224,7 @@ const NavigationSearch = ({ onButtonClick, onbuttonchange }) => {
       'My Job Postings',
       'Careers Page',
       'integrations',
-      ' Zita Match Candidates',
+      'Zita Match Candidates',
       'Applicants Pipeline',
       'Calendar',
 

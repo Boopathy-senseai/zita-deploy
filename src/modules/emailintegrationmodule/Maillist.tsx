@@ -40,7 +40,7 @@ type Props = {
 
   isLoading: any;
   searchapi: boolean;
-
+  isprofileview?:boolean;
   savemail: any;
   searchSection: string;
   search: any;
@@ -58,6 +58,7 @@ const Maillist = ({
   sidebarroute,
   range,
   message,
+  isprofileview,
   noEmails,
   integration,
   isLoading,
@@ -427,12 +428,13 @@ const Maillist = ({
   };
 
   return (
-    <Flex style={{ margintop: '1px' }} className={styles.maillist}>
+    <Flex style={{ margintop: '1px' }} className={styles.maillist} height={isprofileview?window.innerHeight - 95:window.innerHeight - 115}>
       <Flex
         row
         between
         style={{
           borderBottom: '1px solid #c3c3c3',
+          height:'35px'
         }}
       >
         <Flex style={{ padding: '8px' }}>{showfolder()}</Flex>
@@ -440,7 +442,7 @@ const Maillist = ({
         <Flex row center>
           {sidebarroute !== 0 && <></>}
           <Flex title="Refresh" style={{ padding: '6px' }}>
-            {/* <SvgRefresh width={18} height={18} onClick={referesh} /> */}
+            <SvgRefresh width={18} height={18} onClick={referesh} />
           </Flex>
         </Flex>
       </Flex>
@@ -607,9 +609,9 @@ const Maillist = ({
               ) : (
                 <>
                   {noEmails && (
-                    <Flex className={styles.noEmail}>
-                      <SvgNoEmail />
-                      <Text>No emails yet.</Text>
+                    <Flex center middle className={styles.noEmail}>
+                      <Flex center middle marginBottom={-25} marginLeft={6}><SvgNoEmail /></Flex> 
+                      <Text style={{color:'#979797'}}>No emails to view.</Text>
                     </Flex>
                   )}
                 </>

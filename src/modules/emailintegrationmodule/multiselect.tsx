@@ -80,7 +80,7 @@ const customStyles: StylesConfig = {
   placeholder: (styles) => ({
     ...styles,
     color: "#b3b3b3",
-    fontSize: "12px",
+    fontSize: "13px",
   }),
 };
 
