@@ -949,11 +949,16 @@ const Calendar = () => {
 
   const getEditEventsDetails = (event: ZitaEventType): EditEventDetails => {
     const interviewerEmails = event.interviewers.split(',');
-    const interviewers = teamMembers.filter((member) => {
-      if (interviewerEmails.includes(member.email)) {
-        return member;
-      }
-    });
+    // const interviewers = teamMembers.filter((member) => {
+    //   if (interviewerEmails.includes(member.email)) {
+    //     return member;
+    //   }
+    // });
+    const interviewers = teamMembers.filter(
+      (member) =>
+        interviewerEmails.includes(member.email) ||
+        interviewerEmails.includes(member.calendarEmail),
+    );
 
     return {
       applicant: {

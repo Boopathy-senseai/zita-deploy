@@ -1,8 +1,8 @@
 import { Key, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 // import toast from 'react-hot-toast';
 import { useFormik } from 'formik';
-import { AppDispatch } from '../../store';
+import { AppDispatch, RootState } from '../../store';
 import {
   InputText,
   Button,
@@ -80,6 +80,11 @@ const MeetingSummary = ({
     We'd like to confirm your interview. Please find all the relevant details below.`,
     interviewer: `Hello Team,
     We'd like to confirm your interview. Please find all the relevant details below.`,
+  });
+  const { userProfile } = useSelector(({ userProfileReducers }: RootState) => {
+    return {
+      userProfile: userProfileReducers?.user,
+    };
   });
 
   useEffect(() => {
@@ -190,7 +195,7 @@ const MeetingSummary = ({
       interviewer,
       notes,
     } = meetingForm;
-     setIsloading(true);
+    setIsloading(true);
     // setIsTopLineLoading(true);
     dispatch(
       scheduleEventMiddleware({
@@ -301,86 +306,99 @@ const MeetingSummary = ({
               Meeting Notification Summary
             </Text>
           </Flex>
-          <Flex style={{overflowY:"scroll", maxHeight:"550px"}}>
-          <Flex
-            className={styles.meetingSummary}
-            column
-            style={{
-              paddingBottom: 10,
-              marginRight:"10px",
-              // borderBottom: '1px solid #cccccc',
-               // overflow: 'auto',
-              // maxHeight: '90vh',
-            }}
-          >
-            <div className={styles.summary}>
-              <p
-                className={styles.header}
-                style={{ marginTop: '5px', fontWeight: 'bold' }}
-              >
-                Summary
-              </p>
-              <div className={styles.content}>{MeetingTitleView}</div>
-            </div>
-            <ExpandTile
-              backgroundColor="#58184530"
-              activeColor="#333333"
-              title={'Email notification to applicant'}
-              show={tileState?.applicant}
-              onClick={() =>
-                setTileState({ ...tileState, applicant: !tileState.applicant })
-              }
+          <Flex style={{ overflowY: 'scroll', maxHeight: '550px' }}>
+            <Flex
+              className={styles.meetingSummary}
+              column
+              style={{
+                paddingBottom: 10,
+                marginRight: '10px',
+                // borderBottom: '1px solid #cccccc',
+                // overflow: 'auto',
+                // maxHeight: '90vh',
+              }}
             >
-              <EmailTemplate
-                {...meetingForm}
-                currentUserLabel={currentUserLabel}
-                greetingText={greetings.applicant}
-                email={
-                  applicantEmail
-                    ? applicantEmail
-                    : localStorage.getItem('emailnote')
-                }
-                interviewerData={meetingForm?.interviewer}
-                onSave={(value) => {
-                  /// save this text to some field
-                  setGreetings((prev) => ({ ...prev, applicant: value }));
-                }}
-                editGreeting={true}
-              />
-            </ExpandTile>
-
-            {meetingForm.interviewer.length !== 0 && (
-              <ExpandTile 
+              <div className={styles.summary}>
+                <p
+                  className={styles.header}
+                  style={{ marginTop: '5px', fontWeight: 'bold' }}
+                >
+                  Summary
+                </p>
+                <div className={styles.content}>{MeetingTitleView}</div>
+              </div>
+              <ExpandTile
                 backgroundColor="#58184530"
-                activeColor="#000000"
-                title={'Email notification to interviewer'}
-                show={tileState?.interviewer}
+                activeColor="#333333"
+                title={'Email notification to applicant'}
+                show={tileState?.applicant}
                 onClick={() =>
                   setTileState({
                     ...tileState,
-                    interviewer: !tileState.interviewer,
+                    applicant: !tileState.applicant,
                   })
                 }
               >
                 <EmailTemplate
                   {...meetingForm}
                   currentUserLabel={currentUserLabel}
-                  greetingText={greetings.interviewer}
-                  email={meetingForm.interviewer.map((interview, index: Key) =>
-                    interview.email
-                      ? interview.email
-                      : interview.calendarEmail,
-                  )}
-                  notes={meetingForm.privateNotes}
-                  applicantInfo={meetingForm.applicant}
+                  greetingText={greetings.applicant}
+                  email={
+                    applicantEmail
+                      ? applicantEmail
+                      : localStorage.getItem('emailnote')
+                  }
+                  interviewerData={meetingForm?.interviewer}
                   onSave={(value) => {
                     /// save this text to some field
-                    setGreetings((prev) => ({ ...prev, interviewer: value }));
+                    setGreetings((prev) => ({ ...prev, applicant: value }));
                   }}
                   editGreeting={true}
                 />
               </ExpandTile>
-            )}
+
+              {meetingForm.interviewer.length !== 0 && (
+                <ExpandTile
+                  backgroundColor="#58184530"
+                  activeColor="#000000"
+                  title={'Email notification to interviewer'}
+                  show={tileState?.interviewer}
+                  onClick={() =>
+                    setTileState({
+                      ...tileState,
+                      interviewer: !tileState.interviewer,
+                    })
+                  }
+                >
+                  <EmailTemplate
+                    {...meetingForm}
+                    currentUserLabel={currentUserLabel}
+                    greetingText={greetings.interviewer}
+                    // email={meetingForm.interviewer.map(
+                    //   (interview, index: Key) =>
+                    //     interview.email
+                    //       ? interview.email
+                    //       : interview.calendarEmail,
+                    // )}
+                    email={[
+                      ...(userProfile?.email ? [userProfile?.email] : []),
+                      ...meetingForm.interviewer.map((interview, index: Key) =>
+                        interview.email
+                          ? interview.email
+                          : interview.calendarEmail,
+                      ),
+                    ]}
+                    notes={meetingForm.privateNotes}
+                    applicantInfo={meetingForm.applicant}
+                    onSave={(value) => {
+                      /// save this text to some field
+                      setGreetings((prev) => ({ ...prev, interviewer: value }));
+                    }}
+                    editGreeting={true}
+                  />
+                </ExpandTile>
+              )}
+            </Flex>
           </Flex>
           <div
             className={styles.actionButtonWrapper}
@@ -395,7 +413,7 @@ const MeetingSummary = ({
             </Button>
             {editEventDetails ? (
               isloading ? (
-                <Flex middle center style={{ width: '70px' }} marginTop={20}>
+                <Flex middle center style={{ width: '70px' }} marginTop={15}>
                   <Loader size="small" withOutOverlay />
                 </Flex>
               ) : (
@@ -407,7 +425,7 @@ const MeetingSummary = ({
                 </Button>
               )
             ) : isloading ? (
-              <Flex middle center style={{ width: '70px' }} marginTop={20}>
+              <Flex middle center style={{ width: '70px' }} marginTop={15}>
                 <Loader size="small" withOutOverlay />
               </Flex>
             ) : (
@@ -419,10 +437,6 @@ const MeetingSummary = ({
               </Button>
             )}
           </div>
-
-
-          </Flex>
-          
         </div>
       </div>
     </>

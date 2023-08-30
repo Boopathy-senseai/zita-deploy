@@ -138,6 +138,7 @@ const EventPopUpModal = ({
                       initials={getUserInitials({ fullName: item })}
                       style={{ width: 28, height: 28, marginRight: '5px' }}
                       textStyle={{ fontSize: 12 }}
+                      title={item}
                     />
                     // <p className={styles.email} key={index}>
                     //   {items}
