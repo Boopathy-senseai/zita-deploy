@@ -627,7 +627,7 @@ const EmailScreen = ({ isprofileview,can_id }: Props) => {
         {loader === true && <Loader />}
         {/* {loader === true && emailcollection.loading === false && <Loader />} */}
         {emailcollection.integration !== null &&
-        emailcollection.integration !== '' ? (
+        emailcollection.integration !== ''&& 
           <>
             {!isprofileview && (
               <Flex row between center  className={styles.titleContainer}>
@@ -758,6 +758,7 @@ const EmailScreen = ({ isprofileview,can_id }: Props) => {
               <Flex
                 marginTop={1}
                 marginRight={1}
+                style={{width: '-moz-available'}}
                 className={styles.containerColumn1}
               >
                 <Message
@@ -793,10 +794,11 @@ const EmailScreen = ({ isprofileview,can_id }: Props) => {
               remove_message={remove_message}
               newmsg={newmsg}
             />
-          </>
-        ) : (
-          <>{IntegrationMenuView}</>
-        )}
+          </>}
+          {console.log(emailcollection.integration ,'emailcollection.integration === null')}
+   {emailcollection.integration === null  &&
+          <>{IntegrationMenuView}</>}
+        
       </Flex>
     </>
   );
