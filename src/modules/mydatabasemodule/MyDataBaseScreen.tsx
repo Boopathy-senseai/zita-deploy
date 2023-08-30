@@ -315,6 +315,7 @@ const MyDataBaseScreen = () => {
 // To Clear Search Bar
   const handleSearchClose = () => {
     setSearchValue("");
+    formik.setFieldValue('searchValue', '');
     dispatch(
       myDataBaseDataMiddleWare({
         jobTitle: formik.values.jobTitle,

@@ -494,7 +494,7 @@ export const customStylechanges2 = {
   }),
   valueContainer: (provided: any) => ({
     ...provided,
-    height: '23px',
+    height: '26px',
     margin: '0px',
     fontSize: 12,
     boxColor: GARY_9,
@@ -527,7 +527,7 @@ export const customStylechanges2 = {
     cursor: 'pointer',
     borderColor: GARY_9,
     position: 'relative',
-    top: 2,
+    top: 1,
   }),
   indicatorSeparator: (provided: any) => ({
     ...provided,
