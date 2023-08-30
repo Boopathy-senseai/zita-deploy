@@ -83,7 +83,7 @@ const CareerViewBanner = ({
               <div style={{ position: 'relative', width: '50%' }}>
                 <div className={styles.svgBagStyle}>
                   <SvgJobTitles
-                    height={14}
+                    height={12}
                     width={14}
                     fill={career_page_setting.button_color}
                   />
@@ -113,8 +113,8 @@ const CareerViewBanner = ({
               >
                 <div className={styles.svgLocation}>
                   <SvgLocation
-                    height={14}
-                    width={14}
+                    height={16}
+                    width={16}
                     fill={career_page_setting.button_color}
                   />
                 </div>
