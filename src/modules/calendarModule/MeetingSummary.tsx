@@ -141,7 +141,7 @@ const MeetingSummary = ({
           extraNotes: greetings.applicant,
           interviewer_notes: greetings.interviewer,
           myJd: meetingForm.job.label,
-          eventId: eventId !== '' ? eventId : recurringEventId,
+          eventId: recurringEventId?recurringEventId: localStorage.getItem('eventhandelerid'),
           privateNotes: meetingForm.privateNotes,
           eventType: meetingForm.eventType.value,
           edit_jd,
