@@ -89,7 +89,7 @@
 
 .meetingForm {
   /* background-color: white; */
-  max-height: 550px;
+  max-height: 510px;
   height: 100%;
   border-radius: 4px;
   width: 700px;
@@ -112,7 +112,7 @@
 .timeInputWrapper .to {
   display: flex;
   align-items: center;
-  margin: 0px 6px;
+  margin: 5px;
 }
 
 .location {
@@ -171,8 +171,7 @@
 .formTitle {
   grid-column: 1 / span 2;
   margin-bottom: 0px;
-  margin-left: 10px;
-  margin-left: 10px;
+  margin-left: 5px;
 }
 
 .actionButtonWrapper {

@@ -4,12 +4,13 @@ import { saveAs } from 'file-saver';
 import PhoneInput from 'react-phone-input-2';
 import Toast from '../../uikit/Toast/Toast';
 import SvgBoxEdit from '../../icons/SvgBoxEdit';
+import SvgDashboardw from '../../icons/SvgDashboardw';
 import SvgDashboard from '../../icons/SvgDashboard';
 import SvgDownload from '../../icons/SvgDownload';
 import SvgMail from '../../icons/SvgMail';
 import SvgPhone from '../../icons/SvgPhone';
 import { AppDispatch } from '../../store';
-import { SECONDARY } from '../../uikit/Colors/colors';
+import { GARY_4, SECONDARY } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
 import { isEmpty, notSpecified } from '../../uikit/helper';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
@@ -123,7 +124,7 @@ const CandidateNavBar = ({
 
             <LinkWrapper to="/">
               <div title="Back to Dashboard">
-                <SvgDashboard height={20} width={20} />
+                <SvgDashboardw height={20} width={20}/>
               </div>
             </LinkWrapper>
           </Flex>

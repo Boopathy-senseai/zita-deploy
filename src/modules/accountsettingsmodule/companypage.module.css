@@ -386,12 +386,8 @@ max-width: 135px;
 .innerFlex {
   position: relative;
 }
-.cancel {
-  /* margin-right:8px;
- width: 100px;
-  */
-}
-/* .overAll {
+ 
+/*.cancel .overAll {
   
   overflow: scroll; */
 /* padding: 0 36px; */
@@ -418,10 +414,6 @@ max-width: 135px;
 .title {
   margin-top: 24px;
   margin-bottom: 24px;
-}
-.cancelsave {
-  /* width: 100px;
-  height: 30px; */
 }
 .borderStyle {
   /* padding: 0 20px; */
