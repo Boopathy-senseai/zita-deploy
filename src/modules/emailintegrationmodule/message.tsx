@@ -787,8 +787,7 @@ const Inbox = ({
                     dangerouslySetInnerHTML={{
                       __html: message.body.content,
                     }}
-                  />
-                  {/* {parse(message.body.content)} */}
+                  /> 
                 </Flex>
                 {renderAttachments}
               </Flex>
@@ -804,12 +803,13 @@ const Inbox = ({
         style={{
           alignContent: 'center',
           alignItems: 'center',
-          height: '100%',
+          // height: '100%',
           width: '100%',
           display: 'flex',
           justifyContent: 'center',
           flexDirection: 'column',
         }}
+        height={isprofileview ? window.innerHeight - 190 :window.innerHeight - 170 }
       >
         <SvgEmptyMail />
         {/* <Flex center middle> */}
