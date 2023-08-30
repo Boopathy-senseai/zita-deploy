@@ -104,7 +104,6 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
     dispatch(gmail_integrate())
       .then((res) => {
         localStorage.setItem('integrate', 'Mail');
-        console.log('res++++++++++=', res);
         // window.open(res.payload.url);
         setgbutton(1);
         setoutbutton(1);
@@ -184,16 +183,12 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
       });
   };
 
-  const ChangeoutlookMail = async () => {
-    // alert('change mail ');
-    const value = instance
-      .logoutPopup({
-        mainWindowRedirectUri: 'http://localhost:3000/account_setting/settings', // redirects the top level app after logout
-        account: instance.getActiveAccount(),
-      })
-      .catch((error) => console.log(error));
-    // console.log('sd', value);
-    //setEmail(value.account.username);
+  const ChangeoutlookMail = async (val:string) => {
+    if (val === 'outlook') {
+      outlookconfig();
+    } else {
+    handleAuthClick();
+    }
   };
 
   return (
@@ -453,7 +448,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
               <Flex style={{ marginRight: '15px' }} end>
                 <span>
                   <Button
-                    onClick={() => ChangeoutlookMail()}
+                    onClick={() => ChangeoutlookMail('outlook')}
                     style={{
                       paddingRight: '24px',
                       paddingLeft: '24px',
@@ -520,7 +515,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
               <Flex style={{ marginRight: '15px' }} end>
                 <span>
                   <Button
-                    onClick={() => ChangeoutlookMail()}
+                    onClick={() => ChangeoutlookMail('google')}
                     style={{
                       paddingRight: '24px',
                       paddingLeft: '24px',

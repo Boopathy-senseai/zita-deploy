@@ -45,6 +45,9 @@ type Props = {
   searchSection: string;
   search: any;
   emailcollection: any;
+  enterKey: boolean;
+  refresh: () => void;
+  tokens: any;
 };
 const Maillist = ({
   messagelist,
@@ -67,6 +70,9 @@ const Maillist = ({
   searchSection,
   search,
   emailcollection,
+  enterKey,
+  refresh,
+  tokens,
 }: Props) => {
   const msal = useMsal();
   const authProvider = new AuthCodeMSALBrowserAuthenticationProvider(
@@ -102,36 +108,31 @@ const Maillist = ({
 
   const serch = async () => {
     if (search !== '' && integration === 'outlook') {
-      getsearchmail(
-        authProvider,
-        searchSection,
-        search.trim(),
-        range,
-        splittoken,
-      )
+      getsearchmail(authProvider, searchSection, search.trim(), range, tokens)
         .then((res) => {
-          savemail(res.value);
-          console.log('dvfd', res.value);
           setSearchicon(res.value.length === 0 ? true : false);
-          setsplittoken(res['@odata.nextLink'].split('skiptoken=')[1]);
+          // setsplittoken(res['@odata.nextLink'].split('skiptoken=')[1]);
           if (!res['@odata.nextLink']) {
             setload(false);
+            savemail(res.value, null);
+          } else {
+            setload(true);
+            savemail(res.value, res['@odata.nextLink'].split('skiptoken=')[1]);
           }
         })
         .catch((error) => {
           setload(false);
-          // console.log('get junk mail', error);
+          console.log('errorsearch', error);
         });
     } else if (search !== '' && integration === 'google') {
       initGoogleAuth(emailcollection.token)
         .then(() => {
-          Gmail_search(searchSection, search.trim(), range, token)
+         Gmail_search(searchSection, search.trim(), range, tokens)
             .then((res) => {
               console.log('ress', res);
-              savemail(res.fullMessages);
-              settoken(res.token);
+              savemail(res.fullMessages, res.token);
+              //settoken(res.token);
               if (res.token === undefined) {
-                console.log('ad');
                 setload(false);
                 savemail([]);
                 // settoken(null);
@@ -150,10 +151,22 @@ const Maillist = ({
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      process();
-    }, 500);
-  }, [sidebarroute, searchapi, integration]);
+    if (sidebarroute !== 0) {
+      setTimeout(() => {
+        process();
+      }, 500);
+    }
+  }, [sidebarroute, integration]);
+
+  useEffect(() => {
+    if (enterKey) {
+      settoken(null);
+      //  console.log('===enter', enterKey);
+      setTimeout(() => {
+        process();
+      }, 500);
+    }
+  }, [enterKey]);
 
   const showfolder = () => {
     if (integration === 'google') {
@@ -248,7 +261,8 @@ const Maillist = ({
   };
 
   const referesh = () => {
-    process();
+   setmesage('');
+   refresh();
   };
 
   const handlemessage = (val) => {
@@ -610,7 +624,7 @@ const Maillist = ({
                 <>
                   {noEmails && (
                     <Flex center middle className={styles.noEmail}>
-                      <Flex center middle marginBottom={-25} marginLeft={6}><SvgNoEmail /></Flex> 
+                      <Flex center middle marginBottom={-40} marginLeft={11}><SvgNoEmail /></Flex> 
                       <Text style={{color:'#979797'}}>No emails to view.</Text>
                     </Flex>
                   )}
