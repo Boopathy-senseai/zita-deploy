@@ -46,7 +46,7 @@ type Props = {
   updateMailaction: (val: any) => void;
   remove_message: (id: any) => void;
   update_message: (id: any, val: boolean) => void;
-  noEmails?:any;
+  noEmails?: any;
 };
 const Inbox = ({
   message,
@@ -62,7 +62,7 @@ const Inbox = ({
   integration,
   updateMailaction,
   update_message,
-  noEmails
+  noEmails,
 }: Props) => {
   const msal = useMsal();
   const [view, setview] = useState(true);
@@ -787,7 +787,7 @@ const Inbox = ({
                     dangerouslySetInnerHTML={{
                       __html: message.body.content,
                     }}
-                  /> 
+                  />
                 </Flex>
                 {renderAttachments}
               </Flex>
@@ -809,7 +809,9 @@ const Inbox = ({
           justifyContent: 'center',
           flexDirection: 'column',
         }}
-        height={isprofileview ? window.innerHeight - 190 :window.innerHeight - 170 }
+        height={
+          isprofileview ? window.innerHeight - 190 : window.innerHeight - 170
+        }
       >
         <SvgEmptyMail />
         {/* <Flex center middle> */}
