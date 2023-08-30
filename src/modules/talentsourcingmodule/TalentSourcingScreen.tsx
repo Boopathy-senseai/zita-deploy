@@ -738,8 +738,8 @@ setshow(val)
              
             {(isSearchData?.length === 0 && isFind && !isSubmitLoader) && (
               <Flex center middle  height={window.innerHeight -238} className={styles.emptyStyle}> 
-                <SvgSearch  width={18} height={18}/> 
-                <Text style={{color:'#979797'}}>Please enter your search keywords in the required search field to find the candidates</Text>
+                <SvgSearch  width={18} height={18} fill = {'#888888'}/> 
+                <Text style={{color:'#888888'}}>Please enter your search keywords in the required search field to find the candidates</Text>
               </Flex>
             )}
             {(isSearchData === null || isSearchData?.length === 0 && !isFind) && !isSubmitLoader && (
