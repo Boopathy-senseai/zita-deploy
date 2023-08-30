@@ -142,3 +142,6 @@ cursor: default;
   max-width: 85px;
   cursor: default;
 }
+.interviewerText:hover{
+  background-color: #58184840;
+}

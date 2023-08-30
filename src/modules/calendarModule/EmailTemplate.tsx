@@ -50,8 +50,7 @@ const EmailTemplate: React.FC<Props> = (props) => {
   const { users } = useSelector(({ userProfileReducers }: RootState) => ({
     users: userProfileReducers.user,
   }));
-  console.log(users.first_name,"first--------")
-  const userName = users && `${users.first_name} ${users.last_name},`
+  const userName = users && `${users.first_name} ${users.last_name},`;
 
   const handleValid = (values: { greeting: string }) => {
     const errors: Partial<{ greeting: string }> = {};
@@ -162,9 +161,8 @@ const EmailTemplate: React.FC<Props> = (props) => {
                 <div>
                   <p className={styles.personHeader}>Interviewers</p>
                   <div className={styles.interviewers}>
-                    <Flex row>  
-                    {console.log("--------user name--------", userName, interviewerData.length)}                     
-                      {interviewerData.length >= 0 ? userName: ""}
+                    <Flex row>
+                      {interviewerData.length >= 0 ? userName : ''}
                       {interviewerData.map((user, index) => (
                         <p
                           key={index}

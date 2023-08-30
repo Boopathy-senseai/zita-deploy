@@ -54,7 +54,7 @@
   margin-top: 20px;
 }
 
-.btn {
+.btn1 {
   background-color: transparent;
   color: #581845;
   border: none;
@@ -62,8 +62,23 @@
   /* margin-top: 20px; */
   /* border-top: 1px solid #c3c3c3; */
   border-radius: unset;
-  padding: 10px 0;
+  padding: 18px 0;
 }
+
+.btn {
+background-color: transparent;
+color: #581845;
+border: none;
+width: 100%;
+border-radius: unset;
+padding: 18px 0;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+
+
 
 .btn:active,
 .btn:focus {
@@ -99,3 +114,17 @@
 .disconnectbtn > span {
   color: #ed4857;
 }
+
+.lineVertical{
+  border-bottom: 1px solid rgb(195, 195, 195, 1);
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+
+/* 
+.cardStruture:active{
+  outline: 0!important;
+  border: 1px solid #00be4b;
+} */

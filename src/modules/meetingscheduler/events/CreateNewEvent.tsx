@@ -1255,7 +1255,7 @@ const CreateNewEvent = ({
                     //   maxWidth: MAX_BUTTON_TEXT_WIDTH + 'px',
                     //   cursor: 'default',
                     // }}
-                    // // types="secondary"
+                    // types="secondary"
                   >
                     <Text
                       title={name}

@@ -130,7 +130,7 @@ const Sidebar = ({
               <SvgInbox
                 width={16}
                 height={16}
-                fill={sidebarroute === 1 ? '#581845' : '#333333'}
+                fill={'#581845'}
               />
               {/* <Text
                 className={styles.text}
@@ -151,7 +151,7 @@ const Sidebar = ({
               <SvgSend
                 width={16}
                 height={16}
-                fill={sidebarroute === 2 ? '#581845' : '#333333'}
+                fill={'#581845'}
               />
               {/* <Text
                 className={styles.text}
@@ -172,7 +172,7 @@ const Sidebar = ({
               <SvgDraft
                 width={16}
                 height={16}
-                fill={sidebarroute === 3 ? '#581845' : '#333333'}
+                fill={'#581845'}
               />
               {/* <Text
                 className={styles.text}
@@ -194,7 +194,7 @@ const Sidebar = ({
                 <SvgArchive
                   width={16}
                   height={16}
-                  fill={sidebarroute === 4 ? '#581845' : '#333333'}
+                  fill={'#581845'}
                 />
                 {/* <Text
                 className={styles.text}
@@ -216,7 +216,7 @@ const Sidebar = ({
                 <SvgSpam
                   width={19}
                   height={19}
-                  fill={sidebarroute === 4 ? '#581845' : '#333333'}
+                  fill={'#581845'}
                 />
                 {/* <Text
                 className={styles.text}
@@ -239,7 +239,7 @@ const Sidebar = ({
               <SvgTrash
                 width={16}
                 height={16}
-                fill={sidebarroute === 5 ? '#581845' : '#333333'}
+                fill={'#581845'}
               />
               {/* <Text
                 className={styles.text}
@@ -261,7 +261,7 @@ const Sidebar = ({
                 <SvgJunk
                   width={16}
                   height={16}
-                  stroke={sidebarroute === 6 ? '#581845' : '#333333'}
+                  stroke={'#581845'}
                 />
                 {/* <Text
                 className={styles.text}

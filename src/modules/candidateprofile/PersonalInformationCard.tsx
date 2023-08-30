@@ -60,29 +60,29 @@ const PersonalInformationCard = ({
     {
       title: 'Contact Number:',
       value: personal?.contact_no,
-      right: 116,
+      right: 136,
     },
-    { title: 'Email:', value: notSpecified(personal?.email), right: 188 },
+    { title: 'Email:', value: notSpecified(personal?.email), right: 203 },
     {
       title: 'Gender:',
       value: notSpecified(personal?.gender__label_name),
-      right: 178,
+      right: 190,
     },
     {
       title: 'Birth Year:',
       value: notSpecified(personal?.Date_of_birth),
-      right: 162,
+      right: 176,
     },
-    { title: 'Address:', value: notSpecified(address), right: 172 },
+    { title: 'Address:', value: notSpecified(address), right: 187 },
     {
       title: 'LinkedIn:',
       value: notSpecified(personal?.linkedin_url),
-      right: 170,
+      right: 185,
     },
     {
       title: 'Your Personal Code Repository:',
       value: notSpecified(personal?.code_repo),
-      right: 18,
+      right: 50,
     },
     {
       title: 'Total Experience:',
@@ -90,12 +90,12 @@ const PersonalInformationCard = ({
         isEmpty(expYears) && isEmpty(expMonth)
           ? 'Not Specified'
           : `${expYears} ${expMonth}`,
-      right: 117,
+      right: 136,
     },
     {
       title: 'Qualification:',
       value: notSpecified(Qualification),
-      right: 144,
+      right: 157,
     },
   ];
   const handleOpenPersonalEdit = () => {

@@ -53,7 +53,6 @@ const EventPopUpModal = ({
     canEdit,
     email,
   } = eventPopUpDetails;
-  console.log(eventPopUpDetails);
   const DeleteWarningPopUp = (
     <Modal
       open={openEventDeleteModal}
@@ -136,7 +135,7 @@ const EventPopUpModal = ({
                   (item: string, index: Key | null | undefined) => (
                     <Avatar
                       key={index}
-                      initials={getUserInitials({ email: item })}
+                      initials={getUserInitials({ fullName: item })}
                       style={{ width: 28, height: 28, marginRight: '5px' }}
                       textStyle={{ fontSize: 12 }}
                     />

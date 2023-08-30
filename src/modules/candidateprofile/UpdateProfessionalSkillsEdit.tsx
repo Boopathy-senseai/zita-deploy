@@ -276,7 +276,7 @@ const UpdateProfessionalSkillsEdit = ({
         >
           <SvgCloseSmall />
         </div>
-        <Text className={styles.title} size={16} bold align="center">
+        <Text className={styles.title} size={14} bold align="center">
           {isAddText} Professional Skills
         </Text>
 

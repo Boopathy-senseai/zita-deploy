@@ -630,7 +630,7 @@ const EmailScreen = ({ isprofileview,can_id }: Props) => {
         emailcollection.integration !== '' ? (
           <>
             {!isprofileview && (
-              <Flex row between className={styles.titleContainer}>
+              <Flex row between center  className={styles.titleContainer}>
                 <Text bold size={16} color="theme">
                   Mailbox
                 </Text>
@@ -687,7 +687,7 @@ const EmailScreen = ({ isprofileview,can_id }: Props) => {
 
                   <InputText
                     actionRight={() => (
-                      <Flex style={{ marginTop: '3px' }}>
+                      <Flex style={{ marginTop: '6px' }}>
                         <SvgSearch />
                       </Flex>
                     )}
@@ -767,6 +767,7 @@ const EmailScreen = ({ isprofileview,can_id }: Props) => {
                   removemsg={removemessage}
                   isprofileview={isprofileview}
                   page={page}
+                  noEmails={noEmails}
                   emailcollection={emailcollection}
                   attachments={attachments}
                   msglistcount={messagelist.length}

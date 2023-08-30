@@ -167,7 +167,7 @@ const AccountSettingsScreen = ({ value }: props) => {
       } else {
         dispatch(outlookCallbackMiddleware(access_urls))
           .then((res) => {
-            console.log(res, 'responceaaaaa');
+
             dispatch(IntergratemailMiddleWare());
             history.push('/account_setting/settings');
             localStorage.setItem('integrationSuccess', 'true');
@@ -862,11 +862,11 @@ const AccountSettingsScreen = ({ value }: props) => {
                     </div>
                   </Tab>
 
-                  <Tab title={'Integrations'} eventKey={'3'}>
-                    {tabKeyOne === '3' && <IntegrationScreen />}
+                  <Tab title={'Integrations'} eventKey={'2'}>
+                    {tabKeyOne === '2' && <IntegrationScreen />}
                   </Tab>
-                  <Tab title={'Templates'} eventKey={'4'}>
-                    {tabKeyOne === '4' && <TemplatesPage />}
+                  <Tab title={'Templates'} eventKey={'3'}>
+                    {tabKeyOne === '3' && <TemplatesPage />}
                   </Tab>
                   {/* <Tab title={'User Profile'} eventKey={'4'}>
                 <div
@@ -1029,7 +1029,7 @@ const AccountSettingsScreen = ({ value }: props) => {
                   <Tab title={'Integrations'} eventKey={'1'}>
                     {tabKeyTwo === '1' && <IntegrationScreen />}
                   </Tab>
-                  <Tab title="Templates" eventKey="2">
+                  <Tab title={"Templates"} eventKey="2">
                     {tabKeyTwo === '2' && <TemplatesPage />}
                   </Tab>
 
