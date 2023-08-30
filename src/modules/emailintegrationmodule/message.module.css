@@ -4,6 +4,7 @@
   width: 100%;
   border-bottom: 1px solid #c3c3c3;
   padding: 5px 5px;
+  height: 35px;
 }
 .icons {
   cursor: pointer;
@@ -69,4 +70,12 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+}
+.bulletpoint ul li{
+  list-style: disc !important;
+  margin-left: 30px;
+}
+.bulletpoint ol li{
+  list-style:decimal !important;
+  margin-left: 30px;
 }

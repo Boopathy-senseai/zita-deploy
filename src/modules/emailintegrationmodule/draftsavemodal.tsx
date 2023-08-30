@@ -84,7 +84,7 @@ const Modaldraft = ({
         closeverify();
         clearstate();
         composemodel();
-        Toast('Draft saved successfully', 'LONG', 'success');
+        Toast('Email saved as draft successfully', 'LONG', 'success');
       })
       .catch((error) => {
         setloader(false);
@@ -106,7 +106,7 @@ const Modaldraft = ({
             closeverify();
             clearstate();
             composemodel();
-            Toast('Draft saved successfully', 'LONG', 'success');
+            Toast('Email saved as draft successfully', 'LONG', 'success');
           })
           .catch((error) => {
             setloader(false);
@@ -126,7 +126,7 @@ const Modaldraft = ({
             closeverify();
             clearstate();
             composemodel();
-            Toast('Draft saved successfully', 'LONG', 'success');
+            Toast('Email saved as draft successfully', 'LONG', 'success');
           })
           .catch((error) => {
             console.log('draft not save ', error);
@@ -140,10 +140,10 @@ const Modaldraft = ({
       {loader === true && <Loader />}
       <Modal open={verifiymodel}>
         <Flex flex={6} column center className={styles.draftmodal}>
-          <Text size={14} className={styles.insertStyles}>
+          <Text size={13} className={styles.insertStyles}>
             Save this message as a draft?
           </Text>
-          <Text size={14} className={styles.insertStyles}>
+          <Text size={13} className={styles.insertStyles}>
             This message has not been sent and contains unsaved changes. You can
             save it as a draft to work on later.
           </Text>

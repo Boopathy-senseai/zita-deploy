@@ -37,7 +37,7 @@ type Props = {
   sidebarroute: number;
   composemodal: () => void;
   removemsg: () => void;
-  isprofileview?:boolean;
+  isprofileview?: boolean;
   page: () => void;
   attachments: any;
   msglistcount: any;
@@ -46,6 +46,7 @@ type Props = {
   updateMailaction: (val: any) => void;
   remove_message: (id: any) => void;
   update_message: (id: any, val: boolean) => void;
+  noEmails?:any;
 };
 const Inbox = ({
   message,
@@ -61,6 +62,7 @@ const Inbox = ({
   integration,
   updateMailaction,
   update_message,
+  noEmails
 }: Props) => {
   const msal = useMsal();
   const [view, setview] = useState(true);
@@ -161,7 +163,7 @@ const Inbox = ({
           .then((res) => {
             removemsg();
             page();
-            Toast('Moved to delete email successfully', 'SHORT', 'success');
+            Toast('Email deleted successfully', 'SHORT', 'success');
             remove_message(message.id);
             // console.log('res---------', res);
           })
@@ -194,7 +196,7 @@ const Inbox = ({
         .then((res) => {
           removemsg();
           // page();
-          Toast('Moved to archive email successfully', 'SHORT', 'success');
+          Toast('Email archived successfully', 'SHORT', 'success');
           remove_message(message.id);
           // console.log('res---------', res);
         })
@@ -210,7 +212,7 @@ const Inbox = ({
         .then((res) => {
           removemsg();
           // page();
-          Toast('Moved to junk email successfully', 'SHORT', 'success');
+          Toast('Email moved to junk successfully', 'SHORT', 'success');
           remove_message(message.id);
         })
         .catch((error) => {
@@ -316,125 +318,126 @@ const Inbox = ({
   const messageIcon = message !== '';
 
   const topActionBar = () => {
-    if (sidebarroute !== 3) {
-      return (
-        <>
-          <Flex row>
-            {sidebarroute !== 4 && (
-              // <Text onClick={archive}> Archive </Text>
-              <Flex
-                title="Archive"
-                className={messageIcon ? styles.icons : styles.iconsDisabled}
-              >
-                {integration === 'outlook' ? (
-                  <SvgArchive
+    if (!noEmails) {
+      if (sidebarroute !== 3) {
+        return (
+          <>
+            <Flex row>
+              {sidebarroute !== 4 && (
+                // <Text onClick={archive}> Archive </Text>
+                <Flex
+                  title="Archive"
+                  className={messageIcon ? styles.icons : styles.iconsDisabled}
+                >
+                  {integration === 'outlook' ? (
+                    <SvgArchive
+                      width={16}
+                      height={16}
+                      fill={messageIcon ? '#581845' : '#58184550'}
+                      onClick={messageIcon ? archive : undefined}
+                    />
+                  ) : (
+                    ''
+                  )}
+                </Flex>
+              )}
+
+              {integration === 'google' ? (
+                <Flex
+                  title="Bin"
+                  className={messageIcon ? styles.icons : styles.iconsDisabled}
+                  // onClick={messageIcon ? remove : undefined}
+                >
+                  <SvgTrash
                     width={16}
                     height={16}
                     fill={messageIcon ? '#581845' : '#58184550'}
-                    onClick={messageIcon ? archive : undefined}
+                    onClick={messageIcon ? googleremove : undefined}
+                    cursor={messageIcon ? 'pointer' : 'auto'}
                   />
-                ) : (
-                  ''
-                )}
-              </Flex>
-            )}
+                </Flex>
+              ) : (
+                <Flex
+                  title="Delete"
+                  className={messageIcon ? styles.icons : styles.iconsDisabled}
+                  // onClick={messageIcon ? remove : undefined}
+                >
+                  <SvgTrash
+                    width={16}
+                    height={16}
+                    fill={messageIcon ? '#581845' : '#58184550'}
+                    onClick={messageIcon ? remove : undefined}
+                    cursor={messageIcon ? 'pointer' : 'auto'}
+                  />
+                </Flex>
+              )}
+              {sidebarroute !== 4 && (
+                <>
+                  {integration === 'google' ? (
+                    <Flex
+                      title="Spam"
+                      className={
+                        messageIcon ? styles.icons : styles.iconsDisabled
+                      }
+                      onClick={messageIcon ? movespam : undefined}
+                    >
+                      <SvgSpam
+                        width={18}
+                        height={18}
+                        ß
+                        fill={messageIcon ? '#581845' : '#58184550'}
+                      />
+                    </Flex>
+                  ) : (
+                    ''
+                  )}
+                </>
+              )}
 
-            {integration === 'google' ? (
-              <Flex
-                title="Bin"
-                className={messageIcon ? styles.icons : styles.iconsDisabled}
-                // onClick={messageIcon ? remove : undefined}
-              >
-                <SvgTrash
-                  width={16}
-                  height={16}
-                  fill={messageIcon ? '#581845' : '#58184550'}
-                  onClick={messageIcon ? googleremove : undefined}
-                  cursor={messageIcon ? 'pointer' : 'auto'}
-                />
-              </Flex>
-            ) : (
-              <Flex
-                title="Delete"
-                className={messageIcon ? styles.icons : styles.iconsDisabled}
-                // onClick={messageIcon ? remove : undefined}
-              >
-                <SvgTrash
-                  width={16}
-                  height={16}
-                  fill={messageIcon ? '#581845' : '#58184550'}
-                  onClick={messageIcon ? remove : undefined}
-                  cursor={messageIcon ? 'pointer' : 'auto'}
-                />
-              </Flex>
-            )}
-            {sidebarroute !== 4 && (
-              <>
-                {integration === 'google' ? (
-                  <Flex
-                    title="Spam"
-                    className={
-                      messageIcon ? styles.icons : styles.iconsDisabled
-                    }
-                    onClick={messageIcon ? movespam : undefined}
-                  >
-                    <SvgSpam
-                      width={18}
-                      height={18}
-                      ß
-                      fill={messageIcon ? '#581845' : '#58184550'}
-                    />
-                  </Flex>
-                ) : (
-                  ''
-                )}
-              </>
-            )}
+              {sidebarroute !== 6 && (
+                <>
+                  {integration !== 'google' ? (
+                    <Flex
+                      title="Move to Junk"
+                      className={
+                        messageIcon ? styles.icons : styles.iconsDisabled
+                      }
+                      onClick={messageIcon ? junk : undefined}
+                    >
+                      <SvgJunk
+                        width={16}
+                        height={16}
+                        ß
+                        stroke={messageIcon ? '#581845' : '#58184550'}
+                      />
+                    </Flex>
+                  ) : (
+                    ''
+                  )}
+                </>
+              )}
+            </Flex>
+          </>
+        );
+      }
 
-            {sidebarroute !== 6 && (
-              <>
-                {integration !== 'google' ? (
-                  <Flex
-                    title="Junk"
-                    className={
-                      messageIcon ? styles.icons : styles.iconsDisabled
-                    }
-                    onClick={messageIcon ? junk : undefined}
-                  >
-                    <SvgJunk
-                      width={16}
-                      height={16}
-                      ß
-                      stroke={messageIcon ? '#581845' : '#58184550'}
-                    />
-                  </Flex>
-                ) : (
-                  ''
-                )}
-              </>
-            )}
-          </Flex>
-        </>
-      );
-    }
-
-    return (
-      <>
-        <Flex row width={'100%'} height={'100%'}>
-          {' '}
-          <Flex
-            title="Delete"
-            className={messageIcon ? styles.icons : styles.iconsDisabled}
-            onClick={messageIcon ? remove : undefined}
-          >
-            <SvgTrash
-              width={16}
-              height={16}
-              fill={messageIcon ? '#581845' : '#58184550'}
-              cursor={messageIcon ? 'pointer' : 'auto'}
-            />
-          </Flex>
-          {/* <Flex
+      return (
+        <>
+          <Flex row width={'100%'} height={'100%'}>
+            {' '}
+            <Flex
+              title="Delete"
+              className={messageIcon ? styles.icons : styles.iconsDisabled}
+              onClick={messageIcon ? remove : undefined}
+            >
+              <SvgTrash
+                width={16}
+                height={16}
+                fill={messageIcon ? '#581845' : '#58184550'}
+                cursor={messageIcon ? 'pointer' : 'auto'}
+              />
+            </Flex>
+            {/* <Flex
             title="Mark as unread"
             className={messageIcon ? styles.icons : styles.iconsDisabled}
             style={{ cursor: 'pointer' }}
@@ -446,7 +449,7 @@ const Inbox = ({
               fill={messageIcon ? '#581845' : '#58184550'}
             />
           </Flex> */}
-          {/* <Flex
+            {/* <Flex
             title="Edit Message"
             className={styles.iconsDisabled}
             // style={{ cursor: 'pointer' }}
@@ -458,9 +461,10 @@ const Inbox = ({
               fill={messageIcon ? '#581845' : '#58184550'}
             />
           </Flex> */}
-        </Flex>
-      </>
-    );
+          </Flex>
+        </>
+      );
+    }
   };
 
   const renderAttachments = attachments && (
@@ -527,7 +531,7 @@ const Inbox = ({
           <Flex
             title="Edit Message"
             className={styles.iconsDisabled}
-            // style={{ cursor: 'pointer' }}
+            style={{ cursor: 'pointer' }}
             onClick={() => mail('draft')}
           >
             <SvgEdit width={16} height={16} />
@@ -605,7 +609,7 @@ const Inbox = ({
                     }}
                   >
                     <Flex row between width={'100%'}>
-                      <Text bold size={14}>
+                      <Text bold size={13}>
                         {sender(message.header, '0')}
                       </Text>
 
@@ -623,7 +627,7 @@ const Inbox = ({
                       </Flex>
                     </Flex>
 
-                    <Text size={14}>{subject(message.header)}</Text>
+                    <Text size={13}>{subject(message.header)}</Text>
                     <Text color="black"> {to(message.header, '0')}</Text>
                   </Flex>
                 </Flex>
@@ -682,15 +686,17 @@ const Inbox = ({
                   >
                     <Flex row between width={'100%'}>
                       {message.isDraft !== true ? (
-                        <Text bold size={14}>
-                          {message.sender.emailAddress.name}
-                        </Text>
+                        <>
+                          <Text bold size={13}>
+                            {message.sender.emailAddress.name}
+                          </Text>
+                        </>
                       ) : (
                         <Flex>
-                          <Text bold size={14} style={{ color: '#ED4857' }}>
+                          <Text bold size={13} style={{ color: '#ED4857' }}>
                             {'Draft'}
                           </Text>
-                          <Text bold size={14}>
+                          <Text bold size={13}>
                             {'(No Sender)'}
                           </Text>
                         </Flex>
@@ -707,7 +713,7 @@ const Inbox = ({
                               <SvgReply width={16} height={16} />
                             </Flex>
                             <Flex
-                              title="ReplyAll"
+                              title="Reply All"
                               className={styles.icons}
                               onClick={() => mail('replyall')}
                             >
@@ -725,7 +731,7 @@ const Inbox = ({
                           <Flex
                             title="Edit Message"
                             className={styles.iconsDisabled}
-                            // style={{ cursor: 'pointer' }}
+                            style={{ cursor: 'pointer' }}
                             onClick={() => mail('draft')}
                           >
                             <SvgEdit width={16} height={16} />
@@ -742,15 +748,22 @@ const Inbox = ({
                       </Flex>
                     </Flex>
 
-                    <Text size={14}>
+                    <Text size={13}>
                       {message.subject !== ''
                         ? message.subject
                         : '(No Subject)'}
                     </Text>
                     {message.toRecipients.length !== 0 ? (
-                      <Text color="black">{`To:  ${message.toRecipients.map(
-                        (doc) => doc.emailAddress.name,
-                      )}`}</Text>
+                      <>
+                        <Text color="black">{`To:  ${message.toRecipients.map(
+                          (doc) => doc.emailAddress.name,
+                        )}`}</Text>
+                        {message.ccRecipients.length !== 0 && (
+                          <Text size={13}>{`Cc:${message.ccRecipients.map(
+                            (doc) => doc.emailAddress.name,
+                          )}`}</Text>
+                        )}
+                      </>
                     ) : (
                       <Text color="black">{`To: (No Recipients)`}</Text>
                     )}
@@ -764,11 +777,18 @@ const Inbox = ({
                     position: 'relative',
                     margin: '10px',
                     overflowY: 'auto',
+                    fontsize: '13px',
                     width: '-webkit-fill-available',
                     maxHeight: '-webkit-fill-available',
                   }}
                 >
-                  {parse(message.body.content)}
+                  <td
+                    className={styles.bulletpoint}
+                    dangerouslySetInnerHTML={{
+                      __html: message.body.content,
+                    }}
+                  />
+                  {/* {parse(message.body.content)} */}
                 </Flex>
                 {renderAttachments}
               </Flex>
@@ -807,7 +827,14 @@ const Inbox = ({
       </Flex>
       {msglistcount !== 0 ? (
         <>
-          <Flex className={isprofileview?styles.bodyContainers:styles.bodyContainer} height={isprofileview?window.innerHeight -130:''}>{renderBody()}</Flex>
+          <Flex
+            className={
+              isprofileview ? styles.bodyContainers : styles.bodyContainer
+            }
+            height={isprofileview ? window.innerHeight - 130 : ''}
+          >
+            {renderBody()}
+          </Flex>
         </>
       ) : (
         ''
