@@ -56,7 +56,8 @@ const Table = ({
     return null;
   }
   const url = window.location.href;
-  const test = url.includes('reports');
+  const test = url.includes('reports')||url.includes('jobs')||url.includes('job_view');
+  const test1 = url.includes('jobs');
   return (
     <Flex className={cx({ [`overAll-${border}`]: border })}>
       {console.log(test,"+++++++")}
@@ -71,6 +72,7 @@ const Table = ({
                 emptyTextOne: fixedScrollHeight,
                 emptyText: !fixedScrollHeight,
               })}
+              style={{padding:test1?'70px 0':(''),minHeight:test1?('0px'):('')}}
             >
               {empty}
             </Text>
