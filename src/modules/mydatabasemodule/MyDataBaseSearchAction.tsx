@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import SvgSearch from '../../icons/SvgSearch';
 import SvgLocation from '../../icons/SvgLocation';
 import SvgIntomark from '../../icons/SvgCancel';
+import SvgJobselection from '../../icons/SvgJobselection';
 import Button from '../../uikit/Button/Button';
 import Flex from '../../uikit/Flex/Flex';
 import SvgInfinity from '../../icons/SvgInfinity';
@@ -101,15 +102,8 @@ const MyDataBaseSearchAction = ({ jobTitle, formik,isSearchValue,setSearchValue,
 
           <Flex className={styles.locationicon}>
 
-            <SvgLocation
 
-              width={18}
-
-              height={18}
-
-              fill={'#581845'}
-
-            />
+                <SvgJobselection width={18} height={18} />
 
           </Flex>
 
