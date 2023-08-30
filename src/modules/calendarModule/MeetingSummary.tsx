@@ -192,6 +192,9 @@ const MeetingSummary = ({
     } = meetingForm;
      setIsloading(true);
     // setIsTopLineLoading(true);
+    console.log("startDateTimestartDateTimestartDateTime",startDateTime)
+    console.log("endDateTimeendDateTimeendDateTimeendDateTim",endDateTime)
+
     dispatch(
       scheduleEventMiddleware({
         title: getMeetingTitle(),

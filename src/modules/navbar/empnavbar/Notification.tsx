@@ -792,7 +792,7 @@ const myfunction=()=>{
             This action will clear all the notifications.
           </Flex>
           <Flex className={styles.confirm_txt}>Are you sure to proceed?</Flex>
-          <Flex row end style={{ marginTop: '20px' }}>
+          <Flex row end style={{ marginTop: '10px' }}>
             <Flex>
               <Button
                 style={{ backgroundColor: '#888888', borderColor: '#888888' }}
