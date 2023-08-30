@@ -173,7 +173,7 @@
   background-color: #888888;
   border: none;
   border-radius: 5px;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 .cancel:active,
 .cancel:focus {
@@ -183,7 +183,7 @@
 .continueButton {
   border: none;
   border-radius: 5px;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 .continueButton:active,
 .continueButton:focus {

@@ -195,7 +195,7 @@ const ApplicantReports = () => {
           <div className={styles.triangle}></div>
         </Flex>
       </Flex>
-      <Flex className={styles.overAll}  >
+      <Flex className={styles.overAll}  height={window.innerHeight-110}>
         {isLoading && <Loader />}
 
         

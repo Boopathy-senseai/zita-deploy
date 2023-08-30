@@ -175,10 +175,12 @@ const MeetingSchedulingForm = ({
           : false
         : false;
       let dateError = form.date.value === null ? true : false;
+      let locationError = !form.location.value  ? true : false;
 
       return {
         ...form,
         job: { ...form.job, error: jobError },
+        location: {...form.location, error: locationError},
         applicant: { ...form.applicant, error: applicantError },
         eventType: { ...form.eventType, error: eventTypeError },
         timeZone: { ...form.timeZone, error: timeZoneError },
@@ -514,7 +516,7 @@ const MeetingSchedulingForm = ({
 
   const DateView = (
     <div className={styles.dateview}>
-      <label className={styles.label}>Date *</label>
+      <label className={styles.label} style={{marginBottom:"5px"}}>Date *</label>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DesktopDatePicker
           label={" "}
@@ -716,7 +718,7 @@ const MeetingSchedulingForm = ({
     <>
       {meetingForm.location.isHave ? (
         <div className={styles.location}>
-          <label className={styles.label}>Location</label>
+          <label className={styles.label} >Location*</label>
           <InputText
             value={meetingForm.location.value}
             textarea={true}
@@ -724,9 +726,14 @@ const MeetingSchedulingForm = ({
             style={{ height: '50px' }}
             className={styles.location}
             placeholder="Add Location"
+            required
           />
+          {meetingForm.location.error && (
+          <p className={styles.warn}>This field is required</p>
+        )}
         </div>
       ) : null}
+      
     </>
   );
 

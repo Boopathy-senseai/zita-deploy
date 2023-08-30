@@ -946,14 +946,36 @@ const Calendar = () => {
         });
     }
   };
+  const handleCopyMeeting = (eventId: string) => {
+    if (calendarProvider === CALENDAR.Google) {
+      navigator.clipboard.writeText(eventPopUpDetails.link);
+    } else if (calendarProvider === CALENDAR.Outlook) {
+      dispatch(getUrlMiddleware({ event_id: eventId }))
+        .then((res) => {
+          if (res.payload.data.onlineMeeting.joinUrl) {
+            navigator.clipboard.writeText(
+              res.payload.data.onlineMeeting.joinUrl,
+            );
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  };
 
   const getEditEventsDetails = (event: ZitaEventType): EditEventDetails => {
     const interviewerEmails = event.interviewers.split(',');
-    const interviewers = teamMembers.filter((member) => {
-      if (interviewerEmails.includes(member.email)) {
-        return member;
-      }
-    });
+    // const interviewers = teamMembers.filter((member) => {
+    //   if (interviewerEmails.includes(member.email)) {
+    //     return member;
+    //   }
+    // });
+    const interviewers = teamMembers.filter(
+      (member) =>
+        interviewerEmails.includes(member.email) ||
+        interviewerEmails.includes(member.calendarEmail),
+    );
 
     return {
       applicant: {
@@ -1207,6 +1229,7 @@ const Calendar = () => {
                     handleRemoveEvent={handleRemoveEvent}
                     isEventCanUpdate={isEventCanUpdate}
                     joinMeeting={handleJoinMeeting}
+                    copyMeeting={handleCopyMeeting}
                     showEventPopUpModal={showEventPopUpModal}
                     eventPopUpDetails={eventPopUpDetails}
                   />
