@@ -312,11 +312,12 @@ const PassiveCandidateReports = () => {
             </Flex>
           </Flex>
         ) : (
-          <Flex className={styles.noData1}>
+          <Flex className={styles.noData1} style={{height:"100%"}}>
+            <Text style={{ color: '#888' }}>
             <Flex style={{ justifyContent: 'center', marginBotto: '2px' }}>
               <SvgNoDataIcon width={16} height={16} fill={'#888'} />
             </Flex>
-            <Text style={{ color: '#888' }}>No data available</Text>
+              No data available</Text>
           </Flex>
         )}
         {add_on_dict && add_on_dict.length > 0 && isChart && (

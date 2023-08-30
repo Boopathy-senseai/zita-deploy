@@ -78,7 +78,7 @@ const MyJobPostingScreenStatus = ({ list }: Props) => {
 
           : 
 
-           <li style={{color:"#00BE4B",fontSize:14,marginTop:-2}}   >
+           <li style={{color:"#00BE4B",fontSize:14,marginTop:0}}   >
             <LinkWrapper
               target={'_parent'}
               to={`/applicant_pipe_line/${list.id}`}

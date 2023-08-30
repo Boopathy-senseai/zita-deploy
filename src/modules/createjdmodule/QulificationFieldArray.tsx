@@ -25,6 +25,8 @@ type Props = {
   arrayHelpers: FieldArrayRenderProps;
   requiredOptions: any;
   updateQualification: any;
+  isSelectOpen1: any; // Receive the isSelectOpen prop
+  setIsSelectOpen1: any; // Receive the setIsSelectOpen prop
 };
 
 const QualificationFieldArray = ({
@@ -34,6 +36,8 @@ const QualificationFieldArray = ({
   arrayHelpers,
   requiredOptions,
   updateQualification,
+  isSelectOpen1,
+  setIsSelectOpen1,
 }: Props) => {
   const myRef = useRef<any>();
   const [isValue, setValue] = useState('');
@@ -146,6 +150,8 @@ const QualificationFieldArray = ({
                 )
               : ''
           }
+          onMenuOpen={() => setIsSelectOpen1(true)}
+          onMenuClose={() => setIsSelectOpen1(false)}
         />
         <div className={styles.errorMessage}>
           <ErrorMessage name={`qualification[${index}].education`} />
@@ -259,6 +265,8 @@ const QualificationFieldArray = ({
             onChange={(option) => {
               setFieldValue('industryType', option.value);
             }}
+            onMenuOpen={() => setIsSelectOpen1(true)}
+            onMenuClose={() => setIsSelectOpen1(false)}
           />
         </Flex>
       )}

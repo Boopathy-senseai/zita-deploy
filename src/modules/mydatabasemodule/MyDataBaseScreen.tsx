@@ -438,8 +438,16 @@ const MyDataBaseScreen = () => {
         <MyDataBaseFilter
           setchange={setchange}
           formik={formik}
+          filterFormik={formik}
           qualificationOption={qualificationOption}
           hanldeRefresh={hanldeRefresh}
+          qaValue={qaValue}
+          skillsOptionsList={skillsOptionsList}
+          tabKey={tabKey}
+          isPage={isPage}
+          addFavFilter={addFavFilter}
+          isSortOptions={isSortOptions}
+          setSortOptions={setSortOptions}
         />
       </div> 
         <div className={styles.tabsStyle}>
