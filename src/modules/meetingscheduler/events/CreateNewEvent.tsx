@@ -1244,18 +1244,6 @@ const CreateNewEvent = ({
                 <Flex key={index} row center top className={styles.interviewerText}>
                   <Flex
                     key={index}
-                    // style={{
-                    //   border: '1px solid #ccc',
-                    //   borderBottom: 'none',
-                    //   borderRadius: '2px 2px 0px 0px',
-                    //   padding: '5px',
-                    //   whiteSpace: 'nowrap',
-                    //   overflow: 'hidden',
-                    //   textOverflow: 'ellipsis',
-                    //   maxWidth: MAX_BUTTON_TEXT_WIDTH + 'px',
-                    //   cursor: 'default',
-                    // }}
-                    // types="secondary"
                   >
                     <Text
                       title={name}
