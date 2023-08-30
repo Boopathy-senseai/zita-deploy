@@ -946,6 +946,23 @@ const Calendar = () => {
         });
     }
   };
+  const handleCopyMeeting = (eventId: string) => {
+    if (calendarProvider === CALENDAR.Google) {
+      navigator.clipboard.writeText(eventPopUpDetails.link);
+    } else if (calendarProvider === CALENDAR.Outlook) {
+      dispatch(getUrlMiddleware({ event_id: eventId }))
+        .then((res) => {
+          if (res.payload.data.onlineMeeting.joinUrl) {
+            navigator.clipboard.writeText(
+              res.payload.data.onlineMeeting.joinUrl,
+            );
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  };
 
   const getEditEventsDetails = (event: ZitaEventType): EditEventDetails => {
     const interviewerEmails = event.interviewers.split(',');
@@ -1209,6 +1226,7 @@ const Calendar = () => {
                     handleRemoveEvent={handleRemoveEvent}
                     isEventCanUpdate={isEventCanUpdate}
                     joinMeeting={handleJoinMeeting}
+                    copyMeeting={handleCopyMeeting}
                     showEventPopUpModal={showEventPopUpModal}
                     eventPopUpDetails={eventPopUpDetails}
                   />
