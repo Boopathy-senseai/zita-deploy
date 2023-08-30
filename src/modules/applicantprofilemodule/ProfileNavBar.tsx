@@ -682,7 +682,7 @@ const ProfileNavBar = ({
                 ) : (
                   <Text
                     className={styles.changingtext}
-                    title={`${candidate_details &&candidate_details[0]?.work_exp !== null && workYear(candidate_details[0]?.work_exp)}${
+                    title={`${candidate_details &&candidate_details[0]?.work_exp !== null && workYear(candidate_details[0]?.work_exp)} ${
                       total_exp&& total_exp[0]?.total_exp_month !== 0 &&
                       total_exp[0]?.total_exp_month !== null? total_exp[0]?.total_exp_month:''
                     } ${
