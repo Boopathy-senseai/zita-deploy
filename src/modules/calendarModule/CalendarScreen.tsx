@@ -856,7 +856,6 @@ const Calendar = () => {
         }),
       )
         .then((res) => {
-          console.log("res-----payload--", res.payload)
           if (res.payload.data === true) {
             setIsEventCanUpdate(true);
 
@@ -1172,9 +1171,9 @@ const Calendar = () => {
                     dayLayoutAlgorithm={'no-overlap'}
                     defaultView={'work_week'}
                     views={['day', 'work_week', 'week', 'month', 'agenda']}
-                    onShowMore={(events, date) =>
-                      useState({ showModal: true, events })
-                    }
+                    // onShowMore={(events, date) =>
+                    //   useState({ showModal: true, events })
+                    // }
                     onSelectSlot={(slotInfo) => {
                       handleOnSelectSlot(slotInfo);
                     }}
