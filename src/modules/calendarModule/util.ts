@@ -26,6 +26,7 @@ export const formatTo12HrClock = (date: Date): string => {
     hours = hours ? hours : 12;
     minutes = minutes.toString().padStart(2, '0');
     let strTime = `${hours}:${minutes} ${ampm}`;
+    console.log("strTimestrTimestrTimestrTime",strTime)
     return strTime;
   }
 };
