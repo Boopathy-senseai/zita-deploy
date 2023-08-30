@@ -43,9 +43,9 @@ import Maillist from './Maillist';
 
 type Props = {
   isprofileview?: boolean;
-  can_id?:any;
+  can_id?: any;
 };
-const EmailScreen = ({ isprofileview,can_id }: Props) => {
+const EmailScreen = ({ isprofileview, can_id }: Props) => {
   const msal = useMsal();
   const dispatch: AppDispatch = useDispatch();
 
@@ -73,6 +73,8 @@ const EmailScreen = ({ isprofileview,can_id }: Props) => {
   const [searchSection, setSearchSection] = useState('All');
   const [searchFolder, setSearchFolder] = useState('All Folder');
   const [searchDropdownMenu, setsearchDropdownMenu] = useState([]);
+  const [enterKey, setEnterKey] = useState(false);
+  const [token, settoken] = useState(null);
 
   const [Mailaction, setMailaction] = useState('compose');
   const [hasMore, setHasMore] = useState(true);
@@ -132,7 +134,7 @@ const EmailScreen = ({ isprofileview,can_id }: Props) => {
         removemessage();
         setLoader(false);
       })
-      .catch((error) => {});
+      .catch((error) => { });
   };
 
   const Draft = async () => {
@@ -144,7 +146,7 @@ const EmailScreen = ({ isprofileview,can_id }: Props) => {
         removemessage();
         setLoader(false);
       })
-      .catch((error) => {});
+      .catch((error) => { });
   };
 
   const getprofile = async () => {
@@ -165,7 +167,7 @@ const EmailScreen = ({ isprofileview,can_id }: Props) => {
         setTotal(res['@odata.count']);
         setLoader(false);
       })
-      .catch((error) => {});
+      .catch((error) => { });
   };
 
   const selectmessage = (msg) => {
@@ -180,6 +182,7 @@ const EmailScreen = ({ isprofileview,can_id }: Props) => {
   const Select = (val, folder) => {
     setSearchSection(val);
     setSearchFolder(folder);
+    setEnterKey(false)
   };
 
   useEffect(() => {
@@ -258,7 +261,7 @@ const EmailScreen = ({ isprofileview,can_id }: Props) => {
         setmessagelist(res.value);
         setLoader(false);
       })
-      .catch((error) => {});
+      .catch((error) => { });
   };
 
   const remove_message = (id) => {
@@ -291,9 +294,9 @@ const EmailScreen = ({ isprofileview,can_id }: Props) => {
           prevMessages.map((item) =>
             item.id === id
               ? {
-                  ...item,
-                  labelIds: item.labelIds.filter((label) => label !== newLabel),
-                }
+                ...item,
+                labelIds: item.labelIds.filter((label) => label !== newLabel),
+              }
               : item,
           ),
         );
@@ -320,7 +323,7 @@ const EmailScreen = ({ isprofileview,can_id }: Props) => {
         setmessagelist(res.value);
         setLoader(false);
       })
-      .catch((error) => {});
+      .catch((error) => { });
   };
 
   const updateroute = (val) => {
@@ -341,6 +344,8 @@ const EmailScreen = ({ isprofileview,can_id }: Props) => {
       setnextpagetoken(null);
       setIsLoading(true);
       setsearchapi(false);
+      setNoEmails(false);
+      settoken(null)
     }
   };
 
@@ -352,10 +357,12 @@ const EmailScreen = ({ isprofileview,can_id }: Props) => {
         setmessagelist(res.value);
         setLoader(false);
       })
-      .catch((error) => {});
+      .catch((error) => { });
   };
   const searchinput = (e) => {
     setSearch(e.target.value);
+    setEnterKey(false);
+    settoken(null)
   };
 
   const serchmessage = async (e: any) => {
@@ -373,6 +380,87 @@ const EmailScreen = ({ isprofileview,can_id }: Props) => {
       setmesage('');
       setSearch(search.trim());
       setIsLoading(true);
+      setEnterKey(true)
+      settoken(null)
+    }
+  };
+
+  const refresh = async () => {
+    if (sideroute !== 0) {
+      setLoader(true);
+      setmessagelist([]);
+      setSkip(0);
+      setnextpagetoken(null);
+      setmesage('');
+      if (emailcollection.integration === 'outlook') {
+      var folder = '';
+        if (sideroute === 1) {
+          folder = 'Inbox';
+        } else if (sideroute === 2) {
+          folder = 'sentitems';
+        } else if (sideroute === 3) {
+         folder = 'drafts';
+        } else if (sideroute === 4) {
+          folder = 'archive ';
+        } else if (sideroute === 5) {
+          folder = 'deleteditems';
+        } else if (sideroute === 6) {
+          folder = 'junkemail';
+        }
+        await getmessages(authProvider, folder, 0, range)
+          .then((res) => {
+            setmessagelist((prevMessages) => [...prevMessages, ...res.value]);
+            setNoEmails(res.value.length === 0 ? true : false);
+            setSkip(skip + range);
+            setIsLoading(false);
+            setTotal(res['@odata.count']);
+            setLoader(false);
+            getfolder();
+            if (!res['@odata.nextLink']) {
+              setnextpagetoken(undefined);
+            }
+          })
+          .catch((error) => {
+            //console.log('goole----errr', error);
+         });
+      } else if (emailcollection.integration === 'google') {
+        var Gfolder = '';
+        if (sideroute === 1) {
+          Gfolder = 'INBOX';
+        } else if (sideroute === 2) {
+          Gfolder = 'SENT';
+        } else if (sideroute === 3) {
+          Gfolder = 'DRAFT';
+        } else if (sideroute === 4) {
+          Gfolder = 'SPAM';
+        } else if (sideroute === 5) {
+          Gfolder = 'TRASH';
+        }
+        setIsLoading(true);
+        await initGoogleAuth(emailcollection.token)
+          .then(() => {
+            Gmail_Mails(Gfolder, null, range, emailcollection.token)
+            .then((res) => {
+                //  console.log('rem', res);
+                if (res.fullMessages !== undefined) {
+                  setmessagelist((prevMessages) => [
+                    ...prevMessages,
+                    ...res.fullMessages,
+                  ]);
+                }
+                setIsLoading(false);
+                setnextpagetoken(res.token);
+                setLoader(false);
+              })
+              .catch((err) => {
+                setLoader(false);
+              });
+          })
+          .catch((error) => {
+            setLoader(false);
+          });
+      }
+    } else {
     }
   };
 
@@ -507,7 +595,7 @@ const EmailScreen = ({ isprofileview,can_id }: Props) => {
                 get_attach(msgid, res.attachments, res);
               }
             })
-            .catch((err) => {});
+            .catch((err) => { });
         })
         .catch((error) => {
           setLoader(false);
@@ -516,7 +604,7 @@ const EmailScreen = ({ isprofileview,can_id }: Props) => {
       setLoader(true);
       await getselectedmsg(authProvider, msgid)
         .then((res) => {
-          page();
+          // page();
           if (res.hasAttachments === true) {
             attachment(res.id);
           } else {
@@ -524,7 +612,7 @@ const EmailScreen = ({ isprofileview,can_id }: Props) => {
             setAttachments([]);
           }
         })
-        .catch((error) => {});
+        .catch((error) => { });
     }
   };
 
@@ -534,7 +622,7 @@ const EmailScreen = ({ isprofileview,can_id }: Props) => {
         setAttachments(res.value);
         setLoader(false);
       })
-      .catch((error) => {});
+      .catch((error) => { });
   };
 
   const getfolder = async () => {
@@ -542,7 +630,7 @@ const EmailScreen = ({ isprofileview,can_id }: Props) => {
       .then((res) => {
         setMailfolders(res.value);
       })
-      .catch((error) => {});
+      .catch((error) => { });
   };
 
   useEffect(() => {
@@ -592,8 +680,9 @@ const EmailScreen = ({ isprofileview,can_id }: Props) => {
     });
   };
 
-  const savemail = (val) => {
+  const savemail = (val,tok) => {
     setmessagelist((prevMessages) => [...prevMessages, ...val]);
+    settoken(tok);
     setLoader(false);
   };
 
@@ -610,8 +699,11 @@ const EmailScreen = ({ isprofileview,can_id }: Props) => {
       </Text>
       <LinkWrapper
         onClick={() => {
+          // sessionStorage.setItem('superUserTab', '4');
+          // sessionStorage.setItem('superUserFalseTab', '3');
+          sessionStorage.setItem('superUserTabTwo','3')
+          sessionStorage.setItem('superUserFalseTab', '1');
           sessionStorage.setItem('superUserTab', '4');
-          sessionStorage.setItem('superUserFalseTab', '3');
         }}
         to="/account_setting/settings"
       >
@@ -627,10 +719,10 @@ const EmailScreen = ({ isprofileview,can_id }: Props) => {
         {loader === true && <Loader />}
         {/* {loader === true && emailcollection.loading === false && <Loader />} */}
         {emailcollection.integration !== null &&
-        emailcollection.integration !== ''&& 
+          emailcollection.integration !== '' &&
           <>
             {!isprofileview && (
-              <Flex row between center  className={styles.titleContainer}>
+              <Flex row between center className={styles.titleContainer}>
                 <Text bold size={16} color="theme">
                   Mailbox
                 </Text>
@@ -646,7 +738,7 @@ const EmailScreen = ({ isprofileview,can_id }: Props) => {
                             padding: '0px',
                           }}
                           className={styles.Toggle}
-                          // id="dropdown-basic"
+                        // id="dropdown-basic"
                         >
                           <Flex row noWrap center style={{ padding: '5px' }}>
                             <Text
@@ -753,12 +845,15 @@ const EmailScreen = ({ isprofileview,can_id }: Props) => {
                   searchSection={searchSection}
                   search={search}
                   emailcollection={emailcollection}
+                  refresh={refresh}
+                  enterKey={enterKey}
+                  tokens={token}
                 />
               </Flex>
               <Flex
                 marginTop={1}
                 marginRight={1}
-                style={{width: '-moz-available'}}
+                style={{ width: '-moz-available' }}
                 className={styles.containerColumn1}
               >
                 <Message
@@ -795,10 +890,10 @@ const EmailScreen = ({ isprofileview,can_id }: Props) => {
               newmsg={newmsg}
             />
           </>}
-          {console.log(emailcollection.integration ,'emailcollection.integration === null')}
-   {emailcollection.integration === null  &&
+        {console.log(emailcollection.integration, 'emailcollection.integration === null')}
+        {emailcollection.integration === null &&
           <>{IntegrationMenuView}</>}
-        
+
       </Flex>
     </>
   );

@@ -41,6 +41,8 @@ type Props = {
   placeholder?: string;
   isMulti?: boolean;
   onChange?: (a: any, b?: any) => void;
+  onMenuOpen?: () => void;
+  onMenuClose?: () => void;
   value?: string | number | any;
   name?: string;
   required?: boolean;
@@ -82,6 +84,8 @@ const SelectTag = (
     placeholder,
     isMulti,
     onChange,
+    onMenuOpen,
+    onMenuClose,
     stylechanges,
     stylechangess,
     stylechangess1,
@@ -168,6 +172,8 @@ const SelectTag = (
             ref={ref}
             id={id}
             defaultValue={defaultValue}
+            onMenuOpen={onMenuOpen}
+            onMenuClose={onMenuClose}
             value={value}
             name={name}
             isLoading={isLoading}

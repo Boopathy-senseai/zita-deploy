@@ -428,11 +428,13 @@ const SourcingPerformanceReport = () => {
               </Flex>
             </Flex>
           ) : (
-            <Flex className={styles.noData1}>
+            <Flex className={styles.noData1} style={{minHeight:"60vh"}}>
+
+              <Text style={{ color: '#888' }}>
               <Flex style={{ justifyContent: 'center', marginBotto: '2px' }}>
                 <SvgNoDataIcon width={16} height={16} fill={'#888'} />
               </Flex>
-              <Text style={{ color: '#888' }}>No data available</Text>
+              No data available</Text>
             </Flex>
           )}
         </Flex>

@@ -166,6 +166,8 @@
 
 .text {
   margin-left: 12px;
+  position: relative;
+    bottom: 1px;
 }
 
 .classpan {
@@ -187,6 +189,7 @@
   cursor: not-allowed;
 }
 .selectitem {
+ 
   cursor: not-allowed;
 }
 

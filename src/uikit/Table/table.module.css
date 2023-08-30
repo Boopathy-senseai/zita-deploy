@@ -14,7 +14,10 @@
   bottom: 50%;
 }
 .emptyText {
-  padding: 70px 0;
+  /* padding: 70px 0; */
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
 }
 .overFlowLoader {
   position: relative;

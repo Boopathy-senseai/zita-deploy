@@ -23,8 +23,10 @@ const InvitedJobsTable = ({
     () => inviteTitle(setting, hanldeOpenChat, setRowIndex, setJobTitle),
     [invites],
   );
+  const invitedjobTitle = <span style={{color:"#333333"}}>Invited Jobs</span>  
+
   return (
-    <LabelWrapper size={16} label="Invited Jobs" bold>
+    <LabelWrapper size={16} label={invitedjobTitle} bold>
       <div className={styles.cardStyle}>
         <Table
           columns={columns}

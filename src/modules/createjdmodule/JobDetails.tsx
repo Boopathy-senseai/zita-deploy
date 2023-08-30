@@ -88,7 +88,8 @@ const JobDetails = ({
   const dispatch: AppDispatch = useDispatch();
   const [getState, setState] = useState<StatesEntity[]>([]);
   const [getCity, setCity] = useState<CityEntity[]>([]);
-
+  const [isSelectOpen, setIsSelectOpen] = useState(false);
+  const [isSelectCurrOpen, setIsSelectCurrOpen] = useState(false);
   useEffect(() => {
     if (!isEmpty(values.country)) {
       dispatch(locationStateMiddleWare({ country: values.country })).then(
@@ -112,6 +113,7 @@ const JobDetails = ({
   }, [values.state]);
 
   const perAnnum = values.jobType === '3' ? 'Per Hour' : 'Per Annum';
+
 
   // free fill initial form
   useEffect(() => {
@@ -201,7 +203,7 @@ const JobDetails = ({
   };
 
   return (
-    <Flex className={styles.overAll}>
+    <Flex className={styles.overAll} style={{ paddingBottom: isSelectOpen ? '20px' : '0'&& isSelectCurrOpen ? "90px" : "0"}}>
       <Flex >
       <Text size={14}className={styles.jobTitle} bold>
         Job Details
@@ -239,11 +241,13 @@ const JobDetails = ({
               onDirty();
             }}
           />
+
+          {isEmpty(values.minimumExperience) && 
           <ErrorMessage
             name={'minimumExperience'}
             errors={errors}
             touched={touched}
-          />
+          />}
           {Number(values.minimumExperience) < 0 && (
             <Text size={12} color="error">
               {ENTER_GREATER_0}
@@ -312,6 +316,8 @@ const JobDetails = ({
               setFieldValue('state', '');
               onDirty();
             }}
+            onMenuOpen={() => setIsSelectOpen(true)}
+            onMenuClose={() => setIsSelectOpen(false)}
             getOptionValue={(option: { id: number }) => `${option.id}`}
             getOptionLabel={(option: { name: string }) => option.name}
           />
@@ -341,6 +347,8 @@ const JobDetails = ({
               setFieldValue('city', '');
               onDirty();
             }}
+            onMenuOpen={() => setIsSelectOpen(true)}
+            onMenuClose={() => setIsSelectOpen(false)}
           />
           <ErrorMessage name={'state'} errors={errors} touched={touched} />
         </Flex>
@@ -364,6 +372,8 @@ const JobDetails = ({
               setFieldValue('city', option.id);
               onDirty();
             }}
+            onMenuOpen={() => setIsSelectOpen(true)}
+            onMenuClose={() => setIsSelectOpen(false)}
           />
           <ErrorMessage name={'city'} errors={errors} touched={touched} />
         </Flex>
@@ -481,6 +491,8 @@ const JobDetails = ({
                   setFieldValue('currency', option.value);
                   onDirty();
                 }}
+                onMenuOpen={() => setIsSelectCurrOpen(true)}
+                onMenuClose={() => setIsSelectCurrOpen(false)}
               />
               {isEmpty(values.currency) && (
                 <ErrorMessage
@@ -508,6 +520,8 @@ const JobDetails = ({
             values={values}
             setFieldValue={setFieldValue}
             updateQualification={updateQualification}
+            isSelectOpen={isSelectOpen}
+            setIsSelectOpen={setIsSelectOpen}
           />
         </Flex>
       <Flex>

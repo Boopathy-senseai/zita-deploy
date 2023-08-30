@@ -9,7 +9,7 @@ const cx = classNames.bind(styles);
 type Props = {
   required?: boolean;
   children?: import('react').ReactNode;
-  label?: string;
+  label?: any;
   bold?: boolean;
   size?: textSize;
 };

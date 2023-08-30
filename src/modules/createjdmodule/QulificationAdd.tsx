@@ -1,5 +1,5 @@
 import { FieldArray } from 'formik';
-import { memo, useEffect, useMemo } from 'react';
+import { memo, useEffect, useState, useMemo } from 'react';
 import SvgRoundAdd from '../../icons/SvgRoundAdd';
 import SvgAdd from '../../icons/SvgAdd';
 import Button from '../../uikit/Button/Button';
@@ -20,14 +20,19 @@ type Props = {
     shouldValidate?: boolean | undefined,
   ) => void;
   updateQualification: QualificationEntity[];
+  isSelectOpen,
+  setIsSelectOpen,
 };
 
 const QulificationAdd = ({
   values,
   setFieldValue,
   updateQualification,
+  isSelectOpen,
+  setIsSelectOpen,
 }: Props) => {
   const qulificationLength = values.qualification.length;
+  const [isSelectOpen1, setIsSelectOpen1] = useState(false);
 
   const updateQuali = useMemo(
     () =>
@@ -49,7 +54,7 @@ const QulificationAdd = ({
       <FieldArray
         name="qualification"
         render={(arrayHelpers) => (
-          <div>
+          <div style={{ paddingBottom: isSelectOpen1 ? '141px' : '0' }}>
             {values.qualification.length > 0 &&
               values.qualification.map((paramList, index) => {                
                 return (
@@ -61,6 +66,8 @@ const QulificationAdd = ({
                     arrayHelpers={arrayHelpers}
                     requiredOptions={qualificationData}
                     updateQualification={updateQuali}
+                    isSelectOpen1={isSelectOpen1}
+                    setIsSelectOpen1={setIsSelectOpen1}
                   />
                 );
               })}
