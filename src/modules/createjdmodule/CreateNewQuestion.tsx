@@ -182,10 +182,10 @@ const CreateNewQuestion = ({
               <ErrorMessage name={`fieldType`} />
             </div>
           </div>
-          <div className={styles.switch}>
+          <Flex row className={styles.switch}>
             <InputSwitch
               disabled={isEmpty(values.question)}
-              label="Mark Question as Required"
+              // label="Mark Question as Required"
               checked={values.required === '1'}
               onClick={() =>
                 values.required === '1'
@@ -193,7 +193,8 @@ const CreateNewQuestion = ({
                   : setFieldValue('required', '1')
               }
             />
-          </div>
+            <Text color="theme" size={13}>Mark Question as Required</Text>
+          </Flex>
         </Flex>
 
         <FieldArray

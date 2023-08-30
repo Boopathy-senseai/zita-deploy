@@ -283,13 +283,13 @@ const QualificationContainer = ({
                   size={11}
                   color="link"
                   underLine
-                  // className={styles.marginTop}
                   onClick={handleOpenInput}
                 >
                   Add Qualification
                 </Text>
               ) : (
                 <Text
+                  title={`Qualification: ${dataList.qualification}`}
                   textStyle="ellipsis"
                   size={11}
                   color="primary"
@@ -323,6 +323,7 @@ const QualificationContainer = ({
                 <Text
                   // textStyle="ellipsis"
                   size={11}
+                  title={`Experience: ${workYear(dataList.work_exp)}`}
                   color="primary"
                   onClick={handleOpenExperienceInput}
                   underLine

@@ -106,7 +106,7 @@ border-right: 1px solid;
   text-align: center;
   margin: auto;
   justify-content: center;
-  margin: 10%;
+  min-height: 73vh;
   align-items: center;
   color: #888;
 }

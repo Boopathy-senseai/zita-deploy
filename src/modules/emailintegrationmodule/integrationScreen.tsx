@@ -699,8 +699,11 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
       </Text>
       <LinkWrapper
         onClick={() => {
+          // sessionStorage.setItem('superUserTab', '4');
+          // sessionStorage.setItem('superUserFalseTab', '3');
+          sessionStorage.setItem('superUserTabTwo','3')
+          sessionStorage.setItem('superUserFalseTab', '1');
           sessionStorage.setItem('superUserTab', '4');
-          sessionStorage.setItem('superUserFalseTab', '3');
         }}
         to="/account_setting/settings"
       >

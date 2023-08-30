@@ -78,9 +78,16 @@ const Messages = ({
     },
     onSubmit: hanldeSubmit,
   });
+
   const jobTitleCheck = isEmpty(isJobTitle)
-    ? 'Messages'
-    : ` Messages for ${isJobTitle}`;
+  ? <span style={{ color: '#333333' }}>Messages</span>
+  : <>
+      <span style={{ color: '#333333' }}>Messages for {isJobTitle}</span>
+    </>;
+
+  // const jobTitleCheck = isEmpty(isJobTitle)
+  //   ? 'Messages'
+  //   : ` Messages for ${isJobTitle}`;
 
   return (
     <LabelWrapper size={16} bold label={jobTitleCheck}>
