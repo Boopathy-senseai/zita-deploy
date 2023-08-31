@@ -33,7 +33,7 @@ const InvitedJobsTable = ({
           columns={columns}
           dataSource={invites}
           empty="No Invited Jobs"
-          scrollHeight={270}
+          scrollHeight={150}
           border="normal"
      
           rowFocusIndex={isRowIndex}
