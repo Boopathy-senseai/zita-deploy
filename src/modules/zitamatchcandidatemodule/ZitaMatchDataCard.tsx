@@ -608,8 +608,8 @@ dataList.invite,
                     onKeyPress={() => {}}
                   >
                     <SvgHeart
-                      height={18}
-                      width={18}
+                      height={15}
+                      width={15}
                       filled={!isEmpty(dataList.fav)}
                     />
                   </div></Flex>
