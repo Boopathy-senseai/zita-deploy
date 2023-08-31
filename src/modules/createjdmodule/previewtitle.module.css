@@ -17,8 +17,7 @@
 }
 .des ul{
   padding-left: 24px;
-  /* list-style-type: disc;
-  margin-bottom: 1rem; */
+  list-style-type: disc !important;
 }
 .rolesandresponsibilitiescard{
   padding: 16px;
