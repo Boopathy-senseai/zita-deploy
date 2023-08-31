@@ -254,7 +254,6 @@ class CandidateDatabase extends Component<MyProps, MyState> {
 
     const checkSelectLength = this.state.files.length === 0 ? false : true;
     const checkSelectLength500 = this.state.files.length < 501 ? true : false;
-    console.log(checkSelectLength500, checkSelectLength);
     return (
       <>
         <Flex center>

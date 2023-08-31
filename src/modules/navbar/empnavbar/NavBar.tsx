@@ -77,7 +77,6 @@ const NavBar = ({ update }) => {
   };
   const imagefunction = (e) => {
     setOpen(!isOpen);
-    console.log('openchangepass', isOpen);
     e.preventDefault();
   };
   const accountPath = '/account_setting/settings';
@@ -87,7 +86,6 @@ const NavBar = ({ update }) => {
   };
   return (
     <>
-      {console.log('user', user)}
       <div className={styles.overAll}>
         {isLogOutLoader && <Loader />}
         <Flex

@@ -56,7 +56,6 @@ Props) => {
 
   return (
     <>
-      {console.log(show, setshow)}
 
       <Flex className={styles.row}>
         <Flex className={styles.splitrow_1}>

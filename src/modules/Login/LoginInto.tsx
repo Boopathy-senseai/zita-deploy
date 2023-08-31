@@ -43,8 +43,6 @@ Props) => {
   
   return (
     <>
-      {console.log(handleForgotOpen, isError, isInactive, isEmpty, SvgEmail)}
-      {console.log('error', formik.errors)}
       <Flex className={styles.row}>
         <Flex className={styles.splitrow_1}>
           <Flex className={styles.center_aligh}>
