@@ -88,7 +88,6 @@ const Modaldraft = ({
       })
       .catch((error) => {
         setloader(false);
-        console.log('draft not save ', error);
       });
   };
 
@@ -110,7 +109,6 @@ const Modaldraft = ({
           })
           .catch((error) => {
             setloader(false);
-            console.log('draft not save ', error);
           });
       } else if (
         Mail_action === 'compose' ||
@@ -119,7 +117,6 @@ const Modaldraft = ({
       ) {
         reply_forward_replyall();
       } else if (Mail_action === 'draft') {
-        console.log('Emailprops', mail_id, Emailprops);
         await draftupdate(authProvider, mail_id, Emailprops.message)
           .then((res) => {
             setloader(false);

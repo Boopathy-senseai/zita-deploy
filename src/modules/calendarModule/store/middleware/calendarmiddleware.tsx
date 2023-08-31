@@ -41,7 +41,6 @@ export const scheduleEventMiddleware = createAsyncThunk(
     }: ZitaEventSchedulerType,
     { rejectWithValue },
   ) => {
-    console.log("startTimestartTime::::::::::::::::::::::::",startTime,"\n","endTime",endTime,"title",title)
     try {
       const { data } = await axios.post('schedule_event/', {
         title,

@@ -39,16 +39,16 @@ const EditUserModal = (props) => {
   const schema = yup.object().shape({
     department: yup
       .string()
-      .required('This field is required')
-      .matches(/^[a-zA-Z0-9_ ]*$/, 'Enter a valid department')
-      .min(2, 'Must be more then two character'),
+      .required('This field is required.')
+      .matches(/^[a-zA-Z0-9_ ]*$/, 'Enter a valid department.')
+      .min(2, 'Must be more then two character.'),
     contact: yup
       .string()
-      .required('This field is required')
-      .max(15, 'Enter a valid contact number')
-      .min(10, 'Enter a valid contact number'),
+      .required('This field is required.')
+      .max(15, 'Enter a valid contact number.')
+      .min(10, 'Enter a valid contact number.'),
 
-    role: yup.string().required('This field is required'),
+    role: yup.string().required('This field is required.'),
   });
 
   const {
@@ -500,7 +500,6 @@ const EditUserModal = (props) => {
                         <Loader size="small" withOutOverlay />
                       </Flex>
                     </div>
-                    {console.log(displayRolesLoading, 'hellol')}
                     <div
                       className={displayRolesLoading ? 'card d-none' : 'card'}
                       style={{ border: '0px' }}

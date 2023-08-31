@@ -66,8 +66,6 @@ const MessageCard = () => {
 
 
 
-  console.log("allUniqueSenderIdsWithCounts", allUniqueSenderIdsWithCounts);
-  console.log("hhhhhhhhhhhhhhh", uniqueSenderLengths)
 
   return (
     <Card className={styles.overAll}>

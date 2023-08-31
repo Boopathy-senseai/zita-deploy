@@ -46,8 +46,8 @@ const SetPassword = () => {
 
   ////////// Form Validation ////////////
   const schema = yup.object().shape({
-    password: yup.string().required('This field is required'),
-    confirm_password: yup.string().required('This field is required'),
+    password: yup.string().required('This field is required.'),
+    confirm_password: yup.string().required('This field is required.'),
   });
 
   const {
@@ -98,7 +98,6 @@ const SetPassword = () => {
       })
       
       .then((res) => {
-        console.log("res.data", res.data)
         if (res.data.status === true) {
           // alert("er")
           setUserEmail(res.data.data.email);
@@ -132,14 +131,12 @@ const SetPassword = () => {
 
   const changeValid =
     !isEmpty(isChangePassword) && isChangePassword !== isPassword;
-  console.log('loader', loader);
 
   if (!loader) {
     return <Loader />;
   }
   return (
     <>
-    {console.log("userEmail", userEmail)}
       {isLogin && <Loader />}
       {/* <section className="section-padding"> */}
         {/* <div className="container"> */}

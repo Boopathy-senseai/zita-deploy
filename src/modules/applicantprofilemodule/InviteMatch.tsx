@@ -113,7 +113,6 @@ const InviteMatch = ({
   );
 
   const matchTitle = `${list.jd_title}`;
-  console.log(list,'fffffffffffffffffggggggggggggggggghhhhhhhhhhhhhhhhhhhhhhhhlist')
 //  const zeroCount =(match_percentage => match_percentage === 0).length;
 const profileMatchCount = match.filter(item => item.profile_match === 0).length;
   return (
@@ -195,16 +194,12 @@ const profileMatchCount = match.filter(item => item.profile_match === 0).length;
               {matchTitle}
             </Text>
           </Flex>
-          {console.log(
-            list.interested,
-            'list.interestedlist.interestedlist.interested',
-          )}
+          
           <Text className={styles.whiteSpace} style={{ fontSize: '13px' }}>
             {' '}
             {list.job_id}
           </Text>
           <Flex marginTop={5}>
-            {console.log(list.applicant, 'list.applicantlist.applicant')}
             {!isEmpty(list.applicant) ? (
               <Flex row center>
                 <Text style={{ fontSize: '13px' }}>Status :</Text>
@@ -309,7 +304,6 @@ const profileMatchCount = match.filter(item => item.profile_match === 0).length;
           </div> */}
         </Flex>
       </Flex>}
-      {console.log(profileMatchCount,'profileMatchCountprofileMatchCountprofileMatchCountprofileMatchCount',match.length )}
       
     </>
   );

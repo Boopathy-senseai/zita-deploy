@@ -46,28 +46,28 @@ export const colorCode = [
 
 export const centerView = window.innerWidth > 1400;
 
-export const THIS_FIELD_REQUIRED = 'This field is required';
+export const THIS_FIELD_REQUIRED = 'This field is required.';
 export const ENTER_GREATER_10 = 'Enter value greater than or equal to 10.';
 export const ENTER_LESS_1000 = 'Enter value less than or equal to 1000.';
 export const ENTER_GREATER_1000 = 'Enter value greater than or equal to 1000.';
 export const ENTER_LESS_9000000 = 'Enter value less than or equal to 9000000.';
 export const ENTER_GREATER_0 = 'Enter value greater than or equal to 0.';
-export const ENTER_VACANCIES = 'Please enter a value less than or equal to 15';
-export const ENTER_VACANCIES_0 = 'Enter a value greater than 0 to less than 15';
-export const ENTER_JD_ID = 'This job id already exist';
+export const ENTER_VACANCIES = 'Please enter a value less than or equal to 15.';
+export const ENTER_VACANCIES_0 = 'Enter a value greater than 0 to less than 15.';
+export const ENTER_JD_ID = 'This job id already exist.';
 export const MIN_MAX_EXP = 'Enter value greater than Minimum Experience.';
 export const JOB_TITLE_LIMIT = 'Text length should not exceed 50 characters.';
-export const GREATER_THAN_MIN = 'Value should be greater than min salary';
-export const LESS_THAN_MAX = 'Value should be less than max salary';
+export const GREATER_THAN_MIN = 'Value should be greater than min salary.';
+export const LESS_THAN_MAX = 'Value should be less than max salary.';
 export const PLEASE_ENTER_VALID_MAIL = 'Please enter a valid email address.';
 export const MAX_TEXT_LENGTH_20 =
   'Text length should not exceed 20 characters.';
 
 export const PASSWORD_MATCH = `The two password fields didn't match.`;
-export const ENTER_VALID_URL = 'Please enter a valid URL';
+export const ENTER_VALID_URL = 'Please enter a valid URL.';
 export const JOB_TITLE_LIMIT_20 =
   'Text length should not exceed 20 characters.';
-export const FILE_2MB = 'Please choose a file size less than 2MB';
+export const FILE_2MB = 'Please choose a file size less than 2MB.';
 
 export const checkUpperCase = /^(?=.*[A-Z])/;
 export const specialCharacter = /^(?=.*[@$!%*?&])/;

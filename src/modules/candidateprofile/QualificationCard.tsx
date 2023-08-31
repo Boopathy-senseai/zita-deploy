@@ -116,7 +116,6 @@ const QualificationCard = ({
                         setGetId(list.edu_id.toString());
                       }}
                     >
-                     { console.log(list.edu_id,'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb')}
                       <SvgTrash width={16} height={16} />
                     </div>
                   </Flex>

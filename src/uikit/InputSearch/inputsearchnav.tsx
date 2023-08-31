@@ -58,7 +58,6 @@ const renderInputComponent = ({
 }: any) => {
   const getValue=value.includes(', usa')
 
-console.log("GG0", ref?.current?.value)
   return (
     <input
       // eslint-disable-next-line jsx-a11y/no-autofocus

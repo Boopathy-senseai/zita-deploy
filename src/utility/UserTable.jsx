@@ -367,7 +367,6 @@ function UserTable(porps) {
                   return (
                     <tr key={i} className="admin-bc">
                       <td>
-                        {/* {console.log("++++++++",item.first_name)} */}
                         <Link to={'/account_setting/' + item.id}>
                           <Text color="theme" bold >
                             {item.first_name} {item.last_name}

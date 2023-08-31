@@ -62,7 +62,6 @@ export const outlookMailFolder = createAsyncThunk(
         ?.api(getoutlookmaillist)
         .top(25)
         .get();
-      console.log('-----mailresponce222-----', response);
       return response;
     } catch (error) {
       const typedError = error as Error;

@@ -116,11 +116,11 @@ const PersonalInformationEdit = ({
 
   // form validation
   const personalSchema = Yup.object().shape({
-    firstName: Yup.string().min(2, 'Too Short!').required(THIS_FIELD_REQUIRED),
-    lastName: Yup.string().min(1, 'Too Short!').required(THIS_FIELD_REQUIRED),
+    firstName: Yup.string().min(2, 'Too Short.').required(THIS_FIELD_REQUIRED),
+    lastName: Yup.string().min(1, 'Too Short.').required(THIS_FIELD_REQUIRED),
     gender: Yup.string().required(THIS_FIELD_REQUIRED),
     phone: Yup.string()
-      .min(11, 'Invalid contact number')
+      .min(11, 'Invalid contact number.')
       .required(THIS_FIELD_REQUIRED),
     birthYear: Yup.string().required(THIS_FIELD_REQUIRED),
     years: Yup.string().required(THIS_FIELD_REQUIRED),
@@ -130,19 +130,19 @@ const PersonalInformationEdit = ({
   const handleValid = (values: personalUpdateForms) => {
     const errors: Partial<personalUpdateForms> = {};
     if (!isEmpty(values.objective) && values.objective.length <= 150) {
-      errors.objective = `Text length should be minimum 150 characters`;
+      errors.objective = `Text length should be minimum 150 characters.`;
     }
     if (!isEmpty(values.objective) && values.objective.length > 500) {
-      errors.objective = `Text length should not exceed 500 characters`;
+      errors.objective = `Text length should not exceed 500 characters.`;
     }
     if (
       !isEmpty(values.linkedInUrl) &&
       !isValidLinkedinUrl(values.linkedInUrl)
     ) {
-      errors.linkedInUrl = 'Please enter a valid URL';
+      errors.linkedInUrl = 'Please enter a valid URL.';
     }
     if (!isEmpty(values.gitUrl) && !isValidURL(values.gitUrl)) {
-      errors.gitUrl = 'Please enter a valid URL';
+      errors.gitUrl = 'Please enter a valid URL.';
     }
     if (isEmpty(values.country)) {
       errors.country = THIS_FIELD_REQUIRED;
@@ -158,8 +158,7 @@ const PersonalInformationEdit = ({
     }
     return errors;
   };
-console.log(  additional_detail
-  ,'vaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+
   // form submit
   const handleSubmit = (values: personalUpdateForms) => {
     setLoader(true);
@@ -234,7 +233,6 @@ console.log(  additional_detail
       );
     }
   }, [formik.values.state]);
-console.log(personal,'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj')
   // free fill initial value
   useEffect(() => {
     if (personal) {

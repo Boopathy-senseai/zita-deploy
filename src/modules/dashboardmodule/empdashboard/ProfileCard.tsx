@@ -177,7 +177,6 @@ const ProfileCard = () => {
   }
   function countryhand() {
     if (isGetCountry.length !== 0) {
-      console.log('arraycoun', isGetCountry);
       if (countryid !== null) {
         setcountry(isGetCountry.find((option) => option.id === countryid).name);
       }
@@ -188,7 +187,6 @@ const ProfileCard = () => {
 
   function statehand() {
     if (getState.length !== 0) {
-      console.log('notempty', getState.length);
       if (stateid !== null) {
         setstate(getState.find((option) => option.id === stateid).name);
       }
@@ -247,7 +245,6 @@ const ProfileCard = () => {
           </Text>
           <Text align="center" bold style={{ fontSize: '13px' }}>
             Last Login on: {getDateString(user_info?.last_login, 'll hh:mm A')}
-            {console.log('userinfo', user_info.last_login)}
           </Text>
         </Flex>
 

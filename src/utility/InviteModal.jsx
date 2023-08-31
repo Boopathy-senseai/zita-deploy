@@ -40,31 +40,31 @@ const InviteModal = (props) => {
     first_name: yup
       .string()
       .trim()
-      .required('This field is required')
-      .matches(/^[aA-zZ\s]+$/, 'Enter a valid Name')
-      .min(2, 'Must be more than one character'),
+      .required('This field is required.')
+      .matches(/^[aA-zZ\s]+$/, 'Enter a valid name.')
+      .min(2, 'Must be more than one character.'),
     last_name: yup
       .string()
       .trim()
-      .required('This field is required')
-      .matches(/^[aA-zZ\s]+$/, 'Enter a valid Name')
-      .min(2, 'Must be more than one character'),
+      .required('This field is required.')
+      .matches(/^[aA-zZ\s]+$/, 'Enter a valid Name.')
+      .min(2, 'Must be more than one character.'),
     email: yup
       .string()
-      .required('This field is required')
-      .email('Enter a valid email'),
-    role: yup.string().required('This field is required'),
+      .required('This field is required.')
+      .email('Enter a valid email.'),
+    role: yup.string().required('This field is required.'),
     contact: yup
       .string()
-      .required('This field is required')
-      .max(15, 'Enter a valid contact number')
-      .min(10, 'Enter a valid contact number'),
+      .required('This field is required.')
+      .max(15, 'Enter a valid contact number.')
+      .min(10, 'Enter a valid contact number.'),
 
     department: yup
       .string()
-      .required('This field is required')
-      .matches(/^[a-zA-Z0-9_ ]*$/, 'Enter a valid department')
-      .min(2, 'Must be more than two character'),
+      .required('This field is required.')
+      .matches(/^[a-zA-Z0-9_ ]*$/, 'Enter a valid department.')
+      .min(2, 'Must be more than two character.'),
   });
 
   const {

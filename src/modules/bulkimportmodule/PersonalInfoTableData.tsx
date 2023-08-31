@@ -38,7 +38,7 @@ import styles from './PersonalInfo.module.css';
 
 const inputWidth = 100;
 const marginLeft = 2;
-const marginRight = 2;
+const marginRight = 10;
 type Props = {
   skills_list?: any;
   canId?: any;
@@ -86,7 +86,7 @@ Props) => {
 
   // form validation
   const personalSchema = Yup.object().shape({
-    firstname: Yup.string().min(2, 'Too Short!').required(THIS_FIELD_REQUIRED),
+    firstname: Yup.string().min(2, 'Too Short.').required(THIS_FIELD_REQUIRED),
     email: Yup.string().required(THIS_FIELD_REQUIRED),
   });
 
@@ -121,15 +121,14 @@ Props) => {
       return tech.value;
     });
     formData.append('skills', techList.toString());
-    console.log(formData.get('skills'));
     dispatch(bulkImportUpdatePersonalMiddleWare({ formData })).then(
       (res: any) => {
         if (res.payload.success) {
           dispatch(
-            candidateMatchMiddleWare({ 
-              can_id:canId,
+            candidateMatchMiddleWare({
+              can_id: canId,
             }),
-          )
+          );
           dispatch(uploadedProfileViewMiddleWare({ id: canId }));
           Toast('Personal Info updated successfully');
           setReload(false);
@@ -256,23 +255,25 @@ Props) => {
       formik.setFieldValue('skills', newValue);
     }
   }, []);
-  // console.log(skills_list)
   return (
-    <Flex>
+    <Flex >
       {routerPrompt}
 
       {isLoader && <Loader />}
-      <Flex className={styles.overAll}>
-        
+      <Flex className={styles.overAll} >
         <Text
-          align="center"
-          size={16}
+          // align="center"
+          size={14}
           bold
           className={styles.title}
-          style={{ marginBottom: 23 }}
+         style={{marginBottom:"5px"}}
+          
         >
           Update Personal Information
         </Text>
+        <Flex style={{borderBottom:"1px solid #581845" }} marginBottom={10} >
+
+        </Flex>
         <Flex columnFlex className={styles.scrollStyle}>
           <Flex row center top>
             <Flex
@@ -286,11 +287,8 @@ Props) => {
                 required
                 value={formik.values.firstname}
                 onChange={(e) => {
-                  console.log("valueee",e.target.value)
-                  
-                    formik.setFieldValue(`firstname`, e.target.value);
-                    setReload(true);
-                  
+                  formik.setFieldValue(`firstname`, e.target.value);
+                  setReload(true);
                 }}
               />
               <ErrorMessage
@@ -454,8 +452,12 @@ Props) => {
         </Flex>
 
         <Flex end className={styles.updateButton} row>
-          <Button  onClick={onCloseModal} types='close'>Cancel</Button>
-          <Button onClick={formik.handleSubmit} style={{marginLeft:'20px'}}>Update</Button>
+          <Button onClick={onCloseModal} types="close" style={{marginTop:"15px"}}>
+            Cancel
+          </Button>
+          <Button onClick={formik.handleSubmit} style={{ marginLeft: '8px' , marginTop:"15px"}}>
+            Update
+          </Button>
         </Flex>
       </Flex>
     </Flex>

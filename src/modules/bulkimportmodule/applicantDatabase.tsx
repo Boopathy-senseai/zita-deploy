@@ -257,7 +257,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
     return (
       <>
       <Flex  center >
-      <Text color='theme' bold size={14}> Add Attachment </Text>
+      <Text  bold size={14}> Add Attachment </Text>
         <CancelAndDeletePopup
           title={'Are you sure want to delete the files?'}
           btnCancel={() => this.setState({ bulkDelete: false })}
