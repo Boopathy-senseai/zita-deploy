@@ -394,7 +394,7 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
   return (
     <Card key={item.wk_id} className={styles.pipelineStructure}>
       <Flex row start between className={styles.rowGroup}>
-        <Flex row className={styles.cardHeader}>
+        <Flex row className={styles.cardHeader} marginBottom={7}>
           {renderTitle()}
           {item.set_as_default === true && (
             <Text color="yellow" className={styles.default}>

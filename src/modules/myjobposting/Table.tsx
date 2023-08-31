@@ -104,7 +104,7 @@ const MyJobPostingScreen = ({ currentPage, setCurrentPage }: props) => {
       <Flex
         className="table-responsisssve "
         style={{ overflowY: 'scroll', display: 'flex' }}
-        height={window.innerHeight - 220}
+        height={len_list !== 0 && window.innerHeight - 220}
       >
         <table className="table" style={{ paddingLeft: 'none' }}>
           <thead className={styles.stickyheader} 
