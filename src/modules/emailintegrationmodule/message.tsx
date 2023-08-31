@@ -126,7 +126,6 @@ const Inbox = ({
     if (sidebarroute === 5) {
       await gmail_permanent_Delete(message.id)
         .then((res) => {
-          //console.log('cv', res);
           removemsg();
           Toast('Email removed permanently', 'SHORT', 'success');
           remove_message(message.id);
@@ -608,7 +607,6 @@ const Inbox = ({
     if (message !== '') {
       return (
         <>
-          {console.log('message', message)}
           {integration === 'google' ? (
             <>
               <Flex

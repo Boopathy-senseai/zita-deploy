@@ -139,7 +139,6 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
       };
     },
   );
-console.log(locations,'kkkkkkkkkkkkkkkkkkk')
   useEffect(() => {
     dispatch(checkAuthMiddleware());
     // dispatch(getKanbanStagesMiddleWare());
@@ -760,7 +759,6 @@ console.log(locations,'kkkkkkkkkkkkkkkkkkk')
         );
         return [...filterItems, ...selectedItems];
       }
-      console.log(removedList);
       updateBulkKanbanStage(droppableId, new Map(cardSelection));
       setCardSelection(new Map());
       return {

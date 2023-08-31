@@ -119,7 +119,6 @@ const MultiTask = ({
     let jdId = task.jd_id_id;
     dispatch(getEventsMiddleware({ candId, jdId }))
       .then((res) => {
-        console.log(res);
         if (res.payload.data === true) {
           setEventId(res.payload.event[0].eventId);
           setEditDetails(
@@ -128,9 +127,7 @@ const MultiTask = ({
             ),
           );
           setEditEvent(true);
-          console.log(res.payload.events);
         } else {
-          console.log('error');
           setEditEvent(false);
         }
       })
@@ -259,11 +256,9 @@ const MultiTask = ({
   };
   const getEventHandler = (account: string) => {
     if (account === 'google') {
-      console.log('google');
       let tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
       dispatch(getGoogleEventsMiddleware({ tz }))
         .then((res) => {
-          console.log(res);
           const data = res.payload.events;
           let name = '';
           if (res.payload.user[0].user__first_name) {
@@ -273,7 +268,6 @@ const MultiTask = ({
           if (res.payload.user[0].user__last_name) {
             name += res.payload.user[0].user__last_name;
           }
-          console.log('^^^^^^^^^^^^^66', name);
           setUserName(name);
           setMyevents(
             data.map((items: GoogleEventType) => {
@@ -308,10 +302,8 @@ const MultiTask = ({
           console.log(err);
         });
     } else {
-      console.log('outlook');
       dispatch(syncOutlookMiddleWare())
         .then((res) => {
-          console.log(res);
           let name = '';
           if (res.payload.user[0].user__first_name) {
             name += res.payload.user[0].user__first_name;

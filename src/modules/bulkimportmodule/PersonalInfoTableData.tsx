@@ -121,7 +121,6 @@ Props) => {
       return tech.value;
     });
     formData.append('skills', techList.toString());
-    console.log(formData.get('skills'));
     dispatch(bulkImportUpdatePersonalMiddleWare({ formData })).then(
       (res: any) => {
         if (res.payload.success) {
@@ -256,7 +255,6 @@ Props) => {
       formik.setFieldValue('skills', newValue);
     }
   }, []);
-  // console.log(skills_list)
   return (
     <Flex>
       {routerPrompt}
@@ -286,7 +284,6 @@ Props) => {
                 required
                 value={formik.values.firstname}
                 onChange={(e) => {
-                  console.log("valueee",e.target.value)
                   
                     formik.setFieldValue(`firstname`, e.target.value);
                     setReload(true);
