@@ -737,9 +737,9 @@ setshow(val)
           </div> )}
              
             {(isSearchData?.length === 0 && isFind && !isSubmitLoader) && (
-              <Flex center middle  height={window.innerHeight -238} className={styles.emptyStyle}> 
-                <SvgSearch  width={18} height={18} fill = {'#888888'}/> 
-                <Text style={{color:'#888888'}}>Please enter your search keywords in the required search field to find the candidates</Text>
+              <Flex center middle  height={window.innerHeight-178} className={styles.emptyStyle}> 
+                <SvgSearch  width={16} height={16} fill = {'#888888'}/> 
+                <Text style={{color:'#888888',marginTop:'2px'}} >Please enter your search keywords in the required search field to find the candidates</Text>
               </Flex>
             )}
             {(isSearchData === null || isSearchData?.length === 0 && !isFind) && !isSubmitLoader && (

@@ -477,16 +477,20 @@ export async function Gmail_Mails(folder, pageToken, maxresult, tokens) {
 
     const { messages } = response.result;
     const token = response.result.nextPageToken;
+    console.log('zzzzzz', messages);
 
-    const fullMessages = await Promise.all(
-      messages.map(async (message) => {
-        const fullMessageResponse = await gapi.client.gmail.users.messages.get({
-          userId: 'me',
-          id: message.id,
-        });
-        return fullMessageResponse.result;
-      }),
-    );
+    if (messages !== undefined) {
+      var fullMessages = await Promise.all(
+        messages.map(async (message) => {
+          const fullMessageResponse =
+            await gapi.client.gmail.users.messages.get({
+              userId: 'me',
+              id: message.id,
+            });
+          return fullMessageResponse.result;
+        }),
+      );
+    }
 
     return { token, messages, fullMessages };
   } catch (error) {

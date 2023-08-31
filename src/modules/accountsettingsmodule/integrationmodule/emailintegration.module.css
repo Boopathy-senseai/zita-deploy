@@ -12,6 +12,7 @@
 .cardStruture {
   position: relative;
   max-height: 200px;
+  width: 270px;
   /* margin-right: 20px; */
   /* width: 100%; */
   padding: 15px 10px 0 10px;
@@ -24,6 +25,7 @@
 .cardStrutureborder{
   position: relative;
   max-height: 200px;
+  width: 270px;
   /* margin-right: 20px; */
   /* width: 100%; */
   border:1px solid #00be4b;

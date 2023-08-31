@@ -1059,6 +1059,12 @@ const Calendar = () => {
 
   const IntegrationMenuView = (
     <div>
+      <div className={styles.calendarLogo}> 
+        <Text bold size={16} color="theme">
+          Calendar
+        </Text>
+        <div className={styles.triangle}> </div> 
+      </div>
       <Flex center flex={1} middle columnFlex className={styles.noContent}>
         <Text color="placeholder" style={{ marginBottom: 16 }}>
           Integrate your calendar with zita application to schedule your

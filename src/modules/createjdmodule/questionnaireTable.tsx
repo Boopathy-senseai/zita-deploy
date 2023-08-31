@@ -87,7 +87,7 @@ export const templateTitle = (
       );
     },
     align: 'left',
-    flex: 2,
+    flex: 0.59,
   },
   {
     title: 'Questions',
@@ -106,7 +106,7 @@ export const templateTitle = (
         </Text>
       );
     },
-    flex: 2,
+    flex: 1,
   },
   {
     title: 'Is Required',
@@ -116,7 +116,7 @@ export const templateTitle = (
     render: (value: boolean, _a: any, index: number) => {
       return <RequiredSwitch value={value} formik={formik} index={index} />;
     },
-    flex: 2,
+    flex: 1,
   },
   {
     title: 'Select',
@@ -132,7 +132,7 @@ export const templateTitle = (
         />
       );
     },
-    flex: 2,
+    flex: 1,
   },
 ];
 
@@ -141,10 +141,10 @@ export const resultTitle = () => [
     title: 'Questions',
     renderTitle: (_a: string) => (
       <Flex row center>
-        <Text color="gray" bold style={{ borderRight:"1px solid #b3b3b3", width: 70 }}>
+        <Text bold style={{ borderRight:"1px solid #b3b3b3", width: 70, color: "#666" }}>
           S.No
         </Text>
-        <Text color="gray" bold style={{ paddingLeft: 8 }}>
+        <Text bold style={{ paddingLeft: 8, color: "#666" }}>
           Questions
         </Text>
       </Flex>

@@ -79,8 +79,8 @@
 }
 
 .cardStruture {
-  max-height: 200px;
-  width: 274px;
+  max-height: 200px; 
+  width: 270px;
   margin-right: 20px;
   padding: 15px 10px 0 10px;
   display: flex;
@@ -90,7 +90,7 @@
 .selectCard {
   position: relative;
   max-height: 200px;
-  width: 274px;
+  width: 270px;
   margin-right: 20px;
   padding: 15px 10px 0 10px;
   display: flex;

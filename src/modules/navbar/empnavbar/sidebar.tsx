@@ -998,6 +998,8 @@ const Sidebar = ({ changes, data }: props) => {
           ) : (
             <li>
               <a
+              style={{    position: 'relative',
+                bottom: '20px'}}
                 href={' '}
                 onClick={(e) => {
                   e.preventDefault();

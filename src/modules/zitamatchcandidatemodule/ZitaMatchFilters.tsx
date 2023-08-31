@@ -238,6 +238,7 @@ const ZitaMatchFilters = ({
           document.removeEventListener('click', handleClickOutside, true);
         }
       }
+
     };
   });
 
@@ -337,6 +338,7 @@ const ZitaMatchFilters = ({
 
   return (
     <Flex row style={{ justifyContent: 'space-between' }}>
+
       <Flex row wrap>
       <Text size={13} style={{ whiteSpace: 'nowrap', marginTop: '3px' }}>
             Quick Filters :
@@ -636,7 +638,7 @@ const ZitaMatchFilters = ({
               </Flex>
             </Flex>
 
-            <Flex className={styles.mtstyle}>
+            <Flex className={styles.mtstyleexp}>
               <div style={{ marginTop: 8, marginBottom: 16 }}>
                 <Text
                   bold
@@ -665,6 +667,7 @@ const ZitaMatchFilters = ({
                 </div>
               </div>
             </Flex>
+
             <Flex className={styles.mtstyle}>
               <Text
                 bold

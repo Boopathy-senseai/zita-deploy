@@ -99,7 +99,6 @@ const JdViewScreen = () => {
       permission:permissionReducers.Permission
     };
   });
-  console.log(questionnaire, 'kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk');
   useEffect(() => {
     if (!is_plan) {
       sessionStorage.setItem('superUserTab', '2');
@@ -212,7 +211,6 @@ const JdViewScreen = () => {
   const session1 = sessionStorage.getItem('EmpToggle');
   const session2 = session1 === '1';
   const columns = useMemo(() => resultTitle(), [questionnaire]);
-  console.log('');
   //const [isCollapse, setCollapse] = useState(false);
 
   return (
@@ -351,7 +349,6 @@ const JdViewScreen = () => {
               skills={skills}
             />
           </Flex>
-          {console.log('skill', jdview)}
 
           <Card className={styles.cardappquest}>
             <Flex columnFlex marginTop={8}>

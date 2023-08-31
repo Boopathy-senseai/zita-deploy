@@ -517,7 +517,6 @@ const SkillsContainer = ({
         className={styles.scroll}
         height={missPop ? window.innerHeight - 400 : '100%'}
       >
-        {/* {console.log('formik.values.data', formik.values.data)} */}
         <Text color="theme" size={14} style={{marginBottom:"6px"}}>{'Database:'}</Text>
         <CrossAreaTagEditer
           inputId={1}

@@ -43,7 +43,6 @@ const PreviewTitle = ({
           <RolesandResponsibilities jdDetails={jdDetails} profile={profile} />
         ) : (
           <>
-      {console.log("kjkjkjkkjk",jdDetails.richtext_job_description)}
           <td
             className={styles.des}
             dangerouslySetInnerHTML={{
@@ -107,7 +106,6 @@ const PreviewTitle = ({
           <RolesandResponsibilities jdDetails={jdDetails} profile={profile} />
         ) : (
           <>
-          {console.log('kkkkkkkkkkkkkkkkkkkkkkkkkkk',jdDetails.richtext_job_description)}
           <td
             className={styles.des}
             dangerouslySetInnerHTML={{

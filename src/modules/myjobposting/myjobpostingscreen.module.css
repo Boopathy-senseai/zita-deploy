@@ -141,7 +141,7 @@
   margin-right: auto; */
    /* max-width: auto; */
  /* min-width: 1300px; */
-  background-color: rgb(0 0 0 / 4%);
+  /* background-color: rgb(0 0 0 / 4%); */
   height: 81vh;
   margin-top: 3px;
 }
@@ -471,14 +471,14 @@
   /* margin-left: 570px; */
   margin-top: 245px;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 13px;
   margin-bottom: 10px;
   color: #581845;
   text-align: center;
 }
 .postyet2 {
   /* margin-left: 531px; */
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 400;
   color: #666666;
   text-align: center;
@@ -486,7 +486,7 @@
 .postyet3 {
   /* margin-left: 509px; */
   margin-bottom: 15px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 400;
   color: #666666;
   text-align: center;
