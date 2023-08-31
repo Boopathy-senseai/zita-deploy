@@ -123,8 +123,12 @@ const MyDataBaseBulkAction = ({
 {/* Download Resumes */}
           <Flex>
           {chklen && (
-                <Flex row center className={styles.bulktab}>
-                <Flex row center className={styles.bulkSelection}>
+                // <Flex row center className={styles.bulktab}>
+                <Flex row center 
+                className={styles.bulkSelection} 
+                style={{ right: !isEmpty(filterFormik.values.jobTitle) ? '-12%' : '32%', 
+                        left: (tabKey==="3" && "-15%")}}
+                >
                   <Flex marginRight={0}>
                     <Text color="theme">{`Selected ${isCheck.length} Candidates`}</Text>
                   </Flex>
@@ -148,7 +152,7 @@ const MyDataBaseBulkAction = ({
                     </Flex>
                   </Flex>
                 </Flex>
-              </Flex>
+              // </Flex>
             )}
             </Flex>
 {/* Sort by & Favourite */}

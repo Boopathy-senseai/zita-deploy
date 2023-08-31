@@ -117,9 +117,7 @@ const MyJobPostingScreen = () => {
     onSubmit: () => {},
   });
 
-  {
-    console.log(len_list, 'len_listlen_listlen_listlen_list');
-  }
+
   const usersPerPage = 10;
   const pageCount = Math.ceil(len_list / usersPerPage);
 
@@ -172,7 +170,6 @@ const MyJobPostingScreen = () => {
   return (
     <Flex className={styles.overFlowContainer}>
       <div>
-        {console.log('###########33', change)}
         <Flex row className={styles.titleContainer}>
           {/* <SvgJobPost width={15.71} height={16} /> */}
           <Text
