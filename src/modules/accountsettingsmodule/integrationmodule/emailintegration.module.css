@@ -113,7 +113,10 @@ align-items: center;
 
 .disconnectbtn {
   margin-left: 10px;
-  border: 1px solid #ed4857;
+  border: 2px solid #ed4857;
+}
+.disconnectbtn:focus {
+  border: 2px solid #ed4857 !important;
 }
 
 /* .disconnectbtn .button_buttonTypes-secondary__3QSSJ:hover {
@@ -128,10 +131,22 @@ align-items: center;
   color: #ed4857;
 }
 
-.lineVertical{
+/* .lineVertical{
   border-bottom: 1px solid rgb(195, 195, 195, 1);
   width: 100%;
   margin-top: 10px;
+  margin-bottom: 5px;
+} */
+.borderbottom1{
+  border-bottom: 1px solid #c3c3c3;
+  width: 100%;
+  margin-top: 5px;
+  /* margin-bottom: 5px; */
+}
+.borderbottom{
+  border-bottom: 0.5px solid #581845;
+  width: 100%;
+  margin-top: 5px;
   margin-bottom: 5px;
 }
 

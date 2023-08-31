@@ -133,10 +133,10 @@
   padding: 25px;
   border-radius: 4px;
 }
-.okButton{
+/* .okButton{
   justify-self: flex-end;
   margin-top: 20px;
-}
+} */
 .editmodal {
   background-color: var(--color-white, #ffffff);
   width: 500px;
@@ -204,5 +204,11 @@
 
 .bordertop{
   border-top: 1px solid rgb(195, 195, 195, 1);
+
+}
+.cancelBtn{
+  background-color: #888888;
+  color: #fff;
+  font-weight: bold;
 
 }
