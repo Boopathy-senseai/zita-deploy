@@ -299,7 +299,7 @@ console.log("sidebar111",windowSize,sidebar)
               <Flex style={{marginTop:'30px',marginRight: checkVist?'17px':'25px',marginLeft:checkVist?'0px':'10px'}} >
               <Flex  width={'113%'} >
               {!checkVist ? (
-                <Flex style={{marginLeft:'1px',cursor:checkVist ?'default':'pointer' }}
+                <Flex style={{marginLeft:'3px',cursor:checkVist ?'default':'pointer' }}
                 onClick={() => handleUnlockSubmit(talentList.candidate_hash)}
                 >
                 <SvgLock fill={'#581845'} width={24} height={24} />

@@ -54,7 +54,7 @@ const RichText = (
           toolbar:
             'undo redo| styleselect | bold italic |alignleft aligncenter alignright | underline| bullist numlist outdent indent',
           removed_menuitems: 'undo, redo, paste',
-          menubar: false,
+          // menubar: false,
           statusbar: false,
           plugins: 'lists',
           auto_focus,

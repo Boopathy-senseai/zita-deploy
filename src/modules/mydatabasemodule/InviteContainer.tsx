@@ -39,7 +39,6 @@ const InviteContainer = ({
         <>
         {/* <div
           style={{width:'2px',height:'10px',color:'black'}}></div> */}
-          {console.log("jjjjdjdjdjdjdjdj",(dataList))}
           <div
             title="Invite to Apply"
             className={cx('inviteStyle', { inviteDisable })}

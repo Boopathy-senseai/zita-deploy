@@ -190,10 +190,10 @@ console.log("map",value);
               alignItems:"center"
             }}
             onClick={handleUnlockSubmit}
-          >
-          <SvgLock fill={PRIMARY} height={15} width={15} />
+          > <Flex marginBottom={3}>
+          <SvgLock fill={PRIMARY} height={15} width={15} /></Flex>
             <Text bold
-              style={{ marginLeft: '10px' }}  
+              style={{ marginLeft: '4px' }}  
               color="theme"          
             >
             Unlock Contacts
