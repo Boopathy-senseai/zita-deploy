@@ -39,7 +39,6 @@ export const dashboardMessageMiddleWare = createAsyncThunk(
   async (_a, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(dashboardMessageApi);
-      console.log(data);
       return data;
     } catch (error) {
       const typedError = error as Error;

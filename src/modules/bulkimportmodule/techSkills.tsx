@@ -112,7 +112,6 @@ const UpdateProfessionalSkillsEdit = ({
     const softList = softListSkillEmpty.map((soft) => {
       return soft.value;
     });
-    console.log(softListSkillEmpty);
     dispatch(
       bulkUploadSkillsUpdateMiddleWare({
         empId: canId.toString(),
@@ -252,7 +251,6 @@ const UpdateProfessionalSkillsEdit = ({
     }
   }, [isReload]);
 
-  console.log(formik.values.techSkill, 'formik.values.techSkill');
 
   return (
     <Flex>

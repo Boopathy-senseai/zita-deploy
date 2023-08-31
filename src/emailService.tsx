@@ -694,8 +694,6 @@ export const gmail_permanent_Delete = async (messageId) => {
 };
 
 export const gmail_draft_update = async (id, messagebody) => {
-  console.log('draftId', id);
-  console.log('updatedMessage', messagebody);
   gapi.client.gmail.users.drafts
     .update({
       userId: 'me',
@@ -703,7 +701,6 @@ export const gmail_draft_update = async (id, messagebody) => {
       resource: messagebody,
     })
     .then((res) => {
-      console.log('Updated Draft:', res);
       return res;
     })
     .catch((error) => {

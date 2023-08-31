@@ -213,7 +213,6 @@ export const meetingTitle = () => [
           center
           middle
         >
-          {console.log(index.join_url,' join_url join_url join_url join_url join_url join_url')}
           <Dropdown className="dropdownButton dropleft">
             <Dropdown.Toggle
               // onClick={handleOpenPopup}

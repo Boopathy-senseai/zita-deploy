@@ -99,7 +99,6 @@ const AboutTab = () => {
             </Flex>
           );
         })}  
-       { console.log(skillSplit,'skillSplitskillSplit')}
         {  skillSplit[0] !== ""&& skillSplit.length > 0 && skillSplit[0] !== undefined  ? (
           <>
             <Text bold className={styles.jobPreferenceStyles}>

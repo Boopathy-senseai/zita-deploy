@@ -77,7 +77,7 @@
   /* margin-top: 20px; */
   /* border-top: 1px solid #c3c3c3; */
   border-radius: unset;
-  padding: 18px 0;
+  /* padding: 18px 0; */
 }
 
 .btn {
@@ -86,7 +86,7 @@ color: #581845;
 border: none;
 width: 100%;
 border-radius: unset;
-padding: 18px 0;
+/* padding: 18px 0; */
 display: flex;
 justify-content: center;
 align-items: center;

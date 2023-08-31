@@ -164,7 +164,6 @@ const ApplicantProfileScreen = () => {
       };
     },
   );
-  console.log(jd, ' job_details job_details job_details');
   useEffect(() => {
     if (!is_plan) {
       sessionStorage.setItem('superUserTab', '2');

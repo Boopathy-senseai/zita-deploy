@@ -55,7 +55,6 @@ const CandidateProfileViewScreen = () => {
       user_info: candidateProfileEditReducers.user_info,
     };
   });
-  console.log(obj,'vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv')
   const checkBox =
     (obj && Array.isArray(obj?.skills) && obj?.skills?.length !== 0) ||
     (obj && Array.isArray(obj?.soft_skills) && obj?.soft_skills.length !== 0);
@@ -92,7 +91,6 @@ const CandidateProfileViewScreen = () => {
                 </Text>
               </>
             )}
-           { console.log(obj,'kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk')}
             <PersonalInformationCard
               isProfileView
               personal={personal}

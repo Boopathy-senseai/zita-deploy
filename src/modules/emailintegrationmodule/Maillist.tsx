@@ -122,17 +122,12 @@ const Maillist = ({
         })
         .catch((error) => {
           setload(false);
-          // console.log('errorsearch', error);
         });
     } else if (search !== '' && integration === 'google') {
       initGoogleAuth(emailcollection.token)
         .then(() => {
           Gmail_search(searchSection, search.trim(), range, tokens)
             .then((res) => {
-              console.log('mk', res);
-              if (res === undefined) {
-                setSearchicon(true);
-              }
               savemail(res.fullMessages, res.token);
 
               //settoken(res.token);
@@ -143,7 +138,6 @@ const Maillist = ({
               }
             })
             .catch((error) => {
-              //  console.log('cvvccv');
               savemail([]);
               setload(false);
             });
@@ -286,7 +280,6 @@ const Maillist = ({
         .then(() => {
           Gmail_search(searchSection, search.trim(), range, null)
             .then((res) => {
-              //  console.log('ress', res);
               savemail(res.fullMessages, res.token);
               //settoken(res.token);
               if (res.token === undefined) {

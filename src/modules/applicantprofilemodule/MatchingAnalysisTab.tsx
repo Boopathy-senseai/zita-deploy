@@ -95,12 +95,8 @@ const MatchingAnalysisTab = () => {
         candidatejdmatchReducers.location_percent,
     };
   });
-  console.log('llllllllllllllllllllllllllllocation',data
-  );
-  console.log('llllllllllllllllllllllllllllocation',overallQualification);
-  console.log('llllllllllllllllllllllllllllocation',notmatchedlocation);
-  console.log('llllllllllllllllllllllllllllocation', matchedlocation);
-  console.log('llllllllllllllllllllllllllllocation', location);
+ 
+
   const [isloadings, setisloading] = useState(false);
   useEffect(() => {
     if (isLoading === true) {

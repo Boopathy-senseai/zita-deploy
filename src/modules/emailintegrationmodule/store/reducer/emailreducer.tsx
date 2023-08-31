@@ -97,7 +97,6 @@ const getuseremail = createSlice({
       state.error = '';
     });
     builder.addCase(getEmail.fulfilled, (state, action) => {
-      console.log('usermail', action);
       state.isLoading = false;
       state.mails = action.payload.data;
       state.token = action.payload.access_token;
@@ -124,12 +123,10 @@ const outlookuserprofile = createSlice({
       state.error = '';
     });
     builder.addCase(getEmail.fulfilled, (state, action) => {
-      console.log('payloadData', action);
       state.isLoading = false;
       state.profile = action;
     });
     builder.addCase(getEmail.rejected, (state, action) => {
-      console.log('payloadData2', action);
       state.isLoading = false;
       if (typeof action.payload === 'string') {
         state.error = action.payload;
@@ -148,12 +145,10 @@ const getmailfolder = createSlice({
       state.error = '';
     });
     builder.addCase(outlookMailFolder.fulfilled, (state, action) => {
-      console.log('payloadData', action);
       state.isLoading = false;
       state.mailFolder = action.payload;
     });
     builder.addCase(outlookMailFolder.rejected, (state, action) => {
-      console.log('payloadData2', action);
       state.isLoading = false;
       if (typeof action.payload === 'string') {
         state.error = action.payload;
@@ -172,13 +167,11 @@ const integrationprofile = createSlice({
       state.error = '';
     });
     builder.addCase(integrate_mail.fulfilled, (state, action) => {
-      console.log('payloadData', action);
       state.isLoading = false;
       state.email = action.payload.mail;
       state.token = action.payload.token;
     });
     builder.addCase(integrate_mail.rejected, (state, action) => {
-      console.log('payloadData2', action);
       state.isLoading = false;
       if (typeof action.payload === 'string') {
         state.error = action.payload;
@@ -197,12 +190,10 @@ const outlook_integrates = createSlice({
       state.error = '';
     });
     builder.addCase(integrate_mail.fulfilled, (state, action) => {
-      console.log('payloadDataoutlook', action);
       state.isLoading = false;
       state.data = action.payload;
     });
     builder.addCase(integrate_mail.rejected, (state, action) => {
-      console.log('payloadData2outlook', action);
       state.isLoading = false;
       if (typeof action.payload === 'string') {
         state.error = action.payload;
@@ -221,12 +212,10 @@ const outlook_removeaccout = createSlice({
       state.error = '';
     });
     builder.addCase(outlook_remove.fulfilled, (state, action) => {
-      console.log('payloadDataoutlook', action);
       state.isLoading = false;
       state.data = action.payload;
     });
     builder.addCase(outlook_remove.rejected, (state, action) => {
-      console.log('payloadData2outlook', action);
       state.isLoading = false;
       if (typeof action.payload === 'string') {
         state.error = action.payload;
@@ -245,12 +234,10 @@ const google_mail_integrate = createSlice({
       state.error = '';
     });
     builder.addCase(gmail_integrate.fulfilled, (state, action) => {
-      console.log('gmail', action);
       state.isLoading = false;
       state.data = action.payload;
     });
     builder.addCase(gmail_integrate.rejected, (state, action) => {
-      console.log('gamil', action);
       state.isLoading = false;
       if (typeof action.payload === 'string') {
         state.error = action.payload;
@@ -269,12 +256,10 @@ const google_mail_remove = createSlice({
       state.error = '';
     });
     builder.addCase(google_remove.fulfilled, (state, action) => {
-      console.log('gmailre', action);
       state.isLoading = false;
       state.data = action.payload;
     });
     builder.addCase(google_remove.rejected, (state, action) => {
-      console.log('gamilre', action);
       state.isLoading = false;
       if (typeof action.payload === 'string') {
         state.error = action.payload;

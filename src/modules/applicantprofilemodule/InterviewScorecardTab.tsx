@@ -354,7 +354,6 @@ const InterviewScorecardTab = () => {
           className={styles.inputContainer}
           style={{ padding: '16px 16px 0px 16px' }}
         >
-          {console.log(interview.filter((inter) => inter.user_id === user).length,'manojjjjjjjjjjj')}
           {interview.filter((inter) => inter.user_id === user).length ===
           0 ? (
             <input

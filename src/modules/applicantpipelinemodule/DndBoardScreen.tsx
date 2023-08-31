@@ -97,7 +97,6 @@ const DndBoardScreen = ({
           btnRight={'Move'}
           title={
             <Flex columnFlex className={styles.statusFlex}>
-              {/* {console.log(isAlert.destination)} */}
               {isAlert.destination !== 'Rejected' ? (
                 <Text color='black2' size={13} >
                   {`Application status will be updated to the applicant as 'Under Review’.`}

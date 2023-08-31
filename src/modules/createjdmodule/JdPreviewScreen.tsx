@@ -143,7 +143,6 @@ console.log("externaljob",extarajobpost)
       className={styles.overAll}
       height={window.innerHeight - 111}
     >
-       { console.log(extarajobpost,'////////////////////////////////////////')}
       {postLoader && <Loader />}
       <Flex row center className={styles.step} >
         <StepProgressBar titleclassName={styles.stepOne} roundFill barFilled />
