@@ -195,7 +195,7 @@ const TemplatesPage = () => {
                 <Text
                   color="theme"
                   bold
-                  size={14}
+                  size={13}
                   style={{ marginLeft: '5px' }}
                 >
                   Job Pipeline
@@ -379,7 +379,7 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
       <Text
         color="black2"
         bold
-        size={14}
+        size={13}
         title={item.pipeline_name}
         className={styles.titleText}
         style={{
@@ -506,7 +506,7 @@ const TemplateCard: React.FC<TemplateCardProps> = (props) => {
       <Flex column start className={styles.cardContent}>
         <Flex row start className={styles.cardHeader}>
           {icon}
-          <Text color="black2" bold size={14} style={{ marginLeft: '10px' }}>
+          <Text color="black2" bold size={13} style={{ marginLeft: '10px' }}>
             {title}
           </Text>
         </Flex>

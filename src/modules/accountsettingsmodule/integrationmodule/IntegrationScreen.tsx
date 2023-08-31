@@ -255,12 +255,27 @@ const IntegrationScreen = () => {
       <Email loaderupdate={loaderupdate} />
       {isLoginLoader && <Loader />}
       <Flex columnFlex>
-        <Text size={14} bold>
+        <Flex row between>
+        <Flex><Text size={14} bold>
           Calendar Integration
         </Text>
-        <Text>Integrate your calendar with zita to schedule your meetings</Text>
+        <Text>Integrate your calendar with zita to schedule your meetings</Text></Flex>
+        <Flex>{active ? (
+            <>
+              <Flex row end>
+                <ActionsButton
+                  Configuration={Configuration}
+                  connected={connected}
+                  active={active}
+                />
+              </Flex>
+            </>
+          ) : (
+            ''
+          )}</Flex></Flex>
+        
 
-        <Flex row marginTop={20}>
+        <Flex row marginTop={10}>
           <Flex flex={3}>
             {connected === 1 && active === 1 && isGoogle === 0 ? (
               <Card className={styles.selectCard}>
@@ -276,7 +291,7 @@ const IntegrationScreen = () => {
                   {integrationSuccess === 'true' &&
                     localStorage.removeItem('integrationSuccess')}
                   <Text bold size={14} style={{ marginLeft: '10px' }}>
-                    Outlook Mail
+                  Outlook Calendar
                   </Text>
                 </Flex>
 
@@ -302,7 +317,7 @@ const IntegrationScreen = () => {
                   <SvgOutlookcalendar></SvgOutlookcalendar>
                   {/* {  Toast('Outlook google Integrated Successfully', 'MEDIUM')   } */}
                   <Text bold size={14} style={{ marginLeft: '10px' }}>
-                    Outlook Mail
+                  Outlook Calendar
                   </Text>
                 </Flex>
 
@@ -417,19 +432,7 @@ const IntegrationScreen = () => {
             )}
           </Flex>
           <Flex flex={9}></Flex>
-          {active ? (
-            <>
-              <Flex row end>
-                <ActionsButton
-                  Configuration={Configuration}
-                  connected={connected}
-                  active={active}
-                />
-              </Flex>
-            </>
-          ) : (
-            ''
-          )}
+          
         </Flex>
       </Flex>
 

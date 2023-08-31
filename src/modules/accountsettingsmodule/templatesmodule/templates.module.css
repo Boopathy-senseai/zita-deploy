@@ -97,8 +97,7 @@
   border: 2px solid #fcc203;
   border-radius: 20px;
   color: #fcc203;
-  margin-left: 10px;
-  margin-bottom: 5px;
+  margin-left: 10px; 
 }
 .pointer {
   cursor: pointer;
