@@ -550,7 +550,13 @@ const ProfileCard = () => {
                   <SvgGlobe height={16} width={16} fill={'#581845'} />
                 </Flex>
                 <Flex marginLeft={7}>
-                  <LinkWrapper to={'/account_setting/settings'}>
+                  <LinkWrapper
+                   onClick={() => {
+                    sessionStorage.setItem('superUserTabTwo','0')
+                    sessionStorage.setItem('superUserFalseTab', '0');
+                    sessionStorage.setItem('superUserTab', '0');
+                  }}
+                  to={'/account_setting/settings/'}>
                     <Text
                       style={{
                         color: '#581845',
@@ -638,7 +644,13 @@ const ProfileCard = () => {
                   <SvgLocationicon height={16} width={16} fill={'#581845'} />
                 </Flex>
                 <Flex marginLeft={5}>
-                  <LinkWrapper to={'/account_setting/settings'}>
+                  <LinkWrapper 
+                    onClick={() => {
+                      sessionStorage.setItem('superUserTabTwo','0')
+                      sessionStorage.setItem('superUserFalseTab', '0');
+                      sessionStorage.setItem('superUserTab', '0');
+                    }}
+                  to={'/account_setting/settings'}>
                     <Text
                       style={{
                         color: '#581845',

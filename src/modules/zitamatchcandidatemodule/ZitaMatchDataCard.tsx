@@ -137,7 +137,7 @@ const ZitaMatchDataCard = ({
     setProfileView(false);
     setNotes(false);
   };
-  console.log('jobId',jobId);
+
   
   return (
     <Flex className={styles.cardwrap} >
@@ -708,7 +708,7 @@ dataList.invite,
                   )}
                 </>
               )}
-              {console.log("dddddddddddddddddd",dataList)}
+           
               {/* {!isEmpty(dataList.invite) && !isEmpty(dataList.applicant) && (
                 <Text color="gray" size={12}>
                   You can’t send Invite
