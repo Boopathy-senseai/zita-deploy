@@ -458,14 +458,17 @@
 .ulstyle1 {
   margin-bottom: -0.25rem !important;
   margin-left: 16.5px;
+  list-style-type: disc !important
 }
 .ulstyle2 {
   margin-bottom: -0.25rem !important;
   margin-left: 16.5px;
+  list-style-type: disc !important
 }
 .ulstyle3 {
   margin-bottom: -0.25rem !important;
   margin-left: 16.5px;
+  list-style-type: disc !important
 }
 .postyet1 {
   /* margin-left: 570px; */
