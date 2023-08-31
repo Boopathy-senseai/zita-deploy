@@ -271,7 +271,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
               </Flex>
 
               <Text style={{ marginTop: '10px' }}>
-                Connect your inbox with Outlook Mail Service.
+                Connect your inbox with Outlook mail service.
               </Text>
               <Flex
                 column
@@ -382,7 +382,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
               </Flex>
 
               <Text style={{ marginTop: '10px' }}>
-                Connect your inbox with Google Mail Service.
+                Connect your inbox with Google mail service.
               </Text>
               <Flex
                 column

@@ -98,7 +98,6 @@ const ResumeCoverTab = () => {
       {/* <Text bold color="theme" className={cx('resumeStyle')}>
         Resume
       </Text> */}
-      {console.log(candidate_details[0].file,'ggggggggggggggggggggggggggggggggggggggggggdddd')}
      
       <div
       className={cx('border')}

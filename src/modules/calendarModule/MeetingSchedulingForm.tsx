@@ -178,7 +178,6 @@ const MeetingSchedulingForm = ({
       let dateError = form.date.value === null ? true : false;
       let locationError = !form.location.value && isEmpty(form.location.value)  ? true : false;
 
-      console.log(isEmpty(form.location.value),"location")
 
       return {
         ...form,
@@ -438,7 +437,6 @@ const MeetingSchedulingForm = ({
   const ApplicantView = (
     <div>
       <label className={styles.label}>Applicant*</label>
-      {console.log(cand_name,'cand_namecand_namecand_name')}
       {editEventDetails || cand_name ? (
         <div>
           <InputText
@@ -847,7 +845,7 @@ const MeetingSchedulingForm = ({
 
   return (
     <div
-      style={{ display: 'flex', flexDirection: 'column', position: 'relative' }}
+      style={{ display: 'flex', flexDirection: 'column', position: 'relative', overflow:"unset" }}
     >
       {/* <CrossButton
         onClick={handleCloseSchedulingForm}

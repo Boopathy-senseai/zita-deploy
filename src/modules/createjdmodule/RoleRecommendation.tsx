@@ -39,7 +39,6 @@ const RoleRecommendation = ({
   setCancel,
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
-console.log('setCancel',setCancel);
 
   const options = {
     chart: {

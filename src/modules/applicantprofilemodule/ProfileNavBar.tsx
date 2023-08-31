@@ -280,10 +280,7 @@ const ProfileNavBar = ({
     total_exp[0].total_exp_year === 0
       ? true
       : false;
-  console.log(
-    candidate_details[0].work_exp,
-    'total_exp[0].total_exp_yeartotal_exp[0].total_exp_year',
-  );
+
   const totalYear =
     total_exp && total_exp[0].total_exp_year !== 0
       ? total_exp && total_exp[0].total_exp_year > 1
@@ -669,7 +666,6 @@ const ProfileNavBar = ({
                 </Flex>
               )}
             </Flex>
-            {console.log(candidate_details[0]?.work_exp,'candidate_details[0]?.work_expcandidate_details[0]?.work_expcandidate_details[0]?.work_exp')}
             <Flex row flex={12} style={{ paddingBottom: '10px' }}>
               <Flex flex={6}>
                 <Flex className={styles.headingpart} marginTop={10}>
@@ -827,10 +823,7 @@ const ProfileNavBar = ({
                     <Flex className={styles.headingpart} marginTop={10}>
                       Availability
                     </Flex>
-                    {console.log(
-                      personalInfo[0].available_to_start__label_name,
-                      'personalInfo[0].available_to_start__label_namepersonalInfo[0].available_to_start__label_name',
-                    )}
+                    
                     {personalInfo[0].available_to_start__label_name === null ? (
                       <Flex className={styles.changingtext}>
                         <Text className={styles.changingtext}>
@@ -913,7 +906,7 @@ const ProfileNavBar = ({
               )} */}
             {/* </>
               )} */}
-            {console.log(stages[0], 'stages[0]stages[0]stages[0]')}
+      
             {stages[0] === undefined ? (
               <>
                 {jd_id !== '' && jd_id !== undefined && jd_id !== null && (
@@ -965,10 +958,7 @@ const ProfileNavBar = ({
                           <SvgRadioWithOutOutLine fill="#80C0D0" />
                         )}
                       </Flex>
-                      {console.log(
-                        checkingstatus,
-                        'checkingstatuscheckingstatuscheckingstatus',
-                      )}
+                      
                       <Flex title="Under Assessment">
                         {checkingstatus !== 'Applied' &&
                         checkingstatus !== 'Shortlisted' &&

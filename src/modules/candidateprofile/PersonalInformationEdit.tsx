@@ -233,7 +233,6 @@ const PersonalInformationEdit = ({
       );
     }
   }, [formik.values.state]);
-console.log(personal,'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj')
   // free fill initial value
   useEffect(() => {
     if (personal) {

@@ -52,7 +52,6 @@ const ApplicantProfileModal = ({
   const [isNotesMeeting, setNotesMeeting]=useState(true)
  
   const dispatch: AppDispatch = useDispatch();
-console.log(candidateId,'fffffffffffffffffffffffffkkkkkkkkkkkkkjjjjjjjjjjjjjjjjjjj')
   // initial api call
   useEffect(() => {
     if (jobId !== '0') { 
@@ -83,7 +82,6 @@ console.log(candidateId,'fffffffffffffffffffffffffkkkkkkkkkkkkkjjjjjjjjjjjjjjjjj
         );
         dispatch(messagesTemplatesMiddleWare());
         dispatch(calenderMiddleWare({ can_id: res.payload.can_id })).then((res1)=>{
-          console.log("reeeeesssssss:",res1)
           if (res1.payload.even !== null){
             setNotesMeeting(false)
           }

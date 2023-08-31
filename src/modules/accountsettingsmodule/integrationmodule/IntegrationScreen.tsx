@@ -326,7 +326,7 @@ const IntegrationScreen = () => {
                 </Flex>
 
                 <Text style={{ marginTop: '10px' }}>
-                  Connect your calendar with Outlook Calendar Service.
+                  Connect your calendar with Outlook calendar service.
                 </Text>
                 <Flex className={styles.borderbottom1}></Flex>
 
@@ -409,7 +409,7 @@ const IntegrationScreen = () => {
                 </Flex>
 
                 <Text style={{ marginTop: '10px' }}>
-                  Connect your calendar with Google Calendar Service.
+                  Connect your calendar with Google calendar service.
                 </Text>
                 <Flex className={styles.borderbottom1}></Flex>
                 {connected === 1 && active === 1 && isGoogle === 0 ? (

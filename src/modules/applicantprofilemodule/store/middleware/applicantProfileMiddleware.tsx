@@ -302,7 +302,6 @@ export const applicantStatusMiddleWare = createAsyncThunk<
       const { data } = await axios.get(applicantsStatusApi, {
         params: { jd_id, candi_id: can_id },
       });
-      console.log("?>>>>>><<<<<<<<",data)
       const applicantStatusData: IApplicantStatus[] = data.data as IApplicantStatus[];
 
       // Assuming the API response has an "invite" field for the invite value
@@ -310,7 +309,6 @@ export const applicantStatusMiddleWare = createAsyncThunk<
       const list = {
         applicantStatusData,invite
       }
-      console.log("apppppppppppppppp",applicantStatusData,invite,"\n",list)
 
       return { data: applicantStatusData, invite };
     } catch (error) {
@@ -332,7 +330,6 @@ InviteEntity[],
       const { data } = await axios.get(applicantsStatusApi, {
         params: { jd_id, candi_id: can_id },
       });
-      console.log("????????????????",data.invite)
       return data.invite as InviteEntity[];
     } catch (error) {
       const typedError = error as Error;

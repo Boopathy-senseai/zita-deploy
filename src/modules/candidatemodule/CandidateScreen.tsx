@@ -196,7 +196,6 @@ const CandidateScreen = () => {
             >
               <SvgLeft fill={'#581845'} height={16} width={16} />
             </Flex> */}
-            {console.log(jd_id,'jd_idjd_idjd_idjd_idjd_id')}
           {  jd_id !== null &&
             <Flex row>
               <Flex marginTop={2}>

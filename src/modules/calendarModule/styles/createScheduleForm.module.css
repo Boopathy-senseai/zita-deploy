@@ -89,16 +89,17 @@
 
 .meetingForm {
   /* background-color: white; */
-  max-height: 510px;
+  max-height: 520px;
   height: 100%;
   border-radius: 4px;
-  width: 700px;
-  max-width: 80vw;
+  /* width: 700px; */
+  /* max-width: 650px; */
   display: grid;
   grid-template-columns: [one] 1fr [two] 1fr [three];
   grid-template-rows: auto;
   grid-gap: 20px 20px;
-  padding: 15px 25px;
+  padding:  15px;
+  margin: 10px;
   overflow: auto;
   /* margin-top: 15px; */
 }

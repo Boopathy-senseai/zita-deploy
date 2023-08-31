@@ -79,7 +79,6 @@ class CandidateDatabase extends Component<MyProps, MyState> {
     // file upload function
     const fileUpload = (e: any) => {
       const newSelectedFiles = Array.from(this.fileUploaderRef.current.files);
-      console.log('zx', newSelectedFiles);
       const fileName = [...this.fileUploaderRef.current.files].map(
         (list) => list.name,
       );
