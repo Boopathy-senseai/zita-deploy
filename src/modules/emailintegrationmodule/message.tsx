@@ -681,7 +681,12 @@ const Inbox = ({
                     maxHeight: '-webkit-fill-available',
                   }}
                 >
-                  {parse(message.body)}
+                  <td
+                    className={styles.bulletpoint}
+                    dangerouslySetInnerHTML={{
+                      __html: message.body,
+                    }}
+                  /> 
                 </Flex>
                 {renderAttachments}
               </Flex>
@@ -793,11 +798,11 @@ const Inbox = ({
                     </Text>
                     {message.toRecipients.length !== 0 ? (
                       <>
-                        <Text color="black">{`To:  ${message.toRecipients.map(
+                        <Text color="black">{`To: ${message.toRecipients.map(
                           (doc) => doc.emailAddress.name,
                         )}`}</Text>
                         {message.ccRecipients.length !== 0 && (
-                          <Text size={13}>{`Cc:${message.ccRecipients.map(
+                          <Text size={13}>{`Cc: ${message.ccRecipients.map(
                             (doc) => doc.emailAddress.name,
                           )}`}</Text>
                         )}
