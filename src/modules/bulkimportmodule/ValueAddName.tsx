@@ -254,18 +254,18 @@ const ValueAddName = ({
     }
   };
   // outside close input function
-  useEffect(() => {
-    if (typeof Window !== 'undefined') {
-      document.addEventListener('click', handleClickOutside, true);
-    }
-    return () => {
-      if (myRef) {
-        if (typeof Window !== 'undefined') {
-          document.removeEventListener('click', handleClickOutside, true);
-        }
-      }
-    };
-  });
+  // useEffect(() => {
+  //   if (typeof Window !== 'undefined') {
+  //     document.addEventListener('click', handleClickOutside, true);
+  //   }
+  //   return () => {
+  //     if (myRef) {
+  //       if (typeof Window !== 'undefined') {
+  //         document.removeEventListener('click', handleClickOutside, true);
+  //       }
+  //     }
+  //   };
+  // });
   // enter key submit function
   const handleKeyPress = (event: { key: string }, id: number) => {
     if (event.key === 'Enter' && formik.values.name !== '') {

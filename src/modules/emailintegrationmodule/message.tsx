@@ -240,6 +240,7 @@ const Inbox = ({
   };
 
   const donwnload = async (val) => {
+    console.log(val,"valllll____")
     var a = document.createElement('a');
     a.href = `data:${val.contentType};base64,` + val.contentBytes;
     a.download = val.name;
