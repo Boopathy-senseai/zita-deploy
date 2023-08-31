@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import SvgEdit from '../../../../icons/SvgEdit';
 import SvgOutlook from '../../../../icons/SvgOutlook';
 import SvgDot from '../../../../icons/SvgDot';
+import SvgClose from '../../../../icons/SvgClose';
 import {
   Button,
   Card,
@@ -125,6 +126,9 @@ const CalenderConfig = ({ isGoogle, email,CloseConfiguration }: CalenderConfigPr
               data = {data}
             />
           </Flex>
+          <Flex end onClick={closeModal1}>
+                      <SvgClose width={10} height={10} fill={'#888888'} />
+                    </Flex>
         </Flex>
         {/* {isGoogle === 0 ? (
         <Flex row marginTop={20}>

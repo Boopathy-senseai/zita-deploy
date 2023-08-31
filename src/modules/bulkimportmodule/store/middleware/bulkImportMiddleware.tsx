@@ -47,7 +47,6 @@ export const bulkImportMatchMiddleWare = createAsyncThunk(
   BULK_UPLOADED_MATCH,
   async ({ isJdId }: { isJdId: any }, { rejectWithValue }) => {
     try {
-      console.log("params",isJdId)
       const url = `${bulkUploadMatch}?pk=${isJdId}`
       const { data } = await axios.get(url);
       return data;

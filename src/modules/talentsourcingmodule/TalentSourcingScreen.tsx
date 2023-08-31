@@ -577,14 +577,9 @@ setshow(val)
 
  
 
-    console.log("isSearchData",isSearchData);
-    console.log("isFind",isFind);
-    console.log("iSubmitLoaders",isSubmitLoader);
-    console.log("isCheck+++++++++++++++++++++",isCheck,"showww",show);
     
   return (
    <>
-    {console.log("changeeee",change)}
    {
     isSubmitLoader&&
     <Loader /> 

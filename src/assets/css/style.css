@@ -2518,8 +2518,8 @@ ul {
 }
 .css-1bn53lx {
   border: 1px solid #d7c7d2;
-  font-size: 13px;
-  color: #333;
+  font-size: 13px !important;
+  color: #333 !important;
 }
 .css-1bn53lx:hover {
   border: 1px solid #58184550;
@@ -2531,6 +2531,11 @@ ul {
 
 .css-1uvydh2 {
   padding: 5px 8px !important;
+  /* padding: 5px 8px !important; */
+
+  font-size: 13px !important;
+
+  color: #333 !important;
 }
 .css-igs3ac {
   border: none !important;
