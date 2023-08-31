@@ -158,7 +158,7 @@ const IntegrationScreen = () => {
         }
         setmodelopen(!modelopen);
 
-        Toast('Google calendar Disconnected Successfully', 'SHORT', 'error');
+        Toast('Google calendar disconnected successfully', 'SHORT', 'error');
       });
     }
   };
@@ -171,7 +171,7 @@ const IntegrationScreen = () => {
       }
       setmodelopen(!modelopen);
 
-      Toast('Google calendar Disconnected Successfully', 'SHORT', 'error');
+      Toast('Google calendar disconnected successfully', 'SHORT', 'error');
     });
   };
 
@@ -188,7 +188,7 @@ const IntegrationScreen = () => {
         }
         setmodelopen(!modelopen);
 
-        Toast('Outlook calendar Disconnected Successfully', 'SHORT', 'error');
+        Toast('Outlook calendar disconnected successfully', 'SHORT', 'error');
       });
     }
   };
@@ -202,7 +202,7 @@ const IntegrationScreen = () => {
       }
       setmodelopen(!modelopen);
 
-      Toast('Outlook calendar Disconnected Successfully', 'SHORT', 'error');
+      Toast('Outlook calendar disconnected successfully', 'SHORT', 'error');
     });
   };
 

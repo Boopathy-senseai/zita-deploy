@@ -24,6 +24,7 @@ const defaultProps: DefaultProps = {
 };
 type Props = {
   isLoader?: boolean;
+  isscroll?:boolean;
   empty?: string;
   scrollHeight?: number;
   emptyHeight?: number;
@@ -42,6 +43,7 @@ const Table = ({
   isLoader,
   empty,
   border,
+  isscroll,
   scrollHeight,
   emptyHeight,
   fixedScrollHeight,
@@ -103,9 +105,11 @@ const Table = ({
       ) : (
         <Flex  
         style={{overflow:test?(''):'scroll',display:'flex',height:test?(''):window.innerHeight-300}}
- 
-          className={cx({ rowScroll: scrollHeight })}
+         
+         // className={cx({ rowScroll: scrollHeight })}
+       className={isscroll===true?(styles.rowScroll):("")}
         >
+          {console.log("ssssssssssssss",isscroll)}
           {dataSource.map((item, index) => (
             <Rows
               key={index}

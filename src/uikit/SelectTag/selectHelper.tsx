@@ -502,7 +502,7 @@ export const customStylechanges2 = {
     borderColor: GARY_9,
     color: PRIMARY,
     top: -1,
-    padding: '2px 4px',
+    padding: '3px 4px',
   }),
   singleValue: () => ({
     color: PRIMARY,
