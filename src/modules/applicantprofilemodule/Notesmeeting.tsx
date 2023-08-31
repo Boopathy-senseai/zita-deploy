@@ -284,6 +284,7 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
                       ).format('hh:mm a')}`,
                       web_url: items.eventId,
                       data: mail,
+                      join_url:items.join_url,
                       index: index,
                      Time: Time,
                     };

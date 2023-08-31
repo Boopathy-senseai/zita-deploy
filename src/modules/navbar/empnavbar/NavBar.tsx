@@ -160,7 +160,7 @@ const NavBar = ({ update }) => {
                       <Dropdown.Menu className={styles.dropdown_item}>
                         <Dropdown.Item
                           href="#"
-                          style={{ padding: '0px 10px', width: '180px' }}
+                          style={{ width: '180px' }}
                         >
                           {is_plan ? (
                             <LinkWrapper
@@ -188,8 +188,8 @@ const NavBar = ({ update }) => {
                                 <span
                                   style={{
                                     color: '#581845',
-                                    marginLeft: '15px',
-                                    fontSize: '14px',
+                                    marginLeft: '10px',
+                                    fontSize: '13px',
                                   }}
                                 >
                                   Profile
@@ -219,8 +219,8 @@ const NavBar = ({ update }) => {
                               <span
                                 style={{
                                   color: '#581845',
-                                  marginLeft: '15px',
-                                  fontSize: '14px',
+                                  marginLeft: '10px',
+                                  fontSize: '13px',
                                 }}
                               >
                                 Profile
@@ -228,7 +228,7 @@ const NavBar = ({ update }) => {
                             </div>
                           )}
                         </Dropdown.Item>
-                        <Dropdown.Item href="#" style={{ padding: '0px 10px' }}>
+                        <Dropdown.Item href="#" >
                           {is_plan ? (
                             <LinkWrapper
                               onClick={clearTab}
@@ -245,7 +245,7 @@ const NavBar = ({ update }) => {
                                     pathname.includes('/account_setting'),
                                 })}
                               >
-                                <text style={{ verticalAlign: '3px' }}>
+                                <text style={{ verticalAlign: '2px' }}>
                                   <SvgSettingnav
                                     fill={'#581845'}
                                     height={22}
@@ -255,8 +255,8 @@ const NavBar = ({ update }) => {
                                 <span
                                   style={{
                                     color: '#581845',
-                                    marginLeft: '15px',
-                                    fontSize: '14px',
+                                    marginLeft: '10px',
+                                    fontSize: '13px',
                                   }}
                                 >
                                   Settings
@@ -271,7 +271,7 @@ const NavBar = ({ update }) => {
                                   pathname.includes('/account_setting'),
                               })}
                             >
-                              <text style={{ verticalAlign: '3px' }}>
+                              <text style={{ verticalAlign: '2px' }}>
                                 <SvgSetting
                                   fill={'#581845'}
                                   height={22}
@@ -281,8 +281,8 @@ const NavBar = ({ update }) => {
                               <span
                                 style={{
                                   color: '#581845',
-                                  marginLeft: '15px',
-                                  fontSize: '14px',
+                                  marginLeft: '10px',
+                                  fontSize: '13px',
                                 }}
                               >
                                 Settings
@@ -290,7 +290,7 @@ const NavBar = ({ update }) => {
                             </div>
                           )}
                         </Dropdown.Item>
-                        <Dropdown.Item href="#" style={{ padding: '0px 10px' }}>
+                        <Dropdown.Item href="#" >
                           {is_plan ? (
                             <Flex onClick={passwordchange}>
                               <div
@@ -315,8 +315,8 @@ const NavBar = ({ update }) => {
                                 <span
                                   style={{
                                     color: '#581845',
-                                    marginLeft: '15px',
-                                    fontSize: '14px',
+                                    marginLeft: '10px',
+                                    fontSize: '13px',
                                   }}
                                 >
                                   {/* < UserProfile /> */}
@@ -348,9 +348,9 @@ const NavBar = ({ update }) => {
                               <span
                                 style={{
                                   color: '#581845',
-                                  marginLeft: '15px',
+                                  marginLeft: '10px',
                                   cursor: 'pointer',
-                                  fontSize: '14px',
+                                  fontSize: '13px',
                                 }}
                               >
                                 {/* < UserProfile /> */}
@@ -365,7 +365,7 @@ const NavBar = ({ update }) => {
                           style={{
                             color: '#FCC203',
                             textAlign: 'center',
-                            fontSize: '14px',
+                            fontSize: '13px',
                           }}
                         >
                           You have logged in as
@@ -441,7 +441,7 @@ const NavBar = ({ update }) => {
                         </a>
                       </Dropdown.Toggle>
                       <Dropdown.Menu className={styles.dropdown_item}>
-                        <Dropdown.Item href="#" style={{ padding: '0px 10px' }}>
+                        <Dropdown.Item href="#">
                           {is_plan ? (
                             <LinkWrapper
                               onClick={clearTab}
@@ -468,8 +468,8 @@ const NavBar = ({ update }) => {
                                 <span
                                   style={{
                                     color: '#581845',
-                                    marginLeft: '15px',
-                                    fontSize: '14px',
+                                    marginLeft: '10px',
+                                    fontSize: '13px',
                                   }}
                                 >
                                   Profile
@@ -494,8 +494,8 @@ const NavBar = ({ update }) => {
                               <span
                                 style={{
                                   color: '#581845',
-                                  marginLeft: '15px',
-                                  fontSize: '14px',
+                                  marginLeft: '10px',
+                                  fontSize: '13px',
                                 }}
                               >
                                 Profile
@@ -503,7 +503,7 @@ const NavBar = ({ update }) => {
                             </div>
                           )}
                         </Dropdown.Item>
-                        <Dropdown.Item href="#" style={{ padding: '0px 10px' }}>
+                        <Dropdown.Item href="#" >
                           {is_plan ? (
                             <LinkWrapper
                               onClick={clearTab}
@@ -520,7 +520,7 @@ const NavBar = ({ update }) => {
                                     pathname.includes('/account_setting'),
                                 })}
                               >
-                                <text style={{ verticalAlign: '3px' }}>
+                                <text style={{ verticalAlign: '2px' }}>
                                   <SvgSettingnav
                                     fill={'#581845'}
                                     height={18}
@@ -530,8 +530,8 @@ const NavBar = ({ update }) => {
                                 <span
                                   style={{
                                     color: '#581845',
-                                    marginLeft: '15px',
-                                    fontSize: '14px',
+                                    marginLeft: '10px',
+                                    fontSize: '13px',
                                   }}
                                 >
                                   Settings
@@ -546,7 +546,7 @@ const NavBar = ({ update }) => {
                                   pathname.includes('/account_setting'),
                               })}
                             >
-                              <text style={{ verticalAlign: '3px' }}>
+                              <text style={{ verticalAlign: '2px' }}>
                                 <SvgSettingnav
                                   fill={'#581845'}
                                   height={18}
@@ -556,8 +556,8 @@ const NavBar = ({ update }) => {
                               <span
                                 style={{
                                   color: '#581845',
-                                  marginLeft: '15px',
-                                  fontSize: '14px',
+                                  marginLeft: '10px',
+                                  fontSize: '13px',
                                 }}
                               >
                                 Settings
@@ -565,7 +565,7 @@ const NavBar = ({ update }) => {
                             </div>
                           )}
                         </Dropdown.Item>
-                        <Dropdown.Item href="#" style={{ padding: '0px 10px' }}>
+                        <Dropdown.Item href="#" >
                           {is_plan ? (
                             <Flex onClick={passwordchange}>
                               <div
@@ -591,9 +591,9 @@ const NavBar = ({ update }) => {
                                 <span
                                   style={{
                                     color: '#581845',
-                                    marginLeft: '15px',
+                                    marginLeft: '10px',
                                     cursor: 'pointer',
-                                    fontSize: '14px',
+                                    fontSize: '13px',
                                   }}
                                 >
                                   Change Password
@@ -624,9 +624,9 @@ const NavBar = ({ update }) => {
                               <span
                                 style={{
                                   color: '#581845',
-                                  marginLeft: '15px',
+                                  marginLeft: '10px',
                                   cursor: 'pointer',
-                                  fontSize: '14px',
+                                  fontSize: '13px',
                                 }}
                               >
                                 Change Password
@@ -640,7 +640,7 @@ const NavBar = ({ update }) => {
                           style={{
                             color: '#FCC203',
                             textAlign: 'center',
-                            fontSize: '14px',
+                            fontSize: '13px',
                           }}
                         >
                           You have logged in as

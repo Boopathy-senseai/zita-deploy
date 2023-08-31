@@ -34,7 +34,7 @@ const Notification = () => {
   const [isProfile, setProfile] = useState(false);
   const [modelopen, setmodelopen] = useState(false);
   const [check,setcheck ] = useState(false);
-  const [isMessageTab, setMessageTab] = useState(5);
+  const [isMessageTab, setMessageTab] = useState(1);
   const dropDownRef = useRef(null);
   useEffect(() => {
     axios.get(notificationApi).then((res) => {
@@ -241,7 +241,7 @@ const myfunction=()=>{
                                           >
                                             <Text
                                               style={{
-                                                maxWidth: '100%',
+                                                maxWidth: '71%',
                                                 fontSize: '13px',
                                               }}
                                             >
@@ -291,7 +291,7 @@ const myfunction=()=>{
                                           >
                                             <Text
                                               style={{
-                                                maxWidth: '100%',
+                                                maxWidth: '71%',
                                                 fontSize: '13px',
                                               }}
                                             >
@@ -330,7 +330,7 @@ const myfunction=()=>{
                                             list.description.toLowerCase() ===
                                             'messages'
                                           ) {
-                                            setMessageTab(5);
+                                            setMessageTab(1);
                                           } else {
                                             setMessageTab(0);
                                           }
@@ -349,7 +349,7 @@ const myfunction=()=>{
                                           >
                                             <Text
                                               style={{
-                                                maxWidth: '100%',
+                                                maxWidth: '71%',
                                                 fontSize: '13px',
                                               }}
                                             >
@@ -428,7 +428,7 @@ const myfunction=()=>{
                                         <Flex row className={styles.listStyle}>
                                           <Text
                                             style={{
-                                              maxWidth: '295px',
+                                              maxWidth: '71%',
                                               fontSize: '13px',
                                             }}
                                           >
@@ -463,7 +463,7 @@ const myfunction=()=>{
                                         <Flex row className={styles.listStyle}>
                                           <Text
                                             style={{
-                                              maxWidth: '100%',
+                                              maxWidth: '71%',
                                               fontSize: '13px',
                                             }}
                                           >
@@ -499,7 +499,7 @@ const myfunction=()=>{
                                           list.description.toLowerCase() ===
                                           'messages'
                                         ) {
-                                          setMessageTab(5);
+                                          setMessageTab(1);
                                         } else {
                                           setMessageTab(0);
                                         }
@@ -515,7 +515,7 @@ const myfunction=()=>{
                                         <Flex row className={styles.listStyle}>
                                           <Text
                                             style={{
-                                              maxWidth: '100%',
+                                              maxWidth: '71%',
                                               fontSize: '13px',
                                             }}
                                           >
@@ -595,7 +595,7 @@ const myfunction=()=>{
                                         <Flex row className={styles.listStyle}>
                                           <Text
                                             style={{
-                                              maxWidth: '100%',
+                                              maxWidth: '71%',
                                               fontSize: '13px',
                                             }}
                                           >
@@ -642,7 +642,7 @@ const myfunction=()=>{
                                         <Flex row className={styles.listStyle}>
                                           <Text
                                             style={{
-                                              maxWidth: '100%',
+                                              maxWidth: '71%',
                                               fontSize: '13px',
                                             }}
                                           >
@@ -681,7 +681,7 @@ const myfunction=()=>{
                                           list.description.toLowerCase() ===
                                           'messages'
                                         ) {
-                                          setMessageTab(5);
+                                          setMessageTab(1);
                                         } else {
                                           setMessageTab(0);
                                         }
@@ -697,7 +697,7 @@ const myfunction=()=>{
                                           <Flex>
                                             <Text
                                               style={{
-                                                maxWidth: '100%',
+                                                maxWidth: '71%',
                                                 fontSize: '13px',
                                               }}
                                             >

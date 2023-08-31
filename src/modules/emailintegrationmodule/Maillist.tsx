@@ -40,7 +40,7 @@ type Props = {
 
   isLoading: any;
   searchapi: boolean;
-  isprofileview?:boolean;
+  isprofileview?: boolean;
   savemail: any;
   searchSection: string;
   search: any;
@@ -127,7 +127,7 @@ const Maillist = ({
     } else if (search !== '' && integration === 'google') {
       initGoogleAuth(emailcollection.token)
         .then(() => {
-         Gmail_search(searchSection, search.trim(), range, tokens)
+          Gmail_search(searchSection, search.trim(), range, tokens)
             .then((res) => {
               console.log('ress', res);
               savemail(res.fullMessages, res.token);
@@ -161,7 +161,6 @@ const Maillist = ({
   useEffect(() => {
     if (enterKey) {
       settoken(null);
-      //  console.log('===enter', enterKey);
       setTimeout(() => {
         process();
       }, 500);
@@ -260,9 +259,58 @@ const Maillist = ({
     }
   };
 
+  const serchreferesh = () => {
+    if (search !== '' && integration === 'outlook') {
+      getsearchmail(authProvider, searchSection, search.trim(), range, null)
+        .then((res) => {
+          setSearchicon(res.value.length === 0 ? true : false);
+          // setsplittoken(res['@odata.nextLink'].split('skiptoken=')[1]);
+          if (!res['@odata.nextLink']) {
+            setload(false);
+            savemail(res.value, null);
+          } else {
+            setload(true);
+            savemail(res.value, res['@odata.nextLink'].split('skiptoken=')[1]);
+          }
+        })
+        .catch((error) => {
+          setload(false);
+          console.log('errorsearch', error);
+        });
+    } else if (search !== '' && integration === 'google') {
+      initGoogleAuth(emailcollection.token)
+        .then(() => {
+          Gmail_search(searchSection, search.trim(), range, null)
+            .then((res) => {
+              console.log('ress', res);
+              savemail(res.fullMessages, res.token);
+              //settoken(res.token);
+              if (res.token === undefined) {
+                setload(false);
+                savemail([]);
+                // settoken(null);
+              }
+            })
+            .catch((error) => {
+              savemail([]);
+              setload(false);
+            });
+        })
+        .catch((error) => {
+          setload(false);
+        });
+    }
+  };
+
   const referesh = () => {
-   setmesage('');
-   refresh();
+    setmesage('');
+
+    if (sidebarroute !== 0) {
+      refresh();
+    } else {
+      refresh();
+      serchreferesh();
+    }
   };
 
   const handlemessage = (val) => {
@@ -275,18 +323,18 @@ const Maillist = ({
           // return <>{'Draft' + del.substring(2)}</>;
           return (
             <Flex row>
-              <Text style={{ color: '#ED4857', marginRight: '5px' }}>
+              <Text style={{ color: '#ED4857', marginRight: '5px' }} size={13}>
                 Draft{' '}
               </Text>
-              <Text>{del.substring(2)}</Text>
+              <Text size={13}>{del.substring(2)}</Text>
             </Flex>
           );
         }
         // return <>{'Draft (No Recipients)'}</>;
         return (
           <Flex row>
-            <Text style={{ color: '#ED4857', marginRight: '5px' }}>Draft </Text>
-            <Text>{`(No Recipients)`}</Text>
+            <Text style={{ color: '#ED4857', marginRight: '5px' }} size={13}>Draft </Text>
+            <Text size={13}>{`(No Recipients)`}</Text>
           </Flex>
         );
       }
@@ -345,19 +393,19 @@ const Maillist = ({
             .map((header, int) => header.value);
           return (
             <Flex row>
-              <Text style={{ color: '#ED4857', marginRight: '5px' }}>
+              <Text style={{ color: '#ED4857', marginRight: '5px' }} size={13}>
                 Draft{' '}
               </Text>
-              <Text>{ToEmails[0]}</Text>
+              <Text size={13}>{ToEmails[0]}</Text>
             </Flex>
           );
         } else {
           return (
             <Flex row>
-              <Text style={{ color: '#ED4857', marginRight: '5px' }}>
+              <Text style={{ color: '#ED4857', marginRight: '5px' }} size={13}>
                 Draft{' '}
               </Text>
-              <Text>{`(No Recipients)`}</Text>
+              <Text size={13}>{`(No Recipients)`}</Text>
             </Flex>
           );
         }
@@ -373,10 +421,10 @@ const Maillist = ({
             return (
               <>
                 <Flex row>
-                  <Text style={{ color: '#ED4857', marginRight: '5px' }}>
+                  <Text size={13} style={{ color: '#ED4857', marginRight: '5px' }}>
                     Draft{' '}
                   </Text>
-                  <Text>{From}</Text>
+                  <Text size={13}>{From}</Text>
                 </Flex>
               </>
             );
@@ -442,13 +490,20 @@ const Maillist = ({
   };
 
   return (
-    <Flex style={{ margintop: '1px' }} className={styles.maillist} height={isprofileview?window.innerHeight - 95:window.innerHeight - 115}>
+    <Flex
+      style={{ margintop: '1px' }}
+      className={styles.maillist}
+      height={
+        isprofileview ? window.innerHeight - 95 : window.innerHeight - 115
+      }
+    >
+      {console.log('select===', messages)}
       <Flex
         row
         between
         style={{
           borderBottom: '1px solid #c3c3c3',
-          height:'35px'
+          height: '35px',
         }}
       >
         <Flex style={{ padding: '8px' }}>{showfolder()}</Flex>
@@ -516,17 +571,19 @@ const Maillist = ({
                             <Text
                               className={styles.textHeadingStyle}
                               style={{ maxWidth: '70%' }}
+                              bold
+                              size={13}
                             >
                               {getfrom(val.payload.headers, val)}
                             </Text>
-                            <Text size={12}>{date(val.payload.headers)}</Text>
+                            <Text size={13}>{date(val.payload.headers)}</Text>
                           </Flex>
 
-                          <Text size={14} className={styles.textHeadingStyle}>
+                          <Text size={13} className={styles.textHeadingStyle}>
                             {getsubject(val.payload.headers)}
                           </Text>
                           <Flex>
-                            <Text className={styles.textStyle} size={12}>
+                            <Text className={styles.textStyle} size={13}>
                               {val.snippet}
                             </Text>
                           </Flex>
@@ -573,22 +630,24 @@ const Maillist = ({
                               <Text
                                 className={styles.textHeadingStyle}
                                 style={{ maxWidth: '70%' }}
+                                size={13}
+                                bold
                               >
                                 {handlemessage(val)}
                               </Text>
-                              <Text size={12}>
+                              <Text size={13}>
                                 {getDateString(val.sentDateTime, 'DD/MM/YY')}
                               </Text>
                             </Flex>
 
-                            <Text size={14} className={styles.textHeadingStyle}>
+                            <Text size={13} className={styles.textHeadingStyle}>
                               {val.subject !== ''
                                 ? val.subject
                                 : '(no subject)'}
                             </Text>
 
                             <Flex>
-                              <Text className={styles.textStyle} size={12}>
+                              <Text className={styles.textStyle} size={13}>
                                 {val.bodyPreview !== ''
                                   ? val.bodyPreview
                                   : 'This message has no content'}
@@ -624,8 +683,12 @@ const Maillist = ({
                 <>
                   {noEmails && (
                     <Flex center middle className={styles.noEmail}>
-                      <Flex center middle marginBottom={-40} marginLeft={11}><SvgNoEmail /></Flex> 
-                      <Text style={{color:'#979797'}}>No emails to view.</Text>
+                      <Flex center middle marginBottom={-40} marginLeft={11}>
+                        <SvgNoEmail />
+                      </Flex>
+                      <Text style={{ color: '#979797' }}>
+                        No emails to view.
+                      </Text>
                     </Flex>
                   )}
                 </>

@@ -55,9 +55,12 @@ const Table = ({
   if (columns.length === 0) {
     return null;
   }
-
+  const url = window.location.href;
+  const test = url.includes('reports')||url.includes('jobs')||url.includes('job_view');
+  const test1 = url.includes('jobs');
   return (
     <Flex className={cx({ [`overAll-${border}`]: border })}>
+      {console.log(test,"+++++++")}
       <TableTitle columns={columns} dataSource={dataSource} />
       <Flex center middle className={cx('overFlowLoader')}>
         {dataSource.length === 0 && !isEmpty(empty) && (
@@ -69,6 +72,7 @@ const Table = ({
                 emptyTextOne: fixedScrollHeight,
                 emptyText: !fixedScrollHeight,
               })}
+              style={{padding:test1?'70px 0':(''),minHeight:test1?('0px'):('')}}
             >
               {empty}
             </Text>
@@ -82,7 +86,7 @@ const Table = ({
       </Flex>
       {fixedScrollHeight ? (
         <div
-          className={cx({ rowScroll: scrollHeight })}
+          
         >
           {dataSource.map((item, index) => (
             <Rows
@@ -97,8 +101,9 @@ const Table = ({
           ))}
         </div>
       ) : (
-        <div  
-        style={{overflow:'scroll',maxHeight:window.innerHeight-300}}
+        <Flex  
+        style={{overflow:test?(''):'scroll',display:'flex',height:test?(''):window.innerHeight-300}}
+ 
           className={cx({ rowScroll: scrollHeight })}
         >
           {dataSource.map((item, index) => (
@@ -121,7 +126,7 @@ const Table = ({
               />
             </Flex>
           )}
-        </div>
+        </Flex>
       )}
     </Flex>
   );

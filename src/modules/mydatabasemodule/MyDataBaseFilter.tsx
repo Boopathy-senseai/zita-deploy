@@ -243,6 +243,8 @@ const MyDataBaseFilter = ({
     setnewrelocate(false)
     sethiddenskill1([])
     setskill([])
+    setexperience('')
+    setlocation('')
   };
 
 
@@ -257,6 +259,8 @@ const MyDataBaseFilter = ({
     setnewskill([])
     setnewrelocate(false)
     sethiddenskill1([])
+    setexperience('')
+    setlocation('')
     setskill([])
     dispatch(
       myDataBaseDataMiddleWare({

@@ -134,7 +134,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
         removemessage();
         setLoader(false);
       })
-      .catch((error) => { });
+      .catch((error) => {});
   };
 
   const Draft = async () => {
@@ -146,7 +146,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
         removemessage();
         setLoader(false);
       })
-      .catch((error) => { });
+      .catch((error) => {});
   };
 
   const getprofile = async () => {
@@ -167,7 +167,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
         setTotal(res['@odata.count']);
         setLoader(false);
       })
-      .catch((error) => { });
+      .catch((error) => {});
   };
 
   const selectmessage = (msg) => {
@@ -182,7 +182,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
   const Select = (val, folder) => {
     setSearchSection(val);
     setSearchFolder(folder);
-    setEnterKey(false)
+    setEnterKey(false);
   };
 
   useEffect(() => {
@@ -261,7 +261,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
         setmessagelist(res.value);
         setLoader(false);
       })
-      .catch((error) => { });
+      .catch((error) => {});
   };
 
   const remove_message = (id) => {
@@ -294,9 +294,9 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
           prevMessages.map((item) =>
             item.id === id
               ? {
-                ...item,
-                labelIds: item.labelIds.filter((label) => label !== newLabel),
-              }
+                  ...item,
+                  labelIds: item.labelIds.filter((label) => label !== newLabel),
+                }
               : item,
           ),
         );
@@ -323,7 +323,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
         setmessagelist(res.value);
         setLoader(false);
       })
-      .catch((error) => { });
+      .catch((error) => {});
   };
 
   const updateroute = (val) => {
@@ -345,7 +345,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
       setIsLoading(true);
       setsearchapi(false);
       setNoEmails(false);
-      settoken(null)
+      settoken(null);
     }
   };
 
@@ -357,12 +357,12 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
         setmessagelist(res.value);
         setLoader(false);
       })
-      .catch((error) => { });
+      .catch((error) => {});
   };
   const searchinput = (e) => {
     setSearch(e.target.value);
     setEnterKey(false);
-    settoken(null)
+    settoken(null);
   };
 
   const serchmessage = async (e: any) => {
@@ -380,26 +380,27 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
       setmesage('');
       setSearch(search.trim());
       setIsLoading(true);
-      setEnterKey(true)
-      settoken(null)
+      setEnterKey(true);
+      settoken(null);
     }
   };
 
   const refresh = async () => {
+    setLoader(true);
+    setmessagelist([]);
+    setSkip(0);
+    setnextpagetoken(null);
+    setmesage('');
+    setEnterKey(false);
     if (sideroute !== 0) {
-      setLoader(true);
-      setmessagelist([]);
-      setSkip(0);
-      setnextpagetoken(null);
-      setmesage('');
       if (emailcollection.integration === 'outlook') {
-      var folder = '';
+        var folder = '';
         if (sideroute === 1) {
           folder = 'Inbox';
         } else if (sideroute === 2) {
           folder = 'sentitems';
         } else if (sideroute === 3) {
-         folder = 'drafts';
+          folder = 'drafts';
         } else if (sideroute === 4) {
           folder = 'archive ';
         } else if (sideroute === 5) {
@@ -422,7 +423,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
           })
           .catch((error) => {
             //console.log('goole----errr', error);
-         });
+          });
       } else if (emailcollection.integration === 'google') {
         var Gfolder = '';
         if (sideroute === 1) {
@@ -440,7 +441,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
         await initGoogleAuth(emailcollection.token)
           .then(() => {
             Gmail_Mails(Gfolder, null, range, emailcollection.token)
-            .then((res) => {
+              .then((res) => {
                 //  console.log('rem', res);
                 if (res.fullMessages !== undefined) {
                   setmessagelist((prevMessages) => [
@@ -460,7 +461,6 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
             setLoader(false);
           });
       }
-    } else {
     }
   };
 
@@ -477,7 +477,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
       } else if (sideroute === 3) {
         folder = 'drafts';
       } else if (sideroute === 4) {
-        folder = 'archive	';
+        folder = 'archive ';
       } else if (sideroute === 5) {
         folder = 'deleteditems';
       } else if (sideroute === 6) {
@@ -595,7 +595,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
                 get_attach(msgid, res.attachments, res);
               }
             })
-            .catch((err) => { });
+            .catch((err) => {});
         })
         .catch((error) => {
           setLoader(false);
@@ -612,7 +612,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
             setAttachments([]);
           }
         })
-        .catch((error) => { });
+        .catch((error) => {});
     }
   };
 
@@ -622,7 +622,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
         setAttachments(res.value);
         setLoader(false);
       })
-      .catch((error) => { });
+      .catch((error) => {});
   };
 
   const getfolder = async () => {
@@ -630,7 +630,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
       .then((res) => {
         setMailfolders(res.value);
       })
-      .catch((error) => { });
+      .catch((error) => {});
   };
 
   useEffect(() => {
@@ -680,7 +680,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
     });
   };
 
-  const savemail = (val,tok) => {
+  const savemail = (val, tok) => {
     setmessagelist((prevMessages) => [...prevMessages, ...val]);
     settoken(tok);
     setLoader(false);
@@ -701,7 +701,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
         onClick={() => {
           // sessionStorage.setItem('superUserTab', '4');
           // sessionStorage.setItem('superUserFalseTab', '3');
-          sessionStorage.setItem('superUserTabTwo','3')
+          sessionStorage.setItem('superUserTabTwo', '3');
           sessionStorage.setItem('superUserFalseTab', '1');
           sessionStorage.setItem('superUserTab', '4');
         }}
@@ -715,185 +715,189 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
   return (
     <>
       <Flex column className={styles.inboxContainer}>
-        {console.log('vxvccv', emailcollection)}
         {loader === true && <Loader />}
         {/* {loader === true && emailcollection.loading === false && <Loader />} */}
         {emailcollection.integration !== null &&
-          emailcollection.integration !== '' &&
-          <>
-            {!isprofileview && (
-              <Flex row between center className={styles.titleContainer}>
-                <Text bold size={16} color="theme">
-                  Mailbox
-                </Text>
-                <Flex row>
-                  {searchDropdown && (
-                    <Dropdown className="dropdown toggle">
-                      {
-                        <Dropdown.Toggle
-                          style={{
-                            borderColor: '#A5889C',
-                            backgroundColor: 'unset',
-                            boxShadow: 'none',
-                            padding: '0px',
-                          }}
-                          className={styles.Toggle}
-                        // id="dropdown-basic"
-                        >
-                          <Flex row noWrap center style={{ padding: '5px' }}>
-                            <Text
-                              size={12}
-                              color="theme"
-                              style={{
-                                marginRight: '10px',
-                                textTransform: 'capitalize',
-                              }}
-                            >
-                              {' '}
-                              {searchFolder}
-                            </Text>
-                            <SvgArrowDown width={11} height={11} />
-                          </Flex>
-                        </Dropdown.Toggle>
-                      }
-
-                      {
-                        <Dropdown.Menu style={{ minWidth: '5rem' }}>
-                          {searchDropdownMenu.map((doc, index) => (
-                            <Dropdown.Item key={index} onClick={doc.onclick}>
-                              <Flex
-                                row
-                                center
-                                className={styles.dropDownListStyle}
+          emailcollection.integration !== '' && (
+            <>
+              {!isprofileview && (
+                <Flex row between center className={styles.titleContainer}>
+                  <Text bold size={16} color="theme">
+                    Mailbox
+                  </Text>
+                  <Flex row>
+                    {searchDropdown && (
+                      <Dropdown className="dropdown toggle">
+                        {
+                          <Dropdown.Toggle
+                            style={{
+                              borderColor: '#A5889C',
+                              backgroundColor: 'unset',
+                              boxShadow: 'none',
+                              padding: '0px',
+                            }}
+                            className={styles.Toggle}
+                            // id="dropdown-basic"
+                          >
+                            <Flex row noWrap center style={{ padding: '5px' }}>
+                              <Text
+                                size={12}
+                                color="theme"
+                                style={{
+                                  marginRight: '10px',
+                                  textTransform: 'capitalize',
+                                }}
                               >
-                                <Text style={{ cursor: 'pointer' }}>
-                                  {doc.name}
-                                </Text>
-                              </Flex>
-                            </Dropdown.Item>
-                          ))}
-                        </Dropdown.Menu>
-                      }
-                    </Dropdown>
-                  )}
+                                {' '}
+                                {searchFolder}
+                              </Text>
+                              <SvgArrowDown width={11} height={11} />
+                            </Flex>
+                          </Dropdown.Toggle>
+                        }
 
-                  <InputText
-                    actionRight={() => (
-                      <Flex style={{ marginTop: '6px' }}>
-                        <SvgSearch />
-                      </Flex>
+                        {
+                          <Dropdown.Menu style={{ minWidth: '5rem' }}>
+                            {searchDropdownMenu.map((doc, index) => (
+                              <Dropdown.Item key={index} onClick={doc.onclick}>
+                                <Flex
+                                  row
+                                  center
+                                  className={styles.dropDownListStyle}
+                                >
+                                  <Text style={{ cursor: 'pointer' }}>
+                                    {doc.name}
+                                  </Text>
+                                </Flex>
+                              </Dropdown.Item>
+                            ))}
+                          </Dropdown.Menu>
+                        }
+                      </Dropdown>
                     )}
-                    placeholder="Search by email subject or body"
-                    className={styles.inputSearch}
-                    onKeyPress={(e) => serchmessage(e)}
-                    onChange={(e) => searchinput(e)}
-                    style={
-                      searchDropdown
-                        ? { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }
-                        : { borderRadius: '4px' }
-                    }
-                    value={search}
-                    onFocus={() => {
-                      setSearchDropdown(true);
-                    }}
+
+                    <InputText
+                      actionRight={() => (
+                        <Flex style={{ marginTop: '6px' }}>
+                          <SvgSearch />
+                        </Flex>
+                      )}
+                      placeholder="Search by email subject or body"
+                      className={styles.inputSearch}
+                      onKeyPress={(e) => serchmessage(e)}
+                      onChange={(e) => searchinput(e)}
+                      style={
+                        searchDropdown
+                          ? {
+                              borderTopLeftRadius: 0,
+                              borderBottomLeftRadius: 0,
+                            }
+                          : { borderRadius: '4px' }
+                      }
+                      value={search}
+                      onFocus={() => {
+                        setSearchDropdown(true);
+                      }}
+                    />
+                  </Flex>
+
+                  <Flex></Flex>
+                  <div className={styles.triangle}> </div>
+                </Flex>
+              )}
+              <Flex row className={styles.container}>
+                <Flex className={styles.containerColumn} marginTop={1}>
+                  <Sidebar
+                    open={modelupdate}
+                    send={Send}
+                    draft={Draft}
+                    inbox={inboxmail}
+                    archive={archive}
+                    updateroute={updateroute}
+                    deleteditems={deleteditems}
+                    junkemail={junkemail}
+                    page={page}
+                    sidebarroute={sideroute}
+                    integration={emailcollection.integration}
                   />
                 </Flex>
-
-                <Flex></Flex>
-                <div className={styles.triangle}> </div>
+                <Flex
+                  marginTop={1}
+                  className={styles.containerColumn}
+                  style={{ minWidth: 349, maxWidth: 349 }}
+                >
+                  <Maillist
+                    messagelist={messagelist}
+                    selectmessage={selectmessage}
+                    getmessageid={getmessageid}
+                    sideroute={sideroute}
+                    isprofileview={isprofileview}
+                    mailfolders={mailfolders}
+                    removemsg={removemessage}
+                    gmailunread={gmailunread}
+                    page={page}
+                    sidebarroute={sideroute}
+                    range={range}
+                    message={message}
+                    noEmails={noEmails}
+                    integration={emailcollection.integration}
+                    isLoading={isLoading}
+                    searchapi={searchapi}
+                    savemail={savemail}
+                    searchSection={searchSection}
+                    search={search}
+                    emailcollection={emailcollection}
+                    refresh={refresh}
+                    enterKey={enterKey}
+                    tokens={token}
+                  />
+                </Flex>
+                <Flex
+                  marginTop={1}
+                  marginRight={1}
+                  style={{ width: '-moz-available' }}
+                  className={styles.containerColumn1}
+                >
+                  <Message
+                    message={message}
+                    sidebarroute={sideroute}
+                    composemodal={modelupdate}
+                    removemsg={removemessage}
+                    isprofileview={isprofileview}
+                    page={page}
+                    noEmails={noEmails}
+                    emailcollection={emailcollection}
+                    attachments={attachments}
+                    msglistcount={messagelist.length}
+                    integration={emailcollection.integration}
+                    updateMailaction={updateMailaction}
+                    remove_message={remove_message}
+                    update_message={update_message}
+                  />
+                </Flex>
               </Flex>
-            )}
-            <Flex row className={styles.container}>
-              <Flex className={styles.containerColumn} marginTop={1}>
-                <Sidebar
-                  open={modelupdate}
-                  send={Send}
-                  draft={Draft}
-                  inbox={inboxmail}
-                  archive={archive}
-                  updateroute={updateroute}
-                  deleteditems={deleteditems}
-                  junkemail={junkemail}
-                  page={page}
-                  sidebarroute={sideroute}
-                  integration={emailcollection.integration}
-                />
-              </Flex>
-              <Flex
-                marginTop={1}
-                className={styles.containerColumn}
-                style={{ minWidth: 349, maxWidth: 349 }}
-              >
-                <Maillist
-                  messagelist={messagelist}
-                  selectmessage={selectmessage}
-                  getmessageid={getmessageid}
-                  sideroute={sideroute}
-                  isprofileview={isprofileview}
-                  mailfolders={mailfolders}
-                  removemsg={removemessage}
-                  gmailunread={gmailunread}
-                  page={page}
-                  sidebarroute={sideroute}
-                  range={range}
-                  message={message}
-                  noEmails={noEmails}
-                  integration={emailcollection.integration}
-                  isLoading={isLoading}
-                  searchapi={searchapi}
-                  savemail={savemail}
-                  searchSection={searchSection}
-                  search={search}
-                  emailcollection={emailcollection}
-                  refresh={refresh}
-                  enterKey={enterKey}
-                  tokens={token}
-                />
-              </Flex>
-              <Flex
-                marginTop={1}
-                marginRight={1}
-                style={{ width: '-moz-available' }}
-                className={styles.containerColumn1}
-              >
-                <Message
-                  message={message}
-                  sidebarroute={sideroute}
-                  composemodal={modelupdate}
-                  removemsg={removemessage}
-                  isprofileview={isprofileview}
-                  page={page}
-                  noEmails={noEmails}
-                  emailcollection={emailcollection}
-                  attachments={attachments}
-                  msglistcount={messagelist.length}
-                  integration={emailcollection.integration}
-                  updateMailaction={updateMailaction}
-                  remove_message={remove_message}
-                  update_message={update_message}
-                />
-              </Flex>
-            </Flex>
-            {/* <Flex flex={10}></Flex> */}
-            <Newcompose
-              data={model}
-              mail={usermail}
-              onClose={modelupdate}
-              replaymsg={message}
-              integration={emailcollection.integration}
-              Mail_action={Mailaction}
-              updateMailaction={updateMailaction}
-              atfiles={attachments}
-              sidebarroute={sideroute}
-              removemsg={removemessage}
-              remove_message={remove_message}
-              newmsg={newmsg}
-            />
-          </>}
-        {console.log(emailcollection.integration, 'emailcollection.integration === null')}
-        {emailcollection.integration === null &&
-          <>{IntegrationMenuView}</>}
-
+              {/* <Flex flex={10}></Flex> */}
+              <Newcompose
+                data={model}
+                mail={usermail}
+                onClose={modelupdate}
+                replaymsg={message}
+                integration={emailcollection.integration}
+                Mail_action={Mailaction}
+                updateMailaction={updateMailaction}
+                atfiles={attachments}
+                sidebarroute={sideroute}
+                removemsg={removemessage}
+                remove_message={remove_message}
+                newmsg={newmsg}
+              />
+            </>
+          )}
+        {console.log(
+          emailcollection.integration,
+          'emailcollection.integration === null',
+        )}
+        {emailcollection.integration === null && <>{IntegrationMenuView}</>}
       </Flex>
     </>
   );
