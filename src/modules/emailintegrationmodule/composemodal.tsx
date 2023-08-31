@@ -1453,7 +1453,7 @@ const Newmessage = ({
                   />
                 </Flex>
                 <Flex
-                  flex={1}
+                  // flex={1}
                   column
                   marginBottom={45}
                   style={{

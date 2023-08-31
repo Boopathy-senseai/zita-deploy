@@ -107,9 +107,9 @@ const whatjob =(values) =>{
   formData.append('jd_id', jdId )
     if (isEmpty(career_page_url)) {
       if (isEmpty(company_detail.no_of_emp)) {
-        sessionStorage.setItem('superUserTab', '0');
-      } else {
         sessionStorage.setItem('superUserTab', '1');
+      } else {
+        sessionStorage.setItem('superUserTab', '0');
       }
       history.push('/account_setting/settings');
     }

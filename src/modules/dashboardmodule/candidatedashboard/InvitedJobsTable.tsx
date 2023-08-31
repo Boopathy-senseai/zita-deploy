@@ -29,12 +29,13 @@ const InvitedJobsTable = ({
     <LabelWrapper size={16} label={invitedjobTitle} bold>
       <div className={styles.cardStyle}>
         <Table
+          isscroll={true}
           columns={columns}
           dataSource={invites}
           empty="No Invited Jobs"
           scrollHeight={270}
           border="normal"
-          fixedScrollHeight
+     
           rowFocusIndex={isRowIndex}
         />
       </div>

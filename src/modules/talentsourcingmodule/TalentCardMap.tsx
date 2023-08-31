@@ -268,8 +268,8 @@ console.log("sidebar111",windowSize,sidebar)
                                               
                 <Flex className={styles.relocateContainer}>
                   <Flex row center className={cx('jobList')}>
-                  <Flex style={{marginRight:'3px'}}>
-                  <SvgRelocate fill={'#581845'} width={14} height={14} />
+                  <Flex style={{marginRight:'3px',marginTop:'3px'}}>
+                  <SvgRelocate fill={'#581845'} width={14} height={11} />
                   </Flex>
                     {talentList.relocate === '1' ? (
                       <Text color="black_1" title={' Willing to Relocate: Yes'}  size={11} style={{marginTop:'3px'}}>Yes</Text>
@@ -281,14 +281,14 @@ console.log("sidebar111",windowSize,sidebar)
                   </Flex>
                   <Flex row center className={cx('jobList')}>
                   <Flex style={{marginRight:'3px'}}>
-                  <SvgDollar fill={'#581845'} width={14} height={14} />
+                  <SvgDollar fill={'#581845'} width={14} height={13} />
                   </Flex>
                     {talentList.min_salary === 'Not Specified' &&
                     talentList.max_salary === 'Not Specified' ? (
                       <Text color="black_1" title={'Salary: Not Specified'} size={11}  className={styles.jobTitle1} >{talentList.min_salary} </Text>
                     ) : (
                       <Text color="black_1"  size={11}  title={` Salary: ${talentList.min_salary} - ${talentList.max_salary}`} className={styles.jobTitle1} >
-                        ${talentList.min_salary} - ${talentList.max_salary}
+                        {talentList.min_salary} - {talentList.max_salary}
                       </Text>
                     )}
                   </Flex>
@@ -299,7 +299,7 @@ console.log("sidebar111",windowSize,sidebar)
               <Flex style={{marginTop:'30px',marginRight: checkVist?'17px':'25px',marginLeft:checkVist?'0px':'10px'}} >
               <Flex  width={'113%'} >
               {!checkVist ? (
-                <Flex style={{marginLeft:'1px',cursor:checkVist ?'default':'pointer' }}
+                <Flex style={{marginLeft:'3px',cursor:checkVist ?'default':'pointer' }}
                 onClick={() => handleUnlockSubmit(talentList.candidate_hash)}
                 >
                 <SvgLock fill={'#581845'} width={24} height={24} />

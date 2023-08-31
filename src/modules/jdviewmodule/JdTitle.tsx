@@ -34,7 +34,6 @@ const JdTitle = ({
   const permissions = permission.includes('create_post')
   return (
     <Flex>
-      {console.log("permissssss",permission.includes('create_post'))}
  
 
       {/* <Flex row className={styles.ribbon} between>

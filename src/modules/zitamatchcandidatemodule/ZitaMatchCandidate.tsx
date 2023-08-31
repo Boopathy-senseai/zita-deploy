@@ -139,7 +139,7 @@ const ZitaMatchCandidate = () => {
       };
     },
   );
-  console.log("oooooooooooooooooooooo", datas)
+
   useEffect(() => {
     if (!is_plan) {
       sessionStorage.setItem('superUserTab', '2');
@@ -162,7 +162,7 @@ const ZitaMatchCandidate = () => {
 
   const handleSearchSubmit = () => {
     setIsCheck([]);
-    console.log("close",isSearch)
+
     dispatch(
       zitaMatchDataCandidateMiddleWare({
         jd_id: jdId,
@@ -184,10 +184,10 @@ const ZitaMatchCandidate = () => {
     );
   };
 
-console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
+
   const onClearSearch = () => {
     setSearch("");
-    console.log("close calll",isSearch);
+  
     dispatch(
       zitaMatchDataCandidateMiddleWare({
         jd_id: jdId,
@@ -505,7 +505,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
       }),
     );
   };
-  console.log("datas",datas)
+
 
   const handleradiovclear=()=>{
     setMatchRadio('')
@@ -932,7 +932,7 @@ console.log(isSortOptions,"lllllllllllllllllllllllllllllllllllllll")
           )}
         </Flex>
       </Flex>
-      {console.log("sssssssssssssss",change)}
+  
       <Flex>
         <ZitaMatchFilters
         setchange={setchange}

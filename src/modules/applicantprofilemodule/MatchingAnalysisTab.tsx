@@ -112,6 +112,8 @@ const MatchingAnalysisTab = () => {
   const checkMatch =
     overall_percentage && overall_percentage === 0 ? true : false;
   const profileMatch = checkMatch ? 0 : overall_percentage;
+  const skillconvert=Math.round((skills_percent /95) * 100);
+  const qualificationconvert=(qualification_percent/5) * 100;
   return (
     <Flex row flex={12} height={window.innerHeight - 120}>
       {isloadings && <Loader />}
@@ -161,7 +163,7 @@ const MatchingAnalysisTab = () => {
                       <ProgressBar
                         verticalWidth={'200px'}
                         type="hr"
-                        percentage={skills_percent}
+                        percentage={skillconvert}
                       />
                     </Flex>
                   </Flex>
@@ -177,7 +179,7 @@ const MatchingAnalysisTab = () => {
                       <ProgressBar
                         verticalWidth={'200px'}
                         type="hr"
-                        percentage={qualification_percent}
+                        percentage={qualificationconvert}
                       />
                     </Flex>
                   </Flex>

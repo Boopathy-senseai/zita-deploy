@@ -69,10 +69,13 @@
   white-space: nowrap;
   position: relative;
   /* left:62% */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 
-@media only screen and (min-width: 1366px) and (max-width:1920px) {
+/* @media only screen and (min-width: 1366px) and (max-width:1920px) {
   .bulkSelection{
     right: 30%;
   }
@@ -82,7 +85,7 @@
   .bulkSelection{
     left:140%
   }
-}
+} */
 
 .bulkButton {
   margin-left: 20px;

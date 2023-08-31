@@ -31,7 +31,7 @@ const AppliedJobsTable = ({ applied_job, setting, hanldeOpenChat,setJobTitle }: 
           empty="No Applied Jobs"
           scrollHeight={270}
           border="normal"
-          fixedScrollHeight
+          isscroll={true}
           rowFocusIndex={isRowIndex}
         />
       </div>
