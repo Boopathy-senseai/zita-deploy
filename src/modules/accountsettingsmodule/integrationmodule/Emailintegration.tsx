@@ -200,7 +200,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
         emails from Zita
       </Text>
       <Flex row style={{ marginTop: '10px' }}>
-        <Flex flex={3} height={'unset'} minWidth={200} marginRight={20}>
+        <Flex flex={3} height={'unset'}  marginRight={20}>
           {Authorizemail === 'outlook' && email !== null && outbutton === 1 ? (
             <Card
               className={
