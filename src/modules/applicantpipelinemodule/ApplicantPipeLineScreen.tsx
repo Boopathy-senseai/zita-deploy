@@ -20,6 +20,7 @@ import { myJobPostingDataMiddleWare } from '../myjobposting/store/middleware/myj
 import { ERROR_MESSAGE } from '../constValue';
 import SvgIntomark from '../../icons/SvgCancel';
 import { checkAuthMiddleware } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
+import { routesPath } from '../../routes/routesPath';
 import PipelinePopup from './pipelinepopup';
 import {
   applicantPipeLineDataMiddleWare,
@@ -956,7 +957,8 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
           openPipelinePopup={showPipelinePopup}
           onClose={() => {
             handleClosePipelinePopup();
-            history.goBack();
+            // history.goBack();
+            history.push(routesPath.MY_JOB_POSTING)
           }}
           onSuccessClose={handleClosePipelinePopup}
           onNewPipeline={handleNewPipeline}
@@ -968,12 +970,13 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
           openPipelinePopup={showPipelinePopup}
           onClose={() => {
             handleClosePipelinePopup();
-            history.goBack();
+            // history.goBack();
+            history.push(routesPath.MY_JOB_POSTING)
           }}
           onSuccessClose={handleClosePipelinePopup}
           onNewPipeline={handleNewPipeline}
         />
-      )}
+      )} 
       {/* <Flex row className={styles.overAll} style={{marginLeft:'12%'}}> */}
       <Flex row className={styles.overAll}>
         {applicantDataLoader || (favLoader && <Loader />)}
