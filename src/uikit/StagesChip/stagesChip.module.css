@@ -49,7 +49,6 @@
   z-index: 1000;
   top: 35px;
   left: 3%;
-
 }
 
 .header {
@@ -238,7 +237,7 @@
 }
 
 ul {
-  list-style-type: none;
+  list-style-type: none !important;
   margin: 0;
 }
 .cancel {
@@ -247,11 +246,10 @@ ul {
   border: none;
   border-radius: 5px;
 }
-.cancel:active, .cancel:focus{
+.cancel:active,
+.cancel:focus {
   background-color: #888888;
   border: none;
-
-
 }
 .savebutton {
   margin-right: 15%;
@@ -263,8 +261,8 @@ ul {
   border-bottom: 1px solid #c3c3c3;
   padding-bottom: 50px;
 }
-.colorMenu{
-  position: absolute; 
+.colorMenu {
+  position: absolute;
   z-index: 1;
   top: 35px;
   left: 35px;
@@ -277,7 +275,7 @@ ul {
   display: flex;
   flex-direction: row;
 }
-.colorButton{
+.colorButton {
   width: 30px;
   height: 30px;
   border-radius: 50px;
@@ -288,4 +286,3 @@ ul {
   align-items: center;
   margin-bottom: 10px;
 }
-

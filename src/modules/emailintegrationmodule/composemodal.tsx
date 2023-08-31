@@ -1086,29 +1086,21 @@ const Newmessage = ({
     return drafts;
   };
 
-  const GmailDraft = () => {
+  const GmailDraft = async () => {
     if (Mail_action === 'draft') {
-      alert('fff');
-      // const toEmails = tomail.join(', ');
-      // const toCC = ccmail.join(', ');
-      // const toBCC = bccmail.join(', ');
-      // const updatedMessage = {
-      //   ...newmsg,
-      //   subject: 'my new subjectjack',
-      // };
-
-      // const rawMessage = btoa(updatedMessage);
-      // const drafts = {
-      //   message: {
-      //     raw: rawMessage,
-      //   },
-      // };
       setloader(true);
       initGoogleAuth(emailcollection.token)
         .then(() => {
-          gmail_draft_update(replaymsg.id, draft_props())
-            .then((res) => {
+          Gmail_Draft(draft_props())
+            .then(async (res) => {
               setloader(false);
+
+              await gmail_permanent_Delete(replaymsg.id)
+                .then((ress) => {})
+                .catch((error) => {
+                  // console.log('error', error);
+                });
+
               Toast('Draft save successfully', 'SHORT', 'success');
               clearform();
               closeverify();

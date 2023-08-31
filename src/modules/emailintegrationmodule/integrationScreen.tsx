@@ -442,7 +442,6 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
           .then(() => {
             Gmail_Mails(Gfolder, null, range, emailcollection.token)
               .then((res) => {
-                //  console.log('rem', res);
                 if (res.fullMessages !== undefined) {
                   setmessagelist((prevMessages) => [
                     ...prevMessages,
@@ -518,13 +517,15 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
         .then(() => {
           Gmail_Mails(Gfolder, nextpagetoken, range, emailcollection.token)
             .then((res) => {
-              //  console.log('rem', res);
               if (res.fullMessages !== undefined) {
                 setmessagelist((prevMessages) => [
                   ...prevMessages,
                   ...res.fullMessages,
                 ]);
+              } else {
+                setNoEmails(true);
               }
+
               setIsLoading(false);
               setnextpagetoken(res.token);
               setLoader(false);
