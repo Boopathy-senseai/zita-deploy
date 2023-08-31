@@ -246,9 +246,9 @@ const AboutTab = () => {
     },
   ];
   const techSkillSplit =
-    (skills && skills.length === 0) || skills[0].tech_skill === null
+    (candidate_details && candidate_details[0].skills.length === 0) || candidate_details[0].skills === null
       ? []
-      : skills[0].tech_skill.replace(',,', ',').split(',');
+      : candidate_details[0].skills.replace(',,', ',').split(',');
   const softSkillSplit =
     (skills && skills.length === 0) || skills[0].soft_skill === null
       ? []
