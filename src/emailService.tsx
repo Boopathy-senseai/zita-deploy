@@ -477,16 +477,20 @@ export async function Gmail_Mails(folder, pageToken, maxresult, tokens) {
 
     const { messages } = response.result;
     const token = response.result.nextPageToken;
+    console.log('zzzzzz', messages);
 
-    const fullMessages = await Promise.all(
-      messages.map(async (message) => {
-        const fullMessageResponse = await gapi.client.gmail.users.messages.get({
-          userId: 'me',
-          id: message.id,
-        });
-        return fullMessageResponse.result;
-      }),
-    );
+    if (messages !== undefined) {
+      var fullMessages = await Promise.all(
+        messages.map(async (message) => {
+          const fullMessageResponse =
+            await gapi.client.gmail.users.messages.get({
+              userId: 'me',
+              id: message.id,
+            });
+          return fullMessageResponse.result;
+        }),
+      );
+    }
 
     return { token, messages, fullMessages };
   } catch (error) {
@@ -637,6 +641,7 @@ export const Gmail_Folder_Total_count = async (folder) => {
 };
 
 export const Gmail_Reply_forward = async (data) => {
+  // console.log('====', data);
   const reply = gapi.client.gmail.users.messages.send({
     userId: 'me',
     resource: {
@@ -690,8 +695,6 @@ export const gmail_permanent_Delete = async (messageId) => {
 };
 
 export const gmail_draft_update = async (id, messagebody) => {
-  console.log('draftId', id);
-  console.log('updatedMessage', messagebody);
   gapi.client.gmail.users.drafts
     .update({
       userId: 'me',
@@ -699,7 +702,6 @@ export const gmail_draft_update = async (id, messagebody) => {
       resource: messagebody,
     })
     .then((res) => {
-      console.log('Updated Draft:', res);
       return res;
     })
     .catch((error) => {

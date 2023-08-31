@@ -60,7 +60,6 @@ const ScreeningStatusTab = ({ title, issingletab }: Props) => {
             );
           })
           .reverse()}
-          {console.log(invite.length !==0,stages.length !== 0,'kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk')}
           {
             invite.length !==0 && stages.length !== 0 &&
             <Flex 

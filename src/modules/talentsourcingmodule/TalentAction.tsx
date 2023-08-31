@@ -144,7 +144,6 @@ const TalentAction = ({
 }, [formik.values.keywords]);
 
   const handleInputChange=(event)=>{
-    console.log("keyyyyyy",event.target.value);
     formik.setFieldValue("location", event.target.value);
    
   }
@@ -153,7 +152,6 @@ const TalentAction = ({
 
   return (
 <>
-{console.log("formik.values",formik.values,(formik.values.keywords).trim().length)}
     <Flex row between bottom className={cx('rowContainer')}>
       <Flex row  width={'89%'} >
         <InputText

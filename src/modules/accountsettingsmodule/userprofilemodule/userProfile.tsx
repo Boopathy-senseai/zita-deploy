@@ -182,7 +182,6 @@ const UserProfilepic = ({ value, update }: Props) => {
   const redirectHome = (values: Password) => {
     // history.push('/account_setting/settings');
     /// setmodelopen(false)
-    console.log('sd', update());
     formikPassword.resetForm();
     setShowNewPass1(false);
           setShowNewPass(false);

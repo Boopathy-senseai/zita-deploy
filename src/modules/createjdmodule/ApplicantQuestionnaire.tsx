@@ -210,7 +210,7 @@ const ApplicantQuestionnaire = () => {
                 validationSchema={Yup.object({
                   options: Yup.array().of(
                     Yup.object().shape({
-                      list: Yup.string().required('This Field is Required'),
+                      list: Yup.string().required('This field is required.'),
                     }),
                   ),
                 })}

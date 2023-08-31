@@ -82,7 +82,7 @@ const AboutTab = () => {
         className={styles.overAll}
          height={window.innerHeight - 120}
       > 
-        {/* <Text bold className={styles.jobPreferenceStyle}>
+        <Text bold className={styles.jobPreferenceStyle}>
           Job Preference
         </Text>
         {aboutData1.map((list) => {
@@ -98,8 +98,7 @@ const AboutTab = () => {
               <Text style={{ fontSize: '13px' }}>{list.value}</Text>
             </Flex>
           );
-        })} */}
-       { console.log(skillSplit,'skillSplitskillSplit')}
+        })}  
         {  skillSplit[0] !== ""&& skillSplit.length > 0 && skillSplit[0] !== undefined  ? (
           <>
             <Text bold className={styles.jobPreferenceStyles}>

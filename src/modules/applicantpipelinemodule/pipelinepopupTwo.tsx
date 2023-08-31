@@ -92,7 +92,7 @@ const PipelinePopupTwo = ({
           onClick={onNewPipeline}
           className={styles.newBtn}
         >
-          <Text color="theme" size={14}>
+          <Text color="theme" bold size={13}>
             Create New Pipeline
           </Text>
         </Button>

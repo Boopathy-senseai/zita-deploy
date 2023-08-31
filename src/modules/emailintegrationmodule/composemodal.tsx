@@ -1044,7 +1044,7 @@ const Newmessage = ({
         setloader(false);
       });
   };
-
+  //gmail draft//
   const draft_props = () => {
     const toEmails = tomail.join(', ');
     const toCC = ccmail.join(', ');
@@ -1086,29 +1086,21 @@ const Newmessage = ({
     return drafts;
   };
 
-  const GmailDraft = () => {
+  const GmailDraft = async () => {
     if (Mail_action === 'draft') {
-      alert('fff');
-      // const toEmails = tomail.join(', ');
-      // const toCC = ccmail.join(', ');
-      // const toBCC = bccmail.join(', ');
-      // const updatedMessage = {
-      //   ...newmsg,
-      //   subject: 'my new subjectjack',
-      // };
-
-      // const rawMessage = btoa(updatedMessage);
-      // const drafts = {
-      //   message: {
-      //     raw: rawMessage,
-      //   },
-      // };
       setloader(true);
       initGoogleAuth(emailcollection.token)
         .then(() => {
-          gmail_draft_update(replaymsg.id, draft_props())
-            .then((res) => {
+          Gmail_Draft(draft_props())
+            .then(async (res) => {
               setloader(false);
+
+              await gmail_permanent_Delete(replaymsg.id)
+                .then((ress) => {})
+                .catch((error) => {
+                  // console.log('error', error);
+                });
+
               Toast('Draft save successfully', 'SHORT', 'success');
               clearform();
               closeverify();
@@ -1164,22 +1156,34 @@ const Newmessage = ({
     const fromEmail = replaymsg.header.find(
       (header) => header.name === 'From',
     ).value;
-    let replyContent = '';
+    const subjects = replaymsg.header.find(
+      (header) => header.name === 'Subject',
+    ).value;
 
     const time = moment(replaymsg.internalDate).format('llll');
 
-    if (Mail_action === 'reply' || Mail_action === 'replyall') {
-      // note :- reply and  replyall is same email content
-      replyContent = `On ${time}, ${fromEmail} wrote:\n\n${replaymsg.snippet}\n\n ${messagebody}.`;
-    } else if (Mail_action === 'forward') {
-      replyContent =
-        `---------- Forwarded message ----------\n` +
-        `from: ${fromEmail}\n` +
-        `Subject: ${subject}\n\n` +
-        `${messagebody}` +
-        replaymsg.snippet;
-    }
+    var replyHtml = '';
 
+    if (Mail_action === 'reply' || Mail_action === 'replyall') {
+      replyHtml = `
+        
+          <div class="gmail_quote">
+            <p>On ${time}, ${fromEmail} wrote:</p>
+            <blockquote class="gmail_quote" style="margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">${replaymsg.body}</blockquote>
+            <p>${messagebody}</p>
+          </div>
+       
+`;
+    } else if (Mail_action === 'forward') {
+      replyHtml = `<div class="gmail_quote">
+            <p>${messagebody}</p>
+            <p>---------- Forwarded message ----------</p>
+            <p>From: ${fromEmail} </p>
+            <p>Date: ${replaymsg.internalDate} </p>
+            <p>Subject: ${subjects} </p>
+            <p> ${replaymsg.body}</p>
+         </div>`;
+    }
     const emailss = [
       'Content-Type: multipart/mixed; boundary="boundary"\n',
       'MIME-Version: 1.0\n',
@@ -1192,7 +1196,8 @@ const Newmessage = ({
       `--boundary\n`,
       'Content-Type: text/html; charset="UTF-8"\n',
       'MIME-Version: 1.0\n',
-      `\n${replyContent}\n\n`,
+      '\n' + replyHtml + '\n\n', // Include the HTML content here
+      `--boundary\n`,
     ];
     attachfile.forEach(async (attachment) => {
       emailss.push(
@@ -1208,8 +1213,8 @@ const Newmessage = ({
     emailss.push(`--boundary--`);
 
     const email = emailss.join('');
-
     const rawMessage = btoa(email);
+
     initGoogleAuth(emailcollection.token)
       .then(async () => {
         await Gmail_Reply_forward(rawMessage)
@@ -1684,6 +1689,7 @@ const Newmessage = ({
                 </Flex>
               </Flex>
             </Flex>
+            {console.log('bodymsggg', replaymsg)}
           </Flex>
         </div>
       </Modal>

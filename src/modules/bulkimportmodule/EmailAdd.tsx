@@ -85,7 +85,6 @@ const EmailAdd = ({
       axios
         .post(uploadedCandidatesApi, data, config)
         .then((response) => {
-          console.log(response,'llllllllllllllkkkkkkkkkkkjjjjjjjjjj')
           if(response.data.first_name=== true){
             dispatch(
               candidateMatchMiddleWare({ 

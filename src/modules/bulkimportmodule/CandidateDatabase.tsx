@@ -79,7 +79,6 @@ class CandidateDatabase extends Component<MyProps, MyState> {
     // file upload function
     const fileUpload = (e: any) => {
       const newSelectedFiles = Array.from(this.fileUploaderRef.current.files);
-      console.log('zx', newSelectedFiles);
       const fileName = [...this.fileUploaderRef.current.files].map(
         (list) => list.name,
       );
@@ -255,11 +254,10 @@ class CandidateDatabase extends Component<MyProps, MyState> {
 
     const checkSelectLength = this.state.files.length === 0 ? false : true;
     const checkSelectLength500 = this.state.files.length < 501 ? true : false;
-    console.log(checkSelectLength500, checkSelectLength);
     return (
       <>
         <Flex center>
-          <Text bold color="theme" size={14}>
+          <Text bold size={14}>
             Add Attachment
           </Text>
           <CancelAndDeletePopup

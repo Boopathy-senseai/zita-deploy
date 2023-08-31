@@ -122,15 +122,14 @@ const Maillist = ({
         })
         .catch((error) => {
           setload(false);
-          console.log('errorsearch', error);
         });
     } else if (search !== '' && integration === 'google') {
       initGoogleAuth(emailcollection.token)
         .then(() => {
           Gmail_search(searchSection, search.trim(), range, tokens)
             .then((res) => {
-              console.log('ress', res);
               savemail(res.fullMessages, res.token);
+
               //settoken(res.token);
               if (res.token === undefined) {
                 setload(false);
@@ -139,7 +138,6 @@ const Maillist = ({
               }
             })
             .catch((error) => {
-              console.log('cvvccv');
               savemail([]);
               setload(false);
             });
@@ -281,14 +279,13 @@ const Maillist = ({
         })
         .catch((error) => {
           setload(false);
-          console.log('errorsearch', error);
+          // console.log('errorsearch', error);
         });
     } else if (search !== '' && integration === 'google') {
       initGoogleAuth(emailcollection.token)
         .then(() => {
           Gmail_search(searchSection, search.trim(), range, null)
             .then((res) => {
-              console.log('ress', res);
               savemail(res.fullMessages, res.token);
               //settoken(res.token);
               if (res.token === undefined) {
@@ -339,7 +336,9 @@ const Maillist = ({
         // return <>{'Draft (No Recipients)'}</>;
         return (
           <Flex row>
-            <Text style={{ color: '#ED4857', marginRight: '5px' }} size={13}>Draft </Text>
+            <Text style={{ color: '#ED4857', marginRight: '5px' }} size={13}>
+              Draft{' '}
+            </Text>
             <Text size={13}>{`(No Recipients)`}</Text>
           </Flex>
         );
@@ -368,9 +367,12 @@ const Maillist = ({
   const getsubject = (data: any) => {
     if (data.length !== 0) {
       const subject = data.filter((item) => item.name === 'Subject');
-
       if (subject.length !== 0) {
-        return <>{subject[0].value}</>;
+        if (subject[0].value !== '') {
+          return <>{subject[0].value}</>;
+        } else {
+          return <>{'(No Subject)'}</>;
+        }
       } else {
         return <>{'(No Subject)'}</>;
       }
@@ -427,7 +429,10 @@ const Maillist = ({
             return (
               <>
                 <Flex row>
-                  <Text size={13} style={{ color: '#ED4857', marginRight: '5px' }}>
+                  <Text
+                    size={13}
+                    style={{ color: '#ED4857', marginRight: '5px' }}
+                  >
                     Draft{' '}
                   </Text>
                   <Text size={13}>{From}</Text>
@@ -503,7 +508,6 @@ const Maillist = ({
         isprofileview ? window.innerHeight - 95 : window.innerHeight - 115
       }
     >
-      {console.log('select===', messages)}
       <Flex
         row
         between
@@ -590,7 +594,9 @@ const Maillist = ({
                           </Text>
                           <Flex>
                             <Text className={styles.textStyle} size={13}>
-                              {val.snippet}
+                              {val.snippet !== ''
+                                ? val.snippet
+                                : 'This message has no content'}
                             </Text>
                           </Flex>
                         </Flex>

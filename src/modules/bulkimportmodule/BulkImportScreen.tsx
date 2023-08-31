@@ -84,7 +84,6 @@ const BulkImportScreen = () => {
 
   // Search Submit Function
   const handleSubmit = (values: FormProps) => {
-    console.log('handleSubmit')
     dispatch(bulkuploadedCandidatesMiddleWare({ search: values.searchValue }))
       .then((response) => {
         setSearch(response.payload.search);
@@ -166,7 +165,6 @@ const BulkImportScreen = () => {
 
   return (
     <>
-    {console.log("hello" ,unlimitedHelper(isFeaturesBalance))}
     <div
       className={styles.overAllContainer}
     >

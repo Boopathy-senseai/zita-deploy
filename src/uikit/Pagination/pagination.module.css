@@ -16,7 +16,7 @@
 .roundEffect:hover {
   text-decoration: none;
   background-color: rgb(88 24 69 / 15%);
-  color: var(--color-gary-1, #1a1a1a);
+  color: var(--color-gary-1, #333333);
 }
 
 .roundEffect:hover a {

@@ -442,7 +442,6 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
           .then(() => {
             Gmail_Mails(Gfolder, null, range, emailcollection.token)
               .then((res) => {
-                //  console.log('rem', res);
                 if (res.fullMessages !== undefined) {
                   setmessagelist((prevMessages) => [
                     ...prevMessages,
@@ -518,13 +517,16 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
         .then(() => {
           Gmail_Mails(Gfolder, nextpagetoken, range, emailcollection.token)
             .then((res) => {
-              //  console.log('rem', res);
               if (res.fullMessages !== undefined) {
                 setmessagelist((prevMessages) => [
                   ...prevMessages,
                   ...res.fullMessages,
                 ]);
+              } else {
+                setNoEmails(true);
               }
+              foldercount();
+
               setIsLoading(false);
               setnextpagetoken(res.token);
               setLoader(false);
@@ -689,11 +691,11 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
   const IntegrationMenuView = (
     <Flex
       center
-      flex={!isprofileview&&1}
+      flex={!isprofileview && 1}
       middle
       columnFlex
       className={styles.integrationContent}
-      height={isprofileview && window.innerHeight -130}
+      height={isprofileview && window.innerHeight - 130}
     >
       <Text color="gray" style={{ marginBottom: 16 }}>
         Integrate your email with zita application to handle mailing inside zita
@@ -702,7 +704,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
         onClick={() => {
           // sessionStorage.setItem('superUserTab', '4');
           // sessionStorage.setItem('superUserFalseTab', '3');
-          sessionStorage.setItem('superUserTabTwo', '3');
+          sessionStorage.setItem('superUserTabTwo', '2');
           sessionStorage.setItem('superUserFalseTab', '1');
           sessionStorage.setItem('superUserTab', '4');
         }}
@@ -718,15 +720,15 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
       <Flex column className={styles.inboxContainer}>
         {loader === true && <Loader />}
         {/* {loader === true && emailcollection.loading === false && <Loader />} */}
-       
-            <>
-              {!isprofileview && 
-                <Flex row between center className={styles.titleContainer}>
-                  <Text bold size={16} color="theme">
-                    Mailbox
-                  </Text>
-                  {emailcollection.integration !== null &&
-          emailcollection.integration !== '' && (
+
+        <>
+          {!isprofileview && (
+            <Flex row between center className={styles.titleContainer}>
+              <Text bold size={16} color="theme">
+                Mailbox
+              </Text>
+              {emailcollection.integration !== null &&
+                emailcollection.integration !== '' && (
                   <Flex row>
                     {searchDropdown && (
                       <Dropdown className="dropdown toggle">
@@ -801,14 +803,15 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
                         setSearchDropdown(true);
                       }}
                     />
-                  </Flex>)}
+                  </Flex>
+                )}
 
-                  <Flex></Flex>
-                  <div className={styles.triangle}> </div>
-                </Flex>
-              }
-              {emailcollection.integration !== null &&
-          emailcollection.integration !== '' && (
+              <Flex></Flex>
+              <div className={styles.triangle}> </div>
+            </Flex>
+          )}
+          {emailcollection.integration !== null &&
+            emailcollection.integration !== '' && (
               <Flex row className={styles.container}>
                 <Flex className={styles.containerColumn} marginTop={1}>
                   <Sidebar
@@ -879,10 +882,11 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
                     update_message={update_message}
                   />
                 </Flex>
-              </Flex> )}
-              {/* <Flex flex={10}></Flex> */}
-              {emailcollection.integration !== null &&
-          emailcollection.integration !== '' && (
+              </Flex>
+            )}
+          {/* <Flex flex={10}></Flex> */}
+          {emailcollection.integration !== null &&
+            emailcollection.integration !== '' && (
               <Newcompose
                 data={model}
                 mail={usermail}
@@ -896,9 +900,10 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
                 removemsg={removemessage}
                 remove_message={remove_message}
                 newmsg={newmsg}
-              /> )}
-            </>
-         
+              />
+            )}
+        </>
+
         {console.log(
           emailcollection.integration,
           'emailcollection.integration === null',

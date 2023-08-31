@@ -10,7 +10,7 @@ import {
   SvgEdit,
   SvgCopy,
 } from '../../icons';
-import { Flex, Text } from '../../uikit';
+import { Button, Flex, Text } from '../../uikit';
 import { CrossButton, Modal } from '../../uikit/v2';
 import SvgInfo from '../../icons/SvgInfo';
 import Avatar, { getUserInitials } from '../../uikit/Avatar';
@@ -78,20 +78,20 @@ const EventPopUpModal = ({
           className={styles.actionButtonWrapper}
           style={{ marginTop: '20px' }}
         >
-          <button
+          <Button className={styles.cancel}
             style={{ marginRight: 8 }}
             onClick={() => setOpenEventDeleteModal(false)}
           >
             No, Thanks
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => {
               handleRemoveEvent(setOpenEventDeleteModal);
             }}
             className={styles.deleteButton}
           >
             Cancel Meeting
-          </button>
+          </Button>
         </div>
       </div>
     </Modal>

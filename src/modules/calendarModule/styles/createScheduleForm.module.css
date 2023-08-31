@@ -89,16 +89,17 @@
 
 .meetingForm {
   /* background-color: white; */
-  max-height: 510px;
+  max-height: 520px;
   height: 100%;
   border-radius: 4px;
-  width: 700px;
-  max-width: 80vw;
+  /* width: 700px; */
+  /* max-width: 650px; */
   display: grid;
   grid-template-columns: [one] 1fr [two] 1fr [three];
   grid-template-rows: auto;
   grid-gap: 20px 20px;
-  padding: 15px 25px;
+  padding: 0px 15px;
+  margin: 10px;
   overflow: auto;
   /* margin-top: 15px; */
 }
@@ -122,14 +123,14 @@
 .addInterviewer .icons {
   display: flex;
   align-items: center;
-/* margin-left: 10px; */
+  /* margin-left: 10px; */
 }
-.dateview.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input{
+.dateview.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
   padding: 3px 10px !important;
   background-color: #581845;
-/* margin-left: 10px; */
+  /* margin-left: 10px; */
 }
-.dateview.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input{
+.dateview.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
   padding: 3px 10px !important;
   background-color: #581845;
 }
@@ -154,13 +155,13 @@
   /* margin-top: 4.5px; */
   /* background-color: rgba(0, 0, 0, 0.07); */
   border-radius: 4px;
-  border:1px solid #cccccc;
+  border: 1px solid #cccccc;
   /* width: fit-content; */
   padding: 3.5px 10px;
   /* margin-top: 4.5px; */
   /* background-color: rgba(0, 0, 0, 0.07); */
   border-radius: 4px;
-  border:1px solid #cccccc;
+  border: 1px solid #cccccc;
   /* width: fit-content; */
 }
 
@@ -179,18 +180,18 @@
   border-top: 1px solid #c3c3c3;
   display: flex;
   justify-content: flex-end;
-  
 }
 
 .actionButtonWrapper button {
   /* margin-left: 20px; */
   /* margin-left: 20px; */
   border-radius: 5px;
-  font-weight: 500;
+  font-weight: bold;
   letter-spacing: 0.6px;
   outline: none;
   border: none;
   padding: 5px 12px;
+  font-size: 13px !important;
 }
 
 .actionButtonWrapper button.continueButton {
@@ -212,7 +213,7 @@ label > p {
   margin: 0 !important;
   padding: 0;
 }
-.cancelButton{
+.cancelButton {
   margin-right: 8px;
   background-color: #888888;
   border: none;
@@ -220,6 +221,7 @@ label > p {
   margin-top: 20px;
   color: #ffffff;
   font-size: 13px;
+  font-weight: bold;
 }
 
 .cancelButton:active,
@@ -232,6 +234,7 @@ label > p {
   border-radius: 5px;
   margin-top: 20px;
   font-size: 13px;
+  font-weight: bold;
 }
 .continueButton:active,
 .continueButton:focus {

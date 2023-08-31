@@ -238,7 +238,7 @@ const ZitaMatchFilters = ({
           document.removeEventListener('click', handleClickOutside, true);
         }
       }
-   
+
     };
   });
 
@@ -667,7 +667,7 @@ const ZitaMatchFilters = ({
                 </div>
               </div>
             </Flex>
-      
+
             <Flex className={styles.mtstyle}>
               <Text
                 bold

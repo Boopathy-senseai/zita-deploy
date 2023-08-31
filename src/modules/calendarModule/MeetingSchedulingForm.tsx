@@ -12,6 +12,7 @@ import { AppDispatch } from '../../store';
 import { Button, Flex, InputText, Modal, SelectTag, Text } from '../../uikit';
 import { getJdMiddleware } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { CrossButton } from '../../uikit/v2';
+import { isEmpty } from '../../uikit/helper';
 import AddInterviewerSlider from './AddInterviewerSlider';
 import InterviewerIcon from './InterviewerIcon';
 import styles from './styles/createScheduleForm.module.css';
@@ -159,12 +160,15 @@ const MeetingSchedulingForm = ({
   };
 
   const handleContinue = () => {
-    if(localStorage.getItem('Applicantname') !== ''){
-      localStorage.setItem('Applicantsname',localStorage.getItem('Applicantname'))
+    if (localStorage.getItem('Applicantname') !== '') {
+      localStorage.setItem(
+        'Applicantsname',
+        localStorage.getItem('Applicantname'),
+      );
     }
-    localStorage.setItem('Applicantname','')
-    localStorage.setItem('Jdname','')
-    localStorage.setItem('jdid','')
+    localStorage.setItem('Applicantname', '');
+    localStorage.setItem('Jdname', '');
+    localStorage.setItem('jdid', '');
     setMeetingForm((form) => {
       let jobError = !form.job.label ? true : false;
       let applicantError = !form.applicant.name ? true : false;
@@ -175,8 +179,11 @@ const MeetingSchedulingForm = ({
           : false
         : false;
       let dateError = form.date.value === null ? true : false;
-      let locationError = !form.location.value  ? true : false;
-
+      let locationError =
+        form.eventType.value === 'Onsite interview' &&
+        isEmpty(form.location.value)
+          ? true
+          : false;
       return {
         ...form,
         job: { ...form.job, error: jobError },
@@ -220,9 +227,38 @@ const MeetingSchedulingForm = ({
         setViewMeetingSummary(true);
       }
     } else {
+      if (meetingForm.eventType.value === 'Onsite interview') {
+        if (
+          meetingForm.applicant.name &&
+          meetingForm.job.label &&
+          meetingForm.location.value &&
+          meetingForm.eventType.value &&
+          meetingForm.timeZone.value &&
+          meetingForm.date.value !== null &&
+          meetingForm.startTime.value &&
+          meetingForm.endTime.value &&
+          new Date(meetingForm.startTime.value) <
+            new Date(meetingForm.endTime.value)
+        ) {
+          setMeetingForm((form) => {
+            const { startDateTime, endDateTime } = getNewDateTimes(
+              form.date.value,
+              form.startTime.value,
+              form.endTime.value,
+            );
+            return {
+              ...form,
+              startDateTime,
+              endDateTime,
+            };
+          });
+          setViewMeetingSummary(true);
+        } 
+    }
+    else {
       if (
         meetingForm.applicant.name &&
-        meetingForm.job.label &&
+        meetingForm.job.label && 
         meetingForm.eventType.value &&
         meetingForm.timeZone.value &&
         meetingForm.date.value !== null &&
@@ -246,6 +282,7 @@ const MeetingSchedulingForm = ({
         setViewMeetingSummary(true);
       }
     }
+   }
   };
 
   const handleJobRole = (value: number, label: string) => {
@@ -360,7 +397,7 @@ const MeetingSchedulingForm = ({
   const handleLocation = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMeetingForm((form) => ({
       ...form,
-      location: { ...form.location, value: e.target.value },
+      location: { ...form.location, value: e.target.value, error: false },
     }));
     localStorage.setItem('location', e.target.value.toString());
   };
@@ -434,7 +471,6 @@ const MeetingSchedulingForm = ({
   const ApplicantView = (
     <div>
       <label className={styles.label}>Applicant*</label>
-      {console.log(cand_name,'cand_namecand_namecand_name')}
       {editEventDetails || cand_name ? (
         <div>
           <InputText
@@ -467,7 +503,7 @@ const MeetingSchedulingForm = ({
         />
       )}
       {meetingForm.applicant.error && (
-        <p className={styles.warn}>This field is required</p>
+        <p className={styles.warn}>This field is required.</p>
       )}
     </div>
   );
@@ -508,7 +544,7 @@ const MeetingSchedulingForm = ({
           </div>
         )}
         {meetingForm.job.error && (
-          <p className={styles.warn}>This field is required</p>
+          <p className={styles.warn}>This field is required.</p>
         )}
       </div>
     </div>
@@ -516,78 +552,100 @@ const MeetingSchedulingForm = ({
 
   const DateView = (
     <div className={styles.dateview}>
-      <label className={styles.label} style={{marginBottom:"5px"}}>Date *</label>
+      <label className={styles.label} style={{ marginBottom: '5px' }}>
+        Date *
+      </label>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DesktopDatePicker
-          label={" "}
+          label={' '}
           value={meetingForm.date.value}
           onChange={handleChangeDate}
           renderInput={(params) => (
-            <TextField {...params} style={{ width: 'auto !important'}} />
+            <TextField {...params} style={{ width: 'auto !important' }} />
           )}
         />
       </LocalizationProvider>
       {meetingForm.date.error && (
-        <p className={styles.warn}>This field is required</p>
+        <p className={styles.warn}>This field is required.</p>
       )}
     </div>
   );
 
   const TimingView = (
     <div>
-      <label className={styles.label} >Time *</label>
-      <Flex >
-        <Flex>
-      <div className={styles.timeInputWrapper}>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <TimePicker
-              value={meetingForm.startTime.value}
-              onChange={handleStartTime}
-              renderInput={(params) => <TextField {...params} />}
-              className={styles.timeInput}
-            />
-          </LocalizationProvider>
-          {meetingForm.startTime.errorMessage!=="Start time must be less then end time" && <>
-            <p className={styles.warn}  style={{marginTop:"3px"}}>{meetingForm.startTime.errorMessage}</p></>
-          }
-        </div>
-        <p
-          className={styles.to}
-          style={{ fontSize:"13px",
-            marginBottom:
-              meetingForm.startTime.errorMessage ||
-              meetingForm.endTime.errorMessage
-                ? '10px'
-                : 0,
-          }}
-        >
-          to
-        </p>
-      
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <TimePicker
-              value={meetingForm.endTime.value}
-              onChange={handleEndTime}
-              renderInput={(params) => <TextField {...params} />}
-            />
-          </LocalizationProvider>
-          {meetingForm.endTime.errorMessage!=='End time must be greated than start time' && 
-          <>
-            <p className={styles.warn}  style={{marginTop:"3px"}}>{meetingForm.endTime.errorMessage}</p></>
-          }
-        </div>
-      </div></Flex>
+      <label className={styles.label}>Time *</label>
       <Flex>
-      {meetingForm.startTime.errorMessage==="Start time must be less then end time" && <>
-            <p className={styles.warn}  style={{marginTop:"12px"}}>{meetingForm.startTime.errorMessage}</p></>
-          }
-          {meetingForm.endTime.errorMessage==='End time must be greated than start time' && 
-          <>
-            <p className={styles.warn} style={{marginTop:"12px"}}>{meetingForm.endTime.errorMessage}</p></>
-          }
-      </Flex>
+        <Flex>
+          <div className={styles.timeInputWrapper}>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <TimePicker
+                  value={meetingForm.startTime.value}
+                  onChange={handleStartTime}
+                  renderInput={(params) => <TextField {...params} />}
+                  className={styles.timeInput}
+                />
+              </LocalizationProvider>
+              {meetingForm.startTime.errorMessage !==
+                'Start time must be less then end time' && (
+                <>
+                  <p className={styles.warn} style={{ marginTop: '3px' }}>
+                    {meetingForm.startTime.errorMessage}
+                  </p>
+                </>
+              )}
+            </div>
+            <p
+              className={styles.to}
+              style={{
+                fontSize: '13px',
+                marginBottom:
+                  meetingForm.startTime.errorMessage ||
+                  meetingForm.endTime.errorMessage
+                    ? '10px'
+                    : 0,
+              }}
+            >
+              to
+            </p>
+
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <TimePicker
+                  value={meetingForm.endTime.value}
+                  onChange={handleEndTime}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
+              {meetingForm.endTime.errorMessage !==
+                'End time must be greated than start time' && (
+                <>
+                  <p className={styles.warn} style={{ marginTop: '3px' }}>
+                    {meetingForm.endTime.errorMessage}
+                  </p>
+                </>
+              )}
+            </div>
+          </div>
+        </Flex>
+        <Flex>
+          {meetingForm.startTime.errorMessage ===
+            'Start time must be less then end time' && (
+            <>
+              <p className={styles.warn} style={{ marginTop: '12px' }}>
+                {meetingForm.startTime.errorMessage}
+              </p>
+            </>
+          )}
+          {meetingForm.endTime.errorMessage ===
+            'End time must be greated than start time' && (
+            <>
+              <p className={styles.warn} style={{ marginTop: '12px' }}>
+                {meetingForm.endTime.errorMessage}
+              </p>
+            </>
+          )}
+        </Flex>
       </Flex>
     </div>
   );
@@ -643,7 +701,7 @@ const MeetingSchedulingForm = ({
         />
       )}
       {meetingForm.eventType.error && (
-        <p className={styles.warn}>This field is required</p>
+        <p className={styles.warn}>This field is required.</p>
       )}
     </div>
   );
@@ -716,24 +774,38 @@ const MeetingSchedulingForm = ({
 
   const LocationView = (
     <>
-      {meetingForm.location.isHave ? (
+      {meetingForm.location.isHave ||
+      (editEventDetails &&
+        editEventDetails?.eventType === 'Onsite interview') ? (
         <div className={styles.location}>
-          <label className={styles.label} >Location*</label>
-          <InputText
-            value={meetingForm.location.value}
-            textarea={true}
-            onChange={handleLocation}
-            style={{ height: '50px' }}
-            className={styles.location}
-            placeholder="Add Location"
-            required
-          />
+          <label className={styles.label}>Location*</label>
+          {editEventDetails &&
+          editEventDetails?.eventType === 'Onsite interview' ? (
+            <InputText
+              value={editEventDetails?.location}
+              textarea={true}
+              onChange={handleLocation}
+              style={{ height: '50px' }}
+              className={styles.location}
+              placeholder="Add Location"
+              required
+            />
+          ) : (
+            <InputText
+              value={meetingForm.location.value}
+              textarea={true}
+              onChange={handleLocation}
+              style={{ height: '50px' }}
+              className={styles.location}
+              placeholder="Add Location"
+              required
+            />
+          )}
           {meetingForm.location.error && (
-          <p className={styles.warn}>This field is required</p>
-        )}
+            <p className={styles.warn}>This field is required.</p>
+          )}
         </div>
       ) : null}
-      
     </>
   );
 
@@ -747,8 +819,8 @@ const MeetingSchedulingForm = ({
           marginBottom: '7px',
         }}
       >
-        <p style={{ color: '#581845', fontSize:"13px" }}>Notes</p>
-        <p style={{fontSize:"13px"}}>Visible to candidates</p>
+        <p style={{ color: '#581845', fontSize: '13px' }}>Notes</p>
+        <p style={{ fontSize: '13px' }}>Visible to candidates</p>
       </label>
       <InputText
         value={meetingForm.notes}
@@ -770,7 +842,7 @@ const MeetingSchedulingForm = ({
           marginBottom: '7px',
         }}
       >
-        <p style={{ color: '#581845', fontSize:"13px" }}>Private Notes</p>
+        <p style={{ color: '#581845', fontSize: '13px' }}>Private Notes</p>
       </label>
       <InputText
         value={meetingForm.privateNotes}
@@ -819,15 +891,21 @@ const MeetingSchedulingForm = ({
 
       return (
         <div className={styles.duration}>
-          <p style={{ marginBottom: '4px', color: '#581845', fontSize:"13px" }}>Duration</p>
+          <p
+            style={{ marginBottom: '4px', color: '#581845', fontSize: '13px' }}
+          >
+            Duration
+          </p>
           <p>{formatTime(timeDifference)}</p>
         </div>
       );
     }
     return (
       <div className={styles.duration}>
-        <p style={{ marginBottom: '4px', color: '#581845', fontSize:"13px" }}>Duration</p>
-        <p style={{fontSize:"13px"}}>00 : 00</p>
+        <p style={{ marginBottom: '4px', color: '#581845', fontSize: '13px' }}>
+          Duration
+        </p>
+        <p style={{ fontSize: '13px' }}>00 : 00</p>
       </div>
     );
   };
@@ -843,7 +921,12 @@ const MeetingSchedulingForm = ({
 
   return (
     <div
-      style={{ display: 'flex', flexDirection: 'column', position: 'relative' }}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'relative',
+        overflow: 'unset',
+      }}
     >
       {/* <CrossButton
         onClick={handleCloseSchedulingForm}
@@ -861,7 +944,13 @@ const MeetingSchedulingForm = ({
           borderBottom: '0.5px solid #581845',
         }}
       >
-        <SvgCalendar width={18} height={18} style={{ marginBottom: '5px' }} fill={"#333"} stroke={"#333"}/>
+        <SvgCalendar
+          width={18}
+          height={18}
+          style={{ marginBottom: '5px' }}
+          fill={'#333'}
+          stroke={'#333'}
+        />
         <Text
           size={14}
           bold

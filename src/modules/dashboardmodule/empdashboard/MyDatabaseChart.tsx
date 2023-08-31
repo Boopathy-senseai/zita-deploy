@@ -109,12 +109,13 @@ const MyDatabaseChart = ({
   };
   return (
     <Card className={styles.overAll}>
-      <Text bold size={14} style={{color:'#1a1a1a'}}>
+      <Text bold size={14} style={{ color: '#333' }}>
         Database
       </Text>
+   
       {(Array.isArray(my_database) &&
         my_database.length !== 0 &&
-        zita_match !== 0) ||
+        zita_match !== 0 && zita_match !== null) ||
       planId === 1 ||
       jd_metrics.length === 0 ? (
         <Chart
@@ -123,9 +124,11 @@ const MyDatabaseChart = ({
           }
         />
       ) : (
-        <Flex flex={1} center middle style={{display:"flex"}}>
-         <SvgNoData width={16} height={16} fill={"#888888"}/>
-          <Text style={{marginTop:"2px"}} size={13} color="placeholder">No data available</Text>
+        <Flex flex={1} center middle style={{ display: 'flex' }}>
+          <SvgNoData width={16} height={16} fill={'#888888'} />
+          <Text style={{ marginTop: '2px' }} size={13} color="placeholder">
+            No data available
+          </Text>
         </Flex>
       )}
     </Card>

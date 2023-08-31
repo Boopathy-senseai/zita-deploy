@@ -190,7 +190,6 @@ const ApplicantPipeLineFilter = ({
     doc.onChange();
   };
   const handlefunction = (doc) => {
-    console.log('docccccccccccc', doc);
     const newOptions1 = [...qualificationValue];
     var gremove = qualification1.filter((obj) => obj.value !== doc.value);
     setqualification1(gremove);
@@ -216,9 +215,7 @@ const ApplicantPipeLineFilter = ({
       (doc) => doc.value !== 'any',
     );
     const skills = skill1 || [];
-    {
-      console.log('logggggg', skills, qualification);
-    }
+   
     if (
       (match1?.value === '' || match1 === undefined) &&
       (profile1?.value === '' || profile1 === undefined) &&

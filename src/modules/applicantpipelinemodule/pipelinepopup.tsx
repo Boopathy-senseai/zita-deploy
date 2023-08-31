@@ -65,15 +65,15 @@ const PipelinePopup = ({
       );
     }
   }, [pipelineData]);
-  
+
   return (
     <Modal open={openPipelinePopup}>
       <Flex flex={6} columnFlex className={styles.overAll}>
-        <Text size={14} color="theme" className={styles.insertStyles}>
+        <Text size={14} bold className={styles.insertStyles}>
           Choose your pipeline
         </Text>
         <SelectTag
-          value={selectValue }
+          value={selectValue}
           options={pipelineData.map((doc) => ({
             label: doc.set_as_default
               ? `${doc.pipeline_name} (Default)`
@@ -105,7 +105,7 @@ const PipelinePopup = ({
           onClick={onNewPipeline}
           className={styles.newBtn}
         >
-          <Text color="theme" size={14}>
+          <Text color="theme" bold size={13}>
             Create New Pipeline
           </Text>
         </Button>
