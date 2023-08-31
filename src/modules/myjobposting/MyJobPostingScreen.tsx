@@ -184,6 +184,7 @@ const MyJobPostingScreen = () => {
         </Flex>
       </div>
       {/* {(is_loading || is_loadingone) && <Loader />} */}
+     
       {Jobs_List === 2 && (
         <Flex>
           <div className={cx('tabsContainer')}>
@@ -244,32 +245,31 @@ const MyJobPostingScreen = () => {
                   currentPage={isPage}
                   setCurrentPage={handleSetPagination}
                 />
-
-                {len_list === 0 && (
+                
+              </Flex>
+            </Flex>
+          </div>
+        </Flex>
+      )}
+      {console.log(len_list,'len_listlen_list')}
+      {len_list === 0 && (
                   <Flex
                     className="container"
                     flex={1}
                     center
                     middle
-                    width={window.innerWidth - 570}
-                    // style={styles.nojobpost}
+                    width={window.innerWidth - 570} 
                   >
                     <Text
-                      style={{
-                        paddingTop: 200,
+                      style={{ 
                         color: 'gray',
-                        fontSize: 16,
+                        fontSize: 13,
                       }}
                     >
                       No Job Found
                     </Text>
                   </Flex>
                 )}
-              </Flex>
-            </Flex>
-          </div>
-        </Flex>
-      )}
       {Jobs_List === 1 && (
         <Flex middle className={styles.overAll2}>
           <Flex center>
