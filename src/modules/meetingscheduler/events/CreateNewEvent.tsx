@@ -1010,7 +1010,6 @@ const CreateNewEvent = ({
     interviewerData.splice(id, 1);
     checkedItems.splice(id, 1);
     setCheckedItems([...checkedItems]);
-    console.log('checkedItemscheckedItems', checkedItems);
 
     setinterviewerData([...interviewerData]);
   }
@@ -1018,7 +1017,6 @@ const CreateNewEvent = ({
   const MAX_BUTTONS = 3;
   const MAX_BUTTON_TEXT_WIDTH = 85;
 
-  console.log('interviewerDatainterviewerData', interviewerData);
 
   return (
     <Flex>

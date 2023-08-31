@@ -80,7 +80,7 @@
   color: var(--color-gary-4, #979797);
 }
 .color-primary {
-  color: var(--color-gary-2, #1a1a1a);
+  color: var(--color-gary-2, #333333);
 }
 .color-info {
   color: var(--color-link, #1890ff);

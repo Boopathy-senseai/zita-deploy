@@ -94,9 +94,6 @@ const SetNewPassword = ({
 
   return (
     <>
-      {console.log(isSuccess, setPassSuccess, success, user_not_found)}
-
-      {console.log('wewe')}
       <Flex className={styles.row}>
         <Flex className={styles.splitrow_1}>
           <Flex className={styles.center_aligh}>

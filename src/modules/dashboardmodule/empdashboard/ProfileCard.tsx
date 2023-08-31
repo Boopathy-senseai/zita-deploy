@@ -245,7 +245,6 @@ const ProfileCard = () => {
           </Text>
           <Text align="center" bold style={{ fontSize: '13px' }}>
             Last Login on: {getDateString(user_info?.last_login, 'll hh:mm A')}
-            {console.log('userinfo', user_info.last_login)}
           </Text>
         </Flex>
 
