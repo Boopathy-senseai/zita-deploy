@@ -76,7 +76,7 @@ const ProfileViewModal = ({
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
-    // setDisplay(true)
+    // setDisplay(false)
     dispatch(bulkUploadSkillsMiddleWare({ empId: canId }));
     dispatch(uploadedProfileViewMiddleWare({ id: Number(canId) }));
     if (jdId !== undefined) {
@@ -282,7 +282,7 @@ const ProfileViewModal = ({
       }
     }
   };
-  const [display,setDisplay] = useState(true)
+  const [display,setDisplay] = useState(false)
   // error message focus function
   useEffect(() => {
     setAnswer(answers);
@@ -311,7 +311,17 @@ const ProfileViewModal = ({
   }, [is_loading]);
   
   useEffect(() => {
-    setDisplay(true);
+   
+    setTimeout(() => {
+      setDisplay(true);
+    }, 100);
+  },[])
+
+  useEffect(() => {
+   
+    setTimeout(() => {
+      setDisplay(true);
+    }, 100);
   },[display])
   return (
     <Drawer open={open}>
