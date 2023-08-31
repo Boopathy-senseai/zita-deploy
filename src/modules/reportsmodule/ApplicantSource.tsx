@@ -195,7 +195,7 @@ const ApplicantReports = () => {
           <div className={styles.triangle}></div>
         </Flex>
       </Flex>
-      <Flex className={styles.overAll}  height={window.innerHeight-110}>
+      <Flex className={styles.overAll}  height={window.innerHeight-110} style={{display:'flex'}}>
         {isLoading && <Loader />}
 
         
@@ -228,7 +228,7 @@ const ApplicantReports = () => {
             Download Report
           </Button>
         </Flex>
-        {piechart && piechart.length > 0 && isChart ? (
+   
           
             <Flex row  style={{ paddingLeft: '5px' }} >
               <Flex flex={6}>
@@ -236,7 +236,18 @@ const ApplicantReports = () => {
                   <Text bold size={14}>
                     Applicants by Source
                   </Text>
-                  <Chart options={options} />
+                  {piechart && piechart.length > 0 && isChart ?(
+                  <Chart options={options} />):(
+                    <Flex center middle className={styles.noData}>
+                    <Flex
+                      style={{ justifyContent: 'center', marginBotto: '2px' }}
+                    >
+                      <SvgNoDataIcon width={16} height={16} fill={'#888'} />
+                    </Flex>
+                    <Text color="placeholder">No data available</Text>
+                  </Flex>
+                  )
+                    }
                 </Card>
               </Flex>
               <Flex flex={6}>
@@ -265,18 +276,7 @@ const ApplicantReports = () => {
               </Flex>
             </Flex>
           
-        ) : (
-          <Flex
-            className={styles.noData}
-            style={{minHeight:'73vh'}}
-          >
-            <Text color="gray" >
-              <Flex style={{ justifyContent: 'center', marginBotto: '2px' }}>
-            <SvgNoDataIcon width={16} height={16} fill={'#888'} />
-            </Flex>
-              No data available</Text>
-          </Flex>
-        )}
+     
         {table && table.length > 0 && (
           <Flex style={{ paddingTop: '15px' }}>
             <Flex>
