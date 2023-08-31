@@ -70,10 +70,11 @@ const Table = ({
             <Text
               align="center"
               color="gray"
-              className={cx({
+              className={isscroll===true && dataSource.length === 0 ?(styles.candidateempty):( cx({
                 emptyTextOne: fixedScrollHeight,
                 emptyText: !fixedScrollHeight,
-              })}
+              }))}
+            
               style={{padding:test1?'70px 0':(''),minHeight:test1?('0px'):('')}}
             >
               {empty}
@@ -103,6 +104,7 @@ const Table = ({
           ))}
         </div>
       ) : (
+        <>{dataSource.length !== 0 &&
         <Flex  
         style={{overflow:test?(''):'scroll',display:'flex',height:test?(''):window.innerHeight-300}}
          
@@ -130,7 +132,7 @@ const Table = ({
               />
             </Flex>
           )}
-        </Flex>
+        </Flex>}</>
       )}
     </Flex>
   );

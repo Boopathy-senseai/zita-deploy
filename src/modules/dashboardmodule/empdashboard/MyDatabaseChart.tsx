@@ -112,6 +112,7 @@ const MyDatabaseChart = ({
       <Text bold size={14} style={{color:'#1a1a1a'}}>
         Database
       </Text>
+   
       {(Array.isArray(my_database) &&
         my_database.length !== 0 &&
         zita_match !== 0) ||
