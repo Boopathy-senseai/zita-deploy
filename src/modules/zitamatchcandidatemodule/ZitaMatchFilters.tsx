@@ -152,8 +152,7 @@ const ZitaMatchFilters = ({
     setjobtype(isJobType);
     setprofilevalue(isProfile);
   }, [isMatchRadio, isJobType, isProfile, isExperience]);
-  console.log(isSkills, 'jjjoppk');
-  console.log(profile, 'oppk');
+
 
   const [applimatch, setapplimatch] = useState('');
   const [appliexp, setappliexp] = useState('');
@@ -239,7 +238,6 @@ const ZitaMatchFilters = ({
           document.removeEventListener('click', handleClickOutside, true);
         }
       }
-      console.log(isSkillOption, 'matchjjjkkk;232');
     };
   });
 
@@ -339,7 +337,6 @@ const ZitaMatchFilters = ({
 
   return (
     <Flex row style={{ justifyContent: 'space-between' }}>
-      {console.log("aaaaaaaaa",skill)}
       <Flex row wrap>
       <Text size={13} style={{ whiteSpace: 'nowrap', marginTop: '3px' }}>
             Quick Filters :
@@ -668,7 +665,6 @@ const ZitaMatchFilters = ({
                 </div>
               </div>
             </Flex>
-            {console.log('skillarray', skill)}
             <Flex className={styles.mtstyle}>
               <Text
                 bold

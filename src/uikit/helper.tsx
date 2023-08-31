@@ -222,8 +222,7 @@ export function stringifyParams(
   Object.keys(json).forEach(key => json[key] === undefined ? delete json[key] : {});
   return Object.keys(json).reduce((res, key) => {
     if (res === '') {
-      // console.log(res);
-      // console.log(`${key}=${jsonStringfy(json[key])}`)
+
       return `${key}=${jsonStringfy(json[key])}`;
     }
 
@@ -232,7 +231,6 @@ export function stringifyParams(
       if (typeof data !== 'string') {
         value = JSON.stringify(data);
       }
-      // console.log(`${value}`);
       return `${value}`;
     }
     return res + `&${key}=${jsonStringfy(json[key])}`;

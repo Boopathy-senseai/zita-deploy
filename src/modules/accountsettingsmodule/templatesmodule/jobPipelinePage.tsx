@@ -139,21 +139,21 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     //   errors.pipelineTitle = error;
     // }
     if (isEmpty(values.pipelineTitle)) {
-      errors.pipelineTitle = 'This field is required';
+      errors.pipelineTitle = 'This field is required.';
     }
     if (!isEmpty(values.pipelineTitle) && values?.pipelineTitle.trim() === '') {
-      errors.pipelineTitle = 'Enter a valid Pipeline Title';
+      errors.pipelineTitle = 'Enter a valid pipeline title.';
     }
 
     if (
       !isEmpty(values.pipelineTitle) &&
       values.pipelineTitle.trim().length > 25
     ) {
-      errors.pipelineTitle = 'Pipeline Title should not exceed 25 characters.';
+      errors.pipelineTitle = 'Pipeline title should not exceed 25 characters.';
     }
 
     if (isPipelineDuplicate(values.pipelineTitle)) {
-      errors.pipelineTitle = 'Pipeline Title already exist';
+      errors.pipelineTitle = 'Pipeline title already exist';
     }
     return errors;
   };

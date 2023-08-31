@@ -26,7 +26,6 @@ interface CalenderConfigProps {
 
 const CalenderConfig = ({ isGoogle, email,CloseConfiguration }: CalenderConfigProps) => {
   const dispatch: AppDispatch = useDispatch();
-  console.log('isGoogleisGoogle', isGoogle);
   const [conflict, setconflict] = useState(false);
   const [calendar, setcalendar] = useState(false);
   const [text, setText] = useState('');
@@ -77,7 +76,6 @@ const CalenderConfig = ({ isGoogle, email,CloseConfiguration }: CalenderConfigPr
 
   function updateConflicts(cal,showas) {
     setconflict(!conflict);
-    console.log("calcalcalcal",text,cal,showas)
     const formData = new FormData();
     formData.append('configuration',JSON.stringify(text))
     formData.append('calendar',String(cal))
@@ -99,7 +97,6 @@ const CalenderConfig = ({ isGoogle, email,CloseConfiguration }: CalenderConfigPr
   }
 
 
-  console.log("dataatatatatatatatta",data,"\n",configuration)
 
   return (
     <Flex className={styles.modalwidth}>
@@ -180,7 +177,6 @@ const CheckForConflicts: React.FC<CheckForConflictProps> = ({
   editConflict,
   updateConflicts,
 }) => {
-  console.log('editmodaleditmodal', conflict);
 
   const [checkedItems, setCheckedItems] = useState([]);
   const [calendarflag, setcalendarflag] = useState(false);
@@ -188,7 +184,6 @@ const CheckForConflicts: React.FC<CheckForConflictProps> = ({
   useEffect(() => {
     if (conflict === true) {
       const calendarr = data.filter(item => item.calendar)
-      console.log("filteredShowasArray",calendarr)
       if (data?.length === 0 ){   
         setcalendarflag(true);  
         const checked = [
@@ -202,11 +197,9 @@ const CheckForConflicts: React.FC<CheckForConflictProps> = ({
       }else{  
         const filteredShowasArray = data?.filter(item => item.showas === 'Busy' || item.showas === 'Away/ Out of Office' || item.showas === 'Working Elsewhere' || item.showas === 'Tentative')
         .map(item => item.showas);
-        console.log("PPPPPPPPPPP",filteredShowasArray)
         setCheckedItems(filteredShowasArray);
         const distinctCalendars = Array.from(new Set(data.map(item => item.calendar)));
         const atLeastOneTrue = distinctCalendars.includes(true);
-        console.log("atLeastOneTrue",atLeastOneTrue);
         setcalendarflag(atLeastOneTrue)
       }
     } else {

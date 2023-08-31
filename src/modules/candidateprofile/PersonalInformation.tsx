@@ -95,9 +95,9 @@ const PersonalInformation = ({
     firstName: Yup.string().required(THIS_FIELD_REQUIRED),
     lastName: Yup.string().required(THIS_FIELD_REQUIRED),
     phone: Yup.string()
-      .required('This field is required')
-      .max(15, 'Enter a valid contact number')
-      .min(10, 'Enter a valid contact number'),
+      .required('This field is required.')
+      .max(15, 'Enter a valid contact number.')
+      .min(10, 'Enter a valid contact number.'),
     linkedIn: Yup.string().required(THIS_FIELD_REQUIRED),
     years: Yup.string().required(THIS_FIELD_REQUIRED),
     county: Yup.string().required(THIS_FIELD_REQUIRED),

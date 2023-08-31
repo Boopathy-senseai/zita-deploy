@@ -763,21 +763,21 @@ const myfunction=()=>{
                       transform: 'translate(-50%, -50%)',
                     }}
                   >
-                    <SvgBell fill={'#666666'} height={24} width={24} />
+                    <SvgBell fill={'#888888'} height={16} width={16} />
                   </Flex>
 
-                  <Text
+                  <Text size={13}
                     style={{
                       position: 'absolute',
                       top: '47%',
                       left: '50%',
                       transform: 'translate(-50%, -50%)',
-                      marginTop: '15px',
-                      color: '#666666',
+                      marginTop: '7px',
+                      color: '#888888',
                     }}
                   >
                     <br />
-                    You don’t have any notification
+                    You don’t have any notification.
                   </Text>
                 </Flex>
               </Flex>
