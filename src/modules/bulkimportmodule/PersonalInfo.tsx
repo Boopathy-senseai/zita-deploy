@@ -106,10 +106,10 @@ Props) => {
 
   // form validation
   const personalSchema = Yup.object().shape({
-    firstName: Yup.string().min(2, 'Too Short!').required(THIS_FIELD_REQUIRED),
-    lastName: Yup.string().min(1, 'Too Short!').required(THIS_FIELD_REQUIRED),
+    firstName: Yup.string().min(2, 'Too Short.').required(THIS_FIELD_REQUIRED),
+    lastName: Yup.string().min(1, 'Too Short.').required(THIS_FIELD_REQUIRED),
     phone: Yup.string()
-      .min(11, 'Invalid contact number')
+      .min(11, 'Invalid contact number.')
       .required(THIS_FIELD_REQUIRED),
 
     years: Yup.string().required(THIS_FIELD_REQUIRED),

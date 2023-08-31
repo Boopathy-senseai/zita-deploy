@@ -12,6 +12,7 @@ import { AppDispatch } from '../../store';
 import { Button, Flex, InputText, Modal, SelectTag, Text } from '../../uikit';
 import { getJdMiddleware } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { CrossButton } from '../../uikit/v2';
+import { isEmpty } from '../../uikit/helper';
 import AddInterviewerSlider from './AddInterviewerSlider';
 import InterviewerIcon from './InterviewerIcon';
 import styles from './styles/createScheduleForm.module.css';
@@ -175,7 +176,9 @@ const MeetingSchedulingForm = ({
           : false
         : false;
       let dateError = form.date.value === null ? true : false;
-      let locationError = !form.location.value  ? true : false;
+      let locationError = !form.location.value && isEmpty(form.location.value)  ? true : false;
+
+      console.log(isEmpty(form.location.value),"location")
 
       return {
         ...form,
@@ -223,6 +226,7 @@ const MeetingSchedulingForm = ({
       if (
         meetingForm.applicant.name &&
         meetingForm.job.label &&
+        meetingForm.location.value&&
         meetingForm.eventType.value &&
         meetingForm.timeZone.value &&
         meetingForm.date.value !== null &&
@@ -360,7 +364,7 @@ const MeetingSchedulingForm = ({
   const handleLocation = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMeetingForm((form) => ({
       ...form,
-      location: { ...form.location, value: e.target.value },
+      location: { ...form.location, value: e.target.value, error:false },
     }));
     localStorage.setItem('location', e.target.value.toString());
   };
@@ -467,7 +471,7 @@ const MeetingSchedulingForm = ({
         />
       )}
       {meetingForm.applicant.error && (
-        <p className={styles.warn}>This field is required</p>
+        <p className={styles.warn}>This field is required.</p>
       )}
     </div>
   );
@@ -508,7 +512,7 @@ const MeetingSchedulingForm = ({
           </div>
         )}
         {meetingForm.job.error && (
-          <p className={styles.warn}>This field is required</p>
+          <p className={styles.warn}>This field is required.</p>
         )}
       </div>
     </div>
@@ -528,7 +532,7 @@ const MeetingSchedulingForm = ({
         />
       </LocalizationProvider>
       {meetingForm.date.error && (
-        <p className={styles.warn}>This field is required</p>
+        <p className={styles.warn}>This field is required.</p>
       )}
     </div>
   );
@@ -643,7 +647,7 @@ const MeetingSchedulingForm = ({
         />
       )}
       {meetingForm.eventType.error && (
-        <p className={styles.warn}>This field is required</p>
+        <p className={styles.warn}>This field is required.</p>
       )}
     </div>
   );
@@ -729,7 +733,7 @@ const MeetingSchedulingForm = ({
             required
           />
           {meetingForm.location.error && (
-          <p className={styles.warn}>This field is required</p>
+          <p className={styles.warn}>This field is required.</p>
         )}
         </div>
       ) : null}

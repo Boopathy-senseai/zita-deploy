@@ -259,7 +259,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
     return (
       <>
         <Flex center>
-          <Text bold color="theme" size={14}>
+          <Text bold size={14}>
             Add Attachment
           </Text>
           <CancelAndDeletePopup

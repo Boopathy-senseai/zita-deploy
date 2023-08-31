@@ -185,9 +185,10 @@ const ZitaMatchCandidate = () => {
   };
 
 
+
   const onClearSearch = () => {
     setSearch("");
-  
+
     dispatch(
       zitaMatchDataCandidateMiddleWare({
         jd_id: jdId,
@@ -932,7 +933,7 @@ const ZitaMatchCandidate = () => {
           )}
         </Flex>
       </Flex>
-  
+
       <Flex>
         <ZitaMatchFilters
         setchange={setchange}

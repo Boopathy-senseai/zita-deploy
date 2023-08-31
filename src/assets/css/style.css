@@ -2506,6 +2506,50 @@ ul {
   display: none;
 }
 
+.createScheduleForm_duration__3Jplh p:nth-of-type(even) {
+  height: 30px !important;
+}
+.rbc-agenda-empty {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+.css-1bn53lx {
+  border: 1px solid #d7c7d2;
+  font-size: 13px;
+  color: #333;
+}
+.css-1bn53lx:hover {
+  border: 1px solid #58184550;
+}
+.css-1bn53lx:focus-visible,
+.css-1bn53lx:focus-within {
+  border: 1px solid #581845;
+}
+
+.css-1uvydh2 {
+  padding: 5px 8px !important;
+}
+.css-igs3ac {
+  border: none !important;
+}
+.css-slyssw {
+  color: #581845 !important;
+}
+.css-vubbuv {
+  font-size: 16px !important;
+}
+.css-a1rc6s,
+.css-cysikj,
+.css-ag8lru,
+.css-wed0tz.Mui-selected,
+.css-118whkv,
+.css-7lip4c,
+.css-12ha4i7 {
+  background-color: #581845 !important;
+}
 /* .css-1in441m{
   display: none !important;
 }

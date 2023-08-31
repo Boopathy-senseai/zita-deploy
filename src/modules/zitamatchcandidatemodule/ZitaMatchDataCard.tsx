@@ -708,7 +708,7 @@ dataList.invite,
                   )}
                 </>
               )}
-           
+
               {/* {!isEmpty(dataList.invite) && !isEmpty(dataList.applicant) && (
                 <Text color="gray" size={12}>
                   You can’t send Invite

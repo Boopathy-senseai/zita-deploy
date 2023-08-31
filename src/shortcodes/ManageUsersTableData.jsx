@@ -209,7 +209,6 @@ export class ManageUsersTableData extends Component {
           document.getElementById('AvailableInvites').disabled = true;
           document.getElementById('BuyNewUser').disabled = false;
         }
-        console.log(this.state.AvailableInvites);
       })
       .catch((err) => {
         console.log(err);
