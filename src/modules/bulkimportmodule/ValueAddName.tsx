@@ -82,7 +82,6 @@ const ValueAddName = ({
     });
 
     axios.post(uploadedCandidatesApi, data, config).then((res) => {
-      console.log(res, 'resssssssssssssssssssssssssssssssssssss');
       if (res.data.email === true) {
         dispatch(
           candidateMatchMiddleWare({

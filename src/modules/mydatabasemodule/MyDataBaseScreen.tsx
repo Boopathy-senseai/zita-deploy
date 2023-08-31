@@ -406,7 +406,6 @@ const MyDataBaseScreen = () => {
     }
   };
 
-  console.log("changeeee+====",change)
   return (
     <>
     <Flex row className={styles.ribbon} between>
@@ -539,7 +538,6 @@ export default MyDataBaseScreen;
 //         }
 //       }} 
 //     /> 
-//     {console.log(formik.values.jobId)}
 //   </Flex>
 
 //   <Flex className={styles.mtstyle}>
