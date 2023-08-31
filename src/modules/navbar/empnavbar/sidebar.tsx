@@ -97,7 +97,6 @@ const Sidebar = ({ changes, data }: props) => {
   };
   return (
     <>
-    {console.log("is_plan +++++++",is_plan )}
       <div
         className={Expent === '0' ? styles.sidebar : styles.sidebarmini}
         style={{ marginTop: '50px', display:"flex", flexWrap:"wrap", alignContent:"space-between" }}

@@ -440,7 +440,6 @@ const CalenderCard = ({
             if (
               getDateString(list.start, 'MM/DD/YYYY') === formik.values.date
             ) {
-              console.log('title', list.title);
               const startTime = moment(list.start);
               const endTime = moment(list.end);
               const duration = moment.duration(endTime.diff(startTime));

@@ -1,9 +1,9 @@
 .overAll {
   background-color: var(--color-white, #ffffff);
-  padding: 10px 0px;
+  /* padding: 10px 0px; */
   border-radius: 4px;
   position: relative;
-  padding-bottom: 10px !important;
+  /* padding-bottom: 10px !important; */
 }
 .title {
   margin-bottom: 40px;
@@ -27,8 +27,8 @@
 .genderFlex {
   padding-top: 20px;
   padding-bottom: 20px;
-}.locationFlex {
-  
+}
+.locationFlex {
   padding-bottom: 20px;
 }
 .objectiveInput {
@@ -40,10 +40,10 @@
   top: 10px;
   right: 16px;
 }
-.relocateStyle{
+.relocateStyle {
   position: relative;
-    top: 27px;
-    left: 16px;
+  top: 27px;
+  left: 16px;
 }
 .careerInput {
   height: 150px;
@@ -73,6 +73,7 @@
   border: 1px solid var(--color-primary, #581845) !important;
   box-shadow: none !important;
 }
-.updateButton{
+.updateButton {
+  border-top: 1px solid #c3c3c3;
   margin-top: 10px;
 }
