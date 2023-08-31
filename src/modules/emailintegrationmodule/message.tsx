@@ -87,7 +87,6 @@ const Inbox = ({
   };
 
   useEffect(() => {
-    console.log('integration', integration);
     if (integration === 'google') {
       readmessages();
     } else if (integration === 'outlook') {
@@ -127,7 +126,7 @@ const Inbox = ({
     if (sidebarroute === 5) {
       await gmail_permanent_Delete(message.id)
         .then((res) => {
-          console.log('cv', res);
+          //console.log('cv', res);
           removemsg();
           Toast('Email removed permanently', 'SHORT', 'success');
           remove_message(message.id);
@@ -240,11 +239,23 @@ const Inbox = ({
   };
 
   const donwnload = async (val) => {
-    console.log(val,"valllll____")
-    var a = document.createElement('a');
-    a.href = `data:${val.contentType};base64,` + val.contentBytes;
-    a.download = val.name;
-    a.click();
+    if (integration === 'google') {
+      const data = val.contentBytes;
+      const decodedData = Buffer.from(data, 'base64');
+      const blob = new Blob([decodedData], { type: val.contentType });
+
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = val.name;
+      link.click();
+      URL.revokeObjectURL(url);
+    } else {
+      var a = document.createElement('a');
+      a.href = `data:${val.contentType};base64,${val.contentBytes}`;
+      a.download = val.name;
+      a.click();
+    }
   };
 
   // const Previousdata = () => {
@@ -268,10 +279,13 @@ const Inbox = ({
   const subject = (data) => {
     const sub = data.filter((item) => item.name === 'Subject');
     if (sub.length !== 0) {
-      let subj = sub[0].value.replace(/\s\S*$/, '');
-      return <>{subj}</>;
+      if (sub[0].value !== '') {
+        return <>{sub[0].value}</>;
+      } else {
+        return <>{'(No Subject)'}</>;
+      }
     } else {
-      return <>{'(No Recipients)'}</>;
+      return <>{'(No Subject)'}</>;
     }
   };
 
@@ -568,6 +582,28 @@ const Inbox = ({
     }
   };
 
+  const handlefunction = (val) => {
+    const hasDraftLabel = val.includes('DRAFT');
+    if (hasDraftLabel) {
+      return (
+        <Text bold size={13} style={{ color: '#ED4857' }}>
+          {'Draft'}
+        </Text>
+      );
+    }
+  };
+
+  const ccshow = (val) => {
+    const from = val.filter((item) => item.name === 'Cc');
+    console.log('======', from);
+    if (from.length !== 0) {
+      let From = from[0].value.replace(/\s\S*$/, '');
+      if (from[0].value !== '') {
+        return <>{`Cc: ${from[0].value}`}</>;
+      }
+    }
+  };
+
   const renderBody = () => {
     if (message !== '') {
       return (
@@ -609,6 +645,8 @@ const Inbox = ({
                       height: '100%',
                     }}
                   >
+                    {handlefunction(message.labelIds)}
+
                     <Flex row between width={'100%'}>
                       <Text bold size={13}>
                         {sender(message.header, '0')}
@@ -630,6 +668,7 @@ const Inbox = ({
 
                     <Text size={13}>{subject(message.header)}</Text>
                     <Text color="black"> {to(message.header, '0')}</Text>
+                    {ccshow(message.header)}
                   </Flex>
                 </Flex>
 
