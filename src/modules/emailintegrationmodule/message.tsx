@@ -594,7 +594,7 @@ const Inbox = ({
 
   const ccshow = (val) => {
     const from = val.filter((item) => item.name === 'Cc');
-    console.log('======', from);
+
     if (from.length !== 0) {
       let From = from[0].value.replace(/\s\S*$/, '');
       if (from[0].value !== '') {
@@ -686,7 +686,7 @@ const Inbox = ({
                     dangerouslySetInnerHTML={{
                       __html: message.body,
                     }}
-                  /> 
+                  />
                 </Flex>
                 {renderAttachments}
               </Flex>

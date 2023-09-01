@@ -720,7 +720,6 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
       <Flex column className={styles.inboxContainer}>
         {loader === true && <Loader />}
         {/* {loader === true && emailcollection.loading === false && <Loader />} */}
-
         <>
           {!isprofileview && (
             <Flex row between center className={styles.titleContainer}>
@@ -904,10 +903,6 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
             )}
         </>
 
-        {console.log(
-          emailcollection.integration,
-          'emailcollection.integration === null',
-        )}
         {emailcollection.integration === null && <>{IntegrationMenuView}</>}
       </Flex>
     </>
