@@ -1216,6 +1216,7 @@ const Calendar = () => {
                     formats={{
                       eventTimeRangeFormat: () => '',
                     }}
+                    showAllEvents={true}
                     components={{
                       toolbar: SimpleToolBar,
                       event: ColorEvent,
