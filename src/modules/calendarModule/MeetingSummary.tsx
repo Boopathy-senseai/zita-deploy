@@ -357,7 +357,6 @@ const MeetingSummary = ({
                   editGreeting={true}
                 />
               </ExpandTile>
-
               {meetingForm.interviewer.length !== 0 && (
                 <ExpandTile
                   backgroundColor="#58184530"
@@ -384,9 +383,9 @@ const MeetingSummary = ({
                     email={[
                       ...(userProfile?.email ? [userProfile?.email] : []),
                       ...meetingForm.interviewer.map((interview, index: Key) =>
-                        interview.email
-                          ? interview.email
-                          : interview.calendarEmail,
+                        interview.calendarEmail
+                          ? interview.calendarEmail
+                          : interview.email,
                       ),
                     ]}
                     notes={meetingForm.privateNotes}

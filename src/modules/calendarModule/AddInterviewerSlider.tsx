@@ -5,7 +5,6 @@ import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import toast from 'react-hot-toast';
 import { InputText } from '../../uikit';
 
-
 import { AppDispatch } from '../../store';
 import { friendsEventsMiddleware } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { Modal } from '../../uikit/v2';
@@ -28,10 +27,12 @@ import { formatEventTitle } from './util';
 import SimpleToolBar from './calendar-components/SimpleToolBar';
 import ColorEvent from './calendar-components/ColorEvent';
 import WeekHeader from './calendar-components/WeekHeader';
+
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+
 // import WeekHeader from './calendar-components/WeekHeader';
 
 let localizer = momentLocalizer(moment);
-
 interface TeamInfo {
   id: number;
   name: string;
@@ -228,7 +229,7 @@ const AddInterviewersUI = ({
       <div className={styles.addInterviewerContainer}>
         <div className={styles.addInterviewer}>
           <div className={styles.menus}>{InterviewerDropDown}</div>
-          <div className={styles.calendar}>
+          <div className={styles.calenderContent} style={{width:window.innerWidth-370}}>
             {currentUserEvents && (
               <BigCalendar
                 localizer={localizer}
@@ -243,6 +244,10 @@ const AddInterviewersUI = ({
                 formats={{
                   eventTimeRangeFormat: () => '',
                 }}
+                // onShowMore={(events, date) =>
+                //       useState({ showModal: true, events })
+                //     }
+                showAllEvents={true}
                 components={{
                   toolbar: SimpleToolBar,
                   event: ColorEvent,

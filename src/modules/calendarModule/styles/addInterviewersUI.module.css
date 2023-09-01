@@ -36,7 +36,7 @@
 }
 
 .menus {
-  width: 330px;
+  width: 250px;
   background-color: #eee8ec;
   padding: 5px;
 }
@@ -44,12 +44,27 @@
 .inputSearchWrapper {
   margin: 4px 4px 8px 4px;
 }
+.calenderContent {
+  display: flex;
+  flex-direction: column;
+  /* width: calc(100% - 15%);
+  height: 100%; */
+}
 
 .calendar {
   width: 100%;
   padding: 0px 6px;
   margin-top: 12px;
-  height: calc(100% - 45px);
+  height: calc(100% - 10px);
+  /* display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: calc(100% - 10px) !important;
+  padding: 0px 2px;
+  margin-top: 12px; */
+}
+.calendar > .rbc-time-view {
+  height: 62% !important;
 }
 
 .inputSearch {
