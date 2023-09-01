@@ -68,7 +68,6 @@ const renderInputComponent = ({
 }: any) => {
   const getValue=value.includes(', usa')
 
-console.log("GG0", ref?.current?.value)
  
 
   return (
