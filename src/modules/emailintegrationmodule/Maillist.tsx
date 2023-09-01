@@ -331,7 +331,13 @@ const Maillist = ({
   };
 
   const handlemessage = (val) => {
-    if (sideroute === 3 || sideroute === 5 || sideroute === 0) {
+    if (
+      sideroute === 3 ||
+      sideroute === 5 ||
+      sideroute === 0 ||
+      sideroute === 4 ||
+      sideroute === 6
+    ) {
       if (val.isDraft === true) {
         if (val.toRecipients.length !== 0) {
           var del = val.toRecipients.reduce(function (nam, arr) {
