@@ -876,6 +876,7 @@ const Inbox = ({
             className={
               isprofileview ? styles.bodyContainers : styles.bodyContainer
             }
+            style={{overflowY:'scroll'}}
             height={isprofileview ? window.innerHeight - 130 : ''}
           >
             {renderBody()}
