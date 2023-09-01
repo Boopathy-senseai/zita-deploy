@@ -83,7 +83,6 @@ const TalentCardMap = ({
   const windowSize = sidebar ==='1'
     ? window.innerWidth / 3.31
     : window.innerWidth /3.76;
-    console.log("innerwidth ",window.innerWidth);
     // console.log("innerwidth 1",window.innerWidth / 3 - 130);
     // console.log("innerwidth 2",window.innerWidth / 2 - 186);
     

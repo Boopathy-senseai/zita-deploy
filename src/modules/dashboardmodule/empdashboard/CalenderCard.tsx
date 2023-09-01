@@ -427,8 +427,11 @@ const CalenderCard = ({
             </Text>
             <LinkWrapper
               onClick={() => {
+                // sessionStorage.setItem('superUserTab', '4');
+                // sessionStorage.setItem('superUserFalseTab', '3'); 
+                sessionStorage.setItem('superUserTabTwo','2')
+                sessionStorage.setItem('superUserFalseTab', '1');
                 sessionStorage.setItem('superUserTab', '4');
-                sessionStorage.setItem('superUserFalseTab', '3');
               }}
               to="/account_setting/settings"
             >
@@ -440,7 +443,6 @@ const CalenderCard = ({
             if (
               getDateString(list.start, 'MM/DD/YYYY') === formik.values.date
             ) {
-              console.log('title', list.title);
               const startTime = moment(list.start);
               const endTime = moment(list.end);
               const duration = moment.duration(endTime.diff(startTime));

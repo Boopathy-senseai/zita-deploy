@@ -52,7 +52,6 @@ export const getLogger =
         isError ? '#990000' : '#009900'
       }; color: #ffffff; font-weight: 700; padding: 2px`;
       console.groupCollapsed('MSLogin debug');
-      console.log(`%c${name}`, style);
       if (content) {
         console.log(content.message || content);
       }

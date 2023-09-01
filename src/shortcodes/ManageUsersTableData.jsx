@@ -56,7 +56,6 @@ export class ManageUsersTableData extends Component {
     axios
       .delete('users/' + this.state.DeleteUserId, config)
       .then((res) => {
-        console.log(res);
         toast.success(res.data.msg, {
           duration: 3500,
         });
@@ -65,7 +64,6 @@ export class ManageUsersTableData extends Component {
         console.log(err);
       });
 
-    console.log(this.state.DeleteUserId);
   }
 
   closeDeleteModal = () => this.setState({ isDeleteOpen: false });

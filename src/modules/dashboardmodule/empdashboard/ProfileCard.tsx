@@ -245,7 +245,6 @@ const ProfileCard = () => {
           </Text>
           <Text align="center" bold style={{ fontSize: '13px' }}>
             Last Login on: {getDateString(user_info?.last_login, 'll hh:mm A')}
-            {console.log('userinfo', user_info.last_login)}
           </Text>
         </Flex>
 
@@ -681,7 +680,7 @@ const ProfileCard = () => {
           )}</Flex> */}
 
         {permission.includes('create_post') === false ? (
-          <Flex marginLeft={12} marginRight={12} marginTop={12} marginBottom={12}>
+          <Flex marginLeft={12} marginRight={12} marginTop={6} marginBottom={6}>
             <LinkWrapper
               target={isEmpty(career_page_url) ? '_parent' : '_blank'}
               to={
@@ -690,7 +689,7 @@ const ProfileCard = () => {
                   : `/${career_page_url}/careers`
               }
             >
-              <Button className={styles.buttonsizeauto}>
+              <Button className={styles.buttonsizeauto}> 
                 {/* <Flex row center className={styles.pointer} > */}
                 {/* <Text bold style={{ color: "white", marginLeft: 123 }} > */}
                 Careers Page

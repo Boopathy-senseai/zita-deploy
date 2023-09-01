@@ -1044,7 +1044,7 @@ const Newmessage = ({
         setloader(false);
       });
   };
-
+  //gmail draft//
   const draft_props = () => {
     const toEmails = tomail.join(', ');
     const toCC = ccmail.join(', ');
@@ -1149,29 +1149,42 @@ const Newmessage = ({
     }
   };
 
-  const gmai_action = async () => {
+  const gmailreply_forward = () => {
     const toEmails = tomail.join(', ');
     const toCC = ccmail.join(', ');
     const toBCC = bccmail.join(', ');
     const fromEmail = replaymsg.header.find(
       (header) => header.name === 'From',
     ).value;
-    let replyContent = '';
+    const subjects = replaymsg.header.find(
+      (header) => header.name === 'Subject',
+    ).value;
 
     const time = moment(replaymsg.internalDate).format('llll');
 
-    if (Mail_action === 'reply' || Mail_action === 'replyall') {
-      // note :- reply and  replyall is same email content
-      replyContent = `On ${time}, ${fromEmail} wrote:\n\n${replaymsg.snippet}\n\n ${messagebody}.`;
-    } else if (Mail_action === 'forward') {
-      replyContent =
-        `---------- Forwarded message ----------\n` +
-        `from: ${fromEmail}\n` +
-        `Subject: ${subject}\n\n` +
-        `${messagebody}` +
-        replaymsg.snippet;
-    }
+    var replyHtml = '';
 
+    if (Mail_action === 'reply' || Mail_action === 'replyall') {
+      replyHtml = `
+        
+          <div class="gmail_quote">
+           <p>${messagebody}</p>
+            <p>On ${replaymsg.internalDate}, ${fromEmail} wrote:</p>
+            <blockquote class="gmail_quote" style="margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">${replaymsg.body}</blockquote>
+           
+          </div>
+       
+`;
+    } else if (Mail_action === 'forward') {
+      replyHtml = `<div class="gmail_quote">
+            <p>${messagebody}</p>
+            <p>---------- Forwarded message ----------</p>
+            <p>From: ${fromEmail} </p>
+            <p>Date: ${replaymsg.internalDate} </p>
+            <p>Subject: ${subjects} </p>
+            <p> ${replaymsg.body}</p>
+         </div>`;
+    }
     const emailss = [
       'Content-Type: multipart/mixed; boundary="boundary"\n',
       'MIME-Version: 1.0\n',
@@ -1184,7 +1197,8 @@ const Newmessage = ({
       `--boundary\n`,
       'Content-Type: text/html; charset="UTF-8"\n',
       'MIME-Version: 1.0\n',
-      `\n${replyContent}\n\n`,
+      '\n' + replyHtml + '\n\n', // Include the HTML content here
+      `--boundary\n`,
     ];
     attachfile.forEach(async (attachment) => {
       emailss.push(
@@ -1200,11 +1214,14 @@ const Newmessage = ({
     emailss.push(`--boundary--`);
 
     const email = emailss.join('');
-
     const rawMessage = btoa(email);
+    return rawMessage;
+  };
+
+  const gmai_action = async () => {
     initGoogleAuth(emailcollection.token)
       .then(async () => {
-        await Gmail_Reply_forward(rawMessage)
+        await Gmail_Reply_forward(gmailreply_forward())
           .then((res) => {
             Toast('Message send successfully', 'LONG', 'success');
             clearform();
@@ -1223,7 +1240,7 @@ const Newmessage = ({
   return (
     <div>
       {/* <div style={{ position: 'absolute', bottom: '0px', right: '0px' }}> */}
-      {console.log('newwww', newmsg)}
+
       <Modal open={data}>
         {loader === true && <Loader />}
         <div
@@ -1471,6 +1488,7 @@ const Newmessage = ({
                       marginRight: '5px',
                       flexDirection: 'column',
                       flex: 1,
+                      minHeight: '365px',
                     }}
                   >
                     <RichText
@@ -1676,6 +1694,7 @@ const Newmessage = ({
                 </Flex>
               </Flex>
             </Flex>
+            {console.log('sdsd', replaymsg)}
           </Flex>
         </div>
       </Modal>
@@ -1696,6 +1715,8 @@ const Newmessage = ({
         auth={integration}
         Mail_action={Mail_action}
         mail_id={replaymsg !== '' ? replaymsg.id : ''}
+        replymail_draft={gmailreply_forward}
+        emailcollection={emailcollection.token}
       />
     </div>
   );

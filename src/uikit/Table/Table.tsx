@@ -62,7 +62,6 @@ const Table = ({
   const test1 = url.includes('jobs');
   return (
     <Flex className={cx({ [`overAll-${border}`]: border })}>
-      {console.log(test,"+++++++")}
       <TableTitle columns={columns} dataSource={dataSource} />
       <Flex center middle className={cx('overFlowLoader')}>
         {dataSource.length === 0 && !isEmpty(empty) && (
@@ -111,7 +110,6 @@ const Table = ({
          // className={cx({ rowScroll: scrollHeight })}
        className={isscroll===true?(styles.rowScroll):("")}
         >
-          {console.log("ssssssssssssss",isscroll)}
           {dataSource.map((item, index) => (
             <Rows
               key={index}

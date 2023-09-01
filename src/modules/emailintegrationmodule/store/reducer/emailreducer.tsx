@@ -278,12 +278,10 @@ const google_auth = createSlice({
       state.error = '';
     });
     builder.addCase(Google_Auth.fulfilled, (state, action) => {
-      console.log('gmailre', action);
       state.isLoading = false;
       state.data = action.payload;
     });
     builder.addCase(Google_Auth.rejected, (state, action) => {
-      console.log('gamilre', action);
       state.isLoading = false;
       if (typeof action.payload === 'string') {
         state.error = action.payload;
@@ -302,12 +300,10 @@ const outlook_auth = createSlice({
       state.error = '';
     });
     builder.addCase(Outlook_Auth.fulfilled, (state, action) => {
-      console.log('gmailre', action);
       state.isLoading = false;
       state.data = action.payload;
     });
     builder.addCase(Outlook_Auth.rejected, (state, action) => {
-      console.log('gamilre', action);
       state.isLoading = false;
       if (typeof action.payload === 'string') {
         state.error = action.payload;
