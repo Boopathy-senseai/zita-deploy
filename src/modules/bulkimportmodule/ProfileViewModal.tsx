@@ -77,7 +77,7 @@ const ProfileViewModal = ({
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
-    // setDisplay(true)
+    // setDisplay(false)
     dispatch(bulkUploadSkillsMiddleWare({ empId: canId }));
     dispatch(uploadedProfileViewMiddleWare({ id: Number(canId) }));
     if (jdId !== undefined) {
@@ -285,7 +285,7 @@ const ProfileViewModal = ({
       }
     }
   };
-  const [display, setDisplay] = useState(true);
+  const [display,setDisplay] = useState(false)
   // error message focus function
   useEffect(() => {
     setAnswer(answers);
@@ -314,8 +314,18 @@ const ProfileViewModal = ({
   }, [is_loading]);
 
   useEffect(() => {
-    setDisplay(true);
-  }, [display]);
+   
+    setTimeout(() => {
+      setDisplay(true);
+    }, 500);
+  },[])
+
+  useEffect(() => {
+   
+    setTimeout(() => {
+      setDisplay(true);
+    }, 500);
+  },[display])
   return (
     <Drawer open={open}>
       {is_loading && <Loader />}
@@ -340,7 +350,7 @@ const ProfileViewModal = ({
                 overflow: 'scroll',
               }}
             >
-              {display && (
+              {display ?(
                 <DocViewer
                   style={{ height: '100%', width: '100%' }}
                   pluginRenderers={DocViewerRenderers}
@@ -353,7 +363,10 @@ const ProfileViewModal = ({
                     },
                   }}
                 />
-              )}
+              ):(
+                <Loader />
+              )
+             }
             </div>
           </Flex>
           <Flex flex={6}>

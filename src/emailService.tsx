@@ -641,6 +641,7 @@ export const Gmail_Folder_Total_count = async (folder) => {
 };
 
 export const Gmail_Reply_forward = async (data) => {
+  // console.log('====', data);
   const reply = gapi.client.gmail.users.messages.send({
     userId: 'me',
     resource: {
