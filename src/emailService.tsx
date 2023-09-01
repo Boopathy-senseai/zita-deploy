@@ -477,7 +477,6 @@ export async function Gmail_Mails(folder, pageToken, maxresult, tokens) {
 
     const { messages } = response.result;
     const token = response.result.nextPageToken;
-    console.log('zzzzzz', messages);
 
     if (messages !== undefined) {
       var fullMessages = await Promise.all(
@@ -494,7 +493,7 @@ export async function Gmail_Mails(folder, pageToken, maxresult, tokens) {
 
     return { token, messages, fullMessages };
   } catch (error) {
-    console.error('Error loading messages:', error);
+    // console.error('Error loading messages:', error);
   }
 }
 
@@ -525,7 +524,7 @@ export async function Selected_message(id) {
 
     return { attachments, body, message };
   } catch (error) {
-    console.error('Error loading message body:', error);
+    //console.error('Error loading message body:', error);
   }
 }
 
@@ -537,6 +536,7 @@ const getMessageBody = (mes) => {
 
 const getHTMLPart = (arr) => {
   for (var x = 0; x <= arr.length; x++) {
+    console.log('typeof arr[x].parts', typeof arr[x].parts);
     if (typeof arr[x].parts === 'undefined') {
       if (arr[x].mimeType === 'text/html') {
         return arr[x].body.data;
@@ -603,7 +603,7 @@ export const Gmail_search = async (Folder, serchdata, maxresult, pageToken) => {
       return { token, messages, fullMessages };
     }
   } catch (error) {
-    console.error('Error loading messages:', error);
+    // console.error('Error loading messages:', error);
   }
 };
 
@@ -617,7 +617,7 @@ export const Gmail_Draft = async (draft) => {
       // You can perform additional actions here after the draft is saved
     })
     .catch((error) => {
-      console.error('Error saving draft:', error);
+      //console.error('Error saving draft:', error);
     });
 };
 
@@ -705,7 +705,7 @@ export const gmail_draft_update = async (id, messagebody) => {
       return res;
     })
     .catch((error) => {
-      console.log('error:', error);
+      // console.log('error:', error);
       return error;
     });
 };
