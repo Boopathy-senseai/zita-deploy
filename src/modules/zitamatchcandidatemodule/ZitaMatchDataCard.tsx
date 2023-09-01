@@ -176,11 +176,22 @@ const ZitaMatchDataCard = ({
           />
         </>
       )}
-
       {isEmpty(dataList.invite) && (
         <CancelAndDeletePopup
           open={isInvite}
-          title={`Invite will be sent as an email to ${dataList.first_name}. Are you sure to proceed?`}
+          title={
+            isEmpty(dataList.last_name) ? (
+              <Flex>
+                <Text>{`Invite will be sent as an email to ${dataList.first_name}.`}</Text>
+                <Text> Are you sure to proceed?</Text>
+              </Flex>
+            ) : (
+              <Flex>
+                <Text>{`Invite will be sent as an email to ${dataList.first_name} ${dataList.last_name}.`}</Text>
+                <Text> Are you sure to proceed?</Text>
+              </Flex>
+            )
+          }
           btnDelete={inviteSubmit}
           btnCancel={() => setInvite(false)}
           btnRight={YES}
