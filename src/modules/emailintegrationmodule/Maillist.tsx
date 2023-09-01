@@ -128,8 +128,10 @@ const Maillist = ({
         .then(() => {
           Gmail_search(searchSection, search.trim(), range, tokens)
             .then((res) => {
+              if (res === undefined) {
+                setSearchicon(true);
+              }
               savemail(res.fullMessages, res.token);
-
               //settoken(res.token);
               if (res.token === undefined) {
                 setload(false);
@@ -203,16 +205,20 @@ const Maillist = ({
     } else if (integration === 'outlook') {
       if (mailfolders.length !== 0) {
         if (sideroute === 1) {
-          const Inboxfolder = mailfolders.find(item => item.displayName === "Inbox");
+          const Inboxfolder = mailfolders.find(
+            (item) => item.displayName === 'Inbox',
+          );
           return (
             <Text bold>
-              {Inboxfolder.   unreadItemCount !== 0
+              {Inboxfolder.unreadItemCount !== 0
                 ? `Inbox (${Inboxfolder.unreadItemCount})`
                 : 'Inbox'}
             </Text>
           );
         } else if (sideroute === 2) {
-          const sentfolder = mailfolders.find(item => item.displayName === "Sent Items");
+          const sentfolder = mailfolders.find(
+            (item) => item.displayName === 'Sent Items',
+          );
           return (
             <Text bold>
               {sentfolder.unreadItemCount !== 0
@@ -221,7 +227,9 @@ const Maillist = ({
             </Text>
           );
         } else if (sideroute === 3) {
-          const draftfolder = mailfolders.find(item => item.displayName === "Drafts");
+          const draftfolder = mailfolders.find(
+            (item) => item.displayName === 'Drafts',
+          );
           return (
             <Text bold>
               {draftfolder.unreadItemCount !== 0
@@ -230,7 +238,9 @@ const Maillist = ({
             </Text>
           );
         } else if (sideroute === 4) {
-          const archivefolder = mailfolders.find(item => item.displayName === "Archive");
+          const archivefolder = mailfolders.find(
+            (item) => item.displayName === 'Archive',
+          );
           return (
             <Text bold>
               {archivefolder.unreadItemCount !== 0
@@ -239,7 +249,9 @@ const Maillist = ({
             </Text>
           );
         } else if (sideroute === 5) {
-          const deletefolder = mailfolders.find(item => item.displayName === "Deleted Items");
+          const deletefolder = mailfolders.find(
+            (item) => item.displayName === 'Deleted Items',
+          );
           return (
             <Text bold>
               {deletefolder.unreadItemCount !== 0
@@ -248,11 +260,13 @@ const Maillist = ({
             </Text>
           );
         } else if (sideroute === 6) {
-          const junkfolder = mailfolders.find(item => item.displayName === "Junk Email");
+          const junkfolder = mailfolders.find(
+            (item) => item.displayName === 'Junk Email',
+          );
           return (
             <Text bold>
-              {junkfolder .unreadItemCount !== 0
-                ? ` Junk Email (${junkfolder .unreadItemCount})`
+              {junkfolder.unreadItemCount !== 0
+                ? ` Junk Email (${junkfolder.unreadItemCount})`
                 : ' Junk Email'}
             </Text>
           );
@@ -317,7 +331,13 @@ const Maillist = ({
   };
 
   const handlemessage = (val) => {
-    if (sideroute === 3 || sideroute === 5 || sideroute === 0) {
+    if (
+      sideroute === 3 ||
+      sideroute === 5 ||
+      sideroute === 0 ||
+      sideroute === 4 ||
+      sideroute === 6
+    ) {
       if (val.isDraft === true) {
         if (val.toRecipients.length !== 0) {
           var del = val.toRecipients.reduce(function (nam, arr) {
@@ -546,9 +566,9 @@ const Maillist = ({
                     <Card
                       key={int}
                       className={
-                        messages === undefined
+                        message === ''
                           ? styles.cardStyles
-                          : messages.id === val.id
+                          : message.id === val.id
                           ? styles.seletmsg
                           : styles.cardStyles
                       }
@@ -607,9 +627,9 @@ const Maillist = ({
                       <Card
                         key={int}
                         className={
-                          messages === undefined
+                          message === undefined
                             ? styles.cardStyles
-                            : messages.id === val.id
+                            : message.id === val.id
                             ? styles.seletmsg
                             : styles.cardStyles
                         }

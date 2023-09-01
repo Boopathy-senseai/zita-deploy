@@ -1,9 +1,10 @@
 /* eslint max-len: ["error", { "code": 50000 }] */
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { jobCreateDs, jobCreateNonDs } from '../../appRoutesPath';
 import SvgRight from '../../icons/SvgRight';
+import SingleButton from '../common/SingleButton';
 import SvgInfo from '../../icons/SvgInfo';
 import { AppDispatch, RootState } from '../../store';
 import { WARNING } from '../../uikit/Colors/colors';
@@ -18,6 +19,7 @@ import { selectDsorNonDsMiddleWare } from './store/middleware/createjdmiddleware
 const CreateJdScreen = () => {
   const dispatch: AppDispatch = useDispatch();
   const history = useHistory();
+  const [isOpenPlanDetails, setOpenPlanDetails]= useState(false)
 
   // initial api call
   useEffect(() => {
@@ -25,16 +27,19 @@ const CreateJdScreen = () => {
     dispatch(selectDsorNonDsMiddleWare());
   }, []);
 
-  const { loader, feature, is_plan } = useSelector(
+
+  const { loader, feature, is_plan, super_user } = useSelector(
     ({ selectDsorNonDsReducers, permissionReducers }: RootState) => {
       return {
         loader: selectDsorNonDsReducers.isLoading,
         feature: selectDsorNonDsReducers.feature,
         is_plan: permissionReducers.is_plan,
+        super_user: permissionReducers.super_user,
+
       };
     },
   );
-  
+
   useEffect(() => {
     if (!is_plan) {
       sessionStorage.setItem('superUserTab', '2');
@@ -72,8 +77,6 @@ const CreateJdScreen = () => {
       </div>
       {feature === 0 && (
         <Flex middle columnFlex center>
-          {/* <Flex middle row center className={styles.warningFlex}>
-            <SvgInfo fill={'#2E6ADD'} /> */}
             <Flex row center className={styles.warningFlex}>
               <Flex style={{position:"relative", bottom: "10px"}}><SvgInfo height={16} width={16} fill={'#2E6ADD'} /></Flex>
               <Text
@@ -83,24 +86,41 @@ const CreateJdScreen = () => {
             <Text style={{color:'#2E6ADD',marginRight:'3px',fontSize:'13px'}} bold >Heads Up!{' '}</Text>
             You’ve reached the number of job postings for your current plan 
           but you can keep new job descriptions in Draft. Please 
-              
-
-              <LinkWrapper
-                target={'_parent'}
-                onClick={() => {
-                  sessionStorage.setItem('superUserTab', '2');
-                }}
-                to="/account_setting/settings?planFocus=focus"
+          {super_user===false ?
+            <Flex style={{display: "contents"}}
+                onClick={() => 
+                  setOpenPlanDetails(true)
+                }
               >
                 <Text size={13} bold color="link">
                   {` `}upgrade {' '}
                 </Text>
-              </LinkWrapper>
+              </Flex>
+              :
+              <LinkWrapper
+              target={'_parent'}
+              onClick={()=> sessionStorage.setItem('superUserTab', '2')} 
+              to="/account_setting/settings?planFocus=focus"
+            >
+              <Text size={13} bold color="link">
+                {` `}upgrade {' '}
+              </Text>
+            </LinkWrapper>
+            }
               plan or inactivate at least one existing active job to publish a new job
             </Text>
             </Flex>
           </Flex>
         )} 
+      
+        <SingleButton
+          btnTitle="OK"
+          title={
+            'Please contact your company admin to upgrade you plan'
+          }
+          open={isOpenPlanDetails}
+          btnOnclick={() => setOpenPlanDetails(false)}
+        />
       <Flex columnFlex>
         <Text
           className={styles.chooseText}

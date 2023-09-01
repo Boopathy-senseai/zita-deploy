@@ -190,7 +190,7 @@ const CareerNavBar = ({
                     <SvgUser height={30} width={30} />
                   ) : (
                     <img
-                      style={{ objectFit: 'contain' }}
+                      style={{ objectFit: 'cover' }}
                       src={mediaPath + image}
                       alt="profile"
                       className={styles.candiProfile}
@@ -315,7 +315,7 @@ const CareerNavBar = ({
                     <SvgUser height={30} width={30} />
                   ) : (
                     <img
-                      style={{ objectFit: 'contain' }}
+                      style={{ objectFit: 'cover' }}
                       src={mediaPath + image}
                       alt="profile"
                       className={styles.candiProfile}

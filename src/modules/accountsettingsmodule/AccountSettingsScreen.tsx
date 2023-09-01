@@ -131,8 +131,8 @@ const AccountSettingsScreen = ({ value }: props) => {
         dispatch(Google_Auth({ codeUrl: code })).then((res) => {
           dispatch(getEmail());
           history.push('/account_setting/settings');
+          window.location.reload();
           // localStorage.setItem('integrationSuccess', 'true');
-          // window.location.reload();
         });
       } else {
         dispatch(googleCallbackMiddleware({ codeUrl: code })).then((res) => {
@@ -158,8 +158,7 @@ const AccountSettingsScreen = ({ value }: props) => {
           .then((res) => {
             dispatch(getEmail());
             history.push('/account_setting/settings');
-            // localStorage.setItem('integrationSuccess', 'true');
-            //window.location.reload();
+            window.location.reload();
           })
           .catch((err) => {
             // console.log('error', err);
@@ -167,7 +166,6 @@ const AccountSettingsScreen = ({ value }: props) => {
       } else {
         dispatch(outlookCallbackMiddleware(access_urls))
           .then((res) => {
-
             dispatch(IntergratemailMiddleWare());
             history.push('/account_setting/settings');
             localStorage.setItem('integrationSuccess', 'true');
@@ -1029,7 +1027,7 @@ const AccountSettingsScreen = ({ value }: props) => {
                   <Tab title={'Integrations'} eventKey={'1'}>
                     {tabKeyTwo === '1' && <IntegrationScreen />}
                   </Tab>
-                  <Tab title={"Templates"} eventKey="2">
+                  <Tab title={'Templates'} eventKey="2">
                     {tabKeyTwo === '2' && <TemplatesPage />}
                   </Tab>
 
