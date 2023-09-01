@@ -121,14 +121,19 @@ const profileMatchCount = match.filter(item => item.profile_match === 0).length;
       {isEmpty(isDate) && (
         <CancelAndDeletePopup
           width={'350px'}
-          title={
-            <Flex>
-              <Text>{`Invite will be sent as an email to ${
-                candidate_details && candidate_details[0].first_name
-              } ${candidate_details && candidate_details[0].last_name}`}</Text>
-              <Text>Are you sure to proceed?</Text>
-            </Flex>
-          }
+          title= {
+            isEmpty(candidate_details[0]?.last_name) ? (
+              <Flex>
+                <Text>{`Invite will be sent as an email to ${candidate_details[0].first_name}.`}</Text>
+                <Text> Are you sure to proceed?</Text>
+              </Flex>
+            ) : (
+              <Flex>
+                <Text>{`Invite will be sent as an email to ${candidate_details[0].first_name} ${candidate_details[0]?.last_name}.`}</Text>
+                <Text> Are you sure to proceed?</Text>
+              </Flex>
+            )
+          } 
           btnDelete={() => hanldeInvite(list.jd_id_id, list.candidate_id_id)}
           btnCancel={hanldeInviteClosePopUp}
           btnRight={YES}
@@ -142,7 +147,7 @@ const profileMatchCount = match.filter(item => item.profile_match === 0).length;
               <Text>{`The candidate ${
                 candidate_details && candidate_details[0].first_name
               } ${
-                candidate_details && candidate_details[0].last_name
+                candidate_details &&candidate_details[0]?.last_name !== null? candidate_details[0]?.last_name:''
               } has already been invited for this job on ${getDateString(
                 isDate,
                 'll',

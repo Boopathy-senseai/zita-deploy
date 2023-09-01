@@ -101,7 +101,7 @@ const MyDataBaseCard = ({
           location: filterFormik.values.locationSearch,
           skill_match: skillsOptionsList,
           relocate: filterFormik.values.reLocateValue,
-          candidate: "",
+          candidate: '',
           userType: tabKey,
           sort: isSortOptions.value,
           page: isPage + 1,
@@ -147,7 +147,7 @@ const MyDataBaseCard = ({
         location: filterFormik.values.locationSearch,
         skill_match: skillsOptionsList,
         relocate: filterFormik.values.reLocateValue,
-        candidate: "",
+        candidate: '',
         userType: tabKey,
         sort: isSortOptions.value,
         page: isPage + 1,
@@ -220,9 +220,17 @@ const MyDataBaseCard = ({
           <CancelAndDeletePopup
             open={isInvite}
             title={
-              isEmpty(dataList.last_name)
-                ? `Invite will be sent as an email to ${dataList.first_name}. Are you sure to proceed?`
-                : `Invite will be sent as an email to ${dataList.first_name} ${dataList.last_name}. Are you sure to proceed?`
+              isEmpty(dataList.last_name) ? (
+                <Flex>
+                  <Text>{`Invite will be sent as an email to ${dataList.first_name}.`}</Text>
+                  <Text> Are you sure to proceed?</Text>
+                </Flex>
+              ) : (
+                <Flex>
+                  <Text>{`Invite will be sent as an email to ${dataList.first_name} ${dataList.last_name}.`}</Text>
+                  <Text> Are you sure to proceed?</Text>
+                </Flex>
+              )
             }
             // title={`Invite will be sent as an email to ${dataList.first_name} ${dataList.last_name}. Are you sure to proceed?`}
             btnDelete={inviteSubmit}
@@ -236,7 +244,11 @@ const MyDataBaseCard = ({
             open={isInvite}
             title={
               <Flex className={styles.popTitle}>
-                <Text>{`The candidate ${!isEmpty(dataList.last_name) ? `${dataList.first_name} ${dataList.last_name} `: `${dataList.first_name}`} has already been invited for this job on ${getDateString(
+                <Text>{`The candidate ${
+                  !isEmpty(dataList.last_name)
+                    ? `${dataList.first_name} ${dataList.last_name} `
+                    : `${dataList.first_name}`
+                } has already been invited for this job on ${getDateString(
                   dataList.invite,
                   'll',
                 )}.`}</Text>
@@ -295,7 +307,6 @@ const MyDataBaseCard = ({
                             : 'Profile Viewed'
                         }
                       >
-                        
                         <SvgView
                           height={15}
                           width={15}
