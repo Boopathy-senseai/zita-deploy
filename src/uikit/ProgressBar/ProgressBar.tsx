@@ -14,11 +14,13 @@ type Props = {
   percentage: number;
   type?: 'hr' | 'round';
   verticalWidth?: string | number;
+  matchingpercentage?:string | number;
 } & typeof defaultProps;
 
 const ProgressBar = ({
   strokeWidth,
   percentage,
+  matchingpercentage,
   type = 'round',
   verticalWidth,
   roundProgressHeight,
@@ -78,7 +80,7 @@ const ProgressBar = ({
           fontWeight: 'bold',
         }}
       >
-        {`${percentage}%`}
+        {`${ matchingpercentage? matchingpercentage:percentage}%`}
       </text>
     </svg>
   ) : (
@@ -91,7 +93,7 @@ const ProgressBar = ({
         bold
         color="black"
         className={styles.percentText}
-      >{`${verticalPercentage}%`}</Text>
+      >{`${ matchingpercentage? matchingpercentage:verticalPercentage}%`}</Text>
     </div>
   );
 };
