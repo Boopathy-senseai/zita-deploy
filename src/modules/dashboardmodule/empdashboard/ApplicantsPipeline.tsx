@@ -13,8 +13,10 @@ type Props = {
   jd_metrics: JdMetricsEntity[];
 };
 
+
 const ApplicantsPipeline = ({ pipeline, planId, jd_metrics }: Props) => {
   const viewCheck = pipeline && pipeline[0].Views;
+  {console.log("check",viewCheck)}
   const pipeLineName: any =
     pipeline &&
     viewCheck !== null &&
@@ -22,6 +24,7 @@ const ApplicantsPipeline = ({ pipeline, planId, jd_metrics }: Props) => {
       const result: any = Object.keys(chart);
       return result[0];
     });
+    const allZeros = pipeline && pipeline.every(chart => pieYValue(Object.values(chart)[0]) === 0);
 
   const pipeLinevalue: any =
     pipeline &&
@@ -98,7 +101,7 @@ const ApplicantsPipeline = ({ pipeline, planId, jd_metrics }: Props) => {
     ],
   };
   const isCheckOne =
-    Array.isArray(pipeline) && pipeline.length !== 0 && viewCheck !== null;
+    Array.isArray(pipeline) && pipeline.length !== 0  &&allZeros 
 
   return (
     <Card className={styles.overAll}>
@@ -106,7 +109,11 @@ const ApplicantsPipeline = ({ pipeline, planId, jd_metrics }: Props) => {
         Applicants Pipeline
       </Text>
 
-      {isCheckOne || planId === 1 || jd_metrics.length === 0 ? (
+    {
+     
+   // isCheckOne || planId === 1 || jd_metrics.length === 0
+   allZeros!==true
+     ? (
         <Flex flex={1} center middle>
           <Chart
             options={
@@ -126,3 +133,6 @@ const ApplicantsPipeline = ({ pipeline, planId, jd_metrics }: Props) => {
   );
 };
 export default ApplicantsPipeline;
+
+
+
