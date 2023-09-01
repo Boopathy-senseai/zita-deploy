@@ -311,7 +311,9 @@ const Newmessage = ({
           label: replaymsg.from.emailAddress.address,
         };
 
-        to.push(a);
+        if (a.value !== emailcollection.email) {
+          to.push(a);
+        }
         const mailconvert = {
           emailAddress: {
             address: replaymsg.from.emailAddress.address,
@@ -322,6 +324,8 @@ const Newmessage = ({
 
         if (replaymsg.toRecipients.length !== 0) {
           replaymsg.toRecipients.map((val, int) => {
+            console.log('1emailcollection.email', emailcollection.email);
+            console.log('2val.address', val['emailAddress'].address);
             if (emailcollection.email !== val['emailAddress'].address) {
               to.push({
                 value: val['emailAddress'].address,
@@ -333,6 +337,8 @@ const Newmessage = ({
         if (replaymsg.ccRecipients.length !== 0) {
           setopenCc(true);
           replaymsg.ccRecipients.map((val, int) => {
+            console.log('emailcollection.email', emailcollection.email);
+            console.log('val.address', val['emailAddress'].address);
             if (emailcollection.email !== val['emailAddress'].address) {
               cc.push({
                 value: val['emailAddress'].address,
@@ -355,6 +361,7 @@ const Newmessage = ({
 
         var sub = `Re: ${replaymsg.subject}`;
         // formik.setFieldValue('userMessage', replaymsg.body.content);
+
         setTosample(to);
         setCcsample(cc);
         setBccsample(bcc);
