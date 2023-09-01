@@ -1488,6 +1488,7 @@ const Newmessage = ({
                       marginRight: '5px',
                       flexDirection: 'column',
                       flex: 1,
+                      minHeight: '365px',
                     }}
                   >
                     <RichText

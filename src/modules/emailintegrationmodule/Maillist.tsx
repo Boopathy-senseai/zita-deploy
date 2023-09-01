@@ -128,8 +128,10 @@ const Maillist = ({
         .then(() => {
           Gmail_search(searchSection, search.trim(), range, tokens)
             .then((res) => {
+              if (res === undefined) {
+                setSearchicon(true);
+              }
               savemail(res.fullMessages, res.token);
-
               //settoken(res.token);
               if (res.token === undefined) {
                 setload(false);
