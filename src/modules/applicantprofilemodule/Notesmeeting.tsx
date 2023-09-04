@@ -89,7 +89,6 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
                   response.payload.data.map((items: any, index) => {
                     const Time = Math.floor(items.duration/60)  
 
-                    console.log(items,'plzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz')
                     return {
                       title: items.event_type + ' ' + items.applicant,
                       organizer: response.payload.user,
@@ -284,6 +283,7 @@ const Notesmeet = ({ isMeeting, eventchang }: Props) => {
                       ).format('hh:mm a')}`,
                       web_url: items.eventId,
                       data: mail,
+                      join_url:items.join_url,
                       index: index,
                      Time: Time,
                     };

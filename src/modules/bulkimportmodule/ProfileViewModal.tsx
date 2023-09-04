@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
+import FileViewer from 'react-file-viewer';
 import { FieldArray, FormikProvider, useFormik } from 'formik';
 import PhoneInput from 'react-phone-input-2';
 import * as Yup from 'yup';
@@ -21,6 +22,7 @@ import Card from '../../uikit/Card/Card';
 import CancelAndDeletePopup from '../common/CancelAndDeletePopup';
 import Text from '../../uikit/Text/Text';
 import { Modal } from '../../uikit';
+import { SvgEdit } from '../../icons';
 import PersonalInformationEdit from './PersonalInfoTableData';
 // import { THIS_FIELD_REQUIRED } from './../constValue';
 // import AddandUpdateWorkExperienceEdit from './ExpAdd';
@@ -32,12 +34,12 @@ import ApplicantQustionsSubmit, {
 // import AddandUpdateQualificationEdit from './QualAdd';
 import {
   uploadedProfileViewMiddleWare,
-  bulkImportQusMiddleWare,bulkUploadSkillsMiddleWare,
+  bulkImportQusMiddleWare,
+  bulkUploadSkillsMiddleWare,
   bulkImportQusGetMiddleWare,
 } from './store/middleware/bulkImportMiddleware';
 // import { applocationFormPostMiddleWare } from './../accountsettingsmodule/buildyourcareerpage/store/middleware/buildyourcareerpagemiddleware';
 import styles from './profileviewmodal.module.css';
-
 
 const inital: applicationFormikForms = {
   qualification: '',
@@ -63,7 +65,7 @@ type Props = {
   // skills?: any;
   // obj?: any;
   // education?: any;
-  refreshOnUpdate:(a?:any) => void;
+  refreshOnUpdate: (a?: any) => void;
 };
 
 const ProfileViewModal = ({
@@ -76,7 +78,7 @@ const ProfileViewModal = ({
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
-    // setDisplay(true)
+    // setDisplay(false)
     dispatch(bulkUploadSkillsMiddleWare({ empId: canId }));
     dispatch(uploadedProfileViewMiddleWare({ id: Number(canId) }));
     if (jdId !== undefined) {
@@ -90,7 +92,7 @@ const ProfileViewModal = ({
     questionnaireAns,
     emp_data,
     answers,
-   skills_list
+    skills_list,
   } = useSelector(
     ({
       uploadedProfileViewReducers,
@@ -163,9 +165,11 @@ const ProfileViewModal = ({
     // map: Yup.array().of(
     //   Yup.object().shape({
     //     required: Yup.string()
-      map: Yup.array().min(1,'atleast 1 field should be updated').required("required")
-          // .matches(/[0\ ]/, THIS_FIELD_REQUIRED),
-          // // .required(THIS_FIELD_REQUIRED),
+    map: Yup.array()
+      .min(1, 'atleast 1 field should be updated')
+      .required('required'),
+    // .matches(/[0\ ]/, THIS_FIELD_REQUIRED),
+    // // .required(THIS_FIELD_REQUIRED),
     //   }),
     // ),
   });
@@ -282,7 +286,7 @@ const ProfileViewModal = ({
       }
     }
   };
-  const [display,setDisplay] = useState(true)
+  const [display,setDisplay] = useState(false)
   // error message focus function
   useEffect(() => {
     setAnswer(answers);
@@ -309,12 +313,18 @@ const ProfileViewModal = ({
     getFocus('myjobpostscreen___input');
     getBlur('myjobpostscreen___input');
   }, [is_loading]);
-  
+
+
+
   useEffect(() => {
-    setDisplay(true);
-  },[display])
+   
+    setTimeout(() => {
+      setDisplay(true);
+    }, 100);
+  },[display, filePath])
   return (
     <Drawer open={open}>
+      {console.log("disp+++lay",display,file)}
       {is_loading && <Loader />}
       <div className={styles.overAll}>
         <Flex row center between flex={1} className={styles.border}>
@@ -325,11 +335,9 @@ const ProfileViewModal = ({
             role={'button'}
             onKeyPress={() => {}}
           >
-            <SvgClose fill={'#888888'} />
+            <SvgClose fill={'#888888'} width={14} height={14}/>
           </div>
-          <Flex onClick={() => hanldeProfileView(Number(canId))}>
-            
-          </Flex>
+          <Flex onClick={() => hanldeProfileView(Number(canId))}></Flex>
         </Flex>
         <Flex row>
           <Flex flex={6}>
@@ -339,18 +347,22 @@ const ProfileViewModal = ({
                 overflow: 'scroll',
               }}
             >
-              {display && <DocViewer
-                style={{ height: '100%', width: '100%' }}
-                pluginRenderers={DocViewerRenderers}
-                documents={docs}
-                config={{
-                  header: {
-                    disableHeader: false,
-                    disableFileName: false,
-                    retainURLParams: false,
-                  },
-                }}
-              />}
+              {filePath!=="" && display &&
+           <DocViewer
+                 style={{ height: '100%', width: '100%' }}
+                 pluginRenderers={DocViewerRenderers}
+                 documents={docs}
+                 config={{
+                   header: {
+                     disableHeader: false,
+                     disableFileName: false,
+                     retainURLParams: false,
+                   },
+                 }}
+               />
+       
+          }
+             
             </div>
           </Flex>
           <Flex flex={6}>
@@ -380,15 +392,25 @@ const ProfileViewModal = ({
                     {/* <Text size={16} bold>
                       Personal Information
                     </Text> */}
-                    <Text size={16} bold>{emp_data.first_name}</Text>
+                    <Text size={16} bold>
+                      {emp_data.first_name}
+                    </Text>
                     <input
                       className={styles.inputNone}
                       id="myjobpostscreen___input"
                     />
                   </Flex>
                   <Card className={styles.cardOverAll}>
-                  <Modal open={isProfileView} >
-                      <Flex style={{backgroundColor:'#ffffff',padding:'25px',height:'496px',width:'650px'}}>
+                    <Modal open={isProfileView}>
+                      <Flex
+                        style={{
+                          backgroundColor: '#ffffff',
+                          padding: '25px',
+                          // height: '496px',
+                          width: '650px',
+                          borderRadius:"4px"
+                        }}
+                      >
                         <PersonalInformationEdit
                           cancel={() => setProfileView(false)}
                           skills_list={skills_list}
@@ -397,20 +419,20 @@ const ProfileViewModal = ({
                           displayHandler={() => setDisplay(false)}
                         />
                       </Flex>
-                  </Modal>
-                    
-                      <>
-                        <div
-                          className={styles.svgEdit}
-                          style={{ width: 'fit-content',top:-8 }}
-                          onClick={handleOpenPersonalEdit}
-                          tabIndex={-1}
-                          role="button"
-                          onKeyDown={() => {}}
-                        >
-                          <SvgBoxEdit fill={PRIMARY} />
-                        </div>
-                        <div style={{ marginTop:-24 }}>
+                    </Modal>
+
+                    <>
+                      <div
+                        className={styles.svgEdit}
+                        style={{ width: 'fit-content', top: -8 }}
+                        onClick={handleOpenPersonalEdit}
+                        tabIndex={-1}
+                        role="button"
+                        onKeyDown={() => {}}
+                      >
+                        <SvgEdit width={16} height={16} fill={PRIMARY} />
+                      </div>
+                      <div style={{ marginTop: -24 }}>
                         {data.map((list) => (
                           <Flex
                             key={list.title}
@@ -418,11 +440,11 @@ const ProfileViewModal = ({
                             top
                             className={styles.insideFlex}
                           >
-                            <Text 
+                            <Text
                               style={{
                                 paddingRight: list.right,
                                 whiteSpace: 'nowrap',
-                                color:'#581845'
+                                color: '#581845',
                               }}
                             >
                               {list.title}
@@ -446,9 +468,8 @@ const ProfileViewModal = ({
                             )}
                           </Flex>
                         ))}
-                        </div>
-                      </>
-                  
+                      </div>
+                    </>
                   </Card>
                   {/* <Flex className={styles.titleStyle}>
                     <Text size={16} bold>
@@ -754,30 +775,34 @@ const ProfileViewModal = ({
                               </Text>
                             </Flex>
                           ) : (
-                            <Flex row between>
-                              <Flex>
-                                <Text bold>
+                            // <Flex row between>
+                            //   <Flex>
+                                <Text bold size={13} color="black2" style={{marginBottom:"5px"}}>
                                   Applicant Response for Questionnaire
                                 </Text>
-                              </Flex>
-                             
-                            </Flex>
+                            //   </Flex>
+                            // </Flex>
                           )}
                           {questionnaireAns &&
                             questionnaireAns.map((list: any, index: number) => {
                               return (
                                 <Flex columnFlex key={list.question + index}>
+                                  <Flex row center>
                                   <Text
-                                    textStyle="underline"
-                                    bold
+                                    // textStyle="underline"
+                                    // bold
+                                    color='theme'
                                     className={styles.qustionStyle}
+                                    style={{marginRight:"3px"}}
                                   >
-                                    Question {index + 1}:
+                                     {index + 1}:
                                   </Text>
-                                  <Text>{list.question}</Text>
+                                  <Text size={13} color='theme'>{list.question}</Text>
+                                    </Flex>
+                                  
 
                                   <Flex className={styles.resStyle} row center>
-                                    <Text bold>Response:</Text>
+                                    {/* <Text bold>Response:</Text> */}
 
                                     {list.answer === '0' && (
                                       <Text style={{ marginLeft: 2 }}>No</Text>
@@ -787,9 +812,9 @@ const ProfileViewModal = ({
                                     )}
                                     {list.answer !== '0' &&
                                       list.answer !== '1' && (
-                                        <Text style={{ marginLeft: 2 }}>
+                                        <Text size={13} style={{ marginLeft: 15, marginBottom: 10}} >
                                           {isEmpty(list.answer)
-                                            ? 'Not Answered'
+                                            ? <Text style={{ color: '#666666' }}>Not Answered</Text>
                                             : list.answer}
                                         </Text>
                                       )}

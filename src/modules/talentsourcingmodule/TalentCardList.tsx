@@ -94,7 +94,6 @@ Props) => {
   const handleSelectAll = () => {
     setIsCheckAll(!isCheckAll);
     update(!val)
-     console.log("#########",isCheckAll)
     setIsCheck(
       searchData &&
         searchData
@@ -104,7 +103,6 @@ Props) => {
         ),
     );
     if (isCheckAll) {
-      console.log("_---------",isCheckAll)
       setIsCheck([]);
       setIsCheckAll(false);
       update(false)
@@ -128,11 +126,8 @@ Props) => {
 
   useEffect(() => {
     const valIndex=sessionStorage.getItem("index");
-    console.log("type offffffffffff",typeof(isCheck.length),typeof(valIndex))
     const ans=(isCheck.length.toString()===valIndex);
-    console.log("number page",valIndex,isCheckAll,isCheck.length,ans)
     const styleval= Number(valIndex)>9
-    console.log("stylevalllllllll",Number(valIndex),styleval)
     setstylevalue(styleval)
 
     if (isCheckAll && isCheck.length.toString() !== valIndex) {
@@ -159,12 +154,9 @@ Props) => {
     update(true)
   }
   const handleChange=(int:any)=>{
-    console.log("index",int)
     // setcount(int+1)
   }
-  console.log("userpage",isCheck.length);
 
-  console.log("number ++++_____====",searchData)
 
 //  const mapfuction=()=>{
 //     if(searchData){

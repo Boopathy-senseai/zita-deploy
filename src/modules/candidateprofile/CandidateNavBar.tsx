@@ -78,13 +78,17 @@ const CandidateNavBar = ({
         <Avatar
                 className={styles.profile}
                 style={{ fontSize:'40px', textTransform:'uppercase' }}
-                initials= {`${obj?.full_name[0][0]}${
-                  obj?.full_name?.split(' ').pop()?.[0]
-                }`} 
+                initials={`${obj?.full_name[0][0]}${
+                  obj?.full_name?.split(' ')[
+                    obj?.full_name?.split(' ')?.length - 1
+                  ] !== ''
+                    ? obj?.full_name?.split(' ')?.pop()?.[0]
+                    : ''
+                }`}
                 avatar={
-                  obj?.profile_url && obj?.profile_url !== 'default.jpg'
-                    ? `${process.env.REACT_APP_HOME_URL}media/${obj?.profile_url}`
-                    : undefined
+                  obj?.profile_url &&
+                  obj?.profile_url !== 'default.jpg' &&
+                  `${process.env.REACT_APP_HOME_URL}media/${obj?.profile_url}`
                 }
               />
         <Flex columnFlex flex={1} between>

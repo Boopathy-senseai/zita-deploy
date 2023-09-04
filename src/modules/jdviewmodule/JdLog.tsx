@@ -71,7 +71,6 @@ const JdLog = ({ statusList,jdDetails }: Props) => {
       url: '',
     },
   ];
-console.log('statusList',statusList);
   return (
     <Card className={styles.logStyle}>
       <Flex>

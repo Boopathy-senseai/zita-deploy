@@ -88,7 +88,6 @@ const AddandUpdateQualificationEdit = ({
         }),
       ).then((res) => {
         if (res.payload.success) {
-          console.log(res,'fffffffffffffffffbbbbbbbbbbbbbbbbbbbnnnnnnnnnnnnnnnnnnn')
            dispatch(
           candidateMatchMiddleWare({ 
              can_id:res.payload?.can_id[0]?.id.toString(),

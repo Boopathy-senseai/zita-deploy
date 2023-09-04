@@ -167,7 +167,7 @@ const ProtectedRoute = ({
           }
         }}
       />
-      {console.log('1212', sidebar)}
+
     </>
   );
 };

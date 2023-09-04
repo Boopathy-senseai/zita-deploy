@@ -272,7 +272,7 @@ const TalentFilter = ({
             <Text
               bold
               className={styles.filtername}
-              style={{ cursor: 'Pointer', paddingTop: 7, fontSize: 14 }}
+              style={{ cursor: 'Pointer', paddingTop: 6, fontSize: 13 }}
             >
               View Filter
             </Text>
@@ -293,7 +293,7 @@ const TalentFilter = ({
           }`}
         >
           <Flex className={styles.mtstyle}>
-            <Text type="titleSmall" bold style={{ marginBottom: '2px' }}>
+            <Text type="titleSmall" bold style={{ marginBottom: '2px', fontSize:13 }}>
               Experience
             </Text>
             <SelectTag
@@ -318,7 +318,7 @@ const TalentFilter = ({
 
           <Flex className={styles.mtstyle}>
             <Flex className={styles.skillContainer}>
-              <Text type="titleSmall" bold style={{ marginBottom: '2px' }}>
+              <Text type="titleSmall" bold style={{ marginBottom: '2px', fontSize:13 }}>
                 Qualification
               </Text>
               <Flex row top className={cx('checkBoxContainer')}>

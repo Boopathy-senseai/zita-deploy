@@ -137,7 +137,7 @@ const ZitaMatchDataCard = ({
     setProfileView(false);
     setNotes(false);
   };
-  console.log('jobId',jobId);
+
   
   return (
     <Flex className={styles.cardwrap} >
@@ -176,11 +176,22 @@ const ZitaMatchDataCard = ({
           />
         </>
       )}
-
       {isEmpty(dataList.invite) && (
         <CancelAndDeletePopup
           open={isInvite}
-          title={`Invite will be sent as an email to ${dataList.first_name}. Are you sure to proceed?`}
+          title={
+            isEmpty(dataList.last_name) ? (
+              <Flex>
+                <Text>{`Invite will be sent as an email to ${dataList.first_name}.`}</Text>
+                <Text> Are you sure to proceed?</Text>
+              </Flex>
+            ) : (
+              <Flex>
+                <Text>{`Invite will be sent as an email to ${dataList.first_name} ${dataList.last_name}.`}</Text>
+                <Text> Are you sure to proceed?</Text>
+              </Flex>
+            )
+          }
           btnDelete={inviteSubmit}
           btnCancel={() => setInvite(false)}
           btnRight={YES}
@@ -608,8 +619,8 @@ dataList.invite,
                     onKeyPress={() => {}}
                   >
                     <SvgHeart
-                      height={18}
-                      width={18}
+                      height={15}
+                      width={15}
                       filled={!isEmpty(dataList.fav)}
                     />
                   </div></Flex>
@@ -708,7 +719,7 @@ dataList.invite,
                   )}
                 </>
               )}
-              {console.log("dddddddddddddddddd",dataList)}
+
               {/* {!isEmpty(dataList.invite) && !isEmpty(dataList.applicant) && (
                 <Text color="gray" size={12}>
                   You can’t send Invite

@@ -39,7 +39,6 @@ const InviteContainer = ({
         <>
         {/* <div
           style={{width:'2px',height:'10px',color:'black'}}></div> */}
-          {console.log("jjjjdjdjdjdjdjdj",(dataList))}
           <div
             title="Invite to Apply"
             className={cx('inviteStyle', { inviteDisable })}
@@ -118,7 +117,7 @@ const InviteContainer = ({
                   className={cx({
                   nolastinvitetext: !isEmpty(dataList.applicant),
                   lastinvitetext: isEmpty(dataList.applicant)
-                })} color="gray" size={11} >
+                })} color="gray" size={11} style={{position:"relative", right: "4px"}} >
                 {' '}{dataList?.invite && getDateString(dataList.invite, 'll')}
                 </Text>
                 </Flex>

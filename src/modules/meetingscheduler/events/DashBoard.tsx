@@ -259,20 +259,20 @@ const ActionsButton = ({ data, onEdit }: Props) => {
             <Flex className={styles.popUpFlex}>
               <Flex column>
                 <Flex>
-                  <Text size={14} style={{ marginLeft: '10px' }}>
+                  <Text size={13} style={{ marginLeft: '10px' }}>
                     Users will be unable to schedule further meetings with
                     deleted event types.
                   </Text>
                 </Flex>
                 <Flex marginLeft={10}>
-                  <Text size={14}>
+                  <Text size={13}>
                     Meetings previously scheduled will not be affected.
                   </Text>
                 </Flex>
               </Flex>
               <Flex>
                 <Text
-                  size={14}
+                  size={13}
                   style={{ marginLeft: '10px', marginTop: '2px' }}
                 >
                   Are you sure to proceed?

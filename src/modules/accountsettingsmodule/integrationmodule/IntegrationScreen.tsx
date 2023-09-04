@@ -158,7 +158,7 @@ const IntegrationScreen = () => {
         }
         setmodelopen(!modelopen);
 
-        Toast('Google calendar Disconnected Successfully', 'SHORT', 'error');
+        Toast('Google calendar disconnected successfully', 'SHORT', 'error');
       });
     }
   };
@@ -171,7 +171,7 @@ const IntegrationScreen = () => {
       }
       setmodelopen(!modelopen);
 
-      Toast('Google calendar Disconnected Successfully', 'SHORT', 'error');
+      Toast('Google calendar disconnected successfully', 'SHORT', 'error');
     });
   };
 
@@ -188,7 +188,7 @@ const IntegrationScreen = () => {
         }
         setmodelopen(!modelopen);
 
-        Toast('Outlook calendar Disconnected Successfully', 'SHORT', 'error');
+        Toast('Outlook calendar disconnected successfully', 'SHORT', 'error');
       });
     }
   };
@@ -202,7 +202,7 @@ const IntegrationScreen = () => {
       }
       setmodelopen(!modelopen);
 
-      Toast('Outlook calendar Disconnected Successfully', 'SHORT', 'error');
+      Toast('Outlook calendar disconnected successfully', 'SHORT', 'error');
     });
   };
 
@@ -249,18 +249,37 @@ const IntegrationScreen = () => {
   function CloseConfiguration() {
     setConflictopen(false);
   }
+  const handleCancel = () => {
+    setmodelopen(false);
+    setDisconnectopen(false);
+  };
 
   return (
     <Flex className={styles.overAll}>
       <Email loaderupdate={loaderupdate} />
       {isLoginLoader && <Loader />}
       <Flex columnFlex>
-        <Text size={14} bold>
+        <Flex row between>
+        <Flex><Text size={14} bold>
           Calendar Integration
         </Text>
-        <Text>Integrate your calendar with zita to schedule your meetings</Text>
+        <Text>Integrate your calendar with zita to schedule your meetings</Text></Flex>
+        <Flex>{active ? (
+            <>
+              <Flex row end>
+                <ActionsButton
+                  Configuration={Configuration}
+                  connected={connected}
+                  active={active}
+                />
+              </Flex>
+            </>
+          ) : (
+            ''
+          )}</Flex></Flex>
+        
 
-        <Flex row marginTop={20}>
+        <Flex row marginTop={10}>
           <Flex flex={3}>
             {connected === 1 && active === 1 && isGoogle === 0 ? (
               <Card className={styles.selectCard}>
@@ -276,7 +295,7 @@ const IntegrationScreen = () => {
                   {integrationSuccess === 'true' &&
                     localStorage.removeItem('integrationSuccess')}
                   <Text bold size={14} style={{ marginLeft: '10px' }}>
-                    Outlook Mail
+                  Outlook Calendar
                   </Text>
                 </Flex>
 
@@ -302,12 +321,12 @@ const IntegrationScreen = () => {
                   <SvgOutlookcalendar></SvgOutlookcalendar>
                   {/* {  Toast('Outlook google Integrated Successfully', 'MEDIUM')   } */}
                   <Text bold size={14} style={{ marginLeft: '10px' }}>
-                    Outlook Mail
+                  Outlook Calendar
                   </Text>
                 </Flex>
 
                 <Text style={{ marginTop: '10px' }}>
-                Connect your calendar with Outlook Calendar Service.
+                  Connect your calendar with Outlook calendar service.
                 </Text>
                 <Flex className={styles.borderbottom1}></Flex>
 
@@ -390,7 +409,7 @@ const IntegrationScreen = () => {
                 </Flex>
 
                 <Text style={{ marginTop: '10px' }}>
-                Connect your calendar with Google Calendar Service.
+                  Connect your calendar with Google calendar service.
                 </Text>
                 <Flex className={styles.borderbottom1}></Flex>
                 {connected === 1 && active === 1 && isGoogle === 0 ? (
@@ -417,36 +436,21 @@ const IntegrationScreen = () => {
             )}
           </Flex>
           <Flex flex={9}></Flex>
-          {active ? (
-            <>
-              <Flex row end>
-                <ActionsButton
-                  Configuration={Configuration}
-                  connected={connected}
-                  active={active}
-                />
-              </Flex>
-            </>
-          ) : (
-            ''
-          )}
+          
         </Flex>
       </Flex>
 
       <Modal open={modelopen}>
         <Flex className={styles.editmodal}>
-          {/* <Flex end onClick={() => setmodelopen(!modelopen)}>
-            <SvgClose width={10} height={10} fill={'#888888'} />
-          </Flex> */}
           {connected === 1 && active === 1 && isGoogle === 0 ? (
             <>
               {disconnectopen === true ? (
                 <>
-                  <Flex end onClick={() => setmodelopen(!modelopen)}>
+                  {/* <Flex end onClick={() => setmodelopen(!modelopen)}>
                     <SvgClose width={10} height={10} fill={'#888888'} />
-                  </Flex>
+                  </Flex> */}
                   <Flex>
-                    <Text size={13} style={{ marginTop: '5px' }}>
+                    <Text size={13} color="black2" style={{ marginTop: '5px' }}>
                       If you disconnect, your slotters will be inactivated and
                       candidate will not be able to pick slots for the
                       interviews.
@@ -462,13 +466,14 @@ const IntegrationScreen = () => {
                         Edit Configuration
                       </Text>
                     </Flex>
-                    <Flex end onClick={() => setmodelopen(!modelopen)}>
+                    <Flex end onClick={handleCancel}>
                       <SvgClose width={10} height={10} fill={'#888888'} />
                     </Flex>
                   </Flex>
                   <div className={styles.borderbottom}> </div>
-                  <Text size={13} style={{ marginTop: '5px' }}>
-                    You have connected your Email with Outlook Mail Service.
+                  <Text size={13} style={{ marginTop: '10px' }}>
+                    You have connected your calendar with Outlook calendar
+                    service.
                   </Text>
                   <Flex row start className={styles.modelheadder}>
                     <SvgOutlookcalendar></SvgOutlookcalendar>
@@ -482,7 +487,7 @@ const IntegrationScreen = () => {
                     </Card>
                   </Flex>
                   <Flex style={{ marginTop: '20px' }}>
-                    Would you Like to do any of the following actions?
+                    Would you like to do any of the following actions?
                   </Flex>
                   <Flex
                     style={{
@@ -494,12 +499,21 @@ const IntegrationScreen = () => {
               )}
               <Flex>
                 {disconnectopen === true ? (
-                  <Button
-                    className={styles.okButton}
-                    onClick={() => handleDisconnectCheck()}
-                  >
-                    OK
-                  </Button>
+                  <Flex row end marginTop={10}>
+                    <Button
+                      className={styles.cancelBtn}
+                      onClick={handleCancel}
+                      style={{ marginRight: '8px' }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      className={styles.okButton}
+                      onClick={() => handleDisconnectCheck()}
+                    >
+                      OK
+                    </Button>
+                  </Flex>
                 ) : (
                   <Flex end>
                     <span>
@@ -532,11 +546,11 @@ const IntegrationScreen = () => {
             <>
               {disconnectopen === true ? (
                 <>
-                  <Flex end onClick={() => setmodelopen(!modelopen)}>
+                  {/* <Flex end onClick={() => setmodelopen(!modelopen)}>
                     <SvgClose width={10} height={10} fill={'#888888'} />
-                  </Flex>
+                  </Flex> */}
                   <Flex>
-                    <Text size={13} style={{ marginTop: '5px' }}>
+                    <Text color="black2" size={13} style={{ marginTop: '5px' }}>
                       If you disconnect, your slotters will be inactivated and
                       candidate will not be able to pick slots for the
                       interviews.
@@ -557,9 +571,9 @@ const IntegrationScreen = () => {
                       <SvgClose width={10} height={10} fill={'#888888'} />
                     </Flex>
                   </Flex>
-                  <div className={styles.borderbottom1}></div>
-                  <Text size={13} style={{ marginTop: '5px' }}>
-                    You have connected your Email with Google Mail Service.
+                  <div className={styles.borderbottom}></div>
+                  <Text size={13} style={{ marginTop: '10px' }}>
+                    You have connected your calendar with Google calendar service.
                   </Text>
                   <Flex row start className={styles.modelheadder}>
                     <SvgGooglecalendar></SvgGooglecalendar>
@@ -573,7 +587,7 @@ const IntegrationScreen = () => {
                     </Card>
                   </Flex>
                   <Flex style={{ marginTop: '20px' }}>
-                    Would you Like to do any of the following actions?
+                    Would you like to do any of the following actions?
                   </Flex>
                   <Flex
                     style={{
@@ -585,12 +599,21 @@ const IntegrationScreen = () => {
               )}
               <Flex>
                 {disconnectopen === true ? (
-                  <Button
-                    className={styles.okButton}
-                    onClick={() => handleDisconnectGoogleCheck()}
-                  >
-                    OK
-                  </Button>
+                  <Flex row end marginTop={10}>
+                    <Button
+                      className={styles.cancelBtn}
+                      onClick={handleCancel}
+                      style={{ marginRight: '8px' }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      className={styles.okButton}
+                      onClick={() => handleDisconnectGoogleCheck()}
+                    >
+                      OK
+                    </Button>
+                  </Flex>
                 ) : (
                   <Flex end>
                     <span>

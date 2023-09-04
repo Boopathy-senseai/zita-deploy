@@ -946,14 +946,36 @@ const Calendar = () => {
         });
     }
   };
+  const handleCopyMeeting = (eventId: string) => {
+    if (calendarProvider === CALENDAR.Google) {
+      navigator.clipboard.writeText(eventPopUpDetails.link);
+    } else if (calendarProvider === CALENDAR.Outlook) {
+      dispatch(getUrlMiddleware({ event_id: eventId }))
+        .then((res) => {
+          if (res.payload.data.onlineMeeting.joinUrl) {
+            navigator.clipboard.writeText(
+              res.payload.data.onlineMeeting.joinUrl,
+            );
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  };
 
   const getEditEventsDetails = (event: ZitaEventType): EditEventDetails => {
     const interviewerEmails = event.interviewers.split(',');
-    const interviewers = teamMembers.filter((member) => {
-      if (interviewerEmails.includes(member.email)) {
-        return member;
-      }
-    });
+    // const interviewers = teamMembers.filter((member) => {
+    //   if (interviewerEmails.includes(member.email)) {
+    //     return member;
+    //   }
+    // });
+    const interviewers = teamMembers.filter(
+      (member) =>
+        interviewerEmails.includes(member.email) ||
+        interviewerEmails.includes(member.calendarEmail),
+    );
 
     return {
       applicant: {
@@ -1037,6 +1059,12 @@ const Calendar = () => {
 
   const IntegrationMenuView = (
     <div>
+      <div className={styles.calendarLogo}> 
+        <Text bold size={16} color="theme">
+          Calendar
+        </Text>
+        <div className={styles.triangle}> </div> 
+      </div>
       <Flex center flex={1} middle columnFlex className={styles.noContent}>
         <Text color="placeholder" style={{ marginBottom: 16 }}>
           Integrate your calendar with zita application to schedule your
@@ -1044,8 +1072,11 @@ const Calendar = () => {
         </Text>
         <LinkWrapper
           onClick={() => {
+            // sessionStorage.setItem('superUserTab', '4');
+            // sessionStorage.setItem('superUserFalseTab', '3');
+            sessionStorage.setItem('superUserTabTwo','2')
+            sessionStorage.setItem('superUserFalseTab', '1');
             sessionStorage.setItem('superUserTab', '4');
-            sessionStorage.setItem('superUserFalseTab', '3');
           }}
           to="/account_setting/settings"
         >
@@ -1185,6 +1216,7 @@ const Calendar = () => {
                     formats={{
                       eventTimeRangeFormat: () => '',
                     }}
+                    showAllEvents={true}
                     components={{
                       toolbar: SimpleToolBar,
                       event: ColorEvent,
@@ -1204,6 +1236,7 @@ const Calendar = () => {
                     handleRemoveEvent={handleRemoveEvent}
                     isEventCanUpdate={isEventCanUpdate}
                     joinMeeting={handleJoinMeeting}
+                    copyMeeting={handleCopyMeeting}
                     showEventPopUpModal={showEventPopUpModal}
                     eventPopUpDetails={eventPopUpDetails}
                   />

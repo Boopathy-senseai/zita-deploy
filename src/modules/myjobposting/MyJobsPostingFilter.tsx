@@ -48,7 +48,6 @@ const MyJobsPostingFilter = ({
   job_title,
   setchange,
 }: Props) => {
-  // console.log(MyJobsPostingFilter)
   const [data, setdata] = useState('');
   const [done, setdone] = useState('');
   const [date, setdate] = useState('');
@@ -145,7 +144,6 @@ const MyJobsPostingFilter = ({
   const dropDownRef = useRef(null);
 
   // const closeDropDown = (e: any) => {
-  //   console.log(showDropDown,'ffffffffffffffffffffffffffffff')
   //   if (
   //     dropDownRef.current &&
   //     showDropDown &&
@@ -419,7 +417,6 @@ const MyJobsPostingFilter = ({
                   setchange(true)
                 )}
               />
-              {console.log(formik.values.jobId)}
             </Flex>
 
             <Flex className={styles.mtstyle}>

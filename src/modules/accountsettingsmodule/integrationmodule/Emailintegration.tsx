@@ -39,7 +39,6 @@ import {
 import { Button, Card, Flex, Text, Toast } from '../../../uikit';
 import styles from './emailintegration.module.css';
 
-
 type props = {
   loaderupdate: (val: any) => void;
 };
@@ -71,12 +70,12 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
         loaderupdate(false);
         if (res.payload.account === 'outlook') {
           setAuthorizemail('outlook');
-          setverifymail('Outlook Mail')
+          setverifymail('Outlook Mail');
           setgbutton(1);
           setoutbutton(1);
         } else if (res.payload.account === 'google') {
           setAuthorizemail('google');
-          setverifymail('Google Mail')
+          setverifymail('Google Mail');
           setoutbutton(1);
           setgbutton(1);
         }
@@ -104,7 +103,6 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
     dispatch(gmail_integrate())
       .then((res) => {
         localStorage.setItem('integrate', 'Mail');
-        console.log('res++++++++++=', res);
         // window.open(res.payload.url);
         setgbutton(1);
         setoutbutton(1);
@@ -184,34 +182,33 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
       });
   };
 
-  const ChangeoutlookMail = async () => {
-    // alert('change mail ');
-    const value = instance
-      .logoutPopup({
-        mainWindowRedirectUri: 'http://localhost:3000/account_setting/settings', // redirects the top level app after logout
-        account: instance.getActiveAccount(),
-      })
-      .catch((error) => console.log(error));
-    // console.log('sd', value);
-    //setEmail(value.account.username);
+  const ChangeoutlookMail = async (val: string) => {
+    if (val === 'outlook') {
+      outlookconfig();
+    } else {
+      handleAuthClick();
+    }
   };
 
   return (
     <>
-      {/* {console.log('email', integrate.email)}
-      {console.log('au', Authorizemail)}
-      {console.log('ob', outbutton)}
-      {console.log('gb', gbutton)} */}
       <Text size={14} bold>
         Email Integrations
       </Text>
       <Text>
-      Integrate and choose which email address you want to use when sending emails from Zita
+        Integrate and choose which email address you want to use when sending
+        emails from Zita
       </Text>
       <Flex row style={{ marginTop: '10px' }}>
-        <Flex flex={3} height={'unset'} minWidth={200} marginRight={20}>
+        <Flex flex={3} height={'unset'}  marginRight={20}>
           {Authorizemail === 'outlook' && email !== null && outbutton === 1 ? (
-            <Card className={styles.cardStruture}>
+            <Card
+              className={
+                Authorizemail === 'outlook' && email !== null && outbutton === 1
+                  ? styles.cardStrutureborder
+                  : styles.cardStruture
+              }
+            >
               <Flex end style={{ position: 'absolute', right: '10px' }}>
                 <SvgTick />
               </Flex>
@@ -274,7 +271,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
               </Flex>
 
               <Text style={{ marginTop: '10px' }}>
-                Connect your inbox with Outlook Mail Service.
+                Connect your inbox with Outlook mail service.
               </Text>
               <Flex
                 column
@@ -290,7 +287,11 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
                   className={styles.btn}
                   disabled={outbutton === 1 ? true : false}
                   onClick={() => outlookconfig()}
-                  style={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
                 >
                   <Text color="theme" bold>
                     Connect With Outlook
@@ -302,9 +303,17 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
         </Flex>
         <Flex flex={3}>
           {Authorizemail === 'google' &&
-            integrate.email !== null &&
-            gbutton === 1 ? (
-            <Card className={styles.cardStruture}>
+          integrate.email !== null &&
+          gbutton === 1 ? (
+            <Card
+              className={
+                Authorizemail === 'google' &&
+                integrate.email !== null &&
+                gbutton === 1
+                  ? styles.cardStrutureborder
+                  : styles.cardStruture
+              }
+            >
               <Flex end style={{ position: 'absolute', right: '10px' }}>
                 <SvgTick />
               </Flex>
@@ -338,7 +347,11 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
                 <Button
                   className={styles.btn}
                   onClick={() => EditMail('gmail')}
-                  style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
                 >
                   <Flex row center className={styles.editButton}>
                     <SvgEdit width={12} height={12} />
@@ -369,7 +382,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
               </Flex>
 
               <Text style={{ marginTop: '10px' }}>
-                Connect your inbox with Google Mail Service.
+                Connect your inbox with Google mail service.
               </Text>
               <Flex
                 column
@@ -385,7 +398,11 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
                   disabled={gbutton === 1 ? true : false}
                   className={styles.btn}
                   onClick={() => handleAuthClick()}
-                  style={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
                 >
                   <Text color="theme" bold>
                     Connect with Gmail
@@ -403,22 +420,28 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
 
       <Modal open={modelopen}>
         <Flex className={styles.editmodal}>
-
-
           {Edit === 'outlook' ? (
             <Flex>
-
-              <Flex style={{display:"flex", alignItems:"center", flexDirection:"row", justifyContent:"space-between"}}>
-              <div style={{display:"flex", alignItems:"center", gap:"5px"}}>
-              <SvgEdit width={12} height={12} fill={GARY_1} />
-                <Text size={14} bold>
-                  {' '}
-                  Edit Configuration
-                </Text>
+              <Flex
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <div
+                  style={{ display: 'flex', alignItems: 'center', gap: '5px' }}
+                >
+                  <SvgEdit width={12} height={12} fill={GARY_1} />
+                  <Text size={14} bold>
+                    {' '}
+                    Edit Configuration
+                  </Text>
                 </div>
                 <Flex
                   end
-                  style={{ marginRight: '15px' }}
+                  // style={{ marginRight: '15px' }}
                   onClick={() => setmodelopen(!modelopen)}
                 >
                   <SvgClose
@@ -429,11 +452,11 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
                   />
                 </Flex>
               </Flex>
-              
-              <div className={styles.lineVertical}></div>
 
-              <Text>
-                You have connected your Email with Outlook Mail Service.
+              <div className={styles.borderbottom}></div>
+
+              <Text size={13} style={{ marginTop: '10px' }}>
+                You have connected your email with Outlook mail service.
               </Text>
               <Flex row start className={styles.modelheadder}>
                 <SvgoutlookMail />
@@ -446,14 +469,14 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
                   </Flex>
                 </Card>
               </Flex>
-              <Flex style={{ marginTop: '20px', color: '#581845' }}>
-                Would you Like to do any of the following Actions?
+              <Flex style={{ marginTop: '20px' }}>
+                Would you like to do any of the following actions?
               </Flex>
               <hr />
-              <Flex style={{ marginRight: '15px' }} end>
+              <Flex  end>
                 <span>
                   <Button
-                    onClick={() => ChangeoutlookMail()}
+                    onClick={() => ChangeoutlookMail('outlook')}
                     style={{
                       paddingRight: '24px',
                       paddingLeft: '24px',
@@ -477,8 +500,22 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
 
           {Edit === 'gmail' ? (
             <Flex>
-              <Flex style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexDirection: "row" }}>
-                <Flex style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "5px" }}>
+              <Flex
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  flexDirection: 'row',
+                }}
+              >
+                <Flex
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: '5px',
+                  }}
+                >
                   <SvgEdit width={12} height={12} fill={GARY_1} />
                   <Text size={14} bold>
                     {' '}
@@ -487,7 +524,7 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
                 </Flex>
                 <Flex
                   end
-                  style={{ marginRight: '15px' }}
+                  // style={{ marginRight: '15px' }}
                   onClick={() => setmodelopen(!modelopen)}
                 >
                   <SvgClose
@@ -498,9 +535,9 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
                   />
                 </Flex>
               </Flex>
-              <div className={styles.lineVertical}> </div>
-              <Text>
-                You have connected your Email with Google Mail Service.
+              <div className={styles.borderbottom}> </div>
+              <Text size={13} style={{ marginTop: '10px' }}>
+                You have connected your email with Google mail service.
               </Text>
               <Flex row start className={styles.modelheadder}>
                 <SvgGmail />
@@ -513,14 +550,14 @@ const IntegrationScreen = ({ loaderupdate }: props) => {
                   </Flex>
                 </Card>
               </Flex>
-              <Flex style={{ marginTop: '20px', color: '#581845' }}>
-                Would you Like to do any of the following Actions?
+              <Flex style={{ marginTop: '20px' }}>
+                Would you like to do any of the following actions?
               </Flex>
               <hr />
-              <Flex style={{ marginRight: '15px' }} end>
+              <Flex  end>
                 <span>
                   <Button
-                    onClick={() => ChangeoutlookMail()}
+                    onClick={() => ChangeoutlookMail('google')}
                     style={{
                       paddingRight: '24px',
                       paddingLeft: '24px',

@@ -11,6 +11,7 @@ export interface AvatarProps {
   className?: string;
   style?: React.CSSProperties;
   textStyle?: React.CSSProperties;
+  title?: string;
 }
 
 const Avatar: React.FC<AvatarProps> = ({
@@ -19,6 +20,7 @@ const Avatar: React.FC<AvatarProps> = ({
   style,
   textStyle,
   className,
+  title,
 }) => {
   if (avatar) {
     return (
@@ -27,6 +29,7 @@ const Avatar: React.FC<AvatarProps> = ({
         style={style}
         alt="user"
         src={avatar}
+        title={title}
       />
     );
   }
@@ -35,6 +38,7 @@ const Avatar: React.FC<AvatarProps> = ({
     <div
       className={clsx(className, styles.avatar, styles.avatarPlaceholder)}
       style={{ backgroundColor: stringToHslColor(initials, 30, 80), ...style }}
+      title={title}
     >
       <div className={styles.avatarInitials}>{initials}</div>
     </div>

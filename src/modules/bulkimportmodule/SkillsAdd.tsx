@@ -278,7 +278,7 @@ const SkillsAdd = ({
             onKeyPress={(e) => handleKeyPress(e, value.id)}
             style={{ width: '64%' }}
           />
-          <div className={styles.svgContainer}>
+          <div className={styles.svgContainer2}>
             {isLoader ? (
               <div className={styles.svgTick}>
                 <Loader withOutOverlay size={'small'} />

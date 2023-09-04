@@ -126,7 +126,6 @@ const UpdateProfessionalSkillsEdit = ({
              can_id:res.payload?.can_id[0]?.id.toString(),
           }),
         )
-        console.log(res,'professional skilll')
         setReload(false);
         cancel();
         setLoader(false);

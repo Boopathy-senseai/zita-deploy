@@ -49,7 +49,6 @@ class Autocomplete extends Component {
       <div className="srchList">
         <ul>
           {suggestions.map((item, i) => {
-            console.log('item', item);
             return (
               <li key={i + item} onClick={() => this.suggestionSelected(item)}>
                 {item}

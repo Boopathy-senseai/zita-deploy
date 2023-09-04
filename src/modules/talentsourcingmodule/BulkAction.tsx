@@ -83,7 +83,6 @@ const BulkAction = ({
               setCandidatesLimit(response.payload.candi_limit);
               setSourceLimit(response.payload.source_limit);
               setselectcard(response.payload.unlock_can_list);
-              console.log(response.payload.unlock_can_list,"++++++++++++++");
               if (
                 response.payload.success === true &&
                 response.payload.unlock_can_list.length !== 0
@@ -142,9 +141,7 @@ const BulkAction = ({
   const value=isCheckArray.map(val=>val[0]).filter(id=>id!==undefined);
 
 
-console.log("isCheckAll",isCheckAll)
-console.log("check arry",checkArray,isCheckArray)
-console.log("map",value);
+
   return (
     <Flex row center between wrap className={styles.overAll}>
       <Flex row center>
@@ -190,10 +187,10 @@ console.log("map",value);
               alignItems:"center"
             }}
             onClick={handleUnlockSubmit}
-          >
-          <SvgLock fill={PRIMARY} height={15} width={15} />
+          > <Flex marginBottom={3}>
+          <SvgLock fill={PRIMARY} height={15} width={15} /></Flex>
             <Text bold
-              style={{ marginLeft: '10px' }}  
+              style={{ marginLeft: '4px' }}  
               color="theme"          
             >
             Unlock Contacts

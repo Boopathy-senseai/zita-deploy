@@ -315,6 +315,7 @@ const MyDataBaseScreen = () => {
 // To Clear Search Bar
   const handleSearchClose = () => {
     setSearchValue("");
+    formik.setFieldValue('searchValue', '');
     dispatch(
       myDataBaseDataMiddleWare({
         jobTitle: formik.values.jobTitle,
@@ -405,7 +406,6 @@ const MyDataBaseScreen = () => {
     }
   };
 
-  console.log("changeeee+====",change)
   return (
     <>
     <Flex row className={styles.ribbon} between>
@@ -438,8 +438,16 @@ const MyDataBaseScreen = () => {
         <MyDataBaseFilter
           setchange={setchange}
           formik={formik}
+          filterFormik={formik}
           qualificationOption={qualificationOption}
           hanldeRefresh={hanldeRefresh}
+          qaValue={qaValue}
+          skillsOptionsList={skillsOptionsList}
+          tabKey={tabKey}
+          isPage={isPage}
+          addFavFilter={addFavFilter}
+          isSortOptions={isSortOptions}
+          setSortOptions={setSortOptions}
         />
       </div> 
         <div className={styles.tabsStyle}>
@@ -530,7 +538,6 @@ export default MyDataBaseScreen;
 //         }
 //       }} 
 //     /> 
-//     {console.log(formik.values.jobId)}
 //   </Flex>
 
 //   <Flex className={styles.mtstyle}>

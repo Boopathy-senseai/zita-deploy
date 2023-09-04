@@ -40,11 +40,14 @@ type Props = {
 
   isLoading: any;
   searchapi: boolean;
-  isprofileview?:boolean;
+  isprofileview?: boolean;
   savemail: any;
   searchSection: string;
   search: any;
   emailcollection: any;
+  enterKey: boolean;
+  refresh: () => void;
+  tokens: any;
 };
 const Maillist = ({
   messagelist,
@@ -67,6 +70,9 @@ const Maillist = ({
   searchSection,
   search,
   emailcollection,
+  enterKey,
+  refresh,
+  tokens,
 }: Props) => {
   const msal = useMsal();
   const authProvider = new AuthCodeMSALBrowserAuthenticationProvider(
@@ -102,43 +108,38 @@ const Maillist = ({
 
   const serch = async () => {
     if (search !== '' && integration === 'outlook') {
-      getsearchmail(
-        authProvider,
-        searchSection,
-        search.trim(),
-        range,
-        splittoken,
-      )
+      getsearchmail(authProvider, searchSection, search.trim(), range, tokens)
         .then((res) => {
-          savemail(res.value);
-          console.log('dvfd', res.value);
           setSearchicon(res.value.length === 0 ? true : false);
-          setsplittoken(res['@odata.nextLink'].split('skiptoken=')[1]);
+          // setsplittoken(res['@odata.nextLink'].split('skiptoken=')[1]);
           if (!res['@odata.nextLink']) {
             setload(false);
+            savemail(res.value, null);
+          } else {
+            setload(true);
+            savemail(res.value, res['@odata.nextLink'].split('skiptoken=')[1]);
           }
         })
         .catch((error) => {
           setload(false);
-          // console.log('get junk mail', error);
         });
     } else if (search !== '' && integration === 'google') {
       initGoogleAuth(emailcollection.token)
         .then(() => {
-          Gmail_search(searchSection, search.trim(), range, token)
+          Gmail_search(searchSection, search.trim(), range, tokens)
             .then((res) => {
-              console.log('ress', res);
-              savemail(res.fullMessages);
-              settoken(res.token);
+              if (res === undefined) {
+                setSearchicon(true);
+              }
+              savemail(res.fullMessages, res.token);
+              //settoken(res.token);
               if (res.token === undefined) {
-                console.log('ad');
                 setload(false);
                 savemail([]);
                 // settoken(null);
               }
             })
             .catch((error) => {
-              console.log('cvvccv');
               savemail([]);
               setload(false);
             });
@@ -150,10 +151,21 @@ const Maillist = ({
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      process();
-    }, 500);
-  }, [sidebarroute, searchapi, integration]);
+    if (sidebarroute !== 0) {
+      setTimeout(() => {
+        process();
+      }, 500);
+    }
+  }, [sidebarroute, integration]);
+
+  useEffect(() => {
+    if (enterKey) {
+      settoken(null);
+      setTimeout(() => {
+        process();
+      }, 500);
+    }
+  }, [enterKey]);
 
   const showfolder = () => {
     if (integration === 'google') {
@@ -193,50 +205,68 @@ const Maillist = ({
     } else if (integration === 'outlook') {
       if (mailfolders.length !== 0) {
         if (sideroute === 1) {
+          const Inboxfolder = mailfolders.find(
+            (item) => item.displayName === 'Inbox',
+          );
           return (
             <Text bold>
-              {mailfolders[4].unreadItemCount !== 0
-                ? `Inbox (${mailfolders[4].unreadItemCount})`
+              {Inboxfolder.unreadItemCount !== 0
+                ? `Inbox (${Inboxfolder.unreadItemCount})`
                 : 'Inbox'}
             </Text>
           );
         } else if (sideroute === 2) {
+          const sentfolder = mailfolders.find(
+            (item) => item.displayName === 'Sent Items',
+          );
           return (
             <Text bold>
-              {mailfolders[7].unreadItemCount !== 0
-                ? `Sent Items (${mailfolders[7].unreadItemCount})`
+              {sentfolder.unreadItemCount !== 0
+                ? `Sent Items ($sentfolder.unreadItemCount})`
                 : 'Sent Items'}
             </Text>
           );
         } else if (sideroute === 3) {
+          const draftfolder = mailfolders.find(
+            (item) => item.displayName === 'Drafts',
+          );
           return (
             <Text bold>
-              {mailfolders[3].unreadItemCount !== 0
-                ? `Drafts (${mailfolders[3].unreadItemCount})`
+              {draftfolder.unreadItemCount !== 0
+                ? `Drafts (${draftfolder.unreadItemCount})`
                 : 'Drafts'}
             </Text>
           );
         } else if (sideroute === 4) {
+          const archivefolder = mailfolders.find(
+            (item) => item.displayName === 'Archive',
+          );
           return (
             <Text bold>
-              {mailfolders[0].unreadItemCount !== 0
-                ? `Archive (${mailfolders[0].unreadItemCount})`
+              {archivefolder.unreadItemCount !== 0
+                ? `Archive (${archivefolder.unreadItemCount})`
                 : 'Archive'}
             </Text>
           );
         } else if (sideroute === 5) {
+          const deletefolder = mailfolders.find(
+            (item) => item.displayName === 'Deleted Items',
+          );
           return (
             <Text bold>
-              {mailfolders[2].unreadItemCount !== 0
-                ? ` Deleted Items (${mailfolders[2].unreadItemCount})`
+              {deletefolder.unreadItemCount !== 0
+                ? ` Deleted Items (${deletefolder.unreadItemCount})`
                 : ' Deleted Items'}
             </Text>
           );
         } else if (sideroute === 6) {
+          const junkfolder = mailfolders.find(
+            (item) => item.displayName === 'Junk Email',
+          );
           return (
             <Text bold>
-              {mailfolders[5].unreadItemCount !== 0
-                ? ` Junk Email (${mailfolders[5].unreadItemCount})`
+              {junkfolder.unreadItemCount !== 0
+                ? ` Junk Email (${junkfolder.unreadItemCount})`
                 : ' Junk Email'}
             </Text>
           );
@@ -247,12 +277,67 @@ const Maillist = ({
     }
   };
 
+  const serchreferesh = () => {
+    if (search !== '' && integration === 'outlook') {
+      getsearchmail(authProvider, searchSection, search.trim(), range, null)
+        .then((res) => {
+          setSearchicon(res.value.length === 0 ? true : false);
+          // setsplittoken(res['@odata.nextLink'].split('skiptoken=')[1]);
+          if (!res['@odata.nextLink']) {
+            setload(false);
+            savemail(res.value, null);
+          } else {
+            setload(true);
+            savemail(res.value, res['@odata.nextLink'].split('skiptoken=')[1]);
+          }
+        })
+        .catch((error) => {
+          setload(false);
+          // console.log('errorsearch', error);
+        });
+    } else if (search !== '' && integration === 'google') {
+      initGoogleAuth(emailcollection.token)
+        .then(() => {
+          Gmail_search(searchSection, search.trim(), range, null)
+            .then((res) => {
+              savemail(res.fullMessages, res.token);
+              //settoken(res.token);
+              if (res.token === undefined) {
+                setload(false);
+                savemail([]);
+                // settoken(null);
+              }
+            })
+            .catch((error) => {
+              savemail([]);
+              setload(false);
+            });
+        })
+        .catch((error) => {
+          setload(false);
+        });
+    }
+  };
+
   const referesh = () => {
-    process();
+    setmesage('');
+
+    if (sidebarroute !== 0) {
+      refresh();
+    } else {
+      refresh();
+      serchreferesh();
+    }
   };
 
   const handlemessage = (val) => {
-    if (sideroute === 3 || sideroute === 5 || sideroute === 0) {
+    if (
+      sideroute === 3 ||
+      sideroute === 5 ||
+      sideroute === 0 ||
+      sideroute === 4 ||
+      sideroute === 6
+    ) {
       if (val.isDraft === true) {
         if (val.toRecipients.length !== 0) {
           var del = val.toRecipients.reduce(function (nam, arr) {
@@ -261,18 +346,20 @@ const Maillist = ({
           // return <>{'Draft' + del.substring(2)}</>;
           return (
             <Flex row>
-              <Text style={{ color: '#ED4857', marginRight: '5px' }}>
+              <Text style={{ color: '#ED4857', marginRight: '5px' }} size={13}>
                 Draft{' '}
               </Text>
-              <Text>{del.substring(2)}</Text>
+              <Text size={13}>{del.substring(2)}</Text>
             </Flex>
           );
         }
         // return <>{'Draft (No Recipients)'}</>;
         return (
           <Flex row>
-            <Text style={{ color: '#ED4857', marginRight: '5px' }}>Draft </Text>
-            <Text>{`(No Recipients)`}</Text>
+            <Text style={{ color: '#ED4857', marginRight: '5px' }} size={13}>
+              Draft{' '}
+            </Text>
+            <Text size={13}>{`(No Recipients)`}</Text>
           </Flex>
         );
       }
@@ -300,9 +387,12 @@ const Maillist = ({
   const getsubject = (data: any) => {
     if (data.length !== 0) {
       const subject = data.filter((item) => item.name === 'Subject');
-
       if (subject.length !== 0) {
-        return <>{subject[0].value}</>;
+        if (subject[0].value !== '') {
+          return <>{subject[0].value}</>;
+        } else {
+          return <>{'(No Subject)'}</>;
+        }
       } else {
         return <>{'(No Subject)'}</>;
       }
@@ -331,19 +421,19 @@ const Maillist = ({
             .map((header, int) => header.value);
           return (
             <Flex row>
-              <Text style={{ color: '#ED4857', marginRight: '5px' }}>
+              <Text style={{ color: '#ED4857', marginRight: '5px' }} size={13}>
                 Draft{' '}
               </Text>
-              <Text>{ToEmails[0]}</Text>
+              <Text size={13}>{ToEmails[0]}</Text>
             </Flex>
           );
         } else {
           return (
             <Flex row>
-              <Text style={{ color: '#ED4857', marginRight: '5px' }}>
+              <Text style={{ color: '#ED4857', marginRight: '5px' }} size={13}>
                 Draft{' '}
               </Text>
-              <Text>{`(No Recipients)`}</Text>
+              <Text size={13}>{`(No Recipients)`}</Text>
             </Flex>
           );
         }
@@ -359,10 +449,13 @@ const Maillist = ({
             return (
               <>
                 <Flex row>
-                  <Text style={{ color: '#ED4857', marginRight: '5px' }}>
+                  <Text
+                    size={13}
+                    style={{ color: '#ED4857', marginRight: '5px' }}
+                  >
                     Draft{' '}
                   </Text>
-                  <Text>{From}</Text>
+                  <Text size={13}>{From}</Text>
                 </Flex>
               </>
             );
@@ -428,13 +521,19 @@ const Maillist = ({
   };
 
   return (
-    <Flex style={{ margintop: '1px' }} className={styles.maillist} height={isprofileview?window.innerHeight - 95:window.innerHeight - 115}>
+    <Flex
+      style={{ margintop: '1px' }}
+      className={styles.maillist}
+      height={
+        isprofileview ? window.innerHeight - 95 : window.innerHeight - 115
+      }
+    >
       <Flex
         row
         between
         style={{
           borderBottom: '1px solid #c3c3c3',
-          height:'35px'
+          height: '35px',
         }}
       >
         <Flex style={{ padding: '8px' }}>{showfolder()}</Flex>
@@ -467,9 +566,9 @@ const Maillist = ({
                     <Card
                       key={int}
                       className={
-                        messages === undefined
+                        message === ''
                           ? styles.cardStyles
-                          : messages.id === val.id
+                          : message.id === val.id
                           ? styles.seletmsg
                           : styles.cardStyles
                       }
@@ -502,18 +601,22 @@ const Maillist = ({
                             <Text
                               className={styles.textHeadingStyle}
                               style={{ maxWidth: '70%' }}
+                              bold
+                              size={13}
                             >
                               {getfrom(val.payload.headers, val)}
                             </Text>
-                            <Text size={12}>{date(val.payload.headers)}</Text>
+                            <Text size={13}>{date(val.payload.headers)}</Text>
                           </Flex>
 
-                          <Text size={14} className={styles.textHeadingStyle}>
+                          <Text size={13} className={styles.textHeadingStyle}>
                             {getsubject(val.payload.headers)}
                           </Text>
                           <Flex>
-                            <Text className={styles.textStyle} size={12}>
-                              {val.snippet}
+                            <Text className={styles.textStyle} size={13}>
+                              {val.snippet !== ''
+                                ? val.snippet
+                                : 'This message has no content'}
                             </Text>
                           </Flex>
                         </Flex>
@@ -524,9 +627,9 @@ const Maillist = ({
                       <Card
                         key={int}
                         className={
-                          messages === undefined
+                          message === undefined
                             ? styles.cardStyles
-                            : messages.id === val.id
+                            : message.id === val.id
                             ? styles.seletmsg
                             : styles.cardStyles
                         }
@@ -559,22 +662,24 @@ const Maillist = ({
                               <Text
                                 className={styles.textHeadingStyle}
                                 style={{ maxWidth: '70%' }}
+                                size={13}
+                                bold
                               >
                                 {handlemessage(val)}
                               </Text>
-                              <Text size={12}>
+                              <Text size={13}>
                                 {getDateString(val.sentDateTime, 'DD/MM/YY')}
                               </Text>
                             </Flex>
 
-                            <Text size={14} className={styles.textHeadingStyle}>
+                            <Text size={13} className={styles.textHeadingStyle}>
                               {val.subject !== ''
                                 ? val.subject
                                 : '(no subject)'}
                             </Text>
 
                             <Flex>
-                              <Text className={styles.textStyle} size={12}>
+                              <Text className={styles.textStyle} size={13}>
                                 {val.bodyPreview !== ''
                                   ? val.bodyPreview
                                   : 'This message has no content'}
@@ -610,8 +715,12 @@ const Maillist = ({
                 <>
                   {noEmails && (
                     <Flex center middle className={styles.noEmail}>
-                      <Flex center middle marginBottom={-25} marginLeft={6}><SvgNoEmail /></Flex> 
-                      <Text style={{color:'#979797'}}>No emails to view.</Text>
+                      <Flex center middle marginBottom={-40} marginLeft={11}>
+                        <SvgNoEmail />
+                      </Flex>
+                      <Text style={{ color: '#979797' }}>
+                        No emails to view.
+                      </Text>
                     </Flex>
                   )}
                 </>

@@ -192,25 +192,25 @@ const SignUpScreen = (props: any) => {
   };
   const SignupSchema = Yup.object().shape({
     first_name: Yup.string()
-      .min(2, 'Too Short')
+      .min(2, 'Too Short.')
       .max(50, MAX_TEXT_LENGTH_20)
       .required(THIS_FIELD_REQUIRED),
     last_name: Yup.string()
-      .min(1, 'Enter valid name ')
+      .min(1, 'Enter valid name.')
       .max(50, MAX_TEXT_LENGTH_20)
       .required(THIS_FIELD_REQUIRED),
     company_name: Yup.string()
-      .min(2, 'Enter valid name')
+      .min(2, 'Enter valid name.')
       .max(50, MAX_TEXT_LENGTH_20)
       .required(THIS_FIELD_REQUIRED),
     contact_no: Yup.string()
-      .min(11, 'Invalid contact number')
+      .min(11, 'Invalid contact number.')
       .required(THIS_FIELD_REQUIRED),
     password1: Yup.string().required(THIS_FIELD_REQUIRED),
     password2: Yup.string().required(THIS_FIELD_REQUIRED),
 
     username: Yup.string()
-      .min(2, 'Too Short!')
+      .min(2, 'Too Short.')
       .max(50, MAX_TEXT_LENGTH_20)
       .required(THIS_FIELD_REQUIRED),
   });
@@ -329,7 +329,7 @@ const SignUpScreen = (props: any) => {
       return (
         <>
           <div style={{ color: '#f94949', fontSize: '12px' }}>
-            username must not start with number.
+            Username must not start with number.
           </div>
         </>
       );
@@ -355,7 +355,7 @@ const SignUpScreen = (props: any) => {
       return (
         <>
           <div style={{ color: '#f94949', fontSize: '12px' }}>
-            Username must be 4-16 including number.
+          Username must be 4-16 charcters including numbers.
           </div>
         </>
       );
@@ -639,20 +639,20 @@ const SignUpScreen = (props: any) => {
                           isValid && (
                             <Flex>
                               <ErrorMessages
-                                message="password must contain at least one uppercase."
+                                message="Password must contain at least one uppercase."
                                 error={
                                   !checkUpperCase.test(formik.values.password1)
                                 }
                               />
                               <ErrorMessages
-                                message="password must be between 8-12 characters."
+                                message="Password must be between 8-12 characters."
                                 error={
                                   formik.values.password1.length < 8 ||
                                   formik.values.password1.length > 12
                                 }
                               />
                               <ErrorMessages
-                                message="password must contain at least one special character."
+                                message="Password must contain at least one special character."
                                 error={
                                   !specialCharacter.test(
                                     formik.values.password1,
@@ -734,12 +734,12 @@ const SignUpScreen = (props: any) => {
                           href="https://www.zita.ai/privacy-policy"
                         >
                           <Text bold size={14} color="link">
-                            Privacy Policy
+                            Privacy Policy.
                           </Text>
                         </a>
                       </Text>
                     </div>
-                    <div style={{ marginLeft: '-18px' }}>
+                    <div >
                       <ErrorMessage
                         name={'terms_and_conditions'}
                         errors={formik.errors}

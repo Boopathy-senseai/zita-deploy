@@ -61,6 +61,7 @@ const JdPreviewScreen = () => {
     feature,
     career_page_url,
     is_plan, 
+    super_user
   } = useSelector(
     ({
       jdPreviewReducers,
@@ -84,6 +85,7 @@ const JdPreviewScreen = () => {
         feature: selectDsorNonDsReducers.feature,
         career_page_url: jdPreviewReducers.career_page_url,
         is_plan: permissionReducers.is_plan,
+        super_user: permissionReducers.super_user,
       };
     },
 
@@ -107,9 +109,9 @@ const whatjob =(values) =>{
   formData.append('jd_id', jdId )
     if (isEmpty(career_page_url)) {
       if (isEmpty(company_detail.no_of_emp)) {
-        sessionStorage.setItem('superUserTab', '0');
-      } else {
         sessionStorage.setItem('superUserTab', '1');
+      } else {
+        sessionStorage.setItem('superUserTab', '0');
       }
       history.push('/account_setting/settings');
     }
@@ -143,7 +145,6 @@ console.log("externaljob",extarajobpost)
       className={styles.overAll}
       height={window.innerHeight - 111}
     >
-       { console.log(extarajobpost,'////////////////////////////////////////')}
       {postLoader && <Loader />}
       <Flex row center className={styles.step} >
         <StepProgressBar titleclassName={styles.stepOne} roundFill barFilled />
@@ -216,6 +217,7 @@ console.log("externaljob",extarajobpost)
         ds_role={ds_role}
         feature={feature} 
         whatjob={whatjob}
+        super_user={super_user}
       />
     </Flex>
   );

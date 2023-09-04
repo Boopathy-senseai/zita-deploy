@@ -20,7 +20,7 @@ const ScreeningStatusTab = ({ title, issingletab }: Props) => {
       };
     },
   );
-
+console.log(invite,'ffffffffffffffffffffffffff')
   return (
     <Flex row flex={12}>
       <Flex
@@ -60,41 +60,56 @@ const ScreeningStatusTab = ({ title, issingletab }: Props) => {
             );
           })
           .reverse()}
-          {console.log(invite.length !==0,stages.length !== 0,'kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk')}
-          {
+          {/* {
             invite.length !==0 && stages.length !== 0 &&
             <Flex 
             className={styles.vrLin}
             style={{ borderRightColor: '#581845' }}
           />
           }
-        {invite
-          ?.map((doc, index) => {
-            return (
-              <Flex key={index} row center className={styles.statusListStyle}>
+           */}
+        {invite && invite.length === 1 && invite[0].is_interested !== null
+           &&
+            
+              <Flex   row center className={styles.statusListStyle}>
                 <Flex className={styles.svgFlex}>
                   <SvgRoundTick height={30} width={30} fill={'#581845'} />
-                  {index !==  invite?.length - 1 && (
+                 {stages.length !== 0 && ( 
                     <div
                       className={styles.vrLines}
                       style={{ borderRightColor: '#581845' }}
                     />
-                  )}
+                  )}  
                 </Flex>
-                <Text className={styles.statusStyle}>
-                  {doc.is_interested === null
-                    ? 'Invited'
-                    : '' || doc.is_interested === true
+                <Text className={styles.statusStyle}> {  invite[0].is_interested === true
                     ? 'Candidate responded as "Interested"'
-                    : '' || doc.is_interested === false
+                    : '' || invite[0].is_interested === false
                     ? 'Candidate responded as "Not Interested"'
                     : ''}{' '}
-                  on {getDateString(doc && doc.created_at, 'll')}
+                  on {getDateString(invite&& invite[0]?.responded_date, 'll')}
                 </Text>
               </Flex>
-            );
-          })
-          .reverse()}
+            
+          }
+          {invite && invite.length === 1
+           &&
+            
+              <Flex   row center className={styles.statusListStyle}>
+                <Flex className={styles.svgFlex}>
+                  <SvgRoundTick height={30} width={30} fill={'#581845'} />
+                 {invite[0].is_interested !== null  && ( 
+                    <div
+                      className={styles.vrLines}
+                      style={{ borderRightColor: '#581845' }}
+                    />
+                  )}  
+                </Flex>
+                <Text className={styles.statusStyle}> 
+                     Invited on {getDateString(invite&& invite[0].created_at, 'll')}
+                </Text>
+              </Flex>
+            
+          } 
       </Flex>
       {!issingletab && (
         <Flex

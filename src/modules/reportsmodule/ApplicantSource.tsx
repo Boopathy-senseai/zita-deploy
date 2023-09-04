@@ -184,8 +184,8 @@ const ApplicantReports = () => {
   // console.log(isChart, shortlisted);
   const columns = useMemo(() => tableFun(), [table]);
   return (
-    <>
-      <Flex row className={styles.ribbon} between>
+    <Flex  >
+      <Flex row className={styles.ribbon} between >
         <Flex marginTop={9} marginLeft={8}>
           <Text size={16} bold color="theme">
             Applicants Sourcing Reports
@@ -195,10 +195,10 @@ const ApplicantReports = () => {
           <div className={styles.triangle}></div>
         </Flex>
       </Flex>
-      <Flex className={styles.overAll}>
+      <Flex className={styles.overAll}  height={window.innerHeight-110} style={{display:'flex'}}>
         {isLoading && <Loader />}
 
-        <Flex></Flex>
+        
         {/* <Flex className={styles.reportscroll}> */}
         <Text style={{ margin: '10px 0px', paddingLeft: '5px' }}>
           Get insights about applicants from sourcing platforms or job boards.
@@ -228,15 +228,26 @@ const ApplicantReports = () => {
             Download Report
           </Button>
         </Flex>
-        {piechart && piechart.length > 0 && isChart ? (
-          <Flex style={{ paddingLeft: '5px' }}>
-            <Flex row>
+   
+          
+            <Flex row  style={{ paddingLeft: '5px' }} >
               <Flex flex={6}>
                 <Card className={styles.cardOverAllChart}>
                   <Text bold size={14}>
                     Applicants by Source
                   </Text>
-                  <Chart options={options} />
+                  {piechart && piechart.length > 0 && isChart ?(
+                  <Chart options={options} />):(
+                    <Flex center middle className={styles.noData}>
+                    <Flex
+                      style={{ justifyContent: 'center', marginBotto: '2px' }}
+                    >
+                      <SvgNoDataIcon width={16} height={16} fill={'#888'} />
+                    </Flex>
+                    <Text color="placeholder">No data available</Text>
+                  </Flex>
+                  )
+                    }
                 </Card>
               </Flex>
               <Flex flex={6}>
@@ -264,21 +275,8 @@ const ApplicantReports = () => {
                 </Card>
               </Flex>
             </Flex>
-          </Flex>
-        ) : (
-          <Flex
-            center
-            middle
-            className={styles.noData}
-            style={{ marginTop: '10%', marginBottom: '10%' }}
-          >
-            {' '}
-            <Flex style={{ justifyContent: 'center', marginBotto: '2px' }}>
-              <SvgNoDataIcon width={16} height={16} fill={'#888'} />
-            </Flex>
-            <Text color="placeholder">No data available</Text>
-          </Flex>
-        )}
+          
+     
         {table && table.length > 0 && (
           <Flex style={{ paddingTop: '15px' }}>
             <Flex>
@@ -302,8 +300,8 @@ const ApplicantReports = () => {
         )}
         {/* </Flex> */}
       </Flex>
-    </>
+    </Flex>
   );
 };
 
-export default ApplicantReports;
+export default ApplicantReports; 

@@ -14,16 +14,24 @@
   bottom: 50%;
 }
 .emptyText {
-  padding: 70px 0;
+  /* padding: 70px 0; */
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
 }
 .overFlowLoader {
   position: relative;
 }
 .rowScroll {
   overflow-y: scroll;
-  height: 150px;
+  height: 150px !important;
 }
 .emptyTextOne {
   position: relative;
   top: 80px;
+}
+.candidateempty{
+  min-height: 150px;
+  display: flex;
+  align-items: center;
 }

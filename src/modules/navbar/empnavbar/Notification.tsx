@@ -1,7 +1,7 @@
 import axios from 'axios';
 import classNames from 'classnames/bind';
 import moment from 'moment';
-import { createRef, useEffect, useState,useRef } from 'react';
+import { createRef, useEffect, useState, useRef } from 'react';
 
 import { useDispatch } from 'react-redux';
 import SvgBell from '../../../icons/SvgBell';
@@ -33,40 +33,24 @@ const Notification = () => {
   const [isCandi, setCandi] = useState();
   const [isProfile, setProfile] = useState(false);
   const [modelopen, setmodelopen] = useState(false);
-  const [check,setcheck ] = useState(false);
-  const [isMessageTab, setMessageTab] = useState(5);
+  const [check, setcheck] = useState(false);
+  const [isMessageTab, setMessageTab] = useState(1);
   const dropDownRef = useRef(null);
   useEffect(() => {
     axios.get(notificationApi).then((res) => {
-
-      console.log("ressssssssssssssssKKKKKKKKKK",res)
       setData(res.data);
     });
   }, []);
   // notification api call
 
-    const closeDropDown = (e: any) => {
-
-    console.log("closeDropDown")
-
-     console.log({target: e.target, modelopen, dropDownRef})
-
+  const closeDropDown = (e: any) => {
     if (
-
       dropDownRef.current &&
-
       modelopen &&
-
       !dropDownRef.current.contains(e.target)
-
     ) {
-
-      // console.log("SHOW FASLE")
-
       setmodelopen(false);
-
     }
-
   };
 
   useEffect(() => {
@@ -106,8 +90,8 @@ const Notification = () => {
         Toast('Notifications cleared successfully');
       });
     });
-    setcheck(true)
-    setmodelopen(false)
+    setcheck(true);
+    setmodelopen(false);
     setOpen(false);
   };
 
@@ -120,12 +104,11 @@ const Notification = () => {
     });
     setOpen(false);
   };
-const myfunction=()=>{ 
- 
-  {
-  setOpen(true);}
- 
-}
+  const myfunction = () => {
+    {
+      setOpen(true);
+    }
+  };
 
   const handleclose = () => {
     setOpen(false);
@@ -134,13 +117,10 @@ const myfunction=()=>{
   // if(isOpen===false){
   //   setmodelopen(false);
   // }
-  
 
   return (
-    
-    <Flex >
-      {console.log("open",isOpen)}
-      <div ref={myRef} style={{ position: 'relative' }} >
+    <Flex>
+      <div ref={myRef} style={{ position: 'relative' }}>
         <ProfileView
           open={isProfile}
           cancel={() => {
@@ -182,7 +162,7 @@ const myfunction=()=>{
                     Notifications
                   </Text>
                   <Flex onClick={handleclose} style={{ cursor: 'pointer' }}>
-                    <SvgClose width={10} height={10} fill={'#888888'}/>
+                    <SvgClose width={10} height={10} fill={'#888888'} />
                   </Flex>
                 </Flex>
                 <hr className={styles.line} />
@@ -193,7 +173,7 @@ const myfunction=()=>{
                         isData.today?.map(
                           (list: OthersEntity, index: number) => {
                             let getPath = '';
-                           
+
                             if (
                               list.description.toLowerCase() === 'bulkimport'
                             ) {
@@ -241,7 +221,7 @@ const myfunction=()=>{
                                           >
                                             <Text
                                               style={{
-                                                maxWidth: '100%',
+                                                maxWidth: '71%',
                                                 fontSize: '13px',
                                               }}
                                             >
@@ -291,7 +271,7 @@ const myfunction=()=>{
                                           >
                                             <Text
                                               style={{
-                                                maxWidth: '100%',
+                                                maxWidth: '71%',
                                                 fontSize: '13px',
                                               }}
                                             >
@@ -330,7 +310,7 @@ const myfunction=()=>{
                                             list.description.toLowerCase() ===
                                             'messages'
                                           ) {
-                                            setMessageTab(5);
+                                            setMessageTab(1);
                                           } else {
                                             setMessageTab(0);
                                           }
@@ -349,7 +329,7 @@ const myfunction=()=>{
                                           >
                                             <Text
                                               style={{
-                                                maxWidth: '100%',
+                                                maxWidth: '71%',
                                                 fontSize: '13px',
                                               }}
                                             >
@@ -379,178 +359,187 @@ const myfunction=()=>{
                         )}
                     </Flex>
                   )}
-                  {isData && isData.yesterday && isData.yesterday?.length !== 0 && (
-                    <Flex columnFlex className={cx('borderBottom')}>
-                      {isData &&
-                        isData.yesterday?.map(
-                          (list: OthersEntity, index: number) => {
-                            let getPath = '';
-                            if (
-                              list.description.toLowerCase() === 'bulkimport'
-                            ) {
-                              getPath = `/bulk_import`;
-                            }
-                            return (
-                              <Flex key={index + list.id}>
-                                {index === 0 && (
-                                  <Text
-                                    style={{
-                                      padding: '16px 16px 0px 16px',
-                                      fontWeight: 600,
-                                      fontSize: '13px',
-                                    }}
-                                    bold
-                                  >
-                                    YESTERDAY
-                                  </Text>
-                                )}
-                                {list.description.toLowerCase() ===
-                                'bulkimport' ? (
-                                  <>
-                                    {' '}
-                                    {index === 1 ? (
-                                      ''
-                                    ) : (
-                                      <hr className={styles.hr_line} />
-                                    )}
-                                    <LinkWrapper
-                                      to={getPath}
-                                      onClick={() => {
-                                        handleReadNotification(list.id);
+                  {isData &&
+                    isData.yesterday &&
+                    isData.yesterday?.length !== 0 && (
+                      <Flex columnFlex className={cx('borderBottom')}>
+                        {isData &&
+                          isData.yesterday?.map(
+                            (list: OthersEntity, index: number) => {
+                              let getPath = '';
+                              if (
+                                list.description.toLowerCase() === 'bulkimport'
+                              ) {
+                                getPath = `/bulk_import`;
+                              }
+                              return (
+                                <Flex key={index + list.id}>
+                                  {index === 0 && (
+                                    <Text
+                                      style={{
+                                        padding: '16px 16px 0px 16px',
+                                        fontWeight: 600,
+                                        fontSize: '13px',
                                       }}
+                                      bold
                                     >
-                                      <Flex
-                                        row
-                                        center
-                                        between
-                                        className={styles.hoverStyle}
+                                      YESTERDAY
+                                    </Text>
+                                  )}
+                                  {list.description.toLowerCase() ===
+                                  'bulkimport' ? (
+                                    <>
+                                      {' '}
+                                      {index === 1 ? (
+                                        ''
+                                      ) : (
+                                        <hr className={styles.hr_line} />
+                                      )}
+                                      <LinkWrapper
+                                        to={getPath}
+                                        onClick={() => {
+                                          handleReadNotification(list.id);
+                                        }}
                                       >
-                                        <Flex row className={styles.listStyle}>
-                                          <Text
-                                            style={{
-                                              maxWidth: '295px',
-                                              fontSize: '13px',
-                                            }}
+                                        <Flex
+                                          row
+                                          center
+                                          between
+                                          className={styles.hoverStyle}
+                                        >
+                                          <Flex
+                                            row
+                                            className={styles.listStyle}
                                           >
-                                            {list.verb}
-                                          </Text>
+                                            <Text
+                                              style={{
+                                                maxWidth: '71%',
+                                                fontSize: '13px',
+                                              }}
+                                            >
+                                              {list.verb}
+                                            </Text>
+                                          </Flex>
                                         </Flex>
-                                      </Flex>
-                                    </LinkWrapper>{' '}
-                                  </>
-                                ) : list.description.toLowerCase() ===
-                                  'candidatenotes' ? (
-                                  <>
-                                    {index === 0 ? (
-                                      ''
-                                    ) : (
-                                      <hr className={styles.hr_line} />
-                                    )}
-                                    < LinkWrapper
-                                      onClick={() => {
-                                        setCandi(list.target_object_id);
-                                        setProfile(true);
-                                        setMessageTab(1);
-                                        handleReadNotification(list.id);
-                                      }}
-                                    >
-                                      <Flex
-                                        row
-                                        center
-                                        between
-                                        className={styles.hoverStyle}
+                                      </LinkWrapper>{' '}
+                                    </>
+                                  ) : list.description.toLowerCase() ===
+                                    'candidatenotes' ? (
+                                    <>
+                                      {index === 0 ? (
+                                        ''
+                                      ) : (
+                                        <hr className={styles.hr_line} />
+                                      )}
+                                      <LinkWrapper
+                                        onClick={() => {
+                                          setCandi(list.target_object_id);
+                                          setProfile(true);
+                                          setMessageTab(1);
+                                          handleReadNotification(list.id);
+                                        }}
                                       >
-                                        <Flex row className={styles.listStyle}>
-                                          <Text
-                                            style={{
-                                              maxWidth: '100%',
-                                              fontSize: '13px',
-                                            }}
+                                        <Flex
+                                          row
+                                          center
+                                          between
+                                          className={styles.hoverStyle}
+                                        >
+                                          <Flex
+                                            row
+                                            className={styles.listStyle}
                                           >
-                                            {list.verb}
-                                          </Text>
-                                          <Text
-                                            style={{
-                                              marginLeft: 3,
-                                              fontSize: '13px',
-                                            }}
-                                            color="gray"
-                                          >
-                                            {moment(list.timestamp).fromNow()}
-                                          </Text>
+                                            <Text
+                                              style={{
+                                                maxWidth: '71%',
+                                                fontSize: '13px',
+                                              }}
+                                            >
+                                              {list.verb}
+                                            </Text>
+                                            <Text
+                                              style={{
+                                                marginLeft: 3,
+                                                fontSize: '13px',
+                                              }}
+                                              color="gray"
+                                            >
+                                              {moment(list.timestamp).fromNow()}
+                                            </Text>
+                                          </Flex>
                                         </Flex>
-                                      </Flex>
-                                    </LinkWrapper>{' '}
-                                  </>
-                                ) : (
-                                  <>
-                                    {' '}
-                                    {index === 0 ? (
-                                      ''
-                                    ) : (
-                                      <hr className={styles.hr_line} />
-                                    )}
-                                    <Flex
-                                      onClick={() => {
-                                        setJd(list.action_object_object_id);
-                                        setCandi(list.target_object_id);
-                                        setProfile(true);
-                                        if (
-                                          list.description.toLowerCase() ===
-                                          'messages'
-                                        ) {
-                                          setMessageTab(5);
-                                        } else {
-                                          setMessageTab(0);
-                                        }
-                                        handleReadNotification(list.id);
-                                      }}
-                                    >
+                                      </LinkWrapper>{' '}
+                                    </>
+                                  ) : (
+                                    <>
+                                      {' '}
+                                      {index === 0 ? (
+                                        ''
+                                      ) : (
+                                        <hr className={styles.hr_line} />
+                                      )}
                                       <Flex
-                                        row
-                                        center
-                                        between
-                                        className={styles.hoverStyle}
+                                        onClick={() => {
+                                          setJd(list.action_object_object_id);
+                                          setCandi(list.target_object_id);
+                                          setProfile(true);
+                                          if (
+                                            list.description.toLowerCase() ===
+                                            'messages'
+                                          ) {
+                                            setMessageTab(1);
+                                          } else {
+                                            setMessageTab(0);
+                                          }
+                                          handleReadNotification(list.id);
+                                        }}
                                       >
-                                        <Flex row className={styles.listStyle}>
-                                          <Text
-                                            style={{
-                                              maxWidth: '100%',
-                                              fontSize: '13px',
-                                            }}
+                                        <Flex
+                                          row
+                                          center
+                                          between
+                                          className={styles.hoverStyle}
+                                        >
+                                          <Flex
+                                            row
+                                            className={styles.listStyle}
                                           >
-                                            {list.verb}
-                                          </Text>
-                                          <Text
-                                            style={{
-                                              marginLeft:3,
-                                              fontSize: '13px',
-                                            }}
-                                            color="gray"
-                                          >
-                                            {moment(list.timestamp).fromNow()}
-                                          </Text>
+                                            <Text
+                                              style={{
+                                                maxWidth: '71%',
+                                                fontSize: '13px',
+                                              }}
+                                            >
+                                              {list.verb}
+                                            </Text>
+                                            <Text
+                                              style={{
+                                                marginLeft: 3,
+                                                fontSize: '13px',
+                                              }}
+                                              color="gray"
+                                            >
+                                              {moment(list.timestamp).fromNow()}
+                                            </Text>
+                                          </Flex>
+                                          {list.unread && (
+                                            <div className={styles.readStyle} />
+                                          )}
                                         </Flex>
-                                        {list.unread && (
-                                          <div className={styles.readStyle} />
-                                        )}
-                                      </Flex>
-                                    </Flex>{' '}
-                                  </>
-                                )}
-                              </Flex>
-                            );
-                          },
-                        )}
-                    </Flex>
-                  )}
-                  {console.log(isData.others.length, 'lengthvbb gegfvbgearfd')}
+                                      </Flex>{' '}
+                                    </>
+                                  )}
+                                </Flex>
+                              );
+                            },
+                          )}
+                      </Flex>
+                    )}
                   {isData && isData.others && isData.others.length !== 0 && (
                     <Flex columnFlex>
                       {isData &&
                         isData.others.map(
                           (list: OthersEntity, index: number) => {
-                            console.log("listlistlistlistlistlistlistlist",list)
                             let getPath;
                             if (
                               list.description.toLowerCase() === 'bulkimport'
@@ -595,7 +584,7 @@ const myfunction=()=>{
                                         <Flex row className={styles.listStyle}>
                                           <Text
                                             style={{
-                                              maxWidth: '100%',
+                                              maxWidth: '71%',
                                               fontSize: '13px',
                                             }}
                                           >
@@ -642,7 +631,7 @@ const myfunction=()=>{
                                         <Flex row className={styles.listStyle}>
                                           <Text
                                             style={{
-                                              maxWidth: '100%',
+                                              maxWidth: '71%',
                                               fontSize: '13px',
                                             }}
                                           >
@@ -681,7 +670,7 @@ const myfunction=()=>{
                                           list.description.toLowerCase() ===
                                           'messages'
                                         ) {
-                                          setMessageTab(5);
+                                          setMessageTab(1);
                                         } else {
                                           setMessageTab(0);
                                         }
@@ -697,25 +686,25 @@ const myfunction=()=>{
                                           <Flex>
                                             <Text
                                               style={{
-                                                maxWidth: '100%',
+                                                maxWidth: '71%',
                                                 fontSize: '13px',
                                               }}
                                             >
                                               {list.verb}
                                             </Text>
                                           </Flex>
-                                          <Flex style={{width:'20%'}}>
-                                            <Text
-                                              style={{
-                                                marginLeft: 3,
-                                                fontSize: '13px',
-                                                display: 'flex',
-                                              }}
-                                              color="gray"
-                                            >
-                                              {moment(list.timestamp).fromNow()}
-                                            </Text>
-                                          </Flex>
+
+                                          <Text
+                                            style={{
+                                              marginLeft: 3,
+                                              fontSize: '13px',
+                                              display: 'flex',
+                                              width: '20%',
+                                            }}
+                                            color="gray"
+                                          >
+                                            {moment(list.timestamp).fromNow()}
+                                          </Text>
                                         </Flex>
                                         {list.unread && (
                                           <div className={styles.readStyle} />
@@ -748,7 +737,7 @@ const myfunction=()=>{
                     Notifications
                   </Text>
                   <Flex onClick={handleclose} style={{ cursor: 'pointer' }}>
-                    <SvgClose width={10} height={10} fill={'#888888'}/>
+                    <SvgClose width={10} height={10} fill={'#888888'} />
                   </Flex>
                 </Flex>
                 <hr className={styles.line} />
@@ -762,21 +751,22 @@ const myfunction=()=>{
                       transform: 'translate(-50%, -50%)',
                     }}
                   >
-                    <SvgBell fill={'#666666'} height={24} width={24} />
+                    <SvgBell fill={'#888888'} height={16} width={16} />
                   </Flex>
 
                   <Text
+                    size={13}
                     style={{
                       position: 'absolute',
                       top: '47%',
                       left: '50%',
                       transform: 'translate(-50%, -50%)',
-                      marginTop: '15px',
-                      color: '#666666',
+                      marginTop: '7px',
+                      color: '#888888',
                     }}
                   >
                     <br />
-                    You don’t have any notification
+                    You don’t have any notification.
                   </Text>
                 </Flex>
               </Flex>
@@ -785,34 +775,34 @@ const myfunction=()=>{
         )}
       </div>
 
-<Flex ref={dropDownRef}  onClick={myfunction}>
-      <Modal open={modelopen}  data-bs-backdrop='static'  >
-        <Flex className={styles.model}  >
-          <Flex className={styles.confirm_title}>
-            This action will clear all the notifications.
-          </Flex>
-          <Flex className={styles.confirm_txt}>Are you sure to proceed?</Flex>
-          <Flex row end style={{ marginTop: '10px' }}>
-            <Flex>
-              <Button
-                style={{ backgroundColor: '#888888', borderColor: '#888888' }}
-                onClick={() => setmodelopen(false)}
-              >
-                Cancel
-              </Button>
+      <Flex ref={dropDownRef} onClick={myfunction}>
+        <Modal open={modelopen} data-bs-backdrop="static">
+          <Flex className={styles.model}>
+            <Flex className={styles.confirm_title}>
+              This action will clear all the notifications.
             </Flex>
-            <Flex>
-              <Button
-                className={styles.Btn_clear}
-                onClick={handleDelete}
-                style={{ marginLeft: '10px' }}
-              >
-                Clear
-              </Button>
+            <Flex className={styles.confirm_txt}>Are you sure to proceed?</Flex>
+            <Flex row end style={{ marginTop: '10px' }}>
+              <Flex>
+                <Button
+                  style={{ backgroundColor: '#888888', borderColor: '#888888' }}
+                  onClick={() => setmodelopen(false)}
+                >
+                  Cancel
+                </Button>
+              </Flex>
+              <Flex>
+                <Button
+                  className={styles.Btn_clear}
+                  onClick={handleDelete}
+                  style={{ marginLeft: '10px' }}
+                >
+                  Clear
+                </Button>
+              </Flex>
             </Flex>
           </Flex>
-        </Flex>
-      </Modal>
+        </Modal>
       </Flex>
     </Flex>
   );

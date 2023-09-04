@@ -46,7 +46,7 @@ type Props = {
   updateMailaction: (val: any) => void;
   remove_message: (id: any) => void;
   update_message: (id: any, val: boolean) => void;
-  noEmails?:any;
+  noEmails?: any;
 };
 const Inbox = ({
   message,
@@ -62,7 +62,7 @@ const Inbox = ({
   integration,
   updateMailaction,
   update_message,
-  noEmails
+  noEmails,
 }: Props) => {
   const msal = useMsal();
   const [view, setview] = useState(true);
@@ -87,7 +87,6 @@ const Inbox = ({
   };
 
   useEffect(() => {
-    console.log('integration', integration);
     if (integration === 'google') {
       readmessages();
     } else if (integration === 'outlook') {
@@ -127,7 +126,6 @@ const Inbox = ({
     if (sidebarroute === 5) {
       await gmail_permanent_Delete(message.id)
         .then((res) => {
-          console.log('cv', res);
           removemsg();
           Toast('Email removed permanently', 'SHORT', 'success');
           remove_message(message.id);
@@ -240,10 +238,23 @@ const Inbox = ({
   };
 
   const donwnload = async (val) => {
-    var a = document.createElement('a');
-    a.href = `data:${val.contentType};base64,` + val.contentBytes;
-    a.download = val.name;
-    a.click();
+    if (integration === 'google') {
+      const data = val.contentBytes;
+      const decodedData = Buffer.from(data, 'base64');
+      const blob = new Blob([decodedData], { type: val.contentType });
+
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = val.name;
+      link.click();
+      URL.revokeObjectURL(url);
+    } else {
+      var a = document.createElement('a');
+      a.href = `data:${val.contentType};base64,${val.contentBytes}`;
+      a.download = val.name;
+      a.click();
+    }
   };
 
   // const Previousdata = () => {
@@ -267,10 +278,13 @@ const Inbox = ({
   const subject = (data) => {
     const sub = data.filter((item) => item.name === 'Subject');
     if (sub.length !== 0) {
-      let subj = sub[0].value.replace(/\s\S*$/, '');
-      return <>{subj}</>;
+      if (sub[0].value !== '') {
+        return <>{sub[0].value}</>;
+      } else {
+        return <>{'(No Subject)'}</>;
+      }
     } else {
-      return <>{'(No Recipients)'}</>;
+      return <>{'(No Subject)'}</>;
     }
   };
 
@@ -567,11 +581,32 @@ const Inbox = ({
     }
   };
 
+  const handlefunction = (val) => {
+    const hasDraftLabel = val.includes('DRAFT');
+    if (hasDraftLabel) {
+      return (
+        <Text bold size={13} style={{ color: '#ED4857' }}>
+          {'Draft'}
+        </Text>
+      );
+    }
+  };
+
+  const ccshow = (val) => {
+    const from = val.filter((item) => item.name === 'Cc');
+
+    if (from.length !== 0) {
+      let From = from[0].value.replace(/\s\S*$/, '');
+      if (from[0].value !== '') {
+        return <>{`Cc: ${from[0].value}`}</>;
+      }
+    }
+  };
+
   const renderBody = () => {
     if (message !== '') {
       return (
         <>
-          {console.log('message', message)}
           {integration === 'google' ? (
             <>
               <Flex
@@ -608,6 +643,8 @@ const Inbox = ({
                       height: '100%',
                     }}
                   >
+                    {handlefunction(message.labelIds)}
+
                     <Flex row between width={'100%'}>
                       <Text bold size={13}>
                         {sender(message.header, '0')}
@@ -629,6 +666,7 @@ const Inbox = ({
 
                     <Text size={13}>{subject(message.header)}</Text>
                     <Text color="black"> {to(message.header, '0')}</Text>
+                    {ccshow(message.header)}
                   </Flex>
                 </Flex>
 
@@ -643,7 +681,12 @@ const Inbox = ({
                     maxHeight: '-webkit-fill-available',
                   }}
                 >
-                  {parse(message.body)}
+                  <td
+                    className={styles.bulletpoint}
+                    dangerouslySetInnerHTML={{
+                      __html: message.body,
+                    }}
+                  />
                 </Flex>
                 {renderAttachments}
               </Flex>
@@ -755,11 +798,11 @@ const Inbox = ({
                     </Text>
                     {message.toRecipients.length !== 0 ? (
                       <>
-                        <Text color="black">{`To:  ${message.toRecipients.map(
+                        <Text color="black">{`To: ${message.toRecipients.map(
                           (doc) => doc.emailAddress.name,
                         )}`}</Text>
                         {message.ccRecipients.length !== 0 && (
-                          <Text size={13}>{`Cc:${message.ccRecipients.map(
+                          <Text size={13}>{`Cc: ${message.ccRecipients.map(
                             (doc) => doc.emailAddress.name,
                           )}`}</Text>
                         )}
@@ -788,7 +831,6 @@ const Inbox = ({
                       __html: message.body.content,
                     }}
                   />
-                  {/* {parse(message.body.content)} */}
                 </Flex>
                 {renderAttachments}
               </Flex>
@@ -804,12 +846,15 @@ const Inbox = ({
         style={{
           alignContent: 'center',
           alignItems: 'center',
-          height: '100%',
+          // height: '100%',
           width: '100%',
           display: 'flex',
           justifyContent: 'center',
           flexDirection: 'column',
         }}
+        height={
+          isprofileview ? window.innerHeight - 190 : window.innerHeight - 170
+        }
       >
         <SvgEmptyMail />
         {/* <Flex center middle> */}
@@ -831,6 +876,7 @@ const Inbox = ({
             className={
               isprofileview ? styles.bodyContainers : styles.bodyContainer
             }
+            style={{overflowY:'scroll'}}
             height={isprofileview ? window.innerHeight - 130 : ''}
           >
             {renderBody()}

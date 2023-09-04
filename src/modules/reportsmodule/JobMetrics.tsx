@@ -245,7 +245,7 @@ const JobMetricsReports = () => {
           )}
         </Flex>
         {job_list && job_list.length > 0 && (
-          <Flex>
+          <Flex flex={1}>
             {/* <Flex style={{marginLeft:'5px'}}>
 					<Totalcount 
 					name="Total Jobs Found "
@@ -287,16 +287,18 @@ const JobMetricsReports = () => {
         )}
         {len_list === 0 && (
           <Flex center middle className={styles.noData1}>
-            <Flex style={{ justifyContent: 'center', marginBotto: '2px' }}>
+            <Flex style={{ display: 'flex',
+    alignItems: 'center', marginBotto: '2px' }}>
               <SvgNoDataIcon width={16} height={16} fill={'#888'} />
+              <Text color="placeholder">No data available</Text>
             </Flex>
-            <Text color="placeholder">No data available</Text>
+            
           </Flex>
         )}
       </Flex>
 
       {isJd && (
-        <Flex style={{ marginLeft: '5px' }}>
+        <Flex style={{ marginLeft: '5px'}}>
           <Card className={styles.cardOverAllApplicant}>
             <Flex>
               <Flex row between>
@@ -312,8 +314,7 @@ const JobMetricsReports = () => {
 
                 <Button onClick={hanldeJobIdform}> Download Report</Button>
               </Flex>
-
-              <Flex row marginTop={5}>
+              <Flex row marginTop={5} style={{alignItems: 'center' }} >
                 <Flex flex={4} className={styles.chartStyle}>
                   <Flex row>
                     <Flex flex={6}>

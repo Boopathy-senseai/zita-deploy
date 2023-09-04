@@ -24,6 +24,7 @@ const defaultProps: DefaultProps = {
 };
 type Props = {
   isLoader?: boolean;
+  isscroll?:boolean;
   empty?: string;
   scrollHeight?: number;
   emptyHeight?: number;
@@ -42,6 +43,7 @@ const Table = ({
   isLoader,
   empty,
   border,
+  isscroll,
   scrollHeight,
   emptyHeight,
   fixedScrollHeight,
@@ -55,7 +57,9 @@ const Table = ({
   if (columns.length === 0) {
     return null;
   }
-
+  const url = window.location.href;
+  const test = url.includes('reports')||url.includes('jobs')||url.includes('job_view');
+  const test1 = url.includes('jobs');
   return (
     <Flex className={cx({ [`overAll-${border}`]: border })}>
       <TableTitle columns={columns} dataSource={dataSource} />
@@ -65,10 +69,12 @@ const Table = ({
             <Text
               align="center"
               color="gray"
-              className={cx({
+              className={isscroll===true && dataSource.length === 0 ?(styles.candidateempty):( cx({
                 emptyTextOne: fixedScrollHeight,
                 emptyText: !fixedScrollHeight,
-              })}
+              }))}
+            
+              style={{padding:test1?'70px 0':(''),minHeight:test1?('0px'):('')}}
             >
               {empty}
             </Text>
@@ -82,7 +88,7 @@ const Table = ({
       </Flex>
       {fixedScrollHeight ? (
         <div
-          className={cx({ rowScroll: scrollHeight })}
+          
         >
           {dataSource.map((item, index) => (
             <Rows
@@ -97,9 +103,12 @@ const Table = ({
           ))}
         </div>
       ) : (
-        <div  
-        style={{overflow:'scroll',maxHeight:window.innerHeight-300}}
-          className={cx({ rowScroll: scrollHeight })}
+        <>{dataSource.length !== 0 &&
+        <Flex  
+        style={{overflow:test?(''):'scroll',display:'flex',height:test?(''):window.innerHeight-300}}
+         
+         // className={cx({ rowScroll: scrollHeight })}
+       className={isscroll===true?(styles.rowScroll):("")}
         >
           {dataSource.map((item, index) => (
             <Rows
@@ -121,7 +130,7 @@ const Table = ({
               />
             </Flex>
           )}
-        </div>
+        </Flex>}</>
       )}
     </Flex>
   );

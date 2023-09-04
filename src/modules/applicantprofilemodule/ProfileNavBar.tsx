@@ -280,10 +280,7 @@ const ProfileNavBar = ({
     total_exp[0].total_exp_year === 0
       ? true
       : false;
-  console.log(
-    candidate_details[0].work_exp,
-    'total_exp[0].total_exp_yeartotal_exp[0].total_exp_year',
-  );
+
   const totalYear =
     total_exp && total_exp[0].total_exp_year !== 0
       ? total_exp && total_exp[0].total_exp_year > 1
@@ -346,9 +343,19 @@ const ProfileNavBar = ({
     <>
       {invite?.length === 0 && (
         <CancelAndDeletePopup
-          title={`Invite will be sent as an email to ${
-            candidate_details && candidate_details[0].first_name
-          }. Are you sure to proceed?`}
+        title= {
+          isEmpty(candidate_details[0]?.last_name) ? (
+            <Flex>
+              <Text>{`Invite will be sent as an email to ${candidate_details[0].first_name}.`}</Text>
+              <Text> Are you sure to proceed?</Text>
+            </Flex>
+          ) : (
+            <Flex>
+              <Text>{`Invite will be sent as an email to ${candidate_details[0].first_name} ${candidate_details[0]?.last_name}.`}</Text>
+              <Text> Are you sure to proceed?</Text>
+            </Flex>
+          )
+        } 
           btnDelete={() =>
             hanldeInvite(Number(jd_id), match[0]?.candidate_id_id)
           }
@@ -363,6 +370,10 @@ const ProfileNavBar = ({
             <Flex className={styles.popTitle}>
               <Text>{`The candidate ${
                 candidate_details && candidate_details[0].first_name
+              } ${
+                candidate_details && candidate_details[0]?.last_name !== null
+                  ? candidate_details[0]?.last_name
+                  : ''
               } has already been invited for this job on ${getDateString(
                 invite && invite[invite?.length - 1].created_at,
                 'll',
@@ -669,7 +680,6 @@ const ProfileNavBar = ({
                 </Flex>
               )}
             </Flex>
-            {console.log(candidate_details[0]?.work_exp,'candidate_details[0]?.work_expcandidate_details[0]?.work_expcandidate_details[0]?.work_exp')}
             <Flex row flex={12} style={{ paddingBottom: '10px' }}>
               <Flex flex={6}>
                 <Flex className={styles.headingpart} marginTop={10}>
@@ -682,22 +692,38 @@ const ProfileNavBar = ({
                 ) : (
                   <Text
                     className={styles.changingtext}
-                    title={`${candidate_details &&candidate_details[0]?.work_exp !== null && workYear(candidate_details[0]?.work_exp)} ${
-                      total_exp&& total_exp[0]?.total_exp_month !== 0 &&
-                      total_exp[0]?.total_exp_month !== null? total_exp[0]?.total_exp_month:''
+                    title={`${
+                      candidate_details &&
+                      candidate_details[0]?.work_exp !== null &&
+                      workYear(candidate_details[0]?.work_exp)
                     } ${
-                      total_exp&&total_exp[0]?.total_exp_month !== 0 &&
-                      total_exp[0]?.total_exp_month !== null?
-                      'Months':''
+                      total_exp &&
+                      total_exp[0]?.total_exp_month !== 0 &&
+                      total_exp[0]?.total_exp_month !== null
+                        ? total_exp[0]?.total_exp_month
+                        : ''
+                    } ${
+                      total_exp &&
+                      total_exp[0]?.total_exp_month !== 0 &&
+                      total_exp[0]?.total_exp_month !== null
+                        ? 'Months'
+                        : ''
                     }`}
                   >
-                    {`${notSpecified(workYear(candidate_details[0]?.work_exp))} ${
-                    total_exp&& total_exp[0]?.total_exp_month !== 0 &&
-                     total_exp[0]?.total_exp_month !== null? total_exp[0]?.total_exp_month:''
+                    {`${notSpecified(
+                      workYear(candidate_details[0]?.work_exp),
+                    )} ${
+                      total_exp &&
+                      total_exp[0]?.total_exp_month !== 0 &&
+                      total_exp[0]?.total_exp_month !== null
+                        ? total_exp[0]?.total_exp_month
+                        : ''
                     } ${
-                      total_exp&& total_exp[0]?.total_exp_month !== 0 &&
-                      total_exp[0]?.total_exp_month !== null?
-                      'Months':''
+                      total_exp &&
+                      total_exp[0]?.total_exp_month !== 0 &&
+                      total_exp[0]?.total_exp_month !== null
+                        ? 'Months'
+                        : ''
                     }`}
                   </Text>
                 )}
@@ -827,10 +853,7 @@ const ProfileNavBar = ({
                     <Flex className={styles.headingpart} marginTop={10}>
                       Availability
                     </Flex>
-                    {console.log(
-                      personalInfo[0].available_to_start__label_name,
-                      'personalInfo[0].available_to_start__label_namepersonalInfo[0].available_to_start__label_name',
-                    )}
+
                     {personalInfo[0].available_to_start__label_name === null ? (
                       <Flex className={styles.changingtext}>
                         <Text className={styles.changingtext}>
@@ -852,7 +875,7 @@ const ProfileNavBar = ({
               </Flex>
             ) : (
               ''
-            )} 
+            )}
             {candidate_details[0].candidate_id_id !== null ? (
               <Flex style={{ paddingBottom: '10px' }}>
                 <Flex className={styles.headingpart}>Industry Type</Flex>
@@ -913,7 +936,7 @@ const ProfileNavBar = ({
               )} */}
             {/* </>
               )} */}
-            {console.log(stages[0], 'stages[0]stages[0]stages[0]')}
+
             {stages[0] === undefined ? (
               <>
                 {jd_id !== '' && jd_id !== undefined && jd_id !== null && (
@@ -965,10 +988,7 @@ const ProfileNavBar = ({
                           <SvgRadioWithOutOutLine fill="#80C0D0" />
                         )}
                       </Flex>
-                      {console.log(
-                        checkingstatus,
-                        'checkingstatuscheckingstatuscheckingstatus',
-                      )}
+
                       <Flex title="Under Assessment">
                         {checkingstatus !== 'Applied' &&
                         checkingstatus !== 'Shortlisted' &&

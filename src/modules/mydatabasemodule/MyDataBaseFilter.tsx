@@ -1,7 +1,8 @@
 import { Formik, FormikProps } from 'formik';
 import escapeRegExp from 'lodash/escapeRegExp'; // eslint-disable-line
-import { useMemo, useRef, useState, useEffect } from 'react';
+import { useMemo, useRef, useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { set } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import SvgIntomark from '../../icons/Intomark';
 import SvgRefresh from '../../icons/SvgRefresh';
 import Card from '../../uikit/Card/Card';
@@ -15,12 +16,15 @@ import InputText from '../../uikit/InputText/InputText';
 import SelectTag from '../../uikit/SelectTag/SelectTag';
 import Text from '../../uikit/Text/Text';
 import { MAX_DISPLAYED_OPTIONS } from '../constValue';
+import { AppDispatch } from '../../store';
+import { myDataBaseDataMiddleWare } from './store/middleware/mydatabasemiddleware';
 import { experienceOption, jobTypeData, myDataSkillList } from './mock';
 import styles1 from './switch.module.css';
 import styles from './mydatabasefilter.module.css';
 import { MyDataFormProps } from './MyDataBaseScreen'; // eslint-disable-line
 type Props = {
   formik: FormikProps<MyDataFormProps>;
+  filterFormik: FormikProps<MyDataFormProps>;
   qualificationOption: {
     value: string;
     label: string;
@@ -30,13 +34,37 @@ type Props = {
   }[];
   hanldeRefresh: () => void;
   setchange?: any;
+  qaValue: string;
+  skillsOptionsList: any;
+  tabKey: string;
+  isPage: number;
+  addFavFilter: string;
+  isSortOptions: {
+    value: string;
+    label: string;
+  };
+  setSortOptions: Dispatch<
+  SetStateAction<{
+    value: string;
+    label: string;
+  }>
+>;
 };
 const MyDataBaseFilter = ({
   formik,
+  filterFormik,
   qualificationOption,
   hanldeRefresh,
   setchange,
+  qaValue,
+  skillsOptionsList,
+  tabKey,
+  isPage,
+  addFavFilter,
+  isSortOptions,
+  setSortOptions
 }: Props) => {
+  const dispatch: AppDispatch = useDispatch();
   const [isSkills, setSkills] = useState<any>();
   const [isRelocate, setRelocate] = useState(false);
   const [isSearch, setSearch] = useState('');
@@ -200,9 +228,8 @@ const MyDataBaseFilter = ({
       setexperience(formik.values.experience.label);
     }
   }, [formik.values.experience.value]);
-  // filterv refresh function
 
-  const filterRefresh = () => {
+  const viewfilterrefresh = () => {
     hanldeRefresh();
     setSearch('');
     setRelocate(false);
@@ -210,14 +237,65 @@ const MyDataBaseFilter = ({
     setSkills('')
     setnewjobname('')
     setnewexperience('')
-    setexperience('')
     setnewqual([])
     setnewlocation('')
     setnewskill([])
     setnewrelocate(false)
     sethiddenskill1([])
     setskill([])
+    setexperience('')
+    setlocation('')
   };
+
+
+  const sortrefresh = () => {
+    setSearch('');
+    setRelocate(false);
+    setSkills('')
+    setnewjobname('')
+    setnewexperience('')
+    setnewqual([])
+    setnewlocation('')
+    setnewskill([])
+    setnewrelocate(false)
+    sethiddenskill1([])
+    setexperience('')
+    setlocation('')
+    setskill([])
+    dispatch(
+      myDataBaseDataMiddleWare({
+        jobTitle: filterFormik.values.jobTitle,
+        fav: addFavFilter,
+        experience: filterFormik.values.experience.value,
+        educationLevel: qaValue,
+        typeofJob: filterFormik.values.jobType,
+        location: filterFormik.values.locationSearch,
+        skill_match: skillsOptionsList,
+        relocate: filterFormik.values.reLocateValue,
+        candidate: formik.values.searchValue,
+        userType: tabKey,
+        sort: "",
+        page: isPage + 1,
+        applicant_only: filterFormik.values.applicantOnly,
+      }),
+    )
+  }
+  
+  // filterv refresh function
+  const clearfilters = () => {
+    if (isSortOptions.value!== "match") {
+      sortrefresh();
+      setSortOptions(
+        {    
+          value: 'match',
+          label: 'Match Score',
+        }
+      )      
+    }
+    else{
+      viewfilterrefresh();
+    }
+  }
 
   // close function
   const closeexp = () => {
@@ -451,7 +529,7 @@ const MyDataBaseFilter = ({
             
             {newlocation===''?(
               null
-            ): (
+            ) : (
               <Text className={styles.quickfil}>
                 {newlocation}{" "}
                 <SvgIntomark
@@ -554,7 +632,7 @@ null
         <Text
           bold
           className={styles.filtername}
-          style={{ cursor: "Pointer",paddingTop:7,fontSize:13 }}
+          style={{ cursor: "Pointer",paddingTop:6,fontSize:13 }}
         >
           View Filter
         </Text>
@@ -565,7 +643,7 @@ null
         
           width={18}
           height={18}
-          onClick={filterRefresh}
+          onClick={clearfilters}
           className={styles.filtersvg}
         />
       </Flex>
@@ -698,29 +776,24 @@ null
             <div className={styles.mtstyle}>
               <Flex row>
                 <Flex className={styles.switch}>
-                  {/* <label className={styles1.toggleswitch} >
-          <input type="checkbox" checked={isRelocate}
-          onChange={() => setRelocate(!isRelocate)} />
-           <span className={styles1.switch} />
-           </label> */}
-           <InputSwitch
-            onClick={handlerelocate1}
-            checked={isRelocate}
-           />
-      </Flex>
-        <Text color= "primary"  className={styles.toggletext}>
-            Willing to Relocate
-        </Text>
-      </Flex>
-     </div>
+                    <InputSwitch
+                      onClick={handlerelocate1}
+                      checked={isRelocate}
+                    />
+                </Flex>
+                   <Text color= "primary"  className={styles.toggletext}>
+                      Willing to Relocate
+                      </Text>
+                </Flex>
+             </div>
      <div className={styles.filterContainer} >
-     <Button
-     className={styles.buyBtn}
-     onClick={handlechange}
-   >
-    Apply
-   </Button>
-   </div>
+          <Button
+            className={styles.buyBtn}
+            onClick={handlechange}
+            >
+              Apply
+              </Button>
+        </div>
   
     </div>
     </div>

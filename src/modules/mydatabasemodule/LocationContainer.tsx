@@ -295,7 +295,7 @@ const LocationContainer = ({
 
               ) : (
                 <Text
-                  title={dataList.location}
+                  title={`Location: ${dataList.location}`}
                   textStyle="ellipsis"
                   size={11}
                   color="primary"

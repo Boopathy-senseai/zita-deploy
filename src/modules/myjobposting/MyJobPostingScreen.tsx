@@ -17,7 +17,7 @@ import Text from '../../uikit/Text/Text';
 // import Card from '../../uikit/Card/Card';
 import Loader from '../../uikit/Loader/Loader';
 import Button from '../../uikit/Button/Button';
-import { getBlur, getFocus, copyToClipboard } from '../../uikit/helper';
+import { getBlur, getFocus, copyToClipboard, isEmpty } from '../../uikit/helper';
 import Pangination from '../../uikit/Pagination/Pangination';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import { jobSelect } from '../../appRoutesPath';
@@ -117,9 +117,7 @@ const MyJobPostingScreen = () => {
     onSubmit: () => {},
   });
 
-  {
-    console.log(len_list, 'len_listlen_listlen_listlen_list');
-  }
+
   const usersPerPage = 10;
   const pageCount = Math.ceil(len_list / usersPerPage);
 
@@ -172,7 +170,6 @@ const MyJobPostingScreen = () => {
   return (
     <Flex className={styles.overFlowContainer}>
       <div>
-        {console.log('###########33', change)}
         <Flex row className={styles.titleContainer}>
           {/* <SvgJobPost width={15.71} height={16} /> */}
           <Text
@@ -187,6 +184,7 @@ const MyJobPostingScreen = () => {
         </Flex>
       </div>
       {/* {(is_loading || is_loadingone) && <Loader />} */}
+     
       {Jobs_List === 2 && (
         <Flex>
           <div className={cx('tabsContainer')}>
@@ -202,9 +200,13 @@ const MyJobPostingScreen = () => {
                     </Button>
                   </LinkWrapper>
                 )}
-                <LinkWrapper
-                  target={'_blank'}
-                  to={`${career_page_url}/careers`}
+                <LinkWrapper 
+                  target={isEmpty(career_page_url) ? '_parent' : '_blank'}
+                  to={
+                    isEmpty(career_page_url)
+                      ? `/account_setting/settings?tab=1`
+                      : `/${career_page_url}/careers`
+                  } 
                 >
                   <Button className={styles.style2} types="primary">
                     View Careers Page
@@ -243,45 +245,44 @@ const MyJobPostingScreen = () => {
                   currentPage={isPage}
                   setCurrentPage={handleSetPagination}
                 />
-
-                {len_list === 0 && (
+                
+              </Flex>
+            </Flex>
+          </div>
+        </Flex>
+      )}
+      {console.log(len_list,'len_listlen_list')}
+      {len_list === 0 && (
                   <Flex
                     className="container"
                     flex={1}
                     center
                     middle
-                    width={window.innerWidth - 570}
-                    // style={styles.nojobpost}
+                    width={window.innerWidth - 570} 
                   >
                     <Text
-                      style={{
-                        paddingTop: 200,
+                      style={{ 
                         color: 'gray',
-                        fontSize: 16,
+                        fontSize: 13,
                       }}
                     >
                       No Job Found
                     </Text>
                   </Flex>
                 )}
-              </Flex>
-            </Flex>
-          </div>
-        </Flex>
-      )}
       {Jobs_List === 1 && (
         <Flex middle className={styles.overAll2}>
           <Flex center>
             <Flex center>
-              <Text className={styles.postyet1}>No Job Posts - Yet !</Text>
+              <Text className={styles.postyet1} size={13}>No Job Posts - Yet !</Text>
             </Flex>
             <Flex center>
-              <Text className={styles.postyet2}>
+              <Text className={styles.postyet2} size={13}>
                 Looks like you haven’t posted any jobs
               </Text>
             </Flex>
             <Flex center>
-              <Text className={styles.postyet3}>
+              <Text className={styles.postyet3} size={13}>
                 No worries, just click on “Post Job” to kick start
               </Text>
             </Flex>

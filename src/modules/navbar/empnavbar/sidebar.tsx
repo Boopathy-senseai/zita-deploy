@@ -101,7 +101,7 @@ const Sidebar = ({ changes, data }: props) => {
         className={Expent === '0' ? styles.sidebar : styles.sidebarmini}
         style={{ marginTop: '50px', display:"flex", flexWrap:"wrap", alignContent:"space-between" }}
       >
-        <ul>
+        <ul style={{width:'100%'}}>
           {is_plan ? (
             changes ? (
               <li
@@ -559,7 +559,7 @@ const Sidebar = ({ changes, data }: props) => {
           {/* {permission.includes('bulkImport_candidates') && (
             <> */}
 
-          {/* {checkplan && ( */}
+          {permission.includes('reports') ? (
           <>
             {is_plan ? (
               changes ? (
@@ -678,7 +678,40 @@ const Sidebar = ({ changes, data }: props) => {
               </li>
             )}
           </>
-          {/* )} */}
+          ):(
+            <li
+                title="Reports"
+                className={
+                  pathname.includes('/reports') ? styles.select_row : styles.select_item
+                }
+                style={{cursor:'not-allowed'}}
+              >
+               
+                <a
+                  className={styles.hoverview}
+                  href={' '}
+                  style={{cursor:'not-allowed'}}
+                  onClick={(e) => {
+                    e.preventDefault();
+                  }}
+                >
+                  <SvgReport fill={'none'} />
+                  <Text
+                    onClick={() => handleNavigate(6)}
+                    className={Expent === '0' ? styles.text : styles.classpan}
+                    color="primary"
+                    style={{
+                      color: '#581845',
+                      marginRight: '10px',
+                      marginLeft: '18px', 
+                      cursor:'not-allowed'
+                    }}
+                  >
+                    Reports
+                  </Text>
+                </a>
+              </li>
+          )} 
           <>
           {is_plan ? (
             changes ? (
@@ -758,7 +791,7 @@ const Sidebar = ({ changes, data }: props) => {
               </li>
             )}
           </>
-          {permission.includes('talent_sourcing') && (
+          {(
             <>
               {is_plan ? (
                 changes ? (
@@ -844,7 +877,7 @@ const Sidebar = ({ changes, data }: props) => {
               )}
             </>
           )}
-          {permission.includes('talent_sourcing') && (
+          {(
             <>
               {is_plan ? (
                 changes ? (
@@ -964,6 +997,8 @@ const Sidebar = ({ changes, data }: props) => {
           ) : (
             <li>
               <a
+              style={{    position: 'relative',
+                bottom: '20px'}}
                 href={' '}
                 onClick={(e) => {
                   e.preventDefault();

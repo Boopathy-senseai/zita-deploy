@@ -494,7 +494,7 @@ export const customStylechanges2 = {
   }),
   valueContainer: (provided: any) => ({
     ...provided,
-    height: '23px',
+    height: '26px',
     margin: '0px',
     fontSize: 12,
     boxColor: GARY_9,
@@ -502,7 +502,7 @@ export const customStylechanges2 = {
     borderColor: GARY_9,
     color: PRIMARY,
     top: -1,
-    padding: '2px 4px',
+    padding: '3px 4px',
   }),
   singleValue: () => ({
     color: PRIMARY,
@@ -527,7 +527,7 @@ export const customStylechanges2 = {
     cursor: 'pointer',
     borderColor: GARY_9,
     position: 'relative',
-    top: 2,
+    top: 1,
   }),
   indicatorSeparator: (provided: any) => ({
     ...provided,

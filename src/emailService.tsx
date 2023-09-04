@@ -225,7 +225,7 @@ export async function getsearchmail(
   token,
 ) {
   if (folder === 'All') {
-    if (token !== '') {
+    if (token !== null) {
       var response1: any = await graphClient
         ?.api(`/me/messages`)
         .count(true)
@@ -245,7 +245,7 @@ export async function getsearchmail(
       return response2;
     }
   } else {
-    if (token !== '') {
+    if (token !== null) {
       var response: any = await graphClient
         ?.api(`/me/mailFolders/${folder}/messages`)
         .count(true)
@@ -478,19 +478,22 @@ export async function Gmail_Mails(folder, pageToken, maxresult, tokens) {
     const { messages } = response.result;
     const token = response.result.nextPageToken;
 
-    const fullMessages = await Promise.all(
-      messages.map(async (message) => {
-        const fullMessageResponse = await gapi.client.gmail.users.messages.get({
-          userId: 'me',
-          id: message.id,
-        });
-        return fullMessageResponse.result;
-      }),
-    );
+    if (messages !== undefined) {
+      var fullMessages = await Promise.all(
+        messages.map(async (message) => {
+          const fullMessageResponse =
+            await gapi.client.gmail.users.messages.get({
+              userId: 'me',
+              id: message.id,
+            });
+          return fullMessageResponse.result;
+        }),
+      );
+    }
 
     return { token, messages, fullMessages };
   } catch (error) {
-    console.error('Error loading messages:', error);
+    // console.error('Error loading messages:', error);
   }
 }
 
@@ -521,7 +524,7 @@ export async function Selected_message(id) {
 
     return { attachments, body, message };
   } catch (error) {
-    console.error('Error loading message body:', error);
+    //console.error('Error loading message body:', error);
   }
 }
 
@@ -533,6 +536,7 @@ const getMessageBody = (mes) => {
 
 const getHTMLPart = (arr) => {
   for (var x = 0; x <= arr.length; x++) {
+    console.log('typeof arr[x].parts', typeof arr[x].parts);
     if (typeof arr[x].parts === 'undefined') {
       if (arr[x].mimeType === 'text/html') {
         return arr[x].body.data;
@@ -599,7 +603,7 @@ export const Gmail_search = async (Folder, serchdata, maxresult, pageToken) => {
       return { token, messages, fullMessages };
     }
   } catch (error) {
-    console.error('Error loading messages:', error);
+    // console.error('Error loading messages:', error);
   }
 };
 
@@ -613,7 +617,7 @@ export const Gmail_Draft = async (draft) => {
       // You can perform additional actions here after the draft is saved
     })
     .catch((error) => {
-      console.error('Error saving draft:', error);
+      //console.error('Error saving draft:', error);
     });
 };
 
@@ -637,6 +641,7 @@ export const Gmail_Folder_Total_count = async (folder) => {
 };
 
 export const Gmail_Reply_forward = async (data) => {
+  // console.log('====', data);
   const reply = gapi.client.gmail.users.messages.send({
     userId: 'me',
     resource: {
@@ -690,8 +695,6 @@ export const gmail_permanent_Delete = async (messageId) => {
 };
 
 export const gmail_draft_update = async (id, messagebody) => {
-  console.log('draftId', id);
-  console.log('updatedMessage', messagebody);
   gapi.client.gmail.users.drafts
     .update({
       userId: 'me',
@@ -699,11 +702,10 @@ export const gmail_draft_update = async (id, messagebody) => {
       resource: messagebody,
     })
     .then((res) => {
-      console.log('Updated Draft:', res);
       return res;
     })
     .catch((error) => {
-      console.log('error:', error);
+      // console.log('error:', error);
       return error;
     });
 };

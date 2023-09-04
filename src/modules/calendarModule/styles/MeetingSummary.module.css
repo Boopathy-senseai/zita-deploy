@@ -5,7 +5,6 @@
   border-radius: 4px;
   width: 700px;
   max-width: 80vw;
-
 }
 
 .meetingSummary p {
@@ -109,7 +108,7 @@
   margin: 0px 5px 0px 0px;
   font-size: 13px !important;
 }
-.email{
+.email {
   margin-bottom: 5px !important;
 }
 
@@ -173,7 +172,7 @@
   background-color: #888888;
   border: none;
   border-radius: 5px;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 .cancel:active,
 .cancel:focus {
@@ -183,7 +182,7 @@
 .continueButton {
   border: none;
   border-radius: 5px;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 .continueButton:active,
 .continueButton:focus {
@@ -202,6 +201,7 @@
 
 .pre {
   font-family: 'Roboto', sans-serif;
+  test-wrap: wrap;
   color: #212529;
   font-size: 13px;
   /* font-weight: 400; */

@@ -88,7 +88,6 @@ const CalenderCard = ({
 
   const getEventHandler = (account: string) => {
     if (account === 'google') {
-      console.log('google');
 
       dispatch(getGoogleEventsMiddleware({ tz })).then((res) => {
         const data = res.payload.events;
@@ -98,7 +97,6 @@ const CalenderCard = ({
             getDateString(new Date(item.start.dateTime), 'MM/DD/YYYY') ===
             formik.values.date,
         );
-        console.log('filteredData  ', filteredData);
         if (data !== undefined) {
           setEvent(
             filteredData.map(
@@ -126,7 +124,6 @@ const CalenderCard = ({
     } else {
       dispatch(syncOutlookMiddleWare()).then((res) => {
         const dataout = res.payload.events;
-        console.log('errorf', dataout);
         if (dataout !== undefined) {
           const filteredData = res.payload.events.filter(
             (item) =>
@@ -159,21 +156,16 @@ const CalenderCard = ({
   const checkAuth = () => {
     dispatch(checkAuthMiddleware())
       .then((res) => {
-        console.log('checkauth:::', res.payload);
+     
         if (res.payload.status === true) {
-          console.log(res.payload);
           if (res.payload.account === 'google') {
-            console.log('inside if');
             setIsGoogle(1);
           } else {
-            console.log('inside else');
             setIsGoogle(0);
           }
           setActive(1);
-          console.log('nothing');
           getEventHandler(res.payload.account);
         } else {
-          console.log('error');
           setActive(0);
         }
       })
@@ -185,8 +177,7 @@ const CalenderCard = ({
     checkAuth();
   }, []);
   const getOut: any = localStorage.getItem('timeZone');
-  console.log(typeof setCalLoad, events);
-  console.log(event);
+ 
   // const hanldeRefresh = () => {
   //   setCalLoad(true);
   //   dispatch(calenderTokenGetMiddleWare()).then((res) => {
@@ -436,8 +427,11 @@ const CalenderCard = ({
             </Text>
             <LinkWrapper
               onClick={() => {
+                // sessionStorage.setItem('superUserTab', '4');
+                // sessionStorage.setItem('superUserFalseTab', '3'); 
+                sessionStorage.setItem('superUserTabTwo','2')
+                sessionStorage.setItem('superUserFalseTab', '1');
                 sessionStorage.setItem('superUserTab', '4');
-                sessionStorage.setItem('superUserFalseTab', '3');
               }}
               to="/account_setting/settings"
             >
@@ -449,7 +443,6 @@ const CalenderCard = ({
             if (
               getDateString(list.start, 'MM/DD/YYYY') === formik.values.date
             ) {
-              console.log('title', list.title);
               const startTime = moment(list.start);
               const endTime = moment(list.end);
               const duration = moment.duration(endTime.diff(startTime));

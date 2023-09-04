@@ -7,8 +7,6 @@ import Toast from '../../uikit/Toast/Toast';
 import Modal from '../../uikit/Modal/Modal';
 import Text from '../../uikit/Text/Text';
 import Flex from '../../uikit/Flex';
-import SvgoutlookMail from '../../icons/SvgOutlookmail';
-import SvgVectorClose from '../../icons/SvgMailClose';
 import Button from '../../uikit/Button/Button';
 import config from '../../outlookmailConfig';
 import {
@@ -16,6 +14,7 @@ import {
   Gmail_Draft,
   replay_all_forward_draft,
   draftupdate,
+  initGoogleAuth,
 } from '../../emailService';
 import Loader from '../../uikit/Loader/Loader';
 import styles from './draftsave.module.css';
@@ -29,6 +28,8 @@ type Props = {
   auth: any;
   Mail_action: any;
   mail_id: any;
+  replymail_draft: any;
+  emailcollection: any;
 };
 
 const Modaldraft = ({
@@ -40,6 +41,8 @@ const Modaldraft = ({
   auth,
   Mail_action,
   mail_id,
+  replymail_draft,
+  emailcollection,
 }: Props) => {
   const msal = useMsal();
   const [loader, setloader] = useState(false);
@@ -88,14 +91,42 @@ const Modaldraft = ({
       })
       .catch((error) => {
         setloader(false);
-        console.log('draft not save ', error);
       });
   };
 
   const draftsave = async () => {
     closeverify();
     if (auth === 'google') {
-      Emailprops();
+      if (Mail_action === 'compose' || Mail_action === 'draft') {
+        Emailprops();
+      } else {
+        const drafts = {
+          message: {
+            raw: replymail_draft(),
+          },
+        };
+        setloader(true);
+        initGoogleAuth(emailcollection)
+          .then(() => {
+            Gmail_Draft(drafts)
+              .then((res) => {
+                clearstate();
+                setloader(false);
+                Toast('Draft save successfully', 'SHORT', 'success');
+                closeverify();
+              })
+              .catch((error) => {
+                Toast('Draft not save ', 'SHORT', 'error');
+                setloader(false);
+                closeverify();
+              });
+          })
+          .catch((error) => {
+            Toast('Draft not save', 'SHORT', 'error');
+            setloader(false);
+            closeverify();
+          });
+      }
     } else if (auth === 'outlook') {
       setloader(true);
 
@@ -110,7 +141,6 @@ const Modaldraft = ({
           })
           .catch((error) => {
             setloader(false);
-            console.log('draft not save ', error);
           });
       } else if (
         Mail_action === 'compose' ||
@@ -119,7 +149,6 @@ const Modaldraft = ({
       ) {
         reply_forward_replyall();
       } else if (Mail_action === 'draft') {
-        console.log('Emailprops', mail_id, Emailprops);
         await draftupdate(authProvider, mail_id, Emailprops.message)
           .then((res) => {
             setloader(false);

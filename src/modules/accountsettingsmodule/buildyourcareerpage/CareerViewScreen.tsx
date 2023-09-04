@@ -109,7 +109,7 @@ const CareerViewScreen = () => {
           flexDirection: 'column',
         }}
       >
-        <div style={{height:"100%", width:"100%"}}>
+        <div>
           <CareerViewBanner
             career_page_setting={career_page_setting}
             jd_form={jd_form}

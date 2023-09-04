@@ -10,7 +10,7 @@ import {
   SvgEdit,
   SvgCopy,
 } from '../../icons';
-import { Flex, Text } from '../../uikit';
+import { Button, Flex, Text } from '../../uikit';
 import { CrossButton, Modal } from '../../uikit/v2';
 import SvgInfo from '../../icons/SvgInfo';
 import Avatar, { getUserInitials } from '../../uikit/Avatar';
@@ -28,6 +28,7 @@ interface Props {
   handleEditEvent: () => void;
   isEventCanUpdate: boolean;
   eventPopUpDetails: EventPopUpDetails;
+  copyMeeting: (eventId: string) => void;
 }
 
 const EventPopUpModal = ({
@@ -37,6 +38,7 @@ const EventPopUpModal = ({
   handleRemoveEvent,
   isEventCanUpdate,
   joinMeeting,
+  copyMeeting,
   eventPopUpDetails,
 }: Props) => {
   const [openEventDeleteModal, setOpenEventDeleteModal] = useState(false);
@@ -76,20 +78,20 @@ const EventPopUpModal = ({
           className={styles.actionButtonWrapper}
           style={{ marginTop: '20px' }}
         >
-          <button
+          <Button className={styles.cancel}
             style={{ marginRight: 8 }}
             onClick={() => setOpenEventDeleteModal(false)}
           >
             No, Thanks
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => {
               handleRemoveEvent(setOpenEventDeleteModal);
             }}
             className={styles.deleteButton}
           >
             Cancel Meeting
-          </button>
+          </Button>
         </div>
       </div>
     </Modal>
@@ -138,6 +140,7 @@ const EventPopUpModal = ({
                       initials={getUserInitials({ fullName: item })}
                       style={{ width: 28, height: 28, marginRight: '5px' }}
                       textStyle={{ fontSize: 12 }}
+                      title={item}
                     />
                     // <p className={styles.email} key={index}>
                     //   {items}
@@ -188,7 +191,8 @@ const EventPopUpModal = ({
               <button
                 className={`${styles.icon} ${styles.popover}`}
                 onClick={() => {
-                  navigator.clipboard.writeText(link);
+                  // navigator.clipboard.writeText(link);
+                  copyMeeting(eventId);
                 }}
               >
                 <SvgCopy fill="#581845" width={16} height={16} />
