@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
+import FileViewer from 'react-file-viewer';
 import { FieldArray, FormikProvider, useFormik } from 'formik';
 import PhoneInput from 'react-phone-input-2';
 import * as Yup from 'yup';
@@ -77,7 +78,7 @@ const ProfileViewModal = ({
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
-    // setDisplay(true)
+    // setDisplay(false)
     dispatch(bulkUploadSkillsMiddleWare({ empId: canId }));
     dispatch(uploadedProfileViewMiddleWare({ id: Number(canId) }));
     if (jdId !== undefined) {
@@ -285,7 +286,7 @@ const ProfileViewModal = ({
       }
     }
   };
-  const [display, setDisplay] = useState(true);
+  const [display,setDisplay] = useState(false)
   // error message focus function
   useEffect(() => {
     setAnswer(answers);
@@ -313,11 +314,17 @@ const ProfileViewModal = ({
     getBlur('myjobpostscreen___input');
   }, [is_loading]);
 
+
+
   useEffect(() => {
-    setDisplay(true);
-  }, [display]);
+   
+    setTimeout(() => {
+      setDisplay(true);
+    }, 100);
+  },[display, filePath])
   return (
     <Drawer open={open}>
+      {console.log("disp+++lay",display,file)}
       {is_loading && <Loader />}
       <div className={styles.overAll}>
         <Flex row center between flex={1} className={styles.border}>
@@ -340,20 +347,22 @@ const ProfileViewModal = ({
                 overflow: 'scroll',
               }}
             >
-              {display && (
-                <DocViewer
-                  style={{ height: '100%', width: '100%' }}
-                  pluginRenderers={DocViewerRenderers}
-                  documents={docs}
-                  config={{
-                    header: {
-                      disableHeader: false,
-                      disableFileName: false,
-                      retainURLParams: false,
-                    },
-                  }}
-                />
-              )}
+              {filePath!=="" && display &&
+           <DocViewer
+                 style={{ height: '100%', width: '100%' }}
+                 pluginRenderers={DocViewerRenderers}
+                 documents={docs}
+                 config={{
+                   header: {
+                     disableHeader: false,
+                     disableFileName: false,
+                     retainURLParams: false,
+                   },
+                 }}
+               />
+       
+          }
+             
             </div>
           </Flex>
           <Flex flex={6}>

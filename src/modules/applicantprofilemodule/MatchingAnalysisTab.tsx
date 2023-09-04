@@ -160,6 +160,7 @@ const MatchingAnalysisTab = () => {
                         verticalWidth={'200px'}
                         type="hr"
                         percentage={skillconvert}
+                        matchingpercentage={skills_percent}
                       />
                     </Flex>
                   </Flex>
@@ -176,6 +177,7 @@ const MatchingAnalysisTab = () => {
                         verticalWidth={'200px'}
                         type="hr"
                         percentage={qualificationconvert}
+                        matchingpercentage={qualification_percent}
                       />
                     </Flex>
                   </Flex>

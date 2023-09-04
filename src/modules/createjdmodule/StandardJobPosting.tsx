@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import SvgCheckBox from '../../icons/SvgCheckBox';
 import Svgwhatjobs from '../../icons/Svgwhatjobs';
+import SingleButton from '../common/SingleButton';
 import { routesPath } from '../../routes/routesPath';
 import Button from '../../uikit/Button/Button';
 import Card from '../../uikit/Card/Card';
@@ -18,16 +19,19 @@ type Props = {
   ds_role: boolean;
   feature: number;
   whatjob: any;
+  super_user: boolean
 };
 
 const StandardJobPosting = ({
   jdId,
+  super_user,
   hanldePulish,
   ds_role,
   feature,
   whatjob,
 }: Props) => {
   const [extarajobpost, setextarajobpost] = useState('1');
+  const [isOpenPlanDetails, setOpenPlanDetails] = useState(false);
 
   const extarajob = () => {
     if (extarajobpost === '0') {
@@ -110,17 +114,37 @@ const StandardJobPosting = ({
                 </LinkWrapper>
               )}
               {feature === 0 ? (
-                <LinkWrapper
-                  onClick={manageLocation}
-                  to="/account_setting/settings?planFocus=focus"
-                >
-                  <Button>Upgrade</Button>
-                </LinkWrapper>
+                super_user ===false ?
+                <Flex>
+                <Button 
+                onClick={()=>{if (super_user===false) {
+                  setOpenPlanDetails(true)                    
+                }}
+              }
+                >Upgrade</Button>
+              </Flex>
+               : 
+               <LinkWrapper
+               to="/account_setting/settings?planFocus=focus"
+             >
+               <Button 
+               onClick={manageLocation}
+               >Upgrade</Button>
+             </LinkWrapper>
+
               ) : (
                 <Button onClick={hanldePulish} id={extarajobpost}>
                   Publish
                 </Button>
               )}
+        <SingleButton
+          btnTitle="OK"
+          title={
+            'Please contact your company admin to upgrade you plan'
+          }
+          open={isOpenPlanDetails}
+          btnOnclick={() => setOpenPlanDetails(false)}
+        />
             </Flex>
           </Flex>
         </Flex>

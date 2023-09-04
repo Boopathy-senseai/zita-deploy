@@ -1,18 +1,20 @@
 .des ul{
   padding-left: 24px;
+  list-style-type: disc !important;
 }
 
+.des ol{
+  padding-left: 24px;
+  list-style-type: auto;
+  /* font-size: 13px */
+}
 /* .des ul{
   padding-left: 24px;
   list-style-type: disc;
   padding-bottom:12px;
   font-size: 13px
 }
-.des ol{
-  padding-left: 24px;
-  list-style-type: auto;
-  font-size: 13px
-}
+
 strong{
   font-weight: bold;
 }

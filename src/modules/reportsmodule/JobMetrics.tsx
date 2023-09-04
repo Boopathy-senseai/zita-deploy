@@ -298,7 +298,7 @@ const JobMetricsReports = () => {
       </Flex>
 
       {isJd && (
-        <Flex style={{ marginLeft: '5px' }}>
+        <Flex style={{ marginLeft: '5px'}}>
           <Card className={styles.cardOverAllApplicant}>
             <Flex>
               <Flex row between>
@@ -314,8 +314,7 @@ const JobMetricsReports = () => {
 
                 <Button onClick={hanldeJobIdform}> Download Report</Button>
               </Flex>
-
-              <Flex row marginTop={5}>
+              <Flex row marginTop={5} style={{alignItems: 'center' }} >
                 <Flex flex={4} className={styles.chartStyle}>
                   <Flex row>
                     <Flex flex={6}>

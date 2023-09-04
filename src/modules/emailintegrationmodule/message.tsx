@@ -594,7 +594,7 @@ const Inbox = ({
 
   const ccshow = (val) => {
     const from = val.filter((item) => item.name === 'Cc');
-    console.log('======', from);
+
     if (from.length !== 0) {
       let From = from[0].value.replace(/\s\S*$/, '');
       if (from[0].value !== '') {
@@ -681,7 +681,12 @@ const Inbox = ({
                     maxHeight: '-webkit-fill-available',
                   }}
                 >
-                  {parse(message.body)}
+                  <td
+                    className={styles.bulletpoint}
+                    dangerouslySetInnerHTML={{
+                      __html: message.body,
+                    }}
+                  />
                 </Flex>
                 {renderAttachments}
               </Flex>
@@ -793,11 +798,11 @@ const Inbox = ({
                     </Text>
                     {message.toRecipients.length !== 0 ? (
                       <>
-                        <Text color="black">{`To:  ${message.toRecipients.map(
+                        <Text color="black">{`To: ${message.toRecipients.map(
                           (doc) => doc.emailAddress.name,
                         )}`}</Text>
                         {message.ccRecipients.length !== 0 && (
-                          <Text size={13}>{`Cc:${message.ccRecipients.map(
+                          <Text size={13}>{`Cc: ${message.ccRecipients.map(
                             (doc) => doc.emailAddress.name,
                           )}`}</Text>
                         )}
@@ -871,6 +876,7 @@ const Inbox = ({
             className={
               isprofileview ? styles.bodyContainers : styles.bodyContainer
             }
+            style={{overflowY:'scroll'}}
             height={isprofileview ? window.innerHeight - 130 : ''}
           >
             {renderBody()}

@@ -13,7 +13,8 @@ import {
 } from '../emailintegrationmodule/store/middleware/emailIntegrationMiddleWare';
 import { Flex, InputText, LinkWrapper, Button, Text } from '../../uikit';
 import SvgSearch from '../../icons/SvgSearch';
-
+import SvgGooglecalendar from '../../icons/SvgGooglecalendarname';
+import SvgOutlookcalendar from '../../icons/SvgOutlookcalendarname';
 import {
   getUser,
   getmail,
@@ -101,6 +102,12 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
       integration: useremail.account,
       loading: useremail.isLoading,
       token: useremail.token,
+    };
+  });
+  const integrate = useSelector(({ useremail }: RootState) => {
+    return {
+      email: useremail.email,
+      mailname: useremail.account,
     };
   });
 
@@ -691,11 +698,11 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
   const IntegrationMenuView = (
     <Flex
       center
-      flex={!isprofileview&&1}
+      flex={!isprofileview && 1}
       middle
       columnFlex
       className={styles.integrationContent}
-      height={isprofileview && window.innerHeight -130}
+      height={isprofileview && window.innerHeight - 130}
     >
       <Text color="gray" style={{ marginBottom: 16 }}>
         Integrate your email with zita application to handle mailing inside zita
@@ -720,15 +727,14 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
       <Flex column className={styles.inboxContainer}>
         {loader === true && <Loader />}
         {/* {loader === true && emailcollection.loading === false && <Loader />} */}
-       
-            <>
-              {!isprofileview && 
-                <Flex row between center className={styles.titleContainer}>
-                  <Text bold size={16} color="theme">
-                    Mailbox
-                  </Text>
-                  {emailcollection.integration !== null &&
-          emailcollection.integration !== '' && (
+        <>
+          {!isprofileview && (
+            <Flex row between center className={styles.titleContainer}>
+              <Text bold size={16} color="theme">
+                Mailbox
+              </Text>
+              {emailcollection.integration !== null &&
+                emailcollection.integration !== '' && (
                   <Flex row>
                     {searchDropdown && (
                       <Dropdown className="dropdown toggle">
@@ -803,14 +809,26 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
                         setSearchDropdown(true);
                       }}
                     />
-                  </Flex>)}
-
-                  <Flex></Flex>
-                  <div className={styles.triangle}> </div>
+                  </Flex>
+                )}
+              <Flex end row center marginRight={10}> 
+                <Flex marginTop={34} center row marginRight={-20}>
+                  {' '}
+                  {integrate?.mailname === 'google' && <SvgGooglecalendar />}
+                  {integrate?.mailname === 'outlook' && (
+                    <SvgOutlookcalendar />
+                  )}{' '}
                 </Flex>
-              }
-              {emailcollection.integration !== null &&
-          emailcollection.integration !== '' && (
+              
+              <Flex>
+                <Text>{integrate?.email}</Text>
+              </Flex>
+              </Flex>
+              <div className={styles.triangle}> </div>
+            </Flex>
+          )}
+          {emailcollection.integration !== null &&
+            emailcollection.integration !== '' && (
               <Flex row className={styles.container}>
                 <Flex className={styles.containerColumn} marginTop={1}>
                   <Sidebar
@@ -881,10 +899,11 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
                     update_message={update_message}
                   />
                 </Flex>
-              </Flex> )}
-              {/* <Flex flex={10}></Flex> */}
-              {emailcollection.integration !== null &&
-          emailcollection.integration !== '' && (
+              </Flex>
+            )}
+          {/* <Flex flex={10}></Flex> */}
+          {emailcollection.integration !== null &&
+            emailcollection.integration !== '' && (
               <Newcompose
                 data={model}
                 mail={usermail}
@@ -898,13 +917,10 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
                 removemsg={removemessage}
                 remove_message={remove_message}
                 newmsg={newmsg}
-              /> )}
-            </>
-         
-        {console.log(
-          emailcollection.integration,
-          'emailcollection.integration === null',
-        )}
+              />
+            )}
+        </>
+
         {emailcollection.integration === null && <>{IntegrationMenuView}</>}
       </Flex>
     </>

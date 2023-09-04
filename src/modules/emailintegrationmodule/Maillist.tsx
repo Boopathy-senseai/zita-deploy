@@ -128,8 +128,10 @@ const Maillist = ({
         .then(() => {
           Gmail_search(searchSection, search.trim(), range, tokens)
             .then((res) => {
+              if (res === undefined) {
+                setSearchicon(true);
+              }
               savemail(res.fullMessages, res.token);
-
               //settoken(res.token);
               if (res.token === undefined) {
                 setload(false);
@@ -203,50 +205,68 @@ const Maillist = ({
     } else if (integration === 'outlook') {
       if (mailfolders.length !== 0) {
         if (sideroute === 1) {
+          const Inboxfolder = mailfolders.find(
+            (item) => item.displayName === 'Inbox',
+          );
           return (
             <Text bold>
-              {mailfolders[4].unreadItemCount !== 0
-                ? `Inbox (${mailfolders[4].unreadItemCount})`
+              {Inboxfolder.unreadItemCount !== 0
+                ? `Inbox (${Inboxfolder.unreadItemCount})`
                 : 'Inbox'}
             </Text>
           );
         } else if (sideroute === 2) {
+          const sentfolder = mailfolders.find(
+            (item) => item.displayName === 'Sent Items',
+          );
           return (
             <Text bold>
-              {mailfolders[7].unreadItemCount !== 0
-                ? `Sent Items (${mailfolders[7].unreadItemCount})`
+              {sentfolder.unreadItemCount !== 0
+                ? `Sent Items ($sentfolder.unreadItemCount})`
                 : 'Sent Items'}
             </Text>
           );
         } else if (sideroute === 3) {
+          const draftfolder = mailfolders.find(
+            (item) => item.displayName === 'Drafts',
+          );
           return (
             <Text bold>
-              {mailfolders[3].unreadItemCount !== 0
-                ? `Drafts (${mailfolders[3].unreadItemCount})`
+              {draftfolder.unreadItemCount !== 0
+                ? `Drafts (${draftfolder.unreadItemCount})`
                 : 'Drafts'}
             </Text>
           );
         } else if (sideroute === 4) {
+          const archivefolder = mailfolders.find(
+            (item) => item.displayName === 'Archive',
+          );
           return (
             <Text bold>
-              {mailfolders[0].unreadItemCount !== 0
-                ? `Archive (${mailfolders[0].unreadItemCount})`
+              {archivefolder.unreadItemCount !== 0
+                ? `Archive (${archivefolder.unreadItemCount})`
                 : 'Archive'}
             </Text>
           );
         } else if (sideroute === 5) {
+          const deletefolder = mailfolders.find(
+            (item) => item.displayName === 'Deleted Items',
+          );
           return (
             <Text bold>
-              {mailfolders[2].unreadItemCount !== 0
-                ? ` Deleted Items (${mailfolders[2].unreadItemCount})`
+              {deletefolder.unreadItemCount !== 0
+                ? ` Deleted Items (${deletefolder.unreadItemCount})`
                 : ' Deleted Items'}
             </Text>
           );
         } else if (sideroute === 6) {
+          const junkfolder = mailfolders.find(
+            (item) => item.displayName === 'Junk Email',
+          );
           return (
             <Text bold>
-              {mailfolders[5].unreadItemCount !== 0
-                ? ` Junk Email (${mailfolders[5].unreadItemCount})`
+              {junkfolder.unreadItemCount !== 0
+                ? ` Junk Email (${junkfolder.unreadItemCount})`
                 : ' Junk Email'}
             </Text>
           );
@@ -311,7 +331,13 @@ const Maillist = ({
   };
 
   const handlemessage = (val) => {
-    if (sideroute === 3 || sideroute === 5 || sideroute === 0) {
+    if (
+      sideroute === 3 ||
+      sideroute === 5 ||
+      sideroute === 0 ||
+      sideroute === 4 ||
+      sideroute === 6
+    ) {
       if (val.isDraft === true) {
         if (val.toRecipients.length !== 0) {
           var del = val.toRecipients.reduce(function (nam, arr) {
@@ -540,9 +566,9 @@ const Maillist = ({
                     <Card
                       key={int}
                       className={
-                        messages === undefined
+                        message === ''
                           ? styles.cardStyles
-                          : messages.id === val.id
+                          : message.id === val.id
                           ? styles.seletmsg
                           : styles.cardStyles
                       }
@@ -601,9 +627,9 @@ const Maillist = ({
                       <Card
                         key={int}
                         className={
-                          messages === undefined
+                          message === undefined
                             ? styles.cardStyles
-                            : messages.id === val.id
+                            : message.id === val.id
                             ? styles.seletmsg
                             : styles.cardStyles
                         }
