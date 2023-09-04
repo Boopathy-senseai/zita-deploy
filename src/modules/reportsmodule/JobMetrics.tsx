@@ -493,7 +493,7 @@ const JobMetricsReports = () => {
         <Card className={styles.cardOverAllApplicant}>
           <Flex center middle height={window.innerHeight - 200}>
             {len_list !== 0 && (
-              <Text bold color="gray">
+              <Text size={13} color="placeholder">
                 Click on the job from the table to view the report
               </Text>
             )}
