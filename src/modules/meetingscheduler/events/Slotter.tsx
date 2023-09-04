@@ -769,7 +769,7 @@ const SlotterDate = ({
 
                         <Text
                           size={13}
-                          style={{ marginLeft: '5px', marginTop: '2px', maxHeight : "150px", overflow : "auto" }}
+                          style={{ marginLeft: '5px', marginTop: '1px', maxHeight : "150px", overflow : "auto" }}
                         >
                           {data.description}
                         </Text>
@@ -959,7 +959,6 @@ return (
                   style={{
                     marginLeft: '5px',
                     textAlign: 'justify',
-                    marginTop: '1px',
                     maxHeight : "150px", overflow : "auto"
                   }}
                 >
@@ -1117,7 +1116,6 @@ const InterviewDashBoard = ({
                   style={{
                     marginLeft: '5px',
                     textAlign: 'justify',
-                    marginTop: '1px',
                     maxHeight : "150px", overflow : "auto"
                   }}
                 >
