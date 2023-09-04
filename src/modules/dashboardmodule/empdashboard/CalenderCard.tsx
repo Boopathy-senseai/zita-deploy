@@ -88,7 +88,6 @@ const CalenderCard = ({
 
   const getEventHandler = (account: string) => {
     if (account === 'google') {
-
       dispatch(getGoogleEventsMiddleware({ tz })).then((res) => {
         const data = res.payload.events;
 
@@ -156,7 +155,6 @@ const CalenderCard = ({
   const checkAuth = () => {
     dispatch(checkAuthMiddleware())
       .then((res) => {
-     
         if (res.payload.status === true) {
           if (res.payload.account === 'google') {
             setIsGoogle(1);
@@ -177,7 +175,7 @@ const CalenderCard = ({
     checkAuth();
   }, []);
   const getOut: any = localStorage.getItem('timeZone');
- 
+
   // const hanldeRefresh = () => {
   //   setCalLoad(true);
   //   dispatch(calenderTokenGetMiddleWare()).then((res) => {
@@ -450,17 +448,17 @@ const CalenderCard = ({
                 <Card key={list.title + index} className={styles.cardListStyle}>
                   <Flex row between center>
                     {/* <Flex row center> */}
-                    <Flex
+                    <Flex flex={2}
                       className={styles.borderRight}
                       marginLeft={10}
                       marginRight={10}
                     >
-                      <Text bold>{moment(list.start).format('dddd')}</Text>
-                      <Text size={12}>
+                      <Text color='black2' bold size={13}>{moment(list.start).format('dddd')}</Text>
+                      <Text color='black2' size={13}>
                         {getDateString(list.start, 'hh:mm A')}-
                         {getDateString(list.end, 'hh:mm A')}
                       </Text>
-                      <Text size={12}>
+                      <Text color='black2' size={13}>
                         {hours !== 0 && minutes !== 0 ? (
                           <Text
                             size={12}
@@ -472,19 +470,23 @@ const CalenderCard = ({
                         )}
                       </Text>
                     </Flex>
-                    <Text
-                      style={{
-                        color: '#581845',
-                        minWidth: '50%',
-                        lineHeight: '1rem',
-                        overflow: 'hidden',
-                        height: '30px',
-                      }}
+                    <Flex flex={3} title={list.title}>
+                    <Text color='theme' className={styles.title}
+                      // style={{
+                      //   color: '#581845',
+                      //   // minWidth: '50%',
+                      //   lineHeight: '1rem',
+                      //   overflow: 'hidden',
+                      //   height: '30px',
+                      // }}
                     >
                       {list.title}
                     </Text>
+
+                    </Flex>
+                    
                     {/* </Flex> */}
-                    <Flex marginRight={8}>
+                    <Flex flex={1} >
                       <Button onClick={() => window.open(list.web_url)}>
                         Join
                       </Button>
