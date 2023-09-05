@@ -246,6 +246,7 @@ const MeetingSchedulingScreen = ({
           meetingForm={meetingForm}
           username={username}
           nextEvent={nextEvent}
+          teamMembers={teamMembers}
           editEventDetails={editEventDetails}
           handleCloseSchedulingForm={handleCloseSchedulingForm}
           currentApplicantId={currentApplicantId}
