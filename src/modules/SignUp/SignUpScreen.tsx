@@ -108,7 +108,7 @@ const SignUpScreen = (props: any) => {
         setLoader(false);
         setpassword(true);
 
-        console.log('faild', res);
+      //  console.log('faild', res);
       }
     });
   };
@@ -151,7 +151,7 @@ const SignUpScreen = (props: any) => {
       errors.username = ' ';
     }
     if (!isEmpty(values.username) && !nameRegex.test(values.username)) {
-      console.log('1');
+     // console.log('1');
       errors.username = ' ';
     }
     //  console.log(!nameRegex.test(values.username))
@@ -368,6 +368,15 @@ const SignUpScreen = (props: any) => {
     //   // formik.errors.username=THIS_FIELD_REQUIRED;
     // }
   };
+  const handleInputLength = (e, fieldName) => {
+    const maxLength = 12; // Maximum length allowed
+  
+    if (e.target.value.length >= maxLength) {
+      e.preventDefault(); // Prevent further input
+      const truncatedValue = e.target.value.slice(0, maxLength);
+      formik.setFieldValue(fieldName, truncatedValue); // Update the field value
+    }
+  };
   const handlefunction1 = () => {
     if (isEmailValid === true && !isEmpty(formik.values.email)) {
       return (
@@ -396,7 +405,7 @@ const SignUpScreen = (props: any) => {
 
   return (
     <>
-      {console.log(name, namevalid)}
+      
       {isLoader && <Loader />}
       <Flex className={styles.row} height={window.innerHeight}>
         {/* {isVerification ? (
@@ -613,6 +622,8 @@ const SignUpScreen = (props: any) => {
                           required
                           value={formik.values.password1}
                           onChange={formik.handleChange('password1')}
+                          onKeyPress={(e) => handleInputLength(e, 'password1')}
+
                           keyboardType={!isShowNewPass ? 'password' : 'text'}
                           actionRight={() => (
                             <Button
@@ -671,6 +682,7 @@ const SignUpScreen = (props: any) => {
                           required
                           value={formik.values.password2}
                           onChange={formik.handleChange('password2')}
+                          onKeyPress={(e) => handleInputLength(e, 'password2')}
                           keyboardType={!isShowChangePass ? 'password' : 'text'}
                           actionRight={() => (
                             <Button

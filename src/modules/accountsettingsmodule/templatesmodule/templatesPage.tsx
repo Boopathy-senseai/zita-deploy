@@ -279,17 +279,17 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
     const errors: Partial<PipelineData> = {};
 
     if (isEmpty(values.pipeline_name) || values?.pipeline_name.trim() === '') {
-      errors.pipeline_name = 'Enter a valid Pipeline Title';
+      errors.pipeline_name = 'Enter a valid Pipeline title';
     }
 
     if (
       !isEmpty(values.pipeline_name) &&
       values.pipeline_name.trim().length > 25
     ) {
-      errors.pipeline_name = 'Pipeline Title should not exceed 25 characters.';
+      errors.pipeline_name = 'Pipeline title should not exceed 25 characters.';
     }
     if (isPipelineDuplicate(values.pipeline_name)) {
-      errors.pipeline_name = 'Pipeline Title already exist';
+      errors.pipeline_name = 'Pipeline title already exist';
     }
     return errors;
   };
@@ -319,6 +319,18 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
       formik.handleSubmit();
     }
   };
+  const handleInputLength = (e, fieldName) => {
+    const maxLength = 26; // Maximum length allowed
+  
+    if (e.target.value.length >= maxLength) {
+      e.preventDefault(); // Prevent further input
+      const truncatedValue = e.target.value.slice(0, maxLength);
+      formik.setFieldValue(fieldName, truncatedValue); // Update the field value
+    }
+    if (e.key === 'Enter') {
+      formik.handleSubmit();
+    }
+  };
   const renderTitle = () => {
     if (renamePipeline) {
       return (
@@ -328,10 +340,11 @@ const PipelineCard: React.FC<PipelineCardPros> = ({
               name="pipeline_name"
               value={formik.values.pipeline_name}
               onChange={formik.handleChange('pipeline_name')}
+             onKeyPress={(e) => handleInputLength(e, 'password1')}
               lineInput
               size={14}
               className={styles.input}
-              onKeyPress={handleKeyPress}
+            //  onKeyPress={handleKeyPress}
               onBlur={formik.handleBlur}
             />
             <ErrorMessage
