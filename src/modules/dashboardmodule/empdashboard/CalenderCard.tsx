@@ -332,7 +332,7 @@ const CalenderCard = ({
                     {/* <Flex> */}
                     <Text
                       bold
-                      size={14}
+                      size={13}
                       style={{ cursor: 'pointer', color: 'white' }}
                     >
                       Sync

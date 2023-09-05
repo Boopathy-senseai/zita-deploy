@@ -111,7 +111,7 @@ font-weight: 400;
   background-color: var(--color-white, #fff);
   border-radius: 12px;
   max-height:480px ;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   width: 230px;
   display: none;
   box-sizing: border-box;
