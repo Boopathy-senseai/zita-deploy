@@ -13,7 +13,7 @@ import {
 } from '../emailintegrationmodule/store/middleware/emailIntegrationMiddleWare';
 import { Flex, InputText, LinkWrapper, Button, Text } from '../../uikit';
 import SvgSearch from '../../icons/SvgSearch';
-import SvgGooglecalendar from '../../icons/SvgGooglecalendarname';
+import SvgGooglemail from '../../icons/SvgGooglemail';
 import SvgOutlookcalendar from '../../icons/SvgOutlookcalendarname';
 import {
   getUser,
@@ -814,7 +814,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
               <Flex end row center marginRight={10}> 
                 <Flex marginTop={34} center row marginRight={-20}>
                   {' '}
-                  {integrate?.mailname === 'google' && <SvgGooglecalendar />}
+                  {integrate?.mailname === 'google' && <SvgGooglemail />}
                   {integrate?.mailname === 'outlook' && (
                     <SvgOutlookcalendar />
                   )}{' '}
