@@ -164,7 +164,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     validate: handleJobPipeline,
     // enableReinitialize: true,
     onSubmit: (data) => {
-      console.log(data);
+    
       // formik.handleChange('pipelineTitle')(data.pipelineTitle.trim());
       if (wk_id) {
         handleUpdate();
@@ -212,6 +212,17 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     });
   };
 
+  const handleInputLength = (e, fieldName) => {
+    const maxLength = 26; // Maximum length allowed
+  
+    if (e.target.value.length >= maxLength) {
+      e.preventDefault(); // Prevent further input
+      const truncatedValue = e.target.value.slice(0, maxLength);
+      formik.setFieldValue(fieldName, truncatedValue); // Update the field value
+    }
+  };
+
+
   /// update form
 
   const handleUpdate = () => {
@@ -256,6 +267,8 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
               value={formik.values.pipelineTitle}
               style={{ width: '250px', marginBottom: '5px' }}
               onChange={formik.handleChange('pipelineTitle')}
+              
+             onKeyPress={(e) => handleInputLength(e, 'pipelineTitle')}
               className={styles.input}
             />
             <ErrorMessage

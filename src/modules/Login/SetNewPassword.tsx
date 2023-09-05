@@ -92,6 +92,16 @@ const SetNewPassword = ({
       ? false
       : true;
 
+      const handleInputLength = (e, fieldName) => {
+        const maxLength = 12; // Maximum length allowed
+      
+        if (e.target.value.length >= maxLength) {
+          e.preventDefault(); // Prevent further input
+          const truncatedValue = e.target.value.slice(0, maxLength);
+          formik.setFieldValue(fieldName, truncatedValue); // Update the field value
+        }
+      };
+
   return (
     <>
       <Flex className={styles.row}>
@@ -159,6 +169,7 @@ const SetNewPassword = ({
                     required
                     value={formik.values.newPass}
                     onChange={formik.handleChange('newPass')}
+                    onKeyPress={(e) => handleInputLength(e, 'newPass')}
                     keyboardType={!isShowNewPass ? 'password' : 'text'}
                     actionRight={() => (
                       <Button
@@ -198,6 +209,7 @@ const SetNewPassword = ({
                       />
                     </Flex>
                   )}
+
                   <InputText
                     actionLeft={() => (
                       <Button types="link" className={styles.usericon} style={{position:'absolute',top:'25px'}}>
@@ -212,6 +224,7 @@ const SetNewPassword = ({
                     value={formik.values.changePass}
                     onChange={formik.handleChange('changePass')}
                     keyboardType={!isShowChangePass ? 'password' : 'text'}
+                    onKeyPress={(e) => handleInputLength(e, 'changePass')}
                     actionRight={() => (
                       <Button
                         types="link"
