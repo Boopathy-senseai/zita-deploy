@@ -182,6 +182,7 @@ const UserProfilepic = ({ value, update }: Props) => {
   const redirectHome = (values: Password) => {
     // history.push('/account_setting/settings');
     /// setmodelopen(false)
+    update();
     formikPassword.resetForm();
     setShowNewPass1(false);
           setShowNewPass(false);
@@ -189,6 +190,17 @@ const UserProfilepic = ({ value, update }: Props) => {
   };
 
   // console.log(showpopup,'asdfghjkl;njtrewqesrdhgjkljhfdsadfghj,m.')
+
+  const handleInputLength = (e, fieldName) => {
+    const maxLength = 12; // Maximum length allowed
+  
+    if (e.target.value.length >= maxLength) {
+      e.preventDefault(); // Prevent further input
+      const truncatedValue = e.target.value.slice(0, maxLength);
+      formikPassword.setFieldValue(fieldName, truncatedValue); // Update the field value
+    }
+  };
+
 
   // const { routerPrompt, onDirty, onPristine } = useUnsavedChangesWarning();
   return (
@@ -257,6 +269,7 @@ const UserProfilepic = ({ value, update }: Props) => {
                       // onDirty();
                       // setReloadProfile(true);
                     }}
+                    onKeyPress={(e) => handleInputLength(e, 'newpassword1')}
                     keyboardType={!isShowNewPass ? 'password' : 'text'}
                     actionRight={() => (
                       <Button
@@ -323,6 +336,7 @@ const UserProfilepic = ({ value, update }: Props) => {
                       // onDirty();
                       // setReloadProfile(true);
                     }}
+                    onKeyPress={(e) => handleInputLength(e, 'newpassword2')}
                     keyboardType={!isShowNewPass1 ? 'password' : 'text'}
                     actionRight={() => (
                       <Button

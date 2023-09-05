@@ -242,6 +242,10 @@ const ContactAdd = ({
     if (/^\d{0,15}$/.test(newValue)) {
     formik.setFieldValue("name",newValue)
     }
+    else
+    {
+      setError(true);
+    }
 
   }
 
@@ -342,7 +346,7 @@ const ContactAdd = ({
                 display: "flex",
                 alignSelf: 'flex-start'
               }} size={10} color="error">
-                Enter valid contact
+                Contact should be a maximum of 15 characters
               </Text>
             )}
     </div>

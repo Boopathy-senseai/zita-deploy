@@ -248,6 +248,19 @@ const EmailAdd = ({
       setInput(false);
     }
   };
+
+  const [inputLengthError, setInputLengthError] = useState(false);
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputLength = event.target.value.length;
+
+    // Check if input length exceeds 20 characters
+    if (inputLength > 50) {
+      setInputLengthError(true);
+    } else {
+      setInputLengthError(false);
+      formik.handleChange('mail')(event); // Update the formik value
+    }
+  };
 // outside close input function
   useEffect(() => {
     if (typeof Window !== 'undefined') {
@@ -263,9 +276,10 @@ const EmailAdd = ({
   });
 // enter key contact submit function
   const handleKeyPress = (event: { key: string }, id: number) => {
+    if(inputLengthError===false){
     if (event.key === 'Enter' && formik.values.mail !== '') {
       handleCellSubmit(event, id);
-    }
+    }}
   };
 
   return (
@@ -309,11 +323,12 @@ const EmailAdd = ({
             // eslint-disable-next-line
             autoFocus
             value={formik.values.mail}
-            onChange={formik.handleChange('mail')}
+           // onChange={formik.handleChange('mail')}
             lineInput
             size={13}
             onKeyPress={(e) => handleKeyPress(e, value.id)}
             style={{width:'67%'}}
+            onChange={handleInputChange}
           />
           {isError && (
             <Text style={{
@@ -332,6 +347,19 @@ const EmailAdd = ({
               Email already exist
             </Text>
           }
+                     {inputLengthError && (
+            <Text
+              style={{
+                display: 'flex',
+                alignSelf: 'flex-start',
+              }}
+              size={10}
+              color="error"
+              align="left"
+            >
+              Email should be a maximum of 50 characters
+            </Text>
+          )}
 
           <div
             className={styles.svgContainer}
