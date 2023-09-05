@@ -537,6 +537,7 @@ const JobDetails = ({
 
           <Button
             onClick={() => {
+              setDrftLoader(true)
               setDraftSave(true);
               setDrftLoader(false);
               onPristine();

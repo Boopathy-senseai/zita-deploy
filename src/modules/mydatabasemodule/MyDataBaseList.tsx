@@ -149,8 +149,9 @@ const size=sidebar==="1"
               />
             );
           })}
+          <Flex center middle className={styles.pagination}>
         {totalCount > 15 && (
-          <Flex style= {{paddingLeft: !size? "10px": "35px"}}middle className={styles.pagination}>
+          <Flex>
             <Pangination
               maxPages={pageCount - 1}
               currentPage={isPage}
@@ -158,6 +159,7 @@ const size=sidebar==="1"
             />
           </Flex>
         )}
+        </Flex>
       </div>
 
     </div>

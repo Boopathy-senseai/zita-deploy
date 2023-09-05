@@ -2,10 +2,12 @@
   overflow-y: scroll;
 }
 .pagination {
-  margin: 1% 38%;
+  /* margin: 1% 38%; */
+  width: 100%;
+  padding: 1% 0%;
 }
 
-@media only screen and (max-width: 1366px) {
+/* @media only screen and (max-width: 1366px) {
   .pagination{
     margin: 1% 35%;
   }
@@ -21,7 +23,7 @@
   .pagination{
     margin: 1% 43%;
   }
-}
+} */
 
 .tabPaddingRight {
   padding-right: 13%;
