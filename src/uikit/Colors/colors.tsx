@@ -1,7 +1,7 @@
 export const WHITE = '#ffffff';
 
 export const BLACK = '#000000';
-export const GARY_1 = '#1a1a1a';
+export const GARY_1 = '#333333';
 export const GARY_2 = '#333333';
 export const GARY_3 = '#666666';
 export const GARY_4 = '#979797';

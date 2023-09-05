@@ -2555,6 +2555,12 @@ ul {
 .css-12ha4i7 {
   background-color: #581845 !important;
 }
+.css-ub1r1.Mui-selected,.css-bkrceb-MuiButtonBase-root-MuiPickersDay-root.Mui-selected{
+  background-color: #581845 !important;
+}
+.react-datepicker__day--keyboard-selected{
+  background-color: #581845 !important;
+}
 /* .css-1in441m{
   display: none !important;
 }

@@ -158,6 +158,8 @@ const EventPopUpModal = ({
             <Text style={{ marginBottom: 3 }}>Organizer</Text>
             {/* <br /> */}
             <Text className={styles.email}>{organizer}</Text>
+
+            {console.log(organizer,"yooyo")}
           </div>
         </div>
       </div>
