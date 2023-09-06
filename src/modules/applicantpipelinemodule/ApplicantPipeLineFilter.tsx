@@ -371,7 +371,7 @@ const ApplicantPipeLineFilter = ({
                 width={"90%"}
                 style={{cursor:"pointer"}}
               >
-                <Text bold color="theme" size={14}>
+                <Text bold color="theme" size={13}>
                   View Filter
                 </Text>
               </Flex>

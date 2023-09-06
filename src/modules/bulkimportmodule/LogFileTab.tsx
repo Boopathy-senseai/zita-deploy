@@ -66,7 +66,7 @@ const LogFileTab = ({ getKey }: Props) => {
                       : color1
                       ? 'green'
                       : theme
-                      ? '#1a1a1a'
+                      ? '#333333'
                       : null,
                     borderBottom: line ? '1px dashed' : null,
                     borderTop: line ? '1px dashed' : null,

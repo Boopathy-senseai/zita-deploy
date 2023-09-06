@@ -97,6 +97,15 @@ const PasswordChangeScreen = () => {
     validate: handleValidation,
     validationSchema: schema,
   });
+  const handleInputLength = (e, fieldName) => {
+    const maxLength = 12; // Maximum length allowed
+  
+    if (e.target.value.length >= maxLength) {
+      e.preventDefault(); // Prevent further input
+      const truncatedValue = e.target.value.slice(0, maxLength);
+      formik.setFieldValue(fieldName, truncatedValue); // Update the field value
+    }
+  };
 
   const checkFillValue =
     isEmpty(formik.values.confirmPassword) ||
@@ -156,6 +165,7 @@ const PasswordChangeScreen = () => {
               required
               value={formik.values.newPassword}
               onChange={formik.handleChange('newPassword')}
+              onKeyPress={(e) => handleInputLength(e, 'newPassword')}
               actionRight={() => (
                 <Button
                   types="link"
@@ -197,6 +207,7 @@ const PasswordChangeScreen = () => {
               required
               value={formik.values.confirmPassword}
               onChange={formik.handleChange('confirmPassword')}
+              onKeyPress={(e) => handleInputLength(e, 'confirmPassword')}
               actionRight={() => (
                 <Button
                   types="link"

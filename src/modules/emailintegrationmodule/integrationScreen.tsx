@@ -13,7 +13,8 @@ import {
 } from '../emailintegrationmodule/store/middleware/emailIntegrationMiddleWare';
 import { Flex, InputText, LinkWrapper, Button, Text } from '../../uikit';
 import SvgSearch from '../../icons/SvgSearch';
-
+import SvgGooglemail from '../../icons/SvgGooglemail';
+import SvgOutlookcalendar from '../../icons/SvgOutlookcalendarname';
 import {
   getUser,
   getmail,
@@ -101,6 +102,12 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
       integration: useremail.account,
       loading: useremail.isLoading,
       token: useremail.token,
+    };
+  });
+  const integrate = useSelector(({ useremail }: RootState) => {
+    return {
+      email: useremail.email,
+      mailname: useremail.account,
     };
   });
 
@@ -804,8 +811,19 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
                     />
                   </Flex>
                 )}
-
-              <Flex></Flex>
+              <Flex end row center marginRight={10}> 
+                <Flex marginTop={34} center row marginRight={-20}>
+                  {' '}
+                  {integrate?.mailname === 'google' && <SvgGooglemail />}
+                  {integrate?.mailname === 'outlook' && (
+                    <SvgOutlookcalendar />
+                  )}{' '}
+                </Flex>
+              
+              <Flex>
+                <Text>{integrate?.email}</Text>
+              </Flex>
+              </Flex>
               <div className={styles.triangle}> </div>
             </Flex>
           )}

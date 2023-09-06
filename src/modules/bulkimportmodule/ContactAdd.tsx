@@ -51,6 +51,7 @@ const ContactAdd = ({
   const [isInput, setInput] = useState(false);
   const [isLoader, setLoader] = useState(false);
   const [isError, setError] = useState(false);
+  const [inputLengthError, setInputLengthError] = useState(false);
 
   const myRef = createRef<any>();
   const dispatch: AppDispatch = useDispatch();
@@ -221,9 +222,10 @@ const ContactAdd = ({
   });
 // enter key contact submit function
   const handleKeyPress = (event: { key: string }, id: number) => {
+    if(inputLengthError===false){
     if (event.key === 'Enter' && formik.values.name !== '') {
       handleCellSubmit(event, id);
-    }
+    }}
   };
 
   useEffect(() => {
@@ -236,15 +238,37 @@ const ContactAdd = ({
     }
   }, [formik.values.name]);
 
-  const numberchange=(e:any)=>{
+  // const numberchange=(e:any)=>{
+  //   const newValue = e.target.value;
+  //   // Apply your validation rules
+  //   if (/^\d{0,15}$/.test(newValue)) {
+  //   formik.setFieldValue("name",newValue)
+  //   setInputLengthError(false)
+  //   }
+  //   else{
+  //     //setInputLengthError(true)
+  //   }
+  //}
+
+  const numberchange = (e: any) => {
     const newValue = e.target.value;
-    // Apply your validation rules
-    if (/^\d{0,15}$/.test(newValue)) {
-    formik.setFieldValue("name",newValue)
-    }
-
-  }
-
+  
+    // Check if the input consists of only digits
+    const isOnlyDigits = /^\d*$/.test(newValue);
+  
+    // Check if the input has a maximum length of 15 characters
+    const isWithinMaxLength = newValue.length <= 15;
+  
+    if (isOnlyDigits )
+    
+    {
+      if(isWithinMaxLength){
+      formik.setFieldValue("name", newValue);
+      setInputLengthError(false);
+    } else {
+      setInputLengthError(true);
+    }}
+  };
   return (
     <div className={styles.overAll}>
       {isEmpty(formik.values.name) ? (
@@ -336,6 +360,14 @@ const ContactAdd = ({
             </div>
           </div>
         </div>
+      )}
+         {inputLengthError && (
+        <Text style={{
+          display: "flex",
+          alignSelf: 'flex-start'
+        }} size={10} color="error">
+          Contact should be a maximum of 15 characters
+        </Text>
       )}
       {isError && (
               <Text style={{

@@ -48,7 +48,7 @@ const RichText = (
           placeholder,
           min_height,
 
-          content_style: `body { font-family:'Roboto', sans-serif; font-size:13px;color:#333333 } p {margin: 0px;font-size:14px;color:#1a1a1a} h6 {font-size:14px;margin-top: 16px;margin-bottom: 8px;}.mce-content-body[data-mce-placeholder]:not(.mce-visualblocks)::before {
+          content_style: `body { font-family:'Roboto', sans-serif; font-size:13px;color:#333333 } p {margin: 0px;font-size:14px;color:#333333} h6 {font-size:14px;margin-top: 16px;margin-bottom: 8px;}.mce-content-body[data-mce-placeholder]:not(.mce-visualblocks)::before {
        color: rgb(174 174 175 / 70%)!important;
     }`,
           toolbar:

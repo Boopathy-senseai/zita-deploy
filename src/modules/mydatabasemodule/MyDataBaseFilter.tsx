@@ -519,10 +519,11 @@ const MyDataBaseFilter = ({
               </Text>
               )))
               }
-              {hiddenskills1 && hiddenskills1.length > 0 && (
+  
+              {hiddenskills1 && hiddenskills1.length > 0 && hiddenSkills.length>0 &&  (
                 <Text
                   className={styles.quickfil}
-                >{`Skills : + ${hiddenskills1.length}`}</Text>
+                >{`Skills : + ${hiddenSkills.length}`}</Text>
               )}
             </Flex>
           )}

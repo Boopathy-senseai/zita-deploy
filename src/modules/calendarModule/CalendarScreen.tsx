@@ -5,7 +5,7 @@ import {
   DateLocalizer,
 } from 'react-big-calendar';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import toast, { Toaster } from 'react-hot-toast';
 
 import moment from 'moment';
@@ -20,7 +20,9 @@ import {
   Toast,
 } from '../../uikit';
 import { SvgCalendar } from '../../icons';
-import { AppDispatch } from '../../store';
+import SvgOutlookcalendar from '../../icons/SvgOutlookcalendarname';
+import SvgGooglecalendar from '../../icons/SvgGooglecalendarname';
+import { AppDispatch, RootState } from '../../store';
 import {
   getGoogleEventsMiddleware,
   checkAuthMiddleware,
@@ -28,6 +30,7 @@ import {
   getUsersByCompanyMiddleware,
   friendsEventsMiddleware,
   getApplicantsMiddleware,
+  IntergratemailMiddleWare,
 } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 import { TopLineLoader } from '../../uikit/v2/Loader';
 import { IntegrateEntity } from '../applicantpipelinemodule/applicantPipeLineTypes';
@@ -180,6 +183,20 @@ const Calendar = () => {
     }
   }, [JSON.stringify(locationState), currentUserEvents.length]);
 
+  const { email, mail } = useSelector(
+    ({ applicantIntegratemailReducers }: RootState) => {
+      return {
+        email:
+          applicantIntegratemailReducers.email !== undefined
+            ? applicantIntegratemailReducers.email[0]?.email
+            : '',
+        mail: applicantIntegratemailReducers?.mail,
+      };
+    },
+  ); 
+  useEffect(() => {
+    dispatch(IntergratemailMiddleWare());
+  }, []);
   useEffect(() => {
     if (currentUser.id) {
       setColor(currentUser.id);
@@ -1104,13 +1121,18 @@ const Calendar = () => {
         {/* <SvgCalendar width={30} height={30} /> */}
         <Text bold size={16} color="theme">
           Calendar
-        </Text>
-        <div className={styles.triangle}> </div>
-        {/* <SvgCalendar width={30} height={30} /> */}
-        {/* <Text bold size={16} color="theme">
-            Calendar
-          </Text> */}
-        {/* <div className={styles.triangle}> </div> */}
+        </Text> 
+        <Flex row height={10} middle marginTop={1} end>
+          <Flex marginTop={2} row marginRight={-20}>
+            {' '}
+            {mail === 'GOOGLE' && <SvgGooglecalendar />}
+            {mail === 'OUTLOOK' && <SvgOutlookcalendar />}{' '}
+          </Flex>
+          <Flex marginRight={15}>
+            <Text>{email}</Text>
+          </Flex>
+        </Flex>
+        <div className={styles.triangle}> </div> 
       </div>
 
       <Flex row between>

@@ -128,7 +128,7 @@ const CreateNewQuestion = ({
       <div className={styles.questionStyle}>
         <InputText
           label="Question"
-          required
+          required 
           value={formik.values.question}
           onChange={(e) => {
             setFieldValue('question', e.target.value);
@@ -210,7 +210,7 @@ const CreateNewQuestion = ({
         />
       </div>
       <Flex columnFlex className={styles.btnContainer}>
-        <Button disabled={!(isValid && dirty)} onClick={handleQuestionsSubmit}>
+        <Button disabled={isEmpty(formik.values.question.trim())} onClick={handleQuestionsSubmit}>
           Add
         </Button>
       </Flex>

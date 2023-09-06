@@ -106,7 +106,7 @@ const MyJobPostingScreen = ({ currentPage, setCurrentPage }: props) => {
         style={{ overflowY: 'scroll', display: 'flex' }}
         height={len_list !== 0 && window.innerHeight - 220}
       >
-        <table className="table" style={{ paddingLeft: 'none' }}>
+        <table className="table" style={{ paddingLeft: 'none', marginBottom: "0rem" }}>
           <thead className={styles.stickyheader} 
           >
             <tr>
