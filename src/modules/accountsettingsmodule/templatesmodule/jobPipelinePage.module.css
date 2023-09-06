@@ -32,8 +32,7 @@
 
 .paddingLeft {
   padding-left: 60px;
-}
-
+} 
 .container,
 .pipelineTitle,
 .colGroup {
@@ -246,16 +245,81 @@ ul {
   top: 5rem;
   border-radius: 5px;
 }
+/* @media screen and (min-width: 768px) and (max-width: 830px) { 
+  .bottomBorder {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 0px 16px;
+    flex: 1; 
+    height: 500px;
+    padding-bottom: 10px;
+  }
+} */
+@media screen and (min-width: 700px) and (max-width: 1068px)and (min-Height:700px) and (max-Height:1200px) { 
+  .bottomBorder {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 0px 16px;
+    flex: 1; 
+    height: 465px;
+    padding-bottom: 10px;
+  }
+}
+@media screen and (min-width: 700px) and (max-width: 1068px) and (min-Height:610px) and (max-Height:700px) { 
+  .bottomBorder {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 0px 16px;
+    flex: 1; 
+    height: 380px;
+    padding-bottom: 10px;
+  }
+}
+@media screen and (min-width: 700px) and (max-width: 1068px) and (min-Height:573px) and (max-Height:610px) { 
+  .bottomBorder {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 0px 16px;
+    flex: 1; 
+    height: 340px;
+    padding-bottom: 10px;
+  }
+}
+@media screen and (min-width: 700px) and (max-width: 1068px) and (min-Height:545px) and (max-Height:573px) { 
+  .bottomBorder {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 0px 16px;
+    flex: 1; 
+    height: 320px;
+    padding-bottom: 10px;
+  }
+}
+@media screen and (min-width: 700px) and (max-width: 1068px) and (min-Height:500px) and (max-Height:545px) { 
+  .bottomBorder {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 0px 16px;
+    flex: 1; 
+    height: 290px;
+    padding-bottom: 10px;
+  }
+}
+@media screen and (min-width: 1069px) and (max-width:2000px )and (min-Height:700px) and (max-Height:1200px)  { 
 .bottomBorder {
   display: flex;
   flex-direction: column;
   position: relative;
   padding: 0px 16px;
-  flex: 1;
-  /* overflow: hidden; */
-  /* border-bottom: 1px solid #c3c3c3; */
+  flex: 1; 
   padding-bottom: 10px;
-}
+}}
 .colorMenu {
   position: absolute;
   z-index: 1;
