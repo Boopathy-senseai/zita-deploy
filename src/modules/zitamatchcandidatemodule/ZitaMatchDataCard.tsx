@@ -1,6 +1,8 @@
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useMediaQuery } from 'react-responsive';
+
 import { Link, useLocation } from 'react-router-dom';
 import SvgAppliedIcon from '../../icons/SvgAppliedIcon';
 import SvgHeart from '../../icons/SvgHeart';
@@ -137,10 +139,14 @@ const ZitaMatchDataCard = ({
     setProfileView(false);
     setNotes(false);
   };
-
-  
+  const isTablet = useMediaQuery({ query: '(max-width: 1000px)' });
+  const normal= useMediaQuery({ query: '(min-width: 1000px) and (max-width: 1411px)' });
   return (
-    <Flex className={styles.cardwrap} >
+    <Flex className={styles.cardwrap}
+    style={{ 
+            width: isTablet ? '100%' : normal?'48%':'32%',
+          }}
+    >
       {isEmpty(dataList.candidate_id_id) && (
         <>
           <ZitaMatchCandidateDrawer
