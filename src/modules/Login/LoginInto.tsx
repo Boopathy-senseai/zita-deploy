@@ -40,6 +40,36 @@ Props) => {
   const handleShowPass = () => {
     setShowPass(!isShowPass);
   };
+
+    const [inputLengthError, setInputLengthError] = useState(false);
+    const [inputLengthErrorpass, setInputLengthErrorpass] = useState(false);
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const inputLength = event.target.value.length;
+  
+      // Check if input length exceeds 20 characters
+      if (inputLength > 50) {
+        setInputLengthError(true);
+      } else {
+        setInputLengthError(false);
+        formik.handleChange('userName')(event); // Update the formik value
+      }
+    };
+    const handleInputChangepass = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const inputLength = event.target.value.length;
+  
+      // Check if input length exceeds 20 characters
+      if (inputLength > 50) {
+        setInputLengthErrorpass(true);
+      } else {
+        setInputLengthErrorpass(false);
+        formik.handleChange('email')(event); // Update the formik value
+      }
+    };
+
+    const submit=()=>{
+      if(inputLengthError===false && inputLengthErrorpass===false)
+      formik.handleSubmit();
+    }
   
   return (
     <>
@@ -61,7 +91,8 @@ Props) => {
                   placeholder="Your email or username"
                   required
                   value={formik.values.userName}
-                  onChange={formik.handleChange('userName')}
+                  onChange={handleInputChange}
+                 // onKeyPress={(e) => handleInputLength(e, 'userName'
                   keyboardType="email"
                   actionLeft={() => (
                     <Button types="link" className={styles.usericon}>
@@ -77,6 +108,12 @@ Props) => {
                   touched={formik.touched}
                   errors={formik.errors}
                 />
+                
+                {inputLengthError && (
+                  <Text size={12} color="error">
+                      Email or username should be a maximum of 50 characters
+                  </Text>
+                )}
               </div>
                {/* Password Starts */}
               <div>
@@ -92,7 +129,8 @@ Props) => {
                   placeholder="Your Password"
                   required
                   value={formik.values.email}
-                  onChange={formik.handleChange('email')}
+                 // onChange={formik.handleChange('email')}
+                 onChange={handleInputChangepass}
                   keyboardType={!isShowPass ? 'password' : 'text'}
                   actionRight={() => (
                     <Button
@@ -105,6 +143,7 @@ Props) => {
                     </div>
                     </Button>
                   )}
+                 // maxLength={50}
                   onKeyPress={(e) => enterKeyPress(e, formik.handleSubmit)}
                 />
                     <div style={{marginTop:'4px'}}></div>
@@ -113,7 +152,12 @@ Props) => {
                   touched={formik.touched}
                   errors={formik.errors}
                 />
-
+                
+                {inputLengthErrorpass && (
+                  <Text size={12} color="error">
+                     Password should be a maximum of 50 characters
+                  </Text>
+                )}
                 {isError && (
                   <Text size={12} color="error">
                     Your username or password is incorrect. Try again.
@@ -139,7 +183,7 @@ Props) => {
               </Button>
             </Flex>
             <Button
-              onClick={formik.handleSubmit}
+              onClick={submit}
               className={styles.login_button}
               style={{
                 display:"flex",

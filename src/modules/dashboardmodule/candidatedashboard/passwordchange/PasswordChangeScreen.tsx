@@ -106,6 +106,19 @@ const PasswordChangeScreen = () => {
       formik.setFieldValue(fieldName, truncatedValue); // Update the field value
     }
   };
+  const [inputLengthError, setInputLengthError] = useState(false);
+ 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputLength = event.target.value.length;
+
+    // Check if input length exceeds 20 characters
+    if (inputLength > 12) {
+      setInputLengthError(true);
+    } else {
+      setInputLengthError(false);
+      formik.handleChange('currentPassword')(event); // Update the formik value
+    }
+  };
 
   const checkFillValue =
     isEmpty(formik.values.confirmPassword) ||
@@ -119,6 +132,11 @@ const PasswordChangeScreen = () => {
     (formik.values.newPassword.length > 12 &&
       !checkUpperCase.test(formik.values.newPassword) &&
       !specialCharacter.test(formik.values.newPassword));
+
+      const submit=()=>{
+        if(inputLengthError===false){
+        formik.handleSubmit();}
+      }
   return (
     <Flex className={styles.overAll}>
       {isLoader && <Loader />}
@@ -135,7 +153,7 @@ const PasswordChangeScreen = () => {
               label="Current Password"
               required
               value={formik.values.currentPassword}
-              onChange={formik.handleChange('currentPassword')}
+              onChange={handleInputChange}
               actionRight={() => (
                 <Button
                   types="link"
@@ -145,6 +163,12 @@ const PasswordChangeScreen = () => {
                 </Button>
               )}
             />
+            {
+              inputLengthError===true &&
+              <Text size={12} color="error">
+                   Current password should be a maximum of 12 characters
+                </Text>
+            }
             {!isEmpty(formik.values.currentPassword) &&
               isEmpty(formik.errors.currentPassword) &&
               isError && (
@@ -224,7 +248,7 @@ const PasswordChangeScreen = () => {
             />
           </Flex>
           <Flex className={styles.btnFlex}>
-            <Button onClick={formik.handleSubmit} disabled={checkFillValue}>
+            <Button onClick={submit} disabled={checkFillValue}>
               Change
             </Button>
           </Flex>
