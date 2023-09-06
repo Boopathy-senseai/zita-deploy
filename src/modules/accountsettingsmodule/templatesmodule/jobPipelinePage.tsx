@@ -164,7 +164,6 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
     validate: handleJobPipeline,
     // enableReinitialize: true,
     onSubmit: (data) => {
-    
       // formik.handleChange('pipelineTitle')(data.pipelineTitle.trim());
       if (wk_id) {
         handleUpdate();
@@ -214,14 +213,13 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
 
   const handleInputLength = (e, fieldName) => {
     const maxLength = 26; // Maximum length allowed
-  
+
     if (e.target.value.length >= maxLength) {
       e.preventDefault(); // Prevent further input
       const truncatedValue = e.target.value.slice(0, maxLength);
       formik.setFieldValue(fieldName, truncatedValue); // Update the field value
     }
   };
-
 
   /// update form
 
@@ -248,14 +246,16 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
       {isUpdateLoading && <Loader />}
       <Flex
         style={{
-          display: 'flex',
+          // display: 'flex',
           flexDirection: 'column',
           position: 'relative',
-          height: '100%',
-          // overflow: 'hidden',
+          // height: '100%',
+          
+         
         }}
+        
       >
-        <Flex column className={styles.bottomBorder}>
+        <Flex column className={styles.bottomBorder} style={{overflow:'scroll'}}  maxHeight={window.innerHeight - 200}>
           <Flex column marginBottom={15} marginTop={15} start>
             <InputText
               inputConatinerClass={styles.with80}
@@ -267,8 +267,7 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
               value={formik.values.pipelineTitle}
               style={{ width: '250px', marginBottom: '5px' }}
               onChange={formik.handleChange('pipelineTitle')}
-              
-             onKeyPress={(e) => handleInputLength(e, 'pipelineTitle')}
+              onKeyPress={(e) => handleInputLength(e, 'pipelineTitle')}
               className={styles.input}
             />
             <ErrorMessage
@@ -289,10 +288,11 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
               // overflow: 'hidden',
               boxShadow: '0px 0px 2px 0px rgba(0, 0, 0, 0.36)',
               // padding: 28,
-              padding: '20px 28px 28px 28px',
+               padding: '10px',
               margin: '0 1px',
               borderRadius: 10,
             }}
+            className={styles.padsize}
           >
             <Flex
               flex={4}
@@ -307,33 +307,38 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
                 </Text>
               </Flex>
               <Flex
-                column
+                height={window.innerHeight - 400}
                 style={{
-                  overflowY: 'auto',
-                  maxHeight: '300px',
+                  overflowY: 'scroll',
                   padding: '2px 2px',
-                  // marginBottom: "50px"
                 }}
               >
-                <StageCard
-                  doc={NEW_APPLICANT_STAGE}
-                  index={-1}
-                  isColorPicker={false}
-                  isDrag={false}
-                  // onEdit={onStageEdit}
-                  //onDelete={onStageDelete}
-                />
-                <ReorderStage
-                  list={localStages}
-                  onEdit={onEditStage}
-                  onDelete={onRemoveStage}
-                  onChange={onReorder}
-                />
+                <Flex column>
+                  <StageCard
+                    doc={NEW_APPLICANT_STAGE}
+                    index={-1}
+                    isColorPicker={false}
+                    isDrag={false}
+                    // onEdit={onStageEdit}
+                    //onDelete={onStageDelete}
+                  />
+                  <ReorderStage
+                    list={localStages}
+                    onEdit={onEditStage}
+                    onDelete={onRemoveStage}
+                    onChange={onReorder}
+                  />
+                </Flex>
               </Flex>
             </Flex>
             <Flex
               flex={4}
               className={`${styles.columnGroup} ${styles.paddingLeft}`}
+              height={window.innerHeight - 340}
+              style={{
+                overflowY: 'scroll',
+                display: 'flex',
+              }}
             >
               <Flex column start marginBottom={20}>
                 <Text bold color="black2" size={14}>
@@ -358,7 +363,12 @@ const JobPipelinePage = ({ handleBack, buttondata, wk_id }: FormProps) => {
             </Flex>
           </Flex>
         </Flex>
-        <Flex row middle className={styles.title}>
+        <Flex
+          row
+          middle
+          className={styles.title}
+          style={{ position: 'sticky', bottom: 0, backgroundColor: 'white' }}
+        >
           <Flex row center onClick={handleBack} style={{ cursor: 'pointer' }}>
             {/* <SvgBack height={14} width={14} /> */}
             <Button types={'secondary'}>Back to Pipeline</Button>
