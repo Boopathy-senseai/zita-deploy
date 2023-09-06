@@ -50,7 +50,7 @@
     height: 86px;
     background-color: rgb(165, 136, 156);
     margin-top: 7px;
-    margin-right: 23px !important;
+    margin-right: 20px !important;
     /* z-index: 12; */
    
 }
@@ -76,12 +76,12 @@
   max-width: 83px;
 }
 
-@media screen and (min-width: 1450px) and (max-width: 1600px) {
+@media screen and (min-width: 1411px) and (max-width: 1600px) {
   .jobTitle {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 45%;
+    min-width: 115%;
   }
   .ellipsis {
     white-space: nowrap;
@@ -104,6 +104,48 @@
     max-width: 100%;
   }
 }
+@media screen and (((min-width: 1000px) and (max-width: 1411px)) or ((min-width: 750px) and (max-width: 1000px))){
+  .jobTitle {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+  .ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+  .overAll {
+    margin-top: 16px;
+    width: 50%;
+    margin-right: 16px;
+    margin-left: 7px;
+  }
+  @media screen and (min-width: 750px) and (max-width: 1000px)  {
+    .jobTitle {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    
+    }
+    .ellipsis {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+    .overAll {
+      margin-top: 16px;
+      width: 50%;
+      margin-right: 16px;
+      margin-left: 7px;
+    }
+  }
+}
+
 .paginationStyle {
   align-items: center;
   justify-content: center;
