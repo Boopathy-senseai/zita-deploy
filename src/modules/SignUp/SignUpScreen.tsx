@@ -377,6 +377,7 @@ const SignUpScreen = (props: any) => {
       formik.setFieldValue(fieldName, truncatedValue); // Update the field value
     }
   };
+  
   const handlefunction1 = () => {
     if (isEmailValid === true && !isEmpty(formik.values.email)) {
       return (
@@ -402,6 +403,22 @@ const SignUpScreen = (props: any) => {
       formik.errors.password1 = 'Space is not a character.';
     }
   };
+  const [inputLengthErrorpass, setInputLengthErrorpass] = useState(false);
+  const handleInputChangepass = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputLength = event.target.value.length;
+
+    // Check if input length exceeds 20 characters
+    if (inputLength > 50) {
+      setInputLengthErrorpass(true);
+    } else {
+      setInputLengthErrorpass(false);
+      formik.handleChange('email')(event); // Update the formik value
+    }
+  };
+  const submit=()=>{
+    if(inputLengthErrorpass===false){
+    formik.handleSubmit();}
+  }
 
   return (
     <>
@@ -601,9 +618,15 @@ const SignUpScreen = (props: any) => {
                           required
                           style={{fontSize:"13px"}}
                           value={formik.values.email}
-                          onChange={formik.handleChange('email')}
+                          onChange={handleInputChangepass}
+                         // maxLength={51}
                         />
                         {handlefunction1()}
+                        {inputLengthErrorpass===true &&
+                           <div style={{ color: '#f94949', fontSize: '12px' }}>
+                            Email should be a maximum of 50 characters
+                           </div>
+                        }
                         <ErrorMessage
                           name={'email'}
                           errors={formik.errors}
@@ -762,7 +785,7 @@ const SignUpScreen = (props: any) => {
                     <Button
                       className={styles.login_button}
                       // disabled={formik.values.terms_and_conditions === '0'}
-                      onClick={formik.handleSubmit}
+                      onClick={submit}
                     >
                       Sign up
                     </Button>

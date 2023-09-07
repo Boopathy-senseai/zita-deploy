@@ -320,12 +320,12 @@ const ProfileViewModal = ({
    
     setTimeout(() => {
       setDisplay(true);
-    }, 100);
+    }, 300);
   },[display, filePath])
   return (
     <Drawer open={open}>
       {console.log("disp+++lay",display,file)}
-      {is_loading && <Loader />}
+     
       <div className={styles.overAll}>
         <Flex row center between flex={1} className={styles.border}>
           <div
@@ -347,7 +347,8 @@ const ProfileViewModal = ({
                 overflow: 'scroll',
               }}
             >
-              {filePath!=="" && display &&
+              {filePath!=="" && display ?(
+              
            <DocViewer
                  style={{ height: '100%', width: '100%' }}
                  pluginRenderers={DocViewerRenderers}
@@ -361,7 +362,7 @@ const ProfileViewModal = ({
                  }}
                />
        
-          }
+          ):( is_loading && <Loader />)}
              
             </div>
           </Flex>

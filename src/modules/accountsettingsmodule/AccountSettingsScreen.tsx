@@ -576,7 +576,7 @@ const AccountSettingsScreen = ({ value }: props) => {
                   {tabKey === '4' && <IntegrationScreen />}
                 </Tab>
                 {/* {Permission.includes('manage_account_settings')?( */}
-                <Tab title={'Templates'} eventKey={'7'}>
+                <Tab title={'Workflow'} eventKey={'7'}>
                   {tabKey === '7' && <TemplatesPage />}
                 </Tab>
                 {/* ):("")} */}
@@ -863,7 +863,7 @@ const AccountSettingsScreen = ({ value }: props) => {
                   <Tab title={'Integrations'} eventKey={'2'}>
                     {tabKeyOne === '2' && <IntegrationScreen />}
                   </Tab>
-                  <Tab title={'Templates'} eventKey={'3'}>
+                  <Tab title={'Workflow'} eventKey={'3'}>
                     {tabKeyOne === '3' && <TemplatesPage />}
                   </Tab>
                   {/* <Tab title={'User Profile'} eventKey={'4'}>
@@ -1027,7 +1027,7 @@ const AccountSettingsScreen = ({ value }: props) => {
                   <Tab title={'Integrations'} eventKey={'1'}>
                     {tabKeyTwo === '1' && <IntegrationScreen />}
                   </Tab>
-                  <Tab title={'Templates'} eventKey="2">
+                  <Tab title={'Workflow'} eventKey="2">
                     {tabKeyTwo === '2' && <TemplatesPage />}
                   </Tab>
 

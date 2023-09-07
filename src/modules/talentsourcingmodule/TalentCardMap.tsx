@@ -32,7 +32,7 @@ type Props = {
   isCheck: DataEntity;
   handleCandidateView: (hashKey: string) => void;
   candi_list?: string[];
- 
+
 };
 
 const notSpecified = (value: string, reLocate?: string) => {
@@ -55,18 +55,19 @@ const TalentCardMap = ({
   candi_list,
 
 }: Props) => {
-  const isTablet = useMediaQuery({ query: '(max-width: 1250px)' });
+  const isTablet = useMediaQuery({ query: '(max-width: 1000px)' });
+  const normal= useMediaQuery({ query: '(min-width: 1000px) and (max-width: 1411px)' });
   const isLarge = useMediaQuery({ query: '(min-width: 2560px)' });
 
   const [isColor, setColor] = useState<string[]>([]);
-  const [count,setcount]=useState(0)
-  const [list,setlist]=useState([])
+  const [count, setcount] = useState(0)
+  const [list, setlist] = useState([])
   useEffect(() => {
     setColor(colorCode);
   }, []);
 
   useEffect(() => {
-  sessionStorage.setItem("index", (index+1));
+    sessionStorage.setItem("index", (index + 1));
   }, [index]);
   // const handleloader=(val)=>{
   //   setSubmitLoader();
@@ -79,24 +80,25 @@ const TalentCardMap = ({
   const checkVist = candi_list?.includes(talentList.id.toString())
     ? true
     : false;
-  const sidebar=sessionStorage.getItem("EmpToggle");
-  const windowSize = sidebar ==='1'
+  const sidebar = sessionStorage.getItem("EmpToggle");
+  const windowSize = sidebar === '1'
     ? window.innerWidth / 3.31
-    : window.innerWidth /3.76;
-    // console.log("innerwidth 1",window.innerWidth / 3 - 130);
-    // console.log("innerwidth 2",window.innerWidth / 2 - 186);
-    
-console.log("sidebar111",windowSize,sidebar)
+    : window.innerWidth / 3.76;
+  // console.log("innerwidth 1",window.innerWidth / 3 - 130);
+  // console.log("innerwidth 2",window.innerWidth / 2 - 186);
+
+  console.log("sidebar111", windowSize, sidebar)
   return (
     <div
       style={{
-        width: isTablet ? '100%' : '31.39%',
+        width: isTablet ? '100%' : normal?'46%':'31.39%',
         borderRadius: '4px'
       }}
       className={styles.overAll}
     >
+      {console.log(window.innerWidth,"++++++++++++")}
       <Card key={talentList.first_name + index} className={cx('cardConatiner')}>
-    
+
         <Flex row top>
           <InputCheckBox
             key={talentList.candidate_hash}
@@ -106,7 +108,7 @@ console.log("sidebar111",windowSize,sidebar)
             checked={isCheck.includes(talentList.candidate_hash)}
             disabled={checkVist}
           />
-         
+
           <Flex row flex={1}>
             <Flex between row className={cx('profileOverAll')} flex={1}>
               <Flex flex={1}>
@@ -123,7 +125,7 @@ console.log("sidebar111",windowSize,sidebar)
                   </div>
                   <Flex flex={1}>
                     <Flex row center>
-  
+
                       <Text
                         bold
                         transform="capitalize"
@@ -134,15 +136,15 @@ console.log("sidebar111",windowSize,sidebar)
                         }
                         size={13}
                       >
-                        {talentList.first_name} 
+                        {talentList.first_name}
                       </Text>
                     </Flex>
                     {talentList.work_experience === 'not_set' ? (
                       <Flex
                         row
                         center
-                     
-                        // wrap
+
+                      // wrap
                       >
                         <Text
                           color="primary"
@@ -159,7 +161,7 @@ console.log("sidebar111",windowSize,sidebar)
                         >
                           {' | '}
                         </Text>
-                        <Text color="primary" size={11}    title={`Experience: ${notSpecified(
+                        <Text color="primary" size={11} title={`Experience: ${notSpecified(
                           talentList.work_experience
                         )}`}  >{`${notSpecified(
                           talentList.work_experience,
@@ -172,7 +174,7 @@ console.log("sidebar111",windowSize,sidebar)
                             // wrap
                             row
                             center
-                           
+
                           >
                             <Text
                               color="primary"
@@ -189,7 +191,7 @@ console.log("sidebar111",windowSize,sidebar)
                             >
                               {' | '}
                             </Text>
-                            <Text color="primary" size={12}  title={`Experience: ${notSpecified(
+                            <Text color="primary" size={12} title={`Experience: ${notSpecified(
                               talentList.work_experience,
                             )} Year`} >{`${notSpecified(
                               talentList.work_experience,
@@ -201,7 +203,7 @@ console.log("sidebar111",windowSize,sidebar)
                             // wrap
                             row
                             center
-                            
+
                           >
                             <Text
                               color="primary"
@@ -226,7 +228,7 @@ console.log("sidebar111",windowSize,sidebar)
                       </>
                     )}
 
-                    <Flex row center style={{marginBottom:'4px'}}>
+                    <Flex row center style={{ marginBottom: '4px' }}>
                       <Text size={11} color="primary" style={{ marginRight: 2 }}>
                         Last Active:
                       </Text>
@@ -236,87 +238,94 @@ console.log("sidebar111",windowSize,sidebar)
                     </Flex>
                   </Flex>
                 </Flex>
-                
-                <Flex style={{marginLeft:'-5px'}}>
-                  <Flex row center className={cx('jobList')}>
-                  <Flex style={{marginRight:'1px'}}>
-                  <SvgJobtitle fill={'#581845'} width={10} height={10} />
-                  </Flex>
-                    <Text
-                      title={`Job Title: ${notSpecified(talentList.desired_job_title)}`}
-                      color="black_1"
-                      style={{marginLeft:'3px', marginTop:'4px'}}
-                      className={styles.jobTitle}
-                      size={11} 
-                    >
-                      {notSpecified(talentList.desired_job_title)}
-                    </Text>
-                  </Flex>
-                  <Flex row center className={cx('jobList')}>
-                  <Flex style={{marginLeft:'-3px'}}>
-                  <SvgQualification fill={'#581845'} width={16} height={16} />
-                  </Flex>
-                    <Text color="black_1" style={{marginLeft:'3px'}}  title={`Qualification: ${notSpecified(talentList.education_level)}`} size={11} >
-                      {notSpecified(talentList.education_level)}
-                    </Text>
+                  
+              
+                  <Flex style={{ marginLeft: '-5px',padding:'0 20px 0 0' }} row  between>
+                    <Flex>
+                        <Flex row center className={cx('jobList')}>
+                          <Flex style={{ marginRight: '1px' }}>
+                            <SvgJobtitle fill={'#581845'} width={10} height={10} />
+                          </Flex>
+                          <Text
+                            title={`Job Title: ${notSpecified(talentList.desired_job_title)}`}
+                            color="black_1"
+                            style={{ marginLeft: '3px', marginTop: '3px' }}
+                            className={styles.jobTitle}
+                            size={11}
+                          >
+                            {notSpecified(talentList.desired_job_title)}
+                          </Text>
+                        </Flex>
+                      <Flex row center className={cx('jobList')}>
+                        <Flex style={{ marginLeft: '-3px' }}>
+                          <SvgQualification fill={'#581845'} width={16} height={16} />
+                        </Flex>
+                        <Text color="black_1" style={{ marginLeft: '3px' }} title={`Qualification: ${notSpecified(talentList.education_level)}`} size={11} >
+                          {notSpecified(talentList.education_level)}
+                        </Text>
+                      </Flex>
+                   </Flex>
+                  
+                  
+                  <Flex >
+                    <Flex row center className={cx('jobList')}>
+                      <Flex style={{ marginRight: '3px', marginTop: '3px' }}>
+                        <SvgRelocate fill={'#581845'} width={14} height={11} />
+                      </Flex>
+                      {talentList.relocate === '1' ? (
+                        <Text color="black_1" title={' Willing to Relocate: Yes'} size={11} style={{ marginTop: '3px' }}>Yes</Text>
+                      ) : (
+                        <Text color="black_1" style={{ marginTop: '3px' }} title={' Willing to Relocate: Not Specified'} size={11} >
+                          {notSpecified(talentList.relocate, talentList.relocate)}
+                        </Text>
+                      )}
+                    </Flex>
+                    <Flex row center className={cx('jobList')}>
+                      <Flex style={{ marginRight: '3px' }}>
+                        <SvgDollar fill={'#581845'} width={14} height={13} />
+                      </Flex>
+                      {talentList.min_salary === 'Not Specified' &&
+                        talentList.max_salary === 'Not Specified' ? (
+                        <Text color="black_1" title={'Salary: Not Specified'} size={11} className={styles.jobTitle1} >{talentList.min_salary} </Text>
+                      ) : (
+                        <Text color="black_1" size={11} title={` Salary: ${talentList.min_salary} - ${talentList.max_salary}`} className={styles.jobTitle1} >
+                          {talentList.min_salary} - {talentList.max_salary}
+                        </Text>
+                      )}
+                    </Flex>
                   </Flex>
                 </Flex>
-              </Flex>
+                </Flex>
+                
 
-              <Flex width={0}>
-                                              
-                <Flex className={styles.relocateContainer}>
-                  <Flex row center className={cx('jobList')}>
-                  <Flex style={{marginRight:'3px',marginTop:'3px'}}>
-                  <SvgRelocate fill={'#581845'} width={14} height={11} />
-                  </Flex>
-                    {talentList.relocate === '1' ? (
-                      <Text color="black_1" title={' Willing to Relocate: Yes'}  size={11} style={{marginTop:'3px'}}>Yes</Text>
-                    ) : (
-                      <Text color="black_1" style={{marginTop:'3px'}} title={' Willing to Relocate: Not Specified'} size={11} >
-                        {notSpecified(talentList.relocate, talentList.relocate)}
-                      </Text>
-                    )}
-                  </Flex>
-                  <Flex row center className={cx('jobList')}>
-                  <Flex style={{marginRight:'3px'}}>
-                  <SvgDollar fill={'#581845'} width={14} height={13} />
-                  </Flex>
-                    {talentList.min_salary === 'Not Specified' &&
-                    talentList.max_salary === 'Not Specified' ? (
-                      <Text color="black_1" title={'Salary: Not Specified'} size={11}  className={styles.jobTitle1} >{talentList.min_salary} </Text>
-                    ) : (
-                      <Text color="black_1"  size={11}  title={` Salary: ${talentList.min_salary} - ${talentList.max_salary}`} className={styles.jobTitle1} >
-                        {talentList.min_salary} - {talentList.max_salary}
-                      </Text>
-                    )}
-                  </Flex>
+
+           
+
+
+
+              <div className={styles.line} style={{ marginRight: checkVist ? '22px' : '18px' }}></div>
+              <Flex style={{ marginTop: '30px', marginRight: checkVist ? '17px' : '25px', marginLeft: checkVist ? '0px' : '10px' }} >
+                <Flex width={'113%'} >
+                  {!checkVist ? (
+                    <Flex style={{ marginLeft: '3px', cursor: checkVist ? 'default' : 'pointer' }}
+                      onClick={() => handleUnlockSubmit(talentList.candidate_hash)}
+                    >
+                      <SvgLock fill={'#581845'} width={24} height={24} />
+                    </Flex>
+                  ) : (
+                    <div style={{ marginLeft: '11px' }}
+                    >
+                      {/* <SvgUnlock fill={'#7ad47e'} width={24} height={24} /> */}
+                      <SvgUnlockedGreen viewBox="0 0 24 24" width={21} height={21} />
+                    </div>
+
+                  )}
+                  <Text bold size={11} title={checkVist ? 'Unlocked Contact' : 'Unlock Contact'}
+                    style={{ marginLeft: '-5px', color: checkVist ? 'black' : '#581845', fontSize: '12px', cursor: checkVist ? 'default' : 'pointer' }}
+                    onClick={() => handleUnlockSubmit(talentList.candidate_hash)}>
+                    {checkVist ? 'Unlocked' : 'Unlock'}
+                  </Text>
                 </Flex>
-              </Flex>
-   
-              <div className={styles.line} style={{ marginRight: checkVist?'22px':'18px'}}></div>
-              <Flex style={{marginTop:'30px',marginRight: checkVist?'17px':'25px',marginLeft:checkVist?'0px':'10px'}} >
-              <Flex  width={'113%'} >
-              {!checkVist ? (
-                <Flex style={{marginLeft:'3px',cursor:checkVist ?'default':'pointer' }}
-                onClick={() => handleUnlockSubmit(talentList.candidate_hash)}
-                >
-                <SvgLock fill={'#581845'} width={24} height={24} />
-                </Flex>
-              ) : (
-                <div style={{marginLeft:'11px'}}
-                >
-                {/* <SvgUnlock fill={'#7ad47e'} width={24} height={24} /> */}
-                <SvgUnlockedGreen viewBox="0 0 24 24" width={21} height={21} />
-                </div>
-                
-              )}
-              <Text bold  size={11} title={checkVist ? 'Unlocked Contact' : 'Unlock Contact'} 
-               style={{ marginLeft: '-5px', color:checkVist ?'black':'#581845',fontSize:'12px',cursor:checkVist ?'default':'pointer' }} 
-               onClick={() => handleUnlockSubmit(talentList.candidate_hash)}>
-                {checkVist ? 'Unlocked' : 'Unlock'}
-              </Text>
-            </Flex>
               </Flex>
             </Flex>
           </Flex>
