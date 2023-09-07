@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars-experimental */
 import { FormikProps } from 'formik';
+import { useSelector, useDispatch } from 'react-redux';
 import { createRef, useEffect, useState } from 'react';
+import { AppDispatch } from '../../../store';
 import SvgSquare from '../../../icons/SvgSquare';
 import Button from '../../../uikit/Button/Button';
 import Card from '../../../uikit/Card/Card';
@@ -11,18 +13,24 @@ import SelectTag from '../../../uikit/SelectTag/SelectTag';
 import Text from '../../../uikit/Text/Text';
 import {
   ENTER_VALID_URL,
+  FILE_2MB,
+  imageFileAccept,
   isValidURL,
   JOB_TITLE_LIMIT,
   JOB_TITLE_LIMIT_20,
   mediaPath,
   THIS_FIELD_REQUIRED,
 } from '../../constValue';
-import { LabelWrapper } from '../../../uikit';
+import { LabelWrapper, Loader, Toast } from '../../../uikit';
+import { companyPagePostMiddleWare } from '../store/middleware/accountsettingmiddleware';
+import { dashBoardMiddleWare } from '../../dashboardmodule/empdashboard/store/dashboardmiddleware';
+import SvgUpload from '../../../icons/SvgUpload';
 import { CompanyDetail } from './buildCareerPageTypes';
 import ColorPicker from './ColorPicker';
 import { formikFormTypes } from './formikTypes';
 import styles from './headersetup.module.css';
 import { fontSizeOptions } from './mock';
+import { buildCareerMiddleWare } from './store/middleware/buildyourcareerpagemiddleware';
 
 type Props = {
   formik: FormikProps<formikFormTypes>;
@@ -31,6 +39,7 @@ type Props = {
 };
 
 const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
+  const dispatch: AppDispatch = useDispatch();
   const [isColorOpen, setColorOpen] = useState(false);
   const [isFontColorOpen, setFontColorOpen] = useState(false);
   const myRef = createRef<any>();
@@ -42,7 +51,11 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
       setFontColorOpen(false)
     }
   };
-
+  
+  const [isShow, setShow] = useState(false);
+  const [isLoader, setLoader] = useState(false);
+  const [isMb, setMb] = useState(false);
+{console.log("sssssssssss",company_detail)}
   // mouse outside click to close color picker
   useEffect(() => {
     if (typeof Window !== 'undefined') {
@@ -56,6 +69,63 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
       }
     };
   });
+  const handleChangeImag = (e: any) => {
+    e.preventDefault();
+    var fileExt = e.target.value;
+    fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
+
+    if (imageFileAccept.indexOf(fileExt) < 0) {
+      if (!isEmpty(fileExt)) {
+        alert(
+          'Invalid file selected, valid files are of ' +
+            imageFileAccept.toString() +
+            ' types.',
+        );
+      }
+    } else if (e.target.files && e.target.files[0].size / 1024 / 1024 > 2) {
+      setMb(true);
+      
+    } else {
+      
+      setLoader(true);
+      const formData = new FormData();
+      if (e.target.files[0] !== undefined) {
+        formData.append('logo', e.target.files[0]);
+        formData.append('company_name', company_detail.company_name);
+        formData.append('company_website',company_detail.company_website);
+        formData.append('contact', company_detail.contact);
+        formData.append('industry_type', company_detail.industry_type_id.toString());
+        formData.append('no_of_emp', company_detail.no_of_emp.toString());
+        formData.append('address', company_detail.address);
+        formData.append('country', company_detail.country_id.toString());
+        formData.append('state', company_detail.state_id.toString());
+        formData.append('city', company_detail.city_id.toString());
+        formData.append('zipcode', company_detail.zipcode);
+        formData.append('email', company_detail.email);
+   
+      } else {
+        formData.append('image_null', '');
+      }
+      
+      dispatch(
+        companyPagePostMiddleWare({
+          formData,
+        }),
+      )
+      .then((res: any) => {
+        dispatch(dashBoardMiddleWare());
+        dispatch(buildCareerMiddleWare())
+        if (res.payload.data.success) {
+            setLoader(false);
+            Toast('Company logo saved successfully', 'LONG', 'success');
+          setShow(false);
+         // dispatch(companyPageInitalMiddleWare());
+        }
+      });
+      setMb(false);
+    }
+  };
+
 
   const logo =
     company_detail && !isEmpty(company_detail.logo)
@@ -318,12 +388,86 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
             : 'Add logo in your company profile'}
         </Text>
         <Flex>
-        <img
+        {/* <img
           style={{ objectFit: 'contain' }}
           className={styles.imgStyle}
           src={mediaPath + logo}
           alt="logo"
-        />
+        /> */}
+
+<>
+                 <label
+                 htmlFor="upload_profile___bannersetip__img"
+                 onMouseEnter={() => setShow(true)}
+                 onMouseLeave={() => setShow(false)}
+                 style={{ margin: 0 }}
+               >
+                 <input
+                   id="upload_profile___bannersetip__img"
+                   type="file"
+                   onChange={handleChangeImag}
+                   accept="image/*"
+                   className={styles.fileStyle}
+                 />
+                 <Flex className={styles.imgContainer}>
+                   {isEmpty(logo) || logo=== 'logo.png' ? (
+                     <>
+                       {isLoader ? (
+                         <Flex center middle>
+                           <Loader withOutOverlay size="medium" />
+                         </Flex>
+                       ) : (
+                         <Flex columnFlex center middle>
+                           <SvgUpload />
+                           <Text
+                             color="black"
+                             align="center"
+                             style={{ paddingLeft: 4, paddingRight: 4 }}
+                           >
+                             Upload Your Company Logo
+                           </Text>
+                         </Flex>
+                       )}
+                     </>
+                   ) : (
+                     <>
+                       {isLoader ? (
+                         <Flex center middle>
+                           <Loader withOutOverlay size="medium" />
+                         </Flex>
+                       ) : (
+                         <img
+                         style={{objectFit: 'cover'}}
+                           className={styles.imgStyle}
+                           src={mediaPath + logo}
+                           alt="profile"
+                           //key={Math.random().toString()}
+                         />
+                       )}
+                     </>
+                   )}
+         
+                   {isShow && (
+                     <Flex columnFlex center middle className={styles.changeStyle}>
+                       <SvgUpload />
+                       <Text
+                         color="black"
+                         align="center"
+                         style={{ paddingLeft: 4, paddingRight: 4 }}
+                       >
+                         {isEmpty(logo) || logo === 'logo.png'
+                           ? 'Upload Your Company Logo'
+                           : 'Change Company Logo'}
+                       </Text>
+                     </Flex>
+                   )}
+                 </Flex>
+               </label>
+                 {isMb && (
+                  <Text size={12} color="error">
+                    {FILE_2MB}
+                  </Text>
+                )}</>
 
         </Flex>
         
@@ -343,3 +487,5 @@ export function HeaderSetupTitle() {
   );
 }
 export default HeaderSetup;
+
+
