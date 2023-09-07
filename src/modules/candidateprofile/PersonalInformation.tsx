@@ -200,6 +200,23 @@ const PersonalInformation = ({
     }
   }, [userInfo]);
 
+  const [inputLengthErrorpass, setInputLengthErrorpass] = useState(false);
+  const handleInputChangepass = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputLength = event.target.value.length;
+
+    // Check if input length exceeds 20 characters
+    if (inputLength > 50) {
+      setInputLengthErrorpass(true);
+    } else {
+      setInputLengthErrorpass(false);
+      formik.handleChange('email')(event); // Update the formik value
+    }
+  };
+  const submit=()=>{
+    if(inputLengthErrorpass===false){
+    formik.handleSubmit();}
+  }
+
   return (
     <Modal open={open}>
       {isLoader && <Loader />}
@@ -243,8 +260,9 @@ const PersonalInformation = ({
                 label="Email"
                 required
                 value={formik.values.email}
-                onChange={formik.handleChange('email')}
+                onChange={handleInputChangepass}
               />
+
             </div>
 
             <ErrorMessage
@@ -252,8 +270,20 @@ const PersonalInformation = ({
               touched={formik.touched}
               errors={formik.errors}
             />
+               {inputLengthErrorpass ===true &&
+         <Text
+         //align="center"
+         color="error"
+         size={12}
+        // className={styles.loginText}
+       >
+         Email should be a maximum of 50 characters
+       </Text>
+
+        }
           </Flex>
         </Flex>
+     
         {userInfo && !userInfo?.active && isError && (
           <Text
             align="center"
@@ -454,7 +484,7 @@ const PersonalInformation = ({
           className={styles.saveBtn}
           style={{ borderTop: '1px solid #c3c3c3' }}
         >
-          <Button onClick={formik.handleSubmit} style={{ marginTop: '10px' }}>
+          <Button onClick={submit} style={{ marginTop: '10px' }}>
             {userInfo && userInfo.active ? 'Go to Messages' : 'Save'}
           </Button>
         </Flex>

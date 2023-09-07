@@ -600,6 +600,7 @@ const SignUpScreen = (props: any) => {
                           onKeyPress={allowAlphaNumericSpace}
                           value={formik.values.username}
                           onChange={formik.handleChange('username')}
+                          maxLength={17}
                         />
                         {handlefunction()}
                         <ErrorMessage

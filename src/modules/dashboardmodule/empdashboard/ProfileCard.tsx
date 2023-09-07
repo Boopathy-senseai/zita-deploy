@@ -8,8 +8,11 @@ import SvgNewTab from '../../../icons/SvgNewTab';
 import SvgMail from '../../../icons/SvgMail';
 import SvgLocation from '../../../icons/SvgLocation';
 import { AppDispatch, RootState } from '../../../store';
+import { companyPageInitalMiddleWare, companyPagePostMiddleWare } from '../../accountsettingsmodule/store/middleware/accountsettingmiddleware';
 import SvgSubscription from '../../../icons/SvgSubscription';
 
+import { userProfilePostMiddleWare } from '../../accountsettingsmodule/userprofilemodule/store/middleware/userprofilemiddleware';
+import Toast from '../../../uikit/Toast/Toast';
 import SvgDot from '../../../icons/SvgDot';
 import {
   locationCityMiddleWare,
@@ -19,6 +22,8 @@ import {
 import SvgCreditsavailable from '../../../icons/SvgCreditsavailable';
 import SvgCredits from '../../../icons/SvgCredits';
 import SvgLocationicon from '../../../icons/SvgLocationicon';
+import Loader from '../../../uikit/Loader/Loader';
+import SvgUpload from '../../../icons/SvgUpload';
 import SvgMobilet from '../../../icons/SvgMobilet';
 import SvgMobile from '../../../icons/SvgMobile';
 import SvgGlobe from '../../../icons/SvgGlobe';
@@ -31,10 +36,11 @@ import Flex from '../../../uikit/Flex/Flex';
 import { getDateString, isEmpty, unlimitedHelper } from '../../../uikit/helper';
 import LinkWrapper from '../../../uikit/Link/LinkWrapper';
 import Text from '../../../uikit/Text/Text';
-import { mediaPath } from '../../constValue';
+import { FILE_2MB, imageFileAccept, mediaPath } from '../../constValue';
 
 import styles from './profilecard.module.css';
 import { CountryEntity, StateEntity, CityEntity } from './Companytype';
+import { dashBoardMiddleWare } from './store/dashboardmiddleware';
 
 const ProfileCard = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -61,6 +67,8 @@ const ProfileCard = () => {
     stateid,
     countryid,
     countryidfin,
+    noofemp,
+    industryid,
   } = useSelector(
     ({
       dashboardEmpReducers,
@@ -71,6 +79,8 @@ const ProfileCard = () => {
       return {
         company: companyPageReducers,
         countryidfin: locationReducers.country,
+        industryid:companyPageReducers.company_detail.industry_type_id,
+        noofemp:companyPageReducers.company_detail.no_of_emp,
         weburl: companyPageReducers.company_detail.company_website,
         datafin: companyPageReducers,
         address: companyPageReducers.company_detail.address,
@@ -115,7 +125,7 @@ const ProfileCard = () => {
   // }
   //   }, [company]);
   useEffect(() => {
-    // dispatch(companyPageInitalMiddleWare());
+   //  dispatch(companyPageInitalMiddleWare());
     dispatch(locationMiddleWare({}));
   }, []);
 
@@ -192,7 +202,8 @@ const ProfileCard = () => {
       }
     }
   }
-
+  const [isShow, setShow] = useState(false);
+  const [isLoader, setLoader] = useState(false);
   // }
   // useEffect(() => {
   //   addressHandler();
@@ -220,20 +231,140 @@ const ProfileCard = () => {
     //console.log("cityname",getCity.find((option) => (option.id) === (cityid)).name)}{
     //console.log("statename",getState.find((option) => (option.id) === (stateid)).name)}
   }
+  const [isMb, setMb] = useState(false);
+  const handleChangeImag = (e: any) => {
+    e.preventDefault();
+    var fileExt = e.target.value;
+    fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
+
+    if (imageFileAccept.indexOf(fileExt) < 0) {
+      if (!isEmpty(fileExt)) {
+        alert(
+          'Invalid file selected, valid files are of ' +
+            imageFileAccept.toString() +
+            ' types.',
+        );
+      }
+    } else if (e.target.files && e.target.files[0].size / 1024 / 1024 > 2) {
+      setMb(true);
+    } else {
+      setLoader(true);
+      const formData = new FormData();
+      if (e.target.files[0] !== undefined) {
+        formData.append('logo', e.target.files[0]);
+        formData.append('company_name', company_name);
+        formData.append('company_website',weburl);
+        formData.append('contact', mobile_no);
+         formData.append('industry_type', industryid.toString());
+         formData.append('no_of_emp', noofemp.toString());
+        formData.append('address', address);
+        formData.append('country', countryid.toString());
+        formData.append('state', stateid.toString());
+        formData.append('city', cityid.toString());
+        formData.append('zipcode', zipcode);
+        formData.append('email', user_info.email);
+   
+      } else {
+        formData.append('image_null', '');
+      }
+
+      dispatch(
+        companyPagePostMiddleWare({
+          formData,
+        }),
+      ).then((res: any) => {
+        dispatch(dashBoardMiddleWare());
+        if (res.payload.data.success) {
+            setLoader(false);
+            Toast('Company logo saved successfully', 'LONG', 'success');
+          setShow(false);
+         // dispatch(companyPageInitalMiddleWare());
+        }
+      });
+      setMb(false);
+    }
+  };
+
   return (
     <Flex marginLeft={3}>
       <Card className={styles.profileCardMain}>
         <Flex middle marginTop={15}>
-          {logoPath === 'logo' ? (
-            <Button>a</Button>
-          ) : (
-            <img
-              style={{ objectFit: 'cover' }}
-              alt="LOGO HERE"
-              src={mediaPath + logoPath}
-              className={styles.profileImg}
-            />
-          )}
+          {console.log("ssssssssssss",logoPath)}
+          
+            <>
+                 <label
+                 htmlFor="upload_profile___bannersetip__img"
+                 onMouseEnter={() => setShow(true)}
+                 onMouseLeave={() => setShow(false)}
+                 style={{ margin: 0 }}
+               >
+                 <input
+                   id="upload_profile___bannersetip__img"
+                   type="file"
+                   onChange={handleChangeImag}
+                   accept="image/*"
+                   className={styles.fileStyle}
+                 />
+                 <Flex className={styles.imgContainer}>
+                   {isEmpty(logoPath) || logoPath === 'logo.png' ? (
+                     <>
+                       {isLoader ? (
+                         <Flex center middle>
+                           <Loader withOutOverlay size="medium" />
+                         </Flex>
+                       ) : (
+                         <Flex columnFlex center middle>
+                           <SvgUpload />
+                           <Text
+                             color="black"
+                             align="center"
+                             style={{ paddingLeft: 4, paddingRight: 4 }}
+                           >
+                             Upload Your Company Logo
+                           </Text>
+                         </Flex>
+                       )}
+                     </>
+                   ) : (
+                     <>
+                       {isLoader ? (
+                         <Flex center middle>
+                           <Loader withOutOverlay size="medium" />
+                         </Flex>
+                       ) : (
+                         <img
+                         style={{objectFit: 'cover'}}
+                           className={styles.imgStyle}
+                           src={mediaPath + logoPath}
+                           alt="profile"
+                           //key={Math.random().toString()}
+                         />
+                       )}
+                     </>
+                   )}
+         
+                   {isShow && (
+                     <Flex columnFlex center middle className={styles.changeStyle}>
+                       <SvgUpload />
+                       <Text
+                         color="black"
+                         align="center"
+                         style={{ paddingLeft: 4, paddingRight: 4 }}
+                       >
+                         {isEmpty(logoPath) || logoPath === 'logo.png'
+                           ? 'Upload Your Company Logo'
+                           : 'Change Company Logo'}
+                       </Text>
+                     </Flex>
+                   )}
+                 </Flex>
+               </label>
+                 {isMb && (
+                  <Text size={12} color="error">
+                    {FILE_2MB}
+                  </Text>
+                )}</>
+
         </Flex>
         <Flex marginTop={12}>
           <Text bold align="center" size={14} className={styles.companyColor}>
@@ -375,7 +506,7 @@ const ProfileCard = () => {
             </Flex>
             <Flex row>
               <Flex marginTop={5}>
-                <Text style={{ fontSize: '13px' }}>Job:</Text>
+                <Text style={{ fontSize: '13px' }}>Jobs:</Text>
               </Flex>
               {/* {console.log("filtercity::",getCity.find((option) => (option.id) === (cityid)).name)} */}
               <Flex marginLeft={3} marginTop={5}>
