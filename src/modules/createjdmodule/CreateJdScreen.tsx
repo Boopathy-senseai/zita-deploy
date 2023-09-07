@@ -63,13 +63,13 @@ const CreateJdScreen = () => {
             style={{ marginLeft: 8, color: '#581845' }}
             className={styles.postingcl}
           >
-            Job Posting
+            Job Postings
           </Text>
           <Flex marginTop={7} marginLeft={7} marginRight={2}>
             <SvgRight fill={'#581845'} ></SvgRight></Flex>
           <Flex marginTop={1} marginLeft={3}>
             <Text size={16} bold color="theme" >
-              Post Job</Text>
+              Post Jobs</Text>
           </Flex>
           </Flex>
           <div className={styles.triangle}></div>

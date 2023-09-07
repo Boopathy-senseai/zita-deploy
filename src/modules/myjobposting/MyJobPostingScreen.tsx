@@ -197,7 +197,7 @@ const MyJobPostingScreen = () => {
                 {Permission.includes('create_post') && (
                   <LinkWrapper to={jobSelect}>
                     <Button className={styles.style1} types="primary">
-                      Post Job
+                      Post Jobs
                     </Button>
                   </LinkWrapper>
                 )}
@@ -311,7 +311,7 @@ const MyJobPostingScreen = () => {
             <Flex center className={styles.postyet4}>
               <LinkWrapper to={jobSelect}>
                 <Button className={styles.btnStyle} types="primary">
-                  Post Job
+                  Post Jobs
                 </Button>{' '}
               </LinkWrapper>{' '}
             </Flex>{' '}

@@ -507,7 +507,7 @@ export const customStylechanges2 = {
   singleValue: () => ({
     color: PRIMARY,
     position: 'relative',
-    bottom: 15,
+    bottom: 16,
     fontSize: 13,
     fontWeight: 'bold',
   }),

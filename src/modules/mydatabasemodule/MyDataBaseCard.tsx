@@ -369,7 +369,7 @@ const MyDataBaseCard = ({
                     handleFavAction(dataList.id, filterFormik.values.jobTitle)
                   }
                   className={styles.svgHeartaddtofavourites}
-                  style={{ left: !size ? '38%' : '41%' }}
+                  style={{ left: !size ? '38%' : '40%' }}
                   title={
                     isEmpty(dataList.fav)
                       ? 'Add to Favourites'
@@ -383,7 +383,7 @@ const MyDataBaseCard = ({
                       filled={!isEmpty(dataList.fav)}
                     />
                   ) : (
-                    <SvgHeart height={15} width={15} filled={isFav} />
+                    <SvgHeart height={16} width={16} filled={isFav} />
                   )}
                 </div>
               )}
