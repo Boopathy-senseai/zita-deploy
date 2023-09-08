@@ -305,7 +305,7 @@ const MyJobPostingScreen = () => {
             </Flex>
             <Flex center>
               <Text className={styles.postyet3} size={13}>
-                No worries, just click on “Post Job” to kick start
+                No worries, just click on “Post Jobs” to kick start
               </Text>
             </Flex>
             <Flex center className={styles.postyet4}>
