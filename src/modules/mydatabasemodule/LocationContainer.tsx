@@ -70,10 +70,6 @@ const LocationContainer = ({
   const myRefExperience = createRef<any>();
   const addFav = isFav ? 'add' : '';
 
-
-  // const handleOpenLocationInput = () => {
-  //     setLocationInput(true);  
-  // };
   const handleOpenLocationInput = (values: { location: string }) => {
     setLocationInput(true);
     const errors: Partial<{ location: string }> = {};
@@ -151,12 +147,6 @@ const LocationContainer = ({
     toggleStage();
     }
   });
-
-  // const handleKeyPress = (event: { key: string }) => {
-  //   if (event.key === 'Enter') {
-  //     formik.handleSubmit();
-  //   }
-  // };
 
   // Location from submit function
   const handleLocationSubmit = () => {
@@ -264,11 +254,9 @@ const LocationContainer = ({
           ) : (
             <Flex row center className={styles.marginTop}>
               <Text
-                // textStyle="ellipsis"
                 size={11}
                 color="black_1"
                 className={styles.locationtab}
-                style={{ maxWidth: '210%', width: "200px" }}
                 title= {`Location: ${dataList?.location}`}
               >
                 {notSpecified(dataList.location)}

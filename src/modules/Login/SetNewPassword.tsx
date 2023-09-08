@@ -118,20 +118,19 @@ const SetNewPassword = ({
                   size={18}
                   align="center"
                   color="theme"
-                  style={{ marginTop:'10px', left: "16%", position: "relative" }}
+                  style={{ marginTop:'10px'}}
                 >
                   Password Changed!
                 </Text>
                 </Flex>
 
                 <Flex middle>
-                  <Text size={14} color="theme" style={{ marginRight: '-134px',marginTop:'10px' }}>
+                  <Text size={14} color="theme" style={{marginTop:'10px' }}>
                   Your password has been changed successfully.
                   Please login with your new password
                   </Text>
-                  <Flex>
+                  <Flex className={styles.loginbutton}>
                   <Button
-                  style={{left:'62%'}}
                   className={styles.button}
                   onClick={() => window.location.replace('/')}
                 >
