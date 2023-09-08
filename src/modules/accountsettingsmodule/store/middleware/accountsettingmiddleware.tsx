@@ -7,6 +7,7 @@ export const companyPageInitalMiddleWare = createAsyncThunk(
   COMPANYPAGE,
   async (_a, { rejectWithValue }) => {
     try {
+      
       const { data } = await axios.get(companyPageApi);
       return data;
     } catch (error) {
