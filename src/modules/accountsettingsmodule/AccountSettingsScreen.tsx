@@ -129,7 +129,7 @@ const AccountSettingsScreen = ({ value }: props) => {
 
       if (username === 'Mail') {
         dispatch(Google_Auth({ codeUrl: code })).then((res) => {
-          dispatch(getEmail());
+          dispatch(getEmail(undefined));
           history.push('/account_setting/settings');
           window.location.reload();
           // localStorage.setItem('integrationSuccess', 'true');
@@ -156,7 +156,7 @@ const AccountSettingsScreen = ({ value }: props) => {
       if (user === 'Mail') {
         dispatch(Outlook_Auth(access_urls))
           .then((res) => {
-            dispatch(getEmail());
+            dispatch(getEmail(undefined));
             history.push('/account_setting/settings');
             window.location.reload();
           })

@@ -31,9 +31,11 @@ import config from '../../../../outlookmailConfig';
 
 let graphClient = undefined;
 
-export const getEmail = createAsyncThunk(GET_EMAIL, async () => {
+export const getEmail = createAsyncThunk(GET_EMAIL, async (can_id: Number | undefined) => {
+
   try {
-    const { data } = await axios.get(maillist, {});
+    const Url = can_id?`${maillist}?can_id=${can_id}`:maillist;
+    const { data } = await axios.get(Url, {});
     return data;
   } catch (error) {
     const typedError = error as Error;

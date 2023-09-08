@@ -112,11 +112,11 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
       mailname: useremail.account,
     };
   });
-
+   
   useEffect(() => {
-    dispatch(getEmail());
-  }, []);
-
+    dispatch(getEmail(can_id !== undefined?can_id:undefined));
+  }, []); 
+  
   useEffect(() => {
     if (
       emailcollection.integration !== null &&
@@ -705,7 +705,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
       middle
       columnFlex
       className={styles.integrationContent}
-      height={isprofileview && window.innerHeight - 130}
+      height={isprofileview && window.innerHeight - 121}
     >
       <Text color="gray" style={{ marginBottom: 16 }}>
         Integrate your email with zita application to handle mailing inside zita
@@ -916,6 +916,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
                 Mail_action={Mailaction}
                 updateMailaction={updateMailaction}
                 atfiles={attachments}
+                can_id={can_id}
                 sidebarroute={sideroute}
                 removemsg={removemessage}
                 remove_message={remove_message}
