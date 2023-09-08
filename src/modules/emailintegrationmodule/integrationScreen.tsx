@@ -33,6 +33,7 @@ import {
   Gmail_Attachment,
   Gmail_Folder_Total_count,
   outlooktoken,
+  filtermail,
 } from '../../emailService';
 import config from '../../outlookmailConfig';
 import SvgArrowDown from '../../icons/SvgArrowDown';
@@ -99,6 +100,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
   const emailcollection = useSelector(({ useremail }: RootState) => {
     return {
       email: useremail.email,
+      maillist: useremail.mails,
       integration: useremail.account,
       loading: useremail.isLoading,
       token: useremail.token,
@@ -121,6 +123,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
       emailcollection.integration !== ''
     ) {
       outlooktoken(emailcollection.token);
+      filtermail(emailcollection.maillist);
     } else {
       setLoader(false);
     }
@@ -415,17 +418,17 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
         } else if (sideroute === 6) {
           folder = 'junkemail';
         }
-        await getmessages(authProvider, folder, 0, range)
+        await getmessages(authProvider, folder, null, range)
           .then((res) => {
             setmessagelist((prevMessages) => [...prevMessages, ...res.value]);
             setNoEmails(res.value.length === 0 ? true : false);
-            setSkip(skip + range);
-            setIsLoading(false);
-            setTotal(res['@odata.count']);
             setLoader(false);
             getfolder();
             if (!res['@odata.nextLink']) {
               setnextpagetoken(undefined);
+              settoken(null);
+            } else {
+              settoken(res['@odata.nextLink'].split('skiptoken=')[1]);
             }
           })
           .catch((error) => {
@@ -490,17 +493,17 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
         folder = 'junkemail';
       }
       setIsLoading(true);
-      await getmessages(authProvider, folder, skip, range)
+      await getmessages(authProvider, folder, token, range)
         .then((res) => {
           setmessagelist((prevMessages) => [...prevMessages, ...res.value]);
           setNoEmails(res.value.length === 0 ? true : false);
-          setSkip(skip + range);
-          setIsLoading(false);
-          setTotal(res['@odata.count']);
-          setLoader(false);
           getfolder();
+          setLoader(false);
           if (!res['@odata.nextLink']) {
             setnextpagetoken(undefined);
+            settoken(null);
+          } else {
+            settoken(res['@odata.nextLink'].split('skiptoken=')[1]);
           }
         })
         .catch((error) => {
@@ -811,7 +814,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
                     />
                   </Flex>
                 )}
-              <Flex end row center marginRight={10}> 
+              <Flex end row center marginRight={10}>
                 <Flex marginTop={34} center row marginRight={-20}>
                   {' '}
                   {integrate?.mailname === 'google' && <SvgGooglemail />}
@@ -819,10 +822,10 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
                     <SvgOutlookcalendar />
                   )}{' '}
                 </Flex>
-              
-              <Flex>
-                <Text>{integrate?.email}</Text>
-              </Flex>
+
+                <Flex>
+                  <Text>{integrate?.email}</Text>
+                </Flex>
               </Flex>
               <div className={styles.triangle}> </div>
             </Flex>

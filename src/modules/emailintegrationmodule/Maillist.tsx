@@ -516,7 +516,7 @@ const Maillist = ({
     if (searchapi === true) {
       return load;
     } else {
-      return messagelist.length % range === 0 && !isLoading;
+      return tokens !== null ? true : false;
     }
   };
 
