@@ -12,6 +12,18 @@ import { Base64 } from 'js-base64';
 import axios from 'axios';
 //let graphClient = '';
 let graphClient: Client | undefined = undefined;
+let Email: any = [];
+
+export async function filtermail(mail: any) {
+  const emailValues = mail.map((item: any) => item.value);
+  // const emailList = ['manojr@sense7ai.com', 'jananirangesh@sense7ai.com'];
+  Email = emailValues
+    .map(
+      (email) => `from:${email} OR to:${email} OR cc:${email} OR bcc:${email}`,
+    )
+    .join(' OR ');
+  return Email;
+}
 
 export async function outlooktoken(token: any) {
   graphClient = Client.init({
@@ -271,17 +283,29 @@ export async function getsearchmail(
 export async function getmessages(
   authProvider: AuthCodeMSALBrowserAuthenticationProvider,
   folder,
-  previous,
+  token,
   range,
 ) {
-  var response: any = await graphClient
-    ?.api(`/me/mailFolders/${folder}/messages`)
-    .count(true)
-    .skip(previous)
-    .top(range)
-    .get();
-
-  return response;
+  if (token === null) {
+    const response = await graphClient
+      .api(`/me/mailFolders/${folder}/messages`)
+      .count(true)
+      .query(`$search="${Email}"`)
+      .top(range)
+      .get();
+    console.log('1111', response);
+    return response;
+  } else {
+    const response = await graphClient
+      .api(`/me/mailFolders/${folder}/messages`)
+      .count(true)
+      .query(`$search="${Email}"`)
+      .top(range)
+      .skipToken(token)
+      .get();
+    console.log('22222', response);
+    return response;
+  }
 }
 
 export async function getusermail(
@@ -507,21 +531,26 @@ export async function Selected_message(id) {
     const message = response.result;
 
     const attachments = [];
-    const parts = message.payload.parts || [];
-    parts.forEach((part) => {
-      if (part.filename && part.body && part.body.attachmentId) {
-        const attachment = {
-          attachmentId: part.body.attachmentId,
-          name: part.filename,
-          mimeType: part.mimeType,
-        };
-        attachments.push(attachment);
-      }
-    });
+    const contentTypeHeader = message.payload.headers.find(
+      (header) => header.name.toLowerCase() === 'content-type',
+    );
+    const checkfileattach = contentTypeHeader.value.includes('multipart/mixed');
+    if (checkfileattach === true) {
+      const parts = message.payload.parts || [];
+      parts.forEach((part) => {
+        if (part.filename && part.body && part.body.attachmentId) {
+          const attachment = {
+            attachmentId: part.body.attachmentId,
+            name: part.filename,
+            mimeType: part.mimeType,
+          };
+          attachments.push(attachment);
+        }
+      });
+    }
 
     // Extract the body of the message
     var body = getMessageBody(message.payload);
-
     return { attachments, body, message };
   } catch (error) {
     //console.error('Error loading message body:', error);
@@ -536,12 +565,15 @@ const getMessageBody = (mes) => {
 
 const getHTMLPart = (arr) => {
   for (var x = 0; x <= arr.length; x++) {
-    console.log('typeof arr[x].parts', typeof arr[x].parts);
+    console.log('000typeof arr[x].parts', typeof arr[x].parts);
     if (typeof arr[x].parts === 'undefined') {
+      console.log('1111', arr[x].mimeType);
       if (arr[x].mimeType === 'text/html') {
+        console.log('2222', arr[x].body.data);
         return arr[x].body.data;
       }
     } else {
+      console.log('3333', arr[x].mimeType);
       return getHTMLPart(arr[x].parts);
     }
   }
