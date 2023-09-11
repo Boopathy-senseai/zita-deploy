@@ -123,7 +123,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
       emailcollection.integration !== ''
     ) {
       outlooktoken(emailcollection.token);
-      filtermail(emailcollection.maillist);
+      filtermail(emailcollection.maillist, emailcollection.integration);
     } else {
       setLoader(false);
     }
@@ -525,7 +525,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
       setIsLoading(true);
       await initGoogleAuth(emailcollection.token)
         .then(() => {
-          Gmail_Mails(Gfolder, nextpagetoken, range, emailcollection.token)
+          Gmail_Mails(Gfolder, token, range, emailcollection.token)
             .then((res) => {
               if (res.fullMessages !== undefined) {
                 setmessagelist((prevMessages) => [
@@ -535,10 +535,14 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
               } else {
                 setNoEmails(true);
               }
+              if (res.token === undefined) {
+                settoken(null);
+              } else {
+                settoken(res.token);
+              }
               foldercount();
-
               setIsLoading(false);
-              setnextpagetoken(res.token);
+              // setnextpagetoken(res.token);
               setLoader(false);
             })
             .catch((err) => {

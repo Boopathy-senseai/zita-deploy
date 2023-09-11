@@ -14,15 +14,26 @@ import axios from 'axios';
 let graphClient: Client | undefined = undefined;
 let Email: any = [];
 
-export async function filtermail(mail: any) {
-  const emailValues = mail.map((item: any) => item.value);
-  // const emailList = ['manojr@sense7ai.com', 'jananirangesh@sense7ai.com'];
-  Email = emailValues
-    .map(
-      (email) => `from:${email} OR to:${email} OR cc:${email} OR bcc:${email}`,
-    )
-    .join(' OR ');
-  return Email;
+export async function filtermail(mail: any, user: string) {
+  if (user === 'outlook') {
+    const emailValues = mail.map((item: any) => item.value);
+    Email = emailValues
+      .map(
+        (email) =>
+          `from:${email} OR to:${email} OR cc:${email} OR bcc:${email}`,
+      )
+      .join(' OR ');
+    return Email;
+  } else {
+    const emailValues = mail.map((item: any) => item.value);
+    Email = emailValues
+      .map(
+        (email) =>
+          `from:${email} OR to:${email} OR cc:${email} OR bcc:${email}`,
+      )
+      .join(' OR ');
+    return Email;
+  }
 }
 
 export async function outlooktoken(token: any) {
@@ -495,6 +506,7 @@ export async function Gmail_Mails(folder, pageToken, maxresult, tokens) {
     const response = await gapi.client.gmail.users.messages.list({
       userId: 'me',
       labelIds: folder,
+      q: Email,
       maxResults: maxresult,
       pageToken: pageToken,
     });
@@ -514,7 +526,7 @@ export async function Gmail_Mails(folder, pageToken, maxresult, tokens) {
         }),
       );
     }
-
+    console.log('zazaza', response);
     return { token, messages, fullMessages };
   } catch (error) {
     // console.error('Error loading messages:', error);
