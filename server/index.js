@@ -21,7 +21,6 @@ app.get('/*', (req, res, next) => {
             return res.status(404).end()
         }
         // get post info
-        console.log('sdddddddddddddddddddddddddddddddddd',req)
         const postId = req.query.id;
         const post = getPostById(postId);
         if(!post) return res.status(404).send("Post not found");

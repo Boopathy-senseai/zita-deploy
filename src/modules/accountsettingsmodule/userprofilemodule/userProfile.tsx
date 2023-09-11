@@ -182,6 +182,7 @@ const UserProfilepic = ({ value, update }: Props) => {
   const redirectHome = (values: Password) => {
     // history.push('/account_setting/settings');
     /// setmodelopen(false)
+    update();
     formikPassword.resetForm();
     setShowNewPass1(false);
           setShowNewPass(false);
@@ -189,6 +190,36 @@ const UserProfilepic = ({ value, update }: Props) => {
   };
 
   // console.log(showpopup,'asdfghjkl;njtrewqesrdhgjkljhfdsadfghj,m.')
+
+  const handleInputLength = (e, fieldName) => {
+    const maxLength = 12; // Maximum length allowed
+  
+    if (e.target.value.length >= maxLength) {
+      e.preventDefault(); // Prevent further input
+      const truncatedValue = e.target.value.slice(0, maxLength);
+      formikPassword.setFieldValue(fieldName, truncatedValue); // Update the field value
+    }
+  };
+
+  const [inputLengthError, setInputLengthError] = useState(false);
+ 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputLength = event.target.value.length;
+
+    // Check if input length exceeds 20 characters
+    if (inputLength > 12) {
+      setInputLengthError(true);
+    } else {
+      setInputLengthError(false);
+      formikPassword.handleChange('oldpassword')(event); // Update the formik value
+    }
+  };
+
+  const submit=()=>{
+    if(inputLengthError===false){
+    formikPassword.handleSubmit();}
+  }
+
 
   // const { routerPrompt, onDirty, onPristine } = useUnsavedChangesWarning();
   return (
@@ -206,12 +237,13 @@ const UserProfilepic = ({ value, update }: Props) => {
                     value={formikPassword.values.oldpassword}
                     className={styles.inputheight}
                     autoComplete={'off'} 
-                    onChange={(e) => {
-                      formikPassword.setFieldValue(
-                        'oldpassword',
-                        e.target.value,
-                      );
-                    }}
+                    // onChange={(e) => {
+                    //   formikPassword.setFieldValue(
+                    //     'oldpassword',
+                    //     e.target.value,
+                    //   );
+                    // }}
+                    onChange={handleInputChange}
                     keyboardType={!isShowOldPass ? 'password' : 'text'}
                     actionRight={() => (
                       <Button
@@ -234,6 +266,12 @@ const UserProfilepic = ({ value, update }: Props) => {
                     errors={formikPassword.errors}
                     touched={formikPassword.touched}
                   />
+                  {
+                    inputLengthError===true &&
+                    <Text size={12} color="error">
+                      Current password should be a maximum of 12 characters
+                    </Text>
+                  }
                   {isError && formikPassword.values.oldpassword.length !== 0 && (
                     <Text size={12} color="error">
                       Your current password is incorrect
@@ -257,6 +295,7 @@ const UserProfilepic = ({ value, update }: Props) => {
                       // onDirty();
                       // setReloadProfile(true);
                     }}
+                    onKeyPress={(e) => handleInputLength(e, 'newpassword1')}
                     keyboardType={!isShowNewPass ? 'password' : 'text'}
                     actionRight={() => (
                       <Button
@@ -323,6 +362,7 @@ const UserProfilepic = ({ value, update }: Props) => {
                       // onDirty();
                       // setReloadProfile(true);
                     }}
+                    onKeyPress={(e) => handleInputLength(e, 'newpassword2')}
                     keyboardType={!isShowNewPass1 ? 'password' : 'text'}
                     actionRight={() => (
                       <Button
@@ -370,7 +410,7 @@ const UserProfilepic = ({ value, update }: Props) => {
                 </Flex>
                 <Flex row>
                   <Button
-                    onClick={formikPassword.handleSubmit}
+                    onClick={submit}
                     // disabled={!formikPassword.isValid}
                     className={styles.btnstyleclosesave}
                   >

@@ -25,6 +25,7 @@ type Props = {
 const sidebar=sessionStorage.getItem("EmpToggle");
 const size=sidebar==="1"
 
+
 const InviteContainer = ({
   inviteDisable,
   dataList,
@@ -37,8 +38,6 @@ const InviteContainer = ({
       >
       {inviteDisable ? (
         <>
-        {/* <div
-          style={{width:'2px',height:'10px',color:'black'}}></div> */}
           <div
             title="Invite to Apply"
             className={cx('inviteStyle', { inviteDisable })}
@@ -103,7 +102,8 @@ const InviteContainer = ({
           ) : (
             <>
               {!isEmpty(dataList.invite) && isEmpty(dataList.not_interested) && (
-                <Flex className={styles.lastinviteset}>
+                <Flex className={styles.lastinviteset}
+                >
                 <Text 
                 color="gray" size={11}
                 className={cx({
@@ -111,14 +111,8 @@ const InviteContainer = ({
                   lastinvitetext: isEmpty(dataList.applicant)
                 })}
                 >
-                  Last Invited 
-                </Text>
-                <Text 
-                  className={cx({
-                  nolastinvitetext: !isEmpty(dataList.applicant),
-                  lastinvitetext: isEmpty(dataList.applicant)
-                })} color="gray" size={11} style={{position:"relative", right: "4px"}} >
-                {' '}{dataList?.invite && getDateString(dataList.invite, 'll')}
+                  Last Invited{' '}
+                  {dataList?.invite && getDateString(dataList.invite, 'll')}
                 </Text>
                 </Flex>
               )}
@@ -126,11 +120,9 @@ const InviteContainer = ({
             <Flex>
                <Text 
                 color="gray" size={11} className={styles.lastinvitetext}>
-                  Last Invited 
+                  Last Invited{' '}
+                  {dataList?.invite && getDateString(dataList.invite, 'll')}
                 </Text>
-                <Text color="gray" size={11}>
-                  {' '}{dataList?.invite && getDateString(dataList.invite, 'll')}
-                  </Text>
             </Flex>
           )}
         </>

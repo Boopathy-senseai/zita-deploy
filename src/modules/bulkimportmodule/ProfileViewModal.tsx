@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
+import FileViewer from 'react-file-viewer';
 import { FieldArray, FormikProvider, useFormik } from 'formik';
 import PhoneInput from 'react-phone-input-2';
 import * as Yup from 'yup';
@@ -313,22 +314,18 @@ const ProfileViewModal = ({
     getBlur('myjobpostscreen___input');
   }, [is_loading]);
 
-  useEffect(() => {
-   
-    setTimeout(() => {
-      setDisplay(true);
-    }, 500);
-  },[])
+
 
   useEffect(() => {
    
     setTimeout(() => {
       setDisplay(true);
-    }, 500);
-  },[display])
+    }, 300);
+  },[display, filePath])
   return (
     <Drawer open={open}>
-      {is_loading && <Loader />}
+      {console.log("disp+++lay",display,file)}
+     
       <div className={styles.overAll}>
         <Flex row center between flex={1} className={styles.border}>
           <div
@@ -350,23 +347,23 @@ const ProfileViewModal = ({
                 overflow: 'scroll',
               }}
             >
-              {display ?(
-                <DocViewer
-                  style={{ height: '100%', width: '100%' }}
-                  pluginRenderers={DocViewerRenderers}
-                  documents={docs}
-                  config={{
-                    header: {
-                      disableHeader: false,
-                      disableFileName: false,
-                      retainURLParams: false,
-                    },
-                  }}
-                />
-              ):(
-                <Loader />
-              )
-             }
+              {filePath!=="" && display ?(
+              
+           <DocViewer
+                 style={{ height: '100%', width: '100%' }}
+                 pluginRenderers={DocViewerRenderers}
+                 documents={docs}
+                 config={{
+                   header: {
+                     disableHeader: false,
+                     disableFileName: false,
+                     retainURLParams: false,
+                   },
+                 }}
+               />
+       
+          ):( is_loading && <Loader />)}
+             
             </div>
           </Flex>
           <Flex flex={6}>

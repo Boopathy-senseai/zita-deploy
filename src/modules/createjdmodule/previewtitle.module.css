@@ -19,6 +19,10 @@
   padding-left: 24px;
   list-style-type: disc !important;
 }
+.des ol{
+  padding-left: 24px;
+  list-style-type: auto !important;
+}
 .rolesandresponsibilitiescard{
   padding: 16px;
 }

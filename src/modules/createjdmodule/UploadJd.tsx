@@ -110,8 +110,7 @@ function UploadJd() {
       <Flex>
       <Button onClick={()=>setmodal(true)}>Upload JD</Button>
       <Modal open={modal} >
-      <Flex style={{backgroundColor:'#ffffff',padding:'25px',height:'262px',width:'450px'}}>
-       
+      <Flex className={styles.uploadpopup}>
         <Flex  center>
         <Text bold size={14} style={{marginBottom: "16px"}}>Add Attachment</Text>
           <Flex columnFlex className={styles.innerFlex}>

@@ -123,7 +123,7 @@ a:hover {
 .center_aligh_slider {
   width: 30%;
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 75%;
   transform: translate(-50%, -50%);
 }
@@ -182,7 +182,7 @@ a:hover {
   } */
 
 .logo {
-  margin-top: 20px;
+  margin-top: 50px;
 }
 .error_msg {
   margin-top: 4px;

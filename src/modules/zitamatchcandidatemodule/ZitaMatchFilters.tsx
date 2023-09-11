@@ -260,17 +260,51 @@ const ZitaMatchFilters = ({
   const showSkills = isSkillOption.slice(0, 4);
   const hiddenSkills = isSkillOption.slice(4, isSkillOption.length);
   const [skill, setskill] = useState<{ value: string; label: string }[]>([]);
+  const [hiddenSkills1, sethiddenSkills1] = useState<{ value: string; label: string }[]>();
+  const [showskill1, setshowskill1] =
+  useState<{ value: string; label: string }[]>();  
 
+
+  // const closeSkillOption = (doc: { value: string; label: string }) => {
+  //   const newOptions = [...isSkillOption];
+  //   const indx = newOptions.indexOf(doc);
+  //   if (indx !== -1) {
+  //     newOptions.splice(indx, 1);
+  //     setSkillOption(newOptions);
+  //     setskill(newOptions);
+  //     setshowskill1(newOptions);
+  //     if (setshowskill1.length < 5) {
+  //       sethiddenSkills1(undefined);
+  //     }
+        
+  //     return;
+  //   }
+  // };
   const closeSkillOption = (doc: { value: string; label: string }) => {
     const newOptions = [...isSkillOption];
     const indx = newOptions.indexOf(doc);
     if (indx !== -1) {
-      newOptions.splice(indx, 1);
-      setSkillOption(newOptions);
-      setskill(newOptions);
-      return;
-    }
-  };
+  newOptions.splice(indx, 1);
+  setSkillOption(newOptions);
+  //setchange(true);
+
+  // Now, update the showSkills and hiddenSkills1 based on the newOptions
+  const showSkillsUpdated = newOptions.slice(0, 4);
+  const hiddenSkillsUpdated = newOptions.slice(4);
+
+  setskill(showSkillsUpdated);
+  setshowskill1(showSkillsUpdated);
+
+  if (hiddenSkillsUpdated.length === 0) {
+    sethiddenSkills1(undefined);
+  } else {
+    sethiddenSkills1(hiddenSkillsUpdated);
+  }
+
+  return;
+}
+};
+ 
 
   const RenderQuickFilter = (props: {
     doc?: { label: string; value: any };
@@ -303,9 +337,12 @@ const ZitaMatchFilters = ({
     setapplieisany(isAny);
     setapplieisrelocate(isRelocate);
     setapplieislocation(isLocation);
-    setskill(isSkillOption);
+    setskill(showSkills);
     setShowDropDown((value) => !value);
     setchange(false);
+    setshowskill1(showSkills);
+    sethiddenSkills1(hiddenSkills)
+   // sethiddenSkills2(hiddenSkills.length)
   }
   const clearall=()=>{
     
@@ -566,17 +603,17 @@ const ZitaMatchFilters = ({
               )}
 
               {skill &&
-                skill.map((doc, index) => (
+                showskill1.map((doc, index) => (
                   <RenderQuickFilter
                     key={index}
                     doc={{ label: doc.label, value: doc.value }}
                     onClose={() => closeSkillOption(doc)}
                   />
                 ))}
-              {hiddenSkills && hiddenSkills.length > 0 && (
+              {hiddenSkills1 && hiddenSkills1.length>0 && hiddenSkills.length > 0 && (
                 <Text
                   className={styles.quickfil}
-                >{`Skills : + ${hiddenSkills.length}`}</Text>
+                >{`Skills : + ${hiddenSkills1.length}`}</Text>
               )}
             </>
           )

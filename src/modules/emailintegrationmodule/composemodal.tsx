@@ -311,7 +311,9 @@ const Newmessage = ({
           label: replaymsg.from.emailAddress.address,
         };
 
-        to.push(a);
+        if (a.value !== emailcollection.email) {
+          to.push(a);
+        }
         const mailconvert = {
           emailAddress: {
             address: replaymsg.from.emailAddress.address,
@@ -322,6 +324,8 @@ const Newmessage = ({
 
         if (replaymsg.toRecipients.length !== 0) {
           replaymsg.toRecipients.map((val, int) => {
+            console.log('1emailcollection.email', emailcollection.email);
+            console.log('2val.address', val['emailAddress'].address);
             if (emailcollection.email !== val['emailAddress'].address) {
               to.push({
                 value: val['emailAddress'].address,
@@ -333,6 +337,8 @@ const Newmessage = ({
         if (replaymsg.ccRecipients.length !== 0) {
           setopenCc(true);
           replaymsg.ccRecipients.map((val, int) => {
+            console.log('emailcollection.email', emailcollection.email);
+            console.log('val.address', val['emailAddress'].address);
             if (emailcollection.email !== val['emailAddress'].address) {
               cc.push({
                 value: val['emailAddress'].address,
@@ -355,6 +361,7 @@ const Newmessage = ({
 
         var sub = `Re: ${replaymsg.subject}`;
         // formik.setFieldValue('userMessage', replaymsg.body.content);
+
         setTosample(to);
         setCcsample(cc);
         setBccsample(bcc);
@@ -1149,7 +1156,7 @@ const Newmessage = ({
     }
   };
 
-  const gmai_action = async () => {
+  const gmailreply_forward = () => {
     const toEmails = tomail.join(', ');
     const toCC = ccmail.join(', ');
     const toBCC = bccmail.join(', ');
@@ -1168,9 +1175,10 @@ const Newmessage = ({
       replyHtml = `
         
           <div class="gmail_quote">
-            <p>On ${time}, ${fromEmail} wrote:</p>
+           <p>${messagebody}</p>
+            <p>On ${replaymsg.internalDate}, ${fromEmail} wrote:</p>
             <blockquote class="gmail_quote" style="margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">${replaymsg.body}</blockquote>
-            <p>${messagebody}</p>
+           
           </div>
        
 `;
@@ -1214,10 +1222,13 @@ const Newmessage = ({
 
     const email = emailss.join('');
     const rawMessage = btoa(email);
+    return rawMessage;
+  };
 
+  const gmai_action = async () => {
     initGoogleAuth(emailcollection.token)
       .then(async () => {
-        await Gmail_Reply_forward(rawMessage)
+        await Gmail_Reply_forward(gmailreply_forward())
           .then((res) => {
             Toast('Message send successfully', 'LONG', 'success');
             clearform();
@@ -1236,7 +1247,7 @@ const Newmessage = ({
   return (
     <div>
       {/* <div style={{ position: 'absolute', bottom: '0px', right: '0px' }}> */}
-      {console.log('newwww', newmsg)}
+
       <Modal open={data}>
         {loader === true && <Loader />}
         <div
@@ -1484,6 +1495,7 @@ const Newmessage = ({
                       marginRight: '5px',
                       flexDirection: 'column',
                       flex: 1,
+                      minHeight: '365px',
                     }}
                   >
                     <RichText
@@ -1689,7 +1701,7 @@ const Newmessage = ({
                 </Flex>
               </Flex>
             </Flex>
-            {console.log('bodymsggg', replaymsg)}
+            {console.log('sdsd', replaymsg)}
           </Flex>
         </div>
       </Modal>
@@ -1710,6 +1722,8 @@ const Newmessage = ({
         auth={integration}
         Mail_action={Mail_action}
         mail_id={replaymsg !== '' ? replaymsg.id : ''}
+        replymail_draft={gmailreply_forward}
+        emailcollection={emailcollection.token}
       />
     </div>
   );

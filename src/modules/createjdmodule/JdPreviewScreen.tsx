@@ -61,6 +61,7 @@ const JdPreviewScreen = () => {
     feature,
     career_page_url,
     is_plan, 
+    super_user
   } = useSelector(
     ({
       jdPreviewReducers,
@@ -84,6 +85,7 @@ const JdPreviewScreen = () => {
         feature: selectDsorNonDsReducers.feature,
         career_page_url: jdPreviewReducers.career_page_url,
         is_plan: permissionReducers.is_plan,
+        super_user: permissionReducers.super_user,
       };
     },
 
@@ -215,6 +217,7 @@ console.log("externaljob",extarajobpost)
         ds_role={ds_role}
         feature={feature} 
         whatjob={whatjob}
+        super_user={super_user}
       />
     </Flex>
   );

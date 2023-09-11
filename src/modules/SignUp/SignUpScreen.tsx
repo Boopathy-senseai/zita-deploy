@@ -108,7 +108,7 @@ const SignUpScreen = (props: any) => {
         setLoader(false);
         setpassword(true);
 
-        console.log('faild', res);
+      //  console.log('faild', res);
       }
     });
   };
@@ -151,7 +151,7 @@ const SignUpScreen = (props: any) => {
       errors.username = ' ';
     }
     if (!isEmpty(values.username) && !nameRegex.test(values.username)) {
-      console.log('1');
+     // console.log('1');
       errors.username = ' ';
     }
     //  console.log(!nameRegex.test(values.username))
@@ -368,6 +368,16 @@ const SignUpScreen = (props: any) => {
     //   // formik.errors.username=THIS_FIELD_REQUIRED;
     // }
   };
+  const handleInputLength = (e, fieldName) => {
+    const maxLength = 12; // Maximum length allowed
+  
+    if (e.target.value.length >= maxLength) {
+      e.preventDefault(); // Prevent further input
+      const truncatedValue = e.target.value.slice(0, maxLength);
+      formik.setFieldValue(fieldName, truncatedValue); // Update the field value
+    }
+  };
+  
   const handlefunction1 = () => {
     if (isEmailValid === true && !isEmpty(formik.values.email)) {
       return (
@@ -393,10 +403,26 @@ const SignUpScreen = (props: any) => {
       formik.errors.password1 = 'Space is not a character.';
     }
   };
+  const [inputLengthErrorpass, setInputLengthErrorpass] = useState(false);
+  const handleInputChangepass = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputLength = event.target.value.length;
+
+    // Check if input length exceeds 20 characters
+    if (inputLength > 50) {
+      setInputLengthErrorpass(true);
+    } else {
+      setInputLengthErrorpass(false);
+      formik.handleChange('email')(event); // Update the formik value
+    }
+  };
+  const submit=()=>{
+    if(inputLengthErrorpass===false){
+    formik.handleSubmit();}
+  }
 
   return (
     <>
-      {console.log(name, namevalid)}
+      
       {isLoader && <Loader />}
       <Flex className={styles.row} height={window.innerHeight}>
         {/* {isVerification ? (
@@ -574,6 +600,7 @@ const SignUpScreen = (props: any) => {
                           onKeyPress={allowAlphaNumericSpace}
                           value={formik.values.username}
                           onChange={formik.handleChange('username')}
+                          maxLength={17}
                         />
                         {handlefunction()}
                         <ErrorMessage
@@ -592,9 +619,15 @@ const SignUpScreen = (props: any) => {
                           required
                           style={{fontSize:"13px"}}
                           value={formik.values.email}
-                          onChange={formik.handleChange('email')}
+                          onChange={handleInputChangepass}
+                         // maxLength={51}
                         />
                         {handlefunction1()}
+                        {inputLengthErrorpass===true &&
+                           <div style={{ color: '#f94949', fontSize: '12px' }}>
+                            Email should be a maximum of 50 characters
+                           </div>
+                        }
                         <ErrorMessage
                           name={'email'}
                           errors={formik.errors}
@@ -613,6 +646,8 @@ const SignUpScreen = (props: any) => {
                           required
                           value={formik.values.password1}
                           onChange={formik.handleChange('password1')}
+                          onKeyPress={(e) => handleInputLength(e, 'password1')}
+
                           keyboardType={!isShowNewPass ? 'password' : 'text'}
                           actionRight={() => (
                             <Button
@@ -671,6 +706,7 @@ const SignUpScreen = (props: any) => {
                           required
                           value={formik.values.password2}
                           onChange={formik.handleChange('password2')}
+                          onKeyPress={(e) => handleInputLength(e, 'password2')}
                           keyboardType={!isShowChangePass ? 'password' : 'text'}
                           actionRight={() => (
                             <Button
@@ -750,7 +786,7 @@ const SignUpScreen = (props: any) => {
                     <Button
                       className={styles.login_button}
                       // disabled={formik.values.terms_and_conditions === '0'}
-                      onClick={formik.handleSubmit}
+                      onClick={submit}
                     >
                       Sign up
                     </Button>

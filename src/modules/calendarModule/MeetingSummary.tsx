@@ -1,6 +1,5 @@
 import { Key, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import toast from 'react-hot-toast';
 import { useFormik } from 'formik';
 import { AppDispatch, RootState } from '../../store';
 import {
@@ -27,6 +26,7 @@ import {
   IEventNotes,
   meetingFormProps,
   UserType,
+  TeamMemberType,
 } from './types';
 import { formatTo12HrClock } from './util';
 import EmailTemplate from './EmailTemplate';
@@ -41,6 +41,7 @@ interface Props {
   EventId?: any;
   eventId?: any;
   recurringEventId?: string | null;
+  teamMembers: TeamMemberType[];
   // extraNotes: string;
   currentApplicantId: number;
   setIsTopLineLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -59,6 +60,7 @@ const MeetingSummary = ({
   EventId,
   eventId,
   recurringEventId,
+  teamMembers,
   // extraNotes,
   currentApplicantId,
   setIsTopLineLoading,
@@ -145,7 +147,9 @@ const MeetingSummary = ({
           extraNotes: greetings.applicant,
           interviewer_notes: greetings.interviewer,
           myJd: meetingForm.job.label,
-          eventId: recurringEventId?recurringEventId: localStorage.getItem('eventhandelerid'),
+          eventId: recurringEventId
+            ? recurringEventId
+            : localStorage.getItem('eventhandelerid'),
           privateNotes: meetingForm.privateNotes,
           eventType: meetingForm.eventType.value,
           edit_jd,
@@ -196,7 +200,6 @@ const MeetingSummary = ({
     } = meetingForm;
     setIsloading(true);
     // setIsTopLineLoading(true);
-
 
     dispatch(
       scheduleEventMiddleware({
@@ -357,7 +360,6 @@ const MeetingSummary = ({
                   editGreeting={true}
                 />
               </ExpandTile>
-
               {meetingForm.interviewer.length !== 0 && (
                 <ExpandTile
                   backgroundColor="#58184530"
@@ -382,13 +384,14 @@ const MeetingSummary = ({
                     //       : interview.calendarEmail,
                     // )}
                     email={[
-                      ...(userProfile?.email ? [userProfile?.email] : []),
-                      ...meetingForm.interviewer.map((interview, index: Key) =>
-                        interview.email
-                          ? interview.email
-                          : interview.calendarEmail,
-                      ),
-                    ]}
+                      // ...(userProfile?.email ? [userProfile?.email] : []),
+                      ...teamMembers.filter(doc=>doc.userId === userProfile?.id),
+                      ...meetingForm.interviewer
+                    ].map((interview, index: Key) =>
+                    interview.calendarEmail
+                      ? interview.calendarEmail
+                      : interview.email,
+                  )}
                     notes={meetingForm.privateNotes}
                     applicantInfo={meetingForm.applicant}
                     onSave={(value) => {

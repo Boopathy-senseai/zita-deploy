@@ -26,7 +26,7 @@ interface Props {
   handleCloseEventPopUpModal: () => void;
   joinMeeting: (eventId: string) => void;
   handleEditEvent: () => void;
-  isEventCanUpdate: boolean;
+  isEventOrganizer: boolean;
   eventPopUpDetails: EventPopUpDetails;
   copyMeeting: (eventId: string) => void;
 }
@@ -36,7 +36,7 @@ const EventPopUpModal = ({
   handleCloseEventPopUpModal,
   handleEditEvent,
   handleRemoveEvent,
-  isEventCanUpdate,
+  isEventOrganizer,
   joinMeeting,
   copyMeeting,
   eventPopUpDetails,
@@ -128,7 +128,7 @@ const EventPopUpModal = ({
 
         <div className={styles.info}>
           <SvgInterviewers size={16} />
-
+              {console.log(attendees)}
           {attendees && attendees?.length > 0 ? (
             <div className={styles.infoText}>
               <p style={{ marginBottom: 3 }}>Interviewer&#40;s&#41;</p>
@@ -157,12 +157,12 @@ const EventPopUpModal = ({
           <div className={styles.infoText}>
             <Text style={{ marginBottom: 3 }}>Organizer</Text>
             {/* <br /> */}
-            <Text className={styles.email}>{organizer}</Text>
+            <Text className={styles.email}>{organizer.displayName || organizer.email}</Text>
           </div>
         </div>
       </div>
 
-      {isEventCanUpdate && (
+      {eventId && getEventHasMeeting(title) && (
         <hr style={{ margin: '10px 0 10px 0', padding: 0 }} />
       )}
       <div
@@ -173,7 +173,7 @@ const EventPopUpModal = ({
           height: '32px',
         }}
       >
-        {eventId && isEventCanUpdate && getEventHasMeeting(title) && (
+        {eventId && getEventHasMeeting(title) && (
           <button
             onClick={() => {
               joinMeeting(eventId);
@@ -186,7 +186,7 @@ const EventPopUpModal = ({
           </button>
         )}
         <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0 }}>
-          {eventId !== '' && isEventCanUpdate && getEventHasMeeting(title) ? (
+          {eventId !== '' && getEventHasMeeting(title) ? (
             <Tooltip title="Copy Meeting URL" placement="top">
               <button
                 className={`${styles.icon} ${styles.popover}`}
@@ -199,7 +199,7 @@ const EventPopUpModal = ({
               </button>
             </Tooltip>
           ) : null}
-          {isEventCanUpdate && canEdit ? (
+          {isEventOrganizer ? (
             <button
               className={styles.icon}
               title="Edit"
@@ -208,7 +208,7 @@ const EventPopUpModal = ({
               <SvgEdit width={16} height={16} />
             </button>
           ) : null}
-          {canEdit ? (
+          {isEventOrganizer ? (
             <button
               className={styles.icon}
               title="Delete"
