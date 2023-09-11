@@ -239,9 +239,6 @@ const IntegrationScreen = () => {
     setLoginLoader(val);
   };
 
-  function outlookconfig(): void {
-    throw new Error('Function not implemented.');
-  }
   function Configuration() {
     setConflictopen(true);
   }

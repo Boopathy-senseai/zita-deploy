@@ -4,7 +4,6 @@ import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import moment from 'moment-timezone';
-import { Link } from 'react-router-dom';
 import DateRangePicker, { Props } from 'react-bootstrap-daterangepicker';
 import Modal from '../../../uikit/Modal/Modal';
 import Flex from '../../../uikit/Flex/Flex';
@@ -29,12 +28,7 @@ import SvgCross from '../../../icons/SvgCross';
 import SvgCloseBox from '../../../icons/SvgCloseBox';
 import SvgClose from '../../../icons/SvgClose';
 
-import {
-  eventType,
-  duration,
-  timezonedisplay,
-  timezonesdata,
-} from './eventType';
+
 import {
   getScheduleMiddleWare,
   postScheduleMiddleWare,
@@ -46,6 +40,8 @@ import 'bootstrap-daterangepicker/daterangepicker.css';
 import ConfirmationDialog from './ConfirmDialogBox/ConfirmDialogBox';
 import { DataEntity } from './ScheduleTypes';
 import IntegrationPopup from './ConfirmDialogBox/IntegrationPopup';
+import { duration,eventType, timezonedisplay, timezonesdata, } from './eventType';
+
 
 type CreateEvent = {
   event_name: string;

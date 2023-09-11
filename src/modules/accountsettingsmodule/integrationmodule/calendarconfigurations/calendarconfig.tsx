@@ -16,6 +16,7 @@ import SvgConflicts from '../../../../icons/SvgConflicts';
 import SvgGmail from '../../../../icons/SvgGmail';
 import { AppDispatch, RootState } from '../../../../store';
 import { getCalendarConfigurationMiddleWare, postCalendarConfigurationMiddleWare } from '../../../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
+import SvgAddToCalendar from '../../../../icons/SvgAddToCalendar';
 import { Configuration } from '../../../applicantprofilemodule/applicantProfileTypes';
 import { calendarratio, unavailble } from './ConfigTypes';
 import styles from './calendarconfig.module.css';
@@ -130,7 +131,7 @@ const CalenderConfig = ({ isGoogle, email,CloseConfiguration }: CalenderConfigPr
                       <SvgClose width={10} height={10} fill={'#888888'} />
                     </Flex>
         </Flex>
-        {/* {isGoogle === 0 ? (
+        {isGoogle === 0 ? (
         <Flex row marginTop={20}>
           <Flex marginTop={3}>
             <SvgAddToCalendar height={18} width={18} fill="#581845" />
@@ -156,7 +157,7 @@ const CalenderConfig = ({ isGoogle, email,CloseConfiguration }: CalenderConfigPr
             />
           </Flex>
         </Flex>
-        ) : ('')} */}
+        ) : ('')}
       </Flex>
     </Flex>
   );
