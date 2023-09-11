@@ -584,7 +584,7 @@ const ApplicantsTab = ({
               id={'applicant__input'}
               actionRight={() => (
                 <label style={{ margin: 0,marginTop:"3px" }}>
-                  <SvgSearch />
+                  <SvgSearch width={14} height={14}/>
                 </label>
               )}
               onKeyPress={handleKeyPress}

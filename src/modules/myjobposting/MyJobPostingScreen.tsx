@@ -178,7 +178,7 @@ const MyJobPostingScreen = () => {
             style={{ marginLeft: 8, color: '#581845' }}
             className={styles.postingcl}
           >
-            Job Posting
+            Job Postings
           </Text>
           <div className={styles.triangle}></div>
         </Flex>

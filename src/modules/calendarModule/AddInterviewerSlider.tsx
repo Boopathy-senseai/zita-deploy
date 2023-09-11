@@ -228,7 +228,7 @@ const AddInterviewersUI = ({
       <div className={styles.addInterviewerContainer}>
         <div className={styles.addInterviewer}>
           <div className={styles.menus}>{InterviewerDropDown}</div>
-          <div className={styles.calendar}>
+          <div className={styles.calendarContent} style={{width:window.innerWidth-370}}>
             {currentUserEvents && (
               <BigCalendar
                 localizer={localizer}
