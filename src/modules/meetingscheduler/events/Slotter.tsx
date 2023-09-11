@@ -546,10 +546,10 @@ const SlotterDate = ({
   function isIntervalWithinRange(interval, range) {
     const [startTime, endTime] = range.split(' to ');
     const [intervalStartTime, intervalEndTime] = interval.split(' - ');
-    if (intervalStartTime >= startTime && intervalEndTime <= endTime) {
+    if (intervalStartTime >= startTime && intervalEndTime <= startTime) {
       return true;
     }
-    if (intervalEndTime > startTime && intervalEndTime <= endTime) {
+    if (intervalEndTime > startTime && intervalStartTime < endTime) {
       return true;
     }
   }
