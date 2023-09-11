@@ -267,9 +267,24 @@ const ValueAddName = ({
   //   };
   // });
   // enter key submit function
+  const [inputLengthError, setInputLengthError] = useState(false);
   const handleKeyPress = (event: { key: string }, id: number) => {
+    if(inputLengthError===false){
     if (event.key === 'Enter' && formik.values.name !== '') {
       handleCellSubmit(event, id);
+    }}
+  };
+
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputLength = event.target.value.length;
+
+    // Check if input length exceeds 50 characters
+    if (inputLength > 50) {
+      setInputLengthError(true);
+    } else {
+      setInputLengthError(false);
+      formik.handleChange('name')(event); // Update the formik value
     }
   };
   return (
@@ -316,7 +331,8 @@ const ValueAddName = ({
             // eslint-disable-next-line
             autoFocus
             value={formik.values.name}
-            onChange={formik.handleChange('name')}
+          //  onChange={formik.handleChange('name')}
+          onChange={handleInputChange}
             lineInput
             size={13}
             placeholder={'Required'}
@@ -353,6 +369,19 @@ const ValueAddName = ({
               <SvgCloseBox className={styles.tickStyle} />
             </div>
           </div>
+          {inputLengthError && (
+            <Text
+              style={{
+                display: 'flex',
+                alignSelf: 'flex-start',
+              }}
+              size={10}
+              color="error"
+              align="left"
+            >
+              Name should be a maximum of 50 characters
+            </Text>
+          )}
         </div>
       )}
     </div>

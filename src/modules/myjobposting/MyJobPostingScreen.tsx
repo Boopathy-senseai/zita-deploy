@@ -5,6 +5,7 @@ import classNames from 'classnames/bind';
 import { useDispatch, useSelector } from 'react-redux';
 import Totalcount from '../../globulization/TotalCount';
 import SvgJobPost from '../../icons/SvgJobPost';
+import SvgNoData from '../../icons/SvgNoData';
 import {
   ErrorMessage,
   InputCheckBox,
@@ -196,7 +197,7 @@ const MyJobPostingScreen = () => {
                 {Permission.includes('create_post') && (
                   <LinkWrapper to={jobSelect}>
                     <Button className={styles.style1} types="primary">
-                      Post Job
+                      Post Jobs
                     </Button>
                   </LinkWrapper>
                 )}
@@ -252,7 +253,7 @@ const MyJobPostingScreen = () => {
         </Flex>
       )}
       {console.log(len_list,'len_listlen_list')}
-      {len_list === 0 && (
+      {/* {len_list === 0 && (
                   <Flex
                     className="container"
                     flex={1}
@@ -269,6 +270,27 @@ const MyJobPostingScreen = () => {
                       No Job Found
                     </Text>
                   </Flex>
+                )} */}
+      {len_list === 0 && Jobs_List !== 1 && (
+                  <Flex center style={{height:"100%"}}>
+                  <Flex
+                    className="container"
+                    flex={1}
+                    center
+                    middle
+                    width={window.innerWidth - 570} 
+                  >
+          <Flex center middle><SvgNoData width={16} height={16} fill={'#888888'} /></Flex>
+                    <Text
+                      style={{ 
+                        color: 'gray',
+                        fontSize: 13,
+                      }}
+                    >
+                      No job found
+                    </Text>
+                  </Flex>
+                  </Flex>
                 )}
       {Jobs_List === 1 && (
         <Flex middle className={styles.overAll2}>
@@ -283,13 +305,13 @@ const MyJobPostingScreen = () => {
             </Flex>
             <Flex center>
               <Text className={styles.postyet3} size={13}>
-                No worries, just click on “Post Job” to kick start
+                No worries, just click on “Post Jobs” to kick start
               </Text>
             </Flex>
             <Flex center className={styles.postyet4}>
               <LinkWrapper to={jobSelect}>
                 <Button className={styles.btnStyle} types="primary">
-                  Post Job
+                  Post Jobs
                 </Button>{' '}
               </LinkWrapper>{' '}
             </Flex>{' '}

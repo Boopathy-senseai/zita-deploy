@@ -318,7 +318,7 @@ const AccountSettingsScreen = ({ value }: props) => {
                   }
                 }}
               >
-                <Tab title={'Profiles'} eventKey={'0'}>
+                <Tab title={'Profile'} eventKey={'0'}>
                   <div
                     style={{
                       height: window.innerHeight - 155,
@@ -345,8 +345,8 @@ const AccountSettingsScreen = ({ value }: props) => {
                               >
                                 Heads Up!{' '}
                               </Text>
-                              Please complete your company profile and careers
-                              page to post jobs.
+                              In order to post a job, you must complete the required fields in the company profile and careers
+                              page .
                             </Text>
                           </Flex>
                         )}
@@ -376,8 +376,8 @@ const AccountSettingsScreen = ({ value }: props) => {
                                 >
                                   Heads Up!{' '}
                                 </Text>
-                                Please complete your company profile and careers
-                                page to post jobs.
+                                In order to post a job, you must complete the required fields in the company profile and careers
+                                page.
                               </Text>
                             </Flex>
                           )
@@ -403,7 +403,7 @@ const AccountSettingsScreen = ({ value }: props) => {
                                 >
                                   Heads Up!{' '}
                                 </Text>
-                                Please complete your careers page to post jobs.
+                                In order to post a job, you must complete the required fields in the careers page.
                               </Text>
                             </Flex>
                           )}
@@ -478,8 +478,8 @@ const AccountSettingsScreen = ({ value }: props) => {
                                 >
                                   Heads Up!{' '}
                                 </Text>
-                                Please complete your company profile and careers
-                                page to post jobs.
+                                In order to post a job, you must complete the required fields in the company profile and careers
+                                page.
                               </Text>
                             </Flex>
                           )
@@ -505,7 +505,7 @@ const AccountSettingsScreen = ({ value }: props) => {
                                 >
                                   Heads Up!{' '}
                                 </Text>
-                                Please complete your careers page to post jobs.
+                                In order to post a job, you must complete the required fields in the careers page.
                               </Text>
                             </Flex>
                           )}
@@ -576,7 +576,7 @@ const AccountSettingsScreen = ({ value }: props) => {
                   {tabKey === '4' && <IntegrationScreen />}
                 </Tab>
                 {/* {Permission.includes('manage_account_settings')?( */}
-                <Tab title={'Templates'} eventKey={'7'}>
+                <Tab title={'Workflow'} eventKey={'7'}>
                   {tabKey === '7' && <TemplatesPage />}
                 </Tab>
                 {/* ):("")} */}
@@ -649,8 +649,8 @@ const AccountSettingsScreen = ({ value }: props) => {
                                 >
                                   Heads Up!{' '}
                                 </Text>
-                                Please complete your company profile and careers
-                                page to post jobs.
+                                In order to post a job, you must complete the required fields in the company profile and careers
+                                page.
                               </Text>
                             </Flex>
                           )}
@@ -680,8 +680,8 @@ const AccountSettingsScreen = ({ value }: props) => {
                                   >
                                     Heads Up!{' '}
                                   </Text>
-                                  Please complete your company profile and
-                                  careers page to post jobs.
+                                  In order to post a job, you must complete the required fields in the company profile and
+                                  careers page.
                                 </Text>
                               </Flex>
                             )
@@ -707,8 +707,8 @@ const AccountSettingsScreen = ({ value }: props) => {
                                   >
                                     Heads Up!{' '}
                                   </Text>
-                                  Please complete your careers page to post
-                                  jobs.
+                                  In order to post a job, you must complete the required fields in the careers page.
+                                  
                                 </Text>
                               </Flex>
                             )}
@@ -786,8 +786,8 @@ const AccountSettingsScreen = ({ value }: props) => {
                                   >
                                     Heads Up!{' '}
                                   </Text>
-                                  Please complete your company profile and
-                                  careers page to post jobs.
+                                  In order to post a job, you must complete the required fields in the company profile and
+                                  careers page.
                                 </Text>
                               </Flex>
                             )
@@ -813,8 +813,8 @@ const AccountSettingsScreen = ({ value }: props) => {
                                   >
                                     Heads Up!{' '}
                                   </Text>
-                                  Please complete your careers page to post
-                                  jobs.
+                                  In order to post a job, you must complete the required fields in the careers page.
+                                  
                                 </Text>
                               </Flex>
                             )}
@@ -863,7 +863,7 @@ const AccountSettingsScreen = ({ value }: props) => {
                   <Tab title={'Integrations'} eventKey={'2'}>
                     {tabKeyOne === '2' && <IntegrationScreen />}
                   </Tab>
-                  <Tab title={'Templates'} eventKey={'3'}>
+                  <Tab title={'Workflow'} eventKey={'3'}>
                     {tabKeyOne === '3' && <TemplatesPage />}
                   </Tab>
                   {/* <Tab title={'User Profile'} eventKey={'4'}>
@@ -921,8 +921,8 @@ const AccountSettingsScreen = ({ value }: props) => {
                                 >
                                   Heads Up!{' '}
                                 </Text>
-                                Please complete your company profile and careers
-                                page to post jobs.
+                                In order to post a job, you must complete the required fields in the company profile and careers
+                                page.
                               </Text>
                             </Flex>
                           )}
@@ -952,8 +952,8 @@ const AccountSettingsScreen = ({ value }: props) => {
                                   >
                                     Heads Up!{' '}
                                   </Text>
-                                  Please complete your company profile and
-                                  careers page to post jobs.
+                                  In order to post a job, you must complete the required fields in the company profile and
+                                  careers page.
                                 </Text>
                               </Flex>
                             )
@@ -979,8 +979,8 @@ const AccountSettingsScreen = ({ value }: props) => {
                                   >
                                     Heads Up!{' '}
                                   </Text>
-                                  Please complete your careers page to post
-                                  jobs.
+                                  In order to post a job, you must complete the required fields in the  careers page.
+                                  
                                 </Text>
                               </Flex>
                             )}
@@ -1027,7 +1027,7 @@ const AccountSettingsScreen = ({ value }: props) => {
                   <Tab title={'Integrations'} eventKey={'1'}>
                     {tabKeyTwo === '1' && <IntegrationScreen />}
                   </Tab>
-                  <Tab title={'Templates'} eventKey="2">
+                  <Tab title={'Workflow'} eventKey="2">
                     {tabKeyTwo === '2' && <TemplatesPage />}
                   </Tab>
 
