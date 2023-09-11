@@ -95,7 +95,7 @@ const ApplicantTabLeft = ({ activeState }: typeof defaultProps) => {
             <MatchingAnalysisTab />
           </Tab>
           <Tab title={'Mailbox'}>
-            <EmailScreen isprofileview={true}/>
+            <EmailScreen isprofileview={true} can_id={can_id}/>
           </Tab>
           <Tab title={'Screening Status/Scorecard'}>
             <ScreeningStatusTab title={SCREEN_APPLICANT_STATUS_TITLE} issingletab={false} />

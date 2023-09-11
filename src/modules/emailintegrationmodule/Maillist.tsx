@@ -525,7 +525,7 @@ const Maillist = ({
       style={{ margintop: '1px' }}
       className={styles.maillist}
       height={
-        isprofileview ? window.innerHeight - 95 : window.innerHeight - 115
+        isprofileview ? window.innerHeight - 95 : window.innerHeight - 106
       }
     >
       <Flex
