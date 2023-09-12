@@ -103,8 +103,9 @@ const IntegrationScreen = () => {
     dispatch(outlookCallApiMiddleware())
       .then((res) => {
         if (res.payload.success === true) {
-          localStorage.setItem('integrate', 'calender');
+          
           setLoginLoader(false);
+          localStorage.setItem('integrate', 'calender');
           window.location.href = res.payload.authorization_url;
         }
       })

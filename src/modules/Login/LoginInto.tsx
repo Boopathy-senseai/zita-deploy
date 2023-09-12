@@ -70,6 +70,8 @@ Props) => {
       if(inputLengthError===false && inputLengthErrorpass===false)
       formik.handleSubmit();
     }
+
+    
   
   return (
     <>
@@ -95,9 +97,9 @@ Props) => {
                  // onKeyPress={(e) => handleInputLength(e, 'userName'
                   keyboardType="email"
                   actionLeft={() => (
-                    <Button types="link" className={styles.usericon}>
-                    <div style={{marginTop: '-15px'}}>
-                      <SvgEmail height={15} width={17} fill={'none'} />
+                    <Button types="link" className={styles.usericon} tabIndex={-1}>
+                    <div style={{marginTop: '-15px'}} >
+                      <SvgEmail height={15} width={17} fill={'none'}  />
                     </div>
                     </Button>
                   )}
@@ -119,9 +121,11 @@ Props) => {
               <div>
                 <InputText
                   actionLeft={() => (
-                    <Button types="link" className={styles.Passicon}>
-                    <div style={{marginTop: '-15px'}}>
-                      <SvgLock height={20} width={19} />
+                    <Button types="link" className={styles.Passicon} tabIndex={-1}>
+                    <div style={{marginTop: '-15px'}}  >
+                      <SvgLock height={20} width={19} 
+                      
+                      />
                     </div>
                     </Button>
                   )}
@@ -137,8 +141,9 @@ Props) => {
                       types="link"
                       className={styles.passwordicon}
                       onClick={handleShowPass}
+                      tabIndex={-1}
                     >
-                    <div style={{marginTop: '-2px'}}>
+                    <div style={{marginTop: '-2px'}} >
                       <SvgView nonView={isShowPass} height={20} width={20} />
                     </div>
                     </Button>
@@ -173,11 +178,13 @@ Props) => {
             </Flex>
             {/* Fields starts */}
 
-            <Flex end>
+            <Flex end >
               <Button
                 types="link"
                 className={styles.forget}
                 onClick={handleForgotOpen}
+                
+
               >
                 Forgot password?
               </Button>
@@ -190,6 +197,7 @@ Props) => {
                 justifyContent:"center",
                 alignItems:"center"
               }}
+            
             >
               Login
             </Button>
@@ -199,7 +207,7 @@ Props) => {
               <Text className={styles.text_account}>
                 Don`t have an account?{' '}
                 <u style={{textDecoration:'none'}}>
-                  <Link to="/recruiter/1" style={{fontWeight:"bold"}}>Sign up</Link>
+                  <Link to="/recruiter/1" style={{fontWeight:"bold"}} >Sign up</Link>
                 </u>
               </Text>
             </Flex>

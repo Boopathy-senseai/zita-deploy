@@ -250,6 +250,7 @@ const UserProfilepic = ({ value, update }: Props) => {
                         types="link"
                         onClick={() => setShowOldPass(!isShowOldPass)}
                         className={styles.passwordicon}
+                        tabIndex={-1}
                       >
                       <Flex style={{marginBottom:'8px'}}>
                         <SvgView
@@ -302,6 +303,7 @@ const UserProfilepic = ({ value, update }: Props) => {
                         types="link"
                         onClick={() => setShowNewPass(!isShowNewPass)}
                         className={styles.passwordicon}
+                        tabIndex={-1}
                       >
                       <Flex style={{marginBottom:'8px'}}>
                       <SvgView
@@ -369,6 +371,7 @@ const UserProfilepic = ({ value, update }: Props) => {
                         types="link"
                         onClick={() => setShowNewPass1(!isShowNewPass1)}
                         className={styles.passwordicon}
+                        tabIndex={-1}
                       >
                       <Flex style={{marginBottom:'8px'}}>
                       <SvgView
