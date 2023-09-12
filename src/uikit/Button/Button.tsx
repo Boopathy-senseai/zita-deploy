@@ -21,6 +21,7 @@ type Props = {
   disabled?: boolean;
   onClick?: (arg: any) => void;
   style?: any;
+  tabIndex?:any;
   onKeyDown?: (arg: any) => void;
   textSize?: textSizeType;
   id?: string;
@@ -37,6 +38,7 @@ const Button = ({
   className,
   disabled,
   onClick,
+  tabIndex,
   style,
   onKeyDown,
   textSize,
@@ -63,6 +65,7 @@ const Button = ({
       onFocus={onFocus}
       onMouseLeave={onMouseLeave}
       id={id}
+      tabIndex={tabIndex}
       type={type}
       onClick={onClick}
       style={{ ...style, width }}

@@ -158,7 +158,7 @@ Props) => {
                         onChange={handleInputChangepass}
                         keyboardType="email"
                         actionLeft={() => (
-                          <Button types="link" className={styles.usericon}>
+                          <Button types="link" className={styles.usericon} tabIndex={-1}>
                           <div style={{marginTop: '-15px'}}>
                             <SvgEmail height={15} width={17} fill={'none'} />
                           </div>
@@ -216,12 +216,14 @@ Props) => {
                 >
                   Send Link
                 </Button>
+              
                 <Flex row middle center marginTop={20} marginLeft={5} style={{cursor:'pointer'}}>
+                   <Button className={styles.background}>
                   <Text onClick={handleForgotClose} style={{fontWeight:600,color:"#581845"}} >
                      
                            Go Back
                            
-                  </Text>
+                  </Text></Button>
                   </Flex>
            
                 </>
