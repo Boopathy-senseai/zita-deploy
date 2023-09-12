@@ -222,7 +222,7 @@ const Maillist = ({
           return (
             <Text bold>
               {sentfolder.unreadItemCount !== 0
-                ? `Sent Items ($sentfolder.unreadItemCount})`
+                ? `Sent Items (${sentfolder.unreadItemCount})`
                 : 'Sent Items'}
             </Text>
           );

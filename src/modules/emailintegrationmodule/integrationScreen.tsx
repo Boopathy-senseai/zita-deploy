@@ -162,6 +162,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
   const getprofile = async () => {
     await getUser()
       .then((res: any) => {
+        console.log(res,'outloooook1')
         setUsermail(res.mail);
       })
       .catch((error) => {
@@ -686,8 +687,8 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
     await initGoogleAuth(emailcollection.token).then(() => {
       Gmail_Folder_Total_count(Gfolder)
         .then((res) => {
-          //console.log('res', res);
-          setgmailunread(res.result.messagesUnread);
+          console.log('resfffffffffffffffffffff', res);
+          setgmailunread(res.result.resultSizeEstimate);
           setTotal(res.result.messagesTotal);
         })
         .catch((err) => {

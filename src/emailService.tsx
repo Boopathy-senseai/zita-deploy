@@ -622,7 +622,7 @@ export const Gmail_MessageToBin = (messageId) => {
 
 export const Gmail_search = async (Folder, serchdata, maxresult, pageToken) => {
   try {
-    const query = `in:${Folder} ${serchdata}`;
+    const query = `from:(${Email}) in:${Folder} ${serchdata}`; 
     const response = await gapi.client.gmail.users.messages.list({
       userId: 'me',
       q: query,
@@ -676,11 +676,10 @@ export const Gmail_Attachment = async (id, attachid) => {
 };
 
 export const Gmail_Folder_Total_count = async (folder) => {
-  const count = gapi.client.gmail.users.labels.get({
-    userId: 'me',
-    id: folder,
-  });
-
+  const count =gapi.client.gmail.users.messages.list({
+    userId: 'me', 
+    q:`is:unread label:${folder} from:${Email}`
+  }); 
   return count;
 };
 
