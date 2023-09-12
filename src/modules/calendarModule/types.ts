@@ -58,7 +58,7 @@ export interface Events {
   link: string;
   color: string;
   synced?: string;
-  email: string
+  email: string;
 }
 
 export interface meetingFormProps {
@@ -85,7 +85,7 @@ export interface meetingFormProps {
   location: {
     isHave: boolean;
     value: string | null;
-    error: boolean
+    error: boolean;
   };
   timeZone: {
     value: string;
@@ -108,9 +108,9 @@ export interface meetingFormProps {
   };
   interviewer: TeamMemberType[];
 }
-export interface IEventNotes{
+export interface IEventNotes {
   extra_notes: string | null;
-  interview_notes: string | null
+  interview_notes: string | null;
 }
 export interface ApplicantTypes {
   email: string;
@@ -120,8 +120,13 @@ export interface ApplicantTypes {
 }
 
 export interface GoogleEventType {
-  attendees: { email: string }[];
-  organizer: any;
+  attendees: {
+    email: string;
+    self?: boolean;
+    responseStatus?: string;
+    full_name?: string;
+  }[];
+  organizer: { displayName?: string, email: string };
   email: string;
   id: any;
   recurringEventId: any;
@@ -152,7 +157,7 @@ export interface ZitaEventType {
   location: string;
   notes: string;
   private_notes: string;
-  email: string
+  email: string;
 }
 
 export interface EditEventDetails {
@@ -220,7 +225,7 @@ export interface EventPopUpDetails {
   startDate: null | Date;
   endDate: null | Date;
   link?: string | null;
-  organizer: null | string;
+  organizer: null | {email: string, displayName?: string};
   applicantId?: number | null;
   attendees?: null | string[];
   eventId: null | string;
@@ -238,7 +243,7 @@ export interface CalendarEventType {
   end: Date | null;
   eventId?: string | null;
   attendees?: string[] | null;
-  organizer: string | null;
+  organizer: { email: string, displayName?: string } | null;
   link?: string | null;
   color?: string | null;
   syncedBy?: string | null;
