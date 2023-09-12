@@ -47,3 +47,12 @@
 .contactFlex{
   margin-top: 20px;
 }
+.profilesaveBtnLoader{
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 3px 12px 3px 12px;
+  width: 55px;
+  height: 30px;
+  margin-top: 10px;
+}

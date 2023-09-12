@@ -67,6 +67,7 @@ const MyJobPreferenceEdit = ({
   const [getCity, setCity] = useState<CityEntity[]>([]);
   const [isLoader, setLoader] = useState(false);
   const [isReload, setReload] = useState(false);
+  const [isBtnLoader, setBtnLoader] = useState(false)
 
   const initial: jobPreferenceUpdateForms = {
     jobType: '',
@@ -92,7 +93,7 @@ const MyJobPreferenceEdit = ({
 
   // form submit function
   const handleSubmit = (values: jobPreferenceUpdateForms) => {
-    setLoader(true);
+    setBtnLoader(true);
     const formData = new FormData();
     formData.append('curr_gross', values.currentSalary);
     formData.append('current_currency', values.currency);
@@ -115,10 +116,10 @@ const MyJobPreferenceEdit = ({
         setReload(false);
         Toast('Job Preference updated successfully');
         dispatch(profileEditMiddleWare({jd_id:localStorage.getItem('careerJobViewJobId')}));
-        setLoader(false);
+        setBtnLoader(false);
         cancel();
       } else {
-        setLoader(false);
+        setBtnLoader(false);
         Toast('Job Preference not updated, Please try again', 'LONG', 'error');
       }
     });
@@ -490,7 +491,14 @@ const MyJobPreferenceEdit = ({
                 : formik.setFieldValue('relocate', '1')
             }
           />
+          {/* <Button onClick={formik.handleSubmit}>Update</Button> */}
+          {isBtnLoader ? (
+            <Flex className={styles.updateBtnLoader}>
+            <Loader size="small" withOutOverlay />
+            </Flex>
+          ) : (
           <Button onClick={formik.handleSubmit}>Update</Button>
+          )}
         </Flex>
       </Flex>
     </Modal>

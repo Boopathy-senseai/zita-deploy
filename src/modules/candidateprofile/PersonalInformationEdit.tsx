@@ -95,6 +95,8 @@ const PersonalInformationEdit = ({
   const [getCity, setCity] = useState<CityEntity[]>([]);
   const [isLoader, setLoader] = useState(false);
   const [isReload, setReload] = useState(false);
+  const [isBtnLoader, setBtnLoader] = useState(false);
+
   const initial: personalUpdateForms = {
     firstName: '',
     lastName: '',
@@ -161,7 +163,7 @@ const PersonalInformationEdit = ({
 
   // form submit
   const handleSubmit = (values: personalUpdateForms) => {
-    setLoader(true);
+    setBtnLoader(true);
     const formData = new FormData();
     formData.append('firstname', values.firstName);
     formData.append('lastname', values.lastName);
@@ -193,11 +195,11 @@ const PersonalInformationEdit = ({
           }),
         );
         setReload(false);
-        setLoader(false);
+        setBtnLoader(false);
         cancel();
       } else {
         Toast('Personal Info not updated, Please try again', 'LONG', 'error');
-        setLoader(false);
+        setBtnLoader(false);
       }
     });
   };
@@ -723,8 +725,17 @@ const PersonalInformationEdit = ({
           </Flex>
         </Flex>
 
-        <Flex end style={{padding:"10px"}}>
+        {/* <Flex end style={{padding:"10px"}}>
           <Button onClick={formik.handleSubmit}>Update</Button>
+        </Flex> */}
+        <Flex end style={{padding:"10px"}}>
+        {isBtnLoader ? (
+          <Flex className={styles.updateBtnLoader}>
+            <Loader size="small" withOutOverlay />
+          </Flex>
+        ) : (
+          <Button onClick={formik.handleSubmit}>Update</Button>
+        )}
         </Flex>
       </Flex>
     </Modal>

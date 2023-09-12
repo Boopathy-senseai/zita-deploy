@@ -396,7 +396,7 @@ const CandidateDatabaseTab = ({
         }
       />
       <Modal open={model}>
-      <Flex style={{backgroundColor:'#ffffff',padding:'25px',height:'320px',width:'600px'}}>
+      <Flex style={{backgroundColor:'#ffffff',padding:'25px',height:'320px',width:'600px', borderRadius: '4px'}}>
       <CandidateDatabase
         setmodel={setmodel}
         hanldeParsing={hanldeParsing}

@@ -20,3 +20,11 @@
 .title {
   margin-bottom: 10px;
 }
+.updateBtnLoader{
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 3px 12px 3px 12px;
+  width: 68px;
+  height: 30px;
+}

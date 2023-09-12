@@ -219,7 +219,7 @@ const PersonalInformation = ({
 
   return (
     <Modal open={open}>
-      {isLoader && <Loader />}
+      {/* {isLoader && <Loader />} */}
       <Flex className={styles.overAll}>
         <Text color='theme' bold size={16} className={styles.infoText}>
           Personal Information
@@ -484,9 +484,18 @@ const PersonalInformation = ({
           className={styles.saveBtn}
           style={{ borderTop: '1px solid #c3c3c3' }}
         >
-          <Button onClick={submit} style={{ marginTop: '10px' }}>
+          {/* <Button onClick={submit} style={{ marginTop: '10px' }}>
             {userInfo && userInfo.active ? 'Go to Messages' : 'Save'}
-          </Button>
+          </Button> */}
+          {isLoader ? (
+            <Flex className={styles.profilesaveBtnLoader}>
+              <Loader size="small" withOutOverlay />
+            </Flex>
+          ) : (
+            <Button onClick={submit} style={{ marginTop: '10px' }}>
+              {userInfo && userInfo.active ? 'Go to Messages' : 'Save'}
+            </Button>
+          )} 
         </Flex>
       </Flex>
     </Modal>

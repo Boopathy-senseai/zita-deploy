@@ -527,20 +527,19 @@ const InviteModal = (props) => {
                       <Button types="close" onClick={onCloseModal}>
                         Close
                       </Button>
-
-                      {/* <Button types="close" onClick={onCloseModal}>
-                  <SvgClose fill={'#979797'} height={14} width={14} />
-                </Button> */}
-
-                      <Button
+                      
+                      {props.inviteBtnLoader ? (
+                        <Flex className={styles.inviteBtnLoader}>
+                        <Loader size="small" withOutOverlay />
+                        </Flex>
+                      ):(
+                        <Button
                         disabled={!checkValue || isEmailValid}
                         type="submit"
                         style={{ marginRight: 16 }}
                       >
                         Invite
                       </Button>
-                      {props.inviteBtnLoader && (
-                        <Loader size="small" withOutOverlay />
                       )}
                     </Flex>
                   </div>

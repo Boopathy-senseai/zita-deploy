@@ -19,3 +19,12 @@
   padding-top: 20px;
   padding-bottom: 50px;
 }
+.updateBtnLoader{
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 3px 12px 3px 12px;
+  width: 68px;
+  height: 30px;
+  /* margin-top: 10px; */
+}
