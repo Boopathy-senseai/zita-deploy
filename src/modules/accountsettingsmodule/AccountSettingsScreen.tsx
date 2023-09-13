@@ -29,6 +29,9 @@ import {
   Outlook_Auth,
 } from '../emailintegrationmodule/store/middleware/emailIntegrationMiddleWare';
 import Toast from '../../uikit/Toast/Toast';
+import SvgClose from '../../icons/SvgClose';
+
+import { Button, Modal } from '../../uikit';
 import CompanyPage from './companypage';
 //import UserProfile from './userprofilemodule/userProfile';
 import styles from './accountsettingsscreen.module.css';
@@ -74,6 +77,7 @@ const AccountSettingsScreen = ({ value }: props) => {
       : sessionStorage.getItem('superUserTabTwo');
 
   const [tabKey, setKey] = useState(tabInitial);
+  const [modelopen, setmodelopen] = useState(false);
   const [tabKeyOne, setKeyOne] = useState<any>(tabTwoInitial);
   const [tabKeyTwo, setKeyTwo] = useState<any>(tabOneInitial);
   const [isInput, setInput] = useState(false);
@@ -131,15 +135,23 @@ const AccountSettingsScreen = ({ value }: props) => {
         dispatch(Google_Auth({ codeUrl: code })).then((res) => {
           dispatch(getEmail(undefined));
           history.push('/account_setting/settings');
-          window.location.reload();
+          if(res.payload.mess===false)
+          {
+              setmodelopen(!modelopen)
+          }else{
+          window.location.reload();}
           // localStorage.setItem('integrationSuccess', 'true');
         });
       } else {
         dispatch(googleCallbackMiddleware({ codeUrl: code })).then((res) => {
           dispatch(IntergratemailMiddleWare());
           history.push('/account_setting/settings');
+          if(res.payload.mess===false)
+          {
+              setmodelopen(!modelopen)
+          }else{
           localStorage.setItem('integrationSuccess', 'true');
-          window.location.reload();
+          window.location.reload();}
         });
       }
     } else if (url.searchParams.get('session_state')) {
@@ -158,7 +170,11 @@ const AccountSettingsScreen = ({ value }: props) => {
           .then((res) => {
             dispatch(getEmail(undefined));
             history.push('/account_setting/settings');
-            window.location.reload();
+             if(res.payload.mess===false)
+            {
+                setmodelopen(!modelopen)
+            }else{
+            window.location.reload();}
           })
           .catch((err) => {
             // console.log('error', err);
@@ -168,8 +184,12 @@ const AccountSettingsScreen = ({ value }: props) => {
           .then((res) => {
             dispatch(IntergratemailMiddleWare());
             history.push('/account_setting/settings');
+            if(res.payload.mess===false)
+            {
+                setmodelopen(!modelopen)
+            }else{
             localStorage.setItem('integrationSuccess', 'true');
-            window.location.reload();
+            window.location.reload();}
             //  Toast('Outlook calendar Integrated Successfully', 'MEDIUM');
           })
           .catch((err) => {
@@ -318,7 +338,7 @@ const AccountSettingsScreen = ({ value }: props) => {
                   }
                 }}
               >
-                <Tab title={'Profiles'} eventKey={'0'}>
+                <Tab title={'Profile'} eventKey={'0'}>
                   <div
                     style={{
                       height: window.innerHeight - 155,
@@ -345,8 +365,8 @@ const AccountSettingsScreen = ({ value }: props) => {
                               >
                                 Heads Up!{' '}
                               </Text>
-                              Please complete your company profile and careers
-                              page to post jobs.
+                              In order to post a job, you must complete the required fields in the company profile and careers
+                              page .
                             </Text>
                           </Flex>
                         )}
@@ -376,8 +396,8 @@ const AccountSettingsScreen = ({ value }: props) => {
                                 >
                                   Heads Up!{' '}
                                 </Text>
-                                Please complete your company profile and careers
-                                page to post jobs.
+                                In order to post a job, you must complete the required fields in the company profile and careers
+                                page.
                               </Text>
                             </Flex>
                           )
@@ -403,7 +423,7 @@ const AccountSettingsScreen = ({ value }: props) => {
                                 >
                                   Heads Up!{' '}
                                 </Text>
-                                Please complete your careers page to post jobs.
+                                In order to post a job, you must complete the required fields in the careers page.
                               </Text>
                             </Flex>
                           )}
@@ -478,8 +498,8 @@ const AccountSettingsScreen = ({ value }: props) => {
                                 >
                                   Heads Up!{' '}
                                 </Text>
-                                Please complete your company profile and careers
-                                page to post jobs.
+                                In order to post a job, you must complete the required fields in the company profile and careers
+                                page.
                               </Text>
                             </Flex>
                           )
@@ -505,7 +525,7 @@ const AccountSettingsScreen = ({ value }: props) => {
                                 >
                                   Heads Up!{' '}
                                 </Text>
-                                Please complete your careers page to post jobs.
+                                In order to post a job, you must complete the required fields in the careers page.
                               </Text>
                             </Flex>
                           )}
@@ -649,8 +669,8 @@ const AccountSettingsScreen = ({ value }: props) => {
                                 >
                                   Heads Up!{' '}
                                 </Text>
-                                Please complete your company profile and careers
-                                page to post jobs.
+                                In order to post a job, you must complete the required fields in the company profile and careers
+                                page.
                               </Text>
                             </Flex>
                           )}
@@ -680,8 +700,8 @@ const AccountSettingsScreen = ({ value }: props) => {
                                   >
                                     Heads Up!{' '}
                                   </Text>
-                                  Please complete your company profile and
-                                  careers page to post jobs.
+                                  In order to post a job, you must complete the required fields in the company profile and
+                                  careers page.
                                 </Text>
                               </Flex>
                             )
@@ -707,8 +727,8 @@ const AccountSettingsScreen = ({ value }: props) => {
                                   >
                                     Heads Up!{' '}
                                   </Text>
-                                  Please complete your careers page to post
-                                  jobs.
+                                  In order to post a job, you must complete the required fields in the careers page.
+                                  
                                 </Text>
                               </Flex>
                             )}
@@ -786,8 +806,8 @@ const AccountSettingsScreen = ({ value }: props) => {
                                   >
                                     Heads Up!{' '}
                                   </Text>
-                                  Please complete your company profile and
-                                  careers page to post jobs.
+                                  In order to post a job, you must complete the required fields in the company profile and
+                                  careers page.
                                 </Text>
                               </Flex>
                             )
@@ -813,8 +833,8 @@ const AccountSettingsScreen = ({ value }: props) => {
                                   >
                                     Heads Up!{' '}
                                   </Text>
-                                  Please complete your careers page to post
-                                  jobs.
+                                  In order to post a job, you must complete the required fields in the careers page.
+                                  
                                 </Text>
                               </Flex>
                             )}
@@ -921,8 +941,8 @@ const AccountSettingsScreen = ({ value }: props) => {
                                 >
                                   Heads Up!{' '}
                                 </Text>
-                                Please complete your company profile and careers
-                                page to post jobs.
+                                In order to post a job, you must complete the required fields in the company profile and careers
+                                page.
                               </Text>
                             </Flex>
                           )}
@@ -952,8 +972,8 @@ const AccountSettingsScreen = ({ value }: props) => {
                                   >
                                     Heads Up!{' '}
                                   </Text>
-                                  Please complete your company profile and
-                                  careers page to post jobs.
+                                  In order to post a job, you must complete the required fields in the company profile and
+                                  careers page.
                                 </Text>
                               </Flex>
                             )
@@ -979,8 +999,8 @@ const AccountSettingsScreen = ({ value }: props) => {
                                   >
                                     Heads Up!{' '}
                                   </Text>
-                                  Please complete your careers page to post
-                                  jobs.
+                                  In order to post a job, you must complete the required fields in the  careers page.
+                                  
                                 </Text>
                               </Flex>
                             )}
@@ -1045,6 +1065,21 @@ const AccountSettingsScreen = ({ value }: props) => {
               </Tab> */}
                 </Tabs>
               )}
+              <Modal open={modelopen}>
+              <Flex className={styles.editmodal}>
+                <Flex center>
+                  <Flex >
+                  <Text>Integration email domain must match your registered domain.</Text>  
+                    </Flex>
+                  <Flex center marginTop={10} className={styles.centerali}>
+                  <Button
+                     onClick={() => setmodelopen(!modelopen)}
+                    >
+                      OK
+                    </Button></Flex>
+                </Flex>
+              </Flex>
+              </Modal>
           </Flex>
 
           {/* {routerPrompt} */}

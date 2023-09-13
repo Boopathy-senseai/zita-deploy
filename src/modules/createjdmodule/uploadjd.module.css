@@ -13,6 +13,13 @@
   min-height: 80px;
   height: 135px;
 }
+.uploadpopup{
+  width: 450px;
+  height: 262px;
+  background-color:#ffffff;
+  padding: 25px;
+  border-radius: 4px;
+}
 .labelStyle {
   margin: 0;
   margin-left: 4px;

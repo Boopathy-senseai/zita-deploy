@@ -32,6 +32,7 @@ type Props = {
   className?: string;
   color?: textColors;
   disabled?: boolean;
+  tabIndex?: number; 
   onChange?: (a: any, b?: any) => void;
   onPaste?: (a: any) => void;
   autoFocus?: boolean;
@@ -80,6 +81,7 @@ const InputText = (
     error,
     required,
     label,
+    tabIndex, 
     errorMessage,
     bold,
     inputConatinerClass,
@@ -173,6 +175,7 @@ const InputText = (
               autoFocus={autoFocus} // eslint-disable-line
               maxLength={maxLength}
               minLength={minLength}
+              tabIndex={tabIndex}
               onKeyPress={onKeyPress}
               onFocus={handleFocus}
               onBlur={handleBlur}

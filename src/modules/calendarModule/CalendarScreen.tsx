@@ -131,7 +131,7 @@ const Calendar = () => {
   const [editEventDetails, setEditEventDetails] = useState<EditEventDetails[]>(
     [],
   );
-  const [isEventCanUpdate, setIsEventCanUpdate] = useState<boolean>(false);
+  const [isEventOrganizer, setIsEventOrganizer] = useState<boolean>(false);
   const [globalZones, setGlobalZones] = useState<
     { label: string; value: string }[]
   >([]);
@@ -156,6 +156,12 @@ const Calendar = () => {
       personalEvents: true,
       zitaEvents: true,
     });
+
+  const { userProfile } = useSelector(({ userProfileReducers }: RootState) => {
+    return {
+      userProfile: userProfileReducers?.user,
+    };
+  });
 
   useEffect(() => {
     const action = param.get('action');
@@ -193,7 +199,7 @@ const Calendar = () => {
         mail: applicantIntegratemailReducers?.mail,
       };
     },
-  ); 
+  );
   useEffect(() => {
     dispatch(IntergratemailMiddleWare());
   }, []);
@@ -423,75 +429,94 @@ const Calendar = () => {
     setOpenScheduleForm((prevState) => !prevState);
   };
   const handleOpenEventForm = (event: CalendarEventType) => {
-    let eventData = {
-      ...getEventPopupDetails(eventPopUpDetails, event),
-    };
-    if ('eventId' in event) {
-      dispatch(
-        verifyEventMiddleware({
-          calendarProvider,
-          eventId: event.eventId,
-        }),
-      )
-        .then((res) => {
-          if (res.payload.data === true) {
-            setIsEventCanUpdate(true);
-            setEventPopUpDetails({
-              ...eventData,
-              eventId: event.eventId,
-              syncedBy: null,
-              applicantId: res.payload.event[0]['cand_id'],
-              recurringEventId: event.recurringEventId,
-              // attendees: res.payload.event[0]['email']
-              //   ? ((res.payload.event[0]['email'] as string) || '').split(',')
-              //   : [],
-              attendees: res.payload.name
-                ? res.payload.name.map((doc) => doc.full_name)
-                : [],
-            });
-            handleOpenEditForm({
-              ...eventData,
-              eventId: event.eventId,
-              syncedBy: null,
-              applicantId: res.payload.event[0]['cand_id'],
-              recurringEventId: event.recurringEventId,
-              // attendees: res.payload.event[0]['email']
-              //   ? ((res.payload.event[0]['email'] as string) || '').split(',')
-              //   : [],
-              attendees: res.payload.name
-                ? res.payload.name.map((doc) => doc.full_name)
-                : [],
-            });
-          } else {
-            setIsEventCanUpdate(false);
-            setEventPopUpDetails((prevEvent) => ({
-              ...eventData,
-              eventId: event.eventId,
-              syncedBy: event.syncedBy,
-              recurringEventId: null,
-              attendees: event.attendees || [],
-            }));
-            toast.error('Event verification failed', {
-              duration: 3500,
-            });
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    } else {
-      setIsEventCanUpdate(false);
-      setEventPopUpDetails((prevEvent) => ({
+    if (userProfile) {
+      let eventData = {
+        ...getEventPopupDetails(eventPopUpDetails, event),
+      };
+      setIsEventOrganizer(eventData?.organizer.email === email || eventData?.organizer.email === userProfile?.email);
+      setEventPopUpDetails(() => ({
         ...eventData,
         eventId: event.eventId,
         syncedBy: event.syncedBy,
         recurringEventId: null,
         attendees: event.attendees || [],
       }));
-      toast.error('Unable to open event', {
-        duration: 3500,
+      handleOpenEditForm({
+        ...eventData,
+        eventId: event.eventId,
+        syncedBy: null,
+        // applicantId: res.payload.event[0]['cand_id'],
+        recurringEventId: event.recurringEventId,
+        attendees: event.attendees || [],
       });
     }
+
+    // if ('eventId' in event) {
+    //   dispatch(
+    //     verifyEventMiddleware({
+    //       calendarProvider,
+    //       eventId: event.eventId,
+    //     }),
+    //   )
+    //     .then((res) => {
+    //       if (res.payload.data === true) {
+    //         setIsEventOrganizer(true);
+    //         setEventPopUpDetails({
+    //           ...eventData,
+    //           eventId: event.eventId,
+    //           syncedBy: null,
+    //           applicantId: res.payload.event[0]['cand_id'],
+    //           recurringEventId: event.recurringEventId,
+    //           // attendees: res.payload.event[0]['email']
+    //           //   ? ((res.payload.event[0]['email'] as string) || '').split(',')
+    //           //   : [],
+    //           attendees: res.payload.name
+    //             ? res.payload.name.map((doc) => doc.full_name)
+    //             : [],
+    //         });
+    //         handleOpenEditForm({
+    //           ...eventData,
+    //           eventId: event.eventId,
+    //           syncedBy: null,
+    //           applicantId: res.payload.event[0]['cand_id'],
+    //           recurringEventId: event.recurringEventId,
+    //           // attendees: res.payload.event[0]['email']
+    //           //   ? ((res.payload.event[0]['email'] as string) || '').split(',')
+    //           //   : [],
+    //           attendees: res.payload.name
+    //             ? res.payload.name.map((doc) => doc.full_name)
+    //             : [],
+    //         });
+    //       } else {
+    //         setIsEventOrganizer(false);
+    //         setEventPopUpDetails((prevEvent) => ({
+    //           ...eventData,
+    //           eventId: event.eventId,
+    //           syncedBy: event.syncedBy,
+    //           recurringEventId: null,
+    //           attendees: event.attendees || [],
+    //         }));
+    //         toast.error('Event verification failed', {
+    //           duration: 3500,
+    //         });
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       console.error(err);
+    //     });
+    // } else {
+    //   setIsEventOrganizer(false);
+    //   setEventPopUpDetails((prevEvent) => ({
+    //     ...eventData,
+    //     eventId: event.eventId,
+    //     syncedBy: event.syncedBy,
+    //     recurringEventId: null,
+    //     attendees: event.attendees || [],
+    //   }));
+    //   toast.error('Unable to open event', {
+    //     duration: 3500,
+    //   });
+    // }
   };
 
   const handleOpenEditForm = (e: EventPopUpDetails) => {
@@ -573,14 +598,14 @@ const Calendar = () => {
         link: 'hangoutLink' in event ? event.hangoutLink : null,
         eventId: event.id,
         color: '#fcba03',
-        organizer: event.organizer.email,
+        organizer: event.organizer,
         syncedBy: userName,
         recurringEventId: event?.recurringEventId,
       };
 
       if ('attendees' in event) {
-        eventData['attendees'] = event.attendees.map((attendee) => {
-          return attendee.email;
+        eventData['attendees'] = event.attendees.filter(doc => doc.full_name).map((attendee) => {
+          return attendee?.full_name;
         });
       }
       return eventData;
@@ -599,7 +624,7 @@ const Calendar = () => {
       end: new Date(event.end_time),
       eventId: event.event_id,
       attendees: event.attendees,
-      organizer: event.created_by,
+      organizer: { email: event.created_by },
       link: null,
       color: '#fcba03',
       syncedBy: userName,
@@ -858,74 +883,83 @@ const Calendar = () => {
       syncedBy: null,
       recurringEventId: event.recurringEventId,
       attendees: event.attendees || [],
+      /// Missing fields
+      // applicantId: event.cad_id
     };
   }
 
   const handleOnSelectEvent = (event: CalendarEventType) => {
-    let eventData = {
-      ...getEventPopupDetails(eventPopUpDetails, event),
-    };
-    if ('eventId' in event) {
-      dispatch(
-        verifyEventMiddleware({
-          calendarProvider,
-          eventId: event.eventId,
-        }),
-      )
-        .then((res) => {
-          if (res.payload.data === true) {
-            setIsEventCanUpdate(true);
-
-            eventData = {
-              ...eventData,
-              eventId: event.eventId,
-              syncedBy: null,
-              applicantId: res.payload.event[0]['cand_id'],
-              recurringEventId: event.recurringEventId,
-              // attendees: res.payload.event[0]['email']
-              //   ? ((res.payload.event[0]['email'] as string) || '').split(',')
-              //   : [],
-              attendees: res.payload.name
-                ? res.payload.name.map((doc) => doc.full_name)
-                : [],
-            };
-            setEventPopUpDetails(eventData);
-            setShowEventPopUpModal(true);
-          } else {
-            setIsEventCanUpdate(false);
-            eventData = {
-              ...eventData,
-              eventId: event.eventId,
-              syncedBy: event.syncedBy,
-              recurringEventId: null,
-              attendees: event.attendees || [],
-            };
-            setEventPopUpDetails(eventData);
-            setShowEventPopUpModal(true);
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    } else {
-      setIsEventCanUpdate(false);
-      eventData = {
-        ...eventData,
-        eventId: event.eventId,
-        syncedBy: event.syncedBy,
-        recurringEventId: null,
-        attendees: event.attendees || [],
+    if (userProfile) {
+      let eventData = {
+        ...getEventPopupDetails(eventPopUpDetails, event),
       };
+      console.log(eventData?.organizer, userProfile?.email, eventData?.organizer.email === userProfile?.email);
+      setIsEventOrganizer(eventData?.organizer.email === email || eventData?.organizer.email === userProfile?.email);
       setEventPopUpDetails(eventData);
       setShowEventPopUpModal(true);
-      // setEventPopUpDetails((prevEvent) => ({
-      //   ...getEventPopupDetails(prevEvent, event),
-      //   eventId: null,
-      //   syncedBy: event.syncedBy,
-      //   recurringEventId: null,
-      //   attendees: event.attendees || [],
-      // }));
     }
+
+    // if ('eventId' in event) {
+    //   dispatch(
+    //     verifyEventMiddleware({
+    //       calendarProvider,
+    //       eventId: event.eventId,
+    //     }),
+    //   )
+    //     .then((res) => {
+    //       if (res.payload.data === true) {
+    //         setIsEventOrganizer(true);
+
+    //         eventData = {
+    //           ...eventData,
+    //           eventId: event.eventId,
+    //           syncedBy: null,
+    //           applicantId: res.payload.event[0]['cand_id'],
+    //           recurringEventId: event.recurringEventId,
+    //           // attendees: res.payload.event[0]['email']
+    //           //   ? ((res.payload.event[0]['email'] as string) || '').split(',')
+    //           //   : [],
+    //           attendees: res.payload.name
+    //             ? res.payload.name.map((doc) => doc.full_name)
+    //             : [],
+    //         };
+    //         setEventPopUpDetails(eventData);
+    //         setShowEventPopUpModal(true);
+    //       } else {
+    //         setIsEventOrganizer(false);
+    //         eventData = {
+    //           ...eventData,
+    //           eventId: event.eventId,
+    //           syncedBy: event.syncedBy,
+    //           recurringEventId: null,
+    //           attendees: event.attendees || [],
+    //         };
+    //         setEventPopUpDetails(eventData);
+    //         setShowEventPopUpModal(true);
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       console.error(err);
+    //     });
+    // } else {
+    //   setIsEventOrganizer(false);
+    //   eventData = {
+    //     ...eventData,
+    //     eventId: event.eventId,
+    //     syncedBy: event.syncedBy,
+    //     recurringEventId: null,
+    //     attendees: event.attendees || [],
+    //   };
+    //   setEventPopUpDetails(eventData);
+    //   setShowEventPopUpModal(true);
+    //   // setEventPopUpDetails((prevEvent) => ({
+    //   //   ...getEventPopupDetails(prevEvent, event),
+    //   //   eventId: null,
+    //   //   syncedBy: event.syncedBy,
+    //   //   recurringEventId: null,
+    //   //   attendees: event.attendees || [],
+    //   // }));
+    // }
 
     // setEventPopUpDetails(eventData);
   };
@@ -1076,11 +1110,11 @@ const Calendar = () => {
 
   const IntegrationMenuView = (
     <div>
-      <div className={styles.calendarLogo}> 
+      <div className={styles.calendarLogo}>
         <Text bold size={16} color="theme">
           Calendar
         </Text>
-        <div className={styles.triangle}> </div> 
+        <div className={styles.triangle}> </div>
       </div>
       <Flex center flex={1} middle columnFlex className={styles.noContent}>
         <Text color="placeholder" style={{ marginBottom: 16 }}>
@@ -1091,7 +1125,7 @@ const Calendar = () => {
           onClick={() => {
             // sessionStorage.setItem('superUserTab', '4');
             // sessionStorage.setItem('superUserFalseTab', '3');
-            sessionStorage.setItem('superUserTabTwo','2')
+            sessionStorage.setItem('superUserTabTwo', '2');
             sessionStorage.setItem('superUserFalseTab', '1');
             sessionStorage.setItem('superUserTab', '4');
           }}
@@ -1121,7 +1155,7 @@ const Calendar = () => {
         {/* <SvgCalendar width={30} height={30} /> */}
         <Text bold size={16} color="theme">
           Calendar
-        </Text> 
+        </Text>
         <Flex row height={10} middle marginTop={1} end>
           <Flex marginTop={2} row marginRight={-20}>
             {' '}
@@ -1132,7 +1166,7 @@ const Calendar = () => {
             <Text>{email}</Text>
           </Flex>
         </Flex>
-        <div className={styles.triangle}> </div> 
+        <div className={styles.triangle}> </div>
       </div>
 
       <Flex row between>
@@ -1256,7 +1290,7 @@ const Calendar = () => {
                     handleCloseEventPopUpModal={() => handleCloseEventPop()}
                     handleEditEvent={handleEditEvent}
                     handleRemoveEvent={handleRemoveEvent}
-                    isEventCanUpdate={isEventCanUpdate}
+                    isEventOrganizer={isEventOrganizer}
                     joinMeeting={handleJoinMeeting}
                     copyMeeting={handleCopyMeeting}
                     showEventPopUpModal={showEventPopUpModal}

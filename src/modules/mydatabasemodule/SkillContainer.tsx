@@ -23,11 +23,10 @@ const sidebar=sessionStorage.getItem("EmpToggle");
 const size=sidebar==="1"
 
 return (
-    <Flex style={{top: !size?  "16%" : "-35%"}} className={styles.skillFlex}>
+    <Flex className={styles.skillFlex}>
       <Text
         color="black_1"
         className={styles.skillTextStyle}
-        style={{marginTop: !size?  "0%" : "13%" , minWidth: !size? "0%": "150%"}} 
         title={
           isEmpty (dataList.skills) 
           ? `Skills: ${notSpecified(lowerCase(dataList.skills.replace(/,/g, ', ')))}`
@@ -35,7 +34,7 @@ return (
         }
         size={11}
       >
-        <Text color="black_1" bold size={11}>
+        <Text color="black_1" bold size={11} style={{ maxWidth: '90%'}}>
           Skills:{' '}
         </Text>
         {notSpecified(lowerCase(dataList.skills.replace(/,/g, ', ')))}

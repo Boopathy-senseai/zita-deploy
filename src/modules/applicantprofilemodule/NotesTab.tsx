@@ -338,8 +338,9 @@ const NotesTab = ({
       setcheck(true);
       errors.notes = 'Enter valid notes.';
     } else if (
-      !mentionnotes.test(textNodes) &&
-      mentionspecialcharacter.test(textNodes)
+      !mentionnotes.test(textNodes) 
+      //&&
+     // mentionspecialcharacter.test(textNodes)
     ) {
       setcheck(true);
       errors.notes = 'Notes length should not exceed 2000 characters.';
