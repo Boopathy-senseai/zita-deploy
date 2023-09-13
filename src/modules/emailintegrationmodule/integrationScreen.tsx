@@ -61,7 +61,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
   const [loader, setLoader] = useState(false);
   const [search, setSearch] = useState('');
   const [attachments, setAttachments] = useState([]);
-  const [mailfolders, setMailfolders] = useState('');
+  const [mailfolders, setMailfolders] = useState<any>('');
   const [gmailunread, setgmailunread] = useState(0);
   const [nextpagetoken, setnextpagetoken] = useState(null);
   const [noEmails, setNoEmails] = useState(false);
@@ -112,11 +112,11 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
       mailname: useremail.account,
     };
   });
-   
+
   useEffect(() => {
-    dispatch(getEmail(can_id !== undefined?can_id:undefined));
-  }, []); 
-  
+    dispatch(getEmail(can_id !== undefined ? can_id : undefined));
+  }, []);
+
   useEffect(() => {
     if (
       emailcollection.integration !== null &&
@@ -162,7 +162,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
   const getprofile = async () => {
     await getUser()
       .then((res: any) => {
-        console.log(res,'outloooook1')
+        console.log(res, 'outloooook1');
         setUsermail(res.mail);
       })
       .catch((error) => {
@@ -643,9 +643,23 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
   };
 
   const getfolder = async () => {
-    await getmailfolders(authProvider)
+    var folder = '';
+    if (sideroute === 1) {
+      folder = 'Inbox';
+    } else if (sideroute === 2) {
+      folder = 'sentitems';
+    } else if (sideroute === 3) {
+      folder = 'drafts';
+    } else if (sideroute === 4) {
+      folder = 'archive ';
+    } else if (sideroute === 5) {
+      folder = 'deleteditems';
+    } else if (sideroute === 6) {
+      folder = 'junkemail';
+    }
+    await getmailfolders(authProvider, folder)
       .then((res) => {
-        setMailfolders(res.value);
+        setMailfolders(res);
       })
       .catch((error) => {});
   };

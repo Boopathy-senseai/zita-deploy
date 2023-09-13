@@ -13,10 +13,12 @@ import axios from 'axios';
 //let graphClient = '';
 let graphClient: Client | undefined = undefined;
 let Email: any = [];
+let Mail: any = [];
 
 export async function filtermail(mail: any, user: string) {
   if (user === 'outlook') {
     const emailValues = mail.map((item: any) => item.value);
+    Mail = mail.map((item: any) => item.value);
     Email = emailValues
       .map(
         (email) =>
@@ -128,8 +130,6 @@ export async function deletemail(
       //   console.log('--errorDEl--', error);
       return error;
     });
-  // console.log('-----sendmailresponce-----', response);
-  // return response;
 }
 
 export async function getarchivemsg(
@@ -252,19 +252,20 @@ export async function getsearchmail(
       var response1: any = await graphClient
         ?.api(`/me/messages`)
         .count(true)
-        .query(`$search="${serchdata}"`)
+        .query(`$search="${serchdata} AND (${Email})"`)
         .top(range)
         .skipToken(token)
         .get();
-      // console.log('-----allsearch-----', response1);
+      console.log('-----allsearch-----', response1);
       return response1;
     } else {
       var response2: any = await graphClient
         ?.api(`/me/messages`)
         .count(true)
-        .query(`$search="${serchdata}"`)
+        .query(`$search="${serchdata} AND (${Email})"`)
         .top(range)
         .get();
+      console.log('-----allsearch2-----', response2);
       return response2;
     }
   } else {
@@ -272,7 +273,7 @@ export async function getsearchmail(
       var response: any = await graphClient
         ?.api(`/me/mailFolders/${folder}/messages`)
         .count(true)
-        .query(`$search="${serchdata}"`)
+        .query(`$search="${serchdata} AND (${Email})"`)
         .top(range)
         .skipToken(token)
         .get();
@@ -282,7 +283,7 @@ export async function getsearchmail(
       var res: any = await graphClient
         ?.api(`/me/mailFolders/${folder}/messages`)
         .count(true)
-        .query(`$search="${serchdata}"`)
+        .query(`$search="${serchdata} AND (${Email})"`)
         .top(range)
         .get();
 
@@ -322,28 +323,6 @@ export async function getmessages(
 export async function getusermail(
   authProvider: AuthCodeMSALBrowserAuthenticationProvider,
 ) {
-  // const emailList = ["'manojr@sense7ai.com'", "'jananirangesh@sense7ai.com'"];
-  // const searchQueries = emailList
-  //   .map((email) => `from/emailAddress/address eq ${email}`)
-  //   .join(' or ');
-
-  // const response = await graphClient
-  //   .api(`/me/mailFolders/${'Inbox'}/messages`)
-  //   .filter(searchQueries)
-  //   .top(1000)
-  //   .skip(10)
-  //   .count(true)
-  //   .get();
-
-  // const emailList = ['manojr@sense7ai.com', 'jananirangesh@sense7ai.com'];
-  // const emailFilters = emailList.map((email) => `from:${email} `).join(' OR ');
-
-  // const response = await graphClient
-  //   .api('/me/messages')
-  //   .query(emailFilters)
-  //   .top(1000)
-  //   .get();
-
   const emailList = ['manojr@sense7ai.com', 'jananirangesh@sense7ai.com'];
 
   const searchdata = emailList
@@ -399,15 +378,47 @@ export async function dowloadattachments(
 
 export async function getmailfolders(
   authProvider: AuthCodeMSALBrowserAuthenticationProvider,
+  folder,
 ) {
-  var response: any = await graphClient
-    ?.api(`/me/mailFolders`)
-    .select('id,displayName,totalItemCount,unreadItemCount')
-    .get();
-  //console.log('-----getmailfolder-----', response);
-  return response;
-}
+  let totalUnreadCount = 0;
 
+  // Fetch unread emails
+  const response = await graphClient
+    .api(`/me/mailFolders/${folder}/messages`)
+    .filter('isRead eq false')
+    .select('from, toRecipients, ccRecipients, bccRecipients')
+    .get();
+
+  // Function to check if an email address is in a list of recipients
+  const checkAddressInRecipients = (recipients, targetEmail) => {
+    return recipients.some((r) => r.emailAddress.address === targetEmail);
+  };
+
+  // Count unread messages based on the addresses in the 'from', 'to', 'cc', and 'bcc' fields
+  if (response && response.value) {
+    for (const message of response.value) {
+      const fromAddress = message.from
+        ? message.from.emailAddress.address
+        : null;
+      const toRecipients = message.toRecipients || [];
+      const ccRecipients = message.ccRecipients || [];
+      const bccRecipients = message.bccRecipients || [];
+
+      if (
+        Mail.includes(fromAddress) ||
+        Mail.some((email) => checkAddressInRecipients(toRecipients, email)) ||
+        Mail.some((email) => checkAddressInRecipients(ccRecipients, email)) ||
+        Mail.some((email) => checkAddressInRecipients(bccRecipients, email))
+      ) {
+        totalUnreadCount++;
+      }
+    }
+  }
+
+  console.log(`Total unread count for specified emails: ${totalUnreadCount}`);
+
+  return totalUnreadCount;
+}
 export async function draftupdate(
   authProvider: AuthCodeMSALBrowserAuthenticationProvider,
   id,
@@ -438,10 +449,6 @@ export async function gmail_Account_Profile(token) {
 }
 
 export const initGoogleAuth = async (token) => {
-  // console.log('--------------------', token);
-  // await gapi.auth.setToken({
-  //   access_token: token,
-  // });
   return new Promise<void>(async (resolve, reject) => {
     gapi.load('client:auth2', () => {
       gapi.client
@@ -462,14 +469,6 @@ export const initGoogleAuth = async (token) => {
     });
   });
 };
-
-// export function handleGoogleAuth() {
-//   initGoogleAuth()
-//     .then(() => {})
-//     .catch((error) => {
-//       console.error('Failed to initialize Google API client:', error);
-//     });
-// }
 
 export async function gmail_Inbox() {
   var response: any = await gapi.client.gmail.users.messages.list({
@@ -622,7 +621,7 @@ export const Gmail_MessageToBin = (messageId) => {
 
 export const Gmail_search = async (Folder, serchdata, maxresult, pageToken) => {
   try {
-    const query = `from:(${Email}) in:${Folder} ${serchdata}`; 
+    const query = `from:(${Email}) in:${Folder} ${serchdata}`;
     const response = await gapi.client.gmail.users.messages.list({
       userId: 'me',
       q: query,
@@ -676,10 +675,10 @@ export const Gmail_Attachment = async (id, attachid) => {
 };
 
 export const Gmail_Folder_Total_count = async (folder) => {
-  const count =gapi.client.gmail.users.messages.list({
-    userId: 'me', 
-    q:`is:unread label:${folder} from:${Email}`
-  }); 
+  const count = gapi.client.gmail.users.messages.list({
+    userId: 'me',
+    q: `is:unread label:${folder} from:${Email}`,
+  });
   return count;
 };
 
