@@ -54,6 +54,23 @@ Props) => {
     );
   }, [forgotFormik.values.forgotEmail]);
 
+  const [inputLengthErrorpass, setInputLengthErrorpass] = useState(false);
+  const handleInputChangepass = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputLength = event.target.value.length;
+
+    // Check if input length exceeds 20 characters
+    if (inputLength > 50) {
+      setInputLengthErrorpass(true);
+    } else {
+      setInputLengthErrorpass(false);
+      forgotFormik.handleChange('forgotEmail')(event); // Update the formik value
+    }
+  };
+  const submit=()=>{
+    if(inputLengthErrorpass===false){
+      forgotFormik.handleSubmit();}
+  }
+
   return (
     <>
 
@@ -138,10 +155,10 @@ Props) => {
                         placeholder="Your registered email"
                         required
                         value={forgotFormik.values.forgotEmail}
-                        onChange={forgotFormik.handleChange('forgotEmail')}
+                        onChange={handleInputChangepass}
                         keyboardType="email"
                         actionLeft={() => (
-                          <Button types="link" className={styles.usericon}>
+                          <Button types="link" className={styles.usericon} tabIndex={-1}>
                           <div style={{marginTop: '-15px'}}>
                             <SvgEmail height={15} width={17} fill={'none'} />
                           </div>
@@ -156,6 +173,15 @@ Props) => {
                         errors={forgotFormik.errors}
                         touched={forgotFormik.touched}
                       />
+                       {inputLengthErrorpass ===true &&
+         <Text
+         color="error"
+         size={12}
+       >
+         Email should be a maximum of 50 characters
+       </Text>
+
+        }
                     </Flex>
                   </Flex>
                   <Flex flex={2}></Flex>
@@ -184,18 +210,20 @@ Props) => {
               
                 <Button
                   className={styles.login_button}
-                  onClick={forgotFormik.handleSubmit}
+                  onClick={submit}
                   // disabled={isEmpty(forgotFormik.values.forgotEmail)}
                   types="primary"
                 >
                   Send Link
                 </Button>
+              
                 <Flex row middle center marginTop={20} marginLeft={5} style={{cursor:'pointer'}}>
-                  <Text onClick={handleForgotClose} style={{fontWeight:600}} >
+                   <Button className={styles.background}>
+                  <Text onClick={handleForgotClose} style={{fontWeight:600,color:"#581845"}} >
                      
                            Go Back
                            
-                  </Text>
+                  </Text></Button>
                   </Flex>
            
                 </>

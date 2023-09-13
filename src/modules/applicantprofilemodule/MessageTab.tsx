@@ -111,8 +111,7 @@ const MessageTab = () => {
     if (isEmpty(textNodes)) {
       errors.userMessage = 'Enter valid Messages.';
     } else if (
-      !mentionnotes.test(textNodes) &&
-      mentionspecialcharacter.test(textNodes)
+      !mentionnotes.test(textNodes)  
     ) {
       errors.userMessage = 'Message length should not exceed 2000 characters.';
     }

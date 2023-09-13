@@ -379,7 +379,7 @@ const ValueAddName = ({
               color="error"
               align="left"
             >
-              Email should be a maximum of 50 characters
+              Name should be a maximum of 50 characters
             </Text>
           )}
         </div>

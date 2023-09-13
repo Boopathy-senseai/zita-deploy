@@ -1,7 +1,7 @@
 export const jobTypeData = [
   { value: '3', label: 'Contract' },
-  { value: '6', label: 'Permanent' },
-  { value: '7', label: 'Any' },
+  { value: '6', label: 'Full Time' },
+  { value: '7', label: 'Any' }, 
 ];
 export const qualificationData = [
   { value: 'Diploma', label: 'Diploma' },

@@ -1,6 +1,5 @@
 .skillFlex {
   position: relative;
-  bottom: 22px;
   right: 30px;
 }
 .skillTextStyle {
@@ -22,7 +21,7 @@
 
 @media only screen and (min-width: 1366px) and (max-width:1920px) {
   .skillTextStyle{
-    width: 120%;
+    width: 100%;
   }
 }
 
@@ -45,10 +44,7 @@
 }
 
 .showallmatching{
-  /* color: #581845; */
-  /* font-size: 11px; */
   font-weight: bold;
-  /* cursor: pointer; */
   width: 138px;
   position: relative;
   left: 50px;

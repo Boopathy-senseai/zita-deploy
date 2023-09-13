@@ -188,8 +188,9 @@ const InterviewScorecardTab = () => {
     if (texttrim === '') {
       errors.userMessage = 'Enter valid notes.';
     } else if (
-      !mentionnotes.test(textNodes) &&
-      mentionspecialcharacter.test(textNodes)
+      !mentionnotes.test(textNodes) 
+      //&&
+     // mentionspecialcharacter.test(textNodes)
     ) {
       errors.userMessage = 'Message length should not exceed 2000 characters.';
     }
@@ -520,11 +521,12 @@ const InterviewScorecardTab = () => {
                   </Flex>
                 </Flex>
               </Flex>
-              <Flex marginTop={10}>
+              <Flex marginTop={10} >
                 <Text bold size={14}>
-                  Comments/Feedback
+                  Comments/Feedbackt
                 </Text>
-                <div className={styles.textArea}>
+                <Flex height={window.innerHeight - 260} style={{overflowY:'scroll',display:'flex'}} >
+                <Flex className={styles.textArea}>
                   <ReactQuill
                     // ref={editorRef}
                     value={formik.values.userMessage}
@@ -537,7 +539,7 @@ const InterviewScorecardTab = () => {
                     errors={formik.errors}
                     name="userMessage"
                   />
-                </div>
+                </Flex>
                 <Flex row center end columnFlex className={styles.btnConatiner}>
                   <Button types="secondary" onClick={handleCancel}>
                     {CANCEL}
@@ -555,6 +557,7 @@ const InterviewScorecardTab = () => {
                       <Loader withOutOverlay size="small" />
                     </div>
                   )}
+                </Flex>
                 </Flex>
               </Flex>
             </Flex>
