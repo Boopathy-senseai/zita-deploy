@@ -43,6 +43,7 @@
 .svgClose {
   position: absolute;
   right: 0;
+  margin-right: 5px;
 }
 .changeStyles{
   position: absolute;
@@ -74,5 +75,5 @@
   background-color: #fff;
   margin-left: 20px;
   margin-right: 16px;
-  z-index: 11px;
+  z-index: 11 !important;
 }
