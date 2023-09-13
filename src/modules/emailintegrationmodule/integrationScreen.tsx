@@ -379,7 +379,8 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
   const serchmessage = async (e: any) => {
     // e.preventDefault();
 
-    if (e && e.key === 'Enter') {
+    if (e && e.key === 'Enter' ) {
+      if(search.trim() !== ''){
       setLoader(true);
       setsearchapi(true);
       setsideroute(0);
@@ -392,18 +393,19 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
       setSearch(search.trim());
       setIsLoading(true);
       setEnterKey(true);
-      settoken(null);
+      settoken(null);}
     }
   };
 
   const refresh = async () => {
-    setLoader(true);
-    setmessagelist([]);
-    setSkip(0);
-    setnextpagetoken(null);
-    setmesage('');
-    setEnterKey(false);
+ 
     if (sideroute !== 0) {
+      setLoader(true);
+      setmessagelist([]);
+      setSkip(0);
+      setnextpagetoken(null);
+      setmesage('');
+      setEnterKey(false);
       if (emailcollection.integration === 'outlook') {
         var folder = '';
         if (sideroute === 1) {
@@ -436,6 +438,12 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
             //console.log('goole----errr', error);
           });
       } else if (emailcollection.integration === 'google') {
+        setLoader(true);
+        setmessagelist([]);
+        setSkip(0);
+        setnextpagetoken(null);
+        setmesage('');
+        setEnterKey(false);
         var Gfolder = '';
         if (sideroute === 1) {
           Gfolder = 'INBOX';
@@ -712,9 +720,15 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
   };
 
   const savemail = (val, tok) => {
-    setmessagelist((prevMessages) => [...prevMessages, ...val]);
+    if(val === 0){
+    setmessagelist([]);
+    settoken(tok);
+    setLoader(false);}
+    else{
+      setmessagelist((prevMessages) => [...prevMessages, ...val]);
     settoken(tok);
     setLoader(false);
+    }
   };
 
   const IntegrationMenuView = (

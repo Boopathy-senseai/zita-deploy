@@ -206,39 +206,39 @@ const Maillist = ({
       if (sideroute === 1) {
         return (
           <Text bold>
-            {mailfolders !== 0 ? `Inbox (${mailfolders})` : 'Inbox'}
+            {mailfolders === ''? 'Inbox':`Inbox (${mailfolders})`}
           </Text>
         );
       } else if (sideroute === 2) {
         return (
           <Text bold>
-            {mailfolders !== 0 ? `Sent Items (${mailfolders})` : 'Sent Items'}
+            {mailfolders === '' ? 'Sent Items':`Sent Items (${mailfolders})`}
           </Text>
         );
       } else if (sideroute === 3) {
         return (
           <Text bold>
-            {mailfolders !== 0 ? `Drafts (${mailfolders})` : 'Drafts'}
+            {mailfolders === '' ? 'Drafts':`Drafts (${mailfolders})`}
           </Text>
         );
       } else if (sideroute === 4) {
         return (
           <Text bold>
-            {mailfolders !== 0 ? `Archive (${mailfolders})` : 'Archive'}
+            {mailfolders === '' ?  'Archive':`Archive (${mailfolders})`}
           </Text>
         );
       } else if (sideroute === 5) {
         return (
           <Text bold>
-            {mailfolders !== 0
-              ? ` Deleted Items (${mailfolders})`
-              : ' Deleted Items'}
+            {mailfolders === ''
+              ?  'Deleted Items':`Deleted Items (${mailfolders})`
+               }
           </Text>
         );
       } else if (sideroute === 6) {
         return (
           <Text bold>
-            {mailfolders !== 0 ? ` Junk Email (${mailfolders})` : ' Junk Email'}
+            {mailfolders !== '' ? ` Junk Email (${mailfolders})` : ' Junk Email'}
           </Text>
         );
       } else if (sideroute === 0) {
@@ -247,8 +247,9 @@ const Maillist = ({
     }
   };
 
-  const serchreferesh = () => {
-    if (search !== '' && integration === 'outlook') {
+  const serchreferesh = () => { 
+    savemail(0, null);
+    if (search !== '' && integration === 'outlook') { 
       getsearchmail(authProvider, searchSection, search.trim(), range, null)
         .then((res) => {
           setSearchicon(res.value.length === 0 ? true : false);

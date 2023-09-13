@@ -380,44 +380,15 @@ export async function getmailfolders(
   authProvider: AuthCodeMSALBrowserAuthenticationProvider,
   folder,
 ) {
-  let totalUnreadCount = 0;
-
-  // Fetch unread emails
-  const response = await graphClient
-    .api(`/me/mailFolders/${folder}/messages`)
-    .filter('isRead eq false')
-    .select('from, toRecipients, ccRecipients, bccRecipients')
+  const range=9000000
+  var response: any = await graphClient
+    ?.api(`/me/mailFolders/${folder}/messages`)
+    .query({ '$search': `"${Email}"` })
+    .top(range)
     .get();
-
-  // Function to check if an email address is in a list of recipients
-  const checkAddressInRecipients = (recipients, targetEmail) => {
-    return recipients.some((r) => r.emailAddress.address === targetEmail);
-  };
-
-  // Count unread messages based on the addresses in the 'from', 'to', 'cc', and 'bcc' fields
-  if (response && response.value) {
-    for (const message of response.value) {
-      const fromAddress = message.from
-        ? message.from.emailAddress.address
-        : null;
-      const toRecipients = message.toRecipients || [];
-      const ccRecipients = message.ccRecipients || [];
-      const bccRecipients = message.bccRecipients || [];
-
-      if (
-        Mail.includes(fromAddress) ||
-        Mail.some((email) => checkAddressInRecipients(toRecipients, email)) ||
-        Mail.some((email) => checkAddressInRecipients(ccRecipients, email)) ||
-        Mail.some((email) => checkAddressInRecipients(bccRecipients, email))
-      ) {
-        totalUnreadCount++;
-      }
-    }
-  }
-
-  console.log(`Total unread count for specified emails: ${totalUnreadCount}`);
-
-  return totalUnreadCount;
+    const unreadMessages = response.value ? response.value.filter(message => !message.isRead) : [];
+    const unreadCount = unreadMessages.length; 
+  return unreadCount; 
 }
 export async function draftupdate(
   authProvider: AuthCodeMSALBrowserAuthenticationProvider,
