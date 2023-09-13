@@ -169,7 +169,7 @@ const UploadProfile = ({ profile, setMb,circle }: Props) => {
           )}
         </Flex>
       </label>
-      {/* {isShow && !isEmpty(profile) && profile !== 'default.jpg' && (
+      {isShow && !isEmpty(profile) && profile !== 'default.jpg' && circle!==true && (
         <div
           title="Remove Profile Picture"
           className={styles.svgClose}
@@ -182,7 +182,7 @@ const UploadProfile = ({ profile, setMb,circle }: Props) => {
         >
           <SvgCloseSmall />
         </div>
-      )} */}
+      )}
     </Flex>
   );
 };

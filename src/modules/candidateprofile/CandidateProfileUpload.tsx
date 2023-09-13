@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useLocation, useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import SvgUpload from '../../icons/SvgUpload';
 import { AppDispatch } from '../../store';
 import Button from '../../uikit/Button/Button';
@@ -43,7 +43,7 @@ const CandidateProfileUpload = () => {
   const useQuery = () => {
     return new URLSearchParams(useLocation().search);
   };
-
+  const history = useHistory();
   const query = useQuery();
   const email: any = query.get('email');
 
@@ -137,10 +137,11 @@ const CandidateProfileUpload = () => {
           </div>
 
           <LinkWrapper
-            to="/login"
+             to='/login/?next=${"props.location.pathname"}'
             onClick={() => {
               dispatch(logOutMiddleWare()).then(() => {
-                localStorage.removeItem('token');
+                localStorage.removeItem('token'); 
+                history.push(`/login/${'candidate' }`)             
               });
             }}
           >
