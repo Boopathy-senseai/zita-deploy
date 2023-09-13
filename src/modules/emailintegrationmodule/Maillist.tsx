@@ -206,39 +206,41 @@ const Maillist = ({
       if (sideroute === 1) {
         return (
           <Text bold>
-            {mailfolders === ''? 'Inbox':`Inbox (${mailfolders})`}
+            {mailfolders === '' ? 'Inbox' : `Inbox (${mailfolders})`}
           </Text>
         );
       } else if (sideroute === 2) {
         return (
           <Text bold>
-            {mailfolders === '' ? 'Sent Items':`Sent Items (${mailfolders})`}
+            {mailfolders === '' ? 'Sent Items' : `Sent Items (${mailfolders})`}
           </Text>
         );
       } else if (sideroute === 3) {
         return (
           <Text bold>
-            {mailfolders === '' ? 'Drafts':`Drafts (${mailfolders})`}
+            {mailfolders === '' ? 'Drafts' : `Drafts (${mailfolders})`}
           </Text>
         );
       } else if (sideroute === 4) {
         return (
           <Text bold>
-            {mailfolders === '' ?  'Archive':`Archive (${mailfolders})`}
+            {mailfolders === '' ? 'Archive' : `Archive (${mailfolders})`}
           </Text>
         );
       } else if (sideroute === 5) {
         return (
           <Text bold>
             {mailfolders === ''
-              ?  'Deleted Items':`Deleted Items (${mailfolders})`
-               }
+              ? 'Deleted Items'
+              : `Deleted Items (${mailfolders})`}
           </Text>
         );
       } else if (sideroute === 6) {
         return (
           <Text bold>
-            {mailfolders !== '' ? ` Junk Email (${mailfolders})` : ' Junk Email'}
+            {mailfolders !== ''
+              ? ` Junk Email (${mailfolders})`
+              : ' Junk Email'}
           </Text>
         );
       } else if (sideroute === 0) {
@@ -247,9 +249,9 @@ const Maillist = ({
     }
   };
 
-  const serchreferesh = () => { 
+  const serchreferesh = () => {
     savemail(0, null);
-    if (search !== '' && integration === 'outlook') { 
+    if (search !== '' && integration === 'outlook') {
       getsearchmail(authProvider, searchSection, search.trim(), range, null)
         .then((res) => {
           setSearchicon(res.value.length === 0 ? true : false);
@@ -435,7 +437,7 @@ const Maillist = ({
           }
         } else {
           const ToEmails = data
-            .filter((header) => header.name === 'To')
+            .filter((header) => header.name === 'From')
             .map((header) => header.value);
 
           return <>{ToEmails[0]}</>;
