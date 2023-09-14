@@ -82,7 +82,7 @@ const MessageCard = () => {
       />
       <Flex row between center className={styles.msgText}>
         <Text bold size={14}>
-          Unread Messages
+          Unread Messages From Applicants
         </Text>
         <Flex>
           {message_count !== 0 ? (
