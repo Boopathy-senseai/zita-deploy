@@ -27,6 +27,7 @@ export interface setPasswordState {
 export interface LoginPayload {
   username: string;
   password: string;
+  isStaff:boolean;
 }
 
 export interface PasswordSetPayload {

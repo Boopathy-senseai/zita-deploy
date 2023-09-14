@@ -137,7 +137,7 @@ const CandidateProfileUpload = () => {
           </div>
 
           <LinkWrapper
-            to="/login"
+            to="/login_candidate"
             onClick={() => {
               dispatch(logOutMiddleWare()).then(() => {
                 localStorage.removeItem('token');
