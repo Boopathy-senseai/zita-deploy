@@ -122,15 +122,19 @@ const UpdateProfessionalSkillsEdit = ({
     ).then((res) => {
       if (res.payload.success) {
         dispatch(
-          candidateMatchMiddleWare({ 
-             can_id:res.payload?.can_id[0]?.id.toString(),
+          candidateMatchMiddleWare({
+            can_id: res.payload?.can_id[0]?.id.toString(),
           }),
-        )
+        );
         setReload(false);
         cancel();
         setLoader(false);
         Toast('Skills updated successfully');
-        dispatch(profileEditMiddleWare({jd_id:localStorage.getItem('careerJobViewJobId')}));
+        dispatch(
+          profileEditMiddleWare({
+            jd_id: localStorage.getItem('careerJobViewJobId'),
+          }),
+        );
         dispatch(techSkillMiddleWare());
       } else {
         setLoader(false);
@@ -231,8 +235,6 @@ const UpdateProfessionalSkillsEdit = ({
     formik.setFieldValue('softSkill', softSkillEmpty);
   }, [obj, open]);
 
-
-
   const onCloseModal = () => {
     if (
       isReload &&
@@ -260,13 +262,13 @@ const UpdateProfessionalSkillsEdit = ({
       onPristine();
     }
   }, [isReload]);
-  
+
   return (
     <Modal open={open}>
       {routerPrompt}
       {isLoader && <Loader />}
       <Flex className={styles.overAll}>
-        <div
+        {/* <div
           className={styles.svgClose}
           onClick={onCloseModal}
           tabIndex={-1}
@@ -274,10 +276,19 @@ const UpdateProfessionalSkillsEdit = ({
           onKeyDown={() => { }}
         >
           <SvgCloseSmall />
-        </div>
-        <Text className={styles.title} size={14} bold align="center">
-          {isAddText} Professional Skills
-        </Text>
+        </div> */}
+        <Flex
+          style={{ borderBottom: '0.5px solid #581845', marginBottom: '15px' }}
+        >
+          <Text
+            className={styles.title}
+            size={14}
+            bold
+            style={{ marginBottom: '5px' }}
+          >
+            {isAddText} Professional Skills
+          </Text>
+        </Flex>
 
         <SelectTag
           label="Technical Skills"
@@ -309,14 +320,22 @@ const UpdateProfessionalSkillsEdit = ({
             isCreate
             value={formik.values.softSkill}
             onChange={handleSoftChange}
-            placeholder="Add skills from suggestion list"
+            placeholder="Add soft skills "
             components={{
               MenuList: (props) => <MenuLists {...props} maxHeight={0} />,
             }}
           />
         </div>
-        <Flex end>
+        {/* <Flex end>
           <Button onClick={formik.handleSubmit}>{isAddText}</Button>
+        </Flex> */}
+        <Flex end row marginTop={10} className={styles.borderLine}>
+          <Button className={styles.cancel} onClick={onCloseModal}>
+            Cancel
+          </Button>
+          <Button style={{ marginTop: '20px' }} onClick={formik.handleSubmit}>
+            {isAddText}
+          </Button>
         </Flex>
       </Flex>
     </Modal>

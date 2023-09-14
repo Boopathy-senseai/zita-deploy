@@ -1,9 +1,9 @@
 .overAll {
   background-color: var(--color-white, #ffffff);
-  padding: 20px 30px;
+  padding: 25px;
   border-radius: 4px;
   position: relative;
-  padding-bottom: 40px !important;
+  /* padding-bottom: 40px !important; */
 }
 .salaryFlex {
   padding-top: 20px;
@@ -19,4 +19,20 @@
 }
 .title {
   margin-bottom: 10px;
+}
+.borderLine {
+  border-top: 1px solid #c3c3c3;
+  /* padding-bottom: 20px; */
+}
+.cancel {
+  margin-right: 8px;
+  background-color: #888888;
+  border: none;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+.cancel:active,
+.cancel:focus {
+  background-color: #888888;
+  border: none;
 }
