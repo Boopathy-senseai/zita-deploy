@@ -27,20 +27,21 @@ type Props = {
 const JobTitleCard = ({ job_details }: Props) => {
   return (
       <Flex row center >
-      <div style={{ marginBottom: '6px' }}>
+      <div style={{ marginBottom: '6px', display:"flex" }}>
         <SvgJobTitles />
-      </div>
+      {/* </div> */}
       <TitleLabel
         title="Job Title:"
         value={`${job_details.job_title} - ${job_details.job_id}`}
-      />
-      <div style={{  }}>
+      /></div>
+      <div style={{display:"flex" }}>
         <SvgLocation width={16} height={16} fill="#581845" />
-      </div>
+      
       <TitleLabel
         title="Location:"
         value={`${job_details.city}, ${job_details.state}, ${job_details.country} `}
       />
+      </div>
     </Flex>
     
   );
