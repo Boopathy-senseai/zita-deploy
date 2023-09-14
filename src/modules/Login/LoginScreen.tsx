@@ -47,10 +47,18 @@ const LoginScreen = () => {
     if(localStorage.getItem('token') !== null){
       window.location.replace(`${window.location.origin + homeRoute}`);
     }
+   // if()
+   var url = new URL(window.location.href);
+
+   if (url.searchParams.get('isforgot')) {
+    setForgot(true)
+  }
   },[])
   if (typeof location.state !== 'undefined') {
     nextUrl = location.state.from.pathname;
   }
+  // setForgot(true)
+  
 
  
 
