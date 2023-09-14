@@ -1,5 +1,5 @@
 .overAll {
-  padding: 16px;
+  width: 113px;
 }
 .tagOne {
   margin-right: 8px;
@@ -86,4 +86,11 @@
   position: absolute;
   right: 0;
 }
+
+
+.overAllcard {
+  position: relative;
+  width: 130px;
+}
+
 

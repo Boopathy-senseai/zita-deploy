@@ -2,6 +2,7 @@ import { routesPath } from './routes/routesPath';
 
 // Auth
 export const loginAuth = `/login`;
+export const candidateLogin = '/login_candidate'
 export const newPassword = `/new_password/:userId/:confirmationToken`;
 export const recruiter = `/recruiter/:planId`;
 export const home = `https://www.zita.ai/`;
