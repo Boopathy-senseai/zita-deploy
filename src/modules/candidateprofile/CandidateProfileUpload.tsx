@@ -140,8 +140,7 @@ const CandidateProfileUpload = () => {
             to="/login_candidate"
             onClick={() => {
               dispatch(logOutMiddleWare()).then(() => {
-                localStorage.removeItem('token'); 
-                history.push(`/login/${'candidate' }`)             
+                localStorage.removeItem('token');              
               });
             }}
           >
