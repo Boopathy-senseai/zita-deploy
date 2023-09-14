@@ -65,7 +65,8 @@ const UploadProfile = ({ profile, setMb,circle }: Props) => {
     }
   }; 
   useEffect(()=>{
-    dispatch(dashBoardMiddleWare())
+   if(!isEmpty(profile) && profile !== 'default.jpg'  ){
+    dispatch(dashBoardMiddleWare())}
   },[])
   const { 
     profiles,
@@ -112,7 +113,7 @@ const UploadProfile = ({ profile, setMb,circle }: Props) => {
           accept="image/*"
           className={styles.fileStyle}
         />
-        {console.log(profiles,'llllllllllll')}
+        
         <Flex className={circle?(styles.imgContainers):(styles.imgContainer)}>
           {isEmpty(profiles) || profiles === 'default.jpg' ? (
             <>

@@ -76,6 +76,7 @@ const CandidateProfileUpload = () => {
             loginMiddleWare({
               username: res.payload.user_details.username,
               password: res.payload.user_details.password,
+              isStaff:false,
             }),
           ).then((loginRes) => {
             if (loginRes.payload.token !== undefined) {
