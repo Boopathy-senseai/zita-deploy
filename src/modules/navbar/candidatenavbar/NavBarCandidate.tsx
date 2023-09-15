@@ -45,7 +45,7 @@ const NavBarCandidate = () => {
       setLogOutLoader(false);
       localStorage.clear();
       sessionStorage.clear();
-      window.location.replace(window.location.origin + '/login');
+      window.location.replace(window.location.origin + '/login_candidate');
     });
   };
 

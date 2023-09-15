@@ -37,10 +37,12 @@ import { getDateString, isEmpty, unlimitedHelper } from '../../../uikit/helper';
 import LinkWrapper from '../../../uikit/Link/LinkWrapper';
 import Text from '../../../uikit/Text/Text';
 import { FILE_2MB, imageFileAccept, mediaPath } from '../../constValue';
+import SvgCloseSmall from '../../../icons/SvgCloseSmall';
 
 import styles from './profilecard.module.css';
 import { CountryEntity, StateEntity, CityEntity } from './Companytype';
 import { dashBoardMiddleWare } from './store/dashboardmiddleware';
+
 
 const ProfileCard = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -285,13 +287,42 @@ const ProfileCard = () => {
     }
   };
 
+  const handleRemoveProfile = () => {
+    setLoader(true);
+    const formData = new FormData();
+    formData.append('logo', '');
+    formData.append('company_name', company_name);
+    formData.append('company_website',weburl);
+    formData.append('contact', mobile_no);
+     formData.append('industry_type', industryid.toString());
+     formData.append('no_of_emp', noofemp.toString());
+    formData.append('address', address);
+    formData.append('country', countryid.toString());
+    formData.append('state', stateid.toString());
+    formData.append('city', cityid.toString());
+    formData.append('zipcode', zipcode);
+    formData.append('email', user_info.email);
+    dispatch(
+      companyPagePostMiddleWare({
+        formData,
+      }),
+    ).then((res: any) => {
+      if (res.payload.data.success) {
+        dispatch(dashBoardMiddleWare()).then(() => {
+          setLoader(false);
+          Toast('Profile Removed successfully', 'LONG', 'success');
+        });
+        setShow(false);
+      }
+    });
+  };
+
   return (
     <Flex marginLeft={3}>
       <Card className={styles.profileCardMain}>
         <Flex middle marginTop={15}>
-          {console.log("ssssssssssss",logoPath)}
-          
-            <>
+          <Flex className={styles.overAll}>
+            {/* {console.log("sssssssssss",logoPath)} */}
                  <label
                  htmlFor="upload_profile___bannersetip__img"
                  onMouseEnter={() => setShow(true)}
@@ -359,11 +390,26 @@ const ProfileCard = () => {
                    )}
                  </Flex>
                </label>
+               {isShow && !isEmpty(logoPath) && logoPath !== 'default.jpg' && logoPath!=='logo.png' && (
+        <div
+          title="Remove Profile Picture"
+          className={styles.svgClose}
+          onMouseEnter={() => setShow(true)}
+          onMouseLeave={() => setShow(false)}
+          onClick={handleRemoveProfile}
+          tabIndex={-1}
+          role="button"
+          onKeyDown={() => {}}
+        >
+          <SvgCloseSmall />
+        </div>
+      )}
+
                  {isMb && (
                   <Text size={12} color="error">
                     {FILE_2MB}
                   </Text>
-                )}</>
+                )}</Flex>
 
         </Flex>
         <Flex marginTop={12}>
