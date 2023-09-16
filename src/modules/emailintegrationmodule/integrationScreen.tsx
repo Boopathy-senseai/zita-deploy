@@ -61,7 +61,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
   const [loader, setLoader] = useState(false);
   const [search, setSearch] = useState('');
   const [attachments, setAttachments] = useState([]);
-  const [mailfolders, setMailfolders] = useState<any>('');
+  const [mailfolders, setMailfolders] = useState<any>(0);
   const [gmailunread, setgmailunread] = useState(0);
   const [nextpagetoken, setnextpagetoken] = useState(null);
   const [noEmails, setNoEmails] = useState(false);
@@ -379,26 +379,26 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
   const serchmessage = async (e: any) => {
     // e.preventDefault();
 
-    if (e && e.key === 'Enter' ) {
-      if(search.trim() !== ''){
-      setLoader(true);
-      setsearchapi(true);
-      setsideroute(0);
-      setPrevious(25);
-      setSkip(0);
-      setDel(0);
-      setPrevious1(1);
-      setmessagelist([]);
-      setmesage('');
-      setSearch(search.trim());
-      setIsLoading(true);
-      setEnterKey(true);
-      settoken(null);}
+    if (e && e.key === 'Enter') {
+      if (search.trim() !== '') {
+        setLoader(true);
+        setsearchapi(true);
+        setsideroute(0);
+        setPrevious(25);
+        setSkip(0);
+        setDel(0);
+        setPrevious1(1);
+        setmessagelist([]);
+        setmesage('');
+        setSearch(search.trim());
+        setIsLoading(true);
+        setEnterKey(true);
+        settoken(null);
+      }
     }
   };
 
   const refresh = async () => {
- 
     if (sideroute !== 0) {
       setLoader(true);
       setmessagelist([]);
@@ -720,14 +720,14 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
   };
 
   const savemail = (val, tok) => {
-    if(val === 0){
-    setmessagelist([]);
-    settoken(tok);
-    setLoader(false);}
-    else{
+    if (val === 0) {
+      setmessagelist([]);
+      settoken(tok);
+      setLoader(false);
+    } else {
       setmessagelist((prevMessages) => [...prevMessages, ...val]);
-    settoken(tok);
-    setLoader(false);
+      settoken(tok);
+      setLoader(false);
     }
   };
 
