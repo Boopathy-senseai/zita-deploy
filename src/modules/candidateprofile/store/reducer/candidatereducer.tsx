@@ -73,6 +73,12 @@ const techSkillState: TechSkillReducerState = {
       value: '',
     },
   ],
+  soft_skills: [
+    {
+      value: '',
+      label: '',
+    }
+  ]
 };
 
 const techSkillReducer = createSlice({
@@ -88,6 +94,7 @@ const techSkillReducer = createSlice({
       state.isLoading = false;
       state.skills_list = action.payload.skills_list;
       state.skills = action.payload.skills;
+      state.soft_skills = action.payload.soft_skills;
     });
     builder.addCase(techSkillMiddleWare.rejected, (state, action) => {
       state.isLoading = false;

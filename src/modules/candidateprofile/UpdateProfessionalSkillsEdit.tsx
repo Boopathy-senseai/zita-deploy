@@ -32,9 +32,10 @@ type Props = {
 };
 
 type skillList = { label: string; value: string };
+type softSkillList = {value: string; label: string;}
 type skillFormikProps = {
   techSkill: skillList[];
-  softSkill: skillList[];
+  softSkill: softSkillList[];
 };
 
 const initial: skillFormikProps = {
@@ -56,11 +57,14 @@ const UpdateProfessionalSkillsEdit = ({
     dispatch(techSkillMiddleWare());
   }, []);
 
-  const { skills_list, skills } = useSelector(
+ 
+  const { skills_list, skills, soft_skills } = useSelector(
     ({ techSkillReducers }: RootState) => {
+      console.log(techSkillReducers.soft_skills)
       return {
         skills_list: techSkillReducers.skills_list,
         skills: techSkillReducers.skills,
+        soft_skills: techSkillReducers.soft_skills,
       };
     },
   );
@@ -310,11 +314,12 @@ const UpdateProfessionalSkillsEdit = ({
           touched={formik.touched}
           errors={formik.errors}
         />
+        {console.log(soft_skills, "======")}
         <div className={styles.softSkillFlex}>
           <SelectTag
             label="Soft Skills"
             isClearable
-            options={[]}
+            options={soft_skills}
             isMulti
             isSearchable
             isCreate
@@ -322,7 +327,7 @@ const UpdateProfessionalSkillsEdit = ({
             onChange={handleSoftChange}
             placeholder="Add soft skills "
             components={{
-              MenuList: (props) => <MenuLists {...props} maxHeight={0} />,
+              MenuList: (props) => <MenuLists {...props}/>,
             }}
           />
         </div>
