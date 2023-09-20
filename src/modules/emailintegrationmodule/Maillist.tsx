@@ -206,31 +206,31 @@ const Maillist = ({
       if (sideroute === 1) {
         return (
           <Text bold>
-            {mailfolders === '' ? 'Inbox' : `Inbox (${mailfolders})`}
+            {mailfolders === 0 ? 'Inbox' : `Inbox (${mailfolders})`}
           </Text>
         );
       } else if (sideroute === 2) {
         return (
           <Text bold>
-            {mailfolders === '' ? 'Sent Items' : `Sent Items (${mailfolders})`}
+            {mailfolders === 0 ? 'Sent Items' : `Sent Items (${mailfolders})`}
           </Text>
         );
       } else if (sideroute === 3) {
         return (
           <Text bold>
-            {mailfolders === '' ? 'Drafts' : `Drafts (${mailfolders})`}
+            {mailfolders === 0 ? 'Drafts' : `Drafts (${mailfolders})`}
           </Text>
         );
       } else if (sideroute === 4) {
         return (
           <Text bold>
-            {mailfolders === '' ? 'Archive' : `Archive (${mailfolders})`}
+            {mailfolders === 0 ? 'Archive' : `Archive (${mailfolders})`}
           </Text>
         );
       } else if (sideroute === 5) {
         return (
           <Text bold>
-            {mailfolders === ''
+            {mailfolders === 0
               ? 'Deleted Items'
               : `Deleted Items (${mailfolders})`}
           </Text>
@@ -238,9 +238,7 @@ const Maillist = ({
       } else if (sideroute === 6) {
         return (
           <Text bold>
-            {mailfolders !== ''
-              ? ` Junk Email (${mailfolders})`
-              : ' Junk Email'}
+            {mailfolders === 0 ? 'Junk Email' : `Junk Email (${mailfolders})`}
           </Text>
         );
       } else if (sideroute === 0) {

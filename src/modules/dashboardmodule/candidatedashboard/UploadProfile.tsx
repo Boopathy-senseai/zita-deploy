@@ -65,7 +65,8 @@ const UploadProfile = ({ profile, setMb,circle }: Props) => {
     }
   }; 
   useEffect(()=>{
-    dispatch(dashBoardMiddleWare())
+   if(!isEmpty(profile) && profile !== 'default.jpg'  ){
+    dispatch(dashBoardMiddleWare())}
   },[])
   const { 
     profiles,
@@ -112,7 +113,7 @@ const UploadProfile = ({ profile, setMb,circle }: Props) => {
           accept="image/*"
           className={styles.fileStyle}
         />
-        {console.log(profiles,'llllllllllll')}
+        
         <Flex className={circle?(styles.imgContainers):(styles.imgContainer)}>
           {isEmpty(profiles) || profiles === 'default.jpg' ? (
             <>
@@ -169,10 +170,10 @@ const UploadProfile = ({ profile, setMb,circle }: Props) => {
           )}
         </Flex>
       </label>
-      {isShow && !isEmpty(profile) && profile !== 'default.jpg' && circle!==true && (
+      {isShow && !isEmpty(profile) && profile !== 'default.jpg' &&  (
         <div
           title="Remove Profile Picture"
-          className={styles.svgClose}
+          className={circle?(styles.svgCloses):(styles.svgClose)}
           onMouseEnter={() => setShow(true)}
           onMouseLeave={() => setShow(false)}
           onClick={handleRemoveProfile}

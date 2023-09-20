@@ -25,6 +25,7 @@ import { LabelWrapper, Loader, Toast } from '../../../uikit';
 import { companyPagePostMiddleWare } from '../store/middleware/accountsettingmiddleware';
 import { dashBoardMiddleWare } from '../../dashboardmodule/empdashboard/store/dashboardmiddleware';
 import SvgUpload from '../../../icons/SvgUpload';
+import SvgCloseSmall from '../../../icons/SvgCloseSmall';
 import { CompanyDetail } from './buildCareerPageTypes';
 import ColorPicker from './ColorPicker';
 import { formikFormTypes } from './formikTypes';
@@ -125,7 +126,36 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
       setMb(false);
     }
   };
-
+  const handleRemoveProfile = () => {
+    setLoader(true);
+    const formData = new FormData();
+    formData.append('logo', '');
+    formData.append('company_name', company_detail.company_name);
+    formData.append('company_website',company_detail.company_website);
+    formData.append('contact', company_detail.contact);
+    formData.append('industry_type', company_detail.industry_type_id.toString());
+    formData.append('no_of_emp', company_detail.no_of_emp.toString());
+    formData.append('address', company_detail.address);
+    formData.append('country', company_detail.country_id.toString());
+    formData.append('state', company_detail.state_id.toString());
+    formData.append('city', company_detail.city_id.toString());
+    formData.append('zipcode', company_detail.zipcode);
+    formData.append('email', company_detail.email);
+    dispatch(
+      companyPagePostMiddleWare({
+        formData,
+      }),
+    ).then((res: any) => {
+      if (res.payload.data.success) {
+        dispatch(buildCareerMiddleWare())
+          dispatch(dashBoardMiddleWare()).then(() => {
+          setLoader(false);
+          Toast('Profile Removed successfully', 'LONG', 'success');
+        });
+        setShow(false);
+      }
+    });
+  };
 
   const logo =
     company_detail && !isEmpty(company_detail.logo)
@@ -395,7 +425,7 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
           alt="logo"
         /> */}
 
-<>
+<Flex className={styles.overAll}>
                  <label
                  htmlFor="upload_profile___bannersetip__img"
                  onMouseEnter={() => setShow(true)}
@@ -463,11 +493,27 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
                    )}
                  </Flex>
                </label>
+               {isShow && !isEmpty(logo) && logo !== 'default.jpg' && logo!=='logo.png' && (
+        <div
+          title="Remove Profile Picture"
+          className={styles.svgClose}
+          onMouseEnter={() => setShow(true)}
+          onMouseLeave={() => setShow(false)}
+          onClick={handleRemoveProfile}
+          tabIndex={-1}
+          role="button"
+          onKeyDown={() => {}}
+        >
+          <SvgCloseSmall />
+        </div>
+      )}
+
                  {isMb && (
                   <Text size={12} color="error">
                     {FILE_2MB}
                   </Text>
-                )}</>
+                )}
+                </Flex>
 
         </Flex>
         
