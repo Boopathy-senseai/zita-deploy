@@ -16,8 +16,9 @@ import { isEmpty, notSpecified } from '../../uikit/helper';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import Loader from '../../uikit/Loader/Loader';
 import Text from '../../uikit/Text/Text';
-import { mediaPath } from '../constValue';
+import { FILE_2MB, mediaPath } from '../constValue';
 import Avatar from '../../uikit/Avatar/Avatar';
+import UploadProfile from '../dashboardmodule/candidatedashboard/UploadProfile';
 import styles from './candidatenavbar.module.css';
 import { Obj, ProjectsEntityOne, UserInfo } from './candidateProfileTypes';
 import { downloadProfileMiddleWare } from './store/middleware/candidateprofilemiddleware';
@@ -56,7 +57,7 @@ const CandidateNavBar = ({
       setLoader(false);
     });
   };
-
+  const [isMb, setMb] = useState(false);
   const checkBox =
     (obj && Array.isArray(obj?.skills) && obj?.skills?.length !== 0) ||
     (obj && Array.isArray(obj?.soft_skills) && obj?.soft_skills.length !== 0);
@@ -75,6 +76,16 @@ const CandidateNavBar = ({
           src={mediaPath + obj?.profile_url}
           alt="Profile"
         /> */}
+        {/* { obj?.profile_url &&
+                  obj?.profile_url !== 'default.jpg' ?(
+                    <>
+                    <UploadProfile profile={obj?.profile_url} setMb={setMb}  circle/>
+                    {isMb && (
+                      <Text size={12} color="error" className={styles.fileErrorText}>
+                        {FILE_2MB}
+                      </Text>
+                    )}</>
+                  ):(
         <Avatar
                 className={styles.profile}
                 style={{ fontSize:'40px', textTransform:'uppercase' }}
@@ -90,7 +101,15 @@ const CandidateNavBar = ({
                   obj?.profile_url !== 'default.jpg' &&
                   `${process.env.REACT_APP_HOME_URL}media/${obj?.profile_url}`
                 }
-              />
+              />)
+              } */}
+               <>
+                    <UploadProfile profile={obj?.profile_url} setMb={setMb}  circle/>
+                    {isMb && (
+                      <Text size={12} color="error" className={styles.fileErrorText}>
+                        {FILE_2MB}
+                      </Text>
+                    )}</>
         <Flex columnFlex flex={1} between>
           <Flex row center>
             <Text

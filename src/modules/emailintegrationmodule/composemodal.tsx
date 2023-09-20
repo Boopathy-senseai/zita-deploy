@@ -73,6 +73,7 @@ type Props = {
   remove_message: (id: any) => void;
   removemsg: () => void;
   newmsg: any;
+  can_id?:any;
 };
 
 const Newmessage = ({
@@ -84,6 +85,7 @@ const Newmessage = ({
   Mail_action,
   updateMailaction,
   atfiles,
+  can_id,
   sidebarroute,
   remove_message,
   removemsg,
@@ -422,7 +424,7 @@ const Newmessage = ({
   useEffect(() => {
     dispatch(messagesTemplatesMiddleWare());
 
-    dispatch(getEmail()).then((res) => {});
+    dispatch(getEmail(can_id?can_id:undefined)).then((res) => {});
   }, []);
 
   useEffect(() => {

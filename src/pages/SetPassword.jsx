@@ -20,7 +20,7 @@ import Button from '../uikit/Button/Button';
 import { GARY_8 } from '../uikit/Colors/colors';
 import { ErrorMessages } from '../modules/Login/SetNewPassword';
 import Loginslider from '../modules/Login/Loginslider';
-
+import Loginslidercandidate from '../modules/Login/Loginslidercandidate';
 import {
   checkUpperCase,
   PASSWORD_MATCH,
@@ -323,13 +323,15 @@ const SetPassword = () => {
               </div>
             </Flex>
             </Flex>
-            <Flex className={styles.splitrows_2}>
+            <Flex className={styles.splitrows_2} style={{display:"flex"}}>
             <Flex middle className={styles.logos}>
             <SvgZitaLogo width={240} height={125} />
              </Flex>
              <Flex className={styles.centers_aligh_slider}>
             <Loginslider />
+            {/* <Loginslidercandidate/> */}
              </Flex>
+             
             </Flex>
             </Flex>
           {/* </div> */}

@@ -25,7 +25,7 @@ const headers = new Headers();
 headers.append('Content-Type', 'application/json');
 export const loginMiddleWare = createAsyncThunk(
   API_AUTH_login,
-  async ({ username, password }: LoginPayload, { rejectWithValue }) => {
+  async ({ username, password,isStaff }: LoginPayload, { rejectWithValue }) => {
     try {
       const data = await fetch(authApi, {
         method: 'POST',
@@ -33,6 +33,7 @@ export const loginMiddleWare = createAsyncThunk(
         body: JSON.stringify({
           username,
           password,
+          isStaff
         }),
       });
       return await data.json();

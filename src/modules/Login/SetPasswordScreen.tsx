@@ -49,6 +49,7 @@ const SetPasswordScreen = () => {
   const { userId, confirmationToken } = useParams<ParamsType>();
   const dispatch: AppDispatch = useDispatch();
   const [isSuccess, setSuccess] = useState(false);
+  const [employeelogin,setemployeelogin]=useState(false);
   useEffect(() => {
     dispatch(
       emailActiveMiddleWare({
@@ -78,6 +79,7 @@ const SetPasswordScreen = () => {
       }),
     )
       .then((res) => {
+        setemployeelogin(res.payload.is_employee)
         if (res.payload.success) {
           setSuccess(true);
         }
@@ -97,10 +99,11 @@ const SetPasswordScreen = () => {
   }
   return (
     <>
-      {console.log(setPassLoader)}
+
       <Flex>
         <SetNewPassword
           formik={formik}
+          employeelogin={employeelogin}
           isSuccess={isSuccess}
           setPassSuccess={setPassSuccess}
           success={success}

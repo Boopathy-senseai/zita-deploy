@@ -29,6 +29,9 @@ import {
   Outlook_Auth,
 } from '../emailintegrationmodule/store/middleware/emailIntegrationMiddleWare';
 import Toast from '../../uikit/Toast/Toast';
+import SvgClose from '../../icons/SvgClose';
+
+import { Button, Modal } from '../../uikit';
 import CompanyPage from './companypage';
 //import UserProfile from './userprofilemodule/userProfile';
 import styles from './accountsettingsscreen.module.css';
@@ -74,6 +77,7 @@ const AccountSettingsScreen = ({ value }: props) => {
       : sessionStorage.getItem('superUserTabTwo');
 
   const [tabKey, setKey] = useState(tabInitial);
+  const [modelopen, setmodelopen] = useState(false);
   const [tabKeyOne, setKeyOne] = useState<any>(tabTwoInitial);
   const [tabKeyTwo, setKeyTwo] = useState<any>(tabOneInitial);
   const [isInput, setInput] = useState(false);
@@ -129,17 +133,25 @@ const AccountSettingsScreen = ({ value }: props) => {
 
       if (username === 'Mail') {
         dispatch(Google_Auth({ codeUrl: code })).then((res) => {
-          dispatch(getEmail());
+          dispatch(getEmail(undefined));
           history.push('/account_setting/settings');
-          window.location.reload();
+          if(res.payload.mess===false)
+          {
+              setmodelopen(!modelopen)
+          }else{
+          window.location.reload();}
           // localStorage.setItem('integrationSuccess', 'true');
         });
       } else {
         dispatch(googleCallbackMiddleware({ codeUrl: code })).then((res) => {
           dispatch(IntergratemailMiddleWare());
           history.push('/account_setting/settings');
+          if(res.payload.mess===false)
+          {
+              setmodelopen(!modelopen)
+          }else{
           localStorage.setItem('integrationSuccess', 'true');
-          window.location.reload();
+          window.location.reload();}
         });
       }
     } else if (url.searchParams.get('session_state')) {
@@ -156,9 +168,13 @@ const AccountSettingsScreen = ({ value }: props) => {
       if (user === 'Mail') {
         dispatch(Outlook_Auth(access_urls))
           .then((res) => {
-            dispatch(getEmail());
+            dispatch(getEmail(undefined));
             history.push('/account_setting/settings');
-            window.location.reload();
+             if(res.payload.mess===false)
+            {
+                setmodelopen(!modelopen)
+            }else{
+            window.location.reload();}
           })
           .catch((err) => {
             // console.log('error', err);
@@ -168,8 +184,12 @@ const AccountSettingsScreen = ({ value }: props) => {
           .then((res) => {
             dispatch(IntergratemailMiddleWare());
             history.push('/account_setting/settings');
+            if(res.payload.mess===false)
+            {
+                setmodelopen(!modelopen)
+            }else{
             localStorage.setItem('integrationSuccess', 'true');
-            window.location.reload();
+            window.location.reload();}
             //  Toast('Outlook calendar Integrated Successfully', 'MEDIUM');
           })
           .catch((err) => {
@@ -1045,6 +1065,21 @@ const AccountSettingsScreen = ({ value }: props) => {
               </Tab> */}
                 </Tabs>
               )}
+              <Modal open={modelopen}>
+              <Flex className={styles.editmodal}>
+                <Flex center>
+                  <Flex >
+                  <Text>Integration email domain must match your registered domain.</Text>  
+                    </Flex>
+                  <Flex center marginTop={10} className={styles.centerali}>
+                  <Button
+                     onClick={() => setmodelopen(!modelopen)}
+                    >
+                      OK
+                    </Button></Flex>
+                </Flex>
+              </Flex>
+              </Modal>
           </Flex>
 
           {/* {routerPrompt} */}

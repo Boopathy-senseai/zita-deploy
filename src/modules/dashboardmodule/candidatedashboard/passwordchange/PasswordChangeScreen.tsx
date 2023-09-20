@@ -158,6 +158,7 @@ const PasswordChangeScreen = () => {
                 <Button
                   types="link"
                   onClick={() => setShowCurrent(!isShowCurrent)}
+                  tabIndex={-1}
                 >
                   <SvgView nonView={isShowCurrent} height={20} width={20} />
                 </Button>
@@ -194,6 +195,7 @@ const PasswordChangeScreen = () => {
                 <Button
                   types="link"
                   onClick={() => setShowNewPass(!isShowNewPass)}
+                  tabIndex={-1}
                 >
                   <SvgView nonView={isShowNewPass} height={20} width={20} />
                 </Button>
@@ -236,6 +238,7 @@ const PasswordChangeScreen = () => {
                 <Button
                   types="link"
                   onClick={() => setShowChnagePass(!isShowChangePass)}
+                  tabIndex={-1}
                 >
                   <SvgView nonView={isShowChangePass} height={20} width={20} />
                 </Button>

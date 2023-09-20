@@ -121,3 +121,13 @@ pointer-events: none;
   overflow: auto;
 }
 
+
+.editmodal {
+  background-color: var(--color-white, #ffffff);
+  width: 404px;
+  padding: 25px 25px 20px 25px;
+  border-radius: 4px;
+}
+.centerali{
+  justify-content: center;
+}

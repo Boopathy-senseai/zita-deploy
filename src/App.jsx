@@ -43,6 +43,7 @@ import {
   jobQuestionnaire,
   jobSelect,
   loginAuth,
+  candidateLogin,
   reports,
   newPassword,
   orderSummaryRoute,
@@ -53,13 +54,15 @@ import {
   zitaMatchScreen,
   calendarRoute,
   inbox,
-  meetingScheduler, 
+  meetingScheduler,
+  loginCandidate, 
 } from './appRoutesPath';
 import CreateJdWithNonDs from './modules/createjdmodule/CreateJdWithNonDs';
 import MyJobPostingScreen from './modules/myjobposting/MyJobPostingScreen';
 import ApplicantQuestionnaire from './modules/createjdmodule/ApplicantQuestionnaire';
 import JdPreviewScreen from './modules/createjdmodule/JdPreviewScreen';
 import LoginScreen from './modules/Login/LoginScreen';
+import LoginCandidate from './modules/Login/LoginCandidate';
 import SetPasswordScreen from './modules/Login/SetPasswordScreen';
 import SignUpScreen from './modules/SignUp/SignUpScreen';
 import AccountSettingsScreen from './modules/accountsettingsmodule/AccountSettingsScreen';
@@ -404,6 +407,7 @@ const App = () => {
     <BrowserRouter basename={'/'}>
       <Switch>
         <Route path={loginAuth} component={LoginScreen} />
+        <Route path={candidateLogin} component={LoginCandidate}/>
         <Route path={recruiter} component={SignUpScreen} />
         <Route path={newPassword} component={SetPasswordScreen} />
         <Route path={careerView} component={CareerViewScreen} />

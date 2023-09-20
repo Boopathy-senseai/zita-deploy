@@ -653,6 +653,7 @@ const SignUpScreen = (props: any) => {
                             <Button
                               types="link"
                               onClick={() => setShowNewPass(!isShowNewPass)}
+                              tabIndex={-1}
                             >
                               <SvgView
                                 nonView={isShowNewPass}
@@ -714,6 +715,7 @@ const SignUpScreen = (props: any) => {
                               onClick={() =>
                                 setShowChnagePass(!isShowChangePass)
                               }
+                              tabIndex={-1}
                             >
                               <SvgView
                                 nonView={isShowChangePass}
@@ -757,8 +759,9 @@ const SignUpScreen = (props: any) => {
                           target={'_blank'}
                           rel="noreferrer"
                           href="https://zita.ai/terms-and-conditions"
+                          
                         >
-                          <Text bold size={14} color="link">
+                          <Text bold size={14} color="link" >
                             Terms of Use
                           </Text>
                         </a>
@@ -768,6 +771,7 @@ const SignUpScreen = (props: any) => {
                           target={'_blank'}
                           rel="noreferrer"
                           href="https://www.zita.ai/privacy-policy"
+                          
                         >
                           <Text bold size={14} color="link">
                             Privacy Policy.

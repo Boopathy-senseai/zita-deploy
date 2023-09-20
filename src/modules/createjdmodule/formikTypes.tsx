@@ -16,6 +16,8 @@ export type dsFormProps = {
   skills:[],
   city: string;
   remoteWork: string;
+  onsite: string;
+  hybrid: string;
   minimumSalary: string;
   maximumSalary: string;
   currency: string;
