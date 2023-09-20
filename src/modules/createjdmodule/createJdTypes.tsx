@@ -114,6 +114,18 @@ export interface LocationState extends Location {
   error: string;
 }
 
+
+
+export interface IndustryState {
+  isLoading: boolean;
+  error: string;
+  data: [{
+    id: number;
+    label_name:string;
+    value: string;
+  }];
+}
+
 export interface JDProfile {
   success: boolean;
   profile_value: ProfileValue;
@@ -215,6 +227,8 @@ export interface QualificationEntity {
 }
 
 export interface JdOutput {
+  work_space_type: string;
+  industry_type_name: string;
   id: number;
   job_posted_on: string;
   job_reposted_on?: string;
@@ -255,6 +269,7 @@ export interface UpdateJdState extends UpdateJd {
 
 export interface CreateJdPostPayload {
   work_remote: string;
+  work_space_type:string;
   job_title: string;
   job_role?: string;
   job_id: string;

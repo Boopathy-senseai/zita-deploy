@@ -64,6 +64,7 @@ const JobDescriptionTemplate = ({
   return (
    
     <Modal open={open}>
+   
       <Flex
         columnFlex
         className={styles.overAll}
@@ -108,6 +109,7 @@ const JobDescriptionTemplate = ({
           columnFlex
           className={cx('scrollStyle')}
         >
+          
           {searchResults && searchResults.length !== 0 ? (
             searchResults.map((list, index) => {
               return (

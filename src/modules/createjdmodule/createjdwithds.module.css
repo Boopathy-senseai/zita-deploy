@@ -26,10 +26,11 @@
   top: 5px;
 }
 .step {
-  position: relative;
-  margin: 0 400px;
-  margin-bottom: 36px;
-  margin-top: 28px;
+  /* position: relative; */
+  /* margin: 0 400px; */
+  /* margin-bottom: 36px;
+  margin-top: 28px; */
+  padding: 10px 0 20px 0;
 }
 .stepOne {
   position: relative;

@@ -176,16 +176,13 @@ const ApplicantQuestionnaire = () => {
           stepIndex="2"
           roundFill
         />
-        <Flex columnFlex className={styles.step3Flex}>
-          <div className={styles.round}>
-            <Text bold size={18} color={'black'}>
-              {3}
-            </Text>
-          </div>
-          <Text bold className={styles.stepThree}>
-            Preview & Post Job
-          </Text>
-        </Flex>
+       <StepProgressBar
+          title="Preview & Post Job"
+          titleclassName={styles.stepTwo}
+          stepIndex="3"
+         
+        />
+        
       </Flex>
       <Flex className={styles.cardOverAll}>
         {/* <Text size={16} bold className={styles.applicantTitle}>

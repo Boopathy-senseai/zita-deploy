@@ -109,7 +109,7 @@ export const jdProfileApi = (jdId: string) => {
   const url = `jd_profile/${jdId}`;
   return url;
 };
-
+export const industrytype=`jd_industry_type`
 export const missSkillsApi = (jdId?: string) => {
   const url = `missing_skills/${jdId}`;
   return url;

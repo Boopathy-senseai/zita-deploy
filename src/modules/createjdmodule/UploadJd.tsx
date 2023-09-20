@@ -12,8 +12,10 @@ import { fileAccept, FILE_2MB } from '../constValue';
 import { jdParserMiddleWare } from './store/middleware/createjdmiddleware';
 import styles from './uploadjd.module.css';
 
-
-function UploadJd() {
+type Props = {
+  handleTempOpen?:any;
+}
+const UploadJd=({handleTempOpen})=> {
   const [file, setFile] = useState<any>([]);
   const [isMb, setMb] = useState(false);
   const [modal,setmodal]= useState (false)
@@ -108,7 +110,12 @@ function UploadJd() {
       </Text>
       </Flex>
       <Flex>
-      <Button onClick={()=>setmodal(true)}>Upload JD</Button>
+        <Flex row>
+          <Button types='secondary' onClick={()=>setmodal(true)} style={{marginRight:'10px'}}>Upload JD</Button>
+          <Button onClick={handleTempOpen}>
+              Import from our templates
+            </Button>
+         </Flex>    
       <Modal open={modal} >
       <Flex className={styles.uploadpopup}>
         <Flex  center>

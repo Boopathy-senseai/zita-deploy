@@ -19,6 +19,7 @@ import {
   whatjobsApi,
   selectDsorNonDsApi,
   validateJobIdApi,
+  industrytype
 } from '../../../../routes/apiRoutes';
 import {
   JD_CREATE,
@@ -31,6 +32,7 @@ import {
   JD_DUPLICATE,
   JD_PROFILES,
   JD_WHATJOBS,
+  Industy_type
 } from '../../../../actions/actions';
 import {
   CreateJdPostPayload,
@@ -97,6 +99,19 @@ export const jdProfileMiddleWares = createAsyncThunk(
       const { data } = await axios.get(matchingoverallApi ,{
         params: {pk:jd_id},
       } );
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+export const industryType = createAsyncThunk(
+ Industy_type,
+  async (_a, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(industrytype);
       return data;
     } catch (error) {
       const typedError = error as Error;

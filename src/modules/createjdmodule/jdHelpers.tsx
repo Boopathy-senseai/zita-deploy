@@ -185,6 +185,7 @@ export const jdSubmit = ({
         work_state: values.state,
         work_city: values.city,
         work_remote: values.remoteWork,
+        work_space_type:values.work_space_type,
         salary_min: values.minimumSalary,
         salary_max: values.maximumSalary,
         salary_curr_type: values.currency,
@@ -243,6 +244,7 @@ export const jdSubmit = ({
         work_state: values.state,
         work_city: values.city,
         work_remote: values.remoteWork,
+        work_space_type:values.work_space_type,
         salary_min: values.minimumSalary,
         salary_max: values.maximumSalary,
         salary_curr_type: values.currency,
@@ -444,6 +446,7 @@ export const jdCancelSubmit = ({
       work_state: values.state,
       work_city: values.city,
       work_remote: values.remoteWork,
+      work_space_type:values.work_space_type,
       salary_min: values.minimumSalary,
       salary_max: values.maximumSalary,
       salary_curr_type: values.currency,
@@ -652,6 +655,7 @@ export const jdDraftSubmit = ({
         work_state: values.state,
         work_city: values.city,
         work_remote: values.remoteWork,
+        work_space_type:values.work_space_type,
         salary_min: values.minimumSalary,
         salary_max: values.maximumSalary,
         salary_curr_type: values.currency,
@@ -692,6 +696,7 @@ export const jdDraftSubmit = ({
         work_state: values.state,
         work_city: values.city,
         work_remote: values.remoteWork,
+        work_space_type:values.work_space_type,
         salary_min: values.minimumSalary,
         salary_max: values.maximumSalary,
         salary_curr_type: values.currency,
@@ -917,13 +922,13 @@ export const handleNonDsValidateForm = (
   if (!isEmpty(values.vacancies) && Number(values.vacancies) <= 0) {
     error.vacancies = ENTER_VACANCIES_0;
   }
-  if (isEmpty(values.country)) {
+  if (isEmpty(values.country)&&values.work_space_type!=='3') {
     error.country = THIS_FIELD_REQUIRED;
   }
-  if (isEmpty(values.city)) {
+  if (isEmpty(values.city)&&values.work_space_type!=='3') {
     error.city = THIS_FIELD_REQUIRED;
   }
-  if (isEmpty(values.state)) {
+  if (isEmpty(values.state)&&values.work_space_type!=='3') {
     error.state = THIS_FIELD_REQUIRED;
   }
   if (
@@ -981,8 +986,18 @@ export const handleNonDsValidateForm = (
   ) {
     error.nonDsSkill = [THIS_FIELD_REQUIRED];
   }
+  if (values.work_space_type === '0' || values.work_space_type === '') {
+    error.work_space_type = THIS_FIELD_REQUIRED;
+  }
+  // if (
+  //   (isEmpty(values.work_space_type))
+  // ) {
+  //   error.work_space_type = THIS_FIELD_REQUIRED;
+  // }
+
   return error;
 };
+
 
 export const fieldTypeHelper = (fieldValue: number) => {
   switch (fieldValue) {
@@ -1040,6 +1055,7 @@ export const jdNonDsSubmit = ({
         work_state: values.state,
         work_city: values.city,
         work_remote: values.remoteWork,
+        work_space_type:values.work_space_type,
         salary_min: values.minimumSalary,
         salary_max: values.maximumSalary,
         salary_curr_type: values.currency,
@@ -1077,6 +1093,7 @@ export const jdNonDsSubmit = ({
         work_state: values.state,
         work_city: values.city,
         work_remote: values.remoteWork,
+        work_space_type:values.work_space_type,
         salary_min: values.minimumSalary,
         salary_max: values.maximumSalary,
         salary_curr_type: values.currency,
@@ -1137,6 +1154,7 @@ export const jdNonDsDraftSubmit = ({
         work_state: values.state,
         work_city: values.city,
         work_remote: values.remoteWork,
+        work_space_type:values.work_space_type,
         salary_min: values.minimumSalary,
         salary_max: values.maximumSalary,
         salary_curr_type: values.currency,
@@ -1172,6 +1190,7 @@ export const jdNonDsDraftSubmit = ({
         work_state: values.state,
         work_city: values.city,
         work_remote: values.remoteWork,
+        work_space_type:values.work_space_type,
         salary_min: values.minimumSalary,
         salary_max: values.maximumSalary,
         salary_curr_type: values.currency,

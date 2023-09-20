@@ -28,6 +28,7 @@ import {
   duplicateMiddleWare,
   jdTemplatesApiMiddleWare,
   locationMiddleWare,
+  industryType
 } from './store/middleware/createjdmiddleware';
 import UploadJd from './UploadJd';
 import JobDescriptionTemplate from './JobDescriptionTemplate';
@@ -59,6 +60,7 @@ const CreateJdWithNonDs = () => {
       dispatch(duplicateMiddleWare({ jd_id: editJdId }));
     }
     dispatch(createJdMiddleWare());
+    dispatch(industryType());
     dispatch(locationMiddleWare({}));
     dispatch(jdTemplatesApiMiddleWare({ ds_role: '0' }));
   }, []);
@@ -81,7 +83,8 @@ const CreateJdWithNonDs = () => {
     tool_skills,
     misc_skills,
     platform_skills,
-    is_plan
+    is_plan,
+    data
   } = useSelector(
     ({
       jdParserReducers,
@@ -90,7 +93,9 @@ const CreateJdWithNonDs = () => {
       jdTemplatesReducers,
       duplicateReducers,
       validateJobIDReducers,
-      permissionReducers
+      permissionReducers,
+      getindustery
+
     }: RootState) => {
       return {
         job_title: jdParserReducers.job_title,
@@ -113,10 +118,11 @@ const CreateJdWithNonDs = () => {
         misc_skills: jdParserReducers.misc_skills,
         platform_skills: jdParserReducers.platform_skills,
         is_plan: permissionReducers.is_plan,
+        data: getindustery.data,
       };
     },
   );
-
+console.log("$$$$$$$$$$$",data)
   useEffect(() => {
     if (!is_plan) {
       sessionStorage.setItem('superUserTab', '2');
@@ -157,12 +163,15 @@ const CreateJdWithNonDs = () => {
     country: '',
     state: '',
     city: '',
+    skills:[],
     remoteWork: '0',
     minimumSalary: '',
     maximumSalary: '',
     currency: '',
     showSalaryCandidates: '0',
-    industryType: '1',
+    industryType: ' ',
+    IndustryType:'',
+    work_space_type:'',
     nonDsSkill: [],
     skillData: {
       dataBaseTags: [],
@@ -180,6 +189,7 @@ const CreateJdWithNonDs = () => {
 
   return (
     <>
+   
       <Flex
         columnFlex
         className={styles.overAll}
@@ -191,24 +201,23 @@ const CreateJdWithNonDs = () => {
           title="Please wait… Your JD is getting parsed for pre-population"
         />
         <Flex row center className={styles.step}>
-          <StepProgressBar titleclassName={styles.stepOne} roundFill />
+          <StepProgressBar roundFill  />
           <StepProgressBar
             title="Applicant Questionnaire"
             titleclassName={styles.stepTwo}
             stepIndex="2"
           />
-          <Flex columnFlex className={styles.step3Flex}>
-            <div className={styles.round}>
-              <Text bold size={18} color={'black'}>
-                {3}
-              </Text>
-            </div>
-            <Text bold className={styles.stepThree}>
-              Preview & Post Job
-            </Text>
-          </Flex>
+          <StepProgressBar
+          title="Preview & Post Job"
+          titleclassName={styles.stepTwo}
+          stepIndex="3"
+           />
         </Flex>
-        <UploadJd />
+
+        
+        <UploadJd
+        handleTempOpen={handleTempOpen}
+         />
 
         <Formik
           initialValues={initial}

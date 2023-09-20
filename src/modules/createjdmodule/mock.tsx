@@ -22,6 +22,14 @@ export const industryType = [
   { value: '5', label: 'Supply Chain Management' },
 ];
 
+
+
+export const workspacetype = [
+  { value: '1', label: 'Onsite' },
+  { value: '2', label: 'Hybrid' },
+  { value: '3', label: 'Remote' },
+];
+
 export const jobRoleData = [
   { value: 1, label: 'Data Analyst' },
   { value: 2, label: 'Machine Learning Engineer' },

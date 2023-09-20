@@ -480,7 +480,7 @@ const CreateJdWithDs = () => {
             </Text>
           </Flex>
         </Flex>
-        <UploadJd />
+        <UploadJd handleTempOpen={undefined} />
         <RoleRecommendation
           isRole={isRole}
           cancel={() => setRole(false)}
