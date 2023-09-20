@@ -18,7 +18,8 @@ import { Message } from '../../applicantprofilemodule/applicantProfileTypes';
 import MessageList from '../../applicantprofilemodule/MessagesList';
 import MessageTopBar from '../../applicantprofilemodule/MessageTopBar';
 import { applicantMessagesMiddleWare } from '../../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
-import { config, ERROR_MESSAGE } from '../../constValue';
+import { config, ERROR_MESSAGE, mentionnotes, mentionnotesmessage } from '../../constValue';
+import ErrorMessage from '../../../uikit/ErrorMessage/ErrorMessage';
 import styles from './messages.module.css';
 
 const cx = classNames.bind(styles);
@@ -71,12 +72,34 @@ const Messages = ({
         Toast(ERROR_MESSAGE, 'LONG', 'error');
       });
   };
+  type notes = {
+    userMessage: string;
+  };
+  const parser = new DOMParser();
+  const handlemessage = (values: notes) => {
+    const errors: Partial<notes> = {};
+    const doc = parser.parseFromString(formik.values.userMessage, 'text/html');
+    const textNodes = doc.querySelectorAll('body')[0].textContent;
+    const texttrim = textNodes.trim();
+    if (texttrim === '') {
+      errors.userMessage = '';
+    }
+    if (isEmpty(textNodes)) {
+      errors.userMessage = '';
+    } else if (
+      !mentionnotes.test(textNodes) 
+    ) {
+      errors.userMessage = 'Message length should not exceed 2000 characters.';
+    }
+    return errors;
+  };
 
   const formik = useFormik({
     initialValues: {
       userMessage: '',
     },
     onSubmit: hanldeSubmit,
+    validate: handlemessage,
   });
 
   const jobTitleCheck = isEmpty(isJobTitle)
@@ -126,6 +149,11 @@ const Messages = ({
             ) : (
               <>
                 <MessageTopBar formik={formik} />
+                <ErrorMessage
+          touched={formik.touched}
+          errors={formik.errors}
+          name="userMessage"
+        />
                 <Flex row center end marginTop={20} marginBottom={20}>
                   <Button
                     disabled={isEmpty(formik.values.userMessage)}
@@ -149,6 +177,7 @@ const Messages = ({
                     height={475}
                     fixedHeight
                   />
+                  
                 </Flex>
               </>
             )}

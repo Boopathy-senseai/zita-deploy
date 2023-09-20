@@ -26,6 +26,7 @@ type Props = {
   setPassSuccess: boolean | undefined;
   success: boolean;
   user_not_found: boolean;
+  employeelogin:boolean;
 };
 export const ErrorMessages = ({
   error,
@@ -74,6 +75,7 @@ const SetNewPassword = ({
   isSuccess,
   setPassSuccess,
   success,
+  employeelogin,
   user_not_found,
 }: Props) => {
   const [isShowNewPass, setShowNewPass] = useState(false);
@@ -130,12 +132,24 @@ const SetNewPassword = ({
                   Please login with your new password
                   </Text>
                   <Flex className={styles.loginbutton}>
-                  <Button
-                  className={styles.button}
-                  onClick={() => window.location.replace('/')}
-                >
-                  Login
-                </Button>
+                    {employeelogin === true ?(
+                       <Button
+                       className={styles.button}
+                       onClick={() => window.location.replace('/')}
+                     >
+                       Login
+                     </Button>
+                    ):(
+                       <Button
+                       className={styles.button}
+                       onClick={() => window.location.replace('/login_candidate')}
+                     >
+                       Login
+                     </Button>
+                    )
+
+                    }
+          
                 </Flex>
                 </Flex>
               </>
@@ -157,7 +171,7 @@ const SetNewPassword = ({
                 <div>
                   <InputText
                     actionLeft={() => (
-                      <Button types="link" className={styles.usericon} style={{position:'absolute',top:'25px'}}>
+                      <Button types="link" className={styles.usericon} style={{position:'absolute',top:'25px'}} tabIndex={-1}>
                       <div style={{marginTop: '-1px'}}>  
                       <SvgLock height={20} width={19} />
                       </div>
@@ -175,6 +189,7 @@ const SetNewPassword = ({
                         types="link"
                         className={styles.passwordicon}
                         onClick={() => setShowNewPass(!isShowNewPass)}
+                        tabIndex={-1}
                       >
                       <div style={{marginTop: '-4px'}}>
                         <SvgView
@@ -211,7 +226,7 @@ const SetNewPassword = ({
 
                   <InputText
                     actionLeft={() => (
-                      <Button types="link" className={styles.usericon} style={{position:'absolute',top:'25px'}}>
+                      <Button types="link" className={styles.usericon} style={{position:'absolute',top:'25px'}} tabIndex={-1}>
                       <div style={{marginTop: '-1px'}}>
                       <SvgLock height={19} width={20} />
                       </div>
@@ -229,6 +244,7 @@ const SetNewPassword = ({
                         types="link"
                         className={styles.passwordicon}
                         onClick={() => setShowChnagePass(!isShowChangePass)}
+                        tabIndex={-1}
                       >
                       <div style={{marginTop: '-4px'}}>
                         <SvgView
@@ -271,12 +287,23 @@ const SetNewPassword = ({
                   Your password reset link has already been used or expired.
                 </Text>
               <Text align="center">
-              <Button
-              className={styles.button}
-              onClick={() => window.location.replace('/')}
-            >
-              Login
-            </Button>
+              {employeelogin === true ?(
+                       <Button
+                       className={styles.button}
+                       onClick={() => window.location.replace('/')}
+                     >
+                       Login
+                     </Button>
+                    ):(
+                       <Button
+                       className={styles.button}
+                       onClick={() => window.location.replace('/login_candidate')}
+                     >
+                       Login
+                     </Button>
+                    )
+
+                    }
               </Text>
               </Flex>
             )}

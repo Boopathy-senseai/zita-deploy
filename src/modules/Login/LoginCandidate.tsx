@@ -29,7 +29,7 @@ const forgotInitial: forgotFormProps = {
   forgotEmail: '',
 };
 
-const LoginScreen = () => {
+const LoginCandidate = () => {
   const dispatch: AppDispatch = useDispatch();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars-experimental
   const history = useHistory();
@@ -47,18 +47,10 @@ const LoginScreen = () => {
     if(localStorage.getItem('token') !== null){
       window.location.replace(`${window.location.origin + homeRoute}`);
     }
-   // if()
-   var url = new URL(window.location.href);
-
-   if (url.searchParams.get('isforgot')) {
-    setForgot(true)
-  }
   },[])
   if (typeof location.state !== 'undefined') {
     nextUrl = location.state.from.pathname;
   }
-  // setForgot(true)
-  
 
  
 
@@ -124,7 +116,7 @@ const LoginScreen = () => {
       loginMiddleWare({
         username: values.userName,
         password: values.email,
-        isStaff:true
+        isStaff: false
       }),
     ).then((res) => {
       if (res.payload.token !== undefined) {
@@ -218,23 +210,23 @@ const LoginScreen = () => {
       <Flex columnFlex className={styles.overAll} height={window.innerHeight}>
         {(isLoading || isForgotLoader) && <Loader />}
 
-        {!isForgot && (
+        {/* {!isForgot && (
           <LoginInto
             isError={isError}
             formik={formik}
             handleForgotOpen={handleForgotOpen}
             isInactive={isInactive}
           />
-        )}
+        )} */}
         
-        {/* {!isForgot && (
+        {!isForgot && (
           <CandidateLogin
             isError={isError}
             formik={formik}
             handleForgotOpen={handleForgotOpen}
             isInactive={isInactive}
           />
-        )} */}
+        )}
 
         {isForgot && (
           <ForgotPassword
@@ -252,4 +244,4 @@ const LoginScreen = () => {
   );
 };
 
-export default LoginScreen;
+export default LoginCandidate;

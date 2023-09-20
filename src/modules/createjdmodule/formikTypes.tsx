@@ -15,6 +15,8 @@ export type dsFormProps = {
   state: string;
   city: string;
   remoteWork: string;
+  onsite: string;
+  hybrid: string;
   minimumSalary: string;
   maximumSalary: string;
   currency: string;

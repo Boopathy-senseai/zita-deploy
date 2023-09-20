@@ -26,7 +26,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: -webkit-fill-available;
+  /* height: -webkit-fill-available; */
 }
 .bodyContainer {
   display: flex;
@@ -82,3 +82,16 @@
 .bulletpoint p{
    font-size: 13px !important;
 }
+.bulletpoint pre{
+  font-size: 13px !important;
+}
+ 
+.bulletpoint1{
+  overflow-y: scroll;
+  overflow-x: hidden;
+  font-size: 13px;
+}
+.overflow{
+  overflow-y:hidden;
+}
+ 
