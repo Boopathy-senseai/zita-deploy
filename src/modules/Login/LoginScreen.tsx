@@ -39,6 +39,7 @@ const LoginScreen = () => {
   const [isForgotLoader, setForgotLoader] = useState(false);
   const [isError, setError] = useState(false);
   const [isInactive, setInactive] = useState(false);
+  const [iswrongemployeecredential,setwrongemployeecredential] = useState(false);
   const location = useLocation<any>();
 
   let nextUrl: any;
@@ -87,7 +88,7 @@ const LoginScreen = () => {
   const handlechange=(val)=>{
 
   }
-
+  // give the correct credential
   const handleLoginValid = (values: loginFormProps) => {
     setError(false);
     setInactive(false);
@@ -127,6 +128,12 @@ const LoginScreen = () => {
         isStaff:true
       }),
     ).then((res) => {
+      console.log(res,res.payload.Message,'messge')
+      if(res.payload.Message === "give the Employee credential"){  
+        setwrongemployeecredential(true)
+      }
+      else{
+        setwrongemployeecredential(false)
       if (res.payload.token !== undefined) {
         localStorage.setItem('loginUserCheck', res.payload.is_staff);
         localStorage.setItem('token', res.payload.token);
@@ -150,9 +157,9 @@ const LoginScreen = () => {
         }
       } else if (res.payload.inactive === true) {
         setInactive(true);
-      } else {
+      } else { 
         setError(true);
-      }
+      }}
     });
   };
 
@@ -224,6 +231,7 @@ const LoginScreen = () => {
             formik={formik}
             handleForgotOpen={handleForgotOpen}
             isInactive={isInactive}
+            iswrongcredential={iswrongemployeecredential}
           />
         )}
         
