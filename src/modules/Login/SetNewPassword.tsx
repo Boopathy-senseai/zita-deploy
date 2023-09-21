@@ -26,6 +26,7 @@ type Props = {
   setPassSuccess: boolean | undefined;
   success: boolean;
   user_not_found: boolean;
+  employeelogin:boolean;
 };
 export const ErrorMessages = ({
   error,
@@ -74,6 +75,7 @@ const SetNewPassword = ({
   isSuccess,
   setPassSuccess,
   success,
+  employeelogin,
   user_not_found,
 }: Props) => {
   const [isShowNewPass, setShowNewPass] = useState(false);
@@ -130,12 +132,24 @@ const SetNewPassword = ({
                   Please login with your new password
                   </Text>
                   <Flex className={styles.loginbutton}>
-                  <Button
-                  className={styles.button}
-                  onClick={() => window.location.replace('/')}
-                >
-                  Login
-                </Button>
+                    {employeelogin === true ?(
+                       <Button
+                       className={styles.button}
+                       onClick={() => window.location.replace('/')}
+                     >
+                       Login
+                     </Button>
+                    ):(
+                       <Button
+                       className={styles.button}
+                       onClick={() => window.location.replace('/login_candidate')}
+                     >
+                       Login
+                     </Button>
+                    )
+
+                    }
+          
                 </Flex>
                 </Flex>
               </>
@@ -273,12 +287,23 @@ const SetNewPassword = ({
                   Your password reset link has already been used or expired.
                 </Text>
               <Text align="center">
-              <Button
-              className={styles.button}
-              onClick={() => window.location.replace('/')}
-            >
-              Login
-            </Button>
+              {employeelogin === true ?(
+                       <Button
+                       className={styles.button}
+                       onClick={() => window.location.replace('/')}
+                     >
+                       Login
+                     </Button>
+                    ):(
+                       <Button
+                       className={styles.button}
+                       onClick={() => window.location.replace('/login_candidate')}
+                     >
+                       Login
+                     </Button>
+                    )
+
+                    }
               </Text>
               </Flex>
             )}
