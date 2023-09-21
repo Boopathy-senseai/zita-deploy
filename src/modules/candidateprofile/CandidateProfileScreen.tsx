@@ -32,6 +32,7 @@ import QualificationCard from './QualificationCard';
 import { profileEditMiddleWare } from './store/middleware/candidateprofilemiddleware';
 import VerifyEmail from './VerifyEmail';
 import WorkExperienceAddandCard from './WorkExperienceAddandCard';
+import OverViewSummary from './OverviewSummaryEdit';
 // import { applicantcandidateMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 
 type ParamsType = {
@@ -255,7 +256,19 @@ const CandidateProfileScreen = () => {
             <ProfessionalSkillsCard obj={obj} />
           </div>
 
-          <Flex marginTop={10} marginBottom={20}>
+          <div id={'candidate_profile_screen___skill'}>
+            <Text
+              size={14}
+              bold
+              className={styles.titleStyle}
+              style={{ marginTop: '20px' }}
+            >
+              Overview of the Resume
+            </Text>
+            <OverViewSummary obj={obj} />
+          </div>
+
+          {/* <Flex marginTop={10} marginBottom={20}>
             <Text size={14} bold className={styles.titleStyle}>
               Overview of the Resume
             </Text>
@@ -267,7 +280,7 @@ const CandidateProfileScreen = () => {
             height={500}
             placeholder="Enter the overview of the resume"
           />
-          </Flex>
+          </Flex> */}
           {/* <div id={'candidate_profile_screen___qualification'}>
             <Flex row center between className={styles.titleStyle}>
               <Text size={16} bold>
@@ -342,7 +355,12 @@ const CandidateProfileScreen = () => {
 
           {localStorage.getItem('careerJobViewJobId') !== null &&
             applied_status === false && (
-              <Flex center middle className={styles.btnConatiner}>
+              <Flex
+                center
+                middle
+                className={styles.btnConatiner}
+                marginTop={20}
+              >
                 <LinkWrapper
                   // target={'_parent'}
                   to={`/${

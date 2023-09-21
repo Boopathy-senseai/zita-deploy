@@ -133,14 +133,14 @@ const EventPopUpModal = ({
             <div className={styles.infoText}>
               <p style={{ marginBottom: 3 }}>Interviewer&#40;s&#41;</p>
               <Flex row className={styles.emailContainer}>
-              {organizer.displayName || organizer.email &&
+              {(organizer.displayName) &&
                 <Avatar
                   initials={getUserInitials({
-                    fullName: organizer.displayName || organizer.email,
+                    fullName: organizer.displayName,
                   })}
                   style={{ width: 28, height: 28, marginRight: '5px' }}
                   textStyle={{ fontSize: 12 }}
-                  title={organizer.displayName || organizer.email}
+                  title={organizer.displayName}
                 />}
                 {attendees.map(
                   (item: string, index: Key | null | undefined) => (
