@@ -46,10 +46,10 @@ import Maillist from './Maillist';
 type Props = {
   isprofileview?: boolean;
   can_id?: any;
-  Emailsidebar?:any;
+  Emailsidebar?: any;
 };
-const EmailScreen = ({ Emailsidebar,isprofileview, can_id }: Props) => {
-  const msal = useMsal(); 
+const EmailScreen = ({ Emailsidebar, isprofileview, can_id }: Props) => {
+  const msal = useMsal();
   const dispatch: AppDispatch = useDispatch();
 
   const [model, setmodel] = useState(false);
@@ -739,7 +739,7 @@ const EmailScreen = ({ Emailsidebar,isprofileview, can_id }: Props) => {
       middle
       columnFlex
       className={styles.integrationContent}
-      height={ window.innerHeight - 121}
+      height={window.innerHeight - 121}
     >
       <Text color="gray" style={{ marginBottom: 16 }}>
         Integrate your email with zita application to handle mailing inside zita
@@ -911,6 +911,7 @@ const EmailScreen = ({ Emailsidebar,isprofileview, can_id }: Props) => {
                     refresh={refresh}
                     enterKey={enterKey}
                     tokens={token}
+                    can_id={can_id}
                   />
                 </Flex>
                 <Flex
@@ -934,7 +935,7 @@ const EmailScreen = ({ Emailsidebar,isprofileview, can_id }: Props) => {
                     updateMailaction={updateMailaction}
                     remove_message={remove_message}
                     update_message={update_message}
-                    Emailsidebar={ Emailsidebar}
+                    Emailsidebar={Emailsidebar}
                   />
                 </Flex>
               </Flex>

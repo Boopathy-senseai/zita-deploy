@@ -78,7 +78,8 @@ const EventPopUpModal = ({
           className={styles.actionButtonWrapper}
           style={{ marginTop: '20px' }}
         >
-          <Button className={styles.cancel}
+          <Button
+            className={styles.cancel}
             style={{ marginRight: 8 }}
             onClick={() => setOpenEventDeleteModal(false)}
           >
@@ -128,11 +129,19 @@ const EventPopUpModal = ({
 
         <div className={styles.info}>
           <SvgInterviewers size={16} />
-              {console.log(attendees)}
           {attendees && attendees?.length > 0 ? (
             <div className={styles.infoText}>
               <p style={{ marginBottom: 3 }}>Interviewer&#40;s&#41;</p>
               <Flex row className={styles.emailContainer}>
+              {(organizer.displayName) &&
+                <Avatar
+                  initials={getUserInitials({
+                    fullName: organizer.displayName,
+                  })}
+                  style={{ width: 28, height: 28, marginRight: '5px' }}
+                  textStyle={{ fontSize: 12 }}
+                  title={organizer.displayName}
+                />}
                 {attendees.map(
                   (item: string, index: Key | null | undefined) => (
                     <Avatar
@@ -157,7 +166,9 @@ const EventPopUpModal = ({
           <div className={styles.infoText}>
             <Text style={{ marginBottom: 3 }}>Organizer</Text>
             {/* <br /> */}
-            <Text className={styles.email}>{organizer.displayName || organizer.email}</Text>
+            <Text className={styles.email}>
+              {organizer.displayName || organizer.email}
+            </Text>
           </div>
         </div>
       </div>
@@ -230,7 +241,7 @@ const EventPopUpModal = ({
               </p>
             </Tooltip> */}
       <Tooltip title={title} placement="bottom-start">
-        <p style={{fontWeight: 'bold'}} className={styles.title}>
+        <p style={{ fontWeight: 'bold' }} className={styles.title}>
           {title}
         </p>
       </Tooltip>

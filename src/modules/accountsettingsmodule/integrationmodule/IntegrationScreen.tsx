@@ -281,7 +281,7 @@ const IntegrationScreen = () => {
         
 
         <Flex row marginTop={10}>
-          <Flex flex={3}>
+          <Flex flex={3} marginRight={20}>
             {connected === 1 && active === 1 && isGoogle === 0 ? (
               <Card className={styles.selectCard}>
                 <Flex end style={{ position: 'absolute', right: '10px' }}>
@@ -436,7 +436,7 @@ const IntegrationScreen = () => {
               </Card>
             )}
           </Flex>
-          <Flex flex={9}></Flex>
+          <Flex flex={8}></Flex>
           
         </Flex>
       </Flex>
