@@ -76,6 +76,7 @@ const CandidateProfileUpload = () => {
             loginMiddleWare({
               username: res.payload.user_details.username,
               password: res.payload.user_details.password,
+              isStaff:false,
             }),
           ).then((loginRes) => {
             if (loginRes.payload.token !== undefined) {
@@ -140,8 +141,7 @@ const CandidateProfileUpload = () => {
             to="/login_candidate"
             onClick={() => {
               dispatch(logOutMiddleWare()).then(() => {
-                localStorage.removeItem('token'); 
-                history.push(`/login/${'candidate' }`)             
+                localStorage.removeItem('token');              
               });
             }}
           >

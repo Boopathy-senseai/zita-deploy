@@ -7,8 +7,15 @@ type Props = {
   value: string;
   className?: string;
   tag?: string;
+  user?: string;
 };
-export const HighlightText = ({ higlight, value, className, tag }: Props) => {
+export const HighlightText = ({
+  higlight,
+  value,
+  className,
+  tag,
+  user,
+}: Props) => {
   return (
     <Text className={className} tag={tag}>
       {getHighlightedText(value, higlight)}
@@ -21,11 +28,11 @@ const getHighlightedText = (text: string, higlight: string) => {
   return parts.map((part, index) => (
     <React.Fragment key={index}>
       {part.toLowerCase() === higlight.toLowerCase() ? (
-        <Text style={{ backgroundColor: SECONDARY,fontSize:'13px' }} bold>
+        <Text style={{ backgroundColor: SECONDARY, fontSize: '13px' }} bold>
           {part}
         </Text>
       ) : (
-        <Text style={{fontSize:'13px'}}>{part}</Text>
+        <Text style={{ fontSize: '13px' }}>{part}</Text>
       )}
     </React.Fragment>
   ));

@@ -7,6 +7,7 @@ import Flex from '../../uikit/Flex/Flex';
 import { lowerCase } from '../../uikit/helper';
 import Status from '../../uikit/Status/Status';
 import Text from '../../uikit/Text/Text';
+import { SvgEdit } from '../../icons';
 import { Obj } from './candidateProfileTypes';
 import styles from './professionalskillscard.module.css';
 import UpdateProfessionalSkillsEdit from './UpdateProfessionalSkillsEdit';
@@ -25,7 +26,7 @@ const ProfessionalSkillsCard = ({ obj, isProfileView }: Props) => {
   const checkBox =
     (obj && Array.isArray(obj?.skills) && obj?.skills?.length !== 0) ||
     (obj && Array.isArray(obj?.soft_skills) && obj?.soft_skills.length !== 0);
-    
+
   return (
     <>
       {!isProfileView && (
@@ -52,7 +53,7 @@ const ProfessionalSkillsCard = ({ obj, isProfileView }: Props) => {
                   role="button"
                   onKeyDown={() => {}}
                 >
-                  <SvgBoxEdit fill={PRIMARY} />
+                  <SvgEdit fill={PRIMARY} width={14} height={14} />
                 </div>
               )}
             </>

@@ -46,8 +46,9 @@ import Maillist from './Maillist';
 type Props = {
   isprofileview?: boolean;
   can_id?: any;
+  Emailsidebar?: any;
 };
-const EmailScreen = ({ isprofileview, can_id }: Props) => {
+const EmailScreen = ({ Emailsidebar, isprofileview, can_id }: Props) => {
   const msal = useMsal();
   const dispatch: AppDispatch = useDispatch();
 
@@ -61,7 +62,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
   const [loader, setLoader] = useState(false);
   const [search, setSearch] = useState('');
   const [attachments, setAttachments] = useState([]);
-  const [mailfolders, setMailfolders] = useState<any>('');
+  const [mailfolders, setMailfolders] = useState<any>(0);
   const [gmailunread, setgmailunread] = useState(0);
   const [nextpagetoken, setnextpagetoken] = useState(null);
   const [noEmails, setNoEmails] = useState(false);
@@ -379,26 +380,26 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
   const serchmessage = async (e: any) => {
     // e.preventDefault();
 
-    if (e && e.key === 'Enter' ) {
-      if(search.trim() !== ''){
-      setLoader(true);
-      setsearchapi(true);
-      setsideroute(0);
-      setPrevious(25);
-      setSkip(0);
-      setDel(0);
-      setPrevious1(1);
-      setmessagelist([]);
-      setmesage('');
-      setSearch(search.trim());
-      setIsLoading(true);
-      setEnterKey(true);
-      settoken(null);}
+    if (e && e.key === 'Enter') {
+      if (search.trim() !== '') {
+        setLoader(true);
+        setsearchapi(true);
+        setsideroute(0);
+        setPrevious(25);
+        setSkip(0);
+        setDel(0);
+        setPrevious1(1);
+        setmessagelist([]);
+        setmesage('');
+        setSearch(search.trim());
+        setIsLoading(true);
+        setEnterKey(true);
+        settoken(null);
+      }
     }
   };
 
   const refresh = async () => {
- 
     if (sideroute !== 0) {
       setLoader(true);
       setmessagelist([]);
@@ -720,25 +721,25 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
   };
 
   const savemail = (val, tok) => {
-    if(val === 0){
-    setmessagelist([]);
-    settoken(tok);
-    setLoader(false);}
-    else{
+    if (val === 0) {
+      setmessagelist([]);
+      settoken(tok);
+      setLoader(false);
+    } else {
       setmessagelist((prevMessages) => [...prevMessages, ...val]);
-    settoken(tok);
-    setLoader(false);
+      settoken(tok);
+      setLoader(false);
     }
   };
 
   const IntegrationMenuView = (
     <Flex
       center
-      flex={!isprofileview && 1}
+      // flex={!isprofileview && 1}
       middle
       columnFlex
       className={styles.integrationContent}
-      height={isprofileview && window.innerHeight - 121}
+      height={window.innerHeight - 121}
     >
       <Text color="gray" style={{ marginBottom: 16 }}>
         Integrate your email with zita application to handle mailing inside zita
@@ -910,6 +911,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
                     refresh={refresh}
                     enterKey={enterKey}
                     tokens={token}
+                    can_id={can_id}
                   />
                 </Flex>
                 <Flex
@@ -933,6 +935,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
                     updateMailaction={updateMailaction}
                     remove_message={remove_message}
                     update_message={update_message}
+                    Emailsidebar={Emailsidebar}
                   />
                 </Flex>
               </Flex>

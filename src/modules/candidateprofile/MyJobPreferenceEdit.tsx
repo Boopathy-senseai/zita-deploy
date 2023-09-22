@@ -81,7 +81,7 @@ const MyJobPreferenceEdit = ({
     currency: '',
   };
 
-  // form validation 
+  // form validation
   const myJobSchema = Yup.object().shape({
     currency: Yup.string().required(THIS_FIELD_REQUIRED),
     expectedSalary: Yup.string().required(THIS_FIELD_REQUIRED),
@@ -107,14 +107,18 @@ const MyJobPreferenceEdit = ({
 
     dispatch(updateJobPreferenceMiddleWare({ formData })).then((res) => {
       if (res.payload.success) {
-          dispatch(
-          candidateMatchMiddleWare({ 
-             can_id:res.payload?.can_id[0]?.id.toString(),
+        dispatch(
+          candidateMatchMiddleWare({
+            can_id: res.payload?.can_id[0]?.id.toString(),
           }),
-        )
+        );
         setReload(false);
         Toast('Job Preference updated successfully');
-        dispatch(profileEditMiddleWare({jd_id:localStorage.getItem('careerJobViewJobId')}));
+        dispatch(
+          profileEditMiddleWare({
+            jd_id: localStorage.getItem('careerJobViewJobId'),
+          }),
+        );
         setLoader(false);
         cancel();
       } else {
@@ -159,7 +163,7 @@ const MyJobPreferenceEdit = ({
     if (personal) {
       if (!isEmpty(personal.type_of_job_id)) {
         formik.setFieldValue('jobType', personal.type_of_job_id.toString());
-      }else{
+      } else {
         formik.setFieldValue('jobType', '');
       }
       if (!isEmpty(personal.available_to_start_id)) {
@@ -167,10 +171,8 @@ const MyJobPreferenceEdit = ({
           'availability',
           personal.available_to_start_id.toString(),
         );
-      }else{
-        formik.setFieldValue(
-          'availability',
-''        );
+      } else {
+        formik.setFieldValue('availability', '');
       }
       if (!isEmpty(personal.current_country_id)) {
         formik.setFieldValue('country', personal.current_country_id.toString());
@@ -183,12 +185,12 @@ const MyJobPreferenceEdit = ({
       }
       if (!isEmpty(personal.exp_gross)) {
         formik.setFieldValue('expectedSalary', personal.exp_gross.toString());
-      }else{
+      } else {
         formik.setFieldValue('expectedSalary', '');
       }
       if (!isEmpty(personal.curr_gross)) {
         formik.setFieldValue('currentSalary', personal.curr_gross.toString());
-      }else{
+      } else {
         formik.setFieldValue('currentSalary', '');
       }
       if (!isEmpty(personal.industry_type_id)) {
@@ -199,19 +201,19 @@ const MyJobPreferenceEdit = ({
       }
       if (!isEmpty(personal.relocate)) {
         formik.setFieldValue('relocate', personal.relocate ? '1' : '0');
-      } else{
+      } else {
         formik.setFieldValue('relocate', '0');
       }
       if (!isEmpty(personal.current_currency)) {
         formik.setFieldValue('currency', personal.current_currency);
-      } 
+      }
     }
   }, [personal, open]);
 
   const salaryLabel =
     Number(formik.values.jobType) === 3 ? 'Per Hour' : 'Per Annum';
 
-    // close popup condition
+  // close popup condition
   const onCloseModal = () => {
     if (
       isReload &&
@@ -247,7 +249,7 @@ const MyJobPreferenceEdit = ({
       {routerPrompt}
       {isLoader && <Loader />}
       <Flex className={styles.overAll}>
-        <div
+        {/* <div
           className={styles.svgClose}
           onClick={onCloseModal}
           tabIndex={-1}
@@ -255,10 +257,14 @@ const MyJobPreferenceEdit = ({
           onKeyDown={() => {}}
         >
           <SvgCloseSmall />
-        </div>
-        <Text align="center" className={styles.title} bold size={14}>
-          Update My Job Preference
-        </Text>
+        </div> */}
+        <Flex
+          style={{ borderBottom: '0.5px solid #581845', marginBottom: '15px' }}
+        >
+          <Text className={styles.title} bold size={14}>
+            Update My Job Preference
+          </Text>
+        </Flex>
         <Flex row top>
           <Flex flex={4} width={inputWidth}>
             <SelectTag
@@ -490,7 +496,12 @@ const MyJobPreferenceEdit = ({
                 : formik.setFieldValue('relocate', '1')
             }
           />
-          <Button onClick={formik.handleSubmit}>Update</Button>
+        </Flex>
+        <Flex end row marginTop={10} className={styles.borderLine}>
+          <Button className={styles.cancel} onClick={onCloseModal}>
+            Cancel
+          </Button>
+          <Button style={{marginTop:"20px"}} onClick={formik.handleSubmit}>Update</Button>{' '}
         </Flex>
       </Flex>
     </Modal>

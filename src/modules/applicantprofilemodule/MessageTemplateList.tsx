@@ -17,6 +17,7 @@ type Props = {
   formik: FormikProps<any>;
   hanldeClose: () => void;
   searchTerm: string;
+  user?: string;
 };
 
 const MessageTemplateList = ({
@@ -24,6 +25,7 @@ const MessageTemplateList = ({
   formik,
   hanldeClose,
   searchTerm,
+  user,
 }: Props) => {
   const [isCollapse, setCollapse] = useState(false);
 
@@ -37,8 +39,17 @@ const MessageTemplateList = ({
   return (
     <Flex className={styles.listOverAll}>
       <Flex row center between>
-        <Text bold className={styles.listHeadingStyle} style={{fontSize:'14px'}}>
-          <HighlightText value={list.name} className={styles.listHeadingStyles} higlight={searchTerm} />
+        <Text
+          bold
+          className={styles.listHeadingStyle}
+          style={{ fontSize: '14px' }}
+        >
+          <HighlightText
+            value={list.name}
+            className={styles.listHeadingStyles}
+            higlight={searchTerm}
+            user={user}
+          />
         </Text>
         <Flex row center>
           <div
@@ -62,19 +73,21 @@ const MessageTemplateList = ({
           </div>
         </Flex>
       </Flex>
-      {!isCollapse ? (  
+      {!isCollapse ? (
         <HighlightText
-        className={cx({ trimStyle: !isCollapse })}
-          value={list.templates}
+          className={cx({ trimStyle: !isCollapse })}
+          value={user === '' ? list.templates : list.templates_text}
           higlight={searchTerm}
-        /> 
+          user={user}
+        />
       ) : (
         <HighlightText
-        className={styles.preStyle}
+          className={styles.preStyle}
           tag="pre"
-          value={list.templates}
+          value={user === '' ? list.templates : list.templates_text}
           higlight={searchTerm}
-        /> 
+          user={user}
+        />
       )}
     </Flex>
   );

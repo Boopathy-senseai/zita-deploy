@@ -45,6 +45,12 @@
   right: 0;
   margin-right: 5px;
 }
+.svgCloses{
+  position: absolute;
+  left: 69px;
+  top:88px;
+  z-index: 12;
+}
 .changeStyles{
   position: absolute;
   border-radius: 50%;

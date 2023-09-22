@@ -46,12 +46,14 @@ type Props = {
   updateMailaction: (val: any) => void;
   remove_message: (id: any) => void;
   update_message: (id: any, val: boolean) => void;
+  Emailsidebar?: any;
   noEmails?: any;
 };
 const Inbox = ({
   message,
   sidebarroute,
   composemodal,
+  Emailsidebar,
   removemsg,
   isprofileview,
   page,
@@ -700,13 +702,20 @@ const Inbox = ({
                   border: '1px solid #c3c3c3',
                   borderRadius: '5px 5px 0px 0px',
                   display: 'flex',
-                  flexDirection: 'column', 
+                  flexDirection: 'column',
                   height: 'fit-content',
-                  maxHeight: '-webkit-fill-available', 
-                  
+                  maxHeight: '-webkit-fill-available',
                 }}
-                width={isprofileview ?'-webkit-fill-available':window.innerWidth - 630} 
-                className={isprofileview&& styles.overflow}
+                width={
+                  Emailsidebar
+                    ? isprofileview
+                      ? '-webkit-fill-available'
+                      : window.innerWidth - 490
+                    : isprofileview
+                    ? '-webkit-fill-available'
+                    : window.innerWidth - 630
+                }
+                className={isprofileview && styles.overflow}
               >
                 <Flex
                   row
@@ -822,9 +831,9 @@ const Inbox = ({
                     position: 'relative',
                     margin: '10px',
                     overflowY: 'scroll',
-                    fontsize: '13px', 
-                  }} 
-                  height={window.innerHeight -900}
+                    fontsize: '13px',
+                  }}
+                  height={window.innerHeight - 900}
                   className={styles.bulletpoint1}
                 >
                   <td
@@ -833,7 +842,7 @@ const Inbox = ({
                       __html: message.body.content,
                     }}
                   />
-                {renderAttachments} 
+                  {renderAttachments}
                 </Flex>
               </Flex>
             </>
@@ -868,7 +877,12 @@ const Inbox = ({
   };
 
   return (
-    <Flex className={styles.messageContainer} height={isprofileview?window.innerHeight -95:window.innerHeight -100}>
+    <Flex
+      className={styles.messageContainer}
+      height={
+        isprofileview ? window.innerHeight - 95 : window.innerHeight - 100
+      }
+    >
       <Flex row between center className={styles.iconContainer}>
         {topActionBar()}
       </Flex>
@@ -879,7 +893,7 @@ const Inbox = ({
               isprofileview ? styles.bodyContainers : styles.bodyContainer
             }
             // style={{overflowY:'scroll'}}
-            height={isprofileview ? window.innerHeight - 130 :''}
+            height={isprofileview ? window.innerHeight - 130 : ''}
           >
             {renderBody()}
           </Flex>

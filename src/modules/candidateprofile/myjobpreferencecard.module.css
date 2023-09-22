@@ -1,6 +1,5 @@
 .overAll {
-  padding: 20px 40px;
-  padding-bottom: 4px;
+  padding: 25px;
   position: relative;
   height: 90%;
 }
@@ -9,12 +8,12 @@
 }
 .svgEdit {
   position: absolute;
-  right: 8px;
-  top: 8px;
+  right: 20px;
+  top: 10px;
   cursor: pointer;
 }
 
 .titleStyle {
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   display: flex;
 }

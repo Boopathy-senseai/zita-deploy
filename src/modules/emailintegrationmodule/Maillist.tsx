@@ -48,6 +48,7 @@ type Props = {
   enterKey: boolean;
   refresh: () => void;
   tokens: any;
+  can_id: any;
 };
 const Maillist = ({
   messagelist,
@@ -73,6 +74,7 @@ const Maillist = ({
   enterKey,
   refresh,
   tokens,
+  can_id,
 }: Props) => {
   const msal = useMsal();
   const authProvider = new AuthCodeMSALBrowserAuthenticationProvider(
@@ -154,9 +156,9 @@ const Maillist = ({
     if (sidebarroute !== 0) {
       setTimeout(() => {
         process();
-      }, 500);
+      }, 100);
     }
-  }, [sidebarroute, integration]);
+  }, [sidebarroute, emailcollection.maillist]);
 
   useEffect(() => {
     if (enterKey) {
@@ -206,31 +208,31 @@ const Maillist = ({
       if (sideroute === 1) {
         return (
           <Text bold>
-            {mailfolders === '' ? 'Inbox' : `Inbox (${mailfolders})`}
+            {mailfolders === 0 ? 'Inbox' : `Inbox (${mailfolders})`}
           </Text>
         );
       } else if (sideroute === 2) {
         return (
           <Text bold>
-            {mailfolders === '' ? 'Sent Items' : `Sent Items (${mailfolders})`}
+            {mailfolders === 0 ? 'Sent Items' : `Sent Items (${mailfolders})`}
           </Text>
         );
       } else if (sideroute === 3) {
         return (
           <Text bold>
-            {mailfolders === '' ? 'Drafts' : `Drafts (${mailfolders})`}
+            {mailfolders === 0 ? 'Drafts' : `Drafts (${mailfolders})`}
           </Text>
         );
       } else if (sideroute === 4) {
         return (
           <Text bold>
-            {mailfolders === '' ? 'Archive' : `Archive (${mailfolders})`}
+            {mailfolders === 0 ? 'Archive' : `Archive (${mailfolders})`}
           </Text>
         );
       } else if (sideroute === 5) {
         return (
           <Text bold>
-            {mailfolders === ''
+            {mailfolders === 0
               ? 'Deleted Items'
               : `Deleted Items (${mailfolders})`}
           </Text>
@@ -238,9 +240,7 @@ const Maillist = ({
       } else if (sideroute === 6) {
         return (
           <Text bold>
-            {mailfolders !== ''
-              ? ` Junk Email (${mailfolders})`
-              : ' Junk Email'}
+            {mailfolders === 0 ? 'Junk Email' : `Junk Email (${mailfolders})`}
           </Text>
         );
       } else if (sideroute === 0) {

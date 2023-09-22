@@ -19,17 +19,19 @@ type Props = {
   formik: FormikProps<any>;
   open: boolean;
   hanldeClose: () => void;
+  user?: string;
 };
 const MessageTemplate = ({
   messageTemplate,
   formik,
   open,
   hanldeClose,
+  user,
 }: Props) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<MessageTemplates[]>([]);
   const handleChange = (e: { target: { value: SetStateAction<string> } }) => {
-    setSearchTerm(e.target.value); 
+    setSearchTerm(e.target.value);
   };
 
   useEffect(() => {
@@ -77,14 +79,10 @@ const MessageTemplate = ({
             row
             marginLeft={15}
             className={styles.totalcountchanges}
-            style={{ color:'#581845',fontsize:'13px' }}
+            style={{ color: '#581845', fontsize: '13px' }}
           >
-            <Flex>
-              Total Search Count :
-            </Flex>
-            <Flex>
-              {searchResults.length}
-            </Flex>
+            <Flex>Total Search Count :</Flex>
+            <Flex>{searchResults.length}</Flex>
           </Flex>
         </Flex>
         {/* <InputText
@@ -111,6 +109,7 @@ const MessageTemplate = ({
                     setSearchTerm('');
                   }}
                   searchTerm={searchTerm}
+                  user={user !== '' ? user : ''}
                 />
               );
             })
