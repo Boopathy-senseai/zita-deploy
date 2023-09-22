@@ -429,11 +429,16 @@ const Calendar = () => {
     setOpenScheduleForm((prevState) => !prevState);
   };
   const handleOpenEventForm = (event: CalendarEventType) => {
-    if (userProfile) {
+    if (userProfile || email) {
       let eventData = {
         ...getEventPopupDetails(eventPopUpDetails, event),
       };
-      setIsEventOrganizer(eventData?.organizer.email === email || eventData?.organizer.email === userProfile?.email);
+      console.log(eventData?.organizer.email, email, userProfile?.email);
+
+      setIsEventOrganizer(
+        eventData?.organizer.email === email ||
+          eventData?.organizer.email === userProfile?.email,
+      );
       setEventPopUpDetails(() => ({
         ...eventData,
         eventId: event.eventId,
@@ -598,18 +603,29 @@ const Calendar = () => {
         link: 'hangoutLink' in event ? event.hangoutLink : null,
         eventId: event.id,
         color: '#fcba03',
-        organizer: event.organizer,
+        organizer: {email: event.organizer.email, displayName: event.organizer.displayName
+        },
         syncedBy: userName,
         recurringEventId: event?.recurringEventId,
       };
 
       if ('attendees' in event) {
-        eventData['attendees'] = event.attendees.filter(doc => doc.full_name).map((attendee) => {
-          return attendee?.full_name;
-        });
+        eventData['attendees'] = getGoogleAttendees(event);
       }
       return eventData;
     });
+  };
+  const getGoogleAttendees = (event: GoogleEventType) => {
+    const res = event.attendees.map((doc) => doc.full_name || doc.email);
+    res.splice(res.length - 1, 1);
+    return res;
+  };
+  const getAttendees = (event: OutlookEventType) => {
+    const res = event.description.attendees.map(
+      (doc) => doc.emailAddress.full_name || doc.emailAddress.name,
+    );
+    res.splice(res.length - 1, 1);
+    return res;
   };
 
   const extractOutlookEvents = (
@@ -623,8 +639,11 @@ const Calendar = () => {
       start: new Date(event.start_time),
       end: new Date(event.end_time),
       eventId: event.event_id,
-      attendees: event.attendees,
-      organizer: { email: event.created_by },
+      attendees: getAttendees(event),
+      organizer: {
+        email: event.description?.organizer?.emailAddress?.address,
+        displayName: event.description?.organizer?.emailAddress?.name,
+      },
       link: null,
       color: '#fcba03',
       syncedBy: userName,
@@ -889,12 +908,16 @@ const Calendar = () => {
   }
 
   const handleOnSelectEvent = (event: CalendarEventType) => {
-    if (userProfile) {
+    if (userProfile || email) {
       let eventData = {
         ...getEventPopupDetails(eventPopUpDetails, event),
       };
-      console.log(eventData?.organizer, userProfile?.email, eventData?.organizer.email === userProfile?.email);
-      setIsEventOrganizer(eventData?.organizer.email === email || eventData?.organizer.email === userProfile?.email);
+      console.log(eventData?.organizer.email, email, userProfile?.email);
+
+      setIsEventOrganizer(
+        eventData?.organizer.email === email ||
+          eventData?.organizer.email === userProfile?.email,
+      );
       setEventPopUpDetails(eventData);
       setShowEventPopUpModal(true);
     }

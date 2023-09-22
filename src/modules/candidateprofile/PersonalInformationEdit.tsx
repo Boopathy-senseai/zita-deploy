@@ -55,10 +55,10 @@ type Props = {
   cancel: () => void;
   personal?: Personal;
   personal_obj?: Personal;
-  obj?:Obj;
+  obj?: Obj;
   additional_detail?: AdditionalDetailEntity;
   isGetCountry: CountryEntity[];
-  Qualification?:string;
+  Qualification?: string;
 };
 
 type personalUpdateForms = {
@@ -77,7 +77,7 @@ type personalUpdateForms = {
   objective: string;
   linkedInUrl: string;
   gitUrl: string;
-  qualification:string;
+  qualification: string;
 };
 
 const PersonalInformationEdit = ({
@@ -111,7 +111,7 @@ const PersonalInformationEdit = ({
     objective: '',
     linkedInUrl: '',
     gitUrl: '',
-    qualification:''
+    qualification: '',
   };
 
   // form validation
@@ -182,10 +182,10 @@ const PersonalInformationEdit = ({
     dispatch(updatePersonalInfoMiddleWare({ formData })).then((res) => {
       if (res.payload.success) {
         dispatch(
-          candidateMatchMiddleWare({ 
-             can_id:res.payload?.can_id[0]?.id.toString(),
+          candidateMatchMiddleWare({
+            can_id: res.payload?.can_id[0]?.id.toString(),
           }),
-        )
+        );
         Toast('Personal Info updated successfully');
         dispatch(
           profileEditMiddleWare({
@@ -282,7 +282,7 @@ const PersonalInformationEdit = ({
         formik.setFieldValue('gitUrl', personal?.code_repo);
       }
       if (!isEmpty(Qualification)) {
-        formik.setFieldValue('qualification',Qualification);
+        formik.setFieldValue('qualification', Qualification);
       }
     }
   }, [personal, open]);
@@ -318,7 +318,7 @@ const PersonalInformationEdit = ({
 
       {isLoader && <Loader />}
       <Flex columnFlex className={styles.overAll}>
-        <div
+        {/* <div
           className={styles.svgClose}
           onClick={onCloseModal}
           tabIndex={-1}
@@ -326,12 +326,26 @@ const PersonalInformationEdit = ({
           onKeyDown={() => {}}
         >
           <SvgCloseSmall />
-        </div>
-        <Text align="center" size={14} bold className={styles.title}>
-          Update Personal Information
-        </Text>
-        <Flex columnFlex className={styles.scrollStyle} style={{padding:"0px 8px"}}>
-          <Flex row center top>
+        </div> */}
+        <Flex
+          style={{ borderBottom: '0.5px solid #581845', marginBottom: '15px' }}
+        >
+          <Text
+            size={14}
+            bold
+            className={styles.title}
+            style={{ marginBottom: '5px' }}
+          >
+            Update Personal Information
+          </Text>
+        </Flex>
+
+        <Flex
+          columnFlex
+          className={styles.scrollStyle}
+          style={{ paddingRight: '10px' }}
+        >
+          <Flex row top>
             <Flex flex={4} width={inputWidth}>
               <InputText
                 label="First Name"
@@ -386,7 +400,7 @@ const PersonalInformationEdit = ({
               />
             </Flex>
           </Flex>
-          <Flex row center className={styles.genderFlex}>
+          <Flex row className={styles.genderFlex}>
             <Flex flex={4} width={inputWidth}>
               <SelectTag
                 isSearchable
@@ -458,7 +472,7 @@ const PersonalInformationEdit = ({
               />
             </Flex>
           </Flex>
-          <Flex row center top>
+          <Flex row top>
             <Flex flex={4} width={inputWidth}>
               <SelectTag
                 isSearchable
@@ -559,7 +573,7 @@ const PersonalInformationEdit = ({
               )}
             </Flex>
           </Flex>
-          <Flex row center top className={styles.genderFlex}>
+          <Flex row top className={styles.genderFlex}>
             <Flex flex={4} width={inputWidth}>
               <InputText
                 label="Zip Code"
@@ -618,8 +632,8 @@ const PersonalInformationEdit = ({
               />
             </Flex>
           </Flex>
-          <Flex row center top>
-            <Flex >
+          <Flex row top>
+            <Flex>
               <div style={{ width: '320px' }}>
                 <SelectTag
                   label="Qualification"
@@ -628,7 +642,8 @@ const PersonalInformationEdit = ({
                   value={
                     qualificationData
                       ? qualificationData.find(
-                          (option) => option.value === formik.values.qualification,
+                          (option) =>
+                            option.value === formik.values.qualification,
                         )
                       : ''
                   }
@@ -638,36 +653,36 @@ const PersonalInformationEdit = ({
                   }}
                 />
                 <ErrorMessage
-                name="qualification"
-                touched={formik.touched}
-                errors={formik.errors}
-              />
+                  name="qualification"
+                  touched={formik.touched}
+                  errors={formik.errors}
+                />
               </div>
             </Flex>
-            <Flex  width={inputWidth}>
+            <Flex width={inputWidth}>
               {/* <Flex row top> */}
-              <Flex flex={4}    marginLeft={marginLeft}
-              >
-                <div style={{width:'320px'}}>
-                <SelectTag
-                  isSearchable
-                  label="Experience in Years"
-                  required
-                  options={expYearOptions}
-                  onChange={(option) => {
-                    formik.setFieldValue('years', option.value);
-                    setReload(true);
-                  }}
-                  value={
-                    expYearOptions
-                      ? expYearOptions.find(
-                          (option) =>
-                            Number(option.value) ===
-                            Number(formik.values.years),
-                        )
-                      : ''
-                  }
-                /></div>
+              <Flex flex={4} marginLeft={marginLeft}>
+                <div style={{ width: '320px' }}>
+                  <SelectTag
+                    isSearchable
+                    label="Experience in Years"
+                    required
+                    options={expYearOptions}
+                    onChange={(option) => {
+                      formik.setFieldValue('years', option.value);
+                      setReload(true);
+                    }}
+                    value={
+                      expYearOptions
+                        ? expYearOptions.find(
+                            (option) =>
+                              Number(option.value) ===
+                              Number(formik.values.years),
+                          )
+                        : ''
+                    }
+                  />
+                </div>
                 <ErrorMessage
                   name="years"
                   touched={formik.touched}
@@ -677,25 +692,26 @@ const PersonalInformationEdit = ({
               {/* </Flex> */}
             </Flex>
             <Flex flex={4} end>
-              <div style={{width:'320px'}}>
-              <SelectTag
-                isSearchable
-                options={monthOptions}
-                label="Experience in Months"
-                onChange={(option) => {
-                  formik.setFieldValue('month', option.value);
+              <div style={{ width: '320px' }}>
+                <SelectTag
+                  isSearchable
+                  options={monthOptions}
+                  label="Experience in Months"
+                  onChange={(option) => {
+                    formik.setFieldValue('month', option.value);
 
-                  setReload(true);
-                }}
-                value={
-                  monthOptions
-                    ? monthOptions.find(
-                        (option) =>
-                          Number(option.value) === Number(formik.values.month),
-                      )
-                    : ''
-                }
-              />
+                    setReload(true);
+                  }}
+                  value={
+                    monthOptions
+                      ? monthOptions.find(
+                          (option) =>
+                            Number(option.value) ===
+                            Number(formik.values.month),
+                        )
+                      : ''
+                  }
+                />
               </div>
               <ErrorMessage
                 name="years"
@@ -723,8 +739,13 @@ const PersonalInformationEdit = ({
           </Flex>
         </Flex>
 
-        <Flex end style={{padding:"10px"}}>
-          <Button onClick={formik.handleSubmit}>Update</Button>
+        <Flex end row marginTop={10} className={styles.borderLine}>
+          <Button className={styles.cancel} onClick={onCloseModal}>
+            Cancel
+          </Button>
+          <Button style={{ marginTop: '20px' }} onClick={formik.handleSubmit}>
+            Update
+          </Button>
         </Flex>
       </Flex>
     </Modal>
