@@ -201,7 +201,7 @@ Props) => {
               Login
             </Button>
 
-            <hr />
+            {/* <hr /> */}
             {/* <Flex middle>
               <Text className={styles.text_account}>
                 Don`t have an account?{' '}

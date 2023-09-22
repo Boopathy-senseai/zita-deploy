@@ -6,6 +6,8 @@ import image4 from '../../assets/images/login4.png';
 import image5 from '../../assets/images/login5.png';
 import image6 from '../../assets/images/login6.png';
 import image7 from '../../assets/images/login7.png';
+import image8 from '../../assets/images/login8.png';
+import image9 from '../../assets/images/login9.png';
 import Flex from '../../uikit/Flex/Flex';
 import styles from './loginscreen.module.css';
 const Loginslidercandidate = () => {
@@ -35,21 +37,21 @@ const Loginslidercandidate = () => {
       <Flex>
         {currentCount === 1 ? (
           <>
-            <img src={image5} alt="log" />
+            <img src={image8} alt="log" />
           </>
         ) : (
           ''
         )}
         {currentCount === 2 ? (
           <>
-            <img src={image6} alt="log" />
+            <img src={image9} alt="log" />
           </>
         ) : (
           ''
         )}
         {currentCount === 3 ? (
           <>
-            <img src={image7} alt="log" />
+            <img src={image6} alt="log" />
           </>
         ) : (
           ''
