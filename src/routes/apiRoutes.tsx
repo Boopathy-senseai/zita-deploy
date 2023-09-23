@@ -215,10 +215,12 @@ export const careerJobViewApi = (id: string) => {
 };
 
 export const uploadResumeApi = `${process.env.REACT_APP_API_ENDPOINT}upload_resume/`;
+export const professionalResume  = 'upload_resume';
 export const basicDetailApi = 'basic_detail/';
 export const emailValidationApi = `email_validation`;
 export const otpVerificationApi = `otp_verification`;
 export const profileEditApi = 'profile_edit';
+export const resumeReupload = 'edit_resume_file';
 export const whatjobsApi = `what_jobs_posting/`;
 // export const whatjobsApi = (jdId?: string) => {
 //   const url = `what_jobs_posting/${jdId}`;
