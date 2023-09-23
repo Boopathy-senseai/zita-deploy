@@ -20,6 +20,13 @@
   padding: 25px;
   border-radius: 4px;
 }
+.uploadpopup1{
+  width: 750px;
+  height: 475px;
+  background-color:#ffffff;
+  padding: 25px;
+  border-radius: 4px;
+}
 .labelStyle {
   margin: 0;
   margin-left: 4px;
@@ -36,6 +43,9 @@
 }
 .btnStyle {
   margin-left: 16px;
+}
+.textArea {
+  height: 100px;
 }
 .svgClose {
   cursor: pointer;

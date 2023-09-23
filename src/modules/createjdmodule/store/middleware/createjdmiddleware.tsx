@@ -19,7 +19,8 @@ import {
   whatjobsApi,
   selectDsorNonDsApi,
   validateJobIdApi,
-  industrytype
+  industrytype,
+  AioutputApi,
 } from '../../../../routes/apiRoutes';
 import {
   JD_CREATE,
@@ -38,6 +39,7 @@ import {
   CreateJdPostPayload,
   missJdPostPayload,
   questionnaireSavePayload,
+  AIoutput,
 } from '../../createJdTypes';
 var querystring = require('qs');
 
@@ -390,6 +392,28 @@ export const editJdPostMiddleWare = createAsyncThunk(
     try {
       const { data } = await axios.post(
         edit_jdApi(jdId),
+        querystring.stringify(
+          {
+            ...props,
+          },
+          { arrayFormat: 'comma' },
+        ),
+      );
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+);
+
+
+export const AioutputApimiddleware = createAsyncThunk(
+  'AIcreate',
+  async ({...props }: AIoutput, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(
+        AioutputApi,
         querystring.stringify(
           {
             ...props,

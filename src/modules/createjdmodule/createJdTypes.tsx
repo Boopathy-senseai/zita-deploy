@@ -21,6 +21,7 @@ export interface JDParserReducerState extends JDParser {
 }
 
 export interface JDTemplates {
+  skills: any;
   id: number;
   job_description: string;
   job_title: string;
@@ -265,6 +266,16 @@ export interface JdOutput {
 export interface UpdateJdState extends UpdateJd {
   isLoading: boolean;
   error: string;
+}
+export interface AIoutput{
+  jobTitle:string;
+  Industry_and_Domain:string;
+  Work_Space_Type:string;
+  Country?:string;
+  State?:string;
+  City?:string;
+  Overview_the_Role:string;
+  Department_and_reporting_structure?:string;
 }
 
 export interface CreateJdPostPayload {

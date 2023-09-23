@@ -167,7 +167,7 @@ const ApplicantQuestionnaire = () => {
   };
 
   return (
-    <Flex className={styles.overAll} height={window.innerHeight - 114}>
+    <Flex className={styles.overAll} height={window.innerHeight }>
       <Flex row center className={styles.step}>
         <StepProgressBar titleclassName={styles.stepOne} roundFill barFilled />
         <StepProgressBar

@@ -153,7 +153,9 @@ console.log("$$$$$$$$$$$",data)
   const initial: dsFormProps = {
     qualification: [{ education: '', specialization: '' }],
     jobTitle: '',
+    jobTitle1:'',
     jobRole: '6',
+    Industry_and_Domain:'',
     jobId: '',
     jobDescription: '',
     jobType: '',
@@ -163,15 +165,21 @@ console.log("$$$$$$$$$$$",data)
     country: '',
     state: '',
     city: '',
-    skills:[],
+    country1: '',
+    state1: '',
+    city1: '',
+    Overview:'',
+    Department_and_reporting:'',
+    skills: [],
     remoteWork: '0',
     minimumSalary: '',
     maximumSalary: '',
     currency: '',
     showSalaryCandidates: '0',
     industryType: ' ',
-    IndustryType:'',
-    work_space_type:'',
+    IndustryType: '',
+    work_space_type: '',
+    work_space_type1: '',
     nonDsSkill: [],
     skillData: {
       dataBaseTags: [],
@@ -180,6 +188,8 @@ console.log("$$$$$$$$$$$",data)
       othersTags: [],
       programTags: [],
     },
+    onsite: '',
+    hybrid: ''
   };
 
   // open template function
@@ -193,7 +203,7 @@ console.log("$$$$$$$$$$$",data)
       <Flex
         columnFlex
         className={styles.overAll}
-        height={window.innerHeight - 112} 
+        height={window.innerHeight } 
       >
         {(createJdLoader || jdDuplicateLoader) && <Loader />}
         <JdParserLoader
@@ -215,9 +225,6 @@ console.log("$$$$$$$$$$$",data)
         </Flex>
 
         
-        <UploadJd
-        handleTempOpen={handleTempOpen}
-         />
 
         <Formik
           initialValues={initial}
@@ -249,7 +256,19 @@ console.log("$$$$$$$$$$$",data)
             touched,
           }) => (
             <Form>
+              
+            <UploadJd
+            handleTempOpen={handleTempOpen}
+            values={values}
+            onDirty={onDirty}
+            setFieldValue={setFieldValue}
+            getCountry={isGetCountry}
+            errors={errors}
+            touched={touched}
+            handleSubmit={handleSubmit}
+            />
               <Flex className={styles.cardOverAll}>
+                {console.log("job+++++",jdTemplates)}
                 <JobDescriptionTemplate
                   jdTemplates={jdTemplates}
                   open={isTemp}

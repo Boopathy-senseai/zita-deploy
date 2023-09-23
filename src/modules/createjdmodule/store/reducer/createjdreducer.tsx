@@ -420,6 +420,8 @@ const duplicateState: UpdateJdState = {
     job_type_id: 0,
     jd_status_id: 0,
     created_on: '',
+    work_space_type: '',
+    industry_type_name: ''
   },
   skills: [],
   location: {

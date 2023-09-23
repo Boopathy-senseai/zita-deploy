@@ -155,7 +155,7 @@ const JobDetails = ({
       jd_output.show_sal_to_candidate === true ? '1' : '0',
     );
     if (jd_output.industry_type_name !== '') {
-      setFieldValue('industryType', jd_output.industry_type_id.toString());
+      setFieldValue('industryType', jd_output.industry_type_name);
     }
     if (updateLocation.country_id !== 0) {
       setFieldValue('country', updateLocation.country_id);
@@ -167,13 +167,13 @@ const JobDetails = ({
       setFieldValue('city', updateLocation.city_id);
     }
     if (jd_output.work_space_type=== '1') {
-      setFieldValue('work_space_type', "Onsite");
+      setFieldValue('work_space_type', jd_output.work_space_type.toString());
     }
     if (jd_output.work_space_type=== '2') {
-      setFieldValue('work_space_type', "Hybrid");
+      setFieldValue('work_space_type', jd_output.work_space_type.toString());
     }
     if (jd_output.work_space_type=== '3') {
-      setFieldValue('work_space_type', "Remote");
+      setFieldValue('work_space_type', jd_output.work_space_type.toString());
     }
 
 

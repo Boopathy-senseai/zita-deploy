@@ -42,13 +42,18 @@ const JdTemplateList = ({
     }
     setFieldValue('jobTitle', list?.job_title);
     setFieldValue('jobDescription', list?.job_description);
+ if(list?.skills!==null){
  var d =[]
    var a = list?.skills.split(",")
+   
    a.map((val)=>{
     var c ={"label":val ,"value": val}
    d.push(c)
+   
    })
+  
    setFieldValue('nonDsSkill',d);
+  }
    //console.log("ssss",...d)
 //     var a = []
 //     list?.skills.map((val)=>{

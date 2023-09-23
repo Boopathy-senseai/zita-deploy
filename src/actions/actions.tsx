@@ -104,6 +104,7 @@ export const JD_TEMPLATE = 'createjd/jd_template';
 export const JD_DUPLICATE = 'createjd/jd_duplicate';
 export const JD_WHATJOBS = 'createjd/what_jobs_posting/';
 export const Industy_type='jd_industry_type'
+export const AIcreate='AI_create'
 
 // my_job_posting
 

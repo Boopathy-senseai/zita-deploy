@@ -64,7 +64,7 @@ const JobDescriptionTemplate = ({
   return (
    
     <Modal open={open}>
-   
+     {console.log("show me the title",searchResults)}
       <Flex
         columnFlex
         className={styles.overAll}
