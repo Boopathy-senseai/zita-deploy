@@ -237,13 +237,27 @@ const EditStagesModal: React.FC<Props> = (props) => {
           >
             Cancel
           </Button>
-          <Button
+          {/* <Button
             className={styles.update}
             onClick={handleUpdateStages}
             disabled={!isFormDirty()}
           >
-            Apply
-          </Button>
+            Apply 
+          </Button> */}
+          {isStageLoader ? (
+            <Flex className={styles.applyBtnLoader}>
+              <Loader size="small" withOutOverlay />
+            </Flex> 
+            ) : (
+            <Button
+              className={styles.update}
+              onClick={handleUpdateStages}
+              disabled={!isFormDirty()}
+            >
+              Apply 
+            </Button>
+            )
+          }
         </Flex>
       </Flex>
     </Modal>
@@ -256,6 +270,7 @@ const EditStagesModal: React.FC<Props> = (props) => {
   }
 
   function handleUpdateStages() {
+    setStageLoader(true)
     if (jd_id) {
       dispatch(
         updateKanbanStagesMiddleware({
@@ -264,6 +279,7 @@ const EditStagesModal: React.FC<Props> = (props) => {
           stages: localStages,
         }),
       ).then(() => {
+        setStageLoader(false)
         Toast('Changes saved successfully', 'LONG');
         onCloseModal();
       });

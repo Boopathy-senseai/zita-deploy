@@ -46,3 +46,19 @@
 .jobDesStyle{
   height: 150px;
 }
+.btnLoader{
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 3px 12px 3px 12px;
+  width: 68px;
+  height: 30px;
+}
+.btnLoader1{
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 3px 12px 3px 12px;
+  width: 50px;
+  height: 30px;
+}
