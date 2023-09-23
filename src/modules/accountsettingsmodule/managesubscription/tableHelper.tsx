@@ -17,105 +17,152 @@ export type tableDataTypes = {
   free_expired: any;
 };
 type Props = {
-  data:any;
+  data: any;
 };
-const sidebar=sessionStorage.getItem("EmpToggle");
-const sidebar1=sidebar==='1';
-const PlanTable =  ( data : Props)  => {
+const sidebar = sessionStorage.getItem('EmpToggle');
+const sidebar1 = sidebar === '1';
+const PlanTable = (data: Props) => {
   return (
-    <Flex marginTop={15} row style={{marginBottom: '15px',paddingLeft: '6px'}} between>
-      <Flex center className={styles.boxshadow}>
-      <Text style={{color:"#581845"}} >Subscription Plan</Text>
-      <Text className={styles.textstyle}>
-      {data.data[0].plan === 1 && <Text bold >Free Trial</Text>}
-      {(data.data[0].plan === 2 || data.data[0].plan === 3) && <Text bold  >BASIC</Text>}
-      {(data.data[0].plan === 4 || data.data[0].plan === 5) && <Text bold  >PRO</Text>}
-      </Text>
+    <Flex marginTop={15} row style={{ marginBottom: '15px', paddingLeft: '6px' }} between >
+      <Flex
+        center
+        className={styles.boxshadow}
+        style={{ width: '115px', display: 'flex' }}
+      >
+        <Text style={{ color: '#581845' }}>Subscription Plan</Text>
+        <Text className={styles.textstyle}>
+          {data.data[0].plan === 1 && <Text bold>Free Trial</Text>}
+          {(data.data[0].plan === 2 || data.data[0].plan === 3) && (
+            <Text bold>BASIC</Text>
+          )}
+          {(data.data[0].plan === 4 || data.data[0].plan === 5) && (
+            <Text bold>PRO</Text>
+          )}
+        </Text>
       </Flex>
-      <Flex center className={styles.boxshadow}>
-      <Text style={{color:"#581845"}}>Invoice Date</Text>
-      <Text className={styles.textstyle}>
-      <Text bold >{getDateString(data.data[0].invoice , 'll')}</Text>
-      </Text>
+      <Flex
+        center
+        className={styles.boxshadow}
+        style={{ width: '115px', display: 'flex' }}
+      >
+        <Text style={{ color: '#581845' }}>Invoice Date</Text>
+        <Text className={styles.textstyle}>
+          <Text bold>{getDateString(data.data[0].invoice, 'll')}</Text>
+        </Text>
       </Flex>
-      <Flex center className={styles.boxshadow}>
-      <Text style={{color:"#581845"}}>Billing Frequency</Text>
-      <Text className={styles.textstyle}>
-       {data.data[0].plan === 1 && <Text bold >-</Text>}
-       {(data.data[0].plan === 2 || data.data[0].plan === 4) && <Text bold >Monthly</Text>}
-       {(data.data[0].plan === 3 || data.data[0].plan === 5) && <Text bold >Annual</Text>}
-      </Text>
+      <Flex
+        center
+        className={styles.boxshadow}
+        style={{ width: '115px', display: 'flex' }}
+      >
+        <Text style={{ color: '#581845' }}>Billing Frequency</Text>
+        <Text className={styles.textstyle}>
+          {data.data[0].plan === 1 && <Text bold>-</Text>}
+          {(data.data[0].plan === 2 || data.data[0].plan === 4) && (
+            <Text bold>Monthly</Text>
+          )}
+          {(data.data[0].plan === 3 || data.data[0].plan === 5) && (
+            <Text bold>Annual</Text>
+          )}
+        </Text>
       </Flex>
-      
-      <Flex center className={styles.boxshadow}>
-      <Text style={{color:"#581845"}}>Plan Price</Text>
-      <Text className={styles.textstyle}>
-      <Text bold  >{data.data[0].plan !== 1 ? `$ ${data.data[0].plan_price}` : 'Free'}</Text>
-      </Text>
+
+      <Flex
+        center
+        className={styles.boxshadow}
+        style={{ width: '115px', display: 'flex' }}
+      >
+        <Text style={{ color: '#581845' }}>Plan Price</Text>
+        <Text className={styles.textstyle}>
+          <Text bold>
+            {data.data[0].plan !== 1 ? `$ ${data.data[0].plan_price}` : 'Free'}
+          </Text>
+        </Text>
       </Flex>
-      <Flex center className={styles.boxshadow}>
-      <Text style={{color:"#581845"}}>Total Users</Text>
-      <Text className={styles.textstyle}>
-      <Text bold >{data.data[0].totalUser}</Text>
-      </Text>
+      <Flex
+        center
+        className={styles.boxshadow}
+        style={{ width: '115px', display: 'flex' }}
+      >
+        <Text style={{ color: '#581845' }}>Total Users</Text>
+        <Text className={styles.textstyle}>
+          <Text bold>{data.data[0].totalUser}</Text>
+        </Text>
       </Flex>
-      <Flex center className={styles.boxshadow}>
-      <Text style={{color:"#581845"}}>Total Price</Text>
-      <Text className={styles.textstyle}>
-      <Text bold >${data.data[0].total_price}</Text>
-      </Text>
+      <Flex
+        center
+        className={styles.boxshadow}
+        style={{ width: '115px', display: 'flex' }}
+      >
+        <Text style={{ color: '#581845' }}>Total Price</Text>
+        <Text className={styles.textstyle}>
+          <Text bold>${data.data[0].total_price}</Text>
+        </Text>
       </Flex>
-      <Flex center className={styles.boxshadow}>
-      <Text style={{color:"#581845"}}>Next Billing Date</Text>
-      <Text className={styles.textstyle}>
-      <Text bold>{getDateString(data.data[0].next_billing, 'll')}</Text>
-      </Text>
+      <Flex
+        center
+        className={styles.boxshadow}
+        style={{ width: '115px', display: 'flex' }}
+      >
+        <Text style={{ color: '#581845' }}>Next Billing Date</Text>
+        <Text className={styles.textstyle}>
+          <Text bold>{getDateString(data.data[0].next_billing, 'll')}</Text>
+        </Text>
       </Flex>
-      <Flex center className={styles.boxshadow}>
-      <Text style={{color:"#581845"}}>Plan Status</Text>
-      <Text className={styles.textstyle}>
-      
+      <Flex
+        center
+        className={styles.boxshadow}
+        style={{ width: '115px', display: 'flex' }}
+      >
+        <Text style={{ color: '#581845' }}>Plan Status</Text>
+        <Text className={styles.textstyle}>
           {data.data[0].current_status === true &&
             isEmpty(data.data[0].subscription_changed_to) &&
             data.data[0].plan !== 1 && (
-                <Text bold style={{color:"#00BE4B"}}> Active </Text>
+              <Text bold style={{ color: '#00BE4B' }}>
+                {' '}
+                Active{' '}
+              </Text>
             )}
           {data.data[0].plan === 1 && (
             <>
               {data.data[0].plan === 1 && data.data[0].free_expired === 0 ? (
-                <Text  bold style={{color:"red"}} >Expired</Text>
+                <Text bold style={{ color: 'red' }}>
+                  Expired
+                </Text>
               ) : (
-                
-                <Text bold style={{color:"#00BE4B"}}>Active </Text>
-               
+                <Text bold style={{ color: '#00BE4B' }}>
+                  Active{' '}
+                </Text>
               )}
             </>
           )}
 
-          {data.data[0].current_status === false && data.data[0].free_expired !== 0 && (
-            <Text bold style={{color:"red"}}>Inactive</Text>
-          )}
+          {data.data[0].current_status === false &&
+            data.data[0].free_expired !== 0 && (
+              <Text bold style={{ color: 'red' }}>
+                Inactive
+              </Text>
+            )}
           {data.data[0].current_status === true &&
             Number(data.data[0].subscription_changed_to) === -1 &&
             data.data[0].plan !== 1 && (
-            
-                <Text  bold style={{color:"blue"}}>Cancelled</Text>
-            
+              <Text bold style={{ color: 'blue' }}>
+                Cancelled
+              </Text>
             )}
           {data.data[0].current_status === true &&
             Number(data.data[0].subscription_changed_to) === -2 &&
             data.data[0].plan !== 1 && (
-              
-                <Text  bold style={{color:"red"}}>Expired</Text>
-             
+              <Text bold style={{ color: 'red' }}>
+                Expired
+              </Text>
             )}
-        
-      </Text>
+        </Text>
       </Flex>
-   
     </Flex>
-  )
-}
+  );
+};
 export default PlanTable;
 
 // export const planTable = () => [

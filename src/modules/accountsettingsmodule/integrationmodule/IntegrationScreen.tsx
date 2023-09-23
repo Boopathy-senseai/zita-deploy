@@ -103,8 +103,9 @@ const IntegrationScreen = () => {
     dispatch(outlookCallApiMiddleware())
       .then((res) => {
         if (res.payload.success === true) {
-          localStorage.setItem('integrate', 'calender');
+          
           setLoginLoader(false);
+          localStorage.setItem('integrate', 'calender');
           window.location.href = res.payload.authorization_url;
         }
       })
@@ -280,7 +281,7 @@ const IntegrationScreen = () => {
         
 
         <Flex row marginTop={10}>
-          <Flex flex={3}>
+          <Flex flex={3} marginRight={20}>
             {connected === 1 && active === 1 && isGoogle === 0 ? (
               <Card className={styles.selectCard}>
                 <Flex end style={{ position: 'absolute', right: '10px' }}>
@@ -435,7 +436,7 @@ const IntegrationScreen = () => {
               </Card>
             )}
           </Flex>
-          <Flex flex={9}></Flex>
+          <Flex flex={8}></Flex>
           
         </Flex>
       </Flex>

@@ -1,9 +1,9 @@
 .overAll {
   background-color: var(--color-white, #ffffff);
-  padding: 20px 30px;
+  padding: 25px;
   border-radius: 4px;
   position: relative;
-  padding-bottom: 40px !important;
+  /* padding-bottom: 40px !important; */
 }
 .salaryFlex {
   padding-top: 20px;

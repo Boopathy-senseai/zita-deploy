@@ -2586,3 +2586,16 @@ ul {
 fieldset {
   top: 0 !important;
 } */
+.pg-viewer-wrapper {
+  width:fit-content;
+}
+.pg-viewer-wrapper .document-container {
+  padding: 20px !important;
+  /* max-width: 800px !important; Set your desired maximum width */
+  width: 100% !important; /* This allows it to be responsive up to the max-width */
+  background: #fff;
+  margin: auto;
+}
+.loading-container .loading{
+  display: none !important;
+}

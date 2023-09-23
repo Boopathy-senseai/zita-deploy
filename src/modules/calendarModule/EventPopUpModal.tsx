@@ -16,7 +16,7 @@ import SvgInfo from '../../icons/SvgInfo';
 import Avatar, { getUserInitials } from '../../uikit/Avatar';
 import { formatTo12HrClock, getEventHasMeeting } from './util';
 import styles from './styles/EventPopUp.module.css';
-import { EventPopUpDetails } from './types';
+import { CALENDAR, EventPopUpDetails } from './types';
 
 interface Props {
   showEventPopUpModal: boolean;
@@ -26,9 +26,10 @@ interface Props {
   handleCloseEventPopUpModal: () => void;
   joinMeeting: (eventId: string) => void;
   handleEditEvent: () => void;
-  isEventCanUpdate: boolean;
+  isEventOrganizer: boolean;
   eventPopUpDetails: EventPopUpDetails;
   copyMeeting: (eventId: string) => void;
+  calendarProvider: CALENDAR;
 }
 
 const EventPopUpModal = ({
@@ -36,10 +37,11 @@ const EventPopUpModal = ({
   handleCloseEventPopUpModal,
   handleEditEvent,
   handleRemoveEvent,
-  isEventCanUpdate,
+  isEventOrganizer,
   joinMeeting,
   copyMeeting,
   eventPopUpDetails,
+  calendarProvider,
 }: Props) => {
   const [openEventDeleteModal, setOpenEventDeleteModal] = useState(false);
   const {
@@ -78,7 +80,8 @@ const EventPopUpModal = ({
           className={styles.actionButtonWrapper}
           style={{ marginTop: '20px' }}
         >
-          <Button className={styles.cancel}
+          <Button
+            className={styles.cancel}
             style={{ marginRight: 8 }}
             onClick={() => setOpenEventDeleteModal(false)}
           >
@@ -128,11 +131,20 @@ const EventPopUpModal = ({
 
         <div className={styles.info}>
           <SvgInterviewers size={16} />
-
           {attendees && attendees?.length > 0 ? (
             <div className={styles.infoText}>
               <p style={{ marginBottom: 3 }}>Interviewer&#40;s&#41;</p>
               <Flex row className={styles.emailContainer}>
+               
+              {/* {(calendarProvider === CALENDAR.Outlook && organizer.full_name) &&
+                <Avatar
+                  initials={getUserInitials({
+                    fullName: organizer.full_name,
+                  })}
+                  style={{ width: 28, height: 28, marginRight: '5px' }}
+                  textStyle={{ fontSize: 12 }}
+                  title={organizer.full_name}
+                />} */}
                 {attendees.map(
                   (item: string, index: Key | null | undefined) => (
                     <Avatar
@@ -157,14 +169,14 @@ const EventPopUpModal = ({
           <div className={styles.infoText}>
             <Text style={{ marginBottom: 3 }}>Organizer</Text>
             {/* <br /> */}
-            <Text className={styles.email}>{organizer}</Text>
-
-            {console.log(organizer,"yooyo")}
+            <Text className={styles.email}>
+              {organizer.full_name ? organizer.full_name: organizer.email}
+            </Text>
           </div>
         </div>
       </div>
 
-      {isEventCanUpdate && (
+      {eventId && getEventHasMeeting(title) && (
         <hr style={{ margin: '10px 0 10px 0', padding: 0 }} />
       )}
       <div
@@ -175,7 +187,7 @@ const EventPopUpModal = ({
           height: '32px',
         }}
       >
-        {eventId && isEventCanUpdate && getEventHasMeeting(title) && (
+        {eventId && getEventHasMeeting(title) && (
           <button
             onClick={() => {
               joinMeeting(eventId);
@@ -188,7 +200,7 @@ const EventPopUpModal = ({
           </button>
         )}
         <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0 }}>
-          {eventId !== '' && isEventCanUpdate && getEventHasMeeting(title) ? (
+          {eventId !== '' && getEventHasMeeting(title) ? (
             <Tooltip title="Copy Meeting URL" placement="top">
               <button
                 className={`${styles.icon} ${styles.popover}`}
@@ -201,7 +213,7 @@ const EventPopUpModal = ({
               </button>
             </Tooltip>
           ) : null}
-          {isEventCanUpdate && canEdit ? (
+          {isEventOrganizer ? (
             <button
               className={styles.icon}
               title="Edit"
@@ -210,7 +222,7 @@ const EventPopUpModal = ({
               <SvgEdit width={16} height={16} />
             </button>
           ) : null}
-          {canEdit ? (
+          {isEventOrganizer ? (
             <button
               className={styles.icon}
               title="Delete"
@@ -232,7 +244,7 @@ const EventPopUpModal = ({
               </p>
             </Tooltip> */}
       <Tooltip title={title} placement="bottom-start">
-        <p style={{fontWeight: 'bold'}} className={styles.title}>
+        <p style={{ fontWeight: 'bold' }} className={styles.title}>
           {title}
         </p>
       </Tooltip>

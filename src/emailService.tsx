@@ -12,6 +12,31 @@ import { Base64 } from 'js-base64';
 import axios from 'axios';
 //let graphClient = '';
 let graphClient: Client | undefined = undefined;
+let Email: any = [];
+let Mail: any = [];
+
+export async function filtermail(mail: any, user: string) {
+  if (user === 'outlook') {
+    const emailValues = mail.map((item: any) => item.value);
+    Mail = mail.map((item: any) => item.value);
+    Email = emailValues
+      .map(
+        (email) =>
+          `from:${email} OR to:${email} OR cc:${email} OR bcc:${email}`,
+      )
+      .join(' OR ');
+    return Email;
+  } else {
+    const emailValues = mail.map((item: any) => item.value);
+    Email = emailValues
+      .map(
+        (email) =>
+          `from:${email} OR to:${email} OR cc:${email} OR bcc:${email}`,
+      )
+      .join(' OR ');
+    return Email;
+  }
+}
 
 export async function outlooktoken(token: any) {
   graphClient = Client.init({
@@ -105,8 +130,6 @@ export async function deletemail(
       //   console.log('--errorDEl--', error);
       return error;
     });
-  // console.log('-----sendmailresponce-----', response);
-  // return response;
 }
 
 export async function getarchivemsg(
@@ -229,19 +252,20 @@ export async function getsearchmail(
       var response1: any = await graphClient
         ?.api(`/me/messages`)
         .count(true)
-        .query(`$search="${serchdata}"`)
+        .query(`$search="${serchdata} AND (${Email})"`)
         .top(range)
         .skipToken(token)
         .get();
-      // console.log('-----allsearch-----', response1);
+      console.log('-----allsearch-----', response1);
       return response1;
     } else {
       var response2: any = await graphClient
         ?.api(`/me/messages`)
         .count(true)
-        .query(`$search="${serchdata}"`)
+        .query(`$search="${serchdata} AND (${Email})"`)
         .top(range)
         .get();
+      console.log('-----allsearch2-----', response2);
       return response2;
     }
   } else {
@@ -249,7 +273,7 @@ export async function getsearchmail(
       var response: any = await graphClient
         ?.api(`/me/mailFolders/${folder}/messages`)
         .count(true)
-        .query(`$search="${serchdata}"`)
+        .query(`$search="${serchdata} AND (${Email})"`)
         .top(range)
         .skipToken(token)
         .get();
@@ -259,7 +283,7 @@ export async function getsearchmail(
       var res: any = await graphClient
         ?.api(`/me/mailFolders/${folder}/messages`)
         .count(true)
-        .query(`$search="${serchdata}"`)
+        .query(`$search="${serchdata} AND (${Email})"`)
         .top(range)
         .get();
 
@@ -271,44 +295,34 @@ export async function getsearchmail(
 export async function getmessages(
   authProvider: AuthCodeMSALBrowserAuthenticationProvider,
   folder,
-  previous,
+  token,
   range,
 ) {
-  var response: any = await graphClient
-    ?.api(`/me/mailFolders/${folder}/messages`)
-    .count(true)
-    .skip(previous)
-    .top(range)
-    .get();
-
-  return response;
+  if (token === null) {
+    const response = await graphClient
+      .api(`/me/mailFolders/${folder}/messages`)
+      .count(true)
+      .query(`$search="${Email}"`)
+      .top(range)
+      .get();
+    console.log('1111', response);
+    return response;
+  } else {
+    const response = await graphClient
+      .api(`/me/mailFolders/${folder}/messages`)
+      .count(true)
+      .query(`$search="${Email}"`)
+      .top(range)
+      .skipToken(token)
+      .get();
+    console.log('22222', response);
+    return response;
+  }
 }
 
 export async function getusermail(
   authProvider: AuthCodeMSALBrowserAuthenticationProvider,
 ) {
-  // const emailList = ["'manojr@sense7ai.com'", "'jananirangesh@sense7ai.com'"];
-  // const searchQueries = emailList
-  //   .map((email) => `from/emailAddress/address eq ${email}`)
-  //   .join(' or ');
-
-  // const response = await graphClient
-  //   .api(`/me/mailFolders/${'Inbox'}/messages`)
-  //   .filter(searchQueries)
-  //   .top(1000)
-  //   .skip(10)
-  //   .count(true)
-  //   .get();
-
-  // const emailList = ['manojr@sense7ai.com', 'jananirangesh@sense7ai.com'];
-  // const emailFilters = emailList.map((email) => `from:${email} `).join(' OR ');
-
-  // const response = await graphClient
-  //   .api('/me/messages')
-  //   .query(emailFilters)
-  //   .top(1000)
-  //   .get();
-
   const emailList = ['manojr@sense7ai.com', 'jananirangesh@sense7ai.com'];
 
   const searchdata = emailList
@@ -364,15 +378,18 @@ export async function dowloadattachments(
 
 export async function getmailfolders(
   authProvider: AuthCodeMSALBrowserAuthenticationProvider,
+  folder,
 ) {
+  const range=9000000
   var response: any = await graphClient
-    ?.api(`/me/mailFolders`)
-    .select('id,displayName,totalItemCount,unreadItemCount')
+    ?.api(`/me/mailFolders/${folder}/messages`)
+    .query({ '$search': `"${Email}"` })
+    .top(range)
     .get();
-  //console.log('-----getmailfolder-----', response);
-  return response;
+    const unreadMessages = response.value ? response.value.filter(message => !message.isRead) : [];
+    const unreadCount = unreadMessages.length; 
+  return unreadCount; 
 }
-
 export async function draftupdate(
   authProvider: AuthCodeMSALBrowserAuthenticationProvider,
   id,
@@ -403,10 +420,6 @@ export async function gmail_Account_Profile(token) {
 }
 
 export const initGoogleAuth = async (token) => {
-  // console.log('--------------------', token);
-  // await gapi.auth.setToken({
-  //   access_token: token,
-  // });
   return new Promise<void>(async (resolve, reject) => {
     gapi.load('client:auth2', () => {
       gapi.client
@@ -427,14 +440,6 @@ export const initGoogleAuth = async (token) => {
     });
   });
 };
-
-// export function handleGoogleAuth() {
-//   initGoogleAuth()
-//     .then(() => {})
-//     .catch((error) => {
-//       console.error('Failed to initialize Google API client:', error);
-//     });
-// }
 
 export async function gmail_Inbox() {
   var response: any = await gapi.client.gmail.users.messages.list({
@@ -471,6 +476,7 @@ export async function Gmail_Mails(folder, pageToken, maxresult, tokens) {
     const response = await gapi.client.gmail.users.messages.list({
       userId: 'me',
       labelIds: folder,
+      q: Email,
       maxResults: maxresult,
       pageToken: pageToken,
     });
@@ -490,7 +496,7 @@ export async function Gmail_Mails(folder, pageToken, maxresult, tokens) {
         }),
       );
     }
-
+    console.log('zazaza', response);
     return { token, messages, fullMessages };
   } catch (error) {
     // console.error('Error loading messages:', error);
@@ -507,21 +513,26 @@ export async function Selected_message(id) {
     const message = response.result;
 
     const attachments = [];
-    const parts = message.payload.parts || [];
-    parts.forEach((part) => {
-      if (part.filename && part.body && part.body.attachmentId) {
-        const attachment = {
-          attachmentId: part.body.attachmentId,
-          name: part.filename,
-          mimeType: part.mimeType,
-        };
-        attachments.push(attachment);
-      }
-    });
+    const contentTypeHeader = message.payload.headers.find(
+      (header) => header.name.toLowerCase() === 'content-type',
+    );
+    const checkfileattach = contentTypeHeader.value.includes('multipart/mixed');
+    if (checkfileattach === true) {
+      const parts = message.payload.parts || [];
+      parts.forEach((part) => {
+        if (part.filename && part.body && part.body.attachmentId) {
+          const attachment = {
+            attachmentId: part.body.attachmentId,
+            name: part.filename,
+            mimeType: part.mimeType,
+          };
+          attachments.push(attachment);
+        }
+      });
+    }
 
     // Extract the body of the message
     var body = getMessageBody(message.payload);
-
     return { attachments, body, message };
   } catch (error) {
     //console.error('Error loading message body:', error);
@@ -536,12 +547,15 @@ const getMessageBody = (mes) => {
 
 const getHTMLPart = (arr) => {
   for (var x = 0; x <= arr.length; x++) {
-    console.log('typeof arr[x].parts', typeof arr[x].parts);
+    console.log('000typeof arr[x].parts', typeof arr[x].parts);
     if (typeof arr[x].parts === 'undefined') {
+      console.log('1111', arr[x].mimeType);
       if (arr[x].mimeType === 'text/html') {
+        console.log('2222', arr[x].body.data);
         return arr[x].body.data;
       }
     } else {
+      console.log('3333', arr[x].mimeType);
       return getHTMLPart(arr[x].parts);
     }
   }
@@ -578,7 +592,7 @@ export const Gmail_MessageToBin = (messageId) => {
 
 export const Gmail_search = async (Folder, serchdata, maxresult, pageToken) => {
   try {
-    const query = `in:${Folder} ${serchdata}`;
+    const query = `from:(${Email}) in:${Folder} ${serchdata}`;
     const response = await gapi.client.gmail.users.messages.list({
       userId: 'me',
       q: query,
@@ -632,11 +646,10 @@ export const Gmail_Attachment = async (id, attachid) => {
 };
 
 export const Gmail_Folder_Total_count = async (folder) => {
-  const count = gapi.client.gmail.users.labels.get({
+  const count = gapi.client.gmail.users.messages.list({
     userId: 'me',
-    id: folder,
+    q: `is:unread label:${folder} from:${Email}`,
   });
-
   return count;
 };
 

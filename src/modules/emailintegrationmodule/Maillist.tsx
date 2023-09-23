@@ -48,6 +48,7 @@ type Props = {
   enterKey: boolean;
   refresh: () => void;
   tokens: any;
+  can_id: any;
 };
 const Maillist = ({
   messagelist,
@@ -73,6 +74,7 @@ const Maillist = ({
   enterKey,
   refresh,
   tokens,
+  can_id,
 }: Props) => {
   const msal = useMsal();
   const authProvider = new AuthCodeMSALBrowserAuthenticationProvider(
@@ -156,7 +158,7 @@ const Maillist = ({
         process();
       }, 500);
     }
-  }, [sidebarroute, integration]);
+  }, [sidebarroute,integration]);
 
   useEffect(() => {
     if (enterKey) {
@@ -203,81 +205,52 @@ const Maillist = ({
         return <Text bold>Search Results</Text>;
       }
     } else if (integration === 'outlook') {
-      if (mailfolders.length !== 0) {
-        if (sideroute === 1) {
-          const Inboxfolder = mailfolders.find(
-            (item) => item.displayName === 'Inbox',
-          );
-          return (
-            <Text bold>
-              {Inboxfolder.unreadItemCount !== 0
-                ? `Inbox (${Inboxfolder.unreadItemCount})`
-                : 'Inbox'}
-            </Text>
-          );
-        } else if (sideroute === 2) {
-          const sentfolder = mailfolders.find(
-            (item) => item.displayName === 'Sent Items',
-          );
-          return (
-            <Text bold>
-              {sentfolder.unreadItemCount !== 0
-                ? `Sent Items ($sentfolder.unreadItemCount})`
-                : 'Sent Items'}
-            </Text>
-          );
-        } else if (sideroute === 3) {
-          const draftfolder = mailfolders.find(
-            (item) => item.displayName === 'Drafts',
-          );
-          return (
-            <Text bold>
-              {draftfolder.unreadItemCount !== 0
-                ? `Drafts (${draftfolder.unreadItemCount})`
-                : 'Drafts'}
-            </Text>
-          );
-        } else if (sideroute === 4) {
-          const archivefolder = mailfolders.find(
-            (item) => item.displayName === 'Archive',
-          );
-          return (
-            <Text bold>
-              {archivefolder.unreadItemCount !== 0
-                ? `Archive (${archivefolder.unreadItemCount})`
-                : 'Archive'}
-            </Text>
-          );
-        } else if (sideroute === 5) {
-          const deletefolder = mailfolders.find(
-            (item) => item.displayName === 'Deleted Items',
-          );
-          return (
-            <Text bold>
-              {deletefolder.unreadItemCount !== 0
-                ? ` Deleted Items (${deletefolder.unreadItemCount})`
-                : ' Deleted Items'}
-            </Text>
-          );
-        } else if (sideroute === 6) {
-          const junkfolder = mailfolders.find(
-            (item) => item.displayName === 'Junk Email',
-          );
-          return (
-            <Text bold>
-              {junkfolder.unreadItemCount !== 0
-                ? ` Junk Email (${junkfolder.unreadItemCount})`
-                : ' Junk Email'}
-            </Text>
-          );
-        } else if (sideroute === 0) {
-          return <Text bold>Search Results</Text>;
-        }
+      if (sideroute === 1) {
+        return (
+          <Text bold>
+            {mailfolders === 0 ? 'Inbox' : `Inbox (${mailfolders})`}
+          </Text>
+        );
+      } else if (sideroute === 2) {
+        return (
+          <Text bold>
+            {mailfolders === 0 ? 'Sent Items' : `Sent Items (${mailfolders})`}
+          </Text>
+        );
+      } else if (sideroute === 3) {
+        return (
+          <Text bold>
+            {mailfolders === 0 ? 'Drafts' : `Drafts (${mailfolders})`}
+          </Text>
+        );
+      } else if (sideroute === 4) {
+        return (
+          <Text bold>
+            {mailfolders === 0 ? 'Archive' : `Archive (${mailfolders})`}
+          </Text>
+        );
+      } else if (sideroute === 5) {
+        return (
+          <Text bold>
+            {mailfolders === 0
+              ? 'Deleted Items'
+              : `Deleted Items (${mailfolders})`}
+          </Text>
+        );
+      } else if (sideroute === 6) {
+        return (
+          <Text bold>
+            {mailfolders === 0 ? 'Junk Email' : `Junk Email (${mailfolders})`}
+          </Text>
+        );
+      } else if (sideroute === 0) {
+        return <Text bold>Search Results</Text>;
       }
     }
   };
 
   const serchreferesh = () => {
+    savemail(0, null);
     if (search !== '' && integration === 'outlook') {
       getsearchmail(authProvider, searchSection, search.trim(), range, null)
         .then((res) => {
@@ -464,7 +437,7 @@ const Maillist = ({
           }
         } else {
           const ToEmails = data
-            .filter((header) => header.name === 'To')
+            .filter((header) => header.name === 'From')
             .map((header) => header.value);
 
           return <>{ToEmails[0]}</>;
@@ -516,7 +489,7 @@ const Maillist = ({
     if (searchapi === true) {
       return load;
     } else {
-      return messagelist.length % range === 0 && !isLoading;
+      return tokens !== null ? true : false;
     }
   };
 
@@ -525,7 +498,7 @@ const Maillist = ({
       style={{ margintop: '1px' }}
       className={styles.maillist}
       height={
-        isprofileview ? window.innerHeight - 95 : window.innerHeight - 115
+        isprofileview ? window.innerHeight - 95 : window.innerHeight - 106
       }
     >
       <Flex

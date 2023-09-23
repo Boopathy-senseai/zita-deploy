@@ -45,7 +45,7 @@ const NavBarCandidate = () => {
       setLogOutLoader(false);
       localStorage.clear();
       sessionStorage.clear();
-      window.location.replace(window.location.origin + '/login');
+      window.location.replace(window.location.origin + '/login_candidate');
     });
   };
 
@@ -85,7 +85,7 @@ const NavBarCandidate = () => {
               Edit Profile
             </Text>
           </LinkWrapper>
-          <LinkWrapper
+          {/* <LinkWrapper
             to={`/apply_candidate_profile_view/${localStorage.getItem(
               'loginUserId',
             )}`}
@@ -93,7 +93,7 @@ const NavBarCandidate = () => {
             <Text color="white" className={cx('profileStyle')}>
               View Profile
             </Text>
-          </LinkWrapper>
+          </LinkWrapper> */}
         </Flex>
         <Flex row center>
           <LinkWrapper to={candidateChangePassWord}>

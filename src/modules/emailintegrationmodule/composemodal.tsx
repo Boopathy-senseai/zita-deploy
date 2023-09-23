@@ -73,6 +73,7 @@ type Props = {
   remove_message: (id: any) => void;
   removemsg: () => void;
   newmsg: any;
+  can_id?: any;
 };
 
 const Newmessage = ({
@@ -84,6 +85,7 @@ const Newmessage = ({
   Mail_action,
   updateMailaction,
   atfiles,
+  can_id,
   sidebarroute,
   remove_message,
   removemsg,
@@ -102,15 +104,6 @@ const Newmessage = ({
   const [loader, setloader] = useState(false);
   const fileInputRef = useRef(null);
 
-  const [Email, setEMail] = useState([
-    { value: 'sridharc@sense7ai.com', label: 'sridharc@sense7ai.com' },
-    { value: 'manojr@sense7ai.com', label: 'manojr@sense7ai.com' },
-    { value: 'pugazhendhij@sense7ai.com', label: 'pugazhendhij@sense7ai.comm' },
-    {
-      value: 'sridharchinnathambi96@gmail.com',
-      label: 'sridharchinnathambi96@gmail.com',
-    },
-  ]);
   const [tomail, setTomail] = useState([]);
   //multi select to mail //
   const [tosample, setTosample] = useState<any>([]);
@@ -133,6 +126,7 @@ const Newmessage = ({
 
   const { messageTemplate } = useSelector(
     ({ messageTemplateReducers }: RootState) => {
+      console.log('asas', messageTemplateReducers);
       return {
         messageTemplate: messageTemplateReducers.messageTemplate,
       };
@@ -422,7 +416,7 @@ const Newmessage = ({
   useEffect(() => {
     dispatch(messagesTemplatesMiddleWare());
 
-    dispatch(getEmail()).then((res) => {});
+    dispatch(getEmail(can_id ? can_id : undefined)).then((res) => {});
   }, []);
 
   useEffect(() => {
@@ -1711,6 +1705,7 @@ const Newmessage = ({
         formik={formik}
         messageTemplate={messageTemplate}
         hanldeClose={handleModel}
+        user={'mail'}
       />
       <VerificationModel data={verifiymodel} message={message} close={close} />
       <Draftmodel

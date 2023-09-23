@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import SvgCloseSmall from '../../../icons/SvgCloseSmall';
 import SvgUpload from '../../../icons/SvgUpload';
-import { AppDispatch } from '../../../store';
+import { AppDispatch, RootState } from '../../../store';
 import Flex from '../../../uikit/Flex/Flex';
 import { isEmpty } from '../../../uikit/helper';
 import Loader from '../../../uikit/Loader/Loader';
@@ -11,18 +11,18 @@ import Toast from '../../../uikit/Toast/Toast';
 import { userProfilePostMiddleWare } from '../../accountsettingsmodule/userprofilemodule/store/middleware/userprofilemiddleware';
 import { imageFileAccept, mediaPath } from '../../constValue';
 import { dashBoardMiddleWare } from './store/middleware/dashboardmiddleware';
-import styles from './uploadprofile.module.css';
+import styles from './uploadprofile.module.css'; 
 
 type Props = {
   profile: string;
   setMb: (arg: boolean) => void;
+  circle?:boolean;
 };
 
-const UploadProfile = ({ profile, setMb }: Props) => {
+const UploadProfile = ({ profile, setMb,circle }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const [isShow, setShow] = useState(false);
   const [isLoader, setLoader] = useState(false);
-
   // image upload function
   const handleChangeImag = (e: any) => {
     e.preventDefault();
@@ -63,7 +63,20 @@ const UploadProfile = ({ profile, setMb }: Props) => {
       });
       setMb(false);
     }
-  };
+  }; 
+  useEffect(()=>{
+   if(!isEmpty(profile) && profile !== 'default.jpg'  ){
+    dispatch(dashBoardMiddleWare())}
+  },[])
+  const { 
+    profiles,
+  } = useSelector(
+    ({ dashboardReducers }: RootState) => {
+      return { 
+        profiles:dashboardReducers.profile,
+      };
+    },
+  );
 
   // image remove function
   const handleRemoveProfile = () => {
@@ -100,8 +113,9 @@ const UploadProfile = ({ profile, setMb }: Props) => {
           accept="image/*"
           className={styles.fileStyle}
         />
-        <Flex className={styles.imgContainer}>
-          {isEmpty(profile) || profile === 'default.jpg' ? (
+        
+        <Flex className={circle?(styles.imgContainers):(styles.imgContainer)}>
+          {isEmpty(profiles) || profiles === 'default.jpg' ? (
             <>
               {isLoader ? (
                 <Flex center middle>
@@ -129,24 +143,26 @@ const UploadProfile = ({ profile, setMb }: Props) => {
               ) : (
                 <img
                 style={{objectFit: 'cover'}}
-                  className={styles.imgStyle}
-                  src={mediaPath + profile}
+                  className={circle?(styles.imgStyles):(styles.imgStyle)}
+                  src={mediaPath + profiles}
                   alt="profile"
-                  key={Math.random().toString()}
+                //  key={Math.random().toString()}
                 />
               )}
             </>
           )}
 
           {isShow && (
-            <Flex columnFlex center middle className={styles.changeStyle}>
+            <Flex columnFlex center middle className={circle?styles.changeStyles:styles.changeStyle} 
+           
+            >
               <SvgUpload />
               <Text
                 color="black"
                 align="center"
                 style={{ paddingLeft: 4, paddingRight: 4 }}
               >
-                {isEmpty(profile) || profile === 'default.jpg'
+                {isEmpty(profiles) || profiles === 'default.jpg'
                   ? 'Upload Your Profile Picture'
                   : 'Change Profile Picture'}
               </Text>
@@ -154,10 +170,10 @@ const UploadProfile = ({ profile, setMb }: Props) => {
           )}
         </Flex>
       </label>
-      {isShow && !isEmpty(profile) && profile !== 'default.jpg' && (
+      {isShow && !isEmpty(profile) && profile !== 'default.jpg' &&  (
         <div
           title="Remove Profile Picture"
-          className={styles.svgClose}
+          className={circle?(styles.svgCloses):(styles.svgClose)}
           onMouseEnter={() => setShow(true)}
           onMouseLeave={() => setShow(false)}
           onClick={handleRemoveProfile}

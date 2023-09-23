@@ -19,6 +19,7 @@ import {
   loginMiddleWare,
   passwordResetRequestMiddleWare,
 } from './store/middleware/loginMiddleWare';
+import CandidateLogin from './CandidateLogin';
 
 const initial: loginFormProps = {
   userName: '',
@@ -38,6 +39,7 @@ const LoginScreen = () => {
   const [isForgotLoader, setForgotLoader] = useState(false);
   const [isError, setError] = useState(false);
   const [isInactive, setInactive] = useState(false);
+  const [iswrongemployeecredential,setwrongemployeecredential] = useState(false);
   const location = useLocation<any>();
 
   let nextUrl: any;
@@ -46,10 +48,18 @@ const LoginScreen = () => {
     if(localStorage.getItem('token') !== null){
       window.location.replace(`${window.location.origin + homeRoute}`);
     }
+   // if()
+   var url = new URL(window.location.href);
+
+   if (url.searchParams.get('isforgot')) {
+    setForgot(true)
+  }
   },[])
   if (typeof location.state !== 'undefined') {
     nextUrl = location.state.from.pathname;
   }
+  // setForgot(true)
+  
 
  
 
@@ -78,7 +88,7 @@ const LoginScreen = () => {
   const handlechange=(val)=>{
 
   }
-
+  // give the correct credential
   const handleLoginValid = (values: loginFormProps) => {
     setError(false);
     setInactive(false);
@@ -115,8 +125,15 @@ const LoginScreen = () => {
       loginMiddleWare({
         username: values.userName,
         password: values.email,
+        isStaff:true
       }),
     ).then((res) => {
+      console.log(res,res.payload.Message,'messge')
+      if(res.payload.Message === "give the Employee credential"){  
+        setwrongemployeecredential(true)
+      }
+      else{
+        setwrongemployeecredential(false)
       if (res.payload.token !== undefined) {
         localStorage.setItem('loginUserCheck', res.payload.is_staff);
         localStorage.setItem('token', res.payload.token);
@@ -140,9 +157,9 @@ const LoginScreen = () => {
         }
       } else if (res.payload.inactive === true) {
         setInactive(true);
-      } else {
+      } else { 
         setError(true);
-      }
+      }}
     });
   };
 
@@ -214,8 +231,18 @@ const LoginScreen = () => {
             formik={formik}
             handleForgotOpen={handleForgotOpen}
             isInactive={isInactive}
+            iswrongcredential={iswrongemployeecredential}
           />
         )}
+        
+        {/* {!isForgot && (
+          <CandidateLogin
+            isError={isError}
+            formik={formik}
+            handleForgotOpen={handleForgotOpen}
+            isInactive={isInactive}
+          />
+        )} */}
 
         {isForgot && (
           <ForgotPassword

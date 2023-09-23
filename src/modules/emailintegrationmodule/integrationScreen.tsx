@@ -33,6 +33,7 @@ import {
   Gmail_Attachment,
   Gmail_Folder_Total_count,
   outlooktoken,
+  filtermail,
 } from '../../emailService';
 import config from '../../outlookmailConfig';
 import SvgArrowDown from '../../icons/SvgArrowDown';
@@ -45,8 +46,9 @@ import Maillist from './Maillist';
 type Props = {
   isprofileview?: boolean;
   can_id?: any;
+  Emailsidebar?: any;
 };
-const EmailScreen = ({ isprofileview, can_id }: Props) => {
+const EmailScreen = ({ Emailsidebar, isprofileview, can_id }: Props) => {
   const msal = useMsal();
   const dispatch: AppDispatch = useDispatch();
 
@@ -60,7 +62,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
   const [loader, setLoader] = useState(false);
   const [search, setSearch] = useState('');
   const [attachments, setAttachments] = useState([]);
-  const [mailfolders, setMailfolders] = useState('');
+  const [mailfolders, setMailfolders] = useState<any>(0);
   const [gmailunread, setgmailunread] = useState(0);
   const [nextpagetoken, setnextpagetoken] = useState(null);
   const [noEmails, setNoEmails] = useState(false);
@@ -99,6 +101,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
   const emailcollection = useSelector(({ useremail }: RootState) => {
     return {
       email: useremail.email,
+      maillist: useremail.mails,
       integration: useremail.account,
       loading: useremail.isLoading,
       token: useremail.token,
@@ -112,7 +115,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
   });
 
   useEffect(() => {
-    dispatch(getEmail());
+    dispatch(getEmail(can_id !== undefined ? can_id : undefined));
   }, []);
 
   useEffect(() => {
@@ -121,6 +124,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
       emailcollection.integration !== ''
     ) {
       outlooktoken(emailcollection.token);
+      filtermail(emailcollection.maillist, emailcollection.integration);
     } else {
       setLoader(false);
     }
@@ -159,6 +163,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
   const getprofile = async () => {
     await getUser()
       .then((res: any) => {
+        console.log(res, 'outloooook1');
         setUsermail(res.mail);
       })
       .catch((error) => {
@@ -376,30 +381,32 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
     // e.preventDefault();
 
     if (e && e.key === 'Enter') {
-      setLoader(true);
-      setsearchapi(true);
-      setsideroute(0);
-      setPrevious(25);
-      setSkip(0);
-      setDel(0);
-      setPrevious1(1);
-      setmessagelist([]);
-      setmesage('');
-      setSearch(search.trim());
-      setIsLoading(true);
-      setEnterKey(true);
-      settoken(null);
+      if (search.trim() !== '') {
+        setLoader(true);
+        setsearchapi(true);
+        setsideroute(0);
+        setPrevious(25);
+        setSkip(0);
+        setDel(0);
+        setPrevious1(1);
+        setmessagelist([]);
+        setmesage('');
+        setSearch(search.trim());
+        setIsLoading(true);
+        setEnterKey(true);
+        settoken(null);
+      }
     }
   };
 
   const refresh = async () => {
-    setLoader(true);
-    setmessagelist([]);
-    setSkip(0);
-    setnextpagetoken(null);
-    setmesage('');
-    setEnterKey(false);
     if (sideroute !== 0) {
+      setLoader(true);
+      setmessagelist([]);
+      setSkip(0);
+      setnextpagetoken(null);
+      setmesage('');
+      setEnterKey(false);
       if (emailcollection.integration === 'outlook') {
         var folder = '';
         if (sideroute === 1) {
@@ -415,23 +422,29 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
         } else if (sideroute === 6) {
           folder = 'junkemail';
         }
-        await getmessages(authProvider, folder, 0, range)
+        await getmessages(authProvider, folder, null, range)
           .then((res) => {
             setmessagelist((prevMessages) => [...prevMessages, ...res.value]);
             setNoEmails(res.value.length === 0 ? true : false);
-            setSkip(skip + range);
-            setIsLoading(false);
-            setTotal(res['@odata.count']);
             setLoader(false);
             getfolder();
             if (!res['@odata.nextLink']) {
               setnextpagetoken(undefined);
+              settoken(null);
+            } else {
+              settoken(res['@odata.nextLink'].split('skiptoken=')[1]);
             }
           })
           .catch((error) => {
             //console.log('goole----errr', error);
           });
       } else if (emailcollection.integration === 'google') {
+        setLoader(true);
+        setmessagelist([]);
+        setSkip(0);
+        setnextpagetoken(null);
+        setmesage('');
+        setEnterKey(false);
         var Gfolder = '';
         if (sideroute === 1) {
           Gfolder = 'INBOX';
@@ -490,17 +503,17 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
         folder = 'junkemail';
       }
       setIsLoading(true);
-      await getmessages(authProvider, folder, skip, range)
+      await getmessages(authProvider, folder, token, range)
         .then((res) => {
           setmessagelist((prevMessages) => [...prevMessages, ...res.value]);
           setNoEmails(res.value.length === 0 ? true : false);
-          setSkip(skip + range);
-          setIsLoading(false);
-          setTotal(res['@odata.count']);
-          setLoader(false);
           getfolder();
+          setLoader(false);
           if (!res['@odata.nextLink']) {
             setnextpagetoken(undefined);
+            settoken(null);
+          } else {
+            settoken(res['@odata.nextLink'].split('skiptoken=')[1]);
           }
         })
         .catch((error) => {
@@ -522,7 +535,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
       setIsLoading(true);
       await initGoogleAuth(emailcollection.token)
         .then(() => {
-          Gmail_Mails(Gfolder, nextpagetoken, range, emailcollection.token)
+          Gmail_Mails(Gfolder, token, range, emailcollection.token)
             .then((res) => {
               if (res.fullMessages !== undefined) {
                 setmessagelist((prevMessages) => [
@@ -532,10 +545,14 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
               } else {
                 setNoEmails(true);
               }
+              if (res.token === undefined) {
+                settoken(null);
+              } else {
+                settoken(res.token);
+              }
               foldercount();
-
               setIsLoading(false);
-              setnextpagetoken(res.token);
+              // setnextpagetoken(res.token);
               setLoader(false);
             })
             .catch((err) => {
@@ -635,9 +652,23 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
   };
 
   const getfolder = async () => {
-    await getmailfolders(authProvider)
+    var folder = '';
+    if (sideroute === 1) {
+      folder = 'Inbox';
+    } else if (sideroute === 2) {
+      folder = 'sentitems';
+    } else if (sideroute === 3) {
+      folder = 'drafts';
+    } else if (sideroute === 4) {
+      folder = 'archive ';
+    } else if (sideroute === 5) {
+      folder = 'deleteditems';
+    } else if (sideroute === 6) {
+      folder = 'junkemail';
+    }
+    await getmailfolders(authProvider, folder)
       .then((res) => {
-        setMailfolders(res.value);
+        setMailfolders(res);
       })
       .catch((error) => {});
   };
@@ -679,8 +710,8 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
     await initGoogleAuth(emailcollection.token).then(() => {
       Gmail_Folder_Total_count(Gfolder)
         .then((res) => {
-          //console.log('res', res);
-          setgmailunread(res.result.messagesUnread);
+          console.log('resfffffffffffffffffffff', res);
+          setgmailunread(res.result.resultSizeEstimate);
           setTotal(res.result.messagesTotal);
         })
         .catch((err) => {
@@ -690,19 +721,25 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
   };
 
   const savemail = (val, tok) => {
-    setmessagelist((prevMessages) => [...prevMessages, ...val]);
-    settoken(tok);
-    setLoader(false);
+    if (val === 0) {
+      setmessagelist([]);
+      settoken(tok);
+      setLoader(false);
+    } else {
+      setmessagelist((prevMessages) => [...prevMessages, ...val]);
+      settoken(tok);
+      setLoader(false);
+    }
   };
 
   const IntegrationMenuView = (
     <Flex
       center
-      flex={!isprofileview && 1}
+      // flex={!isprofileview && 1}
       middle
       columnFlex
       className={styles.integrationContent}
-      height={isprofileview && window.innerHeight - 130}
+      height={window.innerHeight - 121}
     >
       <Text color="gray" style={{ marginBottom: 16 }}>
         Integrate your email with zita application to handle mailing inside zita
@@ -811,7 +848,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
                     />
                   </Flex>
                 )}
-              <Flex end row center marginRight={10}> 
+              <Flex end row center marginRight={10}>
                 <Flex marginTop={34} center row marginRight={-20}>
                   {' '}
                   {integrate?.mailname === 'google' && <SvgGooglemail />}
@@ -819,10 +856,10 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
                     <SvgOutlookcalendar />
                   )}{' '}
                 </Flex>
-              
-              <Flex>
-                <Text>{integrate?.email}</Text>
-              </Flex>
+
+                <Flex>
+                  <Text>{integrate?.email}</Text>
+                </Flex>
               </Flex>
               <div className={styles.triangle}> </div>
             </Flex>
@@ -874,6 +911,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
                     refresh={refresh}
                     enterKey={enterKey}
                     tokens={token}
+                    can_id={can_id}
                   />
                 </Flex>
                 <Flex
@@ -897,6 +935,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
                     updateMailaction={updateMailaction}
                     remove_message={remove_message}
                     update_message={update_message}
+                    Emailsidebar={Emailsidebar}
                   />
                 </Flex>
               </Flex>
@@ -913,6 +952,7 @@ const EmailScreen = ({ isprofileview, can_id }: Props) => {
                 Mail_action={Mailaction}
                 updateMailaction={updateMailaction}
                 atfiles={attachments}
+                can_id={can_id}
                 sidebarroute={sideroute}
                 removemsg={removemessage}
                 remove_message={remove_message}
