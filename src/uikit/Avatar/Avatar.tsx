@@ -78,6 +78,11 @@ export function getUserInitials(user?: {
     return email.slice(0, 2);
   }
   if (fullName) {
+    const regex = /^[_aA-zZ0-9-]+(\.[_aA-zZ0-9-]+)*(\+[aA-zZ0-9-]+)?@[_aA-zZ0-9-]+(\.[_aA-zZ0-9-]+)*(\+[aA-zZ0-9-]+)?\.([aA-zZ0-9-]+)+$/;
+    console.log(regex.test(fullName));
+    if (regex.test(fullName)) {
+      return fullName.slice(0, 2);
+    }
     const arr = fullName.split(' ');
     return (arr[0] ? arr[0][0] : '') + (arr[1] ? arr[1][0] : '');
   }

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
+import PDF from 'react-pdf-js-infinite';
 import FileViewer from 'react-file-viewer';
 import { FieldArray, FormikProvider, useFormik } from 'formik';
 import PhoneInput from 'react-phone-input-2';
@@ -8,6 +9,9 @@ import * as Yup from 'yup';
 // import getSymbolFromCurrency from 'currency-symbol-map';
 import { AppDispatch, RootState } from '../../store';
 import SvgClose from '../../icons/SvgClose';
+import SvgDownload from '../../icons/SvgDownload';
+import Svgmaximize from '../../icons/Svgmaximize';
+import Svgminimize from '../../icons/Svgminimize';
 import SvgBoxEdit from '../../icons/SvgBoxEdit';
 // import SvgCloseSmall from '../../icons/SvgCloseSmall';
 // import SvgRoundAdd from '../../icons/SvgRoundAdd';
@@ -56,15 +60,9 @@ const inital: applicationFormikForms = {
 type Props = {
   open: boolean;
   filePath: string;
-  // personal?: any;
-  // experience?: any;
-  // addDetails?: any;
   canId?: any;
   jdId?: any;
   hanldeProfileView?: any;
-  // skills?: any;
-  // obj?: any;
-  // education?: any;
   refreshOnUpdate: (a?: any) => void;
 };
 
@@ -105,24 +103,20 @@ const ProfileViewModal = ({
         answers: bulkImportQusGetReducers.answers,
         skills_list: bulkUploadTechSkillReducers.skills_list,
         questionnaire: bulkUploadedCandidatesReducers.questionnaire,
-        // personal: uploadedProfileViewReducers.personal,
         is_loading: uploadedProfileViewReducers.isLoading,
 
         emp_data: uploadedProfileViewReducers.emp_data,
       };
     },
   );
-  // console.log(skills_list)
-  const file = `${window.location.protocol}//${filePath}`;
-  const docs = [{ uri: file }];
   const [isPermanently, setPermanently] = useState(false);
   const [isFocus, setFocus] = useState(true);
   const [isAnswer, setAnswer] = useState(false);
   const [isProfileView, setProfileView] = useState(false);
-  // const [showButton, setShowButton ] = useState(false);
-  // const showButtonHandler = () => {
-  //   setShowButton((prevState) => !prevState);
-  // }
+  const [zoomLevel, setZoomLevel] = useState<number>(1);
+  const [zoomLeveltxt, setZoomLeveltxt] = useState<number>(0.68);
+  const [text, settext] = useState('');
+
   const workYear = !isEmpty(emp_data?.work_exp)
     ? emp_data?.work_exp !== '0 - 1'
       ? `${emp_data.work_exp} Years`
@@ -203,39 +197,7 @@ const ProfileViewModal = ({
     onSubmit: handleSubmit,
     validationSchema: Schema,
   });
-  // const dataJob = [
-  //   {
-  //     title: 'Job Type:',
-  //     value: notSpecified(personal?.type_of_job__label_name),
-  //     right: 166,
-  //   },
-  //   {
-  //     title: 'Availability:',
-  //     value: notSpecified(personal?.available_to_start__label_name),
-  //     right: 153,
-  //   },
 
-  //   {
-  //     title: 'Willing to Relocate:',
-  //     value: personal?.relocate ? 'Yes' : 'No',
-  //     right: 103,
-  //   },
-
-  //   {
-  //     title: 'Current Gross Salary:',
-  //     value: isEmpty(personal?.curr_gross)
-  //       ? notSpecified(personal?.curr_gross)
-  //       : `${getSymbolFromCurrency(currentCurrency)} ${personal?.curr_gross}`,
-  //     right: 88,
-  //   },
-  //   {
-  //     title: 'Expected Gross Salary:',
-  //     value: isEmpty(personal?.exp_gross)
-  //       ? notSpecified(personal?.exp_gross)
-  //       : `${getSymbolFromCurrency(currentCurrency)} ${personal?.exp_gross}`,
-  //     right: 76,
-  //   },
-  // ];
   const handleOpenPersonalEdit = () => {
     setProfileView(true);
     setDisplay(false);
@@ -247,30 +209,7 @@ const ProfileViewModal = ({
     formik.handleSubmit();
     errorFocus();
   };
-  // console.log(cancel)
-  // const handleTrunk = (id: string) => {
-  //   setTrunk(id);
-  // };
-  // const handleCloseTrunk = () => {
-  //   setTrunk('');
-  // };
 
-  // const handleOpenAnswerEdit = () => {
-  //   setAnswer(false);
-  // };
-  // const handleWorkUdateOpen = (expId: string) => {
-  //   setworkExpEdit(true);
-  //   setUpdateId(expId);
-  // };
-  // const handleOpenSkillEdit = () => {
-  //   setSkillsEdit(true);
-  // };
-
-  // const handleQualificationEdit = (updateId: string) => {
-  //   setQualificationEdit(true);
-  //   setUpdateId(updateId);
-  // };
-  // error message focus function
   const errorFocus = () => {
     if (formik.errors.map && formik.errors.map.length !== 0) {
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
@@ -286,7 +225,7 @@ const ProfileViewModal = ({
       }
     }
   };
-  const [display,setDisplay] = useState(false)
+  const [display, setDisplay] = useState(false);
   // error message focus function
   useEffect(() => {
     setAnswer(answers);
@@ -313,19 +252,55 @@ const ProfileViewModal = ({
     getFocus('myjobpostscreen___input');
     getBlur('myjobpostscreen___input');
   }, [is_loading]);
+  const file = `${window.location.protocol}//${filePath}`;
+  var lastStr = filePath.lastIndexOf('.');
+  var filename = filePath.substring(lastStr + 1);
+  const update = () => {
+    if (filename === 'txt') {
+      fetch(file)
+        .then((response) => response.text())
+        .then((datas) => settext(datas))
+        .catch((error) => console.error('Error fetching file:', error));
+    }
+  };
+  console.log(filePath, 'filenamefilename', filename, file);
+  const downloadFile = () => {
+    const fileUrl = file;
 
+    fetch(fileUrl)
+      .then((response) => response.blob())
+      .then((blob) => {
+        const url = window.URL.createObjectURL(new Blob([blob]));
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filePath; // Provide a default file name
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      })
+      .catch((error) => console.error('Error downloading file:', error));
+  };
+  const zoomStyle = {
+    transform: `scale(${zoomLevel})`,
+    transformOrigin: '0 0',
+    transition: 'transform 0.25s ease-in-out',
+  };
+  const zoomStyletxt = {
+    transform: `scale(${zoomLeveltxt})`,
+    transformOrigin: '0 0',
+    transition: 'transform 0.25s ease-in-out',
+  };
+  const handleZoomIn = () => {
+    setZoomLevel((prevZoomLevel) => prevZoomLevel + 0.1);
+    setZoomLeveltxt((prevZoomLevel) => prevZoomLevel + 0.1);
+  };
 
-
-  useEffect(() => {
-   
-    setTimeout(() => {
-      setDisplay(true);
-    }, 300);
-  },[display, filePath])
+  const handleZoomOut = () => {
+    setZoomLevel((prevZoomLevel) => Math.max(0.7, prevZoomLevel - 0.1));
+    setZoomLeveltxt((prevZoomLevel) => Math.max(0.3, prevZoomLevel - 0.1));
+  };
   return (
     <Drawer open={open}>
-      {console.log("disp+++lay",display,file)}
-     
       <div className={styles.overAll}>
         <Flex row center between flex={1} className={styles.border}>
           <div
@@ -335,7 +310,7 @@ const ProfileViewModal = ({
             role={'button'}
             onKeyPress={() => {}}
           >
-            <SvgClose fill={'#888888'} width={14} height={14}/>
+            <SvgClose fill={'#888888'} width={14} height={14} />
           </div>
           <Flex onClick={() => hanldeProfileView(Number(canId))}></Flex>
         </Flex>
@@ -344,28 +319,99 @@ const ProfileViewModal = ({
             <div
               style={{
                 height: window.innerHeight - 0,
-                overflow: 'scroll',
               }}
             >
-              {filePath!=="" && display ?(
-              
-           <DocViewer
-                 style={{ height: '100%', width: '100%' }}
-                 pluginRenderers={DocViewerRenderers}
-                 documents={docs}
-                 config={{
-                   header: {
-                     disableHeader: false,
-                     disableFileName: false,
-                     retainURLParams: false,
-                   },
-                 }}
-               />
-       
-          ):( is_loading && <Loader />)}
-             
+              <div
+                style={{
+                  textAlign: 'right',
+                  backgroundColor: '#EEE8EC',
+                  position: 'sticky',
+                  top: '0',
+                  zIndex: 5, // Adjust top position as needed
+                }}
+              >
+                <Flex style={{ padding: '6px', marginBottom: '5px' }} row end>
+                  <Flex
+                    onClick={downloadFile}
+                    title="Download Resume"
+                    style={{ marginRight: '13px', cursor: 'pointer' }}
+                  >
+                    <SvgDownload width={16} height={16} />
+                  </Flex>
+                  <Flex
+                    onClick={handleZoomIn}
+                    title="Maximize"
+                    style={{ marginRight: '13px', cursor: 'pointer' }}
+                  >
+                    <Svgmaximize width={16} height={16} />
+                  </Flex>
+                  <Flex
+                    onClick={handleZoomOut}
+                    title="Minimize"
+                    style={{ marginRight: '13px', cursor: 'pointer' }}
+                  >
+                    <Svgminimize width={16} height={16} />
+                  </Flex>
+                  {update()}
+                </Flex>
+                {/* {update()} */}
+              </div>
+              {filePath !== '' &&
+              <Flex
+                style={{
+                  // maxHeight: '500px',
+                  height: 'auto',
+                  // maxWidth: '500px',
+                  overflowY: filename.toUpperCase() === 'PDF' ? 'scroll' : '',
+                  //  overflowX:'none',
+                  borderRadius: '5px',
+                  // border:'1px solid #dfdfdf',
+                  marginTop: '5px',
+                  paddingBottom: '5px',
+                }}
+              >
+                {text !== '' ? (
+                  <Flex
+                    style={zoomStyletxt}
+                    middle
+                    center
+                    height={window.innerHeight - 90}
+                  >
+                    <pre style={{ width: 'fit-content', padding: '5px' }}>
+                      {text}
+                    </pre>
+                  </Flex>
+                ) : (
+                  <Flex
+                    style={zoomStyle}
+                    middle
+                    center
+                    height={window.innerHeight - 100}
+                  >
+                    {filename.toUpperCase() === 'PDF' ? (
+                      <PDF file={file} />
+                    ) : (
+                      <FileViewer
+                        fileType={filename}
+                        filePath={file}
+                        onLoad={false}
+                      />
+                    )}
+                  </Flex>
+                )}
+              </Flex>} 
             </div>
           </Flex>
+          <Flex
+            height={window.innerHeight - 80}
+            style={{
+              border: '0.3px solid #C3C3C3',
+              width: '0.3px',
+              margin: '15px 5px 10px 5px',
+              paddingTop: '10px',
+              paddingBottom: '10px',
+            }}
+          ></Flex>
           <Flex flex={6}>
             <CancelAndDeletePopup
               open={isPermanently}
@@ -409,7 +455,7 @@ const ProfileViewModal = ({
                           padding: '25px',
                           // height: '496px',
                           width: '650px',
-                          borderRadius:"4px"
+                          borderRadius: '4px',
                         }}
                       >
                         <PersonalInformationEdit
@@ -472,256 +518,6 @@ const ProfileViewModal = ({
                       </div>
                     </>
                   </Card>
-                  {/* <Flex className={styles.titleStyle}>
-                    <Text size={16} bold>
-                      Data used for Matching
-                    </Text>
-                  </Flex>*/}
-                  {/*<Card className={styles.cardOverAll}>
-                    {isworkExpEdit && (
-                      <AddandUpdateWorkExperienceEdit
-                        cancel={() => setworkExpEdit(false)}
-                        obj={obj}
-                        isUpdateId={isUpdateId}
-                        isUpdate
-                        canId={canId}
-                        experiences={experience}
-                      />
-                    )}
-
-                    {isworkExpAdd && (
-                      <AddandUpdateWorkExperienceEdit
-                        cancel={() => setworkExpAdd(false)}
-                        canId={canId}
-                      />
-                    )}
-                    {!isworkExpEdit && !isworkExpAdd && (
-                      <>
-                        <Flex className={styles.titleStyle}>
-                          <Flex
-                            row
-                            center
-                            between
-                            className={styles.titleStyleAdd}
-                          >
-                            <Text size={16} bold>
-                              Work Experience
-                            </Text>
-                            <div
-                              onClick={() => setworkExpAdd(true)}
-                              tabIndex={-1}
-                              role="button"
-                              style={{ marginLeft: 10 }}
-                              onKeyDown={() => {}}
-                            >
-                              <SvgRoundAdd fill={PRIMARY} />
-                            </div>
-                          </Flex>
-                        </Flex>
-                        {experience.map((list: any, index: number) => (
-                          <Flex
-                            key={list.designation}
-                            top
-                            className={styles.insideFlex}
-                          >
-                            {(list.work_role !== '' ||
-                              list.designation !== '') && (
-                              <>
-                                <Flex row between>
-                                  <Flex>
-                                    <Text bold>{list.designation}</Text>
-                                  </Flex>
-                                  <Flex>
-                                    <div
-                                      onClick={() =>
-                                        handleWorkUdateOpen(
-                                          list.exp_id.toString(),
-                                        )
-                                      }
-                                      tabIndex={-1}
-                                      role="button"
-                                      onKeyDown={() => {}}
-                                    >
-                                      <SvgBoxEdit fill={PRIMARY} />
-                                    </div>
-                                  </Flex>
-                                </Flex>
-                                {list.work_role !== '' && (
-                                  <>
-                                    {index.toString() !== isTrunk ? (
-                                      <>
-                                        <Text className={styles.wordTrunk}>
-                                          {list.work_role}
-                                        </Text>
-                                        <Text
-                                          align={'right'}
-                                          color="link"
-                                          onClick={() =>
-                                            handleTrunk(index.toString())
-                                          }
-                                        >
-                                          View More...
-                                        </Text>
-                                      </>
-                                    ) : (
-                                      <>
-                                        <Text>{list.work_role}</Text>
-                                        <Text
-                                          align={'right'}
-                                          color="link"
-                                          onClick={() => handleCloseTrunk()}
-                                        >
-                                          View less...
-                                        </Text>
-                                      </>
-                                    )}
-                                  </>
-                                )}
-                              </>
-                            )}
-                          </Flex>
-                        ))}
-                      </>
-                    )}
-
-                    {isSkillsEdit && (
-                      <UpdateProfessionalSkillsEdit
-                        open={isSkillsEdit}
-                        cancel={() => setSkillsEdit(false)}
-                        obj={obj}
-                        canId={canId}
-                        isAddText={'Update'}
-                      />
-                    )}
-
-                    {!isSkillsEdit && (
-                      <Flex top className={styles.insideFlex}>
-{skills === null && (
-                          <Flex
-                            row
-                            center
-                            between
-                            className={styles.titleStyleAdd}
-                          >
-                            <Text size={16} bold>
-                           Technical Skills
-                            </Text>
-                            <div
-                                onClick={handleOpenSkillEdit}
-                              tabIndex={-1}
-                              role="button"
-                              style={{ marginLeft: 10 }}
-                              onKeyDown={() => {}}
-                            >
-                              <SvgRoundAdd fill={PRIMARY} />
-                            </div>
-                          </Flex>
-
-                          )}
-                        {skills !== null && (
-                        <Flex row between>
-                          <Flex>
-                            <Text size={16} bold>Technical Skills</Text>
-                          </Flex>
-                          <Flex>
-                           
-                        
-                            <div
-                              onClick={handleOpenSkillEdit}
-                              tabIndex={-1}
-                              role="button"
-                              onKeyDown={() => {}}
-                            >
-                              <SvgBoxEdit fill={PRIMARY} />
-                            </div>
-                           
-                          </Flex>
-                        </Flex>
-                         )}
-                        {skills && (
-                          <Text style={{ wordBreak: 'break-word' }}>
-                            {skills.tech_skill}
-                          </Text>
-                        )}
-                      </Flex>
-                    )}
-
-                    {isQualificationEdit && (
-                      <AddandUpdateQualificationEdit
-                        open={isQualificationEdit}
-                        cancel={() => setQualificationEdit(false)}
-                        isUpdate
-                        canId={canId}
-                        isUpdateId={isUpdateId}
-                        obj={obj}
-                      />
-                    )}
-
-                    {isQualificationAdd && (
-                      <AddandUpdateQualificationEdit
-                        open={isQualificationAdd}
-                        canId={canId}
-                        cancel={() => setQualificationAdd(false)}
-                        isUpdateId={'0'}
-                      />
-                    )}
-                    {!isQualificationEdit && !isQualificationAdd && (
-                      <Flex top className={styles.insideFlex}>
-                        <Flex
-                          row
-                          center
-                          between
-                          className={styles.titleStyleAdd}
-                        >
-                          <Text size={16} bold>
-                            Qualification
-                          </Text>
-                          <div
-                            onClick={() => setQualificationAdd(true)}
-                            tabIndex={-1}
-                            role="button"
-                            style={{ marginLeft: 10 }}
-                            onKeyDown={() => {}}
-                          >
-                            <SvgRoundAdd fill={PRIMARY} />
-                          </div>
-                        </Flex>
-
-                        {education &&
-                          education.map((edu: any) => (
-                            <Flex
-                              key={edu.qual_title}
-                              top
-                              className={styles.insideFlex}
-                            >
-                              <Flex row between>
-                                <Flex>
-                                  <Text bold>
-                                    {edu.qual_title}-{edu.qual_spec}
-                                  </Text>
-                                </Flex>
-                                <Flex>
-                                  <div
-                                    onClick={() =>
-                                      handleQualificationEdit(
-                                        edu.edu_id.toString(),
-                                      )
-                                    }
-                                    tabIndex={-1}
-                                    role="button"
-                                    onKeyDown={() => {}}
-                                  >
-                                    <SvgBoxEdit fill={PRIMARY} />
-                                  </div>
-                                </Flex>
-                              </Flex>
-                            </Flex>
-                          ))}
-                      </Flex>
-                    )}
-
-                    
-                  </Card>*/}
                   {jdId !== undefined && (
                     <Flex className={styles.titleStyle}>
                       <Text size={14} bold>
@@ -778,9 +574,14 @@ const ProfileViewModal = ({
                           ) : (
                             // <Flex row between>
                             //   <Flex>
-                                <Text bold size={13} color="black2" style={{marginBottom:"5px"}}>
-                                  Applicant Response for Questionnaire
-                                </Text>
+                            <Text
+                              bold
+                              size={13}
+                              color="black2"
+                              style={{ marginBottom: '5px' }}
+                            >
+                              Applicant Response for Questionnaire
+                            </Text>
                             //   </Flex>
                             // </Flex>
                           )}
@@ -789,18 +590,19 @@ const ProfileViewModal = ({
                               return (
                                 <Flex columnFlex key={list.question + index}>
                                   <Flex row center>
-                                  <Text
-                                    // textStyle="underline"
-                                    // bold
-                                    color='theme'
-                                    className={styles.qustionStyle}
-                                    style={{marginRight:"3px"}}
-                                  >
-                                     {index + 1}:
-                                  </Text>
-                                  <Text size={13} color='theme'>{list.question}</Text>
-                                    </Flex>
-                                  
+                                    <Text
+                                      // textStyle="underline"
+                                      // bold
+                                      color="theme"
+                                      className={styles.qustionStyle}
+                                      style={{ marginRight: '3px' }}
+                                    >
+                                      {index + 1}:
+                                    </Text>
+                                    <Text size={13} color="theme">
+                                      {list.question}
+                                    </Text>
+                                  </Flex>
 
                                   <Flex className={styles.resStyle} row center>
                                     {/* <Text bold>Response:</Text> */}
@@ -813,10 +615,20 @@ const ProfileViewModal = ({
                                     )}
                                     {list.answer !== '0' &&
                                       list.answer !== '1' && (
-                                        <Text size={13} style={{ marginLeft: 15, marginBottom: 10}} >
-                                          {isEmpty(list.answer)
-                                            ? <Text style={{ color: '#666666' }}>Not Answered</Text>
-                                            : list.answer}
+                                        <Text
+                                          size={13}
+                                          style={{
+                                            marginLeft: 15,
+                                            marginBottom: 10,
+                                          }}
+                                        >
+                                          {isEmpty(list.answer) ? (
+                                            <Text style={{ color: '#666666' }}>
+                                              Not Answered
+                                            </Text>
+                                          ) : (
+                                            list.answer
+                                          )}
                                         </Text>
                                       )}
                                   </Flex>
@@ -836,20 +648,4 @@ const ProfileViewModal = ({
     </Drawer>
   );
 };
-// const DisplayResume = () => {
-//   return (
-//     <DocViewer
-//       style={{ height: '100%', width: '100%' }}
-//       pluginRenderers={DocViewerRenderers}
-//       documents={docs}
-//       config={{
-//         header: {
-//           disableHeader: false,
-//           disableFileName: false,
-//           retainURLParams: false,
-//         },
-//       }}
-//     />
-//   )
-// }
 export default ProfileViewModal;

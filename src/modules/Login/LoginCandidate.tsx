@@ -39,6 +39,7 @@ const LoginCandidate = () => {
   const [isForgotLoader, setForgotLoader] = useState(false);
   const [isError, setError] = useState(false);
   const [isInactive, setInactive] = useState(false);
+  const [iswrongcandidatecredential,setwrongcandidatecredential] = useState(false);
   const location = useLocation<any>();
 
   let nextUrl: any;
@@ -119,6 +120,11 @@ const LoginCandidate = () => {
         isStaff: false
       }),
     ).then((res) => {
+      if(res.payload.Message === "give the candidate credential"){ 
+        setwrongcandidatecredential(true)
+      }
+      else{
+      setwrongcandidatecredential(false)
       if (res.payload.token !== undefined) {
         localStorage.setItem('loginUserCheck', res.payload.is_staff);
         localStorage.setItem('token', res.payload.token);
@@ -144,7 +150,7 @@ const LoginCandidate = () => {
         setInactive(true);
       } else {
         setError(true);
-      }
+      }}
     });
   };
 
@@ -225,6 +231,7 @@ const LoginCandidate = () => {
             formik={formik}
             handleForgotOpen={handleForgotOpen}
             isInactive={isInactive}
+            iswrongcredential={iswrongcandidatecredential}
           />
         )}
 
