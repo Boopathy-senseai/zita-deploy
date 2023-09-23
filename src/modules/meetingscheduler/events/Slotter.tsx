@@ -546,10 +546,10 @@ const SlotterDate = ({
   function isIntervalWithinRange(interval, range) {
     const [startTime, endTime] = range.split(' to ');
     const [intervalStartTime, intervalEndTime] = interval.split(' - ');
-    if (intervalStartTime >= startTime && intervalEndTime <= endTime) {
+    if (intervalStartTime >= startTime && intervalEndTime <= startTime) {
       return true;
     }
-    if (intervalEndTime > startTime && intervalEndTime <= endTime) {
+    if (intervalEndTime > startTime && intervalStartTime < endTime) {
       return true;
     }
   }
@@ -733,32 +733,32 @@ const SlotterDate = ({
                         </Text>
                       </Flex>
                       <Flex marginBottom={10} marginTop={14}>
-                        <Text size={14}>Hi {candidate_name},</Text>
+                        <Text size={13}>Hi {candidate_name},</Text>
                         <br/>
-                        <Text size={14}>
+                        <Text size={13}>
                           {`You have been selected for the ${data.event_name} at 
                    ${data.company_name}.`}
                         </Text>
-                        <Text size={14} style={{ marginTop: '5px' }}>
+                        <Text size={13} style={{ marginTop: '5px' }}>
                           Please pick a date and time.
                         </Text>
                       </Flex>
 
                       <div className={styles.line}></div>
                       <Flex marginBottom={10}>
-                        <Text bold size={14}>
+                        <Text bold size={13}>
                           {data.event_name}
                         </Text>
                       </Flex>
                       <Flex row center marginBottom={10}>
                         <SvgClock width={16} height={16} fill={'#581845'} />
-                        <Text size={14} style={{ marginLeft: '5px' }}>
+                        <Text size={13} style={{ marginLeft: '5px' }}>
                           {data.duration}
                         </Text>
                       </Flex>
                       <Flex row center marginBottom={10}>
                         <SvgGlobe width={16} height={16} fill={'#581845'} />
-                        <Text size={14} style={{ marginLeft: '5px' }}>
+                        <Text size={13} style={{ marginLeft: '5px' }}>
                           Time zone is {timezones(data.times_zone)}
                         </Text>
                       </Flex>
@@ -768,8 +768,8 @@ const SlotterDate = ({
                         </Flex>
 
                         <Text
-                          size={14}
-                          style={{ marginLeft: '5px', marginTop: '2px', maxHeight : "150px", overflow : "scroll" }}
+                          size={13}
+                          style={{ marginLeft: '5px', marginTop: '1px', maxHeight : "150px", overflow : "auto" }}
                         >
                           {data.description}
                         </Text>
@@ -959,8 +959,7 @@ return (
                   style={{
                     marginLeft: '5px',
                     textAlign: 'justify',
-                    marginTop: '1px',
-                    maxHeight : "150px", overflow : "scroll"
+                    maxHeight : "150px", overflow : "auto"
                   }}
                 >
                   {list.description}
@@ -1117,8 +1116,7 @@ const InterviewDashBoard = ({
                   style={{
                     marginLeft: '5px',
                     textAlign: 'justify',
-                    marginTop: '1px',
-                    maxHeight : "150px", overflow : "scroll"
+                    maxHeight : "150px", overflow : "auto"
                   }}
                 >
                   {list.description}
