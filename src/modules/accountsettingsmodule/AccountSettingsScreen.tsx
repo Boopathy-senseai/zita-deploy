@@ -638,7 +638,7 @@ const AccountSettingsScreen = ({ value }: props) => {
                     }
                   }}
                 >
-                  <Tab title={'Profiles'} eventKey={'0'}>
+                  <Tab title={'Profile'} eventKey={'0'}>
                     <div
                       style={{
                         height: window.innerHeight - 215,
@@ -910,7 +910,7 @@ const AccountSettingsScreen = ({ value }: props) => {
                     sessionStorage.setItem('superUserTabTwo', keys);
                   }}
                 >
-                  <Tab title={'Profiles'} eventKey={'0'}>
+                  <Tab title={'Profile'} eventKey={'0'}>
                     <div
                       style={{
                         height: window.innerHeight - 215,
