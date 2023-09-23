@@ -144,9 +144,9 @@ export const firstNameChar = (name: any) => {
 
 export const lowerCase = (value: string) => {
   const result = value
-    .trim()
-    .toLowerCase()
-    .replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()));
+    ?.trim()
+    ?.toLowerCase()
+    ?.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()));
   return result;
 };
 
