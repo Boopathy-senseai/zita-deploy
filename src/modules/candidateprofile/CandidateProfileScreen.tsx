@@ -382,7 +382,7 @@ const CandidateProfileScreen = () => {
           }}
           className={styles.footerStyle}
         >
-          <Text bold color="theme" align="center" size={14} onClick={zitaPath}>
+          <Text bold color="theme" align="center" size={14} onClick={zitaPath} style={{marginTop:"30px"}}>
             Powered by Zita.ai
           </Text>
         </div>

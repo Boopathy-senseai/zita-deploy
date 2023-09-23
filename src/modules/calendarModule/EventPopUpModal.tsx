@@ -16,7 +16,7 @@ import SvgInfo from '../../icons/SvgInfo';
 import Avatar, { getUserInitials } from '../../uikit/Avatar';
 import { formatTo12HrClock, getEventHasMeeting } from './util';
 import styles from './styles/EventPopUp.module.css';
-import { EventPopUpDetails } from './types';
+import { CALENDAR, EventPopUpDetails } from './types';
 
 interface Props {
   showEventPopUpModal: boolean;
@@ -29,6 +29,7 @@ interface Props {
   isEventOrganizer: boolean;
   eventPopUpDetails: EventPopUpDetails;
   copyMeeting: (eventId: string) => void;
+  calendarProvider: CALENDAR;
 }
 
 const EventPopUpModal = ({
@@ -40,6 +41,7 @@ const EventPopUpModal = ({
   joinMeeting,
   copyMeeting,
   eventPopUpDetails,
+  calendarProvider,
 }: Props) => {
   const [openEventDeleteModal, setOpenEventDeleteModal] = useState(false);
   const {
@@ -133,15 +135,16 @@ const EventPopUpModal = ({
             <div className={styles.infoText}>
               <p style={{ marginBottom: 3 }}>Interviewer&#40;s&#41;</p>
               <Flex row className={styles.emailContainer}>
-              {(organizer.displayName) &&
+               
+              {/* {(calendarProvider === CALENDAR.Outlook && organizer.full_name) &&
                 <Avatar
                   initials={getUserInitials({
-                    fullName: organizer.displayName,
+                    fullName: organizer.full_name,
                   })}
                   style={{ width: 28, height: 28, marginRight: '5px' }}
                   textStyle={{ fontSize: 12 }}
-                  title={organizer.displayName}
-                />}
+                  title={organizer.full_name}
+                />} */}
                 {attendees.map(
                   (item: string, index: Key | null | undefined) => (
                     <Avatar
@@ -167,7 +170,7 @@ const EventPopUpModal = ({
             <Text style={{ marginBottom: 3 }}>Organizer</Text>
             {/* <br /> */}
             <Text className={styles.email}>
-              {organizer.displayName || organizer.email}
+              {organizer.full_name ? organizer.full_name: organizer.email}
             </Text>
           </div>
         </div>

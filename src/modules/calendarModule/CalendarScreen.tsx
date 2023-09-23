@@ -603,7 +603,7 @@ const Calendar = () => {
         link: 'hangoutLink' in event ? event.hangoutLink : null,
         eventId: event.id,
         color: '#fcba03',
-        organizer: {email: event.organizer.email, displayName: event.organizer.displayName
+        organizer: {email: event.organizer.email, full_name: event.organizer.full_name
         },
         syncedBy: userName,
         recurringEventId: event?.recurringEventId,
@@ -616,15 +616,15 @@ const Calendar = () => {
     });
   };
   const getGoogleAttendees = (event: GoogleEventType) => {
-    const res = event.attendees.map((doc) => doc.full_name || doc.email);
-    res.splice(res.length - 1, 1);
+    const res = event.attendees.filter(doc => doc.full_name).map((doc) => doc.full_name);
+    // res.splice(res.length - 1, 1);
     return res;
   };
   const getAttendees = (event: OutlookEventType) => {
-    const res = event.description.attendees.map(
-      (doc) => doc.emailAddress.full_name || doc.emailAddress.name,
+    const res = event.description.attendees.filter(doc => doc?.emailAddress?.full_name).map(
+      (doc) => doc.emailAddress.full_name ,
     );
-    res.splice(res.length - 1, 1);
+    // res.splice(res.length - 1, 1);
     return res;
   };
 
@@ -642,7 +642,7 @@ const Calendar = () => {
       attendees: getAttendees(event),
       organizer: {
         email: event.description?.organizer?.emailAddress?.address,
-        displayName: event.description?.organizer?.emailAddress?.name,
+        full_name: event.description?.organizer?.emailAddress?.full_name,
       },
       link: null,
       color: '#fcba03',
@@ -1318,6 +1318,7 @@ const Calendar = () => {
                     copyMeeting={handleCopyMeeting}
                     showEventPopUpModal={showEventPopUpModal}
                     eventPopUpDetails={eventPopUpDetails}
+                    calendarProvider={calendarProvider}
                   />
                 )}
               </>
