@@ -141,3 +141,13 @@
 .bulkButton {
   margin-left: 20px;
 }
+
+.applyBtnLoader{
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 3px 12px 3px 12px;
+  width: 59px;
+  height: 30px;
+  margin-top: 20px;
+}

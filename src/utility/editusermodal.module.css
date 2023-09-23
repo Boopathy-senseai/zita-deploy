@@ -48,3 +48,12 @@
   margin-bottom: 10px;
   font-weight: bold;
 }
+.saveBtnLoader{
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 3px 12px 3px 12px;
+  width: 54px;
+  height: 30px;
+  margin-left: 8px;
+}

@@ -20,19 +20,11 @@
 .title {
   margin-bottom: 10px;
 }
-.borderLine {
-  border-top: 1px solid #c3c3c3;
-  /* padding-bottom: 20px; */
-}
-.cancel {
-  margin-right: 8px;
-  background-color: #888888;
-  border: none;
-  border-radius: 5px;
-  margin-top: 20px;
-}
-.cancel:active,
-.cancel:focus {
-  background-color: #888888;
-  border: none;
+.updateBtnLoader{
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 3px 12px 3px 12px;
+  width: 68px;
+  height: 30px;
 }

@@ -99,3 +99,11 @@
   border: 1px solid var(--color-primary, #581845) !important;
   box-shadow: none !important;
 }
+.updateBtnLoader{
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 3px 12px 3px 12px;
+  width: 68px;
+  height: 30px;
+}

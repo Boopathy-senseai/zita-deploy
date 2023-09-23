@@ -80,7 +80,7 @@ const VerifyEmail = ({ open, cancel, close }: Props) => {
       } else if (res.payload.success === 0) {
         setValidOtp(true);
         // Toast('Invalid otp please enter a valid otp', 'LONG', 'error');
-        setLoader(false);
+        // setLoader(false);
       }
     });
   };
@@ -114,7 +114,7 @@ const VerifyEmail = ({ open, cancel, close }: Props) => {
     getMail && getMail?.charAt(0) + '******@' + getMail.split('@').pop();
   return (
     <Modal open={open}>
-      {loader && <Loader />}
+      {/* {loader && <Loader />} */}
       <Flex columnFlex className={styles.overAll}>
         <Text size={16} bold color="theme">
           Verify Email
@@ -144,13 +144,26 @@ const VerifyEmail = ({ open, cancel, close }: Props) => {
           )}
         </div>
         <Flex middle center>
-          <Button
+          {/* <Button
             onClick={formik.handleSubmit}
             disabled={formik.values.otp.length === 8 ? false : true}
             style={{ marginTop: 16, alignItems: 'center', display: 'flex' }}
           >
             Verify
-          </Button>
+          </Button> */}
+          {loader ? (
+            <Flex className={styles.emailverifyBtnLoader}>
+              <Loader size="small" withOutOverlay />
+            </Flex>
+          ) : (
+            <Button
+              onClick={formik.handleSubmit}
+              disabled={formik.values.otp.length === 8 ? false : true}
+              style={{ marginTop: 16, alignItems: 'center', display: 'flex' }}
+            >
+              Verify
+            </Button>
+          )}
           <Text align="center" className={styles.timeStyle}>
             0{minutes} : {9 >= Number(seconds) ? `0${seconds}` : seconds}
           </Text>

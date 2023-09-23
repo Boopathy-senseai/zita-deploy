@@ -89,3 +89,12 @@
   .update:active, .update:focus{
     border: none;
   }
+  .applyBtnLoader{
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    padding: 3px 12px 3px 12px;
+    width: 54px;
+    height: 30px;
+    margin-left: 8px;
+  }
