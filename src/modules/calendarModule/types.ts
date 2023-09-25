@@ -126,7 +126,7 @@ export interface GoogleEventType {
     responseStatus?: string;
     full_name?: string;
   }[];
-  organizer: { displayName?: string; email: string };
+  organizer: { full_name?: string; email: string };
   email: string;
   id: any;
   recurringEventId: any;
@@ -156,6 +156,7 @@ export interface OutlookEventType {
       emailAddress: {
         name: string;
         address: string;
+        full_name?: string;
       };
     };
   };
@@ -251,7 +252,7 @@ export interface EventPopUpDetails {
   startDate: null | Date;
   endDate: null | Date;
   link?: string | null;
-  organizer: null | { email: string; displayName?: string };
+  organizer: null | { email: string; full_name?: string };
   applicantId?: number | null;
   attendees?: null | string[];
   eventId: null | string;
