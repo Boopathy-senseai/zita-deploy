@@ -161,25 +161,21 @@ const MatchingAnalysisTab = () => {
               </Text>
             </Flex>
           </Flex>
-          {ai_matching?<Flex
-                row
-                between 
-                center 
-                marginBottom={10}
-              >
-                <ProgressBar
-                  verticalWidth={'100px'}
-                  roundProgressHeight={45}
-                  type="round"
-                  percentage={profileMatch}
-                />
-              </Flex>: 
+          {ai_matching ? (
+            <Flex row between center marginBottom={10}>
+              <ProgressBar
+                verticalWidth={'100px'}
+                roundProgressHeight={45}
+                type="round"
+                percentage={profileMatch}
+              />
+            </Flex>
+          ) : (
             <Flex>
               <Button onClick={dispatchhandling}>AI Matching</Button>
             </Flex>
-          }
-          
-        </Flex> 
+          )}
+        </Flex>
         {!ai_matching ? (
           <>
             <Flex center>
@@ -445,17 +441,13 @@ const MatchingAnalysisTab = () => {
           </>
         ) : (
           <>
-            <Flex center middle>
-            </Flex>
+            <Flex center middle></Flex>
             <Flex
               style={{
                 borderBottom: '1px solid #C3C3C3',
               }}
             ></Flex>
-            <Flex
-              marginTop={7}
-              style={{ overflow: 'scroll', display: 'flex' }}
-            >
+            <Flex marginTop={7} style={{ overflow: 'scroll', display: 'flex' }}>
               {aidata && aidata[0].title !== '' && (
                 <Flex
                   height={window.innerHeight - 185}
