@@ -105,7 +105,7 @@ export const jdParserApi = `jd_parser`;
 export const jdTemplatesApi = `jd_templates`;
 export const createJdApi = 'create_jd';
 export const locationApi = `load_location`;
-export const AioutputApi="Ai";
+export const AioutputApi="jd_creation_ai";
 export const jdProfileApi = (jdId: string) => {
   const url = `jd_profile/${jdId}`;
   return url;

@@ -5,7 +5,7 @@ import SvgRoundClose from '../../icons/SvgRoundClose';
 import { AppDispatch } from '../../store';
 import Button from '../../uikit/Button/Button';
 import Card from '../../uikit/Card/Card';
-import { ErrorMessage, InputText, Modal, SelectTag } from '../../uikit';
+import { ErrorMessage, InputText, Loader, Modal, SelectTag } from '../../uikit';
 import { getFocus, isEmpty } from '../../uikit/helper';
 import { GARY_4 } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
@@ -32,9 +32,7 @@ type Props = {
   onDirty:any;
   setFieldValue:any;  
   getCountry:any;   
-  errors?:any;
-  touched ?:any;
-  handleSubmit?:any;
+
 }
 const UploadJd=({handleTempOpen,values,onDirty,setFieldValue,getCountry, })=> {
   const [file, setFile] = useState<any>([]);
@@ -46,29 +44,9 @@ const UploadJd=({handleTempOpen,values,onDirty,setFieldValue,getCountry, })=> {
   const dispatch: AppDispatch = useDispatch();
   const [getState, setState] = useState<StatesEntity[]>([]);
   const [getCity, setCity] = useState<CityEntity[]>([]);
+  const [isSubmitLoader,setSubmitLoader]=useState (false);
 
 
-  useEffect(() => {
-    if (!isEmpty(values.country1)) {
-      dispatch(locationStateMiddleWare({ country: values.country1 })).then(
-        (res) => {
-          if (res.payload.states && res.payload.states.length !== 0) {
-            setState(res.payload.states);
-          }
-        },
-      );
-    }
-  }, [values.country1]);
-
-  useEffect(() => {
-    if (!isEmpty(values.state1)) {
-      dispatch(locationCityMiddleWare({ state: values.state1 })).then((res) => {
-        if (res.payload.city && res.payload.city.length !== 0) {
-          setCity(res.payload.city);
-        }
-      });
-    }
-  }, [values.state1]);
 
   const handleSubmit1 = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -147,7 +125,7 @@ const UploadJd=({handleTempOpen,values,onDirty,setFieldValue,getCountry, })=> {
   };
 
   const checkSelectLength = file.length === 0 ? false : true;
-  const correct=values.work_space_type1==='3';
+
 
   const initialValues: MyFormValues = {
     work_space_type1: '',
@@ -157,6 +135,7 @@ const UploadJd=({handleTempOpen,values,onDirty,setFieldValue,getCountry, })=> {
     city1:'',
     state1:'',
     Overview:'',
+    Department_and_reporting:'',
   };
   
   interface MyFormValues {
@@ -167,30 +146,31 @@ const UploadJd=({handleTempOpen,values,onDirty,setFieldValue,getCountry, })=> {
     city1:string;
     state1:string;
     Overview:string;
+    Department_and_reporting:string;
   }
   const handleValidation = (formValues: MyFormValues) => {
     const errors: Partial<MyFormValues> = {};
   
 
-    if (values.work_space_type1 === '0' || values.work_space_type1 === '') {
+    if (formik.values.work_space_type1 === '0' || formik.values.work_space_type1 === '') {
       errors.work_space_type1 = THIS_FIELD_REQUIRED;
     }
-    if ( values.jobTitle1 === '') {
+    if ( formik.values.jobTitle1 === '') {
       errors.jobTitle1 = THIS_FIELD_REQUIRED;
     }
-    if ( values.Industry_and_Domain === '') {
+    if ( formik.values.Industry_and_Domain === '') {
       errors.Industry_and_Domain = THIS_FIELD_REQUIRED;
     }
-    if ( values.country1 === ''&& values.work_space_type1 !== '3') {
+    if ( formik.values.country1 === ''&& formik.values.work_space_type1 !== '3') {
       errors.country1 = THIS_FIELD_REQUIRED;
     }
-    if ( values.city1 === ''&& values.work_space_type1 !== '3') {
+    if ( formik.values.city1 === ''&& formik.values.work_space_type1 !== '3') {
       errors.city1 = THIS_FIELD_REQUIRED;
     }
-    if ( values.state1 === ''&& values.work_space_type1 !== '3') {
+    if ( formik.values.state1 === ''&& formik.values.work_space_type1 !== '3') {
       errors.state1 = THIS_FIELD_REQUIRED;
     }
-    if ( values.Overview === '') {
+    if ( formik.values.Overview === '') {
       errors.Overview = THIS_FIELD_REQUIRED;
     }
    
@@ -199,16 +179,60 @@ const UploadJd=({handleTempOpen,values,onDirty,setFieldValue,getCountry, })=> {
     return errors;
   };
   const handleSubmit = (formValues: MyFormValues, { resetForm }: any) => {
+    setSubmitLoader(true)
+    
     dispatch(AioutputApimiddleware({
-      jobTitle:values.jobTitle1,
-      Industry_and_Domain:values.Industry_and_Domain,
-      Work_Space_Type:values.work_space_type1,
-      Country:values.country1,
-      State:values.state1,
-      City:values.city1,
-      Overview_the_Role:values.Overview,
-      Department_and_reporting_structure:values.Department_and_reporting,
-    }))
+      jobTitle:formik.values.jobTitle1,
+      Industry_and_Domain:formik.values.Industry_and_Domain,
+      Work_Space_Type:formik.values.work_space_type1,
+      Country:formik.values.country1,
+      State:formik.values.state1,
+      City:formik.values.city1,
+      Overview_the_Role:formik.values.Overview,
+      Department_and_reporting_structure:formik.values.Department_and_reporting,
+    })).then((res) => {
+      setFieldValue('jobDescription', res.payload.job_description);
+      setFieldValue('jobTitle', res.payload.job_title);
+      if (typeof res.payload?.skills === 'string') {
+        const skillsArray = res.payload.skills.split(",");
+        const formattedSkills = skillsArray.map(skill => ({
+            label: skill.trim(),
+            value: skill.trim()
+        }));
+        setFieldValue('nonDsSkill', formattedSkills);
+    } else if (Array.isArray(res.payload?.skills) && res.payload?.skills.length > 0) {
+        if (typeof res.payload.skills[0].skill === 'string') {
+            const formattedSkills = res.payload.skills.map(skillObj => ({
+                label: skillObj.skill,
+                value: skillObj.skill
+            }));
+            setFieldValue('nonDsSkill', formattedSkills);
+        } else if (typeof res.payload.skills[0] === 'string') { 
+            const formattedSkills = res.payload.skills.map(skill => ({
+                label: skill,
+                value: skill
+            }));
+            setFieldValue('nonDsSkill', formattedSkills);
+        } else {
+            console.error('Unexpected structure for skills array:', res.payload?.skills);
+        }
+    } else {
+        console.error('Unexpected type for skills:', typeof res.payload?.skills);
+    }
+    setFieldValue('work_space_type', res.payload.work_space_type.toString());
+    setFieldValue('country', res.payload.country.toString());
+    setFieldValue('city',res.payload.city.toString() );
+    setFieldValue('state',res.payload.state.toString() );
+    setFieldValue('jobTitle1', '');
+    setFieldValue('Industry_and_Domain', '');
+    setFieldValue('work_space_type1', '');
+    setFieldValue('country1', '');
+    setFieldValue('city1', '');
+    setFieldValue('state1', '');
+    setFieldValue('Overview','');
+    setFieldValue('Department_and_reporting','')
+    setSubmitLoader(false)
+    });
    
     setopenmodel(false);
   
@@ -223,14 +247,43 @@ const UploadJd=({handleTempOpen,values,onDirty,setFieldValue,getCountry, })=> {
     validateOnBlur: true,
     validateOnChange: true,
   });
+  const correct=formik.values.work_space_type1==='3';
   const handlefunction2 = () => {
     handleReset();
     setopenmodel(true);
     
   };
+  useEffect(() => {
+    if (!isEmpty(formik.values.country1)) {
+      dispatch(locationStateMiddleWare({ country: formik.values.country1 })).then(
+        (res) => {
+          if (res.payload.states && res.payload.states.length !== 0) {
+            setState(res.payload.states);
+          }
+        },
+      );
+    }
+  }, [formik.values.country1]);
+
+  useEffect(() => {
+    if (!isEmpty(formik.values.state1)) {
+      dispatch(locationCityMiddleWare({ state: formik.values.state1 })).then((res) => {
+        if (res.payload.city && res.payload.city.length !== 0) {
+          setCity(res.payload.city);
+        }
+      });
+    }
+  }, [formik.values.state1]);
+  
   
   return (
+   
     <Flex row style={{justifyContent:"space-between", marginTop:"6px"}}>
+       {
+      isSubmitLoader &&
+      <Loader /> 
+     }
+     {console.log("for++++++++++++++mik",formik.values)}
       <Flex>
       {/* <Text bold size={14} className={styles.title}>
         Create Your Job
@@ -240,7 +293,7 @@ const UploadJd=({handleTempOpen,values,onDirty,setFieldValue,getCountry, })=> {
       </Text>
       </Flex>
       <Flex>
-        <Flex row>
+        <Flex row style={{paddingBottom:'10px'}}>
           <Button types='secondary' onClick={()=>setmodal(true)} style={{marginRight:'10px'}}>Upload JD</Button>
           <Button onClick={handleTempOpen} style={{marginRight:'10px'}}>
               Import from our templates
@@ -249,7 +302,7 @@ const UploadJd=({handleTempOpen,values,onDirty,setFieldValue,getCountry, })=> {
          </Flex>   
          <Modal open={openmodel} >
          <Flex className={styles.uploadpopup1}>
-          <Text size={16}>Generate by AI</Text>
+          <Text size={16} bold>Generate by AI</Text>
           <Flex row>
           <Flex flex={2} style={{marginRight:'10px'}}>
           <InputText
@@ -258,14 +311,14 @@ const UploadJd=({handleTempOpen,values,onDirty,setFieldValue,getCountry, })=> {
           label="Job Title"
           required
           placeholder={ 'e.g. Sales Executive'}
-          value={values.jobTitle1}
+          value={formik.values.jobTitle1}
           onChange={(e) => {
-            setFieldValue('jobTitle1', e.target.value);
+            formik.setFieldValue('jobTitle1', e.target.value);
             onDirty();
           }}
      
         />
-        { values.jobTitle1===''&&(
+        { formik.values.jobTitle1===''&&(
            <ErrorMessage
            name={'jobTitle1'}
            errors={formik.errors}
@@ -281,14 +334,14 @@ const UploadJd=({handleTempOpen,values,onDirty,setFieldValue,getCountry, })=> {
           label="Industry and Domain"
           required
           placeholder={ 'e.g. IT Sector'}
-          value={values.Industry_and_Domain}
+          value={formik.values.Industry_and_Domain}
           onChange={(e) => {
-            setFieldValue('Industry_and_Domain', e.target.value);
+            formik.setFieldValue('Industry_and_Domain', e.target.value);
             onDirty();
           }}
           
         />
-        { values.Industry_and_Domain===''&&(
+        { formik.values.Industry_and_Domain===''&&(
            <ErrorMessage
            name={'Industry_and_Domain'}
            errors={formik.errors}
@@ -306,16 +359,16 @@ const UploadJd=({handleTempOpen,values,onDirty,setFieldValue,getCountry, })=> {
             value={
               workspacetype
                 ? workspacetype.find(
-                    (option) => option.value === values.work_space_type1,
+                    (option) => option.value === formik.values.work_space_type1,
                   )
                 : ''
             }
             onChange={(option) => {
-              setFieldValue('work_space_type1', option.value);
+              formik.setFieldValue('work_space_type1', option.value);
             }}
             
           />
-            { values.work_space_type1===''&&(
+            { formik.values.work_space_type1===''&&(
            <ErrorMessage
            name={'work_space_type1'}
            errors={formik.errors}
@@ -324,7 +377,7 @@ const UploadJd=({handleTempOpen,values,onDirty,setFieldValue,getCountry, })=> {
         }
         </Flex>
         </Flex>
-        <Flex row>
+        <Flex row style={{paddingBottom:'10px'}}>
           <Flex flex={2} style={{marginRight:'10px'}}>
           <SelectTag
             isSearchable
@@ -335,14 +388,14 @@ const UploadJd=({handleTempOpen,values,onDirty,setFieldValue,getCountry, })=> {
             value={
               getCountry
                 ? getCountry.find(
-                    (option) => option.id === Number(values.country1),
+                    (option) => option.id === Number(formik.values.country1),
                   )
                 : ''
             }
             onChange={(option) => {
-              setFieldValue('country1', option.id);
-              setFieldValue('city1', '');
-              setFieldValue('state1', '');
+              formik.setFieldValue('country1', option.id);
+              formik.setFieldValue('city1', '');
+              formik.setFieldValue('state1', '');
               onDirty();
             }}
           
@@ -352,7 +405,7 @@ const UploadJd=({handleTempOpen,values,onDirty,setFieldValue,getCountry, })=> {
             getOptionLabel={(option: { name: string }) => option.name}
  
           />
-          { values.country1===''&& values.work_space_type1 !== '3'&&(
+          { formik.values.country1===''&& formik.values.work_space_type1 !== '3'&&(
            <ErrorMessage
            name={'country1'}
            errors={formik.errors}
@@ -371,23 +424,23 @@ const UploadJd=({handleTempOpen,values,onDirty,setFieldValue,getCountry, })=> {
             getOptionValue={(option: { id: number }) => `${option.id}`}
             getOptionLabel={(option: { name: string }) => option.name}
             value={
-              !isEmpty(values.state1)
+              !isEmpty(formik.values.state1)
                 ? getState
                   ? getState.find(
-                      (option) => option.id === Number(values.state1),
+                      (option) => option.id === Number(formik.values.state1),
                     )
                   : ''
                 : ''
             }
             onChange={(option) => {
-              setFieldValue('state1', option.id);
-              setFieldValue('city1', '');
+              formik.setFieldValue('state1', option.id);
+              formik.setFieldValue('city1', '');
               onDirty();
             }}
             onMenuOpen={() => setIsSelectOpen(true)}
             onMenuClose={() => setIsSelectOpen(false)}
           />
-          { values.state1===''&& values.work_space_type1 !== '3'&&(
+          { formik.values.state1===''&& formik.values.work_space_type1 !== '3'&&(
            <ErrorMessage
            name={'state1'}
            errors={formik.errors}
@@ -405,21 +458,21 @@ const UploadJd=({handleTempOpen,values,onDirty,setFieldValue,getCountry, })=> {
             getOptionValue={(option: { id: number }) => `${option.id}`}
             getOptionLabel={(option: { name: string }) => option.name}
             value={
-              !isEmpty(values.city1)
+              !isEmpty(formik.values.city1)
                 ? getCity
-                  ? getCity.find((option) => option.id === Number(values.city1))
+                  ? getCity.find((option) => option.id === Number(formik.values.city1))
                   : ''
                 : ''
             }
            
             onChange={(option) => {
-              setFieldValue('city1', option.id);
+              formik.setFieldValue('city1', option.id);
               onDirty();
             }}
             onMenuOpen={() => setIsSelectOpen(true)}
             onMenuClose={() => setIsSelectOpen(false)}
           />
-           { values.city1===''&& values.work_space_type1 !== '3'&&(
+           { formik.values.city1===''&& formik.values.work_space_type1 !== '3'&&(
            <ErrorMessage
            name={'city1'}
            errors={formik.errors}
@@ -428,21 +481,22 @@ const UploadJd=({handleTempOpen,values,onDirty,setFieldValue,getCountry, })=> {
         }
           </Flex>
         </Flex>
-        <Flex row>
+        <Flex row style={{paddingBottom:'10px'}}>
             <Flex flex={2}style={{marginRight:'10px'}}>
             <InputText
             className={styles.textArea}
-            value={values.Overview}
+            value={formik.values.Overview}
             textarea
-            label="Overview of the Role"
+            label="Role Overview"
+            placeholder='Add a brief summary of the position for which you are generating a job description'
             onChange={(e) => {
     
-              setFieldValue('Overview', e.target.value);
+              formik.setFieldValue('Overview', e.target.value);
             }}
         
             required
           />
-           { values.Overview===''&&(
+           { formik.values.Overview===''&&(
            <ErrorMessage
            name={'Overview'}
            errors={formik.errors}
@@ -453,12 +507,12 @@ const UploadJd=({handleTempOpen,values,onDirty,setFieldValue,getCountry, })=> {
           <Flex flex={2}>
         <InputText
           className={styles.textArea}
-          value={values.Department_and_reporting}
+          value={formik.values.Department_and_reporting}
           textarea
           label="Department and reporting structure"
           onChange={(e) => {
    
-            setFieldValue('Department_and_reporting', e.target.value);
+            formik.setFieldValue('Department_and_reporting', e.target.value);
           }}
           
         />

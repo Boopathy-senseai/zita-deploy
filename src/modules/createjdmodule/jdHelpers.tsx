@@ -989,10 +989,6 @@ export const handleNonDsValidateForm = (
   if (values.work_space_type === '0' || values.work_space_type === '') {
     error.work_space_type = THIS_FIELD_REQUIRED;
   }
-  if (values.work_space_type1 === '0' || values.work_space_type1 === '') {
-    console.log("call meeeeee")
-    error.work_space_type1 = THIS_FIELD_REQUIRED;
-  }
   // if (
   //   (isEmpty(values.work_space_type))
   // ) {

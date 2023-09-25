@@ -498,7 +498,7 @@ const JobDetails = ({
               )}
             </Flex>
             <Flex flex={3} className={styles.margin16}>
-              {console.log("log::::log",currencyData)}
+          
               <SelectTag
                 options={currencyData}
                 label="Currency"
