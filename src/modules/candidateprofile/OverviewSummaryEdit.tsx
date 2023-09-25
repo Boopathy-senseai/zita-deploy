@@ -16,8 +16,9 @@ import UpdateOverviewSummaryEdit from './OverviewSummaryUpdate';
 type Props = {
   obj?: Obj;
   isProfileView?: boolean;
+  overview?: string;
 };
-const OverViewSummary = ({ obj, isProfileView }: Props) => {
+const OverViewSummary = ({ obj, isProfileView, overview }: Props) => {
   const [isOverviewResumeEdit, setOverviewResumeEdit] = useState(false);
   const [isAddText, setAddText] = useState('Update');
   const handleOpenOverviewEdit = () => {
@@ -31,7 +32,7 @@ const OverViewSummary = ({ obj, isProfileView }: Props) => {
           open={isOverviewResumeEdit}
           cancel={() => setOverviewResumeEdit(false)}
           obj={obj}
-         
+          overview= {overview}
         />
       )}
 
@@ -51,6 +52,13 @@ const OverViewSummary = ({ obj, isProfileView }: Props) => {
               >
                 <SvgEdit fill={PRIMARY} width={14} height={14} />
               </div>
+              {overview.length > 0 ? <td
+                className={styles.commentTextStyle}
+                dangerouslySetInnerHTML={{
+                  __html: overview,
+                }}
+              />: "No data available"}
+            
             </>
           )}
         </Flex>

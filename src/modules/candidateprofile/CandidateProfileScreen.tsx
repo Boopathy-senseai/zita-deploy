@@ -86,10 +86,12 @@ const CandidateProfileScreen = () => {
     career_page_setting,
     applied_status,
     Qualification,
+    overview,
   } = useSelector(({ candidateProfileEditReducers }: RootState) => {
     return {
       isLoading: candidateProfileEditReducers.isLoading,
       obj: candidateProfileEditReducers.obj,
+      overview: candidateProfileEditReducers.overview,
       additional_detail: candidateProfileEditReducers.additional_detail,
       personal: candidateProfileEditReducers.personal,
       personal_obj: candidateProfileEditReducers.personal_obj,
@@ -190,7 +192,7 @@ const CandidateProfileScreen = () => {
         open={isCertiAdd}
         cancel={() => setCertiAdd(false)}
       />
-      <CandidateNavBar obj={obj} projects={projects} />
+      <CandidateNavBar obj={obj} projects={projects} personal={personal}/>
       <Flex
         columnFlex
         center
@@ -265,7 +267,7 @@ const CandidateProfileScreen = () => {
             >
               Overview of the Resume
             </Text>
-            <OverViewSummary obj={obj} />
+            <OverViewSummary obj={obj} overview={overview}/>
           </div>
 
           {/* <Flex marginTop={10} marginBottom={20}>

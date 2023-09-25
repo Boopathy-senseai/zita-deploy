@@ -4,6 +4,7 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { AppDispatch } from '../../store';
 import Button from '../../uikit/Button/Button';
 import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
@@ -34,6 +35,7 @@ import styles from './personalinformation.module.css';
 import {
   basicDetailMiddleWare,
   emailValidationMiddleWare,
+  // personalInformationMiddleware,
 } from './store/middleware/candidateprofilemiddleware';
 
 type formProps = {
@@ -69,6 +71,10 @@ type Props = {
   userInfo?: UserInfo;
 };
 
+type ParamsType = {
+  empId: string;
+};
+
 const PersonalInformation = ({
   open,
   cancel,
@@ -76,6 +82,7 @@ const PersonalInformation = ({
   empId,
   userInfo,
 }: Props) => {
+  const params = useParams<ParamsType>();
   const dispatch: AppDispatch = useDispatch();
   const [isGetCountry, setCountry] = useState<CountryEntity[]>([]);
   const [getState, setState] = useState<StatesEntity[]>([]);
@@ -168,6 +175,9 @@ const PersonalInformation = ({
       });
     }
   }, [formik.values.county]);
+  // useEffect(()=>{
+  //   dispatch(personalInformationMiddleware({emp_id: params.empId}));
+  // })
 
   useEffect(() => {
     if (!isEmpty(formik.values.state)) {
@@ -227,7 +237,12 @@ const PersonalInformation = ({
         <Flex
           style={{ borderBottom: '0.5px solid #581845', marginBottom: '15px' }}
         >
-          <Text bold size={14} className={styles.infoText} style={{ marginBottom: '5px' }}>
+          <Text
+            bold
+            size={14}
+            className={styles.infoText}
+            style={{ marginBottom: '5px' }}
+          >
             Personal Information
           </Text>
         </Flex>
