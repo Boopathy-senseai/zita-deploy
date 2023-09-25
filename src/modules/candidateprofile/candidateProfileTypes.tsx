@@ -234,6 +234,7 @@ export interface UpdateJobPreferencePayload {
 export interface TechSkill {
   skills?: Skills;
   skills_list: SkillsListEntity[];
+  soft_skills: SoftSkillsListEntity[];
 }
 export interface Skills {
   id: number;
@@ -243,6 +244,10 @@ export interface Skills {
   updated_at: string;
 }
 export interface SkillsListEntity {
+  label: string;
+  value: string;
+}
+export interface SoftSkillsListEntity {
   label: string;
   value: string;
 }

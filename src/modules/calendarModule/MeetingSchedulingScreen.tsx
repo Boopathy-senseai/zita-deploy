@@ -2,6 +2,7 @@ import 'moment-timezone';
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { Modal, CrossButton } from '../../uikit/v2';
 import { AppDispatch } from '../../store';
 import {
@@ -72,6 +73,8 @@ const MeetingSchedulingScreen = ({
   params,
 }: Props) => {
   const [showPopup, setShowPopup] = useState(false);
+  const {search} = useLocation();
+
   const dispatch: AppDispatch = useDispatch();
   const [currentApplicantId, setCurrentApplicantId] = useState<number | null>(
     null,
@@ -88,6 +91,8 @@ const MeetingSchedulingScreen = ({
   //     '\r\n' +
   //     'We would like to confirm your interview. Please find all the relevant details below.',
   // );
+  const queryParams =new URLSearchParams(search)
+
 
   const updateCurrentApplicantId = (applicantId: number) => {
     setCurrentApplicantId(applicantId);
@@ -151,7 +156,21 @@ const MeetingSchedulingScreen = ({
         };
       });
     }
-  }, [APPLY]);
+    else if(queryParams.get('id')){
+      setMeetingForm((form) => {
+        return {
+          ...form,
+          applicant: {
+            ...form.applicant,
+            id: JSON.parse(queryParams.get('id')),
+            name: queryParams.get('name'),
+
+          },
+          job: { ...form.job, label:queryParams.get('jobTitle'), value: JSON.parse(queryParams.get('jobId'))},
+        };
+      });
+    }
+  }, [APPLY,cand_id]);
   useEffect(() => {
     // dispatch(getApplicantsMiddleware())
     //   .then((res: any) => {

@@ -59,6 +59,6 @@
 }
 
 .svgWrapper:hover {
-  background-color: #D7C7D2;
+  /* background-color: #D7C7D2; */
   border-radius: 50%;
 }
