@@ -28,16 +28,16 @@ return (
         color="black_1"
         className={styles.skillTextStyle}
         title={
-          isEmpty (dataList.skills) 
-          ? `Skills: ${notSpecified(lowerCase(dataList.skills.replace(/,/g, ', ')))}`
-          : `Skills: ${(lowerCase(dataList.skills.replace(/,/g, ', ')))}`
+          isEmpty (dataList?.skills) 
+          ? `Skills: ${notSpecified(lowerCase(dataList?.skills?.replace(/,/g, ', ')))}`
+          : `Skills: ${(lowerCase(dataList?.skills?.replace(/,/g, ', ')))}`
         }
         size={11}
       >
         <Text color="black_1" bold size={11} style={{ maxWidth: '90%'}}>
           Skills:{' '}
         </Text>
-        {notSpecified(lowerCase(dataList.skills.replace(/,/g, ', ')))}
+        {notSpecified(lowerCase(dataList?.skills?.replace(/,/g, ', ')))}
       </Text>
       <Flex row center className={styles.labelSvg} style={{top: !size?  "5%" : "-1%"}}>
       <LabelWithSvg

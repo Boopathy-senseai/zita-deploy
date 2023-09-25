@@ -51,6 +51,7 @@ const UpdateProfessionalSkillsEdit = ({
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const [isLoader, setLoader] = useState(false);
+  const [isBtnLoader, setBtnLoader] = useState(false)
   const [isReload, setReload] = useState(false);
 
   useEffect(() => {
@@ -102,7 +103,7 @@ const UpdateProfessionalSkillsEdit = ({
   const empId = skills?.id ? skills?.id : 0;
 
   const handleSubmit = (values: skillFormikProps) => {
-    setLoader(true);
+    setBtnLoader(true);
     const techListSkillEmpty =
       values.techSkill && values.techSkill.filter((x) => x.value !== '');
 
@@ -132,7 +133,7 @@ const UpdateProfessionalSkillsEdit = ({
         );
         setReload(false);
         cancel();
-        setLoader(false);
+        setBtnLoader(false);
         Toast('Skills updated successfully');
         dispatch(
           profileEditMiddleWare({
@@ -141,7 +142,7 @@ const UpdateProfessionalSkillsEdit = ({
         );
         dispatch(techSkillMiddleWare());
       } else {
-        setLoader(false);
+        setBtnLoader(false);
         Toast('Skills not updated, Please try again', 'LONG', 'error');
       }
     });
@@ -331,16 +332,15 @@ const UpdateProfessionalSkillsEdit = ({
             }}
           />
         </div>
-        {/* <Flex end>
-          <Button onClick={formik.handleSubmit}>{isAddText}</Button>
-        </Flex> */}
-        <Flex end row marginTop={10} className={styles.borderLine}>
-          <Button className={styles.cancel} onClick={onCloseModal}>
-            Cancel
-          </Button>
-          <Button style={{ marginTop: '20px' }} onClick={formik.handleSubmit}>
-            {isAddText}
-          </Button>
+        <Flex end>
+          {/* <Button onClick={formik.handleSubmit}>{isAddText}</Button> */}
+          {isBtnLoader ? (
+            <Flex className={styles.updateBtnLoader}>
+              <Loader size="small" withOutOverlay />
+            </Flex>
+          ) : (
+            <Button onClick={formik.handleSubmit}>{isAddText}</Button>  
+          )}
         </Flex>
       </Flex>
     </Modal>
