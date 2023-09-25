@@ -169,7 +169,7 @@ const MatchingAnalysisTab = () => {
               >
                 <ProgressBar
                   verticalWidth={'100px'}
-                  roundProgressHeight={50}
+                  roundProgressHeight={45}
                   type="round"
                   percentage={profileMatch}
                 />
@@ -179,12 +179,7 @@ const MatchingAnalysisTab = () => {
             </Flex>
           }
           
-        </Flex>
-        {/* {checkMatch ? (
-          <Flex flex={1} center middle>
-            <Text color="gray">This candidate is not a match for this job</Text>
-          </Flex>
-        ) : ( */}
+        </Flex> 
         {!ai_matching ? (
           <>
             <Flex center>
@@ -458,7 +453,7 @@ const MatchingAnalysisTab = () => {
               }}
             ></Flex>
             <Flex
-              // height={window.innerHeight - 180}
+              marginTop={7}
               style={{ overflow: 'scroll', display: 'flex' }}
             >
               {aidata && aidata[0].title !== '' && (
