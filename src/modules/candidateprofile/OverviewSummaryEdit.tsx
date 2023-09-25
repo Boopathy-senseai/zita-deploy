@@ -32,6 +32,7 @@ const OverViewSummary = ({ obj, isProfileView, overview }: Props) => {
           open={isOverviewResumeEdit}
           cancel={() => setOverviewResumeEdit(false)}
           obj={obj}
+          overview= {overview}
         />
       )}
 
