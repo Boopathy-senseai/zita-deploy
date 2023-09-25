@@ -87,7 +87,8 @@ const CandidateProfileScreen = () => {
     applied_status,
     Qualification,
     overview,
-  } = useSelector(({ candidateProfileEditReducers }: RootState) => {
+    techSkill,
+  } = useSelector(({techSkillReducers, candidateProfileEditReducers }: RootState) => {
     return {
       isLoading: candidateProfileEditReducers.isLoading,
       obj: candidateProfileEditReducers.obj,
@@ -103,6 +104,7 @@ const CandidateProfileScreen = () => {
       Qualification:
         candidateProfileEditReducers?.Qualification !== undefined &&
         candidateProfileEditReducers?.Qualification[0]?.qualification,
+      techSkill:techSkillReducers && techSkillReducers
     };
   });
 
@@ -255,7 +257,7 @@ const CandidateProfileScreen = () => {
             <Text size={14} bold className={styles.titleStyle}>
               Professional Skills
             </Text>
-            <ProfessionalSkillsCard obj={obj} />
+            <ProfessionalSkillsCard obj={obj} techSkill={techSkill} />
           </div>
 
           <div id={'candidate_profile_screen___skill'}>

@@ -29,6 +29,7 @@ type Props = {
   cancel: () => void;
   obj?: Obj;
   isAddText: string;
+  techSkills?: any;
 };
 
 type skillList = { label: string; value: string };
@@ -48,6 +49,7 @@ const UpdateProfessionalSkillsEdit = ({
   cancel,
   obj,
   isAddText,
+  techSkills
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const [isLoader, setLoader] = useState(false);
@@ -332,15 +334,15 @@ const UpdateProfessionalSkillsEdit = ({
             }}
           />
         </div>
-        <Flex end>
-          {/* <Button onClick={formik.handleSubmit}>{isAddText}</Button> */}
-          {isBtnLoader ? (
+        <Flex end row marginTop={15}>
+          <Flex marginRight={15}><Button  types="close" onClick={cancel}>Cancel</Button></Flex>
+          <Flex> {isBtnLoader ? (
             <Flex className={styles.updateBtnLoader}>
               <Loader size="small" withOutOverlay />
             </Flex>
           ) : (
             <Button onClick={formik.handleSubmit}>{isAddText}</Button>  
-          )}
+          )}</Flex> 
         </Flex>
       </Flex>
     </Modal>
