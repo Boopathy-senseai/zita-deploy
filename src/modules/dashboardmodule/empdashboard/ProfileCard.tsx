@@ -679,6 +679,7 @@ const ProfileCard = () => {
                 <Text
                   style={{ color: 'black', fontSize: '13px' }}
                   className={styles.textoverflow}
+                  title={`${contact_count}`}
                 >
                   {contact_count}
                 </Text>
