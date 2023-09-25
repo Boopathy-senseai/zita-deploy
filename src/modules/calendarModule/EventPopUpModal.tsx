@@ -135,29 +135,31 @@ const EventPopUpModal = ({
             <div className={styles.infoText}>
               <p style={{ marginBottom: 3 }}>Interviewer&#40;s&#41;</p>
               <Flex row className={styles.emailContainer}>
-               
-              {/* {(calendarProvider === CALENDAR.Outlook && organizer.full_name) &&
-                <Avatar
-                  initials={getUserInitials({
-                    fullName: organizer.full_name,
-                  })}
-                  style={{ width: 28, height: 28, marginRight: '5px' }}
-                  textStyle={{ fontSize: 12 }}
-                  title={organizer.full_name}
-                />} */}
+                {organizer.full_name && (
+                  <Avatar
+                    initials={getUserInitials({
+                      fullName: organizer.full_name,
+                    })}
+                    style={{ width: 28, height: 28, marginRight: '5px' }}
+                    textStyle={{ fontSize: 12 }}
+                    title={organizer.full_name}
+                  />
+                )}
                 {attendees.map(
-                  (item: string, index: Key | null | undefined) => (
-                    <Avatar
-                      key={index}
-                      initials={getUserInitials({ fullName: item })}
-                      style={{ width: 28, height: 28, marginRight: '5px' }}
-                      textStyle={{ fontSize: 12 }}
-                      title={item}
-                    />
-                    // <p className={styles.email} key={index}>
-                    //   {items}
-                    // </p>
-                  ),
+                  (item: string, index: Key | null | undefined) => {
+                    if (organizer.full_name.toLowerCase().trim() === item.toLowerCase().trim()){
+                      return null;
+                    }
+                      return (
+                        <Avatar
+                          key={index}
+                          initials={getUserInitials({ fullName: item })}
+                          style={{ width: 28, height: 28, marginRight: '5px' }}
+                          textStyle={{ fontSize: 12 }}
+                          title={item}
+                        />
+                      );
+                  },
                 )}
               </Flex>
             </div>
@@ -170,7 +172,7 @@ const EventPopUpModal = ({
             <Text style={{ marginBottom: 3 }}>Organizer</Text>
             {/* <br /> */}
             <Text className={styles.email}>
-              {organizer.full_name ? organizer.full_name: organizer.email}
+              {organizer.full_name ? organizer.full_name : organizer.email}
             </Text>
           </div>
         </div>
