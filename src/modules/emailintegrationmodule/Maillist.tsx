@@ -48,6 +48,7 @@ type Props = {
   enterKey: boolean;
   refresh: () => void;
   tokens: any;
+  can_id: any;
 };
 const Maillist = ({
   messagelist,
@@ -73,6 +74,7 @@ const Maillist = ({
   enterKey,
   refresh,
   tokens,
+  can_id,
 }: Props) => {
   const msal = useMsal();
   const authProvider = new AuthCodeMSALBrowserAuthenticationProvider(
@@ -156,7 +158,7 @@ const Maillist = ({
         process();
       }, 500);
     }
-  }, [sidebarroute, integration]);
+  }, [sidebarroute,integration]);
 
   useEffect(() => {
     if (enterKey) {

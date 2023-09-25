@@ -139,6 +139,7 @@ const ProtectedRoute = ({
                         <Component
                           {...rest}
                           {...props}
+                          Emailsidebar={sidebar}
                           value={changeurlpopup}
                         />
                         <div>

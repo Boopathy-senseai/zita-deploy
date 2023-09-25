@@ -7,6 +7,7 @@ import Flex from '../../uikit/Flex/Flex';
 import { isEmpty, notSpecified } from '../../uikit/helper';
 import Text from '../../uikit/Text/Text';
 import { CountryEntity } from '../createjdmodule/createJdTypes';
+import { SvgEdit } from '../../icons';
 import { Personal } from './candidateProfileTypes';
 import styles from './myjobpreferencecard.module.css';
 import MyJobPreferenceEdit from './MyJobPreferenceEdit';
@@ -92,9 +93,9 @@ const MyJobPreferenceCard = ({
             onClick={handleOpenMyjobEdit}
             tabIndex={-1}
             role="button"
-            onKeyDown={() => { }}
+            onKeyDown={() => {}}
           >
-            <SvgBoxEdit fill={PRIMARY} />
+            <SvgEdit fill={PRIMARY} width={14} height={14} />
           </div>
         )}
 

@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
@@ -6,10 +6,12 @@ import SvgDone from '../../icons/SvgDone';
 import SvgClose from '../../icons/Svgnotmatch';
 import ProgressBar from '../../uikit/ProgressBar/ProgressBar';
 import { GARY_7, WHITE } from '../../uikit/Colors/colors';
-import { RootState } from '../../store';
+import { AppDispatch, RootState } from '../../store';
 import Tab from '../../uikit/Tabs/Tab';
 import { Loader } from '../../uikit';
+import { Button, LinkWrapper } from '../../uikit';
 import Tabs from '../../uikit/Tabs/Tabs';
+import SvgAngle from '../../icons/SvgAngle';
 import { removeUnderScores, lowerCase } from '../../uikit/helper';
 import {
   MatchArray,
@@ -21,6 +23,7 @@ import {
 } from './matchAnalysisTab';
 import styles from './matchinganalysistab.module.css';
 import AllMatchTab from './AllMatchTab';
+import { CandidatejobidMatchMiddleWare } from './store/middleware/applicantProfileMiddleware';
 
 const colorCode = [WHITE, GARY_7];
 export interface DateEntity {
@@ -50,54 +53,77 @@ const MatchingAnalysisTab = () => {
     notmatchedlocation,
     matchedlocation,
     location,
-    location_percent
-  } = useSelector(({ applicantMatchReducers,candidatejdmatchReducers }: RootState) => {
-    return {
-      isLoading: candidatejdmatchReducers.isLoading,
-      match: candidatejdmatchReducers.match ? candidatejdmatchReducers.match : [],
-      matchql:
-        typeof candidatejdmatchReducers.matched_data.matched_qualification !==
-          'undefined' &&
-        candidatejdmatchReducers.matched_data.matched_qualification,
-      data:
-        typeof candidatejdmatchReducers.matched_data.matched_skills !==
-          'undefined' && candidatejdmatchReducers.matched_data.matched_skills,
-      overall_percentage:
-        typeof candidatejdmatchReducers.overall_percentage !== 'undefined' &&
-        candidatejdmatchReducers.overall_percentage,
-      Notmatch:
-        typeof candidatejdmatchReducers.not_matched_data.not_matched_skills !==
-          'undefined' &&
-        candidatejdmatchReducers.not_matched_data.not_matched_skills,
-      Notmatchql:
-        typeof candidatejdmatchReducers.not_matched_data
-          .not_matched_qualification !== 'undefined' &&
-        candidatejdmatchReducers.not_matched_data.not_matched_qualification,
-      qualification_percent: candidatejdmatchReducers.qualification_percent,
-      skills_percent: candidatejdmatchReducers.skills_percent,
-      overallskill:
-        typeof candidatejdmatchReducers.source.jd_skills !== 'undefined' &&
-        candidatejdmatchReducers.source.jd_skills,
-      overallQualification:
-        typeof candidatejdmatchReducers.source.qualification !== 'undefined' &&
-        candidatejdmatchReducers.source.qualification,
-      matchedlocation:
-        typeof candidatejdmatchReducers.matched_data.matched_location !==
-          'undefined' && candidatejdmatchReducers.matched_data.matched_location,
-      notmatchedlocation:
-        typeof candidatejdmatchReducers.not_matched_data.not_matched_location !==
-          'undefined' &&
-        candidatejdmatchReducers.not_matched_data.not_matched_location,
-      location:
-        typeof candidatejdmatchReducers.source.jd_location !== 'undefined' &&
-        candidatejdmatchReducers.source.jd_location,
-        location_percent: typeof candidatejdmatchReducers.location_percent !== 'undefined' &&
-        candidatejdmatchReducers.location_percent,
-    };
-  });
- 
-
+    location_percent,
+    ai_matching,
+    aidata,
+    jd_id,
+    can_id,
+  } = useSelector(
+    ({
+      applicantProfileInitalReducers,
+      candidatejdmatchReducers,
+    }: RootState) => {
+      return {
+        can_id: applicantProfileInitalReducers.can_id,
+        jd_id: applicantProfileInitalReducers?.jd_id,
+        isLoading: candidatejdmatchReducers.isLoading,
+        ai_matching: candidatejdmatchReducers?.ai_matching,
+        aidata: candidatejdmatchReducers?.data,
+        match: candidatejdmatchReducers.match
+          ? candidatejdmatchReducers.match
+          : [],
+        matchql:
+          typeof candidatejdmatchReducers.matched_data.matched_qualification !==
+            'undefined' &&
+          candidatejdmatchReducers.matched_data.matched_qualification,
+        data:
+          typeof candidatejdmatchReducers.matched_data.matched_skills !==
+            'undefined' && candidatejdmatchReducers.matched_data.matched_skills,
+        overall_percentage:
+          typeof candidatejdmatchReducers.overall_percentage !== 'undefined' &&
+          candidatejdmatchReducers.overall_percentage,
+        Notmatch:
+          typeof candidatejdmatchReducers.not_matched_data
+            .not_matched_skills !== 'undefined' &&
+          candidatejdmatchReducers.not_matched_data.not_matched_skills,
+        Notmatchql:
+          typeof candidatejdmatchReducers.not_matched_data
+            .not_matched_qualification !== 'undefined' &&
+          candidatejdmatchReducers.not_matched_data.not_matched_qualification,
+        qualification_percent: candidatejdmatchReducers.qualification_percent,
+        skills_percent: candidatejdmatchReducers.skills_percent,
+        overallskill:
+          typeof candidatejdmatchReducers.source.jd_skills !== 'undefined' &&
+          candidatejdmatchReducers.source.jd_skills,
+        overallQualification:
+          typeof candidatejdmatchReducers.source.qualification !==
+            'undefined' && candidatejdmatchReducers.source.qualification,
+        matchedlocation:
+          typeof candidatejdmatchReducers.matched_data.matched_location !==
+            'undefined' &&
+          candidatejdmatchReducers.matched_data.matched_location,
+        notmatchedlocation:
+          typeof candidatejdmatchReducers.not_matched_data
+            .not_matched_location !== 'undefined' &&
+          candidatejdmatchReducers.not_matched_data.not_matched_location,
+        location:
+          typeof candidatejdmatchReducers.source.jd_location !== 'undefined' &&
+          candidatejdmatchReducers.source.jd_location,
+        location_percent:
+          typeof candidatejdmatchReducers.location_percent !== 'undefined' &&
+          candidatejdmatchReducers.location_percent,
+      };
+    },
+  );
+  const [isCollapse, setCollapse] = useState(false);
   const [isloadings, setisloading] = useState(false);
+  const [expandedIndex, setExpandedIndex] = useState(null);
+  const dispatch: AppDispatch = useDispatch();
+
+  const handleToggleCollapse = (index) => {
+    setExpandedIndex((prevIndex) => (prevIndex === index ? null : index));
+  };
+
   useEffect(() => {
     if (isLoading === true) {
       setisloading(true);
@@ -105,30 +131,54 @@ const MatchingAnalysisTab = () => {
       setisloading(false);
     }
   });
-  const checkMatch =
-    overall_percentage && overall_percentage === 0 ? true : false;
+  const dispatchhandling = () => {
+    dispatch(
+      CandidatejobidMatchMiddleWare({
+        jd_id: jd_id,
+        can_id: can_id,
+        matching: true,
+      }),
+    );
+  };
+  const checkMatch = overall_percentage === 0 ? true : false;
   const profileMatch = checkMatch ? 0 : overall_percentage;
-  const skillconvert=Math.round((skills_percent /95) * 100);
-  const qualificationconvert=(qualification_percent/5) * 100;
+  const skillconvert = Math.round((skills_percent / 95) * 100);
+  const qualificationconvert = (qualification_percent / 5) * 100;
   return (
     <Flex row flex={12} height={window.innerHeight - 120}>
       {isloadings && <Loader />}
       <Flex flex={6} className={styles.overAll}>
-        <Text bold style={{ fontSize: '14px', marginBottom: '5px' }}>
-          Matching Analysis
-        </Text>
-        {checkMatch ? (
-          <Flex flex={1} center middle>
-            <Text color="gray">This candidate is not a match for this job</Text>
+        <Flex row between>
+          <Flex>
+            <Flex>
+              <Text bold style={{ fontSize: '14px', marginBottom: '5px' }}>
+                Matching Analysis
+              </Text>
+            </Flex>
+            <Flex>
+              <Text size={13}>
+                Overall matching score for this candidate with the job
+              </Text>
+            </Flex>
           </Flex>
-        ) : (
+          {ai_matching ? (
+            <Flex row between center marginBottom={10}>
+              <ProgressBar
+                verticalWidth={'100px'}
+                roundProgressHeight={45}
+                type="round"
+                percentage={aidata &&aidata[0].overall_percentage}
+              />
+            </Flex>
+          ) : (
+            <Flex>
+              <Button onClick={dispatchhandling}>AI Matching</Button>
+            </Flex>
+          )}
+        </Flex>
+        {!ai_matching ? (
           <>
             <Flex center>
-              <Flex>
-                <Text size={13}>
-                  Overall matching score for this candidate with the job
-                </Text>
-              </Flex>
               <Flex
                 row
                 between
@@ -160,7 +210,7 @@ const MatchingAnalysisTab = () => {
                         verticalWidth={'200px'}
                         type="hr"
                         percentage={skillconvert}
-                        matchingpercentage={skills_percent}
+                        changingpercentageinmatching={skills_percent}
                       />
                     </Flex>
                   </Flex>
@@ -177,7 +227,7 @@ const MatchingAnalysisTab = () => {
                         verticalWidth={'200px'}
                         type="hr"
                         percentage={qualificationconvert}
-                        matchingpercentage={qualification_percent}
+                        changingpercentageinmatching={qualification_percent}
                       />
                     </Flex>
                   </Flex>
@@ -227,8 +277,11 @@ const MatchingAnalysisTab = () => {
                                 <SvgDone />
                               </div>
                               <Text
-                                style={{ color: '#333333', fontSize: '13px',textTransform: 'uppercase'
-                               }}
+                                style={{
+                                  color: '#333333',
+                                  fontSize: '13px',
+                                  textTransform: 'uppercase',
+                                }}
                               >
                                 {list}{' '}
                               </Text>
@@ -245,7 +298,11 @@ const MatchingAnalysisTab = () => {
                                   <SvgClose fill="#ED4857" />
                                 </Flex>
                                 <Text
-                                  style={{ color: '#333333', fontSize: '13px',textTransform: 'uppercase' }}
+                                  style={{
+                                    color: '#333333',
+                                    fontSize: '13px',
+                                    textTransform: 'uppercase',
+                                  }}
                                 >
                                   {' '}
                                   {fix}
@@ -260,16 +317,13 @@ const MatchingAnalysisTab = () => {
                 </Flex>
               )}
               {data && (
-                <Flex  className={styles.mapListContainer}>
-                  {/* {data.map((list, listIndex) => { */}
-
+                <Flex className={styles.mapListContainer}>
                   <Flex
                     // key={data}
                     row
                     center
                     between
                     className={styles.dataListStyle}
-                    // backgroundColor={colorCode[listIndex % colorCode.length]}
                   >
                     <Flex flex={3}>
                       <Text className={styles.titleStyle}>Qualification</Text>
@@ -289,7 +343,11 @@ const MatchingAnalysisTab = () => {
                                 <SvgDone />
                               </div>
                               <Text
-                                style={{ color: '#333333', fontSize: '13px',textTransform: 'uppercase' }}
+                                style={{
+                                  color: '#333333',
+                                  fontSize: '13px',
+                                  textTransform: 'uppercase',
+                                }}
                               >
                                 {list}{' '}
                               </Text>
@@ -305,7 +363,11 @@ const MatchingAnalysisTab = () => {
                                 <SvgClose fill="#ED4857" />
                               </Flex>
                               <Text
-                                style={{ color: '#333333', fontSize: '13px',textTransform: 'uppercase' }}
+                                style={{
+                                  color: '#333333',
+                                  fontSize: '13px',
+                                  textTransform: 'uppercase',
+                                }}
                               >
                                 {list}{' '}
                               </Text>
@@ -375,6 +437,85 @@ const MatchingAnalysisTab = () => {
                   </Flex>
                 </Flex>
               )} */}
+            </Flex>
+          </>
+        ) : (
+          <>
+            <Flex center middle></Flex>
+            <Flex
+              style={{
+                borderBottom: '1px solid #C3C3C3',
+              }}
+            ></Flex>
+            <Flex marginTop={7} style={{ overflow: 'scroll', display: 'flex' }}>
+              {aidata && aidata[0].title !== '' && (
+                <Flex
+                  height={window.innerHeight - 185}
+                  style={{ overflow: 'scroll', display: 'flex' }}
+                >
+                  {aidata &&
+                    aidata.map((matchdata, index) => {
+                      return (
+                        <>
+                          <Flex className={styles.mapListContainer}>
+                            <Flex
+                              row
+                              center
+                              between
+                              className={styles.dataListStyle}
+                            >
+                              <Flex flex={3}>
+                                <Text className={styles.titleStyle}>
+                                  {matchdata.title}
+                                </Text>
+                              </Flex>
+                              <Flex row>
+                                <Flex marginRight={20}>
+                                  <ProgressBar
+                                    matchingpercentage
+                                    verticalWidth={'100px'}
+                                    type="hr"
+                                    percentage={matchdata.percentage}
+                                  />
+                                </Flex>
+                                <Flex
+                                  onClick={() => handleToggleCollapse(index)}
+                                  center
+                                  middle
+                                  style={{ cursor: 'pointer' }}
+                                >
+                                  <SvgAngle
+                                    width={12}
+                                    height={12}
+                                    fill="#581845"
+                                    up={expandedIndex === index}
+                                  />
+                                </Flex>
+                              </Flex>
+                            </Flex>
+                            {expandedIndex === index && (
+                              <Flex
+                                style={{
+                                  flexWrap: 'wrap',
+                                  overflow: ' hidden',
+                                  textOverflow: 'clip',
+                                  fontSize: 13,
+                                }}
+                              >
+                                <td
+                                  className={styles.textwrap}
+                                  dangerouslySetInnerHTML={{
+                                    __html: matchdata.description,
+                                  }}
+                                />
+                              </Flex>
+                            )}
+                          </Flex>{' '}
+                        </>
+                      );
+                    })}
+                </Flex>
+              )}
             </Flex>
           </>
         )}

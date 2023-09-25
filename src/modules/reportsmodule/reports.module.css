@@ -141,7 +141,7 @@ border-right: 1px solid;
   margin-top: 1rem;
 }
 
-@media screen and (min-width: 1280px) and (max-width: 1350px) {
+/* @media screen and (min-width: 1280px) and (max-width: 1350px) {
   .overAll {
     padding: 0px 5% !important;
   }
@@ -150,7 +150,7 @@ border-right: 1px solid;
   .overAll {
     padding: 0px 3% !important;
   }
-}
+} */
 
 @media screen and (max-width: 960px) {
   .overAll {

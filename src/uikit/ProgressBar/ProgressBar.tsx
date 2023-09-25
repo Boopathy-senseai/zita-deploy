@@ -14,12 +14,15 @@ type Props = {
   percentage: number;
   type?: 'hr' | 'round';
   verticalWidth?: string | number;
-  matchingpercentage?:string | number;
+  matchingpercentage?:boolean;
+  changingpercentageinmatching?:string | number;
+
 } & typeof defaultProps;
 
 const ProgressBar = ({
   strokeWidth,
   percentage,
+  changingpercentageinmatching,
   matchingpercentage,
   type = 'round',
   verticalWidth,
@@ -27,7 +30,7 @@ const ProgressBar = ({
 }: Props) => {
   const verticalPercentage = percentage;
   const radius = 50 - strokeWidth / 2;
-  const pathDescription = `
+  const pathDescription = ` 
       M 50,50 m 0,-${radius}
       a ${radius},${radius} 0 1 1 0,${2 * radius}
       a ${radius},${radius} 0 1 1 0,-${2 * radius}
@@ -80,20 +83,20 @@ const ProgressBar = ({
           fontWeight: 'bold',
         }}
       >
-        {`${ matchingpercentage? matchingpercentage:percentage}%`}
+        {`${percentage}%`}
       </text>
     </svg>
   ) : (
     <div className={styles.progressVertical} style={{ width: verticalWidth }}>
       <div
-        style={{ width: `${verticalPercentage}%` }}
-        className={styles.progress}
+        style={{ width: `${changingpercentageinmatching?changingpercentageinmatching:verticalPercentage}%` }}
+        className={matchingpercentage?styles.progressmatch:styles.progress}
       />
       <Text
         bold
         color="black"
-        className={styles.percentText}
-      >{`${ matchingpercentage? matchingpercentage:verticalPercentage}%`}</Text>
+        className={matchingpercentage?styles.percentTextmatch:styles.percentText }
+      >{`${changingpercentageinmatching?changingpercentageinmatching:verticalPercentage}%`}</Text>
     </div>
   );
 };

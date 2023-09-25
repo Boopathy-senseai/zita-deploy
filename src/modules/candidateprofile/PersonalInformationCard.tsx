@@ -7,6 +7,7 @@ import Flex from '../../uikit/Flex/Flex';
 import { isEmpty, notSpecified } from '../../uikit/helper';
 import Text from '../../uikit/Text/Text';
 import { CountryEntity } from '../createjdmodule/createJdTypes';
+import { SvgEdit } from '../../icons';
 import { AdditionalDetailEntity, Obj, Personal } from './candidateProfileTypes';
 import MyJobPreferenceCard from './MyJobPreferenceCard';
 import styles from './personalinformationcard.module.css';
@@ -117,7 +118,7 @@ const PersonalInformationCard = ({
       )}
       <Flex columnFlex row>
         <div style={{ width: '50%', marginRight: 10 }}>
-          <Text size={16} bold className={styles.titleStyle}>
+          <Text size={14} bold className={styles.titleStyle}>
             Personal Information
           </Text>
           <Card className={styles.overAll}>
@@ -129,7 +130,7 @@ const PersonalInformationCard = ({
                 role="button"
                 onKeyDown={() => {}}
               >
-                <SvgBoxEdit fill={PRIMARY} />
+                <SvgEdit fill={PRIMARY} width={14} height={14}/>
               </div>
             )}
 
@@ -162,7 +163,7 @@ const PersonalInformationCard = ({
           </Card>
         </div>
         <div style={{ width: '50%', marginLeft: 10 }}>
-          <Text size={16} bold className={styles.titleStyle}>
+          <Text size={14} bold className={styles.titleStyle}>
             My Job Preference
           </Text>
           <MyJobPreferenceCard

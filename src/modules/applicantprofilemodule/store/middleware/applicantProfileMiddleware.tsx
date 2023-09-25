@@ -86,10 +86,10 @@ export const applicantMatchMiddleWare = createAsyncThunk(
 );
 export const CandidatejobidMatchMiddleWare = createAsyncThunk(
   APPLICANT_PROFILE_MATCH,
-  async ({ jd_id, can_id }: ApplicantProfilePayload, { rejectWithValue }) => {
+  async ({ jd_id, can_id, matching }: ApplicantProfilePayload, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(Bothcandidateidjobid, {
-        params: { jd_id, can_id },
+        params: { jd_id, can_id, matching },
       });
       return data;
     } catch (error) {
