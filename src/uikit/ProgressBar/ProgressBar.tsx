@@ -15,12 +15,14 @@ type Props = {
   type?: 'hr' | 'round';
   verticalWidth?: string | number;
   matchingpercentage?:boolean;
+  changingpercentageinmatching?:string | number;
 
 } & typeof defaultProps;
 
 const ProgressBar = ({
   strokeWidth,
   percentage,
+  changingpercentageinmatching,
   matchingpercentage,
   type = 'round',
   verticalWidth,
@@ -87,14 +89,14 @@ const ProgressBar = ({
   ) : (
     <div className={styles.progressVertical} style={{ width: verticalWidth }}>
       <div
-        style={{ width: `${verticalPercentage}%` }}
+        style={{ width: `${changingpercentageinmatching?changingpercentageinmatching:verticalPercentage}%` }}
         className={matchingpercentage?styles.progressmatch:styles.progress}
       />
       <Text
         bold
         color="black"
         className={matchingpercentage?styles.percentTextmatch:styles.percentText }
-      >{`${verticalPercentage}%`}</Text>
+      >{`${changingpercentageinmatching?changingpercentageinmatching:verticalPercentage}%`}</Text>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
@@ -6,7 +6,7 @@ import SvgDone from '../../icons/SvgDone';
 import SvgClose from '../../icons/Svgnotmatch';
 import ProgressBar from '../../uikit/ProgressBar/ProgressBar';
 import { GARY_7, WHITE } from '../../uikit/Colors/colors';
-import { RootState } from '../../store';
+import { AppDispatch, RootState } from '../../store';
 import Tab from '../../uikit/Tabs/Tab';
 import { Loader } from '../../uikit';
 import { Button, LinkWrapper } from '../../uikit';
@@ -23,6 +23,7 @@ import {
 } from './matchAnalysisTab';
 import styles from './matchinganalysistab.module.css';
 import AllMatchTab from './AllMatchTab';
+import { CandidatejobidMatchMiddleWare } from './store/middleware/applicantProfileMiddleware';
 
 const colorCode = [WHITE, GARY_7];
 export interface DateEntity {
@@ -53,10 +54,21 @@ const MatchingAnalysisTab = () => {
     matchedlocation,
     location,
     location_percent,
+    ai_matching,
+    aidata,
+    jd_id,
+    can_id,
   } = useSelector(
-    ({ applicantMatchReducers, candidatejdmatchReducers }: RootState) => {
+    ({
+      applicantProfileInitalReducers,
+      candidatejdmatchReducers,
+    }: RootState) => {
       return {
+        can_id: applicantProfileInitalReducers.can_id,
+        jd_id: applicantProfileInitalReducers?.jd_id,
         isLoading: candidatejdmatchReducers.isLoading,
+        ai_matching: candidatejdmatchReducers?.ai_matching,
+        aidata: candidatejdmatchReducers?.data,
         match: candidatejdmatchReducers.match
           ? candidatejdmatchReducers.match
           : [],
@@ -105,6 +117,13 @@ const MatchingAnalysisTab = () => {
   );
   const [isCollapse, setCollapse] = useState(false);
   const [isloadings, setisloading] = useState(false);
+  const [expandedIndex, setExpandedIndex] = useState(null);
+  const dispatch: AppDispatch = useDispatch();
+
+  const handleToggleCollapse = (index) => {
+    setExpandedIndex((prevIndex) => (prevIndex === index ? null : index));
+  };
+
   useEffect(() => {
     if (isLoading === true) {
       setisloading(true);
@@ -112,6 +131,15 @@ const MatchingAnalysisTab = () => {
       setisloading(false);
     }
   });
+  const dispatchhandling = () => {
+    dispatch(
+      CandidatejobidMatchMiddleWare({
+        jd_id: jd_id,
+        can_id: can_id,
+        matching: true,
+      }),
+    );
+  };
   const checkMatch = overall_percentage === 0 ? true : false;
   const profileMatch = checkMatch ? 0 : overall_percentage;
   const skillconvert = Math.round((skills_percent / 95) * 100);
@@ -133,135 +161,213 @@ const MatchingAnalysisTab = () => {
               </Text>
             </Flex>
           </Flex>
-          <Flex>
-            <Button>AI Matching</Button>
-          </Flex>
+          {ai_matching?<Flex
+                row
+                between 
+                center 
+                marginBottom={10}
+              >
+                <ProgressBar
+                  verticalWidth={'100px'}
+                  roundProgressHeight={50}
+                  type="round"
+                  percentage={profileMatch}
+                />
+              </Flex>: 
+            <Flex>
+              <Button onClick={dispatchhandling}>AI Matching</Button>
+            </Flex>
+          }
+          
         </Flex>
         {/* {checkMatch ? (
           <Flex flex={1} center middle>
             <Text color="gray">This candidate is not a match for this job</Text>
           </Flex>
         ) : ( */}
-        <>
-          <Flex center middle>
-            <Flex
-              row
-              between
-              marginTop={20}
-              center
-              className={styles.progressStyle}
-            >
-              <ProgressBar
-                verticalWidth={'100px'}
-                roundProgressHeight={70}
-                type="round"
-                percentage={profileMatch}
-              />
-            </Flex>
-          </Flex>
-          <Flex
-            style={{
-              borderBottom: '1px solid #C3C3C3',
-            }}
-          ></Flex>
-          <Flex
-            height={window.innerHeight - 295}
-            style={{ overflow: 'scroll', display: 'flex' }}
-          >
-            {/* {data && ( */}
-            <Flex className={styles.mapListContainer}>
-              <Flex row center between className={styles.dataListStyle}>
-                <Flex flex={3}>
-                  <Text className={styles.titleStyle}>Skills</Text>
-                </Flex> 
-                <Flex row>
-                  <Flex  marginRight={20}>
-                    <ProgressBar
-                    matchingpercentage
-                      verticalWidth={'100px'} 
-                      type="hr"
-                      percentage={53}
-                    />
+        {!ai_matching ? (
+          <>
+            <Flex center>
+              <Flex
+                row
+                between
+                marginTop={20}
+                center
+                className={styles.progressStyle}
+                style={{
+                  paddingBottom: '20px',
+
+                  borderBottom: '1px solid #C3C3C3',
+                }}
+                flex={12}
+              >
+                <Flex flex={6} marginLeft={'50px'}>
+                  <ProgressBar
+                    verticalWidth={'100px'}
+                    roundProgressHeight={70}
+                    type="round"
+                    percentage={profileMatch}
+                  />
+                </Flex>
+                <Flex center>
+                  <Flex row flex={6}>
+                    <Flex marginRight={18} style={{ fontSize: '13px' }}>
+                      Skills
+                    </Flex>
+                    <Flex marginLeft={'43.2px'}>
+                      <ProgressBar
+                        verticalWidth={'200px'}
+                        type="hr"
+                        percentage={skillconvert}
+                        changingpercentageinmatching={skills_percent}
+                      />
+                    </Flex>
                   </Flex>
-                  <Flex onClick={() => setCollapse(!isCollapse)} center middle style={{cursor:'pointer'}}>
-                    <SvgAngle
-                      width={12}
-                      height={12}
-                      fill="#581845"
-                      up={isCollapse}
-                    />
+                  <Flex
+                    row
+                    marginTop={20}
+                    style={{ bottom: '1px solid #C3C3C3' }}
+                  >
+                    <Flex marginRight={20} style={{ fontSize: '13px' }}>
+                      Qualification
+                    </Flex>
+                    <Flex>
+                      <ProgressBar
+                        verticalWidth={'200px'}
+                        type="hr"
+                        percentage={qualificationconvert}
+                        changingpercentageinmatching={qualification_percent}
+                      />
+                    </Flex>
                   </Flex>
+                  {/* <Flex
+                    row
+                    between
+                    marginTop={10}
+                    style={{ bottom: '1px solid #C3C3C3' }}
+                  >
+                    <Flex marginRight={20} style={{ fontSize: '13px' }}>
+                    Location 
+                    </Flex>
+                    <Flex>
+                      <ProgressBar
+                        verticalWidth={'200px'}
+                        type="hr"
+                        percentage={location_percent}
+                      />
+                    </Flex>
+                  </Flex> */}
                 </Flex>
               </Flex>
-              {isCollapse && (
-                <Flex
-                  style={{
-                    flexWrap: 'wrap',
-                    overflow: ' hidden',
-                    textOverflow: 'clip',
-                    fontSize: 13,
-                  }}
-                >
-                  {/* <Flex> */}
-                  <td
-                    className={styles.textwrap}
-                    dangerouslySetInnerHTML={{
-                      __html:
-                        'ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddqqqqqqqqqqqqqqqqqqdddddddddzxv.vsvsddbdbdbdbdbdbdbdbdbdbdbdc c dbd',
-                    }}
-                  />
-                  {/* </Flex> */}
+            </Flex>
+
+            <Flex
+              height={window.innerHeight - 295}
+              style={{ overflow: 'scroll', display: 'flex' }}
+            >
+              {data && (
+                <Flex className={styles.mapListContainer}>
+                  <Flex row center between className={styles.dataListStyle}>
+                    <Flex flex={3}>
+                      <Text className={styles.titleStyle}>Skills</Text>
+                    </Flex>
+                    <Flex flex={2}>
+                      <Text bold style={{ fontSize: '13px' }}>
+                        {data ? data.length : 0}/
+                        {overallskill ? overallskill.length : 0}
+                      </Text>
+                    </Flex>
+                    <Flex flex={7}>
+                      {data.map((list) => {
+                        return (
+                          <>
+                            <Flex className={styles.valueListStyle} row center>
+                              <div className={styles.svgStyle}>
+                                <SvgDone />
+                              </div>
+                              <Text
+                                style={{
+                                  color: '#333333',
+                                  fontSize: '13px',
+                                  textTransform: 'uppercase',
+                                }}
+                              >
+                                {list}{' '}
+                              </Text>
+                            </Flex>
+                          </>
+                        );
+                      })}
+                      {Notmatch.map((fix) => {
+                        return (
+                          <>
+                            <Flex className={styles.valueListStyle} row center>
+                              <Flex row center>
+                                <Flex className={styles.svgStyle}>
+                                  <SvgClose fill="#ED4857" />
+                                </Flex>
+                                <Text
+                                  style={{
+                                    color: '#333333',
+                                    fontSize: '13px',
+                                    textTransform: 'uppercase',
+                                  }}
+                                >
+                                  {' '}
+                                  {fix}
+                                </Text>
+                              </Flex>
+                            </Flex>{' '}
+                          </>
+                        );
+                      })}
+                    </Flex>
+                  </Flex>
                 </Flex>
               )}
-            </Flex>
-          </Flex>
-        </>
-      </Flex>
-      <Flex
-        height={window.innerHeight - 115}
-        style={{
-          border: '0.3px solid #C3C3C3',
-          width: '1px',
-          margin: '15px 5px 10px 5px',
-          paddingTop: '10px',
-          paddingBottom: '10px',
-        }}
-      ></Flex>
-      <Flex flex={6.4}>
-        <AllMatchTab title={''} inviteMessage={''} />
-      </Flex>
-    </Flex>
-  );
-};
-
-export default MatchingAnalysisTab;
-{
-  /* <Flex flex={7}>
-                    {data.map((list) => {
-                      return (
-                        <>
-                          <Flex className={styles.valueListStyle} row center>
-                            <div className={styles.svgStyle}>
-                              <SvgDone />
-                            </div>
-                            <Text
-                              style={{
-                                color: '#333333',
-                                fontSize: '13px',
-                                textTransform: 'uppercase',
-                              }}
-                            >
-                              {list}{' '}
-                            </Text>
-                          </Flex>
-                        </>
-                      );
-                    })}
-                    {Notmatch.map((fix) => {
-                      return (
-                        <>
-                          <Flex className={styles.valueListStyle} row center>
-                            <Flex row center>
+              {data && (
+                <Flex className={styles.mapListContainer}>
+                  <Flex
+                    // key={data}
+                    row
+                    center
+                    between
+                    className={styles.dataListStyle}
+                  >
+                    <Flex flex={3}>
+                      <Text className={styles.titleStyle}>Qualification</Text>
+                    </Flex>
+                    <Flex flex={2}>
+                      <Text bold style={{ fontSize: '13px' }}>
+                        {matchql ? matchql.length : 0}/
+                        {overallQualification ? overallQualification.length : 0}
+                      </Text>
+                    </Flex>
+                    <Flex flex={7}>
+                      {matchql.map((list) => {
+                        return (
+                          <>
+                            <Flex className={styles.valueListStyle} row center>
+                              <div className={styles.svgStyle}>
+                                <SvgDone />
+                              </div>
+                              <Text
+                                style={{
+                                  color: '#333333',
+                                  fontSize: '13px',
+                                  textTransform: 'uppercase',
+                                }}
+                              >
+                                {list}{' '}
+                              </Text>
+                            </Flex>
+                          </>
+                        );
+                      })}
+                      {Notmatchql.map((list) => {
+                        return (
+                          <>
+                            <Flex className={styles.valueListStyle} row center>
                               <Flex className={styles.svgStyle}>
                                 <SvgClose fill="#ED4857" />
                               </Flex>
@@ -272,87 +378,17 @@ export default MatchingAnalysisTab;
                                   textTransform: 'uppercase',
                                 }}
                               >
-                                {' '}
-                                {fix}
+                                {list}{' '}
                               </Text>
-                            </Flex>
-                          </Flex>{' '}
-                        </>
-                      );
-                    })}
+                            </Flex>{' '}
+                          </>
+                        );
+                      })}
+                    </Flex>
                   </Flex>
                 </Flex>
-              </Flex>
-            )}
-            {data && (
-              <Flex className={styles.mapListContainer}>
-                {/* {data.map((list, listIndex) => {  
-
-                <Flex
-                  // key={data}
-                  row
-                  center
-                  between
-                  className={styles.dataListStyle}
-                  // backgroundColor={colorCode[listIndex % colorCode.length]}
-                >
-                  <Flex flex={3}>
-                    <Text className={styles.titleStyle}>Qualification</Text>
-                  </Flex>
-                  <Flex flex={2}>
-                    <Text bold style={{ fontSize: '13px' }}>
-                      {matchql ? matchql.length : 0}/
-                      {overallQualification ? overallQualification.length : 0}
-                    </Text>
-                  </Flex>
-                  <Flex flex={7}>
-                    {matchql.map((list) => {
-                      return (
-                        <>
-                          <Flex className={styles.valueListStyle} row center>
-                            <div className={styles.svgStyle}>
-                              <SvgDone />
-                            </div>
-                            <Text
-                              style={{
-                                color: '#333333',
-                                fontSize: '13px',
-                                textTransform: 'uppercase',
-                              }}
-                            >
-                              {list}{' '}
-                            </Text>
-                          </Flex>
-                        </>
-                      );
-                    })}
-                    {Notmatchql.map((list) => {
-                      return (
-                        <>
-                          <Flex className={styles.valueListStyle} row center>
-                            <Flex className={styles.svgStyle}>
-                              <SvgClose fill="#ED4857" />
-                            </Flex>
-                            <Text
-                              style={{
-                                color: '#333333',
-                                fontSize: '13px',
-                                textTransform: 'uppercase',
-                              }}
-                            >
-                              {list}{' '}
-                            </Text>
-                          </Flex>{' '}
-                        </>
-                      );
-                    })}
-                  </Flex>
-                </Flex>
-              </Flex>
-            )} */
-}
-{
-  /* {data && (
+              )}
+              {/* {data && (
                 <Flex flex={1} className={styles.mapListContainer}>
                   {/* {data.map((list, listIndex) => {  
 
@@ -409,5 +445,109 @@ export default MatchingAnalysisTab;
                     </Flex>
                   </Flex>
                 </Flex>
-              )} */
-}
+              )} */}
+            </Flex>
+          </>
+        ) : (
+          <>
+            <Flex center middle>
+            </Flex>
+            <Flex
+              style={{
+                borderBottom: '1px solid #C3C3C3',
+              }}
+            ></Flex>
+            <Flex
+              // height={window.innerHeight - 180}
+              style={{ overflow: 'scroll', display: 'flex' }}
+            >
+              {aidata && aidata[0].title !== '' && (
+                <Flex
+                  height={window.innerHeight - 185}
+                  style={{ overflow: 'scroll', display: 'flex' }}
+                >
+                  {aidata &&
+                    aidata.map((matchdata, index) => {
+                      return (
+                        <>
+                          <Flex className={styles.mapListContainer}>
+                            <Flex
+                              row
+                              center
+                              between
+                              className={styles.dataListStyle}
+                            >
+                              <Flex flex={3}>
+                                <Text className={styles.titleStyle}>
+                                  {matchdata.title}
+                                </Text>
+                              </Flex>
+                              <Flex row>
+                                <Flex marginRight={20}>
+                                  <ProgressBar
+                                    matchingpercentage
+                                    verticalWidth={'100px'}
+                                    type="hr"
+                                    percentage={matchdata.percentage}
+                                  />
+                                </Flex>
+                                <Flex
+                                  onClick={() => handleToggleCollapse(index)}
+                                  center
+                                  middle
+                                  style={{ cursor: 'pointer' }}
+                                >
+                                  <SvgAngle
+                                    width={12}
+                                    height={12}
+                                    fill="#581845"
+                                    up={expandedIndex === index}
+                                  />
+                                </Flex>
+                              </Flex>
+                            </Flex>
+                            {expandedIndex === index && (
+                              <Flex
+                                style={{
+                                  flexWrap: 'wrap',
+                                  overflow: ' hidden',
+                                  textOverflow: 'clip',
+                                  fontSize: 13,
+                                }}
+                              >
+                                <td
+                                  className={styles.textwrap}
+                                  dangerouslySetInnerHTML={{
+                                    __html: matchdata.description,
+                                  }}
+                                />
+                              </Flex>
+                            )}
+                          </Flex>{' '}
+                        </>
+                      );
+                    })}
+                </Flex>
+              )}
+            </Flex>
+          </>
+        )}
+      </Flex>
+      <Flex
+        height={window.innerHeight - 115}
+        style={{
+          border: '0.3px solid #C3C3C3',
+          width: '1px',
+          margin: '15px 5px 10px 5px',
+          paddingTop: '10px',
+          paddingBottom: '10px',
+        }}
+      ></Flex>
+      <Flex flex={6.4}>
+        <AllMatchTab title={''} inviteMessage={''} />
+      </Flex>
+    </Flex>
+  );
+};
+
+export default MatchingAnalysisTab;
