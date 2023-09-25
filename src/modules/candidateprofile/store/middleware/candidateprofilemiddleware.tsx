@@ -19,7 +19,7 @@ import {
   experiencesAddApi,
   experienceUpdateApi,
   otpVerificationApi,
-  professionalResume,
+  // professionalResume,
   profileEditApi,
   projectAddApi,
   projectUpdateApi,
@@ -28,6 +28,7 @@ import {
   techSkillApi,
   updateJobPreferenceApi,
   updatePersonalInfoApi,
+  updateResumeOverviewApi,
   uploadResumeApi,
 } from '../../../../routes/apiRoutes';
 import {
@@ -47,9 +48,7 @@ export const resumeUploadMiddleWare = createAsyncThunk(
         method: 'POST',
         body: formData,
       });
-      console.log(data)
       return await data.json();
-      
     } catch (error) {
       const typedError = error as Error;
       return rejectWithValue(typedError);
@@ -57,11 +56,23 @@ export const resumeUploadMiddleWare = createAsyncThunk(
   },
 );
 
-export const personalInformationMiddleware = createAsyncThunk(
-  CANDIDATE_PROFESSIONAL_DATA,
-  async ({emp_id}: {emp_id: string}, { rejectWithValue }) => {
+// export const personalInformationMiddleware = createAsyncThunk(
+//   CANDIDATE_PROFESSIONAL_DATA,
+//   async ({emp_id}: {emp_id: string}, { rejectWithValue }) => {
+//     try {
+//       const data = await axios.get(`${professionalResume}?emp-id=${emp_id}`);
+//       return data;
+//     } catch (error) {
+//       const typedError = error as Error;
+//       return rejectWithValue(typedError);
+//     }
+//   },
+// );
+export const updatereumeoverviewMiddleWare = createAsyncThunk(
+  'update_resume_overview',
+  async ({ formData }: any, { rejectWithValue }) => {
     try {
-      const data = await axios.get(`${professionalResume}?emp-id=${emp_id}`);
+      const { data } = await axios.post(updateResumeOverviewApi, formData);
       return data;
     } catch (error) {
       const typedError = error as Error;
@@ -74,13 +85,15 @@ export const resumeReUploadMiddleWare = createAsyncThunk(
   CANDIDATA_PROFILE_RESUME_UPLOAD,
   async ({ formData }: { formData: any }, { rejectWithValue }) => {
     try {
-      const data = await axios.post(resumeReupload, formData
-      // {
-      //   method: 'POST',
-      //   body: formData,
-      // }
+      const data = await axios.post(
+        resumeReupload,
+        formData,
+        // {
+        //   method: 'POST',
+        //   body: formData,
+        // }
       );
-      return  data;
+      return data;
     } catch (error) {
       const typedError = error as Error;
       return rejectWithValue(typedError);
@@ -154,9 +167,9 @@ export const otpVerificationMiddleWare = createAsyncThunk(
 
 export const profileEditMiddleWare = createAsyncThunk(
   'profile_edit',
-  async ({jd_id}:{jd_id:any}, { rejectWithValue }) => {
+  async ({ jd_id }: { jd_id: any }, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(profileEditApi,{params:{jd_id}});
+      const { data } = await axios.get(profileEditApi, { params: { jd_id } });
       return data;
     } catch (error) {
       const typedError = error as Error;

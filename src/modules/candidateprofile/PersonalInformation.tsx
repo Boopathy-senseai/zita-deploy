@@ -35,7 +35,7 @@ import styles from './personalinformation.module.css';
 import {
   basicDetailMiddleWare,
   emailValidationMiddleWare,
-  personalInformationMiddleware,
+  // personalInformationMiddleware,
 } from './store/middleware/candidateprofilemiddleware';
 
 type formProps = {
@@ -175,9 +175,9 @@ const PersonalInformation = ({
       });
     }
   }, [formik.values.county]);
-  useEffect(()=>{
-    dispatch(personalInformationMiddleware({emp_id: params.empId}));
-  })
+  // useEffect(()=>{
+  //   dispatch(personalInformationMiddleware({emp_id: params.empId}));
+  // })
 
   useEffect(() => {
     if (!isEmpty(formik.values.state)) {

@@ -14,6 +14,7 @@ export interface CandidateProfileEdit {
   company_detail?: any;
   career_page_setting?:any;
   applied_status?:any
+  overview?:string;
 }
 
 export interface ExperiencesEntity {

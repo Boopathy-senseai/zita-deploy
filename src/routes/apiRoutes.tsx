@@ -215,7 +215,7 @@ export const careerJobViewApi = (id: string) => {
 };
 
 export const uploadResumeApi = `${process.env.REACT_APP_API_ENDPOINT}upload_resume/`;
-export const professionalResume  = 'upload_resume';
+// export const professionalResume  = 'upload_resume';
 export const basicDetailApi = 'basic_detail/';
 export const emailValidationApi = `email_validation`;
 export const otpVerificationApi = `otp_verification`;
@@ -228,6 +228,7 @@ export const whatjobsApi = `what_jobs_posting/`;
 // };
 export const updatePersonalInfoApi = 'update_personal_info/';
 export const updateJobPreferenceApi = 'update_job_preference/';
+export const updateResumeOverviewApi ='update_resume_overview';
 export const skillsUpdateApi = (empId: number) => {
   const url = `skills_update/${empId}/`;
   return url;

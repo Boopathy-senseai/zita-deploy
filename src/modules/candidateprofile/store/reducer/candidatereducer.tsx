@@ -54,6 +54,7 @@ const candidateProfileEditReducer = createSlice({
       state.experiences = action.payload.experiences;
       state.career_page_setting = action.payload.career_page_setting;
       state.applied_status=action.payload.applied_status
+      state.overview=action.payload.overview;
     });
     builder.addCase(profileEditMiddleWare.rejected, (state, action) => {
       state.isLoading = false;
