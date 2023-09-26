@@ -525,8 +525,6 @@ const Maillist = ({
         <InfiniteScroll
           dataLength={messagelist.length}
           next={process}
-          // hasMore={integration === 'google' ? pagetoken !== undefined : isLoading}
-          // hasMore={messagelist.length % range === 0 && !isLoading}
           hasMore={scroll()}
           loader={''}
           scrollableTarget="scrollableDiv"
