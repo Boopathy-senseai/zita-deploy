@@ -18,7 +18,7 @@ type MyProps = {
   setUpgrade: (arg: boolean) => void;
   candidatesLimit: number;
   isjdId: string;
-  setmodel?:any;
+  setmodel?: any;
 };
 
 type MyState = {
@@ -27,7 +27,6 @@ type MyState = {
   bulkDelete: boolean;
   setListName: any[];
   isMb: boolean;
- 
 };
 
 class CandidateDatabase extends Component<MyProps, MyState> {
@@ -41,7 +40,6 @@ class CandidateDatabase extends Component<MyProps, MyState> {
       bulkDelete: false,
       setListName: [],
       isMb: false,
-      
     };
     this.fileUploaderRef = createRef();
   }
@@ -51,8 +49,8 @@ class CandidateDatabase extends Component<MyProps, MyState> {
     this.setState({ changedFileIndex: index });
     this.fileUploaderRef.current.click();
   }
-  
-// delete file function
+
+  // delete file function
   Delete(name: any[]) {
     this.setState((prevState) => {
       const list: any[] = [];
@@ -70,36 +68,36 @@ class CandidateDatabase extends Component<MyProps, MyState> {
   }
 
   render() {
-    const unique:any = [];
+    const unique: any = [];
     this.state.files.map((x) =>
       unique.filter((a: any) => a.name === x.name).length > 0
         ? null
         : unique.push(x),
     );
-    
+
     // file upload function
-   const fileUpload = (e: any) => {
+    const fileUpload = (e: any) => {
       const fileName = [...e.target.files].map((list) => list.name);
       const fileSize = [...e.target.files].map((list) => list.size);
-  
+
       const filterFileName = fileName.filter(
         (item) =>
           !item.includes('.doc') &&
           !item.includes('.pdf') &&
           !item.includes('.txt'),
       );
-  
+
       const filterFileNameOne = [...e.target.files].filter(
         (item) =>
           (item.name.includes('.doc') && item.size / 1024 / 1024 < 2) ||
           (item.name.includes('.pdf') && item.size / 1024 / 1024 < 2) ||
           (item.name.includes('.txt') && item.size / 1024 / 1024 < 2),
       );
-  
+
       const filterFileSize = fileSize.filter(
         (listSize) => listSize / 1024 / 1024 > 2,
       );
-  
+
       if (filterFileName.length !== 0) {
         alert(
           'Invalid file selected, valid files are of ' +
@@ -118,7 +116,8 @@ class CandidateDatabase extends Component<MyProps, MyState> {
           const list: any[] = [];
           // eslint-disable-next-line
           prevState.files.map((file: any, i: number) => {
-            if (i === prevState.changedFileIndex) list.push(filterFileNameOne[0]);
+            if (i === prevState.changedFileIndex)
+              list.push(filterFileNameOne[0]);
             else list.push(file);
           });
           return {
@@ -135,14 +134,13 @@ class CandidateDatabase extends Component<MyProps, MyState> {
       }
     };
 
-  // drag and drop file function
+    // drag and drop file function
     const fileDrop = (e: {
       preventDefault: () => void;
       dataTransfer: { files: any };
     }) => {
-      if (this.props.isjdId === '0' 
-        ){
-        return 
+      if (this.props.isjdId === '0') {
+        return;
       }
       e.preventDefault();
 
@@ -185,7 +183,8 @@ class CandidateDatabase extends Component<MyProps, MyState> {
           const list: any[] = [];
           // eslint-disable-next-line
           prevState.files.map((file: any, i: number) => {
-            if (i === prevState.changedFileIndex) list.push(filterFileNameOne[0]);
+            if (i === prevState.changedFileIndex)
+              list.push(filterFileNameOne[0]);
             else list.push(file);
           });
           return {
@@ -214,9 +213,8 @@ class CandidateDatabase extends Component<MyProps, MyState> {
     // Bulk Submit Function
     const hanldeBulkSubmit = () => {
       this.props.setmodel(false);
-      if (this.props.isjdId !== '0' 
-        ){
-           formData.append('jd_id', this.props.isjdId);
+      if (this.props.isjdId !== '0') {
+        formData.append('jd_id', this.props.isjdId);
       }
       if (
         this.props.candidatesLimit !== null &&
@@ -230,10 +228,9 @@ class CandidateDatabase extends Component<MyProps, MyState> {
           .then(() => {
             handleClear();
             this.props.hanldeParsing();
-            this.setState({isMb:false})
+            this.setState({ isMb: false });
           })
           .catch(() => {});
-          
       }
       this.props.setmodel(false);
     };
@@ -253,67 +250,127 @@ class CandidateDatabase extends Component<MyProps, MyState> {
     // File drag and drop Function
 
     const checkSelectLength = this.state.files.length === 0 ? false : true;
- const checkSelectLength500 = this.state.files.length < 501 ? true : false;
+    const checkSelectLength500 = this.state.files.length < 501 ? true : false;
     return (
       <>
-      <Flex  center >
-      <Text  bold size={14}> Add Attachment </Text>
-        <CancelAndDeletePopup
-          title={'Are you sure want to delete the files?'}
-          btnCancel={() => this.setState({ bulkDelete: false })}
-          btnDelete={() => {
-            handleClear();
-            this.setState({ bulkDelete: false });
-          }}
-          open={this.state.bulkDelete}
-        />
-        <div
-          onDragOver={dragOver}
-          onDragEnter={dragEnter}
-          onDragLeave={dragLeave}
-          onDrop={fileDrop}
-          className={styles.dragOver}
-        >
-          <Flex center middle={!checkSelectLength} className={this.props.isjdId !== '0' ? styles.boxBorder : styles.boxBorderNone}>
-            <input
-              type="file"
-              multiple
-              id="applicant__file_upload"
-              ref={this.fileUploaderRef}
-              onChange={fileUpload}
-              disabled = {this.props.isjdId === '0'}
-              className={styles.displayNone}
-              accept=".doc,.docx,.pdf,.txt"
-            />
+        <Flex center>
+          <Text bold size={14}>
+            {' '}
+            Add Attachment{' '}
+          </Text>
+          <CancelAndDeletePopup
+            title={'Are you sure want to delete the files?'}
+            btnCancel={() => this.setState({ bulkDelete: false })}
+            btnDelete={() => {
+              handleClear();
+              this.setState({ bulkDelete: false });
+            }}
+            open={this.state.bulkDelete}
+          />
+          <div
+            onDragOver={dragOver}
+            onDragEnter={dragEnter}
+            onDragLeave={dragLeave}
+            onDrop={fileDrop}
+            className={styles.dragOver}
+          >
+            <Flex
+              center
+              middle={!checkSelectLength}
+              className={
+                this.props.isjdId !== '0'
+                  ? styles.boxBorder
+                  : styles.boxBorderNone
+              }
+            >
+              <input
+                type="file"
+                multiple
+                id="applicant__file_upload"
+                ref={this.fileUploaderRef}
+                onChange={fileUpload}
+                disabled={this.props.isjdId === '0'}
+                className={styles.displayNone}
+                accept=".doc,.docx,.pdf,.txt"
+              />
 
-            {checkSelectLength ? (
-              <Flex columnFlex>
-                <Flex row center wrap>
-                  {unique.length !==0 && unique.map((list: any, index:number) => {
-                    return (
-                      <Flex
-                        key={list.name + index}
-                        row
-                        center
-                        className={styles.listStyle}
+              {checkSelectLength ? (
+                <Flex columnFlex>
+                  <Flex row center wrap>
+                    {unique.length !== 0 &&
+                      unique.map((list: any, index: number) => {
+                        return (
+                          <Flex
+                            key={list.name + index}
+                            row
+                            center
+                            className={styles.listStyle}
+                          >
+                            <Text
+                              size={12}
+                              color={'primary'}
+                              style={{ width: '90px' }}
+                            >
+                              {index + 1}.{list.name.substring(0, 10) + '...'}
+                            </Text>
+                            <div
+                              tabIndex={-1}
+                              role={'button'}
+                              onKeyPress={() => {}}
+                              className={styles.svgClose}
+                              onClick={() => this.Delete(list.name)}
+                            >
+                              <SvgRoundClose
+                                fill={GARY_4}
+                                width={15}
+                                height={15}
+                              />
+                            </div>
+                          </Flex>
+                        );
+                      })}
+                  </Flex>
+                  <Flex>
+                    {this.state.isMb && (
+                      <Text
+                        align="center"
+                        size={12}
+                        color="error"
+                        style={{ marginTop: 4 }}
                       >
-                        <Text size={12} color={'primary'} style={{width:'90px'}}>
-                          {index + 1}.{list.name.substring(0, 10) + '...'}
-                        </Text>
-                        <div
-                          tabIndex={-1}
-                          role={'button'}
-                          onKeyPress={() => {}}
-                          className={styles.svgClose}
-                          onClick={() => this.Delete(list.name)}
-                        >
-                          <SvgRoundClose fill={GARY_4} width={15} height={15} />
-                        </div>
-                      </Flex>
-                    );
-                  })}
+                        {FILE_2MB}
+                      </Text>
+                    )}
+                  </Flex>
                 </Flex>
+              ) : (
                 <Flex>
+                  <Flex row center middle>
+                    <Text color="gray">{'Drag & Drop Resumes Here or'}</Text>
+                    <label
+                      className={
+                        this.props.isjdId !== '0'
+                          ? styles.labelStyle
+                          : styles.labelStyleNone
+                      }
+                      htmlFor={'applicant__file_upload'}
+                    >
+                      <Text
+                        color={this.props.isjdId !== '0' ? 'link' : 'gray'}
+                        bold
+                      >
+                        Browse Files
+                      </Text>
+                    </label>
+                  </Flex>
+                  <Text
+                    size={12}
+                    align="center"
+                    color="gray"
+                    className={styles.uploadStyle}
+                  >
+                    (Upload only.txt,.doc,.docx,.pdf formats)
+                  </Text>
                   {this.state.isMb && (
                     <Text
                       align="center"
@@ -325,96 +382,63 @@ class CandidateDatabase extends Component<MyProps, MyState> {
                     </Text>
                   )}
                 </Flex>
-              </Flex>
-            ) : (
-              <Flex>
-                <Flex row center middle>
-                  <Text color="gray">{'Drag & Drop Resumes Here or'}</Text>
-                  <label
-                    className={this.props.isjdId !== '0' ? styles.labelStyle : styles.labelStyleNone}
-                    htmlFor={'applicant__file_upload'}
-                  >
-                    <Text color={this.props.isjdId !== '0' ? 'link' : 'gray'} bold >Browse Files</Text>
-                  </label>
-                </Flex>
-                <Text
-                  size={12}
-                  align="center"
-                  color="gray"
-                  className={styles.uploadStyle}
-                >
-                  (Upload only.txt,.doc,.docx,.pdf formats)
-                </Text>
-                {this.state.isMb && (
-                  <Text
-                    align="center"
-                    size={12}
-                    color="error"
-                    style={{ marginTop: 4 }}
-                  >
-                    {FILE_2MB}
-                  </Text>
-                )}
-              </Flex>
-            )}
-          </Flex>
-        </div>
-       
-          {this.props.isBulkLoader === 'true' ? (
-            <Flex  row  between className={styles.btnContainer}>
-            <Flex row center className={styles.loaderStyle} style={{marginTop:'0px'}}>
-              <Loader size="medium" withOutOverlay />
-              <Text color="gray" style={{ marginLeft: 16,marginTop:'3px' }}>
-                Processing...
-              </Text>
+              )}
             </Flex>
+          </div>
+
+          {this.props.isBulkLoader === 'true' ? (
+            <Flex row between className={styles.btnContainer}>
+              <Flex
+                row
+                center
+                className={styles.loaderStyle}
+                style={{ marginTop: '0px' }}
+              >
+                <Loader size="medium" withOutOverlay />
+                <Text color="gray" style={{ marginLeft: 16, marginTop: '3px' }}>
+                  Processing...
+                </Text>
+              </Flex>
             </Flex>
           ) : (
             <Fragment>
-            <Flex  row  between style={{marginTop:'10px'}} >
-            <Flex>
-           
-            {checkSelectLength && (
-              <Button
-                onClick={() => this.setState({ bulkDelete: true })}
-                className={styles.clearStyle}
-                width={'100%'}
-                types='secondary'
-              >
-                Clear All
-                </Button>
-            )}
-            </Flex>
-            <Flex row>
+              <Flex row between style={{ marginTop: '10px' }}>
+                <Flex>
+                  {checkSelectLength && (
                     <Button
-                    types='close'
+                      onClick={() => this.setState({ bulkDelete: true })}
+                      className={styles.clearStyle}
+                      width={'100%'}
+                      types="secondary"
+                    >
+                      Clear All
+                    </Button>
+                  )}
+                </Flex>
+                <Flex row>
+                  <Button
+                    types="close"
                     onClick={() => this.props.setmodel(false)}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  disabled={!checkSelectLength || !checkSelectLength500}
-                  className={styles.btnStyle}
-                  onClick={hanldeBulkSubmit}
-                >
-                  Bulk Import
-                </Button>
-               
-            
-            </Flex>
-            </Flex>
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    disabled={!checkSelectLength || !checkSelectLength500}
+                    className={styles.btnStyle}
+                    onClick={hanldeBulkSubmit}
+                  >
+                    Bulk Import
+                  </Button>
+                </Flex>
+              </Flex>
             </Fragment>
-          )} 
-       
+          )}
         </Flex>
-      {(checkSelectLength && !checkSelectLength500) && (
-      <Text
-                  size={12}
-                  style={{ color: 'red', paddingTop: 4 }}
-                >
-                  You can import only up to 500 resumes at a time.
-                </Text>
-                )}
+        {checkSelectLength && !checkSelectLength500 && (
+          <Text size={12} style={{ color: 'red', paddingTop: 4 }}>
+            You can import only up to 500 resumes at a time.
+          </Text>
+        )}
       </>
     );
   }
