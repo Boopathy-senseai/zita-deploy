@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Modal from '../../uikit/Modal/Modal';
 import Text from '../../uikit/Text/Text';
 import Flex from '../../uikit/Flex/Flex';
+import Loader from '../../uikit/Loader/Loader';
 import { InputCheckBox, LinkWrapper, SelectTag } from '../../uikit';
 import Button from '../../uikit/Button/Button';
 import { AppDispatch, RootState } from '../../store';
@@ -39,6 +40,7 @@ const PipelinePopup = ({
     value: number;
   } | null>(null);
   const [defaultAll, setDefaultAll] = useState<boolean>(false);
+  const [isapplyBtnLoader, setapplyBtnLoader] = useState(false);
 
   const { pipelineData, isLoading } = useSelector(
     ({ pipelinePageReducers, templatePageReducers }: RootState) => ({
@@ -114,15 +116,25 @@ const PipelinePopup = ({
           <Button className={styles.cancel} types={'primary'} onClick={onClose}>
             Cancel
           </Button>
-          <Button className={styles.update} onClick={handleUpdate}>
+          {/* <Button className={styles.update} onClick={handleUpdate}>
             Apply
-          </Button>
+          </Button> */}
+          {isapplyBtnLoader ? (
+            <Flex className={styles.applyBtnLoader}>
+              <Loader size="small" withOutOverlay />
+            </Flex>
+          ) : ( 
+            <Button className={styles.update} onClick={handleUpdate}>
+              Apply
+            </Button>
+          )}
         </Flex>
       </Flex>
     </Modal>
   );
 
   function handleUpdate() {
+    setapplyBtnLoader(true)
     if (jd_id && selectValue) {
       dispatch(
         getKanbanStagesMiddleWare({
@@ -130,11 +142,12 @@ const PipelinePopup = ({
           workflow_id: selectValue.value,
           default_all: defaultAll,
         }),
-      ).then(() => {
+      )
+      .then(() => {
         onSuccessClose();
       });
     }
-    ///
+    setapplyBtnLoader(false)
   }
 };
 export default PipelinePopup;

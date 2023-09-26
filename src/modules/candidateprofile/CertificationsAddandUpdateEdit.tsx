@@ -7,6 +7,7 @@ import { AppDispatch } from '../../store';
 import Button from '../../uikit/Button/Button';
 import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
 import Flex from '../../uikit/Flex/Flex';
+import Loader from '../../uikit/Loader/Loader';
 import { isEmpty } from '../../uikit/helper';
 import InputText from '../../uikit/InputText/InputText';
 import Modal from '../../uikit/Modal/Modal';
@@ -59,11 +60,13 @@ const CertificationsAddandUpdateEdit = ({
   open,
 }: Props) => {
   const [isReload, setReload] = useState(false);
+  const [isBtnLoader, setBtnLoader] = useState(false);
 
   const dispatch: AppDispatch = useDispatch();
 
   // form submit function
   const handleSubmit = (values: certificateFormikProps) => {
+    setBtnLoader(true)
     if (isUpdate) {
       dispatch(
         courseUpdateMiddleWare({
@@ -116,6 +119,9 @@ const CertificationsAddandUpdateEdit = ({
         }
       });
     }
+    setTimeout(() => {
+      setBtnLoader(false)
+    }, 1000)
   };
 
   const formik = useFormik({
@@ -253,9 +259,18 @@ const CertificationsAddandUpdateEdit = ({
           </Flex>
         </Flex>
         <Flex end>
-          <Button onClick={formik.handleSubmit}>
+          {/* <Button onClick={formik.handleSubmit}>
             {isUpdate ? 'Update' : 'Add'}
-          </Button>
+          </Button> */}
+          {isBtnLoader ? (
+            <Flex className={isUpdate ? styles.btnloader : styles.btnloader1}>
+              <Loader size="small" withOutOverlay />
+            </Flex>
+          ) : (
+            <Button onClick={formik.handleSubmit}>
+              {isUpdate ? 'Update' : 'Add'}
+            </Button>
+          )}
         </Flex>
       </Flex>
     </Modal>
