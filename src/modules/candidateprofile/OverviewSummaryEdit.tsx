@@ -52,7 +52,7 @@ const OverViewSummary = ({ obj, isProfileView, overview }: Props) => {
               >
                 <SvgEdit fill={PRIMARY} width={14} height={14} />
               </div>
-              {overview.length > 0 ? <td
+              {overview && overview.length > 0 ? <td
                 className={styles.commentTextStyle}
                 dangerouslySetInnerHTML={{
                   __html: overview,

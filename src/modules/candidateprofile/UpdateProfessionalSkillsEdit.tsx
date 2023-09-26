@@ -62,8 +62,7 @@ const UpdateProfessionalSkillsEdit = ({
 
  
   const { skills_list, skills, soft_skills } = useSelector(
-    ({ techSkillReducers }: RootState) => {
-      console.log(techSkillReducers.soft_skills)
+    ({ techSkillReducers }: RootState) => { 
       return {
         skills_list: techSkillReducers.skills_list,
         skills: techSkillReducers.skills,
@@ -72,12 +71,10 @@ const UpdateProfessionalSkillsEdit = ({
     },
   );
 
-  const softSkillArray = [skills?.soft_skill];
+  const softSkillArray =techSkills && techSkills?.skills?.soft_skill
 
   const techSkillUpdate =
-    obj &&
-    obj?.skills &&
-    obj?.skills.map((techList) => {
+  techSkills && techSkills?.skills?.tech_skill?.replace(',,', ',')?.split(',')?.map((techList) => {
       return { value: techList, label: techList };
     });
 
@@ -85,10 +82,7 @@ const UpdateProfessionalSkillsEdit = ({
     techSkillUpdate && techSkillUpdate.filter((x) => x.value !== '');
 
   const softSkillUpdate =
-    Array.isArray(softSkillArray) &&
-    softSkillArray
-      .toString()
-      .split(',')
+  softSkillArray?.replace(',,', ',')?.split(',')
       .map((softList) => {
         return softList === undefined || softList === ''
           ? { value: '', label: '' }
@@ -316,8 +310,7 @@ const UpdateProfessionalSkillsEdit = ({
           name="techSkill"
           touched={formik.touched}
           errors={formik.errors}
-        />
-        {console.log(soft_skills, "======")}
+        /> 
         <div className={styles.softSkillFlex}>
           <SelectTag
             label="Soft Skills"
