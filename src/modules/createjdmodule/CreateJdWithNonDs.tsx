@@ -157,12 +157,16 @@ const CreateJdWithNonDs = () => {
     country: '',
     state: '',
     city: '',
+
+    skills: [],
     remoteWork: '0',
     minimumSalary: '',
     maximumSalary: '',
     currency: '',
     showSalaryCandidates: '0',
-    industryType: '1',
+    industryType: ' ',
+    IndustryType: '',
+    work_space_type: '',
     nonDsSkill: [],
     skillData: {
       dataBaseTags: [],
@@ -171,6 +175,8 @@ const CreateJdWithNonDs = () => {
       othersTags: [],
       programTags: [],
     },
+    onsite: '',
+    hybrid: ''
   };
 
   // open template function
@@ -240,6 +246,7 @@ const CreateJdWithNonDs = () => {
             touched,
           }) => (
             <Form>
+              {console.log("formik formik+++===",values)}
               <Flex className={styles.cardOverAll}>
                 <JobDescriptionTemplate
                   jdTemplates={jdTemplates}

@@ -10,6 +10,11 @@ export const qualificationData = [
   { value: 'Doctorate', label: 'Doctorate' },
   { value: 'Any', label: 'Any' },
 ];
+export const workspacetype = [
+  { value: '1', label: 'Onsite' },
+  { value: '2', label: 'Hybrid' },
+  { value: '3', label: 'Remote' },
+];
 
 export const industryType = [
   { value: '1', label: 'Any' },

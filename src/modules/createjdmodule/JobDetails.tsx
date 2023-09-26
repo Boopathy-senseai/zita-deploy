@@ -26,7 +26,7 @@ import {
 } from '../constValue';
 import styles from './jobdetails.module.css';
 import type { dsFormProps } from './formikTypes';
-import { currencyData, jobTypeData } from './mock';
+import { currencyData, jobTypeData, workspacetype } from './mock';
 import QulificationAdd from './QulificationAdd';
 import {
   CityEntity,
@@ -90,6 +90,7 @@ const JobDetails = ({
   const [getCity, setCity] = useState<CityEntity[]>([]);
   const [isSelectOpen, setIsSelectOpen] = useState(false);
   const [isSelectCurrOpen, setIsSelectCurrOpen] = useState(false);
+ 
   useEffect(() => {
     if (!isEmpty(values.country)) {
       dispatch(locationStateMiddleWare({ country: values.country })).then(
@@ -153,8 +154,8 @@ const JobDetails = ({
       'showSalaryCandidates',
       jd_output.show_sal_to_candidate === true ? '1' : '0',
     );
-    if (jd_output.industry_type_id !== 1) {
-      setFieldValue('industryType', jd_output.industry_type_id.toString());
+    if (jd_output.industry_type_name !== '') {
+      setFieldValue('industryType', jd_output.industry_type_name);
     }
     if (updateLocation.country_id !== 0) {
       setFieldValue('country', updateLocation.country_id);
@@ -165,6 +166,17 @@ const JobDetails = ({
     if (updateLocation.city_id !== 0) {
       setFieldValue('city', updateLocation.city_id);
     }
+    if (jd_output.work_space_type=== '1') {
+      setFieldValue('work_space_type', jd_output.work_space_type.toString());
+    }
+    if (jd_output.work_space_type=== '2') {
+      setFieldValue('work_space_type', jd_output.work_space_type.toString());
+    }
+    if (jd_output.work_space_type=== '3') {
+      setFieldValue('work_space_type', jd_output.work_space_type.toString());
+    }
+
+
   }, [jd_output]);
 
   // error focus input function
@@ -201,7 +213,7 @@ const JobDetails = ({
       getFocus('jobdetails___maximumSalary');
     }
   };
-
+  const correct=values.work_space_type==='3';
   return (
     <Flex className={styles.overAll} style={{ paddingBottom: isSelectOpen ? '20px' : '0'&& isSelectCurrOpen ? "90px" : "0"}}>
       <Flex >
@@ -296,13 +308,36 @@ const JobDetails = ({
         </Flex>
       </Flex>
       <Flex row top className={styles.containerOne}>
+        
         <Flex flex={3} className={styles.margin16}>
           <SelectTag
+            inputId="jobdetails___state"
+            isSearchable
+            options={workspacetype}
+            label="Work Space Type"
+            required
+            value={
+              workspacetype
+                ? workspacetype.find(
+                    (option) => option.value === values.work_space_type,
+                  )
+                : ''
+            }
+            onChange={(option) => {
+              setFieldValue('work_space_type', option.value);
+            }}
+          />
+          <ErrorMessage name={'work_space_type'} errors={errors} touched={touched}/>
+        </Flex>
+
+        <Flex flex={3} className={styles.margin16}>
+          {console.log("getCountrygetCountry",getCountry)}
+        <SelectTag
             isSearchable
             inputId="jobdetails___country"
             options={getCountry}
             label="Country"
-            required
+            required={correct?false:true}
             value={
               getCountry
                 ? getCountry.find(
@@ -330,7 +365,7 @@ const JobDetails = ({
             isSearchable
             options={getState}
             label="State"
-            required
+            required={correct?false:true}
             getOptionValue={(option: { id: number }) => `${option.id}`}
             getOptionLabel={(option: { name: string }) => option.name}
             value={
@@ -358,7 +393,7 @@ const JobDetails = ({
             isSearchable
             options={getCity}
             label="City"
-            required
+            required={correct?false:true}
             getOptionValue={(option: { id: number }) => `${option.id}`}
             getOptionLabel={(option: { name: string }) => option.name}
             value={
@@ -377,18 +412,7 @@ const JobDetails = ({
           />
           <ErrorMessage name={'city'} errors={errors} touched={touched} />
         </Flex>
-        <Flex row flex={3} className={styles.showStyle}>
-          <InputSwitch
-            label="Remote Work Allowed"
-            checked={values.remoteWork === '1'}
-            onClick={() =>
-              values.remoteWork === '0'
-                ? setFieldValue('remoteWork', '1')
-                : setFieldValue('remoteWork', '0')
-            }
-          />
-          {/* <Text size={14} color="theme">Remote Work Allowed</Text> */}
-        </Flex>
+        
       </Flex>
       <Flex row top className={styles.containerOne}>
         <Flex flex={3} className={styles.margin16}>
@@ -474,6 +498,7 @@ const JobDetails = ({
               )}
             </Flex>
             <Flex flex={3} className={styles.margin16}>
+          
               <SelectTag
                 options={currencyData}
                 label="Currency"
