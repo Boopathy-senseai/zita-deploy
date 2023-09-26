@@ -12,6 +12,7 @@ import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
 import InputText from '../../uikit/InputText/InputText';
 import SelectTag from '../../uikit/SelectTag/SelectTag';
 import InputSwitch from '../../uikit/Switch/InputSwitch';
+import { Loader } from '../../uikit';
 import {
   CANCEL,
   ENTER_GREATER_0,
@@ -61,6 +62,9 @@ type Props = {
   handleSubmit: (e?: FormEvent<HTMLFormElement> | undefined) => void;
   setVacancies: (arg: boolean) => void;
   setDrftLoader: (arg: boolean) => void;
+  isDrftLoader?: any;
+  setNextLoader:(arg: boolean) => void;
+  isNextLoader:any;
   errors: any;
   setDraftSave?: any;
   touched: any;
@@ -79,6 +83,9 @@ const JobDetails = ({
   handleSubmit,
   setVacancies,
   setDrftLoader,
+  isDrftLoader,
+  setNextLoader,
+  isNextLoader,
   errors,
   touched,
   setDraftSave,
@@ -201,6 +208,20 @@ const JobDetails = ({
       getFocus('jobdetails___maximumSalary');
     }
   };
+
+  const loaderfunction=()=>{
+   if( Object.keys(errors).length === 0){
+    setDrftLoader(true)
+   } 
+  }
+
+  const loaderfunctionnext=()=>{
+    if( Object.keys(errors).length === 0){
+      setNextLoader(true)
+     } 
+  }
+  const [isCancelLoader, setCancelLoader] = useState(false)
+
 
   return (
     <Flex className={styles.overAll} style={{ paddingBottom: isSelectOpen ? '20px' : '0'&& isSelectCurrOpen ? "90px" : "0"}}>
@@ -526,20 +547,33 @@ const JobDetails = ({
         </Flex>
       <Flex>
         <Flex row center end className={styles.btnContainer}>
+        {isCancelLoader ? (
+            <Flex className={styles.updateBtnLoader}>
+              <Loader size="small" withOutOverlay />
+            </Flex>
+          ) : (
           <LinkWrapper
-            onClick={() => onPristine()}
+            onClick={() => {onPristine();
+            setCancelLoader(true)
+            }}
             to={routesPath.MY_JOB_POSTING}
           >
             <Button className={styles.cancelbtn} types="close">
               {CANCEL}
             </Button>
-          </LinkWrapper>
+          </LinkWrapper>)}
 
+          {isDrftLoader ? (
+            <Flex className={styles.updateBtnLoader}>
+              <Loader size="small" withOutOverlay />
+            </Flex>
+          ) : (
           <Button
             onClick={() => {
-              setDrftLoader(true)
+              loaderfunction()
+             // setDrftLoader(true)
               setDraftSave(true);
-              setDrftLoader(false);
+              //setDrftLoader(false);
               onPristine();
               setVacancies(false);
               hanldeErrorFocus();
@@ -551,21 +585,29 @@ const JobDetails = ({
             className={styles.draftBtn}
           >
             Save as draft
-          </Button>
+          </Button>)}
+          {isNextLoader ? (
+            <Flex className={styles.updateBtnLoader}>
+              <Loader size="small" withOutOverlay />
+            </Flex>
+          ) : (
           <Button
             onClick={() => {
               onPristine();
+              loaderfunctionnext();
               setDraftSave(false);
               setVacancies(true);
               hanldeErrorFocus();
               setTimeout(() => {
                 handleSubmit();
               }, 200);
-              setDrftLoader(true);
+             // setNextLoader(true);
+        
+            //  setDrftLoader(true);
             }}
           >
             Next
-          </Button>
+          </Button>)}
         </Flex>
       </Flex>
     </Flex>

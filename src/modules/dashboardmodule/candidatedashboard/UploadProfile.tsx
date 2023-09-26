@@ -158,7 +158,8 @@ const UploadProfile = ({ profile, setMb,circle }: Props) => {
             >
               <SvgUpload />
               <Text
-                color="black"
+                color="theme"
+                bold
                 align="center"
                 style={{ paddingLeft: 4, paddingRight: 4 }}
               >
