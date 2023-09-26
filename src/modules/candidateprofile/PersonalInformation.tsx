@@ -183,16 +183,16 @@ const PersonalInformation = ({
   //   dispatch(personalInformationMiddleware({emp_id: params.empId}));
   // })
   useEffect(() => { 
-      if (!isEmpty(personal.firstname)) {
+      if (!isEmpty(personal.firstname)&&personal.firstname !== 'None') {
         formik.setFieldValue('firstName', personal.firstname);
       }
-      if (!isEmpty(personal.lastname)) {
+      if (!isEmpty(personal.lastname)&&personal.lastname !== 'None') {
         formik.setFieldValue('lastName', personal.lastname);
       }
       if (!isEmpty(personal.email)&&personal.email !== 'None' ) {
         formik.setFieldValue('email', personal.email);
       }
-      if (!isEmpty(personal.contact_no)) {
+      if (!isEmpty(personal.contact_no) &&personal.contact_no !== 'None') {
         formik.setFieldValue('phone', personal.contact_no.toString());
       } 
       if (!isEmpty(personal.linkedin_url) &&personal.linkedin_url !== 'None' ) {
