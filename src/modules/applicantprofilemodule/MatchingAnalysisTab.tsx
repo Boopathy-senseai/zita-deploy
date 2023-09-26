@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
+import { Card } from '../../uikit';
 import SvgDone from '../../icons/SvgDone';
 import SvgClose from '../../icons/Svgnotmatch';
 import ProgressBar from '../../uikit/ProgressBar/ProgressBar';
@@ -117,12 +118,20 @@ const MatchingAnalysisTab = () => {
   );
   const [isCollapse, setCollapse] = useState(false);
   const [isloadings, setisloading] = useState(false);
-  const [expandedIndex, setExpandedIndex] = useState(null);
+  const [expandedIndex, setExpandedIndex] = useState([]);
   const dispatch: AppDispatch = useDispatch();
 
   const handleToggleCollapse = (index) => {
-    setExpandedIndex((prevIndex) => (prevIndex === index ? null : index));
+    setExpandedIndex((prevIndexes) =>
+      prevIndexes.includes(index)
+        ? prevIndexes.filter((prevIndex) => prevIndex !== index)
+        : [...prevIndexes, index]
+    );
   };
+   
+  useEffect(() => { 
+    setExpandedIndex([]);
+  }, []);
 
   useEffect(() => {
     if (isLoading === true) {
@@ -148,7 +157,7 @@ const MatchingAnalysisTab = () => {
     <Flex row flex={12} height={window.innerHeight - 120}>
       {isloadings && <Loader />}
       <Flex flex={6} className={styles.overAll}>
-        <Flex row between>
+        <Flex row between style={{padding:'16px 16px 0px 16px'}}>
           <Flex>
             <Flex>
               <Text bold style={{ fontSize: '14px', marginBottom: '5px' }}>
@@ -167,7 +176,7 @@ const MatchingAnalysisTab = () => {
                 verticalWidth={'100px'}
                 roundProgressHeight={45}
                 type="round"
-                percentage={aidata &&aidata[0].overall_percentage}
+                percentage={aidata && aidata[0].overall_percentage}
               />
             </Flex>
           ) : (
@@ -178,7 +187,7 @@ const MatchingAnalysisTab = () => {
         </Flex>
         {!ai_matching ? (
           <>
-            <Flex center>
+            <Flex center style={{padding:'0px 16px 0px 16px'}}>
               <Flex
                 row
                 between
@@ -254,7 +263,7 @@ const MatchingAnalysisTab = () => {
 
             <Flex
               height={window.innerHeight - 295}
-              style={{ overflow: 'scroll', display: 'flex' }}
+              style={{ overflow: 'scroll', display: 'flex',padding:'0px 16px 0px 16px'}}
             >
               {data && (
                 <Flex className={styles.mapListContainer}>
@@ -445,72 +454,76 @@ const MatchingAnalysisTab = () => {
             <Flex
               style={{
                 borderBottom: '1px solid #C3C3C3',
+                margin:'0px 16px'
               }}
             ></Flex>
-            <Flex marginTop={7} style={{ overflow: 'scroll', display: 'flex' }}>
+            <Flex marginTop={7} style={{ overflow: 'scroll', display: 'flex',padding:'0px 0px 0px 16px' }}>
               {aidata && aidata[0].title !== '' && (
                 <Flex
-                  height={window.innerHeight - 185}
-                  style={{ overflow: 'scroll', display: 'flex' }}
+                  height={window.innerHeight - 155}
+                  style={{ overflow: 'scroll', display: 'flex',padding:'0px 10px 0px 0px' }}
                 >
                   {aidata &&
                     aidata.map((matchdata, index) => {
                       return (
                         <>
-                          <Flex className={styles.mapListContainer}>
-                            <Flex
-                              row
-                              center
-                              between
-                              className={styles.dataListStyle}
-                            >
-                              <Flex flex={3}>
-                                <Text className={styles.titleStyle}>
-                                  {matchdata.title}
-                                </Text>
-                              </Flex>
-                              <Flex row>
-                                <Flex marginRight={20}>
-                                  <ProgressBar
-                                    matchingpercentage
-                                    verticalWidth={'100px'}
-                                    type="hr"
-                                    percentage={matchdata.percentage}
-                                  />
-                                </Flex>
-                                <Flex
-                                  onClick={() => handleToggleCollapse(index)}
-                                  center
-                                  middle
-                                  style={{ cursor: 'pointer' }}
-                                >
-                                  <SvgAngle
-                                    width={12}
-                                    height={12}
-                                    fill="#581845"
-                                    up={expandedIndex === index}
-                                  />
-                                </Flex>
-                              </Flex>
-                            </Flex>
-                            {expandedIndex === index && (
+                          <Card className={styles.cardchanging}>
+                            <Flex className={styles.mapListContainer}>
                               <Flex
-                                style={{
-                                  flexWrap: 'wrap',
-                                  overflow: ' hidden',
-                                  textOverflow: 'clip',
-                                  fontSize: 13,
-                                }}
+                                row
+                                center
+                                between
+                                className={styles.dataListStyleai}
                               >
-                                <td
-                                  className={styles.textwrap}
-                                  dangerouslySetInnerHTML={{
-                                    __html: matchdata.description,
-                                  }}
-                                />
+                                <Flex flex={3} center>
+                                  <Text className={styles.titleStyle}>
+                                    {matchdata.title.replaceAll('_', ' ')}
+                                  </Text>
+                                </Flex>
+                                <Flex row center>
+                                  <Flex marginRight={20}>
+                                    <ProgressBar
+                                      matchingpercentage
+                                      verticalWidth={'100px'}
+                                      type="hr"
+                                      percentage={matchdata.percentage}
+                                    />
+                                  </Flex>
+                                  <Flex
+                                    onClick={() => handleToggleCollapse(index)}
+                                    center
+                                    middle
+                                    style={{ cursor: 'pointer' }}
+                                  >
+                                    <SvgAngle
+                                      width={12}
+                                      height={12}
+                                      fill="#581845"
+                                      up={expandedIndex?.includes(index)}
+                                    />
+                                  </Flex>
+                                </Flex>
                               </Flex>
-                            )}
-                          </Flex>{' '}
+                              {expandedIndex?.includes(index) && (
+                                <Flex
+                                  style={{
+                                    flexWrap: 'wrap',
+                                    overflow: ' hidden',
+                                    textOverflow: 'clip',
+                                    fontSize: 12,
+                                  }}
+                                  marginTop={5}
+                                >
+                                  <td
+                                    className={styles.textwrap}
+                                    dangerouslySetInnerHTML={{
+                                      __html: matchdata.description,
+                                    }}
+                                  />
+                                </Flex>
+                              )}
+                            </Flex>{' '}
+                          </Card>
                         </>
                       );
                     })}
