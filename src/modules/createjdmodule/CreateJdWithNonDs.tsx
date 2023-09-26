@@ -47,6 +47,7 @@ const CreateJdWithNonDs = () => {
   const [isVacancies, setVacancies] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars-experimental
   const [isDrftLoader, setDrftLoader] = useState(false);
+  const [isNextLoader, setNextLoader] = useState(false);
   const [isDraftSave, setDraftSave] = useState(false);
   const { routerPrompt, onDirty, onPristine } = useUnsavedChangesWarning();
 
@@ -279,9 +280,12 @@ const CreateJdWithNonDs = () => {
                 setFieldValue={setFieldValue}
                 getCountry={isGetCountry}
                 jd_output={jd_output}
+                isDrftLoader={isDrftLoader}
                 updateLocation={updateLocation}
                 updateQualification={updateQualification}
                 handleSubmit={handleSubmit}
+                setNextLoader={setNextLoader}
+                isNextLoader={isNextLoader}
                 setVacancies={setVacancies}
                 setDrftLoader={setDrftLoader}
                 errors={errors}

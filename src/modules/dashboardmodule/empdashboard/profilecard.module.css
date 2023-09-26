@@ -190,7 +190,7 @@ align-items: center; */
 .changeStyle {
   position: absolute;
   border-radius: 4px;
-  background-color: rgba(196, 196, 196, 0.8);
+  background-color: rgba(196, 196, 196, 1.0);
   cursor: pointer;
   height: 120px;
   width: 120px;

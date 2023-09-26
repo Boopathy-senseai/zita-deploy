@@ -60,7 +60,7 @@
 .changeStyle {
   position: absolute;
   border-radius: 4px;
-  background-color: rgba(196, 196, 196, 0.8);
+  background-color: rgba(196, 196, 196, 1.8);
   cursor: pointer;
   height: 120px;
   width: 120px;

@@ -122,6 +122,7 @@ const CreateJdWithDs = () => {
   const [isDraftSave, setDraftSave] = useState(false);
   const [isCancel, setCancel] = useState(false);
   const { routerPrompt, onDirty, onPristine } = useUnsavedChangesWarning();
+  const [isNextLoader, setNextLoader] = useState(false);
 
   const {
     job_title,
@@ -483,6 +484,7 @@ const CreateJdWithDs = () => {
         <UploadJd />
         <RoleRecommendation
           isRole={isRole}
+          setNextLoader={setNextLoader}
           cancel={() => setRole(false)}
           setMiss={setMiss}
           profile_value={profile_value}
@@ -639,6 +641,9 @@ const CreateJdWithDs = () => {
                   handleSubmit={handleSubmit}
                   setVacancies={setVacancies}
                   setDrftLoader={setDrftLoader}
+                  setNextLoader={setNextLoader}
+                  isNextLoader={isNextLoader}
+                  isDrftLoader={isDrftLoader}
                   errors={errors}
                   touched={touched}
                   setDraftSave={setDraftSave}

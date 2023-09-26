@@ -311,7 +311,7 @@ const ProfileCard = () => {
       if (res.payload.data.success) {
         dispatch(dashBoardMiddleWare()).then(() => {
           setLoader(false);
-          Toast('Profile Removed successfully', 'LONG', 'success');
+          Toast('Logo removed successfully', 'LONG', 'success');
         });
         setShow(false);
       }
@@ -379,13 +379,14 @@ const ProfileCard = () => {
                   <Flex columnFlex center middle className={styles.changeStyle}>
                     <SvgUpload />
                     <Text
-                      color="black"
+                      color="theme"
+                      bold
                       align="center"
                       style={{ paddingLeft: 4, paddingRight: 4 }}
                     >
                       {isEmpty(logoPath) || logoPath === 'logo.png'
                         ? 'Upload Your Company Logo'
-                        : 'Change Company Logo'}
+                        : 'Change Logo'}
                     </Text>
                   </Flex>
                 )}
