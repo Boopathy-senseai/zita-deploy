@@ -13,19 +13,19 @@
   min-height: 80px;
   height: 135px;
 }
-.uploadpopup{
+.uploadpopup {
   width: 450px;
   height: 262px;
-  background-color:#ffffff;
+  background-color: #ffffff;
   padding: 25px;
   border-radius: 4px;
 }
-.uploadpopup1{
-  width: 750px;
-  height: 420px;
-  background-color:#ffffff;
-  padding: 25px;
-  border-radius: 4px;
+.uploadpopup1 {
+  width: 1200px;
+  height: 600px;
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 5px;
 }
 .labelStyle {
   margin: 0;
@@ -60,10 +60,10 @@
   margin-bottom: 24px;
   font-weight: bold;
 } */
-.innerFlex{
+.innerFlex {
   position: relative;
 }
-.uploadjdfilebox{
+.uploadjdfilebox {
   margin-right: 8px;
   border: 1px solid #333333;
   padding: 5px;
@@ -71,9 +71,54 @@
   border-radius: 3px;
 }
 
-.uploadjdfiletext{
+.uploadjdfiletext {
   width: 90px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.section1 {
+  flex-basis: 35%;
+}
+.section2 {
+  flex-basis: 5%;
+}
+
+.section3 {
+  flex-basis: 60%;
+}
+
+.row_bottom {
+  padding-bottom: 15px;
+}
+.cards {
+  height: 450px;
+}
+
+.line1 {
+  border: none;
+  width: 1px; /* Set the desired width for the line */
+  height: 10px;
+  margin: 10px;
+  background-color: red; /* Set the desired color for the line */
+  position: absolute;
+}
+.line2 {
+  border: none;
+  width: 1px; /* Set the desired width for the line */
+  margin: 10px;
+  height: 10px;
+  background-color: #000; /* Set the desired color for the line */
+  position: absolute;
+}
+.line {
+  width: 2px; /* Adjust the width of the vertical line */
+  height: 100px; /* Adjust the height of the vertical line */
+  background-color: black; /* Adjust the color of the vertical line */
 }
