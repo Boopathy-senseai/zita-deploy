@@ -19,7 +19,6 @@ type MyProps = {
   candidatesLimit: number;
   isjdId?: number;
   setmodel?: any;
-  verifymodel?: any;
 };
 
 type MyState = {
@@ -29,7 +28,6 @@ type MyState = {
   setListName: any[];
   isMb: boolean;
   setmodel?: any;
-  verifymodel?: any;
 };
 
 class CandidateDatabase extends Component<MyProps, MyState> {
@@ -222,8 +220,6 @@ class CandidateDatabase extends Component<MyProps, MyState> {
     // Bulk Submit Function
     const hanldeBulkSubmit = () => {
       this.props.setmodel(false);
-      this.props.verifymodel();
-
       if (
         this.props.candidatesLimit !== null &&
         this.props.candidatesLimit < this.state.files.length
@@ -254,11 +250,6 @@ class CandidateDatabase extends Component<MyProps, MyState> {
       e.preventDefault();
     };
 
-    const cancel = () => {
-      this.props.setmodel(false);
-
-      this.props.verifymodel();
-    };
     // File drag and drop Function
 
     const checkSelectLength = this.state.files.length === 0 ? false : true;
@@ -266,7 +257,6 @@ class CandidateDatabase extends Component<MyProps, MyState> {
     return (
       <>
         <Flex center>
-          {console.log('verify', this.props.verifymodel)}
           <Text bold size={14}>
             Add Attachment
           </Text>
@@ -427,7 +417,10 @@ class CandidateDatabase extends Component<MyProps, MyState> {
                     )}
                   </Flex>
                   <Flex row className={styles.btnContainer}>
-                    <Button types="close" onClick={() => cancel()}>
+                    <Button
+                      types="close"
+                      onClick={() => this.props.setmodel(false)}
+                    >
                       Cancel
                     </Button>
 

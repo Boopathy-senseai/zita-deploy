@@ -156,9 +156,9 @@ const Maillist = ({
     if (sidebarroute !== 0) {
       setTimeout(() => {
         process();
-      }, 500);
+      }, 1000);
     }
-  }, [sidebarroute,integration]);
+  }, [sidebarroute, integration]);
 
   useEffect(() => {
     if (enterKey) {

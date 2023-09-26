@@ -11,7 +11,6 @@ import Flex from '../../uikit/Flex/Flex';
 import InputText from '../../uikit/InputText/InputText';
 import Tabel from '../../uikit/Table/Table';
 import Text from '../../uikit/Text/Text';
-import SvgClose from '../../icons/SvgClose';
 import Toast from '../../uikit/Toast/Toast';
 import SvgRefresh from '../../icons/SvgRefresh';
 import Pangination from '../../uikit/Pagination/Pangination';
@@ -80,7 +79,6 @@ const CandidateDatabaseTab = ({
 
   const dispatch: AppDispatch = useDispatch();
   const [model, setmodel] = useState(false);
-  const [verify, setverify] = useState(false);
   // const history=useHistory()
   // Profile View Function
 
@@ -315,16 +313,6 @@ const CandidateDatabaseTab = ({
       handleSubmit();
     }
   };
-
-  const update = () => {
-    setverify(false);
-  };
-
-  const closemodel = () => {
-    setverify(false);
-    setmodel(false);
-  };
-
   const value = emp_pool.length;
   const value1 = value > 4;
   const isBulkLoaderprocess = localStorage.getItem('bulk_loader');
@@ -401,58 +389,22 @@ const CandidateDatabaseTab = ({
       />
       <Modal open={model}>
         <Flex
-          className={verify === true ? styles.bulkmodel : styles.verifymodel}
+          style={{
+            backgroundColor: '#ffffff',
+            padding: '25px',
+            height: '320px',
+            width: '600px',
+            borderRadius: '4px',
+          }}
         >
-          <Flex end onClick={() => closemodel()}>
-            <SvgClose
-              width={10}
-              height={10}
-              fill={'#888888'}
-              cursor={'pointer'}
-            />
-          </Flex>
-          {verify === true ? (
-            <CandidateDatabase
-              setmodel={setmodel}
-              verifymodel={update}
-              hanldeParsing={hanldeParsing}
-              setParse={handleOpenParse}
-              isBulkLoader={localStorage.getItem('bulk_loader')}
-              setUpgrade={setUpgrade}
-              candidatesLimit={features_balance}
-            />
-          ) : (
-            <Flex style={{ marginTop: '10px' }}>
-              <Text bold size={14}>
-                Choose the Parser to parse your resume
-              </Text>
-              <Text style={{ marginTop: '10px' }}>
-                You don’t have enough parser credits, do you wish to buy
-                credits?
-              </Text>
-              <Flex column>
-                <Flex
-                  row
-                  style={{ justifyContent: 'space-evenly', marginTop: '25px' }}
-                >
-                  <Button
-                    types="secondary"
-                    className={styles.verifybutton}
-                    onClick={() => setverify(true)}
-                  >
-                    Basic Parser
-                  </Button>
-                  <Button
-                    className={styles.verifybutton}
-                    types="secondary"
-                    onClick={() => setverify(true)}
-                  >
-                    Advanced Parser
-                  </Button>
-                </Flex>
-              </Flex>
-            </Flex>
-          )}
+          <CandidateDatabase
+            setmodel={setmodel}
+            hanldeParsing={hanldeParsing}
+            setParse={handleOpenParse}
+            isBulkLoader={localStorage.getItem('bulk_loader')}
+            setUpgrade={setUpgrade}
+            candidatesLimit={features_balance}
+          />
         </Flex>
       </Modal>
 
