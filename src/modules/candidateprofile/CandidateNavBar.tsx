@@ -27,7 +27,8 @@ type Props = {
   obj?: Obj;
   isProfileView?: boolean;
   user_info?: UserInfo;
-  personal_obj?:any;
+  personal_obj?: any;
+  personal?: any;
   projects: ProjectsEntityOne[];
 };
 
@@ -37,6 +38,7 @@ const CandidateNavBar = ({
   personal_obj,
   user_info,
   projects,
+  personal,
 }: Props) => {
   const [isLoader, setLoader] = useState(false);
   const dispatch: AppDispatch = useDispatch();
@@ -44,7 +46,7 @@ const CandidateNavBar = ({
     setLoader(true);
     dispatch(
       downloadProfileMiddleWare({
-        can_id:personal_obj?.application_id?.toString(),
+        can_id: personal_obj?.application_id?.toString(),
       }),
     ).then((res) => {
       if (res.payload.file_path) {
@@ -103,13 +105,14 @@ const CandidateNavBar = ({
                 }
               />)
               } */}
-               <>
-                    <UploadProfile profile={obj?.profile_url} setMb={setMb}  circle/>
-                    {isMb && (
-                      <Text size={12} color="error" className={styles.fileErrorText}>
-                        {FILE_2MB}
-                      </Text>
-                    )}</>
+        <>
+          <UploadProfile profile={obj?.profile_url} setMb={setMb} circle />
+          {isMb && (
+            <Text size={12} color="error" className={styles.fileErrorText}>
+              {FILE_2MB}
+            </Text>
+          )}
+        </>
         <Flex columnFlex flex={1} between>
           <Flex row center>
             <Text
@@ -119,7 +122,9 @@ const CandidateNavBar = ({
               size={20}
               color="white"
             >
-              {obj?.full_name}
+              {`${personal && personal?.firstname} ${
+                personal && personal?.lastname
+              }`}
             </Text>
             {isProfileView && (
               <LinkWrapper
@@ -147,7 +152,7 @@ const CandidateNavBar = ({
 
             <LinkWrapper to="/">
               <div title="Back to Dashboard">
-                <SvgDashboardw height={20} width={20}/>
+                <SvgDashboardw height={20} width={20} />
               </div>
             </LinkWrapper>
           </Flex>
@@ -159,26 +164,26 @@ const CandidateNavBar = ({
                   <SvgPhone height={16} width={16} />
                 </div>
 
-                {!isEmpty(obj?.phone_no) &&
-                obj?.phone_no.toString() !== 'Not Specified' ? (
+                {!isEmpty(personal?.contact_no) &&
+                personal?.contact_no.toString() !== 'Not Specified' ? (
                   <div className={styles.phoneHide}>
                     <PhoneInput
                       inputClass={styles.phoneInput}
                       dropdownClass={styles.dropDownStyle}
-                      value={obj?.phone_no?.toString()}
+                      value={personal?.contact_no?.toString()}
                       // placeholder='Not Specified'
                     />
                   </div>
                 ) : (
                   <Text style={{ marginRight: 16 }} color="white" bold>
-                    {notSpecified(obj?.phone_no)}
+                    {notSpecified(personal?.contact_no)}
                   </Text>
                 )}
               </Flex>
               <Flex row center>
                 <SvgMail height={16} width={16} />
                 <Text color="white" bold style={{ marginLeft: 8 }}>
-                  {obj?.email}
+                  {personal?.email}
                 </Text>
               </Flex>
             </Flex>

@@ -21,7 +21,7 @@ import Button from '../../uikit/Button/Button';
 import { getBlur, getFocus, copyToClipboard, isEmpty } from '../../uikit/helper';
 import Pangination from '../../uikit/Pagination/Pangination';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
-import { jobSelect } from '../../appRoutesPath';
+import { jobCreateNonDs } from '../../appRoutesPath';
 // import SvgCopy from '../../icons/SvgCopy';
 // import { WHITE } from '../../uikit/Colors/colors';
 
@@ -195,7 +195,7 @@ const MyJobPostingScreen = () => {
               <Flex row className={styles.twobutton} marginRight={10}>
                 {' '}
                 {Permission.includes('create_post') && (
-                  <LinkWrapper to={jobSelect}>
+                  <LinkWrapper to={jobCreateNonDs}>
                     <Button className={styles.style1} types="primary">
                       Post Jobs
                     </Button>
@@ -309,7 +309,7 @@ const MyJobPostingScreen = () => {
               </Text>
             </Flex>
             <Flex center className={styles.postyet4}>
-              <LinkWrapper to={jobSelect}>
+              <LinkWrapper to={jobCreateNonDs}>
                 <Button className={styles.btnStyle} types="primary">
                   Post Jobs
                 </Button>{' '}

@@ -72,6 +72,7 @@ const CandidateProfileUpload = () => {
       }
       dispatch(resumeUploadMiddleWare({ formData })).then((res) => {
         if (res.payload.success) {
+          console.log(res.payload)
           dispatch(
             loginMiddleWare({
               username: res.payload.user_details.username,

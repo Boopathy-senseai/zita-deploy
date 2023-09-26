@@ -68,6 +68,11 @@ const initial: dsFormProps = {
     programTags: [],
   },
   skillValid: '',
+  skills: [],
+  onsite: '',
+  hybrid: '',
+  work_space_type: '',
+  IndustryType: ''
 };
 
 const CreateJdWithDs = () => {
@@ -480,7 +485,7 @@ const CreateJdWithDs = () => {
             </Text>
           </Flex>
         </Flex>
-        <UploadJd />
+      
         <RoleRecommendation
           isRole={isRole}
           cancel={() => setRole(false)}

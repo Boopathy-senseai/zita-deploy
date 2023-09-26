@@ -1,5 +1,7 @@
 import { memo, useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { ErrorMessage } from 'formik';
+import { AppDispatch, RootState } from '../../store';
 import SelectTag from '../../uikit/SelectTag/SelectTag';
 import LabelWrapper from '../../uikit/Label/LabelWrapper';
 import MenuLists from '../common/MenuList';
@@ -105,11 +107,28 @@ const NonDsSkill = ({
     }
   }, []);
 
+  // const {
+  //   jdTemplates,
+  // } = useSelector(
+  //   ({
+     
+  //     jdTemplatesReducers,
+      
+  //   }: RootState) => {
+  //     return {
+   
+  //       temTitle: jdTemplatesReducers.job_title,
+  //       jdTemplates: jdTemplatesReducers.jd_templates,
+  //       jdskills: jdTemplatesReducers.jd_templates.sk
+  //     };
+  //   },
+  // );
+
   return (
     <div className={styles.overAll}>
-      <LabelWrapper label="Required Skills" required>
+      {console.log("hellooooo",values)}
+      <LabelWrapper label="Mandatory Skills" required>
         <SelectTag
-          inputId="nondsSkill__nonSkill"
           isClearable
           options={skill_list}
           isMulti
