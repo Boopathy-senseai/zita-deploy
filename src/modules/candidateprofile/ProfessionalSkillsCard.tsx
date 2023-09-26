@@ -38,12 +38,7 @@ const ProfessionalSkillsCard = ({ obj, isProfileView, techSkill }: Props) => {
           isAddText={isAddText}
           techSkills={techSkill}
         />
-      )}
-      {console.log(
-        techSkill,
-        'techSkilltechSkilltechSkill',
-        techSkill?.skills?.soft_skill,
-      )}
+      )} 
       <Card className={styles.overAll}>
         <Flex>
           {!isProfileView && (
@@ -53,7 +48,7 @@ const ProfessionalSkillsCard = ({ obj, isProfileView, techSkill }: Props) => {
                 className={styles.svgEdit}
                 onClick={() => {
                   handleOpenSkillEdit();
-                  setAddText( techSkill?.skills?.tech_skill?.length === 0 && 
+                  setAddText( techSkill &&techSkill?.skills?.tech_skill?.length === 0 && 
                     techSkill?.skills?.soft_skill?.length === 0?'Add': 'Update');
                 }}
                 tabIndex={-1}
@@ -69,7 +64,7 @@ const ProfessionalSkillsCard = ({ obj, isProfileView, techSkill }: Props) => {
             <Text bold className={styles.techText}>
               Technical Skills
             </Text>
-            {techSkill?.skills?.tech_skill
+            {techSkill &&techSkill?.skills?.tech_skill
               ?.replace(',,', ',')
               .split(',')
               .length === 0 ? (
@@ -80,7 +75,7 @@ const ProfessionalSkillsCard = ({ obj, isProfileView, techSkill }: Props) => {
               </Flex>
             ) : (
               <Flex row wrap>
-                {techSkill?.skills?.tech_skill
+                {techSkill && techSkill?.skills?.tech_skill
                   ?.replace(',,', ',')
                   .split(',')
                   .map((techList, index) => (
@@ -91,12 +86,12 @@ const ProfessionalSkillsCard = ({ obj, isProfileView, techSkill }: Props) => {
               </Flex>
             )}
           </>
-           {techSkill?.skills?.soft_skill?.length !== 0 && ( 
+           {techSkill &&techSkill?.skills?.soft_skill?.length !== 0 && ( 
           <>
             <Text bold className={styles.softText}>
               Soft Skills
             </Text>
-            {techSkill?.skills?.soft_skill
+            {techSkill &&techSkill?.skills?.soft_skill
               ?.replace(',,', ',')
               .split(',')
               .length === 0 ? (
@@ -107,7 +102,7 @@ const ProfessionalSkillsCard = ({ obj, isProfileView, techSkill }: Props) => {
               </Flex>
             ) : (
             <Flex row wrap>
-              {techSkill?.skills?.soft_skill
+              {techSkill &&techSkill?.skills?.soft_skill
                 ?.replace(',,', ',')
                 .split(',')
                 .map((techList, index) => (

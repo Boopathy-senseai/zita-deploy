@@ -64,7 +64,11 @@ const CandidateProfileScreen = () => {
       }),
     ).then((res) => {
       setInitialLoader(false);
-      if (isEmpty(res.payload.personal.email)) {
+      if (
+        isEmpty(res.payload.personal.current_country__name) ||
+        isEmpty(res.payload.personal.current_state__name) ||
+        isEmpty(res.payload.personal.current_city__name)
+      ) {
         setPersonal(true);
       }
     });
@@ -88,25 +92,27 @@ const CandidateProfileScreen = () => {
     Qualification,
     overview,
     techSkill,
-  } = useSelector(({techSkillReducers, candidateProfileEditReducers }: RootState) => {
-    return {
-      isLoading: candidateProfileEditReducers.isLoading,
-      obj: candidateProfileEditReducers.obj,
-      overview: candidateProfileEditReducers.overview,
-      additional_detail: candidateProfileEditReducers.additional_detail,
-      personal: candidateProfileEditReducers.personal,
-      personal_obj: candidateProfileEditReducers.personal_obj,
-      projects: candidateProfileEditReducers.projects,
-      experiences: candidateProfileEditReducers.experiences,
-      user_info: candidateProfileEditReducers.user_info,
-      career_page_setting: candidateProfileEditReducers.career_page_setting,
-      applied_status: candidateProfileEditReducers.applied_status,
-      Qualification:
-        candidateProfileEditReducers?.Qualification !== undefined &&
-        candidateProfileEditReducers?.Qualification[0]?.qualification,
-      techSkill:techSkillReducers && techSkillReducers
-    };
-  });
+  } = useSelector(
+    ({ techSkillReducers, candidateProfileEditReducers }: RootState) => {
+      return {
+        isLoading: candidateProfileEditReducers.isLoading,
+        obj: candidateProfileEditReducers.obj,
+        overview: candidateProfileEditReducers.overview,
+        additional_detail: candidateProfileEditReducers.additional_detail,
+        personal: candidateProfileEditReducers.personal,
+        personal_obj: candidateProfileEditReducers.personal_obj,
+        projects: candidateProfileEditReducers.projects,
+        experiences: candidateProfileEditReducers.experiences,
+        user_info: candidateProfileEditReducers.user_info,
+        career_page_setting: candidateProfileEditReducers.career_page_setting,
+        applied_status: candidateProfileEditReducers.applied_status,
+        Qualification:
+          candidateProfileEditReducers?.Qualification !== undefined &&
+          candidateProfileEditReducers?.Qualification[0]?.qualification,
+        techSkill: techSkillReducers && techSkillReducers,
+      };
+    },
+  );
 
   // otp popup close function
   const handleCloseOtp = () => {
@@ -164,6 +170,8 @@ const CandidateProfileScreen = () => {
         empId={empId}
         open={isPersonal}
         cancel={handleOpenOtp}
+        personal={personal}
+        additional_detail={additional_detail}
         handleOpenLogin={handleOpenLogin}
         userInfo={user_info}
       />
@@ -194,7 +202,7 @@ const CandidateProfileScreen = () => {
         open={isCertiAdd}
         cancel={() => setCertiAdd(false)}
       />
-      <CandidateNavBar obj={obj} projects={projects} personal={personal}/>
+      <CandidateNavBar obj={obj} projects={projects} personal={personal} />
       <Flex
         columnFlex
         center
@@ -269,7 +277,7 @@ const CandidateProfileScreen = () => {
             >
               Overview of the Resume
             </Text>
-            <OverViewSummary obj={obj} overview={overview}/>
+            <OverViewSummary obj={obj} overview={overview} />
           </div>
 
           {/* <Flex marginTop={10} marginBottom={20}>
@@ -386,7 +394,14 @@ const CandidateProfileScreen = () => {
           }}
           className={styles.footerStyle}
         >
-          <Text bold color="theme" align="center" size={14} onClick={zitaPath} style={{marginTop:"30px"}}>
+          <Text
+            bold
+            color="theme"
+            align="center"
+            size={14}
+            onClick={zitaPath}
+            style={{ marginTop: '30px' }}
+          >
             Powered by Zita.ai
           </Text>
         </div>
