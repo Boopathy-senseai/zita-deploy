@@ -77,6 +77,7 @@ const LogFileTab = ({ getKey }: Props) => {
                   className={styles.pre}
                 >
                   {list}
+                  {console.log(list,'ggggggggggggggggggggggggggggggggg')}
                 </pre>
               </Flex>
             );
