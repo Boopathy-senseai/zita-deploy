@@ -105,11 +105,12 @@ export const jdParserApi = `jd_parser`;
 export const jdTemplatesApi = `jd_templates`;
 export const createJdApi = 'create_jd';
 export const locationApi = `load_location`;
+export const AioutputApi="jd_creation_ai";
 export const jdProfileApi = (jdId: string) => {
   const url = `jd_profile/${jdId}`;
   return url;
 };
-
+export const industrytype=`jd_industry_type`
 export const missSkillsApi = (jdId?: string) => {
   const url = `missing_skills/${jdId}`;
   return url;

@@ -143,7 +143,7 @@ console.log("externaljob",extarajobpost)
     <Flex
       columnFlex
       className={styles.overAll}
-      height={window.innerHeight - 111}
+      height={window.innerHeight }
     >
       {postLoader && <Loader />}
       <Flex row center className={styles.step} >
@@ -155,16 +155,14 @@ console.log("externaljob",extarajobpost)
           roundFill
           barFilled
         />
-        <Flex columnFlex className={styles.step3Flex}>
-          <div className={styles.round}>
-            <Text bold size={16} color={'white'}>
-              {3}
-            </Text>
-          </div>
-          <Text bold className={styles.stepThree}>
-            Preview & Post Job
-          </Text>
-        </Flex>
+        <StepProgressBar
+          title="Preview & Post Job"
+          titleclassName={styles.stepTwo}
+          stepIndex="3"
+          roundFill
+          
+        />
+
       </Flex>
       <Modal open={isOpen}>
         <Flex columnFlex className={styles.modalOverAll}>

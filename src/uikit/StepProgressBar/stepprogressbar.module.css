@@ -1,11 +1,11 @@
 .overAll {
   position: relative;
-  width: 50%;
+  width: 36%
 }
 .round {
-  height: 35px;
-  width: 35px;
-  border-radius: 100%;
+  height: 25px;
+  width: 100%;
+  /* border-radius: 100%; */
   align-items: center;
   justify-content: center;
   display: flex;
@@ -16,7 +16,7 @@
   width: 100%;
 }
 .roundeSelect {
-  background-color: var(--color-secondary, #ffc203);
+  background-color: #00BE4B
 }
 .roundeNonSelect {
   background-color: var(--color-gary-5, #cccccc);
