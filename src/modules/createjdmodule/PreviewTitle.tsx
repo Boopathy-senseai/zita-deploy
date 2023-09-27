@@ -61,7 +61,7 @@ const PreviewTitle = ({
               color="primary"
               style={{ paddingTop: 0 }}
             >
-              Required Skills
+              Mandatory Skills
             </Text>
             <Flex row center wrap className={styles.statusContainer}>
               {skills.map((skillList: any, index: number) => {
@@ -125,7 +125,7 @@ const PreviewTitle = ({
               color="primary"
               style={{ paddingTop: 15 }}
             >
-              Required Skills
+              Mandatory Skills
             </Text></Flex>
             <Flex row center wrap className={styles.statusContainer}>
               {skills.map((skillList: any, index: number) => {

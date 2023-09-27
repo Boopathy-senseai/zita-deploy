@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import PhoneInput from 'react-phone-input-2';
 import { useState, useEffect } from 'react';
-import { jobSelect } from '../../../appRoutesPath';
+import { jobCreateNonDs } from '../../../appRoutesPath';
 import SvgCompany from '../../../icons/SvgCompany';
 import SvgNewTab from '../../../icons/SvgNewTab';
 import SvgMail from '../../../icons/SvgMail';
@@ -45,6 +45,7 @@ import SvgCloseSmall from '../../../icons/SvgCloseSmall';
 import styles from './profilecard.module.css';
 import { CountryEntity, StateEntity, CityEntity } from './Companytype';
 import { dashBoardMiddleWare } from './store/dashboardmiddleware';
+
 
 const ProfileCard = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -245,8 +246,8 @@ const ProfileCard = () => {
       if (!isEmpty(fileExt)) {
         alert(
           'Invalid file selected, valid files are of ' +
-            imageFileAccept.toString() +
-            ' types.',
+          imageFileAccept.toString() +
+          ' types.',
         );
       }
     } else if (e.target.files && e.target.files[0].size / 1024 / 1024 > 2) {
@@ -254,23 +255,26 @@ const ProfileCard = () => {
     } else {
       setLoader(true);
       const formData = new FormData();
+      //alert("insilde else")
       if (e.target.files[0] !== undefined) {
+        //alert("append")
         formData.append('logo', e.target.files[0]);
         formData.append('company_name', company_name);
         formData.append('company_website', weburl);
         formData.append('contact', mobile_no);
-        formData.append('industry_type', industryid.toString());
-        formData.append('no_of_emp', noofemp.toString());
+        //console.log("industryid", industryid);
+        formData.append('industry_type', Tostring(industryid)); 
+        formData.append('no_of_emp', Tostring(noofemp));
         formData.append('address', address);
-        formData.append('country', countryid.toString());
-        formData.append('state', stateid.toString());
-        formData.append('city', cityid.toString());
+        formData.append('country', Tostring(countryid));
+        formData.append('state', Tostring(stateid));
+        formData.append('city', Tostring(cityid));
         formData.append('zipcode', zipcode);
         formData.append('email', user_info.email);
       } else {
         formData.append('image_null', '');
       }
-
+      //alert("00000")
       dispatch(
         companyPagePostMiddleWare({
           formData,
@@ -287,7 +291,14 @@ const ProfileCard = () => {
       setMb(false);
     }
   };
-
+  
+  function Tostring(res: any){
+    if (res !== null && res !== undefined) {
+      return res.toString() 
+    }else {
+      return ""
+    }
+  }
   const handleRemoveProfile = () => {
     setLoader(true);
     const formData = new FormData();
@@ -369,7 +380,7 @@ const ProfileCard = () => {
                         className={styles.imgStyle}
                         src={mediaPath + logoPath}
                         alt="profile"
-                        //key={Math.random().toString()}
+                      //key={Math.random().toString()}
                       />
                     )}
                   </>
@@ -404,7 +415,7 @@ const ProfileCard = () => {
                   onClick={handleRemoveProfile}
                   tabIndex={-1}
                   role="button"
-                  onKeyDown={() => {}}
+                  onKeyDown={() => { }}
                 >
                   <SvgCloseSmall />
                 </div>
@@ -436,7 +447,7 @@ const ProfileCard = () => {
           className={styles.line}
           marginBottom={20}
           marginTop={20}
-        ></Flex> 
+        ></Flex>
         <Flex marginLeft={20}>
           <Flex>
             {weburl === null || weburl === 'https://' ? (
@@ -577,7 +588,7 @@ const ProfileCard = () => {
         ></Flex>
         <Flex row>
           <Flex>
-            <Flex> 
+            <Flex>
               <Flex marginLeft={18}>
                 <Text
                   style={{ marginLeft: 2, fontWeight: 550, fontSize: '14px' }}
@@ -755,7 +766,7 @@ const ProfileCard = () => {
             <Flex className={styles.pointer}>
               {' '}
               {permission.includes('create_post') && (
-                <LinkWrapper to={jobSelect}>
+                <LinkWrapper to={jobCreateNonDs}>
                   <Button className={styles.buttonsize}>Post Job</Button>
                 </LinkWrapper>
               )}

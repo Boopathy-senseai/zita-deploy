@@ -108,7 +108,7 @@
 .fav{
   display: flex;
   justify-content: flex-end;
-  margin-right: 4px;
+  margin-right: 5px;
   margin-top: 2px;
 }
 .pointer{

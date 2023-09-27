@@ -71,6 +71,7 @@ const CandidateProfileViewScreen = () => {
         isProfileView
         personal_obj={personal_obj}
         user_info={user_info}
+        personal={personal}
         projects={projects}
       />
       <Flex

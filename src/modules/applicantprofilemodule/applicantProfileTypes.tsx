@@ -276,6 +276,13 @@ export interface Match {
   match: MatchEntity[];
   not_matched_data: Datas;
   source: overall;
+  data?:[{
+    title:string,
+    percentage: number,
+    description: string,
+    overall_percentage:number
+  }],
+  ai_matching:boolean;
 }
 export interface overall {
   jd_skills: [];
@@ -310,6 +317,7 @@ export interface MatchReducerState extends Match {
 export interface ApplicantProfilePayload {
   jd_id?: number | string;
   can_id?: number | string;
+  matching?:boolean;
 }
 export interface candidatematchtypes {
   can_id?: number | string;

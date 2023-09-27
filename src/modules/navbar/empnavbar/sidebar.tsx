@@ -2,7 +2,11 @@ import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
-import { meetingScheduler, reports } from '../../../appRoutesPath';
+import {
+  jobCreateNonDs,
+  meetingScheduler,
+  reports,
+} from '../../../appRoutesPath';
 import SvgRight1 from '../../../icons/SvgRight1';
 import SvgCommunication from '../../../icons/SvgCommunication';
 import SvgBranding from '../../../icons/SvgBranding';
@@ -17,14 +21,12 @@ import { LEAVE_THIS_SITE } from '../../constValue';
 import Button from '../../../uikit/Button/Button';
 import { routesPath } from '../../../routes/routesPath';
 import { AppDispatch, RootState } from '../../../store';
-import { jobSelect } from '../../../appRoutesPath';
 import Flex from '../../../uikit/Flex/Flex';
 import { isEmpty } from '../../../uikit/helper';
 import LinkWrapper from '../../../uikit/Link/LinkWrapper';
 import Text from '../../../uikit/Text/Text';
 import SvgCollapse from '../../../icons/Svgcollapse';
 import styles from './notification.module.css';
-
 
 const cx = classNames.bind(styles);
 type props = {
@@ -41,7 +43,8 @@ const Sidebar = ({ changes, data }: props) => {
   const changeurl = sessionStorage.getItem('changingurl');
   const [checkplan, setcheckplan] = useState(false);
   const [isOverviewDropdownOpen, setOverviewDropdownOpen] = useState(false);
-  const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] = useState(false);
+  const [isOverviewPopupDropdownOpen, setOverviewPopupDropdownOpen] =
+    useState(false);
   const [isJobsDropdownOpen, setJobsDropdownOpen] = useState(false);
   const [isJobsPopupDropdownOpen, setJobsPopupDropdownOpen] = useState(false);
   const [isCandiDropdownOpen, setCandiDropdownOpen] = useState(false);
@@ -54,13 +57,12 @@ const Sidebar = ({ changes, data }: props) => {
   const [isMyaccPopupDropdownOpen, setMyaccPopupDropdownOpen] = useState(false);
   const [isOptionClicked, setIsOptionClicked] = useState(false);
 
-
   const toggleOverviewDropdown = () => {
-    setOverviewDropdownOpen(!isOverviewDropdownOpen)
+    setOverviewDropdownOpen(!isOverviewDropdownOpen);
   };
 
   const toggleJobsDropdown = () => {
-    setJobsDropdownOpen(!isJobsDropdownOpen);  
+    setJobsDropdownOpen(!isJobsDropdownOpen);
   };
   const toggleCandiDropdown = () => {
     setCandiDropdownOpen(!isCandiDropdownOpen);
@@ -76,15 +78,15 @@ const Sidebar = ({ changes, data }: props) => {
   };
 
   const IntegrationNav = () => {
-    sessionStorage.setItem('superUserTabTwo','2')
+    sessionStorage.setItem('superUserTabTwo', '2');
     sessionStorage.setItem('superUserFalseTab', '1');
-    sessionStorage.setItem('superUserTab', '4'); 
-  }
+    sessionStorage.setItem('superUserTab', '4');
+  };
   // Side Menu Popups When Sidebar is collapsed
 
   const toggleOverviewPopupDropdown = () => {
     setOverviewPopupDropdownOpen(!isOverviewPopupDropdownOpen);
-    setJobsPopupDropdownOpen(false);  
+    setJobsPopupDropdownOpen(false);
     setCandiPopupDropdownOpen(false);
     setCommPopupDropdownOpen(false);
     setBrandPopupDropdownOpen(false);
@@ -151,14 +153,25 @@ const Sidebar = ({ changes, data }: props) => {
     setBrandDropdownOpen(false);
     setMyaccDropdownOpen(false);
     setOverviewPopupDropdownOpen(false);
-    setJobsPopupDropdownOpen(false);  
+    setJobsPopupDropdownOpen(false);
     setCandiPopupDropdownOpen(false);
     setCommPopupDropdownOpen(false);
     setBrandPopupDropdownOpen(false);
     setMyaccPopupDropdownOpen(false);
   };
-  const { permission, is_plan, isProfile, plan_id, career_page_url, super_user } = useSelector(
-    ({ permissionReducers, userProfileReducers, myJobPostingDataReducers }: RootState) => {
+  const {
+    permission,
+    is_plan,
+    isProfile,
+    plan_id,
+    career_page_url,
+    super_user,
+  } = useSelector(
+    ({
+      permissionReducers,
+      userProfileReducers,
+      myJobPostingDataReducers,
+    }: RootState) => {
       return {
         permission: permissionReducers.Permission,
         is_plan: permissionReducers.is_plan,
@@ -185,7 +198,6 @@ const Sidebar = ({ changes, data }: props) => {
   };
 
   const clearTabs = (e) => {
-
     e.stopPropagation();
     if (window.confirm(LEAVE_THIS_SITE)) {
       history.push('/');
@@ -195,281 +207,318 @@ const Sidebar = ({ changes, data }: props) => {
   };
   return (
     <>
-     {console.log('Overview Dropdown', isOverviewDropdownOpen)}
-     {console.log('Jobs Dropdown', isJobsDropdownOpen)}
-     {console.log('Candidates Dropdown', isCandiDropdownOpen)}
-     {console.log('Communication Dropdown', isCommDropdownOpen)}
-     {console.log('Branding Dropdown', isBrandDropdownOpen)}
-     {console.log('My Account Dropdown', isMyaccDropdownOpen)}
+      {console.log('Overview Dropdown', isOverviewDropdownOpen)}
+      {console.log('Jobs Dropdown', isJobsDropdownOpen)}
+      {console.log('Candidates Dropdown', isCandiDropdownOpen)}
+      {console.log('Communication Dropdown', isCommDropdownOpen)}
+      {console.log('Branding Dropdown', isBrandDropdownOpen)}
+      {console.log('My Account Dropdown', isMyaccDropdownOpen)}
 
       <div
         className={Expent === '0' ? styles.sidebar : styles.sidebarmini}
-        style={{ marginTop: '50px', display:"flex", flexWrap:"wrap", alignContent:"space-between" }}
+        style={{
+          marginTop: '50px',
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignContent: 'space-between',
+        }}
       >
-        <div 
-        className={Expent === '0' ? styles.sidemenucontent : styles.sidemenucontentmini}
+        <div
+          className={
+            Expent === '0' ? styles.sidemenucontent : styles.sidemenucontentmini
+          }
         >
-        <ul style={{width:'100%'}}>
-{/* Overview Dropdown */}
-          <li
-          >
-            <Flex row
-              title="Overview"
-              className={styles.filtername}
-              onClick={Expent === "0" ? ()=>{toggleOverviewDropdown()} : ()=>{toggleOverviewPopupDropdown()}}
-              
-            >
-              <Flex row>
-                <text 
-                  style={{ verticalAlign: 'middle', marginLeft:'-6px' }}>
-                  <SvgDashboard height={28} width={28} />
-                    </text>
-                      <Text
-                        size= {13}
-                        color="theme"
-                        style={{ cursor: 'Pointer'}}
-                        className={Expent === '0' ? styles.maintext : styles.classpan}
-                      >
-                      Overview
-                        </Text>
+          <ul style={{ width: '100%' }}>
+            {/* Overview Dropdown */}
+            <li>
+              <Flex
+                row
+                title="Overview"
+                className={styles.filtername}
+                onClick={
+                  Expent === '0'
+                    ? () => {
+                        toggleOverviewDropdown();
+                      }
+                    : () => {
+                        toggleOverviewPopupDropdown();
+                      }
+                }
+              >
+                <Flex row>
+                  <text style={{ verticalAlign: 'middle', marginLeft: '-6px' }}>
+                    <SvgDashboard height={28} width={28} />
+                  </text>
+                  <Text
+                    size={13}
+                    color="theme"
+                    style={{ cursor: 'Pointer' }}
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
+                  >
+                    Overview
+                  </Text>
                 </Flex>
-              {isOverviewDropdownOpen ? (
-                <Flex
-                className={Expent === '0' ? styles.maintext : styles.classpan}
-                >
-                  <SvgArrowDown1 height={10} width={10} fill={'#581845'}/>
-                </Flex>
-              ):(
-                <Flex
-                className={Expent === '0' ? styles.maintext : styles.classpan}
-                >
-                  <SvgRight1 height={10} width={10} fill={'#581845'}/>
-                </Flex>
-              )}
+                {isOverviewDropdownOpen ? (
+                  <Flex
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
+                  >
+                    <SvgArrowDown1 height={10} width={10} fill={'#581845'} />
+                  </Flex>
+                ) : (
+                  <Flex
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
+                  >
+                    <SvgRight1 height={10} width={10} fill={'#581845'} />
+                  </Flex>
+                )}
               </Flex>
-              </li>
+            </li>
             {isOverviewDropdownOpen && (
               <>
-              <Flex style={{backgroundColor: "#f7f7f7", textIndent:"7px"}}>
-              {/* DashBoard */}
-                {is_plan ? (
-                  changes ? (
-                    <li
-                      title="Dashboard"
-                      className={pathname === '/' ? styles.select_row : ''}
-                    >
-                      <Flex>
-                      <LinkWrapper className={styles.hoverview} 
-                      onClick={clearTabs}
-                      >
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
-                        <Text
-                          onClick={() => handleNavigate(1)} 
-                          className={Expent === '0' ? styles.text : styles.classpan}
-                          color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
-                        >
-                          Dashboard
-                        </Text>
-                      </LinkWrapper>
-                      </Flex>
-                    </li>
-                  ) : (
-                    <li
-                      title="Dashboard"
-                      className={pathname === '/' ? styles.select_row : ''}
-                    >
-                      <Flex>
-                      <LinkWrapper
-                        className={styles.hoverview}
-                        onClick={clearTab}
-
-                        to={is_plan ? '/' : accountPath}
-                      >
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
-                        <Text
-                          onClick={() => handleNavigate(1)}
-
-                          className={Expent === '0' ? styles.text : styles.classpan}
-                          color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
-                        >
-                          Dashboard
-                        </Text>
-                      </LinkWrapper>
-                      </Flex>
-                    </li>
-                  )
-                ) : (
-                  <li
-                    title="Dashboard"
-                    className={pathname === '/' ? styles.select_row : ''}
-                  >
-                    <Flex>
-                    <a
-                      className={styles.hoverview}
-                      href={' '}
-                      onClick={(e) => {
-                        e.preventDefault();
-                      }}
-                    >
-                      <Text style={{ verticalAlign: 'middle'}}>
-                        -
-                      </Text>
-                      <Text
-                        onClick={() => {handleNavigate(1)}}
-                        className={Expent === '0' ? styles.text : styles.classpan}
-                        color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
-                      >
-                        Dashboard
-                      </Text>
-                    </a>
-                    </Flex>
-                  </li>
-                )}  
-              {/* Reports */}
-              {permission.includes('reports') ? (
-                <>
+                <Flex style={{ backgroundColor: '#f7f7f7', textIndent: '7px' }}>
+                  {/* DashBoard */}
                   {is_plan ? (
                     changes ? (
                       <li
-                      style={plan_id === 1?({cursor:'not-allowed !important'}):(null)}
-                        title={
-                          plan_id === 1
-                            ? 'Please subscribe to any of the paid plans to view the job metrics'
-                            : 'Reports'
-                        }
-                        className={
-                          pathname.includes('/reports')&& plan_id===1 ? styles.select_row : plan_id===1?styles.select_item:""
-                        }
-                        
+                        title="Dashboard"
+                        className={pathname === '/' ? styles.select_row : ''}
                       >
-                        <LinkWrapper
-                          className={styles.hoverview}
-                          onClick={clearTabs}
-                          to={
-                            plan_id === 1
-                              ? '/'
-                              : plan_id !== 1 && is_plan
-                              ? reports
-                              : accountPath
-                          }
-                        >
-                          <Text>
-                            -
-                            </Text>
-                          <Text
-                            onClick={() => handleNavigate(6)}
-                            className={Expent === '0' ? styles.text : styles.classpan}
-                            color="primary"
-                            style={{
-                              color: '#581845',
-                              marginRight: '10px',
-                              // marginLeft: '18px' 
-                            }}
+                        <Flex>
+                          <LinkWrapper
+                            className={styles.hoverview}
+                            onClick={clearTabs}
                           >
-                            Reports
-                          </Text>
-                        </LinkWrapper>
+                            <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                            <Text
+                              onClick={() => handleNavigate(1)}
+                              className={
+                                Expent === '0' ? styles.text : styles.classpan
+                              }
+                              color="primary"
+                              style={{ color: '#581845', marginRight: '10px' }}
+                            >
+                              Dashboard
+                            </Text>
+                          </LinkWrapper>
+                        </Flex>
                       </li>
                     ) : (
                       <li
-                        title={
-                          plan_id === 1
-                            ? 'Please subscribe to any of the paid plans to view the job metrics'
-                            : 'Reports'
-                        }
-                        style={plan_id === 1?({cursor:'not-allowed !important'}):(null)}
-                        className={
-                          pathname.includes('/reports') ? styles.select_row : ''
-                        }
-                      
+                        title="Dashboard"
+                        className={pathname === '/' ? styles.select_row : ''}
                       >
-                        <LinkWrapper
-                          className={plan_id===1?styles.selectitem:styles.hoverview}
-                          onClick={clearTab}
-                          to={
-                            plan_id === 1
-                              ? '#'
-                              : plan_id !== 1 && is_plan
-                              ? reports
-                              : accountPath
-                          }
-                          
-                        >
-                          <Text>
-                            -
-                            </Text>
-                          <Text
-                            onClick={() => handleNavigate(6)}
-                            className={Expent === '0' ? styles.text : styles.classpan}
-                            color="primary"
-                            style={{
-                              color: '#581845',
-                              marginRight: '10px',
-                              // marginLeft: '18px' 
-                            }}
+                        <Flex>
+                          <LinkWrapper
+                            className={styles.hoverview}
+                            onClick={clearTab}
+                            to={is_plan ? '/' : accountPath}
                           >
-                            Reports
-                          </Text>
-                        </LinkWrapper>
+                            <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                            <Text
+                              onClick={() => handleNavigate(1)}
+                              className={
+                                Expent === '0' ? styles.text : styles.classpan
+                              }
+                              color="primary"
+                              style={{ color: '#581845', marginRight: '10px' }}
+                            >
+                              Dashboard
+                            </Text>
+                          </LinkWrapper>
+                        </Flex>
                       </li>
                     )
                   ) : (
                     <li
-                      title="Reports"
-                      className={
-                        pathname.includes('/reports') ? styles.select_row : styles.select_item
-                      }
-                      style={{cursor:'not-allowed'}}
+                      title="Dashboard"
+                      className={pathname === '/' ? styles.select_row : ''}
                     >
-                    
-                      <a
-                        className={styles.hoverview}
-                        href={' '}
-                        style={{cursor:'not-allowed'}}
-                        onClick={(e) => {
-                          e.preventDefault();
-                        }}
-                      >
-                        <Text>
-                          -
-                          </Text>
-                        <Text
-                          onClick={() => handleNavigate(6)}
-                          className={Expent === '0' ? styles.text : styles.classpan}
-                          color="primary"
-                          style={{
-                            color: '#581845',
-                            marginRight: '10px',
-                            // marginLeft: '18px', 
-                            cursor:'not-allowed'
+                      <Flex>
+                        <a
+                          className={styles.hoverview}
+                          href={' '}
+                          onClick={(e) => {
+                            e.preventDefault();
                           }}
                         >
-                          Reports
-                        </Text>
-                      </a>
+                          <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                          <Text
+                            onClick={() => {
+                              handleNavigate(1);
+                            }}
+                            className={
+                              Expent === '0' ? styles.text : styles.classpan
+                            }
+                            color="primary"
+                            style={{ color: '#581845', marginRight: '10px' }}
+                          >
+                            Dashboard
+                          </Text>
+                        </a>
+                      </Flex>
                     </li>
                   )}
-                </>
-                ):(
-                  <li
+                  {/* Reports */}
+                  {permission.includes('reports') ? (
+                    <>
+                      {is_plan ? (
+                        changes ? (
+                          <li
+                            style={
+                              plan_id === 1
+                                ? { cursor: 'not-allowed !important' }
+                                : null
+                            }
+                            title={
+                              plan_id === 1
+                                ? 'Please subscribe to any of the paid plans to view the job metrics'
+                                : 'Reports'
+                            }
+                            className={
+                              pathname.includes('/reports') && plan_id === 1
+                                ? styles.select_row
+                                : plan_id === 1
+                                ? styles.select_item
+                                : ''
+                            }
+                          >
+                            <LinkWrapper
+                              className={styles.hoverview}
+                              onClick={clearTabs}
+                              to={
+                                plan_id === 1
+                                  ? '/'
+                                  : plan_id !== 1 && is_plan
+                                  ? reports
+                                  : accountPath
+                              }
+                            >
+                              <Text>-</Text>
+                              <Text
+                                onClick={() => handleNavigate(6)}
+                                className={
+                                  Expent === '0' ? styles.text : styles.classpan
+                                }
+                                color="primary"
+                                style={{
+                                  color: '#581845',
+                                  marginRight: '10px',
+                                  // marginLeft: '18px'
+                                }}
+                              >
+                                Reports
+                              </Text>
+                            </LinkWrapper>
+                          </li>
+                        ) : (
+                          <li
+                            title={
+                              plan_id === 1
+                                ? 'Please subscribe to any of the paid plans to view the job metrics'
+                                : 'Reports'
+                            }
+                            style={
+                              plan_id === 1
+                                ? { cursor: 'not-allowed !important' }
+                                : null
+                            }
+                            className={
+                              pathname.includes('/reports')
+                                ? styles.select_row
+                                : ''
+                            }
+                          >
+                            <LinkWrapper
+                              className={
+                                plan_id === 1
+                                  ? styles.selectitem
+                                  : styles.hoverview
+                              }
+                              onClick={clearTab}
+                              to={
+                                plan_id === 1
+                                  ? '#'
+                                  : plan_id !== 1 && is_plan
+                                  ? reports
+                                  : accountPath
+                              }
+                            >
+                              <Text>-</Text>
+                              <Text
+                                onClick={() => handleNavigate(6)}
+                                className={
+                                  Expent === '0' ? styles.text : styles.classpan
+                                }
+                                color="primary"
+                                style={{
+                                  color: '#581845',
+                                  marginRight: '10px',
+                                  // marginLeft: '18px'
+                                }}
+                              >
+                                Reports
+                              </Text>
+                            </LinkWrapper>
+                          </li>
+                        )
+                      ) : (
+                        <li
+                          title="Reports"
+                          className={
+                            pathname.includes('/reports')
+                              ? styles.select_row
+                              : styles.select_item
+                          }
+                          style={{ cursor: 'not-allowed' }}
+                        >
+                          <a
+                            className={styles.hoverview}
+                            href={' '}
+                            style={{ cursor: 'not-allowed' }}
+                            onClick={(e) => {
+                              e.preventDefault();
+                            }}
+                          >
+                            <Text>-</Text>
+                            <Text
+                              onClick={() => handleNavigate(6)}
+                              className={
+                                Expent === '0' ? styles.text : styles.classpan
+                              }
+                              color="primary"
+                              style={{
+                                color: '#581845',
+                                marginRight: '10px',
+                                // marginLeft: '18px',
+                                cursor: 'not-allowed',
+                              }}
+                            >
+                              Reports
+                            </Text>
+                          </a>
+                        </li>
+                      )}
+                    </>
+                  ) : (
+                    <li
                       title="Reports"
                       className={
-                        pathname.includes('/reports') ? styles.select_row : styles.select_item
+                        pathname.includes('/reports')
+                          ? styles.select_row
+                          : styles.select_item
                       }
-                      style={{cursor:'not-allowed'}}
+                      style={{ cursor: 'not-allowed' }}
                     >
-                    
                       <a
                         className={styles.hoverview}
                         href={' '}
-                        style={{cursor:'not-allowed'}}
+                        style={{ cursor: 'not-allowed' }}
                         onClick={(e) => {
                           e.preventDefault();
                         }}
@@ -477,279 +526,338 @@ const Sidebar = ({ changes, data }: props) => {
                         <Text>-</Text>
                         <Text
                           onClick={() => handleNavigate(6)}
-                          className={Expent === '0' ? styles.text : styles.classpan}
+                          className={
+                            Expent === '0' ? styles.text : styles.classpan
+                          }
                           color="primary"
                           style={{
                             color: '#581845',
                             marginRight: '10px',
-                            // marginLeft: '18px', 
-                            cursor:'not-allowed'
+                            // marginLeft: '18px',
+                            cursor: 'not-allowed',
                           }}
                         >
                           Reports
                         </Text>
                       </a>
                     </li>
-                )}
+                  )}
                 </Flex>
               </>
             )}
-{/* Jobs Dropdown */}
-          <li>
-            <Flex row
-              title="Jobs"
-              className={styles.filtername}
-              // onClick={() => {toggleJobsDropdown()}}
-              onClick={Expent === "0" ? ()=>{toggleJobsDropdown()} : ()=>{toggleJobsPopupDropdown()}}
-
-            >
+            {/* Jobs Dropdown */}
+            <li>
+              <Flex
+                row
+                title="Jobs"
+                className={styles.filtername}
+                // onClick={() => {toggleJobsDropdown()}}
+                onClick={
+                  Expent === '0'
+                    ? () => {
+                        toggleJobsDropdown();
+                      }
+                    : () => {
+                        toggleJobsPopupDropdown();
+                      }
+                }
+              >
                 <Flex row>
                   <text style={{ verticalAlign: 'middle' }}>
                     <SvgJobPost height={16} width={16} />
-                    </text>
+                  </text>
                   <Text
-                    size= {13}
+                    size={13}
                     color="theme"
-                    style={{ cursor: 'Pointer', marginLeft:"18px"}}
-                    className={Expent === '0' ? styles.maintext : styles.classpan}
+                    style={{ cursor: 'Pointer', marginLeft: '18px' }}
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
                   >
                     Jobs
                   </Text>
                 </Flex>
                 {!isJobsDropdownOpen ? (
-                <Flex
-                className={Expent === '0' ? styles.maintext : styles.classpan}
-                >
-                  <SvgRight1 height={10} width={10} fill={'#581845'}/>
-                </Flex>
-              ):(
-                <Flex
-                className={Expent === '0' ? styles.maintext : styles.classpan}
-                >
-                  <SvgArrowDown1 height={10} width={10} fill={'#581845'}/>
-                </Flex>
-              )}
+                  <Flex
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
+                  >
+                    <SvgRight1 height={10} width={10} fill={'#581845'} />
+                  </Flex>
+                ) : (
+                  <Flex
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
+                  >
+                    <SvgArrowDown1 height={10} width={10} fill={'#581845'} />
+                  </Flex>
+                )}
               </Flex>
-              </li>
-            {isJobsDropdownOpen && 
-            <>
-            <Flex style={{backgroundColor:'#f7f7f7', textIndent:"7px"}}>
-            {/* Job Posting */}
-              {is_plan ? (
-                changes ? (
-                  <li
-                    title="Job Postings"
-                    className={
-                      pathname === '/job_list' ||
-                      pathname.includes('/jobs') ||
-                      pathname.includes('/job_view') ||
-                      pathname.includes('/zita_match_candidate') ||
-                      pathname.includes('/applicant_pipe_line')
-                        ? styles.select_row
-                        : ''
-                    }
-                  >
-                    <LinkWrapper
-                      className={styles.hoverview}
-                      onClick={clearTabs}
-                      to={is_plan ? routesPath.MY_JOB_POSTING : accountPath}
-                    >
-                      <Text style={{ verticalAlign: 'middle' }}>
-                        -
-                      </Text>
-                      <Text
-                        onClick={() => handleNavigate(2)}
-                        className={Expent === '0' ? styles.text : styles.classpan}
-                        color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
+            </li>
+            {isJobsDropdownOpen && (
+              <>
+                <Flex style={{ backgroundColor: '#f7f7f7', textIndent: '7px' }}>
+                  {/* Job Posting */}
+                  {is_plan ? (
+                    changes ? (
+                      <li
+                        title="Job Postings"
+                        className={
+                          pathname === '/job_list' ||
+                          pathname.includes('/jobs') ||
+                          pathname.includes('/job_view') ||
+                          pathname.includes('/zita_match_candidate') ||
+                          pathname.includes('/applicant_pipe_line')
+                            ? styles.select_row
+                            : ''
+                        }
                       >
-                        Job Postings
-                      </Text>
-                    </LinkWrapper>
-                  </li>
-                ) : (
-                  <li
-                    title="Job Postings"
-                    className={
-                      pathname === '/job_list' ||
-                      pathname.includes('/jobs') ||
-                      pathname.includes('/job_view') ||
-                      pathname.includes('/zita_match_candidate') ||
-                      pathname.includes('/applicant_pipe_line')
-                        ? styles.select_row
-                        : ''
-                    }
-                  >
-                    <LinkWrapper
-                      className={styles.hoverview}
-                      onClick={clearTab}
-                      to={is_plan ? routesPath.MY_JOB_POSTING : accountPath}
-                    >
-                      <Text style={{ verticalAlign: 'middle' }}>
-                        -
-                      </Text>
-                      <Text
-                        onClick={() => handleNavigate(2)}
-                        className={Expent === '0' ? styles.text : styles.classpan}
-                        color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
+                        <LinkWrapper
+                          className={styles.hoverview}
+                          onClick={clearTabs}
+                          to={is_plan ? routesPath.MY_JOB_POSTING : accountPath}
+                        >
+                          <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                          <Text
+                            onClick={() => handleNavigate(2)}
+                            className={
+                              Expent === '0' ? styles.text : styles.classpan
+                            }
+                            color="primary"
+                            style={{ color: '#581845', marginRight: '10px' }}
+                          >
+                            Job Postings
+                          </Text>
+                        </LinkWrapper>
+                      </li>
+                    ) : (
+                      <li
+                        title="Job Postings"
+                        className={
+                          pathname === '/job_list' ||
+                          pathname.includes('/jobs') ||
+                          pathname.includes('/job_view') ||
+                          pathname.includes('/zita_match_candidate') ||
+                          pathname.includes('/applicant_pipe_line')
+                            ? styles.select_row
+                            : ''
+                        }
                       >
-                        Job Posting
-                      </Text>
-                    </LinkWrapper>
-                  </li>
-                )
-              ) : (
-                <li
-                  title="Job Postings"
-                  className={
-                    pathname === '/job_list' ||
-                    pathname.includes('/jobs') ||
-                    pathname.includes('/job_view') ||
-                    pathname.includes('/zita_match_candidate') ||
-                    pathname.includes('/applicant_pipe_line')
-                      ? styles.select_row
-                      : ''
-                  }
-                >
-                  <a
-                    className={styles.hoverview}
-                    href={' '}
-                    onClick={(e) => {
-                      e.preventDefault();
-                    }}
-                  >
-                    <Text style={{ verticalAlign: 'middle' }}>
-                      -
-                    </Text>
-                    <Text
-                      onClick={() => handleNavigate(2)}
-                      className={Expent === '0' ? styles.text : styles.classpan}
-                      color="primary"
-                      style={{ color: '#581845', marginRight: '10px' }}
-                    >
-                      Job Postings
-                    </Text>
-                  </a>
-                </li>
-              )}
-            {/* Post Jobs */}
-            {permission.includes('create_post') && 
-            <>
-            {is_plan ? (
-                changes ? (
-                  <li
-                    title="Post Jobs"
-                    className={
-                      pathname === jobSelect
-                        ? styles.select_row
-                        : ''
-                    }
-                  >
-                    <LinkWrapper
-                      className={styles.hoverview}
-                      onClick={clearTabs}
-                      to={is_plan ? jobSelect : accountPath}
-                    >
-                      <Text style={{ verticalAlign: 'middle' }}>
-                        -
-                      </Text>
-                      <Text
-                        // onClick={() => handleNavigate(2)}
-                        className={Expent === '0' ? styles.text : styles.classpan}
-                        color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
-                      >
-                        Post Jobs
-                      </Text>
-                    </LinkWrapper>
-                  </li>
-                ) : (
-                  <li
-                    title="Post Jobs"
-                    className={
-                      pathname === jobSelect
-                        ? styles.select_row
-                        : ''
-                    }
-                  >
-                    <LinkWrapper
-                      className={styles.hoverview}
-                      onClick={clearTab}
-                      to={is_plan ? jobSelect : accountPath}
-                    >
-                      <Text style={{ verticalAlign: 'middle' }}>
-                        -
-                      </Text>
-                      <Text
-                        // onClick={() => handleNavigate(2)}
-                        className={Expent === '0' ? styles.text : styles.classpan}
-                        color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
-                      >
-                        Post Jobs
-                      </Text>
-                    </LinkWrapper>
-                  </li>
-                )
-              ) : (
-                <li
-                  title="Post Jobs"
-                  className={
-                    pathname === jobSelect
-                      ? styles.select_row
-                      : ''
-                  }
-                >
-                  <a
-                    className={styles.hoverview}
-                    href={' '}
-                    onClick={(e) => {
-                      e.preventDefault();
-                    }}
-                  >
-                    <Text style={{ verticalAlign: 'middle' }}>
-                      -
-                    </Text>
-                    <Text
-                      // onClick={() => handleNavigate(2)}
-                      className={Expent === '0' ? styles.text : styles.classpan}
-                      color="primary"
-                      style={{ color: '#581845', marginRight: '10px' }}
-                    >
-                      Post Jobs
-                    </Text>
-                  </a>
-                </li>
-              )}
-            </>
-            }
-            {/* Customized WorkFlow */}
-            {is_plan ? (
-                  changes ? (
+                        <LinkWrapper
+                          className={styles.hoverview}
+                          onClick={clearTab}
+                          to={is_plan ? routesPath.MY_JOB_POSTING : accountPath}
+                        >
+                          <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                          <Text
+                            onClick={() => handleNavigate(2)}
+                            className={
+                              Expent === '0' ? styles.text : styles.classpan
+                            }
+                            color="primary"
+                            style={{ color: '#581845', marginRight: '10px' }}
+                          >
+                            Job Posting
+                          </Text>
+                        </LinkWrapper>
+                      </li>
+                    )
+                  ) : (
                     <li
-                      title="Tailor Workflow"
-                      // className={pathname === '/' ? styles.select_row : ''}
+                      title="Job Postings"
                       className={
-                        sessionStorage.getItem('superUserTabTwo') === '3' &&
-                        sessionStorage.getItem('superUserFalseTab') === '2' &&
-                        sessionStorage.getItem('superUserTab') === '7'
+                        pathname === '/job_list' ||
+                        pathname.includes('/jobs') ||
+                        pathname.includes('/job_view') ||
+                        pathname.includes('/zita_match_candidate') ||
+                        pathname.includes('/applicant_pipe_line')
                           ? styles.select_row
-                          : ''}
+                          : ''
+                      }
                     >
-                      <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
+                      <a
+                        className={styles.hoverview}
+                        href={' '}
+                        onClick={(e) => {
+                          e.preventDefault();
+                        }}
+                      >
+                        <Text style={{ verticalAlign: 'middle' }}>-</Text>
                         <Text
-                          className={Expent === '0' ? styles.text : styles.classpan}
+                          onClick={() => handleNavigate(2)}
+                          className={
+                            Expent === '0' ? styles.text : styles.classpan
+                          }
                           color="primary"
                           style={{ color: '#581845', marginRight: '10px' }}
                         >
-                          Tailor Workflow
+                          Job Postings
                         </Text>
-                      </LinkWrapper>
+                      </a>
                     </li>
+                  )}
+                  {/* Post Jobs */}
+                  {permission.includes('create_post') && (
+                    <>
+                      {is_plan ? (
+                        changes ? (
+                          <li
+                            title="Post Jobs"
+                            className={
+                              pathname === jobCreateNonDs
+                                ? styles.select_row
+                                : ''
+                            }
+                          >
+                            <LinkWrapper
+                              className={styles.hoverview}
+                              onClick={clearTabs}
+                              to={is_plan ? jobCreateNonDs : accountPath}
+                            >
+                              <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                              <Text
+                                // onClick={() => handleNavigate(2)}
+                                className={
+                                  Expent === '0' ? styles.text : styles.classpan
+                                }
+                                color="primary"
+                                style={{
+                                  color: '#581845',
+                                  marginRight: '10px',
+                                }}
+                              >
+                                Post Jobs
+                              </Text>
+                            </LinkWrapper>
+                          </li>
+                        ) : (
+                          <li
+                            title="Post Jobs"
+                            className={
+                              pathname === jobCreateNonDs
+                                ? styles.select_row
+                                : ''
+                            }
+                          >
+                            <LinkWrapper
+                              className={styles.hoverview}
+                              onClick={clearTab}
+                              to={is_plan ? jobCreateNonDs : accountPath}
+                            >
+                              <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                              <Text
+                                // onClick={() => handleNavigate(2)}
+                                className={
+                                  Expent === '0' ? styles.text : styles.classpan
+                                }
+                                color="primary"
+                                style={{
+                                  color: '#581845',
+                                  marginRight: '10px',
+                                }}
+                              >
+                                Post Jobs
+                              </Text>
+                            </LinkWrapper>
+                          </li>
+                        )
+                      ) : (
+                        <li
+                          title="Post Jobs"
+                          className={
+                            pathname === jobCreateNonDs ? styles.select_row : ''
+                          }
+                        >
+                          <a
+                            className={styles.hoverview}
+                            href={' '}
+                            onClick={(e) => {
+                              e.preventDefault();
+                            }}
+                          >
+                            <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                            <Text
+                              // onClick={() => handleNavigate(2)}
+                              className={
+                                Expent === '0' ? styles.text : styles.classpan
+                              }
+                              color="primary"
+                              style={{ color: '#581845', marginRight: '10px' }}
+                            >
+                              Post Jobs
+                            </Text>
+                          </a>
+                        </li>
+                      )}
+                    </>
+                  )}
+                  {/* Customized WorkFlow */}
+                  {is_plan ? (
+                    changes ? (
+                      <li
+                        title="Tailor Workflow"
+                        // className={pathname === '/' ? styles.select_row : ''}
+                        className={
+                          sessionStorage.getItem('superUserTabTwo') === '3' &&
+                          sessionStorage.getItem('superUserFalseTab') === '2' &&
+                          sessionStorage.getItem('superUserTab') === '7'
+                            ? styles.select_row
+                            : ''
+                        }
+                      >
+                        <LinkWrapper
+                          className={styles.hoverview}
+                          onClick={clearTabs}
+                        >
+                          <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                          <Text
+                            className={
+                              Expent === '0' ? styles.text : styles.classpan
+                            }
+                            color="primary"
+                            style={{ color: '#581845', marginRight: '10px' }}
+                          >
+                            Tailor Workflow
+                          </Text>
+                        </LinkWrapper>
+                      </li>
+                    ) : (
+                      <li
+                        title="Tailor Workflow"
+                        // className={pathname === '/' ? styles.select_row : ''}
+                        className={
+                          sessionStorage.getItem('superUserTabTwo') === '3' &&
+                          sessionStorage.getItem('superUserFalseTab') === '2' &&
+                          sessionStorage.getItem('superUserTab') === '7'
+                            ? styles.select_row
+                            : ''
+                        }
+                      >
+                        <LinkWrapper
+                          className={styles.hoverview}
+                          onClick={() => {
+                            clearTab();
+                            sessionStorage.setItem('superUserTabTwo', '3');
+                            sessionStorage.setItem('superUserFalseTab', '2');
+                            sessionStorage.setItem('superUserTab', '7');
+                          }}
+                          to={accountPath}
+                        >
+                          <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                          <Text
+                            className={
+                              Expent === '0' ? styles.text : styles.classpan
+                            }
+                            color="primary"
+                            style={{ color: '#581845', marginRight: '10px' }}
+                          >
+                            Tailor Workflow
+                          </Text>
+                        </LinkWrapper>
+                      </li>
+                    )
                   ) : (
                     <li
                       title="Tailor Workflow"
@@ -759,726 +867,748 @@ const Sidebar = ({ changes, data }: props) => {
                         sessionStorage.getItem('superUserFalseTab') === '2' &&
                         sessionStorage.getItem('superUserTab') === '7'
                           ? styles.select_row
-                          : ''}
+                          : ''
+                      }
                     >
-                      <LinkWrapper
+                      <a
                         className={styles.hoverview}
-                        onClick={() => {
-                          clearTab();
-                          sessionStorage.setItem('superUserTabTwo','3')
-                          sessionStorage.setItem('superUserFalseTab', '2');
-                          sessionStorage.setItem('superUserTab', '7'); 
+                        href={' '}
+                        onClick={(e) => {
+                          e.preventDefault();
                         }}
-                        to={accountPath}
                       >
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
+                        <Text style={{ verticalAlign: 'middle' }}>-</Text>
                         <Text
-                          className={Expent === '0' ? styles.text : styles.classpan}
+                          className={
+                            Expent === '0' ? styles.text : styles.classpan
+                          }
                           color="primary"
                           style={{ color: '#581845', marginRight: '10px' }}
                         >
                           Tailor Workflow
                         </Text>
-                      </LinkWrapper>
+                      </a>
                     </li>
-                  )
-                ) : (
-                  <li
-                    title="Tailor Workflow"
-                    // className={pathname === '/' ? styles.select_row : ''}
-                    className={
-                      sessionStorage.getItem('superUserTabTwo') === '3' &&
-                      sessionStorage.getItem('superUserFalseTab') === '2' &&
-                      sessionStorage.getItem('superUserTab') === '7'
-                        ? styles.select_row
-                        : ''}
-                  >
-                    <a
-                      className={styles.hoverview}
-                      href={' '}
-                      onClick={(e) => {
-                        e.preventDefault();
-                      }}
-                    >
-                      <Text style={{ verticalAlign: 'middle'}}>
-                        -
-                      </Text>
-                      <Text
-                        className={Expent === '0' ? styles.text : styles.classpan}
-                        color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
-                      >
-                        Tailor Workflow
-                      </Text>
-                    </a>
-                  </li>
-                )} 
-              </Flex>
-            </>
-            }
-{/* Candidates Dropdown */}
+                  )}
+                </Flex>
+              </>
+            )}
+            {/* Candidates Dropdown */}
             <li>
-              <Flex row
-                  title="Candidates"
-                  className={styles.filtername}
-                  // onClick={() => {toggleCandiDropdown()}}
-                  onClick={Expent === "0" ? ()=>{toggleCandiDropdown()} : ()=>{toggleCandiPopupDropdown()}}
-
-                >
-                  <Flex row>
-                  <text style={{ verticalAlign: 'middle'}}>
-                  <SvgUserSearch
-                          fill={'#581845'}
-                          width={22}
-                          height={22}
-                        />
-                    </text>
+              <Flex
+                row
+                title="Candidates"
+                className={styles.filtername}
+                // onClick={() => {toggleCandiDropdown()}}
+                onClick={
+                  Expent === '0'
+                    ? () => {
+                        toggleCandiDropdown();
+                      }
+                    : () => {
+                        toggleCandiPopupDropdown();
+                      }
+                }
+              >
+                <Flex row>
+                  <text style={{ verticalAlign: 'middle' }}>
+                    <SvgUserSearch fill={'#581845'} width={22} height={22} />
+                  </text>
                   <Text
-                    size= {13}
+                    size={13}
                     color="theme"
-                    style={{ cursor: 'Pointer'}}
-                    className={Expent === '0' ? styles.maintext : styles.classpan}
+                    style={{ cursor: 'Pointer' }}
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
                   >
                     Candidates
                   </Text>
+                </Flex>
+                {!isCandiDropdownOpen ? (
+                  <Flex
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
+                  >
+                    <SvgRight1 height={10} width={10} fill={'#581845'} />
                   </Flex>
-                  {!isCandiDropdownOpen ? (
-                <Flex
-                className={Expent === '0' ? styles.maintext : styles.classpan}
-                >
-                  <SvgRight1 height={10} width={10} fill={'#581845'}/>
-                </Flex>
-              ):(
-                <Flex
-                className={Expent === '0' ? styles.maintext : styles.classpan}
-                >
-                  <SvgArrowDown1 height={10} width={10} fill={'#581845'}/>
-                </Flex>
-              )}
+                ) : (
+                  <Flex
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
+                  >
+                    <SvgArrowDown1 height={10} width={10} fill={'#581845'} />
+                  </Flex>
+                )}
               </Flex>
-                  </li>
-          {isCandiDropdownOpen && (
-            <Flex style={{backgroundColor:'#f7f7f7', textIndent:"7px"}}>
-            {permission.includes('my_database') && (
-            <>
-              {is_plan ? (
-                changes ? (
-                  <li
-                    title="Database"
-                    className={
-                      pathname === '/mydatabase' ? styles.select_row : ''
-                    }
-                  >
-                    <LinkWrapper
-                      className={styles.hoverview}
-                      to={is_plan ? routesPath.MYDATABASE : accountPath}
-                      onClick={clearTabs}
-                    >
-                      <Text style={{ verticalAlign: 'middle' }}>
-                        -
-                      </Text>
-                      <Text
-                        onClick={() => handleNavigate(3)}
+            </li>
+            {isCandiDropdownOpen && (
+              <Flex style={{ backgroundColor: '#f7f7f7', textIndent: '7px' }}>
+                {permission.includes('my_database') && (
+                  <>
+                    {is_plan ? (
+                      changes ? (
+                        <li
+                          title="Database"
+                          className={
+                            pathname === '/mydatabase' ? styles.select_row : ''
+                          }
+                        >
+                          <LinkWrapper
+                            className={styles.hoverview}
+                            to={is_plan ? routesPath.MYDATABASE : accountPath}
+                            onClick={clearTabs}
+                          >
+                            <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                            <Text
+                              onClick={() => handleNavigate(3)}
+                              className={
+                                Expent === '0' ? styles.text : styles.classpan
+                              }
+                              color="primary"
+                              style={{
+                                color: '#581845',
+                                marginRight: '10px',
+                                // marginLeft: '20px',
+                              }}
+                            >
+                              Database
+                            </Text>
+                          </LinkWrapper>
+                        </li>
+                      ) : (
+                        <li
+                          title="Database"
+                          className={
+                            pathname === '/mydatabase' ? styles.select_row : ''
+                          }
+                        >
+                          <LinkWrapper
+                            className={styles.hoverview}
+                            to={is_plan ? routesPath.MYDATABASE : accountPath}
+                            onClick={clearTab}
+                          >
+                            <Text style={{ verticalAlign: 'middle ' }}>-</Text>
+                            <Text
+                              onClick={() => handleNavigate(3)}
+                              className={
+                                Expent === '0' ? styles.text : styles.classpan
+                              }
+                              color="primary"
+                              style={{
+                                color: '#581845',
+                                marginRight: '10px',
+                                // marginLeft: '20px',
+                              }}
+                            >
+                              Database
+                            </Text>
+                          </LinkWrapper>
+                        </li>
+                      )
+                    ) : (
+                      <li
+                        title="Database"
                         className={
-                          Expent === '0' ? styles.text : styles.classpan
+                          pathname === '/mydatabase' ? styles.select_row : ''
                         }
-                        color="primary"
-                        style={{
-                          color: '#581845',
-                          marginRight: '10px',
-                          // marginLeft: '20px',
-                        }}
                       >
-                        Database
-                      </Text>
-                    </LinkWrapper>
-                  </li>
-                ) : (
-                  <li
-                    title="Database"
-                    className={
-                      pathname === '/mydatabase' ? styles.select_row : ''
-                    }
-                  >
-                    <LinkWrapper
-                      className={styles.hoverview}
-                      to={is_plan ? routesPath.MYDATABASE : accountPath}
-                      onClick={clearTab}
-                    >
-                      <Text style={{ verticalAlign: 'middle ' }}>
-                        -
-                      </Text>
-                      <Text
-                        onClick={() => handleNavigate(3)}
+                        <a
+                          className={styles.hoverview}
+                          href={' '}
+                          onClick={(e) => {
+                            e.preventDefault();
+                          }}
+                        >
+                          <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                          <Text
+                            onClick={() => handleNavigate(3)}
+                            className={
+                              Expent === '0' ? styles.text : styles.classpan
+                            }
+                            color="primary"
+                            style={{
+                              color: '#581845',
+                              marginRight: '10px',
+                              // marginLeft: '20px',
+                            }}
+                          >
+                            Database
+                          </Text>
+                        </a>
+                      </li>
+                    )}
+                  </>
+                )}
+                {permission.includes('talent_sourcing') && (
+                  <>
+                    {is_plan ? (
+                      changes ? (
+                        <li
+                          title="Talent Sourcing"
+                          className={
+                            pathname === '/talent_sourcing'
+                              ? styles.select_row
+                              : ''
+                          }
+                        >
+                          <LinkWrapper
+                            className={styles.hoverview}
+                            onClick={clearTabs}
+                            to={
+                              is_plan ? routesPath.TALENT_SOURCING : accountPath
+                            }
+                          >
+                            <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                            <Text
+                              onClick={() => handleNavigate(4)}
+                              className={
+                                Expent === '0' ? styles.text : styles.classpan
+                              }
+                              color="primary"
+                              style={{ color: '#581845', marginRight: '10px' }}
+                            >
+                              Talent Sourcing
+                            </Text>
+                          </LinkWrapper>
+                        </li>
+                      ) : (
+                        <li
+                          title="Talent Sourcing"
+                          className={
+                            pathname === '/talent_sourcing'
+                              ? styles.select_row
+                              : ''
+                          }
+                        >
+                          <LinkWrapper
+                            className={styles.hoverview}
+                            onClick={clearTab}
+                            to={
+                              is_plan ? routesPath.TALENT_SOURCING : accountPath
+                            }
+                          >
+                            <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                            <Text
+                              onClick={() => handleNavigate(4)}
+                              className={
+                                Expent === '0' ? styles.text : styles.classpan
+                              }
+                              color="primary"
+                              style={{ color: '#581845', marginRight: '10px' }}
+                            >
+                              Talent Sourcing
+                            </Text>
+                          </LinkWrapper>
+                        </li>
+                      )
+                    ) : (
+                      <li
+                        title="Talent Sourcing"
                         className={
-                          Expent === '0' ? styles.text : styles.classpan
+                          pathname === '/talent_sourcing'
+                            ? styles.select_row
+                            : ''
                         }
-                        color="primary"
-                        style={{
-                          color: '#581845',
-                          marginRight: '10px',
-                          // marginLeft: '20px',
-                        }}
                       >
-                        Database
-                      </Text>
-                    </LinkWrapper>
-                  </li>
-                )
-              ) : (
-                <li
-                  title="Database"
-                  className={
-                    pathname === '/mydatabase' ? styles.select_row : ''
-                  }
-                >
-                  <a
-                    className={styles.hoverview}
-                    href={' '}
-                    onClick={(e) => {
-                      e.preventDefault();
-                    }}
-                  >
-                    <Text style={{ verticalAlign: 'middle' }}>
-                      -
-                    </Text>
-                    <Text
-                      onClick={() => handleNavigate(3)}
-                      className={Expent === '0' ? styles.text : styles.classpan}
-                      color="primary"
-                      style={{
-                        color: '#581845',
-                        marginRight: '10px',
-                        // marginLeft: '20px',
-                      }}
-                    >
-                      Database
-                    </Text>
-                  </a>
-                </li>
-              )}
-            </>
-          )}
-          {permission.includes('talent_sourcing') && (
-            <>
-              {is_plan ? (
-                changes ? (
-                  <li
-                    title="Talent Sourcing"
-                    className={
-                      pathname === '/talent_sourcing' ? styles.select_row : ''
-                    }
-                  >
-                    <LinkWrapper
-                      className={styles.hoverview}
-                      onClick={clearTabs}
-                      to={is_plan ? routesPath.TALENT_SOURCING : accountPath}
-                    >
-                      <Text style={{ verticalAlign: 'middle' }}>
-                        -
-                      </Text>
-                      <Text
-                        onClick={() => handleNavigate(4)}
-                        className={
-                          Expent === '0' ? styles.text : styles.classpan
-                        }
-                        color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
-                      >
-                        Talent Sourcing
-                      </Text>
-                    </LinkWrapper>
-                  </li>
-                ) : (
-                  <li
-                    title="Talent Sourcing"
-                    className={
-                      pathname === '/talent_sourcing' ? styles.select_row : ''
-                    }
-                  >
-                    <LinkWrapper
-                      className={styles.hoverview}
-                      onClick={clearTab}
-                      to={is_plan ? routesPath.TALENT_SOURCING : accountPath}
-                    >
-                      <Text style={{ verticalAlign: 'middle' }}>
-                        -
-                      </Text>
-                      <Text
-                        onClick={() => handleNavigate(4)}
-                        className={
-                          Expent === '0' ? styles.text : styles.classpan
-                        }
-                        color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
-                      >
-                        Talent Sourcing
-                      </Text>
-                    </LinkWrapper>
-                  </li>
-                )
-              ) : (
-                <li
-                  title="Talent Sourcing"
-                  className={
-                    pathname === '/talent_sourcing' ? styles.select_row : ''
-                  }
-                >
-                  <a
-                    className={styles.hoverview}
-                    href={' '}
-                    onClick={(e) => {
-                      e.preventDefault();
-                    }}
-                  >
-                    <Text style={{ verticalAlign: 'middle' }}>
-                      -
-                    </Text>
-                    <Text
-                      onClick={() => handleNavigate(4)}
-                      className={Expent === '0' ? styles.text : styles.classpan}
-                      color="primary"
-                      style={{ color: '#581845', marginRight: '10px' }}
-                    >
-                      Talent Sourcing
-                    </Text>
-                  </a>
-                </li>
-              )}
-            </>
-          )}
+                        <a
+                          className={styles.hoverview}
+                          href={' '}
+                          onClick={(e) => {
+                            e.preventDefault();
+                          }}
+                        >
+                          <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                          <Text
+                            onClick={() => handleNavigate(4)}
+                            className={
+                              Expent === '0' ? styles.text : styles.classpan
+                            }
+                            color="primary"
+                            style={{ color: '#581845', marginRight: '10px' }}
+                          >
+                            Talent Sourcing
+                          </Text>
+                        </a>
+                      </li>
+                    )}
+                  </>
+                )}
 
-          {permission.includes('bulkImport_candidates') && (
-            <>
-              {is_plan ? (
-                changes ? (
-                  <li
-                    title="Import Candidates"
-                    className={
-                      pathname === '/bulk_import' ? styles.select_row : ''
-                    }
-                  >
-                    <LinkWrapper
-                      className={styles.hoverview}
-                      onClick={clearTabs}
-                      to={is_plan ? routesPath.BULK_IMPORT : accountPath}
-                    >
-                      <Text>-</Text>
+                {permission.includes('bulkImport_candidates') && (
+                  <>
+                    {is_plan ? (
+                      changes ? (
+                        <li
+                          title="Import Candidates"
+                          className={
+                            pathname === '/bulk_import' ? styles.select_row : ''
+                          }
+                        >
+                          <LinkWrapper
+                            className={styles.hoverview}
+                            onClick={clearTabs}
+                            to={is_plan ? routesPath.BULK_IMPORT : accountPath}
+                          >
+                            <Text>-</Text>
 
-                      <Text
-                        onClick={() => handleNavigate(5)}
-                        className={
-                          Expent === '0' ? styles.text : styles.classpan
-                        }
-                        color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
-                      >
-                        Import Candidates
-                      </Text>
-                    </LinkWrapper>
-                  </li>
-                ) : (
-                  <li
-                    title="Import Candidates"
-                    className={
-                      pathname === '/bulk_import' ? styles.select_row : ''
-                    }
-                  >
-                    <LinkWrapper
-                      className={styles.hoverview}
-                      onClick={clearTab}
-                      to={is_plan ? routesPath.BULK_IMPORT : accountPath}
-                    >
-                      <Text>-</Text>
+                            <Text
+                              onClick={() => handleNavigate(5)}
+                              className={
+                                Expent === '0' ? styles.text : styles.classpan
+                              }
+                              color="primary"
+                              style={{ color: '#581845', marginRight: '10px' }}
+                            >
+                              Import Candidates
+                            </Text>
+                          </LinkWrapper>
+                        </li>
+                      ) : (
+                        <li
+                          title="Import Candidates"
+                          className={
+                            pathname === '/bulk_import' ? styles.select_row : ''
+                          }
+                        >
+                          <LinkWrapper
+                            className={styles.hoverview}
+                            onClick={clearTab}
+                            to={is_plan ? routesPath.BULK_IMPORT : accountPath}
+                          >
+                            <Text>-</Text>
 
-                      <Text
-                        onClick={() => handleNavigate(5)}
+                            <Text
+                              onClick={() => handleNavigate(5)}
+                              className={
+                                Expent === '0' ? styles.text : styles.classpan
+                              }
+                              color="primary"
+                              style={{ color: '#581845', marginRight: '10px' }}
+                            >
+                              Import Candidates
+                            </Text>
+                          </LinkWrapper>
+                        </li>
+                      )
+                    ) : (
+                      <li
+                        title="Import Candidates"
                         className={
-                          Expent === '0' ? styles.text : styles.classpan
+                          pathname === '/bulk_import' ? styles.select_row : ''
                         }
-                        color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
                       >
-                        Import Candidates
-                      </Text>
-                    </LinkWrapper>
-                  </li>
-                )
-              ) : (
-                <li
-                  title="Import Candidates"
-                  className={
-                    pathname === '/bulk_import' ? styles.select_row : ''
-                  }
-                >
-                  <a
-                    className={styles.hoverview}
-                    href={' '}
-                    onClick={(e) => {
-                      e.preventDefault();
-                    }}
-                  >
-                    <Text>-</Text>
-                    <Text
-                      onClick={() => handleNavigate(5)}
-                      className={Expent === '0' ? styles.text : styles.classpan}
-                      color="primary"
-                      style={{ color: '#581845', marginRight: '10px' }}
-                    >
-                      Import Candidates
-                    </Text>
-                  </a>
-                </li>
-              )}
-            </>
-          )}
-            </Flex>
-          )}
-{/* Communications Dropdown */}
+                        <a
+                          className={styles.hoverview}
+                          href={' '}
+                          onClick={(e) => {
+                            e.preventDefault();
+                          }}
+                        >
+                          <Text>-</Text>
+                          <Text
+                            onClick={() => handleNavigate(5)}
+                            className={
+                              Expent === '0' ? styles.text : styles.classpan
+                            }
+                            color="primary"
+                            style={{ color: '#581845', marginRight: '10px' }}
+                          >
+                            Import Candidates
+                          </Text>
+                        </a>
+                      </li>
+                    )}
+                  </>
+                )}
+              </Flex>
+            )}
+            {/* Communications Dropdown */}
             <li>
-            <Flex row
-                  title="Communications"
-                  className={styles.filtername}
-                  // onClick={() => {toggleCommDropdown()}}
-                  onClick={Expent === "0" ? ()=>{toggleCommDropdown()} : ()=>{toggleCommPopupDropdown()}}
-                >
-                  <Flex row>
-                  <text style={{ verticalAlign: 'middle'}}>
-                  <SvgCommunication width={21} height={21}/>
-                    </text>
+              <Flex
+                row
+                title="Communications"
+                className={styles.filtername}
+                // onClick={() => {toggleCommDropdown()}}
+                onClick={
+                  Expent === '0'
+                    ? () => {
+                        toggleCommDropdown();
+                      }
+                    : () => {
+                        toggleCommPopupDropdown();
+                      }
+                }
+              >
+                <Flex row>
+                  <text style={{ verticalAlign: 'middle' }}>
+                    <SvgCommunication width={21} height={21} />
+                  </text>
                   <Text
-                    size= {13}
+                    size={13}
                     color="theme"
-                    style={{ cursor: 'Pointer'}}
-                    className={Expent === '0' ? styles.maintext : styles.classpan}
-                  >
-                     Communications
-                  </Text>
-                  </Flex>
-                  {!isCommDropdownOpen ? (
-                <Flex
-                className={Expent === '0' ? styles.maintext : styles.classpan}
-                >
-                  <SvgRight1 height={10} width={10} fill={'#581845'}/>
-                </Flex>
-              ):(
-                <Flex
-                className={Expent === '0' ? styles.maintext : styles.classpan}
-                >
-                  <SvgArrowDown1 height={10} width={10} fill={'#581845'}/>
-                </Flex>
-              )}
-              </Flex>
-            </li>  
-            {isCommDropdownOpen && (
-                <> 
-                <Flex style={{backgroundColor: "#f7f7f7", textIndent:"7px"}}>
-            {/* Calendar */}
-                {(
-                  <>
-                    {is_plan ? (
-                      changes ? (
-                        <li
-                          className={
-                            pathname === '/calendar' ? styles.select_row : ''
-                          }
-                          title="Calendar"
-                        >
-                          <LinkWrapper
-                            className={styles.hoverview}
-                            onClick={clearTabs}
-                            to={is_plan ? routesPath.CALENDAR : accountPath}
-                          >
-                            <Text style={{ verticalAlign: 'middle' }}>
-                              -
-                            </Text>
-                            <Text
-                              onClick={() => handleNavigate(7)}
-                              className={
-                                Expent === '0' ? styles.text : styles.classpan
-                              }
-                              color="primary"
-                              style={{ color: '#581845', marginRight: '10px'}}
-                            >
-                              Calendar
-                            </Text>
-                          </LinkWrapper>
-                        </li>
-                      ) : (
-                        <li
-                          className={
-                            pathname === '/calendar' ? styles.select_row : ''
-                          }
-                          title="Calendar"
-                        >
-                          <LinkWrapper
-                            className={styles.hoverview}
-                            onClick={clearTab}
-                            to={is_plan ? routesPath.CALENDAR : accountPath}
-                          >
-                            <Text style={{ verticalAlign: 'middle' }}>
-                              -
-                            </Text>
-                            <Text
-                              onClick={() => handleNavigate(7)}
-                              className={
-                                Expent === '0' ? styles.text : styles.classpan
-                              }
-                              color="primary"
-                              style={{ color: '#581845', marginRight: '10px'}}
-                            >
-                              Calendar
-                            </Text>
-                          </LinkWrapper>
-                        </li>
-                      )
-                    ) : (
-                      <li
-                        className={pathname === '/calendar' ? styles.select_row : ''}
-                        title="Calendar"
-                      >
-                        <a
-                          className={styles.hoverview}
-                          href={' '}
-                          onClick={(e) => {
-                            e.preventDefault();
-                          }}
-                        >
-                          <Text style={{ verticalAlign: 'middle' }}>
-                            -
-                          </Text>
-                          <Text
-                            onClick={() => handleNavigate(7)}
-                            className={Expent === '0' ? styles.text : styles.classpan}
-                            color="primary"
-                            style={{ color: '#581845', marginRight: '10px'}}
-                          >
-                            Calendar
-                          </Text>
-                        </a>
-                      </li>
-                    )}
-                  </>
-                )}
-            {/* Integrations */}
-            {is_plan ? (
-                  changes ? (
-                    <li
-                      title="Integrations"
-                      // className={pathname === '/account_setting/settings' ? styles.select_row : ''}
-                      className={
-                        sessionStorage.getItem('superUserTabTwo') === '2' &&
-                        sessionStorage.getItem('superUserFalseTab') === '1' &&
-                        sessionStorage.getItem('superUserTab') === '4'
-                          ? styles.select_row
-                          : ''}
-                    >
-                      <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
-                        <Text
-                          className={Expent === '0' ? styles.text : styles.classpan}
-                          color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
-                        >
-                          Integrations
-                        </Text>
-                      </LinkWrapper>
-                    </li>
-                  ) : (
-                    <li
-                      title="Integrations"
-                      // className={pathname === '/account_setting/settings' ? styles.select_row : ''}
-                      className={
-                        sessionStorage.getItem('superUserTabTwo') === '2' &&
-                        sessionStorage.getItem('superUserFalseTab') === '1' &&
-                        sessionStorage.getItem('superUserTab') === '4'
-                          ? styles.select_row
-                          : ''}
-                    >
-                      <LinkWrapper
-                        className={styles.hoverview}
-                        onClick={() => {
-                          IntegrationNav()}}
-                        to= {accountPath}
-                      >
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
-                        <Text
-                          className={Expent === '0' ? styles.text : styles.classpan}
-                          color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
-                        >
-                          Integrations
-                        </Text>
-                      </LinkWrapper>
-                    </li>
-                  )
-                ) : (
-                  <li
-                    title="Integrations"
-                    // className={pathname === '/account_setting/settings' ? styles.select_row : ''}
+                    style={{ cursor: 'Pointer' }}
                     className={
-                      sessionStorage.getItem('superUserTabTwo') === '2' &&
-                      sessionStorage.getItem('superUserFalseTab') === '1' &&
-                      sessionStorage.getItem('superUserTab') === '4'
-                        ? styles.select_row
-                        : ''}
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
                   >
-                    <a
-                      className={styles.hoverview}
-                      href={' '}
-                      onClick={(e) => {
-                        e.preventDefault();
-                      }}
-                    >
-                      <Text style={{ verticalAlign: 'middle'}}>
-                        -
-                      </Text>
-                      <Text
-                        // onClick={() => handleNavigate(1)}
-                        className={Expent === '0' ? styles.text : styles.classpan}
-                        color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
-                      >
-                        Integrations
-                      </Text>
-                    </a>
-                  </li>
-                )} 
-            {/* Interview Scheduler */}
-                {(
-                  <>
-                    {is_plan ? (
-                      changes ? (
-                        <li
-                          title=" Interview Scheduler"
-                          className={
-                            pathname === meetingScheduler ? styles.select_row : ''
-                          }
-                        >
-                          <LinkWrapper
-                            className={styles.hoverview}
-                            onClick={clearTabs}
-                            to={is_plan ? meetingScheduler : accountPath}
+                    Communications
+                  </Text>
+                </Flex>
+                {!isCommDropdownOpen ? (
+                  <Flex
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
+                  >
+                    <SvgRight1 height={10} width={10} fill={'#581845'} />
+                  </Flex>
+                ) : (
+                  <Flex
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
+                  >
+                    <SvgArrowDown1 height={10} width={10} fill={'#581845'} />
+                  </Flex>
+                )}
+              </Flex>
+            </li>
+            {isCommDropdownOpen && (
+              <>
+                <Flex style={{ backgroundColor: '#f7f7f7', textIndent: '7px' }}>
+                  {/* Calendar */}
+                  {
+                    <>
+                      {is_plan ? (
+                        changes ? (
+                          <li
+                            className={
+                              pathname === '/calendar' ? styles.select_row : ''
+                            }
+                            title="Calendar"
                           >
-                            <Text style={{ verticalAlign: 'middle' }}>
-                              -
-                            </Text>
-                            <Text
-                              onClick={() => handleNavigate(8)}
-                              className={
-                                Expent === '0' ? styles.text : styles.classpan
-                              }
-                              color="primary"
-                              style={{ color: '#581845', marginRight: '10px'}}
+                            <LinkWrapper
+                              className={styles.hoverview}
+                              onClick={clearTabs}
+                              to={is_plan ? routesPath.CALENDAR : accountPath}
                             >
-                              Interview Scheduler
-                            </Text>
-                          </LinkWrapper>
-                        </li>
+                              <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                              <Text
+                                onClick={() => handleNavigate(7)}
+                                className={
+                                  Expent === '0' ? styles.text : styles.classpan
+                                }
+                                color="primary"
+                                style={{
+                                  color: '#581845',
+                                  marginRight: '10px',
+                                }}
+                              >
+                                Calendar
+                              </Text>
+                            </LinkWrapper>
+                          </li>
+                        ) : (
+                          <li
+                            className={
+                              pathname === '/calendar' ? styles.select_row : ''
+                            }
+                            title="Calendar"
+                          >
+                            <LinkWrapper
+                              className={styles.hoverview}
+                              onClick={clearTab}
+                              to={is_plan ? routesPath.CALENDAR : accountPath}
+                            >
+                              <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                              <Text
+                                onClick={() => handleNavigate(7)}
+                                className={
+                                  Expent === '0' ? styles.text : styles.classpan
+                                }
+                                color="primary"
+                                style={{
+                                  color: '#581845',
+                                  marginRight: '10px',
+                                }}
+                              >
+                                Calendar
+                              </Text>
+                            </LinkWrapper>
+                          </li>
+                        )
                       ) : (
                         <li
-                          title=" Interview Scheduler"
                           className={
-                            pathname === meetingScheduler ? styles.select_row : ''
+                            pathname === '/calendar' ? styles.select_row : ''
                           }
+                          title="Calendar"
                         >
-                          <LinkWrapper
+                          <a
                             className={styles.hoverview}
-                            onClick={clearTab}
-                            to={is_plan ? meetingScheduler : accountPath}
+                            href={' '}
+                            onClick={(e) => {
+                              e.preventDefault();
+                            }}
                           >
-                            <Text style={{ verticalAlign: 'middle' }}>
-                              -
-                            </Text>
+                            <Text style={{ verticalAlign: 'middle' }}>-</Text>
                             <Text
-                              onClick={() => handleNavigate(8)}
+                              onClick={() => handleNavigate(7)}
                               className={
                                 Expent === '0' ? styles.text : styles.classpan
                               }
                               color="primary"
-                              style={{ color: '#581845', marginRight: '10px'}}
+                              style={{ color: '#581845', marginRight: '10px' }}
                             >
-                              Interview Scheduler
+                              Calendar
                             </Text>
-                          </LinkWrapper>
+                          </a>
                         </li>
-                      )
-                    ) : (
+                      )}
+                    </>
+                  }
+                  {/* Integrations */}
+                  {is_plan ? (
+                    changes ? (
                       <li
-                        title=" Interview Scheduler"
+                        title="Integrations"
+                        // className={pathname === '/account_setting/settings' ? styles.select_row : ''}
                         className={
-                          pathname === meetingScheduler ? styles.select_row : ''
+                          sessionStorage.getItem('superUserTabTwo') === '2' &&
+                          sessionStorage.getItem('superUserFalseTab') === '1' &&
+                          sessionStorage.getItem('superUserTab') === '4'
+                            ? styles.select_row
+                            : ''
                         }
                       >
-                        <a
+                        <LinkWrapper
                           className={styles.hoverview}
-                          href={' '}
-                          onClick={(e) => {
-                            e.preventDefault();
-                          }}
+                          onClick={clearTabs}
                         >
-                          <Text style={{ verticalAlign: 'middle' }}>
-                            -
-                          </Text>
+                          <Text style={{ verticalAlign: 'middle' }}>-</Text>
                           <Text
-                            onClick={() => handleNavigate(8)}
-                            className={Expent === '0' ? styles.text : styles.classpan}
+                            className={
+                              Expent === '0' ? styles.text : styles.classpan
+                            }
                             color="primary"
-                            style={{ color: '#581845', marginRight: '10px'}}
+                            style={{ color: '#581845', marginRight: '10px' }}
                           >
-                            Interview Scheduler
+                            Integrations
                           </Text>
-                        </a>
+                        </LinkWrapper>
                       </li>
-                    )}
-                  </>
-                )}
-            {/* Mailbox */}
-                {is_plan ? (
-                  changes ? (
-                    <li
-                      title="MailBox"
-                      className={pathname === '/mail' ? styles.select_row : ''}
-                    >
-                      <LinkWrapper
-                        className={styles.hoverview}
-                        onClick={clearTabs}
-                        to={is_plan ? routesPath.MAIL : accountPath}
+                    ) : (
+                      <li
+                        title="Integrations"
+                        // className={pathname === '/account_setting/settings' ? styles.select_row : ''}
+                        className={
+                          sessionStorage.getItem('superUserTabTwo') === '2' &&
+                          sessionStorage.getItem('superUserFalseTab') === '1' &&
+                          sessionStorage.getItem('superUserTab') === '4'
+                            ? styles.select_row
+                            : ''
+                        }
                       >
-                        <Text style={{ verticalAlign: 'middle' }}>
-                          -
-                        </Text>
-
-                        <Text
-                          onClick={() => handleNavigate(7)}
-                          className={Expent === '0' ? styles.text : styles.classpan}
-                          color="primary"
-                          style={{ color: '#581845', marginRight: '10px'}}
+                        <LinkWrapper
+                          className={styles.hoverview}
+                          onClick={() => {
+                            IntegrationNav();
+                          }}
+                          to={accountPath}
                         >
-                          Mailbox
-                        </Text>
-                      </LinkWrapper>
-                    </li>
+                          <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                          <Text
+                            className={
+                              Expent === '0' ? styles.text : styles.classpan
+                            }
+                            color="primary"
+                            style={{ color: '#581845', marginRight: '10px' }}
+                          >
+                            Integrations
+                          </Text>
+                        </LinkWrapper>
+                      </li>
+                    )
                   ) : (
-                    <li title='Mailbox' className={pathname === '/mail' ? styles.select_row : ''}>
-                      <LinkWrapper
+                    <li
+                      title="Integrations"
+                      // className={pathname === '/account_setting/settings' ? styles.select_row : ''}
+                      className={
+                        sessionStorage.getItem('superUserTabTwo') === '2' &&
+                        sessionStorage.getItem('superUserFalseTab') === '1' &&
+                        sessionStorage.getItem('superUserTab') === '4'
+                          ? styles.select_row
+                          : ''
+                      }
+                    >
+                      <a
                         className={styles.hoverview}
-                        onClick={clearTab}
-                        to={is_plan ? routesPath.MAIL : accountPath}
+                        href={' '}
+                        onClick={(e) => {
+                          e.preventDefault();
+                        }}
                       >
-                        <Text style={{ verticalAlign: 'middle' }}>
-                          -
+                        <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                        <Text
+                          // onClick={() => handleNavigate(1)}
+                          className={
+                            Expent === '0' ? styles.text : styles.classpan
+                          }
+                          color="primary"
+                          style={{ color: '#581845', marginRight: '10px' }}
+                        >
+                          Integrations
                         </Text>
+                      </a>
+                    </li>
+                  )}
+                  {/* Interview Scheduler */}
+                  {
+                    <>
+                      {is_plan ? (
+                        changes ? (
+                          <li
+                            title=" Interview Scheduler"
+                            className={
+                              pathname === meetingScheduler
+                                ? styles.select_row
+                                : ''
+                            }
+                          >
+                            <LinkWrapper
+                              className={styles.hoverview}
+                              onClick={clearTabs}
+                              to={is_plan ? meetingScheduler : accountPath}
+                            >
+                              <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                              <Text
+                                onClick={() => handleNavigate(8)}
+                                className={
+                                  Expent === '0' ? styles.text : styles.classpan
+                                }
+                                color="primary"
+                                style={{
+                                  color: '#581845',
+                                  marginRight: '10px',
+                                }}
+                              >
+                                Interview Scheduler
+                              </Text>
+                            </LinkWrapper>
+                          </li>
+                        ) : (
+                          <li
+                            title=" Interview Scheduler"
+                            className={
+                              pathname === meetingScheduler
+                                ? styles.select_row
+                                : ''
+                            }
+                          >
+                            <LinkWrapper
+                              className={styles.hoverview}
+                              onClick={clearTab}
+                              to={is_plan ? meetingScheduler : accountPath}
+                            >
+                              <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                              <Text
+                                onClick={() => handleNavigate(8)}
+                                className={
+                                  Expent === '0' ? styles.text : styles.classpan
+                                }
+                                color="primary"
+                                style={{
+                                  color: '#581845',
+                                  marginRight: '10px',
+                                }}
+                              >
+                                Interview Scheduler
+                              </Text>
+                            </LinkWrapper>
+                          </li>
+                        )
+                      ) : (
+                        <li
+                          title=" Interview Scheduler"
+                          className={
+                            pathname === meetingScheduler
+                              ? styles.select_row
+                              : ''
+                          }
+                        >
+                          <a
+                            className={styles.hoverview}
+                            href={' '}
+                            onClick={(e) => {
+                              e.preventDefault();
+                            }}
+                          >
+                            <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                            <Text
+                              onClick={() => handleNavigate(8)}
+                              className={
+                                Expent === '0' ? styles.text : styles.classpan
+                              }
+                              color="primary"
+                              style={{ color: '#581845', marginRight: '10px' }}
+                            >
+                              Interview Scheduler
+                            </Text>
+                          </a>
+                        </li>
+                      )}
+                    </>
+                  }
+                  {/* Mailbox */}
+                  {is_plan ? (
+                    changes ? (
+                      <li
+                        title="MailBox"
+                        className={
+                          pathname === '/mail' ? styles.select_row : ''
+                        }
+                      >
+                        <LinkWrapper
+                          className={styles.hoverview}
+                          onClick={clearTabs}
+                          to={is_plan ? routesPath.MAIL : accountPath}
+                        >
+                          <Text style={{ verticalAlign: 'middle' }}>-</Text>
 
                           <Text
                             onClick={() => handleNavigate(7)}
-                            className={Expent === '0' ? styles.text : styles.classpan}
+                            className={
+                              Expent === '0' ? styles.text : styles.classpan
+                            }
+                            color="primary"
+                            style={{ color: '#581845', marginRight: '10px' }}
+                          >
+                            Mailbox
+                          </Text>
+                        </LinkWrapper>
+                      </li>
+                    ) : (
+                      <li
+                        title="Mailbox"
+                        className={
+                          pathname === '/mail' ? styles.select_row : ''
+                        }
+                      >
+                        <LinkWrapper
+                          className={styles.hoverview}
+                          onClick={clearTab}
+                          to={is_plan ? routesPath.MAIL : accountPath}
+                        >
+                          <Text style={{ verticalAlign: 'middle' }}>-</Text>
+
+                          <Text
+                            onClick={() => handleNavigate(7)}
+                            className={
+                              Expent === '0' ? styles.text : styles.classpan
+                            }
                             color="primary"
                             style={{ color: '#581845', marginRight: '10px' }}
                           >
@@ -1488,310 +1618,408 @@ const Sidebar = ({ changes, data }: props) => {
                       </li>
                     )
                   ) : (
-                    <li title='Mailbox' className={pathname === '/mail' ? styles.select_row : ''}>
-                        <a
-                          className={styles.hoverview}
-                          href={' '}
-                          onClick={(e) => {
-                            e.preventDefault();
-                          }}
-                        > 
-                        <Text style={{ verticalAlign: 'middle' }}>
-                          -
-                        </Text>
+                    <li
+                      title="Mailbox"
+                      className={pathname === '/mail' ? styles.select_row : ''}
+                    >
+                      <a
+                        className={styles.hoverview}
+                        href={' '}
+                        onClick={(e) => {
+                          e.preventDefault();
+                        }}
+                      >
+                        <Text style={{ verticalAlign: 'middle' }}>-</Text>
 
                         <Text
                           onClick={() => handleNavigate(7)}
-                          className={Expent === '0' ? styles.text : styles.classpan}
+                          className={
+                            Expent === '0' ? styles.text : styles.classpan
+                          }
                           color="primary"
-                          style={{ color: '#581845', marginRight: '10px'}}
+                          style={{ color: '#581845', marginRight: '10px' }}
                         >
                           Mailbox
                         </Text>
-                        </a>
+                      </a>
                     </li>
                   )}
-                  </Flex>
-                </>
+                </Flex>
+              </>
             )}
-{/* Branding Dropdown */}
+            {/* Branding Dropdown */}
             <li>
-            <Flex row
-                  title="Branding"
-                  className={styles.filtername}
-                  // onClick={() => {toggleBrandDropdown()}}
-                  onClick={Expent === "0" ? ()=>{toggleBrandDropdown()} : ()=>{toggleBrandPopupDropdown()}}
-
-                >
-                  <Flex row>
-                  <text style={{ verticalAlign: 'middle'}}>
-                  <SvgBranding width={22} height={22}/>
-                    </text>
+              <Flex
+                row
+                title="Branding"
+                className={styles.filtername}
+                // onClick={() => {toggleBrandDropdown()}}
+                onClick={
+                  Expent === '0'
+                    ? () => {
+                        toggleBrandDropdown();
+                      }
+                    : () => {
+                        toggleBrandPopupDropdown();
+                      }
+                }
+              >
+                <Flex row>
+                  <text style={{ verticalAlign: 'middle' }}>
+                    <SvgBranding width={22} height={22} />
+                  </text>
                   <Text
-                    size= {13}
+                    size={13}
                     color="theme"
-                    style={{ cursor: 'Pointer'}}
-                    className={Expent === '0' ? styles.maintext : styles.classpan}
+                    style={{ cursor: 'Pointer' }}
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
                   >
-                     Branding
+                    Branding
                   </Text>
+                </Flex>
+                {!isBrandDropdownOpen ? (
+                  <Flex
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
+                  >
+                    <SvgRight1 height={10} width={10} fill={'#581845'} />
                   </Flex>
-                  {!isBrandDropdownOpen ? (
-                <Flex
-                className={Expent === '0' ? styles.maintext : styles.classpan}
-                >
-                  <SvgRight1 height={10} width={10} fill={'#581845'}/>
-                </Flex>
-              ):(
-                <Flex
-                className={Expent === '0' ? styles.maintext : styles.classpan}
-                >
-                  <SvgArrowDown1 height={10} width={10} fill={'#581845'}/>
-                </Flex>
-              )}
+                ) : (
+                  <Flex
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
+                  >
+                    <SvgArrowDown1 height={10} width={10} fill={'#581845'} />
+                  </Flex>
+                )}
               </Flex>
-              </li>
+            </li>
             {isBrandDropdownOpen && (
               <>
-              <Flex style={{backgroundColor:"#f7f7f7", textIndent:"7px"}}>
-              {/* Careers Page */}
-                {is_plan ? (
-                  changes ? (
+                <Flex style={{ backgroundColor: '#f7f7f7', textIndent: '7px' }}>
+                  {/* Careers Page */}
+                  {is_plan ? (
+                    changes ? (
+                      <li
+                        title="Careers Page"
+                        // className={pathname === '/' ? styles.select_row : ''}
+                      >
+                        <LinkWrapper
+                          className={styles.hoverview}
+                          onClick={clearTabs}
+                        >
+                          <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                          <Text
+                            className={
+                              Expent === '0' ? styles.text : styles.classpan
+                            }
+                            color="primary"
+                            style={{ color: '#581845', marginRight: '10px' }}
+                          >
+                            Careers Page
+                          </Text>
+                        </LinkWrapper>
+                      </li>
+                    ) : (
+                      <li
+                        title="Careers Page"
+                        // className={pathname === '/' ? styles.select_row : ''}
+                      >
+                        <LinkWrapper
+                          className={styles.hoverview}
+                          onClick={clearTab}
+                          target={
+                            isEmpty(career_page_url) ? '_parent' : '_blank'
+                          }
+                          to={
+                            isEmpty(career_page_url)
+                              ? `/account_setting/settings?tab=1`
+                              : `/${career_page_url}/careers`
+                          }
+                        >
+                          <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                          <Text
+                            onClick={() => handleNavigate(1)}
+                            className={
+                              Expent === '0' ? styles.text : styles.classpan
+                            }
+                            color="primary"
+                            style={{ color: '#581845', marginRight: '10px' }}
+                          >
+                            Careers Page
+                          </Text>
+                        </LinkWrapper>
+                      </li>
+                    )
+                  ) : (
                     <li
                       title="Careers Page"
                       // className={pathname === '/' ? styles.select_row : ''}
                     >
-                      <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
+                      <a
+                        className={styles.hoverview}
+                        href={' '}
+                        onClick={(e) => {
+                          e.preventDefault();
+                        }}
+                      >
+                        <Text style={{ verticalAlign: 'middle' }}>-</Text>
                         <Text
-                          className={Expent === '0' ? styles.text : styles.classpan}
+                          className={
+                            Expent === '0' ? styles.text : styles.classpan
+                          }
                           color="primary"
                           style={{ color: '#581845', marginRight: '10px' }}
                         >
                           Careers Page
                         </Text>
-                      </LinkWrapper>
+                      </a>
                     </li>
-                  ) : (
-                    <li
-                      title="Careers Page"
-                      // className={pathname === '/' ? styles.select_row : ''}
-                    > 
-                      <LinkWrapper
-                        className={styles.hoverview}
-                        onClick={clearTab}
-                        target={isEmpty(career_page_url) ? '_parent' : '_blank'}
-                        to={
-                          isEmpty(career_page_url)
-                            ? `/account_setting/settings?tab=1`
-                            : `/${career_page_url}/careers`
-                        }
-                      >
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
-                        <Text
-                          onClick={() => handleNavigate(1)}
-                          className={Expent === '0' ? styles.text : styles.classpan}
-                          color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
+                  )}
+                  {/* Build Your Careers Page */}
+                  {super_user === true && (
+                    <>
+                      {is_plan ? (
+                        changes ? (
+                          <li
+                            title="Setup Careers Page"
+                            // className={pathname === '/account_setting/settings?tab=1' ? styles.select_row : ''}
+                            className={
+                              sessionStorage.getItem('superUserTabTwo') ===
+                                '1' &&
+                              sessionStorage.getItem('superUserFalseTab') ===
+                                '1' &&
+                              sessionStorage.getItem('superUserTab') === '1'
+                                ? styles.select_row
+                                : ''
+                            }
+                          >
+                            <LinkWrapper
+                              className={styles.hoverview}
+                              onClick={clearTabs}
+                            >
+                              <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                              <Text
+                                // onClick={() => handleNavigate(1)}
+                                className={
+                                  Expent === '0' ? styles.text : styles.classpan
+                                }
+                                color="primary"
+                                style={{
+                                  color: '#581845',
+                                  marginRight: '10px',
+                                }}
+                              >
+                                Setup Careers Page
+                              </Text>
+                            </LinkWrapper>
+                          </li>
+                        ) : (
+                          <li
+                            title="Setup Careers Page"
+                            // className={pathname === '/account_setting/settings?tab=1' ? styles.select_row : ''}
+                            className={
+                              sessionStorage.getItem('superUserTabTwo') ===
+                                '1' &&
+                              sessionStorage.getItem('superUserFalseTab') ===
+                                '1' &&
+                              sessionStorage.getItem('superUserTab') === '1'
+                                ? styles.select_row
+                                : ''
+                            }
+                          >
+                            <LinkWrapper
+                              className={styles.hoverview}
+                              onClick={clearTab}
+                              // onClick={changeurlss}
+                              to={
+                                is_plan
+                                  ? '/account_setting/settings?tab=1'
+                                  : accountPath
+                              }
+                            >
+                              <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                              <Text
+                                // onClick={() => handleNavigate(1)}
+                                className={
+                                  Expent === '0' ? styles.text : styles.classpan
+                                }
+                                color="primary"
+                                style={{
+                                  color: '#581845',
+                                  marginRight: '10px',
+                                }}
+                              >
+                                Setup Careers Page
+                              </Text>
+                            </LinkWrapper>
+                          </li>
+                        )
+                      ) : (
+                        <li
+                          title="Setup Careers Page"
+                          // className={pathname === '/account_setting/settings?tab=1' ? styles.select_row : ''}
+                          className={
+                            sessionStorage.getItem('superUserTabTwo') === '1' &&
+                            sessionStorage.getItem('superUserFalseTab') ===
+                              '1' &&
+                            sessionStorage.getItem('superUserTab') === '1'
+                              ? styles.select_row
+                              : ''
+                          }
                         >
-                          Careers Page
-                        </Text>
-                      </LinkWrapper>
-                    </li>
-                  )
-                ) : (
-                  <li
-                    title="Careers Page"
-                    // className={pathname === '/' ? styles.select_row : ''}
-                  >
-                    <a
-                      className={styles.hoverview}
-                      href={' '}
-                      onClick={(e) => {
-                        e.preventDefault();
-                      }}
-                    >
-                      <Text style={{ verticalAlign: 'middle'}}>
-                        -
-                      </Text>
-                      <Text
-                        className={Expent === '0' ? styles.text : styles.classpan}
-                        color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
-                      >
-                        Careers Page
-                      </Text>
-                    </a>
-                  </li>
-                )} 
-              {/* Build Your Careers Page */}
-              {super_user === true &&
-              <>
-                {is_plan ? (
-                  changes ? (
-                    <li
-                      title="Setup Careers Page"
-                      // className={pathname === '/account_setting/settings?tab=1' ? styles.select_row : ''}
-                      className={
-                        sessionStorage.getItem('superUserTabTwo') === '1' &&
-                        sessionStorage.getItem('superUserFalseTab') === '1' &&
-                        sessionStorage.getItem('superUserTab') === '1'
-                          ? styles.select_row
-                          : ''}
-                    >
-                      <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
-                        <Text
-                          // onClick={() => handleNavigate(1)}
-                          className={Expent === '0' ? styles.text : styles.classpan}
-                          color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
-                        >
-                          Setup Careers Page
-                        </Text> 
-                      </LinkWrapper>
-                    </li>
-                  ) : (
-                    <li
-                      title="Setup Careers Page"
-                      // className={pathname === '/account_setting/settings?tab=1' ? styles.select_row : ''}
-                      className={
-                        sessionStorage.getItem('superUserTabTwo') === '1' &&
-                        sessionStorage.getItem('superUserFalseTab') === '1' &&
-                        sessionStorage.getItem('superUserTab') === '1'
-                          ? styles.select_row
-                          : ''}
-                    >
-                      <LinkWrapper
-                        className={styles.hoverview}
-                        onClick={clearTab}
-                        // onClick={changeurlss}
-                        to={is_plan ? '/account_setting/settings?tab=1' : accountPath}
-                      >
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
-                        <Text
-                          // onClick={() => handleNavigate(1)}
-                          className={Expent === '0' ? styles.text : styles.classpan}
-                          color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
-                        >
-                          Setup Careers Page
-                        </Text>
-                      </LinkWrapper>
-                    </li>
-                  )
-                ) : (
-                  <li
-                    title="Setup Careers Page"
-                    // className={pathname === '/account_setting/settings?tab=1' ? styles.select_row : ''}
-                    className={
-                      sessionStorage.getItem('superUserTabTwo') === '1' &&
-                      sessionStorage.getItem('superUserFalseTab') === '1' &&
-                      sessionStorage.getItem('superUserTab') === '1'
-                        ? styles.select_row
-                        : ''}
-                  >
-                    <a
-                      className={styles.hoverview}
-                      href={' '}
-                      onClick={(e) => {
-                        e.preventDefault();
-                      }}
-                    >
-                      <Text style={{ verticalAlign: 'middle'}}>
-                        -
-                      </Text>
-                      <Text
-                        // onClick={() => handleNavigate(1)}
-                        className={Expent === '0' ? styles.text : styles.classpan}
-                        color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
-                      >
-                        Setup Careers Page
-                      </Text>
-                    </a>
-                  </li>
-                )}
-              </>
-              }
+                          <a
+                            className={styles.hoverview}
+                            href={' '}
+                            onClick={(e) => {
+                              e.preventDefault();
+                            }}
+                          >
+                            <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                            <Text
+                              // onClick={() => handleNavigate(1)}
+                              className={
+                                Expent === '0' ? styles.text : styles.classpan
+                              }
+                              color="primary"
+                              style={{ color: '#581845', marginRight: '10px' }}
+                            >
+                              Setup Careers Page
+                            </Text>
+                          </a>
+                        </li>
+                      )}
+                    </>
+                  )}
                 </Flex>
               </>
             )}
-{/* Account Settings*/}
+            {/* Account Settings*/}
             <li>
-            <Flex row
-                  title="My Account"
-                  className={styles.filtername}
-                  // onClick={() => {toggleMyaccDropdown()}}
-                  onClick={Expent === "0" ? ()=>{toggleMyaccDropdown()} : ()=>{toggleMyaccPopupDropdown()}}
-                >
-                  <Flex row>
-                  <text style={{ verticalAlign: 'middle'}}>
-                  {/* <SvgSetting fill={'#581845'} height={20} width={20} /> */}
-                  <SvgMyAccount height={20} width={20}/>
-                    </text>
+              <Flex
+                row
+                title="My Account"
+                className={styles.filtername}
+                // onClick={() => {toggleMyaccDropdown()}}
+                onClick={
+                  Expent === '0'
+                    ? () => {
+                        toggleMyaccDropdown();
+                      }
+                    : () => {
+                        toggleMyaccPopupDropdown();
+                      }
+                }
+              >
+                <Flex row>
+                  <text style={{ verticalAlign: 'middle' }}>
+                    {/* <SvgSetting fill={'#581845'} height={20} width={20} /> */}
+                    <SvgMyAccount height={20} width={20} />
+                  </text>
                   <Text
-                    size= {13}
+                    size={13}
                     color="theme"
-                    style={{ cursor: 'Pointer'}}
-                    className={Expent === '0' ? styles.maintext : styles.classpan}
+                    style={{ cursor: 'Pointer' }}
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
                   >
-                      My Account
+                    My Account
                   </Text>
+                </Flex>
+                {!isMyaccDropdownOpen ? (
+                  <Flex
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
+                  >
+                    <SvgRight1 height={10} width={10} fill={'#581845'} />
                   </Flex>
-                  {!isMyaccDropdownOpen ? (
-                    <Flex
-                      className={Expent === '0' ? styles.maintext : styles.classpan}
-                      >
-                        <SvgRight1 height={10} width={10} fill={'#581845'}/>
-                    </Flex>
-                  ) : (
-                    <Flex
-                    className={Expent === '0' ? styles.maintext : styles.classpan}
-                    >
-                      <SvgArrowDown1 height={10} width={10} fill={'#581845'}/>
-                    </Flex>
-                  )}
+                ) : (
+                  <Flex
+                    className={
+                      Expent === '0' ? styles.maintext : styles.classpan
+                    }
+                  >
+                    <SvgArrowDown1 height={10} width={10} fill={'#581845'} />
+                  </Flex>
+                )}
               </Flex>
-              </li>
+            </li>
             {isMyaccDropdownOpen && (
               <>
-              <Flex style={{backgroundColor:"#f7f7f7", textIndent:"7px"}}>
-              {/* Profiles */}
-                {is_plan ? (
-                  changes ? (
-                    <li
-                      title="Profiles"
-                      // className={pathname.includes('/account_setting/settings?tab=0') ? styles.select_row : ''}
-                      className={
-                        sessionStorage.getItem('superUserTabTwo') === '0' &&
-                        sessionStorage.getItem('superUserFalseTab') === '0' &&
-                        sessionStorage.getItem('superUserTab') === '0'
-                          ? styles.select_row
-                          : ''}
-                    >
-                      <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
-                        <Text
-                          // onClick={() => handleNavigate(9)}
-                          className={Expent === '0' ? styles.text : styles.classpan}
-                          color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
+                <Flex style={{ backgroundColor: '#f7f7f7', textIndent: '7px' }}>
+                  {/* Profiles */}
+                  {is_plan ? (
+                    changes ? (
+                      <li
+                        title="Profiles"
+                        // className={pathname.includes('/account_setting/settings?tab=0') ? styles.select_row : ''}
+                        className={
+                          sessionStorage.getItem('superUserTabTwo') === '0' &&
+                          sessionStorage.getItem('superUserFalseTab') === '0' &&
+                          sessionStorage.getItem('superUserTab') === '0'
+                            ? styles.select_row
+                            : ''
+                        }
+                      >
+                        <LinkWrapper
+                          className={styles.hoverview}
+                          onClick={clearTabs}
                         >
-                          Profiles
-                        </Text>
-                      </LinkWrapper>
-                    </li>
+                          <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                          <Text
+                            // onClick={() => handleNavigate(9)}
+                            className={
+                              Expent === '0' ? styles.text : styles.classpan
+                            }
+                            color="primary"
+                            style={{ color: '#581845', marginRight: '10px' }}
+                          >
+                            Profiles
+                          </Text>
+                        </LinkWrapper>
+                      </li>
+                    ) : (
+                      <li
+                        title="Profiles"
+                        // className={pathname.includes('/account_setting/settings?tab=0') ? styles.select_row : ''}
+                        className={
+                          sessionStorage.getItem('superUserTabTwo') === '0' &&
+                          sessionStorage.getItem('superUserFalseTab') === '0' &&
+                          sessionStorage.getItem('superUserTab') === '0'
+                            ? styles.select_row
+                            : ''
+                        }
+                      >
+                        <LinkWrapper
+                          className={styles.hoverview}
+                          onClick={clearTab}
+                          // onClick={changeurlss}
+                          to={
+                            is_plan
+                              ? '/account_setting/settings?tab=0'
+                              : accountPath
+                          }
+                        >
+                          <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                          <Text
+                            // onClick={() => handleNavigate(9)}
+                            className={
+                              Expent === '0' ? styles.text : styles.classpan
+                            }
+                            color="primary"
+                            style={{ color: '#581845', marginRight: '10px' }}
+                          >
+                            Profiles
+                          </Text>
+                        </LinkWrapper>
+                      </li>
+                    )
                   ) : (
                     <li
                       title="Profiles"
@@ -1801,255 +2029,271 @@ const Sidebar = ({ changes, data }: props) => {
                         sessionStorage.getItem('superUserFalseTab') === '0' &&
                         sessionStorage.getItem('superUserTab') === '0'
                           ? styles.select_row
-                          : ''}
+                          : ''
+                      }
                     >
-                      <LinkWrapper
+                      <a
                         className={styles.hoverview}
-                        onClick={clearTab}
-                        // onClick={changeurlss}
-                        to={is_plan ? '/account_setting/settings?tab=0' : accountPath}
+                        href={' '}
+                        onClick={(e) => {
+                          e.preventDefault();
+                        }}
                       >
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
+                        <Text style={{ verticalAlign: 'middle' }}>-</Text>
                         <Text
                           // onClick={() => handleNavigate(9)}
-                          className={Expent === '0' ? styles.text : styles.classpan}
+                          className={
+                            Expent === '0' ? styles.text : styles.classpan
+                          }
                           color="primary"
                           style={{ color: '#581845', marginRight: '10px' }}
                         >
                           Profiles
                         </Text>
-                      </LinkWrapper>
+                      </a>
                     </li>
-                  )
-                ) : (
-                  <li
-                    title="Profiles"
-                    // className={pathname.includes('/account_setting/settings?tab=0') ? styles.select_row : ''}
-                    className={
-                      sessionStorage.getItem('superUserTabTwo') === '0' &&
-                      sessionStorage.getItem('superUserFalseTab') === '0' &&
-                      sessionStorage.getItem('superUserTab') === '0'
-                        ? styles.select_row
-                        : ''}
-                  >
-                    <a
-                      className={styles.hoverview}
-                      href={' '}
-                      onClick={(e) => {
-                        e.preventDefault();
-                      }}
-                    >
-                      <Text style={{ verticalAlign: 'middle'}}>
-                        -
-                      </Text>
-                      <Text
-                        // onClick={() => handleNavigate(9)}
-                        className={Expent === '0' ? styles.text : styles.classpan}
-                        color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
-                      >
-                        Profiles
-                      </Text>
-                    </a>
-                  </li>
-                )} 
-              {/* Subscription */}
-              {super_user === true ? (
-                <>
-                { is_plan ? (
-                  changes ? (
-                    <li
-                      title="Subscription"
-                      // className={pathname === '/account_setting/settings?tab=2' ? styles.select_row : ''}
-                      className={
-                        sessionStorage.getItem('superUserTabTwo') === '2' &&
-                        sessionStorage.getItem('superUserFalseTab') === '2' &&
-                        sessionStorage.getItem('superUserTab') === '2'
-                          ? styles.select_row
-                          : ''}
-                    >
-                      <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
-                        <Text
-                          onClick={() => handleNavigate(1)}
-                          className={Expent === '0' ? styles.text : styles.classpan}
-                          color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
+                  )}
+                  {/* Subscription */}
+                  {super_user === true ? (
+                    <>
+                      {is_plan ? (
+                        changes ? (
+                          <li
+                            title="Subscription"
+                            // className={pathname === '/account_setting/settings?tab=2' ? styles.select_row : ''}
+                            className={
+                              sessionStorage.getItem('superUserTabTwo') ===
+                                '2' &&
+                              sessionStorage.getItem('superUserFalseTab') ===
+                                '2' &&
+                              sessionStorage.getItem('superUserTab') === '2'
+                                ? styles.select_row
+                                : ''
+                            }
+                          >
+                            <LinkWrapper
+                              className={styles.hoverview}
+                              onClick={clearTabs}
+                            >
+                              <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                              <Text
+                                onClick={() => handleNavigate(1)}
+                                className={
+                                  Expent === '0' ? styles.text : styles.classpan
+                                }
+                                color="primary"
+                                style={{
+                                  color: '#581845',
+                                  marginRight: '10px',
+                                }}
+                              >
+                                Subscription
+                              </Text>
+                            </LinkWrapper>
+                          </li>
+                        ) : (
+                          <li
+                            title="Subscription"
+                            // className={pathname === '/account_setting/settings?tab=2' ? styles.select_row : ''}
+                            className={
+                              sessionStorage.getItem('superUserTabTwo') ===
+                                '2' &&
+                              sessionStorage.getItem('superUserFalseTab') ===
+                                '2' &&
+                              sessionStorage.getItem('superUserTab') === '2'
+                                ? styles.select_row
+                                : ''
+                            }
+                          >
+                            <LinkWrapper
+                              className={styles.hoverview}
+                              onClick={clearTab}
+                              // onClick={changeurlss}
+                              to={
+                                is_plan
+                                  ? '/account_setting/settings?tab=2'
+                                  : accountPath
+                              }
+                            >
+                              <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                              <Text
+                                // onClick={() => handleNavigate(1)}
+                                className={
+                                  Expent === '0' ? styles.text : styles.classpan
+                                }
+                                color="primary"
+                                style={{
+                                  color: '#581845',
+                                  marginRight: '10px',
+                                }}
+                              >
+                                Subscription
+                              </Text>
+                            </LinkWrapper>
+                          </li>
+                        )
+                      ) : (
+                        <li
+                          title="Subscription"
+                          // className={pathname === '/account_setting/settings?tab=2' ? styles.select_row : ''}
+                          className={
+                            sessionStorage.getItem('superUserTabTwo') === '2' &&
+                            sessionStorage.getItem('superUserFalseTab') ===
+                              '2' &&
+                            sessionStorage.getItem('superUserTab') === '2'
+                              ? styles.select_row
+                              : ''
+                          }
                         >
-                          Subscription
-                        </Text>
-                      </LinkWrapper>
-                    </li>
+                          <a
+                            className={styles.hoverview}
+                            href={' '}
+                            onClick={(e) => {
+                              e.preventDefault();
+                            }}
+                          >
+                            <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                            <Text
+                              // onClick={() => handleNavigate(1)}
+                              className={
+                                Expent === '0' ? styles.text : styles.classpan
+                              }
+                              color="primary"
+                              style={{ color: '#581845', marginRight: '10px' }}
+                            >
+                              Subscription
+                            </Text>
+                          </a>
+                        </li>
+                      )}
+                    </>
                   ) : (
-                    <li
-                      title="Subscription"
-                      // className={pathname === '/account_setting/settings?tab=2' ? styles.select_row : ''}
-                      className={
-                        sessionStorage.getItem('superUserTabTwo') === '2' &&
-                        sessionStorage.getItem('superUserFalseTab') === '2' &&
-                        sessionStorage.getItem('superUserTab') === '2'
-                          ? styles.select_row
-                          : ''}
-                    >
-                      <LinkWrapper
-                        className={styles.hoverview}
-                        onClick={clearTab}
-                        // onClick={changeurlss}
-                        to={is_plan ? '/account_setting/settings?tab=2' : accountPath}
-                      >
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
-                        <Text
-                          // onClick={() => handleNavigate(1)}
-                          className={Expent === '0' ? styles.text : styles.classpan}
-                          color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
+                    ''
+                  )}
+                  {/* Manage Users */}
+                  {super_user === true ? (
+                    <>
+                      {is_plan ? (
+                        changes ? (
+                          <li
+                            title="Manage Users"
+                            // className={pathname === '/account_setting/settings/tab=3' ? styles.select_row : ''}
+                            className={
+                              sessionStorage.getItem('superUserTabTwo') ===
+                                '3' &&
+                              sessionStorage.getItem('superUserFalseTab') ===
+                                '3' &&
+                              sessionStorage.getItem('superUserTab') === '3'
+                                ? styles.select_row
+                                : ''
+                            }
+                          >
+                            <LinkWrapper
+                              className={styles.hoverview}
+                              onClick={clearTabs}
+                            >
+                              <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                              <Text
+                                onClick={() => handleNavigate(1)}
+                                className={
+                                  Expent === '0' ? styles.text : styles.classpan
+                                }
+                                color="primary"
+                                style={{
+                                  color: '#581845',
+                                  marginRight: '10px',
+                                }}
+                              >
+                                Manage Users
+                              </Text>
+                            </LinkWrapper>
+                          </li>
+                        ) : (
+                          <li
+                            title="Manage Users"
+                            // className={pathname === '/account_setting/settings/tab=3' ? styles.select_row : ''}
+                            className={
+                              sessionStorage.getItem('superUserTabTwo') ===
+                                '3' &&
+                              sessionStorage.getItem('superUserFalseTab') ===
+                                '3' &&
+                              sessionStorage.getItem('superUserTab') === '3'
+                                ? styles.select_row
+                                : ''
+                            }
+                          >
+                            <LinkWrapper
+                              className={styles.hoverview}
+                              onClick={clearTab}
+                              // onClick={changeurlss}
+                              to={
+                                is_plan
+                                  ? '/account_setting/settings?tab=3'
+                                  : accountPath
+                              }
+                            >
+                              <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                              <Text
+                                onClick={() => handleNavigate(1)}
+                                className={
+                                  Expent === '0' ? styles.text : styles.classpan
+                                }
+                                color="primary"
+                                style={{
+                                  color: '#581845',
+                                  marginRight: '10px',
+                                }}
+                              >
+                                Manage Users
+                              </Text>
+                            </LinkWrapper>
+                          </li>
+                        )
+                      ) : (
+                        <li
+                          title="Manage Users"
+                          // className={pathname === '/account_setting/settings/tab=3' ? styles.select_row : ''}
+                          className={
+                            sessionStorage.getItem('superUserTabTwo') === '3' &&
+                            sessionStorage.getItem('superUserFalseTab') ===
+                              '3' &&
+                            sessionStorage.getItem('superUserTab') === '3'
+                              ? styles.select_row
+                              : ''
+                          }
                         >
-                          Subscription
-                        </Text>
-                      </LinkWrapper>
-                    </li>
-                  )
-                ) : (
-                  <li
-                    title="Subscription"
-                    // className={pathname === '/account_setting/settings?tab=2' ? styles.select_row : ''}
-                    className={
-                      sessionStorage.getItem('superUserTabTwo') === '2' &&
-                      sessionStorage.getItem('superUserFalseTab') === '2' &&
-                      sessionStorage.getItem('superUserTab') === '2'
-                        ? styles.select_row
-                        : ''}
-                  >
-                    <a
-                      className={styles.hoverview}
-                      href={' '}
-                      onClick={(e) => {
-                        e.preventDefault();
-                      }}
-                    >
-                      <Text style={{ verticalAlign: 'middle'}}>
-                        -
-                      </Text>
-                      <Text
-                        // onClick={() => handleNavigate(1)}
-                        className={Expent === '0' ? styles.text : styles.classpan}
-                        color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
-                      >
-                        Subscription
-                      </Text>
-                    </a>
-                  </li>
-                )}
-                </>
-              ):("")}
-              {/* Manage Users */}
-              {super_user === true ? (
-                <>
-                {is_plan ? (
-                  changes ? (
-                    <li
-                      title="Manage Users"
-                      // className={pathname === '/account_setting/settings/tab=3' ? styles.select_row : ''}
-                      className={
-                        sessionStorage.getItem('superUserTabTwo') === '3' &&
-                        sessionStorage.getItem('superUserFalseTab') === '3' &&
-                        sessionStorage.getItem('superUserTab') === '3'
-                          ? styles.select_row
-                          : ''}
-                    >
-                      <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
-                        <Text
-                          onClick={() => handleNavigate(1)}
-                          className={Expent === '0' ? styles.text : styles.classpan}
-                          color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
-                        >
-                          Manage Users
-                        </Text>
-                      </LinkWrapper>
-                    </li>
+                          <a
+                            className={styles.hoverview}
+                            href={' '}
+                            onClick={(e) => {
+                              e.preventDefault();
+                            }}
+                          >
+                            <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                            <Text
+                              // onClick={() => handleNavigate(1)}
+                              className={
+                                Expent === '0' ? styles.text : styles.classpan
+                              }
+                              color="primary"
+                              style={{ color: '#581845', marginRight: '10px' }}
+                            >
+                              Manage Users
+                            </Text>
+                          </a>
+                        </li>
+                      )}
+                    </>
                   ) : (
-                    <li
-                      title="Manage Users"
-                      // className={pathname === '/account_setting/settings/tab=3' ? styles.select_row : ''}
-                      className={
-                        sessionStorage.getItem('superUserTabTwo') === '3' &&
-                        sessionStorage.getItem('superUserFalseTab') === '3' &&
-                        sessionStorage.getItem('superUserTab') === '3'
-                          ? styles.select_row
-                          : ''}
-                    >
-                      <LinkWrapper
-                        className={styles.hoverview}
-                        onClick={clearTab}
-                        // onClick={changeurlss}
-                        to={is_plan ? '/account_setting/settings?tab=3' : accountPath}
-                      >
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
-                        <Text
-                          onClick={() => handleNavigate(1)}
-                          className={Expent === '0' ? styles.text : styles.classpan}
-                          color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
-                        >
-                          Manage Users
-                        </Text>
-                      </LinkWrapper>
-                    </li>
-                  )
-                ) : (
-                  <li
-                    title="Manage Users"
-                    // className={pathname === '/account_setting/settings/tab=3' ? styles.select_row : ''}
-                    className={
-                      sessionStorage.getItem('superUserTabTwo') === '3' &&
-                      sessionStorage.getItem('superUserFalseTab') === '3' &&
-                      sessionStorage.getItem('superUserTab') === '3'
-                        ? styles.select_row
-                        : ''}
-                  >
-                    <a
-                      className={styles.hoverview}
-                      href={' '}
-                      onClick={(e) => {
-                        e.preventDefault();
-                      }}
-                    >
-                      <Text style={{ verticalAlign: 'middle'}}>
-                        -
-                      </Text>
-                      <Text
-                        // onClick={() => handleNavigate(1)}
-                        className={Expent === '0' ? styles.text : styles.classpan}
-                        color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
-                      >
-                        Manage Users
-                      </Text>
-                    </a>
-                  </li>
-                )} 
-                </>
-              ):("")} 
-                </Flex>  
+                    ''
+                  )}
+                </Flex>
               </>
             )}
-        </ul>
-      </div>                
+          </ul>
+        </div>
 
-        <ul className={styles.setting} >
+        <ul className={styles.setting}>
           {is_plan ? (
             <li
               title="Settings"
@@ -2078,8 +2322,7 @@ const Sidebar = ({ changes, data }: props) => {
           ) : (
             <li>
               <a
-              style={{    position: 'relative',
-                bottom: '20px'}}
+                style={{ position: 'relative', bottom: '20px' }}
                 href={' '}
                 onClick={(e) => {
                   e.preventDefault();
@@ -2098,7 +2341,7 @@ const Sidebar = ({ changes, data }: props) => {
           )}
           <li>
             {Expent === '0' ? (
-              <Flex  title='Collapse sidebar'>
+              <Flex title="Collapse sidebar">
                 <Button
                   style={{
                     height: '19px',
@@ -2114,97 +2357,75 @@ const Sidebar = ({ changes, data }: props) => {
                 </Button>
               </Flex>
             ) : (
-              <Flex title='Expand Sidebar'>
+              <Flex title="Expand Sidebar">
                 <Button
-                className={styles.Expend}
-                types="link"
-                onClick={() => handlecheck('0')}
-              >
-                <SvgExpand height={16} width={16} />
-              </Button>
-
+                  className={styles.Expend}
+                  types="link"
+                  onClick={() => handlecheck('0')}
+                >
+                  <SvgExpand height={16} width={16} />
+                </Button>
               </Flex>
-              
             )}
           </li>
         </ul>
       </div>
       <div>
-      {isOverviewPopupDropdownOpen && (
-              <>
-              <Flex
-               className={styles.overviewpopupdropdown}
-               style={{textIndent:"12px"}}
-               >
+        {isOverviewPopupDropdownOpen && (
+          <>
+            <Flex
+              className={styles.overviewpopupdropdown}
+              style={{ textIndent: '12px' }}
+            >
               {/* DashBoard */}
-                {is_plan ? (
-                  changes ? (
-                    <li
-                      title="Dashboard"
-                      className={pathname === '/' ? styles.selectpopup_row : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
+              {is_plan ? (
+                changes ? (
+                  <li
+                    title="Dashboard"
+                    className={pathname === '/' ? styles.selectpopup_row : ''}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      alignItems: 'center',
+                      display: 'flex',
+                      textIndent: '25px',
+                    }}
+                  >
+                    <LinkWrapper
+                      className={styles.hoverview}
+                      onClick={clearTabs}
                     >
-                      <LinkWrapper className={styles.hoverview}
-                      onClick={clearTabs}>
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
-                        <Text
-                          onClick={() => handleNavigate(1)}
-                          // className={Expent === '0' ? styles.text : styles.classpan}
-                          className={styles.text}
-                          color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
-                        >
-                          Dashboard
-                        </Text>
-                      </LinkWrapper>
-                    </li>
-                  ) : (
-                    <li
-                      title="Dashboard"
-                      className={pathname === '/' ? styles.selectpopup_row : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
-
-                    >
-                      <LinkWrapper
-                        className={styles.hoverview}
-                        onClick={clearTab}
-                        // onClick={changeurlss}
-                        to={is_plan ? '/' : accountPath}
+                      <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                      <Text
+                        onClick={() => handleNavigate(1)}
+                        // className={Expent === '0' ? styles.text : styles.classpan}
+                        className={styles.text}
+                        color="primary"
+                        style={{ color: '#581845', marginRight: '10px' }}
                       >
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
-                        <Text
-                          onClick={() => handleNavigate(1)}
-                          className={styles.text}
-                          color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
-                        >
-                          Dashboard
-                        </Text>
-                      </LinkWrapper>
-                    </li>
-                  )
+                        Dashboard
+                      </Text>
+                    </LinkWrapper>
+                  </li>
                 ) : (
                   <li
                     title="Dashboard"
                     className={pathname === '/' ? styles.selectpopup_row : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      alignItems: 'center',
+                      display: 'flex',
+                      textIndent: '25px',
+                    }}
                   >
-                    <a
+                    <LinkWrapper
                       className={styles.hoverview}
-                      href={' '}
-                      onClick={(e) => {
-                        e.preventDefault();
-                      }}
+                      onClick={clearTab}
+                      // onClick={changeurlss}
+                      to={is_plan ? '/' : accountPath}
                     >
-                      <Text style={{ verticalAlign: 'middle'}}>
-                        -
-                      </Text>
+                      <Text style={{ verticalAlign: 'middle' }}>-</Text>
                       <Text
                         onClick={() => handleNavigate(1)}
                         className={styles.text}
@@ -2213,25 +2434,69 @@ const Sidebar = ({ changes, data }: props) => {
                       >
                         Dashboard
                       </Text>
-                    </a>
+                    </LinkWrapper>
                   </li>
-                )}  
+                )
+              ) : (
+                <li
+                  title="Dashboard"
+                  className={pathname === '/' ? styles.selectpopup_row : ''}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    alignItems: 'center',
+                    display: 'flex',
+                    textIndent: '25px',
+                  }}
+                >
+                  <a
+                    className={styles.hoverview}
+                    href={' '}
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                  >
+                    <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                    <Text
+                      onClick={() => handleNavigate(1)}
+                      className={styles.text}
+                      color="primary"
+                      style={{ color: '#581845', marginRight: '10px' }}
+                    >
+                      Dashboard
+                    </Text>
+                  </a>
+                </li>
+              )}
               {/* Reports */}
               {permission.includes('reports') ? (
                 <>
                   {is_plan ? (
                     changes ? (
                       <li
-                      style={plan_id === 1?({cursor:'not-allowed !important'}):({width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"})}
+                        style={
+                          plan_id === 1
+                            ? { cursor: 'not-allowed !important' }
+                            : {
+                                width: '100%',
+                                height: '100%',
+                                alignItems: 'center',
+                                display: 'flex',
+                                textIndent: '25px',
+                              }
+                        }
                         title={
                           plan_id === 1
                             ? 'Please subscribe to any of the paid plans to view the job metrics'
                             : 'Reports'
                         }
                         className={
-                          pathname.includes('/reports')&& plan_id===1 ? styles.selectpopup_row : plan_id===1?styles.select_item:""
+                          pathname.includes('/reports') && plan_id === 1
+                            ? styles.selectpopup_row
+                            : plan_id === 1
+                            ? styles.select_item
+                            : ''
                         }
-                        
                       >
                         <LinkWrapper
                           className={styles.hoverview}
@@ -2252,7 +2517,7 @@ const Sidebar = ({ changes, data }: props) => {
                             style={{
                               color: '#581845',
                               marginRight: '10px',
-                              // marginLeft: '18px' 
+                              // marginLeft: '18px'
                             }}
                           >
                             Reports
@@ -2266,14 +2531,27 @@ const Sidebar = ({ changes, data }: props) => {
                             ? 'Please subscribe to any of the paid plans to view the job metrics'
                             : 'Reports'
                         }
-                        style={plan_id === 1?({cursor:'not-allowed !important'}):({width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"})}
-                        className={
-                          pathname.includes('/reports') ? styles.selectpopup_row : ''
+                        style={
+                          plan_id === 1
+                            ? { cursor: 'not-allowed !important' }
+                            : {
+                                width: '100%',
+                                height: '100%',
+                                alignItems: 'center',
+                                display: 'flex',
+                                textIndent: '25px',
+                              }
                         }
-                      
+                        className={
+                          pathname.includes('/reports')
+                            ? styles.selectpopup_row
+                            : ''
+                        }
                       >
                         <LinkWrapper
-                          className={plan_id===1?styles.selectitem:styles.hoverview}
+                          className={
+                            plan_id === 1 ? styles.selectitem : styles.hoverview
+                          }
                           onClick={clearTab}
                           to={
                             plan_id === 1
@@ -2282,7 +2560,6 @@ const Sidebar = ({ changes, data }: props) => {
                               ? reports
                               : accountPath
                           }
-                          
                         >
                           <Text>-</Text>
                           <Text
@@ -2292,7 +2569,7 @@ const Sidebar = ({ changes, data }: props) => {
                             style={{
                               color: '#581845',
                               marginRight: '10px',
-                              // marginLeft: '18px' 
+                              // marginLeft: '18px'
                             }}
                           >
                             Reports
@@ -2304,15 +2581,23 @@ const Sidebar = ({ changes, data }: props) => {
                     <li
                       title="Reports"
                       className={
-                        pathname.includes('/reports') ? styles.selectpopup_row : styles.select_item
+                        pathname.includes('/reports')
+                          ? styles.selectpopup_row
+                          : styles.select_item
                       }
-                      style={{cursor:'not-allowed',width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
+                      style={{
+                        cursor: 'not-allowed',
+                        width: '100%',
+                        height: '100%',
+                        alignItems: 'center',
+                        display: 'flex',
+                        textIndent: '25px',
+                      }}
                     >
-                    
                       <a
                         className={styles.hoverview}
                         href={' '}
-                        style={{cursor:'not-allowed'}}
+                        style={{ cursor: 'not-allowed' }}
                         onClick={(e) => {
                           e.preventDefault();
                         }}
@@ -2325,8 +2610,8 @@ const Sidebar = ({ changes, data }: props) => {
                           style={{
                             color: '#581845',
                             marginRight: '10px',
-                            // marginLeft: '18px', 
-                            cursor:'not-allowed'
+                            // marginLeft: '18px',
+                            cursor: 'not-allowed',
                           }}
                         >
                           Reports
@@ -2335,50 +2620,58 @@ const Sidebar = ({ changes, data }: props) => {
                     </li>
                   )}
                 </>
-                ):(
-                  <li
-                      title="Reports"
-                      className={
-                        pathname.includes('/reports') ? styles.selectpopup_row : styles.select_item
-                      }
-                      style={{cursor:'not-allowed',width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
+              ) : (
+                <li
+                  title="Reports"
+                  className={
+                    pathname.includes('/reports')
+                      ? styles.selectpopup_row
+                      : styles.select_item
+                  }
+                  style={{
+                    cursor: 'not-allowed',
+                    width: '100%',
+                    height: '100%',
+                    alignItems: 'center',
+                    display: 'flex',
+                    textIndent: '25px',
+                  }}
+                >
+                  <a
+                    className={styles.hoverview}
+                    href={' '}
+                    style={{ cursor: 'not-allowed' }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                  >
+                    <Text>-</Text>
+                    <Text
+                      onClick={() => handleNavigate(6)}
+                      className={styles.text}
+                      color="primary"
+                      style={{
+                        color: '#581845',
+                        marginRight: '10px',
+                        // marginLeft: '18px',
+                        cursor: 'not-allowed',
+                      }}
                     >
-                    
-                      <a
-                        className={styles.hoverview}
-                        href={' '}
-                        style={{cursor:'not-allowed'}}
-                        onClick={(e) => {
-                          e.preventDefault();
-                        }}
-                      >
-                        <Text>-</Text>
-                        <Text
-                          onClick={() => handleNavigate(6)}
-                          className={styles.text}
-                          color="primary"
-                          style={{
-                            color: '#581845',
-                            marginRight: '10px',
-                            // marginLeft: '18px', 
-                            cursor:'not-allowed'
-                          }}
-                        >
-                          Reports
-                        </Text>
-                      </a>
-                    </li>
-                )}
-                </Flex>
-              </>
-            )}
-      {isJobsPopupDropdownOpen && 
-            <>
-            <Flex 
+                      Reports
+                    </Text>
+                  </a>
+                </li>
+              )}
+            </Flex>
+          </>
+        )}
+        {isJobsPopupDropdownOpen && (
+          <>
+            <Flex
               className={styles.jobspopupdropdown}
-              style={{textIndent:"12px"}}
-              >
-            {/* Job Posting */}
+              style={{ textIndent: '12px' }}
+            >
+              {/* Job Posting */}
               {is_plan ? (
                 changes ? (
                   <li
@@ -2392,16 +2685,20 @@ const Sidebar = ({ changes, data }: props) => {
                         ? styles.selectpopup_row
                         : ''
                     }
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      alignItems: 'center',
+                      display: 'flex',
+                      textIndent: '25px',
+                    }}
                   >
                     <LinkWrapper
                       className={styles.hoverview}
                       onClick={clearTabs}
                       to={is_plan ? routesPath.MY_JOB_POSTING : accountPath}
                     >
-                      <Text style={{ verticalAlign: 'middle' }}>
-                        -
-                      </Text>
+                      <Text style={{ verticalAlign: 'middle' }}>-</Text>
                       <Text
                         onClick={() => handleNavigate(2)}
                         // className={Expent === '0' ? styles.text : styles.classpan}
@@ -2425,16 +2722,20 @@ const Sidebar = ({ changes, data }: props) => {
                         ? styles.selectpopup_row
                         : ''
                     }
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      alignItems: 'center',
+                      display: 'flex',
+                      textIndent: '25px',
+                    }}
                   >
                     <LinkWrapper
                       className={styles.hoverview}
                       onClick={clearTab}
                       to={is_plan ? routesPath.MY_JOB_POSTING : accountPath}
                     >
-                      <Text style={{ verticalAlign: 'middle' }}>
-                        -
-                      </Text>
+                      <Text style={{ verticalAlign: 'middle' }}>-</Text>
                       <Text
                         onClick={() => handleNavigate(2)}
                         // className={Expent === '0' ? styles.text : styles.classpan}
@@ -2459,7 +2760,13 @@ const Sidebar = ({ changes, data }: props) => {
                       ? styles.selectpopup_row
                       : ''
                   }
-                  style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    alignItems: 'center',
+                    display: 'flex',
+                    textIndent: '25px',
+                  }}
                 >
                   <a
                     className={styles.hoverview}
@@ -2468,9 +2775,7 @@ const Sidebar = ({ changes, data }: props) => {
                       e.preventDefault();
                     }}
                   >
-                    <Text style={{ verticalAlign: 'middle' }}>
-                      -
-                    </Text>
+                    <Text style={{ verticalAlign: 'middle' }}>-</Text>
                     <Text
                       onClick={() => handleNavigate(2)}
                       className={styles.text}
@@ -2482,173 +2787,157 @@ const Sidebar = ({ changes, data }: props) => {
                   </a>
                 </li>
               )}
-            {/* Post Jobs */}
-            {permission.includes('create_post') && 
-            <>
-            {is_plan ? (
+              {/* Post Jobs */}
+              {permission.includes('create_post') && (
+                <>
+                  {is_plan ? (
+                    changes ? (
+                      <li
+                        title="Post Jobs"
+                        className={
+                          pathname === jobCreateNonDs
+                            ? styles.selectpopup_row
+                            : ''
+                        }
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          alignItems: 'center',
+                          display: 'flex',
+                          textIndent: '25px',
+                        }}
+                      >
+                        <LinkWrapper
+                          className={styles.hoverview}
+                          onClick={clearTabs}
+                          to={is_plan ? jobCreateNonDs : accountPath}
+                        >
+                          <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                          <Text
+                            // onClick={() => handleNavigate(2)}
+                            className={
+                              Expent === '0' ? styles.text : styles.classpan
+                            }
+                            color="primary"
+                            style={{ color: '#581845', marginRight: '10px' }}
+                          >
+                            Post Jobs
+                          </Text>
+                        </LinkWrapper>
+                      </li>
+                    ) : (
+                      <li
+                        title="Post Jobs"
+                        className={
+                          pathname === '/job_list' ||
+                          pathname.includes('/jobs') ||
+                          pathname.includes('/job_view') ||
+                          pathname.includes('/zita_match_candidate') ||
+                          pathname.includes('/applicant_pipe_line')
+                            ? styles.selectpopup_row
+                            : ''
+                        }
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          alignItems: 'center',
+                          display: 'flex',
+                          textIndent: '25px',
+                        }}
+                      >
+                        <LinkWrapper
+                          className={styles.hoverview}
+                          onClick={clearTab}
+                          to={is_plan ? jobCreateNonDs : accountPath}
+                        >
+                          <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                          <Text
+                            // onClick={() => handleNavigate(2)}
+                            className={styles.text}
+                            color="primary"
+                            style={{ color: '#581845', marginRight: '10px' }}
+                          >
+                            Post Jobs
+                          </Text>
+                        </LinkWrapper>
+                      </li>
+                    )
+                  ) : (
+                    <li
+                      title="Post Jobs"
+                      className={
+                        pathname === '/job_list' ||
+                        pathname.includes('/jobs') ||
+                        pathname.includes('/job_view') ||
+                        pathname.includes('/zita_match_candidate') ||
+                        pathname.includes('/applicant_pipe_line')
+                          ? styles.selectpopup_row
+                          : ''
+                      }
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        alignItems: 'center',
+                        display: 'flex',
+                        textIndent: '25px',
+                      }}
+                    >
+                      <a
+                        className={styles.hoverview}
+                        href={' '}
+                        onClick={(e) => {
+                          e.preventDefault();
+                        }}
+                      >
+                        <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                        <Text
+                          // onClick={() => handleNavigate(2)}
+                          className={styles.text}
+                          color="primary"
+                          style={{ color: '#581845', marginRight: '10px' }}
+                        >
+                          Post Jobs
+                        </Text>
+                      </a>
+                    </li>
+                  )}
+                </>
+              )}
+              {/* Customized WorkFlow */}
+              {is_plan ? (
                 changes ? (
                   <li
-                    title="Post Jobs"
+                    title="Tailor Workflow"
+                    // className={pathname === '/' ? styles.selectpopup_row : ''}
                     className={
-                      pathname === jobSelect
+                      sessionStorage.getItem('superUserTabTwo') === '3' &&
+                      sessionStorage.getItem('superUserFalseTab') === '2' &&
+                      sessionStorage.getItem('superUserTab') === '7'
                         ? styles.selectpopup_row
                         : ''
                     }
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      alignItems: 'center',
+                      display: 'flex',
+                      textIndent: '25px',
+                    }}
                   >
                     <LinkWrapper
                       className={styles.hoverview}
                       onClick={clearTabs}
-                      to={is_plan ? jobSelect : accountPath}
                     >
-                      <Text style={{ verticalAlign: 'middle' }}>
-                        -
-                      </Text>
+                      <Text style={{ verticalAlign: 'middle' }}>-</Text>
                       <Text
-                        // onClick={() => handleNavigate(2)}
-                        className={Expent === '0' ? styles.text : styles.classpan}
-                        color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
-                      >
-                        Post Jobs
-                      </Text>
-                    </LinkWrapper>
-                  </li>
-                ) : (
-                  <li
-                    title="Post Jobs"
-                    className={
-                      pathname === '/job_list' ||
-                      pathname.includes('/jobs') ||
-                      pathname.includes('/job_view') ||
-                      pathname.includes('/zita_match_candidate') ||
-                      pathname.includes('/applicant_pipe_line')
-                        ? styles.selectpopup_row
-                        : ''
-                    }
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-                  >
-                    <LinkWrapper
-                      className={styles.hoverview}
-                      onClick={clearTab}
-                      to={is_plan ? jobSelect : accountPath}
-                    >
-                      <Text style={{ verticalAlign: 'middle' }}>
-                        -
-                      </Text>
-                      <Text
-                        // onClick={() => handleNavigate(2)}
                         className={styles.text}
                         color="primary"
                         style={{ color: '#581845', marginRight: '10px' }}
                       >
-                        Post Jobs
+                        Tailor Workflow
                       </Text>
                     </LinkWrapper>
                   </li>
-                )
-              ) : (
-                <li
-                  title="Post Jobs"
-                  className={
-                    pathname === '/job_list' ||
-                    pathname.includes('/jobs') ||
-                    pathname.includes('/job_view') ||
-                    pathname.includes('/zita_match_candidate') ||
-                    pathname.includes('/applicant_pipe_line')
-                      ? styles.selectpopup_row
-                      : ''
-                  }
-                  style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
-                >
-                  <a
-                    className={styles.hoverview}
-                    href={' '}
-                    onClick={(e) => {
-                      e.preventDefault();
-                    }}
-                  >
-                    <Text style={{ verticalAlign: 'middle' }}>
-                      -
-                    </Text>
-                    <Text
-                      // onClick={() => handleNavigate(2)}
-                      className={styles.text}
-                      color="primary"
-                      style={{ color: '#581845', marginRight: '10px' }}
-                    >
-                      Post Jobs
-                    </Text>
-                  </a>
-                </li>
-              )}
-            </>
-            }
-            {/* Customized WorkFlow */}
-            {is_plan ? (
-                  changes ? (
-                    <li
-                      title="Tailor Workflow"
-                      // className={pathname === '/' ? styles.selectpopup_row : ''}
-                      className={
-                        sessionStorage.getItem('superUserTabTwo') === '3' &&
-                        sessionStorage.getItem('superUserFalseTab') === '2' &&
-                        sessionStorage.getItem('superUserTab') === '7'
-                          ? styles.selectpopup_row
-                          : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
-                    >
-                      <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
-                        <Text
-                          className={styles.text}
-                          color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
-                        >
-                          Tailor Workflow
-                        </Text>
-                      </LinkWrapper>
-                    </li>
-                  ) : (
-                    <li
-                      title="Tailor Workflow"
-                      // className={pathname === '/' ? styles.selectpopup_row : ''}
-                      className={
-                        sessionStorage.getItem('superUserTabTwo') === '3' &&
-                        sessionStorage.getItem('superUserFalseTab') === '2' &&
-                        sessionStorage.getItem('superUserTab') === '7'
-                          ? styles.selectpopup_row
-                          : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
-                    >
-                      <LinkWrapper
-                        className={styles.hoverview}
-                        onClick={() => {
-                          clearTab();
-                          sessionStorage.setItem('superUserTabTwo','3')
-                          sessionStorage.setItem('superUserFalseTab', '2');
-                          sessionStorage.setItem('superUserTab', '7'); 
-                        }}
-                        to={accountPath}
-                      >
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
-                        <Text
-                          className={styles.text}
-                          color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
-                        >
-                          Tailor Workflow
-                        </Text>
-                      </LinkWrapper>
-                    </li>
-                  )
                 ) : (
                   <li
                     title="Tailor Workflow"
@@ -2658,9 +2947,167 @@ const Sidebar = ({ changes, data }: props) => {
                       sessionStorage.getItem('superUserFalseTab') === '2' &&
                       sessionStorage.getItem('superUserTab') === '7'
                         ? styles.selectpopup_row
-                        : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
+                        : ''
+                    }
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      alignItems: 'center',
+                      display: 'flex',
+                      textIndent: '25px',
+                    }}
+                  >
+                    <LinkWrapper
+                      className={styles.hoverview}
+                      onClick={() => {
+                        clearTab();
+                        sessionStorage.setItem('superUserTabTwo', '3');
+                        sessionStorage.setItem('superUserFalseTab', '2');
+                        sessionStorage.setItem('superUserTab', '7');
+                      }}
+                      to={accountPath}
+                    >
+                      <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                      <Text
+                        className={styles.text}
+                        color="primary"
+                        style={{ color: '#581845', marginRight: '10px' }}
+                      >
+                        Tailor Workflow
+                      </Text>
+                    </LinkWrapper>
+                  </li>
+                )
+              ) : (
+                <li
+                  title="Tailor Workflow"
+                  // className={pathname === '/' ? styles.selectpopup_row : ''}
+                  className={
+                    sessionStorage.getItem('superUserTabTwo') === '3' &&
+                    sessionStorage.getItem('superUserFalseTab') === '2' &&
+                    sessionStorage.getItem('superUserTab') === '7'
+                      ? styles.selectpopup_row
+                      : ''
+                  }
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    alignItems: 'center',
+                    display: 'flex',
+                    textIndent: '25px',
+                  }}
+                >
+                  <a
+                    className={styles.hoverview}
+                    href={' '}
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                  >
+                    <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                    <Text
+                      className={styles.text}
+                      color="primary"
+                      style={{ color: '#581845', marginRight: '10px' }}
+                    >
+                      Tailor Workflow
+                    </Text>
+                  </a>
+                </li>
+              )}
+            </Flex>
+          </>
+        )}
+        {isCandiPopupDropdownOpen && (
+          <Flex
+            className={styles.candipopupdropdown}
+            style={{ textIndent: '12px' }}
+          >
+            {permission.includes('my_database') && (
+              <>
+                {is_plan ? (
+                  changes ? (
+                    <li
+                      title="Database"
+                      className={
+                        pathname === '/mydatabase' ? styles.selectpopup_row : ''
+                      }
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        alignItems: 'center',
+                        display: 'flex',
+                        textIndent: '25px',
+                      }}
+                    >
+                      <LinkWrapper
+                        className={styles.hoverview}
+                        to={is_plan ? routesPath.MYDATABASE : accountPath}
+                        onClick={clearTabs}
+                      >
+                        <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                        <Text
+                          onClick={() => handleNavigate(3)}
+                          className={styles.text}
+                          color="primary"
+                          style={{
+                            color: '#581845',
+                            marginRight: '10px',
+                            // marginLeft: '20px',
+                          }}
+                        >
+                          Database
+                        </Text>
+                      </LinkWrapper>
+                    </li>
+                  ) : (
+                    <li
+                      title="Database"
+                      className={
+                        pathname === '/mydatabase' ? styles.selectpopup_row : ''
+                      }
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        alignItems: 'center',
+                        display: 'flex',
+                        textIndent: '25px',
+                      }}
+                    >
+                      <LinkWrapper
+                        className={styles.hoverview}
+                        to={is_plan ? routesPath.MYDATABASE : accountPath}
+                        onClick={clearTab}
+                      >
+                        <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                        <Text
+                          onClick={() => handleNavigate(3)}
+                          className={styles.text}
+                          color="primary"
+                          style={{
+                            color: '#581845',
+                            marginRight: '10px',
+                            // marginLeft: '20px',
+                          }}
+                        >
+                          Database
+                        </Text>
+                      </LinkWrapper>
+                    </li>
+                  )
+                ) : (
+                  <li
+                    title="Database"
+                    className={
+                      pathname === '/mydatabase' ? styles.selectpopup_row : ''
+                    }
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      alignItems: 'center',
+                      display: 'flex',
+                      textIndent: '25px',
+                    }}
                   >
                     <a
                       className={styles.hoverview}
@@ -2669,473 +3116,378 @@ const Sidebar = ({ changes, data }: props) => {
                         e.preventDefault();
                       }}
                     >
-                      <Text style={{ verticalAlign: 'middle'}}>
-                        -
-                      </Text>
+                      <Text style={{ verticalAlign: 'middle' }}>-</Text>
                       <Text
+                        onClick={() => handleNavigate(3)}
                         className={styles.text}
                         color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
+                        style={{
+                          color: '#581845',
+                          marginRight: '10px',
+                          // marginLeft: '20px',
+                        }}
                       >
-                        Tailor Workflow
+                        Database
                       </Text>
                     </a>
                   </li>
-                )} 
-              </Flex>
-            </>
-            }
-      {isCandiPopupDropdownOpen && (
-            <Flex 
-            className={styles.candipopupdropdown}
-            style={{textIndent:"12px"}}
-            >
-            {permission.includes('my_database') && (
-            <>
-              {is_plan ? (
-                changes ? (
-                  <li
-                    title="Database"
-                    className={
-                      pathname === '/mydatabase' ? styles.selectpopup_row : ''
-                    }
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-                  >
-                    <LinkWrapper
-                      className={styles.hoverview}
-                      to={is_plan ? routesPath.MYDATABASE : accountPath}
-                      onClick={clearTabs}
-                    >
-                      <Text style={{ verticalAlign: 'middle' }}>
-                        -
-                      </Text>
-                      <Text
-                        onClick={() => handleNavigate(3)}
-                        className={
-                         styles.text
-                        }
-                        color="primary"
-                        style={{
-                          color: '#581845',
-                          marginRight: '10px',
-                          // marginLeft: '20px',
-                        }}
-                      >
-                        Database
-                      </Text>
-                    </LinkWrapper>
-                  </li>
-                ) : (
-                  <li
-                    title="Database"
-                    className={
-                      pathname === '/mydatabase' ? styles.selectpopup_row : ''
-                    }
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-                  >
-                    <LinkWrapper
-                      className={styles.hoverview}
-                      to={is_plan ? routesPath.MYDATABASE : accountPath}
-                      onClick={clearTab}
-                    >
-                      <Text style={{ verticalAlign: 'middle' }}>
-                        -
-                      </Text>
-                      <Text
-                        onClick={() => handleNavigate(3)}
-                        className={
-                        styles.text
-                        }
-                        color="primary"
-                        style={{
-                          color: '#581845',
-                          marginRight: '10px',
-                          // marginLeft: '20px',
-                        }}
-                      >
-                        Database
-                      </Text>
-                    </LinkWrapper>
-                  </li>
-                )
-              ) : (
-                <li
-                  title="Database"
-                  className={
-                    pathname === '/mydatabase' ? styles.selectpopup_row : ''
-                  }
-                  style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-                >
-                  <a
-                    className={styles.hoverview}
-                    href={' '}
-                    onClick={(e) => {
-                      e.preventDefault();
-                    }}
-                  >
-                    <Text style={{ verticalAlign: 'middle' }}>
-                      -
-                    </Text>
-                    <Text
-                      onClick={() => handleNavigate(3)}
-                      className={styles.text}
-                      color="primary"
-                      style={{
-                        color: '#581845',
-                        marginRight: '10px',
-                        // marginLeft: '20px',
-                      }}
-                    >
-                      Database
-                    </Text>
-                  </a>
-                </li>
-              )}
-            </>
-          )}
-          {permission.includes('talent_sourcing') && (
-            <>
-              {is_plan ? (
-                changes ? (
-                  <li
-                    title="Talent Sourcing"
-                    className={
-                      pathname === '/talent_sourcing' ? styles.selectpopup_row : ''
-                    }
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-                  >
-                    <LinkWrapper
-                      className={styles.hoverview}
-                      onClick={clearTabs}
-                      to={is_plan ? routesPath.TALENT_SOURCING : accountPath}
-                    >
-                      <Text style={{ verticalAlign: 'middle' }}>
-                        -
-                      </Text>
-                      <Text
-                        onClick={() => handleNavigate(4)}
-                        className={
-                        styles.text
-                        }
-                        color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
-                      >
-                        Talent Sourcing
-                      </Text>
-                    </LinkWrapper>
-                  </li>
-                ) : (
-                  <li
-                    title="Talent Sourcing"
-                    className={
-                      pathname === '/talent_sourcing' ? styles.selectpopup_row : ''
-                    }
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-                  >
-                    <LinkWrapper
-                      className={styles.hoverview}
-                      onClick={clearTab}
-                      to={is_plan ? routesPath.TALENT_SOURCING : accountPath}
-                    >
-                      <Text style={{ verticalAlign: 'middle' }}>
-                        -
-                      </Text>
-                      <Text
-                        onClick={() => handleNavigate(4)}
-                        className={
-                          styles.text
-                        }
-                        color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
-                      >
-                        Talent Sourcing
-                      </Text>
-                    </LinkWrapper>
-                  </li>
-                )
-              ) : (
-                <li
-                  title="Talent Sourcing"
-                  className={
-                    pathname === '/talent_sourcing' ? styles.selectpopup_row : ''
-                  }
-                  style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-                >
-                  <a
-                    className={styles.hoverview}
-                    href={' '}
-                    onClick={(e) => {
-                      e.preventDefault();
-                    }}
-                  >
-                    <Text style={{ verticalAlign: 'middle' }}>
-                      -
-                    </Text>
-                    <Text
-                      onClick={() => handleNavigate(4)}
-                      className={styles.text}
-                      color="primary"
-                      style={{ color: '#581845', marginRight: '10px' }}
-                    >
-                      Talent Sourcing
-                    </Text>
-                  </a>
-                </li>
-              )}
-            </>
-          )}
-
-          {permission.includes('bulkImport_candidates') && (
-            <>
-              {is_plan ? (
-                changes ? (
-                  <li
-                    title="Import Candidates"
-                    className={
-                      pathname === '/bulk_import' ? styles.selectpopup_row : ''
-                    }
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-                  >
-                    <LinkWrapper
-                      className={styles.hoverview}
-                      onClick={clearTabs}
-                      to={is_plan ? routesPath.BULK_IMPORT : accountPath}
-                    >
-                      <Text>-</Text>
-
-                      <Text
-                        onClick={() => handleNavigate(5)}
-                        className={
-                          styles.text
-                        }
-                        color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
-                      >
-                        Import Candidates
-                      </Text>
-                    </LinkWrapper>
-                  </li>
-                ) : (
-                  <li
-                    title="Import Candidates"
-                    className={
-                      pathname === '/bulk_import' ? styles.selectpopup_row : ''
-                    }
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
-                  >
-                    <LinkWrapper
-                      className={styles.hoverview}
-                      onClick={clearTab}
-                      to={is_plan ? routesPath.BULK_IMPORT : accountPath}
-                    >
-                      <Text>-</Text>
-
-                      <Text
-                        onClick={() => handleNavigate(5)}
-                        className={
-                          styles.text
-                        }
-                        color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
-                      >
-                        Import Candidates
-                      </Text>
-                    </LinkWrapper>
-                  </li>
-                )
-              ) : (
-                <li
-                  title="Import Candidates"
-                  className={
-                    pathname === '/bulk_import' ? styles.selectpopup_row : ''
-                  }
-                  style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
-                >
-                  <a
-                    className={styles.hoverview}
-                    href={' '}
-                    onClick={(e) => {
-                      e.preventDefault();
-                    }}
-                  >
-                    <Text>-</Text>
-                    <Text
-                      onClick={() => handleNavigate(5)}
-                      className={styles.text}
-                      color="primary"
-                      style={{ color: '#581845', marginRight: '10px' }}
-                    >
-                      Import Candidates
-                    </Text>
-                  </a>
-                </li>
-              )}
-            </>
-          )}
-            </Flex>
-          )}
-      {isCommPopupDropdownOpen && (
-                <> 
-            <Flex 
-            className={styles.commpopupdropdown}
-            style={{textIndent:"12px"}}
-            >
-            {/* Calendar */}
-                {(
-                  <>
-                    {is_plan ? (
-                      changes ? (
-                        <li
-                          className={
-                            pathname === '/calendar' ? styles.selectpopup_row : ''
-                          }
-                          title="Calendar"
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
-                        >
-                          <LinkWrapper
-                            className={styles.hoverview}
-                            onClick={clearTabs}
-                            to={is_plan ? routesPath.CALENDAR : accountPath}
-                          >
-                            <Text style={{ verticalAlign: 'middle' }}>
-                              -
-                            </Text>
-                            <Text
-                              onClick={() => handleNavigate(7)}
-                              className={styles.text
-                              }
-                              color="primary"
-                              style={{ color: '#581845', marginRight: '10px'}}
-                            >
-                              Calendar
-                            </Text>
-                          </LinkWrapper>
-                        </li>
-                      ) : (
-                        <li
-                          className={
-                            pathname === '/calendar' ? styles.selectpopup_row : ''
-                          }
-                          title="Calendar"
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
-                        >
-                          <LinkWrapper
-                            className={styles.hoverview}
-                            onClick={clearTab}
-                            to={is_plan ? routesPath.CALENDAR : accountPath}
-                          >
-                            <Text style={{ verticalAlign: 'middle' }}>
-                              -
-                            </Text>
-                            <Text
-                              onClick={() => handleNavigate(7)}
-                              className={styles.text
-                              }
-                              color="primary"
-                              style={{ color: '#581845', marginRight: '10px'}}
-                            >
-                              Calendar
-                            </Text>
-                          </LinkWrapper>
-                        </li>
-                      )
-                    ) : (
-                      <li
-                        className={pathname === '/calendar' ? styles.selectpopup_row : ''}
-                        title="Calendar"
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
-                      >
-                        <a
-                          className={styles.hoverview}
-                          href={' '}
-                          onClick={(e) => {
-                            e.preventDefault();
-                          }}
-                        >
-                          <Text style={{ verticalAlign: 'middle' }}>
-                            -
-                          </Text>
-                          <Text
-                            onClick={() => handleNavigate(7)}
-                            className={styles.text}
-                            color="primary"
-                            style={{ color: '#581845', marginRight: '10px'}}
-                          >
-                            Calendar
-                          </Text>
-                        </a>
-                      </li>
-                    )}
-                  </>
                 )}
-            {/* Integrations */}
-            {is_plan ? (
+              </>
+            )}
+            {permission.includes('talent_sourcing') && (
+              <>
+                {is_plan ? (
                   changes ? (
                     <li
-                      title="Integrations"
-                      // className={pathname === '/account_setting/settings' ? styles.selectpopup_row : ''}
+                      title="Talent Sourcing"
                       className={
-                        sessionStorage.getItem('superUserTabTwo') === '2' &&
-                        sessionStorage.getItem('superUserFalseTab') === '1' &&
-                        sessionStorage.getItem('superUserTab') === '4'
+                        pathname === '/talent_sourcing'
                           ? styles.selectpopup_row
-                          : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
+                          : ''
+                      }
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        alignItems: 'center',
+                        display: 'flex',
+                        textIndent: '25px',
+                      }}
                     >
-                      <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
+                      <LinkWrapper
+                        className={styles.hoverview}
+                        onClick={clearTabs}
+                        to={is_plan ? routesPath.TALENT_SOURCING : accountPath}
+                      >
+                        <Text style={{ verticalAlign: 'middle' }}>-</Text>
                         <Text
+                          onClick={() => handleNavigate(4)}
                           className={styles.text}
                           color="primary"
                           style={{ color: '#581845', marginRight: '10px' }}
                         >
-                          Integrations
+                          Talent Sourcing
                         </Text>
                       </LinkWrapper>
                     </li>
                   ) : (
                     <li
-                      title="Integrations"
-                      // className={pathname === '/account_setting/settings' ? styles.selectpopup_row : ''}
+                      title="Talent Sourcing"
                       className={
-                        sessionStorage.getItem('superUserTabTwo') === '2' &&
-                        sessionStorage.getItem('superUserFalseTab') === '1' &&
-                        sessionStorage.getItem('superUserTab') === '4'
+                        pathname === '/talent_sourcing'
                           ? styles.selectpopup_row
-                          : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
+                          : ''
+                      }
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        alignItems: 'center',
+                        display: 'flex',
+                        textIndent: '25px',
+                      }}
                     >
                       <LinkWrapper
                         className={styles.hoverview}
-                        onClick={() => {
-                          sessionStorage.setItem('superUserTabTwo','2')
-                          sessionStorage.setItem('superUserFalseTab', '1');
-                          sessionStorage.setItem('superUserTab', '4'); 
-                        }}
-                        to= {accountPath}
+                        onClick={clearTab}
+                        to={is_plan ? routesPath.TALENT_SOURCING : accountPath}
                       >
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
+                        <Text style={{ verticalAlign: 'middle' }}>-</Text>
                         <Text
+                          onClick={() => handleNavigate(4)}
                           className={styles.text}
                           color="primary"
                           style={{ color: '#581845', marginRight: '10px' }}
                         >
-                          Integrations
+                          Talent Sourcing
                         </Text>
                       </LinkWrapper>
                     </li>
                   )
+                ) : (
+                  <li
+                    title="Talent Sourcing"
+                    className={
+                      pathname === '/talent_sourcing'
+                        ? styles.selectpopup_row
+                        : ''
+                    }
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      alignItems: 'center',
+                      display: 'flex',
+                      textIndent: '25px',
+                    }}
+                  >
+                    <a
+                      className={styles.hoverview}
+                      href={' '}
+                      onClick={(e) => {
+                        e.preventDefault();
+                      }}
+                    >
+                      <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                      <Text
+                        onClick={() => handleNavigate(4)}
+                        className={styles.text}
+                        color="primary"
+                        style={{ color: '#581845', marginRight: '10px' }}
+                      >
+                        Talent Sourcing
+                      </Text>
+                    </a>
+                  </li>
+                )}
+              </>
+            )}
+
+            {permission.includes('bulkImport_candidates') && (
+              <>
+                {is_plan ? (
+                  changes ? (
+                    <li
+                      title="Import Candidates"
+                      className={
+                        pathname === '/bulk_import'
+                          ? styles.selectpopup_row
+                          : ''
+                      }
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        alignItems: 'center',
+                        display: 'flex',
+                        textIndent: '25px',
+                      }}
+                    >
+                      <LinkWrapper
+                        className={styles.hoverview}
+                        onClick={clearTabs}
+                        to={is_plan ? routesPath.BULK_IMPORT : accountPath}
+                      >
+                        <Text>-</Text>
+
+                        <Text
+                          onClick={() => handleNavigate(5)}
+                          className={styles.text}
+                          color="primary"
+                          style={{ color: '#581845', marginRight: '10px' }}
+                        >
+                          Import Candidates
+                        </Text>
+                      </LinkWrapper>
+                    </li>
+                  ) : (
+                    <li
+                      title="Import Candidates"
+                      className={
+                        pathname === '/bulk_import'
+                          ? styles.selectpopup_row
+                          : ''
+                      }
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        alignItems: 'center',
+                        display: 'flex',
+                        textIndent: '25px',
+                      }}
+                    >
+                      <LinkWrapper
+                        className={styles.hoverview}
+                        onClick={clearTab}
+                        to={is_plan ? routesPath.BULK_IMPORT : accountPath}
+                      >
+                        <Text>-</Text>
+
+                        <Text
+                          onClick={() => handleNavigate(5)}
+                          className={styles.text}
+                          color="primary"
+                          style={{ color: '#581845', marginRight: '10px' }}
+                        >
+                          Import Candidates
+                        </Text>
+                      </LinkWrapper>
+                    </li>
+                  )
+                ) : (
+                  <li
+                    title="Import Candidates"
+                    className={
+                      pathname === '/bulk_import' ? styles.selectpopup_row : ''
+                    }
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      alignItems: 'center',
+                      display: 'flex',
+                      textIndent: '25px',
+                    }}
+                  >
+                    <a
+                      className={styles.hoverview}
+                      href={' '}
+                      onClick={(e) => {
+                        e.preventDefault();
+                      }}
+                    >
+                      <Text>-</Text>
+                      <Text
+                        onClick={() => handleNavigate(5)}
+                        className={styles.text}
+                        color="primary"
+                        style={{ color: '#581845', marginRight: '10px' }}
+                      >
+                        Import Candidates
+                      </Text>
+                    </a>
+                  </li>
+                )}
+              </>
+            )}
+          </Flex>
+        )}
+        {isCommPopupDropdownOpen && (
+          <>
+            <Flex
+              className={styles.commpopupdropdown}
+              style={{ textIndent: '12px' }}
+            >
+              {/* Calendar */}
+              {
+                <>
+                  {is_plan ? (
+                    changes ? (
+                      <li
+                        className={
+                          pathname === '/calendar' ? styles.selectpopup_row : ''
+                        }
+                        title="Calendar"
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          alignItems: 'center',
+                          display: 'flex',
+                          textIndent: '25px',
+                        }}
+                      >
+                        <LinkWrapper
+                          className={styles.hoverview}
+                          onClick={clearTabs}
+                          to={is_plan ? routesPath.CALENDAR : accountPath}
+                        >
+                          <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                          <Text
+                            onClick={() => handleNavigate(7)}
+                            className={styles.text}
+                            color="primary"
+                            style={{ color: '#581845', marginRight: '10px' }}
+                          >
+                            Calendar
+                          </Text>
+                        </LinkWrapper>
+                      </li>
+                    ) : (
+                      <li
+                        className={
+                          pathname === '/calendar' ? styles.selectpopup_row : ''
+                        }
+                        title="Calendar"
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          alignItems: 'center',
+                          display: 'flex',
+                          textIndent: '25px',
+                        }}
+                      >
+                        <LinkWrapper
+                          className={styles.hoverview}
+                          onClick={clearTab}
+                          to={is_plan ? routesPath.CALENDAR : accountPath}
+                        >
+                          <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                          <Text
+                            onClick={() => handleNavigate(7)}
+                            className={styles.text}
+                            color="primary"
+                            style={{ color: '#581845', marginRight: '10px' }}
+                          >
+                            Calendar
+                          </Text>
+                        </LinkWrapper>
+                      </li>
+                    )
+                  ) : (
+                    <li
+                      className={
+                        pathname === '/calendar' ? styles.selectpopup_row : ''
+                      }
+                      title="Calendar"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        alignItems: 'center',
+                        display: 'flex',
+                        textIndent: '25px',
+                      }}
+                    >
+                      <a
+                        className={styles.hoverview}
+                        href={' '}
+                        onClick={(e) => {
+                          e.preventDefault();
+                        }}
+                      >
+                        <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                        <Text
+                          onClick={() => handleNavigate(7)}
+                          className={styles.text}
+                          color="primary"
+                          style={{ color: '#581845', marginRight: '10px' }}
+                        >
+                          Calendar
+                        </Text>
+                      </a>
+                    </li>
+                  )}
+                </>
+              }
+              {/* Integrations */}
+              {is_plan ? (
+                changes ? (
+                  <li
+                    title="Integrations"
+                    // className={pathname === '/account_setting/settings' ? styles.selectpopup_row : ''}
+                    className={
+                      sessionStorage.getItem('superUserTabTwo') === '2' &&
+                      sessionStorage.getItem('superUserFalseTab') === '1' &&
+                      sessionStorage.getItem('superUserTab') === '4'
+                        ? styles.selectpopup_row
+                        : ''
+                    }
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      alignItems: 'center',
+                      display: 'flex',
+                      textIndent: '25px',
+                    }}
+                  >
+                    <LinkWrapper
+                      className={styles.hoverview}
+                      onClick={clearTabs}
+                    >
+                      <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                      <Text
+                        className={styles.text}
+                        color="primary"
+                        style={{ color: '#581845', marginRight: '10px' }}
+                      >
+                        Integrations
+                      </Text>
+                    </LinkWrapper>
+                  </li>
                 ) : (
                   <li
                     title="Integrations"
@@ -3145,281 +3497,305 @@ const Sidebar = ({ changes, data }: props) => {
                       sessionStorage.getItem('superUserFalseTab') === '1' &&
                       sessionStorage.getItem('superUserTab') === '4'
                         ? styles.selectpopup_row
-                        : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
+                        : ''
+                    }
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      alignItems: 'center',
+                      display: 'flex',
+                      textIndent: '25px',
+                    }}
                   >
-                    <a
+                    <LinkWrapper
                       className={styles.hoverview}
-                      href={' '}
-                      onClick={(e) => {
-                        e.preventDefault();
+                      onClick={() => {
+                        sessionStorage.setItem('superUserTabTwo', '2');
+                        sessionStorage.setItem('superUserFalseTab', '1');
+                        sessionStorage.setItem('superUserTab', '4');
                       }}
+                      to={accountPath}
                     >
-                      <Text style={{ verticalAlign: 'middle'}}>
-                        -
-                      </Text>
+                      <Text style={{ verticalAlign: 'middle' }}>-</Text>
                       <Text
-                        // onClick={() => handleNavigate(1)}
                         className={styles.text}
                         color="primary"
                         style={{ color: '#581845', marginRight: '10px' }}
                       >
                         Integrations
                       </Text>
-                    </a>
+                    </LinkWrapper>
                   </li>
-                )} 
-            {/* Interview Scheduler */}
-                {(
-                  <>
-                    {is_plan ? (
-                      changes ? (
-                        <li
-                          title=" Interview Scheduler"
-                          className={
-                            pathname === meetingScheduler ? styles.selectpopup_row : ''
-                          }
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
-                        >
-                          <LinkWrapper
-                            className={styles.hoverview}
-                            onClick={clearTabs}
-                            to={is_plan ? meetingScheduler : accountPath}
-                          >
-                            <Text style={{ verticalAlign: 'middle' }}>
-                              -
-                            </Text>
-                            <Text
-                              onClick={() => handleNavigate(8)}
-                              className={styles.text
-                              }
-                              color="primary"
-                              style={{ color: '#581845', marginRight: '10px'}}
-                            >
-                              Interview Scheduler
-                            </Text>
-                          </LinkWrapper>
-                        </li>
-                      ) : (
-                        <li
-                          title=" Interview Scheduler"
-                          className={
-                            pathname === meetingScheduler ? styles.selectpopup_row : ''
-                          }
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
-                        >
-                          <LinkWrapper
-                            className={styles.hoverview}
-                            onClick={clearTab}
-                            to={is_plan ? meetingScheduler : accountPath}
-                          >
-                            <Text style={{ verticalAlign: 'middle' }}>
-                              -
-                            </Text>
-                            <Text
-                              onClick={() => handleNavigate(8)}
-                              className={styles.text
-                              }
-                              color="primary"
-                              style={{ color: '#581845', marginRight: '10px'}}
-                            >
-                              Interview Scheduler
-                            </Text>
-                          </LinkWrapper>
-                        </li>
-                      )
-                    ) : (
+                )
+              ) : (
+                <li
+                  title="Integrations"
+                  // className={pathname === '/account_setting/settings' ? styles.selectpopup_row : ''}
+                  className={
+                    sessionStorage.getItem('superUserTabTwo') === '2' &&
+                    sessionStorage.getItem('superUserFalseTab') === '1' &&
+                    sessionStorage.getItem('superUserTab') === '4'
+                      ? styles.selectpopup_row
+                      : ''
+                  }
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    alignItems: 'center',
+                    display: 'flex',
+                    textIndent: '25px',
+                  }}
+                >
+                  <a
+                    className={styles.hoverview}
+                    href={' '}
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                  >
+                    <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                    <Text
+                      // onClick={() => handleNavigate(1)}
+                      className={styles.text}
+                      color="primary"
+                      style={{ color: '#581845', marginRight: '10px' }}
+                    >
+                      Integrations
+                    </Text>
+                  </a>
+                </li>
+              )}
+              {/* Interview Scheduler */}
+              {
+                <>
+                  {is_plan ? (
+                    changes ? (
                       <li
                         title=" Interview Scheduler"
                         className={
-                          pathname === meetingScheduler ? styles.selectpopup_row : ''
+                          pathname === meetingScheduler
+                            ? styles.selectpopup_row
+                            : ''
                         }
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          alignItems: 'center',
+                          display: 'flex',
+                          textIndent: '25px',
+                        }}
                       >
-                        <a
+                        <LinkWrapper
                           className={styles.hoverview}
-                          href={' '}
-                          onClick={(e) => {
-                            e.preventDefault();
-                          }}
+                          onClick={clearTabs}
+                          to={is_plan ? meetingScheduler : accountPath}
                         >
-                          <Text style={{ verticalAlign: 'middle' }}>
-                            -
-                          </Text>
+                          <Text style={{ verticalAlign: 'middle' }}>-</Text>
                           <Text
                             onClick={() => handleNavigate(8)}
                             className={styles.text}
                             color="primary"
-                            style={{ color: '#581845', marginRight: '10px'}}
+                            style={{ color: '#581845', marginRight: '10px' }}
                           >
                             Interview Scheduler
                           </Text>
-                        </a>
+                        </LinkWrapper>
                       </li>
-                    )}
-                  </>
-                )}
-            {/* Mailbox */}
-                {is_plan ? (
-                  changes ? (
-                    <li
-                      title="MailBox"
-                      className={pathname === '/mail' ? styles.selectpopup_row : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
-                    >
-                      <LinkWrapper
-                        className={styles.hoverview}
-                        onClick={clearTabs}
-                        to={is_plan ? routesPath.MAIL : accountPath}
+                    ) : (
+                      <li
+                        title=" Interview Scheduler"
+                        className={
+                          pathname === meetingScheduler
+                            ? styles.selectpopup_row
+                            : ''
+                        }
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          alignItems: 'center',
+                          display: 'flex',
+                          textIndent: '25px',
+                        }}
                       >
-                        <Text style={{ verticalAlign: 'middle' }}>
-                          -
-                        </Text>
-
-                        <Text
-                          onClick={() => handleNavigate(7)}
-                          className={styles.text}
-                          color="primary"
-                          style={{ color: '#581845', marginRight: '10px'}}
+                        <LinkWrapper
+                          className={styles.hoverview}
+                          onClick={clearTab}
+                          to={is_plan ? meetingScheduler : accountPath}
                         >
-                          Mailbox
-                        </Text>
-                      </LinkWrapper>
-                    </li>
-                  ) : (
-                    <li title='Mailbox' className={pathname === '/mail' ? styles.selectpopup_row : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-                    >
-                      <LinkWrapper
-                        className={styles.hoverview}
-                        onClick={clearTab}
-                        to={is_plan ? routesPath.MAIL : accountPath}
-                      >
-                        <Text style={{ verticalAlign: 'middle' }}>
-                          -
-                        </Text>
-
+                          <Text style={{ verticalAlign: 'middle' }}>-</Text>
                           <Text
-                            onClick={() => handleNavigate(7)}
+                            onClick={() => handleNavigate(8)}
                             className={styles.text}
                             color="primary"
                             style={{ color: '#581845', marginRight: '10px' }}
                           >
-                            Mailbox
+                            Interview Scheduler
                           </Text>
                         </LinkWrapper>
                       </li>
                     )
                   ) : (
-                    <li title='Mailbox' className={pathname === '/mail' ? styles.selectpopup_row : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
+                    <li
+                      title=" Interview Scheduler"
+                      className={
+                        pathname === meetingScheduler
+                          ? styles.selectpopup_row
+                          : ''
+                      }
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        alignItems: 'center',
+                        display: 'flex',
+                        textIndent: '25px',
+                      }}
                     >
-                        <a
-                          className={styles.hoverview}
-                          href={' '}
-                          onClick={(e) => {
-                            e.preventDefault();
-                          }}
-                        > 
-                        <Text style={{ verticalAlign: 'middle' }}>
-                          -
-                        </Text>
-
+                      <a
+                        className={styles.hoverview}
+                        href={' '}
+                        onClick={(e) => {
+                          e.preventDefault();
+                        }}
+                      >
+                        <Text style={{ verticalAlign: 'middle' }}>-</Text>
                         <Text
-                          onClick={() => handleNavigate(7)}
+                          onClick={() => handleNavigate(8)}
                           className={styles.text}
                           color="primary"
-                          style={{ color: '#581845', marginRight: '10px'}}
+                          style={{ color: '#581845', marginRight: '10px' }}
                         >
-                          Mailbox
+                          Interview Scheduler
                         </Text>
-                        </a>
+                      </a>
                     </li>
                   )}
-                  </Flex>
                 </>
-            )}
-      {isBrandPopupDropdownOpen && (
-              <>
-            <Flex 
-            className={styles.brandpopupdropdown}
-            style={{textIndent:"12px"}}
+              }
+              {/* Mailbox */}
+              {is_plan ? (
+                changes ? (
+                  <li
+                    title="MailBox"
+                    className={
+                      pathname === '/mail' ? styles.selectpopup_row : ''
+                    }
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      alignItems: 'center',
+                      display: 'flex',
+                      textIndent: '25px',
+                    }}
+                  >
+                    <LinkWrapper
+                      className={styles.hoverview}
+                      onClick={clearTabs}
+                      to={is_plan ? routesPath.MAIL : accountPath}
+                    >
+                      <Text style={{ verticalAlign: 'middle' }}>-</Text>
+
+                      <Text
+                        onClick={() => handleNavigate(7)}
+                        className={styles.text}
+                        color="primary"
+                        style={{ color: '#581845', marginRight: '10px' }}
+                      >
+                        Mailbox
+                      </Text>
+                    </LinkWrapper>
+                  </li>
+                ) : (
+                  <li
+                    title="Mailbox"
+                    className={
+                      pathname === '/mail' ? styles.selectpopup_row : ''
+                    }
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      alignItems: 'center',
+                      display: 'flex',
+                      textIndent: '25px',
+                    }}
+                  >
+                    <LinkWrapper
+                      className={styles.hoverview}
+                      onClick={clearTab}
+                      to={is_plan ? routesPath.MAIL : accountPath}
+                    >
+                      <Text style={{ verticalAlign: 'middle' }}>-</Text>
+
+                      <Text
+                        onClick={() => handleNavigate(7)}
+                        className={styles.text}
+                        color="primary"
+                        style={{ color: '#581845', marginRight: '10px' }}
+                      >
+                        Mailbox
+                      </Text>
+                    </LinkWrapper>
+                  </li>
+                )
+              ) : (
+                <li
+                  title="Mailbox"
+                  className={pathname === '/mail' ? styles.selectpopup_row : ''}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    alignItems: 'center',
+                    display: 'flex',
+                    textIndent: '25px',
+                  }}
+                >
+                  <a
+                    className={styles.hoverview}
+                    href={' '}
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                  >
+                    <Text style={{ verticalAlign: 'middle' }}>-</Text>
+
+                    <Text
+                      onClick={() => handleNavigate(7)}
+                      className={styles.text}
+                      color="primary"
+                      style={{ color: '#581845', marginRight: '10px' }}
+                    >
+                      Mailbox
+                    </Text>
+                  </a>
+                </li>
+              )}
+            </Flex>
+          </>
+        )}
+        {isBrandPopupDropdownOpen && (
+          <>
+            <Flex
+              className={styles.brandpopupdropdown}
+              style={{ textIndent: '12px' }}
             >
               {/* Careers Page */}
-                {is_plan ? (
-                  changes ? (
-                    <li
-                      title="Careers Page"
-                      className={pathname === '/' ? styles.selectpopup_row : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
-                    >
-                      <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
-                        <Text
-                          className={styles.text}
-                          color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
-                        >
-                          Careers Page
-                        </Text>
-                      </LinkWrapper>
-                    </li>
-                  ) : (
-                    <li
-                      title="Careers Page"
-                      className={pathname === '/' ? styles.selectpopup_row : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
-                    > 
-                      <LinkWrapper
-                        className={styles.hoverview}
-                        onClick={clearTab}
-                        target={isEmpty(career_page_url) ? '_parent' : '_blank'}
-                        to={
-                          isEmpty(career_page_url)
-                            ? `/account_setting/settings?tab=1`
-                            : `/${career_page_url}/careers`
-                        }
-                      >
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
-                        <Text
-                          onClick={() => handleNavigate(1)}
-                          className={styles.text}
-                          color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
-                        >
-                          Careers Page
-                        </Text>
-                      </LinkWrapper>
-                    </li>
-                  )
-                ) : (
+              {is_plan ? (
+                changes ? (
                   <li
                     title="Careers Page"
                     className={pathname === '/' ? styles.selectpopup_row : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      alignItems: 'center',
+                      display: 'flex',
+                      textIndent: '25px',
+                    }}
                   >
-                    <a
+                    <LinkWrapper
                       className={styles.hoverview}
-                      href={' '}
-                      onClick={(e) => {
-                        e.preventDefault();
-                      }}
+                      onClick={clearTabs}
                     >
-                      <Text style={{ verticalAlign: 'middle'}}>
-                        -
-                      </Text>
+                      <Text style={{ verticalAlign: 'middle' }}>-</Text>
                       <Text
                         className={styles.text}
                         color="primary"
@@ -3427,181 +3803,236 @@ const Sidebar = ({ changes, data }: props) => {
                       >
                         Careers Page
                       </Text>
-                    </a>
+                    </LinkWrapper>
                   </li>
-                )} 
-              {/* Build Your Careers Page */}
-              {super_user === true &&
-              <>
-                {is_plan ? (
-                  changes ? (
-                    <li
-                      title="Setup Careers Page"
-                      // className={pathname === '/account_setting/settings?tab=1' ? styles.selectpopup_row : ''}
-                      className={
-                        sessionStorage.getItem('superUserTabTwo') === '1' &&
-                        sessionStorage.getItem('superUserFalseTab') === '1' &&
-                        sessionStorage.getItem('superUserTab') === '1'
-                          ? styles.selectpopup_row
-                          : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
-                    >
-                      <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
-                        <Text
-                          // onClick={() => handleNavigate(1)}
-                          className={styles.text}
-                          color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
-                        >
-                          Setup Careers Page
-                        </Text> 
-                      </LinkWrapper>
-                    </li>
-                  ) : (
-                    <li
-                      title="Setup Careers Page"
-                      // className={pathname === '/account_setting/settings?tab=1' ? styles.selectpopup_row : ''}
-                      className={
-                        sessionStorage.getItem('superUserTabTwo') === '1' &&
-                        sessionStorage.getItem('superUserFalseTab') === '1' &&
-                        sessionStorage.getItem('superUserTab') === '1'
-                          ? styles.selectpopup_row
-                          : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
-                    >
-                      <LinkWrapper
-                        className={styles.hoverview}
-                        onClick={clearTab}
-                        // onClick={changeurlss}
-                        to={is_plan ? '/account_setting/settings?tab=1' : accountPath}
-                      >
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
-                        <Text
-                          // onClick={() => handleNavigate(1)}
-                          className={styles.text}
-                          color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
-                        >
-                          Setup Careers Page
-                        </Text>
-                      </LinkWrapper>
-                    </li>
-                  )
                 ) : (
                   <li
-                    title="Setup Careers Page"
-                    // className={pathname === '/account_setting/settings?tab=1' ? styles.selectpopup_row : ''}
-                    className={
-                      sessionStorage.getItem('superUserTabTwo') === '1' &&
-                      sessionStorage.getItem('superUserFalseTab') === '1' &&
-                      sessionStorage.getItem('superUserTab') === '1'
-                        ? styles.selectpopup_row
-                        : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
+                    title="Careers Page"
+                    className={pathname === '/' ? styles.selectpopup_row : ''}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      alignItems: 'center',
+                      display: 'flex',
+                      textIndent: '25px',
+                    }}
                   >
-                    <a
+                    <LinkWrapper
                       className={styles.hoverview}
-                      href={' '}
-                      onClick={(e) => {
-                        e.preventDefault();
-                      }}
+                      onClick={clearTab}
+                      target={isEmpty(career_page_url) ? '_parent' : '_blank'}
+                      to={
+                        isEmpty(career_page_url)
+                          ? `/account_setting/settings?tab=1`
+                          : `/${career_page_url}/careers`
+                      }
                     >
-                      <Text style={{ verticalAlign: 'middle'}}>
-                        -
-                      </Text>
+                      <Text style={{ verticalAlign: 'middle' }}>-</Text>
                       <Text
-                        // onClick={() => handleNavigate(1)}
+                        onClick={() => handleNavigate(1)}
                         className={styles.text}
                         color="primary"
                         style={{ color: '#581845', marginRight: '10px' }}
                       >
-                        Setup Careers Page
+                        Careers Page
                       </Text>
-                    </a>
+                    </LinkWrapper>
                   </li>
-                )}
-              </>
-              }
-                </Flex>
-              </>
-            )}
-      {isMyaccPopupDropdownOpen && (
-              <>
-            <Flex 
-            className={styles.myaccpopupdropdown}
-            style={{textIndent:"12px"}}
-            >
-              {/* Profiles */}
-                {is_plan ? (
-                  changes ? (
-                    <li
-                      title="Profiles"
-                      // className={pathname === '/account_setting/settings' ? styles.selectpopup_row : ''}
-                      className={
-                        sessionStorage.getItem('superUserTabTwo') === '0' &&
-                        sessionStorage.getItem('superUserFalseTab') === '0' &&
-                        sessionStorage.getItem('superUserTab') === '0'
-                          ? styles.selectpopup_row
-                          : ''}
-                      
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
+                )
+              ) : (
+                <li
+                  title="Careers Page"
+                  className={pathname === '/' ? styles.selectpopup_row : ''}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    alignItems: 'center',
+                    display: 'flex',
+                    textIndent: '25px',
+                  }}
+                >
+                  <a
+                    className={styles.hoverview}
+                    href={' '}
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                  >
+                    <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                    <Text
+                      className={styles.text}
+                      color="primary"
+                      style={{ color: '#581845', marginRight: '10px' }}
                     >
-                      <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
-                        <Text
-                          // onClick={() => handleNavigate(9)}
-                          className={styles.text}
-                          color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
+                      Careers Page
+                    </Text>
+                  </a>
+                </li>
+              )}
+              {/* Build Your Careers Page */}
+              {super_user === true && (
+                <>
+                  {is_plan ? (
+                    changes ? (
+                      <li
+                        title="Setup Careers Page"
+                        // className={pathname === '/account_setting/settings?tab=1' ? styles.selectpopup_row : ''}
+                        className={
+                          sessionStorage.getItem('superUserTabTwo') === '1' &&
+                          sessionStorage.getItem('superUserFalseTab') === '1' &&
+                          sessionStorage.getItem('superUserTab') === '1'
+                            ? styles.selectpopup_row
+                            : ''
+                        }
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          alignItems: 'center',
+                          display: 'flex',
+                          textIndent: '25px',
+                        }}
+                      >
+                        <LinkWrapper
+                          className={styles.hoverview}
+                          onClick={clearTabs}
                         >
-                          Profiles
-                        </Text>
-                      </LinkWrapper>
-                    </li>
+                          <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                          <Text
+                            // onClick={() => handleNavigate(1)}
+                            className={styles.text}
+                            color="primary"
+                            style={{ color: '#581845', marginRight: '10px' }}
+                          >
+                            Setup Careers Page
+                          </Text>
+                        </LinkWrapper>
+                      </li>
+                    ) : (
+                      <li
+                        title="Setup Careers Page"
+                        // className={pathname === '/account_setting/settings?tab=1' ? styles.selectpopup_row : ''}
+                        className={
+                          sessionStorage.getItem('superUserTabTwo') === '1' &&
+                          sessionStorage.getItem('superUserFalseTab') === '1' &&
+                          sessionStorage.getItem('superUserTab') === '1'
+                            ? styles.selectpopup_row
+                            : ''
+                        }
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          alignItems: 'center',
+                          display: 'flex',
+                          textIndent: '25px',
+                        }}
+                      >
+                        <LinkWrapper
+                          className={styles.hoverview}
+                          onClick={clearTab}
+                          // onClick={changeurlss}
+                          to={
+                            is_plan
+                              ? '/account_setting/settings?tab=1'
+                              : accountPath
+                          }
+                        >
+                          <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                          <Text
+                            // onClick={() => handleNavigate(1)}
+                            className={styles.text}
+                            color="primary"
+                            style={{ color: '#581845', marginRight: '10px' }}
+                          >
+                            Setup Careers Page
+                          </Text>
+                        </LinkWrapper>
+                      </li>
+                    )
                   ) : (
                     <li
-                      title="Profiles"
-                      // className={pathname === '/account_setting/settings' ? styles.selectpopup_row : ''}
+                      title="Setup Careers Page"
+                      // className={pathname === '/account_setting/settings?tab=1' ? styles.selectpopup_row : ''}
                       className={
-                        sessionStorage.getItem('superUserTabTwo') === '0' &&
-                        sessionStorage.getItem('superUserFalseTab') === '0' &&
-                        sessionStorage.getItem('superUserTab') === '0'
+                        sessionStorage.getItem('superUserTabTwo') === '1' &&
+                        sessionStorage.getItem('superUserFalseTab') === '1' &&
+                        sessionStorage.getItem('superUserTab') === '1'
                           ? styles.selectpopup_row
-                          : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
+                          : ''
+                      }
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        alignItems: 'center',
+                        display: 'flex',
+                        textIndent: '25px',
+                      }}
                     >
-                      <LinkWrapper
+                      <a
                         className={styles.hoverview}
-                        onClick={clearTab}
-                        // onClick={changeurlss}
-                        to={is_plan ? '/account_setting/settings?tab=0' : accountPath}
+                        href={' '}
+                        onClick={(e) => {
+                          e.preventDefault();
+                        }}
                       >
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
+                        <Text style={{ verticalAlign: 'middle' }}>-</Text>
                         <Text
-                          // onClick={() => handleNavigate(9)}
+                          // onClick={() => handleNavigate(1)}
                           className={styles.text}
                           color="primary"
                           style={{ color: '#581845', marginRight: '10px' }}
                         >
-                          Profiles
+                          Setup Careers Page
                         </Text>
-                      </LinkWrapper>
+                      </a>
                     </li>
-                  )
+                  )}
+                </>
+              )}
+            </Flex>
+          </>
+        )}
+        {isMyaccPopupDropdownOpen && (
+          <>
+            <Flex
+              className={styles.myaccpopupdropdown}
+              style={{ textIndent: '12px' }}
+            >
+              {/* Profiles */}
+              {is_plan ? (
+                changes ? (
+                  <li
+                    title="Profiles"
+                    // className={pathname === '/account_setting/settings' ? styles.selectpopup_row : ''}
+                    className={
+                      sessionStorage.getItem('superUserTabTwo') === '0' &&
+                      sessionStorage.getItem('superUserFalseTab') === '0' &&
+                      sessionStorage.getItem('superUserTab') === '0'
+                        ? styles.selectpopup_row
+                        : ''
+                    }
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      alignItems: 'center',
+                      display: 'flex',
+                      textIndent: '25px',
+                    }}
+                  >
+                    <LinkWrapper
+                      className={styles.hoverview}
+                      onClick={clearTabs}
+                    >
+                      <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                      <Text
+                        // onClick={() => handleNavigate(9)}
+                        className={styles.text}
+                        color="primary"
+                        style={{ color: '#581845', marginRight: '10px' }}
+                      >
+                        Profiles
+                      </Text>
+                    </LinkWrapper>
+                  </li>
                 ) : (
                   <li
                     title="Profiles"
@@ -3611,20 +4042,27 @@ const Sidebar = ({ changes, data }: props) => {
                       sessionStorage.getItem('superUserFalseTab') === '0' &&
                       sessionStorage.getItem('superUserTab') === '0'
                         ? styles.selectpopup_row
-                        : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
+                        : ''
+                    }
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      alignItems: 'center',
+                      display: 'flex',
+                      textIndent: '25px',
+                    }}
                   >
-                    <a
+                    <LinkWrapper
                       className={styles.hoverview}
-                      href={' '}
-                      onClick={(e) => {
-                        e.preventDefault();
-                      }}
+                      onClick={clearTab}
+                      // onClick={changeurlss}
+                      to={
+                        is_plan
+                          ? '/account_setting/settings?tab=0'
+                          : accountPath
+                      }
                     >
-                      <Text style={{ verticalAlign: 'middle'}}>
-                        -
-                      </Text>
+                      <Text style={{ verticalAlign: 'middle' }}>-</Text>
                       <Text
                         // onClick={() => handleNavigate(9)}
                         className={styles.text}
@@ -3633,40 +4071,126 @@ const Sidebar = ({ changes, data }: props) => {
                       >
                         Profiles
                       </Text>
-                    </a>
+                    </LinkWrapper>
                   </li>
-                )} 
+                )
+              ) : (
+                <li
+                  title="Profiles"
+                  // className={pathname === '/account_setting/settings' ? styles.selectpopup_row : ''}
+                  className={
+                    sessionStorage.getItem('superUserTabTwo') === '0' &&
+                    sessionStorage.getItem('superUserFalseTab') === '0' &&
+                    sessionStorage.getItem('superUserTab') === '0'
+                      ? styles.selectpopup_row
+                      : ''
+                  }
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    alignItems: 'center',
+                    display: 'flex',
+                    textIndent: '25px',
+                  }}
+                >
+                  <a
+                    className={styles.hoverview}
+                    href={' '}
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                  >
+                    <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                    <Text
+                      // onClick={() => handleNavigate(9)}
+                      className={styles.text}
+                      color="primary"
+                      style={{ color: '#581845', marginRight: '10px' }}
+                    >
+                      Profiles
+                    </Text>
+                  </a>
+                </li>
+              )}
               {/* Subscription */}
               {super_user === true ? (
                 <>
-                { is_plan ? (
-                  changes ? (
-                    <li
-                      title="Subscription"
-                      // className={pathname === '/account_setting/settings?tab=2' ? styles.selectpopup_row : ''}
-                      className={
-                        sessionStorage.getItem('superUserTabTwo') === '2' &&
-                        sessionStorage.getItem('superUserFalseTab') === '2' &&
-                        sessionStorage.getItem('superUserTab') === '2'
-                          ? styles.selectpopup_row
-                          : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
-                    >
-                      <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
-                        <Text
-                          onClick={() => handleNavigate(1)}
-                          className={styles.text}
-                          color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
+                  {is_plan ? (
+                    changes ? (
+                      <li
+                        title="Subscription"
+                        // className={pathname === '/account_setting/settings?tab=2' ? styles.selectpopup_row : ''}
+                        className={
+                          sessionStorage.getItem('superUserTabTwo') === '2' &&
+                          sessionStorage.getItem('superUserFalseTab') === '2' &&
+                          sessionStorage.getItem('superUserTab') === '2'
+                            ? styles.selectpopup_row
+                            : ''
+                        }
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          alignItems: 'center',
+                          display: 'flex',
+                          textIndent: '25px',
+                        }}
+                      >
+                        <LinkWrapper
+                          className={styles.hoverview}
+                          onClick={clearTabs}
                         >
-                          Subscription
-                        </Text>
-                      </LinkWrapper>
-                    </li>
+                          <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                          <Text
+                            onClick={() => handleNavigate(1)}
+                            className={styles.text}
+                            color="primary"
+                            style={{ color: '#581845', marginRight: '10px' }}
+                          >
+                            Subscription
+                          </Text>
+                        </LinkWrapper>
+                      </li>
+                    ) : (
+                      <li
+                        title="Subscription"
+                        // className={pathname === '/account_setting/settings?tab=2' ? styles.selectpopup_row : ''}
+                        className={
+                          sessionStorage.getItem('superUserTabTwo') === '2' &&
+                          sessionStorage.getItem('superUserFalseTab') === '2' &&
+                          sessionStorage.getItem('superUserTab') === '2'
+                            ? styles.selectpopup_row
+                            : ''
+                        }
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          alignItems: 'center',
+                          display: 'flex',
+                          textIndent: '25px',
+                        }}
+                      >
+                        <LinkWrapper
+                          className={styles.hoverview}
+                          onClick={clearTab}
+                          // onClick={changeurlss}
+                          to={
+                            is_plan
+                              ? '/account_setting/settings?tab=2'
+                              : accountPath
+                          }
+                        >
+                          <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                          <Text
+                            // onClick={() => handleNavigate(1)}
+                            className={styles.text}
+                            color="primary"
+                            style={{ color: '#581845', marginRight: '10px' }}
+                          >
+                            Subscription
+                          </Text>
+                        </LinkWrapper>
+                      </li>
+                    )
                   ) : (
                     <li
                       title="Subscription"
@@ -3676,19 +4200,24 @@ const Sidebar = ({ changes, data }: props) => {
                         sessionStorage.getItem('superUserFalseTab') === '2' &&
                         sessionStorage.getItem('superUserTab') === '2'
                           ? styles.selectpopup_row
-                          : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
+                          : ''
+                      }
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        alignItems: 'center',
+                        display: 'flex',
+                        textIndent: '25px',
+                      }}
                     >
-                      <LinkWrapper
+                      <a
                         className={styles.hoverview}
-                        onClick={clearTab}
-                        // onClick={changeurlss}
-                        to={is_plan ? '/account_setting/settings?tab=2' : accountPath}
+                        href={' '}
+                        onClick={(e) => {
+                          e.preventDefault();
+                        }}
                       >
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
+                        <Text style={{ verticalAlign: 'middle' }}>-</Text>
                         <Text
                           // onClick={() => handleNavigate(1)}
                           className={styles.text}
@@ -3697,76 +4226,92 @@ const Sidebar = ({ changes, data }: props) => {
                         >
                           Subscription
                         </Text>
-                      </LinkWrapper>
+                      </a>
                     </li>
-                  )
-                ) : (
-                  <li
-                    title="Subscription"
-                    // className={pathname === '/account_setting/settings?tab=2' ? styles.selectpopup_row : ''}
-                    className={
-                      sessionStorage.getItem('superUserTabTwo') === '2' &&
-                      sessionStorage.getItem('superUserFalseTab') === '2' &&
-                      sessionStorage.getItem('superUserTab') === '2'
-                        ? styles.selectpopup_row
-                        : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
-                  >
-                    <a
-                      className={styles.hoverview}
-                      href={' '}
-                      onClick={(e) => {
-                        e.preventDefault();
-                      }}
-                    >
-                      <Text style={{ verticalAlign: 'middle'}}>
-                        -
-                      </Text>
-                      <Text
-                        // onClick={() => handleNavigate(1)}
-                        className={styles.text}
-                        color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
-                      >
-                        Subscription
-                      </Text>
-                    </a>
-                  </li>
-                )}
+                  )}
                 </>
-              ):("")}
+              ) : (
+                ''
+              )}
               {/* Manage Users */}
               {super_user === true ? (
                 <>
-                {is_plan ? (
-                  changes ? (
-                    <li
-                      title="Manage Users"
-                      // className={pathname === '/account_setting/settings/tab=3' ? styles.selectpopup_row : ''}
-                      className={
-                        sessionStorage.getItem('superUserTabTwo') === '3' &&
-                        sessionStorage.getItem('superUserFalseTab') === '3' &&
-                        sessionStorage.getItem('superUserTab') === '3'
-                          ? styles.selectpopup_row
-                          : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
-                    >
-                      <LinkWrapper className={styles.hoverview} onClick={clearTabs}>
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
-                        <Text
-                          onClick={() => handleNavigate(1)}
-                          className={styles.text}
-                          color="primary"
-                          style={{ color: '#581845', marginRight: '10px' }}
+                  {is_plan ? (
+                    changes ? (
+                      <li
+                        title="Manage Users"
+                        // className={pathname === '/account_setting/settings/tab=3' ? styles.selectpopup_row : ''}
+                        className={
+                          sessionStorage.getItem('superUserTabTwo') === '3' &&
+                          sessionStorage.getItem('superUserFalseTab') === '3' &&
+                          sessionStorage.getItem('superUserTab') === '3'
+                            ? styles.selectpopup_row
+                            : ''
+                        }
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          alignItems: 'center',
+                          display: 'flex',
+                          textIndent: '25px',
+                        }}
+                      >
+                        <LinkWrapper
+                          className={styles.hoverview}
+                          onClick={clearTabs}
                         >
-                          Manage Users
-                        </Text>
-                      </LinkWrapper>
-                    </li>
+                          <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                          <Text
+                            onClick={() => handleNavigate(1)}
+                            className={styles.text}
+                            color="primary"
+                            style={{ color: '#581845', marginRight: '10px' }}
+                          >
+                            Manage Users
+                          </Text>
+                        </LinkWrapper>
+                      </li>
+                    ) : (
+                      <li
+                        title="Manage Users"
+                        // className={pathname === '/account_setting/settings/tab=3' ? styles.selectpopup_row : ''}
+                        className={
+                          sessionStorage.getItem('superUserTabTwo') === '3' &&
+                          sessionStorage.getItem('superUserFalseTab') === '3' &&
+                          sessionStorage.getItem('superUserTab') === '3'
+                            ? styles.selectpopup_row
+                            : ''
+                        }
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          alignItems: 'center',
+                          display: 'flex',
+                          textIndent: '25px',
+                        }}
+                      >
+                        <LinkWrapper
+                          className={styles.hoverview}
+                          onClick={clearTab}
+                          // onClick={changeurlss}
+                          to={
+                            is_plan
+                              ? '/account_setting/settings?tab=3'
+                              : accountPath
+                          }
+                        >
+                          <Text style={{ verticalAlign: 'middle' }}>-</Text>
+                          <Text
+                            onClick={() => handleNavigate(1)}
+                            className={styles.text}
+                            color="primary"
+                            style={{ color: '#581845', marginRight: '10px' }}
+                          >
+                            Manage Users
+                          </Text>
+                        </LinkWrapper>
+                      </li>
+                    )
                   ) : (
                     <li
                       title="Manage Users"
@@ -3776,70 +4321,43 @@ const Sidebar = ({ changes, data }: props) => {
                         sessionStorage.getItem('superUserFalseTab') === '3' &&
                         sessionStorage.getItem('superUserTab') === '3'
                           ? styles.selectpopup_row
-                          : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
+                          : ''
+                      }
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        alignItems: 'center',
+                        display: 'flex',
+                        textIndent: '25px',
+                      }}
                     >
-                      <LinkWrapper
+                      <a
                         className={styles.hoverview}
-                        onClick={clearTab}
-                        // onClick={changeurlss}
-                        to={is_plan ? '/account_setting/settings?tab=3' : accountPath}
+                        href={' '}
+                        onClick={(e) => {
+                          e.preventDefault();
+                        }}
                       >
-                        <Text style={{ verticalAlign: 'middle'}}>
-                          -
-                        </Text>
+                        <Text style={{ verticalAlign: 'middle' }}>-</Text>
                         <Text
-                          onClick={() => handleNavigate(1)}
+                          // onClick={() => handleNavigate(1)}
                           className={styles.text}
                           color="primary"
                           style={{ color: '#581845', marginRight: '10px' }}
                         >
                           Manage Users
                         </Text>
-                      </LinkWrapper>
+                      </a>
                     </li>
-                  )
-                ) : (
-                  <li
-                    title="Manage Users"
-                    // className={pathname === '/account_setting/settings/tab=3' ? styles.selectpopup_row : ''}
-                    className={
-                      sessionStorage.getItem('superUserTabTwo') === '3' &&
-                      sessionStorage.getItem('superUserFalseTab') === '3' &&
-                      sessionStorage.getItem('superUserTab') === '3'
-                        ? styles.selectpopup_row
-                        : ''}
-                    style={{width:"100%", height:"100%", alignItems:"center",display:"flex", textIndent:"25px"}}
-
-                  >
-                    <a
-                      className={styles.hoverview}
-                      href={' '}
-                      onClick={(e) => {
-                        e.preventDefault();
-                      }}
-                    >
-                      <Text style={{ verticalAlign: 'middle'}}>
-                        -
-                      </Text>
-                      <Text
-                        // onClick={() => handleNavigate(1)}
-                        className={styles.text}
-                        color="primary"
-                        style={{ color: '#581845', marginRight: '10px' }}
-                      >
-                        Manage Users
-                      </Text>
-                    </a>
-                  </li>
-                )} 
+                  )}
                 </>
-              ):("")} 
-                </Flex>  
-              </>
-            )}
-            </div>
+              ) : (
+                ''
+              )}
+            </Flex>
+          </>
+        )}
+      </div>
     </>
   );
 };
