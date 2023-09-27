@@ -76,7 +76,8 @@ const LogFileTab = ({ getKey }: Props) => {
                   }}
                   className={styles.pre}
                 >
-                  {list}
+                  {list.replace('import',"Import")}
+                 
                 </pre>
               </Flex>
             );
