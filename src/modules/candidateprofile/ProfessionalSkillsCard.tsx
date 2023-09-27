@@ -67,6 +67,9 @@ const ProfessionalSkillsCard = ({ obj, isProfileView, techSkill }: Props) => {
             {techSkill &&techSkill?.skills?.tech_skill
               ?.replace(',,', ',')
               .split(',')
+              .length === 0 ||techSkill &&techSkill?.skills?.tech_skill
+              ?.replace(',,', ',')
+              .split(',')
               .length === 0 ? (
               <Flex row wrap>
                 <div>
@@ -90,11 +93,14 @@ const ProfessionalSkillsCard = ({ obj, isProfileView, techSkill }: Props) => {
           <>
             <Text bold className={styles.softText}>
               Soft Skills
-            </Text>
+            </Text> 
             {techSkill &&techSkill?.skills?.soft_skill
               ?.replace(',,', ',')
               .split(',')
-              .length === 0 ? (
+              .length === 0 || techSkill &&techSkill?.skills?.soft_skill
+              ?.replace(',,', ',')
+              .split(',')
+              .length === undefined ? (
               <Flex row wrap>
                 <div>
                   No data available
