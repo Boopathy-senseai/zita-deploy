@@ -13,6 +13,7 @@ import { Toast } from '../../uikit';
 import styles from './candidateupload.module.css';
 import {
   profileEditMiddleWare,
+  resumeReUploadMiddleWare,
   resumeUploadMiddleWare,
 } from './store/middleware/candidateprofilemiddleware';
 
@@ -39,16 +40,17 @@ function CandidateUpload({ empId, user_info, onClose }: Props) {
   const uploadFile = (files: any) => {
     const formData = new FormData();
     formData.append('resume_file', files);
-    formData.append('emp-id', empId);
-    formData.append('user_id', user_info.user_id_id);
+    formData.append('candidate_id', user_info.user_id_id)
+    // formData.append('emp-id', empId);
+    // formData.append('user_id', user_info.user_id_id);
 
-    return dispatch(resumeUploadMiddleWare({ formData })).then(() => {
+    return dispatch(resumeReUploadMiddleWare({ formData })).then(() => {
       handleClear();
-      dispatch(
-        profileEditMiddleWare({
-          jd_id: localStorage.getItem('careerJobViewJobId'),
-        }),
-      );
+      // dispatch(
+      //   profileEditMiddleWare({
+      //     jd_id: localStorage.getItem('careerJobViewJobId'),
+      //   }),
+      // );
       setLoader(false);
       onClose();
       Toast('Resume updated successfully', 'LONG', 'success');

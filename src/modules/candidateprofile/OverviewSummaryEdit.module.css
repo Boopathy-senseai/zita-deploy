@@ -8,3 +8,23 @@
   top: 10px;
   cursor: pointer;
 }
+
+.commentTextStyle {
+  padding: 8px 8px 8px 0px;
+  font-size: 13px;
+  flex-wrap: wrap;
+  overflow: hidden;
+  text-overflow: clip;
+  white-space: wrap;
+  overflow-wrap: break-word;
+}
+.commentTextStyle p {
+  margin: 0;
+}
+.commentTextStyle ul li {
+  margin-left: 20px;
+  list-style: disc;
+}
+.commentTextStyle ol li {
+  margin-left: 20px;
+}

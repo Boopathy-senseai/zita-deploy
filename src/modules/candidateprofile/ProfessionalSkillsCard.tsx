@@ -15,8 +15,9 @@ import UpdateProfessionalSkillsEdit from './UpdateProfessionalSkillsEdit';
 type Props = {
   obj?: Obj;
   isProfileView?: boolean;
+  techSkill?: any;
 };
-const ProfessionalSkillsCard = ({ obj, isProfileView }: Props) => {
+const ProfessionalSkillsCard = ({ obj, isProfileView, techSkill }: Props) => {
   const [isSkillsEdit, setSkillsEdit] = useState(false);
   const [isAddText, setAddText] = useState('Update');
   const handleOpenSkillEdit = () => {
@@ -35,66 +36,88 @@ const ProfessionalSkillsCard = ({ obj, isProfileView }: Props) => {
           cancel={() => setSkillsEdit(false)}
           obj={obj}
           isAddText={isAddText}
+          techSkills={techSkill}
         />
-      )}
-
+      )} 
       <Card className={styles.overAll}>
         <Flex>
           {!isProfileView && (
             <>
-              {checkBox && (
-                <div
-                  className={styles.svgEdit}
-                  onClick={() => {
-                    handleOpenSkillEdit();
-                    setAddText('Update');
-                  }}
-                  tabIndex={-1}
-                  role="button"
-                  onKeyDown={() => {}}
-                >
-                  <SvgEdit fill={PRIMARY} width={14} height={14} />
-                </div>
-              )}
+              {/* {checkBox && ( */}
+              <div
+                className={styles.svgEdit}
+                onClick={() => {
+                  handleOpenSkillEdit();
+                  setAddText( techSkill &&techSkill?.skills?.tech_skill?.length === 0 && 
+                    techSkill?.skills?.soft_skill?.length === 0?'Add': 'Update');
+                }}
+                tabIndex={-1}
+                role="button"
+                onKeyDown={() => {}}
+              >
+                <SvgEdit fill={PRIMARY} width={14} height={14} />
+              </div>
+              {/* )} */}
             </>
           )}
-          {obj && obj?.skills?.length !== 0 && (
-            <>
-              <Text bold className={styles.techText}>
-                Technical Skills
-              </Text>
+          <>
+            <Text bold className={styles.techText}>
+              Technical Skills
+            </Text>
+            {techSkill &&techSkill?.skills?.tech_skill
+              ?.replace(',,', ',')
+              .split(',')
+              .length === 0 ? (
               <Flex row wrap>
-                {obj &&
-                  obj?.skills?.map((techList, index) => (
+                <div>
+                  No data available
+                </div>
+              </Flex>
+            ) : (
+              <Flex row wrap>
+                {techSkill && techSkill?.skills?.tech_skill
+                  ?.replace(',,', ',')
+                  .split(',')
+                  .map((techList, index) => (
                     <div key={techList + index} className={styles.techDiv}>
                       <Status label={lowerCase(techList)} />
                     </div>
                   ))}
               </Flex>
-            </>
-          )}
-
-          {Array.isArray(obj?.soft_skills) && (
-            <>
-              <Text bold className={styles.softText}>
-                Soft Skills
-              </Text>
+            )}
+          </>
+           {techSkill &&techSkill?.skills?.soft_skill?.length !== 0 && ( 
+          <>
+            <Text bold className={styles.softText}>
+              Soft Skills
+            </Text>
+            {techSkill &&techSkill?.skills?.soft_skill
+              ?.replace(',,', ',')
+              .split(',')
+              .length === 0 ? (
               <Flex row wrap>
-                {obj?.soft_skills?.map((techList, index) => (
+                <div>
+                  No data available
+                </div>
+              </Flex>
+            ) : (
+            <Flex row wrap>
+              {techSkill &&techSkill?.skills?.soft_skill
+                ?.replace(',,', ',')
+                .split(',')
+                .map((techList, index) => (
                   <div key={techList + index} className={styles.techDiv}>
                     <Status label={lowerCase(techList)} />
                   </div>
                 ))}
-              </Flex>
-            </>
-          )}
+            </Flex>)}
+          </>
+           )} 
         </Flex>
-        {obj &&
-          Array.isArray(obj?.skills) &&
-          obj?.skills?.length === 0 &&
-          obj &&
-          Array.isArray(obj?.soft_skills) &&
-          obj?.soft_skills.length === 0 && (
+        {/* {Array.isArray(techSkill?.skills?.tech_skill) && */}
+         {/* { techSkill?.skills?.tech_skill?.length === 0 &&
+          // Array.isArray(techSkill?.skills?.soft_skill) &&
+          techSkill?.skills?.soft_skill?.length === 0 && (
             <Flex center middle className={styles.noValues}>
               <div
                 className={styles.svgAdd}
@@ -112,7 +135,7 @@ const ProfessionalSkillsCard = ({ obj, isProfileView }: Props) => {
                 Add Technical Skills
               </Text>
             </Flex>
-          )}
+          )} */}
       </Card>
     </>
   );
