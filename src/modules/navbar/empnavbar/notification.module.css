@@ -27,7 +27,7 @@
 
 .listStyle {
   cursor: pointer;
-  width: 95%;
+  width:100%;
   display: flex;
   justify-content: space-between;
 }
@@ -459,4 +459,10 @@ font-family: 'Courier New', Courier, monospace;
   box-shadow: 1px 2px 2px #d7c7d2;
   border-top-right-radius: 0px;
   font-size: 20px;
+}
+.wordContainer {
+  max-width: 70.5%;
+  word-break:break-word;
+  hyphens: auto;
+
 }
