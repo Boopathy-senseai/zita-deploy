@@ -16,6 +16,7 @@ import Toast from '../../uikit/Toast/Toast';
 import SvgLocation from '../../icons/SvgLocation';
 import SvgNewTab from '../../icons/SvgNewTab';
 import SvgRefresh from '../../icons/SvgRefresh';
+import SvgClose from '../../icons/SvgClose';
 import Pangination from '../../uikit/Pagination/Pangination';
 import { AppDispatch } from '../../store';
 import ProfileView from '../applicantpipelinemodule/ProfileView';
@@ -39,14 +40,17 @@ import {
 import ParsingLoadingModal from './ParsingLoadingModal';
 import ProfileViewModal from './ProfileViewModal';
 
+
 type Tabs = 'total' | 'completed' | 'inCompleted';
 export type FormProps = {
   searchValue: string;
   jd_id: string;
+  parser:string;
 };
 const initial: FormProps = {
   searchValue: '',
   jd_id: '',
+  parser:'',
 };
 
 type Props = {
@@ -100,7 +104,7 @@ const ApplicantsTab = ({
   const dispatch: AppDispatch = useDispatch();
   const [model, setmodel] = useState(false);
   const [withoutjderror,setwithoutjderror] = useState(false);
-
+  const [verify, setverify] = useState(false);
   // Profile View Function
   const hanldeEditProfileView = (id: number) => {
     setCanId(id);
@@ -369,7 +373,7 @@ const ApplicantsTab = ({
 
   // Bulk Upload Parsing Function
   const hanldeParsing = () => {
-    dispatch(bulkuploadedParsingMiddleWare()).then(() => {
+    dispatch(bulkuploadedParsingMiddleWare({parser:formik.values.parser})).then(() => {
       dispatch(
         bulkuploadedCandidatesMiddleWare({ page: 1, jd_id: isJdId }),
       ).then(() => {
@@ -450,6 +454,23 @@ const ApplicantsTab = ({
       formik.handleSubmit();
     }
   };
+  const update = () => {
+    setverify(false);
+  };
+
+
+  const handlefunction=()=>{
+    setverify(true)
+    formik.setFieldValue('parser', '1')
+   }
+   const handlefunction1=()=>{
+    setverify(true)
+    formik.setFieldValue('parser', '0')
+   }
+   const closemodel = () => {
+    setverify(false);
+    setmodel(false);
+  };
   const isBulkLoaderprocess = localStorage.getItem('bulk_loader');
   const value = emp_pool.length;
   const value1 = value > 4;
@@ -458,6 +479,7 @@ const ApplicantsTab = ({
      
       className={styles.Applicantdatabase}
     > 
+    {console.log("applicant formik:::::",formik.values)}
       <YesOrNoModal
         title={
           <Text style={{ width: 580, marginLeft: 12 }}>
@@ -532,17 +554,15 @@ const ApplicantsTab = ({
         }
       />
 
-      <Modal open={model}>
+              <Modal open={model}>
         <Flex
-          style={{
-            backgroundColor: '#ffffff',
-            padding: '25px',
-            height: '320px',
-            width: '600px',
-          }}
+          className={verify === true ? styles.bulkmodel : styles.verifymodel}
         >
-          <ApplicantDatabase
+          
+          {verify === true ? (
+            <ApplicantDatabase
             setmodel={setmodel}
+            verifymodel={update}
             hanldeParsing={hanldeParsing}
             isjdId={isJdId}
             setParse={handleOpenParse}
@@ -550,8 +570,49 @@ const ApplicantsTab = ({
             setUpgrade={setUpgrade}
             candidatesLimit={features_balance}
           />
+          ) : (
+            <Flex >
+              <Flex end onClick={() => closemodel()}>
+                  <SvgClose
+                    width={10}
+                    height={10}
+                    fill={'#888888'}
+                    cursor={'pointer'}
+                  />
+                </Flex>
+              <Text bold size={14}>
+                Choose the Parser to parse your resume
+              </Text>
+              <Text style={{ marginTop: '10px' }}>
+                You don’t have enough parser credits, do you wish to buy
+                credits?
+              </Text>
+              <Flex column>
+                <Flex
+                  row
+                  style={{ justifyContent: 'space-evenly', marginTop: '25px' }}
+                >
+                  <Button
+                    types="secondary"
+                    className={styles.verifybutton}
+                    onClick={handlefunction}
+                  >
+                    Basic Parser
+                  </Button>
+                  <Button
+                    className={styles.verifybutton}
+                    types="secondary"
+                    onClick={handlefunction1}
+                  >
+                    Advanced Parser
+                  </Button>
+                </Flex>
+              </Flex>
+            </Flex>
+          )}
         </Flex>
       </Modal>
+
 
       <Flex row between className={styles.inputConatinerApplicants}>
         <Flex row>

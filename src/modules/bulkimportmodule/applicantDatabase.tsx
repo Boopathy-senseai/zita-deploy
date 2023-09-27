@@ -19,6 +19,8 @@ type MyProps = {
   candidatesLimit: number;
   isjdId: string;
   setmodel?:any;
+  verifymodel?: any;
+
 };
 
 type MyState = {
@@ -27,6 +29,8 @@ type MyState = {
   bulkDelete: boolean;
   setListName: any[];
   isMb: boolean;
+  verifymodel?: any;
+
  
 };
 
@@ -236,6 +240,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
           
       }
       this.props.setmodel(false);
+      this.props.verifymodel();
     };
 
     const dragOver = (e: { preventDefault: () => void }) => {
@@ -248,6 +253,11 @@ class CandidateDatabase extends Component<MyProps, MyState> {
 
     const dragLeave = (e: { preventDefault: () => void }) => {
       e.preventDefault();
+    };
+    const cancel = () => {
+      this.props.setmodel(false);
+
+      this.props.verifymodel();
     };
 
     // File drag and drop Function
@@ -388,7 +398,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
             <Flex row>
                     <Button
                     types='close'
-                    onClick={() => this.props.setmodel(false)}
+                    onClick={() => cancel()}
                 >
                   Cancel
                 </Button>

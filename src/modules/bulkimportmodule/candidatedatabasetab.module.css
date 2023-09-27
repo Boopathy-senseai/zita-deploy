@@ -3,7 +3,7 @@
   margin-right: 16px;
 }
 .inputConatiner {
- margin-top: 15px;
+  margin-top: 15px;
   margin-bottom: 15px;
 }
 .inputConatinerApplicants {
@@ -14,23 +14,19 @@
   cursor: pointer;
   margin-left: 8px;
 }
-.viewText{
-
-    margin-top: 5px;margin-left: 20px;
+.viewText {
+  margin-top: 5px;
+  margin-left: 20px;
 }
-.candidatedatabase{
-
-display:flex !important;
-
+.candidatedatabase {
+  display: flex !important;
 }
-.Applicantdatabase{
-
-display:flex !important;
-
+.Applicantdatabase {
+  display: flex !important;
 }
-.careerPage{
-margin-top: 7px;
-    margin-left: 4px;
+.careerPage {
+  margin-top: 7px;
+  margin-left: 4px;
 }
 
 .linkSpaceDefault {
@@ -53,7 +49,7 @@ margin-top: 7px;
 .svgRefresh {
   cursor: pointer;
 }
- 
+
 .inComplete {
   margin-right: 16px;
 }
@@ -72,4 +68,29 @@ margin-top: 7px;
   min-width: 225px;
   max-width: 250px;
   margin-right: 15px;
+}
+
+.bulkmodel {
+  background-color: white;
+  padding: 25px;
+  height: 320px;
+  width: 600px;
+  border-radius: 5px;
+}
+.verifymodel {
+  background-color: white;
+  width: 452px;
+  height: 219px;
+  padding: 25px;
+  border-radius: 5px;
+}
+
+.verifybutton {
+  height: 70px;
+  width: 140px;
+  border: 1px solid #d7c7d2;
+}
+
+.verifybutton span {
+  color: #000000;
 }
