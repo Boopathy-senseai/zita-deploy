@@ -173,7 +173,7 @@ const MessageTab = () => {
         
       </Flex>
 
-      <Flex style={{ padding: '12.5px 16px 0px 16px' }}>
+      <Flex style={{ padding: '14.1px 16px 0px 16px' }}>
         <MessageTopBar formik={formik} />
         <ErrorMessage
           touched={formik.touched}

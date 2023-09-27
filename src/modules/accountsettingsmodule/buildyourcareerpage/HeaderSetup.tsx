@@ -56,7 +56,7 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
   const [isShow, setShow] = useState(false);
   const [isLoader, setLoader] = useState(false);
   const [isMb, setMb] = useState(false);
-{console.log("sssssssssss",company_detail)}
+
   // mouse outside click to close color picker
   useEffect(() => {
     if (typeof Window !== 'undefined') {
@@ -150,7 +150,7 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
         dispatch(buildCareerMiddleWare())
           dispatch(dashBoardMiddleWare()).then(() => {
           setLoader(false);
-          Toast('Profile Removed successfully', 'LONG', 'success');
+          Toast('Logo removed successfully', 'LONG', 'success');
         });
         setShow(false);
       }
@@ -481,13 +481,14 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
                      <Flex columnFlex center middle className={styles.changeStyle}>
                        <SvgUpload />
                        <Text
-                         color="black"
+                         color="theme"
+                         bold
                          align="center"
                          style={{ paddingLeft: 4, paddingRight: 4 }}
                        >
                          {isEmpty(logo) || logo === 'logo.png'
                            ? 'Upload Your Company Logo'
-                           : 'Change Company Logo'}
+                           : 'Change Logo'}
                        </Text>
                      </Flex>
                    )}

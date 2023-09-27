@@ -11,6 +11,7 @@ import Flex from '../../uikit/Flex/Flex';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import Text from '../../uikit/Text/Text';
 import { BACK } from '../constValue';
+import { Loader } from '../../uikit';
 import styles from './standardjobposting.module.css';
 
 type Props = {
@@ -19,7 +20,8 @@ type Props = {
   ds_role: boolean;
   feature: number;
   whatjob: any;
-  super_user: boolean
+  super_user: boolean;
+  postLoader:any;
 };
 
 const StandardJobPosting = ({
@@ -29,10 +31,13 @@ const StandardJobPosting = ({
   ds_role,
   feature,
   whatjob,
+  postLoader
 }: Props) => {
   const [extarajobpost, setextarajobpost] = useState('1');
   const [isOpenPlanDetails, setOpenPlanDetails] = useState(false);
-
+  const [isBtnLoader, setBtnLoader] = useState(false);
+  const [isEditLoader, setEditLoader] = useState(false)
+  const [isUpgradeLoader, setUpgradeLoader] = useState(false)
   const extarajob = () => {
     if (extarajobpost === '0') {
       setextarajobpost('1');
@@ -90,52 +95,92 @@ const StandardJobPosting = ({
             </LinkWrapper>
 
             <Flex row center>
-              <LinkWrapper target={'_parent'} to={routesPath.MY_JOB_POSTING}>
+            {isBtnLoader ? (
+            <Flex className={styles.updateBtnLoader}>
+              <Loader size="small" withOutOverlay />
+            </Flex>
+          ) : (
+              <LinkWrapper target={'_parent'} to={routesPath.MY_JOB_POSTING} onClick={()=>{setBtnLoader(true)}}>
                 <Button types="secondary">Save as draft</Button>
-              </LinkWrapper>
+              </LinkWrapper>)}
               {ds_role === true && (
+                
+                
                 <LinkWrapper
                   target={'_parent'}
                   to={`/jobs/create_ds_edit/${jdId}`}
+                  onClick={()=>setEditLoader(true)}
                 >
+                       {isEditLoader ? (
+            <Flex className={styles.updateBtnLoader}>
+              <Loader size="small" withOutOverlay />
+            </Flex>
+          ) : (
                   <Button types="secondary" className={styles.editBtn}>
                     Edit
-                  </Button>
+                  </Button>)}
                 </LinkWrapper>
               )}
               {ds_role !== true && (
                 <LinkWrapper
                   target={'_parent'}
                   to={`/jobs/create_non_ds_edit/${jdId}`}
+                  onClick={()=>setEditLoader(true)}
                 >
+                    {isEditLoader ? (
+            <Flex className={styles.updateBtnLoader}>
+              <Loader size="small" withOutOverlay />
+            </Flex>
+          ) : (
                   <Button types="secondary" className={styles.editBtn}>
                     Edit
-                  </Button>
+                  </Button>)}
                 </LinkWrapper>
               )}
               {feature === 0 ? (
                 super_user ===false ?
                 <Flex>
+                       {isUpgradeLoader ? (
+            <Flex className={styles.updateBtnLoader}>
+              <Loader size="small" withOutOverlay />
+            </Flex>
+          ) : (
                 <Button 
                 onClick={()=>{if (super_user===false) {
-                  setOpenPlanDetails(true)                    
+                  setUpgradeLoader(true)                
+                  setOpenPlanDetails(true)    
                 }}
               }
-                >Upgrade</Button>
+                >Upgrade</Button>)}
+
               </Flex>
                : 
                <LinkWrapper
                to="/account_setting/settings?planFocus=focus"
              >
+                   {isUpgradeLoader ? (
+            <Flex className={styles.updateBtnLoader}>
+              <Loader size="small" withOutOverlay />
+            </Flex>
+          ) : (
                <Button 
-               onClick={manageLocation}
-               >Upgrade</Button>
+               onClick={()=>{manageLocation();
+              setUpgradeLoader(true)
+              }}
+               >Upgrade</Button>)}
              </LinkWrapper>
 
               ) : (
-                <Button onClick={hanldePulish} id={extarajobpost}>
+                <>
+                {postLoader ? (
+                  <Flex className={styles.updateBtnLoader}>
+                    <Loader size="small" withOutOverlay />
+                  </Flex>
+                ) : (
+                <Button onClick={()=>{hanldePulish();           
+                }} id={extarajobpost}>
                   Publish
-                </Button>
+                </Button>)}</>
               )}
         <SingleButton
           btnTitle="OK"

@@ -1,4 +1,5 @@
 import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import Chart from '../../uikit/Chart/Chart';
 import { PRIMARY } from '../../uikit/Colors/colors';
@@ -27,6 +28,7 @@ type Props = {
   jd_id: string;
   jdProfileLoader: boolean;
   setCancel: (arg: boolean) => void;
+  setNextLoader:(arg: boolean) => void;
 };
 const RoleRecommendation = ({
   isRole,
@@ -36,9 +38,16 @@ const RoleRecommendation = ({
   selected_role,
   jd_id,
   jdProfileLoader,
+  setNextLoader,
   setCancel,
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
+  useEffect(() => {
+    
+    setTimeout(() => {
+      setNextLoader(false)
+    }, 2000);
+  });
 
   const options = {
     chart: {

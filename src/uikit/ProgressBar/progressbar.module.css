@@ -5,7 +5,13 @@
   box-sizing: border-box; */
   background-color: rgb(233, 233, 233);
 }
-
+.progressmatch{
+  background-color: var(--color-secondary, #ffc203);
+  height: 15px !important;
+  border-radius: 4px;
+  transition: 1s ease;
+  transition-delay: 0.5s;
+}
 .progress {
   background-color: var(--color-secondary, #ffc203);
   height: 20px;
@@ -22,6 +28,12 @@
   position: absolute;
   top: 0px;
   left: 12px;
+}
+.percentTextmatch {
+  position: absolute;
+  top: -0.5px;
+  left: 12px;
+  font-size: 12px;
 }
 .countStyle1 { 
    stroke: #ED4857;

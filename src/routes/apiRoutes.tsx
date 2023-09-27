@@ -105,11 +105,12 @@ export const jdParserApi = `jd_parser`;
 export const jdTemplatesApi = `jd_templates`;
 export const createJdApi = 'create_jd';
 export const locationApi = `load_location`;
+export const AioutputApi="jd_creation_ai";
 export const jdProfileApi = (jdId: string) => {
   const url = `jd_profile/${jdId}`;
   return url;
 };
-
+export const industrytype=`jd_industry_type`
 export const missSkillsApi = (jdId?: string) => {
   const url = `missing_skills/${jdId}`;
   return url;
@@ -215,10 +216,12 @@ export const careerJobViewApi = (id: string) => {
 };
 
 export const uploadResumeApi = `${process.env.REACT_APP_API_ENDPOINT}upload_resume/`;
+// export const professionalResume  = 'upload_resume';
 export const basicDetailApi = 'basic_detail/';
 export const emailValidationApi = `email_validation`;
 export const otpVerificationApi = `otp_verification`;
 export const profileEditApi = 'profile_edit';
+export const resumeReupload = 'edit_resume_file';
 export const whatjobsApi = `what_jobs_posting/`;
 // export const whatjobsApi = (jdId?: string) => {
 //   const url = `what_jobs_posting/${jdId}`;
@@ -226,6 +229,7 @@ export const whatjobsApi = `what_jobs_posting/`;
 // };
 export const updatePersonalInfoApi = 'update_personal_info/';
 export const updateJobPreferenceApi = 'update_job_preference/';
+export const updateResumeOverviewApi ='update_resume_overview';
 export const skillsUpdateApi = (empId: number) => {
   const url = `skills_update/${empId}/`;
   return url;

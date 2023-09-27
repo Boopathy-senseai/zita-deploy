@@ -21,6 +21,7 @@ export interface JDParserReducerState extends JDParser {
 }
 
 export interface JDTemplates {
+  skills: any;
   id: number;
   job_description: string;
   job_title: string;
@@ -112,6 +113,18 @@ export interface CountryEntity {
 export interface LocationState extends Location {
   isLoading: boolean;
   error: string;
+}
+
+
+
+export interface IndustryState {
+  isLoading: boolean;
+  error: string;
+  data: [{
+    id: number;
+    label_name:string;
+    value: string;
+  }];
 }
 
 export interface JDProfile {
@@ -215,6 +228,8 @@ export interface QualificationEntity {
 }
 
 export interface JdOutput {
+  work_space_type: string;
+  industry_type_name: string;
   id: number;
   job_posted_on: string;
   job_reposted_on?: string;
@@ -252,9 +267,20 @@ export interface UpdateJdState extends UpdateJd {
   isLoading: boolean;
   error: string;
 }
+export interface AIoutput{
+  jobTitle:string;
+  Industry_and_Domain:string;
+  Work_Space_Type:string;
+  Country?:string;
+  State?:string;
+  City?:string;
+  Overview_the_Role:string;
+  Department_and_reporting_structure?:string;
+}
 
 export interface CreateJdPostPayload {
   work_remote: string;
+  work_space_type:string;
   job_title: string;
   job_role?: string;
   job_id: string;
