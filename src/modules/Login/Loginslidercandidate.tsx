@@ -1,11 +1,5 @@
 import { useState, useEffect } from 'react';
-import image1 from '../../assets/images/login1.png';
-import image2 from '../../assets/images/login2.png';
-import image3 from '../../assets/images/login3.png';
-import image4 from '../../assets/images/login4.png';
-import image5 from '../../assets/images/login5.png';
 import image6 from '../../assets/images/login6.png';
-import image7 from '../../assets/images/login7.png';
 import image8 from '../../assets/images/login8.png';
 import image9 from '../../assets/images/login9.png';
 import Flex from '../../uikit/Flex/Flex';
