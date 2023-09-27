@@ -216,6 +216,7 @@ console.log("externaljob",extarajobpost)
         feature={feature} 
         whatjob={whatjob}
         super_user={super_user}
+        postLoader={postLoader}
       />
     </Flex>
   );

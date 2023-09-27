@@ -134,7 +134,7 @@ const CreateNewQuestion = ({
             setFieldValue('question', e.target.value);
             onDirty();
           }}
-        
+        maxLength={501}
         />
         {!isEmpty(values.question) && values.question.length > 500 && (
           <Text color="error" size={12}>
@@ -151,6 +151,7 @@ const CreateNewQuestion = ({
           setFieldValue('description', e.target.value);
           onDirty();
         }}
+        maxLength={1001}
       />
       {!isEmpty(values.description) && values.description.length > 1000 && (
         <Text color="error" size={12}>
