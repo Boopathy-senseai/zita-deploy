@@ -738,20 +738,21 @@ const PersonalInformationEdit = ({
               touched={formik.touched}
               errors={formik.errors}
             />
-          </Flex>
+          </Flex> 
         </Flex>
 
         {/* <Flex end style={{padding:"10px"}}>
           <Button onClick={formik.handleSubmit}>Update</Button>
         </Flex> */}
-        <Flex end style={{padding:"10px"}}>
-        {isBtnLoader ? (
-          <Flex className={styles.updateBtnLoader}>
-            <Loader size="small" withOutOverlay />
-          </Flex>
-        ) : (
-          <Button onClick={formik.handleSubmit}>Update</Button>
-        )}
+        <Flex end row marginTop={15}>
+          <Flex marginRight={15}><Button  types="close" onClick={cancel}>Cancel</Button></Flex>
+          <Flex> {isBtnLoader ? (
+            <Flex className={styles.updateBtnLoader}>
+              <Loader size="small" withOutOverlay />
+            </Flex>
+          ) : (
+            <Button onClick={formik.handleSubmit}>Update</Button>  
+          )}</Flex> 
         </Flex>
       </Flex>
     </Modal>

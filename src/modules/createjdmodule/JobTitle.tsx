@@ -91,6 +91,7 @@ const JobTitle = ({
             setFieldValue('jobTitle', e.target.value);
             onDirty();
           }}
+          maxLength={51}
         />
         {isEmpty(values.jobTitle) &&
         <ErrorMessage name="jobTitle" touched={touched} errors={errors} />}
@@ -138,6 +139,7 @@ const JobTitle = ({
             setFieldValue('jobId', e.target.value);
             onDirty();
           }}
+          maxLength={51}
         />
         {!isEmpty(values.jobId) && is_taken === true && (
           <Text size={12} color="error" className={styles.errorMessage}>
