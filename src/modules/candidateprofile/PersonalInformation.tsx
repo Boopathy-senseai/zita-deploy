@@ -4,6 +4,7 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { AppDispatch } from '../../store';
 import Button from '../../uikit/Button/Button';
 import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
@@ -34,6 +35,7 @@ import styles from './personalinformation.module.css';
 import {
   basicDetailMiddleWare,
   emailValidationMiddleWare,
+  // personalInformationMiddleware,
 } from './store/middleware/candidateprofilemiddleware';
 
 type formProps = {
@@ -67,6 +69,12 @@ type Props = {
   handleOpenLogin: () => void;
   empId: string;
   userInfo?: UserInfo;
+  additional_detail?:any;
+  personal?:any;
+};
+
+type ParamsType = {
+  empId: string;
 };
 
 const PersonalInformation = ({
@@ -74,8 +82,11 @@ const PersonalInformation = ({
   cancel,
   handleOpenLogin,
   empId,
+  personal,
   userInfo,
+  additional_detail
 }: Props) => {
+  const params = useParams<ParamsType>();
   const dispatch: AppDispatch = useDispatch();
   const [isGetCountry, setCountry] = useState<CountryEntity[]>([]);
   const [getState, setState] = useState<StatesEntity[]>([]);
@@ -107,14 +118,14 @@ const PersonalInformation = ({
       .email(PLEASE_ENTER_VALID_MAIL)
       .required(THIS_FIELD_REQUIRED),
   });
-
+  
   // form submit function
   const handleSubmit = (values: formProps) => {
     setLoader(true);
     const formData = new FormData();
     formData.append('firstname', values.firstName);
     formData.append('lastname', values.lastName);
-    formData.append('email', values.email);
+    formData.append('email', values.email !== 'None' && values.email);
     formData.append('contact_no', values.phone);
     formData.append('linkedin_url', values.linkedIn);
     formData.append('current_state', values.state);
@@ -168,6 +179,32 @@ const PersonalInformation = ({
       });
     }
   }, [formik.values.county]);
+  // useEffect(()=>{
+  //   dispatch(personalInformationMiddleware({emp_id: params.empId}));
+  // })
+  useEffect(() => { 
+      if (!isEmpty(personal.firstname)&&personal.firstname !== 'None') {
+        formik.setFieldValue('firstName', personal.firstname);
+      }
+      if (!isEmpty(personal.lastname)&&personal.lastname !== 'None') {
+        formik.setFieldValue('lastName', personal.lastname);
+      }
+      if (!isEmpty(personal.email)&&personal.email !== 'None' ) {
+        formik.setFieldValue('email', personal.email);
+      }
+      if (!isEmpty(personal.contact_no) &&personal.contact_no !== 'None') {
+        formik.setFieldValue('phone', personal.contact_no.toString());
+      } 
+      if (!isEmpty(personal.linkedin_url) &&personal.linkedin_url !== 'None' ) {
+        formik.setFieldValue('linkedInUrl', personal.linkedin_url);  }
+       if (!isEmpty(additional_detail?.total_exp_year)&& Number(additional_detail?.total_exp_year) !== 0) {
+        formik.setFieldValue('years', additional_detail?.total_exp_year);
+        }
+      if (!isEmpty(additional_detail?.total_exp_month && Number(additional_detail?.total_exp_month) !== 0)) {
+        formik.setFieldValue('month', additional_detail?.total_exp_month);
+      }
+   
+  }, [personal,additional_detail]);
 
   useEffect(() => {
     if (!isEmpty(formik.values.state)) {
@@ -227,7 +264,12 @@ const PersonalInformation = ({
         <Flex
           style={{ borderBottom: '0.5px solid #581845', marginBottom: '15px' }}
         >
-          <Text bold size={14} className={styles.infoText} style={{ marginBottom: '5px' }}>
+          <Text
+            bold
+            size={14}
+            className={styles.infoText}
+            style={{ marginBottom: '5px' }}
+          >
             Personal Information
           </Text>
         </Flex>
@@ -353,18 +395,18 @@ const PersonalInformation = ({
           </Flex>
         </Flex>
         <Flex row top marginTop={20} className={styles.totalExpFlex}>
-          <Flex marginRight={16} width={284}>
-            {/* <Text className={styles.totalExpText}>Total Experience</Text> */}
+          <Flex marginRight={16} width={284}> 
             <SelectTag
               options={expYearOptions}
               label="Total Experience Years"
               required
               value={
+                // formik.values.years
                 expYearOptions
                   ? expYearOptions.find(
-                      (option) => option.value === formik.values.years,
+                      (option) =>  Number(option.value) ===  Number(formik.values.years),
                     )
-                  : ''
+                  :  ''
               }
               isSearchable
               onChange={(options) =>
@@ -386,7 +428,7 @@ const PersonalInformation = ({
               value={
                 monthOptions
                   ? monthOptions.find(
-                      (option) => option.value === formik.values.month,
+                      (option) =>  Number(option.value) ===  Number(formik.values.month),
                     )
                   : ''
               }

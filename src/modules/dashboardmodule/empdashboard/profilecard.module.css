@@ -183,8 +183,13 @@ align-items: center; */
   height: 120px;
   width: 120px;
   align-items: center;
+  display: flex;
   position: relative;
+  flex-wrap: wrap;
   background-color: #fff;
+  justify-content: center;
+  align-content: center;
+
 }
 
 .changeStyle {

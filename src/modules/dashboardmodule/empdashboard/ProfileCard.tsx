@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import PhoneInput from 'react-phone-input-2';
 import { useState, useEffect } from 'react';
-import { jobSelect } from '../../../appRoutesPath';
+import { jobCreateNonDs } from '../../../appRoutesPath';
 import SvgCompany from '../../../icons/SvgCompany';
 import SvgNewTab from '../../../icons/SvgNewTab';
 import SvgMail from '../../../icons/SvgMail';
@@ -356,12 +356,12 @@ const ProfileCard = () => {
                         <Loader withOutOverlay size="medium" />
                       </Flex>
                     ) : (
-                      <Flex columnFlex center middle>
+                      <Flex columnFlex center middle >
                         <SvgUpload />
                         <Text
                           color="black"
                           align="center"
-                          style={{ paddingLeft: 4, paddingRight: 4 }}
+                          // style={{ paddingLeft: 4, paddingRight: 4 }}
                         >
                           Upload Your Company Logo
                         </Text>
@@ -766,7 +766,7 @@ const ProfileCard = () => {
             <Flex className={styles.pointer}>
               {' '}
               {permission.includes('create_post') && (
-                <LinkWrapper to={jobSelect}>
+                <LinkWrapper to={jobCreateNonDs}>
                   <Button className={styles.buttonsize}>Post Job</Button>
                 </LinkWrapper>
               )}

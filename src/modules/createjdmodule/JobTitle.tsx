@@ -57,6 +57,7 @@ const JobTitle = ({
 
   useEffect(() => {
     setFieldValue('jobTitle', jd_output.job_title);
+    console.log("%%%%%",jd_output.job_title)
     if (jd_output.job_role_id !== 0) {
       setFieldValue('jobRole', jd_output.job_role_id);
     }
@@ -77,6 +78,7 @@ const JobTitle = ({
 
   return (
     <Flex row top className={styles.overAll}>
+  
       <Flex flex={!isNonDs ? 4 : 8} className={styles.jobTitleFlex}>
         <InputText
           id="jobtitle__jobtitle"

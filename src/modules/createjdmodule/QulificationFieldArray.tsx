@@ -1,18 +1,25 @@
 import { ErrorMessage, FieldArrayRenderProps } from 'formik';
 import { memo, useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store';
 import SvgTrash from '../../icons/SvgTrash';
 import Button from '../../uikit/Button/Button';
 import { GARY_4, PRIMARY } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
 import { isEmpty } from '../../uikit/helper';
 import InputText from '../../uikit/InputText/InputText';
+import InputSearch from '../../uikit/InputSearch/InputSearch';
 import SelectTag from '../../uikit/SelectTag/SelectTag';
 import Text from '../../uikit/Text/Text';
 import useDebounce from '../common/useDebounce';
 import { JOB_TITLE_LIMIT } from '../constValue';
 import { dsFormProps } from './formikTypes';
-import { qualificationData, industryType } from './mock';
+import { qualificationData } from './mock';
 import styles from './qulificationadd.module.css';
+import {
+  industryType
+} from './store/middleware/createjdmiddleware';
+
 
 type Props = {
   index: number;
@@ -131,6 +138,21 @@ const QualificationFieldArray = ({
       }
     }
   }, [debouncedValueFour]);
+
+
+  const {
+    data
+  } = useSelector(
+    ({
+      getindustery
+    }: RootState) => {
+      return {
+        data: getindustery.data,
+      };
+    },
+  );
+ 
+
 
   return (
     <Flex row top key={index} className={styles.containerOne}>
@@ -252,22 +274,20 @@ const QualificationFieldArray = ({
 
       {index === 0 && (
         <Flex flex={3} className={styles.margin16}>
-          <SelectTag
-            options={industryType}
-            label="Industry Type"
-            value={
-              industryType
-                ? industryType.find(
-                    (option) => option.value === values.industryType,
-                  )
-                : ''
-            }
-            onChange={(option) => {
-              setFieldValue('industryType', option.value);
-            }}
-            onMenuOpen={() => setIsSelectOpen1(true)}
-            onMenuClose={() => setIsSelectOpen1(false)}
-          />
+          <InputSearch
+        placeholder="e.g. Industry Type"
+        options={data}
+        setFieldValue={setFieldValue}
+        name="industryType"
+        label="Industry Type"
+        
+        initialValue={values.industryType}
+        onChange={(e) => {
+          setFieldValue('industryType', e.target.value);
+    
+        }}
+/>
+
         </Flex>
       )}
       {values.qualification.length > 1 && index !== 0 && (

@@ -13,6 +13,7 @@ export type dsFormProps = {
   vacancies: string;
   country: string;
   state: string;
+  skills:[],
   city: string;
   remoteWork: string;
   onsite: string;
@@ -22,6 +23,8 @@ export type dsFormProps = {
   currency: string;
   showSalaryCandidates: string;
   industryType: string;
+  work_space_type:string;
+  IndustryType: string;
   skillData: {
     dataBaseTags: SkillsEntity[];
     toolsTags: SkillsEntity[];
@@ -29,7 +32,7 @@ export type dsFormProps = {
     othersTags: SkillsEntity[];
     programTags: SkillsEntity[];
   };
-  nonDsSkill?: any;
+  nonDsSkill?: [];
   skillValid?: string;
 };
 

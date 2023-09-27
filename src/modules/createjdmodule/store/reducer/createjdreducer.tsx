@@ -15,6 +15,7 @@ import {
   TemplateState,
   UpdateJdState,
   valiDateJdState,
+  IndustryState
 } from '../../createJdTypes';
 import {
   createJdMiddleWare,
@@ -32,6 +33,7 @@ import {
   questionnaireTemplateMiddleWare,
   selectDsorNonDsMiddleWare,
   validateJobIDMiddleWare,
+  industryType
 } from '../middleware/createjdmiddleware';
 
 const jdParserState: JDParserReducerState = {
@@ -418,6 +420,8 @@ const duplicateState: UpdateJdState = {
     job_type_id: 0,
     jd_status_id: 0,
     created_on: '',
+    work_space_type: '',
+    industry_type_name: ''
   },
   skills: [],
   location: {
@@ -664,6 +668,41 @@ const selectDsorNonDsReducer = createSlice({
   },
 });
 
+const industryState: IndustryState= {
+  isLoading: false,
+  error: '',
+  data: [{
+    id: 0,
+    label_name:'',
+    value: '',
+  }]
+};
+
+const industryStates = createSlice({
+  name: 'createjd',
+  initialState: industryState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(industryType.pending, (state) => {
+      state.isLoading = true;
+      state.error = '';
+    });
+    builder.addCase(industryType.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.data = action.payload;
+    });
+    builder.addCase(industryType.rejected, (state, action) => {
+      state.isLoading = false;
+      if (typeof action.payload === 'string') {
+        state.error = action.payload;
+      }
+    });
+  },
+});
+
+
+
+
 export const jdParserReducers = jdParserReducer.reducer;
 export const jdTemplatesReducers = jdTemplatesReducer.reducer;
 export const createJdReducers = createJdReducer.reducer;
@@ -679,3 +718,5 @@ export const validateJobIDReducers = validateJobIDReducer.reducer;
 export const dsOrNonDsGetReducers = dsOrNonDsGetReducer.reducer;
 export const postReducers = postReducer.reducer;
 export const selectDsorNonDsReducers = selectDsorNonDsReducer.reducer;
+export const getindustery = industryStates.reducer;
+
