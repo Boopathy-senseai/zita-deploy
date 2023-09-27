@@ -1,0 +1,10 @@
+.overAll {
+  padding: 25px;
+  position: relative;
+}
+.svgEdit {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  cursor: pointer;
+}

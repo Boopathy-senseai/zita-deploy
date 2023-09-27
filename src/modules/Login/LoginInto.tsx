@@ -26,6 +26,7 @@ type Props = {
   handleForgotOpen: () => void;
   isError: boolean;
   isInactive: boolean;
+  iswrongcredential?: boolean;
   //loginTitle:string;
 };
 const LoginInto = ({
@@ -33,6 +34,7 @@ const LoginInto = ({
   handleForgotOpen,
   isError,
   isInactive,
+  iswrongcredential
 }: // loginTitle,
 Props) => {
   const [isShowPass, setShowPass] = useState(false);
@@ -169,11 +171,11 @@ Props) => {
                     onKeyPress={(e) => handleKeyPress(e, formik.handleSubmit)}
                   />
                   <div style={{ marginTop: '4px' }}></div>
-                  <ErrorMessage
+                   <ErrorMessage
                     name="email"
                     touched={formik.touched}
                     errors={formik.errors}
-                  />
+                  /> 
 
                   {inputLengthErrorpass && (
                     <Text size={12} color="error">
@@ -183,6 +185,11 @@ Props) => {
                   {isError && (
                     <Text size={12} color="error">
                       Your username or password is incorrect. Try again.
+                    </Text>
+                  )}  
+                   {formik.errors.email !== "This field is required."  && iswrongcredential&& (
+                    <Text size={12} color="error">
+                       Your username or password is incorrect. Try again.
                     </Text>
                   )}
                   {!isEmpty(formik.values.email) && isInactive && (

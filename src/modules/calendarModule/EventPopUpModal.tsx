@@ -16,7 +16,7 @@ import SvgInfo from '../../icons/SvgInfo';
 import Avatar, { getUserInitials } from '../../uikit/Avatar';
 import { formatTo12HrClock, getEventHasMeeting } from './util';
 import styles from './styles/EventPopUp.module.css';
-import { EventPopUpDetails } from './types';
+import { CALENDAR, EventPopUpDetails } from './types';
 
 interface Props {
   showEventPopUpModal: boolean;
@@ -29,6 +29,7 @@ interface Props {
   isEventOrganizer: boolean;
   eventPopUpDetails: EventPopUpDetails;
   copyMeeting: (eventId: string) => void;
+  calendarProvider: CALENDAR;
 }
 
 const EventPopUpModal = ({
@@ -40,6 +41,7 @@ const EventPopUpModal = ({
   joinMeeting,
   copyMeeting,
   eventPopUpDetails,
+  calendarProvider,
 }: Props) => {
   const [openEventDeleteModal, setOpenEventDeleteModal] = useState(false);
   const {
@@ -78,7 +80,8 @@ const EventPopUpModal = ({
           className={styles.actionButtonWrapper}
           style={{ marginTop: '20px' }}
         >
-          <Button className={styles.cancel}
+          <Button
+            className={styles.cancel}
             style={{ marginRight: 8 }}
             onClick={() => setOpenEventDeleteModal(false)}
           >
@@ -128,24 +131,35 @@ const EventPopUpModal = ({
 
         <div className={styles.info}>
           <SvgInterviewers size={16} />
-              {console.log(attendees)}
           {attendees && attendees?.length > 0 ? (
             <div className={styles.infoText}>
               <p style={{ marginBottom: 3 }}>Interviewer&#40;s&#41;</p>
               <Flex row className={styles.emailContainer}>
+                {organizer.full_name && (
+                  <Avatar
+                    initials={getUserInitials({
+                      fullName: organizer.full_name,
+                    })}
+                    style={{ width: 28, height: 28, marginRight: '5px' }}
+                    textStyle={{ fontSize: 12 }}
+                    title={organizer.full_name}
+                  />
+                )}
                 {attendees.map(
-                  (item: string, index: Key | null | undefined) => (
-                    <Avatar
-                      key={index}
-                      initials={getUserInitials({ fullName: item })}
-                      style={{ width: 28, height: 28, marginRight: '5px' }}
-                      textStyle={{ fontSize: 12 }}
-                      title={item}
-                    />
-                    // <p className={styles.email} key={index}>
-                    //   {items}
-                    // </p>
-                  ),
+                  (item: string, index: Key | null | undefined) => {
+                    if (organizer.full_name.toLowerCase().trim() === item.toLowerCase().trim()){
+                      return null;
+                    }
+                      return (
+                        <Avatar
+                          key={index}
+                          initials={getUserInitials({ fullName: item })}
+                          style={{ width: 28, height: 28, marginRight: '5px' }}
+                          textStyle={{ fontSize: 12 }}
+                          title={item}
+                        />
+                      );
+                  },
                 )}
               </Flex>
             </div>
@@ -157,7 +171,9 @@ const EventPopUpModal = ({
           <div className={styles.infoText}>
             <Text style={{ marginBottom: 3 }}>Organizer</Text>
             {/* <br /> */}
-            <Text className={styles.email}>{organizer.displayName || organizer.email}</Text>
+            <Text className={styles.email}>
+              {organizer.full_name ? organizer.full_name : organizer.email}
+            </Text>
           </div>
         </div>
       </div>
@@ -230,7 +246,7 @@ const EventPopUpModal = ({
               </p>
             </Tooltip> */}
       <Tooltip title={title} placement="bottom-start">
-        <p style={{fontWeight: 'bold'}} className={styles.title}>
+        <p style={{ fontWeight: 'bold' }} className={styles.title}>
           {title}
         </p>
       </Tooltip>

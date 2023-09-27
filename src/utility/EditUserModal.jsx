@@ -33,6 +33,7 @@ const EditUserModal = (props) => {
   const [isDefaultContactValue, setDefaultContactValue] = useState('');
   const [isDefaultDepartValue, setDefaultDepartValue] = useState('');
   const [isAutoDropDown, setAutoDropDown] = useState();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const myRef = useRef();
 
   ////////// Form Validation ////////////
@@ -66,6 +67,7 @@ const EditUserModal = (props) => {
 
   ////////// Submit Form ////////////
   const onSubmit = (data) => {
+    setIsSubmitting(true);
     data['first_name'] = first_name;
     data['last_name'] = last_name;
     data['email'] = email;
@@ -79,7 +81,11 @@ const EditUserModal = (props) => {
       }
     }
     data['permissions'] = checkedValue;
-    props.OnEdit(data);
+    // props.OnEdit(data);
+    setTimeout(() => {
+      props.OnEdit(data);
+      setIsSubmitting(false); // Stop submitting
+    }, 500);
   };
 
   ////////// Get Role ////////////
@@ -548,9 +554,18 @@ const EditUserModal = (props) => {
                       
                         Cancel
                       </Button>
-                      <Button type="submit" style={{ marginLeft: '8px' }}>
+                      {/* <Button type="submit" style={{ marginLeft: '8px' }}>
                         Save
-                      </Button>
+                      </Button> */}
+                      {isSubmitting ? (
+                        <Flex className={styles.saveBtnLoader}>
+                        <Loader size="small" withOutOverlay />
+                        </Flex>
+                      ) : (
+                        <Button type="submit" style={{ marginLeft: '8px' }}>
+                          Save
+                        </Button>
+                      )}
                     </Flex>
                   </div>
                 </div>

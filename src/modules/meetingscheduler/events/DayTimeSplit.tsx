@@ -386,7 +386,7 @@ const DayTimeSplit = ({
     const check = time.find(
       (option) => option.label === sunday[index - 1].endtime,
     );
-    const lastObject = sunday[sunday.length - 1];
+        const lastObject = sunday[sunday.length - 1];
     if (
       lastObject === object &&
       object.starttime !== '' &&
@@ -401,16 +401,19 @@ const DayTimeSplit = ({
     } else if (lastObject.starttime === '' && lastObject.endtime === '') {
       const objectsWithEndTime = sunday.filter((item) => item.endtime !== '');
       const lastObjectWithEndTime = objectsWithEndTime.pop();
-      const lastvalue = time.find(
-        (option) => option.label === lastObjectWithEndTime.endtime,
-      );
-      const specificObject =
-        lastvalue.label !== object.endtime ? lastvalue : check;
-      const index1 = time.findIndex((obj) => obj.id === specificObject.id);
-      if (index !== -1) {
-        const remainingObjects = time.slice(index1);
-        setDay1(remainingObjects);
+      if (lastObjectWithEndTime !== undefined){
+        const lastvalue = time.find(
+          (option) => option.label === lastObjectWithEndTime.endtime,
+        );
+        const specificObject =
+          lastvalue.label !== object.endtime ? lastvalue : check;
+        const index1 = time.findIndex((obj) => obj.id === specificObject.id);
+        if (index !== -1) {
+          const remainingObjects = time.slice(index1);
+          setDay1(remainingObjects);
+        }
       }
+
     }
     const list = [...sunday];
     list.splice(index, 1);
@@ -510,6 +513,7 @@ const DayTimeSplit = ({
     } else if (lastObject.starttime === '' && lastObject.endtime === '') {
       const objectsWithEndTime = monday.filter((item) => item.endtime !== '');
       const lastObjectWithEndTime = objectsWithEndTime.pop();
+      if (lastObjectWithEndTime !== undefined){
       const lastvalue = time.find(
         (option) => option.label === lastObjectWithEndTime.endtime,
       );
@@ -520,6 +524,7 @@ const DayTimeSplit = ({
         const remainingObjects = time.slice(index1);
         setDay2(remainingObjects);
       }
+    }
     }
     const list = [...monday];
     list.splice(index, 1);
@@ -619,6 +624,7 @@ const DayTimeSplit = ({
     } else if (lastObject.starttime === '' && lastObject.endtime === '') {
       const objectsWithEndTime = tuesday.filter((item) => item.endtime !== '');
       const lastObjectWithEndTime = objectsWithEndTime.pop();
+      if (lastObjectWithEndTime !== undefined){
       const lastvalue = time.find(
         (option) => option.label === lastObjectWithEndTime.endtime,
       );
@@ -629,6 +635,7 @@ const DayTimeSplit = ({
         const remainingObjects = time.slice(index1);
         setDay3(remainingObjects);
       }
+    }
     }
     const list = [...tuesday];
     list.splice(index, 1);
@@ -731,6 +738,7 @@ const DayTimeSplit = ({
         (item) => item.endtime !== '',
       );
       const lastObjectWithEndTime = objectsWithEndTime.pop();
+      if (lastObjectWithEndTime !== undefined){
       const lastvalue = time.find(
         (option) => option.label === lastObjectWithEndTime.endtime,
       );
@@ -741,6 +749,7 @@ const DayTimeSplit = ({
         const remainingObjects = time.slice(index1);
         setDay4(remainingObjects);
       }
+    }
     }
     const list = [...wednesday];
     list.splice(index, 1);
@@ -840,6 +849,7 @@ const DayTimeSplit = ({
     } else if (lastObject.starttime === '' && lastObject.endtime === '') {
       const objectsWithEndTime = thursday.filter((item) => item.endtime !== '');
       const lastObjectWithEndTime = objectsWithEndTime.pop();
+      if (lastObjectWithEndTime !== undefined){
       const lastvalue = time.find(
         (option) => option.label === lastObjectWithEndTime.endtime,
       );
@@ -850,6 +860,7 @@ const DayTimeSplit = ({
         const remainingObjects = time.slice(index1);
         setDay5(remainingObjects);
       }
+    }
     }
     const list = [...thursday];
     list.splice(index, 1);
@@ -950,6 +961,7 @@ const DayTimeSplit = ({
     } else if (lastObject.starttime === '' && lastObject.endtime === '') {
       const objectsWithEndTime = friday.filter((item) => item.endtime !== '');
       const lastObjectWithEndTime = objectsWithEndTime.pop();
+      if (lastObjectWithEndTime !== undefined){
       const lastvalue = time.find(
         (option) => option.label === lastObjectWithEndTime.endtime,
       );
@@ -960,6 +972,7 @@ const DayTimeSplit = ({
         const remainingObjects = time.slice(index1);
         setDay6(remainingObjects);
       }
+    }
     }
     const list = [...friday];
     list.splice(index, 1);
@@ -1060,6 +1073,7 @@ const DayTimeSplit = ({
     } else if (lastObject.starttime === '' && lastObject.endtime === '') {
       const objectsWithEndTime = saturday.filter((item) => item.endtime !== '');
       const lastObjectWithEndTime = objectsWithEndTime.pop();
+      if (lastObjectWithEndTime !== undefined){
       const lastvalue = time.find(
         (option) => option.label === lastObjectWithEndTime.endtime,
       );
@@ -1069,7 +1083,7 @@ const DayTimeSplit = ({
       if (index !== -1) {
         const remainingObjects = time.slice(index1);
         setDay7(remainingObjects);
-      }
+      }}
     }
     const list = [...saturday];
     list.splice(index, 1);

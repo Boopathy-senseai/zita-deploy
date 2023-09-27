@@ -201,7 +201,9 @@ const PersonalInformation = ({
   }, [userInfo]);
 
   const [inputLengthErrorpass, setInputLengthErrorpass] = useState(false);
-  const handleInputChangepass = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChangepass = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const inputLength = event.target.value.length;
 
     // Check if input length exceeds 20 characters
@@ -212,18 +214,24 @@ const PersonalInformation = ({
       formik.handleChange('email')(event); // Update the formik value
     }
   };
-  const submit=()=>{
-    if(inputLengthErrorpass===false){
-    formik.handleSubmit();}
-  }
+  const submit = () => {
+    if (inputLengthErrorpass === false) {
+      formik.handleSubmit();
+    }
+  };
 
   return (
     <Modal open={open}>
-      {isLoader && <Loader />}
+      {/* {isLoader && <Loader />} */}
       <Flex className={styles.overAll}>
-        <Text color='theme' bold size={16} className={styles.infoText}>
-          Personal Information
-        </Text>
+        <Flex
+          style={{ borderBottom: '0.5px solid #581845', marginBottom: '15px' }}
+        >
+          <Text bold size={14} className={styles.infoText} style={{ marginBottom: '5px' }}>
+            Personal Information
+          </Text>
+        </Flex>
+
         <Flex row top>
           <Flex flex={4} width={284}>
             <InputText
@@ -262,7 +270,6 @@ const PersonalInformation = ({
                 value={formik.values.email}
                 onChange={handleInputChangepass}
               />
-
             </div>
 
             <ErrorMessage
@@ -270,20 +277,19 @@ const PersonalInformation = ({
               touched={formik.touched}
               errors={formik.errors}
             />
-               {inputLengthErrorpass ===true &&
-         <Text
-         //align="center"
-         color="error"
-         size={12}
-        // className={styles.loginText}
-       >
-         Email should be a maximum of 50 characters
-       </Text>
-
-        }
+            {inputLengthErrorpass === true && (
+              <Text
+                //align="center"
+                color="error"
+                size={12}
+                // className={styles.loginText}
+              >
+                Email should be a maximum of 50 characters
+              </Text>
+            )}
           </Flex>
         </Flex>
-     
+
         {userInfo && !userInfo?.active && isError && (
           <Text
             align="center"
@@ -324,7 +330,6 @@ const PersonalInformation = ({
                   // setPhoneValidate(phone.slice(data.dialCode.length));
                   formik.setFieldValue('phone', phone);
                 }}
-              
               />
             </LabelWrapper>
             <ErrorMessage
@@ -388,7 +393,7 @@ const PersonalInformation = ({
             />
           </Flex>
         </Flex>
-        <Text color='theme' bold size={16} className={styles.workText}>
+        <Text bold size={14} className={styles.workText}>
           Preferred Work Location
         </Text>
         <Flex row top>
@@ -484,9 +489,18 @@ const PersonalInformation = ({
           className={styles.saveBtn}
           style={{ borderTop: '1px solid #c3c3c3' }}
         >
-          <Button onClick={submit} style={{ marginTop: '10px' }}>
+          {/* <Button onClick={submit} style={{ marginTop: '10px' }}>
             {userInfo && userInfo.active ? 'Go to Messages' : 'Save'}
-          </Button>
+          </Button> */}
+          {isLoader ? (
+            <Flex className={styles.profilesaveBtnLoader}>
+              <Loader size="small" withOutOverlay />
+            </Flex>
+          ) : (
+            <Button onClick={submit} style={{ marginTop: '10px' }}>
+              {userInfo && userInfo.active ? 'Go to Messages' : 'Save'}
+            </Button>
+          )} 
         </Flex>
       </Flex>
     </Modal>

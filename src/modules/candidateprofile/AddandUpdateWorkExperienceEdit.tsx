@@ -255,7 +255,7 @@ const AddandUpdateWorkExperienceEdit = ({
   return (
     <Modal open={open}>
       {routerPrompt}
-      {isLoader && <Loader />}
+      {/* {isLoader && <Loader />} */}
       <Flex columnFlex className={styles.overAll}>
         <div
           className={styles.svgClose}
@@ -417,9 +417,18 @@ const AddandUpdateWorkExperienceEdit = ({
         </Flex>
 
         <Flex end>
-          <Button onClick={formik.handleSubmit}>
+          {/* <Button onClick={formik.handleSubmit}>
             {isUpdate ? 'Update' : 'Add'}
-          </Button>
+          </Button>  */}
+          {isLoader ? (
+            <Flex className={isUpdate ? styles.btnLoader:styles.btnLoader1}>
+              <Loader size="small" withOutOverlay />
+            </Flex>
+          ) : (
+            <Button onClick={formik.handleSubmit}>
+              {isUpdate ? 'Update' : 'Add'}
+            </Button> 
+          )}
         </Flex>
       </Flex>
     </Modal>
