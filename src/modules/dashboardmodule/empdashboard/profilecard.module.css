@@ -183,14 +183,19 @@ align-items: center; */
   height: 120px;
   width: 120px;
   align-items: center;
+  display: flex;
   position: relative;
+  flex-wrap: wrap;
   background-color: #fff;
+  justify-content: center;
+  align-content: center;
+
 }
 
 .changeStyle {
   position: absolute;
   border-radius: 4px;
-  background-color: rgba(196, 196, 196, 0.8);
+  background-color: rgba(196, 196, 196, 1.0);
   cursor: pointer;
   height: 120px;
   width: 120px;

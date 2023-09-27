@@ -60,3 +60,12 @@
   padding-bottom: 150px; /* Adjust this value as needed */
   overflow-y: auto; /* Show scrollbar if content exceeds the height */
 }
+.updateBtnLoader{
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 3px 12px 3px 12px;
+  width: 68px;
+  height: 30px;
+  /* margin-top: 10px; */
+}

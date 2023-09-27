@@ -31,7 +31,7 @@ const ParsingLoadingModal = ({
       <Flex className={styles.overAll}>
         <Flex column>
           <Flex row center>
-            {loader && <Loader withOutOverlay size={'small'} />}
+            {/* {loader && <Loader withOutOverlay size={'small'} />} */}
            
             <Text className={css?null:styles.flexConatiner} type="titleMedium">
               {title}
@@ -40,9 +40,13 @@ const ParsingLoadingModal = ({
           <Flex className={styles.des}>{des}</Flex>
         </Flex>
         <Flex row center middle>
+        {loader ?(  
+        <Flex className={styles.updateBtnLoader}>
+          <Loader withOutOverlay size={'small'} />
+        </Flex>):(
           <Button onClick={close} className={styles.btn}>
             OK
-          </Button>
+          </Button>)}
         </Flex>
       </Flex>
     </Modal>
