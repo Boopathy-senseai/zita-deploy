@@ -5,6 +5,7 @@ import SvgRoundClose from '../../icons/SvgRoundClose';
 import { AppDispatch } from '../../store';
 import Button from '../../uikit/Button/Button';
 import Card from '../../uikit/Card/Card';
+import SvgClose from '../../icons/SvgClose';
 import { ErrorMessage, InputText, Loader, Modal, SelectTag } from '../../uikit';
 import { getFocus, isEmpty } from '../../uikit/helper';
 import { GARY_4 } from '../../uikit/Colors/colors';
@@ -293,7 +294,9 @@ const UploadJd = ({
       );
     }
   }, [formik.values.state1]);
-
+  const closemodel = () => {
+    setopenmodel(false);
+  };
   return (
     <Flex row style={{ justifyContent: 'space-between', marginTop: '6px' }}>
       {isSubmitLoader && <Loader />}
@@ -308,13 +311,13 @@ const UploadJd = ({
       </Flex>
       <Flex>
         <Flex row style={{ paddingBottom: '10px' }}>
-          <Button
+          {/* <Button
             types="secondary"
             onClick={() => setmodal(true)}
             style={{ marginRight: '10px' }}
           >
             Upload JD
-          </Button>
+          </Button> */}
           <Button
             types="secondary"
             onClick={handleTempOpen}
@@ -326,7 +329,18 @@ const UploadJd = ({
         </Flex>
         <Modal open={openmodel}>
           <Flex className={styles.uploadpopup1}>
-            <Text>
+            <Flex end onClick={() => closemodel()}>
+              <SvgClose
+                width={10}
+                height={10}
+                fill={'#888888'}
+                cursor={'pointer'}
+              />
+            </Flex>
+            <Text bold size={14}>
+              Generate by AI
+            </Text>
+            <Text style={{ marginTop: '2px' }}>
               Choose your preferred method to create the Job Description (JD)
             </Text>
             <Flex className={styles.container}>
@@ -337,12 +351,12 @@ const UploadJd = ({
                       Import JD
                     </Text>
 
-                    <Text style={{ marginTop: '5px' }}>
+                    <Text style={{ marginTop: '3px' }}>
                       Quickly import an existing JD from your files for quick
                       posting.
                     </Text>
                   </Flex>
-                  <Flex style={{ padding: '20px' }}>
+                  <Flex style={{ padding: '20px', marginTop: '10px' }}>
                     <Flex columnFlex className={styles.innerFlex}>
                       <div
                         onDragOver={dragOver}
@@ -420,10 +434,8 @@ const UploadJd = ({
                         </Text>
                       )}
                     </Flex>
-                    <Flex
-                      style={{ justifyContent: 'center', marginTop: '20px' }}
-                    >
-                      <Button>Generate</Button>
+                    <Flex className={styles.buttongenerate}>
+                      <Button>Import</Button>
                     </Flex>
                   </Flex>
                 </Card>
@@ -448,7 +460,8 @@ const UploadJd = ({
                 className={styles.section2}
               >
                 {' '}
-                <Flex className={styles.line}> </Flex> <Text>Or</Text>{' '}
+                <Flex className={styles.line}> </Flex>{' '}
+                <Text className={styles.line_OR}>OR</Text>{' '}
                 <Flex className={styles.line}></Flex>
               </Flex>
               {/* </Flex> */}
@@ -458,14 +471,14 @@ const UploadJd = ({
                     <Text bold size={14} style={{ marginTop: '15px' }}>
                       Generate JD
                     </Text>
-                    <Text style={{ marginTop: '5px' }}>
+                    <Text style={{ marginTop: '3px' }}>
                       Generate a JD by filling out a job title and requirements
                       form for AI assistance.
                     </Text>
                   </Flex>
                   <Flex style={{ padding: '20px' }}>
                     <Flex row className={styles.row_bottom}>
-                      <Flex flex={2} style={{ marginRight: '10px' }}>
+                      <Flex flex={2} style={{ marginRight: '15px' }}>
                         <InputText
                           id="jobtitle__jobtitle"
                           name="jobTitle1"
@@ -486,7 +499,7 @@ const UploadJd = ({
                           />
                         )}
                       </Flex>
-                      <Flex flex={2} style={{ marginRight: '10px' }}>
+                      <Flex flex={2} style={{ marginRight: '15px' }}>
                         <InputText
                           id="jobtitle__jobtitle"
                           name="Industry_and_Domain"
@@ -543,7 +556,7 @@ const UploadJd = ({
                       </Flex>
                     </Flex>
                     <Flex row style={{ paddingBottom: '10px' }}>
-                      <Flex flex={2} style={{ marginRight: '10px' }}>
+                      <Flex flex={2} style={{ marginRight: '15px' }}>
                         <SelectTag
                           isSearchable
                           inputId="jobdetails___country"
@@ -583,7 +596,7 @@ const UploadJd = ({
                             />
                           )}
                       </Flex>
-                      <Flex flex={2} style={{ marginRight: '10px' }}>
+                      <Flex flex={2} style={{ marginRight: '15px' }}>
                         <SelectTag
                           inputId="jobdetails___state"
                           isSearchable
@@ -665,7 +678,7 @@ const UploadJd = ({
                       </Flex>
                     </Flex>
                     <Flex row style={{ paddingBottom: '10px' }}>
-                      <Flex flex={2} style={{ marginRight: '10px' }}>
+                      <Flex flex={2} style={{ marginRight: '15px' }}>
                         <InputText
                           className={styles.textArea}
                           value={formik.values.Overview}
@@ -700,9 +713,7 @@ const UploadJd = ({
                         />
                       </Flex>
                     </Flex>
-                    <Flex
-                      style={{ justifyContent: 'center', marginTop: '20px' }}
-                    >
+                    <Flex className={styles.buttongenerate}>
                       <Button>Generate</Button>
                     </Flex>
                   </Flex>

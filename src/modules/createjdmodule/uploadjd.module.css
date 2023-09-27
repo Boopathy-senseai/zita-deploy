@@ -22,9 +22,9 @@
 }
 .uploadpopup1 {
   width: 1200px;
-  height: 600px;
+
   background-color: #ffffff;
-  padding: 40px;
+  padding: 25px;
   border-radius: 5px;
 }
 .labelStyle {
@@ -81,6 +81,7 @@
 .container {
   display: flex;
   flex-direction: row;
+  margin-top: 10px;
 }
 
 .section1 {
@@ -98,27 +99,21 @@
   padding-bottom: 15px;
 }
 .cards {
+  position: relative;
   height: 450px;
 }
-
-.line1 {
-  border: none;
-  width: 1px; /* Set the desired width for the line */
-  height: 10px;
-  margin: 10px;
-  background-color: red; /* Set the desired color for the line */
-  position: absolute;
-}
-.line2 {
-  border: none;
-  width: 1px; /* Set the desired width for the line */
-  margin: 10px;
-  height: 10px;
-  background-color: #000; /* Set the desired color for the line */
-  position: absolute;
-}
 .line {
-  width: 2px; /* Adjust the width of the vertical line */
-  height: 100px; /* Adjust the height of the vertical line */
-  background-color: black; /* Adjust the color of the vertical line */
+  width: 1px; /* Adjust the width of the vertical line */
+  height: 205px; /* Adjust the height of the vertical line */
+  background-color: #666666; /* Adjust the color of the vertical line */
+}
+
+.buttongenerate {
+  position: absolute; /* Position the button relative to the parent */
+  bottom: 10px; /* Align the button at the bottom */
+  left: 50%; /* Center the button horizontally */
+  transform: translateX(-50%);
+}
+.line_OR {
+  padding: 10px;
 }
