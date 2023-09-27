@@ -345,12 +345,12 @@ const ProfileCard = () => {
                         <Loader withOutOverlay size="medium" />
                       </Flex>
                     ) : (
-                      <Flex columnFlex center middle>
+                      <Flex columnFlex center middle >
                         <SvgUpload />
                         <Text
                           color="black"
                           align="center"
-                          style={{ paddingLeft: 4, paddingRight: 4 }}
+                          // style={{ paddingLeft: 4, paddingRight: 4 }}
                         >
                           Upload Your Company Logo
                         </Text>

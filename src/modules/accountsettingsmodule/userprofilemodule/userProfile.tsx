@@ -183,6 +183,7 @@ const UserProfilepic = ({ value, update }: Props) => {
     // history.push('/account_setting/settings');
     /// setmodelopen(false)
     update();
+    setError(false);
     formikPassword.resetForm();
     setShowNewPass1(false);
           setShowNewPass(false);
@@ -226,7 +227,7 @@ const UserProfilepic = ({ value, update }: Props) => {
     <Flex>
       <Modal open={value}>
         <Flex className={styles.model} style={{ width: '350px' }}>
-          <Flex className={styles.passwordhead}>Change Password</Flex>
+          <Flex className={styles.passwordhead}><Text size={14} color='theme'>Change Password</Text></Flex>
            
                
                 <Flex marginTop={8}>
@@ -273,6 +274,7 @@ const UserProfilepic = ({ value, update }: Props) => {
                       Current password should be a maximum of 12 characters
                     </Text>
                   }
+                  {console.log(isError,'isErrorisErrorisError')}
                   {isError && formikPassword.values.oldpassword.length !== 0 && (
                     <Text size={12} color="error">
                       Your current password is incorrect
