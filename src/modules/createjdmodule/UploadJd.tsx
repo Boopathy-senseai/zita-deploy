@@ -12,6 +12,7 @@ import { GARY_4 } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import { fileAccept, FILE_2MB, THIS_FIELD_REQUIRED } from '../constValue';
+import ParsingLoadingModal from '../bulkimportmodule/ParsingLoadingModal';
 import {
   jdParserMiddleWare,
   locationCityMiddleWare,
@@ -54,12 +55,13 @@ const UploadJd = ({
   const [getCity, setCity] = useState<CityEntity[]>([]);
   const [isSubmitLoader, setSubmitLoader] = useState(false);
   const [uploaderror, setuploaderror] = useState('');
-
+  const [popup,setpopup] = useState(false);
   const handleSubmit1 = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     if (file.length !== 0) {
       uploadFile(file);
       setopenmodel(false);
+ 
     } else {
       setuploaderror(' This field is required.');
     }
@@ -79,6 +81,7 @@ const UploadJd = ({
     formData.append('jd_file', files);
     return dispatch(jdParserMiddleWare({ upload: formData })).then(() => {
       handleClear();
+      setpopup(true)
     });
   };
 
@@ -260,6 +263,7 @@ const UploadJd = ({
       setFieldValue('Overview', '');
       setFieldValue('Department_and_reporting', '');
       setSubmitLoader(false);
+      setpopup(true)
     });
 
     setopenmodel(false);
@@ -307,6 +311,9 @@ const UploadJd = ({
     setFile([]);
     setuploaderror('');
   };
+ const close=()=>{
+  setpopup(false)
+ }
 
   const upload_hide =
     formik.values.jobTitle1 !== '' ||
@@ -322,7 +329,19 @@ const UploadJd = ({
   return (
     <Flex row style={{ justifyContent: 'space-between', marginTop: '6px' }}>
       {isSubmitLoader && <Loader />}
-
+      <ParsingLoadingModal
+        info
+        css
+        title={'Review Your Job Posting Details'}
+        open={popup}
+        close={close}
+        des={
+          <Text>
+           We&lsquo;ve auto-populated the job information using your provided JD. Please take a moment to review and confirm before publishing the post.
+          </Text>
+        }
+      />
+      
       <Flex>
         {/* <Text bold size={14} className={styles.title}>
         Create Your Job
