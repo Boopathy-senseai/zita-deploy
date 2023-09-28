@@ -37,29 +37,29 @@ export const qualificationFilterHelper = (
   isMasters: boolean,
   isOther: boolean,
 ) => {
-  let qualificationFilter: string = ''; 
-    if (isBachelors) {
-      qualificationFilter += 'Bachelor,';
-    }
-    if (isDoctorate) {
-      qualificationFilter += 'Doctorate,';
-    }
-    if (isMasters) {
-      qualificationFilter += 'Master,';
-    }
-    if (isdiploma) {
-      qualificationFilter += 'Diploma,';
-    } 
-    if (isOther) {
-      qualificationFilter += 'Other,';
-    }
-    // Remove the trailing comma, if any
-    qualificationFilter = qualificationFilter.replace(/,$/, '');
-    
-    // Check if qualificationFilter is empty
-    if (!qualificationFilter) {
-      qualificationFilter = '';
-    }
+  let qualificationFilter: string = '';
+  if (isBachelors) {
+    qualificationFilter += 'Bachelor,';
+  }
+  if (isDoctorate) {
+    qualificationFilter += 'Doctorate,';
+  }
+  if (isMasters) {
+    qualificationFilter += 'Master,';
+  }
+  if (isdiploma) {
+    qualificationFilter += 'Diploma,';
+  }
+  if (isOther) {
+    qualificationFilter += 'Other,';
+  }
+  // Remove the trailing comma, if any
+  qualificationFilter = qualificationFilter.replace(/,$/, '');
+
+  // Check if qualificationFilter is empty
+  if (!qualificationFilter) {
+    qualificationFilter = '';
+  }
   return qualificationFilter;
 };
 
@@ -78,11 +78,9 @@ export const workYear = (value?: string) =>
         ? `0-1 Year`
         : `${value?.replace('years', '').replace('Years', '')} Years`
       : `0-1 Year`
-
     : '';
 
 export const pieYValue = (value?: string | any) => {
   const output = value === '0.0' ? null : Number(value);
   return output;
 };
-
