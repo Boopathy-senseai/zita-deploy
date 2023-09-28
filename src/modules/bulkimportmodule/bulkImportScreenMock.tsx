@@ -2,6 +2,7 @@ export const qualificationOption = [
   { value: 'Bachelors', label: 'Bachelors' },
   { value: 'Masters', label: 'Masters' },
   { value: 'Doctorate', label: 'Doctorate' },
+  { value: 'Diploma', label: 'Diploma' },
   { value: 'Others', label: 'Others' },
 ];
 

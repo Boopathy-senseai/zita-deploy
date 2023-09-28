@@ -67,6 +67,7 @@ type Props = {
   isOther: boolean;
   isBachelors: boolean;
   isDoctorate: boolean;
+  isdiploma:boolean;
   isMasters: boolean;
   isAny: boolean;
   handleLocation: () => void;
@@ -76,6 +77,7 @@ type Props = {
   hanleprofileclear: () => void;
   hanlejobtypeclear: () => void;
   handleBachelor: () => void;
+  handleDiploma: () => void;
   handleDoctorate: () => void;
   handleMaster: () => void;
   handleOther: () => void;
@@ -101,12 +103,14 @@ const ZitaMatchFilters = ({
   hanldeMatch,
   handleOther,
   handleMaster,
+  handleDiploma,
   handleDoctorate,
   handleBachelor,
   isMasters,
   isDoctorate,
   isBachelors,
-  isOther,
+  isOther, 
+  isdiploma, 
   isSkillOption,
   isAny,
   isMatchRadio,
@@ -162,6 +166,7 @@ const ZitaMatchFilters = ({
   const [applieismaster, setapplieismaster] = useState(false);
   const [applieisdoctorate, setapplieisdoctorate] = useState(false);
   const [applieisbachelor, setapplieisbachelor] = useState(false);
+  const [isDiploma, setapplieisDiploma] = useState(false);
   const [applieisother, setapplieisother] = useState(false);
   const [applieisany, setapplieisany] = useState(true);
   const [applieisrelocate, setapplieisrelocate] = useState(false);
@@ -334,6 +339,7 @@ const ZitaMatchFilters = ({
     setapplieisdoctorate(isDoctorate);
     setapplieisother(isOther);
     setapplieisbachelor(isBachelors);
+    setapplieisDiploma(isdiploma)
     setapplieisany(isAny);
     setapplieisrelocate(isRelocate);
     setapplieislocation(isLocation);
@@ -355,6 +361,7 @@ const ZitaMatchFilters = ({
     setapplieisdoctorate(false);
     setapplieisother(false);
     setapplieisbachelor(false);
+    setapplieisDiploma(false)
     setapplieisany(true);
     setapplieisrelocate(false);
     setapplieislocation(false);
@@ -367,12 +374,12 @@ const ZitaMatchFilters = ({
       applieisbachelor===false &&
       applieisdoctorate===false&&
       applieismaster===false&&
-      applieisother===false
+      applieisother===false&&
+      isDiploma === false
     ) {
       setapplieisany(true);
     }
-  }, [isBachelors, isDoctorate, isMasters, isOther]);
-
+  }, [isBachelors, isDoctorate, isMasters,isdiploma, isOther]); 
   return (
     <Flex row style={{ justifyContent: 'space-between' }}>
 
@@ -570,6 +577,17 @@ const ZitaMatchFilters = ({
                     className={styles.stylesvg}
                     onClick={() => (
                       handleBachelor(), setapplieisbachelor(false)
+                    )}
+                  />
+                </Text>
+              )} 
+              {isDiploma === true && (
+                <Text className={styles.quickfil}>
+                   Diploma
+                  <SvgIntomark
+                    className={styles.stylesvg}
+                    onClick={() => (
+                      handleDiploma(), setapplieisDiploma(false)
                     )}
                   />
                 </Text>

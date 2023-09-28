@@ -421,7 +421,7 @@ const Notification = () => {
                                   'bulkimport' ? (
                                     <>
                                       {' '}
-                                      {index === 1 ? (
+                                      {index === 0 ? (
                                         ''
                                       ) : (
                                         <hr className={styles.hr_line} />
