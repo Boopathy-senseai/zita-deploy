@@ -111,6 +111,7 @@ const permissionState: PermissionState = {
   super_user: false,
   is_plan: true,
   plan_id: 0,
+  roles: "",
 };
 
 const permissionReducer = createSlice({
@@ -128,6 +129,7 @@ const permissionReducer = createSlice({
       state.super_user = action.payload.super_user;
       state.is_plan = action.payload.is_plan;
       state.plan_id = action.payload.plan_id;
+      state.roles = action.payload.roles;
     });
     builder.addCase(permissionMiddleWare.rejected, (state, action) => {
       state.isLoading = false;

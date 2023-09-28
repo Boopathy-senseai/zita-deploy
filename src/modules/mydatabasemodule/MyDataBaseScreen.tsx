@@ -422,7 +422,7 @@ const MyDataBaseScreen = () => {
     </Flex>
 
    </Flex>
-    <Flex row className={styles.overAll}>
+    <Flex row>
       {initalLoader && <Loader  />}
       {/* {dataLoader && <Loader  />} */}
       {isInviteLoader && <Loader />}

@@ -42,6 +42,7 @@ export interface Permission {
   super_user: boolean;
   is_plan: boolean;
   plan_id: number;
+  roles: string;
 }
 
 export interface PermissionState extends Permission {
