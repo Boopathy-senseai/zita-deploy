@@ -150,9 +150,12 @@ const ZitaAction = ({
           </div>
           </Flex>
           <Flex>
-        <Button
-            className={styles.btnStyle}
-            types="primary"
+        <div
+           title="Favourite Candidates"
+            className={styles.pointer}
+            // tabIndex={-1}
+            role={'button'}
+            onKeyPress={() => {}}
             onClick={filterTotalFav}
           >
             <Flex row center style={{ cursor: 'pointer' }}>
@@ -165,7 +168,8 @@ const ZitaAction = ({
                 Favourites
               </Text>
             </Flex>
-          </Button></Flex>
+          </div>
+          </Flex>
         </Flex>
         
 {/*        

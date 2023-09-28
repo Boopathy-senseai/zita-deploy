@@ -717,10 +717,15 @@ dataList.invite,
                         >
                           <SvgInvite width={28} height={28} color="theme" /> 
                         </div>
-                    <Text color="gray" size={11} style={{paddingLeft:"5px",width:"65%"}}>
+                        <div className={styles.inviteddate}>
+                    <Text color="gray" size={11} >
                       Last Invited{' '}
-                      {dataList?.invite && getDateString(dataList.invite, 'll')}
-                    </Text></>}
+                    </Text>
+                    <Text color="gray" size={11} >
+                    {dataList?.invite && getDateString(dataList.invite, 'll')}
+                    </Text>
+                    </div>
+                    </>}
                     </>
                   )}
                 </>
