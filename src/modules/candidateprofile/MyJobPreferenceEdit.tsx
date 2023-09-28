@@ -494,13 +494,16 @@ const MyJobPreferenceEdit = ({
             }
           />
           {/* <Button onClick={formik.handleSubmit}>Update</Button> */}
-          {isBtnLoader ? (
+          <Flex end row  >
+          <Flex marginRight={15}><Button  types="close" onClick={cancel}>Cancel</Button></Flex>
+          <Flex> {isBtnLoader ? (
             <Flex className={styles.updateBtnLoader}>
-            <Loader size="small" withOutOverlay />
+              <Loader size="small" withOutOverlay />
             </Flex>
           ) : (
-          <Button onClick={formik.handleSubmit}>Update</Button>
-          )}
+            <Button onClick={formik.handleSubmit}>Update</Button>  
+          )}</Flex> 
+        </Flex>
         </Flex>
       </Flex>
     </Modal>

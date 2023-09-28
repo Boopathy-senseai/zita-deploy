@@ -12,6 +12,7 @@ import { GARY_4 } from '../../uikit/Colors/colors';
 import Flex from '../../uikit/Flex/Flex';
 import Text from '../../uikit/Text/Text';
 import { fileAccept, FILE_2MB, THIS_FIELD_REQUIRED } from '../constValue';
+import ParsingLoadingModal from '../bulkimportmodule/ParsingLoadingModal';
 import {
   jdParserMiddleWare,
   locationCityMiddleWare,
@@ -53,16 +54,23 @@ const UploadJd = ({
   const [getState, setState] = useState<StatesEntity[]>([]);
   const [getCity, setCity] = useState<CityEntity[]>([]);
   const [isSubmitLoader, setSubmitLoader] = useState(false);
-
+  const [uploaderror, setuploaderror] = useState('');
+  const [popup,setpopup] = useState(false);
   const handleSubmit1 = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    uploadFile(file);
-    setmodal(false);
+    if (file.length !== 0) {
+      uploadFile(file);
+      setopenmodel(false);
+ 
+    } else {
+      setuploaderror(' This field is required.');
+    }
   };
 
   const handlecancel = () => {
     setmodal(false);
     setFile([]);
+    setuploaderror('');
   };
   // resume clear function
   const handleClear = () => setFile([]);
@@ -73,6 +81,7 @@ const UploadJd = ({
     formData.append('jd_file', files);
     return dispatch(jdParserMiddleWare({ upload: formData })).then(() => {
       handleClear();
+      setpopup(true)
     });
   };
 
@@ -90,6 +99,7 @@ const UploadJd = ({
     } else {
       setFile(e.target.files[0]);
       setMb(false);
+      setuploaderror('');
     }
   };
 
@@ -127,6 +137,7 @@ const UploadJd = ({
     } else {
       setMb(false);
       setFile(e.dataTransfer.files[0]);
+      setuploaderror('');
     }
   };
 
@@ -252,6 +263,7 @@ const UploadJd = ({
       setFieldValue('Overview', '');
       setFieldValue('Department_and_reporting', '');
       setSubmitLoader(false);
+      setpopup(true)
     });
 
     setopenmodel(false);
@@ -296,11 +308,40 @@ const UploadJd = ({
   }, [formik.values.state1]);
   const closemodel = () => {
     setopenmodel(false);
+    setFile([]);
+    setuploaderror('');
   };
+ const close=()=>{
+  setpopup(false)
+ }
+
+  const upload_hide =
+    formik.values.jobTitle1 !== '' ||
+    formik.values.Industry_and_Domain !== '' ||
+    formik.values.work_space_type1 !== '' ||
+    formik.values.country1 !== '' ||
+    formik.values.state1 !== '' ||
+    formik.values.city1 !== '' ||
+    formik.values.Overview !== '' ||
+    formik.values.Department_and_reporting
+      ? true
+      : false;
   return (
     <Flex row style={{ justifyContent: 'space-between', marginTop: '6px' }}>
       {isSubmitLoader && <Loader />}
-      {console.log('for++++++++++++++mik', formik.values)}
+      <ParsingLoadingModal
+        info
+        css
+        title={'Review Your Job Posting Details'}
+        open={popup}
+        close={close}
+        des={
+          <Text>
+           We&lsquo;ve auto-populated the job information using your provided JD. Please take a moment to review and confirm before publishing the post.
+          </Text>
+        }
+      />
+      
       <Flex>
         {/* <Text bold size={14} className={styles.title}>
         Create Your Job
@@ -345,7 +386,7 @@ const UploadJd = ({
             </Text>
             <Flex className={styles.container}>
               <Flex className={styles.section1}>
-                <Card className={styles.cards}>
+                <Card className={styles.cards} disabled={upload_hide}>
                   <Flex style={{ paddingLeft: '15px' }}>
                     <Text bold size={14} style={{ marginTop: '10px' }}>
                       Import JD
@@ -433,9 +474,10 @@ const UploadJd = ({
                           {FILE_2MB}
                         </Text>
                       )}
+                      <Text style={{ color: 'red' }}>{uploaderror}</Text>
                     </Flex>
                     <Flex className={styles.buttongenerate}>
-                      <Button>Import</Button>
+                      <Button onClick={handleSubmit1}>Import</Button>
                     </Flex>
                   </Flex>
                 </Card>
@@ -466,7 +508,7 @@ const UploadJd = ({
               </Flex>
               {/* </Flex> */}
               <Flex className={styles.section3}>
-                <Card className={styles.cards}>
+                <Card className={styles.cards} disabled={checkSelectLength}>
                   <Flex style={{ paddingLeft: '20px' }}>
                     <Text bold size={14} style={{ marginTop: '15px' }}>
                       Generate JD
@@ -714,7 +756,7 @@ const UploadJd = ({
                       </Flex>
                     </Flex>
                     <Flex className={styles.buttongenerate}>
-                      <Button>Generate</Button>
+                      <Button onClick={formik.handleSubmit}>Generate</Button>
                     </Flex>
                   </Flex>
                 </Card>

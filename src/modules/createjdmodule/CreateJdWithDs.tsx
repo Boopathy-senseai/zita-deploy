@@ -72,7 +72,7 @@ const initial: dsFormProps = {
   onsite: '',
   hybrid: '',
   work_space_type: '',
-  IndustryType: ''
+  IndustryType: '',
 };
 
 const CreateJdWithDs = () => {
@@ -236,7 +236,7 @@ const CreateJdWithDs = () => {
         }),
     [updateSkills],
   );
-// filter skill list
+  // filter skill list
   const skillThree: any = useMemo(
     () =>
       updateSkills
@@ -453,7 +453,7 @@ const CreateJdWithDs = () => {
           <div className={styles.triangle}></div>
         </Flex>
       </div> */}
-    
+
       <Flex
         columnFlex
         className={styles.overAll}
@@ -486,7 +486,7 @@ const CreateJdWithDs = () => {
             </Text>
           </Flex>
         </Flex>
-      
+
         <RoleRecommendation
           isRole={isRole}
           setNextLoader={setNextLoader}

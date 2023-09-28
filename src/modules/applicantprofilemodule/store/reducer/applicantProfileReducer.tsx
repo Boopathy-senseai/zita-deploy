@@ -342,6 +342,13 @@ const applicantMatchState: MatchReducerState = {
       created_at: '',
     },
   ],
+  data:[{
+    title: '',
+    percentage: 0,
+    description: '',
+    overall_percentage:0
+  }], 
+  ai_matching:false
 };
 
 const applicantMatchReducer = createSlice({
@@ -363,6 +370,8 @@ const applicantMatchReducer = createSlice({
       state.skills_percent = action.payload.skills_percent;
       state.source = action.payload.source;
       state.location_percent = action.payload.location_percent;
+      state.data = action.payload.data;  
+      state.ai_matching= action.payload.ai_matching;
       // state.data = action.payload.matched_data;location_percent
     });
     builder.addCase(applicantMatchMiddleWare.rejected, (state, action) => {
@@ -407,6 +416,13 @@ const candidatejobidMatchState: MatchReducerState = {
       created_at: '',
     },
   ],
+  data:[{
+    title: '',
+    percentage: 0,
+    description: '',
+    overall_percentage:0
+  }], 
+  ai_matching:false
 };
 
 const candidatejobidMatchReducer = createSlice({
@@ -430,6 +446,8 @@ const candidatejobidMatchReducer = createSlice({
         state.skills_percent = action.payload.skills_percent;
         state.source = action.payload.source;
         state.location_percent = action.payload.location_percent;
+        state.data = action.payload.data;
+        state.ai_matching= action.payload.ai_matching;
         // state.data = action.payload.matched_data;location_percent
       },
     );

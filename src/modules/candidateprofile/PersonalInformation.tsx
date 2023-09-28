@@ -90,6 +90,7 @@ const PersonalInformation = ({
   const dispatch: AppDispatch = useDispatch();
   const [isGetCountry, setCountry] = useState<CountryEntity[]>([]);
   const [getState, setState] = useState<StatesEntity[]>([]);
+  const [isCheck, setIsCheck] = useState<any>([]);
   const [getCity, setCity] = useState<CityEntity[]>([]);
   const [isError, setError] = useState(false);
   const [isLoader, setLoader] = useState(false);
@@ -107,9 +108,9 @@ const PersonalInformation = ({
     lastName: Yup.string().required(THIS_FIELD_REQUIRED),
     phone: Yup.string()
       .required('This field is required.')
-      .max(15, 'Enter a valid contact number.')
-      .min(10, 'Enter a valid contact number.'),
-    linkedIn: Yup.string().required(THIS_FIELD_REQUIRED),
+      .max(18, 'Enter a valid contact number.')
+      .min(7, 'Enter a valid contact number.'),
+    linkedIn:Yup.string().required(THIS_FIELD_REQUIRED),
     years: Yup.string().required(THIS_FIELD_REQUIRED),
     county: Yup.string().required(THIS_FIELD_REQUIRED),
     state: Yup.string().required(THIS_FIELD_REQUIRED),
@@ -195,8 +196,9 @@ const PersonalInformation = ({
       if (!isEmpty(personal.contact_no) &&personal.contact_no !== 'None') {
         formik.setFieldValue('phone', personal.contact_no.toString());
       } 
-      if (!isEmpty(personal.linkedin_url) &&personal.linkedin_url !== 'None' ) {
-        formik.setFieldValue('linkedInUrl', personal.linkedin_url);  }
+      if (!isEmpty(personal.linkedin_url) && personal.linkedin_url !== 'None' ) {
+        setIsCheck( personal.linkedin_url)
+        formik.setFieldValue('linkedIn', isCheck.includes('https://')?personal.linkedin_url:`${'https://'}${personal.linkedin_url}`);}
        if (!isEmpty(additional_detail?.total_exp_year)&& Number(additional_detail?.total_exp_year) !== 0) {
         formik.setFieldValue('years', additional_detail?.total_exp_year);
         }
@@ -205,7 +207,7 @@ const PersonalInformation = ({
       }
    
   }, [personal,additional_detail]);
-
+console.log(personal.linkedin_url,'personal.linkedin_urlpersonal.linkedin_url')
   useEffect(() => {
     if (!isEmpty(formik.values.state)) {
       dispatch(locationMiddleWare({ state: Number(formik.values.state) })).then(

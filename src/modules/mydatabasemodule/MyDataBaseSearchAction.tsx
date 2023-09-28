@@ -78,7 +78,7 @@ const MyDataBaseSearchAction = ({ jobTitle, formik,isSearchValue,setSearchValue,
         <Text className={styles.jobstext}>Job Title</Text>
         <Flex row className={styles.searchboxoverall}>
            <Flex className={styles.boxstyle} >
-                    <SelectTag
+                    <SelectTag 
                       value={
                         typeof getValue ==='undefined' ? '': getValue
                       }
@@ -94,6 +94,7 @@ const MyDataBaseSearchAction = ({ jobTitle, formik,isSearchValue,setSearchValue,
                       }}
                       noOptionsMessage={({}) => 'You have no posted jobs to display.'}
                       filterOption={customFilter}
+                      
                     />
 
                 </Flex>
