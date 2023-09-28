@@ -16,6 +16,7 @@ import { locationMiddleWare } from '../createjdmodule/store/middleware/createjdm
 import { zitaPath } from '../constValue';
 import { Modal } from '../../uikit';
 import RichText from '../common/RichText';
+import SvgInfo from '../../icons/SvgInfo';
 import AddandUpdateQualificationEdit from './AddandUpdateQualificationEdit';
 import AddandUpdateWorkExperienceEdit from './AddandUpdateWorkExperienceEdit';
 import CandidateNavBar from './CandidateNavBar';
@@ -33,6 +34,7 @@ import { profileEditMiddleWare } from './store/middleware/candidateprofilemiddle
 import VerifyEmail from './VerifyEmail';
 import WorkExperienceAddandCard from './WorkExperienceAddandCard';
 import OverViewSummary from './OverviewSummaryEdit';
+
 // import { applicantcandidateMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 
 type ParamsType = {
@@ -56,6 +58,7 @@ const CandidateProfileScreen = () => {
   const [isLoginShow, setLoginShow] = useState(false);
   const [isLoader, setLoader] = useState(true);
   const [showModel, setShowModel] = useState(false);
+  const [show, setshow] = useState(true);
   // initial api call
   useEffect(() => {
     dispatch(
@@ -164,6 +167,7 @@ const CandidateProfileScreen = () => {
           open={isOtp}
           cancel={handleCloseOtp}
           close={() => setOtp(false)}
+          setshow={setshow}
         />
       )}
       <PersonalInformation
@@ -203,6 +207,30 @@ const CandidateProfileScreen = () => {
         cancel={() => setCertiAdd(false)}
       />
       <CandidateNavBar obj={obj} projects={projects} personal={personal} />
+      {show&&(
+          <Flex middle center>
+          <Flex middle row center className={styles.warningFlex1}>
+            <SvgInfo fill={'#2E6ADD'} height={16} width={16} />
+            
+            <Text size={13} className={styles.warningText1}>
+            <Text
+                  style={{
+                    color: '#2E6ADD',
+                    marginRight: '3px',
+                    fontSize: '13px',
+                  }}
+                  bold
+                >
+                  Heads Up!{' '}
+                </Text>
+            Your application has been pre-filled using your resume. Please take a moment to review and ensure before proceeding with your application.
+            </Text>
+            
+            <div id="toast-close" role="button" style={{padding:'0  0 0 5px'}} onClick={()=>setshow(false)}>&#10006;</div>
+          </Flex>
+          </Flex>
+          )
+       }
       <Flex
         columnFlex
         center
@@ -275,7 +303,7 @@ const CandidateProfileScreen = () => {
               className={styles.titleStyle}
               style={{ marginTop: '20px' }}
             >
-              Overview of the Resume
+            Resume Overview 
             </Text>
             <OverViewSummary obj={obj} overview={overview} />
           </div>

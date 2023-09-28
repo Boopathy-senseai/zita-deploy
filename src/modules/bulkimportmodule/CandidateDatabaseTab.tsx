@@ -380,6 +380,7 @@ const CandidateDatabaseTab = ({
                 handleCloseImportModal();
               }}
               color="link"
+              bold
             >
               log file
             </Text>{' '}
