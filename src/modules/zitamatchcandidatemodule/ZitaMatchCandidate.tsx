@@ -276,18 +276,18 @@ const ZitaMatchCandidate = () => {
       width: 110,
     },
     {
-      value: 'Any',
-      label: 'any',
-      width: 110,
-      checked: isAny,
-      onChange: handleAny,
-    },
-    {
       value: 'Others',
       label: 'Other',
       checked: isOther,
       onChange: handleOther,
       width: 110,
+    },
+    {
+      value: 'Any',
+      label: 'any',
+      width: 110,
+      checked: isAny,
+      onChange: handleAny,
     },
   ];
 
