@@ -1,6 +1,8 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { AppDispatch } from '../../store';
+
 import { getFocus, isEmpty } from '../../uikit/helper';
 import LinkWrapper from '../../uikit/Link/LinkWrapper';
 import { routesPath } from '../../routes/routesPath';
@@ -41,7 +43,10 @@ import {
   locationCityMiddleWare,
   locationStateMiddleWare,
 } from './store/middleware/createjdmiddleware';
-
+type ParamsType = {
+  jdId: string;
+  editJdId: string;
+};
 type Props = {
   values: dsFormProps;
   handleChange: {
@@ -92,6 +97,7 @@ const JobDetails = ({
   onPristine,
   onDirty,
 }: Props) => {
+  const { jdId, editJdId } = useParams<ParamsType>();
   const dispatch: AppDispatch = useDispatch();
   const [getState, setState] = useState<StatesEntity[]>([]);
   const [getCity, setCity] = useState<CityEntity[]>([]);
@@ -182,6 +188,25 @@ const JobDetails = ({
       setFieldValue('work_space_type', jd_output.work_space_type.toString());
     }
   }, [jd_output]);
+
+  useEffect(() => {
+    if (jdId === undefined && editJdId === undefined) {
+      setFieldValue('jobType', '');
+      setFieldValue('minimumExperience', '');
+      setFieldValue('maximumExperience', '');
+      setFieldValue('vacancies', '');
+      setFieldValue('remoteWork', '0');
+      setFieldValue('minimumSalary', '');
+      setFieldValue('maximumSalary', '');
+      setFieldValue('currency', '');
+      setFieldValue('showSalaryCandidates', '0');
+      setFieldValue('industryType', '');
+      setFieldValue('country', '');
+      setFieldValue('state', '');
+      setFieldValue('city', '');
+      setFieldValue('work_space_type', '');
+    }
+  }, []);
 
   // error focus input function
   const hanldeErrorFocus = () => {

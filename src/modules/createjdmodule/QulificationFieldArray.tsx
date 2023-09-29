@@ -1,6 +1,7 @@
 import { ErrorMessage, FieldArrayRenderProps } from 'formik';
 import { memo, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../store';
 import SvgTrash from '../../icons/SvgTrash';
 import Button from '../../uikit/Button/Button';
@@ -16,10 +17,7 @@ import { JOB_TITLE_LIMIT } from '../constValue';
 import { dsFormProps } from './formikTypes';
 import { qualificationData } from './mock';
 import styles from './qulificationadd.module.css';
-import {
-  industryType
-} from './store/middleware/createjdmiddleware';
-
+import { industryType } from './store/middleware/createjdmiddleware';
 
 type Props = {
   index: number;
@@ -36,6 +34,11 @@ type Props = {
   setIsSelectOpen1: any; // Receive the setIsSelectOpen prop
 };
 
+type ParamsType = {
+  jdId: string;
+  editJdId: string;
+};
+
 const QualificationFieldArray = ({
   index,
   setFieldValue,
@@ -46,6 +49,7 @@ const QualificationFieldArray = ({
   isSelectOpen1,
   setIsSelectOpen1,
 }: Props) => {
+  const { jdId, editJdId } = useParams<ParamsType>();
   const myRef = useRef<any>();
   const [isValue, setValue] = useState('');
   const [isValueOne, setValueOne] = useState('');
@@ -139,20 +143,21 @@ const QualificationFieldArray = ({
     }
   }, [debouncedValueFour]);
 
+  useEffect(() => {
+    if (jdId === undefined && editJdId === undefined) {
+      setValue('');
+      setValueOne('');
+      setValueTwo('');
+      setValueThree('');
+      setValueFour('');
+    }
+  }, []);
 
-  const {
-    data
-  } = useSelector(
-    ({
-      getindustery
-    }: RootState) => {
-      return {
-        data: getindustery.data,
-      };
-    },
-  );
- 
-
+  const { data } = useSelector(({ getindustery }: RootState) => {
+    return {
+      data: getindustery.data,
+    };
+  });
 
   return (
     <Flex row top key={index} className={styles.containerOne}>
@@ -275,19 +280,16 @@ const QualificationFieldArray = ({
       {index === 0 && (
         <Flex flex={3} className={styles.margin16}>
           <InputSearch
-        placeholder="e.g. Industry Type"
-        options={data}
-        setFieldValue={setFieldValue}
-        name="industryType"
-        label="Industry Type"
-        
-        initialValue={values.industryType}
-        onChange={(e) => {
-          setFieldValue('industryType', e.target.value);
-    
-        }}
-/>
-
+            placeholder="e.g. Industry Type"
+            options={data}
+            setFieldValue={setFieldValue}
+            name="industryType"
+            label="Industry Type"
+            initialValue={values.industryType}
+            onChange={(e) => {
+              setFieldValue('industryType', e.target.value);
+            }}
+          />
         </Flex>
       )}
       {values.qualification.length > 1 && index !== 0 && (

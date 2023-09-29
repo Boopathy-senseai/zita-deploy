@@ -122,7 +122,16 @@ const CreateJdWithNonDs = () => {
       };
     },
   );
-  console.log('$$$$$$$$$$$', data);
+
+  console.log('1', job_title);
+  console.log('1', job_description);
+  console.log('1', skills);
+  console.log('1', programming_skills);
+  console.log('1', platform_skills);
+  console.log('1', platform_skills);
+  console.log('1', updateQualification);
+  console.log('1', jdTemplates);
+
   useEffect(() => {
     if (!is_plan) {
       sessionStorage.setItem('superUserTab', '2');

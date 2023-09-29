@@ -1,6 +1,8 @@
 import { memo, useEffect, useRef, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
 import Flex from '../../uikit/Flex/Flex';
+
 import { isEmpty } from '../../uikit/helper';
 import LabelWrapper from '../../uikit/Label/LabelWrapper';
 import Text from '../../uikit/Text/Text';
@@ -10,6 +12,10 @@ import type { dsFormProps } from './formikTypes';
 import JobTitle from './JobTitle';
 import styles from './jobtitledescription.module.css';
 
+type ParamsType = {
+  jdId: string;
+  editJdId: string;
+};
 type Props = {
   values: dsFormProps;
   setFieldValue: (
@@ -28,7 +34,7 @@ type Props = {
   is_taken: boolean;
   updateJd: string;
   onDirty: () => void;
-  onPristine: () => void
+  onPristine: () => void;
 };
 
 const JobTitleDescription = ({
@@ -45,8 +51,9 @@ const JobTitleDescription = ({
   is_taken,
   updateJd,
   onDirty,
-  onPristine
+  onPristine,
 }: Props) => {
+  const { jdId, editJdId } = useParams<ParamsType>();
   const editorRef = useRef<any>(null);
   const [isRich, setRich] = useState(false);
 
@@ -57,9 +64,9 @@ const JobTitleDescription = ({
       editorRef.current && editorRef.current.getContent(),
     );
     if (jd_output.richtext_job_description === values.jobDescription) {
-      onPristine()
+      onPristine();
     } else {
-      onDirty()
+      onDirty();
     }
   }, [isRich]);
 
@@ -79,14 +86,18 @@ const JobTitleDescription = ({
     setFieldValue('jobDescription', jd_output.richtext_job_description);
   }, [jd_output]);
 
+  useEffect(() => {
+    if (jdId === undefined && editJdId === undefined) {
+      setFieldValue('jobDescription', '');
+    }
+  }, []);
+
   return (
     <Flex columnFlex>
-    
       <Flex row center className={styles.jobTitleFlex}>
         <Text size={14} bold className={styles.jobTitle}>
           Job Title & Description
         </Text>
-       
       </Flex>
       <JobTitle
         values={values}
@@ -110,11 +121,11 @@ const JobTitleDescription = ({
             initialValue={values.jobDescription}
             height={500}
             placeholder="Enter the job description here including the candidate job duties and requirements"
-          // onChange={() => {
+            // onChange={() => {
 
-          //   // onDirty(); 
-          //   console.log('desssss')
-          // }}
+            //   // onDirty();
+            //   console.log('desssss')
+            // }}
           />
         </LabelWrapper>
 

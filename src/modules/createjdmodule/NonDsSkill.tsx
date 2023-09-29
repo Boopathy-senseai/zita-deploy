@@ -1,5 +1,6 @@
 import { memo, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { ErrorMessage } from 'formik';
 import { AppDispatch, RootState } from '../../store';
 import SelectTag from '../../uikit/SelectTag/SelectTag';
@@ -9,6 +10,10 @@ import styles from './nondsskill.module.css';
 import { SkillListEntity, SkillsEntity } from './createJdTypes';
 import { dsFormProps } from './formikTypes';
 
+type ParamsType = {
+  jdId: string;
+  editJdId: string;
+};
 type Props = {
   setFieldValue: (
     field: string,
@@ -35,6 +40,7 @@ const NonDsSkill = ({
   job_description,
   onDirty,
 }: Props) => {
+  const { jdId, editJdId } = useParams<ParamsType>();
   // free fill initial skill
   useEffect(() => {
     if (jdParseSkill.length !== 0 && job_description !== '') {
@@ -65,7 +71,13 @@ const NonDsSkill = ({
   useEffect(() => {
     setFieldValue('nonDsSkill', jdParseSkillEmpty);
   }, [skills]);
-  
+
+  useEffect(() => {
+    if (jdId === undefined && editJdId === undefined) {
+      setFieldValue('nonDsSkill', '');
+    }
+  }, []);
+
   // skill change function
   const handleChange = useCallback((newValue, data) => {
     if (data.action === 'select-option') {
@@ -111,12 +123,12 @@ const NonDsSkill = ({
   //   jdTemplates,
   // } = useSelector(
   //   ({
-     
+
   //     jdTemplatesReducers,
-      
+
   //   }: RootState) => {
   //     return {
-   
+
   //       temTitle: jdTemplatesReducers.job_title,
   //       jdTemplates: jdTemplatesReducers.jd_templates,
   //       jdskills: jdTemplatesReducers.jd_templates.sk
@@ -126,7 +138,7 @@ const NonDsSkill = ({
 
   return (
     <div className={styles.overAll}>
-      {console.log("hellooooo",values)}
+      {console.log('hellooooo', values)}
       <LabelWrapper label="Mandatory Skills" required>
         <SelectTag
           isClearable
