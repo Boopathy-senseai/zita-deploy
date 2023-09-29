@@ -23,6 +23,7 @@ import {
   questionnaireForJdMiddleWare,
   selectDsorNonDsMiddleWare,
   whatjobsMiddleWare,
+  whatjobstatusMiddleWare
 } from './store/middleware/createjdmiddleware';
 import styles from './jdpreviewscreen.module.css';
 import ApplicantQuestionnaireResult from './ApplicantQuestionnaireResult';
@@ -34,18 +35,28 @@ type ParamsType = {
 const JdPreviewScreen = () => {
   const { jdId } = useParams<ParamsType>();
   const [isOpen, setOpen] = useState(false);
-  const [extarajobpost,setextarajobpost] = useState(1);
+  const [extarajobpost, setextarajobpost] = useState(1);
+  const [iswhatjobstatus, setwhatjobstatus] = useState<any>();
+  const [iswhatjobs, setwhatjobs] = useState<any>();
   const dispatch: AppDispatch = useDispatch();
   const history = useHistory();
-
+  const urls = window.location.href;
+  const applicantpipelineUrl = urls.split('/');
+  const Urlnumber = applicantpipelineUrl[applicantpipelineUrl.length - 1]
   // initial api call
   useEffect(() => {
     dispatch(jdPreviewMiddleWare({ jd_id: jdId }));
     dispatch(questionnaireForJdMiddleWare({ jd_id: jdId }));
     dispatch(dsOrNonDsGetdMiddleWare({ jd_id: jdId }));
     dispatch(selectDsorNonDsMiddleWare());
-   
+
+
   }, []);
+  useEffect(() => {
+    dispatch(whatjobstatusMiddleWare({ pk: Urlnumber ? Urlnumber : '' })).then((res) => {
+      setwhatjobs(res.payload.whatjobs)
+    })
+  }, [iswhatjobstatus])
 
   const {
     profile,
@@ -60,8 +71,8 @@ const JdPreviewScreen = () => {
     postLoader,
     feature,
     career_page_url,
-    is_plan, 
-    super_user
+    is_plan,
+    super_user,
   } = useSelector(
     ({
       jdPreviewReducers,
@@ -69,7 +80,7 @@ const JdPreviewScreen = () => {
       dsOrNonDsGetReducers,
       postReducers,
       selectDsorNonDsReducers,
-      permissionReducers,
+      permissionReducers
     }: RootState) => {
       return {
         jdDetails: jdPreviewReducers.jd,
@@ -85,28 +96,27 @@ const JdPreviewScreen = () => {
         feature: selectDsorNonDsReducers.feature,
         career_page_url: jdPreviewReducers.career_page_url,
         is_plan: permissionReducers.is_plan,
-        super_user: permissionReducers.super_user,
+        super_user: permissionReducers.super_user
       };
     },
 
-  ); 
-
+  );
   useEffect(() => {
     if (!is_plan) {
       sessionStorage.setItem('superUserTab', '2');
       history.push('/account_setting/settings');
     }
   });
-const whatjob =(values) =>{
-  setextarajobpost(values)
- 
-}
+  const whatjob = (values) => {
+    setwhatjobstatus(values)
+    dispatch(whatjobstatusMiddleWare({ pk: Urlnumber ? Urlnumber : '', whatjob: values === 1 ? 'False' : 'True' }))
+  }
   // publish form submit
-  
-  
+
+
   const hanldePulish = () => {
     const formData = new FormData();
-  formData.append('jd_id', jdId )
+    formData.append('jd_id', jdId)
     if (isEmpty(career_page_url)) {
       if (isEmpty(company_detail.no_of_emp)) {
         sessionStorage.setItem('superUserTab', '1');
@@ -116,34 +126,33 @@ const whatjob =(values) =>{
       history.push('/account_setting/settings');
     }
 
-    else if(extarajobpost === 0) {
-      dispatch(whatjobsMiddleWare({formData})); 
+    else if (extarajobpost === 0) {
+      dispatch(whatjobsMiddleWare({ formData }));
 
-      dispatch(postJdMiddleWare({ jd_id: jdId})).then((res) => {
+      dispatch(postJdMiddleWare({ jd_id: jdId })).then((res) => {
 
         if (res.payload.success) {
           setOpen(true);
-          dispatch(jdMatchMiddleWare({ jd_id:jdId})) 
+          dispatch(jdMatchMiddleWare({ jd_id: jdId }))
         }
       });
     }
-   
-    else if (extarajobpost === 1) { 
+
+    else if (extarajobpost === 1) {
 
       dispatch(postJdMiddleWare({ jd_id: jdId })).then((res) => {
         if (res.payload.success) {
           setOpen(true);
-          dispatch(jdMatchMiddleWare({ jd_id:jdId})) 
+          dispatch(jdMatchMiddleWare({ jd_id: jdId }))
         }
       });
     }
   };
-console.log("externaljob",extarajobpost)
   return (
     <Flex
       columnFlex
       className={styles.overAll}
-      height={window.innerHeight }
+      height={window.innerHeight}
     >
       {postLoader && <Loader />}
       <Flex row center className={styles.step} >
@@ -160,7 +169,7 @@ console.log("externaljob",extarajobpost)
           titleclassName={styles.stepTwo}
           stepIndex="3"
           roundFill
-          
+
         />
 
       </Flex>
@@ -168,19 +177,19 @@ console.log("externaljob",extarajobpost)
         <Flex columnFlex className={styles.modalOverAll}>
           <Flex row center middle>
             <div style={{ marginRight: 8 }}>
-              <SvgTick fill={SUCCESS} /> 
+              <SvgTick fill={SUCCESS} />
             </div>
-            
+
             <Text>You have successfully posted the job</Text>
             <div
               tabIndex={-1}
               role={'button'}
               style={{ marginLeft: 8, cursor: 'pointer' }}
               onClick={() => copyToClipboard(url, 'Link Copied')}
-              onKeyDown={() => {}}
+              onKeyDown={() => { }}
               title="Copy the job posting URL from your careers page"
             >
-            <SvgCopy width={12} height={14} fill={'#581845'} /> 
+              <SvgCopy width={12} height={14} fill={'#581845'} />
             </div>
           </Flex>
           <Text align="center" style={{ marginTop: 8 }}>
@@ -213,9 +222,11 @@ console.log("externaljob",extarajobpost)
         jdId={jdId}
         hanldePulish={hanldePulish}
         ds_role={ds_role}
-        feature={feature} 
+        feature={feature}
         whatjob={whatjob}
+        iswhatjobs={iswhatjobs}
         super_user={super_user}
+        postLoader={postLoader}
       />
     </Flex>
   );

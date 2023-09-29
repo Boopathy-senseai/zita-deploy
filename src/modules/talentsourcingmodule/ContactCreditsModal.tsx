@@ -112,7 +112,7 @@ const ContactCreditsModal = ({
           })}
           <Flex row center between className={styles.candiDateContainer}>
             <Flex row center>
-              <Text bold>Candidate:</Text>
+              <Text bold>Contacts:</Text>
               <Flex>
                 <InputText
                   id="contactCreditsModal__inputId"

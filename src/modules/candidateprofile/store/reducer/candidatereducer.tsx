@@ -54,6 +54,7 @@ const candidateProfileEditReducer = createSlice({
       state.experiences = action.payload.experiences;
       state.career_page_setting = action.payload.career_page_setting;
       state.applied_status=action.payload.applied_status
+      state.overview=action.payload.overview;
     });
     builder.addCase(profileEditMiddleWare.rejected, (state, action) => {
       state.isLoading = false;
@@ -73,6 +74,12 @@ const techSkillState: TechSkillReducerState = {
       value: '',
     },
   ],
+  soft_skills: [
+    {
+      value: '',
+      label: '',
+    }
+  ]
 };
 
 const techSkillReducer = createSlice({
@@ -88,6 +95,7 @@ const techSkillReducer = createSlice({
       state.isLoading = false;
       state.skills_list = action.payload.skills_list;
       state.skills = action.payload.skills;
+      state.soft_skills = action.payload.soft_skills;
     });
     builder.addCase(techSkillMiddleWare.rejected, (state, action) => {
       state.isLoading = false;

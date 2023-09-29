@@ -6,9 +6,9 @@
   overflow: scroll;
 }
 .titleStyle {
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   display: flex;
-  margin-top: 40px;
+  margin-top: 10px;
 }
 .btnConatiner {
   margin-bottom: 40px;
@@ -58,4 +58,20 @@
   align-items: center;
   display: flex;
   margin-bottom: 24px;
+}
+.warningFlex1 {
+  padding: 6px 8px;
+  border: 1px solid #2e6add;
+  background-color: #2e6add20;
+  border-left: 8px solid #2e6add !important;
+  border-radius: 8px;
+  width: fit-content;
+  margin-top: 10px;
+  font-size: 13px;
+  /* margin-bottom: 15px; */
+  margin-left: 6px;
+}
+.warningText1 {
+  margin-left: 3px;
+  font-size: 13px;
 }

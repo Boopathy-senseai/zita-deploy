@@ -7,6 +7,7 @@ import { AppDispatch } from '../../store';
 import Button from '../../uikit/Button/Button';
 import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
 import Flex from '../../uikit/Flex/Flex';
+import Loader from '../../uikit/Loader/Loader';
 import { isEmpty } from '../../uikit/helper';
 import InputText from '../../uikit/InputText/InputText';
 import Modal from '../../uikit/Modal/Modal';
@@ -66,6 +67,7 @@ const AddandUpdateQualificationEdit = ({
   const dispatch: AppDispatch = useDispatch();
   const [isReload, setReload] = useState(false);
   const { onDirty, onPristine, routerPrompt } = useUnsavedChangesWarning();
+  const [isQualBtnLoader, setQualBtnLoader] = useState(false)
 
   const qualificationSchema = Yup.object().shape({
     qualification: Yup.string().required(THIS_FIELD_REQUIRED),
@@ -75,6 +77,7 @@ const AddandUpdateQualificationEdit = ({
 
   // form submit function
   const handleSubmit = (values: qualificationFormikForm) => {
+    setQualBtnLoader(true)
     if (isUpdate) {
       dispatch(
         educationUpdateApiMiddleWare({
@@ -105,6 +108,7 @@ const AddandUpdateQualificationEdit = ({
           );
         }
       });
+      // setQualBtnLoader(false)
     } else {
       dispatch(
         educationAddMiddleWare({
@@ -122,6 +126,7 @@ const AddandUpdateQualificationEdit = ({
              can_id:res.payload?.can_id.toString(),
           }),
         )
+          // setQualBtnLoader(false)
           setReload(false);
           dispatch(profileEditMiddleWare({jd_id:localStorage.getItem('careerJobViewJobId')}));
           Toast('Qualifications added successfully');
@@ -132,6 +137,9 @@ const AddandUpdateQualificationEdit = ({
         }
       });
     }
+    setTimeout (()=>{
+      setQualBtnLoader(false)
+    },1000)
   };
 
   const formik = useFormik({
@@ -323,9 +331,18 @@ const AddandUpdateQualificationEdit = ({
           </Flex>
         </Flex>
         <Flex end>
+          {/* <Button onClick={formik.handleSubmit}>
+            {isUpdate ? 'Update' : 'Add'}
+          </Button> */}
+          {isQualBtnLoader ? (
+            <Flex className={isUpdate ? styles.updateBtnLoader : styles.updateBtnLoader1}>
+              <Loader size="small" withOutOverlay />
+            </Flex>
+          ) : (
           <Button onClick={formik.handleSubmit}>
             {isUpdate ? 'Update' : 'Add'}
           </Button>
+          )}
         </Flex>
       </Flex>
     </Modal>

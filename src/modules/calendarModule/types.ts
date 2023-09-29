@@ -126,7 +126,7 @@ export interface GoogleEventType {
     responseStatus?: string;
     full_name?: string;
   }[];
-  organizer: { displayName?: string, email: string };
+  organizer: { full_name?: string; email: string };
   email: string;
   id: any;
   recurringEventId: any;
@@ -139,10 +139,37 @@ export interface GoogleEventType {
 export interface OutlookEventType {
   created_by: string;
   attendees: any;
+  description: {
+    attendees: Array<{
+      type: string;
+      status: {
+        response: string;
+        time: string;
+      };
+      emailAddress: {
+        name: string;
+        address: string;
+        full_name: string;
+      };
+    }>;
+    organizer: {
+      emailAddress: {
+        name: string;
+        address: string;
+        full_name?: string;
+      };
+    };
+  };
   event_id: string;
   title: any;
   start_time: string | number | Date;
   end_time: string | number | Date;
+  organizer: {
+    emailAddress: {
+      name: string;
+      address: string;
+    };
+  };
 }
 
 export interface ZitaEventType {
@@ -225,7 +252,7 @@ export interface EventPopUpDetails {
   startDate: null | Date;
   endDate: null | Date;
   link?: string | null;
-  organizer: null | {email: string, displayName?: string};
+  organizer: null | { email: string; full_name?: string };
   applicantId?: number | null;
   attendees?: null | string[];
   eventId: null | string;
@@ -243,7 +270,7 @@ export interface CalendarEventType {
   end: Date | null;
   eventId?: string | null;
   attendees?: string[] | null;
-  organizer: { email: string, displayName?: string } | null;
+  organizer: { email: string; displayName?: string } | null;
   link?: string | null;
   color?: string | null;
   syncedBy?: string | null;

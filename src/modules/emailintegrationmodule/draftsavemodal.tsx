@@ -143,7 +143,7 @@ const Modaldraft = ({
             setloader(false);
           });
       } else if (
-        Mail_action === 'compose' ||
+        Mail_action === 'forward' ||
         Mail_action === 'reply' ||
         Mail_action === 'replyall'
       ) {

@@ -18,3 +18,12 @@
   margin-top: 10px;
   margin-bottom: 5px;
 }
+.emailverifyBtnLoader{
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 3px 12px 3px 12px;
+  width: 60px;
+  height: 30px;
+  margin-top: 16px;
+}

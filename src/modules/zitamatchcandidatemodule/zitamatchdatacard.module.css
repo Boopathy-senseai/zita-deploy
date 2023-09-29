@@ -108,7 +108,7 @@
 .fav{
   display: flex;
   justify-content: flex-end;
-  margin-right: 4px;
+  margin-right: 5px;
   margin-top: 2px;
 }
 .pointer{
@@ -117,4 +117,10 @@
 .flexproperty{
   display: flex;
   align-items:center;
+}
+.inviteddate{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }

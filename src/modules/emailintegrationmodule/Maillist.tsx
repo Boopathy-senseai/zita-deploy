@@ -48,6 +48,7 @@ type Props = {
   enterKey: boolean;
   refresh: () => void;
   tokens: any;
+  can_id: any;
 };
 const Maillist = ({
   messagelist,
@@ -73,6 +74,7 @@ const Maillist = ({
   enterKey,
   refresh,
   tokens,
+  can_id,
 }: Props) => {
   const msal = useMsal();
   const authProvider = new AuthCodeMSALBrowserAuthenticationProvider(
@@ -154,7 +156,7 @@ const Maillist = ({
     if (sidebarroute !== 0) {
       setTimeout(() => {
         process();
-      }, 500);
+      }, 1000);
     }
   }, [sidebarroute, integration]);
 
@@ -523,8 +525,6 @@ const Maillist = ({
         <InfiniteScroll
           dataLength={messagelist.length}
           next={process}
-          // hasMore={integration === 'google' ? pagetoken !== undefined : isLoading}
-          // hasMore={messagelist.length % range === 0 && !isLoading}
           hasMore={scroll()}
           loader={''}
           scrollableTarget="scrollableDiv"

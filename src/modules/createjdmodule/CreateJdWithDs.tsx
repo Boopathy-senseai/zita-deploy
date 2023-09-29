@@ -72,7 +72,7 @@ const initial: dsFormProps = {
   onsite: '',
   hybrid: '',
   work_space_type: '',
-  IndustryType: ''
+  IndustryType: '',
 };
 
 const CreateJdWithDs = () => {
@@ -127,6 +127,7 @@ const CreateJdWithDs = () => {
   const [isDraftSave, setDraftSave] = useState(false);
   const [isCancel, setCancel] = useState(false);
   const { routerPrompt, onDirty, onPristine } = useUnsavedChangesWarning();
+  const [isNextLoader, setNextLoader] = useState(false);
 
   const {
     job_title,
@@ -235,7 +236,7 @@ const CreateJdWithDs = () => {
         }),
     [updateSkills],
   );
-// filter skill list
+  // filter skill list
   const skillThree: any = useMemo(
     () =>
       updateSkills
@@ -452,7 +453,7 @@ const CreateJdWithDs = () => {
           <div className={styles.triangle}></div>
         </Flex>
       </div> */}
-    
+
       <Flex
         columnFlex
         className={styles.overAll}
@@ -485,9 +486,10 @@ const CreateJdWithDs = () => {
             </Text>
           </Flex>
         </Flex>
-      
+
         <RoleRecommendation
           isRole={isRole}
+          setNextLoader={setNextLoader}
           cancel={() => setRole(false)}
           setMiss={setMiss}
           profile_value={profile_value}
@@ -644,6 +646,9 @@ const CreateJdWithDs = () => {
                   handleSubmit={handleSubmit}
                   setVacancies={setVacancies}
                   setDrftLoader={setDrftLoader}
+                  setNextLoader={setNextLoader}
+                  isNextLoader={isNextLoader}
+                  isDrftLoader={isDrftLoader}
                   errors={errors}
                   touched={touched}
                   setDraftSave={setDraftSave}

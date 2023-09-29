@@ -60,6 +60,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
   const [isMatchRadio, setMatchRadio] = useState('');
   const [isProfile, setProfile] = useState('');
   const [isBachelors, setBachelors] = useState(false);
+  const [isDiploma, setDiploma] = useState(false);
   const [isDoctorate, setDoctorate] = useState(false);
   const [isMasters, setMasters] = useState(false);
   const [isAny, setAny] = useState(true);
@@ -244,6 +245,11 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     setDoctorate(!isDoctorate);
     setAny(false);
   };
+ // filter diploma function
+ const handleDiploma = () => {
+  setDiploma(!isDiploma);
+  setAny(false);
+};
   // filter master function
   const handleMaster = () => {
     setMasters(!isMasters);
@@ -260,6 +266,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     setAny(!isAny);
     setBachelors(false);
     setDoctorate(false);
+    setDiploma(false);
     setMasters(false);
     setOther(false);
   };
@@ -284,6 +291,12 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
       onChange: handleDoctorate,
     },
     {
+      value: 'Diploma',
+      label: 'Diploma',
+      checked: isDiploma,
+      onChange: handleDiploma,
+    },
+    {
       value: 'Others',
       label: 'Other',
       checked: isOther,
@@ -291,7 +304,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     },
     {
       value: 'any',
-      label: 'Any Qualification',
+      label: 'Any',
       checked: isAny,
       onChange: handleAny,
     },
@@ -301,16 +314,18 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
       isBachelors === false &&
       isDoctorate === false &&
       isMasters === false &&
-      isOther === false
+      isOther === false&&
+      isDiploma === false
     ) {
       setAny(true);
     }
-  }, [isBachelors, isDoctorate, isMasters, isOther]);
+  }, [isBachelors, isDoctorate,isDiploma, isMasters, isOther]);
 
   const qaValue = qualificationFilterHelper(
     isAny,
     isBachelors,
     isDoctorate,
+    isDiploma,
     isMasters,
     isOther,
   );
@@ -349,6 +364,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     isSkillOption,
     isBachelors,
     isDoctorate,
+    isDiploma,
     isMasters,
     isAny,
     isOther,
@@ -441,6 +457,7 @@ const ApplicantPipeLineScreen = ({}: FormProps) => {
     setMasters(false);
     setAny(true);
     setBachelors(false);
+    setDiploma(false);
     setOther(false);
     setSearch('');
     formik.handleChange('location')('');

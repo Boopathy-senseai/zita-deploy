@@ -7,6 +7,7 @@ import { AppDispatch } from '../../store';
 import Button from '../../uikit/Button/Button';
 import ErrorMessage from '../../uikit/ErrorMessage/ErrorMessage';
 import Flex from '../../uikit/Flex/Flex';
+import Loader from '../../uikit/Loader/Loader';
 import { isEmpty } from '../../uikit/helper';
 import InputCheckBox from '../../uikit/InputCheckbox/InputCheckBox';
 import InputText from '../../uikit/InputText/InputText';
@@ -82,6 +83,7 @@ const ProjectsAddandUpdateEdit = ({
 }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const [isReload, setReload] = useState(false);
+  const [isBtnLoader, setBtnLoader] = useState(false);
 
   const projectOrgOptions = obj?.exp?.map((expList) => {
     return { value: expList.exp_id, label: expList.org };
@@ -98,6 +100,7 @@ const ProjectsAddandUpdateEdit = ({
 
   // form submit
   const handleSubmit = (values: projectFormikForms) => {
+    setBtnLoader(true)
     if (isUpdate) {
       dispatch(
         projectUpdateMiddleWare({
@@ -170,6 +173,9 @@ const ProjectsAddandUpdateEdit = ({
         }
       });
     }
+    setTimeout(()=>{
+    setBtnLoader(false)
+    },1000)
   };
 
   const formik = useFormik({
@@ -452,9 +458,18 @@ const ProjectsAddandUpdateEdit = ({
           />
         </Flex>
         <Flex end>
-          <Button onClick={formik.handleSubmit}>
+          {/* <Button onClick={formik.handleSubmit}>
             {isUpdate ? 'Update' : 'Add'}
-          </Button>
+          </Button> */}
+          {isBtnLoader ? (
+            <Flex className={isUpdate ? styles.btnLoader : styles.btnLoader1}>
+              <Loader size="small" withOutOverlay />
+            </Flex>
+          ) : (
+            <Button onClick={formik.handleSubmit}>
+              {isUpdate ? 'Update' : 'Add'}
+            </Button>
+          )}
         </Flex>
       </Flex>
     </Modal>

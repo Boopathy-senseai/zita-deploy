@@ -41,7 +41,6 @@ import { sortOptions } from './mock';
 import ZitaMatchDataCard from './ZitaMatchDataCard';
 import ZitaMatchCandidateDrawer from './ZitaMatchCandidateDrawer';
 
-
 const cx = classNames.bind(styles);
 
 var querystring = require('querystring');
@@ -63,6 +62,7 @@ const ZitaMatchCandidate = () => {
   const [isMatchRadio, setMatchRadio] = useState('');
   const [isProfile, setProfile] = useState('');
   const [isBachelors, setBachelors] = useState(false);
+  const [isDiploma, setisDiploma] = useState(false);
   const [isDoctorate, setDoctorate] = useState(false);
   const [isMasters, setMasters] = useState(false);
   const [isAny, setAny] = useState(true);
@@ -144,7 +144,6 @@ const ZitaMatchCandidate = () => {
       history.push('/account_setting/settings');
     }
   });
-
   const usersPerPage = 15;
   const pageCount = Math.ceil(total_applicants / usersPerPage);
 
@@ -218,6 +217,10 @@ const ZitaMatchCandidate = () => {
     setBachelors(!isBachelors);
     setAny(false);
   };
+  const handleDiploma = () => {
+    setisDiploma(!isDiploma);
+    setAny(false);
+  };
 
   const handleDoctorate = () => {
     setDoctorate(!isDoctorate);
@@ -237,6 +240,7 @@ const ZitaMatchCandidate = () => {
   const handleAny = () => {
     setAny(!isAny);
     setBachelors(false);
+    setisDiploma(false);
     setDoctorate(false);
     setMasters(false);
     setOther(false);
@@ -265,11 +269,11 @@ const ZitaMatchCandidate = () => {
       width: 87,
     },
     {
-      value: 'Any',
-      label: 'any',
+      value: 'Diploma',
+      label: 'Diploma',
+      checked: isDiploma,
+      onChange: handleDiploma,
       width: 110,
-      checked: isAny,
-      onChange: handleAny,
     },
     {
       value: 'Others',
@@ -278,6 +282,13 @@ const ZitaMatchCandidate = () => {
       onChange: handleOther,
       width: 110,
     },
+    {
+      value: 'Any',
+      label: 'any',
+      width: 110,
+      checked: isAny,
+      onChange: handleAny,
+    },
   ];
 
   useEffect(() => {
@@ -285,16 +296,18 @@ const ZitaMatchCandidate = () => {
       isBachelors === false &&
       isDoctorate === false &&
       isMasters === false &&
+      isDiploma === false &&
       isOther === false
     ) {
       setAny(true);
     }
-  }, [isBachelors, isDoctorate, isMasters, isOther]);
+  }, [isBachelors, isDoctorate, isMasters, isDiploma, isOther]);
 
   const qaValue = qualificationFilterHelper(
     isAny,
     isBachelors,
     isDoctorate,
+    isDiploma,
     isMasters,
     isOther,
   );
@@ -444,6 +457,7 @@ const ZitaMatchCandidate = () => {
     isSkillOption,
     isBachelors,
     isDoctorate,
+    isDiploma,
     isMasters,
     isAny,
     isOther,
@@ -465,6 +479,7 @@ const ZitaMatchCandidate = () => {
     setMasters(false);
     setAny(true);
     setBachelors(false);
+    setisDiploma(false);
     setOther(false);
     setSearch('');
     setlocationsearch('');
@@ -928,6 +943,8 @@ const ZitaMatchCandidate = () => {
           handleMaster={handleMaster}
           handleOther={handleOther}
           isBachelors={isBachelors}
+          isdiploma={isDiploma}
+          handleDiploma={handleDiploma}
           isDoctorate={isDoctorate}
           isMasters={isMasters}
           isOther={isOther}

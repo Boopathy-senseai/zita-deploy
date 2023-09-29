@@ -574,6 +574,7 @@ const ApplicantsTab = ({
                 handleCloseImportModal();
               }}
               color="link"
+              bold
             >
               log file
             </Text>{' '}

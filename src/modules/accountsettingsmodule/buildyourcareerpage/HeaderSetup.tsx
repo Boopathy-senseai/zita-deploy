@@ -56,7 +56,7 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
   const [isShow, setShow] = useState(false);
   const [isLoader, setLoader] = useState(false);
   const [isMb, setMb] = useState(false);
-{console.log("sssssssssss",company_detail)}
+
   // mouse outside click to close color picker
   useEffect(() => {
     if (typeof Window !== 'undefined') {
@@ -92,17 +92,17 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
       const formData = new FormData();
       if (e.target.files[0] !== undefined) {
         formData.append('logo', e.target.files[0]);
-        formData.append('company_name', company_detail.company_name);
-        formData.append('company_website',company_detail.company_website);
-        formData.append('contact', company_detail.contact);
-        formData.append('industry_type', company_detail.industry_type_id.toString());
-        formData.append('no_of_emp', company_detail.no_of_emp.toString());
-        formData.append('address', company_detail.address);
-        formData.append('country', company_detail.country_id.toString());
-        formData.append('state', company_detail.state_id.toString());
-        formData.append('city', company_detail.city_id.toString());
-        formData.append('zipcode', company_detail.zipcode);
-        formData.append('email', company_detail.email);
+        // formData.append('company_name', company_detail.company_name);
+        // formData.append('company_website',company_detail.company_website);
+        // formData.append('contact', company_detail.contact);
+        // formData.append('industry_type', company_detail.industry_type_id.toString());
+        // formData.append('no_of_emp', company_detail.no_of_emp.toString());
+        // formData.append('address', company_detail.address);
+        // formData.append('country', company_detail.country_id.toString());
+        // formData.append('state', company_detail.state_id.toString());
+        // formData.append('city', company_detail.city_id.toString());
+        // formData.append('zipcode', company_detail.zipcode);
+        // formData.append('email', company_detail.email);
    
       } else {
         formData.append('image_null', '');
@@ -130,17 +130,17 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
     setLoader(true);
     const formData = new FormData();
     formData.append('logo', '');
-    formData.append('company_name', company_detail.company_name);
-    formData.append('company_website',company_detail.company_website);
-    formData.append('contact', company_detail.contact);
-    formData.append('industry_type', company_detail.industry_type_id.toString());
-    formData.append('no_of_emp', company_detail.no_of_emp.toString());
-    formData.append('address', company_detail.address);
-    formData.append('country', company_detail.country_id.toString());
-    formData.append('state', company_detail.state_id.toString());
-    formData.append('city', company_detail.city_id.toString());
-    formData.append('zipcode', company_detail.zipcode);
-    formData.append('email', company_detail.email);
+    // formData.append('company_name', company_detail.company_name);
+    // formData.append('company_website',company_detail.company_website);
+    // formData.append('contact', company_detail.contact);
+    // formData.append('industry_type', company_detail.industry_type_id.toString());
+    // formData.append('no_of_emp', company_detail.no_of_emp.toString());
+    // formData.append('address', company_detail.address);
+    // formData.append('country', company_detail.country_id.toString());
+    // formData.append('state', company_detail.state_id.toString());
+    // formData.append('city', company_detail.city_id.toString());
+    // formData.append('zipcode', company_detail.zipcode);
+    // formData.append('email', company_detail.email);
     dispatch(
       companyPagePostMiddleWare({
         formData,
@@ -150,7 +150,7 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
         dispatch(buildCareerMiddleWare())
           dispatch(dashBoardMiddleWare()).then(() => {
           setLoader(false);
-          Toast('Profile Removed successfully', 'LONG', 'success');
+          Toast('Logo removed successfully', 'LONG', 'success');
         });
         setShow(false);
       }
@@ -481,13 +481,14 @@ const HeaderSetup = ({ formik, company_detail, setReload }: Props) => {
                      <Flex columnFlex center middle className={styles.changeStyle}>
                        <SvgUpload />
                        <Text
-                         color="black"
+                         color="theme"
+                         bold
                          align="center"
                          style={{ paddingLeft: 4, paddingRight: 4 }}
                        >
                          {isEmpty(logo) || logo === 'logo.png'
                            ? 'Upload Your Company Logo'
-                           : 'Change Company Logo'}
+                           : 'Change Logo'}
                        </Text>
                      </Flex>
                    )}

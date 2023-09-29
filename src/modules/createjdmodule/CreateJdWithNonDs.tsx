@@ -28,7 +28,7 @@ import {
   duplicateMiddleWare,
   jdTemplatesApiMiddleWare,
   locationMiddleWare,
-  industryType
+  industryType,
 } from './store/middleware/createjdmiddleware';
 import UploadJd from './UploadJd';
 import JobDescriptionTemplate from './JobDescriptionTemplate';
@@ -48,6 +48,7 @@ const CreateJdWithNonDs = () => {
   const [isVacancies, setVacancies] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars-experimental
   const [isDrftLoader, setDrftLoader] = useState(false);
+  const [isNextLoader, setNextLoader] = useState(false);
   const [isDraftSave, setDraftSave] = useState(false);
   const { routerPrompt, onDirty, onPristine } = useUnsavedChangesWarning();
 
@@ -84,7 +85,7 @@ const CreateJdWithNonDs = () => {
     misc_skills,
     platform_skills,
     is_plan,
-    data
+    data,
   } = useSelector(
     ({
       jdParserReducers,
@@ -94,8 +95,7 @@ const CreateJdWithNonDs = () => {
       duplicateReducers,
       validateJobIDReducers,
       permissionReducers,
-      getindustery
-
+      getindustery,
     }: RootState) => {
       return {
         job_title: jdParserReducers.job_title,
@@ -122,7 +122,7 @@ const CreateJdWithNonDs = () => {
       };
     },
   );
-console.log("$$$$$$$$$$$",data)
+  console.log('$$$$$$$$$$$', data);
   useEffect(() => {
     if (!is_plan) {
       sessionStorage.setItem('superUserTab', '2');
@@ -182,7 +182,7 @@ console.log("$$$$$$$$$$$",data)
       programTags: [],
     },
     onsite: '',
-    hybrid: ''
+    hybrid: '',
   };
 
   // open template function
@@ -192,32 +192,25 @@ console.log("$$$$$$$$$$$",data)
 
   return (
     <>
-   
-      <Flex
-        columnFlex
-        className={styles.overAll}
-        height={window.innerHeight } 
-      >
+      <Flex columnFlex className={styles.overAll} height={window.innerHeight}>
         {(createJdLoader || jdDuplicateLoader) && <Loader />}
         <JdParserLoader
           open={jdParserLoader}
           title="Please wait… Your JD is getting parsed for pre-population"
         />
         <Flex row center className={styles.step}>
-          <StepProgressBar roundFill  />
+          <StepProgressBar roundFill />
           <StepProgressBar
             title="Applicant Questionnaire"
             titleclassName={styles.stepTwo}
             stepIndex="2"
           />
           <StepProgressBar
-          title="Preview & Post Job"
-          titleclassName={styles.stepTwo}
-          stepIndex="3"
-           />
+            title="Preview & Post Job"
+            titleclassName={styles.stepTwo}
+            stepIndex="3"
+          />
         </Flex>
-
-        
 
         <Formik
           initialValues={initial}
@@ -249,15 +242,13 @@ console.log("$$$$$$$$$$$",data)
             touched,
           }) => (
             <Form>
-              
-            <UploadJd
-            handleTempOpen={handleTempOpen}
-            values={values}
-            onDirty={onDirty}
-            setFieldValue={setFieldValue}
-            getCountry={isGetCountry}
-       
-            />
+              <UploadJd
+                handleTempOpen={handleTempOpen}
+                values={values}
+                onDirty={onDirty}
+                setFieldValue={setFieldValue}
+                getCountry={isGetCountry}
+              />
               <Flex className={styles.cardOverAll}>
                 <JobDescriptionTemplate
                   jdTemplates={jdTemplates}
@@ -297,9 +288,12 @@ console.log("$$$$$$$$$$$",data)
                 setFieldValue={setFieldValue}
                 getCountry={isGetCountry}
                 jd_output={jd_output}
+                isDrftLoader={isDrftLoader}
                 updateLocation={updateLocation}
                 updateQualification={updateQualification}
                 handleSubmit={handleSubmit}
+                setNextLoader={setNextLoader}
+                isNextLoader={isNextLoader}
                 setVacancies={setVacancies}
                 setDrftLoader={setDrftLoader}
                 errors={errors}

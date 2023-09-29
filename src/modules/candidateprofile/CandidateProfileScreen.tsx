@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import SvgRoundAdd from '../../icons/SvgRoundAdd';
@@ -14,6 +14,9 @@ import LoginPopUpModal from '../common/LoginPopUpModal';
 import { CountryEntity } from '../createjdmodule/createJdTypes';
 import { locationMiddleWare } from '../createjdmodule/store/middleware/createjdmiddleware';
 import { zitaPath } from '../constValue';
+import { Modal } from '../../uikit';
+import RichText from '../common/RichText';
+import SvgInfo from '../../icons/SvgInfo';
 import AddandUpdateQualificationEdit from './AddandUpdateQualificationEdit';
 import AddandUpdateWorkExperienceEdit from './AddandUpdateWorkExperienceEdit';
 import CandidateNavBar from './CandidateNavBar';
@@ -30,6 +33,8 @@ import QualificationCard from './QualificationCard';
 import { profileEditMiddleWare } from './store/middleware/candidateprofilemiddleware';
 import VerifyEmail from './VerifyEmail';
 import WorkExperienceAddandCard from './WorkExperienceAddandCard';
+import OverViewSummary from './OverviewSummaryEdit';
+
 // import { applicantcandidateMatchMiddleWare } from '../applicantprofilemodule/store/middleware/applicantProfileMiddleware';
 
 type ParamsType = {
@@ -38,6 +43,7 @@ type ParamsType = {
 
 const CandidateProfileScreen = () => {
   const { empId } = useParams<ParamsType>();
+  const editorRef = useRef<any>(null);
   const dispatch: AppDispatch = useDispatch();
   const [isPersonal, setPersonal] = useState(false);
   const [isOtp, setOtp] = useState(false);
@@ -51,17 +57,27 @@ const CandidateProfileScreen = () => {
   const [initialLoader, setInitialLoader] = useState(true);
   const [isLoginShow, setLoginShow] = useState(false);
   const [isLoader, setLoader] = useState(true);
+  const [showModel, setShowModel] = useState(false);
+  const [show, setshow] = useState(true);
   // initial api call
   useEffect(() => {
-    dispatch(profileEditMiddleWare({jd_id:localStorage.getItem('careerJobViewJobId')})).then((res) => {
+    dispatch(
+      profileEditMiddleWare({
+        jd_id: localStorage.getItem('careerJobViewJobId'),
+      }),
+    ).then((res) => {
       setInitialLoader(false);
-      if (isEmpty(res.payload.personal.email)) {
+      if (
+        isEmpty(res.payload.personal.current_country__name) ||
+        isEmpty(res.payload.personal.current_state__name) ||
+        isEmpty(res.payload.personal.current_city__name)
+      ) {
         setPersonal(true);
       }
     });
     dispatch(locationMiddleWare({})).then((res) => {
       setCountry(res.payload.country);
-      setLoader(false)
+      setLoader(false);
     });
   }, []);
 
@@ -76,22 +92,30 @@ const CandidateProfileScreen = () => {
     user_info,
     career_page_setting,
     applied_status,
-    Qualification
-  } = useSelector(({ candidateProfileEditReducers }: RootState) => {
-    return {
-      isLoading: candidateProfileEditReducers.isLoading,
-      obj: candidateProfileEditReducers.obj,
-      additional_detail: candidateProfileEditReducers.additional_detail,
-      personal: candidateProfileEditReducers.personal,
-      personal_obj: candidateProfileEditReducers.personal_obj,
-      projects: candidateProfileEditReducers.projects,
-      experiences: candidateProfileEditReducers.experiences,
-      user_info: candidateProfileEditReducers.user_info,
-      career_page_setting: candidateProfileEditReducers.career_page_setting,
-      applied_status:candidateProfileEditReducers.applied_status,
-      Qualification:candidateProfileEditReducers?.Qualification !== undefined && candidateProfileEditReducers?.Qualification[0]?.qualification
-    };
-  });
+    Qualification,
+    overview,
+    techSkill,
+  } = useSelector(
+    ({ techSkillReducers, candidateProfileEditReducers }: RootState) => {
+      return {
+        isLoading: candidateProfileEditReducers.isLoading,
+        obj: candidateProfileEditReducers.obj,
+        overview: candidateProfileEditReducers.overview,
+        additional_detail: candidateProfileEditReducers.additional_detail,
+        personal: candidateProfileEditReducers.personal,
+        personal_obj: candidateProfileEditReducers.personal_obj,
+        projects: candidateProfileEditReducers.projects,
+        experiences: candidateProfileEditReducers.experiences,
+        user_info: candidateProfileEditReducers.user_info,
+        career_page_setting: candidateProfileEditReducers.career_page_setting,
+        applied_status: candidateProfileEditReducers.applied_status,
+        Qualification:
+          candidateProfileEditReducers?.Qualification !== undefined &&
+          candidateProfileEditReducers?.Qualification[0]?.qualification,
+        techSkill: techSkillReducers && techSkillReducers,
+      };
+    },
+  );
 
   // otp popup close function
   const handleCloseOtp = () => {
@@ -106,23 +130,23 @@ const CandidateProfileScreen = () => {
   // Qualification open popup function
   const handleQualificationEdit = (updateId: string) => {
     // dispatch(
-    //   applicantcandidateMatchMiddleWare({ 
+    //   applicantcandidateMatchMiddleWare({
     //     can_id:updateId,
     //   }),
     // )
     setQualificationEdit(true);
     setUpdateId(updateId);
   };
-    // Qualification add popup function
+  // Qualification add popup function
   const handleQualificationAdd = () => {
     setQualificationAdd(true);
   };
-    // login close popup function
+  // login close popup function
   const handleCloseLogin = () => {
     setLoginShow(false);
     setPersonal(true);
   };
-    // login open popup function
+  // login open popup function
   const handleOpenLogin = () => {
     setLoginShow(true);
     setPersonal(false);
@@ -143,12 +167,15 @@ const CandidateProfileScreen = () => {
           open={isOtp}
           cancel={handleCloseOtp}
           close={() => setOtp(false)}
+          setshow={setshow}
         />
       )}
       <PersonalInformation
         empId={empId}
         open={isPersonal}
         cancel={handleOpenOtp}
+        personal={personal}
+        additional_detail={additional_detail}
         handleOpenLogin={handleOpenLogin}
         userInfo={user_info}
       />
@@ -179,36 +206,122 @@ const CandidateProfileScreen = () => {
         open={isCertiAdd}
         cancel={() => setCertiAdd(false)}
       />
-      <CandidateNavBar obj={obj} projects={projects} />
+      <CandidateNavBar obj={obj} projects={projects} personal={personal} />
+      {show&&(
+          <Flex middle center>
+          <Flex middle row center className={styles.warningFlex1}>
+            <SvgInfo fill={'#2E6ADD'} height={16} width={16} />
+            
+            <Text size={13} className={styles.warningText1}>
+            <Text
+                  style={{
+                    color: '#2E6ADD',
+                    marginRight: '3px',
+                    fontSize: '13px',
+                  }}
+                  bold
+                >
+                  Heads Up!{' '}
+                </Text>
+            Your application has been pre-filled using your resume. Please take a moment to review and ensure before proceeding with your application.
+            </Text>
+            
+            <div id="toast-close" role="button" style={{padding:'0  0 0 5px'}} onClick={()=>setshow(false)}>&#10006;</div>
+          </Flex>
+          </Flex>
+          )
+       }
       <Flex
         columnFlex
         center
         className={styles.flexContainer}
         height={window.innerHeight - 102}
       >
-        <Flex columnFlex className={styles.marginAuto}>
-          <CandidateUpload empId={empId} user_info={user_info} />
-          <div
-            id="candidate_profile_screen___about"
-            style={{ paddingTop: 40 }}
+        <Flex
+          row
+          between
+          center
+          width={'100%'}
+          style={{ padding: '10px 30px 0px 105px' }}
+        >
+          <Text size={13}>
+            Updating your resume will exclusively associate it with your
+            profile.
+          </Text>
+          <Button
+            // disabled={!checkSelectLength}
+            onClick={() => {
+              setShowModel(true);
+            }}
+            className={styles.btnStyle}
           >
+            Reupload Resume/CV
+          </Button>
+        </Flex>
+        <Modal open={showModel}>
+          <Flex
+            style={{
+              backgroundColor: '#ffffff',
+              padding: '25px',
+              height: '320px',
+              width: '600px',
+              borderRadius: '4px',
+            }}
+          >
+            <CandidateUpload
+              empId={empId}
+              user_info={user_info}
+              onClose={() => {
+                setShowModel(false);
+              }}
+            />
+          </Flex>
+        </Modal>
+        <Flex columnFlex className={styles.marginAuto}>
+          <div id="candidate_profile_screen___about" style={{ paddingTop: 20 }}>
             <PersonalInformationCard
               personal={personal}
               additional_detail={additional_detail}
-              obj={ obj}
+              obj={obj}
               Qualification={Qualification}
               personal_obj={personal_obj}
               isGetCountry={isGetCountry}
             />
           </div>
 
-          <div  id={'candidate_profile_screen___skill'}>
-            <Text size={16} bold className={styles.titleStyle}>
+          <div id={'candidate_profile_screen___skill'}>
+            <Text size={14} bold className={styles.titleStyle}>
               Professional Skills
             </Text>
-              <ProfessionalSkillsCard obj={obj} />
+            <ProfessionalSkillsCard obj={obj} techSkill={techSkill} />
           </div>
-          <div id={'candidate_profile_screen___qualification'}>
+
+          <div id={'candidate_profile_screen___skill'}>
+            <Text
+              size={14}
+              bold
+              className={styles.titleStyle}
+              style={{ marginTop: '20px' }}
+            >
+            Resume Overview 
+            </Text>
+            <OverViewSummary obj={obj} overview={overview} />
+          </div>
+
+          {/* <Flex marginTop={10} marginBottom={20}>
+            <Text size={14} bold className={styles.titleStyle}>
+              Overview of the Resume
+            </Text>
+            <RichText
+            // onFocus={handleOpenInput}
+            // onBlur={handleCloseInput}
+            onInit={(_a: any, editor: any) => (editorRef.current = editor)}
+            // initialValue={values.jobDescription}
+            height={500}
+            placeholder="Enter the overview of the resume"
+          />
+          </Flex> */}
+          {/* <div id={'candidate_profile_screen___qualification'}>
             <Flex row center between className={styles.titleStyle}>
               <Text size={16} bold>
                 Qualification
@@ -222,11 +335,11 @@ const CandidateProfileScreen = () => {
                 <SvgRoundAdd fill={PRIMARY} />
               </div>
             </Flex>
-         
-              <QualificationCard
-                obj={obj}
-                handleQualificationEdit={handleQualificationEdit}
-              />
+
+            <QualificationCard
+              obj={obj}
+              handleQualificationEdit={handleQualificationEdit}
+            />
           </div>
           <div id={'candidate_profile_screen___course'}>
             <Flex row center between className={styles.titleStyle}>
@@ -242,7 +355,7 @@ const CandidateProfileScreen = () => {
                 <SvgRoundAdd fill={PRIMARY} />
               </div>
             </Flex>
-              <CertificationsOrCourseCard obj={obj} />
+            <CertificationsOrCourseCard obj={obj} />
           </div>
           <div id={'candidate_profile_screen___work_exp'}>
             <Flex row center between className={styles.titleStyle}>
@@ -258,8 +371,8 @@ const CandidateProfileScreen = () => {
                 <SvgRoundAdd fill={PRIMARY} />
               </div>
             </Flex>
-       
-              <WorkExperienceAddandCard obj={obj} experiences={experiences} />
+
+            <WorkExperienceAddandCard obj={obj} experiences={experiences} />
           </div>
           <div id={'candidate_profile_screen___projects'}>
             <Flex row center between className={styles.titleStyle}>
@@ -275,27 +388,33 @@ const CandidateProfileScreen = () => {
                 <SvgRoundAdd fill={PRIMARY} />
               </div>
             </Flex>
-            <div  style={{ position: 'relative', marginBottom: 40 }}>
+            <div style={{ position: 'relative', marginBottom: 40 }}>
               <ProjectsCard projects={projects} obj={obj} />
             </div>
-          </div>
-        
-          {localStorage.getItem('careerJobViewJobId') !== null && applied_status === false && (
-            <Flex center middle className={styles.btnConatiner}>
-              <LinkWrapper
-                // target={'_parent'}
-                to={`/${
-                  career_page_setting?.career_page_url
-                }/career_job_view/${localStorage.getItem(
-                  'careerJobViewJobId',
-                )}/${localStorage.getItem(
-                  'careerJobTitle',
-                )}?applicationFocus=focus`}
+          </div> */}
+
+          {localStorage.getItem('careerJobViewJobId') !== null &&
+            applied_status === false && (
+              <Flex
+                center
+                middle
+                className={styles.btnConatiner}
+                marginTop={20}
               >
-                <Button>Proceed to Apply</Button>
-              </LinkWrapper>
-            </Flex>
-          )}
+                <LinkWrapper
+                  // target={'_parent'}
+                  to={`/${
+                    career_page_setting?.career_page_url
+                  }/career_job_view/${localStorage.getItem(
+                    'careerJobViewJobId',
+                  )}/${localStorage.getItem(
+                    'careerJobTitle',
+                  )}?applicationFocus=focus`}
+                >
+                  <Button>Proceed to Apply</Button>
+                </LinkWrapper>
+              </Flex>
+            )}
         </Flex>
         <div
           style={{
@@ -303,9 +422,16 @@ const CandidateProfileScreen = () => {
           }}
           className={styles.footerStyle}
         >
-          <Text bold color='theme' align="center" size={14} onClick={zitaPath}>
-                Powered by Zita.ai
-              </Text>
+          <Text
+            bold
+            color="theme"
+            align="center"
+            size={14}
+            onClick={zitaPath}
+            style={{ marginTop: '30px' }}
+          >
+            Powered by Zita.ai
+          </Text>
         </div>
       </Flex>
     </Flex>

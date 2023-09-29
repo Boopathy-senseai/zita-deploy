@@ -33,6 +33,7 @@ type Props = {
   handleForgotOpen: () => void;
   isError: boolean;
   isInactive: boolean;
+  iswrongcredential?:boolean;
   //loginTitle:string;
 };
 const CandidateLogin = ({
@@ -40,6 +41,7 @@ const CandidateLogin = ({
   handleForgotOpen,
   isError,
   isInactive,
+  iswrongcredential
 }: // loginTitle,
 Props) => {
   const [isShowPass, setShowPass] = useState(false);
@@ -170,9 +172,15 @@ Props) => {
                     Your username or password is incorrect. Try again.
                   </Text>
                 )}
+                {formik.errors.email !== "This field is required."  && iswrongcredential&&(
+                  <Text size={12} color="error">
+                     Your username or password is incorrect. Try again.
+                  </Text>
+                )}
                 {!isEmpty(formik.values.email)&& isInactive && (
                   <Text size={12} color="error">
                     This account is inactive
+
                   </Text>
                 )}
               </div>
@@ -201,7 +209,7 @@ Props) => {
               Login
             </Button>
 
-            <hr />
+            {/* <hr /> */}
             {/* <Flex middle>
               <Text className={styles.text_account}>
                 Don`t have an account?{' '}
