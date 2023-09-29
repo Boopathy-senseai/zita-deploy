@@ -21,6 +21,7 @@ import {
   validateJobIdApi,
   industrytype,
   AioutputApi,
+  whatjobstatusApi,
 } from '../../../../routes/apiRoutes';
 import {
   JD_CREATE,
@@ -96,11 +97,11 @@ export const jdProfileMiddleWare = createAsyncThunk(
 );
 export const jdProfileMiddleWares = createAsyncThunk(
   JD_PROFILES,
-  async ({ jd_id }: { jd_id:string }, { rejectWithValue }) => {
+  async ({ jd_id }: { jd_id: string }, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(matchingoverallApi ,{
-        params: {pk:jd_id},
-      } );
+      const { data } = await axios.get(matchingoverallApi, {
+        params: { pk: jd_id },
+      });
       return data;
     } catch (error) {
       const typedError = error as Error;
@@ -110,7 +111,7 @@ export const jdProfileMiddleWares = createAsyncThunk(
 );
 
 export const industryType = createAsyncThunk(
- Industy_type,
+  Industy_type,
   async (_a, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(industrytype);
@@ -121,7 +122,7 @@ export const industryType = createAsyncThunk(
     }
   },
 );
- 
+
 export const jdProfilePostMiddleWare = createAsyncThunk(
   JD_PROFILE + '_post',
   async (
@@ -227,14 +228,14 @@ export const missSkillGetMiddleWare = createAsyncThunk(
 export const locationMiddleWare = createAsyncThunk(
   JD_LOCATION,
   async (
-    { country, state,location }: { country?: number; state?: number;location?: number; },
+    { country, state, location }: { country?: number; state?: number; location?: number; },
     { rejectWithValue },
   ) => {
     try {
       const { data } = await axios.get(locationApi, {
         params: {
           country,
-          state,location
+          state, location
         },
       });
       return data;
@@ -410,7 +411,7 @@ export const editJdPostMiddleWare = createAsyncThunk(
 
 export const AioutputApimiddleware = createAsyncThunk(
   'AIcreate',
-  async ({...props }: AIoutput, { rejectWithValue }) => {
+  async ({ ...props }: AIoutput, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(
         AioutputApi,
@@ -431,7 +432,7 @@ export const AioutputApimiddleware = createAsyncThunk(
 
 export const postJdMiddleWare = createAsyncThunk(
   'post_jd',
-  async ({ jd_id}: { jd_id: string}, { rejectWithValue }) => {
+  async ({ jd_id }: { jd_id: string }, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(postJdApi(jd_id));
       return data;
@@ -483,12 +484,13 @@ export const dsOrNotMiddleWare = createAsyncThunk(
     }
   },
 );
+
 export const whatjobsMiddleWare = createAsyncThunk('what_jobs_posting/',
   async ({ formData }: any, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(
         whatjobsApi,
-        formData 
+        formData
       );
       return data;
     } catch (error) {
@@ -497,6 +499,23 @@ export const whatjobsMiddleWare = createAsyncThunk('what_jobs_posting/',
     }
   },
 );
+export const whatjobstatusMiddleWare = createAsyncThunk('whatjobstatus',
+  async (
+    { pk, whatjob }: { pk?: any; whatjob?: any },
+    { rejectWithValue },
+  ) => {
+    try {
+      const { data } = await axios.get(whatjobstatusApi, {
+        params: { pk, whatjob },
+      });
+      return data;
+    } catch (error) {
+      const typedError = error as Error;
+      return rejectWithValue(typedError);
+    }
+  },
+)
+
 // export const applicantUserListstateMiddleWare = createAsyncThunk(
 //   APPLICANT_PROFILE_LIST,
 //   async ({ formData }: any, { rejectWithValue }) => {

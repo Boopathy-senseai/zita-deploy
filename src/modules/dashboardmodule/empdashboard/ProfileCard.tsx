@@ -259,18 +259,18 @@ const ProfileCard = () => {
       if (e.target.files[0] !== undefined) {
         //alert("append")
         formData.append('logo', e.target.files[0]);
-        formData.append('company_name', company_name);
-        formData.append('company_website', weburl);
-        formData.append('contact', mobile_no);
-        //console.log("industryid", industryid);
-        formData.append('industry_type', Tostring(industryid)); 
-        formData.append('no_of_emp', Tostring(noofemp));
-        formData.append('address', address);
-        formData.append('country', Tostring(countryid));
-        formData.append('state', Tostring(stateid));
-        formData.append('city', Tostring(cityid));
-        formData.append('zipcode', zipcode);
-        formData.append('email', user_info.email);
+        // formData.append('company_name', company_name);
+        // formData.append('company_website', weburl);
+        // formData.append('contact', mobile_no);
+       
+        // formData.append('industry_type', Tostring(industryid)); 
+        // formData.append('no_of_emp', Tostring(noofemp));
+        // formData.append('address', address);
+        // formData.append('country', Tostring(countryid));
+        // formData.append('state', Tostring(stateid));
+        // formData.append('city', Tostring(cityid));
+        // formData.append('zipcode', zipcode);
+        // formData.append('email', user_info.email);
       } else {
         formData.append('image_null', '');
       }
@@ -303,17 +303,17 @@ const ProfileCard = () => {
     setLoader(true);
     const formData = new FormData();
     formData.append('logo', '');
-    formData.append('company_name', company_name);
-    formData.append('company_website', weburl);
-    formData.append('contact', mobile_no);
-    formData.append('industry_type', industryid.toString());
-    formData.append('no_of_emp', noofemp.toString());
-    formData.append('address', address);
-    formData.append('country', countryid.toString());
-    formData.append('state', stateid.toString());
-    formData.append('city', cityid.toString());
-    formData.append('zipcode', zipcode);
-    formData.append('email', user_info.email);
+    // formData.append('company_name', company_name);
+    // formData.append('company_website', weburl);
+    // formData.append('contact', mobile_no);
+    // formData.append('industry_type', industryid.toString());
+    // formData.append('no_of_emp', noofemp.toString());
+    // formData.append('address', address);
+    // formData.append('country', countryid.toString());
+    // formData.append('state', stateid.toString());
+    // formData.append('city', cityid.toString());
+    // formData.append('zipcode', zipcode);
+    // formData.append('email', user_info.email);
     dispatch(
       companyPagePostMiddleWare({
         formData,

@@ -337,6 +337,7 @@ const ApplicantPipeLineFilter = ({
               <RenderQuickFilter doc={match1} onClose={closeMatchValue} />
               <RenderQuickFilter doc={profile1} onClose={closeProfileValue} />
               <RenderQuickFilter doc={experience1} onClose={closeExperience} />
+              {console.log(qualification1,'qualification1qualification1')}
               {qualification1 &&
                 qualification1.map((doc, index) => (
                   <RenderQuickFilter

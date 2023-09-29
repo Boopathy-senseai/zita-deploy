@@ -60,13 +60,14 @@ type Props = {
 
   setCandiStatus: (arg: string) => void;
   isRelocate: boolean;
-  setRelocate:any;
-  setLocation:any;
+  setRelocate: any;
+  setLocation: any;
   handleRelocate: () => void;
   isLocation: boolean;
   isOther: boolean;
   isBachelors: boolean;
   isDoctorate: boolean;
+  isdiploma: boolean;
   isMasters: boolean;
   isAny: boolean;
   handleLocation: () => void;
@@ -76,6 +77,7 @@ type Props = {
   hanleprofileclear: () => void;
   hanlejobtypeclear: () => void;
   handleBachelor: () => void;
+  handleDiploma: () => void;
   handleDoctorate: () => void;
   handleMaster: () => void;
   handleOther: () => void;
@@ -101,12 +103,14 @@ const ZitaMatchFilters = ({
   hanldeMatch,
   handleOther,
   handleMaster,
+  handleDiploma,
   handleDoctorate,
   handleBachelor,
   isMasters,
   isDoctorate,
   isBachelors,
   isOther,
+  isdiploma,
   isSkillOption,
   isAny,
   isMatchRadio,
@@ -135,7 +139,7 @@ const ZitaMatchFilters = ({
   isExperience,
   setchange,
   setLocation,
-  setRelocate
+  setRelocate,
 }: Props) => {
   const selectInputRef = useRef<any>();
   const dropDownRef = useRef(null);
@@ -153,7 +157,6 @@ const ZitaMatchFilters = ({
     setprofilevalue(isProfile);
   }, [isMatchRadio, isJobType, isProfile, isExperience]);
 
-
   const [applimatch, setapplimatch] = useState('');
   const [appliexp, setappliexp] = useState('');
   const [applijobtype, setapplijobtype] = useState('');
@@ -162,6 +165,7 @@ const ZitaMatchFilters = ({
   const [applieismaster, setapplieismaster] = useState(false);
   const [applieisdoctorate, setapplieisdoctorate] = useState(false);
   const [applieisbachelor, setapplieisbachelor] = useState(false);
+  const [isDiploma, setapplieisDiploma] = useState(false);
   const [applieisother, setapplieisother] = useState(false);
   const [applieisany, setapplieisany] = useState(true);
   const [applieisrelocate, setapplieisrelocate] = useState(false);
@@ -238,7 +242,6 @@ const ZitaMatchFilters = ({
           document.removeEventListener('click', handleClickOutside, true);
         }
       }
-
     };
   });
 
@@ -250,7 +253,7 @@ const ZitaMatchFilters = ({
   const closelocation = () => {
     setapplieislocation(false);
     setLocation(false);
-   // handleLocation();
+    // handleLocation();
   };
   const sixty = '<= 60';
   const one = '> 90';
@@ -260,10 +263,10 @@ const ZitaMatchFilters = ({
   const showSkills = isSkillOption.slice(0, 4);
   const hiddenSkills = isSkillOption.slice(4, isSkillOption.length);
   const [skill, setskill] = useState<{ value: string; label: string }[]>([]);
-  const [hiddenSkills1, sethiddenSkills1] = useState<{ value: string; label: string }[]>();
+  const [hiddenSkills1, sethiddenSkills1] =
+    useState<{ value: string; label: string }[]>();
   const [showskill1, setshowskill1] =
-  useState<{ value: string; label: string }[]>();  
-
+    useState<{ value: string; label: string }[]>();
 
   // const closeSkillOption = (doc: { value: string; label: string }) => {
   //   const newOptions = [...isSkillOption];
@@ -276,7 +279,7 @@ const ZitaMatchFilters = ({
   //     if (setshowskill1.length < 5) {
   //       sethiddenSkills1(undefined);
   //     }
-        
+
   //     return;
   //   }
   // };
@@ -284,27 +287,26 @@ const ZitaMatchFilters = ({
     const newOptions = [...isSkillOption];
     const indx = newOptions.indexOf(doc);
     if (indx !== -1) {
-  newOptions.splice(indx, 1);
-  setSkillOption(newOptions);
-  //setchange(true);
+      newOptions.splice(indx, 1);
+      setSkillOption(newOptions);
+      //setchange(true);
 
-  // Now, update the showSkills and hiddenSkills1 based on the newOptions
-  const showSkillsUpdated = newOptions.slice(0, 4);
-  const hiddenSkillsUpdated = newOptions.slice(4);
+      // Now, update the showSkills and hiddenSkills1 based on the newOptions
+      const showSkillsUpdated = newOptions.slice(0, 4);
+      const hiddenSkillsUpdated = newOptions.slice(4);
 
-  setskill(showSkillsUpdated);
-  setshowskill1(showSkillsUpdated);
+      setskill(showSkillsUpdated);
+      setshowskill1(showSkillsUpdated);
 
-  if (hiddenSkillsUpdated.length === 0) {
-    sethiddenSkills1(undefined);
-  } else {
-    sethiddenSkills1(hiddenSkillsUpdated);
-  }
+      if (hiddenSkillsUpdated.length === 0) {
+        sethiddenSkills1(undefined);
+      } else {
+        sethiddenSkills1(hiddenSkillsUpdated);
+      }
 
-  return;
-}
-};
- 
+      return;
+    }
+  };
 
   const RenderQuickFilter = (props: {
     doc?: { label: string; value: any };
@@ -334,6 +336,7 @@ const ZitaMatchFilters = ({
     setapplieisdoctorate(isDoctorate);
     setapplieisother(isOther);
     setapplieisbachelor(isBachelors);
+    setapplieisDiploma(isdiploma);
     setapplieisany(isAny);
     setapplieisrelocate(isRelocate);
     setapplieislocation(isLocation);
@@ -341,45 +344,43 @@ const ZitaMatchFilters = ({
     setShowDropDown((value) => !value);
     setchange(false);
     setshowskill1(showSkills);
-    sethiddenSkills1(hiddenSkills)
-   // sethiddenSkills2(hiddenSkills.length)
-  }
-  const clearall=()=>{
-    
-    setapplimatch("");
-    setappliexp("");
-    setapplijobtype("");
-    setappliprofilevalue("");
-    setapplicandidate("");
+    sethiddenSkills1(hiddenSkills);
+    // sethiddenSkills2(hiddenSkills.length)
+  };
+  const clearall = () => {
+    setapplimatch('');
+    setappliexp('');
+    setapplijobtype('');
+    setappliprofilevalue('');
+    setapplicandidate('');
     setapplieismaster(false);
     setapplieisdoctorate(false);
     setapplieisother(false);
     setapplieisbachelor(false);
+    setapplieisDiploma(false);
     setapplieisany(true);
     setapplieisrelocate(false);
     setapplieislocation(false);
     setskill([]);
-  }
-
+  };
 
   useEffect(() => {
     if (
-      applieisbachelor===false &&
-      applieisdoctorate===false&&
-      applieismaster===false&&
-      applieisother===false
+      applieisbachelor === false &&
+      applieisdoctorate === false &&
+      applieismaster === false &&
+      applieisother === false &&
+      isDiploma === false
     ) {
       setapplieisany(true);
     }
-  }, [isBachelors, isDoctorate, isMasters, isOther]);
-
+  }, [isBachelors, isDoctorate, isMasters, isdiploma, isOther]);
   return (
     <Flex row style={{ justifyContent: 'space-between' }}>
-
       <Flex row wrap>
-      <Text size={13} style={{ whiteSpace: 'nowrap', marginTop: '3px' }}>
-            Quick Filters :
-          </Text>
+        <Text size={13} style={{ whiteSpace: 'nowrap', marginTop: '3px' }}>
+          Quick Filters :
+        </Text>
         {
           // applimatch === "" && appliexp === "" && applijobtype === "" && applieprofilevalue === "" &&  appliecandidate === "" && applieisany === true && applieisrelocate === false && applieislocation === false && skill.length === 0
           applimatch === '' &&
@@ -389,12 +390,8 @@ const ZitaMatchFilters = ({
           appliecandidate === '' &&
           applieisrelocate === false &&
           applieislocation === false &&
-          applieisany === true&&
-          skill.length===0
-          
-          ?
-          (
-            
+          applieisany === true &&
+          skill.length === 0 ? (
             <Text className={styles.quickfil}>All</Text>
           ) : (
             <>
@@ -574,6 +571,15 @@ const ZitaMatchFilters = ({
                   />
                 </Text>
               )}
+              {isDiploma === true && (
+                <Text className={styles.quickfil}>
+                  Diploma
+                  <SvgIntomark
+                    className={styles.stylesvg}
+                    onClick={() => (handleDiploma(), setapplieisDiploma(false))}
+                  />
+                </Text>
+              )}
               {applieisother === true && (
                 <Text className={styles.quickfil}>
                   Others
@@ -610,11 +616,13 @@ const ZitaMatchFilters = ({
                     onClose={() => closeSkillOption(doc)}
                   />
                 ))}
-              {hiddenSkills1 && hiddenSkills1.length>0 && hiddenSkills.length > 0 && (
-                <Text
-                  className={styles.quickfil}
-                >{`Skills : + ${hiddenSkills1.length}`}</Text>
-              )}
+              {hiddenSkills1 &&
+                hiddenSkills1.length > 0 &&
+                hiddenSkills.length > 0 && (
+                  <Text
+                    className={styles.quickfil}
+                  >{`Skills : + ${hiddenSkills1.length}`}</Text>
+                )}
             </>
           )
         }

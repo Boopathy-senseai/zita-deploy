@@ -20,6 +20,7 @@ type Props = {
   isBachelors: boolean;
   isDoctorate: boolean;
   isMasters: boolean;
+ 
   isAny: boolean;
   isRelocate: boolean;
   isExperience: experienceOptionsType;

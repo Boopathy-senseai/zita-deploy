@@ -62,6 +62,7 @@ const MyDataBaseScreen = () => {
       : sessionStorage.getItem('getMydataBaseTabKey');
   const [isBachelors, setBachelors] = useState(false);
   const [isDoctorate, setDoctorate] = useState(false);
+  const [isDiploma, setDiploma] = useState(false);
   const [isMasters, setMasters] = useState(false);
   const [isAny, setAny] = useState(true);
   const [isOther, setOther] = useState(false);
@@ -74,7 +75,7 @@ const MyDataBaseScreen = () => {
   const [isDownloadLoader, setDownLoadLoader] = useState(false);
   const [isSortOptions, setSortOptions] = useState(sortOptions[0]);
   const [isSearchValue, setSearchValue] = useState<any>('');
-  const [change,setchange]=useState(false)
+  const [change, setchange] = useState(false);
 
   const addFavFilter = isFav ? 'add' : '';
 
@@ -84,13 +85,10 @@ const MyDataBaseScreen = () => {
   const query = useQuery();
   const getTab: any = query.get('tab');
 
-  
   useEffect(() => {
-    localStorage.setItem('freeCheck','true');
+    localStorage.setItem('freeCheck', 'true');
     dispatch(myDataBaseInitalMiddleWare());
   }, []);
-
-
 
   const {
     initalLoader,
@@ -100,9 +98,13 @@ const MyDataBaseScreen = () => {
     dataLoader,
     totalCount,
     jobId,
-    is_plan
+    is_plan,
   } = useSelector(
-    ({ myDataBaseDataReducers, myDataBaseInitalReducers,permissionReducers }: RootState) => {
+    ({
+      myDataBaseDataReducers,
+      myDataBaseInitalReducers,
+      permissionReducers,
+    }: RootState) => {
       return {
         initalLoader: myDataBaseInitalReducers.isLoading,
         candidate_available: myDataBaseInitalReducers.candidate_available,
@@ -116,9 +118,9 @@ const MyDataBaseScreen = () => {
     },
   );
 
-  useEffect(()=>{
-    if(!isEmpty(getTab)){
-      setTabKey(getTab)
+  useEffect(() => {
+    if (!isEmpty(getTab)) {
+      setTabKey(getTab);
       if (query.has('tab')) {
         query.delete('tab');
         history.replace({
@@ -126,7 +128,7 @@ const MyDataBaseScreen = () => {
         });
       }
     }
-  },[])
+  }, []);
   useEffect(() => {
     if (!is_plan) {
       sessionStorage.setItem('superUserTab', '2');
@@ -148,6 +150,10 @@ const MyDataBaseScreen = () => {
     setDoctorate(!isDoctorate);
     setAny(false);
   };
+  const handleDiploma = () => {
+    setDiploma(!isDiploma);
+    setAny(false);
+  };
 
   const handleMaster = () => {
     setMasters(!isMasters);
@@ -163,6 +169,7 @@ const MyDataBaseScreen = () => {
     setAny(!isAny);
     setBachelors(false);
     setDoctorate(false);
+    setDiploma(false);
     setMasters(false);
     setOther(false);
   };
@@ -174,7 +181,7 @@ const MyDataBaseScreen = () => {
       checked: isBachelors,
       onChange: handleBachelor,
       width: 110,
-      padding:10,
+      padding: 10,
     },
     {
       value: 'Masters',
@@ -182,7 +189,7 @@ const MyDataBaseScreen = () => {
       checked: isMasters,
       onChange: handleMaster,
       width: 80,
-      margin:8,
+      margin: 8,
     },
     {
       value: 'Doctorate',
@@ -192,16 +199,23 @@ const MyDataBaseScreen = () => {
       width: 110,
     },
     {
+      value: 'Diploma',
+      label: 'Diploma',
+      checked: isDiploma,
+      onChange: handleDiploma,
+      width: 80,
+    },
+    {
       value: 'Others',
       label: 'Others',
       checked: isOther,
       onChange: handleOther,
-      width: 80,
+      width: 110,
     },
     {
-      value: 'Any Qualification',
+      value: 'Any',
       label: 'any',
-      width: 110,
+      width: 80,
       checked: isAny,
       onChange: handleAny,
     },
@@ -211,16 +225,18 @@ const MyDataBaseScreen = () => {
       isBachelors === false &&
       isDoctorate === false &&
       isMasters === false &&
-      isOther === false
+      isOther === false &&
+      isDiploma === false
     ) {
       setAny(true);
     }
-  }, [isBachelors, isDoctorate, isMasters, isOther]);
+  }, [isBachelors, isDoctorate, isDiploma, isMasters, isOther]);
 
   const qaValue = qualificationFilterHelper(
     isAny,
     isBachelors,
     isDoctorate,
+    isDiploma,
     isMasters,
     isOther,
   );
@@ -269,24 +285,24 @@ const MyDataBaseScreen = () => {
 
   useEffect(() => {
     setIsCheck([]);
-    if(change===false){
-    dispatch(
-      myDataBaseDataMiddleWare({
-        jobTitle: formik.values.jobTitle,
-        fav: addFavFilter,
-        experience: formik.values.experience.value,
-        educationLevel: qaValue,
-        typeofJob: formik.values.jobType,
-        location: formik.values.locationSearch,
-        skill_match: skillsOptionsList,
-        relocate: formik.values.reLocateValue,
-        candidate: formik.values.searchValue,
-        userType: tabKey,
-        sort: isSortOptions.value,
-        page: isPage + 1,
-        applicant_only: formik.values.applicantOnly,
-      }),
-    );
+    if (change === false) {
+      dispatch(
+        myDataBaseDataMiddleWare({
+          jobTitle: formik.values.jobTitle,
+          fav: addFavFilter,
+          experience: formik.values.experience.value,
+          educationLevel: qaValue,
+          typeofJob: formik.values.jobType,
+          location: formik.values.locationSearch,
+          skill_match: skillsOptionsList,
+          relocate: formik.values.reLocateValue,
+          candidate: formik.values.searchValue,
+          userType: tabKey,
+          sort: isSortOptions.value,
+          page: isPage + 1,
+          applicant_only: formik.values.applicantOnly,
+        }),
+      );
     }
   }, [
     formik.values,
@@ -294,12 +310,13 @@ const MyDataBaseScreen = () => {
     isBachelors,
     isDoctorate,
     isMasters,
+    isDiploma,
     isOther,
     tabKey,
     isFav,
     isSortOptions,
     isPage,
-    change
+    change,
   ]);
 
   // filter refresh function
@@ -307,14 +324,15 @@ const MyDataBaseScreen = () => {
     setAny(true);
     setBachelors(false);
     setDoctorate(false);
+    setDiploma(false);
     setMasters(false);
-    setOther(false)
-    formik.resetForm()
-    setSearchValue('')
+    setOther(false);
+    formik.resetForm();
+    setSearchValue('');
   };
-// To Clear Search Bar
+  // To Clear Search Bar
   const handleSearchClose = () => {
-    setSearchValue("");
+    setSearchValue('');
     formik.setFieldValue('searchValue', '');
     dispatch(
       myDataBaseDataMiddleWare({
@@ -326,15 +344,15 @@ const MyDataBaseScreen = () => {
         location: formik.values.locationSearch,
         skill_match: skillsOptionsList,
         relocate: formik.values.reLocateValue,
-        candidate: "",
+        candidate: '',
         userType: tabKey,
         sort: isSortOptions.value,
         page: isPage + 1,
         applicant_only: formik.values.applicantOnly,
       }),
     );
-  }
-// invite function
+  };
+  // invite function
   const hanldeInvite = (can_id: number) => {
     setInviteLoader(true);
     const data = querystring.stringify({
@@ -370,14 +388,12 @@ const MyDataBaseScreen = () => {
         Toast(ERROR_MESSAGE, 'LONG', 'error');
       });
   };
-// fav filter function
+  // fav filter function
   const handleFav = () => {
-    setFav(!isFav)
+    setFav(!isFav);
   };
-  useEffect(()=>{
-
-  },[])
-// resume download function
+  useEffect(() => {}, []);
+  // resume download function
   const hanldeDownload = () => {
     if (isCheck.length !== 0) {
       setDownLoadLoader(true);
@@ -408,81 +424,78 @@ const MyDataBaseScreen = () => {
 
   return (
     <>
-    <Flex row className={styles.ribbon} between>
-          
+      <Flex row className={styles.ribbon} between>
+        <Flex className={styles.titleContainer}>
+          <Text size={16} bold color="theme">
+            Database
+          </Text>
+        </Flex>
+        <Flex>
+          <div className={styles.triangle}></div>
+        </Flex>
+      </Flex>
+      <Flex row className={styles.overAll}>
+        {initalLoader && <Loader />}
+        {/* {dataLoader && <Loader  />} */}
+        {isInviteLoader && <Loader />}
+        {isDownloadLoader && <Loader />}
 
-    <Flex className={styles.titleContainer}  >
-      <Text size={16} bold color="theme" >
-      Database
-      </Text>
-
-    </Flex>
-    <Flex >
-      <div className={styles.triangle}></div>
-    </Flex>
-
-   </Flex>
-    <Flex row className={styles.overAll}>
-      {initalLoader && <Loader  />}
-      {/* {dataLoader && <Loader  />} */}
-      {isInviteLoader && <Loader />}
-      {isDownloadLoader && <Loader />}
-
-    
-      <div className={cx('tabsContainer')}>
-        <MyDataBaseSearchAction jobTitle={job_title} formik={formik} 
-        setSearchValue={setSearchValue} 
-        isSearchValue={isSearchValue}
-        handleSearchClose={handleSearchClose}/>
-        <div className={cx('filterOverAll')} style={{paddingRight:"10px"}}>
-        <MyDataBaseFilter
-          setchange={setchange}
-          formik={formik}
-          filterFormik={formik}
-          qualificationOption={qualificationOption}
-          hanldeRefresh={hanldeRefresh}
-          qaValue={qaValue}
-          skillsOptionsList={skillsOptionsList}
-          tabKey={tabKey}
-          isPage={isPage}
-          addFavFilter={addFavFilter}
-          isSortOptions={isSortOptions}
-          setSortOptions={setSortOptions}
-        />
-      </div> 
-        <div className={styles.tabsStyle}>
-          <MyDataBaseTabs
-            totalCount={totalCount}
-            data={datas}
-            tabKey={tabKey}
-            setTabKey={setTabKey}
-            filterFormik={formik}
-            qaValue={qaValue}
-            skillsOptionsList={skillsOptionsList}
-            jobId={jobId}
-            hanldeInvite={hanldeInvite}
-            isFav={isFav}
-            handleFav={handleFav}
-            handleSelectAll={handleSelectAll}
-            isCheckAll={isCheckAll}
-            isCheck={isCheck}
-            handleCheckBoxClick={handleCheckBoxClick}
-            hanldeDownload={hanldeDownload}
-            setSortOptions={setSortOptions}
-            isSortOptions={isSortOptions}
-            isPage={isPage}
-            setPage={setPage}
-            addFavFilter={addFavFilter}
+        <div className={cx('tabsContainer')}>
+          <MyDataBaseSearchAction
+            jobTitle={job_title}
+            formik={formik}
+            setSearchValue={setSearchValue}
+            isSearchValue={isSearchValue}
+            handleSearchClose={handleSearchClose}
           />
+          <div className={cx('filterOverAll')} style={{ paddingRight: '10px' }}>
+            <MyDataBaseFilter
+              setchange={setchange}
+              formik={formik}
+              filterFormik={formik}
+              qualificationOption={qualificationOption}
+              hanldeRefresh={hanldeRefresh}
+              qaValue={qaValue}
+              skillsOptionsList={skillsOptionsList}
+              tabKey={tabKey}
+              isPage={isPage}
+              addFavFilter={addFavFilter}
+              isSortOptions={isSortOptions}
+              setSortOptions={setSortOptions}
+            />
+          </div>
+          <div className={styles.tabsStyle}>
+            <MyDataBaseTabs
+              totalCount={totalCount}
+              data={datas}
+              tabKey={tabKey}
+              setTabKey={setTabKey}
+              filterFormik={formik}
+              qaValue={qaValue}
+              skillsOptionsList={skillsOptionsList}
+              jobId={jobId}
+              hanldeInvite={hanldeInvite}
+              isFav={isFav}
+              handleFav={handleFav}
+              handleSelectAll={handleSelectAll}
+              isCheckAll={isCheckAll}
+              isCheck={isCheck}
+              handleCheckBoxClick={handleCheckBoxClick}
+              hanldeDownload={hanldeDownload}
+              setSortOptions={setSortOptions}
+              isSortOptions={isSortOptions}
+              isPage={isPage}
+              setPage={setPage}
+              addFavFilter={addFavFilter}
+            />
+          </div>
         </div>
-      </div>
-    </Flex>
+      </Flex>
     </>
   );
 };
 
 export default MyDataBaseScreen;
-
 
 // <div ref={dropDownRef} className={styles.drop_down}>
 // <Flex
@@ -502,7 +515,6 @@ export default MyDataBaseScreen;
 //     </Text>
 //   </Flex>
 
-
 //   <Flex title={"Clear Filters"}>
 //     <SvgRefresh
 //       width={18}
@@ -520,7 +532,7 @@ export default MyDataBaseScreen;
 //   <Flex className={styles.mtstyle}>
 //     {/* <div className={styles.skillContainer}> */}
 //     <Text className={styles.jobTextStyle}>Job ID</Text>
-    
+
 //     <InputSearch
 //       style={styles.boxstyle}
 //       initialValue={formik.values.jobId}
@@ -536,8 +548,8 @@ export default MyDataBaseScreen;
 //         if (event.key === "Enter") {
 //           formik.setFieldValue("jobId", event.target.value);
 //         }
-//       }} 
-//     /> 
+//       }}
+//     />
 //   </Flex>
 
 //   <Flex className={styles.mtstyle}>
@@ -566,27 +578,27 @@ export default MyDataBaseScreen;
 //       </Flex>
 //     </div>
 //   </Flex>
-  
+
 //   <Flex className={styles.mtstyle}>
 //     <div className={styles.inputmargin}>
 //       <Text className={styles.jobTextStyle}>Job posted on</Text>
 //       <div   className={styles.selectoptions} >
-     
+
 //       <SelectTag
-//       linechange 
-//        value={ 
+//       linechange
+//        value={
 //           postedOn
 //             ?  postedOn.find(
 //               (option) =>
 //                 option.value === formik.values.postedOn.value
 //             )
 //             :  ' '
-//         }  
-//         options={postedOn}                
+//         }
+//         options={postedOn}
 //         onChange={(options) => {
-          
+
 //         formik.setFieldValue("postedOn",options)
-//         }} 
+//         }}
 //       />
 //       </div>
 //     </div>
@@ -594,41 +606,39 @@ export default MyDataBaseScreen;
 //   <Flex className={styles.mtstyle}   >
 //     <div  >
 //       <Text className={styles.jobTextStyle}>Job Title</Text>
-      
+
 //       <Flex className={styles.hoverbox}>
 //       <InputSearch
 //         initialValue={formik.values.jobTitle}
 //         setFieldValue={formik.setFieldValue}
-        
+
 //         options={job_title}
 //         placeholder="Enter a job title"
-       
+
 //         style={styles.boxstyle}
 //         name="jobTitle"
-        
+
 //         onkeyPress={(event) => {
 //           if (event.key === "Enter") {
 //             formik.setFieldValue("jobTitle", event.target.value);
-            
+
 //           }
-//         }} /> 
-     
-      
-      
+//         }} />
+
 //       </Flex>
-     
+
 //     </div>
 //   </Flex>
- 
+
 //   <Flex className={styles.mtstyle}>
 //     <div>
 //       <Text className={styles.jobTextStyle}>Location</Text>
-//       <InputSearch 
+//       <InputSearch
 //         initialValue={formik.values.location}
 //         placeholder="Enter job location"
 //         options={location_list}
 //         setFieldValue={formik.setFieldValue}
-//         name="location" 
+//         name="location"
 //         style={styles.boxstyle}
 //         onkeyPress={(event) => {
 //           if (event.key === "Enter") {
@@ -638,7 +648,6 @@ export default MyDataBaseScreen;
 //       />
 //     </div>
 //   </Flex>
-
 
 // </div>
 // </div>

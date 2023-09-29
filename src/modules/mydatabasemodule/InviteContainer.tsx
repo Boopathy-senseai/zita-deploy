@@ -112,15 +112,26 @@ const InviteContainer = ({
                 })}
                 >
                   Last Invited{' '}
+                </Text>
+                <Text 
+                color="gray" size={11}
+                className={cx({
+                  nolastinvitetext: !isEmpty(dataList.applicant),
+                  lastinvitetext: isEmpty(dataList.applicant)
+                })}
+                >
                   {dataList?.invite && getDateString(dataList.invite, 'll')}
                 </Text>
                 </Flex>
               )}
           {!isEmpty(dataList.interested) && dataList.interested === true && (
-            <Flex>
+            <Flex className={styles.lastinviteset}>
                <Text 
                 color="gray" size={11} className={styles.lastinvitetext}>
                   Last Invited{' '}
+                </Text>
+                <Text 
+                color="gray" size={11} className={styles.lastinvitetext}>
                   {dataList?.invite && getDateString(dataList.invite, 'll')}
                 </Text>
             </Flex>
