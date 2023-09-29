@@ -91,7 +91,7 @@ const TalentCardMap = ({
   return (
     <div
       style={{
-        width: isTablet ? '100%' : normal?'46%':'31.39%',
+        width: isTablet ? '100%' : normal?'46%':'32%',
         borderRadius: '4px'
       }}
       className={styles.overAll}
@@ -256,7 +256,7 @@ const TalentCardMap = ({
                             {notSpecified(talentList.desired_job_title)}
                           </Text>
                         </Flex>
-                      <Flex row center className={cx('jobList')}>
+                      <Flex row center className={cx('jobList')} marginTop={3}>
                         <Flex style={{ marginLeft: '-3px' }}>
                           <SvgQualification fill={'#581845'} width={16} height={16} />
                         </Flex>
@@ -273,9 +273,9 @@ const TalentCardMap = ({
                         <SvgRelocate fill={'#581845'} width={14} height={11} />
                       </Flex>
                       {talentList.relocate === '1' ? (
-                        <Text color="black_1" title={' Willing to Relocate: Yes'} size={11} style={{ marginTop: '3px' }}>Yes</Text>
+                        <Text color="black_1" title={' Willing to Relocate: Yes'} size={11} style={{ marginTop: '5px' }}>Yes</Text>
                       ) : (
-                        <Text color="black_1" style={{ marginTop: '3px' }} title={' Willing to Relocate: Not Specified'} size={11} >
+                        <Text color="black_1" style={{ marginTop: '5px' }} title={' Willing to Relocate: Not Specified'} size={11} >
                           {notSpecified(talentList.relocate, talentList.relocate)}
                         </Text>
                       )}
@@ -286,9 +286,9 @@ const TalentCardMap = ({
                       </Flex>
                       {talentList.min_salary === 'Not Specified' &&
                         talentList.max_salary === 'Not Specified' ? (
-                        <Text color="black_1" title={'Salary: Not Specified'} size={11} className={styles.jobTitle1} >{talentList.min_salary} </Text>
+                        <Text color="black_1" title={'Salary: Not Specified'} size={11} className={styles.jobTitle1}  style={{ marginTop: '3px' }} >{talentList.min_salary} </Text>
                       ) : (
-                        <Text color="black_1" size={11} title={` Salary: ${talentList.min_salary} - ${talentList.max_salary}`} className={styles.jobTitle1} >
+                        <Text color="black_1" size={11} title={` Salary: ${talentList.min_salary} - ${talentList.max_salary}`} className={styles.jobTitle1}  style={{ marginTop: '2px' }}>
                           {talentList.min_salary} - {talentList.max_salary}
                         </Text>
                       )}
@@ -304,16 +304,16 @@ const TalentCardMap = ({
 
 
               <div className={styles.line} style={{ marginRight: checkVist ? '22px' : '18px' }}></div>
-              <Flex style={{ marginTop: '30px', marginRight: checkVist ? '17px' : '25px', marginLeft: checkVist ? '0px' : '10px' }} >
-                <Flex width={'113%'} >
+              <Flex style={{ marginTop: '30px', marginRight: checkVist ? '17px' : '25px', marginLeft: checkVist ? '1px' : '7px' }} >
+                <Flex width={'113%'} className={styles.svgcenter}>
                   {!checkVist ? (
-                    <Flex style={{ marginLeft: '3px', cursor: checkVist ? 'default' : 'pointer' }}
+                    <Flex style={{  cursor: checkVist ? 'default' : 'pointer' }}
                       onClick={() => handleUnlockSubmit(talentList.candidate_hash)}
                     >
                       <SvgLock fill={'#581845'} width={24} height={24} />
                     </Flex>
                   ) : (
-                    <div style={{ marginLeft: '11px' }}
+                    <div 
                     >
                       {/* <SvgUnlock fill={'#7ad47e'} width={24} height={24} /> */}
                       <SvgUnlockedGreen viewBox="0 0 24 24" width={21} height={21} />
