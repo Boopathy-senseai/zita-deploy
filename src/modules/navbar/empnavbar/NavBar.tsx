@@ -50,7 +50,7 @@ const NavBar = ({ update }) => {
     dispatch(userProfileMiddleWare());
   }, []);
 
-  const { permission, is_plan, isProfile, plan_id, user } = useSelector(
+  const { permission, is_plan, isProfile, plan_id, user, super_user, roles } = useSelector(
     ({ permissionReducers, userProfileReducers }: RootState) => {
       return {
         permission: permissionReducers.Permission,
@@ -58,9 +58,22 @@ const NavBar = ({ update }) => {
         isProfile: userProfileReducers.profile,
         plan_id: permissionReducers.plan_id,
         user: userProfileReducers.user,
+        super_user: permissionReducers.super_user,
+        roles: permissionReducers.roles,
       };
     },
   );
+  let profilenavpath = '/account_setting/settings'
+
+  if (super_user === true && roles === "Admin") {
+    profilenavpath='/account_setting/settings?tab=0' 
+  } else if (super_user === false && roles === "Admin") {
+    profilenavpath='/account_setting/settings?tab=0'
+  } else if (roles === "Hiring") {
+    profilenavpath='/account_setting/settings?tab=0'
+  } else if (roles === "HR") {
+    profilenavpath='/account_setting/settings?tab=0'
+  }
 
   const passwordchange = () => {
     update();
@@ -163,7 +176,7 @@ const NavBar = ({ update }) => {
                           {is_plan ? (
                             <LinkWrapper
                               onClick={clearTab}
-                              to={'/account_setting/settings'}
+                              to={profilenavpath}
                             >
                               <div
                                 style={{
@@ -443,7 +456,7 @@ const NavBar = ({ update }) => {
                           {is_plan ? (
                             <LinkWrapper
                               onClick={clearTab}
-                              to={'/account_setting/settings'}
+                              to={profilenavpath}
                             >
                               <div
                                 style={{
