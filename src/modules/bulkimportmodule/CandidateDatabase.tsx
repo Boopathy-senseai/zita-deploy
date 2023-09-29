@@ -1,15 +1,24 @@
 import { Component, createRef, Fragment } from 'react';
+import { useFormik } from 'formik';
 import axios from 'axios';
+import { AsyncThunkAction } from '@reduxjs/toolkit';
 import Button from '../../uikit/Button/Button';
+import { Card, InputText, Modal } from '../../uikit';
 import { bulkImportApi } from '../../routes/apiRoutes';
 import Loader from '../../uikit/Loader/Loader';
 import Flex from '../../uikit/Flex/Flex';
 import SvgRoundClose from '../../icons/SvgRoundClose';
+import SvgTickmanage from '../../icons/SvgTickmanage';
 import { GARY_4 } from '../../uikit/Colors/colors';
 import Text from '../../uikit/Text/Text';
 import { fileAccept, FILE_2MB } from '../constValue';
 import CancelAndDeletePopup from '../common/CancelAndDeletePopup';
+import { dashBoardMiddleWare } from '../dashboardmodule/empdashboard/store/dashboardmiddleware';
 import styles from './candidatedatabase.module.css';
+
+
+
+
 
 type MyProps = {
   hanldeParsing: () => void;
@@ -19,6 +28,8 @@ type MyProps = {
   candidatesLimit: number;
   isjdId?: number;
   setmodel?: any;
+  verifymodel?: any;
+  Resume_parsing_count?:any;
 };
 
 type MyState = {
@@ -28,10 +39,16 @@ type MyState = {
   setListName: any[];
   isMb: boolean;
   setmodel?: any;
+  verifymodel?: any;
+  popups:boolean;
+  value:string;
+  count:number;
+  error:string;
 };
 
 class CandidateDatabase extends Component<MyProps, MyState> {
   fileUploaderRef: any;
+ 
 
   constructor(props: any) {
     super(props);
@@ -41,6 +58,10 @@ class CandidateDatabase extends Component<MyProps, MyState> {
       bulkDelete: false,
       setListName: [],
       isMb: false,
+      popups:false,
+      value: '',
+      count:this.props.Resume_parsing_count,
+      error:'',
     };
     this.fileUploaderRef = createRef();
   }
@@ -66,6 +87,14 @@ class CandidateDatabase extends Component<MyProps, MyState> {
         changedFileIndex: -1,
       };
     });
+  }
+
+  handleChange = (event) => {
+    if (!isNaN(event.target.value) || event.target.valuee === "") {
+    this.setState({
+      value: event.target.value
+    });
+  }
   }
 
   render() {
@@ -219,22 +248,37 @@ class CandidateDatabase extends Component<MyProps, MyState> {
 
     // Bulk Submit Function
     const hanldeBulkSubmit = () => {
-      this.props.setmodel(false);
+     
+     
+
       if (
         this.props.candidatesLimit !== null &&
         this.props.candidatesLimit < this.state.files.length
       ) {
         this.props.setUpgrade(true);
       } else {
+        console.log("false")
+        if(this.props.Resume_parsing_count>=unique.length)
+        {
         this.props.setParse();
+        
+          console.log("truuuuuuuuuuuuue")
         axios
           .post(bulkImportApi, formData)
-          .then(() => {
+          .then((res) => {
+            console.log("res::::::res",res)
             handleClear();
             this.props.hanldeParsing();
-            this.setState({ isMb: false });
+            this.setState({ isMb: false});
+            this.props.setmodel(false);
+            this.props.verifymodel();
           })
           .catch(() => {});
+        }
+        else
+        {
+          this.setState({ error: 'You do not have enough parsing credits.' });
+        }
       }
     };
 
@@ -250,16 +294,115 @@ class CandidateDatabase extends Component<MyProps, MyState> {
       e.preventDefault();
     };
 
-    // File drag and drop Function
+    const cancel = () => {
+      this.props.setmodel(false);
 
+      this.props.verifymodel();
+    };
+    const handlechange=()=>{
+      this.setState({ popups: true });
+    }
+    const handlechange1=()=>{
+      this.setState({ popups: false  });
+    }
+    // File drag and drop Function
+    type FormProps = {
+      value: string;
+    };
+    const initial: FormProps = {
+      value: '5',
+    };  
+
+  //   const handleValidation = (values: FormProps) => {
+  //     const errors: Partial<FormProps> = {};
+     
+  //     return errors;
+  //   };
+  // // conatct credits form submit
+  //   const handleSubmit = async (values: FormProps) => {
+      
+  //   };
+  
+  //   const formik = useFormik({
+  //     initialValues: initial,
+  //     validate: handleValidation,
+  //     onSubmit: handleSubmit,
+  //     enableReinitialize: true,
+  //   });
+ 
     const checkSelectLength = this.state.files.length === 0 ? false : true;
     const checkSelectLength500 = this.state.files.length < 501 ? true : false;
     return (
       <>
+      {console.log("new:::new",this.state.value,this.state.files,unique.length)}
+      <Modal open={this.state.popups} >
+        <Flex className={styles.verifymodel1}>
+          <Text type="titleMedium" align="center">
+          Parsing Credits
+          </Text>
+          <Flex>
+            <Flex row>
+            <SvgTickmanage />
+            <Text style={{padding:'0 0 10px 10px'}}>Powered by cutting-edge artificial intelligence.</Text>
+            </Flex>
+            <Flex row>
+            <SvgTickmanage />
+            <Text style={{padding:'0 0 10px 10px'}}>Offers superior accuracy and can understand complex structures.</Text>
+            </Flex>
+            <Flex row>
+            <SvgTickmanage />
+            <Text style={{padding:'0 0 10px 10px'}}>Recommended for precision and comprehensive data extraction.</Text>
+            </Flex>
+          </Flex>
+          <Flex row center between className={styles.candiDateContainer}>
+            <Flex row center>
+              <Text bold>Candidate:</Text>
+              <Flex>
+              <InputText
+                  id="contactCreditsModal__inputId"
+                  name="value"
+                  value={this.state.value}
+                  onChange={(event)=>this.handleChange(event)}
+                />
+              </Flex>
+            </Flex>
+            <Text bold>Total: $ {Number(this.state.value)*2}</Text>
+                </Flex>
+                <Flex row end  style={{padding:'0 5px 0 0'}} className={styles.btnConatiner}>
+                <Button
+                className={styles.btnCancelStyle}
+                types="close"
+                  onClick={handlechange1}
+                >
+                  Cancel
+                </Button>
+                <Button
+                 style={{marginLeft:'10px'}}
+                >
+                  Buy
+                </Button>
+              </Flex>
+        </Flex>
+      </Modal>
         <Flex center>
+          {console.log('verify', this.props.verifymodel)}
           <Text bold size={14}>
             Add Attachment
           </Text>
+          <Flex row between>
+            <Flex row>
+              <Text>
+              You can parse 10 resume for this limit. Do you wish to 
+              <Text bold color='link' style={{marginLeft:'5px'}} onClick={handlechange}>Buy credits ?</Text>
+              
+              </Text>
+            </Flex>
+            <Flex>
+              <Text bold>
+              Available Parsing Credit : ${this.props.Resume_parsing_count}
+              </Text>
+            </Flex>
+          </Flex>
           <CancelAndDeletePopup
             title={'Are you sure want to delete the files?'}
             btnCancel={() => this.setState({ bulkDelete: false })}
@@ -387,6 +530,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
                 </Flex>
               </div>
             </Flex>
+            <Text color='error'>{this.state.error}</Text>
 
             {this.props.isBulkLoader === 'true' ? (
               <Flex row between className={styles.loaderStyle}>
@@ -409,7 +553,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
                   >
                     {checkSelectLength && (
                       <Button
-                        onClick={() => this.setState({ bulkDelete: true })}
+                        onClick={() => this.setState({ bulkDelete: true,error:'' })}
                         types="secondary"
                       >
                         Clear All
@@ -417,10 +561,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
                     )}
                   </Flex>
                   <Flex row className={styles.btnContainer}>
-                    <Button
-                      types="close"
-                      onClick={() => this.props.setmodel(false)}
-                    >
+                    <Button types="close" onClick={() => cancel()}>
                       Cancel
                     </Button>
 
@@ -448,3 +589,7 @@ class CandidateDatabase extends Component<MyProps, MyState> {
 }
 
 export default CandidateDatabase;
+function dispatch(arg0: AsyncThunkAction<any, void, {}>) {
+  throw new Error('Function not implemented.');
+}
+
